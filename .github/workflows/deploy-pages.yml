@@ -1,0 +1,53 @@
+name: Deploy website
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+  repository_dispatch:
+    types: ["lax-db-updated"]
+  schedule:
+    # The dispatch is the fast path; this fallback catches missed database events.
+    - cron: "17 * * * *"
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check out the public archive database
+        uses: actions/checkout@v4
+        with:
+          repository: lax-archive/lax-db
+          path: data/lax-db
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+      - run: npm run check
+      - run: npm run site:build -- --database data/lax-db --out _site
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

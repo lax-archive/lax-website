@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/checkout@v4
+        with:
+          repository: lax-archive/lax-db
+          path: data/lax-db
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+      - run: npm run check
+      - run: npm run site:build -- --database data/lax-db --out _site
+
+      - name: Verify deployable output
+        run: |
+          test -s _site/index.html
+          test -s _site/contributing.html
+          test -s _site/assets/style.css
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rendered-site
+          path: _site
+          if-no-files-found: error

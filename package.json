@@ -1,0 +1,29 @@
+{
+  "name": "@lax-archive/website",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Static website generator and editorial content for the Lax Lean Archive",
+  "type": "module",
+  "license": "Apache-2.0",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "check": "npm run build && npm test",
+    "test": "vitest run",
+    "site:build": "tsx src/cli.ts build",
+    "site:serve": "tsx src/cli.ts serve"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "katex": "^0.18.1",
+    "marked": "^15.0.0",
+    "shiki": "^4.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0",
+    "vitest": "^4.1.10"
+  }
+}

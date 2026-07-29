@@ -1,0 +1,29 @@
+import fs from "node:fs";
+import path from "node:path";
+import type { BuildOutput, DbRecord } from "./types.js";
+import type { SiteSubmission } from "./sitegen/model.js";
+
+function readJson<T>(file: string): T | undefined {
+  if (!fs.existsSync(file)) return undefined;
+  return JSON.parse(fs.readFileSync(file, "utf8")) as T;
+}
+
+/**
+ * Read the checked-out public archive database. The website never mutates
+ * this input and deliberately needs no access to server operational state.
+ */
+export function loadSubmissions(databaseDir: string): SiteSubmission[] {
+  const root = path.resolve(databaseDir);
+  if (!fs.existsSync(root) || !fs.statSync(root).isDirectory())
+    throw new Error(`database directory does not exist: ${root}`);
+
+  return fs.readdirSync(root)
+    .filter((id) => fs.existsSync(path.join(root, id, "record.json")))
+    .sort()
+    .map((id) => {
+      const record = readJson<DbRecord>(path.join(root, id, "record.json"));
+      if (!record) throw new Error(`missing record for ${id}`);
+      const output = readJson<BuildOutput>(path.join(root, id, "build-output.json"));
+      return { record, output };
+    });
+}

@@ -1,0 +1,566 @@
+import fs from "node:fs";
+import path from "node:path";
+import { describe, expect, it } from "vitest";
+import { SITE_MIME } from "../src/sitegen/assets.js";
+import { generateSite, type SiteSubmission } from "../src/sitegen/generate.js";
+import { countsPill, typeBadge, typeBadgeText } from "../src/sitegen/html.js";
+import { compareIds, SiteModel } from "../src/sitegen/model.js";
+import { MarkdownRenderer } from "../src/sitegen/markdown.js";
+import { tmpDir } from "./helpers.js";
+
+const submissions = (): SiteSubmission[] => [{
+  record: {
+    specVersion: "1", id: "Lax2", state: "registered", createdAt: "2026-01-01T00:00:00Z",
+    registeredAt: "2026-01-02T00:00:00Z", owners: [{ githubId: 1, handle: "alice" }],
+    source: { repository: "https://github.com/example/math.git", commit: "a".repeat(40), folder: "." },
+  },
+  output: {
+    specVersion: "1", id: "Lax2",
+    manifest: { specVersion: "1", id: "Lax2", leanVersion: "v4.30.0", mathlibVersion: "abc", title: "Two", authors: [{ name: "Alice", github: "alice" }], bibEntries: ["@article{demo,\n  author = {Doe, Jane and M{\\\"u}ller, Hans},\n  title = {A Cited Result},\n  journal = {J. Math},\n  volume = {1},\n  number = {2},\n  pages = {3--4},\n  year = {2020},\n  doi = {10.1000/demo},\n}", "@book{x}"] },
+    abstract: "See [[Lax2.C]], [[Lax2.C.truth|the statement]], and $x^2$. Broken: [[Nobody]].",
+    requiredByConcepts: [], requiredByProofs: [],
+    concepts: [
+      {
+        id: "Lax2.C", path: "concepts/Lax2/C.lean", title: "Truth", type: "theorem",
+        description: "A description with $$x+y$$.",
+        sections: [{ title: "Review notes", markdown: "Looks fine." }],
+        imports: [], mathlibImports: ["Mathlib.Data.Nat.Basic"],
+        sourceText: "namespace Lax2.C\n/-- True. -/\naxiom truth : True\nend Lax2.C",
+        statements: [{ id: "Lax2.C.truth", signature: "truth : True", startLine: 2, endLine: 3, doc: "A true statement." }],
+      },
+      {
+        id: "Lax2.D", path: "concepts/Lax2/D.lean", title: "Definition helper", type: "definition",
+        description: "No statements here.", imports: ["Lax2.C"], mathlibImports: [],
+        sourceText: "import Lax2.C\n", statements: [],
+      },
+    ],
+    proofs: [{ id: "Lax2Proofs.truth", path: "proofs/Lax2Proofs/Basic.lean", conclusion: "Lax2.C.truth", assumptions: [], description: "The direct proof.", sections: [{ title: "Strategy", markdown: "Trivial." }] }],
+  },
+}, {
+  record: { specVersion: "1", id: "Lax10", state: "init", createdAt: "2026-01-03T00:00:00Z", owners: [] },
+}];
+
+function graphSubmissions(): SiteSubmission[] {
+  const make = (
+    id: string,
+    concepts: { conceptId: string; imports: string[]; statements?: { id: string; signature: string }[] }[],
+    proofs: NonNullable<SiteSubmission["output"]>["proofs"] = [],
+  ): SiteSubmission => ({
+    record: { specVersion: "1", id, state: "registered", createdAt: "2026-01-01T00:00:00Z", owners: [] },
+    output: {
+      specVersion: "1", id,
+      manifest: { specVersion: "1", id, leanVersion: "v4.30.0", mathlibVersion: "abc", title: id, authors: [], bibEntries: [] },
+      abstract: "", requiredByConcepts: [], requiredByProofs: [],
+      concepts: concepts.map(({ conceptId, imports, statements }) => ({
+        id: conceptId, path: `concepts/${conceptId.replaceAll(".", "/")}.lean`, title: conceptId,
+        type: statements?.length ? "theorem" : "definition",
+        description: "", imports, mathlibImports: [], sourceText: "", statements: statements ?? [],
+      })),
+      proofs,
+    },
+  });
+  return [
+    make("Lax1", [{ conceptId: "Lax1.Base", imports: [] }]),
+    make("Lax3", [{ conceptId: "Lax3.Middle", imports: ["Lax1.Base"] }]),
+    make("Lax4", [
+      { conceptId: "Lax4.Top", imports: ["Lax3.Middle"], statements: [{ id: "Lax4.Top.a", signature: "a : True" }] },
+      { conceptId: "Lax4.Aux", imports: [], statements: [{ id: "Lax4.Aux.b", signature: "b : True" }] },
+    ], [
+      { id: "Lax4Proofs.a", path: "proofs/Lax4Proofs/A.lean", conclusion: "Lax4.Top.a", assumptions: ["Lax4.Aux.b"], description: "cycle a" },
+      { id: "Lax4Proofs.b", path: "proofs/Lax4Proofs/B.lean", conclusion: "Lax4.Aux.b", assumptions: ["Lax4.Top.a"], description: "cycle b" },
+    ]),
+  ];
+}
+
+function snapshot(root: string): Map<string, Buffer> {
+  const out = new Map<string, Buffer>();
+  const walk = (dir: string) => {
+    for (const name of fs.readdirSync(dir).sort()) {
+      const file = path.join(dir, name);
+      if (fs.statSync(file).isDirectory()) walk(file);
+      else out.set(path.relative(root, file), fs.readFileSync(file));
+    }
+  };
+  walk(root);
+  return out;
+}
+
+describe("site generator", () => {
+  it("uses numeric archive ordering", () => {
+    expect(["Lax10", "Lax2", "Lax1"].sort(compareIds)).toEqual(["Lax1", "Lax2", "Lax10"]);
+  });
+
+  it("compresses concept types to 3-letter badges and rejects a missing type", () => {
+    expect(typeBadgeText("theorem")).toBe("thm");
+    expect(typeBadgeText("Definition")).toBe("def");
+    expect(typeBadgeText("proposition")).toBe("prp");
+    expect(typeBadgeText("conjecture")).toBe("con");
+    expect(() => typeBadgeText(undefined)).toThrow("type is required");
+  });
+
+  it("uses count-free aggregate concept statuses", () => {
+    expect(countsPill(0, 0)).toContain("nothing to prove");
+    expect(countsPill(2, 2)).toContain(">proven</span>");
+    expect(countsPill(1, 2)).toContain(">open</span>");
+    expect(countsPill(1, 2)).not.toContain("1 of");
+    expect(typeBadge("theorem", true)).toContain(">thm✓</span>");
+    expect(typeBadge("theorem", false)).toContain(">thm×</span>");
+    // a badge carrying a status mark joins the green/yellow status classes
+    expect(typeBadge("theorem", true)).toContain('class="type-badge proven"');
+    expect(typeBadge("theorem", false)).toContain('class="type-badge open"');
+    expect(typeBadge("theorem")).toContain('class="type-badge"');
+  });
+
+  it("resolves crossrefs, renders math, and marks bad references", () => {
+    const model = new SiteModel(submissions());
+    const html = new MarkdownRenderer(model).render(submissions()[0]!.output!.abstract, "../");
+    expect(html).toContain('../Lax2/Lax2.C.html');
+    expect(html).toContain('#s-Lax2.C.truth');
+    expect(html).toContain('class="katex"');
+    expect(html).toContain('class="xref xref-broken"');
+  });
+
+  it("renders inline math spans across hard-wrapped lines without swallowing prose", () => {
+    const markdown = new MarkdownRenderer(new SiteModel(submissions()));
+    const html = markdown.render("for every $\\varepsilon >\n0$ there is a $c$ such that", "");
+    // Both spans render; the prose between them stays prose.
+    expect((html.match(/class="katex"/g) ?? []).length).toBe(2);
+    expect(html).toContain("there is a");
+    expect(html).toContain("such that");
+  });
+
+  it("renders dollar and backtick math in author prose while preserving ordinary inline code", () => {
+    const markdown = new MarkdownRenderer(new SiteModel(submissions()));
+    const html = markdown.renderAuthorProse("The values $x^2$ and `y_i` agree.", "");
+    expect((html.match(/class="katex"/g) ?? []).length).toBe(2);
+    expect(html).not.toContain("<code>y_i</code>");
+
+    const ordinary = markdown.render("Run `lax build` to continue.", "");
+    expect(ordinary).toContain("<code>lax build</code>");
+    expect(ordinary).not.toContain('class="katex"');
+  });
+
+  it("uses both inline-math delimiters in abstracts and annotation comments", async () => {
+    const authored = submissions();
+    const output = authored[0]!.output!;
+    const prose = "Dollar $x^2$ and shorthand `y_i`.";
+    output.abstract = prose;
+    output.concepts[0]!.description = prose;
+    output.concepts[0]!.sections = [{ title: "Review notes", markdown: prose }];
+    output.proofs[0]!.description = prose;
+    output.proofs[0]!.sections = [{ title: "Strategy", markdown: prose }];
+
+    const root = tmpDir("lax-site-author-math-");
+    await generateSite(authored, root);
+    for (const file of [
+      path.join(root, "Lax2", "index.html"),
+      path.join(root, "Lax2", "Lax2.C.html"),
+      path.join(root, "Lax2", "Lax2Proofs.truth.html"),
+    ]) {
+      const html = fs.readFileSync(file, "utf8");
+      expect(html).toContain('class="katex"');
+      expect(html).not.toContain("<code>y_i</code>");
+    }
+  });
+
+  it("escapes crossref labels, preserves escaped syntax, and survives invalid TeX", () => {
+    const markdown = new MarkdownRenderer(new SiteModel(submissions()));
+    const html = markdown.render(String.raw`[[Lax2.C|<img src=x>]] \[[Lax2.C]] $\badcommand$`, "");
+    expect(html).toContain("&lt;img src=x&gt;");
+    expect(html).not.toContain("<img src=x>");
+    expect(html).toContain("[[Lax2.C]]");
+    expect(html).toContain('class="math-error"');
+  });
+
+  it("emits complete deterministic static output with known MIME types", async () => {
+    const one = tmpDir("lax-site-one-");
+    const two = tmpDir("lax-site-two-");
+    await generateSite(submissions(), one);
+    await generateSite(submissions(), two);
+    const first = snapshot(one); const second = snapshot(two);
+    expect([...first.keys()]).toEqual([...second.keys()]);
+    for (const [name, bytes] of first) {
+      expect(bytes.equals(second.get(name)!)).toBe(true);
+      expect(SITE_MIME[path.extname(name)], `missing MIME for ${name}`).toBeDefined();
+    }
+    for (const asset of ["style.css", "sidebar.js", "layout.js", "dag.js", "katex.css", path.join("fonts", "LM-regular.woff2")])
+      expect(fs.existsSync(path.join(one, "assets", asset)), asset).toBe(true);
+    // Graph containers must be measurable before dag.js appends their SVG.
+    const css = fs.readFileSync(path.join(one, "assets", "style.css"), "utf8");
+    expect(css).not.toContain(".figure-container:empty");
+  });
+
+  it("renders the index with library rows and a searchable sidebar", async () => {
+    const root = tmpDir("lax-site-index-");
+    await generateSite(submissions(), root);
+    const index = fs.readFileSync(path.join(root, "index.html"), "utf8");
+    // Editorial text comes from content/ and the contributing page is live.
+    expect(index).toContain("<title>Lax Lean Archive</title>");
+    expect(index).toContain('Lax <span class="site-title-quiet">Lean Archive</span>');
+    // masthead: paper-grammar title, then the first paragraph as the lede
+    expect(index).toContain('<h1 class="paper-title">Lax <span class="site-title-quiet">Lean Archive</span></h1>');
+    expect(index.indexOf("landing-lede")).toBeLessThan(index.indexOf("landing-about"));
+    expect(index).toContain("what arXiv is to preprints");
+    expect(index).toContain("<h2>Submissions</h2>");
+    expect(index).toContain("Creating your own submission");
+    expect(index).toContain("contributing.html");
+    expect(index).not.toContain("&lt;!--");
+    expect(index).toContain("Lax2/index.html");
+    expect(index).toContain('class="submissions-list-link');
+    expect(index).toContain('<span class="submission-title-id">Lax2</span><span class="submission-title-inline-separator" aria-hidden="true">|</span>Two<span class="submissions-list-date">(2026-01-02)</span>');
+    expect(index).not.toContain('<span class="submissions-list-counts"><code>Lax2</code>');
+    expect(index).toContain("2 concepts, 1 proof");
+    expect(index).toContain('<span class="formalized-label">formalized by</span> Alice');
+    expect(index).toContain('id="filter-search"');
+    expect(index).toContain('data-search="lax2 two registered"');
+    // sidebar rows share the flat entry grammar (chip + text), not cards
+    expect(index).not.toContain("sidebar-submission");
+    expect(index).toContain('<span class="entry-label"><span class="entry-id">Lax2</span><span class="entry-label-text">Two</span></span>');
+    // a record that only reserved an id stays off the landing page, the
+    // sidebar, and the stats; its page still exists for direct links
+    expect(index).not.toContain("Lax10");
+    expect(index).not.toContain("no content uploaded yet");
+    expect(index).toContain("1 submission ·");
+    const contributing = fs.readFileSync(path.join(root, "contributing.html"), "utf8");
+    expect(contributing).toContain('<h1 class="paper-title">Contributing</h1>');
+    expect(contributing).toContain("The workflow");
+  });
+
+  it("renders the submission page: paper masthead, compact grids, citation, graph data", async () => {
+    const root = tmpDir("lax-site-sub-");
+    await generateSite(submissions(), root);
+    const html = fs.readFileSync(path.join(root, "Lax2", "index.html"), "utf8");
+    // paper masthead: title, byline, and dim meta line precede the abstract
+    expect(html).toContain('<h1 class="paper-title submission-title-layout"><span class="submission-title-id">Lax2</span><span class="submission-title-text">Two</span><span class="submission-title-id submission-title-balance" aria-hidden="true">Lax2</span></h1>');
+    expect(html).not.toContain('class="submission-title-separator"');
+    expect(html).toContain('class="paper-authors"');
+    expect(html).toContain('<span class="formalized-label">formalized by</span> <span class="paper-author">Alice');
+    expect(html.indexOf('class="paper-meta"')).toBeLessThan(html.indexOf('class="katex"'));
+    // the abstract is rendered under its own heading, not as an inline block
+    expect(html).toContain("Abstract");
+    expect(html).toContain('class="paper-abstract"');
+    expect(html).toContain('href="https://github.com/alice"');
+    expect(html).toContain("github.com/example/math@aaaaaaa");
+    expect(html).toContain("v4.30.0");
+    // concepts: three-part compact entries; the page's own Lax2. prefix is
+    // pruned from the display (full id stays in the tooltip and href)
+    expect(html).toContain(">def</span>");
+    expect(html).toContain(">thm✓</span>");
+    expect(html).not.toContain('class="status-mark');
+    expect(html).toContain('<a href="Lax2.C.html" title="Lax2.C"><code>C</code></a>');
+    expect(html.indexOf('class="concept-list"')).toBeLessThan(html.indexOf('id="concept-dag"'));
+    // the concept box explains its own badges, real components as samples
+    expect(html).toContain('class="badge-legend"');
+    expect(html.indexOf('class="concept-list"')).toBeLessThan(html.indexOf('class="badge-legend"'));
+    expect(html).toContain("letters abbreviate the concept's type");
+    // judgment-card proof entry: head links to the proof page, the conclusion
+    // is rendered as its claim-concept, annotation sections stay off this page
+    expect(html).toContain('id="p-Lax2Proofs.truth"');
+    expect(html).toContain('href="../Lax2/Lax2Proofs.truth.html"');
+    // the proof marker is a boxed chip, parallel to the type badge
+    expect(html).toContain('class="proof-badge"');
+    expect(html).not.toContain("proof-item-turnstile");
+    // the judgment card leads inside the shared white box, its surface links
+    // to the proof page, and the description stays off the list
+    expect(html).toContain('class="proof-list-box"');
+    expect(html).toContain('<a class="judgment-overlay" href="../Lax2/Lax2Proofs.truth.html"');
+    expect(html.indexOf('class="judgment-frame"')).toBeLessThan(html.indexOf('class="proof-item-head"'));
+    // the description leaves the list (it stays in the graph JSON for the
+    // proof-node tooltip and on the proof page itself)
+    expect(html).not.toContain("proof-item-desc");
+    expect(html).toContain('class="judgment"');
+    expect(html).toContain("no assumptions");
+    expect(html).toContain('class="claim-entry"');
+    // judgment claims and the proof-id subline drop the page's own prefixes
+    expect(html).toMatch(/judgment-conclusion[^]*?Lax2\.C\.html[^]*?<code>C<\/code>/);
+    expect(html).toContain('title="Lax2Proofs.truth"><code>truth</code>');
+    expect(html).not.toContain("Strategy");
+    expect(html.indexOf('class="proof-list"')).toBeLessThan(html.indexOf('id="proof-network"'));
+    // both proof surfaces link out to the proof package — a tree link, since
+    // `proofs/` is a directory, not the file the `path` argument means
+    const proofsTree = `https://github.com/example/math/tree/${"a".repeat(40)}/proofs`;
+    expect(html).toContain(`<p class="proof-list-source">Lean sources for these proofs: <a class="source-link" href="${proofsTree}">proofs/ on GitHub</a>`);
+    expect(html).toContain(`<h4 class="figure-title">Proof network<a class="source-link" href="${proofsTree}">view on GitHub</a></h4>`);
+    // citation for a registered submission has no draft note
+    expect(html).toContain("@misc{Lax2");
+    expect(html).not.toContain("note = {draft}");
+    expect(html).not.toContain("draft-banner");
+    // inline JSON graph data parses and grays nothing (no external neighbors)
+    const match = /<script type="application\/json" id="graph-data">(.*?)<\/script>/s.exec(html)!;
+    const data = JSON.parse(match[1]!);
+    expect(data.concepts.nodes.map((n: { id: string }) => n.id)).toEqual(["Lax2.C", "Lax2.D"]);
+    expect(data.concepts.edges).toEqual([{ from: "Lax2.C", to: "Lax2.D" }]);
+    expect(data.proofs.proofs[0]).toMatchObject({ id: "Lax2Proofs.truth", conclusion: "Lax2.C.truth", ext: false });
+    // fill = status: concept nodes carry it; statement nodes display their
+    // home concept (one-statement rule) with the raw id kept for tooltips
+    expect(data.concepts.nodes.map((n: { id: string; status: string }) => [n.id, n.status]))
+      .toEqual([["Lax2.C", "proven"], ["Lax2.D", "none"]]);
+    expect(data.proofs.statements[0]).toMatchObject({
+      id: "Lax2.C.truth", label: "Lax2.C", owner: "Lax2", proven: true, ext: false,
+    });
+    // both figures share the legend grammar and a tooltip panel
+    expect(html).toContain("legend-proof-chip");
+    expect(html).toContain('class="legend-node fill-proven"');
+    expect(html).toContain('class="legend-node stroke-own"');
+    expect((html.match(/class="graph-tooltip"/g) ?? []).length).toBe(2);
+  });
+
+  it("emits expandable concept closures and proof readiness metadata for deterministic DAGs", async () => {
+    const root = tmpDir("lax-site-graphs-");
+    await generateSite([...submissions(), ...graphSubmissions()], root);
+    const html = fs.readFileSync(path.join(root, "Lax4", "index.html"), "utf8");
+    // ancestors are on by default, descendants off — both closures run over
+    // the whole archive, not just this submission
+    expect(html).toContain('id="concept-expand"');
+    expect(html).toContain("Hide ancestors");
+    expect(html).toContain('data-graph="concepts" data-ancestry="true"');
+    expect(html).toContain('id="concept-descend"');
+    expect(html).toContain("Show descendants");
+    expect(html).not.toContain('aria-controls="concept-dag" aria-pressed="false">Hide');
+    // figure titles sit in the flow above the boxes, not inside the chrome
+    expect(html).toContain('<h4 class="figure-title">Concept map</h4>');
+    expect(html).toContain('<h4 class="figure-title">Proof network</h4>');
+    expect(html).not.toContain("graph-toolbar-title");
+    expect(html).toContain("B builds on A");
+    // one cycle notion — the grounded/ungrounded split is gone
+    expect(html).toContain("legend-cycle");
+    expect(html).not.toContain("Ungrounded");
+
+    const match = /<script type="application\/json" id="graph-data">(.*?)<\/script>/s.exec(html)!;
+    const data = JSON.parse(match[1]!);
+    expect(data.concepts.nodes.map((node: { id: string; dir: string }) => [node.id, node.dir])).toEqual([
+      ["Lax1.Base", "up"],
+      ["Lax3.Middle", "up"],
+      ["Lax4.Aux", "core"],
+      ["Lax4.Top", "core"],
+    ]);
+    expect(data.concepts.edges).toEqual([
+      { from: "Lax1.Base", to: "Lax3.Middle" },
+      { from: "Lax3.Middle", to: "Lax4.Top" },
+    ]);
+    expect(data.proofs.statements.every((node: { proven: boolean }) => !node.proven)).toBe(true);
+    expect(data.proofs.proofs).toEqual(expect.arrayContaining([
+      expect.objectContaining({ id: "Lax4Proofs.a", owner: "Lax4", assumptionsProven: false, outstanding: 1, href: "../Lax4/Lax4Proofs.a.html" }),
+      expect.objectContaining({ id: "Lax4Proofs.b", owner: "Lax4", assumptionsProven: false, outstanding: 1, href: "../Lax4/Lax4Proofs.b.html" }),
+    ]));
+
+    const conceptHtml = fs.readFileSync(path.join(root, "Lax4", "Lax4.Top.html"), "utf8");
+    expect(conceptHtml).toContain("This concept");
+    expect(conceptHtml).toContain("Hide ancestors");
+    expect(conceptHtml).toContain('data-graph="concepts" data-ancestry="true"');
+    expect(conceptHtml.indexOf('id="concept-dag"')).toBeLessThan(conceptHtml.indexOf('class="block block-statement"'));
+    expect(conceptHtml).toContain('<script src="../assets/layout.js"></script>');
+    expect(conceptHtml).toContain('<script src="../assets/dag.js"></script>');
+    const conceptMatch = /<script type="application\/json" id="graph-data">(.*?)<\/script>/s.exec(conceptHtml)!;
+    const conceptData = JSON.parse(conceptMatch[1]!);
+    expect(conceptData.concepts.nodes.map((node: { id: string; ext: boolean; dir: string }) =>
+      [node.id, node.ext, node.dir])).toEqual([
+      ["Lax1.Base", true, "up"],
+      ["Lax3.Middle", true, "up"],
+      ["Lax4.Top", false, "core"],
+    ]);
+    expect(conceptData.concepts.edges).toEqual([
+      { from: "Lax1.Base", to: "Lax3.Middle" },
+      { from: "Lax3.Middle", to: "Lax4.Top" },
+    ]);
+    expect(conceptData.proofs).toEqual({ statements: [], proofs: [] });
+
+    // a mid-chain concept tags its transitive importers for the toggle
+    const middleHtml = fs.readFileSync(path.join(root, "Lax3", "Lax3.Middle.html"), "utf8");
+    const middleMatch = /<script type="application\/json" id="graph-data">(.*?)<\/script>/s.exec(middleHtml)!;
+    const middleData = JSON.parse(middleMatch[1]!);
+    expect(middleData.concepts.nodes.map((node: { id: string; dir: string }) => [node.id, node.dir])).toEqual([
+      ["Lax1.Base", "up"],
+      ["Lax3.Middle", "core"],
+      ["Lax4.Top", "down"],
+    ]);
+
+    const script = fs.readFileSync(path.join(root, "assets", "dag.js"), "utf8");
+    expect(script).toContain("stronglyConnectedComponents");
+    expect(script).not.toContain("forceSimulation");
+  });
+
+  it("maps each submission's dependants and dependencies across the whole archive", async () => {
+    const root = tmpDir("lax-site-submap-");
+    await generateSite([...submissions(), ...graphSubmissions()], root);
+    const mapOf = (id: string) => {
+      const html = fs.readFileSync(path.join(root, id, "index.html"), "utf8");
+      const match = /<script type="application\/json" id="graph-data">(.*?)<\/script>/s.exec(html)!;
+      return { html, data: JSON.parse(match[1]!).submissions };
+    };
+
+    // The chain Lax1 → Lax3 → Lax4 is read off the concepts' imports; every
+    // page sees the whole of it, in both directions.
+    const top = mapOf("Lax4");
+    expect(top.html).toContain('<h3 class="section-title">Related submissions</h3>');
+    expect(top.html).toContain('<h4 class="figure-title">Submission map</h4>');
+    expect(top.html).toContain('id="submission-dag"');
+    expect(top.html).toContain("Submission map legend");
+    expect(top.data.nodes.map((n: { id: string; dir: string }) => [n.id, n.dir]))
+      .toEqual([["Lax1", "up"], ["Lax3", "up"], ["Lax4", "core"]]);
+    expect(top.data.edges).toEqual([{ from: "Lax1", to: "Lax3" }, { from: "Lax3", to: "Lax4" }]);
+    expect(top.data.nodes[0]).toMatchObject({ href: "../Lax1/index.html", title: "Lax1", state: "registered", concepts: 1, proofs: 0, ext: true });
+
+    const base = mapOf("Lax1");
+    expect(base.data.nodes.map((n: { id: string; dir: string }) => [n.id, n.dir]))
+      .toEqual([["Lax1", "core"], ["Lax3", "down"], ["Lax4", "down"]]);
+    const middle = mapOf("Lax3");
+    expect(middle.data.nodes.map((n: { id: string; dir: string }) => [n.id, n.dir]))
+      .toEqual([["Lax1", "up"], ["Lax3", "core"], ["Lax4", "down"]]);
+
+    // An unrelated submission gets a sentence, not an empty figure.
+    const lone = mapOf("Lax2");
+    expect(lone.data.nodes.map((n: { id: string }) => n.id)).toEqual(["Lax2"]);
+    expect(lone.html).toContain("builds on this one, and this one builds on none");
+    expect(lone.html).not.toContain('id="submission-dag"');
+  });
+
+  it("counts a declared package require as a dependency even with nothing importing it", () => {
+    const all = [...submissions(), ...graphSubmissions()];
+    // Lax2 requires Lax1's packages without importing a single concept.
+    all[0]!.output!.requiredByConcepts = ["Lax1"];
+    all[0]!.output!.requiredByProofs = ["Lax1Proofs", "mathlib"];
+    const model = new SiteModel(all);
+    expect([...model.submissionUses.get("Lax2")!]).toEqual(["Lax1"]);
+    expect(model.submissionDownstream("Lax1")).toEqual(["Lax2", "Lax3", "Lax4"]);
+    // "mathlib" is not a submission and never becomes a node
+    expect(model.submissionById.has("mathlib")).toBe(false);
+  });
+
+  it("renders the concept page: type heading, tinted source, sections, deps", async () => {
+    const root = tmpDir("lax-site-concept-");
+    await generateSite(submissions(), root);
+    const html = fs.readFileSync(path.join(root, "Lax2", "Lax2.C.html"), "utf8");
+    // NL block headed by the capitalized type
+    expect(html).toContain("<h3>Theorem</h3>");
+    // line-numbered source with the proven statement lines tinted
+    expect(html.match(/<tr id="L\d+"/g)).toHaveLength(4);
+    expect(html).toContain("line-proven");
+    expect(html).toContain("github.com/example/math/blob/" + "a".repeat(40) + "/concepts/Lax2/C.lean");
+    // extra annotation section as its own block
+    expect(html).toContain("<h3>Review notes</h3>");
+    // statement links now land on the source line; individual cards are gone
+    expect(html).toContain('id="s-Lax2.C.truth"');
+    expect(html).not.toContain('class="statement"');
+    expect(html).not.toContain('block-statements');
+    expect(html).toContain("mathlib4_docs/Mathlib/Data/Nat/Basic.html");
+    expect(html).toContain(">proven</span>");
+    expect(html).toContain("<h3>Builds on</h3>");
+    expect(html).toContain("<h3>Used by</h3>");
+    expect(html).toContain("<h3>From Mathlib</h3>");
+    expect(html).not.toContain("<h3>Imported</h3>");
+    expect(html).not.toContain("Mathlib imports");
+    // the claim's evidence block lists the archived proof, linking to its page
+    expect(html).toContain("<h3>Evidence</h3>");
+    expect(html).toContain('href="../Lax2/Lax2Proofs.truth.html"');
+    // The graph is rooted at C; its importer D rides along behind the
+    // descendants toggle (hidden until pressed).
+    const graphMatch = /<script type="application\/json" id="graph-data">(.*?)<\/script>/s.exec(html)!;
+    expect(JSON.parse(graphMatch[1]!).concepts.nodes.map((node: { id: string; dir: string }) => [node.id, node.dir]))
+      .toEqual([["Lax2.C", "core"], ["Lax2.D", "down"]]);
+    expect(html.indexOf('class="concept-id"')).toBeLessThan(html.indexOf('class="concept-title"'));
+    expect(html).toContain('<a class="sidebar-back" href="../Lax2/index.html"');
+    // sidebar highlights the active concept; the NL heading is the type
+    expect(html).toContain('class="active"');
+    const untyped = fs.readFileSync(path.join(root, "Lax2", "Lax2.D.html"), "utf8");
+    expect(untyped).toContain("<h3>Definition</h3>");
+    expect(untyped).toContain("nothing to prove");
+    expect(untyped).toContain("Used by");
+    // a definition-concept claims nothing, so it carries no evidence block
+    expect(untyped).not.toContain("<h3>Evidence</h3>");
+  });
+
+  it("renders proof pages: judgment card, status pill, annotation sections", async () => {
+    const root = tmpDir("lax-site-proof-");
+    await generateSite([...submissions(), ...graphSubmissions()], root);
+    const html = fs.readFileSync(path.join(root, "Lax2", "Lax2Proofs.truth.html"), "utf8");
+    expect(html).toContain("Lax2Proofs.truth");
+    expect(html).toContain('class="judgment"');
+    expect(html).toContain("no assumptions");
+    expect(html).toMatch(/judgment-conclusion[^]*?Lax2\.C\.html[^]*?<code>C<\/code>/);
+    expect(html).toContain(">grounded</span>");
+    // the annotation body finally has a home: description and sections render
+    expect(html).toContain("The direct proof.");
+    expect(html).toContain("<h3>Strategy</h3>");
+    // the page shows no Lean, so the way to the code is a button, not a
+    // microline link: it deep-links the proof's own file
+    expect(html).toContain('class="source-button" href="https://github.com/example/math/blob/'
+      + "a".repeat(40) + '/proofs/Lax2Proofs/Basic.lean"');
+    expect(html).toContain("Read the Lean proof on GitHub");
+    expect(html).not.toMatch(/concept-microline[^]*?view on GitHub/);
+    // sidebar backs to the submission, not the archive index
+    expect(html).toContain('<a class="sidebar-back" href="../Lax2/index.html"');
+    // a proof with open assumptions is conditional
+    const cyclic = fs.readFileSync(path.join(root, "Lax4", "Lax4Proofs.a.html"), "utf8");
+    expect(cyclic).toContain("conditional — 1 open assumption");
+    expect(cyclic).toMatch(/judgment-assumptions[^]*?Lax4\.Aux\.html[^]*?<code>Aux<\/code>/);
+    // the sidebar marks the proof itself active
+    expect(cyclic).toMatch(/<li class="active" data-type="proof"[^]*?Lax4Proofs\.a\.html/);
+  });
+
+  it("gives the sidebar status badges and a proofs group below the concepts", async () => {
+    const root = tmpDir("lax-site-sidebar-");
+    await generateSite(submissions(), root);
+    const html = fs.readFileSync(path.join(root, "Lax2", "index.html"), "utf8");
+    const sidebar = html.slice(html.indexOf('<aside id="sidebar">'), html.indexOf("</aside>"));
+    // concepts carry the same status marks as the concept list: proven ✓ for
+    // the theorem, a plain badge for the definition (nothing to prove)
+    expect(sidebar).toMatch(/data-type="theorem"[^]*?type-badge proven[^]*?thm✓/);
+    expect(sidebar).toMatch(/data-type="definition"[^]*?<span class="type-badge"[^]*?def</);
+    // the proofs group follows the concepts, ⊢-chipped, prefix-pruned,
+    // filterable as its own type
+    expect(sidebar.indexOf(">Concepts</li>")).toBeLessThan(sidebar.indexOf(">Proofs</li>"));
+    expect(sidebar).toMatch(/data-type="proof"[^]*?proof-badge[^]*?>truth</);
+    expect(sidebar).toContain('<option value="proof">proof</option>');
+  });
+
+  it("compiles references instead of printing BibTeX, keeping unparseable entries raw", async () => {
+    const root = tmpDir("lax-site-refs-");
+    await generateSite(submissions(), root);
+    const html = fs.readFileSync(path.join(root, "Lax2", "index.html"), "utf8");
+    expect(html).toContain('<ol class="reference-list">');
+    expect(html).toContain('<li id="ref-demo">');
+    expect(html).toContain("Jane Doe and Hans Müller.");
+    expect(html).toContain('<span class="reference-title">A Cited Result</span>.');
+    expect(html).toContain("J. Math 1(2):3–4,");
+    expect(html).toContain('<a href="https://doi.org/10.1000/demo">doi:10.1000/demo</a>');
+    // the field-less @book{x} cannot be compiled and stays verbatim
+    expect(html).toContain('<pre class="bib-entry">@book{x}</pre>');
+  });
+
+  it("fails fast on statements without a home and on multi-statement concepts", async () => {
+    const broken = submissions();
+    broken[0]!.output!.proofs[0]!.assumptions = ["Nobody.here"];
+    await expect(generateSite(broken, tmpDir("lax-site-nohome-"))).rejects.toThrow(
+      "statement Nobody.here has no home concept",
+    );
+    const multi = submissions();
+    multi[0]!.output!.concepts[0]!.statements.push({ id: "Lax2.C.more", signature: "more : True" });
+    await expect(generateSite(multi, tmpDir("lax-site-multi-"))).rejects.toThrow("one-statement rule");
+    const typeless = submissions();
+    delete typeless[0]!.output!.concepts[1]!.type;
+    await expect(generateSite(typeless, tmpDir("lax-site-typeless-"))).rejects.toThrow(
+      "concept Lax2.D declares no type",
+    );
+  });
+
+  it("keeps outputless records and drafts citable and marked", async () => {
+    const draft = submissions();
+    draft[0]!.record.state = "draft";
+    delete draft[0]!.record.registeredAt;
+    const root = tmpDir("lax-site-draft-");
+    await generateSite(draft, root);
+    const html = fs.readFileSync(path.join(root, "Lax2", "index.html"), "utf8");
+    expect(html).toContain("draft-banner");
+    expect(html.indexOf("draft-banner")).toBeLessThan(html.indexOf("paper-head"));
+    expect(html).not.toContain("state-draft");
+    expect(html).toContain("@misc{Lax2");
+    expect(html).toContain("note = {draft}");
+    const concept = fs.readFileSync(path.join(root, "Lax2", "Lax2.C.html"), "utf8");
+    expect(concept.indexOf("draft-banner")).toBeLessThan(concept.indexOf("concept-heading"));
+    const index = fs.readFileSync(path.join(root, "index.html"), "utf8");
+    expect(index).toContain('class="draft-badge">draft</span>');
+    const placeholder = fs.readFileSync(path.join(root, "Lax10", "index.html"), "utf8");
+    expect(placeholder).toContain("No content uploaded yet");
+  });
+});
