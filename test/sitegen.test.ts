@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import { SITE_MIME } from "../src/sitegen/assets.js";
+import { SITE_MIME, siteAssetPath } from "../src/sitegen/assets.js";
 import { generateSite, type SiteSubmission } from "../src/sitegen/generate.js";
 import { countsPill, typeBadge, typeBadgeText } from "../src/sitegen/html.js";
 import { compareIds, SiteModel } from "../src/sitegen/model.js";
@@ -173,6 +173,8 @@ describe("site generator", () => {
   });
 
   it("emits complete deterministic static output with known MIME types", async () => {
+    expect(siteAssetPath("layout.js")).toContain(path.join("assets", "site", "layout.js"));
+    expect(() => siteAssetPath("../package.json")).toThrow("escapes");
     const one = tmpDir("lax-site-one-");
     const two = tmpDir("lax-site-two-");
     await generateSite(submissions(), one);

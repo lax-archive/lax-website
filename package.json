@@ -5,9 +5,33 @@
   "description": "Static website generator and editorial content for the Lax Lean Archive",
   "type": "module",
   "license": "Apache-2.0",
+  "files": [
+    "assets",
+    "content",
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/sitegen/generate.d.ts",
+      "import": "./dist/sitegen/generate.js"
+    },
+    "./assets": {
+      "types": "./dist/sitegen/assets.d.ts",
+      "import": "./dist/sitegen/assets.js"
+    },
+    "./network": {
+      "types": "./dist/sitegen/network.d.ts",
+      "import": "./dist/sitegen/network.js"
+    },
+    "./sitegen": {
+      "types": "./dist/sitegen/generate.d.ts",
+      "import": "./dist/sitegen/generate.js"
+    }
+  },
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "check": "npm run build && npm test",
+    "prepare": "npm run build",
     "test": "vitest run",
     "site:build": "tsx src/cli.ts build",
     "site:serve": "tsx src/cli.ts serve"
