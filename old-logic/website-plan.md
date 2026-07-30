@@ -157,7 +157,7 @@ rethink names from first principles and documentation.
 
 1. dependency view. also with better naming of all expansion options and legend.
 
-2. proof view. here all proofs with the current concept as root pop up. giving a full overview if the thing is true relative to what. 
+2. proof view. here all proofs with the current concept as root pop up. giving a full overview if the thing is true relative to what.
 
 then description and lean as usual
 
