@@ -78,7 +78,7 @@ artifact.
 To trigger an immediate rebuild from an authorized external workflow:
 
 ```sh
-gh api --method POST repos/lax-archive/LAX-Website/dispatches \
+gh api --method POST repos/lax-archive/lax-website/dispatches \
   -f event_type=lax-db-updated
 ```
 
