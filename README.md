@@ -58,6 +58,10 @@ The generated HTML is deterministic. Math is rendered at build time with
 KaTeX, highlighting with Shiki, all runtime assets are local, and the page
 shell applies a strict Content Security Policy.
 
+Historical website-only plans and migration notes from the original monorepo
+are preserved under `old-logic/`. They are archival and are never rendered or
+deployed.
+
 ## Automation and triggers
 
 `.github/workflows/ci.yml` verifies pull requests and pushes, builds against
