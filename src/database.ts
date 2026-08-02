@@ -8,6 +8,29 @@ function readJson<T>(file: string): T | undefined {
   return JSON.parse(fs.readFileSync(file, "utf8")) as T;
 }
 
+function isObject(value: unknown): value is Record<string, unknown> {
+  return value !== null && typeof value === "object" && !Array.isArray(value);
+}
+
+/** Adapt the stored Archive schema to the renderer's stable public model. */
+function rendererOutput(value: unknown, label: string): BuildOutput | undefined {
+  if (!isObject(value)) throw new Error(`${label} must contain a JSON object`);
+  const inputs = isObject(value.inputs) ? value.inputs : undefined;
+  const manifest = value.manifest ?? inputs?.manifest;
+  if (manifest === undefined) return undefined;
+  const output: Record<string, unknown> = {
+    ...value,
+    manifest,
+    abstract: value.abstract ?? inputs?.abstract,
+  };
+  if (!isObject(output.manifest)) throw new Error(`${label} manifest must be an object`);
+  if (typeof output.abstract !== "string") throw new Error(`${label} abstract must be a string`);
+  for (const name of ["requiredByConcepts", "requiredByProofs", "concepts", "proofs"] as const) {
+    if (!Array.isArray(output[name])) throw new Error(`${label} ${name} must be an array`);
+  }
+  return output as unknown as BuildOutput;
+}
+
 /**
  * Read the checked-out public archive database. The website never mutates
  * this input and deliberately needs no access to server operational state.
@@ -29,7 +52,9 @@ export function loadSubmissions(databaseDir: string): SiteSubmission[] {
       // parse the stub or generate any page for it.
       if (record.state === "init") return [];
 
-      const output = readJson<BuildOutput>(path.join(root, id, "build-output.json"));
+      const outputFile = path.join(root, id, "build-output.json");
+      const rawOutput = readJson<unknown>(outputFile);
+      const output = rawOutput === undefined ? undefined : rendererOutput(rawOutput, outputFile);
       return [{ record, output }];
     });
 }
