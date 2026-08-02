@@ -20,10 +20,16 @@ export function loadSubmissions(databaseDir: string): SiteSubmission[] {
   return fs.readdirSync(root)
     .filter((id) => fs.existsSync(path.join(root, id, "record.json")))
     .sort()
-    .map((id) => {
+    .flatMap((id) => {
       const record = readJson<DbRecord>(path.join(root, id, "record.json"));
       if (!record) throw new Error(`missing record for ${id}`);
+
+      // Initialization reserves an archive id and stores only a provenance
+      // stub in build-output.json. It is not a website submission yet: do not
+      // parse the stub or generate any page for it.
+      if (record.state === "init") return [];
+
       const output = readJson<BuildOutput>(path.join(root, id, "build-output.json"));
-      return { record, output };
+      return [{ record, output }];
     });
 }
