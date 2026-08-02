@@ -53,6 +53,8 @@ npm run site:serve -- --database /path/to/lax-db --out /tmp/lax-site --port 8080
 - `content/contributing.md` generates `/contributing.html`.
 - Submission, concept, and proof pages come from `record.json` and
   `build-output.json` in `lax-db`.
+- Records whose state is still `init` are id reservations, not submissions;
+  website builds ignore them completely.
 
 The generated HTML is deterministic. Math is rendered at build time with
 KaTeX, highlighting with Shiki, all runtime assets are local, and the page
