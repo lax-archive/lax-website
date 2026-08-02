@@ -11,20 +11,20 @@ website. It owns:
 - continuous integration and GitHub Pages deployment workflows.
 
 Archive submissions are data, not website source. The generator reads the
-public [`lax-archive/lax-db`](https://github.com/lax-archive/lax-db)
+public [`lax-archive/lax-database`](https://github.com/lax-archive/lax-database)
 repository and never modifies it.
 
 ## Requirements
 
 - Node.js 20 or newer
 - npm
-- a local checkout of `lax-archive/lax-db`
+- a local checkout of `lax-archive/lax-database`
 
 ## Local setup
 
 ```sh
 npm ci
-git clone https://github.com/lax-archive/lax-db.git data/lax-db
+git clone https://github.com/lax-archive/lax-database.git data/lax-db
 npm run check
 ```
 
