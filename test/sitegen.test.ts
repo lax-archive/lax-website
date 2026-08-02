@@ -11,7 +11,7 @@ import { tmpDir } from "./helpers.js";
 const submissions = (): SiteSubmission[] => [{
   record: {
     specVersion: "1", id: "Lax2", state: "registered", createdAt: "2026-01-01T00:00:00Z",
-    registeredAt: "2026-01-02T00:00:00Z", owners: [{ githubId: 1, handle: "alice" }],
+    registeredAt: "2026-01-02T00:00:00Z",
     source: { repository: "https://github.com/example/math.git", commit: "a".repeat(40), folder: "." },
   },
   output: {
@@ -37,7 +37,7 @@ const submissions = (): SiteSubmission[] => [{
     proofs: [{ id: "Lax2Proofs.truth", path: "proofs/Lax2Proofs/Basic.lean", conclusion: "Lax2.C.truth", assumptions: [], description: "The direct proof.", sections: [{ title: "Strategy", markdown: "Trivial." }] }],
   },
 }, {
-  record: { specVersion: "1", id: "Lax10", state: "init", createdAt: "2026-01-03T00:00:00Z", owners: [] },
+  record: { specVersion: "1", id: "Lax10", state: "init", createdAt: "2026-01-03T00:00:00Z" },
 }];
 
 function graphSubmissions(): SiteSubmission[] {
@@ -46,7 +46,7 @@ function graphSubmissions(): SiteSubmission[] {
     concepts: { conceptId: string; imports: string[]; statements?: { id: string; signature: string }[] }[],
     proofs: NonNullable<SiteSubmission["output"]>["proofs"] = [],
   ): SiteSubmission => ({
-    record: { specVersion: "1", id, state: "registered", createdAt: "2026-01-01T00:00:00Z", owners: [] },
+    record: { specVersion: "1", id, state: "registered", createdAt: "2026-01-01T00:00:00Z" },
     output: {
       specVersion: "1", id,
       manifest: { specVersion: "1", id, leanVersion: "v4.30.0", mathlibVersion: "abc", title: id, authors: [], bibEntries: [] },

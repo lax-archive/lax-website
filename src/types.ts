@@ -29,7 +29,6 @@ export interface DbRecord {
   createdAt: string;
   registeredAt?: string;
   deletedAt?: string;
-  owners: { githubId: number; handle: string }[];
   source?: SourceTriple;
 }
 
