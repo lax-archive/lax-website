@@ -192,6 +192,21 @@ describe("site generator", () => {
     expect(css).not.toContain(".figure-container:empty");
   });
 
+  it("rejects generated page paths that escape the output directory", async () => {
+    const root = tmpDir("lax-site-contained-");
+    const outDir = path.join(root, "site");
+    const outside = path.join(root, "index.html");
+    fs.writeFileSync(outside, "preserved");
+    const malicious = submissions();
+    malicious[0]!.output!.concepts[0]!.id = "Lax42Proofs.x/../../../index";
+
+    await expect(generateSite(malicious, outDir)).rejects.toThrow(
+      "generated page escapes the site output directory",
+    );
+    expect(fs.readFileSync(outside, "utf8")).toBe("preserved");
+    expect(fs.existsSync(outDir)).toBe(false);
+  });
+
   it("renders the index with library rows and a searchable sidebar", async () => {
     const root = tmpDir("lax-site-index-");
     await generateSite(submissions(), root);
