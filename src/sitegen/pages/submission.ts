@@ -94,7 +94,7 @@ ${proofNetworkLegend()}
 <section class="page-section"><h3 class="section-title">Related submissions</h3>
 ${relatedFigure}
 </section>
-<section class="page-section"><h3 class="section-title">Cite this</h3>
+<section class="page-section" id="citation"><h3 class="section-title">Cite this</h3>
 <div class="citation-box">
 <pre class="citation" id="submission-citation">${esc(bibtex(submission))}</pre>
 <button class="citation-copy" type="button" data-copy-citation aria-controls="submission-citation" aria-label="Copy BibTeX to clipboard" title="Copy BibTeX"><span class="citation-copy-icon" aria-hidden="true"></span></button>

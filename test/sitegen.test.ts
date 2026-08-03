@@ -231,6 +231,8 @@ describe("site generator", () => {
     expect(index).toContain('id="landing-panel-submit" aria-labelledby="landing-action-submit" hidden');
     expect(index).toContain('id="landing-panel-cite" aria-labelledby="landing-action-cite" hidden');
     expect(index).toContain("Every submission page ends with a <strong>Citation</strong> section");
+    expect(index).toContain('class="landing-cite-example"');
+    expect(index).toContain('href="Lax2/index.html#citation"');
     expect(index).toContain("contributing.html");
     expect(index).toContain('<script src="assets/landing.js"></script>');
     expect(index).not.toContain("&lt;!--");
@@ -347,6 +349,7 @@ describe("site generator", () => {
     expect(html).toContain(`<h4 class="figure-title">Proof network<a class="source-link" href="${proofsTree}">view on GitHub</a></h4>`);
     // citation for a registered submission has no draft note
     expect(html).toContain("@misc{Lax2");
+    expect(html).toContain('<section class="page-section" id="citation"><h3 class="section-title">Cite this</h3>');
     expect(html).toContain('<pre class="citation" id="submission-citation">');
     expect(html).toContain('data-copy-citation aria-controls="submission-citation" aria-label="Copy BibTeX to clipboard"');
     expect(html).toContain('<output class="citation-copy-status" aria-live="polite"></output>');

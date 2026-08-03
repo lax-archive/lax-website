@@ -82,6 +82,15 @@ ${authors ? `<span class="submissions-list-meta"><span class="formalized-label">
   const landing = landingCopy(contentMarkdown("landing.md").trim());
   const actionOrder = ["read", "review", "submit", "cite"];
   const actionCards = actionOrder.map((id) => actionCard(landing.actions.get(id)!, id !== "review"));
+  const citeExample = listed.find((submission) => submission.record.state === "registered") ?? listed[0];
+  const citeExampleLink = citeExample ? `<div class="landing-cite-example">
+<p>Example submission</p>
+<a href="${attr(citeExample.record.id)}/index.html#citation">
+<span class="landing-cite-example-id">${esc(citeExample.record.id)}</span>
+<strong>${esc(citeExample.output!.manifest.title)}</strong>
+<span class="landing-cite-example-action">See its BibTeX <b aria-hidden="true">→</b></span>
+</a>
+</div>` : "";
   const library = `<section class="landing-action-panel submissions-library" id="landing-panel-read" aria-labelledby="landing-action-read" hidden>
 <div class="landing-action-panel-heading">
 <p class="landing-action-eyebrow">Read the archive</p>
@@ -102,6 +111,7 @@ ${markdown.render(landing.submit, "")}
 <p class="landing-action-eyebrow">Cite the formalization</p>
 <h3>Ready-made BibTeX</h3>
 <p>Every submission page ends with a <strong>Citation</strong> section containing a ready-made BibTeX entry. Open the submission you used, scroll to the bottom, and copy that entry into your bibliography.</p>
+${citeExampleLink}
 </section>`;
   const content = `<header class="paper-head landing-head">
 <div class="landing-lede latex-content">
