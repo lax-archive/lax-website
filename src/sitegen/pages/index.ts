@@ -54,9 +54,9 @@ function actionCard(action: LandingAction, available: boolean): string {
 ${heading}${copy}
 <span class="landing-action-status" aria-hidden="true">Coming soon</span>
 </div>`;
-  return `<button class="landing-action-card" id="landing-action-${attr(action.id)}" type="button" data-landing-view="${attr(action.id)}" data-landing-action="${attr(action.id)}" aria-expanded="false" aria-controls="landing-panel-${attr(action.id)}">
+  return `<button class="landing-action-card" id="landing-action-${attr(action.id)}" type="button" data-landing-view="${attr(action.id)}" data-landing-action="${attr(action.id)}" aria-controls="landing-panel-${attr(action.id)}">
 ${heading}${copy}
-<span class="landing-action-hint" aria-hidden="true"><span class="when-closed">Open <b>↓</b></span><span class="when-open">View <b>↓</b></span></span>
+<span class="landing-action-hint" aria-hidden="true">Go to section <b>↓</b></span>
 </button>`;
 }
 
@@ -108,7 +108,7 @@ ${authors ? `<span class="submissions-list-meta"><span class="formalized-label">
 <span class="landing-cite-example-action">View citation <b aria-hidden="true">→</b></span>
 </a>
 </div>` : "";
-  const library = `<section class="landing-action-panel submissions-library" id="landing-panel-read" aria-labelledby="landing-action-read" hidden>
+  const library = `<section class="landing-action-panel submissions-library" id="landing-panel-read" aria-labelledby="landing-action-read">
 <div class="landing-action-panel-heading">
 <p class="landing-action-eyebrow">Read the archive</p>
 <h3>Submissions</h3>
@@ -119,12 +119,12 @@ ${rows.join("\n")}
 <li id="submissions-list-empty" class="submissions-list-empty" hidden>No submissions match.</li>
 </ul>
 </section>`;
-  const submit = `<section class="landing-action-panel landing-submit-panel latex-content" id="landing-panel-submit" aria-labelledby="landing-action-submit" hidden>
+  const submit = `<section class="landing-action-panel landing-submit-panel latex-content" id="landing-panel-submit" aria-labelledby="landing-action-submit">
 <p class="landing-action-eyebrow">Contribute to Lax</p>
 <h3>Creating your own submission</h3>
 ${copyablePrompt(markdown.render(landing.submit, ""))}
 </section>`;
-  const cite = `<section class="landing-action-panel landing-cite-panel" id="landing-panel-cite" aria-labelledby="landing-action-cite" hidden>
+  const cite = `<section class="landing-action-panel landing-cite-panel" id="landing-panel-cite" aria-labelledby="landing-action-cite">
 <p class="landing-action-eyebrow">Cite the formalization</p>
 <h3>Ready-made BibTeX</h3>
 <p>Every submission page ends with a <strong>Citation</strong> section containing a ready-made BibTeX entry. Open the submission you used, scroll to the bottom, and copy that entry into your bibliography.</p>

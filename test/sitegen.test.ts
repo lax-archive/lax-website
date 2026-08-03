@@ -199,8 +199,9 @@ describe("site generator", () => {
     expect(landingScript).toContain("window.addEventListener('popstate'");
     expect(landingScript).toContain("const initialView = urlView()");
     expect(landingScript).toContain("document.querySelector('[data-copy-prompt]')");
-    expect(landingScript).toContain("if (panel) panel.hidden = false");
-    expect(landingScript).not.toContain("panel.hidden = panel.id !==");
+    expect(landingScript).toContain("document.getElementById(`landing-panel-${id}`)");
+    expect(landingScript).not.toContain("panel.hidden");
+    expect(landingScript).not.toContain("aria-expanded");
   });
 
   it("rejects generated page paths that escape the output directory", async () => {
@@ -231,24 +232,26 @@ describe("site generator", () => {
     expect(index.indexOf("landing-about")).toBeLessThan(index.indexOf("landing-actions"));
     expect(index).toContain("what arXiv is to preprints");
     expect(index).toContain('<h2 id="landing-actions-heading">What you can do here</h2>');
-    expect(index).toContain('data-landing-action="read" aria-expanded="false" aria-controls="landing-panel-read"');
-    expect(index).toContain('data-landing-action="submit" aria-expanded="false" aria-controls="landing-panel-submit"');
-    expect(index).toContain('data-landing-action="cite" aria-expanded="false" aria-controls="landing-panel-cite"');
+    expect(index).toContain('data-landing-action="read" aria-controls="landing-panel-read"');
+    expect(index).toContain('data-landing-action="submit" aria-controls="landing-panel-submit"');
+    expect(index).toContain('data-landing-action="cite" aria-controls="landing-panel-cite"');
     for (const id of ["read", "review", "submit", "cite"]) {
       expect(index).toContain(`id="landing-action-${id}"`);
       expect(index).toContain(`data-landing-view="${id}"`);
     }
     expect(index).toContain('class="landing-action-card unavailable"');
     expect(index).toContain("Coming soon");
-    expect(index).toContain('<section class="landing-action-panel submissions-library" id="landing-panel-read" aria-labelledby="landing-action-read" hidden>');
+    expect(index).toContain('<section class="landing-action-panel submissions-library" id="landing-panel-read" aria-labelledby="landing-action-read">');
     expect(index).toContain("<h3>Submissions</h3>");
     expect(index).toContain("Creating your own submission");
     expect(index).toContain('<div class="landing-prompt-box">');
     expect(index).toContain('<pre id="landing-submission-prompt"><code>');
     expect(index).toContain('data-copy-prompt aria-controls="landing-submission-prompt" aria-label="Copy prompt to clipboard"');
     expect(index).toContain('<output class="prompt-copy-status" aria-live="polite"></output>');
-    expect(index).toContain('id="landing-panel-submit" aria-labelledby="landing-action-submit" hidden');
-    expect(index).toContain('id="landing-panel-cite" aria-labelledby="landing-action-cite" hidden');
+    expect(index).toContain('id="landing-panel-submit" aria-labelledby="landing-action-submit">');
+    expect(index).toContain('id="landing-panel-cite" aria-labelledby="landing-action-cite">');
+    expect(index).not.toMatch(/id="landing-panel-(?:read|submit|cite)"[^>]* hidden/);
+    expect(index).toContain('Go to section <b>↓</b>');
     expect(index).toContain("Every submission page ends with a <strong>Citation</strong> section");
     expect(index).toContain('class="landing-cite-example"');
     expect(index).toContain('href="Lax2/index.html#citation"');

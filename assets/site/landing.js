@@ -1,6 +1,5 @@
-// Landing-page action cards reveal panels without collapsing earlier choices.
-// The content is already in the static HTML; this manages visibility,
-// accessible expanded state, and shareable ?view= URLs.
+// Landing-page action cards scroll to their always-visible sections and keep
+// shareable ?view= URLs in sync.
 (() => {
   const RESET_DELAY = 2200;
 
@@ -62,15 +61,6 @@
     if (!buttons.length) return;
     const views = [...document.querySelectorAll('[data-landing-view]')];
     const viewIds = new Set(views.map((view) => view.dataset.landingView));
-    const panels = [...document.querySelectorAll('.landing-action-panel')];
-
-    function openView(id) {
-      const button = buttons.find((candidate) => candidate.dataset.landingAction === id);
-      const panel = panels.find((candidate) => candidate.id === `landing-panel-${id}`);
-      if (button) button.setAttribute('aria-expanded', 'true');
-      if (panel) panel.hidden = false;
-      return panel;
-    }
 
     function urlView() {
       const id = new URLSearchParams(window.location.search).get('view');
@@ -86,8 +76,9 @@
       window.history.pushState(null, '', `${url.pathname}${url.search}${url.hash}`);
     }
 
-    function scrollToView(id, panel) {
-      const target = panel ?? views.find((view) => view.dataset.landingView === id);
+    function scrollToView(id) {
+      const target = document.getElementById(`landing-panel-${id}`)
+        ?? views.find((view) => view.dataset.landingView === id);
       if (!target) return;
       const behavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
       requestAnimationFrame(() => requestAnimationFrame(() => {
@@ -96,9 +87,8 @@
     }
 
     function selectView(id, updateHistory) {
-      const panel = openView(id);
       if (updateHistory) updateUrl(id);
-      scrollToView(id, panel);
+      scrollToView(id);
     }
 
     for (const button of buttons) {
