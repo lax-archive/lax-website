@@ -29,8 +29,8 @@ The latter lives in the accompanying exposition and papers.
 
 ## Creating your own submission
 
-The fastest way to contribute is to hand your AI agent (preferably Claude
-Fable) a prompt like:
+The fastest way to contribute is to hand your AI agent (preferably a frontier
+model like Claude Fable) a prompt like:
 
 ```
 Use Lax to formalize <my result>. Steps:
