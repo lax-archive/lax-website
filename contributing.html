@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src https: data:; font-src 'self'">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Lax — an archive of formalized mathematical concepts and their proofs">
+<title>Contributing — Lax Lean Archive</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
+<link rel="stylesheet" href="assets/katex.css">
+<link rel="stylesheet" href="assets/style.css">
+</head><body>
+<header class="site-header">
+  <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
+  <h1 class="site-title"><a href="index.html">Lax <span class="site-title-quiet">Lean Archive</span></a></h1>
+</header>
+<main id="content-shell">
+<div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+<aside id="sidebar">
+<a class="sidebar-back" href="index.html"><span class="sidebar-back-arrow" aria-hidden="true">←</span>Archive</a>
+<ul id="entry-list">
+<li class="active"><a class="entry-link" href="contributing.html"><span class="entry-label"><span class="entry-label-text">Contributing</span></span></a></li>
+</ul>
+</aside>
+<section id="main"><div id="detail">
+<header class="paper-head">
+<h1 class="paper-title">Contributing</h1>
+</header>
+<article class="content-page latex-content">
+<p>A submission is a self-contained Lean development, concepts and proofs with
+structured annotations, that you author in your own git repository, build
+locally, and submit as a <em>(repository, commit, folder)</em> triple. The archive
+clones your pushed commit and builds it again on its own server before
+anything is published. Nothing is uploaded; the archive references your
+repository rather than hosting it.</p>
+<h2>Prerequisites</h2>
+<ul>
+<li><strong>Linux or macOS</strong>, with ~10 GB free disk (mathlib artifacts, downloaded
+once).</li>
+<li><strong>Node.js ≥ 20</strong> and <strong>git</strong>.</li>
+<li><strong>elan</strong>, the Lean toolchain manager:
+<code>curl -sSf https://elan.lean-lang.org/elan-init.sh | sh</code></li>
+<li>A <strong>GitHub account</strong>. Submissions are authenticated with your GitHub
+identity.</li>
+</ul>
+<p>Then install the CLI and check your setup:</p>
+<pre><code class="language-sh">npm install -g lax-archive
+lax login     # GitHub device flow; grants no scopes, identity only
+lax doctor    # verifies tools, login, and connectivity, and suggests fixes
+</code></pre>
+<h2>The workflow</h2>
+<ol>
+<li><p><strong>Create a submission.</strong> From inside a git repository of yours:</p>
+<pre><code class="language-sh">lax init my-submission
+</code></pre>
+<p>The archive allocates your submission id (<code>LaxN</code>) and scaffolds a
+complete Lean workspace with mathlib pinned and prebuilt. The first run
+downloads mathlib artifacts once; after that, builds start in seconds.</p>
+</li>
+<li><p><strong>Author.</strong> Write your concepts and proofs in the scaffold. The
+normative reference for the annotation format is the spec (<code>lax spec</code>).
+The submissions already on the site are working examples.</p>
+</li>
+<li><p><strong>Build locally, iterate until clean.</strong></p>
+<pre><code class="language-sh">lax build my-submission
+</code></pre>
+<p>This is the same pipeline the server enforces. <code>--only concepts|proofs</code>
+narrows iteration, and <code>lax serve my-submission</code> previews your
+submission&#39;s pages as the archive will render them.</p>
+</li>
+<li><p><strong>Push, then submit.</strong> The server builds your <em>pushed</em> commit, not your
+working tree. Commit, push to a repository the server can clone (public
+GitHub is the easy case), then:</p>
+<pre><code class="language-sh">lax submit my-submission
+</code></pre>
+<p>The server clones and builds, which takes about a minute; the CLI polls.
+Success puts the submission in the <strong>draft</strong> state: visible on the site,
+still replaceable by you.</p>
+</li>
+<li><p><strong>Register</strong> when it is final:</p>
+<pre><code class="language-sh">lax submit my-submission --register
+</code></pre>
+<p>A registered submission is citable and cannot be replaced afterwards,
+so the CLI asks you to confirm.</p>
+</li>
+</ol>
+<h2>Good to know</h2>
+<p>Owners are GitHub identities. Use <code>lax set-owners</code> to share a submission
+with co-authors before registration.</p>
+
+</article>
+</div></section>
+</main>
+<script src="assets/sidebar.js"></script>
+</body></html>

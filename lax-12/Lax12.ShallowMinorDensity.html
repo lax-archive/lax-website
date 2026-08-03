@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src https: data:; font-src 'self'">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Lax — an archive of formalized mathematical concepts and their proofs">
+<title>Edge density of shallow minors — Lax12.ShallowMinorDensity</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/katex.css">
+<link rel="stylesheet" href="../assets/style.css">
+</head><body>
+<header class="site-header">
+  <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
+  <h1 class="site-title"><a href="../index.html">Lax <span class="site-title-quiet">Lean Archive</span></a></h1>
+</header>
+<main id="content-shell">
+<div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+<aside id="sidebar">
+<a class="sidebar-back" href="../lax-12/index.html"><span class="sidebar-back-arrow" aria-hidden="true">←</span>lax-12</a>
+<div class="sidebar-filters"><div class="filter-group">
+<label for="filter-search">Search</label>
+<input id="filter-search" class="filter-input" type="search" placeholder="Filter entries" aria-controls="entry-list">
+</div>
+<div class="filter-group">
+<label for="filter-type">Type</label>
+<select id="filter-type" class="filter-select">
+<option value="all">All types</option>
+<option value="definition">definition</option>
+<option value="theorem">theorem</option>
+<option value="proof">proof</option>
+</select>
+</div></div>
+<ul id="entry-list">
+<li class="entry-heading" aria-hidden="true">Concepts</li>
+<li data-type="definition" data-search="lax12.admissibility admissibility definition"><a class="entry-link" href="../lax-12/Lax12.Admissibility.html"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax12.Admissibility</span></span></a></li>
+<li data-type="theorem" data-search="lax12.admissibilitybound admissibility is bounded by topological shallow-minor density theorem"><a class="entry-link" href="../lax-12/Lax12.AdmissibilityBound.html"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax12.AdmissibilityBound</span></span></a></li>
+<li data-type="definition" data-search="lax12.coloringnumbers generalized coloring numbers definition"><a class="entry-link" href="../lax-12/Lax12.ColoringNumbers.html"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax12.ColoringNumbers</span></span></a></li>
+<li data-type="definition" data-search="lax12.graphclasses graph classes definition"><a class="entry-link" href="../lax-12/Lax12.GraphClasses.html"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax12.GraphClasses</span></span></a></li>
+<li data-type="definition" data-search="lax12.neighborhoodcomplexity neighborhood complexity definition"><a class="entry-link" href="../lax-12/Lax12.NeighborhoodComplexity.html"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax12.NeighborhoodComplexity</span></span></a></li>
+<li data-type="definition" data-search="lax12.nowheredenseclasses nowhere dense graph classes definition"><a class="entry-link" href="../lax-12/Lax12.NowhereDenseClasses.html"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax12.NowhereDenseClasses</span></span></a></li>
+<li data-type="theorem" data-search="lax12.nowheredensedensity nowhere dense classes have subpolynomial shallow-minor density theorem"><a class="entry-link" href="../lax-12/Lax12.NowhereDenseDensity.html"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax12.NowhereDenseDensity</span></span></a></li>
+<li data-type="theorem" data-search="lax12.nowheredensenc nowhere dense classes have almost linear neighborhood complexity theorem"><a class="entry-link" href="../lax-12/Lax12.NowhereDenseNC.html"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax12.NowhereDenseNC</span></span></a></li>
+<li data-type="theorem" data-search="lax12.nowheredenseuqw nowhere dense classes are uniformly quasi-wide theorem"><a class="entry-link" href="../lax-12/Lax12.NowhereDenseUQW.html"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax12.NowhereDenseUQW</span></span></a></li>
+<li data-type="theorem" data-search="lax12.nowheredensewcol nowhere dense classes have subpolynomial weak coloring numbers theorem"><a class="entry-link" href="../lax-12/Lax12.NowhereDenseWcol.html"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax12.NowhereDenseWcol</span></span></a></li>
+<li class="active" data-type="definition" data-search="lax12.shallowminordensity edge density of shallow minors definition"><a class="entry-link" href="../lax-12/Lax12.ShallowMinorDensity.html"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax12.ShallowMinorDensity</span></span></a></li>
+<li data-type="definition" data-search="lax12.shallowtopologicalminors shallow topological minors definition"><a class="entry-link" href="../lax-12/Lax12.ShallowTopologicalMinors.html"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax12.ShallowTopologicalMinors</span></span></a></li>
+<li data-type="theorem" data-search="lax12.strongcoloringbound strong coloring numbers are bounded by admissibility theorem"><a class="entry-link" href="../lax-12/Lax12.StrongColoringBound.html"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax12.StrongColoringBound</span></span></a></li>
+<li data-type="definition" data-search="lax12.uniformquasiwideness uniform quasi-wideness definition"><a class="entry-link" href="../lax-12/Lax12.UniformQuasiWideness.html"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax12.UniformQuasiWideness</span></span></a></li>
+<li data-type="theorem" data-search="lax12.weakcoloringbound weak coloring numbers are bounded by strong coloring numbers theorem"><a class="entry-link" href="../lax-12/Lax12.WeakColoringBound.html"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax12.WeakColoringBound</span></span></a></li>
+<li class="entry-heading" aria-hidden="true">Proofs</li>
+<li data-type="proof" data-search="lax12proofs.admissibilitybound.adm_le_of_hastopologicaldensityatmost proof"><a class="entry-link" href="../lax-12/Lax12Proofs.AdmissibilityBound.adm_le_of_hasTopologicalDensityAtMost.html"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax12Proofs.AdmissibilityBound.adm_le_of_hasTopologicalDensityAtMost</span></span></a></li>
+<li data-type="proof" data-search="lax12proofs.nowheredensedensity.hassubpolynomialdensity_of_nowheredense proof"><a class="entry-link" href="../lax-12/Lax12Proofs.NowhereDenseDensity.hasSubpolynomialDensity_of_nowhereDense.html"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax12Proofs.NowhereDenseDensity.hasSubpolynomialDensity_of_nowhereDense</span></span></a></li>
+<li data-type="proof" data-search="lax12proofs.nowheredensenc.hasalmostlinearnc_of_nowheredense proof"><a class="entry-link" href="../lax-12/Lax12Proofs.NowhereDenseNC.hasAlmostLinearNC_of_nowhereDense.html"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax12Proofs.NowhereDenseNC.hasAlmostLinearNC_of_nowhereDense</span></span></a></li>
+<li data-type="proof" data-search="lax12proofs.nowheredenseuqw.uniformlyquasiwide_of_nowheredense proof"><a class="entry-link" href="../lax-12/Lax12Proofs.NowhereDenseUQW.uniformlyQuasiWide_of_nowhereDense.html"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax12Proofs.NowhereDenseUQW.uniformlyQuasiWide_of_nowhereDense</span></span></a></li>
+<li data-type="proof" data-search="lax12proofs.nowheredensewcol.hassubpolynomialwcol_of_nowheredense proof"><a class="entry-link" href="../lax-12/Lax12Proofs.NowhereDenseWcol.hasSubpolynomialWcol_of_nowhereDense.html"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax12Proofs.NowhereDenseWcol.hasSubpolynomialWcol_of_nowhereDense</span></span></a></li>
+<li data-type="proof" data-search="lax12proofs.strongcoloringbound.scol_le_of_adm proof"><a class="entry-link" href="../lax-12/Lax12Proofs.StrongColoringBound.scol_le_of_adm.html"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax12Proofs.StrongColoringBound.scol_le_of_adm</span></span></a></li>
+<li data-type="proof" data-search="lax12proofs.weakcoloringbound.wcol_le_of_scol proof"><a class="entry-link" href="../lax-12/Lax12Proofs.WeakColoringBound.wcol_le_of_scol.html"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax12Proofs.WeakColoringBound.wcol_le_of_scol</span></span></a></li>
+<li id="entry-list-empty" hidden>No entries match.</li>
+</ul>
+</aside>
+<section id="main"><div id="detail">
+<p class="draft-banner"><strong>Draft</strong> — mutable and not usable as a dependency; its citation marks the draft state.</p>
+<div class="detail-heading concept-heading">
+<div><p class="concept-id"><code>Lax12.ShallowMinorDensity</code></p>
+<h1 class="concept-title">Edge density of shallow minors</h1>
+<p class="concept-microline"><code>concepts/Lax12/ShallowMinorDensity.lean</code> · <a href="index.html">lax-12</a></p></div>
+<span class="status-pills"><span class="status-pill pill-none" title="Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">nothing to prove</span></span>
+</div>
+<h4 class="figure-title">Concept map</h4>
+<figure class="graph-figure concept-root-graph">
+<div class="graph-toolbar"><button type="button" id="concept-expand" aria-controls="concept-dag" aria-pressed="true">Hide ancestors</button><button type="button" id="concept-descend" aria-controls="concept-dag" aria-pressed="false">Show descendants</button><output id="concept-graph-status" aria-live="polite"></output></div>
+<div id="concept-dag" class="figure-container" data-graph="concepts" data-ancestry="true"></div>
+<div class="graph-tooltip" role="tooltip" hidden></div>
+<figcaption class="graph-legend" aria-label="Concept map legend"><span><i class="legend-node fill-proven"></i>Proven claim</span><span><i class="legend-node fill-open"></i>Open claim</span><span><i class="legend-node fill-none"></i>Definition — nothing to prove</span><span><i class="legend-node stroke-own"></i>This concept</span><span><i class="legend-node stroke-ext"></i>Related concept</span><span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B builds on A</span></figcaption>
+</figure>
+
+<div class="block block-statement"><h3>Definition</h3><div class="latex-content"><p>A graph <em>G</em> has depth-<em>r</em> density at most <em>d</em> if every depth-<em>r</em> minor
+<em>H</em> of <em>G</em> has at most <em>d</em> · |V(H)| edges — the standard &quot;grad&quot; bound on
+how dense the shallow minors of a sparse graph can be. A graph class has
+subpolynomial density if for every depth <em>r</em> and every ε &gt; 0 there is a
+constant <em>c</em> such that every depth-<em>r</em> minor <em>H</em> of a member, on <em>m</em>
+vertices, has at most <em>c</em> · <em>m</em>^(1+ε) edges: shallow-minor edge counts
+<em>m</em>^(1+o(1)).</p>
+<p>Definition 2.4 of Chapter 1 of the source lecture notes (2019/20
+edition) defines the grad ∇<em><em>r</em>(<em>G</em>) as the supremum of |E(H)|/|V(H)|
+over the depth-<em>r</em> minors <em>H</em> of <em>G</em>, so the per-graph predicate here
+says ∇</em><em>r</em>(<em>G</em>) ≤ <em>d</em>.</p>
+</div></div>
+<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/311ae7cf15e1bde644721958e05203bb6791d04b/sparsity-lectures/concepts/Lax12/ShallowMinorDensity.lean">view on GitHub</a></h3>
+<div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax12.NowhereDenseClasses</span></td></tr>
+<tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Data.Set.Card</span></td></tr>
+<tr id="L3" class=""><td class="line-num"><a href="#L3">3</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Analysis.SpecialFunctions.Pow.Real</span></td></tr>
+<tr id="L4" class=""><td class="line-num"><a href="#L4">4</a></td><td class="line-code"> </td></tr>
+<tr id="L5" class=""><td class="line-num"><a href="#L5">5</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
+<tr id="L6" class=""><td class="line-num"><a href="#L6">6</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
+<tr id="L7" class=""><td class="line-num"><a href="#L7">7</a></td><td class="line-code"><span style="color:#6A737D">title: Edge density of shallow minors</span></td></tr>
+<tr id="L8" class=""><td class="line-num"><a href="#L8">8</a></td><td class="line-code"><span style="color:#6A737D">type: definition</span></td></tr>
+<tr id="L9" class=""><td class="line-num"><a href="#L9">9</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
+<tr id="L10" class=""><td class="line-num"><a href="#L10">10</a></td><td class="line-code"><span style="color:#6A737D">A graph *G* has depth-*r* density at most *d* if every depth-*r* minor</span></td></tr>
+<tr id="L11" class=""><td class="line-num"><a href="#L11">11</a></td><td class="line-code"><span style="color:#6A737D">*H* of *G* has at most *d* · |V(H)| edges — the standard &quot;grad&quot; bound on</span></td></tr>
+<tr id="L12" class=""><td class="line-num"><a href="#L12">12</a></td><td class="line-code"><span style="color:#6A737D">how dense the shallow minors of a sparse graph can be. A graph class has</span></td></tr>
+<tr id="L13" class=""><td class="line-num"><a href="#L13">13</a></td><td class="line-code"><span style="color:#6A737D">subpolynomial density if for every depth *r* and every ε &gt; 0 there is a</span></td></tr>
+<tr id="L14" class=""><td class="line-num"><a href="#L14">14</a></td><td class="line-code"><span style="color:#6A737D">constant *c* such that every depth-*r* minor *H* of a member, on *m*</span></td></tr>
+<tr id="L15" class=""><td class="line-num"><a href="#L15">15</a></td><td class="line-code"><span style="color:#6A737D">vertices, has at most *c* · *m*^(1+ε) edges: shallow-minor edge counts</span></td></tr>
+<tr id="L16" class=""><td class="line-num"><a href="#L16">16</a></td><td class="line-code"><span style="color:#6A737D">*m*^(1+o(1)).</span></td></tr>
+<tr id="L17" class=""><td class="line-num"><a href="#L17">17</a></td><td class="line-code"> </td></tr>
+<tr id="L18" class=""><td class="line-num"><a href="#L18">18</a></td><td class="line-code"><span style="color:#6A737D">Definition 2.4 of Chapter 1 of the source lecture notes (2019/20</span></td></tr>
+<tr id="L19" class=""><td class="line-num"><a href="#L19">19</a></td><td class="line-code"><span style="color:#6A737D">edition) defines the grad ∇_*r*(*G*) as the supremum of |E(H)|/|V(H)|</span></td></tr>
+<tr id="L20" class=""><td class="line-num"><a href="#L20">20</a></td><td class="line-code"><span style="color:#6A737D">over the depth-*r* minors *H* of *G*, so the per-graph predicate here</span></td></tr>
+<tr id="L21" class=""><td class="line-num"><a href="#L21">21</a></td><td class="line-code"><span style="color:#6A737D">says ∇_*r*(*G*) ≤ *d*.</span></td></tr>
+<tr id="L22" class=""><td class="line-num"><a href="#L22">22</a></td><td class="line-code"> </td></tr>
+<tr id="L23" class=""><td class="line-num"><a href="#L23">23</a></td><td class="line-code"><span style="color:#6A737D"># Formalization notes</span></td></tr>
+<tr id="L24" class=""><td class="line-num"><a href="#L24">24</a></td><td class="line-code"> </td></tr>
+<tr id="L25" class=""><td class="line-num"><a href="#L25">25</a></td><td class="line-code"><span style="color:#6A737D">Both predicates are stated over the shallow-minor relation of the</span></td></tr>
+<tr id="L26" class=""><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span style="color:#6A737D">nowhere dense concept, so one notion of depth-*r* minor serves the whole</span></td></tr>
+<tr id="L27" class=""><td class="line-num"><a href="#L27">27</a></td><td class="line-code"><span style="color:#6A737D">submission. Minors range over the canonical carriers `Fin m`: every</span></td></tr>
+<tr id="L28" class=""><td class="line-num"><a href="#L28">28</a></td><td class="line-code"><span style="color:#6A737D">finite graph is isomorphic to one of those and the shallow-minor</span></td></tr>
+<tr id="L29" class=""><td class="line-num"><a href="#L29">29</a></td><td class="line-code"><span style="color:#6A737D">relation is invariant under isomorphism, so nothing is lost.</span></td></tr>
+<tr id="L30" class=""><td class="line-num"><a href="#L30">30</a></td><td class="line-code"> </td></tr>
+<tr id="L31" class=""><td class="line-num"><a href="#L31">31</a></td><td class="line-code"><span style="color:#6A737D">Edges are counted as the natural cardinality (`Set.ncard`) of</span></td></tr>
+<tr id="L32" class=""><td class="line-num"><a href="#L32">32</a></td><td class="line-code"><span style="color:#6A737D">`edgeSet`, which needs no decidability instance and is the exact count</span></td></tr>
+<tr id="L33" class=""><td class="line-num"><a href="#L33">33</a></td><td class="line-code"><span style="color:#6A737D">on the finite carriers used here. `HasDensityAtMost` counts edges rather</span></td></tr>
+<tr id="L34" class=""><td class="line-num"><a href="#L34">34</a></td><td class="line-code"><span style="color:#6A737D">than twice the edges, matching the usual `|E(H)| ≤ d · |V(H)|` form (the</span></td></tr>
+<tr id="L35" class=""><td class="line-num"><a href="#L35">35</a></td><td class="line-code"><span style="color:#6A737D">greatest reduced average density is then at most `2 · d`).</span></td></tr>
+<tr id="L36" class=""><td class="line-num"><a href="#L36">36</a></td><td class="line-code"> </td></tr>
+<tr id="L37" class=""><td class="line-num"><a href="#L37">37</a></td><td class="line-code"><span style="color:#6A737D">No numeric density parameter is introduced. Every statement of this</span></td></tr>
+<tr id="L38" class=""><td class="line-num"><a href="#L38">38</a></td><td class="line-code"><span style="color:#6A737D">submission either supplies a concrete bound `d` or concludes the</span></td></tr>
+<tr id="L39" class=""><td class="line-num"><a href="#L39">39</a></td><td class="line-code"><span style="color:#6A737D">class-level predicate, so a `sInf`-defined grad would be review surface</span></td></tr>
+<tr id="L40" class=""><td class="line-num"><a href="#L40">40</a></td><td class="line-code"><span style="color:#6A737D">that no claim consumes. The class-level bound carries a multiplicative</span></td></tr>
+<tr id="L41" class=""><td class="line-num"><a href="#L41">41</a></td><td class="line-code"><span style="color:#6A737D">constant instead of the size threshold used in the literature proof; the</span></td></tr>
+<tr id="L42" class=""><td class="line-num"><a href="#L42">42</a></td><td class="line-code"><span style="color:#6A737D">two agree because a graph on *m* vertices has at most *m*² edges, and</span></td></tr>
+<tr id="L43" class=""><td class="line-num"><a href="#L43">43</a></td><td class="line-code"><span style="color:#6A737D">the constant form matches the subpolynomial bound of the coloring-number</span></td></tr>
+<tr id="L44" class=""><td class="line-num"><a href="#L44">44</a></td><td class="line-code"><span style="color:#6A737D">concept.</span></td></tr>
+<tr id="L45" class=""><td class="line-num"><a href="#L45">45</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
+<tr id="L46" class=""><td class="line-num"><a href="#L46">46</a></td><td class="line-code"> </td></tr>
+<tr id="L47" class=""><td class="line-num"><a href="#L47">47</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax12.ShallowMinorDensity</span></td></tr>
+<tr id="L48" class=""><td class="line-num"><a href="#L48">48</a></td><td class="line-code"> </td></tr>
+<tr id="L49" class=""><td class="line-num"><a href="#L49">49</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax12.GraphClasses Lax12.NowhereDenseClasses</span></td></tr>
+<tr id="L50" class=""><td class="line-num"><a href="#L50">50</a></td><td class="line-code"> </td></tr>
+<tr id="L51" class=""><td class="line-num"><a href="#L51">51</a></td><td class="line-code"><span style="color:#6A737D">/-- Every depth-`r` minor of `G`, on `m` vertices, has at most `d · m`</span></td></tr>
+<tr id="L52" class=""><td class="line-num"><a href="#L52">52</a></td><td class="line-code"><span style="color:#6A737D">edges. -/</span></td></tr>
+<tr id="L53" class=""><td class="line-num"><a href="#L53">53</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> HasDensityAtMost</span><span style="color:#24292E"> {n : ℕ} (G : SimpleGraph (Fin n)) (r d : ℕ) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr id="L54" class=""><td class="line-num"><a href="#L54">54</a></td><td class="line-code"><span style="color:#24292E">  ∀ (m : ℕ) (H : SimpleGraph (Fin m)), HasShallowMinor G r H →</span></td></tr>
+<tr id="L55" class=""><td class="line-num"><a href="#L55">55</a></td><td class="line-code"><span style="color:#24292E">    H.edgeSet.ncard ≤ d * m</span></td></tr>
+<tr id="L56" class=""><td class="line-num"><a href="#L56">56</a></td><td class="line-code"> </td></tr>
+<tr id="L57" class=""><td class="line-num"><a href="#L57">57</a></td><td class="line-code"><span style="color:#6A737D">/-- Every depth-`r` minor of every member of the class, on `m` vertices,</span></td></tr>
+<tr id="L58" class=""><td class="line-num"><a href="#L58">58</a></td><td class="line-code"><span style="color:#6A737D">has at most `c · m^(1+ε)` edges, where `c` depends only on the depth `r`</span></td></tr>
+<tr id="L59" class=""><td class="line-num"><a href="#L59">59</a></td><td class="line-code"><span style="color:#6A737D">and on `ε &gt; 0`: shallow-minor edge counts `m^(1+o(1))`. -/</span></td></tr>
+<tr id="L60" class=""><td class="line-num"><a href="#L60">60</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> HasSubpolynomialDensity</span><span style="color:#24292E"> (C : GraphClass) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr id="L61" class=""><td class="line-num"><a href="#L61">61</a></td><td class="line-code"><span style="color:#24292E">  ∀ (r : ℕ) (ε : ℝ), </span><span style="color:#005CC5">0</span><span style="color:#24292E"> &lt; ε → ∃ c : ℝ,</span></td></tr>
+<tr id="L62" class=""><td class="line-num"><a href="#L62">62</a></td><td class="line-code"><span style="color:#24292E">    ∀ (n : ℕ) (G : SimpleGraph (Fin n)), C n G →</span></td></tr>
+<tr id="L63" class=""><td class="line-num"><a href="#L63">63</a></td><td class="line-code"><span style="color:#24292E">      ∀ (m : ℕ) (H : SimpleGraph (Fin m)), HasShallowMinor G r H →</span></td></tr>
+<tr id="L64" class=""><td class="line-num"><a href="#L64">64</a></td><td class="line-code"><span style="color:#24292E">        (H.edgeSet.ncard : ℝ) ≤ c * (m : ℝ) ^ (</span><span style="color:#005CC5">1</span><span style="color:#24292E"> + ε)</span></td></tr>
+<tr id="L65" class=""><td class="line-num"><a href="#L65">65</a></td><td class="line-code"> </td></tr>
+<tr id="L66" class=""><td class="line-num"><a href="#L66">66</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax12.ShallowMinorDensity</span></td></tr>
+<tr id="L67" class=""><td class="line-num"><a href="#L67">67</a></td><td class="line-code"> </td></tr>
+</table></div></div></div>
+<div class="block"><h3>Formalization notes</h3><div class="latex-content"><p>Both predicates are stated over the shallow-minor relation of the
+nowhere dense concept, so one notion of depth-<em>r</em> minor serves the whole
+submission. Minors range over the canonical carriers <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mi>i</mi><mi>n</mi><mi>m</mi></mrow><annotation encoding="application/x-tex">Fin m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.1389em;">F</span><span class="mord mathnormal">inm</span></span></span></span>: every
+finite graph is isomorphic to one of those and the shallow-minor
+relation is invariant under isomorphism, so nothing is lost.</p>
+<p>Edges are counted as the natural cardinality (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mi>e</mi><mi>t</mi><mi mathvariant="normal">.</mi><mi>n</mi><mi>c</mi><mi>a</mi><mi>r</mi><mi>d</mi></mrow><annotation encoding="application/x-tex">Set.ncard</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.0576em;">S</span><span class="mord mathnormal">e</span><span class="mord mathnormal">t</span><span class="mord">.</span><span class="mord mathnormal">n</span><span class="mord mathnormal">c</span><span class="mord mathnormal">a</span><span class="mord mathnormal" style="margin-right:0.0278em;">r</span><span class="mord mathnormal">d</span></span></span></span>) of
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>e</mi><mi>d</mi><mi>g</mi><mi>e</mi><mi>S</mi><mi>e</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">edgeSet</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">e</span><span class="mord mathnormal">d</span><span class="mord mathnormal" style="margin-right:0.0359em;">g</span><span class="mord mathnormal">e</span><span class="mord mathnormal" style="margin-right:0.0576em;">S</span><span class="mord mathnormal">e</span><span class="mord mathnormal">t</span></span></span></span>, which needs no decidability instance and is the exact count
+on the finite carriers used here. <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>H</mi><mi>a</mi><mi>s</mi><mi>D</mi><mi>e</mi><mi>n</mi><mi>s</mi><mi>i</mi><mi>t</mi><mi>y</mi><mi>A</mi><mi>t</mi><mi>M</mi><mi>o</mi><mi>s</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">HasDensityAtMost</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8778em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.0813em;">H</span><span class="mord mathnormal">a</span><span class="mord mathnormal" style="margin-right:0.0278em;">sD</span><span class="mord mathnormal">e</span><span class="mord mathnormal">n</span><span class="mord mathnormal">s</span><span class="mord mathnormal">i</span><span class="mord mathnormal">t</span><span class="mord mathnormal" style="margin-right:0.0359em;">y</span><span class="mord mathnormal">A</span><span class="mord mathnormal" style="margin-right:0.109em;">tM</span><span class="mord mathnormal">os</span><span class="mord mathnormal">t</span></span></span></span> counts edges rather
+than twice the edges, matching the usual <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">∣</mi><mi>E</mi><mo stretchy="false">(</mo><mi>H</mi><mo stretchy="false">)</mo><mi mathvariant="normal">∣</mi><mo>≤</mo><mi>d</mi><mo separator="true">⋅</mo><mi mathvariant="normal">∣</mi><mi>V</mi><mo stretchy="false">(</mo><mi>H</mi><mo stretchy="false">)</mo><mi mathvariant="normal">∣</mi></mrow><annotation encoding="application/x-tex">|E(H)| ≤ d · |V(H)|</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">∣</span><span class="mord mathnormal" style="margin-right:0.0576em;">E</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.0813em;">H</span><span class="mclose">)</span><span class="mord">∣</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">d</span><span class="mpunct">⋅</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">∣</span><span class="mord mathnormal" style="margin-right:0.2222em;">V</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.0813em;">H</span><span class="mclose">)</span><span class="mord">∣</span></span></span></span> form (the
+greatest reduced average density is then at most <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mo separator="true">⋅</mo><mi>d</mi></mrow><annotation encoding="application/x-tex">2 · d</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6944em;"></span><span class="mord">2</span><span class="mpunct">⋅</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">d</span></span></span></span>).</p>
+<p>No numeric density parameter is introduced. Every statement of this
+submission either supplies a concrete bound <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi></mrow><annotation encoding="application/x-tex">d</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6944em;"></span><span class="mord mathnormal">d</span></span></span></span> or concludes the
+class-level predicate, so a <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mi>I</mi><mi>n</mi><mi>f</mi></mrow><annotation encoding="application/x-tex">sInf</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">s</span><span class="mord mathnormal" style="margin-right:0.0785em;">I</span><span class="mord mathnormal">n</span><span class="mord mathnormal" style="margin-right:0.1076em;">f</span></span></span></span>-defined grad would be review surface
+that no claim consumes. The class-level bound carries a multiplicative
+constant instead of the size threshold used in the literature proof; the
+two agree because a graph on <em>m</em> vertices has at most <em>m</em>² edges, and
+the constant form matches the subpolynomial bound of the coloring-number
+concept.</p>
+</div></div>
+<div class="block"><div class="deps-columns">
+<div class="deps-col"><h3>Builds on</h3><ul class="deps-list"><li><a href="../lax-12/Lax12.NowhereDenseClasses.html"><code>Lax12.NowhereDenseClasses</code></a></li></ul></div>
+<div class="deps-col"><h3>Used by</h3><ul class="deps-list"><li><a href="../lax-12/Lax12.NowhereDenseDensity.html"><code>Lax12.NowhereDenseDensity</code></a></li></ul></div>
+<div class="deps-col"><h3>From Mathlib</h3><ul class="deps-list"><li><a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Analysis/SpecialFunctions/Pow/Real.html"><code>Mathlib.Analysis.SpecialFunctions.Pow.Real</code></a></li><li><a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/Set/Card.html"><code>Mathlib.Data.Set.Card</code></a></li></ul></div>
+</div></div>
+<script type="application/json" id="graph-data">{"concepts":{"nodes":[{"id":"Lax12.GraphClasses","href":"../lax-12/Lax12.GraphClasses.html","title":"Graph classes","owner":"lax-12","status":"none","ext":true,"dir":"up"},{"id":"Lax12.NowhereDenseClasses","href":"../lax-12/Lax12.NowhereDenseClasses.html","title":"Nowhere dense graph classes","owner":"lax-12","status":"none","ext":true,"dir":"up"},{"id":"Lax12.NowhereDenseDensity","href":"../lax-12/Lax12.NowhereDenseDensity.html","title":"Nowhere dense classes have subpolynomial shallow-minor density","owner":"lax-12","status":"proven","ext":true,"dir":"down"},{"id":"Lax12.ShallowMinorDensity","href":"../lax-12/Lax12.ShallowMinorDensity.html","title":"Edge density of shallow minors","owner":"lax-12","status":"none","ext":false,"dir":"core"}],"edges":[{"from":"Lax12.GraphClasses","to":"Lax12.NowhereDenseClasses"},{"from":"Lax12.NowhereDenseClasses","to":"Lax12.NowhereDenseDensity"},{"from":"Lax12.ShallowMinorDensity","to":"Lax12.NowhereDenseDensity"},{"from":"Lax12.NowhereDenseClasses","to":"Lax12.ShallowMinorDensity"}],"home":"lax-12"},"proofs":{"statements":[],"proofs":[]}}</script>
+</div></section>
+</main>
+<script src="../assets/sidebar.js"></script>
+<script src="../assets/layout.js"></script>
+<script src="../assets/dag.js"></script>
+</body></html>

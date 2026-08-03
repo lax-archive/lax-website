@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src https: data:; font-src 'self'">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Lax — an archive of formalized mathematical concepts and their proofs">
+<title>First-Order Model Checking on Nowhere Dense Graph Classes in Almost Linear Time — lax-3</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/katex.css">
+<link rel="stylesheet" href="../assets/style.css">
+</head><body>
+<header class="site-header">
+  <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
+  <h1 class="site-title"><a href="../index.html">Lax <span class="site-title-quiet">Lean Archive</span></a></h1>
+</header>
+<main id="content-shell">
+<div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+<aside id="sidebar">
+<a class="sidebar-back" href="../index.html"><span class="sidebar-back-arrow" aria-hidden="true">←</span>All submissions</a>
+<div class="sidebar-filters"><div class="filter-group">
+<label for="filter-search">Search</label>
+<input id="filter-search" class="filter-input" type="search" placeholder="Filter entries" aria-controls="entry-list">
+</div>
+<div class="filter-group">
+<label for="filter-type">Type</label>
+<select id="filter-type" class="filter-select">
+<option value="all">All types</option>
+<option value="definition">definition</option>
+<option value="theorem">theorem</option>
+<option value="proof">proof</option>
+</select>
+</div></div>
+<ul id="entry-list">
+<li class="entry-heading" aria-hidden="true">Concepts</li>
+<li data-type="definition" data-search="lax3.coloredgraphs colored graphs and walk distance definition"><a class="entry-link" href="../lax-3/Lax3.ColoredGraphs.html" title="Colored graphs and walk distance"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax3.ColoredGraphs</span></span></a></li>
+<li data-type="definition" data-search="lax3.distfo distance logic and distance rank definition"><a class="entry-link" href="../lax-3/Lax3.DistFO.html" title="Distance logic and distance rank"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax3.DistFO</span></span></a></li>
+<li data-type="definition" data-search="lax3.firstorder first-order logic on graphs definition"><a class="entry-link" href="../lax-3/Lax3.FirstOrder.html" title="First-order logic on graphs"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax3.FirstOrder</span></span></a></li>
+<li data-type="theorem" data-search="lax3.locality locality theorem for distance logic theorem"><a class="entry-link" href="../lax-3/Lax3.Locality.html" title="Locality theorem for distance logic"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax3.Locality</span></span></a></li>
+<li data-type="theorem" data-search="lax3.modelchecking first-order model checking on nowhere dense classes in almost linear time theorem"><a class="entry-link" href="../lax-3/Lax3.ModelChecking.html" title="First-order model checking on nowhere dense classes in almost linear time"><span class="entry-label"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><span class="entry-label-text">Lax3.ModelChecking</span></span></a></li>
+<li data-type="theorem" data-search="lax3.neighborhoodcoverbound neighborhood covers of weak coloring degree theorem"><a class="entry-link" href="../lax-3/Lax3.NeighborhoodCoverBound.html" title="Neighborhood covers of weak coloring degree"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax3.NeighborhoodCoverBound</span></span></a></li>
+<li data-type="definition" data-search="lax3.neighborhoodcovers sparse neighborhood covers definition"><a class="entry-link" href="../lax-3/Lax3.NeighborhoodCovers.html" title="Sparse neighborhood covers"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax3.NeighborhoodCovers</span></span></a></li>
+<li data-type="theorem" data-search="lax3.normalform normal form for distance logic theorem"><a class="entry-link" href="../lax-3/Lax3.NormalForm.html" title="Normal form for distance logic"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax3.NormalForm</span></span></a></li>
+<li data-type="theorem" data-search="lax3.nowheredensesplitter splitter wins on nowhere dense classes theorem"><a class="entry-link" href="../lax-3/Lax3.NowhereDenseSplitter.html" title="Splitter wins on nowhere dense classes"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax3.NowhereDenseSplitter</span></span></a></li>
+<li data-type="definition" data-search="lax3.scattersentences scatter sentences definition"><a class="entry-link" href="../lax-3/Lax3.ScatterSentences.html" title="Scatter sentences"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax3.ScatterSentences</span></span></a></li>
+<li data-type="definition" data-search="lax3.splittergame the isolation splitter game definition"><a class="entry-link" href="../lax-3/Lax3.SplitterGame.html" title="The isolation splitter game"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax3.SplitterGame</span></span></a></li>
+<li class="entry-heading" aria-hidden="true">Proofs</li>
+<li data-type="proof" data-search="lax3proofs.assembly.locality proof"><a class="entry-link" href="../lax-3/Lax3Proofs.Assembly.locality.html" title="Lax3Proofs.Assembly.locality"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax3Proofs.Assembly.locality</span></span></a></li>
+<li data-type="proof" data-search="lax3proofs.assembly.normalform proof"><a class="entry-link" href="../lax-3/Lax3Proofs.Assembly.normalForm.html" title="Lax3Proofs.Assembly.normalForm"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax3Proofs.Assembly.normalForm</span></span></a></li>
+<li data-type="proof" data-search="lax3proofs.coverconstruction.exists_neighborhoodcover_degree_wcol proof"><a class="entry-link" href="../lax-3/Lax3Proofs.CoverConstruction.exists_neighborhoodCover_degree_wcol.html" title="Lax3Proofs.CoverConstruction.exists_neighborhoodCover_degree_wcol"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax3Proofs.CoverConstruction.exists_neighborhoodCover_degree_wcol</span></span></a></li>
+<li data-type="proof" data-search="lax3proofs.splitterwin.splitterwins_of_nowheredense proof"><a class="entry-link" href="../lax-3/Lax3Proofs.SplitterWin.splitterWins_of_nowhereDense.html" title="Lax3Proofs.SplitterWin.splitterWins_of_nowhereDense"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax3Proofs.SplitterWin.splitterWins_of_nowhereDense</span></span></a></li>
+<li id="entry-list-empty" hidden>No entries match.</li>
+</ul>
+</aside>
+<section id="main"><div id="detail">
+<p class="draft-banner"><strong>Draft</strong> — mutable and not usable as a dependency; its citation marks the draft state.</p>
+<header class="paper-head">
+<h1 class="paper-title submission-title-layout"><span class="submission-title-id">lax-3</span><span class="submission-title-text">First-Order Model Checking on Nowhere Dense Graph Classes in Almost Linear Time</span><span class="submission-title-id submission-title-balance" aria-hidden="true">lax-3</span></h1>
+<p class="paper-authors"><span class="formalized-label">formalized by</span> <span class="paper-author">Jan Dreier</span><span class="author-sep">·</span><span class="paper-author">Claude Fable 5 (Anthropic)</span></p>
+<p class="paper-meta">created 2026-08-02<span class="meta-sep">·</span><a href="https://github.com/lax-archive/lax-submissions/tree/311ae7cf15e1bde644721958e05203bb6791d04b/nowhere-dense-model-checking"><code>github.com/lax-archive/lax-submissions@311ae7c/nowhere-dense-model-checking</code></a><span class="meta-sep">·</span>Lean <code>v4.30.0</code> · mathlib <code>c5ea00351c28</code></p>
+</header>
+<section class="paper-abstract">
+<h2 class="abstract-heading">Abstract</h2>
+<div class="latex-content"><p>First-order model checking is fixed-parameter tractable on nowhere
+dense graph classes (Grohe–Kreutzer–Siebertz, JACM 2017), realized as
+a verified program on the word RAM of Lax13: for every nowhere dense
+class C and every ε &gt; 0, deciding a first-order sentence φ on n-vertex
+members of C takes time f(φ, ε, C) · n^(1+ε).</p>
+<p>The route is not the original proof. The logic engine is the
+rank-preserving locality theorem of Dreier–Toruńczyk
+(arXiv 2606.23180), a purely syntactic rewriting; around it the
+algorithm is rebuilt from an isolation-form splitter game and sparse
+neighborhood covers obtained from weak coloring orderings. The
+combinatorial hypotheses — nowhere denseness, uniform quasi-wideness,
+subpolynomial weak coloring numbers — are consumed from Lax12; the
+machine model and timed computation from Lax13; graph encodings from
+Lax11.</p>
+<p>(Draft abstract — to be rewritten at P8.)</p>
+</div>
+</section>
+<section class="page-section"><h3 class="section-title">Concepts</h3>
+<div class="concept-list-box">
+<ul class="concept-list">
+<li><span class="type-badge" title="definition">def</span><a href="Lax3.ColoredGraphs.html" title="Lax3.ColoredGraphs"><code>Lax3.ColoredGraphs</code></a></li>
+<li><span class="type-badge" title="definition">def</span><a href="Lax3.DistFO.html" title="Lax3.DistFO"><code>Lax3.DistFO</code></a></li>
+<li><span class="type-badge" title="definition">def</span><a href="Lax3.FirstOrder.html" title="Lax3.FirstOrder"><code>Lax3.FirstOrder</code></a></li>
+<li><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="Lax3.Locality.html" title="Lax3.Locality"><code>Lax3.Locality</code></a></li>
+<li><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><a href="Lax3.ModelChecking.html" title="Lax3.ModelChecking"><code>Lax3.ModelChecking</code></a></li>
+<li><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="Lax3.NeighborhoodCoverBound.html" title="Lax3.NeighborhoodCoverBound"><code>Lax3.NeighborhoodCoverBound</code></a></li>
+<li><span class="type-badge" title="definition">def</span><a href="Lax3.NeighborhoodCovers.html" title="Lax3.NeighborhoodCovers"><code>Lax3.NeighborhoodCovers</code></a></li>
+<li><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="Lax3.NormalForm.html" title="Lax3.NormalForm"><code>Lax3.NormalForm</code></a></li>
+<li><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="Lax3.NowhereDenseSplitter.html" title="Lax3.NowhereDenseSplitter"><code>Lax3.NowhereDenseSplitter</code></a></li>
+<li><span class="type-badge" title="definition">def</span><a href="Lax3.ScatterSentences.html" title="Lax3.ScatterSentences"><code>Lax3.ScatterSentences</code></a></li>
+<li><span class="type-badge" title="definition">def</span><a href="Lax3.SplitterGame.html" title="Lax3.SplitterGame"><code>Lax3.SplitterGame</code></a></li>
+</ul>
+<div class="badge-legend" aria-label="Concept badge legend"><span><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span>proven claim</span><span><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span>open claim</span><span><span class="type-badge" title="definition">def</span>no claim — nothing to prove</span><span class="badge-legend-note">letters abbreviate the concept's type</span></div>
+</div>
+<h4 class="figure-title">Concept map</h4>
+<figure class="graph-figure">
+<div class="graph-toolbar"><button type="button" id="concept-expand" aria-controls="concept-dag" aria-pressed="true">Hide ancestors</button><button type="button" id="concept-descend" aria-controls="concept-dag" aria-pressed="false">Show descendants</button><output id="concept-graph-status" aria-live="polite"></output></div>
+<div id="concept-dag" class="figure-container" data-graph="concepts" data-ancestry="true"></div>
+<div class="graph-tooltip" role="tooltip" hidden></div>
+<figcaption class="graph-legend" aria-label="Concept map legend"><span><i class="legend-node fill-proven"></i>Proven claim</span><span><i class="legend-node fill-open"></i>Open claim</span><span><i class="legend-node fill-none"></i>Definition — nothing to prove</span><span><i class="legend-node stroke-own"></i>This submission</span><span><i class="legend-node stroke-ext"></i>Other submission</span><span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B builds on A</span></figcaption>
+</figure>
+</section>
+<section class="page-section"><h3 class="section-title">Proofs</h3>
+<div class="proof-list-box">
+<ul class="proof-list">
+<li class="proof-item" id="p-Lax3Proofs.Assembly.locality">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-3/Lax3Proofs.Assembly.locality.html" aria-label="Open proof Lax3Proofs.Assembly.locality"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><p class="judgment-unconditional">no assumptions</p></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="../lax-3/Lax3.Locality.html" title="Lax3.Locality.locality"><code>Lax3.Locality</code></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-3/Lax3Proofs.Assembly.locality.html"><code>Lax3Proofs.Assembly.locality</code></a></p>
+</li>
+<li class="proof-item" id="p-Lax3Proofs.Assembly.normalForm">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-3/Lax3Proofs.Assembly.normalForm.html" aria-label="Open proof Lax3Proofs.Assembly.normalForm"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><p class="judgment-unconditional">no assumptions</p></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="../lax-3/Lax3.NormalForm.html" title="Lax3.NormalForm.normalForm"><code>Lax3.NormalForm</code></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-3/Lax3Proofs.Assembly.normalForm.html"><code>Lax3Proofs.Assembly.normalForm</code></a></p>
+</li>
+<li class="proof-item" id="p-Lax3Proofs.CoverConstruction.exists_neighborhoodCover_degree_wcol">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-3/Lax3Proofs.CoverConstruction.exists_neighborhoodCover_degree_wcol.html" aria-label="Open proof Lax3Proofs.CoverConstruction.exists_neighborhoodCover_degree_wcol"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><p class="judgment-unconditional">no assumptions</p></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="../lax-3/Lax3.NeighborhoodCoverBound.html" title="Lax3.NeighborhoodCoverBound.exists_neighborhoodCover_degree_wcol"><code>Lax3.NeighborhoodCoverBound</code></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-3/Lax3Proofs.CoverConstruction.exists_neighborhoodCover_degree_wcol.html"><code>Lax3Proofs.CoverConstruction.exists_neighborhoodCover_degree_wcol</code></a></p>
+</li>
+<li class="proof-item" id="p-Lax3Proofs.SplitterWin.splitterWins_of_nowhereDense">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-3/Lax3Proofs.SplitterWin.splitterWins_of_nowhereDense.html" aria-label="Open proof Lax3Proofs.SplitterWin.splitterWins_of_nowhereDense"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><ul><li><span class="claim-entry"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="../lax-12/Lax12.NowhereDenseUQW.html" title="Lax12.NowhereDenseUQW.uniformlyQuasiWide_of_nowhereDense"><code>Lax12.NowhereDenseUQW</code></a></span></li></ul></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="../lax-3/Lax3.NowhereDenseSplitter.html" title="Lax3.NowhereDenseSplitter.splitterWins_of_nowhereDense"><code>Lax3.NowhereDenseSplitter</code></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-3/Lax3Proofs.SplitterWin.splitterWins_of_nowhereDense.html"><code>Lax3Proofs.SplitterWin.splitterWins_of_nowhereDense</code></a></p>
+</li>
+</ul>
+<p class="proof-list-source">Lean sources for these proofs: <a class="source-link" href="https://github.com/lax-archive/lax-submissions/tree/311ae7cf15e1bde644721958e05203bb6791d04b/nowhere-dense-model-checking/proofs">proofs/ on GitHub</a></p>
+</div>
+<h4 class="figure-title">Proof network<a class="source-link" href="https://github.com/lax-archive/lax-submissions/tree/311ae7cf15e1bde644721958e05203bb6791d04b/nowhere-dense-model-checking/proofs">view on GitHub</a></h4>
+<figure class="graph-figure">
+<div id="proof-network" class="figure-container" data-graph="proofs"></div>
+<div class="graph-tooltip" role="tooltip" hidden></div>
+<figcaption class="graph-legend" aria-label="Proof network legend"><span class="legend-note">assumptions → ⊢ → conclusion</span><span><i class="legend-node fill-proven"></i>Proven claim</span><span><i class="legend-node fill-open"></i>Open claim</span><span><i class="legend-node stroke-own"></i>This submission</span><span><i class="legend-node stroke-ext"></i>From another submission</span><span><i class="legend-proof-chip" aria-hidden="true">⊢</i>Proof — click to open</span><span><i class="legend-cycle"></i>Cycle — claims proving each other</span></figcaption>
+</figure>
+<p class="honesty-note">Proof code is not displayed; the archive records each proof's checked relationship between claims.</p>
+</section>
+<section class="page-section"><h3 class="section-title">Related submissions</h3>
+<h4 class="figure-title">Submission map</h4>
+<figure class="graph-figure">
+<div id="submission-dag" class="figure-container" data-graph="submissions"></div>
+<div class="graph-tooltip" role="tooltip" hidden></div>
+<figcaption class="graph-legend" aria-label="Submission map legend"><span><i class="legend-node stroke-own"></i>This submission</span><span><i class="legend-node stroke-ext"></i>Other submission</span><span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B builds on A</span></figcaption>
+</figure>
+</section>
+<section class="page-section"><h3 class="section-title">Cite this</h3>
+<div class="citation-box">
+<pre class="citation" id="submission-citation">@misc{lax-3,
+  author = {Jan Dreier and Claude Fable 5 (Anthropic)},
+  title = {First-Order Model Checking on Nowhere Dense Graph Classes in Almost Linear Time},
+  year = {2026},
+  howpublished = {Lax Archive, lax-3},
+  url = {https://laxarchive.org/lax-3/},
+  note = {draft},
+}</pre>
+<button class="citation-copy" type="button" data-copy-citation aria-controls="submission-citation" aria-label="Copy BibTeX to clipboard" title="Copy BibTeX"><span class="citation-copy-icon" aria-hidden="true"></span></button>
+<output class="citation-copy-status" aria-live="polite"></output>
+</div>
+</section>
+<section class="page-section"><h3 class="section-title">References</h3>
+<ol class="reference-list">
+<li id="ref-GroheKreutzerSiebertz2017">Martin Grohe, Stephan Kreutzer and Sebastian Siebertz. <span class="reference-title">Deciding First-Order Properties of Nowhere Dense Graphs</span>. Journal of the ACM 64(3):17:1–17:32, 2017. Cited by the section numbering of the arXiv version, arXiv:1311.3899. <a href="https://doi.org/10.1145/3051095">doi:10.1145/3051095</a></li>
+<li id="ref-DreierTorunczyk2026">Jan Dreier and Szymon Toruńczyk. <span class="reference-title">A Rank-Preserving Locality Theorem</span>. 2026. <a href="https://arxiv.org/abs/2606.23180">arXiv:2606.23180</a></li>
+<li id="ref-pilipczuk-sparsity-notes">Michał Pilipczuk and Sebastian Siebertz. <span class="reference-title">Sparsity — lecture notes for the course ``Sparsity''</span>. 2020. University of Warsaw, Faculty of Mathematics, Informatics and Mechanics. Cited by the numbering of the winter term 2019/20 edition; Chapter 4 compiled 2019-12-12. <a href="https://www.mimuw.edu.pl/~mp248287/sparsity2/">mimuw.edu.pl/~mp248287/sparsity2</a></li>
+</ol>
+</section>
+<script type="application/json" id="graph-data">{"concepts":{"nodes":[{"id":"Lax11.GraphEncoding","href":"../lax-11/Lax11.GraphEncoding.html","title":"Compressed sparse row encoding of a graph","owner":"lax-11","status":"none","ext":true,"dir":"up"},{"id":"Lax12.ColoringNumbers","href":"../lax-12/Lax12.ColoringNumbers.html","title":"Generalized coloring numbers","owner":"lax-12","status":"none","ext":true,"dir":"up"},{"id":"Lax12.GraphClasses","href":"../lax-12/Lax12.GraphClasses.html","title":"Graph classes","owner":"lax-12","status":"none","ext":true,"dir":"up"},{"id":"Lax12.NowhereDenseClasses","href":"../lax-12/Lax12.NowhereDenseClasses.html","title":"Nowhere dense graph classes","owner":"lax-12","status":"none","ext":true,"dir":"up"},{"id":"Lax12.UniformQuasiWideness","href":"../lax-12/Lax12.UniformQuasiWideness.html","title":"Uniform quasi-wideness","owner":"lax-12","status":"none","ext":true,"dir":"up"},{"id":"Lax13.Ram","href":"../lax-13/Lax13.Ram.html","title":"The word RAM","owner":"lax-13","status":"none","ext":true,"dir":"up"},{"id":"Lax13.RamComputes","href":"../lax-13/Lax13.RamComputes.html","title":"Computing a function within a time bound","owner":"lax-13","status":"none","ext":true,"dir":"up"},{"id":"Lax3.ColoredGraphs","href":"../lax-3/Lax3.ColoredGraphs.html","title":"Colored graphs and walk distance","owner":"lax-3","status":"none","ext":false,"dir":"core"},{"id":"Lax3.DistFO","href":"../lax-3/Lax3.DistFO.html","title":"Distance logic and distance rank","owner":"lax-3","status":"none","ext":false,"dir":"core"},{"id":"Lax3.FirstOrder","href":"../lax-3/Lax3.FirstOrder.html","title":"First-order logic on graphs","owner":"lax-3","status":"none","ext":false,"dir":"core"},{"id":"Lax3.Locality","href":"../lax-3/Lax3.Locality.html","title":"Locality theorem for distance logic","owner":"lax-3","status":"proven","ext":false,"dir":"core"},{"id":"Lax3.ModelChecking","href":"../lax-3/Lax3.ModelChecking.html","title":"First-order model checking on nowhere dense classes in almost linear time","owner":"lax-3","status":"open","ext":false,"dir":"core"},{"id":"Lax3.NeighborhoodCoverBound","href":"../lax-3/Lax3.NeighborhoodCoverBound.html","title":"Neighborhood covers of weak coloring degree","owner":"lax-3","status":"proven","ext":false,"dir":"core"},{"id":"Lax3.NeighborhoodCovers","href":"../lax-3/Lax3.NeighborhoodCovers.html","title":"Sparse neighborhood covers","owner":"lax-3","status":"none","ext":false,"dir":"core"},{"id":"Lax3.NormalForm","href":"../lax-3/Lax3.NormalForm.html","title":"Normal form for distance logic","owner":"lax-3","status":"proven","ext":false,"dir":"core"},{"id":"Lax3.NowhereDenseSplitter","href":"../lax-3/Lax3.NowhereDenseSplitter.html","title":"Splitter wins on nowhere dense classes","owner":"lax-3","status":"proven","ext":false,"dir":"core"},{"id":"Lax3.ScatterSentences","href":"../lax-3/Lax3.ScatterSentences.html","title":"Scatter sentences","owner":"lax-3","status":"none","ext":false,"dir":"core"},{"id":"Lax3.SplitterGame","href":"../lax-3/Lax3.SplitterGame.html","title":"The isolation splitter game","owner":"lax-3","status":"none","ext":false,"dir":"core"}],"edges":[{"from":"Lax12.GraphClasses","to":"Lax12.ColoringNumbers"},{"from":"Lax12.GraphClasses","to":"Lax12.NowhereDenseClasses"},{"from":"Lax12.GraphClasses","to":"Lax12.UniformQuasiWideness"},{"from":"Lax13.Ram","to":"Lax13.RamComputes"},{"from":"Lax3.ColoredGraphs","to":"Lax3.DistFO"},{"from":"Lax3.ScatterSentences","to":"Lax3.Locality"},{"from":"Lax11.GraphEncoding","to":"Lax3.ModelChecking"},{"from":"Lax12.NowhereDenseClasses","to":"Lax3.ModelChecking"},{"from":"Lax13.RamComputes","to":"Lax3.ModelChecking"},{"from":"Lax3.FirstOrder","to":"Lax3.ModelChecking"},{"from":"Lax12.ColoringNumbers","to":"Lax3.NeighborhoodCoverBound"},{"from":"Lax3.NeighborhoodCovers","to":"Lax3.NeighborhoodCoverBound"},{"from":"Lax3.ColoredGraphs","to":"Lax3.NeighborhoodCovers"},{"from":"Lax3.Locality","to":"Lax3.NormalForm"},{"from":"Lax12.NowhereDenseClasses","to":"Lax3.NowhereDenseSplitter"},{"from":"Lax3.SplitterGame","to":"Lax3.NowhereDenseSplitter"},{"from":"Lax12.UniformQuasiWideness","to":"Lax3.ScatterSentences"},{"from":"Lax3.DistFO","to":"Lax3.ScatterSentences"},{"from":"Lax12.UniformQuasiWideness","to":"Lax3.SplitterGame"},{"from":"Lax3.ColoredGraphs","to":"Lax3.SplitterGame"}],"home":"lax-3"},"proofs":{"statements":[{"id":"Lax12.NowhereDenseUQW.uniformlyQuasiWide_of_nowhereDense","label":"Lax12.NowhereDenseUQW","title":"Nowhere dense classes are uniformly quasi-wide","owner":"lax-12","href":"../lax-12/Lax12.NowhereDenseUQW.html#s-Lax12.NowhereDenseUQW.uniformlyQuasiWide_of_nowhereDense","proven":true,"ext":true},{"id":"Lax3.Locality.locality","label":"Lax3.Locality","title":"Locality theorem for distance logic","owner":"lax-3","href":"../lax-3/Lax3.Locality.html#s-Lax3.Locality.locality","proven":true,"ext":false},{"id":"Lax3.ModelChecking.exists_almostLinearTime_program_modelChecking","label":"Lax3.ModelChecking","title":"First-order model checking on nowhere dense classes in almost linear time","owner":"lax-3","href":"../lax-3/Lax3.ModelChecking.html#s-Lax3.ModelChecking.exists_almostLinearTime_program_modelChecking","proven":false,"ext":false},{"id":"Lax3.NeighborhoodCoverBound.exists_neighborhoodCover_degree_wcol","label":"Lax3.NeighborhoodCoverBound","title":"Neighborhood covers of weak coloring degree","owner":"lax-3","href":"../lax-3/Lax3.NeighborhoodCoverBound.html#s-Lax3.NeighborhoodCoverBound.exists_neighborhoodCover_degree_wcol","proven":true,"ext":false},{"id":"Lax3.NormalForm.normalForm","label":"Lax3.NormalForm","title":"Normal form for distance logic","owner":"lax-3","href":"../lax-3/Lax3.NormalForm.html#s-Lax3.NormalForm.normalForm","proven":true,"ext":false},{"id":"Lax3.NowhereDenseSplitter.splitterWins_of_nowhereDense","label":"Lax3.NowhereDenseSplitter","title":"Splitter wins on nowhere dense classes","owner":"lax-3","href":"../lax-3/Lax3.NowhereDenseSplitter.html#s-Lax3.NowhereDenseSplitter.splitterWins_of_nowhereDense","proven":true,"ext":false}],"proofs":[{"id":"Lax3Proofs.Assembly.locality","assumptions":[],"conclusion":"Lax3.Locality.locality","description":"**The locality theorem** (Theorem 1 of arXiv:2606.23180): every formula\nof distance rank `(k, q)` is equivalent to a boolean combination of local\nformulas and scatter sentences, all of distance rank `(k, q)`.","owner":"lax-3","ext":false,"href":"../lax-3/Lax3Proofs.Assembly.locality.html","assumptionsProven":true,"outstanding":0},{"id":"Lax3Proofs.Assembly.normalForm","assumptions":[],"conclusion":"Lax3.NormalForm.normalForm","description":"**The normal form for distance logic** (Corollary 7 of\narXiv:2606.23180): for `q ≥ 1`, every formula of distance rank `(k, q)`\nis equivalent to a boolean combination of local formulas of distance rank\n`(k, q)` and the written-out sentences \"there are `t` vertices, pairwise\nat distance larger than `r`, all satisfying `β`\".","owner":"lax-3","ext":false,"href":"../lax-3/Lax3Proofs.Assembly.normalForm.html","assumptionsProven":true,"outstanding":0},{"id":"Lax3Proofs.CoverConstruction.exists_neighborhoodCover_degree_wcol","assumptions":[],"conclusion":"Lax3.NeighborhoodCoverBound.exists_neighborhoodCover_degree_wcol","description":"**Neighborhood covers of weak coloring degree** (Theorem 6.2 of\nGrohe–Kreutzer–Siebertz, via their Lemma 6.9): every graph has, for every\nradius `r`, an `r`-neighborhood cover of radius `2r` whose degree is at\nmost its weak `2r`-coloring number.","owner":"lax-3","ext":false,"href":"../lax-3/Lax3Proofs.CoverConstruction.exists_neighborhoodCover_degree_wcol.html","assumptionsProven":true,"outstanding":0},{"id":"Lax3Proofs.SplitterWin.splitterWins_of_nowhereDense","assumptions":["Lax12.NowhereDenseUQW.uniformlyQuasiWide_of_nowhereDense"],"conclusion":"Lax3.NowhereDenseSplitter.splitterWins_of_nowhereDense","description":"**Splitter wins on nowhere dense classes** (Lemma 4.2 of Chapter 4 of the\nsource lecture notes, Theorem 4.2 of Grohe–Kreutzer–Siebertz, in the\nisolation variant): on a nowhere dense class, for every radius `r` there\nare a round bound `ℓ` and a batch bound `m`, depending only on the class\nand `r`, with which Splitter wins the `(ℓ, m, r)`-game on every member.","owner":"lax-3","ext":false,"href":"../lax-3/Lax3Proofs.SplitterWin.splitterWins_of_nowhereDense.html","assumptionsProven":true,"outstanding":0}],"home":"lax-3"},"submissions":{"nodes":[{"id":"lax-11","href":"../lax-11/index.html","title":"Algorithmic Experiments on a Random Access Machine","state":"draft","concepts":7,"proofs":2,"dir":"up","ext":true},{"id":"lax-12","href":"../lax-12/index.html","title":"Sparsity Lectures: Nowhere Denseness, Quasi-Wideness, and Generalized Coloring Numbers","state":"draft","concepts":15,"proofs":7,"dir":"up","ext":true},{"id":"lax-13","href":"../lax-13/index.html","title":"The Word RAM","state":"draft","concepts":2,"proofs":0,"dir":"up","ext":true},{"id":"lax-14","href":"../lax-14/index.html","title":"Finite Ramsey Theorems for Pairs and Tuples","state":"draft","concepts":4,"proofs":3,"dir":"up","ext":true},{"id":"lax-3","href":"../lax-3/index.html","title":"First-Order Model Checking on Nowhere Dense Graph Classes in Almost Linear Time","state":"draft","concepts":11,"proofs":4,"dir":"core","ext":false}],"edges":[{"from":"lax-13","to":"lax-11"},{"from":"lax-14","to":"lax-12"},{"from":"lax-11","to":"lax-3"},{"from":"lax-12","to":"lax-3"},{"from":"lax-13","to":"lax-3"}]}}</script>
+</div></section>
+</main>
+<script src="../assets/sidebar.js"></script>
+<script src="../assets/layout.js"></script>
+<script src="../assets/dag.js"></script>
+<script src="../assets/citation.js"></script>
+</body></html>

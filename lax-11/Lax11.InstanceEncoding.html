@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src https: data:; font-src 'self'">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Lax — an archive of formalized mathematical concepts and their proofs">
+<title>Encoding a graph together with a k-expression — Lax11.InstanceEncoding</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/katex.css">
+<link rel="stylesheet" href="../assets/style.css">
+</head><body>
+<header class="site-header">
+  <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
+  <h1 class="site-title"><a href="../index.html">Lax <span class="site-title-quiet">Lean Archive</span></a></h1>
+</header>
+<main id="content-shell">
+<div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+<aside id="sidebar">
+<a class="sidebar-back" href="../lax-11/index.html"><span class="sidebar-back-arrow" aria-hidden="true">←</span>lax-11</a>
+<div class="sidebar-filters"><div class="filter-group">
+<label for="filter-search">Search</label>
+<input id="filter-search" class="filter-input" type="search" placeholder="Filter entries" aria-controls="entry-list">
+</div>
+<div class="filter-group">
+<label for="filter-type">Type</label>
+<select id="filter-type" class="filter-select">
+<option value="all">All types</option>
+<option value="definition">definition</option>
+<option value="theorem">theorem</option>
+<option value="proof">proof</option>
+</select>
+</div></div>
+<ul id="entry-list">
+<li class="entry-heading" aria-hidden="true">Concepts</li>
+<li data-type="definition" data-search="lax11.cliqueexpr k-expressions, and the graphs of cliquewidth at most k definition"><a class="entry-link" href="../lax-11/Lax11.CliqueExpr.html"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax11.CliqueExpr</span></span></a></li>
+<li data-type="theorem" data-search="lax11.connectedcomponents connected components in linear time theorem"><a class="entry-link" href="../lax-11/Lax11.ConnectedComponents.html"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax11.ConnectedComponents</span></span></a></li>
+<li data-type="theorem" data-search="lax11.courcelle courcelle's theorem on a word ram theorem"><a class="entry-link" href="../lax-11/Lax11.Courcelle.html"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax11.Courcelle</span></span></a></li>
+<li data-type="definition" data-search="lax11.graphencoding compressed sparse row encoding of a graph definition"><a class="entry-link" href="../lax-11/Lax11.GraphEncoding.html"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax11.GraphEncoding</span></span></a></li>
+<li class="active" data-type="definition" data-search="lax11.instanceencoding encoding a graph together with a k-expression definition"><a class="entry-link" href="../lax-11/Lax11.InstanceEncoding.html"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax11.InstanceEncoding</span></span></a></li>
+<li data-type="definition" data-search="lax11.mso monadic second-order logic on graphs definition"><a class="entry-link" href="../lax-11/Lax11.Mso.html"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax11.Mso</span></span></a></li>
+<li data-type="definition" data-search="lax11.vertexcover a graph with a parameter appended definition"><a class="entry-link" href="../lax-11/Lax11.VertexCover.html"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax11.VertexCover</span></span></a></li>
+<li class="entry-heading" aria-hidden="true">Proofs</li>
+<li data-type="proof" data-search="lax11proofs.ccmain.exists_lineartime_program_cclabels proof"><a class="entry-link" href="../lax-11/Lax11Proofs.CCMain.exists_linearTime_program_ccLabels.html"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax11Proofs.CCMain.exists_linearTime_program_ccLabels</span></span></a></li>
+<li data-type="proof" data-search="lax11proofs.courcelle.exists_lineartime_program_modelchecking proof"><a class="entry-link" href="../lax-11/Lax11Proofs.Courcelle.exists_linearTime_program_modelChecking.html"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax11Proofs.Courcelle.exists_linearTime_program_modelChecking</span></span></a></li>
+<li id="entry-list-empty" hidden>No entries match.</li>
+</ul>
+</aside>
+<section id="main"><div id="detail">
+<p class="draft-banner"><strong>Draft</strong> — mutable and not usable as a dependency; its citation marks the draft state.</p>
+<div class="detail-heading concept-heading">
+<div><p class="concept-id"><code>Lax11.InstanceEncoding</code></p>
+<h1 class="concept-title">Encoding a graph together with a k-expression</h1>
+<p class="concept-microline"><code>concepts/Lax11/InstanceEncoding.lean</code> · <a href="index.html">lax-11</a></p></div>
+<span class="status-pills"><span class="status-pill pill-none" title="Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">nothing to prove</span></span>
+</div>
+<h4 class="figure-title">Concept map</h4>
+<figure class="graph-figure concept-root-graph">
+<div class="graph-toolbar"><button type="button" id="concept-expand" aria-controls="concept-dag" aria-pressed="true">Hide ancestors</button><button type="button" id="concept-descend" aria-controls="concept-dag" aria-pressed="false">Show descendants</button><output id="concept-graph-status" aria-live="polite"></output></div>
+<div id="concept-dag" class="figure-container" data-graph="concepts" data-ancestry="true"></div>
+<div class="graph-tooltip" role="tooltip" hidden></div>
+<figcaption class="graph-legend" aria-label="Concept map legend"><span><i class="legend-node fill-proven"></i>Proven claim</span><span><i class="legend-node fill-open"></i>Open claim</span><span><i class="legend-node fill-none"></i>Definition — nothing to prove</span><span><i class="legend-node stroke-own"></i>This concept</span><span><i class="legend-node stroke-ext"></i>Related concept</span><span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B builds on A</span></figcaption>
+</figure>
+
+<div class="block block-statement"><h3>Definition</h3><div class="latex-content"><p>An algorithm on graphs of bounded cliquewidth is handed a graph
+together with a <em>k</em>-expression for it, and this is the word that
+presents the pair. It has two blocks. The first is the graph itself, in
+the compressed sparse row form used everywhere in this submission. The
+second is the <em>k</em>-expression, as a tree: the number of nodes, then one
+number per node giving that node&#39;s parent, then one per node giving the
+operation performed there, then one per node giving the vertex name it
+creates. Children are numbered before their parents and the root is the
+last node.</p>
+</div></div>
+<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/311ae7cf15e1bde644721958e05203bb6791d04b/ram-linear-time/concepts/Lax11/InstanceEncoding.lean">view on GitHub</a></h3>
+<div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax11.GraphEncoding</span></td></tr>
+<tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax11.CliqueExpr</span></td></tr>
+<tr id="L3" class=""><td class="line-num"><a href="#L3">3</a></td><td class="line-code"> </td></tr>
+<tr id="L4" class=""><td class="line-num"><a href="#L4">4</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
+<tr id="L5" class=""><td class="line-num"><a href="#L5">5</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
+<tr id="L6" class=""><td class="line-num"><a href="#L6">6</a></td><td class="line-code"><span style="color:#6A737D">title: Encoding a graph together with a k-expression</span></td></tr>
+<tr id="L7" class=""><td class="line-num"><a href="#L7">7</a></td><td class="line-code"><span style="color:#6A737D">type: definition</span></td></tr>
+<tr id="L8" class=""><td class="line-num"><a href="#L8">8</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
+<tr id="L9" class=""><td class="line-num"><a href="#L9">9</a></td><td class="line-code"><span style="color:#6A737D">An algorithm on graphs of bounded cliquewidth is handed a graph</span></td></tr>
+<tr id="L10" class=""><td class="line-num"><a href="#L10">10</a></td><td class="line-code"><span style="color:#6A737D">together with a *k*-expression for it, and this is the word that</span></td></tr>
+<tr id="L11" class=""><td class="line-num"><a href="#L11">11</a></td><td class="line-code"><span style="color:#6A737D">presents the pair. It has two blocks. The first is the graph itself, in</span></td></tr>
+<tr id="L12" class=""><td class="line-num"><a href="#L12">12</a></td><td class="line-code"><span style="color:#6A737D">the compressed sparse row form used everywhere in this submission. The</span></td></tr>
+<tr id="L13" class=""><td class="line-num"><a href="#L13">13</a></td><td class="line-code"><span style="color:#6A737D">second is the *k*-expression, as a tree: the number of nodes, then one</span></td></tr>
+<tr id="L14" class=""><td class="line-num"><a href="#L14">14</a></td><td class="line-code"><span style="color:#6A737D">number per node giving that node's parent, then one per node giving the</span></td></tr>
+<tr id="L15" class=""><td class="line-num"><a href="#L15">15</a></td><td class="line-code"><span style="color:#6A737D">operation performed there, then one per node giving the vertex name it</span></td></tr>
+<tr id="L16" class=""><td class="line-num"><a href="#L16">16</a></td><td class="line-code"><span style="color:#6A737D">creates. Children are numbered before their parents and the root is the</span></td></tr>
+<tr id="L17" class=""><td class="line-num"><a href="#L17">17</a></td><td class="line-code"><span style="color:#6A737D">last node.</span></td></tr>
+<tr id="L18" class=""><td class="line-num"><a href="#L18">18</a></td><td class="line-code"> </td></tr>
+<tr id="L19" class=""><td class="line-num"><a href="#L19">19</a></td><td class="line-code"><span style="color:#6A737D"># Formalization notes</span></td></tr>
+<tr id="L20" class=""><td class="line-num"><a href="#L20">20</a></td><td class="line-code"> </td></tr>
+<tr id="L21" class=""><td class="line-num"><a href="#L21">21</a></td><td class="line-code"><span style="color:#6A737D">The expression block is a certificate, and it is required to be a</span></td></tr>
+<tr id="L22" class=""><td class="line-num"><a href="#L22">22</a></td><td class="line-code"><span style="color:#6A737D">correct one: the encoding says that the arrays describe some valid</span></td></tr>
+<tr id="L23" class=""><td class="line-num"><a href="#L23">23</a></td><td class="line-code"><span style="color:#6A737D">expression that evaluates to exactly the graph in the first block.</span></td></tr>
+<tr id="L24" class=""><td class="line-num"><a href="#L24">24</a></td><td class="line-code"><span style="color:#6A737D">Since the two blocks describe the same graph, a statement is not</span></td></tr>
+<tr id="L25" class=""><td class="line-num"><a href="#L25">25</a></td><td class="line-code"><span style="color:#6A737D">weakened by carrying both — the first block is what makes a sentence</span></td></tr>
+<tr id="L26" class=""><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span style="color:#6A737D">`Sat G φ` refer to a graph, and the second is what makes the input</span></td></tr>
+<tr id="L27" class=""><td class="line-num"><a href="#L27">27</a></td><td class="line-code"><span style="color:#6A737D">admissible. The arrays determine the expression completely, the vertex</span></td></tr>
+<tr id="L28" class=""><td class="line-num"><a href="#L28">28</a></td><td class="line-code"><span style="color:#6A737D">names included, so the existential quantifier over expressions ranges</span></td></tr>
+<tr id="L29" class=""><td class="line-num"><a href="#L29">29</a></td><td class="line-code"><span style="color:#6A737D">over at most one thing: the certificate is data in the word, not a</span></td></tr>
+<tr id="L30" class=""><td class="line-num"><a href="#L30">30</a></td><td class="line-code"><span style="color:#6A737D">choice made about it.</span></td></tr>
+<tr id="L31" class=""><td class="line-num"><a href="#L31">31</a></td><td class="line-code"> </td></tr>
+<tr id="L32" class=""><td class="line-num"><a href="#L32">32</a></td><td class="line-code"><span style="color:#6A737D">The vertex-name array is part of the input even though a program</span></td></tr>
+<tr id="L33" class=""><td class="line-num"><a href="#L33">33</a></td><td class="line-code"><span style="color:#6A737D">evaluating the expression never reads it. Without it the second block</span></td></tr>
+<tr id="L34" class=""><td class="line-num"><a href="#L34">34</a></td><td class="line-code"><span style="color:#6A737D">would not be a *k*-expression, only the shape of one, and a reader</span></td></tr>
+<tr id="L35" class=""><td class="line-num"><a href="#L35">35</a></td><td class="line-code"><span style="color:#6A737D">could not check against the first block what the certificate claims.</span></td></tr>
+<tr id="L36" class=""><td class="line-num"><a href="#L36">36</a></td><td class="line-code"><span style="color:#6A737D">Its presence costs nothing: it is one number per node, so it only</span></td></tr>
+<tr id="L37" class=""><td class="line-num"><a href="#L37">37</a></td><td class="line-code"><span style="color:#6A737D">lengthens the input, and a linear bound is linear in that length.</span></td></tr>
+<tr id="L38" class=""><td class="line-num"><a href="#L38">38</a></td><td class="line-code"> </td></tr>
+<tr id="L39" class=""><td class="line-num"><a href="#L39">39</a></td><td class="line-code"><span style="color:#6A737D">Children are numbered before their parents, so the root is the last</span></td></tr>
+<tr id="L40" class=""><td class="line-num"><a href="#L40">40</a></td><td class="line-code"><span style="color:#6A737D">node. That is what lets a machine evaluate the expression in a single</span></td></tr>
+<tr id="L41" class=""><td class="line-num"><a href="#L41">41</a></td><td class="line-code"><span style="color:#6A737D">left-to-right sweep, with no recursion, no stack and no second pass,</span></td></tr>
+<tr id="L42" class=""><td class="line-num"><a href="#L42">42</a></td><td class="line-code"><span style="color:#6A737D">and it is where a linear bound comes from. It restricts the *encoding*,</span></td></tr>
+<tr id="L43" class=""><td class="line-num"><a href="#L43">43</a></td><td class="line-code"><span style="color:#6A737D">not the class of graphs: every rooted tree admits such a numbering —</span></td></tr>
+<tr id="L44" class=""><td class="line-num"><a href="#L44">44</a></td><td class="line-code"><span style="color:#6A737D">any postorder is one — and one can be produced from an arbitrary</span></td></tr>
+<tr id="L45" class=""><td class="line-num"><a href="#L45">45</a></td><td class="line-code"><span style="color:#6A737D">numbering by a sort, which this format simply asks the writer of the</span></td></tr>
+<tr id="L46" class=""><td class="line-num"><a href="#L46">46</a></td><td class="line-code"><span style="color:#6A737D">input to have done. An encoding that accepted arbitrary parent arrays</span></td></tr>
+<tr id="L47" class=""><td class="line-num"><a href="#L47">47</a></td><td class="line-code"><span style="color:#6A737D">would describe the same graphs at the price of a renumbering pass</span></td></tr>
+<tr id="L48" class=""><td class="line-num"><a href="#L48">48</a></td><td class="line-code"><span style="color:#6A737D">inside the program.</span></td></tr>
+<tr id="L49" class=""><td class="line-num"><a href="#L49">49</a></td><td class="line-code"> </td></tr>
+<tr id="L50" class=""><td class="line-num"><a href="#L50">50</a></td><td class="line-code"><span style="color:#6A737D">Cells are read with `List.getD`, which returns `0` outside the word,</span></td></tr>
+<tr id="L51" class=""><td class="line-num"><a href="#L51">51</a></td><td class="line-code"><span style="color:#6A737D">exactly as in the compressed sparse row encoding; the length condition</span></td></tr>
+<tr id="L52" class=""><td class="line-num"><a href="#L52">52</a></td><td class="line-code"><span style="color:#6A737D">pins the expression block down completely, so the default value is</span></td></tr>
+<tr id="L53" class=""><td class="line-num"><a href="#L53">53</a></td><td class="line-code"><span style="color:#6A737D">never reached at a position the other conditions constrain.</span></td></tr>
+<tr id="L54" class=""><td class="line-num"><a href="#L54">54</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
+<tr id="L55" class=""><td class="line-num"><a href="#L55">55</a></td><td class="line-code"> </td></tr>
+<tr id="L56" class=""><td class="line-num"><a href="#L56">56</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax11.InstanceEncoding</span></td></tr>
+<tr id="L57" class=""><td class="line-num"><a href="#L57">57</a></td><td class="line-code"> </td></tr>
+<tr id="L58" class=""><td class="line-num"><a href="#L58">58</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax11.GraphEncoding Lax11.CliqueExpr</span></td></tr>
+<tr id="L59" class=""><td class="line-num"><a href="#L59">59</a></td><td class="line-code"> </td></tr>
+<tr id="L60" class=""><td class="line-num"><a href="#L60">60</a></td><td class="line-code"><span style="color:#6A737D">/-- The number of nodes declared by an expression block: its first</span></td></tr>
+<tr id="L61" class=""><td class="line-num"><a href="#L61">61</a></td><td class="line-code"><span style="color:#6A737D">entry. -/</span></td></tr>
+<tr id="L62" class=""><td class="line-num"><a href="#L62">62</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> nodeCount</span><span style="color:#24292E"> (t : List ℕ) : ℕ := t.getD </span><span style="color:#005CC5">0</span><span style="color:#005CC5"> 0</span></td></tr>
+<tr id="L63" class=""><td class="line-num"><a href="#L63">63</a></td><td class="line-code"> </td></tr>
+<tr id="L64" class=""><td class="line-num"><a href="#L64">64</a></td><td class="line-code"><span style="color:#6A737D">/-- The parent of node `i`: the parents follow the header entry. -/</span></td></tr>
+<tr id="L65" class=""><td class="line-num"><a href="#L65">65</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> parent</span><span style="color:#24292E"> (t : List ℕ) (i : ℕ) : ℕ := t.getD (</span><span style="color:#005CC5">1</span><span style="color:#24292E"> + i) </span><span style="color:#005CC5">0</span></td></tr>
+<tr id="L66" class=""><td class="line-num"><a href="#L66">66</a></td><td class="line-code"> </td></tr>
+<tr id="L67" class=""><td class="line-num"><a href="#L67">67</a></td><td class="line-code"><span style="color:#6A737D">/-- The operation performed at node `i`, as a number: the operations</span></td></tr>
+<tr id="L68" class=""><td class="line-num"><a href="#L68">68</a></td><td class="line-code"><span style="color:#6A737D">follow the parents. -/</span></td></tr>
+<tr id="L69" class=""><td class="line-num"><a href="#L69">69</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> opCode</span><span style="color:#24292E"> (t : List ℕ) (i : ℕ) : ℕ := t.getD (</span><span style="color:#005CC5">1</span><span style="color:#24292E"> + nodeCount t + i) </span><span style="color:#005CC5">0</span></td></tr>
+<tr id="L70" class=""><td class="line-num"><a href="#L70">70</a></td><td class="line-code"> </td></tr>
+<tr id="L71" class=""><td class="line-num"><a href="#L71">71</a></td><td class="line-code"><span style="color:#6A737D">/-- The vertex name created at node `i`, meaningful when the operation</span></td></tr>
+<tr id="L72" class=""><td class="line-num"><a href="#L72">72</a></td><td class="line-code"><span style="color:#6A737D">there creates a vertex: the names follow the operations. -/</span></td></tr>
+<tr id="L73" class=""><td class="line-num"><a href="#L73">73</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> vertexName</span><span style="color:#24292E"> (t : List ℕ) (i : ℕ) : ℕ := t.getD (</span><span style="color:#005CC5">1</span><span style="color:#24292E"> + </span><span style="color:#005CC5">2</span><span style="color:#24292E"> * nodeCount t + i) </span><span style="color:#005CC5">0</span></td></tr>
+<tr id="L74" class=""><td class="line-num"><a href="#L74">74</a></td><td class="line-code"> </td></tr>
+<tr id="L75" class=""><td class="line-num"><a href="#L75">75</a></td><td class="line-code"><span style="color:#6A737D">/-- The children of node `i`: the earlier nodes whose parent is `i`,</span></td></tr>
+<tr id="L76" class=""><td class="line-num"><a href="#L76">76</a></td><td class="line-code"><span style="color:#6A737D">in increasing order. -/</span></td></tr>
+<tr id="L77" class=""><td class="line-num"><a href="#L77">77</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> children</span><span style="color:#24292E"> (par : ℕ → ℕ) (i : ℕ) : List ℕ :=</span></td></tr>
+<tr id="L78" class=""><td class="line-num"><a href="#L78">78</a></td><td class="line-code"><span style="color:#24292E">  (List.range i).filter (</span><span style="color:#D73A49">fun</span><span style="color:#24292E"> c =&gt; par c == i)</span></td></tr>
+<tr id="L79" class=""><td class="line-num"><a href="#L79">79</a></td><td class="line-code"> </td></tr>
+<tr id="L80" class=""><td class="line-num"><a href="#L80">80</a></td><td class="line-code"><span style="color:#6A737D">/-- The word `t` is an expression block for a tree whose operations are</span></td></tr>
+<tr id="L81" class=""><td class="line-num"><a href="#L81">81</a></td><td class="line-code"><span style="color:#6A737D">operations of `k`-expressions. The number of nodes is the block's own</span></td></tr>
+<tr id="L82" class=""><td class="line-num"><a href="#L82">82</a></td><td class="line-code"><span style="color:#6A737D">first entry, so it is read off `t` rather than quantified over. -/</span></td></tr>
+<tr id="L83" class=""><td class="line-num"><a href="#L83">83</a></td><td class="line-code"><span style="color:#D73A49">structure</span><span style="color:#6F42C1"> EncodesExprTree</span><span style="color:#24292E"> (t : List ℕ) (k : ℕ) : </span><span style="color:#D73A49">Prop</span><span style="color:#D73A49"> where</span></td></tr>
+<tr id="L84" class=""><td class="line-num"><a href="#L84">84</a></td><td class="line-code"><span style="color:#6A737D">  /-- There is at least one node: an expression has a root. -/</span></td></tr>
+<tr id="L85" class=""><td class="line-num"><a href="#L85">85</a></td><td class="line-code"><span style="color:#24292E">  pos : </span><span style="color:#005CC5">1</span><span style="color:#24292E"> ≤ nodeCount t</span></td></tr>
+<tr id="L86" class=""><td class="line-num"><a href="#L86">86</a></td><td class="line-code"><span style="color:#6A737D">  /-- The block consists of the header entry and three arrays of one</span></td></tr>
+<tr id="L87" class=""><td class="line-num"><a href="#L87">87</a></td><td class="line-code"><span style="color:#6A737D">  number per node. -/</span></td></tr>
+<tr id="L88" class=""><td class="line-num"><a href="#L88">88</a></td><td class="line-code"><span style="color:#24292E">  length_eq : t.length = </span><span style="color:#005CC5">1</span><span style="color:#24292E"> + </span><span style="color:#005CC5">3</span><span style="color:#24292E"> * nodeCount t</span></td></tr>
+<tr id="L89" class=""><td class="line-num"><a href="#L89">89</a></td><td class="line-code"><span style="color:#6A737D">  /-- Every node but the last has a parent, which is a later node — so</span></td></tr>
+<tr id="L90" class=""><td class="line-num"><a href="#L90">90</a></td><td class="line-code"><span style="color:#6A737D">  children are numbered before their parents and the root is the last</span></td></tr>
+<tr id="L91" class=""><td class="line-num"><a href="#L91">91</a></td><td class="line-code"><span style="color:#6A737D">  node. -/</span></td></tr>
+<tr id="L92" class=""><td class="line-num"><a href="#L92">92</a></td><td class="line-code"><span style="color:#24292E">  parent_gt : ∀ i, i + </span><span style="color:#005CC5">1</span><span style="color:#24292E"> &lt; nodeCount t → i &lt; parent t i ∧ parent t i &lt; nodeCount t</span></td></tr>
+<tr id="L93" class=""><td class="line-num"><a href="#L93">93</a></td><td class="line-code"><span style="color:#6A737D">  /-- Every operation entry is the number of an operation. -/</span></td></tr>
+<tr id="L94" class=""><td class="line-num"><a href="#L94">94</a></td><td class="line-code"><span style="color:#24292E">  opCode_lt : ∀ i &lt; nodeCount t, opCode t i &lt; opCard k</span></td></tr>
+<tr id="L95" class=""><td class="line-num"><a href="#L95">95</a></td><td class="line-code"> </td></tr>
+<tr id="L96" class=""><td class="line-num"><a href="#L96">96</a></td><td class="line-code"><span style="color:#6A737D">/-- The node `i` of the tree given by the three arrays is the</span></td></tr>
+<tr id="L97" class=""><td class="line-num"><a href="#L97">97</a></td><td class="line-code"><span style="color:#6A737D">expression `e`: the operation number at `i` is the one of `e`'s</span></td></tr>
+<tr id="L98" class=""><td class="line-num"><a href="#L98">98</a></td><td class="line-code"><span style="color:#6A737D">outermost operation, the vertex name at `i` is the one `e` creates if</span></td></tr>
+<tr id="L99" class=""><td class="line-num"><a href="#L99">99</a></td><td class="line-code"><span style="color:#6A737D">`e` is a leaf, and the children of `i` — which are listed in increasing</span></td></tr>
+<tr id="L100" class=""><td class="line-num"><a href="#L100">100</a></td><td class="line-code"><span style="color:#6A737D">order — are the nodes of `e`'s immediate subexpressions, the left one</span></td></tr>
+<tr id="L101" class=""><td class="line-num"><a href="#L101">101</a></td><td class="line-code"><span style="color:#6A737D">first. -/</span></td></tr>
+<tr id="L102" class=""><td class="line-num"><a href="#L102">102</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> EncodesExpr</span><span style="color:#24292E"> {n k : ℕ} (par lab ids : ℕ → ℕ) : ℕ → Expr n k → </span><span style="color:#D73A49">Prop</span></td></tr>
+<tr id="L103" class=""><td class="line-num"><a href="#L103">103</a></td><td class="line-code"><span style="color:#24292E">  | i, .leaf v l =&gt; children par i = [] ∧ lab i = (Op.leaf l).code ∧ ids i = (v : ℕ)</span></td></tr>
+<tr id="L104" class=""><td class="line-num"><a href="#L104">104</a></td><td class="line-code"><span style="color:#24292E">  | i, .union e₁ e₂ =&gt; ∃ c₁ c₂, children par i = [c₁, c₂] ∧</span></td></tr>
+<tr id="L105" class=""><td class="line-num"><a href="#L105">105</a></td><td class="line-code"><span style="color:#24292E">      lab i = (Op.union : Op k).code ∧</span></td></tr>
+<tr id="L106" class=""><td class="line-num"><a href="#L106">106</a></td><td class="line-code"><span style="color:#24292E">      EncodesExpr par lab ids c₁ e₁ ∧ EncodesExpr par lab ids c₂ e₂</span></td></tr>
+<tr id="L107" class=""><td class="line-num"><a href="#L107">107</a></td><td class="line-code"><span style="color:#24292E">  | i, .addEdges a b e =&gt; ∃ c, children par i = [c] ∧</span></td></tr>
+<tr id="L108" class=""><td class="line-num"><a href="#L108">108</a></td><td class="line-code"><span style="color:#24292E">      lab i = (Op.eta a b).code ∧ EncodesExpr par lab ids c e</span></td></tr>
+<tr id="L109" class=""><td class="line-num"><a href="#L109">109</a></td><td class="line-code"><span style="color:#24292E">  | i, .relabel a b e =&gt; ∃ c, children par i = [c] ∧</span></td></tr>
+<tr id="L110" class=""><td class="line-num"><a href="#L110">110</a></td><td class="line-code"><span style="color:#24292E">      lab i = (Op.rho a b).code ∧ EncodesExpr par lab ids c e</span></td></tr>
+<tr id="L111" class=""><td class="line-num"><a href="#L111">111</a></td><td class="line-code"> </td></tr>
+<tr id="L112" class=""><td class="line-num"><a href="#L112">112</a></td><td class="line-code"><span style="color:#6A737D">/-- The word `x` presents the graph `G` on `n` vertices together with a</span></td></tr>
+<tr id="L113" class=""><td class="line-num"><a href="#L113">113</a></td><td class="line-code"><span style="color:#6A737D">`k`-expression for it: a compressed sparse row block encoding `G`,</span></td></tr>
+<tr id="L114" class=""><td class="line-num"><a href="#L114">114</a></td><td class="line-code"><span style="color:#6A737D">followed by an expression block whose arrays describe a valid</span></td></tr>
+<tr id="L115" class=""><td class="line-num"><a href="#L115">115</a></td><td class="line-code"><span style="color:#6A737D">`k`-expression, rooted at its last node, that evaluates to `G`. This is</span></td></tr>
+<tr id="L116" class=""><td class="line-num"><a href="#L116">116</a></td><td class="line-code"><span style="color:#6A737D">the instance format of a model checking problem on graphs of bounded</span></td></tr>
+<tr id="L117" class=""><td class="line-num"><a href="#L117">117</a></td><td class="line-code"><span style="color:#6A737D">cliquewidth. -/</span></td></tr>
+<tr id="L118" class=""><td class="line-num"><a href="#L118">118</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> EncodesModelCheckingInstance</span><span style="color:#24292E"> (x : List ℕ) (n : ℕ) (G : SimpleGraph (Fin n))</span></td></tr>
+<tr id="L119" class=""><td class="line-num"><a href="#L119">119</a></td><td class="line-code"><span style="color:#24292E">    (k : ℕ) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr id="L120" class=""><td class="line-num"><a href="#L120">120</a></td><td class="line-code"><span style="color:#24292E">  ∃ (g t : List ℕ) (e : Expr n k),</span></td></tr>
+<tr id="L121" class=""><td class="line-num"><a href="#L121">121</a></td><td class="line-code"><span style="color:#24292E">    x = g ++ t ∧ EncodesGraph g n G ∧ EncodesExprTree t k ∧</span></td></tr>
+<tr id="L122" class=""><td class="line-num"><a href="#L122">122</a></td><td class="line-code"><span style="color:#24292E">      EncodesExpr (parent t) (opCode t) (vertexName t) (nodeCount t - </span><span style="color:#005CC5">1</span><span style="color:#24292E">) e ∧ ValidFor e G</span></td></tr>
+<tr id="L123" class=""><td class="line-num"><a href="#L123">123</a></td><td class="line-code"> </td></tr>
+<tr id="L124" class=""><td class="line-num"><a href="#L124">124</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax11.InstanceEncoding</span></td></tr>
+<tr id="L125" class=""><td class="line-num"><a href="#L125">125</a></td><td class="line-code"> </td></tr>
+</table></div></div></div>
+<div class="block"><h3>Formalization notes</h3><div class="latex-content"><p>The expression block is a certificate, and it is required to be a
+correct one: the encoding says that the arrays describe some valid
+expression that evaluates to exactly the graph in the first block.
+Since the two blocks describe the same graph, a statement is not
+weakened by carrying both — the first block is what makes a sentence
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mi>a</mi><mi>t</mi><mi>G</mi><mi>φ</mi></mrow><annotation encoding="application/x-tex">Sat G φ</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8778em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.0576em;">S</span><span class="mord mathnormal">a</span><span class="mord mathnormal">tGφ</span></span></span></span> refer to a graph, and the second is what makes the input
+admissible. The arrays determine the expression completely, the vertex
+names included, so the existential quantifier over expressions ranges
+over at most one thing: the certificate is data in the word, not a
+choice made about it.</p>
+<p>The vertex-name array is part of the input even though a program
+evaluating the expression never reads it. Without it the second block
+would not be a <em>k</em>-expression, only the shape of one, and a reader
+could not check against the first block what the certificate claims.
+Its presence costs nothing: it is one number per node, so it only
+lengthens the input, and a linear bound is linear in that length.</p>
+<p>Children are numbered before their parents, so the root is the last
+node. That is what lets a machine evaluate the expression in a single
+left-to-right sweep, with no recursion, no stack and no second pass,
+and it is where a linear bound comes from. It restricts the <em>encoding</em>,
+not the class of graphs: every rooted tree admits such a numbering —
+any postorder is one — and one can be produced from an arbitrary
+numbering by a sort, which this format simply asks the writer of the
+input to have done. An encoding that accepted arbitrary parent arrays
+would describe the same graphs at the price of a renumbering pass
+inside the program.</p>
+<p>Cells are read with <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mi>i</mi><mi>s</mi><mi>t</mi><mi mathvariant="normal">.</mi><mi>g</mi><mi>e</mi><mi>t</mi><mi>D</mi></mrow><annotation encoding="application/x-tex">List.getD</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8778em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">L</span><span class="mord mathnormal">i</span><span class="mord mathnormal">s</span><span class="mord mathnormal">t</span><span class="mord">.</span><span class="mord mathnormal" style="margin-right:0.0359em;">g</span><span class="mord mathnormal">e</span><span class="mord mathnormal">t</span><span class="mord mathnormal" style="margin-right:0.0278em;">D</span></span></span></span>, which returns <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn></mrow><annotation encoding="application/x-tex">0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span> outside the word,
+exactly as in the compressed sparse row encoding; the length condition
+pins the expression block down completely, so the default value is
+never reached at a position the other conditions constrain.</p>
+</div></div>
+<div class="block"><div class="deps-columns">
+<div class="deps-col"><h3>Builds on</h3><ul class="deps-list"><li><a href="../lax-11/Lax11.CliqueExpr.html"><code>Lax11.CliqueExpr</code></a></li><li><a href="../lax-11/Lax11.GraphEncoding.html"><code>Lax11.GraphEncoding</code></a></li></ul></div>
+<div class="deps-col"><h3>Used by</h3><ul class="deps-list"><li><a href="../lax-11/Lax11.Courcelle.html"><code>Lax11.Courcelle</code></a></li></ul></div>
+<div class="deps-col"><h3>From Mathlib</h3><p class="empty-note">none</p></div>
+</div></div>
+<script type="application/json" id="graph-data">{"concepts":{"nodes":[{"id":"Lax11.CliqueExpr","href":"../lax-11/Lax11.CliqueExpr.html","title":"k-expressions, and the graphs of cliquewidth at most k","owner":"lax-11","status":"none","ext":true,"dir":"up"},{"id":"Lax11.Courcelle","href":"../lax-11/Lax11.Courcelle.html","title":"Courcelle's theorem on a word RAM","owner":"lax-11","status":"proven","ext":true,"dir":"down"},{"id":"Lax11.GraphEncoding","href":"../lax-11/Lax11.GraphEncoding.html","title":"Compressed sparse row encoding of a graph","owner":"lax-11","status":"none","ext":true,"dir":"up"},{"id":"Lax11.InstanceEncoding","href":"../lax-11/Lax11.InstanceEncoding.html","title":"Encoding a graph together with a k-expression","owner":"lax-11","status":"none","ext":false,"dir":"core"}],"edges":[{"from":"Lax11.InstanceEncoding","to":"Lax11.Courcelle"},{"from":"Lax11.CliqueExpr","to":"Lax11.InstanceEncoding"},{"from":"Lax11.GraphEncoding","to":"Lax11.InstanceEncoding"}],"home":"lax-11"},"proofs":{"statements":[],"proofs":[]}}</script>
+</div></section>
+</main>
+<script src="../assets/sidebar.js"></script>
+<script src="../assets/layout.js"></script>
+<script src="../assets/dag.js"></script>
+</body></html>

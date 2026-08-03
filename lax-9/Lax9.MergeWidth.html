@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src https: data:; font-src 'self'">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Lax — an archive of formalized mathematical concepts and their proofs">
+<title>Merge-Width — Lax9.MergeWidth</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/katex.css">
+<link rel="stylesheet" href="../assets/style.css">
+</head><body>
+<header class="site-header">
+  <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
+  <h1 class="site-title"><a href="../index.html">Lax <span class="site-title-quiet">Lean Archive</span></a></h1>
+</header>
+<main id="content-shell">
+<div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+<aside id="sidebar">
+<a class="sidebar-back" href="../lax-9/index.html"><span class="sidebar-back-arrow" aria-hidden="true">←</span>lax-9</a>
+<div class="sidebar-filters"><div class="filter-group">
+<label for="filter-search">Search</label>
+<input id="filter-search" class="filter-input" type="search" placeholder="Filter entries" aria-controls="entry-list">
+</div>
+<div class="filter-group">
+<label for="filter-type">Type</label>
+<select id="filter-type" class="filter-select">
+<option value="all">All types</option>
+<option value="definition">definition</option>
+<option value="theorem">theorem</option>
+<option value="proof">proof</option>
+</select>
+</div></div>
+<ul id="entry-list">
+<li class="entry-heading" aria-hidden="true">Concepts</li>
+<li data-type="theorem" data-search="lax9.boundedmergewidthchibounded χ-boundedness of bounded merge-width classes theorem"><a class="entry-link" href="../lax-9/Lax9.BoundedMergeWidthChiBounded.html"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax9.BoundedMergeWidthChiBounded</span></span></a></li>
+<li data-type="theorem" data-search="lax9.boundedmergewidthlinearneighborhoodcomplexity linear neighbourhood complexity of bounded merge-width classes theorem"><a class="entry-link" href="../lax-9/Lax9.BoundedMergeWidthLinearNeighborhoodComplexity.html"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax9.BoundedMergeWidthLinearNeighborhoodComplexity</span></span></a></li>
+<li data-type="definition" data-search="lax9.chiboundedness χ-boundedness definition"><a class="entry-link" href="../lax-9/Lax9.ChiBoundedness.html"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax9.ChiBoundedness</span></span></a></li>
+<li class="active" data-type="definition" data-search="lax9.mergewidth merge-width definition"><a class="entry-link" href="../lax-9/Lax9.MergeWidth.html"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax9.MergeWidth</span></span></a></li>
+<li data-type="definition" data-search="lax9.neighborhoodcomplexity linear neighbourhood complexity definition"><a class="entry-link" href="../lax-9/Lax9.NeighborhoodComplexity.html"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax9.NeighborhoodComplexity</span></span></a></li>
+<li class="entry-heading" aria-hidden="true">Proofs</li>
+<li data-type="proof" data-search="lax9proofs.chibounded_of_boundedmergewidth proof"><a class="entry-link" href="../lax-9/Lax9Proofs.chiBounded_of_boundedMergeWidth.html"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax9Proofs.chiBounded_of_boundedMergeWidth</span></span></a></li>
+<li data-type="proof" data-search="lax9proofs.linearneighborhoodcomplexity_of_boundedmergewidth proof"><a class="entry-link" href="../lax-9/Lax9Proofs.linearNeighborhoodComplexity_of_boundedMergeWidth.html"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax9Proofs.linearNeighborhoodComplexity_of_boundedMergeWidth</span></span></a></li>
+<li id="entry-list-empty" hidden>No entries match.</li>
+</ul>
+</aside>
+<section id="main"><div id="detail">
+<p class="draft-banner"><strong>Draft</strong> — mutable and not usable as a dependency; its citation marks the draft state.</p>
+<div class="detail-heading concept-heading">
+<div><p class="concept-id"><code>Lax9.MergeWidth</code></p>
+<h1 class="concept-title">Merge-Width</h1>
+<p class="concept-microline"><code>concepts/Lax9/MergeWidth.lean</code> · <a href="index.html">lax-9</a></p></div>
+<span class="status-pills"><span class="status-pill pill-none" title="Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">nothing to prove</span></span>
+</div>
+<h4 class="figure-title">Concept map</h4>
+<figure class="graph-figure concept-root-graph">
+<div class="graph-toolbar"><button type="button" id="concept-expand" aria-controls="concept-dag" aria-pressed="true">Hide ancestors</button><button type="button" id="concept-descend" aria-controls="concept-dag" aria-pressed="false">Show descendants</button><output id="concept-graph-status" aria-live="polite"></output></div>
+<div id="concept-dag" class="figure-container" data-graph="concepts" data-ancestry="true"></div>
+<div class="graph-tooltip" role="tooltip" hidden></div>
+<figcaption class="graph-legend" aria-label="Concept map legend"><span><i class="legend-node fill-proven"></i>Proven claim</span><span><i class="legend-node fill-open"></i>Open claim</span><span><i class="legend-node fill-none"></i>Definition — nothing to prove</span><span><i class="legend-node stroke-own"></i>This concept</span><span><i class="legend-node stroke-ext"></i>Related concept</span><span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B builds on A</span></figcaption>
+</figure>
+
+<div class="block block-statement"><h3>Definition</h3><div class="latex-content"><p>A merge sequence of a finite simple graph consists of a coarsening sequence of
+partitions and a monotone sequence of graphs of resolved pairs. At each step,
+adjacency is uniform on the unresolved pairs between any two parts. The
+radius-<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi></mrow><annotation encoding="application/x-tex">r</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">r</span></span></span></span> width of a merge sequence is the maximum number of parts of the
+preceding partition met by a radius-<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi></mrow><annotation encoding="application/x-tex">r</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">r</span></span></span></span> ball in the graph of resolved pairs.
+The radius-<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi></mrow><annotation encoding="application/x-tex">r</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">r</span></span></span></span> merge-width of a graph is the minimum width of a merge sequence
+of that graph. A graph class has bounded merge-width if these parameters are
+bounded by a function of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi></mrow><annotation encoding="application/x-tex">r</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">r</span></span></span></span> throughout the class.</p>
+</div></div>
+<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/cb4d6098c560db346f75c544fd206f2efdf89580/concepts/Lax9/MergeWidth.lean">view on GitHub</a></h3>
+<div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib</span></td></tr>
+<tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"> </td></tr>
+<tr id="L3" class=""><td class="line-num"><a href="#L3">3</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
+<tr id="L4" class=""><td class="line-num"><a href="#L4">4</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
+<tr id="L5" class=""><td class="line-num"><a href="#L5">5</a></td><td class="line-code"><span style="color:#6A737D">title: Merge-Width</span></td></tr>
+<tr id="L6" class=""><td class="line-num"><a href="#L6">6</a></td><td class="line-code"><span style="color:#6A737D">type: definition</span></td></tr>
+<tr id="L7" class=""><td class="line-num"><a href="#L7">7</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
+<tr id="L8" class=""><td class="line-num"><a href="#L8">8</a></td><td class="line-code"><span style="color:#6A737D">A merge sequence of a finite simple graph consists of a coarsening sequence of</span></td></tr>
+<tr id="L9" class=""><td class="line-num"><a href="#L9">9</a></td><td class="line-code"><span style="color:#6A737D">partitions and a monotone sequence of graphs of resolved pairs. At each step,</span></td></tr>
+<tr id="L10" class=""><td class="line-num"><a href="#L10">10</a></td><td class="line-code"><span style="color:#6A737D">adjacency is uniform on the unresolved pairs between any two parts. The</span></td></tr>
+<tr id="L11" class=""><td class="line-num"><a href="#L11">11</a></td><td class="line-code"><span style="color:#6A737D">radius-$r$ width of a merge sequence is the maximum number of parts of the</span></td></tr>
+<tr id="L12" class=""><td class="line-num"><a href="#L12">12</a></td><td class="line-code"><span style="color:#6A737D">preceding partition met by a radius-$r$ ball in the graph of resolved pairs.</span></td></tr>
+<tr id="L13" class=""><td class="line-num"><a href="#L13">13</a></td><td class="line-code"><span style="color:#6A737D">The radius-$r$ merge-width of a graph is the minimum width of a merge sequence</span></td></tr>
+<tr id="L14" class=""><td class="line-num"><a href="#L14">14</a></td><td class="line-code"><span style="color:#6A737D">of that graph. A graph class has bounded merge-width if these parameters are</span></td></tr>
+<tr id="L15" class=""><td class="line-num"><a href="#L15">15</a></td><td class="line-code"><span style="color:#6A737D">bounded by a function of $r$ throughout the class.</span></td></tr>
+<tr id="L16" class=""><td class="line-num"><a href="#L16">16</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
+<tr id="L17" class=""><td class="line-num"><a href="#L17">17</a></td><td class="line-code"> </td></tr>
+<tr id="L18" class=""><td class="line-num"><a href="#L18">18</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax9.MergeWidth</span></td></tr>
+<tr id="L19" class=""><td class="line-num"><a href="#L19">19</a></td><td class="line-code"> </td></tr>
+<tr id="L20" class=""><td class="line-num"><a href="#L20">20</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#D73A49"> scoped</span><span style="color:#24292E"> Classical</span></td></tr>
+<tr id="L21" class=""><td class="line-num"><a href="#L21">21</a></td><td class="line-code"> </td></tr>
+<tr id="L22" class=""><td class="line-num"><a href="#L22">22</a></td><td class="line-code"><span style="color:#D73A49">universe</span><span style="color:#24292E"> u</span></td></tr>
+<tr id="L23" class=""><td class="line-num"><a href="#L23">23</a></td><td class="line-code"> </td></tr>
+<tr id="L24" class=""><td class="line-num"><a href="#L24">24</a></td><td class="line-code"><span style="color:#D73A49">variable</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E"> u} [Fintype V]</span></td></tr>
+<tr id="L25" class=""><td class="line-num"><a href="#L25">25</a></td><td class="line-code"> </td></tr>
+<tr id="L26" class=""><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span style="color:#6A737D">/-- The **resolved ball** of radius $r$ around $v$ in a graph $H$:</span></td></tr>
+<tr id="L27" class=""><td class="line-num"><a href="#L27">27</a></td><td class="line-code"><span style="color:#6A737D">the set of vertices reachable from $v$ by a walk of length at most $r$.</span></td></tr>
+<tr id="L28" class=""><td class="line-num"><a href="#L28">28</a></td><td class="line-code"><span style="color:#6A737D">In the paper this is applied to the graph $(V, Rᵢ)$ of resolved pairs. -/</span></td></tr>
+<tr id="L29" class=""><td class="line-num"><a href="#L29">29</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> resolvedBall</span><span style="color:#24292E"> (H : SimpleGraph V) (r : ℕ) (v : V) : Set V :=</span></td></tr>
+<tr id="L30" class=""><td class="line-num"><a href="#L30">30</a></td><td class="line-code"><span style="color:#24292E">  {u | ∃ w : H.Walk v u, w.length ≤ r}</span></td></tr>
+<tr id="L31" class=""><td class="line-num"><a href="#L31">31</a></td><td class="line-code"> </td></tr>
+<tr id="L32" class=""><td class="line-num"><a href="#L32">32</a></td><td class="line-code"><span style="color:#6A737D">/--</span></td></tr>
+<tr id="L33" class=""><td class="line-num"><a href="#L33">33</a></td><td class="line-code"><span style="color:#6A737D">A **merge sequence** for a finite simple graph $G$ is a sequence</span></td></tr>
+<tr id="L34" class=""><td class="line-num"><a href="#L34">34</a></td><td class="line-code"><span style="color:#6A737D">$(P₁, R₁), …, (P_length, R_length)$ where:</span></td></tr>
+<tr id="L35" class=""><td class="line-num"><a href="#L35">35</a></td><td class="line-code"> </td></tr>
+<tr id="L36" class=""><td class="line-num"><a href="#L36">36</a></td><td class="line-code"><span style="color:#6A737D">* each $part i$ is a partition of $V(G)$ (encoded as a $Setoid$), with $part 1$</span></td></tr>
+<tr id="L37" class=""><td class="line-num"><a href="#L37">37</a></td><td class="line-code"><span style="color:#6A737D">  the partition into singletons ($⊥$) and $part length$ the trivial partition</span></td></tr>
+<tr id="L38" class=""><td class="line-num"><a href="#L38">38</a></td><td class="line-code"><span style="color:#6A737D">  with one part ($⊤$);</span></td></tr>
+<tr id="L39" class=""><td class="line-num"><a href="#L39">39</a></td><td class="line-code"><span style="color:#6A737D">* the partitions are **coarsening**: $part i ≤ part j$ for $i ≤ j$</span></td></tr>
+<tr id="L40" class=""><td class="line-num"><a href="#L40">40</a></td><td class="line-code"><span style="color:#6A737D">  (recall that for setoids a *coarser* partition is a *larger* relation);</span></td></tr>
+<tr id="L41" class=""><td class="line-num"><a href="#L41">41</a></td><td class="line-code"><span style="color:#6A737D">* each $resolved i$ is the graph $(V, Rᵢ)$ of **resolved pairs**, and these are</span></td></tr>
+<tr id="L42" class=""><td class="line-num"><a href="#L42">42</a></td><td class="line-code"><span style="color:#6A737D">  **monotone**: $resolved i ≤ resolved j$ for $i ≤ j$;</span></td></tr>
+<tr id="L43" class=""><td class="line-num"><a href="#L43">43</a></td><td class="line-code"><span style="color:#6A737D">* (**uniformity**) for any two parts $A, B$ of $part i$, the *unresolved* pairs</span></td></tr>
+<tr id="L44" class=""><td class="line-num"><a href="#L44">44</a></td><td class="line-code"><span style="color:#6A737D">  between $A$ and $B$ (pairs $xy ∉ Rᵢ$) are either all edges or all non-edges of</span></td></tr>
+<tr id="L45" class=""><td class="line-num"><a href="#L45">45</a></td><td class="line-code"><span style="color:#6A737D">  $G$.</span></td></tr>
+<tr id="L46" class=""><td class="line-num"><a href="#L46">46</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
+<tr id="L47" class=""><td class="line-num"><a href="#L47">47</a></td><td class="line-code"><span style="color:#D73A49">structure</span><span style="color:#6F42C1"> MergeSeq</span><span style="color:#24292E"> (G : SimpleGraph V) </span><span style="color:#D73A49">where</span></td></tr>
+<tr id="L48" class=""><td class="line-num"><a href="#L48">48</a></td><td class="line-code"><span style="color:#6A737D">  /-- The number $m$ of steps of the sequence. -/</span></td></tr>
+<tr id="L49" class=""><td class="line-num"><a href="#L49">49</a></td><td class="line-code"><span style="color:#24292E">  length : ℕ</span></td></tr>
+<tr id="L50" class=""><td class="line-num"><a href="#L50">50</a></td><td class="line-code"><span style="color:#6A737D">  /-- The sequence is nonempty. -/</span></td></tr>
+<tr id="L51" class=""><td class="line-num"><a href="#L51">51</a></td><td class="line-code"><span style="color:#24292E">  one_le_length : </span><span style="color:#005CC5">1</span><span style="color:#24292E"> ≤ length</span></td></tr>
+<tr id="L52" class=""><td class="line-num"><a href="#L52">52</a></td><td class="line-code"><span style="color:#6A737D">  /-- The partition $Pᵢ$ at step $i$ (as a setoid on the vertices). -/</span></td></tr>
+<tr id="L53" class=""><td class="line-num"><a href="#L53">53</a></td><td class="line-code"><span style="color:#24292E">  part : ℕ → Setoid V</span></td></tr>
+<tr id="L54" class=""><td class="line-num"><a href="#L54">54</a></td><td class="line-code"><span style="color:#6A737D">  /-- The graph $(V, Rᵢ)$ of resolved pairs at step $i$. -/</span></td></tr>
+<tr id="L55" class=""><td class="line-num"><a href="#L55">55</a></td><td class="line-code"><span style="color:#24292E">  resolved : ℕ → SimpleGraph V</span></td></tr>
+<tr id="L56" class=""><td class="line-num"><a href="#L56">56</a></td><td class="line-code"><span style="color:#6A737D">  /-- $P₁$ is the partition into singletons. -/</span></td></tr>
+<tr id="L57" class=""><td class="line-num"><a href="#L57">57</a></td><td class="line-code"><span style="color:#24292E">  part_one : part </span><span style="color:#005CC5">1</span><span style="color:#24292E"> = ⊥</span></td></tr>
+<tr id="L58" class=""><td class="line-num"><a href="#L58">58</a></td><td class="line-code"><span style="color:#6A737D">  /-- $P_m$ is the trivial partition with a single part. -/</span></td></tr>
+<tr id="L59" class=""><td class="line-num"><a href="#L59">59</a></td><td class="line-code"><span style="color:#24292E">  part_length : part length = ⊤</span></td></tr>
+<tr id="L60" class=""><td class="line-num"><a href="#L60">60</a></td><td class="line-code"><span style="color:#6A737D">  /-- The partitions get coarser. -/</span></td></tr>
+<tr id="L61" class=""><td class="line-num"><a href="#L61">61</a></td><td class="line-code"><span style="color:#24292E">  part_mono : ∀ ⦃i j⦄, </span><span style="color:#005CC5">1</span><span style="color:#24292E"> ≤ i → i ≤ j → j ≤ length → part i ≤ part j</span></td></tr>
+<tr id="L62" class=""><td class="line-num"><a href="#L62">62</a></td><td class="line-code"><span style="color:#6A737D">  /-- The sets of resolved pairs are monotone. -/</span></td></tr>
+<tr id="L63" class=""><td class="line-num"><a href="#L63">63</a></td><td class="line-code"><span style="color:#24292E">  resolved_mono : ∀ ⦃i j⦄, </span><span style="color:#005CC5">1</span><span style="color:#24292E"> ≤ i → i ≤ j → j ≤ length → resolved i ≤ resolved j</span></td></tr>
+<tr id="L64" class=""><td class="line-num"><a href="#L64">64</a></td><td class="line-code"><span style="color:#6A737D">  /-- Uniformity: unresolved pairs between two parts are all edges or all</span></td></tr>
+<tr id="L65" class=""><td class="line-num"><a href="#L65">65</a></td><td class="line-code"><span style="color:#6A737D">  non-edges. -/</span></td></tr>
+<tr id="L66" class=""><td class="line-num"><a href="#L66">66</a></td><td class="line-code"><span style="color:#24292E">  uniform : ∀ ⦃i⦄, </span><span style="color:#005CC5">1</span><span style="color:#24292E"> ≤ i → i ≤ length → ∀ ⦃x x' y y' : V⦄,</span></td></tr>
+<tr id="L67" class=""><td class="line-num"><a href="#L67">67</a></td><td class="line-code"><span style="color:#24292E">      (part i).r x x' → (part i).r y y' → x ≠ y → x' ≠ y' →</span></td></tr>
+<tr id="L68" class=""><td class="line-num"><a href="#L68">68</a></td><td class="line-code"><span style="color:#24292E">      ¬ (resolved i).Adj x y → ¬ (resolved i).Adj x' y' →</span></td></tr>
+<tr id="L69" class=""><td class="line-num"><a href="#L69">69</a></td><td class="line-code"><span style="color:#24292E">      (G.Adj x y ↔ G.Adj x' y')</span></td></tr>
+<tr id="L70" class=""><td class="line-num"><a href="#L70">70</a></td><td class="line-code"> </td></tr>
+<tr id="L71" class=""><td class="line-num"><a href="#L71">71</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> MergeSeq</span></td></tr>
+<tr id="L72" class=""><td class="line-num"><a href="#L72">72</a></td><td class="line-code"> </td></tr>
+<tr id="L73" class=""><td class="line-num"><a href="#L73">73</a></td><td class="line-code"><span style="color:#D73A49">variable</span><span style="color:#24292E"> {G : SimpleGraph V}</span></td></tr>
+<tr id="L74" class=""><td class="line-num"><a href="#L74">74</a></td><td class="line-code"> </td></tr>
+<tr id="L75" class=""><td class="line-num"><a href="#L75">75</a></td><td class="line-code"><span style="color:#6A737D">/-- The number of parts of $part (i-1)$ that are **accessible** from $v$ by a</span></td></tr>
+<tr id="L76" class=""><td class="line-num"><a href="#L76">76</a></td><td class="line-code"><span style="color:#6A737D">walk of length at most $r$ in the resolved graph $resolved i$.  (Note the</span></td></tr>
+<tr id="L77" class=""><td class="line-num"><a href="#L77">77</a></td><td class="line-code"><span style="color:#6A737D">intentional mismatch of indices $Pᵢ₋₁$ versus $Rᵢ$.) -/</span></td></tr>
+<tr id="L78" class=""><td class="line-num"><a href="#L78">78</a></td><td class="line-code"><span style="color:#D73A49">noncomputable</span><span style="color:#D73A49"> def</span><span style="color:#6F42C1"> numAccessible</span><span style="color:#24292E"> (S : MergeSeq G) (r i : ℕ) (v : V) : ℕ :=</span></td></tr>
+<tr id="L79" class=""><td class="line-num"><a href="#L79">79</a></td><td class="line-code"><span style="color:#24292E">  Set.ncard ((</span><span style="color:#D73A49">fun</span><span style="color:#24292E"> u =&gt; Quotient.mk (S.part (i - </span><span style="color:#005CC5">1</span><span style="color:#24292E">)) u) '' resolvedBall (S.resolved i) r v)</span></td></tr>
+<tr id="L80" class=""><td class="line-num"><a href="#L80">80</a></td><td class="line-code"> </td></tr>
+<tr id="L81" class=""><td class="line-num"><a href="#L81">81</a></td><td class="line-code"><span style="color:#6A737D">/-- The **radius-$r$ width** of a merge sequence: the maximum over all steps</span></td></tr>
+<tr id="L82" class=""><td class="line-num"><a href="#L82">82</a></td><td class="line-code"><span style="color:#6A737D">$i ≥ 2$ and vertices $v$ of the number of parts of $Pᵢ₋₁$ accessible from $v$</span></td></tr>
+<tr id="L83" class=""><td class="line-num"><a href="#L83">83</a></td><td class="line-code"><span style="color:#6A737D">within distance $r$ in $(V, Rᵢ)$. -/</span></td></tr>
+<tr id="L84" class=""><td class="line-num"><a href="#L84">84</a></td><td class="line-code"><span style="color:#D73A49">noncomputable</span><span style="color:#D73A49"> def</span><span style="color:#6F42C1"> width</span><span style="color:#24292E"> (S : MergeSeq G) (r : ℕ) : ℕ :=</span></td></tr>
+<tr id="L85" class=""><td class="line-num"><a href="#L85">85</a></td><td class="line-code"><span style="color:#24292E">  (Finset.Icc </span><span style="color:#005CC5">2</span><span style="color:#24292E"> S.length).sup </span><span style="color:#D73A49">fun</span><span style="color:#24292E"> i =&gt; Finset.univ.sup </span><span style="color:#D73A49">fun</span><span style="color:#24292E"> v =&gt; S.numAccessible r i v</span></td></tr>
+<tr id="L86" class=""><td class="line-num"><a href="#L86">86</a></td><td class="line-code"> </td></tr>
+<tr id="L87" class=""><td class="line-num"><a href="#L87">87</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> MergeSeq</span></td></tr>
+<tr id="L88" class=""><td class="line-num"><a href="#L88">88</a></td><td class="line-code"> </td></tr>
+<tr id="L89" class=""><td class="line-num"><a href="#L89">89</a></td><td class="line-code"><span style="color:#6A737D">/-- The **radius-$r$ merge-width** $mwᵣ(G)$ of a graph $G$: the minimum</span></td></tr>
+<tr id="L90" class=""><td class="line-num"><a href="#L90">90</a></td><td class="line-code"><span style="color:#6A737D">radius-$r$ width over all merge sequences of $G$. -/</span></td></tr>
+<tr id="L91" class=""><td class="line-num"><a href="#L91">91</a></td><td class="line-code"><span style="color:#D73A49">noncomputable</span><span style="color:#D73A49"> def</span><span style="color:#6F42C1"> mergeWidth</span><span style="color:#24292E"> (r : ℕ) (G : SimpleGraph V) : ℕ :=</span></td></tr>
+<tr id="L92" class=""><td class="line-num"><a href="#L92">92</a></td><td class="line-code"><span style="color:#24292E">  sInf {w | ∃ S : MergeSeq G, S.width r = w}</span></td></tr>
+<tr id="L93" class=""><td class="line-num"><a href="#L93">93</a></td><td class="line-code"> </td></tr>
+<tr id="L94" class=""><td class="line-num"><a href="#L94">94</a></td><td class="line-code"><span style="color:#6A737D">/-- A **graph class**: a property of finite simple graphs. -/</span></td></tr>
+<tr id="L95" class=""><td class="line-num"><a href="#L95">95</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> GraphClass</span><span style="color:#24292E"> : </span><span style="color:#D73A49">Type</span><span style="color:#005CC5"> 1</span><span style="color:#24292E"> := ∀ ⦃V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">⦄ [Fintype V], SimpleGraph V → </span><span style="color:#D73A49">Prop</span></td></tr>
+<tr id="L96" class=""><td class="line-num"><a href="#L96">96</a></td><td class="line-code"> </td></tr>
+<tr id="L97" class=""><td class="line-num"><a href="#L97">97</a></td><td class="line-code"><span style="color:#6A737D">/-- A class $C$ has **bounded merge-width** if there is a function $f$ such that</span></td></tr>
+<tr id="L98" class=""><td class="line-num"><a href="#L98">98</a></td><td class="line-code"><span style="color:#6A737D">every $G ∈ C$ satisfies $mwᵣ(G) ≤ f(r)$ for all radii $r$. -/</span></td></tr>
+<tr id="L99" class=""><td class="line-num"><a href="#L99">99</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> BoundedMergeWidth</span><span style="color:#24292E"> (C : GraphClass) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr id="L100" class=""><td class="line-num"><a href="#L100">100</a></td><td class="line-code"><span style="color:#24292E">  ∃ f : ℕ → ℕ, ∀ ⦃V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">⦄ [Fintype V] (G : SimpleGraph V), C G → ∀ r, mergeWidth r G ≤ f r</span></td></tr>
+<tr id="L101" class=""><td class="line-num"><a href="#L101">101</a></td><td class="line-code"> </td></tr>
+<tr id="L102" class=""><td class="line-num"><a href="#L102">102</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax9.MergeWidth</span></td></tr>
+<tr id="L103" class=""><td class="line-num"><a href="#L103">103</a></td><td class="line-code"> </td></tr>
+</table></div></div></div>
+
+<div class="block"><div class="deps-columns">
+<div class="deps-col"><h3>Builds on</h3><p class="empty-note">none</p></div>
+<div class="deps-col"><h3>Used by</h3><ul class="deps-list"><li><a href="../lax-9/Lax9.BoundedMergeWidthChiBounded.html"><code>Lax9.BoundedMergeWidthChiBounded</code></a></li><li><a href="../lax-9/Lax9.BoundedMergeWidthLinearNeighborhoodComplexity.html"><code>Lax9.BoundedMergeWidthLinearNeighborhoodComplexity</code></a></li><li><a href="../lax-9/Lax9.ChiBoundedness.html"><code>Lax9.ChiBoundedness</code></a></li><li><a href="../lax-9/Lax9.NeighborhoodComplexity.html"><code>Lax9.NeighborhoodComplexity</code></a></li></ul></div>
+<div class="deps-col"><h3>From Mathlib</h3><ul class="deps-list"><li><a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib.html"><code>Mathlib</code></a></li></ul></div>
+</div></div>
+<script type="application/json" id="graph-data">{"concepts":{"nodes":[{"id":"Lax9.BoundedMergeWidthChiBounded","href":"../lax-9/Lax9.BoundedMergeWidthChiBounded.html","title":"χ-Boundedness of Bounded Merge-Width Classes","owner":"lax-9","status":"proven","ext":true,"dir":"down"},{"id":"Lax9.BoundedMergeWidthLinearNeighborhoodComplexity","href":"../lax-9/Lax9.BoundedMergeWidthLinearNeighborhoodComplexity.html","title":"Linear Neighbourhood Complexity of Bounded Merge-Width Classes","owner":"lax-9","status":"proven","ext":true,"dir":"down"},{"id":"Lax9.ChiBoundedness","href":"../lax-9/Lax9.ChiBoundedness.html","title":"χ-Boundedness","owner":"lax-9","status":"none","ext":true,"dir":"down"},{"id":"Lax9.MergeWidth","href":"../lax-9/Lax9.MergeWidth.html","title":"Merge-Width","owner":"lax-9","status":"none","ext":false,"dir":"core"},{"id":"Lax9.NeighborhoodComplexity","href":"../lax-9/Lax9.NeighborhoodComplexity.html","title":"Linear Neighbourhood Complexity","owner":"lax-9","status":"none","ext":true,"dir":"down"}],"edges":[{"from":"Lax9.ChiBoundedness","to":"Lax9.BoundedMergeWidthChiBounded"},{"from":"Lax9.MergeWidth","to":"Lax9.BoundedMergeWidthChiBounded"},{"from":"Lax9.MergeWidth","to":"Lax9.BoundedMergeWidthLinearNeighborhoodComplexity"},{"from":"Lax9.NeighborhoodComplexity","to":"Lax9.BoundedMergeWidthLinearNeighborhoodComplexity"},{"from":"Lax9.MergeWidth","to":"Lax9.ChiBoundedness"},{"from":"Lax9.MergeWidth","to":"Lax9.NeighborhoodComplexity"}],"home":"lax-9"},"proofs":{"statements":[],"proofs":[]}}</script>
+</div></section>
+</main>
+<script src="../assets/sidebar.js"></script>
+<script src="../assets/layout.js"></script>
+<script src="../assets/dag.js"></script>
+</body></html>
