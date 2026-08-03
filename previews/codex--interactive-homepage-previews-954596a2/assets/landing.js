@@ -2,6 +2,61 @@
 // content is already in the static HTML; this manages visibility, accessible
 // expanded state, and shareable ?view= URLs.
 (() => {
+  const RESET_DELAY = 2200;
+
+  function legacyCopy(text) {
+    const field = document.createElement('textarea');
+    field.value = text;
+    field.setAttribute('readonly', '');
+    field.style.position = 'fixed';
+    field.style.opacity = '0';
+    document.body.append(field);
+    field.select();
+    const copied = document.execCommand('copy');
+    field.remove();
+    if (!copied) throw new Error('copy command failed');
+  }
+
+  async function copyText(text) {
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(text);
+      return;
+    }
+    legacyCopy(text);
+  }
+
+  function setupPromptCopy() {
+    const button = document.querySelector('[data-copy-prompt]');
+    if (!button) return;
+    const prompt = document.getElementById(button.getAttribute('aria-controls'));
+    const status = button.parentElement.querySelector('.prompt-copy-status');
+    if (!prompt || !status) return;
+    let resetTimer;
+
+    button.addEventListener('click', async () => {
+      clearTimeout(resetTimer);
+      try {
+        await copyText(prompt.textContent);
+        button.classList.add('is-copied');
+        button.setAttribute('aria-label', 'Prompt copied');
+        button.title = 'Copied';
+        status.textContent = 'Copied';
+      } catch {
+        button.classList.remove('is-copied');
+        button.setAttribute('aria-label', 'Could not copy prompt');
+        button.title = 'Could not copy';
+        status.textContent = 'Select and copy manually';
+      }
+
+      resetTimer = setTimeout(() => {
+        button.classList.remove('is-copied');
+        button.setAttribute('aria-label', 'Copy prompt to clipboard');
+        button.title = 'Copy prompt';
+        status.textContent = '';
+      }, RESET_DELAY);
+    });
+  }
+
   function setupLandingActions() {
     const buttons = [...document.querySelectorAll('[data-landing-action]')];
     if (!buttons.length) return;
@@ -79,9 +134,11 @@
     if (initialView) selectView(initialView, false);
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', setupLandingActions);
-  } else {
+  function setupLanding() {
     setupLandingActions();
+    setupPromptCopy();
   }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', setupLanding);
+  else setupLanding();
 })();

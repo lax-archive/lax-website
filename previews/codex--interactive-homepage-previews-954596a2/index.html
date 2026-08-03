@@ -155,7 +155,8 @@ The latter lives in the accompanying exposition and papers.</p>
 <h3>Creating your own submission</h3>
 <p>The fastest way to contribute is to hand your AI agent (preferably Claude
 Fable) a prompt like:</p>
-<pre><code>Use Lax to formalize &lt;my result&gt;. Steps:
+<div class="landing-prompt-box">
+<pre id="landing-submission-prompt"><code>Use Lax to formalize &lt;my result&gt;. Steps:
 - Install the lax CLI (npm install -g lax-archive) and familiarize
   yourself with the tool, e.g. by reading `lax spec`.
 - Design the concepts: find the cleanest partition of the mathematics
@@ -167,6 +168,9 @@ Fable) a prompt like:</p>
   act as supervisor and delegate individual proofs to subagents to
   keep your own context clean.
 </code></pre>
+<button class="prompt-copy" type="button" data-copy-prompt aria-controls="landing-submission-prompt" aria-label="Copy prompt to clipboard" title="Copy prompt"><span class="prompt-copy-icon" aria-hidden="true"></span></button>
+<output class="prompt-copy-status" aria-live="polite"></output>
+</div>
 <p>Prefer to work hands-on, or want to know what happens at each step? See
 <a href="contributing.html">Contributing</a>.</p>
 
