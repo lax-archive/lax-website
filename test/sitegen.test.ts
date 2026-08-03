@@ -214,8 +214,8 @@ describe("site generator", () => {
     // Editorial text comes from content/ and the contributing page is live.
     expect(index).toContain("<title>Lax Lean Archive</title>");
     expect(index).toContain('Lax <span class="site-title-quiet">Lean Archive</span>');
-    // masthead: paper-grammar title, then the first paragraph as the lede
-    expect(index).toContain('<h1 class="paper-title">Lax <span class="site-title-quiet">Lean Archive</span></h1>');
+    // The fixed site header supplies the title; the landing does not repeat it.
+    expect(index).not.toContain('<h1 class="paper-title">Lax <span class="site-title-quiet">Lean Archive</span></h1>');
     expect(index.indexOf("landing-lede")).toBeLessThan(index.indexOf("landing-about"));
     expect(index).toContain("what arXiv is to preprints");
     expect(index).toContain("<h2>Submissions</h2>");
@@ -229,7 +229,12 @@ describe("site generator", () => {
     expect(index).toContain("2 concepts, 1 proof");
     expect(index).toContain('<span class="formalized-label">formalized by</span> Alice');
     expect(index).toContain('id="filter-search"');
-    expect(index).toContain('data-search="lax2 two registered"');
+    expect(index).toContain('data-search-title="lax2 two"');
+    expect(index).toContain('data-search-concepts="lax2.c truth theorem lax2.d definition helper definition"');
+    expect(index).toContain('data-state="registered"');
+    expect(index).toContain('placeholder="Search titles and concepts"');
+    expect(index).toContain('id="submissions-list"');
+    expect(index).toContain('id="submissions-list-empty"');
     // sidebar rows share the flat entry grammar (chip + text), not cards
     expect(index).not.toContain("sidebar-submission");
     expect(index).toContain('<span class="entry-label"><span class="entry-id">Lax2</span><span class="entry-label-text">Two</span></span>');
@@ -241,6 +246,35 @@ describe("site generator", () => {
     const contributing = fs.readFileSync(path.join(root, "contributing.html"), "utf8");
     expect(contributing).toContain('<h1 class="paper-title">Contributing</h1>');
     expect(contributing).toContain("The workflow");
+  });
+
+  it("orders registered search results before drafts and indexes concept names", async () => {
+    const make = (id: string, state: "draft" | "registered", title: string, conceptTitle: string): SiteSubmission => ({
+      record: {
+        specVersion: "1", id, state, createdAt: "2026-01-01T00:00:00Z", owners: [],
+        ...(state === "registered" ? { registeredAt: "2026-01-02T00:00:00Z" } : {}),
+      },
+      output: {
+        specVersion: "1", id,
+        manifest: { specVersion: "1", id, leanVersion: "v4.30.0", mathlibVersion: "abc", title, authors: [], bibEntries: [] },
+        abstract: "", requiredByConcepts: [], requiredByProofs: [], proofs: [],
+        concepts: [{
+          id: `${id}.C`, path: `concepts/${id}/C.lean`, title: conceptTitle, type: "definition",
+          description: "", imports: [], sourceText: "", statements: [],
+        }],
+      },
+    });
+    const root = tmpDir("lax-site-search-");
+    await generateSite([
+      make("Lax1", "draft", "Draft title", "Topology"),
+      make("Lax2", "registered", "Registered title", "Combinatorics"),
+      make("Lax3", "draft", "Another draft", "Geometry"),
+    ], root);
+    const index = fs.readFileSync(path.join(root, "index.html"), "utf8");
+    expect(index.indexOf('data-search-title="lax2 registered title"'))
+      .toBeLessThan(index.indexOf('data-search-title="lax1 draft title"'));
+    expect(index).toContain('data-search-concepts="lax2.c combinatorics definition"');
+    expect(index).toContain('data-search-concepts="lax3.c geometry definition"');
   });
 
   it("renders the submission page: paper masthead, compact grids, citation, graph data", async () => {
