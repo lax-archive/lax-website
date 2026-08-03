@@ -108,6 +108,9 @@ ${markdown.render(landing.submit, "")}
 ${markdown.render(landing.lede, "")}
 </div>
 </header>
+<div class="landing-about latex-content">
+${markdown.render(landing.introduction, "")}
+</div>
 <section class="landing-actions" aria-labelledby="landing-actions-heading">
 <h2 id="landing-actions-heading">What you can do here</h2>
 <div class="landing-action-grid">
@@ -118,10 +121,7 @@ ${library}
 ${submit}
 ${cite}
 </div>
-</section>
-<div class="landing-about latex-content">
-${markdown.render(landing.introduction, "")}
-</div>`;
+</section>`;
   return page({
     title: "Lax Lean Archive",
     rootRel: "",

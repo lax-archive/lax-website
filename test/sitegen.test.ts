@@ -217,6 +217,7 @@ describe("site generator", () => {
     // The fixed site header supplies the title; the landing does not repeat it.
     expect(index).not.toContain('<h1 class="paper-title">Lax <span class="site-title-quiet">Lean Archive</span></h1>');
     expect(index.indexOf("landing-lede")).toBeLessThan(index.indexOf("landing-about"));
+    expect(index.indexOf("landing-about")).toBeLessThan(index.indexOf("landing-actions"));
     expect(index).toContain("what arXiv is to preprints");
     expect(index).toContain('<h2 id="landing-actions-heading">What you can do here</h2>');
     expect(index).toContain('data-landing-action="read" aria-expanded="false" aria-controls="landing-panel-read"');
