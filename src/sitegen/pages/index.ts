@@ -105,7 +105,7 @@ ${authors ? `<span class="submissions-list-meta"><span class="formalized-label">
 <a href="${attr(citeExample.record.id)}/index.html#citation">
 <span class="landing-cite-example-id">${esc(citeExample.record.id)}</span>
 <strong>${esc(citeExample.output!.manifest.title)}</strong>
-<span class="landing-cite-example-action">See its BibTeX <b aria-hidden="true">→</b></span>
+<span class="landing-cite-example-action">View citation <b aria-hidden="true">→</b></span>
 </a>
 </div>` : "";
   const library = `<section class="landing-action-panel submissions-library" id="landing-panel-read" aria-labelledby="landing-action-read" hidden>
