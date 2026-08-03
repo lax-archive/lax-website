@@ -1062,6 +1062,58 @@ body{
   background: linear-gradient(120deg, var(--surface), var(--accent-light));
 }
 
+.landing-cite-example{
+  display: grid;
+  gap: 0.35rem;
+  margin-top: 1.15rem;
+}
+
+.landing-cite-example > p{
+  color: var(--text-dim);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.landing-cite-example > a{
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.72rem 0.85rem;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  text-decoration: none;
+  transition: border-color 140ms ease, box-shadow 140ms ease, transform 140ms ease;
+}
+
+.landing-cite-example > a:hover,
+.landing-cite-example > a:focus-visible{
+  border-color: var(--accent);
+  box-shadow: 0 5px 16px rgba(44, 95, 138, 0.1);
+  transform: translateY(-1px);
+  outline: none;
+}
+
+.landing-cite-example-id{
+  color: var(--link);
+  font-family: var(--mono);
+  font-size: 0.78rem;
+}
+
+.landing-cite-example strong{ line-height: 1.35; }
+
+.landing-cite-example-action{
+  color: var(--link);
+  font-size: 0.78rem;
+  white-space: nowrap;
+}
+
+.landing-cite-example-action b{ font-size: 0.95rem; }
+
 .stats-line{
   font-variant: small-caps;
   letter-spacing: 0.04em;
@@ -1723,6 +1775,8 @@ body{
   .landing-action-hint,
   .landing-action-status{ opacity: 1; transform: none; }
   .landing-action-panel{ padding: 1rem; }
+  .landing-cite-example > a{ grid-template-columns: auto minmax(0, 1fr); }
+  .landing-cite-example-action{ grid-column: 1 / -1; }
 }
 
 @media (hover: none){
