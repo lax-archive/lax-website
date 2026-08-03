@@ -639,6 +639,8 @@ body{
   margin-bottom: 0.85rem;
 }
 
+.section-title[id]{ scroll-margin-top: calc(var(--header-height) + 1rem); }
+
 /* ── Markdown / math content ── */
 
 .latex-content{
