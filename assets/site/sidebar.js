@@ -85,6 +85,7 @@
     const sidebar = document.getElementById('sidebar');
     const backdrop = document.getElementById('sidebar-backdrop');
     const shell = document.getElementById('content-shell');
+    const header = document.querySelector('.site-header');
     const toggleBtn = document.getElementById('sidebar-toggle');
     if (!sidebar || !toggleBtn) return;
 
@@ -98,6 +99,7 @@
         if (backdrop) backdrop.classList.toggle('open', v);
       } else if (shell) {
         shell.classList.toggle('sidebar-hidden', !v);
+        if (header) header.classList.toggle('sidebar-hidden', !v);
       }
       toggleBtn.setAttribute('aria-expanded', v ? 'true' : 'false');
     }
