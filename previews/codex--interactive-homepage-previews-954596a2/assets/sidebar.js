@@ -1,6 +1,8 @@
 // Sidebar behavior: mobile drawer toggle and entry filtering. All data is in
 // the DOM (data-search / data-type attributes); nothing is fetched.
 (() => {
+  let searchHasSelectedRead = false;
+
   function isMobile() {
     return window.matchMedia('(max-width: 900px)').matches;
   }
@@ -65,10 +67,15 @@
     const submissions = document.getElementById('submissions-list');
     if (submissions) {
       filterList(submissions, search, 'all', 'submissions-list-empty');
-      // Search results live in the Read disclosure on the landing page.
-      // Reveal it as soon as a visitor starts searching.
+      // Search results live in the always-visible Read section. Move there
+      // once when a visitor begins a new search, not on every keystroke.
       const readAction = document.querySelector('[data-landing-action="read"]');
-      if (search && readAction?.getAttribute('aria-expanded') !== 'true') readAction.click();
+      if (search && !searchHasSelectedRead) {
+        readAction?.click();
+        searchHasSelectedRead = true;
+      } else if (!search) {
+        searchHasSelectedRead = false;
+      }
     }
     // A group heading (Concepts / Proofs) shows only while its group does.
     list.querySelectorAll('li.entry-heading').forEach((heading) => {
