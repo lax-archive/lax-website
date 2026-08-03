@@ -60,6 +60,21 @@ ${heading}${copy}
 </button>`;
 }
 
+function copyablePrompt(html: string): string {
+  const open = "<pre>";
+  const close = "</pre>";
+  const start = html.indexOf(open);
+  const end = html.indexOf(close, start + open.length);
+  if (start < 0 || end < 0) throw new Error("landing submit section must include a fenced prompt");
+  const prompt = html.slice(start, end + close.length)
+    .replace(open, '<pre id="landing-submission-prompt">');
+  return `${html.slice(0, start)}<div class="landing-prompt-box">
+${prompt}
+<button class="prompt-copy" type="button" data-copy-prompt aria-controls="landing-submission-prompt" aria-label="Copy prompt to clipboard" title="Copy prompt"><span class="prompt-copy-icon" aria-hidden="true"></span></button>
+<output class="prompt-copy-status" aria-live="polite"></output>
+</div>${html.slice(end + close.length)}`;
+}
+
 /** The landing page: content/landing.md, then the submissions
  * library with its stats. Records that only reserved an id have nothing to
  * show and stay off the library and the stats (their pages exist for direct
@@ -107,7 +122,7 @@ ${rows.join("\n")}
   const submit = `<section class="landing-action-panel landing-submit-panel latex-content" id="landing-panel-submit" aria-labelledby="landing-action-submit" hidden>
 <p class="landing-action-eyebrow">Contribute to Lax</p>
 <h3>Creating your own submission</h3>
-${markdown.render(landing.submit, "")}
+${copyablePrompt(markdown.render(landing.submit, ""))}
 </section>`;
   const cite = `<section class="landing-action-panel landing-cite-panel" id="landing-panel-cite" aria-labelledby="landing-action-cite" hidden>
 <p class="landing-action-eyebrow">Cite the formalization</p>

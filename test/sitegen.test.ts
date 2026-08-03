@@ -198,6 +198,7 @@ describe("site generator", () => {
     expect(landingScript).toContain("url.searchParams.set('view', id)");
     expect(landingScript).toContain("window.addEventListener('popstate'");
     expect(landingScript).toContain("const initialView = urlView()");
+    expect(landingScript).toContain("document.querySelector('[data-copy-prompt]')");
   });
 
   it("rejects generated page paths that escape the output directory", async () => {
@@ -240,6 +241,10 @@ describe("site generator", () => {
     expect(index).toContain('<section class="landing-action-panel submissions-library" id="landing-panel-read" aria-labelledby="landing-action-read" hidden>');
     expect(index).toContain("<h3>Submissions</h3>");
     expect(index).toContain("Creating your own submission");
+    expect(index).toContain('<div class="landing-prompt-box">');
+    expect(index).toContain('<pre id="landing-submission-prompt"><code>');
+    expect(index).toContain('data-copy-prompt aria-controls="landing-submission-prompt" aria-label="Copy prompt to clipboard"');
+    expect(index).toContain('<output class="prompt-copy-status" aria-live="polite"></output>');
     expect(index).toContain('id="landing-panel-submit" aria-labelledby="landing-action-submit" hidden');
     expect(index).toContain('id="landing-panel-cite" aria-labelledby="landing-action-cite" hidden');
     expect(index).toContain("Every submission page ends with a <strong>Citation</strong> section");
