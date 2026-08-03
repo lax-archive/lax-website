@@ -330,20 +330,16 @@ export function paperAbstract(rendered: string): string {
 </section>`;
 }
 
-/** Named authors (with ORCID/GitHub), or the owner handles as a fallback. */
+/** Named authors (with ORCID/GitHub). An empty list intentionally omits the byline. */
 function authorByline(submission: SiteSubmission): string {
-  const { record, output } = submission;
-  const authors = (output?.manifest.authors ?? []).map((author) => {
+  const authors = (submission.output?.manifest.authors ?? []).map((author) => {
     const links = [
       author.orcid ? `<a href="https://orcid.org/${attr(author.orcid)}">ORCID</a>` : "",
       author.github ? `<a href="https://github.com/${attr(author.github)}">@${esc(author.github)}</a>` : "",
     ].filter(Boolean).join(" ");
     return `<span class="paper-author">${esc(author.name)}${links ? ` <span class="author-links">${links}</span>` : ""}</span>`;
   });
-  if (authors.length) return authors.join('<span class="author-sep">·</span>');
-  return record.owners
-    .map((o) => `<span class="paper-author"><a href="https://github.com/${attr(o.handle)}">@${esc(o.handle)}</a></span>`)
-    .join('<span class="author-sep">·</span>');
+  return authors.join('<span class="author-sep">·</span>');
 }
 
 /** The dim technical line under the byline: state, dates, source, pins. */
