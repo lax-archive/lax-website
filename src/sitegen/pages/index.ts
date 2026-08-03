@@ -82,7 +82,7 @@ ${authors ? `<span class="submissions-list-meta"><span class="formalized-label">
   const landing = landingCopy(contentMarkdown("landing.md").trim());
   const actionOrder = ["read", "review", "submit", "cite"];
   const actionCards = actionOrder.map((id) => actionCard(landing.actions.get(id)!, id !== "review"));
-  const citeExample = listed.find((submission) => submission.record.id.toLowerCase() === "lax17")
+  const citeExample = listed.find((submission) => submission.record.id.toLowerCase().replace(/[^a-z0-9]/g, "") === "lax17")
     ?? listed.find((submission) => submission.record.state === "registered")
     ?? listed[0];
   const citeExampleLink = citeExample ? `<div class="landing-cite-example">

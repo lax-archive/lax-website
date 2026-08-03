@@ -271,11 +271,11 @@ describe("site generator", () => {
   it("uses Lax17 as the landing citation example when it is available", async () => {
     const archive = submissions();
     const lax17 = structuredClone(archive[0]!);
-    lax17.record.id = "Lax17";
+    lax17.record.id = "lax-17";
     lax17.record.state = "draft";
     lax17.record.registeredAt = undefined;
-    lax17.output!.id = "Lax17";
-    lax17.output!.manifest.id = "Lax17";
+    lax17.output!.id = "lax-17";
+    lax17.output!.manifest.id = "lax-17";
     lax17.output!.manifest.title = "A Polynomial Bound for the Grid-Minor Theorem";
     lax17.output!.abstract = "";
     lax17.output!.concepts = [];
@@ -284,7 +284,7 @@ describe("site generator", () => {
     const root = tmpDir("lax-site-cite-example-");
     await generateSite([...archive, lax17], root);
     const index = fs.readFileSync(path.join(root, "index.html"), "utf8");
-    expect(index).toContain('href="Lax17/index.html#citation"');
+    expect(index).toContain('href="lax-17/index.html#citation"');
     expect(index).toContain("A Polynomial Bound for the Grid-Minor Theorem");
   });
 
