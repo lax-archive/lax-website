@@ -202,6 +202,8 @@ describe("site generator", () => {
     expect(landingScript).toContain("window.addEventListener('popstate'");
     expect(landingScript).toContain("const initialView = urlView()");
     expect(landingScript).toContain("document.querySelector('[data-copy-prompt]')");
+    expect(landingScript).toContain("if (panel) panel.hidden = false");
+    expect(landingScript).not.toContain("panel.hidden = panel.id !==");
   });
 
   it("rejects generated page paths that escape the output directory", async () => {
@@ -253,7 +255,7 @@ describe("site generator", () => {
     expect(index).toContain("Every submission page ends with a <strong>Citation</strong> section");
     expect(index).toContain('class="landing-cite-example"');
     expect(index).toContain('href="Lax2/index.html#citation"');
-    expect(index).toContain('class="landing-cite-example-action">View citation');
+    expect(index).toContain('class="landing-cite-example-action">See its BibTeX');
     expect(index).toContain("contributing.html");
     expect(index).toContain('<script src="assets/landing.js"></script>');
     expect(index).not.toContain("&lt;!--");
