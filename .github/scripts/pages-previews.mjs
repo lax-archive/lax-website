@@ -1,8 +1,9 @@
 import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
+import { pathToFileURL } from "node:url";
 
-function previewSlug(branch) {
+export function previewSlug(branch) {
   const readable = branch
     .normalize("NFKD")
     .toLowerCase()
@@ -26,7 +27,7 @@ function previewDirectory(root, branch) {
   return path.join(path.resolve(root), "previews", previewSlug(branch));
 }
 
-function recordPreview(root, branch, sha) {
+export function recordPreview(root, branch, sha) {
   const directory = previewDirectory(root, branch);
   if (!fs.existsSync(directory)) throw new Error(`preview output does not exist: ${directory}`);
   const record = {
@@ -51,7 +52,7 @@ function previewRecords(previewsRoot) {
     .sort((a, b) => a.branch.localeCompare(b.branch));
 }
 
-function buildIndex(root) {
+export function buildIndex(root) {
   const previewsRoot = path.join(path.resolve(root), "previews");
   fs.mkdirSync(previewsRoot, { recursive: true });
   const cards = previewRecords(previewsRoot).map((record) => {
@@ -88,11 +89,15 @@ ${cards ? `<ul>${cards}</ul>` : empty}
   fs.writeFileSync(path.join(previewsRoot, "index.html"), html);
 }
 
-const [command, ...args] = process.argv.slice(2);
-if (command === "slug" && args.length === 1) process.stdout.write(previewSlug(args[0]));
-else if (command === "record" && args.length === 3) recordPreview(...args);
-else if (command === "index" && args.length === 1) buildIndex(args[0]);
-else {
-  console.error("usage: pages-previews.mjs slug <branch> | record <pages-root> <branch> <sha> | index <pages-root>");
-  process.exitCode = 2;
+function main() {
+  const [command, ...args] = process.argv.slice(2);
+  if (command === "slug" && args.length === 1) process.stdout.write(previewSlug(args[0]));
+  else if (command === "record" && args.length === 3) recordPreview(...args);
+  else if (command === "index" && args.length === 1) buildIndex(args[0]);
+  else {
+    console.error("usage: pages-previews.mjs slug <branch> | record <pages-root> <branch> <sha> | index <pages-root>");
+    process.exitCode = 2;
+  }
 }
+
+if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href) main();

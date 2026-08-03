@@ -250,7 +250,7 @@ describe("site generator", () => {
     // sidebar rows share the flat entry grammar (chip + text), not cards
     expect(index).not.toContain("sidebar-submission");
     expect(index).toContain('<span class="entry-label"><span class="entry-id">Lax2</span><span class="entry-label-text">Two</span></span>');
-    expect(index).toContain('href="Lax2/index.html" title="Two"');
+    expect(index).toContain('href="Lax2/index.html" data-full-title="Two"');
     // a record that only reserved an id stays off the landing page, the
     // sidebar, and the stats; its page still exists for direct links
     expect(index).not.toContain("Lax10");

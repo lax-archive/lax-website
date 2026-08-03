@@ -229,7 +229,7 @@ export function indexSidebar(model: SiteModel): string {
     const id = submission.record.id;
     const title = submission.output!.manifest.title;
     const draft = submission.record.state === "draft" ? '<span class="draft-badge">draft</span>' : "";
-    return `<li ${submissionSearchAttributes(submission, order)}><a class="entry-link" href="${attr(id)}/index.html" title="${attr(title)}"><span class="entry-label"><span class="entry-id">${esc(id)}</span>${draft}<span class="entry-label-text">${esc(title)}</span></span></a></li>`;
+    return `<li ${submissionSearchAttributes(submission, order)}><a class="entry-link" href="${attr(id)}/index.html" data-full-title="${attr(title)}"><span class="entry-label"><span class="entry-id">${esc(id)}</span>${draft}<span class="entry-label-text">${esc(title)}</span></span></a></li>`;
   });
   return `<div class="sidebar-filters">${searchGroup("Search titles and concepts", "entry-list submissions-list")}</div>
 <ul id="entry-list">
@@ -270,14 +270,14 @@ ${typeOptions}
     const haystack = `${concept.id} ${concept.title} ${type}`.toLowerCase();
     const active = concept.id === opts.activeId ? ' class="active"' : "";
     const href = `${rootRel}${submission.record.id}/${concept.id}.html`;
-    return `<li${active} data-type="${attr(type)}" data-search="${attr(haystack)}"><a class="entry-link" href="${attr(href)}" title="${attr(concept.title)}"><span class="entry-label">${typeBadge(concept.type, status)}<span class="entry-label-text">${esc(name)}</span></span></a></li>`;
+    return `<li${active} data-type="${attr(type)}" data-search="${attr(haystack)}"><a class="entry-link" href="${attr(href)}" data-full-title="${attr(concept.title)}"><span class="entry-label">${typeBadge(concept.type, status)}<span class="entry-label-text">${esc(name)}</span></span></a></li>`;
   });
   const proofRows = proofs.map((proof) => {
     const name = proofShortName(output!, proof, output!.id);
     const haystack = `${proof.id} proof`.toLowerCase();
     const active = proof.id === opts.activeId ? ' class="active"' : "";
     const href = `${rootRel}${submission.record.id}/${proof.id}.html`;
-    return `<li${active} data-type="proof" data-search="${attr(haystack)}"><a class="entry-link" href="${attr(href)}" title="${attr(proof.id)}"><span class="entry-label">${proofBadge()}<span class="entry-label-text">${esc(name)}</span></span></a></li>`;
+    return `<li${active} data-type="proof" data-search="${attr(haystack)}"><a class="entry-link" href="${attr(href)}" data-full-title="${attr(proof.id)}"><span class="entry-label">${proofBadge()}<span class="entry-label-text">${esc(name)}</span></span></a></li>`;
   });
   const rows = [
     ...(conceptRows.length && proofRows.length ? [`<li class="entry-heading" aria-hidden="true">Concepts</li>`] : []),
