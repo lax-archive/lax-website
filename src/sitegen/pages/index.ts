@@ -144,8 +144,8 @@ ${markdown.render(landing.introduction, "")}
 ${actionCards.join("\n")}
 </div>
 <div class="landing-action-panels" aria-live="polite">
-${library}
 ${submit}
+${library}
 ${cite}
 </div>
 </section>`;

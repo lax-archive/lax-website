@@ -251,6 +251,8 @@ describe("site generator", () => {
     expect(index).toContain('id="landing-panel-submit" aria-labelledby="landing-action-submit">');
     expect(index).toContain('id="landing-panel-cite" aria-labelledby="landing-action-cite">');
     expect(index).not.toMatch(/id="landing-panel-(?:read|submit|cite)"[^>]* hidden/);
+    expect(index.indexOf('id="landing-panel-submit"')).toBeLessThan(index.indexOf('id="landing-panel-read"'));
+    expect(index.indexOf('id="landing-panel-read"')).toBeLessThan(index.indexOf('id="landing-panel-cite"'));
     expect(index).toContain('Go to section <b>↓</b>');
     expect(index).toContain("Every submission page ends with a <strong>Citation</strong> section");
     expect(index).toContain('class="landing-cite-example"');
