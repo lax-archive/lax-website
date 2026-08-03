@@ -2,7 +2,7 @@ import { DEFAULT_SITE_URL } from "../../config.js";
 import type { BuildOutput, ConceptEntry, ProofEntry } from "../../types.js";
 import { attr, code, esc, proofBadge, statePill, typeBadge } from "../html.js";
 import type { MarkdownRenderer } from "../markdown.js";
-import type { LocatedProof, SiteModel, SiteSubmission } from "../model.js";
+import { compareIds, type LocatedProof, type SiteModel, type SiteSubmission } from "../model.js";
 
 export interface PageContext { model: SiteModel; markdown: MarkdownRenderer }
 
@@ -186,11 +186,37 @@ export function conceptShortName(output: BuildOutput, concept: ConceptEntry): st
 
 const EMPTY_ROW = `<li id="entry-list-empty" hidden>No entries match.</li>`;
 
-function searchGroup(): string {
+function searchGroup(placeholder = "Filter entries", controls = "entry-list"): string {
   return `<div class="filter-group">
 <label for="filter-search">Search</label>
-<input id="filter-search" class="filter-input" type="text" placeholder="Filter entries">
+<input id="filter-search" class="filter-input" type="search" placeholder="${attr(placeholder)}" aria-controls="${attr(controls)}">
 </div>`;
+}
+
+function submissionStateRank(state: string): number {
+  if (state === "registered") return 0;
+  if (state === "draft") return 1;
+  return 2;
+}
+
+/** Registered submissions lead drafts both before and during search. Archive
+ * ids break ties so the generated order is stable and unsurprising. */
+export function compareSearchSubmissions(a: SiteSubmission, b: SiteSubmission): number {
+  return submissionStateRank(a.record.state) - submissionStateRank(b.record.state)
+    || compareIds(a.record.id, b.record.id);
+}
+
+/** Search metadata shared by the index sidebar and the full library. The
+ * browser keeps submission title/id words separate from concept names so it
+ * can rank title hits first without shipping a second search index. */
+export function submissionSearchAttributes(submission: SiteSubmission, order: number): string {
+  const output = submission.output!;
+  const title = `${submission.record.id} ${output.manifest.title}`.toLowerCase();
+  const concepts = output.concepts
+    .flatMap((concept) => [concept.id, concept.title, concept.type ?? ""])
+    .join(" ")
+    .toLowerCase();
+  return `data-search-title="${attr(title)}" data-search-concepts="${attr(concepts)}" data-state="${attr(submission.record.state)}" data-search-order="${order}"`;
 }
 
 /** Sidebar of the index page: every submission with content, searchable.
@@ -198,14 +224,14 @@ function searchGroup(): string {
  * lists (their pages exist for direct links). Rows share the entry grammar
  * of every other sidebar: a chip (here the id), then the ellipsized text. */
 export function indexSidebar(model: SiteModel): string {
-  const rows = model.submissions.filter((s) => s.output).map((submission) => {
+  const listed = model.submissions.filter((s) => s.output).sort(compareSearchSubmissions);
+  const rows = listed.map((submission, order) => {
     const id = submission.record.id;
     const title = submission.output!.manifest.title;
-    const haystack = `${id} ${title} ${submission.record.state}`.toLowerCase();
     const draft = submission.record.state === "draft" ? '<span class="draft-badge">draft</span>' : "";
-    return `<li data-search="${attr(haystack)}"><a class="entry-link" href="${attr(id)}/index.html"><span class="entry-label"><span class="entry-id">${esc(id)}</span>${draft}<span class="entry-label-text">${esc(title)}</span></span></a></li>`;
+    return `<li ${submissionSearchAttributes(submission, order)}><a class="entry-link" href="${attr(id)}/index.html"><span class="entry-label"><span class="entry-id">${esc(id)}</span>${draft}<span class="entry-label-text">${esc(title)}</span></span></a></li>`;
   });
-  return `<div class="sidebar-filters">${searchGroup()}</div>
+  return `<div class="sidebar-filters">${searchGroup("Search titles and concepts", "entry-list submissions-list")}</div>
 <ul id="entry-list">
 ${rows.join("\n")}
 ${EMPTY_ROW}

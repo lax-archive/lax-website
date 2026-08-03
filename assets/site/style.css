@@ -789,13 +789,13 @@ body{
 
 /* The text is website/landing.md through the shared markdown grammar
    (.latex-content); section headings fall to the #detail h2 grammar like
-   every other page's. The masthead reuses the paper grammar (paper-head,
-   paper-title): the landing is the archive's own title page. */
+   every other page's. The masthead keeps the paper divider, while the global
+   site header supplies the archive title. */
 
 .landing-head{ padding-top: 0.5rem; }
 
-/* The lede: landing.md's first paragraph as a centered tagline under the
-   title — read, not justified. */
+/* The lede: landing.md's first paragraph as a centered tagline — read, not
+   justified. */
 .landing-lede{
   max-width: 34em;
   margin: 0 auto;
@@ -905,6 +905,11 @@ body{
 }
 
 .submissions-list-counts code{ font-family: var(--mono); font-size: 0.72rem; font-variant: normal; }
+
+.submissions-list-empty{
+  color: var(--text-dim);
+  padding: 0.75rem 0;
+}
 
 /* ── Submission concept grid ── */
 

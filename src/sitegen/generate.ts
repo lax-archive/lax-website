@@ -32,13 +32,24 @@ export async function generateSite(submissions: SiteSubmission[], outDir: string
       files.set(file, proofPage(context, model.proofHome.get(proof.id)!));
     }
   }
+  const outputRoot = path.resolve(outDir);
+  const renderedFiles = [...files]
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([relative, content]) => [siteOutputPath(outputRoot, relative), content] as const);
   // Build all content before replacing the old site, minimizing partial output.
-  fs.rmSync(outDir, { recursive: true, force: true });
-  fs.mkdirSync(outDir, { recursive: true });
-  copyAssets(outDir);
-  for (const [relative, content] of [...files].sort(([a], [b]) => a.localeCompare(b))) {
-    const file = path.join(outDir, relative);
+  fs.rmSync(outputRoot, { recursive: true, force: true });
+  fs.mkdirSync(outputRoot, { recursive: true });
+  copyAssets(outputRoot);
+  for (const [file, content] of renderedFiles) {
     fs.mkdirSync(path.dirname(file), { recursive: true });
     fs.writeFileSync(file, content);
   }
+}
+
+function siteOutputPath(outputRoot: string, relative: string): string {
+  const file = path.resolve(outputRoot, relative);
+  if (file === outputRoot || !file.startsWith(`${outputRoot}${path.sep}`)) {
+    throw new Error(`generated page escapes the site output directory: ${relative}`);
+  }
+  return file;
 }
