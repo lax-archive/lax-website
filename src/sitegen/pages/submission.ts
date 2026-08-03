@@ -95,7 +95,11 @@ ${proofNetworkLegend()}
 ${relatedFigure}
 </section>
 <section class="page-section"><h3 class="section-title">Cite this</h3>
-<pre class="citation">${esc(bibtex(submission))}</pre>
+<div class="citation-box">
+<pre class="citation" id="submission-citation">${esc(bibtex(submission))}</pre>
+<button class="citation-copy" type="button" data-copy-citation aria-controls="submission-citation" aria-label="Copy BibTeX to clipboard" title="Copy BibTeX"><span class="citation-copy-icon" aria-hidden="true"></span></button>
+<output class="citation-copy-status" aria-live="polite"></output>
+</div>
 </section>
 ${references ? `<section class="page-section"><h3 class="section-title">References</h3>\n<ol class="reference-list">\n${references}\n</ol>\n</section>` : ""}
 ${graphData(ctx, submission, related)}`;
@@ -104,7 +108,7 @@ ${graphData(ctx, submission, related)}`;
     rootRel: "../",
     sidebar,
     content,
-    scripts: ["assets/layout.js", "assets/dag.js"],
+    scripts: ["assets/layout.js", "assets/dag.js", "assets/citation.js"],
   });
 }
 

@@ -2,7 +2,8 @@ name: Deploy website
 
 on:
   push:
-    branches: ["main"]
+    branches-ignore: ["gh-pages"]
+  delete:
   workflow_dispatch:
   repository_dispatch:
     types: ["lax-db-updated"]
@@ -11,16 +12,19 @@ on:
     - cron: "17 * * * *"
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
+# Every deployment contains production plus all retained branch previews, so
+# publishing jobs must update the shared Pages tree one at a time.
 concurrency:
   group: github-pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   build-and-deploy:
+    if: github.event_name != 'delete' || github.event.ref_type == 'branch'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
@@ -29,6 +33,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Check out the public archive database
+        if: github.event_name != 'delete'
         uses: actions/checkout@v4
         with:
           repository: lax-archive/lax-database
@@ -39,15 +44,122 @@ jobs:
           node-version: 22
           cache: npm
 
-      - run: npm ci
-      - run: npm run check
-      - run: npm run site:build -- --database data/lax-db --out _site
+      - if: github.event_name != 'delete'
+        run: npm ci
+
+      - if: github.event_name != 'delete'
+        run: npm run check
+
+      - name: Build the current branch
+        if: github.event_name != 'delete'
+        run: npm run site:build -- --database data/lax-db --out _site
+
+      - name: Select the Pages destination
+        id: target
+        env:
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+          DELETED_BRANCH: ${{ github.event.ref }}
+          EVENT_NAME: ${{ github.event_name }}
+          REF_NAME: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          if [[ "$EVENT_NAME" == "delete" ]]; then
+            branch="$DELETED_BRANCH"
+            mode="delete"
+          elif [[ "$EVENT_NAME" == "schedule" || "$EVENT_NAME" == "repository_dispatch" || "$REF_NAME" == "$DEFAULT_BRANCH" ]]; then
+            branch="$DEFAULT_BRANCH"
+            mode="production"
+          else
+            branch="$REF_NAME"
+            mode="preview"
+          fi
+          echo "branch=$branch" >> "$GITHUB_OUTPUT"
+          echo "mode=$mode" >> "$GITHUB_OUTPUT"
+          echo "slug=$(node .github/scripts/pages-previews.mjs slug "$branch")" >> "$GITHUB_OUTPUT"
+
+      - name: Restore the published Pages tree
+        run: |
+          set -euo pipefail
+          if git ls-remote --exit-code --heads origin gh-pages >/dev/null 2>&1; then
+            git fetch --no-tags --depth=1 origin gh-pages
+            git worktree add --detach _pages FETCH_HEAD
+          else
+            git worktree add --detach _pages
+            git -C _pages switch --orphan gh-pages
+            git -C _pages rm -rf .
+          fi
+
+      - name: Bootstrap the production root
+        if: github.event_name != 'delete'
+        env:
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+        run: |
+          set -euo pipefail
+          if [[ -s _pages/index.html ]]; then
+            exit 0
+          fi
+          source_dir="$RUNNER_TEMP/production-source"
+          git fetch --no-tags --depth=1 origin "$DEFAULT_BRANCH:refs/remotes/origin/$DEFAULT_BRANCH"
+          git worktree add --detach "$source_dir" "origin/$DEFAULT_BRANCH"
+          npm --prefix "$source_dir" ci
+          npm --prefix "$source_dir" run site:build -- \
+            --database "$GITHUB_WORKSPACE/data/lax-db" \
+            --out "$GITHUB_WORKSPACE/_production_site"
+          cp -a _production_site/. _pages/
+
+      - name: Update production or branch preview
+        env:
+          BRANCH: ${{ steps.target.outputs.branch }}
+          MODE: ${{ steps.target.outputs.mode }}
+          SHA: ${{ github.sha }}
+          SLUG: ${{ steps.target.outputs.slug }}
+        run: |
+          set -euo pipefail
+          if [[ "$MODE" == "production" ]]; then
+            find _pages -mindepth 1 -maxdepth 1 \
+              ! -name .git ! -name previews -exec rm -rf {} +
+            cp -a _site/. _pages/
+          elif [[ "$MODE" == "preview" ]]; then
+            rm -rf "_pages/previews/$SLUG"
+            mkdir -p "_pages/previews/$SLUG"
+            cp -a _site/. "_pages/previews/$SLUG/"
+            node .github/scripts/pages-previews.mjs record _pages "$BRANCH" "$SHA"
+          else
+            rm -rf "_pages/previews/$SLUG"
+          fi
+          touch _pages/.nojekyll
+          node .github/scripts/pages-previews.mjs index _pages
+
+      - name: Persist the complete Pages tree
+        run: |
+          set -euo pipefail
+          git -C _pages config user.name "github-actions[bot]"
+          git -C _pages config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git -C _pages add --all
+          if ! git -C _pages diff --cached --quiet; then
+            git -C _pages commit -m "Publish ${{ steps.target.outputs.branch }}"
+            git -C _pages push origin HEAD:gh-pages
+          fi
+
+      - name: Prepare deployment artifact
+        run: |
+          mkdir _deploy
+          cp -a _pages/. _deploy/
+          rm -f _deploy/.git
 
       - uses: actions/configure-pages@v5
+
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: _site
+          path: _deploy
 
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Publish preview URL
+        if: steps.target.outputs.mode == 'preview'
+        env:
+          PAGE_URL: ${{ steps.deployment.outputs.page_url }}
+          SLUG: ${{ steps.target.outputs.slug }}
+        run: echo "### Preview URL"$'\n\n'"${PAGE_URL%/}/previews/$SLUG/" >> "$GITHUB_STEP_SUMMARY"

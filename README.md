@@ -72,10 +72,17 @@ artifact.
 
 `.github/workflows/deploy-pages.yml` builds and deploys GitHub Pages when:
 
-- `main` changes;
+- any branch changes;
 - a maintainer starts it manually;
 - another system sends the `lax-db-updated` repository dispatch event;
 - the hourly fallback notices database changes after a missed dispatch.
+
+The default branch is published at the Pages root. Every other branch is
+published independently below `/previews/<branch-slug>/`, and the shareable
+preview directory is available at `/previews/`. Pushing a branch updates only
+its preview; deleting the branch removes it. The workflow retains the complete
+published tree on the generated `gh-pages` branch so one branch cannot overwrite
+another branch's preview.
 
 To trigger an immediate rebuild from an authorized external workflow:
 

@@ -63,7 +63,13 @@
     const type = typeEl ? typeEl.value : 'all';
     filterList(list, search, type, 'entry-list-empty');
     const submissions = document.getElementById('submissions-list');
-    if (submissions) filterList(submissions, search, 'all', 'submissions-list-empty');
+    if (submissions) {
+      filterList(submissions, search, 'all', 'submissions-list-empty');
+      // Search results live in the Read disclosure on the landing page.
+      // Reveal it as soon as a visitor starts searching.
+      const readAction = document.querySelector('[data-landing-action="read"]');
+      if (search && readAction?.getAttribute('aria-expanded') !== 'true') readAction.click();
+    }
     // A group heading (Concepts / Proofs) shows only while its group does.
     list.querySelectorAll('li.entry-heading').forEach((heading) => {
       let any = false;

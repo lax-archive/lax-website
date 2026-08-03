@@ -185,7 +185,7 @@ describe("site generator", () => {
       expect(bytes.equals(second.get(name)!)).toBe(true);
       expect(SITE_MIME[path.extname(name)], `missing MIME for ${name}`).toBeDefined();
     }
-    for (const asset of ["style.css", "sidebar.js", "layout.js", "dag.js", "katex.css", path.join("fonts", "LM-regular.woff2")])
+    for (const asset of ["style.css", "sidebar.js", "landing.js", "layout.js", "dag.js", "citation.js", "katex.css", path.join("fonts", "LM-regular.woff2")])
       expect(fs.existsSync(path.join(one, "assets", asset)), asset).toBe(true);
     // Graph containers must be measurable before dag.js appends their SVG.
     const css = fs.readFileSync(path.join(one, "assets", "style.css"), "utf8");
@@ -218,9 +218,20 @@ describe("site generator", () => {
     expect(index).not.toContain('<h1 class="paper-title">Lax <span class="site-title-quiet">Lean Archive</span></h1>');
     expect(index.indexOf("landing-lede")).toBeLessThan(index.indexOf("landing-about"));
     expect(index).toContain("what arXiv is to preprints");
-    expect(index).toContain("<h2>Submissions</h2>");
+    expect(index).toContain('<h2 id="landing-actions-heading">What you can do here</h2>');
+    expect(index).toContain('data-landing-action="read" aria-expanded="false" aria-controls="landing-panel-read"');
+    expect(index).toContain('data-landing-action="submit" aria-expanded="false" aria-controls="landing-panel-submit"');
+    expect(index).toContain('data-landing-action="cite" aria-expanded="false" aria-controls="landing-panel-cite"');
+    expect(index).toContain('class="landing-action-card unavailable"');
+    expect(index).toContain("Coming soon");
+    expect(index).toContain('<section class="landing-action-panel submissions-library" id="landing-panel-read" aria-labelledby="landing-action-read" hidden>');
+    expect(index).toContain("<h3>Submissions</h3>");
     expect(index).toContain("Creating your own submission");
+    expect(index).toContain('id="landing-panel-submit" aria-labelledby="landing-action-submit" hidden');
+    expect(index).toContain('id="landing-panel-cite" aria-labelledby="landing-action-cite" hidden');
+    expect(index).toContain("Every submission page ends with a <strong>Citation</strong> section");
     expect(index).toContain("contributing.html");
+    expect(index).toContain('<script src="assets/landing.js"></script>');
     expect(index).not.toContain("&lt;!--");
     expect(index).toContain("Lax2/index.html");
     expect(index).toContain('class="submissions-list-link');
@@ -238,6 +249,7 @@ describe("site generator", () => {
     // sidebar rows share the flat entry grammar (chip + text), not cards
     expect(index).not.toContain("sidebar-submission");
     expect(index).toContain('<span class="entry-label"><span class="entry-id">Lax2</span><span class="entry-label-text">Two</span></span>');
+    expect(index).toContain('href="Lax2/index.html" title="Two"');
     // a record that only reserved an id stays off the landing page, the
     // sidebar, and the stats; its page still exists for direct links
     expect(index).not.toContain("Lax10");
@@ -334,6 +346,10 @@ describe("site generator", () => {
     expect(html).toContain(`<h4 class="figure-title">Proof network<a class="source-link" href="${proofsTree}">view on GitHub</a></h4>`);
     // citation for a registered submission has no draft note
     expect(html).toContain("@misc{Lax2");
+    expect(html).toContain('<pre class="citation" id="submission-citation">');
+    expect(html).toContain('data-copy-citation aria-controls="submission-citation" aria-label="Copy BibTeX to clipboard"');
+    expect(html).toContain('<output class="citation-copy-status" aria-live="polite"></output>');
+    expect(html).toContain('<script src="../assets/citation.js"></script>');
     expect(html).not.toContain("note = {draft}");
     expect(html).not.toContain("draft-banner");
     // inline JSON graph data parses and grays nothing (no external neighbors)
