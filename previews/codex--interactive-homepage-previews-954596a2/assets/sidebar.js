@@ -87,6 +87,55 @@
     if (type) type.addEventListener('change', applyFilters);
   }
 
+  function setupEntryTooltips() {
+    const links = [...document.querySelectorAll('#entry-list .entry-link[data-full-title]')];
+    if (!links.length) return;
+    const tooltip = document.createElement('div');
+    tooltip.id = 'sidebar-entry-tooltip';
+    tooltip.className = 'sidebar-entry-tooltip';
+    tooltip.setAttribute('role', 'tooltip');
+    tooltip.hidden = true;
+    document.body.append(tooltip);
+    let activeLink;
+
+    function hide() {
+      if (activeLink) activeLink.removeAttribute('aria-describedby');
+      activeLink = undefined;
+      tooltip.hidden = true;
+    }
+
+    function show(link) {
+      if (isMobile()) return;
+      const label = link.querySelector('.entry-label-text');
+      if (!label || label.scrollWidth <= label.clientWidth + 1) {
+        hide();
+        return;
+      }
+      if (activeLink && activeLink !== link) activeLink.removeAttribute('aria-describedby');
+      activeLink = link;
+      tooltip.textContent = link.dataset.fullTitle;
+      tooltip.hidden = false;
+      link.setAttribute('aria-describedby', tooltip.id);
+      const anchor = link.getBoundingClientRect();
+      const top = Math.min(
+        Math.max(anchor.top + anchor.height / 2 - tooltip.offsetHeight / 2, 8),
+        window.innerHeight - tooltip.offsetHeight - 8,
+      );
+      tooltip.style.left = `${anchor.right + 9}px`;
+      tooltip.style.top = `${top}px`;
+    }
+
+    links.forEach((link) => {
+      link.addEventListener('mouseenter', () => show(link));
+      link.addEventListener('mouseleave', hide);
+      link.addEventListener('focus', () => show(link));
+      link.addEventListener('blur', hide);
+    });
+    const sidebar = document.getElementById('sidebar');
+    if (sidebar) sidebar.addEventListener('scroll', hide, { passive: true });
+    window.addEventListener('resize', hide);
+  }
+
   function setupToggle() {
     const sidebar = document.getElementById('sidebar');
     const backdrop = document.getElementById('sidebar-backdrop');
@@ -128,6 +177,7 @@
   function init() {
     setupFilters();
     applyFilters();
+    setupEntryTooltips();
     setupToggle();
   }
 
