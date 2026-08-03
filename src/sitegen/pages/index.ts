@@ -50,11 +50,11 @@ function landingCopy(source: string): {
 function actionCard(action: LandingAction, available: boolean): string {
   const heading = `<span class="landing-action-title">${esc(action.title)}.</span>`;
   const copy = `<span class="landing-action-copy">${esc(action.description)}</span>`;
-  if (!available) return `<div class="landing-action-card unavailable" tabindex="0" aria-label="${attr(action.title)}, coming soon">
+  if (!available) return `<div class="landing-action-card unavailable" id="landing-action-${attr(action.id)}" data-landing-view="${attr(action.id)}" role="button" aria-disabled="true" tabindex="0" aria-label="${attr(action.title)}, coming soon">
 ${heading}${copy}
 <span class="landing-action-status" aria-hidden="true">Coming soon</span>
 </div>`;
-  return `<button class="landing-action-card" id="landing-action-${attr(action.id)}" type="button" data-landing-action="${attr(action.id)}" aria-expanded="false" aria-controls="landing-panel-${attr(action.id)}">
+  return `<button class="landing-action-card" id="landing-action-${attr(action.id)}" type="button" data-landing-view="${attr(action.id)}" data-landing-action="${attr(action.id)}" aria-expanded="false" aria-controls="landing-panel-${attr(action.id)}">
 ${heading}${copy}
 <span class="landing-action-hint" aria-hidden="true"><span class="when-closed">Open <b>↓</b></span><span class="when-open">Close <b>↑</b></span></span>
 </button>`;

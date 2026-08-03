@@ -194,7 +194,10 @@ describe("site generator", () => {
     expect(unavailableRest).not.toContain("background");
     expect(css).toMatch(/\.landing-action-card\.unavailable:hover,[\s\S]*?background: var\(--panel-bg\);/);
     const landingScript = fs.readFileSync(path.join(one, "assets", "landing.js"), "utf8");
-    expect(landingScript).toContain("panel.scrollIntoView({ behavior, block: 'start' })");
+    expect(landingScript).toContain("target.scrollIntoView({ behavior, block: 'start' })");
+    expect(landingScript).toContain("url.searchParams.set('view', id)");
+    expect(landingScript).toContain("window.addEventListener('popstate'");
+    expect(landingScript).toContain("const initialView = urlView()");
   });
 
   it("rejects generated page paths that escape the output directory", async () => {
@@ -228,6 +231,10 @@ describe("site generator", () => {
     expect(index).toContain('data-landing-action="read" aria-expanded="false" aria-controls="landing-panel-read"');
     expect(index).toContain('data-landing-action="submit" aria-expanded="false" aria-controls="landing-panel-submit"');
     expect(index).toContain('data-landing-action="cite" aria-expanded="false" aria-controls="landing-panel-cite"');
+    for (const id of ["read", "review", "submit", "cite"]) {
+      expect(index).toContain(`id="landing-action-${id}"`);
+      expect(index).toContain(`data-landing-view="${id}"`);
+    }
     expect(index).toContain('class="landing-action-card unavailable"');
     expect(index).toContain("Coming soon");
     expect(index).toContain('<section class="landing-action-panel submissions-library" id="landing-panel-read" aria-labelledby="landing-action-read" hidden>');
