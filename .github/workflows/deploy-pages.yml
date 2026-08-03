@@ -86,7 +86,7 @@ jobs:
           else
             git worktree add --detach _pages
             git -C _pages switch --orphan gh-pages
-            git -C _pages rm -rf .
+            git -C _pages rm -rf --ignore-unmatch .
           fi
 
       - name: Bootstrap the production root
