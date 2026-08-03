@@ -190,6 +190,8 @@ describe("site generator", () => {
     // Graph containers must be measurable before dag.js appends their SVG.
     const css = fs.readFileSync(path.join(one, "assets", "style.css"), "utf8");
     expect(css).not.toContain(".figure-container:empty");
+    const landingScript = fs.readFileSync(path.join(one, "assets", "landing.js"), "utf8");
+    expect(landingScript).toContain("panel.scrollIntoView({ behavior, block: 'start' })");
   });
 
   it("rejects generated page paths that escape the output directory", async () => {

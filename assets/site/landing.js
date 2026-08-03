@@ -13,12 +13,18 @@
         button.setAttribute('aria-expanded', open ? 'true' : 'false');
       }
       for (const panel of panels) panel.hidden = panel.id !== `landing-panel-${id}`;
+      return panels.find((panel) => !panel.hidden);
     }
 
     for (const button of buttons) {
       button.addEventListener('click', () => {
         const id = button.dataset.landingAction;
-        setOpen(button.getAttribute('aria-expanded') === 'true' ? undefined : id);
+        const panel = setOpen(button.getAttribute('aria-expanded') === 'true' ? undefined : id);
+        if (!panel) return;
+        const behavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+          panel.scrollIntoView({ behavior, block: 'start' });
+        }));
       });
     }
   }
