@@ -933,7 +933,7 @@ body{
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-card);
-  box-shadow: 0 1px 2px rgba(43, 43, 43, 0.03);
+  box-shadow: 0 2px 0 rgba(43, 43, 43, 0.07), 0 6px 16px rgba(43, 43, 43, 0.05);
   color: var(--text);
   font: inherit;
   line-height: 1.55;
@@ -955,6 +955,11 @@ body{
 
 .landing-action-card:is(button):focus-visible{ box-shadow: 0 0 0 3px rgba(59, 107, 154, 0.18), 0 8px 22px rgba(44, 95, 138, 0.12); }
 
+.landing-action-card:is(button):active{
+  transform: translateY(1px);
+  box-shadow: 0 1px 2px rgba(43, 43, 43, 0.08);
+}
+
 .landing-action-card[aria-expanded="true"]{
   border-color: var(--accent);
   background: var(--accent-light);
@@ -973,14 +978,29 @@ body{
 
 .landing-action-hint,
 .landing-action-status{
-  align-self: flex-start;
-  margin-top: auto;
-  padding-top: 0.65rem;
   color: var(--accent);
   font-size: 0.74rem;
   font-weight: 700;
   letter-spacing: 0.05em;
   text-transform: uppercase;
+}
+
+.landing-action-hint{
+  align-self: flex-end;
+  margin-top: auto;
+  padding: 0.28rem 0.68rem 0.32rem;
+  background: var(--accent-light);
+  border: 1px solid rgba(59, 107, 154, 0.32);
+  border-radius: 999px;
+  opacity: 1;
+  transform: none;
+  transition: color 140ms ease, background 140ms ease, border-color 140ms ease, box-shadow 140ms ease;
+}
+
+.landing-action-status{
+  align-self: flex-start;
+  margin-top: auto;
+  padding-top: 0.65rem;
   opacity: 0;
   transform: translateY(4px);
   transition: opacity 140ms ease, transform 140ms ease;
@@ -988,14 +1008,27 @@ body{
 
 .landing-action-card:is(button):hover .landing-action-hint,
 .landing-action-card:is(button):focus-visible .landing-action-hint,
-.landing-action-card[aria-expanded="true"] .landing-action-hint,
+.landing-action-card[aria-expanded="true"] .landing-action-hint{
+  color: var(--surface);
+  background: var(--accent);
+  border-color: var(--accent);
+  box-shadow: 0 2px 7px rgba(44, 95, 138, 0.18);
+}
+
 .landing-action-card.unavailable:hover .landing-action-status,
 .landing-action-card.unavailable:focus-visible .landing-action-status{
   opacity: 1;
   transform: translateY(0);
 }
 
-.landing-action-hint b{ font-size: 0.9rem; }
+.landing-action-hint b{
+  display: inline-block;
+  margin-left: 0.14rem;
+  font-size: 0.9rem;
+  transition: transform 140ms ease;
+}
+.landing-action-card:is(button):hover .landing-action-hint .when-closed b,
+.landing-action-card:is(button):focus-visible .landing-action-hint .when-closed b{ transform: translateY(2px); }
 .landing-action-hint .when-open{ display: none; }
 .landing-action-card[aria-expanded="true"] .when-closed{ display: none; }
 .landing-action-card[aria-expanded="true"] .when-open{ display: inline; }

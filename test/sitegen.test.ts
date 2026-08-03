@@ -193,6 +193,9 @@ describe("site generator", () => {
     const unavailableRest = css.match(/\.landing-action-card\.unavailable\{([^}]*)\}/)?.[1] ?? "";
     expect(unavailableRest).not.toContain("background");
     expect(css).toMatch(/\.landing-action-card\.unavailable:hover,[\s\S]*?background: var\(--panel-bg\);/);
+    const actionHint = css.match(/\.landing-action-hint\{([^}]*)\}/)?.[1] ?? "";
+    expect(actionHint).toContain("opacity: 1");
+    expect(actionHint).toContain("border-radius: 999px");
     const landingScript = fs.readFileSync(path.join(one, "assets", "landing.js"), "utf8");
     expect(landingScript).toContain("target.scrollIntoView({ behavior, block: 'start' })");
     expect(landingScript).toContain("url.searchParams.set('view', id)");
