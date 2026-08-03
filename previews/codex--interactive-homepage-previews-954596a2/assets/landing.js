@@ -1,6 +1,6 @@
-// Landing-page action cards disclose one focused panel at a time. The
-// content is already in the static HTML; this manages visibility, accessible
-// expanded state, and shareable ?view= URLs.
+// Landing-page action cards reveal panels without collapsing earlier choices.
+// The content is already in the static HTML; this manages visibility,
+// accessible expanded state, and shareable ?view= URLs.
 (() => {
   const RESET_DELAY = 2200;
 
@@ -64,13 +64,12 @@
     const viewIds = new Set(views.map((view) => view.dataset.landingView));
     const panels = [...document.querySelectorAll('.landing-action-panel')];
 
-    function setOpen(id) {
-      for (const button of buttons) {
-        const open = button.dataset.landingAction === id;
-        button.setAttribute('aria-expanded', open ? 'true' : 'false');
-      }
-      for (const panel of panels) panel.hidden = panel.id !== `landing-panel-${id}`;
-      return panels.find((panel) => !panel.hidden);
+    function openView(id) {
+      const button = buttons.find((candidate) => candidate.dataset.landingAction === id);
+      const panel = panels.find((candidate) => candidate.id === `landing-panel-${id}`);
+      if (button) button.setAttribute('aria-expanded', 'true');
+      if (panel) panel.hidden = false;
+      return panel;
     }
 
     function urlView() {
@@ -97,20 +96,14 @@
     }
 
     function selectView(id, updateHistory) {
-      const panel = setOpen(id);
+      const panel = openView(id);
       if (updateHistory) updateUrl(id);
       scrollToView(id, panel);
     }
 
     for (const button of buttons) {
       button.addEventListener('click', () => {
-        const id = button.dataset.landingAction;
-        if (button.getAttribute('aria-expanded') === 'true') {
-          setOpen(undefined);
-          updateUrl(undefined);
-          return;
-        }
-        selectView(id, true);
+        selectView(button.dataset.landingAction, true);
       });
     }
 
@@ -127,7 +120,6 @@
     window.addEventListener('popstate', () => {
       const id = urlView();
       if (id) selectView(id, false);
-      else setOpen(undefined);
     });
 
     const initialView = urlView();
