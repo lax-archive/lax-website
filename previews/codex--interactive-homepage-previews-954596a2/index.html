@@ -62,19 +62,19 @@ The latter lives in the accompanying exposition and papers.</p>
 <section class="landing-actions" aria-labelledby="landing-actions-heading">
 <h2 id="landing-actions-heading">What you can do here</h2>
 <div class="landing-action-grid">
-<button class="landing-action-card" id="landing-action-read" type="button" data-landing-action="read" aria-expanded="false" aria-controls="landing-panel-read">
+<button class="landing-action-card" id="landing-action-read" type="button" data-landing-view="read" data-landing-action="read" aria-expanded="false" aria-controls="landing-panel-read">
 <span class="landing-action-title">Read.</span><span class="landing-action-copy">Browse submissions and their concepts as human-readable statements alongside their Lean source. Every claim shows its evidence: which proofs establish it, under which assumptions.</span>
 <span class="landing-action-hint" aria-hidden="true"><span class="when-closed">Open <b>↓</b></span><span class="when-open">Close <b>↑</b></span></span>
 </button>
-<div class="landing-action-card unavailable" tabindex="0" aria-label="Review, coming soon">
+<div class="landing-action-card unavailable" id="landing-action-review" data-landing-view="review" role="button" aria-disabled="true" tabindex="0" aria-label="Review, coming soon">
 <span class="landing-action-title">Review.</span><span class="landing-action-copy">Correctness is machine-checked, but whether a concept says what it claims to say needs human eyes. Read a concept, and endorse or flag it.</span>
 <span class="landing-action-status" aria-hidden="true">Coming soon</span>
 </div>
-<button class="landing-action-card" id="landing-action-submit" type="button" data-landing-action="submit" aria-expanded="false" aria-controls="landing-panel-submit">
+<button class="landing-action-card" id="landing-action-submit" type="button" data-landing-view="submit" data-landing-action="submit" aria-expanded="false" aria-controls="landing-panel-submit">
 <span class="landing-action-title">Submit.</span><span class="landing-action-copy">Publish your own formalization. You may build upon definitions and theorems of existing submissions.</span>
 <span class="landing-action-hint" aria-hidden="true"><span class="when-closed">Open <b>↓</b></span><span class="when-open">Close <b>↑</b></span></span>
 </button>
-<button class="landing-action-card" id="landing-action-cite" type="button" data-landing-action="cite" aria-expanded="false" aria-controls="landing-panel-cite">
+<button class="landing-action-card" id="landing-action-cite" type="button" data-landing-view="cite" data-landing-action="cite" aria-expanded="false" aria-controls="landing-panel-cite">
 <span class="landing-action-title">Cite.</span><span class="landing-action-copy">Every page carries a ready-made BibTeX entry.</span>
 <span class="landing-action-hint" aria-hidden="true"><span class="when-closed">Open <b>↓</b></span><span class="when-open">Close <b>↑</b></span></span>
 </button>
