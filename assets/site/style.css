@@ -1000,19 +1000,20 @@ body{
 .landing-action-card[aria-expanded="true"] .when-open{ display: inline; }
 
 .landing-action-card.unavailable{
-  background: var(--panel-bg);
-  color: var(--text-dim);
   cursor: not-allowed;
 }
 
 .landing-action-card.unavailable:hover,
 .landing-action-card.unavailable:focus-visible{
   border-color: var(--none-border);
+  background: var(--panel-bg);
+  color: var(--text-dim);
   outline: none;
 }
 
 .landing-action-card.unavailable:focus-visible{ box-shadow: 0 0 0 3px rgba(107, 114, 128, 0.14); }
-.landing-action-card.unavailable .landing-action-title{ color: var(--text); }
+.landing-action-card.unavailable:hover .landing-action-title,
+.landing-action-card.unavailable:focus-visible .landing-action-title{ color: var(--text-dim); }
 .landing-action-card.unavailable .landing-action-status{ color: var(--text-dim); }
 
 .landing-action-panels{ margin-top: 1rem; }

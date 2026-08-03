@@ -190,6 +190,9 @@ describe("site generator", () => {
     // Graph containers must be measurable before dag.js appends their SVG.
     const css = fs.readFileSync(path.join(one, "assets", "style.css"), "utf8");
     expect(css).not.toContain(".figure-container:empty");
+    const unavailableRest = css.match(/\.landing-action-card\.unavailable\{([^}]*)\}/)?.[1] ?? "";
+    expect(unavailableRest).not.toContain("background");
+    expect(css).toMatch(/\.landing-action-card\.unavailable:hover,[\s\S]*?background: var\(--panel-bg\);/);
     const landingScript = fs.readFileSync(path.join(one, "assets", "landing.js"), "utf8");
     expect(landingScript).toContain("panel.scrollIntoView({ behavior, block: 'start' })");
   });
