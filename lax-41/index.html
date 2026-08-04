@@ -25,6 +25,7 @@
 <label for="filter-type">Type</label>
 <select id="filter-type" class="filter-select">
 <option value="all">All types</option>
+<option value="definition">definition</option>
 <option value="theorem">theorem</option>
 <option value="proof">proof</option>
 </select>
@@ -32,6 +33,7 @@
 <ul id="entry-list">
 <li class="entry-heading" aria-hidden="true">Concepts</li>
 <li data-type="theorem" data-search="lax41.mosertardos the moser–tardos theorem theorem"><a class="entry-link" href="../lax-41/Lax41.MoserTardos.html" data-full-title="The Moser–Tardos theorem"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax41.MoserTardos</span></span></a></li>
+<li data-type="definition" data-search="lax41.mosertardosdefinitions definitions for the moser–tardos resampling algorithm definition"><a class="entry-link" href="../lax-41/Lax41.MoserTardosDefinitions.html" data-full-title="Definitions for the Moser–Tardos resampling algorithm"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax41.MoserTardosDefinitions</span></span></a></li>
 <li class="entry-heading" aria-hidden="true">Proofs</li>
 <li data-type="proof" data-search="lax41proofs.moser_tardos proof"><a class="entry-link" href="../lax-41/Lax41Proofs.moser_tardos.html" data-full-title="Lax41Proofs.moser_tardos"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax41Proofs.moser_tardos</span></span></a></li>
 <li id="entry-list-empty" hidden>No entries match.</li>
@@ -42,7 +44,7 @@
 <header class="paper-head">
 <h1 class="paper-title submission-title-layout"><span class="submission-title-id">lax-41</span><span class="submission-title-text">A Constructive Proof of the General Lovász Local Lemma</span><span class="submission-title-id submission-title-balance" aria-hidden="true">lax-41</span></h1>
 <p class="paper-authors"><span class="formalized-label">formalized by</span> <span class="paper-author">Édouard Bonnet <span class="author-links"><a href="https://github.com/EdouardBonnet">@EdouardBonnet</a></span></span></p>
-<p class="paper-meta">created 2026-08-04<span class="meta-sep">·</span><a href="https://github.com/EdouardBonnet/moser-tardos/tree/acfaa954dd8fc59147239c5df69775c43f34bcfd/"><code>github.com/EdouardBonnet/moser-tardos@acfaa95</code></a><span class="meta-sep">·</span>Lean <code>v4.30.0</code> · mathlib <code>c5ea00351c28</code></p>
+<p class="paper-meta">created 2026-08-04<span class="meta-sep">·</span><a href="https://github.com/EdouardBonnet/moser-tardos/tree/157dfac81acebcb2497bf48882a133c1d57b2084/"><code>github.com/EdouardBonnet/moser-tardos@157dfac</code></a><span class="meta-sep">·</span>Lean <code>v4.30.0</code> · mathlib <code>c5ea00351c28</code></p>
 </header>
 <section class="paper-abstract">
 <h2 class="abstract-heading">Abstract</h2>
@@ -59,6 +61,7 @@ finite-termination argument.</p>
 <div class="concept-list-box">
 <ul class="concept-list">
 <li><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="Lax41.MoserTardos.html" title="Lax41.MoserTardos"><code>Lax41.MoserTardos</code></a></li>
+<li><span class="type-badge" title="definition">def</span><a href="Lax41.MoserTardosDefinitions.html" title="Lax41.MoserTardosDefinitions"><code>Lax41.MoserTardosDefinitions</code></a></li>
 </ul>
 <div class="badge-legend" aria-label="Concept badge legend"><span><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span>proven claim</span><span><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span>open claim</span><span><span class="type-badge" title="definition">def</span>no claim — nothing to prove</span><span class="badge-legend-note">letters abbreviate the concept's type</span></div>
 </div>
@@ -85,9 +88,9 @@ finite-termination argument.</p>
 <p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-41/Lax41Proofs.moser_tardos.html"><code>Lax41Proofs.moser_tardos</code></a></p>
 </li>
 </ul>
-<p class="proof-list-source">Lean sources for these proofs: <a class="source-link" href="https://github.com/EdouardBonnet/moser-tardos/tree/acfaa954dd8fc59147239c5df69775c43f34bcfd/proofs">proofs/ on GitHub</a></p>
+<p class="proof-list-source">Lean sources for these proofs: <a class="source-link" href="https://github.com/EdouardBonnet/moser-tardos/tree/157dfac81acebcb2497bf48882a133c1d57b2084/proofs">proofs/ on GitHub</a></p>
 </div>
-<h4 class="figure-title">Proof network<a class="source-link" href="https://github.com/EdouardBonnet/moser-tardos/tree/acfaa954dd8fc59147239c5df69775c43f34bcfd/proofs">view on GitHub</a></h4>
+<h4 class="figure-title">Proof network<a class="source-link" href="https://github.com/EdouardBonnet/moser-tardos/tree/157dfac81acebcb2497bf48882a133c1d57b2084/proofs">view on GitHub</a></h4>
 <figure class="graph-figure">
 <div id="proof-network" class="figure-container" data-graph="proofs"></div>
 <div class="graph-tooltip" role="tooltip" hidden></div>
@@ -117,7 +120,7 @@ finite-termination argument.</p>
 <li id="ref-MoserTardos2009">Robin A. Moser and Gábor Tardos. <span class="reference-title">A Constructive Proof of the General Lovász Local Lemma</span>. arXiv preprint arXiv:0903.0544, 2009. <a href="https://arxiv.org/abs/0903.0544">arxiv.org/abs/0903.0544</a></li>
 </ol>
 </section>
-<script type="application/json" id="graph-data">{"concepts":{"nodes":[{"id":"Lax41.MoserTardos","href":"../lax-41/Lax41.MoserTardos.html","title":"The Moser–Tardos theorem","owner":"lax-41","status":"proven","ext":false,"dir":"core"}],"edges":[],"home":"lax-41"},"proofs":{"statements":[{"id":"Lax41.MoserTardos.moser_tardos","label":"Lax41.MoserTardos","title":"The Moser–Tardos theorem","owner":"lax-41","href":"../lax-41/Lax41.MoserTardos.html#s-Lax41.MoserTardos.moser_tardos","proven":true,"ext":false}],"proofs":[{"id":"Lax41Proofs.moser_tardos","assumptions":[],"conclusion":"Lax41.MoserTardos.moser_tardos","description":"The Moser--Tardos witness-tree argument.  An infinite table supplies every\nfresh sample used by the algorithm.  Each resampling occurrence injects into\na proper witness tree, the probability that a fixed tree occurs is the\nproduct of its event probabilities, and the branching-process estimate sums\nthese products.  Finiteness of that sum also yields a terminating table and\nhence an assignment avoiding all bad events.","owner":"lax-41","ext":false,"href":"../lax-41/Lax41Proofs.moser_tardos.html","assumptionsProven":true,"outstanding":0}],"home":"lax-41"},"submissions":{"nodes":[{"id":"lax-41","href":"../lax-41/index.html","title":"A Constructive Proof of the General Lovász Local Lemma","state":"draft","concepts":1,"proofs":1,"dir":"core","ext":false}],"edges":[]}}</script>
+<script type="application/json" id="graph-data">{"concepts":{"nodes":[{"id":"Lax41.MoserTardos","href":"../lax-41/Lax41.MoserTardos.html","title":"The Moser–Tardos theorem","owner":"lax-41","status":"proven","ext":false,"dir":"core"},{"id":"Lax41.MoserTardosDefinitions","href":"../lax-41/Lax41.MoserTardosDefinitions.html","title":"Definitions for the Moser–Tardos resampling algorithm","owner":"lax-41","status":"none","ext":false,"dir":"core"}],"edges":[{"from":"Lax41.MoserTardosDefinitions","to":"Lax41.MoserTardos"}],"home":"lax-41"},"proofs":{"statements":[{"id":"Lax41.MoserTardos.moser_tardos","label":"Lax41.MoserTardos","title":"The Moser–Tardos theorem","owner":"lax-41","href":"../lax-41/Lax41.MoserTardos.html#s-Lax41.MoserTardos.moser_tardos","proven":true,"ext":false}],"proofs":[{"id":"Lax41Proofs.moser_tardos","assumptions":[],"conclusion":"Lax41.MoserTardos.moser_tardos","description":"The Moser--Tardos witness-tree argument.  An infinite table supplies every\nfresh sample used by the algorithm.  Each resampling occurrence injects into\na proper witness tree, the probability that a fixed tree occurs is the\nproduct of its event probabilities, and the branching-process estimate sums\nthese products.  Finiteness of that sum also yields a terminating table and\nhence an assignment avoiding all bad events.","owner":"lax-41","ext":false,"href":"../lax-41/Lax41Proofs.moser_tardos.html","assumptionsProven":true,"outstanding":0}],"home":"lax-41"},"submissions":{"nodes":[{"id":"lax-41","href":"../lax-41/index.html","title":"A Constructive Proof of the General Lovász Local Lemma","state":"draft","concepts":2,"proofs":1,"dir":"core","ext":false}],"edges":[]}}</script>
 </div></section>
 </main>
 <script src="../assets/sidebar.js"></script>
