@@ -977,10 +977,12 @@ body{
   display: grid;
   gap: 1rem;
   margin-top: 1rem;
+  min-width: 0;
 }
 
 .landing-action-panel{
   scroll-margin-top: calc(var(--header-height) + 1rem);
+  min-width: 0;
   padding: 1.35rem 1.45rem 1.5rem;
   background: var(--panel-bg);
   border: 1px solid var(--border);
@@ -1076,6 +1078,94 @@ body{
   color: var(--text-dim);
   font-size: 0.92rem;
   margin-bottom: 0.75rem;
+}
+
+.tag-browser{
+  margin: 0.15rem 0 1rem;
+  padding: 0.2rem 0 1rem;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.tag-browser-heading{
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.8rem;
+  margin-bottom: 0.65rem;
+}
+
+.tag-browser-heading h4{
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.025em;
+}
+
+.tag-browser-heading p{
+  color: var(--text-dim);
+  font-size: 0.75rem;
+  text-align: right;
+}
+
+.tag-chip-list{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.42rem;
+}
+
+.tag-chip{
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 1.8rem;
+  padding: 0.22rem 0.35rem 0.22rem 0.62rem;
+  color: var(--link);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font: inherit;
+  font-size: 0.78rem;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: color 120ms ease, background 120ms ease, border-color 120ms ease, box-shadow 120ms ease;
+}
+
+.tag-chip b{
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.18rem;
+  height: 1.18rem;
+  padding: 0 0.24rem;
+  color: var(--text-dim);
+  background: var(--panel-bg);
+  border-radius: 999px;
+  font-size: 0.65rem;
+  font-weight: 700;
+}
+
+.tag-chip:hover,
+.tag-chip:focus-visible{
+  border-color: var(--accent);
+  background: var(--accent-light);
+  outline: none;
+}
+
+.tag-chip:focus-visible{ box-shadow: 0 0 0 3px rgba(59, 107, 154, 0.16); }
+
+.tag-chip[aria-pressed="true"]{
+  color: var(--surface);
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.tag-chip[aria-pressed="true"] b{
+  color: var(--accent);
+  background: var(--surface);
+}
+
+.tag-results-status{
+  margin-top: 0.55rem;
+  color: var(--text-dim);
+  font-size: 0.76rem;
 }
 
 .submissions-list{
@@ -1745,6 +1835,8 @@ body{
   .landing-action-panel{ padding: 1rem; }
   .landing-cite-example > a{ grid-template-columns: auto minmax(0, 1fr); }
   .landing-cite-example-action{ grid-column: 1 / -1; }
+  .tag-browser-heading{ display: block; }
+  .tag-browser-heading p{ margin-top: 0.18rem; text-align: left; }
 }
 
 @media (hover: none){

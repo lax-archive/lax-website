@@ -6,6 +6,7 @@ import { generateSite, type SiteSubmission } from "../src/sitegen/generate.js";
 import { countsPill, typeBadge, typeBadgeText } from "../src/sitegen/html.js";
 import { compareIds, SiteModel } from "../src/sitegen/model.js";
 import { MarkdownRenderer } from "../src/sitegen/markdown.js";
+import { submissionTagIndex } from "../src/sitegen/tags.js";
 import { tmpDir } from "./helpers.js";
 
 const submissions = (): SiteSubmission[] => [{
@@ -88,6 +89,41 @@ function snapshot(root: string): Map<string, Buffer> {
 describe("site generator", () => {
   it("uses numeric archive ordering", () => {
     expect(["Lax10", "Lax2", "Lax1"].sort(compareIds)).toEqual(["Lax1", "Lax2", "Lax10"]);
+  });
+
+  it("derives complete topic phrases from submission and concept titles", async () => {
+    const make = (id: string, title: string, conceptTitles: string[]): SiteSubmission => ({
+      record: { specVersion: "1", id, state: "registered", createdAt: "2026-01-01T00:00:00Z" },
+      output: {
+        specVersion: "1", id,
+        manifest: { specVersion: "1", id, leanVersion: "v4", mathlibVersion: "x", title, authors: [], bibEntries: [] },
+        abstract: "", requiredByConcepts: [], requiredByProofs: [], proofs: [],
+        concepts: conceptTitles.map((conceptTitle, index) => ({
+          id: `${id}.C${index}`, path: "", title: conceptTitle, type: "definition",
+          description: "", imports: [], sourceText: "", statements: [],
+        })),
+      },
+    });
+    const archive = [
+      make("Lax1", "Linear Neighbourhood Complexity", ["Neighbourhood complexity"]),
+      make("Lax2", "Almost Linear Neighborhood Complexity", ["Neighborhood complexity"]),
+      make("Lax3", "Finite Ramsey Theorems", ["Ramsey's theorem for pairs"]),
+    ];
+    const index = submissionTagIndex(archive);
+    const neighborhood = index.tags.find((tag) => tag.key === "neighborhood complexity");
+    expect(neighborhood?.submissionIds).toEqual(["Lax1", "Lax2"]);
+    expect(index.tags.some((tag) => tag.key === "ramsey theorem")).toBe(true);
+    expect(index.tags.some((tag) => tag.key === "neighborhood")).toBe(false);
+    expect(index.bySubmission.get("Lax3")).toContain("ramsey theorem");
+
+    const root = tmpDir("lax-site-tags-");
+    await generateSite(archive, root);
+    const html = fs.readFileSync(path.join(root, "index.html"), "utf8");
+    expect(html).toContain('<h4 id="tag-browser-heading">Browse by topic</h4>');
+    expect(html).toContain("Suggested from submission and concept titles.");
+    expect(html).toContain('data-tag-filter="" aria-pressed="true"');
+    expect(html).toContain('id="tag-results-status" aria-live="polite"');
+    expect(html).toContain('data-tags="|');
   });
 
   it("compresses concept types to 3-letter badges and rejects a missing type", () => {
@@ -211,6 +247,7 @@ describe("site generator", () => {
     expect(unavailableRest).not.toContain("background");
     expect(css).toMatch(/\.landing-action-card\.unavailable:hover,[\s\S]*?background: var\(--panel-bg\);/);
     const landingScript = fs.readFileSync(path.join(one, "assets", "landing.js"), "utf8");
+    const sidebarScript = fs.readFileSync(path.join(one, "assets", "sidebar.js"), "utf8");
     expect(landingScript).toContain("target.scrollIntoView({ behavior, block: 'start' })");
     expect(landingScript).toContain("url.searchParams.set('view', id)");
     expect(landingScript).toContain("window.addEventListener('popstate'");
@@ -219,6 +256,9 @@ describe("site generator", () => {
     expect(landingScript).toContain("document.getElementById(`landing-panel-${id}`)");
     expect(landingScript).not.toContain("panel.hidden");
     expect(landingScript).not.toContain("aria-expanded");
+    expect(sidebarScript).toContain("document.querySelectorAll('[data-tag-filter]')");
+    expect(sidebarScript).toContain("url.searchParams.set('tag', tag)");
+    expect(sidebarScript).toContain("updateTagStatus(visible)");
   });
 
   it("rejects generated page paths that escape the output directory", async () => {
