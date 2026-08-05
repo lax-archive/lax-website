@@ -89,7 +89,7 @@ export function indexPage({ model, markdown }: PageContext): string {
     const authors = output!.manifest.authors.map((a) => esc(a.name)).join(", ");
     const counts = `${plural(output!.concepts.length, "concept")}, ${plural(output!.proofs.length, "proof")}`;
     return `<li ${submissionSearchAttributes(submission, order)}><a class="submissions-list-link" href="${attr(record.id)}/index.html">
-<span class="submissions-list-title"><span class="submission-title-id">${esc(record.id)}</span><span class="submission-title-inline-separator" aria-hidden="true">|</span>${esc(output!.manifest.title)}<span class="submissions-list-date">(${date})</span></span>
+<span class="submissions-list-title"><span class="submission-title-id">${esc(record.id)}</span><span class="submission-title-inline-separator" aria-hidden="true">|</span>${markdown.renderAuthorInline(output!.manifest.title, "")}<span class="submissions-list-date">(${date})</span></span>
 ${authors ? `<span class="submissions-list-meta"><span class="formalized-label">formalized by</span> ${authors}</span>` : ""}
 <span class="submissions-list-counts">${counts} ${statePill(record.state)}</span>
 </a></li>`;
@@ -104,7 +104,7 @@ ${authors ? `<span class="submissions-list-meta"><span class="formalized-label">
 <p>Example submission</p>
 <a href="${attr(citeExample.record.id)}/index.html#citation">
 <span class="landing-cite-example-id">${esc(citeExample.record.id)}</span>
-<strong>${esc(citeExample.output!.manifest.title)}</strong>
+<strong>${markdown.renderAuthorInline(citeExample.output!.manifest.title, "")}</strong>
 <span class="landing-cite-example-action">View citation <b aria-hidden="true">→</b></span>
 </a>
 </div>` : "";
@@ -152,7 +152,7 @@ ${cite}
   return page({
     title: "Lax Lean Archive",
     rootRel: "",
-    sidebar: indexSidebar(model),
+    sidebar: indexSidebar(model, markdown),
     content,
     scripts: ["assets/landing.js"],
   });

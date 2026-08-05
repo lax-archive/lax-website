@@ -26,7 +26,7 @@ export function proofPage(ctx: PageContext, located: LocatedProof): string {
     : undefined;
 
   const sections = (proof.sections ?? [])
-    .map((s) => `<div class="block"><h3>${esc(s.title)}</h3><div class="latex-content">${ctx.markdown.renderAuthorProse(s.markdown, "../")}</div></div>`)
+    .map((s) => `<div class="block"><h3>${ctx.markdown.renderAuthorInline(s.title, "../")}</h3><div class="latex-content">${ctx.markdown.renderAuthorProse(s.markdown, "../")}</div></div>`)
     .join("\n");
 
   const content = `${draftBanner(submission.record.state)}

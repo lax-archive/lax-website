@@ -19,7 +19,7 @@ function resolveCrossref(model: SiteModel, target: string, rootRel: string): Res
 
 interface XrefToken { type: "xref"; raw: string; target: string; label: string }
 
-export function crossrefExtension(model: SiteModel, rootRel: string): MarkedExtension {
+export function crossrefExtension(model: SiteModel, rootRel: string, linked = true): MarkedExtension {
   return {
     extensions: [{
       name: "xref",
@@ -34,6 +34,7 @@ export function crossrefExtension(model: SiteModel, rootRel: string): MarkedExte
         const token = rawToken as XrefToken;
         const resolved = resolveCrossref(model, token.target, rootRel);
         const label = esc(token.label);
+        if (!linked) return `<code>${label}</code>`;
         return resolved
           ? `<a class="xref xref-${resolved.kind}" href="${esc(resolved.href)}"><code>${label}</code></a>`
           : `<span class="xref xref-broken" title="unresolved reference"><code>${label}</code></span>`;

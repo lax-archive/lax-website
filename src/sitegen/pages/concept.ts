@@ -53,7 +53,7 @@ export async function conceptPage(ctx: PageContext, located: LocatedConcept): Pr
   const typeHeading = type.charAt(0).toUpperCase() + type.slice(1);
 
   const sections = (concept.sections ?? [])
-    .map((s) => `<div class="block"><h3>${esc(s.title)}</h3><div class="latex-content">${ctx.markdown.renderAuthorProse(s.markdown, "../")}</div></div>`)
+    .map((s) => `<div class="block"><h3>${ctx.markdown.renderAuthorInline(s.title, "../")}</h3><div class="latex-content">${ctx.markdown.renderAuthorProse(s.markdown, "../")}</div></div>`)
     .join("\n");
 
   const importRows = concept.imports.map((id) => `<li>${conceptLink(ctx.model, id, "../", output.id)}</li>`);
@@ -69,7 +69,7 @@ export async function conceptPage(ctx: PageContext, located: LocatedConcept): Pr
   const content = `${draftBanner(submission.record.state)}
 <div class="detail-heading concept-heading">
 <div><p class="concept-id"><code>${esc(concept.id)}</code></p>
-<h1 class="concept-title">${esc(concept.title)}</h1>
+<h1 class="concept-title">${ctx.markdown.renderAuthorInline(concept.title, "../")}</h1>
 <p class="concept-microline"><code>${esc(concept.path)}</code> · <a href="index.html">${esc(output.id)}</a></p></div>
 <span class="status-pills">${countsPill(provenCount, concept.statements.length)}</span>
 </div>
