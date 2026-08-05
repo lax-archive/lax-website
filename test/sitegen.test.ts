@@ -284,6 +284,7 @@ describe("site generator", () => {
     const unavailableRest = css.match(/\.landing-action-card\.unavailable\{([^}]*)\}/)?.[1] ?? "";
     expect(unavailableRest).not.toContain("background");
     expect(css).toMatch(/\.landing-action-card\.unavailable:hover,[\s\S]*?background: var\(--panel-bg\);/);
+    expect(css).toContain("-webkit-line-clamp: 2");
     const landingScript = fs.readFileSync(path.join(one, "assets", "landing.js"), "utf8");
     const sidebarScript = fs.readFileSync(path.join(one, "assets", "sidebar.js"), "utf8");
     expect(landingScript).toContain("target.scrollIntoView({ behavior, block: 'start' })");
@@ -373,6 +374,9 @@ describe("site generator", () => {
     expect(index).toContain('<h2 id="random-submission-heading">Random Submission</h2>');
     expect(index).toContain('href="Lax2/index.html" data-random-submission-link');
     expect(index).toContain('href="Lax2/index.html" data-random-submission-candidate');
+    const randomSubmission = index.slice(index.indexOf('<section class="random-submission"'), index.indexOf("</section>"));
+    expect(randomSubmission).toContain('<span class="random-submission-title">Two</span>');
+    expect(randomSubmission).not.toContain('class="entry-id"');
     expect(index.indexOf('class="random-submission"')).toBeLessThan(index.indexOf('class="sidebar-filters"'));
     expect(index).toContain('id="submissions-list"');
     expect(index).toContain('id="submissions-list-empty"');

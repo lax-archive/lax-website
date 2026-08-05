@@ -233,7 +233,7 @@ export function randomSubmissionView(
   const candidate = (submission: SiteSubmission, dataAttribute = "") => {
     const id = submission.record.id;
     const title = submission.output!.manifest.title;
-    return `<a href="${attr(`${rootRel}${id}/index.html`)}"${dataAttribute}><span class="random-submission-title"><span class="entry-id">${esc(id)}</span><span class="random-submission-title-text">${markdown.renderAuthorInline(title, rootRel)}</span></span><span class="random-submission-action">View submission <b aria-hidden="true">→</b></span></a>`;
+    return `<a href="${attr(`${rootRel}${id}/index.html`)}"${dataAttribute}><span class="random-submission-title">${markdown.renderAuthorInline(title, rootRel)}</span><span class="random-submission-action">View submission <b aria-hidden="true">→</b></span></a>`;
   };
   return `<section class="random-submission" aria-labelledby="random-submission-heading">
 <h2 id="random-submission-heading">Random Submission</h2>
