@@ -298,6 +298,10 @@ describe("site generator", () => {
     expect(sidebarScript).toContain("document.querySelectorAll('[data-tag-filter]')");
     expect(sidebarScript).toContain("url.searchParams.set('tag', tag)");
     expect(sidebarScript).toContain("updateTagStatus(visible)");
+    expect(sidebarScript).toContain("function applySidebarFilters()");
+    expect(sidebarScript).toContain("function applySubmissionFilters()");
+    expect(sidebarScript).toContain("filterList(list, search, type, 'entry-list-empty');");
+    expect(sidebarScript).not.toContain("filterList(list, search, type, 'entry-list-empty', selectedTag)");
     expect(sidebarScript).toContain("function setupRandomSubmission()");
     expect(sidebarScript).toContain("Math.floor(Math.random() * candidates.length)");
   });
@@ -361,7 +365,10 @@ describe("site generator", () => {
     expect(index).not.toContain("&lt;!--");
     expect(index).toContain("Lax2/index.html");
     expect(index).toContain('class="submissions-list-link');
-    expect(index).toContain('<span class="submission-title-id">Lax2</span><span class="submission-title-inline-separator" aria-hidden="true">|</span>Two<span class="submissions-list-date">(2026-01-02)</span>');
+    expect(index).toContain('<span class="submissions-list-title">Two<span class="submissions-list-date">(2026-01-02)</span>');
+    const submissionsList = index.slice(index.indexOf('<ul class="submissions-list"'), index.indexOf("</ul>", index.indexOf('<ul class="submissions-list"')));
+    expect(submissionsList).not.toContain('class="submission-title-id"');
+    expect(submissionsList).not.toContain('class="submission-title-inline-separator"');
     expect(index).not.toContain('<span class="submissions-list-counts"><code>Lax2</code>');
     expect(index).toContain("2 concepts, 1 proof");
     expect(index).toContain('<span class="formalized-label">formalized by</span> Alice');

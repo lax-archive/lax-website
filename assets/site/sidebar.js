@@ -80,28 +80,15 @@
       : `Showing all ${visible} ${visible === 1 ? 'submission' : 'submissions'}${suffix}.`;
   }
 
-  function applyFilters() {
+  function applySidebarFilters() {
     const list = document.getElementById('entry-list');
     if (!list) return;
     const searchEl = document.getElementById('filter-search');
     const typeEl = document.getElementById('filter-type');
     const search = searchEl ? searchEl.value.trim().toLowerCase() : '';
     const type = typeEl ? typeEl.value : 'all';
-    filterList(list, search, type, 'entry-list-empty', selectedTag);
-    const submissions = document.getElementById('submissions-list');
-    if (submissions) {
-      const visible = filterList(submissions, search, 'all', 'submissions-list-empty', selectedTag);
-      updateTagStatus(visible);
-      // Search results live in the always-visible Read section. Move there
-      // once when a visitor begins a new search, not on every keystroke.
-      const readAction = document.querySelector('[data-landing-action="read"]');
-      if (search && !searchHasSelectedRead) {
-        readAction?.click();
-        searchHasSelectedRead = true;
-      } else if (!search) {
-        searchHasSelectedRead = false;
-      }
-    }
+    filterList(list, search, type, 'entry-list-empty');
+
     // A group heading (Concepts / Proofs) shows only while its group does.
     list.querySelectorAll('li.entry-heading').forEach((heading) => {
       let any = false;
@@ -110,6 +97,28 @@
       }
       heading.hidden = !any;
     });
+  }
+
+  function applySubmissionFilters() {
+    const submissions = document.getElementById('submissions-list');
+    if (!submissions) return;
+    const search = document.getElementById('filter-search')?.value.trim().toLowerCase() ?? '';
+    const visible = filterList(submissions, search, 'all', 'submissions-list-empty', selectedTag);
+    updateTagStatus(visible);
+    // Search results live in the always-visible Read section. Move there
+    // once when a visitor begins a new search, not on every keystroke.
+    const readAction = document.querySelector('[data-landing-action="read"]');
+    if (search && !searchHasSelectedRead) {
+      readAction?.click();
+      searchHasSelectedRead = true;
+    } else if (!search) {
+      searchHasSelectedRead = false;
+    }
+  }
+
+  function applyFilters() {
+    applySidebarFilters();
+    applySubmissionFilters();
   }
 
   function setupFilters() {
@@ -168,7 +177,7 @@
         button.setAttribute('aria-pressed', button.dataset.tagFilter === selectedTag ? 'true' : 'false');
       });
       if (updateHistory) updateUrl(selectedTag);
-      applyFilters();
+      applySubmissionFilters();
     }
 
     buttons.forEach((button) => {
