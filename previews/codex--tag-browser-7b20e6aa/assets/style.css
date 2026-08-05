@@ -231,20 +231,13 @@ body{
 }
 
 .random-submission-title{
-  display: flex;
-  align-items: baseline;
-  gap: 0.4rem;
-  min-width: 0;
-}
-
-.random-submission-title-text{
-  min-width: 0;
+  display: -webkit-box;
   overflow: hidden;
   font-size: 0.86rem;
   font-weight: 650;
   line-height: 1.25;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }
 
 .random-submission-action{
