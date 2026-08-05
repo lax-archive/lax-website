@@ -221,16 +221,20 @@ export function submissionSearchAttributes(submission: SiteSubmission, order: nu
 
 /** Sidebar of the index page: every submission with content, searchable.
  * Records that only reserved an id have nothing to show and stay off the
- * lists (their pages exist for direct links). Rows share the entry grammar
- * of every other sidebar: a chip (here the id), then the ellipsized text. */
+ * lists (their pages exist for direct links). Registered rows carry their
+ * archive-id chip; drafts live in a separate Work in Progress group where
+ * the heading communicates their state and the title can stand on its own. */
 export function indexSidebar(model: SiteModel): string {
   const listed = model.submissions.filter((s) => s.output).sort(compareSearchSubmissions);
   const rows = listed.map((submission, order) => {
     const id = submission.record.id;
     const title = submission.output!.manifest.title;
-    const draft = submission.record.state === "draft" ? '<span class="draft-badge">draft</span>' : "";
-    return `<li ${submissionSearchAttributes(submission, order)}><a class="entry-link" href="${attr(id)}/index.html" data-full-title="${attr(title)}"><span class="entry-label"><span class="entry-id">${esc(id)}</span>${draft}<span class="entry-label-text">${esc(title)}</span></span></a></li>`;
+    const idChip = submission.record.state === "draft" ? "" : `<span class="entry-id">${esc(id)}</span>`;
+    return `<li ${submissionSearchAttributes(submission, order)}><a class="entry-link" href="${attr(id)}/index.html" data-full-title="${attr(title)}"><span class="entry-label">${idChip}<span class="entry-label-text">${esc(title)}</span></span></a></li>`;
   });
+  const draftStart = listed.findIndex((submission) => submission.record.state === "draft");
+  if (draftStart >= 0)
+    rows.splice(draftStart, 0, '<li class="entry-heading" data-entry-group="draft">Work in Progress</li>');
   return `<div class="sidebar-filters">${searchGroup("Search titles and concepts", "entry-list submissions-list")}</div>
 <ul id="entry-list">
 ${rows.join("\n")}

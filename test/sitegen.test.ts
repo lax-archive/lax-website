@@ -333,8 +333,18 @@ describe("site generator", () => {
     const index = fs.readFileSync(path.join(root, "index.html"), "utf8");
     expect(index.indexOf('data-search-title="lax2 registered title"'))
       .toBeLessThan(index.indexOf('data-search-title="lax1 draft title"'));
+    expect(index.indexOf('data-search-title="lax2 registered title"'))
+      .toBeLessThan(index.indexOf('data-entry-group="draft">Work in Progress</li>'));
+    expect(index.indexOf('data-entry-group="draft">Work in Progress</li>'))
+      .toBeLessThan(index.indexOf('data-search-title="lax1 draft title"'));
     expect(index).toContain('data-search-concepts="lax2.c combinatorics definition"');
     expect(index).toContain('data-search-concepts="lax3.c geometry definition"');
+    expect(index).toContain('<span class="entry-label"><span class="entry-id">Lax2</span><span class="entry-label-text">Registered title</span></span>');
+    expect(index).toContain('<span class="entry-label"><span class="entry-label-text">Draft title</span></span>');
+    expect(index).toContain('<span class="entry-label"><span class="entry-label-text">Another draft</span></span>');
+    expect(index).not.toContain('<span class="entry-id">Lax1</span>');
+    expect(index).not.toContain('<span class="entry-id">Lax3</span>');
+    expect(index).not.toContain('class="draft-badge"');
   });
 
   it("renders the submission page: paper masthead, compact grids, citation, graph data", async () => {
@@ -664,7 +674,7 @@ describe("site generator", () => {
     );
   });
 
-  it("keeps outputless records and drafts citable and marked", async () => {
+  it("keeps outputless records and drafts citable and grouped as work in progress", async () => {
     const draft = submissions();
     draft[0]!.record.state = "draft";
     delete draft[0]!.record.registeredAt;
@@ -679,7 +689,10 @@ describe("site generator", () => {
     const concept = fs.readFileSync(path.join(root, "Lax2", "Lax2.C.html"), "utf8");
     expect(concept.indexOf("draft-banner")).toBeLessThan(concept.indexOf("concept-heading"));
     const index = fs.readFileSync(path.join(root, "index.html"), "utf8");
-    expect(index).toContain('class="draft-badge">draft</span>');
+    expect(index).toContain('data-entry-group="draft">Work in Progress</li>');
+    expect(index).toContain('<span class="entry-label"><span class="entry-label-text">Two</span></span>');
+    expect(index).not.toContain('class="draft-badge"');
+    expect(index).not.toContain('<span class="entry-id">Lax2</span>');
     const placeholder = fs.readFileSync(path.join(root, "Lax10", "index.html"), "utf8");
     expect(placeholder).toContain("No content uploaded yet");
   });

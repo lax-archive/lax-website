@@ -413,19 +413,6 @@ body{
 
 .concept-id .proof-badge{ font-size: 0.95rem; vertical-align: 0.12em; }
 
-.draft-badge{
-  padding: 0 5px;
-  font-size: 0.58rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--partial-fg);
-  background: var(--partial-bg);
-  border: 1px solid var(--partial-border);
-  border-radius: var(--radius-chip);
-  flex-shrink: 0;
-}
-
 /* ── Headings, pills ── */
 
 #detail h2{
