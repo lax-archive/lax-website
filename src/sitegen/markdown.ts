@@ -32,15 +32,24 @@ export class MarkdownRenderer {
     return this.renderWithOptions(text, rootRel, true);
   }
 
-  private renderWithOptions(text: string, rootRel: string, backtickMath: boolean): string {
+  /** Submission-authored headings: the safe inline subset of the same
+   * Markdown and TeX grammar, without paragraph or other block wrappers. */
+  renderAuthorInline(text: string, rootRel: string): string {
+    return this.renderWithOptions(text, rootRel, true, true);
+  }
+
+  private renderWithOptions(text: string, rootRel: string, backtickMath: boolean, inline = false): string {
     const parser = new Marked();
-    parser.use(mathExtension, crossrefExtension(this.model, rootRel), {
+    parser.use(mathExtension, crossrefExtension(this.model, rootRel, !inline), {
       renderer: {
         html(token: Tokens.HTML | Tokens.Tag): string { return esc(token.raw); },
         link(token: Tokens.Link): string | false {
+          if (inline) return this.parser.parseInline(token.tokens);
           return safeUrl(token.href) ? false : this.parser.parseInline(token.tokens);
         },
-        image(token: Tokens.Image): string | false { return safeUrl(token.href) ? false : esc(token.text); },
+        image(token: Tokens.Image): string | false {
+          return inline || !safeUrl(token.href) ? esc(token.text) : false;
+        },
         codespan(token: Tokens.Codespan): string | false {
           return backtickMath
             ? renderInlineMath(token.text, token.raw)
@@ -48,6 +57,6 @@ export class MarkdownRenderer {
         },
       },
     });
-    return parser.parse(text, { async: false }) as string;
+    return (inline ? parser.parseInline(text, { async: false }) : parser.parse(text, { async: false })) as string;
   }
 }

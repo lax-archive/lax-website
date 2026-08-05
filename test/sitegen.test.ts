@@ -193,6 +193,44 @@ describe("site generator", () => {
     expect(html).not.toContain("\\[");
   });
 
+  it("renders safe inline Markdown and TeX without block wrappers for titles", () => {
+    const markdown = new MarkdownRenderer(new SiteModel(submissions()));
+    const html = markdown.renderAuthorInline(String.raw`A **sharp** \(x^2\) [bound](https://example.com) [[Lax2.C]] <img src=x>`, "");
+    expect(html).toContain("A <strong>sharp</strong>");
+    expect(html).toContain('class="katex"');
+    expect(html).toContain("bound");
+    expect(html).toContain("<code>Lax2.C</code>");
+    expect(html).toContain("&lt;img src=x&gt;");
+    expect(html).not.toContain("<p>");
+    expect(html).not.toContain("<a href=");
+    expect(html).not.toContain("<img src=x>");
+  });
+
+  it("renders authored submission, concept, and annotation titles", async () => {
+    const authored = submissions();
+    const output = authored[0]!.output!;
+    output.manifest.title = String.raw`A **sharp** \(x^2\) bound`;
+    output.concepts[0]!.title = String.raw`The *small* \(y_i\) lemma`;
+    output.concepts[0]!.sections = [{ title: String.raw`Case \(z\)`, markdown: "Concept notes." }];
+    output.proofs[0]!.sections = [{ title: String.raw`Step \(w\)`, markdown: "Proof notes." }];
+
+    const root = tmpDir("lax-site-author-titles-");
+    await generateSite(authored, root);
+    const index = fs.readFileSync(path.join(root, "index.html"), "utf8");
+    const submission = fs.readFileSync(path.join(root, "Lax2", "index.html"), "utf8");
+    const concept = fs.readFileSync(path.join(root, "Lax2", "Lax2.C.html"), "utf8");
+    const proof = fs.readFileSync(path.join(root, "Lax2", "Lax2Proofs.truth.html"), "utf8");
+
+    for (const html of [index, submission]) {
+      expect(html).toContain("<strong>sharp</strong>");
+      expect(html).toContain('class="katex"');
+    }
+    expect(submission.match(/<title>(.*?)<\/title>/s)?.[1]).toContain("**sharp**");
+    expect(concept).toMatch(/<h1 class="concept-title">The <em>small<\/em> <span class="katex"/);
+    expect(concept).toMatch(/<h3>Case <span class="katex"/);
+    expect(proof).toMatch(/<h3>Step <span class="katex"/);
+  });
+
   it("uses all inline-math delimiters in abstracts and annotation comments", async () => {
     const authored = submissions();
     const output = authored[0]!.output!;

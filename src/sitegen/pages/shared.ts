@@ -225,13 +225,17 @@ export function submissionSearchAttributes(submission: SiteSubmission, order: nu
  * lists (their pages exist for direct links). Registered rows carry their
  * archive-id chip; drafts live in a separate Work in Progress group where
  * the heading communicates their state and the title can stand on its own. */
-export function indexSidebar(model: SiteModel, tagsBySubmission = new Map<string, string[]>()): string {
+export function indexSidebar(
+  model: SiteModel,
+  markdown: MarkdownRenderer,
+  tagsBySubmission = new Map<string, string[]>(),
+): string {
   const listed = model.submissions.filter((s) => s.output).sort(compareSearchSubmissions);
   const rows = listed.map((submission, order) => {
     const id = submission.record.id;
     const title = submission.output!.manifest.title;
     const idChip = submission.record.state === "draft" ? "" : `<span class="entry-id">${esc(id)}</span>`;
-    return `<li ${submissionSearchAttributes(submission, order, tagsBySubmission.get(id))}><a class="entry-link" href="${attr(id)}/index.html" data-full-title="${attr(title)}"><span class="entry-label">${idChip}<span class="entry-label-text">${esc(title)}</span></span></a></li>`;
+    return `<li ${submissionSearchAttributes(submission, order, tagsBySubmission.get(id))}><a class="entry-link" href="${attr(id)}/index.html" data-full-title="${attr(title)}"><span class="entry-label">${idChip}<span class="entry-label-text">${markdown.renderAuthorInline(title, "")}</span></span></a></li>`;
   });
   const draftStart = listed.findIndex((submission) => submission.record.state === "draft");
   if (draftStart >= 0)
@@ -313,11 +317,11 @@ export function draftBanner(state: string): string {
 /** The submission page's paper-style masthead: big title and a compact
  * metadata line (id, authors, state, dates, source, pins). Falls back
  * gracefully when there is no build output yet (title = id). */
-export function paperHeader(submission: SiteSubmission): string {
+export function paperHeader(markdown: MarkdownRenderer, submission: SiteSubmission, rootRel: string): string {
   const { record, output } = submission;
   const title = output?.manifest.title ?? record.id;
   return `<header class="paper-head">
-<h1 class="paper-title">${esc(title)}</h1>
+<h1 class="paper-title">${markdown.renderAuthorInline(title, rootRel)}</h1>
 <p class="paper-meta">${metaBits(submission)}</p>
 </header>`;
 }
