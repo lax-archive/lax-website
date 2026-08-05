@@ -220,6 +220,30 @@ export function submissionSearchAttributes(submission: SiteSubmission, order: nu
   return `data-search-title="${attr(title)}" data-search-concepts="${attr(concepts)}" data-state="${attr(submission.record.state)}" data-search-order="${order}" data-tags="${attr(tagKeys)}"`;
 }
 
+/** A progressive-enhancement card for the top of every sidebar. The first
+ * submission is a deterministic no-JavaScript fallback; sidebar.js replaces
+ * it with a randomly selected candidate when the page loads. */
+export function randomSubmissionView(
+  model: SiteModel,
+  markdown: MarkdownRenderer,
+  rootRel: string,
+): string {
+  const listed = model.submissions.filter((submission) => submission.output).sort(compareSearchSubmissions);
+  if (!listed.length) return "";
+  const candidate = (submission: SiteSubmission, dataAttribute = "") => {
+    const id = submission.record.id;
+    const title = submission.output!.manifest.title;
+    return `<a href="${attr(`${rootRel}${id}/index.html`)}"${dataAttribute}><span class="random-submission-title"><span class="entry-id">${esc(id)}</span><span class="random-submission-title-text">${markdown.renderAuthorInline(title, rootRel)}</span></span><span class="random-submission-action">View submission <b aria-hidden="true">→</b></span></a>`;
+  };
+  return `<section class="random-submission" aria-labelledby="random-submission-heading">
+<h2 id="random-submission-heading">Random Submission</h2>
+${candidate(listed[0]!, " data-random-submission-link")}
+<div class="random-submission-candidates" hidden aria-hidden="true">
+${listed.map((submission) => candidate(submission, " data-random-submission-candidate")).join("\n")}
+</div>
+</section>`;
+}
+
 /** Sidebar of the index page: every submission with content, searchable.
  * Records that only reserved an id have nothing to show and stay off the
  * lists (their pages exist for direct links). Registered rows carry their
@@ -240,7 +264,8 @@ export function indexSidebar(
   const draftStart = listed.findIndex((submission) => submission.record.state === "draft");
   if (draftStart >= 0)
     rows.splice(draftStart, 0, '<li class="entry-heading" data-entry-group="draft">Work in Progress</li>');
-  return `<div class="sidebar-filters">${searchGroup("Search titles and concepts", "entry-list submissions-list")}</div>
+  return `${randomSubmissionView(model, markdown, "")}
+<div class="sidebar-filters">${searchGroup("Search titles and concepts", "entry-list submissions-list")}</div>
 <ul id="entry-list">
 ${rows.join("\n")}
 ${EMPTY_ROW}
@@ -252,6 +277,7 @@ ${EMPTY_ROW}
  * concept list on the submission page), and its proofs below them. */
 export function submissionSidebar(
   model: SiteModel,
+  markdown: MarkdownRenderer,
   submission: SiteSubmission,
   rootRel: string,
   opts: { activeId?: string; backToSubmission?: boolean } = {},
@@ -297,7 +323,8 @@ ${typeOptions}
   const onSubPage = Boolean(opts.activeId) || Boolean(opts.backToSubmission);
   const backHref = onSubPage ? `${rootRel}${submission.record.id}/index.html` : `${rootRel}index.html`;
   const backLabel = onSubPage ? submission.record.id : "All submissions";
-  return `<a class="sidebar-back" href="${attr(backHref)}"><span class="sidebar-back-arrow" aria-hidden="true">←</span>${esc(backLabel)}</a>
+  return `${randomSubmissionView(model, markdown, rootRel)}
+<a class="sidebar-back" href="${attr(backHref)}"><span class="sidebar-back-arrow" aria-hidden="true">←</span>${esc(backLabel)}</a>
 <div class="sidebar-filters">${searchGroup()}
 ${typeFilter}</div>
 <ul id="entry-list">

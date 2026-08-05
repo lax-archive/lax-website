@@ -119,6 +119,15 @@
     if (type) type.addEventListener('change', applyFilters);
   }
 
+  function setupRandomSubmission() {
+    const link = document.querySelector('[data-random-submission-link]');
+    const candidates = [...document.querySelectorAll('[data-random-submission-candidate]')];
+    if (!link || !candidates.length) return;
+    const selected = candidates[Math.floor(Math.random() * candidates.length)];
+    link.href = selected.href;
+    link.replaceChildren(...[...selected.childNodes].map((node) => node.cloneNode(true)));
+  }
+
   function setupTagFilters() {
     const buttons = [...document.querySelectorAll('[data-tag-filter]')];
     if (!buttons.length) return;
@@ -266,6 +275,7 @@
   }
 
   function init() {
+    setupRandomSubmission();
     setupFilters();
     setupTagFilters();
     applyFilters();

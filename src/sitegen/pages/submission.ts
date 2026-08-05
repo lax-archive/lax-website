@@ -25,7 +25,7 @@ import {
  * proofs with the proof network, citation, references. */
 export function submissionPage(ctx: PageContext, submission: SiteSubmission): string {
   const { record, output } = submission;
-  const sidebar = submissionSidebar(ctx.model, submission, "../");
+  const sidebar = submissionSidebar(ctx.model, ctx.markdown, submission, "../");
   if (!output) {
     const content = `${draftBanner(record.state)}
 ${paperHeader(ctx.markdown, submission, "../")}
