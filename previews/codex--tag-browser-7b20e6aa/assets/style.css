@@ -1110,6 +1110,12 @@ body{
   display: flex;
   flex-wrap: wrap;
   gap: 0.42rem;
+  /* Three 1.8rem chip rows plus the two gaps between them. Extra suggested
+     topics remain reachable by touch, mouse wheel, and keyboard focus. */
+  max-height: 6.24rem;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
 }
 
 .tag-chip{
