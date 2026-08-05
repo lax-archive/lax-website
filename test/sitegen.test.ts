@@ -378,7 +378,7 @@ describe("site generator", () => {
     expect(index).toContain('data-state="registered"');
     expect(index).toContain('placeholder="Search titles and concepts"');
     expect(index).toContain('<section class="random-submission" aria-labelledby="random-submission-heading">');
-    expect(index).toContain('<h2 id="random-submission-heading">Random Submission</h2>');
+    expect(index).toContain('<h2 id="random-submission-heading">Explore a Submission</h2>');
     expect(index).toContain('href="Lax2/index.html" data-random-submission-link');
     expect(index).toContain('href="Lax2/index.html" data-random-submission-candidate');
     const randomSubmission = index.slice(index.indexOf('<section class="random-submission"'), index.indexOf("</section>"));

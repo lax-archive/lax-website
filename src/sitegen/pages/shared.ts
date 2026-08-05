@@ -236,7 +236,7 @@ export function randomSubmissionView(
     return `<a href="${attr(`${rootRel}${id}/index.html`)}"${dataAttribute}><span class="random-submission-title">${markdown.renderAuthorInline(title, rootRel)}</span><span class="random-submission-action">View submission <b aria-hidden="true">→</b></span></a>`;
   };
   return `<section class="random-submission" aria-labelledby="random-submission-heading">
-<h2 id="random-submission-heading">Random Submission</h2>
+<h2 id="random-submission-heading">Explore a Submission</h2>
 ${candidate(listed[0]!, " data-random-submission-link")}
 <div class="random-submission-candidates" hidden aria-hidden="true">
 ${listed.map((submission) => candidate(submission, " data-random-submission-candidate")).join("\n")}
