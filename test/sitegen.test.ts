@@ -341,17 +341,21 @@ describe("site generator", () => {
     const root = tmpDir("lax-site-sub-");
     await generateSite(submissions(), root);
     const html = fs.readFileSync(path.join(root, "Lax2", "index.html"), "utf8");
-    // paper masthead: title, byline, and dim meta line precede the abstract
-    expect(html).toContain('<h1 class="paper-title submission-title-layout"><span class="submission-title-id">Lax2</span><span class="submission-title-text">Two</span><span class="submission-title-id submission-title-balance" aria-hidden="true">Lax2</span></h1>');
+    // paper masthead: the title stands alone; id and byline share the dim
+    // metadata line before the abstract
+    expect(html).toContain('<h1 class="paper-title">Two</h1>');
+    expect(html).not.toContain('class="submission-title-id"');
     expect(html).not.toContain('class="submission-title-separator"');
-    expect(html).toContain('class="paper-authors"');
-    expect(html).toContain('<span class="formalized-label">formalized by</span> <span class="paper-author">Alice');
+    expect(html).not.toContain('class="paper-authors"');
+    expect(html).toContain('<p class="paper-meta"><span class="submission-meta-id">Lax2</span><span class="meta-sep">·</span><span class="formalized-label">formalized by</span> <span class="paper-author">Alice');
     expect(html.indexOf('class="paper-meta"')).toBeLessThan(html.indexOf('class="katex"'));
     // the abstract is rendered under its own heading, not as an inline block
     expect(html).toContain("Abstract");
     expect(html).toContain('class="paper-abstract"');
     expect(html).toContain('href="https://github.com/alice"');
-    expect(html).toContain("github.com/example/math@aaaaaaa");
+    const sourceTree = `https://github.com/example/math/tree/${"a".repeat(40)}/`;
+    expect(html).toContain(`<a href="${sourceTree}" title="${sourceTree}"><code>GitHub @aaaaaaa</code></a>`);
+    expect(html).not.toContain("github.com/example/math@aaaaaaa");
     expect(html).toContain("v4.30.0");
     // concepts: three-part compact entries; the page's own Lax2. prefix is
     // pruned from the display (full id stays in the tooltip and href)

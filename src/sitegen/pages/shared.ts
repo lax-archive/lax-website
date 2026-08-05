@@ -305,19 +305,14 @@ export function draftBanner(state: string): string {
     : "";
 }
 
-/** The submission page's paper-style masthead: big title, author line, and a
- * dim technical meta line (state, dates, source, pins). Falls back gracefully
- * when there is no build output yet (title = id, owners as the byline). */
+/** The submission page's paper-style masthead: big title and a compact
+ * metadata line (id, authors, state, dates, source, pins). Falls back
+ * gracefully when there is no build output yet (title = id). */
 export function paperHeader(submission: SiteSubmission): string {
   const { record, output } = submission;
   const title = output?.manifest.title ?? record.id;
-  const heading = output
-    ? `<span class="submission-title-id">${esc(record.id)}</span><span class="submission-title-text">${esc(title)}</span><span class="submission-title-id submission-title-balance" aria-hidden="true">${esc(record.id)}</span>`
-    : esc(title);
-  const authors = authorByline(submission);
   return `<header class="paper-head">
-<h1 class="paper-title${output ? " submission-title-layout" : ""}">${heading}</h1>
-${authors ? `<p class="paper-authors"><span class="formalized-label">formalized by</span> ${authors}</p>` : ""}
+<h1 class="paper-title">${esc(title)}</h1>
 <p class="paper-meta">${metaBits(submission)}</p>
 </header>`;
 }
@@ -342,16 +337,22 @@ function authorByline(submission: SiteSubmission): string {
   return authors.join('<span class="author-sep">·</span>');
 }
 
-/** The dim technical line under the byline: state, dates, source, pins. */
+/** The dim technical line under the title: id, authors, state, dates, source, pins. */
 function metaBits(submission: SiteSubmission): string {
   const { record, output } = submission;
   const source = record.source;
   const sourceBit = source
     ? (() => {
-        const short = `${source.repository.replace(/^https:\/\/(www\.)?/, "").replace(/\.git$/, "")}@${source.commit.slice(0, 7)}${source.folder === "." ? "" : `/${source.folder}`}`;
         const href = githubSource(source.repository, source.commit, source.folder);
-        return href ? `<a href="${attr(href)}"><code>${esc(short)}</code></a>` : `<code>${esc(short)}</code>`;
+        const short = `GitHub @${source.commit.slice(0, 7)}`;
+        return href
+          ? `<a href="${attr(href)}" title="${attr(href)}"><code>${esc(short)}</code></a>`
+          : `<code>${esc(short)}</code>`;
       })()
+    : "";
+  const authors = authorByline(submission);
+  const authorBit = authors
+    ? `<span class="formalized-label">formalized by</span> ${authors}`
     : "";
   const dates = [
     `created ${formatDay(record.createdAt)}`,
@@ -363,7 +364,8 @@ function metaBits(submission: SiteSubmission): string {
   // Drafts use the prominent page banner; repeating a tiny state pill here
   // makes the mutable state look like ordinary metadata.
   const state = record.state === "draft" ? "" : statePill(record.state);
-  const parts = [state, dates, sourceBit, pins].filter(Boolean);
+  const id = output ? `<span class="submission-meta-id">${esc(record.id)}</span>` : "";
+  const parts = [id, authorBit, state, dates, sourceBit, pins].filter(Boolean);
   return parts.join('<span class="meta-sep">·</span>');
 }
 

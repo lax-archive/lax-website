@@ -522,38 +522,16 @@ body{
   overflow-wrap: break-word;
 }
 
-.submission-title-layout{
-  display: grid;
-  grid-template-columns: max-content minmax(0, 1fr) max-content;
-  align-items: stretch;
-  column-gap: 0.6em;
-}
-
-.submission-title-id{
-  align-self: center;
+.submission-meta-id{
   color: var(--accent);
+  font-family: var(--mono);
+  font-size: 0.9em;
 }
-
-.submission-title-balance{ visibility: hidden; }
 
 .submission-title-inline-separator{
   margin: 0 0.38em;
   color: var(--text-dim);
   font-weight: 400;
-}
-
-.submission-title-text{
-  min-width: 0;
-  align-self: center;
-  text-align: center;
-  overflow-wrap: anywhere;
-  text-wrap: balance;
-}
-
-.paper-authors{
-  font-size: 1.08rem;
-  line-height: 1.5;
-  margin-bottom: 0.7rem;
 }
 
 .formalized-label{ color: var(--text-dim); }
