@@ -566,12 +566,6 @@ body{
   font-size: 0.9em;
 }
 
-.submission-title-inline-separator{
-  margin: 0 0.38em;
-  color: var(--text-dim);
-  font-weight: 400;
-}
-
 .formalized-label{ color: var(--text-dim); }
 
 .paper-author{ white-space: nowrap; }
