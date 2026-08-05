@@ -1110,12 +1110,10 @@ body{
   display: flex;
   flex-wrap: wrap;
   gap: 0.42rem;
-  /* Three 1.8rem chip rows plus the two gaps between them. Extra suggested
-     topics remain reachable by touch, mouse wheel, and keyboard focus. */
+  /* Three 1.8rem chip rows plus the two gaps between them. sidebar.js removes
+     complete overflow chips after measuring the actual wrapping width. */
   max-height: 6.24rem;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  scrollbar-width: thin;
+  overflow: hidden;
 }
 
 .tag-chip{
@@ -1134,6 +1132,8 @@ body{
   cursor: pointer;
   transition: color 120ms ease, background 120ms ease, border-color 120ms ease, box-shadow 120ms ease;
 }
+
+.tag-chip[hidden]{ display: none; }
 
 .tag-chip b{
   display: inline-grid;

@@ -122,7 +122,23 @@
   function setupTagFilters() {
     const buttons = [...document.querySelectorAll('[data-tag-filter]')];
     if (!buttons.length) return;
+    const list = document.querySelector('.tag-chip-list');
     const keys = new Set(buttons.map((button) => button.dataset.tagFilter));
+
+    function fitTagRows() {
+      if (!list) return;
+      buttons.forEach((button) => { button.hidden = false; });
+      const tops = buttons.map((button) => button.offsetTop);
+      const rows = [...new Set(tops)].sort((a, b) => a - b);
+      const lastVisibleTop = rows[2] ?? Number.POSITIVE_INFINITY;
+      buttons.forEach((button, index) => { button.hidden = tops[index] > lastVisibleTop; });
+    }
+
+    let resizeFrame;
+    function queueTagFit() {
+      cancelAnimationFrame(resizeFrame);
+      resizeFrame = requestAnimationFrame(fitTagRows);
+    }
 
     function urlTag() {
       const tag = new URLSearchParams(window.location.search).get('tag') ?? '';
@@ -157,6 +173,9 @@
     buttons.forEach((button) => {
       button.setAttribute('aria-pressed', button.dataset.tagFilter === selectedTag ? 'true' : 'false');
     });
+    fitTagRows();
+    window.addEventListener('resize', queueTagFit);
+    document.fonts?.ready.then(queueTagFit);
   }
 
   function setupEntryTooltips() {
