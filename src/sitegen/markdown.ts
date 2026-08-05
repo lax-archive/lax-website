@@ -25,8 +25,9 @@ export class MarkdownRenderer {
   }
 
   /** Submission-authored prose: abstracts and concept/proof annotations.
-   * Alongside `$...$`, an inline backtick span is convenient math shorthand.
-   * Fenced code blocks remain ordinary Markdown code blocks. */
+   * TeX may use `$...$`/`$$...$$` or `\(...\)`/`\[...\]`; an inline backtick
+   * span is also convenient math shorthand. Fenced code blocks remain
+   * ordinary Markdown code blocks. */
   renderAuthorProse(text: string, rootRel: string): string {
     return this.renderWithOptions(text, rootRel, true);
   }

@@ -140,10 +140,27 @@ describe("site generator", () => {
     expect(ordinary).not.toContain('class="katex"');
   });
 
-  it("uses both inline-math delimiters in abstracts and annotation comments", async () => {
+  it("renders standard TeX delimiters alongside Markdown in author prose", () => {
+    const markdown = new MarkdownRenderer(new SiteModel(submissions()));
+    const html = markdown.renderAuthorProse(String.raw`**Regular** when \(\varepsilon > 0\).
+
+\[
+  m_0 \le k \le M
+\]
+
+- one *equitable* partition`, "");
+    expect((html.match(/class="katex"/g) ?? []).length).toBe(2);
+    expect(html).toContain("<strong>Regular</strong>");
+    expect(html).toContain("<em>equitable</em>");
+    expect(html).toContain("<ul>");
+    expect(html).not.toContain("\\(\\varepsilon");
+    expect(html).not.toContain("\\[");
+  });
+
+  it("uses all inline-math delimiters in abstracts and annotation comments", async () => {
     const authored = submissions();
     const output = authored[0]!.output!;
-    const prose = "Dollar $x^2$ and shorthand `y_i`.";
+    const prose = "Dollar $x^2$, shorthand `y_i`, and TeX \\(z^3\\).";
     output.abstract = prose;
     output.concepts[0]!.description = prose;
     output.concepts[0]!.sections = [{ title: "Review notes", markdown: prose }];
@@ -158,7 +175,7 @@ describe("site generator", () => {
       path.join(root, "Lax2", "Lax2Proofs.truth.html"),
     ]) {
       const html = fs.readFileSync(file, "utf8");
-      expect(html).toContain('class="katex"');
+      expect((html.match(/class="katex"/g) ?? []).length).toBeGreaterThanOrEqual(3);
       expect(html).not.toContain("<code>y_i</code>");
     }
   });
