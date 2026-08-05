@@ -44,12 +44,21 @@
 
     // The index rows carry two separate search fields. Keep registered work
     // before drafts, then prefer rows with more query words in their title.
+    // Draft rows stay below their Work in Progress heading while filtering.
     if (rows.some((row) => row.dataset.searchTitle !== undefined)) {
       rows.sort((a, b) => stateRank(a.dataset.state) - stateRank(b.dataset.state)
         || (titleHits.get(b) || 0) - (titleHits.get(a) || 0)
         || Number(a.dataset.searchOrder) - Number(b.dataset.searchOrder));
       const empty = document.getElementById(emptyId);
-      rows.forEach((row) => list.insertBefore(row, empty));
+      const draftHeading = list.querySelector('[data-entry-group="draft"]');
+      if (draftHeading) {
+        rows.filter((row) => row.dataset.state !== 'draft')
+          .forEach((row) => list.insertBefore(row, draftHeading));
+        rows.filter((row) => row.dataset.state === 'draft')
+          .forEach((row) => list.insertBefore(row, empty));
+      } else {
+        rows.forEach((row) => list.insertBefore(row, empty));
+      }
     }
 
     const empty = document.getElementById(emptyId);
