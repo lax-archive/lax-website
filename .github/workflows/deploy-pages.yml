@@ -13,8 +13,7 @@ on:
 
 permissions:
   contents: write
-  pages: write
-  id-token: write
+  pages: read
 
 # Every deployment contains production plus all retained branch previews, so
 # publishing jobs must update the shared Pages tree one at a time.
@@ -26,9 +25,6 @@ jobs:
   build-and-deploy:
     if: github.event_name != 'delete' || github.event.ref_type == 'branch'
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
 
@@ -128,6 +124,7 @@ jobs:
             rm -rf "_pages/previews/$SLUG"
           fi
           touch _pages/.nojekyll
+          printf 'laxarchive.org' > _pages/CNAME
           node .github/scripts/pages-previews.mjs index _pages
 
       - name: Persist the complete Pages tree
@@ -137,39 +134,45 @@ jobs:
           git -C _pages config user.name "github-actions[bot]"
           git -C _pages config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git -C _pages add --all
+          pushed=false
           if ! git -C _pages diff --cached --quiet; then
             git -C _pages commit -m "Publish ${{ steps.target.outputs.branch }}"
             git -C _pages push origin HEAD:gh-pages
+            pushed=true
           fi
+          echo "pushed=$pushed" >> "$GITHUB_OUTPUT"
           echo "pages_sha=$(git -C _pages rev-parse HEAD)" >> "$GITHUB_OUTPUT"
 
-      - name: Prepare deployment artifact
-        run: |
-          mkdir _deploy
-          cp -a _pages/. _deploy/
-          rm -f _deploy/.git
-
-      - uses: actions/configure-pages@v5
-
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: _deploy
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Verify Pages built the pushed tree
+        if: steps.persist.outputs.pushed == 'true'
         env:
-          # Pages dedupes deployments by pages_build_version, which
-          # deploy-pages takes from GITHUB_SHA. Most deploys here run on an
-          # unchanged main (repository_dispatch/schedule after a database
-          # commit), so the real version is the content: the gh-pages commit.
-          # Without this override, GitHub keeps serving the first deployment
-          # of a given main SHA and silently discards every later artifact.
-          GITHUB_SHA: ${{ steps.persist.outputs.pages_sha }}
+          GH_TOKEN: ${{ github.token }}
+          PAGES_SHA: ${{ steps.persist.outputs.pages_sha }}
+        run: |
+          set -euo pipefail
+          # Pages serves the gh-pages branch; GitHub builds it on push. Once
+          # (in the artifact-deployment era) deploys reported success while
+          # the site never changed, so do not trust silence: poll until the
+          # latest Pages build is our commit and has actually built.
+          for i in $(seq 1 60); do
+            build=$(gh api "repos/$GITHUB_REPOSITORY/pages/builds/latest" 2>/dev/null || echo '{}')
+            commit=$(jq -r '.commit // empty' <<<"$build")
+            status=$(jq -r '.status // empty' <<<"$build")
+            if [[ "$commit" == "$PAGES_SHA" && "$status" == "built" ]]; then
+              echo "built after ${i} probes"
+              exit 0
+            fi
+            if [[ "$commit" == "$PAGES_SHA" && "$status" == "errored" ]]; then
+              echo "::error::Pages build errored for $PAGES_SHA: $(jq -r '.error.message // empty' <<<"$build")"
+              exit 1
+            fi
+            sleep 10
+          done
+          echo "::error::Pages never built $PAGES_SHA (latest: $commit, status: $status)"
+          exit 1
 
       - name: Publish preview URL
         if: steps.target.outputs.mode == 'preview'
         env:
-          PAGE_URL: ${{ steps.deployment.outputs.page_url }}
           SLUG: ${{ steps.target.outputs.slug }}
-        run: echo "### Preview URL"$'\n\n'"${PAGE_URL%/}/previews/$SLUG/" >> "$GITHUB_STEP_SUMMARY"
+        run: echo "### Preview URL"$'\n\n'"https://laxarchive.org/previews/$SLUG/" >> "$GITHUB_STEP_SUMMARY"
