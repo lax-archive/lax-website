@@ -131,6 +131,7 @@ jobs:
           node .github/scripts/pages-previews.mjs index _pages
 
       - name: Persist the complete Pages tree
+        id: persist
         run: |
           set -euo pipefail
           git -C _pages config user.name "github-actions[bot]"
@@ -140,6 +141,7 @@ jobs:
             git -C _pages commit -m "Publish ${{ steps.target.outputs.branch }}"
             git -C _pages push origin HEAD:gh-pages
           fi
+          echo "pages_sha=$(git -C _pages rev-parse HEAD)" >> "$GITHUB_OUTPUT"
 
       - name: Prepare deployment artifact
         run: |
@@ -156,6 +158,14 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+        env:
+          # Pages dedupes deployments by pages_build_version, which
+          # deploy-pages takes from GITHUB_SHA. Most deploys here run on an
+          # unchanged main (repository_dispatch/schedule after a database
+          # commit), so the real version is the content: the gh-pages commit.
+          # Without this override, GitHub keeps serving the first deployment
+          # of a given main SHA and silently discards every later artifact.
+          GITHUB_SHA: ${{ steps.persist.outputs.pages_sha }}
 
       - name: Publish preview URL
         if: steps.target.outputs.mode == 'preview'
