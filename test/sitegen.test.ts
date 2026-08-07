@@ -359,7 +359,9 @@ describe("site generator", () => {
     expect(index).toContain("Every submission page ends with a <strong>Citation</strong> section");
     expect(index).toContain('class="landing-cite-example"');
     expect(index).toContain('href="Lax2/index.html#citation"');
-    expect(index).toContain('class="landing-cite-example-action">View citation');
+    expect(index).toContain('<pre class="landing-cite-example-bib">@misc{Lax2,');
+    expect(index).toContain('title = {Two},');
+    expect(index).toContain('class="landing-cite-example-action">See in action');
     expect(index).toContain("contributing.html");
     expect(index).toContain('<script src="assets/landing.js"></script>');
     expect(index).not.toContain("&lt;!--");
