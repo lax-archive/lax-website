@@ -165,25 +165,33 @@ Why? Because, this way, your work
 Again, AI agents can autonomously and reliably follow \textsf{lax-CLI}'s documentation to prepare lax submissions, monitor ongoing submissions, and troubleshoot if need be.
 The human in the loop mainly checks that the abstract, commented concept files, and optional implementation notes are clean and as intended.
 This does not take much time.
-As the friction quickly evaporates, do not keep your formalized results isolated.
+So do not keep your formalized results isolated.
 
 \section{Can you trust lax?}
 
-If the axiom of a~concept appears as proven on the website, should I trust that the corresponding proof package actually proves it?
+If the axiom of a~concept is marked as proven on the website, should you trust that the corresponding proof package actually proves it?
 Assuming you already believe in the soundness of Lean's kernel, you have to further trust us on basically the entire submission pipeline.
-This is too much to ask, even with everything open-source.
+This is admittedly too much to ask, even with everything open.
 
-Let us summarize what we claim this pipeline does.
+As the Lean code of every submission is publicly available, you can independently verify that
+\begin{enumerate}[label=(\arabic*)]
+\item\label{it:1} a~given project builds and type-checks,
+\item\label{it:2} no extra axioms are required by the proof package, and
+\item\label{it:3} the type of each axiom in the concept files is definitionally equal to the type of the corresponding theorem in the proof package.
+\end{enumerate}
+The kernel can handle \ref{it:1} and \ref{it:3}, while \ref{it:2} can be done by meta-programming (\verb|#print axioms|).
+This way you would be reproducing\footnote{Note that the used Mathlib, Lean, and Lake versions are part of the submission metadata.} the relevant subset of our submission pipeline, and we would be progressively earning your trust.
+If you decide to do so, conduct your independent tests in a~sandbox.
+Even if you happen to know the submitter, the Lean code (likely written by an AI agent, and especially so in the proof files) need not be safe.
 
-Of course, the Lean code of every submission is publicly available.
-So for any given submission, you can independently check that 
-  
-\section{Can lax trust you?}
+\medskip
 
-Currently it does.
-The community is still small enough that imagining adversarial submissions or attacks.
+In most submissions, you should easily be able to tell that the concept files are harmless.
+Not to complicate the submission process, at this early stage, the pipeline does nothing to guarantee that.
+Future versions of lax might restrict the concept files to a~safe Lean dialect.
+The next important feature that we will integrate to the website is the option to vouch that a~declaration is formalized correctly, that is, faithful to the mathematical intent.
 
-\section{How is lax built?}
+\section{What is lax built on?}
 
 The current lax infrastructure relies on GitHub services:
 \begin{itemize}
@@ -192,6 +200,8 @@ The current lax infrastructure relies on GitHub services:
   \item the website is built and deployed via GitHub Pages, and
   \item \textsf{lax-CLI} is available on npm.
 \end{itemize}
+
+[Insert Clemens's diagram?]
 
 \bibliographystyle{plain}
 \bibliography{main}
