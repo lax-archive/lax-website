@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src https: data:; font-src 'self'">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Lax — an archive of formalized mathematical concepts and their proofs">
+<title>Twin-Width Can Be Exponential in Treewidth — lax-48</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/katex.css">
+<link rel="stylesheet" href="../assets/style.css">
+</head><body>
+<header class="site-header">
+  <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
+  <h1 class="site-title"><a href="../index.html">Lax <span class="site-title-quiet">Lean Archive</span></a></h1>
+</header>
+<main id="content-shell">
+<div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+<aside id="sidebar">
+<a class="sidebar-back" href="../index.html"><span class="sidebar-back-arrow" aria-hidden="true">←</span>All submissions</a>
+<div class="sidebar-filters"><div class="filter-group">
+<label for="filter-search">Search</label>
+<input id="filter-search" class="filter-input" type="search" placeholder="Filter entries" aria-controls="entry-list">
+</div>
+<div class="filter-group">
+<label for="filter-type">Type</label>
+<select id="filter-type" class="filter-select">
+<option value="all">All types</option>
+<option value="definition">definition</option>
+<option value="theorem">theorem</option>
+<option value="proof">proof</option>
+</select>
+</div></div>
+<ul id="entry-list">
+<li class="entry-heading" aria-hidden="true">Concepts</li>
+<li data-type="theorem" data-search="lax48.exponentialseparation twin-width can be exponential in treewidth theorem"><a class="entry-link" href="../lax-48/Lax48.ExponentialSeparation.html" data-full-title="Twin-width can be exponential in treewidth"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax48.ExponentialSeparation</span></span></a></li>
+<li data-type="definition" data-search="lax48.treewidth treewidth definition"><a class="entry-link" href="../lax-48/Lax48.Treewidth.html" data-full-title="Treewidth"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax48.Treewidth</span></span></a></li>
+<li data-type="definition" data-search="lax48.twinwidth twin-width definition"><a class="entry-link" href="../lax-48/Lax48.TwinWidth.html" data-full-title="Twin-width"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax48.TwinWidth</span></span></a></li>
+<li class="entry-heading" aria-hidden="true">Proofs</li>
+<li data-type="proof" data-search="lax48proofs.main.exists_treewidth_le_and_two_pow_lt_twinwidth proof"><a class="entry-link" href="../lax-48/Lax48Proofs.Main.exists_treewidth_le_and_two_pow_lt_twinWidth.html" data-full-title="Lax48Proofs.Main.exists_treewidth_le_and_two_pow_lt_twinWidth"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax48Proofs.Main.exists_treewidth_le_and_two_pow_lt_twinWidth</span></span></a></li>
+<li id="entry-list-empty" hidden>No entries match.</li>
+</ul>
+</aside>
+<section id="main"><div id="detail">
+<p class="draft-banner"><strong>Draft</strong> — mutable and not usable as a dependency; its citation marks the draft state.</p>
+<header class="paper-head">
+<h1 class="paper-title">Twin-Width Can Be Exponential in Treewidth</h1>
+<p class="paper-meta"><span class="submission-meta-id">lax-48</span><span class="meta-sep">·</span><span class="formalized-label">formalized by</span> <span class="paper-author">Jan Dreier</span><span class="author-sep">·</span><span class="paper-author">Édouard Bonnet <span class="author-links"><a href="https://github.com/EdouardBonnet">@EdouardBonnet</a></span></span><span class="author-sep">·</span><span class="paper-author">Claude Fable 5 (Anthropic)</span><span class="meta-sep">·</span>created 2026-08-07<span class="meta-sep">·</span><a href="https://github.com/lax-archive/lax-submissions/tree/489019c133a0720f5d26deeaf4603f6fbc6ecf92/twin-width-treewidth-separation" title="https://github.com/lax-archive/lax-submissions/tree/489019c133a0720f5d26deeaf4603f6fbc6ecf92/twin-width-treewidth-separation"><code>GitHub @489019c</code></a><span class="meta-sep">·</span>Lean <code>v4.30.0</code> · mathlib <code>c5ea00351c28</code></p>
+</header>
+<section class="paper-abstract">
+<h2 class="abstract-heading">Abstract</h2>
+<div class="latex-content"><p>This submission proves the Bonnet–Déprés separation in the form: for every
+natural number <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.0315em;">k</span></span></span></span>, there is a finite simple graph <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi></mrow><annotation encoding="application/x-tex">G</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal">G</span></span></span></span> with
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">t</mi><mi mathvariant="normal">r</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">w</mi><mi mathvariant="normal">i</mi><mi mathvariant="normal">d</mi><mi mathvariant="normal">t</mi><mi mathvariant="normal">h</mi></mrow><mo stretchy="false">(</mo><mi>G</mi><mo stretchy="false">)</mo><mo>≤</mo><mn>2</mn><mi>k</mi><mo>+</mo><mn>4</mn></mrow><annotation encoding="application/x-tex">\mathrm{treewidth}(G) \le 2k+4</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathrm">treewidth</span></span><span class="mopen">(</span><span class="mord mathnormal">G</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.7778em;vertical-align:-0.0833em;"></span><span class="mord">2</span><span class="mord mathnormal" style="margin-right:0.0315em;">k</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">4</span></span></span></span> and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mi>k</mi></msup><mo>&lt;</mo><mrow><mi mathvariant="normal">t</mi><mi mathvariant="normal">w</mi><mi mathvariant="normal">i</mi><mi mathvariant="normal">n</mi><mi mathvariant="normal">W</mi><mi mathvariant="normal">i</mi><mi mathvariant="normal">d</mi><mi mathvariant="normal">t</mi><mi mathvariant="normal">h</mi></mrow><mo stretchy="false">(</mo><mi>G</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">2^k &lt; \mathrm{twinWidth}(G)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8882em;vertical-align:-0.0391em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8491em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0315em;">k</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathrm">twinWidth</span></span><span class="mopen">(</span><span class="mord mathnormal">G</span><span class="mclose">)</span></span></span></span>.</p>
+<p>The concept surface has three review units: the complete definition of
+treewidth, the complete definition of twin-width, and the separation theorem.
+Treewidth is phrased through tree decompositions with a bag-size bound;
+twin-width through contraction sequences of vertex partitions whose red
+degrees are derived from homogeneity in the graph, so no auxiliary state is
+carried alongside the partitions. Both parameters are infima of explicit sets
+of naturals, and the separation is stated over the canonical finite vertex
+types <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">F</mi><mi mathvariant="normal">i</mi><mi mathvariant="normal">n</mi></mrow><mtext> </mtext><mi>n</mi></mrow><annotation encoding="application/x-tex">\mathrm{Fin}\ n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord"><span class="mord mathrm">Fin</span></span><span class="mspace"> </span><span class="mord mathnormal">n</span></span></span></span>. The proof constructs the explicit Bonnet–Déprés
+graph <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi><msub><mi>D</mi><mi>k</mi></msub></mrow><annotation encoding="application/x-tex">BD_k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord mathnormal" style="margin-right:0.0502em;">B</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0278em;">D</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0315em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> in a trigraph-based source development and bridges it to the
+submitted concepts through the invariant that, along any contraction
+sequence, black pairs are exactly the complete pairs and red pairs exactly
+the non-homogeneous pairs.</p>
+<p>Ported from the original formalization by Édouard Bonnet
+(github.com/EdouardBonnet/leaning, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mi>w</mi><mi>i</mi><mi>n</mi><mo>−</mo><mi>w</mi><mi>i</mi><mi>d</mi><mi>t</mi><mi>h</mi></mrow><annotation encoding="application/x-tex">twin-width</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.7429em;vertical-align:-0.0833em;"></span><span class="mord mathnormal" style="margin-right:0.0269em;">tw</span><span class="mord mathnormal">in</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.0269em;">w</span><span class="mord mathnormal">i</span><span class="mord mathnormal">d</span><span class="mord mathnormal">t</span><span class="mord mathnormal">h</span></span></span></span>, MIT-licensed).</p>
+</div>
+</section>
+<section class="page-section"><h3 class="section-title">Concepts</h3>
+<div class="concept-list-box">
+<ul class="concept-list">
+<li><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="Lax48.ExponentialSeparation.html" title="Lax48.ExponentialSeparation"><code>Lax48.ExponentialSeparation</code></a></li>
+<li><span class="type-badge" title="definition">def</span><a href="Lax48.Treewidth.html" title="Lax48.Treewidth"><code>Lax48.Treewidth</code></a></li>
+<li><span class="type-badge" title="definition">def</span><a href="Lax48.TwinWidth.html" title="Lax48.TwinWidth"><code>Lax48.TwinWidth</code></a></li>
+</ul>
+<div class="badge-legend" aria-label="Concept badge legend"><span><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span>proven claim</span><span><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span>open claim</span><span><span class="type-badge" title="definition">def</span>no claim — nothing to prove</span><span class="badge-legend-note">letters abbreviate the concept's type</span></div>
+</div>
+<h4 class="figure-title">Concept map</h4>
+<figure class="graph-figure">
+<div class="graph-toolbar"><button type="button" id="concept-expand" aria-controls="concept-dag" aria-pressed="true">Hide ancestors</button><button type="button" id="concept-descend" aria-controls="concept-dag" aria-pressed="false">Show descendants</button><output id="concept-graph-status" aria-live="polite"></output></div>
+<div id="concept-dag" class="figure-container" data-graph="concepts" data-ancestry="true"></div>
+<div class="graph-tooltip" role="tooltip" hidden></div>
+<figcaption class="graph-legend" aria-label="Concept map legend"><span><i class="legend-node fill-proven"></i>Proven claim</span><span><i class="legend-node fill-open"></i>Open claim</span><span><i class="legend-node fill-none"></i>Definition — nothing to prove</span><span><i class="legend-node stroke-own"></i>This submission</span><span><i class="legend-node stroke-ext"></i>Other submission</span><span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B builds on A</span></figcaption>
+</figure>
+</section>
+<section class="page-section"><h3 class="section-title">Proofs</h3>
+<div class="proof-list-box">
+<ul class="proof-list">
+<li class="proof-item" id="p-Lax48Proofs.Main.exists_treewidth_le_and_two_pow_lt_twinWidth">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-48/Lax48Proofs.Main.exists_treewidth_le_and_two_pow_lt_twinWidth.html" aria-label="Open proof Lax48Proofs.Main.exists_treewidth_le_and_two_pow_lt_twinWidth"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><p class="judgment-unconditional">no assumptions</p></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="../lax-48/Lax48.ExponentialSeparation.html" title="Lax48.ExponentialSeparation.exists_treewidth_le_and_two_pow_lt_twinWidth"><code>Lax48.ExponentialSeparation</code></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-48/Lax48Proofs.Main.exists_treewidth_le_and_two_pow_lt_twinWidth.html"><code>Lax48Proofs.Main.exists_treewidth_le_and_two_pow_lt_twinWidth</code></a></p>
+</li>
+</ul>
+<p class="proof-list-source">Lean sources for these proofs: <a class="source-link" href="https://github.com/lax-archive/lax-submissions/tree/489019c133a0720f5d26deeaf4603f6fbc6ecf92/twin-width-treewidth-separation/proofs">proofs/ on GitHub</a></p>
+</div>
+<h4 class="figure-title">Proof network<a class="source-link" href="https://github.com/lax-archive/lax-submissions/tree/489019c133a0720f5d26deeaf4603f6fbc6ecf92/twin-width-treewidth-separation/proofs">view on GitHub</a></h4>
+<figure class="graph-figure">
+<div id="proof-network" class="figure-container" data-graph="proofs"></div>
+<div class="graph-tooltip" role="tooltip" hidden></div>
+<figcaption class="graph-legend" aria-label="Proof network legend"><span class="legend-note">assumptions → ⊢ → conclusion</span><span><i class="legend-node fill-proven"></i>Proven claim</span><span><i class="legend-node fill-open"></i>Open claim</span><span><i class="legend-node stroke-own"></i>This submission</span><span><i class="legend-node stroke-ext"></i>From another submission</span><span><i class="legend-proof-chip" aria-hidden="true">⊢</i>Proof — click to open</span><span><i class="legend-cycle"></i>Cycle — claims proving each other</span></figcaption>
+</figure>
+<p class="honesty-note">Proof code is not displayed; the archive records each proof's checked relationship between claims.</p>
+</section>
+<section class="page-section"><h3 class="section-title">Related submissions</h3>
+<p class="empty-note">No other submission in the archive builds on this one, and this one builds on none.</p>
+</section>
+<section class="page-section"><h3 class="section-title" id="citation">Cite this</h3>
+<div class="citation-box">
+<pre class="citation" id="submission-citation">@misc{lax-48,
+  author = {Jan Dreier and Édouard Bonnet and Claude Fable 5 (Anthropic)},
+  title = {Twin-Width Can Be Exponential in Treewidth},
+  year = {2026},
+  howpublished = {Lax Archive, lax-48},
+  url = {https://laxarchive.org/lax-48/},
+  note = {draft},
+}</pre>
+<button class="citation-copy" type="button" data-copy-citation aria-controls="submission-citation" aria-label="Copy BibTeX to clipboard" title="Copy BibTeX"><span class="citation-copy-icon" aria-hidden="true"></span></button>
+<output class="citation-copy-status" aria-live="polite"></output>
+</div>
+</section>
+<section class="page-section"><h3 class="section-title">References</h3>
+<ol class="reference-list">
+<li id="ref-BonnetDepres2023">Édouard Bonnet and Hugues Déprés. <span class="reference-title">Twin-width can be exponential in treewidth</span>. Journal of Combinatorial Theory, Series B 161:1–14, 2023. <a href="https://doi.org/10.1016/j.jctb.2023.01.003">doi:10.1016/j.jctb.2023.01.003</a></li>
+</ol>
+</section>
+<script type="application/json" id="graph-data">{"concepts":{"nodes":[{"id":"Lax48.ExponentialSeparation","href":"../lax-48/Lax48.ExponentialSeparation.html","title":"Twin-width can be exponential in treewidth","owner":"lax-48","status":"proven","ext":false,"dir":"core"},{"id":"Lax48.Treewidth","href":"../lax-48/Lax48.Treewidth.html","title":"Treewidth","owner":"lax-48","status":"none","ext":false,"dir":"core"},{"id":"Lax48.TwinWidth","href":"../lax-48/Lax48.TwinWidth.html","title":"Twin-width","owner":"lax-48","status":"none","ext":false,"dir":"core"}],"edges":[{"from":"Lax48.Treewidth","to":"Lax48.ExponentialSeparation"},{"from":"Lax48.TwinWidth","to":"Lax48.ExponentialSeparation"}],"home":"lax-48"},"proofs":{"statements":[{"id":"Lax48.ExponentialSeparation.exists_treewidth_le_and_two_pow_lt_twinWidth","label":"Lax48.ExponentialSeparation","title":"Twin-width can be exponential in treewidth","owner":"lax-48","href":"../lax-48/Lax48.ExponentialSeparation.html#s-Lax48.ExponentialSeparation.exists_treewidth_le_and_two_pow_lt_twinWidth","proven":true,"ext":false}],"proofs":[{"id":"Lax48Proofs.Main.exists_treewidth_le_and_two_pow_lt_twinWidth","assumptions":[],"conclusion":"Lax48.ExponentialSeparation.exists_treewidth_le_and_two_pow_lt_twinWidth","description":"Self-contained proof of the Bonnet–Déprés exponential gap: for every `k`, the\nBonnet–Déprés graph `BD_k` has treewidth at most `2*k + 4` while its\ntwin-width exceeds `2^k`.","owner":"lax-48","ext":false,"href":"../lax-48/Lax48Proofs.Main.exists_treewidth_le_and_two_pow_lt_twinWidth.html","assumptionsProven":true,"outstanding":0}],"home":"lax-48"},"submissions":{"nodes":[{"id":"lax-48","href":"../lax-48/index.html","title":"Twin-Width Can Be Exponential in Treewidth","state":"draft","concepts":3,"proofs":1,"dir":"core","ext":false}],"edges":[]}}</script>
+</div></section>
+</main>
+<script src="../assets/sidebar.js"></script>
+<script src="../assets/layout.js"></script>
+<script src="../assets/dag.js"></script>
+<script src="../assets/citation.js"></script>
+</body></html>
