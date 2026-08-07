@@ -13,8 +13,7 @@ on:
 
 permissions:
   contents: write
-  pages: write
-  id-token: write
+  pages: read
 
 # Every deployment contains production plus all retained branch previews, so
 # publishing jobs must update the shared Pages tree one at a time.
@@ -26,9 +25,6 @@ jobs:
   build-and-deploy:
     if: github.event_name != 'delete' || github.event.ref_type == 'branch'
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
 
@@ -128,38 +124,52 @@ jobs:
             rm -rf "_pages/previews/$SLUG"
           fi
           touch _pages/.nojekyll
+          printf 'laxarchive.org' > _pages/CNAME
           node .github/scripts/pages-previews.mjs index _pages
 
       - name: Persist the complete Pages tree
+        id: persist
         run: |
           set -euo pipefail
           git -C _pages config user.name "github-actions[bot]"
           git -C _pages config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git -C _pages add --all
+          pushed=false
           if ! git -C _pages diff --cached --quiet; then
             git -C _pages commit -m "Publish ${{ steps.target.outputs.branch }}"
             git -C _pages push origin HEAD:gh-pages
+            pushed=true
           fi
+          echo "pushed=$pushed" >> "$GITHUB_OUTPUT"
+          echo "pages_sha=$(git -C _pages rev-parse HEAD)" >> "$GITHUB_OUTPUT"
 
-      - name: Prepare deployment artifact
+      - name: Verify the site serves the pushed tree
+        if: steps.persist.outputs.pushed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PAGES_SHA: ${{ steps.persist.outputs.pages_sha }}
         run: |
-          mkdir _deploy
-          cp -a _pages/. _deploy/
-          rm -f _deploy/.git
-
-      - uses: actions/configure-pages@v5
-
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: _deploy
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+          set -euo pipefail
+          # The Pages backend can exceed its own 10-minute deploy timeout
+          # and report the build "errored" while still finishing minutes
+          # later (seen 2026-08-06, in both build modes). So the build
+          # status is a hint, not the verdict: the verdict is the live
+          # site serving the bytes we just pushed. The unique query string
+          # busts the edge cache. Budget ~25 minutes.
+          for i in $(seq 1 100); do
+            if curl -fsS --max-time 15 "https://laxarchive.org/index.html?v=$PAGES_SHA-$i" 2>/dev/null | cmp -s - _pages/index.html; then
+              echo "live after ${i} probes"
+              exit 0
+            fi
+            status=$(gh api "repos/$GITHUB_REPOSITORY/pages/builds/latest" --jq '.status' 2>/dev/null || echo unknown)
+            echo "probe ${i}: build status ${status}, live bytes differ"
+            sleep 15
+          done
+          echo "::error::the site never served the pushed tree ($PAGES_SHA)"
+          exit 1
 
       - name: Publish preview URL
         if: steps.target.outputs.mode == 'preview'
         env:
-          PAGE_URL: ${{ steps.deployment.outputs.page_url }}
           SLUG: ${{ steps.target.outputs.slug }}
-        run: echo "### Preview URL"$'\n\n'"${PAGE_URL%/}/previews/$SLUG/" >> "$GITHUB_STEP_SUMMARY"
+        run: echo "### Preview URL"$'\n\n'"https://laxarchive.org/previews/$SLUG/" >> "$GITHUB_STEP_SUMMARY"
