@@ -1,0 +1,71 @@
+\begin{lrbox}{\ConceptBox}
+\begin{minipage}[t][\LaxPanelHeight][t]{\LaxPanelWidth}
+  \vspace*{2.5mm}
+  \LaxHeader{Concept}{LaxDemo/EvenAddition.lean}
+\begin{lstlisting}[style=LaxLean,linebackgroundcolor=\ConceptLineBackground]
+import Mathlib
+
+namespace LaxDemo.EvenAddition
+
+def twice (n : Nat) : Nat := n + n
+
+def Even (n : Nat) : Prop :=
+  ∃ k, n = twice k
+
+axiom even_add {m n : Nat} :
+    Even m → Even n →
+    Even (m + n)
+
+end LaxDemo.EvenAddition
+\end{lstlisting}
+\end{minipage}
+\end{lrbox}
+
+\begin{lrbox}{\ProofBox}
+\begin{minipage}[t][\LaxPanelHeight][t]{\LaxPanelWidth}
+  \vspace*{2.5mm}
+  \LaxHeader{Proof}{LaxDemoProofs/EvenAddition.lean}
+\begin{lstlisting}[style=LaxLean,linebackgroundcolor=\ProofLineBackground]
+import LaxDemo.EvenAddition
+
+namespace LaxDemoProofs
+
+open LaxDemo.EvenAddition
+
+theorem even_add {m n : Nat} :
+    Even m → Even n →
+    Even (m + n) := by
+  rintro ⟨a, rfl⟩ ⟨b, rfl⟩
+  refine ⟨a + b, ?_⟩
+  simp only [twice]
+  ac_rfl
+
+end LaxDemoProofs
+\end{lstlisting}
+\end{minipage}
+\end{lrbox}
+
+
+\begin{tikzpicture}[
+  panel/.style={
+    draw=LaxBorder,
+    fill=LaxCodeBg,
+    rounded corners=2mm,
+    line width=0.55pt,
+    inner sep=0pt,
+    outer sep=0pt,
+    anchor=north west
+  }
+]
+  \node[panel] (concept) {\usebox{\ConceptBox}};
+  \node[panel, right=17mm of concept.north east, anchor=north west] (proof)
+    {\usebox{\ProofBox}};
+
+  \draw[-{Stealth[length=2.2mm,width=1.5mm]},
+        draw=LaxAccent, line width=0.75pt]
+    ([xshift=2.0mm,yshift=-5.25cm]concept.north east) --
+    node[midway, above=1.6mm, fill=white, inner xsep=1.0mm, inner ysep=0.4mm,
+         text=LaxDim, font=\scriptsize\itshape] {proved by}
+    ([xshift=-2.0mm,yshift=-5.25cm]proof.north west);
+\end{tikzpicture}
+

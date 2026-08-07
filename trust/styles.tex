@@ -1,0 +1,95 @@
+% LAX website surfaces.
+\definecolor{LaxCodeBg}{HTML}{F6F8FB}
+\definecolor{LaxBorder}{HTML}{E8E3DC}
+\definecolor{LaxText}{HTML}{24292E}
+\definecolor{LaxDim}{HTML}{6B7280}
+\definecolor{LaxLineNo}{HTML}{B3B8C0}
+\definecolor{LaxAccent}{HTML}{3B6B9A}
+\definecolor{LaxProvenBg}{HTML}{E8F5E8}
+
+% Shiki "github-light" token colours used by laxarchive.org.
+\definecolor{GHKeyword}{HTML}{D73A49}
+\definecolor{GHConstant}{HTML}{005CC5}
+\definecolor{GHEntity}{HTML}{6F42C1}
+\definecolor{GHString}{HTML}{032F62}
+\definecolor{GHComment}{HTML}{6A737D}
+\definecolor{GHVariable}{HTML}{E36209}
+
+\lstdefinelanguage{LeanFour}{
+  sensitive=true,
+  alsoletter={_,'},
+  morecomment=[l]{--},
+  morecomment=[s]{/-}{-/},
+  morestring=[b]",
+  morekeywords=[1]{import,namespace,end,def,axiom,theorem,by,open,only},
+  morekeywords=[2]{Nat,Prop,rfl},
+  morekeywords=[3]{Mathlib,LaxDemo,EvenAddition,LaxDemoProofs,twice,Even,even_add},
+  morekeywords=[4]{rintro,refine,simp,ac_rfl},
+  morekeywords=[5]{m,n,a,b,k},
+  keywordstyle=[1]\color{GHKeyword},
+  keywordstyle=[2]\color{GHConstant},
+  keywordstyle=[3]\color{GHEntity},
+  keywordstyle=[4]\color{GHEntity},
+  keywordstyle=[5]\color{GHVariable},
+  commentstyle=\color{GHComment},
+  stringstyle=\color{GHString},
+  literate=
+    {→}{{$\to$}}1
+    {∃}{{$\exists$}}1
+    {⟨}{{$\langle$}}1
+    {⟩}{{$\rangle$}}1
+}
+
+\lstdefinestyle{LaxLean}{
+  language=LeanFour,
+  basicstyle=\ttfamily\fontsize{7.5}{11.9}\selectfont\color{LaxText},
+  numbers=left,
+  numberstyle=\ttfamily\fontsize{6.4}{11.9}\selectfont\color{LaxLineNo},
+  numbersep=7pt,
+  stepnumber=1,
+  xleftmargin=22pt,
+  xrightmargin=7pt,
+  aboveskip=0pt,
+  belowskip=0pt,
+  columns=fullflexible,
+  keepspaces=true,
+  showstringspaces=false,
+  tabsize=2,
+  breaklines=false,
+  frame=none,
+  backgroundcolor=\color{LaxCodeBg},
+  linebackgroundheight=8.1pt,
+  linebackgrounddepth=3.8pt
+}
+
+\newcommand{\ConceptLineBackground}{%
+  \color{LaxCodeBg}%
+  \ifnum\value{lstnumber}>9\relax
+    \ifnum\value{lstnumber}<13\relax\color{LaxProvenBg}\fi
+  \fi
+}
+\newcommand{\ProofLineBackground}{%
+  \color{LaxCodeBg}%
+  \ifnum\value{lstnumber}>6\relax
+    \ifnum\value{lstnumber}<14\relax\color{LaxProvenBg}\fi
+  \fi
+}
+
+\newlength{\LaxPanelWidth}
+\newlength{\LaxPanelHeight}
+\setlength{\LaxPanelWidth}{7.45cm}
+\setlength{\LaxPanelHeight}{7.75cm}
+
+\newcommand{\LaxHeader}[2]{%
+  \noindent\hspace*{3.1mm}%
+  {\footnotesize\scshape #1}%
+  \hfill
+  {\ttfamily\scriptsize\color{LaxDim}#2}%
+  \hspace*{3.1mm}\par
+  \vspace{1.6mm}%
+  {\color{LaxBorder}\hrule height 0.45pt}%
+  \vspace{1.7mm}%
+}
+
+\newsavebox{\ConceptBox}
+\newsavebox{\ProofBox}

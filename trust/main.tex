@@ -1,0 +1,181 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[lmargin=1.0in,rmargin=1.0in,bottom=1.0in,top=1.0in,twoside=False]{geometry}
+\usepackage{mathtools}
+\usepackage{hchang}
+
+\let\proof\relax
+\let\endproof\relax
+\let\qedhere\relax
+
+\usepackage{amsthm}
+%\usepackage{amsmath}
+\usepackage{graphicx}%,algorithmic,algorithm}%, verbatim}
+\usepackage{enumerate}
+\usepackage[scale=0.88]{FiraMono}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{tikz}
+\usepackage{stackengine}
+\usepackage{accents}
+\usepackage{textpos}
+\usetikzlibrary{shapes,calc,fit,arrows.meta,positioning}
+
+\usepackage[T1]{fontenc}
+
+\usepackage{enumitem}
+
+\usepackage{microtype}
+%\usepackage{amsfonts}
+\usepackage{comment}
+\usepackage[capitalize,nameinlink]{cleveref}
+
+\renewcommand{\figurename}{Figure}
+\crefname{figure}{Figure}{Figures}
+\Crefname{figure}{Figure}{Figures}
+
+\usepackage{xcolor}
+\usepackage{pifont}
+
+\input{styles}
+
+% Exact colours from laxarchive.org
+\definecolor{LaxThmBackground}{HTML}{E8F5E8}
+\definecolor{LaxThmForeground}{HTML}{2D6A2D}
+\definecolor{LaxThmBorder}{HTML}{B8DAB8}
+
+\DeclareRobustCommand{\laxthm}{%
+  \tikz[baseline=(LaxTHM.base)]{%
+    \node[
+      draw=LaxThmBorder,
+      fill=LaxThmBackground,
+      text=LaxThmForeground,
+      line width=.75bp,       % 1 CSS pixel
+      rounded corners=1.5bp, % 2 CSS pixels
+      inner xsep=3bp,         % 4 CSS pixels
+      inner ysep=.75bp,       % 1 CSS pixel
+      outer sep=0pt,
+      font=\fontsize{7.65bp}{9.18bp}\selectfont
+            \rmfamily\bfseries
+    ] (LaxTHM) {%
+      T\kern.04em
+      H\kern.04em
+      M\kern.04em
+      \raisebox{-.08ex}{\ding{51}}%
+    };%
+  }%
+  \kern1.5bp%                
+}
+
+\usepackage{stmaryrd}
+
+\renewcommand{\ge}{\geqslant}
+\renewcommand{\geq}{\geqslant}
+\renewcommand{\le}{\leqslant}
+\renewcommand{\leq}{\leqslant}
+
+\newtheorem{lemma}{Lemma}
+\newtheorem{theorem}{Theorem}
+\newtheorem{question}{Question}
+\newtheorem{corollary}{Corollary}
+\newtheorem{definition}{Definition}
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{observation}{Observation}
+\newtheorem{claim}{Claim}
+\newcommand{\Oh}{\mathcal{O}}
+\newcommand{\dist}{\mathsf{dist}}
+\newcommand{\prof}[2]{\mathsf{prof}_{#1}[#2]}
+\newcommand{\bover}[1]{\accentset{\bullet}{#1}}
+\newcommand{\real}{\mathbb{R}}
+
+
+\title{Lax}
+
+\begin{document}
+
+\date{}
+
+\maketitle
+
+\begin{abstract}
+  We introduce lax, an open archive of formalized mathematics.
+  This document outlines what is lax, how you can and why you should contribute to it, and what guarantees it provides. 
+\end{abstract}
+
+\section{What is lax?}
+
+Lax is an archive of formalized mathematics, which comprises:
+\begin{itemize}
+\item a command-line interface \href{https://www.npmjs.com/package/lax-archive}{\textsf{lax-CLI}}, which primarily allows to submit new entries,
+\item a database \href{https://github.com/lax-archive/lax-database/}{\textsf{lax-archive}}, which records the metadata of every submission, 
+\item a \href{https://laxarchive.org/}{website}, which allows to browse these submissions.
+\end{itemize}
+The entire project is fully open: the source code of \textsf{lax-CLI} and of the website, the product specification, the database content, the submissions, and the generated artifacts are all public and reusable.
+
+\medskip
+
+\noindent
+The current lax infrastructure relies on GitHub services:
+\begin{itemize}
+  \item the project repositories are hosted on GitHub,  
+  \item the submission pipeline uses GitHub Actions,
+  \item the website is built and deployed via GitHub Pages, and
+  \item \textsf{lax-CLI} is available on npm.
+\end{itemize}
+At present, \href{https://lean-lang.org/}{Lean} is the only supported language for the submissions, the `l' of lax stands for Lean, and `ax' for \textbf{a}r\textbf{ch}ive.
+
+\medskip
+
+Unlike a~library, lax targets contemporary mathematical results, which would take considerable time and effort to be manually formalized.
+Typically lax proofs are written by AI agents.
+They are not held to any beauty cannons, as long as Lean's kernel certifies that they indeed prove what the submission claims. 
+Lax does however care that these claims (the \emph{concepts}, see next section), which constitute the exposed surface on the website, are transparently written and can easily be evaluated and reviewed by humans.
+
+\section{What is a lax submission?}
+
+A lax submission is a~commit on a~public Git repository which contains appropriate files and folders.
+Rather than going through the whole specification, which can be consulted by humans and AI agents (for instance, by running 'lax spec'), we highlight its salient features.
+
+A lax submission separates in two different folders \emph{concepts} and \emph{proofs}.
+In the concept folder, each Lean file has a~possibly empty list of definitions\footnote{introduced with the Lean keywords \textsf{def}, \textsf{structure}, \textsf{inductive}, \textsf{abbrev}, etc.} and at most one statement introduced as axiom.
+The content of the concept folder is semantically closed: the meaning of every declaration (definition or axiom statement) can be evaluated within the union of the concept folder and Mathblib. 
+In the proof folder, Lean files are unconstrained.
+In a~typical submission, every axiom declared in the concept files is restated in the proof folder as a~theorem and proven (under the basic Lean axioms propext, Quot.sound, Classical.choice).
+
+The content of concept files is exposed on the website.
+Ideally, the declarations are transparently translated from their natural-language counterparts, and can be understood and reviewed by users without a~strong Lean or proof-assistant background.
+In particular, Lean tactics are unwelcome in concept files.
+Every axiom statement accompanied by a~proof (in the proof package) is marked as proven (\laxthm) on the website.
+
+%\input{example-concept-proof}
+
+\section{Why using lax?}
+
+The starting point is that you already are convinced with the benefits of having results you care about formalized.
+2026 was the year when frontier AI agents unlocked the ability of fully autonomously translating natural-language proofs, however long they were, into Lean.
+Consequently, at a~small (and ever smaller) cost, and at the time of telling your agent which result you want formalized next, you very likely get your wish granted.   
+Still, once you thus get a~Lean proof of, say, your latest result, why not stopping there?
+Because of the following reasons
+\begin{itemize}
+\item
+\end{itemize}
+Again \textsf{lax-CLI} 
+
+\section{Can you trust lax?}
+
+If the axiom of a~concept appears as proven on the website (green background or \laxthm), should I trust that the corresponding proof package actually proves it?
+Assuming you already believe in the soundness of Lean's kernel, you have to further trust us on  
+\begin{itemize}
+\item the submission pipeline,
+\item the validity 
+\item the integrity of the database.
+\end{itemize}
+
+The 
+  
+\section{Can lax trust you?}
+
+
+\bibliographystyle{plain}
+\bibliography{main}
+
+\end{document}
