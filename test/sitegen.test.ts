@@ -6,6 +6,7 @@ import { generateSite, type SiteSubmission } from "../src/sitegen/generate.js";
 import { countsPill, typeBadge, typeBadgeText } from "../src/sitegen/html.js";
 import { compareIds, SiteModel } from "../src/sitegen/model.js";
 import { MarkdownRenderer } from "../src/sitegen/markdown.js";
+import { submissionTagIndex } from "../src/sitegen/tags.js";
 import { tmpDir } from "./helpers.js";
 
 const submissions = (): SiteSubmission[] => [{
@@ -88,6 +89,41 @@ function snapshot(root: string): Map<string, Buffer> {
 describe("site generator", () => {
   it("uses numeric archive ordering", () => {
     expect(["Lax10", "Lax2", "Lax1"].sort(compareIds)).toEqual(["Lax1", "Lax2", "Lax10"]);
+  });
+
+  it("derives complete topic phrases from submission and concept titles", async () => {
+    const make = (id: string, title: string, conceptTitles: string[]): SiteSubmission => ({
+      record: { specVersion: "1", id, state: "registered", createdAt: "2026-01-01T00:00:00Z" },
+      output: {
+        specVersion: "1", id,
+        manifest: { specVersion: "1", id, leanVersion: "v4", mathlibVersion: "x", title, authors: [], bibEntries: [] },
+        abstract: "", requiredByConcepts: [], requiredByProofs: [], proofs: [],
+        concepts: conceptTitles.map((conceptTitle, index) => ({
+          id: `${id}.C${index}`, path: "", title: conceptTitle, type: "definition",
+          description: "", imports: [], sourceText: "", statements: [],
+        })),
+      },
+    });
+    const archive = [
+      make("Lax1", "Linear Neighbourhood Complexity", ["Neighbourhood complexity"]),
+      make("Lax2", "Almost Linear Neighborhood Complexity", ["Neighborhood complexity"]),
+      make("Lax3", "Finite Ramsey Theorems", ["Ramsey's theorem for pairs"]),
+    ];
+    const index = submissionTagIndex(archive);
+    const neighborhood = index.tags.find((tag) => tag.key === "neighborhood complexity");
+    expect(neighborhood?.submissionIds).toEqual(["Lax1", "Lax2"]);
+    expect(index.tags.some((tag) => tag.key === "ramsey theorem")).toBe(true);
+    expect(index.tags.some((tag) => tag.key === "neighborhood")).toBe(false);
+    expect(index.bySubmission.get("Lax3")).toContain("ramsey theorem");
+
+    const root = tmpDir("lax-site-tags-");
+    await generateSite(archive, root);
+    const html = fs.readFileSync(path.join(root, "index.html"), "utf8");
+    expect(html).toContain('<h4 id="tag-browser-heading">Browse by topic</h4>');
+    expect(html).toContain("Suggested from submission and concept titles.");
+    expect(html).toContain('data-tag-filter="" aria-pressed="true"');
+    expect(html).toContain('id="tag-results-status" aria-live="polite"');
+    expect(html).toContain('data-tags="|');
   });
 
   it("compresses concept types to 3-letter badges and rejects a missing type", () => {
@@ -291,7 +327,9 @@ After the formula.`, "");
     const unavailableRest = css.match(/\.landing-action-card\.unavailable\{([^}]*)\}/)?.[1] ?? "";
     expect(unavailableRest).not.toContain("background");
     expect(css).toMatch(/\.landing-action-card\.unavailable:hover,[\s\S]*?background: var\(--panel-bg\);/);
+    expect(css).toContain("-webkit-line-clamp: 2");
     const landingScript = fs.readFileSync(path.join(one, "assets", "landing.js"), "utf8");
+    const sidebarScript = fs.readFileSync(path.join(one, "assets", "sidebar.js"), "utf8");
     expect(landingScript).toContain("target.scrollIntoView({ behavior, block: 'start' })");
     expect(landingScript).toContain("url.searchParams.set('view', id)");
     expect(landingScript).toContain("window.addEventListener('popstate'");
@@ -300,6 +338,15 @@ After the formula.`, "");
     expect(landingScript).toContain("document.getElementById(`landing-panel-${id}`)");
     expect(landingScript).not.toContain("panel.hidden");
     expect(landingScript).not.toContain("aria-expanded");
+    expect(sidebarScript).toContain("document.querySelectorAll('[data-tag-filter]')");
+    expect(sidebarScript).toContain("url.searchParams.set('tag', tag)");
+    expect(sidebarScript).toContain("updateTagStatus(visible)");
+    expect(sidebarScript).toContain("function applySidebarFilters()");
+    expect(sidebarScript).toContain("function applySubmissionFilters()");
+    expect(sidebarScript).toContain("filterList(list, search, type, 'entry-list-empty');");
+    expect(sidebarScript).not.toContain("filterList(list, search, type, 'entry-list-empty', selectedTag)");
+    expect(sidebarScript).toContain("function setupRandomSubmission()");
+    expect(sidebarScript).toContain("Math.floor(Math.random() * candidates.length)");
   });
 
   it("rejects generated page paths that escape the output directory", async () => {
@@ -355,13 +402,18 @@ After the formula.`, "");
     expect(index).toContain("Every submission page ends with a <strong>Citation</strong> section");
     expect(index).toContain('class="landing-cite-example"');
     expect(index).toContain('href="Lax2/index.html#citation"');
-    expect(index).toContain('class="landing-cite-example-action">View citation');
+    expect(index).toContain('<pre class="landing-cite-example-bib">@misc{Lax2,');
+    expect(index).toContain('title = {Two},');
+    expect(index).toContain('class="landing-cite-example-action">See in action');
     expect(index).toContain("contributing.html");
     expect(index).toContain('<script src="assets/landing.js"></script>');
     expect(index).not.toContain("&lt;!--");
     expect(index).toContain("Lax2/index.html");
     expect(index).toContain('class="submissions-list-link');
-    expect(index).toContain('<span class="submission-title-id">Lax2</span><span class="submission-title-inline-separator" aria-hidden="true">|</span>Two<span class="submissions-list-date">(2026-01-02)</span>');
+    expect(index).toContain('<span class="submissions-list-title">Two<span class="submissions-list-date">(2026-01-02)</span>');
+    const submissionsList = index.slice(index.indexOf('<ul class="submissions-list"'), index.indexOf("</ul>", index.indexOf('<ul class="submissions-list"')));
+    expect(submissionsList).not.toContain('class="submission-title-id"');
+    expect(submissionsList).not.toContain('class="submission-title-inline-separator"');
     expect(index).not.toContain('<span class="submissions-list-counts"><code>Lax2</code>');
     expect(index).toContain("2 concepts, 1 proof");
     expect(index).toContain('<span class="formalized-label">formalized by</span> Alice');
@@ -370,6 +422,14 @@ After the formula.`, "");
     expect(index).toContain('data-search-concepts="lax2.c truth theorem lax2.d definition helper definition"');
     expect(index).toContain('data-state="registered"');
     expect(index).toContain('placeholder="Search titles and concepts"');
+    expect(index).toContain('<section class="random-submission" aria-labelledby="random-submission-heading">');
+    expect(index).toContain('<h2 id="random-submission-heading">Explore a Submission</h2>');
+    expect(index).toContain('href="Lax2/index.html" data-random-submission-link');
+    expect(index).toContain('href="Lax2/index.html" data-random-submission-candidate');
+    const randomSubmission = index.slice(index.indexOf('<section class="random-submission"'), index.indexOf("</section>"));
+    expect(randomSubmission).toContain('<span class="random-submission-title">Two</span>');
+    expect(randomSubmission).not.toContain('class="entry-id"');
+    expect(index.indexOf('class="random-submission"')).toBeLessThan(index.indexOf('class="sidebar-filters"'));
     expect(index).toContain('id="submissions-list"');
     expect(index).toContain('id="submissions-list-empty"');
     // sidebar rows share the flat entry grammar (chip + text), not cards
@@ -384,6 +444,26 @@ After the formula.`, "");
     const contributing = fs.readFileSync(path.join(root, "contributing.html"), "utf8");
     expect(contributing).toContain('<h1 class="paper-title">Contributing</h1>');
     expect(contributing).toContain("The workflow");
+    expect(contributing.indexOf('class="random-submission"')).toBeLessThan(contributing.indexOf('class="sidebar-back"'));
+  });
+
+  it("offers every submission as a random sidebar choice on every page type", async () => {
+    const root = tmpDir("lax-site-random-submission-");
+    await generateSite([...submissions(), ...graphSubmissions()], root);
+    const pages = [
+      ["index.html", "Lax4/index.html"],
+      ["contributing.html", "Lax4/index.html"],
+      [path.join("Lax2", "index.html"), "../Lax4/index.html"],
+      [path.join("Lax2", "Lax2.C.html"), "../Lax4/index.html"],
+      [path.join("Lax2", "Lax2Proofs.truth.html"), "../Lax4/index.html"],
+    ];
+    for (const [pageName, candidateHref] of pages) {
+      const html = fs.readFileSync(path.join(root, pageName), "utf8");
+      const sidebar = html.slice(html.indexOf('<aside id="sidebar">'), html.indexOf("</aside>"));
+      expect(sidebar.match(/data-random-submission-candidate/g)).toHaveLength(4);
+      expect(sidebar).toContain(`href="${candidateHref}" data-random-submission-candidate`);
+      expect(sidebar).toContain("View submission");
+    }
   });
 
   it("uses Lax17 as the landing citation example when it is available", async () => {
@@ -429,6 +509,7 @@ After the formula.`, "");
       make("Lax3", "draft", "Another draft", "Geometry"),
     ], root);
     const index = fs.readFileSync(path.join(root, "index.html"), "utf8");
+    const entryList = index.slice(index.indexOf('<ul id="entry-list">'), index.indexOf("</ul>"));
     expect(index.indexOf('data-search-title="lax2 registered title"'))
       .toBeLessThan(index.indexOf('data-search-title="lax1 draft title"'));
     expect(index.indexOf('data-search-title="lax2 registered title"'))
@@ -437,11 +518,11 @@ After the formula.`, "");
       .toBeLessThan(index.indexOf('data-search-title="lax1 draft title"'));
     expect(index).toContain('data-search-concepts="lax2.c combinatorics definition"');
     expect(index).toContain('data-search-concepts="lax3.c geometry definition"');
-    expect(index).toContain('<span class="entry-label"><span class="entry-id">Lax2</span><span class="entry-label-text">Registered title</span></span>');
-    expect(index).toContain('<span class="entry-label"><span class="entry-label-text">Draft title</span></span>');
-    expect(index).toContain('<span class="entry-label"><span class="entry-label-text">Another draft</span></span>');
-    expect(index).not.toContain('<span class="entry-id">Lax1</span>');
-    expect(index).not.toContain('<span class="entry-id">Lax3</span>');
+    expect(entryList).toContain('<span class="entry-label"><span class="entry-id">Lax2</span><span class="entry-label-text">Registered title</span></span>');
+    expect(entryList).toContain('<span class="entry-label"><span class="entry-label-text">Draft title</span></span>');
+    expect(entryList).toContain('<span class="entry-label"><span class="entry-label-text">Another draft</span></span>');
+    expect(entryList).not.toContain('<span class="entry-id">Lax1</span>');
+    expect(entryList).not.toContain('<span class="entry-id">Lax3</span>');
     expect(index).not.toContain('class="draft-badge"');
   });
 
@@ -804,10 +885,11 @@ After the formula.`, "");
     const concept = fs.readFileSync(path.join(root, "Lax2", "Lax2.C.html"), "utf8");
     expect(concept.indexOf("draft-banner")).toBeLessThan(concept.indexOf("concept-heading"));
     const index = fs.readFileSync(path.join(root, "index.html"), "utf8");
+    const entryList = index.slice(index.indexOf('<ul id="entry-list">'), index.indexOf("</ul>"));
     expect(index).toContain('data-entry-group="draft">Work in Progress</li>');
     expect(index).toContain('<span class="entry-label"><span class="entry-label-text">Two</span></span>');
     expect(index).not.toContain('class="draft-badge"');
-    expect(index).not.toContain('<span class="entry-id">Lax2</span>');
+    expect(entryList).not.toContain('<span class="entry-id">Lax2</span>');
     const placeholder = fs.readFileSync(path.join(root, "Lax10", "index.html"), "utf8");
     expect(placeholder).toContain("No content uploaded yet");
   });

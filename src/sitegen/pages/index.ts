@@ -1,6 +1,8 @@
 import { attr, esc, formatDate, page, plural, statePill } from "../html.js";
 import { contentMarkdown } from "../content.js";
+import { submissionTagIndex } from "../tags.js";
 import {
+  bibtex,
   compareSearchSubmissions,
   indexSidebar,
   submissionSearchAttributes,
@@ -83,13 +85,14 @@ export function indexPage({ model, markdown }: PageContext): string {
   const concepts = model.outputs.flatMap((o) => o.concepts);
   const statements = concepts.flatMap((c) => c.statements);
   const listed = model.submissions.filter((s) => s.output).sort(compareSearchSubmissions);
+  const tagIndex = submissionTagIndex(listed);
   const rows = listed.map((submission, order) => {
     const { record, output } = submission;
     const date = formatDate(record.registeredAt ?? record.createdAt);
     const authors = output!.manifest.authors.map((a) => esc(a.name)).join(", ");
     const counts = `${plural(output!.concepts.length, "concept")}, ${plural(output!.proofs.length, "proof")}`;
-    return `<li ${submissionSearchAttributes(submission, order)}><a class="submissions-list-link" href="${attr(record.id)}/index.html">
-<span class="submissions-list-title"><span class="submission-title-id">${esc(record.id)}</span><span class="submission-title-inline-separator" aria-hidden="true">|</span>${markdown.renderAuthorInline(output!.manifest.title, "")}<span class="submissions-list-date">(${date})</span></span>
+    return `<li ${submissionSearchAttributes(submission, order, tagIndex.bySubmission.get(record.id))}><a class="submissions-list-link" href="${attr(record.id)}/index.html">
+<span class="submissions-list-title">${markdown.renderAuthorInline(output!.manifest.title, "")}<span class="submissions-list-date">(${date})</span></span>
 ${authors ? `<span class="submissions-list-meta"><span class="formalized-label">formalized by</span> ${authors}</span>` : ""}
 <span class="submissions-list-counts">${counts} ${statePill(record.state)}</span>
 </a></li>`;
@@ -104,16 +107,29 @@ ${authors ? `<span class="submissions-list-meta"><span class="formalized-label">
 <p>Example submission</p>
 <a href="${attr(citeExample.record.id)}/index.html#citation">
 <span class="landing-cite-example-id">${esc(citeExample.record.id)}</span>
-<strong>${markdown.renderAuthorInline(citeExample.output!.manifest.title, "")}</strong>
-<span class="landing-cite-example-action">View citation <b aria-hidden="true">→</b></span>
+<pre class="landing-cite-example-bib">${esc(bibtex(citeExample))}</pre>
+<span class="landing-cite-example-action">See in action <b aria-hidden="true">→</b></span>
 </a>
 </div>` : "";
+  const tagButtons = tagIndex.tags.map((tag) => {
+    const count = tag.submissionIds.length;
+    return `<button class="tag-chip" type="button" data-tag-filter="${attr(tag.key)}" aria-pressed="false" aria-label="${attr(`${tag.label}, ${plural(count, "submission")}`)}"><span>${esc(tag.label)}</span><b aria-hidden="true">${count}</b></button>`;
+  });
+  const tagBrowser = tagButtons.length ? `<section class="tag-browser" aria-labelledby="tag-browser-heading">
+<div class="tag-browser-heading"><h4 id="tag-browser-heading">Browse by topic</h4><p>Suggested from submission and concept titles.</p></div>
+<div class="tag-chip-list" role="group" aria-label="Filter submissions by topic">
+<button class="tag-chip" type="button" data-tag-filter="" aria-pressed="true" aria-label="All, ${plural(listed.length, "submission")}"><span>All</span><b aria-hidden="true">${listed.length}</b></button>
+${tagButtons.join("\n")}
+</div>
+<p class="tag-results-status" id="tag-results-status" aria-live="polite">Showing all ${plural(listed.length, "submission")}.</p>
+</section>` : "";
   const library = `<section class="landing-action-panel submissions-library" id="landing-panel-read" aria-labelledby="landing-action-read">
 <div class="landing-action-panel-heading">
 <p class="landing-action-eyebrow">Read the archive</p>
 <h3>Submissions</h3>
 <p class="stats-line">${plural(listed.length, "submission")} · ${plural(concepts.length, "concept")} · ${plural(statements.length, "statement")}, ${model.network.proven.size} proven</p>
 </div>
+${tagBrowser}
 <ul class="submissions-list" id="submissions-list">
 ${rows.join("\n")}
 <li id="submissions-list-empty" class="submissions-list-empty" hidden>No submissions match.</li>
@@ -152,7 +168,7 @@ ${cite}
   return page({
     title: "Lax Lean Archive",
     rootRel: "",
-    sidebar: indexSidebar(model, markdown),
+    sidebar: indexSidebar(model, markdown, tagIndex.bySubmission),
     content,
     scripts: ["assets/landing.js"],
   });

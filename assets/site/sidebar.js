@@ -2,6 +2,7 @@
 // the DOM (data-search / data-type attributes); nothing is fetched.
 (() => {
   let searchHasSelectedRead = false;
+  let selectedTag = '';
 
   function isMobile() {
     return window.matchMedia('(max-width: 900px)').matches;
@@ -22,7 +23,7 @@
     return 2;
   }
 
-  function filterList(list, search, type, emptyId) {
+  function filterList(list, search, type, emptyId, tag = '') {
     const query = words(search);
     const rows = [...list.querySelectorAll('li[data-search], li[data-search-title]')];
     const titleHits = new Map();
@@ -38,6 +39,7 @@
         hidden = true;
       }
       if (!hidden && type !== 'all' && li.dataset.type !== type) hidden = true;
+      if (!hidden && tag && li.dataset.tags !== undefined && !li.dataset.tags.includes(`|${tag}|`)) hidden = true;
       li.hidden = hidden;
       if (!hidden) visible += 1;
     });
@@ -63,9 +65,22 @@
 
     const empty = document.getElementById(emptyId);
     if (empty) empty.hidden = visible > 0;
+    return visible;
   }
 
-  function applyFilters() {
+  function updateTagStatus(visible) {
+    const status = document.getElementById('tag-results-status');
+    if (!status) return;
+    const active = document.querySelector(`[data-tag-filter="${CSS.escape(selectedTag)}"]`);
+    const label = active?.querySelector('span')?.textContent ?? selectedTag;
+    const search = document.getElementById('filter-search')?.value.trim();
+    const suffix = search ? ' matching your search' : '';
+    status.textContent = selectedTag
+      ? `Showing ${visible} ${visible === 1 ? 'submission' : 'submissions'} tagged “${label}”${suffix}.`
+      : `Showing all ${visible} ${visible === 1 ? 'submission' : 'submissions'}${suffix}.`;
+  }
+
+  function applySidebarFilters() {
     const list = document.getElementById('entry-list');
     if (!list) return;
     const searchEl = document.getElementById('filter-search');
@@ -73,19 +88,7 @@
     const search = searchEl ? searchEl.value.trim().toLowerCase() : '';
     const type = typeEl ? typeEl.value : 'all';
     filterList(list, search, type, 'entry-list-empty');
-    const submissions = document.getElementById('submissions-list');
-    if (submissions) {
-      filterList(submissions, search, 'all', 'submissions-list-empty');
-      // Search results live in the always-visible Read section. Move there
-      // once when a visitor begins a new search, not on every keystroke.
-      const readAction = document.querySelector('[data-landing-action="read"]');
-      if (search && !searchHasSelectedRead) {
-        readAction?.click();
-        searchHasSelectedRead = true;
-      } else if (!search) {
-        searchHasSelectedRead = false;
-      }
-    }
+
     // A group heading (Concepts / Proofs) shows only while its group does.
     list.querySelectorAll('li.entry-heading').forEach((heading) => {
       let any = false;
@@ -96,11 +99,101 @@
     });
   }
 
+  function applySubmissionFilters() {
+    const submissions = document.getElementById('submissions-list');
+    if (!submissions) return;
+    const search = document.getElementById('filter-search')?.value.trim().toLowerCase() ?? '';
+    const visible = filterList(submissions, search, 'all', 'submissions-list-empty', selectedTag);
+    updateTagStatus(visible);
+    // Search results live in the always-visible Read section. Move there
+    // once when a visitor begins a new search, not on every keystroke.
+    const readAction = document.querySelector('[data-landing-action="read"]');
+    if (search && !searchHasSelectedRead) {
+      readAction?.click();
+      searchHasSelectedRead = true;
+    } else if (!search) {
+      searchHasSelectedRead = false;
+    }
+  }
+
+  function applyFilters() {
+    applySidebarFilters();
+    applySubmissionFilters();
+  }
+
   function setupFilters() {
     const search = document.getElementById('filter-search');
     const type = document.getElementById('filter-type');
     if (search) search.addEventListener('input', applyFilters);
     if (type) type.addEventListener('change', applyFilters);
+  }
+
+  function setupRandomSubmission() {
+    const link = document.querySelector('[data-random-submission-link]');
+    const candidates = [...document.querySelectorAll('[data-random-submission-candidate]')];
+    if (!link || !candidates.length) return;
+    const selected = candidates[Math.floor(Math.random() * candidates.length)];
+    link.href = selected.href;
+    link.replaceChildren(...[...selected.childNodes].map((node) => node.cloneNode(true)));
+  }
+
+  function setupTagFilters() {
+    const buttons = [...document.querySelectorAll('[data-tag-filter]')];
+    if (!buttons.length) return;
+    const list = document.querySelector('.tag-chip-list');
+    const keys = new Set(buttons.map((button) => button.dataset.tagFilter));
+
+    function fitTagRows() {
+      if (!list) return;
+      buttons.forEach((button) => { button.hidden = false; });
+      const tops = buttons.map((button) => button.offsetTop);
+      const rows = [...new Set(tops)].sort((a, b) => a - b);
+      const lastVisibleTop = rows[2] ?? Number.POSITIVE_INFINITY;
+      buttons.forEach((button, index) => { button.hidden = tops[index] > lastVisibleTop; });
+    }
+
+    let resizeFrame;
+    function queueTagFit() {
+      cancelAnimationFrame(resizeFrame);
+      resizeFrame = requestAnimationFrame(fitTagRows);
+    }
+
+    function urlTag() {
+      const tag = new URLSearchParams(window.location.search).get('tag') ?? '';
+      return keys.has(tag) ? tag : '';
+    }
+
+    function updateUrl(tag) {
+      const url = new URL(window.location.href);
+      if (tag) url.searchParams.set('tag', tag);
+      else url.searchParams.delete('tag');
+      url.searchParams.set('view', 'read');
+      window.history.pushState(null, '', `${url.pathname}${url.search}${url.hash}`);
+    }
+
+    function selectTag(tag, updateHistory) {
+      selectedTag = keys.has(tag) ? tag : '';
+      buttons.forEach((button) => {
+        button.setAttribute('aria-pressed', button.dataset.tagFilter === selectedTag ? 'true' : 'false');
+      });
+      if (updateHistory) updateUrl(selectedTag);
+      applySubmissionFilters();
+    }
+
+    buttons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const tag = button.dataset.tagFilter;
+        selectTag(tag === selectedTag ? '' : tag, true);
+      });
+    });
+    window.addEventListener('popstate', () => selectTag(urlTag(), false));
+    selectedTag = urlTag();
+    buttons.forEach((button) => {
+      button.setAttribute('aria-pressed', button.dataset.tagFilter === selectedTag ? 'true' : 'false');
+    });
+    fitTagRows();
+    window.addEventListener('resize', queueTagFit);
+    document.fonts?.ready.then(queueTagFit);
   }
 
   function setupEntryTooltips() {
@@ -191,7 +284,9 @@
   }
 
   function init() {
+    setupRandomSubmission();
     setupFilters();
+    setupTagFilters();
     applyFilters();
     setupEntryTooltips();
     setupToggle();

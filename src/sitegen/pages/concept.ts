@@ -102,7 +102,7 @@ ${graphDataScript({
   return page({
     title: `${concept.title} — ${conceptShortName(output, concept)}`,
     rootRel: "../",
-    sidebar: submissionSidebar(ctx.model, submission, "../", { activeId: concept.id }),
+    sidebar: submissionSidebar(ctx.model, ctx.markdown, submission, "../", { activeId: concept.id }),
     content,
     scripts: ["assets/layout.js", "assets/dag.js"],
   });
