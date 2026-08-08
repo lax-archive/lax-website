@@ -143,10 +143,14 @@
 
   function addArrowMarker(svg, id) {
     const marker = svgEl(svgEl(svg, 'defs'), 'marker', {
-      id, viewBox: '0 -4 8 8', refX: 7, refY: 0,
-      markerWidth: 6, markerHeight: 6, orient: 'auto',
+      id, viewBox: '0 -5 10 10', refX: 9, refY: 0,
+      markerWidth: 7, markerHeight: 7, markerUnits: 'userSpaceOnUse',
+      orient: 'auto', overflow: 'visible',
     });
-    svgEl(marker, 'path', { d: 'M0,-4L8,0L0,4Z' });
+    // The concave tail reads more lightly than a solid triangle. `orient=auto`
+    // follows the tangent of the incoming path, including diagonal and cyclic
+    // edges rather than assuming that every arrow arrives vertically.
+    svgEl(marker, 'path', { d: 'M1,-4.25 L9,0 L1,4.25 Q3,0 1,-4.25 Z' });
   }
 
   // ---- edge drawing over laxLayout routes ----
@@ -173,18 +177,31 @@
     return ports;
   }
 
-  /** One S-shaped cubic per consecutive pair. Every segment enters and
-   * leaves vertically, so chaining through via points stays smooth and
-   * arrowheads always point straight at the target's face. */
+  /** Follow the layout's sparse route with straight runs and small rounded
+   * corners. This avoids the repeated S-curves that made long edges wiggle;
+   * the final run also gives the marker the true incoming direction. */
   function edgePath(points) {
     let d = `M${points[0].x},${points[0].y}`;
-    for (let index = 1; index < points.length; index += 1) {
-      const a = points[index - 1];
-      const b = points[index];
-      const midY = (a.y + b.y) / 2;
-      d += ` C${a.x},${midY} ${b.x},${midY} ${b.x},${b.y}`;
+    for (let index = 1; index < points.length - 1; index += 1) {
+      const previous = points[index - 1];
+      const corner = points[index];
+      const next = points[index + 1];
+      const incoming = Math.hypot(corner.x - previous.x, corner.y - previous.y);
+      const outgoing = Math.hypot(next.x - corner.x, next.y - corner.y);
+      if (!incoming || !outgoing) continue;
+      const radius = Math.min(10, incoming / 3, outgoing / 3);
+      const before = {
+        x: corner.x + (previous.x - corner.x) * radius / incoming,
+        y: corner.y + (previous.y - corner.y) * radius / incoming,
+      };
+      const after = {
+        x: corner.x + (next.x - corner.x) * radius / outgoing,
+        y: corner.y + (next.y - corner.y) * radius / outgoing,
+      };
+      d += ` L${before.x},${before.y} Q${corner.x},${corner.y} ${after.x},${after.y}`;
     }
-    return d;
+    const last = points[points.length - 1];
+    return `${d} L${last.x},${last.y}`;
   }
 
   /** Hovering or focusing a node lights up its incident edges. */
@@ -319,7 +336,7 @@
       tooltipRows: (node) => [
         ['Concept', node.id],
         ...(node.title && node.title !== node.id ? [['Title', node.title]] : []),
-        ['Status', node.status === 'none' ? 'definition — nothing to prove' : node.status || 'unknown'],
+        ['Status', node.status === 'none' ? 'definition' : node.status || 'unknown'],
         ...(node.owner ? [['Submission', node.owner]] : []),
       ],
     });
@@ -626,7 +643,7 @@
         // to the boxes geometrically and bow it sideways.
         const source = clippedEndpoint(sourceNode, targetNode);
         const target = clippedEndpoint(targetNode, sourceNode);
-        const bend = link.source.localeCompare(link.target) < 0 ? 18 : -18;
+        const bend = link.source.localeCompare(link.target) < 0 ? 14 : -14;
         const midX = (source.x + target.x) / 2;
         const midY = (source.y + target.y) / 2;
         const dx = target.x - source.x;
@@ -684,8 +701,60 @@
     renderSubmissionDag(data.submissions);
   }
 
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', render);
-  else render();
+  // ---- large graph window ----
+
+  let expandedFigure = null;
+
+  function setGraphExpanded(button, expanded) {
+    const figure = button.closest('.graph-figure');
+    if (!figure) return;
+    const label = button.dataset.graphLabel || 'graph';
+    figure.classList.toggle('graph-expanded', expanded);
+    button.setAttribute('aria-expanded', String(expanded));
+    button.setAttribute('aria-label', expanded
+      ? `Close ${label} large window`
+      : `Open ${label} in a large window`);
+    button.title = expanded ? 'Close large window' : 'Open in large window';
+    if (expanded) {
+      expandedFigure = figure;
+      figure.setAttribute('role', 'dialog');
+      figure.setAttribute('aria-modal', 'true');
+      figure.setAttribute('aria-label', `${label} large view`);
+    } else {
+      expandedFigure = null;
+      figure.removeAttribute('role');
+      figure.removeAttribute('aria-modal');
+      figure.removeAttribute('aria-label');
+    }
+    document.body.classList.toggle('graph-window-open', Boolean(expandedFigure));
+    const tooltip = figure.querySelector('.graph-tooltip');
+    if (tooltip) tooltip.hidden = true;
+    requestAnimationFrame(render);
+  }
+
+  function installGraphExpanders() {
+    for (const button of document.querySelectorAll('[data-graph-expand]')) {
+      button.addEventListener('click', () => {
+        const figure = button.closest('.graph-figure');
+        setGraphExpanded(button, !figure.classList.contains('graph-expanded'));
+      });
+    }
+    window.addEventListener('keydown', (event) => {
+      if (event.key !== 'Escape' || !expandedFigure) return;
+      event.preventDefault();
+      const button = expandedFigure.querySelector('[data-graph-expand]');
+      setGraphExpanded(button, false);
+      button.focus();
+    });
+  }
+
+  function initialize() {
+    installGraphExpanders();
+    render();
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initialize);
+  else initialize();
   let resizeTimer;
   window.addEventListener('resize', () => {
     clearTimeout(resizeTimer);

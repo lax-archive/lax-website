@@ -12,7 +12,7 @@ export interface ConceptGraphNode {
   title: string;
   /** home submission id */
   owner: string;
-  /** proven claim, open claim, or a definition-concept with nothing to prove */
+  /** proven claim, open claim, or a definition-concept with no claim status */
   status: "proven" | "open" | "none";
   ext: boolean;
   /** placement relative to the page's roots, behind the figure's toggles */

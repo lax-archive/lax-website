@@ -100,7 +100,7 @@ export function proofBadge(): string {
 /** A concept's aggregate status, without statement counts. */
 export function countsPill(proven: number, total: number): string {
   if (total === 0)
-    return `<span class="status-pill pill-none" title="${attr(HONESTY_TOOLTIP)}">nothing to prove</span>`;
+    return `<span class="status-pill pill-none">definition</span>`;
   const cls = proven === total ? "pill-proven" : "pill-partial";
   return `<span class="status-pill ${cls}" title="${attr(HONESTY_TOOLTIP)}">${proven === total ? "proven" : "open"}</span>`;
 }

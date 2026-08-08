@@ -50,6 +50,13 @@ export class MarkdownRenderer {
         image(token: Tokens.Image): string | false {
           return inline || !safeUrl(token.href) ? esc(token.text) : false;
         },
+        text(token: Tokens.Text | Tokens.Escape): string {
+          if ("tokens" in token && token.tokens) return this.parser.parseInline(token.tokens);
+          const rendered = "escaped" in token && token.escaped ? token.text : esc(token.text);
+          // TeX turns `--` in prose into an en dash. Apply the same convention
+          // only to authored text tokens, leaving math, URLs, and code intact.
+          return backtickMath ? rendered.replace(/--/g, "–") : rendered;
+        },
         codespan(token: Tokens.Codespan): string | false {
           return backtickMath
             ? renderInlineMath(token.text, token.raw)
