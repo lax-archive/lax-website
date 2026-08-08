@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src https: data:; font-src 'self'">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Lax — an archive of formalized mathematical concepts and their proofs">
+<title>Reduction certificate for triangle-free Max Independent Set — Lax47.Reduction</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/katex.css">
+<link rel="stylesheet" href="../assets/style.css">
+</head><body>
+<header class="site-header">
+  <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
+  <h1 class="site-title"><a href="../index.html">Lax <span class="site-title-quiet">Lean Archive</span></a></h1>
+</header>
+<main id="content-shell">
+<div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+<aside id="sidebar">
+<a class="sidebar-back" href="../lax-47/index.html"><span class="sidebar-back-arrow" aria-hidden="true">←</span>lax-47</a>
+<div class="sidebar-filters"><div class="filter-group">
+<label for="filter-search">Search</label>
+<input id="filter-search" class="filter-input" type="search" placeholder="Filter entries" aria-controls="entry-list">
+</div>
+<div class="filter-group">
+<label for="filter-type">Type</label>
+<select id="filter-type" class="filter-select">
+<option value="all">All types</option>
+<option value="definition">definition</option>
+<option value="theorem">theorem</option>
+<option value="proof">proof</option>
+</select>
+</div></div>
+<ul id="entry-list">
+<li class="entry-heading" aria-hidden="true">Concepts</li>
+<li data-type="definition" data-search="lax47.complexity complexity and approximation definitions for max independent set definition"><a class="entry-link" href="../lax-47/Lax47.Complexity.html" data-full-title="Complexity and approximation definitions for Max Independent Set"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax47.Complexity</span></span></a></li>
+<li data-type="theorem" data-search="lax47.hastadzuckerman håstad--zuckerman hardness of max independent set theorem"><a class="entry-link" href="../lax-47/Lax47.HastadZuckerman.html" data-full-title="Håstad--Zuckerman hardness of Max Independent Set"><span class="entry-label"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><span class="entry-label-text">Lax47.HastadZuckerman</span></span></a></li>
+<li class="active" data-type="definition" data-search="lax47.reduction reduction certificate for triangle-free max independent set definition"><a class="entry-link" href="../lax-47/Lax47.Reduction.html" data-full-title="Reduction certificate for triangle-free Max Independent Set"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax47.Reduction</span></span></a></li>
+<li data-type="theorem" data-search="lax47.theorem12 tight inapproximability of max independent set in triangle-free graphs theorem"><a class="entry-link" href="../lax-47/Lax47.Theorem12.html" data-full-title="Tight inapproximability of Max Independent Set in triangle-free graphs"><span class="entry-label"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><span class="entry-label-text">Lax47.Theorem12</span></span></a></li>
+<li class="entry-heading" aria-hidden="true">Proofs</li>
+<li data-type="proof" data-search="lax47proofs.theorem_1_2 proof"><a class="entry-link" href="../lax-47/Lax47Proofs.theorem_1_2.html" data-full-title="Lax47Proofs.theorem_1_2"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax47Proofs.theorem_1_2</span></span></a></li>
+<li id="entry-list-empty" hidden>No entries match.</li>
+</ul>
+</aside>
+<section id="main"><div id="detail">
+<p class="draft-banner"><strong>Draft</strong> — mutable and not usable as a dependency; its citation marks the draft state.</p>
+<div class="detail-heading concept-heading">
+<div><p class="concept-id"><code>Lax47.Reduction</code></p>
+<h1 class="concept-title">Reduction certificate for triangle-free Max Independent Set</h1>
+<p class="concept-microline"><code>concepts/Lax47/Reduction.lean</code> · <a href="index.html">lax-47</a></p></div>
+<span class="status-pills"><span class="status-pill pill-none">definition</span></span>
+</div>
+<h4 class="figure-title">Concept map</h4>
+<figure class="graph-figure concept-root-graph">
+<button class="graph-expand" type="button" data-graph-expand data-graph-label="concept map" aria-expanded="false" aria-label="Open concept map in a large window" title="Open in large window"><svg class="graph-expand-open" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M2.5 6V2.5H6M10 2.5h3.5V6M13.5 10v3.5H10M6 13.5H2.5V10"/></svg><span class="graph-expand-close" aria-hidden="true">×</span></button>
+<div class="graph-toolbar"><button type="button" id="concept-expand" aria-controls="concept-dag" aria-pressed="true">Hide ancestors</button><button type="button" id="concept-descend" aria-controls="concept-dag" aria-pressed="false">Show descendants</button><output id="concept-graph-status" aria-live="polite"></output></div>
+<div id="concept-dag" class="figure-container" data-graph="concepts" data-ancestry="true"></div>
+<div class="graph-tooltip" role="tooltip" hidden></div>
+<figcaption class="graph-legend" aria-label="Concept map legend"><span><i class="legend-node fill-proven"></i>Proven claim</span><span><i class="legend-node fill-open"></i>Open claim</span><span><i class="legend-node fill-none"></i>Definition</span><span><i class="legend-node stroke-own"></i>This concept</span><span><i class="legend-node stroke-ext"></i>Related concept</span><span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B builds on A</span></figcaption>
+</figure>
+
+<div class="block block-statement"><h3>Definition</h3><div class="latex-content"><p>This concept isolates the mathematical and running-time facts supplied by the
+paper's randomized reduction.  An <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span>-vertex graph is sent, using an infinite
+table of independent Boolean samples, to a graph on the <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>×</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">n × n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span> blow-up of its
+vertices.  A certificate requires that the output is triangle-free almost
+surely; its independence number is always at least <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span> times that of the input;
+with probability at least two thirds it is at most a constant times
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mo stretchy="false">(</mo><mi>H</mi><mo stretchy="false">)</mo><mi>n</mi><mi>l</mi><mi>o</mi><mi>g</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">α(H) n log n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0037em;">α</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.0813em;">H</span><span class="mclose">)</span><span class="mord mathnormal">n</span><span class="mord mathnormal" style="margin-right:0.0197em;">l</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.0359em;">g</span><span class="mord mathnormal">n</span></span></span></span>; and its expected number of resampling steps is polynomial.</p>
+<p>The formulation deliberately exposes exactly what the Håstad–Zuckerman gap
+argument consumes.  The proof package constructs this certificate using the
+Moser–Tardos and Haeupler–Saha–Srinivasan theorems of Lax41.</p>
+</div></div>
+<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/EdouardBonnet/mis-inapproximability/blob/091f414a53036f177e11007f4bcf75d8eccb64de/concepts/Lax47/Reduction.lean">view on GitHub</a></h3>
+<div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax47.Complexity</span></td></tr>
+<tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax41.MoserTardosDefinitions</span></td></tr>
+<tr id="L3" class=""><td class="line-num"><a href="#L3">3</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Combinatorics.SimpleGraph.Clique</span></td></tr>
+<tr id="L4" class=""><td class="line-num"><a href="#L4">4</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.MeasureTheory.Integral.Lebesgue.Basic</span></td></tr>
+<tr id="L5" class=""><td class="line-num"><a href="#L5">5</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Probability.ProductMeasure</span></td></tr>
+<tr id="L6" class=""><td class="line-num"><a href="#L6">6</a></td><td class="line-code"> </td></tr>
+<tr id="L7" class=""><td class="line-num"><a href="#L7">7</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
+<tr id="L8" class=""><td class="line-num"><a href="#L8">8</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
+<tr id="L9" class=""><td class="line-num"><a href="#L9">9</a></td><td class="line-code"><span style="color:#6A737D">title: Reduction certificate for triangle-free Max Independent Set</span></td></tr>
+<tr id="L10" class=""><td class="line-num"><a href="#L10">10</a></td><td class="line-code"><span style="color:#6A737D">type: definition</span></td></tr>
+<tr id="L11" class=""><td class="line-num"><a href="#L11">11</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
+<tr id="L12" class=""><td class="line-num"><a href="#L12">12</a></td><td class="line-code"><span style="color:#6A737D">This concept isolates the mathematical and running-time facts supplied by the</span></td></tr>
+<tr id="L13" class=""><td class="line-num"><a href="#L13">13</a></td><td class="line-code"><span style="color:#6A737D">paper's randomized reduction.  An `n`-vertex graph is sent, using an infinite</span></td></tr>
+<tr id="L14" class=""><td class="line-num"><a href="#L14">14</a></td><td class="line-code"><span style="color:#6A737D">table of independent Boolean samples, to a graph on the `n × n` blow-up of its</span></td></tr>
+<tr id="L15" class=""><td class="line-num"><a href="#L15">15</a></td><td class="line-code"><span style="color:#6A737D">vertices.  A certificate requires that the output is triangle-free almost</span></td></tr>
+<tr id="L16" class=""><td class="line-num"><a href="#L16">16</a></td><td class="line-code"><span style="color:#6A737D">surely; its independence number is always at least `n` times that of the input;</span></td></tr>
+<tr id="L17" class=""><td class="line-num"><a href="#L17">17</a></td><td class="line-code"><span style="color:#6A737D">with probability at least two thirds it is at most a constant times</span></td></tr>
+<tr id="L18" class=""><td class="line-num"><a href="#L18">18</a></td><td class="line-code"><span style="color:#6A737D">`α(H) n log n`; and its expected number of resampling steps is polynomial.</span></td></tr>
+<tr id="L19" class=""><td class="line-num"><a href="#L19">19</a></td><td class="line-code"> </td></tr>
+<tr id="L20" class=""><td class="line-num"><a href="#L20">20</a></td><td class="line-code"><span style="color:#6A737D">The formulation deliberately exposes exactly what the Håstad--Zuckerman gap</span></td></tr>
+<tr id="L21" class=""><td class="line-num"><a href="#L21">21</a></td><td class="line-code"><span style="color:#6A737D">argument consumes.  The proof package constructs this certificate using the</span></td></tr>
+<tr id="L22" class=""><td class="line-num"><a href="#L22">22</a></td><td class="line-code"><span style="color:#6A737D">Moser--Tardos and Haeupler--Saha--Srinivasan theorems of Lax41.</span></td></tr>
+<tr id="L23" class=""><td class="line-num"><a href="#L23">23</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
+<tr id="L24" class=""><td class="line-num"><a href="#L24">24</a></td><td class="line-code"> </td></tr>
+<tr id="L25" class=""><td class="line-num"><a href="#L25">25</a></td><td class="line-code"><span style="color:#D73A49">set_option</span><span style="color:#24292E"> autoImplicit </span><span style="color:#005CC5">false</span></td></tr>
+<tr id="L26" class=""><td class="line-num"><a href="#L26">26</a></td><td class="line-code"> </td></tr>
+<tr id="L27" class=""><td class="line-num"><a href="#L27">27</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#D73A49"> scoped</span><span style="color:#24292E"> ENNReal</span></td></tr>
+<tr id="L28" class=""><td class="line-num"><a href="#L28">28</a></td><td class="line-code"> </td></tr>
+<tr id="L29" class=""><td class="line-num"><a href="#L29">29</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax47.Reduction</span></td></tr>
+<tr id="L30" class=""><td class="line-num"><a href="#L30">30</a></td><td class="line-code"> </td></tr>
+<tr id="L31" class=""><td class="line-num"><a href="#L31">31</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax41.MoserTardosDefinitions</span></td></tr>
+<tr id="L32" class=""><td class="line-num"><a href="#L32">32</a></td><td class="line-code"> </td></tr>
+<tr id="L33" class=""><td class="line-num"><a href="#L33">33</a></td><td class="line-code"><span style="color:#6A737D">/-- Vertices of the complete `n`-fold blow-up. -/</span></td></tr>
+<tr id="L34" class=""><td class="line-num"><a href="#L34">34</a></td><td class="line-code"><span style="color:#D73A49">abbrev</span><span style="color:#6F42C1"> BlowupVertex</span><span style="color:#24292E"> (n : ℕ) := Fin n × Fin n</span></td></tr>
+<tr id="L35" class=""><td class="line-num"><a href="#L35">35</a></td><td class="line-code"> </td></tr>
+<tr id="L36" class=""><td class="line-num"><a href="#L36">36</a></td><td class="line-code"><span style="color:#6A737D">/-- Edge variables used by the resampling construction. -/</span></td></tr>
+<tr id="L37" class=""><td class="line-num"><a href="#L37">37</a></td><td class="line-code"><span style="color:#D73A49">abbrev</span><span style="color:#6F42C1"> EdgeVariable</span><span style="color:#24292E"> (n : ℕ) := Sym2 (BlowupVertex n)</span></td></tr>
+<tr id="L38" class=""><td class="line-num"><a href="#L38">38</a></td><td class="line-code"> </td></tr>
+<tr id="L39" class=""><td class="line-num"><a href="#L39">39</a></td><td class="line-code"><span style="color:#6A737D">/-- The infinite table of Boolean samples used by Moser--Tardos. -/</span></td></tr>
+<tr id="L40" class=""><td class="line-num"><a href="#L40">40</a></td><td class="line-code"><span style="color:#D73A49">abbrev</span><span style="color:#6F42C1"> SampleTable</span><span style="color:#24292E"> (n : ℕ) :=</span></td></tr>
+<tr id="L41" class=""><td class="line-num"><a href="#L41">41</a></td><td class="line-code"><span style="color:#24292E">  ResamplingTable (</span><span style="color:#D73A49">fun</span><span style="color:#24292E"> _ : EdgeVariable n ↦ Bool)</span></td></tr>
+<tr id="L42" class=""><td class="line-num"><a href="#L42">42</a></td><td class="line-code"> </td></tr>
+<tr id="L43" class=""><td class="line-num"><a href="#L43">43</a></td><td class="line-code"><span style="color:#6A737D">/--</span></td></tr>
+<tr id="L44" class=""><td class="line-num"><a href="#L44">44</a></td><td class="line-code"><span style="color:#6A737D">The probabilistic, combinatorial, and expected-step certificate delivered by</span></td></tr>
+<tr id="L45" class=""><td class="line-num"><a href="#L45">45</a></td><td class="line-code"><span style="color:#6A737D">the reduction in the paper.</span></td></tr>
+<tr id="L46" class=""><td class="line-num"><a href="#L46">46</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
+<tr id="L47" class=""><td class="line-num"><a href="#L47">47</a></td><td class="line-code"><span style="color:#D73A49">structure</span><span style="color:#6F42C1"> TriangleFreeReduction</span><span style="color:#D73A49"> where</span></td></tr>
+<tr id="L48" class=""><td class="line-num"><a href="#L48">48</a></td><td class="line-code"><span style="color:#24292E">  measure : ∀ n : ℕ, MeasureTheory.Measure (SampleTable n)</span></td></tr>
+<tr id="L49" class=""><td class="line-num"><a href="#L49">49</a></td><td class="line-code"><span style="color:#24292E">  output : ∀ (n : ℕ), SimpleGraph (Fin n) →</span></td></tr>
+<tr id="L50" class=""><td class="line-num"><a href="#L50">50</a></td><td class="line-code"><span style="color:#24292E">    SampleTable n → SimpleGraph (BlowupVertex n)</span></td></tr>
+<tr id="L51" class=""><td class="line-num"><a href="#L51">51</a></td><td class="line-code"><span style="color:#24292E">  steps : ∀ (n : ℕ), SimpleGraph (Fin n) → SampleTable n → ℝ≥</span><span style="color:#005CC5">0</span><span style="color:#24292E">∞</span></td></tr>
+<tr id="L52" class=""><td class="line-num"><a href="#L52">52</a></td><td class="line-code"><span style="color:#24292E">  probability : ∀ n, MeasureTheory.IsProbabilityMeasure (measure n)</span></td></tr>
+<tr id="L53" class=""><td class="line-num"><a href="#L53">53</a></td><td class="line-code"><span style="color:#24292E">  triangleFree : ∀ (n : ℕ) (H : SimpleGraph (Fin n)),</span></td></tr>
+<tr id="L54" class=""><td class="line-num"><a href="#L54">54</a></td><td class="line-code"><span style="color:#24292E">    ∀ᵐ table ∂measure n, (output n H table).CliqueFree </span><span style="color:#005CC5">3</span></td></tr>
+<tr id="L55" class=""><td class="line-num"><a href="#L55">55</a></td><td class="line-code"><span style="color:#24292E">  completeness : ∀ (n : ℕ) (H : SimpleGraph (Fin n)) (table : SampleTable n),</span></td></tr>
+<tr id="L56" class=""><td class="line-num"><a href="#L56">56</a></td><td class="line-code"><span style="color:#24292E">    H.indepNum * n ≤ (output n H table).indepNum</span></td></tr>
+<tr id="L57" class=""><td class="line-num"><a href="#L57">57</a></td><td class="line-code"><span style="color:#24292E">  soundness : ∃ (C : ℝ) (n₀ : ℕ), </span><span style="color:#005CC5">0</span><span style="color:#24292E"> &lt; C ∧</span></td></tr>
+<tr id="L58" class=""><td class="line-num"><a href="#L58">58</a></td><td class="line-code"><span style="color:#24292E">    ∀ (n : ℕ), n₀ ≤ n → ∀ H : SimpleGraph (Fin n),</span></td></tr>
+<tr id="L59" class=""><td class="line-num"><a href="#L59">59</a></td><td class="line-code"><span style="color:#24292E">      (</span><span style="color:#005CC5">2</span><span style="color:#24292E"> : ℝ≥</span><span style="color:#005CC5">0</span><span style="color:#24292E">∞) / </span><span style="color:#005CC5">3</span><span style="color:#24292E"> ≤ measure n</span></td></tr>
+<tr id="L60" class=""><td class="line-num"><a href="#L60">60</a></td><td class="line-code"><span style="color:#24292E">        {table | ((output n H table).indepNum : ℝ) ≤</span></td></tr>
+<tr id="L61" class=""><td class="line-num"><a href="#L61">61</a></td><td class="line-code"><span style="color:#24292E">          C * H.indepNum * n * Real.log n}</span></td></tr>
+<tr id="L62" class=""><td class="line-num"><a href="#L62">62</a></td><td class="line-code"><span style="color:#24292E">  expectedPolynomialSteps : ∃ (C k : ℕ), </span><span style="color:#005CC5">0</span><span style="color:#24292E"> &lt; C ∧</span></td></tr>
+<tr id="L63" class=""><td class="line-num"><a href="#L63">63</a></td><td class="line-code"><span style="color:#24292E">    ∀ (n : ℕ) (H : SimpleGraph (Fin n)),</span></td></tr>
+<tr id="L64" class=""><td class="line-num"><a href="#L64">64</a></td><td class="line-code"><span style="color:#24292E">      ∫⁻ table, steps n H table ∂measure n ≤ (C * (n + </span><span style="color:#005CC5">1</span><span style="color:#24292E">) ^ k : ℕ)</span></td></tr>
+<tr id="L65" class=""><td class="line-num"><a href="#L65">65</a></td><td class="line-code"> </td></tr>
+<tr id="L66" class=""><td class="line-num"><a href="#L66">66</a></td><td class="line-code"><span style="color:#6A737D">/-- Existence of a reduction certificate with the paper's parameters. -/</span></td></tr>
+<tr id="L67" class=""><td class="line-num"><a href="#L67">67</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> HasTriangleFreeReduction</span><span style="color:#24292E"> : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr id="L68" class=""><td class="line-num"><a href="#L68">68</a></td><td class="line-code"><span style="color:#24292E">  Nonempty TriangleFreeReduction</span></td></tr>
+<tr id="L69" class=""><td class="line-num"><a href="#L69">69</a></td><td class="line-code"> </td></tr>
+<tr id="L70" class=""><td class="line-num"><a href="#L70">70</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax47.Reduction</span></td></tr>
+<tr id="L71" class=""><td class="line-num"><a href="#L71">71</a></td><td class="line-code"> </td></tr>
+</table></div></div></div>
+
+<div class="block"><div class="deps-columns">
+<div class="deps-col"><h3>Builds on</h3><ul class="deps-list"><li><a href="../lax-41/Lax41.MoserTardosDefinitions.html"><code>Lax41.MoserTardosDefinitions</code></a></li><li><a href="../lax-47/Lax47.Complexity.html"><code>Lax47.Complexity</code></a></li></ul></div>
+<div class="deps-col"><h3>Used by</h3><ul class="deps-list"><li><a href="../lax-47/Lax47.HastadZuckerman.html"><code>Lax47.HastadZuckerman</code></a></li></ul></div>
+<div class="deps-col"><h3>From Mathlib</h3><ul class="deps-list"><li><a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Clique.html"><code>Mathlib.Combinatorics.SimpleGraph.Clique</code></a></li><li><a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/MeasureTheory/Integral/Lebesgue/Basic.html"><code>Mathlib.MeasureTheory.Integral.Lebesgue.Basic</code></a></li><li><a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Probability/ProductMeasure.html"><code>Mathlib.Probability.ProductMeasure</code></a></li></ul></div>
+</div></div>
+<script type="application/json" id="graph-data">{"concepts":{"nodes":[{"id":"Lax41.MoserTardosDefinitions","href":"../lax-41/Lax41.MoserTardosDefinitions.html","title":"Definitions for the Moser–Tardos resampling algorithm","owner":"lax-41","status":"none","ext":true,"dir":"up"},{"id":"Lax47.Complexity","href":"../lax-47/Lax47.Complexity.html","title":"Complexity and approximation definitions for Max Independent Set","owner":"lax-47","status":"none","ext":true,"dir":"up"},{"id":"Lax47.HastadZuckerman","href":"../lax-47/Lax47.HastadZuckerman.html","title":"Håstad--Zuckerman hardness of Max Independent Set","owner":"lax-47","status":"open","ext":true,"dir":"down"},{"id":"Lax47.Reduction","href":"../lax-47/Lax47.Reduction.html","title":"Reduction certificate for triangle-free Max Independent Set","owner":"lax-47","status":"none","ext":false,"dir":"core"}],"edges":[{"from":"Lax47.Complexity","to":"Lax47.HastadZuckerman"},{"from":"Lax47.Reduction","to":"Lax47.HastadZuckerman"},{"from":"Lax41.MoserTardosDefinitions","to":"Lax47.Reduction"},{"from":"Lax47.Complexity","to":"Lax47.Reduction"}],"home":"lax-47"},"proofs":{"statements":[],"proofs":[]}}</script>
+</div></section>
+</main>
+<script src="../assets/sidebar.js"></script>
+<script src="../assets/layout.js"></script>
+<script src="../assets/dag.js"></script>
+</body></html>
