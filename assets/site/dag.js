@@ -64,7 +64,7 @@
     return figure ? figure.querySelector('.graph-tooltip') : null;
   }
 
-  function showTooltip(container, element, rows, event) {
+  function showTooltip(container, element, rows) {
     const tooltip = figureTooltip(container);
     const figure = tooltip && tooltip.closest('.graph-figure');
     if (!tooltip || !figure) return;
@@ -79,10 +79,43 @@
     tooltip.hidden = false;
     const figureBox = figure.getBoundingClientRect();
     const elementBox = element.getBoundingClientRect();
-    const pointerX = event && Number.isFinite(event.clientX) ? event.clientX : elementBox.right;
-    const pointerY = event && Number.isFinite(event.clientY) ? event.clientY : elementBox.top;
-    const left = Math.max(8, Math.min(pointerX - figureBox.left + 12, figureBox.width - tooltip.offsetWidth - 8));
-    const top = Math.max(8, pointerY - figureBox.top - tooltip.offsetHeight - 10);
+
+    // Anchor the panel to the node rather than to the pointer. Prefer above,
+    // then below, then either side; every placement keeps a gap around the
+    // node, including the fallback when the panel cannot fit inside the
+    // figure. This also keeps the panel still while the pointer crosses the
+    // node's text and rectangle.
+    const inset = 8;
+    const gap = 10;
+    const elementLeft = elementBox.left - figureBox.left;
+    const elementRight = elementBox.right - figureBox.left;
+    const elementTop = elementBox.top - figureBox.top;
+    const elementBottom = elementBox.bottom - figureBox.top;
+    const maxLeft = Math.max(inset, figureBox.width - tooltip.offsetWidth - inset);
+    let left = Math.max(inset, Math.min(
+      (elementLeft + elementRight - tooltip.offsetWidth) / 2,
+      maxLeft,
+    ));
+    const above = elementTop - tooltip.offsetHeight - gap;
+    const below = elementBottom + gap;
+    let top;
+
+    if (above >= inset) {
+      top = above;
+    } else if (below + tooltip.offsetHeight <= figureBox.height - inset) {
+      top = below;
+    } else {
+      const maxTop = Math.max(inset, figureBox.height - tooltip.offsetHeight - inset);
+      top = Math.max(inset, Math.min(
+        (elementTop + elementBottom - tooltip.offsetHeight) / 2,
+        maxTop,
+      ));
+      const right = elementRight + gap;
+      const leftOfNode = elementLeft - tooltip.offsetWidth - gap;
+      if (right + tooltip.offsetWidth <= figureBox.width - inset) left = right;
+      else if (leftOfNode >= inset) left = leftOfNode;
+      else top = elementTop < figureBox.height / 2 ? below : above;
+    }
     tooltip.style.left = left + 'px';
     tooltip.style.top = top + 'px';
   }
@@ -93,8 +126,7 @@
   }
 
   function attachTooltip(el, container, rows) {
-    el.addEventListener('mouseenter', (event) => showTooltip(container, el, rows, event));
-    el.addEventListener('mousemove', (event) => showTooltip(container, el, rows, event));
+    el.addEventListener('mouseenter', () => showTooltip(container, el, rows));
     el.addEventListener('mouseleave', () => hideTooltip(container));
     el.addEventListener('focus', () => showTooltip(container, el, rows));
     el.addEventListener('blur', () => hideTooltip(container));
@@ -104,7 +136,6 @@
     const w = nodeWidth(label);
     const g = svgEl(parent, 'g', { class: cls + (node.ext ? ' ext' : ''), 'aria-label': node.id });
     makeInteractive(g, node);
-    svgEl(g, 'title').textContent = node.id;
     svgEl(g, 'rect', { x: -w / 2, y: -NODE_H / 2, width: w, height: NODE_H, rx: 4 });
     svgEl(g, 'text', { 'text-anchor': 'middle', dy: 3.5 }).textContent = label;
     return g;
@@ -360,15 +391,6 @@
 
     [...nodes].sort().forEach((key) => { if (!indices.has(key)) visit(key); });
     return result;
-  }
-
-  function proofTitle(node) {
-    const assumptions = node.assumptions.length ? node.assumptions.join(', ') : 'none';
-    const readiness = node.assumptionsProven
-      ? 'All assumptions proven'
-      : `${node.outstanding} outstanding assumption${node.outstanding === 1 ? '' : 's'}`;
-    const description = node.description ? `\nDescription: ${node.description}` : '';
-    return `${node.id}${description}\nConclusion: ${node.conclusion}\nAssumptions: ${assumptions}\nSubmission: ${node.owner}\n${readiness}`;
   }
 
   function proofTooltipRows(node) {
@@ -643,7 +665,6 @@
         transform: `translate(${node.x},${node.y})`,
       });
       makeInteractive(g, node);
-      svgEl(g, 'title').textContent = proofTitle(node);
       svgEl(g, 'rect', {
         x: -node.width / 2, y: -node.height / 2,
         width: node.width, height: node.height, rx: 4,

@@ -113,7 +113,7 @@ export function conceptBadgeLegend(): string {
 }
 
 export function conceptMapLegend(ownLabel: string, extLabel: string): string {
-  return `<figcaption class="graph-legend" aria-label="Concept map legend">${LEGEND_FILLS}<span><i class="legend-node fill-none"></i>Definition — nothing to prove</span><span><i class="legend-node stroke-own"></i>${esc(ownLabel)}</span><span><i class="legend-node stroke-ext"></i>${esc(extLabel)}</span><span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B builds on A</span></figcaption>`;
+  return `<figcaption class="graph-legend" aria-label="Concept map legend">${LEGEND_FILLS}<span><i class="legend-node fill-none"></i>Definition</span><span><i class="legend-node stroke-own"></i>${esc(ownLabel)}</span><span><i class="legend-node stroke-ext"></i>${esc(extLabel)}</span><span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B builds on A</span></figcaption>`;
 }
 
 /** The submission map's legend. Same grammar one level up: stroke = origin,

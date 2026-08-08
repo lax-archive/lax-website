@@ -157,6 +157,35 @@ describe("site generator", () => {
     expect(html).not.toContain("\\[");
   });
 
+  it("lets display math interrupt author prose without surrounding blank lines", () => {
+    const markdown = new MarkdownRenderer(new SiteModel(submissions()));
+    const html = markdown.renderAuthorProse(String.raw`Before the formula.
+$$
+  x^2 + y^2 = z^2
+$$
+After the formula.`, "");
+    expect(html).toContain('<span class="katex-display">');
+    expect(html).toContain("<p>Before the formula.</p>");
+    expect(html).toContain("<p>After the formula.</p>");
+    expect(html).not.toContain("$$");
+  });
+
+  it("renders display math in abstracts and theorem statement boxes", async () => {
+    const authored = submissions();
+    const output = authored[0]!.output!;
+    output.abstract = "Before abstract math.\n$$a^2$$\nAfter abstract math.";
+    output.concepts[0]!.description = "Before theorem math.\n$$b^2$$\nAfter theorem math.";
+
+    const root = tmpDir("lax-site-display-math-");
+    await generateSite(authored, root);
+    const submission = fs.readFileSync(path.join(root, "Lax2", "index.html"), "utf8");
+    const concept = fs.readFileSync(path.join(root, "Lax2", "Lax2.C.html"), "utf8");
+    expect(submission).toMatch(/paper-abstract[^]*?class="katex-display"/);
+    expect(submission).toContain("<p>After abstract math.</p>");
+    expect(concept).toMatch(/block block-statement[^]*?class="katex-display"/);
+    expect(concept).toContain("<p>After theorem math.</p>");
+  });
+
   it("renders safe inline Markdown and TeX without block wrappers for titles", () => {
     const markdown = new MarkdownRenderer(new SiteModel(submissions()));
     const html = markdown.renderAuthorInline(String.raw`A **sharp** \(x^2\) [bound](https://example.com) [[Lax2.C]] <img src=x>`, "");
@@ -487,6 +516,8 @@ describe("site generator", () => {
     expect(html).toContain("legend-proof-chip");
     expect(html).toContain('class="legend-node fill-proven"');
     expect(html).toContain('class="legend-node stroke-own"');
+    expect(html).toContain('<i class="legend-node fill-none"></i>Definition</span>');
+    expect(html).not.toContain("Definition — nothing to prove");
     expect((html.match(/class="graph-tooltip"/g) ?? []).length).toBe(2);
   });
 
@@ -563,6 +594,8 @@ describe("site generator", () => {
     const script = fs.readFileSync(path.join(root, "assets", "dag.js"), "utf8");
     expect(script).toContain("stronglyConnectedComponents");
     expect(script).not.toContain("forceSimulation");
+    expect(script).not.toContain("svgEl(g, 'title')");
+    expect(script).not.toContain("addEventListener('mousemove'");
   });
 
   it("maps each submission's dependants and dependencies across the whole archive", async () => {

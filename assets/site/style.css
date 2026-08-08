@@ -1550,9 +1550,9 @@ body{
 
 /* Legend chips isolate one axis each: fill-* show status on a neutral
    border, stroke-* show origin on a neutral fill. */
-.legend-node.fill-proven{ background: var(--proven-bg); }
-.legend-node.fill-open{ background: var(--partial-bg); }
-.legend-node.fill-none{ background: var(--none-bg); }
+.legend-node.fill-proven{ background: #dff1df; }
+.legend-node.fill-open{ background: #faedc8; }
+.legend-node.fill-none{ background: #e8e8e8; }
 .legend-node.stroke-own{ border-color: var(--accent); background: var(--surface); }
 .legend-node.stroke-ext{ border-color: var(--none-border); background: var(--surface); }
 .legend-arrow{ color: var(--text-dim); font-family: var(--mono); font-size: 0.9rem; line-height: 1; }
@@ -1567,6 +1567,7 @@ body{
   background: var(--surface);
   color: var(--text);
   font-family: serif;
+  font-style: normal;
   font-size: 0.8rem;
   line-height: 1;
 }
@@ -1600,9 +1601,8 @@ body{
   stroke: var(--accent);
 }
 
-.dag-node[role="link"] rect,
-.net-node[role="link"] rect,
-.net-proof[role="link"] rect{ cursor: pointer; }
+:is(.dag-node, .net-node, .net-proof)[role="link"],
+:is(.dag-node, .net-node, .net-proof)[role="link"] *{ cursor: pointer; }
 
 /* Node labels match list entries: text face, link color. */
 .dag-node text,
