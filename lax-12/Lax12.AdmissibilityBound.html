@@ -68,6 +68,7 @@
 </div>
 <h4 class="figure-title">Concept map</h4>
 <figure class="graph-figure concept-root-graph">
+<button class="graph-expand" type="button" data-graph-expand data-graph-label="concept map" aria-expanded="false" aria-label="Open concept map in a large window" title="Open in large window"><svg class="graph-expand-open" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M2.5 6V2.5H6M10 2.5h3.5V6M13.5 10v3.5H10M6 13.5H2.5V10"/></svg><span class="graph-expand-close" aria-hidden="true">×</span></button>
 <div class="graph-toolbar"><button type="button" id="concept-expand" aria-controls="concept-dag" aria-pressed="true">Hide ancestors</button><button type="button" id="concept-descend" aria-controls="concept-dag" aria-pressed="false">Show descendants</button><output id="concept-graph-status" aria-live="polite"></output></div>
 <div id="concept-dag" class="figure-container" data-graph="concepts" data-ancestry="true"></div>
 <div class="graph-tooltip" role="tooltip" hidden></div>
@@ -156,15 +157,15 @@ grad.</p>
 <tr id="L52" class=""><td class="line-num"><a href="#L52">52</a></td><td class="line-code"> </td></tr>
 </table></div></div></div>
 <div class="block"><h3>Formalization notes</h3><div class="latex-content"><p>Hypothesis and conclusion are the predicates of the two imported
-definition concepts. The statement is the notes&#39; Lemma 3.2 with its
+definition concepts. The statement is the notes' Lemma 3.2 with its
 radius index shifted by one: the notes pair a conclusion at radius <em>r</em>
 with a hypothesis at depth <em>r</em>−1, and writing the conclusion at <em>r</em>+1
 against a hypothesis at depth <em>r</em> keeps truncated natural subtraction
 out of a concept statement. This is presentation only — the shifted form
-ranges over exactly the instances <em>r</em> ≥ 1 of the notes&#39; form, which are
+ranges over exactly the instances <em>r</em> ≥ 1 of the notes' form, which are
 all of its instances with a defined hypothesis, and the constant is the
-notes&#39; constant with <em>r</em> read as <em>r</em>+1.</p>
-<p>The natural number <em>d</em> plays the notes&#39; ⌈∇̃_{<em>r</em>−1}(<em>G</em>)⌉: the
+notes' constant with <em>r</em> read as <em>r</em>+1.</p>
+<p>The natural number <em>d</em> plays the notes' ⌈∇̃_{<em>r</em>−1}(<em>G</em>)⌉: the
 hypothesis <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>H</mi><mi>a</mi><mi>s</mi><mi>T</mi><mi>o</mi><mi>p</mi><mi>o</mi><mi>l</mi><mi>o</mi><mi>g</mi><mi>i</mi><mi>c</mi><mi>a</mi><mi>l</mi><mi>D</mi><mi>e</mi><mi>n</mi><mi>s</mi><mi>i</mi><mi>t</mi><mi>y</mi><mi>A</mi><mi>t</mi><mi>M</mi><mi>o</mi><mi>s</mi><mi>t</mi><mi>G</mi><mi>r</mi><mi>d</mi></mrow><annotation encoding="application/x-tex">HasTopologicalDensityAtMost G r d</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.0813em;">H</span><span class="mord mathnormal">a</span><span class="mord mathnormal">s</span><span class="mord mathnormal" style="margin-right:0.1389em;">T</span><span class="mord mathnormal">o</span><span class="mord mathnormal">p</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.0197em;">l</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.0359em;">g</span><span class="mord mathnormal">i</span><span class="mord mathnormal">c</span><span class="mord mathnormal">a</span><span class="mord mathnormal" style="margin-right:0.0197em;">l</span><span class="mord mathnormal" style="margin-right:0.0278em;">D</span><span class="mord mathnormal">e</span><span class="mord mathnormal">n</span><span class="mord mathnormal">s</span><span class="mord mathnormal">i</span><span class="mord mathnormal">t</span><span class="mord mathnormal" style="margin-right:0.0359em;">y</span><span class="mord mathnormal">A</span><span class="mord mathnormal" style="margin-right:0.109em;">tM</span><span class="mord mathnormal">os</span><span class="mord mathnormal">tG</span><span class="mord mathnormal" style="margin-right:0.0278em;">r</span><span class="mord mathnormal">d</span></span></span></span> says exactly that the
 topological grad of <em>G</em> at depth <em>r</em> is at most <em>d</em>, and the notes
 instantiate their lemma at the ceiling of that grad, the least natural

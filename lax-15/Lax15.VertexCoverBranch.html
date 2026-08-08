@@ -51,6 +51,7 @@
 </div>
 <h4 class="figure-title">Concept map</h4>
 <figure class="graph-figure concept-root-graph">
+<button class="graph-expand" type="button" data-graph-expand data-graph-label="concept map" aria-expanded="false" aria-label="Open concept map in a large window" title="Open in large window"><svg class="graph-expand-open" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M2.5 6V2.5H6M10 2.5h3.5V6M13.5 10v3.5H10M6 13.5H2.5V10"/></svg><span class="graph-expand-close" aria-hidden="true">×</span></button>
 <div class="graph-toolbar"><button type="button" id="concept-expand" aria-controls="concept-dag" aria-pressed="true">Hide ancestors</button><button type="button" id="concept-descend" aria-controls="concept-dag" aria-pressed="false">Show descendants</button><output id="concept-graph-status" aria-live="polite"></output></div>
 <div id="concept-dag" class="figure-container" data-graph="concepts" data-ancestry="true"></div>
 <div class="graph-tooltip" role="tooltip" hidden></div>
@@ -291,11 +292,11 @@ it away behind &quot;some computable <em>f</em>&quot; — the claim is meant to 
 falsifiable at every single <em>k</em>, and improving the base is then a change
 of statement rather than a change of commentary. Here it forces one
 definition onto the surface, since mathlib has no name for this
-sequence; <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mi>a</mi><mi>t</mi><mi mathvariant="normal">.</mi><mi>f</mi><mi>i</mi><mi>b</mi></mrow><annotation encoding="application/x-tex">Nat.fib</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.109em;">N</span><span class="mord mathnormal">a</span><span class="mord mathnormal">t</span><span class="mord">.</span><span class="mord mathnormal" style="margin-right:0.1076em;">f</span><span class="mord mathnormal">ib</span></span></span></span> was mathlib&#39;s, and this is the one place where this
+sequence; <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mi>a</mi><mi>t</mi><mi mathvariant="normal">.</mi><mi>f</mi><mi>i</mi><mi>b</mi></mrow><annotation encoding="application/x-tex">Nat.fib</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.109em;">N</span><span class="mord mathnormal">a</span><span class="mord mathnormal">t</span><span class="mord">.</span><span class="mord mathnormal" style="margin-right:0.1076em;">f</span><span class="mord mathnormal">ib</span></span></span></span> was mathlib's, and this is the one place where this
 ladder has had to define something of its own.</p>
 <p>The three initial values are the exact leaf counts, not a convention.
 The algorithm branches whenever it finds a branching vertex and has any
-budget at all, and the second child&#39;s budget is the remaining budget
+budget at all, and the second child's budget is the remaining budget
 less the residual degree, truncated at zero. So a budget of 0 admits no
 branch and the tree is one leaf; a budget of 1 branches into two
 children both measured at budget 0, giving 2; a budget of 2 branches
@@ -314,7 +315,7 @@ word, since a machine at word length <span class="katex"><span class="katex-math
 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mi>w</mi></msup></mrow><annotation encoding="application/x-tex">2 ^ w</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6644em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0269em;">w</span></span></span></span></span></span></span></span></span></span></span> and a parameter that is not the parameter it was handed is not
 the parameter; and the bookkeeping of the search, a stack of frames and
 a trail of marked vertices, both bounded by the block. The constant <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>c</mi></mrow><annotation encoding="application/x-tex">c</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal">c</span></span></span></span>
-differs from the earlier statements&#39; — it is bigger, and the driver has
+differs from the earlier statements' — it is bigger, and the driver has
 two more arrays — but the <em>form</em> of the condition does not, so the
 improved bound is claimed on exactly the same instances and not on a
 smaller class. The condition is deliberately not coupled to the running
@@ -332,7 +333,7 @@ ahead of the word length, so a single program with a single constant
 serves every graph, every <em>k</em> and every <em>w</em> — the uniform notion of
 fixed-parameter tractability, and a stronger statement than one program
 per parameter or one program per word length.</p>
-<p>The answer is stated through mathlib&#39;s vertex cover number, so the
+<p>The answer is stated through mathlib's vertex cover number, so the
 output is a function of the graph and the parameter and the surface adds
 no definition beyond the count. The decision problem is the honest scope
 of the claim; a program producing a cover, or a smallest one, is a

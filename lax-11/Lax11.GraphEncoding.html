@@ -51,10 +51,11 @@
 <div><p class="concept-id"><code>Lax11.GraphEncoding</code></p>
 <h1 class="concept-title">Compressed sparse row encoding of a graph</h1>
 <p class="concept-microline"><code>concepts/Lax11/GraphEncoding.lean</code> · <a href="index.html">lax-11</a></p></div>
-<span class="status-pills"><span class="status-pill pill-none" title="Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">nothing to prove</span></span>
+<span class="status-pills"><span class="status-pill pill-none">definition</span></span>
 </div>
 <h4 class="figure-title">Concept map</h4>
 <figure class="graph-figure concept-root-graph">
+<button class="graph-expand" type="button" data-graph-expand data-graph-label="concept map" aria-expanded="false" aria-label="Open concept map in a large window" title="Open in large window"><svg class="graph-expand-open" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M2.5 6V2.5H6M10 2.5h3.5V6M13.5 10v3.5H10M6 13.5H2.5V10"/></svg><span class="graph-expand-close" aria-hidden="true">×</span></button>
 <div class="graph-toolbar"><button type="button" id="concept-expand" aria-controls="concept-dag" aria-pressed="true">Hide ancestors</button><button type="button" id="concept-descend" aria-controls="concept-dag" aria-pressed="false">Show descendants</button><output id="concept-graph-status" aria-live="polite"></output></div>
 <div id="concept-dag" class="figure-container" data-graph="concepts" data-ancestry="true"></div>
 <div class="graph-tooltip" role="tooltip" hidden></div>
@@ -66,7 +67,7 @@ in compressed sparse row form, the adjacency-array format every
 textbook assumes: the number <em>n</em> of vertices, the number <em>m</em> of edges, then
 <em>n+1</em> offsets, then the target array. The target array lists, for each
 vertex in turn, the neighbors of that vertex; the offsets say where
-each vertex&#39;s block of neighbors begins, the first offset being 0 and
+each vertex's block of neighbors begins, the first offset being 0 and
 the last one the length of the target array. So the neighbors of vertex
 <em>u</em> are the entries of the target array at the positions from the <em>u</em>-th
 offset up to, but excluding, the <em>(u+1)</em>-st.</p>
@@ -171,7 +172,7 @@ offset up to, but excluding, the <em>(u+1)</em>-st.</p>
 with nothing precomputed that an algorithm would otherwise have to
 compute. The word is required to have the right length, the offsets to
 be nondecreasing with the right two endpoints, and every target entry
-to be a vertex; beyond that the only condition is that each vertex&#39;s
+to be a vertex; beyond that the only condition is that each vertex's
 block lists exactly its neighbors. In particular the blocks are not
 required to be sorted and repetitions are not forbidden — the fewer
 conditions the encoding imposes, the more inputs a claim about
@@ -192,7 +193,7 @@ handed to. It does not have to: every entry of an encoding is a vertex
 number, an offset into the target array, or one of the two header
 numbers, and each of those is smaller than the length of the word
 itself, so an encoding that a machine can address at all is one whose
-entries fit into that machine&#39;s words. The condition that it does fit
+entries fit into that machine's words. The condition that it does fit
 belongs to the claims made about programs reading the encoding, and is
 stated there, once, as an explicit inequality against <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mi>w</mi></msup></mrow><annotation encoding="application/x-tex">2 ^ w</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6644em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0269em;">w</span></span></span></span></span></span></span></span></span></span></span>.</p>
 </div></div>
