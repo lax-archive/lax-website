@@ -189,7 +189,7 @@ Not to complicate the submission process, at this early stage, the pipeline does
 Future versions of lax might restrict the concept files to a~safe Lean dialect.
 The next important feature that we will add to the website is the option to vouch that a~declaration is formalized correctly, that is, faithful to the mathematical intent.
 
-\section{What is lax built on?}
+\section{How is lax built?}
 
 The current lax infrastructure relies on GitHub services:
 \begin{itemize}
@@ -198,8 +198,132 @@ The current lax infrastructure relies on GitHub services:
   \item the website is built and deployed via GitHub Pages, and
   \item \textsf{lax-CLI} is available on npm.
 \end{itemize}
+Here is a~simplified diagram of the lax suite:
 
-[Insert Clemens's diagram?]
+\begin{figure}[!ht]
+  \centering
+  \resizebox{450pt}{!}{
+  \begin{tikzpicture}[
+      transform shape,
+      font=\small,
+      actor/.style={
+        draw=black!65,
+        rounded corners=2pt,
+        fill=white,
+        minimum width=26mm,
+        minimum height=11mm,
+        align=center,
+        inner sep=3pt
+      },
+      external/.style={
+        draw=black!55,
+        rounded corners=2pt,
+        fill=black!3,
+        minimum width=29mm,
+        minimum height=12mm,
+        align=center,
+        inner sep=3pt
+      },
+      repository/.style={
+        draw=black!70,
+        rounded corners=2pt,
+        fill=white,
+        minimum width=32mm,
+        minimum height=14mm,
+        align=center,
+        inner sep=3pt
+      },
+      githubservice/.style={
+        draw=black!70,
+        rounded corners=2pt,
+        fill=black!7,
+        minimum width=32mm,
+        minimum height=14mm,
+        align=center,
+        inner sep=3pt
+      },
+      flow/.style={
+        -{Latex[length=2.1mm,width=1.35mm]},
+        draw=black!72,
+        line width=.65pt
+      },
+      flowlabel/.style={
+        font=\scriptsize,
+        fill=white,
+        inner sep=1.4pt,
+        align=center
+      }
+    ]
+
+    % Components outside GitHub.
+    \node[actor] (contributor) at (0,2.7) {Contributor};
+    \node[external] (cli) at (0,.25)
+      {\textsf{lax-CLI}\\[-1pt]\scriptsize command-line client};
+    \node[external] (npm) at (0,-2.05)
+      {\textsf{npm}\\[-1pt]\scriptsize package registry};
+    \node[actor] (reader) at (18.1,-1.35) {Reader};
+
+    % Repositories and services hosted by GitHub.
+    \node[repository] (submission) at (4.5,2.7)
+      {Public Git repository\\[-1pt]\scriptsize submission commit};
+    \node[githubservice] (submitactions) at (9.35,2.7)
+      {GitHub Actions\\[-1pt]\scriptsize submission pipeline};
+    \node[repository] (database) at (14.2,2.7)
+      {\textsf{lax-database}\\[-1pt]\scriptsize archive metadata};
+
+    \node[repository] (website) at (4.5,-1.35)
+      {\textsf{lax-website}\\[-1pt]\scriptsize static-site source};
+    \node[githubservice] (siteactions) at (9.35,-1.35)
+      {GitHub Actions\\[-1pt]\scriptsize website build};
+    \node[githubservice] (pages) at (14.2,-1.35)
+      {GitHub Pages\\[-1pt]\scriptsize website hosting};
+
+    % GitHub boundary. It is only an outline, so drawing it after the nodes
+    % does not obscure them.
+    \node[
+      draw=black!45,
+      dashed,
+      rounded corners=4pt,
+      inner xsep=7mm,
+      inner ysep=7mm,
+      fit=(submission)(submitactions)(database)(website)(siteactions)(pages),
+      label={[font=\bfseries\small,anchor=south west]north west:GitHub}
+    ] (github) {};
+
+    % Contributor and submission flow.
+    \draw[flow] (contributor) --
+      node[flowlabel,above=3pt] {push} (submission);
+    \draw[flow] (npm) --
+      node[flowlabel,right=2pt] {install} (cli);
+    \draw[flow] (contributor) --
+      node[flowlabel,right=2pt] {run} (cli);
+    \draw[flow] (cli.east) to[out=0,in=-125]
+      node[flowlabel,below right=1pt] {submit} (submitactions.south west);
+    \draw[flow] (submission) --
+      node[flowlabel,above=3pt] {check} (submitactions);
+    \draw[flow] (submitactions) --
+      node[flowlabel,above=3pt] {write} (database);
+
+    % Website build and publication flow.
+    \draw[flow] (website) --
+      node[flowlabel,above=3pt] {build} (siteactions);
+    \draw[flow] (database.south) to[out=-90,in=35]
+      node[flowlabel,right=7.5pt] {read} (siteactions.north east);
+    \draw[flow] (siteactions) --
+      node[flowlabel,above=3pt] {deploy} (pages);
+    \draw[flow] (pages) --
+      node[flowlabel,above=3pt] {serve} (reader);
+
+  \end{tikzpicture}
+  }
+  \caption{Simplified lax infrastructure. Arrows represent how data flow.}
+  \label{fig:lax-infrastructure}
+\end{figure}
+
+\section{How to contribute?}
+
+If you are interested in lax, please submit your formalized proofs, review concept files (when that feature is available), talk about the project around you, or reach out to us with comments, inquiries, or suggestions.
+We are curious to know what you think that we should do next.
 
 \bibliographystyle{plain}
 \bibliography{main}
