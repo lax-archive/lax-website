@@ -9,10 +9,11 @@
 
 \usepackage{amsthm}
 %\usepackage{amsmath}
-\usepackage{graphicx}%,algorithmic,algorithm}%, verbatim}
+\usepackage{graphicx}
 \usepackage{enumerate}
 \usepackage[scale=0.88]{FiraMono}
 \usepackage{xcolor}
+\usepackage{pifont}
 \usepackage{listings}
 \usepackage{tikz}
 \usepackage{stackengine}
@@ -32,9 +33,6 @@
 \renewcommand{\figurename}{Figure}
 \crefname{figure}{Figure}{Figures}
 \Crefname{figure}{Figure}{Figures}
-
-\usepackage{xcolor}
-\usepackage{pifont}
 
 \input{styles}
 
@@ -98,7 +96,7 @@
 
 \begin{abstract}
   We introduce lax, an open archive of formalized mathematics.
-  This document outlines what is lax, how you can and why you should contribute to it, and what guarantees it provides. 
+  This document outlines what lax is, how you can contribute to it, why you should do so, and what guarantees it provides. 
 \end{abstract}
 
 \section{What is lax?}
@@ -106,8 +104,8 @@
 Lax is an archive of formalized mathematics, which comprises:
 \begin{itemize}
 \item a command-line interface \href{https://www.npmjs.com/package/lax-archive}{\textsf{lax-CLI}}, which primarily allows one to submit new entries,
-\item a database \href{https://github.com/lax-archive/lax-database/}{\textsf{lax-archive}}, which records the metadata of every submission, 
-\item a \href{https://laxarchive.org/}{website}, which enables to browse these submissions.
+\item a \href{https://github.com/lax-archive/lax-database/}{database}, which records the metadata of every submission, 
+\item a \href{https://laxarchive.org/}{website}, which enables users to browse these submissions.
 \end{itemize}
 The entire project is fully open: the source code of \textsf{lax-CLI} and of the website, the product specification, the database content, the submissions, and the generated artifacts are all public and reusable.
 Currently, \href{https://lean-lang.org/}{Lean} is the only supported language for the submissions, the `l' of lax stands for Lean, and `ax' for \textbf{a}r\textbf{ch}ive.
@@ -116,19 +114,19 @@ Currently, \href{https://lean-lang.org/}{Lean} is the only supported language fo
 
 Unlike a~library, lax targets contemporary mathematical results, which would take considerable time and effort to be manually formalized.
 Typically lax proofs are written by AI agents.
-They are not held to any beauty cannons, as long as Lean's kernel certifies that they indeed prove what the submission claims. 
-Lax does however care that these claims (the \emph{concepts}, see next section), which constitute the exposed surface on the website, are transparently written and can easily be evaluated and reviewed by humans.
+They are not held to any aesthetic standards,\footnote{Proofs are where lax intends to be... lax.} as long as Lean's kernel certifies that they indeed prove what the submission claims. 
+Lax does, however, expect that these claims (the \emph{concepts}, see next section), which constitute the exposed surface on the website, are transparently written and can easily be evaluated and reviewed by humans.
 
 \section{What is a lax submission?}
 
-A lax submission is a~commit on a~public Git repository which contains appropriate files and folders.
+A lax submission is a~commit to a~public Git repository which contains appropriate files and folders.
 Rather than going through the whole specification, which can be consulted by humans and AI agents (for instance, by running `lax spec'), we highlight its salient features.
 
-A lax submission separates in two different folders \emph{concepts} and \emph{proofs}.
-In the concept folder, each Lean file has a~possibly empty list of definitions\footnote{introduced with the Lean keywords \textsf{def}, \textsf{structure}, \textsf{inductive}, \textsf{abbrev}, etc.} and at most one statement introduced as axiom.
-The content of the concept folder is semantically closed: the meaning of every declaration (definition or axiom statement) can be evaluated within the union of the concept folder and Mathblib. 
-In the proof folder, Lean files are unconstrained.
-In a~typical submission, every axiom declared in the concept files is restated in the proof folder as a~theorem and proven (under the basic Lean axioms propext, Quot.sound, Classical.choice).
+A lax submission separates its Lean content in two folders, \emph{concepts} and \emph{proofs}.
+In the concepts folder, each Lean file has a~possibly empty list of definitions\footnote{introduced with the Lean keywords \textsf{def}, \textsf{structure}, \textsf{inductive}, \textsf{abbrev}, etc.} and at most one statement introduced as an axiom.
+The content of the concepts folder is semantically closed: Every declaration in the concepts folder depends only on declarations from that folder and from Mathlib.
+In the proofs folder, Lean files are unconstrained.
+In a~typical submission, every axiom declared in the concept files is restated in the proofs folder as a~theorem and proven (under the basic Lean axioms propext, Quot.sound, Classical.choice).
 
 The content of concept files is exposed on the website.
 Ideally, the declarations are transparently translated from their natural-language counterparts, and can be understood and reviewed by users without a~strong Lean or proof-assistant background.
@@ -142,25 +140,25 @@ Every axiom statement accompanied by a~proof (found in the proof package) is mar
   \label{fig:concept-proof}
 \end{figure}
 
-By default, a~lax submission initially is a~\emph{draft}.
+By default, a~lax submission is initially a~\emph{draft}.
 In this state, it can be modified ad libitum by resubmitting.
 A submission can be made \emph{permanent}, and then becomes immutable.
 Lax submissions can reuse and build on past permanent entries.
 
-\section{Why using lax?}
+\section{Why use lax?}
 
-The starting point is that you already are convinced with the benefits of having results you care about formalized.
-Year 2026 was when frontier AI agents unlocked the ability of fully autonomously translating natural-language proofs, however long they were, into Lean.
-Consequently, at a~small (and ever smaller) cost, and at the time of telling your agent which result you want formalized next, you very likely find your wish granted when you later come back to the session.   
+The starting point is that you are already convinced of the benefits of having results you care about formalized.
+In 2026, frontier AI agents unlocked the ability of fully autonomously translating natural-language proofs, however long they were, into Lean.
+Consequently, at a~small (and ever smaller) cost, after telling an agent which result to formalize, you may return to the session later and find the requested proof completed.
 
-Once you thus get a~Lean proof of, say, your latest result, why should you further make the effort of submitting it to lax?
+Once you thus get a~Lean proof of, say, your latest result, why make the additional effort of submitting it to lax?
 Why? Because, this way, your work
 \begin{itemize}
-\item is more visible: now a~searchable platform (attracting a~growing community) points to it.
-\item is more legible: the presentation work is automated away by the submission guidelines, the submitting agent, and the website.
+\item is \textbf{more visible}: now a~searchable platform (attracting a~growing community) points to it.
+\item is \textbf{more legible}: the presentation work is automated away by the submission guidelines, the submitting agent, and the website.
   The suitable subset of the work that should be exposed is conveniently displayed, with semantic hyperlinks, proof DAGs, concept dependencies, etc.    
-\item can be more easily built upon: \textsf{lax-CLI} makes it simple to fetch results from past submissions, in view of completing new Lean projects. 
-\item will be validated: users browsing your concept files can vet that those are formalizing the intended mathematical definitions and statements, or otherwise, raise concerns.  
+\item can be \textbf{more easily built upon}: \textsf{lax-CLI} makes it simple to fetch results from past submissions, for use in completing new Lean projects. 
+\item can be \textbf{validated}: users browsing your concept files can vet that those are formalizing the intended mathematical definitions and statements, or otherwise, raise concerns.  
 \end{itemize}
 Again, AI agents can autonomously and reliably follow \textsf{lax-CLI}'s documentation to prepare lax submissions, monitor ongoing submissions, and troubleshoot if need be.
 The human in the loop mainly checks that the abstract, commented concept files, and optional implementation notes are clean and as intended.
@@ -179,8 +177,8 @@ As the Lean code of every submission is publicly available, you can independentl
 \item\label{it:2} no extra axioms are required by the proof package, and
 \item\label{it:3} the type of each axiom in the concept files is definitionally equal to the type of the corresponding theorem in the proof package.
 \end{enumerate}
-The kernel can handle \ref{it:1} and \ref{it:3}, while \ref{it:2} can be done by meta-programming (\verb|#print axioms|).
-This way you would be reproducing\footnote{Note that the used Mathlib, Lean, and Lake versions are part of the submission metadata.} the relevant subset of our submission pipeline, and we would be progressively earning your trust.
+The Lean toolchain can handle \ref{it:1} and \ref{it:3}, while \ref{it:2} is done by meta-programming (\verb|#print axioms|).
+This way you would be reproducing\footnote{Note that the versions of Mathlib, Lean, and Lake used are part of the submission metadata.} the relevant subset of our submission pipeline, and we would be progressively earning your trust.
 If you decide to do so, conduct your independent tests in a~sandbox.
 Even if you happen to know the submitter, the Lean code (likely written by an AI agent, and especially so in the proof files) need not be safe.
 
@@ -189,7 +187,7 @@ Even if you happen to know the submitter, the Lean code (likely written by an AI
 In most submissions, you should easily be able to tell that the concept files are harmless.
 Not to complicate the submission process, at this early stage, the pipeline does nothing to guarantee that.
 Future versions of lax might restrict the concept files to a~safe Lean dialect.
-The next important feature that we will integrate to the website is the option to vouch that a~declaration is formalized correctly, that is, faithful to the mathematical intent.
+The next important feature that we will add to the website is the option to vouch that a~declaration is formalized correctly, that is, faithful to the mathematical intent.
 
 \section{What is lax built on?}
 
