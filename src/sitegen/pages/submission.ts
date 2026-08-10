@@ -86,7 +86,7 @@ ${proofRows.join("\n")}
 ${proofsHref ? `<p class="proof-list-source">Lean sources for these proofs: ${sourceLink(proofsHref, "proofs/ on GitHub")}</p>` : ""}
 </div>
 ${figureTitle("Proof network", proofsHref)}
-<figure class="graph-figure">
+<figure class="graph-figure proof-network-figure">
 ${graphExpandButton("proof network")}
 <div id="proof-network" class="figure-container" data-graph="proofs"></div>
 ${graphTooltip()}

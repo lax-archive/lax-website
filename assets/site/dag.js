@@ -177,10 +177,46 @@
     return ports;
   }
 
-  /** Follow the layout's sparse route with straight runs and small rounded
-   * corners. This avoids the repeated S-curves that made long edges wiggle;
-   * the final run also gives the marker the true incoming direction. */
-  function edgePath(points) {
+  /** Remove duplicate and collinear points from a rectilinear route. */
+  function compactRoute(points) {
+    const route = [];
+    for (const point of points) {
+      const last = route[route.length - 1];
+      if (last && Math.abs(last.x - point.x) < 0.01 && Math.abs(last.y - point.y) < 0.01) continue;
+      while (route.length >= 2) {
+        const a = route[route.length - 2];
+        const b = route[route.length - 1];
+        const vertical = Math.abs(a.x - b.x) < 0.01 && Math.abs(b.x - point.x) < 0.01;
+        const horizontal = Math.abs(a.y - b.y) < 0.01 && Math.abs(b.y - point.y) < 0.01;
+        if (!vertical && !horizontal) break;
+        route.pop();
+      }
+      route.push(point);
+    }
+    return route;
+  }
+
+  /** Connect each adjacent pair of layout anchors through the empty band
+   * halfway between their ranks. Dependencies therefore run vertically out
+   * of boxes, turn across clear space, and enter the target vertically. This
+   * is easier to trace than long diagonal sweeps and keeps arrowheads square
+   * to the target edge. */
+  function orthogonalEdgePoints(points, laneOffsets = []) {
+    const routed = [points[0]];
+    for (let index = 0; index + 1 < points.length; index += 1) {
+      const from = points[index];
+      const to = points[index + 1];
+      if (Math.abs(from.x - to.x) >= 0.5) {
+        const middleY = (from.y + to.y) / 2 + (laneOffsets[index] || 0);
+        routed.push({ x: from.x, y: middleY }, { x: to.x, y: middleY });
+      }
+      routed.push(to);
+    }
+    return compactRoute(routed);
+  }
+
+  /** Draw a compact polyline with restrained rounding at its corners. */
+  function roundedPath(points) {
     let d = `M${points[0].x},${points[0].y}`;
     for (let index = 1; index < points.length - 1; index += 1) {
       const previous = points[index - 1];
@@ -188,8 +224,7 @@
       const next = points[index + 1];
       const incoming = Math.hypot(corner.x - previous.x, corner.y - previous.y);
       const outgoing = Math.hypot(next.x - corner.x, next.y - corner.y);
-      if (!incoming || !outgoing) continue;
-      const radius = Math.min(10, incoming / 3, outgoing / 3);
+      const radius = Math.min(7, incoming / 2, outgoing / 2);
       const before = {
         x: corner.x + (previous.x - corner.x) * radius / incoming,
         y: corner.y + (previous.y - corner.y) * radius / incoming,
@@ -202,6 +237,66 @@
     }
     const last = points[points.length - 1];
     return `${d} L${last.x},${last.y}`;
+  }
+
+  function edgePath(points, laneOffsets) {
+    return roundedPath(orthogonalEdgePoints(points, laneOffsets));
+  }
+
+  /** Assign distinct horizontal tracks to route segments whose x-ranges
+   * overlap in the same inter-rank band. Interval colouring uses the fewest
+   * lanes for the fixed ordering; the lanes are then centred within the free
+   * vertical space so they do not crowd either row of boxes. */
+  function edgeLaneOffsets(pointSets) {
+    const offsets = pointSets.map((points) => points ? Array(points.length - 1).fill(0) : []);
+    const bands = new Map();
+    pointSets.forEach((points, edgeIndex) => {
+      if (!points) return;
+      for (let segmentIndex = 0; segmentIndex + 1 < points.length; segmentIndex += 1) {
+        const from = points[segmentIndex];
+        const to = points[segmentIndex + 1];
+        if (Math.abs(from.x - to.x) < 0.5) continue;
+        const middleY = (from.y + to.y) / 2;
+        const key = middleY.toFixed(2);
+        if (!bands.has(key)) bands.set(key, []);
+        bands.get(key).push({
+          edgeIndex, segmentIndex,
+          left: Math.min(from.x, to.x), right: Math.max(from.x, to.x),
+          height: Math.abs(from.y - to.y),
+        });
+      }
+    });
+
+    for (const segments of bands.values()) {
+      segments.sort((a, b) => a.left - b.left || a.right - b.right ||
+        a.edgeIndex - b.edgeIndex || a.segmentIndex - b.segmentIndex);
+      const laneEnds = [];
+      for (const segment of segments) {
+        let lane = laneEnds.findIndex((right) => right + 8 <= segment.left);
+        if (lane < 0) lane = laneEnds.length;
+        laneEnds[lane] = segment.right;
+        segment.lane = lane;
+      }
+      const available = Math.max(0, Math.min(...segments.map((segment) => segment.height / 2 - 8)));
+      const span = Math.min(14, available, (laneEnds.length - 1) * 2.5);
+      for (const segment of segments) {
+        const offset = laneEnds.length === 1
+          ? 0
+          : (segment.lane / (laneEnds.length - 1) - 0.5) * 2 * span;
+        offsets[segment.edgeIndex][segment.segmentIndex] = offset;
+      }
+    }
+    return offsets;
+  }
+
+  /** A narrow surface-coloured casing separates paths where they cross. The
+   * visible path is returned so node hover can still highlight it. */
+  function appendEdge(parent, cls, d, markerId) {
+    const route = svgEl(parent, 'g', { class: 'graph-edge-route' });
+    svgEl(route, 'path', { class: 'graph-edge-casing', d });
+    return svgEl(route, 'path', {
+      class: cls, d, 'marker-end': `url(#${markerId})`,
+    });
   }
 
   /** Hovering or focusing a node lights up its incident edges. */
@@ -265,17 +360,19 @@
 
     const group = svgEl(svg, 'g');
     const incident = new Map(nodes.map((node) => [node.id, []]));
-    edges.forEach((edge, edgeIndex) => {
+    const pointSets = edges.map((edge, edgeIndex) => {
       const source = positions.get(edge.from);
       const target = positions.get(edge.to);
-      const points = [
+      return [
         { x: sourcePorts.get(edgeIndex), y: source.y - NODE_H / 2 },
         ...routes[edgeIndex],
         { x: targetPorts.get(edgeIndex), y: target.y + NODE_H / 2 },
       ];
-      const path = svgEl(group, 'path', {
-        class: 'dag-edge', d: edgePath(points), 'marker-end': `url(#${spec.arrowId})`,
-      });
+    });
+    const laneOffsets = edgeLaneOffsets(pointSets);
+    edges.forEach((edge, edgeIndex) => {
+      const path = appendEdge(group, 'dag-edge',
+        edgePath(pointSets[edgeIndex], laneOffsets[edgeIndex]), spec.arrowId);
       incident.get(edge.from).push(path);
       incident.get(edge.to).push(path);
     });
@@ -631,6 +728,17 @@
       crossEnds((link, edgeIndex) => ({ edgeIndex, nodeId: link.target,
         refX: (linkVias[edgeIndex][linkVias[edgeIndex].length - 1] || byKey.get(link.source)).x })),
       (key) => byKey.get(key).x, (key) => byKey.get(key).width);
+    const linkPointSets = links.map((link, edgeIndex) => {
+      if (componentOf.get(link.source) === componentOf.get(link.target)) return null;
+      const sourceNode = byKey.get(link.source);
+      const targetNode = byKey.get(link.target);
+      return [
+        { x: sourcePorts.get(edgeIndex), y: sourceNode.y - sourceNode.height / 2 },
+        ...linkVias[edgeIndex],
+        { x: targetPorts.get(edgeIndex), y: targetNode.y + targetNode.height / 2 },
+      ];
+    });
+    const linkLaneOffsets = edgeLaneOffsets(linkPointSets);
 
     const incident = new Map(nodes.map((node) => [node.key, []]));
     links.forEach((link, edgeIndex) => {
@@ -654,16 +762,9 @@
         path = `M${source.x},${source.y} Q${controlX},${controlY} ${target.x},${target.y}`;
       } else {
         // Condensation edges always flow upward through fixed vertical ports.
-        const points = [
-          { x: sourcePorts.get(edgeIndex), y: sourceNode.y - sourceNode.height / 2 },
-          ...linkVias[edgeIndex],
-          { x: targetPorts.get(edgeIndex), y: targetNode.y + targetNode.height / 2 },
-        ];
-        path = edgePath(points);
+        path = edgePath(linkPointSets[edgeIndex], linkLaneOffsets[edgeIndex]);
       }
-      const element = svgEl(group, 'path', {
-        class: `net-edge ${link.kind}`, d: path, 'marker-end': 'url(#proof-arrow)',
-      });
+      const element = appendEdge(group, `net-edge ${link.kind}`, path, 'proof-arrow');
       incident.get(link.source).push(element);
       incident.get(link.target).push(element);
     });
