@@ -9,6 +9,7 @@ import {
   draftBanner,
   figureTitle,
   githubSource,
+  graphExpandButton,
   graphTooltip,
   type PageContext,
   proofItem,
@@ -75,6 +76,7 @@ export async function conceptPage(ctx: PageContext, located: LocatedConcept): Pr
 </div>
 ${figureTitle("Concept map")}
 <figure class="graph-figure concept-root-graph">
+${graphExpandButton("concept map")}
 <div class="graph-toolbar"><button type="button" id="concept-expand" aria-controls="concept-dag" aria-pressed="true">Hide ancestors</button><button type="button" id="concept-descend" aria-controls="concept-dag" aria-pressed="false">Show descendants</button><output id="concept-graph-status" aria-live="polite"></output></div>
 <div id="concept-dag" class="figure-container" data-graph="concepts" data-ancestry="true"></div>
 ${graphTooltip()}

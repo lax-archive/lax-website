@@ -4,6 +4,14 @@ import { esc } from "./html.js";
 
 interface MathToken { type: "math" | "mathBlock"; raw: string; text: string }
 
+/** Let a display delimiter on its own source line interrupt the surrounding
+ * Markdown paragraph. Authors should not need blank lines around a displayed
+ * formula just to make `$$...$$` or `\[...\]` work. */
+function firstMathBlockDelimiter(src: string): number | undefined {
+  const match = /\n(?=\$\$|\\\[)/.exec(src);
+  return match ? match.index + 1 : undefined;
+}
+
 function firstMathDelimiter(src: string): number | undefined {
   const indexes = [src.indexOf("$"), src.indexOf("\\(")].filter((index) => index >= 0);
   return indexes.length ? Math.min(...indexes) : undefined;
@@ -27,6 +35,7 @@ export const mathExtension: MarkedExtension = {
   extensions: [
     {
       name: "mathBlock", level: "block",
+      start: firstMathBlockDelimiter,
       tokenizer(src: string): MathToken | undefined {
         const match = /^\$\$[ \t]*\n?([\s\S]+?)\n?[ \t]*\$\$(?:\n|$)/.exec(src)
           ?? /^\\\[[ \t]*\n?([\s\S]+?)\n?[ \t]*\\\](?:\n|$)/.exec(src);

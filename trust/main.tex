@@ -1,0 +1,331 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[lmargin=1.0in,rmargin=1.0in,bottom=1.0in,top=1.0in,twoside=False]{geometry}
+\usepackage{mathtools}
+\usepackage{hchang}
+
+\let\proof\relax
+\let\endproof\relax
+\let\qedhere\relax
+
+\usepackage{amsthm}
+%\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{enumerate}
+\usepackage[scale=0.88]{FiraMono}
+\usepackage{xcolor}
+\usepackage{pifont}
+\usepackage{listings}
+\usepackage{tikz}
+\usepackage{stackengine}
+\usepackage{accents}
+\usepackage{textpos}
+\usetikzlibrary{shapes,calc,fit,arrows.meta,positioning}
+
+\usepackage[T1]{fontenc}
+
+\usepackage{enumitem}
+
+\usepackage{microtype}
+%\usepackage{amsfonts}
+\usepackage{comment}
+\usepackage[capitalize,nameinlink]{cleveref}
+
+\renewcommand{\figurename}{Figure}
+\crefname{figure}{Figure}{Figures}
+\Crefname{figure}{Figure}{Figures}
+
+\input{styles}
+
+% Exact colours from laxarchive.org
+\definecolor{LaxThmBackground}{HTML}{E8F5E8}
+\definecolor{LaxThmForeground}{HTML}{2D6A2D}
+\definecolor{LaxThmBorder}{HTML}{B8DAB8}
+
+\DeclareRobustCommand{\laxthm}{%
+  \tikz[baseline=(LaxTHM.base)]{%
+    \node[
+      draw=LaxThmBorder,
+      fill=LaxThmBackground,
+      text=LaxThmForeground,
+      line width=.75bp,       % 1 CSS pixel
+      rounded corners=1.5bp, % 2 CSS pixels
+      inner xsep=3bp,         % 4 CSS pixels
+      inner ysep=.75bp,       % 1 CSS pixel
+      outer sep=0pt,
+      font=\fontsize{7.65bp}{9.18bp}\selectfont
+            \rmfamily\bfseries
+    ] (LaxTHM) {%
+      T\kern.04em
+      H\kern.04em
+      M\kern.04em
+      \raisebox{-.08ex}{\ding{51}}%
+    };%
+  }%
+  \kern1.5bp%                
+}
+
+\usepackage{stmaryrd}
+
+\renewcommand{\ge}{\geqslant}
+\renewcommand{\geq}{\geqslant}
+\renewcommand{\le}{\leqslant}
+\renewcommand{\leq}{\leqslant}
+
+\newtheorem{lemma}{Lemma}
+\newtheorem{theorem}{Theorem}
+\newtheorem{question}{Question}
+\newtheorem{corollary}{Corollary}
+\newtheorem{definition}{Definition}
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{observation}{Observation}
+\newtheorem{claim}{Claim}
+\newcommand{\Oh}{\mathcal{O}}
+\newcommand{\dist}{\mathsf{dist}}
+\newcommand{\prof}[2]{\mathsf{prof}_{#1}[#2]}
+\newcommand{\bover}[1]{\accentset{\bullet}{#1}}
+\newcommand{\real}{\mathbb{R}}
+
+
+\title{Lax}
+
+\begin{document}
+
+\date{}
+
+\maketitle
+
+\begin{abstract}
+  We introduce lax, an open archive of formalized mathematics.
+  This document outlines what lax is, how you can contribute to it, why you should do so, and what guarantees it provides. 
+\end{abstract}
+
+\section{What is lax?}
+
+Lax is an archive of formalized mathematics, which comprises:
+\begin{itemize}
+\item a command-line interface \href{https://www.npmjs.com/package/lax-archive}{\textsf{lax-CLI}}, which primarily allows one to submit new entries,
+\item a \href{https://github.com/lax-archive/lax-database/}{database}, which records the metadata of every submission, 
+\item a \href{https://laxarchive.org/}{website}, which enables users to browse these submissions.
+\end{itemize}
+The entire project is fully open: the source code of \textsf{lax-CLI} and of the website, the product specification, the database content, the submissions, and the generated artifacts are all public and reusable.
+Currently, \href{https://lean-lang.org/}{Lean} is the only supported language for the submissions, the `l' of lax stands for Lean, and `ax' for \textbf{a}r\textbf{ch}ive.
+
+\medskip
+
+Unlike a~library, lax targets contemporary mathematical results, which would take considerable time and effort to be manually formalized.
+Typically lax proofs are written by AI agents.
+They are not held to any aesthetic standards,\footnote{Proofs are where lax intends to be... lax.} as long as Lean's kernel certifies that they indeed prove what the submission claims. 
+Lax does, however, expect that these claims (the \emph{concepts}, see next section), which constitute the exposed surface on the website, are transparently written and can easily be evaluated and reviewed by humans.
+
+\section{What is a lax submission?}
+
+A lax submission is a~commit to a~public Git repository which contains appropriate files and folders.
+Rather than going through the whole specification, which can be consulted by humans and AI agents (for instance, by running `lax spec'), we highlight its salient features.
+
+A lax submission separates its Lean content in two folders, \emph{concepts} and \emph{proofs}.
+In the concepts folder, each Lean file has a~possibly empty list of definitions\footnote{introduced with the Lean keywords \textsf{def}, \textsf{structure}, \textsf{inductive}, \textsf{abbrev}, etc.} and at most one statement introduced as an axiom.
+The content of the concepts folder is semantically closed: Every declaration in the concepts folder depends only on declarations from that folder and from Mathlib.
+In the proofs folder, Lean files are unconstrained.
+In a~typical submission, every axiom declared in the concept files is restated in the proofs folder as a~theorem and proven (under the basic Lean axioms propext, Quot.sound, Classical.choice).
+
+The content of concept files is exposed on the website.
+Ideally, the declarations are transparently translated from their natural-language counterparts, and can be understood and reviewed by users without a~strong Lean or proof-assistant background.
+In particular, Lean tactics are unwelcome in concept files.
+Every axiom statement accompanied by a~proof (found in the proof package) is marked as proven (green background or \laxthm) on the website.
+
+\begin{figure}[!ht]
+  \centering
+  \input{example-concept-proof}
+  \caption{Left: A concept file, as displayed on the website. Right: A matching proof file, as found in the submitter's repository.}
+  \label{fig:concept-proof}
+\end{figure}
+
+By default, a~lax submission is initially a~\emph{draft}.
+In this state, it can be modified ad libitum by resubmitting.
+A submission can be made \emph{permanent}, and then becomes immutable.
+Lax submissions can reuse and build on past permanent entries.
+
+\section{Why use lax?}
+
+The starting point is that you are already convinced of the benefits of having results you care about formalized.
+In 2026, frontier AI agents unlocked the ability of fully autonomously translating natural-language proofs, however long they were, into Lean.
+Consequently, at a~small (and ever smaller) cost, after telling an agent which result to formalize, you may return to the session later and find the requested proof completed.
+
+Once you thus get a~Lean proof of, say, your latest result, why make the additional effort of submitting it to lax?
+Why? Because, this way, your work
+\begin{itemize}
+\item is \textbf{more visible}: now a~searchable platform (attracting a~growing community) points to it.
+\item is \textbf{more legible}: the presentation work is automated away by the submission guidelines, the submitting agent, and the website.
+  The suitable subset of the work that should be exposed is conveniently displayed, with semantic hyperlinks, proof DAGs, concept dependencies, etc.    
+\item can be \textbf{more easily built upon}: \textsf{lax-CLI} makes it simple to fetch results from past submissions, for use in completing new Lean projects. 
+\item can be \textbf{validated}: users browsing your concept files can vet that those are formalizing the intended mathematical definitions and statements, or otherwise, raise concerns.  
+\end{itemize}
+Again, AI agents can autonomously and reliably follow \textsf{lax-CLI}'s documentation to prepare lax submissions, monitor ongoing submissions, and troubleshoot if need be.
+The human in the loop mainly checks that the abstract, commented concept files, and optional implementation notes are clean and as intended.
+This does not take much time.
+So do not keep your formalized results isolated.
+
+\section{Can you trust lax?}
+
+If the axiom of a~concept is marked as proven on the website, should you trust that the corresponding proof package actually proves it?
+Assuming you already believe in the soundness of Lean's kernel, you have to further trust us on basically the entire submission pipeline.
+This is admittedly too much to ask, even with everything open.
+
+As the Lean code of every submission is publicly available, you can independently verify that
+\begin{enumerate}[label=(\arabic*)]
+\item\label{it:1} a~given project builds and type-checks,
+\item\label{it:2} no extra axioms are required by the proof package, and
+\item\label{it:3} the type of each axiom in the concept files is definitionally equal to the type of the corresponding theorem in the proof package.
+\end{enumerate}
+The Lean toolchain can handle \ref{it:1} and \ref{it:3}, while \ref{it:2} is done by meta-programming (\verb|#print axioms|).
+This way you would be reproducing\footnote{Note that the versions of Mathlib, Lean, and Lake used are part of the submission metadata.} the relevant subset of our submission pipeline, and we would be progressively earning your trust.
+If you decide to do so, conduct your independent tests in a~sandbox.
+Even if you happen to know the submitter, the Lean code (likely written by an AI agent, and especially so in the proof files) need not be safe.
+
+\medskip
+
+In most submissions, you should easily be able to tell that the concept files are harmless.
+Not to complicate the submission process, at this early stage, the pipeline does nothing to guarantee that.
+Future versions of lax might restrict the concept files to a~safe Lean dialect.
+The next important feature that we will add to the website is the option to vouch that a~declaration is formalized correctly, that is, faithful to the mathematical intent.
+
+\section{How is lax built?}
+
+The current lax infrastructure relies on GitHub services:
+\begin{itemize}
+  \item the project repositories are hosted on GitHub,  
+  \item the submission pipeline uses GitHub Actions,
+  \item the website is built and deployed via GitHub Pages, and
+  \item \textsf{lax-CLI} is available on npm.
+\end{itemize}
+Here is a~simplified diagram of the lax suite:
+
+\begin{figure}[!ht]
+  \centering
+  \resizebox{450pt}{!}{
+  \begin{tikzpicture}[
+      transform shape,
+      font=\small,
+      actor/.style={
+        draw=black!65,
+        rounded corners=2pt,
+        fill=white,
+        minimum width=26mm,
+        minimum height=11mm,
+        align=center,
+        inner sep=3pt
+      },
+      external/.style={
+        draw=black!55,
+        rounded corners=2pt,
+        fill=black!3,
+        minimum width=29mm,
+        minimum height=12mm,
+        align=center,
+        inner sep=3pt
+      },
+      repository/.style={
+        draw=black!70,
+        rounded corners=2pt,
+        fill=white,
+        minimum width=32mm,
+        minimum height=14mm,
+        align=center,
+        inner sep=3pt
+      },
+      githubservice/.style={
+        draw=black!70,
+        rounded corners=2pt,
+        fill=black!7,
+        minimum width=32mm,
+        minimum height=14mm,
+        align=center,
+        inner sep=3pt
+      },
+      flow/.style={
+        -{Latex[length=2.1mm,width=1.35mm]},
+        draw=black!72,
+        line width=.65pt
+      },
+      flowlabel/.style={
+        font=\scriptsize,
+        fill=white,
+        inner sep=1.4pt,
+        align=center
+      }
+    ]
+
+    % Components outside GitHub.
+    \node[actor] (contributor) at (0,2.7) {Contributor};
+    \node[external] (cli) at (0,.25)
+      {\textsf{lax-CLI}\\[-1pt]\scriptsize command-line client};
+    \node[external] (npm) at (0,-2.05)
+      {\textsf{npm}\\[-1pt]\scriptsize package registry};
+    \node[actor] (reader) at (18.1,-1.35) {Reader};
+
+    % Repositories and services hosted by GitHub.
+    \node[repository] (submission) at (4.5,2.7)
+      {Public Git repository\\[-1pt]\scriptsize submission commit};
+    \node[githubservice] (submitactions) at (9.35,2.7)
+      {GitHub Actions\\[-1pt]\scriptsize submission pipeline};
+    \node[repository] (database) at (14.2,2.7)
+      {\textsf{lax-database}\\[-1pt]\scriptsize archive metadata};
+
+    \node[repository] (website) at (4.5,-1.35)
+      {\textsf{lax-website}\\[-1pt]\scriptsize static-site source};
+    \node[githubservice] (siteactions) at (9.35,-1.35)
+      {GitHub Actions\\[-1pt]\scriptsize website build};
+    \node[githubservice] (pages) at (14.2,-1.35)
+      {GitHub Pages\\[-1pt]\scriptsize website hosting};
+
+    % GitHub boundary. It is only an outline, so drawing it after the nodes
+    % does not obscure them.
+    \node[
+      draw=black!45,
+      dashed,
+      rounded corners=4pt,
+      inner xsep=7mm,
+      inner ysep=7mm,
+      fit=(submission)(submitactions)(database)(website)(siteactions)(pages),
+      label={[font=\bfseries\small,anchor=south west]north west:GitHub}
+    ] (github) {};
+
+    % Contributor and submission flow.
+    \draw[flow] (contributor) --
+      node[flowlabel,above=3pt] {push} (submission);
+    \draw[flow] (npm) --
+      node[flowlabel,right=2pt] {install} (cli);
+    \draw[flow] (contributor) --
+      node[flowlabel,right=2pt] {run} (cli);
+    \draw[flow] (cli.east) to[out=0,in=-125]
+      node[flowlabel,below right=1pt] {submit} (submitactions.south west);
+    \draw[flow] (submission) --
+      node[flowlabel,above=3pt] {check} (submitactions);
+    \draw[flow] (submitactions) --
+      node[flowlabel,above=3pt] {write} (database);
+
+    % Website build and publication flow.
+    \draw[flow] (website) --
+      node[flowlabel,above=3pt] {build} (siteactions);
+    \draw[flow] (database.south) to[out=-90,in=35]
+      node[flowlabel,right=7.5pt] {read} (siteactions.north east);
+    \draw[flow] (siteactions) --
+      node[flowlabel,above=3pt] {deploy} (pages);
+    \draw[flow] (pages) --
+      node[flowlabel,above=3pt] {serve} (reader);
+
+  \end{tikzpicture}
+  }
+  \caption{Simplified lax infrastructure. Arrows represent how data flow.}
+  \label{fig:lax-infrastructure}
+\end{figure}
+
+\section{How to contribute?}
+
+If you are interested in lax, please submit your formalized proofs, review concept files (when that feature is available), talk about the project around you, or reach out to us with comments, inquiries, or suggestions.
+We are curious to know what you think that we should do next.
+
+\bibliographystyle{plain}
+\bibliography{main}
+
+\end{document}

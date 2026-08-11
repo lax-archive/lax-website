@@ -64,7 +64,7 @@
     return figure ? figure.querySelector('.graph-tooltip') : null;
   }
 
-  function showTooltip(container, element, rows, event) {
+  function showTooltip(container, element, rows) {
     const tooltip = figureTooltip(container);
     const figure = tooltip && tooltip.closest('.graph-figure');
     if (!tooltip || !figure) return;
@@ -79,10 +79,43 @@
     tooltip.hidden = false;
     const figureBox = figure.getBoundingClientRect();
     const elementBox = element.getBoundingClientRect();
-    const pointerX = event && Number.isFinite(event.clientX) ? event.clientX : elementBox.right;
-    const pointerY = event && Number.isFinite(event.clientY) ? event.clientY : elementBox.top;
-    const left = Math.max(8, Math.min(pointerX - figureBox.left + 12, figureBox.width - tooltip.offsetWidth - 8));
-    const top = Math.max(8, pointerY - figureBox.top - tooltip.offsetHeight - 10);
+
+    // Anchor the panel to the node rather than to the pointer. Prefer above,
+    // then below, then either side; every placement keeps a gap around the
+    // node, including the fallback when the panel cannot fit inside the
+    // figure. This also keeps the panel still while the pointer crosses the
+    // node's text and rectangle.
+    const inset = 8;
+    const gap = 10;
+    const elementLeft = elementBox.left - figureBox.left;
+    const elementRight = elementBox.right - figureBox.left;
+    const elementTop = elementBox.top - figureBox.top;
+    const elementBottom = elementBox.bottom - figureBox.top;
+    const maxLeft = Math.max(inset, figureBox.width - tooltip.offsetWidth - inset);
+    let left = Math.max(inset, Math.min(
+      (elementLeft + elementRight - tooltip.offsetWidth) / 2,
+      maxLeft,
+    ));
+    const above = elementTop - tooltip.offsetHeight - gap;
+    const below = elementBottom + gap;
+    let top;
+
+    if (above >= inset) {
+      top = above;
+    } else if (below + tooltip.offsetHeight <= figureBox.height - inset) {
+      top = below;
+    } else {
+      const maxTop = Math.max(inset, figureBox.height - tooltip.offsetHeight - inset);
+      top = Math.max(inset, Math.min(
+        (elementTop + elementBottom - tooltip.offsetHeight) / 2,
+        maxTop,
+      ));
+      const right = elementRight + gap;
+      const leftOfNode = elementLeft - tooltip.offsetWidth - gap;
+      if (right + tooltip.offsetWidth <= figureBox.width - inset) left = right;
+      else if (leftOfNode >= inset) left = leftOfNode;
+      else top = elementTop < figureBox.height / 2 ? below : above;
+    }
     tooltip.style.left = left + 'px';
     tooltip.style.top = top + 'px';
   }
@@ -93,8 +126,7 @@
   }
 
   function attachTooltip(el, container, rows) {
-    el.addEventListener('mouseenter', (event) => showTooltip(container, el, rows, event));
-    el.addEventListener('mousemove', (event) => showTooltip(container, el, rows, event));
+    el.addEventListener('mouseenter', () => showTooltip(container, el, rows));
     el.addEventListener('mouseleave', () => hideTooltip(container));
     el.addEventListener('focus', () => showTooltip(container, el, rows));
     el.addEventListener('blur', () => hideTooltip(container));
@@ -104,7 +136,6 @@
     const w = nodeWidth(label);
     const g = svgEl(parent, 'g', { class: cls + (node.ext ? ' ext' : ''), 'aria-label': node.id });
     makeInteractive(g, node);
-    svgEl(g, 'title').textContent = node.id;
     svgEl(g, 'rect', { x: -w / 2, y: -NODE_H / 2, width: w, height: NODE_H, rx: 4 });
     svgEl(g, 'text', { 'text-anchor': 'middle', dy: 3.5 }).textContent = label;
     return g;
@@ -112,10 +143,14 @@
 
   function addArrowMarker(svg, id) {
     const marker = svgEl(svgEl(svg, 'defs'), 'marker', {
-      id, viewBox: '0 -4 8 8', refX: 7, refY: 0,
-      markerWidth: 6, markerHeight: 6, orient: 'auto',
+      id, viewBox: '0 -5 10 10', refX: 9, refY: 0,
+      markerWidth: 7, markerHeight: 7, markerUnits: 'userSpaceOnUse',
+      orient: 'auto', overflow: 'visible',
     });
-    svgEl(marker, 'path', { d: 'M0,-4L8,0L0,4Z' });
+    // The concave tail reads more lightly than a solid triangle. `orient=auto`
+    // follows the tangent of the incoming path, including diagonal and cyclic
+    // edges rather than assuming that every arrow arrives vertically.
+    svgEl(marker, 'path', { d: 'M1,-4.25 L9,0 L1,4.25 Q3,0 1,-4.25 Z' });
   }
 
   // ---- edge drawing over laxLayout routes ----
@@ -142,18 +177,126 @@
     return ports;
   }
 
-  /** One S-shaped cubic per consecutive pair. Every segment enters and
-   * leaves vertically, so chaining through via points stays smooth and
-   * arrowheads always point straight at the target's face. */
-  function edgePath(points) {
-    let d = `M${points[0].x},${points[0].y}`;
-    for (let index = 1; index < points.length; index += 1) {
-      const a = points[index - 1];
-      const b = points[index];
-      const midY = (a.y + b.y) / 2;
-      d += ` C${a.x},${midY} ${b.x},${midY} ${b.x},${b.y}`;
+  /** Remove duplicate and collinear points from a rectilinear route. */
+  function compactRoute(points) {
+    const route = [];
+    for (const point of points) {
+      const last = route[route.length - 1];
+      if (last && Math.abs(last.x - point.x) < 0.01 && Math.abs(last.y - point.y) < 0.01) continue;
+      while (route.length >= 2) {
+        const a = route[route.length - 2];
+        const b = route[route.length - 1];
+        const vertical = Math.abs(a.x - b.x) < 0.01 && Math.abs(b.x - point.x) < 0.01;
+        const horizontal = Math.abs(a.y - b.y) < 0.01 && Math.abs(b.y - point.y) < 0.01;
+        if (!vertical && !horizontal) break;
+        route.pop();
+      }
+      route.push(point);
     }
-    return d;
+    return route;
+  }
+
+  /** Connect each adjacent pair of layout anchors through the empty band
+   * halfway between their ranks. Dependencies therefore run vertically out
+   * of boxes, turn across clear space, and enter the target vertically. This
+   * is easier to trace than long diagonal sweeps and keeps arrowheads square
+   * to the target edge. */
+  function orthogonalEdgePoints(points, laneOffsets = []) {
+    const routed = [points[0]];
+    for (let index = 0; index + 1 < points.length; index += 1) {
+      const from = points[index];
+      const to = points[index + 1];
+      if (Math.abs(from.x - to.x) >= 0.5) {
+        const middleY = (from.y + to.y) / 2 + (laneOffsets[index] || 0);
+        routed.push({ x: from.x, y: middleY }, { x: to.x, y: middleY });
+      }
+      routed.push(to);
+    }
+    return compactRoute(routed);
+  }
+
+  /** Draw a compact polyline with restrained rounding at its corners. */
+  function roundedPath(points) {
+    let d = `M${points[0].x},${points[0].y}`;
+    for (let index = 1; index < points.length - 1; index += 1) {
+      const previous = points[index - 1];
+      const corner = points[index];
+      const next = points[index + 1];
+      const incoming = Math.hypot(corner.x - previous.x, corner.y - previous.y);
+      const outgoing = Math.hypot(next.x - corner.x, next.y - corner.y);
+      const radius = Math.min(7, incoming / 2, outgoing / 2);
+      const before = {
+        x: corner.x + (previous.x - corner.x) * radius / incoming,
+        y: corner.y + (previous.y - corner.y) * radius / incoming,
+      };
+      const after = {
+        x: corner.x + (next.x - corner.x) * radius / outgoing,
+        y: corner.y + (next.y - corner.y) * radius / outgoing,
+      };
+      d += ` L${before.x},${before.y} Q${corner.x},${corner.y} ${after.x},${after.y}`;
+    }
+    const last = points[points.length - 1];
+    return `${d} L${last.x},${last.y}`;
+  }
+
+  function edgePath(points, laneOffsets) {
+    return roundedPath(orthogonalEdgePoints(points, laneOffsets));
+  }
+
+  /** Assign distinct horizontal tracks to route segments whose x-ranges
+   * overlap in the same inter-rank band. Interval colouring uses the fewest
+   * lanes for the fixed ordering; the lanes are then centred within the free
+   * vertical space so they do not crowd either row of boxes. */
+  function edgeLaneOffsets(pointSets) {
+    const offsets = pointSets.map((points) => points ? Array(points.length - 1).fill(0) : []);
+    const bands = new Map();
+    pointSets.forEach((points, edgeIndex) => {
+      if (!points) return;
+      for (let segmentIndex = 0; segmentIndex + 1 < points.length; segmentIndex += 1) {
+        const from = points[segmentIndex];
+        const to = points[segmentIndex + 1];
+        if (Math.abs(from.x - to.x) < 0.5) continue;
+        const middleY = (from.y + to.y) / 2;
+        const key = middleY.toFixed(2);
+        if (!bands.has(key)) bands.set(key, []);
+        bands.get(key).push({
+          edgeIndex, segmentIndex,
+          left: Math.min(from.x, to.x), right: Math.max(from.x, to.x),
+          height: Math.abs(from.y - to.y),
+        });
+      }
+    });
+
+    for (const segments of bands.values()) {
+      segments.sort((a, b) => a.left - b.left || a.right - b.right ||
+        a.edgeIndex - b.edgeIndex || a.segmentIndex - b.segmentIndex);
+      const laneEnds = [];
+      for (const segment of segments) {
+        let lane = laneEnds.findIndex((right) => right + 8 <= segment.left);
+        if (lane < 0) lane = laneEnds.length;
+        laneEnds[lane] = segment.right;
+        segment.lane = lane;
+      }
+      const available = Math.max(0, Math.min(...segments.map((segment) => segment.height / 2 - 8)));
+      const span = Math.min(14, available, (laneEnds.length - 1) * 2.5);
+      for (const segment of segments) {
+        const offset = laneEnds.length === 1
+          ? 0
+          : (segment.lane / (laneEnds.length - 1) - 0.5) * 2 * span;
+        offsets[segment.edgeIndex][segment.segmentIndex] = offset;
+      }
+    }
+    return offsets;
+  }
+
+  /** A narrow surface-coloured casing separates paths where they cross. The
+   * visible path is returned so node hover can still highlight it. */
+  function appendEdge(parent, cls, d, markerId) {
+    const route = svgEl(parent, 'g', { class: 'graph-edge-route' });
+    svgEl(route, 'path', { class: 'graph-edge-casing', d });
+    return svgEl(route, 'path', {
+      class: cls, d, 'marker-end': `url(#${markerId})`,
+    });
   }
 
   /** Hovering or focusing a node lights up its incident edges. */
@@ -217,17 +360,19 @@
 
     const group = svgEl(svg, 'g');
     const incident = new Map(nodes.map((node) => [node.id, []]));
-    edges.forEach((edge, edgeIndex) => {
+    const pointSets = edges.map((edge, edgeIndex) => {
       const source = positions.get(edge.from);
       const target = positions.get(edge.to);
-      const points = [
+      return [
         { x: sourcePorts.get(edgeIndex), y: source.y - NODE_H / 2 },
         ...routes[edgeIndex],
         { x: targetPorts.get(edgeIndex), y: target.y + NODE_H / 2 },
       ];
-      const path = svgEl(group, 'path', {
-        class: 'dag-edge', d: edgePath(points), 'marker-end': `url(#${spec.arrowId})`,
-      });
+    });
+    const laneOffsets = edgeLaneOffsets(pointSets);
+    edges.forEach((edge, edgeIndex) => {
+      const path = appendEdge(group, 'dag-edge',
+        edgePath(pointSets[edgeIndex], laneOffsets[edgeIndex]), spec.arrowId);
       incident.get(edge.from).push(path);
       incident.get(edge.to).push(path);
     });
@@ -288,7 +433,7 @@
       tooltipRows: (node) => [
         ['Concept', node.id],
         ...(node.title && node.title !== node.id ? [['Title', node.title]] : []),
-        ['Status', node.status === 'none' ? 'definition — nothing to prove' : node.status || 'unknown'],
+        ['Status', node.status === 'none' ? 'definition' : node.status || 'unknown'],
         ...(node.owner ? [['Submission', node.owner]] : []),
       ],
     });
@@ -360,15 +505,6 @@
 
     [...nodes].sort().forEach((key) => { if (!indices.has(key)) visit(key); });
     return result;
-  }
-
-  function proofTitle(node) {
-    const assumptions = node.assumptions.length ? node.assumptions.join(', ') : 'none';
-    const readiness = node.assumptionsProven
-      ? 'All assumptions proven'
-      : `${node.outstanding} outstanding assumption${node.outstanding === 1 ? '' : 's'}`;
-    const description = node.description ? `\nDescription: ${node.description}` : '';
-    return `${node.id}${description}\nConclusion: ${node.conclusion}\nAssumptions: ${assumptions}\nSubmission: ${node.owner}\n${readiness}`;
   }
 
   function proofTooltipRows(node) {
@@ -592,6 +728,17 @@
       crossEnds((link, edgeIndex) => ({ edgeIndex, nodeId: link.target,
         refX: (linkVias[edgeIndex][linkVias[edgeIndex].length - 1] || byKey.get(link.source)).x })),
       (key) => byKey.get(key).x, (key) => byKey.get(key).width);
+    const linkPointSets = links.map((link, edgeIndex) => {
+      if (componentOf.get(link.source) === componentOf.get(link.target)) return null;
+      const sourceNode = byKey.get(link.source);
+      const targetNode = byKey.get(link.target);
+      return [
+        { x: sourcePorts.get(edgeIndex), y: sourceNode.y - sourceNode.height / 2 },
+        ...linkVias[edgeIndex],
+        { x: targetPorts.get(edgeIndex), y: targetNode.y + targetNode.height / 2 },
+      ];
+    });
+    const linkLaneOffsets = edgeLaneOffsets(linkPointSets);
 
     const incident = new Map(nodes.map((node) => [node.key, []]));
     links.forEach((link, edgeIndex) => {
@@ -604,7 +751,7 @@
         // to the boxes geometrically and bow it sideways.
         const source = clippedEndpoint(sourceNode, targetNode);
         const target = clippedEndpoint(targetNode, sourceNode);
-        const bend = link.source.localeCompare(link.target) < 0 ? 18 : -18;
+        const bend = link.source.localeCompare(link.target) < 0 ? 14 : -14;
         const midX = (source.x + target.x) / 2;
         const midY = (source.y + target.y) / 2;
         const dx = target.x - source.x;
@@ -615,16 +762,9 @@
         path = `M${source.x},${source.y} Q${controlX},${controlY} ${target.x},${target.y}`;
       } else {
         // Condensation edges always flow upward through fixed vertical ports.
-        const points = [
-          { x: sourcePorts.get(edgeIndex), y: sourceNode.y - sourceNode.height / 2 },
-          ...linkVias[edgeIndex],
-          { x: targetPorts.get(edgeIndex), y: targetNode.y + targetNode.height / 2 },
-        ];
-        path = edgePath(points);
+        path = edgePath(linkPointSets[edgeIndex], linkLaneOffsets[edgeIndex]);
       }
-      const element = svgEl(group, 'path', {
-        class: `net-edge ${link.kind}`, d: path, 'marker-end': 'url(#proof-arrow)',
-      });
+      const element = appendEdge(group, `net-edge ${link.kind}`, path, 'proof-arrow');
       incident.get(link.source).push(element);
       incident.get(link.target).push(element);
     });
@@ -643,7 +783,6 @@
         transform: `translate(${node.x},${node.y})`,
       });
       makeInteractive(g, node);
-      svgEl(g, 'title').textContent = proofTitle(node);
       svgEl(g, 'rect', {
         x: -node.width / 2, y: -node.height / 2,
         width: node.width, height: node.height, rx: 4,
@@ -663,8 +802,60 @@
     renderSubmissionDag(data.submissions);
   }
 
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', render);
-  else render();
+  // ---- large graph window ----
+
+  let expandedFigure = null;
+
+  function setGraphExpanded(button, expanded) {
+    const figure = button.closest('.graph-figure');
+    if (!figure) return;
+    const label = button.dataset.graphLabel || 'graph';
+    figure.classList.toggle('graph-expanded', expanded);
+    button.setAttribute('aria-expanded', String(expanded));
+    button.setAttribute('aria-label', expanded
+      ? `Close ${label} large window`
+      : `Open ${label} in a large window`);
+    button.title = expanded ? 'Close large window' : 'Open in large window';
+    if (expanded) {
+      expandedFigure = figure;
+      figure.setAttribute('role', 'dialog');
+      figure.setAttribute('aria-modal', 'true');
+      figure.setAttribute('aria-label', `${label} large view`);
+    } else {
+      expandedFigure = null;
+      figure.removeAttribute('role');
+      figure.removeAttribute('aria-modal');
+      figure.removeAttribute('aria-label');
+    }
+    document.body.classList.toggle('graph-window-open', Boolean(expandedFigure));
+    const tooltip = figure.querySelector('.graph-tooltip');
+    if (tooltip) tooltip.hidden = true;
+    requestAnimationFrame(render);
+  }
+
+  function installGraphExpanders() {
+    for (const button of document.querySelectorAll('[data-graph-expand]')) {
+      button.addEventListener('click', () => {
+        const figure = button.closest('.graph-figure');
+        setGraphExpanded(button, !figure.classList.contains('graph-expanded'));
+      });
+    }
+    window.addEventListener('keydown', (event) => {
+      if (event.key !== 'Escape' || !expandedFigure) return;
+      event.preventDefault();
+      const button = expandedFigure.querySelector('[data-graph-expand]');
+      setGraphExpanded(button, false);
+      button.focus();
+    });
+  }
+
+  function initialize() {
+    installGraphExpanders();
+    render();
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initialize);
+  else initialize();
   let resizeTimer;
   window.addEventListener('resize', () => {
     clearTimeout(resizeTimer);
