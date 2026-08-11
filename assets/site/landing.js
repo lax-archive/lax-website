@@ -116,8 +116,33 @@
     if (initialView) selectView(initialView, false);
   }
 
+  function setupPaperOverview() {
+    const trigger = document.querySelector('[data-open-paper]');
+    if (!trigger) return;
+    const paper = document.getElementById(trigger.getAttribute('aria-controls'));
+    if (!(paper instanceof HTMLDetailsElement)) return;
+    const icon = trigger.querySelector('b');
+
+    function syncState() {
+      trigger.setAttribute('aria-expanded', String(paper.open));
+      if (icon) icon.textContent = paper.open ? '−' : '+';
+    }
+
+    trigger.addEventListener('click', () => {
+      paper.open = true;
+      syncState();
+      const behavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        paper.scrollIntoView({ behavior, block: 'start' });
+      }));
+    });
+    paper.addEventListener('toggle', syncState);
+    syncState();
+  }
+
   function setupLanding() {
     setupLandingActions();
+    setupPaperOverview();
     setupPromptCopy();
   }
 

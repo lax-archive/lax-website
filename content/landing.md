@@ -1,20 +1,35 @@
-To formalized mathematics what arXiv is to preprints: a network of
-independent, citable submissions building on one another.
+Formalized mathematics, in public.
 
-Submissions are written in Lean, a proof assistant in which mathematics is
-code. Lean checks correctness, not meaning: it certifies that a theorem is
-true, but not that it says what the author intended.
+Lax is an open archive for contemporary mathematics written in Lean. Think of
+it as an arXiv for formalization: independent, citable submissions that people
+can read, software can check, and future work can build upon.
 
-Lax separates submissions into **concepts** and **proofs**.
+## How Lax works
 
-- **Concepts** are the minimal code surface required to determine meaning. They
-  demand careful human reading to ensure they match the author's intent.
-- **Proofs** are verified by Lean's kernel. They are therefore free to be long,
-  unreadable, or machine-generated.
+- **Concepts carry meaning.** Small, transparent files state the definitions
+  and claims. People review them to decide whether the formal statement really
+  matches the mathematics the author intended.
+- **Proofs establish correctness.** Separate proof packages provide the
+  evidence. They may be long or machine-generated; Lean's kernel checks that
+  they prove exactly the published claim.
 
-In Lax, proofs merely establish **what** is true, not **why** it is true.
-The latter lives in the accompanying exposition and papers.
+## The paper in brief
 
+The Lax paper explains the archive as an open path from a mathematical result
+to a durable, inspectable formalization.
+
+- **Open by default.** The command-line tool, submission metadata, source code,
+  generated artifacts, and website are public and reusable.
+- **Designed for current research.** Lax focuses on contemporary results whose
+  complete formal proofs may be produced by AI agents, while keeping the
+  mathematical surface concise enough for human review.
+- **Useful beyond verification.** Publishing makes a formalization visible,
+  legible, citable, and easy for later submissions to reuse.
+- **Trust can be earned independently.** Anyone can rebuild a submission,
+  inspect which axioms it uses, and check that a proof's type matches its
+  concept. Untrusted Lean projects should always be tested in a sandbox.
+
+[Read the complete Lax paper](assets/lax-white-paper.pdf)
 
 ## What you can do here
 

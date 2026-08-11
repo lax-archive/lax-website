@@ -280,7 +280,7 @@ After the formula.`, "");
       expect(bytes.equals(second.get(name)!)).toBe(true);
       expect(SITE_MIME[path.extname(name)], `missing MIME for ${name}`).toBeDefined();
     }
-    for (const asset of ["style.css", "sidebar.js", "landing.js", "layout.js", "dag.js", "citation.js", "katex.css", path.join("fonts", "LM-regular.woff2")])
+    for (const asset of ["style.css", "sidebar.js", "landing.js", "layout.js", "dag.js", "citation.js", "katex.css", "lax-white-paper.pdf", path.join("fonts", "LM-regular.woff2")])
       expect(fs.existsSync(path.join(one, "assets", asset)), asset).toBe(true);
     // Graph containers must be measurable before dag.js appends their SVG.
     const css = fs.readFileSync(path.join(one, "assets", "style.css"), "utf8");
@@ -299,9 +299,11 @@ After the formula.`, "");
     expect(landingScript).toContain("window.addEventListener('popstate'");
     expect(landingScript).toContain("const initialView = urlView()");
     expect(landingScript).toContain("document.querySelector('[data-copy-prompt]')");
+    expect(landingScript).toContain("document.querySelector('[data-open-paper]')");
+    expect(landingScript).toContain("paper.open = true");
+    expect(landingScript).toContain("trigger.setAttribute('aria-expanded', String(paper.open))");
     expect(landingScript).toContain("document.getElementById(`landing-panel-${id}`)");
     expect(landingScript).not.toContain("panel.hidden");
-    expect(landingScript).not.toContain("aria-expanded");
   });
 
   it("rejects generated page paths that escape the output directory", async () => {
@@ -330,7 +332,15 @@ After the formula.`, "");
     expect(index).not.toContain('<h1 class="paper-title">Lax <span class="site-title-quiet">Lean Archive</span></h1>');
     expect(index.indexOf("landing-lede")).toBeLessThan(index.indexOf("landing-about"));
     expect(index.indexOf("landing-about")).toBeLessThan(index.indexOf("landing-actions"));
-    expect(index).toContain("what arXiv is to preprints");
+    expect(index).toContain("Mathematics that can be read, checked, and built upon.");
+    expect(index).toContain("an arXiv for formalization");
+    expect(index).toContain('class="landing-trust-path"');
+    expect(index).toContain("Concepts carry meaning");
+    expect(index).toContain("Proofs establish correctness");
+    expect(index).toContain('<details class="landing-paper" id="landing-paper">');
+    expect(index).toContain('data-open-paper aria-expanded="false" aria-controls="landing-paper"');
+    expect(index).toContain("Trust can be earned independently");
+    expect(index).toContain('href="assets/lax-white-paper.pdf"');
     expect(index).toContain('<h2 id="landing-actions-heading">What you can do here</h2>');
     expect(index).toContain('data-landing-action="read" aria-controls="landing-panel-read"');
     expect(index).toContain('data-landing-action="submit" aria-controls="landing-panel-submit"');
