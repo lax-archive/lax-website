@@ -19,7 +19,15 @@ function firstMathDelimiter(src: string): number | undefined {
 
 function render(text: string, displayMode: boolean, raw: string): string {
   try {
-    return katex.renderToString(text, { displayMode, output: "htmlAndMathml", throwOnError: true, strict: "error" });
+    return katex.renderToString(text, {
+      displayMode,
+      output: "htmlAndMathml",
+      throwOnError: true,
+      // Lean prose naturally uses Unicode mathematical glyphs such as ⊥ and
+      // ⊤. KaTeX can render them safely; only their lack of a LaTeX spelling
+      // raises `unknownSymbol`. Keep every actual parse/strict error fatal.
+      strict: (errorCode) => errorCode === "unknownSymbol" ? "ignore" : "error",
+    });
   } catch (error) {
     return `<span class="math-error" title="${esc((error as Error).message)}">${esc(raw)}</span>`;
   }
@@ -29,6 +37,12 @@ function render(text: string, displayMode: boolean, raw: string): string {
  * only for the readable fallback when KaTeX rejects the expression. */
 export function renderInlineMath(text: string, raw = `$${text}$`): string {
   return render(text, false, raw);
+}
+
+/** Render display math outside Markdown while retaining the same safe,
+ * readable error fallback as the Markdown extension. */
+export function renderDisplayMath(text: string, raw = `$$${text}$$`): string {
+  return render(text, true, raw);
 }
 
 export const mathExtension: MarkedExtension = {
@@ -43,7 +57,7 @@ export const mathExtension: MarkedExtension = {
       },
       renderer(token: Tokens.Generic) {
         const math = token as MathToken;
-        return render(math.text, true, math.raw);
+        return renderDisplayMath(math.text, math.raw);
       },
     },
     {

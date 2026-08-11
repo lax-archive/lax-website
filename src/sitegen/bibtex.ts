@@ -5,6 +5,7 @@
 // raw entry verbatim; the archive never silently drops a reference.
 
 import { attr, esc } from "./html.js";
+import { renderInlineMath } from "./math.js";
 
 export interface ParsedBibEntry {
   type: string;
@@ -81,7 +82,7 @@ const LIGATURES: Record<string, string> = {
 /** Strip TeX markup down to plain text: accents become their Unicode
  * letters, braces and unknown commands vanish. Deliberately lossy beyond
  * that — bibliographies survive it fine. */
-export function detex(value: string): string {
+function detexFragment(value: string): string {
   return value
     .replace(/\\(['"`^~=.uvHcdb])\s*\{?([A-Za-z])\}?/g,
       (_, cmd: string, ch: string) => (ch + COMBINING[cmd]!).normalize("NFC"))
@@ -92,8 +93,114 @@ export function detex(value: string): string {
     .replace(/---/g, "—")
     .replace(/--/g, "–")
     .replace(/~/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
+    .replace(/\s+/g, " ");
+}
+
+export function detex(value: string): string {
+  return detexFragment(value).trim();
+}
+
+interface BibTextSegment {
+  kind: "text" | "math";
+  raw: string;
+  value: string;
+}
+
+function closingDollar(value: string, start: number, delimiter: "$" | "$$"): number {
+  for (let index = start; index < value.length; index += 1) {
+    if (!value.startsWith(delimiter, index)) continue;
+    if (!escapedAt(value, index)) return index;
+  }
+  return -1;
+}
+
+function escapedAt(value: string, index: number): boolean {
+  let slashes = 0;
+  for (let before = index - 1; before >= 0 && value[before] === "\\"; before -= 1)
+    slashes += 1;
+  return slashes % 2 === 1;
+}
+
+function closingBrace(value: string, opening: number): number {
+  let depth = 1;
+  for (let index = opening + 1; index < value.length; index += 1) {
+    if (value[index] === "\\") { index += 1; continue; }
+    if (value[index] === "{") depth += 1;
+    else if (value[index] === "}") {
+      depth -= 1;
+      if (depth === 0) return index;
+    }
+  }
+  return -1;
+}
+
+/** Split a BibTeX field without interpreting prose as math. BibTeX titles
+ * conventionally protect capitalization with braces, so prose fragments are
+ * still passed through `detex`; only explicit TeX math delimiters and
+ * `\ensuremath{...}` become KaTeX. */
+function bibTextSegments(value: string): BibTextSegment[] {
+  const segments: BibTextSegment[] = [];
+  let textStart = 0;
+  const flushText = (end: number) => {
+    if (end > textStart)
+      segments.push({ kind: "text", raw: value.slice(textStart, end), value: value.slice(textStart, end) });
+  };
+  for (let index = 0; index < value.length;) {
+    if (value[index] === "$" && !escapedAt(value, index)) {
+      const delimiter: "$" | "$$" = value[index + 1] === "$" ? "$$" : "$";
+      const end = closingDollar(value, index + delimiter.length, delimiter);
+      if (end >= 0) {
+        flushText(index);
+        const raw = value.slice(index, end + delimiter.length);
+        segments.push({
+          kind: "math",
+          raw,
+          value: value.slice(index + delimiter.length, end).trim(),
+        });
+        index = end + delimiter.length;
+        textStart = index;
+        continue;
+      }
+    }
+    if (value.startsWith("\\(", index)) {
+      const end = value.indexOf("\\)", index + 2);
+      if (end >= 0) {
+        flushText(index);
+        const raw = value.slice(index, end + 2);
+        segments.push({ kind: "math", raw, value: value.slice(index + 2, end).trim() });
+        index = end + 2;
+        textStart = index;
+        continue;
+      }
+    }
+    if (value.startsWith("\\ensuremath", index)) {
+      const match = /^\\ensuremath\s*\{/.exec(value.slice(index));
+      if (match) {
+        const opening = index + match[0].length - 1;
+        const end = closingBrace(value, opening);
+        if (end >= 0) {
+          flushText(index);
+          const raw = value.slice(index, end + 1);
+          segments.push({ kind: "math", raw, value: value.slice(opening + 1, end).trim() });
+          index = end + 1;
+          textStart = index;
+          continue;
+        }
+      }
+    }
+    index += 1;
+  }
+  flushText(value.length);
+  return segments;
+}
+
+/** Safe HTML for one bibliography field with embedded TeX rendered by KaTeX.
+ * Even `$$...$$` remains inline here: a reference is a sentence, and a
+ * display block would break its numbering and punctuation. */
+export function renderBibText(value: string): string {
+  return bibTextSegments(value.trim()).map((segment) => segment.kind === "math"
+    ? renderInlineMath(segment.value, segment.raw)
+    : esc(detexFragment(segment.value))).join("");
 }
 
 /** "Last, First and von Last, First and ..." → "First Last, First von Last". */
@@ -113,25 +220,32 @@ function formatAuthors(raw: string): string {
  * the entry does not parse or names no title. */
 export function renderBibEntry(src: string): string {
   const parsed = parseBibEntry(src);
-  const title = parsed && detex(parsed.fields.get("title") ?? "");
-  if (!parsed || !title) return `<li><pre class="bib-entry">${esc(src)}</pre></li>`;
+  const rawTitle = parsed?.fields.get("title") ?? "";
+  if (!parsed || !rawTitle.trim()) return `<li><pre class="bib-entry">${esc(src)}</pre></li>`;
   const field = (name: string) => detex(parsed.fields.get(name) ?? "");
+  const renderedField = (name: string) => renderBibText(parsed.fields.get(name) ?? "");
 
   const pieces: string[] = [];
   const authors = formatAuthors(parsed.fields.get("author") ?? parsed.fields.get("editor") ?? "");
   if (authors) pieces.push(`${esc(authors)}.`);
-  pieces.push(`<span class="reference-title">${esc(title)}</span>.`);
+  pieces.push(`<span class="reference-title">${renderBibText(rawTitle)}</span>.`);
 
-  const venue = field("journal") || (field("booktitle") && `In ${field("booktitle")}`)
-    || field("howpublished") || field("publisher") || field("school") || field("institution");
+  const venueName = ["journal", "booktitle", "howpublished", "publisher", "school", "institution"]
+    .find((name) => field(name));
+  const venue = venueName
+    ? `${venueName === "booktitle" ? "In " : ""}${renderedField(venueName)}`
+    : "";
   const volume = field("volume");
   const number = field("number");
   const pages = field("pages");
-  const issue = volume ? volume + (number ? `(${number})` : "") : number;
-  const where = [venue, [issue, pages].filter(Boolean).join(":")].filter(Boolean).join(" ");
-  if (where) pieces.push(`${esc(where)}${field("year") ? "," : "."}`);
+  const issue = volume
+    ? renderedField("volume") + (number ? `(${renderedField("number")})` : "")
+    : renderedField("number");
+  const location = [issue, pages ? renderedField("pages") : ""].filter(Boolean).join(":");
+  const where = [venue, location].filter(Boolean).join(" ");
+  if (where) pieces.push(`${where}${field("year") ? "," : "."}`);
   if (field("year")) pieces.push(`${esc(field("year"))}.`);
-  if (field("note")) pieces.push(`${esc(field("note"))}.`);
+  if (field("note")) pieces.push(`${renderedField("note")}.`);
 
   const links: string[] = [];
   const doi = field("doi").replace(/^https?:\/\/(dx\.)?doi\.org\//, "");

@@ -702,9 +702,20 @@ After the formula.`, "");
     expect(script).not.toContain("addEventListener('mousemove'");
     expect(script).toContain("markerUnits: 'userSpaceOnUse'");
     expect(script).toContain("orient: 'auto'");
-    expect(script).toContain("orthogonalEdgePoints");
-    expect(script).toContain("edgeLaneOffsets");
+    expect(script).toContain("protectedRankRoute");
+    expect(script).toContain("routeDagEdge");
+    expect(script).toContain("segmentIsClear");
+    expect(script).toContain("MIN_ARC_SEPARATION");
+    expect(script).toContain("proof.assumptions.length === 1");
+    expect(script).toContain("EDGE_BEND_RADIUS");
+    expect(script).toContain(" Q${corner.x},${corner.y}");
     expect(script).toContain("graph-edge-casing");
+    const layoutScript = fs.readFileSync(path.join(root, "assets", "layout.js"), "utf8");
+    expect(layoutScript).toContain("optimizeOrdering");
+    expect(layoutScript).toContain("removeRepeatedCrossings");
+    expect(layoutScript).toContain("straightenDummyChains");
+    expect(layoutScript).toContain("alignEdgeChains");
+    expect(layoutScript).toContain("rankRoutes");
     expect(script).toContain("requestAnimationFrame(render)");
     expect(script).toContain("event.key !== 'Escape'");
   });
@@ -800,6 +811,42 @@ After the formula.`, "");
     expect(untyped).not.toContain("<h3>Evidence</h3>");
   });
 
+  it("renders inline and display math inside Lean source comments only", async () => {
+    const authored = submissions();
+    const concept = authored[0]!.output!.concepts[0]!;
+    concept.sourceText = String.raw`namespace Lax2.C
+/-!
+Inline $x^2$ in a module comment.
+$$
+  \sum_{i=1}^n i
+$$
+-/
+-- Line comment math $z_i$ and native Lean math $⊥$.
+def literal := "$not_math$"
+axiom truth : True
+end Lax2.C`;
+    concept.statements[0]!.startLine = 10;
+    concept.statements[0]!.endLine = 10;
+
+    const root = tmpDir("lax-site-source-math-");
+    await generateSite(authored, root);
+    const html = fs.readFileSync(path.join(root, "Lax2", "Lax2.C.html"), "utf8");
+    const tableStart = html.indexOf('<table class="inline-contract-table">');
+    const source = html.slice(tableStart, html.indexOf("</table>", tableStart));
+
+    expect(source.match(/<tr id="L\d+"/g)).toHaveLength(11);
+    expect((source.match(/class="katex"/g) ?? []).length).toBe(4);
+    expect((source.match(/source-math-inline/g) ?? []).length).toBe(3);
+    expect((source.match(/source-math-display/g) ?? []).length).toBe(1);
+    expect(source).toContain('class="katex-display"');
+    expect(source).toContain("$not_math$");
+    expect(source).not.toContain("$x^2$");
+    expect(source).not.toContain("$z_i$");
+    expect(source).not.toContain("$⊥$");
+    expect(source).not.toContain("$$");
+    expect(source).not.toContain("LAXSOURCEMATHTOKEN");
+  });
+
   it("renders proof pages: judgment card, status pill, annotation sections", async () => {
     const root = tmpDir("lax-site-proof-");
     await generateSite([...submissions(), ...graphSubmissions()], root);
@@ -845,8 +892,16 @@ After the formula.`, "");
   });
 
   it("compiles references instead of printing BibTeX, keeping unparseable entries raw", async () => {
+    const authored = submissions();
+    authored[0]!.output!.manifest.bibEntries.splice(1, 0, String.raw`@article{math-ref,
+  author = {Noether, Emmy},
+  title = {A {$K_t$}-minor bound for \ensuremath{\operatorname{tw}(G) \ge k}},
+  journal = {Graphs of \(H\)-free classes},
+  note = {Valid as $$n \to \infty$$},
+  year = {2025},
+}`);
     const root = tmpDir("lax-site-refs-");
-    await generateSite(submissions(), root);
+    await generateSite(authored, root);
     const html = fs.readFileSync(path.join(root, "Lax2", "index.html"), "utf8");
     expect(html).toContain('<ol class="reference-list">');
     expect(html).toContain('<li id="ref-demo">');
@@ -854,6 +909,15 @@ After the formula.`, "");
     expect(html).toContain('<span class="reference-title">A Cited Result</span>.');
     expect(html).toContain("J. Math 1(2):3–4,");
     expect(html).toContain('<a href="https://doi.org/10.1000/demo">doi:10.1000/demo</a>');
+    const mathReference = html.slice(html.indexOf('<li id="ref-math-ref">'), html.indexOf("</li>", html.indexOf('<li id="ref-math-ref">')));
+    expect((mathReference.match(/class="katex"/g) ?? []).length).toBe(4);
+    expect(mathReference).toContain('<span class="reference-title">A <span class="katex"');
+    expect(mathReference).toContain('Graphs of <span class="katex"');
+    expect(mathReference).not.toContain("$K_t$");
+    expect(mathReference).not.toContain("\\ensuremath");
+    expect(mathReference).not.toContain("\\(H\\)");
+    expect(mathReference).not.toContain("$$");
+    expect(mathReference).not.toContain('class="katex-display"');
     // the field-less @book{x} cannot be compiled and stays verbatim
     expect(html).toContain('<pre class="bib-entry">@book{x}</pre>');
   });

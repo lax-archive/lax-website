@@ -761,6 +761,25 @@ body{
 
 .inline-contract-table .line-code{ padding-right: 1rem; }
 
+/* Prose formulas embedded in Lean comments retain syntax highlighting around
+   them, but use the document's mathematical face instead of comment/mono
+   styling. Display formulas occupy their source row and center in the code
+   pane while the original line numbering remains unchanged. */
+.inline-contract-table .source-math{
+  color: var(--text);
+  white-space: normal;
+}
+
+.inline-contract-table .source-math-display{
+  display: block;
+  text-align: center;
+}
+
+.inline-contract-table .source-math-display .katex-display{
+  margin: 0.35rem 0;
+  overflow: visible;
+}
+
 .statement-anchor{
   display: inline-block;
   width: 0;

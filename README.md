@@ -57,6 +57,9 @@ npm run site:serve -- --database /path/to/lax-db --out /tmp/lax-site --port 8080
   TeX. Abstracts, concept/proof descriptions, and annotation sections accept
   the full Markdown grammar. KaTeX-compatible TeX can use `\(...\)` or `$...$`
   inline and `\[...\]` or `$$...$$` for display math.
+- In the line-numbered Lean source, `$...$` and `$$...$$` inside comments are
+  rendered as inline and display math; dollar text in Lean code and strings is
+  left unchanged.
 - Records whose state is still `init` are id reservations, not submissions;
   website builds ignore them completely.
 

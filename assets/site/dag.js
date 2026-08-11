@@ -28,6 +28,9 @@
   const CHAR_W = 6.2;
   const NODE_H = 22;
   const MAX_LABEL = 28;
+  const EDGE_ROW_CLEARANCE = 10;
+  const EDGE_BEND_RADIUS = 10;
+  const MIN_ARC_SEPARATION = 7;
 
   function nodeWidth(label) { return Math.round(label.length * CHAR_W) + 18; }
 
@@ -132,11 +135,12 @@
     el.addEventListener('blur', () => hideTooltip(container));
   }
 
-  function appendBoxNode(parent, node, cls, label) {
-    const w = nodeWidth(label);
+  function appendBoxNode(parent, node, cls, label, width = node.width || nodeWidth(label)) {
     const g = svgEl(parent, 'g', { class: cls + (node.ext ? ' ext' : ''), 'aria-label': node.id });
     makeInteractive(g, node);
-    svgEl(g, 'rect', { x: -w / 2, y: -NODE_H / 2, width: w, height: NODE_H, rx: 4 });
+    svgEl(g, 'rect', {
+      x: -width / 2, y: -NODE_H / 2, width, height: NODE_H, rx: 4,
+    });
     svgEl(g, 'text', { 'text-anchor': 'middle', dy: 3.5 }).textContent = label;
     return g;
   }
@@ -168,7 +172,10 @@
     const ports = new Map();
     for (const [nodeId, entries] of byNode) {
       entries.sort((a, b) => a.refX - b.refX || a.edgeIndex - b.edgeIndex);
-      const span = Math.min(widthOf(nodeId) * 0.7, (entries.length - 1) * 14);
+      const span = Math.min(
+        Math.max(0, widthOf(nodeId) - 2 * MIN_ARC_SEPARATION),
+        (entries.length - 1) * MIN_ARC_SEPARATION,
+      );
       entries.forEach((entry, index) => {
         const t = entries.length === 1 ? 0 : index / (entries.length - 1) - 0.5;
         ports.set(entry.edgeIndex, centerOf(nodeId) + t * span);
@@ -177,8 +184,10 @@
     return ports;
   }
 
-  /** Remove duplicate and collinear points from a rectilinear route. */
-  function compactRoute(points) {
+  /** Render a polyline with every actual bend rounded. Duplicate and
+   * collinear points disappear first, so a quadratic command is emitted for
+   * every remaining corner and never for a geometrically useless one. */
+  function edgePath(points) {
     const route = [];
     for (const point of points) {
       const last = route[route.length - 1];
@@ -186,45 +195,23 @@
       while (route.length >= 2) {
         const a = route[route.length - 2];
         const b = route[route.length - 1];
-        const vertical = Math.abs(a.x - b.x) < 0.01 && Math.abs(b.x - point.x) < 0.01;
-        const horizontal = Math.abs(a.y - b.y) < 0.01 && Math.abs(b.y - point.y) < 0.01;
-        if (!vertical && !horizontal) break;
+        const chord = Math.hypot(point.x - a.x, point.y - a.y);
+        const twiceArea = Math.abs(
+          (b.x - a.x) * (point.y - a.y) - (b.y - a.y) * (point.x - a.x));
+        if (!chord || twiceArea / chord > 0.1) break;
         route.pop();
       }
       route.push(point);
     }
-    return route;
-  }
-
-  /** Connect each adjacent pair of layout anchors through the empty band
-   * halfway between their ranks. Dependencies therefore run vertically out
-   * of boxes, turn across clear space, and enter the target vertically. This
-   * is easier to trace than long diagonal sweeps and keeps arrowheads square
-   * to the target edge. */
-  function orthogonalEdgePoints(points, laneOffsets = []) {
-    const routed = [points[0]];
-    for (let index = 0; index + 1 < points.length; index += 1) {
-      const from = points[index];
-      const to = points[index + 1];
-      if (Math.abs(from.x - to.x) >= 0.5) {
-        const middleY = (from.y + to.y) / 2 + (laneOffsets[index] || 0);
-        routed.push({ x: from.x, y: middleY }, { x: to.x, y: middleY });
-      }
-      routed.push(to);
-    }
-    return compactRoute(routed);
-  }
-
-  /** Draw a compact polyline with restrained rounding at its corners. */
-  function roundedPath(points) {
-    let d = `M${points[0].x},${points[0].y}`;
-    for (let index = 1; index < points.length - 1; index += 1) {
-      const previous = points[index - 1];
-      const corner = points[index];
-      const next = points[index + 1];
+    if (!route.length) return '';
+    let d = `M${route[0].x},${route[0].y}`;
+    for (let index = 1; index + 1 < route.length; index += 1) {
+      const previous = route[index - 1];
+      const corner = route[index];
+      const next = route[index + 1];
       const incoming = Math.hypot(corner.x - previous.x, corner.y - previous.y);
       const outgoing = Math.hypot(next.x - corner.x, next.y - corner.y);
-      const radius = Math.min(7, incoming / 2, outgoing / 2);
+      const radius = Math.min(EDGE_BEND_RADIUS, incoming / 2, outgoing / 2);
       const before = {
         x: corner.x + (previous.x - corner.x) * radius / incoming,
         y: corner.y + (previous.y - corner.y) * radius / incoming,
@@ -235,58 +222,127 @@
       };
       d += ` L${before.x},${before.y} Q${corner.x},${corner.y} ${after.x},${after.y}`;
     }
-    const last = points[points.length - 1];
+    const last = route[route.length - 1];
     return `${d} L${last.x},${last.y}`;
   }
 
-  function edgePath(points, laneOffsets) {
-    return roundedPath(orthogonalEdgePoints(points, laneOffsets));
+  /** Expand a proper-layer edge chain into protected row corridors. Diagonal
+   * segments live only in the empty space between ranks. At every traversed
+   * rank the edge is vertical from below the tallest box to above it; at the
+   * endpoints that same corridor reaches the node face. Thus an edge cannot
+   * cut through an unrelated node, and its arrow always enters vertically. */
+  function protectedRankRoute({ source, target, sourceX, targetX, rankVias,
+    sourceLayer, targetLayer, layerCenter, layerHalfHeight }) {
+    const viaByLayer = new Map(rankVias.map((point) => [point.layer, point.x]));
+    const top = (layer) => layerCenter(layer) - layerHalfHeight(layer) - EDGE_ROW_CLEARANCE;
+    const bottom = (layer) => layerCenter(layer) + layerHalfHeight(layer) + EDGE_ROW_CLEARANCE;
+    const points = [
+      { x: sourceX, y: source.y - source.height / 2 },
+      { x: sourceX, y: top(sourceLayer) },
+    ];
+    for (let layer = sourceLayer + 1; layer < targetLayer; layer += 1) {
+      const x = viaByLayer.get(layer);
+      // `rankVias` is the complete dummy chain from layout.js. Refuse a
+      // malformed route instead of drawing through a row whose safe slot is
+      // unknown.
+      if (x === undefined) throw new Error(`missing edge corridor in layer ${layer}`);
+      points.push({ x, y: bottom(layer) }, { x, y: top(layer) });
+    }
+    points.push(
+      { x: targetX, y: bottom(targetLayer) },
+      { x: targetX, y: target.y + target.height / 2 },
+    );
+    return points;
   }
 
-  /** Assign distinct horizontal tracks to route segments whose x-ranges
-   * overlap in the same inter-rank band. Interval colouring uses the fewest
-   * lanes for the fixed ordering; the lanes are then centred within the free
-   * vertical space so they do not crowd either row of boxes. */
-  function edgeLaneOffsets(pointSets) {
-    const offsets = pointSets.map((points) => points ? Array(points.length - 1).fill(0) : []);
-    const bands = new Map();
-    pointSets.forEach((points, edgeIndex) => {
-      if (!points) return;
-      for (let segmentIndex = 0; segmentIndex + 1 < points.length; segmentIndex += 1) {
-        const from = points[segmentIndex];
-        const to = points[segmentIndex + 1];
-        if (Math.abs(from.x - to.x) < 0.5) continue;
-        const middleY = (from.y + to.y) / 2;
-        const key = middleY.toFixed(2);
-        if (!bands.has(key)) bands.set(key, []);
-        bands.get(key).push({
-          edgeIndex, segmentIndex,
-          left: Math.min(from.x, to.x), right: Math.max(from.x, to.x),
-          height: Math.abs(from.y - to.y),
-        });
+  /** Slab intersection against a padded node rectangle. End nodes are
+   * excluded by the caller; every other box is treated as a hard obstacle. */
+  function segmentHitsNode(first, second, node) {
+    const bounds = [
+      [node.x - node.width / 2 - EDGE_ROW_CLEARANCE,
+        node.x + node.width / 2 + EDGE_ROW_CLEARANCE, first.x, second.x],
+      [node.y - node.height / 2 - EDGE_ROW_CLEARANCE,
+        node.y + node.height / 2 + EDGE_ROW_CLEARANCE, first.y, second.y],
+    ];
+    let lower = 0;
+    let upper = 1;
+    for (const [minimum, maximum, start, end] of bounds) {
+      const delta = end - start;
+      if (Math.abs(delta) < 1e-9) {
+        if (start < minimum || start > maximum) return false;
+        continue;
       }
-    });
+      const firstHit = (minimum - start) / delta;
+      const secondHit = (maximum - start) / delta;
+      lower = Math.max(lower, Math.min(firstHit, secondHit));
+      upper = Math.min(upper, Math.max(firstHit, secondHit));
+      if (lower > upper) return false;
+    }
+    return true;
+  }
 
-    for (const segments of bands.values()) {
-      segments.sort((a, b) => a.left - b.left || a.right - b.right ||
-        a.edgeIndex - b.edgeIndex || a.segmentIndex - b.segmentIndex);
-      const laneEnds = [];
-      for (const segment of segments) {
-        let lane = laneEnds.findIndex((right) => right + 8 <= segment.left);
-        if (lane < 0) lane = laneEnds.length;
-        laneEnds[lane] = segment.right;
-        segment.lane = lane;
-      }
-      const available = Math.max(0, Math.min(...segments.map((segment) => segment.height / 2 - 8)));
-      const span = Math.min(14, available, (laneEnds.length - 1) * 2.5);
-      for (const segment of segments) {
-        const offset = laneEnds.length === 1
-          ? 0
-          : (segment.lane / (laneEnds.length - 1) - 0.5) * 2 * span;
-        offsets[segment.edgeIndex][segment.segmentIndex] = offset;
+  function segmentIsClear(first, second, obstacles, excluded) {
+    return obstacles.every((node) => excluded.has(node.key) ||
+      !segmentHitsNode(first, second, node));
+  }
+
+  /** Find the minimum-segment path through the ordered protected waypoints.
+   * Segment count is primary and length breaks ties, so no retained corner
+   * can be bypassed by another obstacle-free straight segment. */
+  function simplifyVisibleRoute(points, obstacles, excluded) {
+    const best = points.map(() => ({ segments: Infinity, length: Infinity, previous: -1 }));
+    best[0] = { segments: 0, length: 0, previous: -1 };
+    for (let target = 1; target < points.length; target += 1) {
+      for (let source = 0; source < target; source += 1) {
+        if (!Number.isFinite(best[source].segments) ||
+          !segmentIsClear(points[source], points[target], obstacles, excluded)) continue;
+        const segments = best[source].segments + 1;
+        const length = best[source].length + Math.hypot(
+          points[target].x - points[source].x,
+          points[target].y - points[source].y,
+        );
+        if (segments < best[target].segments ||
+          (segments === best[target].segments && length < best[target].length - 0.01))
+          best[target] = { segments, length, previous: source };
       }
     }
-    return offsets;
+    if (!Number.isFinite(best[best.length - 1].segments)) return points;
+    const route = [];
+    for (let index = points.length - 1; index >= 0; index = best[index].previous) {
+      route.push(points[index]);
+      if (index === 0) break;
+    }
+    return route.reverse();
+  }
+
+  /** Prefer a single straight segment. Only if a padded node rectangle blocks
+   * it do we fall back to the Sugiyama rank corridors and simplify those by
+   * line of sight. Arrowheads follow the final segment's actual direction. */
+  function routeDagEdge(options) {
+    const sourcePoint = {
+      x: options.sourceX,
+      y: options.source.y - options.source.height / 2,
+    };
+    const targetPoint = {
+      x: options.targetX,
+      y: options.target.y + options.target.height / 2,
+    };
+    const excluded = new Set([options.source.key, options.target.key]);
+    if (segmentIsClear(sourcePoint, targetPoint, options.obstacles, excluded))
+      return [sourcePoint, targetPoint];
+    const protectedRoute = protectedRankRoute(options);
+    return simplifyVisibleRoute(protectedRoute, options.obstacles, excluded);
+  }
+
+  function clippedEndpoint(node, toward) {
+    const dx = toward.x - node.x;
+    const dy = toward.y - node.y;
+    if (dx === 0 && dy === 0) return { x: node.x, y: node.y };
+    const scale = 1 / Math.max(
+      Math.abs(dx) / (node.width / 2),
+      Math.abs(dy) / (node.height / 2),
+    );
+    return { x: node.x + dx * scale, y: node.y + dy * scale };
   }
 
   /** A narrow surface-coloured casing separates paths where they cross. The
@@ -322,7 +378,20 @@
    * exists, so neither relation can close a loop. */
   function drawDag(container, nodes, edges, spec) {
     const labelOf = new Map(nodes.map((node) => [node.id, truncate(displayId(node.id, spec.home), MAX_LABEL)]));
-    const labelWidth = (id) => nodeWidth(labelOf.get(id));
+    const degrees = new Map(nodes.map((node) => [node.id, { incoming: 0, outgoing: 0 }]));
+    for (const edge of edges) {
+      degrees.get(edge.from).outgoing += 1;
+      degrees.get(edge.to).incoming += 1;
+    }
+    const widths = new Map(nodes.map((node) => {
+      const degree = degrees.get(node.id);
+      const ports = Math.max(degree.incoming, degree.outgoing);
+      return [node.id, Math.max(
+        nodeWidth(labelOf.get(node.id)),
+        (ports + 1) * MIN_ARC_SEPARATION,
+      )];
+    }));
+    const labelWidth = (id) => widths.get(id);
     const layout = globalThis.laxLayout.layoutDag({
       nodes: nodes.map((node) => ({ id: node.id, width: labelWidth(node.id) })),
       edges,
@@ -344,18 +413,26 @@
 
     const positions = new Map(nodes.map((node) => {
       const p = layout.positions.get(node.id);
-      return [node.id, { x: offsetX + p.x, y: layerY(p.layer) }];
+      return [node.id, {
+        x: offsetX + p.x,
+        y: layerY(p.layer),
+        layer: p.layer,
+        height: NODE_H,
+        width: labelWidth(node.id),
+        key: node.id,
+      }];
     }));
-    const routes = layout.routes.map((route) =>
-      route.map((p) => ({ x: offsetX + p.x, y: layerY(p.layer) })));
+    const obstacles = [...positions.values()];
+    const rankRoutes = layout.rankRoutes.map((route) =>
+      route.map((p) => ({ x: offsetX + p.x, layer: p.layer })));
 
     const sourcePorts = portMap(
       edges.map((edge, edgeIndex) => ({ edgeIndex, nodeId: edge.from,
-        refX: (routes[edgeIndex][0] || positions.get(edge.to)).x })),
+        refX: positions.get(edge.to).x })),
       (id) => positions.get(id).x, labelWidth);
     const targetPorts = portMap(
       edges.map((edge, edgeIndex) => ({ edgeIndex, nodeId: edge.to,
-        refX: (routes[edgeIndex][routes[edgeIndex].length - 1] || positions.get(edge.from)).x })),
+        refX: positions.get(edge.from).x })),
       (id) => positions.get(id).x, labelWidth);
 
     const group = svgEl(svg, 'g');
@@ -363,22 +440,29 @@
     const pointSets = edges.map((edge, edgeIndex) => {
       const source = positions.get(edge.from);
       const target = positions.get(edge.to);
-      return [
-        { x: sourcePorts.get(edgeIndex), y: source.y - NODE_H / 2 },
-        ...routes[edgeIndex],
-        { x: targetPorts.get(edgeIndex), y: target.y + NODE_H / 2 },
-      ];
+      return routeDagEdge({
+        source,
+        target,
+        sourceX: sourcePorts.get(edgeIndex),
+        targetX: targetPorts.get(edgeIndex),
+        rankVias: rankRoutes[edgeIndex],
+        sourceLayer: source.layer,
+        targetLayer: target.layer,
+        layerCenter: layerY,
+        layerHalfHeight: () => NODE_H / 2,
+        obstacles,
+      });
     });
-    const laneOffsets = edgeLaneOffsets(pointSets);
     edges.forEach((edge, edgeIndex) => {
       const path = appendEdge(group, 'dag-edge',
-        edgePath(pointSets[edgeIndex], laneOffsets[edgeIndex]), spec.arrowId);
+        edgePath(pointSets[edgeIndex]), spec.arrowId);
       incident.get(edge.from).push(path);
       incident.get(edge.to).push(path);
     });
     for (const node of nodes) {
       const position = positions.get(node.id);
-      const g = appendBoxNode(group, node, spec.classOf(node), labelOf.get(node.id));
+      const g = appendBoxNode(group, node, spec.classOf(node), labelOf.get(node.id),
+        labelWidth(node.id));
       g.setAttribute('transform', `translate(${position.x},${position.y})`);
       attachTooltip(g, container, spec.tooltipRows(node));
       attachHotEdges(g, incident.get(node.id));
@@ -556,12 +640,32 @@
       const proofKey = 'p:' + proof.id;
       for (const assumption of proof.assumptions) {
         const statementKey = 's:' + assumption;
-        if (byKey.has(statementKey)) links.push({ source: statementKey, target: proofKey, kind: 'assumption' });
+        if (byKey.has(statementKey)) links.push({
+          source: statementKey,
+          target: proofKey,
+          kind: 'assumption',
+          align: proof.assumptions.length === 1,
+        });
       }
       const conclusionKey = 's:' + proof.conclusion;
-      if (byKey.has(conclusionKey)) links.push({ source: proofKey, target: conclusionKey, kind: 'conclusion' });
+      if (byKey.has(conclusionKey)) links.push({
+        source: proofKey,
+        target: conclusionKey,
+        kind: 'conclusion',
+        align: true,
+      });
     }
     links.sort((a, b) => `${a.source}\0${a.target}`.localeCompare(`${b.source}\0${b.target}`));
+    const degrees = new Map(nodes.map((node) => [node.key, { incoming: 0, outgoing: 0 }]));
+    for (const link of links) {
+      degrees.get(link.source).outgoing += 1;
+      degrees.get(link.target).incoming += 1;
+    }
+    for (const node of nodes) {
+      const degree = degrees.get(node.key);
+      const ports = Math.max(degree.incoming, degree.outgoing);
+      node.width = Math.max(node.width, (ports + 1) * MIN_ARC_SEPARATION);
+    }
 
     const adjacency = new Map(nodes.map((node) => [node.key, []]));
     for (const link of links) adjacency.get(link.source).push(link.target);
@@ -584,9 +688,17 @@
       source.outgoing.add(target.id);
       target.incoming.add(source.id);
     }
+    for (const component of components) component.internalLinkIndices = [];
+    links.forEach((link, edgeIndex) => {
+      const component = componentOf.get(link.source);
+      if (component === componentOf.get(link.target))
+        component.internalLinkIndices.push(edgeIndex);
+    });
 
-    // Size each SCC. Cyclic components get a padded grid and enclosure;
-    // singleton components are exactly their node's bounding box.
+    // Size each SCC. A cyclic component uses one horizontal node row, leaving
+    // every node a clear vertical approach from above and below. Its internal
+    // links occupy rounded lanes above that row. Singleton components are
+    // exactly their node's bounding box.
     for (const component of components) {
       const members = component.members.map((key) => byKey.get(key));
       if (!component.cyclic) {
@@ -596,41 +708,48 @@
         members[0].localY = 0;
         continue;
       }
-      const columns = Math.ceil(Math.sqrt(members.length));
-      const rows = Math.ceil(members.length / columns);
-      const columnWidths = Array(columns).fill(0);
-      const rowHeights = Array(rows).fill(0);
-      members.forEach((node, index) => {
-        columnWidths[index % columns] = Math.max(columnWidths[index % columns], node.width);
-        rowHeights[Math.floor(index / columns)] = Math.max(rowHeights[Math.floor(index / columns)], node.height);
-      });
-      const contentWidth = columnWidths.reduce((sum, value) => sum + value, 0) + (columns - 1) * 24;
-      const contentHeight = rowHeights.reduce((sum, value) => sum + value, 0) + (rows - 1) * 18;
-      const columnCenters = [];
-      const rowCenters = [];
+      const contentWidth = members.reduce((sum, node) => sum + node.width, 0) +
+        (members.length - 1) * 24;
+      const contentHeight = Math.max(...members.map((node) => node.height));
+      const laneCount = component.internalLinkIndices.length;
+      const topPadding = 38 + Math.max(0, laneCount - 1) * 9;
+      const bottomPadding = 16;
+      const nodeRowY = (topPadding - bottomPadding) / 2;
       let cursor = -contentWidth / 2;
-      for (const value of columnWidths) { columnCenters.push(cursor + value / 2); cursor += value + 24; }
-      cursor = -contentHeight / 2 + 8;
-      for (const value of rowHeights) { rowCenters.push(cursor + value / 2); cursor += value + 18; }
       members.forEach((node, index) => {
-        node.localX = columnCenters[index % columns];
-        node.localY = rowCenters[Math.floor(index / columns)];
+        node.localX = cursor + node.width / 2;
+        node.localY = nodeRowY;
+        cursor += node.width + (index + 1 < members.length ? 24 : 0);
       });
+      component.internalLaneY = new Map(component.internalLinkIndices.map((edgeIndex, slot) => [
+        edgeIndex,
+        nodeRowY - contentHeight / 2 - 10 - slot * 9,
+      ]));
       component.width = contentWidth + 32;
-      component.height = contentHeight + 48;
+      component.height = contentHeight + topPadding + bottomPadding;
     }
 
     // Layer and place the condensation DAG with the shared engine; the
     // components are its nodes, keyed by their (unique, deterministic)
     // member list.
+    const alignmentPairs = new Set(links
+      .filter((link) => link.align &&
+        componentOf.get(link.source) !== componentOf.get(link.target))
+      .map((link) => `${componentOf.get(link.source).sortKey}\0${componentOf.get(link.target).sortKey}`));
     const componentEdges = [];
+    const alignEdgeIndices = [];
     for (const component of components)
-      for (const targetId of [...component.outgoing].sort((a, b) => a - b))
+      for (const targetId of [...component.outgoing].sort((a, b) => a - b)) {
+        const edgeIndex = componentEdges.length;
         componentEdges.push({ from: component.sortKey, to: components[targetId].sortKey });
+        if (alignmentPairs.has(`${component.sortKey}\0${components[targetId].sortKey}`))
+          alignEdgeIndices.push(edgeIndex);
+      }
     const layout = globalThis.laxLayout.layoutDag({
       nodes: components.map((component) => ({ id: component.sortKey, width: component.width })),
       edges: componentEdges,
       nodeGap: 44,
+      alignEdgeIndices,
     });
 
     const rowHeights = Array(layout.maxLayer + 1).fill(0);
@@ -664,16 +783,19 @@
       const p = layout.positions.get(component.sortKey);
       component.x = offsetX + p.x;
       component.y = layerY[p.layer];
+      component.layer = p.layer;
       for (const key of component.members) {
         const node = byKey.get(key);
         node.x = component.x + node.localX;
         node.y = component.y + node.localY;
+        node.layer = p.layer;
       }
     }
+    const obstacles = nodes;
     const routeOfPair = new Map();
     componentEdges.forEach((edge, index) => {
       routeOfPair.set(`${edge.from}\0${edge.to}`,
-        layout.routes[index].map((p) => ({ x: offsetX + p.x, y: layerY[p.layer] })));
+        layout.rankRoutes[index].map((p) => ({ x: offsetX + p.x, layer: p.layer })));
     });
 
     const group = svgEl(svg, 'g');
@@ -691,14 +813,6 @@
       }).textContent = 'cycle';
     }
 
-    function clippedEndpoint(node, toward) {
-      const dx = toward.x - node.x;
-      const dy = toward.y - node.y;
-      if (dx === 0 && dy === 0) return { x: node.x, y: node.y };
-      const scale = 1 / Math.max(Math.abs(dx) / (node.width / 2), Math.abs(dy) / (node.height / 2));
-      return { x: node.x + dx * scale, y: node.y + dy * scale };
-    }
-
     // Cross-component links share their pair's via corridor; parallel links
     // fan out a few pixels so they stay distinguishable.
     const pairKeyOf = (link) =>
@@ -714,7 +828,10 @@
       if (componentOf.get(link.source) === componentOf.get(link.target)) return [];
       const siblings = pairSlots.get(pairKeyOf(link));
       const shift = (siblings.indexOf(index) - (siblings.length - 1) / 2) * 7;
-      return (routeOfPair.get(pairKeyOf(link)) || []).map((p) => ({ x: p.x + shift, y: p.y }));
+      return (routeOfPair.get(pairKeyOf(link)) || []).map((p) => ({
+        x: p.x + shift,
+        layer: p.layer,
+      }));
     });
     const crossEnds = (pick) => links.flatMap((link, edgeIndex) => {
       if (componentOf.get(link.source) === componentOf.get(link.target)) return [];
@@ -722,24 +839,45 @@
     });
     const sourcePorts = portMap(
       crossEnds((link, edgeIndex) => ({ edgeIndex, nodeId: link.source,
-        refX: (linkVias[edgeIndex][0] || byKey.get(link.target)).x })),
+        refX: byKey.get(link.target).x })),
       (key) => byKey.get(key).x, (key) => byKey.get(key).width);
     const targetPorts = portMap(
       crossEnds((link, edgeIndex) => ({ edgeIndex, nodeId: link.target,
-        refX: (linkVias[edgeIndex][linkVias[edgeIndex].length - 1] || byKey.get(link.source)).x })),
+        refX: byKey.get(link.source).x })),
+      (key) => byKey.get(key).x, (key) => byKey.get(key).width);
+    const internalEnds = (pick) => links.flatMap((link, edgeIndex) => {
+      if (componentOf.get(link.source) !== componentOf.get(link.target)) return [];
+      return [pick(link, edgeIndex)];
+    });
+    const internalSourcePorts = portMap(
+      internalEnds((link, edgeIndex) => ({
+        edgeIndex, nodeId: link.source, refX: byKey.get(link.target).x,
+      })),
+      (key) => byKey.get(key).x, (key) => byKey.get(key).width);
+    const internalTargetPorts = portMap(
+      internalEnds((link, edgeIndex) => ({
+        edgeIndex, nodeId: link.target, refX: byKey.get(link.source).x,
+      })),
       (key) => byKey.get(key).x, (key) => byKey.get(key).width);
     const linkPointSets = links.map((link, edgeIndex) => {
       if (componentOf.get(link.source) === componentOf.get(link.target)) return null;
       const sourceNode = byKey.get(link.source);
       const targetNode = byKey.get(link.target);
-      return [
-        { x: sourcePorts.get(edgeIndex), y: sourceNode.y - sourceNode.height / 2 },
-        ...linkVias[edgeIndex],
-        { x: targetPorts.get(edgeIndex), y: targetNode.y + targetNode.height / 2 },
-      ];
+      const sourceComponent = componentOf.get(link.source);
+      const targetComponent = componentOf.get(link.target);
+      return routeDagEdge({
+        source: sourceNode,
+        target: targetNode,
+        sourceX: sourcePorts.get(edgeIndex),
+        targetX: targetPorts.get(edgeIndex),
+        rankVias: linkVias[edgeIndex],
+        sourceLayer: sourceComponent.layer,
+        targetLayer: targetComponent.layer,
+        layerCenter: (layer) => layerY[layer],
+        layerHalfHeight: (layer) => rowHeights[layer] / 2,
+        obstacles,
+      });
     });
-    const linkLaneOffsets = edgeLaneOffsets(linkPointSets);
-
     const incident = new Map(nodes.map((node) => [node.key, []]));
     links.forEach((link, edgeIndex) => {
       const sourceNode = byKey.get(link.source);
@@ -747,22 +885,35 @@
       const sameComponent = componentOf.get(link.source) === componentOf.get(link.target);
       let path;
       if (sameComponent) {
-        // Within an SCC there is no single flow direction, so clip the edge
-        // to the boxes geometrically and bow it sideways.
-        const source = clippedEndpoint(sourceNode, targetNode);
-        const target = clippedEndpoint(targetNode, sourceNode);
-        const bend = link.source.localeCompare(link.target) < 0 ? 14 : -14;
-        const midX = (source.x + target.x) / 2;
-        const midY = (source.y + target.y) / 2;
-        const dx = target.x - source.x;
-        const dy = target.y - source.y;
-        const length = Math.hypot(dx, dy) || 1;
-        const controlX = midX - dy / length * bend;
-        const controlY = midY + dx / length * bend;
-        path = `M${source.x},${source.y} Q${controlX},${controlY} ${target.x},${target.y}`;
+        const excluded = new Set([sourceNode.key, targetNode.key]);
+        const directSource = clippedEndpoint(sourceNode, targetNode);
+        const directTarget = clippedEndpoint(targetNode, sourceNode);
+        if (link.source !== link.target &&
+          segmentIsClear(directSource, directTarget, obstacles, excluded)) {
+          path = edgePath([directSource, directTarget]);
+        } else {
+          // A blocked internal cycle edge uses its separated lane above the
+          // component row; self-loops receive two distinct surface ports.
+          const component = componentOf.get(link.source);
+          const laneY = component.y + component.internalLaneY.get(edgeIndex);
+          let sourceX = internalSourcePorts.get(edgeIndex);
+          let targetX = internalTargetPorts.get(edgeIndex);
+          if (link.source === link.target) {
+            const spread = Math.min(9, sourceNode.width / 4);
+            sourceX -= spread;
+            targetX += spread;
+          }
+          path = edgePath([
+            { x: sourceX, y: sourceNode.y - sourceNode.height / 2 },
+            { x: sourceX, y: laneY },
+            { x: targetX, y: laneY },
+            { x: targetX, y: targetNode.y - targetNode.height / 2 },
+          ]);
+        }
       } else {
-        // Condensation edges always flow upward through fixed vertical ports.
-        path = edgePath(linkPointSets[edgeIndex], linkLaneOffsets[edgeIndex]);
+        // Condensation edges are straight where visible and detour only around
+        // actual node obstacles.
+        path = edgePath(linkPointSets[edgeIndex]);
       }
       const element = appendEdge(group, `net-edge ${link.kind}`, path, 'proof-arrow');
       incident.get(link.source).push(element);
