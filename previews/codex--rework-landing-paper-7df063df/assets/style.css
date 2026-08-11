@@ -365,16 +365,6 @@ body{
 
 .sidebar-entry-tooltip[hidden]{ display: none; }
 
-/* The submission id leads its sidebar row as the chip, dimmed and mono like
-   ids in the library list; the row itself is the flat entry every other
-   sidebar uses. */
-.entry-id{
-  font-family: var(--mono);
-  font-size: 0.72rem;
-  color: var(--text-dim);
-  flex-shrink: 0;
-}
-
 /* Badges are quiet, light-tinted chips; a ✓/× status mark adds the
    green/yellow status tint, never a saturated fill. */
 .type-badge{
