@@ -11,27 +11,21 @@ interface LandingAction { id: string; title: string; description: string }
 
 const ACTION_HEADING = "\n## What you can do here\n";
 const SUBMIT_HEADING = "\n## Creating your own submission\n";
-const LAYERS_HEADING = "\n## How Lax works\n";
-const PAPER_HEADING = "\n## The paper in brief\n";
 
 function landingCopy(source: string): {
   kicker: string;
   lede: string;
-  layers: string;
-  paper: string;
   actions: Map<string, LandingAction>;
   submit: string;
 } {
   const actionStart = source.indexOf(ACTION_HEADING);
   const submitStart = source.indexOf(SUBMIT_HEADING, actionStart + ACTION_HEADING.length);
-  const layersStart = source.indexOf(LAYERS_HEADING);
-  const paperStart = source.indexOf(PAPER_HEADING, layersStart + LAYERS_HEADING.length);
-  if (layersStart === -1 || paperStart === -1 || actionStart === -1 || submitStart === -1)
-    throw new Error("landing.md must contain the layers, paper, action, and submission headings");
-  if (!(layersStart < paperStart && paperStart < actionStart && actionStart < submitStart))
+  if (actionStart === -1 || submitStart === -1)
+    throw new Error("landing.md must contain the action and submission headings");
+  if (actionStart >= submitStart)
     throw new Error("landing.md sections are out of order");
 
-  const hero = source.slice(0, layersStart).trim();
+  const hero = source.slice(0, actionStart).trim();
   const kickerEnd = hero.indexOf("\n\n");
   const kicker = kickerEnd === -1 ? hero : hero.slice(0, kickerEnd);
   const lede = kickerEnd === -1 ? "" : hero.slice(kickerEnd).trim();
@@ -50,8 +44,6 @@ function landingCopy(source: string): {
   return {
     kicker,
     lede,
-    layers: source.slice(layersStart + LAYERS_HEADING.length, paperStart).trim(),
-    paper: source.slice(paperStart + PAPER_HEADING.length, actionStart).trim(),
     actions,
     submit: source.slice(submitStart + SUBMIT_HEADING.length).trim(),
   };
@@ -149,7 +141,7 @@ ${markdown.render(landing.lede, "")}
 </div>
 <div class="landing-hero-actions">
 <button class="landing-hero-button primary" type="button" data-landing-action="read" aria-controls="landing-panel-read">Browse submissions <b aria-hidden="true">↓</b></button>
-<button class="landing-hero-button secondary" type="button" data-open-paper aria-expanded="false" aria-controls="landing-paper">The paper in two minutes <b aria-hidden="true">+</b></button>
+<a class="landing-hero-button secondary" href="assets/lax-white-paper.pdf">Read the Lax paper <b aria-hidden="true">↗</b></a>
 </div>
 </div>
 <div class="landing-trust-path" aria-label="Concepts carry human-reviewed meaning; proofs provide machine-checked evidence.">
@@ -158,7 +150,6 @@ ${markdown.render(landing.lede, "")}
 <strong>Meaning</strong>
 <small>read by people</small>
 </div>
-<span class="landing-trust-arrow" aria-hidden="true">→</span>
 <div class="landing-trust-node proof">
 <span class="landing-trust-step">02 · Proof</span>
 <strong>Evidence</strong>
@@ -166,29 +157,6 @@ ${markdown.render(landing.lede, "")}
 </div>
 </div>
 </header>
-<div class="landing-about">
-<section class="landing-foundation" aria-labelledby="landing-foundation-heading">
-<div class="landing-section-heading">
-<p class="landing-section-eyebrow">Human meaning · machine certainty</p>
-<h2 id="landing-foundation-heading">One submission, two layers</h2>
-</div>
-<div class="landing-layers latex-content">
-${markdown.render(landing.layers, "")}
-</div>
-</section>
-<details class="landing-paper" id="landing-paper">
-<summary>
-<span class="landing-paper-heading">
-<span class="landing-section-eyebrow">From the white paper</span>
-<span class="landing-paper-title">Why Lax, and why trust it?</span>
-</span>
-<span class="landing-paper-toggle" aria-hidden="true"><span class="when-closed">Expand</span><span class="when-open">Close</span><b></b></span>
-</summary>
-<div class="landing-paper-body latex-content">
-${markdown.render(landing.paper, "")}
-</div>
-</details>
-</div>
 <section class="landing-actions" aria-labelledby="landing-actions-heading">
 <h2 id="landing-actions-heading">What you can do here</h2>
 <div class="landing-action-grid">
