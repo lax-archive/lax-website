@@ -381,9 +381,10 @@ After the formula.`, "");
     expect(index).toContain('placeholder="Search titles and concepts"');
     expect(index).toContain('id="submissions-list"');
     expect(index).toContain('id="submissions-list-empty"');
-    // sidebar rows share the flat entry grammar (chip + text), not cards
+    // sidebar rows share the flat entry grammar and use titles alone
     expect(index).not.toContain("sidebar-submission");
-    expect(index).toContain('<span class="entry-label"><span class="entry-id">Lax2</span><span class="entry-label-text">Two</span></span>');
+    expect(index).toContain('<span class="entry-label"><span class="entry-label-text">Two</span></span>');
+    expect(index).not.toContain('<span class="entry-id">');
     expect(index).toContain('href="Lax2/index.html" data-full-title="Two"');
     // a record that only reserved an id stays off the landing page, the
     // sidebar, and the stats; its page still exists for direct links
@@ -446,7 +447,7 @@ After the formula.`, "");
       .toBeLessThan(index.indexOf('data-search-title="lax1 draft title"'));
     expect(index).toContain('data-search-concepts="lax2.c combinatorics definition"');
     expect(index).toContain('data-search-concepts="lax3.c geometry definition"');
-    expect(index).toContain('<span class="entry-label"><span class="entry-id">Lax2</span><span class="entry-label-text">Registered title</span></span>');
+    expect(index).toContain('<span class="entry-label"><span class="entry-label-text">Registered title</span></span>');
     expect(index).toContain('<span class="entry-label"><span class="entry-label-text">Draft title</span></span>');
     expect(index).toContain('<span class="entry-label"><span class="entry-label-text">Another draft</span></span>');
     expect(index).not.toContain('<span class="entry-id">Lax1</span>');

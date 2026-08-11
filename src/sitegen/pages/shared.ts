@@ -227,16 +227,14 @@ export function submissionSearchAttributes(submission: SiteSubmission, order: nu
 
 /** Sidebar of the index page: every submission with content, searchable.
  * Records that only reserved an id have nothing to show and stay off the
- * lists (their pages exist for direct links). Registered rows carry their
- * archive-id chip; drafts live in a separate Work in Progress group where
- * the heading communicates their state and the title can stand on its own. */
+ * lists (their pages exist for direct links). Drafts live in a separate Work
+ * in Progress group; all rows use their title as the visible label. */
 export function indexSidebar(model: SiteModel, markdown: MarkdownRenderer): string {
   const listed = model.submissions.filter((s) => s.output).sort(compareSearchSubmissions);
   const rows = listed.map((submission, order) => {
     const id = submission.record.id;
     const title = submission.output!.manifest.title;
-    const idChip = submission.record.state === "draft" ? "" : `<span class="entry-id">${esc(id)}</span>`;
-    return `<li ${submissionSearchAttributes(submission, order)}><a class="entry-link" href="${attr(id)}/index.html" data-full-title="${attr(title)}"><span class="entry-label">${idChip}<span class="entry-label-text">${markdown.renderAuthorInline(title, "")}</span></span></a></li>`;
+    return `<li ${submissionSearchAttributes(submission, order)}><a class="entry-link" href="${attr(id)}/index.html" data-full-title="${attr(title)}"><span class="entry-label"><span class="entry-label-text">${markdown.renderAuthorInline(title, "")}</span></span></a></li>`;
   });
   const draftStart = listed.findIndex((submission) => submission.record.state === "draft");
   if (draftStart >= 0)
