@@ -100,6 +100,12 @@ export function graphTooltip(): string {
   return `<div class="graph-tooltip" role="tooltip" hidden></div>`;
 }
 
+/** Top-right control that lets dag.js present a graph as a large modal-like
+ * window without duplicating its SVG or weakening the page CSP. */
+export function graphExpandButton(label: string): string {
+  return `<button class="graph-expand" type="button" data-graph-expand data-graph-label="${attr(label)}" aria-expanded="false" aria-label="${attr(`Open ${label} in a large window`)}" title="Open in large window"><svg class="graph-expand-open" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M2.5 6V2.5H6M10 2.5h3.5V6M13.5 10v3.5H10M6 13.5H2.5V10"/></svg><span class="graph-expand-close" aria-hidden="true">×</span></button>`;
+}
+
 /** A figure's heading, in the text flow above the box like every other
  * heading — boxes hold content and controls, never their own title. */
 export function figureTitle(title: string, source?: string): string {
@@ -109,11 +115,11 @@ export function figureTitle(title: string, source?: string): string {
 /** The concept-list legend: what the badge letters, marks, and tints mean.
  * Sample badges are the real component, so the legend cannot drift. */
 export function conceptBadgeLegend(): string {
-  return `<div class="badge-legend" aria-label="Concept badge legend"><span>${typeBadge("theorem", true)}proven claim</span><span>${typeBadge("theorem", false)}open claim</span><span>${typeBadge("definition")}no claim — nothing to prove</span><span class="badge-legend-note">letters abbreviate the concept's type</span></div>`;
+  return `<div class="badge-legend" aria-label="Concept badge legend"><span>${typeBadge("theorem", true)}proven claim</span><span>${typeBadge("theorem", false)}open claim</span><span>${typeBadge("definition")}definition</span><span class="badge-legend-note">letters abbreviate the concept's type</span></div>`;
 }
 
 export function conceptMapLegend(ownLabel: string, extLabel: string): string {
-  return `<figcaption class="graph-legend" aria-label="Concept map legend">${LEGEND_FILLS}<span><i class="legend-node fill-none"></i>Definition — nothing to prove</span><span><i class="legend-node stroke-own"></i>${esc(ownLabel)}</span><span><i class="legend-node stroke-ext"></i>${esc(extLabel)}</span><span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B builds on A</span></figcaption>`;
+  return `<figcaption class="graph-legend" aria-label="Concept map legend">${LEGEND_FILLS}<span><i class="legend-node fill-none"></i>Definition</span><span><i class="legend-node stroke-own"></i>${esc(ownLabel)}</span><span><i class="legend-node stroke-ext"></i>${esc(extLabel)}</span><span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B builds on A</span></figcaption>`;
 }
 
 /** The submission map's legend. Same grammar one level up: stroke = origin,
@@ -124,7 +130,7 @@ export function submissionMapLegend(): string {
 }
 
 export function proofNetworkLegend(): string {
-  return `<figcaption class="graph-legend" aria-label="Proof network legend"><span class="legend-note">assumptions → ⊢ → conclusion</span>${LEGEND_FILLS}<span><i class="legend-node stroke-own"></i>This submission</span><span><i class="legend-node stroke-ext"></i>From another submission</span><span><i class="legend-proof-chip" aria-hidden="true">⊢</i>Proof — click to open</span><span><i class="legend-cycle"></i>Cycle — claims proving each other</span></figcaption>`;
+  return `<figcaption class="graph-legend" aria-label="Proof network legend"><span class="proof-flow">assumptions <i class="legend-arrow" aria-hidden="true">→</i><i class="legend-proof-chip" aria-hidden="true">⊢</i><i class="legend-arrow" aria-hidden="true">→</i> conclusion</span>${LEGEND_FILLS}<span><i class="legend-node stroke-own"></i>This submission</span><span><i class="legend-node stroke-ext"></i>From another submission</span><span><i class="legend-proof-chip" aria-hidden="true">⊢</i>Proof — click to open</span><span><i class="legend-cycle"></i>Cycle — claims proving each other</span></figcaption>`;
 }
 
 // ---- source links ----

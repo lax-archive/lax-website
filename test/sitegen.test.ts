@@ -135,7 +135,7 @@ describe("site generator", () => {
   });
 
   it("uses count-free aggregate concept statuses", () => {
-    expect(countsPill(0, 0)).toContain("nothing to prove");
+    expect(countsPill(0, 0)).toContain(">definition</span>");
     expect(countsPill(2, 2)).toContain(">proven</span>");
     expect(countsPill(1, 2)).toContain(">open</span>");
     expect(countsPill(1, 2)).not.toContain("1 of");
@@ -191,6 +191,46 @@ describe("site generator", () => {
     expect(html).toContain("<ul>");
     expect(html).not.toContain("\\(\\varepsilon");
     expect(html).not.toContain("\\[");
+  });
+
+  it("lets display math interrupt author prose without surrounding blank lines", () => {
+    const markdown = new MarkdownRenderer(new SiteModel(submissions()));
+    const html = markdown.renderAuthorProse(String.raw`Before the formula.
+$$
+  x^2 + y^2 = z^2
+$$
+After the formula.`, "");
+    expect(html).toContain('<span class="katex-display">');
+    expect(html).toContain("<p>Before the formula.</p>");
+    expect(html).toContain("<p>After the formula.</p>");
+    expect(html).not.toContain("$$");
+  });
+
+  it("renders display math in abstracts and theorem statement boxes", async () => {
+    const authored = submissions();
+    const output = authored[0]!.output!;
+    output.abstract = "Moser--Tardos before abstract math.\n$$a^2$$\nAfter abstract math.";
+    output.concepts[0]!.description = "Chuzhoy--Tan before theorem math.\n$$b^2$$\nAfter theorem math.";
+
+    const root = tmpDir("lax-site-display-math-");
+    await generateSite(authored, root);
+    const submission = fs.readFileSync(path.join(root, "Lax2", "index.html"), "utf8");
+    const concept = fs.readFileSync(path.join(root, "Lax2", "Lax2.C.html"), "utf8");
+    expect(submission).toMatch(/paper-abstract[^]*?class="katex-display"/);
+    expect(submission).toContain("Moser–Tardos before abstract math.");
+    expect(submission).not.toContain("Moser--Tardos");
+    expect(submission).toContain("<p>After abstract math.</p>");
+    expect(concept).toMatch(/block block-statement[^]*?class="katex-display"/);
+    expect(concept).toContain("Chuzhoy–Tan before theorem math.");
+    expect(concept).not.toContain("Chuzhoy--Tan");
+    expect(concept).toContain("<p>After theorem math.</p>");
+  });
+
+  it("applies TeX-style en dashes only to authored prose text", () => {
+    const markdown = new MarkdownRenderer(new SiteModel(submissions()));
+    const html = markdown.renderAuthorProse("Moser--Tardos and $a--b$.", "");
+    expect(html).toContain("Moser–Tardos");
+    expect(html).toContain(">a--b</annotation>");
   });
 
   it("renders safe inline Markdown and TeX without block wrappers for titles", () => {
@@ -281,6 +321,11 @@ describe("site generator", () => {
     // Graph containers must be measurable before dag.js appends their SVG.
     const css = fs.readFileSync(path.join(one, "assets", "style.css"), "utf8");
     expect(css).not.toContain(".figure-container:empty");
+    expect(css).toContain(".graph-figure.graph-expanded");
+    expect(css).toContain(".proof-network-figure > .graph-expand{ right: 1rem; }");
+    expect(css).toContain(".graph-edge-casing{");
+    expect(css).toContain("fill: context-stroke");
+    expect(css).toContain("background: rgba(248, 250, 252, 0.98)");
     const unavailableRest = css.match(/\.landing-action-card\.unavailable\{([^}]*)\}/)?.[1] ?? "";
     expect(unavailableRest).not.toContain("background");
     expect(css).toMatch(/\.landing-action-card\.unavailable:hover,[\s\S]*?background: var\(--panel-bg\);/);
@@ -568,7 +613,17 @@ describe("site generator", () => {
     expect(html).toContain("legend-proof-chip");
     expect(html).toContain('class="legend-node fill-proven"');
     expect(html).toContain('class="legend-node stroke-own"');
+    expect(html).toContain('<i class="legend-node fill-none"></i>Definition</span>');
+    expect(html).not.toMatch(/nothing\s+to\s+prove/);
     expect((html.match(/class="graph-tooltip"/g) ?? []).length).toBe(2);
+    // Only concept/proof figures get a large-window control; the submission
+    // map deliberately remains an inline overview.
+    expect((html.match(/data-graph-expand/g) ?? []).length).toBe(2);
+    expect(html).toContain('data-graph-label="concept map" aria-expanded="false"');
+    expect(html).toContain('data-graph-label="proof network" aria-expanded="false"');
+    expect(html).toContain('<figure class="graph-figure proof-network-figure">');
+    expect(html).toContain('<span class="proof-flow">assumptions <i class="legend-arrow" aria-hidden="true">→</i><i class="legend-proof-chip" aria-hidden="true">⊢</i><i class="legend-arrow" aria-hidden="true">→</i> conclusion</span>');
+    expect(html).not.toContain('class="legend-note">assumptions');
   });
 
   it("emits expandable concept closures and proof readiness metadata for deterministic DAGs", async () => {
@@ -617,6 +672,7 @@ describe("site generator", () => {
     expect(conceptHtml.indexOf('id="concept-dag"')).toBeLessThan(conceptHtml.indexOf('class="block block-statement"'));
     expect(conceptHtml).toContain('<script src="../assets/layout.js"></script>');
     expect(conceptHtml).toContain('<script src="../assets/dag.js"></script>');
+    expect((conceptHtml.match(/data-graph-expand/g) ?? []).length).toBe(1);
     const conceptMatch = /<script type="application\/json" id="graph-data">(.*?)<\/script>/s.exec(conceptHtml)!;
     const conceptData = JSON.parse(conceptMatch[1]!);
     expect(conceptData.concepts.nodes.map((node: { id: string; ext: boolean; dir: string }) =>
@@ -644,6 +700,15 @@ describe("site generator", () => {
     const script = fs.readFileSync(path.join(root, "assets", "dag.js"), "utf8");
     expect(script).toContain("stronglyConnectedComponents");
     expect(script).not.toContain("forceSimulation");
+    expect(script).not.toContain("svgEl(g, 'title')");
+    expect(script).not.toContain("addEventListener('mousemove'");
+    expect(script).toContain("markerUnits: 'userSpaceOnUse'");
+    expect(script).toContain("orient: 'auto'");
+    expect(script).toContain("orthogonalEdgePoints");
+    expect(script).toContain("edgeLaneOffsets");
+    expect(script).toContain("graph-edge-casing");
+    expect(script).toContain("requestAnimationFrame(render)");
+    expect(script).toContain("event.key !== 'Escape'");
   });
 
   it("maps each submission's dependants and dependencies across the whole archive", async () => {
@@ -730,7 +795,8 @@ describe("site generator", () => {
     expect(html).toContain('class="active"');
     const untyped = fs.readFileSync(path.join(root, "Lax2", "Lax2.D.html"), "utf8");
     expect(untyped).toContain("<h3>Definition</h3>");
-    expect(untyped).toContain("nothing to prove");
+    expect(untyped).toContain('class="status-pill pill-none">definition</span>');
+    expect(untyped).not.toMatch(/nothing\s+to\s+prove/);
     expect(untyped).toContain("Used by");
     // a definition-concept claims nothing, so it carries no evidence block
     expect(untyped).not.toContain("<h3>Evidence</h3>");
@@ -770,7 +836,7 @@ describe("site generator", () => {
     const html = fs.readFileSync(path.join(root, "Lax2", "index.html"), "utf8");
     const sidebar = html.slice(html.indexOf('<aside id="sidebar">'), html.indexOf("</aside>"));
     // concepts carry the same status marks as the concept list: proven ✓ for
-    // the theorem, a plain badge for the definition (nothing to prove)
+    // the theorem and the definition with their corresponding badge styles
     expect(sidebar).toMatch(/data-type="theorem"[^]*?type-badge proven[^]*?thm✓/);
     expect(sidebar).toMatch(/data-type="definition"[^]*?<span class="type-badge"[^]*?def</);
     // the proofs group follows the concepts, ⊢-chipped, prefix-pruned,

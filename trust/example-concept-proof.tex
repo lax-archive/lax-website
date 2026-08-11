@@ -1,0 +1,108 @@
+\begingroup
+
+\newsavebox{\LaxConceptBox}
+\newsavebox{\LaxProofBox}
+
+\begin{lrbox}{\LaxConceptBox}
+\begin{minipage}[t]{\LaxPanelWidth}
+  \vspace*{2.5mm}
+  \LaxHeader{Concept}{LaxDemo/EvenAddition.lean}
+
+\begin{lstlisting}[style=LaxConceptLean]
+import Mathlib
+
+namespace LaxDemo.EvenAddition
+
+def twice (n : Nat) : Nat := n + n
+
+def Even (n : Nat) : Prop :=
+  ∃ k, n = twice k
+
+axiom even_add {m n : Nat} :
+    Even m → Even n →
+    Even (m + n)
+
+end LaxDemo.EvenAddition
+\end{lstlisting}
+
+  \vspace*{2.1mm}
+\end{minipage}
+\end{lrbox}
+
+\begin{lrbox}{\LaxProofBox}
+\begin{minipage}[t]{\LaxPanelWidth}
+  \vspace*{2.5mm}
+  \LaxHeader{Proof}{LaxDemoProofs/EvenAddition.lean}
+
+\begin{lstlisting}[style=GitHubLean]
+import LaxDemo.EvenAddition
+
+namespace LaxDemoProofs
+
+theorem even_add {m n : Nat} :
+    LaxDemo.EvenAddition.Even m →
+    LaxDemo.EvenAddition.Even n →
+    LaxDemo.EvenAddition.Even (m + n) := by
+  rintro ⟨a, rfl⟩ ⟨b, rfl⟩
+  refine ⟨a + b, ?_⟩
+  simp only [LaxDemo.EvenAddition.twice]
+  ac_rfl
+
+end LaxDemoProofs
+\end{lstlisting}
+
+  \vspace*{2.1mm}
+\end{minipage}
+\end{lrbox}
+\resizebox{450pt}{!}{
+\begin{tikzpicture}[
+  concept panel/.style={
+    draw=LaxBorder,
+    fill=LaxCodeBg,
+    rounded corners=2mm,
+    line width=0.55pt,
+    inner sep=0pt,
+    outer sep=0pt,
+    anchor=north west
+  },
+  proof panel/.style={
+    draw=GHBorder,
+    fill=white,
+    rounded corners=2mm,
+    line width=0.55pt,
+    inner sep=0pt,
+    outer sep=0pt,
+    anchor=north west
+  }
+]
+  \node[concept panel] (concept)
+    {\usebox{\LaxConceptBox}};
+
+  \node[
+    proof panel,
+    right=17mm of concept.north east,
+    anchor=north west
+  ] (proof)
+    {\usebox{\LaxProofBox}};
+
+  \draw[
+    -{Stealth[length=2.2mm,width=1.5mm]},
+    draw=LaxAccent,
+    line width=0.75pt
+  ]
+    ([xshift=2.0mm,yshift=-5.25cm]concept.north east)
+    --
+    node[
+      midway,
+      above=1.6mm,
+      fill=white,
+      inner xsep=1.0mm,
+      inner ysep=0.4mm,
+      text=LaxDim,
+      font=\scriptsize\itshape
+    ] {proved by}
+    ([xshift=-2.0mm,yshift=-5.25cm]proof.north west);
+\end{tikzpicture}
+}
+\endgroup
+

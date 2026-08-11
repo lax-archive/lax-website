@@ -1,0 +1,134 @@
+% LAX archive colours.
+\definecolor{LaxCodeBg}{HTML}{F6F8FB}
+\definecolor{LaxBorder}{HTML}{E8E3DC}
+\definecolor{LaxText}{HTML}{24292E}
+\definecolor{LaxDim}{HTML}{6B7280}
+\definecolor{LaxLineNo}{HTML}{A8AFB9}
+\definecolor{LaxAccent}{HTML}{3B6B9A}
+\definecolor{LaxProvenBg}{HTML}{E8F5E8}
+
+% GitHub light code-view colours.
+\definecolor{GHBorder}{HTML}{D0D7DE}
+\definecolor{GHKeyword}{HTML}{CF222E}
+\definecolor{GHConstant}{HTML}{0550AE}
+\definecolor{GHEntity}{HTML}{8250DF}
+\definecolor{GHString}{HTML}{0A3069}
+\definecolor{GHComment}{HTML}{6E7781}
+\definecolor{GHVariable}{HTML}{953800}
+
+% Local per-line background support for listings.
+% It adds per-line backgrounds without redefining listings' `numbers` key.
+\makeatletter
+\lst@Key{linebackgroundcolor}{}{\def\lst@linebgrdcolor{#1}}
+\lst@Key{linebackgroundsep}{0pt}{\def\lst@linebgrdsep{#1}}
+\lst@Key{linebackgroundwidth}{\linewidth}{\def\lst@linebgrdwidth{#1}}
+\lst@Key{linebackgroundheight}{\ht\strutbox}{\def\lst@linebgrdheight{#1}}
+\lst@Key{linebackgrounddepth}{\dp\strutbox}{\def\lst@linebgrddepth{#1}}
+\lst@Key{linebackgroundcmd}{\color@block}{\def\lst@linebgrdcmd{#1}}
+
+\newcommand*\Lax@linebackground{%
+  \ifx\lst@linebgrdcolor\@empty\else
+    \smash{\rlap{%
+      \lst@basicstyle
+      \color{-.}%
+      \lst@linebgrdcolor{%
+        \kern-\dimexpr\lst@linebgrdsep\relax
+        \lst@linebgrdcmd
+          {\lst@linebgrdwidth}
+          {\lst@linebgrdheight}
+          {\lst@linebgrddepth}%
+      }%
+    }}%
+  \fi
+}
+\lst@AddToHook{EveryPar}{\Lax@linebackground}
+\makeatother
+
+\lstdefinelanguage{LeanFour}{
+  sensitive=true,
+  alsoletter={_,'},
+  morecomment=[l]{--},
+  morecomment=[s]{/-}{-/},
+  morestring=[b]",
+  morekeywords=[1]{import,namespace,end,def,axiom,theorem,by,open,only},
+  morekeywords=[2]{Nat,Prop,rfl},
+  morekeywords=[3]{
+    Mathlib,LaxDemo,EvenAddition,LaxDemoProofs,
+    twice,Even,even_add
+  },
+  morekeywords=[4]{rintro,refine,simp,ac_rfl},
+  morekeywords=[5]{m,n,a,b,k},
+  keywordstyle=[1]\color{GHKeyword},
+  keywordstyle=[2]\color{GHConstant},
+  keywordstyle=[3]\color{GHEntity},
+  keywordstyle=[4]\color{GHEntity},
+  keywordstyle=[5]\color{GHVariable},
+  commentstyle=\color{GHComment},
+  stringstyle=\color{GHString},
+  literate=
+    {→}{{$\to$}}1
+    {∃}{{$\exists$}}1
+    {⟨}{{$\langle$}}1
+    {⟩}{{$\rangle$}}1
+}
+
+\lstdefinestyle{LaxLeanBase}{
+  language=LeanFour,
+  basicstyle=
+    \ttfamily\fontsize{7.5}{11.9}\selectfont\color{LaxText},
+  numbers=left,
+  numberstyle=
+    \ttfamily\fontsize{6.4}{11.9}\selectfont\color{LaxLineNo},
+  numbersep=7pt,
+  stepnumber=1,
+  xleftmargin=22pt,
+  xrightmargin=7pt,
+  aboveskip=0pt,
+  belowskip=0pt,
+  columns=fullflexible,
+  keepspaces=true,
+  showstringspaces=false,
+  tabsize=2,
+  breaklines=false,
+  frame=none
+}
+
+% Highlight precisely lines 10--12 of the concept listing.
+\newcommand{\ConceptLineBackground}[1]{%
+  \ifnum\value{lstnumber}>9\relax
+    \ifnum\value{lstnumber}<13\relax
+      \color{LaxProvenBg}#1%
+    \else
+      \color{LaxCodeBg}#1%
+    \fi
+  \else
+    \color{LaxCodeBg}#1%
+  \fi
+}
+
+\lstdefinestyle{LaxConceptLean}{
+  style=LaxLeanBase,
+  backgroundcolor=\color{LaxCodeBg},
+  linebackgroundcolor=\ConceptLineBackground,
+  linebackgroundheight=8.4pt,
+  linebackgrounddepth=4.0pt
+}
+
+\lstdefinestyle{GitHubLean}{
+  style=LaxLeanBase,
+  backgroundcolor=\color{white}
+}
+
+\newlength{\LaxPanelWidth}
+\setlength{\LaxPanelWidth}{7.45cm}
+
+\newcommand{\LaxHeader}[2]{%
+  \noindent\hspace*{3.1mm}%
+  {\footnotesize\scshape #1}%
+  \hfill
+  {\ttfamily\scriptsize\color{LaxDim}#2}%
+  \hspace*{3.1mm}\par
+  \vspace{1.6mm}%
+  {\color{LaxBorder}\hrule height 0.45pt}%
+  \vspace{1.7mm}%
+}
