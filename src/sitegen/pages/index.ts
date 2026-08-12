@@ -14,8 +14,8 @@ const ACTION_HEADING = "\n## What you can do here\n";
 const SUBMIT_HEADING = "\n## Creating your own submission\n";
 
 function landingCopy(source: string): {
+  kicker: string;
   lede: string;
-  introduction: string;
   actions: Map<string, LandingAction>;
   submit: string;
 } {
@@ -23,11 +23,13 @@ function landingCopy(source: string): {
   const submitStart = source.indexOf(SUBMIT_HEADING, actionStart + ACTION_HEADING.length);
   if (actionStart === -1 || submitStart === -1)
     throw new Error("landing.md must contain the action and submission headings");
+  if (actionStart >= submitStart)
+    throw new Error("landing.md sections are out of order");
 
-  const introduction = source.slice(0, actionStart).trim();
-  const ledeEnd = introduction.indexOf("\n\n");
-  const lede = ledeEnd === -1 ? introduction : introduction.slice(0, ledeEnd);
-  const body = ledeEnd === -1 ? "" : introduction.slice(ledeEnd).trim();
+  const hero = source.slice(0, actionStart).trim();
+  const kickerEnd = hero.indexOf("\n\n");
+  const kicker = kickerEnd === -1 ? hero : hero.slice(0, kickerEnd);
+  const lede = kickerEnd === -1 ? "" : hero.slice(kickerEnd).trim();
   const actionSource = source.slice(actionStart + ACTION_HEADING.length, submitStart).trim();
   const actions = new Map<string, LandingAction>();
   for (const chunk of actionSource.split(/\n(?=- \*\*)/)) {
@@ -41,8 +43,8 @@ function landingCopy(source: string): {
     if (!actions.has(id)) throw new Error(`landing.md is missing the ${id} action`);
 
   return {
+    kicker,
     lede,
-    introduction: body,
     actions,
     submit: source.slice(submitStart + SUBMIT_HEADING.length).trim(),
   };
@@ -145,14 +147,31 @@ ${copyablePrompt(markdown.render(landing.submit, ""))}
 <p>Every submission page ends with a <strong>Citation</strong> section containing a ready-made BibTeX entry. Open the submission you used, scroll to the bottom, and copy that entry into your bibliography.</p>
 ${citeExampleLink}
 </section>`;
-  const content = `<header class="paper-head landing-head">
+  const content = `<header class="landing-hero">
+<div class="landing-hero-copy">
+<p class="landing-kicker">${esc(landing.kicker)}</p>
+<p class="landing-hero-title">Mathematics that can be read, checked, and built upon.</p>
 <div class="landing-lede latex-content">
 ${markdown.render(landing.lede, "")}
 </div>
-</header>
-<div class="landing-about latex-content">
-${markdown.render(landing.introduction, "")}
+<div class="landing-hero-actions">
+<button class="landing-hero-button primary" type="button" data-landing-action="read" aria-controls="landing-panel-read">Browse submissions <b aria-hidden="true">↓</b></button>
+<a class="landing-hero-button secondary" href="assets/lax-white-paper.pdf">Read the Lax paper <b aria-hidden="true">↗</b></a>
 </div>
+</div>
+<div class="landing-trust-path" aria-label="Concepts carry human-reviewed meaning; proofs provide machine-checked evidence.">
+<div class="landing-trust-node concept">
+<span class="landing-trust-step">01 · Concept</span>
+<strong>Meaning</strong>
+<small>read by people</small>
+</div>
+<div class="landing-trust-node proof">
+<span class="landing-trust-step">02 · Proof</span>
+<strong>Evidence</strong>
+<small>checked by Lean</small>
+</div>
+</div>
+</header>
 <section class="landing-actions" aria-labelledby="landing-actions-heading">
 <h2 id="landing-actions-heading">What you can do here</h2>
 <div class="landing-action-grid">
