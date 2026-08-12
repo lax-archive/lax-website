@@ -491,6 +491,39 @@ body{
   white-space: nowrap;
 }
 
+.status-pill[data-tooltip]{ position: relative; cursor: help; }
+
+.status-pill[data-tooltip]::after{
+  content: attr(data-tooltip);
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 0.45rem);
+  left: 0;
+  width: max-content;
+  max-width: min(28rem, 70vw);
+  padding: 0.5rem 0.65rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  background: var(--text);
+  color: var(--surface);
+  box-shadow: var(--shadow-card);
+  font-size: 0.75rem;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: 0;
+  white-space: normal;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-0.15rem);
+  transition: opacity 120ms ease, transform 120ms ease;
+}
+
+.status-pill[data-tooltip]:hover::after,
+.status-pill[data-tooltip]:focus-visible::after{
+  opacity: 1;
+  transform: translateY(0);
+}
+
 .pill-proven, .state-registered{
   background: var(--proven-bg); color: var(--proven-fg); border-color: var(--proven-border);
 }
@@ -525,6 +558,18 @@ body{
   color: var(--text);
   overflow-wrap: anywhere;
 }
+
+.proof-heading-content{ flex: 1; min-width: 0; }
+
+.proof-microline{
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+  margin-top: 0.25rem;
+}
+
+.proof-microline .status-pills{ flex-shrink: 0; }
 
 .concept-title{
   font-family: 'Latin Modern', Georgia, serif;
