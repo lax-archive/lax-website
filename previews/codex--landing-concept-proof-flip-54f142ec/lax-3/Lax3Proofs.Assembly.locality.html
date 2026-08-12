@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src https: data:; font-src 'self'">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Lax — an archive of formalized mathematical concepts and their proofs">
+<title>Lax3Proofs.Assembly.locality — lax-3</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/katex.css">
+<link rel="stylesheet" href="../assets/style.css">
+</head><body>
+<header class="site-header">
+  <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
+  <h1 class="site-title"><a href="../index.html">Lax <span class="site-title-quiet">Lean Archive</span></a></h1>
+</header>
+<main id="content-shell">
+<div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+<aside id="sidebar">
+<section class="random-submission" aria-labelledby="random-submission-heading">
+<h2 id="random-submission-heading">Explore a Submission</h2>
+<a href="../lax-41/index.html" data-random-submission-link><span class="random-submission-title">Constructive Lovász Local Lemma</span><span class="random-submission-action">View submission <b aria-hidden="true">→</b></span></a>
+<div class="random-submission-candidates" hidden aria-hidden="true">
+<a href="../lax-41/index.html" data-random-submission-candidate><span class="random-submission-title">Constructive Lovász Local Lemma</span><span class="random-submission-action">View submission <b aria-hidden="true">→</b></span></a>
+<a href="../lax-10/index.html" data-random-submission-candidate><span class="random-submission-title">Graphs without a 3-Connected Subgraph are 4-Colourable</span><span class="random-submission-action">View submission <b aria-hidden="true">→</b></span></a>
+<a href="../lax-11/index.html" data-random-submission-candidate><span class="random-submission-title">Algorithmic Experiments on a Random Access Machine</span><span class="random-submission-action">View submission <b aria-hidden="true">→</b></span></a>
+<a href="../lax-12/index.html" data-random-submission-candidate><span class="random-submission-title">Sparsity Lectures: Nowhere Denseness, Quasi-Wideness, and Generalized Coloring Numbers</span><span class="random-submission-action">View submission <b aria-hidden="true">→</b></span></a>
+<a href="../lax-13/index.html" data-random-submission-candidate><span class="random-submission-title">The Word RAM</span><span class="random-submission-action">View submission <b aria-hidden="true">→</b></span></a>
+<a href="../lax-14/index.html" data-random-submission-candidate><span class="random-submission-title">Finite Ramsey Theorems for Pairs and Tuples</span><span class="random-submission-action">View submission <b aria-hidden="true">→</b></span></a>
+<a href="../lax-15/index.html" data-random-submission-candidate><span class="random-submission-title">Vertex Cover Below Two to the k</span><span class="random-submission-action">View submission <b aria-hidden="true">→</b></span></a>
+<a href="../lax-16/index.html" data-random-submission-candidate><span class="random-submission-title">A Batch Approach to the Positive NCTD of Planar Graphs</span><span class="random-submission-action">View submission <b aria-hidden="true">→</b></span></a>
+<a href="../lax-17/index.html" data-random-submission-candidate><span class="random-submission-title">An Exponent <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>8</mn><mo>+</mo><mi>ε</mi></mrow><annotation encoding="application/x-tex">8+\varepsilon</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">8</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal">ε</span></span></span></span> Bound for the Grid-Minor Theorem</span><span class="random-submission-action">View submission <b aria-hidden="true">→</b></span></a>
+<a href="../lax-18/index.html" data-random-submission-candidate><span class="random-submission-title">Szemerédi's Regularity Lemma</span><span class="random-submission-action">View submission <b aria-hidden="true">→</b></span></a>
+<a href="../lax-3/index.html" data-random-submission-candidate><span class="random-submission-title">First-Order Model Checking on Nowhere Dense Graph Classes in Almost Linear Time</span><span class="random-submission-action">View submission <b aria-hidden="true">→</b></span></a>
+<a href="../lax-47/index.html" data-random-submission-candidate><span class="random-submission-title">Tight Inapproximability of Max Independent Set in Triangle-Free Graphs</span><span class="random-submission-action">View submission <b aria-hidden="true">→</b></span></a>
+<a href="../lax-48/index.html" data-random-submission-candidate><span class="random-submission-title">Twin-Width Can Be Exponential in Treewidth</span><span class="random-submission-action">View submission <b aria-hidden="true">→</b></span></a>
+<a href="../lax-49/index.html" data-random-submission-candidate><span class="random-submission-title">Functional Equivalence of Twin-Width and Mixed Minor Number</span><span class="random-submission-action">View submission <b aria-hidden="true">→</b></span></a>
+<a href="../lax-5/index.html" data-random-submission-candidate><span class="random-submission-title">Almost Linear Neighborhood Complexity of Monadically Dependent Graph Classes</span><span class="random-submission-action">View submission <b aria-hidden="true">→</b></span></a>
+<a href="../lax-51/index.html" data-random-submission-candidate><span class="random-submission-title">Computability and polynomial-time equivalence of Turing machines and word RAMs</span><span class="random-submission-action">View submission <b aria-hidden="true">→</b></span></a>
+<a href="../lax-52/index.html" data-random-submission-candidate><span class="random-submission-title">MSO-automata</span><span class="random-submission-action">View submission <b aria-hidden="true">→</b></span></a>
+<a href="../lax-9/index.html" data-random-submission-candidate><span class="random-submission-title">χ-Boundedness and Neighbourhood Complexity of Bounded Merge-Width Graphs</span><span class="random-submission-action">View submission <b aria-hidden="true">→</b></span></a>
+</div>
+</section>
+<a class="sidebar-back" href="../lax-3/index.html"><span class="sidebar-back-arrow" aria-hidden="true">←</span>lax-3</a>
+<div class="sidebar-filters"><div class="filter-group">
+<label for="filter-search">Search</label>
+<input id="filter-search" class="filter-input" type="search" placeholder="Filter entries" aria-controls="entry-list">
+</div>
+<div class="filter-group">
+<label for="filter-type">Type</label>
+<select id="filter-type" class="filter-select">
+<option value="all">All types</option>
+<option value="definition">definition</option>
+<option value="theorem">theorem</option>
+<option value="proof">proof</option>
+</select>
+</div></div>
+<ul id="entry-list">
+<li class="entry-heading" aria-hidden="true">Concepts</li>
+<li data-type="definition" data-search="lax3.coloredgraphs colored graphs and walk distance definition"><a class="entry-link" href="../lax-3/Lax3.ColoredGraphs.html" data-full-title="Colored graphs and walk distance"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax3.ColoredGraphs</span></span></a></li>
+<li data-type="definition" data-search="lax3.distfo distance logic and distance rank definition"><a class="entry-link" href="../lax-3/Lax3.DistFO.html" data-full-title="Distance logic and distance rank"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax3.DistFO</span></span></a></li>
+<li data-type="definition" data-search="lax3.firstorder first-order logic on graphs definition"><a class="entry-link" href="../lax-3/Lax3.FirstOrder.html" data-full-title="First-order logic on graphs"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax3.FirstOrder</span></span></a></li>
+<li data-type="theorem" data-search="lax3.locality locality theorem for distance logic theorem"><a class="entry-link" href="../lax-3/Lax3.Locality.html" data-full-title="Locality theorem for distance logic"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax3.Locality</span></span></a></li>
+<li data-type="theorem" data-search="lax3.modelchecking first-order model checking on nowhere dense classes in almost linear time theorem"><a class="entry-link" href="../lax-3/Lax3.ModelChecking.html" data-full-title="First-order model checking on nowhere dense classes in almost linear time"><span class="entry-label"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><span class="entry-label-text">Lax3.ModelChecking</span></span></a></li>
+<li data-type="theorem" data-search="lax3.neighborhoodcoverbound neighborhood covers of weak coloring degree theorem"><a class="entry-link" href="../lax-3/Lax3.NeighborhoodCoverBound.html" data-full-title="Neighborhood covers of weak coloring degree"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax3.NeighborhoodCoverBound</span></span></a></li>
+<li data-type="definition" data-search="lax3.neighborhoodcovers sparse neighborhood covers definition"><a class="entry-link" href="../lax-3/Lax3.NeighborhoodCovers.html" data-full-title="Sparse neighborhood covers"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax3.NeighborhoodCovers</span></span></a></li>
+<li data-type="theorem" data-search="lax3.normalform normal form for distance logic theorem"><a class="entry-link" href="../lax-3/Lax3.NormalForm.html" data-full-title="Normal form for distance logic"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax3.NormalForm</span></span></a></li>
+<li data-type="theorem" data-search="lax3.nowheredensesplitter splitter wins on nowhere dense classes theorem"><a class="entry-link" href="../lax-3/Lax3.NowhereDenseSplitter.html" data-full-title="Splitter wins on nowhere dense classes"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax3.NowhereDenseSplitter</span></span></a></li>
+<li data-type="definition" data-search="lax3.scattersentences scatter sentences definition"><a class="entry-link" href="../lax-3/Lax3.ScatterSentences.html" data-full-title="Scatter sentences"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax3.ScatterSentences</span></span></a></li>
+<li data-type="definition" data-search="lax3.splittergame the isolation splitter game definition"><a class="entry-link" href="../lax-3/Lax3.SplitterGame.html" data-full-title="The isolation splitter game"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax3.SplitterGame</span></span></a></li>
+<li class="entry-heading" aria-hidden="true">Proofs</li>
+<li class="active" data-type="proof" data-search="lax3proofs.assembly.locality proof"><a class="entry-link" href="../lax-3/Lax3Proofs.Assembly.locality.html" data-full-title="Lax3Proofs.Assembly.locality"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax3Proofs.Assembly.locality</span></span></a></li>
+<li data-type="proof" data-search="lax3proofs.assembly.normalform proof"><a class="entry-link" href="../lax-3/Lax3Proofs.Assembly.normalForm.html" data-full-title="Lax3Proofs.Assembly.normalForm"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax3Proofs.Assembly.normalForm</span></span></a></li>
+<li data-type="proof" data-search="lax3proofs.coverconstruction.exists_neighborhoodcover_degree_wcol proof"><a class="entry-link" href="../lax-3/Lax3Proofs.CoverConstruction.exists_neighborhoodCover_degree_wcol.html" data-full-title="Lax3Proofs.CoverConstruction.exists_neighborhoodCover_degree_wcol"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax3Proofs.CoverConstruction.exists_neighborhoodCover_degree_wcol</span></span></a></li>
+<li data-type="proof" data-search="lax3proofs.splitterwin.splitterwins_of_nowheredense proof"><a class="entry-link" href="../lax-3/Lax3Proofs.SplitterWin.splitterWins_of_nowhereDense.html" data-full-title="Lax3Proofs.SplitterWin.splitterWins_of_nowhereDense"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax3Proofs.SplitterWin.splitterWins_of_nowhereDense</span></span></a></li>
+<li id="entry-list-empty" hidden>No entries match.</li>
+</ul>
+</aside>
+<section id="main"><div id="detail">
+<p class="draft-banner"><strong>Draft</strong> — mutable and not usable as a dependency; its citation marks the draft state.</p>
+<div class="detail-heading concept-heading">
+<div><p class="concept-id"><span class="proof-badge" role="img" aria-label="proof">⊢</span><code>Lax3Proofs.Assembly.locality</code></p>
+<p class="concept-microline"><code>proofs/Lax3Proofs/Assembly.lean</code> · <a href="index.html">lax-3</a></p></div>
+<span class="status-pills"><span class="status-pill pill-proven" title="Every assumption is itself proven; the conclusion stands unconditionally.">grounded</span></span>
+</div>
+<div class="block block-evidence"><h3>What this proof establishes</h3>
+<div class="judgment">
+<div class="judgment-assumptions"><p class="judgment-unconditional">no assumptions</p></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="../lax-3/Lax3.Locality.html" title="Lax3.Locality.locality"><code>Lax3.Locality</code></a></span></div>
+</div>
+<p class="honesty-note">Assuming the claims on the left, the claim on the right holds — checked by the archive's pipeline. Proof code is not displayed here.</p>
+<p class="source-action"><a class="source-button" href="https://github.com/lax-archive/lax-submissions/blob/4af91eadd1217e0c3b3db5837b8c966f31c8c523/nowhere-dense-model-checking/proofs/Lax3Proofs/Assembly.lean"><svg class="gh-mark" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true" focusable="false"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg><span>Read the Lean proof on GitHub</span></a></p>
+</div>
+<div class="block block-statement"><h3>Description</h3><div class="latex-content"><p><strong>The locality theorem</strong> (Theorem 1 of arXiv:2606.23180): every formula
+of distance rank <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>k</mi><mo separator="true">,</mo><mi>q</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(k, q)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.0315em;">k</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">q</span><span class="mclose">)</span></span></span></span> is equivalent to a boolean combination of local
+formulas and scatter sentences, all of distance rank <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>k</mi><mo separator="true">,</mo><mi>q</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(k, q)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.0315em;">k</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">q</span><span class="mclose">)</span></span></span></span>.</p>
+</div></div>
+<div class="block"><h3>Proof strategy</h3><div class="latex-content"><p>Structural induction on the formula, the rank read off by inverting the
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>D</mi><mi>R</mi><mi>a</mi><mi>n</mi><mi>k</mi></mrow><annotation encoding="application/x-tex">DRank</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">D</span><span class="mord mathnormal" style="margin-right:0.0077em;">R</span><span class="mord mathnormal" style="margin-right:0.0315em;">ank</span></span></span></span> derivation at each step. Atoms are their own combinations,
+boolean connectives compose the combinations of their parts, and both
+quantifiers first apply the induction hypothesis to the body and then
+pull the scatter sentences — being sentences, they do not see the bound
+variable — outside the quantifier, leaving one local formula per truth
+pattern of them. A local quantifier is then simply put back in front of
+that formula. An unrestricted quantifier is the source's real case: over
+an empty context it becomes a scatter sentence with a single witness,
+and otherwise the witness is split into a near one, which is a local
+quantification guarded over the whole tuple, and a far one, which the
+separation lemma and the far-quantification lemma turn into local
+formulas and scatter sentences. See the module docstring for the map of
+the imported pieces.</p>
+</div></div>
+</div></section>
+</main>
+<script src="../assets/sidebar.js"></script>
+</body></html>
