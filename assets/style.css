@@ -205,6 +205,8 @@ body{
   border-bottom: 1px solid var(--border);
 }
 
+.random-submission[hidden]{ display: none; }
+
 .random-submission h2{
   margin-bottom: 0.4rem;
   color: var(--text-dim);
