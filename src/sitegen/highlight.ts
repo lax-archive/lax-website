@@ -68,8 +68,8 @@ function statementProofActions(
     statementDeclarationLine(sourceLines, statement) === line ? proofLinks.get(statement.id) ?? [] : []);
   if (links.length === 0) return '<td class="statement-actions"></td>';
   return `<td class="statement-actions"><span class="statement-proof-links">${links.map((link, index) => {
-    const label = links.length === 1 ? "Proof" : `Proof ${index + 1}`;
-    return `<a class="statement-proof-button" href="${attr(link.href)}" aria-label="${attr(`Open proof ${link.id}`)}" title="${attr(link.id)}"><span aria-hidden="true">⊢</span>${label}</a>`;
+    const label = links.length === 1 ? "Go to Proof" : `Go to Proof ${index + 1}`;
+    return `<a class="statement-proof-button" href="${attr(link.href)}" aria-label="${attr(`Open proof ${link.id}`)}" title="${attr(link.id)}"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">${label}</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a>`;
   }).join("")}</span></td>`;
 }
 

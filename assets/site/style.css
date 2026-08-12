@@ -724,25 +724,33 @@ body{
   display: inline-flex;
   align-items: center;
   gap: 0.38rem;
-  padding: 0.3rem 0.75rem;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-control);
-  background: var(--surface);
+  padding: 0.28rem 0.2rem;
   color: var(--link);
   font-family: 'Latin Modern', Georgia, serif;
   font-size: 0.9rem;
   line-height: 1.25;
   text-decoration: none;
+  white-space: nowrap;
 }
 
-.statement-proof-button:hover{
-  border-color: var(--accent);
-  background: var(--accent-light);
+.statement-proof-mark{
+  padding: 0.05rem 0.42rem;
+  border: 1px solid var(--text-dim);
+  border-radius: var(--radius-chip);
+  background: var(--surface);
+  color: var(--text);
+  font-family: serif;
+  line-height: 1.35;
 }
+
+.statement-proof-label{ text-decoration: underline; text-underline-offset: 0.14em; }
+.statement-proof-arrow{ transition: transform 120ms ease; }
+.statement-proof-button:hover .statement-proof-mark{ border-color: var(--accent); background: var(--accent-light); }
+.statement-proof-button:hover .statement-proof-arrow{ transform: translateX(0.12rem); }
 
 .statement-proof-button:focus-visible{
   outline: 2px solid var(--accent);
-  outline-offset: 1px;
+  outline-offset: 2px;
 }
 
 .statement-anchor{
