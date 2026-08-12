@@ -18,6 +18,17 @@ import {
 
 const MATHLIB_DOCS = "https://leanprover-community.github.io/mathlib4_docs/";
 
+/** Statement ranges include their leading documentation. Find the declaration
+ * row so a proof action can be positioned beside the axiom itself. */
+function statementDeclarationLine(source: string, start?: number, end?: number): number | undefined {
+  if (start === undefined || end === undefined) return start;
+  const lines = source.split("\n");
+  for (let line = start; line <= end; line++) {
+    if (/^\s*(?:axiom|theorem|lemma)\b/.test(lines[line - 1] ?? "")) return line;
+  }
+  return start;
+}
+
 /** The evidence block of a claim-concept: every archived proof concluding
  * this claim, each relative to its own assumptions — "true relative to what".
  * Definition-concepts (no statement) claim nothing and get no block; an open
@@ -65,6 +76,22 @@ export async function conceptPage(ctx: PageContext, located: LocatedConcept): Pr
   const depsCol = (heading: string, rows: string[]) =>
     `<div class="deps-col"><h3>${esc(heading)}</h3>${rows.length ? `<ul class="deps-list">${rows.join("")}</ul>` : `<p class="empty-note">none</p>`}</div>`;
 
+  const statement = concept.statements[0];
+  const declarationLine = statement
+    ? statementDeclarationLine(concept.sourceText, statement.startLine, statement.endLine)
+    : undefined;
+  const proofLinks = statement
+    ? (ctx.model.statementProofs.get(statement.id) ?? []).map(({ output: proofOutput, proof }) => ({
+      id: proof.id,
+      href: `../${proofOutput.id}/${proof.id}.html`,
+    }))
+    : [];
+  const proofActions = proofLinks.length && declarationLine !== undefined
+    ? `<span class="source-proof-rail" data-source-line="L${declarationLine}" aria-label="Proof links">${proofLinks.map((link, index) => {
+        const label = proofLinks.length === 1 ? "Show Proof" : `Show Proof ${index + 1}`;
+        return `<a class="statement-proof-button" href="${attr(link.href)}" aria-label="${attr(`Open proof ${link.id}`)}" title="${attr(link.id)}"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">${label}</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a>`;
+      }).join("")}</span>`
+    : "";
   const sourceRows = await highlightSource(concept.sourceText, concept.statements, proven);
 
   const content = `${draftBanner(submission.record.state)}
@@ -87,7 +114,7 @@ ${evidence(ctx, located)}
 <div class="block block-lean"><h3 class="section-heading">Lean source${githubFile ? ` <a class="source-link" href="${attr(githubFile)}">view on GitHub</a>` : ""}</h3>
 <div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
 ${sourceRows}
-</table></div></div></div>
+</table></div>${proofActions}</div></div>
 ${sections}
 <div class="block"><div class="deps-columns">
 ${depsCol("Builds on", importRows)}
@@ -104,6 +131,6 @@ ${graphDataScript({
     rootRel: "../",
     sidebar: submissionSidebar(ctx.model, submission, "../", { activeId: concept.id }),
     content,
-    scripts: ["assets/layout.js", "assets/dag.js"],
+    scripts: ["assets/layout.js", "assets/dag.js", "assets/source-proof.js"],
   });
 }

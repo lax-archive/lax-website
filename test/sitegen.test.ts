@@ -316,7 +316,7 @@ After the formula.`, "");
       expect(bytes.equals(second.get(name)!)).toBe(true);
       expect(SITE_MIME[path.extname(name)], `missing MIME for ${name}`).toBeDefined();
     }
-    for (const asset of ["style.css", "sidebar.js", "landing.js", "layout.js", "dag.js", "citation.js", "katex.css", "lax-white-paper.pdf", path.join("fonts", "LM-regular.woff2")])
+    for (const asset of ["style.css", "sidebar.js", "landing.js", "layout.js", "dag.js", "source-proof.js", "citation.js", "katex.css", "lax-white-paper.pdf", path.join("fonts", "LM-regular.woff2")])
       expect(fs.existsSync(path.join(one, "assets", asset)), asset).toBe(true);
     // Graph containers must be measurable before dag.js appends their SVG.
     const css = fs.readFileSync(path.join(one, "assets", "style.css"), "utf8");
@@ -797,6 +797,18 @@ After the formula.`, "");
     expect(html).toContain("<h3>Review notes</h3>");
     // statement links now land on the source line; individual cards are gone
     expect(html).toContain('id="s-Lax2.C.truth"');
+    // The proof action floats over the source block at the declaration row,
+    // while staying outside the horizontally scrolling table itself.
+    const docRow = html.match(/<tr id="L2"[^]*?<\/tr>/)?.[0] ?? "";
+    const axiomRow = html.match(/<tr id="L3"[^]*?<\/tr>/)?.[0] ?? "";
+    expect(docRow).not.toContain("statement-proof-button");
+    expect(axiomRow).not.toContain("statement-proof-button");
+    expect(html).toContain('class="source-proof-rail" data-source-line="L3"');
+    expect(html).toContain('class="statement-proof-button" href="../Lax2/Lax2Proofs.truth.html"');
+    expect(html).toContain('aria-label="Open proof Lax2Proofs.truth"');
+    expect(html).toContain('class="statement-proof-label">Show Proof</span>');
+    expect(html.indexOf('class="statement-proof-button"')).toBeGreaterThan(html.indexOf('class="inline-contract-shell"'));
+    expect(html).toMatch(/<script src="\.\.\/assets\/source-proof\.js\?v=[a-f0-9]+"><\/script>/);
     expect(html).not.toContain('class="statement"');
     expect(html).not.toContain('block-statements');
     expect(html).toContain("mathlib4_docs/Mathlib/Data/Nat/Basic.html");
