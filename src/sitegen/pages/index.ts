@@ -31,23 +31,14 @@ axiom erdosHajnal_C₅ :
   ∃ c > 0, ∀ᶠ n in atTop, ∀ G : SimpleGraph (Fin n),
     C₅Free G → HasLargeHomogeneousSet G ((n : ℝ) ^ c)`;
 
-const PROOF_DEMO = String.raw`import ErdosHajnal.C5
-import ErdosHajnal.FiveHole
-
-namespace ErdosHajnalProofs
-
-open Filter Real SimpleGraph
-
-theorem erdosHajnal_C₅ :
+const PROOF_DEMO = String.raw`theorem erdosHajnal_C₅ :
     ∃ c > 0, ∀ᶠ n in atTop, ∀ G : SimpleGraph (Fin n),
       C₅Free G → HasLargeHomogeneousSet G ((n : ℝ) ^ c) := by
   obtain ⟨c, hc, hmain⟩ :=
     polynomial_homogeneous_set_for_five_hole
   refine ⟨c, hc, ?_⟩
   filter_upwards [hmain] with n hn
-  exact fun G hG ↦ hn G (by simpa [C₅Free] using hG)
-
-end ErdosHajnalProofs`;
+  exact fun G hG ↦ hn G (by simpa [C₅Free] using hG)`;
 
 function landingDemoFace(
   side: "concept" | "proof",
@@ -55,27 +46,32 @@ function landingDemoFace(
   code: string,
 ): string {
   const concept = side === "concept";
+  const codeBlock = concept
+    ? `<span class="landing-demo-code"><code>${code}</code></span>`
+    : `<span class="landing-demo-code landing-demo-code-excerpt">
+<span class="landing-demo-continuation" aria-hidden="true"><i></i><b>⋮</b><i></i></span>
+<code>${code}</code>
+<span class="landing-demo-continuation" aria-hidden="true"><i></i><b>⋮</b><i></i></span>
+</span>`;
   return `<span class="landing-demo-face landing-demo-${side}" aria-hidden="true">
 <span class="landing-demo-filebar">
-<span class="landing-demo-file-heading"><span class="landing-demo-file-icon"></span><strong>${concept ? "Concept file" : "Proof file"}</strong></span>
+<span class="landing-demo-file-heading"><strong>${concept ? "Concept file" : "Proof file"}</strong>${concept ? "" : '<span class="landing-demo-file-note">excerpt</span>'}</span>
 <span class="landing-demo-file-path">${esc(path)}</span>
-<span class="landing-demo-side">Side ${concept ? "A" : "B"}</span>
 </span>
-<span class="landing-demo-code"><code>${code}</code></span>
+${codeBlock}
 <span class="landing-demo-trust">
-<span class="landing-demo-trust-index">${concept ? "01" : "02"}</span>
 <span class="landing-demo-trust-copy"><strong>${concept ? "Meaning" : "Evidence"}</strong><small>${concept ? "read by people" : "checked by Lean"}</small></span>
-<span class="landing-demo-turn"><span>${concept ? "See the proof" : "See the concept"}</span><b>${concept ? "↻" : "↺"}</b></span>
+${concept ? '<span class="landing-demo-turn"><span>See the proof</span><b>↻</b></span>' : ""}
 </span>
 </span>`;
 }
 
 async function landingDemo(): Promise<string> {
   const [concept, proof] = await Promise.all([
-    highlightSnippet(CONCEPT_DEMO),
-    highlightSnippet(PROOF_DEMO),
+    highlightSnippet(CONCEPT_DEMO, { accentLines: [14, 15, 16] }),
+    highlightSnippet(PROOF_DEMO, { startLine: 417 }),
   ]);
-  return `<button class="landing-demo-card" type="button" data-proof-flip aria-pressed="false" aria-describedby="landing-demo-instruction" aria-label="Concept file: Erdős–Hajnal for the five-cycle. Hover or activate to see its proof file.">
+  return `<button class="landing-demo-card" type="button" data-proof-flip aria-pressed="false" aria-label="Concept file: Erdős–Hajnal for the five-cycle. Hover or activate to see a proof excerpt.">
 <span class="landing-demo-inner">
 ${landingDemoFace("concept", "concepts/ErdosHajnal/C5.lean", concept)}
 ${landingDemoFace("proof", "proofs/ErdosHajnalProofs/C5.lean", proof)}
@@ -217,15 +213,18 @@ ${copyablePrompt(markdown.render(landing.submit, ""))}
 ${citeExampleLink}
 </section>`;
   const content = `<section class="landing-demo-showcase" aria-label="How Lax separates mathematical meaning from proof evidence">
-${demo}
-<p class="landing-demo-instruction" id="landing-demo-instruction"><span aria-hidden="true">↻</span> Hover, or press Enter / tap to turn the file over.</p>
 <div class="landing-lede latex-content">
 ${markdown.render(landing.lede, "")}
 </div>
-</section>
-<div class="landing-about latex-content">
+${demo}
+<div class="landing-demo-summary latex-content">
 ${markdown.render(landing.introduction, "")}
 </div>
+<div class="landing-hero-actions">
+<button class="landing-hero-button primary" type="button" data-landing-action="read" aria-controls="landing-panel-read">Browse submissions <b aria-hidden="true">↓</b></button>
+<a class="landing-hero-button secondary" href="assets/lax-white-paper.pdf">Read the Lax paper <b aria-hidden="true">↗</b></a>
+</div>
+</section>
 <section class="landing-actions" aria-labelledby="landing-actions-heading">
 <h2 id="landing-actions-heading">What you can do here</h2>
 <div class="landing-action-grid">
