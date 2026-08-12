@@ -675,13 +675,14 @@ body{
 /* ── Lean source table ── */
 
 .inline-contract-shell{
+  position: relative;
   border: 1px solid var(--border-light);
   border-radius: var(--radius-card);
   background: var(--code-bg);
-  overflow: hidden;
+  overflow: visible;
 }
 
-.inline-contract-wrap{ overflow-x: auto; }
+.inline-contract-wrap{ overflow-x: auto; overflow-y: hidden; border-radius: inherit; }
 
 .inline-contract-table{
   border-collapse: collapse;
@@ -706,17 +707,26 @@ body{
 
 .inline-contract-table .line-code{ padding-right: 1rem; }
 
-.lean-source-heading{
-  display: flex;
+.source-proof-rail{
+  position: absolute;
+  top: 0.7rem;
+  right: 0.6rem;
+  z-index: 2;
+  display: inline-flex;
   align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 0.45rem 1rem;
-  margin-bottom: 0.7rem;
+  gap: 0.3rem;
+  padding: 0.2rem 0.38rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-control);
+  background: var(--surface);
+  box-shadow: 0 3px 10px rgba(43, 43, 43, 0.16);
+  transform: translateY(-50%);
 }
 
-.block .lean-source-heading h3{ margin-bottom: 0; }
-.statement-proof-links{ display: inline-flex; gap: 0.3rem; }
+.source-proof-rail.outside{
+  right: auto;
+  left: calc(100% + 0.65rem);
+}
 
 .statement-proof-button{
   display: inline-flex;
