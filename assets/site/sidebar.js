@@ -105,7 +105,10 @@
   function applySubmissionFilters() {
     const submissions = document.getElementById('submissions-list');
     if (!submissions) return;
-    const search = document.getElementById('filter-search')?.value.trim().toLowerCase() ?? '';
+    const searchEl = document.getElementById('filter-search');
+    const search = searchEl?.value.trim().toLowerCase() ?? '';
+    const randomSubmission = document.querySelector('.random-submission');
+    if (randomSubmission) randomSubmission.hidden = Boolean(searchEl?.value.length);
     const visible = filterList(submissions, search, 'all', 'submissions-list-empty', selectedTag);
     updateTagStatus(visible);
     // Search results live in the always-visible Read section. Move there

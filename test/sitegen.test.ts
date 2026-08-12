@@ -350,6 +350,7 @@ After the formula.`, "");
     expect(sidebarScript).not.toContain("filterList(list, search, type, 'entry-list-empty', selectedTag)");
     expect(sidebarScript).toContain("function setupRandomSubmission()");
     expect(sidebarScript).toContain("Math.floor(Math.random() * candidates.length)");
+    expect(sidebarScript).toContain("randomSubmission.hidden = Boolean(searchEl?.value.length)");
   });
 
   it("rejects generated page paths that escape the output directory", async () => {
@@ -424,13 +425,14 @@ After the formula.`, "");
     expect(index).toContain('data-state="registered"');
     expect(index).toContain('placeholder="Search titles and concepts"');
     expect(index).toContain('<section class="random-submission" aria-labelledby="random-submission-heading">');
-    expect(index).toContain('<h2 id="random-submission-heading">Explore a Submission</h2>');
+    expect(index).toContain('<h2 id="random-submission-heading">Explore a random submission</h2>');
     expect(index).toContain('href="Lax2/index.html" data-random-submission-link');
     expect(index).toContain('href="Lax2/index.html" data-random-submission-candidate');
     const randomSubmission = index.slice(index.indexOf('<section class="random-submission"'), index.indexOf("</section>"));
     expect(randomSubmission).toContain('<span class="random-submission-title">Two</span>');
     expect(randomSubmission).not.toContain('class="entry-id"');
-    expect(index.indexOf('class="random-submission"')).toBeLessThan(index.indexOf('class="sidebar-filters"'));
+    expect(index.indexOf('class="random-submission"')).toBeGreaterThan(index.indexOf('class="sidebar-filters"'));
+    expect(index.indexOf('class="random-submission"')).toBeLessThan(index.indexOf('<ul id="entry-list">'));
     expect(index).toContain('id="submissions-list"');
     expect(index).toContain('id="submissions-list-empty"');
     // sidebar rows share the flat entry grammar and use titles alone
@@ -447,25 +449,25 @@ After the formula.`, "");
     const contributing = fs.readFileSync(path.join(root, "contributing.html"), "utf8");
     expect(contributing).toContain('<h1 class="paper-title">Contributing</h1>');
     expect(contributing).toContain("The workflow");
-    expect(contributing.indexOf('class="random-submission"')).toBeLessThan(contributing.indexOf('class="sidebar-back"'));
+    expect(contributing).not.toContain('class="random-submission"');
   });
 
-  it("offers every submission as a random sidebar choice on every page type", async () => {
+  it("offers every submission as a random sidebar choice only on the front page", async () => {
     const root = tmpDir("lax-site-random-submission-");
     await generateSite([...submissions(), ...graphSubmissions()], root);
-    const pages = [
-      ["index.html", "Lax4/index.html"],
-      ["contributing.html", "Lax4/index.html"],
-      [path.join("Lax2", "index.html"), "../Lax4/index.html"],
-      [path.join("Lax2", "Lax2.C.html"), "../Lax4/index.html"],
-      [path.join("Lax2", "Lax2Proofs.truth.html"), "../Lax4/index.html"],
-    ];
-    for (const [pageName, candidateHref] of pages) {
+    const index = fs.readFileSync(path.join(root, "index.html"), "utf8");
+    const sidebar = index.slice(index.indexOf('<aside id="sidebar">'), index.indexOf("</aside>"));
+    expect(sidebar.match(/data-random-submission-candidate/g)).toHaveLength(4);
+    expect(sidebar).toContain('href="Lax4/index.html" data-random-submission-candidate');
+    expect(sidebar).toContain("View submission");
+    for (const pageName of [
+      "contributing.html",
+      path.join("Lax2", "index.html"),
+      path.join("Lax2", "Lax2.C.html"),
+      path.join("Lax2", "Lax2Proofs.truth.html"),
+    ]) {
       const html = fs.readFileSync(path.join(root, pageName), "utf8");
-      const sidebar = html.slice(html.indexOf('<aside id="sidebar">'), html.indexOf("</aside>"));
-      expect(sidebar.match(/data-random-submission-candidate/g)).toHaveLength(4);
-      expect(sidebar).toContain(`href="${candidateHref}" data-random-submission-candidate`);
-      expect(sidebar).toContain("View submission");
+      expect(html).not.toContain('class="random-submission"');
     }
   });
 

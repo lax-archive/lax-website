@@ -46,7 +46,7 @@ ${sections}`;
   return page({
     title: `${proof.id} — ${output.id}`,
     rootRel: "../",
-    sidebar: submissionSidebar(ctx.model, ctx.markdown, submission, "../", { activeId: proof.id }),
+    sidebar: submissionSidebar(ctx.model, submission, "../", { activeId: proof.id }),
     content,
   });
 }
