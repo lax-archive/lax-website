@@ -69,13 +69,16 @@
 </aside>
 <section id="main"><div id="detail">
 <section class="landing-demo-showcase" aria-label="How Lax separates mathematical meaning from proof evidence">
-<button class="landing-demo-card" type="button" data-proof-flip aria-pressed="false" aria-describedby="landing-demo-instruction" aria-label="Concept file: Erdős–Hajnal for the five-cycle. Hover or activate to see its proof file.">
+<div class="landing-lede latex-content">
+<p>Formalized mathematics that can be read, checked, and built upon.</p>
+
+</div>
+<button class="landing-demo-card" type="button" data-proof-flip aria-pressed="false" aria-label="Concept file: Erdős–Hajnal for the five-cycle. Hover or activate to see a proof excerpt.">
 <span class="landing-demo-inner">
 <span class="landing-demo-face landing-demo-concept" aria-hidden="true">
 <span class="landing-demo-filebar">
-<span class="landing-demo-file-heading"><span class="landing-demo-file-icon"></span><strong>Concept file</strong></span>
+<span class="landing-demo-file-heading"><strong>Concept file</strong></span>
 <span class="landing-demo-file-path">concepts/ErdosHajnal/C5.lean</span>
-<span class="landing-demo-side">Side A</span>
 </span>
 <span class="landing-demo-code"><code><span class="landing-demo-code-line" data-line="1"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Combinatorics.SimpleGraph.Clique</span></span>
 <span class="landing-demo-code-line" data-line="2"> </span>
@@ -90,68 +93,49 @@
 <span class="landing-demo-code-line" data-line="11"><span style="color:#24292E">    (G : SimpleGraph V) (r : ℝ) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></span>
 <span class="landing-demo-code-line" data-line="12"><span style="color:#24292E">  G.indepNum ≥ r ∨ G.cliqueNum ≥ r</span></span>
 <span class="landing-demo-code-line" data-line="13"> </span>
-<span class="landing-demo-code-line" data-line="14"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> erdosHajnal_C₅</span><span style="color:#24292E"> :</span></span>
-<span class="landing-demo-code-line" data-line="15"><span style="color:#24292E">  ∃ c &gt; </span><span style="color:#005CC5">0</span><span style="color:#24292E">, ∀ᶠ n </span><span style="color:#D73A49">in</span><span style="color:#24292E"> atTop, ∀ G : SimpleGraph (Fin n),</span></span>
-<span class="landing-demo-code-line" data-line="16"><span style="color:#24292E">    C₅Free G → HasLargeHomogeneousSet G ((n : ℝ) ^ c)</span></span></code></span>
+<span class="landing-demo-code-line landing-demo-code-line-accent" data-line="14"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> erdosHajnal_C₅</span><span style="color:#24292E"> :</span></span>
+<span class="landing-demo-code-line landing-demo-code-line-accent" data-line="15"><span style="color:#24292E">  ∃ c &gt; </span><span style="color:#005CC5">0</span><span style="color:#24292E">, ∀ᶠ n </span><span style="color:#D73A49">in</span><span style="color:#24292E"> atTop, ∀ G : SimpleGraph (Fin n),</span></span>
+<span class="landing-demo-code-line landing-demo-code-line-accent" data-line="16"><span style="color:#24292E">    C₅Free G → HasLargeHomogeneousSet G ((n : ℝ) ^ c)</span></span></code></span>
 <span class="landing-demo-trust">
-<span class="landing-demo-trust-index">01</span>
 <span class="landing-demo-trust-copy"><strong>Meaning</strong><small>read by people</small></span>
 <span class="landing-demo-turn"><span>See the proof</span><b>↻</b></span>
 </span>
 </span>
 <span class="landing-demo-face landing-demo-proof" aria-hidden="true">
 <span class="landing-demo-filebar">
-<span class="landing-demo-file-heading"><span class="landing-demo-file-icon"></span><strong>Proof file</strong></span>
+<span class="landing-demo-file-heading"><strong>Proof file</strong><span class="landing-demo-file-note">excerpt</span></span>
 <span class="landing-demo-file-path">proofs/ErdosHajnalProofs/C5.lean</span>
-<span class="landing-demo-side">Side B</span>
 </span>
-<span class="landing-demo-code"><code><span class="landing-demo-code-line" data-line="1"><span style="color:#D73A49">import</span><span style="color:#24292E"> ErdosHajnal.C5</span></span>
-<span class="landing-demo-code-line" data-line="2"><span style="color:#D73A49">import</span><span style="color:#24292E"> ErdosHajnal.FiveHole</span></span>
-<span class="landing-demo-code-line" data-line="3"> </span>
-<span class="landing-demo-code-line" data-line="4"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> ErdosHajnalProofs</span></span>
-<span class="landing-demo-code-line" data-line="5"> </span>
-<span class="landing-demo-code-line" data-line="6"><span style="color:#D73A49">open</span><span style="color:#24292E"> Filter Real SimpleGraph</span></span>
-<span class="landing-demo-code-line" data-line="7"> </span>
-<span class="landing-demo-code-line" data-line="8"><span style="color:#D73A49">theorem</span><span style="color:#6F42C1"> erdosHajnal_C₅</span><span style="color:#24292E"> :</span></span>
-<span class="landing-demo-code-line" data-line="9"><span style="color:#24292E">    ∃ c &gt; </span><span style="color:#005CC5">0</span><span style="color:#24292E">, ∀ᶠ n </span><span style="color:#D73A49">in</span><span style="color:#24292E"> atTop, ∀ G : SimpleGraph (Fin n),</span></span>
-<span class="landing-demo-code-line" data-line="10"><span style="color:#24292E">      C₅Free G → HasLargeHomogeneousSet G ((n : ℝ) ^ c) := </span><span style="color:#D73A49">by</span></span>
-<span class="landing-demo-code-line" data-line="11"><span style="color:#24292E">  obtain ⟨c, hc, hmain⟩ :=</span></span>
-<span class="landing-demo-code-line" data-line="12"><span style="color:#24292E">    polynomial_homogeneous_set_for_five_hole</span></span>
-<span class="landing-demo-code-line" data-line="13"><span style="color:#24292E">  refine ⟨c, hc, ?_⟩</span></span>
-<span class="landing-demo-code-line" data-line="14"><span style="color:#24292E">  filter_upwards [hmain] </span><span style="color:#D73A49">with</span><span style="color:#24292E"> n hn</span></span>
-<span class="landing-demo-code-line" data-line="15"><span style="color:#24292E">  exact </span><span style="color:#D73A49">fun</span><span style="color:#24292E"> G hG ↦ hn G (</span><span style="color:#D73A49">by</span><span style="color:#24292E"> simpa [C₅Free] </span><span style="color:#D73A49">using</span><span style="color:#24292E"> hG)</span></span>
-<span class="landing-demo-code-line" data-line="16"> </span>
-<span class="landing-demo-code-line" data-line="17"><span style="color:#D73A49">end</span><span style="color:#24292E"> ErdosHajnalProofs</span></span></code></span>
+<span class="landing-demo-code landing-demo-code-excerpt">
+<span class="landing-demo-continuation" aria-hidden="true"><i></i><b>⋮</b><i></i></span>
+<code><span class="landing-demo-code-line" data-line="417"><span style="color:#D73A49">theorem</span><span style="color:#6F42C1"> erdosHajnal_C₅</span><span style="color:#24292E"> :</span></span>
+<span class="landing-demo-code-line" data-line="418"><span style="color:#24292E">    ∃ c &gt; </span><span style="color:#005CC5">0</span><span style="color:#24292E">, ∀ᶠ n </span><span style="color:#D73A49">in</span><span style="color:#24292E"> atTop, ∀ G : SimpleGraph (Fin n),</span></span>
+<span class="landing-demo-code-line" data-line="419"><span style="color:#24292E">      C₅Free G → HasLargeHomogeneousSet G ((n : ℝ) ^ c) := </span><span style="color:#D73A49">by</span></span>
+<span class="landing-demo-code-line" data-line="420"><span style="color:#24292E">  obtain ⟨c, hc, hmain⟩ :=</span></span>
+<span class="landing-demo-code-line" data-line="421"><span style="color:#24292E">    polynomial_homogeneous_set_for_five_hole</span></span>
+<span class="landing-demo-code-line" data-line="422"><span style="color:#24292E">  refine ⟨c, hc, ?_⟩</span></span>
+<span class="landing-demo-code-line" data-line="423"><span style="color:#24292E">  filter_upwards [hmain] </span><span style="color:#D73A49">with</span><span style="color:#24292E"> n hn</span></span>
+<span class="landing-demo-code-line" data-line="424"><span style="color:#24292E">  exact </span><span style="color:#D73A49">fun</span><span style="color:#24292E"> G hG ↦ hn G (</span><span style="color:#D73A49">by</span><span style="color:#24292E"> simpa [C₅Free] </span><span style="color:#D73A49">using</span><span style="color:#24292E"> hG)</span></span></code>
+<span class="landing-demo-continuation" aria-hidden="true"><i></i><b>⋮</b><i></i></span>
+</span>
 <span class="landing-demo-trust">
-<span class="landing-demo-trust-index">02</span>
 <span class="landing-demo-trust-copy"><strong>Evidence</strong><small>checked by Lean</small></span>
-<span class="landing-demo-turn"><span>See the concept</span><b>↺</b></span>
+
 </span>
 </span>
 </span>
 </button>
-<p class="landing-demo-instruction" id="landing-demo-instruction"><span aria-hidden="true">↻</span> Hover, or press Enter / tap to turn the file over.</p>
-<div class="landing-lede latex-content">
-<p>To formalized mathematics what arXiv is to preprints: a network of
-independent, citable submissions building on one another.</p>
+<div class="landing-demo-summary latex-content">
+<p>Lax is an open archive for contemporary mathematics written in Lean. Think of
+it as an arXiv for formalization: independent, citable submissions that people
+can read, software can check, and future work can build upon.</p>
 
+</div>
+<div class="landing-hero-actions">
+<button class="landing-hero-button primary" type="button" data-landing-action="read" aria-controls="landing-panel-read">Browse submissions <b aria-hidden="true">↓</b></button>
+<a class="landing-hero-button secondary" href="assets/lax-white-paper.pdf">Read the Lax paper <b aria-hidden="true">↗</b></a>
 </div>
 </section>
-<div class="landing-about latex-content">
-<p>Submissions are written in Lean, a proof assistant in which mathematics is
-code. Lean checks correctness, not meaning: it certifies that a theorem is
-true, but not that it says what the author intended.</p>
-<p>Lax separates submissions into <strong>concepts</strong> and <strong>proofs</strong>.</p>
-<ul>
-<li><strong>Concepts</strong> are the minimal code surface required to determine meaning. They
-demand careful human reading to ensure they match the author's intent.</li>
-<li><strong>Proofs</strong> are verified by Lean's kernel. They are therefore free to be long,
-unreadable, or machine-generated.</li>
-</ul>
-<p>In Lax, proofs merely establish <strong>what</strong> is true, not <strong>why</strong> it is true.
-The latter lives in the accompanying exposition and papers.</p>
-
-</div>
 <section class="landing-actions" aria-labelledby="landing-actions-heading">
 <h2 id="landing-actions-heading">What you can do here</h2>
 <div class="landing-action-grid">

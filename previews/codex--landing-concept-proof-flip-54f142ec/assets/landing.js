@@ -125,8 +125,8 @@
       card.classList.toggle('is-flipped', flipped);
       card.setAttribute('aria-pressed', String(flipped));
       card.setAttribute('aria-label', flipped
-        ? 'Proof file: Erdős–Hajnal for the five-cycle. Activate to return to its concept file.'
-        : 'Concept file: Erdős–Hajnal for the five-cycle. Hover or activate to see its proof file.');
+        ? 'Proof excerpt: Erdős–Hajnal for the five-cycle. Activate to return to its concept file.'
+        : 'Concept file: Erdős–Hajnal for the five-cycle. Hover or activate to see a proof excerpt.');
     }
 
     card.addEventListener('click', (event) => {
