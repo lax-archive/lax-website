@@ -1,6 +1,6 @@
 import { createHighlighter, type Highlighter } from "shiki";
 import type { StatementEntry } from "../types.js";
-import { attr, esc } from "./html.js";
+import { esc } from "./html.js";
 
 let highlighterPromise: Promise<Highlighter> | undefined;
 
@@ -9,8 +9,6 @@ function highlighter(): Promise<Highlighter> {
 }
 
 interface HastNode { type: string; value?: string; tagName?: string; properties?: Record<string, unknown>; children?: HastNode[] }
-
-export interface StatementProofLink { id: string; href: string }
 
 function renderNode(node: HastNode): string {
   if (node.type === "text") return esc(node.value ?? "");
@@ -47,53 +45,18 @@ function statementAnchors(line: number, statements: StatementEntry[]): string {
     .join("");
 }
 
-/** Build output includes a statement's leading doc comment in its source
- * range. Put proof actions on the declaration itself, rather than beside the
- * first documentation line. */
-function statementDeclarationLine(sourceLines: string[], statement: StatementEntry): number | undefined {
-  if (statement.startLine === undefined || statement.endLine === undefined) return statement.startLine;
-  for (let line = statement.startLine; line <= statement.endLine; line++) {
-    if (/^\s*(?:axiom|theorem|lemma)\b/.test(sourceLines[line - 1] ?? "")) return line;
-  }
-  return statement.startLine;
-}
-
-function statementProofActions(
-  line: number,
-  sourceLines: string[],
-  statements: StatementEntry[],
-  proofLinks: ReadonlyMap<string, readonly StatementProofLink[]>,
-): string {
-  const links = statements.flatMap((statement) =>
-    statementDeclarationLine(sourceLines, statement) === line ? proofLinks.get(statement.id) ?? [] : []);
-  if (links.length === 0) return '<td class="statement-actions"></td>';
-  return `<td class="statement-actions"><span class="statement-proof-links">${links.map((link, index) => {
-    const label = links.length === 1 ? "Go to Proof" : `Go to Proof ${index + 1}`;
-    return `<a class="statement-proof-button" href="${attr(link.href)}" aria-label="${attr(`Open proof ${link.id}`)}" title="${attr(link.id)}"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">${label}</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a>`;
-  }).join("")}</span></td>`;
-}
-
-export async function highlightSource(
-  source: string,
-  statements: StatementEntry[] = [],
-  proven = new Set<string>(),
-  proofLinks: ReadonlyMap<string, readonly StatementProofLink[]> = new Map(),
-): Promise<string> {
-  const sourceLines = source.split("\n");
-  const actions = (line: number) => proofLinks.size
-    ? statementProofActions(line, sourceLines, statements, proofLinks)
-    : "";
+export async function highlightSource(source: string, statements: StatementEntry[] = [], proven = new Set<string>()): Promise<string> {
   try {
     const hast = (await highlighter()).codeToHast(source, { lang: "lean4", theme: "github-light" }) as HastNode;
     const lines = lineNodes(hast);
     return lines.map((line, index) => {
       const n = index + 1;
-      return `<tr id="L${n}" class="${lineStatus(n, statements, proven).trim()}"><td class="line-num"><a href="#L${n}">${n}</a></td><td class="line-code">${statementAnchors(n, statements)}${(line.children ?? []).map(renderNode).join("") || " "}</td>${actions(n)}</tr>`;
+      return `<tr id="L${n}" class="${lineStatus(n, statements, proven).trim()}"><td class="line-num"><a href="#L${n}">${n}</a></td><td class="line-code">${statementAnchors(n, statements)}${(line.children ?? []).map(renderNode).join("") || " "}</td></tr>`;
     }).join("\n");
   } catch {
-    return sourceLines.map((line, index) => {
+    return source.split("\n").map((line, index) => {
       const n = index + 1;
-      return `<tr id="L${n}" class="${lineStatus(n, statements, proven).trim()}"><td class="line-num"><a href="#L${n}">${n}</a></td><td class="line-code">${statementAnchors(n, statements)}${esc(line) || " "}</td>${actions(n)}</tr>`;
+      return `<tr id="L${n}" class="${lineStatus(n, statements, proven).trim()}"><td class="line-num"><a href="#L${n}">${n}</a></td><td class="line-code">${statementAnchors(n, statements)}${esc(line) || " "}</td></tr>`;
     }).join("\n");
   }
 }

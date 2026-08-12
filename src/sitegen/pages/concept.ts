@@ -65,14 +65,20 @@ export async function conceptPage(ctx: PageContext, located: LocatedConcept): Pr
   const depsCol = (heading: string, rows: string[]) =>
     `<div class="deps-col"><h3>${esc(heading)}</h3>${rows.length ? `<ul class="deps-list">${rows.join("")}</ul>` : `<p class="empty-note">none</p>`}</div>`;
 
-  const statementProofLinks = new Map(concept.statements.map((statement) => [
-    statement.id,
-    (ctx.model.statementProofs.get(statement.id) ?? []).map(({ output: proofOutput, proof }) => ({
+  const statement = concept.statements[0];
+  const proofLinks = statement
+    ? (ctx.model.statementProofs.get(statement.id) ?? []).map(({ output: proofOutput, proof }) => ({
       id: proof.id,
       href: `../${proofOutput.id}/${proof.id}.html`,
-    })),
-  ]));
-  const sourceRows = await highlightSource(concept.sourceText, concept.statements, proven, statementProofLinks);
+    }))
+    : [];
+  const proofActions = proofLinks.length
+    ? `<span class="statement-proof-links" aria-label="Proof links">${proofLinks.map((link, index) => {
+        const label = proofLinks.length === 1 ? "Go to Proof" : `Go to Proof ${index + 1}`;
+        return `<a class="statement-proof-button" href="${attr(link.href)}" aria-label="${attr(`Open proof ${link.id}`)}" title="${attr(link.id)}"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">${label}</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a>`;
+      }).join("")}</span>`
+    : "";
+  const sourceRows = await highlightSource(concept.sourceText, concept.statements, proven);
 
   const content = `${draftBanner(submission.record.state)}
 <div class="detail-heading concept-heading">
@@ -91,7 +97,7 @@ ${conceptMapLegend("This concept", "Related concept")}
 </figure>
 ${evidence(ctx, located)}
 <div class="block block-statement"><h3>${esc(typeHeading)}</h3><div class="latex-content">${ctx.markdown.renderAuthorProse(concept.description, "../")}</div></div>
-<div class="block block-lean"><h3 class="section-heading">Lean source${githubFile ? ` <a class="source-link" href="${attr(githubFile)}">view on GitHub</a>` : ""}</h3>
+<div class="block block-lean"><div class="lean-source-heading"><h3 class="section-heading">Lean source${githubFile ? ` <a class="source-link" href="${attr(githubFile)}">view on GitHub</a>` : ""}</h3>${proofActions}</div>
 <div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
 ${sourceRows}
 </table></div></div></div>
