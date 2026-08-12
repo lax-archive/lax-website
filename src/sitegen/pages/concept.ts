@@ -96,6 +96,10 @@ export async function conceptPage(ctx: PageContext, located: LocatedConcept): Pr
       }).join("")}</span>`
     : "";
   const sourceRows = await highlightSource(concept.sourceText, concept.statements, proven);
+  const archivedSource = submission.integrity?.conceptFiles[concept.id];
+  const integrityNote = archivedSource
+    ? `<p class="honesty-note">Archived source SHA-256 <code>${esc(archivedSource.sha256)}</code> · validation capture <code>sha256:${esc(submission.integrity!.captureDigest)}</code> · commit <code>${esc(submission.integrity!.sourceCommit)}</code></p>`
+    : "";
 
   const content = `${draftBanner(submission.record.state)}
 <div class="detail-heading concept-heading">
@@ -115,6 +119,7 @@ ${conceptMapLegend("This concept", "Related concept")}
 ${evidence(ctx, located)}
 <div class="block block-statement"><h3>${esc(typeHeading)}</h3><div class="latex-content">${ctx.markdown.renderAuthorProse(concept.description, "../")}</div></div>
 <div class="block block-lean"><h3 class="section-heading">Lean source${githubFile ? ` <a class="source-link" href="${attr(githubFile)}">view on GitHub</a>` : ""}</h3>
+${integrityNote}
 <div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
 ${sourceRows}
 </table></div>${proofActions}</div></div>

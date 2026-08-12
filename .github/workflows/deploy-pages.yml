@@ -54,6 +54,13 @@ jobs:
         if: github.event_name != 'delete'
         run: npm run site:build -- --database data/lax-db --out _site
 
+      - name: Seal the generated site and its database revision
+        if: github.event_name != 'delete'
+        run: |
+          set -euo pipefail
+          database_sha=$(git -C data/lax-db rev-parse HEAD)
+          node .github/scripts/site-integrity.mjs write _site "$GITHUB_SHA" "$database_sha"
+
       - name: Select the Pages destination
         id: target
         env:
@@ -105,6 +112,10 @@ jobs:
           npm --prefix "$source_dir" run site:build -- \
             --database "$GITHUB_WORKSPACE/data/lax-db" \
             --out "$GITHUB_WORKSPACE/_production_site"
+          website_sha=$(git -C "$source_dir" rev-parse HEAD)
+          database_sha=$(git -C data/lax-db rev-parse HEAD)
+          node "$source_dir/.github/scripts/site-integrity.mjs" write \
+            _production_site "$website_sha" "$database_sha"
           cp -a _production_site/. _pages/
 
       - name: Update production or branch preview
@@ -183,23 +194,21 @@ jobs:
             core.setOutput('page_url', response.data.page_url);
 
       - name: Verify the site serves the pushed tree
-        if: steps.persist.outputs.pushed == 'true'
+        if: steps.persist.outputs.pushed == 'true' && steps.target.outputs.mode != 'delete'
         env:
+          MODE: ${{ steps.target.outputs.mode }}
           PAGES_SHA: ${{ steps.persist.outputs.pages_sha }}
+          SLUG: ${{ steps.target.outputs.slug }}
         run: |
           set -euo pipefail
-          # The verdict is the live site serving the bytes we just pushed.
-          # The unique query string busts the edge cache. Budget ~25 minutes.
-          for i in $(seq 1 100); do
-            if curl -fsS --max-time 15 "https://laxarchive.org/index.html?v=$PAGES_SHA-$i" 2>/dev/null | cmp -s - _pages/index.html; then
-              echo "live after ${i} probes"
-              exit 0
-            fi
-            echo "probe ${i}: live bytes differ"
-            sleep 15
-          done
-          echo "::error::the site never served the pushed tree ($PAGES_SHA)"
-          exit 1
+          if [[ "$MODE" == "preview" ]]; then
+            manifest="_pages/previews/$SLUG/lax-integrity.json"
+            site_url="https://laxarchive.org/previews/$SLUG/"
+          else
+            manifest="_pages/lax-integrity.json"
+            site_url="https://laxarchive.org/"
+          fi
+          node .github/scripts/site-integrity.mjs verify "$manifest" "$site_url" "$PAGES_SHA"
 
       - name: Publish preview URL
         if: steps.target.outputs.mode == 'preview'

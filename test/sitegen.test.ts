@@ -414,7 +414,7 @@ After the formula.`, "");
     expect(index).toContain('Go to section <b>↓</b>');
     expect(index).toContain("Every submission page ends with a <strong>Citation</strong> section");
     expect(index).toContain('class="landing-cite-example"');
-    expect(index).toContain('href="Lax2/index.html#citation"');
+    expect(index).toMatch(/href="Lax2\/index\.html\?v=[0-9a-f]{16}#citation"/);
     expect(index).toContain('class="landing-cite-example-action">View citation');
     expect(index).toContain("contributing.html");
     expect(index).toMatch(/<script src="assets\/landing\.js\?v=[0-9a-f]{12}"><\/script>/);
@@ -437,8 +437,8 @@ After the formula.`, "");
     expect(index).toContain('placeholder="Search titles and concepts"');
     expect(index).toContain('<section class="random-submission" aria-labelledby="random-submission-heading">');
     expect(index).toContain('<h2 id="random-submission-heading">Explore a random submission</h2>');
-    expect(index).toContain('href="Lax2/index.html" data-random-submission-link');
-    expect(index).toContain('href="Lax2/index.html" data-random-submission-candidate');
+    expect(index).toMatch(/href="Lax2\/index\.html\?v=[0-9a-f]{16}" data-random-submission-link/);
+    expect(index).toMatch(/href="Lax2\/index\.html\?v=[0-9a-f]{16}" data-random-submission-candidate/);
     const randomSubmission = index.slice(index.indexOf('<section class="random-submission"'), index.indexOf("</section>"));
     expect(randomSubmission).toContain('<span class="random-submission-title">Two</span>');
     expect(randomSubmission).not.toContain('class="entry-id"');
@@ -451,7 +451,7 @@ After the formula.`, "");
     expect(index).toContain('data-entry-group="registered">Registered</li>');
     expect(index).toContain('<span class="entry-label"><span class="entry-label-text">Two</span></span>');
     expect(index).not.toContain('<span class="entry-id">');
-    expect(index).toContain('href="Lax2/index.html" data-full-title="Two"');
+    expect(index).toMatch(/href="Lax2\/index\.html\?v=[0-9a-f]{16}" data-full-title="Two"/);
     // a record that only reserved an id stays off the landing page, the
     // sidebar, and the stats; its page still exists for direct links
     expect(index).not.toContain("Lax10");
@@ -469,7 +469,7 @@ After the formula.`, "");
     const index = fs.readFileSync(path.join(root, "index.html"), "utf8");
     const sidebar = index.slice(index.indexOf('<aside id="sidebar">'), index.indexOf("</aside>"));
     expect(sidebar.match(/data-random-submission-candidate/g)).toHaveLength(4);
-    expect(sidebar).toContain('href="Lax4/index.html" data-random-submission-candidate');
+    expect(sidebar).toMatch(/href="Lax4\/index\.html\?v=[0-9a-f]{16}" data-random-submission-candidate/);
     expect(sidebar).toContain("View submission");
     for (const pageName of [
       "contributing.html",
@@ -498,7 +498,7 @@ After the formula.`, "");
     const root = tmpDir("lax-site-cite-example-");
     await generateSite([...archive, lax17], root);
     const index = fs.readFileSync(path.join(root, "index.html"), "utf8");
-    expect(index).toContain('href="lax-17/index.html#citation"');
+    expect(index).toMatch(/href="lax-17\/index\.html\?v=[0-9a-f]{16}#citation"/);
     expect(index).toContain("A Polynomial Bound for the Grid-Minor Theorem");
   });
 
@@ -568,7 +568,7 @@ After the formula.`, "");
     expect(html).toContain(">def</span>");
     expect(html).toContain(">thm✓</span>");
     expect(html).not.toContain('class="status-mark');
-    expect(html).toContain('<a href="Lax2.C.html" title="Lax2.C"><code>C</code></a>');
+    expect(html).toMatch(/<a href="Lax2\.C\.html\?v=[0-9a-f]{16}" title="Lax2\.C"><code>C<\/code><\/a>/);
     expect(html.indexOf('class="concept-list"')).toBeLessThan(html.indexOf('id="concept-dag"'));
     // the concept box explains its own badges, real components as samples
     expect(html).toContain('class="badge-legend"');
@@ -577,14 +577,14 @@ After the formula.`, "");
     // judgment-card proof entry: head links to the proof page, the conclusion
     // is rendered as its claim-concept, annotation sections stay off this page
     expect(html).toContain('id="p-Lax2Proofs.truth"');
-    expect(html).toContain('href="../Lax2/Lax2Proofs.truth.html"');
+    expect(html).toMatch(/href="\.\.\/Lax2\/Lax2Proofs\.truth\.html\?v=[0-9a-f]{16}"/);
     // the proof marker is a boxed chip, parallel to the type badge
     expect(html).toContain('class="proof-badge"');
     expect(html).not.toContain("proof-item-turnstile");
     // the judgment card leads inside the shared white box, its surface links
     // to the proof page, and the description stays off the list
     expect(html).toContain('class="proof-list-box"');
-    expect(html).toContain('<a class="judgment-overlay" href="../Lax2/Lax2Proofs.truth.html"');
+    expect(html).toMatch(/<a class="judgment-overlay" href="\.\.\/Lax2\/Lax2Proofs\.truth\.html\?v=[0-9a-f]{16}"/);
     expect(html.indexOf('class="judgment-frame"')).toBeLessThan(html.indexOf('class="proof-item-head"'));
     // the description leaves the list (it stays in the graph JSON for the
     // proof-node tooltip and on the proof page itself)
@@ -676,8 +676,8 @@ After the formula.`, "");
     ]);
     expect(data.proofs.statements.every((node: { proven: boolean }) => !node.proven)).toBe(true);
     expect(data.proofs.proofs).toEqual(expect.arrayContaining([
-      expect.objectContaining({ id: "Lax4Proofs.a", owner: "Lax4", assumptionsProven: false, outstanding: 1, href: "../Lax4/Lax4Proofs.a.html" }),
-      expect.objectContaining({ id: "Lax4Proofs.b", owner: "Lax4", assumptionsProven: false, outstanding: 1, href: "../Lax4/Lax4Proofs.b.html" }),
+      expect.objectContaining({ id: "Lax4Proofs.a", owner: "Lax4", assumptionsProven: false, outstanding: 1, href: expect.stringMatching(/^\.\.\/Lax4\/Lax4Proofs\.a\.html\?v=[0-9a-f]{16}$/) }),
+      expect.objectContaining({ id: "Lax4Proofs.b", owner: "Lax4", assumptionsProven: false, outstanding: 1, href: expect.stringMatching(/^\.\.\/Lax4\/Lax4Proofs\.b\.html\?v=[0-9a-f]{16}$/) }),
     ]));
 
     const conceptHtml = fs.readFileSync(path.join(root, "Lax4", "Lax4.Top.html"), "utf8");
@@ -756,7 +756,7 @@ After the formula.`, "");
     expect(top.data.nodes.map((n: { id: string; dir: string }) => [n.id, n.dir]))
       .toEqual([["Lax1", "up"], ["Lax3", "up"], ["Lax4", "core"]]);
     expect(top.data.edges).toEqual([{ from: "Lax1", to: "Lax3" }, { from: "Lax3", to: "Lax4" }]);
-    expect(top.data.nodes[0]).toMatchObject({ href: "../Lax1/index.html", title: "Lax1", state: "registered", concepts: 1, proofs: 0, ext: true });
+    expect(top.data.nodes[0]).toMatchObject({ href: expect.stringMatching(/^\.\.\/Lax1\/index\.html\?v=[0-9a-f]{16}$/), title: "Lax1", state: "registered", concepts: 1, proofs: 0, ext: true });
 
     const base = mapOf("Lax1");
     expect(base.data.nodes.map((n: { id: string; dir: string }) => [n.id, n.dir]))
@@ -822,14 +822,14 @@ After the formula.`, "");
     expect(html).not.toContain("Mathlib imports");
     // the claim's evidence block lists the archived proof, linking to its page
     expect(html).toContain("<h3>Evidence</h3>");
-    expect(html).toContain('href="../Lax2/Lax2Proofs.truth.html"');
+    expect(html).toMatch(/href="\.\.\/Lax2\/Lax2Proofs\.truth\.html\?v=[0-9a-f]{16}"/);
     // The graph is rooted at C; its importer D rides along behind the
     // descendants toggle (hidden until pressed).
     const graphMatch = /<script type="application\/json" id="graph-data">(.*?)<\/script>/s.exec(html)!;
     expect(JSON.parse(graphMatch[1]!).concepts.nodes.map((node: { id: string; dir: string }) => [node.id, node.dir]))
       .toEqual([["Lax2.C", "core"], ["Lax2.D", "down"]]);
     expect(html.indexOf('class="concept-id"')).toBeLessThan(html.indexOf('class="concept-title"'));
-    expect(html).toContain('<a class="sidebar-back" href="../Lax2/index.html"');
+    expect(html).toMatch(/<a class="sidebar-back" href="\.\.\/Lax2\/index\.html\?v=[0-9a-f]{16}"/);
     // sidebar highlights the active concept; the NL heading is the type
     expect(html).toContain('class="active"');
     const untyped = fs.readFileSync(path.join(root, "Lax2", "Lax2.D.html"), "utf8");
@@ -900,9 +900,10 @@ end Lax2.C`;
       + "a".repeat(40) + '/proofs/Lax2Proofs/Basic.lean"');
     expect(html).toContain("Read the Lean proof on GitHub");
     const githubProof = "https://github.com/example/math/blob/" + "a".repeat(40) + "/proofs/Lax2Proofs/Basic.lean";
-    expect(html).toContain(`<a href="${githubProof}"><code>proofs/Lax2Proofs/Basic.lean</code></a> · <a href="index.html">Lax2</a>`);
+    expect(html).toContain(`<a href="${githubProof}"><code>proofs/Lax2Proofs/Basic.lean</code></a>`);
+    expect(html).toMatch(/<\/code><\/a> · <a href="index\.html\?v=[0-9a-f]{16}">Lax2<\/a>/);
     // sidebar backs to the submission, not the archive index
-    expect(html).toContain('<a class="sidebar-back" href="../Lax2/index.html"');
+    expect(html).toMatch(/<a class="sidebar-back" href="\.\.\/Lax2\/index\.html\?v=[0-9a-f]{16}"/);
     // a proof with open assumptions is conditional
     const cyclic = fs.readFileSync(path.join(root, "Lax4", "Lax4Proofs.a.html"), "utf8");
     expect(cyclic).toContain("conditional — 1 open assumption");

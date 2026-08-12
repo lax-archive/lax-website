@@ -67,10 +67,28 @@ export interface ProofEntry {
   sections?: AnnotationSection[];
 }
 
+/** One immutable file in the validation capture sealed by the archive. */
+export interface CaptureFile {
+  path: string;
+  bytes: number;
+  sha256: string;
+}
+
+/** Provenance recorded by the validation pipeline for the exact checked tree. */
+export interface CaptureManifest {
+  formatVersion: number;
+  digest: string;
+  sourceCommit: string;
+  leanToolchain: string;
+  mathlibCommit: string;
+  files: CaptureFile[];
+}
+
 export interface BuildOutput {
   specVersion: string;
   id: string;
   captureId?: string;
+  capture?: CaptureManifest;
   manifest: Manifest;
   abstract: string;
   requiredByConcepts: string[];

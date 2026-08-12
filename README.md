@@ -67,6 +67,12 @@ The generated HTML is deterministic. Math is rendered at build time with
 KaTeX, highlighting with Shiki, all runtime assets are local, and the page
 shell applies a strict Content Security Policy.
 
+Website builds fail closed on source provenance. For every rendered
+submission, the generator requires the validation capture's source commit to
+equal the commit in `record.json`, verifies the byte count and SHA-256 of each
+displayed concept source, and requires every linked proof source to occur in
+that capture. Concept and proof pages display the resulting hashes.
+
 Historical website-only plans and migration notes from the original monorepo
 are preserved under `old-logic/`. They are archival and are never rendered or
 deployed.
@@ -90,6 +96,13 @@ preview directory is available at `/previews/`. Pushing a branch updates only
 its preview; deleting the branch removes it. The workflow retains the complete
 published tree on the generated `gh-pages` branch so one branch cannot overwrite
 another branch's preview.
+
+Each deployment also publishes `lax-integrity.json`, which pins the website
+and database commits and hashes every generated file. Submission links carry a
+content-derived cache key. After deploying, the workflow waits for the exact
+manifest and then fetches and hashes every public HTML page through fresh cache
+keys; checking the unchanged landing page alone is not considered successful
+publication.
 
 To trigger an immediate rebuild from an authorized external workflow:
 

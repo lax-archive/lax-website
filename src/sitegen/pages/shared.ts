@@ -400,11 +400,14 @@ function metaBits(submission: SiteSubmission): string {
   const pins = output
     ? `Lean ${code(output.manifest.leanVersion)} · mathlib ${code(output.manifest.mathlibVersion.slice(0, 12))}`
     : "";
+  const capture = submission.integrity
+    ? `<code title="${attr(`sha256:${submission.integrity.captureDigest}`)}">capture ${esc(submission.integrity.captureDigest.slice(0, 12))}</code>`
+    : "";
   // Drafts use the prominent page banner; repeating a tiny state pill here
   // makes the mutable state look like ordinary metadata.
   const state = record.state === "draft" ? "" : statePill(record.state);
   const id = output ? `<span class="submission-meta-id">${esc(record.id)}</span>` : "";
-  const parts = [id, authorBit, state, dates, sourceBit, pins].filter(Boolean);
+  const parts = [id, authorBit, state, dates, sourceBit, capture, pins].filter(Boolean);
   return parts.join('<span class="meta-sep">·</span>');
 }
 
