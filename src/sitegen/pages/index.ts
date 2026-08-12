@@ -1,5 +1,6 @@
 import { attr, esc, formatDate, page, plural, statePill } from "../html.js";
 import { contentMarkdown } from "../content.js";
+import { highlightSnippet } from "../highlight.js";
 import { submissionTagIndex } from "../tags.js";
 import {
   compareSearchSubmissions,
@@ -12,6 +13,75 @@ interface LandingAction { id: string; title: string; description: string }
 
 const ACTION_HEADING = "\n## What you can do here\n";
 const SUBMIT_HEADING = "\n## Creating your own submission\n";
+
+const CONCEPT_DEMO = String.raw`import Mathlib.Combinatorics.SimpleGraph.Clique
+
+open Filter Real SimpleGraph
+
+abbrev C₅ : SimpleGraph (Fin 5) := cycleGraph 5
+
+def C₅Free {V : Type*} [Fintype V] (G : SimpleGraph V) : Prop :=
+  ¬ ∃ f : Fin 5 ↪ V, C₅ = G.comap f
+
+def HasLargeHomogeneousSet {V : Type*} [Fintype V]
+    (G : SimpleGraph V) (r : ℝ) : Prop :=
+  G.indepNum ≥ r ∨ G.cliqueNum ≥ r
+
+axiom erdosHajnal_C₅ :
+  ∃ c > 0, ∀ᶠ n in atTop, ∀ G : SimpleGraph (Fin n),
+    C₅Free G → HasLargeHomogeneousSet G ((n : ℝ) ^ c)`;
+
+const PROOF_DEMO = String.raw`import ErdosHajnal.C5
+import ErdosHajnal.FiveHole
+
+namespace ErdosHajnalProofs
+
+open Filter Real SimpleGraph
+
+theorem erdosHajnal_C₅ :
+    ∃ c > 0, ∀ᶠ n in atTop, ∀ G : SimpleGraph (Fin n),
+      C₅Free G → HasLargeHomogeneousSet G ((n : ℝ) ^ c) := by
+  obtain ⟨c, hc, hmain⟩ :=
+    polynomial_homogeneous_set_for_five_hole
+  refine ⟨c, hc, ?_⟩
+  filter_upwards [hmain] with n hn
+  exact fun G hG ↦ hn G (by simpa [C₅Free] using hG)
+
+end ErdosHajnalProofs`;
+
+function landingDemoFace(
+  side: "concept" | "proof",
+  path: string,
+  code: string,
+): string {
+  const concept = side === "concept";
+  return `<span class="landing-demo-face landing-demo-${side}" aria-hidden="true">
+<span class="landing-demo-filebar">
+<span class="landing-demo-file-heading"><span class="landing-demo-file-icon"></span><strong>${concept ? "Concept file" : "Proof file"}</strong></span>
+<span class="landing-demo-file-path">${esc(path)}</span>
+<span class="landing-demo-side">Side ${concept ? "A" : "B"}</span>
+</span>
+<span class="landing-demo-code"><code>${code}</code></span>
+<span class="landing-demo-trust">
+<span class="landing-demo-trust-index">${concept ? "01" : "02"}</span>
+<span class="landing-demo-trust-copy"><strong>${concept ? "Meaning" : "Evidence"}</strong><small>${concept ? "read by people" : "checked by Lean"}</small></span>
+<span class="landing-demo-turn"><span>${concept ? "See the proof" : "See the concept"}</span><b>${concept ? "↻" : "↺"}</b></span>
+</span>
+</span>`;
+}
+
+async function landingDemo(): Promise<string> {
+  const [concept, proof] = await Promise.all([
+    highlightSnippet(CONCEPT_DEMO),
+    highlightSnippet(PROOF_DEMO),
+  ]);
+  return `<button class="landing-demo-card" type="button" data-proof-flip aria-pressed="false" aria-describedby="landing-demo-instruction" aria-label="Concept file: Erdős–Hajnal for the five-cycle. Hover or activate to see its proof file.">
+<span class="landing-demo-inner">
+${landingDemoFace("concept", "concepts/ErdosHajnal/C5.lean", concept)}
+${landingDemoFace("proof", "proofs/ErdosHajnalProofs/C5.lean", proof)}
+</span>
+</button>`;
+}
 
 function landingCopy(source: string): {
   lede: string;
@@ -80,7 +150,7 @@ ${prompt}
  * library with its stats. Records that only reserved an id have nothing to
  * show and stay off the library and the stats (their pages exist for direct
  * links). */
-export function indexPage({ model, markdown }: PageContext): string {
+export async function indexPage({ model, markdown }: PageContext): Promise<string> {
   const concepts = model.outputs.flatMap((o) => o.concepts);
   const statements = concepts.flatMap((c) => c.statements);
   const listed = model.submissions.filter((s) => s.output).sort(compareSearchSubmissions);
@@ -97,6 +167,7 @@ ${authors ? `<span class="submissions-list-meta"><span class="formalized-label">
 </a></li>`;
   });
   const landing = landingCopy(contentMarkdown("landing.md").trim());
+  const demo = await landingDemo();
   const actionOrder = ["read", "review", "submit", "cite"];
   const actionCards = actionOrder.map((id) => actionCard(landing.actions.get(id)!, id !== "review"));
   const citeExample = listed.find((submission) => submission.record.id.toLowerCase().replace(/[^a-z0-9]/g, "") === "lax17")
@@ -145,11 +216,13 @@ ${copyablePrompt(markdown.render(landing.submit, ""))}
 <p>Every submission page ends with a <strong>Citation</strong> section containing a ready-made BibTeX entry. Open the submission you used, scroll to the bottom, and copy that entry into your bibliography.</p>
 ${citeExampleLink}
 </section>`;
-  const content = `<header class="paper-head landing-head">
+  const content = `<section class="landing-demo-showcase" aria-label="How Lax separates mathematical meaning from proof evidence">
+${demo}
+<p class="landing-demo-instruction" id="landing-demo-instruction"><span aria-hidden="true">↻</span> Hover, or press Enter / tap to turn the file over.</p>
 <div class="landing-lede latex-content">
 ${markdown.render(landing.lede, "")}
 </div>
-</header>
+</section>
 <div class="landing-about latex-content">
 ${markdown.render(landing.introduction, "")}
 </div>

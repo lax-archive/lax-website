@@ -159,6 +159,25 @@ function lineNodes(root: HastNode): HastNode[] {
   return found;
 }
 
+/** A compact, GitHub-light Lean excerpt for editorial surfaces. Unlike the
+ * line-numbered concept source table, this deliberately carries no statement
+ * anchors or proof-status tinting. */
+export async function highlightSnippet(source: string): Promise<string> {
+  try {
+    const hast = (await highlighter()).codeToHast(source.trim(), {
+      lang: "lean4",
+      theme: "github-light",
+    }) as HastNode;
+    return lineNodes(hast).map((line, index) =>
+      `<span class="landing-demo-code-line" data-line="${index + 1}">${(line.children ?? []).map(renderNode).join("") || " "}</span>`
+    ).join("\n");
+  } catch {
+    return source.trim().split("\n").map((line, index) =>
+      `<span class="landing-demo-code-line" data-line="${index + 1}">${esc(line) || " "}</span>`
+    ).join("\n");
+  }
+}
+
 function lineStatus(line: number, statements: StatementEntry[], proven: Set<string>): string {
   const statement = statements.find((s) => s.startLine !== undefined && s.endLine !== undefined && line >= s.startLine && line <= s.endLine);
   return statement ? ` statement-line ${proven.has(statement.id) ? "line-proven" : "line-open"}` : "";

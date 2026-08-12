@@ -16,7 +16,7 @@ export async function generateSite(submissions: SiteSubmission[], outDir: string
   const model = new SiteModel(submissions);
   const context = { model, markdown: new MarkdownRenderer(model) };
   const files = new Map<string, string>();
-  files.set("index.html", indexPage(context));
+  files.set("index.html", await indexPage(context));
   files.set("contributing.html", contentPage(context, "contributing", "Contributing"));
   for (const submission of model.submissions) {
     files.set(path.join(submission.record.id, "index.html"), submissionPage(context, submission));

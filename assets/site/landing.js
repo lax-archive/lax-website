@@ -116,7 +116,35 @@
     if (initialView) selectView(initialView, false);
   }
 
+  function setupProofFlip() {
+    const card = document.querySelector('[data-proof-flip]');
+    if (!card) return;
+    const precisePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
+
+    function setFlipped(flipped) {
+      card.classList.toggle('is-flipped', flipped);
+      card.setAttribute('aria-pressed', String(flipped));
+      card.setAttribute('aria-label', flipped
+        ? 'Proof file: Erdős–Hajnal for the five-cycle. Activate to return to its concept file.'
+        : 'Concept file: Erdős–Hajnal for the five-cycle. Hover or activate to see its proof file.');
+    }
+
+    card.addEventListener('click', (event) => {
+      // A precise pointer gets the physical hover gesture. Keyboard activation
+      // (detail 0) and coarse pointers toggle a persistent side instead.
+      if (precisePointer.matches && event.detail !== 0) return;
+      setFlipped(!card.classList.contains('is-flipped'));
+    });
+
+    card.addEventListener('keydown', (event) => {
+      if (event.key !== 'Escape' || !card.classList.contains('is-flipped')) return;
+      event.preventDefault();
+      setFlipped(false);
+    });
+  }
+
   function setupLanding() {
+    setupProofFlip();
     setupLandingActions();
     setupPromptCopy();
   }
