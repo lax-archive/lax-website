@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import { createHash } from "node:crypto";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 
@@ -22,6 +23,14 @@ export function siteAssetPath(relative: string): string {
   if (file !== SITE_ASSET_DIR && !file.startsWith(`${SITE_ASSET_DIR}${path.sep}`))
     throw new Error(`site asset escapes the asset directory: ${relative}`);
   return file;
+}
+
+/** Stable content fingerprint for cache-busting a bundled browser asset. */
+export function siteAssetVersion(relative: string): string {
+  const file = relative === "katex.css"
+    ? createRequire(import.meta.url).resolve("katex/dist/katex.min.css")
+    : siteAssetPath(relative);
+  return createHash("sha256").update(fs.readFileSync(file)).digest("hex").slice(0, 12);
 }
 
 export function copyAssets(outDir: string): void {

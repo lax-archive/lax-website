@@ -3,6 +3,8 @@
 // search/filters, and a single content pane. Only sidebar.js, layout.js and
 // dag.js run in the browser; everything else is rendered at build time.
 
+import { siteAssetVersion } from "./assets.js";
+
 const HONESTY_TOOLTIP =
   "Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.";
 
@@ -35,8 +37,9 @@ const FAVICON = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' vi
 export function page(shell: PageShell): string {
   const root = shell.rootRel;
   const scripts = ["assets/sidebar.js", ...(shell.scripts ?? [])]
-    .map((src) => `<script src="${attr(root + src)}"></script>`)
+    .map((src) => `<script src="${attr(root + src)}?v=${siteAssetVersion(src.replace(/^assets\//, ""))}"></script>`)
     .join("\n");
+  const stylesheet = (src: string) => `${root}assets/${src}?v=${siteAssetVersion(src)}`;
   return `<!doctype html>
 <html lang="en"><head>
 <meta charset="utf-8">
@@ -45,8 +48,8 @@ export function page(shell: PageShell): string {
 <meta name="description" content="Lax — an archive of formalized mathematical concepts and their proofs">
 <title>${esc(shell.title)}</title>
 <link rel="icon" href="${FAVICON}" type="image/svg+xml">
-<link rel="stylesheet" href="${root}assets/katex.css">
-<link rel="stylesheet" href="${root}assets/style.css">
+<link rel="stylesheet" href="${stylesheet("katex.css")}">
+<link rel="stylesheet" href="${stylesheet("style.css")}">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
