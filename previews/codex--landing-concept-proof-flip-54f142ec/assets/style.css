@@ -1086,7 +1086,10 @@ body{
   font-variant-ligatures: none;
 }
 
-.landing-demo-proof .landing-demo-code{ background: rgba(246, 248, 250, 0.82); }
+.landing-demo-proof .landing-demo-code{
+  background: rgba(246, 248, 250, 0.82);
+  font-size: clamp(0.48rem, 1.42vw, 0.84rem);
+}
 .landing-demo-code code{ display: block; min-width: 0; font: inherit; }
 
 .landing-demo-code-line{
@@ -1206,13 +1209,14 @@ body{
 /* The lede: landing.md's first paragraph as a centered tagline — read, not
    justified. */
 .landing-lede{
-  max-width: 38em;
+  max-width: 31em;
   margin: 0 auto;
-  font-size: clamp(1.28rem, 2.3vw, 1.62rem);
+  font-size: clamp(1.55rem, 3vw, 2.05rem);
   font-weight: 600;
-  line-height: 1.38;
+  line-height: 1.28;
   color: var(--text);
   text-align: center;
+  text-wrap: balance;
   hyphens: none;
 }
 
@@ -2361,7 +2365,7 @@ body.graph-window-open::after{
   .landing-demo-trust-copy small{ font-size: clamp(0.88rem, 3.8vw, 1rem); }
   .landing-demo-turn{ grid-column: 2; gap: 0.28rem; font-size: 0.58rem; }
   .landing-demo-turn b{ width: 1.55rem; height: 1.55rem; font-size: 0.88rem; }
-  .landing-lede{ font-size: 1.28rem; }
+  .landing-lede{ font-size: 1.52rem; }
   .landing-demo-summary{ margin-top: 1.35rem; font-size: 0.96rem; }
   .landing-hero-actions{ display: grid; grid-template-columns: 1fr; margin-top: 1rem; }
   .landing-hero-button{ width: 100%; }
