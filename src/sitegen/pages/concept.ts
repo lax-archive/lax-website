@@ -81,15 +81,18 @@ export async function conceptPage(ctx: PageContext, located: LocatedConcept): Pr
     ? statementDeclarationLine(concept.sourceText, statement.startLine, statement.endLine)
     : undefined;
   const proofLinks = statement
-    ? (ctx.model.statementProofs.get(statement.id) ?? []).map(({ output: proofOutput, proof }) => ({
-      id: proof.id,
-      href: `../${proofOutput.id}/${proof.id}.html`,
-    }))
+    ? (ctx.model.statementProofs.get(statement.id) ?? []).flatMap(({ submission: proofSubmission, proof }) => {
+        const proofSource = proofSubmission.record.source;
+        const href = proofSource
+          ? githubSource(proofSource.repository, proofSource.commit, proofSource.folder, proof.path)
+          : undefined;
+        return href ? [{ id: proof.id, href }] : [];
+      })
     : [];
   const proofActions = proofLinks.length && declarationLine !== undefined
     ? `<span class="source-proof-rail" data-source-line="L${declarationLine}" aria-label="Proof links">${proofLinks.map((link, index) => {
         const label = proofLinks.length === 1 ? "Show Proof" : `Show Proof ${index + 1}`;
-        return `<a class="statement-proof-button" href="${attr(link.href)}" aria-label="${attr(`Open proof ${link.id}`)}" title="${attr(link.id)}"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">${label}</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a>`;
+        return `<a class="statement-proof-button" href="${attr(link.href)}" aria-label="${attr(`View proof ${link.id} on GitHub`)}" title="${attr(link.id)}"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">${label}</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a>`;
       }).join("")}</span>`
     : "";
   const sourceRows = await highlightSource(concept.sourceText, concept.statements, proven);

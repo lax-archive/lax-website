@@ -804,8 +804,9 @@ After the formula.`, "");
     expect(docRow).not.toContain("statement-proof-button");
     expect(axiomRow).not.toContain("statement-proof-button");
     expect(html).toContain('class="source-proof-rail" data-source-line="L3"');
-    expect(html).toContain('class="statement-proof-button" href="../Lax2/Lax2Proofs.truth.html"');
-    expect(html).toContain('aria-label="Open proof Lax2Proofs.truth"');
+    expect(html).toContain('class="statement-proof-button" href="https://github.com/example/math/blob/'
+      + "a".repeat(40) + '/proofs/Lax2Proofs/Basic.lean"');
+    expect(html).toContain('aria-label="View proof Lax2Proofs.truth on GitHub"');
     expect(html).toContain('class="statement-proof-label">Show Proof</span>');
     expect(html.indexOf('class="statement-proof-button"')).toBeGreaterThan(html.indexOf('class="inline-contract-shell"'));
     expect(html).toMatch(/<script src="\.\.\/assets\/source-proof\.js\?v=[a-f0-9]+"><\/script>/);
