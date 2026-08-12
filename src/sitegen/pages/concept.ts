@@ -65,7 +65,14 @@ export async function conceptPage(ctx: PageContext, located: LocatedConcept): Pr
   const depsCol = (heading: string, rows: string[]) =>
     `<div class="deps-col"><h3>${esc(heading)}</h3>${rows.length ? `<ul class="deps-list">${rows.join("")}</ul>` : `<p class="empty-note">none</p>`}</div>`;
 
-  const sourceRows = await highlightSource(concept.sourceText, concept.statements, proven);
+  const statementProofLinks = new Map(concept.statements.map((statement) => [
+    statement.id,
+    (ctx.model.statementProofs.get(statement.id) ?? []).map(({ output: proofOutput, proof }) => ({
+      id: proof.id,
+      href: `../${proofOutput.id}/${proof.id}.html`,
+    })),
+  ]));
+  const sourceRows = await highlightSource(concept.sourceText, concept.statements, proven, statementProofLinks);
 
   const content = `${draftBanner(submission.record.state)}
 <div class="detail-heading concept-heading">

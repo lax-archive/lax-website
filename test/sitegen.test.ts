@@ -699,6 +699,14 @@ After the formula.`, "");
     expect(html).toContain("<h3>Review notes</h3>");
     // statement links now land on the source line; individual cards are gone
     expect(html).toContain('id="s-Lax2.C.truth"');
+    // The proof action belongs beside the axiom declaration, not the leading
+    // doc comment included in the statement's source range.
+    const docRow = html.match(/<tr id="L2"[^]*?<\/tr>/)?.[0] ?? "";
+    const axiomRow = html.match(/<tr id="L3"[^]*?<\/tr>/)?.[0] ?? "";
+    expect(docRow).not.toContain("statement-proof-button");
+    expect(axiomRow).toContain('class="statement-proof-button" href="../Lax2/Lax2Proofs.truth.html"');
+    expect(axiomRow).toContain('aria-label="Open proof Lax2Proofs.truth"');
+    expect(axiomRow).toContain("⊢</span>Proof</a>");
     expect(html).not.toContain('class="statement"');
     expect(html).not.toContain('block-statements');
     expect(html).toContain("mathlib4_docs/Mathlib/Data/Nat/Basic.html");
