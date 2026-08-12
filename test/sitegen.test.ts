@@ -316,8 +316,9 @@ After the formula.`, "");
       expect(bytes.equals(second.get(name)!)).toBe(true);
       expect(SITE_MIME[path.extname(name)], `missing MIME for ${name}`).toBeDefined();
     }
-    for (const asset of ["style.css", "sidebar.js", "landing.js", "layout.js", "dag.js", "citation.js", "katex.css", path.join("fonts", "LM-regular.woff2")])
+    for (const asset of ["style.css", "sidebar.js", "landing.js", "layout.js", "dag.js", "citation.js", "katex.css", "lax-white-paper.pdf", path.join("fonts", "LM-regular.woff2")])
       expect(fs.existsSync(path.join(one, "assets", asset)), asset).toBe(true);
+    expect(fs.readFileSync(path.join(one, "assets", "lax-white-paper.pdf")).subarray(0, 4).toString()).toBe("%PDF");
     // Graph containers must be measurable before dag.js appends their SVG.
     const css = fs.readFileSync(path.join(one, "assets", "style.css"), "utf8");
     expect(css).not.toContain(".figure-container:empty");
@@ -393,6 +394,7 @@ After the formula.`, "");
     expect(index).toContain('class="landing-demo-continuation" aria-hidden="true"');
     expect(index).toContain('class="landing-demo-code-line landing-demo-code-line-accent" data-line="14"');
     expect(index).toContain('class="landing-demo-code-line" data-line="417"');
+    expect(index).toContain('class="landing-demo-code-line" data-line="429"');
     expect(index).not.toContain("landing-demo-file-icon");
     expect(index).not.toContain("landing-demo-side");
     expect(index).not.toContain("landing-demo-trust-index");
@@ -408,7 +410,7 @@ After the formula.`, "");
     expect(index).toContain("Formalized mathematics that can be read, checked, and built upon.");
     expect(index).toMatch(/Think of\s+it as an arXiv for formalization/);
     expect(index).toContain('class="landing-hero-button primary" type="button" data-landing-action="read"');
-    expect(index).toContain('class="landing-hero-button secondary" href="assets/lax-white-paper.pdf"');
+    expect(index).toContain('class="landing-hero-button secondary" href="assets/lax-white-paper.pdf" download="lax-white-paper.pdf"');
     expect(index.indexOf("landing-lede")).toBeLessThan(index.indexOf("landing-demo-card"));
     expect(index.indexOf("landing-demo-card")).toBeLessThan(index.indexOf("landing-demo-summary"));
     expect(index.indexOf("landing-demo-summary")).toBeLessThan(index.indexOf("landing-actions"));

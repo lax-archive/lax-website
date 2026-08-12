@@ -32,13 +32,18 @@ axiom erdosHajnal_C₅ :
     C₅Free G → HasLargeHomogeneousSet G ((n : ℝ) ^ c)`;
 
 const PROOF_DEMO = String.raw`theorem erdosHajnal_C₅ :
-    ∃ c > 0, ∀ᶠ n in atTop, ∀ G : SimpleGraph (Fin n),
-      C₅Free G → HasLargeHomogeneousSet G ((n : ℝ) ^ c) := by
+    ∃ c > 0,
+      ∀ᶠ n in atTop,
+        ∀ G : SimpleGraph (Fin n),
+          C₅Free G →
+            HasLargeHomogeneousSet G ((n : ℝ) ^ c) := by
   obtain ⟨c, hc, hmain⟩ :=
     polynomial_homogeneous_set_for_five_hole
   refine ⟨c, hc, ?_⟩
   filter_upwards [hmain] with n hn
-  exact fun G hG ↦ hn G (by simpa [C₅Free] using hG)`;
+  intro G hG
+  exact hn G (by
+    simpa [C₅Free] using hG)`;
 
 function landingDemoFace(
   side: "concept" | "proof",
@@ -222,7 +227,7 @@ ${markdown.render(landing.introduction, "")}
 </div>
 <div class="landing-hero-actions">
 <button class="landing-hero-button primary" type="button" data-landing-action="read" aria-controls="landing-panel-read">Browse submissions <b aria-hidden="true">↓</b></button>
-<a class="landing-hero-button secondary" href="assets/lax-white-paper.pdf">Read the Lax paper <b aria-hidden="true">↗</b></a>
+<a class="landing-hero-button secondary" href="assets/lax-white-paper.pdf" download="lax-white-paper.pdf">Read the Lax paper <b aria-hidden="true">↗</b></a>
 </div>
 </section>
 <section class="landing-actions" aria-labelledby="landing-actions-heading">
