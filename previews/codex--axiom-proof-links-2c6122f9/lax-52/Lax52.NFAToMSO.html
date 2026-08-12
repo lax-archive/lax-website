@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src https: data:; font-src 'self'">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Lax — an archive of formalized mathematical concepts and their proofs">
+<title>Finite automata are MSO-definable — Lax52.NFAToMSO</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/katex.css">
+<link rel="stylesheet" href="../assets/style.css">
+</head><body>
+<header class="site-header">
+  <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
+  <h1 class="site-title"><a href="../index.html">Lax <span class="site-title-quiet">Lean Archive</span></a></h1>
+</header>
+<main id="content-shell">
+<div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+<aside id="sidebar">
+<a class="sidebar-back" href="../lax-52/index.html"><span class="sidebar-back-arrow" aria-hidden="true">←</span>lax-52</a>
+<div class="sidebar-filters"><div class="filter-group">
+<label for="filter-search">Search</label>
+<input id="filter-search" class="filter-input" type="search" placeholder="Filter entries" aria-controls="entry-list">
+</div>
+<div class="filter-group">
+<label for="filter-type">Type</label>
+<select id="filter-type" class="filter-select">
+<option value="all">All types</option>
+<option value="definition">definition</option>
+<option value="theorem">theorem</option>
+<option value="proof">proof</option>
+</select>
+</div></div>
+<ul id="entry-list">
+<li class="entry-heading" aria-hidden="true">Concepts</li>
+<li data-type="theorem" data-search="lax52.msoautomataequivalence büchi-elgot-trakhtenbrot theorem for finite words theorem"><a class="entry-link" href="../lax-52/Lax52.MSOAutomataEquivalence.html" data-full-title="Büchi-Elgot-Trakhtenbrot theorem for finite words"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax52.MSOAutomataEquivalence</span></span></a></li>
+<li data-type="definition" data-search="lax52.msosemantics semantics of monadic second-order logic definition"><a class="entry-link" href="../lax-52/Lax52.MSOSemantics.html" data-full-title="Semantics of monadic second-order logic"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax52.MSOSemantics</span></span></a></li>
+<li data-type="definition" data-search="lax52.msosyntax monadic second-order syntax definition"><a class="entry-link" href="../lax-52/Lax52.MSOSyntax.html" data-full-title="Monadic second-order syntax"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax52.MSOSyntax</span></span></a></li>
+<li data-type="theorem" data-search="lax52.msotonfa mso-definable word languages are nfa-recognizable theorem"><a class="entry-link" href="../lax-52/Lax52.MSOToNFA.html" data-full-title="MSO-definable word languages are NFA-recognizable"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax52.MSOToNFA</span></span></a></li>
+<li data-type="definition" data-search="lax52.nfarecognizable recognition by a finite nondeterministic automaton definition"><a class="entry-link" href="../lax-52/Lax52.NFARecognizable.html" data-full-title="Recognition by a finite nondeterministic automaton"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax52.NFARecognizable</span></span></a></li>
+<li class="active" data-type="theorem" data-search="lax52.nfatomso finite automata are mso-definable theorem"><a class="entry-link" href="../lax-52/Lax52.NFAToMSO.html" data-full-title="Finite automata are MSO-definable"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax52.NFAToMSO</span></span></a></li>
+<li data-type="definition" data-search="lax52.wordstructure words as finite relational structures definition"><a class="entry-link" href="../lax-52/Lax52.WordStructure.html" data-full-title="Words as finite relational structures"><span class="entry-label"><span class="type-badge proven" title="definition — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">def✓</span><span class="entry-label-text">Lax52.WordStructure</span></span></a></li>
+<li class="entry-heading" aria-hidden="true">Proofs</li>
+<li data-type="proof" data-search="lax52proofs.existsunique_wordstructure_proof proof"><a class="entry-link" href="../lax-52/Lax52Proofs.existsUnique_wordStructure_proof.html" data-full-title="Lax52Proofs.existsUnique_wordStructure_proof"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax52Proofs.existsUnique_wordStructure_proof</span></span></a></li>
+<li data-type="proof" data-search="lax52proofs.mso_definable_is_nfarecognizable_proof proof"><a class="entry-link" href="../lax-52/Lax52Proofs.mso_definable_is_nfaRecognizable_proof.html" data-full-title="Lax52Proofs.mso_definable_is_nfaRecognizable_proof"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax52Proofs.mso_definable_is_nfaRecognizable_proof</span></span></a></li>
+<li data-type="proof" data-search="lax52proofs.nfa_definable_by_mso_proof proof"><a class="entry-link" href="../lax-52/Lax52Proofs.nfa_definable_by_mso_proof.html" data-full-title="Lax52Proofs.nfa_definable_by_mso_proof"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax52Proofs.nfa_definable_by_mso_proof</span></span></a></li>
+<li data-type="proof" data-search="lax52proofs.nfarecognizable_iff_msodefinable_proof proof"><a class="entry-link" href="../lax-52/Lax52Proofs.nfaRecognizable_iff_msoDefinable_proof.html" data-full-title="Lax52Proofs.nfaRecognizable_iff_msoDefinable_proof"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax52Proofs.nfaRecognizable_iff_msoDefinable_proof</span></span></a></li>
+<li id="entry-list-empty" hidden>No entries match.</li>
+</ul>
+</aside>
+<section id="main"><div id="detail">
+<p class="draft-banner"><strong>Draft</strong> — mutable and not usable as a dependency; its citation marks the draft state.</p>
+<div class="detail-heading concept-heading">
+<div><p class="concept-id"><code>Lax52.NFAToMSO</code></p>
+<h1 class="concept-title">Finite automata are MSO-definable</h1>
+<p class="concept-microline"><code>concepts/Lax52/NFAToMSO.lean</code> · <a href="index.html">lax-52</a></p></div>
+<span class="status-pills"><span class="status-pill pill-proven" title="Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">proven</span></span>
+</div>
+<h4 class="figure-title">Concept map</h4>
+<figure class="graph-figure concept-root-graph">
+<button class="graph-expand" type="button" data-graph-expand data-graph-label="concept map" aria-expanded="false" aria-label="Open concept map in a large window" title="Open in large window"><svg class="graph-expand-open" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M2.5 6V2.5H6M10 2.5h3.5V6M13.5 10v3.5H10M6 13.5H2.5V10"/></svg><span class="graph-expand-close" aria-hidden="true">×</span></button>
+<div class="graph-toolbar"><button type="button" id="concept-expand" aria-controls="concept-dag" aria-pressed="true">Hide ancestors</button><button type="button" id="concept-descend" aria-controls="concept-dag" aria-pressed="false">Show descendants</button><output id="concept-graph-status" aria-live="polite"></output></div>
+<div id="concept-dag" class="figure-container" data-graph="concepts" data-ancestry="true"></div>
+<div class="graph-tooltip" role="tooltip" hidden></div>
+<figcaption class="graph-legend" aria-label="Concept map legend"><span><i class="legend-node fill-proven"></i>Proven claim</span><span><i class="legend-node fill-open"></i>Open claim</span><span><i class="legend-node fill-none"></i>Definition</span><span><i class="legend-node stroke-own"></i>This concept</span><span><i class="legend-node stroke-ext"></i>Related concept</span><span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B builds on A</span></figcaption>
+</figure>
+<div class="block block-evidence"><h3>Evidence</h3>
+<p class="evidence-intro">Each proof establishes this claim relative to its assumptions.</p>
+<ul class="proof-list">
+<li class="proof-item">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-52/Lax52Proofs.nfa_definable_by_mso_proof.html" aria-label="Open proof Lax52Proofs.nfa_definable_by_mso_proof"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><p class="judgment-unconditional">no assumptions</p></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="../lax-52/Lax52.NFAToMSO.html" title="Lax52.NFAToMSO.nfa_definable_by_mso"><code>Lax52.NFAToMSO</code></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-52/Lax52Proofs.nfa_definable_by_mso_proof.html"><code>Lax52Proofs.nfa_definable_by_mso_proof</code></a></p>
+</li>
+</ul>
+</div>
+<div class="block block-statement"><h3>Theorem</h3><div class="latex-content"><p>Every nondeterministic finite automaton over a finite alphabet has a monadic
+second-order sentence that holds on exactly the words accepted by the
+automaton.</p>
+</div></div>
+<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/szymtor/MSO-automata/blob/93d9b7c3ad77b383b9734cede0b95bfd17928575/concepts/Lax52/NFAToMSO.lean">view on GitHub</a></h3>
+<div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax52.NFARecognizable</span></td><td class="statement-actions"></td></tr>
+<tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax52.WordStructure</span></td><td class="statement-actions"></td></tr>
+<tr id="L3" class=""><td class="line-num"><a href="#L3">3</a></td><td class="line-code"> </td><td class="statement-actions"></td></tr>
+<tr id="L4" class=""><td class="line-num"><a href="#L4">4</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td><td class="statement-actions"></td></tr>
+<tr id="L5" class=""><td class="line-num"><a href="#L5">5</a></td><td class="line-code"><span style="color:#6A737D">---</span></td><td class="statement-actions"></td></tr>
+<tr id="L6" class=""><td class="line-num"><a href="#L6">6</a></td><td class="line-code"><span style="color:#6A737D">title: Finite automata are MSO-definable</span></td><td class="statement-actions"></td></tr>
+<tr id="L7" class=""><td class="line-num"><a href="#L7">7</a></td><td class="line-code"><span style="color:#6A737D">type: theorem</span></td><td class="statement-actions"></td></tr>
+<tr id="L8" class=""><td class="line-num"><a href="#L8">8</a></td><td class="line-code"><span style="color:#6A737D">---</span></td><td class="statement-actions"></td></tr>
+<tr id="L9" class=""><td class="line-num"><a href="#L9">9</a></td><td class="line-code"> </td><td class="statement-actions"></td></tr>
+<tr id="L10" class=""><td class="line-num"><a href="#L10">10</a></td><td class="line-code"><span style="color:#6A737D">Every nondeterministic finite automaton over a finite alphabet has a monadic</span></td><td class="statement-actions"></td></tr>
+<tr id="L11" class=""><td class="line-num"><a href="#L11">11</a></td><td class="line-code"><span style="color:#6A737D">second-order sentence that holds on exactly the words accepted by the</span></td><td class="statement-actions"></td></tr>
+<tr id="L12" class=""><td class="line-num"><a href="#L12">12</a></td><td class="line-code"><span style="color:#6A737D">automaton.</span></td><td class="statement-actions"></td></tr>
+<tr id="L13" class=""><td class="line-num"><a href="#L13">13</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td><td class="statement-actions"></td></tr>
+<tr id="L14" class=""><td class="line-num"><a href="#L14">14</a></td><td class="line-code"> </td><td class="statement-actions"></td></tr>
+<tr id="L15" class=""><td class="line-num"><a href="#L15">15</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax52.NFAToMSO</span></td><td class="statement-actions"></td></tr>
+<tr id="L16" class=""><td class="line-num"><a href="#L16">16</a></td><td class="line-code"> </td><td class="statement-actions"></td></tr>
+<tr id="L17" class=""><td class="line-num"><a href="#L17">17</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax52.MSOSyntax</span></td><td class="statement-actions"></td></tr>
+<tr id="L18" class=""><td class="line-num"><a href="#L18">18</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax52.WordStructure</span></td><td class="statement-actions"></td></tr>
+<tr id="L19" class=""><td class="line-num"><a href="#L19">19</a></td><td class="line-code"> </td><td class="statement-actions"></td></tr>
+<tr id="L20" class=""><td class="line-num"><a href="#L20">20</a></td><td class="line-code"><span style="color:#D73A49">universe</span><span style="color:#24292E"> u</span></td><td class="statement-actions"></td></tr>
+<tr id="L21" class=""><td class="line-num"><a href="#L21">21</a></td><td class="line-code"> </td><td class="statement-actions"></td></tr>
+<tr id="L22" class="statement-line line-proven"><td class="line-num"><a href="#L22">22</a></td><td class="line-code"><span class="statement-anchor" id="s-Lax52.NFAToMSO.nfa_definable_by_mso"></span><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> nfa_definable_by_mso</span><span style="color:#24292E"> {Sigma : </span><span style="color:#D73A49">Type</span><span style="color:#24292E"> u} [Fintype Sigma]</span></td><td class="statement-actions"><span class="statement-proof-links"><a class="statement-proof-button" href="../lax-52/Lax52Proofs.nfa_definable_by_mso_proof.html" aria-label="Open proof Lax52Proofs.nfa_definable_by_mso_proof" title="Lax52Proofs.nfa_definable_by_mso_proof"><span aria-hidden="true">⊢</span>Proof</a></span></td></tr>
+<tr id="L23" class="statement-line line-proven"><td class="line-num"><a href="#L23">23</a></td><td class="line-code"><span style="color:#24292E">    {Q : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">} [Fintype Q] (M : NFA Sigma Q) :</span></td><td class="statement-actions"></td></tr>
+<tr id="L24" class="statement-line line-proven"><td class="line-num"><a href="#L24">24</a></td><td class="line-code"><span style="color:#24292E">  ∃ phi : MSOSyntax.Sentence (wordLanguage Sigma), M.accepts = sentenceLanguage phi</span></td><td class="statement-actions"></td></tr>
+<tr id="L25" class=""><td class="line-num"><a href="#L25">25</a></td><td class="line-code"> </td><td class="statement-actions"></td></tr>
+<tr id="L26" class=""><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax52.NFAToMSO</span></td><td class="statement-actions"></td></tr>
+<tr id="L27" class=""><td class="line-num"><a href="#L27">27</a></td><td class="line-code"> </td><td class="statement-actions"></td></tr>
+</table></div></div></div>
+
+<div class="block"><div class="deps-columns">
+<div class="deps-col"><h3>Builds on</h3><ul class="deps-list"><li><a href="../lax-52/Lax52.NFARecognizable.html"><code>Lax52.NFARecognizable</code></a></li><li><a href="../lax-52/Lax52.WordStructure.html"><code>Lax52.WordStructure</code></a></li></ul></div>
+<div class="deps-col"><h3>Used by</h3><ul class="deps-list"><li><a href="../lax-52/Lax52.MSOAutomataEquivalence.html"><code>Lax52.MSOAutomataEquivalence</code></a></li></ul></div>
+<div class="deps-col"><h3>From Mathlib</h3><p class="empty-note">none</p></div>
+</div></div>
+<script type="application/json" id="graph-data">{"concepts":{"nodes":[{"id":"Lax52.MSOAutomataEquivalence","href":"../lax-52/Lax52.MSOAutomataEquivalence.html","title":"Büchi-Elgot-Trakhtenbrot theorem for finite words","owner":"lax-52","status":"proven","ext":true,"dir":"down"},{"id":"Lax52.MSOSemantics","href":"../lax-52/Lax52.MSOSemantics.html","title":"Semantics of monadic second-order logic","owner":"lax-52","status":"none","ext":true,"dir":"up"},{"id":"Lax52.MSOSyntax","href":"../lax-52/Lax52.MSOSyntax.html","title":"Monadic second-order syntax","owner":"lax-52","status":"none","ext":true,"dir":"up"},{"id":"Lax52.NFARecognizable","href":"../lax-52/Lax52.NFARecognizable.html","title":"Recognition by a finite nondeterministic automaton","owner":"lax-52","status":"none","ext":true,"dir":"up"},{"id":"Lax52.NFAToMSO","href":"../lax-52/Lax52.NFAToMSO.html","title":"Finite automata are MSO-definable","owner":"lax-52","status":"proven","ext":false,"dir":"core"},{"id":"Lax52.WordStructure","href":"../lax-52/Lax52.WordStructure.html","title":"Words as finite relational structures","owner":"lax-52","status":"proven","ext":true,"dir":"up"}],"edges":[{"from":"Lax52.NFAToMSO","to":"Lax52.MSOAutomataEquivalence"},{"from":"Lax52.MSOSyntax","to":"Lax52.MSOSemantics"},{"from":"Lax52.NFARecognizable","to":"Lax52.NFAToMSO"},{"from":"Lax52.WordStructure","to":"Lax52.NFAToMSO"},{"from":"Lax52.MSOSemantics","to":"Lax52.WordStructure"}],"home":"lax-52"},"proofs":{"statements":[],"proofs":[]}}</script>
+</div></section>
+</main>
+<script src="../assets/sidebar.js"></script>
+<script src="../assets/layout.js"></script>
+<script src="../assets/dag.js"></script>
+</body></html>
