@@ -83,42 +83,42 @@ the statement that weakly sparse monadically dependent classes are
 nowhere dense, this carries the classical equivalence: on weakly sparse
 classes, monadic dependence and nowhere denseness coincide.</p>
 </div></div>
-<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/4af91eadd1217e0c3b3db5837b8c966f31c8c523/monadic-dependence-neighborhood-complexity/concepts/Lax5/AdlerAdler.lean">view on GitHub</a></h3>
+<div class="block block-lean"><div class="lean-source-heading"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/4af91eadd1217e0c3b3db5837b8c966f31c8c523/monadic-dependence-neighborhood-complexity/concepts/Lax5/AdlerAdler.lean">view on GitHub</a></h3><span class="statement-proof-links" aria-label="Proof links"><a class="statement-proof-button" href="../lax-5/Lax5Proofs.AdlerAdler.monadicallyDependent_of_nowhereDense.html" aria-label="Open proof Lax5Proofs.AdlerAdler.monadicallyDependent_of_nowhereDense" title="Lax5Proofs.AdlerAdler.monadicallyDependent_of_nowhereDense"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">Go to Proof</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a></span></div>
 <div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
-<tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax5.MonadicDependence</span></td><td class="statement-actions"></td></tr>
-<tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax12.NowhereDenseClasses</span></td><td class="statement-actions"></td></tr>
-<tr id="L3" class=""><td class="line-num"><a href="#L3">3</a></td><td class="line-code"> </td><td class="statement-actions"></td></tr>
-<tr id="L4" class=""><td class="line-num"><a href="#L4">4</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td><td class="statement-actions"></td></tr>
-<tr id="L5" class=""><td class="line-num"><a href="#L5">5</a></td><td class="line-code"><span style="color:#6A737D">---</span></td><td class="statement-actions"></td></tr>
-<tr id="L6" class=""><td class="line-num"><a href="#L6">6</a></td><td class="line-code"><span style="color:#6A737D">title: Nowhere dense classes are monadically dependent</span></td><td class="statement-actions"></td></tr>
-<tr id="L7" class=""><td class="line-num"><a href="#L7">7</a></td><td class="line-code"><span style="color:#6A737D">type: theorem</span></td><td class="statement-actions"></td></tr>
-<tr id="L8" class=""><td class="line-num"><a href="#L8">8</a></td><td class="line-code"><span style="color:#6A737D">---</span></td><td class="statement-actions"></td></tr>
-<tr id="L9" class=""><td class="line-num"><a href="#L9">9</a></td><td class="line-code"><span style="color:#6A737D">Every nowhere dense graph class is monadically dependent. Together with</span></td><td class="statement-actions"></td></tr>
-<tr id="L10" class=""><td class="line-num"><a href="#L10">10</a></td><td class="line-code"><span style="color:#6A737D">the statement that weakly sparse monadically dependent classes are</span></td><td class="statement-actions"></td></tr>
-<tr id="L11" class=""><td class="line-num"><a href="#L11">11</a></td><td class="line-code"><span style="color:#6A737D">nowhere dense, this carries the classical equivalence: on weakly sparse</span></td><td class="statement-actions"></td></tr>
-<tr id="L12" class=""><td class="line-num"><a href="#L12">12</a></td><td class="line-code"><span style="color:#6A737D">classes, monadic dependence and nowhere denseness coincide.</span></td><td class="statement-actions"></td></tr>
-<tr id="L13" class=""><td class="line-num"><a href="#L13">13</a></td><td class="line-code"> </td><td class="statement-actions"></td></tr>
-<tr id="L14" class=""><td class="line-num"><a href="#L14">14</a></td><td class="line-code"><span style="color:#6A737D"># Formalization notes</span></td><td class="statement-actions"></td></tr>
-<tr id="L15" class=""><td class="line-num"><a href="#L15">15</a></td><td class="line-code"> </td><td class="statement-actions"></td></tr>
-<tr id="L16" class=""><td class="line-num"><a href="#L16">16</a></td><td class="line-code"><span style="color:#6A737D">Adler and Adler proved that nowhere dense classes are monadically</span></td><td class="statement-actions"></td></tr>
-<tr id="L17" class=""><td class="line-num"><a href="#L17">17</a></td><td class="line-code"><span style="color:#6A737D">*stable*; monadic dependence is the weakening stated here, which is how</span></td><td class="statement-actions"></td></tr>
-<tr id="L18" class=""><td class="line-num"><a href="#L18">18</a></td><td class="line-code"><span style="color:#6A737D">the equivalence is used in the literature. The hypothesis is</span></td><td class="statement-actions"></td></tr>
-<tr id="L19" class=""><td class="line-num"><a href="#L19">19</a></td><td class="line-code"><span style="color:#6A737D">`NowhereDense`, the shallow-minor definition of the *Sparsity Lectures*</span></td><td class="statement-actions"></td></tr>
-<tr id="L20" class=""><td class="line-num"><a href="#L20">20</a></td><td class="line-code"><span style="color:#6A737D">submission (Lax12), where nowhere denseness is defined and endorsed.</span></td><td class="statement-actions"></td></tr>
-<tr id="L21" class=""><td class="line-num"><a href="#L21">21</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td><td class="statement-actions"></td></tr>
-<tr id="L22" class=""><td class="line-num"><a href="#L22">22</a></td><td class="line-code"> </td><td class="statement-actions"></td></tr>
-<tr id="L23" class=""><td class="line-num"><a href="#L23">23</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax5.AdlerAdler</span></td><td class="statement-actions"></td></tr>
-<tr id="L24" class=""><td class="line-num"><a href="#L24">24</a></td><td class="line-code"> </td><td class="statement-actions"></td></tr>
-<tr id="L25" class=""><td class="line-num"><a href="#L25">25</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax12.GraphClasses Lax12.NowhereDenseClasses</span></td><td class="statement-actions"></td></tr>
-<tr id="L26" class=""><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax5.MonadicDependence</span></td><td class="statement-actions"></td></tr>
-<tr id="L27" class=""><td class="line-num"><a href="#L27">27</a></td><td class="line-code"> </td><td class="statement-actions"></td></tr>
-<tr id="L28" class="statement-line line-proven"><td class="line-num"><a href="#L28">28</a></td><td class="line-code"><span class="statement-anchor" id="s-Lax5.AdlerAdler.monadicallyDependent_of_nowhereDense"></span><span style="color:#6A737D">/-- Nowhere dense graph classes are monadically dependent. -/</span></td><td class="statement-actions"></td></tr>
-<tr id="L29" class="statement-line line-proven"><td class="line-num"><a href="#L29">29</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> monadicallyDependent_of_nowhereDense</span></td><td class="statement-actions"><span class="statement-proof-links"><a class="statement-proof-button" href="../lax-5/Lax5Proofs.AdlerAdler.monadicallyDependent_of_nowhereDense.html" aria-label="Open proof Lax5Proofs.AdlerAdler.monadicallyDependent_of_nowhereDense" title="Lax5Proofs.AdlerAdler.monadicallyDependent_of_nowhereDense"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">Go to Proof</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a></span></td></tr>
-<tr id="L30" class="statement-line line-proven"><td class="line-num"><a href="#L30">30</a></td><td class="line-code"><span style="color:#24292E">    (C : GraphClass) (h : NowhereDense C) :</span></td><td class="statement-actions"></td></tr>
-<tr id="L31" class="statement-line line-proven"><td class="line-num"><a href="#L31">31</a></td><td class="line-code"><span style="color:#24292E">    MonadicallyDependent C</span></td><td class="statement-actions"></td></tr>
-<tr id="L32" class=""><td class="line-num"><a href="#L32">32</a></td><td class="line-code"> </td><td class="statement-actions"></td></tr>
-<tr id="L33" class=""><td class="line-num"><a href="#L33">33</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax5.AdlerAdler</span></td><td class="statement-actions"></td></tr>
-<tr id="L34" class=""><td class="line-num"><a href="#L34">34</a></td><td class="line-code"> </td><td class="statement-actions"></td></tr>
+<tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax5.MonadicDependence</span></td></tr>
+<tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax12.NowhereDenseClasses</span></td></tr>
+<tr id="L3" class=""><td class="line-num"><a href="#L3">3</a></td><td class="line-code"> </td></tr>
+<tr id="L4" class=""><td class="line-num"><a href="#L4">4</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
+<tr id="L5" class=""><td class="line-num"><a href="#L5">5</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
+<tr id="L6" class=""><td class="line-num"><a href="#L6">6</a></td><td class="line-code"><span style="color:#6A737D">title: Nowhere dense classes are monadically dependent</span></td></tr>
+<tr id="L7" class=""><td class="line-num"><a href="#L7">7</a></td><td class="line-code"><span style="color:#6A737D">type: theorem</span></td></tr>
+<tr id="L8" class=""><td class="line-num"><a href="#L8">8</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
+<tr id="L9" class=""><td class="line-num"><a href="#L9">9</a></td><td class="line-code"><span style="color:#6A737D">Every nowhere dense graph class is monadically dependent. Together with</span></td></tr>
+<tr id="L10" class=""><td class="line-num"><a href="#L10">10</a></td><td class="line-code"><span style="color:#6A737D">the statement that weakly sparse monadically dependent classes are</span></td></tr>
+<tr id="L11" class=""><td class="line-num"><a href="#L11">11</a></td><td class="line-code"><span style="color:#6A737D">nowhere dense, this carries the classical equivalence: on weakly sparse</span></td></tr>
+<tr id="L12" class=""><td class="line-num"><a href="#L12">12</a></td><td class="line-code"><span style="color:#6A737D">classes, monadic dependence and nowhere denseness coincide.</span></td></tr>
+<tr id="L13" class=""><td class="line-num"><a href="#L13">13</a></td><td class="line-code"> </td></tr>
+<tr id="L14" class=""><td class="line-num"><a href="#L14">14</a></td><td class="line-code"><span style="color:#6A737D"># Formalization notes</span></td></tr>
+<tr id="L15" class=""><td class="line-num"><a href="#L15">15</a></td><td class="line-code"> </td></tr>
+<tr id="L16" class=""><td class="line-num"><a href="#L16">16</a></td><td class="line-code"><span style="color:#6A737D">Adler and Adler proved that nowhere dense classes are monadically</span></td></tr>
+<tr id="L17" class=""><td class="line-num"><a href="#L17">17</a></td><td class="line-code"><span style="color:#6A737D">*stable*; monadic dependence is the weakening stated here, which is how</span></td></tr>
+<tr id="L18" class=""><td class="line-num"><a href="#L18">18</a></td><td class="line-code"><span style="color:#6A737D">the equivalence is used in the literature. The hypothesis is</span></td></tr>
+<tr id="L19" class=""><td class="line-num"><a href="#L19">19</a></td><td class="line-code"><span style="color:#6A737D">`NowhereDense`, the shallow-minor definition of the *Sparsity Lectures*</span></td></tr>
+<tr id="L20" class=""><td class="line-num"><a href="#L20">20</a></td><td class="line-code"><span style="color:#6A737D">submission (Lax12), where nowhere denseness is defined and endorsed.</span></td></tr>
+<tr id="L21" class=""><td class="line-num"><a href="#L21">21</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
+<tr id="L22" class=""><td class="line-num"><a href="#L22">22</a></td><td class="line-code"> </td></tr>
+<tr id="L23" class=""><td class="line-num"><a href="#L23">23</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax5.AdlerAdler</span></td></tr>
+<tr id="L24" class=""><td class="line-num"><a href="#L24">24</a></td><td class="line-code"> </td></tr>
+<tr id="L25" class=""><td class="line-num"><a href="#L25">25</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax12.GraphClasses Lax12.NowhereDenseClasses</span></td></tr>
+<tr id="L26" class=""><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax5.MonadicDependence</span></td></tr>
+<tr id="L27" class=""><td class="line-num"><a href="#L27">27</a></td><td class="line-code"> </td></tr>
+<tr id="L28" class="statement-line line-proven"><td class="line-num"><a href="#L28">28</a></td><td class="line-code"><span class="statement-anchor" id="s-Lax5.AdlerAdler.monadicallyDependent_of_nowhereDense"></span><span style="color:#6A737D">/-- Nowhere dense graph classes are monadically dependent. -/</span></td></tr>
+<tr id="L29" class="statement-line line-proven"><td class="line-num"><a href="#L29">29</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> monadicallyDependent_of_nowhereDense</span></td></tr>
+<tr id="L30" class="statement-line line-proven"><td class="line-num"><a href="#L30">30</a></td><td class="line-code"><span style="color:#24292E">    (C : GraphClass) (h : NowhereDense C) :</span></td></tr>
+<tr id="L31" class="statement-line line-proven"><td class="line-num"><a href="#L31">31</a></td><td class="line-code"><span style="color:#24292E">    MonadicallyDependent C</span></td></tr>
+<tr id="L32" class=""><td class="line-num"><a href="#L32">32</a></td><td class="line-code"> </td></tr>
+<tr id="L33" class=""><td class="line-num"><a href="#L33">33</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax5.AdlerAdler</span></td></tr>
+<tr id="L34" class=""><td class="line-num"><a href="#L34">34</a></td><td class="line-code"> </td></tr>
 </table></div></div></div>
 <div class="block"><h3>Formalization notes</h3><div class="latex-content"><p>Adler and Adler proved that nowhere dense classes are monadically
 <em>stable</em>; monadic dependence is the weakening stated here, which is how

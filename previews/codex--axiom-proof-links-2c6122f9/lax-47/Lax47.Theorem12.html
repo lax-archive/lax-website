@@ -83,38 +83,38 @@ constant <span class="katex"><span class="katex-mathml"><math xmlns="http://www.
 promise gap, is the statement formalized below and proved by this submission.
 Its triangle-free conclusion is Theorem 1.2 in the submitted paper.</p>
 </div></div>
-<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/EdouardBonnet/mis-inapproximability/blob/7646d868b67f9c87e83583a6ba6cdeb32709b27c/concepts/Lax47/Theorem12.lean">view on GitHub</a></h3>
+<div class="block block-lean"><div class="lean-source-heading"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/EdouardBonnet/mis-inapproximability/blob/7646d868b67f9c87e83583a6ba6cdeb32709b27c/concepts/Lax47/Theorem12.lean">view on GitHub</a></h3><span class="statement-proof-links" aria-label="Proof links"><a class="statement-proof-button" href="../lax-47/Lax47Proofs.theorem_1_2.html" aria-label="Open proof Lax47Proofs.theorem_1_2" title="Lax47Proofs.theorem_1_2"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">Go to Proof</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a></span></div>
 <div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
-<tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax47.Hastad</span></td><td class="statement-actions"></td></tr>
-<tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"> </td><td class="statement-actions"></td></tr>
-<tr id="L3" class=""><td class="line-num"><a href="#L3">3</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td><td class="statement-actions"></td></tr>
-<tr id="L4" class=""><td class="line-num"><a href="#L4">4</a></td><td class="line-code"><span style="color:#6A737D">---</span></td><td class="statement-actions"></td></tr>
-<tr id="L5" class=""><td class="line-num"><a href="#L5">5</a></td><td class="line-code"><span style="color:#6A737D">title: Håstad hardness implies tight inapproximability in triangle-free graphs</span></td><td class="statement-actions"></td></tr>
-<tr id="L6" class=""><td class="line-num"><a href="#L6">6</a></td><td class="line-code"><span style="color:#6A737D">type: theorem</span></td><td class="statement-actions"></td></tr>
-<tr id="L7" class=""><td class="line-num"><a href="#L7">7</a></td><td class="line-code"><span style="color:#6A737D">---</span></td><td class="statement-actions"></td></tr>
-<tr id="L8" class=""><td class="line-num"><a href="#L8">8</a></td><td class="line-code"><span style="color:#6A737D">Assume Håstad's general-graph inapproximability premise. Then, for every</span></td><td class="statement-actions"></td></tr>
-<tr id="L9" class=""><td class="line-num"><a href="#L9">9</a></td><td class="line-code"><span style="color:#6A737D">constant $\varepsilon&gt;0$, a polynomial-time</span></td><td class="statement-actions"></td></tr>
-<tr id="L10" class=""><td class="line-num"><a href="#L10">10</a></td><td class="line-code"><span style="color:#6A737D">$N^{1/2-\varepsilon}$-approximation algorithm for Max Independent Set on</span></td><td class="statement-actions"></td></tr>
-<tr id="L11" class=""><td class="line-num"><a href="#L11">11</a></td><td class="line-code"><span style="color:#6A737D">$N$-vertex triangle-free graphs implies $NP\subseteq BPP$.</span></td><td class="statement-actions"></td></tr>
-<tr id="L12" class=""><td class="line-num"><a href="#L12">12</a></td><td class="line-code"> </td><td class="statement-actions"></td></tr>
-<tr id="L13" class=""><td class="line-num"><a href="#L13">13</a></td><td class="line-code"><span style="color:#6A737D">The entire implication, including the randomized reduction from the Håstad</span></td><td class="statement-actions"></td></tr>
-<tr id="L14" class=""><td class="line-num"><a href="#L14">14</a></td><td class="line-code"><span style="color:#6A737D">promise gap, is the statement formalized below and proved by this submission.</span></td><td class="statement-actions"></td></tr>
-<tr id="L15" class=""><td class="line-num"><a href="#L15">15</a></td><td class="line-code"><span style="color:#6A737D">Its triangle-free conclusion is Theorem 1.2 in the submitted paper.</span></td><td class="statement-actions"></td></tr>
-<tr id="L16" class=""><td class="line-num"><a href="#L16">16</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td><td class="statement-actions"></td></tr>
-<tr id="L17" class=""><td class="line-num"><a href="#L17">17</a></td><td class="line-code"> </td><td class="statement-actions"></td></tr>
-<tr id="L18" class=""><td class="line-num"><a href="#L18">18</a></td><td class="line-code"><span style="color:#D73A49">set_option</span><span style="color:#24292E"> autoImplicit </span><span style="color:#005CC5">false</span></td><td class="statement-actions"></td></tr>
-<tr id="L19" class=""><td class="line-num"><a href="#L19">19</a></td><td class="line-code"> </td><td class="statement-actions"></td></tr>
-<tr id="L20" class=""><td class="line-num"><a href="#L20">20</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax47.Theorem12</span></td><td class="statement-actions"></td></tr>
-<tr id="L21" class=""><td class="line-num"><a href="#L21">21</a></td><td class="line-code"> </td><td class="statement-actions"></td></tr>
-<tr id="L22" class=""><td class="line-num"><a href="#L22">22</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax47.Complexity</span></td><td class="statement-actions"></td></tr>
-<tr id="L23" class=""><td class="line-num"><a href="#L23">23</a></td><td class="line-code"> </td><td class="statement-actions"></td></tr>
-<tr id="L24" class="statement-line line-proven"><td class="line-num"><a href="#L24">24</a></td><td class="line-code"><span class="statement-anchor" id="s-Lax47.Theorem12.theorem_1_2"></span><span style="color:#6A737D">/-- Håstad hardness implies tight conditional inapproximability on triangle-free graphs. -/</span></td><td class="statement-actions"></td></tr>
-<tr id="L25" class="statement-line line-proven"><td class="line-num"><a href="#L25">25</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> theorem_1_2</span><span style="color:#24292E"> :</span></td><td class="statement-actions"><span class="statement-proof-links"><a class="statement-proof-button" href="../lax-47/Lax47Proofs.theorem_1_2.html" aria-label="Open proof Lax47Proofs.theorem_1_2" title="Lax47Proofs.theorem_1_2"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">Go to Proof</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a></span></td></tr>
-<tr id="L26" class="statement-line line-proven"><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span style="color:#24292E">  Lax47.Hastad.Inapproximability →</span></td><td class="statement-actions"></td></tr>
-<tr id="L27" class="statement-line line-proven"><td class="line-num"><a href="#L27">27</a></td><td class="line-code"><span style="color:#24292E">    ∀ (ε : ℝ), </span><span style="color:#005CC5">0</span><span style="color:#24292E"> &lt; ε → TriangleFreeMISApproximation ε → NPSubsetBPP</span></td><td class="statement-actions"></td></tr>
-<tr id="L28" class=""><td class="line-num"><a href="#L28">28</a></td><td class="line-code"> </td><td class="statement-actions"></td></tr>
-<tr id="L29" class=""><td class="line-num"><a href="#L29">29</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax47.Theorem12</span></td><td class="statement-actions"></td></tr>
-<tr id="L30" class=""><td class="line-num"><a href="#L30">30</a></td><td class="line-code"> </td><td class="statement-actions"></td></tr>
+<tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax47.Hastad</span></td></tr>
+<tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"> </td></tr>
+<tr id="L3" class=""><td class="line-num"><a href="#L3">3</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
+<tr id="L4" class=""><td class="line-num"><a href="#L4">4</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
+<tr id="L5" class=""><td class="line-num"><a href="#L5">5</a></td><td class="line-code"><span style="color:#6A737D">title: Håstad hardness implies tight inapproximability in triangle-free graphs</span></td></tr>
+<tr id="L6" class=""><td class="line-num"><a href="#L6">6</a></td><td class="line-code"><span style="color:#6A737D">type: theorem</span></td></tr>
+<tr id="L7" class=""><td class="line-num"><a href="#L7">7</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
+<tr id="L8" class=""><td class="line-num"><a href="#L8">8</a></td><td class="line-code"><span style="color:#6A737D">Assume Håstad's general-graph inapproximability premise. Then, for every</span></td></tr>
+<tr id="L9" class=""><td class="line-num"><a href="#L9">9</a></td><td class="line-code"><span style="color:#6A737D">constant $\varepsilon&gt;0$, a polynomial-time</span></td></tr>
+<tr id="L10" class=""><td class="line-num"><a href="#L10">10</a></td><td class="line-code"><span style="color:#6A737D">$N^{1/2-\varepsilon}$-approximation algorithm for Max Independent Set on</span></td></tr>
+<tr id="L11" class=""><td class="line-num"><a href="#L11">11</a></td><td class="line-code"><span style="color:#6A737D">$N$-vertex triangle-free graphs implies $NP\subseteq BPP$.</span></td></tr>
+<tr id="L12" class=""><td class="line-num"><a href="#L12">12</a></td><td class="line-code"> </td></tr>
+<tr id="L13" class=""><td class="line-num"><a href="#L13">13</a></td><td class="line-code"><span style="color:#6A737D">The entire implication, including the randomized reduction from the Håstad</span></td></tr>
+<tr id="L14" class=""><td class="line-num"><a href="#L14">14</a></td><td class="line-code"><span style="color:#6A737D">promise gap, is the statement formalized below and proved by this submission.</span></td></tr>
+<tr id="L15" class=""><td class="line-num"><a href="#L15">15</a></td><td class="line-code"><span style="color:#6A737D">Its triangle-free conclusion is Theorem 1.2 in the submitted paper.</span></td></tr>
+<tr id="L16" class=""><td class="line-num"><a href="#L16">16</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
+<tr id="L17" class=""><td class="line-num"><a href="#L17">17</a></td><td class="line-code"> </td></tr>
+<tr id="L18" class=""><td class="line-num"><a href="#L18">18</a></td><td class="line-code"><span style="color:#D73A49">set_option</span><span style="color:#24292E"> autoImplicit </span><span style="color:#005CC5">false</span></td></tr>
+<tr id="L19" class=""><td class="line-num"><a href="#L19">19</a></td><td class="line-code"> </td></tr>
+<tr id="L20" class=""><td class="line-num"><a href="#L20">20</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax47.Theorem12</span></td></tr>
+<tr id="L21" class=""><td class="line-num"><a href="#L21">21</a></td><td class="line-code"> </td></tr>
+<tr id="L22" class=""><td class="line-num"><a href="#L22">22</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax47.Complexity</span></td></tr>
+<tr id="L23" class=""><td class="line-num"><a href="#L23">23</a></td><td class="line-code"> </td></tr>
+<tr id="L24" class="statement-line line-proven"><td class="line-num"><a href="#L24">24</a></td><td class="line-code"><span class="statement-anchor" id="s-Lax47.Theorem12.theorem_1_2"></span><span style="color:#6A737D">/-- Håstad hardness implies tight conditional inapproximability on triangle-free graphs. -/</span></td></tr>
+<tr id="L25" class="statement-line line-proven"><td class="line-num"><a href="#L25">25</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> theorem_1_2</span><span style="color:#24292E"> :</span></td></tr>
+<tr id="L26" class="statement-line line-proven"><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span style="color:#24292E">  Lax47.Hastad.Inapproximability →</span></td></tr>
+<tr id="L27" class="statement-line line-proven"><td class="line-num"><a href="#L27">27</a></td><td class="line-code"><span style="color:#24292E">    ∀ (ε : ℝ), </span><span style="color:#005CC5">0</span><span style="color:#24292E"> &lt; ε → TriangleFreeMISApproximation ε → NPSubsetBPP</span></td></tr>
+<tr id="L28" class=""><td class="line-num"><a href="#L28">28</a></td><td class="line-code"> </td></tr>
+<tr id="L29" class=""><td class="line-num"><a href="#L29">29</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax47.Theorem12</span></td></tr>
+<tr id="L30" class=""><td class="line-num"><a href="#L30">30</a></td><td class="line-code"> </td></tr>
 </table></div></div></div>
 
 <div class="block"><div class="deps-columns">

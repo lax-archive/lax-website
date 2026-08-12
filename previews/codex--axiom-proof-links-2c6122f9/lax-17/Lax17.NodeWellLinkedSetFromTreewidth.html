@@ -136,35 +136,35 @@
 </div>
 <div class="block block-statement"><h3>Theorem</h3><div class="latex-content"><p>Large treewidth yields a proportionally large node-well-linked set.</p>
 </div></div>
-<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/EdouardBonnet/polynomial-grid-minor-theorem/blob/069b769652c38d7cc46256edbf546a8bddac6dbb/concepts/Lax17/NodeWellLinkedSetFromTreewidth.lean">view on GitHub</a></h3>
+<div class="block block-lean"><div class="lean-source-heading"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/EdouardBonnet/polynomial-grid-minor-theorem/blob/069b769652c38d7cc46256edbf546a8bddac6dbb/concepts/Lax17/NodeWellLinkedSetFromTreewidth.lean">view on GitHub</a></h3><span class="statement-proof-links" aria-label="Proof links"><a class="statement-proof-button" href="../lax-17/Lax17Proofs.Exposed.nodeWellLinkedSetFromTreewidth.html" aria-label="Open proof Lax17Proofs.Exposed.nodeWellLinkedSetFromTreewidth" title="Lax17Proofs.Exposed.nodeWellLinkedSetFromTreewidth"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">Go to Proof</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a></span></div>
 <div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
-<tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax17.Linkedness</span></td><td class="statement-actions"></td></tr>
-<tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax17.Treewidth</span></td><td class="statement-actions"></td></tr>
-<tr id="L3" class=""><td class="line-num"><a href="#L3">3</a></td><td class="line-code"> </td><td class="statement-actions"></td></tr>
-<tr id="L4" class=""><td class="line-num"><a href="#L4">4</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td><td class="statement-actions"></td></tr>
-<tr id="L5" class=""><td class="line-num"><a href="#L5">5</a></td><td class="line-code"><span style="color:#6A737D">---</span></td><td class="statement-actions"></td></tr>
-<tr id="L6" class=""><td class="line-num"><a href="#L6">6</a></td><td class="line-code"><span style="color:#6A737D">title: A well-linked set from treewidth</span></td><td class="statement-actions"></td></tr>
-<tr id="L7" class=""><td class="line-num"><a href="#L7">7</a></td><td class="line-code"><span style="color:#6A737D">type: theorem</span></td><td class="statement-actions"></td></tr>
-<tr id="L8" class=""><td class="line-num"><a href="#L8">8</a></td><td class="line-code"><span style="color:#6A737D">---</span></td><td class="statement-actions"></td></tr>
-<tr id="L9" class=""><td class="line-num"><a href="#L9">9</a></td><td class="line-code"><span style="color:#6A737D">Large treewidth yields a proportionally large node-well-linked set.</span></td><td class="statement-actions"></td></tr>
-<tr id="L10" class=""><td class="line-num"><a href="#L10">10</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td><td class="statement-actions"></td></tr>
-<tr id="L11" class=""><td class="line-num"><a href="#L11">11</a></td><td class="line-code"> </td><td class="statement-actions"></td></tr>
-<tr id="L12" class=""><td class="line-num"><a href="#L12">12</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax17.NodeWellLinkedSetFromTreewidth</span></td><td class="statement-actions"></td></tr>
-<tr id="L13" class=""><td class="line-num"><a href="#L13">13</a></td><td class="line-code"> </td><td class="statement-actions"></td></tr>
-<tr id="L14" class=""><td class="line-num"><a href="#L14">14</a></td><td class="line-code"><span style="color:#D73A49">universe</span><span style="color:#24292E"> u</span></td><td class="statement-actions"></td></tr>
-<tr id="L15" class=""><td class="line-num"><a href="#L15">15</a></td><td class="line-code"> </td><td class="statement-actions"></td></tr>
-<tr id="L16" class="statement-line line-proven"><td class="line-num"><a href="#L16">16</a></td><td class="line-code"><span class="statement-anchor" id="s-Lax17.NodeWellLinkedSetFromTreewidth.nodeWellLinkedSetFromTreewidth"></span><span style="color:#6A737D">/-- Large treewidth yields a large node-well-linked vertex set. -/</span></td><td class="statement-actions"></td></tr>
-<tr id="L17" class="statement-line line-proven"><td class="line-num"><a href="#L17">17</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> nodeWellLinkedSetFromTreewidth</span><span style="color:#24292E"> :</span></td><td class="statement-actions"><span class="statement-proof-links"><a class="statement-proof-button" href="../lax-17/Lax17Proofs.Exposed.nodeWellLinkedSetFromTreewidth.html" aria-label="Open proof Lax17Proofs.Exposed.nodeWellLinkedSetFromTreewidth" title="Lax17Proofs.Exposed.nodeWellLinkedSetFromTreewidth"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">Go to Proof</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a></span></td></tr>
-<tr id="L18" class="statement-line line-proven"><td class="line-num"><a href="#L18">18</a></td><td class="line-code"><span style="color:#24292E">  ∃ c : ℕ, </span><span style="color:#005CC5">0</span><span style="color:#24292E"> &lt; c ∧</span></td><td class="statement-actions"></td></tr>
-<tr id="L19" class="statement-line line-proven"><td class="line-num"><a href="#L19">19</a></td><td class="line-code"><span style="color:#24292E">    ∀ {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E"> u} [Fintype V] [DecidableEq V]</span></td><td class="statement-actions"></td></tr>
-<tr id="L20" class="statement-line line-proven"><td class="line-num"><a href="#L20">20</a></td><td class="line-code"><span style="color:#24292E">      (G : SimpleGraph V) {k : ℕ},</span></td><td class="statement-actions"></td></tr>
-<tr id="L21" class="statement-line line-proven"><td class="line-num"><a href="#L21">21</a></td><td class="line-code"><span style="color:#24292E">        c * k ≤ Lax17.Treewidth.treewidth G →</span></td><td class="statement-actions"></td></tr>
-<tr id="L22" class="statement-line line-proven"><td class="line-num"><a href="#L22">22</a></td><td class="line-code"><span style="color:#24292E">          ∃ X : Finset V,</span></td><td class="statement-actions"></td></tr>
-<tr id="L23" class="statement-line line-proven"><td class="line-num"><a href="#L23">23</a></td><td class="line-code"><span style="color:#24292E">            k ≤ X.card ∧</span></td><td class="statement-actions"></td></tr>
-<tr id="L24" class="statement-line line-proven"><td class="line-num"><a href="#L24">24</a></td><td class="line-code"><span style="color:#24292E">              Lax17.Linkedness.NodeWellLinkedIn G Finset.univ X</span></td><td class="statement-actions"></td></tr>
-<tr id="L25" class=""><td class="line-num"><a href="#L25">25</a></td><td class="line-code"> </td><td class="statement-actions"></td></tr>
-<tr id="L26" class=""><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax17.NodeWellLinkedSetFromTreewidth</span></td><td class="statement-actions"></td></tr>
-<tr id="L27" class=""><td class="line-num"><a href="#L27">27</a></td><td class="line-code"> </td><td class="statement-actions"></td></tr>
+<tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax17.Linkedness</span></td></tr>
+<tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax17.Treewidth</span></td></tr>
+<tr id="L3" class=""><td class="line-num"><a href="#L3">3</a></td><td class="line-code"> </td></tr>
+<tr id="L4" class=""><td class="line-num"><a href="#L4">4</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
+<tr id="L5" class=""><td class="line-num"><a href="#L5">5</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
+<tr id="L6" class=""><td class="line-num"><a href="#L6">6</a></td><td class="line-code"><span style="color:#6A737D">title: A well-linked set from treewidth</span></td></tr>
+<tr id="L7" class=""><td class="line-num"><a href="#L7">7</a></td><td class="line-code"><span style="color:#6A737D">type: theorem</span></td></tr>
+<tr id="L8" class=""><td class="line-num"><a href="#L8">8</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
+<tr id="L9" class=""><td class="line-num"><a href="#L9">9</a></td><td class="line-code"><span style="color:#6A737D">Large treewidth yields a proportionally large node-well-linked set.</span></td></tr>
+<tr id="L10" class=""><td class="line-num"><a href="#L10">10</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
+<tr id="L11" class=""><td class="line-num"><a href="#L11">11</a></td><td class="line-code"> </td></tr>
+<tr id="L12" class=""><td class="line-num"><a href="#L12">12</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax17.NodeWellLinkedSetFromTreewidth</span></td></tr>
+<tr id="L13" class=""><td class="line-num"><a href="#L13">13</a></td><td class="line-code"> </td></tr>
+<tr id="L14" class=""><td class="line-num"><a href="#L14">14</a></td><td class="line-code"><span style="color:#D73A49">universe</span><span style="color:#24292E"> u</span></td></tr>
+<tr id="L15" class=""><td class="line-num"><a href="#L15">15</a></td><td class="line-code"> </td></tr>
+<tr id="L16" class="statement-line line-proven"><td class="line-num"><a href="#L16">16</a></td><td class="line-code"><span class="statement-anchor" id="s-Lax17.NodeWellLinkedSetFromTreewidth.nodeWellLinkedSetFromTreewidth"></span><span style="color:#6A737D">/-- Large treewidth yields a large node-well-linked vertex set. -/</span></td></tr>
+<tr id="L17" class="statement-line line-proven"><td class="line-num"><a href="#L17">17</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> nodeWellLinkedSetFromTreewidth</span><span style="color:#24292E"> :</span></td></tr>
+<tr id="L18" class="statement-line line-proven"><td class="line-num"><a href="#L18">18</a></td><td class="line-code"><span style="color:#24292E">  ∃ c : ℕ, </span><span style="color:#005CC5">0</span><span style="color:#24292E"> &lt; c ∧</span></td></tr>
+<tr id="L19" class="statement-line line-proven"><td class="line-num"><a href="#L19">19</a></td><td class="line-code"><span style="color:#24292E">    ∀ {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E"> u} [Fintype V] [DecidableEq V]</span></td></tr>
+<tr id="L20" class="statement-line line-proven"><td class="line-num"><a href="#L20">20</a></td><td class="line-code"><span style="color:#24292E">      (G : SimpleGraph V) {k : ℕ},</span></td></tr>
+<tr id="L21" class="statement-line line-proven"><td class="line-num"><a href="#L21">21</a></td><td class="line-code"><span style="color:#24292E">        c * k ≤ Lax17.Treewidth.treewidth G →</span></td></tr>
+<tr id="L22" class="statement-line line-proven"><td class="line-num"><a href="#L22">22</a></td><td class="line-code"><span style="color:#24292E">          ∃ X : Finset V,</span></td></tr>
+<tr id="L23" class="statement-line line-proven"><td class="line-num"><a href="#L23">23</a></td><td class="line-code"><span style="color:#24292E">            k ≤ X.card ∧</span></td></tr>
+<tr id="L24" class="statement-line line-proven"><td class="line-num"><a href="#L24">24</a></td><td class="line-code"><span style="color:#24292E">              Lax17.Linkedness.NodeWellLinkedIn G Finset.univ X</span></td></tr>
+<tr id="L25" class=""><td class="line-num"><a href="#L25">25</a></td><td class="line-code"> </td></tr>
+<tr id="L26" class=""><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax17.NodeWellLinkedSetFromTreewidth</span></td></tr>
+<tr id="L27" class=""><td class="line-num"><a href="#L27">27</a></td><td class="line-code"> </td></tr>
 </table></div></div></div>
 
 <div class="block"><div class="deps-columns">

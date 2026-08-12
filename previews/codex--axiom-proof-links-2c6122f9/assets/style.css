@@ -706,18 +706,16 @@ body{
 
 .inline-contract-table .line-code{ padding-right: 1rem; }
 
-/* Proof actions live on the axiom declaration row. The action column sticks
-   to the visible right edge while long Lean lines scroll underneath it. */
-.inline-contract-table .statement-actions{
-  position: sticky;
-  right: 0;
-  z-index: 1;
-  width: 1%;
-  padding: 0 0.55rem 0 0.8rem;
-  text-align: right;
-  background: linear-gradient(to right, transparent, var(--code-bg) 0.55rem);
+.lean-source-heading{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.45rem 1rem;
+  margin-bottom: 0.7rem;
 }
 
+.block .lean-source-heading h3{ margin-bottom: 0; }
 .statement-proof-links{ display: inline-flex; gap: 0.3rem; }
 
 .statement-proof-button{
@@ -761,15 +759,9 @@ body{
 
 .inline-contract-table tr.line-proven td{ background: var(--proven-bg); }
 .inline-contract-table tr.line-open td{ background: var(--partial-bg); }
-.inline-contract-table tr.line-proven .statement-actions{ background: linear-gradient(to right, transparent, var(--proven-bg) 0.55rem); }
-.inline-contract-table tr.line-open .statement-actions{ background: linear-gradient(to right, transparent, var(--partial-bg) 0.55rem); }
 
 .inline-contract-table tr:target td{ background: var(--accent-light); }
 .inline-contract-table tr:has(.statement-anchor:target) td{ background: var(--accent-light); }
-.inline-contract-table tr:target .statement-actions,
-.inline-contract-table tr:has(.statement-anchor:target) .statement-actions{
-  background: linear-gradient(to right, transparent, var(--accent-light) 0.55rem);
-}
 
 /* Source links out to the repository. The inline variant rides along a
    heading or figure title (resetting the small-caps chrome it inherits);

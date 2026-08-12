@@ -87,35 +87,35 @@
 is at least that of the coarser partition. This is the finite conditional
 variance inequality underlying the energy-increment proof.</p>
 </div></div>
-<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/faghasemi/szemeredi-regularity-lemma-lax/blob/35e33040b5f561131c764c4e0dad922eeecd2dc2/regularity-lemma/concepts/Lax18/PartitionEnergyMonotonicity.lean">view on GitHub</a></h3>
+<div class="block block-lean"><div class="lean-source-heading"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/faghasemi/szemeredi-regularity-lemma-lax/blob/35e33040b5f561131c764c4e0dad922eeecd2dc2/regularity-lemma/concepts/Lax18/PartitionEnergyMonotonicity.lean">view on GitHub</a></h3><span class="statement-proof-links" aria-label="Proof links"><a class="statement-proof-button" href="../lax-18/Lax18Proofs.partitionEnergy_mono_of_refines.html" aria-label="Open proof Lax18Proofs.partitionEnergy_mono_of_refines" title="Lax18Proofs.partitionEnergy_mono_of_refines"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">Go to Proof</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a></span></div>
 <div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
-<tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax18.PartitionEnergy</span></td><td class="statement-actions"></td></tr>
-<tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"> </td><td class="statement-actions"></td></tr>
-<tr id="L3" class=""><td class="line-num"><a href="#L3">3</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td><td class="statement-actions"></td></tr>
-<tr id="L4" class=""><td class="line-num"><a href="#L4">4</a></td><td class="line-code"><span style="color:#6A737D">---</span></td><td class="statement-actions"></td></tr>
-<tr id="L5" class=""><td class="line-num"><a href="#L5">5</a></td><td class="line-code"><span style="color:#6A737D">title: Monotonicity of partition energy under refinement</span></td><td class="statement-actions"></td></tr>
-<tr id="L6" class=""><td class="line-num"><a href="#L6">6</a></td><td class="line-code"><span style="color:#6A737D">type: theorem</span></td><td class="statement-actions"></td></tr>
-<tr id="L7" class=""><td class="line-num"><a href="#L7">7</a></td><td class="line-code"><span style="color:#6A737D">---</span></td><td class="statement-actions"></td></tr>
-<tr id="L8" class=""><td class="line-num"><a href="#L8">8</a></td><td class="line-code"><span style="color:#6A737D">If one graph partition refines another, then its weighted mean-square density</span></td><td class="statement-actions"></td></tr>
-<tr id="L9" class=""><td class="line-num"><a href="#L9">9</a></td><td class="line-code"><span style="color:#6A737D">is at least that of the coarser partition. This is the finite conditional</span></td><td class="statement-actions"></td></tr>
-<tr id="L10" class=""><td class="line-num"><a href="#L10">10</a></td><td class="line-code"><span style="color:#6A737D">variance inequality underlying the energy-increment proof.</span></td><td class="statement-actions"></td></tr>
-<tr id="L11" class=""><td class="line-num"><a href="#L11">11</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td><td class="statement-actions"></td></tr>
-<tr id="L12" class=""><td class="line-num"><a href="#L12">12</a></td><td class="line-code"> </td><td class="statement-actions"></td></tr>
-<tr id="L13" class=""><td class="line-num"><a href="#L13">13</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax18.PartitionEnergyMonotonicity</span></td><td class="statement-actions"></td></tr>
-<tr id="L14" class=""><td class="line-num"><a href="#L14">14</a></td><td class="line-code"> </td><td class="statement-actions"></td></tr>
-<tr id="L15" class=""><td class="line-num"><a href="#L15">15</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax18.FiniteGraphPartitions</span></td><td class="statement-actions"></td></tr>
-<tr id="L16" class=""><td class="line-num"><a href="#L16">16</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax18.PartitionEnergy</span></td><td class="statement-actions"></td></tr>
-<tr id="L17" class=""><td class="line-num"><a href="#L17">17</a></td><td class="line-code"> </td><td class="statement-actions"></td></tr>
-<tr id="L18" class=""><td class="line-num"><a href="#L18">18</a></td><td class="line-code"><span style="color:#D73A49">universe</span><span style="color:#24292E"> u</span></td><td class="statement-actions"></td></tr>
-<tr id="L19" class=""><td class="line-num"><a href="#L19">19</a></td><td class="line-code"> </td><td class="statement-actions"></td></tr>
-<tr id="L20" class="statement-line line-proven"><td class="line-num"><a href="#L20">20</a></td><td class="line-code"><span class="statement-anchor" id="s-Lax18.PartitionEnergyMonotonicity.partitionEnergy_mono_of_refines"></span><span style="color:#6A737D">/-- Refining a partition cannot decrease its energy. -/</span></td><td class="statement-actions"></td></tr>
-<tr id="L21" class="statement-line line-proven"><td class="line-num"><a href="#L21">21</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> partitionEnergy_mono_of_refines</span><span style="color:#24292E"> :</span></td><td class="statement-actions"><span class="statement-proof-links"><a class="statement-proof-button" href="../lax-18/Lax18Proofs.partitionEnergy_mono_of_refines.html" aria-label="Open proof Lax18Proofs.partitionEnergy_mono_of_refines" title="Lax18Proofs.partitionEnergy_mono_of_refines"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">Go to Proof</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a></span></td></tr>
-<tr id="L22" class="statement-line line-proven"><td class="line-num"><a href="#L22">22</a></td><td class="line-code"><span style="color:#24292E">  ∀ {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E"> u} [Fintype V] [DecidableEq V]</span></td><td class="statement-actions"></td></tr>
-<tr id="L23" class="statement-line line-proven"><td class="line-num"><a href="#L23">23</a></td><td class="line-code"><span style="color:#24292E">    (G : SimpleGraph V) (P Q : VertexPartition V),</span></td><td class="statement-actions"></td></tr>
-<tr id="L24" class="statement-line line-proven"><td class="line-num"><a href="#L24">24</a></td><td class="line-code"><span style="color:#24292E">      Refines Q P → partitionEnergy G P ≤ partitionEnergy G Q</span></td><td class="statement-actions"></td></tr>
-<tr id="L25" class=""><td class="line-num"><a href="#L25">25</a></td><td class="line-code"> </td><td class="statement-actions"></td></tr>
-<tr id="L26" class=""><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax18.PartitionEnergyMonotonicity</span></td><td class="statement-actions"></td></tr>
-<tr id="L27" class=""><td class="line-num"><a href="#L27">27</a></td><td class="line-code"> </td><td class="statement-actions"></td></tr>
+<tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax18.PartitionEnergy</span></td></tr>
+<tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"> </td></tr>
+<tr id="L3" class=""><td class="line-num"><a href="#L3">3</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
+<tr id="L4" class=""><td class="line-num"><a href="#L4">4</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
+<tr id="L5" class=""><td class="line-num"><a href="#L5">5</a></td><td class="line-code"><span style="color:#6A737D">title: Monotonicity of partition energy under refinement</span></td></tr>
+<tr id="L6" class=""><td class="line-num"><a href="#L6">6</a></td><td class="line-code"><span style="color:#6A737D">type: theorem</span></td></tr>
+<tr id="L7" class=""><td class="line-num"><a href="#L7">7</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
+<tr id="L8" class=""><td class="line-num"><a href="#L8">8</a></td><td class="line-code"><span style="color:#6A737D">If one graph partition refines another, then its weighted mean-square density</span></td></tr>
+<tr id="L9" class=""><td class="line-num"><a href="#L9">9</a></td><td class="line-code"><span style="color:#6A737D">is at least that of the coarser partition. This is the finite conditional</span></td></tr>
+<tr id="L10" class=""><td class="line-num"><a href="#L10">10</a></td><td class="line-code"><span style="color:#6A737D">variance inequality underlying the energy-increment proof.</span></td></tr>
+<tr id="L11" class=""><td class="line-num"><a href="#L11">11</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
+<tr id="L12" class=""><td class="line-num"><a href="#L12">12</a></td><td class="line-code"> </td></tr>
+<tr id="L13" class=""><td class="line-num"><a href="#L13">13</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax18.PartitionEnergyMonotonicity</span></td></tr>
+<tr id="L14" class=""><td class="line-num"><a href="#L14">14</a></td><td class="line-code"> </td></tr>
+<tr id="L15" class=""><td class="line-num"><a href="#L15">15</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax18.FiniteGraphPartitions</span></td></tr>
+<tr id="L16" class=""><td class="line-num"><a href="#L16">16</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax18.PartitionEnergy</span></td></tr>
+<tr id="L17" class=""><td class="line-num"><a href="#L17">17</a></td><td class="line-code"> </td></tr>
+<tr id="L18" class=""><td class="line-num"><a href="#L18">18</a></td><td class="line-code"><span style="color:#D73A49">universe</span><span style="color:#24292E"> u</span></td></tr>
+<tr id="L19" class=""><td class="line-num"><a href="#L19">19</a></td><td class="line-code"> </td></tr>
+<tr id="L20" class="statement-line line-proven"><td class="line-num"><a href="#L20">20</a></td><td class="line-code"><span class="statement-anchor" id="s-Lax18.PartitionEnergyMonotonicity.partitionEnergy_mono_of_refines"></span><span style="color:#6A737D">/-- Refining a partition cannot decrease its energy. -/</span></td></tr>
+<tr id="L21" class="statement-line line-proven"><td class="line-num"><a href="#L21">21</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> partitionEnergy_mono_of_refines</span><span style="color:#24292E"> :</span></td></tr>
+<tr id="L22" class="statement-line line-proven"><td class="line-num"><a href="#L22">22</a></td><td class="line-code"><span style="color:#24292E">  ∀ {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E"> u} [Fintype V] [DecidableEq V]</span></td></tr>
+<tr id="L23" class="statement-line line-proven"><td class="line-num"><a href="#L23">23</a></td><td class="line-code"><span style="color:#24292E">    (G : SimpleGraph V) (P Q : VertexPartition V),</span></td></tr>
+<tr id="L24" class="statement-line line-proven"><td class="line-num"><a href="#L24">24</a></td><td class="line-code"><span style="color:#24292E">      Refines Q P → partitionEnergy G P ≤ partitionEnergy G Q</span></td></tr>
+<tr id="L25" class=""><td class="line-num"><a href="#L25">25</a></td><td class="line-code"> </td></tr>
+<tr id="L26" class=""><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax18.PartitionEnergyMonotonicity</span></td></tr>
+<tr id="L27" class=""><td class="line-num"><a href="#L27">27</a></td><td class="line-code"> </td></tr>
 </table></div></div></div>
 
 <div class="block"><div class="deps-columns">
