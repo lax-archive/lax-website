@@ -1,8 +1,20 @@
-Formalized mathematics, in public.
+To formalized mathematics what arXiv is to preprints: a network of
+independent, citable submissions building on one another.
 
-Lax is an open archive for contemporary mathematics written in Lean. Think of
-it as an arXiv for formalization: independent, citable submissions that people
-can read, software can check, and future work can build upon.
+Submissions are written in Lean, a proof assistant in which mathematics is
+code. Lean checks correctness, not meaning: it certifies that a theorem is
+true, but not that it says what the author intended.
+
+Lax separates submissions into **concepts** and **proofs**.
+
+- **Concepts** are the minimal code surface required to determine meaning. They
+  demand careful human reading to ensure they match the author's intent.
+- **Proofs** are verified by Lean's kernel. They are therefore free to be long,
+  unreadable, or machine-generated.
+
+In Lax, proofs merely establish **what** is true, not **why** it is true.
+The latter lives in the accompanying exposition and papers.
+
 
 ## What you can do here
 

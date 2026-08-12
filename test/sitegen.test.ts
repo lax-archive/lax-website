@@ -316,7 +316,7 @@ After the formula.`, "");
       expect(bytes.equals(second.get(name)!)).toBe(true);
       expect(SITE_MIME[path.extname(name)], `missing MIME for ${name}`).toBeDefined();
     }
-    for (const asset of ["style.css", "sidebar.js", "landing.js", "layout.js", "dag.js", "citation.js", "katex.css", "lax-white-paper.pdf", path.join("fonts", "LM-regular.woff2")])
+    for (const asset of ["style.css", "sidebar.js", "landing.js", "layout.js", "dag.js", "citation.js", "katex.css", path.join("fonts", "LM-regular.woff2")])
       expect(fs.existsSync(path.join(one, "assets", asset)), asset).toBe(true);
     // Graph containers must be measurable before dag.js appends their SVG.
     const css = fs.readFileSync(path.join(one, "assets", "style.css"), "utf8");
@@ -337,7 +337,6 @@ After the formula.`, "");
     expect(landingScript).toContain("window.addEventListener('popstate'");
     expect(landingScript).toContain("const initialView = urlView()");
     expect(landingScript).toContain("document.querySelector('[data-copy-prompt]')");
-    expect(landingScript).not.toContain("data-open-paper");
     expect(landingScript).toContain("document.getElementById(`landing-panel-${id}`)");
     expect(landingScript).not.toContain("panel.hidden");
     expect(landingScript).not.toContain("aria-expanded");
@@ -376,16 +375,9 @@ After the formula.`, "");
     expect(index).toContain('Lax <span class="site-title-quiet">Lean Archive</span>');
     // The fixed site header supplies the title; the landing does not repeat it.
     expect(index).not.toContain('<h1 class="paper-title">Lax <span class="site-title-quiet">Lean Archive</span></h1>');
-    expect(index.indexOf("landing-lede")).toBeLessThan(index.indexOf("landing-actions"));
-    expect(index).not.toContain('class="landing-about"');
-    expect(index).toContain("Mathematics that can be read, checked, and built upon.");
-    expect(index).toContain("an arXiv for formalization");
-    expect(index).toContain('class="landing-trust-path"');
-    expect(index).toContain("01 · Concept");
-    expect(index).toContain("02 · Proof");
-    expect(index).not.toContain('class="landing-trust-arrow"');
-    expect(index).not.toContain('<details class="landing-paper"');
-    expect(index).toContain('<a class="landing-hero-button secondary" href="assets/lax-white-paper.pdf">Read the Lax paper');
+    expect(index.indexOf("landing-lede")).toBeLessThan(index.indexOf("landing-about"));
+    expect(index.indexOf("landing-about")).toBeLessThan(index.indexOf("landing-actions"));
+    expect(index).toContain("what arXiv is to preprints");
     expect(index).toContain('<h2 id="landing-actions-heading">What you can do here</h2>');
     expect(index).toContain('data-landing-action="read" aria-controls="landing-panel-read"');
     expect(index).toContain('data-landing-action="submit" aria-controls="landing-panel-submit"');
