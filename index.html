@@ -45,7 +45,7 @@
 <input id="filter-search" class="filter-input" type="search" placeholder="Search titles and concepts" aria-controls="entry-list submissions-list">
 </div></div>
 <ul id="entry-list">
-<li data-search-title="lax-41 constructive lovász local lemma" data-search-concepts="lax41.haeuplersahasrinivasandefinitions definitions for the haeupler–saha–srinivasan distributional theorem definition lax41.haeuplersahasrinivasantheorem22 haeupler–saha–srinivasan theorem 2.2 theorem lax41.mosertardos the moser–tardos theorem theorem lax41.mosertardosdefinitions definitions for the moser–tardos resampling algorithm definition" data-state="registered" data-search-order="0" data-tags="|lovasz local lemma|"><a class="entry-link" href="lax-41/index.html" data-full-title="Constructive Lovász Local Lemma"><span class="entry-label"><span class="entry-id">lax-41</span><span class="entry-label-text">Constructive Lovász Local Lemma</span></span></a></li>
+<li data-search-title="lax-41 constructive lovász local lemma" data-search-concepts="lax41.haeuplersahasrinivasandefinitions definitions for the haeupler–saha–srinivasan distributional theorem definition lax41.haeuplersahasrinivasantheorem22 haeupler–saha–srinivasan theorem 2.2 theorem lax41.mosertardos the moser–tardos theorem theorem lax41.mosertardosdefinitions definitions for the moser–tardos resampling algorithm definition" data-state="registered" data-search-order="0" data-tags="|lovasz local lemma|"><a class="entry-link" href="lax-41/index.html" data-full-title="Constructive Lovász Local Lemma"><span class="entry-label"><span class="entry-label-text">Constructive Lovász Local Lemma</span></span></a></li>
 <li class="entry-heading" data-entry-group="draft">Work in Progress</li>
 <li data-search-title="lax-10 graphs without a 3-connected subgraph are 4-colourable" data-search-concepts="lax10.fragile fragile and m-fragile graphs definition lax10.fragilefourcolorable graphs without a 3-connected subgraph are 4-colorable theorem lax10.theorem2 theorem 2 theorem lax10.threeconnectedandcolorable 3-connected graphs and 4-colorability definition" data-state="draft" data-search-order="1" data-tags="|connected subgraph|"><a class="entry-link" href="lax-10/index.html" data-full-title="Graphs without a 3-Connected Subgraph are 4-Colourable"><span class="entry-label"><span class="entry-label-text">Graphs without a 3-Connected Subgraph are 4-Colourable</span></span></a></li>
 <li data-search-title="lax-11 algorithmic experiments on a random access machine" data-search-concepts="lax11.cliqueexpr k-expressions, and the graphs of cliquewidth at most k definition lax11.connectedcomponents connected components in linear time theorem lax11.courcelle courcelle's theorem on a word ram theorem lax11.graphencoding compressed sparse row encoding of a graph definition lax11.instanceencoding encoding a graph together with a k-expression definition lax11.mso monadic second-order logic on graphs definition lax11.vertexcover a graph with a parameter appended definition" data-state="draft" data-search-order="2" data-tags="|random access machine|word ram|"><a class="entry-link" href="lax-11/index.html" data-full-title="Algorithmic Experiments on a Random Access Machine"><span class="entry-label"><span class="entry-label-text">Algorithmic Experiments on a Random Access Machine</span></span></a></li>
@@ -68,28 +68,34 @@
 </ul>
 </aside>
 <section id="main"><div id="detail">
-<header class="paper-head landing-head">
+<header class="landing-hero">
+<div class="landing-hero-copy">
+<p class="landing-kicker">Formalized mathematics, in public.</p>
+<p class="landing-hero-title">Mathematics that can be read, checked, and built upon.</p>
 <div class="landing-lede latex-content">
-<p>To formalized mathematics what arXiv is to preprints: a network of
-independent, citable submissions building on one another.</p>
+<p>Lax is an open archive for contemporary mathematics written in Lean. Think of
+it as an arXiv for formalization: independent, citable submissions that people
+can read, software can check, and future work can build upon.</p>
 
+</div>
+<div class="landing-hero-actions">
+<button class="landing-hero-button primary" type="button" data-landing-action="read" aria-controls="landing-panel-read">Browse submissions <b aria-hidden="true">↓</b></button>
+<a class="landing-hero-button secondary" href="assets/lax-white-paper.pdf">Read the Lax paper <b aria-hidden="true">↗</b></a>
+</div>
+</div>
+<div class="landing-trust-path" aria-label="Concepts carry human-reviewed meaning; proofs provide machine-checked evidence.">
+<div class="landing-trust-node concept">
+<span class="landing-trust-step">01 · Concept</span>
+<strong>Meaning</strong>
+<small>read by people</small>
+</div>
+<div class="landing-trust-node proof">
+<span class="landing-trust-step">02 · Proof</span>
+<strong>Evidence</strong>
+<small>checked by Lean</small>
+</div>
 </div>
 </header>
-<div class="landing-about latex-content">
-<p>Submissions are written in Lean, a proof assistant in which mathematics is
-code. Lean checks correctness, not meaning: it certifies that a theorem is
-true, but not that it says what the author intended.</p>
-<p>Lax separates submissions into <strong>concepts</strong> and <strong>proofs</strong>.</p>
-<ul>
-<li><strong>Concepts</strong> are the minimal code surface required to determine meaning. They
-demand careful human reading to ensure they match the author's intent.</li>
-<li><strong>Proofs</strong> are verified by Lean's kernel. They are therefore free to be long,
-unreadable, or machine-generated.</li>
-</ul>
-<p>In Lax, proofs merely establish <strong>what</strong> is true, not <strong>why</strong> it is true.
-The latter lives in the accompanying exposition and papers.</p>
-
-</div>
 <section class="landing-actions" aria-labelledby="landing-actions-heading">
 <h2 id="landing-actions-heading">What you can do here</h2>
 <div class="landing-action-grid">
