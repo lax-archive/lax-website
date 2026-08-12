@@ -252,8 +252,8 @@ ${listed.map((submission) => candidate(submission, " data-random-submission-cand
 
 /** Sidebar of the index page: every submission with content, searchable.
  * Records that only reserved an id have nothing to show and stay off the
- * lists (their pages exist for direct links). Drafts live in a separate Work
- * in Progress group; all rows use their title as the visible label. */
+ * lists (their pages exist for direct links). Registered and draft work live
+ * in labeled groups; all rows use their title as the visible label. */
 export function indexSidebar(
   model: SiteModel,
   markdown: MarkdownRenderer,
@@ -268,6 +268,8 @@ export function indexSidebar(
   const draftStart = listed.findIndex((submission) => submission.record.state === "draft");
   if (draftStart >= 0)
     rows.splice(draftStart, 0, '<li class="entry-heading" data-entry-group="draft">Work in Progress</li>');
+  if (listed.some((submission) => submission.record.state === "registered"))
+    rows.unshift('<li class="entry-heading" data-entry-group="registered">Registered</li>');
   return `${randomSubmissionView(model, markdown, "")}
 <div class="sidebar-filters">${searchGroup("Search titles and concepts", "entry-list submissions-list")}</div>
 <ul id="entry-list">

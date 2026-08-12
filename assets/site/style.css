@@ -346,6 +346,7 @@ body{
   cursor: default;
 }
 #entry-list .entry-heading:hover{ background: none; }
+#entry-list .entry-heading:first-child{ margin-top: 0; }
 
 /* The sidebar's proof chip sits chip-sized next to the entry text, like the
    type badges above it. */

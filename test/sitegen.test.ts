@@ -344,6 +344,7 @@ After the formula.`, "");
     expect(sidebarScript).toContain("url.searchParams.set('tag', tag)");
     expect(sidebarScript).toContain("updateTagStatus(visible)");
     expect(sidebarScript).toContain("function applySidebarFilters()");
+    expect(sidebarScript).toContain("el.dataset.searchTitle !== undefined");
     expect(sidebarScript).toContain("function applySubmissionFilters()");
     expect(sidebarScript).toContain("filterList(list, search, type, 'entry-list-empty');");
     expect(sidebarScript).not.toContain("filterList(list, search, type, 'entry-list-empty', selectedTag)");
@@ -434,6 +435,7 @@ After the formula.`, "");
     expect(index).toContain('id="submissions-list-empty"');
     // sidebar rows share the flat entry grammar and use titles alone
     expect(index).not.toContain("sidebar-submission");
+    expect(index).toContain('data-entry-group="registered">Registered</li>');
     expect(index).toContain('<span class="entry-label"><span class="entry-label-text">Two</span></span>');
     expect(index).not.toContain('<span class="entry-id">');
     expect(index).toContain('href="Lax2/index.html" data-full-title="Two"');
@@ -513,6 +515,8 @@ After the formula.`, "");
     const entryList = index.slice(index.indexOf('<ul id="entry-list">'), index.indexOf("</ul>"));
     expect(index.indexOf('data-search-title="lax2 registered title"'))
       .toBeLessThan(index.indexOf('data-search-title="lax1 draft title"'));
+    expect(index.indexOf('data-entry-group="registered">Registered</li>'))
+      .toBeLessThan(index.indexOf('data-search-title="lax2 registered title"'));
     expect(index.indexOf('data-search-title="lax2 registered title"'))
       .toBeLessThan(index.indexOf('data-entry-group="draft">Work in Progress</li>'));
     expect(index.indexOf('data-entry-group="draft">Work in Progress</li>'))
@@ -955,6 +959,7 @@ end Lax2.C`;
     const index = fs.readFileSync(path.join(root, "index.html"), "utf8");
     const entryList = index.slice(index.indexOf('<ul id="entry-list">'), index.indexOf("</ul>"));
     expect(index).toContain('data-entry-group="draft">Work in Progress</li>');
+    expect(index).not.toContain('data-entry-group="registered">Registered</li>');
     expect(index).toContain('<span class="entry-label"><span class="entry-label-text">Two</span></span>');
     expect(index).not.toContain('class="draft-badge"');
     expect(entryList).not.toContain('<span class="entry-id">Lax2</span>');
