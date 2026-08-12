@@ -89,11 +89,14 @@
     const type = typeEl ? typeEl.value : 'all';
     filterList(list, search, type, 'entry-list-empty');
 
-    // A group heading (Concepts / Proofs) shows only while its group does.
+    // A group heading shows only while its group has a visible row.
     list.querySelectorAll('li.entry-heading').forEach((heading) => {
       let any = false;
       for (let el = heading.nextElementSibling; el && !el.classList.contains('entry-heading'); el = el.nextElementSibling) {
-        if (el.dataset.search !== undefined && !el.hidden) { any = true; break; }
+        if ((el.dataset.search !== undefined || el.dataset.searchTitle !== undefined) && !el.hidden) {
+          any = true;
+          break;
+        }
       }
       heading.hidden = !any;
     });
