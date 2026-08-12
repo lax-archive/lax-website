@@ -708,7 +708,7 @@ After the formula.`, "");
     expect(html).toContain('class="source-proof-rail" data-source-line="L3"');
     expect(html).toContain('class="statement-proof-button" href="../Lax2/Lax2Proofs.truth.html"');
     expect(html).toContain('aria-label="Open proof Lax2Proofs.truth"');
-    expect(html).toContain('class="statement-proof-label">Go to Proof</span>');
+    expect(html).toContain('class="statement-proof-label">Show Proof</span>');
     expect(html.indexOf('class="statement-proof-button"')).toBeGreaterThan(html.indexOf('class="inline-contract-shell"'));
     expect(html).toContain('<script src="../assets/source-proof.js"></script>');
     expect(html).not.toContain('class="statement"');
