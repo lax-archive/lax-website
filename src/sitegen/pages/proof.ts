@@ -1,4 +1,4 @@
-import { esc, page, plural, proofBadge } from "../html.js";
+import { attr, esc, page, plural } from "../html.js";
 import type { LocatedProof } from "../model.js";
 import {
   draftBanner,
@@ -14,10 +14,14 @@ import {
  * the checked relationship and where it comes from. */
 export function proofPage(ctx: PageContext, located: LocatedProof): string {
   const { submission, output, proof } = located;
+  const conclusion = ctx.model.statementHome.get(proof.conclusion);
+  if (!conclusion)
+    throw new Error(`statement ${proof.conclusion} has no home concept in the archive`);
   const proven = ctx.model.network.proven;
   const outstanding = proof.assumptions.filter((id) => !proven.has(id));
+  const groundedHelp = "No open assumptions remain in the archive: every dependency is backed by a checked proof, ultimately reducing to Lean and Mathlib.";
   const pill = outstanding.length === 0
-    ? `<span class="status-pill pill-proven" title="Every assumption is itself proven; the conclusion stands unconditionally.">grounded</span>`
+    ? `<span class="status-pill pill-proven" tabindex="0" data-tooltip="${attr(groundedHelp)}" aria-label="Grounded. ${attr(groundedHelp)}">grounded</span>`
     : `<span class="status-pill pill-partial" title="The relationship is checked, but ${plural(outstanding.length, "assumption is", "assumptions are")} still open.">conditional — ${plural(outstanding.length, "open assumption")}</span>`;
 
   const source = submission.record.source;
@@ -28,12 +32,14 @@ export function proofPage(ctx: PageContext, located: LocatedProof): string {
   const sections = (proof.sections ?? [])
     .map((s) => `<div class="block"><h3>${ctx.markdown.renderAuthorInline(s.title, "../")}</h3><div class="latex-content">${ctx.markdown.renderAuthorProse(s.markdown, "../")}</div></div>`)
     .join("\n");
+  const pathLink = githubFile
+    ? `<a href="${attr(githubFile)}"><code>${esc(proof.path)}</code></a>`
+    : `<code>${esc(proof.path)}</code>`;
 
   const content = `${draftBanner(submission.record.state)}
-<div class="detail-heading concept-heading">
-<div><p class="concept-id">${proofBadge()}<code>${esc(proof.id)}</code></p>
-<p class="concept-microline"><code>${esc(proof.path)}</code> · <a href="index.html">${esc(output.id)}</a></p></div>
-<span class="status-pills">${pill}</span>
+<div class="detail-heading concept-heading proof-heading">
+<div class="proof-heading-content"><h1 class="concept-title">Proof of <span class="proof-concept-title">\`${ctx.markdown.renderAuthorInline(conclusion.concept.title, "../")}\`</span></h1>
+<p class="concept-microline proof-microline"><span class="status-pills">${pill}</span><span>${pathLink} · <a href="index.html">${esc(output.id)}</a></span></p></div>
 </div>
 <div class="block block-evidence"><h3>What this proof establishes</h3>
 ${proofJudgment(ctx.model, proof, "../", output.id)}

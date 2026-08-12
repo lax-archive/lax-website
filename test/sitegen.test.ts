@@ -290,6 +290,7 @@ After the formula.`, "");
     expect(css).toContain(".graph-edge-casing{");
     expect(css).toContain("fill: context-stroke");
     expect(css).toContain("background: rgba(248, 250, 252, 0.98)");
+    expect(css).toContain('.status-pill[data-tooltip]:hover::after');
     const unavailableRest = css.match(/\.landing-action-card\.unavailable\{([^}]*)\}/)?.[1] ?? "";
     expect(unavailableRest).not.toContain("background");
     expect(css).toMatch(/\.landing-action-card\.unavailable:hover,[\s\S]*?background: var\(--panel-bg\);/);
@@ -746,6 +747,11 @@ After the formula.`, "");
     await generateSite([...submissions(), ...graphSubmissions()], root);
     const html = fs.readFileSync(path.join(root, "Lax2", "Lax2Proofs.truth.html"), "utf8");
     expect(html).toContain("Lax2Proofs.truth");
+    expect(html).toContain('<h1 class="concept-title">Proof of <span class="proof-concept-title">`Truth`</span></h1>');
+    expect(html).toMatch(/class="concept-microline proof-microline"[^]*?class="status-pills"[^]*?>grounded<\/span>[^]*?proofs\/Lax2Proofs\/Basic\.lean/);
+    expect(html.match(/<p class="concept-microline proof-microline">[^]*?<\/p>/)?.[0]).not.toContain("proof-badge");
+    expect(html).toContain('data-tooltip="No open assumptions remain in the archive: every dependency is backed by a checked proof, ultimately reducing to Lean and Mathlib."');
+    expect(html).not.toContain('class="concept-id proof-name"');
     expect(html).toContain('class="judgment"');
     expect(html).toContain("no assumptions");
     expect(html).toMatch(/judgment-conclusion[^]*?Lax2\.C\.html[^]*?<code>C<\/code>/);
@@ -758,7 +764,8 @@ After the formula.`, "");
     expect(html).toContain('class="source-button" href="https://github.com/example/math/blob/'
       + "a".repeat(40) + '/proofs/Lax2Proofs/Basic.lean"');
     expect(html).toContain("Read the Lean proof on GitHub");
-    expect(html).not.toMatch(/concept-microline[^]*?view on GitHub/);
+    const githubProof = "https://github.com/example/math/blob/" + "a".repeat(40) + "/proofs/Lax2Proofs/Basic.lean";
+    expect(html).toContain(`<a href="${githubProof}"><code>proofs/Lax2Proofs/Basic.lean</code></a> · <a href="index.html">Lax2</a>`);
     // sidebar backs to the submission, not the archive index
     expect(html).toContain('<a class="sidebar-back" href="../Lax2/index.html"');
     // a proof with open assumptions is conditional
