@@ -1,0 +1,1468 @@
+{
+  "formatVersion": 1,
+  "websiteCommit": "da1d0a315e6902afbaa42a98ccea90db3ccfa0ff",
+  "databaseCommit": "30d6fe85b079bab8aa3924f395697b1323268d8c",
+  "treeDigest": "f1de3a2942b3f09f6dde31f5fc835029157ba83f59fe9048995a7da3c33d34b0",
+  "files": [
+    {
+      "path": "assets/citation.js",
+      "bytes": 1749,
+      "sha256": "d9edcca2ee6c3dfb255306a9419335d72a6d42a2b760f95b3b26bd3060e18dea"
+    },
+    {
+      "path": "assets/dag.js",
+      "bytes": 41955,
+      "sha256": "2a0b2e1bec54a2b9f36953bd4c3349949a69a02c942b9cb0493a08cebee7fcba"
+    },
+    {
+      "path": "assets/fonts/KaTeX_AMS-Regular.woff2",
+      "bytes": 28076,
+      "sha256": "0cdd387c9590a1a9f9794560022dbb59654a7d86f187aa0c81495ad42d3a7308"
+    },
+    {
+      "path": "assets/fonts/KaTeX_Caligraphic-Bold.woff2",
+      "bytes": 6912,
+      "sha256": "de7701e42cf1f4cf0b766c03fb27977207eee2f4fd5d76fa82188406da43ea4c"
+    },
+    {
+      "path": "assets/fonts/KaTeX_Caligraphic-Regular.woff2",
+      "bytes": 6908,
+      "sha256": "5d53e70ad607c2352162dec9e0923fb54ecdafaccbf604cd8dcf7d00facb989b"
+    },
+    {
+      "path": "assets/fonts/KaTeX_Fraktur-Bold.woff2",
+      "bytes": 11348,
+      "sha256": "74444efd593c005e3f4573b44524704c0af0a937fe911cca9e94068d0d140d3f"
+    },
+    {
+      "path": "assets/fonts/KaTeX_Fraktur-Regular.woff2",
+      "bytes": 11316,
+      "sha256": "51814d270d06ff0255dba0799994fa4d8c84d11f09951d47595f4abb1f3602dc"
+    },
+    {
+      "path": "assets/fonts/KaTeX_Main-Bold.woff2",
+      "bytes": 25324,
+      "sha256": "0f60d1b897938ec918c8ce073092411baf9438f6739465693ff18b0f9d20b021"
+    },
+    {
+      "path": "assets/fonts/KaTeX_Main-BoldItalic.woff2",
+      "bytes": 16780,
+      "sha256": "99cd42a3c072d918f2f44984a807cf7aa16e13545fd0875fc07c6c65f99e715b"
+    },
+    {
+      "path": "assets/fonts/KaTeX_Main-Italic.woff2",
+      "bytes": 16988,
+      "sha256": "97479ca6cce906abc961ecac96faa5f9ca2e61b8e7670d475826bcdee9a7c267"
+    },
+    {
+      "path": "assets/fonts/KaTeX_Main-Regular.woff2",
+      "bytes": 26272,
+      "sha256": "c2342cd8b869e01752a9321dc17213fc40d4d04c79688c1d43f2cf316abd7866"
+    },
+    {
+      "path": "assets/fonts/KaTeX_Math-BoldItalic.woff2",
+      "bytes": 16400,
+      "sha256": "dc47344dbb6cb5b655c8460d561f4df5f501b90c804ad3c6cec65fe322351ab1"
+    },
+    {
+      "path": "assets/fonts/KaTeX_Math-Italic.woff2",
+      "bytes": 16440,
+      "sha256": "7af58c5ec8f132a2ddde9027c6d7814decce4d3b822a11192a42a20e2e973264"
+    },
+    {
+      "path": "assets/fonts/KaTeX_SansSerif-Bold.woff2",
+      "bytes": 12216,
+      "sha256": "e99ae51144bf1232efcc1bfe5add36262c6866b0faab24fa75740e1b98577a62"
+    },
+    {
+      "path": "assets/fonts/KaTeX_SansSerif-Italic.woff2",
+      "bytes": 12028,
+      "sha256": "00b26ac825e2095056396e0553b8ac26d3f8ad158c3826e28b4c45b385c4714a"
+    },
+    {
+      "path": "assets/fonts/KaTeX_SansSerif-Regular.woff2",
+      "bytes": 10344,
+      "sha256": "68e8c73ef42afd3ccec58bf0fba302cce448938e7fc020a5e31f8a952eee1342"
+    },
+    {
+      "path": "assets/fonts/KaTeX_Script-Regular.woff2",
+      "bytes": 9644,
+      "sha256": "036d4e95149b69ff9bcc0cd55771efeb25ffa3947293e69acd78d5ac328c684b"
+    },
+    {
+      "path": "assets/fonts/KaTeX_Size1-Regular.woff2",
+      "bytes": 5468,
+      "sha256": "6b47c40166b6dbe21a5dfca7718413f2147fd2399be1ba605d8ad39cedf25dfe"
+    },
+    {
+      "path": "assets/fonts/KaTeX_Size2-Regular.woff2",
+      "bytes": 5208,
+      "sha256": "d04c54219f9eaec6d4d4fd42dfb28785975a4794d6b2fc71e566b9cd6db842dd"
+    },
+    {
+      "path": "assets/fonts/KaTeX_Size3-Regular.woff2",
+      "bytes": 3624,
+      "sha256": "73d591271b1604960cb10bb90fee021670af7297017e0e98480b332d11f51995"
+    },
+    {
+      "path": "assets/fonts/KaTeX_Size4-Regular.woff2",
+      "bytes": 4928,
+      "sha256": "a4af7d414440a1c1790825cfb700cf9cf43b0f2c4b04f0ebc523011ad9853ec0"
+    },
+    {
+      "path": "assets/fonts/KaTeX_Typewriter-Regular.woff2",
+      "bytes": 13568,
+      "sha256": "71d517d67827787cfabdf186914cc3358eda539e37931941f2b2fd4a21f68c0b"
+    },
+    {
+      "path": "assets/fonts/LM-bold-italic.woff2",
+      "bytes": 51356,
+      "sha256": "3d41e67617603684e0353953f9460893cd441049398be31857c9fbaaa2521811"
+    },
+    {
+      "path": "assets/fonts/LM-bold.woff2",
+      "bytes": 45620,
+      "sha256": "449ad146efbd630d36e08f956b1249e862463797a26b61f5fe7999513c328c03"
+    },
+    {
+      "path": "assets/fonts/LM-italic.woff2",
+      "bytes": 50496,
+      "sha256": "3eb5daf8d26e6f882207633b8f45a27b389ac1b2a6713562fdef4d982f24b192"
+    },
+    {
+      "path": "assets/fonts/LM-regular.woff2",
+      "bytes": 45680,
+      "sha256": "c2e0d602fee55a45e44f8ab3f4f561d73d2c23db1efee295865d79f9307977db"
+    },
+    {
+      "path": "assets/GUST-FONT-LICENSE.txt",
+      "bytes": 1330,
+      "sha256": "1232f6b38686ac6ef0107251b76ebf1990a52fbc45321779a93591736cfd8044"
+    },
+    {
+      "path": "assets/katex.css",
+      "bytes": 24727,
+      "sha256": "0fb711c9c74cb1718661933948b653fbc09a627da5dde8926b4d10585370993e"
+    },
+    {
+      "path": "assets/landing.js",
+      "bytes": 4257,
+      "sha256": "d945bbc2fbd56f272c8b0cc7fc402e4af9c9a71c1733ec0a59cf3c28f8d221c8"
+    },
+    {
+      "path": "assets/lax-white-paper.pdf",
+      "bytes": 371405,
+      "sha256": "ffbd5dbb3f8523668027a766ba2027205f150421c7e742354dc8dc977bd64fc1"
+    },
+    {
+      "path": "assets/layout.js",
+      "bytes": 29971,
+      "sha256": "1089ce8aae636847be752f067f42c6795c952f7cd9e8b6a8dc00057b0f8fbeb9"
+    },
+    {
+      "path": "assets/sidebar.js",
+      "bytes": 12071,
+      "sha256": "81d80ace468c94e85074301183ebd2f39c6c793ad3b12fa0ec7536f679dd3300"
+    },
+    {
+      "path": "assets/source-proof.js",
+      "bytes": 1173,
+      "sha256": "177673148a07db9527f82671745078335a8b21a988184064416b55f7a7471536"
+    },
+    {
+      "path": "assets/style.css",
+      "bytes": 57256,
+      "sha256": "041126beccedb2d21d145538a0c6b9a33511e9d092cf8386261cf59797689951"
+    },
+    {
+      "path": "contributing.html",
+      "bytes": 4884,
+      "sha256": "715f53beaf4acd114f050b96d3acf7ea9860110b757e9a6b8b927812dbdf4397"
+    },
+    {
+      "path": "index.html",
+      "bytes": 62827,
+      "sha256": "9e2dc42786daaa8e78051c2f7ed4584405dbaa6472fe5ef0a1fe2b651345f4b4"
+    },
+    {
+      "path": "lax-10/index.html",
+      "bytes": 18102,
+      "sha256": "4501c74773c206da0afd700169bf9af679e3ecb8ec5dd1e8a6ed8b3069e7d05a"
+    },
+    {
+      "path": "lax-10/Lax10.Fragile.html",
+      "bytes": 21477,
+      "sha256": "40d24dd1714a97e146cbb521158441c0eb820d08a83d20e09841f760493bb7f9"
+    },
+    {
+      "path": "lax-10/Lax10.FragileFourColorable.html",
+      "bytes": 18080,
+      "sha256": "544252dd32e2f276ee4bae51bdd5ef00cfd5faac350e44b0db420a1d91012f9f"
+    },
+    {
+      "path": "lax-10/Lax10.Theorem2.html",
+      "bytes": 23336,
+      "sha256": "6ce8e949894a7f030a9cc89cfb7ef68ea1ed11d13656b4177fb9cd912cf4dfcc"
+    },
+    {
+      "path": "lax-10/Lax10.ThreeConnectedAndColorable.html",
+      "bytes": 24470,
+      "sha256": "ed4551189e2c7c22b96541aaaacb322afba88cc70b313109e02635d0a4c2416d"
+    },
+    {
+      "path": "lax-10/Lax10Proofs.Main.fragile_four_colorable.html",
+      "bytes": 8295,
+      "sha256": "accd97583311ad6fb8e9219f2bb11a12971059aab98d1c001b4410c6c6e45ca2"
+    },
+    {
+      "path": "lax-10/Lax10Proofs.Main.theorem2.html",
+      "bytes": 8192,
+      "sha256": "a390fe3bf35c783479f011872cb0c8727a758936341a85a0e6bec16bfe1b0c8d"
+    },
+    {
+      "path": "lax-11/index.html",
+      "bytes": 47495,
+      "sha256": "3f6c9cdad90febc7293e212b7e77a329adfde0c852409faec5ded3507c6cc781"
+    },
+    {
+      "path": "lax-11/Lax11.CliqueExpr.html",
+      "bytes": 51446,
+      "sha256": "e0f3674792daf53b5ddeaf5a47ca325eaee678f33a03b46c92b955c4e7799b3c"
+    },
+    {
+      "path": "lax-11/Lax11.ConnectedComponents.html",
+      "bytes": 45564,
+      "sha256": "d382075a888294fa856bea63b0ce9a37e09c8c2df2d0113948304bc2f8f1e086"
+    },
+    {
+      "path": "lax-11/Lax11.Courcelle.html",
+      "bytes": 50078,
+      "sha256": "42dfd0d63c9f6cd105676cb46608110faed213e4542ef30c96c0e7c67892c904"
+    },
+    {
+      "path": "lax-11/Lax11.GraphEncoding.html",
+      "bytes": 36698,
+      "sha256": "e1a308fc050a3adf9099c567f75cfc169b4ea9ef45bce88f73e8ab514c27f80b"
+    },
+    {
+      "path": "lax-11/Lax11.InstanceEncoding.html",
+      "bytes": 40025,
+      "sha256": "8b82762532a7eec51a8812dc60ab3b0b70e92e3c4f3ca092808acade5fc0da6b"
+    },
+    {
+      "path": "lax-11/Lax11.Mso.html",
+      "bytes": 39255,
+      "sha256": "db1f6b5fd81c6a201ecd06ce3e0874e870ca0dc2d8a65ce6496b9442510c7f38"
+    },
+    {
+      "path": "lax-11/Lax11.VertexCover.html",
+      "bytes": 21730,
+      "sha256": "079999d4c296661f108da2ac149352fa55892062aba7fd431c526ddd0ec2c64d"
+    },
+    {
+      "path": "lax-11/Lax11Proofs.CCMain.exists_linearTime_program_ccLabels.html",
+      "bytes": 45940,
+      "sha256": "b78b28cbc2d981a0cce5337aec8018245a912db939fdfc125c1cfdc6d0ec9086"
+    },
+    {
+      "path": "lax-11/Lax11Proofs.Courcelle.exists_linearTime_program_modelChecking.html",
+      "bytes": 98270,
+      "sha256": "938d3e6e24fd47e1b328d9a62b02a277826dca9ef7cd448c45515b8bf66c8ccc"
+    },
+    {
+      "path": "lax-12/index.html",
+      "bytes": 86808,
+      "sha256": "7dcbb48ec913b2fd340a8a2614fdba44fd43cc8d58acfbec58917a97733788af"
+    },
+    {
+      "path": "lax-12/Lax12.Admissibility.html",
+      "bytes": 44729,
+      "sha256": "a1f116f39aeb45074f34c3193a7ebd44f9c34fc8ab5933f94da55caf5111ce12"
+    },
+    {
+      "path": "lax-12/Lax12.AdmissibilityBound.html",
+      "bytes": 33576,
+      "sha256": "3c8fe52d5cd43f43a7ef11d7c0ccf0f7802d1325b8712bdf7b5ec4f9dfc7c61d"
+    },
+    {
+      "path": "lax-12/Lax12.ColoringNumbers.html",
+      "bytes": 53239,
+      "sha256": "b6f2acbaa8adb90663ebd4da3a9390d081ef4bbc311d920521d23b635f150ac1"
+    },
+    {
+      "path": "lax-12/Lax12.GraphClasses.html",
+      "bytes": 33026,
+      "sha256": "46eca05a260482142a8b6606edb47042655d22e8f0501111b5dff245e0ab4d73"
+    },
+    {
+      "path": "lax-12/Lax12.NeighborhoodComplexity.html",
+      "bytes": 40889,
+      "sha256": "fc9ea3ae905f52e10b9585113a6c0212edf6768d60165d25a525ed51dcd165e2"
+    },
+    {
+      "path": "lax-12/Lax12.NowhereDenseClasses.html",
+      "bytes": 41646,
+      "sha256": "a3fab95963fb3f15f7cbd89aee9a9ad6d27a4e7b360d5f91ce50840c5daf5c4f"
+    },
+    {
+      "path": "lax-12/Lax12.NowhereDenseDensity.html",
+      "bytes": 29928,
+      "sha256": "dd9916424cd041298f34c93f5da6c988eabc421a0642102ac9f786ffd47f5152"
+    },
+    {
+      "path": "lax-12/Lax12.NowhereDenseNC.html",
+      "bytes": 30449,
+      "sha256": "ec5133201e3933b81dcc99fc69b90ebe26d333ce49ad8e325a1589fc5e98949d"
+    },
+    {
+      "path": "lax-12/Lax12.NowhereDenseUQW.html",
+      "bytes": 30129,
+      "sha256": "1896e8ddc3912f21ee3ef27a01bd56fe6938c4e3f63aa89ddfd7e1cc16f924e3"
+    },
+    {
+      "path": "lax-12/Lax12.NowhereDenseWcol.html",
+      "bytes": 31710,
+      "sha256": "697f0b742b2a2d931074d84c3b775d3e58c587e27b0b3322c2e8790e4baa90f7"
+    },
+    {
+      "path": "lax-12/Lax12.ShallowMinorDensity.html",
+      "bytes": 39044,
+      "sha256": "17579a9454382d44cba9e55a671108fad9e41a0baa73adac4466ac8940f29025"
+    },
+    {
+      "path": "lax-12/Lax12.ShallowTopologicalMinors.html",
+      "bytes": 47747,
+      "sha256": "b5c1b82c928761f60b8a13493d106b54af522e5dd4e188db14f4a23026e2078a"
+    },
+    {
+      "path": "lax-12/Lax12.StrongColoringBound.html",
+      "bytes": 29336,
+      "sha256": "89f15c2528e625920bcc6f9f89882a1d6ae93fbdf0b5e44f80b9cac8b7300772"
+    },
+    {
+      "path": "lax-12/Lax12.UniformQuasiWideness.html",
+      "bytes": 44251,
+      "sha256": "7cbc6c23568819b0ea436bd7fe34e72c24fa3b6bf93938e8f2f77c5d241131a3"
+    },
+    {
+      "path": "lax-12/Lax12.WeakColoringBound.html",
+      "bytes": 27860,
+      "sha256": "3e75c58f9972e1fc1996ee270ff77424bc710bccd2bda4cae1f012c53af1791b"
+    },
+    {
+      "path": "lax-12/Lax12Proofs.AdmissibilityBound.adm_le_of_hasTopologicalDensityAtMost.html",
+      "bytes": 36697,
+      "sha256": "c9bc760d5f26e774d266ecb31a9b450b715c1de80b719a8042afddf321ec9508"
+    },
+    {
+      "path": "lax-12/Lax12Proofs.NowhereDenseDensity.hasSubpolynomialDensity_of_nowhereDense.html",
+      "bytes": 39778,
+      "sha256": "a8eb4d28cc69e4ffe29ce81ed9370698e7036a9ab3064fe79c751a158ec61411"
+    },
+    {
+      "path": "lax-12/Lax12Proofs.NowhereDenseNC.hasAlmostLinearNC_of_nowhereDense.html",
+      "bytes": 22371,
+      "sha256": "da7700315867bcb30646e321aaa190a6d1db9bd099234efcf36e69e3302a3521"
+    },
+    {
+      "path": "lax-12/Lax12Proofs.NowhereDenseUQW.uniformlyQuasiWide_of_nowhereDense.html",
+      "bytes": 33804,
+      "sha256": "7ce6efe4a3d8918f6cb74618ce7cece0fe8923b703cfa7be333196eae9116c3f"
+    },
+    {
+      "path": "lax-12/Lax12Proofs.NowhereDenseWcol.hasSubpolynomialWcol_of_nowhereDense.html",
+      "bytes": 73832,
+      "sha256": "9931712500a31a3a6e09c0492455120905705eb33a59b0fab186242332c6c218"
+    },
+    {
+      "path": "lax-12/Lax12Proofs.StrongColoringBound.scol_le_of_adm.html",
+      "bytes": 29910,
+      "sha256": "b2e40d449ed01e8953982998887d98cfff2c2391d2e0bf313a227a9fb986d8f7"
+    },
+    {
+      "path": "lax-12/Lax12Proofs.WeakColoringBound.wcol_le_of_scol.html",
+      "bytes": 28959,
+      "sha256": "e34b32becebf51fc245742aed8d190e59642457409bcfeaae91dbc27024e5972"
+    },
+    {
+      "path": "lax-13/index.html",
+      "bytes": 20460,
+      "sha256": "942ec1c12e8d2690be6a55dc3a27805b0499d72a8c95029d8f62334db426b31a"
+    },
+    {
+      "path": "lax-13/Lax13.Ram.html",
+      "bytes": 118188,
+      "sha256": "425645403d624de1d72286a78172c893c9375b0b7372133e7a0995c85ae3957d"
+    },
+    {
+      "path": "lax-13/Lax13.RamComputes.html",
+      "bytes": 41033,
+      "sha256": "ddb9c8405b99d522c0e5fbfef95804d14e9f3baa6ff150bcb23d9a13613fbad5"
+    },
+    {
+      "path": "lax-14/index.html",
+      "bytes": 27146,
+      "sha256": "c9b7c281e315f9984b7dfd323471a142ca4f4a51baa89d21d279a808aecefc74"
+    },
+    {
+      "path": "lax-14/Lax14.MulticolorRamsey.html",
+      "bytes": 28951,
+      "sha256": "47706af32abdbcde9a42f7cd1d1bf60682d9cd79b1593057ce8d6c74272e9908"
+    },
+    {
+      "path": "lax-14/Lax14.OrderTypes.html",
+      "bytes": 23475,
+      "sha256": "356042c254d6b36156d9b0596cd9fd7fd7f71992f01a7385662ce757d62705ff"
+    },
+    {
+      "path": "lax-14/Lax14.Ramsey.html",
+      "bytes": 25003,
+      "sha256": "beabfae5b71e2a973a0d5bd25eb8216423911140c69c54a15f2687b9f36e4d3c"
+    },
+    {
+      "path": "lax-14/Lax14.TupleRamsey.html",
+      "bytes": 26222,
+      "sha256": "91f345a8afe10373e14f4e5c8fb2cc7123c1e215ca42f42a25280e67b93d4189"
+    },
+    {
+      "path": "lax-14/Lax14Proofs.MulticolorRamsey.exists_monochromatic_set.html",
+      "bytes": 32858,
+      "sha256": "3e602ee8c03c1a7926d6e51a1fa2dce76a5c608b80fa47cd273ca501ebd8fd74"
+    },
+    {
+      "path": "lax-14/Lax14Proofs.Ramsey.exists_clique_or_indepSet.html",
+      "bytes": 22238,
+      "sha256": "1ee8b5cbd63a8304b3ca97f990273570d47cf0e7feb9188f9b82572ba47697da"
+    },
+    {
+      "path": "lax-14/Lax14Proofs.TupleRamsey.exists_orderType_homogeneous.html",
+      "bytes": 41333,
+      "sha256": "5357795c86c49244aa5c879d8919ff4706772e3054a68cb53a3e5df090b7c07a"
+    },
+    {
+      "path": "lax-15/index.html",
+      "bytes": 91111,
+      "sha256": "62186df4154749bed207100c66a7c00ad8fb6e59700aad338e17b38484235e39"
+    },
+    {
+      "path": "lax-15/Lax15.VertexCover.html",
+      "bytes": 78644,
+      "sha256": "00284f8307a27aa6a836967ee82edd55e7ab5c5797fdcdb6a2869ad56a5d635e"
+    },
+    {
+      "path": "lax-15/Lax15.VertexCoverBranch.html",
+      "bytes": 77439,
+      "sha256": "86c6376b840c721085b30af702630fa9f8feeae3827c914b5c3e2b783ca27208"
+    },
+    {
+      "path": "lax-15/Lax15.VertexCoverFpt.html",
+      "bytes": 66847,
+      "sha256": "bdafec0269a9c45ac58dc578f608814d5030632305d4b209e563dc4855b598b3"
+    },
+    {
+      "path": "lax-15/Lax15Proofs.VC3Main.exists_branchTime_program_vertexCover.html",
+      "bytes": 78297,
+      "sha256": "2017a0b097906c1953d011bbf8561f7d312ef713cff1ed184e93be48fad1266a"
+    },
+    {
+      "path": "lax-15/Lax15Proofs.VCFptMain.exists_fptTime_program_vertexCover.html",
+      "bytes": 32496,
+      "sha256": "746c27bda3ceeb2d9c69cc4f6ebcc72b5f3e677ebfe91f18e56098fc2c6cebd5"
+    },
+    {
+      "path": "lax-15/Lax15Proofs.VCMain.exists_fibTime_program_vertexCover.html",
+      "bytes": 71051,
+      "sha256": "5b4171ffb253cb0a5866858dc01c96acacb7b8948356c76265053296c535575c"
+    },
+    {
+      "path": "lax-16/index.html",
+      "bytes": 60078,
+      "sha256": "36a406ffa735a3f21b86051a3e88e3ec6ad8fdd2e93d42fc204ef5e0947900ac"
+    },
+    {
+      "path": "lax-16/Lax16.AnchorLabels.html",
+      "bytes": 28052,
+      "sha256": "8eefc95897d8fa38fcdcd70f06afc3bbf502a87785b62a13fd82cd282eeb9406"
+    },
+    {
+      "path": "lax-16/Lax16.BatchFramework.html",
+      "bytes": 34061,
+      "sha256": "8058dec50f9b42d1adecec9598107d460392fd518539372e65be414d0c438c77"
+    },
+    {
+      "path": "lax-16/Lax16.BatchReassignment.html",
+      "bytes": 28049,
+      "sha256": "69241f4b5e85d10881d77336b56e6ed33c96ef6152e8b2b11a3365208759bbec"
+    },
+    {
+      "path": "lax-16/Lax16.DominatorCount.html",
+      "bytes": 31905,
+      "sha256": "9623e07970b0d447ebaf242910ad6bc34a815994f46b72656d4d896da4841967"
+    },
+    {
+      "path": "lax-16/Lax16.DominatorDefinitions.html",
+      "bytes": 35354,
+      "sha256": "ae11e81582a77bb0e7bb936d136187a2bc914ac4b173f02c75692576f5ee5091"
+    },
+    {
+      "path": "lax-16/Lax16.OuterplanarBlockAssignment.html",
+      "bytes": 28845,
+      "sha256": "d27b664cfe78ddecb2510e6004791177c9619e148d9bd05698b3598a999b56af"
+    },
+    {
+      "path": "lax-16/Lax16.OuterplanarBound.html",
+      "bytes": 27531,
+      "sha256": "958128d0f0cce785ef8d3ecc793549d556b3dba647e548db3719b0165ce0b863"
+    },
+    {
+      "path": "lax-16/Lax16.OuterplanarLayer.html",
+      "bytes": 39638,
+      "sha256": "edf8d43c89b4ba3367f3e1c4915f65a497582af1484600f9f89717bf2f308d5e"
+    },
+    {
+      "path": "lax-16/Lax16.OuterplanarSharpness.html",
+      "bytes": 34822,
+      "sha256": "062b17174fa95ff139fd683219667305f80f8ea0c15f3f486d12c5bf5a376be9"
+    },
+    {
+      "path": "lax-16/Lax16.PlanarBound.html",
+      "bytes": 28016,
+      "sha256": "cd6828093b84db9b029e8236b9564818a44bd486439aa00803d3b8002a2e29f4"
+    },
+    {
+      "path": "lax-16/Lax16.PlanarGraphs.html",
+      "bytes": 46843,
+      "sha256": "f894ef3abc6d3d4f6f685093fdbf275994c35dcb884e08f77c8cf41e2ecaa903"
+    },
+    {
+      "path": "lax-16/Lax16.PlanarSharpness.html",
+      "bytes": 32703,
+      "sha256": "5db30d6ec983145ebf47b70ed312f9046a0fca670572100d462cf21335564249"
+    },
+    {
+      "path": "lax-16/Lax16.PlanarVertexBatch.html",
+      "bytes": 30959,
+      "sha256": "ed98c67407da3a8b8a5745237095e7b4a6579f58087699aac85a196db626e14c"
+    },
+    {
+      "path": "lax-16/Lax16.SmallDegreeBatch.html",
+      "bytes": 30867,
+      "sha256": "cd9d0a169d694807afaba55b0c2ed81f96b00176c4505aaddd7fc2f30d0577c2"
+    },
+    {
+      "path": "lax-16/Lax16.TeachingMaps.html",
+      "bytes": 51322,
+      "sha256": "39d7439438636abc171f4e47cbe0cab61bcc011918d6db0c1e31c715f0fd8edc"
+    },
+    {
+      "path": "lax-16/Lax16Proofs.AnchorLabels.anchor_certifies.html",
+      "bytes": 19244,
+      "sha256": "d9b3b33309afd1f72d8df817fca2c5e5547010d83d5f59f7fd88040563008b78"
+    },
+    {
+      "path": "lax-16/Lax16Proofs.BatchReassignment.reassignment.html",
+      "bytes": 19477,
+      "sha256": "111810fb6c276f30f03acb019b3ac000c657c0827d7991ea3b23a10901040b7b"
+    },
+    {
+      "path": "lax-16/Lax16Proofs.DominatorCount.dominator_count_bounds.html",
+      "bytes": 22016,
+      "sha256": "f829f4ab31145e284a775c4a2a7f3786dafbf177455ea7f11e1e41eae90ec81b"
+    },
+    {
+      "path": "lax-16/Lax16Proofs.OuterplanarBlockAssignment.exists_two_label_assignment.html",
+      "bytes": 19333,
+      "sha256": "0924fbbd436aee8836d89f01bbd36bf849abbab4f51f5a8ba41a4f4e21c4e557"
+    },
+    {
+      "path": "lax-16/Lax16Proofs.OuterplanarBound.positiveNCTD_le_two.html",
+      "bytes": 19774,
+      "sha256": "cf04eb5bfb561f498cff42b252ce1b5c230dbfdcd4af092aac5e738d0905214b"
+    },
+    {
+      "path": "lax-16/Lax16Proofs.OuterplanarLayer.exists_outerplanar_layer_assignment.html",
+      "bytes": 20892,
+      "sha256": "83bbb1bb74cff86413e90140471eadebdb6b2b33549c60ac556ff1b9369eb96b"
+    },
+    {
+      "path": "lax-16/Lax16Proofs.OuterplanarSharpness.positiveNCTD_ge_two.html",
+      "bytes": 19290,
+      "sha256": "097a2a2565386b6ec520fc743a85a8bea360444a8f4b18114ae5bef4dd566675"
+    },
+    {
+      "path": "lax-16/Lax16Proofs.PlanarBound.positiveNCTD_le_four.html",
+      "bytes": 20504,
+      "sha256": "addf3d837136f759047853bd96c9028fff86c48319c98169f37d68187911bca4"
+    },
+    {
+      "path": "lax-16/Lax16Proofs.PlanarSharpness.positiveNCTD_ge_four.html",
+      "bytes": 19237,
+      "sha256": "fba64c2766a27e5905c51ffaddbad84fa90364a5593528a15af6aaf94c357dc0"
+    },
+    {
+      "path": "lax-16/Lax16Proofs.PlanarVertexBatch.exists_planar_vertex_batch_of_degree_ge_four.html",
+      "bytes": 19843,
+      "sha256": "ee18cb0b30065263627190d69d77f324bb9506b2bb40e5d72656bf272ae92ed0"
+    },
+    {
+      "path": "lax-16/Lax16Proofs.SmallDegreeBatch.exists_small_degree_batch.html",
+      "bytes": 19788,
+      "sha256": "a3c63940b0b2d2f4af9fd4ffcea9513ff024b6659a42aab2f4a8fbb451f480e7"
+    },
+    {
+      "path": "lax-17/index.html",
+      "bytes": 148231,
+      "sha256": "f2d52ac934cf163276ef53fc41bccb8a998c326ff164c4c901d6b16581e95e1e"
+    },
+    {
+      "path": "lax-17/Lax17.Crossbar.html",
+      "bytes": 65883,
+      "sha256": "a948c62262cbecfe81f99c2b7b90057ef8c65a4e2710b7f0caab236c5444c30b"
+    },
+    {
+      "path": "lax-17/Lax17.CrossbarOrPseudoGrid.html",
+      "bytes": 48267,
+      "sha256": "7c9c41c14a251adb2eaf9ba4b9aa25d9e9812972775f54b53a9d117f655e02fc"
+    },
+    {
+      "path": "lax-17/Lax17.CrossbarStitching.html",
+      "bytes": 48638,
+      "sha256": "0d05584b0cb668545021df4ab5b2a15d4f35c8287a295141874256ba031e6ad2"
+    },
+    {
+      "path": "lax-17/Lax17.CutMatchingTheorem.html",
+      "bytes": 45864,
+      "sha256": "ca0ea3d16999925390d66aedf77ceac609e970aa54573049bfe00e7026319224"
+    },
+    {
+      "path": "lax-17/Lax17.Degree.html",
+      "bytes": 50977,
+      "sha256": "b940bda888e5959e8254ff7228af00425328911cb3f7338431c34567e8a37d41"
+    },
+    {
+      "path": "lax-17/Lax17.EdgeMenger.html",
+      "bytes": 45105,
+      "sha256": "460f54df9c7aa0555435be8791eb5b76f657b48d78fc7e398b87b94c8ac8c268"
+    },
+    {
+      "path": "lax-17/Lax17.ExpanderGrid.html",
+      "bytes": 46725,
+      "sha256": "d41a7c520840fa9c7871401b366c4b83a83935999e894ecec83a71e3e5fea42b"
+    },
+    {
+      "path": "lax-17/Lax17.Expansion.html",
+      "bytes": 63214,
+      "sha256": "33a717d38f5e1df3dc8e0e4c238a414980f2e55f4118b7b1c146613ad97cb3ba"
+    },
+    {
+      "path": "lax-17/Lax17.ExponentTenCrossbarDichotomy.html",
+      "bytes": 50737,
+      "sha256": "d0edf53956fe0aad1614e38bcdd96b832fff3a8be79df2e068241acb3385c5a6"
+    },
+    {
+      "path": "lax-17/Lax17.FixedRoundGridMinor.html",
+      "bytes": 75704,
+      "sha256": "27aff3e2227985674debcc35c9ef8881d04a5c00a49582f42cf0dbe1feef03e5"
+    },
+    {
+      "path": "lax-17/Lax17.Grid.html",
+      "bytes": 46096,
+      "sha256": "d28153890173f06354ac77a5a52cedc703aad78a095c3a49183f6fa8f42077ab"
+    },
+    {
+      "path": "lax-17/Lax17.GridMinor.html",
+      "bytes": 45000,
+      "sha256": "f084d6951d943204b29f095239b177ed4c38c903c6a735d8b07d371f7045919e"
+    },
+    {
+      "path": "lax-17/Lax17.HairyPathOfSetsFromTreewidth.html",
+      "bytes": 48801,
+      "sha256": "1daac614bc2e9cd4e737e95663a2486edadbd0fd401b4b1c52ffd8bd1871e7a4"
+    },
+    {
+      "path": "lax-17/Lax17.HindOellermann.html",
+      "bytes": 46288,
+      "sha256": "e6579719db0fcb7d80aac4f8b312490bdffcb7dccebec5729ee43c47a3a30e95"
+    },
+    {
+      "path": "lax-17/Lax17.Linkedness.html",
+      "bytes": 55661,
+      "sha256": "27976e39b6e62f4af9568114386a2405de94a0571013368e69856df9e48f8f1d"
+    },
+    {
+      "path": "lax-17/Lax17.LocalRoutingOrGrid.html",
+      "bytes": 47512,
+      "sha256": "0f8c863bcf9a8d30293596ede887bcaac6d3f9be4927108ac19629d5c2d0cf43"
+    },
+    {
+      "path": "lax-17/Lax17.LowDegreeWellLinkedCore.html",
+      "bytes": 48999,
+      "sha256": "b1e9b0a0f776d51e02cab2e4d64f3bd76e407ca98384d9d89bbcd7e290e0780f"
+    },
+    {
+      "path": "lax-17/Lax17.Mader.html",
+      "bytes": 43832,
+      "sha256": "45cc53adc21f73fab9a2643db053d922246a5ccbb7e9c8ab4d838b7afb17e0e8"
+    },
+    {
+      "path": "lax-17/Lax17.Minor.html",
+      "bytes": 51115,
+      "sha256": "2e4bfdb91de057d8d1a77818cebf31d107959efb924177050ec67bf07d2335e3"
+    },
+    {
+      "path": "lax-17/Lax17.NodeWellLinkedSetFromTreewidth.html",
+      "bytes": 44908,
+      "sha256": "eb0281257274a0cf80e7f779a6841d8df766adddabd9f57c18397bd4cf675acc"
+    },
+    {
+      "path": "lax-17/Lax17.ParallelClusterSplitting.html",
+      "bytes": 47643,
+      "sha256": "da9b8b16a4d7e9edbfd5994b349e36219043b18eb6672a86c3c6f1b74e2e1960"
+    },
+    {
+      "path": "lax-17/Lax17.PathOfSets.html",
+      "bytes": 84165,
+      "sha256": "cd96055a5095568aad5f40bdde2279b87459d293d6c0e0db06e52f299b2b9c36"
+    },
+    {
+      "path": "lax-17/Lax17.Paths.html",
+      "bytes": 68475,
+      "sha256": "01202e24be5aa21776474eeddcc9b9317e9a1f1f30dd794f56667e76862ca6bc"
+    },
+    {
+      "path": "lax-17/Lax17.PolynomialGridMinor.html",
+      "bytes": 60166,
+      "sha256": "9b06b5a94b7c30a6406bb1d588e6e8e3e1aaad52e5f35a39076c8655bbb9ee69"
+    },
+    {
+      "path": "lax-17/Lax17.PowerRoot.html",
+      "bytes": 50204,
+      "sha256": "0dc313b3dffb89281df7ff8b01df18edeb1f2ba6592be2c39ebca2ba3a394065"
+    },
+    {
+      "path": "lax-17/Lax17.SinghLau.html",
+      "bytes": 45074,
+      "sha256": "9c45f4dca4737834317258555b130886f35634b867a3d75472a07cab778861bb"
+    },
+    {
+      "path": "lax-17/Lax17.SmallLinkedSubsets.html",
+      "bytes": 44067,
+      "sha256": "9337d6dab7c801b09fa5869695f2fc56c609a1e30fbe3728d41386f547bf0981"
+    },
+    {
+      "path": "lax-17/Lax17.SpanningTreeRounding.html",
+      "bytes": 49669,
+      "sha256": "3e775438a5641b3e243eafd507fa88fb1861b8bd48e8ae07fa6c10e64956a649"
+    },
+    {
+      "path": "lax-17/Lax17.StrongPathExtraction.html",
+      "bytes": 45281,
+      "sha256": "e163f7e20654e9dc904fe9c1a4a87023c48cac3eb0b61570777f4a48550f6f73"
+    },
+    {
+      "path": "lax-17/Lax17.StrongPathOfSetsContainsGrid.html",
+      "bytes": 46982,
+      "sha256": "8d2135e5bb7555feb97b9a79d7ba729924f70069d0aed6eb1918d2023cd8835d"
+    },
+    {
+      "path": "lax-17/Lax17.StrongPathOfSetsFromTreewidth.html",
+      "bytes": 47856,
+      "sha256": "7f7f153dc2d545b812f54c882f6f4af5a3d4d324b0b5fba1c534048d10bdb4b4"
+    },
+    {
+      "path": "lax-17/Lax17.StrongTreeOfSetsConstruction.html",
+      "bytes": 49005,
+      "sha256": "3b3de03041b018901c6aee1528921bc1bd1195fd2b602ae22da5456a7c86ee72"
+    },
+    {
+      "path": "lax-17/Lax17.TerminalConnectivity.html",
+      "bytes": 91663,
+      "sha256": "17a0c37b3b260f6e7f704c584bf4a5fb7418188ea3f12e3efacf649f32eb004c"
+    },
+    {
+      "path": "lax-17/Lax17.TerminalElementMenger.html",
+      "bytes": 44556,
+      "sha256": "ba6b774269a982126e9752cddb40791b6ed6f92a1f195924bc103ae41c2a55e7"
+    },
+    {
+      "path": "lax-17/Lax17.TreeOfSets.html",
+      "bytes": 55719,
+      "sha256": "366c99f2770260ec934d659cda867382b737f4305bb714f8485da42d62e865d0"
+    },
+    {
+      "path": "lax-17/Lax17.Treewidth.html",
+      "bytes": 54224,
+      "sha256": "714915fe5b024ce1e2dab03bddc2a97da0f29d4358a239b8c5000b01addc774b"
+    },
+    {
+      "path": "lax-17/Lax17.TreewidthMinorMonotonicity.html",
+      "bytes": 44037,
+      "sha256": "2c7ab1abc33d687bafa82bd14c6255e11998d86ffbf2f7b882f271ae94ba347b"
+    },
+    {
+      "path": "lax-17/Lax17.TreewidthSparsifier.html",
+      "bytes": 47541,
+      "sha256": "c3a4c6e7c778b15710db785421dbbbc4e0cfd80157ace80afb9d5f8fac113dd7"
+    },
+    {
+      "path": "lax-17/Lax17.VertexMenger.html",
+      "bytes": 44566,
+      "sha256": "611827e61a441d2842ed6b1c36d1df8677cfda3a7b75f2142f038dfc3abff5a4"
+    },
+    {
+      "path": "lax-17/Lax17.WellLinkednessBoosting.html",
+      "bytes": 47750,
+      "sha256": "af839b8c588c199208147f94ca8bd60ed744653977954e8237b68b872bd2b6ab"
+    },
+    {
+      "path": "lax-17/Lax17Proofs.Exposed.crossbarOrPseudoGrid.html",
+      "bytes": 38605,
+      "sha256": "b0b8bc1b8f7689df1a26f4c318527a54afb0a7fd27db00236689bc39e556990f"
+    },
+    {
+      "path": "lax-17/Lax17Proofs.Exposed.crossbarStitching.html",
+      "bytes": 36642,
+      "sha256": "d59dd74fed2e383b826cd3f3ef443e932738ce8ac8401bdd2d626905be15585c"
+    },
+    {
+      "path": "lax-17/Lax17Proofs.Exposed.degreeThreeTreewidthSparsifier.html",
+      "bytes": 37837,
+      "sha256": "9ac93ac0ae67619c355b38a6cb5f1b74b194169d22784831bcbf8d9cfe90d6ac"
+    },
+    {
+      "path": "lax-17/Lax17Proofs.Exposed.edgeMenger.html",
+      "bytes": 36522,
+      "sha256": "35576bbd9cbb0f2d3cd1b1c137ac956156bcfbdaa5235be947a13af68d4d2aac"
+    },
+    {
+      "path": "lax-17/Lax17Proofs.Exposed.expanderContainsGrid.html",
+      "bytes": 36580,
+      "sha256": "da03dee711b0e70676ce80f89a9f565290e60544ecca891c6c68ee78393160c1"
+    },
+    {
+      "path": "lax-17/Lax17Proofs.Exposed.exponentTenCrossbarDichotomy.html",
+      "bytes": 37058,
+      "sha256": "7dcc54e26eeb7f3bec3a71a9bd5c0da39245227321171234b22f2c413a246b23"
+    },
+    {
+      "path": "lax-17/Lax17Proofs.Exposed.hairyPathOfSetsFromTreewidth.html",
+      "bytes": 37865,
+      "sha256": "0bed089ba91586fda21e5c9864aa8932cd43e35f84dd77053974a9b2a28382ae"
+    },
+    {
+      "path": "lax-17/Lax17Proofs.Exposed.hindOellermannDeletionContraction.html",
+      "bytes": 36991,
+      "sha256": "34c8564978629b271b74d6c79a0add520924527e5c2f6180e6fd28d44f6cb3e0"
+    },
+    {
+      "path": "lax-17/Lax17Proofs.Exposed.localRoutingOrGrid.html",
+      "bytes": 36960,
+      "sha256": "1cf27945865942e40b5a30c2ce81c76d12ed41350da7de57beb8ae5aec4e9d24"
+    },
+    {
+      "path": "lax-17/Lax17Proofs.Exposed.logarithmicCutMatchingExpansion.html",
+      "bytes": 36690,
+      "sha256": "9a60d2b88b2832bfb449fcd44137eb86b59086bb3b64545d3e4284b584cd8b08"
+    },
+    {
+      "path": "lax-17/Lax17Proofs.Exposed.lowDegreeWellLinkedCore.html",
+      "bytes": 37026,
+      "sha256": "bfd08107619cad35e2fbc145b87b1a0d027ef476b1f90bfec3fb2c6beb60dd10"
+    },
+    {
+      "path": "lax-17/Lax17Proofs.Exposed.maderAdmissibleSplitOff.html",
+      "bytes": 36566,
+      "sha256": "461245fef4d9117d77696070837a59d4cbe18e1cac21332c5bab3910884efa61"
+    },
+    {
+      "path": "lax-17/Lax17Proofs.Exposed.nodeWellLinkedSetFromTreewidth.html",
+      "bytes": 36650,
+      "sha256": "4d6cc042c667f40128b9bdc907ae10dfd3e1b997671c957fd9f92139fb45fa18"
+    },
+    {
+      "path": "lax-17/Lax17Proofs.Exposed.parallelClusterSplitting.html",
+      "bytes": 36656,
+      "sha256": "5065aae2f287f67a4da5f6be5c3165dc870ae4f2626d84a6b4d90ceb123181a6"
+    },
+    {
+      "path": "lax-17/Lax17Proofs.Exposed.singhLauBoundedDegreeSpanningTree.html",
+      "bytes": 36606,
+      "sha256": "7388a992cf85c5debef0a40537899bdd75a6a83a5d0adc0c626b872375064c79"
+    },
+    {
+      "path": "lax-17/Lax17Proofs.Exposed.smallLinkedSubsets.html",
+      "bytes": 36579,
+      "sha256": "768d6158f2aa333f28325f14963282fc258edebc48d708db7489af905272294a"
+    },
+    {
+      "path": "lax-17/Lax17Proofs.Exposed.strongPathExtraction.html",
+      "bytes": 36589,
+      "sha256": "0db28e4bca0dd5527a18779540a0eaa9c81593ae6d8798a65d8c720dacb6d6c0"
+    },
+    {
+      "path": "lax-17/Lax17Proofs.Exposed.strongPathOfSetsContainsGrid.html",
+      "bytes": 37389,
+      "sha256": "4d606d139163c28d377d85ae1fac0f4db8eb588eeb968591eb4c56ba3df990df"
+    },
+    {
+      "path": "lax-17/Lax17Proofs.Exposed.strongPathOfSetsFromTreewidth.html",
+      "bytes": 37860,
+      "sha256": "f52ee01a1cfe3f96f2a27ad4a21701c8979d110e719c9dca1db9b567e51f9483"
+    },
+    {
+      "path": "lax-17/Lax17Proofs.Exposed.strongTreeOfSetsConstruction.html",
+      "bytes": 38474,
+      "sha256": "08f73860614b2c863082348656aee1b44d9fe157ce6e036dfd7d9965aa1e6204"
+    },
+    {
+      "path": "lax-17/Lax17Proofs.Exposed.terminalElementMenger.html",
+      "bytes": 36621,
+      "sha256": "cc1b6710ee053cc1db21ffcdb551f20a46e42bafd846e585d1cda249ae2e69b0"
+    },
+    {
+      "path": "lax-17/Lax17Proofs.Exposed.treewidth_mono_minor.html",
+      "bytes": 36605,
+      "sha256": "d9dfcd58676da8befd34abba439dcc21fc8167e5ffca06d595976acf8bc02307"
+    },
+    {
+      "path": "lax-17/Lax17Proofs.Exposed.vertexMenger.html",
+      "bytes": 36542,
+      "sha256": "0f485ea9892445c3a095c83c41559f6ba02629654ddfa98e8a6f784050851819"
+    },
+    {
+      "path": "lax-17/Lax17Proofs.Exposed.wellLinkednessBoosting.html",
+      "bytes": 37675,
+      "sha256": "fade5a55208940cd2a07e41b9d55d352465626e3ddf33eb6cc3403220f65f7ca"
+    },
+    {
+      "path": "lax-17/Lax17Proofs.Final.polynomial_grid_minor_eight_add_epsilon.html",
+      "bytes": 40468,
+      "sha256": "a468c829178d1b82cde7685cf9b3ca3363214f2771af052fc532081aece0d8aa"
+    },
+    {
+      "path": "lax-17/Lax17Proofs.Final.polynomial_grid_minor_fixed_t.html",
+      "bytes": 41054,
+      "sha256": "b8c9228eb8599ff3acf73b6c4d66ef01b2fd91448a2bec523f57ef6db3d518b0"
+    },
+    {
+      "path": "lax-18/index.html",
+      "bytes": 42528,
+      "sha256": "e7bf4f81b0f29fb1d30f3fbda6201364fec2cc82f98dbd7e8716223581cbd079"
+    },
+    {
+      "path": "lax-18/Lax18.EdgeDensity.html",
+      "bytes": 26880,
+      "sha256": "2f8c320466c6669b6087558bccf9df0a7a44f1bafe87434d03e5f18761b08854"
+    },
+    {
+      "path": "lax-18/Lax18.EnergyIncrement.html",
+      "bytes": 24866,
+      "sha256": "baf8c773b9bc93ced845c9f4916d4c9a2edc854b43f200bb6ff74474e20dc4be"
+    },
+    {
+      "path": "lax-18/Lax18.EquitableCleanup.html",
+      "bytes": 26055,
+      "sha256": "95e91983a7db53f27af8b5511aeec103b2bc7d2a9550f1b0b4ad7be565f41832"
+    },
+    {
+      "path": "lax-18/Lax18.FiniteGraphPartitions.html",
+      "bytes": 26212,
+      "sha256": "c13b767f5a353e2bf4a131a537b1b26ba74e85e1259ba9bb3f101b3acd2419e6"
+    },
+    {
+      "path": "lax-18/Lax18.PartitionEnergy.html",
+      "bytes": 25216,
+      "sha256": "b838bcc489a1f7ae2e5bd7b4a9023e7e7d8ab1a48b1c1059a053aa7347897692"
+    },
+    {
+      "path": "lax-18/Lax18.PartitionEnergyBounds.html",
+      "bytes": 21868,
+      "sha256": "9f99275bea71d3538bbc9701d85f1d2d900968f77919e73a16d0075f45f62d06"
+    },
+    {
+      "path": "lax-18/Lax18.PartitionEnergyMonotonicity.html",
+      "bytes": 21788,
+      "sha256": "b1bdb405617ee57e2adc24e51986ac49d2c1056d7dd75a00844a5c9da53aaade"
+    },
+    {
+      "path": "lax-18/Lax18.RegularPairs.html",
+      "bytes": 29241,
+      "sha256": "2c9ca44d479c7b99e8d513472b124414e9ef093defe6cd8c7b81a63ec0f4b468"
+    },
+    {
+      "path": "lax-18/Lax18.RegularPartitions.html",
+      "bytes": 29310,
+      "sha256": "4254659e96b7e0d53f198fb447f0dbc88d46a25e81a953495e60461118eddb5f"
+    },
+    {
+      "path": "lax-18/Lax18.SzemerediRegularityLemma.html",
+      "bytes": 34765,
+      "sha256": "aebe030544519a6d29217d6a6dbdbc4211bd2fb9489b803ffd4fe665202d5c6d"
+    },
+    {
+      "path": "lax-18/Lax18Proofs.energy_increment_refinement.html",
+      "bytes": 12670,
+      "sha256": "19fc00916b1011004a259e140f2c6f672b6998a3688a827eeaae27f03a5dc5c7"
+    },
+    {
+      "path": "lax-18/Lax18Proofs.equitable_cleanup.html",
+      "bytes": 12617,
+      "sha256": "4465489730c78a5102d2b63e26f327b8597677a54285ecee0a741d0831316e7e"
+    },
+    {
+      "path": "lax-18/Lax18Proofs.partitionEnergy_mem_unitInterval.html",
+      "bytes": 12733,
+      "sha256": "56d69e6b53a72daca1dd534bf05ed6a5fe2e5b71952b0c308a5e5a1eb59e5356"
+    },
+    {
+      "path": "lax-18/Lax18Proofs.partitionEnergy_mono_of_refines.html",
+      "bytes": 12795,
+      "sha256": "bbe2d2670a83536ee292a94160824850d0a89d1b18c05a653bb29b0684d3004c"
+    },
+    {
+      "path": "lax-18/Lax18Proofs.szemeredi_regularity_lemma.html",
+      "bytes": 13326,
+      "sha256": "0f75e17814524996932ef3dba2b2a6a842bfbb35edf3f98bb150588234552778"
+    },
+    {
+      "path": "lax-3/index.html",
+      "bytes": 36079,
+      "sha256": "caee118211666a58500c48051a6ece8e23bda0c51b867310e011c497d62e2704"
+    },
+    {
+      "path": "lax-3/Lax3.ColoredGraphs.html",
+      "bytes": 58933,
+      "sha256": "5f7cd7db74eb7eff8d49ae3c6257d1696e2d6f7fdb840f7d1a570a1b91e7c398"
+    },
+    {
+      "path": "lax-3/Lax3.DistFO.html",
+      "bytes": 106194,
+      "sha256": "bbfa28bd6c6314e3245b7ebe6f1f312edac8b56bfe7598f1ff41f4e3c833b7ae"
+    },
+    {
+      "path": "lax-3/Lax3.FirstOrder.html",
+      "bytes": 41763,
+      "sha256": "80055ccb90ec8c68fa3702568507dece2f4bc88e72b64e811af1cb6cb3d48147"
+    },
+    {
+      "path": "lax-3/Lax3.Locality.html",
+      "bytes": 44577,
+      "sha256": "e4e8dab3fc25ecb37bff01b51d24a38521153ced6eba4cabbb2bf735f672b354"
+    },
+    {
+      "path": "lax-3/Lax3.ModelChecking.html",
+      "bytes": 53163,
+      "sha256": "ad43e74c3a0fc447887b9c571ef4d53991088868d65fb9b7262b45f2fbf43823"
+    },
+    {
+      "path": "lax-3/Lax3.NeighborhoodCoverBound.html",
+      "bytes": 37516,
+      "sha256": "fc7c0db835b99e4e6d80ea8e7b53708043d114ef5067cfdb1ea97e630a5c3b3f"
+    },
+    {
+      "path": "lax-3/Lax3.NeighborhoodCovers.html",
+      "bytes": 33002,
+      "sha256": "96c37c08bfca5df36bcc81f6b6c0b2b84eec3f5401f9069841ef4ffcd06be09d"
+    },
+    {
+      "path": "lax-3/Lax3.NormalForm.html",
+      "bytes": 52576,
+      "sha256": "4ff94db3f2b611c0916a07c17e72f160faa78888868d7eb0608fc33ad155f919"
+    },
+    {
+      "path": "lax-3/Lax3.NowhereDenseSplitter.html",
+      "bytes": 45741,
+      "sha256": "2811f2e10ccdcd84d699e0d55913234744a747539efaf9a1ff3d505f3a3dbc3f"
+    },
+    {
+      "path": "lax-3/Lax3.ScatterSentences.html",
+      "bytes": 67637,
+      "sha256": "30f5ed966c8e8cdf4db91d9a1e2c262b21bdd5d12aaee9894f394080ac5aa5bf"
+    },
+    {
+      "path": "lax-3/Lax3.SplitterGame.html",
+      "bytes": 38967,
+      "sha256": "158c347395d6c55d3b6a4014808e4fdbd380e0bf1ccdaab209989ad3d488cc1a"
+    },
+    {
+      "path": "lax-3/Lax3Proofs.Assembly.locality.html",
+      "bytes": 15652,
+      "sha256": "fb49830e97e992ec9f5627c710436d93cb7c6d08768561b161d41add38277357"
+    },
+    {
+      "path": "lax-3/Lax3Proofs.Assembly.normalForm.html",
+      "bytes": 26648,
+      "sha256": "af00b5da5f4c72f28bb8da6caca36a386dbd9e0af0f021cc3049261ac84aa609"
+    },
+    {
+      "path": "lax-3/Lax3Proofs.CoverConstruction.exists_neighborhoodCover_degree_wcol.html",
+      "bytes": 36262,
+      "sha256": "b27581afda55ea505a1755194e62ba22625726bb488dfc68b7c9e93209459fcc"
+    },
+    {
+      "path": "lax-3/Lax3Proofs.SplitterWin.splitterWins_of_nowhereDense.html",
+      "bytes": 39842,
+      "sha256": "64acc373cc8d19cee5f06061aff0940a0381e41fc64d970d7d78ec9207232fc9"
+    },
+    {
+      "path": "lax-41/index.html",
+      "bytes": 21796,
+      "sha256": "ecc2f3df7ed078cc437743d07f7b84994a238c3f76359a52fbf012353bf8114a"
+    },
+    {
+      "path": "lax-41/Lax41.HaeuplerSahaSrinivasanDefinitions.html",
+      "bytes": 42416,
+      "sha256": "53852334e1583781e12573ec2073f8494e6390e12681f8d8e6a761c50069b2cd"
+    },
+    {
+      "path": "lax-41/Lax41.HaeuplerSahaSrinivasanTheorem22.html",
+      "bytes": 36361,
+      "sha256": "ab835e9ab8f6a2c8c1dd9e7fdea42fc10cfb9bcb54f1b362b93ed6544d3bd048"
+    },
+    {
+      "path": "lax-41/Lax41.MoserTardos.html",
+      "bytes": 37867,
+      "sha256": "f12d92423d32b262fd7f592a3cbc0d7bf65f3de3d00fcdd3be207a90f8efd3b8"
+    },
+    {
+      "path": "lax-41/Lax41.MoserTardosDefinitions.html",
+      "bytes": 40188,
+      "sha256": "fa96d8db825f49eaa4b608a4effe1c52f619f5e156e457da6b109642c18b04fb"
+    },
+    {
+      "path": "lax-41/Lax41Proofs.moser_tardos.html",
+      "bytes": 8627,
+      "sha256": "4b524772abe4473be4a7ed49a2a39fb86ec83e1df1204d5273471ca52472da53"
+    },
+    {
+      "path": "lax-41/Lax41Proofs.theorem_2_2.html",
+      "bytes": 9482,
+      "sha256": "70a226b57f55b500e88cbbece7c051762c527a082c26e8ae244cbde63b65aa5e"
+    },
+    {
+      "path": "lax-47/index.html",
+      "bytes": 26651,
+      "sha256": "9e9ab076132bad18e73f8b72f857b4f1f1239ab3f302e3ea7fb819a32bfadb81"
+    },
+    {
+      "path": "lax-47/Lax47.Complexity.html",
+      "bytes": 34646,
+      "sha256": "1113e42aa5b8c8cc565c0076a0dac61ac10955b7fdceff627c039b629ba45ce4"
+    },
+    {
+      "path": "lax-47/Lax47.Gap.html",
+      "bytes": 49805,
+      "sha256": "83433b8bc4b2dd38e3c3518398f9ee58dc87e1002bdc813b9e151b74fbab7410"
+    },
+    {
+      "path": "lax-47/Lax47.Hastad.html",
+      "bytes": 28672,
+      "sha256": "15904fcfffcd803c7e30a748205e967b7edc104dc8b65cab3612cad9d4aa25e6"
+    },
+    {
+      "path": "lax-47/Lax47.Machine.html",
+      "bytes": 38494,
+      "sha256": "2be7c39171c2acb1ceef726bbe076fd07c6305b1bc0718b5ae7dbab0b0b3afe5"
+    },
+    {
+      "path": "lax-47/Lax47.Reduction.html",
+      "bytes": 73800,
+      "sha256": "050b6364c5b4f7538a45b22840eba7991b02f3cdaed7d0c23a6b85a15f3e0538"
+    },
+    {
+      "path": "lax-47/Lax47.Theorem12.html",
+      "bytes": 25354,
+      "sha256": "6262fdbb59f574da7beba1ba11b1554201db3579d3491543a97aea569238dd03"
+    },
+    {
+      "path": "lax-47/Lax47Proofs.theorem_1_2.html",
+      "bytes": 9897,
+      "sha256": "7a31066b4a162fd480afdb1f0807cb3a6dc00870e06f1fc843c6327e45b18e1f"
+    },
+    {
+      "path": "lax-48/index.html",
+      "bytes": 24943,
+      "sha256": "22919b5c4a00d9e3178444441daae8517ecab8d4d2014c3e924e2141f0499d23"
+    },
+    {
+      "path": "lax-48/Lax48.ExponentialSeparation.html",
+      "bytes": 17495,
+      "sha256": "152ee2bdbe17c0fa7acca727ea0ad61c7ced13eeeb742587de696ce9bd8eeb33"
+    },
+    {
+      "path": "lax-48/Lax48.Treewidth.html",
+      "bytes": 24168,
+      "sha256": "c66f3f28cf8a092b14ac578dae98a425943a104c0f891a147942355701d4ca52"
+    },
+    {
+      "path": "lax-48/Lax48.TwinWidth.html",
+      "bytes": 31238,
+      "sha256": "c25280dd3c6d589f1974d5350c5cfe1aad00eb8924c5a35a18333953a8f2842a"
+    },
+    {
+      "path": "lax-48/Lax48Proofs.Main.exists_treewidth_le_and_two_pow_lt_twinWidth.html",
+      "bytes": 12091,
+      "sha256": "0f9a8805b253c46da02b0d0a89b1c0814959c18c2a76783d24a1cad55f250b82"
+    },
+    {
+      "path": "lax-49/index.html",
+      "bytes": 28530,
+      "sha256": "a7571d361759b33af9e6d2f29f231daefb62e0ddb4ad61f7dc84917de834caa7"
+    },
+    {
+      "path": "lax-49/Lax49.FunctionalEquivalence.html",
+      "bytes": 31956,
+      "sha256": "d4690ea2f4550bdd2b6646d63af4b8ca8aff03e09177388739656e97d564f26f"
+    },
+    {
+      "path": "lax-49/Lax49.GraphParameters.html",
+      "bytes": 27929,
+      "sha256": "c17bf07819c1fcdbc6ea3dcf04a49269b7acc99ca0be4f7ea9b1c4f9c99d351b"
+    },
+    {
+      "path": "lax-49/Lax49.MixedMinorNumber.html",
+      "bytes": 35292,
+      "sha256": "b099588af4a35c8e8b8556a4e0554fc8dbf31dc8a1ea471b46ffa5af20ffa110"
+    },
+    {
+      "path": "lax-49/Lax49.MixedMinorNumberFromTwinWidth.html",
+      "bytes": 21797,
+      "sha256": "7052dac7d6001219a56c9ed02b026751d59c07fb11616328193d2832054aa113"
+    },
+    {
+      "path": "lax-49/Lax49.TwinWidthFromMixedMinorNumber.html",
+      "bytes": 22005,
+      "sha256": "15a2d2921d768a6b5727bca27116fd141d288d6cbbcfe2d424516f3b50249116"
+    },
+    {
+      "path": "lax-49/Lax49Proofs.Main.twin_width_functionally_equivalent_mixed_minor_number.html",
+      "bytes": 18252,
+      "sha256": "1aec5629a505ffad942b3f8a6b908ede404aa0b38cad4dc60c2e02883e0e3ba2"
+    },
+    {
+      "path": "lax-49/Lax49Proofs.MixedMinorNumberFromTwinWidth.exists_mixedMinorNumber_bound_of_twinWidth.html",
+      "bytes": 15483,
+      "sha256": "0ae03b609b111572d1a0f6d2be31658a0a638d8f9db0fca3a05330ce1036ca9b"
+    },
+    {
+      "path": "lax-49/Lax49Proofs.TwinWidthFromMixedMinorNumber.exists_twinWidth_bound_of_mixedMinorNumber.html",
+      "bytes": 15767,
+      "sha256": "575192729947d5d1f5ec62b28300eee55777dc75252d2f43d7c2f8478fbbe5b3"
+    },
+    {
+      "path": "lax-5/index.html",
+      "bytes": 43729,
+      "sha256": "d37abffacbec63bfa08a25b6c22b3f9542ae0fd0b8e39726494b82565ff66d94"
+    },
+    {
+      "path": "lax-5/Lax5.AdlerAdler.html",
+      "bytes": 22589,
+      "sha256": "c9297b75b714f3ec762954f047456e8364f1b6dd09f7b51d6724e6dd154a7988"
+    },
+    {
+      "path": "lax-5/Lax5.AlmostLinearNC.html",
+      "bytes": 24852,
+      "sha256": "1272a0b33cb94825b4b5cf718aeb9085ce726f72dfd7d39f76e264f88905a577"
+    },
+    {
+      "path": "lax-5/Lax5.GraphClasses.html",
+      "bytes": 28298,
+      "sha256": "8fd171e076b9ae43a99cd141b0986775de48cb31c7d077b82c4fd480c071099f"
+    },
+    {
+      "path": "lax-5/Lax5.GraphTransductions.html",
+      "bytes": 26031,
+      "sha256": "0d6fd87d2c33427aeef9b7613777d2621860c02d0ec4e399a36408b74d5ef02e"
+    },
+    {
+      "path": "lax-5/Lax5.MonadicDependence.html",
+      "bytes": 18308,
+      "sha256": "ed8793a5f286436feabe9579a8721222dc4e7b000bb0a25e6e99993175409da8"
+    },
+    {
+      "path": "lax-5/Lax5.Transductions.html",
+      "bytes": 41290,
+      "sha256": "ff2d3a3936ce5c6872744c6d628eb1afeed139af0a2732a2dee7c4e1b5b9f9ec"
+    },
+    {
+      "path": "lax-5/Lax5.WeaklySparseDependent.html",
+      "bytes": 24375,
+      "sha256": "29570410deeb8f2ed49b56ca923ebfc38d35bb40e32c486bf30d36f00d2d70de"
+    },
+    {
+      "path": "lax-5/Lax5Proofs.AdlerAdler.monadicallyDependent_of_nowhereDense.html",
+      "bytes": 15522,
+      "sha256": "30909a1c5084e2f8dcc10ae2c039cdaae3d7515b999ae404bae5418a1304d62a"
+    },
+    {
+      "path": "lax-5/Lax5Proofs.Corollary6a.nowhereDense_of_weaklySparse_of_monadicallyDependent.html",
+      "bytes": 19417,
+      "sha256": "c6ec80f7654bca85e1ff1bbe137ab610201d027419e155c053a53ff9b828374d"
+    },
+    {
+      "path": "lax-5/Lax5Proofs.Theorem2.hasAlmostLinearNC_of_monadicallyDependent.html",
+      "bytes": 13436,
+      "sha256": "e85c80d527d5726cb44f04ec787562ed9ef6e4b314e0b8a507c6f462d8a0a28b"
+    },
+    {
+      "path": "lax-51/index.html",
+      "bytes": 31698,
+      "sha256": "6b55002831ff9a439ed78ec237d960f28365b12800644017a2882af681729957"
+    },
+    {
+      "path": "lax-51/Lax51.BinaryWordEncoding.html",
+      "bytes": 24023,
+      "sha256": "fc318cda6ffd2885659694e5304125f35509367a9f21866a666921cb96fd14d8"
+    },
+    {
+      "path": "lax-51/Lax51.RamPolytime.html",
+      "bytes": 25779,
+      "sha256": "6cdf4cdabe0e2ab7caf2899af38d1f9a29622b9a40190712bc08d2ec783e6c3b"
+    },
+    {
+      "path": "lax-51/Lax51.RamToTuringGenericTime.html",
+      "bytes": 24032,
+      "sha256": "62435268289467ab2d0349db898d609af1fcd0a8b42da4c159e47fee0bd8f00e"
+    },
+    {
+      "path": "lax-51/Lax51.TuringPolytime.html",
+      "bytes": 23487,
+      "sha256": "83b5b788d81a57e42b384f97ade3fca8e1803e2eb66c9645939e6ed227d9c76e"
+    },
+    {
+      "path": "lax-51/Lax51.TuringRamEquivalence.html",
+      "bytes": 27233,
+      "sha256": "590d0396b24bfc0b6f5d933efa09398e79b77747ad882c6fe3a68f6a0ffffbbc"
+    },
+    {
+      "path": "lax-51/Lax51.TuringRamPolytimeEquivalence.html",
+      "bytes": 25362,
+      "sha256": "d5ef6190af308d5bdacd3c39e5dc579cc43e3615c48f8cb25f45ea61bf151f35"
+    },
+    {
+      "path": "lax-51/Lax51.TuringToRamGenericTime.html",
+      "bytes": 24612,
+      "sha256": "d0abf170c7af5e3e07732162838da477cd849aad7900b45c224595fbf27d69b5"
+    },
+    {
+      "path": "lax-51/Lax51Proofs.GenericTimeSimulation.ramInTime_to_turingInPolynomialOverhead.html",
+      "bytes": 11387,
+      "sha256": "58fd6ed4249b2025067ce7ce8db148a0278dae3f508f3c043a50b100b5421ad8"
+    },
+    {
+      "path": "lax-51/Lax51Proofs.GenericTimeSimulation.turingWithInputTime_to_ramInPolynomialOverhead.html",
+      "bytes": 11401,
+      "sha256": "e12338df258a9385d12290a251bf2108763b264b01ccb1f1d2da742563f3b44b"
+    },
+    {
+      "path": "lax-51/Lax51Proofs.TuringRamEquivalence.ramComputable_iff_computable.html",
+      "bytes": 11508,
+      "sha256": "401d0797d450e6588c8f38b6aa234168af2a89895d664fefb6af2131f2ecc5e3"
+    },
+    {
+      "path": "lax-51/Lax51Proofs.TuringRamPolytimeEquivalence.ramPolytime_iff_turingPolytime.html",
+      "bytes": 11803,
+      "sha256": "f7a8772166369a554dc8e5664ac71eb9590b6da62bb1a104b42338148ebde511"
+    },
+    {
+      "path": "lax-52/index.html",
+      "bytes": 26119,
+      "sha256": "0f3238dc390fe8dd344df15bdeb73966f581845d522d699be8afb8b02a4d4ee7"
+    },
+    {
+      "path": "lax-52/Lax52.MSOAutomataEquivalence.html",
+      "bytes": 20502,
+      "sha256": "81f022afb021d1707ccdb13dfa105aa82cdb9692115d0ae8f6a2c61b2eeba876"
+    },
+    {
+      "path": "lax-52/Lax52.MSOSemantics.html",
+      "bytes": 20566,
+      "sha256": "80e58baacd6faa666fd0ea66782d89a3c87f5b18a10df13a7210cc334e402f28"
+    },
+    {
+      "path": "lax-52/Lax52.MSOSyntax.html",
+      "bytes": 26384,
+      "sha256": "bc4e1cce8d33aa0329ca7497c8f921e25a5ba0e7ce9153c6289dd9d45ef8dfef"
+    },
+    {
+      "path": "lax-52/Lax52.MSOToNFA.html",
+      "bytes": 19447,
+      "sha256": "7e02eca568d698954509f97f2c9e51dda76fd1e22cabe508279c514d9e165bfb"
+    },
+    {
+      "path": "lax-52/Lax52.NFARecognizable.html",
+      "bytes": 16157,
+      "sha256": "56d0f65d3aa2816029275d57ddb3ad88096f83fb7838194c0efb73d35a2380be"
+    },
+    {
+      "path": "lax-52/Lax52.NFAToMSO.html",
+      "bytes": 19379,
+      "sha256": "43b6275652b1a7c219efe6614e5df040a8868f7bdda43346faaf6421fd59192c"
+    },
+    {
+      "path": "lax-52/Lax52.WordStructure.html",
+      "bytes": 30943,
+      "sha256": "dcfaff645f1ec2f95b31e053d41e69095c27f8ef212d2084b13f150b4561f7ee"
+    },
+    {
+      "path": "lax-52/Lax52Proofs.existsUnique_wordStructure_proof.html",
+      "bytes": 10639,
+      "sha256": "1cddbea59109cbf8495c64d0aceefbc4f14ccc6c6310f402207e22b4ede6b30a"
+    },
+    {
+      "path": "lax-52/Lax52Proofs.mso_definable_is_nfaRecognizable_proof.html",
+      "bytes": 10639,
+      "sha256": "fab5d5b0f6efc85fb526b660178e98d88a037318c8aaeb7319e98a8598348b1d"
+    },
+    {
+      "path": "lax-52/Lax52Proofs.nfa_definable_by_mso_proof.html",
+      "bytes": 10599,
+      "sha256": "e05b55070540431bd4ad7c689a631d95eee75a530a6773b35f412eaea0a9adba"
+    },
+    {
+      "path": "lax-52/Lax52Proofs.nfaRecognizable_iff_msoDefinable_proof.html",
+      "bytes": 10724,
+      "sha256": "00ad98ee6c57ddbd2fb8cae922e4ca040b821f1e62ee93ed43b91de7ee1e19ba"
+    },
+    {
+      "path": "lax-9/index.html",
+      "bytes": 21061,
+      "sha256": "411e47a0dfb9e22c9a9343efb89369e24e3544b4fac1012b16459a8190a7811e"
+    },
+    {
+      "path": "lax-9/Lax9.BoundedMergeWidthChiBounded.html",
+      "bytes": 15874,
+      "sha256": "3e054bda874162d4fb17ed0c3236bc33a1356025751b6281bf8b388dd33b067a"
+    },
+    {
+      "path": "lax-9/Lax9.BoundedMergeWidthLinearNeighborhoodComplexity.html",
+      "bytes": 16821,
+      "sha256": "33ff3c6c5e3e26b1cdeddebbf66e7280bf5165e188db9d8f689989f645a7c5ff"
+    },
+    {
+      "path": "lax-9/Lax9.ChiBoundedness.html",
+      "bytes": 16569,
+      "sha256": "9f76b20c85996bbc82dca27d41151f20175330dac15de97636a963878f059863"
+    },
+    {
+      "path": "lax-9/Lax9.MergeWidth.html",
+      "bytes": 83540,
+      "sha256": "5c82eccc316c0ec47cbc1c63a4949701352f6785171913e232ef84164237e02f"
+    },
+    {
+      "path": "lax-9/Lax9.NeighborhoodComplexity.html",
+      "bytes": 33295,
+      "sha256": "d97ec236741182b2fd5789e62336ec418ec4d7b211a47567649021d04e9264cf"
+    },
+    {
+      "path": "lax-9/Lax9Proofs.chiBounded_of_boundedMergeWidth.html",
+      "bytes": 9007,
+      "sha256": "1b2f185af8f4400fcb90e3574f9c71b0d51e0cd1330fd787725255743b9ed5fd"
+    },
+    {
+      "path": "lax-9/Lax9Proofs.linearNeighborhoodComplexity_of_boundedMergeWidth.html",
+      "bytes": 9142,
+      "sha256": "6d698578b80a527292059b472008eddec9d59e2f0d44cc28a8295a57937577f5"
+    }
+  ]
+}

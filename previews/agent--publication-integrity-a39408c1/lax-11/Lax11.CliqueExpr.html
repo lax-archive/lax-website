@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src https: data:; font-src 'self'">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Lax — an archive of formalized mathematical concepts and their proofs">
+<title>k-expressions, and the graphs of cliquewidth at most k — Lax11.CliqueExpr</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
+<link rel="stylesheet" href="../assets/style.css?v=041126becced">
+</head><body>
+<header class="site-header">
+  <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
+  <h1 class="site-title"><a href="../index.html">Lax <span class="site-title-quiet">Lean Archive</span></a></h1>
+</header>
+<main id="content-shell">
+<div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+<aside id="sidebar">
+<a class="sidebar-back" href="../lax-11/index.html?v=e27a8e5259fcfd1f"><span class="sidebar-back-arrow" aria-hidden="true">←</span>lax-11</a>
+<div class="sidebar-filters"><div class="filter-group">
+<label for="filter-search">Search</label>
+<input id="filter-search" class="filter-input" type="search" placeholder="Filter entries" aria-controls="entry-list">
+</div>
+<div class="filter-group">
+<label for="filter-type">Type</label>
+<select id="filter-type" class="filter-select">
+<option value="all">All types</option>
+<option value="definition">definition</option>
+<option value="theorem">theorem</option>
+<option value="proof">proof</option>
+</select>
+</div></div>
+<ul id="entry-list">
+<li class="entry-heading" aria-hidden="true">Concepts</li>
+<li class="active" data-type="definition" data-search="lax11.cliqueexpr k-expressions, and the graphs of cliquewidth at most k definition"><a class="entry-link" href="../lax-11/Lax11.CliqueExpr.html?v=e27a8e5259fcfd1f" data-full-title="k-expressions, and the graphs of cliquewidth at most k"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax11.CliqueExpr</span></span></a></li>
+<li data-type="theorem" data-search="lax11.connectedcomponents connected components in linear time theorem"><a class="entry-link" href="../lax-11/Lax11.ConnectedComponents.html?v=e27a8e5259fcfd1f" data-full-title="Connected components in linear time"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax11.ConnectedComponents</span></span></a></li>
+<li data-type="theorem" data-search="lax11.courcelle courcelle's theorem on a word ram theorem"><a class="entry-link" href="../lax-11/Lax11.Courcelle.html?v=e27a8e5259fcfd1f" data-full-title="Courcelle's theorem on a word RAM"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax11.Courcelle</span></span></a></li>
+<li data-type="definition" data-search="lax11.graphencoding compressed sparse row encoding of a graph definition"><a class="entry-link" href="../lax-11/Lax11.GraphEncoding.html?v=e27a8e5259fcfd1f" data-full-title="Compressed sparse row encoding of a graph"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax11.GraphEncoding</span></span></a></li>
+<li data-type="definition" data-search="lax11.instanceencoding encoding a graph together with a k-expression definition"><a class="entry-link" href="../lax-11/Lax11.InstanceEncoding.html?v=e27a8e5259fcfd1f" data-full-title="Encoding a graph together with a k-expression"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax11.InstanceEncoding</span></span></a></li>
+<li data-type="definition" data-search="lax11.mso monadic second-order logic on graphs definition"><a class="entry-link" href="../lax-11/Lax11.Mso.html?v=e27a8e5259fcfd1f" data-full-title="Monadic second-order logic on graphs"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax11.Mso</span></span></a></li>
+<li data-type="definition" data-search="lax11.vertexcover a graph with a parameter appended definition"><a class="entry-link" href="../lax-11/Lax11.VertexCover.html?v=e27a8e5259fcfd1f" data-full-title="A graph with a parameter appended"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax11.VertexCover</span></span></a></li>
+<li class="entry-heading" aria-hidden="true">Proofs</li>
+<li data-type="proof" data-search="lax11proofs.ccmain.exists_lineartime_program_cclabels proof"><a class="entry-link" href="../lax-11/Lax11Proofs.CCMain.exists_linearTime_program_ccLabels.html?v=e27a8e5259fcfd1f" data-full-title="Lax11Proofs.CCMain.exists_linearTime_program_ccLabels"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax11Proofs.CCMain.exists_linearTime_program_ccLabels</span></span></a></li>
+<li data-type="proof" data-search="lax11proofs.courcelle.exists_lineartime_program_modelchecking proof"><a class="entry-link" href="../lax-11/Lax11Proofs.Courcelle.exists_linearTime_program_modelChecking.html?v=e27a8e5259fcfd1f" data-full-title="Lax11Proofs.Courcelle.exists_linearTime_program_modelChecking"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax11Proofs.Courcelle.exists_linearTime_program_modelChecking</span></span></a></li>
+<li id="entry-list-empty" hidden>No entries match.</li>
+</ul>
+</aside>
+<section id="main"><div id="detail">
+<p class="draft-banner"><strong>Draft</strong> — mutable and not usable as a dependency; its citation marks the draft state.</p>
+<div class="detail-heading concept-heading">
+<div><p class="concept-id"><code>Lax11.CliqueExpr</code></p>
+<h1 class="concept-title">k-expressions, and the graphs of cliquewidth at most k</h1>
+<p class="concept-microline"><code>concepts/Lax11/CliqueExpr.lean</code> · <a href="index.html?v=e27a8e5259fcfd1f">lax-11</a></p></div>
+<span class="status-pills"><span class="status-pill pill-none">definition</span></span>
+</div>
+<h4 class="figure-title">Concept map</h4>
+<figure class="graph-figure concept-root-graph">
+<button class="graph-expand" type="button" data-graph-expand data-graph-label="concept map" aria-expanded="false" aria-label="Open concept map in a large window" title="Open in large window"><svg class="graph-expand-open" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M2.5 6V2.5H6M10 2.5h3.5V6M13.5 10v3.5H10M6 13.5H2.5V10"/></svg><span class="graph-expand-close" aria-hidden="true">×</span></button>
+<div class="graph-toolbar"><button type="button" id="concept-expand" aria-controls="concept-dag" aria-pressed="true">Hide ancestors</button><button type="button" id="concept-descend" aria-controls="concept-dag" aria-pressed="false">Show descendants</button><output id="concept-graph-status" aria-live="polite"></output></div>
+<div id="concept-dag" class="figure-container" data-graph="concepts" data-ancestry="true"></div>
+<div class="graph-tooltip" role="tooltip" hidden></div>
+<figcaption class="graph-legend" aria-label="Concept map legend"><span><i class="legend-node fill-proven"></i>Proven claim</span><span><i class="legend-node fill-open"></i>Open claim</span><span><i class="legend-node fill-none"></i>Definition</span><span><i class="legend-node stroke-own"></i>This concept</span><span><i class="legend-node stroke-ext"></i>Related concept</span><span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B builds on A</span></figcaption>
+</figure>
+
+<div class="block block-statement"><h3>Definition</h3><div class="latex-content"><p>A <em>k-expression</em> builds a graph from single vertices, each created with
+one of <em>k</em> labels, by three operations: disjoint union of two
+expressions; adding every edge between the vertices of one label class
+and those of another; and relabelling, which moves one label class into
+another. Evaluating an expression gives a vertex set, a graph on it,
+and the <em>k</em> label classes it has arrived at. A graph has cliquewidth at
+most <em>k</em> when some <em>k</em>-expression evaluates to it — that is the width
+measure the theorem below is stated for, and an expression for the
+graph is what the theorem takes as input.</p>
+<p>An expression is <em>valid</em> when its leaves create pairwise distinct
+vertices and every edge-adding operation joins two <em>different</em> classes;
+it is an expression <em>for</em> a graph <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi></mrow><annotation encoding="application/x-tex">G</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal">G</span></span></span></span> when in addition its leaves
+create all of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi></mrow><annotation encoding="application/x-tex">G</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal">G</span></span></span></span>'s vertices and it evaluates to exactly <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi></mrow><annotation encoding="application/x-tex">G</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal">G</span></span></span></span>'s edges.</p>
+<p>The operations of an expression are also numbered here, since the
+numbers are what a machine reading an expression is handed: the
+disjoint union is <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn></mrow><annotation encoding="application/x-tex">0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span>, creating a vertex with label <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi></mrow><annotation encoding="application/x-tex">l</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.0197em;">l</span></span></span></span> is <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>+</mo><mi>l</mi></mrow><annotation encoding="application/x-tex">1 + l</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.0197em;">l</span></span></span></span>, and
+the two binary operations occupy two further blocks of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>k</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">k²</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8141em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0315em;">k</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></span> numbers
+each, in which a pair of labels is read in base <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.0315em;">k</span></span></span></span>.</p>
+</div></div>
+<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/becb5782d64a8587b9cd3f53269c1ce35cdb1ff0/ram-linear-time/concepts/Lax11/CliqueExpr.lean">view on GitHub</a></h3>
+<p class="honesty-note">Archived source SHA-256 <code>0b6435e0d8f4a3862ee3569feb862c569cd3b34eac64e845296cdb78c60fb5e3</code> · validation capture <code>sha256:d5be21d7a829269bcbc1e8f2a00714981ae90fff770a62e1f8132d3f74f2e4a6</code> · commit <code>becb5782d64a8587b9cd3f53269c1ce35cdb1ff0</code></p>
+<div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Combinatorics.SimpleGraph.Basic</span></td></tr>
+<tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"> </td></tr>
+<tr id="L3" class=""><td class="line-num"><a href="#L3">3</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
+<tr id="L4" class=""><td class="line-num"><a href="#L4">4</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
+<tr id="L5" class=""><td class="line-num"><a href="#L5">5</a></td><td class="line-code"><span style="color:#6A737D">title: k-expressions, and the graphs of cliquewidth at most k</span></td></tr>
+<tr id="L6" class=""><td class="line-num"><a href="#L6">6</a></td><td class="line-code"><span style="color:#6A737D">type: definition</span></td></tr>
+<tr id="L7" class=""><td class="line-num"><a href="#L7">7</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
+<tr id="L8" class=""><td class="line-num"><a href="#L8">8</a></td><td class="line-code"><span style="color:#6A737D">A *k-expression* builds a graph from single vertices, each created with</span></td></tr>
+<tr id="L9" class=""><td class="line-num"><a href="#L9">9</a></td><td class="line-code"><span style="color:#6A737D">one of *k* labels, by three operations: disjoint union of two</span></td></tr>
+<tr id="L10" class=""><td class="line-num"><a href="#L10">10</a></td><td class="line-code"><span style="color:#6A737D">expressions; adding every edge between the vertices of one label class</span></td></tr>
+<tr id="L11" class=""><td class="line-num"><a href="#L11">11</a></td><td class="line-code"><span style="color:#6A737D">and those of another; and relabelling, which moves one label class into</span></td></tr>
+<tr id="L12" class=""><td class="line-num"><a href="#L12">12</a></td><td class="line-code"><span style="color:#6A737D">another. Evaluating an expression gives a vertex set, a graph on it,</span></td></tr>
+<tr id="L13" class=""><td class="line-num"><a href="#L13">13</a></td><td class="line-code"><span style="color:#6A737D">and the *k* label classes it has arrived at. A graph has cliquewidth at</span></td></tr>
+<tr id="L14" class=""><td class="line-num"><a href="#L14">14</a></td><td class="line-code"><span style="color:#6A737D">most *k* when some *k*-expression evaluates to it — that is the width</span></td></tr>
+<tr id="L15" class=""><td class="line-num"><a href="#L15">15</a></td><td class="line-code"><span style="color:#6A737D">measure the theorem below is stated for, and an expression for the</span></td></tr>
+<tr id="L16" class=""><td class="line-num"><a href="#L16">16</a></td><td class="line-code"><span style="color:#6A737D">graph is what the theorem takes as input.</span></td></tr>
+<tr id="L17" class=""><td class="line-num"><a href="#L17">17</a></td><td class="line-code"> </td></tr>
+<tr id="L18" class=""><td class="line-num"><a href="#L18">18</a></td><td class="line-code"><span style="color:#6A737D">An expression is *valid* when its leaves create pairwise distinct</span></td></tr>
+<tr id="L19" class=""><td class="line-num"><a href="#L19">19</a></td><td class="line-code"><span style="color:#6A737D">vertices and every edge-adding operation joins two *different* classes;</span></td></tr>
+<tr id="L20" class=""><td class="line-num"><a href="#L20">20</a></td><td class="line-code"><span style="color:#6A737D">it is an expression *for* a graph `G` when in addition its leaves</span></td></tr>
+<tr id="L21" class=""><td class="line-num"><a href="#L21">21</a></td><td class="line-code"><span style="color:#6A737D">create all of `G`'s vertices and it evaluates to exactly `G`'s edges.</span></td></tr>
+<tr id="L22" class=""><td class="line-num"><a href="#L22">22</a></td><td class="line-code"> </td></tr>
+<tr id="L23" class=""><td class="line-num"><a href="#L23">23</a></td><td class="line-code"><span style="color:#6A737D">The operations of an expression are also numbered here, since the</span></td></tr>
+<tr id="L24" class=""><td class="line-num"><a href="#L24">24</a></td><td class="line-code"><span style="color:#6A737D">numbers are what a machine reading an expression is handed: the</span></td></tr>
+<tr id="L25" class=""><td class="line-num"><a href="#L25">25</a></td><td class="line-code"><span style="color:#6A737D">disjoint union is `0`, creating a vertex with label `l` is `1 + l`, and</span></td></tr>
+<tr id="L26" class=""><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span style="color:#6A737D">the two binary operations occupy two further blocks of `k²` numbers</span></td></tr>
+<tr id="L27" class=""><td class="line-num"><a href="#L27">27</a></td><td class="line-code"><span style="color:#6A737D">each, in which a pair of labels is read in base `k`.</span></td></tr>
+<tr id="L28" class=""><td class="line-num"><a href="#L28">28</a></td><td class="line-code"> </td></tr>
+<tr id="L29" class=""><td class="line-num"><a href="#L29">29</a></td><td class="line-code"><span style="color:#6A737D"># Formalization notes</span></td></tr>
+<tr id="L30" class=""><td class="line-num"><a href="#L30">30</a></td><td class="line-code"> </td></tr>
+<tr id="L31" class=""><td class="line-num"><a href="#L31">31</a></td><td class="line-code"><span style="color:#6A737D">Vertices are named globally, by the leaves: a leaf carries a vertex</span></td></tr>
+<tr id="L32" class=""><td class="line-num"><a href="#L32">32</a></td><td class="line-code"><span style="color:#6A737D">name and the vertex set of a subexpression is the set of names of its</span></td></tr>
+<tr id="L33" class=""><td class="line-num"><a href="#L33">33</a></td><td class="line-code"><span style="color:#6A737D">leaves. So no node of an expression builds a fresh structure that would</span></td></tr>
+<tr id="L34" class=""><td class="line-num"><a href="#L34">34</a></td><td class="line-code"><span style="color:#6A737D">then have to be glued along an isomorphism — every subexpression</span></td></tr>
+<tr id="L35" class=""><td class="line-num"><a href="#L35">35</a></td><td class="line-code"><span style="color:#6A737D">evaluates to a subset of the same fixed vertex set, and disjoint union</span></td></tr>
+<tr id="L36" class=""><td class="line-num"><a href="#L36">36</a></td><td class="line-code"><span style="color:#6A737D">is literally union. That the two sides of a union really are disjoint</span></td></tr>
+<tr id="L37" class=""><td class="line-num"><a href="#L37">37</a></td><td class="line-code"><span style="color:#6A737D">is then a consequence of the leaf names being distinct, which is what</span></td></tr>
+<tr id="L38" class=""><td class="line-num"><a href="#L38">38</a></td><td class="line-code"><span style="color:#6A737D">validity requires; it is not built into the definition of the</span></td></tr>
+<tr id="L39" class=""><td class="line-num"><a href="#L39">39</a></td><td class="line-code"><span style="color:#6A737D">evaluation, so the evaluation stays a plain structural recursion. What</span></td></tr>
+<tr id="L40" class=""><td class="line-num"><a href="#L40">40</a></td><td class="line-code"><span style="color:#6A737D">does change from a node to its parent is the graph, since adding edges</span></td></tr>
+<tr id="L41" class=""><td class="line-num"><a href="#L41">41</a></td><td class="line-code"><span style="color:#6A737D">adds them.</span></td></tr>
+<tr id="L42" class=""><td class="line-num"><a href="#L42">42</a></td><td class="line-code"> </td></tr>
+<tr id="L43" class=""><td class="line-num"><a href="#L43">43</a></td><td class="line-code"><span style="color:#6A737D">The label classes are sets of vertices rather than a colouring</span></td></tr>
+<tr id="L44" class=""><td class="line-num"><a href="#L44">44</a></td><td class="line-code"><span style="color:#6A737D">function. That they are pairwise disjoint and cover the vertex set is a</span></td></tr>
+<tr id="L45" class=""><td class="line-num"><a href="#L45">45</a></td><td class="line-code"><span style="color:#6A737D">theorem about valid expressions, not a clause of the definition — the</span></td></tr>
+<tr id="L46" class=""><td class="line-num"><a href="#L46">46</a></td><td class="line-code"><span style="color:#6A737D">fewer conditions the definition imposes, the less there is to check</span></td></tr>
+<tr id="L47" class=""><td class="line-num"><a href="#L47">47</a></td><td class="line-code"><span style="color:#6A737D">against a paper.</span></td></tr>
+<tr id="L48" class=""><td class="line-num"><a href="#L48">48</a></td><td class="line-code"> </td></tr>
+<tr id="L49" class=""><td class="line-num"><a href="#L49">49</a></td><td class="line-code"><span style="color:#6A737D">Everything computes: vertex sets and label classes are finite sets, the</span></td></tr>
+<tr id="L50" class=""><td class="line-num"><a href="#L50">50</a></td><td class="line-code"><span style="color:#6A737D">well-formedness test is a Boolean, and the evaluated graph has a</span></td></tr>
+<tr id="L51" class=""><td class="line-num"><a href="#L51">51</a></td><td class="line-code"><span style="color:#6A737D">decidable adjacency relation given by the same recursion, so a</span></td></tr>
+<tr id="L52" class=""><td class="line-num"><a href="#L52">52</a></td><td class="line-code"><span style="color:#6A737D">hand-written expression can be evaluated and its edges compared with a</span></td></tr>
+<tr id="L53" class=""><td class="line-num"><a href="#L53">53</a></td><td class="line-code"><span style="color:#6A737D">graph by computation rather than by hand.</span></td></tr>
+<tr id="L54" class=""><td class="line-num"><a href="#L54">54</a></td><td class="line-code"> </td></tr>
+<tr id="L55" class=""><td class="line-num"><a href="#L55">55</a></td><td class="line-code"><span style="color:#6A737D">The requirement that edge addition joins two different classes is part</span></td></tr>
+<tr id="L56" class=""><td class="line-num"><a href="#L56">56</a></td><td class="line-code"><span style="color:#6A737D">of validity rather than of the constructor, so that an expression is</span></td></tr>
+<tr id="L57" class=""><td class="line-num"><a href="#L57">57</a></td><td class="line-code"><span style="color:#6A737D">plain data with no proof carried inside it. Nothing in the mathematics</span></td></tr>
+<tr id="L58" class=""><td class="line-num"><a href="#L58">58</a></td><td class="line-code"><span style="color:#6A737D">needs it; it is there because it is part of the standard definition of</span></td></tr>
+<tr id="L59" class=""><td class="line-num"><a href="#L59">59</a></td><td class="line-code"><span style="color:#6A737D">cliquewidth, and leaving it out would silently claim the theorem for a</span></td></tr>
+<tr id="L60" class=""><td class="line-num"><a href="#L60">60</a></td><td class="line-code"><span style="color:#6A737D">larger class of graphs than the name denotes. Relabelling tests for the</span></td></tr>
+<tr id="L61" class=""><td class="line-num"><a href="#L61">61</a></td><td class="line-code"><span style="color:#6A737D">target class before the source class, so that relabelling a class into</span></td></tr>
+<tr id="L62" class=""><td class="line-num"><a href="#L62">62</a></td><td class="line-code"><span style="color:#6A737D">itself is the identity rather than an operation that empties it.</span></td></tr>
+<tr id="L63" class=""><td class="line-num"><a href="#L63">63</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
+<tr id="L64" class=""><td class="line-num"><a href="#L64">64</a></td><td class="line-code"> </td></tr>
+<tr id="L65" class=""><td class="line-num"><a href="#L65">65</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax11.CliqueExpr</span></td></tr>
+<tr id="L66" class=""><td class="line-num"><a href="#L66">66</a></td><td class="line-code"> </td></tr>
+<tr id="L67" class=""><td class="line-num"><a href="#L67">67</a></td><td class="line-code"><span style="color:#D73A49">variable</span><span style="color:#24292E"> {n k : ℕ}</span></td></tr>
+<tr id="L68" class=""><td class="line-num"><a href="#L68">68</a></td><td class="line-code"> </td></tr>
+<tr id="L69" class=""><td class="line-num"><a href="#L69">69</a></td><td class="line-code"><span style="color:#6A737D">/-- A `k`-expression over the vertex names `Fin n`: a single labelled</span></td></tr>
+<tr id="L70" class=""><td class="line-num"><a href="#L70">70</a></td><td class="line-code"><span style="color:#6A737D">vertex, disjoint union, edge addition between two label classes, or</span></td></tr>
+<tr id="L71" class=""><td class="line-num"><a href="#L71">71</a></td><td class="line-code"><span style="color:#6A737D">relabelling one class into another. -/</span></td></tr>
+<tr id="L72" class=""><td class="line-num"><a href="#L72">72</a></td><td class="line-code"><span style="color:#D73A49">inductive</span><span style="color:#6F42C1"> Expr</span><span style="color:#24292E"> (n k : ℕ) : </span><span style="color:#D73A49">Type</span></td></tr>
+<tr id="L73" class=""><td class="line-num"><a href="#L73">73</a></td><td class="line-code"><span style="color:#6A737D">  /-- The vertex `v`, carrying label `l`. -/</span></td></tr>
+<tr id="L74" class=""><td class="line-num"><a href="#L74">74</a></td><td class="line-code"><span style="color:#24292E">  | leaf (v : Fin n) (l : Fin k)</span></td></tr>
+<tr id="L75" class=""><td class="line-num"><a href="#L75">75</a></td><td class="line-code"><span style="color:#6A737D">  /-- Disjoint union `⊕`. -/</span></td></tr>
+<tr id="L76" class=""><td class="line-num"><a href="#L76">76</a></td><td class="line-code"><span style="color:#24292E">  | union (e₁ e₂ : Expr n k)</span></td></tr>
+<tr id="L77" class=""><td class="line-num"><a href="#L77">77</a></td><td class="line-code"><span style="color:#6A737D">  /-- `η i j`: join every vertex of class `i` to every vertex of class `j`. -/</span></td></tr>
+<tr id="L78" class=""><td class="line-num"><a href="#L78">78</a></td><td class="line-code"><span style="color:#24292E">  | addEdges (i j : Fin k) (e : Expr n k)</span></td></tr>
+<tr id="L79" class=""><td class="line-num"><a href="#L79">79</a></td><td class="line-code"><span style="color:#6A737D">  /-- `ρ i j`: move class `i` into class `j`. -/</span></td></tr>
+<tr id="L80" class=""><td class="line-num"><a href="#L80">80</a></td><td class="line-code"><span style="color:#24292E">  | relabel (i j : Fin k) (e : Expr n k)</span></td></tr>
+<tr id="L81" class=""><td class="line-num"><a href="#L81">81</a></td><td class="line-code"> </td></tr>
+<tr id="L82" class=""><td class="line-num"><a href="#L82">82</a></td><td class="line-code"><span style="color:#6A737D">/-- The vertex names created by the leaves, in order. -/</span></td></tr>
+<tr id="L83" class=""><td class="line-num"><a href="#L83">83</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> leafIds</span><span style="color:#24292E"> : Expr n k → List (Fin n)</span></td></tr>
+<tr id="L84" class=""><td class="line-num"><a href="#L84">84</a></td><td class="line-code"><span style="color:#24292E">  | .leaf v _ =&gt; [v]</span></td></tr>
+<tr id="L85" class=""><td class="line-num"><a href="#L85">85</a></td><td class="line-code"><span style="color:#24292E">  | .union e₁ e₂ =&gt; leafIds e₁ ++ leafIds e₂</span></td></tr>
+<tr id="L86" class=""><td class="line-num"><a href="#L86">86</a></td><td class="line-code"><span style="color:#24292E">  | .addEdges _ _ e =&gt; leafIds e</span></td></tr>
+<tr id="L87" class=""><td class="line-num"><a href="#L87">87</a></td><td class="line-code"><span style="color:#24292E">  | .relabel _ _ e =&gt; leafIds e</span></td></tr>
+<tr id="L88" class=""><td class="line-num"><a href="#L88">88</a></td><td class="line-code"> </td></tr>
+<tr id="L89" class=""><td class="line-num"><a href="#L89">89</a></td><td class="line-code"><span style="color:#6A737D">/-- The vertex set of an expression. -/</span></td></tr>
+<tr id="L90" class=""><td class="line-num"><a href="#L90">90</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> verts</span><span style="color:#24292E"> : Expr n k → Finset (Fin n)</span></td></tr>
+<tr id="L91" class=""><td class="line-num"><a href="#L91">91</a></td><td class="line-code"><span style="color:#24292E">  | .leaf v _ =&gt; {v}</span></td></tr>
+<tr id="L92" class=""><td class="line-num"><a href="#L92">92</a></td><td class="line-code"><span style="color:#24292E">  | .union e₁ e₂ =&gt; verts e₁ ∪ verts e₂</span></td></tr>
+<tr id="L93" class=""><td class="line-num"><a href="#L93">93</a></td><td class="line-code"><span style="color:#24292E">  | .addEdges _ _ e =&gt; verts e</span></td></tr>
+<tr id="L94" class=""><td class="line-num"><a href="#L94">94</a></td><td class="line-code"><span style="color:#24292E">  | .relabel _ _ e =&gt; verts e</span></td></tr>
+<tr id="L95" class=""><td class="line-num"><a href="#L95">95</a></td><td class="line-code"> </td></tr>
+<tr id="L96" class=""><td class="line-num"><a href="#L96">96</a></td><td class="line-code"><span style="color:#6A737D">/-- The label classes of an expression: `cls e i` is the set of vertices</span></td></tr>
+<tr id="L97" class=""><td class="line-num"><a href="#L97">97</a></td><td class="line-code"><span style="color:#6A737D">of `e` currently carrying label `i`. -/</span></td></tr>
+<tr id="L98" class=""><td class="line-num"><a href="#L98">98</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> cls</span><span style="color:#24292E"> : Expr n k → Fin k → Finset (Fin n)</span></td></tr>
+<tr id="L99" class=""><td class="line-num"><a href="#L99">99</a></td><td class="line-code"><span style="color:#24292E">  | .leaf v l, i =&gt; </span><span style="color:#D73A49">if</span><span style="color:#24292E"> i = l </span><span style="color:#D73A49">then</span><span style="color:#24292E"> {v} </span><span style="color:#D73A49">else</span><span style="color:#24292E"> ∅</span></td></tr>
+<tr id="L100" class=""><td class="line-num"><a href="#L100">100</a></td><td class="line-code"><span style="color:#24292E">  | .union e₁ e₂, i =&gt; cls e₁ i ∪ cls e₂ i</span></td></tr>
+<tr id="L101" class=""><td class="line-num"><a href="#L101">101</a></td><td class="line-code"><span style="color:#24292E">  | .addEdges _ _ e, i =&gt; cls e i</span></td></tr>
+<tr id="L102" class=""><td class="line-num"><a href="#L102">102</a></td><td class="line-code"><span style="color:#24292E">  | .relabel i j e, t =&gt; </span><span style="color:#D73A49">if</span><span style="color:#24292E"> t = j </span><span style="color:#D73A49">then</span><span style="color:#24292E"> cls e i ∪ cls e j </span><span style="color:#D73A49">else</span><span style="color:#D73A49"> if</span><span style="color:#24292E"> t = i </span><span style="color:#D73A49">then</span><span style="color:#24292E"> ∅ </span><span style="color:#D73A49">else</span><span style="color:#24292E"> cls e t</span></td></tr>
+<tr id="L103" class=""><td class="line-num"><a href="#L103">103</a></td><td class="line-code"> </td></tr>
+<tr id="L104" class=""><td class="line-num"><a href="#L104">104</a></td><td class="line-code"><span style="color:#6A737D">/-- The graph an expression evaluates to. -/</span></td></tr>
+<tr id="L105" class=""><td class="line-num"><a href="#L105">105</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> graph</span><span style="color:#24292E"> : Expr n k → SimpleGraph (Fin n)</span></td></tr>
+<tr id="L106" class=""><td class="line-num"><a href="#L106">106</a></td><td class="line-code"><span style="color:#24292E">  | .leaf _ _ =&gt; ⊥</span></td></tr>
+<tr id="L107" class=""><td class="line-num"><a href="#L107">107</a></td><td class="line-code"><span style="color:#24292E">  | .union e₁ e₂ =&gt; graph e₁ ⊔ graph e₂</span></td></tr>
+<tr id="L108" class=""><td class="line-num"><a href="#L108">108</a></td><td class="line-code"><span style="color:#24292E">  | .addEdges i j e =&gt; graph e ⊔ SimpleGraph.fromRel </span><span style="color:#D73A49">fun</span><span style="color:#24292E"> u v =&gt; u ∈ cls e i ∧ v ∈ cls e j</span></td></tr>
+<tr id="L109" class=""><td class="line-num"><a href="#L109">109</a></td><td class="line-code"><span style="color:#24292E">  | .relabel _ _ e =&gt; graph e</span></td></tr>
+<tr id="L110" class=""><td class="line-num"><a href="#L110">110</a></td><td class="line-code"> </td></tr>
+<tr id="L111" class=""><td class="line-num"><a href="#L111">111</a></td><td class="line-code"><span style="color:#6A737D">/-- The evaluated graph has a decidable adjacency relation, by the same</span></td></tr>
+<tr id="L112" class=""><td class="line-num"><a href="#L112">112</a></td><td class="line-code"><span style="color:#6A737D">structural recursion. -/</span></td></tr>
+<tr id="L113" class=""><td class="line-num"><a href="#L113">113</a></td><td class="line-code"><span style="color:#D73A49">instance</span><span style="color:#6F42C1"> decidableAdj</span><span style="color:#24292E"> : ∀ e : Expr n k, DecidableRel (graph e).Adj</span></td></tr>
+<tr id="L114" class=""><td class="line-num"><a href="#L114">114</a></td><td class="line-code"><span style="color:#24292E">  | .leaf _ _ =&gt; inferInstanceAs (DecidableRel (⊥ : SimpleGraph (Fin n)).Adj)</span></td></tr>
+<tr id="L115" class=""><td class="line-num"><a href="#L115">115</a></td><td class="line-code"><span style="color:#24292E">  | .union e₁ e₂ =&gt;</span></td></tr>
+<tr id="L116" class=""><td class="line-num"><a href="#L116">116</a></td><td class="line-code"><span style="color:#D73A49">      have</span><span style="color:#24292E"> := decidableAdj e₁</span></td></tr>
+<tr id="L117" class=""><td class="line-num"><a href="#L117">117</a></td><td class="line-code"><span style="color:#D73A49">      have</span><span style="color:#24292E"> := decidableAdj e₂</span></td></tr>
+<tr id="L118" class=""><td class="line-num"><a href="#L118">118</a></td><td class="line-code"><span style="color:#24292E">      inferInstanceAs (DecidableRel (graph e₁ ⊔ graph e₂).Adj)</span></td></tr>
+<tr id="L119" class=""><td class="line-num"><a href="#L119">119</a></td><td class="line-code"><span style="color:#24292E">  | .addEdges i j e =&gt;</span></td></tr>
+<tr id="L120" class=""><td class="line-num"><a href="#L120">120</a></td><td class="line-code"><span style="color:#D73A49">      have</span><span style="color:#24292E"> := decidableAdj e</span></td></tr>
+<tr id="L121" class=""><td class="line-num"><a href="#L121">121</a></td><td class="line-code"><span style="color:#24292E">      inferInstanceAs (DecidableRel</span></td></tr>
+<tr id="L122" class=""><td class="line-num"><a href="#L122">122</a></td><td class="line-code"><span style="color:#24292E">        (graph e ⊔ SimpleGraph.fromRel </span><span style="color:#D73A49">fun</span><span style="color:#24292E"> u v =&gt; u ∈ cls e i ∧ v ∈ cls e j).Adj)</span></td></tr>
+<tr id="L123" class=""><td class="line-num"><a href="#L123">123</a></td><td class="line-code"><span style="color:#24292E">  | .relabel _ _ e =&gt; decidableAdj e</span></td></tr>
+<tr id="L124" class=""><td class="line-num"><a href="#L124">124</a></td><td class="line-code"> </td></tr>
+<tr id="L125" class=""><td class="line-num"><a href="#L125">125</a></td><td class="line-code"><span style="color:#6A737D">/-- Well-formedness of the operations: `addEdges` joins two *different*</span></td></tr>
+<tr id="L126" class=""><td class="line-num"><a href="#L126">126</a></td><td class="line-code"><span style="color:#6A737D">classes, the standard restriction on `η`. -/</span></td></tr>
+<tr id="L127" class=""><td class="line-num"><a href="#L127">127</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> opsOk</span><span style="color:#24292E"> : Expr n k → Bool</span></td></tr>
+<tr id="L128" class=""><td class="line-num"><a href="#L128">128</a></td><td class="line-code"><span style="color:#24292E">  | .leaf _ _ =&gt; </span><span style="color:#005CC5">true</span></td></tr>
+<tr id="L129" class=""><td class="line-num"><a href="#L129">129</a></td><td class="line-code"><span style="color:#24292E">  | .union e₁ e₂ =&gt; opsOk e₁ &amp;&amp; opsOk e₂</span></td></tr>
+<tr id="L130" class=""><td class="line-num"><a href="#L130">130</a></td><td class="line-code"><span style="color:#24292E">  | .addEdges i j e =&gt; (i != j) &amp;&amp; opsOk e</span></td></tr>
+<tr id="L131" class=""><td class="line-num"><a href="#L131">131</a></td><td class="line-code"><span style="color:#24292E">  | .relabel _ _ e =&gt; opsOk e</span></td></tr>
+<tr id="L132" class=""><td class="line-num"><a href="#L132">132</a></td><td class="line-code"> </td></tr>
+<tr id="L133" class=""><td class="line-num"><a href="#L133">133</a></td><td class="line-code"><span style="color:#6A737D">/-- A valid expression: the leaves create pairwise distinct vertices —</span></td></tr>
+<tr id="L134" class=""><td class="line-num"><a href="#L134">134</a></td><td class="line-code"><span style="color:#6A737D">which is what makes the two sides of every `⊕` disjoint — and the</span></td></tr>
+<tr id="L135" class=""><td class="line-num"><a href="#L135">135</a></td><td class="line-code"><span style="color:#6A737D">operations are well formed. -/</span></td></tr>
+<tr id="L136" class=""><td class="line-num"><a href="#L136">136</a></td><td class="line-code"><span style="color:#D73A49">structure</span><span style="color:#6F42C1"> Valid</span><span style="color:#24292E"> (e : Expr n k) : </span><span style="color:#D73A49">Prop</span><span style="color:#D73A49"> where</span></td></tr>
+<tr id="L137" class=""><td class="line-num"><a href="#L137">137</a></td><td class="line-code"><span style="color:#6A737D">  /-- No vertex name is created twice. -/</span></td></tr>
+<tr id="L138" class=""><td class="line-num"><a href="#L138">138</a></td><td class="line-code"><span style="color:#24292E">  nodup : (leafIds e).Nodup</span></td></tr>
+<tr id="L139" class=""><td class="line-num"><a href="#L139">139</a></td><td class="line-code"><span style="color:#6A737D">  /-- Every `addEdges` joins two different classes. -/</span></td></tr>
+<tr id="L140" class=""><td class="line-num"><a href="#L140">140</a></td><td class="line-code"><span style="color:#24292E">  ops : opsOk e = </span><span style="color:#005CC5">true</span></td></tr>
+<tr id="L141" class=""><td class="line-num"><a href="#L141">141</a></td><td class="line-code"> </td></tr>
+<tr id="L142" class=""><td class="line-num"><a href="#L142">142</a></td><td class="line-code"><span style="color:#6A737D">/-- A `k`-expression *for* `G`: valid, and at the root it has created</span></td></tr>
+<tr id="L143" class=""><td class="line-num"><a href="#L143">143</a></td><td class="line-code"><span style="color:#6A737D">every vertex and exactly the edges of `G`. -/</span></td></tr>
+<tr id="L144" class=""><td class="line-num"><a href="#L144">144</a></td><td class="line-code"><span style="color:#D73A49">structure</span><span style="color:#6F42C1"> ValidFor</span><span style="color:#24292E"> (e : Expr n k) (G : SimpleGraph (Fin n)) : </span><span style="color:#D73A49">Prop</span><span style="color:#D73A49"> extends</span><span style="color:#24292E"> Valid e </span><span style="color:#D73A49">where</span></td></tr>
+<tr id="L145" class=""><td class="line-num"><a href="#L145">145</a></td><td class="line-code"><span style="color:#6A737D">  /-- The root creates every vertex. -/</span></td></tr>
+<tr id="L146" class=""><td class="line-num"><a href="#L146">146</a></td><td class="line-code"><span style="color:#24292E">  verts_eq : verts e = Finset.univ</span></td></tr>
+<tr id="L147" class=""><td class="line-num"><a href="#L147">147</a></td><td class="line-code"><span style="color:#6A737D">  /-- The root evaluates to `G`. -/</span></td></tr>
+<tr id="L148" class=""><td class="line-num"><a href="#L148">148</a></td><td class="line-code"><span style="color:#24292E">  graph_eq : graph e = G</span></td></tr>
+<tr id="L149" class=""><td class="line-num"><a href="#L149">149</a></td><td class="line-code"> </td></tr>
+<tr id="L150" class=""><td class="line-num"><a href="#L150">150</a></td><td class="line-code"><span style="color:#6A737D">/-- The operation performed at a node of a `k`-expression. -/</span></td></tr>
+<tr id="L151" class=""><td class="line-num"><a href="#L151">151</a></td><td class="line-code"><span style="color:#D73A49">inductive</span><span style="color:#6F42C1"> Op</span><span style="color:#24292E"> (k : ℕ) </span><span style="color:#D73A49">where</span></td></tr>
+<tr id="L152" class=""><td class="line-num"><a href="#L152">152</a></td><td class="line-code"><span style="color:#6A737D">  /-- Disjoint union. -/</span></td></tr>
+<tr id="L153" class=""><td class="line-num"><a href="#L153">153</a></td><td class="line-code"><span style="color:#24292E">  | union</span></td></tr>
+<tr id="L154" class=""><td class="line-num"><a href="#L154">154</a></td><td class="line-code"><span style="color:#6A737D">  /-- Create a vertex with label `l`. -/</span></td></tr>
+<tr id="L155" class=""><td class="line-num"><a href="#L155">155</a></td><td class="line-code"><span style="color:#24292E">  | leaf (l : Fin k)</span></td></tr>
+<tr id="L156" class=""><td class="line-num"><a href="#L156">156</a></td><td class="line-code"><span style="color:#6A737D">  /-- `η i j`: join class `i` to class `j`. -/</span></td></tr>
+<tr id="L157" class=""><td class="line-num"><a href="#L157">157</a></td><td class="line-code"><span style="color:#24292E">  | eta (i j : Fin k)</span></td></tr>
+<tr id="L158" class=""><td class="line-num"><a href="#L158">158</a></td><td class="line-code"><span style="color:#6A737D">  /-- `ρ i j`: move class `i` into class `j`. -/</span></td></tr>
+<tr id="L159" class=""><td class="line-num"><a href="#L159">159</a></td><td class="line-code"><span style="color:#24292E">  | rho (i j : Fin k)</span></td></tr>
+<tr id="L160" class=""><td class="line-num"><a href="#L160">160</a></td><td class="line-code"><span style="color:#D73A49">  deriving</span><span style="color:#24292E"> DecidableEq</span></td></tr>
+<tr id="L161" class=""><td class="line-num"><a href="#L161">161</a></td><td class="line-code"> </td></tr>
+<tr id="L162" class=""><td class="line-num"><a href="#L162">162</a></td><td class="line-code"><span style="color:#6A737D">/-- The number naming an operation. The blocks are `union` (one code),</span></td></tr>
+<tr id="L163" class=""><td class="line-num"><a href="#L163">163</a></td><td class="line-code"><span style="color:#6A737D">the leaves (`k` codes), the joins and the relabels (`k²` codes each,</span></td></tr>
+<tr id="L164" class=""><td class="line-num"><a href="#L164">164</a></td><td class="line-code"><span style="color:#6A737D">the pair `(i, j)` read in base `k`). -/</span></td></tr>
+<tr id="L165" class=""><td class="line-num"><a href="#L165">165</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> Op.code</span><span style="color:#24292E"> : Op k → ℕ</span></td></tr>
+<tr id="L166" class=""><td class="line-num"><a href="#L166">166</a></td><td class="line-code"><span style="color:#24292E">  | .union =&gt; </span><span style="color:#005CC5">0</span></td></tr>
+<tr id="L167" class=""><td class="line-num"><a href="#L167">167</a></td><td class="line-code"><span style="color:#24292E">  | .leaf l =&gt; </span><span style="color:#005CC5">1</span><span style="color:#24292E"> + (l : ℕ)</span></td></tr>
+<tr id="L168" class=""><td class="line-num"><a href="#L168">168</a></td><td class="line-code"><span style="color:#24292E">  | .eta i j =&gt; </span><span style="color:#005CC5">1</span><span style="color:#24292E"> + k + ((i : ℕ) * k + (j : ℕ))</span></td></tr>
+<tr id="L169" class=""><td class="line-num"><a href="#L169">169</a></td><td class="line-code"><span style="color:#24292E">  | .rho i j =&gt; </span><span style="color:#005CC5">1</span><span style="color:#24292E"> + k + k * k + ((i : ℕ) * k + (j : ℕ))</span></td></tr>
+<tr id="L170" class=""><td class="line-num"><a href="#L170">170</a></td><td class="line-code"> </td></tr>
+<tr id="L171" class=""><td class="line-num"><a href="#L171">171</a></td><td class="line-code"><span style="color:#6A737D">/-- The size of the operation alphabet. -/</span></td></tr>
+<tr id="L172" class=""><td class="line-num"><a href="#L172">172</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> opCard</span><span style="color:#24292E"> (k : ℕ) : ℕ := </span><span style="color:#005CC5">1</span><span style="color:#24292E"> + k + </span><span style="color:#005CC5">2</span><span style="color:#24292E"> * (k * k)</span></td></tr>
+<tr id="L173" class=""><td class="line-num"><a href="#L173">173</a></td><td class="line-code"> </td></tr>
+<tr id="L174" class=""><td class="line-num"><a href="#L174">174</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax11.CliqueExpr</span></td></tr>
+<tr id="L175" class=""><td class="line-num"><a href="#L175">175</a></td><td class="line-code"> </td></tr>
+</table></div></div></div>
+<div class="block"><h3>Formalization notes</h3><div class="latex-content"><p>Vertices are named globally, by the leaves: a leaf carries a vertex
+name and the vertex set of a subexpression is the set of names of its
+leaves. So no node of an expression builds a fresh structure that would
+then have to be glued along an isomorphism — every subexpression
+evaluates to a subset of the same fixed vertex set, and disjoint union
+is literally union. That the two sides of a union really are disjoint
+is then a consequence of the leaf names being distinct, which is what
+validity requires; it is not built into the definition of the
+evaluation, so the evaluation stays a plain structural recursion. What
+does change from a node to its parent is the graph, since adding edges
+adds them.</p>
+<p>The label classes are sets of vertices rather than a colouring
+function. That they are pairwise disjoint and cover the vertex set is a
+theorem about valid expressions, not a clause of the definition — the
+fewer conditions the definition imposes, the less there is to check
+against a paper.</p>
+<p>Everything computes: vertex sets and label classes are finite sets, the
+well-formedness test is a Boolean, and the evaluated graph has a
+decidable adjacency relation given by the same recursion, so a
+hand-written expression can be evaluated and its edges compared with a
+graph by computation rather than by hand.</p>
+<p>The requirement that edge addition joins two different classes is part
+of validity rather than of the constructor, so that an expression is
+plain data with no proof carried inside it. Nothing in the mathematics
+needs it; it is there because it is part of the standard definition of
+cliquewidth, and leaving it out would silently claim the theorem for a
+larger class of graphs than the name denotes. Relabelling tests for the
+target class before the source class, so that relabelling a class into
+itself is the identity rather than an operation that empties it.</p>
+</div></div>
+<div class="block"><div class="deps-columns">
+<div class="deps-col"><h3>Builds on</h3><p class="empty-note">none</p></div>
+<div class="deps-col"><h3>Used by</h3><ul class="deps-list"><li><a href="../lax-11/Lax11.InstanceEncoding.html?v=e27a8e5259fcfd1f"><code>Lax11.InstanceEncoding</code></a></li></ul></div>
+<div class="deps-col"><h3>From Mathlib</h3><ul class="deps-list"><li><a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Basic.html"><code>Mathlib.Combinatorics.SimpleGraph.Basic</code></a></li></ul></div>
+</div></div>
+<script type="application/json" id="graph-data">{"concepts":{"nodes":[{"id":"Lax11.CliqueExpr","href":"../lax-11/Lax11.CliqueExpr.html?v=e27a8e5259fcfd1f","title":"k-expressions, and the graphs of cliquewidth at most k","owner":"lax-11","status":"none","ext":false,"dir":"core"},{"id":"Lax11.Courcelle","href":"../lax-11/Lax11.Courcelle.html?v=e27a8e5259fcfd1f","title":"Courcelle's theorem on a word RAM","owner":"lax-11","status":"proven","ext":true,"dir":"down"},{"id":"Lax11.InstanceEncoding","href":"../lax-11/Lax11.InstanceEncoding.html?v=e27a8e5259fcfd1f","title":"Encoding a graph together with a k-expression","owner":"lax-11","status":"none","ext":true,"dir":"down"}],"edges":[{"from":"Lax11.InstanceEncoding","to":"Lax11.Courcelle"},{"from":"Lax11.CliqueExpr","to":"Lax11.InstanceEncoding"}],"home":"lax-11"},"proofs":{"statements":[],"proofs":[]}}</script>
+</div></section>
+</main>
+<script src="../assets/sidebar.js?v=81d80ace468c"></script>
+<script src="../assets/layout.js?v=1089ce8aae63"></script>
+<script src="../assets/dag.js?v=2a0b2e1bec54"></script>
+<script src="../assets/source-proof.js?v=177673148a07"></script>
+</body></html>

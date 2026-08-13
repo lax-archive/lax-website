@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src https: data:; font-src 'self'">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Lax — an archive of formalized mathematical concepts and their proofs">
+<title>Lax51Proofs.TuringRamEquivalence.ramComputable_iff_computable — lax-51</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
+<link rel="stylesheet" href="../assets/style.css?v=041126becced">
+</head><body>
+<header class="site-header">
+  <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
+  <h1 class="site-title"><a href="../index.html">Lax <span class="site-title-quiet">Lean Archive</span></a></h1>
+</header>
+<main id="content-shell">
+<div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+<aside id="sidebar">
+<a class="sidebar-back" href="../lax-51/index.html?v=e27a8e5259fcfd1f"><span class="sidebar-back-arrow" aria-hidden="true">←</span>lax-51</a>
+<div class="sidebar-filters"><div class="filter-group">
+<label for="filter-search">Search</label>
+<input id="filter-search" class="filter-input" type="search" placeholder="Filter entries" aria-controls="entry-list">
+</div>
+<div class="filter-group">
+<label for="filter-type">Type</label>
+<select id="filter-type" class="filter-select">
+<option value="all">All types</option>
+<option value="definition">definition</option>
+<option value="theorem">theorem</option>
+<option value="proof">proof</option>
+</select>
+</div></div>
+<ul id="entry-list">
+<li class="entry-heading" aria-hidden="true">Concepts</li>
+<li data-type="definition" data-search="lax51.binarywordencoding binary encoding of finite words definition"><a class="entry-link" href="../lax-51/Lax51.BinaryWordEncoding.html?v=e27a8e5259fcfd1f" data-full-title="Binary encoding of finite words"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax51.BinaryWordEncoding</span></span></a></li>
+<li data-type="definition" data-search="lax51.rampolytime polynomial-time computation by a word ram definition"><a class="entry-link" href="../lax-51/Lax51.RamPolytime.html?v=e27a8e5259fcfd1f" data-full-title="Polynomial-time computation by a word RAM"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax51.RamPolytime</span></span></a></li>
+<li data-type="theorem" data-search="lax51.ramtoturinggenerictime generic-time simulation of word rams by turing machines theorem"><a class="entry-link" href="../lax-51/Lax51.RamToTuringGenericTime.html?v=e27a8e5259fcfd1f" data-full-title="Generic-time simulation of word RAMs by Turing machines"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax51.RamToTuringGenericTime</span></span></a></li>
+<li data-type="definition" data-search="lax51.turingpolytime polynomial-time computation by a turing machine definition"><a class="entry-link" href="../lax-51/Lax51.TuringPolytime.html?v=e27a8e5259fcfd1f" data-full-title="Polynomial-time computation by a Turing machine"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax51.TuringPolytime</span></span></a></li>
+<li data-type="theorem" data-search="lax51.turingramequivalence equivalence of turing machines and word rams theorem"><a class="entry-link" href="../lax-51/Lax51.TuringRamEquivalence.html?v=e27a8e5259fcfd1f" data-full-title="Equivalence of Turing machines and word RAMs"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax51.TuringRamEquivalence</span></span></a></li>
+<li data-type="theorem" data-search="lax51.turingrampolytimeequivalence polynomial-time equivalence of turing machines and word rams theorem"><a class="entry-link" href="../lax-51/Lax51.TuringRamPolytimeEquivalence.html?v=e27a8e5259fcfd1f" data-full-title="Polynomial-time equivalence of Turing machines and word RAMs"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax51.TuringRamPolytimeEquivalence</span></span></a></li>
+<li data-type="theorem" data-search="lax51.turingtoramgenerictime generic-time simulation of turing machines by word rams theorem"><a class="entry-link" href="../lax-51/Lax51.TuringToRamGenericTime.html?v=e27a8e5259fcfd1f" data-full-title="Generic-time simulation of Turing machines by word RAMs"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax51.TuringToRamGenericTime</span></span></a></li>
+<li class="entry-heading" aria-hidden="true">Proofs</li>
+<li data-type="proof" data-search="lax51proofs.generictimesimulation.ramintime_to_turinginpolynomialoverhead proof"><a class="entry-link" href="../lax-51/Lax51Proofs.GenericTimeSimulation.ramInTime_to_turingInPolynomialOverhead.html?v=e27a8e5259fcfd1f" data-full-title="Lax51Proofs.GenericTimeSimulation.ramInTime_to_turingInPolynomialOverhead"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax51Proofs.GenericTimeSimulation.ramInTime_to_turingInPolynomialOverhead</span></span></a></li>
+<li data-type="proof" data-search="lax51proofs.generictimesimulation.turingwithinputtime_to_raminpolynomialoverhead proof"><a class="entry-link" href="../lax-51/Lax51Proofs.GenericTimeSimulation.turingWithInputTime_to_ramInPolynomialOverhead.html?v=e27a8e5259fcfd1f" data-full-title="Lax51Proofs.GenericTimeSimulation.turingWithInputTime_to_ramInPolynomialOverhead"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax51Proofs.GenericTimeSimulation.turingWithInputTime_to_ramInPolynomialOverhead</span></span></a></li>
+<li class="active" data-type="proof" data-search="lax51proofs.turingramequivalence.ramcomputable_iff_computable proof"><a class="entry-link" href="../lax-51/Lax51Proofs.TuringRamEquivalence.ramComputable_iff_computable.html?v=e27a8e5259fcfd1f" data-full-title="Lax51Proofs.TuringRamEquivalence.ramComputable_iff_computable"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax51Proofs.TuringRamEquivalence.ramComputable_iff_computable</span></span></a></li>
+<li data-type="proof" data-search="lax51proofs.turingrampolytimeequivalence.rampolytime_iff_turingpolytime proof"><a class="entry-link" href="../lax-51/Lax51Proofs.TuringRamPolytimeEquivalence.ramPolytime_iff_turingPolytime.html?v=e27a8e5259fcfd1f" data-full-title="Lax51Proofs.TuringRamPolytimeEquivalence.ramPolytime_iff_turingPolytime"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax51Proofs.TuringRamPolytimeEquivalence.ramPolytime_iff_turingPolytime</span></span></a></li>
+<li id="entry-list-empty" hidden>No entries match.</li>
+</ul>
+</aside>
+<section id="main"><div id="detail">
+<p class="draft-banner"><strong>Draft</strong> — mutable and not usable as a dependency; its citation marks the draft state.</p>
+<div class="detail-heading concept-heading proof-heading">
+<div class="proof-heading-content"><h1 class="concept-title">Proof of <span class="proof-concept-title">`Equivalence of Turing machines and word RAMs`</span></h1>
+<p class="concept-microline proof-microline"><span class="status-pills"><span class="status-pill pill-proven" tabindex="0" data-tooltip="No open assumptions remain in the archive: every dependency is backed by a checked proof, ultimately reducing to Lean and Mathlib." aria-label="Grounded. No open assumptions remain in the archive: every dependency is backed by a checked proof, ultimately reducing to Lean and Mathlib.">grounded</span></span><span><a href="https://github.com/szymtor/RAM-TM/blob/4f6c21aae81fbe8d1233d3ae8358b82b110549b9/proofs/Lax51Proofs/TuringRamEquivalence.lean"><code>proofs/Lax51Proofs/TuringRamEquivalence.lean</code></a> · <a href="index.html?v=e27a8e5259fcfd1f">lax-51</a></span></p></div>
+</div>
+<div class="block block-evidence"><h3>What this proof establishes</h3>
+<div class="judgment">
+<div class="judgment-assumptions"><p class="judgment-unconditional">no assumptions</p></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="../lax-51/Lax51.TuringRamEquivalence.html?v=e27a8e5259fcfd1f" title="Lax51.TuringRamEquivalence.ramComputable_iff_computable"><code>Lax51.TuringRamEquivalence</code></a></span></div>
+</div>
+<p class="honesty-note">Assuming the claims on the left, the claim on the right holds — checked by the archive's pipeline. Proof code is not displayed here.</p>
+<p class="honesty-note">Archived proof source SHA-256 <code>00330ac2dd1fd11c8431459b914178e45d0f595f2e87d65a1b6d5fea3f81f79f</code> · validation capture <code>sha256:442f803dd49b6a0714084204deb65578ad7d4df0d1adb8596b7630ad6e9f7bf3</code> · commit <code>4f6c21aae81fbe8d1233d3ae8358b82b110549b9</code></p>
+<p class="source-action"><a class="source-button" href="https://github.com/szymtor/RAM-TM/blob/4f6c21aae81fbe8d1233d3ae8358b82b110549b9/proofs/Lax51Proofs/TuringRamEquivalence.lean"><svg class="gh-mark" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true" focusable="false"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg><span>Read the Lean proof on GitHub</span></a></p>
+</div>
+<div class="block block-statement"><h3>Description</h3><div class="latex-content"><p><strong>Equivalence of Turing machines and word RAMs.</strong></p>
+</div></div>
+
+</div></section>
+</main>
+<script src="../assets/sidebar.js?v=81d80ace468c"></script>
+</body></html>
