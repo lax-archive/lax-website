@@ -644,6 +644,12 @@ After the formula.`, "");
     expect(html).toContain('<output class="citation-copy-status" aria-live="polite"></output>');
     expect(html).toMatch(/<script src="\.\.\/assets\/citation\.js\?v=[0-9a-f]{12}"><\/script>/);
     expect(html).toContain('<section class="page-section discussion-section" aria-labelledby="discussion-title">');
+    expect(html).toContain('class="page-reactions"');
+    expect(html).toContain('data-reactions-url="https://laxarchive.org/Lax2/"');
+    expect(html).toContain('data-reaction-vote="1"');
+    expect(html).toContain('data-reaction-vote="-1"');
+    expect(html).toContain("Votes and voter names are public.");
+    expect(html).toContain("a public name on your ORCID record");
     expect(html).toContain('data-remark42-url="https://laxarchive.org/Lax2/"');
     expect(html).toContain('class="remark42__counter" data-url="https://laxarchive.org/Lax2/"');
     expect(html).toMatch(/<p class="discussion-loading" id="remark42-status"[^>]*>[^]*?<\/p>\s*<div id="remark42"[^>]*><\/div>/);
@@ -866,6 +872,7 @@ After the formula.`, "");
     expect(html).toContain("<h3>Evidence</h3>");
     expect(html).toContain('href="../Lax2/Lax2Proofs.truth.html"');
     expect(html).toContain('data-remark42-url="https://laxarchive.org/Lax2/Lax2.C.html"');
+    expect(html).toContain('data-reactions-url="https://laxarchive.org/Lax2/Lax2.C.html"');
     expect(html).toMatch(/<script src="\.\.\/assets\/comments\.js\?v=[0-9a-f]{12}"><\/script>/);
     // The graph is rooted at C; its importer D rides along behind the
     // descendants toggle (hidden until pressed).

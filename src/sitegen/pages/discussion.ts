@@ -14,6 +14,25 @@ function canonicalThreadUrl(pathname: string): string {
 export function discussion(pathname: string): string {
   const threadUrl = canonicalThreadUrl(pathname);
   return `<section class="page-section discussion-section" aria-labelledby="discussion-title">
+<section class="page-reactions" aria-labelledby="page-reactions-title" data-reactions-host="${attr(REMARK42_URL)}" data-reactions-url="${attr(threadUrl)}">
+<div class="page-reactions-heading">
+<div>
+<p class="discussion-eyebrow">Reader response</p>
+<h3 class="section-title" id="page-reactions-title">Was this page useful?</h3>
+<p>Like or dislike this submission or concept. Votes and voter names are public.</p>
+</div>
+<p class="page-reactions-status" data-reactions-status role="status">Loading responses…</p>
+</div>
+<div class="page-reactions-actions" aria-label="Page rating">
+<button class="page-reaction-button page-reaction-like" type="button" data-reaction-vote="1" aria-pressed="false" disabled><span class="page-reaction-icon" aria-hidden="true">↑</span><span>Like</span><strong data-reaction-count="1">0</strong></button>
+<button class="page-reaction-button page-reaction-dislike" type="button" data-reaction-vote="-1" aria-pressed="false" disabled><span class="page-reaction-icon" aria-hidden="true">↓</span><span>Dislike</span><strong data-reaction-count="-1">0</strong></button>
+</div>
+<div class="page-reactions-voters" aria-live="polite">
+<details data-reaction-voters="1" hidden><summary>People who liked this</summary><ul></ul></details>
+<details data-reaction-voters="-1" hidden><summary>People who disliked this</summary><ul></ul></details>
+</div>
+<p class="page-reactions-auth">Voting requires ORCID sign-in and a public name on your ORCID record. <a data-reactions-login href="${attr(`${REMARK42_URL.replace(/\/+$/, "")}/auth/orcid/login?site=${encodeURIComponent(REMARK42_SITE_ID)}&from=${encodeURIComponent(threadUrl)}`)}">Sign in with ORCID</a></p>
+</section>
 <div class="discussion-heading">
 <div class="discussion-heading-copy">
 <p class="discussion-eyebrow">Community review</p>

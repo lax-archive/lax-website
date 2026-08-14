@@ -1,0 +1,15 @@
+remark42-3-74-72-66.nip.io {
+    encode zstd gzip
+
+    handle /reactions/* {
+        reverse_proxy reactions:8081 {
+            header_up X-Real-IP {remote_host}
+        }
+    }
+
+    handle {
+        reverse_proxy remark42:8080 {
+            header_up X-Real-IP {remote_host}
+        }
+    }
+}
