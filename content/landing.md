@@ -9,8 +9,8 @@ can read, software can check, and future work can build upon.
 - **Read.** Browse submissions and their concepts as human-readable statements
   alongside their Lean source. Every claim shows its evidence: which proofs
   establish it, under which assumptions.
-- **Review.** Correctness is machine-checked, but whether a concept says what
-  it claims to say needs human eyes. Read a concept, and endorse or flag it.
+- **Review.** Browse claims that do not yet have a grounded proof, read their
+  formal statements, and identify a route to proving them.
 - **Submit.** Publish your own formalization. You may build upon definitions
   and theorems of existing submissions.
 - **Cite.** Every page carries a ready-made BibTeX entry.

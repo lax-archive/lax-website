@@ -6,6 +6,7 @@ import {
   submissionSearchAttributes,
   type PageContext,
 } from "./shared.js";
+import { collectOpenProblems } from "./open-problems.js";
 
 interface LandingAction { id: string; title: string; description: string }
 
@@ -98,7 +99,9 @@ ${authors ? `<span class="submissions-list-meta"><span class="formalized-label">
   });
   const landing = landingCopy(contentMarkdown("landing.md").trim());
   const actionOrder = ["read", "review", "submit", "cite"];
-  const actionCards = actionOrder.map((id) => actionCard(landing.actions.get(id)!, id !== "review"));
+  const actionCards = actionOrder.map((id) => actionCard(landing.actions.get(id)!, true));
+  const openProblems = collectOpenProblems(model);
+  const openProblemSubmissions = new Set(openProblems.map(({ located }) => located.output.id)).size;
   const citeExample = listed.find((submission) => submission.record.id.toLowerCase().replace(/[^a-z0-9]/g, "") === "lax17")
     ?? listed.find((submission) => submission.record.state === "registered")
     ?? listed[0];
@@ -125,6 +128,14 @@ ${rows.join("\n")}
 <p class="landing-action-eyebrow">Contribute to Lax</p>
 <h3>Creating your own submission</h3>
 ${copyablePrompt(markdown.render(landing.submit, ""))}
+</section>`;
+  const review = `<section class="landing-action-panel landing-review-panel" id="landing-panel-review" aria-labelledby="landing-action-review">
+<p class="landing-action-eyebrow">Contribute a proof</p>
+<h3>Open problems</h3>
+<p>${openProblems.length
+    ? `Browse every claim that does not yet have a grounded proof, across ${plural(openProblemSubmissions, "submission")}.`
+    : "Every claim currently has a grounded proof; this view will update automatically when an open claim is submitted."}</p>
+<a class="landing-open-problems-link" href="open-problems.html"><span><strong>${openProblems.length}</strong> ${openProblems.length === 1 ? "open claim" : "open claims"}</span><b>Browse open problems <span aria-hidden="true">→</span></b></a>
 </section>`;
   const cite = `<section class="landing-action-panel landing-cite-panel" id="landing-panel-cite" aria-labelledby="landing-action-cite">
 <p class="landing-action-eyebrow">Cite the formalization</p>
@@ -165,6 +176,7 @@ ${actionCards.join("\n")}
 <div class="landing-action-panels" aria-live="polite">
 ${submit}
 ${library}
+${review}
 ${cite}
 </div>
 </section>`;

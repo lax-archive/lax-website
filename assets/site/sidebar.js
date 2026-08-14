@@ -86,6 +86,10 @@
         searchHasSelectedRead = false;
       }
     }
+    const openProblems = document.getElementById('open-problems-list');
+    if (openProblems) {
+      filterList(openProblems, search, type, 'open-problems-list-empty');
+    }
     // A group heading (Concepts / Proofs) shows only while its group does.
     list.querySelectorAll('li.entry-heading').forEach((heading) => {
       let any = false;
