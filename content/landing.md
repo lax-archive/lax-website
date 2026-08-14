@@ -1,4 +1,4 @@
-Formalized mathematics, in public.
+Formalized mathematics that can be read, checked, and built upon.
 
 Lax is an open archive for contemporary mathematics written in Lean. Think of
 it as an arXiv for formalization: independent, citable submissions that people

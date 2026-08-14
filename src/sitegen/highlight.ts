@@ -159,6 +159,37 @@ function lineNodes(root: HastNode): HastNode[] {
   return found;
 }
 
+interface SnippetOptions {
+  startLine?: number;
+  accentLines?: readonly number[];
+}
+
+/** A compact, GitHub-light Lean excerpt for editorial surfaces. Unlike the
+ * line-numbered concept source table, this deliberately carries no statement
+ * anchors or proof-status tinting. */
+export async function highlightSnippet(source: string, options: SnippetOptions = {}): Promise<string> {
+  const startLine = options.startLine ?? 1;
+  const accentLines = new Set(options.accentLines ?? []);
+  const lineHtml = (content: string, index: number) => {
+    const sourceLine = index + 1;
+    const classes = `landing-demo-code-line${accentLines.has(sourceLine) ? " landing-demo-code-line-accent" : ""}`;
+    return `<span class="${classes}" data-line="${startLine + index}">${content || " "}</span>`;
+  };
+  try {
+    const hast = (await highlighter()).codeToHast(source.trim(), {
+      lang: "lean4",
+      theme: "github-light",
+    }) as HastNode;
+    return lineNodes(hast).map((line, index) =>
+      lineHtml((line.children ?? []).map(renderNode).join(""), index)
+    ).join("\n");
+  } catch {
+    return source.trim().split("\n").map((line, index) =>
+      lineHtml(esc(line), index)
+    ).join("\n");
+  }
+}
+
 function lineStatus(line: number, statements: StatementEntry[], proven: Set<string>): string {
   const statement = statements.find((s) => s.startLine !== undefined && s.endLine !== undefined && line >= s.startLine && line <= s.endLine);
   return statement ? ` statement-line ${proven.has(statement.id) ? "line-proven" : "line-open"}` : "";

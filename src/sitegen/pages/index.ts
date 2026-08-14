@@ -1,5 +1,6 @@
 import { attr, esc, formatDate, page, plural, statePill } from "../html.js";
 import { contentMarkdown } from "../content.js";
+import { highlightSnippet } from "../highlight.js";
 import { submissionTagIndex } from "../tags.js";
 import {
   compareSearchSubmissions,
@@ -13,9 +14,79 @@ interface LandingAction { id: string; title: string; description: string }
 const ACTION_HEADING = "\n## What you can do here\n";
 const SUBMIT_HEADING = "\n## Creating your own submission\n";
 
+const CONCEPT_DEMO = String.raw`import Mathlib.Combinatorics.SimpleGraph.Clique
+
+open Filter Real SimpleGraph
+
+abbrev C₅ : SimpleGraph (Fin 5) := cycleGraph 5
+
+def C₅Free {V : Type*} [Fintype V] (G : SimpleGraph V) : Prop :=
+  ¬ ∃ f : Fin 5 ↪ V, C₅ = G.comap f
+
+def HasLargeHomogeneousSet {V : Type*} [Fintype V]
+    (G : SimpleGraph V) (r : ℝ) : Prop :=
+  G.indepNum ≥ r ∨ G.cliqueNum ≥ r
+
+axiom erdosHajnal_C₅ :
+  ∃ c > 0, ∀ᶠ n in atTop, ∀ G : SimpleGraph (Fin n),
+    C₅Free G → HasLargeHomogeneousSet G ((n : ℝ) ^ c)`;
+
+const PROOF_DEMO = String.raw`theorem erdosHajnal_C₅ :
+    ∃ c > 0,
+      ∀ᶠ n in atTop,
+        ∀ G : SimpleGraph (Fin n),
+          C₅Free G →
+            HasLargeHomogeneousSet G ((n : ℝ) ^ c) := by
+  obtain ⟨c, hc, hmain⟩ :=
+    polynomial_homogeneous_set_for_five_hole
+  refine ⟨c, hc, ?_⟩
+  filter_upwards [hmain] with n hn
+  intro G hG
+  exact hn G (by
+    simpa [C₅Free] using hG)`;
+
+function landingDemoFace(
+  side: "concept" | "proof",
+  path: string,
+  code: string,
+): string {
+  const concept = side === "concept";
+  const codeBlock = concept
+    ? `<span class="landing-demo-code"><code>${code}</code></span>`
+    : `<span class="landing-demo-code landing-demo-code-excerpt">
+<span class="landing-demo-continuation" aria-hidden="true"><i></i><b>⋮</b><i></i></span>
+<code>${code}</code>
+<span class="landing-demo-continuation" aria-hidden="true"><i></i><b>⋮</b><i></i></span>
+</span>`;
+  return `<span class="landing-demo-face landing-demo-${side}" aria-hidden="true">
+<span class="landing-demo-filebar">
+<span class="landing-demo-file-heading"><strong>${concept ? "Concept file" : "Proof file"}</strong>${concept ? "" : '<span class="landing-demo-file-note">excerpt</span>'}</span>
+<span class="landing-demo-file-path">${esc(path)}</span>
+</span>
+${codeBlock}
+<span class="landing-demo-trust">
+<span class="landing-demo-trust-copy"><strong>${concept ? "Meaning" : "Evidence"}</strong><small>${concept ? "read by people" : "checked by Lean"}</small></span>
+${concept ? '<span class="landing-demo-turn"><span>See the proof</span><b>↻</b></span>' : ""}
+</span>
+</span>`;
+}
+
+async function landingDemo(): Promise<string> {
+  const [concept, proof] = await Promise.all([
+    highlightSnippet(CONCEPT_DEMO, { accentLines: [14, 15, 16] }),
+    highlightSnippet(PROOF_DEMO, { startLine: 417 }),
+  ]);
+  return `<button class="landing-demo-card" type="button" data-proof-flip aria-pressed="false" aria-label="Concept file: Erdős–Hajnal for the five-cycle. Hover or activate to see a proof excerpt.">
+<span class="landing-demo-inner">
+${landingDemoFace("concept", "concepts/ErdosHajnal/C5.lean", concept)}
+${landingDemoFace("proof", "proofs/ErdosHajnalProofs/C5.lean", proof)}
+</span>
+</button>`;
+}
+
 function landingCopy(source: string): {
-  kicker: string;
   lede: string;
+  introduction: string;
   actions: Map<string, LandingAction>;
   submit: string;
 } {
@@ -26,10 +97,10 @@ function landingCopy(source: string): {
   if (actionStart >= submitStart)
     throw new Error("landing.md sections are out of order");
 
-  const hero = source.slice(0, actionStart).trim();
-  const kickerEnd = hero.indexOf("\n\n");
-  const kicker = kickerEnd === -1 ? hero : hero.slice(0, kickerEnd);
-  const lede = kickerEnd === -1 ? "" : hero.slice(kickerEnd).trim();
+  const introduction = source.slice(0, actionStart).trim();
+  const ledeEnd = introduction.indexOf("\n\n");
+  const lede = ledeEnd === -1 ? introduction : introduction.slice(0, ledeEnd);
+  const body = ledeEnd === -1 ? "" : introduction.slice(ledeEnd).trim();
   const actionSource = source.slice(actionStart + ACTION_HEADING.length, submitStart).trim();
   const actions = new Map<string, LandingAction>();
   for (const chunk of actionSource.split(/\n(?=- \*\*)/)) {
@@ -43,8 +114,8 @@ function landingCopy(source: string): {
     if (!actions.has(id)) throw new Error(`landing.md is missing the ${id} action`);
 
   return {
-    kicker,
     lede,
+    introduction: body,
     actions,
     submit: source.slice(submitStart + SUBMIT_HEADING.length).trim(),
   };
@@ -82,7 +153,7 @@ ${prompt}
  * library with its stats. Records that only reserved an id have nothing to
  * show and stay off the library and the stats (their pages exist for direct
  * links). */
-export function indexPage({ model, markdown }: PageContext): string {
+export async function indexPage({ model, markdown }: PageContext): Promise<string> {
   const concepts = model.outputs.flatMap((o) => o.concepts);
   const statements = concepts.flatMap((c) => c.statements);
   const listed = model.submissions.filter((s) => s.output).sort(compareSearchSubmissions);
@@ -99,6 +170,7 @@ ${authors ? `<span class="submissions-list-meta"><span class="formalized-label">
 </a></li>`;
   });
   const landing = landingCopy(contentMarkdown("landing.md").trim());
+  const demo = await landingDemo();
   const actionOrder = ["read", "review", "submit", "cite"];
   const actionCards = actionOrder.map((id) => actionCard(landing.actions.get(id)!, id !== "review"));
   const citeExample = listed.find((submission) => submission.record.id.toLowerCase().replace(/[^a-z0-9]/g, "") === "lax17")
@@ -147,31 +219,19 @@ ${copyablePrompt(markdown.render(landing.submit, ""))}
 <p>Every submission page ends with a <strong>Citation</strong> section containing a ready-made BibTeX entry. Open the submission you used, scroll to the bottom, and copy that entry into your bibliography.</p>
 ${citeExampleLink}
 </section>`;
-  const content = `<header class="landing-hero">
-<div class="landing-hero-copy">
-<p class="landing-kicker">${esc(landing.kicker)}</p>
-<p class="landing-hero-title">Mathematics that can be read, checked, and built upon.</p>
+  const content = `<section class="landing-demo-showcase" aria-label="How Lax separates mathematical meaning from proof evidence">
 <div class="landing-lede latex-content">
 ${markdown.render(landing.lede, "")}
 </div>
+${demo}
+<div class="landing-demo-summary latex-content">
+${markdown.render(landing.introduction, "")}
+</div>
 <div class="landing-hero-actions">
 <button class="landing-hero-button primary" type="button" data-landing-action="read" aria-controls="landing-panel-read">Browse submissions <b aria-hidden="true">↓</b></button>
-<a class="landing-hero-button secondary" href="assets/lax-white-paper.pdf">Read the Lax paper <b aria-hidden="true">↗</b></a>
+<a class="landing-hero-button secondary" href="assets/lax-white-paper.pdf" download="lax-white-paper.pdf">Read the Lax paper <b aria-hidden="true">↗</b></a>
 </div>
-</div>
-<div class="landing-trust-path" aria-label="Concepts carry human-reviewed meaning; proofs provide machine-checked evidence.">
-<div class="landing-trust-node concept">
-<span class="landing-trust-step">01 · Concept</span>
-<strong>Meaning</strong>
-<small>read by people</small>
-</div>
-<div class="landing-trust-node proof">
-<span class="landing-trust-step">02 · Proof</span>
-<strong>Evidence</strong>
-<small>checked by Lean</small>
-</div>
-</div>
-</header>
+</section>
 <section class="landing-actions" aria-labelledby="landing-actions-heading">
 <h2 id="landing-actions-heading">What you can do here</h2>
 <div class="landing-action-grid">
