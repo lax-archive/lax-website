@@ -45,6 +45,14 @@ func TestValidORCIDChecksum(t *testing.T) {
 	}
 }
 
+func TestLegacyORCIDIdentityMatchesRemark42Hash(t *testing.T) {
+	const orcid = "0009-0002-0314-6147"
+	const legacyRemarkID = "orcid_1cc007f7256c32ff3b8829e4f3d37f83422a18a6"
+	if got := remarkIdentityID("orcid", orcid); got != legacyRemarkID {
+		t.Fatalf("Remark42 identity mismatch: got %q, want %q", got, legacyRemarkID)
+	}
+}
+
 func TestStoreOneVotePerUserAndPublicNames(t *testing.T) {
 	db := testStore(t)
 	for _, person := range []identity{
@@ -152,5 +160,69 @@ func TestPublicIdentityEndpoint(t *testing.T) {
 	}
 	if got.RemarkID != remarkID || got.Name != "Alice Example" || got.Profile != "https://orcid.org/0000-0002-1825-0097" || got.AvatarURL != nil {
 		t.Fatalf("unexpected identity: %+v", got)
+	}
+}
+
+func TestSessionEndpointMarksStaleCookieForReauthentication(t *testing.T) {
+	remark := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+		http.Error(w, "invalid session", http.StatusUnauthorized)
+	}))
+	defer remark.Close()
+	a := &app{
+		config: config{remarkUserURL: remark.URL},
+		store:  testStore(t),
+		client: remark.Client(),
+		limits: newRateLimits(),
+	}
+	request := httptest.NewRequest(http.MethodGet, "/reactions/v1/me", nil)
+	request.AddCookie(&http.Cookie{Name: "JWT", Value: "stale-session"})
+	recorder := httptest.NewRecorder()
+	a.getMe(recorder, request)
+	if recorder.Code != http.StatusOK || !strings.Contains(recorder.Body.String(), `"reauthenticate":true`) {
+		t.Fatalf("stale session was not identified: %d %s", recorder.Code, recorder.Body.String())
+	}
+}
+
+func TestVoteClearsStaleHttpOnlySession(t *testing.T) {
+	remark := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+		http.Error(w, "invalid session", http.StatusUnauthorized)
+	}))
+	defer remark.Close()
+	a := &app{
+		config: config{remarkUserURL: remark.URL},
+		store:  testStore(t),
+		client: remark.Client(),
+		limits: newRateLimits(),
+	}
+	request := httptest.NewRequest(http.MethodPut, "/reactions/v1/vote", strings.NewReader(`{"url":"https://laxarchive.org/Lax2/","vote":1}`))
+	request.Header.Set("Origin", "https://laxarchive.org")
+	request.Header.Set("Content-Type", "application/json")
+	request.Header.Set("X-Lax-CSRF", "1")
+	request.AddCookie(&http.Cookie{Name: "JWT", Value: "stale-session"})
+	recorder := httptest.NewRecorder()
+	a.putVote(recorder, request)
+	if recorder.Code != http.StatusUnauthorized || !strings.Contains(recorder.Body.String(), "Sign in with ORCID again") {
+		t.Fatalf("unexpected stale vote response: %d %s", recorder.Code, recorder.Body.String())
+	}
+	cookies := recorder.Result().Cookies()
+	if len(cookies) != 2 || cookies[0].Name != "JWT" || cookies[0].MaxAge != -1 || !cookies[0].HttpOnly || cookies[0].SameSite != http.SameSiteNoneMode || !cookies[0].Secure {
+		t.Fatalf("stale session cookie was not cleared securely: %+v", cookies)
+	}
+}
+
+func TestBridgeIsRestrictedToConfiguredParents(t *testing.T) {
+	a := &app{config: config{bridgeParents: map[string]struct{}{"https://laxarchive.org": {}}}}
+	htmlRequest := httptest.NewRequest(http.MethodGet, "/reactions/v1/bridge", nil)
+	htmlRecorder := httptest.NewRecorder()
+	a.bridgeHTML(htmlRecorder, htmlRequest)
+	if htmlRecorder.Code != http.StatusOK || !strings.Contains(htmlRecorder.Header().Get("Content-Security-Policy"), "frame-ancestors https://laxarchive.org") || !strings.Contains(htmlRecorder.Body.String(), "/reactions/v1/bridge.js") {
+		t.Fatalf("unexpected bridge page: %d %q %s", htmlRecorder.Code, htmlRecorder.Header().Get("Content-Security-Policy"), htmlRecorder.Body.String())
+	}
+
+	scriptRequest := httptest.NewRequest(http.MethodGet, "/reactions/v1/bridge.js", nil)
+	scriptRecorder := httptest.NewRecorder()
+	a.bridgeScript(scriptRecorder, scriptRequest)
+	if scriptRecorder.Code != http.StatusOK || !strings.Contains(scriptRecorder.Body.String(), `new Set(["https://laxarchive.org"])`) || strings.Contains(scriptRecorder.Body.String(), `postMessage(value,"*")`) {
+		t.Fatalf("bridge script does not enforce exact parent origins: %s", scriptRecorder.Body.String())
 	}
 }

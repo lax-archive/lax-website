@@ -1,0 +1,7 @@
+services:
+  remark42:
+    # Keep the server and customized source-level frontend on the same tested
+    # Remark42 v1.16.4 build. Upgrade both together.
+    image: ghcr.io/umputun/remark42@sha256:980e0e76a6f241cd181f44c5b4d686f0d8cd7f552e11deb3bdcba223b2c3b866
+    volumes:
+      - /opt/remark42/custom-web:/srv/web

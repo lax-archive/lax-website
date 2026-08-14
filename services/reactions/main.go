@@ -15,6 +15,7 @@ import (
 	"os"
 	"os/signal"
 	"regexp"
+	"sort"
 	"strings"
 	"sync"
 	"syscall"
@@ -35,6 +36,8 @@ type config struct {
 	orcidInfoURL  string
 	provider      string
 	allowed       map[string]struct{}
+	bridgeParents map[string]struct{}
+	publicOrigin  string
 }
 
 type remarkUser struct {
@@ -44,10 +47,18 @@ type remarkUser struct {
 
 type response struct {
 	pageResult
-	ViewerVote    int       `json:"viewer_vote"`
-	Authenticated bool      `json:"authenticated"`
-	Eligible      bool      `json:"eligible"`
-	Viewer        *identity `json:"viewer,omitempty"`
+	ViewerVote     int       `json:"viewer_vote"`
+	Authenticated  bool      `json:"authenticated"`
+	Eligible       bool      `json:"eligible"`
+	Reauthenticate bool      `json:"reauthenticate"`
+	Viewer         *identity `json:"viewer,omitempty"`
+}
+
+type sessionResponse struct {
+	Authenticated  bool      `json:"authenticated"`
+	Eligible       bool      `json:"eligible"`
+	Reauthenticate bool      `json:"reauthenticate"`
+	Viewer         *identity `json:"viewer,omitempty"`
 }
 
 type publicIdentity struct {
@@ -79,6 +90,12 @@ func loadConfig() config {
 			allowed[origin] = struct{}{}
 		}
 	}
+	bridgeParents := map[string]struct{}{}
+	for _, origin := range strings.Split(env("BRIDGE_PARENT_ORIGINS", "https://laxarchive.org,https://www.laxarchive.org,http://localhost:3000,http://127.0.0.1:3000"), ",") {
+		if origin = strings.TrimSpace(origin); origin != "" {
+			bridgeParents[origin] = struct{}{}
+		}
+	}
 	return config{
 		address:       env("LISTEN_ADDR", ":8081"),
 		databasePath:  env("DATABASE_PATH", "/var/lib/reactions/reactions.db"),
@@ -87,6 +104,8 @@ func loadConfig() config {
 		orcidInfoURL:  env("ORCID_USERINFO_URL", "https://orcid.org/oauth/userinfo"),
 		provider:      env("AUTH_PROVIDER", "orcid"),
 		allowed:       allowed,
+		bridgeParents: bridgeParents,
+		publicOrigin:  strings.TrimSuffix(env("PUBLIC_ORIGIN", "https://remark42-3-74-72-66.nip.io"), "/"),
 	}
 }
 
@@ -107,7 +126,10 @@ func main() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("GET /healthz", application.health)
 	mux.HandleFunc("GET /internal/orcid/userinfo", application.orcidUserInfo)
+	mux.HandleFunc("GET /reactions/v1/bridge", application.bridgeHTML)
+	mux.HandleFunc("GET /reactions/v1/bridge.js", application.bridgeScript)
 	mux.HandleFunc("OPTIONS /reactions/v1/{rest...}", application.preflight)
+	mux.HandleFunc("GET /reactions/v1/me", application.getMe)
 	mux.HandleFunc("GET /reactions/v1/page", application.getPage)
 	mux.HandleFunc("GET /reactions/v1/identity", application.getIdentity)
 	mux.HandleFunc("GET /reactions/v1/identities", application.getIdentities)
@@ -150,6 +172,11 @@ func toPublicIdentity(value identity) publicIdentity {
 	}
 }
 
+func remarkIdentityID(provider, orcid string) string {
+	hash := sha1.Sum([]byte(orcid)) //nolint:gosec -- compatibility identifier, not a credential
+	return provider + "_" + hex.EncodeToString(hash[:])
+}
+
 func (a *app) security(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("X-Content-Type-Options", "nosniff")
@@ -158,7 +185,11 @@ func (a *app) security(next http.Handler) http.Handler {
 		if strings.HasPrefix(r.URL.Path, "/reactions/") {
 			origin := r.Header.Get("Origin")
 			if origin != "" {
-				if _, ok := a.config.allowed[origin]; !ok {
+				_, allowed := a.config.allowed[origin]
+				if origin == a.config.publicOrigin {
+					allowed = true
+				}
+				if !allowed {
 					writeError(w, http.StatusForbidden, "origin is not allowed")
 					return
 				}
@@ -184,6 +215,32 @@ func (a *app) preflight(w http.ResponseWriter, r *http.Request) {
 
 func (a *app) health(w http.ResponseWriter, _ *http.Request) {
 	writeJSON(w, http.StatusOK, map[string]string{"status": "ok"})
+}
+
+func (a *app) bridgeHTML(w http.ResponseWriter, _ *http.Request) {
+	parents := make([]string, 0, len(a.config.bridgeParents))
+	for origin := range a.config.bridgeParents {
+		if parsed, err := url.Parse(origin); err == nil && (parsed.Scheme == "https" || parsed.Scheme == "http") && parsed.Host != "" && parsed.Path == "" && parsed.RawQuery == "" && parsed.Fragment == "" {
+			parents = append(parents, origin)
+		}
+	}
+	sort.Strings(parents)
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	w.Header().Set("Cache-Control", "no-store")
+	w.Header().Set("Content-Security-Policy", "default-src 'none'; script-src 'self'; connect-src 'self'; frame-ancestors "+strings.Join(parents, " "))
+	_, _ = io.WriteString(w, `<!doctype html><html lang="en"><meta charset="utf-8"><title>Reactions bridge</title><script src="/reactions/v1/bridge.js" defer></script></html>`)
+}
+
+func (a *app) bridgeScript(w http.ResponseWriter, _ *http.Request) {
+	parents := make([]string, 0, len(a.config.bridgeParents))
+	for origin := range a.config.bridgeParents {
+		parents = append(parents, origin)
+	}
+	sort.Strings(parents)
+	encoded, _ := json.Marshal(parents)
+	w.Header().Set("Content-Type", "text/javascript; charset=utf-8")
+	w.Header().Set("Cache-Control", "public, max-age=300")
+	_, _ = fmt.Fprintf(w, `(function(){"use strict";const allowed=new Set(%s);const parentOrigin=(()=>{try{return new URL(document.referrer).origin}catch{return ""}})();if(!allowed.has(parentOrigin))return;const send=(value)=>window.parent.postMessage(value,parentOrigin);window.addEventListener("message",async(event)=>{if(event.source!==window.parent||!allowed.has(event.origin)||!event.data||event.data.source!=="lax-reactions"||typeof event.data.id!=="string")return;const request=event.data;let path="";let init={credentials:"include",headers:{Accept:"application/json"}};if(request.action==="page"&&typeof request.url==="string"){path="/reactions/v1/page?url="+encodeURIComponent(request.url)}else if(request.action==="me"){path="/reactions/v1/me"}else if(request.action==="vote"&&typeof request.url==="string"&&[-1,0,1].includes(request.vote)){path="/reactions/v1/vote";init={method:"PUT",credentials:"include",headers:{Accept:"application/json","Content-Type":"application/json","X-Lax-CSRF":"1"},body:JSON.stringify({url:request.url,vote:request.vote})}}else{send({source:"lax-reactions",id:request.id,ok:false,status:400,data:{error:"invalid bridge request"}});return}try{const response=await fetch(path,init);const data=await response.json();send({source:"lax-reactions",id:request.id,ok:response.ok,status:response.status,data})}catch{send({source:"lax-reactions",id:request.id,ok:false,status:503,data:{error:"Page responses are temporarily unavailable."}})}});send({source:"lax-reactions",type:"ready"})})();`, encoded)
 }
 
 func canonicalPage(raw string) (string, error) {
@@ -268,6 +325,7 @@ func (a *app) pageResponse(r *http.Request, pageURL string) (response, error) {
 	answer := response{pageResult: result}
 	user, err := a.currentUser(r)
 	if err != nil || user == nil {
+		answer.Reauthenticate = user == nil && hasRemarkSession(r)
 		return answer, err
 	}
 	answer.Authenticated = true
@@ -279,6 +337,51 @@ func (a *app) pageResponse(r *http.Request, pageURL string) (response, error) {
 	answer.Viewer = &person
 	answer.ViewerVote, err = a.store.viewerVote(pageURL, user.ID)
 	return answer, err
+}
+
+func hasRemarkSession(r *http.Request) bool {
+	cookie, err := r.Cookie("JWT")
+	return err == nil && strings.TrimSpace(cookie.Value) != ""
+}
+
+func clearRemarkSession(w http.ResponseWriter) {
+	for _, cookie := range []*http.Cookie{
+		{Name: "JWT", Value: "", Path: "/", MaxAge: -1, HttpOnly: true, Secure: true, SameSite: http.SameSiteNoneMode},
+		{Name: "XSRF-TOKEN", Value: "", Path: "/", MaxAge: -1, Secure: true, SameSite: http.SameSiteNoneMode},
+	} {
+		http.SetCookie(w, cookie)
+	}
+}
+
+func (a *app) getMe(w http.ResponseWriter, r *http.Request) {
+	if !a.limits.allow(clientIP(r), false) {
+		w.Header().Set("Retry-After", "10")
+		writeError(w, http.StatusTooManyRequests, "too many requests")
+		return
+	}
+	answer := sessionResponse{}
+	user, err := a.currentUser(r)
+	if err != nil {
+		log.Printf("session response failed: %v", err)
+		writeError(w, http.StatusServiceUnavailable, "authentication is temporarily unavailable")
+		return
+	}
+	if user == nil {
+		answer.Reauthenticate = hasRemarkSession(r)
+		writeJSON(w, http.StatusOK, answer)
+		return
+	}
+	answer.Authenticated = true
+	person, found, err := a.store.identity(user.ID)
+	if err != nil {
+		writeError(w, http.StatusServiceUnavailable, "identity lookup is temporarily unavailable")
+		return
+	}
+	if found && strings.TrimSpace(person.Name) != "" {
+		answer.Eligible = true
+		answer.Viewer = &person
+	}
+	writeJSON(w, http.StatusOK, answer)
 }
 
 func (a *app) getPage(w http.ResponseWriter, r *http.Request) {
@@ -400,6 +503,11 @@ func (a *app) putVote(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if user == nil {
+		if hasRemarkSession(r) {
+			clearRemarkSession(w)
+			writeError(w, http.StatusUnauthorized, "Your session is no longer valid. Sign in with ORCID again.")
+			return
+		}
 		writeError(w, http.StatusUnauthorized, "Sign in with ORCID to vote.")
 		return
 	}
@@ -470,8 +578,7 @@ func (a *app) orcidUserInfo(w http.ResponseWriter, r *http.Request) {
 		writeError(w, http.StatusForbidden, "Make your name public on your ORCID record before signing in.")
 		return
 	}
-	hash := sha1.Sum([]byte(orcid)) //nolint:gosec -- compatibility identifier, not a credential
-	remarkID := a.config.provider + "_" + hex.EncodeToString(hash[:])
+	remarkID := remarkIdentityID(a.config.provider, orcid)
 	if err = a.store.putIdentity(identity{RemarkID: remarkID, ORCID: orcid, Name: name, Updated: time.Now().UTC()}); err != nil {
 		log.Printf("save ORCID identity failed: %v", err)
 		writeError(w, http.StatusInternalServerError, "ORCID profile could not be saved")
