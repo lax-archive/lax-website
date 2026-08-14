@@ -453,6 +453,11 @@ After the formula.`, "");
     expect(index).toContain("contributing.html");
     expect(index).toMatch(/<script src="assets\/landing\.js\?v=[0-9a-f]{12}"><\/script>/);
     expect(index).toMatch(/<script src="assets\/sidebar\.js\?v=[0-9a-f]{12}"><\/script>/);
+    expect(index).toMatch(/<script src="assets\/account\.js\?v=[0-9a-f]{12}"><\/script>/);
+    expect(index).toContain('data-account-login');
+    expect(index).toContain('data-account-settings');
+    expect(index).toContain('id="account-dialog"');
+    expect(index).not.toContain('href="all-comments/');
     expect(index).toMatch(/<link rel="stylesheet" href="assets\/style\.css\?v=[0-9a-f]{12}">/);
     expect(index).not.toContain("&lt;!--");
     expect(index).toContain("Lax2/index.html");
@@ -495,6 +500,20 @@ After the formula.`, "");
     expect(contributing).toContain('<h1 class="paper-title">Contributing</h1>');
     expect(contributing).toContain("The workflow");
     expect(contributing).not.toContain('class="random-submission"');
+  });
+
+  it("generates a direct-only all-comments activity page", async () => {
+    const root = tmpDir("lax-site-all-comments-");
+    await generateSite(submissions(), root);
+    const activity = fs.readFileSync(path.join(root, "all-comments", "index.html"), "utf8");
+    const index = fs.readFileSync(path.join(root, "index.html"), "utf8");
+
+    expect(activity).toContain("<title>All comments — Lax Lean Archive</title>");
+    expect(activity).toContain('id="all-comments"');
+    expect(activity).toContain('data-identity-url="https://remark42-3-74-72-66.nip.io/reactions/v1/identity"');
+    expect(activity).toMatch(/<script src="\.\.\/assets\/all-comments\.js\?v=[0-9a-f]{12}"><\/script>/);
+    expect(activity).toContain("connect-src https://remark42-3-74-72-66.nip.io");
+    expect(index).not.toContain('href="all-comments/');
   });
 
   it("offers every submission as a random sidebar choice only on the front page", async () => {
@@ -653,7 +672,7 @@ After the formula.`, "");
     expect(html).toContain('data-remark42-url="https://laxarchive.org/Lax2/"');
     expect(html).toContain('class="remark42__counter" data-url="https://laxarchive.org/Lax2/"');
     expect(html).toMatch(/<p class="discussion-loading" id="remark42-status"[^>]*>[^]*?<\/p>\s*<div id="remark42"[^>]*><\/div>/);
-    expect(html).toContain("Sign in with ORCID to comment and vote comments up or down.");
+    expect(html).toContain("your ORCID profile must share a public name.");
     expect(html).toMatch(/<script src="\.\.\/assets\/comments\.js\?v=[0-9a-f]{12}"><\/script>/);
     expect(html).toContain("script-src 'self' https://remark42-3-74-72-66.nip.io");
     expect(html).toContain("frame-src https://remark42-3-74-72-66.nip.io");

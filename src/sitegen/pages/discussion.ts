@@ -37,7 +37,7 @@ export function discussion(pathname: string): string {
 <div class="discussion-heading-copy">
 <p class="discussion-eyebrow">Community review</p>
 <h3 class="section-title" id="discussion-title">Discussion</h3>
-<p>Ask a question, suggest a correction, or add context. Sign in with ORCID to comment and vote comments up or down.</p>
+<p>Ask a question, suggest a correction, or add context. Sign in with ORCID to comment and vote; your ORCID profile must share a public name.</p>
 </div>
 <p class="discussion-count"><span class="remark42__counter" data-url="${attr(threadUrl)}">0</span> <span>comments</span></p>
 </div>
