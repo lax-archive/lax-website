@@ -23,9 +23,8 @@ export function discussion(pathname: string): string {
 <p class="discussion-count"><span class="remark42__counter" data-url="${attr(threadUrl)}">0</span> <span>comments</span></p>
 </div>
 <div class="discussion-embed-shell">
-<div id="remark42" data-remark42-host="${attr(REMARK42_URL)}" data-remark42-site="${attr(REMARK42_SITE_ID)}" data-remark42-url="${attr(threadUrl)}">
-<p class="discussion-loading" role="status"><span class="discussion-loading-mark" aria-hidden="true"></span>Loading discussion…</p>
-</div>
+<p class="discussion-loading" id="remark42-status" role="status"><span class="discussion-loading-mark" aria-hidden="true"></span>Loading discussion…</p>
+<div id="remark42" data-remark42-host="${attr(REMARK42_URL)}" data-remark42-site="${attr(REMARK42_SITE_ID)}" data-remark42-url="${attr(threadUrl)}"></div>
 </div>
 <noscript><p class="discussion-unavailable">Enable JavaScript to read or join the discussion.</p></noscript>
 </section>`;

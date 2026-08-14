@@ -3,6 +3,7 @@
 
   const container = document.getElementById("remark42");
   if (!container) return;
+  const status = document.getElementById("remark42-status");
 
   const host = (container.dataset.remark42Host || "").replace(/\/+$/, "");
   const siteId = container.dataset.remark42Site || "remark";
@@ -23,9 +24,10 @@
   };
 
   const unavailable = () => {
-    const loading = container.querySelector(".discussion-loading");
-    if (loading) loading.textContent = "Discussion is temporarily unavailable. Please try again later.";
+    if (status) status.textContent = "Discussion is temporarily unavailable. Please try again later.";
   };
+
+  window.addEventListener("REMARK42::ready", () => status?.remove(), { once: true });
 
   for (const component of window.remark_config.components) {
     const script = document.createElement("script");
