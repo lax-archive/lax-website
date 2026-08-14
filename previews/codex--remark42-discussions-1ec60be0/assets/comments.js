@@ -13,8 +13,99 @@
   const reactions = document.querySelector("[data-reactions-host]");
   const reactionStatus = reactions?.querySelector("[data-reactions-status]");
   const reactionButtons = reactions ? [...reactions.querySelectorAll("[data-reaction-vote]")] : [];
+  const reactionVoterToggles = reactions ? [...reactions.querySelectorAll("[data-reaction-voters]")] : [];
   const reactionLogin = reactions?.querySelector("[data-reactions-login]");
   let reactionPending = false;
+  let reactionData = null;
+
+  const reactionLoginURL = new URL(`${host}/auth/orcid/login`);
+  reactionLoginURL.searchParams.set("site", siteId);
+  reactionLoginURL.searchParams.set("from", window.location.href);
+
+  const bridgeOrigin = new URL(host).origin;
+  const bridge = document.createElement("iframe");
+  bridge.src = `${host}/reactions/v1/bridge`;
+  bridge.title = "Reaction session bridge";
+  bridge.hidden = true;
+  (document.body || document.head).appendChild(bridge);
+  const bridgeRequests = new Map();
+  let bridgeSequence = 0;
+  let markBridgeReady;
+  const bridgeReady = new Promise((resolve) => { markBridgeReady = resolve; });
+
+  window.addEventListener("message", (event) => {
+    if (event.origin !== bridgeOrigin || event.source !== bridge.contentWindow) return;
+    const message = event.data;
+    if (!message || message.source !== "lax-reactions") return;
+    if (message.type === "ready") {
+      markBridgeReady();
+      return;
+    }
+    const pending = typeof message.id === "string" ? bridgeRequests.get(message.id) : null;
+    if (!pending) return;
+    bridgeRequests.delete(message.id);
+    pending.resolve(message);
+  });
+
+  async function bridgeRequest(action, payload = {}) {
+    if (!bridge.contentWindow) throw new Error("reaction bridge is unavailable");
+    await Promise.race([
+      bridgeReady,
+      new Promise((_, reject) => window.setTimeout(() => reject(new Error("reaction bridge timed out")), 5000)),
+    ]);
+    const id = `lax-${Date.now()}-${bridgeSequence += 1}`;
+    const response = new Promise((resolve, reject) => {
+      const timeout = window.setTimeout(() => {
+        bridgeRequests.delete(id);
+        reject(new Error("reaction bridge timed out"));
+      }, 5000);
+      bridgeRequests.set(id, {
+        resolve: (message) => {
+          window.clearTimeout(timeout);
+          resolve(message);
+        },
+      });
+    });
+    bridge.contentWindow.postMessage({ source: "lax-reactions", id, action, ...payload }, bridgeOrigin);
+    return response;
+  }
+
+  async function directRequest(action, payload = {}) {
+    if (action === "page") {
+      const response = await window.fetch(`${host}/reactions/v1/page?url=${encodeURIComponent(payload.url)}`, {
+        credentials: "include",
+        headers: { Accept: "application/json" },
+      });
+      return { ok: response.ok, status: response.status, data: await response.json() };
+    }
+    const response = await window.fetch(`${host}/reactions/v1/vote`, {
+      method: "PUT",
+      credentials: "include",
+      headers: { "Content-Type": "application/json", "X-Lax-CSRF": "1", Accept: "application/json" },
+      body: JSON.stringify(payload),
+    });
+    return { ok: response.ok, status: response.status, data: await response.json() };
+  }
+
+  async function reactionRequest(action, payload) {
+    try {
+      return await bridgeRequest(action, payload);
+    } catch {
+      // Older deployments do not expose the same-origin bridge. The direct
+      // request remains a compatibility path for browsers without partitioning.
+      return directRequest(action, payload);
+    }
+  }
+
+  const validOrcidId = (value) => {
+    const id = typeof value === "string" ? value.trim().toUpperCase() : "";
+    if (!/^\d{4}-\d{4}-\d{4}-\d{3}[\dX]$/.test(id)) return "";
+    const chars = id.replaceAll("-", "");
+    let total = 0;
+    for (let i = 0; i < 15; i += 1) total = (total + Number(chars[i])) * 2;
+    const result = (12 - (total % 11)) % 11;
+    return chars[15] === (result === 10 ? "X" : String(result)) ? id : "";
+  };
 
   const setReactionStatus = (message, kind = "") => {
     if (!reactionStatus) return;
@@ -23,29 +114,37 @@
   };
 
   const renderVoters = (vote, voters) => {
-    const details = reactions?.querySelector(`[data-reaction-voters="${vote}"]`);
-    const list = details?.querySelector("ul");
-    if (!details || !list) return;
-    list.replaceChildren(...voters.map((voter) => {
+    const popover = reactions?.querySelector(`[data-reaction-voters-popover="${vote}"]`);
+    const list = popover?.querySelector("ul");
+    const empty = popover?.querySelector("[data-reaction-empty]");
+    if (!popover || !list) return;
+    const identities = voters.flatMap((voter) => {
+      const orcid = validOrcidId(voter.orcid);
+      const name = typeof voter.name === "string" ? voter.name.trim() : "";
+      return orcid && name ? [{ orcid, name }] : [];
+    });
+    list.replaceChildren(...identities.map((voter) => {
       const item = document.createElement("li");
       const link = document.createElement("a");
-      link.href = `https://orcid.org/${encodeURIComponent(voter.orcid)}`;
+      link.href = `https://orcid.org/${voter.orcid}`;
       link.target = "_blank";
       link.rel = "noopener noreferrer";
       link.textContent = voter.name;
       item.appendChild(link);
       return item;
     }));
-    details.hidden = voters.length === 0;
+    if (empty) empty.hidden = identities.length !== 0;
   };
 
   const renderReactions = (data) => {
+    reactionData = data;
     for (const button of reactionButtons) {
       const vote = Number(button.dataset.reactionVote);
       const active = data.viewer_vote === vote;
-      button.disabled = reactionPending || !data.eligible;
+      button.disabled = reactionPending;
       button.setAttribute("aria-pressed", String(active));
-      button.querySelector("[data-reaction-count]").textContent = String(vote === 1 ? data.likes : data.dislikes);
+      const counter = reactions?.querySelector(`[data-reaction-count="${vote}"]`);
+      if (counter) counter.textContent = String(vote === 1 ? data.likes : data.dislikes);
     }
     renderVoters("1", data.voters.likes);
     renderVoters("-1", data.voters.dislikes);
@@ -56,7 +155,6 @@
       setReactionStatus("Sign in again after making your ORCID name public.", "attention");
       if (reactionLogin) {
         reactionLogin.hidden = false;
-        reactionLogin.textContent = "Sign in again";
       }
     } else {
       setReactionStatus("Sign in with ORCID to vote.", "signed-out");
@@ -64,13 +162,12 @@
     }
   };
 
-  const reactionsURL = `${host}/reactions/v1/page?url=${encodeURIComponent(url)}`;
   const loadReactions = async () => {
     if (!reactions) return;
     try {
-      const response = await window.fetch(reactionsURL, { credentials: "include", headers: { Accept: "application/json" } });
-      if (!response.ok) throw new Error(`reaction service returned ${response.status}`);
-      renderReactions(await response.json());
+      const response = await reactionRequest("page", { url });
+      if (!response.ok) throw new Error(response.data?.error || `reaction service returned ${response.status}`);
+      renderReactions(response.data);
     } catch {
       reactionButtons.forEach((button) => { button.disabled = true; });
       setReactionStatus("Page responses are temporarily unavailable.", "error");
@@ -78,28 +175,40 @@
   };
 
   if (reactionLogin) {
-    const loginURL = new URL(`${host}/auth/orcid/login`);
-    loginURL.searchParams.set("site", siteId);
-    loginURL.searchParams.set("from", window.location.href);
-    reactionLogin.href = loginURL.toString();
+    reactionLogin.href = reactionLoginURL.toString();
+  }
+  for (const toggle of reactionVoterToggles) {
+    toggle.addEventListener("click", () => {
+      const vote = toggle.dataset.reactionVoters;
+      const popover = reactions?.querySelector(`[data-reaction-voters-popover="${vote}"]`);
+      if (!popover) return;
+      const willOpen = popover.hidden;
+      for (const other of reactionVoterToggles) {
+        const otherPopover = reactions?.querySelector(`[data-reaction-voters-popover="${other.dataset.reactionVoters}"]`);
+        if (otherPopover) otherPopover.hidden = true;
+        other.setAttribute("aria-expanded", "false");
+      }
+      popover.hidden = !willOpen;
+      toggle.setAttribute("aria-expanded", String(willOpen));
+    });
   }
   for (const button of reactionButtons) {
     button.addEventListener("click", async () => {
       if (reactionPending || button.disabled) return;
+      if (!reactionData?.eligible) {
+        if (typeof window.location.assign === "function") window.location.assign(reactionLoginURL.toString());
+        else window.location.href = reactionLoginURL.toString();
+        return;
+      }
       const selected = Number(button.dataset.reactionVote);
       const vote = button.getAttribute("aria-pressed") === "true" ? 0 : selected;
       reactionPending = true;
       reactionButtons.forEach((item) => { item.disabled = true; });
       setReactionStatus("Saving your response…");
       try {
-        const response = await window.fetch(`${host}/reactions/v1/vote`, {
-          method: "PUT",
-          credentials: "include",
-          headers: { "Content-Type": "application/json", "X-Lax-CSRF": "1", Accept: "application/json" },
-          body: JSON.stringify({ url, vote }),
-        });
-        const data = await response.json();
-        if (!response.ok) throw new Error(data.error || `reaction service returned ${response.status}`);
+        const response = await reactionRequest("vote", { url, vote });
+        const data = response.data;
+        if (!response.ok) throw new Error(data?.error || `reaction service returned ${response.status}`);
         reactionPending = false;
         renderReactions(data);
       } catch (error) {
