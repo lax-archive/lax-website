@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src https: data:; font-src 'self'">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Lax — an archive of formalized mathematical concepts and their proofs">
+<title>Graphs without a 3-Connected Subgraph are 4-Colourable — lax-10</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
+<link rel="stylesheet" href="../assets/style.css?v=2fcc67ddfb1f">
+</head><body>
+<header class="site-header">
+  <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
+  <h1 class="site-title"><a href="../index.html">Lax <span class="site-title-quiet">Lean Archive</span></a></h1>
+</header>
+<main id="content-shell">
+<div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+<aside id="sidebar">
+<a class="sidebar-back" href="../index.html"><span class="sidebar-back-arrow" aria-hidden="true">←</span>All submissions</a>
+<div class="sidebar-filters"><div class="filter-group">
+<label for="filter-search">Search</label>
+<input id="filter-search" class="filter-input" type="search" placeholder="Filter entries" aria-controls="entry-list">
+</div>
+<div class="filter-group">
+<label for="filter-type">Type</label>
+<select id="filter-type" class="filter-select">
+<option value="all">All types</option>
+<option value="definition">definition</option>
+<option value="theorem">theorem</option>
+<option value="proof">proof</option>
+</select>
+</div></div>
+<ul id="entry-list">
+<li class="entry-heading" aria-hidden="true">Concepts</li>
+<li data-type="definition" data-search="lax10.fragile fragile and m-fragile graphs definition"><a class="entry-link" href="../lax-10/Lax10.Fragile.html" data-full-title="Fragile and m-fragile graphs"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax10.Fragile</span></span></a></li>
+<li data-type="theorem" data-search="lax10.fragilefourcolorable graphs without a 3-connected subgraph are 4-colorable theorem"><a class="entry-link" href="../lax-10/Lax10.FragileFourColorable.html" data-full-title="Graphs without a 3-connected subgraph are 4-colorable"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax10.FragileFourColorable</span></span></a></li>
+<li data-type="theorem" data-search="lax10.theorem2 theorem 2 theorem"><a class="entry-link" href="../lax-10/Lax10.Theorem2.html" data-full-title="Theorem 2"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax10.Theorem2</span></span></a></li>
+<li data-type="definition" data-search="lax10.threeconnectedandcolorable 3-connected graphs and 4-colorability definition"><a class="entry-link" href="../lax-10/Lax10.ThreeConnectedAndColorable.html" data-full-title="3-connected graphs and 4-colorability"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax10.ThreeConnectedAndColorable</span></span></a></li>
+<li class="entry-heading" aria-hidden="true">Proofs</li>
+<li data-type="proof" data-search="lax10proofs.main.fragile_four_colorable proof"><a class="entry-link" href="../lax-10/Lax10Proofs.Main.fragile_four_colorable.html" data-full-title="Lax10Proofs.Main.fragile_four_colorable"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax10Proofs.Main.fragile_four_colorable</span></span></a></li>
+<li data-type="proof" data-search="lax10proofs.main.theorem2 proof"><a class="entry-link" href="../lax-10/Lax10Proofs.Main.theorem2.html" data-full-title="Lax10Proofs.Main.theorem2"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax10Proofs.Main.theorem2</span></span></a></li>
+<li id="entry-list-empty" hidden>No entries match.</li>
+</ul>
+</aside>
+<section id="main"><div id="detail">
+<p class="draft-banner"><strong>Draft</strong> — mutable and not usable as a dependency; its citation marks the draft state.</p>
+<header class="paper-head">
+<h1 class="paper-title">Graphs without a 3-Connected Subgraph are 4-Colourable</h1>
+<p class="paper-meta"><span class="submission-meta-id">lax-10</span><span class="meta-sep">·</span><span class="formalized-label">formalized by</span> <span class="paper-author">Édouard Bonnet</span><span class="meta-sep">·</span>created 2026-08-02<span class="meta-sep">·</span><a href="https://github.com/EdouardBonnet/fragile-graphs-are-4-colorable/tree/7b348ba968573cc7ca130483f319c24003509200/" title="https://github.com/EdouardBonnet/fragile-graphs-are-4-colorable/tree/7b348ba968573cc7ca130483f319c24003509200/"><code>GitHub @7b348ba</code></a><span class="meta-sep">·</span>Lean <code>v4.30.0</code> · mathlib <code>c5ea00351c28</code></p>
+</header>
+<section class="paper-abstract">
+<h2 class="abstract-heading">Abstract</h2>
+<div class="latex-content"><p>This submission formalizes the main proof of Bonnet, Feghali, Nguyen, Scott,
+Seymour, Thomassé, and Trotignon available at <a href="https://arxiv.org/abs/2402.06338">https://arxiv.org/abs/2402.06338</a>. 
+It internally proves the technical Theorem 3.
+Only its consequence, Theorem 2, and the result claimed in the title are exposed.</p>
+</div>
+</section>
+<section class="page-section"><h3 class="section-title">Concepts</h3>
+<div class="concept-list-box">
+<ul class="concept-list">
+<li><span class="type-badge" title="definition">def</span><a href="Lax10.Fragile.html" title="Lax10.Fragile"><code>Lax10.Fragile</code></a></li>
+<li><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="Lax10.FragileFourColorable.html" title="Lax10.FragileFourColorable"><code>Lax10.FragileFourColorable</code></a></li>
+<li><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="Lax10.Theorem2.html" title="Lax10.Theorem2"><code>Lax10.Theorem2</code></a></li>
+<li><span class="type-badge" title="definition">def</span><a href="Lax10.ThreeConnectedAndColorable.html" title="Lax10.ThreeConnectedAndColorable"><code>Lax10.ThreeConnectedAndColorable</code></a></li>
+</ul>
+<div class="badge-legend" aria-label="Concept badge legend"><span><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span>proven claim</span><span><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span>open claim</span><span><span class="type-badge" title="definition">def</span>definition</span><span class="badge-legend-note">letters abbreviate the concept's type</span></div>
+</div>
+<h4 class="figure-title">Concept map</h4>
+<figure class="graph-figure">
+<button class="graph-expand" type="button" data-graph-expand data-graph-label="concept map" aria-expanded="false" aria-label="Open concept map in a large window" title="Open in large window"><svg class="graph-expand-open" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M2.5 6V2.5H6M10 2.5h3.5V6M13.5 10v3.5H10M6 13.5H2.5V10"/></svg><span class="graph-expand-close" aria-hidden="true">×</span></button>
+<div class="graph-toolbar"><button type="button" id="concept-expand" aria-controls="concept-dag" aria-pressed="true">Hide ancestors</button><button type="button" id="concept-descend" aria-controls="concept-dag" aria-pressed="false">Show descendants</button><output id="concept-graph-status" aria-live="polite"></output></div>
+<div id="concept-dag" class="figure-container" data-graph="concepts" data-ancestry="true"></div>
+<div class="graph-tooltip" role="tooltip" hidden></div>
+<figcaption class="graph-legend" aria-label="Concept map legend"><span><i class="legend-node fill-proven"></i>Proven claim</span><span><i class="legend-node fill-open"></i>Open claim</span><span><i class="legend-node fill-none"></i>Definition</span><span><i class="legend-node stroke-own"></i>This submission</span><span><i class="legend-node stroke-ext"></i>Other submission</span><span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B builds on A</span></figcaption>
+</figure>
+</section>
+<section class="page-section"><h3 class="section-title">Proofs</h3>
+<div class="proof-list-box">
+<ul class="proof-list">
+<li class="proof-item" id="p-Lax10Proofs.Main.fragile_four_colorable">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-10/Lax10Proofs.Main.fragile_four_colorable.html" aria-label="Open proof Lax10Proofs.Main.fragile_four_colorable"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><p class="judgment-unconditional">no assumptions</p></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="../lax-10/Lax10.FragileFourColorable.html" title="Lax10.FragileFourColorable.fragile_four_colorable"><code>Lax10.FragileFourColorable</code></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-10/Lax10Proofs.Main.fragile_four_colorable.html"><code>Lax10Proofs.Main.fragile_four_colorable</code></a></p>
+</li>
+<li class="proof-item" id="p-Lax10Proofs.Main.theorem2">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-10/Lax10Proofs.Main.theorem2.html" aria-label="Open proof Lax10Proofs.Main.theorem2"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><p class="judgment-unconditional">no assumptions</p></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="../lax-10/Lax10.Theorem2.html" title="Lax10.Theorem2.theorem2"><code>Lax10.Theorem2</code></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-10/Lax10Proofs.Main.theorem2.html"><code>Lax10Proofs.Main.theorem2</code></a></p>
+</li>
+</ul>
+<p class="proof-list-source">Lean sources for these proofs: <a class="source-link" href="https://github.com/EdouardBonnet/fragile-graphs-are-4-colorable/tree/7b348ba968573cc7ca130483f319c24003509200/proofs">proofs/ on GitHub</a></p>
+</div>
+<h4 class="figure-title">Proof network<a class="source-link" href="https://github.com/EdouardBonnet/fragile-graphs-are-4-colorable/tree/7b348ba968573cc7ca130483f319c24003509200/proofs">view on GitHub</a></h4>
+<figure class="graph-figure proof-network-figure">
+<button class="graph-expand" type="button" data-graph-expand data-graph-label="proof network" aria-expanded="false" aria-label="Open proof network in a large window" title="Open in large window"><svg class="graph-expand-open" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M2.5 6V2.5H6M10 2.5h3.5V6M13.5 10v3.5H10M6 13.5H2.5V10"/></svg><span class="graph-expand-close" aria-hidden="true">×</span></button>
+<div id="proof-network" class="figure-container" data-graph="proofs"></div>
+<div class="graph-tooltip" role="tooltip" hidden></div>
+<figcaption class="graph-legend" aria-label="Proof network legend"><span class="proof-flow">assumptions <i class="legend-arrow" aria-hidden="true">→</i><i class="legend-proof-chip" aria-hidden="true">⊢</i><i class="legend-arrow" aria-hidden="true">→</i> conclusion</span><span><i class="legend-node fill-proven"></i>Proven claim</span><span><i class="legend-node fill-open"></i>Open claim</span><span><i class="legend-node stroke-own"></i>This submission</span><span><i class="legend-node stroke-ext"></i>From another submission</span><span><i class="legend-proof-chip" aria-hidden="true">⊢</i>Proof — click to open</span><span><i class="legend-cycle"></i>Cycle — claims proving each other</span></figcaption>
+</figure>
+<p class="honesty-note">Proof code is not displayed; the archive records each proof's checked relationship between claims.</p>
+</section>
+<section class="page-section"><h3 class="section-title">Related submissions</h3>
+<p class="empty-note">No other submission in the archive builds on this one, and this one builds on none.</p>
+</section>
+<section class="page-section"><h3 class="section-title" id="citation">Cite this</h3>
+<div class="citation-box">
+<pre class="citation" id="submission-citation">@misc{lax-10,
+  author = {Édouard Bonnet},
+  title = {Graphs without a 3-Connected Subgraph are 4-Colourable},
+  year = {2026},
+  howpublished = {Lax Archive, lax-10},
+  url = {https://laxarchive.org/lax-10/},
+  note = {draft},
+}</pre>
+<button class="citation-copy" type="button" data-copy-citation aria-controls="submission-citation" aria-label="Copy BibTeX to clipboard" title="Copy BibTeX"><span class="citation-copy-icon" aria-hidden="true"></span></button>
+<output class="citation-copy-status" aria-live="polite"></output>
+</div>
+</section>
+<section class="page-section"><h3 class="section-title">References</h3>
+<ol class="reference-list">
+<li id="ref-BonnetFeghaliNguyenScottSeymourThomasseTrotignon2025">Edouard Bonnet, Carl Feghali, Tung Nguyen, Alex Scott, Paul Seymour, Stephan Thomasse and Nicolas Trotignon. <span class="reference-title">Graphs without a 3-Connected Subgraph are 4-Colourable</span>. Electronic Journal of Combinatorics 32(1):P1.26, 2025. <a href="https://doi.org/10.37236/13181">doi:10.37236/13181</a></li>
+</ol>
+</section>
+<script type="application/json" id="graph-data">{"concepts":{"nodes":[{"id":"Lax10.Fragile","href":"../lax-10/Lax10.Fragile.html","title":"Fragile and m-fragile graphs","owner":"lax-10","status":"none","ext":false,"dir":"core"},{"id":"Lax10.FragileFourColorable","href":"../lax-10/Lax10.FragileFourColorable.html","title":"Graphs without a 3-connected subgraph are 4-colorable","owner":"lax-10","status":"proven","ext":false,"dir":"core"},{"id":"Lax10.Theorem2","href":"../lax-10/Lax10.Theorem2.html","title":"Theorem 2","owner":"lax-10","status":"proven","ext":false,"dir":"core"},{"id":"Lax10.ThreeConnectedAndColorable","href":"../lax-10/Lax10.ThreeConnectedAndColorable.html","title":"3-connected graphs and 4-colorability","owner":"lax-10","status":"none","ext":false,"dir":"core"}],"edges":[{"from":"Lax10.ThreeConnectedAndColorable","to":"Lax10.Fragile"},{"from":"Lax10.Fragile","to":"Lax10.FragileFourColorable"},{"from":"Lax10.ThreeConnectedAndColorable","to":"Lax10.Theorem2"}],"home":"lax-10"},"proofs":{"statements":[{"id":"Lax10.FragileFourColorable.fragile_four_colorable","label":"Lax10.FragileFourColorable","title":"Graphs without a 3-connected subgraph are 4-colorable","owner":"lax-10","href":"../lax-10/Lax10.FragileFourColorable.html#s-Lax10.FragileFourColorable.fragile_four_colorable","proven":true,"ext":false},{"id":"Lax10.Theorem2.theorem2","label":"Lax10.Theorem2","title":"Theorem 2","owner":"lax-10","href":"../lax-10/Lax10.Theorem2.html#s-Lax10.Theorem2.theorem2","proven":true,"ext":false}],"proofs":[{"id":"Lax10Proofs.Main.fragile_four_colorable","assumptions":[],"conclusion":"Lax10.FragileFourColorable.fragile_four_colorable","description":"The main 4-colorability corollary.","owner":"lax-10","ext":false,"href":"../lax-10/Lax10Proofs.Main.fragile_four_colorable.html","assumptionsProven":true,"outstanding":0},{"id":"Lax10Proofs.Main.theorem2","assumptions":[],"conclusion":"Lax10.Theorem2.theorem2","description":"The chromatic-number form of Theorem 2.","owner":"lax-10","ext":false,"href":"../lax-10/Lax10Proofs.Main.theorem2.html","assumptionsProven":true,"outstanding":0}],"home":"lax-10"},"submissions":{"nodes":[{"id":"lax-10","href":"../lax-10/index.html","title":"Graphs without a 3-Connected Subgraph are 4-Colourable","state":"draft","concepts":4,"proofs":2,"dir":"core","ext":false}],"edges":[]}}</script>
+</div></section>
+</main>
+<script src="../assets/sidebar.js?v=81d80ace468c"></script>
+<script src="../assets/layout.js?v=1089ce8aae63"></script>
+<script src="../assets/dag.js?v=2a0b2e1bec54"></script>
+<script src="../assets/citation.js?v=d9edcca2ee6c"></script>
+</body></html>

@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src https: data:; font-src 'self'">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Lax — an archive of formalized mathematical concepts and their proofs">
+<title>Lax18Proofs.szemeredi_regularity_lemma — lax-18</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
+<link rel="stylesheet" href="../assets/style.css?v=2fcc67ddfb1f">
+</head><body>
+<header class="site-header">
+  <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
+  <h1 class="site-title"><a href="../index.html">Lax <span class="site-title-quiet">Lean Archive</span></a></h1>
+</header>
+<main id="content-shell">
+<div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+<aside id="sidebar">
+<a class="sidebar-back" href="../lax-18/index.html"><span class="sidebar-back-arrow" aria-hidden="true">←</span>lax-18</a>
+<div class="sidebar-filters"><div class="filter-group">
+<label for="filter-search">Search</label>
+<input id="filter-search" class="filter-input" type="search" placeholder="Filter entries" aria-controls="entry-list">
+</div>
+<div class="filter-group">
+<label for="filter-type">Type</label>
+<select id="filter-type" class="filter-select">
+<option value="all">All types</option>
+<option value="definition">definition</option>
+<option value="theorem">theorem</option>
+<option value="proof">proof</option>
+</select>
+</div></div>
+<ul id="entry-list">
+<li class="entry-heading" aria-hidden="true">Concepts</li>
+<li data-type="definition" data-search="lax18.edgedensity edge density between two vertex sets definition"><a class="entry-link" href="../lax-18/Lax18.EdgeDensity.html" data-full-title="Edge density between two vertex sets"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax18.EdgeDensity</span></span></a></li>
+<li data-type="theorem" data-search="lax18.energyincrement the energy-increment refinement lemma theorem"><a class="entry-link" href="../lax-18/Lax18.EnergyIncrement.html" data-full-title="The energy-increment refinement lemma"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax18.EnergyIncrement</span></span></a></li>
+<li data-type="theorem" data-search="lax18.equitablecleanup equitable cleanup of a bounded partition theorem"><a class="entry-link" href="../lax-18/Lax18.EquitableCleanup.html" data-full-title="Equitable cleanup of a bounded partition"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax18.EquitableCleanup</span></span></a></li>
+<li data-type="definition" data-search="lax18.finitegraphpartitions finite graph vertex partitions definition"><a class="entry-link" href="../lax-18/Lax18.FiniteGraphPartitions.html" data-full-title="Finite graph vertex partitions"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax18.FiniteGraphPartitions</span></span></a></li>
+<li data-type="definition" data-search="lax18.partitionenergy refinement and the index of a graph partition definition"><a class="entry-link" href="../lax-18/Lax18.PartitionEnergy.html" data-full-title="Refinement and the index of a graph partition"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax18.PartitionEnergy</span></span></a></li>
+<li data-type="theorem" data-search="lax18.partitionenergybounds bounds for partition energy theorem"><a class="entry-link" href="../lax-18/Lax18.PartitionEnergyBounds.html" data-full-title="Bounds for partition energy"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax18.PartitionEnergyBounds</span></span></a></li>
+<li data-type="theorem" data-search="lax18.partitionenergymonotonicity monotonicity of partition energy under refinement theorem"><a class="entry-link" href="../lax-18/Lax18.PartitionEnergyMonotonicity.html" data-full-title="Monotonicity of partition energy under refinement"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax18.PartitionEnergyMonotonicity</span></span></a></li>
+<li data-type="definition" data-search="lax18.regularpairs regular pairs definition"><a class="entry-link" href="../lax-18/Lax18.RegularPairs.html" data-full-title="Regular pairs"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax18.RegularPairs</span></span></a></li>
+<li data-type="definition" data-search="lax18.regularpartitions regular partitions definition"><a class="entry-link" href="../lax-18/Lax18.RegularPartitions.html" data-full-title="Regular partitions"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax18.RegularPartitions</span></span></a></li>
+<li data-type="theorem" data-search="lax18.szemerediregularitylemma szemerédi's regularity lemma theorem"><a class="entry-link" href="../lax-18/Lax18.SzemerediRegularityLemma.html" data-full-title="Szemerédi's regularity lemma"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax18.SzemerediRegularityLemma</span></span></a></li>
+<li class="entry-heading" aria-hidden="true">Proofs</li>
+<li data-type="proof" data-search="lax18proofs.energy_increment_refinement proof"><a class="entry-link" href="../lax-18/Lax18Proofs.energy_increment_refinement.html" data-full-title="Lax18Proofs.energy_increment_refinement"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax18Proofs.energy_increment_refinement</span></span></a></li>
+<li data-type="proof" data-search="lax18proofs.equitable_cleanup proof"><a class="entry-link" href="../lax-18/Lax18Proofs.equitable_cleanup.html" data-full-title="Lax18Proofs.equitable_cleanup"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax18Proofs.equitable_cleanup</span></span></a></li>
+<li data-type="proof" data-search="lax18proofs.partitionenergy_mem_unitinterval proof"><a class="entry-link" href="../lax-18/Lax18Proofs.partitionEnergy_mem_unitInterval.html" data-full-title="Lax18Proofs.partitionEnergy_mem_unitInterval"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax18Proofs.partitionEnergy_mem_unitInterval</span></span></a></li>
+<li data-type="proof" data-search="lax18proofs.partitionenergy_mono_of_refines proof"><a class="entry-link" href="../lax-18/Lax18Proofs.partitionEnergy_mono_of_refines.html" data-full-title="Lax18Proofs.partitionEnergy_mono_of_refines"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax18Proofs.partitionEnergy_mono_of_refines</span></span></a></li>
+<li class="active" data-type="proof" data-search="lax18proofs.szemeredi_regularity_lemma proof"><a class="entry-link" href="../lax-18/Lax18Proofs.szemeredi_regularity_lemma.html" data-full-title="Lax18Proofs.szemeredi_regularity_lemma"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax18Proofs.szemeredi_regularity_lemma</span></span></a></li>
+<li id="entry-list-empty" hidden>No entries match.</li>
+</ul>
+</aside>
+<section id="main"><div id="detail">
+<p class="draft-banner"><strong>Draft</strong> — mutable and not usable as a dependency; its citation marks the draft state.</p>
+<div class="detail-heading concept-heading proof-heading">
+<div class="proof-heading-content"><h1 class="concept-title">Proof of <span class="proof-concept-title">`Szemerédi's regularity lemma`</span></h1>
+<p class="concept-microline proof-microline"><span class="status-pills"><span class="status-pill pill-proven" tabindex="0" data-tooltip="No open assumptions remain in the archive: every dependency is backed by a checked proof, ultimately reducing to Lean and Mathlib." aria-label="Grounded. No open assumptions remain in the archive: every dependency is backed by a checked proof, ultimately reducing to Lean and Mathlib.">grounded</span></span><span><a href="https://github.com/faghasemi/szemeredi-regularity-lemma-lax/blob/35e33040b5f561131c764c4e0dad922eeecd2dc2/regularity-lemma/proofs/Lax18Proofs/RegularityLemma.lean"><code>proofs/Lax18Proofs/RegularityLemma.lean</code></a> · <a href="index.html">lax-18</a></span></p></div>
+</div>
+<div class="block block-evidence"><h3>What this proof establishes</h3>
+<div class="judgment">
+<div class="judgment-assumptions"><p class="judgment-unconditional">no assumptions</p></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="../lax-18/Lax18.SzemerediRegularityLemma.html" title="Lax18.SzemerediRegularityLemma.szemeredi_regularity_lemma"><code>Lax18.SzemerediRegularityLemma</code></a></span></div>
+</div>
+<p class="honesty-note">Assuming the claims on the left, the claim on the right holds — checked by the archive's pipeline. Proof code is not displayed here.</p>
+<p class="source-action"><a class="source-button" href="https://github.com/faghasemi/szemeredi-regularity-lemma-lax/blob/35e33040b5f561131c764c4e0dad922eeecd2dc2/regularity-lemma/proofs/Lax18Proofs/RegularityLemma.lean"><svg class="gh-mark" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true" focusable="false"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg><span>Read the Lean proof on GitHub</span></a></p>
+</div>
+<div class="block block-statement"><h3>Description</h3><div class="latex-content"><p>The proof translates mathlib's equitable uniform partition into the indexed
+partition and non-strict regularity conventions used by this submission.</p>
+</div></div>
+<div class="block"><h3>Proof strategy</h3><div class="latex-content"><p>Apply mathlib's effective equitable form of Szemerédi's regularity lemma, map
+its finite partition to the indexed partition used by the concept package,
+and transport equitability and regularity across the two definitions.</p>
+</div></div>
+<div class="block"><h3>Attribution</h3><div class="latex-content"><p>The mathematical statement and energy-increment presentation follow Reinhard
+Diestel, <em>Graph Theory</em>, 5th edition, Section 7.4.  The checked proof concludes
+the clean equipartition variant by translating the theorem formalized in
+mathlib by Yaël Dillies and Bhavik Mehta.</p>
+</div></div>
+</div></section>
+</main>
+<script src="../assets/sidebar.js?v=81d80ace468c"></script>
+</body></html>
