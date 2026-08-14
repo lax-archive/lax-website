@@ -89,6 +89,10 @@ jobs:
             git -C _pages rm -rf --ignore-unmatch .
           fi
 
+      - name: Package the production renderer
+        if: steps.target.outputs.mode == 'production'
+        run: node .github/scripts/package-renderer.mjs "${{ github.sha }}" _pages/_renderer
+
       - name: Bootstrap the production root
         if: github.event_name != 'delete'
         env:
@@ -117,7 +121,7 @@ jobs:
           set -euo pipefail
           if [[ "$MODE" == "production" ]]; then
             find _pages -mindepth 1 -maxdepth 1 \
-              ! -name .git ! -name previews -exec rm -rf {} +
+              ! -name .git ! -name previews ! -name _renderer -exec rm -rf {} +
             cp -a _site/. _pages/
           elif [[ "$MODE" == "preview" ]]; then
             rm -rf "_pages/previews/$SLUG"
