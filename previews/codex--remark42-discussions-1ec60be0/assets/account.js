@@ -7,11 +7,11 @@
 
   const host = (root.dataset.remark42Host || "").replace(/\/+$/, "");
   const site = root.dataset.remark42Site || "remark";
-  const identityUrl = root.dataset.identityUrl || "";
   if (!host.startsWith("https://")) return;
 
   const login = root.querySelector("[data-account-login]");
   const settings = root.querySelector("[data-account-settings]");
+  const settingsLabel = settings?.querySelector("span:last-child");
   const close = dialog.querySelector("[data-account-close]");
   const content = dialog.querySelector("[data-account-content]");
   const status = dialog.querySelector("[data-account-status]");
@@ -26,6 +26,54 @@
   let currentUser = null;
   let currentIdentity = null;
   let commentsLoadedFor = "";
+
+  const bridgeOrigin = new URL(host).origin;
+  const bridge = document.createElement("iframe");
+  bridge.src = `${host}/reactions/v1/bridge`;
+  bridge.title = "ORCID account session bridge";
+  bridge.hidden = true;
+  (document.body || document.head).appendChild(bridge);
+  const bridgeRequests = new Map();
+  let bridgeSequence = 0;
+  let markBridgeReady;
+  const bridgeReady = new Promise((resolve) => { markBridgeReady = resolve; });
+
+  window.addEventListener("message", (event) => {
+    if (event.origin !== bridgeOrigin || event.source !== bridge.contentWindow) return;
+    const message = event.data;
+    if (!message || message.source !== "lax-reactions") return;
+    if (message.type === "ready") {
+      markBridgeReady();
+      return;
+    }
+    const pending = typeof message.id === "string" ? bridgeRequests.get(message.id) : null;
+    if (!pending) return;
+    bridgeRequests.delete(message.id);
+    pending.resolve(message);
+  });
+
+  async function bridgeRequest(action, payload = {}) {
+    if (!bridge.contentWindow) throw new Error("account bridge is unavailable");
+    await Promise.race([
+      bridgeReady,
+      new Promise((_, reject) => window.setTimeout(() => reject(new Error("account bridge timed out")), 5000)),
+    ]);
+    const id = `lax-account-${Date.now()}-${bridgeSequence += 1}`;
+    const response = new Promise((resolve, reject) => {
+      const timeout = window.setTimeout(() => {
+        bridgeRequests.delete(id);
+        reject(new Error("account bridge timed out"));
+      }, 5000);
+      bridgeRequests.set(id, {
+        resolve: (message) => {
+          window.clearTimeout(timeout);
+          resolve(message);
+        },
+      });
+    });
+    bridge.contentWindow.postMessage({ source: "lax-reactions", id, action, ...payload }, bridgeOrigin);
+    return response;
+  }
 
   const makeLoginUrl = () => {
     const url = new URL("/auth/orcid/login", host);
@@ -52,29 +100,26 @@
     return chars[15] === (result === 10 ? "X" : String(result)) ? id : "";
   };
 
-  async function fetchJson(url, options = {}) {
-    const response = await fetch(url, {
-      credentials: "include",
-      cache: "no-store",
-      headers: { Accept: "application/json" },
-      ...options,
-    });
-    if (!response.ok) throw new Error(String(response.status));
-    return response.json();
+  async function directRequest(action, payload = {}) {
+    if (action === "me") {
+      const response = await fetch(`${host}/reactions/v1/me`, { credentials: "include", cache: "no-store", headers: { Accept: "application/json" } });
+      return { ok: response.ok, status: response.status, data: await response.json() };
+    }
+    if (action === "comments") {
+      const url = new URL(`${host}/api/v1/comments`);
+      for (const [key, value] of Object.entries(payload)) url.searchParams.set(key, String(value));
+      const response = await fetch(url, { credentials: "include", cache: "no-store", headers: { Accept: "application/json" } });
+      return { ok: response.ok, status: response.status, data: await response.json() };
+    }
+    const response = await fetch(`${host}/auth/logout`, { credentials: "include", cache: "no-store" });
+    return { ok: response.ok, status: response.status, data: {} };
   }
 
-  async function findIdentity(user) {
-    if (!identityUrl || !user?.id) return null;
-    const url = new URL(identityUrl);
-    url.searchParams.set("remark42_id", user.id);
+  async function accountRequest(action, payload = {}) {
     try {
-      const value = await fetchJson(url);
-      const orcidId = validOrcidId(value.orcid_id);
-      const name = validName(value.name);
-      if (!orcidId || !name || (value.remark42_id && value.remark42_id !== user.id)) return null;
-      return { orcidId, name };
+      return await bridgeRequest(action, payload);
     } catch {
-      return null;
+      return directRequest(action, payload);
     }
   }
 
@@ -89,6 +134,7 @@
     commentsLoadedFor = "";
     login.hidden = false;
     settings.hidden = true;
+    if (settingsLabel) settingsLabel.textContent = "Settings";
     content.hidden = true;
     status.hidden = false;
     status.textContent = message || "Sign in with ORCID to view your settings and comments.";
@@ -102,32 +148,40 @@
 
   async function checkAccount() {
     try {
-      const user = await fetchJson(`${host}/api/v1/user?site=${encodeURIComponent(site)}`);
-      const sessionName = validName(user.name);
-      if (!sessionName) {
+      const response = await accountRequest("me");
+      if (!response.ok) throw new Error(String(response.status));
+      if (!response.data?.authenticated || !response.data?.eligible) {
+        const message = response.data?.reauthenticate
+          ? "Your session expired. Sign in with ORCID again."
+          : "Sign in with ORCID to view your settings and comments.";
+        setLoggedOut(message);
+        accountEvent();
+        return;
+      }
+      const viewer = response.data.viewer || {};
+      const remarkId = typeof viewer.remark42_id === "string" ? viewer.remark42_id : "";
+      const orcidId = validOrcidId(viewer.orcid_id);
+      const displayName = validName(viewer.name);
+      if (!/^orcid_[a-f0-9]{40}$/.test(remarkId) || !orcidId || !displayName) {
         setLoggedOut("A public name shared by ORCID is required before this account can comment or use settings.");
         accountEvent();
         return;
       }
-      currentUser = user;
-      currentIdentity = await findIdentity(user);
-      const displayName = currentIdentity?.name || sessionName;
+      currentUser = { id: remarkId, name: displayName };
+      currentIdentity = { orcidId, name: displayName };
       login.hidden = true;
       settings.hidden = false;
+      if (settingsLabel) settingsLabel.textContent = displayName;
       settings.title = `Account settings for ${displayName}`;
       content.hidden = false;
       status.hidden = true;
       nameLink.textContent = displayName;
       avatar.textContent = initials(displayName);
-      if (currentIdentity) {
-        nameLink.href = `https://orcid.org/${currentIdentity.orcidId}`;
-        nameLink.removeAttribute("aria-disabled");
-        idLabel.textContent = `ORCID iD ${currentIdentity.orcidId}`;
-      } else {
-        nameLink.removeAttribute("href");
-        nameLink.setAttribute("aria-disabled", "true");
-        idLabel.textContent = "The public ORCID profile link is temporarily unavailable.";
-      }
+      nameLink.href = `https://orcid.org/${currentIdentity.orcidId}`;
+      nameLink.title = `${displayName} — ORCID iD ${currentIdentity.orcidId}`;
+      nameLink.setAttribute("aria-label", `${displayName}, ORCID iD ${currentIdentity.orcidId}`);
+      nameLink.removeAttribute("aria-disabled");
+      idLabel.textContent = `ORCID iD ${currentIdentity.orcidId}`;
       accountEvent();
     } catch {
       setLoggedOut();
@@ -190,12 +244,9 @@
       let skip = 0;
       let count = 0;
       do {
-        const url = new URL(`${host}/api/v1/comments`);
-        url.searchParams.set("site", site);
-        url.searchParams.set("user", currentUser.id);
-        url.searchParams.set("limit", String(limit));
-        url.searchParams.set("skip", String(skip));
-        const page = await fetchJson(url);
+        const response = await accountRequest("comments", { site, user: currentUser.id, limit, skip });
+        if (!response.ok) throw new Error(String(response.status));
+        const page = response.data;
         const comments = Array.isArray(page.comments) ? page.comments : [];
         all.push(...comments);
         count = Number.isFinite(page.count) ? page.count : all.length;
@@ -223,7 +274,8 @@
   logout.addEventListener("click", async () => {
     logout.disabled = true;
     try {
-      await fetch(`${host}/auth/logout`, { credentials: "include", cache: "no-store" });
+      const response = await accountRequest("logout");
+      if (!response.ok) throw new Error(String(response.status));
       dialog.close();
       setLoggedOut("You are signed out.");
       accountEvent();
