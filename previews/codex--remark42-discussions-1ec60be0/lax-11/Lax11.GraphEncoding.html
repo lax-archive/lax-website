@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://remark42-3-74-72-66.nip.io; style-src 'self' 'unsafe-inline'; img-src https: data:; font-src 'self'; frame-src https://remark42-3-74-72-66.nip.io; connect-src https://remark42-3-74-72-66.nip.io">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Lax — an archive of formalized mathematical concepts and their proofs">
+<title>Compressed sparse row encoding of a graph — Lax11.GraphEncoding</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
+<link rel="stylesheet" href="../assets/style.css?v=63034be237f5">
+</head><body>
+<header class="site-header">
+  <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
+  <h1 class="site-title"><a href="../index.html">Lax <span class="site-title-quiet">Lean Archive</span></a></h1>
+</header>
+<main id="content-shell">
+<div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+<aside id="sidebar">
+<a class="sidebar-back" href="../lax-11/index.html"><span class="sidebar-back-arrow" aria-hidden="true">←</span>lax-11</a>
+<div class="sidebar-filters"><div class="filter-group">
+<label for="filter-search">Search</label>
+<input id="filter-search" class="filter-input" type="search" placeholder="Filter entries" aria-controls="entry-list">
+</div>
+<div class="filter-group">
+<label for="filter-type">Type</label>
+<select id="filter-type" class="filter-select">
+<option value="all">All types</option>
+<option value="definition">definition</option>
+<option value="theorem">theorem</option>
+<option value="proof">proof</option>
+</select>
+</div></div>
+<ul id="entry-list">
+<li class="entry-heading" aria-hidden="true">Concepts</li>
+<li data-type="definition" data-search="lax11.cliqueexpr k-expressions, and the graphs of cliquewidth at most k definition"><a class="entry-link" href="../lax-11/Lax11.CliqueExpr.html" data-full-title="k-expressions, and the graphs of cliquewidth at most k"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax11.CliqueExpr</span></span></a></li>
+<li data-type="theorem" data-search="lax11.connectedcomponents connected components in linear time theorem"><a class="entry-link" href="../lax-11/Lax11.ConnectedComponents.html" data-full-title="Connected components in linear time"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax11.ConnectedComponents</span></span></a></li>
+<li data-type="theorem" data-search="lax11.courcelle courcelle's theorem on a word ram theorem"><a class="entry-link" href="../lax-11/Lax11.Courcelle.html" data-full-title="Courcelle's theorem on a word RAM"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax11.Courcelle</span></span></a></li>
+<li class="active" data-type="definition" data-search="lax11.graphencoding compressed sparse row encoding of a graph definition"><a class="entry-link" href="../lax-11/Lax11.GraphEncoding.html" data-full-title="Compressed sparse row encoding of a graph"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax11.GraphEncoding</span></span></a></li>
+<li data-type="definition" data-search="lax11.instanceencoding encoding a graph together with a k-expression definition"><a class="entry-link" href="../lax-11/Lax11.InstanceEncoding.html" data-full-title="Encoding a graph together with a k-expression"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax11.InstanceEncoding</span></span></a></li>
+<li data-type="definition" data-search="lax11.mso monadic second-order logic on graphs definition"><a class="entry-link" href="../lax-11/Lax11.Mso.html" data-full-title="Monadic second-order logic on graphs"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax11.Mso</span></span></a></li>
+<li data-type="definition" data-search="lax11.vertexcover a graph with a parameter appended definition"><a class="entry-link" href="../lax-11/Lax11.VertexCover.html" data-full-title="A graph with a parameter appended"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax11.VertexCover</span></span></a></li>
+<li class="entry-heading" aria-hidden="true">Proofs</li>
+<li data-type="proof" data-search="lax11proofs.ccmain.exists_lineartime_program_cclabels proof"><a class="entry-link" href="../lax-11/Lax11Proofs.CCMain.exists_linearTime_program_ccLabels.html" data-full-title="Lax11Proofs.CCMain.exists_linearTime_program_ccLabels"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax11Proofs.CCMain.exists_linearTime_program_ccLabels</span></span></a></li>
+<li data-type="proof" data-search="lax11proofs.courcelle.exists_lineartime_program_modelchecking proof"><a class="entry-link" href="../lax-11/Lax11Proofs.Courcelle.exists_linearTime_program_modelChecking.html" data-full-title="Lax11Proofs.Courcelle.exists_linearTime_program_modelChecking"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax11Proofs.Courcelle.exists_linearTime_program_modelChecking</span></span></a></li>
+<li id="entry-list-empty" hidden>No entries match.</li>
+</ul>
+</aside>
+<section id="main"><div id="detail">
+<p class="draft-banner"><strong>Draft</strong> — mutable and not usable as a dependency; its citation marks the draft state.</p>
+<div class="detail-heading concept-heading">
+<div><p class="concept-id"><code>Lax11.GraphEncoding</code></p>
+<h1 class="concept-title">Compressed sparse row encoding of a graph</h1>
+<p class="concept-microline"><code>concepts/Lax11/GraphEncoding.lean</code> · <a href="index.html">lax-11</a></p></div>
+<span class="status-pills"><span class="status-pill pill-none">definition</span></span>
+</div>
+<h4 class="figure-title">Concept map</h4>
+<figure class="graph-figure concept-root-graph">
+<button class="graph-expand" type="button" data-graph-expand data-graph-label="concept map" aria-expanded="false" aria-label="Open concept map in a large window" title="Open in large window"><svg class="graph-expand-open" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M2.5 6V2.5H6M10 2.5h3.5V6M13.5 10v3.5H10M6 13.5H2.5V10"/></svg><span class="graph-expand-close" aria-hidden="true">×</span></button>
+<div class="graph-toolbar"><button type="button" id="concept-expand" aria-controls="concept-dag" aria-pressed="true">Hide ancestors</button><button type="button" id="concept-descend" aria-controls="concept-dag" aria-pressed="false">Show descendants</button><output id="concept-graph-status" aria-live="polite"></output></div>
+<div id="concept-dag" class="figure-container" data-graph="concepts" data-ancestry="true"></div>
+<div class="graph-tooltip" role="tooltip" hidden></div>
+<figcaption class="graph-legend" aria-label="Concept map legend"><span><i class="legend-node fill-proven"></i>Proven claim</span><span><i class="legend-node fill-open"></i>Open claim</span><span><i class="legend-node fill-none"></i>Definition</span><span><i class="legend-node stroke-own"></i>This concept</span><span><i class="legend-node stroke-ext"></i>Related concept</span><span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B builds on A</span></figcaption>
+</figure>
+
+<div class="block block-statement"><h3>Definition</h3><div class="latex-content"><p>A graph is handed to a word random access machine as a word of numbers
+in compressed sparse row form, the adjacency-array format every
+textbook assumes: the number <em>n</em> of vertices, the number <em>m</em> of edges, then
+<em>n+1</em> offsets, then the target array. The target array lists, for each
+vertex in turn, the neighbors of that vertex; the offsets say where
+each vertex's block of neighbors begins, the first offset being 0 and
+the last one the length of the target array. So the neighbors of vertex
+<em>u</em> are the entries of the target array at the positions from the <em>u</em>-th
+offset up to, but excluding, the <em>(u+1)</em>-st.</p>
+</div></div>
+<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/becb5782d64a8587b9cd3f53269c1ce35cdb1ff0/ram-linear-time/concepts/Lax11/GraphEncoding.lean">view on GitHub</a></h3>
+<div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Combinatorics.SimpleGraph.Basic</span></td></tr>
+<tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"> </td></tr>
+<tr id="L3" class=""><td class="line-num"><a href="#L3">3</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
+<tr id="L4" class=""><td class="line-num"><a href="#L4">4</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
+<tr id="L5" class=""><td class="line-num"><a href="#L5">5</a></td><td class="line-code"><span style="color:#6A737D">title: Compressed sparse row encoding of a graph</span></td></tr>
+<tr id="L6" class=""><td class="line-num"><a href="#L6">6</a></td><td class="line-code"><span style="color:#6A737D">type: definition</span></td></tr>
+<tr id="L7" class=""><td class="line-num"><a href="#L7">7</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
+<tr id="L8" class=""><td class="line-num"><a href="#L8">8</a></td><td class="line-code"><span style="color:#6A737D">A graph is handed to a word random access machine as a word of numbers</span></td></tr>
+<tr id="L9" class=""><td class="line-num"><a href="#L9">9</a></td><td class="line-code"><span style="color:#6A737D">in compressed sparse row form, the adjacency-array format every</span></td></tr>
+<tr id="L10" class=""><td class="line-num"><a href="#L10">10</a></td><td class="line-code"><span style="color:#6A737D">textbook assumes: the number *n* of vertices, the number *m* of edges, then</span></td></tr>
+<tr id="L11" class=""><td class="line-num"><a href="#L11">11</a></td><td class="line-code"><span style="color:#6A737D">*n+1* offsets, then the target array. The target array lists, for each</span></td></tr>
+<tr id="L12" class=""><td class="line-num"><a href="#L12">12</a></td><td class="line-code"><span style="color:#6A737D">vertex in turn, the neighbors of that vertex; the offsets say where</span></td></tr>
+<tr id="L13" class=""><td class="line-num"><a href="#L13">13</a></td><td class="line-code"><span style="color:#6A737D">each vertex's block of neighbors begins, the first offset being 0 and</span></td></tr>
+<tr id="L14" class=""><td class="line-num"><a href="#L14">14</a></td><td class="line-code"><span style="color:#6A737D">the last one the length of the target array. So the neighbors of vertex</span></td></tr>
+<tr id="L15" class=""><td class="line-num"><a href="#L15">15</a></td><td class="line-code"><span style="color:#6A737D">*u* are the entries of the target array at the positions from the *u*-th</span></td></tr>
+<tr id="L16" class=""><td class="line-num"><a href="#L16">16</a></td><td class="line-code"><span style="color:#6A737D">offset up to, but excluding, the *(u+1)*-st.</span></td></tr>
+<tr id="L17" class=""><td class="line-num"><a href="#L17">17</a></td><td class="line-code"> </td></tr>
+<tr id="L18" class=""><td class="line-num"><a href="#L18">18</a></td><td class="line-code"><span style="color:#6A737D"># Formalization notes</span></td></tr>
+<tr id="L19" class=""><td class="line-num"><a href="#L19">19</a></td><td class="line-code"> </td></tr>
+<tr id="L20" class=""><td class="line-num"><a href="#L20">20</a></td><td class="line-code"><span style="color:#6A737D">The encoding is deliberately dumb: it is exactly the input format,</span></td></tr>
+<tr id="L21" class=""><td class="line-num"><a href="#L21">21</a></td><td class="line-code"><span style="color:#6A737D">with nothing precomputed that an algorithm would otherwise have to</span></td></tr>
+<tr id="L22" class=""><td class="line-num"><a href="#L22">22</a></td><td class="line-code"><span style="color:#6A737D">compute. The word is required to have the right length, the offsets to</span></td></tr>
+<tr id="L23" class=""><td class="line-num"><a href="#L23">23</a></td><td class="line-code"><span style="color:#6A737D">be nondecreasing with the right two endpoints, and every target entry</span></td></tr>
+<tr id="L24" class=""><td class="line-num"><a href="#L24">24</a></td><td class="line-code"><span style="color:#6A737D">to be a vertex; beyond that the only condition is that each vertex's</span></td></tr>
+<tr id="L25" class=""><td class="line-num"><a href="#L25">25</a></td><td class="line-code"><span style="color:#6A737D">block lists exactly its neighbors. In particular the blocks are not</span></td></tr>
+<tr id="L26" class=""><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span style="color:#6A737D">required to be sorted and repetitions are not forbidden — the fewer</span></td></tr>
+<tr id="L27" class=""><td class="line-num"><a href="#L27">27</a></td><td class="line-code"><span style="color:#6A737D">conditions the encoding imposes, the more inputs a claim about</span></td></tr>
+<tr id="L28" class=""><td class="line-num"><a href="#L28">28</a></td><td class="line-code"><span style="color:#6A737D">programs reading it has to handle, so leaving them out strengthens</span></td></tr>
+<tr id="L29" class=""><td class="line-num"><a href="#L29">29</a></td><td class="line-code"><span style="color:#6A737D">every such claim rather than weakening it. For the same reason `m` is</span></td></tr>
+<tr id="L30" class=""><td class="line-num"><a href="#L30">30</a></td><td class="line-code"><span style="color:#6A737D">only the declared length of the target array (which is `2m`): it is at</span></td></tr>
+<tr id="L31" class=""><td class="line-num"><a href="#L31">31</a></td><td class="line-code"><span style="color:#6A737D">least the number of edges, and equals it exactly when no block repeats</span></td></tr>
+<tr id="L32" class=""><td class="line-num"><a href="#L32">32</a></td><td class="line-code"><span style="color:#6A737D">a neighbor. Nothing forces each edge to be listed from both of its</span></td></tr>
+<tr id="L33" class=""><td class="line-num"><a href="#L33">33</a></td><td class="line-code"><span style="color:#6A737D">endpoints either — that is automatic, since adjacency in a simple</span></td></tr>
+<tr id="L34" class=""><td class="line-num"><a href="#L34">34</a></td><td class="line-code"><span style="color:#6A737D">graph is symmetric.</span></td></tr>
+<tr id="L35" class=""><td class="line-num"><a href="#L35">35</a></td><td class="line-code"> </td></tr>
+<tr id="L36" class=""><td class="line-num"><a href="#L36">36</a></td><td class="line-code"><span style="color:#6A737D">Cells are read with `List.getD`, which returns `0` outside the word;</span></td></tr>
+<tr id="L37" class=""><td class="line-num"><a href="#L37">37</a></td><td class="line-code"><span style="color:#6A737D">the length condition pins down the word completely, so this default</span></td></tr>
+<tr id="L38" class=""><td class="line-num"><a href="#L38">38</a></td><td class="line-code"><span style="color:#6A737D">value is never reached at any position the other conditions constrain.</span></td></tr>
+<tr id="L39" class=""><td class="line-num"><a href="#L39">39</a></td><td class="line-code"><span style="color:#6A737D">The conditions are bundled as a structure so that each one is a named</span></td></tr>
+<tr id="L40" class=""><td class="line-num"><a href="#L40">40</a></td><td class="line-code"><span style="color:#6A737D">obligation a reader can check off separately.</span></td></tr>
+<tr id="L41" class=""><td class="line-num"><a href="#L41">41</a></td><td class="line-code"> </td></tr>
+<tr id="L42" class=""><td class="line-num"><a href="#L42">42</a></td><td class="line-code"><span style="color:#6A737D">Nothing here mentions the word length of the machine the encoding is</span></td></tr>
+<tr id="L43" class=""><td class="line-num"><a href="#L43">43</a></td><td class="line-code"><span style="color:#6A737D">handed to. It does not have to: every entry of an encoding is a vertex</span></td></tr>
+<tr id="L44" class=""><td class="line-num"><a href="#L44">44</a></td><td class="line-code"><span style="color:#6A737D">number, an offset into the target array, or one of the two header</span></td></tr>
+<tr id="L45" class=""><td class="line-num"><a href="#L45">45</a></td><td class="line-code"><span style="color:#6A737D">numbers, and each of those is smaller than the length of the word</span></td></tr>
+<tr id="L46" class=""><td class="line-num"><a href="#L46">46</a></td><td class="line-code"><span style="color:#6A737D">itself, so an encoding that a machine can address at all is one whose</span></td></tr>
+<tr id="L47" class=""><td class="line-num"><a href="#L47">47</a></td><td class="line-code"><span style="color:#6A737D">entries fit into that machine's words. The condition that it does fit</span></td></tr>
+<tr id="L48" class=""><td class="line-num"><a href="#L48">48</a></td><td class="line-code"><span style="color:#6A737D">belongs to the claims made about programs reading the encoding, and is</span></td></tr>
+<tr id="L49" class=""><td class="line-num"><a href="#L49">49</a></td><td class="line-code"><span style="color:#6A737D">stated there, once, as an explicit inequality against `2 ^ w`.</span></td></tr>
+<tr id="L50" class=""><td class="line-num"><a href="#L50">50</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
+<tr id="L51" class=""><td class="line-num"><a href="#L51">51</a></td><td class="line-code"> </td></tr>
+<tr id="L52" class=""><td class="line-num"><a href="#L52">52</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax11.GraphEncoding</span></td></tr>
+<tr id="L53" class=""><td class="line-num"><a href="#L53">53</a></td><td class="line-code"> </td></tr>
+<tr id="L54" class=""><td class="line-num"><a href="#L54">54</a></td><td class="line-code"><span style="color:#6A737D">/-- The number of vertices declared by a word: its first entry. -/</span></td></tr>
+<tr id="L55" class=""><td class="line-num"><a href="#L55">55</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> vertexCount</span><span style="color:#24292E"> (x : List ℕ) : ℕ := x.getD </span><span style="color:#005CC5">0</span><span style="color:#005CC5"> 0</span></td></tr>
+<tr id="L56" class=""><td class="line-num"><a href="#L56">56</a></td><td class="line-code"> </td></tr>
+<tr id="L57" class=""><td class="line-num"><a href="#L57">57</a></td><td class="line-code"><span style="color:#6A737D">/-- The number of edges declared by a word: its second entry. -/</span></td></tr>
+<tr id="L58" class=""><td class="line-num"><a href="#L58">58</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> edgeCount</span><span style="color:#24292E"> (x : List ℕ) : ℕ := x.getD </span><span style="color:#005CC5">1</span><span style="color:#005CC5"> 0</span></td></tr>
+<tr id="L59" class=""><td class="line-num"><a href="#L59">59</a></td><td class="line-code"> </td></tr>
+<tr id="L60" class=""><td class="line-num"><a href="#L60">60</a></td><td class="line-code"><span style="color:#6A737D">/-- The `i`-th offset of a word: the `n+1` offsets follow the two</span></td></tr>
+<tr id="L61" class=""><td class="line-num"><a href="#L61">61</a></td><td class="line-code"><span style="color:#6A737D">header entries. -/</span></td></tr>
+<tr id="L62" class=""><td class="line-num"><a href="#L62">62</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> offset</span><span style="color:#24292E"> (x : List ℕ) (i : ℕ) : ℕ := x.getD (</span><span style="color:#005CC5">2</span><span style="color:#24292E"> + i) </span><span style="color:#005CC5">0</span></td></tr>
+<tr id="L63" class=""><td class="line-num"><a href="#L63">63</a></td><td class="line-code"> </td></tr>
+<tr id="L64" class=""><td class="line-num"><a href="#L64">64</a></td><td class="line-code"><span style="color:#6A737D">/-- The `j`-th entry of the target array of a word, which follows the</span></td></tr>
+<tr id="L65" class=""><td class="line-num"><a href="#L65">65</a></td><td class="line-code"><span style="color:#6A737D">header and the offsets. -/</span></td></tr>
+<tr id="L66" class=""><td class="line-num"><a href="#L66">66</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> target</span><span style="color:#24292E"> (x : List ℕ) (j : ℕ) : ℕ := x.getD (</span><span style="color:#005CC5">3</span><span style="color:#24292E"> + vertexCount x + j) </span><span style="color:#005CC5">0</span></td></tr>
+<tr id="L67" class=""><td class="line-num"><a href="#L67">67</a></td><td class="line-code"> </td></tr>
+<tr id="L68" class=""><td class="line-num"><a href="#L68">68</a></td><td class="line-code"><span style="color:#6A737D">/-- The word `x` is a compressed sparse row encoding of the graph `G`</span></td></tr>
+<tr id="L69" class=""><td class="line-num"><a href="#L69">69</a></td><td class="line-code"><span style="color:#6A737D">on `n` vertices. -/</span></td></tr>
+<tr id="L70" class=""><td class="line-num"><a href="#L70">70</a></td><td class="line-code"><span style="color:#D73A49">structure</span><span style="color:#6F42C1"> EncodesGraph</span><span style="color:#24292E"> (x : List ℕ) (n : ℕ) (G : SimpleGraph (Fin n)) :</span></td></tr>
+<tr id="L71" class=""><td class="line-num"><a href="#L71">71</a></td><td class="line-code"><span style="color:#D73A49">    Prop</span><span style="color:#D73A49"> where</span></td></tr>
+<tr id="L72" class=""><td class="line-num"><a href="#L72">72</a></td><td class="line-code"><span style="color:#6A737D">  /-- The word declares `n` vertices. -/</span></td></tr>
+<tr id="L73" class=""><td class="line-num"><a href="#L73">73</a></td><td class="line-code"><span style="color:#24292E">  vertexCount_eq : vertexCount x = n</span></td></tr>
+<tr id="L74" class=""><td class="line-num"><a href="#L74">74</a></td><td class="line-code"><span style="color:#6A737D">  /-- The word consists of the two header entries, the `n+1` offsets,</span></td></tr>
+<tr id="L75" class=""><td class="line-num"><a href="#L75">75</a></td><td class="line-code"><span style="color:#6A737D">  and a target array of length twice the declared number of edges. -/</span></td></tr>
+<tr id="L76" class=""><td class="line-num"><a href="#L76">76</a></td><td class="line-code"><span style="color:#24292E">  length_eq : x.length = </span><span style="color:#005CC5">3</span><span style="color:#24292E"> + n + </span><span style="color:#005CC5">2</span><span style="color:#24292E"> * edgeCount x</span></td></tr>
+<tr id="L77" class=""><td class="line-num"><a href="#L77">77</a></td><td class="line-code"><span style="color:#6A737D">  /-- The block of the first vertex begins at the start of the target</span></td></tr>
+<tr id="L78" class=""><td class="line-num"><a href="#L78">78</a></td><td class="line-code"><span style="color:#6A737D">  array. -/</span></td></tr>
+<tr id="L79" class=""><td class="line-num"><a href="#L79">79</a></td><td class="line-code"><span style="color:#24292E">  offset_zero : offset x </span><span style="color:#005CC5">0</span><span style="color:#24292E"> = </span><span style="color:#005CC5">0</span></td></tr>
+<tr id="L80" class=""><td class="line-num"><a href="#L80">80</a></td><td class="line-code"><span style="color:#6A737D">  /-- The block of the last vertex ends at the end of the target</span></td></tr>
+<tr id="L81" class=""><td class="line-num"><a href="#L81">81</a></td><td class="line-code"><span style="color:#6A737D">  array. -/</span></td></tr>
+<tr id="L82" class=""><td class="line-num"><a href="#L82">82</a></td><td class="line-code"><span style="color:#24292E">  offset_last : offset x n = </span><span style="color:#005CC5">2</span><span style="color:#24292E"> * edgeCount x</span></td></tr>
+<tr id="L83" class=""><td class="line-num"><a href="#L83">83</a></td><td class="line-code"><span style="color:#6A737D">  /-- The offsets are nondecreasing, so they cut the target array into</span></td></tr>
+<tr id="L84" class=""><td class="line-num"><a href="#L84">84</a></td><td class="line-code"><span style="color:#6A737D">  one block per vertex. -/</span></td></tr>
+<tr id="L85" class=""><td class="line-num"><a href="#L85">85</a></td><td class="line-code"><span style="color:#24292E">  offset_mono : ∀ i &lt; n, offset x i ≤ offset x (i + </span><span style="color:#005CC5">1</span><span style="color:#24292E">)</span></td></tr>
+<tr id="L86" class=""><td class="line-num"><a href="#L86">86</a></td><td class="line-code"><span style="color:#6A737D">  /-- Every entry of the target array is a vertex. -/</span></td></tr>
+<tr id="L87" class=""><td class="line-num"><a href="#L87">87</a></td><td class="line-code"><span style="color:#24292E">  target_lt : ∀ j &lt; </span><span style="color:#005CC5">2</span><span style="color:#24292E"> * edgeCount x, target x j &lt; n</span></td></tr>
+<tr id="L88" class=""><td class="line-num"><a href="#L88">88</a></td><td class="line-code"><span style="color:#6A737D">  /-- The block of a vertex lists exactly its neighbors. -/</span></td></tr>
+<tr id="L89" class=""><td class="line-num"><a href="#L89">89</a></td><td class="line-code"><span style="color:#24292E">  adj_iff : ∀ u v : Fin n, G.Adj u v ↔</span></td></tr>
+<tr id="L90" class=""><td class="line-num"><a href="#L90">90</a></td><td class="line-code"><span style="color:#24292E">    ∃ j, offset x u ≤ j ∧ j &lt; offset x (u + </span><span style="color:#005CC5">1</span><span style="color:#24292E">) ∧ target x j = v</span></td></tr>
+<tr id="L91" class=""><td class="line-num"><a href="#L91">91</a></td><td class="line-code"> </td></tr>
+<tr id="L92" class=""><td class="line-num"><a href="#L92">92</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax11.GraphEncoding</span></td></tr>
+<tr id="L93" class=""><td class="line-num"><a href="#L93">93</a></td><td class="line-code"> </td></tr>
+</table></div></div></div>
+<div class="block"><h3>Formalization notes</h3><div class="latex-content"><p>The encoding is deliberately dumb: it is exactly the input format,
+with nothing precomputed that an algorithm would otherwise have to
+compute. The word is required to have the right length, the offsets to
+be nondecreasing with the right two endpoints, and every target entry
+to be a vertex; beyond that the only condition is that each vertex's
+block lists exactly its neighbors. In particular the blocks are not
+required to be sorted and repetitions are not forbidden — the fewer
+conditions the encoding imposes, the more inputs a claim about
+programs reading it has to handle, so leaving them out strengthens
+every such claim rather than weakening it. For the same reason <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi></mrow><annotation encoding="application/x-tex">m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal">m</span></span></span></span> is
+only the declared length of the target array (which is <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mi>m</mi></mrow><annotation encoding="application/x-tex">2m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">2</span><span class="mord mathnormal">m</span></span></span></span>): it is at
+least the number of edges, and equals it exactly when no block repeats
+a neighbor. Nothing forces each edge to be listed from both of its
+endpoints either — that is automatic, since adjacency in a simple
+graph is symmetric.</p>
+<p>Cells are read with <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mi>i</mi><mi>s</mi><mi>t</mi><mi mathvariant="normal">.</mi><mi>g</mi><mi>e</mi><mi>t</mi><mi>D</mi></mrow><annotation encoding="application/x-tex">List.getD</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8778em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">L</span><span class="mord mathnormal">i</span><span class="mord mathnormal">s</span><span class="mord mathnormal">t</span><span class="mord">.</span><span class="mord mathnormal" style="margin-right:0.0359em;">g</span><span class="mord mathnormal">e</span><span class="mord mathnormal">t</span><span class="mord mathnormal" style="margin-right:0.0278em;">D</span></span></span></span>, which returns <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn></mrow><annotation encoding="application/x-tex">0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span> outside the word;
+the length condition pins down the word completely, so this default
+value is never reached at any position the other conditions constrain.
+The conditions are bundled as a structure so that each one is a named
+obligation a reader can check off separately.</p>
+<p>Nothing here mentions the word length of the machine the encoding is
+handed to. It does not have to: every entry of an encoding is a vertex
+number, an offset into the target array, or one of the two header
+numbers, and each of those is smaller than the length of the word
+itself, so an encoding that a machine can address at all is one whose
+entries fit into that machine's words. The condition that it does fit
+belongs to the claims made about programs reading the encoding, and is
+stated there, once, as an explicit inequality against <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mi>w</mi></msup></mrow><annotation encoding="application/x-tex">2 ^ w</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6644em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0269em;">w</span></span></span></span></span></span></span></span></span></span></span>.</p>
+</div></div>
+<div class="block"><div class="deps-columns">
+<div class="deps-col"><h3>Builds on</h3><p class="empty-note">none</p></div>
+<div class="deps-col"><h3>Used by</h3><ul class="deps-list"><li><a href="../lax-11/Lax11.ConnectedComponents.html"><code>Lax11.ConnectedComponents</code></a></li><li><a href="../lax-11/Lax11.InstanceEncoding.html"><code>Lax11.InstanceEncoding</code></a></li><li><a href="../lax-11/Lax11.VertexCover.html"><code>Lax11.VertexCover</code></a></li><li><a href="../lax-15/Lax15.VertexCover.html"><code>Lax15.VertexCover</code></a></li><li><a href="../lax-15/Lax15.VertexCoverBranch.html"><code>Lax15.VertexCoverBranch</code></a></li><li><a href="../lax-15/Lax15.VertexCoverFpt.html"><code>Lax15.VertexCoverFpt</code></a></li><li><a href="../lax-3/Lax3.ModelChecking.html"><code>Lax3.ModelChecking</code></a></li></ul></div>
+<div class="deps-col"><h3>From Mathlib</h3><ul class="deps-list"><li><a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Basic.html"><code>Mathlib.Combinatorics.SimpleGraph.Basic</code></a></li></ul></div>
+</div></div>
+<section class="page-section discussion-section" aria-labelledby="discussion-title">
+<div class="discussion-heading">
+<div class="discussion-heading-copy">
+<p class="discussion-eyebrow">Community review</p>
+<h3 class="section-title" id="discussion-title">Discussion</h3>
+<p>Ask a question, suggest a correction, or add context. Sign in with ORCID to comment and vote comments up or down.</p>
+</div>
+<p class="discussion-count"><span class="remark42__counter" data-url="https://laxarchive.org/lax-11/Lax11.GraphEncoding.html">0</span> <span>comments</span></p>
+</div>
+<div class="discussion-embed-shell">
+<div id="remark42" data-remark42-host="https://remark42-3-74-72-66.nip.io" data-remark42-site="remark" data-remark42-url="https://laxarchive.org/lax-11/Lax11.GraphEncoding.html">
+<p class="discussion-loading" role="status"><span class="discussion-loading-mark" aria-hidden="true"></span>Loading discussion…</p>
+</div>
+</div>
+<noscript><p class="discussion-unavailable">Enable JavaScript to read or join the discussion.</p></noscript>
+</section>
+<script type="application/json" id="graph-data">{"concepts":{"nodes":[{"id":"Lax11.ConnectedComponents","href":"../lax-11/Lax11.ConnectedComponents.html","title":"Connected components in linear time","owner":"lax-11","status":"proven","ext":true,"dir":"down"},{"id":"Lax11.Courcelle","href":"../lax-11/Lax11.Courcelle.html","title":"Courcelle's theorem on a word RAM","owner":"lax-11","status":"proven","ext":true,"dir":"down"},{"id":"Lax11.GraphEncoding","href":"../lax-11/Lax11.GraphEncoding.html","title":"Compressed sparse row encoding of a graph","owner":"lax-11","status":"none","ext":false,"dir":"core"},{"id":"Lax11.InstanceEncoding","href":"../lax-11/Lax11.InstanceEncoding.html","title":"Encoding a graph together with a k-expression","owner":"lax-11","status":"none","ext":true,"dir":"down"},{"id":"Lax11.VertexCover","href":"../lax-11/Lax11.VertexCover.html","title":"A graph with a parameter appended","owner":"lax-11","status":"none","ext":true,"dir":"down"},{"id":"Lax15.VertexCover","href":"../lax-15/Lax15.VertexCover.html","title":"Vertex cover in Fibonacci-of-k time","owner":"lax-15","status":"proven","ext":true,"dir":"down"},{"id":"Lax15.VertexCoverBranch","href":"../lax-15/Lax15.VertexCoverBranch.html","title":"Vertex cover below the golden ratio","owner":"lax-15","status":"proven","ext":true,"dir":"down"},{"id":"Lax15.VertexCoverFpt","href":"../lax-15/Lax15.VertexCoverFpt.html","title":"Vertex cover in explicit fixed-parameter time","owner":"lax-15","status":"proven","ext":true,"dir":"down"},{"id":"Lax3.ModelChecking","href":"../lax-3/Lax3.ModelChecking.html","title":"First-order model checking on nowhere dense classes in almost linear time","owner":"lax-3","status":"open","ext":true,"dir":"down"}],"edges":[{"from":"Lax11.GraphEncoding","to":"Lax11.ConnectedComponents"},{"from":"Lax11.InstanceEncoding","to":"Lax11.Courcelle"},{"from":"Lax11.GraphEncoding","to":"Lax11.InstanceEncoding"},{"from":"Lax11.GraphEncoding","to":"Lax11.VertexCover"},{"from":"Lax11.GraphEncoding","to":"Lax15.VertexCover"},{"from":"Lax11.VertexCover","to":"Lax15.VertexCover"},{"from":"Lax11.GraphEncoding","to":"Lax15.VertexCoverBranch"},{"from":"Lax11.VertexCover","to":"Lax15.VertexCoverBranch"},{"from":"Lax11.GraphEncoding","to":"Lax15.VertexCoverFpt"},{"from":"Lax11.VertexCover","to":"Lax15.VertexCoverFpt"},{"from":"Lax11.GraphEncoding","to":"Lax3.ModelChecking"}],"home":"lax-11"},"proofs":{"statements":[],"proofs":[]}}</script>
+</div></section>
+</main>
+<script src="../assets/sidebar.js?v=81d80ace468c"></script>
+<script src="../assets/layout.js?v=1089ce8aae63"></script>
+<script src="../assets/dag.js?v=2a0b2e1bec54"></script>
+<script src="../assets/source-proof.js?v=177673148a07"></script>
+<script src="../assets/comments.js?v=23f791163231"></script>
+</body></html>
