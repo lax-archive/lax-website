@@ -6,6 +6,7 @@ import { SiteModel, type SiteSubmission } from "./model.js";
 import { conceptPage } from "./pages/concept.js";
 import { contentPage } from "./pages/content.js";
 import { indexPage } from "./pages/index.js";
+import { openProblemsPage } from "./pages/open-problems.js";
 import { proofPage } from "./pages/proof.js";
 import { submissionPage } from "./pages/submission.js";
 
@@ -18,6 +19,7 @@ export async function generateSite(submissions: SiteSubmission[], outDir: string
   const files = new Map<string, string>();
   files.set("index.html", await indexPage(context));
   files.set("contributing.html", contentPage(context, "contributing", "Contributing"));
+  files.set("open-problems.html", openProblemsPage(context));
   for (const submission of model.submissions) {
     files.set(path.join(submission.record.id, "index.html"), submissionPage(context, submission));
     if (!submission.output) continue;

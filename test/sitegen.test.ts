@@ -428,8 +428,8 @@ After the formula.`, "");
       expect(index).toContain(`id="landing-action-${id}"`);
       expect(index).toContain(`data-landing-view="${id}"`);
     }
-    expect(index).toContain('class="landing-action-card unavailable"');
-    expect(index).toContain("Coming soon");
+    expect(index).not.toContain('class="landing-action-card unavailable"');
+    expect(index).not.toContain("Coming soon");
     expect(index).toContain('<section class="landing-action-panel submissions-library" id="landing-panel-read" aria-labelledby="landing-action-read">');
     expect(index).toContain("<h3>Submissions</h3>");
     expect(index).toContain("Creating your own submission");
@@ -439,6 +439,8 @@ After the formula.`, "");
     expect(index).toContain('<output class="prompt-copy-status" aria-live="polite"></output>');
     expect(index).toContain('id="landing-panel-submit" aria-labelledby="landing-action-submit">');
     expect(index).toContain('id="landing-panel-cite" aria-labelledby="landing-action-cite">');
+    expect(index).toContain('id="landing-panel-review" aria-labelledby="landing-action-review">');
+    expect(index).toContain('class="landing-open-problems-link" href="open-problems.html"');
     expect(index).not.toMatch(/id="landing-panel-(?:read|submit|cite)"[^>]* hidden/);
     expect(index.indexOf('id="landing-panel-submit"')).toBeLessThan(index.indexOf('id="landing-panel-read"'));
     expect(index.indexOf('id="landing-panel-read"')).toBeLessThan(index.indexOf('id="landing-panel-cite"'));
@@ -492,6 +494,9 @@ After the formula.`, "");
     expect(contributing).toContain('<h1 class="paper-title">Contributing</h1>');
     expect(contributing).toContain("The workflow");
     expect(contributing).not.toContain('class="random-submission"');
+    const openProblems = fs.readFileSync(path.join(root, "open-problems.html"), "utf8");
+    expect(openProblems).toContain("<title>Open problems — Lax Lean Archive</title>");
+    expect(openProblems).toContain("Every claim in the archive currently has a grounded proof.");
   });
 
   it("offers every submission as a random sidebar choice only on the front page", async () => {
@@ -511,6 +516,23 @@ After the formula.`, "");
       const html = fs.readFileSync(path.join(root, pageName), "utf8");
       expect(html).not.toContain('class="random-submission"');
     }
+  });
+
+  it("renders an archive-wide, searchable view of open claims", async () => {
+    const root = tmpDir("lax-site-open-problems-");
+    await generateSite([...submissions(), ...graphSubmissions()], root);
+    const html = fs.readFileSync(path.join(root, "open-problems.html"), "utf8");
+
+    expect(html).toContain("2 open claims · 2 open statements · 1 submission");
+    expect(html).toContain('placeholder="Search open problems"');
+    expect(html).toContain('id="open-problems-list"');
+    expect(html).toContain('data-type="theorem"');
+    expect(html).toContain('href="Lax4/Lax4.Top.html"');
+    expect(html).toContain('href="Lax4/Lax4.Aux.html"');
+    expect(html).toContain("Lax4.Top.a");
+    expect(html).toContain("Lax4.Aux.b");
+    expect(html).not.toContain('href="Lax2/Lax2.C.html"');
+    expect(html).not.toContain('href="Lax1/Lax1.Base.html"');
   });
 
   it("uses Lax17 as the landing citation example when it is available", async () => {
