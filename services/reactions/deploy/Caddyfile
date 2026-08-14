@@ -7,6 +7,29 @@ remark42-3-74-72-66.nip.io {
         }
     }
 
+    # These entry documents decide which authenticated ORCID/comment UI is
+    # loaded. Never leave an older bundle active after a server update.
+    handle /web/iframe.html {
+        header Cache-Control "no-store"
+        reverse_proxy remark42:8080 {
+            header_up X-Real-IP {remote_host}
+        }
+    }
+
+    handle /web/embed.js {
+        header Cache-Control "no-store"
+        reverse_proxy remark42:8080 {
+            header_up X-Real-IP {remote_host}
+        }
+    }
+
+    handle /web/embed.mjs {
+        header Cache-Control "no-store"
+        reverse_proxy remark42:8080 {
+            header_up X-Real-IP {remote_host}
+        }
+    }
+
     handle {
         reverse_proxy remark42:8080 {
             header_up X-Real-IP {remote_host}

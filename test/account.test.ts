@@ -46,6 +46,9 @@ function fixture(user: { id: string; name: string }) {
   loginLabel.textContent = "Sign in with ORCID";
   login.selectors.set("span:last-child", loginLabel);
   const settings = new FakeElement();
+  const settingsLabel = new FakeElement();
+  settingsLabel.textContent = "Settings";
+  settings.selectors.set("span:last-child", settingsLabel);
   settings.hidden = true;
   root.selectors.set("[data-account-login]", login);
   root.selectors.set("[data-account-settings]", settings);
@@ -84,6 +87,7 @@ function fixture(user: { id: string; name: string }) {
     return { ok: true, json: async () => ({}) };
   };
   const events: Array<{ type: string; detail: unknown }> = [];
+  const listeners: Record<string, (event: Record<string, unknown>) => void> = {};
   class FakeCustomEvent {
     constructor(public type: string, public init: { detail: unknown }) {}
     get detail() { return this.init.detail; }
@@ -91,13 +95,36 @@ function fixture(user: { id: string; name: string }) {
   const window = {
     location: { href: "https://laxarchive.org/Lax2/?view=test#discussion" },
     dispatchEvent: (event: FakeCustomEvent) => { events.push({ type: event.type, detail: event.detail }); },
+    addEventListener: (name: string, listener: (event: Record<string, unknown>) => void) => { listeners[name] = listener; },
+    setTimeout,
+    clearTimeout,
   };
+  const bridgeWindow = {
+    postMessage(message: Record<string, unknown>, origin: string) {
+      queueMicrotask(() => listeners.message?.({
+        origin,
+        source: bridgeWindow,
+        data: {
+          source: "lax-reactions",
+          id: message.id,
+          ok: true,
+          status: 200,
+          data: message.action === "me"
+            ? { authenticated: true, eligible: true, viewer: { remark42_id: user.id, orcid_id: "0000-0002-1825-0097", name: user.name, profile_url: "https://orcid.org/0000-0002-1825-0097" } }
+            : message.action === "comments" ? { comments: [], count: 0 } : {},
+        },
+      }));
+    },
+  };
+  const iframe = Object.assign(new FakeElement(), { contentWindow: bridgeWindow, src: "" });
   const document = {
     querySelector: (selector: string) => selector === "[data-account-root]" ? root : null,
     getElementById: (id: string) => id === "account-dialog" ? dialog : null,
-    createElement: () => new FakeElement(),
+    createElement: (tag: string) => tag === "iframe" ? iframe : new FakeElement(),
+    body: new FakeElement(),
+    head: new FakeElement(),
   };
-  return { root, dialog, login, loginLabel, settings, elements, requests, events, fetch, window, document, FakeCustomEvent };
+  return { root, dialog, login, loginLabel, settings, settingsLabel, elements, requests, events, fetch, window, document, FakeCustomEvent, listeners, bridgeWindow };
 }
 
 describe("ORCID account header", () => {
@@ -106,10 +133,12 @@ describe("ORCID account header", () => {
     const context = { document: fx.document, window: fx.window, fetch: fx.fetch, URL, CustomEvent: fx.FakeCustomEvent, Date, setTimeout };
     vm.createContext(context);
     vm.runInContext(fs.readFileSync("assets/site/account.js", "utf8"), context);
+    fx.listeners.message!({ origin: "https://remark42.example.test", source: fx.bridgeWindow, data: { source: "lax-reactions", type: "ready" } });
     await settle();
 
     expect(fx.login.hidden).toBe(true);
     expect(fx.settings.hidden).toBe(false);
+    expect(fx.settingsLabel.textContent).toBe("Ada Lovelace");
     expect(fx.elements["[data-account-name]"]!.textContent).toBe("Ada Lovelace");
     expect(fx.elements["[data-account-name]"]!.href).toBe("https://orcid.org/0000-0002-1825-0097");
     expect(fx.login.href).toContain(encodeURIComponent("https://laxarchive.org/Lax2/?view=test#discussion"));
@@ -125,6 +154,7 @@ describe("ORCID account header", () => {
     const context = { document: fx.document, window: fx.window, fetch: fx.fetch, URL, CustomEvent: fx.FakeCustomEvent, Date, setTimeout };
     vm.createContext(context);
     vm.runInContext(fs.readFileSync("assets/site/account.js", "utf8"), context);
+    fx.listeners.message!({ origin: "https://remark42.example.test", source: fx.bridgeWindow, data: { source: "lax-reactions", type: "ready" } });
     await settle();
 
     expect(fx.login.hidden).toBe(false);

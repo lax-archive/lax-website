@@ -55,10 +55,10 @@ type response struct {
 }
 
 type sessionResponse struct {
-	Authenticated  bool      `json:"authenticated"`
-	Eligible       bool      `json:"eligible"`
-	Reauthenticate bool      `json:"reauthenticate"`
-	Viewer         *identity `json:"viewer,omitempty"`
+	Authenticated  bool            `json:"authenticated"`
+	Eligible       bool            `json:"eligible"`
+	Reauthenticate bool            `json:"reauthenticate"`
+	Viewer         *publicIdentity `json:"viewer,omitempty"`
 }
 
 type publicIdentity struct {
@@ -239,8 +239,8 @@ func (a *app) bridgeScript(w http.ResponseWriter, _ *http.Request) {
 	sort.Strings(parents)
 	encoded, _ := json.Marshal(parents)
 	w.Header().Set("Content-Type", "text/javascript; charset=utf-8")
-	w.Header().Set("Cache-Control", "public, max-age=300")
-	_, _ = fmt.Fprintf(w, `(function(){"use strict";const allowed=new Set(%s);const parentOrigin=(()=>{try{return new URL(document.referrer).origin}catch{return ""}})();if(!allowed.has(parentOrigin))return;const send=(value)=>window.parent.postMessage(value,parentOrigin);window.addEventListener("message",async(event)=>{if(event.source!==window.parent||!allowed.has(event.origin)||!event.data||event.data.source!=="lax-reactions"||typeof event.data.id!=="string")return;const request=event.data;let path="";let init={credentials:"include",headers:{Accept:"application/json"}};if(request.action==="page"&&typeof request.url==="string"){path="/reactions/v1/page?url="+encodeURIComponent(request.url)}else if(request.action==="me"){path="/reactions/v1/me"}else if(request.action==="vote"&&typeof request.url==="string"&&[-1,0,1].includes(request.vote)){path="/reactions/v1/vote";init={method:"PUT",credentials:"include",headers:{Accept:"application/json","Content-Type":"application/json","X-Lax-CSRF":"1"},body:JSON.stringify({url:request.url,vote:request.vote})}}else{send({source:"lax-reactions",id:request.id,ok:false,status:400,data:{error:"invalid bridge request"}});return}try{const response=await fetch(path,init);const data=await response.json();send({source:"lax-reactions",id:request.id,ok:response.ok,status:response.status,data})}catch{send({source:"lax-reactions",id:request.id,ok:false,status:503,data:{error:"Page responses are temporarily unavailable."}})}});send({source:"lax-reactions",type:"ready"})})();`, encoded)
+	w.Header().Set("Cache-Control", "no-store")
+	_, _ = fmt.Fprintf(w, `(function(){"use strict";const allowed=new Set(%s);const parentOrigin=(()=>{try{return new URL(document.referrer).origin}catch{return ""}})();if(!allowed.has(parentOrigin))return;const send=(value)=>window.parent.postMessage(value,parentOrigin);window.addEventListener("message",async(event)=>{if(event.source!==window.parent||!allowed.has(event.origin)||!event.data||event.data.source!=="lax-reactions"||typeof event.data.id!=="string")return;const request=event.data;let path="";let init={credentials:"include",headers:{Accept:"application/json"}};if(request.action==="page"&&typeof request.url==="string"){path="/reactions/v1/page?url="+encodeURIComponent(request.url)}else if(request.action==="me"){path="/reactions/v1/me"}else if(request.action==="comments"&&typeof request.site==="string"&&/^[a-zA-Z0-9._-]{1,64}$/.test(request.site)&&typeof request.user==="string"&&/^orcid_[a-f0-9]{40}$/.test(request.user)&&Number.isInteger(request.skip)&&request.skip>=0&&Number.isInteger(request.limit)&&request.limit>=1&&request.limit<=100){path="/api/v1/comments?site="+encodeURIComponent(request.site)+"&user="+encodeURIComponent(request.user)+"&skip="+request.skip+"&limit="+request.limit}else if(request.action==="logout"){path="/auth/logout"}else if(request.action==="vote"&&typeof request.url==="string"&&[-1,0,1].includes(request.vote)){path="/reactions/v1/vote";init={method:"PUT",credentials:"include",headers:{Accept:"application/json","Content-Type":"application/json","X-Lax-CSRF":"1"},body:JSON.stringify({url:request.url,vote:request.vote})}}else{send({source:"lax-reactions",id:request.id,ok:false,status:400,data:{error:"invalid bridge request"}});return}try{const response=await fetch(path,init);let data={};if(request.action!=="logout"){data=await response.json()}send({source:"lax-reactions",id:request.id,ok:response.ok,status:response.status,data})}catch{send({source:"lax-reactions",id:request.id,ok:false,status:503,data:{error:"Account service is temporarily unavailable."}})}});send({source:"lax-reactions",type:"ready"})})();`, encoded)
 }
 
 func canonicalPage(raw string) (string, error) {
@@ -379,7 +379,8 @@ func (a *app) getMe(w http.ResponseWriter, r *http.Request) {
 	}
 	if found && strings.TrimSpace(person.Name) != "" {
 		answer.Eligible = true
-		answer.Viewer = &person
+		public := toPublicIdentity(person)
+		answer.Viewer = &public
 	}
 	writeJSON(w, http.StatusOK, answer)
 }

@@ -17,6 +17,7 @@
   const reactionLogin = reactions?.querySelector("[data-reactions-login]");
   let reactionPending = false;
   let reactionData = null;
+  const pendingVoteKey = `lax-reaction-pending:${url}`;
 
   const reactionLoginURL = new URL(`${host}/auth/orcid/login`);
   reactionLoginURL.searchParams.set("site", siteId);
@@ -130,6 +131,8 @@
       link.target = "_blank";
       link.rel = "noopener noreferrer";
       link.textContent = voter.name;
+      link.title = `${voter.name} — ORCID iD ${voter.orcid}`;
+      link.setAttribute("aria-label", `${voter.name}, ORCID iD ${voter.orcid}`);
       item.appendChild(link);
       return item;
     }));
@@ -162,12 +165,48 @@
     }
   };
 
+  const pendingVote = () => {
+    try {
+      const vote = Number(window.sessionStorage.getItem(pendingVoteKey));
+      return vote === 1 || vote === -1 ? vote : 0;
+    } catch {
+      return 0;
+    }
+  };
+
+  const clearPendingVote = () => {
+    try { window.sessionStorage.removeItem(pendingVoteKey); } catch { /* storage can be disabled */ }
+  };
+
+  const saveVote = async (vote) => {
+    reactionPending = true;
+    reactionButtons.forEach((item) => { item.disabled = true; });
+    setReactionStatus("Saving your response…");
+    try {
+      const response = await reactionRequest("vote", { url, vote });
+      const data = response.data;
+      if (!response.ok) throw new Error(data?.error || `reaction service returned ${response.status}`);
+      reactionPending = false;
+      renderReactions(data);
+      return true;
+    } catch (error) {
+      reactionPending = false;
+      setReactionStatus(error instanceof Error ? error.message : "Unable to save your response.", "error");
+      return false;
+    }
+  };
+
   const loadReactions = async () => {
     if (!reactions) return;
     try {
       const response = await reactionRequest("page", { url });
       if (!response.ok) throw new Error(response.data?.error || `reaction service returned ${response.status}`);
       renderReactions(response.data);
+      const queuedVote = pendingVote();
+      if (queuedVote && response.data.eligible) {
+        clearPendingVote();
+        if (!await saveVote(queuedVote)) await loadReactions();
+      }
     } catch {
       reactionButtons.forEach((button) => { button.disabled = true; });
       setReactionStatus("Page responses are temporarily unavailable.", "error");
@@ -196,28 +235,19 @@
     button.addEventListener("click", async () => {
       if (reactionPending || button.disabled) return;
       if (!reactionData?.eligible) {
+        try { window.sessionStorage.setItem(pendingVoteKey, String(Number(button.dataset.reactionVote))); } catch { /* storage can be disabled */ }
         if (typeof window.location.assign === "function") window.location.assign(reactionLoginURL.toString());
         else window.location.href = reactionLoginURL.toString();
         return;
       }
       const selected = Number(button.dataset.reactionVote);
       const vote = button.getAttribute("aria-pressed") === "true" ? 0 : selected;
-      reactionPending = true;
-      reactionButtons.forEach((item) => { item.disabled = true; });
-      setReactionStatus("Saving your response…");
-      try {
-        const response = await reactionRequest("vote", { url, vote });
-        const data = response.data;
-        if (!response.ok) throw new Error(data?.error || `reaction service returned ${response.status}`);
-        reactionPending = false;
-        renderReactions(data);
-      } catch (error) {
-        reactionPending = false;
-        setReactionStatus(error instanceof Error ? error.message : "Unable to save your response.", "error");
-        await loadReactions();
-      }
+      if (!await saveVote(vote)) await loadReactions();
     });
   }
+  window.addEventListener("LAX::account-ready", (event) => {
+    if (event.detail?.user && !reactionPending) void loadReactions();
+  });
   void loadReactions();
 
   window.remark_config = {

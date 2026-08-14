@@ -104,13 +104,14 @@ describe("Remark42 browser loader", () => {
       querySelector: (selector: string) => selector === "[data-reactions-host]" ? reactions : null,
       createElement: (tag: string) => tag === "iframe"
         ? ({ src: "", title: "", hidden: false, contentWindow: null })
-        : ({ noModule: true, type: "", src: "", href: "", target: "", rel: "", textContent: "", children: [] as Array<Record<string, unknown>>, addEventListener() {}, appendChild(node: Record<string, unknown>) { this.children.push(node); } }),
+        : ({ noModule: true, type: "", src: "", href: "", target: "", rel: "", textContent: "", children: [] as Array<Record<string, unknown>>, attributes: {} as Record<string, string>, addEventListener() {}, setAttribute(name: string, value: string) { this.attributes[name] = value; }, appendChild(node: Record<string, unknown>) { this.children.push(node); } }),
       head: { appendChild: (script: Record<string, unknown>) => scripts.push(script) }, body: { appendChild() {} },
     };
     const requests: Array<[string, Record<string, unknown>]> = [];
     const window = {
       location: { origin: "https://laxarchive.org", pathname: "/Lax2/", href: "https://laxarchive.org/Lax2/" },
       addEventListener() {},
+      sessionStorage: { getItem: () => null, setItem() {}, removeItem() {} },
       fetch: async (url: string, options: Record<string, unknown>) => {
         requests.push([url, options]);
         return { ok: true, json: async () => ({ likes: 4, dislikes: 1, viewer_vote: 1, authenticated: true, eligible: true, viewer: { name: "Alice" }, voters: { likes: [{ name: "Ada Lovelace", orcid: "0000-0002-1825-0097" }], dislikes: [] } }) };
@@ -136,6 +137,7 @@ describe("Remark42 browser loader", () => {
       target: "_blank",
       rel: "noopener noreferrer",
       textContent: "Ada Lovelace",
+      title: "Ada Lovelace — ORCID iD 0000-0002-1825-0097",
     });
   });
 
@@ -190,10 +192,12 @@ describe("Remark42 browser loader", () => {
       head: { appendChild() {} }, body: { appendChild() {} },
     };
     let directFetches = 0;
+    let pendingVoteCleared = false;
     const window = {
       location: { origin: "https://laxarchive.org", pathname: "/Lax2/", href: "https://laxarchive.org/Lax2/", assign() {} },
       addEventListener: (name: string, listener: (event: unknown) => void) => { listeners[name] = listener; },
       setTimeout, clearTimeout,
+      sessionStorage: { getItem: () => "1", setItem() {}, removeItem() { pendingVoteCleared = true; } },
       fetch: async () => { directFetches += 1; throw new Error("direct transport must not be used"); },
     };
     const context = { document, window, URL, setTimeout, clearTimeout, queueMicrotask };
@@ -209,6 +213,11 @@ describe("Remark42 browser loader", () => {
       origin: "https://remark42.example.test",
       message: { source: "lax-reactions", action: "page", url: "https://laxarchive.org/Lax2/" },
     });
+    expect(posted[1]).toMatchObject({
+      origin: "https://remark42.example.test",
+      message: { source: "lax-reactions", action: "vote", url: "https://laxarchive.org/Lax2/", vote: 1 },
+    });
+    expect(pendingVoteCleared).toBe(true);
     expect(directFetches).toBe(0);
     expect(likeCount.textContent).toBe("2");
     expect(status.textContent).toBe("Signed in as Ada");

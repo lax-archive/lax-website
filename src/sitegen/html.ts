@@ -39,7 +39,7 @@ const ACCOUNT_CONNECT_ORIGINS = [...new Set([
   new URL(REMARK42_IDENTITY_URL).origin,
 ])].join(" ");
 const BASE_CSP =
-  `default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src https: data:; font-src 'self'; connect-src ${ACCOUNT_CONNECT_ORIGINS}`;
+  `default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src https: data:; font-src 'self'; frame-src ${REMARK42_ORIGIN}; connect-src ${ACCOUNT_CONNECT_ORIGINS}`;
 
 function contentSecurityPolicy(hasDiscussion: boolean): string {
   if (!hasDiscussion) return BASE_CSP;
@@ -113,8 +113,7 @@ export function page(shell: PageShell): string {
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
   <h1 class="site-title"><a href="${root}index.html">Lax <span class="site-title-quiet">Lean Archive</span></a></h1>
-  <nav class="header-actions" aria-label="Contribution and account">
-    <a class="header-submit" href="${root}contributing.html">Submit</a>
+  <nav class="header-actions" aria-label="Account">
     ${accountUi()}
   </nav>
 </header>

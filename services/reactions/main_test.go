@@ -183,6 +183,38 @@ func TestSessionEndpointMarksStaleCookieForReauthentication(t *testing.T) {
 	}
 }
 
+func TestSessionEndpointReturnsValidatedPublicORCIDIdentity(t *testing.T) {
+	const remarkID = "orcid_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+	remark := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+		_ = json.NewEncoder(w).Encode(remarkUser{ID: remarkID, Name: "Alice Example"})
+	}))
+	defer remark.Close()
+	db := testStore(t)
+	if err := db.putIdentity(identity{RemarkID: remarkID, ORCID: "0000-0002-1825-0097", Name: "Alice Example"}); err != nil {
+		t.Fatal(err)
+	}
+	a := &app{
+		config: config{remarkUserURL: remark.URL},
+		store:  db,
+		client: remark.Client(),
+		limits: newRateLimits(),
+	}
+	request := httptest.NewRequest(http.MethodGet, "/reactions/v1/me", nil)
+	request.AddCookie(&http.Cookie{Name: "JWT", Value: "valid-session"})
+	recorder := httptest.NewRecorder()
+	a.getMe(recorder, request)
+	if recorder.Code != http.StatusOK {
+		t.Fatalf("unexpected session response: %d %s", recorder.Code, recorder.Body.String())
+	}
+	var got sessionResponse
+	if err := json.Unmarshal(recorder.Body.Bytes(), &got); err != nil {
+		t.Fatal(err)
+	}
+	if !got.Authenticated || !got.Eligible || got.Viewer == nil || got.Viewer.RemarkID != remarkID || got.Viewer.ORCID != "0000-0002-1825-0097" || got.Viewer.Profile != "https://orcid.org/0000-0002-1825-0097" {
+		t.Fatalf("unexpected public session identity: %+v", got)
+	}
+}
+
 func TestVoteClearsStaleHttpOnlySession(t *testing.T) {
 	remark := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 		http.Error(w, "invalid session", http.StatusUnauthorized)
@@ -222,7 +254,7 @@ func TestBridgeIsRestrictedToConfiguredParents(t *testing.T) {
 	scriptRequest := httptest.NewRequest(http.MethodGet, "/reactions/v1/bridge.js", nil)
 	scriptRecorder := httptest.NewRecorder()
 	a.bridgeScript(scriptRecorder, scriptRequest)
-	if scriptRecorder.Code != http.StatusOK || !strings.Contains(scriptRecorder.Body.String(), `new Set(["https://laxarchive.org"])`) || strings.Contains(scriptRecorder.Body.String(), `postMessage(value,"*")`) {
+	if scriptRecorder.Code != http.StatusOK || !strings.Contains(scriptRecorder.Body.String(), `new Set(["https://laxarchive.org"])`) || strings.Contains(scriptRecorder.Body.String(), `postMessage(value,"*")`) || !strings.Contains(scriptRecorder.Body.String(), `request.action==="comments"`) || !strings.Contains(scriptRecorder.Body.String(), `request.action==="logout"`) {
 		t.Fatalf("bridge script does not enforce exact parent origins: %s", scriptRecorder.Body.String())
 	}
 }
