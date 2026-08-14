@@ -91,7 +91,7 @@
       author.className = "activity-author";
       author.href = `https://orcid.org/${identity.orcidId}`;
       author.target = "_blank";
-      author.rel = "noreferrer";
+      author.rel = "noopener noreferrer";
       author.textContent = identity.name;
       header.appendChild(author);
     } else {

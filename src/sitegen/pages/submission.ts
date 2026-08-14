@@ -2,7 +2,7 @@ import { attr, esc, page, typeBadge } from "../html.js";
 import { renderBibEntry } from "../bibtex.js";
 import { conceptGraph, graphDataScript, submissionGraph, type SubmissionGraphData } from "../graphs.js";
 import type { SiteSubmission } from "../model.js";
-import { discussion } from "./discussion.js";
+import { discussion, pageReactions } from "./discussion.js";
 import {
   bibtex,
   conceptBadgeLegend,
@@ -31,6 +31,7 @@ export function submissionPage(ctx: PageContext, submission: SiteSubmission): st
   if (!output) {
     const content = `${draftBanner(record.state)}
 ${paperHeader(ctx.markdown, submission, "../")}
+${pageReactions(`${record.id}/`)}
 <p class="empty-note">No content uploaded yet. Run <code>lax build</code> and submit a draft.</p>
 ${discussion(`${record.id}/`)}`;
     return page({
@@ -69,6 +70,7 @@ ${submissionMapLegend()}
 
   const content = `${draftBanner(record.state)}
 ${paperHeader(ctx.markdown, submission, "../")}
+${pageReactions(`${record.id}/`)}
 ${output.abstract.trim() ? paperAbstract(ctx.markdown.renderAuthorProse(output.abstract, "../")) : ""}
 <section class="page-section"><h3 class="section-title">Concepts</h3>
 ${output.concepts.length ? `<div class="concept-list-box">

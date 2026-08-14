@@ -367,11 +367,13 @@ export function paperAbstract(rendered: string): string {
 /** Named authors (with ORCID/GitHub). An empty list intentionally omits the byline. */
 function authorByline(submission: SiteSubmission): string {
   const authors = (submission.output?.manifest.authors ?? []).map((author) => {
+    const name = author.orcid
+      ? `<a class="paper-author-name" href="https://orcid.org/${attr(author.orcid)}" target="_blank" rel="noopener noreferrer">${esc(author.name)}</a>`
+      : esc(author.name);
     const links = [
-      author.orcid ? `<a href="https://orcid.org/${attr(author.orcid)}">ORCID</a>` : "",
       author.github ? `<a href="https://github.com/${attr(author.github)}">@${esc(author.github)}</a>` : "",
     ].filter(Boolean).join(" ");
-    return `<span class="paper-author">${esc(author.name)}${links ? ` <span class="author-links">${links}</span>` : ""}</span>`;
+    return `<span class="paper-author">${name}${links ? ` <span class="author-links">${links}</span>` : ""}</span>`;
   });
   return authors.join('<span class="author-sep">·</span>');
 }

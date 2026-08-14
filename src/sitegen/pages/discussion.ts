@@ -14,25 +14,6 @@ function canonicalThreadUrl(pathname: string): string {
 export function discussion(pathname: string): string {
   const threadUrl = canonicalThreadUrl(pathname);
   return `<section class="page-section discussion-section" aria-labelledby="discussion-title">
-<section class="page-reactions" aria-labelledby="page-reactions-title" data-reactions-host="${attr(REMARK42_URL)}" data-reactions-url="${attr(threadUrl)}">
-<div class="page-reactions-heading">
-<div>
-<p class="discussion-eyebrow">Reader response</p>
-<h3 class="section-title" id="page-reactions-title">Was this page useful?</h3>
-<p>Like or dislike this submission or concept. Votes and voter names are public.</p>
-</div>
-<p class="page-reactions-status" data-reactions-status role="status">Loading responses…</p>
-</div>
-<div class="page-reactions-actions" aria-label="Page rating">
-<button class="page-reaction-button page-reaction-like" type="button" data-reaction-vote="1" aria-pressed="false" disabled><span class="page-reaction-icon" aria-hidden="true">↑</span><span>Like</span><strong data-reaction-count="1">0</strong></button>
-<button class="page-reaction-button page-reaction-dislike" type="button" data-reaction-vote="-1" aria-pressed="false" disabled><span class="page-reaction-icon" aria-hidden="true">↓</span><span>Dislike</span><strong data-reaction-count="-1">0</strong></button>
-</div>
-<div class="page-reactions-voters" aria-live="polite">
-<details data-reaction-voters="1" hidden><summary>People who liked this</summary><ul></ul></details>
-<details data-reaction-voters="-1" hidden><summary>People who disliked this</summary><ul></ul></details>
-</div>
-<p class="page-reactions-auth">Voting requires ORCID sign-in and a public name on your ORCID record. <a data-reactions-login href="${attr(`${REMARK42_URL.replace(/\/+$/, "")}/auth/orcid/login?site=${encodeURIComponent(REMARK42_SITE_ID)}&from=${encodeURIComponent(threadUrl)}`)}">Sign in with ORCID</a></p>
-</section>
 <div class="discussion-heading">
 <div class="discussion-heading-copy">
 <p class="discussion-eyebrow">Community review</p>
@@ -46,5 +27,28 @@ export function discussion(pathname: string): string {
 <div id="remark42" data-remark42-host="${attr(REMARK42_URL)}" data-remark42-site="${attr(REMARK42_SITE_ID)}" data-remark42-url="${attr(threadUrl)}"></div>
 </div>
 <noscript><p class="discussion-unavailable">Enable JavaScript to read or join the discussion.</p></noscript>
+</section>`;
+}
+
+/** Compact page-level rating placed beside the page's primary metadata. */
+export function pageReactions(pathname: string): string {
+  const threadUrl = canonicalThreadUrl(pathname);
+  const loginUrl = `${REMARK42_URL.replace(/\/+$/, "")}/auth/orcid/login?site=${encodeURIComponent(REMARK42_SITE_ID)}&from=${encodeURIComponent(threadUrl)}`;
+  const control = (vote: 1 | -1, label: string, icon: string, noun: string) => {
+    const id = `page-reaction-voters-${vote === 1 ? "likes" : "dislikes"}`;
+    return `<div class="page-reaction-control">
+<button class="page-reaction-button" type="button" data-reaction-vote="${vote}" aria-pressed="false"><span class="page-reaction-icon" aria-hidden="true">${icon}</span><span>${label}</span></button>
+<button class="page-reaction-voters" type="button" data-reaction-voters="${vote}" aria-expanded="false" aria-controls="${id}"><strong data-reaction-count="${vote}">0</strong><span class="visually-hidden">Show people who ${noun} this page</span></button>
+<div class="page-reaction-voters-popover" id="${id}" data-reaction-voters-popover="${vote}" hidden><p data-reaction-empty>No public ${noun}s yet.</p><ul></ul></div>
+</div>`;
+  };
+  return `<section class="page-reactions" aria-label="Page rating" data-reactions-host="${attr(REMARK42_URL)}" data-reactions-url="${attr(threadUrl)}">
+<div class="page-reactions-actions">
+${control(1, "Like", "↑", "like")}
+${control(-1, "Dislike", "↓", "dislike")}
+</div>
+<p class="visually-hidden" data-reactions-status role="status">Loading page rating…</p>
+<a class="visually-hidden" data-reactions-login href="${attr(loginUrl)}">Sign in with ORCID</a>
+<noscript><p class="page-reactions-noscript"><a href="${attr(loginUrl)}">Sign in with ORCID</a> to rate this page.</p></noscript>
 </section>`;
 }

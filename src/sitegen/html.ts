@@ -55,7 +55,7 @@ function accountLoginHref(): string {
 
 function accountUi(): string {
   return `<div class="account-header" data-account-root data-remark42-host="${attr(REMARK42_URL)}" data-remark42-site="${attr(REMARK42_SITE_ID)}" data-identity-url="${attr(REMARK42_IDENTITY_URL)}">
-  <a class="account-control" data-account-login href="${attr(accountLoginHref())}"><span class="orcid-mark" aria-hidden="true">iD</span><span>Login</span></a>
+  <a class="account-control" data-account-login href="${attr(accountLoginHref())}"><span class="orcid-mark" aria-hidden="true">iD</span><span>Sign in with ORCID</span></a>
   <button class="account-control" data-account-settings type="button" aria-haspopup="dialog" aria-controls="account-dialog" hidden><span class="orcid-mark" aria-hidden="true">iD</span><span>Settings</span></button>
 </div>`;
 }
@@ -72,7 +72,7 @@ function accountDialog(): string {
 <section data-account-content hidden>
 <div class="account-identity">
 <span class="account-avatar" data-account-avatar aria-hidden="true">iD</span>
-<div><a class="account-name" data-account-name target="_blank" rel="noreferrer"></a><p class="account-id" data-account-id></p></div>
+<div><a class="account-name" data-account-name target="_blank" rel="noopener noreferrer"></a><p class="account-id" data-account-id></p></div>
 </div>
 <p class="account-name-note">Your public name comes from ORCID. ORCID names are self-asserted and may change.</p>
 <div class="account-actions">
@@ -113,7 +113,10 @@ export function page(shell: PageShell): string {
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
   <h1 class="site-title"><a href="${root}index.html">Lax <span class="site-title-quiet">Lean Archive</span></a></h1>
-  ${accountUi()}
+  <nav class="header-actions" aria-label="Contribution and account">
+    <a class="header-submit" href="${root}contributing.html">Submit</a>
+    ${accountUi()}
+  </nav>
 </header>
 <main id="content-shell">
 <div class="sidebar-backdrop" id="sidebar-backdrop"></div>

@@ -8,6 +8,8 @@ class FakeElement {
   disabled = false;
   textContent = "";
   href = "";
+  target = "";
+  rel = "";
   className = "";
   dateTime = "";
   attributes = new Map<string, string>();
@@ -93,6 +95,8 @@ describe("public all-comments activity", () => {
     const newestBody = newest.children[1]!;
     expect(newestHeader.children[0]!.textContent).toBe("Current ORCID Name");
     expect(newestHeader.children[0]!.href).toBe("https://orcid.org/0000-0002-1825-0097");
+    expect(newestHeader.children[0]!.target).toBe("_blank");
+    expect(newestHeader.children[0]!.rel).toBe("noopener noreferrer");
     expect(newestBody.textContent).toBe("Hello <script>alert(1)</script>");
     expect(list.children[1]!.children[0]!.children[0]!.textContent).toBe("ORCID identity unavailable");
     expect(status.textContent).toBe("Showing all 2 comments.");

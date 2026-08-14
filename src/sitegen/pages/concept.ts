@@ -2,7 +2,7 @@ import { attr, code, countsPill, esc, page } from "../html.js";
 import { conceptGraph, graphDataScript } from "../graphs.js";
 import { highlightSource } from "../highlight.js";
 import type { LocatedConcept } from "../model.js";
-import { discussion } from "./discussion.js";
+import { discussion, pageReactions } from "./discussion.js";
 import {
   conceptLink,
   conceptMapLegend,
@@ -105,6 +105,7 @@ export async function conceptPage(ctx: PageContext, located: LocatedConcept): Pr
 <p class="concept-microline"><code>${esc(concept.path)}</code> · <a href="index.html">${esc(output.id)}</a></p></div>
 <span class="status-pills">${countsPill(provenCount, concept.statements.length)}</span>
 </div>
+${pageReactions(`${submission.record.id}/${concept.id}.html`)}
 ${figureTitle("Concept map")}
 <figure class="graph-figure concept-root-graph">
 ${graphExpandButton("concept map")}

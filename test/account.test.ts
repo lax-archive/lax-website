@@ -43,6 +43,7 @@ function fixture(user: { id: string; name: string }) {
   const dialog = new FakeElement();
   const login = new FakeElement();
   const loginLabel = new FakeElement();
+  loginLabel.textContent = "Sign in with ORCID";
   login.selectors.set("span:last-child", loginLabel);
   const settings = new FakeElement();
   settings.hidden = true;
@@ -128,7 +129,7 @@ describe("ORCID account header", () => {
 
     expect(fx.login.hidden).toBe(false);
     expect(fx.settings.hidden).toBe(true);
-    expect(fx.loginLabel.textContent).toBe("Share ORCID name");
+    expect(fx.loginLabel.textContent).toBe("Sign in with ORCID");
     expect(fx.elements["[data-account-status]"]!.textContent).toContain("public name shared by ORCID is required");
   });
 });

@@ -17,7 +17,7 @@ const submissions = (): SiteSubmission[] => [{
   },
   output: {
     specVersion: "1", id: "Lax2",
-    manifest: { specVersion: "1", id: "Lax2", leanVersion: "v4.30.0", mathlibVersion: "abc", title: "Two", authors: [{ name: "Alice", github: "alice" }], bibEntries: ["@article{demo,\n  author = {Doe, Jane and M{\\\"u}ller, Hans},\n  title = {A Cited Result},\n  journal = {J. Math},\n  volume = {1},\n  number = {2},\n  pages = {3--4},\n  year = {2020},\n  doi = {10.1000/demo},\n}", "@book{x}"] },
+    manifest: { specVersion: "1", id: "Lax2", leanVersion: "v4.30.0", mathlibVersion: "abc", title: "Two", authors: [{ name: "Alice", github: "alice", orcid: "0000-0002-1825-0097" }], bibEntries: ["@article{demo,\n  author = {Doe, Jane and M{\\\"u}ller, Hans},\n  title = {A Cited Result},\n  journal = {J. Math},\n  volume = {1},\n  number = {2},\n  pages = {3--4},\n  year = {2020},\n  doi = {10.1000/demo},\n}", "@book{x}"] },
     abstract: "See [[Lax2.C]], [[Lax2.C.truth|the statement]], and $x^2$. Broken: [[Nobody]].",
     requiredByConcepts: [], requiredByProofs: [],
     concepts: [
@@ -456,6 +456,9 @@ After the formula.`, "");
     expect(index).toMatch(/<script src="assets\/account\.js\?v=[0-9a-f]{12}"><\/script>/);
     expect(index).toContain('data-account-login');
     expect(index).toContain('data-account-settings');
+    expect(index).toContain('<nav class="header-actions" aria-label="Contribution and account">');
+    expect(index).toContain('<a class="header-submit" href="contributing.html">Submit</a>');
+    expect(index).toContain('<span>Sign in with ORCID</span>');
     expect(index).toContain('id="account-dialog"');
     expect(index).not.toContain('href="all-comments/');
     expect(index).toMatch(/<link rel="stylesheet" href="assets\/style\.css\?v=[0-9a-f]{12}">/);
@@ -606,7 +609,7 @@ After the formula.`, "");
     expect(html).not.toContain('class="submission-title-id"');
     expect(html).not.toContain('class="submission-title-separator"');
     expect(html).not.toContain('class="paper-authors"');
-    expect(html).toContain('<p class="paper-meta"><span class="submission-meta-id">Lax2</span><span class="meta-sep">·</span><span class="formalized-label">formalized by</span> <span class="paper-author">Alice');
+    expect(html).toContain('<p class="paper-meta"><span class="submission-meta-id">Lax2</span><span class="meta-sep">·</span><span class="formalized-label">formalized by</span> <span class="paper-author"><a class="paper-author-name" href="https://orcid.org/0000-0002-1825-0097" target="_blank" rel="noopener noreferrer">Alice</a>');
     expect(html.indexOf('class="paper-meta"')).toBeLessThan(html.indexOf('class="katex"'));
     // the abstract is rendered under its own heading, not as an inline block
     expect(html).toContain("Abstract");
@@ -667,8 +670,13 @@ After the formula.`, "");
     expect(html).toContain('data-reactions-url="https://laxarchive.org/Lax2/"');
     expect(html).toContain('data-reaction-vote="1"');
     expect(html).toContain('data-reaction-vote="-1"');
-    expect(html).toContain("Votes and voter names are public.");
-    expect(html).toContain("a public name on your ORCID record");
+    expect(html).toContain('data-reaction-voters="1"');
+    expect(html).toContain('data-reaction-voters="-1"');
+    expect(html).toContain("Show people who like this page");
+    expect(html).not.toContain("Was this page useful?");
+    expect(html).not.toContain("Votes and voter names are public.");
+    expect(html.indexOf('class="page-reactions"')).toBeLessThan(html.indexOf('class="paper-abstract"'));
+    expect(html.indexOf('class="page-reactions"')).toBeLessThan(html.indexOf("discussion-section"));
     expect(html).toContain('data-remark42-url="https://laxarchive.org/Lax2/"');
     expect(html).toContain('class="remark42__counter" data-url="https://laxarchive.org/Lax2/"');
     expect(html).toMatch(/<p class="discussion-loading" id="remark42-status"[^>]*>[^]*?<\/p>\s*<div id="remark42"[^>]*><\/div>/);
@@ -892,6 +900,8 @@ After the formula.`, "");
     expect(html).toContain('href="../Lax2/Lax2Proofs.truth.html"');
     expect(html).toContain('data-remark42-url="https://laxarchive.org/Lax2/Lax2.C.html"');
     expect(html).toContain('data-reactions-url="https://laxarchive.org/Lax2/Lax2.C.html"');
+    expect(html.indexOf('class="page-reactions"')).toBeLessThan(html.indexOf("concept-root-graph"));
+    expect(html.indexOf('class="page-reactions"')).toBeLessThan(html.indexOf("discussion-section"));
     expect(html).toMatch(/<script src="\.\.\/assets\/comments\.js\?v=[0-9a-f]{12}"><\/script>/);
     // The graph is rooted at C; its importer D rides along behind the
     // descendants toggle (hidden until pressed).

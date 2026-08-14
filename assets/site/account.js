@@ -105,7 +105,6 @@
       const user = await fetchJson(`${host}/api/v1/user?site=${encodeURIComponent(site)}`);
       const sessionName = validName(user.name);
       if (!sessionName) {
-        login.querySelector("span:last-child").textContent = "Share ORCID name";
         setLoggedOut("A public name shared by ORCID is required before this account can comment or use settings.");
         accountEvent();
         return;
