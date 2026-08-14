@@ -2,6 +2,7 @@ import { attr, esc, page, typeBadge } from "../html.js";
 import { renderBibEntry } from "../bibtex.js";
 import { conceptGraph, graphDataScript, submissionGraph, type SubmissionGraphData } from "../graphs.js";
 import type { SiteSubmission } from "../model.js";
+import { discussion } from "./discussion.js";
 import {
   bibtex,
   conceptBadgeLegend,
@@ -30,8 +31,15 @@ export function submissionPage(ctx: PageContext, submission: SiteSubmission): st
   if (!output) {
     const content = `${draftBanner(record.state)}
 ${paperHeader(ctx.markdown, submission, "../")}
-<p class="empty-note">No content uploaded yet. Run <code>lax build</code> and submit a draft.</p>`;
-    return page({ title: `${record.id} — Lax`, rootRel: "../", sidebar, content });
+<p class="empty-note">No content uploaded yet. Run <code>lax build</code> and submit a draft.</p>
+${discussion(`${record.id}/`)}`;
+    return page({
+      title: `${record.id} — Lax`,
+      rootRel: "../",
+      sidebar,
+      content,
+      scripts: ["assets/comments.js"],
+    });
   }
 
   const proven = ctx.model.network.proven;
@@ -105,13 +113,14 @@ ${relatedFigure}
 </div>
 </section>
 ${references ? `<section class="page-section"><h3 class="section-title">References</h3>\n<ol class="reference-list">\n${references}\n</ol>\n</section>` : ""}
+${discussion(`${record.id}/`)}
 ${graphData(ctx, submission, related)}`;
   return page({
     title: `${output.manifest.title} — ${record.id}`,
     rootRel: "../",
     sidebar,
     content,
-    scripts: ["assets/layout.js", "assets/dag.js", "assets/citation.js"],
+    scripts: ["assets/layout.js", "assets/dag.js", "assets/citation.js", "assets/comments.js"],
   });
 }
 

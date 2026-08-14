@@ -2,6 +2,7 @@ import { attr, code, countsPill, esc, page } from "../html.js";
 import { conceptGraph, graphDataScript } from "../graphs.js";
 import { highlightSource } from "../highlight.js";
 import type { LocatedConcept } from "../model.js";
+import { discussion } from "./discussion.js";
 import {
   conceptLink,
   conceptMapLegend,
@@ -124,6 +125,7 @@ ${depsCol("Builds on", importRows)}
 ${depsCol("Used by", usedByRows)}
 ${depsCol("From Mathlib", mathlibRows)}
 </div></div>
+${discussion(`${submission.record.id}/${concept.id}.html`)}
 ${graphDataScript({
     concepts: { ...conceptGraph(ctx.model, [concept.id]), home: output.id },
     proofs: { statements: [], proofs: [] },
@@ -134,6 +136,6 @@ ${graphDataScript({
     rootRel: "../",
     sidebar: submissionSidebar(ctx.model, submission, "../", { activeId: concept.id }),
     content,
-    scripts: ["assets/layout.js", "assets/dag.js", "assets/source-proof.js"],
+    scripts: ["assets/layout.js", "assets/dag.js", "assets/source-proof.js", "assets/comments.js"],
   });
 }

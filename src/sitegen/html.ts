@@ -4,6 +4,7 @@
 // dag.js run in the browser; everything else is rendered at build time.
 
 import { siteAssetVersion } from "./assets.js";
+import { REMARK42_URL } from "../config.js";
 
 const HONESTY_TOOLTIP =
   "Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.";
@@ -27,8 +28,14 @@ export interface PageShell {
   scripts?: string[];
 }
 
-const CSP =
+const REMARK42_ORIGIN = new URL(REMARK42_URL).origin;
+const BASE_CSP =
   "default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src https: data:; font-src 'self'";
+
+function contentSecurityPolicy(hasDiscussion: boolean): string {
+  if (!hasDiscussion) return BASE_CSP;
+  return `default-src 'none'; script-src 'self' ${REMARK42_ORIGIN}; style-src 'self' 'unsafe-inline'; img-src https: data:; font-src 'self'; frame-src ${REMARK42_ORIGIN}; connect-src ${REMARK42_ORIGIN}`;
+}
 
 // Inline data: URI so the icon loads under the CSP everywhere — including
 // plain-http `lax serve`, where an assets/ file would violate `img-src`.
@@ -36,6 +43,7 @@ const FAVICON = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' vi
 
 export function page(shell: PageShell): string {
   const root = shell.rootRel;
+  const csp = contentSecurityPolicy(shell.scripts?.includes("assets/comments.js") ?? false);
   const scripts = ["assets/sidebar.js", ...(shell.scripts ?? [])]
     .map((src) => `<script src="${attr(root + src)}?v=${siteAssetVersion(src.replace(/^assets\//, ""))}"></script>`)
     .join("\n");
@@ -43,7 +51,7 @@ export function page(shell: PageShell): string {
   return `<!doctype html>
 <html lang="en"><head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="${CSP}">
+<meta http-equiv="Content-Security-Policy" content="${csp}">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Lax — an archive of formalized mathematical concepts and their proofs">
 <title>${esc(shell.title)}</title>

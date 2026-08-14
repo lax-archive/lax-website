@@ -316,8 +316,11 @@ After the formula.`, "");
       expect(bytes.equals(second.get(name)!)).toBe(true);
       expect(SITE_MIME[path.extname(name)], `missing MIME for ${name}`).toBeDefined();
     }
-    for (const asset of ["style.css", "sidebar.js", "landing.js", "layout.js", "dag.js", "source-proof.js", "citation.js", "katex.css", "lax-white-paper.pdf", path.join("fonts", "LM-regular.woff2")])
+    for (const asset of ["style.css", "sidebar.js", "landing.js", "layout.js", "dag.js", "source-proof.js", "citation.js", "comments.js", "katex.css", "lax-white-paper.pdf", path.join("fonts", "LM-regular.woff2")])
       expect(fs.existsSync(path.join(one, "assets", asset)), asset).toBe(true);
+    const emptySubmission = fs.readFileSync(path.join(one, "Lax10", "index.html"), "utf8");
+    expect(emptySubmission).toContain('data-remark42-url="https://laxarchive.org/Lax10/"');
+    expect(emptySubmission).toMatch(/<script src="\.\.\/assets\/comments\.js\?v=[0-9a-f]{12}"><\/script>/);
     expect(fs.readFileSync(path.join(one, "assets", "lax-white-paper.pdf")).subarray(0, 4).toString()).toBe("%PDF");
     // Graph containers must be measurable before dag.js appends their SVG.
     const css = fs.readFileSync(path.join(one, "assets", "style.css"), "utf8");
@@ -640,6 +643,13 @@ After the formula.`, "");
     expect(html).toContain('data-copy-citation aria-controls="submission-citation" aria-label="Copy BibTeX to clipboard"');
     expect(html).toContain('<output class="citation-copy-status" aria-live="polite"></output>');
     expect(html).toMatch(/<script src="\.\.\/assets\/citation\.js\?v=[0-9a-f]{12}"><\/script>/);
+    expect(html).toContain('<section class="page-section discussion-section" aria-labelledby="discussion-title">');
+    expect(html).toContain('data-remark42-url="https://laxarchive.org/Lax2/"');
+    expect(html).toContain('class="remark42__counter" data-url="https://laxarchive.org/Lax2/"');
+    expect(html).toContain("Sign in with ORCID to comment and vote comments up or down.");
+    expect(html).toMatch(/<script src="\.\.\/assets\/comments\.js\?v=[0-9a-f]{12}"><\/script>/);
+    expect(html).toContain("script-src 'self' https://remark42-3-74-72-66.nip.io");
+    expect(html).toContain("frame-src https://remark42-3-74-72-66.nip.io");
     expect(html).not.toContain("note = {draft}");
     expect(html).not.toContain("draft-banner");
     // inline JSON graph data parses and grays nothing (no external neighbors)
@@ -854,6 +864,8 @@ After the formula.`, "");
     // the claim's evidence block lists the archived proof, linking to its page
     expect(html).toContain("<h3>Evidence</h3>");
     expect(html).toContain('href="../Lax2/Lax2Proofs.truth.html"');
+    expect(html).toContain('data-remark42-url="https://laxarchive.org/Lax2/Lax2.C.html"');
+    expect(html).toMatch(/<script src="\.\.\/assets\/comments\.js\?v=[0-9a-f]{12}"><\/script>/);
     // The graph is rooted at C; its importer D rides along behind the
     // descendants toggle (hidden until pressed).
     const graphMatch = /<script type="application\/json" id="graph-data">(.*?)<\/script>/s.exec(html)!;
