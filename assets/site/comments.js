@@ -261,6 +261,9 @@
     show_email_subscription: false,
     show_rss_subscription: true,
     no_footer: false,
+    // Remark passes unknown config keys through to the iframe URL. This keeps
+    // browsers from reusing the pre-ORCID author UI after the server upgrade.
+    lax_ui: "orcid-v2",
   };
 
   const unavailable = () => {
