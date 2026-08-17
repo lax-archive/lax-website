@@ -7,7 +7,7 @@
 <title>Lax Lean Archive</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="assets/style.css?v=2fcc67ddfb1f">
+<link rel="stylesheet" href="assets/style.css?v=6db68ffd6878">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -149,10 +149,10 @@ can read, software can check, and future work can build upon.</p>
 <span class="landing-action-title">Read.</span><span class="landing-action-copy">Browse submissions and their concepts as human-readable statements alongside their Lean source. Every claim shows its evidence: which proofs establish it, under which assumptions.</span>
 <span class="landing-action-hint" aria-hidden="true">Go to section <b>↓</b></span>
 </button>
-<div class="landing-action-card unavailable" id="landing-action-review" data-landing-view="review" role="button" aria-disabled="true" tabindex="0" aria-label="Review, coming soon">
-<span class="landing-action-title">Review.</span><span class="landing-action-copy">Correctness is machine-checked, but whether a concept says what it claims to say needs human eyes. Read a concept, and endorse or flag it.</span>
-<span class="landing-action-status" aria-hidden="true">Coming soon</span>
-</div>
+<button class="landing-action-card" id="landing-action-review" type="button" data-landing-view="review" data-landing-action="review" aria-controls="landing-panel-review">
+<span class="landing-action-title">Review.</span><span class="landing-action-copy">Browse claims that do not yet have a grounded proof, read their formal statements, and identify a route to proving them.</span>
+<span class="landing-action-hint" aria-hidden="true">Go to section <b>↓</b></span>
+</button>
 <button class="landing-action-card" id="landing-action-submit" type="button" data-landing-view="submit" data-landing-action="submit" aria-controls="landing-panel-submit">
 <span class="landing-action-title">Submit.</span><span class="landing-action-copy">Publish your own formalization. You may build upon definitions and theorems of existing submissions.</span>
 <span class="landing-action-hint" aria-hidden="true">Go to section <b>↓</b></span>
@@ -313,6 +313,12 @@ model like Claude Fable) a prompt like:</p>
 <li id="submissions-list-empty" class="submissions-list-empty" hidden>No submissions match.</li>
 </ul>
 </section>
+<section class="landing-action-panel landing-review-panel" id="landing-panel-review" aria-labelledby="landing-action-review">
+<p class="landing-action-eyebrow">Contribute a proof</p>
+<h3>Open problems</h3>
+<p>Browse every claim that does not yet have a grounded proof, across 1 submission.</p>
+<a class="landing-open-problems-link" href="open-problems.html"><span><strong>1</strong> open claim</span><b>Browse open problems <span aria-hidden="true">→</span></b></a>
+</section>
 <section class="landing-action-panel landing-cite-panel" id="landing-panel-cite" aria-labelledby="landing-action-cite">
 <p class="landing-action-eyebrow">Cite the formalization</p>
 <h3>Ready-made BibTeX</h3>
@@ -330,6 +336,6 @@ model like Claude Fable) a prompt like:</p>
 </section>
 </div></section>
 </main>
-<script src="assets/sidebar.js?v=81d80ace468c"></script>
+<script src="assets/sidebar.js?v=b11f292fc5c2"></script>
 <script src="assets/landing.js?v=e2dae7ea6b8a"></script>
 </body></html>
