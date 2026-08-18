@@ -9,6 +9,13 @@
   const site = root.dataset.remark42Site || "remark";
   if (!host.startsWith("https://")) return;
 
+  const authReturnParameter = "lax_auth_complete";
+  const authPopupName = "lax-orcid-login";
+  const authMessage = "lax-orcid-auth-complete";
+  const authChannel = typeof window.BroadcastChannel === "function"
+    ? new window.BroadcastChannel("lax-orcid-auth-v1")
+    : null;
+
   const login = root.querySelector("[data-account-login]");
   const settings = root.querySelector("[data-account-settings]");
   const settingsLabel = settings?.querySelector("span:last-child");
@@ -26,6 +33,8 @@
   let currentUser = null;
   let currentIdentity = null;
   let commentsLoadedFor = "";
+  let loginPopup = null;
+  let loginPopupPoll = null;
 
   const bridgeOrigin = new URL(host).origin;
   const bridge = document.createElement("iframe");
@@ -39,6 +48,10 @@
   const bridgeReady = new Promise((resolve) => { markBridgeReady = resolve; });
 
   window.addEventListener("message", (event) => {
+    if (event.origin === window.location.origin && event.source === loginPopup && event.data?.source === authMessage) {
+      finishLogin();
+      return;
+    }
     if (event.origin !== bridgeOrigin || event.source !== bridge.contentWindow) return;
     const message = event.data;
     if (!message || message.source !== "lax-reactions") return;
@@ -75,15 +88,73 @@
     return response;
   }
 
-  const makeLoginUrl = () => {
+  const makeLoginUrl = (popup = false) => {
     const url = new URL("/auth/orcid/login", host);
-    url.searchParams.set("from", window.location.href);
+    const returnUrl = new URL(window.location.href);
+    // `host` was used only as a temporary preview cache buster. Never carry
+    // it through OAuth, because back/forward caches can restore an old build.
+    returnUrl.searchParams.delete("host");
+    if (popup) returnUrl.searchParams.set(authReturnParameter, "1");
+    else returnUrl.searchParams.delete(authReturnParameter);
+    url.searchParams.set("from", returnUrl.toString());
     url.searchParams.set("site", site);
     return url.toString();
   };
 
   login.href = makeLoginUrl();
   refresh.href = makeLoginUrl();
+
+  const finishLogin = () => {
+    if (loginPopupPoll !== null && typeof window.clearInterval === "function") {
+      window.clearInterval(loginPopupPoll);
+      loginPopupPoll = null;
+    }
+    loginPopup = null;
+    void checkAccount();
+  };
+
+  if (authChannel) authChannel.onmessage = (event) => {
+    if (event.data?.source === authMessage) finishLogin();
+  };
+
+  const returnUrl = new URL(window.location.href);
+  if (returnUrl.searchParams.get(authReturnParameter) === "1") {
+    returnUrl.searchParams.delete(authReturnParameter);
+    authChannel?.postMessage({ source: authMessage });
+    if (window.opener && window.opener !== window) {
+      window.opener.postMessage({ source: authMessage }, window.location.origin);
+    }
+    if (window.history?.replaceState) window.history.replaceState(null, "", returnUrl.toString());
+    if (window.name === authPopupName) {
+      window.close();
+      return;
+    }
+  }
+
+  const openLogin = (event) => {
+    event?.preventDefault?.();
+    const popup = typeof window.open === "function"
+      ? window.open(makeLoginUrl(true), authPopupName, "popup,width=620,height=760,resizable=yes,scrollbars=yes")
+      : null;
+    if (popup) {
+      loginPopup = popup;
+      popup.focus?.();
+      if (typeof window.setInterval === "function") {
+        loginPopupPoll = window.setInterval(() => {
+          if (loginPopup?.closed) finishLogin();
+        }, 500);
+      }
+      return;
+    }
+    window.location.assign(makeLoginUrl());
+  };
+
+  login.addEventListener("click", openLogin);
+  refresh.addEventListener("click", openLogin);
+  window.addEventListener("LAX::login-request", (event) => {
+    event.preventDefault();
+    openLogin();
+  });
 
   const validName = (value) => {
     const name = typeof value === "string" ? value.trim() : "";

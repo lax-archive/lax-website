@@ -222,4 +222,59 @@ describe("Remark42 browser loader", () => {
     expect(likeCount.textContent).toBe("2");
     expect(status.textContent).toBe("Signed in as Ada");
   });
+
+  it("requests the shared popup login instead of navigating away for a signed-out reaction", async () => {
+    const listeners: Record<string, () => void> = {};
+    const attributes: Record<string, string> = { "aria-pressed": "false" };
+    const like = {
+      dataset: { reaction: "like" }, disabled: true,
+      addEventListener: (name: string, listener: () => void) => { listeners[name] = listener; },
+      setAttribute: (name: string, value: string) => { attributes[name] = value; },
+      getAttribute: (name: string) => attributes[name],
+    };
+    const status = { textContent: "", dataset: { state: "" } };
+    const login = { hidden: false, href: "" };
+    const count = { textContent: "0" };
+    const reactions = {
+      querySelector: (selector: string) => {
+        if (selector === "[data-reactions-status]") return status;
+        if (selector === "[data-reactions-login]") return login;
+        if (selector === '[data-reaction-count="like"]') return count;
+        return null;
+      },
+      querySelectorAll: (selector: string) => selector === "[data-reaction]" ? [like] : [],
+    };
+    const container = { dataset: { remark42Host: "https://remark42.example.test", remark42Site: "remark", remark42Url: "https://laxarchive.org/Lax2/" } };
+    const document = {
+      getElementById: (id: string) => id === "remark42" ? container : null,
+      querySelector: (selector: string) => selector === "[data-reactions-host]" ? reactions : null,
+      createElement: (tag: string) => tag === "iframe"
+        ? ({ src: "", title: "", hidden: false, contentWindow: null })
+        : ({ noModule: true, type: "", src: "", addEventListener() {} }),
+      head: { appendChild() {} }, body: { appendChild() {} },
+    };
+    let assigned = "";
+    let pending = "";
+    let loginRequested = false;
+    class FakeCustomEvent {
+      constructor(public type: string, public init: { cancelable?: boolean }) {}
+    }
+    const window = {
+      location: { origin: "https://laxarchive.org", pathname: "/Lax2/", href: "https://laxarchive.org/Lax2/", assign: (value: string) => { assigned = value; } },
+      addEventListener() {},
+      dispatchEvent: (event: FakeCustomEvent) => { loginRequested = event.type === "LAX::login-request" && event.init.cancelable === true; return false; },
+      sessionStorage: { getItem: () => null, setItem: (_key: string, value: string) => { pending = value; }, removeItem() {} },
+      fetch: async () => ({ ok: true, status: 200, json: async () => ({ counts: { like: 0, dislike: 0, rocket: 0 }, viewer_reaction: "", authenticated: false, eligible: false, voters: { like: [], dislike: [], rocket: [] } }) }),
+    };
+    const context = { document, window, URL, CustomEvent: FakeCustomEvent };
+    vm.createContext(context);
+    vm.runInContext(fs.readFileSync("assets/site/comments.js", "utf8"), context);
+    await new Promise((resolve) => setImmediate(resolve));
+
+    expect(like.disabled).toBe(false);
+    await listeners.click!();
+    expect(pending).toBe("like");
+    expect(loginRequested).toBe(true);
+    expect(assigned).toBe("");
+  });
 });

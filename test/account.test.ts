@@ -14,11 +14,11 @@ class FakeElement {
   attributes = new Map<string, string>();
   children: FakeElement[] = [];
   selectors = new Map<string, FakeElement>();
-  listeners = new Map<string, (event?: { target?: FakeElement }) => void>();
+  listeners = new Map<string, (event?: any) => void>();
   opened = false;
 
   querySelector(selector: string) { return this.selectors.get(selector) ?? null; }
-  addEventListener(name: string, listener: (event?: { target?: FakeElement }) => void) { this.listeners.set(name, listener); }
+  addEventListener(name: string, listener: (event?: any) => void) { this.listeners.set(name, listener); }
   append(...nodes: FakeElement[]) { this.children.push(...nodes); }
   appendChild(node: FakeElement) { this.children.push(node); return node; }
   replaceChildren(...nodes: FakeElement[]) { this.children = nodes; }
@@ -33,7 +33,8 @@ const settle = async () => {
   await new Promise((resolve) => setTimeout(resolve, 0));
 };
 
-function fixture(user: { id: string; name: string }) {
+function fixture(user: { id: string; name: string }, initiallyAuthenticated = true) {
+  let authenticated = initiallyAuthenticated;
   const root = new FakeElement();
   root.dataset = {
     remark42Host: "https://remark42.example.test",
@@ -92,8 +93,22 @@ function fixture(user: { id: string; name: string }) {
     constructor(public type: string, public init: { detail: unknown }) {}
     get detail() { return this.init.detail; }
   }
+  const opened: Array<{ url: string; name: string; features: string }> = [];
+  const popup = { focus() {} };
+  let authChannel: { onmessage?: (event: { data: Record<string, unknown> }) => void } | null = null;
+  class FakeBroadcastChannel {
+    onmessage?: (event: { data: Record<string, unknown> }) => void;
+    constructor(_name: string) { authChannel = this; }
+    postMessage() {}
+  }
   const window = {
-    location: { href: "https://laxarchive.org/Lax2/?view=test#discussion" },
+    location: { href: "https://laxarchive.org/Lax2/?view=test&host=old#discussion", origin: "https://laxarchive.org", assign() {} },
+    name: "",
+    opener: null,
+    history: { replaceState() {} },
+    BroadcastChannel: FakeBroadcastChannel,
+    open: (url: string, name: string, features: string) => { opened.push({ url, name, features }); return popup; },
+    close() {},
     dispatchEvent: (event: FakeCustomEvent) => { events.push({ type: event.type, detail: event.detail }); },
     addEventListener: (name: string, listener: (event: Record<string, unknown>) => void) => { listeners[name] = listener; },
     setTimeout,
@@ -110,7 +125,9 @@ function fixture(user: { id: string; name: string }) {
           ok: true,
           status: 200,
           data: message.action === "me"
-            ? { authenticated: true, eligible: true, viewer: { remark42_id: user.id, orcid_id: "0000-0002-1825-0097", name: user.name, profile_url: "https://orcid.org/0000-0002-1825-0097" } }
+            ? authenticated
+              ? { authenticated: true, eligible: true, viewer: { remark42_id: user.id, orcid_id: "0000-0002-1825-0097", name: user.name, profile_url: "https://orcid.org/0000-0002-1825-0097" } }
+              : { authenticated: false, eligible: false }
             : message.action === "comments" ? {
               comments: [{
                 id: "hidden-reaction",
@@ -132,7 +149,7 @@ function fixture(user: { id: string; name: string }) {
     body: new FakeElement(),
     head: new FakeElement(),
   };
-  return { root, dialog, login, loginLabel, settings, settingsLabel, elements, requests, events, fetch, window, document, FakeCustomEvent, listeners, bridgeWindow };
+  return { root, dialog, login, loginLabel, settings, settingsLabel, elements, requests, events, fetch, window, document, FakeCustomEvent, listeners, bridgeWindow, opened, get authChannel() { return authChannel; }, setAuthenticated(value: boolean) { authenticated = value; } };
 }
 
 describe("ORCID account header", () => {
@@ -150,6 +167,7 @@ describe("ORCID account header", () => {
     expect(fx.elements["[data-account-name]"]!.textContent).toBe("Ada Lovelace");
     expect(fx.elements["[data-account-name]"]!.href).toBe("https://orcid.org/0000-0002-1825-0097");
     expect(fx.login.href).toContain(encodeURIComponent("https://laxarchive.org/Lax2/?view=test#discussion"));
+    expect(fx.login.href).not.toContain("host%3Dold");
 
     fx.settings.listeners.get("click")!();
     expect(fx.dialog.opened).toBe(true);
@@ -169,5 +187,32 @@ describe("ORCID account header", () => {
     expect(fx.settings.hidden).toBe(true);
     expect(fx.loginLabel.textContent).toBe("Sign in with ORCID");
     expect(fx.elements["[data-account-status]"]!.textContent).toContain("public name shared by ORCID is required");
+  });
+
+  it("authenticates in a popup and refreshes the header after the completion handshake", async () => {
+    const fx = fixture({ id: `orcid_${"c".repeat(40)}`, name: "Ada Lovelace" }, false);
+    const context = { document: fx.document, window: fx.window, fetch: fx.fetch, URL, CustomEvent: fx.FakeCustomEvent, Date, setTimeout };
+    vm.createContext(context);
+    vm.runInContext(fs.readFileSync("assets/site/account.js", "utf8"), context);
+    fx.listeners.message!({ origin: "https://remark42.example.test", source: fx.bridgeWindow, data: { source: "lax-reactions", type: "ready" } });
+    await settle();
+
+    expect(fx.login.hidden).toBe(false);
+    let prevented = false;
+    fx.login.listeners.get("click")!({ preventDefault() { prevented = true; } });
+    expect(prevented).toBe(true);
+    expect(fx.opened).toHaveLength(1);
+    const loginUrl = new URL(fx.opened[0]!.url);
+    const returnUrl = new URL(loginUrl.searchParams.get("from")!);
+    expect(fx.opened[0]!.name).toBe("lax-orcid-login");
+    expect(returnUrl.searchParams.get("lax_auth_complete")).toBe("1");
+    expect(returnUrl.searchParams.has("host")).toBe(false);
+
+    fx.setAuthenticated(true);
+    fx.authChannel!.onmessage!({ data: { source: "lax-orcid-auth-complete" } });
+    await settle();
+    expect(fx.login.hidden).toBe(true);
+    expect(fx.settings.hidden).toBe(false);
+    expect(fx.settingsLabel.textContent).toBe("Ada Lovelace");
   });
 });
