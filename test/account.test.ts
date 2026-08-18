@@ -223,4 +223,22 @@ describe("ORCID account header", () => {
     expect(fx.settings.hidden).toBe(false);
     expect(fx.settingsLabel.textContent).toBe("Ada Lovelace");
   });
+
+  it("rechecks the session when the archive tab regains focus", async () => {
+    const fx = fixture({ id: `orcid_${"d".repeat(40)}`, name: "Ada Lovelace" }, false);
+    const context = { document: fx.document, window: fx.window, fetch: fx.fetch, URL, CustomEvent: fx.FakeCustomEvent, Date, setTimeout };
+    vm.createContext(context);
+    vm.runInContext(fs.readFileSync("assets/site/account.js", "utf8"), context);
+    fx.listeners.message!({ origin: "https://remark42.example.test", source: fx.bridgeWindow, data: { source: "lax-reactions", type: "ready" } });
+    await settle();
+
+    expect(fx.login.hidden).toBe(false);
+    fx.setAuthenticated(true);
+    fx.listeners.focus!({});
+    await settle();
+
+    expect(fx.login.hidden).toBe(true);
+    expect(fx.settings.hidden).toBe(false);
+    expect(fx.settingsLabel.textContent).toBe("Ada Lovelace");
+  });
 });
