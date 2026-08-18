@@ -1,4 +1,4 @@
-remark42-3-74-72-66.nip.io {
+comments.laxarchive.org, remark42-3-74-72-66.nip.io {
     encode zstd gzip
 
     handle /reactions/* {

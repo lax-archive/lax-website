@@ -4,7 +4,7 @@ export const DEFAULT_SITE_URL =
 
 /** Hosted Remark42 instance used by submission and concept discussions. */
 export const REMARK42_URL =
-  process.env.LAX_REMARK42_URL ?? "https://remark42-3-74-72-66.nip.io";
+  process.env.LAX_REMARK42_URL ?? "https://comments.laxarchive.org";
 
 /** Remark42 site namespace. Changing it creates a separate comment archive. */
 export const REMARK42_SITE_ID =

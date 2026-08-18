@@ -6,8 +6,8 @@ test -s orcid.env || {
   exit 1
 }
 docker compose --env-file .env --env-file orcid.env \
-  -f compose.yaml -f compose.orcid.yaml -f compose.reactions.yaml -f compose.web.yaml config >/dev/null
+  -f compose.yaml -f compose.orcid.yaml -f compose.reactions.yaml -f compose.web.yaml -f compose.host.yaml config >/dev/null
 docker compose --env-file .env --env-file orcid.env \
-  -f compose.yaml -f compose.orcid.yaml -f compose.reactions.yaml -f compose.web.yaml build reactions
+  -f compose.yaml -f compose.orcid.yaml -f compose.reactions.yaml -f compose.web.yaml -f compose.host.yaml build reactions
 docker compose --env-file .env --env-file orcid.env \
-  -f compose.yaml -f compose.orcid.yaml -f compose.reactions.yaml -f compose.web.yaml up -d
+  -f compose.yaml -f compose.orcid.yaml -f compose.reactions.yaml -f compose.web.yaml -f compose.host.yaml up -d

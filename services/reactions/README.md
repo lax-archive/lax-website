@@ -17,6 +17,12 @@ rate-limits reads and writes, and accepts only canonical production URLs.
 
 Persistent data and 14 daily online backups live below `/var/lib/reactions`.
 
+The public service is hosted at `https://comments.laxarchive.org`. Keeping the
+comment service below the same registrable domain as `laxarchive.org` avoids
+third-party cookie partitioning across Firefox, Safari, and Chromium browsers.
+The ORCID application redirect URI is
+`https://comments.laxarchive.org/auth/orcid/callback`.
+
 Firefox can partition the Remark42 cookie used in the comment iframe from a
 top-level cross-origin fetch. `/reactions/v1/bridge` is a minimal same-origin
 iframe bridge for page and vote requests. Both sides require exact origins and

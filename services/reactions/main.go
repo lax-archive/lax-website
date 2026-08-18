@@ -105,7 +105,7 @@ func loadConfig() config {
 		provider:      env("AUTH_PROVIDER", "orcid"),
 		allowed:       allowed,
 		bridgeParents: bridgeParents,
-		publicOrigin:  strings.TrimSuffix(env("PUBLIC_ORIGIN", "https://remark42-3-74-72-66.nip.io"), "/"),
+		publicOrigin:  strings.TrimSuffix(env("PUBLIC_ORIGIN", "https://comments.laxarchive.org"), "/"),
 	}
 }
 

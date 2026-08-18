@@ -513,9 +513,9 @@ After the formula.`, "");
 
     expect(activity).toContain("<title>All comments — Lax Lean Archive</title>");
     expect(activity).toContain('id="all-comments"');
-    expect(activity).toContain('data-identity-url="https://remark42-3-74-72-66.nip.io/reactions/v1/identity"');
+    expect(activity).toContain('data-identity-url="https://comments.laxarchive.org/reactions/v1/identity"');
     expect(activity).toMatch(/<script src="\.\.\/assets\/all-comments\.js\?v=[0-9a-f]{12}"><\/script>/);
-    expect(activity).toContain("connect-src https://remark42-3-74-72-66.nip.io");
+    expect(activity).toContain("connect-src https://comments.laxarchive.org");
     expect(index).not.toContain('href="all-comments/');
   });
 
@@ -682,8 +682,8 @@ After the formula.`, "");
     expect(html).toMatch(/<p class="discussion-loading" id="remark42-status"[^>]*>[^]*?<\/p>\s*<div id="remark42"[^>]*><\/div>/);
     expect(html).toContain("your ORCID profile must share a public name.");
     expect(html).toMatch(/<script src="\.\.\/assets\/comments\.js\?v=[0-9a-f]{12}"><\/script>/);
-    expect(html).toContain("script-src 'self' https://remark42-3-74-72-66.nip.io");
-    expect(html).toContain("frame-src https://remark42-3-74-72-66.nip.io");
+    expect(html).toContain("script-src 'self' https://comments.laxarchive.org");
+    expect(html).toContain("frame-src https://comments.laxarchive.org");
     expect(html).not.toContain("note = {draft}");
     expect(html).not.toContain("draft-banner");
     // inline JSON graph data parses and grays nothing (no external neighbors)
