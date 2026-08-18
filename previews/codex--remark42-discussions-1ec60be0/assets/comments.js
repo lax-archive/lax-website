@@ -12,12 +12,12 @@
 
   const reactions = document.querySelector("[data-reactions-host]");
   const reactionStatus = reactions?.querySelector("[data-reactions-status]");
-  const reactionButtons = reactions ? [...reactions.querySelectorAll("[data-reaction-vote]")] : [];
+  const reactionButtons = reactions ? [...reactions.querySelectorAll("[data-reaction]")] : [];
   const reactionVoterToggles = reactions ? [...reactions.querySelectorAll("[data-reaction-voters]")] : [];
   const reactionLogin = reactions?.querySelector("[data-reactions-login]");
   let reactionPending = false;
   let reactionData = null;
-  const pendingVoteKey = `lax-reaction-pending:${url}`;
+  const pendingReactionKey = `lax-reaction-pending:${url}`;
 
   const reactionLoginURL = new URL(`${host}/auth/orcid/login`);
   reactionLoginURL.searchParams.set("site", siteId);
@@ -79,7 +79,7 @@
       });
       return { ok: response.ok, status: response.status, data: await response.json() };
     }
-    const response = await window.fetch(`${host}/reactions/v1/vote`, {
+    const response = await window.fetch(`${host}/reactions/v1/reaction`, {
       method: "PUT",
       credentials: "include",
       headers: { "Content-Type": "application/json", "X-Lax-CSRF": "1", Accept: "application/json" },
@@ -114,8 +114,8 @@
     reactionStatus.dataset.state = kind;
   };
 
-  const renderVoters = (vote, voters) => {
-    const popover = reactions?.querySelector(`[data-reaction-voters-popover="${vote}"]`);
+  const renderVoters = (reaction, voters) => {
+    const popover = reactions?.querySelector(`[data-reaction-voters-popover="${reaction}"]`);
     const list = popover?.querySelector("ul");
     const empty = popover?.querySelector("[data-reaction-empty]");
     if (!popover || !list) return;
@@ -142,15 +142,16 @@
   const renderReactions = (data) => {
     reactionData = data;
     for (const button of reactionButtons) {
-      const vote = Number(button.dataset.reactionVote);
-      const active = data.viewer_vote === vote;
+      const reaction = button.dataset.reaction;
+      const active = data.viewer_reaction === reaction;
       button.disabled = reactionPending;
       button.setAttribute("aria-pressed", String(active));
-      const counter = reactions?.querySelector(`[data-reaction-count="${vote}"]`);
-      if (counter) counter.textContent = String(vote === 1 ? data.likes : data.dislikes);
+      const counter = reactions?.querySelector(`[data-reaction-count="${reaction}"]`);
+      if (counter) counter.textContent = String(data.counts?.[reaction] || 0);
     }
-    renderVoters("1", data.voters.likes);
-    renderVoters("-1", data.voters.dislikes);
+    renderVoters("like", data.voters?.like || []);
+    renderVoters("dislike", data.voters?.dislike || []);
+    renderVoters("rocket", data.voters?.rocket || []);
     if (data.eligible) {
       setReactionStatus(`Signed in as ${data.viewer.name}`, "ready");
       if (reactionLogin) reactionLogin.hidden = true;
@@ -160,30 +161,30 @@
         reactionLogin.hidden = false;
       }
     } else {
-      setReactionStatus("Sign in with ORCID to vote.", "signed-out");
+      setReactionStatus("Sign in with ORCID to react.", "signed-out");
       if (reactionLogin) reactionLogin.hidden = false;
     }
   };
 
-  const pendingVote = () => {
+  const pendingReaction = () => {
     try {
-      const vote = Number(window.sessionStorage.getItem(pendingVoteKey));
-      return vote === 1 || vote === -1 ? vote : 0;
+      const reaction = window.sessionStorage.getItem(pendingReactionKey);
+      return ["like", "dislike", "rocket"].includes(reaction) ? reaction : "";
     } catch {
-      return 0;
+      return "";
     }
   };
 
-  const clearPendingVote = () => {
-    try { window.sessionStorage.removeItem(pendingVoteKey); } catch { /* storage can be disabled */ }
+  const clearPendingReaction = () => {
+    try { window.sessionStorage.removeItem(pendingReactionKey); } catch { /* storage can be disabled */ }
   };
 
-  const saveVote = async (vote) => {
+  const saveReaction = async (reaction) => {
     reactionPending = true;
     reactionButtons.forEach((item) => { item.disabled = true; });
     setReactionStatus("Saving your response…");
     try {
-      const response = await reactionRequest("vote", { url, vote });
+      const response = await reactionRequest("reaction", { url, reaction });
       const data = response.data;
       if (!response.ok) throw new Error(data?.error || `reaction service returned ${response.status}`);
       reactionPending = false;
@@ -202,10 +203,10 @@
       const response = await reactionRequest("page", { url });
       if (!response.ok) throw new Error(response.data?.error || `reaction service returned ${response.status}`);
       renderReactions(response.data);
-      const queuedVote = pendingVote();
-      if (queuedVote && response.data.eligible) {
-        clearPendingVote();
-        if (!await saveVote(queuedVote)) await loadReactions();
+      const queuedReaction = pendingReaction();
+      if (queuedReaction && response.data.eligible) {
+        clearPendingReaction();
+        if (!await saveReaction(queuedReaction)) await loadReactions();
       }
     } catch {
       reactionButtons.forEach((button) => { button.disabled = true; });
@@ -218,8 +219,8 @@
   }
   for (const toggle of reactionVoterToggles) {
     toggle.addEventListener("click", () => {
-      const vote = toggle.dataset.reactionVoters;
-      const popover = reactions?.querySelector(`[data-reaction-voters-popover="${vote}"]`);
+      const reaction = toggle.dataset.reactionVoters;
+      const popover = reactions?.querySelector(`[data-reaction-voters-popover="${reaction}"]`);
       if (!popover) return;
       const willOpen = popover.hidden;
       for (const other of reactionVoterToggles) {
@@ -235,14 +236,13 @@
     button.addEventListener("click", async () => {
       if (reactionPending || button.disabled) return;
       if (!reactionData?.eligible) {
-        try { window.sessionStorage.setItem(pendingVoteKey, String(Number(button.dataset.reactionVote))); } catch { /* storage can be disabled */ }
+        try { window.sessionStorage.setItem(pendingReactionKey, button.dataset.reaction); } catch { /* storage can be disabled */ }
         if (typeof window.location.assign === "function") window.location.assign(reactionLoginURL.toString());
         else window.location.href = reactionLoginURL.toString();
         return;
       }
-      const selected = Number(button.dataset.reactionVote);
-      const vote = button.getAttribute("aria-pressed") === "true" ? 0 : selected;
-      if (!await saveVote(vote)) await loadReactions();
+      const selected = button.dataset.reaction;
+      if (!await saveReaction(selected)) await loadReactions();
     });
   }
   window.addEventListener("LAX::account-ready", (event) => {

@@ -2280,7 +2280,7 @@ body{
 .page-reaction-button:disabled{ cursor: not-allowed; opacity: 0.58; }
 .page-reaction-icon{ color: currentColor; font-size: 0.82rem; font-weight: 700; }
 
-.page-reactions-voters{
+.page-reaction-voters{
   appearance: none;
   display: flex;
   align-items: center;
@@ -2299,9 +2299,9 @@ body{
   cursor: pointer;
   font-variant-numeric: tabular-nums;
 }
-.page-reactions-voters:hover,
-.page-reactions-voters:focus-visible,
-.page-reactions-voters[aria-expanded="true"]{ background: var(--panel-bg); color: var(--link); outline: none; }
+.page-reaction-voters:hover,
+.page-reaction-voters:focus-visible,
+.page-reaction-voters[aria-expanded="true"]{ background: var(--panel-bg); color: var(--link); outline: none; }
 .page-reaction-voters-popover{
   position: absolute;
   z-index: 40;

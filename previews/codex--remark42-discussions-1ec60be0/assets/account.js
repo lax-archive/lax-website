@@ -200,6 +200,7 @@
     try {
       const url = new URL(comment.locator?.url || "");
       if (url.origin !== "https://laxarchive.org") return "";
+      if (url.pathname.startsWith("/_reactions/")) return "";
       url.hash = `remark42__comment-${comment.id}`;
       return url.toString();
     } catch {
@@ -253,9 +254,10 @@
         skip += comments.length;
         if (comments.length === 0) break;
       } while (skip < count);
-      commentList.append(...all.map(renderComment));
-      commentCount.textContent = String(count);
-      commentsStatus.textContent = count ? "" : "You have not posted any comments yet.";
+      const visible = all.filter((comment) => commentUrl(comment));
+      commentList.append(...visible.map(renderComment));
+      commentCount.textContent = String(visible.length);
+      commentsStatus.textContent = visible.length ? "" : "You have not posted any comments yet.";
     } catch {
       commentsLoadedFor = "";
       commentsStatus.textContent = "Your comments could not be loaded. Close settings and try again.";
