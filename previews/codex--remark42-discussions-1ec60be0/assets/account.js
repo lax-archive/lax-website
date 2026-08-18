@@ -43,6 +43,7 @@
   bridge.hidden = true;
   (document.body || document.head).appendChild(bridge);
   const bridgeRequests = new Map();
+  let activeBridgeWindow = null;
   let bridgeSequence = 0;
   let markBridgeReady;
   const bridgeReady = new Promise((resolve) => { markBridgeReady = resolve; });
@@ -52,25 +53,32 @@
       finishLogin();
       return;
     }
-    if (event.origin !== bridgeOrigin || event.source !== bridge.contentWindow) return;
+    if (event.origin !== bridgeOrigin) return;
+    const remarkFrame = document.querySelector('#remark42 iframe[title="Comments | Remark42"]');
+    const fromRemarkFrame = Boolean(remarkFrame?.contentWindow && event.source === remarkFrame.contentWindow);
+    const fromFallbackBridge = Boolean(bridge.contentWindow && event.source === bridge.contentWindow);
+    if (!fromRemarkFrame && !fromFallbackBridge) return;
     const message = event.data;
     if (!message || message.source !== "lax-reactions") return;
     if (message.type === "ready") {
+      if (fromRemarkFrame || !activeBridgeWindow) activeBridgeWindow = event.source;
       markBridgeReady();
+      if (fromRemarkFrame) window.setTimeout(() => { void checkAccount(); }, 0);
       return;
     }
     const pending = typeof message.id === "string" ? bridgeRequests.get(message.id) : null;
-    if (!pending) return;
+    if (!pending || pending.source !== event.source) return;
     bridgeRequests.delete(message.id);
     pending.resolve(message);
   });
 
   async function bridgeRequest(action, payload = {}) {
-    if (!bridge.contentWindow) throw new Error("account bridge is unavailable");
     await Promise.race([
       bridgeReady,
       new Promise((_, reject) => window.setTimeout(() => reject(new Error("account bridge timed out")), 5000)),
     ]);
+    const target = activeBridgeWindow || bridge.contentWindow;
+    if (!target) throw new Error("account bridge is unavailable");
     const id = `lax-account-${Date.now()}-${bridgeSequence += 1}`;
     const response = new Promise((resolve, reject) => {
       const timeout = window.setTimeout(() => {
@@ -78,13 +86,14 @@
         reject(new Error("account bridge timed out"));
       }, 5000);
       bridgeRequests.set(id, {
+        source: target,
         resolve: (message) => {
           window.clearTimeout(timeout);
           resolve(message);
         },
       });
     });
-    bridge.contentWindow.postMessage({ source: "lax-reactions", id, action, ...payload }, bridgeOrigin);
+    target.postMessage({ source: "lax-reactions", id, action, ...payload }, bridgeOrigin);
     return response;
   }
 
