@@ -33,6 +33,8 @@
   let currentUser = null;
   let currentIdentity = null;
   let commentsLoadedFor = "";
+  let loginWatchTimer = null;
+  let loginWatchUntil = 0;
 
   const bridgeOrigin = new URL(host).origin;
   const bridge = document.createElement("iframe");
@@ -106,8 +108,32 @@
   refresh.target = authPopupName;
   refresh.rel = "noopener";
 
+  const stopLoginWatch = () => {
+    loginWatchUntil = 0;
+    if (loginWatchTimer !== null) {
+      window.clearTimeout(loginWatchTimer);
+      loginWatchTimer = null;
+    }
+  };
+
+  const checkLoginWatch = async () => {
+    loginWatchTimer = null;
+    if (await checkAccount()) return;
+    if (Date.now() >= loginWatchUntil) {
+      stopLoginWatch();
+      return;
+    }
+    loginWatchTimer = window.setTimeout(checkLoginWatch, 1500);
+  };
+
+  const startLoginWatch = (delay = 750) => {
+    loginWatchUntil = Date.now() + (5 * 60 * 1000);
+    if (loginWatchTimer !== null) window.clearTimeout(loginWatchTimer);
+    loginWatchTimer = window.setTimeout(checkLoginWatch, delay);
+  };
+
   const finishLogin = () => {
-    void checkAccount();
+    startLoginWatch(0);
   };
 
   if (authChannel) authChannel.onmessage = (event) => {
@@ -131,6 +157,17 @@
   window.addEventListener("LAX::login-request", (event) => {
     event.preventDefault();
     login.click();
+  });
+  login.addEventListener("click", () => startLoginWatch());
+  refresh.addEventListener("click", () => startLoginWatch());
+  const checkWhenForegrounded = () => {
+    if (loginWatchUntil > Date.now()) startLoginWatch(0);
+    else if (!currentUser) void checkAccount();
+  };
+  window.addEventListener("focus", checkWhenForegrounded);
+  window.addEventListener("pageshow", checkWhenForegrounded);
+  document.addEventListener?.("visibilitychange", () => {
+    if (document.visibilityState === "visible") checkWhenForegrounded();
   });
 
   const validName = (value) => {
@@ -204,7 +241,7 @@
           : "Sign in with ORCID to view your settings and comments.";
         setLoggedOut(message);
         accountEvent();
-        return;
+        return false;
       }
       const viewer = response.data.viewer || {};
       const remarkId = typeof viewer.remark42_id === "string" ? viewer.remark42_id : "";
@@ -213,7 +250,7 @@
       if (!/^orcid_[a-f0-9]{40}$/.test(remarkId) || !orcidId || !displayName) {
         setLoggedOut("A public name shared by ORCID is required before this account can comment or use settings.");
         accountEvent();
-        return;
+        return false;
       }
       currentUser = { id: remarkId, name: displayName };
       currentIdentity = { orcidId, name: displayName };
@@ -230,10 +267,13 @@
       nameLink.setAttribute("aria-label", `${displayName}, ORCID iD ${currentIdentity.orcidId}`);
       nameLink.removeAttribute("aria-disabled");
       idLabel.textContent = `ORCID iD ${currentIdentity.orcidId}`;
+      stopLoginWatch();
       accountEvent();
+      return true;
     } catch {
       setLoggedOut();
       accountEvent();
+      return false;
     }
   }
 
