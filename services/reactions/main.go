@@ -250,6 +250,41 @@ const allowed=new Set(__ALLOWED_PARENTS__);
 const parentOrigin=(()=>{try{return new URL(document.referrer).origin}catch{return ""}})();
 if(!allowed.has(parentOrigin))return;
 const send=(value)=>window.parent.postMessage(value,parentOrigin);
+let announce=()=>{};
+let activeJWT="";
+let activeXSRF="";
+const nativeFetch=window.fetch.bind(window);
+const rememberHeaders=(headers)=>{
+  if(!headers)return;
+  const values=new Headers(headers);
+  const jwt=values.get("X-JWT");
+  const xsrf=values.get("X-XSRF-TOKEN");
+  const gainedJWT=!activeJWT&&Boolean(jwt);
+  if(jwt)activeJWT=jwt;
+  if(xsrf)activeXSRF=xsrf;
+  if(gainedJWT)announce();
+};
+window.fetch=async(input,init)=>{
+  let local=false;
+  try{
+    const raw=typeof input==="string"?input:input.url;
+    local=new URL(raw,window.location.href).origin===window.location.origin;
+    if(local){
+      if(input instanceof Request)rememberHeaders(input.headers);
+      if(init&&init.headers)rememberHeaders(init.headers);
+    }
+  }catch{}
+  const response=await nativeFetch(input,init);
+  if(local)rememberHeaders(response.headers);
+  return response;
+};
+const authHeaders=(values={})=>{
+  const headers=new Headers(values);
+  if(activeJWT)headers.set("X-JWT",activeJWT);
+  const xsrf=activeXSRF||cookie("XSRF-TOKEN");
+  if(xsrf)headers.set("X-XSRF-TOKEN",xsrf);
+  return headers;
+};
 const fail=(message,status=503)=>Object.assign(new Error(message),{status});
 const readJSON=async(response)=>{try{return await response.json()}catch{return {}}};
 const canonicalPage=(raw)=>{
@@ -261,7 +296,7 @@ const canonicalPage=(raw)=>{
   return value.toString();
 };
 const remarkUser=async()=>{
-  const response=await fetch("/api/v1/user?site=remark",{credentials:"include",cache:"no-store",headers:{Accept:"application/json"}});
+  const response=await fetch("/api/v1/user?site=remark",{credentials:"include",cache:"no-store",headers:authHeaders({Accept:"application/json"})});
   if(response.status===401||response.status===403)return null;
   if(!response.ok)throw fail("authentication is temporarily unavailable");
   const user=await readJSON(response);
@@ -300,14 +335,14 @@ const cookie=(name)=>{
 const saveReaction=async(raw,reaction)=>{
   const current=await page(raw);
   if(!current.eligible)throw fail("Sign in with ORCID to react.",401);
-  const xsrf=cookie("XSRF-TOKEN");
+  const xsrf=activeXSRF||cookie("XSRF-TOKEN");
   if(!xsrf)throw fail("Your comment session is not ready. Refresh the page and try again.",401);
   const hidden=new URL(current.url);
   hidden.pathname="/_reactions"+hidden.pathname;
   const marker=current.viewer_reaction===reaction?"clear":reaction;
   const response=await fetch("/api/v1/comment?site=remark",{
     method:"POST",credentials:"include",
-    headers:{Accept:"application/json","Content-Type":"application/json","X-XSRF-TOKEN":xsrf},
+    headers:authHeaders({Accept:"application/json","Content-Type":"application/json","X-XSRF-TOKEN":xsrf}),
     body:JSON.stringify({text:"lax-reaction:v1:"+marker,title:"Lax Archive reaction",locator:{site:"remark",url:hidden.toString()}})
   });
   const result=await readJSON(response);
@@ -335,7 +370,7 @@ window.addEventListener("message",async(event)=>{
     send({source:"lax-reactions",id:request.id,ok:false,status:Number(error&&error.status)||503,data:{error:error instanceof Error?error.message:"Account service is temporarily unavailable."}});
   }
 });
-const announce=()=>send({source:"lax-reactions",type:"ready"});
+announce=()=>send({source:"lax-reactions",type:"ready"});
 announce();
 for(const delay of [250,1000,3000])setTimeout(announce,delay);
 })();`

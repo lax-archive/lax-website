@@ -37,11 +37,15 @@ Firefox can partition the Remark42 cookie used in the comment iframe from a
 top-level cross-origin fetch. `/reactions/v1/bridge` is a minimal same-origin
 iframe bridge for page and reaction requests. It checks the user and writes the
 reserved hidden comment through Remark42 in the same browser context as the
-working discussion iframe; only public aggregation and identity lookup go
-through the companion API. Both sides require exact origins and window
-references, the bridge is frame-restricted by CSP, and the HttpOnly JWT is
-never exposed. `GET /reactions/v1/me` remains the direct-client compatibility
-path and reports `reauthenticate:true` for a stale Remark42 cookie.
+working discussion iframe. Remark42 rotates its short-lived `X-JWT` header and
+keeps that value in frontend memory; the bridge observes and reuses the header
+only inside the iframe so Firefox's partitioned-cookie behavior cannot split
+the two features. No credential is logged, persisted, or sent to the parent;
+only public aggregation and identity lookup go through the companion API. Both
+sides require exact origins, the bridge is frame-restricted by CSP, and the
+HttpOnly session remains confined to the comments origin. `GET
+/reactions/v1/me` remains the direct-client compatibility path and reports
+`reauthenticate:true` for a stale Remark42 cookie.
 
 `deploy/install-iframe-bridge.sh` idempotently adds the service-owned bridge
 script to the mounted Remark42 `iframe.html`. Run it whenever the custom
