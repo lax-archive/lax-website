@@ -62,6 +62,11 @@ describe("public all-comments activity", () => {
               time: "2026-08-14T10:00:00Z", title: "Lax2.C",
               locator: { url: "https://laxarchive.org/Lax2/Lax2.C.html" }, user: { id: newId, name: "Old stored name" },
             },
+            {
+              id: "hidden-reaction", orig: "lax-reaction:v1:like", text: "<p>lax-reaction:v1:like</p>", score: 0,
+              time: "2026-08-15T10:00:00Z", title: "Lax Archive reaction",
+              locator: { url: "https://laxarchive.org/_reactions/Lax2/" }, user: { id: newId, name: "Old stored name" },
+            },
           ],
         };
       }

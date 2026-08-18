@@ -9,6 +9,7 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
+	"time"
 )
 
 func testStore(t *testing.T) *store {
@@ -50,6 +51,96 @@ func TestLegacyORCIDIdentityMatchesRemark42Hash(t *testing.T) {
 	const legacyRemarkID = "orcid_1cc007f7256c32ff3b8829e4f3d37f83422a18a6"
 	if got := remarkIdentityID("orcid", orcid); got != legacyRemarkID {
 		t.Fatalf("Remark42 identity mismatch: got %q, want %q", got, legacyRemarkID)
+	}
+}
+
+func TestHiddenReactionURLIsDerivedFromCanonicalPage(t *testing.T) {
+	for page, want := range map[string]string{
+		"https://laxarchive.org/Lax2/":            "https://laxarchive.org/_reactions/Lax2/",
+		"https://laxarchive.org/Lax2/Lax2.C.html": "https://laxarchive.org/_reactions/Lax2/Lax2.C.html",
+	} {
+		got, err := hiddenReactionURL(page)
+		if err != nil || got != want {
+			t.Fatalf("hiddenReactionURL(%q) = %q, %v; want %q", page, got, err, want)
+		}
+	}
+	if _, err := hiddenReactionURL("https://evil.test/Lax2/"); err == nil {
+		t.Fatal("non-canonical reaction page was accepted")
+	}
+}
+
+func TestReactionAggregationUsesLatestValidNamedEvent(t *testing.T) {
+	const pageURL = "https://laxarchive.org/Lax2/"
+	ids := []string{"orcid_" + strings.Repeat("a", 40), "orcid_" + strings.Repeat("b", 40), "orcid_" + strings.Repeat("c", 40)}
+	times := []time.Time{time.Unix(10, 0).UTC(), time.Unix(20, 0).UTC(), time.Unix(30, 0).UTC()}
+	remark := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.URL.Query().Get("url") != "https://laxarchive.org/_reactions/Lax2/" || r.URL.Query().Get("site") != "remark" || r.URL.Query().Get("format") != "plain" {
+			t.Errorf("unsafe find request: %s", r.URL.String())
+		}
+		comments := []remarkReactionComment{
+			{ID: "1", Orig: reactionPrefix + reactionLike, Time: times[0]},
+			{ID: "2", Orig: reactionPrefix + reactionDislike, Time: times[1]},
+			{ID: "3", Orig: reactionPrefix + reactionRocket, Time: times[2]},
+			{ID: "4", Orig: reactionPrefix + reactionClear, Time: times[2]},
+			{ID: "5", Orig: "ordinary comment", Time: times[2]},
+			{ID: "6", ParentID: "parent", Orig: reactionPrefix + reactionLike, Time: times[2]},
+		}
+		comments[0].User.ID, comments[1].User.ID = ids[0], ids[0]
+		comments[2].User.ID, comments[3].User.ID = ids[1], ids[1]
+		comments[4].User.ID, comments[5].User.ID = ids[2], ids[2]
+		_ = json.NewEncoder(w).Encode(remarkFindResponse{Comments: comments})
+	}))
+	defer remark.Close()
+	db := testStore(t)
+	for index, id := range ids {
+		orcid := []string{"0000-0002-1825-0097", "0009-0002-0314-6147", "0000-0001-5109-3700"}[index]
+		if err := db.putIdentity(identity{RemarkID: id, ORCID: orcid, Name: "Researcher " + string(rune('A'+index))}); err != nil {
+			t.Fatal(err)
+		}
+	}
+	a := &app{config: config{remarkFindURL: remark.URL}, store: db, client: remark.Client()}
+	result, err := a.reactionPage(t.Context(), pageURL)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if result.Counts[reactionLike] != 0 || result.Counts[reactionDislike] != 1 || result.Counts[reactionRocket] != 0 {
+		t.Fatalf("unexpected totals: %+v", result.Counts)
+	}
+	if result.viewerByRemarkID[ids[0]] != reactionDislike || result.viewerByRemarkID[ids[1]] != "" {
+		t.Fatalf("latest event did not win: %+v", result.viewerByRemarkID)
+	}
+}
+
+func TestAppendReactionConstructsReservedRemark42Comment(t *testing.T) {
+	remark := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != http.MethodPost || r.URL.Query().Get("site") != "remark" {
+			t.Errorf("unexpected request: %s %s", r.Method, r.URL.String())
+		}
+		if r.Header.Get("Cookie") == "" || r.Header.Get("X-XSRF-TOKEN") != "xsrf-value" {
+			t.Errorf("Remark42 session/XSRF was not forwarded")
+		}
+		var body struct {
+			Text    string `json:"text"`
+			Locator struct {
+				Site string `json:"site"`
+				URL  string `json:"url"`
+			} `json:"locator"`
+		}
+		if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+			t.Fatal(err)
+		}
+		if body.Text != reactionPrefix+reactionRocket || body.Locator.Site != "remark" || body.Locator.URL != "https://laxarchive.org/_reactions/Lax2/" {
+			t.Errorf("unsafe reaction payload: %+v", body)
+		}
+		w.WriteHeader(http.StatusCreated)
+	}))
+	defer remark.Close()
+	a := &app{config: config{remarkPostURL: remark.URL + "?site=remark"}, client: remark.Client()}
+	request := httptest.NewRequest(http.MethodPut, "/reactions/v1/reaction", nil)
+	request.AddCookie(&http.Cookie{Name: "JWT", Value: "session"})
+	request.AddCookie(&http.Cookie{Name: "XSRF-TOKEN", Value: "xsrf-value"})
+	if err := a.appendReaction(request, "https://laxarchive.org/Lax2/", reactionRocket); err != nil {
+		t.Fatal(err)
 	}
 }
 
@@ -126,13 +217,13 @@ func TestORCIDAdapterRequiresAndStoresPublicName(t *testing.T) {
 	}
 }
 
-func TestVoteRequiresOriginAndCSRFHeader(t *testing.T) {
+func TestReactionRequiresOriginAndCSRFHeader(t *testing.T) {
 	db := testStore(t)
 	a := &app{config: config{allowed: map[string]struct{}{"https://laxarchive.org": {}}}, store: db, limits: newRateLimits()}
-	request := httptest.NewRequest(http.MethodPut, "/reactions/v1/vote", strings.NewReader(`{"url":"https://laxarchive.org/Lax2/","vote":1}`))
+	request := httptest.NewRequest(http.MethodPut, "/reactions/v1/reaction", strings.NewReader(`{"url":"https://laxarchive.org/Lax2/","reaction":"like"}`))
 	request.Header.Set("Content-Type", "application/json")
 	recorder := httptest.NewRecorder()
-	a.putVote(recorder, request)
+	a.putReaction(recorder, request)
 	if recorder.Code != http.StatusForbidden {
 		t.Fatalf("expected CSRF rejection, got %d", recorder.Code)
 	}
@@ -215,7 +306,7 @@ func TestSessionEndpointReturnsValidatedPublicORCIDIdentity(t *testing.T) {
 	}
 }
 
-func TestVoteClearsStaleHttpOnlySession(t *testing.T) {
+func TestReactionClearsStaleHttpOnlySession(t *testing.T) {
 	remark := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 		http.Error(w, "invalid session", http.StatusUnauthorized)
 	}))
@@ -226,15 +317,15 @@ func TestVoteClearsStaleHttpOnlySession(t *testing.T) {
 		client: remark.Client(),
 		limits: newRateLimits(),
 	}
-	request := httptest.NewRequest(http.MethodPut, "/reactions/v1/vote", strings.NewReader(`{"url":"https://laxarchive.org/Lax2/","vote":1}`))
+	request := httptest.NewRequest(http.MethodPut, "/reactions/v1/reaction", strings.NewReader(`{"url":"https://laxarchive.org/Lax2/","reaction":"like"}`))
 	request.Header.Set("Origin", "https://laxarchive.org")
 	request.Header.Set("Content-Type", "application/json")
 	request.Header.Set("X-Lax-CSRF", "1")
 	request.AddCookie(&http.Cookie{Name: "JWT", Value: "stale-session"})
 	recorder := httptest.NewRecorder()
-	a.putVote(recorder, request)
+	a.putReaction(recorder, request)
 	if recorder.Code != http.StatusUnauthorized || !strings.Contains(recorder.Body.String(), "Sign in with ORCID again") {
-		t.Fatalf("unexpected stale vote response: %d %s", recorder.Code, recorder.Body.String())
+		t.Fatalf("unexpected stale reaction response: %d %s", recorder.Code, recorder.Body.String())
 	}
 	cookies := recorder.Result().Cookies()
 	if len(cookies) != 2 || cookies[0].Name != "JWT" || cookies[0].MaxAge != -1 || !cookies[0].HttpOnly || cookies[0].SameSite != http.SameSiteNoneMode || !cookies[0].Secure {

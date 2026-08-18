@@ -33,6 +33,8 @@ type config struct {
 	databasePath  string
 	backupDir     string
 	remarkUserURL string
+	remarkFindURL string
+	remarkPostURL string
 	orcidInfoURL  string
 	provider      string
 	allowed       map[string]struct{}
@@ -46,8 +48,8 @@ type remarkUser struct {
 }
 
 type response struct {
-	pageResult
-	ViewerVote     int       `json:"viewer_vote"`
+	reactionPageResult
+	ViewerReaction string    `json:"viewer_reaction"`
 	Authenticated  bool      `json:"authenticated"`
 	Eligible       bool      `json:"eligible"`
 	Reauthenticate bool      `json:"reauthenticate"`
@@ -101,6 +103,8 @@ func loadConfig() config {
 		databasePath:  env("DATABASE_PATH", "/var/lib/reactions/reactions.db"),
 		backupDir:     env("BACKUP_DIR", "/var/lib/reactions/backups"),
 		remarkUserURL: env("REMARK_USER_URL", "http://remark42:8080/api/v1/user?site=remark"),
+		remarkFindURL: env("REMARK_FIND_URL", "http://remark42:8080/api/v1/find"),
+		remarkPostURL: env("REMARK_POST_URL", "http://remark42:8080/api/v1/comment?site=remark"),
 		orcidInfoURL:  env("ORCID_USERINFO_URL", "https://orcid.org/oauth/userinfo"),
 		provider:      env("AUTH_PROVIDER", "orcid"),
 		allowed:       allowed,
@@ -133,7 +137,7 @@ func main() {
 	mux.HandleFunc("GET /reactions/v1/page", application.getPage)
 	mux.HandleFunc("GET /reactions/v1/identity", application.getIdentity)
 	mux.HandleFunc("GET /reactions/v1/identities", application.getIdentities)
-	mux.HandleFunc("PUT /reactions/v1/vote", application.putVote)
+	mux.HandleFunc("PUT /reactions/v1/reaction", application.putReaction)
 	server := &http.Server{Addr: cfg.address, Handler: application.security(mux), ReadHeaderTimeout: 5 * time.Second, ReadTimeout: 10 * time.Second, WriteTimeout: 15 * time.Second, IdleTimeout: 60 * time.Second, MaxHeaderBytes: 16 << 10}
 
 	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
@@ -240,7 +244,7 @@ func (a *app) bridgeScript(w http.ResponseWriter, _ *http.Request) {
 	encoded, _ := json.Marshal(parents)
 	w.Header().Set("Content-Type", "text/javascript; charset=utf-8")
 	w.Header().Set("Cache-Control", "no-store")
-	_, _ = fmt.Fprintf(w, `(function(){"use strict";const allowed=new Set(%s);const parentOrigin=(()=>{try{return new URL(document.referrer).origin}catch{return ""}})();if(!allowed.has(parentOrigin))return;const send=(value)=>window.parent.postMessage(value,parentOrigin);window.addEventListener("message",async(event)=>{if(event.source!==window.parent||!allowed.has(event.origin)||!event.data||event.data.source!=="lax-reactions"||typeof event.data.id!=="string")return;const request=event.data;let path="";let init={credentials:"include",headers:{Accept:"application/json"}};if(request.action==="page"&&typeof request.url==="string"){path="/reactions/v1/page?url="+encodeURIComponent(request.url)}else if(request.action==="me"){path="/reactions/v1/me"}else if(request.action==="comments"&&typeof request.site==="string"&&/^[a-zA-Z0-9._-]{1,64}$/.test(request.site)&&typeof request.user==="string"&&/^orcid_[a-f0-9]{40}$/.test(request.user)&&Number.isInteger(request.skip)&&request.skip>=0&&Number.isInteger(request.limit)&&request.limit>=1&&request.limit<=100){path="/api/v1/comments?site="+encodeURIComponent(request.site)+"&user="+encodeURIComponent(request.user)+"&skip="+request.skip+"&limit="+request.limit}else if(request.action==="logout"){path="/auth/logout"}else if(request.action==="vote"&&typeof request.url==="string"&&[-1,0,1].includes(request.vote)){path="/reactions/v1/vote";init={method:"PUT",credentials:"include",headers:{Accept:"application/json","Content-Type":"application/json","X-Lax-CSRF":"1"},body:JSON.stringify({url:request.url,vote:request.vote})}}else{send({source:"lax-reactions",id:request.id,ok:false,status:400,data:{error:"invalid bridge request"}});return}try{const response=await fetch(path,init);let data={};if(request.action!=="logout"){data=await response.json()}send({source:"lax-reactions",id:request.id,ok:response.ok,status:response.status,data})}catch{send({source:"lax-reactions",id:request.id,ok:false,status:503,data:{error:"Account service is temporarily unavailable."}})}});send({source:"lax-reactions",type:"ready"})})();`, encoded)
+	_, _ = fmt.Fprintf(w, `(function(){"use strict";const allowed=new Set(%s);const parentOrigin=(()=>{try{return new URL(document.referrer).origin}catch{return ""}})();if(!allowed.has(parentOrigin))return;const send=(value)=>window.parent.postMessage(value,parentOrigin);window.addEventListener("message",async(event)=>{if(event.source!==window.parent||!allowed.has(event.origin)||!event.data||event.data.source!=="lax-reactions"||typeof event.data.id!=="string")return;const request=event.data;let path="";let init={credentials:"include",headers:{Accept:"application/json"}};if(request.action==="page"&&typeof request.url==="string"){path="/reactions/v1/page?url="+encodeURIComponent(request.url)}else if(request.action==="me"){path="/reactions/v1/me"}else if(request.action==="comments"&&typeof request.site==="string"&&/^[a-zA-Z0-9._-]{1,64}$/.test(request.site)&&typeof request.user==="string"&&/^orcid_[a-f0-9]{40}$/.test(request.user)&&Number.isInteger(request.skip)&&request.skip>=0&&Number.isInteger(request.limit)&&request.limit>=1&&request.limit<=100){path="/api/v1/comments?site="+encodeURIComponent(request.site)+"&user="+encodeURIComponent(request.user)+"&skip="+request.skip+"&limit="+request.limit}else if(request.action==="logout"){path="/auth/logout"}else if(request.action==="reaction"&&typeof request.url==="string"&&["like","dislike","rocket"].includes(request.reaction)){path="/reactions/v1/reaction";init={method:"PUT",credentials:"include",headers:{Accept:"application/json","Content-Type":"application/json","X-Lax-CSRF":"1"},body:JSON.stringify({url:request.url,reaction:request.reaction})}}else{send({source:"lax-reactions",id:request.id,ok:false,status:400,data:{error:"invalid bridge request"}});return}try{const response=await fetch(path,init);let data={};if(request.action!=="logout"){data=await response.json()}send({source:"lax-reactions",id:request.id,ok:response.ok,status:response.status,data})}catch{send({source:"lax-reactions",id:request.id,ok:false,status:503,data:{error:"Account service is temporarily unavailable."}})}});send({source:"lax-reactions",type:"ready"})})();`, encoded)
 }
 
 func canonicalPage(raw string) (string, error) {
@@ -318,11 +322,11 @@ func (a *app) currentUser(r *http.Request) (*remarkUser, error) {
 }
 
 func (a *app) pageResponse(r *http.Request, pageURL string) (response, error) {
-	result, err := a.store.page(pageURL)
+	result, err := a.reactionPage(r.Context(), pageURL)
 	if err != nil {
 		return response{}, err
 	}
-	answer := response{pageResult: result}
+	answer := response{reactionPageResult: result}
 	user, err := a.currentUser(r)
 	if err != nil || user == nil {
 		answer.Reauthenticate = user == nil && hasRemarkSession(r)
@@ -335,8 +339,9 @@ func (a *app) pageResponse(r *http.Request, pageURL string) (response, error) {
 	}
 	answer.Eligible = true
 	answer.Viewer = &person
-	answer.ViewerVote, err = a.store.viewerVote(pageURL, user.ID)
-	return answer, err
+	answer.ViewerReaction = result.viewerByRemarkID[user.ID]
+	answer.reactionPageResult.viewerByRemarkID = nil
+	return answer, nil
 }
 
 func hasRemarkSession(r *http.Request) bool {
@@ -472,7 +477,7 @@ func writePublicJSON(w http.ResponseWriter, status int, value any) {
 	_ = json.NewEncoder(w).Encode(value)
 }
 
-func (a *app) putVote(w http.ResponseWriter, r *http.Request) {
+func (a *app) putReaction(w http.ResponseWriter, r *http.Request) {
 	if !a.limits.allow(clientIP(r), true) {
 		w.Header().Set("Retry-After", "10")
 		writeError(w, http.StatusTooManyRequests, "too many requests")
@@ -483,13 +488,13 @@ func (a *app) putVote(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	var input struct {
-		URL  string `json:"url"`
-		Vote int    `json:"vote"`
+		URL      string `json:"url"`
+		Reaction string `json:"reaction"`
 	}
 	decoder := json.NewDecoder(http.MaxBytesReader(w, r.Body, 1024))
 	decoder.DisallowUnknownFields()
-	if err := decoder.Decode(&input); err != nil || (input.Vote != -1 && input.Vote != 0 && input.Vote != 1) {
-		writeError(w, http.StatusBadRequest, "vote must be -1, 0, or 1")
+	if err := decoder.Decode(&input); err != nil || !validReaction(input.Reaction) {
+		writeError(w, http.StatusBadRequest, "reaction must be like, dislike, or rocket")
 		return
 	}
 	pageURL, err := canonicalPage(input.URL)
@@ -509,7 +514,7 @@ func (a *app) putVote(w http.ResponseWriter, r *http.Request) {
 			writeError(w, http.StatusUnauthorized, "Your session is no longer valid. Sign in with ORCID again.")
 			return
 		}
-		writeError(w, http.StatusUnauthorized, "Sign in with ORCID to vote.")
+		writeError(w, http.StatusUnauthorized, "Sign in with ORCID to react.")
 		return
 	}
 	person, found, err := a.store.identity(user.ID)
@@ -521,8 +526,17 @@ func (a *app) putVote(w http.ResponseWriter, r *http.Request) {
 		writeError(w, http.StatusForbidden, "A public name on your ORCID record is required. Make it public, then sign in again.")
 		return
 	}
-	if err = a.store.setVote(pageURL, user.ID, input.Vote); err != nil {
-		log.Printf("save vote failed: %v", err)
+	current, err := a.reactionPage(r.Context(), pageURL)
+	if err != nil {
+		writeError(w, http.StatusServiceUnavailable, "unable to read current reactions")
+		return
+	}
+	next := input.Reaction
+	if current.viewerByRemarkID[user.ID] == input.Reaction {
+		next = reactionClear
+	}
+	if err = a.appendReaction(r, pageURL, next); err != nil {
+		log.Printf("save reaction failed: %v", err)
 		writeError(w, http.StatusServiceUnavailable, "unable to save your response")
 		return
 	}

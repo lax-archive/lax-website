@@ -63,15 +63,15 @@ describe("Remark42 browser loader", () => {
     expect(loading.textContent).toBe("Discussion is temporarily unavailable. Please try again later.");
   });
 
-  it("loads page reactions with credentials and enables voting for a validated ORCID identity", async () => {
+  it("loads page reactions with credentials and enables reactions for a validated ORCID identity", async () => {
     const count = (value: string) => ({ textContent: value });
     const likeCount = count("0");
     const dislikeCount = count("0");
-    const button = (vote: string, counter: { textContent: string }) => {
+    const button = (reaction: string, counter: { textContent: string }) => {
       const listeners: Record<string, () => void> = {};
       const attributes: Record<string, string> = { "aria-pressed": "false" };
       return {
-        dataset: { reactionVote: vote }, disabled: true,
+        dataset: { reaction }, disabled: true,
         querySelector: () => counter,
         addEventListener: (name: string, listener: () => void) => { listeners[name] = listener; },
         setAttribute: (name: string, value: string) => { attributes[name] = value; },
@@ -79,8 +79,8 @@ describe("Remark42 browser loader", () => {
         listeners,
       };
     };
-    const like = button("1", likeCount);
-    const dislike = button("-1", dislikeCount);
+    const like = button("like", likeCount);
+    const dislike = button("dislike", dislikeCount);
     const reactionStatus = { textContent: "Loading responses…", dataset: { state: "" } };
     const login = { hidden: false, href: "", textContent: "Sign in with ORCID" };
     const voterList = { children: [] as Array<Record<string, unknown>>, replaceChildren(...nodes: Array<Record<string, unknown>>) { this.children = nodes; } };
@@ -90,12 +90,12 @@ describe("Remark42 browser loader", () => {
       querySelector: (selector: string) => {
         if (selector === "[data-reactions-status]") return reactionStatus;
         if (selector === "[data-reactions-login]") return login;
-        if (selector === '[data-reaction-count="1"]') return likeCount;
-        if (selector === '[data-reaction-count="-1"]') return dislikeCount;
-        if (selector === '[data-reaction-voters-popover="1"]') return voterPopover;
+        if (selector === '[data-reaction-count="like"]') return likeCount;
+        if (selector === '[data-reaction-count="dislike"]') return dislikeCount;
+        if (selector === '[data-reaction-voters-popover="like"]') return voterPopover;
         return null;
       },
-      querySelectorAll: (selector: string) => selector === "[data-reaction-vote]" ? [like, dislike] : [],
+      querySelectorAll: (selector: string) => selector === "[data-reaction]" ? [like, dislike] : [],
     };
     const container = { dataset: { remark42Host: "https://remark42.example.test", remark42Site: "remark", remark42Url: "https://laxarchive.org/Lax2/" } };
     const scripts: Array<Record<string, unknown>> = [];
@@ -114,7 +114,7 @@ describe("Remark42 browser loader", () => {
       sessionStorage: { getItem: () => null, setItem() {}, removeItem() {} },
       fetch: async (url: string, options: Record<string, unknown>) => {
         requests.push([url, options]);
-        return { ok: true, json: async () => ({ likes: 4, dislikes: 1, viewer_vote: 1, authenticated: true, eligible: true, viewer: { name: "Alice" }, voters: { likes: [{ name: "Ada Lovelace", orcid: "0000-0002-1825-0097" }], dislikes: [] } }) };
+        return { ok: true, json: async () => ({ counts: { like: 4, dislike: 1, rocket: 2 }, viewer_reaction: "like", authenticated: true, eligible: true, viewer: { name: "Alice" }, voters: { like: [{ name: "Ada Lovelace", orcid: "0000-0002-1825-0097" }], dislike: [], rocket: [] } }) };
       },
     };
     const context = { document, window, URL };
@@ -148,13 +148,13 @@ describe("Remark42 browser loader", () => {
     const listeners: Record<string, (event: unknown) => void> = {};
     const likeListeners: Record<string, () => void> = {};
     const like = {
-      dataset: { reactionVote: "1" }, disabled: false,
+      dataset: { reaction: "like" }, disabled: false,
       addEventListener: (name: string, listener: () => void) => { likeListeners[name] = listener; },
       setAttribute: (name: string, value: string) => { attributes[name] = value; },
       getAttribute: (name: string) => attributes[name],
     };
     const dislike = {
-      dataset: { reactionVote: "-1" }, disabled: false,
+      dataset: { reaction: "dislike" }, disabled: false,
       addEventListener() {}, setAttribute() {}, getAttribute: () => "false",
     };
     const status = { textContent: "", dataset: { state: "" } };
@@ -163,11 +163,11 @@ describe("Remark42 browser loader", () => {
       querySelector: (selector: string) => {
         if (selector === "[data-reactions-status]") return status;
         if (selector === "[data-reactions-login]") return login;
-        if (selector === '[data-reaction-count="1"]') return likeCount;
-        if (selector === '[data-reaction-count="-1"]') return dislikeCount;
+        if (selector === '[data-reaction-count="like"]') return likeCount;
+        if (selector === '[data-reaction-count="dislike"]') return dislikeCount;
         return null;
       },
-      querySelectorAll: (selector: string) => selector === "[data-reaction-vote]" ? [like, dislike] : [],
+      querySelectorAll: (selector: string) => selector === "[data-reaction]" ? [like, dislike] : [],
     };
     const posted: Array<{ message: Record<string, unknown>; origin: string }> = [];
     const bridgeWindow = {
@@ -178,7 +178,7 @@ describe("Remark42 browser loader", () => {
           source: bridgeWindow,
           data: {
             source: "lax-reactions", id: message.id, ok: true, status: 200,
-            data: { likes: 2, dislikes: 0, viewer_vote: 0, authenticated: true, eligible: true, viewer: { name: "Ada" }, voters: { likes: [], dislikes: [] } },
+            data: { counts: { like: 2, dislike: 0, rocket: 0 }, viewer_reaction: "", authenticated: true, eligible: true, viewer: { name: "Ada" }, voters: { like: [], dislike: [], rocket: [] } },
           },
         }));
       },
@@ -192,12 +192,12 @@ describe("Remark42 browser loader", () => {
       head: { appendChild() {} }, body: { appendChild() {} },
     };
     let directFetches = 0;
-    let pendingVoteCleared = false;
+    let pendingReactionCleared = false;
     const window = {
       location: { origin: "https://laxarchive.org", pathname: "/Lax2/", href: "https://laxarchive.org/Lax2/", assign() {} },
       addEventListener: (name: string, listener: (event: unknown) => void) => { listeners[name] = listener; },
       setTimeout, clearTimeout,
-      sessionStorage: { getItem: () => "1", setItem() {}, removeItem() { pendingVoteCleared = true; } },
+      sessionStorage: { getItem: () => "like", setItem() {}, removeItem() { pendingReactionCleared = true; } },
       fetch: async () => { directFetches += 1; throw new Error("direct transport must not be used"); },
     };
     const context = { document, window, URL, setTimeout, clearTimeout, queueMicrotask };
@@ -215,9 +215,9 @@ describe("Remark42 browser loader", () => {
     });
     expect(posted[1]).toMatchObject({
       origin: "https://remark42.example.test",
-      message: { source: "lax-reactions", action: "vote", url: "https://laxarchive.org/Lax2/", vote: 1 },
+      message: { source: "lax-reactions", action: "reaction", url: "https://laxarchive.org/Lax2/", reaction: "like" },
     });
-    expect(pendingVoteCleared).toBe(true);
+    expect(pendingReactionCleared).toBe(true);
     expect(directFetches).toBe(0);
     expect(likeCount.textContent).toBe("2");
     expect(status.textContent).toBe("Signed in as Ada");

@@ -1,8 +1,18 @@
 # Lax page reactions
 
-This small companion service adds one page-level like or dislike per ORCID
-identity and canonical submission/concept URL. It deliberately reuses the
-HttpOnly Remark42 session instead of creating browser-readable credentials.
+This companion service adds one page-level like, dislike, or rocket reaction
+per ORCID identity and canonical submission/concept URL. It deliberately
+reuses the HttpOnly Remark42 session instead of creating browser-readable
+credentials or a second account system.
+
+Each change is an append-only Remark42 comment on a deterministic hidden
+thread below `https://laxarchive.org/_reactions/`. The service, never the
+browser, constructs the hidden locator and the reserved
+`lax-reaction:v1:<reaction>` marker. The latest valid top-level event per
+Remark42 user ID wins; selecting an active reaction appends a `clear` event.
+Normal discussion threads therefore remain unchanged, while the reaction
+history is covered by Remark42's existing backups. Product comment views
+explicitly reject the reserved hidden path.
 
 During ORCID login, Remark42 calls the service's internal user-info adapter.
 The adapter forwards the bearer token to ORCID without storing or logging it,
@@ -25,10 +35,10 @@ The ORCID application redirect URI is
 
 Firefox can partition the Remark42 cookie used in the comment iframe from a
 top-level cross-origin fetch. `/reactions/v1/bridge` is a minimal same-origin
-iframe bridge for page and vote requests. Both sides require exact origins and
+iframe bridge for page and reaction requests. Both sides require exact origins and
 window references; the bridge is frame-restricted by CSP and never exposes the
 HttpOnly JWT. `GET /reactions/v1/me` reports `reauthenticate:true` for a stale
-Remark42 cookie, and a failed vote clears only that stale host cookie so the
+Remark42 cookie, and a failed reaction clears only that stale host cookie so the
 next ORCID login starts cleanly.
 
 Public validated identity lookup is available for account and comment UIs:
@@ -47,5 +57,7 @@ tokens or private claims, and are cacheable for five minutes.
 docker build -t lax-reactions .
 docker run --rm -p 8081:8081 \
   -e REMARK_USER_URL=http://remark42:8080/api/v1/user?site=remark \
+  -e REMARK_FIND_URL=http://remark42:8080/api/v1/find \
+  -e 'REMARK_POST_URL=http://remark42:8080/api/v1/comment?site=remark' \
   -v /var/lib/reactions:/var/lib/reactions lax-reactions
 ```

@@ -73,6 +73,7 @@
     try {
       const url = new URL(comment.locator?.url || "");
       if (url.origin !== "https://laxarchive.org") return "";
+      if (url.pathname.startsWith("/_reactions/")) return "";
       url.hash = `remark42__comment-${comment.id}`;
       return url.toString();
     } catch {

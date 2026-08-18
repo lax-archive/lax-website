@@ -111,7 +111,15 @@ function fixture(user: { id: string; name: string }) {
           status: 200,
           data: message.action === "me"
             ? { authenticated: true, eligible: true, viewer: { remark42_id: user.id, orcid_id: "0000-0002-1825-0097", name: user.name, profile_url: "https://orcid.org/0000-0002-1825-0097" } }
-            : message.action === "comments" ? { comments: [], count: 0 } : {},
+            : message.action === "comments" ? {
+              comments: [{
+                id: "hidden-reaction",
+                orig: "lax-reaction:v1:like",
+                locator: { url: "https://laxarchive.org/_reactions/Lax2/" },
+                time: "2026-08-18T10:00:00Z",
+              }],
+              count: 1,
+            } : {},
         },
       }));
     },
