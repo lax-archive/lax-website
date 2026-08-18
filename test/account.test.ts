@@ -241,4 +241,22 @@ describe("ORCID account header", () => {
     expect(fx.settings.hidden).toBe(false);
     expect(fx.settingsLabel.textContent).toBe("Ada Lovelace");
   });
+
+  it("updates the header when the embedded comment session changes", async () => {
+    const fx = fixture({ id: `orcid_${"e".repeat(40)}`, name: "Ada Lovelace" });
+    const context = { document: fx.document, window: fx.window, fetch: fx.fetch, URL, CustomEvent: fx.FakeCustomEvent, Date, setTimeout };
+    vm.createContext(context);
+    vm.runInContext(fs.readFileSync("assets/site/account.js", "utf8"), context);
+    fx.listeners.message!({ origin: "https://remark42.example.test", source: fx.bridgeWindow, data: { source: "lax-reactions", type: "ready" } });
+    await settle();
+    expect(fx.settings.hidden).toBe(false);
+
+    fx.setAuthenticated(false);
+    fx.listeners.message!({ origin: "https://remark42.example.test", source: fx.bridgeWindow, data: { source: "lax-reactions", type: "session-change" } });
+    await settle();
+
+    expect(fx.login.hidden).toBe(false);
+    expect(fx.settings.hidden).toBe(true);
+    expect(fx.events.at(-1)).toEqual({ type: "LAX::account-ready", detail: null });
+  });
 });

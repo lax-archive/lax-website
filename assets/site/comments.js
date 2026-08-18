@@ -43,6 +43,11 @@
     if (!fromRemarkFrame && !fromFallbackBridge) return;
     const message = event.data;
     if (!message || message.source !== "lax-reactions") return;
+    if (message.type === "session-change") {
+      if (fromRemarkFrame) activeBridgeWindow = remarkFrame.contentWindow;
+      window.setTimeout(() => { void loadReactions(); }, 0);
+      return;
+    }
     if (message.type === "ready") {
       if (fromRemarkFrame) activeBridgeWindow = remarkFrame.contentWindow;
       else if (!activeBridgeWindow) activeBridgeWindow = bridge.contentWindow;

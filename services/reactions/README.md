@@ -47,6 +47,11 @@ HttpOnly session remains confined to the comments origin. `GET
 /reactions/v1/me` remains the direct-client compatibility path and reports
 `reauthenticate:true` for a stale Remark42 cookie.
 
+The bridge also emits a credential-free session-change signal when Remark42
+logs in, logs out, or rejects an expired token. The parent immediately
+rechecks both the header account and page reactions, so the two views cannot
+retain a stale signed-in or signed-out state after an action in the discussion.
+
 `deploy/install-iframe-bridge.sh` idempotently adds the service-owned bridge
 script to the mounted Remark42 `iframe.html`. Run it whenever the custom
 Remark42 web bundle is replaced.

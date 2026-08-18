@@ -251,6 +251,7 @@ const parentOrigin=(()=>{try{return new URL(document.referrer).origin}catch{retu
 if(!allowed.has(parentOrigin))return;
 const send=(value)=>window.parent.postMessage(value,parentOrigin);
 let announce=()=>{};
+let notifySessionChange=()=>{};
 let activeJWT="";
 let activeXSRF="";
 const nativeFetch=window.fetch.bind(window);
@@ -262,20 +263,31 @@ const rememberHeaders=(headers)=>{
   const gainedJWT=!activeJWT&&Boolean(jwt);
   if(jwt)activeJWT=jwt;
   if(xsrf)activeXSRF=xsrf;
-  if(gainedJWT)announce();
+  if(gainedJWT)notifySessionChange();
 };
 window.fetch=async(input,init)=>{
   let local=false;
+  let requestURL=null;
   try{
     const raw=typeof input==="string"?input:input.url;
-    local=new URL(raw,window.location.href).origin===window.location.origin;
+    requestURL=new URL(raw,window.location.href);
+    local=requestURL.origin===window.location.origin;
     if(local){
       if(input instanceof Request)rememberHeaders(input.headers);
       if(init&&init.headers)rememberHeaders(init.headers);
     }
   }catch{}
   const response=await nativeFetch(input,init);
-  if(local)rememberHeaders(response.headers);
+  if(local){
+    rememberHeaders(response.headers);
+    const loggedOut=requestURL&&requestURL.pathname==="/auth/logout"&&response.ok;
+    const rejectedSession=(response.status===401||response.status===403)&&Boolean(activeJWT);
+    if(loggedOut||rejectedSession){
+      activeJWT="";
+      activeXSRF="";
+      notifySessionChange();
+    }
+  }
   return response;
 };
 const authHeaders=(values={})=>{
@@ -371,6 +383,7 @@ window.addEventListener("message",async(event)=>{
   }
 });
 announce=()=>send({source:"lax-reactions",type:"ready"});
+notifySessionChange=()=>send({source:"lax-reactions",type:"session-change"});
 announce();
 for(const delay of [250,1000,3000])setTimeout(announce,delay);
 })();`

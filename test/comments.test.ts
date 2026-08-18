@@ -170,6 +170,7 @@ describe("Remark42 browser loader", () => {
       querySelectorAll: (selector: string) => selector === "[data-reaction]" ? [like, dislike] : [],
     };
     const posted: Array<{ message: Record<string, unknown>; origin: string }> = [];
+    let bridgeAuthenticated = true;
     const bridgeWindow = {
       postMessage(message: Record<string, unknown>, origin: string) {
         posted.push({ message, origin });
@@ -178,7 +179,9 @@ describe("Remark42 browser loader", () => {
           source: bridgeWindow,
           data: {
             source: "lax-reactions", id: message.id, ok: true, status: 200,
-            data: { counts: { like: 2, dislike: 0, rocket: 0 }, viewer_reaction: "", authenticated: true, eligible: true, viewer: { name: "Ada" }, voters: { like: [], dislike: [], rocket: [] } },
+            data: bridgeAuthenticated
+              ? { counts: { like: 2, dislike: 0, rocket: 0 }, viewer_reaction: "", authenticated: true, eligible: true, viewer: { name: "Ada" }, voters: { like: [], dislike: [], rocket: [] } }
+              : { counts: { like: 2, dislike: 0, rocket: 0 }, viewer_reaction: "", authenticated: false, eligible: false, voters: { like: [], dislike: [], rocket: [] } },
           },
         }));
       },
@@ -221,6 +224,14 @@ describe("Remark42 browser loader", () => {
     expect(directFetches).toBe(0);
     expect(likeCount.textContent).toBe("2");
     expect(status.textContent).toBe("Signed in as Ada");
+
+    bridgeAuthenticated = false;
+    listeners.message!({ origin: "https://remark42.example.test", source: bridgeWindow, data: { source: "lax-reactions", type: "session-change" } });
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    expect(posted.at(-1)).toMatchObject({ message: { source: "lax-reactions", action: "page", url: "https://laxarchive.org/Lax2/" } });
+    expect(status.textContent).toBe("Sign in with ORCID to react.");
+    expect(login.hidden).toBe(false);
   });
 
   it("requests the shared popup login instead of navigating away for a signed-out reaction", async () => {
