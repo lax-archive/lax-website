@@ -170,11 +170,11 @@ describe("ORCID account header", () => {
     const loginUrl = new URL(fx.login.href);
     const returnUrl = new URL(loginUrl.searchParams.get("from")!);
     expect(returnUrl.searchParams.get("view")).toBe("test");
-    expect(returnUrl.searchParams.get("lax_auth_complete")).toBe("1");
+    expect(returnUrl.searchParams.has("lax_auth_complete")).toBe(false);
     expect(returnUrl.searchParams.has("host")).toBe(false);
     expect(returnUrl.hash).toBe("#discussion");
-    expect(fx.login.target).toBe("lax-orcid-login");
-    expect(fx.login.rel).toBe("noopener");
+    expect(fx.login.target).toBe("");
+    expect(fx.login.rel).toBe("");
 
     fx.settings.listeners.get("click")!();
     expect(fx.dialog.opened).toBe(true);
@@ -196,7 +196,7 @@ describe("ORCID account header", () => {
     expect(fx.elements["[data-account-status]"]!.textContent).toContain("public name shared by ORCID is required");
   });
 
-  it("opens a visible ORCID tab and refreshes the header after the completion handshake", async () => {
+  it("uses a same-tab ORCID round trip for login requests", async () => {
     const fx = fixture({ id: `orcid_${"c".repeat(40)}`, name: "Ada Lovelace" }, false);
     const context = { document: fx.document, window: fx.window, fetch: fx.fetch, URL, CustomEvent: fx.FakeCustomEvent, Date, setTimeout };
     vm.createContext(context);
@@ -211,17 +211,10 @@ describe("ORCID account header", () => {
     expect(fx.login.clickCount).toBe(1);
     const loginUrl = new URL(fx.login.href);
     const returnUrl = new URL(loginUrl.searchParams.get("from")!);
-    expect(fx.login.target).toBe("lax-orcid-login");
-    expect(fx.login.rel).toBe("noopener");
-    expect(returnUrl.searchParams.get("lax_auth_complete")).toBe("1");
+    expect(fx.login.target).toBe("");
+    expect(fx.login.rel).toBe("");
+    expect(returnUrl.searchParams.has("lax_auth_complete")).toBe(false);
     expect(returnUrl.searchParams.has("host")).toBe(false);
-
-    fx.setAuthenticated(true);
-    fx.authChannel!.onmessage!({ data: { source: "lax-orcid-auth-complete" } });
-    await settle();
-    expect(fx.login.hidden).toBe(true);
-    expect(fx.settings.hidden).toBe(false);
-    expect(fx.settingsLabel.textContent).toBe("Ada Lovelace");
   });
 
   it("rechecks the session when the archive tab regains focus", async () => {

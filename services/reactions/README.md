@@ -51,6 +51,9 @@ The bridge also emits a credential-free session-change signal when Remark42
 logs in, logs out, or rejects an expired token. The parent immediately
 rechecks both the header account and page reactions, so the two views cannot
 retain a stale signed-in or signed-out state after an action in the discussion.
+Archive login controls use a same-tab OAuth round trip rather than a popup;
+the callback therefore returns to a fresh page where the header, reactions,
+and embedded discussion initialize from one session at the same time.
 
 `deploy/install-iframe-bridge.sh` idempotently adds the service-owned bridge
 script to the mounted Remark42 `iframe.html`. Run it whenever the custom

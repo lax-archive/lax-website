@@ -116,12 +116,11 @@
     return url.toString();
   };
 
-  login.href = makeLoginUrl(true);
-  login.target = authPopupName;
-  login.rel = "noopener";
-  refresh.href = makeLoginUrl(true);
-  refresh.target = authPopupName;
-  refresh.rel = "noopener";
+  // Use a normal navigation for OAuth. The callback returns to a freshly
+  // loaded archive page, so the header, reactions, and discussion all observe
+  // the same new session without relying on a popup or cross-window timing.
+  login.href = makeLoginUrl(false);
+  refresh.href = makeLoginUrl(false);
 
   const stopLoginWatch = () => {
     loginWatchUntil = 0;
@@ -173,8 +172,6 @@
     event.preventDefault();
     login.click();
   });
-  login.addEventListener("click", () => startLoginWatch());
-  refresh.addEventListener("click", () => startLoginWatch());
   const checkWhenForegrounded = () => {
     if (loginWatchUntil > Date.now()) startLoginWatch(0);
     else if (!currentUser) void checkAccount();
