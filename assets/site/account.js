@@ -33,8 +33,6 @@
   let currentUser = null;
   let currentIdentity = null;
   let commentsLoadedFor = "";
-  let loginPopup = null;
-  let loginPopupPoll = null;
 
   const bridgeOrigin = new URL(host).origin;
   const bridge = document.createElement("iframe");
@@ -48,7 +46,7 @@
   const bridgeReady = new Promise((resolve) => { markBridgeReady = resolve; });
 
   window.addEventListener("message", (event) => {
-    if (event.origin === window.location.origin && event.source === loginPopup && event.data?.source === authMessage) {
+    if (event.origin === window.location.origin && event.data?.source === authMessage) {
       finishLogin();
       return;
     }
@@ -101,15 +99,14 @@
     return url.toString();
   };
 
-  login.href = makeLoginUrl();
-  refresh.href = makeLoginUrl();
+  login.href = makeLoginUrl(true);
+  login.target = authPopupName;
+  login.rel = "noopener";
+  refresh.href = makeLoginUrl(true);
+  refresh.target = authPopupName;
+  refresh.rel = "noopener";
 
   const finishLogin = () => {
-    if (loginPopupPoll !== null && typeof window.clearInterval === "function") {
-      window.clearInterval(loginPopupPoll);
-      loginPopupPoll = null;
-    }
-    loginPopup = null;
     void checkAccount();
   };
 
@@ -131,29 +128,9 @@
     }
   }
 
-  const openLogin = (event) => {
-    event?.preventDefault?.();
-    const popup = typeof window.open === "function"
-      ? window.open(makeLoginUrl(true), authPopupName, "popup,width=620,height=760,resizable=yes,scrollbars=yes")
-      : null;
-    if (popup) {
-      loginPopup = popup;
-      popup.focus?.();
-      if (typeof window.setInterval === "function") {
-        loginPopupPoll = window.setInterval(() => {
-          if (loginPopup?.closed) finishLogin();
-        }, 500);
-      }
-      return;
-    }
-    window.location.assign(makeLoginUrl());
-  };
-
-  login.addEventListener("click", openLogin);
-  refresh.addEventListener("click", openLogin);
   window.addEventListener("LAX::login-request", (event) => {
     event.preventDefault();
-    openLogin();
+    login.click();
   });
 
   const validName = (value) => {

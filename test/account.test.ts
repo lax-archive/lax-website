@@ -8,6 +8,8 @@ class FakeElement {
   disabled = false;
   textContent = "";
   href = "";
+  target = "";
+  rel = "";
   title = "";
   className = "";
   dateTime = "";
@@ -16,9 +18,11 @@ class FakeElement {
   selectors = new Map<string, FakeElement>();
   listeners = new Map<string, (event?: any) => void>();
   opened = false;
+  clickCount = 0;
 
   querySelector(selector: string) { return this.selectors.get(selector) ?? null; }
   addEventListener(name: string, listener: (event?: any) => void) { this.listeners.set(name, listener); }
+  click() { this.clickCount += 1; }
   append(...nodes: FakeElement[]) { this.children.push(...nodes); }
   appendChild(node: FakeElement) { this.children.push(node); return node; }
   replaceChildren(...nodes: FakeElement[]) { this.children = nodes; }
@@ -93,8 +97,6 @@ function fixture(user: { id: string; name: string }, initiallyAuthenticated = tr
     constructor(public type: string, public init: { detail: unknown }) {}
     get detail() { return this.init.detail; }
   }
-  const opened: Array<{ url: string; name: string; features: string }> = [];
-  const popup = { focus() {} };
   let authChannel: { onmessage?: (event: { data: Record<string, unknown> }) => void } | null = null;
   class FakeBroadcastChannel {
     onmessage?: (event: { data: Record<string, unknown> }) => void;
@@ -107,7 +109,6 @@ function fixture(user: { id: string; name: string }, initiallyAuthenticated = tr
     opener: null,
     history: { replaceState() {} },
     BroadcastChannel: FakeBroadcastChannel,
-    open: (url: string, name: string, features: string) => { opened.push({ url, name, features }); return popup; },
     close() {},
     dispatchEvent: (event: FakeCustomEvent) => { events.push({ type: event.type, detail: event.detail }); },
     addEventListener: (name: string, listener: (event: Record<string, unknown>) => void) => { listeners[name] = listener; },
@@ -149,7 +150,7 @@ function fixture(user: { id: string; name: string }, initiallyAuthenticated = tr
     body: new FakeElement(),
     head: new FakeElement(),
   };
-  return { root, dialog, login, loginLabel, settings, settingsLabel, elements, requests, events, fetch, window, document, FakeCustomEvent, listeners, bridgeWindow, opened, get authChannel() { return authChannel; }, setAuthenticated(value: boolean) { authenticated = value; } };
+  return { root, dialog, login, loginLabel, settings, settingsLabel, elements, requests, events, fetch, window, document, FakeCustomEvent, listeners, bridgeWindow, get authChannel() { return authChannel; }, setAuthenticated(value: boolean) { authenticated = value; } };
 }
 
 describe("ORCID account header", () => {
@@ -166,8 +167,14 @@ describe("ORCID account header", () => {
     expect(fx.settingsLabel.textContent).toBe("Ada Lovelace");
     expect(fx.elements["[data-account-name]"]!.textContent).toBe("Ada Lovelace");
     expect(fx.elements["[data-account-name]"]!.href).toBe("https://orcid.org/0000-0002-1825-0097");
-    expect(fx.login.href).toContain(encodeURIComponent("https://laxarchive.org/Lax2/?view=test#discussion"));
-    expect(fx.login.href).not.toContain("host%3Dold");
+    const loginUrl = new URL(fx.login.href);
+    const returnUrl = new URL(loginUrl.searchParams.get("from")!);
+    expect(returnUrl.searchParams.get("view")).toBe("test");
+    expect(returnUrl.searchParams.get("lax_auth_complete")).toBe("1");
+    expect(returnUrl.searchParams.has("host")).toBe(false);
+    expect(returnUrl.hash).toBe("#discussion");
+    expect(fx.login.target).toBe("lax-orcid-login");
+    expect(fx.login.rel).toBe("noopener");
 
     fx.settings.listeners.get("click")!();
     expect(fx.dialog.opened).toBe(true);
@@ -189,7 +196,7 @@ describe("ORCID account header", () => {
     expect(fx.elements["[data-account-status]"]!.textContent).toContain("public name shared by ORCID is required");
   });
 
-  it("authenticates in a popup and refreshes the header after the completion handshake", async () => {
+  it("opens a visible ORCID tab and refreshes the header after the completion handshake", async () => {
     const fx = fixture({ id: `orcid_${"c".repeat(40)}`, name: "Ada Lovelace" }, false);
     const context = { document: fx.document, window: fx.window, fetch: fx.fetch, URL, CustomEvent: fx.FakeCustomEvent, Date, setTimeout };
     vm.createContext(context);
@@ -199,12 +206,13 @@ describe("ORCID account header", () => {
 
     expect(fx.login.hidden).toBe(false);
     let prevented = false;
-    fx.login.listeners.get("click")!({ preventDefault() { prevented = true; } });
+    fx.listeners["LAX::login-request"]!({ preventDefault() { prevented = true; } });
     expect(prevented).toBe(true);
-    expect(fx.opened).toHaveLength(1);
-    const loginUrl = new URL(fx.opened[0]!.url);
+    expect(fx.login.clickCount).toBe(1);
+    const loginUrl = new URL(fx.login.href);
     const returnUrl = new URL(loginUrl.searchParams.get("from")!);
-    expect(fx.opened[0]!.name).toBe("lax-orcid-login");
+    expect(fx.login.target).toBe("lax-orcid-login");
+    expect(fx.login.rel).toBe("noopener");
     expect(returnUrl.searchParams.get("lax_auth_complete")).toBe("1");
     expect(returnUrl.searchParams.has("host")).toBe(false);
 
