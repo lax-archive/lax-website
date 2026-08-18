@@ -237,8 +237,15 @@
       if (reactionPending || button.disabled) return;
       if (!reactionData?.eligible) {
         try { window.sessionStorage.setItem(pendingReactionKey, button.dataset.reaction); } catch { /* storage can be disabled */ }
-        if (typeof window.location.assign === "function") window.location.assign(reactionLoginURL.toString());
-        else window.location.href = reactionLoginURL.toString();
+        let handled = false;
+        if (typeof window.dispatchEvent === "function" && typeof CustomEvent === "function") {
+          const request = new CustomEvent("LAX::login-request", { cancelable: true });
+          handled = !window.dispatchEvent(request);
+        }
+        if (!handled) {
+          if (typeof window.location.assign === "function") window.location.assign(reactionLoginURL.toString());
+          else window.location.href = reactionLoginURL.toString();
+        }
         return;
       }
       const selected = button.dataset.reaction;
