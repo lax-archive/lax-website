@@ -37,7 +37,7 @@
 
   window.addEventListener("message", (event) => {
     if (event.origin !== bridgeOrigin) return;
-    const remarkFrame = document.querySelector('#remark42 iframe[title="Comments | Remark42"]');
+    const remarkFrame = document.querySelector("#remark42 iframe");
     const fromRemarkFrame = Boolean(remarkFrame?.contentWindow && event.source === remarkFrame.contentWindow);
     const fromFallbackBridge = Boolean(bridge.contentWindow && event.source === bridge.contentWindow);
     if (!fromRemarkFrame && !fromFallbackBridge) return;
