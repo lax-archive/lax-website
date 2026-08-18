@@ -315,7 +315,7 @@ const saveReaction=async(raw,reaction)=>{
   return page(current.url);
 };
 window.addEventListener("message",async(event)=>{
-  if(event.source!==window.parent||!allowed.has(event.origin)||!event.data||event.data.source!=="lax-reactions"||typeof event.data.id!=="string")return;
+  if(!allowed.has(event.origin)||!event.data||event.data.source!=="lax-reactions"||typeof event.data.id!=="string")return;
   const request=event.data;
   try{
     let data={};
@@ -335,7 +335,9 @@ window.addEventListener("message",async(event)=>{
     send({source:"lax-reactions",id:request.id,ok:false,status:Number(error&&error.status)||503,data:{error:error instanceof Error?error.message:"Account service is temporarily unavailable."}});
   }
 });
-send({source:"lax-reactions",type:"ready"});
+const announce=()=>send({source:"lax-reactions",type:"ready"});
+announce();
+for(const delay of [250,1000,3000])setTimeout(announce,delay);
 })();`
 	script := strings.Replace(bridgeSource, "__ALLOWED_PARENTS__", string(encoded), 1)
 	_, _ = io.WriteString(w, script)

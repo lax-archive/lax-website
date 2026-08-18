@@ -61,7 +61,8 @@
     const message = event.data;
     if (!message || message.source !== "lax-reactions") return;
     if (message.type === "ready") {
-      if (fromRemarkFrame || !activeBridgeWindow) activeBridgeWindow = event.source;
+      if (fromRemarkFrame) activeBridgeWindow = remarkFrame.contentWindow;
+      else if (!activeBridgeWindow) activeBridgeWindow = bridge.contentWindow;
       markBridgeReady();
       if (fromRemarkFrame) window.setTimeout(() => { void checkAccount(); }, 0);
       return;
