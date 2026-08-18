@@ -345,7 +345,13 @@ func TestBridgeIsRestrictedToConfiguredParents(t *testing.T) {
 	scriptRequest := httptest.NewRequest(http.MethodGet, "/reactions/v1/bridge.js", nil)
 	scriptRecorder := httptest.NewRecorder()
 	a.bridgeScript(scriptRecorder, scriptRequest)
-	if scriptRecorder.Code != http.StatusOK || !strings.Contains(scriptRecorder.Body.String(), `new Set(["https://laxarchive.org"])`) || strings.Contains(scriptRecorder.Body.String(), `postMessage(value,"*")`) || !strings.Contains(scriptRecorder.Body.String(), `request.action==="comments"`) || !strings.Contains(scriptRecorder.Body.String(), `request.action==="logout"`) {
+	script := scriptRecorder.Body.String()
+	if scriptRecorder.Code != http.StatusOK || !strings.Contains(script, `new Set(["https://laxarchive.org"])`) || strings.Contains(script, `postMessage(value,"*")`) || !strings.Contains(script, `request.action==="comments"`) || !strings.Contains(script, `request.action==="logout"`) {
 		t.Fatalf("bridge script does not enforce exact parent origins: %s", scriptRecorder.Body.String())
+	}
+	for _, expected := range []string{`/api/v1/user?site=remark`, `/api/v1/comment?site=remark`, `X-XSRF-TOKEN`, `lax-reaction:v1:`} {
+		if !strings.Contains(script, expected) {
+			t.Fatalf("bridge script does not use the authenticated Remark42 iframe session, missing %q", expected)
+		}
 	}
 }

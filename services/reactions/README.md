@@ -6,8 +6,8 @@ reuses the HttpOnly Remark42 session instead of creating browser-readable
 credentials or a second account system.
 
 Each change is an append-only Remark42 comment on a deterministic hidden
-thread below `https://laxarchive.org/_reactions/`. The service, never the
-browser, constructs the hidden locator and the reserved
+thread below `https://laxarchive.org/_reactions/`. The service-owned bridge,
+never the parent website, constructs the hidden locator and the reserved
 `lax-reaction:v1:<reaction>` marker. The latest valid top-level event per
 Remark42 user ID wins; selecting an active reaction appends a `clear` event.
 Normal discussion threads therefore remain unchanged, while the reaction
@@ -35,11 +35,17 @@ The ORCID application redirect URI is
 
 Firefox can partition the Remark42 cookie used in the comment iframe from a
 top-level cross-origin fetch. `/reactions/v1/bridge` is a minimal same-origin
-iframe bridge for page and reaction requests. Both sides require exact origins and
-window references; the bridge is frame-restricted by CSP and never exposes the
-HttpOnly JWT. `GET /reactions/v1/me` reports `reauthenticate:true` for a stale
-Remark42 cookie, and a failed reaction clears only that stale host cookie so the
-next ORCID login starts cleanly.
+iframe bridge for page and reaction requests. It checks the user and writes the
+reserved hidden comment through Remark42 in the same browser context as the
+working discussion iframe; only public aggregation and identity lookup go
+through the companion API. Both sides require exact origins and window
+references, the bridge is frame-restricted by CSP, and the HttpOnly JWT is
+never exposed. `GET /reactions/v1/me` remains the direct-client compatibility
+path and reports `reauthenticate:true` for a stale Remark42 cookie.
+
+`deploy/install-iframe-bridge.sh` idempotently adds the service-owned bridge
+script to the mounted Remark42 `iframe.html`. Run it whenever the custom
+Remark42 web bundle is replaced.
 
 Public validated identity lookup is available for account and comment UIs:
 

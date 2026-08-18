@@ -244,7 +244,101 @@ func (a *app) bridgeScript(w http.ResponseWriter, _ *http.Request) {
 	encoded, _ := json.Marshal(parents)
 	w.Header().Set("Content-Type", "text/javascript; charset=utf-8")
 	w.Header().Set("Cache-Control", "no-store")
-	_, _ = fmt.Fprintf(w, `(function(){"use strict";const allowed=new Set(%s);const parentOrigin=(()=>{try{return new URL(document.referrer).origin}catch{return ""}})();if(!allowed.has(parentOrigin))return;const send=(value)=>window.parent.postMessage(value,parentOrigin);window.addEventListener("message",async(event)=>{if(event.source!==window.parent||!allowed.has(event.origin)||!event.data||event.data.source!=="lax-reactions"||typeof event.data.id!=="string")return;const request=event.data;let path="";let init={credentials:"include",headers:{Accept:"application/json"}};if(request.action==="page"&&typeof request.url==="string"){path="/reactions/v1/page?url="+encodeURIComponent(request.url)}else if(request.action==="me"){path="/reactions/v1/me"}else if(request.action==="comments"&&typeof request.site==="string"&&/^[a-zA-Z0-9._-]{1,64}$/.test(request.site)&&typeof request.user==="string"&&/^orcid_[a-f0-9]{40}$/.test(request.user)&&Number.isInteger(request.skip)&&request.skip>=0&&Number.isInteger(request.limit)&&request.limit>=1&&request.limit<=100){path="/api/v1/comments?site="+encodeURIComponent(request.site)+"&user="+encodeURIComponent(request.user)+"&skip="+request.skip+"&limit="+request.limit}else if(request.action==="logout"){path="/auth/logout"}else if(request.action==="reaction"&&typeof request.url==="string"&&["like","dislike","rocket"].includes(request.reaction)){path="/reactions/v1/reaction";init={method:"PUT",credentials:"include",headers:{Accept:"application/json","Content-Type":"application/json","X-Lax-CSRF":"1"},body:JSON.stringify({url:request.url,reaction:request.reaction})}}else{send({source:"lax-reactions",id:request.id,ok:false,status:400,data:{error:"invalid bridge request"}});return}try{const response=await fetch(path,init);let data={};if(request.action!=="logout"){data=await response.json()}send({source:"lax-reactions",id:request.id,ok:response.ok,status:response.status,data})}catch{send({source:"lax-reactions",id:request.id,ok:false,status:503,data:{error:"Account service is temporarily unavailable."}})}});send({source:"lax-reactions",type:"ready"})})();`, encoded)
+	const bridgeSource = `(function(){
+"use strict";
+const allowed=new Set(__ALLOWED_PARENTS__);
+const parentOrigin=(()=>{try{return new URL(document.referrer).origin}catch{return ""}})();
+if(!allowed.has(parentOrigin))return;
+const send=(value)=>window.parent.postMessage(value,parentOrigin);
+const fail=(message,status=503)=>Object.assign(new Error(message),{status});
+const readJSON=async(response)=>{try{return await response.json()}catch{return {}}};
+const canonicalPage=(raw)=>{
+  const value=new URL(raw);
+  if(value.origin!=="https://laxarchive.org"||value.username||value.password||value.search||value.hash)throw fail("invalid page URL",400);
+  const submission=/^\/[A-Za-z0-9][A-Za-z0-9._-]*\/$/.test(value.pathname);
+  const concept=/^\/[A-Za-z0-9][A-Za-z0-9._-]*\/[A-Za-z0-9][A-Za-z0-9._-]*\.html$/.test(value.pathname);
+  if(!submission&&!concept)throw fail("invalid page URL",400);
+  return value.toString();
+};
+const remarkUser=async()=>{
+  const response=await fetch("/api/v1/user?site=remark",{credentials:"include",cache:"no-store",headers:{Accept:"application/json"}});
+  if(response.status===401||response.status===403)return null;
+  if(!response.ok)throw fail("authentication is temporarily unavailable");
+  const user=await readJSON(response);
+  return user&&typeof user.id==="string"&&/^orcid_[a-f0-9]{40}$/.test(user.id)?user:null;
+};
+const session=async()=>{
+  const user=await remarkUser();
+  if(!user)return {authenticated:false,eligible:false,reauthenticate:false};
+  const response=await fetch("/reactions/v1/identity?remark42_id="+encodeURIComponent(user.id),{cache:"no-store",headers:{Accept:"application/json"}});
+  if(!response.ok)return {authenticated:true,eligible:false,reauthenticate:false};
+  const viewer=await readJSON(response);
+  return {authenticated:true,eligible:true,reauthenticate:false,viewer};
+};
+const page=async(raw)=>{
+  const url=canonicalPage(raw);
+  const [pageResponse,viewerSession]=await Promise.all([
+    fetch("/reactions/v1/page?url="+encodeURIComponent(url),{cache:"no-store",headers:{Accept:"application/json"}}),
+    session()
+  ]);
+  const data=await readJSON(pageResponse);
+  if(!pageResponse.ok)throw fail(data.error||"page responses are temporarily unavailable",pageResponse.status);
+  Object.assign(data,viewerSession,{viewer_reaction:""});
+  if(viewerSession.eligible&&viewerSession.viewer){
+    for(const reaction of ["like","dislike","rocket"]){
+      const voters=Array.isArray(data.voters&&data.voters[reaction])?data.voters[reaction]:[];
+      if(voters.some((voter)=>voter&&voter.orcid===viewerSession.viewer.orcid_id)){data.viewer_reaction=reaction;break}
+    }
+  }
+  return data;
+};
+const cookie=(name)=>{
+  const prefix=name+"=";
+  const item=document.cookie.split(";").map((value)=>value.trim()).find((value)=>value.startsWith(prefix));
+  return item?decodeURIComponent(item.slice(prefix.length)):"";
+};
+const saveReaction=async(raw,reaction)=>{
+  const current=await page(raw);
+  if(!current.eligible)throw fail("Sign in with ORCID to react.",401);
+  const xsrf=cookie("XSRF-TOKEN");
+  if(!xsrf)throw fail("Your comment session is not ready. Refresh the page and try again.",401);
+  const hidden=new URL(current.url);
+  hidden.pathname="/_reactions"+hidden.pathname;
+  const marker=current.viewer_reaction===reaction?"clear":reaction;
+  const response=await fetch("/api/v1/comment?site=remark",{
+    method:"POST",credentials:"include",
+    headers:{Accept:"application/json","Content-Type":"application/json","X-XSRF-TOKEN":xsrf},
+    body:JSON.stringify({text:"lax-reaction:v1:"+marker,title:"Lax Archive reaction",locator:{site:"remark",url:hidden.toString()}})
+  });
+  const result=await readJSON(response);
+  if(!response.ok)throw fail(result.error||"unable to save your response",response.status);
+  return page(current.url);
+};
+window.addEventListener("message",async(event)=>{
+  if(event.source!==window.parent||!allowed.has(event.origin)||!event.data||event.data.source!=="lax-reactions"||typeof event.data.id!=="string")return;
+  const request=event.data;
+  try{
+    let data={};
+    if(request.action==="page"&&typeof request.url==="string")data=await page(request.url);
+    else if(request.action==="me")data=await session();
+    else if(request.action==="reaction"&&typeof request.url==="string"&&["like","dislike","rocket"].includes(request.reaction))data=await saveReaction(request.url,request.reaction);
+    else if(request.action==="comments"&&typeof request.site==="string"&&/^[a-zA-Z0-9._-]{1,64}$/.test(request.site)&&typeof request.user==="string"&&/^orcid_[a-f0-9]{40}$/.test(request.user)&&Number.isInteger(request.skip)&&request.skip>=0&&Number.isInteger(request.limit)&&request.limit>=1&&request.limit<=100){
+      const response=await fetch("/api/v1/comments?site="+encodeURIComponent(request.site)+"&user="+encodeURIComponent(request.user)+"&skip="+request.skip+"&limit="+request.limit,{credentials:"include",cache:"no-store",headers:{Accept:"application/json"}});
+      data=await readJSON(response);
+      if(!response.ok)throw fail(data.error||"comments are temporarily unavailable",response.status);
+    }else if(request.action==="logout"){
+      const response=await fetch("/auth/logout",{credentials:"include",cache:"no-store"});
+      if(!response.ok)throw fail("sign out failed",response.status);
+    }else throw fail("invalid bridge request",400);
+    send({source:"lax-reactions",id:request.id,ok:true,status:200,data});
+  }catch(error){
+    send({source:"lax-reactions",id:request.id,ok:false,status:Number(error&&error.status)||503,data:{error:error instanceof Error?error.message:"Account service is temporarily unavailable."}});
+  }
+});
+send({source:"lax-reactions",type:"ready"});
+})();`
+	script := strings.Replace(bridgeSource, "__ALLOWED_PARENTS__", string(encoded), 1)
+	_, _ = io.WriteString(w, script)
 }
 
 func canonicalPage(raw string) (string, error) {
