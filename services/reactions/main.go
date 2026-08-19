@@ -255,16 +255,20 @@ let announce=()=>{};
 let notifySessionChange=()=>{};
 let activeJWT="";
 let activeXSRF="";
+let sessionCache=null;
+let sessionCacheAt=0;
+let sessionPromise=null;
+const clearSessionCache=()=>{sessionCache=null;sessionCacheAt=0};
 const nativeFetch=window.fetch.bind(window);
 const rememberHeaders=(headers)=>{
   if(!headers)return;
   const values=new Headers(headers);
   const jwt=values.get("X-JWT");
   const xsrf=values.get("X-XSRF-TOKEN");
-  const gainedJWT=!activeJWT&&Boolean(jwt);
+  const changedJWT=Boolean(jwt)&&jwt!==activeJWT;
   if(jwt)activeJWT=jwt;
   if(xsrf)activeXSRF=xsrf;
-  if(gainedJWT)notifySessionChange();
+  if(changedJWT){clearSessionCache();notifySessionChange()}
 };
 window.fetch=async(input,init)=>{
   let local=false;
@@ -286,6 +290,7 @@ window.fetch=async(input,init)=>{
     if(loggedOut||rejectedSession){
       activeJWT="";
       activeXSRF="";
+      clearSessionCache();
       notifySessionChange();
     }
   }
@@ -316,12 +321,21 @@ const remarkUser=async()=>{
   return user&&typeof user.id==="string"&&/^orcid_[a-f0-9]{40}$/.test(user.id)?user:null;
 };
 const session=async()=>{
-  const user=await remarkUser();
-  if(!user)return {authenticated:false,eligible:false,reauthenticate:false};
-  const response=await fetch("/reactions/v1/identity?remark42_id="+encodeURIComponent(user.id),{cache:"no-store",headers:{Accept:"application/json"}});
-  if(!response.ok)return {authenticated:true,eligible:false,reauthenticate:false};
-  const viewer=await readJSON(response);
-  return {authenticated:true,eligible:true,reauthenticate:false,viewer};
+  if(sessionCache&&Date.now()-sessionCacheAt<2000)return sessionCache;
+  if(sessionPromise)return sessionPromise;
+  sessionPromise=(async()=>{
+    const user=await remarkUser();
+    if(!user)return {authenticated:false,eligible:false,reauthenticate:false};
+    const response=await fetch("/reactions/v1/identity?remark42_id="+encodeURIComponent(user.id),{cache:"no-store",headers:{Accept:"application/json"}});
+    if(!response.ok)return {authenticated:true,eligible:false,reauthenticate:false};
+    const viewer=await readJSON(response);
+    return {authenticated:true,eligible:true,reauthenticate:false,viewer};
+  })();
+  try{
+    sessionCache=await sessionPromise;
+    sessionCacheAt=Date.now();
+    return sessionCache;
+  }finally{sessionPromise=null}
 };
 const page=async(raw)=>{
   const url=canonicalPage(raw);

@@ -414,6 +414,12 @@ describe("Remark42 browser loader", () => {
     await new Promise((resolve) => setTimeout(resolve, 0));
     await new Promise((resolve) => setTimeout(resolve, 0));
     expect(posted.filter((entry) => entry.message.action === "page")).toHaveLength(pageRequestsBeforeRemark + 1);
+    const pageRequestsBeforeAccount = posted.filter((entry) => entry.message.action === "page").length;
+    for (let index = 0; index < 4; index += 1) {
+      listeners["LAX::account-ready"]!({ detail: { authenticated: true } });
+    }
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    expect(posted.filter((entry) => entry.message.action === "page")).toHaveLength(pageRequestsBeforeAccount);
 
     await flagListeners.click!();
     expect(flagEditorOpen).toBe(true);
