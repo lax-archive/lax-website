@@ -218,11 +218,11 @@ ${copyablePrompt(markdown.render(landing.submit, ""))}
 </section>`;
   const review = `<section class="landing-action-panel landing-review-panel" id="landing-panel-review" aria-labelledby="landing-action-review">
 <p class="landing-action-eyebrow">Contribute a proof</p>
-<h3>Open problems</h3>
+<h3>Open Proof Obligations</h3>
 <p>${openProblems.length
     ? `Browse every claim that does not yet have a grounded proof, across ${plural(openProblemSubmissions, "submission")}.`
-    : "Every claim currently has a grounded proof; this view will update automatically when an open claim is submitted."}</p>
-<a class="landing-open-problems-link" href="open-problems.html"><span><strong>${openProblems.length}</strong> ${openProblems.length === 1 ? "open claim" : "open claims"}</span><b>Browse open problems <span aria-hidden="true">→</span></b></a>
+    : "Every claim currently has a grounded proof; this view will update automatically when a proof obligation is submitted."}</p>
+<a class="landing-open-problems-link" href="open-proof-obligations.html"><span><strong>${openProblems.length}</strong> ${openProblems.length === 1 ? "proof obligation" : "proof obligations"}</span><b>Browse proof obligations <span aria-hidden="true">→</span></b></a>
 </section>`;
   const cite = `<section class="landing-action-panel landing-cite-panel" id="landing-panel-cite" aria-labelledby="landing-action-cite">
 <p class="landing-action-eyebrow">Cite the formalization</p>

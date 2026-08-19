@@ -19,7 +19,10 @@ export async function generateSite(submissions: SiteSubmission[], outDir: string
   const files = new Map<string, string>();
   files.set("index.html", await indexPage(context));
   files.set("contributing.html", contentPage(context, "contributing", "Contributing"));
-  files.set("open-problems.html", openProblemsPage(context));
+  const proofObligations = openProblemsPage(context);
+  files.set("open-proof-obligations.html", proofObligations);
+  // Preserve shared preview and production links published under the old name.
+  files.set("open-problems.html", proofObligations);
   for (const submission of model.submissions) {
     files.set(path.join(submission.record.id, "index.html"), submissionPage(context, submission));
     if (!submission.output) continue;

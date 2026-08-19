@@ -50,7 +50,7 @@ function problemSidebar(problems: OpenProblem[], ctx: PageContext): string {
   return `<a class="sidebar-back" href="index.html"><span class="sidebar-back-arrow" aria-hidden="true">←</span>Archive</a>
 <div class="sidebar-filters"><div class="filter-group">
 <label for="filter-search">Search</label>
-<input id="filter-search" class="filter-input" type="search" placeholder="Search open problems" aria-controls="entry-list open-problems-list">
+<input id="filter-search" class="filter-input" type="search" placeholder="Search proof obligations" aria-controls="entry-list open-problems-list">
 </div>
 <div class="filter-group">
 <label for="filter-type">Type</label>
@@ -61,7 +61,7 @@ ${typeOptions}
 </div></div>
 <ul id="entry-list">
 ${rows.join("\n")}
-<li id="entry-list-empty" hidden>No open problems match.</li>
+<li id="entry-list-empty" hidden>No proof obligations match.</li>
 </ul>`;
 }
 
@@ -97,24 +97,24 @@ ${problem.openStatements.map((statement) => statementRow(ctx, problem, statement
 </li>`;
 }
 
-/** Archive-wide index of claims that do not yet have a grounded proof. */
+/** Archive-wide index of proof obligations that are not yet grounded. */
 export function openProblemsPage(ctx: PageContext): string {
   const problems = collectOpenProblems(ctx.model);
   const statementCount = problems.reduce((sum, problem) => sum + problem.openStatements.length, 0);
   const submissionCount = new Set(problems.map(({ located }) => located.output.id)).size;
   const content = `<header class="paper-head open-problems-head">
-<h1 class="paper-title">Open problems</h1>
-<p class="paper-meta">${plural(problems.length, "open claim")} · ${plural(statementCount, "open statement")} · ${plural(submissionCount, "submission")}</p>
+<h1 class="paper-title">Open Proof Obligations</h1>
+<p class="paper-meta">${plural(problems.length, "proof obligation")} · ${plural(statementCount, "open statement")} · ${plural(submissionCount, "submission")}</p>
 </header>
 <div class="open-problems-intro latex-content">
-<p>These claims have at least one statement that is not yet supported by a grounded chain of archived proofs. Status is computed across the whole archive; draft submissions are included.</p>
+<p>These proof obligations have at least one statement that is not yet supported by a grounded chain of archived proofs. Status is computed across the whole archive; draft submissions are included.</p>
 </div>
 ${problems.length ? `<ul class="open-problems-list" id="open-problems-list">
 ${problems.map((problem) => problemRow(ctx, problem)).join("\n")}
-<li id="open-problems-list-empty" class="open-problems-empty" hidden>No open problems match.</li>
-</ul>` : `<p class="open-problems-empty">Every claim in the archive currently has a grounded proof.</p>`}`;
+<li id="open-problems-list-empty" class="open-problems-empty" hidden>No proof obligations match.</li>
+</ul>` : `<p class="open-problems-empty">There are currently no open proof obligations; every claim in the archive has a grounded proof.</p>`}`;
   return page({
-    title: "Open problems — Lax Lean Archive",
+    title: "Open Proof Obligations — Lax Lean Archive",
     rootRel: "",
     sidebar: problemSidebar(problems, ctx),
     content,
