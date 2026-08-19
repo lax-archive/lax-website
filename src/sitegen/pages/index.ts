@@ -176,6 +176,17 @@ ${authors ? `<span class="submissions-list-meta"><span class="formalized-label">
   const actionCards = actionOrder.map((id) => actionCard(landing.actions.get(id)!, true));
   const openProblems = collectOpenProblems(model);
   const openProblemSubmissions = new Set(openProblems.map(({ located }) => located.output.id)).size;
+  const reviewConcepts = concepts
+    .map((concept) => ({
+      located: model.conceptHome.get(concept.id)!,
+      users: model.importers.get(concept.id) ?? [],
+    }))
+    .filter(({ users }) => users.length > 0)
+    .sort((a, b) =>
+      Number(b.located.submission.record.state === "registered") - Number(a.located.submission.record.state === "registered")
+      || b.users.length - a.users.length
+      || a.located.concept.id.localeCompare(b.located.concept.id))
+    .slice(0, 8);
   const citeExample = listed.find((submission) => submission.record.id.toLowerCase().replace(/[^a-z0-9]/g, "") === "lax17")
     ?? listed.find((submission) => submission.record.state === "registered")
     ?? listed[0];
@@ -216,10 +227,19 @@ ${rows.join("\n")}
 <h3>Creating your own submission</h3>
 ${copyablePrompt(markdown.render(landing.submit, ""))}
 </section>`;
+  const reviewStarts = reviewConcepts.map(({ located, users }, index) => `<div class="landing-review-start" data-review-concept="${attr(located.concept.id)}" data-review-weight="${Math.max(1, users.length)}"${index ? " hidden" : ""}>
+<div class="landing-review-start-copy">
+<p class="landing-action-eyebrow">Used by ${plural(users.length, "other concept")}</p>
+<h4>${markdown.renderAuthorInline(located.concept.title, "")}</h4>
+<p>Read its statement and description, check the Lean source and evidence, then leave a focused comment on correctness or clarity. This example is already used by other archived concepts, so a thoughtful review can improve downstream work.</p>
+</div>
+<a class="landing-hero-button primary" href="${attr(`${located.output.id}/${located.concept.id}.html`)}">Review a Concept <b aria-hidden="true">→</b></a>
+</div>`).join("\n");
   const review = `<section class="landing-action-panel landing-review-panel" id="landing-panel-review" aria-labelledby="landing-action-review">
-<p class="landing-action-eyebrow">Contribute a proof</p>
-<h3>Open Proof Obligations</h3>
-<p>${openProblems.length
+<p class="landing-action-eyebrow">Contribute a review</p>
+<h3>Review the Archive</h3>
+${reviewStarts}
+<p class="landing-review-proof-intro"><strong>Prefer to contribute a proof?</strong> ${openProblems.length
     ? `Browse every claim that does not yet have a grounded proof, across ${plural(openProblemSubmissions, "submission")}.`
     : "Every claim currently has a grounded proof; this view will update automatically when a proof obligation is submitted."}</p>
 <a class="landing-open-problems-link" href="open-proof-obligations.html"><span><strong>${openProblems.length}</strong> ${openProblems.length === 1 ? "proof obligation" : "proof obligations"}</span><b>Browse proof obligations <span aria-hidden="true">→</span></b></a>
