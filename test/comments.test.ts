@@ -142,7 +142,7 @@ describe("Remark42 browser loader", () => {
     });
   });
 
-  it("renders public flag explanations and their validated concept source ranges", async () => {
+  it("renders public flag explanations and their validated concept source line", async () => {
     const classList = () => {
       const values = new Set<string>();
       return {
@@ -217,7 +217,7 @@ describe("Remark42 browser loader", () => {
           counts: { endorse: 0, flag: 1 }, viewer_reaction: "", authenticated: true, eligible: true,
           viewer: { name: "Alice" }, voters: { endorse: [], flag: [] },
           flags: [{
-            id: "flag-1", message: "The conclusion needs another hypothesis.", line_start: 2, line_end: 3,
+            id: "flag-1", message: "The conclusion needs another hypothesis.", line_start: 2, line_end: 2,
             time: "2026-08-19T12:00:00Z", author: { name: "Ada Lovelace", orcid: "0000-0002-1825-0097" },
           }],
         }),
@@ -237,9 +237,9 @@ describe("Remark42 browser loader", () => {
       href: "https://orcid.org/0000-0002-1825-0097", target: "_blank", rel: "noopener noreferrer", textContent: "Ada Lovelace",
     });
     expect(flagList.children[0]!.children[1]).toMatchObject({ textContent: "The conclusion needs another hypothesis." });
-    expect(flagList.children[0]!.children[2]).toMatchObject({ textContent: "Go to lines 2–3" });
+    expect(flagList.children[0]!.children[2]).toMatchObject({ textContent: "Go to line 2" });
     expect(row2.classList.contains("line-flagged")).toBe(true);
-    expect(row3.classList.contains("line-flagged")).toBe(true);
+    expect(row3.classList.contains("line-flagged")).toBe(false);
     expect(railHost.children).toHaveLength(1);
     expect(railHost.children[0]!.dataset).toMatchObject({ sourceLine: "L2" });
     expect(railHost.children[0]!.children[0]).toMatchObject({ textContent: "🚩" });
@@ -273,12 +273,11 @@ describe("Remark42 browser loader", () => {
       hidden: true,
       addEventListener(name: string, listener: () => Promise<void> | void) { flagRemoveListeners[name] = listener; },
     };
-    const flagLineStart = { value: "", addEventListener() {} };
-    const flagLineEnd = { value: "", addEventListener() {} };
+    const flagLine = { value: "" };
     const flagLineSelection = { textContent: "" };
     const flagLinePickerListeners: Record<string, () => void> = {};
     const flagLinePicker = {
-      textContent: "Select lines from source",
+      textContent: "Choose from source",
       addEventListener(name: string, listener: () => void) { flagLinePickerListeners[name] = listener; },
     };
     const fakeClassList = () => {
@@ -325,8 +324,7 @@ describe("Remark42 browser loader", () => {
         if (selector === "[data-flag-message]") return flagMessage;
         if (selector === "[data-flag-form-status]") return flagFormStatus;
         if (selector === "[data-flag-remove]") return flagRemove;
-        if (selector === "[data-flag-line-start]") return flagLineStart;
-        if (selector === "[data-flag-line-end]") return flagLineEnd;
+        if (selector === "[data-flag-line]") return flagLine;
         if (selector === "[data-flag-line-selection]") return flagLineSelection;
         if (selector === "[data-flag-line-picker]") return flagLinePicker;
         if (selector === '[data-reaction-count="endorse"]') return endorseCount;
@@ -371,8 +369,7 @@ describe("Remark42 browser loader", () => {
       querySelector: (selector: string) => selector === "[data-reactions-host]" ? reactions
         : selector === "#remark42 iframe" ? remarkFrame
         : selector === ".inline-contract-table" ? { scrollIntoView() {} } : null,
-      querySelectorAll: (selector: string) => selector === ".inline-contract-table .line-num a" ? [line2, line4]
-        : selector.includes("line-pending-flag") ? [...sourceRows.values()] : [],
+      querySelectorAll: (selector: string) => selector === ".inline-contract-table .line-num a" ? [line2, line4] : [],
       createElement: (tag: string) => tag === "iframe" ? iframe : ({ noModule: true, type: "", src: "", addEventListener() {} }),
       head: { appendChild() {} }, body: { appendChild() {} },
     };
@@ -430,25 +427,20 @@ describe("Remark42 browser loader", () => {
     flagMessage.value = "The conclusion needs another hypothesis.";
     flagLinePickerListeners.click!();
     expect(flagEditorOpen).toBe(false);
-    expect(flagLinePicker.textContent).toBe("Cancel line selection");
-    line2.handlers.click!({ preventDefault() {} });
-    expect(sourceRows.get(2)!.classList.contains("line-pending-flag")).toBe(true);
+    expect(flagLinePicker.textContent).toBe("Choose from source");
     listeners.keydown!({ key: "Escape", preventDefault() {} });
     expect(flagEditorOpen).toBe(true);
-    expect(flagLineStart.value).toBe("");
-    expect(flagLineEnd.value).toBe("");
+    expect(flagLine.value).toBe("");
 
     flagLinePickerListeners.click!();
     line2.handlers.click!({ preventDefault() {} });
-    line4.handlers.click!({ preventDefault() {} });
     expect(flagEditorOpen).toBe(true);
-    expect(flagLineStart.value).toBe("2");
-    expect(flagLineEnd.value).toBe("4");
-    expect(flagLineSelection.textContent).toBe("Lines 2–4 selected.");
+    expect(flagLine.value).toBe("2");
+    expect(flagLineSelection.textContent).toBe("Line 2 selected.");
     await flagFormListeners.submit!({ preventDefault() {} });
     expect(posted.at(-1)).toMatchObject({ message: {
       source: "lax-reactions", action: "reaction", url: "https://laxarchive.org/Lax2/Lax2.C.html", reaction: "flag",
-      message: "The conclusion needs another hypothesis.", line_start: 2, line_end: 4,
+      message: "The conclusion needs another hypothesis.", line_start: 2, line_end: 2,
     } });
     expect(flagEditorOpen).toBe(false);
     expect(flagCount.textContent).toBe("1");
@@ -457,9 +449,15 @@ describe("Remark42 browser loader", () => {
     await flagListeners.click!();
     expect(flagEditorOpen).toBe(true);
     expect(flagMessage.value).toBe("The conclusion needs another hypothesis.");
-    expect(flagLineStart.value).toBe(2);
-    expect(flagLineEnd.value).toBe(4);
+    expect(flagLine.value).toBe(2);
     expect(flagRemove.hidden).toBe(false);
+    flagLinePickerListeners.click!();
+    line4.handlers.click!({ preventDefault() {} });
+    expect(flagEditorOpen).toBe(true);
+    expect(flagLine.value).toBe("4");
+    await flagFormListeners.submit!({ preventDefault() {} });
+    expect(posted.at(-1)).toMatchObject({ message: { reaction: "flag", line_start: 4, line_end: 4 } });
+    await flagListeners.click!();
     await flagRemoveListeners.click!();
     expect(posted.at(-1)).toMatchObject({ message: {
       source: "lax-reactions", action: "reaction", url: "https://laxarchive.org/Lax2/Lax2.C.html", reaction: "clear",

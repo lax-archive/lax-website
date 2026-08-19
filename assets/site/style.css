@@ -1061,11 +1061,7 @@ body{
   background: #fff8e8;
   box-shadow: inset 3px 0 #d88b1f;
 }
-.inline-contract-table tr.line-pending-flag td{
-  background: #ffedc5;
-  box-shadow: inset 3px 0 #b76200;
-}
-.is-picking-flag-lines .inline-contract-table .line-num a{ color: #9b5500; cursor: crosshair; font-weight: 700; }
+.is-picking-flag-line .inline-contract-table .line-num a{ color: #9b5500; cursor: crosshair; font-weight: 700; }
 
 .inline-contract-table tr:target td{ background: var(--accent-light); }
 .inline-contract-table tr:has(.statement-anchor:target) td{ background: var(--accent-light); }
@@ -2466,15 +2462,9 @@ body{
   font: inherit;
   line-height: 1.45;
 }
-.flag-editor-dialog textarea:focus,
-.flag-line-inputs input:focus{ border-color: var(--link); outline: 2px solid rgba(59, 107, 154, 0.18); outline-offset: 1px; }
-.flag-line-fields{ margin-top: 0.9rem; padding: 0.8rem; border: 1px solid var(--border-light); border-radius: var(--radius-control); }
-.flag-line-fields legend{ padding: 0 0.3rem; font-size: 0.82rem; font-weight: 700; }
-.flag-line-fields > p{ margin-bottom: 0.55rem; color: var(--text-dim); font-size: 0.78rem; }
-.flag-line-inputs{ display: flex; gap: 0.6rem; margin-bottom: 0.65rem; }
-.flag-line-inputs label{ display: grid; gap: 0.25rem; color: var(--text-dim); font-size: 0.75rem; }
-.flag-line-inputs input{ width: 7rem; padding: 0.35rem 0.45rem; border: 1px solid var(--border); border-radius: var(--radius-control); font: inherit; }
-.flag-line-selection{ min-height: 1em; margin: 0.45rem 0 0 !important; }
+.flag-editor-dialog textarea:focus{ border-color: var(--link); outline: 2px solid rgba(59, 107, 154, 0.18); outline-offset: 1px; }
+.flag-line-fields{ display: flex; align-items: center; flex-wrap: wrap; gap: 0.65rem; margin-top: 0.9rem; }
+.flag-line-selection{ min-height: 1em; margin: 0 !important; color: var(--text-dim); font-size: 0.78rem; }
 .flag-form-status{ min-height: 1.25rem; margin-top: 0.65rem; color: #9b5500; font-size: 0.8rem; }
 .review-dialog-actions{ display: grid; grid-template-columns: auto 1fr auto auto; align-items: center; gap: 0.55rem; margin-top: 0.8rem; }
 .review-dialog-actions button,

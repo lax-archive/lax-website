@@ -5,7 +5,7 @@ and canonical submission/concept URL:
 
 - `✅ Endorse` says that the page is correct.
 - `🚩 Flag` says that something may be false and requires a public explanation.
-  A concept flag may also reference a contiguous range of Lean source lines.
+  A concept flag may also reference one Lean source line.
 
 It deliberately reuses the HttpOnly Remark42 session instead of creating
 browser-readable credentials or a second account system.
@@ -14,14 +14,14 @@ Each change is an append-only Remark42 comment on a deterministic hidden
 thread below `https://laxarchive.org/_reactions/`. The service-owned bridge,
 never the parent website, constructs the hidden locator and a reserved
 `lax-review:v2:*` marker. A flag's human-readable comment begins with `🚩` and
-the reserved final line carries its validated source range. The latest valid
+the reserved final line carries its validated source line. The latest valid
 top-level event per Remark42 user ID wins; endorsing again or removing a flag
 appends a `clear` event. Legacy reaction markers are deliberately ignored so
 an old unexplained dislike cannot silently become a public accusation.
 
 Normal discussion threads therefore never contain these structured review
 events. Flag explanations appear only in the dedicated flag view and, when a
-valid range is present, beside the annotated source lines. Review history is
+valid line is present, beside the annotated source line. Review history is
 covered by Remark42's existing backups. Product comment views explicitly
 reject the reserved hidden path.
 

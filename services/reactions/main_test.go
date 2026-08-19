@@ -73,7 +73,7 @@ func TestReviewAggregationUsesLatestValidNamedEvent(t *testing.T) {
 	const pageURL = "https://laxarchive.org/Lax2/"
 	ids := []string{"orcid_" + strings.Repeat("a", 40), "orcid_" + strings.Repeat("b", 40), "orcid_" + strings.Repeat("c", 40)}
 	times := []time.Time{time.Unix(10, 0).UTC(), time.Unix(20, 0).UTC(), time.Unix(30, 0).UTC()}
-	flag, err := reviewMarker(reviewEvent{Kind: reviewFlag, Message: "The implication does not follow.", LineStart: 7, LineEnd: 9})
+	flag, err := reviewMarker(reviewEvent{Kind: reviewFlag, Message: "The implication does not follow.", LineStart: 7, LineEnd: 7})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -113,7 +113,7 @@ func TestReviewAggregationUsesLatestValidNamedEvent(t *testing.T) {
 	if result.viewerByRemarkID[ids[0]].Kind != reviewFlag || result.viewerByRemarkID[ids[1]].Kind != "" {
 		t.Fatalf("latest event did not win: %+v", result.viewerByRemarkID)
 	}
-	if len(result.Flags) != 1 || result.Flags[0].Message != "The implication does not follow." || result.Flags[0].LineStart != 7 || result.Flags[0].LineEnd != 9 {
+	if len(result.Flags) != 1 || result.Flags[0].Message != "The implication does not follow." || result.Flags[0].LineStart != 7 || result.Flags[0].LineEnd != 7 {
 		t.Fatalf("flag detail was not preserved: %+v", result.Flags)
 	}
 }
@@ -136,7 +136,7 @@ func TestAppendReviewConstructsReservedRemark42Comment(t *testing.T) {
 		if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
 			t.Fatal(err)
 		}
-		want, _ := reviewMarker(reviewEvent{Kind: reviewFlag, Message: "Counterexample on this range.", LineStart: 4, LineEnd: 6})
+		want, _ := reviewMarker(reviewEvent{Kind: reviewFlag, Message: "Counterexample on this line.", LineStart: 4, LineEnd: 4})
 		if body.Text != want || body.Locator.Site != "remark" || body.Locator.URL != "https://laxarchive.org/_reactions/Lax2/Lax2.C.html" {
 			t.Errorf("unsafe review payload: %+v", body)
 		}
@@ -147,28 +147,31 @@ func TestAppendReviewConstructsReservedRemark42Comment(t *testing.T) {
 	request := httptest.NewRequest(http.MethodPut, "/reactions/v1/reaction", nil)
 	request.AddCookie(&http.Cookie{Name: "JWT", Value: "session"})
 	request.AddCookie(&http.Cookie{Name: "XSRF-TOKEN", Value: "xsrf-value"})
-	event := reviewEvent{Kind: reviewFlag, Message: "Counterexample on this range.", LineStart: 4, LineEnd: 6}
+	event := reviewEvent{Kind: reviewFlag, Message: "Counterexample on this line.", LineStart: 4, LineEnd: 4}
 	if err := a.appendReview(request, "https://laxarchive.org/Lax2/", event); err == nil {
-		t.Fatal("submission source range reached Remark42")
+		t.Fatal("submission source line reached Remark42")
 	}
 	if err := a.appendReview(request, "https://laxarchive.org/Lax2/Lax2.C.html", event); err != nil {
 		t.Fatal(err)
 	}
 }
 
-func TestReviewMarkersRequireFlagTextAndValidateLineRanges(t *testing.T) {
+func TestReviewMarkersRequireFlagTextAndAtMostOneSourceLine(t *testing.T) {
 	if _, err := reviewMarker(reviewEvent{Kind: reviewFlag}); err == nil {
 		t.Fatal("empty flag explanation was accepted")
 	}
 	if _, err := reviewMarker(reviewEvent{Kind: reviewFlag, Message: "Problem", LineStart: 8, LineEnd: 7}); err == nil {
 		t.Fatal("reversed line range was accepted")
 	}
-	marker, err := reviewMarker(reviewEvent{Kind: reviewFlag, Message: "  First line\r\nsecond line  ", LineStart: 8, LineEnd: 10})
+	if _, err := reviewMarker(reviewEvent{Kind: reviewFlag, Message: "Problem", LineStart: 8, LineEnd: 10}); err == nil {
+		t.Fatal("multi-line source annotation was accepted")
+	}
+	marker, err := reviewMarker(reviewEvent{Kind: reviewFlag, Message: "  First line\r\nsecond line  ", LineStart: 8, LineEnd: 8})
 	if err != nil {
 		t.Fatal(err)
 	}
 	parsed, ok := reviewFromMarker(marker)
-	if !ok || parsed.Kind != reviewFlag || parsed.Message != "First line\nsecond line" || parsed.LineStart != 8 || parsed.LineEnd != 10 {
+	if !ok || parsed.Kind != reviewFlag || parsed.Message != "First line\nsecond line" || parsed.LineStart != 8 || parsed.LineEnd != 8 {
 		t.Fatalf("review marker did not round trip: %q %+v", marker, parsed)
 	}
 	if _, ok := reviewFromMarker("lax-reaction:v1:dislike"); ok {
@@ -266,7 +269,8 @@ func TestReviewEndpointRejectsInvalidStructuredFlagsBeforeAuthentication(t *test
 	a := &app{config: config{allowed: map[string]struct{}{"https://laxarchive.org": {}}}, store: db, limits: newRateLimits()}
 	for name, body := range map[string]string{
 		"missing explanation":     `{"url":"https://laxarchive.org/Lax2/","reaction":"flag"}`,
-		"submission source range": `{"url":"https://laxarchive.org/Lax2/","reaction":"flag","message":"Incorrect claim","line_start":2,"line_end":4}`,
+		"submission source line":  `{"url":"https://laxarchive.org/Lax2/","reaction":"flag","message":"Incorrect claim","line_start":2,"line_end":2}`,
+		"multi-line source range": `{"url":"https://laxarchive.org/Lax2/Lax2.C.html","reaction":"flag","message":"Incorrect claim","line_start":2,"line_end":4}`,
 		"partial source range":    `{"url":"https://laxarchive.org/Lax2/Lax2.C.html","reaction":"flag","message":"Incorrect claim","line_start":2}`,
 	} {
 		t.Run(name, func(t *testing.T) {
@@ -403,7 +407,7 @@ func TestBridgeIsRestrictedToConfiguredParents(t *testing.T) {
 	if scriptRecorder.Code != http.StatusOK || !strings.Contains(script, `new Set(["https://laxarchive.org"])`) || strings.Contains(script, `postMessage(value,"*")`) || !strings.Contains(script, `request.action==="comments"`) || !strings.Contains(script, `request.action==="logout"`) {
 		t.Fatalf("bridge script does not enforce exact parent origins: %s", scriptRecorder.Body.String())
 	}
-	for _, expected := range []string{`/api/v1/user?site=remark`, `/api/v1/comment?site=remark`, `X-XSRF-TOKEN`, `X-JWT`, `response.headers`, `pathname==="/auth/logout"`, `type:"session-change"`, `lax-review:v2:flag:`, `A flag explanation is required`, `Submission flags cannot reference concept source lines`, `sessionCache&&Date.now()-sessionCacheAt<2000`, `if(sessionPromise)return sessionPromise`, `clearSessionCache();notifySessionChange()`} {
+	for _, expected := range []string{`/api/v1/user?site=remark`, `/api/v1/comment?site=remark`, `X-XSRF-TOKEN`, `X-JWT`, `response.headers`, `pathname==="/auth/logout"`, `type:"session-change"`, `lax-review:v2:flag:`, `A flag explanation is required`, `Choose one valid source line`, `Submission flags cannot reference concept source lines`, `sessionCache&&Date.now()-sessionCacheAt<2000`, `if(sessionPromise)return sessionPromise`, `clearSessionCache();notifySessionChange()`} {
 		if !strings.Contains(script, expected) {
 			t.Fatalf("bridge script does not use the authenticated Remark42 iframe session, missing %q", expected)
 		}

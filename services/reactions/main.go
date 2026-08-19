@@ -368,18 +368,18 @@ const flagMessage=(value)=>{
   if(!message||new TextEncoder().encode(message).length>2000||message.includes("\u0000"))throw fail("A flag explanation is required and must be under 2,000 bytes.",400);
   return message;
 };
-const lineRange=(start,end)=>{
+const sourceLine=(start,end)=>{
   start=Number.isInteger(start)?start:0;end=Number.isInteger(end)?end:0;
   if(start===0&&end===0)return [0,0];
-  if(start<1||end<start||end>1000000||end-start+1>500)throw fail("Select a valid source range of at most 500 lines.",400);
+  if(start<1||end!==start||end>1000000)throw fail("Choose one valid source line.",400);
   return [start,end];
 };
 const reviewMarker=(reaction,message,start,end)=>{
   if(reaction==="endorse")return "✅ Endorsed\n\nlax-review:v2:endorse";
   if(reaction==="clear")return "↩️ Review cleared\n\nlax-review:v2:clear";
   if(reaction!=="flag")throw fail("Invalid review.",400);
-  const range=lineRange(start,end);
-  return "🚩 "+flagMessage(message)+"\n\nlax-review:v2:flag:"+range[0]+":"+range[1];
+  const line=sourceLine(start,end);
+  return "🚩 "+flagMessage(message)+"\n\nlax-review:v2:flag:"+line[0]+":"+line[1];
 };
 const saveReaction=async(raw,reaction,message="",lineStart=0,lineEnd=0)=>{
   const current=await page(raw);

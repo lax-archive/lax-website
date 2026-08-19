@@ -25,7 +25,6 @@ const (
 	clearMarker          = "↩️ Review cleared\n\n" + reviewPrefix + reviewClear
 	maximumFlagTextBytes = 2000
 	maximumFlagLine      = 1_000_000
-	maximumFlagSpan      = 500
 )
 
 var publicReviews = []string{reviewEndorse, reviewFlag}
@@ -97,12 +96,12 @@ func normalizeFlagMessage(value string) (string, error) {
 	return value, nil
 }
 
-func validateLineRange(start, end int) error {
+func validateLineReference(start, end int) error {
 	if start == 0 && end == 0 {
 		return nil
 	}
-	if start < 1 || end < start || end > maximumFlagLine || end-start+1 > maximumFlagSpan {
-		return fmt.Errorf("flag line range must contain between 1 and %d lines", maximumFlagSpan)
+	if start < 1 || end != start || end > maximumFlagLine {
+		return errors.New("flag source annotation must reference exactly one line")
 	}
 	return nil
 }
@@ -118,7 +117,7 @@ func reviewMarker(event reviewEvent) (string, error) {
 		if err != nil {
 			return "", err
 		}
-		if err = validateLineRange(event.LineStart, event.LineEnd); err != nil {
+		if err = validateLineReference(event.LineStart, event.LineEnd); err != nil {
 			return "", err
 		}
 		return fmt.Sprintf("🚩 %s\n\n%s%s:%d:%d", message, reviewPrefix, reviewFlag, event.LineStart, event.LineEnd), nil
@@ -150,7 +149,7 @@ func reviewFromMarker(value string) (reviewEvent, bool) {
 	}
 	start, startErr := strconv.Atoi(rangeParts[0])
 	end, endErr := strconv.Atoi(rangeParts[1])
-	if startErr != nil || endErr != nil || validateLineRange(start, end) != nil {
+	if startErr != nil || endErr != nil || validateLineReference(start, end) != nil {
 		return reviewEvent{}, false
 	}
 	body := strings.TrimSpace(value[:lastBreak])
