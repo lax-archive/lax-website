@@ -1675,6 +1675,28 @@ body{
   background: linear-gradient(120deg, var(--surface), var(--accent-light));
 }
 
+.landing-review-panel{
+  border-left: 4px solid var(--partial-border);
+  background: linear-gradient(120deg, var(--surface), var(--partial-bg));
+}
+
+.landing-review-start{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 0.9rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid var(--partial-border);
+  border-radius: var(--radius-card);
+}
+
+.landing-review-start-copy{ flex: 1 1 28rem; min-width: 0; }
+.landing-review-start h4{ margin: 0.08rem 0 0.35rem; font-size: 1.08rem; line-height: 1.35; }
+.landing-review-start p:last-child{ margin-bottom: 0; }
+
 .landing-cite-example{
   display: grid;
   gap: 0.35rem;
