@@ -34,6 +34,8 @@
   let reactionData = null;
   let pickingFlagLines = false;
   let pickedFirstLine = 0;
+  let linePickerInitialStart = "";
+  let linePickerInitialEnd = "";
   const pendingReactionKey = `lax-reaction-pending:${url}`;
 
   const reactionLoginURL = new URL(`${host}/auth/orcid/login`);
@@ -66,10 +68,11 @@
       return;
     }
     if (message.type === "ready") {
+      const switchedToRemarkFrame = fromRemarkFrame && activeBridgeWindow !== remarkFrame.contentWindow;
       if (fromRemarkFrame) activeBridgeWindow = remarkFrame.contentWindow;
       else if (!activeBridgeWindow) activeBridgeWindow = bridge.contentWindow;
       markBridgeReady();
-      if (fromRemarkFrame) window.setTimeout(() => { void loadReactions(); }, 0);
+      if (switchedToRemarkFrame) window.setTimeout(() => { void loadReactions(); }, 0);
       return;
     }
     const pending = typeof message.id === "string" ? bridgeRequests.get(message.id) : null;
@@ -178,7 +181,7 @@
   };
 
   const openDialog = (dialog) => {
-    if (!dialog) return;
+    if (!dialog || dialog.open === true) return;
     if (typeof dialog.showModal === "function") dialog.showModal();
     else dialog.setAttribute("open", "");
   };
@@ -378,11 +381,19 @@
   const stopLinePicking = () => {
     pickingFlagLines = false;
     pickedFirstLine = 0;
+    linePickerInitialStart = "";
+    linePickerInitialEnd = "";
     document.documentElement?.classList?.remove("is-picking-flag-lines");
     if (flagLinePicker) flagLinePicker.textContent = "Select lines from source";
     clearPendingRange();
     describeLineRange(selectedLineRange());
     if (reactionData?.eligible) setReactionStatus(`Signed in as ${reactionData.viewer.name}`, "ready");
+  };
+
+  const cancelLinePicking = () => {
+    if (flagLineStart) flagLineStart.value = linePickerInitialStart;
+    if (flagLineEnd) flagLineEnd.value = linePickerInitialEnd;
+    stopLinePicking();
   };
 
   const openFlagEditor = () => {
@@ -452,18 +463,23 @@
     stopLinePicking();
     closeDialog(flagEditor);
   }));
-  flagEditor?.addEventListener("close", stopLinePicking);
+  flagEditor?.addEventListener("close", () => {
+    // Selecting source lines intentionally closes the modal so the numbered
+    // Lean source is reachable. Only an ordinary dialog dismissal cancels the
+    // selection mode.
+    if (!pickingFlagLines) stopLinePicking();
+  });
   flagLinePicker?.addEventListener("click", () => {
-    pickingFlagLines = !pickingFlagLines;
+    linePickerInitialStart = String(flagLineStart?.value || "");
+    linePickerInitialEnd = String(flagLineEnd?.value || "");
+    pickingFlagLines = true;
     pickedFirstLine = 0;
-    document.documentElement?.classList?.toggle("is-picking-flag-lines", pickingFlagLines);
-    flagLinePicker.textContent = pickingFlagLines ? "Cancel line selection" : "Select lines from source";
-    if (pickingFlagLines) {
-      closeDialog(flagEditor);
-      setReactionStatus("Select the first and last source line for this flag. Press Escape to cancel.", "attention");
-      document.querySelector(".inline-contract-table")?.scrollIntoView?.({ behavior: "smooth", block: "center" });
-      if (flagLineSelection) flagLineSelection.textContent = "Choose the first line in the source.";
-    }
+    document.documentElement?.classList?.add("is-picking-flag-lines");
+    flagLinePicker.textContent = "Cancel line selection";
+    closeDialog(flagEditor);
+    setReactionStatus("Select the first and last source line for this flag. Press Escape to cancel.", "attention");
+    document.querySelector(".inline-contract-table")?.scrollIntoView?.({ behavior: "smooth", block: "center" });
+    if (flagLineSelection) flagLineSelection.textContent = "Choose the first line in the source.";
   });
   (document.querySelectorAll?.(".inline-contract-table .line-num a") || []).forEach((link) => link.addEventListener("click", (event) => {
     if (!pickingFlagLines) return;
@@ -489,7 +505,7 @@
   window.addEventListener("keydown", (event) => {
     if (!pickingFlagLines || event.key !== "Escape") return;
     event.preventDefault();
-    stopLinePicking();
+    cancelLinePicking();
     openDialog(flagEditor);
   });
   flagLineStart?.addEventListener("input", paintPendingRange);

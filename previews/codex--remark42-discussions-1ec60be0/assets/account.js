@@ -66,10 +66,11 @@
       return;
     }
     if (message.type === "ready") {
+      const switchedToRemarkFrame = fromRemarkFrame && activeBridgeWindow !== remarkFrame.contentWindow;
       if (fromRemarkFrame) activeBridgeWindow = remarkFrame.contentWindow;
       else if (!activeBridgeWindow) activeBridgeWindow = bridge.contentWindow;
       markBridgeReady();
-      if (fromRemarkFrame) window.setTimeout(() => { void checkAccount(); }, 0);
+      if (switchedToRemarkFrame) window.setTimeout(() => { void checkAccount(); }, 0);
       return;
     }
     const pending = typeof message.id === "string" ? bridgeRequests.get(message.id) : null;
