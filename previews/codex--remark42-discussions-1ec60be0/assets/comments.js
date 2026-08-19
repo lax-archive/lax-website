@@ -36,6 +36,8 @@
   let pickedFirstLine = 0;
   let linePickerInitialStart = "";
   let linePickerInitialEnd = "";
+  let reactionLoadPromise = null;
+  let lastReactionLoadAt = 0;
   const pendingReactionKey = `lax-reaction-pending:${url}`;
 
   const reactionLoginURL = new URL(`${host}/auth/orcid/login`);
@@ -64,7 +66,7 @@
     if (!message || message.source !== "lax-reactions") return;
     if (message.type === "session-change") {
       if (fromRemarkFrame) activeBridgeWindow = remarkFrame.contentWindow;
-      window.setTimeout(() => { void loadReactions(); }, 0);
+      window.setTimeout(() => { void loadReactions(true); }, 0);
       return;
     }
     if (message.type === "ready") {
@@ -72,7 +74,7 @@
       if (fromRemarkFrame) activeBridgeWindow = remarkFrame.contentWindow;
       else if (!activeBridgeWindow) activeBridgeWindow = bridge.contentWindow;
       markBridgeReady();
-      if (switchedToRemarkFrame) window.setTimeout(() => { void loadReactions(); }, 0);
+      if (switchedToRemarkFrame) window.setTimeout(() => { void loadReactions(true); }, 0);
       return;
     }
     const pending = typeof message.id === "string" ? bridgeRequests.get(message.id) : null;
@@ -421,22 +423,28 @@
     }
   };
 
-  const loadReactions = async () => {
-    if (!reactions) return;
-    try {
-      const response = await reactionRequest("page", { url });
-      if (!response.ok) throw new Error(response.data?.error || `reaction service returned ${response.status}`);
-      renderReactions(response.data);
-      const queuedReaction = pendingReaction();
-      if (queuedReaction && response.data.eligible) {
-        clearPendingReaction();
-        if (queuedReaction === "flag") openFlagEditor();
-        else if (!await saveReaction(queuedReaction)) await loadReactions();
+  const loadReactions = (force = false) => {
+    if (!reactions) return Promise.resolve();
+    if (reactionLoadPromise) return reactionLoadPromise;
+    if (!force && Date.now() - lastReactionLoadAt < 750) return Promise.resolve();
+    reactionLoadPromise = (async () => {
+      try {
+        const response = await reactionRequest("page", { url });
+        if (!response.ok) throw new Error(response.data?.error || `reaction service returned ${response.status}`);
+        renderReactions(response.data);
+        lastReactionLoadAt = Date.now();
+        const queuedReaction = pendingReaction();
+        if (queuedReaction && response.data.eligible) {
+          clearPendingReaction();
+          if (queuedReaction === "flag") openFlagEditor();
+          else if (!await saveReaction(queuedReaction)) window.setTimeout(() => { void loadReactions(true); }, 0);
+        }
+      } catch {
+        reactionButtons.forEach((button) => { button.disabled = true; });
+        setReactionStatus("Page responses are temporarily unavailable.", "error");
       }
-    } catch {
-      reactionButtons.forEach((button) => { button.disabled = true; });
-      setReactionStatus("Page responses are temporarily unavailable.", "error");
-    }
+    })();
+    return reactionLoadPromise.finally(() => { reactionLoadPromise = null; });
   };
 
   if (reactionLogin) {
@@ -554,11 +562,12 @@
         openFlagEditor();
         return;
       }
-      if (!await saveReaction(selected)) await loadReactions();
+      if (!await saveReaction(selected)) await loadReactions(true);
     });
   }
-  window.addEventListener("LAX::account-ready", () => {
-    if (!reactionPending) void loadReactions();
+  window.addEventListener("LAX::account-ready", (event) => {
+    const accountAuthenticated = Boolean(event?.detail?.authenticated);
+    if (!reactionPending && accountAuthenticated !== Boolean(reactionData?.authenticated)) void loadReactions(true);
   });
   void loadReactions();
 
