@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import { createHash } from "node:crypto";
 import { copyAssets } from "./assets.js";
 import { MarkdownRenderer } from "./markdown.js";
 import { SiteModel, type SiteSubmission } from "./model.js";
@@ -37,6 +38,15 @@ export async function generateSite(submissions: SiteSubmission[], outDir: string
       files.set(file, proofPage(context, model.proofHome.get(proof.id)!));
     }
   }
+  // Submission pages are cached independently by GitHub Pages' CDN. Point
+  // every link at a digest of the complete unversioned render, so changes to
+  // either archive data or website templates get a fresh, coherent cache key.
+  const siteVersion = createHash("sha256")
+    .update([...files].sort(([a], [b]) => a.localeCompare(b)).map(([file, content]) => `${file}\0${content}\0`).join(""), "utf8")
+    .digest("hex")
+    .slice(0, 16);
+  for (const [relative, content] of files)
+    files.set(relative, versionSubmissionLinks(content, relative, model, siteVersion));
   const outputRoot = path.resolve(outDir);
   const renderedFiles = [...files]
     .sort(([a], [b]) => a.localeCompare(b))
@@ -49,6 +59,32 @@ export async function generateSite(submissions: SiteSubmission[], outDir: string
     fs.mkdirSync(path.dirname(file), { recursive: true });
     fs.writeFileSync(file, content);
   }
+}
+
+function versionSubmissionLinks(content: string, pagePath: string, model: SiteModel, siteVersion: string): string {
+  const versionHref = (href: string): string => {
+    if (!href || href.startsWith("#") || /(?:^|[?&])v=/.test(href)) return href;
+    let resolved: URL;
+    try {
+      resolved = new URL(href.replace(/&amp;/g, "&"), `https://archive.invalid/${pagePath.replaceAll(path.sep, "/")}`);
+    } catch {
+      return href;
+    }
+    if (resolved.origin !== "https://archive.invalid") return href;
+    const target = resolved.pathname.split("/").filter(Boolean)[0];
+    if (!target) return href;
+    if (!model.submissionById.get(decodeURIComponent(target))?.output) return href;
+    const hashAt = href.indexOf("#");
+    const base = hashAt < 0 ? href : href.slice(0, hashAt);
+    const fragment = hashAt < 0 ? "" : href.slice(hashAt);
+    const separator = base.includes("?") ? (base.includes("&amp;") ? "&amp;" : "&") : "?";
+    return `${base}${separator}v=${siteVersion}${fragment}`;
+  };
+  return content
+    .replace(/(\bhref=")([^"]+)(")/g, (_all, before: string, href: string, after: string) =>
+      `${before}${versionHref(href)}${after}`)
+    .replace(/("href":")([^"]+)(")/g, (_all, before: string, href: string, after: string) =>
+      `${before}${versionHref(href)}${after}`);
 }
 
 function siteOutputPath(outputRoot: string, relative: string): string {

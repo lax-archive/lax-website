@@ -1,10 +1,20 @@
 import { PROOF_SUFFIX } from "../config.js";
-import type { BuildOutput, ConceptEntry, DbRecord, ProofEntry, StatementEntry } from "../types.js";
+import type { BuildOutput, CaptureFile, ConceptEntry, DbRecord, ProofEntry, StatementEntry } from "../types.js";
 import { computeNetwork, type ProofNetwork } from "./network.js";
+
+export interface SourceIntegrity {
+  captureDigest: string;
+  sourceCommit: string;
+  conceptFiles: Readonly<Record<string, CaptureFile>>;
+  proofFiles: Readonly<Record<string, CaptureFile>>;
+}
 
 export interface SiteSubmission {
   record: DbRecord;
   output?: BuildOutput;
+  /** Present only after the database loader verifies rendered sources against
+   * the immutable validation capture. In-memory preview callers may omit it. */
+  integrity?: SourceIntegrity;
 }
 
 export interface LocatedConcept { submission: SiteSubmission; output: BuildOutput; concept: ConceptEntry }
