@@ -1,0 +1,175 @@
+// Landing-page action cards scroll to their always-visible sections and keep
+// shareable ?view= URLs in sync.
+(() => {
+  const RESET_DELAY = 2200;
+
+  function legacyCopy(text) {
+    const field = document.createElement('textarea');
+    field.value = text;
+    field.setAttribute('readonly', '');
+    field.style.position = 'fixed';
+    field.style.opacity = '0';
+    document.body.append(field);
+    field.select();
+    const copied = document.execCommand('copy');
+    field.remove();
+    if (!copied) throw new Error('copy command failed');
+  }
+
+  async function copyText(text) {
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(text);
+      return;
+    }
+    legacyCopy(text);
+  }
+
+  function setupPromptCopy() {
+    const button = document.querySelector('[data-copy-prompt]');
+    if (!button) return;
+    const prompt = document.getElementById(button.getAttribute('aria-controls'));
+    const status = button.parentElement.querySelector('.prompt-copy-status');
+    if (!prompt || !status) return;
+    let resetTimer;
+
+    button.addEventListener('click', async () => {
+      clearTimeout(resetTimer);
+      try {
+        await copyText(prompt.textContent);
+        button.classList.add('is-copied');
+        button.setAttribute('aria-label', 'Prompt copied');
+        button.title = 'Copied';
+        status.textContent = 'Copied';
+      } catch {
+        button.classList.remove('is-copied');
+        button.setAttribute('aria-label', 'Could not copy prompt');
+        button.title = 'Could not copy';
+        status.textContent = 'Select and copy manually';
+      }
+
+      resetTimer = setTimeout(() => {
+        button.classList.remove('is-copied');
+        button.setAttribute('aria-label', 'Copy prompt to clipboard');
+        button.title = 'Copy prompt';
+        status.textContent = '';
+      }, RESET_DELAY);
+    });
+  }
+
+  function setupLandingActions() {
+    const buttons = [...document.querySelectorAll('[data-landing-action]')];
+    if (!buttons.length) return;
+    const views = [...document.querySelectorAll('[data-landing-view]')];
+    const viewIds = new Set(views.map((view) => view.dataset.landingView));
+
+    function urlView() {
+      const id = new URLSearchParams(window.location.search).get('view');
+      return viewIds.has(id) ? id : undefined;
+    }
+
+    function updateUrl(id) {
+      const url = new URL(window.location.href);
+      const current = url.searchParams.get('view');
+      if (id) url.searchParams.set('view', id);
+      else url.searchParams.delete('view');
+      if (current === (id ?? null)) return;
+      window.history.pushState(null, '', `${url.pathname}${url.search}${url.hash}`);
+    }
+
+    function scrollToView(id) {
+      const target = document.getElementById(`landing-panel-${id}`)
+        ?? views.find((view) => view.dataset.landingView === id);
+      if (!target) return;
+      const behavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        target.scrollIntoView({ behavior, block: 'start' });
+      }));
+    }
+
+    function selectView(id, updateHistory) {
+      if (updateHistory) updateUrl(id);
+      scrollToView(id);
+    }
+
+    for (const button of buttons) {
+      button.addEventListener('click', () => {
+        selectView(button.dataset.landingAction, true);
+      });
+    }
+
+    for (const view of views.filter((candidate) => !candidate.dataset.landingAction)) {
+      const selectUnavailable = () => selectView(view.dataset.landingView, true);
+      view.addEventListener('click', selectUnavailable);
+      view.addEventListener('keydown', (event) => {
+        if (event.key !== 'Enter' && event.key !== ' ') return;
+        event.preventDefault();
+        selectUnavailable();
+      });
+    }
+
+    window.addEventListener('popstate', () => {
+      const id = urlView();
+      if (id) selectView(id, false);
+    });
+
+    const initialView = urlView();
+    if (initialView) selectView(initialView, false);
+  }
+
+  function setupProofFlip() {
+    const card = document.querySelector('[data-proof-flip]');
+    if (!card) return;
+    const precisePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
+
+    function setFlipped(flipped) {
+      card.classList.toggle('is-flipped', flipped);
+      card.setAttribute('aria-pressed', String(flipped));
+      card.setAttribute('aria-label', flipped
+        ? 'Proof excerpt: Erdős–Hajnal for the five-cycle. Activate to return to its concept file.'
+        : 'Concept file: Erdős–Hajnal for the five-cycle. Hover or activate to see a proof excerpt.');
+    }
+
+    card.addEventListener('click', (event) => {
+      // A precise pointer gets the physical hover gesture. Keyboard activation
+      // (detail 0) and coarse pointers toggle a persistent side instead.
+      if (precisePointer.matches && event.detail !== 0) return;
+      setFlipped(!card.classList.contains('is-flipped'));
+    });
+
+    card.addEventListener('keydown', (event) => {
+      if (event.key !== 'Escape' || !card.classList.contains('is-flipped')) return;
+      event.preventDefault();
+      setFlipped(false);
+    });
+  }
+
+  function setupReviewConcept() {
+    const options = [...document.querySelectorAll('[data-review-concept]')];
+    if (options.length < 2) return;
+    const storageKey = 'lax-review-concept-v1';
+    let selected;
+    try {
+      const stored = window.sessionStorage.getItem(storageKey);
+      selected = options.find((option) => option.dataset.reviewConcept === stored);
+    } catch {
+      // Storage can be disabled; a one-page random choice still works.
+    }
+    if (!selected) {
+      const weights = options.map((option) => Math.sqrt(Math.max(1, Number(option.dataset.reviewWeight) || 1)));
+      let draw = Math.random() * weights.reduce((sum, weight) => sum + weight, 0);
+      selected = options.find((_option, index) => (draw -= weights[index]) <= 0) ?? options[0];
+      try { window.sessionStorage.setItem(storageKey, selected.dataset.reviewConcept); } catch { /* storage can be disabled */ }
+    }
+    for (const option of options) option.hidden = option !== selected;
+  }
+
+  function setupLanding() {
+    setupProofFlip();
+    setupLandingActions();
+    setupReviewConcept();
+    setupPromptCopy();
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', setupLanding);
+  else setupLanding();
+})();

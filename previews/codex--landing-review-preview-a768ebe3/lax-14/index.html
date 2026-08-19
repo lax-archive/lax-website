@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src https: data:; font-src 'self'">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Lax — an archive of formalized mathematical concepts and their proofs">
+<title>Finite Ramsey Theorems for Pairs and Tuples — lax-14</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
+<link rel="stylesheet" href="../assets/style.css?v=f9620222a29c">
+</head><body>
+<header class="site-header">
+  <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
+  <h1 class="site-title"><a href="../index.html">Lax <span class="site-title-quiet">Lean Archive</span></a></h1>
+</header>
+<main id="content-shell">
+<div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+<aside id="sidebar">
+<a class="sidebar-back" href="../index.html"><span class="sidebar-back-arrow" aria-hidden="true">←</span>All submissions</a>
+<div class="sidebar-filters"><div class="filter-group">
+<label for="filter-search">Search</label>
+<input id="filter-search" class="filter-input" type="search" placeholder="Filter entries" aria-controls="entry-list">
+</div>
+<div class="filter-group">
+<label for="filter-type">Type</label>
+<select id="filter-type" class="filter-select">
+<option value="all">All types</option>
+<option value="definition">definition</option>
+<option value="theorem">theorem</option>
+<option value="proof">proof</option>
+</select>
+</div></div>
+<ul id="entry-list">
+<li class="entry-heading" aria-hidden="true">Concepts</li>
+<li data-type="theorem" data-search="lax14.multicolorramsey ramsey's theorem for colourings of pairs theorem"><a class="entry-link" href="../lax-14/Lax14.MulticolorRamsey.html" data-full-title="Ramsey's theorem for colourings of pairs"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax14.MulticolorRamsey</span></span></a></li>
+<li data-type="definition" data-search="lax14.ordertypes order type of a tuple definition"><a class="entry-link" href="../lax-14/Lax14.OrderTypes.html" data-full-title="Order type of a tuple"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax14.OrderTypes</span></span></a></li>
+<li data-type="theorem" data-search="lax14.ramsey ramsey's theorem theorem"><a class="entry-link" href="../lax-14/Lax14.Ramsey.html" data-full-title="Ramsey's theorem"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax14.Ramsey</span></span></a></li>
+<li data-type="theorem" data-search="lax14.tupleramsey ramsey's theorem for tuples theorem"><a class="entry-link" href="../lax-14/Lax14.TupleRamsey.html" data-full-title="Ramsey's theorem for tuples"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax14.TupleRamsey</span></span></a></li>
+<li class="entry-heading" aria-hidden="true">Proofs</li>
+<li data-type="proof" data-search="lax14proofs.multicolorramsey.exists_monochromatic_set proof"><a class="entry-link" href="../lax-14/Lax14Proofs.MulticolorRamsey.exists_monochromatic_set.html" data-full-title="Lax14Proofs.MulticolorRamsey.exists_monochromatic_set"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax14Proofs.MulticolorRamsey.exists_monochromatic_set</span></span></a></li>
+<li data-type="proof" data-search="lax14proofs.ramsey.exists_clique_or_indepset proof"><a class="entry-link" href="../lax-14/Lax14Proofs.Ramsey.exists_clique_or_indepSet.html" data-full-title="Lax14Proofs.Ramsey.exists_clique_or_indepSet"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax14Proofs.Ramsey.exists_clique_or_indepSet</span></span></a></li>
+<li data-type="proof" data-search="lax14proofs.tupleramsey.exists_ordertype_homogeneous proof"><a class="entry-link" href="../lax-14/Lax14Proofs.TupleRamsey.exists_orderType_homogeneous.html" data-full-title="Lax14Proofs.TupleRamsey.exists_orderType_homogeneous"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax14Proofs.TupleRamsey.exists_orderType_homogeneous</span></span></a></li>
+<li id="entry-list-empty" hidden>No entries match.</li>
+</ul>
+</aside>
+<section id="main"><div id="detail">
+<p class="draft-banner"><strong>Draft</strong> — mutable and not usable as a dependency; its citation marks the draft state.</p>
+<header class="paper-head">
+<h1 class="paper-title">Finite Ramsey Theorems for Pairs and Tuples</h1>
+<p class="paper-meta"><span class="submission-meta-id">lax-14</span><span class="meta-sep">·</span><span class="formalized-label">formalized by</span> <span class="paper-author">Jan Dreier</span><span class="author-sep">·</span><span class="paper-author">Claude Fable 5 (Anthropic)</span><span class="meta-sep">·</span>created 2026-08-02<span class="meta-sep">·</span><a href="https://github.com/lax-archive/lax-submissions/tree/f017a6ca6b805d45f7f472f82d1075300e15fb53/finite-ramsey" title="https://github.com/lax-archive/lax-submissions/tree/f017a6ca6b805d45f7f472f82d1075300e15fb53/finite-ramsey"><code>GitHub @f017a6c</code></a><span class="meta-sep">·</span>Lean <code>v4.30.0</code> · mathlib <code>c5ea00351c28</code></p>
+</header>
+<section class="paper-abstract">
+<h2 class="abstract-heading">Abstract</h2>
+<div class="latex-content"><p>This submission puts the finite Ramsey theorems for pairs and for tuples on
+the archive as citable, dependency-free statements: a colouring of the pairs
+or of the ordered tuples of a large enough finite set always admits a large
+homogeneous subset. Nothing in mathlib states a finite Ramsey theorem at the
+pinned revision, and the material formalized here was until now buried inside
+the proof package of another submission, where nothing could cite it.</p>
+<p>The concept surface has four review units. One definition: the order type of
+a tuple over a linearly ordered set — the relation recording which
+coordinates carry strictly smaller entries than which — kept Prop-valued,
+since in a linear order the strict-order pattern already determines the
+equality pattern. Three claims: the multicolour Ramsey theorem for pairs,
+that every colouring of the unordered pairs of a large enough finite set with
+<em>k</em> colours has a monochromatic subset of any requested size; Ramsey's
+theorem in the graph form the literature cites, that every large enough graph
+has a clique on <em>a</em> vertices or an independent set on <em>b</em> vertices; and the
+Erdős–Rado theorem for tuples, that every colouring of the <em>l</em>-tuples over a
+large enough linearly ordered finite set has a large subset on which the
+colour of a tuple depends only on its order type. All three are existential
+bounds over the canonical carriers <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mi>i</mi><mi>n</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">Fin n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.1389em;">F</span><span class="mord mathnormal">inn</span></span></span></span>, with sizes counted by <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mi>e</mi><mi>t</mi><mi mathvariant="normal">.</mi><mi>n</mi><mi>c</mi><mi>a</mi><mi>r</mi><mi>d</mi></mrow><annotation encoding="application/x-tex">Set.ncard</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.0576em;">S</span><span class="mord mathnormal">e</span><span class="mord mathnormal">t</span><span class="mord">.</span><span class="mord mathnormal">n</span><span class="mord mathnormal">c</span><span class="mord mathnormal">a</span><span class="mord mathnormal" style="margin-right:0.0278em;">r</span><span class="mord mathnormal">d</span></span></span></span>
+and stated as &quot;at least&quot;; no positivity hypothesis is placed on the number of
+colours, and no Ramsey number is defined, since no statement here consumes a
+numeric bound.</p>
+<p>The graph form is the two-colour case of the multicolour form, and it is
+discharged inside this submission by a glue proof assuming that statement and
+nothing else: a pair is coloured by whether it is an edge, and the two colour
+classes are read as a clique and as an independent set. The archive therefore
+records the derivation rather than hiding it. The multicolour statement
+itself is proved by induction on the list of colours from the two-colour
+case, which is the Erdős–Szekeres neighbourhood-splitting induction; the
+tuple statement by Erdős–Rado chain building for strict-monotone tuples,
+followed by factoring an arbitrary tuple through its rank pattern and
+iterating over the finitely many patterns.</p>
+<p>The proofs are ported from the proof package of the submission <em>Almost linear
+neighborhood complexity of monadically dependent graph classes</em>, where the
+same theorems were proved as internal lemmas. This submission requires
+nothing but mathlib and is intended as an assumption target: Ramsey's theorem
+is the archetypal statement other submissions want to cite rather than
+reprove.</p>
+</div>
+</section>
+<section class="page-section"><h3 class="section-title">Concepts</h3>
+<div class="concept-list-box">
+<ul class="concept-list">
+<li><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="Lax14.MulticolorRamsey.html" title="Lax14.MulticolorRamsey"><code>Lax14.MulticolorRamsey</code></a></li>
+<li><span class="type-badge" title="definition">def</span><a href="Lax14.OrderTypes.html" title="Lax14.OrderTypes"><code>Lax14.OrderTypes</code></a></li>
+<li><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="Lax14.Ramsey.html" title="Lax14.Ramsey"><code>Lax14.Ramsey</code></a></li>
+<li><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="Lax14.TupleRamsey.html" title="Lax14.TupleRamsey"><code>Lax14.TupleRamsey</code></a></li>
+</ul>
+<div class="badge-legend" aria-label="Concept badge legend"><span><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span>proven claim</span><span><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span>open claim</span><span><span class="type-badge" title="definition">def</span>definition</span><span class="badge-legend-note">letters abbreviate the concept's type</span></div>
+</div>
+<h4 class="figure-title">Concept map</h4>
+<figure class="graph-figure">
+<button class="graph-expand" type="button" data-graph-expand data-graph-label="concept map" aria-expanded="false" aria-label="Open concept map in a large window" title="Open in large window"><svg class="graph-expand-open" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M2.5 6V2.5H6M10 2.5h3.5V6M13.5 10v3.5H10M6 13.5H2.5V10"/></svg><span class="graph-expand-close" aria-hidden="true">×</span></button>
+<div class="graph-toolbar"><button type="button" id="concept-expand" aria-controls="concept-dag" aria-pressed="true">Hide ancestors</button><button type="button" id="concept-descend" aria-controls="concept-dag" aria-pressed="false">Show descendants</button><output id="concept-graph-status" aria-live="polite"></output></div>
+<div id="concept-dag" class="figure-container" data-graph="concepts" data-ancestry="true"></div>
+<div class="graph-tooltip" role="tooltip" hidden></div>
+<figcaption class="graph-legend" aria-label="Concept map legend"><span><i class="legend-node fill-proven"></i>Proven claim</span><span><i class="legend-node fill-open"></i>Open claim</span><span><i class="legend-node fill-none"></i>Definition</span><span><i class="legend-node stroke-own"></i>This submission</span><span><i class="legend-node stroke-ext"></i>Other submission</span><span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B builds on A</span></figcaption>
+</figure>
+</section>
+<section class="page-section"><h3 class="section-title">Proofs</h3>
+<div class="proof-list-box">
+<ul class="proof-list">
+<li class="proof-item" id="p-Lax14Proofs.MulticolorRamsey.exists_monochromatic_set">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-14/Lax14Proofs.MulticolorRamsey.exists_monochromatic_set.html" aria-label="Open proof Lax14Proofs.MulticolorRamsey.exists_monochromatic_set"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><p class="judgment-unconditional">no assumptions</p></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="../lax-14/Lax14.MulticolorRamsey.html" title="Lax14.MulticolorRamsey.exists_monochromatic_set"><code>Lax14.MulticolorRamsey</code></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-14/Lax14Proofs.MulticolorRamsey.exists_monochromatic_set.html"><code>Lax14Proofs.MulticolorRamsey.exists_monochromatic_set</code></a></p>
+</li>
+<li class="proof-item" id="p-Lax14Proofs.Ramsey.exists_clique_or_indepSet">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-14/Lax14Proofs.Ramsey.exists_clique_or_indepSet.html" aria-label="Open proof Lax14Proofs.Ramsey.exists_clique_or_indepSet"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><ul><li><span class="claim-entry"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="../lax-14/Lax14.MulticolorRamsey.html" title="Lax14.MulticolorRamsey.exists_monochromatic_set"><code>Lax14.MulticolorRamsey</code></a></span></li></ul></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="../lax-14/Lax14.Ramsey.html" title="Lax14.Ramsey.exists_clique_or_indepSet"><code>Lax14.Ramsey</code></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-14/Lax14Proofs.Ramsey.exists_clique_or_indepSet.html"><code>Lax14Proofs.Ramsey.exists_clique_or_indepSet</code></a></p>
+</li>
+<li class="proof-item" id="p-Lax14Proofs.TupleRamsey.exists_orderType_homogeneous">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-14/Lax14Proofs.TupleRamsey.exists_orderType_homogeneous.html" aria-label="Open proof Lax14Proofs.TupleRamsey.exists_orderType_homogeneous"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><p class="judgment-unconditional">no assumptions</p></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="../lax-14/Lax14.TupleRamsey.html" title="Lax14.TupleRamsey.exists_orderType_homogeneous"><code>Lax14.TupleRamsey</code></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-14/Lax14Proofs.TupleRamsey.exists_orderType_homogeneous.html"><code>Lax14Proofs.TupleRamsey.exists_orderType_homogeneous</code></a></p>
+</li>
+</ul>
+<p class="proof-list-source">Lean sources for these proofs: <a class="source-link" href="https://github.com/lax-archive/lax-submissions/tree/f017a6ca6b805d45f7f472f82d1075300e15fb53/finite-ramsey/proofs">proofs/ on GitHub</a></p>
+</div>
+<h4 class="figure-title">Proof network<a class="source-link" href="https://github.com/lax-archive/lax-submissions/tree/f017a6ca6b805d45f7f472f82d1075300e15fb53/finite-ramsey/proofs">view on GitHub</a></h4>
+<figure class="graph-figure proof-network-figure">
+<button class="graph-expand" type="button" data-graph-expand data-graph-label="proof network" aria-expanded="false" aria-label="Open proof network in a large window" title="Open in large window"><svg class="graph-expand-open" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M2.5 6V2.5H6M10 2.5h3.5V6M13.5 10v3.5H10M6 13.5H2.5V10"/></svg><span class="graph-expand-close" aria-hidden="true">×</span></button>
+<div id="proof-network" class="figure-container" data-graph="proofs"></div>
+<div class="graph-tooltip" role="tooltip" hidden></div>
+<figcaption class="graph-legend" aria-label="Proof network legend"><span class="proof-flow">assumptions <i class="legend-arrow" aria-hidden="true">→</i><i class="legend-proof-chip" aria-hidden="true">⊢</i><i class="legend-arrow" aria-hidden="true">→</i> conclusion</span><span><i class="legend-node fill-proven"></i>Proven claim</span><span><i class="legend-node fill-open"></i>Open claim</span><span><i class="legend-node stroke-own"></i>This submission</span><span><i class="legend-node stroke-ext"></i>From another submission</span><span><i class="legend-proof-chip" aria-hidden="true">⊢</i>Proof — click to open</span><span><i class="legend-cycle"></i>Cycle — claims proving each other</span></figcaption>
+</figure>
+<p class="honesty-note">Proof code is not displayed; the archive records each proof's checked relationship between claims.</p>
+</section>
+<section class="page-section"><h3 class="section-title">Related submissions</h3>
+<h4 class="figure-title">Submission map</h4>
+<figure class="graph-figure">
+<div id="submission-dag" class="figure-container" data-graph="submissions"></div>
+<div class="graph-tooltip" role="tooltip" hidden></div>
+<figcaption class="graph-legend" aria-label="Submission map legend"><span><i class="legend-node stroke-own"></i>This submission</span><span><i class="legend-node stroke-ext"></i>Other submission</span><span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B builds on A</span></figcaption>
+</figure>
+</section>
+<section class="page-section"><h3 class="section-title" id="citation">Cite this</h3>
+<div class="citation-box">
+<pre class="citation" id="submission-citation">@misc{lax-14,
+  author = {Jan Dreier and Claude Fable 5 (Anthropic)},
+  title = {Finite Ramsey Theorems for Pairs and Tuples},
+  year = {2026},
+  howpublished = {Lax Archive, lax-14},
+  url = {https://laxarchive.org/lax-14/},
+  note = {draft},
+}</pre>
+<button class="citation-copy" type="button" data-copy-citation aria-controls="submission-citation" aria-label="Copy BibTeX to clipboard" title="Copy BibTeX"><span class="citation-copy-icon" aria-hidden="true"></span></button>
+<output class="citation-copy-status" aria-live="polite"></output>
+</div>
+</section>
+<section class="page-section"><h3 class="section-title">References</h3>
+<ol class="reference-list">
+<li id="ref-Ramsey1930">Frank P. Ramsey. <span class="reference-title">On a Problem of Formal Logic</span>. Proceedings of the London Mathematical Society 30:264–286, 1930. <a href="https://doi.org/10.1112/plms/s2-30.1.264">doi:10.1112/plms/s2-30.1.264</a></li>
+<li id="ref-ErdosRado1952">Paul Erdős and Richard Rado. <span class="reference-title">Combinatorial Theorems on Classifications of Subsets of a Given Set</span>. Proceedings of the London Mathematical Society 2:417–439, 1952. <a href="https://doi.org/10.1112/plms/s3-2.1.417">doi:10.1112/plms/s3-2.1.417</a></li>
+<li id="ref-Mahlmann2024">Nikolas Mählmann. <span class="reference-title">Monadically Stable and Monadically Dependent Graph Classes: Characterizations and Algorithmic Meta-Theorems</span>. Universität Bremen, 2024.</li>
+</ol>
+</section>
+<script type="application/json" id="graph-data">{"concepts":{"nodes":[{"id":"Lax14.MulticolorRamsey","href":"../lax-14/Lax14.MulticolorRamsey.html","title":"Ramsey's theorem for colourings of pairs","owner":"lax-14","status":"proven","ext":false,"dir":"core"},{"id":"Lax14.OrderTypes","href":"../lax-14/Lax14.OrderTypes.html","title":"Order type of a tuple","owner":"lax-14","status":"none","ext":false,"dir":"core"},{"id":"Lax14.Ramsey","href":"../lax-14/Lax14.Ramsey.html","title":"Ramsey's theorem","owner":"lax-14","status":"proven","ext":false,"dir":"core"},{"id":"Lax14.TupleRamsey","href":"../lax-14/Lax14.TupleRamsey.html","title":"Ramsey's theorem for tuples","owner":"lax-14","status":"proven","ext":false,"dir":"core"}],"edges":[{"from":"Lax14.OrderTypes","to":"Lax14.TupleRamsey"}],"home":"lax-14"},"proofs":{"statements":[{"id":"Lax14.MulticolorRamsey.exists_monochromatic_set","label":"Lax14.MulticolorRamsey","title":"Ramsey's theorem for colourings of pairs","owner":"lax-14","href":"../lax-14/Lax14.MulticolorRamsey.html#s-Lax14.MulticolorRamsey.exists_monochromatic_set","proven":true,"ext":false},{"id":"Lax14.Ramsey.exists_clique_or_indepSet","label":"Lax14.Ramsey","title":"Ramsey's theorem","owner":"lax-14","href":"../lax-14/Lax14.Ramsey.html#s-Lax14.Ramsey.exists_clique_or_indepSet","proven":true,"ext":false},{"id":"Lax14.TupleRamsey.exists_orderType_homogeneous","label":"Lax14.TupleRamsey","title":"Ramsey's theorem for tuples","owner":"lax-14","href":"../lax-14/Lax14.TupleRamsey.html#s-Lax14.TupleRamsey.exists_orderType_homogeneous","proven":true,"ext":false}],"proofs":[{"id":"Lax14Proofs.MulticolorRamsey.exists_monochromatic_set","assumptions":[],"conclusion":"Lax14.MulticolorRamsey.exists_monochromatic_set","description":"Every colouring of the unordered pairs of a large enough finite set with `k`\ncolours admits a monochromatic subset of size `s`: the multicolour Ramsey\ntheorem for pairs, over the canonical carriers `Fin n` and with no hypothesis\non the number of colours.","owner":"lax-14","ext":false,"href":"../lax-14/Lax14Proofs.MulticolorRamsey.exists_monochromatic_set.html","assumptionsProven":true,"outstanding":0},{"id":"Lax14Proofs.Ramsey.exists_clique_or_indepSet","assumptions":["Lax14.MulticolorRamsey.exists_monochromatic_set"],"conclusion":"Lax14.Ramsey.exists_clique_or_indepSet","description":"Every large enough graph contains a clique on `a` vertices or an independent\nset on `b` vertices, derived from the multicolour Ramsey theorem for pairs of\nthis submission.","owner":"lax-14","ext":false,"href":"../lax-14/Lax14Proofs.Ramsey.exists_clique_or_indepSet.html","assumptionsProven":true,"outstanding":0},{"id":"Lax14Proofs.TupleRamsey.exists_orderType_homogeneous","assumptions":[],"conclusion":"Lax14.TupleRamsey.exists_orderType_homogeneous","description":"Every colouring of the `ℓ`-tuples over a large enough linearly ordered finite\nset with `k` colours admits a subset of size `s` on which the colour of a\ntuple depends only on its order type: the finite Ramsey theorem for\nhypergraphs of Erdős and Rado, in the order-type form.","owner":"lax-14","ext":false,"href":"../lax-14/Lax14Proofs.TupleRamsey.exists_orderType_homogeneous.html","assumptionsProven":true,"outstanding":0}],"home":"lax-14"},"submissions":{"nodes":[{"id":"lax-12","href":"../lax-12/index.html","title":"Sparsity Lectures: Nowhere Denseness, Quasi-Wideness, and Generalized Coloring Numbers","state":"draft","concepts":15,"proofs":7,"dir":"down","ext":true},{"id":"lax-14","href":"../lax-14/index.html","title":"Finite Ramsey Theorems for Pairs and Tuples","state":"draft","concepts":4,"proofs":3,"dir":"core","ext":false},{"id":"lax-3","href":"../lax-3/index.html","title":"First-Order Model Checking on Nowhere Dense Graph Classes in Almost Linear Time","state":"draft","concepts":11,"proofs":4,"dir":"down","ext":true},{"id":"lax-5","href":"../lax-5/index.html","title":"Almost Linear Neighborhood Complexity of Monadically Dependent Graph Classes","state":"draft","concepts":7,"proofs":3,"dir":"down","ext":true}],"edges":[{"from":"lax-14","to":"lax-12"},{"from":"lax-12","to":"lax-3"},{"from":"lax-12","to":"lax-5"},{"from":"lax-14","to":"lax-5"}]}}</script>
+</div></section>
+</main>
+<script src="../assets/sidebar.js?v=b11f292fc5c2"></script>
+<script src="../assets/layout.js?v=1089ce8aae63"></script>
+<script src="../assets/dag.js?v=2a0b2e1bec54"></script>
+<script src="../assets/citation.js?v=d9edcca2ee6c"></script>
+</body></html>

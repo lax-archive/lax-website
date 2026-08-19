@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src https: data:; font-src 'self'">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Lax — an archive of formalized mathematical concepts and their proofs">
+<title>The Word RAM — lax-13</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
+<link rel="stylesheet" href="../assets/style.css?v=f9620222a29c">
+</head><body>
+<header class="site-header">
+  <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
+  <h1 class="site-title"><a href="../index.html">Lax <span class="site-title-quiet">Lean Archive</span></a></h1>
+</header>
+<main id="content-shell">
+<div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+<aside id="sidebar">
+<a class="sidebar-back" href="../index.html"><span class="sidebar-back-arrow" aria-hidden="true">←</span>All submissions</a>
+<div class="sidebar-filters"><div class="filter-group">
+<label for="filter-search">Search</label>
+<input id="filter-search" class="filter-input" type="search" placeholder="Filter entries" aria-controls="entry-list">
+</div>
+<div class="filter-group">
+<label for="filter-type">Type</label>
+<select id="filter-type" class="filter-select">
+<option value="all">All types</option>
+<option value="definition">definition</option>
+</select>
+</div></div>
+<ul id="entry-list">
+<li data-type="definition" data-search="lax13.ram the word ram definition"><a class="entry-link" href="../lax-13/Lax13.Ram.html" data-full-title="The word RAM"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax13.Ram</span></span></a></li>
+<li data-type="definition" data-search="lax13.ramcomputes computing a function within a time bound definition"><a class="entry-link" href="../lax-13/Lax13.RamComputes.html" data-full-title="Computing a function within a time bound"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax13.RamComputes</span></span></a></li>
+<li id="entry-list-empty" hidden>No entries match.</li>
+</ul>
+</aside>
+<section id="main"><div id="detail">
+<p class="draft-banner"><strong>Draft</strong> — mutable and not usable as a dependency; its citation marks the draft state.</p>
+<header class="paper-head">
+<h1 class="paper-title">The Word RAM</h1>
+<p class="paper-meta"><span class="submission-meta-id">lax-13</span><span class="meta-sep">·</span><span class="formalized-label">formalized by</span> <span class="paper-author">Jan Dreier</span><span class="author-sep">·</span><span class="paper-author">Claude Fable 5 (Anthropic)</span><span class="meta-sep">·</span>created 2026-08-02<span class="meta-sep">·</span><a href="https://github.com/lax-archive/lax-submissions/tree/d35ba57ad420ce6a6d3c763aa7f6a4a8be1d406d/word-ram" title="https://github.com/lax-archive/lax-submissions/tree/d35ba57ad420ce6a6d3c763aa7f6a4a8be1d406d/word-ram"><code>GitHub @d35ba57</code></a><span class="meta-sep">·</span>Lean <code>v4.30.0</code> · mathlib <code>c5ea00351c28</code></p>
+</header>
+<section class="paper-abstract">
+<h2 class="abstract-heading">Abstract</h2>
+<div class="latex-content"><p>The word RAM is the machine the modern analysis of algorithms is
+stated on. It is the random access machine of Aho, Hopcroft and Ullman
+— an accumulator, a memory of cells addressed by number, direct and
+indirect addressing, an input and an output tape, jumps against zero —
+with its numbers bounded instead of its instruction set: cells hold
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>w</mi></mrow><annotation encoding="application/x-tex">w</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.0269em;">w</span></span></span></span>-bit words, and multiplication, division, shifts and the bitwise
+operations each cost one time unit because on words each of them is
+one instruction of a real machine. This submission fixes the archive's
+canonical encoding of that model. It carries two definitions and no
+proof obligations: the machine, whose semantics is parameterized by
+the word length and obeys one uniform truncation rule — every value
+the machine produces and every address it uses is taken modulo <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mi>w</mi></msup></mrow><annotation encoding="application/x-tex">2 ^ w</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6644em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0269em;">w</span></span></span></span></span></span></span></span></span></span></span>
+— and the predicate saying that a program computes a function of words
+within a time bound on a set of admissible inputs, the running time
+being the machine's own step count rather than an annotation carried
+alongside the program. Neither is a claim, so neither is stated as
+one; the review question is faithfulness of the model, and the
+formalization notes argue every choice a reviewer would want argued:
+why subtraction truncates at zero rather than wrapping, why remainder
+and bitwise negation are omitted as derivable, why a program can
+measure <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>w</mi></mrow><annotation encoding="application/x-tex">w</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.0269em;">w</span></span></span></span> and therefore needs no instruction reporting it, and why
+the machine reduces oversized input entries instead of rejecting them.</p>
+<p>Statements about algorithms are then made downstream, over these two
+concepts, in a fixed shape: one program is quantified before the word
+length, so that a claim is about a single program uniform in <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>w</mi></mrow><annotation encoding="application/x-tex">w</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.0269em;">w</span></span></span></span> and
+no advice can be smuggled in, and the hypotheses on the word length
+are explicit inequalities against <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mi>w</mi></msup></mrow><annotation encoding="application/x-tex">2 ^ w</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6644em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0269em;">w</span></span></span></span></span></span></span></span></span></span></span> rather than logarithms.
+The proof package discharges nothing — there is nothing to discharge —
+and instead carries a reusable verified pipeline for the submissions
+that will: a structured while-language with named scalars and arrays
+whose big-step semantics counts the statements it executes, a compiler
+into machine code, a simulation theorem bounding the machine's step
+count by a constant multiple of that cost provided every intermediate
+value fits into a word, and a reasoning layer of Hoare-style rules
+with a cost potential and compositional value bounds. The word length
+enters that pipeline exactly once, at its boundary, so an algorithm is
+verified on clean unbounded natural-number semantics and lands as a
+running-time claim about this machine.</p>
+</div>
+</section>
+<section class="page-section"><h3 class="section-title">Concepts</h3>
+<div class="concept-list-box">
+<ul class="concept-list">
+<li><span class="type-badge" title="definition">def</span><a href="Lax13.Ram.html" title="Lax13.Ram"><code>Lax13.Ram</code></a></li>
+<li><span class="type-badge" title="definition">def</span><a href="Lax13.RamComputes.html" title="Lax13.RamComputes"><code>Lax13.RamComputes</code></a></li>
+</ul>
+<div class="badge-legend" aria-label="Concept badge legend"><span><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span>proven claim</span><span><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span>open claim</span><span><span class="type-badge" title="definition">def</span>definition</span><span class="badge-legend-note">letters abbreviate the concept's type</span></div>
+</div>
+<h4 class="figure-title">Concept map</h4>
+<figure class="graph-figure">
+<button class="graph-expand" type="button" data-graph-expand data-graph-label="concept map" aria-expanded="false" aria-label="Open concept map in a large window" title="Open in large window"><svg class="graph-expand-open" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M2.5 6V2.5H6M10 2.5h3.5V6M13.5 10v3.5H10M6 13.5H2.5V10"/></svg><span class="graph-expand-close" aria-hidden="true">×</span></button>
+<div class="graph-toolbar"><button type="button" id="concept-expand" aria-controls="concept-dag" aria-pressed="true">Hide ancestors</button><button type="button" id="concept-descend" aria-controls="concept-dag" aria-pressed="false">Show descendants</button><output id="concept-graph-status" aria-live="polite"></output></div>
+<div id="concept-dag" class="figure-container" data-graph="concepts" data-ancestry="true"></div>
+<div class="graph-tooltip" role="tooltip" hidden></div>
+<figcaption class="graph-legend" aria-label="Concept map legend"><span><i class="legend-node fill-proven"></i>Proven claim</span><span><i class="legend-node fill-open"></i>Open claim</span><span><i class="legend-node fill-none"></i>Definition</span><span><i class="legend-node stroke-own"></i>This submission</span><span><i class="legend-node stroke-ext"></i>Other submission</span><span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B builds on A</span></figcaption>
+</figure>
+</section>
+<section class="page-section"><h3 class="section-title">Proofs</h3>
+<p class="empty-note">No proofs in this submission.</p>
+<p class="honesty-note">Proof code is not displayed; the archive records each proof's checked relationship between claims.</p>
+</section>
+<section class="page-section"><h3 class="section-title">Related submissions</h3>
+<h4 class="figure-title">Submission map</h4>
+<figure class="graph-figure">
+<div id="submission-dag" class="figure-container" data-graph="submissions"></div>
+<div class="graph-tooltip" role="tooltip" hidden></div>
+<figcaption class="graph-legend" aria-label="Submission map legend"><span><i class="legend-node stroke-own"></i>This submission</span><span><i class="legend-node stroke-ext"></i>Other submission</span><span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B builds on A</span></figcaption>
+</figure>
+</section>
+<section class="page-section"><h3 class="section-title" id="citation">Cite this</h3>
+<div class="citation-box">
+<pre class="citation" id="submission-citation">@misc{lax-13,
+  author = {Jan Dreier and Claude Fable 5 (Anthropic)},
+  title = {The Word RAM},
+  year = {2026},
+  howpublished = {Lax Archive, lax-13},
+  url = {https://laxarchive.org/lax-13/},
+  note = {draft},
+}</pre>
+<button class="citation-copy" type="button" data-copy-citation aria-controls="submission-citation" aria-label="Copy BibTeX to clipboard" title="Copy BibTeX"><span class="citation-copy-icon" aria-hidden="true"></span></button>
+<output class="citation-copy-status" aria-live="polite"></output>
+</div>
+</section>
+<section class="page-section"><h3 class="section-title">References</h3>
+<ol class="reference-list">
+<li id="ref-AhoHopcroftUllman1974">Alfred V. Aho, John E. Hopcroft and Jeffrey D. Ullman. <span class="reference-title">The Design and Analysis of Computer Algorithms</span>. Addison-Wesley, 1974.</li>
+<li id="ref-CookReckhow1973">Stephen A. Cook and Robert A. Reckhow. <span class="reference-title">Time bounded random access machines</span>. Journal of Computer and System Sciences 7(4):354–375, 1973. <a href="https://doi.org/10.1016/S0022-0000(73)80029-7">doi:10.1016/S0022-0000(73)80029-7</a></li>
+<li id="ref-Hagerup1998">Torben Hagerup. <span class="reference-title">Sorting and searching on the word RAM</span>. In STACS 98: 15th Annual Symposium on Theoretical Aspects of Computer Science 1373:366–398, 1998. <a href="https://doi.org/10.1007/BFb0028575">doi:10.1007/BFb0028575</a></li>
+<li id="ref-FredmanWillard1993">Michael L. Fredman and Dan E. Willard. <span class="reference-title">Surpassing the information theoretic bound with fusion trees</span>. Journal of Computer and System Sciences 47(3):424–436, 1993. <a href="https://doi.org/10.1016/0022-0000(93)90040-4">doi:10.1016/0022-0000(93)90040-4</a></li>
+</ol>
+</section>
+<script type="application/json" id="graph-data">{"concepts":{"nodes":[{"id":"Lax11.ConnectedComponents","href":"../lax-11/Lax11.ConnectedComponents.html","title":"Connected components in linear time","owner":"lax-11","status":"proven","ext":true,"dir":"down"},{"id":"Lax11.Courcelle","href":"../lax-11/Lax11.Courcelle.html","title":"Courcelle's theorem on a word RAM","owner":"lax-11","status":"proven","ext":true,"dir":"down"},{"id":"Lax11.VertexCover","href":"../lax-11/Lax11.VertexCover.html","title":"A graph with a parameter appended","owner":"lax-11","status":"none","ext":true,"dir":"down"},{"id":"Lax13.Ram","href":"../lax-13/Lax13.Ram.html","title":"The word RAM","owner":"lax-13","status":"none","ext":false,"dir":"core"},{"id":"Lax13.RamComputes","href":"../lax-13/Lax13.RamComputes.html","title":"Computing a function within a time bound","owner":"lax-13","status":"none","ext":false,"dir":"core"},{"id":"Lax15.VertexCover","href":"../lax-15/Lax15.VertexCover.html","title":"Vertex cover in Fibonacci-of-k time","owner":"lax-15","status":"proven","ext":true,"dir":"down"},{"id":"Lax15.VertexCoverBranch","href":"../lax-15/Lax15.VertexCoverBranch.html","title":"Vertex cover below the golden ratio","owner":"lax-15","status":"proven","ext":true,"dir":"down"},{"id":"Lax15.VertexCoverFpt","href":"../lax-15/Lax15.VertexCoverFpt.html","title":"Vertex cover in explicit fixed-parameter time","owner":"lax-15","status":"proven","ext":true,"dir":"down"},{"id":"Lax3.ModelChecking","href":"../lax-3/Lax3.ModelChecking.html","title":"First-order model checking on nowhere dense classes in almost linear time","owner":"lax-3","status":"open","ext":true,"dir":"down"},{"id":"Lax51.RamPolytime","href":"../lax-51/Lax51.RamPolytime.html","title":"Polynomial-time computation by a word RAM","owner":"lax-51","status":"none","ext":true,"dir":"down"},{"id":"Lax51.RamToTuringGenericTime","href":"../lax-51/Lax51.RamToTuringGenericTime.html","title":"Generic-time simulation of word RAMs by Turing machines","owner":"lax-51","status":"proven","ext":true,"dir":"down"},{"id":"Lax51.TuringRamEquivalence","href":"../lax-51/Lax51.TuringRamEquivalence.html","title":"Equivalence of Turing machines and word RAMs","owner":"lax-51","status":"proven","ext":true,"dir":"down"},{"id":"Lax51.TuringRamPolytimeEquivalence","href":"../lax-51/Lax51.TuringRamPolytimeEquivalence.html","title":"Polynomial-time equivalence of Turing machines and word RAMs","owner":"lax-51","status":"proven","ext":true,"dir":"down"},{"id":"Lax51.TuringToRamGenericTime","href":"../lax-51/Lax51.TuringToRamGenericTime.html","title":"Generic-time simulation of Turing machines by word RAMs","owner":"lax-51","status":"proven","ext":true,"dir":"down"}],"edges":[{"from":"Lax13.RamComputes","to":"Lax11.ConnectedComponents"},{"from":"Lax13.RamComputes","to":"Lax11.Courcelle"},{"from":"Lax13.RamComputes","to":"Lax11.VertexCover"},{"from":"Lax13.Ram","to":"Lax13.RamComputes"},{"from":"Lax11.VertexCover","to":"Lax15.VertexCover"},{"from":"Lax13.RamComputes","to":"Lax15.VertexCover"},{"from":"Lax11.VertexCover","to":"Lax15.VertexCoverBranch"},{"from":"Lax13.RamComputes","to":"Lax15.VertexCoverBranch"},{"from":"Lax11.VertexCover","to":"Lax15.VertexCoverFpt"},{"from":"Lax13.RamComputes","to":"Lax15.VertexCoverFpt"},{"from":"Lax13.RamComputes","to":"Lax3.ModelChecking"},{"from":"Lax13.Ram","to":"Lax51.RamPolytime"},{"from":"Lax51.RamPolytime","to":"Lax51.RamToTuringGenericTime"},{"from":"Lax13.Ram","to":"Lax51.TuringRamEquivalence"},{"from":"Lax51.RamPolytime","to":"Lax51.TuringRamPolytimeEquivalence"},{"from":"Lax13.Ram","to":"Lax51.TuringToRamGenericTime"}],"home":"lax-13"},"proofs":{"statements":[],"proofs":[],"home":"lax-13"},"submissions":{"nodes":[{"id":"lax-11","href":"../lax-11/index.html","title":"Algorithmic Experiments on a Random Access Machine","state":"draft","concepts":7,"proofs":2,"dir":"down","ext":true},{"id":"lax-13","href":"../lax-13/index.html","title":"The Word RAM","state":"draft","concepts":2,"proofs":0,"dir":"core","ext":false},{"id":"lax-15","href":"../lax-15/index.html","title":"Vertex Cover Below Two to the k","state":"draft","concepts":3,"proofs":3,"dir":"down","ext":true},{"id":"lax-3","href":"../lax-3/index.html","title":"First-Order Model Checking on Nowhere Dense Graph Classes in Almost Linear Time","state":"draft","concepts":11,"proofs":4,"dir":"down","ext":true},{"id":"lax-47","href":"../lax-47/index.html","title":"Tight Inapproximability of Max Independent Set in Triangle-Free Graphs","state":"draft","concepts":5,"proofs":1,"dir":"down","ext":true},{"id":"lax-51","href":"../lax-51/index.html","title":"Computability and polynomial-time equivalence of Turing machines and word RAMs","state":"draft","concepts":7,"proofs":4,"dir":"down","ext":true}],"edges":[{"from":"lax-13","to":"lax-11"},{"from":"lax-11","to":"lax-15"},{"from":"lax-13","to":"lax-15"},{"from":"lax-11","to":"lax-3"},{"from":"lax-13","to":"lax-3"},{"from":"lax-51","to":"lax-47"},{"from":"lax-13","to":"lax-51"}]}}</script>
+</div></section>
+</main>
+<script src="../assets/sidebar.js?v=b11f292fc5c2"></script>
+<script src="../assets/layout.js?v=1089ce8aae63"></script>
+<script src="../assets/dag.js?v=2a0b2e1bec54"></script>
+<script src="../assets/citation.js?v=d9edcca2ee6c"></script>
+</body></html>

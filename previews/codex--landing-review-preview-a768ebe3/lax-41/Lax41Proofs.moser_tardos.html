@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src https: data:; font-src 'self'">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Lax — an archive of formalized mathematical concepts and their proofs">
+<title>Lax41Proofs.moser_tardos — lax-41</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
+<link rel="stylesheet" href="../assets/style.css?v=f9620222a29c">
+</head><body>
+<header class="site-header">
+  <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
+  <h1 class="site-title"><a href="../index.html">Lax <span class="site-title-quiet">Lean Archive</span></a></h1>
+</header>
+<main id="content-shell">
+<div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+<aside id="sidebar">
+<a class="sidebar-back" href="../lax-41/index.html"><span class="sidebar-back-arrow" aria-hidden="true">←</span>lax-41</a>
+<div class="sidebar-filters"><div class="filter-group">
+<label for="filter-search">Search</label>
+<input id="filter-search" class="filter-input" type="search" placeholder="Filter entries" aria-controls="entry-list">
+</div>
+<div class="filter-group">
+<label for="filter-type">Type</label>
+<select id="filter-type" class="filter-select">
+<option value="all">All types</option>
+<option value="definition">definition</option>
+<option value="theorem">theorem</option>
+<option value="proof">proof</option>
+</select>
+</div></div>
+<ul id="entry-list">
+<li class="entry-heading" aria-hidden="true">Concepts</li>
+<li data-type="definition" data-search="lax41.haeuplersahasrinivasandefinitions definitions for the haeupler–saha–srinivasan distributional theorem definition"><a class="entry-link" href="../lax-41/Lax41.HaeuplerSahaSrinivasanDefinitions.html" data-full-title="Definitions for the Haeupler–Saha–Srinivasan distributional theorem"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax41.HaeuplerSahaSrinivasanDefinitions</span></span></a></li>
+<li data-type="theorem" data-search="lax41.haeuplersahasrinivasantheorem22 haeupler–saha–srinivasan theorem 2.2 theorem"><a class="entry-link" href="../lax-41/Lax41.HaeuplerSahaSrinivasanTheorem22.html" data-full-title="Haeupler–Saha–Srinivasan Theorem 2.2"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax41.HaeuplerSahaSrinivasanTheorem22</span></span></a></li>
+<li data-type="theorem" data-search="lax41.mosertardos the moser–tardos theorem theorem"><a class="entry-link" href="../lax-41/Lax41.MoserTardos.html" data-full-title="The Moser–Tardos theorem"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax41.MoserTardos</span></span></a></li>
+<li data-type="definition" data-search="lax41.mosertardosdefinitions definitions for the moser–tardos resampling algorithm definition"><a class="entry-link" href="../lax-41/Lax41.MoserTardosDefinitions.html" data-full-title="Definitions for the Moser–Tardos resampling algorithm"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax41.MoserTardosDefinitions</span></span></a></li>
+<li class="entry-heading" aria-hidden="true">Proofs</li>
+<li class="active" data-type="proof" data-search="lax41proofs.moser_tardos proof"><a class="entry-link" href="../lax-41/Lax41Proofs.moser_tardos.html" data-full-title="Lax41Proofs.moser_tardos"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax41Proofs.moser_tardos</span></span></a></li>
+<li data-type="proof" data-search="lax41proofs.theorem_2_2 proof"><a class="entry-link" href="../lax-41/Lax41Proofs.theorem_2_2.html" data-full-title="Lax41Proofs.theorem_2_2"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax41Proofs.theorem_2_2</span></span></a></li>
+<li id="entry-list-empty" hidden>No entries match.</li>
+</ul>
+</aside>
+<section id="main"><div id="detail">
+
+<div class="detail-heading concept-heading proof-heading">
+<div class="proof-heading-content"><h1 class="concept-title">Proof of <span class="proof-concept-title">`The Moser–Tardos theorem`</span></h1>
+<p class="concept-microline proof-microline"><span class="status-pills"><span class="status-pill pill-proven" tabindex="0" data-tooltip="No open assumptions remain in the archive: every dependency is backed by a checked proof, ultimately reducing to Lean and Mathlib." aria-label="Grounded. No open assumptions remain in the archive: every dependency is backed by a checked proof, ultimately reducing to Lean and Mathlib.">grounded</span></span><span><a href="https://github.com/EdouardBonnet/moser-tardos/blob/05704ee2deb398d84129c1e2c3a961f29fec0bed/proofs/Lax41Proofs/MoserTardos.lean"><code>proofs/Lax41Proofs/MoserTardos.lean</code></a> · <a href="index.html">lax-41</a></span></p></div>
+</div>
+<div class="block block-evidence"><h3>What this proof establishes</h3>
+<div class="judgment">
+<div class="judgment-assumptions"><p class="judgment-unconditional">no assumptions</p></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="../lax-41/Lax41.MoserTardos.html" title="Lax41.MoserTardos.moser_tardos"><code>Lax41.MoserTardos</code></a></span></div>
+</div>
+<p class="honesty-note">Assuming the claims on the left, the claim on the right holds — checked by the archive's pipeline. Proof code is not displayed here.</p>
+<p class="source-action"><a class="source-button" href="https://github.com/EdouardBonnet/moser-tardos/blob/05704ee2deb398d84129c1e2c3a961f29fec0bed/proofs/Lax41Proofs/MoserTardos.lean"><svg class="gh-mark" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true" focusable="false"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg><span>Read the Lean proof on GitHub</span></a></p>
+</div>
+<div class="block block-statement"><h3>Description</h3><div class="latex-content"><p>The Moser–Tardos witness-tree argument.  An infinite table supplies every
+fresh sample used by the algorithm.  Each resampling occurrence injects into
+a proper witness tree, the probability that a fixed tree occurs is the
+product of its event probabilities, and the branching-process estimate sums
+these products.  Finiteness of that sum also yields a terminating table and
+hence an assignment avoiding all bad events.</p>
+</div></div>
+
+</div></section>
+</main>
+<script src="../assets/sidebar.js?v=b11f292fc5c2"></script>
+</body></html>
