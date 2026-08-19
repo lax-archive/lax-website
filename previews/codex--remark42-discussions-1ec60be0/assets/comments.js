@@ -22,8 +22,7 @@
   const flagEditor = reactions?.querySelector("[data-flag-editor]");
   const flagForm = reactions?.querySelector("[data-flag-form]");
   const flagMessage = reactions?.querySelector("[data-flag-message]");
-  const flagLineStart = reactions?.querySelector("[data-flag-line-start]");
-  const flagLineEnd = reactions?.querySelector("[data-flag-line-end]");
+  const flagLine = reactions?.querySelector("[data-flag-line]");
   const flagLinePicker = reactions?.querySelector("[data-flag-line-picker]");
   const flagLineSelection = reactions?.querySelector("[data-flag-line-selection]");
   const flagFormStatus = reactions?.querySelector("[data-flag-form-status]");
@@ -32,10 +31,8 @@
   const sourceLineCount = Number(reactions?.dataset?.sourceLines || 0);
   let reactionPending = false;
   let reactionData = null;
-  let pickingFlagLines = false;
-  let pickedFirstLine = 0;
-  let linePickerInitialStart = "";
-  let linePickerInitialEnd = "";
+  let pickingFlagLine = false;
+  let linePickerInitial = "";
   let reactionLoadPromise = null;
   let lastReactionLoadAt = 0;
   const pendingReactionKey = `lax-reaction-pending:${url}`;
@@ -195,9 +192,9 @@
     const id = typeof flag?.id === "string" && /^[A-Za-z0-9-]{1,128}$/.test(flag.id) ? flag.id : "";
     const start = Number.isInteger(flag?.line_start) ? flag.line_start : 0;
     const end = Number.isInteger(flag?.line_end) ? flag.line_end : 0;
-    const hasRange = reviewKind === "concept" && start >= 1 && end >= start && end <= sourceLineCount && end - start < 500;
+    const hasLine = reviewKind === "concept" && start >= 1 && end === start && end <= sourceLineCount;
     if (!orcid || !name || !message || !id) return [];
-    return [{ id, orcid, name, message, start: hasRange ? start : 0, end: hasRange ? end : 0, time: flag.time }];
+    return [{ id, orcid, name, message, start: hasLine ? start : 0, end: hasLine ? end : 0, time: flag.time }];
   });
 
   const flagItemId = (id) => `review-flag-${id}`;
@@ -216,13 +213,13 @@
     const railHost = document.querySelector("[data-source-review-rails]");
     if (!railHost) return;
     railHost.replaceChildren();
-    document.querySelectorAll(".inline-contract-table tr.line-flagged, .inline-contract-table tr.line-pending-flag").forEach((row) => {
-      row.classList.remove("line-flagged", "line-pending-flag");
+    document.querySelectorAll(".inline-contract-table tr.line-flagged").forEach((row) => {
+      row.classList.remove("line-flagged");
     });
     const byStart = new Map();
     for (const flag of flags) {
       if (!flag.start) continue;
-      for (let line = flag.start; line <= flag.end; line += 1) document.getElementById(`L${line}`)?.classList.add("line-flagged");
+      document.getElementById(`L${flag.start}`)?.classList.add("line-flagged");
       const existing = byStart.get(flag.start) || [];
       existing.push(flag);
       byStart.set(flag.start, existing);
@@ -235,7 +232,7 @@
       button.type = "button";
       button.className = "source-review-button";
       button.setAttribute("aria-label", `${grouped.length} flag${grouped.length === 1 ? "" : "s"} on source line ${line}`);
-      button.title = grouped.length === 1 ? grouped[0].message : `${grouped.length} flags begin here`;
+      button.title = grouped.length === 1 ? grouped[0].message : `${grouped.length} flags on this line`;
       button.textContent = grouped.length === 1 ? "🚩" : `🚩 ${grouped.length}`;
       button.addEventListener("click", () => revealFlag(grouped[0].id));
       rail.appendChild(button);
@@ -275,7 +272,7 @@
         const range = document.createElement("button");
         range.type = "button";
         range.className = "flag-range-link";
-        range.textContent = flag.start === flag.end ? `Go to line ${flag.start}` : `Go to lines ${flag.start}–${flag.end}`;
+        range.textContent = `Go to line ${flag.start}`;
         range.addEventListener("click", () => {
           closeDialog(flagListDialog);
           const row = document.getElementById(`L${flag.start}`);
@@ -346,63 +343,40 @@
     }
   };
 
-  const selectedLineRange = () => {
-    const start = Number(flagLineStart?.value || 0);
-    const end = Number(flagLineEnd?.value || 0);
-    if (!start && !end) return { line_start: 0, line_end: 0 };
-    if (!Number.isInteger(start) || !Number.isInteger(end) || start < 1 || end < start || end > sourceLineCount) return null;
-    return { line_start: start, line_end: end };
+  const selectedSourceLine = () => {
+    const line = Number(flagLine?.value || 0);
+    if (!line) return { line_start: 0, line_end: 0 };
+    if (!Number.isInteger(line) || line < 1 || line > sourceLineCount) return null;
+    return { line_start: line, line_end: line };
   };
 
-  const clearPendingRange = () => {
-    document.querySelectorAll(".inline-contract-table tr.line-pending-flag").forEach((row) => row.classList.remove("line-pending-flag"));
-  };
-
-  const describeLineRange = (range) => {
+  const describeSourceLine = (selection) => {
     if (!flagLineSelection) return;
-    if (!range || !range.line_start) {
-      flagLineSelection.textContent = pickingFlagLines ? "Choose the first line in the source." : "No source lines selected.";
+    if (!selection || !selection.line_start) {
+      flagLineSelection.textContent = pickingFlagLine ? "Choose one line in the source." : "No source line selected.";
       return;
     }
-    flagLineSelection.textContent = range.line_start === range.line_end
-      ? `Line ${range.line_start} selected.`
-      : `Lines ${range.line_start}–${range.line_end} selected.`;
-  };
-
-  const paintPendingRange = () => {
-    clearPendingRange();
-    const range = selectedLineRange();
-    if (!range || !range.line_start) {
-      describeLineRange(range);
-      return;
-    }
-    for (let line = range.line_start; line <= range.line_end; line += 1) document.getElementById(`L${line}`)?.classList.add("line-pending-flag");
-    describeLineRange(range);
+    flagLineSelection.textContent = `Line ${selection.line_start} selected.`;
   };
 
   const stopLinePicking = () => {
-    pickingFlagLines = false;
-    pickedFirstLine = 0;
-    linePickerInitialStart = "";
-    linePickerInitialEnd = "";
-    document.documentElement?.classList?.remove("is-picking-flag-lines");
-    if (flagLinePicker) flagLinePicker.textContent = "Select lines from source";
-    clearPendingRange();
-    describeLineRange(selectedLineRange());
+    pickingFlagLine = false;
+    linePickerInitial = "";
+    document.documentElement?.classList?.remove("is-picking-flag-line");
+    if (flagLinePicker) flagLinePicker.textContent = "Choose from source";
+    describeSourceLine(selectedSourceLine());
     if (reactionData?.eligible) setReactionStatus(`Signed in as ${reactionData.viewer.name}`, "ready");
   };
 
   const cancelLinePicking = () => {
-    if (flagLineStart) flagLineStart.value = linePickerInitialStart;
-    if (flagLineEnd) flagLineEnd.value = linePickerInitialEnd;
+    if (flagLine) flagLine.value = linePickerInitial;
     stopLinePicking();
   };
 
   const openFlagEditor = () => {
     const own = reactionData?.viewer_flag;
     if (flagMessage) flagMessage.value = typeof own?.message === "string" ? own.message : "";
-    if (flagLineStart) flagLineStart.value = own?.line_start || "";
-    if (flagLineEnd) flagLineEnd.value = own?.line_end || "";
+    if (flagLine) flagLine.value = own?.line_start && own.line_start === own.line_end ? own.line_start : "";
     if (flagRemove) flagRemove.hidden = reactionData?.viewer_reaction !== "flag";
     if (flagFormStatus) flagFormStatus.textContent = "";
     stopLinePicking();
@@ -472,67 +446,50 @@
     closeDialog(flagEditor);
   }));
   flagEditor?.addEventListener("close", () => {
-    // Selecting source lines intentionally closes the modal so the numbered
+    // Selecting a source line intentionally closes the modal so the numbered
     // Lean source is reachable. Only an ordinary dialog dismissal cancels the
     // selection mode.
-    if (!pickingFlagLines) stopLinePicking();
+    if (!pickingFlagLine) stopLinePicking();
   });
   flagLinePicker?.addEventListener("click", () => {
-    linePickerInitialStart = String(flagLineStart?.value || "");
-    linePickerInitialEnd = String(flagLineEnd?.value || "");
-    pickingFlagLines = true;
-    pickedFirstLine = 0;
-    document.documentElement?.classList?.add("is-picking-flag-lines");
-    flagLinePicker.textContent = "Cancel line selection";
+    linePickerInitial = String(flagLine?.value || "");
+    pickingFlagLine = true;
+    document.documentElement?.classList?.add("is-picking-flag-line");
     closeDialog(flagEditor);
-    setReactionStatus("Select the first and last source line for this flag. Press Escape to cancel.", "attention");
+    setReactionStatus("Choose one source line for this flag. Press Escape to cancel.", "attention");
     document.querySelector(".inline-contract-table")?.scrollIntoView?.({ behavior: "smooth", block: "center" });
-    if (flagLineSelection) flagLineSelection.textContent = "Choose the first line in the source.";
+    if (flagLineSelection) flagLineSelection.textContent = "Choose one line in the source.";
   });
   (document.querySelectorAll?.(".inline-contract-table .line-num a") || []).forEach((link) => link.addEventListener("click", (event) => {
-    if (!pickingFlagLines) return;
+    if (!pickingFlagLine) return;
     event.preventDefault();
     const line = Number(String(link.getAttribute("href") || "").replace("#L", ""));
     if (!Number.isInteger(line) || line < 1 || line > sourceLineCount) return;
-    if (!pickedFirstLine) {
-      pickedFirstLine = line;
-      if (flagLineStart) flagLineStart.value = String(line);
-      if (flagLineEnd) flagLineEnd.value = String(line);
-      paintPendingRange();
-      setReactionStatus(`Line ${line} selected; now choose the last line.`, "attention");
-      if (flagLineSelection) flagLineSelection.textContent = `Line ${line} selected. Choose the last line.`;
-      return;
-    }
-    const start = Math.min(pickedFirstLine, line);
-    const end = Math.max(pickedFirstLine, line);
-    if (flagLineStart) flagLineStart.value = String(start);
-    if (flagLineEnd) flagLineEnd.value = String(end);
+    if (flagLine) flagLine.value = String(line);
     stopLinePicking();
     openDialog(flagEditor);
   }));
   window.addEventListener("keydown", (event) => {
-    if (!pickingFlagLines || event.key !== "Escape") return;
+    if (!pickingFlagLine || event.key !== "Escape") return;
     event.preventDefault();
     cancelLinePicking();
     openDialog(flagEditor);
   });
-  flagLineStart?.addEventListener("input", paintPendingRange);
-  flagLineEnd?.addEventListener("input", paintPendingRange);
   flagForm?.addEventListener("submit", async (event) => {
     event.preventDefault();
     const message = String(flagMessage?.value || "").trim();
-    const range = selectedLineRange();
+    const selection = selectedSourceLine();
     if (!message) {
       if (flagFormStatus) flagFormStatus.textContent = "Explain what appears incorrect before publishing the flag.";
       flagMessage?.focus?.();
       return;
     }
-    if (!range) {
-      if (flagFormStatus) flagFormStatus.textContent = "Choose both a valid start and end line, or leave both empty.";
+    if (!selection) {
+      if (flagFormStatus) flagFormStatus.textContent = "Choose a valid source line or leave it unselected.";
       return;
     }
     if (flagFormStatus) flagFormStatus.textContent = "Publishing flag…";
-    const saved = await saveReaction("flag", { message, ...range });
+    const saved = await saveReaction("flag", { message, ...selection });
     if (!saved) {
       if (flagFormStatus) flagFormStatus.textContent = "The flag could not be published. Review the message and try again.";
       return;
