@@ -7,7 +7,7 @@
 <title>Vertex Cover Below Two to the k — lax-15</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=ab6fd0c5edd8">
+<link rel="stylesheet" href="../assets/style.css?v=b6c2237e4bb7">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -53,27 +53,37 @@
 <h1 class="paper-title">Vertex Cover Below Two to the k</h1>
 <p class="paper-meta"><span class="submission-meta-id">lax-15</span><span class="meta-sep">·</span><span class="formalized-label">formalized by</span> <span class="paper-author">Jan Dreier</span><span class="author-sep">·</span><span class="paper-author">Claude Fable 5 (Anthropic)</span><span class="meta-sep">·</span>created 2026-08-02<span class="meta-sep">·</span><a href="https://github.com/lax-archive/lax-submissions/tree/4af91eadd1217e0c3b3db5837b8c966f31c8c523/vertex-cover-ladder" title="https://github.com/lax-archive/lax-submissions/tree/4af91eadd1217e0c3b3db5837b8c966f31c8c523/vertex-cover-ladder"><code>GitHub @4af91ea</code></a><span class="meta-sep">·</span>Lean <code>v4.30.0</code> · mathlib <code>c5ea00351c28</code></p>
 </header>
-<section class="page-reactions" aria-label="Page rating" data-reactions-host="https://comments.laxarchive.org" data-reactions-url="https://laxarchive.org/lax-15/">
+<section class="page-reactions" aria-label="Community review" data-reactions-host="https://comments.laxarchive.org" data-reactions-url="https://laxarchive.org/lax-15/" data-review-kind="submission" data-source-lines="0">
 <div class="page-reactions-actions">
 <div class="page-reaction-control">
-<button class="page-reaction-button" type="button" data-reaction="like" aria-pressed="false"><span class="page-reaction-icon" aria-hidden="true">👍</span><span>Like</span></button>
-<button class="page-reaction-voters" type="button" data-reaction-voters="like" aria-expanded="false" aria-controls="page-reaction-voters-like"><strong data-reaction-count="like">0</strong><span class="visually-hidden">Show people who like this page</span></button>
-<div class="page-reaction-voters-popover" id="page-reaction-voters-like" data-reaction-voters-popover="like" hidden><p data-reaction-empty>No public likes yet.</p><ul></ul></div>
+<button class="page-reaction-button" type="button" data-reaction="endorse" aria-pressed="false" title="Say that this submission is correct"><span class="page-reaction-icon" aria-hidden="true">✅</span><span>Endorse</span></button>
+<button class="page-reaction-voters" type="button" data-reaction-voters="endorse" aria-expanded="false" aria-controls="page-reaction-voters-endorse"><strong data-reaction-count="endorse">0</strong><span class="visually-hidden">Show people who endorse this submission</span></button>
+<div class="page-reaction-voters-popover" id="page-reaction-voters-endorse" data-reaction-voters-popover="endorse" hidden><p data-reaction-empty>No public endorsements yet.</p><ul></ul></div>
 </div>
-<div class="page-reaction-control">
-<button class="page-reaction-button" type="button" data-reaction="dislike" aria-pressed="false"><span class="page-reaction-icon" aria-hidden="true">👎</span><span>Dislike</span></button>
-<button class="page-reaction-voters" type="button" data-reaction-voters="dislike" aria-expanded="false" aria-controls="page-reaction-voters-dislike"><strong data-reaction-count="dislike">0</strong><span class="visually-hidden">Show people who dislike this page</span></button>
-<div class="page-reaction-voters-popover" id="page-reaction-voters-dislike" data-reaction-voters-popover="dislike" hidden><p data-reaction-empty>No public dislikes yet.</p><ul></ul></div>
-</div>
-<div class="page-reaction-control">
-<button class="page-reaction-button" type="button" data-reaction="rocket" aria-pressed="false"><span class="page-reaction-icon" aria-hidden="true">🚀</span><span>Rocket</span></button>
-<button class="page-reaction-voters" type="button" data-reaction-voters="rocket" aria-expanded="false" aria-controls="page-reaction-voters-rocket"><strong data-reaction-count="rocket">0</strong><span class="visually-hidden">Show people who rocket this page</span></button>
-<div class="page-reaction-voters-popover" id="page-reaction-voters-rocket" data-reaction-voters-popover="rocket" hidden><p data-reaction-empty>No public rockets yet.</p><ul></ul></div>
+<div class="page-reaction-control page-flag-control">
+<button class="page-reaction-button" type="button" data-reaction="flag" aria-pressed="false" aria-haspopup="dialog" title="Explain why this submission may be false"><span class="page-reaction-icon" aria-hidden="true">🚩</span><span>Flag</span></button>
+<button class="page-reaction-voters" type="button" data-flag-list-open aria-haspopup="dialog" aria-controls="page-flag-list"><strong data-reaction-count="flag">0</strong><span class="visually-hidden">Show flags for this submission</span></button>
 </div>
 </div>
-<p class="visually-hidden" data-reactions-status role="status">Loading page rating…</p>
+<p class="page-reactions-status" data-reactions-status role="status">Loading review…</p>
 <a class="visually-hidden" data-reactions-login href="https://comments.laxarchive.org/auth/orcid/login?site=remark&amp;from=https%3A%2F%2Flaxarchive.org%2Flax-15%2F">Sign in with ORCID</a>
-<noscript><p class="page-reactions-noscript"><a href="https://comments.laxarchive.org/auth/orcid/login?site=remark&amp;from=https%3A%2F%2Flaxarchive.org%2Flax-15%2F">Sign in with ORCID</a> to rate this page.</p></noscript>
+<dialog class="review-dialog flag-list-dialog" id="page-flag-list" data-flag-list-dialog aria-labelledby="page-flag-list-title">
+<div class="review-dialog-header"><div><p class="discussion-eyebrow">Community review</p><h2 id="page-flag-list-title">Flags</h2></div><button class="review-dialog-close" type="button" data-flag-list-close aria-label="Close flags">×</button></div>
+<p class="review-dialog-intro">Each flag is tied to a public ORCID identity and explains why this submission may be incorrect.</p>
+<p data-flag-list-empty>No flags have been submitted.</p><ol class="flag-list" data-flag-list></ol>
+</dialog>
+<dialog class="review-dialog flag-editor-dialog" id="page-flag-editor" data-flag-editor aria-labelledby="page-flag-editor-title">
+<form data-flag-form>
+<div class="review-dialog-header"><div><p class="discussion-eyebrow">Community review</p><h2 id="page-flag-editor-title">Flag this submission</h2></div><button class="review-dialog-close" type="button" data-flag-cancel aria-label="Close flag form">×</button></div>
+<p class="review-dialog-intro">State precisely what appears incorrect. This explanation will be public under your ORCID name.</p>
+<label class="flag-message-label" for="page-flag-message">What is wrong?</label>
+<textarea id="page-flag-message" data-flag-message rows="6" maxlength="2000" required placeholder="Describe the incorrect claim, missing assumption, or counterexample."></textarea>
+
+<p class="flag-form-status" data-flag-form-status role="status"></p>
+<div class="review-dialog-actions"><button class="danger-button" type="button" data-flag-remove hidden>Remove my flag</button><span></span><button class="secondary-button" type="button" data-flag-cancel>Cancel</button><button class="primary-button" type="submit">Publish flag</button></div>
+</form>
+</dialog>
+<noscript><p class="page-reactions-noscript"><a href="https://comments.laxarchive.org/auth/orcid/login?site=remark&amp;from=https%3A%2F%2Flaxarchive.org%2Flax-15%2F">Sign in with ORCID</a> to review this page.</p></noscript>
 </section>
 <section class="paper-abstract">
 <h2 class="abstract-heading">Abstract</h2>
@@ -325,7 +335,7 @@ constant.</p>
 <div class="discussion-heading-copy">
 <p class="discussion-eyebrow">Community review</p>
 <h3 class="section-title" id="discussion-title">Discussion</h3>
-<p>Ask a question, suggest a correction, or add context. Sign in with ORCID to comment and react; your ORCID profile must share a public name.</p>
+<p>Ask a question or add context. Endorsements and structured flags are kept in the review panel above; your ORCID profile must share a public name.</p>
 </div>
 <p class="discussion-count"><span class="remark42__counter" data-url="https://laxarchive.org/lax-15/">0</span> <span>comments</span></p>
 </div>
@@ -368,5 +378,5 @@ constant.</p>
 <script src="../assets/layout.js?v=1089ce8aae63"></script>
 <script src="../assets/dag.js?v=2a0b2e1bec54"></script>
 <script src="../assets/citation.js?v=d9edcca2ee6c"></script>
-<script src="../assets/comments.js?v=86d1e6204b61"></script>
+<script src="../assets/comments.js?v=96721c89b3b6"></script>
 </body></html>
