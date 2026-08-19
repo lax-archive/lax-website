@@ -137,7 +137,7 @@ func TestAppendReviewConstructsReservedRemark42Comment(t *testing.T) {
 			t.Fatal(err)
 		}
 		want, _ := reviewMarker(reviewEvent{Kind: reviewFlag, Message: "Counterexample on this range.", LineStart: 4, LineEnd: 6})
-		if body.Text != want || body.Locator.Site != "remark" || body.Locator.URL != "https://laxarchive.org/_reactions/Lax2/" {
+		if body.Text != want || body.Locator.Site != "remark" || body.Locator.URL != "https://laxarchive.org/_reactions/Lax2/Lax2.C.html" {
 			t.Errorf("unsafe review payload: %+v", body)
 		}
 		w.WriteHeader(http.StatusCreated)
@@ -147,7 +147,11 @@ func TestAppendReviewConstructsReservedRemark42Comment(t *testing.T) {
 	request := httptest.NewRequest(http.MethodPut, "/reactions/v1/reaction", nil)
 	request.AddCookie(&http.Cookie{Name: "JWT", Value: "session"})
 	request.AddCookie(&http.Cookie{Name: "XSRF-TOKEN", Value: "xsrf-value"})
-	if err := a.appendReview(request, "https://laxarchive.org/Lax2/", reviewEvent{Kind: reviewFlag, Message: "Counterexample on this range.", LineStart: 4, LineEnd: 6}); err != nil {
+	event := reviewEvent{Kind: reviewFlag, Message: "Counterexample on this range.", LineStart: 4, LineEnd: 6}
+	if err := a.appendReview(request, "https://laxarchive.org/Lax2/", event); err == nil {
+		t.Fatal("submission source range reached Remark42")
+	}
+	if err := a.appendReview(request, "https://laxarchive.org/Lax2/Lax2.C.html", event); err != nil {
 		t.Fatal(err)
 	}
 }
@@ -399,7 +403,7 @@ func TestBridgeIsRestrictedToConfiguredParents(t *testing.T) {
 	if scriptRecorder.Code != http.StatusOK || !strings.Contains(script, `new Set(["https://laxarchive.org"])`) || strings.Contains(script, `postMessage(value,"*")`) || !strings.Contains(script, `request.action==="comments"`) || !strings.Contains(script, `request.action==="logout"`) {
 		t.Fatalf("bridge script does not enforce exact parent origins: %s", scriptRecorder.Body.String())
 	}
-	for _, expected := range []string{`/api/v1/user?site=remark`, `/api/v1/comment?site=remark`, `X-XSRF-TOKEN`, `X-JWT`, `response.headers`, `pathname==="/auth/logout"`, `type:"session-change"`, `lax-review:v2:flag:`, `A flag explanation is required`} {
+	for _, expected := range []string{`/api/v1/user?site=remark`, `/api/v1/comment?site=remark`, `X-XSRF-TOKEN`, `X-JWT`, `response.headers`, `pathname==="/auth/logout"`, `type:"session-change"`, `lax-review:v2:flag:`, `A flag explanation is required`, `Submission flags cannot reference concept source lines`} {
 		if !strings.Contains(script, expected) {
 			t.Fatalf("bridge script does not use the authenticated Remark42 iframe session, missing %q", expected)
 		}

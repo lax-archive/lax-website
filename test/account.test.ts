@@ -115,11 +115,12 @@ function fixture(user: { id: string; name: string }, initiallyAuthenticated = tr
     setTimeout,
     clearTimeout,
   };
-  const bridgeWindow = {
-    postMessage(message: Record<string, unknown>, origin: string) {
+  const bridgeMessages: Array<Record<string, unknown>> = [];
+  const respondToBridge = (source: Record<string, unknown>, message: Record<string, unknown>, origin: string) => {
+    bridgeMessages.push(message);
       queueMicrotask(() => listeners.message?.({
         origin,
-        source: bridgeWindow,
+        source,
         data: {
           source: "lax-reactions",
           id: message.id,
@@ -131,8 +132,8 @@ function fixture(user: { id: string; name: string }, initiallyAuthenticated = tr
               : { authenticated: false, eligible: false }
             : message.action === "comments" ? {
               comments: [{
-                id: "hidden-reaction",
-                orig: "lax-reaction:v1:like",
+                id: "hidden-review",
+                orig: "🚩 Incorrect claim\n\nlax-review:v2:flag:0:0",
                 locator: { url: "https://laxarchive.org/_reactions/Lax2/" },
                 time: "2026-08-18T10:00:00Z",
               }],
@@ -140,17 +141,23 @@ function fixture(user: { id: string; name: string }, initiallyAuthenticated = tr
             } : {},
         },
       }));
-    },
+  };
+  const bridgeWindow = {
+    postMessage(message: Record<string, unknown>, origin: string) { respondToBridge(bridgeWindow, message, origin); },
+  };
+  const remarkBridgeWindow = {
+    postMessage(message: Record<string, unknown>, origin: string) { respondToBridge(remarkBridgeWindow, message, origin); },
   };
   const iframe = Object.assign(new FakeElement(), { contentWindow: bridgeWindow, src: "" });
+  const remarkFrame = Object.assign(new FakeElement(), { contentWindow: remarkBridgeWindow });
   const document = {
-    querySelector: (selector: string) => selector === "[data-account-root]" ? root : null,
+    querySelector: (selector: string) => selector === "[data-account-root]" ? root : selector === "#remark42 iframe" ? remarkFrame : null,
     getElementById: (id: string) => id === "account-dialog" ? dialog : null,
     createElement: (tag: string) => tag === "iframe" ? iframe : new FakeElement(),
     body: new FakeElement(),
     head: new FakeElement(),
   };
-  return { root, dialog, login, loginLabel, settings, settingsLabel, elements, requests, events, fetch, window, document, FakeCustomEvent, listeners, bridgeWindow, get authChannel() { return authChannel; }, setAuthenticated(value: boolean) { authenticated = value; } };
+  return { root, dialog, login, loginLabel, settings, settingsLabel, elements, requests, events, fetch, window, document, FakeCustomEvent, listeners, bridgeWindow, remarkBridgeWindow, bridgeMessages, get authChannel() { return authChannel; }, setAuthenticated(value: boolean) { authenticated = value; } };
 }
 
 describe("ORCID account header", () => {
@@ -251,5 +258,22 @@ describe("ORCID account header", () => {
     expect(fx.login.hidden).toBe(false);
     expect(fx.settings.hidden).toBe(true);
     expect(fx.events.at(-1)).toEqual({ type: "LAX::account-ready", detail: null });
+  });
+
+  it("rechecks only once when the comment bridge repeats its ready announcement", async () => {
+    const fx = fixture({ id: `orcid_${"f".repeat(40)}`, name: "Ada Lovelace" });
+    const context = { document: fx.document, window: fx.window, fetch: fx.fetch, URL, CustomEvent: fx.FakeCustomEvent, Date, setTimeout };
+    vm.createContext(context);
+    vm.runInContext(fs.readFileSync("assets/site/account.js", "utf8"), context);
+    fx.listeners.message!({ origin: "https://remark42.example.test", source: fx.bridgeWindow, data: { source: "lax-reactions", type: "ready" } });
+    await settle();
+    const before = fx.bridgeMessages.filter((message) => message.action === "me").length;
+
+    for (let index = 0; index < 4; index += 1) {
+      fx.listeners.message!({ origin: "https://remark42.example.test", source: fx.remarkBridgeWindow, data: { source: "lax-reactions", type: "ready" } });
+    }
+    await settle();
+
+    expect(fx.bridgeMessages.filter((message) => message.action === "me")).toHaveLength(before + 1);
   });
 });

@@ -372,6 +372,7 @@ const saveReaction=async(raw,reaction,message="",lineStart=0,lineEnd=0)=>{
   if(!current.eligible)throw fail("Sign in with ORCID to review.",401);
   const xsrf=activeXSRF||cookie("XSRF-TOKEN");
   if(!xsrf)throw fail("Your comment session is not ready. Refresh the page and try again.",401);
+  if(new URL(current.url).pathname.endsWith("/")&&(lineStart||lineEnd))throw fail("Submission flags cannot reference concept source lines.",400);
   const hidden=new URL(current.url);
   hidden.pathname="/_reactions"+hidden.pathname;
   const next=reaction==="endorse"&&current.viewer_reaction==="endorse"?"clear":reaction;

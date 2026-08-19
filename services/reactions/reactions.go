@@ -252,6 +252,9 @@ func (a *app) reactionPage(ctx context.Context, pageURL string) (reactionPageRes
 }
 
 func (a *app) appendReview(r *http.Request, pageURL string, event reviewEvent) error {
+	if strings.HasSuffix(pageURL, "/") && (event.LineStart != 0 || event.LineEnd != 0) {
+		return errors.New("submission flags cannot reference concept source lines")
+	}
 	marker, err := reviewMarker(event)
 	if err != nil {
 		return err
