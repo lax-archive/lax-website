@@ -349,7 +349,7 @@ After the formula.`, "");
     expect(landingScript).toContain("document.getElementById(`landing-panel-${id}`)");
     expect(landingScript).toContain("function setupProofFlip()");
     expect(landingScript).toContain("function setupReviewConcept()");
-    expect(landingScript).toContain("lax-review-concept-v1");
+    expect(landingScript).not.toContain("sessionStorage");
     expect(landingScript).toContain("Math.random()");
     expect(landingScript).toContain("card.setAttribute('aria-pressed', String(flipped))");
     expect(landingScript).toContain("precisePointer.matches && event.detail !== 0");
