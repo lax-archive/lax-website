@@ -31,7 +31,7 @@ export function submissionPage(ctx: PageContext, submission: SiteSubmission): st
   if (!output) {
     const content = `${draftBanner(record.state)}
 ${paperHeader(ctx.markdown, submission, "../")}
-${pageReactions(`${record.id}/`)}
+${pageReactions(`${record.id}/`, { kind: "submission" })}
 <p class="empty-note">No content uploaded yet. Run <code>lax build</code> and submit a draft.</p>
 ${discussion(`${record.id}/`)}`;
     return page({
@@ -70,7 +70,7 @@ ${submissionMapLegend()}
 
   const content = `${draftBanner(record.state)}
 ${paperHeader(ctx.markdown, submission, "../")}
-${pageReactions(`${record.id}/`)}
+${pageReactions(`${record.id}/`, { kind: "submission" })}
 ${output.abstract.trim() ? paperAbstract(ctx.markdown.renderAuthorProse(output.abstract, "../")) : ""}
 <section class="page-section"><h3 class="section-title">Concepts</h3>
 ${output.concepts.length ? `<div class="concept-list-box">

@@ -69,21 +69,25 @@ func TestHiddenReactionURLIsDerivedFromCanonicalPage(t *testing.T) {
 	}
 }
 
-func TestReactionAggregationUsesLatestValidNamedEvent(t *testing.T) {
+func TestReviewAggregationUsesLatestValidNamedEvent(t *testing.T) {
 	const pageURL = "https://laxarchive.org/Lax2/"
 	ids := []string{"orcid_" + strings.Repeat("a", 40), "orcid_" + strings.Repeat("b", 40), "orcid_" + strings.Repeat("c", 40)}
 	times := []time.Time{time.Unix(10, 0).UTC(), time.Unix(20, 0).UTC(), time.Unix(30, 0).UTC()}
+	flag, err := reviewMarker(reviewEvent{Kind: reviewFlag, Message: "The implication does not follow.", LineStart: 7, LineEnd: 9})
+	if err != nil {
+		t.Fatal(err)
+	}
 	remark := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.URL.Query().Get("url") != "https://laxarchive.org/_reactions/Lax2/" || r.URL.Query().Get("site") != "remark" || r.URL.Query().Get("format") != "plain" {
 			t.Errorf("unsafe find request: %s", r.URL.String())
 		}
 		comments := []remarkReactionComment{
-			{ID: "1", Orig: reactionPrefix + reactionLike, Time: times[0]},
-			{ID: "2", Orig: reactionPrefix + reactionDislike, Time: times[1]},
-			{ID: "3", Orig: reactionPrefix + reactionRocket, Time: times[2]},
-			{ID: "4", Orig: reactionPrefix + reactionClear, Time: times[2]},
+			{ID: "1", Orig: endorseMarker, Time: times[0]},
+			{ID: "2", Orig: flag, Time: times[1]},
+			{ID: "3", Orig: endorseMarker, Time: times[2]},
+			{ID: "4", Orig: clearMarker, Time: times[2]},
 			{ID: "5", Orig: "ordinary comment", Time: times[2]},
-			{ID: "6", ParentID: "parent", Orig: reactionPrefix + reactionLike, Time: times[2]},
+			{ID: "6", ParentID: "parent", Orig: endorseMarker, Time: times[2]},
 		}
 		comments[0].User.ID, comments[1].User.ID = ids[0], ids[0]
 		comments[2].User.ID, comments[3].User.ID = ids[1], ids[1]
@@ -103,15 +107,18 @@ func TestReactionAggregationUsesLatestValidNamedEvent(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if result.Counts[reactionLike] != 0 || result.Counts[reactionDislike] != 1 || result.Counts[reactionRocket] != 0 {
+	if result.Counts[reviewEndorse] != 0 || result.Counts[reviewFlag] != 1 {
 		t.Fatalf("unexpected totals: %+v", result.Counts)
 	}
-	if result.viewerByRemarkID[ids[0]] != reactionDislike || result.viewerByRemarkID[ids[1]] != "" {
+	if result.viewerByRemarkID[ids[0]].Kind != reviewFlag || result.viewerByRemarkID[ids[1]].Kind != "" {
 		t.Fatalf("latest event did not win: %+v", result.viewerByRemarkID)
+	}
+	if len(result.Flags) != 1 || result.Flags[0].Message != "The implication does not follow." || result.Flags[0].LineStart != 7 || result.Flags[0].LineEnd != 9 {
+		t.Fatalf("flag detail was not preserved: %+v", result.Flags)
 	}
 }
 
-func TestAppendReactionConstructsReservedRemark42Comment(t *testing.T) {
+func TestAppendReviewConstructsReservedRemark42Comment(t *testing.T) {
 	remark := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.Method != http.MethodPost || r.URL.Query().Get("site") != "remark" {
 			t.Errorf("unexpected request: %s %s", r.Method, r.URL.String())
@@ -129,8 +136,9 @@ func TestAppendReactionConstructsReservedRemark42Comment(t *testing.T) {
 		if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
 			t.Fatal(err)
 		}
-		if body.Text != reactionPrefix+reactionRocket || body.Locator.Site != "remark" || body.Locator.URL != "https://laxarchive.org/_reactions/Lax2/" {
-			t.Errorf("unsafe reaction payload: %+v", body)
+		want, _ := reviewMarker(reviewEvent{Kind: reviewFlag, Message: "Counterexample on this range.", LineStart: 4, LineEnd: 6})
+		if body.Text != want || body.Locator.Site != "remark" || body.Locator.URL != "https://laxarchive.org/_reactions/Lax2/" {
+			t.Errorf("unsafe review payload: %+v", body)
 		}
 		w.WriteHeader(http.StatusCreated)
 	}))
@@ -139,8 +147,28 @@ func TestAppendReactionConstructsReservedRemark42Comment(t *testing.T) {
 	request := httptest.NewRequest(http.MethodPut, "/reactions/v1/reaction", nil)
 	request.AddCookie(&http.Cookie{Name: "JWT", Value: "session"})
 	request.AddCookie(&http.Cookie{Name: "XSRF-TOKEN", Value: "xsrf-value"})
-	if err := a.appendReaction(request, "https://laxarchive.org/Lax2/", reactionRocket); err != nil {
+	if err := a.appendReview(request, "https://laxarchive.org/Lax2/", reviewEvent{Kind: reviewFlag, Message: "Counterexample on this range.", LineStart: 4, LineEnd: 6}); err != nil {
 		t.Fatal(err)
+	}
+}
+
+func TestReviewMarkersRequireFlagTextAndValidateLineRanges(t *testing.T) {
+	if _, err := reviewMarker(reviewEvent{Kind: reviewFlag}); err == nil {
+		t.Fatal("empty flag explanation was accepted")
+	}
+	if _, err := reviewMarker(reviewEvent{Kind: reviewFlag, Message: "Problem", LineStart: 8, LineEnd: 7}); err == nil {
+		t.Fatal("reversed line range was accepted")
+	}
+	marker, err := reviewMarker(reviewEvent{Kind: reviewFlag, Message: "  First line\r\nsecond line  ", LineStart: 8, LineEnd: 10})
+	if err != nil {
+		t.Fatal(err)
+	}
+	parsed, ok := reviewFromMarker(marker)
+	if !ok || parsed.Kind != reviewFlag || parsed.Message != "First line\nsecond line" || parsed.LineStart != 8 || parsed.LineEnd != 10 {
+		t.Fatalf("review marker did not round trip: %q %+v", marker, parsed)
+	}
+	if _, ok := reviewFromMarker("lax-reaction:v1:dislike"); ok {
+		t.Fatal("legacy vote was treated as a structured flag without an explanation")
 	}
 }
 
@@ -217,15 +245,37 @@ func TestORCIDAdapterRequiresAndStoresPublicName(t *testing.T) {
 	}
 }
 
-func TestReactionRequiresOriginAndCSRFHeader(t *testing.T) {
+func TestReviewRequiresOriginAndCSRFHeader(t *testing.T) {
 	db := testStore(t)
 	a := &app{config: config{allowed: map[string]struct{}{"https://laxarchive.org": {}}}, store: db, limits: newRateLimits()}
-	request := httptest.NewRequest(http.MethodPut, "/reactions/v1/reaction", strings.NewReader(`{"url":"https://laxarchive.org/Lax2/","reaction":"like"}`))
+	request := httptest.NewRequest(http.MethodPut, "/reactions/v1/reaction", strings.NewReader(`{"url":"https://laxarchive.org/Lax2/","reaction":"endorse"}`))
 	request.Header.Set("Content-Type", "application/json")
 	recorder := httptest.NewRecorder()
 	a.putReaction(recorder, request)
 	if recorder.Code != http.StatusForbidden {
 		t.Fatalf("expected CSRF rejection, got %d", recorder.Code)
+	}
+}
+
+func TestReviewEndpointRejectsInvalidStructuredFlagsBeforeAuthentication(t *testing.T) {
+	db := testStore(t)
+	a := &app{config: config{allowed: map[string]struct{}{"https://laxarchive.org": {}}}, store: db, limits: newRateLimits()}
+	for name, body := range map[string]string{
+		"missing explanation":     `{"url":"https://laxarchive.org/Lax2/","reaction":"flag"}`,
+		"submission source range": `{"url":"https://laxarchive.org/Lax2/","reaction":"flag","message":"Incorrect claim","line_start":2,"line_end":4}`,
+		"partial source range":    `{"url":"https://laxarchive.org/Lax2/Lax2.C.html","reaction":"flag","message":"Incorrect claim","line_start":2}`,
+	} {
+		t.Run(name, func(t *testing.T) {
+			request := httptest.NewRequest(http.MethodPut, "/reactions/v1/reaction", strings.NewReader(body))
+			request.Header.Set("Origin", "https://laxarchive.org")
+			request.Header.Set("X-Lax-CSRF", "1")
+			request.Header.Set("Content-Type", "application/json")
+			recorder := httptest.NewRecorder()
+			a.putReaction(recorder, request)
+			if recorder.Code != http.StatusBadRequest {
+				t.Fatalf("invalid structured flag reached authentication: %d %s", recorder.Code, recorder.Body.String())
+			}
+		})
 	}
 }
 
@@ -306,7 +356,7 @@ func TestSessionEndpointReturnsValidatedPublicORCIDIdentity(t *testing.T) {
 	}
 }
 
-func TestReactionClearsStaleHttpOnlySession(t *testing.T) {
+func TestReviewClearsStaleHttpOnlySession(t *testing.T) {
 	remark := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 		http.Error(w, "invalid session", http.StatusUnauthorized)
 	}))
@@ -317,7 +367,7 @@ func TestReactionClearsStaleHttpOnlySession(t *testing.T) {
 		client: remark.Client(),
 		limits: newRateLimits(),
 	}
-	request := httptest.NewRequest(http.MethodPut, "/reactions/v1/reaction", strings.NewReader(`{"url":"https://laxarchive.org/Lax2/","reaction":"like"}`))
+	request := httptest.NewRequest(http.MethodPut, "/reactions/v1/reaction", strings.NewReader(`{"url":"https://laxarchive.org/Lax2/","reaction":"endorse"}`))
 	request.Header.Set("Origin", "https://laxarchive.org")
 	request.Header.Set("Content-Type", "application/json")
 	request.Header.Set("X-Lax-CSRF", "1")
@@ -349,7 +399,7 @@ func TestBridgeIsRestrictedToConfiguredParents(t *testing.T) {
 	if scriptRecorder.Code != http.StatusOK || !strings.Contains(script, `new Set(["https://laxarchive.org"])`) || strings.Contains(script, `postMessage(value,"*")`) || !strings.Contains(script, `request.action==="comments"`) || !strings.Contains(script, `request.action==="logout"`) {
 		t.Fatalf("bridge script does not enforce exact parent origins: %s", scriptRecorder.Body.String())
 	}
-	for _, expected := range []string{`/api/v1/user?site=remark`, `/api/v1/comment?site=remark`, `X-XSRF-TOKEN`, `X-JWT`, `response.headers`, `pathname==="/auth/logout"`, `type:"session-change"`, `lax-reaction:v1:`} {
+	for _, expected := range []string{`/api/v1/user?site=remark`, `/api/v1/comment?site=remark`, `X-XSRF-TOKEN`, `X-JWT`, `response.headers`, `pathname==="/auth/logout"`, `type:"session-change"`, `lax-review:v2:flag:`, `A flag explanation is required`} {
 		if !strings.Contains(script, expected) {
 			t.Fatalf("bridge script does not use the authenticated Remark42 iframe session, missing %q", expected)
 		}

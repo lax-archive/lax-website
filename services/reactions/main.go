@@ -49,11 +49,12 @@ type remarkUser struct {
 
 type response struct {
 	reactionPageResult
-	ViewerReaction string    `json:"viewer_reaction"`
-	Authenticated  bool      `json:"authenticated"`
-	Eligible       bool      `json:"eligible"`
-	Reauthenticate bool      `json:"reauthenticate"`
-	Viewer         *identity `json:"viewer,omitempty"`
+	ViewerReaction string      `json:"viewer_reaction"`
+	ViewerFlag     *publicFlag `json:"viewer_flag,omitempty"`
+	Authenticated  bool        `json:"authenticated"`
+	Eligible       bool        `json:"eligible"`
+	Reauthenticate bool        `json:"reauthenticate"`
+	Viewer         *identity   `json:"viewer,omitempty"`
 }
 
 type sessionResponse struct {
@@ -330,11 +331,15 @@ const page=async(raw)=>{
   ]);
   const data=await readJSON(pageResponse);
   if(!pageResponse.ok)throw fail(data.error||"page responses are temporarily unavailable",pageResponse.status);
-  Object.assign(data,viewerSession,{viewer_reaction:""});
+  Object.assign(data,viewerSession,{viewer_reaction:"",viewer_flag:null});
   if(viewerSession.eligible&&viewerSession.viewer){
-    for(const reaction of ["like","dislike","rocket"]){
+    for(const reaction of ["endorse","flag"]){
       const voters=Array.isArray(data.voters&&data.voters[reaction])?data.voters[reaction]:[];
-      if(voters.some((voter)=>voter&&voter.orcid===viewerSession.viewer.orcid_id)){data.viewer_reaction=reaction;break}
+      if(voters.some((voter)=>voter&&voter.orcid===viewerSession.viewer.orcid_id)){
+        data.viewer_reaction=reaction;
+        if(reaction==="flag")data.viewer_flag=(Array.isArray(data.flags)?data.flags:[]).find((flag)=>flag&&flag.author&&flag.author.orcid===viewerSession.viewer.orcid_id)||null;
+        break
+      }
     }
   }
   return data;
@@ -344,18 +349,37 @@ const cookie=(name)=>{
   const item=document.cookie.split(";").map((value)=>value.trim()).find((value)=>value.startsWith(prefix));
   return item?decodeURIComponent(item.slice(prefix.length)):"";
 };
-const saveReaction=async(raw,reaction)=>{
+const flagMessage=(value)=>{
+  const message=typeof value==="string"?value.replace(/\r\n/g,"\n").trim():"";
+  if(!message||new TextEncoder().encode(message).length>2000||message.includes("\u0000"))throw fail("A flag explanation is required and must be under 2,000 bytes.",400);
+  return message;
+};
+const lineRange=(start,end)=>{
+  start=Number.isInteger(start)?start:0;end=Number.isInteger(end)?end:0;
+  if(start===0&&end===0)return [0,0];
+  if(start<1||end<start||end>1000000||end-start+1>500)throw fail("Select a valid source range of at most 500 lines.",400);
+  return [start,end];
+};
+const reviewMarker=(reaction,message,start,end)=>{
+  if(reaction==="endorse")return "✅ Endorsed\n\nlax-review:v2:endorse";
+  if(reaction==="clear")return "↩️ Review cleared\n\nlax-review:v2:clear";
+  if(reaction!=="flag")throw fail("Invalid review.",400);
+  const range=lineRange(start,end);
+  return "🚩 "+flagMessage(message)+"\n\nlax-review:v2:flag:"+range[0]+":"+range[1];
+};
+const saveReaction=async(raw,reaction,message="",lineStart=0,lineEnd=0)=>{
   const current=await page(raw);
-  if(!current.eligible)throw fail("Sign in with ORCID to react.",401);
+  if(!current.eligible)throw fail("Sign in with ORCID to review.",401);
   const xsrf=activeXSRF||cookie("XSRF-TOKEN");
   if(!xsrf)throw fail("Your comment session is not ready. Refresh the page and try again.",401);
   const hidden=new URL(current.url);
   hidden.pathname="/_reactions"+hidden.pathname;
-  const marker=current.viewer_reaction===reaction?"clear":reaction;
+  const next=reaction==="endorse"&&current.viewer_reaction==="endorse"?"clear":reaction;
+  const marker=reviewMarker(next,message,lineStart,lineEnd);
   const response=await fetch("/api/v1/comment?site=remark",{
     method:"POST",credentials:"include",
     headers:authHeaders({Accept:"application/json","Content-Type":"application/json","X-XSRF-TOKEN":xsrf}),
-    body:JSON.stringify({text:"lax-reaction:v1:"+marker,title:"Lax Archive reaction",locator:{site:"remark",url:hidden.toString()}})
+    body:JSON.stringify({text:marker,title:"Lax Archive review",locator:{site:"remark",url:hidden.toString()}})
   });
   const result=await readJSON(response);
   if(!response.ok)throw fail(result.error||"unable to save your response",response.status);
@@ -368,7 +392,7 @@ window.addEventListener("message",async(event)=>{
     let data={};
     if(request.action==="page"&&typeof request.url==="string")data=await page(request.url);
     else if(request.action==="me")data=await session();
-    else if(request.action==="reaction"&&typeof request.url==="string"&&["like","dislike","rocket"].includes(request.reaction))data=await saveReaction(request.url,request.reaction);
+    else if(request.action==="reaction"&&typeof request.url==="string"&&["endorse","flag","clear"].includes(request.reaction))data=await saveReaction(request.url,request.reaction,request.message,request.line_start,request.line_end);
     else if(request.action==="comments"&&typeof request.site==="string"&&/^[a-zA-Z0-9._-]{1,64}$/.test(request.site)&&typeof request.user==="string"&&/^orcid_[a-f0-9]{40}$/.test(request.user)&&Number.isInteger(request.skip)&&request.skip>=0&&Number.isInteger(request.limit)&&request.limit>=1&&request.limit<=100){
       const response=await fetch("/api/v1/comments?site="+encodeURIComponent(request.site)+"&user="+encodeURIComponent(request.user)+"&skip="+request.skip+"&limit="+request.limit,{credentials:"include",cache:"no-store",headers:{Accept:"application/json"}});
       data=await readJSON(response);
@@ -483,7 +507,16 @@ func (a *app) pageResponse(r *http.Request, pageURL string) (response, error) {
 	}
 	answer.Eligible = true
 	answer.Viewer = &person
-	answer.ViewerReaction = result.viewerByRemarkID[user.ID]
+	viewerReview := result.viewerByRemarkID[user.ID]
+	answer.ViewerReaction = viewerReview.Kind
+	if viewerReview.Kind == reviewFlag {
+		for index := range result.Flags {
+			if result.Flags[index].Author.ORCID == person.ORCID {
+				answer.ViewerFlag = &result.Flags[index]
+				break
+			}
+		}
+	}
 	answer.reactionPageResult.viewerByRemarkID = nil
 	return answer, nil
 }
@@ -632,17 +665,29 @@ func (a *app) putReaction(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	var input struct {
-		URL      string `json:"url"`
-		Reaction string `json:"reaction"`
+		URL       string `json:"url"`
+		Reaction  string `json:"reaction"`
+		Message   string `json:"message,omitempty"`
+		LineStart int    `json:"line_start,omitempty"`
+		LineEnd   int    `json:"line_end,omitempty"`
 	}
-	decoder := json.NewDecoder(http.MaxBytesReader(w, r.Body, 1024))
+	decoder := json.NewDecoder(http.MaxBytesReader(w, r.Body, 8<<10))
 	decoder.DisallowUnknownFields()
-	if err := decoder.Decode(&input); err != nil || !validReaction(input.Reaction) {
-		writeError(w, http.StatusBadRequest, "reaction must be like, dislike, or rocket")
+	if err := decoder.Decode(&input); err != nil || !validReview(input.Reaction) {
+		writeError(w, http.StatusBadRequest, "review must be endorse, flag, or clear")
 		return
 	}
 	pageURL, err := canonicalPage(input.URL)
 	if err != nil {
+		writeError(w, http.StatusBadRequest, err.Error())
+		return
+	}
+	event := reviewEvent{Kind: input.Reaction, Message: input.Message, LineStart: input.LineStart, LineEnd: input.LineEnd}
+	if strings.HasSuffix(pageURL, "/") && (event.LineStart != 0 || event.LineEnd != 0) {
+		writeError(w, http.StatusBadRequest, "submission flags cannot reference concept source lines")
+		return
+	}
+	if _, err = reviewMarker(event); err != nil {
 		writeError(w, http.StatusBadRequest, err.Error())
 		return
 	}
@@ -658,7 +703,7 @@ func (a *app) putReaction(w http.ResponseWriter, r *http.Request) {
 			writeError(w, http.StatusUnauthorized, "Your session is no longer valid. Sign in with ORCID again.")
 			return
 		}
-		writeError(w, http.StatusUnauthorized, "Sign in with ORCID to react.")
+		writeError(w, http.StatusUnauthorized, "Sign in with ORCID to review.")
 		return
 	}
 	person, found, err := a.store.identity(user.ID)
@@ -675,12 +720,11 @@ func (a *app) putReaction(w http.ResponseWriter, r *http.Request) {
 		writeError(w, http.StatusServiceUnavailable, "unable to read current reactions")
 		return
 	}
-	next := input.Reaction
-	if current.viewerByRemarkID[user.ID] == input.Reaction {
-		next = reactionClear
+	if input.Reaction == reviewEndorse && current.viewerByRemarkID[user.ID].Kind == reviewEndorse {
+		event = reviewEvent{Kind: reviewClear}
 	}
-	if err = a.appendReaction(r, pageURL, next); err != nil {
-		log.Printf("save reaction failed: %v", err)
+	if err = a.appendReview(r, pageURL, event); err != nil {
+		log.Printf("save review failed: %v", err)
 		writeError(w, http.StatusServiceUnavailable, "unable to save your response")
 		return
 	}

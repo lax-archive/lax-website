@@ -10,25 +10,48 @@ import (
 	"net/http"
 	"net/url"
 	"sort"
+	"strconv"
 	"strings"
 	"time"
+	"unicode/utf8"
 )
 
 const (
-	reactionLike    = "like"
-	reactionDislike = "dislike"
-	reactionRocket  = "rocket"
-	reactionClear   = "clear"
-	reactionPrefix  = "lax-reaction:v1:"
+	reviewEndorse        = "endorse"
+	reviewFlag           = "flag"
+	reviewClear          = "clear"
+	reviewPrefix         = "lax-review:v2:"
+	endorseMarker        = "✅ Endorsed\n\n" + reviewPrefix + reviewEndorse
+	clearMarker          = "↩️ Review cleared\n\n" + reviewPrefix + reviewClear
+	maximumFlagTextBytes = 2000
+	maximumFlagLine      = 1_000_000
+	maximumFlagSpan      = 500
 )
 
-var publicReactions = []string{reactionLike, reactionDislike, reactionRocket}
+var publicReviews = []string{reviewEndorse, reviewFlag}
+
+type reviewEvent struct {
+	Kind      string
+	Message   string
+	LineStart int
+	LineEnd   int
+}
+
+type publicFlag struct {
+	ID        string     `json:"id"`
+	Message   string     `json:"message"`
+	LineStart int        `json:"line_start,omitempty"`
+	LineEnd   int        `json:"line_end,omitempty"`
+	Author    namedVoter `json:"author"`
+	Time      time.Time  `json:"time"`
+}
 
 type reactionPageResult struct {
 	URL              string                  `json:"url"`
 	Counts           map[string]int          `json:"counts"`
 	Voters           map[string][]namedVoter `json:"voters"`
-	viewerByRemarkID map[string]string       `json:"-"`
+	Flags            []publicFlag            `json:"flags"`
+	viewerByRemarkID map[string]reviewEvent  `json:"-"`
 }
 
 type remarkReactionComment struct {
@@ -46,8 +69,8 @@ type remarkFindResponse struct {
 	Comments []remarkReactionComment `json:"comments"`
 }
 
-func validReaction(value string) bool {
-	return value == reactionLike || value == reactionDislike || value == reactionRocket
+func validReview(value string) bool {
+	return value == reviewEndorse || value == reviewFlag || value == reviewClear
 }
 
 func hiddenReactionURL(pageURL string) (string, error) {
@@ -63,13 +86,79 @@ func hiddenReactionURL(pageURL string) (string, error) {
 	return parsed.String(), nil
 }
 
-func reactionFromMarker(value string) (string, bool) {
-	value = strings.TrimSpace(value)
-	if !strings.HasPrefix(value, reactionPrefix) {
-		return "", false
+func normalizeFlagMessage(value string) (string, error) {
+	value = strings.TrimSpace(strings.ReplaceAll(value, "\r\n", "\n"))
+	if value == "" {
+		return "", errors.New("a flag explanation is required")
 	}
-	reaction := strings.TrimPrefix(value, reactionPrefix)
-	return reaction, validReaction(reaction) || reaction == reactionClear
+	if !utf8.ValidString(value) || len(value) > maximumFlagTextBytes || strings.ContainsRune(value, '\x00') {
+		return "", fmt.Errorf("flag explanation must be valid text no longer than %d bytes", maximumFlagTextBytes)
+	}
+	return value, nil
+}
+
+func validateLineRange(start, end int) error {
+	if start == 0 && end == 0 {
+		return nil
+	}
+	if start < 1 || end < start || end > maximumFlagLine || end-start+1 > maximumFlagSpan {
+		return fmt.Errorf("flag line range must contain between 1 and %d lines", maximumFlagSpan)
+	}
+	return nil
+}
+
+func reviewMarker(event reviewEvent) (string, error) {
+	switch event.Kind {
+	case reviewEndorse:
+		return endorseMarker, nil
+	case reviewClear:
+		return clearMarker, nil
+	case reviewFlag:
+		message, err := normalizeFlagMessage(event.Message)
+		if err != nil {
+			return "", err
+		}
+		if err = validateLineRange(event.LineStart, event.LineEnd); err != nil {
+			return "", err
+		}
+		return fmt.Sprintf("🚩 %s\n\n%s%s:%d:%d", message, reviewPrefix, reviewFlag, event.LineStart, event.LineEnd), nil
+	default:
+		return "", errors.New("invalid review event")
+	}
+}
+
+func reviewFromMarker(value string) (reviewEvent, bool) {
+	value = strings.TrimSpace(strings.ReplaceAll(value, "\r\n", "\n"))
+	if value == endorseMarker {
+		return reviewEvent{Kind: reviewEndorse}, true
+	}
+	if value == clearMarker {
+		return reviewEvent{Kind: reviewClear}, true
+	}
+	lastBreak := strings.LastIndex(value, "\n")
+	if lastBreak < 0 || !strings.HasPrefix(value, "🚩 ") {
+		return reviewEvent{}, false
+	}
+	metadata := strings.TrimSpace(value[lastBreak+1:])
+	metadataPrefix := reviewPrefix + reviewFlag + ":"
+	if !strings.HasPrefix(metadata, metadataPrefix) {
+		return reviewEvent{}, false
+	}
+	rangeParts := strings.Split(strings.TrimPrefix(metadata, metadataPrefix), ":")
+	if len(rangeParts) != 2 {
+		return reviewEvent{}, false
+	}
+	start, startErr := strconv.Atoi(rangeParts[0])
+	end, endErr := strconv.Atoi(rangeParts[1])
+	if startErr != nil || endErr != nil || validateLineRange(start, end) != nil {
+		return reviewEvent{}, false
+	}
+	body := strings.TrimSpace(value[:lastBreak])
+	message, err := normalizeFlagMessage(strings.TrimSpace(strings.TrimPrefix(body, "🚩")))
+	if err != nil {
+		return reviewEvent{}, false
+	}
+	return reviewEvent{Kind: reviewFlag, Message: message, LineStart: start, LineEnd: end}, true
 }
 
 func (a *app) reactionPage(ctx context.Context, pageURL string) (reactionPageResult, error) {
@@ -107,7 +196,7 @@ func (a *app) reactionPage(ctx context.Context, pageURL string) (reactionPageRes
 
 	latest := make(map[string]remarkReactionComment)
 	for _, comment := range found.Comments {
-		_, marker := reactionFromMarker(comment.Orig)
+		_, marker := reviewFromMarker(comment.Orig)
 		if comment.Deleted || comment.ParentID != "" || !marker || !remarkIDPattern.MatchString(comment.User.ID) {
 			continue
 		}
@@ -119,13 +208,14 @@ func (a *app) reactionPage(ctx context.Context, pageURL string) (reactionPageRes
 
 	result := reactionPageResult{
 		URL:              pageURL,
-		Counts:           map[string]int{reactionLike: 0, reactionDislike: 0, reactionRocket: 0},
-		Voters:           map[string][]namedVoter{reactionLike: {}, reactionDislike: {}, reactionRocket: {}},
-		viewerByRemarkID: make(map[string]string),
+		Counts:           map[string]int{reviewEndorse: 0, reviewFlag: 0},
+		Voters:           map[string][]namedVoter{reviewEndorse: {}, reviewFlag: {}},
+		Flags:            []publicFlag{},
+		viewerByRemarkID: make(map[string]reviewEvent),
 	}
 	for remarkID, comment := range latest {
-		reaction, _ := reactionFromMarker(comment.Orig)
-		if reaction == reactionClear {
+		review, _ := reviewFromMarker(comment.Orig)
+		if review.Kind == reviewClear {
 			continue
 		}
 		person, present, lookupErr := a.store.identity(remarkID)
@@ -135,25 +225,36 @@ func (a *app) reactionPage(ctx context.Context, pageURL string) (reactionPageRes
 		if !present || strings.TrimSpace(person.Name) == "" || !validORCID(person.ORCID) {
 			continue
 		}
-		result.viewerByRemarkID[remarkID] = reaction
-		result.Counts[reaction]++
-		result.Voters[reaction] = append(result.Voters[reaction], namedVoter{Name: person.Name, ORCID: person.ORCID})
+		author := namedVoter{Name: person.Name, ORCID: person.ORCID}
+		result.viewerByRemarkID[remarkID] = review
+		result.Counts[review.Kind]++
+		result.Voters[review.Kind] = append(result.Voters[review.Kind], author)
+		if review.Kind == reviewFlag {
+			result.Flags = append(result.Flags, publicFlag{ID: comment.ID, Message: review.Message, LineStart: review.LineStart, LineEnd: review.LineEnd, Author: author, Time: comment.Time})
+		}
 	}
-	for _, reaction := range publicReactions {
-		sort.Slice(result.Voters[reaction], func(i, j int) bool {
-			left, right := strings.ToLower(result.Voters[reaction][i].Name), strings.ToLower(result.Voters[reaction][j].Name)
+	for _, review := range publicReviews {
+		sort.Slice(result.Voters[review], func(i, j int) bool {
+			left, right := strings.ToLower(result.Voters[review][i].Name), strings.ToLower(result.Voters[review][j].Name)
 			if left == right {
-				return result.Voters[reaction][i].ORCID < result.Voters[reaction][j].ORCID
+				return result.Voters[review][i].ORCID < result.Voters[review][j].ORCID
 			}
 			return left < right
 		})
 	}
+	sort.Slice(result.Flags, func(i, j int) bool {
+		if result.Flags[i].Time.Equal(result.Flags[j].Time) {
+			return result.Flags[i].ID > result.Flags[j].ID
+		}
+		return result.Flags[i].Time.After(result.Flags[j].Time)
+	})
 	return result, nil
 }
 
-func (a *app) appendReaction(r *http.Request, pageURL, reaction string) error {
-	if !validReaction(reaction) && reaction != reactionClear {
-		return errors.New("invalid reaction event")
+func (a *app) appendReview(r *http.Request, pageURL string, event reviewEvent) error {
+	marker, err := reviewMarker(event)
+	if err != nil {
+		return err
 	}
 	hiddenURL, err := hiddenReactionURL(pageURL)
 	if err != nil {
@@ -166,7 +267,7 @@ func (a *app) appendReaction(r *http.Request, pageURL, reaction string) error {
 			Site string `json:"site"`
 			URL  string `json:"url"`
 		} `json:"locator"`
-	}{Text: reactionPrefix + reaction, Title: "Lax Archive reaction"}
+	}{Text: marker, Title: "Lax Archive review"}
 	payload.Locator.Site = "remark"
 	payload.Locator.URL = hiddenURL
 	body, err := json.Marshal(payload)

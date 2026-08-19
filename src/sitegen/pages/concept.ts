@@ -105,7 +105,7 @@ export async function conceptPage(ctx: PageContext, located: LocatedConcept): Pr
 <p class="concept-microline"><code>${esc(concept.path)}</code> · <a href="index.html">${esc(output.id)}</a></p></div>
 <span class="status-pills">${countsPill(provenCount, concept.statements.length)}</span>
 </div>
-${pageReactions(`${submission.record.id}/${concept.id}.html`)}
+${pageReactions(`${submission.record.id}/${concept.id}.html`, { kind: "concept", sourceLines: concept.sourceText.split("\n").length })}
 ${figureTitle("Concept map")}
 <figure class="graph-figure concept-root-graph">
 ${graphExpandButton("concept map")}
@@ -119,7 +119,7 @@ ${evidence(ctx, located)}
 <div class="block block-lean"><h3 class="section-heading">Lean source${githubFile ? ` <a class="source-link" href="${attr(githubFile)}">view on GitHub</a>` : ""}</h3>
 <div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
 ${sourceRows}
-</table></div>${proofActions}</div></div>
+</table></div>${proofActions}<span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
 ${sections}
 <div class="block"><div class="deps-columns">
 ${depsCol("Builds on", importRows)}

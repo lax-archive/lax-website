@@ -974,7 +974,8 @@ body{
   overflow: visible;
 }
 
-.source-proof-rail{
+.source-proof-rail,
+.source-review-rail{
   position: absolute;
   top: 0.7rem;
   right: 0.6rem;
@@ -990,10 +991,30 @@ body{
   transform: translateY(-50%);
 }
 
-.source-proof-rail.outside{
+.source-proof-rail.outside,
+.source-review-rail.outside{
   right: auto;
   left: calc(100% + 0.65rem);
 }
+
+.source-review-rail{ padding: 0; border-color: #d88b1f; }
+.source-review-button{
+  appearance: none;
+  min-width: 2rem;
+  min-height: 2rem;
+  padding: 0.2rem 0.42rem;
+  border: 0;
+  border-radius: calc(var(--radius-control) - 1px);
+  background: #fff8e8;
+  color: #8a4b00;
+  font-family: inherit;
+  font-size: 0.76rem;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+}
+.source-review-button:hover,
+.source-review-button:focus-visible{ background: #ffedc5; outline: 2px solid rgba(216, 139, 31, 0.35); outline-offset: 2px; }
 
 .statement-proof-button{
   display: inline-flex;
@@ -1036,6 +1057,15 @@ body{
 
 .inline-contract-table tr.line-proven td{ background: var(--proven-bg); }
 .inline-contract-table tr.line-open td{ background: var(--partial-bg); }
+.inline-contract-table tr.line-flagged td{
+  background: #fff8e8;
+  box-shadow: inset 3px 0 #d88b1f;
+}
+.inline-contract-table tr.line-pending-flag td{
+  background: #ffedc5;
+  box-shadow: inset 3px 0 #b76200;
+}
+.is-picking-flag-lines .inline-contract-table .line-num a{ color: #9b5500; cursor: crosshair; font-weight: 700; }
 
 .inline-contract-table tr:target td{ background: var(--accent-light); }
 .inline-contract-table tr:has(.statement-anchor:target) td{ background: var(--accent-light); }
@@ -2327,6 +2357,123 @@ body{
 .page-reaction-voters-popover p{ margin: 0; }
 .page-reaction-voters-popover li{ margin: 0; }
 .page-reaction-voters-popover a{ color: var(--link); }
+
+.page-reactions-status{
+  margin-top: 0.28rem;
+  color: var(--text-dim);
+  font-size: 0.68rem;
+  line-height: 1.35;
+}
+.page-reactions-status[data-state="error"],
+.page-reactions-status[data-state="attention"]{ color: #9b5500; }
+
+.review-dialog{
+  width: min(38rem, calc(100vw - 2rem));
+  max-height: min(80vh, 46rem);
+  padding: 0;
+  overflow: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-panel);
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: 0 18px 55px rgba(25, 31, 35, 0.24);
+}
+.review-dialog::backdrop{ background: rgba(25, 31, 35, 0.42); }
+.review-dialog > form,
+.review-dialog:not(.flag-editor-dialog){ padding: 1.2rem; }
+.review-dialog-header{
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.8rem;
+}
+.review-dialog-header h2{ font-size: 1.25rem; }
+.review-dialog-close{
+  appearance: none;
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-dim);
+  font: 300 1.3rem/1 sans-serif;
+  cursor: pointer;
+}
+.review-dialog-close:hover,
+.review-dialog-close:focus-visible{ border-color: var(--border); background: var(--panel-bg); color: var(--text); outline: none; }
+.review-dialog-intro{ margin-bottom: 1rem; color: var(--text-dim); font-size: 0.88rem; line-height: 1.5; }
+.flag-list{ display: grid; gap: 0.7rem; padding: 0; list-style: none; }
+.flag-list-item{
+  padding: 0.8rem;
+  border: 1px solid var(--border-light);
+  border-left: 3px solid #d88b1f;
+  border-radius: var(--radius-control);
+  background: #fffdf7;
+  transition: background 150ms ease, border-color 150ms ease;
+}
+.flag-list-item.is-targeted{ border-color: #d88b1f; background: #fff3d7; }
+.flag-list-meta{ display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.35rem 1rem; font-size: 0.78rem; }
+.flag-list-meta a{ color: var(--link); font-weight: 700; }
+.flag-list-meta time{ color: var(--text-dim); }
+.flag-list-message{ margin: 0.5rem 0 0; white-space: pre-wrap; overflow-wrap: anywhere; line-height: 1.5; }
+.flag-range-link{
+  appearance: none;
+  margin-top: 0.55rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--link);
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 0.14em;
+  cursor: pointer;
+}
+.flag-message-label{ display: block; margin-bottom: 0.35rem; font-size: 0.84rem; font-weight: 700; }
+.flag-editor-dialog textarea{
+  width: 100%;
+  min-height: 8rem;
+  resize: vertical;
+  padding: 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-control);
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  line-height: 1.45;
+}
+.flag-editor-dialog textarea:focus,
+.flag-line-inputs input:focus{ border-color: var(--link); outline: 2px solid rgba(59, 107, 154, 0.18); outline-offset: 1px; }
+.flag-line-fields{ margin-top: 0.9rem; padding: 0.8rem; border: 1px solid var(--border-light); border-radius: var(--radius-control); }
+.flag-line-fields legend{ padding: 0 0.3rem; font-size: 0.82rem; font-weight: 700; }
+.flag-line-fields > p{ margin-bottom: 0.55rem; color: var(--text-dim); font-size: 0.78rem; }
+.flag-line-inputs{ display: flex; gap: 0.6rem; margin-bottom: 0.65rem; }
+.flag-line-inputs label{ display: grid; gap: 0.25rem; color: var(--text-dim); font-size: 0.75rem; }
+.flag-line-inputs input{ width: 7rem; padding: 0.35rem 0.45rem; border: 1px solid var(--border); border-radius: var(--radius-control); font: inherit; }
+.flag-line-selection{ min-height: 1em; margin: 0.45rem 0 0 !important; }
+.flag-form-status{ min-height: 1.25rem; margin-top: 0.65rem; color: #9b5500; font-size: 0.8rem; }
+.review-dialog-actions{ display: grid; grid-template-columns: auto 1fr auto auto; align-items: center; gap: 0.55rem; margin-top: 0.8rem; }
+.review-dialog-actions button,
+.flag-line-fields button{
+  appearance: none;
+  min-height: 2.15rem;
+  padding: 0.38rem 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-control);
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.review-dialog-actions .primary-button{ border-color: var(--accent); background: var(--accent); color: #fff; }
+.review-dialog-actions .danger-button{ border-color: #b94a48; color: #8e2927; }
+.review-dialog-actions button:hover,
+.flag-line-fields button:hover{ background: var(--panel-bg); }
+.review-dialog-actions .primary-button:hover{ background: var(--link); }
 
 .page-reactions-noscript{ margin-top: 0.35rem; color: var(--text-dim); font-size: 0.72rem; }
 .page-reactions-noscript a{ color: var(--link); font-weight: 650; }
