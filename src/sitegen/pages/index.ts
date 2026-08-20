@@ -8,6 +8,7 @@ import {
   submissionSearchAttributes,
   type PageContext,
 } from "./shared.js";
+import { collectOpenProblems } from "./open-problems.js";
 
 interface LandingAction { id: string; title: string; description: string }
 
@@ -135,9 +136,11 @@ ${heading}${copy}
 }
 
 function copyablePrompt(html: string): string {
+  // The agent prompt is the section's last fence; earlier fences (the setup
+  // commands) stay plain code blocks.
   const open = "<pre>";
   const close = "</pre>";
-  const start = html.indexOf(open);
+  const start = html.lastIndexOf(open);
   const end = html.indexOf(close, start + open.length);
   if (start < 0 || end < 0) throw new Error("landing submit section must include a fenced prompt");
   const prompt = html.slice(start, end + close.length)
@@ -184,6 +187,8 @@ ${authors ? `<span class="submissions-list-meta"><span class="formalized-label">
       || b.users.length - a.users.length
       || a.located.concept.id.localeCompare(b.located.concept.id))
     .slice(0, 8);
+  const openProblems = collectOpenProblems(model);
+  const openProblemSubmissions = new Set(openProblems.map(({ located }) => located.output.id)).size;
   const citeExample = listed.find((submission) => submission.record.id.toLowerCase().replace(/[^a-z0-9]/g, "") === "lax17")
     ?? listed.find((submission) => submission.record.state === "registered")
     ?? listed[0];
@@ -236,6 +241,10 @@ ${copyablePrompt(markdown.render(landing.submit, ""))}
 <p class="landing-action-eyebrow">Contribute a review</p>
 <h3>Review the Archive</h3>
 ${reviewStarts}
+<p>${openProblems.length
+    ? `Browse every claim that does not yet have a grounded proof, across ${plural(openProblemSubmissions, "submission")}.`
+    : "Every claim currently has a grounded proof; this view will update automatically when a proof obligation is submitted."}</p>
+<a class="landing-open-problems-link" href="open-proof-obligations.html"><span><strong>${openProblems.length}</strong> ${openProblems.length === 1 ? "proof obligation" : "proof obligations"}</span><b>Browse proof obligations <span aria-hidden="true">→</span></b></a>
 </section>`;
   const cite = `<section class="landing-action-panel landing-cite-panel" id="landing-panel-cite" aria-labelledby="landing-action-cite">
 <p class="landing-action-eyebrow">Cite the formalization</p>

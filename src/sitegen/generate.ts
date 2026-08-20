@@ -7,6 +7,7 @@ import { conceptPage } from "./pages/concept.js";
 import { allCommentsPage } from "./pages/all-comments.js";
 import { contentPage } from "./pages/content.js";
 import { indexPage } from "./pages/index.js";
+import { openProblemsPage } from "./pages/open-problems.js";
 import { proofPage } from "./pages/proof.js";
 import { submissionPage } from "./pages/submission.js";
 
@@ -19,7 +20,11 @@ export async function generateSite(submissions: SiteSubmission[], outDir: string
   const files = new Map<string, string>();
   files.set("index.html", await indexPage(context));
   files.set(path.join("all-comments", "index.html"), allCommentsPage(context));
-  files.set("contributing.html", contentPage(context, "contributing", "Contributing"));
+  files.set("contributing.html", contentPage(context, "contributing", "Getting started"));
+  const proofObligations = openProblemsPage(context);
+  files.set("open-proof-obligations.html", proofObligations);
+  // Preserve shared preview and production links published under the old name.
+  files.set("open-problems.html", proofObligations);
   for (const submission of model.submissions) {
     files.set(path.join(submission.record.id, "index.html"), submissionPage(context, submission));
     if (!submission.output) continue;

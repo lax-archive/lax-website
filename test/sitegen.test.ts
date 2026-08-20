@@ -450,6 +450,7 @@ After the formula.`, "");
     expect(index).toContain('id="landing-panel-review" aria-labelledby="landing-action-review">');
     expect(index).toContain('data-review-concept="Lax2.C" data-review-weight="1"');
     expect(index).toContain('>Review a Concept <b aria-hidden="true">→</b></a>');
+    expect(index).toContain('class="landing-open-problems-link" href="open-proof-obligations.html"');
     expect(index).not.toMatch(/id="landing-panel-(?:read|submit|cite)"[^>]* hidden/);
     expect(index.indexOf('id="landing-panel-submit"')).toBeLessThan(index.indexOf('id="landing-panel-read"'));
     expect(index.indexOf('id="landing-panel-read"')).toBeLessThan(index.indexOf('id="landing-panel-cite"'));
@@ -508,9 +509,13 @@ After the formula.`, "");
     expect(index).not.toContain("no content uploaded yet");
     expect(index).toContain("1 submission ·");
     const contributing = fs.readFileSync(path.join(root, "contributing.html"), "utf8");
-    expect(contributing).toContain('<h1 class="paper-title">Contributing</h1>');
+    expect(contributing).toContain('<h1 class="paper-title">Getting started</h1>');
     expect(contributing).toContain("The workflow");
     expect(contributing).not.toContain('class="random-submission"');
+    const proofObligations = fs.readFileSync(path.join(root, "open-proof-obligations.html"), "utf8");
+    expect(proofObligations).toContain("<title>Open Proof Obligations — Lax Lean Archive</title>");
+    expect(proofObligations).toContain("There are currently no open proof obligations");
+    expect(fs.readFileSync(path.join(root, "open-problems.html"), "utf8")).toBe(proofObligations);
   });
 
   it("generates a direct-only all-comments activity page", async () => {
@@ -544,6 +549,23 @@ After the formula.`, "");
       const html = fs.readFileSync(path.join(root, pageName), "utf8");
       expect(html).not.toContain('class="random-submission"');
     }
+  });
+
+  it("renders an archive-wide, searchable view of open proof obligations", async () => {
+    const root = tmpDir("lax-site-proof-obligations-");
+    await generateSite([...submissions(), ...graphSubmissions()], root);
+    const html = fs.readFileSync(path.join(root, "open-proof-obligations.html"), "utf8");
+
+    expect(html).toContain("2 proof obligations · 2 open statements · 1 submission");
+    expect(html).toContain('placeholder="Search proof obligations"');
+    expect(html).toContain('id="open-problems-list"');
+    expect(html).toContain('data-type="theorem"');
+    expect(html).toContain('href="Lax4/Lax4.Top.html"');
+    expect(html).toContain('href="Lax4/Lax4.Aux.html"');
+    expect(html).toContain("Lax4.Top.a");
+    expect(html).toContain("Lax4.Aux.b");
+    expect(html).not.toContain('href="Lax2/Lax2.C.html"');
+    expect(html).not.toContain('href="Lax1/Lax1.Base.html"');
   });
 
   it("uses Lax17 as the landing citation example when it is available", async () => {

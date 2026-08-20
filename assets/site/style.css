@@ -1724,6 +1724,37 @@ body{
 .landing-review-start h4{ margin: 0.08rem 0 0.35rem; font-size: 1.08rem; line-height: 1.35; }
 .landing-review-start p:last-child{ margin-bottom: 0; }
 
+.landing-open-problems-link{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1.1rem;
+  padding: 0.78rem 0.9rem;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid var(--partial-border);
+  border-radius: var(--radius-card);
+  text-decoration: none;
+  transition: border-color 140ms ease, box-shadow 140ms ease, transform 140ms ease;
+}
+
+.landing-open-problems-link:hover,
+.landing-open-problems-link:focus-visible{
+  border-color: var(--accent);
+  box-shadow: 0 5px 16px rgba(44, 95, 138, 0.1);
+  transform: translateY(-1px);
+  outline: none;
+}
+
+.landing-open-problems-link strong{
+  margin-right: 0.15rem;
+  color: var(--partial-fg);
+  font-size: 1.25rem;
+}
+
+.landing-open-problems-link b{ color: var(--link); font-size: 0.82rem; }
+
 .landing-cite-example{
   display: grid;
   gap: 0.35rem;
@@ -1930,6 +1961,111 @@ body{
 .submissions-list-empty{
   color: var(--text-dim);
   padding: 0.75rem 0;
+}
+
+/* ── Archive-wide proof obligations ── */
+
+.open-problems-head{ margin-bottom: 1rem; }
+
+.open-problems-intro{
+  max-width: 42em;
+  margin: 0 auto 1.5rem;
+  color: var(--text-dim);
+  font-size: 0.92rem;
+}
+
+.open-problems-list{
+  display: grid;
+  gap: 0.9rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.open-problem-card{
+  padding: 1rem 1.1rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--partial-border);
+  border-radius: var(--radius-card);
+}
+
+.open-problem-title-line{
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+}
+
+.open-problem-title-line .type-badge{ flex: none; }
+
+#detail .open-problem-title-line h2{
+  margin: 0;
+  font-family: 'Latin Modern', Georgia, serif;
+  font-size: 1.22rem;
+  line-height: 1.35;
+}
+
+.open-problem-title-line h2 a{ color: var(--link); text-decoration: none; }
+.open-problem-title-line h2 a:hover{ text-decoration: underline; }
+
+.open-problem-meta{
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.3rem 0.48rem;
+  margin: 0.35rem 0 0 2.6rem;
+  color: var(--text-dim);
+  font-size: 0.75rem;
+  line-height: 1.45;
+}
+
+.open-problem-meta a{ color: var(--link); text-decoration: none; }
+.open-problem-meta a:hover{ text-decoration: underline; }
+.open-problem-meta code{ font-family: var(--mono); }
+
+.open-problem-count{
+  margin: 0.85rem 0 0.45rem;
+  color: var(--partial-fg);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.open-statement-list{
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.open-statement-list > li{
+  padding: 0.72rem 0.8rem;
+  background: var(--panel-bg);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-control);
+}
+
+.open-statement-list > li + li{ margin-top: 0.55rem; }
+
+.open-statement-name{ margin-bottom: 0.32rem; font-size: 0.8rem; }
+.open-statement-name a{ color: var(--link); text-decoration: none; }
+.open-statement-name a:hover{ text-decoration: underline; }
+.open-statement-name code{ font-family: var(--mono); overflow-wrap: anywhere; }
+
+.open-statement-summary{ color: var(--text); font-size: 0.87rem; line-height: 1.55; }
+.open-statement-summary > :last-child{ margin-bottom: 0; }
+
+.open-problem-action{ margin-top: 0.7rem; text-align: right; font-size: 0.8rem; }
+.open-problem-action a{ color: var(--link); font-weight: 700; text-decoration: none; }
+.open-problem-action a:hover{ text-decoration: underline; }
+
+.open-problems-empty{
+  padding: 1rem;
+  color: var(--text-dim);
+  background: var(--panel-bg);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-card);
+  text-align: center;
 }
 
 /* ── Submission concept grid ── */
@@ -3054,6 +3190,9 @@ body.graph-window-open::after{
   .landing-cite-example-action{ grid-column: 1 / -1; }
   .tag-browser-heading{ display: block; }
   .tag-browser-heading p{ margin-top: 0.18rem; text-align: left; }
+  .landing-open-problems-link{ align-items: flex-start; flex-direction: column; gap: 0.35rem; }
+  .open-problem-card{ padding: 0.9rem; }
+  .open-problem-meta{ margin-left: 0; }
 }
 
 @media (hover: none){

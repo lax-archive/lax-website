@@ -88,6 +88,10 @@
     const search = searchEl ? searchEl.value.trim().toLowerCase() : '';
     const type = typeEl ? typeEl.value : 'all';
     filterList(list, search, type, 'entry-list-empty');
+    const openProblems = document.getElementById('open-problems-list');
+    if (openProblems) {
+      filterList(openProblems, search, type, 'open-problems-list-empty');
+    }
 
     // A group heading shows only while its group has a visible row.
     list.querySelectorAll('li.entry-heading').forEach((heading) => {
