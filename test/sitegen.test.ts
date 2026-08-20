@@ -448,7 +448,7 @@ After the formula.`, "");
     expect(index).toContain('id="landing-panel-submit" aria-labelledby="landing-action-submit">');
     expect(index).toContain('id="landing-panel-cite" aria-labelledby="landing-action-cite">');
     expect(index).toContain('id="landing-panel-review" aria-labelledby="landing-action-review">');
-    expect(index).toContain("<h3>Review a submission</h3>");
+    expect(index).toContain("<h3>Review a concept</h3>");
     expect(index).toContain('data-review-concept="Lax2.C" data-review-weight="1"');
     expect(index).toContain("Review a concept or submission, endorse correct mathematics, or flag possible flaws.");
     expect(index).toContain("This concept is reused elsewhere in the archive. Review its mathematical correctness, endorse it if correct, or flag a flaw.");
