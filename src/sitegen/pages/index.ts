@@ -239,7 +239,7 @@ ${copyablePrompt(markdown.render(landing.submit, ""))}
 </div>`).join("\n");
   const review = `<section class="landing-action-panel landing-review-panel" id="landing-panel-review" aria-labelledby="landing-action-review">
 <p class="landing-action-eyebrow">Contribute a review</p>
-<h3>Review a submission</h3>
+<h3>Review a concept</h3>
 ${reviewStarts}
 </section>`;
   const proofObligations = `<section class="landing-action-panel landing-proof-obligations-panel" id="landing-proof-obligations" aria-labelledby="landing-proof-obligations-heading">
