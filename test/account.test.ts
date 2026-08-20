@@ -39,6 +39,7 @@ const settle = async () => {
 
 function fixture(user: { id: string; name: string }, initiallyAuthenticated = true) {
   let authenticated = initiallyAuthenticated;
+  let logoutStatus = 200;
   const root = new FakeElement();
   root.dataset = {
     remark42Host: "https://remark42.example.test",
@@ -118,29 +119,31 @@ function fixture(user: { id: string; name: string }, initiallyAuthenticated = tr
   const bridgeMessages: Array<Record<string, unknown>> = [];
   const respondToBridge = (source: Record<string, unknown>, message: Record<string, unknown>, origin: string) => {
     bridgeMessages.push(message);
-      queueMicrotask(() => listeners.message?.({
-        origin,
-        source,
-        data: {
-          source: "lax-reactions",
-          id: message.id,
-          ok: true,
-          status: 200,
-          data: message.action === "me"
-            ? authenticated
-              ? { authenticated: true, eligible: true, viewer: { remark42_id: user.id, orcid_id: "0000-0002-1825-0097", name: user.name, profile_url: "https://orcid.org/0000-0002-1825-0097" } }
-              : { authenticated: false, eligible: false }
-            : message.action === "comments" ? {
-              comments: [{
-                id: "hidden-review",
-                orig: "🚩 Incorrect claim\n\nlax-review:v2:flag:0:0",
-                locator: { url: "https://laxarchive.org/_reactions/Lax2/" },
-                time: "2026-08-18T10:00:00Z",
-              }],
-              count: 1,
-            } : {},
-        },
-      }));
+    if (message.action === "logout" && logoutStatus === 200) authenticated = false;
+    const responseStatus = message.action === "logout" ? logoutStatus : 200;
+    queueMicrotask(() => listeners.message?.({
+      origin,
+      source,
+      data: {
+        source: "lax-reactions",
+        id: message.id,
+        ok: responseStatus >= 200 && responseStatus < 300,
+        status: responseStatus,
+        data: message.action === "me"
+          ? authenticated
+            ? { authenticated: true, eligible: true, viewer: { remark42_id: user.id, orcid_id: "0000-0002-1825-0097", name: user.name, profile_url: "https://orcid.org/0000-0002-1825-0097" } }
+            : { authenticated: false, eligible: false }
+          : message.action === "comments" ? {
+            comments: [{
+              id: "hidden-review",
+              orig: "🚩 Incorrect claim\n\nlax-review:v2:flag:0:0",
+              locator: { url: "https://laxarchive.org/_reactions/Lax2/" },
+              time: "2026-08-18T10:00:00Z",
+            }],
+            count: 1,
+          } : {},
+      },
+    }));
   };
   const bridgeWindow = {
     postMessage(message: Record<string, unknown>, origin: string) { respondToBridge(bridgeWindow, message, origin); },
@@ -157,7 +160,7 @@ function fixture(user: { id: string; name: string }, initiallyAuthenticated = tr
     body: new FakeElement(),
     head: new FakeElement(),
   };
-  return { root, dialog, login, loginLabel, settings, settingsLabel, elements, requests, events, fetch, window, document, FakeCustomEvent, listeners, bridgeWindow, remarkBridgeWindow, bridgeMessages, get authChannel() { return authChannel; }, setAuthenticated(value: boolean) { authenticated = value; } };
+  return { root, dialog, login, loginLabel, settings, settingsLabel, elements, requests, events, fetch, window, document, FakeCustomEvent, listeners, bridgeWindow, remarkBridgeWindow, bridgeMessages, get authChannel() { return authChannel; }, setAuthenticated(value: boolean) { authenticated = value; }, setLogoutStatus(value: number) { logoutStatus = value; } };
 }
 
 describe("ORCID account header", () => {
@@ -275,5 +278,28 @@ describe("ORCID account header", () => {
     await settle();
 
     expect(fx.bridgeMessages.filter((message) => message.action === "me")).toHaveLength(before + 1);
+  });
+
+  it("treats an already-cleared session as a successful sign-out", async () => {
+    const fx = fixture({ id: `orcid_${"1".repeat(40)}`, name: "Ada Lovelace" });
+    const context = { document: fx.document, window: fx.window, fetch: fx.fetch, URL, CustomEvent: fx.FakeCustomEvent, Date, setTimeout };
+    vm.createContext(context);
+    vm.runInContext(fs.readFileSync("assets/site/account.js", "utf8"), context);
+    fx.listeners.message!({ origin: "https://remark42.example.test", source: fx.bridgeWindow, data: { source: "lax-reactions", type: "ready" } });
+    await settle();
+
+    fx.settings.listeners.get("click")!();
+    expect(fx.dialog.opened).toBe(true);
+    fx.setAuthenticated(false);
+    fx.setLogoutStatus(403);
+    fx.elements["[data-account-logout]"]!.listeners.get("click")!();
+    await settle();
+
+    expect(fx.dialog.opened).toBe(false);
+    expect(fx.login.hidden).toBe(false);
+    expect(fx.settings.hidden).toBe(true);
+    expect(fx.elements["[data-account-status]"]!.textContent).toBe("You are signed out.");
+    expect(fx.elements["[data-account-comments-status]"]!.textContent).not.toContain("failed");
+    expect(fx.bridgeMessages.slice(-2).map((message) => message.action)).toEqual(["logout", "me"]);
   });
 });

@@ -413,7 +413,7 @@ window.addEventListener("message",async(event)=>{
       data=await readJSON(response);
       if(!response.ok)throw fail(data.error||"comments are temporarily unavailable",response.status);
     }else if(request.action==="logout"){
-      const response=await fetch("/auth/logout",{credentials:"include",cache:"no-store"});
+      const response=await fetch("/auth/logout",{credentials:"include",cache:"no-store",headers:authHeaders({Accept:"application/json"})});
       if(!response.ok)throw fail("sign out failed",response.status);
     }else throw fail("invalid bridge request",400);
     send({source:"lax-reactions",id:request.id,ok:true,status:200,data});

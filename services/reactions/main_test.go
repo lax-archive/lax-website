@@ -407,7 +407,7 @@ func TestBridgeIsRestrictedToConfiguredParents(t *testing.T) {
 	if scriptRecorder.Code != http.StatusOK || !strings.Contains(script, `new Set(["https://laxarchive.org"])`) || strings.Contains(script, `postMessage(value,"*")`) || !strings.Contains(script, `request.action==="comments"`) || !strings.Contains(script, `request.action==="logout"`) {
 		t.Fatalf("bridge script does not enforce exact parent origins: %s", scriptRecorder.Body.String())
 	}
-	for _, expected := range []string{`/api/v1/user?site=remark`, `/api/v1/comment?site=remark`, `X-XSRF-TOKEN`, `X-JWT`, `response.headers`, `pathname==="/auth/logout"`, `type:"session-change"`, `lax-review:v2:flag:`, `A flag explanation is required`, `Choose one valid source line`, `Submission flags cannot reference concept source lines`, `sessionCache&&Date.now()-sessionCacheAt<2000`, `if(sessionPromise)return sessionPromise`, `clearSessionCache();notifySessionChange()`} {
+	for _, expected := range []string{`/api/v1/user?site=remark`, `/api/v1/comment?site=remark`, `X-XSRF-TOKEN`, `X-JWT`, `response.headers`, `pathname==="/auth/logout"`, `fetch("/auth/logout",{credentials:"include",cache:"no-store",headers:authHeaders({Accept:"application/json"})})`, `type:"session-change"`, `lax-review:v2:flag:`, `A flag explanation is required`, `Choose one valid source line`, `Submission flags cannot reference concept source lines`, `sessionCache&&Date.now()-sessionCacheAt<2000`, `if(sessionPromise)return sessionPromise`, `clearSessionCache();notifySessionChange()`} {
 		if !strings.Contains(script, expected) {
 			t.Fatalf("bridge script does not use the authenticated Remark42 iframe session, missing %q", expected)
 		}
