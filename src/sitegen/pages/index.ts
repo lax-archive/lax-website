@@ -233,14 +233,18 @@ ${copyablePrompt(markdown.render(landing.submit, ""))}
 <div class="landing-review-start-copy">
 <p class="landing-action-eyebrow">Used by ${plural(users.length, "other concept")}</p>
 <h4>${markdown.renderAuthorInline(located.concept.title, "")}</h4>
-<p>Read its statement and description, check the Lean source and evidence, then leave a focused comment on correctness or clarity. This example is already used by other archived concepts, so a thoughtful review can improve downstream work.</p>
+<p>This concept is reused elsewhere in the archive. Review its mathematical correctness, endorse it if correct, or flag a flaw.</p>
 </div>
-<a class="landing-hero-button primary" href="${attr(`${located.output.id}/${located.concept.id}.html`)}">Review a Concept <b aria-hidden="true">→</b></a>
+<a class="landing-hero-button primary" href="${attr(`${located.output.id}/${located.concept.id}.html`)}">Review now <b aria-hidden="true">→</b></a>
 </div>`).join("\n");
   const review = `<section class="landing-action-panel landing-review-panel" id="landing-panel-review" aria-labelledby="landing-action-review">
 <p class="landing-action-eyebrow">Contribute a review</p>
-<h3>Review the Archive</h3>
+<h3>Review a submission</h3>
 ${reviewStarts}
+</section>`;
+  const proofObligations = `<section class="landing-action-panel landing-proof-obligations-panel" id="landing-proof-obligations" aria-labelledby="landing-proof-obligations-heading">
+<p class="landing-action-eyebrow">Contribute a proof</p>
+<h3 id="landing-proof-obligations-heading">Open proof obligations</h3>
 <p>${openProblems.length
     ? `Browse every claim that does not yet have a grounded proof, across ${plural(openProblemSubmissions, "submission")}.`
     : "Every claim currently has a grounded proof; this view will update automatically when a proof obligation is submitted."}</p>
@@ -274,6 +278,7 @@ ${actionCards.join("\n")}
 ${submit}
 ${library}
 ${review}
+${proofObligations}
 ${cite}
 </div>
 </section>`;
