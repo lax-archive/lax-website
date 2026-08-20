@@ -1,15 +1,20 @@
 // Deterministic Sugiyama-style layered layout, shared by all site graphs.
 // The phases are: rank assignment; proper layering with one dummy vertex per
-// traversed rank; crossing reduction by alternating weighted-median sweeps and
-// adjacent transpositions; repeated-crossing removal; and constrained
-// horizontal coordinate assignment biased toward straight dummy chains.
+// traversed rank; crossing reduction by alternating median/barycenter sweeps,
+// deterministic restarts, and whole-vertex sifting; repeated-crossing removal;
+// and constrained horizontal coordinate assignment biased toward straight
+// dummy chains.
 //
 // Layers grow upward from the sources. The module is pure data-in/data-out and
 // deliberately dependency-free so the same code runs in browsers and tests.
 (() => {
   const VIRTUAL_WIDTH = 2;
   const ORDER_ROUNDS = 5;
+  const SIFT_ROUNDS = 1;
   const POSITION_ROUNDS = 28;
+  const FULL_SEARCH_NODE_LIMIT = 64;
+  const FULL_SEARCH_VERTEX_LIMIT = 200;
+  const FULL_SEARCH_SEGMENT_LIMIT = 300;
 
   const compareScore = (a, b) => a.crossings - b.crossings || a.span - b.span;
   const compareText = (a, b) => a < b ? -1 : a > b ? 1 : 0;
@@ -46,22 +51,49 @@
       : (sorted[middle - 1] + sorted[middle]) / 2;
   }
 
-  /** Strict crossings in one rank band. Segments sharing an endpoint have a
-   * zero factor and correctly do not count as crossing. */
-  function segmentsCross(first, second, position) {
-    const lower = position.get(first.lower) - position.get(second.lower);
-    const upper = position.get(first.upper) - position.get(second.upper);
-    return lower * upper < 0;
+  function barycenter(values) {
+    if (!values.length) return null;
+    return values.reduce((sum, value) => sum + value, 0) / values.length;
   }
 
   function countCrossingsBetween(segments, position) {
+    if (segments.length < 2) return 0;
+    const ordered = segments.map((segment) => ({
+      lower: position.get(segment.lower),
+      upper: position.get(segment.upper),
+    })).sort((a, b) => a.lower - b.lower || a.upper - b.upper);
+    const largestUpper = ordered.reduce((largest, segment) =>
+      Math.max(largest, segment.upper), 0);
+    const tree = new Uint32Array(largestUpper + 2);
+    const prefixCount = (slot) => {
+      let total = 0;
+      for (let index = slot; index > 0; index -= index & -index)
+        total += tree[index];
+      return total;
+    };
+    const add = (slot) => {
+      for (let index = slot; index < tree.length; index += index & -index)
+        tree[index] += 1;
+    };
+
+    // Segments with the same lower endpoint are queried before any of them
+    // enter the tree, so a shared endpoint never counts as a crossing. The
+    // Fenwick tree then counts only earlier upper endpoints strictly to the
+    // right of the current one.
     let crossings = 0;
-    for (let first = 0; first < segments.length; first += 1)
-      for (let second = first + 1; second < segments.length; second += 1) {
-        const a = segments[first];
-        const b = segments[second];
-        if (segmentsCross(a, b, position)) crossings += 1;
+    let seen = 0;
+    for (let first = 0; first < ordered.length;) {
+      let after = first + 1;
+      while (after < ordered.length && ordered[after].lower === ordered[first].lower)
+        after += 1;
+      for (let index = first; index < after; index += 1)
+        crossings += seen - prefixCount(ordered[index].upper + 1);
+      for (let index = first; index < after; index += 1) {
+        add(ordered[index].upper + 1);
+        seen += 1;
       }
+      first = after;
+    }
     return crossings;
   }
 
@@ -79,6 +111,26 @@
 
   const cloneLayers = (layers) => layers.map((layer) => [...layer]);
 
+  /** A fixed-seed shuffle supplies reproducible restarts without making the
+   * result depend on object iteration order or browser randomness. */
+  function shuffledLayers(layers, seed) {
+    let state = seed >>> 0;
+    const next = () => {
+      state ^= state << 13;
+      state ^= state >>> 17;
+      state ^= state << 5;
+      return state >>> 0;
+    };
+    return layers.map((source) => {
+      const layer = [...source];
+      for (let index = layer.length - 1; index > 0; index -= 1) {
+        const other = next() % (index + 1);
+        [layer[index], layer[other]] = [layer[other], layer[index]];
+      }
+      return layer;
+    });
+  }
+
   function positionsOf(layers) {
     const position = new Map();
     layers.forEach((layer) => layer.forEach((id, index) => position.set(id, index)));
@@ -92,11 +144,10 @@
     };
   }
 
-  /** One deterministic weighted-median/transpose search. Keeping the best
+  /** One deterministic sweep/sifting search. Keeping the best
    * complete state seen makes exploratory sweeps safe: no returned ordering
    * has more crossings than its seed. */
-  function optimizeOrdering(seed, vertices, segments, segmentsByLayer, startUpward,
-    interleaveTranspose) {
+  function optimizeOrdering(seed, vertices, segments, segmentsByLayer, startUpward, centerOf) {
     const layers = cloneLayers(seed);
     const position = positionsOf(layers);
     let bestLayers = cloneLayers(layers);
@@ -112,62 +163,88 @@
         bestLayers = cloneLayers(layers);
       }
     };
-    /** Only segments incident to the swapped adjacent vertices can change
-     * their crossing or span contribution. Scoring that delta keeps the
-     * transpose phase near-linear in ordinary graph degree. */
-    const swapScore = (layerIndex, firstId, secondId) => {
-      let crossings = 0;
-      let span = 0;
-      for (const band of [segmentsByLayer[layerIndex - 1] || [], segmentsByLayer[layerIndex] || []]) {
-        const affected = band.map((segment) => segment.lower === firstId ||
-          segment.upper === firstId || segment.lower === secondId || segment.upper === secondId);
-        for (let first = 0; first < band.length; first += 1) {
-          if (affected[first])
-            span += Math.abs(position.get(band[first].lower) - position.get(band[first].upper));
-          for (let second = first + 1; second < band.length; second += 1) {
-            if (!affected[first] && !affected[second]) continue;
-            if (segmentsCross(band[first], band[second], position)) crossings += 1;
-          }
-        }
-      }
-      return { crossings, span };
-    };
     const sortLayer = (layerIndex, neighborsOf) => {
       const layer = layers[layerIndex];
       const oldPosition = new Map(layer.map((id, index) => [id, index]));
       const keys = new Map(layer.map((id) => {
         const neighbors = neighborsOf(vertices.get(id));
-        const key = median(neighbors.map((neighbor) => position.get(neighbor)));
+        const key = centerOf(neighbors.map((neighbor) => position.get(neighbor)));
         return [id, key === null ? oldPosition.get(id) : key];
       }));
       layer.sort((a, b) => keys.get(a) - keys.get(b) ||
         oldPosition.get(a) - oldPosition.get(b) || compareText(a, b));
       reindex(layerIndex);
     };
-    const transposeLayer = (layerIndex) => {
+    /** Move each vertex directly to its best slot instead of requiring every
+     * intermediate adjacent swap to improve. This escapes the common local
+     * minimum in which a useful insertion temporarily raises the crossing
+     * count. Pairwise crossing costs and incremental span deltas keep a
+     * complete slot scan linear in rank size for bounded-degree graphs. */
+    const siftLayer = (layerIndex, reverseTies) => {
       const layer = layers[layerIndex];
+      if (layer.length < 2) return false;
+      const pairCost = new Map();
+      const crossingCost = (firstId, secondId) => {
+        const key = `${firstId}\u0001${secondId}`;
+        if (pairCost.has(key)) return pairCost.get(key);
+        const first = vertices.get(firstId);
+        const second = vertices.get(secondId);
+        let cost = 0;
+        for (const side of ['down', 'up'])
+          for (const firstNeighbor of first[side])
+            for (const secondNeighbor of second[side])
+              if (position.get(firstNeighbor) > position.get(secondNeighbor)) cost += 1;
+        pairCost.set(key, cost);
+        return cost;
+      };
+      const visit = [...layer].sort((a, b) => {
+        const firstDegree = vertices.get(a).down.length + vertices.get(a).up.length;
+        const secondDegree = vertices.get(b).down.length + vertices.get(b).up.length;
+        return secondDegree - firstDegree || (reverseTies ? compareText(b, a) : compareText(a, b));
+      });
       let anyChange = false;
-      let changed;
-      do {
-        changed = false;
-        for (let slot = 0; slot + 1 < layer.length; slot += 1) {
-          const firstId = layer[slot];
-          const secondId = layer[slot + 1];
-          const before = swapScore(layerIndex, firstId, secondId);
-          [layer[slot], layer[slot + 1]] = [layer[slot + 1], layer[slot]];
-          position.set(layer[slot], slot);
-          position.set(layer[slot + 1], slot + 1);
-          const after = swapScore(layerIndex, firstId, secondId);
-          if (compareScore(after, before) < 0) {
-            changed = true;
-            anyChange = true;
-            continue;
-          }
-          [layer[slot], layer[slot + 1]] = [layer[slot + 1], layer[slot]];
-          position.set(layer[slot], slot);
-          position.set(layer[slot + 1], slot + 1);
+
+      for (const id of visit) {
+        const currentSlot = layer.indexOf(id);
+        const others = layer.filter((candidate) => candidate !== id);
+        const crossingBySlot = [];
+        let crossing = others.reduce((total, other) => total + crossingCost(id, other), 0);
+        crossingBySlot.push(crossing);
+        const spanBySlot = [0];
+        let span = 0;
+        const incidentSpan = (vertexId, slot) => {
+          const vertex = vertices.get(vertexId);
+          let total = 0;
+          for (const neighbor of vertex.down)
+            total += Math.abs(slot - position.get(neighbor));
+          for (const neighbor of vertex.up)
+            total += Math.abs(slot - position.get(neighbor));
+          return total;
+        };
+        for (let slot = 0; slot < others.length; slot += 1) {
+          const other = others[slot];
+          crossing += crossingCost(other, id) - crossingCost(id, other);
+          crossingBySlot.push(crossing);
+          span += incidentSpan(id, slot + 1) - incidentSpan(id, slot) +
+            incidentSpan(other, slot) - incidentSpan(other, slot + 1);
+          spanBySlot.push(span);
         }
-      } while (changed);
+
+        let bestSlot = currentSlot;
+        let best = { crossings: crossingBySlot[currentSlot], span: spanBySlot[currentSlot] };
+        for (let slot = 0; slot <= others.length; slot += 1) {
+          const score = { crossings: crossingBySlot[slot], span: spanBySlot[slot] };
+          if (compareScore(score, best) < 0) {
+            best = score;
+            bestSlot = slot;
+          }
+        }
+        if (bestSlot === currentSlot) continue;
+        layer.splice(currentSlot, 1);
+        layer.splice(bestSlot, 0, id);
+        reindex(layerIndex);
+        anyChange = true;
+      }
       return anyChange;
     };
 
@@ -175,14 +252,12 @@
     const downward = () => {
       for (let index = 1; index <= maxLayer; index += 1) {
         sortLayer(index, (vertex) => vertex.down);
-        if (interleaveTranspose) transposeLayer(index);
         consider();
       }
     };
     const upward = () => {
       for (let index = maxLayer - 1; index >= 0; index -= 1) {
         sortLayer(index, (vertex) => vertex.up);
-        if (interleaveTranspose) transposeLayer(index);
         consider();
       }
     };
@@ -193,19 +268,20 @@
       if (upwardFirst) { upward(); downward(); }
       else { downward(); upward(); }
     }
-    if (!interleaveTranspose) {
-      bestLayers.forEach((layer, index) => { layers[index] = [...layer]; });
-      position.clear();
-      layers.forEach((layer, index) => {
-        layer.forEach((id, slot) => position.set(id, slot));
-      });
-      for (let pass = 0; pass < ORDER_ROUNDS; pass += 1) {
-        let improved = false;
-        for (let index = 0; index <= maxLayer; index += 1)
-          improved = transposeLayer(index) || improved;
+    bestLayers.forEach((layer, index) => { layers[index] = [...layer]; });
+    position.clear();
+    layers.forEach((layer) => layer.forEach((id, slot) => position.set(id, slot)));
+    for (let pass = 0; pass < SIFT_ROUNDS; pass += 1) {
+      let improved = false;
+      const upwardFirst = (pass % 2 === 0) === startUpward;
+      const order = upwardFirst
+        ? Array.from({ length: maxLayer + 1 }, (_, index) => maxLayer - index)
+        : Array.from({ length: maxLayer + 1 }, (_, index) => index);
+      for (const index of order) {
+        improved = siftLayer(index, pass % 2 === 1) || improved;
         consider();
-        if (!improved) break;
       }
+      if (!improved) break;
     }
     return { layers: bestLayers, score: bestScore };
   }
@@ -239,24 +315,37 @@
    * pseudoline invariant: every pair of original edges crosses at most once. */
   function removeRepeatedCrossings(layers, chains, vertices, segmentsByLayer) {
     const position = positionsOf(layers);
-    const limit = Math.max(1, chains.length * chains.length * layers.length);
+    // An edge that spans fewer than two rank bands cannot cross another edge
+    // twice. Excluding it avoids a quadratic scan of ordinary adjacent-rank
+    // edges, which are the majority in dense DAGs.
+    const eligibleChains = chains.filter((chain) =>
+      vertices.get(chain[chain.length - 1]).layer - vertices.get(chain[0]).layer >= 2);
+    const limit = Math.max(1, eligibleChains.length * eligibleChains.length * layers.length);
     let changes = 0;
     let changed = true;
     while (changed && changes < limit) {
       changed = false;
-      search:
-      for (let first = 0; first < chains.length; first += 1)
-        for (let second = first + 1; second < chains.length; second += 1) {
-          const bands = crossingBands(chains[first], chains[second], vertices, position);
+      scan:
+      for (let first = 0; first < eligibleChains.length; first += 1)
+        for (let second = first + 1; second < eligibleChains.length; second += 1) {
+          if (changes >= limit) break scan;
+          const firstChain = eligibleChains[first];
+          const secondChain = eligibleChains[second];
+          const firstStart = vertices.get(firstChain[0]).layer;
+          const secondStart = vertices.get(secondChain[0]).layer;
+          const overlap = Math.min(
+            vertices.get(firstChain[firstChain.length - 1]).layer,
+            vertices.get(secondChain[secondChain.length - 1]).layer,
+          ) - Math.max(firstStart, secondStart);
+          if (overlap < 2) continue;
+          const bands = crossingBands(firstChain, secondChain, vertices, position);
           if (bands.length < 2) continue;
           const fromLayer = bands[0] + 1;
           const throughLayer = bands[1];
-          const firstStart = vertices.get(chains[first][0]).layer;
-          const secondStart = vertices.get(chains[second][0]).layer;
           const swaps = [];
           for (let layer = fromLayer; layer <= throughLayer; layer += 1) {
-            const firstId = chains[first][layer - firstStart];
-            const secondId = chains[second][layer - secondStart];
+            const firstId = firstChain[layer - firstStart];
+            const secondId = secondChain[layer - secondStart];
             if (!vertices.get(firstId).virtual || !vertices.get(secondId).virtual) {
               swaps.length = 0;
               break;
@@ -271,14 +360,22 @@
           }
           if (!swaps.length) continue;
 
-          const before = crossingCount(segmentsByLayer, position);
+          // Only the bands touching a swapped rank can change. Checking that
+          // interval preserves the safety guard without rescoring the graph.
+          const crossingScore = () => {
+            let total = 0;
+            for (let layer = fromLayer - 1; layer <= throughLayer; layer += 1)
+              total += countCrossingsBetween(segmentsByLayer[layer] || [], position);
+            return total;
+          };
+          const before = crossingScore();
           for (const swap of swaps) {
             layers[swap.layer][swap.firstSlot] = swap.secondId;
             layers[swap.layer][swap.secondSlot] = swap.firstId;
             position.set(swap.firstId, swap.secondSlot);
             position.set(swap.secondId, swap.firstSlot);
           }
-          const after = crossingCount(segmentsByLayer, position);
+          const after = crossingScore();
           if (after >= before) {
             for (const swap of swaps) {
               layers[swap.layer][swap.firstSlot] = swap.firstId;
@@ -290,7 +387,6 @@
           }
           changes += 1;
           changed = true;
-          break search;
         }
     }
     return position;
@@ -661,18 +757,35 @@
     for (const segment of segments)
       segmentsByLayer[vertices.get(segment.lower).layer].push(segment);
 
-    // Two deterministic starts find different local minima on asymmetric
-    // graphs. Crossing count is primary; total rank-span breaks ties.
+    // Deterministic starts and two standard neighborhood centers find
+    // different local minima on asymmetric graphs. Crossing count is primary;
+    // total rank-span breaks ties.
     const alternatingSeed = baseLayers.map((layer, index) =>
       index % 2 ? [...layer].reverse() : [...layer]);
+    const shuffledSeedA = shuffledLayers(baseLayers, 0x9e3779b9);
     const candidates = [
-      optimizeOrdering(baseLayers, vertices, segments, segmentsByLayer, false, false),
-      optimizeOrdering(baseLayers, vertices, segments, segmentsByLayer, false, true),
-      optimizeOrdering(alternatingSeed, vertices, segments, segmentsByLayer, true, true),
+      optimizeOrdering(baseLayers, vertices, segments, segmentsByLayer, true, median),
+      optimizeOrdering(baseLayers, vertices, segments, segmentsByLayer, false, barycenter),
     ];
-    // Lens removal can improve the candidates by different amounts, so apply
-    // the invariant to each one before choosing the overall minimum.
-    const finalized = candidates.map((candidate) => {
+    // Extra restarts pay off on the small archive figures. Proper layering can
+    // add many dummy vertices, so larger workloads use the two strongest starts
+    // and finalize only their best raw ordering to stay within an interaction
+    // frame for ordinary graphs below 100 real vertices.
+    const thoroughSearch = nodes.length <= FULL_SEARCH_NODE_LIMIT &&
+      vertices.size <= FULL_SEARCH_VERTEX_LIMIT && segments.length <= FULL_SEARCH_SEGMENT_LIMIT;
+    if (thoroughSearch) {
+      candidates.push(
+        optimizeOrdering(alternatingSeed, vertices, segments, segmentsByLayer, false, barycenter),
+        optimizeOrdering(shuffledSeedA, vertices, segments, segmentsByLayer, true, barycenter),
+      );
+    }
+    // Lens removal can improve small candidates by different amounts, so the
+    // thorough path finalizes each one before choosing the overall minimum.
+    const finalists = thoroughSearch
+      ? candidates
+      : [...candidates].sort((a, b) => compareScore(a.score, b.score) ||
+        compareText(JSON.stringify(a.layers), JSON.stringify(b.layers))).slice(0, 1);
+    const finalized = finalists.map((candidate) => {
       const layers = cloneLayers(candidate.layers);
       const position = removeRepeatedCrossings(layers, chains, vertices, segmentsByLayer);
       return {
@@ -688,11 +801,13 @@
       compareText(JSON.stringify(a.layers), JSON.stringify(b.layers)));
     const { layers, position } = finalized[0];
     const crossings = finalized[0].score.crossings;
-    let maxPairCrossings = 0;
-    for (let first = 0; first < chains.length; first += 1)
-      for (let second = first + 1; second < chains.length; second += 1)
+    let maxPairCrossings = crossings > 0 ? 1 : 0;
+    const multiBandChains = chains.filter((chain) =>
+      vertices.get(chain[chain.length - 1]).layer - vertices.get(chain[0]).layer >= 2);
+    for (let first = 0; first < multiBandChains.length; first += 1)
+      for (let second = first + 1; second < multiBandChains.length; second += 1)
         maxPairCrossings = Math.max(maxPairCrossings,
-          crossingBands(chains[first], chains[second], vertices, position).length);
+          crossingBands(multiBandChains[first], multiBandChains[second], vertices, position).length);
 
     const x = assignCoordinates(layers, vertices, nodeGap);
     straightenDummyChains(chains, layers, vertices, x, nodeGap);

@@ -1,4 +1,5 @@
 import fs from "node:fs";
+import { performance } from "node:perf_hooks";
 import vm from "node:vm";
 import { describe, expect, it } from "vitest";
 
@@ -79,6 +80,22 @@ describe("Sugiyama graph layout", () => {
     expect(first.crossings).toBe(0);
     expect(first.maxPairCrossings).toBe(0);
     expect(serialize(first)).toEqual(serialize(second));
+  });
+
+  it("escapes a one-sided local minimum instead of keeping avoidable crossings", () => {
+    const nodes = [
+      ...Array.from({ length: 5 }, (_, index) => `a${index}`),
+      ...Array.from({ length: 5 }, (_, index) => `z${index}`),
+    ].map((id) => ({ id, width: 30 }));
+    const pairs = [
+      [0, 0], [0, 1], [0, 3], [0, 4], [1, 2], [2, 1],
+      [2, 2], [2, 3], [3, 0], [3, 1], [3, 4], [4, 1],
+    ];
+    const edges = pairs.map(([from, to]) => ({ from: `a${from}`, to: `z${to}` }));
+
+    // Exhausting both five-vertex rank permutations gives an optimum of five;
+    // the former median/transpose heuristic stopped at eight.
+    expect(layoutDag({ nodes, edges }).crossings).toBe(5);
   });
 
   it("never lets a pair of long edges cross more than once", () => {
@@ -180,5 +197,38 @@ describe("Sugiyama graph layout", () => {
     ];
     for (const point of aligned)
       expect(point.x).toBeCloseTo(aligned[0]!.x, 8);
+  });
+
+  it("lays out a skipped-rank 96-vertex DAG within an interactive budget", () => {
+    const layerCount = 8;
+    const layerWidth = 12;
+    const nodes = Array.from({ length: layerCount }, (_, layer) =>
+      Array.from({ length: layerWidth }, (__, column) => ({
+        id: `n${layer}_${String(column).padStart(2, "0")}`,
+        width: 52 + (column % 4) * 7,
+      }))).flat();
+    const edges: Edge[] = [];
+    for (let layer = 0; layer < layerCount - 1; layer += 1)
+      for (let column = 0; column < layerWidth; column += 1)
+        for (let offset = 0; offset < 3; offset += 1) {
+          const skip = 1 + ((column + offset * 3 + layer) %
+            Math.min(3, layerCount - layer - 1));
+          const target = (column * 7 + offset * 5 + layer * 3) % layerWidth;
+          edges.push({
+            from: `n${layer}_${String(column).padStart(2, "0")}`,
+            to: `n${layer + skip}_${String(target).padStart(2, "0")}`,
+          });
+        }
+
+    // Warm the VM-backed function once so this measures layout rather than
+    // JavaScript compilation. The CI ceiling allows for parallel test-worker
+    // contention; the same case benchmarks at roughly 70 ms in isolation.
+    layoutDag({ nodes, edges });
+    const start = performance.now();
+    const layout = layoutDag({ nodes, edges });
+    const elapsed = performance.now() - start;
+    expect(layout.positions.size).toBe(96);
+    expect(layout.maxPairCrossings).toBeLessThanOrEqual(1);
+    expect(elapsed).toBeLessThan(500);
   });
 });
