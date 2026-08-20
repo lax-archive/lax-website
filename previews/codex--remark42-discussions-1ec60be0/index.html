@@ -7,7 +7,7 @@
 <title>Lax Lean Archive</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="assets/style.css?v=063d26ebba81">
+<link rel="stylesheet" href="assets/style.css?v=781d5eb0ca8e">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -156,7 +156,7 @@ can read, software can check, and future work can build upon.</p>
 <span class="landing-action-hint" aria-hidden="true">Go to section <b>↓</b></span>
 </button>
 <button class="landing-action-card" id="landing-action-review" type="button" data-landing-view="review" data-landing-action="review" aria-controls="landing-panel-review">
-<span class="landing-action-title">Review.</span><span class="landing-action-copy">Examine a concept or complete submission, check its mathematical explanation against the Lean source, and leave focused feedback.</span>
+<span class="landing-action-title">Review.</span><span class="landing-action-copy">Browse open proof obligations or examine a concept or complete submission, compare its explanation with the Lean source, and leave focused feedback.</span>
 <span class="landing-action-hint" aria-hidden="true">Go to section <b>↓</b></span>
 </button>
 <button class="landing-action-card" id="landing-action-submit" type="button" data-landing-view="submit" data-landing-action="submit" aria-controls="landing-panel-submit">
@@ -172,26 +172,26 @@ can read, software can check, and future work can build upon.</p>
 <section class="landing-action-panel landing-submit-panel latex-content" id="landing-panel-submit" aria-labelledby="landing-action-submit">
 <p class="landing-action-eyebrow">Contribute to Lax</p>
 <h3>Creating your own submission</h3>
-<p>The fastest way to contribute is to hand your AI agent (preferably a frontier
-model like Claude Fable) a prompt like:</p>
+<p>Contributing is a two-step process.</p>
+<ol>
+<li><p><strong>Set up</strong>, once per machine:</p>
+<pre><code class="language-sh">npm install -g lax-archive
+lax login     # sign in with GitHub (identity only, no repo access)
+lax doctor    # checks your setup and installs whatever is missing
+</code></pre>
+</li>
+<li><p><strong>Hand your coding agent</strong> a prompt like:</p>
 <div class="landing-prompt-box">
-<pre id="landing-submission-prompt"><code>Use Lax to formalize &lt;my result&gt;. Steps:
-- Install the lax CLI (npm install -g lax-archive) and familiarize
-  yourself with the tool, e.g. by reading `lax spec`.
-- Design the concepts: find the cleanest partition of the mathematics
-  into individual concepts, reusing suitable concepts from other submissions
-  where possible, and ask me for feedback on the design.
-  Favor code that is easy to review, also for non-experts.
-- Write the concepts and show them to me via `lax serve`.
-- Once I have approved the concepts, write the proofs. For this step,
-  act as supervisor and delegate individual proofs to subagents to
-  keep your own context clean.
+<pre id="landing-submission-prompt"><code>Run `lax print instructions` and follow the guide it prints
+to formalize &lt;my result&gt;.
 </code></pre>
 <button class="prompt-copy" type="button" data-copy-prompt aria-controls="landing-submission-prompt" aria-label="Copy prompt to clipboard" title="Copy prompt"><span class="prompt-copy-icon" aria-hidden="true"></span></button>
 <output class="prompt-copy-status" aria-live="polite"></output>
 </div>
+</li>
+</ol>
 <p>Prefer to work hands-on, or want to know what happens at each step? See
-<a href="contributing.html">Contributing</a>.</p>
+<a href="contributing.html">Getting started</a>.</p>
 
 </section>
 <section class="landing-action-panel submissions-library" id="landing-panel-read" aria-labelledby="landing-action-read">
@@ -386,6 +386,8 @@ model like Claude Fable) a prompt like:</p>
 </div>
 <a class="landing-hero-button primary" href="lax-11/Lax11.GraphEncoding.html">Review a Concept <b aria-hidden="true">→</b></a>
 </div>
+<p>Browse every claim that does not yet have a grounded proof, across 1 submission.</p>
+<a class="landing-open-problems-link" href="open-proof-obligations.html"><span><strong>1</strong> proof obligation</span><b>Browse proof obligations <span aria-hidden="true">→</span></b></a>
 </section>
 <section class="landing-action-panel landing-cite-panel" id="landing-panel-cite" aria-labelledby="landing-action-cite">
 <p class="landing-action-eyebrow">Cite the formalization</p>
@@ -429,7 +431,7 @@ model like Claude Fable) a prompt like:</p>
 </div>
 </div>
 </dialog>
-<script src="assets/sidebar.js?v=81d80ace468c"></script>
+<script src="assets/sidebar.js?v=b11f292fc5c2"></script>
 <script src="assets/account.js?v=8def7c90cefe"></script>
 <script src="assets/landing.js?v=27fb7a897069"></script>
 </body></html>
