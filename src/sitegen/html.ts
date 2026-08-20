@@ -4,6 +4,12 @@
 // dag.js run in the browser; everything else is rendered at build time.
 
 import { siteAssetVersion } from "./assets.js";
+import {
+  DEFAULT_SITE_URL,
+  REMARK42_IDENTITY_URL,
+  REMARK42_SITE_ID,
+  REMARK42_URL,
+} from "../config.js";
 
 const HONESTY_TOOLTIP =
   "Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.";
@@ -27,8 +33,60 @@ export interface PageShell {
   scripts?: string[];
 }
 
-const CSP =
-  "default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src https: data:; font-src 'self'";
+const REMARK42_ORIGIN = new URL(REMARK42_URL).origin;
+const ACCOUNT_CONNECT_ORIGINS = [...new Set([
+  REMARK42_ORIGIN,
+  new URL(REMARK42_IDENTITY_URL).origin,
+])].join(" ");
+const BASE_CSP =
+  `default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src https: data:; font-src 'self'; frame-src ${REMARK42_ORIGIN}; connect-src ${ACCOUNT_CONNECT_ORIGINS}`;
+
+function contentSecurityPolicy(hasDiscussion: boolean): string {
+  if (!hasDiscussion) return BASE_CSP;
+  return `default-src 'none'; script-src 'self' ${REMARK42_ORIGIN}; style-src 'self' 'unsafe-inline'; img-src https: data:; font-src 'self'; frame-src ${REMARK42_ORIGIN}; connect-src ${ACCOUNT_CONNECT_ORIGINS}`;
+}
+
+function accountLoginHref(): string {
+  const url = new URL("/auth/orcid/login", REMARK42_URL);
+  url.searchParams.set("from", DEFAULT_SITE_URL);
+  url.searchParams.set("site", REMARK42_SITE_ID);
+  return url.toString();
+}
+
+function accountUi(): string {
+  return `<div class="account-header" data-account-root data-remark42-host="${attr(REMARK42_URL)}" data-remark42-site="${attr(REMARK42_SITE_ID)}" data-identity-url="${attr(REMARK42_IDENTITY_URL)}">
+  <a class="account-control" data-account-login href="${attr(accountLoginHref())}"><span class="orcid-mark" aria-hidden="true">iD</span><span>Sign in with ORCID</span></a>
+  <button class="account-control" data-account-settings type="button" aria-haspopup="dialog" aria-controls="account-dialog" hidden><span class="orcid-mark" aria-hidden="true">iD</span><span>Settings</span></button>
+</div>`;
+}
+
+function accountDialog(): string {
+  return `<dialog class="account-dialog" id="account-dialog" aria-labelledby="account-dialog-title">
+<div class="account-dialog-inner">
+<header class="account-dialog-header">
+<div><p class="account-dialog-eyebrow">ORCID account</p><h2 id="account-dialog-title">Settings</h2></div>
+<button class="account-dialog-close" data-account-close type="button" aria-label="Close account settings">×</button>
+</header>
+<div class="account-dialog-body">
+<p class="account-status" data-account-status role="status">Checking your ORCID session…</p>
+<section data-account-content hidden>
+<div class="account-identity">
+<span class="account-avatar" data-account-avatar aria-hidden="true">iD</span>
+<div><a class="account-name" data-account-name target="_blank" rel="noopener noreferrer"></a><p class="account-id" data-account-id></p></div>
+</div>
+<p class="account-name-note">Your public name comes from ORCID. ORCID names are self-asserted and may change.</p>
+<div class="account-actions">
+<a data-account-refresh href="${attr(accountLoginHref())}">Refresh from ORCID</a>
+<button data-account-logout type="button">Sign out</button>
+</div>
+<div class="account-comments-heading"><h3>Your comments</h3><span data-account-comment-count></span></div>
+<ol class="account-comments" data-account-comments></ol>
+<p class="account-comments-status" data-account-comments-status role="status"></p>
+</section>
+</div>
+</div>
+</dialog>`;
+}
 
 // Inline data: URI so the icon loads under the CSP everywhere — including
 // plain-http `lax serve`, where an assets/ file would violate `img-src`.
@@ -36,14 +94,15 @@ const FAVICON = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' vi
 
 export function page(shell: PageShell): string {
   const root = shell.rootRel;
-  const scripts = ["assets/sidebar.js", ...(shell.scripts ?? [])]
+  const csp = contentSecurityPolicy(shell.scripts?.includes("assets/comments.js") ?? false);
+  const scripts = ["assets/sidebar.js", "assets/account.js", ...(shell.scripts ?? [])]
     .map((src) => `<script src="${attr(root + src)}?v=${siteAssetVersion(src.replace(/^assets\//, ""))}"></script>`)
     .join("\n");
   const stylesheet = (src: string) => `${root}assets/${src}?v=${siteAssetVersion(src)}`;
   return `<!doctype html>
 <html lang="en"><head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="${CSP}">
+<meta http-equiv="Content-Security-Policy" content="${csp}">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Lax — an archive of formalized mathematical concepts and their proofs">
 <title>${esc(shell.title)}</title>
@@ -54,6 +113,9 @@ export function page(shell: PageShell): string {
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
   <h1 class="site-title"><a href="${root}index.html">Lax <span class="site-title-quiet">Lean Archive</span></a></h1>
+  <nav class="header-actions" aria-label="Account">
+    ${accountUi()}
+  </nav>
 </header>
 <main id="content-shell">
 <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
@@ -64,6 +126,7 @@ ${shell.sidebar}
 ${shell.content}
 </div></section>
 </main>
+${accountDialog()}
 ${scripts}
 </body></html>
 `;

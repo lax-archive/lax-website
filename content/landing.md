@@ -9,8 +9,9 @@ can read, software can check, and future work can build upon.
 - **Read.** Browse submissions and their concepts as human-readable statements
   alongside their Lean source. Every claim shows its evidence: which proofs
   establish it, under which assumptions.
-- **Review.** Browse open proof obligations, read their formal statements, and
-  identify a route to proving them.
+- **Review.** Browse open proof obligations or examine a concept or complete
+  submission, compare its explanation with the Lean source, and leave focused
+  feedback.
 - **Submit.** Publish your own formalization. You may build upon definitions
   and theorems of existing submissions.
 - **Cite.** Every page carries a ready-made BibTeX entry.

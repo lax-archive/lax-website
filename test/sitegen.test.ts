@@ -17,7 +17,7 @@ const submissions = (): SiteSubmission[] => [{
   },
   output: {
     specVersion: "1", id: "Lax2",
-    manifest: { specVersion: "1", id: "Lax2", leanVersion: "v4.30.0", mathlibVersion: "abc", title: "Two", authors: [{ name: "Alice", github: "alice" }], bibEntries: ["@article{demo,\n  author = {Doe, Jane and M{\\\"u}ller, Hans},\n  title = {A Cited Result},\n  journal = {J. Math},\n  volume = {1},\n  number = {2},\n  pages = {3--4},\n  year = {2020},\n  doi = {10.1000/demo},\n}", "@book{x}"] },
+    manifest: { specVersion: "1", id: "Lax2", leanVersion: "v4.30.0", mathlibVersion: "abc", title: "Two", authors: [{ name: "Alice", github: "alice", orcid: "0000-0002-1825-0097" }], bibEntries: ["@article{demo,\n  author = {Doe, Jane and M{\\\"u}ller, Hans},\n  title = {A Cited Result},\n  journal = {J. Math},\n  volume = {1},\n  number = {2},\n  pages = {3--4},\n  year = {2020},\n  doi = {10.1000/demo},\n}", "@book{x}"] },
     abstract: "See [[Lax2.C]], [[Lax2.C.truth|the statement]], and $x^2$. Broken: [[Nobody]].",
     requiredByConcepts: [], requiredByProofs: [],
     concepts: [
@@ -316,8 +316,11 @@ After the formula.`, "");
       expect(bytes.equals(second.get(name)!)).toBe(true);
       expect(SITE_MIME[path.extname(name)], `missing MIME for ${name}`).toBeDefined();
     }
-    for (const asset of ["style.css", "sidebar.js", "landing.js", "layout.js", "dag.js", "source-proof.js", "citation.js", "katex.css", "lax-white-paper.pdf", path.join("fonts", "LM-regular.woff2")])
+    for (const asset of ["style.css", "sidebar.js", "landing.js", "layout.js", "dag.js", "source-proof.js", "citation.js", "comments.js", "katex.css", "lax-white-paper.pdf", path.join("fonts", "LM-regular.woff2")])
       expect(fs.existsSync(path.join(one, "assets", asset)), asset).toBe(true);
+    const emptySubmission = fs.readFileSync(path.join(one, "Lax10", "index.html"), "utf8");
+    expect(emptySubmission).toContain('data-remark42-url="https://laxarchive.org/Lax10/"');
+    expect(emptySubmission).toMatch(/<script src="\.\.\/assets\/comments\.js\?v=[0-9a-f]{12}"><\/script>/);
     expect(fs.readFileSync(path.join(one, "assets", "lax-white-paper.pdf")).subarray(0, 4).toString()).toBe("%PDF");
     // Graph containers must be measurable before dag.js appends their SVG.
     const css = fs.readFileSync(path.join(one, "assets", "style.css"), "utf8");
@@ -334,6 +337,7 @@ After the formula.`, "");
     expect(css).toContain("@media (hover: hover) and (pointer: fine)");
     expect(css).toContain("aspect-ratio: 1.42 / 1");
     expect(css).toContain(".landing-demo-concept .landing-demo-code-line-accent");
+    expect(css).toContain(".landing-review-start[hidden]{ display: none; }");
     const unavailableRest = css.match(/\.landing-action-card\.unavailable\{([^}]*)\}/)?.[1] ?? "";
     expect(unavailableRest).not.toContain("background");
     expect(css).toMatch(/\.landing-action-card\.unavailable:hover,[\s\S]*?background: var\(--panel-bg\);/);
@@ -348,6 +352,9 @@ After the formula.`, "");
     expect(landingScript).not.toContain("data-open-paper");
     expect(landingScript).toContain("document.getElementById(`landing-panel-${id}`)");
     expect(landingScript).toContain("function setupProofFlip()");
+    expect(landingScript).toContain("function setupReviewConcept()");
+    expect(landingScript).not.toContain("sessionStorage");
+    expect(landingScript).toContain("Math.random()");
     expect(landingScript).toContain("card.setAttribute('aria-pressed', String(flipped))");
     expect(landingScript).toContain("precisePointer.matches && event.detail !== 0");
     expect(landingScript).not.toContain("panel.hidden");
@@ -424,6 +431,7 @@ After the formula.`, "");
     expect(index).toContain('data-landing-action="read" aria-controls="landing-panel-read"');
     expect(index).toContain('data-landing-action="submit" aria-controls="landing-panel-submit"');
     expect(index).toContain('data-landing-action="cite" aria-controls="landing-panel-cite"');
+    expect(index).toContain('data-landing-action="review" aria-controls="landing-panel-review"');
     for (const id of ["read", "review", "submit", "cite"]) {
       expect(index).toContain(`id="landing-action-${id}"`);
       expect(index).toContain(`data-landing-view="${id}"`);
@@ -440,6 +448,8 @@ After the formula.`, "");
     expect(index).toContain('id="landing-panel-submit" aria-labelledby="landing-action-submit">');
     expect(index).toContain('id="landing-panel-cite" aria-labelledby="landing-action-cite">');
     expect(index).toContain('id="landing-panel-review" aria-labelledby="landing-action-review">');
+    expect(index).toContain('data-review-concept="Lax2.C" data-review-weight="1"');
+    expect(index).toContain('>Review a Concept <b aria-hidden="true">→</b></a>');
     expect(index).toContain('class="landing-open-problems-link" href="open-proof-obligations.html"');
     expect(index).not.toMatch(/id="landing-panel-(?:read|submit|cite)"[^>]* hidden/);
     expect(index.indexOf('id="landing-panel-submit"')).toBeLessThan(index.indexOf('id="landing-panel-read"'));
@@ -452,6 +462,14 @@ After the formula.`, "");
     expect(index).toContain("contributing.html");
     expect(index).toMatch(/<script src="assets\/landing\.js\?v=[0-9a-f]{12}"><\/script>/);
     expect(index).toMatch(/<script src="assets\/sidebar\.js\?v=[0-9a-f]{12}"><\/script>/);
+    expect(index).toMatch(/<script src="assets\/account\.js\?v=[0-9a-f]{12}"><\/script>/);
+    expect(index).toContain('data-account-login');
+    expect(index).toContain('data-account-settings');
+    expect(index).toContain('<nav class="header-actions" aria-label="Account">');
+    expect(index).not.toContain('class="header-submit"');
+    expect(index).toContain('<span>Sign in with ORCID</span>');
+    expect(index).toContain('id="account-dialog"');
+    expect(index).not.toContain('href="all-comments/');
     expect(index).toMatch(/<link rel="stylesheet" href="assets\/style\.css\?v=[0-9a-f]{12}">/);
     expect(index).not.toContain("&lt;!--");
     expect(index).toContain("Lax2/index.html");
@@ -498,6 +516,20 @@ After the formula.`, "");
     expect(proofObligations).toContain("<title>Open Proof Obligations — Lax Lean Archive</title>");
     expect(proofObligations).toContain("There are currently no open proof obligations");
     expect(fs.readFileSync(path.join(root, "open-problems.html"), "utf8")).toBe(proofObligations);
+  });
+
+  it("generates a direct-only all-comments activity page", async () => {
+    const root = tmpDir("lax-site-all-comments-");
+    await generateSite(submissions(), root);
+    const activity = fs.readFileSync(path.join(root, "all-comments", "index.html"), "utf8");
+    const index = fs.readFileSync(path.join(root, "index.html"), "utf8");
+
+    expect(activity).toContain("<title>All comments — Lax Lean Archive</title>");
+    expect(activity).toContain('id="all-comments"');
+    expect(activity).toContain('data-identity-url="https://comments.laxarchive.org/reactions/v1/identity"');
+    expect(activity).toMatch(/<script src="\.\.\/assets\/all-comments\.js\?v=[0-9a-f]{12}"><\/script>/);
+    expect(activity).toContain("connect-src https://comments.laxarchive.org");
+    expect(index).not.toContain('href="all-comments/');
   });
 
   it("offers every submission as a random sidebar choice only on the front page", async () => {
@@ -607,7 +639,7 @@ After the formula.`, "");
     expect(html).not.toContain('class="submission-title-id"');
     expect(html).not.toContain('class="submission-title-separator"');
     expect(html).not.toContain('class="paper-authors"');
-    expect(html).toContain('<p class="paper-meta"><span class="submission-meta-id">Lax2</span><span class="meta-sep">·</span><span class="formalized-label">formalized by</span> <span class="paper-author">Alice');
+    expect(html).toContain('<p class="paper-meta"><span class="submission-meta-id">Lax2</span><span class="meta-sep">·</span><span class="formalized-label">formalized by</span> <span class="paper-author"><a class="paper-author-name" href="https://orcid.org/0000-0002-1825-0097" target="_blank" rel="noopener noreferrer">Alice</a>');
     expect(html.indexOf('class="paper-meta"')).toBeLessThan(html.indexOf('class="katex"'));
     // the abstract is rendered under its own heading, not as an inline block
     expect(html).toContain("Abstract");
@@ -663,6 +695,34 @@ After the formula.`, "");
     expect(html).toContain('data-copy-citation aria-controls="submission-citation" aria-label="Copy BibTeX to clipboard"');
     expect(html).toContain('<output class="citation-copy-status" aria-live="polite"></output>');
     expect(html).toMatch(/<script src="\.\.\/assets\/citation\.js\?v=[0-9a-f]{12}"><\/script>/);
+    expect(html).toContain('<section class="page-section discussion-section" aria-labelledby="discussion-title">');
+    expect(html).toContain('class="page-reactions"');
+    expect(html).toContain('data-reactions-url="https://laxarchive.org/Lax2/"');
+    expect(html).toContain('data-review-kind="submission" data-source-lines="0"');
+    expect(html).toContain('data-reaction="endorse"');
+    expect(html).toContain('data-reaction="flag"');
+    expect(html).not.toContain('data-reaction="like"');
+    expect(html).not.toContain('data-reaction="dislike"');
+    expect(html).not.toContain('data-reaction="rocket"');
+    expect(html).toContain('data-reaction-voters="endorse"');
+    expect(html).toContain('data-flag-list-open');
+    expect(html).toContain('data-flag-list-dialog');
+    expect(html).toContain('data-flag-editor');
+    expect(html).toContain('data-flag-message rows="6" maxlength="2000" required');
+    expect(html).toContain("Show people who endorse this submission");
+    expect(html).toContain("What is wrong?");
+    expect(html).not.toContain("Optional source annotation");
+    expect(html).not.toContain("Was this page useful?");
+    expect(html).not.toContain("Votes and voter names are public.");
+    expect(html.indexOf('class="page-reactions"')).toBeLessThan(html.indexOf('class="paper-abstract"'));
+    expect(html.indexOf('class="page-reactions"')).toBeLessThan(html.indexOf("discussion-section"));
+    expect(html).toContain('data-remark42-url="https://laxarchive.org/Lax2/"');
+    expect(html).toContain('class="remark42__counter" data-url="https://laxarchive.org/Lax2/"');
+    expect(html).toMatch(/<p class="discussion-loading" id="remark42-status"[^>]*>[^]*?<\/p>\s*<div id="remark42"[^>]*><\/div>/);
+    expect(html).toContain("your ORCID profile must share a public name.");
+    expect(html).toMatch(/<script src="\.\.\/assets\/comments\.js\?v=[0-9a-f]{12}"><\/script>/);
+    expect(html).toContain("script-src 'self' https://comments.laxarchive.org");
+    expect(html).toContain("frame-src https://comments.laxarchive.org");
     expect(html).not.toContain("note = {draft}");
     expect(html).not.toContain("draft-banner");
     // inline JSON graph data parses and grays nothing (no external neighbors)
@@ -877,6 +937,17 @@ After the formula.`, "");
     // the claim's evidence block lists the archived proof, linking to its page
     expect(html).toContain("<h3>Evidence</h3>");
     expect(html).toContain('href="../Lax2/Lax2Proofs.truth.html"');
+    expect(html).toContain('data-remark42-url="https://laxarchive.org/Lax2/Lax2.C.html"');
+    expect(html).toContain('data-reactions-url="https://laxarchive.org/Lax2/Lax2.C.html"');
+    expect(html).toContain('data-review-kind="concept" data-source-lines="4"');
+    expect(html).toContain('data-source-review-rails aria-label="Source flags"');
+    expect(html).toContain('<input type="hidden" data-flag-line>');
+    expect(html).not.toContain('data-flag-line-start');
+    expect(html).not.toContain('data-flag-line-end');
+    expect(html).toContain('data-flag-line-picker>Choose from source');
+    expect(html.indexOf('class="page-reactions"')).toBeLessThan(html.indexOf("concept-root-graph"));
+    expect(html.indexOf('class="page-reactions"')).toBeLessThan(html.indexOf("discussion-section"));
+    expect(html).toMatch(/<script src="\.\.\/assets\/comments\.js\?v=[0-9a-f]{12}"><\/script>/);
     // The graph is rooted at C; its importer D rides along behind the
     // descendants toggle (hidden until pressed).
     const graphMatch = /<script type="application\/json" id="graph-data">(.*?)<\/script>/s.exec(html)!;

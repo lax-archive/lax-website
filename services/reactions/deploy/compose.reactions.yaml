@@ -1,0 +1,41 @@
+services:
+  remark42:
+    environment:
+      # The internal adapter validates a shareable ORCID name and records the
+      # raw ORCID iD before Remark42 can issue its HttpOnly session.
+      AUTH_CUSTOM_INFO_URL: "http://reactions:8081/internal/orcid/userinfo"
+    depends_on:
+      reactions:
+        condition: service_healthy
+
+  reactions:
+    build: /opt/remark42/reactions-src
+    restart: unless-stopped
+    environment:
+      LISTEN_ADDR: ":8081"
+      DATABASE_PATH: "/var/lib/reactions/reactions.db"
+      BACKUP_DIR: "/var/lib/reactions/backups"
+      REMARK_USER_URL: "http://remark42:8080/api/v1/user?site=remark"
+      REMARK_FIND_URL: "http://remark42:8080/api/v1/find"
+      REMARK_POST_URL: "http://remark42:8080/api/v1/comment?site=remark"
+      ORCID_USERINFO_URL: "https://orcid.org/oauth/userinfo"
+      AUTH_PROVIDER: "orcid"
+      PUBLIC_ORIGIN: "https://comments.laxarchive.org"
+      ALLOWED_ORIGINS: "https://laxarchive.org,https://www.laxarchive.org,http://localhost:3000,http://127.0.0.1:3000"
+      BRIDGE_PARENT_ORIGINS: "https://laxarchive.org,https://www.laxarchive.org,http://localhost:3000,http://127.0.0.1:3000"
+    volumes:
+      - /var/lib/lax-reactions:/var/lib/reactions
+    expose:
+      - "8081"
+    read_only: true
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    mem_limit: 96m
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "-", "http://127.0.0.1:8081/healthz"]
+      interval: 15s
+      timeout: 3s
+      retries: 5
+      start_period: 5s

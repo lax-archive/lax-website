@@ -4,6 +4,7 @@ import { copyAssets } from "./assets.js";
 import { MarkdownRenderer } from "./markdown.js";
 import { SiteModel, type SiteSubmission } from "./model.js";
 import { conceptPage } from "./pages/concept.js";
+import { allCommentsPage } from "./pages/all-comments.js";
 import { contentPage } from "./pages/content.js";
 import { indexPage } from "./pages/index.js";
 import { openProblemsPage } from "./pages/open-problems.js";
@@ -18,6 +19,7 @@ export async function generateSite(submissions: SiteSubmission[], outDir: string
   const context = { model, markdown: new MarkdownRenderer(model) };
   const files = new Map<string, string>();
   files.set("index.html", await indexPage(context));
+  files.set(path.join("all-comments", "index.html"), allCommentsPage(context));
   files.set("contributing.html", contentPage(context, "contributing", "Getting started"));
   const proofObligations = openProblemsPage(context);
   files.set("open-proof-obligations.html", proofObligations);
