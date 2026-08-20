@@ -1,17 +1,23 @@
 <!doctype html>
 <html lang="en"><head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src https: data:; font-src 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://comments.laxarchive.org; style-src 'self' 'unsafe-inline'; img-src https: data:; font-src 'self'; frame-src https://comments.laxarchive.org; connect-src https://comments.laxarchive.org">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Lax — an archive of formalized mathematical concepts and their proofs">
 <title>Finite Ramsey Theorems for Pairs and Tuples — lax-14</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=eeb2ce20a90f">
+<link rel="stylesheet" href="../assets/style.css?v=781d5eb0ca8e">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
   <h1 class="site-title"><a href="../index.html">Lax <span class="site-title-quiet">Lean Archive</span></a></h1>
+  <nav class="header-actions" aria-label="Account">
+    <div class="account-header" data-account-root data-remark42-host="https://comments.laxarchive.org" data-remark42-site="remark" data-identity-url="https://comments.laxarchive.org/reactions/v1/identity">
+  <a class="account-control" data-account-login href="https://comments.laxarchive.org/auth/orcid/login?from=https%3A%2F%2Flaxarchive.org&amp;site=remark"><span class="orcid-mark" aria-hidden="true">iD</span><span>Sign in with ORCID</span></a>
+  <button class="account-control" data-account-settings type="button" aria-haspopup="dialog" aria-controls="account-dialog" hidden><span class="orcid-mark" aria-hidden="true">iD</span><span>Settings</span></button>
+</div>
+  </nav>
 </header>
 <main id="content-shell">
 <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
@@ -49,6 +55,38 @@
 <h1 class="paper-title">Finite Ramsey Theorems for Pairs and Tuples</h1>
 <p class="paper-meta"><span class="submission-meta-id">lax-14</span><span class="meta-sep">·</span><span class="formalized-label">formalized by</span> <span class="paper-author">Jan Dreier</span><span class="author-sep">·</span><span class="paper-author">Claude Fable 5 (Anthropic)</span><span class="meta-sep">·</span>created 2026-08-02<span class="meta-sep">·</span><a href="https://github.com/lax-archive/lax-submissions/tree/f017a6ca6b805d45f7f472f82d1075300e15fb53/finite-ramsey" title="https://github.com/lax-archive/lax-submissions/tree/f017a6ca6b805d45f7f472f82d1075300e15fb53/finite-ramsey"><code>GitHub @f017a6c</code></a><span class="meta-sep">·</span>Lean <code>v4.30.0</code> · mathlib <code>c5ea00351c28</code></p>
 </header>
+<section class="page-reactions" aria-label="Community review" data-reactions-host="https://comments.laxarchive.org" data-reactions-url="https://laxarchive.org/lax-14/" data-review-kind="submission" data-source-lines="0">
+<div class="page-reactions-actions">
+<div class="page-reaction-control">
+<button class="page-reaction-button" type="button" data-reaction="endorse" aria-pressed="false" title="Say that this submission is correct"><span class="page-reaction-icon" aria-hidden="true">✅</span><span>Endorse</span></button>
+<button class="page-reaction-voters" type="button" data-reaction-voters="endorse" aria-expanded="false" aria-controls="page-reaction-voters-endorse"><strong data-reaction-count="endorse">0</strong><span class="visually-hidden">Show people who endorse this submission</span></button>
+<div class="page-reaction-voters-popover" id="page-reaction-voters-endorse" data-reaction-voters-popover="endorse" hidden><p data-reaction-empty>No public endorsements yet.</p><ul></ul></div>
+</div>
+<div class="page-reaction-control page-flag-control">
+<button class="page-reaction-button" type="button" data-reaction="flag" aria-pressed="false" aria-haspopup="dialog" title="Explain why this submission may be false"><span class="page-reaction-icon" aria-hidden="true">🚩</span><span>Flag</span></button>
+<button class="page-reaction-voters" type="button" data-flag-list-open aria-haspopup="dialog" aria-controls="page-flag-list"><strong data-reaction-count="flag">0</strong><span class="visually-hidden">Show flags for this submission</span></button>
+</div>
+</div>
+<p class="page-reactions-status" data-reactions-status role="status">Loading review…</p>
+<a class="visually-hidden" data-reactions-login href="https://comments.laxarchive.org/auth/orcid/login?site=remark&amp;from=https%3A%2F%2Flaxarchive.org%2Flax-14%2F">Sign in with ORCID</a>
+<dialog class="review-dialog flag-list-dialog" id="page-flag-list" data-flag-list-dialog aria-labelledby="page-flag-list-title">
+<div class="review-dialog-header"><div><p class="discussion-eyebrow">Community review</p><h2 id="page-flag-list-title">Flags</h2></div><button class="review-dialog-close" type="button" data-flag-list-close aria-label="Close flags">×</button></div>
+<p class="review-dialog-intro">Each flag is tied to a public ORCID identity and explains why this submission may be incorrect.</p>
+<p data-flag-list-empty>No flags have been submitted.</p><ol class="flag-list" data-flag-list></ol>
+</dialog>
+<dialog class="review-dialog flag-editor-dialog" id="page-flag-editor" data-flag-editor aria-labelledby="page-flag-editor-title">
+<form data-flag-form>
+<div class="review-dialog-header"><div><p class="discussion-eyebrow">Community review</p><h2 id="page-flag-editor-title">Flag this submission</h2></div><button class="review-dialog-close" type="button" data-flag-cancel aria-label="Close flag form">×</button></div>
+<p class="review-dialog-intro">State precisely what appears incorrect. This explanation will be public under your ORCID name.</p>
+<label class="flag-message-label" for="page-flag-message">What is wrong?</label>
+<textarea id="page-flag-message" data-flag-message rows="6" maxlength="2000" required placeholder="Describe the incorrect claim, missing assumption, or counterexample."></textarea>
+
+<p class="flag-form-status" data-flag-form-status role="status"></p>
+<div class="review-dialog-actions"><button class="danger-button" type="button" data-flag-remove hidden>Remove my flag</button><span></span><button class="secondary-button" type="button" data-flag-cancel>Cancel</button><button class="primary-button" type="submit">Publish flag</button></div>
+</form>
+</dialog>
+<noscript><p class="page-reactions-noscript"><a href="https://comments.laxarchive.org/auth/orcid/login?site=remark&amp;from=https%3A%2F%2Flaxarchive.org%2Flax-14%2F">Sign in with ORCID</a> to review this page.</p></noscript>
+</section>
 <section class="paper-abstract">
 <h2 class="abstract-heading">Abstract</h2>
 <div class="latex-content"><p>This submission puts the finite Ramsey theorems for pairs and for tuples on
@@ -187,11 +225,53 @@ reprove.</p>
 <li id="ref-Mahlmann2024">Nikolas Mählmann. <span class="reference-title">Monadically Stable and Monadically Dependent Graph Classes: Characterizations and Algorithmic Meta-Theorems</span>. Universität Bremen, 2024.</li>
 </ol>
 </section>
+<section class="page-section discussion-section" aria-labelledby="discussion-title">
+<div class="discussion-heading">
+<div class="discussion-heading-copy">
+<p class="discussion-eyebrow">Community review</p>
+<h3 class="section-title" id="discussion-title">Discussion</h3>
+<p>Ask a question or add context. Endorsements and structured flags are kept in the review panel above; your ORCID profile must share a public name.</p>
+</div>
+<p class="discussion-count"><span class="remark42__counter" data-url="https://laxarchive.org/lax-14/">0</span> <span>comments</span></p>
+</div>
+<div class="discussion-embed-shell">
+<p class="discussion-loading" id="remark42-status" role="status"><span class="discussion-loading-mark" aria-hidden="true"></span>Loading discussion…</p>
+<div id="remark42" data-remark42-host="https://comments.laxarchive.org" data-remark42-site="remark" data-remark42-url="https://laxarchive.org/lax-14/"></div>
+</div>
+<noscript><p class="discussion-unavailable">Enable JavaScript to read or join the discussion.</p></noscript>
+</section>
 <script type="application/json" id="graph-data">{"concepts":{"nodes":[{"id":"Lax14.MulticolorRamsey","href":"../lax-14/Lax14.MulticolorRamsey.html","title":"Ramsey's theorem for colourings of pairs","owner":"lax-14","status":"proven","ext":false,"dir":"core"},{"id":"Lax14.OrderTypes","href":"../lax-14/Lax14.OrderTypes.html","title":"Order type of a tuple","owner":"lax-14","status":"none","ext":false,"dir":"core"},{"id":"Lax14.Ramsey","href":"../lax-14/Lax14.Ramsey.html","title":"Ramsey's theorem","owner":"lax-14","status":"proven","ext":false,"dir":"core"},{"id":"Lax14.TupleRamsey","href":"../lax-14/Lax14.TupleRamsey.html","title":"Ramsey's theorem for tuples","owner":"lax-14","status":"proven","ext":false,"dir":"core"}],"edges":[{"from":"Lax14.OrderTypes","to":"Lax14.TupleRamsey"}],"home":"lax-14"},"proofs":{"statements":[{"id":"Lax14.MulticolorRamsey.exists_monochromatic_set","label":"Lax14.MulticolorRamsey","title":"Ramsey's theorem for colourings of pairs","owner":"lax-14","href":"../lax-14/Lax14.MulticolorRamsey.html#s-Lax14.MulticolorRamsey.exists_monochromatic_set","proven":true,"ext":false},{"id":"Lax14.Ramsey.exists_clique_or_indepSet","label":"Lax14.Ramsey","title":"Ramsey's theorem","owner":"lax-14","href":"../lax-14/Lax14.Ramsey.html#s-Lax14.Ramsey.exists_clique_or_indepSet","proven":true,"ext":false},{"id":"Lax14.TupleRamsey.exists_orderType_homogeneous","label":"Lax14.TupleRamsey","title":"Ramsey's theorem for tuples","owner":"lax-14","href":"../lax-14/Lax14.TupleRamsey.html#s-Lax14.TupleRamsey.exists_orderType_homogeneous","proven":true,"ext":false}],"proofs":[{"id":"Lax14Proofs.MulticolorRamsey.exists_monochromatic_set","assumptions":[],"conclusion":"Lax14.MulticolorRamsey.exists_monochromatic_set","description":"Every colouring of the unordered pairs of a large enough finite set with `k`\ncolours admits a monochromatic subset of size `s`: the multicolour Ramsey\ntheorem for pairs, over the canonical carriers `Fin n` and with no hypothesis\non the number of colours.","owner":"lax-14","ext":false,"href":"../lax-14/Lax14Proofs.MulticolorRamsey.exists_monochromatic_set.html","assumptionsProven":true,"outstanding":0},{"id":"Lax14Proofs.Ramsey.exists_clique_or_indepSet","assumptions":["Lax14.MulticolorRamsey.exists_monochromatic_set"],"conclusion":"Lax14.Ramsey.exists_clique_or_indepSet","description":"Every large enough graph contains a clique on `a` vertices or an independent\nset on `b` vertices, derived from the multicolour Ramsey theorem for pairs of\nthis submission.","owner":"lax-14","ext":false,"href":"../lax-14/Lax14Proofs.Ramsey.exists_clique_or_indepSet.html","assumptionsProven":true,"outstanding":0},{"id":"Lax14Proofs.TupleRamsey.exists_orderType_homogeneous","assumptions":[],"conclusion":"Lax14.TupleRamsey.exists_orderType_homogeneous","description":"Every colouring of the `ℓ`-tuples over a large enough linearly ordered finite\nset with `k` colours admits a subset of size `s` on which the colour of a\ntuple depends only on its order type: the finite Ramsey theorem for\nhypergraphs of Erdős and Rado, in the order-type form.","owner":"lax-14","ext":false,"href":"../lax-14/Lax14Proofs.TupleRamsey.exists_orderType_homogeneous.html","assumptionsProven":true,"outstanding":0}],"home":"lax-14"},"submissions":{"nodes":[{"id":"lax-12","href":"../lax-12/index.html","title":"Sparsity Lectures: Nowhere Denseness, Quasi-Wideness, and Generalized Coloring Numbers","state":"draft","concepts":15,"proofs":7,"dir":"down","ext":true},{"id":"lax-14","href":"../lax-14/index.html","title":"Finite Ramsey Theorems for Pairs and Tuples","state":"draft","concepts":4,"proofs":3,"dir":"core","ext":false},{"id":"lax-3","href":"../lax-3/index.html","title":"First-Order Model Checking on Nowhere Dense Graph Classes in Almost Linear Time","state":"draft","concepts":11,"proofs":4,"dir":"down","ext":true},{"id":"lax-5","href":"../lax-5/index.html","title":"Almost Linear Neighborhood Complexity of Monadically Dependent Graph Classes","state":"draft","concepts":7,"proofs":3,"dir":"down","ext":true}],"edges":[{"from":"lax-14","to":"lax-12"},{"from":"lax-12","to":"lax-3"},{"from":"lax-12","to":"lax-5"},{"from":"lax-14","to":"lax-5"}]}}</script>
 </div></section>
 </main>
+<dialog class="account-dialog" id="account-dialog" aria-labelledby="account-dialog-title">
+<div class="account-dialog-inner">
+<header class="account-dialog-header">
+<div><p class="account-dialog-eyebrow">ORCID account</p><h2 id="account-dialog-title">Settings</h2></div>
+<button class="account-dialog-close" data-account-close type="button" aria-label="Close account settings">×</button>
+</header>
+<div class="account-dialog-body">
+<p class="account-status" data-account-status role="status">Checking your ORCID session…</p>
+<section data-account-content hidden>
+<div class="account-identity">
+<span class="account-avatar" data-account-avatar aria-hidden="true">iD</span>
+<div><a class="account-name" data-account-name target="_blank" rel="noopener noreferrer"></a><p class="account-id" data-account-id></p></div>
+</div>
+<p class="account-name-note">Your public name comes from ORCID. ORCID names are self-asserted and may change.</p>
+<div class="account-actions">
+<a data-account-refresh href="https://comments.laxarchive.org/auth/orcid/login?from=https%3A%2F%2Flaxarchive.org&amp;site=remark">Refresh from ORCID</a>
+<button data-account-logout type="button">Sign out</button>
+</div>
+<div class="account-comments-heading"><h3>Your comments</h3><span data-account-comment-count></span></div>
+<ol class="account-comments" data-account-comments></ol>
+<p class="account-comments-status" data-account-comments-status role="status"></p>
+</section>
+</div>
+</div>
+</dialog>
 <script src="../assets/sidebar.js?v=b11f292fc5c2"></script>
+<script src="../assets/account.js?v=8def7c90cefe"></script>
 <script src="../assets/layout.js?v=1089ce8aae63"></script>
 <script src="../assets/dag.js?v=2a0b2e1bec54"></script>
 <script src="../assets/citation.js?v=d9edcca2ee6c"></script>
+<script src="../assets/comments.js?v=493b5ebde364"></script>
 </body></html>
