@@ -337,6 +337,7 @@ After the formula.`, "");
     expect(css).toContain("@media (hover: hover) and (pointer: fine)");
     expect(css).toContain("aspect-ratio: 1.42 / 1");
     expect(css).toContain(".landing-demo-concept .landing-demo-code-line-accent");
+    expect(css).toContain(".landing-review-start[hidden]{ display: none; }");
     const unavailableRest = css.match(/\.landing-action-card\.unavailable\{([^}]*)\}/)?.[1] ?? "";
     expect(unavailableRest).not.toContain("background");
     expect(css).toMatch(/\.landing-action-card\.unavailable:hover,[\s\S]*?background: var\(--panel-bg\);/);
