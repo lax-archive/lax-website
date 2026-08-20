@@ -378,7 +378,10 @@
     logout.disabled = true;
     try {
       const response = await accountRequest("logout");
-      if (!response.ok) throw new Error(String(response.status));
+      if (!response.ok) {
+        const session = await accountRequest("me");
+        if (!session.ok || session.data?.authenticated) throw new Error(String(response.status));
+      }
       dialog.close();
       setLoggedOut("You are signed out.");
       accountEvent();
