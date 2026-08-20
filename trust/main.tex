@@ -43,6 +43,24 @@
 \newcommand{\orcgray}[1]{\textcolor{orcidgray}{#1}}
 \newcommand{\idgreen}[1]{\textcolor{orcidgreen}{#1}}
 
+\newcommand{\ORCID}{%
+  \begingroup
+  \fontfamily{phv}\selectfont\bfseries
+  \scalebox{0.93}[1]{%
+    \textcolor{orcidgray}{ORC}%
+    \textcolor{orcidgreen}{%
+      \makebox[0.29em][c]{%
+        \ooalign{%
+          \hfil I\hfil\cr
+          \hfil\raisebox{0.79em}{\rule{0.15em}{0.15em}}\hfil\cr
+        }%
+      }%
+      D%
+    }%
+  }%
+  \endgroup
+}
+
 \DeclareRobustCommand{\laxthm}{%
   \tikz[baseline=(LaxTHM.base)]{%
     \node[
@@ -208,7 +226,7 @@ Even if you happen to know the submitter, the Lean code (likely written by an AI
 In most submissions, you should easily be able to tell that the concept files are harmless.
 Not to complicate the submission process, at this early stage, the pipeline does nothing to guarantee that.
 Future versions of lax might restrict the concept files to a~safe Lean dialect.
-Users, logged in via \orcgray{ORC}\idgreen{ID}, can vouch that a~declaration is formalized correctly, that is, faithful to the mathematical intent, or flag a~possible gap (and elaborate in the comment section).
+Users, logged in via \ORCID, can vouch that a~declaration is formalized correctly, that is, faithful to the mathematical intent, or flag a~possible gap (and elaborate in the comment section).
 
 \section{How is lax built?}
 
