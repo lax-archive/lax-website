@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://comments.laxarchive.org; style-src 'self' 'unsafe-inline'; img-src https: data:; font-src 'self'; frame-src https://comments.laxarchive.org; connect-src https://comments.laxarchive.org">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Lax — an archive of formalized mathematical concepts and their proofs">
+<title>Connected components in linear time — Lax11.ConnectedComponents</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
+<link rel="stylesheet" href="../assets/style.css?v=781d5eb0ca8e">
+</head><body>
+<header class="site-header">
+  <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
+  <h1 class="site-title"><a href="../index.html">Lax <span class="site-title-quiet">Lean Archive</span></a></h1>
+  <nav class="header-actions" aria-label="Account">
+    <div class="account-header" data-account-root data-remark42-host="https://comments.laxarchive.org" data-remark42-site="remark" data-identity-url="https://comments.laxarchive.org/reactions/v1/identity">
+  <a class="account-control" data-account-login href="https://comments.laxarchive.org/auth/orcid/login?from=https%3A%2F%2Flaxarchive.org&amp;site=remark"><span class="orcid-mark" aria-hidden="true">iD</span><span>Sign in with ORCID</span></a>
+  <button class="account-control" data-account-settings type="button" aria-haspopup="dialog" aria-controls="account-dialog" hidden><span class="orcid-mark" aria-hidden="true">iD</span><span>Settings</span></button>
+</div>
+  </nav>
+</header>
+<main id="content-shell">
+<div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+<aside id="sidebar">
+<a class="sidebar-back" href="../lax-11/index.html"><span class="sidebar-back-arrow" aria-hidden="true">←</span>lax-11</a>
+<div class="sidebar-filters"><div class="filter-group">
+<label for="filter-search">Search</label>
+<input id="filter-search" class="filter-input" type="search" placeholder="Filter entries" aria-controls="entry-list">
+</div>
+<div class="filter-group">
+<label for="filter-type">Type</label>
+<select id="filter-type" class="filter-select">
+<option value="all">All types</option>
+<option value="definition">definition</option>
+<option value="theorem">theorem</option>
+<option value="proof">proof</option>
+</select>
+</div></div>
+<ul id="entry-list">
+<li class="entry-heading" aria-hidden="true">Concepts</li>
+<li data-type="definition" data-search="lax11.cliqueexpr k-expressions, and the graphs of cliquewidth at most k definition"><a class="entry-link" href="../lax-11/Lax11.CliqueExpr.html" data-full-title="k-expressions, and the graphs of cliquewidth at most k"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax11.CliqueExpr</span></span></a></li>
+<li class="active" data-type="theorem" data-search="lax11.connectedcomponents connected components in linear time theorem"><a class="entry-link" href="../lax-11/Lax11.ConnectedComponents.html" data-full-title="Connected components in linear time"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax11.ConnectedComponents</span></span></a></li>
+<li data-type="theorem" data-search="lax11.courcelle courcelle's theorem on a word ram theorem"><a class="entry-link" href="../lax-11/Lax11.Courcelle.html" data-full-title="Courcelle's theorem on a word RAM"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax11.Courcelle</span></span></a></li>
+<li data-type="definition" data-search="lax11.graphencoding compressed sparse row encoding of a graph definition"><a class="entry-link" href="../lax-11/Lax11.GraphEncoding.html" data-full-title="Compressed sparse row encoding of a graph"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax11.GraphEncoding</span></span></a></li>
+<li data-type="definition" data-search="lax11.instanceencoding encoding a graph together with a k-expression definition"><a class="entry-link" href="../lax-11/Lax11.InstanceEncoding.html" data-full-title="Encoding a graph together with a k-expression"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax11.InstanceEncoding</span></span></a></li>
+<li data-type="definition" data-search="lax11.mso monadic second-order logic on graphs definition"><a class="entry-link" href="../lax-11/Lax11.Mso.html" data-full-title="Monadic second-order logic on graphs"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax11.Mso</span></span></a></li>
+<li data-type="definition" data-search="lax11.vertexcover a graph with a parameter appended definition"><a class="entry-link" href="../lax-11/Lax11.VertexCover.html" data-full-title="A graph with a parameter appended"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax11.VertexCover</span></span></a></li>
+<li class="entry-heading" aria-hidden="true">Proofs</li>
+<li data-type="proof" data-search="lax11proofs.ccmain.exists_lineartime_program_cclabels proof"><a class="entry-link" href="../lax-11/Lax11Proofs.CCMain.exists_linearTime_program_ccLabels.html" data-full-title="Lax11Proofs.CCMain.exists_linearTime_program_ccLabels"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax11Proofs.CCMain.exists_linearTime_program_ccLabels</span></span></a></li>
+<li data-type="proof" data-search="lax11proofs.courcelle.exists_lineartime_program_modelchecking proof"><a class="entry-link" href="../lax-11/Lax11Proofs.Courcelle.exists_linearTime_program_modelChecking.html" data-full-title="Lax11Proofs.Courcelle.exists_linearTime_program_modelChecking"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax11Proofs.Courcelle.exists_linearTime_program_modelChecking</span></span></a></li>
+<li id="entry-list-empty" hidden>No entries match.</li>
+</ul>
+</aside>
+<section id="main"><div id="detail">
+<p class="draft-banner"><strong>Draft</strong> — mutable and not usable as a dependency; its citation marks the draft state.</p>
+<div class="detail-heading concept-heading">
+<div><p class="concept-id"><code>Lax11.ConnectedComponents</code></p>
+<h1 class="concept-title">Connected components in linear time</h1>
+<p class="concept-microline"><code>concepts/Lax11/ConnectedComponents.lean</code> · <a href="index.html">lax-11</a></p></div>
+<span class="status-pills"><span class="status-pill pill-proven" title="Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">proven</span></span>
+</div>
+<section class="page-reactions" aria-label="Community review" data-reactions-host="https://comments.laxarchive.org" data-reactions-url="https://laxarchive.org/lax-11/Lax11.ConnectedComponents.html" data-review-kind="concept" data-source-lines="99">
+<div class="page-reactions-actions">
+<div class="page-reaction-control">
+<button class="page-reaction-button" type="button" data-reaction="endorse" aria-pressed="false" title="Say that this concept is correct"><span class="page-reaction-icon" aria-hidden="true">✅</span><span>Endorse</span></button>
+<button class="page-reaction-voters" type="button" data-reaction-voters="endorse" aria-expanded="false" aria-controls="page-reaction-voters-endorse"><strong data-reaction-count="endorse">0</strong><span class="visually-hidden">Show people who endorse this concept</span></button>
+<div class="page-reaction-voters-popover" id="page-reaction-voters-endorse" data-reaction-voters-popover="endorse" hidden><p data-reaction-empty>No public endorsements yet.</p><ul></ul></div>
+</div>
+<div class="page-reaction-control page-flag-control">
+<button class="page-reaction-button" type="button" data-reaction="flag" aria-pressed="false" aria-haspopup="dialog" title="Explain why this concept may be false"><span class="page-reaction-icon" aria-hidden="true">🚩</span><span>Flag</span></button>
+<button class="page-reaction-voters" type="button" data-flag-list-open aria-haspopup="dialog" aria-controls="page-flag-list"><strong data-reaction-count="flag">0</strong><span class="visually-hidden">Show flags for this concept</span></button>
+</div>
+</div>
+<p class="page-reactions-status" data-reactions-status role="status">Loading review…</p>
+<a class="visually-hidden" data-reactions-login href="https://comments.laxarchive.org/auth/orcid/login?site=remark&amp;from=https%3A%2F%2Flaxarchive.org%2Flax-11%2FLax11.ConnectedComponents.html">Sign in with ORCID</a>
+<dialog class="review-dialog flag-list-dialog" id="page-flag-list" data-flag-list-dialog aria-labelledby="page-flag-list-title">
+<div class="review-dialog-header"><div><p class="discussion-eyebrow">Community review</p><h2 id="page-flag-list-title">Flags</h2></div><button class="review-dialog-close" type="button" data-flag-list-close aria-label="Close flags">×</button></div>
+<p class="review-dialog-intro">Each flag is tied to a public ORCID identity and explains why this concept may be incorrect.</p>
+<p data-flag-list-empty>No flags have been submitted.</p><ol class="flag-list" data-flag-list></ol>
+</dialog>
+<dialog class="review-dialog flag-editor-dialog" id="page-flag-editor" data-flag-editor aria-labelledby="page-flag-editor-title">
+<form data-flag-form>
+<div class="review-dialog-header"><div><p class="discussion-eyebrow">Community review</p><h2 id="page-flag-editor-title">Flag this concept</h2></div><button class="review-dialog-close" type="button" data-flag-cancel aria-label="Close flag form">×</button></div>
+<p class="review-dialog-intro">State precisely what appears incorrect. This explanation will be public under your ORCID name.</p>
+<label class="flag-message-label" for="page-flag-message">What is wrong?</label>
+<textarea id="page-flag-message" data-flag-message rows="6" maxlength="2000" required placeholder="Describe the incorrect claim, missing assumption, or counterexample."></textarea>
+<div class="flag-line-fields"><input type="hidden" data-flag-line><button class="secondary-button" type="button" data-flag-line-picker>Choose from source</button><p class="flag-line-selection" data-flag-line-selection aria-live="polite">No source line selected.</p></div>
+<p class="flag-form-status" data-flag-form-status role="status"></p>
+<div class="review-dialog-actions"><button class="danger-button" type="button" data-flag-remove hidden>Remove my flag</button><span></span><button class="secondary-button" type="button" data-flag-cancel>Cancel</button><button class="primary-button" type="submit">Publish flag</button></div>
+</form>
+</dialog>
+<noscript><p class="page-reactions-noscript"><a href="https://comments.laxarchive.org/auth/orcid/login?site=remark&amp;from=https%3A%2F%2Flaxarchive.org%2Flax-11%2FLax11.ConnectedComponents.html">Sign in with ORCID</a> to review this page.</p></noscript>
+</section>
+<h4 class="figure-title">Concept map</h4>
+<figure class="graph-figure concept-root-graph">
+<button class="graph-expand" type="button" data-graph-expand data-graph-label="concept map" aria-expanded="false" aria-label="Open concept map in a large window" title="Open in large window"><svg class="graph-expand-open" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M2.5 6V2.5H6M10 2.5h3.5V6M13.5 10v3.5H10M6 13.5H2.5V10"/></svg><span class="graph-expand-close" aria-hidden="true">×</span></button>
+<div class="graph-toolbar"><button type="button" id="concept-expand" aria-controls="concept-dag" aria-pressed="true">Hide ancestors</button><button type="button" id="concept-descend" aria-controls="concept-dag" aria-pressed="false">Show descendants</button><output id="concept-graph-status" aria-live="polite"></output></div>
+<div id="concept-dag" class="figure-container" data-graph="concepts" data-ancestry="true"></div>
+<div class="graph-tooltip" role="tooltip" hidden></div>
+<figcaption class="graph-legend" aria-label="Concept map legend"><span><i class="legend-node fill-proven"></i>Proven claim</span><span><i class="legend-node fill-open"></i>Open claim</span><span><i class="legend-node fill-none"></i>Definition</span><span><i class="legend-node stroke-own"></i>This concept</span><span><i class="legend-node stroke-ext"></i>Related concept</span><span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B builds on A</span></figcaption>
+</figure>
+<div class="block block-evidence"><h3>Evidence</h3>
+<p class="evidence-intro">Each proof establishes this claim relative to its assumptions.</p>
+<ul class="proof-list">
+<li class="proof-item">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-11/Lax11Proofs.CCMain.exists_linearTime_program_ccLabels.html" aria-label="Open proof Lax11Proofs.CCMain.exists_linearTime_program_ccLabels"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><p class="judgment-unconditional">no assumptions</p></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="../lax-11/Lax11.ConnectedComponents.html" title="Lax11.ConnectedComponents.exists_linearTime_program_ccLabels"><code>Lax11.ConnectedComponents</code></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-11/Lax11Proofs.CCMain.exists_linearTime_program_ccLabels.html"><code>Lax11Proofs.CCMain.exists_linearTime_program_ccLabels</code></a></p>
+</li>
+</ul>
+</div>
+<div class="block block-statement"><h3>Theorem</h3><div class="latex-content"><p>The connected components of a graph can be computed in linear time.
+Label every vertex by the least vertex of its connected component; then
+there is one word RAM program and one constant <em>c</em> such that, at every
+word length, given any graph in compressed sparse row form as a word
+<em>x</em> for which <em>c</em>(|x|+1) is at most <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mi>w</mi></msup></mrow><annotation encoding="application/x-tex">2 ^ w</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6644em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0269em;">w</span></span></span></span></span></span></span></span></span></span></span>, the program halts within
+<em>c</em>(|x|+1) steps with the labels of all vertices, in vertex order, as
+its output.</p>
+</div></div>
+<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/becb5782d64a8587b9cd3f53269c1ce35cdb1ff0/ram-linear-time/concepts/Lax11/ConnectedComponents.lean">view on GitHub</a></h3>
+<div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax13.RamComputes</span></td></tr>
+<tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax11.GraphEncoding</span></td></tr>
+<tr id="L3" class=""><td class="line-num"><a href="#L3">3</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Combinatorics.SimpleGraph.Connectivity.Connected</span></td></tr>
+<tr id="L4" class=""><td class="line-num"><a href="#L4">4</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Data.Nat.Lattice</span></td></tr>
+<tr id="L5" class=""><td class="line-num"><a href="#L5">5</a></td><td class="line-code"> </td></tr>
+<tr id="L6" class=""><td class="line-num"><a href="#L6">6</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
+<tr id="L7" class=""><td class="line-num"><a href="#L7">7</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
+<tr id="L8" class=""><td class="line-num"><a href="#L8">8</a></td><td class="line-code"><span style="color:#6A737D">title: Connected components in linear time</span></td></tr>
+<tr id="L9" class=""><td class="line-num"><a href="#L9">9</a></td><td class="line-code"><span style="color:#6A737D">type: theorem</span></td></tr>
+<tr id="L10" class=""><td class="line-num"><a href="#L10">10</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
+<tr id="L11" class=""><td class="line-num"><a href="#L11">11</a></td><td class="line-code"><span style="color:#6A737D">The connected components of a graph can be computed in linear time.</span></td></tr>
+<tr id="L12" class=""><td class="line-num"><a href="#L12">12</a></td><td class="line-code"><span style="color:#6A737D">Label every vertex by the least vertex of its connected component; then</span></td></tr>
+<tr id="L13" class=""><td class="line-num"><a href="#L13">13</a></td><td class="line-code"><span style="color:#6A737D">there is one word RAM program and one constant *c* such that, at every</span></td></tr>
+<tr id="L14" class=""><td class="line-num"><a href="#L14">14</a></td><td class="line-code"><span style="color:#6A737D">word length, given any graph in compressed sparse row form as a word</span></td></tr>
+<tr id="L15" class=""><td class="line-num"><a href="#L15">15</a></td><td class="line-code"><span style="color:#6A737D">*x* for which *c*(|x|+1) is at most `2 ^ w`, the program halts within</span></td></tr>
+<tr id="L16" class=""><td class="line-num"><a href="#L16">16</a></td><td class="line-code"><span style="color:#6A737D">*c*(|x|+1) steps with the labels of all vertices, in vertex order, as</span></td></tr>
+<tr id="L17" class=""><td class="line-num"><a href="#L17">17</a></td><td class="line-code"><span style="color:#6A737D">its output.</span></td></tr>
+<tr id="L18" class=""><td class="line-num"><a href="#L18">18</a></td><td class="line-code"> </td></tr>
+<tr id="L19" class=""><td class="line-num"><a href="#L19">19</a></td><td class="line-code"><span style="color:#6A737D"># Formalization notes</span></td></tr>
+<tr id="L20" class=""><td class="line-num"><a href="#L20">20</a></td><td class="line-code"> </td></tr>
+<tr id="L21" class=""><td class="line-num"><a href="#L21">21</a></td><td class="line-code"><span style="color:#6A737D">Labelling a vertex by the least vertex reachable from it makes the</span></td></tr>
+<tr id="L22" class=""><td class="line-num"><a href="#L22">22</a></td><td class="line-code"><span style="color:#6A737D">output a *function* of the graph, so the statement is about computing a</span></td></tr>
+<tr id="L23" class=""><td class="line-num"><a href="#L23">23</a></td><td class="line-code"><span style="color:#6A737D">function and needs no convention for choosing representatives. Any</span></td></tr>
+<tr id="L24" class=""><td class="line-num"><a href="#L24">24</a></td><td class="line-code"><span style="color:#6A737D">other canonical choice would do; what matters is that the answer is</span></td></tr>
+<tr id="L25" class=""><td class="line-num"><a href="#L25">25</a></td><td class="line-code"><span style="color:#6A737D">determined, since a program that may return any of several correct</span></td></tr>
+<tr id="L26" class=""><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span style="color:#6A737D">answers would be a weaker claim dressed up as this one.</span></td></tr>
+<tr id="L27" class=""><td class="line-num"><a href="#L27">27</a></td><td class="line-code"> </td></tr>
+<tr id="L28" class=""><td class="line-num"><a href="#L28">28</a></td><td class="line-code"><span style="color:#6A737D">The least vertex is the infimum of the set of numbers of vertices</span></td></tr>
+<tr id="L29" class=""><td class="line-num"><a href="#L29">29</a></td><td class="line-code"><span style="color:#6A737D">reachable from `v`. That set contains `v` itself, so the value is a</span></td></tr>
+<tr id="L30" class=""><td class="line-num"><a href="#L30">30</a></td><td class="line-code"><span style="color:#6A737D">genuine minimum and the convention `sInf ∅ = 0` for natural numbers is</span></td></tr>
+<tr id="L31" class=""><td class="line-num"><a href="#L31">31</a></td><td class="line-code"><span style="color:#6A737D">never exercised. The labelling of the whole graph is the list of these</span></td></tr>
+<tr id="L32" class=""><td class="line-num"><a href="#L32">32</a></td><td class="line-code"><span style="color:#6A737D">values in vertex order, so its length is the number of vertices.</span></td></tr>
+<tr id="L33" class=""><td class="line-num"><a href="#L33">33</a></td><td class="line-code"> </td></tr>
+<tr id="L34" class=""><td class="line-num"><a href="#L34">34</a></td><td class="line-code"><span style="color:#6A737D">The order of quantifiers is the content of the theorem: the program and</span></td></tr>
+<tr id="L35" class=""><td class="line-num"><a href="#L35">35</a></td><td class="line-code"><span style="color:#6A737D">the constant come first, the graph next and the word length last, so</span></td></tr>
+<tr id="L36" class=""><td class="line-num"><a href="#L36">36</a></td><td class="line-code"><span style="color:#6A737D">one program with one constant serves every graph at every word length.</span></td></tr>
+<tr id="L37" class=""><td class="line-num"><a href="#L37">37</a></td><td class="line-code"><span style="color:#6A737D">Quantifying the program before the word length is what makes it an</span></td></tr>
+<tr id="L38" class=""><td class="line-num"><a href="#L38">38</a></td><td class="line-code"><span style="color:#6A737D">algorithm rather than a family of them — a program chosen after `w`</span></td></tr>
+<tr id="L39" class=""><td class="line-num"><a href="#L39">39</a></td><td class="line-code"><span style="color:#6A737D">could hide an arbitrary amount of information in its literals — and it</span></td></tr>
+<tr id="L40" class=""><td class="line-num"><a href="#L40">40</a></td><td class="line-code"><span style="color:#6A737D">is the strong form of uniformity the model supports, since a program</span></td></tr>
+<tr id="L41" class=""><td class="line-num"><a href="#L41">41</a></td><td class="line-code"><span style="color:#6A737D">can measure `w` for itself.</span></td></tr>
+<tr id="L42" class=""><td class="line-num"><a href="#L42">42</a></td><td class="line-code"> </td></tr>
+<tr id="L43" class=""><td class="line-num"><a href="#L43">43</a></td><td class="line-code"><span style="color:#6A737D">The bound is linear in the length of the input word — the number of</span></td></tr>
+<tr id="L44" class=""><td class="line-num"><a href="#L44">44</a></td><td class="line-code"><span style="color:#6A737D">entries actually handed to the machine, namely `3 + n + 2m` — which is</span></td></tr>
+<tr id="L45" class=""><td class="line-num"><a href="#L45">45</a></td><td class="line-code"><span style="color:#6A737D">the input size in the sense the model charges for. Reading the input</span></td></tr>
+<tr id="L46" class=""><td class="line-num"><a href="#L46">46</a></td><td class="line-code"><span style="color:#6A737D">alone takes that many steps, so the bound is tight up to the constant.</span></td></tr>
+<tr id="L47" class=""><td class="line-num"><a href="#L47">47</a></td><td class="line-code"><span style="color:#6A737D">The `+ 1` only keeps the bound from being vacuous on inputs of length</span></td></tr>
+<tr id="L48" class=""><td class="line-num"><a href="#L48">48</a></td><td class="line-code"><span style="color:#6A737D">0, of which there are none valid.</span></td></tr>
+<tr id="L49" class=""><td class="line-num"><a href="#L49">49</a></td><td class="line-code"> </td></tr>
+<tr id="L50" class=""><td class="line-num"><a href="#L50">50</a></td><td class="line-code"><span style="color:#6A737D">One constant does both jobs. An encoding is admissible at word length</span></td></tr>
+<tr id="L51" class=""><td class="line-num"><a href="#L51">51</a></td><td class="line-code"><span style="color:#6A737D">`w` when `c * (|x| + 1) ≤ 2 ^ w`, that is, when `2 ^ w` is at least</span></td></tr>
+<tr id="L52" class=""><td class="line-num"><a href="#L52">52</a></td><td class="line-code"><span style="color:#6A737D">the very number of steps the claim allows; this is the &quot;the word is</span></td></tr>
+<tr id="L53" class=""><td class="line-num"><a href="#L53">53</a></td><td class="line-code"><span style="color:#6A737D">wide enough for the input&quot; hypothesis of the word-RAM literature, written</span></td></tr>
+<tr id="L54" class=""><td class="line-num"><a href="#L54">54</a></td><td class="line-code"><span style="color:#6A737D">out as an explicit inequality against `2 ^ w` rather than through a</span></td></tr>
+<tr id="L55" class=""><td class="line-num"><a href="#L55">55</a></td><td class="line-code"><span style="color:#6A737D">logarithm. Nothing further need be asked of the entries: an encoding's</span></td></tr>
+<tr id="L56" class=""><td class="line-num"><a href="#L56">56</a></td><td class="line-code"><span style="color:#6A737D">entries are vertex numbers, offsets and the two header numbers, all</span></td></tr>
+<tr id="L57" class=""><td class="line-num"><a href="#L57">57</a></td><td class="line-code"><span style="color:#6A737D">smaller than its own length, so a word length that admits an encoding</span></td></tr>
+<tr id="L58" class=""><td class="line-num"><a href="#L58">58</a></td><td class="line-code"><span style="color:#6A737D">also holds every number in it.</span></td></tr>
+<tr id="L59" class=""><td class="line-num"><a href="#L59">59</a></td><td class="line-code"> </td></tr>
+<tr id="L60" class=""><td class="line-num"><a href="#L60">60</a></td><td class="line-code"><span style="color:#6A737D">The fitting condition is a condition on the admissible inputs and not a</span></td></tr>
+<tr id="L61" class=""><td class="line-num"><a href="#L61">61</a></td><td class="line-code"><span style="color:#6A737D">hypothesis of the claim, because as a hypothesis it would be empty. A</span></td></tr>
+<tr id="L62" class=""><td class="line-num"><a href="#L62">62</a></td><td class="line-code"><span style="color:#6A737D">graph with an edge has encodings of every length, since a block may</span></td></tr>
+<tr id="L63" class=""><td class="line-num"><a href="#L63">63</a></td><td class="line-code"><span style="color:#6A737D">list a neighbour repeatedly, so no word length accommodates all</span></td></tr>
+<tr id="L64" class=""><td class="line-num"><a href="#L64">64</a></td><td class="line-code"><span style="color:#6A737D">encodings of a fixed graph at once and &quot;if every encoding of `G` fits</span></td></tr>
+<tr id="L65" class=""><td class="line-num"><a href="#L65">65</a></td><td class="line-code"><span style="color:#6A737D">into a word&quot; would never be satisfied. Restricting the inputs instead</span></td></tr>
+<tr id="L66" class=""><td class="line-num"><a href="#L66">66</a></td><td class="line-code"><span style="color:#6A737D">says what is meant: at every word length, every encoding that fits is</span></td></tr>
+<tr id="L67" class=""><td class="line-num"><a href="#L67">67</a></td><td class="line-code"><span style="color:#6A737D">computed within the bound.</span></td></tr>
+<tr id="L68" class=""><td class="line-num"><a href="#L68">68</a></td><td class="line-code"> </td></tr>
+<tr id="L69" class=""><td class="line-num"><a href="#L69">69</a></td><td class="line-code"><span style="color:#6A737D">Only encodings of `G` are admitted as inputs; the program may behave</span></td></tr>
+<tr id="L70" class=""><td class="line-num"><a href="#L70">70</a></td><td class="line-code"><span style="color:#6A737D">arbitrarily on words that encode nothing, and on words too long for its</span></td></tr>
+<tr id="L71" class=""><td class="line-num"><a href="#L71">71</a></td><td class="line-code"><span style="color:#6A737D">word length.</span></td></tr>
+<tr id="L72" class=""><td class="line-num"><a href="#L72">72</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
+<tr id="L73" class=""><td class="line-num"><a href="#L73">73</a></td><td class="line-code"> </td></tr>
+<tr id="L74" class=""><td class="line-num"><a href="#L74">74</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax11.ConnectedComponents</span></td></tr>
+<tr id="L75" class=""><td class="line-num"><a href="#L75">75</a></td><td class="line-code"> </td></tr>
+<tr id="L76" class=""><td class="line-num"><a href="#L76">76</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax13.Ram Lax13.RamComputes Lax11.GraphEncoding</span></td></tr>
+<tr id="L77" class=""><td class="line-num"><a href="#L77">77</a></td><td class="line-code"> </td></tr>
+<tr id="L78" class=""><td class="line-num"><a href="#L78">78</a></td><td class="line-code"><span style="color:#6A737D">/-- The label of a vertex: the least vertex of its connected</span></td></tr>
+<tr id="L79" class=""><td class="line-num"><a href="#L79">79</a></td><td class="line-code"><span style="color:#6A737D">component. -/</span></td></tr>
+<tr id="L80" class=""><td class="line-num"><a href="#L80">80</a></td><td class="line-code"><span style="color:#D73A49">noncomputable</span><span style="color:#D73A49"> def</span><span style="color:#6F42C1"> label</span><span style="color:#24292E"> {n : ℕ} (G : SimpleGraph (Fin n)) (v : Fin n) : ℕ :=</span></td></tr>
+<tr id="L81" class=""><td class="line-num"><a href="#L81">81</a></td><td class="line-code"><span style="color:#24292E">  sInf (Fin.val '' {u : Fin n | G.Reachable u v})</span></td></tr>
+<tr id="L82" class=""><td class="line-num"><a href="#L82">82</a></td><td class="line-code"> </td></tr>
+<tr id="L83" class=""><td class="line-num"><a href="#L83">83</a></td><td class="line-code"><span style="color:#6A737D">/-- The component labelling of a graph: the labels of all vertices, in</span></td></tr>
+<tr id="L84" class=""><td class="line-num"><a href="#L84">84</a></td><td class="line-code"><span style="color:#6A737D">vertex order. -/</span></td></tr>
+<tr id="L85" class=""><td class="line-num"><a href="#L85">85</a></td><td class="line-code"><span style="color:#D73A49">noncomputable</span><span style="color:#D73A49"> def</span><span style="color:#6F42C1"> ccLabels</span><span style="color:#24292E"> {n : ℕ} (G : SimpleGraph (Fin n)) : List ℕ :=</span></td></tr>
+<tr id="L86" class=""><td class="line-num"><a href="#L86">86</a></td><td class="line-code"><span style="color:#24292E">  List.ofFn (label G)</span></td></tr>
+<tr id="L87" class=""><td class="line-num"><a href="#L87">87</a></td><td class="line-code"> </td></tr>
+<tr id="L88" class="statement-line line-proven"><td class="line-num"><a href="#L88">88</a></td><td class="line-code"><span class="statement-anchor" id="s-Lax11.ConnectedComponents.exists_linearTime_program_ccLabels"></span><span style="color:#6A737D">/-- Connected components can be computed in linear time on a word</span></td></tr>
+<tr id="L89" class="statement-line line-proven"><td class="line-num"><a href="#L89">89</a></td><td class="line-code"><span style="color:#6A737D">random access machine: one program labels the vertices of every graph</span></td></tr>
+<tr id="L90" class="statement-line line-proven"><td class="line-num"><a href="#L90">90</a></td><td class="line-code"><span style="color:#6A737D">given in compressed sparse row form by the least vertex of their</span></td></tr>
+<tr id="L91" class="statement-line line-proven"><td class="line-num"><a href="#L91">91</a></td><td class="line-code"><span style="color:#6A737D">component, within a constant multiple of the length of the input, at</span></td></tr>
+<tr id="L92" class="statement-line line-proven"><td class="line-num"><a href="#L92">92</a></td><td class="line-code"><span style="color:#6A737D">every word length `w` with that constant multiple at most `2 ^ w`. -/</span></td></tr>
+<tr id="L93" class="statement-line line-proven"><td class="line-num"><a href="#L93">93</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> exists_linearTime_program_ccLabels</span><span style="color:#24292E"> :</span></td></tr>
+<tr id="L94" class="statement-line line-proven"><td class="line-num"><a href="#L94">94</a></td><td class="line-code"><span style="color:#24292E">    ∃ (p : Program) (c : ℕ), ∀ (n : ℕ) (G : SimpleGraph (Fin n)) (w : ℕ),</span></td></tr>
+<tr id="L95" class="statement-line line-proven"><td class="line-num"><a href="#L95">95</a></td><td class="line-code"><span style="color:#24292E">      ComputesInTime w p {x | EncodesGraph x n G ∧ c * (x.length + </span><span style="color:#005CC5">1</span><span style="color:#24292E">) ≤ </span><span style="color:#005CC5">2</span><span style="color:#24292E"> ^ w}</span></td></tr>
+<tr id="L96" class="statement-line line-proven"><td class="line-num"><a href="#L96">96</a></td><td class="line-code"><span style="color:#24292E">        (</span><span style="color:#D73A49">fun</span><span style="color:#24292E"> _ =&gt; ccLabels G) (</span><span style="color:#D73A49">fun</span><span style="color:#24292E"> x =&gt; c * (x.length + </span><span style="color:#005CC5">1</span><span style="color:#24292E">))</span></td></tr>
+<tr id="L97" class=""><td class="line-num"><a href="#L97">97</a></td><td class="line-code"> </td></tr>
+<tr id="L98" class=""><td class="line-num"><a href="#L98">98</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax11.ConnectedComponents</span></td></tr>
+<tr id="L99" class=""><td class="line-num"><a href="#L99">99</a></td><td class="line-code"> </td></tr>
+</table></div><span class="source-proof-rail" data-source-line="L93" aria-label="Proof links"><a class="statement-proof-button" href="https://github.com/lax-archive/lax-submissions/blob/becb5782d64a8587b9cd3f53269c1ce35cdb1ff0/ram-linear-time/proofs/Lax11Proofs/CCMain.lean" aria-label="View proof Lax11Proofs.CCMain.exists_linearTime_program_ccLabels on GitHub" title="Lax11Proofs.CCMain.exists_linearTime_program_ccLabels"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">Show Proof</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a></span><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
+<div class="block"><h3>Formalization notes</h3><div class="latex-content"><p>Labelling a vertex by the least vertex reachable from it makes the
+output a <em>function</em> of the graph, so the statement is about computing a
+function and needs no convention for choosing representatives. Any
+other canonical choice would do; what matters is that the answer is
+determined, since a program that may return any of several correct
+answers would be a weaker claim dressed up as this one.</p>
+<p>The least vertex is the infimum of the set of numbers of vertices
+reachable from <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>v</mi></mrow><annotation encoding="application/x-tex">v</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">v</span></span></span></span>. That set contains <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>v</mi></mrow><annotation encoding="application/x-tex">v</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">v</span></span></span></span> itself, so the value is a
+genuine minimum and the convention <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mi>I</mi><mi>n</mi><mi>f</mi><mtext>∅</mtext><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">sInf ∅ = 0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.9444em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">s</span><span class="mord mathnormal" style="margin-right:0.0785em;">I</span><span class="mord mathnormal">n</span><span class="mord mathnormal" style="margin-right:0.1076em;">f</span><span class="mord">∅</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span> for natural numbers is
+never exercised. The labelling of the whole graph is the list of these
+values in vertex order, so its length is the number of vertices.</p>
+<p>The order of quantifiers is the content of the theorem: the program and
+the constant come first, the graph next and the word length last, so
+one program with one constant serves every graph at every word length.
+Quantifying the program before the word length is what makes it an
+algorithm rather than a family of them — a program chosen after <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>w</mi></mrow><annotation encoding="application/x-tex">w</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.0269em;">w</span></span></span></span>
+could hide an arbitrary amount of information in its literals — and it
+is the strong form of uniformity the model supports, since a program
+can measure <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>w</mi></mrow><annotation encoding="application/x-tex">w</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.0269em;">w</span></span></span></span> for itself.</p>
+<p>The bound is linear in the length of the input word — the number of
+entries actually handed to the machine, namely <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mo>+</mo><mi>n</mi><mo>+</mo><mn>2</mn><mi>m</mi></mrow><annotation encoding="application/x-tex">3 + n + 2m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">3</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">2</span><span class="mord mathnormal">m</span></span></span></span> — which is
+the input size in the sense the model charges for. Reading the input
+alone takes that many steps, so the bound is tight up to the constant.
+The <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">+ 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">+</span><span class="mord">1</span></span></span></span> only keeps the bound from being vacuous on inputs of length
+0, of which there are none valid.</p>
+<p>One constant does both jobs. An encoding is admissible at word length
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>w</mi></mrow><annotation encoding="application/x-tex">w</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.0269em;">w</span></span></span></span> when <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>c</mi><mo>∗</mo><mo stretchy="false">(</mo><mi mathvariant="normal">∣</mi><mi>x</mi><mi mathvariant="normal">∣</mi><mo>+</mo><mn>1</mn><mo stretchy="false">)</mo><mo>≤</mo><msup><mn>2</mn><mi>w</mi></msup></mrow><annotation encoding="application/x-tex">c * (|x| + 1) ≤ 2 ^ w</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4653em;"></span><span class="mord mathnormal">c</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">∣</span><span class="mord mathnormal">x</span><span class="mord">∣</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6644em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0269em;">w</span></span></span></span></span></span></span></span></span></span></span>, that is, when <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mi>w</mi></msup></mrow><annotation encoding="application/x-tex">2 ^ w</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6644em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0269em;">w</span></span></span></span></span></span></span></span></span></span></span> is at least
+the very number of steps the claim allows; this is the &quot;the word is
+wide enough for the input&quot; hypothesis of the word-RAM literature, written
+out as an explicit inequality against <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mi>w</mi></msup></mrow><annotation encoding="application/x-tex">2 ^ w</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6644em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0269em;">w</span></span></span></span></span></span></span></span></span></span></span> rather than through a
+logarithm. Nothing further need be asked of the entries: an encoding's
+entries are vertex numbers, offsets and the two header numbers, all
+smaller than its own length, so a word length that admits an encoding
+also holds every number in it.</p>
+<p>The fitting condition is a condition on the admissible inputs and not a
+hypothesis of the claim, because as a hypothesis it would be empty. A
+graph with an edge has encodings of every length, since a block may
+list a neighbour repeatedly, so no word length accommodates all
+encodings of a fixed graph at once and &quot;if every encoding of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi></mrow><annotation encoding="application/x-tex">G</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal">G</span></span></span></span> fits
+into a word&quot; would never be satisfied. Restricting the inputs instead
+says what is meant: at every word length, every encoding that fits is
+computed within the bound.</p>
+<p>Only encodings of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi></mrow><annotation encoding="application/x-tex">G</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal">G</span></span></span></span> are admitted as inputs; the program may behave
+arbitrarily on words that encode nothing, and on words too long for its
+word length.</p>
+</div></div>
+<div class="block"><div class="deps-columns">
+<div class="deps-col"><h3>Builds on</h3><ul class="deps-list"><li><a href="../lax-11/Lax11.GraphEncoding.html"><code>Lax11.GraphEncoding</code></a></li><li><a href="../lax-13/Lax13.RamComputes.html"><code>Lax13.RamComputes</code></a></li></ul></div>
+<div class="deps-col"><h3>Used by</h3><p class="empty-note">none</p></div>
+<div class="deps-col"><h3>From Mathlib</h3><ul class="deps-list"><li><a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Connectivity/Connected.html"><code>Mathlib.Combinatorics.SimpleGraph.Connectivity.Connected</code></a></li><li><a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/Nat/Lattice.html"><code>Mathlib.Data.Nat.Lattice</code></a></li></ul></div>
+</div></div>
+<section class="page-section discussion-section" aria-labelledby="discussion-title">
+<div class="discussion-heading">
+<div class="discussion-heading-copy">
+<p class="discussion-eyebrow">Community review</p>
+<h3 class="section-title" id="discussion-title">Discussion</h3>
+<p>Ask a question or add context. Endorsements and structured flags are kept in the review panel above; your ORCID profile must share a public name.</p>
+</div>
+<p class="discussion-count"><span class="remark42__counter" data-url="https://laxarchive.org/lax-11/Lax11.ConnectedComponents.html">0</span> <span>comments</span></p>
+</div>
+<div class="discussion-embed-shell">
+<p class="discussion-loading" id="remark42-status" role="status"><span class="discussion-loading-mark" aria-hidden="true"></span>Loading discussion…</p>
+<div id="remark42" data-remark42-host="https://comments.laxarchive.org" data-remark42-site="remark" data-remark42-url="https://laxarchive.org/lax-11/Lax11.ConnectedComponents.html"></div>
+</div>
+<noscript><p class="discussion-unavailable">Enable JavaScript to read or join the discussion.</p></noscript>
+</section>
+<script type="application/json" id="graph-data">{"concepts":{"nodes":[{"id":"Lax11.ConnectedComponents","href":"../lax-11/Lax11.ConnectedComponents.html","title":"Connected components in linear time","owner":"lax-11","status":"proven","ext":false,"dir":"core"},{"id":"Lax11.GraphEncoding","href":"../lax-11/Lax11.GraphEncoding.html","title":"Compressed sparse row encoding of a graph","owner":"lax-11","status":"none","ext":true,"dir":"up"},{"id":"Lax13.Ram","href":"../lax-13/Lax13.Ram.html","title":"The word RAM","owner":"lax-13","status":"none","ext":true,"dir":"up"},{"id":"Lax13.RamComputes","href":"../lax-13/Lax13.RamComputes.html","title":"Computing a function within a time bound","owner":"lax-13","status":"none","ext":true,"dir":"up"}],"edges":[{"from":"Lax11.GraphEncoding","to":"Lax11.ConnectedComponents"},{"from":"Lax13.RamComputes","to":"Lax11.ConnectedComponents"},{"from":"Lax13.Ram","to":"Lax13.RamComputes"}],"home":"lax-11"},"proofs":{"statements":[],"proofs":[]}}</script>
+</div></section>
+</main>
+<dialog class="account-dialog" id="account-dialog" aria-labelledby="account-dialog-title">
+<div class="account-dialog-inner">
+<header class="account-dialog-header">
+<div><p class="account-dialog-eyebrow">ORCID account</p><h2 id="account-dialog-title">Settings</h2></div>
+<button class="account-dialog-close" data-account-close type="button" aria-label="Close account settings">×</button>
+</header>
+<div class="account-dialog-body">
+<p class="account-status" data-account-status role="status">Checking your ORCID session…</p>
+<section data-account-content hidden>
+<div class="account-identity">
+<span class="account-avatar" data-account-avatar aria-hidden="true">iD</span>
+<div><a class="account-name" data-account-name target="_blank" rel="noopener noreferrer"></a><p class="account-id" data-account-id></p></div>
+</div>
+<p class="account-name-note">Your public name comes from ORCID. ORCID names are self-asserted and may change.</p>
+<div class="account-actions">
+<a data-account-refresh href="https://comments.laxarchive.org/auth/orcid/login?from=https%3A%2F%2Flaxarchive.org&amp;site=remark">Refresh from ORCID</a>
+<button data-account-logout type="button">Sign out</button>
+</div>
+<div class="account-comments-heading"><h3>Your comments</h3><span data-account-comment-count></span></div>
+<ol class="account-comments" data-account-comments></ol>
+<p class="account-comments-status" data-account-comments-status role="status"></p>
+</section>
+</div>
+</div>
+</dialog>
+<script src="../assets/sidebar.js?v=b11f292fc5c2"></script>
+<script src="../assets/account.js?v=8def7c90cefe"></script>
+<script src="../assets/layout.js?v=1089ce8aae63"></script>
+<script src="../assets/dag.js?v=2a0b2e1bec54"></script>
+<script src="../assets/source-proof.js?v=b4c48aaad400"></script>
+<script src="../assets/comments.js?v=493b5ebde364"></script>
+</body></html>

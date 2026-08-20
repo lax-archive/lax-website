@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://comments.laxarchive.org; style-src 'self' 'unsafe-inline'; img-src https: data:; font-src 'self'; frame-src https://comments.laxarchive.org; connect-src https://comments.laxarchive.org">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Lax — an archive of formalized mathematical concepts and their proofs">
+<title>Locality theorem for distance logic — Lax3.Locality</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
+<link rel="stylesheet" href="../assets/style.css?v=781d5eb0ca8e">
+</head><body>
+<header class="site-header">
+  <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
+  <h1 class="site-title"><a href="../index.html">Lax <span class="site-title-quiet">Lean Archive</span></a></h1>
+  <nav class="header-actions" aria-label="Account">
+    <div class="account-header" data-account-root data-remark42-host="https://comments.laxarchive.org" data-remark42-site="remark" data-identity-url="https://comments.laxarchive.org/reactions/v1/identity">
+  <a class="account-control" data-account-login href="https://comments.laxarchive.org/auth/orcid/login?from=https%3A%2F%2Flaxarchive.org&amp;site=remark"><span class="orcid-mark" aria-hidden="true">iD</span><span>Sign in with ORCID</span></a>
+  <button class="account-control" data-account-settings type="button" aria-haspopup="dialog" aria-controls="account-dialog" hidden><span class="orcid-mark" aria-hidden="true">iD</span><span>Settings</span></button>
+</div>
+  </nav>
+</header>
+<main id="content-shell">
+<div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+<aside id="sidebar">
+<a class="sidebar-back" href="../lax-3/index.html"><span class="sidebar-back-arrow" aria-hidden="true">←</span>lax-3</a>
+<div class="sidebar-filters"><div class="filter-group">
+<label for="filter-search">Search</label>
+<input id="filter-search" class="filter-input" type="search" placeholder="Filter entries" aria-controls="entry-list">
+</div>
+<div class="filter-group">
+<label for="filter-type">Type</label>
+<select id="filter-type" class="filter-select">
+<option value="all">All types</option>
+<option value="definition">definition</option>
+<option value="theorem">theorem</option>
+<option value="proof">proof</option>
+</select>
+</div></div>
+<ul id="entry-list">
+<li class="entry-heading" aria-hidden="true">Concepts</li>
+<li data-type="definition" data-search="lax3.coloredgraphs colored graphs and walk distance definition"><a class="entry-link" href="../lax-3/Lax3.ColoredGraphs.html" data-full-title="Colored graphs and walk distance"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax3.ColoredGraphs</span></span></a></li>
+<li data-type="definition" data-search="lax3.distfo distance logic and distance rank definition"><a class="entry-link" href="../lax-3/Lax3.DistFO.html" data-full-title="Distance logic and distance rank"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax3.DistFO</span></span></a></li>
+<li data-type="definition" data-search="lax3.firstorder first-order logic on graphs definition"><a class="entry-link" href="../lax-3/Lax3.FirstOrder.html" data-full-title="First-order logic on graphs"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax3.FirstOrder</span></span></a></li>
+<li class="active" data-type="theorem" data-search="lax3.locality locality theorem for distance logic theorem"><a class="entry-link" href="../lax-3/Lax3.Locality.html" data-full-title="Locality theorem for distance logic"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax3.Locality</span></span></a></li>
+<li data-type="theorem" data-search="lax3.modelchecking first-order model checking on nowhere dense classes in almost linear time theorem"><a class="entry-link" href="../lax-3/Lax3.ModelChecking.html" data-full-title="First-order model checking on nowhere dense classes in almost linear time"><span class="entry-label"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><span class="entry-label-text">Lax3.ModelChecking</span></span></a></li>
+<li data-type="theorem" data-search="lax3.neighborhoodcoverbound neighborhood covers of weak coloring degree theorem"><a class="entry-link" href="../lax-3/Lax3.NeighborhoodCoverBound.html" data-full-title="Neighborhood covers of weak coloring degree"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax3.NeighborhoodCoverBound</span></span></a></li>
+<li data-type="definition" data-search="lax3.neighborhoodcovers sparse neighborhood covers definition"><a class="entry-link" href="../lax-3/Lax3.NeighborhoodCovers.html" data-full-title="Sparse neighborhood covers"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax3.NeighborhoodCovers</span></span></a></li>
+<li data-type="theorem" data-search="lax3.normalform normal form for distance logic theorem"><a class="entry-link" href="../lax-3/Lax3.NormalForm.html" data-full-title="Normal form for distance logic"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax3.NormalForm</span></span></a></li>
+<li data-type="theorem" data-search="lax3.nowheredensesplitter splitter wins on nowhere dense classes theorem"><a class="entry-link" href="../lax-3/Lax3.NowhereDenseSplitter.html" data-full-title="Splitter wins on nowhere dense classes"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax3.NowhereDenseSplitter</span></span></a></li>
+<li data-type="definition" data-search="lax3.scattersentences scatter sentences definition"><a class="entry-link" href="../lax-3/Lax3.ScatterSentences.html" data-full-title="Scatter sentences"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax3.ScatterSentences</span></span></a></li>
+<li data-type="definition" data-search="lax3.splittergame the isolation splitter game definition"><a class="entry-link" href="../lax-3/Lax3.SplitterGame.html" data-full-title="The isolation splitter game"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax3.SplitterGame</span></span></a></li>
+<li class="entry-heading" aria-hidden="true">Proofs</li>
+<li data-type="proof" data-search="lax3proofs.assembly.locality proof"><a class="entry-link" href="../lax-3/Lax3Proofs.Assembly.locality.html" data-full-title="Lax3Proofs.Assembly.locality"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax3Proofs.Assembly.locality</span></span></a></li>
+<li data-type="proof" data-search="lax3proofs.assembly.normalform proof"><a class="entry-link" href="../lax-3/Lax3Proofs.Assembly.normalForm.html" data-full-title="Lax3Proofs.Assembly.normalForm"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax3Proofs.Assembly.normalForm</span></span></a></li>
+<li data-type="proof" data-search="lax3proofs.coverconstruction.exists_neighborhoodcover_degree_wcol proof"><a class="entry-link" href="../lax-3/Lax3Proofs.CoverConstruction.exists_neighborhoodCover_degree_wcol.html" data-full-title="Lax3Proofs.CoverConstruction.exists_neighborhoodCover_degree_wcol"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax3Proofs.CoverConstruction.exists_neighborhoodCover_degree_wcol</span></span></a></li>
+<li data-type="proof" data-search="lax3proofs.splitterwin.splitterwins_of_nowheredense proof"><a class="entry-link" href="../lax-3/Lax3Proofs.SplitterWin.splitterWins_of_nowhereDense.html" data-full-title="Lax3Proofs.SplitterWin.splitterWins_of_nowhereDense"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax3Proofs.SplitterWin.splitterWins_of_nowhereDense</span></span></a></li>
+<li id="entry-list-empty" hidden>No entries match.</li>
+</ul>
+</aside>
+<section id="main"><div id="detail">
+<p class="draft-banner"><strong>Draft</strong> — mutable and not usable as a dependency; its citation marks the draft state.</p>
+<div class="detail-heading concept-heading">
+<div><p class="concept-id"><code>Lax3.Locality</code></p>
+<h1 class="concept-title">Locality theorem for distance logic</h1>
+<p class="concept-microline"><code>concepts/Lax3/Locality.lean</code> · <a href="index.html">lax-3</a></p></div>
+<span class="status-pills"><span class="status-pill pill-proven" title="Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">proven</span></span>
+</div>
+<section class="page-reactions" aria-label="Community review" data-reactions-host="https://comments.laxarchive.org" data-reactions-url="https://laxarchive.org/lax-3/Lax3.Locality.html" data-review-kind="concept" data-source-lines="113">
+<div class="page-reactions-actions">
+<div class="page-reaction-control">
+<button class="page-reaction-button" type="button" data-reaction="endorse" aria-pressed="false" title="Say that this concept is correct"><span class="page-reaction-icon" aria-hidden="true">✅</span><span>Endorse</span></button>
+<button class="page-reaction-voters" type="button" data-reaction-voters="endorse" aria-expanded="false" aria-controls="page-reaction-voters-endorse"><strong data-reaction-count="endorse">0</strong><span class="visually-hidden">Show people who endorse this concept</span></button>
+<div class="page-reaction-voters-popover" id="page-reaction-voters-endorse" data-reaction-voters-popover="endorse" hidden><p data-reaction-empty>No public endorsements yet.</p><ul></ul></div>
+</div>
+<div class="page-reaction-control page-flag-control">
+<button class="page-reaction-button" type="button" data-reaction="flag" aria-pressed="false" aria-haspopup="dialog" title="Explain why this concept may be false"><span class="page-reaction-icon" aria-hidden="true">🚩</span><span>Flag</span></button>
+<button class="page-reaction-voters" type="button" data-flag-list-open aria-haspopup="dialog" aria-controls="page-flag-list"><strong data-reaction-count="flag">0</strong><span class="visually-hidden">Show flags for this concept</span></button>
+</div>
+</div>
+<p class="page-reactions-status" data-reactions-status role="status">Loading review…</p>
+<a class="visually-hidden" data-reactions-login href="https://comments.laxarchive.org/auth/orcid/login?site=remark&amp;from=https%3A%2F%2Flaxarchive.org%2Flax-3%2FLax3.Locality.html">Sign in with ORCID</a>
+<dialog class="review-dialog flag-list-dialog" id="page-flag-list" data-flag-list-dialog aria-labelledby="page-flag-list-title">
+<div class="review-dialog-header"><div><p class="discussion-eyebrow">Community review</p><h2 id="page-flag-list-title">Flags</h2></div><button class="review-dialog-close" type="button" data-flag-list-close aria-label="Close flags">×</button></div>
+<p class="review-dialog-intro">Each flag is tied to a public ORCID identity and explains why this concept may be incorrect.</p>
+<p data-flag-list-empty>No flags have been submitted.</p><ol class="flag-list" data-flag-list></ol>
+</dialog>
+<dialog class="review-dialog flag-editor-dialog" id="page-flag-editor" data-flag-editor aria-labelledby="page-flag-editor-title">
+<form data-flag-form>
+<div class="review-dialog-header"><div><p class="discussion-eyebrow">Community review</p><h2 id="page-flag-editor-title">Flag this concept</h2></div><button class="review-dialog-close" type="button" data-flag-cancel aria-label="Close flag form">×</button></div>
+<p class="review-dialog-intro">State precisely what appears incorrect. This explanation will be public under your ORCID name.</p>
+<label class="flag-message-label" for="page-flag-message">What is wrong?</label>
+<textarea id="page-flag-message" data-flag-message rows="6" maxlength="2000" required placeholder="Describe the incorrect claim, missing assumption, or counterexample."></textarea>
+<div class="flag-line-fields"><input type="hidden" data-flag-line><button class="secondary-button" type="button" data-flag-line-picker>Choose from source</button><p class="flag-line-selection" data-flag-line-selection aria-live="polite">No source line selected.</p></div>
+<p class="flag-form-status" data-flag-form-status role="status"></p>
+<div class="review-dialog-actions"><button class="danger-button" type="button" data-flag-remove hidden>Remove my flag</button><span></span><button class="secondary-button" type="button" data-flag-cancel>Cancel</button><button class="primary-button" type="submit">Publish flag</button></div>
+</form>
+</dialog>
+<noscript><p class="page-reactions-noscript"><a href="https://comments.laxarchive.org/auth/orcid/login?site=remark&amp;from=https%3A%2F%2Flaxarchive.org%2Flax-3%2FLax3.Locality.html">Sign in with ORCID</a> to review this page.</p></noscript>
+</section>
+<h4 class="figure-title">Concept map</h4>
+<figure class="graph-figure concept-root-graph">
+<button class="graph-expand" type="button" data-graph-expand data-graph-label="concept map" aria-expanded="false" aria-label="Open concept map in a large window" title="Open in large window"><svg class="graph-expand-open" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M2.5 6V2.5H6M10 2.5h3.5V6M13.5 10v3.5H10M6 13.5H2.5V10"/></svg><span class="graph-expand-close" aria-hidden="true">×</span></button>
+<div class="graph-toolbar"><button type="button" id="concept-expand" aria-controls="concept-dag" aria-pressed="true">Hide ancestors</button><button type="button" id="concept-descend" aria-controls="concept-dag" aria-pressed="false">Show descendants</button><output id="concept-graph-status" aria-live="polite"></output></div>
+<div id="concept-dag" class="figure-container" data-graph="concepts" data-ancestry="true"></div>
+<div class="graph-tooltip" role="tooltip" hidden></div>
+<figcaption class="graph-legend" aria-label="Concept map legend"><span><i class="legend-node fill-proven"></i>Proven claim</span><span><i class="legend-node fill-open"></i>Open claim</span><span><i class="legend-node fill-none"></i>Definition</span><span><i class="legend-node stroke-own"></i>This concept</span><span><i class="legend-node stroke-ext"></i>Related concept</span><span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B builds on A</span></figcaption>
+</figure>
+<div class="block block-evidence"><h3>Evidence</h3>
+<p class="evidence-intro">Each proof establishes this claim relative to its assumptions.</p>
+<ul class="proof-list">
+<li class="proof-item">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-3/Lax3Proofs.Assembly.locality.html" aria-label="Open proof Lax3Proofs.Assembly.locality"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><p class="judgment-unconditional">no assumptions</p></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="../lax-3/Lax3.Locality.html" title="Lax3.Locality.locality"><code>Lax3.Locality</code></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-3/Lax3Proofs.Assembly.locality.html"><code>Lax3Proofs.Assembly.locality</code></a></p>
+</li>
+</ul>
+</div>
+<div class="block block-statement"><h3>Theorem</h3><div class="latex-content"><p>Every formula of distance logic of distance rank (<em>k</em>, <em>q</em>) is
+equivalent to a boolean combination of <em>local</em> formulas and scatter
+sentences, all of distance rank (<em>k</em>, <em>q</em>). This is the locality
+theorem of the source note (arXiv:2606.23180, Theorem 1), in the spirit
+of Gaifman's locality theorem and of the locality theorem of Grohe,
+Kreutzer and Siebertz: unrestricted quantification is eliminated in
+favour of quantification inside a bounded neighborhood of the free
+variables, plus finitely many global assertions of the form &quot;there are
+<em>t</em> pairwise far apart vertices satisfying β&quot;. What distinguishes this
+version, and what makes it usable, is that the rewriting does not
+increase the rank — and the rank it preserves, distance rank, controls
+the radii of everything the resulting formulas mention.</p>
+<p>The theorem holds for every scatter choice; which one is fixed is
+invisible to the statement and decisive for the algorithm, which
+evaluates scatter sentences by running the greedy process. The
+companion statement <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mi>a</mi><mi>x</mi><mn>3.</mn><mi>N</mi><mi>o</mi><mi>r</mi><mi>m</mi><mi>a</mi><mi>l</mi><mi>F</mi><mi>o</mi><mi>r</mi><mi>m</mi></mrow><annotation encoding="application/x-tex">Lax3.NormalForm</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6944em;"></span><span class="mord mathnormal">L</span><span class="mord mathnormal">a</span><span class="mord mathnormal">x</span><span class="mord">3.</span><span class="mord mathnormal" style="margin-right:0.109em;">N</span><span class="mord mathnormal" style="margin-right:0.0278em;">or</span><span class="mord mathnormal">ma</span><span class="mord mathnormal" style="margin-right:0.0197em;">l</span><span class="mord mathnormal" style="margin-right:0.1389em;">F</span><span class="mord mathnormal" style="margin-right:0.0278em;">or</span><span class="mord mathnormal">m</span></span></span></span> — the analogue of Gaifman's
+normal form — instantiates the maximum-size choice and writes the
+scatter sentences out in the logic itself.</p>
+</div></div>
+<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/4af91eadd1217e0c3b3db5837b8c966f31c8c523/nowhere-dense-model-checking/concepts/Lax3/Locality.lean">view on GitHub</a></h3>
+<div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax3.ScatterSentences</span></td></tr>
+<tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"> </td></tr>
+<tr id="L3" class=""><td class="line-num"><a href="#L3">3</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
+<tr id="L4" class=""><td class="line-num"><a href="#L4">4</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
+<tr id="L5" class=""><td class="line-num"><a href="#L5">5</a></td><td class="line-code"><span style="color:#6A737D">title: Locality theorem for distance logic</span></td></tr>
+<tr id="L6" class=""><td class="line-num"><a href="#L6">6</a></td><td class="line-code"><span style="color:#6A737D">type: theorem</span></td></tr>
+<tr id="L7" class=""><td class="line-num"><a href="#L7">7</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
+<tr id="L8" class=""><td class="line-num"><a href="#L8">8</a></td><td class="line-code"><span style="color:#6A737D">Every formula of distance logic of distance rank (*k*, *q*) is</span></td></tr>
+<tr id="L9" class=""><td class="line-num"><a href="#L9">9</a></td><td class="line-code"><span style="color:#6A737D">equivalent to a boolean combination of *local* formulas and scatter</span></td></tr>
+<tr id="L10" class=""><td class="line-num"><a href="#L10">10</a></td><td class="line-code"><span style="color:#6A737D">sentences, all of distance rank (*k*, *q*). This is the locality</span></td></tr>
+<tr id="L11" class=""><td class="line-num"><a href="#L11">11</a></td><td class="line-code"><span style="color:#6A737D">theorem of the source note (arXiv:2606.23180, Theorem 1), in the spirit</span></td></tr>
+<tr id="L12" class=""><td class="line-num"><a href="#L12">12</a></td><td class="line-code"><span style="color:#6A737D">of Gaifman's locality theorem and of the locality theorem of Grohe,</span></td></tr>
+<tr id="L13" class=""><td class="line-num"><a href="#L13">13</a></td><td class="line-code"><span style="color:#6A737D">Kreutzer and Siebertz: unrestricted quantification is eliminated in</span></td></tr>
+<tr id="L14" class=""><td class="line-num"><a href="#L14">14</a></td><td class="line-code"><span style="color:#6A737D">favour of quantification inside a bounded neighborhood of the free</span></td></tr>
+<tr id="L15" class=""><td class="line-num"><a href="#L15">15</a></td><td class="line-code"><span style="color:#6A737D">variables, plus finitely many global assertions of the form &quot;there are</span></td></tr>
+<tr id="L16" class=""><td class="line-num"><a href="#L16">16</a></td><td class="line-code"><span style="color:#6A737D">*t* pairwise far apart vertices satisfying β&quot;. What distinguishes this</span></td></tr>
+<tr id="L17" class=""><td class="line-num"><a href="#L17">17</a></td><td class="line-code"><span style="color:#6A737D">version, and what makes it usable, is that the rewriting does not</span></td></tr>
+<tr id="L18" class=""><td class="line-num"><a href="#L18">18</a></td><td class="line-code"><span style="color:#6A737D">increase the rank — and the rank it preserves, distance rank, controls</span></td></tr>
+<tr id="L19" class=""><td class="line-num"><a href="#L19">19</a></td><td class="line-code"><span style="color:#6A737D">the radii of everything the resulting formulas mention.</span></td></tr>
+<tr id="L20" class=""><td class="line-num"><a href="#L20">20</a></td><td class="line-code"> </td></tr>
+<tr id="L21" class=""><td class="line-num"><a href="#L21">21</a></td><td class="line-code"><span style="color:#6A737D">The theorem holds for every scatter choice; which one is fixed is</span></td></tr>
+<tr id="L22" class=""><td class="line-num"><a href="#L22">22</a></td><td class="line-code"><span style="color:#6A737D">invisible to the statement and decisive for the algorithm, which</span></td></tr>
+<tr id="L23" class=""><td class="line-num"><a href="#L23">23</a></td><td class="line-code"><span style="color:#6A737D">evaluates scatter sentences by running the greedy process. The</span></td></tr>
+<tr id="L24" class=""><td class="line-num"><a href="#L24">24</a></td><td class="line-code"><span style="color:#6A737D">companion statement `Lax3.NormalForm` — the analogue of Gaifman's</span></td></tr>
+<tr id="L25" class=""><td class="line-num"><a href="#L25">25</a></td><td class="line-code"><span style="color:#6A737D">normal form — instantiates the maximum-size choice and writes the</span></td></tr>
+<tr id="L26" class=""><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span style="color:#6A737D">scatter sentences out in the logic itself.</span></td></tr>
+<tr id="L27" class=""><td class="line-num"><a href="#L27">27</a></td><td class="line-code"> </td></tr>
+<tr id="L28" class=""><td class="line-num"><a href="#L28">28</a></td><td class="line-code"><span style="color:#6A737D"># Formalization notes</span></td></tr>
+<tr id="L29" class=""><td class="line-num"><a href="#L29">29</a></td><td class="line-code"> </td></tr>
+<tr id="L30" class=""><td class="line-num"><a href="#L30">30</a></td><td class="line-code"><span style="color:#6A737D">The boolean combination is reified: `BC α` is the type of boolean</span></td></tr>
+<tr id="L31" class=""><td class="line-num"><a href="#L31">31</a></td><td class="line-code"><span style="color:#6A737D">combinations of atoms drawn from `α`, with an evaluation map and a list</span></td></tr>
+<tr id="L32" class=""><td class="line-num"><a href="#L32">32</a></td><td class="line-code"><span style="color:#6A737D">of the atoms occurring in it. That list is what carries the side</span></td></tr>
+<tr id="L33" class=""><td class="line-num"><a href="#L33">33</a></td><td class="line-code"><span style="color:#6A737D">conditions of the theorem — &quot;all of distance rank (*k*, *q*)&quot; is a</span></td></tr>
+<tr id="L34" class=""><td class="line-num"><a href="#L34">34</a></td><td class="line-code"><span style="color:#6A737D">statement about the atoms of the combination, and a bare `Prop`-level</span></td></tr>
+<tr id="L35" class=""><td class="line-num"><a href="#L35">35</a></td><td class="line-code"><span style="color:#6A737D">equivalence could not express it. Atoms are the sum type of formulas</span></td></tr>
+<tr id="L36" class=""><td class="line-num"><a href="#L36">36</a></td><td class="line-code"><span style="color:#6A737D">and scatter sentences, so one boolean combination mixes the two kinds</span></td></tr>
+<tr id="L37" class=""><td class="line-num"><a href="#L37">37</a></td><td class="line-code"><span style="color:#6A737D">and `Sum.elim` supplies their two evaluations.</span></td></tr>
+<tr id="L38" class=""><td class="line-num"><a href="#L38">38</a></td><td class="line-code"> </td></tr>
+<tr id="L39" class=""><td class="line-num"><a href="#L39">39</a></td><td class="line-code"><span style="color:#6A737D">Effectiveness is deliberately absent. The source says the boolean</span></td></tr>
+<tr id="L40" class=""><td class="line-num"><a href="#L40">40</a></td><td class="line-code"><span style="color:#6A737D">combination &quot;can be effectively computed&quot;; the statement here asserts</span></td></tr>
+<tr id="L41" class=""><td class="line-num"><a href="#L41">41</a></td><td class="line-code"><span style="color:#6A737D">only that it exists. Nothing is lost: the rewriting is discharged by an</span></td></tr>
+<tr id="L42" class=""><td class="line-num"><a href="#L42">42</a></td><td class="line-code"><span style="color:#6A737D">explicit Lean function on syntax with a soundness lemma, and it is that</span></td></tr>
+<tr id="L43" class=""><td class="line-num"><a href="#L43">43</a></td><td class="line-code"><span style="color:#6A737D">function — not the existential — that the model-checking algorithm of</span></td></tr>
+<tr id="L44" class=""><td class="line-num"><a href="#L44">44</a></td><td class="line-code"><span style="color:#6A737D">this submission consumes, together with the fact that a Lean function</span></td></tr>
+<tr id="L45" class=""><td class="line-num"><a href="#L45">45</a></td><td class="line-code"><span style="color:#6A737D">on an inductive syntax is by construction an algorithm. Stating</span></td></tr>
+<tr id="L46" class=""><td class="line-num"><a href="#L46">46</a></td><td class="line-code"><span style="color:#6A737D">effectiveness in the existential form (&quot;there is a computable map …&quot;)</span></td></tr>
+<tr id="L47" class=""><td class="line-num"><a href="#L47">47</a></td><td class="line-code"><span style="color:#6A737D">would add a machine model to a statement about logic, and the machine</span></td></tr>
+<tr id="L48" class=""><td class="line-num"><a href="#L48">48</a></td><td class="line-code"><span style="color:#6A737D">model this submission uses is the word RAM of submission Lax13, which</span></td></tr>
+<tr id="L49" class=""><td class="line-num"><a href="#L49">49</a></td><td class="line-code"><span style="color:#6A737D">enters at the headline theorem and not before.</span></td></tr>
+<tr id="L50" class=""><td class="line-num"><a href="#L50">50</a></td><td class="line-code"> </td></tr>
+<tr id="L51" class=""><td class="line-num"><a href="#L51">51</a></td><td class="line-code"><span style="color:#6A737D">The statement is an `axiom` on this concept surface and is proved in</span></td></tr>
+<tr id="L52" class=""><td class="line-num"><a href="#L52">52</a></td><td class="line-code"><span style="color:#6A737D">the proofs package of this submission. It is also the interface a</span></td></tr>
+<tr id="L53" class=""><td class="line-num"><a href="#L53">53</a></td><td class="line-code"><span style="color:#6A737D">future merge-width submission consumes, which is why the rewriting</span></td></tr>
+<tr id="L54" class=""><td class="line-num"><a href="#L54">54</a></td><td class="line-code"><span style="color:#6A737D">function is proofs-side and the existential is here: a consumer that</span></td></tr>
+<tr id="L55" class=""><td class="line-num"><a href="#L55">55</a></td><td class="line-code"><span style="color:#6A737D">needs the function can require the proofs package, and a consumer that</span></td></tr>
+<tr id="L56" class=""><td class="line-num"><a href="#L56">56</a></td><td class="line-code"><span style="color:#6A737D">needs only the equivalence takes the statement.</span></td></tr>
+<tr id="L57" class=""><td class="line-num"><a href="#L57">57</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
+<tr id="L58" class=""><td class="line-num"><a href="#L58">58</a></td><td class="line-code"> </td></tr>
+<tr id="L59" class=""><td class="line-num"><a href="#L59">59</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax3.Locality</span></td></tr>
+<tr id="L60" class=""><td class="line-num"><a href="#L60">60</a></td><td class="line-code"> </td></tr>
+<tr id="L61" class=""><td class="line-num"><a href="#L61">61</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax3.ColoredGraphs Lax3.DistFO Lax3.ScatterSentences</span></td></tr>
+<tr id="L62" class=""><td class="line-num"><a href="#L62">62</a></td><td class="line-code"> </td></tr>
+<tr id="L63" class=""><td class="line-num"><a href="#L63">63</a></td><td class="line-code"><span style="color:#D73A49">universe</span><span style="color:#24292E"> u</span></td></tr>
+<tr id="L64" class=""><td class="line-num"><a href="#L64">64</a></td><td class="line-code"> </td></tr>
+<tr id="L65" class=""><td class="line-num"><a href="#L65">65</a></td><td class="line-code"><span style="color:#6A737D">/-- Boolean combinations of atoms drawn from `α`. Disjunction and</span></td></tr>
+<tr id="L66" class=""><td class="line-num"><a href="#L66">66</a></td><td class="line-code"><span style="color:#6A737D">implication are the usual abbreviations; the empty combination is</span></td></tr>
+<tr id="L67" class=""><td class="line-num"><a href="#L67">67</a></td><td class="line-code"><span style="color:#6A737D">`tru`. -/</span></td></tr>
+<tr id="L68" class=""><td class="line-num"><a href="#L68">68</a></td><td class="line-code"><span style="color:#D73A49">inductive</span><span style="color:#6F42C1"> BC</span><span style="color:#24292E"> (α : </span><span style="color:#D73A49">Type</span><span style="color:#24292E"> u) : </span><span style="color:#D73A49">Type</span><span style="color:#24292E"> u</span></td></tr>
+<tr id="L69" class=""><td class="line-num"><a href="#L69">69</a></td><td class="line-code"><span style="color:#6A737D">  /-- An atom. -/</span></td></tr>
+<tr id="L70" class=""><td class="line-num"><a href="#L70">70</a></td><td class="line-code"><span style="color:#24292E">  | atom (a : α) : BC α</span></td></tr>
+<tr id="L71" class=""><td class="line-num"><a href="#L71">71</a></td><td class="line-code"><span style="color:#6A737D">  /-- The empty combination, always true. -/</span></td></tr>
+<tr id="L72" class=""><td class="line-num"><a href="#L72">72</a></td><td class="line-code"><span style="color:#24292E">  | tru : BC α</span></td></tr>
+<tr id="L73" class=""><td class="line-num"><a href="#L73">73</a></td><td class="line-code"><span style="color:#6A737D">  /-- Negation. -/</span></td></tr>
+<tr id="L74" class=""><td class="line-num"><a href="#L74">74</a></td><td class="line-code"><span style="color:#24292E">  | not (b : BC α) : BC α</span></td></tr>
+<tr id="L75" class=""><td class="line-num"><a href="#L75">75</a></td><td class="line-code"><span style="color:#6A737D">  /-- Conjunction. -/</span></td></tr>
+<tr id="L76" class=""><td class="line-num"><a href="#L76">76</a></td><td class="line-code"><span style="color:#24292E">  | and (b c : BC α) : BC α</span></td></tr>
+<tr id="L77" class=""><td class="line-num"><a href="#L77">77</a></td><td class="line-code"> </td></tr>
+<tr id="L78" class=""><td class="line-num"><a href="#L78">78</a></td><td class="line-code"><span style="color:#6A737D">/-- The truth value of a boolean combination, given a truth value for</span></td></tr>
+<tr id="L79" class=""><td class="line-num"><a href="#L79">79</a></td><td class="line-code"><span style="color:#6A737D">each atom. -/</span></td></tr>
+<tr id="L80" class=""><td class="line-num"><a href="#L80">80</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> BC.eval</span><span style="color:#24292E"> {α : </span><span style="color:#D73A49">Type</span><span style="color:#24292E"> u} (v : α → </span><span style="color:#D73A49">Prop</span><span style="color:#24292E">) : BC α → </span><span style="color:#D73A49">Prop</span></td></tr>
+<tr id="L81" class=""><td class="line-num"><a href="#L81">81</a></td><td class="line-code"><span style="color:#24292E">  | .atom a =&gt; v a</span></td></tr>
+<tr id="L82" class=""><td class="line-num"><a href="#L82">82</a></td><td class="line-code"><span style="color:#24292E">  | .tru =&gt; True</span></td></tr>
+<tr id="L83" class=""><td class="line-num"><a href="#L83">83</a></td><td class="line-code"><span style="color:#24292E">  | .not b =&gt; ¬ BC.eval v b</span></td></tr>
+<tr id="L84" class=""><td class="line-num"><a href="#L84">84</a></td><td class="line-code"><span style="color:#24292E">  | .and b c =&gt; BC.eval v b ∧ BC.eval v c</span></td></tr>
+<tr id="L85" class=""><td class="line-num"><a href="#L85">85</a></td><td class="line-code"> </td></tr>
+<tr id="L86" class=""><td class="line-num"><a href="#L86">86</a></td><td class="line-code"><span style="color:#6A737D">/-- The atoms occurring in a boolean combination, with multiplicity. -/</span></td></tr>
+<tr id="L87" class=""><td class="line-num"><a href="#L87">87</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> BC.atoms</span><span style="color:#24292E"> {α : </span><span style="color:#D73A49">Type</span><span style="color:#24292E"> u} : BC α → List α</span></td></tr>
+<tr id="L88" class=""><td class="line-num"><a href="#L88">88</a></td><td class="line-code"><span style="color:#24292E">  | .atom a =&gt; [a]</span></td></tr>
+<tr id="L89" class=""><td class="line-num"><a href="#L89">89</a></td><td class="line-code"><span style="color:#24292E">  | .tru =&gt; []</span></td></tr>
+<tr id="L90" class=""><td class="line-num"><a href="#L90">90</a></td><td class="line-code"><span style="color:#24292E">  | .not b =&gt; BC.atoms b</span></td></tr>
+<tr id="L91" class=""><td class="line-num"><a href="#L91">91</a></td><td class="line-code"><span style="color:#24292E">  | .and b c =&gt; BC.atoms b ++ BC.atoms c</span></td></tr>
+<tr id="L92" class=""><td class="line-num"><a href="#L92">92</a></td><td class="line-code"> </td></tr>
+<tr id="L93" class=""><td class="line-num"><a href="#L93">93</a></td><td class="line-code"><span style="color:#D73A49">variable</span><span style="color:#24292E"> {L : ℕ}</span></td></tr>
+<tr id="L94" class=""><td class="line-num"><a href="#L94">94</a></td><td class="line-code"> </td></tr>
+<tr id="L95" class="statement-line line-proven"><td class="line-num"><a href="#L95">95</a></td><td class="line-code"><span class="statement-anchor" id="s-Lax3.Locality.locality"></span><span style="color:#6A737D">/-- **Locality theorem** (Theorem 1 of arXiv:2606.23180). Fix a scatter</span></td></tr>
+<tr id="L96" class="statement-line line-proven"><td class="line-num"><a href="#L96">96</a></td><td class="line-code"><span style="color:#6A737D">choice. Every formula of distance rank `(k, q)` is equivalent to a</span></td></tr>
+<tr id="L97" class="statement-line line-proven"><td class="line-num"><a href="#L97">97</a></td><td class="line-code"><span style="color:#6A737D">boolean combination of local formulas of distance rank `(k, q)` and</span></td></tr>
+<tr id="L98" class="statement-line line-proven"><td class="line-num"><a href="#L98">98</a></td><td class="line-code"><span style="color:#6A737D">scatter sentences of distance rank `(k, q)`: there is a boolean</span></td></tr>
+<tr id="L99" class="statement-line line-proven"><td class="line-num"><a href="#L99">99</a></td><td class="line-code"><span style="color:#6A737D">combination whose formula atoms are all local of distance rank `(k, q)`,</span></td></tr>
+<tr id="L100" class="statement-line line-proven"><td class="line-num"><a href="#L100">100</a></td><td class="line-code"><span style="color:#6A737D">whose scatter-sentence atoms all have distance rank `(k, q)`, and which</span></td></tr>
+<tr id="L101" class="statement-line line-proven"><td class="line-num"><a href="#L101">101</a></td><td class="line-code"><span style="color:#6A737D">has the same truth value as the formula in every finite colored graph</span></td></tr>
+<tr id="L102" class="statement-line line-proven"><td class="line-num"><a href="#L102">102</a></td><td class="line-code"><span style="color:#6A737D">under every environment. -/</span></td></tr>
+<tr id="L103" class="statement-line line-proven"><td class="line-num"><a href="#L103">103</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> locality</span><span style="color:#24292E"> (choice : ScatterChoice) {k q : ℕ} (φ : DistFO L k)</span></td></tr>
+<tr id="L104" class="statement-line line-proven"><td class="line-num"><a href="#L104">104</a></td><td class="line-code"><span style="color:#24292E">    (hφ : DistFO.DRank k q φ) :</span></td></tr>
+<tr id="L105" class="statement-line line-proven"><td class="line-num"><a href="#L105">105</a></td><td class="line-code"><span style="color:#24292E">    ∃ b : BC (DistFO L k ⊕ ScatterSentence L),</span></td></tr>
+<tr id="L106" class="statement-line line-proven"><td class="line-num"><a href="#L106">106</a></td><td class="line-code"><span style="color:#24292E">      (∀ ψ : DistFO L k, Sum.inl ψ ∈ b.atoms → DistFO.IsLocal ψ ∧ DistFO.DRank k q ψ) ∧</span></td></tr>
+<tr id="L107" class="statement-line line-proven"><td class="line-num"><a href="#L107">107</a></td><td class="line-code"><span style="color:#24292E">      (∀ σ : ScatterSentence L, Sum.inr σ ∈ b.atoms → σ.DRank k q) ∧</span></td></tr>
+<tr id="L108" class="statement-line line-proven"><td class="line-num"><a href="#L108">108</a></td><td class="line-code"><span style="color:#24292E">      ∀ (n : ℕ) (G : SimpleGraph (Fin n)) (col : Coloring n L) (m : Fin k → Fin n),</span></td></tr>
+<tr id="L109" class="statement-line line-proven"><td class="line-num"><a href="#L109">109</a></td><td class="line-code"><span style="color:#24292E">        DistFO.Sat G col m φ ↔</span></td></tr>
+<tr id="L110" class="statement-line line-proven"><td class="line-num"><a href="#L110">110</a></td><td class="line-code"><span style="color:#24292E">          b.eval (Sum.elim (DistFO.Sat G col m) (ScatterSentence.Sat choice G col))</span></td></tr>
+<tr id="L111" class=""><td class="line-num"><a href="#L111">111</a></td><td class="line-code"> </td></tr>
+<tr id="L112" class=""><td class="line-num"><a href="#L112">112</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax3.Locality</span></td></tr>
+<tr id="L113" class=""><td class="line-num"><a href="#L113">113</a></td><td class="line-code"> </td></tr>
+</table></div><span class="source-proof-rail" data-source-line="L103" aria-label="Proof links"><a class="statement-proof-button" href="https://github.com/lax-archive/lax-submissions/blob/4af91eadd1217e0c3b3db5837b8c966f31c8c523/nowhere-dense-model-checking/proofs/Lax3Proofs/Assembly.lean" aria-label="View proof Lax3Proofs.Assembly.locality on GitHub" title="Lax3Proofs.Assembly.locality"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">Show Proof</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a></span><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
+<div class="block"><h3>Formalization notes</h3><div class="latex-content"><p>The boolean combination is reified: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi><mi>C</mi><mi>α</mi></mrow><annotation encoding="application/x-tex">BC α</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.0502em;">B</span><span class="mord mathnormal" style="margin-right:0.0715em;">C</span><span class="mord mathnormal" style="margin-right:0.0037em;">α</span></span></span></span> is the type of boolean
+combinations of atoms drawn from <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi></mrow><annotation encoding="application/x-tex">α</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.0037em;">α</span></span></span></span>, with an evaluation map and a list
+of the atoms occurring in it. That list is what carries the side
+conditions of the theorem — &quot;all of distance rank (<em>k</em>, <em>q</em>)&quot; is a
+statement about the atoms of the combination, and a bare <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mi>r</mi><mi>o</mi><mi>p</mi></mrow><annotation encoding="application/x-tex">Prop</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8778em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.1389em;">P</span><span class="mord mathnormal" style="margin-right:0.0278em;">r</span><span class="mord mathnormal">o</span><span class="mord mathnormal">p</span></span></span></span>-level
+equivalence could not express it. Atoms are the sum type of formulas
+and scatter sentences, so one boolean combination mixes the two kinds
+and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mi>u</mi><mi>m</mi><mi mathvariant="normal">.</mi><mi>e</mi><mi>l</mi><mi>i</mi><mi>m</mi></mrow><annotation encoding="application/x-tex">Sum.elim</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.0576em;">S</span><span class="mord mathnormal">u</span><span class="mord mathnormal">m</span><span class="mord">.</span><span class="mord mathnormal">e</span><span class="mord mathnormal" style="margin-right:0.0197em;">l</span><span class="mord mathnormal">im</span></span></span></span> supplies their two evaluations.</p>
+<p>Effectiveness is deliberately absent. The source says the boolean
+combination &quot;can be effectively computed&quot;; the statement here asserts
+only that it exists. Nothing is lost: the rewriting is discharged by an
+explicit Lean function on syntax with a soundness lemma, and it is that
+function — not the existential — that the model-checking algorithm of
+this submission consumes, together with the fact that a Lean function
+on an inductive syntax is by construction an algorithm. Stating
+effectiveness in the existential form (&quot;there is a computable map …&quot;)
+would add a machine model to a statement about logic, and the machine
+model this submission uses is the word RAM of submission Lax13, which
+enters at the headline theorem and not before.</p>
+<p>The statement is an <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mi>x</mi><mi>i</mi><mi>o</mi><mi>m</mi></mrow><annotation encoding="application/x-tex">axiom</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6595em;"></span><span class="mord mathnormal">a</span><span class="mord mathnormal">x</span><span class="mord mathnormal">i</span><span class="mord mathnormal">o</span><span class="mord mathnormal">m</span></span></span></span> on this concept surface and is proved in
+the proofs package of this submission. It is also the interface a
+future merge-width submission consumes, which is why the rewriting
+function is proofs-side and the existential is here: a consumer that
+needs the function can require the proofs package, and a consumer that
+needs only the equivalence takes the statement.</p>
+</div></div>
+<div class="block"><div class="deps-columns">
+<div class="deps-col"><h3>Builds on</h3><ul class="deps-list"><li><a href="../lax-3/Lax3.ScatterSentences.html"><code>Lax3.ScatterSentences</code></a></li></ul></div>
+<div class="deps-col"><h3>Used by</h3><ul class="deps-list"><li><a href="../lax-3/Lax3.NormalForm.html"><code>Lax3.NormalForm</code></a></li></ul></div>
+<div class="deps-col"><h3>From Mathlib</h3><p class="empty-note">none</p></div>
+</div></div>
+<section class="page-section discussion-section" aria-labelledby="discussion-title">
+<div class="discussion-heading">
+<div class="discussion-heading-copy">
+<p class="discussion-eyebrow">Community review</p>
+<h3 class="section-title" id="discussion-title">Discussion</h3>
+<p>Ask a question or add context. Endorsements and structured flags are kept in the review panel above; your ORCID profile must share a public name.</p>
+</div>
+<p class="discussion-count"><span class="remark42__counter" data-url="https://laxarchive.org/lax-3/Lax3.Locality.html">0</span> <span>comments</span></p>
+</div>
+<div class="discussion-embed-shell">
+<p class="discussion-loading" id="remark42-status" role="status"><span class="discussion-loading-mark" aria-hidden="true"></span>Loading discussion…</p>
+<div id="remark42" data-remark42-host="https://comments.laxarchive.org" data-remark42-site="remark" data-remark42-url="https://laxarchive.org/lax-3/Lax3.Locality.html"></div>
+</div>
+<noscript><p class="discussion-unavailable">Enable JavaScript to read or join the discussion.</p></noscript>
+</section>
+<script type="application/json" id="graph-data">{"concepts":{"nodes":[{"id":"Lax12.GraphClasses","href":"../lax-12/Lax12.GraphClasses.html","title":"Graph classes","owner":"lax-12","status":"none","ext":true,"dir":"up"},{"id":"Lax12.UniformQuasiWideness","href":"../lax-12/Lax12.UniformQuasiWideness.html","title":"Uniform quasi-wideness","owner":"lax-12","status":"none","ext":true,"dir":"up"},{"id":"Lax3.ColoredGraphs","href":"../lax-3/Lax3.ColoredGraphs.html","title":"Colored graphs and walk distance","owner":"lax-3","status":"none","ext":true,"dir":"up"},{"id":"Lax3.DistFO","href":"../lax-3/Lax3.DistFO.html","title":"Distance logic and distance rank","owner":"lax-3","status":"none","ext":true,"dir":"up"},{"id":"Lax3.Locality","href":"../lax-3/Lax3.Locality.html","title":"Locality theorem for distance logic","owner":"lax-3","status":"proven","ext":false,"dir":"core"},{"id":"Lax3.NormalForm","href":"../lax-3/Lax3.NormalForm.html","title":"Normal form for distance logic","owner":"lax-3","status":"proven","ext":true,"dir":"down"},{"id":"Lax3.ScatterSentences","href":"../lax-3/Lax3.ScatterSentences.html","title":"Scatter sentences","owner":"lax-3","status":"none","ext":true,"dir":"up"}],"edges":[{"from":"Lax12.GraphClasses","to":"Lax12.UniformQuasiWideness"},{"from":"Lax3.ColoredGraphs","to":"Lax3.DistFO"},{"from":"Lax3.ScatterSentences","to":"Lax3.Locality"},{"from":"Lax3.Locality","to":"Lax3.NormalForm"},{"from":"Lax12.UniformQuasiWideness","to":"Lax3.ScatterSentences"},{"from":"Lax3.DistFO","to":"Lax3.ScatterSentences"}],"home":"lax-3"},"proofs":{"statements":[],"proofs":[]}}</script>
+</div></section>
+</main>
+<dialog class="account-dialog" id="account-dialog" aria-labelledby="account-dialog-title">
+<div class="account-dialog-inner">
+<header class="account-dialog-header">
+<div><p class="account-dialog-eyebrow">ORCID account</p><h2 id="account-dialog-title">Settings</h2></div>
+<button class="account-dialog-close" data-account-close type="button" aria-label="Close account settings">×</button>
+</header>
+<div class="account-dialog-body">
+<p class="account-status" data-account-status role="status">Checking your ORCID session…</p>
+<section data-account-content hidden>
+<div class="account-identity">
+<span class="account-avatar" data-account-avatar aria-hidden="true">iD</span>
+<div><a class="account-name" data-account-name target="_blank" rel="noopener noreferrer"></a><p class="account-id" data-account-id></p></div>
+</div>
+<p class="account-name-note">Your public name comes from ORCID. ORCID names are self-asserted and may change.</p>
+<div class="account-actions">
+<a data-account-refresh href="https://comments.laxarchive.org/auth/orcid/login?from=https%3A%2F%2Flaxarchive.org&amp;site=remark">Refresh from ORCID</a>
+<button data-account-logout type="button">Sign out</button>
+</div>
+<div class="account-comments-heading"><h3>Your comments</h3><span data-account-comment-count></span></div>
+<ol class="account-comments" data-account-comments></ol>
+<p class="account-comments-status" data-account-comments-status role="status"></p>
+</section>
+</div>
+</div>
+</dialog>
+<script src="../assets/sidebar.js?v=b11f292fc5c2"></script>
+<script src="../assets/account.js?v=8def7c90cefe"></script>
+<script src="../assets/layout.js?v=1089ce8aae63"></script>
+<script src="../assets/dag.js?v=2a0b2e1bec54"></script>
+<script src="../assets/source-proof.js?v=b4c48aaad400"></script>
+<script src="../assets/comments.js?v=493b5ebde364"></script>
+</body></html>
