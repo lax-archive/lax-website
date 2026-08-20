@@ -166,26 +166,26 @@ can read, software can check, and future work can build upon.</p>
 <section class="landing-action-panel landing-submit-panel latex-content" id="landing-panel-submit" aria-labelledby="landing-action-submit">
 <p class="landing-action-eyebrow">Contribute to Lax</p>
 <h3>Creating your own submission</h3>
-<p>The fastest way to contribute is to hand your AI agent (preferably a frontier
-model like Claude Fable) a prompt like:</p>
+<p>Contributing is a two-step process.</p>
+<ol>
+<li><p><strong>Set up</strong>, once per machine:</p>
+<pre><code class="language-sh">npm install -g lax-archive
+lax login     # GitHub device flow; grants no scopes, identity only
+lax doctor    # verifies the setup and installs whatever is missing
+</code></pre>
+</li>
+<li><p><strong>Hand your coding agent</strong> a prompt like:</p>
 <div class="landing-prompt-box">
-<pre id="landing-submission-prompt"><code>Use Lax to formalize &lt;my result&gt;. Steps:
-- Install the lax CLI (npm install -g lax-archive) and familiarize
-  yourself with the tool, e.g. by reading `lax spec`.
-- Design the concepts: find the cleanest partition of the mathematics
-  into individual concepts, reusing suitable concepts from other submissions
-  where possible, and ask me for feedback on the design.
-  Favor code that is easy to review, also for non-experts.
-- Write the concepts and show them to me via `lax serve`.
-- Once I have approved the concepts, write the proofs. For this step,
-  act as supervisor and delegate individual proofs to subagents to
-  keep your own context clean.
+<pre id="landing-submission-prompt"><code>Run `lax print instructions` and follow the guide it prints
+to formalize &lt;my result&gt;.
 </code></pre>
 <button class="prompt-copy" type="button" data-copy-prompt aria-controls="landing-submission-prompt" aria-label="Copy prompt to clipboard" title="Copy prompt"><span class="prompt-copy-icon" aria-hidden="true"></span></button>
 <output class="prompt-copy-status" aria-live="polite"></output>
 </div>
+</li>
+</ol>
 <p>Prefer to work hands-on, or want to know what happens at each step? See
-<a href="contributing.html">Contributing</a>.</p>
+<a href="contributing.html">Getting started</a>.</p>
 
 </section>
 <section class="landing-action-panel submissions-library" id="landing-panel-read" aria-labelledby="landing-action-read">
