@@ -4,8 +4,8 @@ A submission is a self-contained Lean development, concepts and proofs with
 structured annotations, that you author in your own git repository, build
 locally, and submit as a *(repository, commit, folder)* triple. The archive
 clones your pushed commit and validates it again on trusted infrastructure
-before anything is published. Nothing is uploaded; the archive references
-your repository rather than hosting it.
+before anything is published. Your code stays in your repository; the
+archive links to it rather than hosting a copy.
 
 ## Setup
 
@@ -15,13 +15,13 @@ identity. Then:
 
 ```sh
 npm install -g lax-archive
-lax login     # GitHub device flow; grants no scopes, identity only
-lax doctor    # verifies the setup and installs whatever is missing
+lax login     # sign in with GitHub (identity only, no repo access)
+lax doctor    # checks your setup and installs whatever is missing
 ```
 
-`lax doctor` provisions everything building requires: the pinned Lean
-toolchain and the prebuilt mathlib workspace (a large download, once per
-machine), plus a local copy of the archive database.
+`lax doctor` installs everything building requires: the Lean toolchain and
+prebuilt mathlib (a large download, once per machine), plus a local copy of
+the archive database.
 
 ## The workflow
 
@@ -38,10 +38,9 @@ formalized. The steps below are that same workflow, by hand.
    The archive allocates your submission id and scaffolds a complete Lean
    workspace with mathlib pinned and prebuilt.
 
-2. **Author.** Write your concepts and proofs in the scaffold. The
-   normative reference for the annotation format is the spec
-   (`lax print spec`). The submissions already on the site are working
-   examples.
+2. **Author.** Write your concepts and proofs in the scaffold. The spec
+   (`lax print spec`) is the authoritative reference for the annotation
+   format, and the submissions already on the site are working examples.
 
 3. **Build locally, iterate until clean.**
 

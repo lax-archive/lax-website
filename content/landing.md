@@ -23,8 +23,8 @@ Contributing is a two-step process.
 
    ```sh
    npm install -g lax-archive
-   lax login     # GitHub device flow; grants no scopes, identity only
-   lax doctor    # verifies the setup and installs whatever is missing
+   lax login     # sign in with GitHub (identity only, no repo access)
+   lax doctor    # checks your setup and installs whatever is missing
    ```
 
 2. **Hand your coding agent** a prompt like:
