@@ -44,18 +44,18 @@ lax doctor    # checks your setup and installs whatever is missing
 prebuilt mathlib (a large download, once per machine), plus a local copy of
 the archive database.</p>
 <h2>The workflow</h2>
-<p>The fastest route is to let a coding agent do the work: <code>lax print instructions</code> prints the guide to hand it, together with the result you want
-formalized. The steps below are that same workflow, by hand.</p>
+<p>The fastest route is to let a coding agent do the work: run <code>lax print instructions</code> and hand its output to your agent, along with the result you
+want formalized. The steps below are that same workflow, by hand.</p>
 <ol>
-<li><p><strong>Create a submission.</strong> From inside a git repository of yours:</p>
+<li><p><strong>Create a submission.</strong> From inside a public git repository of yours:</p>
 <pre><code class="language-sh">lax init my-submission
 </code></pre>
 <p>The archive allocates your submission id and scaffolds a complete Lean
 workspace with mathlib pinned and prebuilt.</p>
 </li>
-<li><p><strong>Author.</strong> Write your concepts and proofs in the scaffold. The spec
-(<code>lax print spec</code>) is the authoritative reference for the annotation
-format, and the submissions already on the site are working examples.</p>
+<li><p><strong>Author.</strong> Write your concepts and proofs in the scaffold. The
+annotation format is defined in the spec (<code>lax print spec</code>), and the
+submissions already on the site are working examples.</p>
 </li>
 <li><p><strong>Build locally, iterate until clean.</strong></p>
 <pre><code class="language-sh">lax build my-submission
@@ -64,8 +64,7 @@ format, and the submissions already on the site are working examples.</p>
 render them.</p>
 </li>
 <li><p><strong>Push, then submit.</strong> The archive builds your <em>pushed</em> commit, not your
-working tree. Commit, push to a repository the archive can clone (public
-GitHub is the easy case), then:</p>
+working tree. Commit, push, then:</p>
 <pre><code class="language-sh">lax submit my-submission
 </code></pre>
 <p>The archive validates the commit while the CLI follows along and prints
