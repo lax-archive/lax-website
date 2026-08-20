@@ -491,7 +491,7 @@ After the formula.`, "");
     expect(index).not.toContain("no content uploaded yet");
     expect(index).toContain("1 submission ·");
     const contributing = fs.readFileSync(path.join(root, "contributing.html"), "utf8");
-    expect(contributing).toContain('<h1 class="paper-title">Contributing</h1>');
+    expect(contributing).toContain('<h1 class="paper-title">Getting started</h1>');
     expect(contributing).toContain("The workflow");
     expect(contributing).not.toContain('class="random-submission"');
     const proofObligations = fs.readFileSync(path.join(root, "open-proof-obligations.html"), "utf8");

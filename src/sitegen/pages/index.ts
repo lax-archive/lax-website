@@ -136,9 +136,11 @@ ${heading}${copy}
 }
 
 function copyablePrompt(html: string): string {
+  // The agent prompt is the section's last fence; earlier fences (the setup
+  // commands) stay plain code blocks.
   const open = "<pre>";
   const close = "</pre>";
-  const start = html.indexOf(open);
+  const start = html.lastIndexOf(open);
   const end = html.indexOf(close, start + open.length);
   if (start < 0 || end < 0) throw new Error("landing submit section must include a fenced prompt");
   const prompt = html.slice(start, end + close.length)

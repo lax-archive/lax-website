@@ -17,24 +17,25 @@ can read, software can check, and future work can build upon.
 
 ## Creating your own submission
 
-The fastest way to contribute is to hand your AI agent (preferably a frontier
-model like Claude Fable) a prompt like:
+Contributing is a two-step process.
 
-```
-Use Lax to formalize <my result>. Steps:
-- Install the lax CLI (npm install -g lax-archive) and familiarize
-  yourself with the tool, e.g. by reading `lax spec`.
-- Design the concepts: find the cleanest partition of the mathematics
-  into individual concepts, reusing suitable concepts from other submissions
-  where possible, and ask me for feedback on the design.
-  Favor code that is easy to review, also for non-experts.
-- Write the concepts and show them to me via `lax serve`.
-- Once I have approved the concepts, write the proofs. For this step,
-  act as supervisor and delegate individual proofs to subagents to
-  keep your own context clean.
-```
+1. **Set up**, once per machine:
+
+   ```sh
+   npm install -g lax-archive
+   lax login     # GitHub device flow; grants no scopes, identity only
+   lax doctor    # verifies the setup and installs whatever is missing
+   ```
+
+2. **Hand your coding agent** a prompt like:
+
+   ```
+   Run `lax print instructions` and follow the guide it prints
+   to formalize <my result>.
+   ```
+
 Prefer to work hands-on, or want to know what happens at each step? See
-[Contributing](contributing.html).
+[Getting started](contributing.html).
 
 <!--## Background-->
 <!---->

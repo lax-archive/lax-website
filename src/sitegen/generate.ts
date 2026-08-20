@@ -18,7 +18,7 @@ export async function generateSite(submissions: SiteSubmission[], outDir: string
   const context = { model, markdown: new MarkdownRenderer(model) };
   const files = new Map<string, string>();
   files.set("index.html", await indexPage(context));
-  files.set("contributing.html", contentPage(context, "contributing", "Contributing"));
+  files.set("contributing.html", contentPage(context, "contributing", "Getting started"));
   const proofObligations = openProblemsPage(context);
   files.set("open-proof-obligations.html", proofObligations);
   // Preserve shared preview and production links published under the old name.
