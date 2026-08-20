@@ -25,11 +25,11 @@ the archive database.
 
 ## The workflow
 
-The fastest route is to let a coding agent do the work: `lax print
-instructions` prints the guide to hand it, together with the result you want
-formalized. The steps below are that same workflow, by hand.
+The fastest route is to let a coding agent do the work: run `lax print
+instructions` and hand its output to your agent, along with the result you
+want formalized. The steps below are that same workflow, by hand.
 
-1. **Create a submission.** From inside a git repository of yours:
+1. **Create a submission.** From inside a public git repository of yours:
 
    ```sh
    lax init my-submission
@@ -38,9 +38,9 @@ formalized. The steps below are that same workflow, by hand.
    The archive allocates your submission id and scaffolds a complete Lean
    workspace with mathlib pinned and prebuilt.
 
-2. **Author.** Write your concepts and proofs in the scaffold. The spec
-   (`lax print spec`) is the authoritative reference for the annotation
-   format, and the submissions already on the site are working examples.
+2. **Author.** Write your concepts and proofs in the scaffold. The
+   annotation format is defined in the spec (`lax print spec`), and the
+   submissions already on the site are working examples.
 
 3. **Build locally, iterate until clean.**
 
@@ -53,8 +53,7 @@ formalized. The steps below are that same workflow, by hand.
    render them.
 
 4. **Push, then submit.** The archive builds your *pushed* commit, not your
-   working tree. Commit, push to a repository the archive can clone (public
-   GitHub is the easy case), then:
+   working tree. Commit, push, then:
 
    ```sh
    lax submit my-submission
