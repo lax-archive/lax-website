@@ -30,19 +30,19 @@
 structured annotations, that you author in your own git repository, build
 locally, and submit as a <em>(repository, commit, folder)</em> triple. The archive
 clones your pushed commit and validates it again on trusted infrastructure
-before anything is published. Nothing is uploaded; the archive references
-your repository rather than hosting it.</p>
+before anything is published. Your code stays in your repository; the
+archive links to it rather than hosting a copy.</p>
 <h2>Setup</h2>
 <p>You need <strong>Linux or macOS</strong> with ~10 GB free disk, <strong>Node.js ≥ 20</strong>, <strong>git</strong>,
 and a <strong>GitHub account</strong> — submissions are authenticated with your GitHub
 identity. Then:</p>
 <pre><code class="language-sh">npm install -g lax-archive
-lax login     # GitHub device flow; grants no scopes, identity only
-lax doctor    # verifies the setup and installs whatever is missing
+lax login     # sign in with GitHub (identity only, no repo access)
+lax doctor    # checks your setup and installs whatever is missing
 </code></pre>
-<p><code>lax doctor</code> provisions everything building requires: the pinned Lean
-toolchain and the prebuilt mathlib workspace (a large download, once per
-machine), plus a local copy of the archive database.</p>
+<p><code>lax doctor</code> installs everything building requires: the Lean toolchain and
+prebuilt mathlib (a large download, once per machine), plus a local copy of
+the archive database.</p>
 <h2>The workflow</h2>
 <p>The fastest route is to let a coding agent do the work: <code>lax print instructions</code> prints the guide to hand it, together with the result you want
 formalized. The steps below are that same workflow, by hand.</p>
@@ -53,10 +53,9 @@ formalized. The steps below are that same workflow, by hand.</p>
 <p>The archive allocates your submission id and scaffolds a complete Lean
 workspace with mathlib pinned and prebuilt.</p>
 </li>
-<li><p><strong>Author.</strong> Write your concepts and proofs in the scaffold. The
-normative reference for the annotation format is the spec
-(<code>lax print spec</code>). The submissions already on the site are working
-examples.</p>
+<li><p><strong>Author.</strong> Write your concepts and proofs in the scaffold. The spec
+(<code>lax print spec</code>) is the authoritative reference for the annotation
+format, and the submissions already on the site are working examples.</p>
 </li>
 <li><p><strong>Build locally, iterate until clean.</strong></p>
 <pre><code class="language-sh">lax build my-submission
