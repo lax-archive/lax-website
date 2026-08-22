@@ -2102,7 +2102,6 @@ body{
 
 .badge-legend > span{ display: inline-flex; align-items: center; gap: 0.3rem; }
 .badge-legend .type-badge{ margin-right: 0; font-size: 0.52rem; padding: 0.5px 3px; }
-.badge-legend-note{ margin-left: auto; font-style: italic; }
 
 .concept-list li{
   display: flex;

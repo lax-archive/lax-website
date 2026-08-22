@@ -44,6 +44,10 @@ ${discussion(`${record.id}/`)}`;
   }
 
   const proven = ctx.model.network.proven;
+  // Build each figure's data once so its legend and embedded JSON describe
+  // exactly the same nodes and edges.
+  const related = submissionGraph(ctx.model, output.id);
+  const graphs = pageGraphData(ctx, submission, related);
   const conceptRows = output.concepts.map((concept) => {
     const provenCount = concept.statements.filter((s) => proven.has(s.id)).length;
     const status = concept.statements.length ? provenCount === concept.statements.length : undefined;
@@ -58,7 +62,6 @@ ${discussion(`${record.id}/`)}`;
     .join("\n");
   // A submission alone in its corner of the archive gets a sentence, not an
   // empty figure: the map only says something once there is a neighbour.
-  const related = submissionGraph(ctx.model, output.id);
   const relatedFigure = related.nodes.length > 1
     ? `${figureTitle("Submission map")}
 <figure class="graph-figure">
@@ -77,7 +80,7 @@ ${output.concepts.length ? `<div class="concept-list-box">
 <ul class="concept-list">
 ${conceptRows.join("\n")}
 </ul>
-${conceptBadgeLegend()}
+${conceptBadgeLegend(graphs.concepts.nodes.filter((node) => !node.ext).map((node) => node.status))}
 </div>
 ${figureTitle("Concept map")}
 <figure class="graph-figure">
@@ -85,7 +88,7 @@ ${graphExpandButton("concept map")}
 <div class="graph-toolbar"><button type="button" id="concept-expand" aria-controls="concept-dag" aria-pressed="true">Hide ancestors</button><button type="button" id="concept-descend" aria-controls="concept-dag" aria-pressed="false">Show descendants</button><output id="concept-graph-status" aria-live="polite"></output></div>
 <div id="concept-dag" class="figure-container" data-graph="concepts" data-ancestry="true"></div>
 ${graphTooltip()}
-${conceptMapLegend("This submission", "Other submission")}
+${conceptMapLegend(graphs.concepts, "This submission", "Other submission")}
 </figure>` : `<p class="empty-note">No concepts in this submission.</p>`}
 </section>
 <section class="page-section"><h3 class="section-title">Proofs</h3>
@@ -100,7 +103,7 @@ ${figureTitle("Proof network", proofsHref)}
 ${graphExpandButton("proof network")}
 <div id="proof-network" class="figure-container" data-graph="proofs"></div>
 ${graphTooltip()}
-${proofNetworkLegend()}
+${proofNetworkLegend(graphs.proofs)}
 </figure>` : `<p class="empty-note">No proofs in this submission.</p>`}
 <p class="honesty-note">Proof code is not displayed; the archive records each proof's checked relationship between claims.</p>
 </section>
@@ -116,7 +119,7 @@ ${relatedFigure}
 </section>
 ${references ? `<section class="page-section"><h3 class="section-title">References</h3>\n<ol class="reference-list">\n${references}\n</ol>\n</section>` : ""}
 ${discussion(`${record.id}/`)}
-${graphData(ctx, submission, related)}`;
+${graphDataScript(graphs)}`;
   return page({
     title: `${output.manifest.title} — ${record.id}`,
     rootRel: "../",
@@ -130,7 +133,7 @@ ${graphData(ctx, submission, related)}`;
  * contains the page's own concepts plus both closures behind the toggles;
  * proof data is the submission's bipartite statement/proof neighborhood;
  * submission data is the same dependency question one level up. */
-function graphData(ctx: PageContext, submission: SiteSubmission, related: SubmissionGraphData): string {
+function pageGraphData(ctx: PageContext, submission: SiteSubmission, related: SubmissionGraphData) {
   const output = submission.output!;
   const model = ctx.model;
   const own = new Set(output.concepts.map((c) => c.id));
@@ -203,10 +206,9 @@ function graphData(ctx: PageContext, submission: SiteSubmission, related: Submis
     });
 
   // `home` lets dag.js shorten the page's own concept ids to bare names.
-  const data = {
+  return {
     concepts: { ...concepts, home: output.id },
     proofs: { statements: statementNodes, proofs: proofNodes, home: output.id },
     submissions: related,
   };
-  return graphDataScript(data);
 }

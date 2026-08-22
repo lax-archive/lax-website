@@ -57,6 +57,7 @@ export async function conceptPage(ctx: PageContext, located: LocatedConcept): Pr
   const { submission, output, concept } = located;
   const proven = ctx.model.network.proven;
   const provenCount = concept.statements.filter((s) => proven.has(s.id)).length;
+  const graph = conceptGraph(ctx.model, [concept.id]);
   const source = submission.record.source;
   const githubFile = source
     ? githubSource(source.repository, source.commit, source.folder, concept.path)
@@ -112,7 +113,7 @@ ${graphExpandButton("concept map")}
 <div class="graph-toolbar"><button type="button" id="concept-expand" aria-controls="concept-dag" aria-pressed="true">Hide ancestors</button><button type="button" id="concept-descend" aria-controls="concept-dag" aria-pressed="false">Show descendants</button><output id="concept-graph-status" aria-live="polite"></output></div>
 <div id="concept-dag" class="figure-container" data-graph="concepts" data-ancestry="true"></div>
 ${graphTooltip()}
-${conceptMapLegend("This concept", "Related concept")}
+${conceptMapLegend(graph, "This concept", "Related concept")}
 </figure>
 ${evidence(ctx, located)}
 <div class="block block-statement"><h3>${esc(typeHeading)}</h3><div class="latex-content">${ctx.markdown.renderAuthorProse(concept.description, "../")}</div></div>
@@ -128,7 +129,7 @@ ${depsCol("From Mathlib", mathlibRows)}
 </div></div>
 ${discussion(`${submission.record.id}/${concept.id}.html`)}
 ${graphDataScript({
-    concepts: { ...conceptGraph(ctx.model, [concept.id]), home: output.id },
+    concepts: { ...graph, home: output.id },
     proofs: { statements: [], proofs: [] },
   })}`;
 

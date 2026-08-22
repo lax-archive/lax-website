@@ -1,5 +1,6 @@
 import { DEFAULT_SITE_URL } from "../../config.js";
 import type { BuildOutput, ConceptEntry, ProofEntry } from "../../types.js";
+import type { ConceptGraphData } from "../graphs.js";
 import { attr, code, esc, proofBadge, statePill, typeBadge } from "../html.js";
 import type { MarkdownRenderer } from "../markdown.js";
 import { compareIds, type LocatedProof, type SiteModel, type SiteSubmission } from "../model.js";
@@ -93,7 +94,49 @@ export function proofShortName(output: BuildOutput, proof: ProofEntry, pageHome?
 // ---- graph figure furniture ----
 // One legend grammar for both figures: fill = proven status, stroke = origin.
 
-const LEGEND_FILLS = `<span><i class="legend-node fill-proven"></i>Proven claim</span><span><i class="legend-node fill-open"></i>Open claim</span>`;
+type ClaimStatus = ConceptGraphData["nodes"][number]["status"];
+
+interface ProofNetworkLegendData {
+  statements: { id: string; proven: boolean; ext: boolean }[];
+  proofs: { id: string; assumptions: string[]; conclusion: string; ext: boolean }[];
+}
+
+/** Keep the status axis in one archive-wide order while omitting fills that
+ * do not occur in this particular list or graph. */
+function claimFillLegend(statuses: Iterable<ClaimStatus>, definitions = false): string {
+  const present = new Set(statuses);
+  return [
+    present.has("proven") ? `<span><i class="legend-node fill-proven"></i>Proven claim</span>` : "",
+    present.has("open") ? `<span><i class="legend-node fill-open"></i>Open claim</span>` : "",
+    definitions && present.has("none") ? `<span><i class="legend-node fill-none"></i>Definition</span>` : "",
+  ].join("");
+}
+
+/** The browser marks a cycle when the displayed bipartite claim/proof graph
+ * has a directed cycle. Collapsing each claim -> proof -> claim step to a
+ * claim edge gives the same answer without duplicating the layout code. */
+function proofNetworkHasCycle(data: ProofNetworkLegendData): boolean {
+  const statementIds = new Set(data.statements.map((statement) => statement.id));
+  const successors = new Map([...statementIds].map((id) => [id, [] as string[]]));
+  for (const proof of data.proofs) {
+    if (!statementIds.has(proof.conclusion)) continue;
+    for (const assumption of proof.assumptions)
+      if (statementIds.has(assumption)) successors.get(assumption)!.push(proof.conclusion);
+  }
+
+  const visiting = new Set<string>();
+  const visited = new Set<string>();
+  const visit = (id: string): boolean => {
+    if (visiting.has(id)) return true;
+    if (visited.has(id)) return false;
+    visiting.add(id);
+    for (const next of successors.get(id)!) if (visit(next)) return true;
+    visiting.delete(id);
+    visited.add(id);
+    return false;
+  };
+  return [...statementIds].some(visit);
+}
 
 /** The floating tooltip that dag.js positions inside a graph figure. */
 export function graphTooltip(): string {
@@ -114,12 +157,24 @@ export function figureTitle(title: string, source?: string): string {
 
 /** The concept-list legend: what the badge letters, marks, and tints mean.
  * Sample badges are the real component, so the legend cannot drift. */
-export function conceptBadgeLegend(): string {
-  return `<div class="badge-legend" aria-label="Concept badge legend"><span>${typeBadge("theorem", true)}proven claim</span><span>${typeBadge("theorem", false)}open claim</span><span>${typeBadge("definition")}definition</span><span class="badge-legend-note">letters abbreviate the concept's type</span></div>`;
+export function conceptBadgeLegend(statuses: Iterable<ClaimStatus>): string {
+  const present = new Set(statuses);
+  const items = [
+    present.has("proven") ? `<span>${typeBadge("theorem", true)}proven claim</span>` : "",
+    present.has("open") ? `<span>${typeBadge("theorem", false)}open claim</span>` : "",
+    present.has("none") ? `<span>${typeBadge("definition")}definition</span>` : "",
+  ];
+  return `<div class="badge-legend" aria-label="Concept badge legend">${items.join("")}</div>`;
 }
 
-export function conceptMapLegend(ownLabel: string, extLabel: string): string {
-  return `<figcaption class="graph-legend" aria-label="Concept map legend">${LEGEND_FILLS}<span><i class="legend-node fill-none"></i>Definition</span><span><i class="legend-node stroke-own"></i>${esc(ownLabel)}</span><span><i class="legend-node stroke-ext"></i>${esc(extLabel)}</span><span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B builds on A</span></figcaption>`;
+export function conceptMapLegend(data: ConceptGraphData, ownLabel: string, extLabel: string): string {
+  const items = [
+    claimFillLegend(data.nodes.map((node) => node.status), true),
+    data.nodes.some((node) => !node.ext) ? `<span><i class="legend-node stroke-own"></i>${esc(ownLabel)}</span>` : "",
+    data.nodes.some((node) => node.ext) ? `<span><i class="legend-node stroke-ext"></i>${esc(extLabel)}</span>` : "",
+    data.edges.length ? `<span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B builds on A</span>` : "",
+  ];
+  return `<figcaption class="graph-legend" aria-label="Concept map legend">${items.join("")}</figcaption>`;
 }
 
 /** The submission map's legend. Same grammar one level up: stroke = origin,
@@ -129,8 +184,18 @@ export function submissionMapLegend(): string {
   return `<figcaption class="graph-legend" aria-label="Submission map legend"><span><i class="legend-node stroke-own"></i>This submission</span><span><i class="legend-node stroke-ext"></i>Other submission</span><span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B builds on A</span></figcaption>`;
 }
 
-export function proofNetworkLegend(): string {
-  return `<figcaption class="graph-legend" aria-label="Proof network legend"><span class="proof-flow">assumptions <i class="legend-arrow" aria-hidden="true">→</i><i class="legend-proof-chip" aria-hidden="true">⊢</i><i class="legend-arrow" aria-hidden="true">→</i> conclusion</span>${LEGEND_FILLS}<span><i class="legend-node stroke-own"></i>This submission</span><span><i class="legend-node stroke-ext"></i>From another submission</span><span><i class="legend-proof-chip" aria-hidden="true">⊢</i>Proof — click to open</span><span><i class="legend-cycle"></i>Cycle — claims proving each other</span></figcaption>`;
+export function proofNetworkLegend(data: ProofNetworkLegendData): string {
+  const statuses = data.statements.map((statement) => statement.proven ? "proven" as const : "open" as const);
+  const nodes = [...data.statements, ...data.proofs];
+  const items = [
+    data.proofs.length ? `<span class="proof-flow">assumptions <i class="legend-arrow" aria-hidden="true">→</i><i class="legend-proof-chip" aria-hidden="true">⊢</i><i class="legend-arrow" aria-hidden="true">→</i> conclusion</span>` : "",
+    claimFillLegend(statuses),
+    nodes.some((node) => !node.ext) ? `<span><i class="legend-node stroke-own"></i>This submission</span>` : "",
+    nodes.some((node) => node.ext) ? `<span><i class="legend-node stroke-ext"></i>From another submission</span>` : "",
+    data.proofs.length ? `<span><i class="legend-proof-chip" aria-hidden="true">⊢</i>Proof — click to open</span>` : "",
+    proofNetworkHasCycle(data) ? `<span><i class="legend-cycle"></i>Cycle — claims proving each other</span>` : "",
+  ];
+  return `<figcaption class="graph-legend" aria-label="Proof network legend">${items.join("")}</figcaption>`;
 }
 
 // ---- source links ----

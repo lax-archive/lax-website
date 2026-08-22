@@ -669,7 +669,7 @@ After the formula.`, "");
     // the concept box explains its own badges, real components as samples
     expect(html).toContain('class="badge-legend"');
     expect(html.indexOf('class="concept-list"')).toBeLessThan(html.indexOf('class="badge-legend"'));
-    expect(html).toContain("letters abbreviate the concept's type");
+    expect(html).not.toContain("letters abbreviate the concept's type");
     // judgment-card proof entry: head links to the proof page, the conclusion
     // is rendered as its claim-concept, annotation sections stay off this page
     expect(html).toContain('id="p-Lax2Proofs.truth"');
@@ -763,6 +763,64 @@ After the formula.`, "");
     expect(html).toContain('<figure class="graph-figure proof-network-figure">');
     expect(html).toContain('<span class="proof-flow">assumptions <i class="legend-arrow" aria-hidden="true">→</i><i class="legend-proof-chip" aria-hidden="true">⊢</i><i class="legend-arrow" aria-hidden="true">→</i> conclusion</span>');
     expect(html).not.toContain('class="legend-note">assumptions');
+  });
+
+  it("shows only relevant legend items while preserving their global order", async () => {
+    const root = tmpDir("lax-site-legends-");
+    await generateSite([...submissions(), ...graphSubmissions()], root);
+    const legend = (html: string, label: string, tag: "div" | "figcaption") => {
+      const match = new RegExp(`<${tag}[^>]*aria-label="${label}"[^>]*>.*?</${tag}>`, "s").exec(html);
+      expect(match, `${label} should be present`).not.toBeNull();
+      return match![0];
+    };
+    const inOrder = (html: string, values: string[]) => {
+      const positions = values.map((value) => html.indexOf(value));
+      expect(positions.every((position) => position >= 0)).toBe(true);
+      expect(positions).toEqual([...positions].sort((a, b) => a - b));
+    };
+
+    // Lax2 has a proven claim and a definition, but no open or external
+    // concepts. Its one proof is grounded, local, and acyclic.
+    const grounded = fs.readFileSync(path.join(root, "Lax2", "index.html"), "utf8");
+    const badges = legend(grounded, "Concept badge legend", "div");
+    expect(badges).toContain("proven claim");
+    expect(badges).not.toContain("open claim");
+    expect(badges).toContain("definition");
+    expect(badges).not.toContain("letters abbreviate");
+    inOrder(badges, ["proven claim", "definition"]);
+
+    const groundedConcepts = legend(grounded, "Concept map legend", "figcaption");
+    expect(groundedConcepts).toContain("fill-proven");
+    expect(groundedConcepts).not.toContain("fill-open");
+    expect(groundedConcepts).toContain("fill-none");
+    expect(groundedConcepts).toContain("stroke-own");
+    expect(groundedConcepts).not.toContain("stroke-ext");
+    inOrder(groundedConcepts, ["fill-proven", "fill-none", "stroke-own", "legend-arrow"]);
+
+    const groundedProofs = legend(grounded, "Proof network legend", "figcaption");
+    expect(groundedProofs).toContain("fill-proven");
+    expect(groundedProofs).not.toContain("fill-open");
+    expect(groundedProofs).toContain("stroke-own");
+    expect(groundedProofs).not.toContain("stroke-ext");
+    expect(groundedProofs).not.toContain("legend-cycle");
+    inOrder(groundedProofs, ["proof-flow", "fill-proven", "stroke-own", "Proof — click to open"]);
+
+    // Lax4's claims are open, its concept ancestry contains definitions from
+    // other submissions, and its two proofs form a cycle.
+    const cyclic = fs.readFileSync(path.join(root, "Lax4", "index.html"), "utf8");
+    const cyclicBadges = legend(cyclic, "Concept badge legend", "div");
+    expect(cyclicBadges).not.toContain("proven claim");
+    expect(cyclicBadges).toContain("open claim");
+    expect(cyclicBadges).not.toContain("definition");
+
+    const cyclicConcepts = legend(cyclic, "Concept map legend", "figcaption");
+    expect(cyclicConcepts).not.toContain("fill-proven");
+    inOrder(cyclicConcepts, ["fill-open", "fill-none", "stroke-own", "stroke-ext", "legend-arrow"]);
+
+    const cyclicProofs = legend(cyclic, "Proof network legend", "figcaption");
+    expect(cyclicProofs).not.toContain("fill-proven");
+    expect(cyclicProofs).not.toContain("stroke-ext");
+    inOrder(cyclicProofs, ["proof-flow", "fill-open", "stroke-own", "Proof — click to open", "legend-cycle"]);
   });
 
   it("emits expandable concept closures and proof readiness metadata for deterministic DAGs", async () => {
