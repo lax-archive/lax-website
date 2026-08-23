@@ -35,6 +35,12 @@ export class SiteModel {
   readonly submissionUses = new Map<string, Set<string>>();
   /** The same relation reversed: the submissions that build on each one. */
   readonly submissionUsedBy = new Map<string, Set<string>>();
+  /** Each submission's declared supersedes target, bound or not. */
+  readonly supersedesClaim = new Map<string, string>();
+  /** Bound forward version pointers: the registered successor by superseded id. */
+  readonly supersededBy = new Map<string, string>();
+  /** The bound pointers reversed: the superseded submission by successor id. */
+  private readonly predecessorOf = new Map<string, string>();
 
   constructor(submissions: SiteSubmission[]) {
     // A deleted record is a tombstone that exists only to retire its id: no
@@ -77,6 +83,62 @@ export class SiteModel {
     for (const values of [...this.importers.values(), ...this.statementProofs.values()])
       values.sort((a, b) => a.output.id.localeCompare(b.output.id));
     this.linkSubmissions();
+    this.linkVersions();
+  }
+
+  /**
+   * Version chains, derived from the successors' manifests: a `supersedes`
+   * claim is *bound* — and only then nudges readers away from the older
+   * version — once its claimant is registered. The control plane admits at
+   * most one registered successor per submission; should stale data ever
+   * carry two, the lowest id wins so the generated output stays
+   * deterministic rather than build-order-dependent.
+   */
+  private linkVersions(): void {
+    for (const submission of this.submissions) {
+      const id = submission.record.id;
+      const target = submission.output?.manifest.supersedes;
+      if (!target || target === id || !this.submissionById.has(target)) continue;
+      this.supersedesClaim.set(id, target);
+      if (submission.record.state !== "registered") continue;
+      const existing = this.supersededBy.get(target);
+      if (existing === undefined || compareIds(id, existing) < 0) this.supersededBy.set(target, id);
+    }
+    for (const [older, newer] of this.supersededBy) this.predecessorOf.set(newer, older);
+  }
+
+  /** Whether a registered successor replaces this submission. */
+  isSuperseded(id: string): boolean {
+    return this.supersededBy.has(id);
+  }
+
+  /** Follow bound successors to the newest version; `id` itself when current. */
+  latestVersion(id: string): string {
+    const seen = new Set([id]);
+    let current = id;
+    for (;;) {
+      const next = this.supersededBy.get(current);
+      if (next === undefined || seen.has(next)) return current;
+      seen.add(next);
+      current = next;
+    }
+  }
+
+  /** The bound version chain through `id`, oldest first; `[id]` alone when
+   * this submission neither supersedes nor is superseded. */
+  versionChain(id: string): string[] {
+    const chain = [id];
+    for (;;) {
+      const previous = this.predecessorOf.get(chain[0]!);
+      if (previous === undefined || chain.includes(previous)) break;
+      chain.unshift(previous);
+    }
+    for (;;) {
+      const next = this.supersededBy.get(chain[chain.length - 1]!);
+      if (next === undefined || chain.includes(next)) break;
+      chain.push(next);
+    }
+    return chain;
   }
 
   /**

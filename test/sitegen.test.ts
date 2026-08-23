@@ -1192,3 +1192,136 @@ end Lax2.C`;
     expect(placeholder).toContain("No content uploaded yet");
   });
 });
+
+describe("supersedes version chains", () => {
+  const make = (
+    id: string,
+    state: "registered" | "draft",
+    title: string,
+    supersedes?: string,
+  ): SiteSubmission => ({
+    record: {
+      specVersion: "1", id, state, createdAt: "2026-01-01T00:00:00Z",
+      ...(state === "registered" ? { registeredAt: "2026-01-02T00:00:00Z" } : {}),
+    },
+    output: {
+      specVersion: "1", id,
+      manifest: {
+        specVersion: "1", id, leanVersion: "v4.30.0", mathlibVersion: "abc", title,
+        authors: [], bibEntries: [], ...(supersedes ? { supersedes } : {}),
+      },
+      abstract: "An abstract.", requiredByConcepts: [], requiredByProofs: [],
+      concepts: [{
+        id: `${id.replace(/\W/g, "")}.C`, path: "concepts/C.lean", title: "C",
+        type: "definition", description: "d", imports: [], mathlibImports: [],
+        sourceText: "-- lean\n", statements: [],
+      }],
+      proofs: [],
+    },
+  });
+  const archive = () => [
+    make("lax-1", "registered", "Old Result"),
+    make("lax-2", "registered", "New Result", "lax-1"),
+    make("lax-3", "draft", "Newer Still", "lax-2"),
+  ];
+
+  it("binds only registered successors and walks chains both ways", () => {
+    const model = new SiteModel(archive());
+    expect(model.isSuperseded("lax-1")).toBe(true);
+    // the draft's claim is recorded but does not bind
+    expect(model.isSuperseded("lax-2")).toBe(false);
+    expect(model.supersedesClaim.get("lax-3")).toBe("lax-2");
+    expect(model.latestVersion("lax-1")).toBe("lax-2");
+    expect(model.versionChain("lax-1")).toEqual(["lax-1", "lax-2"]);
+    expect(model.versionChain("lax-2")).toEqual(["lax-1", "lax-2"]);
+    expect(model.versionChain("lax-3")).toEqual(["lax-3"]);
+  });
+
+  it("nudges from every page of a superseded submission and lists all versions", async () => {
+    const root = tmpDir("lax-site-versions-");
+    await generateSite(archive(), root);
+
+    const oldPage = fs.readFileSync(path.join(root, "lax-1", "index.html"), "utf8");
+    expect(oldPage).toContain('class="superseded-banner"');
+    expect(oldPage).toContain('href="../lax-2/index.html"');
+    expect(oldPage).toContain("New Result");
+    expect(oldPage).toContain(">Versions</h3>");
+    expect(oldPage).toContain('class="version-item version-current"');
+    expect(oldPage).toContain("note = {superseded by lax-2}");
+
+    const oldConcept = fs.readFileSync(path.join(root, "lax-1", "lax1.C.html"), "utf8");
+    expect(oldConcept).toContain('class="superseded-banner"');
+
+    const newPage = fs.readFileSync(path.join(root, "lax-2", "index.html"), "utf8");
+    expect(newPage).not.toContain('class="superseded-banner"');
+    expect(newPage).toContain(">Versions</h3>");
+    expect(newPage).toContain('href="../lax-1/index.html"');
+    expect(newPage).toContain("version-mark-latest");
+    expect(newPage).not.toContain("note = {superseded");
+
+    const draftPage = fs.readFileSync(path.join(root, "lax-3", "index.html"), "utf8");
+    expect(draftPage).toContain("will supersede");
+    expect(draftPage).toContain('href="../lax-2/index.html"');
+  });
+
+  it("ignores self and unknown targets and breaks stale double-claims deterministically", () => {
+    const model = new SiteModel([
+      make("lax-1", "registered", "Old"),
+      make("lax-2", "registered", "A", "lax-1"),
+      make("lax-6", "registered", "B", "lax-1"),
+      make("lax-4", "registered", "Selfish", "lax-4"),
+      make("lax-5", "registered", "Dangling", "lax-99"),
+    ]);
+    expect(model.supersedesClaim.has("lax-4")).toBe(false);
+    expect(model.supersedesClaim.has("lax-5")).toBe(false);
+    // the control plane admits one registered successor; stale data with two
+    // resolves to the lowest id, deterministically
+    expect(model.supersededBy.get("lax-1")).toBe("lax-2");
+    expect(model.versionChain("lax-1")).toEqual(["lax-1", "lax-2"]);
+  });
+
+  it("carries the banner onto proof pages and output-less registered pages", async () => {
+    const old = make("lax-1", "registered", "Old Result");
+    old.output!.concepts[0]!.type = "theorem";
+    old.output!.concepts[0]!.statements = [{ id: "lax1.C.s", signature: "s : True" }];
+    old.output!.proofs = [{
+      id: "lax1Proofs.p", path: "proofs/P.lean", conclusion: "lax1.C.s",
+      assumptions: [], description: "d",
+    }];
+    const bare: SiteSubmission = {
+      record: { specVersion: "1", id: "lax-4", state: "registered", createdAt: "2026-01-01T00:00:00Z" },
+    };
+    const root = tmpDir("lax-site-versions-edges-");
+    await generateSite([
+      old,
+      make("lax-2", "registered", "New Result", "lax-1"),
+      bare,
+      make("lax-5", "registered", "Bare Successor", "lax-4"),
+    ], root);
+
+    const proofPage = fs.readFileSync(path.join(root, "lax-1", "lax1Proofs.p.html"), "utf8");
+    expect(proofPage).toContain('class="superseded-banner"');
+    expect(proofPage).toContain('href="../lax-2/index.html"');
+
+    const barePage = fs.readFileSync(path.join(root, "lax-4", "index.html"), "utf8");
+    expect(barePage).toContain("No content uploaded yet");
+    expect(barePage).toContain('class="superseded-banner"');
+    expect(barePage).toContain('href="../lax-5/index.html"');
+  });
+
+  it("groups superseded work after current work on the library and sidebar", async () => {
+    const root = tmpDir("lax-site-versions-index-");
+    await generateSite(archive(), root);
+    const index = fs.readFileSync(path.join(root, "index.html"), "utf8");
+    expect(index).toContain('data-entry-group="superseded"');
+    expect(index).toContain(">Superseded</li>");
+    expect(index).toContain('data-state="superseded"');
+    expect(index).toContain(">superseded</span>");
+    // the discovery card never offers an outdated version
+    expect(index).toContain('data-random-submission-candidate');
+    expect(index).not.toContain('href="lax-1/index.html" data-random-submission-candidate');
+    expect(index.indexOf('data-entry-group="draft"')).toBeLessThan(
+      index.indexOf('data-entry-group="superseded"'),
+    );
+  });
+});

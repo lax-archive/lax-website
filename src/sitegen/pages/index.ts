@@ -3,8 +3,8 @@ import { contentMarkdown } from "../content.js";
 import { highlightSnippet } from "../highlight.js";
 import { submissionTagIndex } from "../tags.js";
 import {
-  compareSearchSubmissions,
   indexSidebar,
+  partitionSuperseded,
   submissionSearchAttributes,
   type PageContext,
 } from "./shared.js";
@@ -159,17 +159,19 @@ ${prompt}
 export async function indexPage({ model, markdown }: PageContext): Promise<string> {
   const concepts = model.outputs.flatMap((o) => o.concepts);
   const statements = concepts.flatMap((c) => c.statements);
-  const listed = model.submissions.filter((s) => s.output).sort(compareSearchSubmissions);
+  const { current, superseded } = partitionSuperseded(model);
+  const listed = [...current, ...superseded];
   const tagIndex = submissionTagIndex(listed);
   const rows = listed.map((submission, order) => {
     const { record, output } = submission;
+    const state = model.isSuperseded(record.id) ? "superseded" : record.state;
     const date = formatDate(record.registeredAt ?? record.createdAt);
     const authors = output!.manifest.authors.map((a) => esc(a.name)).join(", ");
     const counts = `${plural(output!.concepts.length, "concept")}, ${plural(output!.proofs.length, "proof")}`;
-    return `<li ${submissionSearchAttributes(submission, order, tagIndex.bySubmission.get(record.id))}><a class="submissions-list-link" href="${attr(record.id)}/index.html">
+    return `<li ${submissionSearchAttributes(submission, order, tagIndex.bySubmission.get(record.id), state)}><a class="submissions-list-link" href="${attr(record.id)}/index.html">
 <span class="submissions-list-title">${markdown.renderAuthorInline(output!.manifest.title, "")}<span class="submissions-list-date">(${date})</span></span>
 ${authors ? `<span class="submissions-list-meta"><span class="formalized-label">formalized by</span> ${authors}</span>` : ""}
-<span class="submissions-list-counts">${counts} ${statePill(record.state)}</span>
+<span class="submissions-list-counts">${counts} ${statePill(state)}</span>
 </a></li>`;
   });
   const landing = landingCopy(contentMarkdown("landing.md").trim());

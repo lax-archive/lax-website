@@ -1,7 +1,7 @@
 import { DEFAULT_SITE_URL } from "../../config.js";
 import type { BuildOutput, ConceptEntry, ProofEntry } from "../../types.js";
 import type { ConceptGraphData } from "../graphs.js";
-import { attr, code, esc, proofBadge, statePill, typeBadge } from "../html.js";
+import { attr, code, esc, formatDate, proofBadge, statePill, typeBadge } from "../html.js";
 import type { MarkdownRenderer } from "../markdown.js";
 import { compareIds, type LocatedProof, type SiteModel, type SiteSubmission } from "../model.js";
 
@@ -280,7 +280,15 @@ export function compareSearchSubmissions(a: SiteSubmission, b: SiteSubmission): 
 /** Search metadata shared by the index sidebar and the full library. The
  * browser keeps submission title/id words separate from concept names so it
  * can rank title hits first without shipping a second search index. */
-export function submissionSearchAttributes(submission: SiteSubmission, order: number, tags: string[] = []): string {
+export function submissionSearchAttributes(
+  submission: SiteSubmission,
+  order: number,
+  tags: string[] = [],
+  // "superseded" for registered work with a bound successor: the browser's
+  // re-sort during search keys on this state to keep each group's rows
+  // under their own heading.
+  state: string = submission.record.state,
+): string {
   const output = submission.output!;
   const title = `${submission.record.id} ${output.manifest.title}`.toLowerCase();
   const concepts = output.concepts
@@ -288,7 +296,7 @@ export function submissionSearchAttributes(submission: SiteSubmission, order: nu
     .join(" ")
     .toLowerCase();
   const tagKeys = tags.length ? `|${tags.join("|")}|` : "";
-  return `data-search-title="${attr(title)}" data-search-concepts="${attr(concepts)}" data-state="${attr(submission.record.state)}" data-search-order="${order}" data-tags="${attr(tagKeys)}"`;
+  return `data-search-title="${attr(title)}" data-search-concepts="${attr(concepts)}" data-state="${attr(state)}" data-search-order="${order}" data-tags="${attr(tagKeys)}"`;
 }
 
 /** A homepage-only progressive-enhancement card. The first submission is a
@@ -298,7 +306,11 @@ function randomSubmissionView(
   model: SiteModel,
   markdown: MarkdownRenderer,
 ): string {
-  const listed = model.submissions.filter((submission) => submission.output).sort(compareSearchSubmissions);
+  // Superseded work stays reachable through search and version chains, but
+  // the discovery card should never send a reader to an outdated version.
+  const listed = model.submissions
+    .filter((submission) => submission.output && !model.isSuperseded(submission.record.id))
+    .sort(compareSearchSubmissions);
   if (!listed.length) return "";
   const candidate = (submission: SiteSubmission, dataAttribute = "") => {
     const id = submission.record.id;
@@ -323,16 +335,21 @@ export function indexSidebar(
   markdown: MarkdownRenderer,
   tagsBySubmission = new Map<string, string[]>(),
 ): string {
-  const listed = model.submissions.filter((s) => s.output).sort(compareSearchSubmissions);
-  const rows = listed.map((submission, order) => {
+  // Superseded work trails everything current — still listed, still
+  // searchable, but no longer competing with the versions that replaced it.
+  const { current, superseded } = partitionSuperseded(model);
+  const rows = [...current, ...superseded].map((submission, order) => {
     const id = submission.record.id;
     const title = submission.output!.manifest.title;
-    return `<li ${submissionSearchAttributes(submission, order, tagsBySubmission.get(id))}><a class="entry-link" href="${attr(id)}/index.html" data-full-title="${attr(title)}"><span class="entry-label"><span class="entry-label-text">${markdown.renderAuthorInline(title, "")}</span></span></a></li>`;
+    const state = model.isSuperseded(id) ? "superseded" : submission.record.state;
+    return `<li ${submissionSearchAttributes(submission, order, tagsBySubmission.get(id), state)}><a class="entry-link" href="${attr(id)}/index.html" data-full-title="${attr(title)}"><span class="entry-label"><span class="entry-label-text">${markdown.renderAuthorInline(title, "")}</span></span></a></li>`;
   });
-  const draftStart = listed.findIndex((submission) => submission.record.state === "draft");
+  if (superseded.length)
+    rows.splice(current.length, 0, '<li class="entry-heading" data-entry-group="superseded">Superseded</li>');
+  const draftStart = current.findIndex((submission) => submission.record.state === "draft");
   if (draftStart >= 0)
     rows.splice(draftStart, 0, '<li class="entry-heading" data-entry-group="draft">Work in Progress</li>');
-  if (listed.some((submission) => submission.record.state === "registered"))
+  if (current.some((submission) => submission.record.state === "registered"))
     rows.unshift('<li class="entry-heading" data-entry-group="registered">Registered</li>');
   return `<div class="sidebar-filters">${searchGroup("Search titles and concepts", "entry-list submissions-list")}</div>
 ${randomSubmissionView(model, markdown)}
@@ -340,6 +357,19 @@ ${randomSubmissionView(model, markdown)}
 ${rows.join("\n")}
 ${EMPTY_ROW}
 </ul>`;
+}
+
+/** Listable submissions split into current work and superseded versions,
+ * each half in the shared search order. */
+export function partitionSuperseded(model: SiteModel): {
+  current: SiteSubmission[];
+  superseded: SiteSubmission[];
+} {
+  const listed = model.submissions.filter((s) => s.output).sort(compareSearchSubmissions);
+  return {
+    current: listed.filter((s) => !model.isSuperseded(s.record.id)),
+    superseded: listed.filter((s) => model.isSuperseded(s.record.id)),
+  };
 }
 
 /** Sidebar of submission, concept, and proof pages: back-link, search, type
@@ -407,6 +437,54 @@ export function draftBanner(state: string): string {
   return state === "draft"
     ? `<p class="draft-banner"><strong>Draft</strong> — mutable and not usable as a dependency; its citation marks the draft state.</p>`
     : "";
+}
+
+/** The versioning nudge on every page of a superseded submission: a
+ * registered successor exists, so send the reader to the newest version.
+ * Draft claims never bind, so the banner cannot point at mutable work. */
+export function supersededBanner(ctx: PageContext, submissionId: string, rootRel: string): string {
+  if (!ctx.model.isSuperseded(submissionId)) return "";
+  const latest = ctx.model.latestVersion(submissionId);
+  const title = ctx.model.submissionById.get(latest)?.output?.manifest.title;
+  const label = `<span class="submission-meta-id">${esc(latest)}</span>${
+    title ? ` ${ctx.markdown.renderAuthorInline(title, rootRel)}` : ""
+  }`;
+  return `<p class="superseded-banner"><strong>Superseded</strong> — a newer version of this work is available: <a href="${attr(`${rootRel}${latest}/index.html`)}">${label}</a>.</p>`;
+}
+
+/** On a draft claimant's own page: the declared target before the claim
+ * binds, so co-owners see the pending link (and the race, if any). */
+export function supersedesNote(ctx: PageContext, submission: SiteSubmission, rootRel: string): string {
+  const target = ctx.model.supersedesClaim.get(submission.record.id);
+  if (!target || submission.record.state === "registered") return "";
+  return `<p class="draft-banner">When registered, this submission will supersede <a href="${attr(`${rootRel}${target}/index.html`)}">${esc(target)}</a>.</p>`;
+}
+
+/** The version chain as a page section, newest first, the shown submission
+ * marked. Absent entirely for unversioned submissions. */
+export function versionsSection(ctx: PageContext, submission: SiteSubmission, rootRel: string): string {
+  const chain = ctx.model.versionChain(submission.record.id);
+  if (chain.length < 2) return "";
+  const rows = [...chain].reverse().map((id, index) => {
+    const entry = ctx.model.submissionById.get(id);
+    const title = entry?.output?.manifest.title;
+    const label = `<span class="submission-meta-id">${esc(id)}</span>${
+      title ? ` ${ctx.markdown.renderAuthorInline(title, rootRel)}` : ""
+    }`;
+    const here = id === submission.record.id;
+    const date = entry ? formatDate(entry.record.registeredAt ?? entry.record.createdAt) : "";
+    const marks = [
+      index === 0 ? `<span class="version-mark version-mark-latest">latest</span>` : "",
+      here ? `<span class="version-mark">this version</span>` : "",
+    ].join("");
+    const body = here ? label : `<a href="${attr(`${rootRel}${id}/index.html`)}">${label}</a>`;
+    return `<li class="version-item${here ? " version-current" : ""}">${body}<span class="version-meta">${esc(date)}</span>${marks}</li>`;
+  });
+  return `<section class="page-section"><h3 class="section-title">Versions</h3>
+<ol class="version-list">
+${rows.join("\n")}
+</ol>
+</section>`;
 }
 
 /** The submission page's paper-style masthead: big title and a compact
@@ -480,13 +558,15 @@ function formatDay(value: string): string {
   return Number.isNaN(date.valueOf()) ? esc(value) : date.toISOString().slice(0, 10);
 }
 
-/** The copyable citation: all states are citable, drafts marked as such. */
-export function bibtex(submission: SiteSubmission): string {
+/** The copyable citation: all states are citable, drafts marked as such and
+ * superseded versions naming their successor. */
+export function bibtex(model: SiteModel, submission: SiteSubmission): string {
   const { record, output } = submission;
   const manifest = output!.manifest;
   const clean = (s: string) => s.replace(/[{}\\]/g, "");
   const year = new Date(record.registeredAt ?? record.createdAt).getUTCFullYear();
   const author = manifest.authors.map((a) => clean(a.name)).join(" and ");
+  const successor = model.supersededBy.get(record.id);
   const lines = [
     `@misc{${record.id},`,
     ...(author ? [`  author = {${author}},`] : []),
@@ -495,6 +575,7 @@ export function bibtex(submission: SiteSubmission): string {
     `  howpublished = {Lax Archive, ${record.id}},`,
     `  url = {${DEFAULT_SITE_URL.replace(/\/+$/, "")}/${record.id}/},`,
     ...(record.state === "draft" ? ["  note = {draft},"] : []),
+    ...(successor ? [`  note = {superseded by ${successor}},`] : []),
     `}`,
   ];
   return lines.join("\n");

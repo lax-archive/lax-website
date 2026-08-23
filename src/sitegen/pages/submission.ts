@@ -8,6 +8,9 @@ import {
   conceptBadgeLegend,
   conceptMapLegend,
   draftBanner,
+  supersededBanner,
+  supersedesNote,
+  versionsSection,
   figureTitle,
   graphExpandButton,
   graphTooltip,
@@ -29,7 +32,7 @@ export function submissionPage(ctx: PageContext, submission: SiteSubmission): st
   const { record, output } = submission;
   const sidebar = submissionSidebar(ctx.model, submission, "../");
   if (!output) {
-    const content = `${draftBanner(record.state)}
+    const content = `${supersededBanner(ctx, record.id, "../")}${draftBanner(record.state)}
 ${paperHeader(ctx.markdown, submission, "../")}
 ${pageReactions(`${record.id}/`, { kind: "submission" })}
 <p class="empty-note">No content uploaded yet. Run <code>lax build</code> and submit a draft.</p>
@@ -71,7 +74,7 @@ ${submissionMapLegend()}
 </figure>`
     : `<p class="empty-note">No other submission in the archive builds on this one, and this one builds on none.</p>`;
 
-  const content = `${draftBanner(record.state)}
+  const content = `${supersededBanner(ctx, record.id, "../")}${draftBanner(record.state)}${supersedesNote(ctx, submission, "../")}
 ${paperHeader(ctx.markdown, submission, "../")}
 ${pageReactions(`${record.id}/`, { kind: "submission" })}
 ${output.abstract.trim() ? paperAbstract(ctx.markdown.renderAuthorProse(output.abstract, "../")) : ""}
@@ -110,9 +113,10 @@ ${proofNetworkLegend(graphs.proofs)}
 <section class="page-section"><h3 class="section-title">Related submissions</h3>
 ${relatedFigure}
 </section>
+${versionsSection(ctx, submission, "../")}
 <section class="page-section"><h3 class="section-title" id="citation">Cite this</h3>
 <div class="citation-box">
-<pre class="citation" id="submission-citation">${esc(bibtex(submission))}</pre>
+<pre class="citation" id="submission-citation">${esc(bibtex(ctx.model, submission))}</pre>
 <button class="citation-copy" type="button" data-copy-citation aria-controls="submission-citation" aria-label="Copy BibTeX to clipboard" title="Copy BibTeX"><span class="citation-copy-icon" aria-hidden="true"></span></button>
 <output class="citation-copy-status" aria-live="polite"></output>
 </div>

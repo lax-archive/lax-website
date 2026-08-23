@@ -14,6 +14,8 @@ export interface Manifest {
   title: string;
   authors: Author[];
   bibEntries: string[];
+  /** The submission this one replaces; binding once this one is registered. */
+  supersedes?: string;
 }
 
 export interface SourceTriple {

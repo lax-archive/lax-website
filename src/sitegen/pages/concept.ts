@@ -9,6 +9,7 @@ import {
   conceptShortName,
   draftBanner,
   figureTitle,
+  supersededBanner,
   githubSource,
   graphExpandButton,
   graphTooltip,
@@ -99,7 +100,7 @@ export async function conceptPage(ctx: PageContext, located: LocatedConcept): Pr
     : "";
   const sourceRows = await highlightSource(concept.sourceText, concept.statements, proven);
 
-  const content = `${draftBanner(submission.record.state)}
+  const content = `${supersededBanner(ctx, submission.record.id, "../")}${draftBanner(submission.record.state)}
 <div class="detail-heading concept-heading">
 <div><p class="concept-id"><code>${esc(concept.id)}</code></p>
 <h1 class="concept-title">${ctx.markdown.renderAuthorInline(concept.title, "../")}</h1>
