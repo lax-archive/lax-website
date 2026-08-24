@@ -3,6 +3,7 @@ import { contentMarkdown } from "../content.js";
 import { highlightSnippet } from "../highlight.js";
 import { submissionTagIndex } from "../tags.js";
 import {
+  bibtex,
   compareSearchSubmissions,
   indexSidebar,
   submissionSearchAttributes,
@@ -196,8 +197,8 @@ ${authors ? `<span class="submissions-list-meta"><span class="formalized-label">
 <p>Example submission</p>
 <a href="${attr(citeExample.record.id)}/index.html#citation">
 <span class="landing-cite-example-id">${esc(citeExample.record.id)}</span>
-<strong>${markdown.renderAuthorInline(citeExample.output!.manifest.title, "")}</strong>
-<span class="landing-cite-example-action">View citation <b aria-hidden="true">→</b></span>
+<pre class="landing-cite-example-bib">${esc(bibtex(citeExample))}</pre>
+<span class="landing-cite-example-action">See in action <b aria-hidden="true">→</b></span>
 </a>
 </div>` : "";
   const tagButtons = tagIndex.tags.map((tag) => {
