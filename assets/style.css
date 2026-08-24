@@ -687,7 +687,7 @@ body{
   background: var(--partial-bg); color: var(--partial-fg); border-color: var(--partial-border);
 }
 
-.pill-none, .state-init{
+.pill-none, .state-init, .state-superseded{
   background: var(--none-bg); color: var(--none-fg); border-color: var(--none-border);
 }
 
@@ -806,6 +806,53 @@ body{
   text-align: center;
   padding: 0.55rem 0.9rem;
   margin: 0.9rem 0;
+}
+
+/* The versioning nudge: same banner shape as drafts, in the accent hue so
+   "there is a newer version" reads as guidance, not as a warning. */
+.superseded-banner{
+  background: var(--accent-light);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-control);
+  color: var(--accent);
+  font-size: 0.88rem;
+  text-align: center;
+  padding: 0.55rem 0.9rem;
+  margin: 0.9rem 0;
+}
+.superseded-banner a{ color: var(--link); }
+
+/* Version chain on submission pages, newest first. */
+.version-list{
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+.version-item{
+  display: flex;
+  align-items: baseline;
+  gap: 0.55rem;
+  padding: 0.45rem 0.7rem;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-control);
+  background: var(--surface);
+}
+.version-current{ border-color: var(--accent); }
+.version-meta{ color: var(--text-dim); font-size: 0.82rem; margin-left: auto; }
+.version-mark{
+  font-size: 0.72rem;
+  color: var(--none-fg);
+  background: var(--none-bg);
+  border: 1px solid var(--none-border);
+  border-radius: var(--radius-chip);
+  padding: 0.05rem 0.35rem;
+  white-space: nowrap;
+}
+.version-mark-latest{
+  color: var(--proven-fg);
+  background: var(--proven-bg);
+  border-color: var(--proven-border);
 }
 
 /* ── Blocks ── */
