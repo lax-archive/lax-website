@@ -3,8 +3,8 @@ import { contentMarkdown } from "../content.js";
 import { highlightSnippet } from "../highlight.js";
 import { submissionTagIndex } from "../tags.js";
 import {
+  currentSubmissions,
   indexSidebar,
-  partitionSuperseded,
   submissionSearchAttributes,
   type PageContext,
 } from "./shared.js";
@@ -157,21 +157,21 @@ ${prompt}
  * show and stay off the library and the stats (their pages exist for direct
  * links). */
 export async function indexPage({ model, markdown }: PageContext): Promise<string> {
-  const concepts = model.outputs.flatMap((o) => o.concepts);
+  const listed = currentSubmissions(model);
+  const currentIds = new Set(listed.map((submission) => submission.record.id));
+  const concepts = listed.flatMap((submission) => submission.output!.concepts);
   const statements = concepts.flatMap((c) => c.statements);
-  const { current, superseded } = partitionSuperseded(model);
-  const listed = [...current, ...superseded];
+  const provenStatements = statements.filter((statement) => model.network.proven.has(statement.id)).length;
   const tagIndex = submissionTagIndex(listed);
   const rows = listed.map((submission, order) => {
     const { record, output } = submission;
-    const state = model.isSuperseded(record.id) ? "superseded" : record.state;
     const date = formatDate(record.registeredAt ?? record.createdAt);
     const authors = output!.manifest.authors.map((a) => esc(a.name)).join(", ");
     const counts = `${plural(output!.concepts.length, "concept")}, ${plural(output!.proofs.length, "proof")}`;
-    return `<li ${submissionSearchAttributes(submission, order, tagIndex.bySubmission.get(record.id), state)}><a class="submissions-list-link" href="${attr(record.id)}/index.html">
+    return `<li ${submissionSearchAttributes(submission, order, tagIndex.bySubmission.get(record.id))}><a class="submissions-list-link" href="${attr(record.id)}/index.html">
 <span class="submissions-list-title">${markdown.renderAuthorInline(output!.manifest.title, "")}<span class="submissions-list-date">(${date})</span></span>
 ${authors ? `<span class="submissions-list-meta"><span class="formalized-label">formalized by</span> ${authors}</span>` : ""}
-<span class="submissions-list-counts">${counts} ${statePill(state)}</span>
+<span class="submissions-list-counts">${counts} ${statePill(record.state)}</span>
 </a></li>`;
   });
   const landing = landingCopy(contentMarkdown("landing.md").trim());
@@ -181,7 +181,7 @@ ${authors ? `<span class="submissions-list-meta"><span class="formalized-label">
   const reviewConcepts = concepts
     .map((concept) => ({
       located: model.conceptHome.get(concept.id)!,
-      users: model.importers.get(concept.id) ?? [],
+      users: (model.importers.get(concept.id) ?? []).filter((user) => currentIds.has(user.output.id)),
     }))
     .filter(({ users }) => users.length > 0)
     .sort((a, b) =>
@@ -218,7 +218,7 @@ ${tagButtons.join("\n")}
 <div class="landing-action-panel-heading">
 <p class="landing-action-eyebrow">Read the archive</p>
 <h3>Submissions</h3>
-<p class="stats-line">${plural(listed.length, "submission")} · ${plural(concepts.length, "concept")} · ${plural(statements.length, "statement")}, ${model.network.proven.size} proven</p>
+<p class="stats-line">${plural(listed.length, "submission")} · ${plural(concepts.length, "concept")} · ${plural(statements.length, "statement")}, ${provenStatements} proven</p>
 </div>
 ${tagBrowser}
 <ul class="submissions-list" id="submissions-list">

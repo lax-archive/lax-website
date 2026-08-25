@@ -822,9 +822,45 @@ body{
 }
 .superseded-banner a{ color: var(--link); }
 
+.version-history-nudge{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+  padding: 0.75rem 0.9rem;
+  margin: 0.9rem 0;
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-control);
+  background: var(--accent-light);
+}
+.version-history-nudge p{ margin: 0; }
+.version-history-button{
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.7rem;
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-control);
+  color: var(--surface);
+  background: var(--accent);
+  font-size: 0.84rem;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.version-history-button:hover,
+.version-history-button:focus-visible{
+  color: var(--surface);
+  background: var(--link);
+  border-color: var(--link);
+}
+.version-history-section{ scroll-margin-top: 1rem; }
+
 /* Version chain on submission pages, newest first. */
 .version-list{
   list-style: none;
+  padding-left: 0;
   display: flex;
   flex-direction: column;
   gap: 0.45rem;

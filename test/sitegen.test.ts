@@ -1243,9 +1243,10 @@ describe("supersedes version chains", () => {
 
     const oldPage = fs.readFileSync(path.join(root, "lax-1", "index.html"), "utf8");
     expect(oldPage).toContain('class="superseded-banner"');
-    expect(oldPage).toContain('href="../lax-2/index.html"');
+    expect(oldPage).toContain('href="../lax-2/index.html?version=lax-2"');
     expect(oldPage).toContain("New Result");
     expect(oldPage).toContain(">Versions</h3>");
+    expect(oldPage).toContain('id="versions"');
     expect(oldPage).toContain('class="version-item version-current"');
     expect(oldPage).toContain("note = {superseded by lax-2}");
 
@@ -1254,14 +1255,17 @@ describe("supersedes version chains", () => {
 
     const newPage = fs.readFileSync(path.join(root, "lax-2", "index.html"), "utf8");
     expect(newPage).not.toContain('class="superseded-banner"');
+    expect(newPage).toContain('class="version-history-nudge"');
+    expect(newPage).toContain("1 older version");
+    expect(newPage).toContain('class="version-history-button" href="#versions"');
     expect(newPage).toContain(">Versions</h3>");
-    expect(newPage).toContain('href="../lax-1/index.html"');
+    expect(newPage).toContain('href="../lax-1/index.html?version=lax-1"');
     expect(newPage).toContain("version-mark-latest");
     expect(newPage).not.toContain("note = {superseded");
 
     const draftPage = fs.readFileSync(path.join(root, "lax-3", "index.html"), "utf8");
     expect(draftPage).toContain("will supersede");
-    expect(draftPage).toContain('href="../lax-2/index.html"');
+    expect(draftPage).toContain('href="../lax-2/index.html?version=lax-2"');
   });
 
   it("ignores self and unknown targets and breaks stale double-claims deterministically", () => {
@@ -1301,27 +1305,24 @@ describe("supersedes version chains", () => {
 
     const proofPage = fs.readFileSync(path.join(root, "lax-1", "lax1Proofs.p.html"), "utf8");
     expect(proofPage).toContain('class="superseded-banner"');
-    expect(proofPage).toContain('href="../lax-2/index.html"');
+    expect(proofPage).toContain('href="../lax-2/index.html?version=lax-2"');
 
     const barePage = fs.readFileSync(path.join(root, "lax-4", "index.html"), "utf8");
     expect(barePage).toContain("No content uploaded yet");
     expect(barePage).toContain('class="superseded-banner"');
-    expect(barePage).toContain('href="../lax-5/index.html"');
+    expect(barePage).toContain('href="../lax-5/index.html?version=lax-5"');
   });
 
-  it("groups superseded work after current work on the library and sidebar", async () => {
+  it("keeps superseded work out of the library, sidebar, and discovery card", async () => {
     const root = tmpDir("lax-site-versions-index-");
     await generateSite(archive(), root);
     const index = fs.readFileSync(path.join(root, "index.html"), "utf8");
-    expect(index).toContain('data-entry-group="superseded"');
-    expect(index).toContain(">Superseded</li>");
-    expect(index).toContain('data-state="superseded"');
-    expect(index).toContain(">superseded</span>");
-    // the discovery card never offers an outdated version
+    expect(index).not.toContain('data-entry-group="superseded"');
+    expect(index).not.toContain('data-state="superseded"');
+    expect(index).not.toContain('data-search-title="lax-1 old result"');
+    expect(index).not.toContain('href="lax-1/index.html"');
+    expect(index).toContain("2 submissions · 2 concepts");
     expect(index).toContain('data-random-submission-candidate');
     expect(index).not.toContain('href="lax-1/index.html" data-random-submission-candidate');
-    expect(index.indexOf('data-entry-group="draft"')).toBeLessThan(
-      index.indexOf('data-entry-group="superseded"'),
-    );
   });
 });

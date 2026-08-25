@@ -284,10 +284,6 @@ export function submissionSearchAttributes(
   submission: SiteSubmission,
   order: number,
   tags: string[] = [],
-  // "superseded" for registered work with a bound successor: the browser's
-  // re-sort during search keys on this state to keep each group's rows
-  // under their own heading.
-  state: string = submission.record.state,
 ): string {
   const output = submission.output!;
   const title = `${submission.record.id} ${output.manifest.title}`.toLowerCase();
@@ -296,7 +292,7 @@ export function submissionSearchAttributes(
     .join(" ")
     .toLowerCase();
   const tagKeys = tags.length ? `|${tags.join("|")}|` : "";
-  return `data-search-title="${attr(title)}" data-search-concepts="${attr(concepts)}" data-state="${attr(state)}" data-search-order="${order}" data-tags="${attr(tagKeys)}"`;
+  return `data-search-title="${attr(title)}" data-search-concepts="${attr(concepts)}" data-state="${attr(submission.record.state)}" data-search-order="${order}" data-tags="${attr(tagKeys)}"`;
 }
 
 /** A homepage-only progressive-enhancement card. The first submission is a
@@ -306,11 +302,7 @@ function randomSubmissionView(
   model: SiteModel,
   markdown: MarkdownRenderer,
 ): string {
-  // Superseded work stays reachable through search and version chains, but
-  // the discovery card should never send a reader to an outdated version.
-  const listed = model.submissions
-    .filter((submission) => submission.output && !model.isSuperseded(submission.record.id))
-    .sort(compareSearchSubmissions);
+  const listed = currentSubmissions(model);
   if (!listed.length) return "";
   const candidate = (submission: SiteSubmission, dataAttribute = "") => {
     const id = submission.record.id;
@@ -326,7 +318,9 @@ ${listed.map((submission) => candidate(submission, " data-random-submission-cand
 </section>`;
 }
 
-/** Sidebar of the index page: every submission with content, searchable.
+/** Sidebar of the index page: every current submission with content,
+ * searchable. Superseded versions stay reachable from the version history
+ * on their successors instead of competing with current work here.
  * Records that only reserved an id have nothing to show and stay off the
  * lists (their pages exist for direct links). Registered and draft work live
  * in labeled groups; all rows use their title as the visible label. */
@@ -335,21 +329,16 @@ export function indexSidebar(
   markdown: MarkdownRenderer,
   tagsBySubmission = new Map<string, string[]>(),
 ): string {
-  // Superseded work trails everything current — still listed, still
-  // searchable, but no longer competing with the versions that replaced it.
-  const { current, superseded } = partitionSuperseded(model);
-  const rows = [...current, ...superseded].map((submission, order) => {
+  const listed = currentSubmissions(model);
+  const rows = listed.map((submission, order) => {
     const id = submission.record.id;
     const title = submission.output!.manifest.title;
-    const state = model.isSuperseded(id) ? "superseded" : submission.record.state;
-    return `<li ${submissionSearchAttributes(submission, order, tagsBySubmission.get(id), state)}><a class="entry-link" href="${attr(id)}/index.html" data-full-title="${attr(title)}"><span class="entry-label"><span class="entry-label-text">${markdown.renderAuthorInline(title, "")}</span></span></a></li>`;
+    return `<li ${submissionSearchAttributes(submission, order, tagsBySubmission.get(id))}><a class="entry-link" href="${attr(id)}/index.html" data-full-title="${attr(title)}"><span class="entry-label"><span class="entry-label-text">${markdown.renderAuthorInline(title, "")}</span></span></a></li>`;
   });
-  if (superseded.length)
-    rows.splice(current.length, 0, '<li class="entry-heading" data-entry-group="superseded">Superseded</li>');
-  const draftStart = current.findIndex((submission) => submission.record.state === "draft");
+  const draftStart = listed.findIndex((submission) => submission.record.state === "draft");
   if (draftStart >= 0)
     rows.splice(draftStart, 0, '<li class="entry-heading" data-entry-group="draft">Work in Progress</li>');
-  if (current.some((submission) => submission.record.state === "registered"))
+  if (listed.some((submission) => submission.record.state === "registered"))
     rows.unshift('<li class="entry-heading" data-entry-group="registered">Registered</li>');
   return `<div class="sidebar-filters">${searchGroup("Search titles and concepts", "entry-list submissions-list")}</div>
 ${randomSubmissionView(model, markdown)}
@@ -359,17 +348,12 @@ ${EMPTY_ROW}
 </ul>`;
 }
 
-/** Listable submissions split into current work and superseded versions,
- * each half in the shared search order. */
-export function partitionSuperseded(model: SiteModel): {
-  current: SiteSubmission[];
-  superseded: SiteSubmission[];
-} {
-  const listed = model.submissions.filter((s) => s.output).sort(compareSearchSubmissions);
-  return {
-    current: listed.filter((s) => !model.isSuperseded(s.record.id)),
-    superseded: listed.filter((s) => model.isSuperseded(s.record.id)),
-  };
+/** Current listable submissions in the shared search order. Historical
+ * versions are intentionally discoverable only through their version chain. */
+export function currentSubmissions(model: SiteModel): SiteSubmission[] {
+  return model.submissions
+    .filter((submission) => submission.output && !model.isSuperseded(submission.record.id))
+    .sort(compareSearchSubmissions);
 }
 
 /** Sidebar of submission, concept, and proof pages: back-link, search, type
@@ -439,6 +423,10 @@ export function draftBanner(state: string): string {
     : "";
 }
 
+function versionHref(rootRel: string, id: string): string {
+  return `${rootRel}${id}/index.html?version=${encodeURIComponent(id)}`;
+}
+
 /** The versioning nudge on every page of a superseded submission: a
  * registered successor exists, so send the reader to the newest version.
  * Draft claims never bind, so the banner cannot point at mutable work. */
@@ -449,7 +437,7 @@ export function supersededBanner(ctx: PageContext, submissionId: string, rootRel
   const label = `<span class="submission-meta-id">${esc(latest)}</span>${
     title ? ` ${ctx.markdown.renderAuthorInline(title, rootRel)}` : ""
   }`;
-  return `<p class="superseded-banner"><strong>Superseded</strong> — a newer version of this work is available: <a href="${attr(`${rootRel}${latest}/index.html`)}">${label}</a>.</p>`;
+  return `<p class="superseded-banner"><strong>Superseded</strong> — a newer version of this work is available: <a href="${attr(versionHref(rootRel, latest))}">${label}</a>.</p>`;
 }
 
 /** On a draft claimant's own page: the declared target before the claim
@@ -457,7 +445,21 @@ export function supersededBanner(ctx: PageContext, submissionId: string, rootRel
 export function supersedesNote(ctx: PageContext, submission: SiteSubmission, rootRel: string): string {
   const target = ctx.model.supersedesClaim.get(submission.record.id);
   if (!target || submission.record.state === "registered") return "";
-  return `<p class="draft-banner">When registered, this submission will supersede <a href="${attr(`${rootRel}${target}/index.html`)}">${esc(target)}</a>.</p>`;
+  return `<p class="draft-banner">When registered, this submission will supersede <a href="${attr(versionHref(rootRel, target))}">${esc(target)}</a>.</p>`;
+}
+
+/** Near-page-top note for submissions that have predecessors. The versions
+ * section remains the detailed history; this nudge makes it discoverable
+ * without putting historical submissions back into archive-wide lists. */
+export function versionHistoryNudge(ctx: PageContext, submissionId: string): string {
+  const chain = ctx.model.versionChain(submissionId);
+  const olderCount = chain.indexOf(submissionId);
+  if (olderCount < 1) return "";
+  const label = olderCount === 1 ? "1 older version" : `${olderCount} older versions`;
+  return `<aside class="version-history-nudge" aria-label="Version history">
+<p><strong>${label}</strong> of this submission ${olderCount === 1 ? "is" : "are"} available for reference.</p>
+<a class="version-history-button" href="#versions">View version history <span aria-hidden="true">↓</span></a>
+</aside>`;
 }
 
 /** The version chain as a page section, newest first, the shown submission
@@ -477,10 +479,10 @@ export function versionsSection(ctx: PageContext, submission: SiteSubmission, ro
       index === 0 ? `<span class="version-mark version-mark-latest">latest</span>` : "",
       here ? `<span class="version-mark">this version</span>` : "",
     ].join("");
-    const body = here ? label : `<a href="${attr(`${rootRel}${id}/index.html`)}">${label}</a>`;
+    const body = here ? label : `<a href="${attr(versionHref(rootRel, id))}">${label}</a>`;
     return `<li class="version-item${here ? " version-current" : ""}">${body}<span class="version-meta">${esc(date)}</span>${marks}</li>`;
   });
-  return `<section class="page-section"><h3 class="section-title">Versions</h3>
+  return `<section class="page-section version-history-section" id="versions"><h3 class="section-title">Versions</h3>
 <ol class="version-list">
 ${rows.join("\n")}
 </ol>

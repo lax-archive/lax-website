@@ -12,6 +12,7 @@ export interface OpenProblem {
  * least fixed point. Definitions have no statements and therefore stay out. */
 export function collectOpenProblems(model: SiteModel): OpenProblem[] {
   return [...model.conceptHome.values()]
+    .filter((located) => !model.isSuperseded(located.output.id))
     .map((located) => ({
       located,
       openStatements: located.concept.statements.filter((statement) =>

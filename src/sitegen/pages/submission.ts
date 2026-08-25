@@ -10,6 +10,7 @@ import {
   draftBanner,
   supersededBanner,
   supersedesNote,
+  versionHistoryNudge,
   versionsSection,
   figureTitle,
   graphExpandButton,
@@ -74,7 +75,7 @@ ${submissionMapLegend()}
 </figure>`
     : `<p class="empty-note">No other submission in the archive builds on this one, and this one builds on none.</p>`;
 
-  const content = `${supersededBanner(ctx, record.id, "../")}${draftBanner(record.state)}${supersedesNote(ctx, submission, "../")}
+  const content = `${supersededBanner(ctx, record.id, "../")}${draftBanner(record.state)}${supersedesNote(ctx, submission, "../")}${versionHistoryNudge(ctx, record.id)}
 ${paperHeader(ctx.markdown, submission, "../")}
 ${pageReactions(`${record.id}/`, { kind: "submission" })}
 ${output.abstract.trim() ? paperAbstract(ctx.markdown.renderAuthorProse(output.abstract, "../")) : ""}
