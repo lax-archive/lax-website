@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://comments.laxarchive.org; style-src 'self' 'unsafe-inline'; img-src https: data:; font-src 'self'; frame-src https://comments.laxarchive.org; connect-src https://comments.laxarchive.org">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Lax — an archive of formalized mathematical concepts and their proofs">
+<title>MSO-automata — lax-52</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
+<link rel="stylesheet" href="../assets/style.css?v=6fbe245bdc58">
+</head><body>
+<header class="site-header">
+  <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
+  <h1 class="site-title"><a href="../index.html">Lax <span class="site-title-quiet">Lean Archive</span></a></h1>
+  <nav class="header-actions" aria-label="Account">
+    <div class="account-header" data-account-root data-remark42-host="https://comments.laxarchive.org" data-remark42-site="remark" data-identity-url="https://comments.laxarchive.org/reactions/v1/identity">
+  <a class="account-control" data-account-login href="https://comments.laxarchive.org/auth/orcid/login?from=https%3A%2F%2Flaxarchive.org&amp;site=remark"><span class="orcid-mark" aria-hidden="true">iD</span><span>Sign in with ORCID</span></a>
+  <button class="account-control" data-account-settings type="button" aria-haspopup="dialog" aria-controls="account-dialog" hidden><span class="orcid-mark" aria-hidden="true">iD</span><span>Settings</span></button>
+</div>
+  </nav>
+</header>
+<main id="content-shell">
+<div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+<aside id="sidebar">
+<a class="sidebar-back" href="../index.html"><span class="sidebar-back-arrow" aria-hidden="true">←</span>All submissions</a>
+<div class="sidebar-filters"><div class="filter-group">
+<label for="filter-search">Search</label>
+<input id="filter-search" class="filter-input" type="search" placeholder="Filter entries" aria-controls="entry-list">
+</div>
+<div class="filter-group">
+<label for="filter-type">Type</label>
+<select id="filter-type" class="filter-select">
+<option value="all">All types</option>
+<option value="definition">definition</option>
+<option value="theorem">theorem</option>
+<option value="proof">proof</option>
+</select>
+</div></div>
+<ul id="entry-list">
+<li class="entry-heading" aria-hidden="true">Concepts</li>
+<li data-type="theorem" data-search="lax52.msoautomataequivalence büchi-elgot-trakhtenbrot theorem for finite words theorem"><a class="entry-link" href="../lax-52/Lax52.MSOAutomataEquivalence.html" data-full-title="Büchi-Elgot-Trakhtenbrot theorem for finite words"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax52.MSOAutomataEquivalence</span></span></a></li>
+<li data-type="definition" data-search="lax52.msosemantics semantics of monadic second-order logic definition"><a class="entry-link" href="../lax-52/Lax52.MSOSemantics.html" data-full-title="Semantics of monadic second-order logic"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax52.MSOSemantics</span></span></a></li>
+<li data-type="definition" data-search="lax52.msosyntax monadic second-order syntax definition"><a class="entry-link" href="../lax-52/Lax52.MSOSyntax.html" data-full-title="Monadic second-order syntax"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax52.MSOSyntax</span></span></a></li>
+<li data-type="theorem" data-search="lax52.msotonfa mso-definable word languages are nfa-recognizable theorem"><a class="entry-link" href="../lax-52/Lax52.MSOToNFA.html" data-full-title="MSO-definable word languages are NFA-recognizable"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax52.MSOToNFA</span></span></a></li>
+<li data-type="definition" data-search="lax52.nfarecognizable recognition by a finite nondeterministic automaton definition"><a class="entry-link" href="../lax-52/Lax52.NFARecognizable.html" data-full-title="Recognition by a finite nondeterministic automaton"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax52.NFARecognizable</span></span></a></li>
+<li data-type="theorem" data-search="lax52.nfatomso finite automata are mso-definable theorem"><a class="entry-link" href="../lax-52/Lax52.NFAToMSO.html" data-full-title="Finite automata are MSO-definable"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax52.NFAToMSO</span></span></a></li>
+<li data-type="definition" data-search="lax52.wordstructure words as finite relational structures definition"><a class="entry-link" href="../lax-52/Lax52.WordStructure.html" data-full-title="Words as finite relational structures"><span class="entry-label"><span class="type-badge proven" title="definition — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">def✓</span><span class="entry-label-text">Lax52.WordStructure</span></span></a></li>
+<li class="entry-heading" aria-hidden="true">Proofs</li>
+<li data-type="proof" data-search="lax52proofs.existsunique_wordstructure_proof proof"><a class="entry-link" href="../lax-52/Lax52Proofs.existsUnique_wordStructure_proof.html" data-full-title="Lax52Proofs.existsUnique_wordStructure_proof"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax52Proofs.existsUnique_wordStructure_proof</span></span></a></li>
+<li data-type="proof" data-search="lax52proofs.mso_definable_is_nfarecognizable_proof proof"><a class="entry-link" href="../lax-52/Lax52Proofs.mso_definable_is_nfaRecognizable_proof.html" data-full-title="Lax52Proofs.mso_definable_is_nfaRecognizable_proof"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax52Proofs.mso_definable_is_nfaRecognizable_proof</span></span></a></li>
+<li data-type="proof" data-search="lax52proofs.nfa_definable_by_mso_proof proof"><a class="entry-link" href="../lax-52/Lax52Proofs.nfa_definable_by_mso_proof.html" data-full-title="Lax52Proofs.nfa_definable_by_mso_proof"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax52Proofs.nfa_definable_by_mso_proof</span></span></a></li>
+<li data-type="proof" data-search="lax52proofs.nfarecognizable_iff_msodefinable_proof proof"><a class="entry-link" href="../lax-52/Lax52Proofs.nfaRecognizable_iff_msoDefinable_proof.html" data-full-title="Lax52Proofs.nfaRecognizable_iff_msoDefinable_proof"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax52Proofs.nfaRecognizable_iff_msoDefinable_proof</span></span></a></li>
+<li id="entry-list-empty" hidden>No entries match.</li>
+</ul>
+</aside>
+<section id="main"><div id="detail">
+<p class="draft-banner"><strong>Draft</strong> — mutable and not usable as a dependency; its citation marks the draft state.</p>
+<header class="paper-head">
+<h1 class="paper-title">MSO-automata</h1>
+<p class="paper-meta"><span class="submission-meta-id">lax-52</span><span class="meta-sep">·</span><span class="formalized-label">formalized by</span> <span class="paper-author">Szymon Toruńczyk <span class="author-links"><a href="https://github.com/szymtor">@szymtor</a></span></span><span class="author-sep">·</span><span class="paper-author">Codex 5.6</span><span class="meta-sep">·</span>created 2026-08-10<span class="meta-sep">·</span><a href="https://github.com/szymtor/MSO-automata/tree/93d9b7c3ad77b383b9734cede0b95bfd17928575/" title="https://github.com/szymtor/MSO-automata/tree/93d9b7c3ad77b383b9734cede0b95bfd17928575/"><code>GitHub @93d9b7c</code></a><span class="meta-sep">·</span>Lean <code>v4.30.0</code> · mathlib <code>c5ea00351c28</code></p>
+</header>
+<section class="page-reactions" aria-label="Community review" data-reactions-host="https://comments.laxarchive.org" data-reactions-url="https://laxarchive.org/lax-52/" data-review-kind="submission" data-source-lines="0">
+<div class="page-reactions-actions">
+<div class="page-reaction-control">
+<button class="page-reaction-button" type="button" data-reaction="endorse" aria-pressed="false" title="Say that this submission is correct"><span class="page-reaction-icon" aria-hidden="true">✅</span><span>Endorse</span></button>
+<button class="page-reaction-voters" type="button" data-reaction-voters="endorse" aria-expanded="false" aria-controls="page-reaction-voters-endorse"><strong data-reaction-count="endorse">0</strong><span class="visually-hidden">Show people who endorse this submission</span></button>
+<div class="page-reaction-voters-popover" id="page-reaction-voters-endorse" data-reaction-voters-popover="endorse" hidden><p data-reaction-empty>No public endorsements yet.</p><ul></ul></div>
+</div>
+<div class="page-reaction-control page-flag-control">
+<button class="page-reaction-button" type="button" data-reaction="flag" aria-pressed="false" aria-haspopup="dialog" title="Explain why this submission may be false"><span class="page-reaction-icon" aria-hidden="true">🚩</span><span>Flag</span></button>
+<button class="page-reaction-voters" type="button" data-flag-list-open aria-haspopup="dialog" aria-controls="page-flag-list"><strong data-reaction-count="flag">0</strong><span class="visually-hidden">Show flags for this submission</span></button>
+</div>
+</div>
+<p class="page-reactions-status" data-reactions-status role="status">Loading review…</p>
+<a class="visually-hidden" data-reactions-login href="https://comments.laxarchive.org/auth/orcid/login?site=remark&amp;from=https%3A%2F%2Flaxarchive.org%2Flax-52%2F">Sign in with ORCID</a>
+<dialog class="review-dialog flag-list-dialog" id="page-flag-list" data-flag-list-dialog aria-labelledby="page-flag-list-title">
+<div class="review-dialog-header"><div><p class="discussion-eyebrow">Community review</p><h2 id="page-flag-list-title">Flags</h2></div><button class="review-dialog-close" type="button" data-flag-list-close aria-label="Close flags">×</button></div>
+<p class="review-dialog-intro">Each flag is tied to a public ORCID identity and explains why this submission may be incorrect.</p>
+<p data-flag-list-empty>No flags have been submitted.</p><ol class="flag-list" data-flag-list></ol>
+</dialog>
+<dialog class="review-dialog flag-editor-dialog" id="page-flag-editor" data-flag-editor aria-labelledby="page-flag-editor-title">
+<form data-flag-form>
+<div class="review-dialog-header"><div><p class="discussion-eyebrow">Community review</p><h2 id="page-flag-editor-title">Flag this submission</h2></div><button class="review-dialog-close" type="button" data-flag-cancel aria-label="Close flag form">×</button></div>
+<p class="review-dialog-intro">State precisely what appears incorrect. This explanation will be public under your ORCID name.</p>
+<label class="flag-message-label" for="page-flag-message">What is wrong?</label>
+<textarea id="page-flag-message" data-flag-message rows="6" maxlength="2000" required placeholder="Describe the incorrect claim, missing assumption, or counterexample."></textarea>
+
+<p class="flag-form-status" data-flag-form-status role="status"></p>
+<div class="review-dialog-actions"><button class="danger-button" type="button" data-flag-remove hidden>Remove my flag</button><span></span><button class="secondary-button" type="button" data-flag-cancel>Cancel</button><button class="primary-button" type="submit">Publish flag</button></div>
+</form>
+</dialog>
+<noscript><p class="page-reactions-noscript"><a href="https://comments.laxarchive.org/auth/orcid/login?site=remark&amp;from=https%3A%2F%2Flaxarchive.org%2Flax-52%2F">Sign in with ORCID</a> to review this page.</p></noscript>
+</section>
+<section class="paper-abstract">
+<h2 class="abstract-heading">Abstract</h2>
+<div class="latex-content"><p>We formalize monadic second-order logic over arbitrary first-order languages,
+using mathlib's structures and term semantics for the first-order fragment and
+set-valued valuations for monadic variables.  We then represent a finite word
+as its linearly ordered set of positions, with one unary predicate for each
+alphabet letter.</p>
+<p>For a finite alphabet, we prove the Büchi–Elgot–Trakhtenbrot correspondence
+between MSO-definable languages of finite words and languages recognized by
+nondeterministic finite automata.  The MSO-to-automata proof uses marked words
+for valuations of free first- and second-order variables and proves regularity
+by structural induction, with union, complement, and projection constructions.
+The automata-to-MSO proof existentially guesses the state at every position and
+expresses that these state predicates encode an initial, transition-respecting,
+accepting run.  Empty words are handled separately in the constructed sentence.</p>
+</div>
+</section>
+<section class="page-section"><h3 class="section-title">Concepts</h3>
+<div class="concept-list-box">
+<ul class="concept-list">
+<li><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="Lax52.MSOAutomataEquivalence.html" title="Lax52.MSOAutomataEquivalence"><code>Lax52.MSOAutomataEquivalence</code></a></li>
+<li><span class="type-badge" title="definition">def</span><a href="Lax52.MSOSemantics.html" title="Lax52.MSOSemantics"><code>Lax52.MSOSemantics</code></a></li>
+<li><span class="type-badge" title="definition">def</span><a href="Lax52.MSOSyntax.html" title="Lax52.MSOSyntax"><code>Lax52.MSOSyntax</code></a></li>
+<li><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="Lax52.MSOToNFA.html" title="Lax52.MSOToNFA"><code>Lax52.MSOToNFA</code></a></li>
+<li><span class="type-badge" title="definition">def</span><a href="Lax52.NFARecognizable.html" title="Lax52.NFARecognizable"><code>Lax52.NFARecognizable</code></a></li>
+<li><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="Lax52.NFAToMSO.html" title="Lax52.NFAToMSO"><code>Lax52.NFAToMSO</code></a></li>
+<li><span class="type-badge proven" title="definition — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">def✓</span><a href="Lax52.WordStructure.html" title="Lax52.WordStructure"><code>Lax52.WordStructure</code></a></li>
+</ul>
+<div class="badge-legend" aria-label="Concept badge legend"><span><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span>proven claim</span><span><span class="type-badge" title="definition">def</span>definition</span></div>
+</div>
+<h4 class="figure-title">Concept map</h4>
+<figure class="graph-figure">
+<button class="graph-expand" type="button" data-graph-expand data-graph-label="concept map" aria-expanded="false" aria-label="Open concept map in a large window" title="Open in large window"><svg class="graph-expand-open" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M2.5 6V2.5H6M10 2.5h3.5V6M13.5 10v3.5H10M6 13.5H2.5V10"/></svg><span class="graph-expand-close" aria-hidden="true">×</span></button>
+<div class="graph-toolbar"><button type="button" id="concept-expand" aria-controls="concept-dag" aria-pressed="true">Hide ancestors</button><button type="button" id="concept-descend" aria-controls="concept-dag" aria-pressed="false">Show descendants</button><output id="concept-graph-status" aria-live="polite"></output></div>
+<div id="concept-dag" class="figure-container" data-graph="concepts" data-ancestry="true"></div>
+<div class="graph-tooltip" role="tooltip" hidden></div>
+<figcaption class="graph-legend" aria-label="Concept map legend"><span><i class="legend-node fill-proven"></i>Proven claim</span><span><i class="legend-node fill-none"></i>Definition</span><span><i class="legend-node stroke-own"></i>This submission</span><span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B builds on A</span></figcaption>
+</figure>
+</section>
+<section class="page-section"><h3 class="section-title">Proofs</h3>
+<div class="proof-list-box">
+<ul class="proof-list">
+<li class="proof-item" id="p-Lax52Proofs.existsUnique_wordStructure_proof">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-52/Lax52Proofs.existsUnique_wordStructure_proof.html" aria-label="Open proof Lax52Proofs.existsUnique_wordStructure_proof"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><p class="judgment-unconditional">no assumptions</p></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="definition — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">def✓</span><a href="../lax-52/Lax52.WordStructure.html" title="Lax52.WordStructure.existsUnique_wordStructure"><code>Lax52.WordStructure</code></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-52/Lax52Proofs.existsUnique_wordStructure_proof.html"><code>Lax52Proofs.existsUnique_wordStructure_proof</code></a></p>
+</li>
+<li class="proof-item" id="p-Lax52Proofs.mso_definable_is_nfaRecognizable_proof">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-52/Lax52Proofs.mso_definable_is_nfaRecognizable_proof.html" aria-label="Open proof Lax52Proofs.mso_definable_is_nfaRecognizable_proof"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><p class="judgment-unconditional">no assumptions</p></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="../lax-52/Lax52.MSOToNFA.html" title="Lax52.MSOToNFA.mso_definable_is_nfaRecognizable"><code>Lax52.MSOToNFA</code></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-52/Lax52Proofs.mso_definable_is_nfaRecognizable_proof.html"><code>Lax52Proofs.mso_definable_is_nfaRecognizable_proof</code></a></p>
+</li>
+<li class="proof-item" id="p-Lax52Proofs.nfa_definable_by_mso_proof">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-52/Lax52Proofs.nfa_definable_by_mso_proof.html" aria-label="Open proof Lax52Proofs.nfa_definable_by_mso_proof"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><p class="judgment-unconditional">no assumptions</p></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="../lax-52/Lax52.NFAToMSO.html" title="Lax52.NFAToMSO.nfa_definable_by_mso"><code>Lax52.NFAToMSO</code></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-52/Lax52Proofs.nfa_definable_by_mso_proof.html"><code>Lax52Proofs.nfa_definable_by_mso_proof</code></a></p>
+</li>
+<li class="proof-item" id="p-Lax52Proofs.nfaRecognizable_iff_msoDefinable_proof">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-52/Lax52Proofs.nfaRecognizable_iff_msoDefinable_proof.html" aria-label="Open proof Lax52Proofs.nfaRecognizable_iff_msoDefinable_proof"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><p class="judgment-unconditional">no assumptions</p></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="../lax-52/Lax52.MSOAutomataEquivalence.html" title="Lax52.MSOAutomataEquivalence.nfaRecognizable_iff_msoDefinable"><code>Lax52.MSOAutomataEquivalence</code></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-52/Lax52Proofs.nfaRecognizable_iff_msoDefinable_proof.html"><code>Lax52Proofs.nfaRecognizable_iff_msoDefinable_proof</code></a></p>
+</li>
+</ul>
+<p class="proof-list-source">Lean sources for these proofs: <a class="source-link" href="https://github.com/szymtor/MSO-automata/tree/93d9b7c3ad77b383b9734cede0b95bfd17928575/proofs">proofs/ on GitHub</a></p>
+</div>
+<h4 class="figure-title">Proof network<a class="source-link" href="https://github.com/szymtor/MSO-automata/tree/93d9b7c3ad77b383b9734cede0b95bfd17928575/proofs">view on GitHub</a></h4>
+<figure class="graph-figure proof-network-figure">
+<button class="graph-expand" type="button" data-graph-expand data-graph-label="proof network" aria-expanded="false" aria-label="Open proof network in a large window" title="Open in large window"><svg class="graph-expand-open" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M2.5 6V2.5H6M10 2.5h3.5V6M13.5 10v3.5H10M6 13.5H2.5V10"/></svg><span class="graph-expand-close" aria-hidden="true">×</span></button>
+<div id="proof-network" class="figure-container" data-graph="proofs"></div>
+<div class="graph-tooltip" role="tooltip" hidden></div>
+<figcaption class="graph-legend" aria-label="Proof network legend"><span class="proof-flow">assumptions <i class="legend-arrow" aria-hidden="true">→</i><i class="legend-proof-chip" aria-hidden="true">⊢</i><i class="legend-arrow" aria-hidden="true">→</i> conclusion</span><span><i class="legend-node fill-proven"></i>Proven claim</span><span><i class="legend-node stroke-own"></i>This submission</span><span><i class="legend-proof-chip" aria-hidden="true">⊢</i>Proof — click to open</span></figcaption>
+</figure>
+<p class="honesty-note">Proof code is not displayed; the archive records each proof's checked relationship between claims.</p>
+</section>
+<section class="page-section"><h3 class="section-title">Related submissions</h3>
+<p class="empty-note">No other submission in the archive builds on this one, and this one builds on none.</p>
+</section>
+
+<section class="page-section"><h3 class="section-title" id="citation">Cite this</h3>
+<div class="citation-box">
+<pre class="citation" id="submission-citation">@misc{lax-52,
+  author = {Szymon Toruńczyk and Codex 5.6},
+  title = {MSO-automata},
+  year = {2026},
+  howpublished = {Lax Archive, lax-52},
+  url = {https://laxarchive.org/lax-52/},
+  note = {draft},
+}</pre>
+<button class="citation-copy" type="button" data-copy-citation aria-controls="submission-citation" aria-label="Copy BibTeX to clipboard" title="Copy BibTeX"><span class="citation-copy-icon" aria-hidden="true"></span></button>
+<output class="citation-copy-status" aria-live="polite"></output>
+</div>
+</section>
+
+<section class="page-section discussion-section" aria-labelledby="discussion-title">
+<div class="discussion-heading">
+<div class="discussion-heading-copy">
+<p class="discussion-eyebrow">Community review</p>
+<h3 class="section-title" id="discussion-title">Discussion</h3>
+<p>Ask a question or add context. Endorsements and structured flags are kept in the review panel above; your ORCID profile must share a public name.</p>
+</div>
+<p class="discussion-count"><span class="remark42__counter" data-url="https://laxarchive.org/lax-52/">0</span> <span>comments</span></p>
+</div>
+<div class="discussion-embed-shell">
+<p class="discussion-loading" id="remark42-status" role="status"><span class="discussion-loading-mark" aria-hidden="true"></span>Loading discussion…</p>
+<div id="remark42" data-remark42-host="https://comments.laxarchive.org" data-remark42-site="remark" data-remark42-url="https://laxarchive.org/lax-52/"></div>
+</div>
+<noscript><p class="discussion-unavailable">Enable JavaScript to read or join the discussion.</p></noscript>
+</section>
+<script type="application/json" id="graph-data">{"concepts":{"nodes":[{"id":"Lax52.MSOAutomataEquivalence","href":"../lax-52/Lax52.MSOAutomataEquivalence.html","title":"Büchi-Elgot-Trakhtenbrot theorem for finite words","owner":"lax-52","status":"proven","ext":false,"dir":"core"},{"id":"Lax52.MSOSemantics","href":"../lax-52/Lax52.MSOSemantics.html","title":"Semantics of monadic second-order logic","owner":"lax-52","status":"none","ext":false,"dir":"core"},{"id":"Lax52.MSOSyntax","href":"../lax-52/Lax52.MSOSyntax.html","title":"Monadic second-order syntax","owner":"lax-52","status":"none","ext":false,"dir":"core"},{"id":"Lax52.MSOToNFA","href":"../lax-52/Lax52.MSOToNFA.html","title":"MSO-definable word languages are NFA-recognizable","owner":"lax-52","status":"proven","ext":false,"dir":"core"},{"id":"Lax52.NFARecognizable","href":"../lax-52/Lax52.NFARecognizable.html","title":"Recognition by a finite nondeterministic automaton","owner":"lax-52","status":"none","ext":false,"dir":"core"},{"id":"Lax52.NFAToMSO","href":"../lax-52/Lax52.NFAToMSO.html","title":"Finite automata are MSO-definable","owner":"lax-52","status":"proven","ext":false,"dir":"core"},{"id":"Lax52.WordStructure","href":"../lax-52/Lax52.WordStructure.html","title":"Words as finite relational structures","owner":"lax-52","status":"proven","ext":false,"dir":"core"}],"edges":[{"from":"Lax52.MSOToNFA","to":"Lax52.MSOAutomataEquivalence"},{"from":"Lax52.NFAToMSO","to":"Lax52.MSOAutomataEquivalence"},{"from":"Lax52.MSOSyntax","to":"Lax52.MSOSemantics"},{"from":"Lax52.NFARecognizable","to":"Lax52.MSOToNFA"},{"from":"Lax52.WordStructure","to":"Lax52.MSOToNFA"},{"from":"Lax52.NFARecognizable","to":"Lax52.NFAToMSO"},{"from":"Lax52.WordStructure","to":"Lax52.NFAToMSO"},{"from":"Lax52.MSOSemantics","to":"Lax52.WordStructure"}],"home":"lax-52"},"proofs":{"statements":[{"id":"Lax52.MSOAutomataEquivalence.nfaRecognizable_iff_msoDefinable","label":"Lax52.MSOAutomataEquivalence","title":"Büchi-Elgot-Trakhtenbrot theorem for finite words","owner":"lax-52","href":"../lax-52/Lax52.MSOAutomataEquivalence.html#s-Lax52.MSOAutomataEquivalence.nfaRecognizable_iff_msoDefinable","proven":true,"ext":false},{"id":"Lax52.MSOToNFA.mso_definable_is_nfaRecognizable","label":"Lax52.MSOToNFA","title":"MSO-definable word languages are NFA-recognizable","owner":"lax-52","href":"../lax-52/Lax52.MSOToNFA.html#s-Lax52.MSOToNFA.mso_definable_is_nfaRecognizable","proven":true,"ext":false},{"id":"Lax52.NFAToMSO.nfa_definable_by_mso","label":"Lax52.NFAToMSO","title":"Finite automata are MSO-definable","owner":"lax-52","href":"../lax-52/Lax52.NFAToMSO.html#s-Lax52.NFAToMSO.nfa_definable_by_mso","proven":true,"ext":false},{"id":"Lax52.WordStructure.existsUnique_wordStructure","label":"Lax52.WordStructure","title":"Words as finite relational structures","owner":"lax-52","href":"../lax-52/Lax52.WordStructure.html#s-Lax52.WordStructure.existsUnique_wordStructure","proven":true,"ext":false}],"proofs":[{"id":"Lax52Proofs.existsUnique_wordStructure_proof","assumptions":[],"conclusion":"Lax52.WordStructure.existsUnique_wordStructure","description":"","owner":"lax-52","ext":false,"href":"../lax-52/Lax52Proofs.existsUnique_wordStructure_proof.html","assumptionsProven":true,"outstanding":0},{"id":"Lax52Proofs.mso_definable_is_nfaRecognizable_proof","assumptions":[],"conclusion":"Lax52.MSOToNFA.mso_definable_is_nfaRecognizable","description":"","owner":"lax-52","ext":false,"href":"../lax-52/Lax52Proofs.mso_definable_is_nfaRecognizable_proof.html","assumptionsProven":true,"outstanding":0},{"id":"Lax52Proofs.nfa_definable_by_mso_proof","assumptions":[],"conclusion":"Lax52.NFAToMSO.nfa_definable_by_mso","description":"","owner":"lax-52","ext":false,"href":"../lax-52/Lax52Proofs.nfa_definable_by_mso_proof.html","assumptionsProven":true,"outstanding":0},{"id":"Lax52Proofs.nfaRecognizable_iff_msoDefinable_proof","assumptions":[],"conclusion":"Lax52.MSOAutomataEquivalence.nfaRecognizable_iff_msoDefinable","description":"","owner":"lax-52","ext":false,"href":"../lax-52/Lax52Proofs.nfaRecognizable_iff_msoDefinable_proof.html","assumptionsProven":true,"outstanding":0}],"home":"lax-52"},"submissions":{"nodes":[{"id":"lax-52","href":"../lax-52/index.html","title":"MSO-automata","state":"draft","concepts":7,"proofs":4,"dir":"core","ext":false}],"edges":[]}}</script>
+</div></section>
+</main>
+<dialog class="account-dialog" id="account-dialog" aria-labelledby="account-dialog-title">
+<div class="account-dialog-inner">
+<header class="account-dialog-header">
+<div><p class="account-dialog-eyebrow">ORCID account</p><h2 id="account-dialog-title">Settings</h2></div>
+<button class="account-dialog-close" data-account-close type="button" aria-label="Close account settings">×</button>
+</header>
+<div class="account-dialog-body">
+<p class="account-status" data-account-status role="status">Checking your ORCID session…</p>
+<section data-account-content hidden>
+<div class="account-identity">
+<span class="account-avatar" data-account-avatar aria-hidden="true">iD</span>
+<div><a class="account-name" data-account-name target="_blank" rel="noopener noreferrer"></a><p class="account-id" data-account-id></p></div>
+</div>
+<p class="account-name-note">Your public name comes from ORCID. ORCID names are self-asserted and may change.</p>
+<div class="account-actions">
+<a data-account-refresh href="https://comments.laxarchive.org/auth/orcid/login?from=https%3A%2F%2Flaxarchive.org&amp;site=remark">Refresh from ORCID</a>
+<button data-account-logout type="button">Sign out</button>
+</div>
+<div class="account-comments-heading"><h3>Your comments</h3><span data-account-comment-count></span></div>
+<ol class="account-comments" data-account-comments></ol>
+<p class="account-comments-status" data-account-comments-status role="status"></p>
+</section>
+</div>
+</div>
+</dialog>
+<script src="../assets/sidebar.js?v=1a68c1dcb5ff"></script>
+<script src="../assets/account.js?v=ec80ece877ec"></script>
+<script src="../assets/layout.js?v=41e28199b546"></script>
+<script src="../assets/dag.js?v=2a0b2e1bec54"></script>
+<script src="../assets/citation.js?v=d9edcca2ee6c"></script>
+<script src="../assets/comments.js?v=493b5ebde364"></script>
+</body></html>
