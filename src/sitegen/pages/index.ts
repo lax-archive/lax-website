@@ -14,6 +14,7 @@ interface LandingAction { id: string; title: string; description: string }
 
 const ACTION_HEADING = "\n## What you can do here\n";
 const SUBMIT_HEADING = "\n## Creating your own submission\n";
+const REVIEW_OTHER_SUBMISSION_WEIGHT = 10;
 
 const CONCEPT_DEMO = String.raw`import Mathlib.Combinatorics.SimpleGraph.Clique
 
@@ -179,14 +180,29 @@ ${authors ? `<span class="submissions-list-meta"><span class="formalized-label">
   const actionOrder = ["read", "review", "submit", "cite"];
   const actionCards = actionOrder.map((id) => actionCard(landing.actions.get(id)!, true));
   const reviewConcepts = concepts
-    .map((concept) => ({
-      located: model.conceptHome.get(concept.id)!,
-      users: model.importers.get(concept.id) ?? [],
-    }))
-    .filter(({ users }) => users.length > 0)
+    .map((concept) => {
+      const located = model.conceptHome.get(concept.id)!;
+      const users = [...new Map(
+        (model.importers.get(concept.id) ?? [])
+          .filter((user) => user.concept.id !== concept.id)
+          .map((user) => [user.concept.id, user]),
+      ).values()];
+      const otherSubmissionCount = new Set(
+        users
+          .filter((user) => user.output.id !== located.output.id)
+          .map((user) => user.output.id),
+      ).size;
+      return {
+        located,
+        users,
+        otherSubmissionCount,
+        weight: otherSubmissionCount * REVIEW_OTHER_SUBMISSION_WEIGHT + users.length,
+      };
+    })
+    .filter(({ otherSubmissionCount }) => otherSubmissionCount > 0)
     .sort((a, b) =>
       Number(b.located.submission.record.state === "registered") - Number(a.located.submission.record.state === "registered")
-      || b.users.length - a.users.length
+      || b.weight - a.weight
       || a.located.concept.id.localeCompare(b.located.concept.id))
     .slice(0, 8);
   const openProblems = collectOpenProblems(model);
@@ -231,9 +247,9 @@ ${rows.join("\n")}
 <h3>Creating your own submission</h3>
 ${copyablePrompt(markdown.render(landing.submit, ""))}
 </section>`;
-  const reviewStarts = reviewConcepts.map(({ located, users }, index) => `<div class="landing-review-start" data-review-concept="${attr(located.concept.id)}" data-review-weight="${Math.max(1, users.length)}"${index ? " hidden" : ""}>
+  const reviewStarts = reviewConcepts.map(({ located, users, otherSubmissionCount, weight }, index) => `<div class="landing-review-start" data-review-concept="${attr(located.concept.id)}" data-review-weight="${weight}"${index ? " hidden" : ""}>
 <div class="landing-review-start-copy">
-<p class="landing-action-eyebrow">Used by ${plural(users.length, "other concept")}</p>
+<p class="landing-action-eyebrow">Used by ${plural(otherSubmissionCount, "other submission")} and ${plural(users.length, "other concept")}</p>
 <h4>${markdown.renderAuthorInline(located.concept.title, "")}</h4>
 <p>This concept is reused elsewhere in the archive. Review its mathematical correctness, endorse it if correct, or flag a flaw.</p>
 </div>

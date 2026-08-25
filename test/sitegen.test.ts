@@ -353,6 +353,8 @@ After the formula.`, "");
     expect(landingScript).toContain("document.getElementById(`landing-panel-${id}`)");
     expect(landingScript).toContain("function setupProofFlip()");
     expect(landingScript).toContain("function setupReviewConcept()");
+    expect(landingScript).toContain("Math.max(1, Number(option.dataset.reviewWeight) || 1)");
+    expect(landingScript).not.toContain("Math.sqrt");
     expect(landingScript).not.toContain("sessionStorage");
     expect(landingScript).toContain("Math.random()");
     expect(landingScript).toContain("card.setAttribute('aria-pressed', String(flipped))");
@@ -449,10 +451,10 @@ After the formula.`, "");
     expect(index).toContain('id="landing-panel-cite" aria-labelledby="landing-action-cite">');
     expect(index).toContain('id="landing-panel-review" aria-labelledby="landing-action-review">');
     expect(index).toContain("<h3>Review a concept</h3>");
-    expect(index).toContain('data-review-concept="Lax2.C" data-review-weight="1"');
+    // An import from another concept in the same submission is not enough to
+    // make a concept eligible for the archive-wide review suggestion.
+    expect(index).not.toContain('data-review-concept="Lax2.C"');
     expect(index).toContain("Review a concept or submission, endorse correct mathematics, or flag possible flaws.");
-    expect(index).toContain("This concept is reused elsewhere in the archive. Review its mathematical correctness, endorse it if correct, or flag a flaw.");
-    expect(index).toContain('>Review now <b aria-hidden="true">→</b></a>');
     const reviewPanelStart = index.indexOf('id="landing-panel-review"');
     const reviewPanelEnd = index.indexOf("</section>", reviewPanelStart);
     const reviewPanel = index.slice(reviewPanelStart, reviewPanelEnd);
@@ -526,6 +528,42 @@ After the formula.`, "");
     expect(proofObligations).toContain("<title>Open Proof Obligations — Lax Lean Archive</title>");
     expect(proofObligations).toContain("There are currently no open proof obligations");
     expect(fs.readFileSync(path.join(root, "open-problems.html"), "utf8")).toBe(proofObligations);
+  });
+
+  it("weights review concepts by distinct external submissions and reports both reuse counts", async () => {
+    const archive = graphSubmissions();
+    const middle = archive[1]!.output!.concepts[0]!;
+    const [top, auxiliary] = archive[2]!.output!.concepts;
+    top!.imports.push("Lax1.Base");
+    auxiliary!.imports.push("Lax1.Base");
+    // Same-submission reuse still contributes to the concept count, but a
+    // candidate must also be reused by at least one other submission.
+    archive[0]!.output!.concepts.push({
+      id: "Lax1.Internal", path: "concepts/Lax1/Internal.lean", title: "Internal",
+      type: "definition", description: "", imports: ["Lax1.Base"],
+      mathlibImports: [], sourceText: "", statements: [],
+    }, {
+      id: "Lax1.LocalOnly", path: "concepts/Lax1/LocalOnly.lean", title: "Local only",
+      type: "definition", description: "", imports: [],
+      mathlibImports: [], sourceText: "", statements: [],
+    });
+    middle.imports.push("Lax1.LocalOnly");
+
+    const root = tmpDir("lax-site-review-weight-");
+    await generateSite(archive, root);
+    const index = fs.readFileSync(path.join(root, "index.html"), "utf8");
+
+    // Lax1.Base has four importing concepts across two external submissions:
+    // 2 * 10 + 4 = 24. Its same-submission importer is included in the concept
+    // count, while Lax1.LocalOnly remains eligible because Lax3 imports it.
+    expect(index).toContain('data-review-concept="Lax1.Base" data-review-weight="24"');
+    expect(index).toContain("Used by 2 other submissions and 4 other concepts");
+    expect(index).toContain('data-review-concept="Lax3.Middle" data-review-weight="11" hidden');
+    expect(index).toContain("Used by 1 other submission and 1 other concept");
+    expect(index).toContain("This concept is reused elsewhere in the archive. Review its mathematical correctness, endorse it if correct, or flag a flaw.");
+    expect(index).toContain('>Review now <b aria-hidden="true">→</b></a>');
+    expect(index).toContain('data-review-concept="Lax1.LocalOnly"');
+    expect(index).not.toContain('data-review-concept="Lax1.Internal"');
   });
 
   it("generates a direct-only all-comments activity page", async () => {
