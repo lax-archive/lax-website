@@ -146,7 +146,7 @@
   function setupReviewConcept() {
     const options = [...document.querySelectorAll('[data-review-concept]')];
     if (options.length < 2) return;
-    const weights = options.map((option) => Math.sqrt(Math.max(1, Number(option.dataset.reviewWeight) || 1)));
+    const weights = options.map((option) => Math.max(1, Number(option.dataset.reviewWeight) || 1));
     let draw = Math.random() * weights.reduce((sum, weight) => sum + weight, 0);
     const selected = options.find((_option, index) => (draw -= weights[index]) <= 0) ?? options[0];
     for (const option of options) option.hidden = option !== selected;
