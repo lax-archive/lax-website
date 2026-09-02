@@ -204,47 +204,94 @@ export function proofNetworkLegend(data: ProofNetworkLegendData): string {
 // is merely adjacent to the code, and as a button where it is the page's
 // main remaining action.
 
-/** The GitHub mark, inline so it needs no img-src and no asset. Path from
- * GitHub's Octicons (MIT). */
-const GITHUB_MARK =
-  `<svg class="gh-mark" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true" focusable="false"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>`;
+/** A generic code mark, inline so it needs no img-src and no provider asset. */
+const SOURCE_MARK =
+  `<svg class="source-mark" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true" focusable="false"><path fill="currentColor" d="M5.22 3.22a.75.75 0 0 1 1.06 1.06L2.56 8l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06Zm5.56 0 4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 1 1-1.06-1.06L13.44 8 9.72 4.28a.75.75 0 1 1 1.06-1.06Z"/></svg>`;
 
-/** A quiet inline "view on GitHub" link, for headings and figure titles. */
-export function sourceLink(href: string, label = "view on GitHub"): string {
+const SOURCE_PROVIDERS: Record<string, string> = {
+  "github.com": "GitHub",
+  "gitlab.com": "GitLab",
+  "codeberg.org": "Codeberg",
+  "bitbucket.org": "Bitbucket",
+};
+
+export function sourceProviderName(href: string): string {
+  try {
+    const hostname = new URL(href).hostname.toLowerCase();
+    return Object.hasOwn(SOURCE_PROVIDERS, hostname)
+      ? SOURCE_PROVIDERS[hostname]!
+      : "repository host";
+  } catch {
+    return "repository host";
+  }
+}
+
+/** A quiet source link for headings and figure titles. */
+export function sourceLink(href: string, label = `view on ${sourceProviderName(href)}`): string {
   return `<a class="source-link" href="${attr(href)}">${esc(label)}</a>`;
 }
 
-/** The prominent variant: a bordered button carrying the GitHub mark. */
+/** The prominent variant: a bordered button carrying a generic code mark. */
 export function sourceButton(href: string, label: string): string {
-  return `<a class="source-button" href="${attr(href)}">${GITHUB_MARK}<span>${esc(label)}</span></a>`;
+  return `<a class="source-button" href="${attr(href)}">${SOURCE_MARK}<span>${esc(label)}</span></a>`;
 }
 
-/** The GitHub link to a submission's whole proof package — `proofs/` is a
- * fixed part of the submission layout. Undefined off github.com. */
+/** The hosted link to a submission's whole proof package — `proofs/` is a
+ * fixed part of the submission layout. */
 export function proofsSource(submission: SiteSubmission): string | undefined {
   const source = submission.record.source;
   if (!source) return undefined;
   // `proofs/` goes in as part of the folder rather than as the path, so the
   // link comes out as a tree link — the path argument means a file.
   const folder = source.folder === "." ? "proofs" : `${source.folder.replace(/\/+$/, "")}/proofs`;
-  return githubSource(source.repository, source.commit, folder);
+  return repositorySource(source.repository, source.commit, folder);
 }
 
-/** A GitHub deep link for a source triple, or undefined off github.com. */
-export function githubSource(
+/** A provider-aware deep link for a source triple on a supported host. */
+export function repositorySource(
   repository: string,
   commit: string,
   folder: string,
   path = "",
   line?: number,
 ): string | undefined {
-  if (!/^https:\/\/github\.com\//i.test(repository)) return undefined;
+  let hostname: string;
+  try {
+    const url = new URL(repository);
+    if (
+      url.protocol !== "https:" ||
+      url.username !== "" ||
+      url.password !== "" ||
+      url.port !== "" ||
+      url.search !== "" ||
+      url.hash !== ""
+    ) return undefined;
+    hostname = url.hostname.toLowerCase();
+  } catch {
+    return undefined;
+  }
+  if (!Object.hasOwn(SOURCE_PROVIDERS, hostname)) return undefined;
   const repo = repository.replace(/\.git$/, "").replace(/\/$/, "");
   const pieces = [folder === "." ? "" : folder, path]
     .filter(Boolean)
     .map((p) => p.replace(/^\/+|\/+$/g, ""));
-  const href = `${repo}/${path ? "blob" : "tree"}/${commit}/${pieces.join("/")}`;
-  return line ? `${href}#L${line}` : href;
+  const relative = pieces.join("/");
+  let href: string;
+  if (hostname === "github.com") {
+    href = `${repo}/${path ? "blob" : "tree"}/${commit}/${relative}`;
+  } else if (hostname === "gitlab.com") {
+    href = `${repo}/-/${path ? "blob" : "tree"}/${commit}/${relative}`;
+  } else if (hostname === "codeberg.org") {
+    href = `${repo}/src/commit/${commit}/${relative}`;
+  } else {
+    href = `${repo}/src/${commit}/${relative}`;
+  }
+  if (line === undefined) return href;
+  if (hostname === "bitbucket.org") {
+    const filename = path.split("/").at(-1) ?? "source";
+    return `${href}#${encodeURIComponent(filename)}-${line}`;
+  }
+  return `${href}#L${line}`;
 }
 
 // ---- sidebars ----
@@ -468,7 +515,7 @@ export function versionHistoryPanel(
     const title = entry.output?.manifest.title;
     const source = entry.record.source;
     const sourceHref = source
-      ? githubSource(source.repository, source.commit, source.folder)
+      ? repositorySource(source.repository, source.commit, source.folder)
       : undefined;
     const dates = [
       `<span><b>Created</b> <time datetime="${attr(entry.record.createdAt)}">${formatDate(entry.record.createdAt)}</time></span>`,
@@ -488,14 +535,14 @@ export function versionHistoryPanel(
     const open = here
       ? `<span class="version-viewing-label">Shown on this page</span>`
       : `<a class="version-open-link" href="${attr(versionHref(rootRel, id))}">Open version <span aria-hidden="true">→</span></a>`;
-    const github = sourceHref
-      ? `<a class="version-source-link" href="${attr(sourceHref)}">${GITHUB_MARK}<span>GitHub source</span></a>`
+    const sourceAction = sourceHref
+      ? `<a class="version-source-link" href="${attr(sourceHref)}">${SOURCE_MARK}<span>${esc(sourceProviderName(sourceHref))} source</span></a>`
       : `<span class="version-source-missing">Source unavailable</span>`;
     return `<li class="version-item${here ? " version-selected" : ""}${isCurrent ? " version-latest" : ""}"${here ? ' aria-current="page"' : ""}>
 <div class="version-item-heading"><span class="version-item-id">${esc(id)}</span><span class="version-item-marks">${marks}</span></div>
 ${title ? `<p class="version-item-title">${ctx.markdown.renderAuthorInline(title, rootRel)}</p>` : ""}
 <div class="version-metadata">${[...dates, ...pins].join("")}</div>
-<div class="version-item-actions">${github}${open}</div>
+<div class="version-item-actions">${sourceAction}${open}</div>
 </li>`;
   });
 
@@ -562,8 +609,9 @@ function metaBits(submission: SiteSubmission, metaAction: string): string {
   const source = record.source;
   const sourceBit = source
     ? (() => {
-        const href = githubSource(source.repository, source.commit, source.folder);
-        const short = `GitHub @${source.commit.slice(0, 7)}`;
+        const href = repositorySource(source.repository, source.commit, source.folder);
+        const provider = href ? sourceProviderName(href) : "Source";
+        const short = `${provider} @${source.commit.slice(0, 7)}`;
         return href
           ? `<a href="${attr(href)}" title="${attr(href)}"><code>${esc(short)}</code></a>`
           : `<code>${esc(short)}</code>`;

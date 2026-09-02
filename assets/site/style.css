@@ -1312,7 +1312,7 @@ body{
 }
 
 .source-button:hover{ border-color: var(--accent); background: var(--accent-light); }
-.source-button .gh-mark{ flex: none; }
+.source-button .source-mark{ flex: none; }
 
 .proof-list-source{
   border-top: 1px solid var(--border-light);

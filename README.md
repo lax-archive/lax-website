@@ -57,6 +57,10 @@ needed:
 npm run site:serve -- --database /path/to/lax-db --out /tmp/lax-site --port 8080
 ```
 
+Submission, concept, and proof source links target immutable commits on
+GitHub, GitLab.com, Codeberg, or Bitbucket Cloud according to the repository
+host stored in the Archive database.
+
 ## Papers
 
 A submission may carry a LaTeX paper that the archive compiled itself. Its

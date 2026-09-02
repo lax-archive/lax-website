@@ -3,11 +3,12 @@ import type { LocatedProof } from "../model.js";
 import { inPaperBlock } from "./paper.js";
 import {
   draftBanner,
-  githubSource,
   versionHistoryPanel,
+  repositorySource,
   type PageContext,
   proofJudgment,
   sourceButton,
+  sourceProviderName,
   submissionSidebar,
 } from "./shared.js";
 
@@ -27,15 +28,15 @@ export function proofPage(ctx: PageContext, located: LocatedProof): string {
     : `<span class="status-pill pill-partial" title="The relationship is checked, but ${plural(outstanding.length, "assumption is", "assumptions are")} still open.">conditional — ${plural(outstanding.length, "open assumption")}</span>`;
 
   const source = submission.record.source;
-  const githubFile = source
-    ? githubSource(source.repository, source.commit, source.folder, proof.path)
+  const sourceFile = source
+    ? repositorySource(source.repository, source.commit, source.folder, proof.path)
     : undefined;
 
   const sections = (proof.sections ?? [])
     .map((s) => `<div class="block"><h3>${ctx.markdown.renderAuthorInline(s.title, "../")}</h3><div class="latex-content">${ctx.markdown.renderAuthorProse(s.markdown, "../")}</div></div>`)
     .join("\n");
-  const pathLink = githubFile
-    ? `<a href="${attr(githubFile)}"><code>${esc(proof.path)}</code></a>`
+  const pathLink = sourceFile
+    ? `<a href="${attr(sourceFile)}"><code>${esc(proof.path)}</code></a>`
     : `<code>${esc(proof.path)}</code>`;
 
   const content = `${versionHistoryPanel(ctx, submission.record.id, "../")}${draftBanner(submission.record.state)}
@@ -46,7 +47,7 @@ export function proofPage(ctx: PageContext, located: LocatedProof): string {
 <div class="block block-evidence"><h3>What this proof establishes</h3>
 ${proofJudgment(ctx.model, proof, "../", output.id)}
 <p class="honesty-note">Assuming the claims on the left, the claim on the right holds — checked by the archive's pipeline. Proof code is not displayed here.</p>
-${githubFile ? `<p class="source-action">${sourceButton(githubFile, "Read the Lean proof on GitHub")}</p>` : ""}
+${sourceFile ? `<p class="source-action">${sourceButton(sourceFile, `Read the Lean proof on ${sourceProviderName(sourceFile)}`)}</p>` : ""}
 </div>
 ${inPaperBlock(ctx, proof.id, output.id, "../")}
 ${proof.description.trim() ? `<div class="block block-statement"><h3>Description</h3><div class="latex-content">${ctx.markdown.renderAuthorProse(proof.description, "../")}</div></div>` : ""}

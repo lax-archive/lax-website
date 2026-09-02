@@ -11,11 +11,12 @@ import {
   draftBanner,
   figureTitle,
   versionHistoryPanel,
-  githubSource,
+  repositorySource,
   graphExpandButton,
   graphTooltip,
   type PageContext,
   proofItem,
+  sourceProviderName,
   submissionSidebar,
 } from "./shared.js";
 
@@ -61,8 +62,8 @@ export async function conceptPage(ctx: PageContext, located: LocatedConcept): Pr
   const provenCount = concept.statements.filter((s) => proven.has(s.id)).length;
   const graph = conceptGraph(ctx.model, [concept.id]);
   const source = submission.record.source;
-  const githubFile = source
-    ? githubSource(source.repository, source.commit, source.folder, concept.path)
+  const sourceFile = source
+    ? repositorySource(source.repository, source.commit, source.folder, concept.path)
     : undefined;
 
   const type = concept.type!.trim();
@@ -88,15 +89,15 @@ export async function conceptPage(ctx: PageContext, located: LocatedConcept): Pr
     ? (ctx.model.statementProofs.get(statement.id) ?? []).flatMap(({ submission: proofSubmission, proof }) => {
         const proofSource = proofSubmission.record.source;
         const href = proofSource
-          ? githubSource(proofSource.repository, proofSource.commit, proofSource.folder, proof.path)
+          ? repositorySource(proofSource.repository, proofSource.commit, proofSource.folder, proof.path)
           : undefined;
-        return href ? [{ id: proof.id, href }] : [];
+        return href ? [{ id: proof.id, href, provider: sourceProviderName(href) }] : [];
       })
     : [];
   const proofActions = proofLinks.length && declarationLine !== undefined
     ? `<span class="source-proof-rail" data-source-line="L${declarationLine}" aria-label="Proof links">${proofLinks.map((link, index) => {
         const label = proofLinks.length === 1 ? "Show Proof" : `Show Proof ${index + 1}`;
-        return `<a class="statement-proof-button" href="${attr(link.href)}" aria-label="${attr(`View proof ${link.id} on GitHub`)}" title="${attr(link.id)}"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">${label}</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a>`;
+        return `<a class="statement-proof-button" href="${attr(link.href)}" aria-label="${attr(`View proof ${link.id} on ${link.provider}`)}" title="${attr(link.id)}"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">${label}</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a>`;
       }).join("")}</span>`
     : "";
   const sourceRows = await highlightSource(concept.sourceText, concept.statements, proven);
@@ -120,7 +121,7 @@ ${conceptMapLegend(graph, "This concept", "Related concept")}
 ${evidence(ctx, located)}
 ${inPaperBlock(ctx, concept.id, output.id, "../")}
 <div class="block block-statement"><h3>${esc(typeHeading)}</h3><div class="latex-content">${ctx.markdown.renderAuthorProse(concept.description, "../")}</div></div>
-<div class="block block-lean"><h3 class="section-heading">Lean source${githubFile ? ` <a class="source-link" href="${attr(githubFile)}">view on GitHub</a>` : ""}</h3>
+<div class="block block-lean"><h3 class="section-heading">Lean source${sourceFile ? ` <a class="source-link" href="${attr(sourceFile)}">view on ${esc(sourceProviderName(sourceFile))}</a>` : ""}</h3>
 <div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
 ${sourceRows}
 </table></div>${proofActions}<span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>

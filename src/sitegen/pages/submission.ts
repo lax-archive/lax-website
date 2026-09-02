@@ -22,6 +22,7 @@ import {
   proofsSource,
   shortId,
   sourceLink,
+  sourceProviderName,
   submissionMapLegend,
   submissionSidebar,
 } from "./shared.js";
@@ -100,7 +101,7 @@ ${output.proofs.length ? `<div class="proof-list-box">
 <ul class="proof-list">
 ${proofRows.join("\n")}
 </ul>
-${proofsHref ? `<p class="proof-list-source">Lean sources for these proofs: ${sourceLink(proofsHref, "proofs/ on GitHub")}</p>` : ""}
+${proofsHref ? `<p class="proof-list-source">Lean sources for these proofs: ${sourceLink(proofsHref, `proofs/ on ${sourceProviderName(proofsHref)}`)}</p>` : ""}
 </div>
 ${figureTitle("Proof network", proofsHref)}
 <figure class="graph-figure proof-network-figure">
