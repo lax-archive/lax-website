@@ -7,7 +7,7 @@
 <title>Twin-width can be exponential in treewidth — Lax48.ExponentialSeparation</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=ce3aa011e9c0">
+<link rel="stylesheet" href="../assets/style.css?v=d1f9b31ff5b2">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -114,7 +114,7 @@
 treewidth at most 2<em>k</em> + 4 and twin-width greater than 2ᵏ. Treewidth and
 twin-width are the parameters defined in the two prerequisite concepts.</p>
 </div></div>
-<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/38df64c8b8f8e1bcad0d27d1cf54179f4e6bb89a/twin-width-treewidth-separation/concepts/Lax48/ExponentialSeparation.lean">view on GitHub</a></h3>
+<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/4af15416d0e210c7b32961d1e26f68a203125710/twin-width-treewidth-separation/concepts/Lax48/ExponentialSeparation.lean">view on GitHub</a></h3>
 <div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
 <tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax48.Treewidth</span></td></tr>
 <tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax48.TwinWidth</span></td></tr>
@@ -146,7 +146,7 @@ twin-width are the parameters defined in the two prerequisite concepts.</p>
 <tr id="L28" class=""><td class="line-num"><a href="#L28">28</a></td><td class="line-code"> </td></tr>
 <tr id="L29" class=""><td class="line-num"><a href="#L29">29</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax48.ExponentialSeparation</span></td></tr>
 <tr id="L30" class=""><td class="line-num"><a href="#L30">30</a></td><td class="line-code"> </td></tr>
-</table></div><span class="source-proof-rail" data-source-line="L24" aria-label="Proof links"><a class="statement-proof-button" href="https://github.com/lax-archive/lax-submissions/blob/38df64c8b8f8e1bcad0d27d1cf54179f4e6bb89a/twin-width-treewidth-separation/proofs/Lax48Proofs/Main.lean" aria-label="View proof Lax48Proofs.Main.exists_treewidth_le_and_two_pow_lt_twinWidth on GitHub" title="Lax48Proofs.Main.exists_treewidth_le_and_two_pow_lt_twinWidth"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">Show Proof</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a></span><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
+</table></div><span class="source-proof-rail" data-source-line="L24" aria-label="Proof links"><a class="statement-proof-button" href="https://github.com/lax-archive/lax-submissions/blob/4af15416d0e210c7b32961d1e26f68a203125710/twin-width-treewidth-separation/proofs/Lax48Proofs/Main.lean" aria-label="View proof Lax48Proofs.Main.exists_treewidth_le_and_two_pow_lt_twinWidth on GitHub" title="Lax48Proofs.Main.exists_treewidth_le_and_two_pow_lt_twinWidth"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">Show Proof</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a></span><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
 <div class="block"><h3>Formalization notes</h3><div class="latex-content"><p>The graph is quantified over the canonical finite vertex types <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mi>i</mi><mi>n</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">Fin n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.1389em;">F</span><span class="mord mathnormal">inn</span></span></span></span>,
 which loses no generality: every finite simple graph is isomorphic to a
 graph on some <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mi>i</mi><mi>n</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">Fin n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.1389em;">F</span><span class="mord mathnormal">inn</span></span></span></span>.</p>
