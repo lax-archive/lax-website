@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://comments.laxarchive.org; style-src 'self' 'unsafe-inline'; img-src https: data:; font-src 'self'; frame-src https://comments.laxarchive.org; connect-src https://comments.laxarchive.org">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Lax — an archive of formalized mathematical concepts and their proofs">
+<title>Courcelle's theorem on a word RAM — Lax11.Courcelle</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
+<link rel="stylesheet" href="../assets/style.css?v=b798bacc8c05">
+</head><body>
+<header class="site-header">
+  <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
+  <h1 class="site-title"><a href="../index.html">Lax <span class="site-title-quiet">Lean Archive</span></a></h1>
+  <nav class="header-actions" aria-label="Account">
+    <div class="account-header" data-account-root data-remark42-host="https://comments.laxarchive.org" data-remark42-site="remark" data-identity-url="https://comments.laxarchive.org/reactions/v1/identity">
+  <a class="account-control" data-account-login href="https://comments.laxarchive.org/auth/orcid/login?from=https%3A%2F%2Flaxarchive.org&amp;site=remark"><span class="orcid-mark" aria-hidden="true">iD</span><span>Sign in with ORCID</span></a>
+  <button class="account-control" data-account-settings type="button" aria-haspopup="dialog" aria-controls="account-dialog" hidden><span class="orcid-mark" aria-hidden="true">iD</span><span>Settings</span></button>
+</div>
+  </nav>
+</header>
+<main id="content-shell">
+<div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+<aside id="sidebar">
+<a class="sidebar-back" href="../lax-11/index.html"><span class="sidebar-back-arrow" aria-hidden="true">←</span>lax-11</a>
+<div class="sidebar-filters"><div class="filter-group">
+<label for="filter-search">Search</label>
+<input id="filter-search" class="filter-input" type="search" placeholder="Filter entries" aria-controls="entry-list">
+</div>
+<div class="filter-group">
+<label for="filter-type">Type</label>
+<select id="filter-type" class="filter-select">
+<option value="all">All types</option>
+<option value="definition">definition</option>
+<option value="theorem">theorem</option>
+<option value="proof">proof</option>
+</select>
+</div></div>
+<ul id="entry-list">
+<li class="entry-heading" aria-hidden="true">Concepts</li>
+<li data-type="definition" data-search="lax11.cliqueexpr k-expressions, and the graphs of cliquewidth at most k definition"><a class="entry-link" href="../lax-11/Lax11.CliqueExpr.html" data-full-title="k-expressions, and the graphs of cliquewidth at most k"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax11.CliqueExpr</span></span></a></li>
+<li data-type="theorem" data-search="lax11.connectedcomponents connected components in linear time theorem"><a class="entry-link" href="../lax-11/Lax11.ConnectedComponents.html" data-full-title="Connected components in linear time"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax11.ConnectedComponents</span></span></a></li>
+<li class="active" data-type="theorem" data-search="lax11.courcelle courcelle's theorem on a word ram theorem"><a class="entry-link" href="../lax-11/Lax11.Courcelle.html" data-full-title="Courcelle's theorem on a word RAM"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax11.Courcelle</span></span></a></li>
+<li data-type="definition" data-search="lax11.graphencoding compressed sparse row encoding of a graph definition"><a class="entry-link" href="../lax-11/Lax11.GraphEncoding.html" data-full-title="Compressed sparse row encoding of a graph"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax11.GraphEncoding</span></span></a></li>
+<li data-type="definition" data-search="lax11.instanceencoding encoding a graph together with a k-expression definition"><a class="entry-link" href="../lax-11/Lax11.InstanceEncoding.html" data-full-title="Encoding a graph together with a k-expression"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax11.InstanceEncoding</span></span></a></li>
+<li data-type="definition" data-search="lax11.mso monadic second-order logic on graphs definition"><a class="entry-link" href="../lax-11/Lax11.Mso.html" data-full-title="Monadic second-order logic on graphs"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax11.Mso</span></span></a></li>
+<li data-type="definition" data-search="lax11.vertexcover a graph with a parameter appended definition"><a class="entry-link" href="../lax-11/Lax11.VertexCover.html" data-full-title="A graph with a parameter appended"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax11.VertexCover</span></span></a></li>
+<li class="entry-heading" aria-hidden="true">Proofs</li>
+<li data-type="proof" data-search="lax11proofs.ccmain.exists_lineartime_program_cclabels proof"><a class="entry-link" href="../lax-11/Lax11Proofs.CCMain.exists_linearTime_program_ccLabels.html" data-full-title="Lax11Proofs.CCMain.exists_linearTime_program_ccLabels"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax11Proofs.CCMain.exists_linearTime_program_ccLabels</span></span></a></li>
+<li data-type="proof" data-search="lax11proofs.courcelle.exists_lineartime_program_modelchecking proof"><a class="entry-link" href="../lax-11/Lax11Proofs.Courcelle.exists_linearTime_program_modelChecking.html" data-full-title="Lax11Proofs.Courcelle.exists_linearTime_program_modelChecking"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax11Proofs.Courcelle.exists_linearTime_program_modelChecking</span></span></a></li>
+<li id="entry-list-empty" hidden>No entries match.</li>
+</ul>
+</aside>
+<section id="main"><div id="detail">
+<p class="draft-banner"><strong>Draft</strong> — mutable and not usable as a dependency; its citation marks the draft state.</p>
+<div class="detail-heading concept-heading">
+<div><p class="concept-id"><code>Lax11.Courcelle</code></p>
+<h1 class="concept-title">Courcelle's theorem on a word RAM</h1>
+<p class="concept-microline"><code>concepts/Lax11/Courcelle.lean</code> · <a href="index.html">lax-11</a></p></div>
+<span class="status-pills"><span class="status-pill pill-proven" title="Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">proven</span></span>
+</div>
+<section class="page-reactions" aria-label="Community review" data-reactions-host="https://comments.laxarchive.org" data-reactions-url="https://laxarchive.org/lax-11/Lax11.Courcelle.html" data-review-kind="concept" data-source-lines="117">
+<div class="page-reactions-actions">
+<div class="page-reaction-control">
+<button class="page-reaction-button" type="button" data-reaction="endorse" aria-pressed="false" title="Say that this concept is correct"><span class="page-reaction-icon" aria-hidden="true">✅</span><span>Endorse</span></button>
+<button class="page-reaction-voters" type="button" data-reaction-voters="endorse" aria-expanded="false" aria-controls="page-reaction-voters-endorse"><strong data-reaction-count="endorse">0</strong><span class="visually-hidden">Show people who endorse this concept</span></button>
+<div class="page-reaction-voters-popover" id="page-reaction-voters-endorse" data-reaction-voters-popover="endorse" hidden><p data-reaction-empty>No public endorsements yet.</p><ul></ul></div>
+</div>
+<div class="page-reaction-control page-flag-control">
+<button class="page-reaction-button" type="button" data-reaction="flag" aria-pressed="false" aria-haspopup="dialog" title="Explain why this concept may be false"><span class="page-reaction-icon" aria-hidden="true">🚩</span><span>Flag</span></button>
+<button class="page-reaction-voters" type="button" data-flag-list-open aria-haspopup="dialog" aria-controls="page-flag-list"><strong data-reaction-count="flag">0</strong><span class="visually-hidden">Show flags for this concept</span></button>
+</div>
+</div>
+<p class="page-reactions-status" data-reactions-status role="status">Loading review…</p>
+<a class="visually-hidden" data-reactions-login href="https://comments.laxarchive.org/auth/orcid/login?site=remark&amp;from=https%3A%2F%2Flaxarchive.org%2Flax-11%2FLax11.Courcelle.html">Sign in with ORCID</a>
+<dialog class="review-dialog flag-list-dialog" id="page-flag-list" data-flag-list-dialog aria-labelledby="page-flag-list-title">
+<div class="review-dialog-header"><div><p class="discussion-eyebrow">Community review</p><h2 id="page-flag-list-title">Flags</h2></div><button class="review-dialog-close" type="button" data-flag-list-close aria-label="Close flags">×</button></div>
+<p class="review-dialog-intro">Each flag is tied to a public ORCID identity and explains why this concept may be incorrect.</p>
+<p data-flag-list-empty>No flags have been submitted.</p><ol class="flag-list" data-flag-list></ol>
+</dialog>
+<dialog class="review-dialog flag-editor-dialog" id="page-flag-editor" data-flag-editor aria-labelledby="page-flag-editor-title">
+<form data-flag-form>
+<div class="review-dialog-header"><div><p class="discussion-eyebrow">Community review</p><h2 id="page-flag-editor-title">Flag this concept</h2></div><button class="review-dialog-close" type="button" data-flag-cancel aria-label="Close flag form">×</button></div>
+<p class="review-dialog-intro">State precisely what appears incorrect. This explanation will be public under your ORCID name.</p>
+<label class="flag-message-label" for="page-flag-message">What is wrong?</label>
+<textarea id="page-flag-message" data-flag-message rows="6" maxlength="2000" required placeholder="Describe the incorrect claim, missing assumption, or counterexample."></textarea>
+<div class="flag-line-fields"><input type="hidden" data-flag-line><button class="secondary-button" type="button" data-flag-line-picker>Choose from source</button><p class="flag-line-selection" data-flag-line-selection aria-live="polite">No source line selected.</p></div>
+<p class="flag-form-status" data-flag-form-status role="status"></p>
+<div class="review-dialog-actions"><button class="danger-button" type="button" data-flag-remove hidden>Remove my flag</button><span></span><button class="secondary-button" type="button" data-flag-cancel>Cancel</button><button class="primary-button" type="submit">Publish flag</button></div>
+</form>
+</dialog>
+<noscript><p class="page-reactions-noscript"><a href="https://comments.laxarchive.org/auth/orcid/login?site=remark&amp;from=https%3A%2F%2Flaxarchive.org%2Flax-11%2FLax11.Courcelle.html">Sign in with ORCID</a> to review this page.</p></noscript>
+</section>
+<h4 class="figure-title">Concept map</h4>
+<figure class="graph-figure concept-root-graph">
+<button class="graph-expand" type="button" data-graph-expand data-graph-label="concept map" aria-expanded="false" aria-label="Open concept map in a large window" title="Open in large window"><svg class="graph-expand-open" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M2.5 6V2.5H6M10 2.5h3.5V6M13.5 10v3.5H10M6 13.5H2.5V10"/></svg><span class="graph-expand-close" aria-hidden="true">×</span></button>
+<div class="graph-toolbar"><button type="button" id="concept-expand" aria-controls="concept-dag" aria-pressed="true">Hide ancestors</button><button type="button" id="concept-descend" aria-controls="concept-dag" aria-pressed="false">Show descendants</button><output id="concept-graph-status" aria-live="polite"></output></div>
+<div id="concept-dag" class="figure-container" data-graph="concepts" data-ancestry="true"></div>
+<div class="graph-tooltip" role="tooltip" hidden></div>
+<figcaption class="graph-legend" aria-label="Concept map legend"><span><i class="legend-node fill-proven"></i>Proven claim</span><span><i class="legend-node fill-none"></i>Definition</span><span><i class="legend-node stroke-own"></i>This concept</span><span><i class="legend-node stroke-ext"></i>Related concept</span><span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B builds on A</span></figcaption>
+</figure>
+<div class="block block-evidence"><h3>Evidence</h3>
+<p class="evidence-intro">Each proof establishes this claim relative to its assumptions.</p>
+<ul class="proof-list">
+<li class="proof-item">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-11/Lax11Proofs.Courcelle.exists_linearTime_program_modelChecking.html" aria-label="Open proof Lax11Proofs.Courcelle.exists_linearTime_program_modelChecking"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><p class="judgment-unconditional">no assumptions</p></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="../lax-11/Lax11.Courcelle.html" title="Lax11.Courcelle.exists_linearTime_program_modelChecking"><code>Lax11.Courcelle</code></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-11/Lax11Proofs.Courcelle.exists_linearTime_program_modelChecking.html"><code>Lax11Proofs.Courcelle.exists_linearTime_program_modelChecking</code></a></p>
+</li>
+</ul>
+</div>
+
+<div class="block block-statement"><h3>Theorem</h3><div class="latex-content"><p>Every property of graphs expressible in monadic second-order logic can
+be decided in linear time on graphs of bounded cliquewidth, given a
+<em>k</em>-expression for the graph. Fix a sentence and a width bound <em>k</em>; then
+there are one word RAM program and one constant <em>c</em> such that, at every
+word length, given any graph in compressed sparse row form followed by a
+<em>k</em>-expression that evaluates to it, as a word <em>x</em> each of whose entries
+<em>v</em> satisfies <em>c</em>(|x|+<em>v</em>+1) ≤ <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mi>w</mi></msup></mrow><annotation encoding="application/x-tex">2 ^ w</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6644em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0269em;">w</span></span></span></span></span></span></span></span></span></span></span>, the program halts within
+<em>c</em>(|x|+1) steps and writes <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn></mrow><annotation encoding="application/x-tex">1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span> if the sentence holds in the graph and
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn></mrow><annotation encoding="application/x-tex">0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span> if it does not.</p>
+<p>This is the Courcelle–Makowsky–Rotics form of Courcelle's theorem: the
+width measure is cliquewidth and the logic is monadic second-order
+logic with quantification over vertices and vertex sets, which is the
+pairing the two notions are matched to.</p>
+</div></div>
+<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/adeee8fcd52a11c46077d34657feaf48f2df7dae/ram-linear-time/concepts/Lax11/Courcelle.lean">view on GitHub</a></h3>
+<div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax13.RamComputes</span></td></tr>
+<tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax11.Mso</span></td></tr>
+<tr id="L3" class=""><td class="line-num"><a href="#L3">3</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax11.InstanceEncoding</span></td></tr>
+<tr id="L4" class=""><td class="line-num"><a href="#L4">4</a></td><td class="line-code"> </td></tr>
+<tr id="L5" class=""><td class="line-num"><a href="#L5">5</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
+<tr id="L6" class=""><td class="line-num"><a href="#L6">6</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
+<tr id="L7" class=""><td class="line-num"><a href="#L7">7</a></td><td class="line-code"><span style="color:#6A737D">title: Courcelle's theorem on a word RAM</span></td></tr>
+<tr id="L8" class=""><td class="line-num"><a href="#L8">8</a></td><td class="line-code"><span style="color:#6A737D">type: theorem</span></td></tr>
+<tr id="L9" class=""><td class="line-num"><a href="#L9">9</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
+<tr id="L10" class=""><td class="line-num"><a href="#L10">10</a></td><td class="line-code"><span style="color:#6A737D">Every property of graphs expressible in monadic second-order logic can</span></td></tr>
+<tr id="L11" class=""><td class="line-num"><a href="#L11">11</a></td><td class="line-code"><span style="color:#6A737D">be decided in linear time on graphs of bounded cliquewidth, given a</span></td></tr>
+<tr id="L12" class=""><td class="line-num"><a href="#L12">12</a></td><td class="line-code"><span style="color:#6A737D">*k*-expression for the graph. Fix a sentence and a width bound *k*; then</span></td></tr>
+<tr id="L13" class=""><td class="line-num"><a href="#L13">13</a></td><td class="line-code"><span style="color:#6A737D">there are one word RAM program and one constant *c* such that, at every</span></td></tr>
+<tr id="L14" class=""><td class="line-num"><a href="#L14">14</a></td><td class="line-code"><span style="color:#6A737D">word length, given any graph in compressed sparse row form followed by a</span></td></tr>
+<tr id="L15" class=""><td class="line-num"><a href="#L15">15</a></td><td class="line-code"><span style="color:#6A737D">*k*-expression that evaluates to it, as a word *x* each of whose entries</span></td></tr>
+<tr id="L16" class=""><td class="line-num"><a href="#L16">16</a></td><td class="line-code"><span style="color:#6A737D">*v* satisfies *c*(|x|+*v*+1) ≤ `2 ^ w`, the program halts within</span></td></tr>
+<tr id="L17" class=""><td class="line-num"><a href="#L17">17</a></td><td class="line-code"><span style="color:#6A737D">*c*(|x|+1) steps and writes `1` if the sentence holds in the graph and</span></td></tr>
+<tr id="L18" class=""><td class="line-num"><a href="#L18">18</a></td><td class="line-code"><span style="color:#6A737D">`0` if it does not.</span></td></tr>
+<tr id="L19" class=""><td class="line-num"><a href="#L19">19</a></td><td class="line-code"> </td></tr>
+<tr id="L20" class=""><td class="line-num"><a href="#L20">20</a></td><td class="line-code"><span style="color:#6A737D">This is the Courcelle–Makowsky–Rotics form of Courcelle's theorem: the</span></td></tr>
+<tr id="L21" class=""><td class="line-num"><a href="#L21">21</a></td><td class="line-code"><span style="color:#6A737D">width measure is cliquewidth and the logic is monadic second-order</span></td></tr>
+<tr id="L22" class=""><td class="line-num"><a href="#L22">22</a></td><td class="line-code"><span style="color:#6A737D">logic with quantification over vertices and vertex sets, which is the</span></td></tr>
+<tr id="L23" class=""><td class="line-num"><a href="#L23">23</a></td><td class="line-code"><span style="color:#6A737D">pairing the two notions are matched to.</span></td></tr>
+<tr id="L24" class=""><td class="line-num"><a href="#L24">24</a></td><td class="line-code"> </td></tr>
+<tr id="L25" class=""><td class="line-num"><a href="#L25">25</a></td><td class="line-code"><span style="color:#6A737D"># Formalization notes</span></td></tr>
+<tr id="L26" class=""><td class="line-num"><a href="#L26">26</a></td><td class="line-code"> </td></tr>
+<tr id="L27" class=""><td class="line-num"><a href="#L27">27</a></td><td class="line-code"><span style="color:#6A737D">The expression is *input*, not something the program computes. Deciding</span></td></tr>
+<tr id="L28" class=""><td class="line-num"><a href="#L28">28</a></td><td class="line-code"><span style="color:#6A737D">cliquewidth, or approximating it, is a different theorem with a</span></td></tr>
+<tr id="L29" class=""><td class="line-num"><a href="#L29">29</a></td><td class="line-code"><span style="color:#6A737D">different proof, and folding it in here would silently claim it; the</span></td></tr>
+<tr id="L30" class=""><td class="line-num"><a href="#L30">30</a></td><td class="line-code"><span style="color:#6A737D">statement is the honest one, &quot;given a graph together with a</span></td></tr>
+<tr id="L31" class=""><td class="line-num"><a href="#L31">31</a></td><td class="line-code"><span style="color:#6A737D">*k*-expression for it&quot;. This is the same choice a treewidth-based</span></td></tr>
+<tr id="L32" class=""><td class="line-num"><a href="#L32">32</a></td><td class="line-code"><span style="color:#6A737D">statement makes when it takes a tree decomposition as input.</span></td></tr>
+<tr id="L33" class=""><td class="line-num"><a href="#L33">33</a></td><td class="line-code"> </td></tr>
+<tr id="L34" class=""><td class="line-num"><a href="#L34">34</a></td><td class="line-code"><span style="color:#6A737D">The order of the quantifiers is the content of the theorem: the</span></td></tr>
+<tr id="L35" class=""><td class="line-num"><a href="#L35">35</a></td><td class="line-code"><span style="color:#6A737D">sentence and the width bound come first, then the program and the</span></td></tr>
+<tr id="L36" class=""><td class="line-num"><a href="#L36">36</a></td><td class="line-code"><span style="color:#6A737D">constant, then the graph and the word length. So one program serves all</span></td></tr>
+<tr id="L37" class=""><td class="line-num"><a href="#L37">37</a></td><td class="line-code"><span style="color:#6A737D">graphs of cliquewidth at most *k* at every word length, with one</span></td></tr>
+<tr id="L38" class=""><td class="line-num"><a href="#L38">38</a></td><td class="line-code"><span style="color:#6A737D">constant, but both may depend — and in every known proof do depend, in a</span></td></tr>
+<tr id="L39" class=""><td class="line-num"><a href="#L39">39</a></td><td class="line-code"><span style="color:#6A737D">way that grows faster than any tower of exponentials in the sentence —</span></td></tr>
+<tr id="L40" class=""><td class="line-num"><a href="#L40">40</a></td><td class="line-code"><span style="color:#6A737D">on the sentence and the width. Nothing here estimates the constant. This</span></td></tr>
+<tr id="L41" class=""><td class="line-num"><a href="#L41">41</a></td><td class="line-code"><span style="color:#6A737D">is the opposite ordering from the vertex cover statement of this</span></td></tr>
+<tr id="L42" class=""><td class="line-num"><a href="#L42">42</a></td><td class="line-code"><span style="color:#6A737D">submission, and it has to be: there the parameter is an entry of the</span></td></tr>
+<tr id="L43" class=""><td class="line-num"><a href="#L43">43</a></td><td class="line-code"><span style="color:#6A737D">input word, so one program can read it and serve every parameter, while</span></td></tr>
+<tr id="L44" class=""><td class="line-num"><a href="#L44">44</a></td><td class="line-code"><span style="color:#6A737D">here the sentence is not part of the input at all and a program that has</span></td></tr>
+<tr id="L45" class=""><td class="line-num"><a href="#L45">45</a></td><td class="line-code"><span style="color:#6A737D">never seen it cannot decide it. Quantifying the program before the word</span></td></tr>
+<tr id="L46" class=""><td class="line-num"><a href="#L46">46</a></td><td class="line-code"><span style="color:#6A737D">length says the same thing about `w` as everywhere else in this</span></td></tr>
+<tr id="L47" class=""><td class="line-num"><a href="#L47">47</a></td><td class="line-code"><span style="color:#6A737D">submission — one program that works at every word length that admits its</span></td></tr>
+<tr id="L48" class=""><td class="line-num"><a href="#L48">48</a></td><td class="line-code"><span style="color:#6A737D">input, rather than a family of programs, one of which could hide an</span></td></tr>
+<tr id="L49" class=""><td class="line-num"><a href="#L49">49</a></td><td class="line-code"><span style="color:#6A737D">arbitrary amount of information in its literals.</span></td></tr>
+<tr id="L50" class=""><td class="line-num"><a href="#L50">50</a></td><td class="line-code"> </td></tr>
+<tr id="L51" class=""><td class="line-num"><a href="#L51">51</a></td><td class="line-code"><span style="color:#6A737D">One constant does both jobs, and the condition it appears in says two</span></td></tr>
+<tr id="L52" class=""><td class="line-num"><a href="#L52">52</a></td><td class="line-code"><span style="color:#6A737D">things at once. The first is that the running time fits: taking *v* to</span></td></tr>
+<tr id="L53" class=""><td class="line-num"><a href="#L53">53</a></td><td class="line-code"><span style="color:#6A737D">be any entry of the word — an instance word is never empty — the</span></td></tr>
+<tr id="L54" class=""><td class="line-num"><a href="#L54">54</a></td><td class="line-code"><span style="color:#6A737D">condition gives *c*(|x|+1) ≤ `2 ^ w`, so `2 ^ w` is at least the number</span></td></tr>
+<tr id="L55" class=""><td class="line-num"><a href="#L55">55</a></td><td class="line-code"><span style="color:#6A737D">of steps the claim allows, and with it every quantity the program forms</span></td></tr>
+<tr id="L56" class=""><td class="line-num"><a href="#L56">56</a></td><td class="line-code"><span style="color:#6A737D">out of the length of the word, the number of nodes of the expression and</span></td></tr>
+<tr id="L57" class=""><td class="line-num"><a href="#L57">57</a></td><td class="line-code"><span style="color:#6A737D">the addresses of the arrays included. The four tables of the dynamic</span></td></tr>
+<tr id="L58" class=""><td class="line-num"><a href="#L58">58</a></td><td class="line-code"><span style="color:#6A737D">program are also covered, since their sizes depend on the sentence and</span></td></tr>
+<tr id="L59" class=""><td class="line-num"><a href="#L59">59</a></td><td class="line-code"><span style="color:#6A737D">the width bound alone and are therefore absorbed into *c*, which is</span></td></tr>
+<tr id="L60" class=""><td class="line-num"><a href="#L60">60</a></td><td class="line-code"><span style="color:#6A737D">chosen after both.</span></td></tr>
+<tr id="L61" class=""><td class="line-num"><a href="#L61">61</a></td><td class="line-code"> </td></tr>
+<tr id="L62" class=""><td class="line-num"><a href="#L62">62</a></td><td class="line-code"><span style="color:#6A737D">The second is that the entries themselves fit, and this is why the</span></td></tr>
+<tr id="L63" class=""><td class="line-num"><a href="#L63">63</a></td><td class="line-code"><span style="color:#6A737D">condition quantifies over them. A machine at word length `w` sees its</span></td></tr>
+<tr id="L64" class=""><td class="line-num"><a href="#L64">64</a></td><td class="line-code"><span style="color:#6A737D">input reduced modulo `2 ^ w`, so an entry that is not a word is not the</span></td></tr>
+<tr id="L65" class=""><td class="line-num"><a href="#L65">65</a></td><td class="line-code"><span style="color:#6A737D">entry it was handed. Most entries of an instance are small: vertex</span></td></tr>
+<tr id="L66" class=""><td class="line-num"><a href="#L66">66</a></td><td class="line-code"><span style="color:#6A737D">numbers, offsets and node numbers are below the length of the word, and</span></td></tr>
+<tr id="L67" class=""><td class="line-num"><a href="#L67">67</a></td><td class="line-code"><span style="color:#6A737D">an operation code is below the number of operations at width *k*, which</span></td></tr>
+<tr id="L68" class=""><td class="line-num"><a href="#L68">68</a></td><td class="line-code"><span style="color:#6A737D">`c` covers. But not all of them are, because the format has slots the</span></td></tr>
+<tr id="L69" class=""><td class="line-num"><a href="#L69">69</a></td><td class="line-code"><span style="color:#6A737D">encoding deliberately leaves free — the parent entry of the root,</span></td></tr>
+<tr id="L70" class=""><td class="line-num"><a href="#L70">70</a></td><td class="line-code"><span style="color:#6A737D">through which nothing points, and the vertex name at a node whose</span></td></tr>
+<tr id="L71" class=""><td class="line-num"><a href="#L71">71</a></td><td class="line-code"><span style="color:#6A737D">operation creates no vertex. Those may hold any number whatever, and</span></td></tr>
+<tr id="L72" class=""><td class="line-num"><a href="#L72">72</a></td><td class="line-code"><span style="color:#6A737D">saying of every entry that it fits is what makes the claim about them</span></td></tr>
+<tr id="L73" class=""><td class="line-num"><a href="#L73">73</a></td><td class="line-code"><span style="color:#6A737D">honest instead of silently assuming they are small. It is the same</span></td></tr>
+<tr id="L74" class=""><td class="line-num"><a href="#L74">74</a></td><td class="line-code"><span style="color:#6A737D">bookkeeping the vertex cover statement of this submission does with</span></td></tr>
+<tr id="L75" class=""><td class="line-num"><a href="#L75">75</a></td><td class="line-code"><span style="color:#6A737D">`c * (|x| + k + 1)`, where the one entry not bounded by the length is</span></td></tr>
+<tr id="L76" class=""><td class="line-num"><a href="#L76">76</a></td><td class="line-code"><span style="color:#6A737D">the parameter.</span></td></tr>
+<tr id="L77" class=""><td class="line-num"><a href="#L77">77</a></td><td class="line-code"> </td></tr>
+<tr id="L78" class=""><td class="line-num"><a href="#L78">78</a></td><td class="line-code"><span style="color:#6A737D">The fitting condition is a condition on the admissible inputs and not a</span></td></tr>
+<tr id="L79" class=""><td class="line-num"><a href="#L79">79</a></td><td class="line-code"><span style="color:#6A737D">hypothesis of the claim, because as a hypothesis it would be empty. A</span></td></tr>
+<tr id="L80" class=""><td class="line-num"><a href="#L80">80</a></td><td class="line-code"><span style="color:#6A737D">graph with an edge has encodings of every length, since a block may list</span></td></tr>
+<tr id="L81" class=""><td class="line-num"><a href="#L81">81</a></td><td class="line-code"><span style="color:#6A737D">a neighbour repeatedly, so no word length accommodates all encodings of</span></td></tr>
+<tr id="L82" class=""><td class="line-num"><a href="#L82">82</a></td><td class="line-code"><span style="color:#6A737D">a fixed graph at once and &quot;if every instance for `G` and `k` fits into a</span></td></tr>
+<tr id="L83" class=""><td class="line-num"><a href="#L83">83</a></td><td class="line-code"><span style="color:#6A737D">word&quot; would never be satisfied. Restricting the inputs instead says what</span></td></tr>
+<tr id="L84" class=""><td class="line-num"><a href="#L84">84</a></td><td class="line-code"><span style="color:#6A737D">is meant: at every word length, every instance that fits is decided</span></td></tr>
+<tr id="L85" class=""><td class="line-num"><a href="#L85">85</a></td><td class="line-code"><span style="color:#6A737D">within the bound.</span></td></tr>
+<tr id="L86" class=""><td class="line-num"><a href="#L86">86</a></td><td class="line-code"> </td></tr>
+<tr id="L87" class=""><td class="line-num"><a href="#L87">87</a></td><td class="line-code"><span style="color:#6A737D">Only encodings of `G` are admitted as inputs; the program may behave</span></td></tr>
+<tr id="L88" class=""><td class="line-num"><a href="#L88">88</a></td><td class="line-code"><span style="color:#6A737D">arbitrarily on words that encode nothing, and on words too long for its</span></td></tr>
+<tr id="L89" class=""><td class="line-num"><a href="#L89">89</a></td><td class="line-code"><span style="color:#6A737D">word length.</span></td></tr>
+<tr id="L90" class=""><td class="line-num"><a href="#L90">90</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
+<tr id="L91" class=""><td class="line-num"><a href="#L91">91</a></td><td class="line-code"> </td></tr>
+<tr id="L92" class=""><td class="line-num"><a href="#L92">92</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax11.Courcelle</span></td></tr>
+<tr id="L93" class=""><td class="line-num"><a href="#L93">93</a></td><td class="line-code"> </td></tr>
+<tr id="L94" class=""><td class="line-num"><a href="#L94">94</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax13.Ram Lax13.RamComputes Lax11.Mso Lax11.InstanceEncoding</span></td></tr>
+<tr id="L95" class=""><td class="line-num"><a href="#L95">95</a></td><td class="line-code"> </td></tr>
+<tr id="L96" class=""><td class="line-num"><a href="#L96">96</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Classical </span><span style="color:#D73A49">in</span></td></tr>
+<tr id="L97" class="statement-line line-proven"><td class="line-num"><a href="#L97">97</a></td><td class="line-code"><span class="statement-anchor" id="s-Lax11.Courcelle.exists_linearTime_program_modelChecking"></span><span style="color:#6A737D">/-- **Courcelle's theorem** (Courcelle–Makowsky–Rotics form): model</span></td></tr>
+<tr id="L98" class="statement-line line-proven"><td class="line-num"><a href="#L98">98</a></td><td class="line-code"><span style="color:#6A737D">checking monadic second-order logic is linear time on a word random</span></td></tr>
+<tr id="L99" class="statement-line line-proven"><td class="line-num"><a href="#L99">99</a></td><td class="line-code"><span style="color:#6A737D">access machine, for graphs presented together with a `k`-expression. For</span></td></tr>
+<tr id="L100" class="statement-line line-proven"><td class="line-num"><a href="#L100">100</a></td><td class="line-code"><span style="color:#6A737D">every sentence and every width bound there are one program and one</span></td></tr>
+<tr id="L101" class="statement-line line-proven"><td class="line-num"><a href="#L101">101</a></td><td class="line-code"><span style="color:#6A737D">constant such that, at every word length `w`, on every graph given in</span></td></tr>
+<tr id="L102" class="statement-line line-proven"><td class="line-num"><a href="#L102">102</a></td><td class="line-code"><span style="color:#6A737D">compressed sparse row form followed by a `k`-expression for it as a word</span></td></tr>
+<tr id="L103" class="statement-line line-proven"><td class="line-num"><a href="#L103">103</a></td><td class="line-code"><span style="color:#6A737D">`x` each of whose entries `v` satisfies `c * (x.length + v + 1) ≤ 2 ^ w`,</span></td></tr>
+<tr id="L104" class="statement-line line-proven"><td class="line-num"><a href="#L104">104</a></td><td class="line-code"><span style="color:#6A737D">the program halts within a constant multiple of the length of the input,</span></td></tr>
+<tr id="L105" class="statement-line line-proven"><td class="line-num"><a href="#L105">105</a></td><td class="line-code"><span style="color:#6A737D">having written `1` if the sentence holds in the graph and `0`</span></td></tr>
+<tr id="L106" class="statement-line line-proven"><td class="line-num"><a href="#L106">106</a></td><td class="line-code"><span style="color:#6A737D">otherwise. -/</span></td></tr>
+<tr id="L107" class="statement-line line-proven"><td class="line-num"><a href="#L107">107</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> exists_linearTime_program_modelChecking</span><span style="color:#24292E"> :</span></td></tr>
+<tr id="L108" class="statement-line line-proven"><td class="line-num"><a href="#L108">108</a></td><td class="line-code"><span style="color:#24292E">    ∀ (φ : MSO </span><span style="color:#005CC5">0</span><span style="color:#005CC5"> 0</span><span style="color:#24292E">) (k : ℕ),</span></td></tr>
+<tr id="L109" class="statement-line line-proven"><td class="line-num"><a href="#L109">109</a></td><td class="line-code"><span style="color:#24292E">      ∃ (p : Program) (c : ℕ), ∀ (n : ℕ) (G : SimpleGraph (Fin n)) (w : ℕ),</span></td></tr>
+<tr id="L110" class="statement-line line-proven"><td class="line-num"><a href="#L110">110</a></td><td class="line-code"><span style="color:#24292E">        ComputesInTime w p</span></td></tr>
+<tr id="L111" class="statement-line line-proven"><td class="line-num"><a href="#L111">111</a></td><td class="line-code"><span style="color:#24292E">          {x | EncodesModelCheckingInstance x n G k ∧</span></td></tr>
+<tr id="L112" class="statement-line line-proven"><td class="line-num"><a href="#L112">112</a></td><td class="line-code"><span style="color:#24292E">            ∀ v ∈ x, c * (x.length + v + </span><span style="color:#005CC5">1</span><span style="color:#24292E">) ≤ </span><span style="color:#005CC5">2</span><span style="color:#24292E"> ^ w}</span></td></tr>
+<tr id="L113" class="statement-line line-proven"><td class="line-num"><a href="#L113">113</a></td><td class="line-code"><span style="color:#24292E">          (</span><span style="color:#D73A49">fun</span><span style="color:#24292E"> _ =&gt; </span><span style="color:#D73A49">if</span><span style="color:#24292E"> Sat G Fin.elim0 Fin.elim0 φ </span><span style="color:#D73A49">then</span><span style="color:#24292E"> [</span><span style="color:#005CC5">1</span><span style="color:#24292E">] </span><span style="color:#D73A49">else</span><span style="color:#24292E"> [</span><span style="color:#005CC5">0</span><span style="color:#24292E">])</span></td></tr>
+<tr id="L114" class="statement-line line-proven"><td class="line-num"><a href="#L114">114</a></td><td class="line-code"><span style="color:#24292E">          (</span><span style="color:#D73A49">fun</span><span style="color:#24292E"> x =&gt; c * (x.length + </span><span style="color:#005CC5">1</span><span style="color:#24292E">))</span></td></tr>
+<tr id="L115" class=""><td class="line-num"><a href="#L115">115</a></td><td class="line-code"> </td></tr>
+<tr id="L116" class=""><td class="line-num"><a href="#L116">116</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax11.Courcelle</span></td></tr>
+<tr id="L117" class=""><td class="line-num"><a href="#L117">117</a></td><td class="line-code"> </td></tr>
+</table></div><span class="source-proof-rail" data-source-line="L107" aria-label="Proof links"><a class="statement-proof-button" href="https://github.com/lax-archive/lax-submissions/blob/adeee8fcd52a11c46077d34657feaf48f2df7dae/ram-linear-time/proofs/Lax11Proofs/CourcelleMain.lean" aria-label="View proof Lax11Proofs.Courcelle.exists_linearTime_program_modelChecking on GitHub" title="Lax11Proofs.Courcelle.exists_linearTime_program_modelChecking"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">Show Proof</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a></span><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
+<div class="block"><h3>Formalization notes</h3><div class="latex-content"><p>The expression is <em>input</em>, not something the program computes. Deciding
+cliquewidth, or approximating it, is a different theorem with a
+different proof, and folding it in here would silently claim it; the
+statement is the honest one, &quot;given a graph together with a
+<em>k</em>-expression for it&quot;. This is the same choice a treewidth-based
+statement makes when it takes a tree decomposition as input.</p>
+<p>The order of the quantifiers is the content of the theorem: the
+sentence and the width bound come first, then the program and the
+constant, then the graph and the word length. So one program serves all
+graphs of cliquewidth at most <em>k</em> at every word length, with one
+constant, but both may depend — and in every known proof do depend, in a
+way that grows faster than any tower of exponentials in the sentence —
+on the sentence and the width. Nothing here estimates the constant. This
+is the opposite ordering from the vertex cover statement of this
+submission, and it has to be: there the parameter is an entry of the
+input word, so one program can read it and serve every parameter, while
+here the sentence is not part of the input at all and a program that has
+never seen it cannot decide it. Quantifying the program before the word
+length says the same thing about <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>w</mi></mrow><annotation encoding="application/x-tex">w</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.0269em;">w</span></span></span></span> as everywhere else in this
+submission — one program that works at every word length that admits its
+input, rather than a family of programs, one of which could hide an
+arbitrary amount of information in its literals.</p>
+<p>One constant does both jobs, and the condition it appears in says two
+things at once. The first is that the running time fits: taking <em>v</em> to
+be any entry of the word — an instance word is never empty — the
+condition gives <em>c</em>(|x|+1) ≤ <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mi>w</mi></msup></mrow><annotation encoding="application/x-tex">2 ^ w</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6644em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0269em;">w</span></span></span></span></span></span></span></span></span></span></span>, so <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mi>w</mi></msup></mrow><annotation encoding="application/x-tex">2 ^ w</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6644em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0269em;">w</span></span></span></span></span></span></span></span></span></span></span> is at least the number
+of steps the claim allows, and with it every quantity the program forms
+out of the length of the word, the number of nodes of the expression and
+the addresses of the arrays included. The four tables of the dynamic
+program are also covered, since their sizes depend on the sentence and
+the width bound alone and are therefore absorbed into <em>c</em>, which is
+chosen after both.</p>
+<p>The second is that the entries themselves fit, and this is why the
+condition quantifies over them. A machine at word length <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>w</mi></mrow><annotation encoding="application/x-tex">w</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.0269em;">w</span></span></span></span> sees its
+input reduced modulo <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mi>w</mi></msup></mrow><annotation encoding="application/x-tex">2 ^ w</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6644em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0269em;">w</span></span></span></span></span></span></span></span></span></span></span>, so an entry that is not a word is not the
+entry it was handed. Most entries of an instance are small: vertex
+numbers, offsets and node numbers are below the length of the word, and
+an operation code is below the number of operations at width <em>k</em>, which
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>c</mi></mrow><annotation encoding="application/x-tex">c</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal">c</span></span></span></span> covers. But not all of them are, because the format has slots the
+encoding deliberately leaves free — the parent entry of the root,
+through which nothing points, and the vertex name at a node whose
+operation creates no vertex. Those may hold any number whatever, and
+saying of every entry that it fits is what makes the claim about them
+honest instead of silently assuming they are small. It is the same
+bookkeeping the vertex cover statement of this submission does with
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>c</mi><mo>∗</mo><mo stretchy="false">(</mo><mi mathvariant="normal">∣</mi><mi>x</mi><mi mathvariant="normal">∣</mi><mo>+</mo><mi>k</mi><mo>+</mo><mn>1</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">c * (|x| + k + 1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4653em;"></span><span class="mord mathnormal">c</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">∣</span><span class="mord mathnormal">x</span><span class="mord">∣</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.7778em;vertical-align:-0.0833em;"></span><span class="mord mathnormal" style="margin-right:0.0315em;">k</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">)</span></span></span></span>, where the one entry not bounded by the length is
+the parameter.</p>
+<p>The fitting condition is a condition on the admissible inputs and not a
+hypothesis of the claim, because as a hypothesis it would be empty. A
+graph with an edge has encodings of every length, since a block may list
+a neighbour repeatedly, so no word length accommodates all encodings of
+a fixed graph at once and &quot;if every instance for <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi></mrow><annotation encoding="application/x-tex">G</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal">G</span></span></span></span> and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.0315em;">k</span></span></span></span> fits into a
+word&quot; would never be satisfied. Restricting the inputs instead says what
+is meant: at every word length, every instance that fits is decided
+within the bound.</p>
+<p>Only encodings of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi></mrow><annotation encoding="application/x-tex">G</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal">G</span></span></span></span> are admitted as inputs; the program may behave
+arbitrarily on words that encode nothing, and on words too long for its
+word length.</p>
+</div></div>
+<div class="block"><div class="deps-columns">
+<div class="deps-col"><h3>Builds on</h3><ul class="deps-list"><li><a href="../lax-11/Lax11.InstanceEncoding.html"><code>Lax11.InstanceEncoding</code></a></li><li><a href="../lax-11/Lax11.Mso.html"><code>Lax11.Mso</code></a></li><li><a href="../lax-13/Lax13.RamComputes.html"><code>Lax13.RamComputes</code></a></li></ul></div>
+<div class="deps-col"><h3>Used by</h3><p class="empty-note">none</p></div>
+<div class="deps-col"><h3>From Mathlib</h3><p class="empty-note">none</p></div>
+</div></div>
+<section class="page-section discussion-section" aria-labelledby="discussion-title">
+<div class="discussion-heading">
+<div class="discussion-heading-copy">
+<p class="discussion-eyebrow">Community review</p>
+<h3 class="section-title" id="discussion-title">Discussion</h3>
+<p>Ask a question or add context. Endorsements and structured flags are kept in the review panel above; your ORCID profile must share a public name.</p>
+</div>
+<p class="discussion-count"><span class="remark42__counter" data-url="https://laxarchive.org/lax-11/Lax11.Courcelle.html">0</span> <span>comments</span></p>
+</div>
+<div class="discussion-embed-shell">
+<p class="discussion-loading" id="remark42-status" role="status"><span class="discussion-loading-mark" aria-hidden="true"></span>Loading discussion…</p>
+<div id="remark42" data-remark42-host="https://comments.laxarchive.org" data-remark42-site="remark" data-remark42-url="https://laxarchive.org/lax-11/Lax11.Courcelle.html"></div>
+</div>
+<noscript><p class="discussion-unavailable">Enable JavaScript to read or join the discussion.</p></noscript>
+</section>
+<script type="application/json" id="graph-data">{"concepts":{"nodes":[{"id":"Lax11.CliqueExpr","href":"../lax-11/Lax11.CliqueExpr.html","title":"k-expressions, and the graphs of cliquewidth at most k","owner":"lax-11","status":"none","ext":true,"dir":"up"},{"id":"Lax11.Courcelle","href":"../lax-11/Lax11.Courcelle.html","title":"Courcelle's theorem on a word RAM","owner":"lax-11","status":"proven","ext":false,"dir":"core"},{"id":"Lax11.GraphEncoding","href":"../lax-11/Lax11.GraphEncoding.html","title":"Compressed sparse row encoding of a graph","owner":"lax-11","status":"none","ext":true,"dir":"up"},{"id":"Lax11.InstanceEncoding","href":"../lax-11/Lax11.InstanceEncoding.html","title":"Encoding a graph together with a k-expression","owner":"lax-11","status":"none","ext":true,"dir":"up"},{"id":"Lax11.Mso","href":"../lax-11/Lax11.Mso.html","title":"Monadic second-order logic on graphs","owner":"lax-11","status":"none","ext":true,"dir":"up"},{"id":"Lax13.Ram","href":"../lax-13/Lax13.Ram.html","title":"The word RAM","owner":"lax-13","status":"none","ext":true,"dir":"up"},{"id":"Lax13.RamComputes","href":"../lax-13/Lax13.RamComputes.html","title":"Computing a function within a time bound","owner":"lax-13","status":"none","ext":true,"dir":"up"}],"edges":[{"from":"Lax11.InstanceEncoding","to":"Lax11.Courcelle"},{"from":"Lax11.Mso","to":"Lax11.Courcelle"},{"from":"Lax13.RamComputes","to":"Lax11.Courcelle"},{"from":"Lax11.CliqueExpr","to":"Lax11.InstanceEncoding"},{"from":"Lax11.GraphEncoding","to":"Lax11.InstanceEncoding"},{"from":"Lax13.Ram","to":"Lax13.RamComputes"}],"home":"lax-11"},"proofs":{"statements":[],"proofs":[]}}</script>
+</div>
+<footer class="site-footer">
+  <nav class="site-footer-nav" aria-label="Legal and about">
+    <a class="site-footer-link" href="../impressum.html">Imprint</a>
+    <a class="site-footer-link" href="../privacy.html">Privacy</a>
+    <a class="site-footer-link" href="../assets/lax-white-paper.pdf">About</a>
+  </nav>
+</footer>
+</section>
+</main>
+<dialog class="account-dialog" id="account-dialog" aria-labelledby="account-dialog-title">
+<div class="account-dialog-inner">
+<header class="account-dialog-header">
+<div><p class="account-dialog-eyebrow">ORCID account</p><h2 id="account-dialog-title">Settings</h2></div>
+<button class="account-dialog-close" data-account-close type="button" aria-label="Close account settings">×</button>
+</header>
+<div class="account-dialog-body">
+<p class="account-status" data-account-status role="status">Checking your ORCID session…</p>
+<section data-account-content hidden>
+<div class="account-identity">
+<span class="account-avatar" data-account-avatar aria-hidden="true">iD</span>
+<div><a class="account-name" data-account-name target="_blank" rel="noopener noreferrer"></a><p class="account-id" data-account-id></p></div>
+</div>
+<p class="account-name-note">Your public name comes from ORCID. ORCID names are self-asserted and may change.</p>
+<div class="account-actions">
+<a data-account-refresh href="https://comments.laxarchive.org/auth/orcid/login?from=https%3A%2F%2Flaxarchive.org&amp;site=remark">Refresh from ORCID</a>
+<button data-account-logout type="button">Sign out</button>
+</div>
+<div class="account-comments-heading"><h3>Your comments</h3><span data-account-comment-count></span></div>
+<ol class="account-comments" data-account-comments></ol>
+<p class="account-comments-status" data-account-comments-status role="status"></p>
+</section>
+</div>
+</div>
+</dialog>
+<script src="../assets/sidebar.js?v=c37ef9f547e8"></script>
+<script src="../assets/account.js?v=ec80ece877ec"></script>
+<script src="../assets/layout.js?v=41e28199b546"></script>
+<script src="../assets/dag.js?v=2a0b2e1bec54"></script>
+<script src="../assets/source-proof.js?v=b4c48aaad400"></script>
+<script src="../assets/version-history.js?v=a36e868140dd"></script>
+<script src="../assets/comments.js?v=493b5ebde364"></script>
+</body></html>
