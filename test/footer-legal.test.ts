@@ -33,7 +33,9 @@ describe("footer and legal pages", () => {
     expect(privacy).toContain("GitHub Pages");
     expect(privacy).toContain("Amazon Web Services (AWS)");
     expect(privacy).toContain("ORCID iD");
-    expect(privacy).toContain("bis zu 14 Tage");
-    expect(privacy).toContain("§ 25 Abs. 2 Nr. 2 TDDDG");
+    expect(privacy).toContain('<h1 class="paper-title">Privacy Notice</h1>');
+    expect(privacy).toContain("for up to 14 days");
+    expect(privacy).toContain("Section 25(2)(2) TDDDG");
+    expect(privacy).not.toContain("Datenschutzerklärung");
   });
 });

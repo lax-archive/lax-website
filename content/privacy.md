@@ -1,53 +1,53 @@
-# Datenschutzerklärung
+# Privacy Notice
 
-*Stand: 2. September 2026*
+*Last updated: 2 September 2026*
 
-## 1. Verantwortlicher
+## 1. Controller
 
-**Clemens Kuske (Lax Archive)**; c/o Hasso-Plattner-Institut, Fachgebiet Algorithm Engineering; Prof.-Dr.-Helmert-Str. 2–3, 14482 Potsdam, Deutschland
+**Clemens Kuske (Lax Archive)**; c/o Hasso Plattner Institute, Chair for Algorithm Engineering; Prof.-Dr.-Helmert-Str. 2–3, 14482 Potsdam, Germany
 
-E-Mail: [mail@clemens-kuske.de](mailto:mail@clemens-kuske.de)
+Email: [mail@clemens-kuske.de](mailto:mail@clemens-kuske.de)
 
-## 2. Hosting der Website
+## 2. Website hosting
 
-Die statische Website `laxarchive.org` wird über **GitHub Pages** bereitgestellt. Beim Aufruf verarbeitet GitHub technische Verbindungsdaten, insbesondere die IP-Adresse, die aufgerufene Adresse sowie Zeit- und Browserinformationen, um die Website auszuliefern und zu schützen. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO; unser berechtigtes Interesse liegt in der sicheren und zuverlässigen Bereitstellung des Archivs.
+The static website `laxarchive.org` is hosted on **GitHub Pages**. When you visit the website, GitHub processes technical connection data, in particular your IP address, the requested address, and time and browser information, to deliver and protect the website. The legal basis is Article 6(1)(f) GDPR. Our legitimate interest is the secure and reliable provision of the archive.
 
-Anbieter ist GitHub, Inc. beziehungsweise für bestimmte europäische Leistungen GitHub B.V. Eine Verarbeitung kann auch in den USA und anderen Drittländern stattfinden. GitHub beschreibt die hierfür eingesetzten Garantien, darunter das EU-US Data Privacy Framework und Standardvertragsklauseln, in seiner [Datenschutzerklärung](https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement).
+The provider is GitHub, Inc. or, for certain European services, GitHub B.V. Data may also be processed in the United States and other third countries. GitHub describes the safeguards it uses for these transfers, including the EU-US Data Privacy Framework and Standard Contractual Clauses, in its [Privacy Statement](https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement).
 
-## 3. Kommentare und Community-Reviews
+## 3. Comments and community reviews
 
-Kommentare, Empfehlungen (Endorsements) und Hinweise auf mögliche Fehler (Flags) werden über `comments.laxarchive.org` verarbeitet. Dort betreiben wir eine angepasste **Remark42**-Installation und den Lax-Reaktionsdienst. Die Kontoanzeige im Seitenkopf kontaktiert diesen Dienst beim Aufruf einer Seite, um zu prüfen, ob bereits eine Sitzung besteht. Die Infrastruktur läuft bei **Amazon Web Services (AWS)** in der Region Frankfurt. AWS kann als Auftragsverarbeiter technische Daten erhalten; für erforderliche Drittlandübermittlungen sieht der AWS-Datenverarbeitungsnachtrag Standardvertragsklauseln vor. Weitere Informationen enthält das [AWS-Datenschutzzentrum](https://aws.amazon.com/de/compliance/gdpr-center/).
+Comments, endorsements, and reports of possible errors (flags) are processed through `comments.laxarchive.org`, where we operate a customised **Remark42** installation and the Lax reactions service. When a page is loaded, the account display in the page header contacts this service to check whether a session already exists. The infrastructure runs on **Amazon Web Services (AWS)** in the Frankfurt region. AWS may receive technical data as a processor; the AWS Data Processing Addendum provides Standard Contractual Clauses where transfers to third countries are necessary. Further information is available from the [AWS GDPR Center](https://aws.amazon.com/compliance/gdpr-center/).
 
-Beim Laden und Nutzen dieser Funktionen verarbeitet der Server insbesondere IP-Adresse, Zeitpunkt, aufgerufene Lax-Seite und technische Anfragedaten. Beim Absenden ersetzt Remark42 die IP-Adresse vor der Speicherung bei den Kommentardaten durch einen mit einem geheimen Schlüssel gebildeten kryptografischen Hashwert. Die Verarbeitung dient dem Betrieb, der IT-Sicherheit und dem Schutz vor Missbrauch (Art. 6 Abs. 1 lit. f DSGVO).
+When these functions are loaded or used, the server processes in particular the IP address, time, requested Lax page, and technical request data. When a comment is submitted, Remark42 replaces the IP address before storing it with the comment data with a cryptographic hash generated using a secret key. This processing is necessary to operate and secure the service and prevent misuse (Article 6(1)(f) GDPR).
 
-### Anmeldung mit ORCID
+### Signing in with ORCID
 
-Für eine Beteiligung ist eine Anmeldung über **ORCID** erforderlich. Dabei erhält Lax nur die ORCID iD und den öffentlichen Anzeigenamen. Temporäre OAuth-Zugangsdaten werden ausschließlich für die Anmeldung verwendet und vom Lax-Reaktionsdienst nicht dauerhaft gespeichert. ORCID iD und Anzeigename werden mit der internen Remark42-Nutzerkennung verknüpft, damit Beiträge und Reviews eindeutig zugeordnet werden können.
+You must sign in through **ORCID** to participate. Lax receives only your ORCID iD and public display name. Temporary OAuth credentials are used exclusively for signing in and are not stored permanently by the Lax reactions service. Your ORCID iD and display name are linked to the internal Remark42 user identifier so that contributions and reviews can be attributed unambiguously.
 
-ORCID, Inc. hat seinen Sitz in den USA und ist für die Verarbeitung im ORCID-Register selbst verantwortlich. ORCID erläutert Drittlandübermittlungen und Standardvertragsklauseln in seiner [Privacy Policy](https://info.orcid.org/privacy-policy/).
+ORCID, Inc. is based in the United States and is independently responsible for processing within the ORCID registry. ORCID explains transfers to third countries and its use of Standard Contractual Clauses in its [Privacy Policy](https://info.orcid.org/privacy-policy/).
 
-### Öffentliche Beteiligung
+### Public participation
 
-Kommentare, Endorsements und Flags sind Teil des öffentlichen wissenschaftlichen Diskussions- und Reviewverlaufs. Je nach Aktion werden der öffentliche ORCID-Name, die ORCID iD, Kommentar oder Begründung, die betroffene Submission beziehungsweise das Konzept, der Zeitpunkt und gegebenenfalls die referenzierte Lean-Quellzeile öffentlich angezeigt. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO; unser berechtigtes Interesse liegt in einem transparenten, zurechenbaren wissenschaftlichen Reviewprozess.
+Comments, endorsements, and flags form part of the public scientific discussion and review record. Depending on the action, your public ORCID name, ORCID iD, comment or explanation, the affected submission or concept, the time, and, where applicable, the referenced line of Lean source code are displayed publicly. The legal basis is Article 6(1)(f) GDPR. Our legitimate interest is a transparent and attributable scientific review process.
 
-## 4. Technisch notwendige Speicherung im Browser
+## 4. Technically necessary browser storage
 
-Für die ORCID-Anmeldung verwendet `comments.laxarchive.org` eine technisch notwendige HttpOnly-Sitzung. `sessionStorage` merkt sich vorübergehend eine begonnene Reviewaktion während der Weiterleitung zu ORCID. Ein kurzlebiger Authentifizierungswert wird nur im Arbeitsspeicher des eingebetteten Kommentarfensters gehalten und weder dauerhaft gespeichert noch an die Hauptseite weitergegeben.
+For ORCID sign-in, `comments.laxarchive.org` uses a technically necessary HttpOnly session cookie. `sessionStorage` temporarily remembers a review action that you started while you are redirected to ORCID. A short-lived authentication value is held only in the memory of the embedded comment frame; it is neither stored permanently nor passed to the main website.
 
-Wir setzen keine Analyse-, Werbe- oder Trackingdienste ein. Laufzeitskripte, Schriften und sonstige Website-Assets werden lokal ausgeliefert. Die genannten Speicherzugriffe sind für die von Ihnen ausdrücklich gewünschte Anmelde- oder Reviewfunktion erforderlich (§ 25 Abs. 2 Nr. 2 TDDDG); deshalb wird hierfür keine Einwilligung und kein Cookie-Banner eingesetzt.
+We do not use analytics, advertising, or tracking services. Runtime scripts, fonts, and other website assets are served locally. The storage operations described above are necessary to provide the sign-in or review function that you expressly request (Section 25(2)(2) TDDDG); they therefore do not require consent or a cookie banner.
 
-## 5. Submission- und Mitwirkendendaten
+## 5. Submission and contributor data
 
-Das Archiv veröffentlicht wissenschaftliche Inhalte und Zuordnungsdaten aus der öffentlichen Lax-Datenbank und den damit verknüpften Repositorien. Dazu können Namen von Autorinnen, Autoren und Mitwirkenden, GitHub-Nutzernamen, Repository- und Commit-Links sowie eingereichtes wissenschaftliches Material gehören. Die Daten stammen aus der jeweiligen Submission und ihren öffentlichen Quellen. Die Verarbeitung dient der dauerhaften wissenschaftlichen Dokumentation, Nachvollziehbarkeit und korrekten Zuschreibung (Art. 6 Abs. 1 lit. f DSGVO).
+The archive publishes scientific content and attribution data from the public Lax database and linked repositories. This may include the names of authors and contributors, GitHub usernames, repository and commit links, and submitted scientific material. The data originates from the relevant submission and its public sources. It is processed for permanent scientific documentation, traceability, and correct attribution (Article 6(1)(f) GDPR).
 
-## 6. Speicherdauer und Löschung
+## 6. Retention and deletion
 
-Öffentliche Kommentare, Endorsements und Flags werden grundsätzlich so lange aufbewahrt, wie die zugehörige Lax-Submission Teil des Archivs ist, sofern sie nicht vorher gelöscht werden. Die Zuordnung aus ORCID iD und Anzeigename wird nur so lange aufbewahrt, wie sie für einen erhaltenen Beitrag oder Review erforderlich ist. Sitzungsdaten enden nach Ablauf der Sitzung beziehungsweise nach der Abmeldung. Technische Protokolldaten werden nur so lange gespeichert, wie sie für Betrieb, Sicherheit oder gesetzliche Pflichten erforderlich sind; für von Dienstleistern geführte Protokolle gelten ergänzend deren Aufbewahrungsregeln.
+Public comments, endorsements, and flags are generally retained for as long as the associated Lax submission remains part of the archive, unless they are deleted sooner. The link between an ORCID iD and display name is retained only for as long as it is needed for a retained contribution or review. Session data expires when the session ends or you sign out. Technical log data is retained only for as long as necessary for operation, security, or legal obligations; logs maintained by service providers are additionally subject to their retention policies.
 
-Löschanfragen können jederzeit an [mail@clemens-kuske.de](mailto:mail@clemens-kuske.de) gerichtet werden. Bei einer berechtigten Löschung entfernen wir die betroffenen Daten aus Remark42 sowie die zugehörige ORCID-/Namenszuordnung aus den aktiven Systemen, soweit keine gesetzlichen Ausnahmen entgegenstehen. Gelöschte Daten des Lax-Reaktionsdienstes können noch bis zu 14 Tage in täglich rotierenden Sicherungskopien enthalten sein. Remark42-Sicherungskopien werden mit der konfigurierten Rotation automatisch überschrieben und ausschließlich zur Wiederherstellung verwendet.
+You may request deletion at any time by emailing [mail@clemens-kuske.de](mailto:mail@clemens-kuske.de). Where a deletion request is justified, we remove the affected data from Remark42 and the associated ORCID/name mapping from active systems, unless a statutory exception applies. Deleted data from the Lax reactions service may remain in daily rotating backups for up to 14 days. Remark42 backups are overwritten automatically according to the configured rotation and are used exclusively for restoration.
 
-## 7. Ihre Rechte
+## 7. Your rights
 
-Sie haben nach Maßgabe der DSGVO insbesondere Rechte auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Datenübertragbarkeit und Widerspruch gegen Verarbeitungen auf Grundlage berechtigter Interessen. Wenden Sie sich hierfür an die oben genannte E-Mail-Adresse. Sie haben außerdem das Recht, sich bei einer Datenschutzaufsichtsbehörde zu beschweren, zum Beispiel bei der [Landesbeauftragten für den Datenschutz und für das Recht auf Akteneinsicht Brandenburg](https://www.lda.brandenburg.de/lda/de/service/formulare-und-musterschreiben/beschwerdeformular/).
+Subject to the conditions of the GDPR, you have rights including access, rectification, erasure, restriction of processing, data portability, and objection to processing based on legitimate interests. To exercise these rights, contact us at the email address above. You also have the right to lodge a complaint with a data protection supervisory authority, for example the [State Commissioner for Data Protection and Access to Information of Brandenburg](https://www.lda.brandenburg.de/lda/en/).
 
-Eine automatisierte Entscheidungsfindung oder ein Profiling findet nicht statt.
+We do not carry out automated decision-making or profiling.
