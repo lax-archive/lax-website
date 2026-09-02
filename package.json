@@ -34,7 +34,9 @@
     "prepare": "npm run build",
     "test": "vitest run",
     "site:build": "tsx src/cli.ts build",
-    "site:serve": "tsx src/cli.ts serve"
+    "site:serve": "tsx src/cli.ts serve",
+    "papers:fetch": "tsx src/cli.ts fetch-papers",
+    "pdfjs:vendor": "node scripts/vendor-pdfjs.mjs"
   },
   "engines": {
     "node": ">=20"
@@ -46,6 +48,7 @@
   },
   "devDependencies": {
     "@types/node": "^22.10.0",
+    "pdfjs-dist": "5.6.205",
     "tsx": "^4.19.0",
     "typescript": "^5.7.0",
     "vitest": "^4.1.10"

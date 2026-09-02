@@ -1,8 +1,9 @@
-import { attr, esc, page, typeBadge } from "../html.js";
+import { attr, esc, page, plural, typeBadge } from "../html.js";
 import { renderBibEntry } from "../bibtex.js";
 import { conceptGraph, graphDataScript, submissionGraph, type SubmissionGraphData } from "../graphs.js";
 import type { SiteSubmission } from "../model.js";
 import { discussion, pageReactions } from "./discussion.js";
+import { inPaperBlock, paperMarksIndex } from "./paper.js";
 import {
   bibtex,
   conceptBadgeLegend,
@@ -78,6 +79,7 @@ ${submissionMapLegend()}
 ${paperHeader(ctx.markdown, submission, "../")}
 ${pageReactions(`${record.id}/`, { kind: "submission" })}
 ${output.abstract.trim() ? paperAbstract(ctx.markdown.renderAuthorProse(output.abstract, "../")) : ""}
+${paperSection(ctx, submission)}
 <section class="page-section"><h3 class="section-title">Concepts</h3>
 ${output.concepts.length ? `<div class="concept-list-box">
 <ul class="concept-list">
@@ -131,6 +133,20 @@ ${graphDataScript(graphs)}`;
     content,
     scripts: ["assets/layout.js", "assets/dag.js", "assets/citation.js", "assets/comments.js"],
   });
+}
+
+/** The paper section: where to read the compiled document beside its cards,
+ * and what it marks. Below it, where *other* papers mark this submission. */
+function paperSection(ctx: PageContext, submission: SiteSubmission): string {
+  const { record, output } = submission;
+  const paper = output!.paper;
+  const mentions = inPaperBlock(ctx, record.id, record.id, "../");
+  if (!paper) return mentions;
+  return `<section class="page-section"><h3 class="section-title">Paper</h3>
+<p class="paper-section-lead"><a class="source-button" href="paper.html"><span>Read the paper with its cards</span></a> <span class="paper-section-facts">${plural(paper.pdf.pages, "page")} · ${plural(paper.marks.length, "marked passage")}${submission.paperFile ? ` · <a href="paper.pdf">PDF</a>` : ""}</span></p>
+${paperMarksIndex(ctx.model, submission, "../", "paper.html")}
+</section>
+${mentions}`;
 }
 
 /** Graph data for dag.js, embedded as inert JSON (CSP-safe). Concept data

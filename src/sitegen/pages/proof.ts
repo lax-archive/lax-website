@@ -1,5 +1,6 @@
 import { attr, esc, page, plural } from "../html.js";
 import type { LocatedProof } from "../model.js";
+import { inPaperBlock } from "./paper.js";
 import {
   draftBanner,
   githubSource,
@@ -47,6 +48,7 @@ ${proofJudgment(ctx.model, proof, "../", output.id)}
 <p class="honesty-note">Assuming the claims on the left, the claim on the right holds — checked by the archive's pipeline. Proof code is not displayed here.</p>
 ${githubFile ? `<p class="source-action">${sourceButton(githubFile, "Read the Lean proof on GitHub")}</p>` : ""}
 </div>
+${inPaperBlock(ctx, proof.id, output.id, "../")}
 ${proof.description.trim() ? `<div class="block block-statement"><h3>Description</h3><div class="latex-content">${ctx.markdown.renderAuthorProse(proof.description, "../")}</div></div>` : ""}
 ${sections}`;
 

@@ -8,6 +8,7 @@ import { allCommentsPage } from "./pages/all-comments.js";
 import { contentPage } from "./pages/content.js";
 import { indexPage } from "./pages/index.js";
 import { openProblemsPage } from "./pages/open-problems.js";
+import { paperPage } from "./pages/paper.js";
 import { proofPage } from "./pages/proof.js";
 import { submissionPage } from "./pages/submission.js";
 
@@ -17,7 +18,7 @@ export type { SiteSubmission } from "./model.js";
 export async function generateSite(submissions: SiteSubmission[], outDir: string): Promise<void> {
   const model = new SiteModel(submissions);
   const context = { model, markdown: new MarkdownRenderer(model) };
-  const files = new Map<string, string>();
+  const files = new Map<string, string | Buffer>();
   files.set("index.html", await indexPage(context));
   files.set(path.join("all-comments", "index.html"), allCommentsPage(context));
   files.set("contributing.html", contentPage(context, "contributing", "Getting started"));
@@ -37,6 +38,13 @@ export async function generateSite(submissions: SiteSubmission[], outDir: string
       const file = path.join(submission.record.id, `${proof.id}.html`);
       if (files.has(file)) throw new Error(`proof page ${file} collides with an existing page`);
       files.set(file, proofPage(context, model.proofHome.get(proof.id)!));
+    }
+    // The paper page exists for every declared paper; the PDF beside it only
+    // when the papers cache supplied the bytes (production, not previews).
+    if (submission.output.paper) {
+      files.set(path.join(submission.record.id, "paper.html"), paperPage(context, submission));
+      if (submission.paperFile)
+        files.set(path.join(submission.record.id, "paper.pdf"), fs.readFileSync(submission.paperFile));
     }
   }
   const outputRoot = path.resolve(outDir);
