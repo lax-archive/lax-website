@@ -16,7 +16,7 @@ import {
   proofJudgment,
   proofShortName,
   submissionSidebar,
-  supersededBanner,
+  versionHistoryPanel,
 } from "./shared.js";
 
 /** The name a mark's card leads with, shortened against the paper's own
@@ -226,7 +226,7 @@ ${cards.join("\n")}
 ${cards.join("\n")}
 </ol>`;
 
-  const content = `${supersededBanner(ctx, home, "../")}${draftBanner(record.state)}
+  const content = `${draftBanner(record.state)}${versionHistoryPanel(ctx, home, "../")}
 <div class="manuscript"${pdfAttributes}>
 <div class="detail-heading concept-heading manuscript-heading">
 <div><p class="concept-id">Paper</p>
@@ -246,6 +246,6 @@ ${manuscriptData(submission)}
     sidebar: submissionSidebar(ctx.model, submission, "../", { backToSubmission: true }),
     content,
     detailClass: "detail-manuscript",
-    scripts: hasPdf ? ["assets/manuscript-place.js", "assets/manuscript.js"] : [],
+    scripts: ["assets/version-history.js", ...(hasPdf ? ["assets/manuscript-place.js", "assets/manuscript.js"] : [])],
   });
 }
