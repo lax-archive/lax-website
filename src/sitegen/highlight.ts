@@ -202,21 +202,58 @@ function statementAnchors(line: number, statements: StatementEntry[]): string {
     .join("");
 }
 
-export async function highlightSource(source: string, statements: StatementEntry[] = [], proven = new Set<string>()): Promise<string> {
+export interface SourceOptions {
+  /** Drop the leading module docstring (`/-! … -/`) behind one elided row;
+   * the line numbers of what remains stay the file's. */
+  omitModuleDoc?: boolean;
+  /** Emit `id`s and links on the rows (the concept page); off where the
+   * same source may appear more than once on a page (the paper cards). */
+  anchors?: boolean;
+}
+
+/** The 1-based line range of the module docstring — the first `/-!` block
+ * ahead of any declaration — or undefined without one. */
+export function moduleDocRange(source: string): [number, number] | undefined {
+  const lines = source.split("\n");
+  let start = -1;
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i]!.trim();
+    if (line.startsWith("/-!")) { start = i; break; }
+    if (line === "" || line.startsWith("import ") || line.startsWith("--")) continue;
+    return undefined;
+  }
+  if (start < 0) return undefined;
+  for (let i = start; i < lines.length; i++) if (lines[i]!.includes("-/")) return [start + 1, i + 1];
+  return undefined;
+}
+
+export async function highlightSource(
+  source: string,
+  statements: StatementEntry[] = [],
+  proven = new Set<string>(),
+  options: SourceOptions = {},
+): Promise<string> {
+  const anchors = options.anchors ?? true;
+  const elided = options.omitModuleDoc ? moduleDocRange(source) : undefined;
   const math = maskCommentMath(source);
+  const row = (n: number, highlighted: string) => {
+    if (elided && n >= elided[0] && n <= elided[1]) {
+      return n === elided[0]
+        ? `<tr class="line-elided"><td class="line-num"></td><td class="line-code">… module docstring, ${elided[1] - elided[0] + 1} lines</td></tr>`
+        : "";
+    }
+    const id = anchors ? ` id="L${n}"` : "";
+    const num = anchors ? `<a href="#L${n}">${n}</a>` : String(n);
+    const anchorSpans = anchors ? statementAnchors(n, statements) : "";
+    return `<tr${id} class="${lineStatus(n, statements, proven).trim()}"><td class="line-num">${num}</td><td class="line-code">${anchorSpans}${highlighted || " "}</td></tr>`;
+  };
+  let rows: string[];
   try {
     const hast = (await highlighter()).codeToHast(math.masked, { lang: "lean4", theme: "github-light" }) as HastNode;
-    const lines = lineNodes(hast);
-    return lines.map((line, index) => {
-      const n = index + 1;
-      const highlighted = restoreCommentMath((line.children ?? []).map(renderNode).join(""), math.replacements);
-      return `<tr id="L${n}" class="${lineStatus(n, statements, proven).trim()}"><td class="line-num"><a href="#L${n}">${n}</a></td><td class="line-code">${statementAnchors(n, statements)}${highlighted || " "}</td></tr>`;
-    }).join("\n");
+    rows = lineNodes(hast).map((line, index) =>
+      row(index + 1, restoreCommentMath((line.children ?? []).map(renderNode).join(""), math.replacements)));
   } catch {
-    return math.masked.split("\n").map((line, index) => {
-      const n = index + 1;
-      const highlighted = restoreCommentMath(esc(line), math.replacements);
-      return `<tr id="L${n}" class="${lineStatus(n, statements, proven).trim()}"><td class="line-num"><a href="#L${n}">${n}</a></td><td class="line-code">${statementAnchors(n, statements)}${highlighted || " "}</td></tr>`;
-    }).join("\n");
+    rows = math.masked.split("\n").map((line, index) => row(index + 1, restoreCommentMath(esc(line), math.replacements)));
   }
+  return rows.filter(Boolean).join("\n");
 }

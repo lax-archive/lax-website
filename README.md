@@ -67,10 +67,16 @@ local cache lacks into `data/papers/<digest>.pdf` (anonymously, verified
 against the digest), and `site:build` then emits `<id>/paper.pdf` beside
 `<id>/paper.html` — the page that shows the PDF with a card for every
 passage the author marked (a concept, a proof, or a submission), placed
-beside the passage by `assets/site/manuscript.js`. `--papers DIR` moves the
-cache; a production build refuses to run with a paper missing from it, and
-`--no-papers` builds the page without the viewer instead, which is what
-branch previews do.
+beside the passage by `assets/site/manuscript.js`: each passage is one
+flat region per column (the geometry in `manuscript-place.js`) over a
+lighter shadow a fixed margin wider than the passage, and a band from that
+shadow's edge across the gutter to its card, split-diff style; a card opens
+while hovered and stays open when clicked; a concept card carries the
+concept's Lean source with the module docstring elided. The page opens
+with the sidebar collapsed for the room. `--papers DIR` moves the cache; a
+production build refuses to run with a paper missing from it, and
+`--no-papers` builds the page without the viewer instead, for quick local
+builds.
 
 ## Content
 
@@ -112,10 +118,10 @@ cached `data/papers/`), and uploads the rendered site as an artifact.
 - another system sends the `lax-db-updated` repository dispatch event;
 - the hourly fallback notices database changes after a missed dispatch.
 
-The default branch is published at the Pages root, with the papers' PDFs.
-Every other branch is published independently below
-`/previews/<branch-slug>/` without them (`--no-papers`), and the shareable
-preview directory is available at `/previews/`. Pushing a branch updates only
+The default branch is published at the Pages root. Every other branch is
+published independently below `/previews/<branch-slug>/`, with the papers'
+PDFs like production, and the shareable preview directory is available at
+`/previews/`. Pushing a branch updates only
 its preview; deleting the branch removes it. The workflow retains the complete
 published tree on the generated `gh-pages` branch so one branch cannot overwrite
 another branch's preview.

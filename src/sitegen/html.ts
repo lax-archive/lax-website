@@ -33,6 +33,8 @@ export interface PageShell {
   scripts?: string[];
   /** extra class on the content pane, for pages that need another measure */
   detailClass?: string;
+  /** start with the sidebar collapsed (desktop); the toggle brings it back */
+  sidebarHidden?: boolean;
 }
 
 const REMARK42_ORIGIN = new URL(REMARK42_URL).origin;
@@ -108,6 +110,7 @@ export function page(shell: PageShell): string {
     .map((src) => `<script src="${attr(root + src)}?v=${siteAssetVersion(src.replace(/^assets\//, ""))}"></script>`)
     .join("\n");
   const stylesheet = (src: string) => `${root}assets/${src}?v=${siteAssetVersion(src)}`;
+  const hidden = shell.sidebarHidden ? " sidebar-hidden" : "";
   return `<!doctype html>
 <html lang="en"><head>
 <meta charset="utf-8">
@@ -119,14 +122,14 @@ export function page(shell: PageShell): string {
 <link rel="stylesheet" href="${stylesheet("katex.css")}">
 <link rel="stylesheet" href="${stylesheet("style.css")}">
 </head><body>
-<header class="site-header">
+<header class="site-header${hidden}">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
   <h1 class="site-title"><a href="${root}index.html">Lax <span class="site-title-quiet">Lean Archive</span></a></h1>
   <nav class="header-actions" aria-label="Account">
     ${accountUi()}
   </nav>
 </header>
-<main id="content-shell">
+<main id="content-shell"${hidden ? ` class="sidebar-hidden"` : ""}>
 <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
 <aside id="sidebar">
 ${shell.sidebar}

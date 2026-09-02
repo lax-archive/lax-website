@@ -294,7 +294,8 @@
         if (backdrop) backdrop.classList.add('ready');
       }));
     } else {
-      toggleBtn.setAttribute('aria-expanded', 'true');
+      // A page may ship with the sidebar already collapsed (the paper page).
+      toggleBtn.setAttribute('aria-expanded', visible() ? 'true' : 'false');
     }
   }
 

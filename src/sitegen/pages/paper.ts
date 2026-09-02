@@ -6,6 +6,7 @@
 import { siteAssetVersion } from "../assets.js";
 import { attr, code, esc, page, plural, proofBadge, typeBadge } from "../html.js";
 import { inertJsonScript } from "../graphs.js";
+import { highlightSource } from "../highlight.js";
 import { compareIds, type SiteModel, type SiteSubmission } from "../model.js";
 import type { PaperMark } from "../../types.js";
 import {
@@ -83,7 +84,7 @@ function markName(model: SiteModel, mark: PaperMark, home: string, rootRel: stri
 
 /** The body a card expands to: what the concept, proof, or submission page
  * leads with, so a reader can judge the passage without leaving the paper. */
-function markBody(ctx: PageContext, mark: PaperMark, home: string, rootRel: string): string {
+async function markBody(ctx: PageContext, mark: PaperMark, home: string, rootRel: string): Promise<string> {
   const { model, markdown } = ctx;
   if (mark.kind === "concept") {
     const located = model.conceptHome.get(mark.id);
@@ -92,9 +93,21 @@ function markBody(ctx: PageContext, mark: PaperMark, home: string, rootRel: stri
     const statements = concept.statements.length
       ? `<ul class="manuscript-card-claims">${concept.statements.map((s) => `<li>${claimEntry(model, s.id, rootRel, home)}</li>`).join("")}</ul>`
       : "";
+    // The Lean source as the concept page shows it, minus the module
+    // docstring (the description above already says it) and without row
+    // anchors: the same concept may be marked more than once in a paper.
+    const proven = new Set(concept.statements.map((s) => s.id).filter((id) => model.network.proven.has(id)));
+    const rows = concept.sourceText.trim()
+      ? await highlightSource(concept.sourceText, concept.statements, proven, { omitModuleDoc: true, anchors: false })
+      : "";
+    const source = rows
+      ? `<div class="manuscript-card-source"><div class="inline-contract-wrap"><table class="inline-contract-table">
+${rows}
+</table></div></div>`
+      : "";
     return `<p class="manuscript-card-title">${markdown.renderAuthorInline(concept.title, rootRel)}</p>
 <div class="latex-content">${markdown.renderAuthorProse(concept.description, rootRel)}</div>
-${statements}`;
+${statements}${source}`;
   }
   if (mark.kind === "proof") {
     const located = model.proofHome.get(mark.id);
@@ -112,7 +125,7 @@ ${statements}`;
 }
 
 /** One card, mark-numbered, in the vocabulary of the pages it links to. */
-function markCard(ctx: PageContext, mark: PaperMark, n: number, home: string): string {
+async function markCard(ctx: PageContext, mark: PaperMark, n: number, home: string): Promise<string> {
   const { model } = ctx;
   const span = mark.begin.page === mark.end.page
     ? `p. ${mark.begin.page}`
@@ -125,7 +138,7 @@ function markCard(ctx: PageContext, mark: PaperMark, n: number, home: string): s
 <button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m${n}-body" aria-label="${attr(`Show details of ${mark.id}`)}"><span aria-hidden="true">▸</span></button>
 </div>
 <div class="manuscript-card-body" id="m${n}-body" hidden>
-${markBody(ctx, mark, home, "../")}
+${await markBody(ctx, mark, home, "../")}
 </div>
 </li>`;
 }
@@ -159,9 +172,11 @@ function markForeign(model: SiteModel, mark: PaperMark, home: string): boolean {
 
 /** The "In the paper" block of a concept or proof page — and the submission
  * page of a marked submission: each passage with its page, own paper
- * first, linking to the card. Empty when nothing marks the id. */
-export function inPaperBlock(ctx: PageContext, id: string, home: string, rootRel: string): string {
-  const mentions = [...(ctx.model.paperMentions.get(id) ?? [])].sort((a, b) => {
+ * first, linking to the card. Empty when nothing marks the id. The
+ * submission page asks for foreign papers only: its own is the button
+ * above. */
+export function inPaperBlock(ctx: PageContext, id: string, home: string, rootRel: string, options: { foreignOnly?: boolean } = {}): string {
+  const mentions = [...(ctx.model.paperMentions.get(id) ?? [])].filter((m) => !options.foreignOnly || m.submission.record.id !== home).sort((a, b) => {
     const ownA = a.submission.record.id === home ? 0 : 1;
     const ownB = b.submission.record.id === home ? 0 : 1;
     return ownA - ownB || compareIds(a.submission.record.id, b.submission.record.id) || a.n - b.n;
@@ -191,12 +206,12 @@ function manuscriptData(submission: SiteSubmission): string {
   });
 }
 
-export function paperPage(ctx: PageContext, submission: SiteSubmission): string {
+export async function paperPage(ctx: PageContext, submission: SiteSubmission): Promise<string> {
   const { record, output } = submission;
   const paper = output!.paper!;
   const home = record.id;
   const title = ctx.markdown.renderAuthorInline(output!.manifest.title, "../");
-  const cards = paper.marks.map((mark, index) => markCard(ctx, mark, index + 1, home));
+  const cards = await Promise.all(paper.marks.map((mark, index) => markCard(ctx, mark, index + 1, home)));
   const pages = paper.pageSizes.map(([width, height], index) =>
     `<div class="manuscript-page" data-page="${index + 1}" style="aspect-ratio: ${width} / ${height}"></div>`);
   const hasPdf = Boolean(submission.paperFile);
@@ -218,6 +233,7 @@ ${pages.join("\n")}
 <ol class="manuscript-rail" id="manuscript-rail">
 ${cards.join("\n")}
 </ol>
+<svg class="manuscript-links" id="manuscript-links" aria-hidden="true"></svg>
 </div>
 <p class="manuscript-status" id="manuscript-status" role="status">Loading the paper…</p>
 <noscript><p class="empty-note">Enable JavaScript to read the paper here, or <a href="paper.pdf">download the PDF</a>.</p></noscript>`
@@ -246,6 +262,7 @@ ${manuscriptData(submission)}
     sidebar: submissionSidebar(ctx.model, submission, "../", { backToSubmission: true }),
     content,
     detailClass: "detail-manuscript",
+    sidebarHidden: true,
     scripts: hasPdf ? ["assets/manuscript-place.js", "assets/manuscript.js"] : [],
   });
 }
