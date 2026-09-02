@@ -127,6 +127,20 @@ describe.skipIf(!executable)("the reflow surface, rendered", () => {
       return anchor && card && Math.abs(card.top - anchor.top) < 80;
     });
 
+    // The standalone tikz figure IS rendered (its paragraph is body content
+    // in the stream): sweep the page so every lazily painted segment has
+    // intersected, then find the sanitized drawing with real ink in it.
+    await page.evaluate(async () => {
+      for (let y = 0; y <= document.body.scrollHeight; y += window.innerHeight / 2) {
+        window.scrollTo(0, y);
+        await new Promise((resolve) => setTimeout(resolve, 50));
+      }
+      window.scrollTo(0, 0);
+    });
+    await page.waitForSelector(".latex-block svg g.latex-picture", { timeout: 20_000 });
+    const pictureMarkup = await page.evaluate(() => document.querySelector(".latex-block svg g.latex-picture")!.innerHTML);
+    expect(pictureMarkup).toMatch(/<(?:path|g|use)\b/u);
+
     // The AGPL notice is on the rendered surface.
     expect(await page.evaluate(() => document.querySelector(".manuscript-reflow-notice a")?.getAttribute("href")))
       .toBe("https://github.com/radek-p/reflowtex");
