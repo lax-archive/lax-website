@@ -9,7 +9,7 @@ import {
   conceptShortName,
   draftBanner,
   figureTitle,
-  supersededBanner,
+  versionHistoryPanel,
   githubSource,
   graphExpandButton,
   graphTooltip,
@@ -100,7 +100,7 @@ export async function conceptPage(ctx: PageContext, located: LocatedConcept): Pr
     : "";
   const sourceRows = await highlightSource(concept.sourceText, concept.statements, proven);
 
-  const content = `${supersededBanner(ctx, submission.record.id, "../")}${draftBanner(submission.record.state)}
+  const content = `${versionHistoryPanel(ctx, submission.record.id, "../")}${draftBanner(submission.record.state)}
 <div class="detail-heading concept-heading">
 <div><p class="concept-id"><code>${esc(concept.id)}</code></p>
 <h1 class="concept-title">${ctx.markdown.renderAuthorInline(concept.title, "../")}</h1>
@@ -139,6 +139,6 @@ ${graphDataScript({
     rootRel: "../",
     sidebar: submissionSidebar(ctx.model, submission, "../", { activeId: concept.id }),
     content,
-    scripts: ["assets/layout.js", "assets/dag.js", "assets/source-proof.js", "assets/comments.js"],
+    scripts: ["assets/layout.js", "assets/dag.js", "assets/source-proof.js", "assets/version-history.js", "assets/comments.js"],
   });
 }

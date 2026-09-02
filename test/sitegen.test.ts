@@ -316,7 +316,7 @@ After the formula.`, "");
       expect(bytes.equals(second.get(name)!)).toBe(true);
       expect(SITE_MIME[path.extname(name)], `missing MIME for ${name}`).toBeDefined();
     }
-    for (const asset of ["style.css", "sidebar.js", "landing.js", "layout.js", "dag.js", "source-proof.js", "citation.js", "comments.js", "katex.css", "lax-white-paper.pdf", path.join("fonts", "LM-regular.woff2")])
+    for (const asset of ["style.css", "sidebar.js", "landing.js", "layout.js", "dag.js", "source-proof.js", "citation.js", "version-history.js", "comments.js", "katex.css", "lax-white-paper.pdf", path.join("fonts", "LM-regular.woff2")])
       expect(fs.existsSync(path.join(one, "assets", asset)), asset).toBe(true);
     const emptySubmission = fs.readFileSync(path.join(one, "Lax10", "index.html"), "utf8");
     expect(emptySubmission).toContain('data-remark42-url="https://laxarchive.org/Lax10/"');
@@ -1237,73 +1237,112 @@ describe("supersedes version chains", () => {
     state: "registered" | "draft",
     title: string,
     supersedes?: string,
-  ): SiteSubmission => ({
-    record: {
-      specVersion: "1", id, state, createdAt: "2026-01-01T00:00:00Z",
-      ...(state === "registered" ? { registeredAt: "2026-01-02T00:00:00Z" } : {}),
-    },
-    output: {
-      specVersion: "1", id,
-      manifest: {
-        specVersion: "1", id, leanVersion: "v4.30.0", mathlibVersion: "abc", title,
-        authors: [], bibEntries: [], ...(supersedes ? { supersedes } : {}),
+  ): SiteSubmission => {
+    const number = Number(id.match(/\d+/)?.[0] ?? 1);
+    const createdDay = String(number % 20 + 1).padStart(2, "0");
+    const registeredDay = String(number % 20 + 2).padStart(2, "0");
+    return {
+      record: {
+        specVersion: "1", id, state, createdAt: `2026-01-${createdDay}T00:00:00Z`,
+        ...(state === "registered" ? { registeredAt: `2026-01-${registeredDay}T00:00:00Z` } : {}),
+        source: {
+          repository: "https://github.com/example/formalization",
+          commit: String(number).repeat(40).slice(0, 40),
+          folder: `submission-${number}`,
+        },
       },
-      abstract: "An abstract.", requiredByConcepts: [], requiredByProofs: [],
-      concepts: [{
-        id: `${id.replace(/\W/g, "")}.C`, path: "concepts/C.lean", title: "C",
-        type: "definition", description: "d", imports: [], mathlibImports: [],
-        sourceText: "-- lean\n", statements: [],
-      }],
-      proofs: [],
-    },
-  });
+      output: {
+        specVersion: "1", id,
+        manifest: {
+          specVersion: "1", id, leanVersion: `v4.${30 + number}.0`, mathlibVersion: `mathlib-${id}-abcdef`, title,
+          authors: [], bibEntries: [], ...(supersedes ? { supersedes } : {}),
+        },
+        abstract: "An abstract.", requiredByConcepts: [], requiredByProofs: [],
+        concepts: [{
+          id: `${id.replace(/\W/g, "")}.C`, path: "concepts/C.lean", title: "C",
+          type: "definition", description: "d", imports: [], mathlibImports: [],
+          sourceText: "-- lean\n", statements: [],
+        }],
+        proofs: [],
+      },
+    };
+  };
   const archive = () => [
     make("lax-1", "registered", "Old Result"),
-    make("lax-2", "registered", "New Result", "lax-1"),
-    make("lax-3", "draft", "Newer Still", "lax-2"),
+    make("lax-2", "registered", "Middle Result", "lax-1"),
+    make("lax-3", "registered", "Current Result", "lax-2"),
+    make("lax-4", "draft", "Proposed Result", "lax-3"),
   ];
 
   it("binds only registered successors and walks chains both ways", () => {
     const model = new SiteModel(archive());
     expect(model.isSuperseded("lax-1")).toBe(true);
+    expect(model.isSuperseded("lax-2")).toBe(true);
     // the draft's claim is recorded but does not bind
-    expect(model.isSuperseded("lax-2")).toBe(false);
-    expect(model.supersedesClaim.get("lax-3")).toBe("lax-2");
-    expect(model.latestVersion("lax-1")).toBe("lax-2");
-    expect(model.versionChain("lax-1")).toEqual(["lax-1", "lax-2"]);
-    expect(model.versionChain("lax-2")).toEqual(["lax-1", "lax-2"]);
-    expect(model.versionChain("lax-3")).toEqual(["lax-3"]);
+    expect(model.isSuperseded("lax-3")).toBe(false);
+    expect(model.supersedesClaim.get("lax-4")).toBe("lax-3");
+    expect(model.latestVersion("lax-1")).toBe("lax-3");
+    expect(model.latestVersion("lax-2")).toBe("lax-3");
+    expect(model.versionChain("lax-1")).toEqual(["lax-1", "lax-2", "lax-3"]);
+    expect(model.versionChain("lax-2")).toEqual(["lax-1", "lax-2", "lax-3"]);
+    expect(model.versionChain("lax-3")).toEqual(["lax-1", "lax-2", "lax-3"]);
+    expect(model.versionChain("lax-4")).toEqual(["lax-4"]);
+    expect(model.versionHistory("lax-4")).toEqual(["lax-1", "lax-2", "lax-3", "lax-4"]);
+    expect(model.currentVersion("lax-1")).toBe("lax-3");
+    expect(model.currentVersion("lax-2")).toBe("lax-3");
+    expect(model.currentVersion("lax-4")).toBe("lax-3");
   });
 
-  it("nudges from every page of a superseded submission and lists all versions", async () => {
+  it("shows the full chain and its metadata in a prominent version dialog", async () => {
     const root = tmpDir("lax-site-versions-");
     await generateSite(archive(), root);
 
     const oldPage = fs.readFileSync(path.join(root, "lax-1", "index.html"), "utf8");
-    expect(oldPage).toContain('class="superseded-banner"');
+    expect(oldPage).toContain('class="version-notice version-notice-superseded"');
+    expect(oldPage).toContain("The current version is");
+    expect(oldPage).toContain('href="../lax-3/index.html?version=lax-3"');
+    expect(oldPage).toContain("Current Result");
+    expect(oldPage).toContain('data-version-dialog');
+    expect(oldPage).toContain('data-version-dialog-open');
     expect(oldPage).toContain('href="../lax-2/index.html?version=lax-2"');
-    expect(oldPage).toContain("New Result");
-    expect(oldPage).toContain(">Versions</h3>");
-    expect(oldPage).toContain('id="versions"');
-    expect(oldPage).toContain('class="version-item version-current"');
-    expect(oldPage).toContain("note = {superseded by lax-2}");
+    expect(oldPage).toContain("current version");
+    expect(oldPage).toContain("viewing");
+    expect(oldPage).toContain("Created</b>");
+    expect(oldPage).toContain("Registered</b>");
+    expect(oldPage).toContain("Lean</b> <code>v4.33.0</code>");
+    expect(oldPage).toContain("mathlib</b> <code>mathlib-lax-3-abcdef</code>");
+    expect(oldPage).toContain("GitHub source");
+    expect(oldPage).toContain("https://github.com/example/formalization/tree/3333333333333333333333333333333333333333/submission-3");
+    expect(oldPage).toContain("note = {superseded by lax-3}");
 
     const oldConcept = fs.readFileSync(path.join(root, "lax-1", "lax1.C.html"), "utf8");
-    expect(oldConcept).toContain('class="superseded-banner"');
+    expect(oldConcept).toContain('class="version-notice version-notice-superseded"');
+    expect(oldConcept).toContain('href="../lax-3/index.html?version=lax-3"');
+    expect(oldConcept).toContain("assets/version-history.js");
 
-    const newPage = fs.readFileSync(path.join(root, "lax-2", "index.html"), "utf8");
-    expect(newPage).not.toContain('class="superseded-banner"');
-    expect(newPage).toContain('class="version-history-nudge"');
-    expect(newPage).toContain("1 older version");
-    expect(newPage).toContain('class="version-history-button" href="#versions"');
-    expect(newPage).toContain(">Versions</h3>");
-    expect(newPage).toContain('href="../lax-1/index.html?version=lax-1"');
-    expect(newPage).toContain("version-mark-latest");
-    expect(newPage).not.toContain("note = {superseded");
+    const middlePage = fs.readFileSync(path.join(root, "lax-2", "index.html"), "utf8");
+    expect(middlePage).toContain('class="version-notice version-notice-superseded"');
+    expect(middlePage).toContain('href="../lax-3/index.html?version=lax-3"');
+    expect(middlePage).toContain('class="version-item version-selected"');
 
-    const draftPage = fs.readFileSync(path.join(root, "lax-3", "index.html"), "utf8");
-    expect(draftPage).toContain("will supersede");
-    expect(draftPage).toContain('href="../lax-2/index.html?version=lax-2"');
+    const currentPage = fs.readFileSync(path.join(root, "lax-3", "index.html"), "utf8");
+    expect(currentPage).toContain('class="version-notice"');
+    expect(currentPage).not.toContain("version-notice-superseded");
+    expect(currentPage).toContain("<strong>Current version.</strong> 2 older versions are available");
+    expect(currentPage).toContain('class="version-history-button" type="button"');
+    expect(currentPage).toContain("View 3 versions");
+    expect(currentPage).toContain('href="../lax-1/index.html?version=lax-1"');
+    expect(currentPage).toContain('href="../lax-2/index.html?version=lax-2"');
+    expect(currentPage).toContain("version-mark-latest");
+    expect(currentPage).toContain("version-mark-viewing");
+    expect(currentPage).not.toContain("note = {superseded");
+
+    const draftPage = fs.readFileSync(path.join(root, "lax-4", "index.html"), "utf8");
+    expect(draftPage).toContain("<strong>Proposed new version.</strong>");
+    expect(draftPage).toContain('href="../lax-3/index.html?version=lax-3"');
+    expect(draftPage).toContain("View 4 versions");
+    expect(draftPage).toContain("version-mark-draft");
+    expect(draftPage).toContain('href="../lax-1/index.html?version=lax-1"');
   });
 
   it("ignores self and unknown targets and breaks stale double-claims deterministically", () => {
@@ -1322,7 +1361,7 @@ describe("supersedes version chains", () => {
     expect(model.versionChain("lax-1")).toEqual(["lax-1", "lax-2"]);
   });
 
-  it("carries the banner onto proof pages and output-less registered pages", async () => {
+  it("carries the version dialog onto proof pages and output-less registered pages", async () => {
     const old = make("lax-1", "registered", "Old Result");
     old.output!.concepts[0]!.type = "theorem";
     old.output!.concepts[0]!.statements = [{ id: "lax1.C.s", signature: "s : True" }];
@@ -1342,12 +1381,13 @@ describe("supersedes version chains", () => {
     ], root);
 
     const proofPage = fs.readFileSync(path.join(root, "lax-1", "lax1Proofs.p.html"), "utf8");
-    expect(proofPage).toContain('class="superseded-banner"');
+    expect(proofPage).toContain('class="version-notice version-notice-superseded"');
     expect(proofPage).toContain('href="../lax-2/index.html?version=lax-2"');
+    expect(proofPage).toContain("assets/version-history.js");
 
     const barePage = fs.readFileSync(path.join(root, "lax-4", "index.html"), "utf8");
     expect(barePage).toContain("No content uploaded yet");
-    expect(barePage).toContain('class="superseded-banner"');
+    expect(barePage).toContain('class="version-notice version-notice-superseded"');
     expect(barePage).toContain('href="../lax-5/index.html?version=lax-5"');
   });
 
@@ -1359,6 +1399,7 @@ describe("supersedes version chains", () => {
     expect(index).not.toContain('data-state="superseded"');
     expect(index).not.toContain('data-search-title="lax-1 old result"');
     expect(index).not.toContain('href="lax-1/index.html"');
+    expect(index).not.toContain('data-search-title="lax-2 middle result"');
     expect(index).toContain("2 submissions · 2 concepts");
     expect(index).toContain('data-random-submission-candidate');
     expect(index).not.toContain('href="lax-1/index.html" data-random-submission-candidate');

@@ -3,7 +3,7 @@ import type { LocatedProof } from "../model.js";
 import {
   draftBanner,
   githubSource,
-  supersededBanner,
+  versionHistoryPanel,
   type PageContext,
   proofJudgment,
   sourceButton,
@@ -37,7 +37,7 @@ export function proofPage(ctx: PageContext, located: LocatedProof): string {
     ? `<a href="${attr(githubFile)}"><code>${esc(proof.path)}</code></a>`
     : `<code>${esc(proof.path)}</code>`;
 
-  const content = `${supersededBanner(ctx, submission.record.id, "../")}${draftBanner(submission.record.state)}
+  const content = `${versionHistoryPanel(ctx, submission.record.id, "../")}${draftBanner(submission.record.state)}
 <div class="detail-heading concept-heading proof-heading">
 <div class="proof-heading-content"><h1 class="concept-title">Proof of <span class="proof-concept-title">\`${ctx.markdown.renderAuthorInline(conclusion.concept.title, "../")}\`</span></h1>
 <p class="concept-microline proof-microline"><span class="status-pills">${pill}</span><span>${pathLink} · <a href="index.html">${esc(output.id)}</a></span></p></div>
@@ -55,5 +55,6 @@ ${sections}`;
     rootRel: "../",
     sidebar: submissionSidebar(ctx.model, submission, "../", { activeId: proof.id }),
     content,
+    scripts: ["assets/version-history.js"],
   });
 }

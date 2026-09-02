@@ -141,6 +141,27 @@ export class SiteModel {
     return chain;
   }
 
+  /** The chain to present in version-history UI. A draft successor can show
+   * the registered history it proposes to extend on its own page without
+   * prematurely making that draft the successor on older pages. */
+  versionHistory(id: string): string[] {
+    const chain = this.versionChain(id);
+    const submission = this.submissionById.get(id);
+    const target = submission?.record.state === "draft" ? this.supersedesClaim.get(id) : undefined;
+    if (!target) return chain;
+    const previous = this.versionChain(target);
+    return previous.includes(id) ? previous : [...previous, id];
+  }
+
+  /** The registered version readers should normally use. A draft that
+   * proposes to supersede existing work does not become current until it is
+   * registered. */
+  currentVersion(id: string): string {
+    const submission = this.submissionById.get(id);
+    const target = submission?.record.state === "draft" ? this.supersedesClaim.get(id) : undefined;
+    return this.latestVersion(target ?? id);
+  }
+
   /**
    * The submission-level dependency relation, unioned from two sources so it
    * neither invents nor loses an edge: every cross-submission reference the

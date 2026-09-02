@@ -427,66 +427,85 @@ function versionHref(rootRel: string, id: string): string {
   return `${rootRel}${id}/index.html?version=${encodeURIComponent(id)}`;
 }
 
-/** The versioning nudge on every page of a superseded submission: a
- * registered successor exists, so send the reader to the newest version.
- * Draft claims never bind, so the banner cannot point at mutable work. */
-export function supersededBanner(ctx: PageContext, submissionId: string, rootRel: string): string {
-  if (!ctx.model.isSuperseded(submissionId)) return "";
-  const latest = ctx.model.latestVersion(submissionId);
-  const title = ctx.model.submissionById.get(latest)?.output?.manifest.title;
-  const label = `<span class="submission-meta-id">${esc(latest)}</span>${
-    title ? ` ${ctx.markdown.renderAuthorInline(title, rootRel)}` : ""
-  }`;
-  return `<p class="superseded-banner"><strong>Superseded</strong> — a newer version of this work is available: <a href="${attr(versionHref(rootRel, latest))}">${label}</a>.</p>`;
-}
-
-/** On a draft claimant's own page: the declared target before the claim
- * binds, so co-owners see the pending link (and the race, if any). */
-export function supersedesNote(ctx: PageContext, submission: SiteSubmission, rootRel: string): string {
-  const target = ctx.model.supersedesClaim.get(submission.record.id);
-  if (!target || submission.record.state === "registered") return "";
-  return `<p class="draft-banner">When registered, this submission will supersede <a href="${attr(versionHref(rootRel, target))}">${esc(target)}</a>.</p>`;
-}
-
-/** Near-page-top note for submissions that have predecessors. The versions
- * section remains the detailed history; this nudge makes it discoverable
- * without putting historical submissions back into archive-wide lists. */
-export function versionHistoryNudge(ctx: PageContext, submissionId: string): string {
-  const chain = ctx.model.versionChain(submissionId);
-  const olderCount = chain.indexOf(submissionId);
-  if (olderCount < 1) return "";
-  const label = olderCount === 1 ? "1 older version" : `${olderCount} older versions`;
-  return `<aside class="version-history-nudge" aria-label="Version history">
-<p><strong>${label}</strong> of this submission ${olderCount === 1 ? "is" : "are"} available for reference.</p>
-<a class="version-history-button" href="#versions">View version history <span aria-hidden="true">↓</span></a>
-</aside>`;
-}
-
-/** The version chain as a page section, newest first, the shown submission
- * marked. Absent entirely for unversioned submissions. */
-export function versionsSection(ctx: PageContext, submission: SiteSubmission, rootRel: string): string {
-  const chain = ctx.model.versionChain(submission.record.id);
+/** A prominent summary and modal containing the complete version chain. The
+ * current registered version and the version shown on this page are distinct
+ * states and are both marked. A draft claimant sees the history it proposes
+ * to extend, but does not appear on the pages it has not superseded yet. */
+export function versionHistoryPanel(ctx: PageContext, submissionId: string, rootRel: string): string {
+  const chain = ctx.model.versionHistory(submissionId);
   if (chain.length < 2) return "";
-  const rows = [...chain].reverse().map((id, index) => {
+
+  const shown = ctx.model.submissionById.get(submissionId)!;
+  const currentId = ctx.model.currentVersion(submissionId);
+  const current = ctx.model.submissionById.get(currentId);
+  const currentTitle = current?.output?.manifest.title;
+  const currentLabel = `<span class="submission-meta-id">${esc(currentId)}</span>${
+    currentTitle ? ` ${ctx.markdown.renderAuthorInline(currentTitle, rootRel)}` : ""
+  }`;
+  const currentLink = `<a href="${attr(versionHref(rootRel, currentId))}">${currentLabel}</a>`;
+  const draftProposal = shown.record.state === "draft" && ctx.model.supersedesClaim.has(submissionId);
+  const superseded = !draftProposal && currentId !== submissionId;
+  const olderCount = chain.indexOf(submissionId);
+  const countLabel = `${chain.length} ${chain.length === 1 ? "version" : "versions"}`;
+  const summary = draftProposal
+    ? `<strong>Proposed new version.</strong> This draft would follow the current registered version, ${currentLink}.`
+    : superseded
+      ? `<strong>Superseded version.</strong> You are viewing <span class="submission-meta-id">${esc(submissionId)}</span>. The current version is ${currentLink}.`
+      : `<strong>Current version.</strong> ${olderCount} older ${olderCount === 1 ? "version is" : "versions are"} available for reference.`;
+  const currentAction = currentId !== submissionId
+    ? `<a class="version-current-button" href="${attr(versionHref(rootRel, currentId))}">Open current version <span aria-hidden="true">→</span></a>`
+    : "";
+
+  const rows = [...chain].reverse().map((id) => {
     const entry = ctx.model.submissionById.get(id);
-    const title = entry?.output?.manifest.title;
-    const label = `<span class="submission-meta-id">${esc(id)}</span>${
-      title ? ` ${ctx.markdown.renderAuthorInline(title, rootRel)}` : ""
-    }`;
-    const here = id === submission.record.id;
-    const date = entry ? formatDate(entry.record.registeredAt ?? entry.record.createdAt) : "";
+    if (!entry) return "";
+    const here = id === submissionId;
+    const isCurrent = id === currentId;
+    const title = entry.output?.manifest.title;
+    const source = entry.record.source;
+    const sourceHref = source
+      ? githubSource(source.repository, source.commit, source.folder)
+      : undefined;
+    const dates = [
+      `<span><b>Created</b> <time datetime="${attr(entry.record.createdAt)}">${formatDate(entry.record.createdAt)}</time></span>`,
+      ...(entry.record.registeredAt
+        ? [`<span><b>Registered</b> <time datetime="${attr(entry.record.registeredAt)}">${formatDate(entry.record.registeredAt)}</time></span>`]
+        : []),
+    ];
+    const pins = entry.output ? [
+      `<span><b>Lean</b> <code>${esc(entry.output.manifest.leanVersion)}</code></span>`,
+      `<span><b>mathlib</b> <code>${esc(entry.output.manifest.mathlibVersion)}</code></span>`,
+    ] : [];
     const marks = [
-      index === 0 ? `<span class="version-mark version-mark-latest">latest</span>` : "",
-      here ? `<span class="version-mark">this version</span>` : "",
-    ].join("");
-    const body = here ? label : `<a href="${attr(versionHref(rootRel, id))}">${label}</a>`;
-    return `<li class="version-item${here ? " version-current" : ""}">${body}<span class="version-meta">${esc(date)}</span>${marks}</li>`;
+      isCurrent ? `<span class="version-mark version-mark-latest">current version</span>` : "",
+      here ? `<span class="version-mark version-mark-viewing">viewing</span>` : "",
+      entry.record.state === "draft" ? `<span class="version-mark version-mark-draft">draft</span>` : "",
+    ].filter(Boolean).join("");
+    const open = here
+      ? `<span class="version-viewing-label">Shown on this page</span>`
+      : `<a class="version-open-link" href="${attr(versionHref(rootRel, id))}">Open version <span aria-hidden="true">→</span></a>`;
+    const github = sourceHref
+      ? `<a class="version-source-link" href="${attr(sourceHref)}">${GITHUB_MARK}<span>GitHub source</span></a>`
+      : `<span class="version-source-missing">Source unavailable</span>`;
+    return `<li class="version-item${here ? " version-selected" : ""}${isCurrent ? " version-latest" : ""}"${here ? ' aria-current="page"' : ""}>
+<div class="version-item-heading"><span class="version-item-id">${esc(id)}</span><span class="version-item-marks">${marks}</span></div>
+${title ? `<p class="version-item-title">${ctx.markdown.renderAuthorInline(title, rootRel)}</p>` : ""}
+<div class="version-metadata">${[...dates, ...pins].join("")}</div>
+<div class="version-item-actions">${github}${open}</div>
+</li>`;
   });
-  return `<section class="page-section version-history-section" id="versions"><h3 class="section-title">Versions</h3>
+
+  return `<aside class="version-notice${superseded ? " version-notice-superseded" : ""}${draftProposal ? " version-notice-proposed" : ""}" aria-label="Submission version">
+<p>${summary}</p>
+<div class="version-notice-actions">${currentAction}<button class="version-history-button" type="button" data-version-dialog-open aria-haspopup="dialog" aria-controls="version-history-dialog">View ${countLabel}</button></div>
+</aside>
+<dialog class="version-history-dialog" id="version-history-dialog" data-version-dialog aria-labelledby="version-history-title">
+<div class="version-dialog-header"><div><p class="version-dialog-eyebrow">Version history</p><h2 id="version-history-title">Submission versions</h2></div><button class="version-dialog-close" type="button" data-version-dialog-close aria-label="Close version history">×</button></div>
+<p class="version-dialog-intro">Newest first. “Current version” is the latest registered successor; drafts are identified separately.</p>
 <ol class="version-list">
 ${rows.join("\n")}
 </ol>
-</section>`;
+</dialog>`;
 }
 
 /** The submission page's paper-style masthead: big title and a compact
@@ -561,14 +580,14 @@ function formatDay(value: string): string {
 }
 
 /** The copyable citation: all states are citable, drafts marked as such and
- * superseded versions naming their successor. */
+ * superseded versions naming the current registered successor. */
 export function bibtex(model: SiteModel, submission: SiteSubmission): string {
   const { record, output } = submission;
   const manifest = output!.manifest;
   const clean = (s: string) => s.replace(/[{}\\]/g, "");
   const year = new Date(record.registeredAt ?? record.createdAt).getUTCFullYear();
   const author = manifest.authors.map((a) => clean(a.name)).join(" and ");
-  const successor = model.supersededBy.get(record.id);
+  const successor = model.isSuperseded(record.id) ? model.latestVersion(record.id) : undefined;
   const lines = [
     `@misc{${record.id},`,
     ...(author ? [`  author = {${author}},`] : []),
