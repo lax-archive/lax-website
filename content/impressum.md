@@ -1,11 +1,11 @@
-# Impressum
+# Imprint
 
-## Anbieter und Verantwortlicher
+## Service provider
 
-**Clemens Kuske**, Lax Archive; c/o Hasso-Plattner-Institut, Fachgebiet Algorithm Engineering; Prof.-Dr.-Helmert-Str. 2–3, 14482 Potsdam, Deutschland
+**Clemens Kuske**, Lax Archive; c/o Hasso Plattner Institute, Chair for Algorithm Engineering; Prof.-Dr.-Helmert-Str. 2–3, 14482 Potsdam, Germany
 
-E-Mail: [mail@clemens-kuske.de](mailto:mail@clemens-kuske.de)
+Email: [mail@clemens-kuske.de](mailto:mail@clemens-kuske.de)
 
-Verantwortlich für den Inhalt ist Clemens Kuske unter der oben genannten Anschrift.
+Clemens Kuske is responsible for the content at the address given above.
 
-Das Lax Archive ist ein wissenschaftliches Open-Source-Projekt.
+The Lax Archive is a scientific open-source project.

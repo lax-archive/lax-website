@@ -22,7 +22,7 @@ export async function generateSite(submissions: SiteSubmission[], outDir: string
   files.set("index.html", await indexPage(context));
   files.set(path.join("all-comments", "index.html"), allCommentsPage(context));
   files.set("contributing.html", contentPage(context, "contributing", "Getting started"));
-  files.set("impressum.html", contentPage(context, "impressum", "Impressum"));
+  files.set("impressum.html", contentPage(context, "impressum", "Imprint"));
   files.set("privacy.html", contentPage(context, "privacy", "Datenschutzerklärung"));
   const proofObligations = openProblemsPage(context);
   files.set("open-proof-obligations.html", proofObligations);

@@ -25,6 +25,9 @@ describe("footer and legal pages", () => {
     const impressum = fs.readFileSync(path.join(root, "impressum.html"), "utf8");
     const privacy = fs.readFileSync(path.join(root, "privacy.html"), "utf8");
 
+    expect(impressum).toContain('<h1 class="paper-title">Imprint</h1>');
+    expect(impressum).toContain("Service provider");
+    expect(impressum).not.toContain("Anbieter und Verantwortlicher");
     expect(impressum).toContain("Prof.-Dr.-Helmert-Str. 2–3");
     expect(impressum).toContain("mail@clemens-kuske.de");
     expect(privacy).toContain("GitHub Pages");
