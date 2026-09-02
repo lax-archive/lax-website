@@ -31,6 +31,8 @@ export interface PageShell {
   content: string;
   /** additional scripts (site-relative paths) loaded after sidebar.js */
   scripts?: string[];
+  /** extra class on the content pane, for pages that need another measure */
+  detailClass?: string;
 }
 
 const REMARK42_ORIGIN = new URL(REMARK42_URL).origin;
@@ -41,8 +43,15 @@ const ACCOUNT_CONNECT_ORIGINS = [...new Set([
 const BASE_CSP =
   `default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src https: data:; font-src 'self'; frame-src ${REMARK42_ORIGIN}; connect-src ${ACCOUNT_CONNECT_ORIGINS}`;
 
-function contentSecurityPolicy(hasDiscussion: boolean): string {
-  if (!hasDiscussion) return BASE_CSP;
+// The paper viewer runs pdf.js in a same-origin module worker and fetches
+// the PDF itself, so its page alone opens worker-src and same-origin
+// connect-src; every other page keeps the base policy.
+const PAPER_CSP =
+  `default-src 'none'; script-src 'self'; worker-src 'self'; style-src 'self' 'unsafe-inline'; img-src https: data:; font-src 'self'; frame-src ${REMARK42_ORIGIN}; connect-src 'self' ${ACCOUNT_CONNECT_ORIGINS}`;
+
+function contentSecurityPolicy(scripts: string[]): string {
+  if (scripts.includes("assets/manuscript.js")) return PAPER_CSP;
+  if (!scripts.includes("assets/comments.js")) return BASE_CSP;
   return `default-src 'none'; script-src 'self' ${REMARK42_ORIGIN}; style-src 'self' 'unsafe-inline'; img-src https: data:; font-src 'self'; frame-src ${REMARK42_ORIGIN}; connect-src ${ACCOUNT_CONNECT_ORIGINS}`;
 }
 
@@ -94,7 +103,7 @@ const FAVICON = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' vi
 
 export function page(shell: PageShell): string {
   const root = shell.rootRel;
-  const csp = contentSecurityPolicy(shell.scripts?.includes("assets/comments.js") ?? false);
+  const csp = contentSecurityPolicy(shell.scripts ?? []);
   const scripts = ["assets/sidebar.js", "assets/account.js", ...(shell.scripts ?? [])]
     .map((src) => `<script src="${attr(root + src)}?v=${siteAssetVersion(src.replace(/^assets\//, ""))}"></script>`)
     .join("\n");
@@ -122,7 +131,7 @@ export function page(shell: PageShell): string {
 <aside id="sidebar">
 ${shell.sidebar}
 </aside>
-<section id="main"><div id="detail">
+<section id="main"><div id="detail"${shell.detailClass ? ` class="${attr(shell.detailClass)}"` : ""}>
 ${shell.content}
 </div></section>
 </main>

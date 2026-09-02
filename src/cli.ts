@@ -2,11 +2,12 @@ import fs from "node:fs";
 import http from "node:http";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { loadSubmissions } from "./database.js";
+import { loadSubmissions, submissionsMissingPapers } from "./database.js";
+import { fetchPapers } from "./papers.js";
 import { SITE_MIME } from "./sitegen/assets.js";
 import { generateSite } from "./sitegen/generate.js";
 
-type Command = "build" | "serve";
+type Command = "build" | "serve" | "fetch-papers";
 
 function option(name: string, fallback: string): string {
   const index = process.argv.indexOf(name);
@@ -17,6 +18,10 @@ function option(name: string, fallback: string): string {
   return value;
 }
 
+function flag(name: string): boolean {
+  return process.argv.includes(name);
+}
+
 function numberOption(name: string, fallback: number): number {
   const value = Number(option(name, String(fallback)));
   if (!Number.isInteger(value) || value < 1 || value > 65_535)
@@ -25,20 +30,32 @@ function numberOption(name: string, fallback: number): number {
 }
 
 const command = (process.argv[2] ?? "build") as Command;
-if (command !== "build" && command !== "serve")
-  throw new Error("usage: npm run site:build|site:serve -- [--database DIR] [--out DIR] [--port N]");
+if (command !== "build" && command !== "serve" && command !== "fetch-papers")
+  throw new Error("usage: npm run site:build|site:serve|papers:fetch -- [--database DIR] [--papers DIR] [--no-papers] [--out DIR] [--port N]");
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const databaseDir = path.resolve(option("--database", path.join(root, "data", "lax-db")));
+const papersDir = path.resolve(option("--papers", path.join(root, "data", "papers")));
+// Previews carry no PDFs (the gh-pages branch keeps every deployment's full
+// tree); production must have every paper the database references.
+const withPapers = !flag("--no-papers");
 const outDir = path.resolve(option("--out", path.join(root, "_site")));
 
 async function build(): Promise<void> {
-  const submissions = loadSubmissions(databaseDir);
+  const submissions = loadSubmissions(databaseDir, withPapers ? { papersDir } : {});
+  if (withPapers) {
+    const missing = submissionsMissingPapers(submissions);
+    if (missing.length)
+      throw new Error(`papers cache ${papersDir} lacks the PDF of ${missing.map((s) => s.record.id).join(", ")}; run \`npm run papers:fetch\` or build with --no-papers`);
+  }
   await generateSite(submissions, outDir);
   console.log(`generated ${submissions.length} archive records in ${outDir}`);
 }
 
-if (command === "build") {
+if (command === "fetch-papers") {
+  const fetched = await fetchPapers(loadSubmissions(databaseDir), papersDir, { log: (line) => console.log(line) });
+  console.log(`papers cache ${papersDir}: ${fetched.length} fetched`);
+} else if (command === "build") {
   await build();
 } else {
   const port = numberOption("--port", 3000);

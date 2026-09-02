@@ -5,6 +5,17 @@ import { computeNetwork, type ProofNetwork } from "./network.js";
 export interface SiteSubmission {
   record: DbRecord;
   output?: BuildOutput;
+  /** The compiled paper's PDF on disk, when the papers cache holds it. */
+  paperFile?: string;
+}
+
+/** One passage of a paper that marks a concept, proof, or submission. */
+export interface PaperMention {
+  /** The submission whose paper carries the mark. */
+  submission: SiteSubmission;
+  /** The mark's number: `paper.html#m<n>`. */
+  n: number;
+  page: number;
 }
 
 export interface LocatedConcept { submission: SiteSubmission; output: BuildOutput; concept: ConceptEntry }
@@ -41,6 +52,9 @@ export class SiteModel {
   readonly supersededBy = new Map<string, string>();
   /** The bound pointers reversed: the superseded submission by successor id. */
   private readonly predecessorOf = new Map<string, string>();
+  /** Where each concept, proof, or submission id is marked in a paper: by
+   * submission, mark order within each paper. */
+  readonly paperMentions = new Map<string, PaperMention[]>();
 
   constructor(submissions: SiteSubmission[]) {
     // A deleted record is a tombstone that exists only to retire its id: no
@@ -84,6 +98,19 @@ export class SiteModel {
       values.sort((a, b) => a.output.id.localeCompare(b.output.id));
     this.linkSubmissions();
     this.linkVersions();
+    this.linkPapers();
+  }
+
+  private linkPapers(): void {
+    for (const submission of this.submissions) {
+      const paper = submission.output?.paper;
+      if (!paper) continue;
+      paper.marks.forEach((mark, index) => {
+        const mentions = this.paperMentions.get(mark.id) ?? [];
+        mentions.push({ submission, n: index + 1, page: mark.begin.page });
+        this.paperMentions.set(mark.id, mentions);
+      });
+    }
   }
 
   /**

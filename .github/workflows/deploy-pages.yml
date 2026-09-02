@@ -50,10 +50,6 @@ jobs:
       - if: github.event_name != 'delete'
         run: npm run check
 
-      - name: Build the current branch
-        if: github.event_name != 'delete'
-        run: npm run site:build -- --database data/lax-db --out _site
-
       - name: Select the Pages destination
         id: target
         env:
@@ -76,6 +72,32 @@ jobs:
           echo "branch=$branch" >> "$GITHUB_OUTPUT"
           echo "mode=$mode" >> "$GITHUB_OUTPUT"
           echo "slug=$(node .github/scripts/pages-previews.mjs slug "$branch")" >> "$GITHUB_OUTPUT"
+
+      # Only production carries the papers' PDFs: the gh-pages branch keeps
+      # every deployment's full tree, and previews would multiply the corpus.
+      - name: Restore the papers cache
+        if: steps.target.outputs.mode == 'production'
+        uses: actions/cache@v4
+        with:
+          path: data/papers
+          key: papers-${{ hashFiles('data/lax-db/*/build-output.json') }}
+          restore-keys: papers-
+
+      - name: Fetch the compiled papers
+        if: steps.target.outputs.mode == 'production'
+        run: npm run papers:fetch -- --database data/lax-db --papers data/papers
+
+      - name: Build the current branch
+        if: github.event_name != 'delete'
+        env:
+          MODE: ${{ steps.target.outputs.mode }}
+        run: |
+          set -euo pipefail
+          if [[ "$MODE" == "production" ]]; then
+            npm run site:build -- --database data/lax-db --papers data/papers --out _site
+          else
+            npm run site:build -- --database data/lax-db --no-papers --out _site
+          fi
 
       - name: Restore the published Pages tree
         run: |
@@ -106,8 +128,12 @@ jobs:
           git fetch --no-tags --depth=1 origin "$DEFAULT_BRANCH:refs/remotes/origin/$DEFAULT_BRANCH"
           git worktree add --detach "$source_dir" "origin/$DEFAULT_BRANCH"
           npm --prefix "$source_dir" ci
+          npm --prefix "$source_dir" run papers:fetch --if-present -- \
+            --database "$GITHUB_WORKSPACE/data/lax-db" \
+            --papers "$GITHUB_WORKSPACE/data/papers"
           npm --prefix "$source_dir" run site:build -- \
             --database "$GITHUB_WORKSPACE/data/lax-db" \
+            --papers "$GITHUB_WORKSPACE/data/papers" \
             --out "$GITHUB_WORKSPACE/_production_site"
           cp -a _production_site/. _pages/
 

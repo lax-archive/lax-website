@@ -3430,3 +3430,212 @@ body.graph-window-open::after{
   .landing-action-status,
   .landing-action-panel{ animation: none; transition: none; }
 }
+
+/* ── Paper (manuscript) page ──
+   The compiled PDF beside its cards. `manuscript-*` throughout; `paper-*`
+   is the submission masthead. */
+
+#detail.detail-manuscript{ width: min(100%, 78em); }
+
+.manuscript-heading .concept-id{ font-variant: small-caps; letter-spacing: 0.05em; }
+
+.manuscript-index-section{ margin: 0 0 1.4rem; }
+.manuscript-index-heading{
+  font-size: 0.85rem;
+  font-weight: 700;
+  font-variant: small-caps;
+  color: var(--text-dim);
+  letter-spacing: 0.05em;
+  margin-bottom: 0.4rem;
+}
+.manuscript-index{
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.6rem;
+  padding: 0;
+  margin: 0;
+}
+.manuscript-index-item{
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.18rem 0.5rem 0.18rem 0.35rem;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-control);
+  background: var(--surface);
+  font-size: 0.8rem;
+}
+.manuscript-index-link{ display: inline-flex; align-items: center; gap: 0.3rem; color: var(--link); text-decoration: none; min-width: 0; }
+.manuscript-index-link:hover{ text-decoration: underline; }
+.manuscript-index-link .type-badge, .manuscript-index-link .proof-badge{ margin-right: 0; }
+.manuscript-index-name{ font-family: 'Latin Modern', Georgia, serif; }
+.manuscript-index-item.kind-submission .manuscript-index-name{ font-family: var(--mono); font-size: 0.72rem; }
+.manuscript-index-origin, .manuscript-index-page{ color: var(--text-dim); font-size: 0.72rem; white-space: nowrap; }
+
+.manuscript-body{
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.25rem;
+  align-items: start;
+}
+@media (min-width: 1101px){
+  .manuscript-body{ grid-template-columns: minmax(0, 1fr) 20rem; }
+}
+
+.manuscript-pages{ position: relative; min-width: 0; }
+.manuscript-page{
+  position: relative;
+  width: 100%;
+  margin: 0 0 1rem;
+  background: var(--surface);
+  border: 1px solid var(--border-light);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+}
+.manuscript-page canvas{ display: block; width: 100%; }
+.manuscript-page-rendered{ border-color: transparent; }
+.manuscript-hl-layer{ position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+.manuscript-hl{
+  position: absolute;
+  border-radius: 2px;
+  mix-blend-mode: multiply;
+  background: rgba(253, 216, 53, 0.42);
+  transition: outline-color 200ms ease;
+  outline: 1px solid transparent;
+}
+.manuscript-hl.kind-proof{ background: rgba(59, 107, 154, 0.26); }
+.manuscript-hl.kind-submission{ background: rgba(120, 120, 120, 0.22); }
+.manuscript-hl-active{ outline-color: rgba(43, 43, 43, 0.45); }
+.manuscript-hl-flash{ outline: 2px solid var(--accent); }
+
+/* The rail: a plain list until manuscript.js takes over, then cards sit at
+   the y of their passages, pushed down where they would overlap. */
+.manuscript-rail{ list-style: none; margin: 0; padding: 0; min-width: 0; }
+.manuscript-rail-live{ position: relative; }
+.manuscript-rail-live .manuscript-card{ position: absolute; left: 0; right: 0; margin: 0; }
+.manuscript-rail-static{ max-width: 34rem; }
+
+.manuscript-card{
+  margin: 0 0 0.5rem;
+  padding: 0.45rem 0.6rem 0.45rem 0.55rem;
+  background: var(--surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-control);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  font-size: 0.82rem;
+  line-height: 1.45;
+  cursor: pointer;
+  transition: box-shadow 120ms ease;
+}
+.manuscript-card:hover{ box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12); }
+.manuscript-card:target{ outline: 2px solid var(--accent); outline-offset: 1px; }
+.manuscript-card-expanded{ box-shadow: 0 2px 10px rgba(0, 0, 0, 0.16); }
+.manuscript-card-head{ display: flex; align-items: center; gap: 0.4rem; min-width: 0; }
+.manuscript-card-swatch{
+  flex: 0 0 auto;
+  width: 0.55rem;
+  height: 1.1rem;
+  border-radius: 2px;
+  background: rgba(253, 216, 53, 0.75);
+}
+.kind-proof > .manuscript-card-head .manuscript-card-swatch{ background: rgba(59, 107, 154, 0.55); }
+.kind-submission > .manuscript-card-head .manuscript-card-swatch{ background: rgba(120, 120, 120, 0.45); }
+.manuscript-card-name{ display: inline-flex; align-items: center; gap: 0.3rem; min-width: 0; flex: 1 1 auto; overflow: hidden; }
+.manuscript-card-name a{ color: var(--link); text-decoration: none; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.manuscript-card-name a:hover{ text-decoration: underline; }
+.manuscript-card-name code{ font-family: 'Latin Modern', Georgia, serif; font-size: 0.82rem; }
+.manuscript-card-name .type-badge, .manuscript-card-name .proof-badge{ margin-right: 0; }
+.manuscript-card-page{ color: var(--text-dim); font-size: 0.7rem; white-space: nowrap; }
+.manuscript-card-toggle{
+  flex: 0 0 auto;
+  appearance: none;
+  border: 0;
+  background: none;
+  color: var(--text-dim);
+  font-size: 0.8rem;
+  line-height: 1;
+  padding: 0.15rem 0.25rem;
+  cursor: pointer;
+  border-radius: var(--radius-control);
+  transition: transform 120ms ease;
+}
+.manuscript-card-toggle:hover, .manuscript-card-toggle:focus-visible{ background: var(--accent-light); color: var(--accent); }
+.manuscript-card-expanded .manuscript-card-toggle{ transform: rotate(90deg); }
+.manuscript-card-body{
+  margin-top: 0.45rem;
+  padding-top: 0.45rem;
+  border-top: 1px dotted var(--border-light);
+  cursor: auto;
+}
+.manuscript-card-body .latex-content{ font-size: 0.8rem; text-align: left; margin: 0.25rem 0; }
+.manuscript-card-body .judgment{ padding: 0.2rem 0; gap: 0.5rem; }
+.manuscript-card-body .judgment-arrow{ font-size: 1.2rem; }
+.manuscript-card-title{ font-weight: 600; margin: 0 0 0.2rem; }
+.manuscript-card-claims{ list-style: none; margin: 0.3rem 0 0; padding: 0; display: flex; flex-direction: column; gap: 0.25rem; }
+.manuscript-card.line-proven > .manuscript-card-head{ border-left: 3px solid var(--proven-border); padding-left: 0.35rem; margin-left: -0.55rem; }
+.manuscript-card.line-open > .manuscript-card-head{ border-left: 3px solid var(--partial-border); padding-left: 0.35rem; margin-left: -0.55rem; }
+.manuscript-card-unplaced{ opacity: 0.7; }
+.manuscript-card-unplaced .manuscript-card-page::after{ content: ' · passage not located'; }
+
+.manuscript-status{ color: var(--text-dim); font-size: 0.8rem; margin-top: 0.4rem; }
+.manuscript-status-failed{ color: var(--warn-fg); }
+.manuscript-ready .manuscript-status{ opacity: 0.7; }
+
+.paper-section-lead{ display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem 1rem; margin-bottom: 0.8rem; }
+.paper-section-facts{ color: var(--text-dim); font-size: 0.85rem; }
+.in-paper-list{ list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.25rem; font-size: 0.9rem; }
+
+/* pdf.js text layer (from pdf.js's text_layer_builder.css, Apache-2.0):
+   transparent glyph boxes over the canvas so the paper's text can be
+   selected and searched. Sized through --scale-factor / --total-scale-factor
+   on the page container. */
+.textLayer{
+  color-scheme: only light;
+  position: absolute;
+  text-align: initial;
+  inset: 0;
+  overflow: clip;
+  opacity: 1;
+  line-height: 1;
+  letter-spacing: normal;
+  word-spacing: normal;
+  text-size-adjust: none;
+  forced-color-adjust: none;
+  transform-origin: 0 0;
+  caret-color: CanvasText;
+  z-index: 1;
+  --min-font-size: 1;
+  --text-scale-factor: calc(var(--total-scale-factor) * var(--min-font-size));
+  --min-font-size-inv: calc(1 / var(--min-font-size));
+}
+.textLayer :is(span, br){
+  color: transparent;
+  position: absolute;
+  white-space: pre;
+  cursor: text;
+  transform-origin: 0% 0%;
+  user-select: text;
+}
+.textLayer > :not(.markedContent),
+.textLayer .markedContent span:not(.markedContent){
+  z-index: 1;
+  --font-height: 0;
+  font-size: calc(var(--text-scale-factor) * var(--font-height));
+  --scale-x: 1;
+  --rotate: 0deg;
+  transform: rotate(var(--rotate)) scaleX(var(--scale-x)) scale(var(--min-font-size-inv));
+}
+.textLayer .markedContent{ display: contents; }
+.textLayer span[role="img"]{ user-select: none; cursor: default; }
+.textLayer ::selection{ background: rgba(0, 0, 255, 0.25); color: transparent; }
+.textLayer br::selection{ background: transparent; }
+.textLayer .endOfContent{
+  display: block;
+  position: absolute;
+  inset: 100% 0 0;
+  z-index: 0;
+  cursor: default;
+  user-select: none;
+}
+.textLayer.selecting .endOfContent{ top: 0; }

@@ -3,6 +3,7 @@ import { conceptGraph, graphDataScript } from "../graphs.js";
 import { highlightSource } from "../highlight.js";
 import type { LocatedConcept } from "../model.js";
 import { discussion, pageReactions } from "./discussion.js";
+import { inPaperBlock } from "./paper.js";
 import {
   conceptLink,
   conceptMapLegend,
@@ -117,6 +118,7 @@ ${graphTooltip()}
 ${conceptMapLegend(graph, "This concept", "Related concept")}
 </figure>
 ${evidence(ctx, located)}
+${inPaperBlock(ctx, concept.id, output.id, "../")}
 <div class="block block-statement"><h3>${esc(typeHeading)}</h3><div class="latex-content">${ctx.markdown.renderAuthorProse(concept.description, "../")}</div></div>
 <div class="block block-lean"><h3 class="section-heading">Lean source${githubFile ? ` <a class="source-link" href="${attr(githubFile)}">view on GitHub</a>` : ""}</h3>
 <div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">

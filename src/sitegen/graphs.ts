@@ -126,7 +126,12 @@ export function submissionGraph(model: SiteModel, rootId: string): SubmissionGra
   return { nodes, edges };
 }
 
-/** CSP-safe inert graph payload consumed by assets/dag.js. */
+/** CSP-safe inert JSON payload for a browser script to read by id. */
+export function inertJsonScript(id: string, data: unknown): string {
+  return `<script type="application/json" id="${id}">${JSON.stringify(data).replace(/</g, "\\u003c")}</script>`;
+}
+
+/** The graph payload consumed by assets/dag.js. */
 export function graphDataScript(data: unknown): string {
-  return `<script type="application/json" id="graph-data">${JSON.stringify(data).replace(/</g, "\\u003c")}</script>`;
+  return inertJsonScript("graph-data", data);
 }
