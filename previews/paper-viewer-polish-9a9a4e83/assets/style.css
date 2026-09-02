@@ -3294,11 +3294,13 @@ body.graph-window-open::after{
   border-radius: var(--radius-control);
   background: var(--surface);
   font-size: 0.8rem;
+  max-width: 100%;
 }
 .manuscript-index-link{ display: inline-flex; align-items: center; gap: 0.3rem; color: var(--link); text-decoration: none; min-width: 0; }
 .manuscript-index-link:hover{ text-decoration: underline; }
 .manuscript-index-link .type-badge, .manuscript-index-link .proof-badge{ margin-right: 0; }
-.manuscript-index-name{ font-family: 'Latin Modern', Georgia, serif; }
+/* A long name breaks rather than pushing the chip past a phone's edge. */
+.manuscript-index-name{ font-family: 'Latin Modern', Georgia, serif; min-width: 0; overflow-wrap: anywhere; }
 .manuscript-index-item.kind-submission .manuscript-index-name{ font-family: var(--mono); font-size: 0.72rem; }
 .manuscript-index-origin, .manuscript-index-page{ color: var(--text-dim); font-size: 0.72rem; white-space: nowrap; }
 
@@ -3309,9 +3311,10 @@ body.graph-window-open::after{
   gap: 1.25rem;
   align-items: start;
 }
-@media (min-width: 1101px){
-  .manuscript-body{ grid-template-columns: minmax(0, 1fr) 40rem; column-gap: 3rem; }
-}
+/* Side by side (manuscript.js sets the class from the manuscript's own
+   width): the rail gives way first, down to a card's worth, so the pages
+   keep a readable width until the layout stacks. */
+.manuscript-side .manuscript-body{ grid-template-columns: minmax(0, 1fr) minmax(24rem, min(40rem, 38%)); column-gap: 3rem; }
 
 /* The gutter bands: one path per placed card, from the passage's shadow to
    the whole card. Band and shadow share their fills and are both
