@@ -20,8 +20,7 @@
   function stateRank(state) {
     if (state === 'registered') return 0;
     if (state === 'draft') return 1;
-    if (state === 'superseded') return 2;
-    return 3;
+    return 2;
   }
 
   function filterList(list, search, type, emptyId, tag = '') {
@@ -46,21 +45,18 @@
     });
 
     // The index rows carry two separate search fields. Keep registered work
-    // before drafts and superseded versions last, then prefer rows with more
-    // query words in their title. Each row stays below its group heading
-    // (Work in Progress, Superseded) while filtering.
+    // before drafts, then prefer rows with more query words in their title.
+    // Each row stays below its group heading while filtering.
     if (rows.some((row) => row.dataset.searchTitle !== undefined)) {
       rows.sort((a, b) => stateRank(a.dataset.state) - stateRank(b.dataset.state)
         || (titleHits.get(b) || 0) - (titleHits.get(a) || 0)
         || Number(a.dataset.searchOrder) - Number(b.dataset.searchOrder));
       const empty = document.getElementById(emptyId);
       const draftHeading = list.querySelector('[data-entry-group="draft"]');
-      const supersededHeading = list.querySelector('[data-entry-group="superseded"]');
-      if (draftHeading || supersededHeading) {
+      if (draftHeading) {
         const boundary = (row) => {
-          if (row.dataset.state === 'superseded') return empty;
-          if (row.dataset.state === 'draft') return supersededHeading || empty;
-          return draftHeading || supersededHeading || empty;
+          if (row.dataset.state === 'draft') return empty;
+          return draftHeading;
         };
         rows.forEach((row) => list.insertBefore(row, boundary(row)));
       } else {
