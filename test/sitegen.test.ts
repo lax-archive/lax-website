@@ -3,7 +3,7 @@ import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { SITE_MIME, siteAssetPath } from "../src/sitegen/assets.js";
 import { generateSite, type SiteSubmission } from "../src/sitegen/generate.js";
-import { countsPill, typeBadge, typeBadgeText } from "../src/sitegen/html.js";
+import { countsPill, statePill, typeBadge, typeBadgeText } from "../src/sitegen/html.js";
 import { compareIds, SiteModel } from "../src/sitegen/model.js";
 import { MarkdownRenderer } from "../src/sitegen/markdown.js";
 import { repositorySource, sourceProviderName } from "../src/sitegen/pages/shared.js";
@@ -88,6 +88,10 @@ function snapshot(root: string): Map<string, Buffer> {
 }
 
 describe("site generator", () => {
+  it("labels superseded submission states as outdated", () => {
+    expect(statePill("superseded")).toBe('<span class="status-pill state-superseded">outdated</span>');
+  });
+
   it("builds provider-aware immutable source links", () => {
     const commit = "a".repeat(40);
     const cases = [

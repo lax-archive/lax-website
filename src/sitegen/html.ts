@@ -181,7 +181,8 @@ export function countsPill(proven: number, total: number): string {
 }
 
 export function statePill(state: string): string {
-  return `<span class="status-pill state-${esc(state)}">${esc(state)}</span>`;
+  const label = state === "superseded" ? "outdated" : state;
+  return `<span class="status-pill state-${esc(state)}">${esc(label)}</span>`;
 }
 
 export function code(value: string): string { return `<code>${esc(value)}</code>`; }
