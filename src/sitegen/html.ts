@@ -133,7 +133,15 @@ ${shell.sidebar}
 </aside>
 <section id="main"><div id="detail"${shell.detailClass ? ` class="${attr(shell.detailClass)}"` : ""}>
 ${shell.content}
-</div></section>
+</div>
+<footer class="site-footer">
+  <nav class="site-footer-nav" aria-label="Legal and about">
+    <a class="site-footer-link" href="${root}impressum.html">Impressum</a>
+    <a class="site-footer-link" href="${root}privacy.html">Privacy</a>
+    <a class="site-footer-link" href="${root}assets/lax-white-paper.pdf">About</a>
+  </nav>
+</footer>
+</section>
 </main>
 ${accountDialog()}
 ${scripts}

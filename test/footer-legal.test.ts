@@ -1,0 +1,36 @@
+import fs from "node:fs";
+import path from "node:path";
+import { describe, expect, it } from "vitest";
+import { generateSite } from "../src/sitegen/generate.js";
+import { page } from "../src/sitegen/html.js";
+import { tmpDir } from "./helpers.js";
+
+describe("footer and legal pages", () => {
+  it("links the legal pages and whitepaper from root and nested pages", () => {
+    const rootPage = page({ title: "Root", rootRel: "", sidebar: "", content: "" });
+    const nestedPage = page({ title: "Nested", rootRel: "../", sidebar: "", content: "" });
+
+    for (const [html, prefix] of [[rootPage, ""], [nestedPage, "../"]] as const) {
+      expect(html).toContain('<footer class="site-footer">');
+      expect(html).toContain(`href="${prefix}impressum.html">Impressum</a>`);
+      expect(html).toContain(`href="${prefix}privacy.html">Privacy</a>`);
+      expect(html).toContain(`href="${prefix}assets/lax-white-paper.pdf">About</a>`);
+    }
+  });
+
+  it("generates both legal pages with the project-specific disclosures", async () => {
+    const root = tmpDir("lax-site-legal-");
+    await generateSite([], root);
+
+    const impressum = fs.readFileSync(path.join(root, "impressum.html"), "utf8");
+    const privacy = fs.readFileSync(path.join(root, "privacy.html"), "utf8");
+
+    expect(impressum).toContain("Prof.-Dr.-Helmert-Str. 2–3");
+    expect(impressum).toContain("mail@clemens-kuske.de");
+    expect(privacy).toContain("GitHub Pages");
+    expect(privacy).toContain("Amazon Web Services (AWS)");
+    expect(privacy).toContain("ORCID iD");
+    expect(privacy).toContain("bis zu 14 Tage");
+    expect(privacy).toContain("§ 25 Abs. 2 Nr. 2 TDDDG");
+  });
+});
