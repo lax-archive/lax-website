@@ -12,7 +12,7 @@ describe("footer and legal pages", () => {
 
     for (const [html, prefix] of [[rootPage, ""], [nestedPage, "../"]] as const) {
       expect(html).toContain('<footer class="site-footer">');
-      expect(html).toContain(`href="${prefix}impressum.html">Impressum</a>`);
+      expect(html).toContain(`href="${prefix}impressum.html">Imprint</a>`);
       expect(html).toContain(`href="${prefix}privacy.html">Privacy</a>`);
       expect(html).toContain(`href="${prefix}assets/lax-white-paper.pdf">About</a>`);
     }
