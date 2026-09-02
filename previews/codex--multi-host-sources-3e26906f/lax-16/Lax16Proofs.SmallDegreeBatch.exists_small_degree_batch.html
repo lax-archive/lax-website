@@ -7,7 +7,7 @@
 <title>Lax16Proofs.SmallDegreeBatch.exists_small_degree_batch — lax-16</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=649e003e88f9">
+<link rel="stylesheet" href="../assets/style.css?v=7b9309bb63f1">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -69,7 +69,28 @@
 </ul>
 </aside>
 <section id="main"><div id="detail">
-<p class="superseded-banner"><strong>Superseded</strong> — a newer version of this work is available: <a href="../lax-60/index.html"><span class="submission-meta-id">lax-60</span> A Batch Approach to the Positive NCTD of Planar Graphs</a>.</p>
+<aside class="version-notice version-notice-superseded" aria-label="Submission version">
+<p><strong>Outdated version.</strong> You are viewing <span class="submission-meta-id">lax-16</span>. The current version is <a href="../lax-60/index.html?version=lax-60"><span class="submission-meta-id">lax-60</span></a>.</p>
+<div class="version-notice-actions"><a class="version-current-button" href="../lax-60/index.html?version=lax-60">Open current version <span aria-hidden="true">→</span></a><button class="version-history-button" type="button" data-version-dialog-open aria-haspopup="dialog" aria-controls="version-history-dialog">View 2 versions</button></div>
+</aside>
+<dialog class="version-history-dialog" id="version-history-dialog" data-version-dialog aria-labelledby="version-history-title">
+<div class="version-dialog-header"><div><p class="version-dialog-eyebrow">Version history</p><h2 id="version-history-title">Submission versions</h2></div><button class="version-dialog-close" type="button" data-version-dialog-close aria-label="Close version history">×</button></div>
+<p class="version-dialog-intro">Newest first. “Current version” is the latest registered successor; drafts are identified separately.</p>
+<ol class="version-list">
+<li class="version-item version-latest">
+<div class="version-item-heading"><span class="version-item-id">lax-60</span><span class="version-item-marks"><span class="version-mark version-mark-latest">current version</span></span></div>
+<p class="version-item-title">A Batch Approach to the Positive NCTD of Planar Graphs</p>
+<div class="version-metadata"><span><b>Created</b> <time datetime="2026-09-01T14:12:08Z">2026-09-01</time></span><span><b>Lean</b> <code>v4.30.0</code></span><span><b>mathlib</b> <code>c5ea00351c28e24afc9f0f84379aa41082b1188f</code></span></div>
+<div class="version-item-actions"><a class="version-source-link" href="https://github.com/clemenskuske/nctd-autoformalization/tree/d07f4ba590781bdbbcfa12f2a3b944e55b2cf81c/submission-v2"><svg class="source-mark" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true" focusable="false"><path fill="currentColor" d="M5.22 3.22a.75.75 0 0 1 1.06 1.06L2.56 8l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06Zm5.56 0 4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 1 1-1.06-1.06L13.44 8 9.72 4.28a.75.75 0 1 1 1.06-1.06Z"/></svg><span>GitHub source</span></a><a class="version-open-link" href="../lax-60/index.html?version=lax-60">Open version <span aria-hidden="true">→</span></a></div>
+</li>
+<li class="version-item version-selected" aria-current="page">
+<div class="version-item-heading"><span class="version-item-id">lax-16</span><span class="version-item-marks"><span class="version-mark version-mark-viewing">viewing</span></span></div>
+<p class="version-item-title">A Batch Approach to the Positive NCTD of Planar Graphs</p>
+<div class="version-metadata"><span><b>Created</b> <time datetime="2026-08-02T18:18:08Z">2026-08-02</time></span><span><b>Lean</b> <code>v4.30.0</code></span><span><b>mathlib</b> <code>c5ea00351c28e24afc9f0f84379aa41082b1188f</code></span></div>
+<div class="version-item-actions"><a class="version-source-link" href="https://github.com/clemenskuske/nctd-autoformalization/tree/01e8ccfe0903210cd06a6026b716f4c5d50cbc45/submission"><svg class="source-mark" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true" focusable="false"><path fill="currentColor" d="M5.22 3.22a.75.75 0 0 1 1.06 1.06L2.56 8l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06Zm5.56 0 4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 1 1-1.06-1.06L13.44 8 9.72 4.28a.75.75 0 1 1 1.06-1.06Z"/></svg><span>GitHub source</span></a><span class="version-viewing-label">Shown on this page</span></div>
+</li>
+</ol>
+</dialog>
 <div class="detail-heading concept-heading proof-heading">
 <div class="proof-heading-content"><h1 class="concept-title">Proof of <span class="proof-concept-title">`Every vertex of degree at most three admits a width-four neighborhood batch`</span></h1>
 <p class="concept-microline proof-microline"><span class="status-pills"><span class="status-pill pill-proven" tabindex="0" data-tooltip="No open assumptions remain in the archive: every dependency is backed by a checked proof, ultimately reducing to Lean and Mathlib." aria-label="Grounded. No open assumptions remain in the archive: every dependency is backed by a checked proof, ultimately reducing to Lean and Mathlib.">grounded</span></span><span><a href="https://github.com/clemenskuske/nctd-autoformalization/blob/01e8ccfe0903210cd06a6026b716f4c5d50cbc45/submission/proofs/Lax16Proofs/SmallDegreeBatch.lean"><code>proofs/Lax16Proofs/SmallDegreeBatch.lean</code></a> · <a href="index.html">lax-16</a></span></p></div>
@@ -118,6 +139,7 @@ four.</p>
 </div>
 </div>
 </dialog>
-<script src="../assets/sidebar.js?v=dae45c1c3e55"></script>
+<script src="../assets/sidebar.js?v=1a68c1dcb5ff"></script>
 <script src="../assets/account.js?v=ec80ece877ec"></script>
+<script src="../assets/version-history.js?v=a36e868140dd"></script>
 </body></html>

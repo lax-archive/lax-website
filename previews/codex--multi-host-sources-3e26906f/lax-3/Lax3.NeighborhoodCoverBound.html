@@ -7,7 +7,7 @@
 <title>Neighborhood covers of weak coloring degree — Lax3.NeighborhoodCoverBound</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=649e003e88f9">
+<link rel="stylesheet" href="../assets/style.css?v=7b9309bb63f1">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -134,7 +134,7 @@ for every ε &gt; 0 — the form the model-checking recursion consumes, on
 every arena, since the weak coloring bound of Lax12 is uniform over
 subgraphs of members.</p>
 </div></div>
-<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/4af91eadd1217e0c3b3db5837b8c966f31c8c523/nowhere-dense-model-checking/concepts/Lax3/NeighborhoodCoverBound.lean">view on GitHub</a></h3>
+<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/b054d44d308326d6b02e7e778c57cf5984c0d56f/nowhere-dense-model-checking/concepts/Lax3/NeighborhoodCoverBound.lean">view on GitHub</a></h3>
 <div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
 <tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax3.NeighborhoodCovers</span></td></tr>
 <tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax12.ColoringNumbers</span></td></tr>
@@ -193,7 +193,7 @@ subgraphs of members.</p>
 <tr id="L55" class=""><td class="line-num"><a href="#L55">55</a></td><td class="line-code"> </td></tr>
 <tr id="L56" class=""><td class="line-num"><a href="#L56">56</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax3.NeighborhoodCoverBound</span></td></tr>
 <tr id="L57" class=""><td class="line-num"><a href="#L57">57</a></td><td class="line-code"> </td></tr>
-</table></div><span class="source-proof-rail" data-source-line="L51" aria-label="Proof links"><a class="statement-proof-button" href="https://github.com/lax-archive/lax-submissions/blob/4af91eadd1217e0c3b3db5837b8c966f31c8c523/nowhere-dense-model-checking/proofs/Lax3Proofs/CoverConstruction.lean" aria-label="View proof Lax3Proofs.CoverConstruction.exists_neighborhoodCover_degree_wcol on GitHub" title="Lax3Proofs.CoverConstruction.exists_neighborhoodCover_degree_wcol"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">Show Proof</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a></span><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
+</table></div><span class="source-proof-rail" data-source-line="L51" aria-label="Proof links"><a class="statement-proof-button" href="https://github.com/lax-archive/lax-submissions/blob/b054d44d308326d6b02e7e778c57cf5984c0d56f/nowhere-dense-model-checking/proofs/Lax3Proofs/CoverConstruction.lean" aria-label="View proof Lax3Proofs.CoverConstruction.exists_neighborhoodCover_degree_wcol on GitHub" title="Lax3Proofs.CoverConstruction.exists_neighborhoodCover_degree_wcol"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">Show Proof</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a></span><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
 <div class="block"><h3>Formalization notes</h3><div class="latex-content"><p>The statement is per-graph and class-free, with the degree bound
 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>w</mi><mi>c</mi><mi>o</mi><mi>l</mi><mi>G</mi><mo stretchy="false">(</mo><mn>2</mn><mi>r</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">wcol G (2r)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0269em;">w</span><span class="mord mathnormal">co</span><span class="mord mathnormal" style="margin-right:0.0197em;">l</span><span class="mord mathnormal">G</span><span class="mopen">(</span><span class="mord">2</span><span class="mord mathnormal" style="margin-right:0.0278em;">r</span><span class="mclose">)</span></span></span></span> — Lax12's <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>w</mi><mi>c</mi><mi>o</mi><mi>l</mi></mrow><annotation encoding="application/x-tex">wcol</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.0269em;">w</span><span class="mord mathnormal">co</span><span class="mord mathnormal" style="margin-right:0.0197em;">l</span></span></span></span>, not restated. This is the strongest
 form the construction gives: the covering and radius properties hold
@@ -260,10 +260,11 @@ of this statement.</p>
 </div>
 </div>
 </dialog>
-<script src="../assets/sidebar.js?v=dae45c1c3e55"></script>
+<script src="../assets/sidebar.js?v=1a68c1dcb5ff"></script>
 <script src="../assets/account.js?v=ec80ece877ec"></script>
 <script src="../assets/layout.js?v=41e28199b546"></script>
 <script src="../assets/dag.js?v=2a0b2e1bec54"></script>
 <script src="../assets/source-proof.js?v=b4c48aaad400"></script>
+<script src="../assets/version-history.js?v=a36e868140dd"></script>
 <script src="../assets/comments.js?v=493b5ebde364"></script>
 </body></html>
