@@ -28,15 +28,18 @@ jobs:
       - run: npm ci
       - run: npm run check
 
-      # Compiled papers come from the archive's capture registry, one PDF per
-      # digest; the cache spares the corpus a re-download per build.
+      # Compiled papers and reflow bundles come from the archive's capture
+      # registry, one file per digest; the cache spares the corpus a
+      # re-download per build.
       - uses: actions/cache@v4
         with:
-          path: data/papers
+          path: |
+            data/papers
+            data/bundles
           key: papers-${{ hashFiles('data/lax-db/*/build-output.json') }}
           restore-keys: papers-
-      - run: npm run papers:fetch -- --database data/lax-db --papers data/papers
-      - run: npm run site:build -- --database data/lax-db --papers data/papers --out _site
+      - run: npm run papers:fetch -- --database data/lax-db --papers data/papers --bundles data/bundles
+      - run: npm run site:build -- --database data/lax-db --papers data/papers --bundles data/bundles --out _site
 
       - name: Verify deployable output
         run: |

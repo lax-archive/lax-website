@@ -91,6 +91,26 @@ export interface PaperMark {
   end: PaperMarkPoint;
 }
 
+/** The derived reflowable web rendering of a paper (`paper.web`), present
+ * iff the archive's derivation succeeded. `format` pins the deriving tool so
+ * the site build can gate old bundles against the vendored viewer's
+ * supported schema set; `bundle` names the sealed tar (index, protobuf
+ * blocks, fonts, schema) in the capture registry, bare-hex digest like every
+ * recorded digest. */
+export interface PaperWebEntry {
+  format: {
+    tool: string;
+    rev: string;
+    /** sha256 of the bundle's `schema/latex.proto`, bare hex. */
+    schema: string;
+  };
+  bundle: {
+    digest: string;
+    bytes: number;
+    registryBlob?: string;
+  };
+}
+
 /** The `paper` key of a build output: the compiled document's identity and
  * its marks. The PDF bytes themselves live in the capture registry
  * (`registryBlob`) and are fetched into the papers cache before a build. */
@@ -107,6 +127,7 @@ export interface PaperEntry {
   /** `[width, height]` per page, in points. */
   pageSizes: Array<[number, number]>;
   marks: PaperMark[];
+  web?: PaperWebEntry;
 }
 
 export interface BuildOutput {

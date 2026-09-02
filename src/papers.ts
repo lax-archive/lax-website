@@ -16,9 +16,11 @@ import type { SiteSubmission } from "./sitegen/model.js";
 const REGISTRY_HOST = "ghcr.io";
 const REDIRECT_HOSTS = new Set([REGISTRY_HOST, "pkg-containers.githubusercontent.com"]);
 const MAX_REDIRECTS = 5;
-/** The archive's own cap on a compiled paper; anything larger is not ours. */
+/** The archive's own cap on a compiled paper; anything larger is not ours.
+ * The derived web bundles share the cap (`capture-store` precedent). */
 export const MAX_PAPER_BYTES = 25 * 1024 * 1024;
-const BLOB_REFERENCE =
+/** A ghcr digest address as the archive records it (`registryBlob`). */
+export const BLOB_REFERENCE =
   /^ghcr\.io\/([a-z0-9]+(?:[._-][a-z0-9]+)*(?:\/[a-z0-9]+(?:[._-][a-z0-9]+)*)+)@sha256:([0-9a-f]{64})$/u;
 
 export function paperCachePath(papersDir: string, digest: string): string {
@@ -83,7 +85,10 @@ export async function fetchPapers(
   return fetched;
 }
 
-async function downloadBlob(reference: string, doFetch: typeof fetch): Promise<Buffer> {
+/** Download one public registry blob by its recorded address — anonymous
+ * pull token, bounded redirects to the known hosts, size-capped. Shared by
+ * the papers and bundles caches; callers verify the digest of what arrives. */
+export async function downloadBlob(reference: string, doFetch: typeof fetch): Promise<Buffer> {
   const match = BLOB_REFERENCE.exec(reference);
   if (match === null) throw new Error(`not a ghcr digest reference: ${reference}`);
   const [, repository, digest] = match;

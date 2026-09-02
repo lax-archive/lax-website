@@ -15,6 +15,12 @@ export const SITE_MIME: Record<string, string> = {
   ".pdf": "application/pdf",
   ".svg": "image/svg+xml",
   ".woff2": "font/woff2",
+  // The reflow paper surface: its per-paper OTF/TTF fonts, the protobuf
+  // block files pages over the embed budget fetch, and the wire schema.
+  ".otf": "font/otf",
+  ".ttf": "font/ttf",
+  ".pb": "application/octet-stream",
+  ".proto": "text/plain; charset=utf-8",
   ".txt": "text/plain; charset=utf-8",
 };
 

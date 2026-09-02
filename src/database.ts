@@ -1,7 +1,8 @@
 import fs from "node:fs";
 import path from "node:path";
+import { bundleCachePath } from "./bundles.js";
 import { paperCachePath } from "./papers.js";
-import type { BuildOutput, DbRecord, PaperEntry, PaperMark, PaperMarkPoint } from "./types.js";
+import type { BuildOutput, DbRecord, PaperEntry, PaperMark, PaperMarkPoint, PaperWebEntry } from "./types.js";
 import type { SiteSubmission } from "./sitegen/model.js";
 
 function readJson<T>(file: string): T | undefined {
@@ -39,6 +40,36 @@ function paperPoint(value: unknown, label: string, pages: number): PaperMarkPoin
     x: finiteNumber(value.x, `${label} x`),
     y: finiteNumber(value.y, `${label} y`),
     mode: value.mode,
+  };
+}
+
+/**
+ * The optional `paper.web` key: the derived reflow bundle's identity. Same
+ * stance as the rest of the paper block — the archive validated fail-closed;
+ * this repeats the structural part so corruption is named at build time.
+ */
+function paperWebEntry(value: unknown, label: string): PaperWebEntry {
+  if (!isObject(value)) throw new Error(`${label} must be an object`);
+  if (!isObject(value.format)) throw new Error(`${label} format must be an object`);
+  if (typeof value.format.tool !== "string" || value.format.tool === "")
+    throw new Error(`${label} format tool must be a string`);
+  if (typeof value.format.rev !== "string" || value.format.rev === "")
+    throw new Error(`${label} format rev must be a string`);
+  if (typeof value.format.schema !== "string" || !SHA256_HEX.test(value.format.schema))
+    throw new Error(`${label} format schema must be a sha256 hex string`);
+  if (!isObject(value.bundle)) throw new Error(`${label} bundle must be an object`);
+  if (typeof value.bundle.digest !== "string" || !SHA256_HEX.test(value.bundle.digest))
+    throw new Error(`${label} bundle digest must be a sha256 hex string`);
+  const bytes = positiveInteger(value.bundle.bytes, `${label} bundle bytes`);
+  if (value.bundle.registryBlob !== undefined && typeof value.bundle.registryBlob !== "string")
+    throw new Error(`${label} bundle registryBlob must be a string`);
+  return {
+    format: { tool: value.format.tool, rev: value.format.rev, schema: value.format.schema },
+    bundle: {
+      digest: value.bundle.digest,
+      bytes,
+      ...(value.bundle.registryBlob === undefined ? {} : { registryBlob: value.bundle.registryBlob }),
+    },
   };
 }
 
@@ -97,6 +128,7 @@ function paperEntry(value: unknown, label: string): PaperEntry {
     },
     pageSizes,
     marks,
+    ...(value.web === undefined ? {} : { web: paperWebEntry(value.web, `${label} web`) }),
   };
 }
 
@@ -127,6 +159,13 @@ export interface LoadOptions {
    * render without the viewer — the preview policy.
    */
   papersDir?: string;
+  /**
+   * The web bundles cache: `<bundlesDir>/<digest>.tar` per derived reflow
+   * bundle, filled by the same `npm run papers:fetch`. Omitted (previews,
+   * `--no-papers`), no bundle is attached and paper pages keep the PDF-only
+   * shape — one flag governs both caches.
+   */
+  bundlesDir?: string;
 }
 
 /**
@@ -158,12 +197,21 @@ export function loadSubmissions(databaseDir: string, options: LoadOptions = {}):
         const file = paperCachePath(options.papersDir, output.paper.pdf.digest);
         if (fs.existsSync(file)) submission.paperFile = file;
       }
+      if (output?.paper?.web && options.bundlesDir !== undefined) {
+        const file = bundleCachePath(options.bundlesDir, output.paper.web.bundle.digest);
+        if (fs.existsSync(file)) submission.bundleFile = file;
+      }
       return [submission];
     });
 }
 
-/** Paper-bearing submissions whose PDF the loader could not attach. */
+/** Paper-bearing submissions whose PDF — or whose declared reflow bundle —
+ * the loader could not attach. Both are filled by `npm run papers:fetch`. */
 export function submissionsMissingPapers(submissions: SiteSubmission[]): SiteSubmission[] {
-  return submissions.filter((submission) =>
-    submission.record.state !== "deleted" && submission.output?.paper && !submission.paperFile);
+  return submissions.filter((submission) => {
+    if (submission.record.state === "deleted") return false;
+    const paper = submission.output?.paper;
+    if (!paper) return false;
+    return !submission.paperFile || (paper.web !== undefined && !submission.bundleFile);
+  });
 }

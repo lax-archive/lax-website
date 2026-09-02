@@ -7,6 +7,8 @@ export interface SiteSubmission {
   output?: BuildOutput;
   /** The compiled paper's PDF on disk, when the papers cache holds it. */
   paperFile?: string;
+  /** The derived reflow bundle tar on disk, when the bundles cache holds it. */
+  bundleFile?: string;
 }
 
 /** One passage of a paper that marks a concept, proof, or submission. */

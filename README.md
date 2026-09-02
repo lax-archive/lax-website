@@ -82,6 +82,25 @@ production build refuses to run with a paper missing from it, and
 `--no-papers` builds the page without the viewer instead, for quick local
 builds.
 
+A record may additionally carry a derived reflowable rendering of the same
+paper (`paper.web`, a ReflowTeX bundle sealed by the archive — see
+`paper-web-plan.md` in the `lax` repository). `npm run papers:fetch` also
+downloads those bundles into `data/bundles/<digest>.tar` (`--bundles DIR`
+moves the cache), and `site:build` then renders `paper.html` with the
+reflow surface as the default view — the paper re-typeset as SVG at the
+reader's width by the vendored viewer (`assets/site/reflowtex/`, AGPL, the
+source served unminified), the marked passages exposed as `#m<n>` anchors
+the cards attach to, and the pdf.js view behind an "As printed" toggle.
+The build content-hashes every served font under the site root's `fonts/`,
+embeds the protobuf blocks inline up to a ~2 MiB budget (past it they are
+emitted as `<id>/paper-web/*.pb` files the viewer fetches same-origin),
+and gates every bundle's recorded schema against the viewer's supported
+set (`assets/site/reflowtex/supported-schemas.json`) — a mismatch drops
+that page to the PDF-only surface with a build warning, never a broken
+reflow page. `--no-papers` suppresses bundles along with PDFs — one flag —
+so preview builds keep today's card-list page (a preview's `paper.html`
+bytes therefore differ from production's, deterministically per flag set).
+
 ## Content
 
 - `content/landing.md` supplies the landing-page introduction.

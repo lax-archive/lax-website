@@ -5,7 +5,11 @@ stage 4 in the `lax` repository): lax-website cannot run lax's validation
 pipeline, so the bundle is generated once by lax's host path and committed
 here, the way sitegen fixtures work. Regenerate it whenever the bundle
 format or the pinned fork changes (a schema change **requires** it — the
-site build's schema gate keys on `format.schema`).
+site build's schema gate keys on `format.schema`). A schema change is a
+three-part change in this repository: the regenerated fixture, the new
+hash in `assets/site/reflowtex/supported-schemas.json`, and the vendored
+viewer's fixed-schema wire decoder extended to match (its equivalence
+against protobuf.js over this fixture's block is `test/latex-decode.test.ts`).
 
 - `paper-web.tar` — the sealed bundle exactly as a record's ghcr blob
   would serve it: `index.json` (format pin, ordered block list, the

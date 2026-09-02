@@ -81,17 +81,19 @@ jobs:
         if: github.event_name != 'delete'
         uses: actions/cache@v4
         with:
-          path: data/papers
+          path: |
+            data/papers
+            data/bundles
           key: papers-${{ hashFiles('data/lax-db/*/build-output.json') }}
           restore-keys: papers-
 
       - name: Fetch the compiled papers
         if: github.event_name != 'delete'
-        run: npm run papers:fetch -- --database data/lax-db --papers data/papers
+        run: npm run papers:fetch -- --database data/lax-db --papers data/papers --bundles data/bundles
 
       - name: Build the current branch
         if: github.event_name != 'delete'
-        run: npm run site:build -- --database data/lax-db --papers data/papers --out _site
+        run: npm run site:build -- --database data/lax-db --papers data/papers --bundles data/bundles --out _site
 
       - name: Restore the published Pages tree
         run: |
@@ -122,12 +124,15 @@ jobs:
           git fetch --no-tags --depth=1 origin "$DEFAULT_BRANCH:refs/remotes/origin/$DEFAULT_BRANCH"
           git worktree add --detach "$source_dir" "origin/$DEFAULT_BRANCH"
           npm --prefix "$source_dir" ci
+          # --bundles is ignored by branches predating the reflow bundles.
           npm --prefix "$source_dir" run papers:fetch --if-present -- \
             --database "$GITHUB_WORKSPACE/data/lax-db" \
-            --papers "$GITHUB_WORKSPACE/data/papers"
+            --papers "$GITHUB_WORKSPACE/data/papers" \
+            --bundles "$GITHUB_WORKSPACE/data/bundles"
           npm --prefix "$source_dir" run site:build -- \
             --database "$GITHUB_WORKSPACE/data/lax-db" \
             --papers "$GITHUB_WORKSPACE/data/papers" \
+            --bundles "$GITHUB_WORKSPACE/data/bundles" \
             --out "$GITHUB_WORKSPACE/_production_site"
           cp -a _production_site/. _pages/
 
