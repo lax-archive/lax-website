@@ -1303,7 +1303,6 @@ describe("supersedes version chains", () => {
     expect(oldPage).not.toContain("<strong>Superseded version.</strong>");
     expect(oldPage).toContain("The current version is");
     expect(oldPage).toContain('href="../lax-3/index.html?version=lax-3"');
-    expect(oldPage).toContain("Current Result");
     expect(oldPage).toContain('data-version-dialog');
     expect(oldPage).toContain('data-version-dialog-open');
     expect(oldPage).not.toContain('class="paper-version-button"');
@@ -1317,8 +1316,10 @@ describe("supersedes version chains", () => {
     expect(oldPage).toContain("GitHub source");
     expect(oldPage).toContain("https://github.com/example/formalization/tree/3333333333333333333333333333333333333333/submission-3");
     expect(oldPage).toContain("note = {superseded by lax-3}");
-    expect(oldPage.indexOf('class="page-reactions"')).toBeLessThan(oldPage.indexOf('class="version-notice'));
-    expect(oldPage.indexOf('class="version-notice')).toBeLessThan(oldPage.indexOf('class="paper-abstract"'));
+    expect(oldPage.indexOf('class="version-notice')).toBeLessThan(oldPage.indexOf('class="paper-head"'));
+    const notice = oldPage.slice(oldPage.indexOf('class="version-notice'), oldPage.indexOf("</aside>", oldPage.indexOf('class="version-notice')));
+    expect(notice).toContain('href="../lax-3/index.html?version=lax-3"><span class="submission-meta-id">lax-3</span></a>');
+    expect(notice).not.toContain("Current Result");
 
     const oldConcept = fs.readFileSync(path.join(root, "lax-1", "lax1.C.html"), "utf8");
     expect(oldConcept).toContain('class="version-notice version-notice-superseded"');

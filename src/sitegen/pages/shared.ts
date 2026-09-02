@@ -443,11 +443,7 @@ export function versionHistoryPanel(
 
   const shown = ctx.model.submissionById.get(submissionId)!;
   const currentId = ctx.model.currentVersion(submissionId);
-  const current = ctx.model.submissionById.get(currentId);
-  const currentTitle = current?.output?.manifest.title;
-  const currentLabel = `<span class="submission-meta-id">${esc(currentId)}</span>${
-    currentTitle ? ` ${ctx.markdown.renderAuthorInline(currentTitle, rootRel)}` : ""
-  }`;
+  const currentLabel = `<span class="submission-meta-id">${esc(currentId)}</span>`;
   const currentLink = `<a href="${attr(versionHref(rootRel, currentId))}">${currentLabel}</a>`;
   const draftProposal = shown.record.state === "draft" && ctx.model.supersedesClaim.has(submissionId);
   const superseded = !draftProposal && currentId !== submissionId;
