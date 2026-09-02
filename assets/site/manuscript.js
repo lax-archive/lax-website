@@ -25,17 +25,6 @@
   const CARD_GAP = 8;
   const SHADOW_MARGIN = 18; // px beyond the passage's leftmost and rightmost extent
   const SVG = 'http://www.w3.org/2000/svg';
-  // The rail sits beside the pages once the manuscript itself is this wide
-  // (the sidebar's state and the detail column's cap both count, which a
-  // viewport query would miss); narrower, it stacks under them.
-  const SIDE_MIN_REM = 60;
-  const remPx = () => parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
-  const sideRail = () => root.classList.contains('manuscript-side');
-  function updateMode() {
-    const side = root.clientWidth >= SIDE_MIN_REM * remPx();
-    if (side === sideRail()) return;
-    root.classList.toggle('manuscript-side', side);
-  }
 
   const pageEls = [...pagesEl.querySelectorAll('.manuscript-page')];
   const cards = marks.map((mark) => {
@@ -263,14 +252,10 @@
     stack();
   }
 
+  // The rail is always beside the pages (the body scrolls sideways where
+  // the screen is narrower than the two together), so cards sit at their
+  // passages' y from the first layout on.
   function stack() {
-    if (!sideRail()) {
-      railEl.classList.remove('manuscript-rail-live');
-      railEl.style.height = '';
-      for (const card of cards) card.el.style.top = '';
-      drawLinks();
-      return;
-    }
     railEl.classList.add('manuscript-rail-live');
     const tops = place.stackCards(cards.map((card) => ({ want: card.want, height: card.el.offsetHeight })), CARD_GAP);
     let bottom = 0;
@@ -288,10 +273,6 @@
   // the body's.
   function drawLinks() {
     if (!linksEl || !bodyEl) return;
-    if (!sideRail()) {
-      linksEl.classList.remove('manuscript-links-live');
-      return;
-    }
     const width = bodyEl.clientWidth;
     const height = bodyEl.clientHeight;
     linksEl.setAttribute('viewBox', `0 0 ${width} ${height}`);
@@ -435,7 +416,8 @@
       const pinned = !best.pinned;
       setPinned(best, pinned);
       flash(best);
-      if (!sideRail() && pinned) best.el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      // Brings the card into view where the rail is scrolled off to the side.
+      if (pinned) best.el.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
     });
   }
 
@@ -475,7 +457,6 @@
 
   let lastWidth = pagesEl.clientWidth;
   const onResize = () => {
-    updateMode();
     const width = pagesEl.clientWidth;
     if (Math.abs(width - lastWidth) < 2) { stack(); return; }
     lastWidth = width;
@@ -483,8 +464,6 @@
   };
 
   async function main() {
-    updateMode();
-    lastWidth = pagesEl.clientWidth;
     await loadDocument();
     await resolveMarks();
     wireCards();
