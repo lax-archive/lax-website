@@ -1,0 +1,993 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; worker-src 'self'; style-src 'self' 'unsafe-inline'; img-src https: data:; font-src 'self'; frame-src https://comments.laxarchive.org; connect-src 'self' https://comments.laxarchive.org">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Lax — an archive of formalized mathematical concepts and their proofs">
+<title>Paper — lax-65</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
+<link rel="stylesheet" href="../assets/style.css?v=f353dde39457">
+</head><body>
+<header class="site-header sidebar-hidden">
+  <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
+  <h1 class="site-title"><a href="../index.html">Lax <span class="site-title-quiet">Lean Archive</span></a></h1>
+  <nav class="header-actions" aria-label="Account">
+    <div class="account-header" data-account-root data-remark42-host="https://comments.laxarchive.org" data-remark42-site="remark" data-identity-url="https://comments.laxarchive.org/reactions/v1/identity">
+  <a class="account-control" data-account-login href="https://comments.laxarchive.org/auth/orcid/login?from=https%3A%2F%2Flaxarchive.org&amp;site=remark"><span class="orcid-mark" aria-hidden="true">iD</span><span>Sign in with ORCID</span></a>
+  <button class="account-control" data-account-settings type="button" aria-haspopup="dialog" aria-controls="account-dialog" hidden><span class="orcid-mark" aria-hidden="true">iD</span><span>Settings</span></button>
+</div>
+  </nav>
+</header>
+<main id="content-shell" class="sidebar-hidden">
+<div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+<aside id="sidebar">
+<a class="sidebar-back" href="../lax-65/index.html"><span class="sidebar-back-arrow" aria-hidden="true">←</span>lax-65</a>
+<div class="sidebar-filters"><div class="filter-group">
+<label for="filter-search">Search</label>
+<input id="filter-search" class="filter-input" type="search" placeholder="Filter entries" aria-controls="entry-list">
+</div>
+<div class="filter-group">
+<label for="filter-type">Type</label>
+<select id="filter-type" class="filter-select">
+<option value="all">All types</option>
+<option value="corollary">corollary</option>
+<option value="definition">definition</option>
+<option value="lemma">lemma</option>
+<option value="theorem">theorem</option>
+</select>
+</div></div>
+<ul id="entry-list">
+<li data-type="corollary" data-search="lax65.apexcorollary adding an apex can almost double twin-width corollary"><a class="entry-link" href="../lax-65/Lax65.ApexCorollary.html" data-full-title="Adding an apex can almost double twin-width"><span class="entry-label"><span class="type-badge open" title="corollary — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">cor×</span><span class="entry-label-text">Lax65.ApexCorollary</span></span></a></li>
+<li data-type="definition" data-search="lax65.bonnetdepresgraph the graph g_{t,ε} definition"><a class="entry-link" href="../lax-65/Lax65.BonnetDepresGraph.html" data-full-title="The graph G_{t,ε}"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax65.BonnetDepresGraph</span></span></a></li>
+<li data-type="theorem" data-search="lax65.exponentialseparation twin-width can be exponential in treewidth theorem"><a class="entry-link" href="../lax-65/Lax65.ExponentialSeparation.html" data-full-title="Twin-width can be exponential in treewidth"><span class="entry-label"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><span class="entry-label-text">Lax65.ExponentialSeparation</span></span></a></li>
+<li data-type="definition" data-search="lax65.feedbackvertexset feedback vertex set definition"><a class="entry-link" href="../lax-65/Lax65.FeedbackVertexSet.html" data-full-title="Feedback vertex set"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax65.FeedbackVertexSet</span></span></a></li>
+<li data-type="definition" data-search="lax65.graphfamily families of graphs with unbounded twin-width definition"><a class="entry-link" href="../lax-65/Lax65.GraphFamily.html" data-full-title="Families of graphs with unbounded twin-width"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax65.GraphFamily</span></span></a></li>
+<li data-type="definition" data-search="lax65.gridnumber grid number definition"><a class="entry-link" href="../lax-65/Lax65.GridNumber.html" data-full-title="Grid number"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax65.GridNumber</span></span></a></li>
+<li data-type="corollary" data-search="lax65.gridnumbercorollary twin-width exponential in grid number corollary"><a class="entry-link" href="../lax-65/Lax65.GridNumberCorollary.html" data-full-title="Twin-width exponential in grid number"><span class="entry-label"><span class="type-badge open" title="corollary — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">cor×</span><span class="entry-label-text">Lax65.GridNumberCorollary</span></span></a></li>
+<li data-type="lemma" data-search="lax65.gridnumberofbonnetdepres grid number of g_t lemma"><a class="entry-link" href="../lax-65/Lax65.GridNumberOfBonnetDepres.html" data-full-title="Grid number of G_t"><span class="entry-label"><span class="type-badge open" title="lemma — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem×</span><span class="entry-label-text">Lax65.GridNumberOfBonnetDepres</span></span></a></li>
+<li data-type="definition" data-search="lax65.orientedtwinwidth oriented twin-width definition"><a class="entry-link" href="../lax-65/Lax65.OrientedTwinWidth.html" data-full-title="Oriented twin-width"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax65.OrientedTwinWidth</span></span></a></li>
+<li data-type="corollary" data-search="lax65.orientedtwinwidthcorollary twin-width exponential in oriented twin-width corollary"><a class="entry-link" href="../lax-65/Lax65.OrientedTwinWidthCorollary.html" data-full-title="Twin-width exponential in oriented twin-width"><span class="entry-label"><span class="type-badge open" title="corollary — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">cor×</span><span class="entry-label-text">Lax65.OrientedTwinWidthCorollary</span></span></a></li>
+<li data-type="lemma" data-search="lax65.orientedtwinwidthofbonnetdepres oriented twin-width of g_t lemma"><a class="entry-link" href="../lax-65/Lax65.OrientedTwinWidthOfBonnetDepres.html" data-full-title="Oriented twin-width of G_t"><span class="entry-label"><span class="type-badge open" title="lemma — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem×</span><span class="entry-label-text">Lax65.OrientedTwinWidthOfBonnetDepres</span></span></a></li>
+<li data-type="corollary" data-search="lax65.treewidthcorollary twin-width exponential in treewidth, as a family corollary"><a class="entry-link" href="../lax-65/Lax65.TreewidthCorollary.html" data-full-title="Twin-width exponential in treewidth, as a family"><span class="entry-label"><span class="type-badge open" title="corollary — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">cor×</span><span class="entry-label-text">Lax65.TreewidthCorollary</span></span></a></li>
+<li data-type="lemma" data-search="lax65.treewidthofbonnetdepres treewidth of g_t lemma"><a class="entry-link" href="../lax-65/Lax65.TreewidthOfBonnetDepres.html" data-full-title="Treewidth of G_t"><span class="entry-label"><span class="type-badge open" title="lemma — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem×</span><span class="entry-label-text">Lax65.TreewidthOfBonnetDepres</span></span></a></li>
+<li data-type="lemma" data-search="lax65.twinwidthofbonnetdepres twin-width of g_t lemma"><a class="entry-link" href="../lax-65/Lax65.TwinWidthOfBonnetDepres.html" data-full-title="Twin-width of G_t"><span class="entry-label"><span class="type-badge open" title="lemma — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem×</span><span class="entry-label-text">Lax65.TwinWidthOfBonnetDepres</span></span></a></li>
+<li id="entry-list-empty" hidden>No entries match.</li>
+</ul>
+</aside>
+<section id="main"><div id="detail" class="detail-manuscript">
+<p class="draft-banner"><strong>Draft</strong> — mutable and not usable as a dependency; its citation marks the draft state.</p>
+<div class="manuscript" data-pdf="paper.pdf" data-pdfjs="../assets/pdfjs/pdf.min.mjs?v=2221020ea508" data-pdfjs-worker="../assets/pdfjs/pdf.worker.min.mjs?v=51a2fd1ea47f">
+<div class="detail-heading concept-heading manuscript-heading">
+<div><p class="concept-id">Paper</p>
+<h1 class="concept-title">Twin-Width Can Be Exponential in Treewidth</h1>
+<p class="concept-microline">11 pages · 17 marked passages · pdflatex · <a href="paper.pdf">download PDF</a> · <a href="index.html">lax-65</a></p></div>
+</div>
+<section class="manuscript-index-section"><h3 class="manuscript-index-heading">Marked in this paper</h3>
+<ol class="manuscript-index">
+<li class="manuscript-index-item kind-submission"><a class="manuscript-index-link" href="#m1"><span class="manuscript-index-name">lax-65</span></a><span class="manuscript-index-page">p. 1</span></li>
+<li class="manuscript-index-item kind-concept"><a class="manuscript-index-link" href="#m2"><span class="type-badge" title="definition">def</span><span class="manuscript-index-name">Lax48.TwinWidth</span></a><span class="manuscript-index-origin">from lax-48</span><span class="manuscript-index-page">p. 1</span></li>
+<li class="manuscript-index-item kind-concept"><a class="manuscript-index-link" href="#m3"><span class="type-badge" title="definition">def</span><span class="manuscript-index-name">Lax48.Treewidth</span></a><span class="manuscript-index-origin">from lax-48</span><span class="manuscript-index-page">p. 2</span></li>
+<li class="manuscript-index-item kind-concept"><a class="manuscript-index-link" href="#m4"><span class="type-badge" title="definition">def</span><span class="manuscript-index-name">Lax65.GridNumber</span></a><span class="manuscript-index-page">p. 2</span></li>
+<li class="manuscript-index-item kind-concept"><a class="manuscript-index-link" href="#m5"><span class="type-badge" title="definition">def</span><span class="manuscript-index-name">Lax65.OrientedTwinWidth</span></a><span class="manuscript-index-page">p. 3</span></li>
+<li class="manuscript-index-item kind-concept"><a class="manuscript-index-link" href="#m6"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><span class="manuscript-index-name">Lax65.ExponentialSeparation</span></a><span class="manuscript-index-page">p. 3</span></li>
+<li class="manuscript-index-item kind-concept"><a class="manuscript-index-link" href="#m7"><span class="type-badge open" title="corollary — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">cor×</span><span class="manuscript-index-name">Lax65.TreewidthCorollary</span></a><span class="manuscript-index-page">p. 4</span></li>
+<li class="manuscript-index-item kind-concept"><a class="manuscript-index-link" href="#m8"><span class="type-badge open" title="corollary — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">cor×</span><span class="manuscript-index-name">Lax65.GridNumberCorollary</span></a><span class="manuscript-index-page">p. 4</span></li>
+<li class="manuscript-index-item kind-concept"><a class="manuscript-index-link" href="#m9"><span class="type-badge open" title="corollary — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">cor×</span><span class="manuscript-index-name">Lax65.OrientedTwinWidthCorollary</span></a><span class="manuscript-index-page">p. 4</span></li>
+<li class="manuscript-index-item kind-concept"><a class="manuscript-index-link" href="#m10"><span class="type-badge open" title="corollary — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">cor×</span><span class="manuscript-index-name">Lax65.ApexCorollary</span></a><span class="manuscript-index-page">p. 4</span></li>
+<li class="manuscript-index-item kind-concept"><a class="manuscript-index-link" href="#m11"><span class="type-badge" title="definition">def</span><span class="manuscript-index-name">Lax48.TwinWidth</span></a><span class="manuscript-index-origin">from lax-48</span><span class="manuscript-index-page">p. 4</span></li>
+<li class="manuscript-index-item kind-concept"><a class="manuscript-index-link" href="#m12"><span class="type-badge" title="definition">def</span><span class="manuscript-index-name">Lax65.BonnetDepresGraph</span></a><span class="manuscript-index-page">p. 5</span></li>
+<li class="manuscript-index-item kind-concept"><a class="manuscript-index-link" href="#m13"><span class="type-badge open" title="lemma — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem×</span><span class="manuscript-index-name">Lax65.TreewidthOfBonnetDepres</span></a><span class="manuscript-index-page">p. 5</span></li>
+<li class="manuscript-index-item kind-concept"><a class="manuscript-index-link" href="#m14"><span class="type-badge open" title="lemma — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem×</span><span class="manuscript-index-name">Lax65.TwinWidthOfBonnetDepres</span></a><span class="manuscript-index-page">p. 5</span></li>
+<li class="manuscript-index-item kind-concept"><a class="manuscript-index-link" href="#m15"><span class="type-badge" title="definition">def</span><span class="manuscript-index-name">Lax65.OrientedTwinWidth</span></a><span class="manuscript-index-page">p. 9</span></li>
+<li class="manuscript-index-item kind-concept"><a class="manuscript-index-link" href="#m16"><span class="type-badge open" title="lemma — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem×</span><span class="manuscript-index-name">Lax65.OrientedTwinWidthOfBonnetDepres</span></a><span class="manuscript-index-page">p. 9</span></li>
+<li class="manuscript-index-item kind-concept"><a class="manuscript-index-link" href="#m17"><span class="type-badge open" title="lemma — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem×</span><span class="manuscript-index-name">Lax65.GridNumberOfBonnetDepres</span></a><span class="manuscript-index-page">p. 9</span></li>
+</ol>
+</section>
+<div class="manuscript-body">
+<div class="manuscript-pages" id="manuscript-pages">
+<div class="manuscript-page" data-page="1" style="aspect-ratio: 595.28 / 841.89"></div>
+<div class="manuscript-page" data-page="2" style="aspect-ratio: 595.28 / 841.89"></div>
+<div class="manuscript-page" data-page="3" style="aspect-ratio: 595.28 / 841.89"></div>
+<div class="manuscript-page" data-page="4" style="aspect-ratio: 595.28 / 841.89"></div>
+<div class="manuscript-page" data-page="5" style="aspect-ratio: 595.28 / 841.89"></div>
+<div class="manuscript-page" data-page="6" style="aspect-ratio: 595.28 / 841.89"></div>
+<div class="manuscript-page" data-page="7" style="aspect-ratio: 595.28 / 841.89"></div>
+<div class="manuscript-page" data-page="8" style="aspect-ratio: 595.28 / 841.89"></div>
+<div class="manuscript-page" data-page="9" style="aspect-ratio: 595.28 / 841.89"></div>
+<div class="manuscript-page" data-page="10" style="aspect-ratio: 595.28 / 841.89"></div>
+<div class="manuscript-page" data-page="11" style="aspect-ratio: 595.28 / 841.89"></div>
+</div>
+<ol class="manuscript-rail" id="manuscript-rail">
+<li class="manuscript-card kind-submission" id="m1" data-mark="1">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><a href="../lax-65/index.html"><span class="submission-meta-id">lax-65</span></a></span>
+<span class="manuscript-card-page">p. 1</span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m1-body" aria-label="Show details of lax-65"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m1-body" hidden>
+<p class="manuscript-card-title">Twin-Width Can Be Exponential in Treewidth</p>
+</div>
+</li>
+<li class="manuscript-card kind-concept" id="m2" data-mark="2">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><span class="type-badge" title="definition">def</span><a href="../lax-48/Lax48.TwinWidth.html"><code>Lax48.TwinWidth</code></a></span>
+<span class="manuscript-card-page">p. 1</span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m2-body" aria-label="Show details of Lax48.TwinWidth"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m2-body" hidden>
+<p class="manuscript-card-title">Twin-width</p>
+<div class="latex-content"><p>A partition sequence of a finite simple graph <em>G</em> is a sequence of partitions
+of its vertex set that starts at the partition into singletons, merges two
+parts into one at every step, and ends at the partition with a single part.
+Two parts of a same partition are homogeneous if either every pair of
+vertices across them is adjacent or none is; two non-homogeneous parts are
+red-adjacent. The red degree of a part is the number of other parts of its
+partition that are red-adjacent to it.</p>
+<p>The twin-width of <em>G</em> is the least <em>d</em> such that <em>G</em> has a partition sequence
+in which every part of every partition has red degree at most <em>d</em>.</p>
+</div>
+<div class="manuscript-card-source"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<tr class=""><td class="line-num">1</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Combinatorics.SimpleGraph.Basic</span></td></tr>
+<tr class=""><td class="line-num">2</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Data.Set.Card</span></td></tr>
+<tr class=""><td class="line-num">3</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Data.Nat.Lattice</span></td></tr>
+<tr class=""><td class="line-num">4</td><td class="line-code"> </td></tr>
+<tr class="line-elided"><td class="line-num"></td><td class="line-code">… module docstring, 25 lines</td></tr>
+<tr class=""><td class="line-num">30</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">31</td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax48.TwinWidth</span></td></tr>
+<tr class=""><td class="line-num">32</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">33</td><td class="line-code"><span style="color:#6A737D">/-- Two vertex sets are homogeneous in `G`: either every pair of vertices</span></td></tr>
+<tr class=""><td class="line-num">34</td><td class="line-code"><span style="color:#6A737D">across them is adjacent, or none is. -/</span></td></tr>
+<tr class=""><td class="line-num">35</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> Homogeneous</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">} (G : SimpleGraph V) (A B : Finset V) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr class=""><td class="line-num">36</td><td class="line-code"><span style="color:#24292E">  (∀ a ∈ A, ∀ b ∈ B, G.Adj a b) ∨ (∀ a ∈ A, ∀ b ∈ B, ¬ G.Adj a b)</span></td></tr>
+<tr class=""><td class="line-num">37</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">38</td><td class="line-code"><span style="color:#6A737D">/-- The red degree of a part `A` in a family of parts `P`: the number of</span></td></tr>
+<tr class=""><td class="line-num">39</td><td class="line-code"><span style="color:#6A737D">other parts of `P` that are not homogeneous with `A`. -/</span></td></tr>
+<tr class=""><td class="line-num">40</td><td class="line-code"><span style="color:#D73A49">noncomputable</span><span style="color:#D73A49"> def</span><span style="color:#6F42C1"> redDegree</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">} (G : SimpleGraph V)</span></td></tr>
+<tr class=""><td class="line-num">41</td><td class="line-code"><span style="color:#24292E">    (P : Finset (Finset V)) (A : Finset V) : ℕ :=</span></td></tr>
+<tr class=""><td class="line-num">42</td><td class="line-code"><span style="color:#24292E">  {B | B ∈ P ∧ B ≠ A ∧ ¬ Homogeneous G A B}.ncard</span></td></tr>
+<tr class=""><td class="line-num">43</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">44</td><td class="line-code"><span style="color:#6A737D">/-- The partition of a finite vertex type into singletons. -/</span></td></tr>
+<tr class=""><td class="line-num">45</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> singletonPartition</span><span style="color:#24292E"> (V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">) [Fintype V] [DecidableEq V] :</span></td></tr>
+<tr class=""><td class="line-num">46</td><td class="line-code"><span style="color:#24292E">    Finset (Finset V) :=</span></td></tr>
+<tr class=""><td class="line-num">47</td><td class="line-code"><span style="color:#24292E">  Finset.univ.image </span><span style="color:#D73A49">fun</span><span style="color:#24292E"> v : V =&gt; ({v} : Finset V)</span></td></tr>
+<tr class=""><td class="line-num">48</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">49</td><td class="line-code"><span style="color:#6A737D">/-- A partition sequence of `G` in which every part has red degree at most</span></td></tr>
+<tr class=""><td class="line-num">50</td><td class="line-code"><span style="color:#6A737D">`d`: starting from the singleton partition, each step merges two parts into</span></td></tr>
+<tr class=""><td class="line-num">51</td><td class="line-code"><span style="color:#6A737D">one, until a single part remains. -/</span></td></tr>
+<tr class=""><td class="line-num">52</td><td class="line-code"><span style="color:#D73A49">structure</span><span style="color:#6F42C1"> PartitionSequence</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">} [Fintype V] [DecidableEq V]</span></td></tr>
+<tr class=""><td class="line-num">53</td><td class="line-code"><span style="color:#24292E">    (G : SimpleGraph V) (d : ℕ) </span><span style="color:#D73A49">where</span></td></tr>
+<tr class=""><td class="line-num">54</td><td class="line-code"><span style="color:#6A737D">  /-- The number of merge steps. -/</span></td></tr>
+<tr class=""><td class="line-num">55</td><td class="line-code"><span style="color:#24292E">  stepCount : ℕ</span></td></tr>
+<tr class=""><td class="line-num">56</td><td class="line-code"><span style="color:#6A737D">  /-- The partition after each number of merge steps. -/</span></td></tr>
+<tr class=""><td class="line-num">57</td><td class="line-code"><span style="color:#24292E">  partition : ℕ → Finset (Finset V)</span></td></tr>
+<tr class=""><td class="line-num">58</td><td class="line-code"><span style="color:#6A737D">  /-- The sequence starts at the singleton partition. -/</span></td></tr>
+<tr class=""><td class="line-num">59</td><td class="line-code"><span style="color:#24292E">  starts : partition </span><span style="color:#005CC5">0</span><span style="color:#24292E"> = singletonPartition V</span></td></tr>
+<tr class=""><td class="line-num">60</td><td class="line-code"><span style="color:#6A737D">  /-- The sequence ends with a single part. -/</span></td></tr>
+<tr class=""><td class="line-num">61</td><td class="line-code"><span style="color:#24292E">  ends : (partition stepCount).card ≤ </span><span style="color:#005CC5">1</span></td></tr>
+<tr class=""><td class="line-num">62</td><td class="line-code"><span style="color:#6A737D">  /-- Each step merges two distinct parts into one and keeps all other</span></td></tr>
+<tr class=""><td class="line-num">63</td><td class="line-code"><span style="color:#6A737D">  parts. -/</span></td></tr>
+<tr class=""><td class="line-num">64</td><td class="line-code"><span style="color:#24292E">  step_merges :</span></td></tr>
+<tr class=""><td class="line-num">65</td><td class="line-code"><span style="color:#24292E">    ∀ i, i &lt; stepCount → ∃ A ∈ partition i, ∃ B ∈ partition i, A ≠ B ∧</span></td></tr>
+<tr class=""><td class="line-num">66</td><td class="line-code"><span style="color:#24292E">      partition (i + </span><span style="color:#005CC5">1</span><span style="color:#24292E">) = insert (A ∪ B) (((partition i).erase A).erase B)</span></td></tr>
+<tr class=""><td class="line-num">67</td><td class="line-code"><span style="color:#6A737D">  /-- Every part of every partition in the sequence has red degree at most</span></td></tr>
+<tr class=""><td class="line-num">68</td><td class="line-code"><span style="color:#6A737D">  `d`. -/</span></td></tr>
+<tr class=""><td class="line-num">69</td><td class="line-code"><span style="color:#24292E">  redDegree_le :</span></td></tr>
+<tr class=""><td class="line-num">70</td><td class="line-code"><span style="color:#24292E">    ∀ i, i ≤ stepCount → ∀ ⦃A⦄, A ∈ partition i →</span></td></tr>
+<tr class=""><td class="line-num">71</td><td class="line-code"><span style="color:#24292E">      redDegree G (partition i) A ≤ d</span></td></tr>
+<tr class=""><td class="line-num">72</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">73</td><td class="line-code"><span style="color:#6A737D">/-- `G` has a partition sequence in which every part has red degree at most</span></td></tr>
+<tr class=""><td class="line-num">74</td><td class="line-code"><span style="color:#6A737D">`d`. -/</span></td></tr>
+<tr class=""><td class="line-num">75</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> HasTwinWidthAtMost</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">} [Fintype V] [DecidableEq V]</span></td></tr>
+<tr class=""><td class="line-num">76</td><td class="line-code"><span style="color:#24292E">    (G : SimpleGraph V) (d : ℕ) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr class=""><td class="line-num">77</td><td class="line-code"><span style="color:#24292E">  Nonempty (PartitionSequence G d)</span></td></tr>
+<tr class=""><td class="line-num">78</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">79</td><td class="line-code"><span style="color:#6A737D">/-- The twin-width of a finite simple graph: the least `d` such that the</span></td></tr>
+<tr class=""><td class="line-num">80</td><td class="line-code"><span style="color:#6A737D">graph has a partition sequence in which every part has red degree at most</span></td></tr>
+<tr class=""><td class="line-num">81</td><td class="line-code"><span style="color:#6A737D">`d`. -/</span></td></tr>
+<tr class=""><td class="line-num">82</td><td class="line-code"><span style="color:#D73A49">noncomputable</span><span style="color:#D73A49"> def</span><span style="color:#6F42C1"> twinWidth</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">} [Fintype V] [DecidableEq V]</span></td></tr>
+<tr class=""><td class="line-num">83</td><td class="line-code"><span style="color:#24292E">    (G : SimpleGraph V) : ℕ :=</span></td></tr>
+<tr class=""><td class="line-num">84</td><td class="line-code"><span style="color:#24292E">  sInf {d | HasTwinWidthAtMost G d}</span></td></tr>
+<tr class=""><td class="line-num">85</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">86</td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax48.TwinWidth</span></td></tr>
+<tr class=""><td class="line-num">87</td><td class="line-code"> </td></tr>
+</table></div></div>
+</div>
+</li>
+<li class="manuscript-card kind-concept" id="m3" data-mark="3">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><span class="type-badge" title="definition">def</span><a href="../lax-48/Lax48.Treewidth.html"><code>Lax48.Treewidth</code></a></span>
+<span class="manuscript-card-page">p. 2</span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m3-body" aria-label="Show details of Lax48.Treewidth"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m3-body" hidden>
+<p class="manuscript-card-title">Treewidth</p>
+<div class="latex-content"><p>A tree decomposition of a finite simple graph <em>G</em> consists of a finite tree
+<em>T</em> and a bag of graph vertices at each node such that every graph
+vertex occurs in a bag, the endpoints of every graph edge occur together in a
+bag, and the nodes whose bags contain any fixed vertex induce a connected
+subgraph of <em>T</em>.</p>
+<p>The treewidth of <em>G</em> is the least <em>w</em> such that <em>G</em> has a tree
+decomposition with every bag of size at most <em>w</em> + 1.</p>
+</div>
+<div class="manuscript-card-source"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<tr class=""><td class="line-num">1</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Combinatorics.SimpleGraph.Acyclic</span></td></tr>
+<tr class=""><td class="line-num">2</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Data.Nat.Lattice</span></td></tr>
+<tr class=""><td class="line-num">3</td><td class="line-code"> </td></tr>
+<tr class="line-elided"><td class="line-num"></td><td class="line-code">… module docstring, 21 lines</td></tr>
+<tr class=""><td class="line-num">25</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">26</td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax48.Treewidth</span></td></tr>
+<tr class=""><td class="line-num">27</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">28</td><td class="line-code"><span style="color:#6A737D">/-- A tree decomposition of a simple graph: a finite tree of nodes with a bag</span></td></tr>
+<tr class=""><td class="line-num">29</td><td class="line-code"><span style="color:#6A737D">of graph vertices at each node, such that the bags cover every vertex and</span></td></tr>
+<tr class=""><td class="line-num">30</td><td class="line-code"><span style="color:#6A737D">every edge, and the nodes whose bags contain any fixed vertex induce a</span></td></tr>
+<tr class=""><td class="line-num">31</td><td class="line-code"><span style="color:#6A737D">connected subgraph of the tree. -/</span></td></tr>
+<tr class=""><td class="line-num">32</td><td class="line-code"><span style="color:#D73A49">structure</span><span style="color:#6F42C1"> TreeDecomposition</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">} (G : SimpleGraph V) </span><span style="color:#D73A49">where</span></td></tr>
+<tr class=""><td class="line-num">33</td><td class="line-code"><span style="color:#6A737D">  /-- The node type of the decomposition tree. -/</span></td></tr>
+<tr class=""><td class="line-num">34</td><td class="line-code"><span style="color:#24292E">  Node : </span><span style="color:#D73A49">Type</span></td></tr>
+<tr class=""><td class="line-num">35</td><td class="line-code"><span style="color:#6A737D">  /-- The decomposition tree is finite. -/</span></td></tr>
+<tr class=""><td class="line-num">36</td><td class="line-code"><span style="color:#24292E">  [nodeFintype : Fintype Node]</span></td></tr>
+<tr class=""><td class="line-num">37</td><td class="line-code"><span style="color:#6A737D">  /-- The graph on the decomposition nodes. -/</span></td></tr>
+<tr class=""><td class="line-num">38</td><td class="line-code"><span style="color:#24292E">  tree : SimpleGraph Node</span></td></tr>
+<tr class=""><td class="line-num">39</td><td class="line-code"><span style="color:#6A737D">  /-- The node graph is a tree. -/</span></td></tr>
+<tr class=""><td class="line-num">40</td><td class="line-code"><span style="color:#24292E">  isTree : tree.IsTree</span></td></tr>
+<tr class=""><td class="line-num">41</td><td class="line-code"><span style="color:#6A737D">  /-- The bag assigned to each decomposition node. -/</span></td></tr>
+<tr class=""><td class="line-num">42</td><td class="line-code"><span style="color:#24292E">  bag : Node → Finset V</span></td></tr>
+<tr class=""><td class="line-num">43</td><td class="line-code"><span style="color:#6A737D">  /-- Every graph vertex appears in at least one bag. -/</span></td></tr>
+<tr class=""><td class="line-num">44</td><td class="line-code"><span style="color:#24292E">  vertex_mem_bag : ∀ v : V, ∃ i : Node, v ∈ bag i</span></td></tr>
+<tr class=""><td class="line-num">45</td><td class="line-code"><span style="color:#6A737D">  /-- Every graph edge has both endpoints together in at least one bag. -/</span></td></tr>
+<tr class=""><td class="line-num">46</td><td class="line-code"><span style="color:#24292E">  edge_mem_bag : ∀ ⦃u v : V⦄, G.Adj u v → ∃ i : Node, u ∈ bag i ∧ v ∈ bag i</span></td></tr>
+<tr class=""><td class="line-num">47</td><td class="line-code"><span style="color:#6A737D">  /-- For each graph vertex, the nodes whose bags contain it induce a</span></td></tr>
+<tr class=""><td class="line-num">48</td><td class="line-code"><span style="color:#6A737D">  connected subgraph of the tree. -/</span></td></tr>
+<tr class=""><td class="line-num">49</td><td class="line-code"><span style="color:#24292E">  bag_indices_connected :</span></td></tr>
+<tr class=""><td class="line-num">50</td><td class="line-code"><span style="color:#24292E">    ∀ v : V, (tree.induce {i : Node | v ∈ bag i}).Connected</span></td></tr>
+<tr class=""><td class="line-num">51</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">52</td><td class="line-code"><span style="color:#6A737D">/-- `G` has a tree decomposition all of whose bags have at most `w + 1`</span></td></tr>
+<tr class=""><td class="line-num">53</td><td class="line-code"><span style="color:#6A737D">vertices. -/</span></td></tr>
+<tr class=""><td class="line-num">54</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> HasTreewidthAtMost</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">} (G : SimpleGraph V) (w : ℕ) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr class=""><td class="line-num">55</td><td class="line-code"><span style="color:#24292E">  ∃ D : TreeDecomposition G, ∀ i, (D.bag i).card ≤ w + </span><span style="color:#005CC5">1</span></td></tr>
+<tr class=""><td class="line-num">56</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">57</td><td class="line-code"><span style="color:#6A737D">/-- The treewidth of a finite simple graph: the least `w` such that the</span></td></tr>
+<tr class=""><td class="line-num">58</td><td class="line-code"><span style="color:#6A737D">graph has a tree decomposition with bags of at most `w + 1` vertices. -/</span></td></tr>
+<tr class=""><td class="line-num">59</td><td class="line-code"><span style="color:#D73A49">noncomputable</span><span style="color:#D73A49"> def</span><span style="color:#6F42C1"> treewidth</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">} [Fintype V] [DecidableEq V]</span></td></tr>
+<tr class=""><td class="line-num">60</td><td class="line-code"><span style="color:#24292E">    (G : SimpleGraph V) : ℕ :=</span></td></tr>
+<tr class=""><td class="line-num">61</td><td class="line-code"><span style="color:#24292E">  sInf {w | HasTreewidthAtMost G w}</span></td></tr>
+<tr class=""><td class="line-num">62</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">63</td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax48.Treewidth</span></td></tr>
+<tr class=""><td class="line-num">64</td><td class="line-code"> </td></tr>
+</table></div></div>
+</div>
+</li>
+<li class="manuscript-card kind-concept" id="m4" data-mark="4">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><span class="type-badge" title="definition">def</span><a href="../lax-65/Lax65.GridNumber.html"><code>Lax65.GridNumber</code></a></span>
+<span class="manuscript-card-page">p. 2</span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m4-body" aria-label="Show details of Lax65.GridNumber"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m4-body" hidden>
+<p class="manuscript-card-title">Grid number</p>
+<div class="latex-content"><p>A <em>k</em>-division of a matrix partitions its rows into <em>k</em> sets of consecutive
+rows and its columns into <em>k</em> sets of consecutive columns; its <em>k</em>² cells are
+the intersections of a row set with a column set. A matrix has a <em>k</em>-grid
+minor if it has a <em>k</em>-division with at least one 1-entry in each of its <em>k</em>²
+cells. The grid number of a matrix is the largest <em>k</em> such that it has a
+<em>k</em>-grid minor. The grid number of a graph <em>G</em>, denoted by gn(<em>G</em>), is the
+minimum, taken among all the adjacency matrices <em>M</em> of <em>G</em>, of the grid
+number of <em>M</em>.</p>
+</div>
+<div class="manuscript-card-source"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<tr class=""><td class="line-num">1</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Combinatorics.SimpleGraph.Basic</span></td></tr>
+<tr class=""><td class="line-num">2</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Data.Nat.Lattice</span></td></tr>
+<tr class=""><td class="line-num">3</td><td class="line-code"> </td></tr>
+<tr class="line-elided"><td class="line-num"></td><td class="line-code">… module docstring, 21 lines</td></tr>
+<tr class=""><td class="line-num">25</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">26</td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax65.GridNumber</span></td></tr>
+<tr class=""><td class="line-num">27</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">28</td><td class="line-code"><span style="color:#6A737D">/-- `M` has a `k`-grid minor: a division of the rows and of the columns into</span></td></tr>
+<tr class=""><td class="line-num">29</td><td class="line-code"><span style="color:#6A737D">`k` sets of consecutive indices such that every cell contains a 1-entry. -/</span></td></tr>
+<tr class=""><td class="line-num">30</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> HasGridMinor</span><span style="color:#24292E"> {n : ℕ} (M : Fin n → Fin n → </span><span style="color:#D73A49">Prop</span><span style="color:#24292E">) (k : ℕ) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr class=""><td class="line-num">31</td><td class="line-code"><span style="color:#24292E">  ∃ r c : Fin (k + </span><span style="color:#005CC5">1</span><span style="color:#24292E">) → ℕ,</span></td></tr>
+<tr class=""><td class="line-num">32</td><td class="line-code"><span style="color:#24292E">    StrictMono r ∧ r </span><span style="color:#005CC5">0</span><span style="color:#24292E"> = </span><span style="color:#005CC5">0</span><span style="color:#24292E"> ∧ r (Fin.last k) = n ∧</span></td></tr>
+<tr class=""><td class="line-num">33</td><td class="line-code"><span style="color:#24292E">    StrictMono c ∧ c </span><span style="color:#005CC5">0</span><span style="color:#24292E"> = </span><span style="color:#005CC5">0</span><span style="color:#24292E"> ∧ c (Fin.last k) = n ∧</span></td></tr>
+<tr class=""><td class="line-num">34</td><td class="line-code"><span style="color:#24292E">    ∀ i j : Fin k, ∃ a b : Fin n,</span></td></tr>
+<tr class=""><td class="line-num">35</td><td class="line-code"><span style="color:#24292E">      r i.castSucc ≤ a.val ∧ a.val &lt; r i.succ ∧</span></td></tr>
+<tr class=""><td class="line-num">36</td><td class="line-code"><span style="color:#24292E">        c j.castSucc ≤ b.val ∧ b.val &lt; c j.succ ∧ M a b</span></td></tr>
+<tr class=""><td class="line-num">37</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">38</td><td class="line-code"><span style="color:#6A737D">/-- The grid number of a 0/1 matrix: the largest `k` such that it has a</span></td></tr>
+<tr class=""><td class="line-num">39</td><td class="line-code"><span style="color:#6A737D">`k`-grid minor. -/</span></td></tr>
+<tr class=""><td class="line-num">40</td><td class="line-code"><span style="color:#D73A49">noncomputable</span><span style="color:#D73A49"> def</span><span style="color:#6F42C1"> matrixGridNumber</span><span style="color:#24292E"> {n : ℕ} (M : Fin n → Fin n → </span><span style="color:#D73A49">Prop</span><span style="color:#24292E">) : ℕ :=</span></td></tr>
+<tr class=""><td class="line-num">41</td><td class="line-code"><span style="color:#24292E">  sSup {k | HasGridMinor M k}</span></td></tr>
+<tr class=""><td class="line-num">42</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">43</td><td class="line-code"><span style="color:#6A737D">/-- The adjacency matrix of `G` under the vertex ordering `σ`. -/</span></td></tr>
+<tr class=""><td class="line-num">44</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> adjacencyMatrix</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">} (G : SimpleGraph V) {n : ℕ} (σ : Fin n ≃ V) :</span></td></tr>
+<tr class=""><td class="line-num">45</td><td class="line-code"><span style="color:#24292E">    Fin n → Fin n → </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr class=""><td class="line-num">46</td><td class="line-code"><span style="color:#D73A49">  fun</span><span style="color:#24292E"> a b =&gt; G.Adj (σ a) (σ b)</span></td></tr>
+<tr class=""><td class="line-num">47</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">48</td><td class="line-code"><span style="color:#6A737D">/-- The grid number of a finite simple graph: the least grid number of one of</span></td></tr>
+<tr class=""><td class="line-num">49</td><td class="line-code"><span style="color:#6A737D">its adjacency matrices. -/</span></td></tr>
+<tr class=""><td class="line-num">50</td><td class="line-code"><span style="color:#D73A49">noncomputable</span><span style="color:#D73A49"> def</span><span style="color:#6F42C1"> gridNumber</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">} [Fintype V] [DecidableEq V]</span></td></tr>
+<tr class=""><td class="line-num">51</td><td class="line-code"><span style="color:#24292E">    (G : SimpleGraph V) : ℕ :=</span></td></tr>
+<tr class=""><td class="line-num">52</td><td class="line-code"><span style="color:#24292E">  sInf {k | ∃ σ : Fin (Fintype.card V) ≃ V,</span></td></tr>
+<tr class=""><td class="line-num">53</td><td class="line-code"><span style="color:#24292E">    matrixGridNumber (adjacencyMatrix G σ) = k}</span></td></tr>
+<tr class=""><td class="line-num">54</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">55</td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax65.GridNumber</span></td></tr>
+<tr class=""><td class="line-num">56</td><td class="line-code"> </td></tr>
+</table></div></div>
+</div>
+</li>
+<li class="manuscript-card kind-concept" id="m5" data-mark="5">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><span class="type-badge" title="definition">def</span><a href="../lax-65/Lax65.OrientedTwinWidth.html"><code>Lax65.OrientedTwinWidth</code></a></span>
+<span class="manuscript-card-page">p. 3</span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m5-body" aria-label="Show details of Lax65.OrientedTwinWidth"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m5-body" hidden>
+<p class="manuscript-card-title">Oriented twin-width</p>
+<div class="latex-content"><p>An oriented partition sequence of a finite simple graph <em>G</em> is a partition
+sequence of <em>G</em> in which every red edge is replaced by a red arc leaving the
+newly merged part: when two parts are merged, the merged part gets a red arc
+to every other part it is not homogeneous with, and the red arcs between the
+remaining parts stay as they were. An oriented <em>d</em>-sequence is one in which
+every part of every partition has at most <em>d</em> out-going red arcs. The
+oriented twin-width of <em>G</em> is the least <em>d</em> such that <em>G</em> admits an oriented
+<em>d</em>-sequence.</p>
+</div>
+<div class="manuscript-card-source"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<tr class=""><td class="line-num">1</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax48.TwinWidth</span></td></tr>
+<tr class=""><td class="line-num">2</td><td class="line-code"> </td></tr>
+<tr class="line-elided"><td class="line-num"></td><td class="line-code">… module docstring, 22 lines</td></tr>
+<tr class=""><td class="line-num">25</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">26</td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax65.OrientedTwinWidth</span></td></tr>
+<tr class=""><td class="line-num">27</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">28</td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax48.TwinWidth</span></td></tr>
+<tr class=""><td class="line-num">29</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">30</td><td class="line-code"><span style="color:#6A737D">/-- An oriented partition sequence of `G` in which every part has at most `d`</span></td></tr>
+<tr class=""><td class="line-num">31</td><td class="line-code"><span style="color:#6A737D">out-going red arcs: starting from the singleton partition with no red arcs,</span></td></tr>
+<tr class=""><td class="line-num">32</td><td class="line-code"><span style="color:#6A737D">each step merges two parts into one, gives the merged part a red arc to every</span></td></tr>
+<tr class=""><td class="line-num">33</td><td class="line-code"><span style="color:#6A737D">other part it is not homogeneous with, and keeps the red arcs between the</span></td></tr>
+<tr class=""><td class="line-num">34</td><td class="line-code"><span style="color:#6A737D">remaining parts, until a single part remains. -/</span></td></tr>
+<tr class=""><td class="line-num">35</td><td class="line-code"><span style="color:#D73A49">structure</span><span style="color:#6F42C1"> OrientedPartitionSequence</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">} [Fintype V] [DecidableEq V]</span></td></tr>
+<tr class=""><td class="line-num">36</td><td class="line-code"><span style="color:#24292E">    (G : SimpleGraph V) (d : ℕ) </span><span style="color:#D73A49">where</span></td></tr>
+<tr class=""><td class="line-num">37</td><td class="line-code"><span style="color:#6A737D">  /-- The number of merge steps. -/</span></td></tr>
+<tr class=""><td class="line-num">38</td><td class="line-code"><span style="color:#24292E">  stepCount : ℕ</span></td></tr>
+<tr class=""><td class="line-num">39</td><td class="line-code"><span style="color:#6A737D">  /-- The partition after each number of merge steps. -/</span></td></tr>
+<tr class=""><td class="line-num">40</td><td class="line-code"><span style="color:#24292E">  partition : ℕ → Finset (Finset V)</span></td></tr>
+<tr class=""><td class="line-num">41</td><td class="line-code"><span style="color:#6A737D">  /-- The red arcs between parts after each number of merge steps. -/</span></td></tr>
+<tr class=""><td class="line-num">42</td><td class="line-code"><span style="color:#24292E">  redArc : ℕ → Finset V → Finset V → </span><span style="color:#D73A49">Prop</span></td></tr>
+<tr class=""><td class="line-num">43</td><td class="line-code"><span style="color:#6A737D">  /-- The sequence starts at the singleton partition. -/</span></td></tr>
+<tr class=""><td class="line-num">44</td><td class="line-code"><span style="color:#24292E">  starts : partition </span><span style="color:#005CC5">0</span><span style="color:#24292E"> = singletonPartition V</span></td></tr>
+<tr class=""><td class="line-num">45</td><td class="line-code"><span style="color:#6A737D">  /-- There are no red arcs at the start. -/</span></td></tr>
+<tr class=""><td class="line-num">46</td><td class="line-code"><span style="color:#24292E">  redArc_zero : ∀ A B, ¬ redArc </span><span style="color:#005CC5">0</span><span style="color:#24292E"> A B</span></td></tr>
+<tr class=""><td class="line-num">47</td><td class="line-code"><span style="color:#6A737D">  /-- The sequence ends with a single part. -/</span></td></tr>
+<tr class=""><td class="line-num">48</td><td class="line-code"><span style="color:#24292E">  ends : (partition stepCount).card ≤ </span><span style="color:#005CC5">1</span></td></tr>
+<tr class=""><td class="line-num">49</td><td class="line-code"><span style="color:#6A737D">  /-- Each step merges two distinct parts into one and keeps all other parts;</span></td></tr>
+<tr class=""><td class="line-num">50</td><td class="line-code"><span style="color:#6A737D">  the merged part gets a red arc to every other part it is not homogeneous</span></td></tr>
+<tr class=""><td class="line-num">51</td><td class="line-code"><span style="color:#6A737D">  with, and the red arcs between the remaining parts are unchanged. -/</span></td></tr>
+<tr class=""><td class="line-num">52</td><td class="line-code"><span style="color:#24292E">  step_merges :</span></td></tr>
+<tr class=""><td class="line-num">53</td><td class="line-code"><span style="color:#24292E">    ∀ i, i &lt; stepCount → ∃ A ∈ partition i, ∃ B ∈ partition i, A ≠ B ∧</span></td></tr>
+<tr class=""><td class="line-num">54</td><td class="line-code"><span style="color:#24292E">      partition (i + </span><span style="color:#005CC5">1</span><span style="color:#24292E">) = insert (A ∪ B) (((partition i).erase A).erase B) ∧</span></td></tr>
+<tr class=""><td class="line-num">55</td><td class="line-code"><span style="color:#24292E">      ∀ C ∈ partition (i + </span><span style="color:#005CC5">1</span><span style="color:#24292E">), ∀ D ∈ partition (i + </span><span style="color:#005CC5">1</span><span style="color:#24292E">),</span></td></tr>
+<tr class=""><td class="line-num">56</td><td class="line-code"><span style="color:#24292E">        (redArc (i + </span><span style="color:#005CC5">1</span><span style="color:#24292E">) C D ↔</span></td></tr>
+<tr class=""><td class="line-num">57</td><td class="line-code"><span style="color:#D73A49">          if</span><span style="color:#24292E"> C = A ∪ B </span><span style="color:#D73A49">then</span><span style="color:#24292E"> D ≠ C ∧ ¬ Homogeneous G C D</span></td></tr>
+<tr class=""><td class="line-num">58</td><td class="line-code"><span style="color:#D73A49">          else</span><span style="color:#24292E"> D ≠ A ∪ B ∧ redArc i C D)</span></td></tr>
+<tr class=""><td class="line-num">59</td><td class="line-code"><span style="color:#6A737D">  /-- Every part of every partition in the sequence has at most `d` out-going</span></td></tr>
+<tr class=""><td class="line-num">60</td><td class="line-code"><span style="color:#6A737D">  red arcs. -/</span></td></tr>
+<tr class=""><td class="line-num">61</td><td class="line-code"><span style="color:#24292E">  outDegree_le :</span></td></tr>
+<tr class=""><td class="line-num">62</td><td class="line-code"><span style="color:#24292E">    ∀ i, i ≤ stepCount → ∀ ⦃A⦄, A ∈ partition i →</span></td></tr>
+<tr class=""><td class="line-num">63</td><td class="line-code"><span style="color:#24292E">      {B | B ∈ partition i ∧ redArc i A B}.ncard ≤ d</span></td></tr>
+<tr class=""><td class="line-num">64</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">65</td><td class="line-code"><span style="color:#6A737D">/-- `G` admits an oriented `d`-sequence. -/</span></td></tr>
+<tr class=""><td class="line-num">66</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> HasOrientedTwinWidthAtMost</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">} [Fintype V] [DecidableEq V]</span></td></tr>
+<tr class=""><td class="line-num">67</td><td class="line-code"><span style="color:#24292E">    (G : SimpleGraph V) (d : ℕ) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr class=""><td class="line-num">68</td><td class="line-code"><span style="color:#24292E">  Nonempty (OrientedPartitionSequence G d)</span></td></tr>
+<tr class=""><td class="line-num">69</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">70</td><td class="line-code"><span style="color:#6A737D">/-- The oriented twin-width of a finite simple graph: the least `d` such that</span></td></tr>
+<tr class=""><td class="line-num">71</td><td class="line-code"><span style="color:#6A737D">the graph admits an oriented `d`-sequence. -/</span></td></tr>
+<tr class=""><td class="line-num">72</td><td class="line-code"><span style="color:#D73A49">noncomputable</span><span style="color:#D73A49"> def</span><span style="color:#6F42C1"> orientedTwinWidth</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">} [Fintype V] [DecidableEq V]</span></td></tr>
+<tr class=""><td class="line-num">73</td><td class="line-code"><span style="color:#24292E">    (G : SimpleGraph V) : ℕ :=</span></td></tr>
+<tr class=""><td class="line-num">74</td><td class="line-code"><span style="color:#24292E">  sInf {d | HasOrientedTwinWidthAtMost G d}</span></td></tr>
+<tr class=""><td class="line-num">75</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">76</td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax65.OrientedTwinWidth</span></td></tr>
+<tr class=""><td class="line-num">77</td><td class="line-code"> </td></tr>
+</table></div></div>
+</div>
+</li>
+<li class="manuscript-card kind-concept line-open" id="m6" data-mark="6">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><a href="../lax-65/Lax65.ExponentialSeparation.html"><code>Lax65.ExponentialSeparation</code></a></span>
+<span class="manuscript-card-page">p. 3</span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m6-body" aria-label="Show details of Lax65.ExponentialSeparation"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m6-body" hidden>
+<p class="manuscript-card-title">Twin-width can be exponential in treewidth</p>
+<div class="latex-content"><p>For every real 0 &lt; *ε* ≤ 1/2 and integer *t* &gt; 1/<em>ε</em>, there is a graph
+<em>G</em>&lt;sub&gt;<em>t</em>,<em>ε</em>&lt;/sub&gt; with a feedback vertex set of size <em>t</em> and such that
+tww(<em>G</em>&lt;sub&gt;<em>t</em>,<em>ε</em>&lt;/sub&gt;) &gt; 2^{(1−<em>ε</em>)<em>t</em>}.</p>
+</div>
+<ul class="manuscript-card-claims"><li><span class="claim-entry"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><a href="../lax-65/Lax65.ExponentialSeparation.html" title="Lax65.ExponentialSeparation.exists_feedbackVertexSet_and_two_rpow_lt_twinWidth"><code>Lax65.ExponentialSeparation</code></a></span></li></ul><div class="manuscript-card-source"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<tr class=""><td class="line-num">1</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Analysis.SpecialFunctions.Pow.Real</span></td></tr>
+<tr class=""><td class="line-num">2</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax48.TwinWidth</span></td></tr>
+<tr class=""><td class="line-num">3</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax65.FeedbackVertexSet</span></td></tr>
+<tr class=""><td class="line-num">4</td><td class="line-code"> </td></tr>
+<tr class="line-elided"><td class="line-num"></td><td class="line-code">… module docstring, 15 lines</td></tr>
+<tr class=""><td class="line-num">20</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">21</td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax65.ExponentialSeparation</span></td></tr>
+<tr class=""><td class="line-num">22</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">23</td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax48.TwinWidth Lax65.FeedbackVertexSet</span></td></tr>
+<tr class=""><td class="line-num">24</td><td class="line-code"> </td></tr>
+<tr class="statement-line line-open"><td class="line-num">25</td><td class="line-code"><span style="color:#6A737D">/-- For every real `0 &lt; ε ≤ 1/2` and integer `t &gt; 1/ε`, some finite graph has</span></td></tr>
+<tr class="statement-line line-open"><td class="line-num">26</td><td class="line-code"><span style="color:#6A737D">a feedback vertex set of size `t` and twin-width greater than</span></td></tr>
+<tr class="statement-line line-open"><td class="line-num">27</td><td class="line-code"><span style="color:#6A737D">`2 ^ ((1 - ε) t)`. -/</span></td></tr>
+<tr class="statement-line line-open"><td class="line-num">28</td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> exists_feedbackVertexSet_and_two_rpow_lt_twinWidth</span></td></tr>
+<tr class="statement-line line-open"><td class="line-num">29</td><td class="line-code"><span style="color:#24292E">    (ε : ℝ) (hε₀ : </span><span style="color:#005CC5">0</span><span style="color:#24292E"> &lt; ε) (hε₁ : ε ≤ </span><span style="color:#005CC5">1</span><span style="color:#24292E"> / </span><span style="color:#005CC5">2</span><span style="color:#24292E">) (t : ℕ) (ht : </span><span style="color:#005CC5">1</span><span style="color:#24292E"> / ε &lt; t) :</span></td></tr>
+<tr class="statement-line line-open"><td class="line-num">30</td><td class="line-code"><span style="color:#24292E">    ∃ n : ℕ, ∃ G : SimpleGraph (Fin n),</span></td></tr>
+<tr class="statement-line line-open"><td class="line-num">31</td><td class="line-code"><span style="color:#24292E">      HasFeedbackVertexSetOfSize G t ∧</span></td></tr>
+<tr class="statement-line line-open"><td class="line-num">32</td><td class="line-code"><span style="color:#24292E">        (</span><span style="color:#005CC5">2</span><span style="color:#24292E"> : ℝ) ^ ((</span><span style="color:#005CC5">1</span><span style="color:#24292E"> - ε) * t) &lt; twinWidth G</span></td></tr>
+<tr class=""><td class="line-num">33</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">34</td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax65.ExponentialSeparation</span></td></tr>
+<tr class=""><td class="line-num">35</td><td class="line-code"> </td></tr>
+</table></div></div>
+</div>
+</li>
+<li class="manuscript-card kind-concept line-open" id="m7" data-mark="7">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><span class="type-badge open" title="corollary — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">cor×</span><a href="../lax-65/Lax65.TreewidthCorollary.html"><code>Lax65.TreewidthCorollary</code></a></span>
+<span class="manuscript-card-page">p. 4</span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m7-body" aria-label="Show details of Lax65.TreewidthCorollary"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m7-body" hidden>
+<p class="manuscript-card-title">Twin-width exponential in treewidth, as a family</p>
+<div class="latex-content"><p>For every small <em>ε</em> &gt; 0, there is a family <em>F</em> of graphs with unbounded
+twin-width such that for every <em>G</em> ∈ <em>F</em>:
+tww(<em>G</em>) &gt; 2^{(1−<em>ε</em>)(tw(<em>G</em>) − 1)}.</p>
+</div>
+<ul class="manuscript-card-claims"><li><span class="claim-entry"><span class="type-badge open" title="corollary — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">cor×</span><a href="../lax-65/Lax65.TreewidthCorollary.html" title="Lax65.TreewidthCorollary.exists_family_two_rpow_treewidth_lt_twinWidth"><code>Lax65.TreewidthCorollary</code></a></span></li></ul><div class="manuscript-card-source"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<tr class=""><td class="line-num">1</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Analysis.SpecialFunctions.Pow.Real</span></td></tr>
+<tr class=""><td class="line-num">2</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax48.Treewidth</span></td></tr>
+<tr class=""><td class="line-num">3</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax65.GraphFamily</span></td></tr>
+<tr class=""><td class="line-num">4</td><td class="line-code"> </td></tr>
+<tr class="line-elided"><td class="line-num"></td><td class="line-code">… module docstring, 15 lines</td></tr>
+<tr class=""><td class="line-num">20</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">21</td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax65.TreewidthCorollary</span></td></tr>
+<tr class=""><td class="line-num">22</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">23</td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax48.Treewidth Lax48.TwinWidth Lax65.GraphFamily</span></td></tr>
+<tr class=""><td class="line-num">24</td><td class="line-code"> </td></tr>
+<tr class="statement-line line-open"><td class="line-num">25</td><td class="line-code"><span style="color:#6A737D">/-- For every `ε &gt; 0`, some family of graphs with unbounded twin-width has</span></td></tr>
+<tr class="statement-line line-open"><td class="line-num">26</td><td class="line-code"><span style="color:#6A737D">`2 ^ ((1 - ε) (tw G - 1)) &lt; tww G` for all its members. -/</span></td></tr>
+<tr class="statement-line line-open"><td class="line-num">27</td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> exists_family_two_rpow_treewidth_lt_twinWidth</span><span style="color:#24292E"> (ε : ℝ) (hε : </span><span style="color:#005CC5">0</span><span style="color:#24292E"> &lt; ε) :</span></td></tr>
+<tr class="statement-line line-open"><td class="line-num">28</td><td class="line-code"><span style="color:#24292E">    ∃ F : Set FiniteGraph, HasUnboundedTwinWidth F ∧</span></td></tr>
+<tr class="statement-line line-open"><td class="line-num">29</td><td class="line-code"><span style="color:#24292E">      ∀ G ∈ F, (</span><span style="color:#005CC5">2</span><span style="color:#24292E"> : ℝ) ^ ((</span><span style="color:#005CC5">1</span><span style="color:#24292E"> - ε) * ((treewidth G.graph : ℝ) - </span><span style="color:#005CC5">1</span><span style="color:#24292E">)) &lt;</span></td></tr>
+<tr class="statement-line line-open"><td class="line-num">30</td><td class="line-code"><span style="color:#24292E">        twinWidth G.graph</span></td></tr>
+<tr class=""><td class="line-num">31</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">32</td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax65.TreewidthCorollary</span></td></tr>
+<tr class=""><td class="line-num">33</td><td class="line-code"> </td></tr>
+</table></div></div>
+</div>
+</li>
+<li class="manuscript-card kind-concept line-open" id="m8" data-mark="8">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><span class="type-badge open" title="corollary — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">cor×</span><a href="../lax-65/Lax65.GridNumberCorollary.html"><code>Lax65.GridNumberCorollary</code></a></span>
+<span class="manuscript-card-page">p. 4</span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m8-body" aria-label="Show details of Lax65.GridNumberCorollary"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m8-body" hidden>
+<p class="manuscript-card-title">Twin-width exponential in grid number</p>
+<div class="latex-content"><p>For every small <em>ε</em> &gt; 0, there is a family <em>F</em> of graphs with unbounded
+twin-width such that for every <em>G</em> ∈ <em>F</em>:
+tww(<em>G</em>) &gt; 2^{(1−<em>ε</em>)(gn(<em>G</em>) − 2)}.</p>
+</div>
+<ul class="manuscript-card-claims"><li><span class="claim-entry"><span class="type-badge open" title="corollary — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">cor×</span><a href="../lax-65/Lax65.GridNumberCorollary.html" title="Lax65.GridNumberCorollary.exists_family_two_rpow_gridNumber_lt_twinWidth"><code>Lax65.GridNumberCorollary</code></a></span></li></ul><div class="manuscript-card-source"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<tr class=""><td class="line-num">1</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Analysis.SpecialFunctions.Pow.Real</span></td></tr>
+<tr class=""><td class="line-num">2</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax65.GridNumber</span></td></tr>
+<tr class=""><td class="line-num">3</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax65.GraphFamily</span></td></tr>
+<tr class=""><td class="line-num">4</td><td class="line-code"> </td></tr>
+<tr class="line-elided"><td class="line-num"></td><td class="line-code">… module docstring, 15 lines</td></tr>
+<tr class=""><td class="line-num">20</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">21</td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax65.GridNumberCorollary</span></td></tr>
+<tr class=""><td class="line-num">22</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">23</td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax48.TwinWidth Lax65.GridNumber Lax65.GraphFamily</span></td></tr>
+<tr class=""><td class="line-num">24</td><td class="line-code"> </td></tr>
+<tr class="statement-line line-open"><td class="line-num">25</td><td class="line-code"><span style="color:#6A737D">/-- For every `ε &gt; 0`, some family of graphs with unbounded twin-width has</span></td></tr>
+<tr class="statement-line line-open"><td class="line-num">26</td><td class="line-code"><span style="color:#6A737D">`2 ^ ((1 - ε) (gn G - 2)) &lt; tww G` for all its members. -/</span></td></tr>
+<tr class="statement-line line-open"><td class="line-num">27</td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> exists_family_two_rpow_gridNumber_lt_twinWidth</span><span style="color:#24292E"> (ε : ℝ) (hε : </span><span style="color:#005CC5">0</span><span style="color:#24292E"> &lt; ε) :</span></td></tr>
+<tr class="statement-line line-open"><td class="line-num">28</td><td class="line-code"><span style="color:#24292E">    ∃ F : Set FiniteGraph, HasUnboundedTwinWidth F ∧</span></td></tr>
+<tr class="statement-line line-open"><td class="line-num">29</td><td class="line-code"><span style="color:#24292E">      ∀ G ∈ F, (</span><span style="color:#005CC5">2</span><span style="color:#24292E"> : ℝ) ^ ((</span><span style="color:#005CC5">1</span><span style="color:#24292E"> - ε) * ((gridNumber G.graph : ℝ) - </span><span style="color:#005CC5">2</span><span style="color:#24292E">)) &lt;</span></td></tr>
+<tr class="statement-line line-open"><td class="line-num">30</td><td class="line-code"><span style="color:#24292E">        twinWidth G.graph</span></td></tr>
+<tr class=""><td class="line-num">31</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">32</td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax65.GridNumberCorollary</span></td></tr>
+<tr class=""><td class="line-num">33</td><td class="line-code"> </td></tr>
+</table></div></div>
+</div>
+</li>
+<li class="manuscript-card kind-concept line-open" id="m9" data-mark="9">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><span class="type-badge open" title="corollary — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">cor×</span><a href="../lax-65/Lax65.OrientedTwinWidthCorollary.html"><code>Lax65.OrientedTwinWidthCorollary</code></a></span>
+<span class="manuscript-card-page">p. 4</span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m9-body" aria-label="Show details of Lax65.OrientedTwinWidthCorollary"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m9-body" hidden>
+<p class="manuscript-card-title">Twin-width exponential in oriented twin-width</p>
+<div class="latex-content"><p>For every small <em>ε</em> &gt; 0, there is a family <em>F</em> of graphs with unbounded
+twin-width such that for every <em>G</em> ∈ <em>F</em>:
+tww(<em>G</em>) &gt; 2^{(1−<em>ε</em>)(otww(<em>G</em>) − 1)}.</p>
+</div>
+<ul class="manuscript-card-claims"><li><span class="claim-entry"><span class="type-badge open" title="corollary — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">cor×</span><a href="../lax-65/Lax65.OrientedTwinWidthCorollary.html" title="Lax65.OrientedTwinWidthCorollary.exists_family_two_rpow_orientedTwinWidth_lt_twinWidth"><code>Lax65.OrientedTwinWidthCorollary</code></a></span></li></ul><div class="manuscript-card-source"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<tr class=""><td class="line-num">1</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Analysis.SpecialFunctions.Pow.Real</span></td></tr>
+<tr class=""><td class="line-num">2</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax65.OrientedTwinWidth</span></td></tr>
+<tr class=""><td class="line-num">3</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax65.GraphFamily</span></td></tr>
+<tr class=""><td class="line-num">4</td><td class="line-code"> </td></tr>
+<tr class="line-elided"><td class="line-num"></td><td class="line-code">… module docstring, 15 lines</td></tr>
+<tr class=""><td class="line-num">20</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">21</td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax65.OrientedTwinWidthCorollary</span></td></tr>
+<tr class=""><td class="line-num">22</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">23</td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax48.TwinWidth Lax65.OrientedTwinWidth Lax65.GraphFamily</span></td></tr>
+<tr class=""><td class="line-num">24</td><td class="line-code"> </td></tr>
+<tr class="statement-line line-open"><td class="line-num">25</td><td class="line-code"><span style="color:#6A737D">/-- For every `ε &gt; 0`, some family of graphs with unbounded twin-width has</span></td></tr>
+<tr class="statement-line line-open"><td class="line-num">26</td><td class="line-code"><span style="color:#6A737D">`2 ^ ((1 - ε) (otww G - 1)) &lt; tww G` for all its members. -/</span></td></tr>
+<tr class="statement-line line-open"><td class="line-num">27</td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> exists_family_two_rpow_orientedTwinWidth_lt_twinWidth</span></td></tr>
+<tr class="statement-line line-open"><td class="line-num">28</td><td class="line-code"><span style="color:#24292E">    (ε : ℝ) (hε : </span><span style="color:#005CC5">0</span><span style="color:#24292E"> &lt; ε) :</span></td></tr>
+<tr class="statement-line line-open"><td class="line-num">29</td><td class="line-code"><span style="color:#24292E">    ∃ F : Set FiniteGraph, HasUnboundedTwinWidth F ∧</span></td></tr>
+<tr class="statement-line line-open"><td class="line-num">30</td><td class="line-code"><span style="color:#24292E">      ∀ G ∈ F,</span></td></tr>
+<tr class="statement-line line-open"><td class="line-num">31</td><td class="line-code"><span style="color:#24292E">        (</span><span style="color:#005CC5">2</span><span style="color:#24292E"> : ℝ) ^ ((</span><span style="color:#005CC5">1</span><span style="color:#24292E"> - ε) * ((orientedTwinWidth G.graph : ℝ) - </span><span style="color:#005CC5">1</span><span style="color:#24292E">)) &lt;</span></td></tr>
+<tr class="statement-line line-open"><td class="line-num">32</td><td class="line-code"><span style="color:#24292E">          twinWidth G.graph</span></td></tr>
+<tr class=""><td class="line-num">33</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">34</td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax65.OrientedTwinWidthCorollary</span></td></tr>
+<tr class=""><td class="line-num">35</td><td class="line-code"> </td></tr>
+</table></div></div>
+</div>
+</li>
+<li class="manuscript-card kind-concept line-open" id="m10" data-mark="10">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><span class="type-badge open" title="corollary — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">cor×</span><a href="../lax-65/Lax65.ApexCorollary.html"><code>Lax65.ApexCorollary</code></a></span>
+<span class="manuscript-card-page">p. 4</span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m10-body" aria-label="Show details of Lax65.ApexCorollary"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m10-body" hidden>
+<p class="manuscript-card-title">Adding an apex can almost double twin-width</p>
+<div class="latex-content"><p>For every small <em>ε</em> &gt; 0, there is a family <em>F</em> of graphs with unbounded
+twin-width such that for every <em>G</em> ∈ <em>F</em>:
+tww(<em>G</em>) &gt; (2 − <em>ε</em>) tww(<em>G</em> − {<em>v</em>}), where <em>v</em> is a single vertex of <em>G</em>.</p>
+</div>
+<ul class="manuscript-card-claims"><li><span class="claim-entry"><span class="type-badge open" title="corollary — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">cor×</span><a href="../lax-65/Lax65.ApexCorollary.html" title="Lax65.ApexCorollary.exists_family_twinWidth_deleteVertex_lt_twinWidth"><code>Lax65.ApexCorollary</code></a></span></li></ul><div class="manuscript-card-source"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<tr class=""><td class="line-num">1</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Combinatorics.SimpleGraph.Maps</span></td></tr>
+<tr class=""><td class="line-num">2</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Analysis.SpecialFunctions.Pow.Real</span></td></tr>
+<tr class=""><td class="line-num">3</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax65.GraphFamily</span></td></tr>
+<tr class=""><td class="line-num">4</td><td class="line-code"> </td></tr>
+<tr class="line-elided"><td class="line-num"></td><td class="line-code">… module docstring, 17 lines</td></tr>
+<tr class=""><td class="line-num">22</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">23</td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax65.ApexCorollary</span></td></tr>
+<tr class=""><td class="line-num">24</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">25</td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax48.TwinWidth Lax65.GraphFamily</span></td></tr>
+<tr class=""><td class="line-num">26</td><td class="line-code"> </td></tr>
+<tr class="statement-line line-open"><td class="line-num">27</td><td class="line-code"><span style="color:#6A737D">/-- For every `ε &gt; 0`, some family of graphs with unbounded twin-width has,</span></td></tr>
+<tr class="statement-line line-open"><td class="line-num">28</td><td class="line-code"><span style="color:#6A737D">for each member `G`, a vertex `v` with `(2 - ε) tww (G - v) &lt; tww G`. -/</span></td></tr>
+<tr class="statement-line line-open"><td class="line-num">29</td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> exists_family_twinWidth_deleteVertex_lt_twinWidth</span><span style="color:#24292E"> (ε : ℝ) (hε : </span><span style="color:#005CC5">0</span><span style="color:#24292E"> &lt; ε) :</span></td></tr>
+<tr class="statement-line line-open"><td class="line-num">30</td><td class="line-code"><span style="color:#24292E">    ∃ F : Set FiniteGraph, HasUnboundedTwinWidth F ∧</span></td></tr>
+<tr class="statement-line line-open"><td class="line-num">31</td><td class="line-code"><span style="color:#24292E">      ∀ G ∈ F, ∃ v : Fin G.n,</span></td></tr>
+<tr class="statement-line line-open"><td class="line-num">32</td><td class="line-code"><span style="color:#24292E">        (</span><span style="color:#005CC5">2</span><span style="color:#24292E"> - ε) * twinWidth (G.graph.induce {u | u ≠ v}) &lt; twinWidth G.graph</span></td></tr>
+<tr class=""><td class="line-num">33</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">34</td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax65.ApexCorollary</span></td></tr>
+<tr class=""><td class="line-num">35</td><td class="line-code"> </td></tr>
+</table></div></div>
+</div>
+</li>
+<li class="manuscript-card kind-concept" id="m11" data-mark="11">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><span class="type-badge" title="definition">def</span><a href="../lax-48/Lax48.TwinWidth.html"><code>Lax48.TwinWidth</code></a></span>
+<span class="manuscript-card-page">p. 4</span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m11-body" aria-label="Show details of Lax48.TwinWidth"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m11-body" hidden>
+<p class="manuscript-card-title">Twin-width</p>
+<div class="latex-content"><p>A partition sequence of a finite simple graph <em>G</em> is a sequence of partitions
+of its vertex set that starts at the partition into singletons, merges two
+parts into one at every step, and ends at the partition with a single part.
+Two parts of a same partition are homogeneous if either every pair of
+vertices across them is adjacent or none is; two non-homogeneous parts are
+red-adjacent. The red degree of a part is the number of other parts of its
+partition that are red-adjacent to it.</p>
+<p>The twin-width of <em>G</em> is the least <em>d</em> such that <em>G</em> has a partition sequence
+in which every part of every partition has red degree at most <em>d</em>.</p>
+</div>
+<div class="manuscript-card-source"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<tr class=""><td class="line-num">1</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Combinatorics.SimpleGraph.Basic</span></td></tr>
+<tr class=""><td class="line-num">2</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Data.Set.Card</span></td></tr>
+<tr class=""><td class="line-num">3</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Data.Nat.Lattice</span></td></tr>
+<tr class=""><td class="line-num">4</td><td class="line-code"> </td></tr>
+<tr class="line-elided"><td class="line-num"></td><td class="line-code">… module docstring, 25 lines</td></tr>
+<tr class=""><td class="line-num">30</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">31</td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax48.TwinWidth</span></td></tr>
+<tr class=""><td class="line-num">32</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">33</td><td class="line-code"><span style="color:#6A737D">/-- Two vertex sets are homogeneous in `G`: either every pair of vertices</span></td></tr>
+<tr class=""><td class="line-num">34</td><td class="line-code"><span style="color:#6A737D">across them is adjacent, or none is. -/</span></td></tr>
+<tr class=""><td class="line-num">35</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> Homogeneous</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">} (G : SimpleGraph V) (A B : Finset V) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr class=""><td class="line-num">36</td><td class="line-code"><span style="color:#24292E">  (∀ a ∈ A, ∀ b ∈ B, G.Adj a b) ∨ (∀ a ∈ A, ∀ b ∈ B, ¬ G.Adj a b)</span></td></tr>
+<tr class=""><td class="line-num">37</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">38</td><td class="line-code"><span style="color:#6A737D">/-- The red degree of a part `A` in a family of parts `P`: the number of</span></td></tr>
+<tr class=""><td class="line-num">39</td><td class="line-code"><span style="color:#6A737D">other parts of `P` that are not homogeneous with `A`. -/</span></td></tr>
+<tr class=""><td class="line-num">40</td><td class="line-code"><span style="color:#D73A49">noncomputable</span><span style="color:#D73A49"> def</span><span style="color:#6F42C1"> redDegree</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">} (G : SimpleGraph V)</span></td></tr>
+<tr class=""><td class="line-num">41</td><td class="line-code"><span style="color:#24292E">    (P : Finset (Finset V)) (A : Finset V) : ℕ :=</span></td></tr>
+<tr class=""><td class="line-num">42</td><td class="line-code"><span style="color:#24292E">  {B | B ∈ P ∧ B ≠ A ∧ ¬ Homogeneous G A B}.ncard</span></td></tr>
+<tr class=""><td class="line-num">43</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">44</td><td class="line-code"><span style="color:#6A737D">/-- The partition of a finite vertex type into singletons. -/</span></td></tr>
+<tr class=""><td class="line-num">45</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> singletonPartition</span><span style="color:#24292E"> (V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">) [Fintype V] [DecidableEq V] :</span></td></tr>
+<tr class=""><td class="line-num">46</td><td class="line-code"><span style="color:#24292E">    Finset (Finset V) :=</span></td></tr>
+<tr class=""><td class="line-num">47</td><td class="line-code"><span style="color:#24292E">  Finset.univ.image </span><span style="color:#D73A49">fun</span><span style="color:#24292E"> v : V =&gt; ({v} : Finset V)</span></td></tr>
+<tr class=""><td class="line-num">48</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">49</td><td class="line-code"><span style="color:#6A737D">/-- A partition sequence of `G` in which every part has red degree at most</span></td></tr>
+<tr class=""><td class="line-num">50</td><td class="line-code"><span style="color:#6A737D">`d`: starting from the singleton partition, each step merges two parts into</span></td></tr>
+<tr class=""><td class="line-num">51</td><td class="line-code"><span style="color:#6A737D">one, until a single part remains. -/</span></td></tr>
+<tr class=""><td class="line-num">52</td><td class="line-code"><span style="color:#D73A49">structure</span><span style="color:#6F42C1"> PartitionSequence</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">} [Fintype V] [DecidableEq V]</span></td></tr>
+<tr class=""><td class="line-num">53</td><td class="line-code"><span style="color:#24292E">    (G : SimpleGraph V) (d : ℕ) </span><span style="color:#D73A49">where</span></td></tr>
+<tr class=""><td class="line-num">54</td><td class="line-code"><span style="color:#6A737D">  /-- The number of merge steps. -/</span></td></tr>
+<tr class=""><td class="line-num">55</td><td class="line-code"><span style="color:#24292E">  stepCount : ℕ</span></td></tr>
+<tr class=""><td class="line-num">56</td><td class="line-code"><span style="color:#6A737D">  /-- The partition after each number of merge steps. -/</span></td></tr>
+<tr class=""><td class="line-num">57</td><td class="line-code"><span style="color:#24292E">  partition : ℕ → Finset (Finset V)</span></td></tr>
+<tr class=""><td class="line-num">58</td><td class="line-code"><span style="color:#6A737D">  /-- The sequence starts at the singleton partition. -/</span></td></tr>
+<tr class=""><td class="line-num">59</td><td class="line-code"><span style="color:#24292E">  starts : partition </span><span style="color:#005CC5">0</span><span style="color:#24292E"> = singletonPartition V</span></td></tr>
+<tr class=""><td class="line-num">60</td><td class="line-code"><span style="color:#6A737D">  /-- The sequence ends with a single part. -/</span></td></tr>
+<tr class=""><td class="line-num">61</td><td class="line-code"><span style="color:#24292E">  ends : (partition stepCount).card ≤ </span><span style="color:#005CC5">1</span></td></tr>
+<tr class=""><td class="line-num">62</td><td class="line-code"><span style="color:#6A737D">  /-- Each step merges two distinct parts into one and keeps all other</span></td></tr>
+<tr class=""><td class="line-num">63</td><td class="line-code"><span style="color:#6A737D">  parts. -/</span></td></tr>
+<tr class=""><td class="line-num">64</td><td class="line-code"><span style="color:#24292E">  step_merges :</span></td></tr>
+<tr class=""><td class="line-num">65</td><td class="line-code"><span style="color:#24292E">    ∀ i, i &lt; stepCount → ∃ A ∈ partition i, ∃ B ∈ partition i, A ≠ B ∧</span></td></tr>
+<tr class=""><td class="line-num">66</td><td class="line-code"><span style="color:#24292E">      partition (i + </span><span style="color:#005CC5">1</span><span style="color:#24292E">) = insert (A ∪ B) (((partition i).erase A).erase B)</span></td></tr>
+<tr class=""><td class="line-num">67</td><td class="line-code"><span style="color:#6A737D">  /-- Every part of every partition in the sequence has red degree at most</span></td></tr>
+<tr class=""><td class="line-num">68</td><td class="line-code"><span style="color:#6A737D">  `d`. -/</span></td></tr>
+<tr class=""><td class="line-num">69</td><td class="line-code"><span style="color:#24292E">  redDegree_le :</span></td></tr>
+<tr class=""><td class="line-num">70</td><td class="line-code"><span style="color:#24292E">    ∀ i, i ≤ stepCount → ∀ ⦃A⦄, A ∈ partition i →</span></td></tr>
+<tr class=""><td class="line-num">71</td><td class="line-code"><span style="color:#24292E">      redDegree G (partition i) A ≤ d</span></td></tr>
+<tr class=""><td class="line-num">72</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">73</td><td class="line-code"><span style="color:#6A737D">/-- `G` has a partition sequence in which every part has red degree at most</span></td></tr>
+<tr class=""><td class="line-num">74</td><td class="line-code"><span style="color:#6A737D">`d`. -/</span></td></tr>
+<tr class=""><td class="line-num">75</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> HasTwinWidthAtMost</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">} [Fintype V] [DecidableEq V]</span></td></tr>
+<tr class=""><td class="line-num">76</td><td class="line-code"><span style="color:#24292E">    (G : SimpleGraph V) (d : ℕ) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr class=""><td class="line-num">77</td><td class="line-code"><span style="color:#24292E">  Nonempty (PartitionSequence G d)</span></td></tr>
+<tr class=""><td class="line-num">78</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">79</td><td class="line-code"><span style="color:#6A737D">/-- The twin-width of a finite simple graph: the least `d` such that the</span></td></tr>
+<tr class=""><td class="line-num">80</td><td class="line-code"><span style="color:#6A737D">graph has a partition sequence in which every part has red degree at most</span></td></tr>
+<tr class=""><td class="line-num">81</td><td class="line-code"><span style="color:#6A737D">`d`. -/</span></td></tr>
+<tr class=""><td class="line-num">82</td><td class="line-code"><span style="color:#D73A49">noncomputable</span><span style="color:#D73A49"> def</span><span style="color:#6F42C1"> twinWidth</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">} [Fintype V] [DecidableEq V]</span></td></tr>
+<tr class=""><td class="line-num">83</td><td class="line-code"><span style="color:#24292E">    (G : SimpleGraph V) : ℕ :=</span></td></tr>
+<tr class=""><td class="line-num">84</td><td class="line-code"><span style="color:#24292E">  sInf {d | HasTwinWidthAtMost G d}</span></td></tr>
+<tr class=""><td class="line-num">85</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">86</td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax48.TwinWidth</span></td></tr>
+<tr class=""><td class="line-num">87</td><td class="line-code"> </td></tr>
+</table></div></div>
+</div>
+</li>
+<li class="manuscript-card kind-concept" id="m12" data-mark="12">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><span class="type-badge" title="definition">def</span><a href="../lax-65/Lax65.BonnetDepresGraph.html"><code>Lax65.BonnetDepresGraph</code></a></span>
+<span class="manuscript-card-page">p. 5</span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m12-body" aria-label="Show details of Lax65.BonnetDepresGraph"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m12-body" hidden>
+<p class="manuscript-card-title">The graph G_{t,ε}</p>
+<div class="latex-content"><p>Fix a real <em>ε</em> and an integer <em>t</em>, and set</p>
+<span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>C</mi><mi>t</mi></msub><mo>=</mo><mfrac><msup><mn>2</mn><mrow><mo stretchy="false">(</mo><mn>1</mn><mo>−</mo><mi>ε</mi><mo stretchy="false">)</mo><mi>t</mi></mrow></msup><mi>ε</mi></mfrac><mo separator="true">,</mo><mspace width="2em"/><mi>f</mi><mo stretchy="false">(</mo><mi>t</mi><mo stretchy="false">)</mo><mo>=</mo><mrow><mo fence="true">⌈</mo><mn>2</mn><mo>+</mo><msub><mi>C</mi><mi>t</mi></msub><mtext> </mtext><msup><mn>2</mn><mrow><mo stretchy="false">(</mo><mn>1</mn><mo>−</mo><mi>ε</mi><mo stretchy="false">)</mo><mi>t</mi><mtext> </mtext><mo stretchy="false">(</mo><mn>2</mn><mo>+</mo><msub><mi>C</mi><mi>t</mi></msub><mtext> </mtext><mo stretchy="false">(</mo><msup><mn>2</mn><mrow><mo stretchy="false">(</mo><mn>1</mn><mo>−</mo><mi>ε</mi><mo stretchy="false">)</mo><mi>t</mi></mrow></msup><mo>+</mo><mn>1</mn><mo stretchy="false">)</mo><mo stretchy="false">)</mo></mrow></msup><mo fence="true">⌉</mo></mrow><mi mathvariant="normal">.</mi></mrow><annotation encoding="application/x-tex">C_t = \frac{2^{(1-\varepsilon)t}}{\varepsilon}, \qquad
+f(t) = \left\lceil 2 + C_t\, 2^{(1-\varepsilon)t\,(2 + C_t\,(2^{(1-\varepsilon)t} + 1))} \right\rceil .</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0715em;">C</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2806em;"><span style="top:-2.55em;margin-left:-0.0715em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">t</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:2.251em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.565em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">ε</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.888em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mtight">1</span><span class="mbin mtight">−</span><span class="mord mathnormal mtight">ε</span><span class="mclose mtight">)</span><span class="mord mathnormal mtight">t</span></span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:2em;"></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.1076em;">f</span><span class="mopen">(</span><span class="mord mathnormal">t</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1.8em;vertical-align:-0.65em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size2">⌈</span></span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0715em;">C</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2806em;"><span style="top:-2.55em;margin-left:-0.0715em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">t</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:1.0897em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mtight">1</span><span class="mbin mtight">−</span><span class="mord mathnormal mtight">ε</span><span class="mclose mtight">)</span><span class="mord mathnormal mtight">t</span><span class="mspace mtight" style="margin-right:0.1952em;"></span><span class="mopen mtight">(</span><span class="mord mtight">2</span><span class="mbin mtight">+</span><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.0715em;">C</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2963em;"><span style="top:-2.357em;margin-left:-0.0715em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="katex-sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight">t</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span><span class="mspace mtight" style="margin-right:0.1952em;"></span><span class="mopen mtight">(</span><span class="mord mtight"><span class="mord mtight">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.9667em;"><span style="top:-2.9667em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5357em;"></span><span class="katex-sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mtight">1</span><span class="mbin mtight">−</span><span class="mord mathnormal mtight">ε</span><span class="mclose mtight">)</span><span class="mord mathnormal mtight">t</span></span></span></span></span></span></span></span></span><span class="mbin mtight">+</span><span class="mord mtight">1</span><span class="mclose mtight">))</span></span></span></span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;"><span class="delimsizing size2">⌉</span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">.</span></span></span></span></span><p>Let <em>T</em> be the full 2ᵗ-ary tree of depth <em>f(t)</em>, i.e. with root-to-leaf paths
+on <em>f(t)</em> edges, and let <em>X</em> be a set of <em>t</em> vertices, identified with [<em>t</em>].
+The vertex set of <em>G</em>&lt;sub&gt;<em>t</em>,<em>ε</em>&lt;/sub&gt; is <em>X</em> ⊎ <em>V(T)</em>. Its edges are such
+that <em>X</em> is an independent set, the subgraph on <em>V(T)</em> is <em>T</em>, the root of
+<em>T</em> has no neighbour in <em>X</em>, and the 2ᵗ children of every internal node of
+<em>T</em> each have a distinct neighbourhood in <em>X</em>. This defines a single graph up
+to isomorphism.</p>
+</div>
+<div class="manuscript-card-source"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<tr class=""><td class="line-num">1</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Combinatorics.SimpleGraph.Basic</span></td></tr>
+<tr class=""><td class="line-num">2</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Analysis.SpecialFunctions.Pow.Real</span></td></tr>
+<tr class=""><td class="line-num">3</td><td class="line-code"> </td></tr>
+<tr class="line-elided"><td class="line-num"></td><td class="line-code">… module docstring, 28 lines</td></tr>
+<tr class=""><td class="line-num">32</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">33</td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax65.BonnetDepresGraph</span></td></tr>
+<tr class=""><td class="line-num">34</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">35</td><td class="line-code"><span style="color:#6A737D">/-- The constant `C_t = 2^{(1-ε)t} / ε`. -/</span></td></tr>
+<tr class=""><td class="line-num">36</td><td class="line-code"><span style="color:#D73A49">noncomputable</span><span style="color:#D73A49"> def</span><span style="color:#6F42C1"> C</span><span style="color:#24292E"> (ε : ℝ) (t : ℕ) : ℝ :=</span></td></tr>
+<tr class=""><td class="line-num">37</td><td class="line-code"><span style="color:#005CC5">  2</span><span style="color:#24292E"> ^ ((</span><span style="color:#005CC5">1</span><span style="color:#24292E"> - ε) * t) / ε</span></td></tr>
+<tr class=""><td class="line-num">38</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">39</td><td class="line-code"><span style="color:#6A737D">/-- The depth `f(t) = ⌈2 + C_t · 2^{(1-ε)t (2 + C_t (2^{(1-ε)t} + 1))}⌉` of the</span></td></tr>
+<tr class=""><td class="line-num">40</td><td class="line-code"><span style="color:#6A737D">tree. -/</span></td></tr>
+<tr class=""><td class="line-num">41</td><td class="line-code"><span style="color:#D73A49">noncomputable</span><span style="color:#D73A49"> def</span><span style="color:#6F42C1"> f</span><span style="color:#24292E"> (ε : ℝ) (t : ℕ) : ℕ :=</span></td></tr>
+<tr class=""><td class="line-num">42</td><td class="line-code"><span style="color:#24292E">  ⌈</span><span style="color:#005CC5">2</span><span style="color:#24292E"> + C ε t * </span><span style="color:#005CC5">2</span><span style="color:#24292E"> ^ ((</span><span style="color:#005CC5">1</span><span style="color:#24292E"> - ε) * t * (</span><span style="color:#005CC5">2</span><span style="color:#24292E"> + C ε t * (</span><span style="color:#005CC5">2</span><span style="color:#24292E"> ^ ((</span><span style="color:#005CC5">1</span><span style="color:#24292E"> - ε) * t) + </span><span style="color:#005CC5">1</span><span style="color:#24292E">)))⌉₊</span></td></tr>
+<tr class=""><td class="line-num">43</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">44</td><td class="line-code"><span style="color:#6A737D">/-- A node of the full `2^t`-ary tree of depth `depth`: its level `ℓ ≤ depth`</span></td></tr>
+<tr class=""><td class="line-num">45</td><td class="line-code"><span style="color:#6A737D">together with the neighbourhood in `X = Fin t` chosen on each of the `ℓ`</span></td></tr>
+<tr class=""><td class="line-num">46</td><td class="line-code"><span style="color:#6A737D">edges of the path from the root. -/</span></td></tr>
+<tr class=""><td class="line-num">47</td><td class="line-code"><span style="color:#D73A49">abbrev</span><span style="color:#6F42C1"> TreeNode</span><span style="color:#24292E"> (t depth : ℕ) : </span><span style="color:#D73A49">Type</span><span style="color:#24292E"> :=</span></td></tr>
+<tr class=""><td class="line-num">48</td><td class="line-code"><span style="color:#24292E">  Σ ℓ : Fin (depth + </span><span style="color:#005CC5">1</span><span style="color:#24292E">), Fin ℓ.val → Finset (Fin t)</span></td></tr>
+<tr class=""><td class="line-num">49</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">50</td><td class="line-code"><span style="color:#6A737D">/-- `u` is the parent of `v` in the tree: the path of `v` extends the path of</span></td></tr>
+<tr class=""><td class="line-num">51</td><td class="line-code"><span style="color:#6A737D">`u` by one edge. -/</span></td></tr>
+<tr class=""><td class="line-num">52</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> IsParent</span><span style="color:#24292E"> {t depth : ℕ} (u v : TreeNode t depth) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr class=""><td class="line-num">53</td><td class="line-code"><span style="color:#24292E">  ∃ h : v.</span><span style="color:#005CC5">1</span><span style="color:#24292E">.val = u.</span><span style="color:#005CC5">1</span><span style="color:#24292E">.val + </span><span style="color:#005CC5">1</span><span style="color:#24292E">, ∀ i : Fin u.</span><span style="color:#005CC5">1</span><span style="color:#24292E">.val, v.</span><span style="color:#005CC5">2</span><span style="color:#24292E"> ⟨i.val, </span><span style="color:#D73A49">by</span><span style="color:#24292E"> omega⟩ = u.</span><span style="color:#005CC5">2</span><span style="color:#24292E"> i</span></td></tr>
+<tr class=""><td class="line-num">54</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">55</td><td class="line-code"><span style="color:#6A737D">/-- The neighbourhood in `X` of a node other than the root: the subset chosen</span></td></tr>
+<tr class=""><td class="line-num">56</td><td class="line-code"><span style="color:#6A737D">on the last edge of its path. -/</span></td></tr>
+<tr class=""><td class="line-num">57</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> apexNeighborhood</span><span style="color:#24292E"> {t depth : ℕ} (v : TreeNode t depth) (h : </span><span style="color:#005CC5">0</span><span style="color:#24292E"> &lt; v.</span><span style="color:#005CC5">1</span><span style="color:#24292E">.val) :</span></td></tr>
+<tr class=""><td class="line-num">58</td><td class="line-code"><span style="color:#24292E">    Finset (Fin t) :=</span></td></tr>
+<tr class=""><td class="line-num">59</td><td class="line-code"><span style="color:#24292E">  v.</span><span style="color:#005CC5">2</span><span style="color:#24292E"> ⟨v.</span><span style="color:#005CC5">1</span><span style="color:#24292E">.val - </span><span style="color:#005CC5">1</span><span style="color:#24292E">, </span><span style="color:#D73A49">by</span><span style="color:#24292E"> omega⟩</span></td></tr>
+<tr class=""><td class="line-num">60</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">61</td><td class="line-code"><span style="color:#6A737D">/-- The vertices of `G_{t,ε}`: the apex set `X = Fin t` and the nodes of</span></td></tr>
+<tr class=""><td class="line-num">62</td><td class="line-code"><span style="color:#6A737D">`T`. -/</span></td></tr>
+<tr class=""><td class="line-num">63</td><td class="line-code"><span style="color:#D73A49">abbrev</span><span style="color:#6F42C1"> Vertex</span><span style="color:#24292E"> (t depth : ℕ) : </span><span style="color:#D73A49">Type</span><span style="color:#24292E"> :=</span></td></tr>
+<tr class=""><td class="line-num">64</td><td class="line-code"><span style="color:#24292E">  Fin t ⊕ TreeNode t depth</span></td></tr>
+<tr class=""><td class="line-num">65</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">66</td><td class="line-code"><span style="color:#6A737D">/-- The edges: a node of `T` and one of its children, or an apex `x` and a</span></td></tr>
+<tr class=""><td class="line-num">67</td><td class="line-code"><span style="color:#6A737D">node other than the root whose neighbourhood in `X` contains `x`. -/</span></td></tr>
+<tr class=""><td class="line-num">68</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> EdgeRel</span><span style="color:#24292E"> {t depth : ℕ} : Vertex t depth → Vertex t depth → </span><span style="color:#D73A49">Prop</span></td></tr>
+<tr class=""><td class="line-num">69</td><td class="line-code"><span style="color:#24292E">  | Sum.inr u, Sum.inr v =&gt; IsParent u v</span></td></tr>
+<tr class=""><td class="line-num">70</td><td class="line-code"><span style="color:#24292E">  | Sum.inl x, Sum.inr v =&gt; ∃ h : </span><span style="color:#005CC5">0</span><span style="color:#24292E"> &lt; v.</span><span style="color:#005CC5">1</span><span style="color:#24292E">.val, x ∈ apexNeighborhood v h</span></td></tr>
+<tr class=""><td class="line-num">71</td><td class="line-code"><span style="color:#24292E">  | _, _ =&gt; False</span></td></tr>
+<tr class=""><td class="line-num">72</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">73</td><td class="line-code"><span style="color:#6A737D">/-- The graph on the apex set `Fin t` and the full `2^t`-ary tree of depth</span></td></tr>
+<tr class=""><td class="line-num">74</td><td class="line-code"><span style="color:#6A737D">`depth`. -/</span></td></tr>
+<tr class=""><td class="line-num">75</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> graph</span><span style="color:#24292E"> (t depth : ℕ) : SimpleGraph (Vertex t depth) :=</span></td></tr>
+<tr class=""><td class="line-num">76</td><td class="line-code"><span style="color:#24292E">  SimpleGraph.fromRel EdgeRel</span></td></tr>
+<tr class=""><td class="line-num">77</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">78</td><td class="line-code"><span style="color:#6A737D">/-- The graph `G_{t,ε}`: the tree has depth `f(t)`. -/</span></td></tr>
+<tr class=""><td class="line-num">79</td><td class="line-code"><span style="color:#D73A49">noncomputable</span><span style="color:#D73A49"> def</span><span style="color:#6F42C1"> bonnetDepres</span><span style="color:#24292E"> (ε : ℝ) (t : ℕ) : SimpleGraph (Vertex t (f ε t)) :=</span></td></tr>
+<tr class=""><td class="line-num">80</td><td class="line-code"><span style="color:#24292E">  graph t (f ε t)</span></td></tr>
+<tr class=""><td class="line-num">81</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">82</td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax65.BonnetDepresGraph</span></td></tr>
+<tr class=""><td class="line-num">83</td><td class="line-code"> </td></tr>
+</table></div></div>
+</div>
+</li>
+<li class="manuscript-card kind-concept line-open" id="m13" data-mark="13">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><span class="type-badge open" title="lemma — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem×</span><a href="../lax-65/Lax65.TreewidthOfBonnetDepres.html"><code>Lax65.TreewidthOfBonnetDepres</code></a></span>
+<span class="manuscript-card-page">p. 5</span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m13-body" aria-label="Show details of Lax65.TreewidthOfBonnetDepres"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m13-body" hidden>
+<p class="manuscript-card-title">Treewidth of G_t</p>
+<div class="latex-content"><p>Fix a real 0 &lt; *ε* ≤ 1/2 and an integer *t* &gt; 1/<em>ε</em>. Then <em>G</em>&lt;sub&gt;<em>t</em>&lt;/sub&gt;
+has treewidth at most <em>t</em> + 1.</p>
+</div>
+<ul class="manuscript-card-claims"><li><span class="claim-entry"><span class="type-badge open" title="lemma — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem×</span><a href="../lax-65/Lax65.TreewidthOfBonnetDepres.html" title="Lax65.TreewidthOfBonnetDepres.treewidth_le"><code>Lax65.TreewidthOfBonnetDepres</code></a></span></li></ul><div class="manuscript-card-source"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<tr class=""><td class="line-num">1</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax48.Treewidth</span></td></tr>
+<tr class=""><td class="line-num">2</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax65.BonnetDepresGraph</span></td></tr>
+<tr class=""><td class="line-num">3</td><td class="line-code"> </td></tr>
+<tr class="line-elided"><td class="line-num"></td><td class="line-code">… module docstring, 8 lines</td></tr>
+<tr class=""><td class="line-num">12</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">13</td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax65.TreewidthOfBonnetDepres</span></td></tr>
+<tr class=""><td class="line-num">14</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">15</td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax48.Treewidth Lax65.BonnetDepresGraph</span></td></tr>
+<tr class=""><td class="line-num">16</td><td class="line-code"> </td></tr>
+<tr class="statement-line line-open"><td class="line-num">17</td><td class="line-code"><span style="color:#6A737D">/-- `G_{t,ε}` has treewidth at most `t + 1`. -/</span></td></tr>
+<tr class="statement-line line-open"><td class="line-num">18</td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> treewidth_le</span><span style="color:#24292E"> (ε : ℝ) (hε₀ : </span><span style="color:#005CC5">0</span><span style="color:#24292E"> &lt; ε) (hε₁ : ε ≤ </span><span style="color:#005CC5">1</span><span style="color:#24292E"> / </span><span style="color:#005CC5">2</span><span style="color:#24292E">) (t : ℕ)</span></td></tr>
+<tr class="statement-line line-open"><td class="line-num">19</td><td class="line-code"><span style="color:#24292E">    (ht : </span><span style="color:#005CC5">1</span><span style="color:#24292E"> / ε &lt; t) :</span></td></tr>
+<tr class="statement-line line-open"><td class="line-num">20</td><td class="line-code"><span style="color:#24292E">    treewidth (bonnetDepres ε t) ≤ t + </span><span style="color:#005CC5">1</span></td></tr>
+<tr class=""><td class="line-num">21</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">22</td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax65.TreewidthOfBonnetDepres</span></td></tr>
+<tr class=""><td class="line-num">23</td><td class="line-code"> </td></tr>
+</table></div></div>
+</div>
+</li>
+<li class="manuscript-card kind-concept line-open" id="m14" data-mark="14">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><span class="type-badge open" title="lemma — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem×</span><a href="../lax-65/Lax65.TwinWidthOfBonnetDepres.html"><code>Lax65.TwinWidthOfBonnetDepres</code></a></span>
+<span class="manuscript-card-page">p. 5</span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m14-body" aria-label="Show details of Lax65.TwinWidthOfBonnetDepres"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m14-body" hidden>
+<p class="manuscript-card-title">Twin-width of G_t</p>
+<div class="latex-content"><p>Fix a real 0 &lt; *ε* ≤ 1/2 and an integer *t* &gt; 1/<em>ε</em>. Then <em>G</em>&lt;sub&gt;<em>t</em>&lt;/sub&gt;
+has twin-width greater than 2^{(1−<em>ε</em>)<em>t</em>}.</p>
+</div>
+<ul class="manuscript-card-claims"><li><span class="claim-entry"><span class="type-badge open" title="lemma — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem×</span><a href="../lax-65/Lax65.TwinWidthOfBonnetDepres.html" title="Lax65.TwinWidthOfBonnetDepres.two_rpow_lt_twinWidth"><code>Lax65.TwinWidthOfBonnetDepres</code></a></span></li></ul><div class="manuscript-card-source"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<tr class=""><td class="line-num">1</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax48.TwinWidth</span></td></tr>
+<tr class=""><td class="line-num">2</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax65.BonnetDepresGraph</span></td></tr>
+<tr class=""><td class="line-num">3</td><td class="line-code"> </td></tr>
+<tr class="line-elided"><td class="line-num"></td><td class="line-code">… module docstring, 8 lines</td></tr>
+<tr class=""><td class="line-num">12</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">13</td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax65.TwinWidthOfBonnetDepres</span></td></tr>
+<tr class=""><td class="line-num">14</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">15</td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax48.TwinWidth Lax65.BonnetDepresGraph</span></td></tr>
+<tr class=""><td class="line-num">16</td><td class="line-code"> </td></tr>
+<tr class="statement-line line-open"><td class="line-num">17</td><td class="line-code"><span style="color:#6A737D">/-- `G_{t,ε}` has twin-width greater than `2 ^ ((1 - ε) t)`. -/</span></td></tr>
+<tr class="statement-line line-open"><td class="line-num">18</td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> two_rpow_lt_twinWidth</span><span style="color:#24292E"> (ε : ℝ) (hε₀ : </span><span style="color:#005CC5">0</span><span style="color:#24292E"> &lt; ε) (hε₁ : ε ≤ </span><span style="color:#005CC5">1</span><span style="color:#24292E"> / </span><span style="color:#005CC5">2</span><span style="color:#24292E">) (t : ℕ)</span></td></tr>
+<tr class="statement-line line-open"><td class="line-num">19</td><td class="line-code"><span style="color:#24292E">    (ht : </span><span style="color:#005CC5">1</span><span style="color:#24292E"> / ε &lt; t) :</span></td></tr>
+<tr class="statement-line line-open"><td class="line-num">20</td><td class="line-code"><span style="color:#24292E">    (</span><span style="color:#005CC5">2</span><span style="color:#24292E"> : ℝ) ^ ((</span><span style="color:#005CC5">1</span><span style="color:#24292E"> - ε) * t) &lt; twinWidth (bonnetDepres ε t)</span></td></tr>
+<tr class=""><td class="line-num">21</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">22</td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax65.TwinWidthOfBonnetDepres</span></td></tr>
+<tr class=""><td class="line-num">23</td><td class="line-code"> </td></tr>
+</table></div></div>
+</div>
+</li>
+<li class="manuscript-card kind-concept" id="m15" data-mark="15">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><span class="type-badge" title="definition">def</span><a href="../lax-65/Lax65.OrientedTwinWidth.html"><code>Lax65.OrientedTwinWidth</code></a></span>
+<span class="manuscript-card-page">p. 9</span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m15-body" aria-label="Show details of Lax65.OrientedTwinWidth"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m15-body" hidden>
+<p class="manuscript-card-title">Oriented twin-width</p>
+<div class="latex-content"><p>An oriented partition sequence of a finite simple graph <em>G</em> is a partition
+sequence of <em>G</em> in which every red edge is replaced by a red arc leaving the
+newly merged part: when two parts are merged, the merged part gets a red arc
+to every other part it is not homogeneous with, and the red arcs between the
+remaining parts stay as they were. An oriented <em>d</em>-sequence is one in which
+every part of every partition has at most <em>d</em> out-going red arcs. The
+oriented twin-width of <em>G</em> is the least <em>d</em> such that <em>G</em> admits an oriented
+<em>d</em>-sequence.</p>
+</div>
+<div class="manuscript-card-source"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<tr class=""><td class="line-num">1</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax48.TwinWidth</span></td></tr>
+<tr class=""><td class="line-num">2</td><td class="line-code"> </td></tr>
+<tr class="line-elided"><td class="line-num"></td><td class="line-code">… module docstring, 22 lines</td></tr>
+<tr class=""><td class="line-num">25</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">26</td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax65.OrientedTwinWidth</span></td></tr>
+<tr class=""><td class="line-num">27</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">28</td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax48.TwinWidth</span></td></tr>
+<tr class=""><td class="line-num">29</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">30</td><td class="line-code"><span style="color:#6A737D">/-- An oriented partition sequence of `G` in which every part has at most `d`</span></td></tr>
+<tr class=""><td class="line-num">31</td><td class="line-code"><span style="color:#6A737D">out-going red arcs: starting from the singleton partition with no red arcs,</span></td></tr>
+<tr class=""><td class="line-num">32</td><td class="line-code"><span style="color:#6A737D">each step merges two parts into one, gives the merged part a red arc to every</span></td></tr>
+<tr class=""><td class="line-num">33</td><td class="line-code"><span style="color:#6A737D">other part it is not homogeneous with, and keeps the red arcs between the</span></td></tr>
+<tr class=""><td class="line-num">34</td><td class="line-code"><span style="color:#6A737D">remaining parts, until a single part remains. -/</span></td></tr>
+<tr class=""><td class="line-num">35</td><td class="line-code"><span style="color:#D73A49">structure</span><span style="color:#6F42C1"> OrientedPartitionSequence</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">} [Fintype V] [DecidableEq V]</span></td></tr>
+<tr class=""><td class="line-num">36</td><td class="line-code"><span style="color:#24292E">    (G : SimpleGraph V) (d : ℕ) </span><span style="color:#D73A49">where</span></td></tr>
+<tr class=""><td class="line-num">37</td><td class="line-code"><span style="color:#6A737D">  /-- The number of merge steps. -/</span></td></tr>
+<tr class=""><td class="line-num">38</td><td class="line-code"><span style="color:#24292E">  stepCount : ℕ</span></td></tr>
+<tr class=""><td class="line-num">39</td><td class="line-code"><span style="color:#6A737D">  /-- The partition after each number of merge steps. -/</span></td></tr>
+<tr class=""><td class="line-num">40</td><td class="line-code"><span style="color:#24292E">  partition : ℕ → Finset (Finset V)</span></td></tr>
+<tr class=""><td class="line-num">41</td><td class="line-code"><span style="color:#6A737D">  /-- The red arcs between parts after each number of merge steps. -/</span></td></tr>
+<tr class=""><td class="line-num">42</td><td class="line-code"><span style="color:#24292E">  redArc : ℕ → Finset V → Finset V → </span><span style="color:#D73A49">Prop</span></td></tr>
+<tr class=""><td class="line-num">43</td><td class="line-code"><span style="color:#6A737D">  /-- The sequence starts at the singleton partition. -/</span></td></tr>
+<tr class=""><td class="line-num">44</td><td class="line-code"><span style="color:#24292E">  starts : partition </span><span style="color:#005CC5">0</span><span style="color:#24292E"> = singletonPartition V</span></td></tr>
+<tr class=""><td class="line-num">45</td><td class="line-code"><span style="color:#6A737D">  /-- There are no red arcs at the start. -/</span></td></tr>
+<tr class=""><td class="line-num">46</td><td class="line-code"><span style="color:#24292E">  redArc_zero : ∀ A B, ¬ redArc </span><span style="color:#005CC5">0</span><span style="color:#24292E"> A B</span></td></tr>
+<tr class=""><td class="line-num">47</td><td class="line-code"><span style="color:#6A737D">  /-- The sequence ends with a single part. -/</span></td></tr>
+<tr class=""><td class="line-num">48</td><td class="line-code"><span style="color:#24292E">  ends : (partition stepCount).card ≤ </span><span style="color:#005CC5">1</span></td></tr>
+<tr class=""><td class="line-num">49</td><td class="line-code"><span style="color:#6A737D">  /-- Each step merges two distinct parts into one and keeps all other parts;</span></td></tr>
+<tr class=""><td class="line-num">50</td><td class="line-code"><span style="color:#6A737D">  the merged part gets a red arc to every other part it is not homogeneous</span></td></tr>
+<tr class=""><td class="line-num">51</td><td class="line-code"><span style="color:#6A737D">  with, and the red arcs between the remaining parts are unchanged. -/</span></td></tr>
+<tr class=""><td class="line-num">52</td><td class="line-code"><span style="color:#24292E">  step_merges :</span></td></tr>
+<tr class=""><td class="line-num">53</td><td class="line-code"><span style="color:#24292E">    ∀ i, i &lt; stepCount → ∃ A ∈ partition i, ∃ B ∈ partition i, A ≠ B ∧</span></td></tr>
+<tr class=""><td class="line-num">54</td><td class="line-code"><span style="color:#24292E">      partition (i + </span><span style="color:#005CC5">1</span><span style="color:#24292E">) = insert (A ∪ B) (((partition i).erase A).erase B) ∧</span></td></tr>
+<tr class=""><td class="line-num">55</td><td class="line-code"><span style="color:#24292E">      ∀ C ∈ partition (i + </span><span style="color:#005CC5">1</span><span style="color:#24292E">), ∀ D ∈ partition (i + </span><span style="color:#005CC5">1</span><span style="color:#24292E">),</span></td></tr>
+<tr class=""><td class="line-num">56</td><td class="line-code"><span style="color:#24292E">        (redArc (i + </span><span style="color:#005CC5">1</span><span style="color:#24292E">) C D ↔</span></td></tr>
+<tr class=""><td class="line-num">57</td><td class="line-code"><span style="color:#D73A49">          if</span><span style="color:#24292E"> C = A ∪ B </span><span style="color:#D73A49">then</span><span style="color:#24292E"> D ≠ C ∧ ¬ Homogeneous G C D</span></td></tr>
+<tr class=""><td class="line-num">58</td><td class="line-code"><span style="color:#D73A49">          else</span><span style="color:#24292E"> D ≠ A ∪ B ∧ redArc i C D)</span></td></tr>
+<tr class=""><td class="line-num">59</td><td class="line-code"><span style="color:#6A737D">  /-- Every part of every partition in the sequence has at most `d` out-going</span></td></tr>
+<tr class=""><td class="line-num">60</td><td class="line-code"><span style="color:#6A737D">  red arcs. -/</span></td></tr>
+<tr class=""><td class="line-num">61</td><td class="line-code"><span style="color:#24292E">  outDegree_le :</span></td></tr>
+<tr class=""><td class="line-num">62</td><td class="line-code"><span style="color:#24292E">    ∀ i, i ≤ stepCount → ∀ ⦃A⦄, A ∈ partition i →</span></td></tr>
+<tr class=""><td class="line-num">63</td><td class="line-code"><span style="color:#24292E">      {B | B ∈ partition i ∧ redArc i A B}.ncard ≤ d</span></td></tr>
+<tr class=""><td class="line-num">64</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">65</td><td class="line-code"><span style="color:#6A737D">/-- `G` admits an oriented `d`-sequence. -/</span></td></tr>
+<tr class=""><td class="line-num">66</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> HasOrientedTwinWidthAtMost</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">} [Fintype V] [DecidableEq V]</span></td></tr>
+<tr class=""><td class="line-num">67</td><td class="line-code"><span style="color:#24292E">    (G : SimpleGraph V) (d : ℕ) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr class=""><td class="line-num">68</td><td class="line-code"><span style="color:#24292E">  Nonempty (OrientedPartitionSequence G d)</span></td></tr>
+<tr class=""><td class="line-num">69</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">70</td><td class="line-code"><span style="color:#6A737D">/-- The oriented twin-width of a finite simple graph: the least `d` such that</span></td></tr>
+<tr class=""><td class="line-num">71</td><td class="line-code"><span style="color:#6A737D">the graph admits an oriented `d`-sequence. -/</span></td></tr>
+<tr class=""><td class="line-num">72</td><td class="line-code"><span style="color:#D73A49">noncomputable</span><span style="color:#D73A49"> def</span><span style="color:#6F42C1"> orientedTwinWidth</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">} [Fintype V] [DecidableEq V]</span></td></tr>
+<tr class=""><td class="line-num">73</td><td class="line-code"><span style="color:#24292E">    (G : SimpleGraph V) : ℕ :=</span></td></tr>
+<tr class=""><td class="line-num">74</td><td class="line-code"><span style="color:#24292E">  sInf {d | HasOrientedTwinWidthAtMost G d}</span></td></tr>
+<tr class=""><td class="line-num">75</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">76</td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax65.OrientedTwinWidth</span></td></tr>
+<tr class=""><td class="line-num">77</td><td class="line-code"> </td></tr>
+</table></div></div>
+</div>
+</li>
+<li class="manuscript-card kind-concept line-open" id="m16" data-mark="16">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><span class="type-badge open" title="lemma — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem×</span><a href="../lax-65/Lax65.OrientedTwinWidthOfBonnetDepres.html"><code>Lax65.OrientedTwinWidthOfBonnetDepres</code></a></span>
+<span class="manuscript-card-page">p. 9</span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m16-body" aria-label="Show details of Lax65.OrientedTwinWidthOfBonnetDepres"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m16-body" hidden>
+<p class="manuscript-card-title">Oriented twin-width of G_t</p>
+<div class="latex-content"><p>Fix a real 0 &lt; *ε* ≤ 1/2 and an integer *t* &gt; 1/<em>ε</em>. Then the oriented
+twin-width of <em>G</em>&lt;sub&gt;<em>t</em>&lt;/sub&gt; is at most <em>t</em> + 1.</p>
+</div>
+<ul class="manuscript-card-claims"><li><span class="claim-entry"><span class="type-badge open" title="lemma — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem×</span><a href="../lax-65/Lax65.OrientedTwinWidthOfBonnetDepres.html" title="Lax65.OrientedTwinWidthOfBonnetDepres.orientedTwinWidth_le"><code>Lax65.OrientedTwinWidthOfBonnetDepres</code></a></span></li></ul><div class="manuscript-card-source"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<tr class=""><td class="line-num">1</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax65.OrientedTwinWidth</span></td></tr>
+<tr class=""><td class="line-num">2</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax65.BonnetDepresGraph</span></td></tr>
+<tr class=""><td class="line-num">3</td><td class="line-code"> </td></tr>
+<tr class="line-elided"><td class="line-num"></td><td class="line-code">… module docstring, 8 lines</td></tr>
+<tr class=""><td class="line-num">12</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">13</td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax65.OrientedTwinWidthOfBonnetDepres</span></td></tr>
+<tr class=""><td class="line-num">14</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">15</td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax65.OrientedTwinWidth Lax65.BonnetDepresGraph</span></td></tr>
+<tr class=""><td class="line-num">16</td><td class="line-code"> </td></tr>
+<tr class="statement-line line-open"><td class="line-num">17</td><td class="line-code"><span style="color:#6A737D">/-- `G_{t,ε}` has oriented twin-width at most `t + 1`. -/</span></td></tr>
+<tr class="statement-line line-open"><td class="line-num">18</td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> orientedTwinWidth_le</span><span style="color:#24292E"> (ε : ℝ) (hε₀ : </span><span style="color:#005CC5">0</span><span style="color:#24292E"> &lt; ε) (hε₁ : ε ≤ </span><span style="color:#005CC5">1</span><span style="color:#24292E"> / </span><span style="color:#005CC5">2</span><span style="color:#24292E">) (t : ℕ)</span></td></tr>
+<tr class="statement-line line-open"><td class="line-num">19</td><td class="line-code"><span style="color:#24292E">    (ht : </span><span style="color:#005CC5">1</span><span style="color:#24292E"> / ε &lt; t) :</span></td></tr>
+<tr class="statement-line line-open"><td class="line-num">20</td><td class="line-code"><span style="color:#24292E">    orientedTwinWidth (bonnetDepres ε t) ≤ t + </span><span style="color:#005CC5">1</span></td></tr>
+<tr class=""><td class="line-num">21</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">22</td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax65.OrientedTwinWidthOfBonnetDepres</span></td></tr>
+<tr class=""><td class="line-num">23</td><td class="line-code"> </td></tr>
+</table></div></div>
+</div>
+</li>
+<li class="manuscript-card kind-concept line-open" id="m17" data-mark="17">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><span class="type-badge open" title="lemma — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem×</span><a href="../lax-65/Lax65.GridNumberOfBonnetDepres.html"><code>Lax65.GridNumberOfBonnetDepres</code></a></span>
+<span class="manuscript-card-page">p. 9</span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m17-body" aria-label="Show details of Lax65.GridNumberOfBonnetDepres"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m17-body" hidden>
+<p class="manuscript-card-title">Grid number of G_t</p>
+<div class="latex-content"><p>Fix a real 0 &lt; *ε* ≤ 1/2 and an integer *t* &gt; 1/<em>ε</em>. Then the grid number of
+<em>G</em>&lt;sub&gt;<em>t</em>&lt;/sub&gt; is at most <em>t</em> + 2.</p>
+</div>
+<ul class="manuscript-card-claims"><li><span class="claim-entry"><span class="type-badge open" title="lemma — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem×</span><a href="../lax-65/Lax65.GridNumberOfBonnetDepres.html" title="Lax65.GridNumberOfBonnetDepres.gridNumber_le"><code>Lax65.GridNumberOfBonnetDepres</code></a></span></li></ul><div class="manuscript-card-source"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<tr class=""><td class="line-num">1</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax65.GridNumber</span></td></tr>
+<tr class=""><td class="line-num">2</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax65.BonnetDepresGraph</span></td></tr>
+<tr class=""><td class="line-num">3</td><td class="line-code"> </td></tr>
+<tr class="line-elided"><td class="line-num"></td><td class="line-code">… module docstring, 8 lines</td></tr>
+<tr class=""><td class="line-num">12</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">13</td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax65.GridNumberOfBonnetDepres</span></td></tr>
+<tr class=""><td class="line-num">14</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">15</td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax65.GridNumber Lax65.BonnetDepresGraph</span></td></tr>
+<tr class=""><td class="line-num">16</td><td class="line-code"> </td></tr>
+<tr class="statement-line line-open"><td class="line-num">17</td><td class="line-code"><span style="color:#6A737D">/-- `G_{t,ε}` has grid number at most `t + 2`. -/</span></td></tr>
+<tr class="statement-line line-open"><td class="line-num">18</td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> gridNumber_le</span><span style="color:#24292E"> (ε : ℝ) (hε₀ : </span><span style="color:#005CC5">0</span><span style="color:#24292E"> &lt; ε) (hε₁ : ε ≤ </span><span style="color:#005CC5">1</span><span style="color:#24292E"> / </span><span style="color:#005CC5">2</span><span style="color:#24292E">) (t : ℕ)</span></td></tr>
+<tr class="statement-line line-open"><td class="line-num">19</td><td class="line-code"><span style="color:#24292E">    (ht : </span><span style="color:#005CC5">1</span><span style="color:#24292E"> / ε &lt; t) :</span></td></tr>
+<tr class="statement-line line-open"><td class="line-num">20</td><td class="line-code"><span style="color:#24292E">    gridNumber (bonnetDepres ε t) ≤ t + </span><span style="color:#005CC5">2</span></td></tr>
+<tr class=""><td class="line-num">21</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">22</td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax65.GridNumberOfBonnetDepres</span></td></tr>
+<tr class=""><td class="line-num">23</td><td class="line-code"> </td></tr>
+</table></div></div>
+</div>
+</li>
+</ol>
+<svg class="manuscript-links" id="manuscript-links" aria-hidden="true"></svg>
+</div>
+<p class="manuscript-status" id="manuscript-status" role="status">Loading the paper…</p>
+<noscript><p class="empty-note">Enable JavaScript to read the paper here, or <a href="paper.pdf">download the PDF</a>.</p></noscript>
+<script type="application/json" id="manuscript-data">{"pageSizes":[[595.28,841.89],[595.28,841.89],[595.28,841.89],[595.28,841.89],[595.28,841.89],[595.28,841.89],[595.28,841.89],[595.28,841.89],[595.28,841.89],[595.28,841.89],[595.28,841.89]],"marks":[{"n":1,"id":"lax-65","kind":"submission","begin":{"page":1,"x":90.71,"y":647.44,"mode":"h"},"end":{"page":1,"x":305.23,"y":599.62,"mode":"h"}},{"n":2,"id":"Lax48.TwinWidth","kind":"concept","begin":{"page":1,"x":90.71,"y":505.56,"mode":"h"},"end":{"page":1,"x":374.68,"y":401.95,"mode":"h"}},{"n":3,"id":"Lax48.Treewidth","kind":"concept","begin":{"page":2,"x":107.72,"y":473.71,"mode":"h"},"end":{"page":2,"x":257.41,"y":473.71,"mode":"h"}},{"n":4,"id":"Lax65.GridNumber","kind":"concept","begin":{"page":2,"x":358.39,"y":139.86,"mode":"h"},"end":{"page":2,"x":491.02,"y":113.95,"mode":"h"}},{"n":5,"id":"Lax65.OrientedTwinWidth","kind":"concept","begin":{"page":3,"x":90.71,"y":539.51,"mode":"v"},"end":{"page":3,"x":138.86,"y":468.86,"mode":"h"}},{"n":6,"id":"Lax65.ExponentialSeparation","kind":"concept","begin":{"page":3,"x":90.71,"y":217.77,"mode":"v"},"end":{"page":3,"x":90.71,"y":183.68,"mode":"v"}},{"n":7,"id":"Lax65.TreewidthCorollary","kind":"concept","begin":{"page":4,"x":107.72,"y":731.34,"mode":"v"},"end":{"page":4,"x":107.72,"y":695.87,"mode":"v"}},{"n":8,"id":"Lax65.GridNumberCorollary","kind":"concept","begin":{"page":4,"x":107.72,"y":661.49,"mode":"v"},"end":{"page":4,"x":107.72,"y":626.01,"mode":"v"}},{"n":9,"id":"Lax65.OrientedTwinWidthCorollary","kind":"concept","begin":{"page":4,"x":276.44,"y":606.53,"mode":"h"},"end":{"page":4,"x":107.72,"y":569.12,"mode":"v"}},{"n":10,"id":"Lax65.ApexCorollary","kind":"concept","begin":{"page":4,"x":276.44,"y":549.63,"mode":"h"},"end":{"page":4,"x":107.72,"y":512.22,"mode":"v"}},{"n":11,"id":"Lax48.TwinWidth","kind":"concept","begin":{"page":4,"x":107.72,"y":384.7,"mode":"v"},"end":{"page":4,"x":187.71,"y":230.87,"mode":"h"}},{"n":12,"id":"Lax65.BonnetDepresGraph","kind":"concept","begin":{"page":5,"x":90.71,"y":621.52,"mode":"v"},"end":{"page":5,"x":90.71,"y":401.65,"mode":"v"}},{"n":13,"id":"Lax65.TreewidthOfBonnetDepres","kind":"concept","begin":{"page":5,"x":315.78,"y":390.24,"mode":"h"},"end":{"page":5,"x":90.71,"y":366.63,"mode":"v"}},{"n":14,"id":"Lax65.TwinWidthOfBonnetDepres","kind":"concept","begin":{"page":5,"x":477.37,"y":321.93,"mode":"h"},"end":{"page":5,"x":90.71,"y":297.88,"mode":"v"}},{"n":15,"id":"Lax65.OrientedTwinWidth","kind":"concept","begin":{"page":9,"x":90.71,"y":387.65,"mode":"v"},"end":{"page":9,"x":387.81,"y":323.36,"mode":"h"}},{"n":16,"id":"Lax65.OrientedTwinWidthOfBonnetDepres","kind":"concept","begin":{"page":9,"x":90.71,"y":321.43,"mode":"v"},"end":{"page":9,"x":90.71,"y":299.44,"mode":"v"}},{"n":17,"id":"Lax65.GridNumberOfBonnetDepres","kind":"concept","begin":{"page":9,"x":273.86,"y":196.78,"mode":"h"},"end":{"page":9,"x":90.71,"y":172.86,"mode":"v"}}]}</script>
+</div>
+</div></section>
+</main>
+<dialog class="account-dialog" id="account-dialog" aria-labelledby="account-dialog-title">
+<div class="account-dialog-inner">
+<header class="account-dialog-header">
+<div><p class="account-dialog-eyebrow">ORCID account</p><h2 id="account-dialog-title">Settings</h2></div>
+<button class="account-dialog-close" data-account-close type="button" aria-label="Close account settings">×</button>
+</header>
+<div class="account-dialog-body">
+<p class="account-status" data-account-status role="status">Checking your ORCID session…</p>
+<section data-account-content hidden>
+<div class="account-identity">
+<span class="account-avatar" data-account-avatar aria-hidden="true">iD</span>
+<div><a class="account-name" data-account-name target="_blank" rel="noopener noreferrer"></a><p class="account-id" data-account-id></p></div>
+</div>
+<p class="account-name-note">Your public name comes from ORCID. ORCID names are self-asserted and may change.</p>
+<div class="account-actions">
+<a data-account-refresh href="https://comments.laxarchive.org/auth/orcid/login?from=https%3A%2F%2Flaxarchive.org&amp;site=remark">Refresh from ORCID</a>
+<button data-account-logout type="button">Sign out</button>
+</div>
+<div class="account-comments-heading"><h3>Your comments</h3><span data-account-comment-count></span></div>
+<ol class="account-comments" data-account-comments></ol>
+<p class="account-comments-status" data-account-comments-status role="status"></p>
+</section>
+</div>
+</div>
+</dialog>
+<script src="../assets/sidebar.js?v=20a6c1409367"></script>
+<script src="../assets/account.js?v=ec80ece877ec"></script>
+<script src="../assets/manuscript-place.js?v=a5b14f72d859"></script>
+<script src="../assets/manuscript.js?v=d5f8af29efca"></script>
+</body></html>
