@@ -124,7 +124,7 @@ word length, given any graph in compressed sparse row form as a word
 <em>c</em>(|x|+1) steps with the labels of all vertices, in vertex order, as
 its output.</p>
 </div></div>
-<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/becb5782d64a8587b9cd3f53269c1ce35cdb1ff0/ram-linear-time/concepts/Lax11/ConnectedComponents.lean">view on GitHub</a></h3>
+<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/adeee8fcd52a11c46077d34657feaf48f2df7dae/ram-linear-time/concepts/Lax11/ConnectedComponents.lean">view on GitHub</a></h3>
 <div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
 <tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax13.RamComputes</span></td></tr>
 <tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax11.GraphEncoding</span></td></tr>
@@ -225,7 +225,7 @@ its output.</p>
 <tr id="L97" class=""><td class="line-num"><a href="#L97">97</a></td><td class="line-code"> </td></tr>
 <tr id="L98" class=""><td class="line-num"><a href="#L98">98</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax11.ConnectedComponents</span></td></tr>
 <tr id="L99" class=""><td class="line-num"><a href="#L99">99</a></td><td class="line-code"> </td></tr>
-</table></div><span class="source-proof-rail" data-source-line="L93" aria-label="Proof links"><a class="statement-proof-button" href="https://github.com/lax-archive/lax-submissions/blob/becb5782d64a8587b9cd3f53269c1ce35cdb1ff0/ram-linear-time/proofs/Lax11Proofs/CCMain.lean" aria-label="View proof Lax11Proofs.CCMain.exists_linearTime_program_ccLabels on GitHub" title="Lax11Proofs.CCMain.exists_linearTime_program_ccLabels"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">Show Proof</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a></span><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
+</table></div><span class="source-proof-rail" data-source-line="L93" aria-label="Proof links"><a class="statement-proof-button" href="https://github.com/lax-archive/lax-submissions/blob/adeee8fcd52a11c46077d34657feaf48f2df7dae/ram-linear-time/proofs/Lax11Proofs/CCMain.lean" aria-label="View proof Lax11Proofs.CCMain.exists_linearTime_program_ccLabels on GitHub" title="Lax11Proofs.CCMain.exists_linearTime_program_ccLabels"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">Show Proof</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a></span><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
 <div class="block"><h3>Formalization notes</h3><div class="latex-content"><p>Labelling a vertex by the least vertex reachable from it makes the
 output a <em>function</em> of the graph, so the statement is about computing a
 function and needs no convention for choosing representatives. Any
