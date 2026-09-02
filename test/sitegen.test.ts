@@ -1299,6 +1299,8 @@ describe("supersedes version chains", () => {
 
     const oldPage = fs.readFileSync(path.join(root, "lax-1", "index.html"), "utf8");
     expect(oldPage).toContain('class="version-notice version-notice-superseded"');
+    expect(oldPage).toContain("<strong>Outdated version.</strong>");
+    expect(oldPage).not.toContain("<strong>Superseded version.</strong>");
     expect(oldPage).toContain("The current version is");
     expect(oldPage).toContain('href="../lax-3/index.html?version=lax-3"');
     expect(oldPage).toContain("Current Result");

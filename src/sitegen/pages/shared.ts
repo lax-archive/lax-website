@@ -458,7 +458,7 @@ export function versionHistoryPanel(
   const summary = draftProposal
     ? `<strong>Proposed new version.</strong> This draft would follow the current registered version, ${currentLink}.`
     : superseded
-      ? `<strong>Superseded version.</strong> You are viewing <span class="submission-meta-id">${esc(submissionId)}</span>. The current version is ${currentLink}.`
+      ? `<strong>Outdated version.</strong> You are viewing <span class="submission-meta-id">${esc(submissionId)}</span>. The current version is ${currentLink}.`
       : `<strong>Current version.</strong> ${olderCount} older ${olderCount === 1 ? "version is" : "versions are"} available for reference.`;
   const currentAction = currentId !== submissionId
     ? `<a class="version-current-button" href="${attr(versionHref(rootRel, currentId))}">Open current version <span aria-hidden="true">→</span></a>`
