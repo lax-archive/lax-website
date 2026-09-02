@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://comments.laxarchive.org; style-src 'self' 'unsafe-inline'; img-src https: data:; font-src 'self'; frame-src https://comments.laxarchive.org; connect-src https://comments.laxarchive.org">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Lax — an archive of formalized mathematical concepts and their proofs">
+<title>Admissibility is bounded by topological shallow-minor density — Lax12.AdmissibilityBound</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
+<link rel="stylesheet" href="../assets/style.css?v=649e003e88f9">
+</head><body>
+<header class="site-header">
+  <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
+  <h1 class="site-title"><a href="../index.html">Lax <span class="site-title-quiet">Lean Archive</span></a></h1>
+  <nav class="header-actions" aria-label="Account">
+    <div class="account-header" data-account-root data-remark42-host="https://comments.laxarchive.org" data-remark42-site="remark" data-identity-url="https://comments.laxarchive.org/reactions/v1/identity">
+  <a class="account-control" data-account-login href="https://comments.laxarchive.org/auth/orcid/login?from=https%3A%2F%2Flaxarchive.org&amp;site=remark"><span class="orcid-mark" aria-hidden="true">iD</span><span>Sign in with ORCID</span></a>
+  <button class="account-control" data-account-settings type="button" aria-haspopup="dialog" aria-controls="account-dialog" hidden><span class="orcid-mark" aria-hidden="true">iD</span><span>Settings</span></button>
+</div>
+  </nav>
+</header>
+<main id="content-shell">
+<div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+<aside id="sidebar">
+<a class="sidebar-back" href="../lax-12/index.html"><span class="sidebar-back-arrow" aria-hidden="true">←</span>lax-12</a>
+<div class="sidebar-filters"><div class="filter-group">
+<label for="filter-search">Search</label>
+<input id="filter-search" class="filter-input" type="search" placeholder="Filter entries" aria-controls="entry-list">
+</div>
+<div class="filter-group">
+<label for="filter-type">Type</label>
+<select id="filter-type" class="filter-select">
+<option value="all">All types</option>
+<option value="definition">definition</option>
+<option value="theorem">theorem</option>
+<option value="proof">proof</option>
+</select>
+</div></div>
+<ul id="entry-list">
+<li class="entry-heading" aria-hidden="true">Concepts</li>
+<li data-type="definition" data-search="lax12.admissibility admissibility definition"><a class="entry-link" href="../lax-12/Lax12.Admissibility.html" data-full-title="Admissibility"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax12.Admissibility</span></span></a></li>
+<li class="active" data-type="theorem" data-search="lax12.admissibilitybound admissibility is bounded by topological shallow-minor density theorem"><a class="entry-link" href="../lax-12/Lax12.AdmissibilityBound.html" data-full-title="Admissibility is bounded by topological shallow-minor density"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax12.AdmissibilityBound</span></span></a></li>
+<li data-type="definition" data-search="lax12.coloringnumbers generalized coloring numbers definition"><a class="entry-link" href="../lax-12/Lax12.ColoringNumbers.html" data-full-title="Generalized coloring numbers"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax12.ColoringNumbers</span></span></a></li>
+<li data-type="definition" data-search="lax12.graphclasses graph classes definition"><a class="entry-link" href="../lax-12/Lax12.GraphClasses.html" data-full-title="Graph classes"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax12.GraphClasses</span></span></a></li>
+<li data-type="definition" data-search="lax12.neighborhoodcomplexity neighborhood complexity definition"><a class="entry-link" href="../lax-12/Lax12.NeighborhoodComplexity.html" data-full-title="Neighborhood complexity"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax12.NeighborhoodComplexity</span></span></a></li>
+<li data-type="definition" data-search="lax12.nowheredenseclasses nowhere dense graph classes definition"><a class="entry-link" href="../lax-12/Lax12.NowhereDenseClasses.html" data-full-title="Nowhere dense graph classes"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax12.NowhereDenseClasses</span></span></a></li>
+<li data-type="theorem" data-search="lax12.nowheredensedensity nowhere dense classes have subpolynomial shallow-minor density theorem"><a class="entry-link" href="../lax-12/Lax12.NowhereDenseDensity.html" data-full-title="Nowhere dense classes have subpolynomial shallow-minor density"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax12.NowhereDenseDensity</span></span></a></li>
+<li data-type="theorem" data-search="lax12.nowheredensenc nowhere dense classes have almost linear neighborhood complexity theorem"><a class="entry-link" href="../lax-12/Lax12.NowhereDenseNC.html" data-full-title="Nowhere dense classes have almost linear neighborhood complexity"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax12.NowhereDenseNC</span></span></a></li>
+<li data-type="theorem" data-search="lax12.nowheredenseuqw nowhere dense classes are uniformly quasi-wide theorem"><a class="entry-link" href="../lax-12/Lax12.NowhereDenseUQW.html" data-full-title="Nowhere dense classes are uniformly quasi-wide"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax12.NowhereDenseUQW</span></span></a></li>
+<li data-type="theorem" data-search="lax12.nowheredensewcol nowhere dense classes have subpolynomial weak coloring numbers theorem"><a class="entry-link" href="../lax-12/Lax12.NowhereDenseWcol.html" data-full-title="Nowhere dense classes have subpolynomial weak coloring numbers"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax12.NowhereDenseWcol</span></span></a></li>
+<li data-type="definition" data-search="lax12.shallowminordensity edge density of shallow minors definition"><a class="entry-link" href="../lax-12/Lax12.ShallowMinorDensity.html" data-full-title="Edge density of shallow minors"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax12.ShallowMinorDensity</span></span></a></li>
+<li data-type="definition" data-search="lax12.shallowtopologicalminors shallow topological minors definition"><a class="entry-link" href="../lax-12/Lax12.ShallowTopologicalMinors.html" data-full-title="Shallow topological minors"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax12.ShallowTopologicalMinors</span></span></a></li>
+<li data-type="theorem" data-search="lax12.strongcoloringbound strong coloring numbers are bounded by admissibility theorem"><a class="entry-link" href="../lax-12/Lax12.StrongColoringBound.html" data-full-title="Strong coloring numbers are bounded by admissibility"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax12.StrongColoringBound</span></span></a></li>
+<li data-type="definition" data-search="lax12.uniformquasiwideness uniform quasi-wideness definition"><a class="entry-link" href="../lax-12/Lax12.UniformQuasiWideness.html" data-full-title="Uniform quasi-wideness"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax12.UniformQuasiWideness</span></span></a></li>
+<li data-type="theorem" data-search="lax12.weakcoloringbound weak coloring numbers are bounded by strong coloring numbers theorem"><a class="entry-link" href="../lax-12/Lax12.WeakColoringBound.html" data-full-title="Weak coloring numbers are bounded by strong coloring numbers"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax12.WeakColoringBound</span></span></a></li>
+<li class="entry-heading" aria-hidden="true">Proofs</li>
+<li data-type="proof" data-search="lax12proofs.admissibilitybound.adm_le_of_hastopologicaldensityatmost proof"><a class="entry-link" href="../lax-12/Lax12Proofs.AdmissibilityBound.adm_le_of_hasTopologicalDensityAtMost.html" data-full-title="Lax12Proofs.AdmissibilityBound.adm_le_of_hasTopologicalDensityAtMost"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax12Proofs.AdmissibilityBound.adm_le_of_hasTopologicalDensityAtMost</span></span></a></li>
+<li data-type="proof" data-search="lax12proofs.nowheredensedensity.hassubpolynomialdensity_of_nowheredense proof"><a class="entry-link" href="../lax-12/Lax12Proofs.NowhereDenseDensity.hasSubpolynomialDensity_of_nowhereDense.html" data-full-title="Lax12Proofs.NowhereDenseDensity.hasSubpolynomialDensity_of_nowhereDense"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax12Proofs.NowhereDenseDensity.hasSubpolynomialDensity_of_nowhereDense</span></span></a></li>
+<li data-type="proof" data-search="lax12proofs.nowheredensenc.hasalmostlinearnc_of_nowheredense proof"><a class="entry-link" href="../lax-12/Lax12Proofs.NowhereDenseNC.hasAlmostLinearNC_of_nowhereDense.html" data-full-title="Lax12Proofs.NowhereDenseNC.hasAlmostLinearNC_of_nowhereDense"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax12Proofs.NowhereDenseNC.hasAlmostLinearNC_of_nowhereDense</span></span></a></li>
+<li data-type="proof" data-search="lax12proofs.nowheredenseuqw.uniformlyquasiwide_of_nowheredense proof"><a class="entry-link" href="../lax-12/Lax12Proofs.NowhereDenseUQW.uniformlyQuasiWide_of_nowhereDense.html" data-full-title="Lax12Proofs.NowhereDenseUQW.uniformlyQuasiWide_of_nowhereDense"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax12Proofs.NowhereDenseUQW.uniformlyQuasiWide_of_nowhereDense</span></span></a></li>
+<li data-type="proof" data-search="lax12proofs.nowheredensewcol.hassubpolynomialwcol_of_nowheredense proof"><a class="entry-link" href="../lax-12/Lax12Proofs.NowhereDenseWcol.hasSubpolynomialWcol_of_nowhereDense.html" data-full-title="Lax12Proofs.NowhereDenseWcol.hasSubpolynomialWcol_of_nowhereDense"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax12Proofs.NowhereDenseWcol.hasSubpolynomialWcol_of_nowhereDense</span></span></a></li>
+<li data-type="proof" data-search="lax12proofs.strongcoloringbound.scol_le_of_adm proof"><a class="entry-link" href="../lax-12/Lax12Proofs.StrongColoringBound.scol_le_of_adm.html" data-full-title="Lax12Proofs.StrongColoringBound.scol_le_of_adm"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax12Proofs.StrongColoringBound.scol_le_of_adm</span></span></a></li>
+<li data-type="proof" data-search="lax12proofs.weakcoloringbound.wcol_le_of_scol proof"><a class="entry-link" href="../lax-12/Lax12Proofs.WeakColoringBound.wcol_le_of_scol.html" data-full-title="Lax12Proofs.WeakColoringBound.wcol_le_of_scol"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax12Proofs.WeakColoringBound.wcol_le_of_scol</span></span></a></li>
+<li id="entry-list-empty" hidden>No entries match.</li>
+</ul>
+</aside>
+<section id="main"><div id="detail">
+<p class="draft-banner"><strong>Draft</strong> — mutable and not usable as a dependency; its citation marks the draft state.</p>
+<div class="detail-heading concept-heading">
+<div><p class="concept-id"><code>Lax12.AdmissibilityBound</code></p>
+<h1 class="concept-title">Admissibility is bounded by topological shallow-minor density</h1>
+<p class="concept-microline"><code>concepts/Lax12/AdmissibilityBound.lean</code> · <a href="index.html">lax-12</a></p></div>
+<span class="status-pills"><span class="status-pill pill-proven" title="Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">proven</span></span>
+</div>
+<section class="page-reactions" aria-label="Community review" data-reactions-host="https://comments.laxarchive.org" data-reactions-url="https://laxarchive.org/lax-12/Lax12.AdmissibilityBound.html" data-review-kind="concept" data-source-lines="52">
+<div class="page-reactions-actions">
+<div class="page-reaction-control">
+<button class="page-reaction-button" type="button" data-reaction="endorse" aria-pressed="false" title="Say that this concept is correct"><span class="page-reaction-icon" aria-hidden="true">✅</span><span>Endorse</span></button>
+<button class="page-reaction-voters" type="button" data-reaction-voters="endorse" aria-expanded="false" aria-controls="page-reaction-voters-endorse"><strong data-reaction-count="endorse">0</strong><span class="visually-hidden">Show people who endorse this concept</span></button>
+<div class="page-reaction-voters-popover" id="page-reaction-voters-endorse" data-reaction-voters-popover="endorse" hidden><p data-reaction-empty>No public endorsements yet.</p><ul></ul></div>
+</div>
+<div class="page-reaction-control page-flag-control">
+<button class="page-reaction-button" type="button" data-reaction="flag" aria-pressed="false" aria-haspopup="dialog" title="Explain why this concept may be false"><span class="page-reaction-icon" aria-hidden="true">🚩</span><span>Flag</span></button>
+<button class="page-reaction-voters" type="button" data-flag-list-open aria-haspopup="dialog" aria-controls="page-flag-list"><strong data-reaction-count="flag">0</strong><span class="visually-hidden">Show flags for this concept</span></button>
+</div>
+</div>
+<p class="page-reactions-status" data-reactions-status role="status">Loading review…</p>
+<a class="visually-hidden" data-reactions-login href="https://comments.laxarchive.org/auth/orcid/login?site=remark&amp;from=https%3A%2F%2Flaxarchive.org%2Flax-12%2FLax12.AdmissibilityBound.html">Sign in with ORCID</a>
+<dialog class="review-dialog flag-list-dialog" id="page-flag-list" data-flag-list-dialog aria-labelledby="page-flag-list-title">
+<div class="review-dialog-header"><div><p class="discussion-eyebrow">Community review</p><h2 id="page-flag-list-title">Flags</h2></div><button class="review-dialog-close" type="button" data-flag-list-close aria-label="Close flags">×</button></div>
+<p class="review-dialog-intro">Each flag is tied to a public ORCID identity and explains why this concept may be incorrect.</p>
+<p data-flag-list-empty>No flags have been submitted.</p><ol class="flag-list" data-flag-list></ol>
+</dialog>
+<dialog class="review-dialog flag-editor-dialog" id="page-flag-editor" data-flag-editor aria-labelledby="page-flag-editor-title">
+<form data-flag-form>
+<div class="review-dialog-header"><div><p class="discussion-eyebrow">Community review</p><h2 id="page-flag-editor-title">Flag this concept</h2></div><button class="review-dialog-close" type="button" data-flag-cancel aria-label="Close flag form">×</button></div>
+<p class="review-dialog-intro">State precisely what appears incorrect. This explanation will be public under your ORCID name.</p>
+<label class="flag-message-label" for="page-flag-message">What is wrong?</label>
+<textarea id="page-flag-message" data-flag-message rows="6" maxlength="2000" required placeholder="Describe the incorrect claim, missing assumption, or counterexample."></textarea>
+<div class="flag-line-fields"><input type="hidden" data-flag-line><button class="secondary-button" type="button" data-flag-line-picker>Choose from source</button><p class="flag-line-selection" data-flag-line-selection aria-live="polite">No source line selected.</p></div>
+<p class="flag-form-status" data-flag-form-status role="status"></p>
+<div class="review-dialog-actions"><button class="danger-button" type="button" data-flag-remove hidden>Remove my flag</button><span></span><button class="secondary-button" type="button" data-flag-cancel>Cancel</button><button class="primary-button" type="submit">Publish flag</button></div>
+</form>
+</dialog>
+<noscript><p class="page-reactions-noscript"><a href="https://comments.laxarchive.org/auth/orcid/login?site=remark&amp;from=https%3A%2F%2Flaxarchive.org%2Flax-12%2FLax12.AdmissibilityBound.html">Sign in with ORCID</a> to review this page.</p></noscript>
+</section>
+<h4 class="figure-title">Concept map</h4>
+<figure class="graph-figure concept-root-graph">
+<button class="graph-expand" type="button" data-graph-expand data-graph-label="concept map" aria-expanded="false" aria-label="Open concept map in a large window" title="Open in large window"><svg class="graph-expand-open" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M2.5 6V2.5H6M10 2.5h3.5V6M13.5 10v3.5H10M6 13.5H2.5V10"/></svg><span class="graph-expand-close" aria-hidden="true">×</span></button>
+<div class="graph-toolbar"><button type="button" id="concept-expand" aria-controls="concept-dag" aria-pressed="true">Hide ancestors</button><button type="button" id="concept-descend" aria-controls="concept-dag" aria-pressed="false">Show descendants</button><output id="concept-graph-status" aria-live="polite"></output></div>
+<div id="concept-dag" class="figure-container" data-graph="concepts" data-ancestry="true"></div>
+<div class="graph-tooltip" role="tooltip" hidden></div>
+<figcaption class="graph-legend" aria-label="Concept map legend"><span><i class="legend-node fill-proven"></i>Proven claim</span><span><i class="legend-node fill-none"></i>Definition</span><span><i class="legend-node stroke-own"></i>This concept</span><span><i class="legend-node stroke-ext"></i>Related concept</span><span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B builds on A</span></figcaption>
+</figure>
+<div class="block block-evidence"><h3>Evidence</h3>
+<p class="evidence-intro">Each proof establishes this claim relative to its assumptions.</p>
+<ul class="proof-list">
+<li class="proof-item">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-12/Lax12Proofs.AdmissibilityBound.adm_le_of_hasTopologicalDensityAtMost.html" aria-label="Open proof Lax12Proofs.AdmissibilityBound.adm_le_of_hasTopologicalDensityAtMost"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><p class="judgment-unconditional">no assumptions</p></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="../lax-12/Lax12.AdmissibilityBound.html" title="Lax12.AdmissibilityBound.adm_le_of_hasTopologicalDensityAtMost"><code>Lax12.AdmissibilityBound</code></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-12/Lax12Proofs.AdmissibilityBound.adm_le_of_hasTopologicalDensityAtMost.html"><code>Lax12Proofs.AdmissibilityBound.adm_le_of_hasTopologicalDensityAtMost</code></a></p>
+</li>
+</ul>
+</div>
+
+<div class="block block-statement"><h3>Theorem</h3><div class="latex-content"><p>If every depth-<em>r</em> topological minor of a graph <em>G</em> has at most
+<em>d</em> · |V| edges, then the (<em>r</em>+1)-admissibility of <em>G</em> is at most
+1 + 6 · (<em>r</em>+1) · <em>d</em>³. This is the workhorse behind every bound of a
+generalized coloring number by an edge-density bound: sparse shallow
+topological minors force an ordering in which no vertex reaches many
+predecessors along disjoint short paths.</p>
+<p>The source lecture notes state this as Lemma 3.2 of Chapter 2 (2019/20
+edition): for every <em>r</em> and every graph <em>G</em>,
+adm_<em>r</em>(<em>G</em>) ≤ 1 + 6<em>r</em>⌈∇̃_{<em>r</em>−1}(<em>G</em>)⌉³, where ∇̃ is the topological
+grad.</p>
+</div></div>
+<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/adeee8fcd52a11c46077d34657feaf48f2df7dae/sparsity-lectures/concepts/Lax12/AdmissibilityBound.lean">view on GitHub</a></h3>
+<div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax12.Admissibility</span></td></tr>
+<tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax12.ShallowTopologicalMinors</span></td></tr>
+<tr id="L3" class=""><td class="line-num"><a href="#L3">3</a></td><td class="line-code"> </td></tr>
+<tr id="L4" class=""><td class="line-num"><a href="#L4">4</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
+<tr id="L5" class=""><td class="line-num"><a href="#L5">5</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
+<tr id="L6" class=""><td class="line-num"><a href="#L6">6</a></td><td class="line-code"><span style="color:#6A737D">title: Admissibility is bounded by topological shallow-minor density</span></td></tr>
+<tr id="L7" class=""><td class="line-num"><a href="#L7">7</a></td><td class="line-code"><span style="color:#6A737D">type: theorem</span></td></tr>
+<tr id="L8" class=""><td class="line-num"><a href="#L8">8</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
+<tr id="L9" class=""><td class="line-num"><a href="#L9">9</a></td><td class="line-code"><span style="color:#6A737D">If every depth-*r* topological minor of a graph *G* has at most</span></td></tr>
+<tr id="L10" class=""><td class="line-num"><a href="#L10">10</a></td><td class="line-code"><span style="color:#6A737D">*d* · |V| edges, then the (*r*+1)-admissibility of *G* is at most</span></td></tr>
+<tr id="L11" class=""><td class="line-num"><a href="#L11">11</a></td><td class="line-code"><span style="color:#6A737D">1 + 6 · (*r*+1) · *d*³. This is the workhorse behind every bound of a</span></td></tr>
+<tr id="L12" class=""><td class="line-num"><a href="#L12">12</a></td><td class="line-code"><span style="color:#6A737D">generalized coloring number by an edge-density bound: sparse shallow</span></td></tr>
+<tr id="L13" class=""><td class="line-num"><a href="#L13">13</a></td><td class="line-code"><span style="color:#6A737D">topological minors force an ordering in which no vertex reaches many</span></td></tr>
+<tr id="L14" class=""><td class="line-num"><a href="#L14">14</a></td><td class="line-code"><span style="color:#6A737D">predecessors along disjoint short paths.</span></td></tr>
+<tr id="L15" class=""><td class="line-num"><a href="#L15">15</a></td><td class="line-code"> </td></tr>
+<tr id="L16" class=""><td class="line-num"><a href="#L16">16</a></td><td class="line-code"><span style="color:#6A737D">The source lecture notes state this as Lemma 3.2 of Chapter 2 (2019/20</span></td></tr>
+<tr id="L17" class=""><td class="line-num"><a href="#L17">17</a></td><td class="line-code"><span style="color:#6A737D">edition): for every *r* and every graph *G*,</span></td></tr>
+<tr id="L18" class=""><td class="line-num"><a href="#L18">18</a></td><td class="line-code"><span style="color:#6A737D">adm_*r*(*G*) ≤ 1 + 6*r*⌈∇̃_{*r*−1}(*G*)⌉³, where ∇̃ is the topological</span></td></tr>
+<tr id="L19" class=""><td class="line-num"><a href="#L19">19</a></td><td class="line-code"><span style="color:#6A737D">grad.</span></td></tr>
+<tr id="L20" class=""><td class="line-num"><a href="#L20">20</a></td><td class="line-code"> </td></tr>
+<tr id="L21" class=""><td class="line-num"><a href="#L21">21</a></td><td class="line-code"><span style="color:#6A737D"># Formalization notes</span></td></tr>
+<tr id="L22" class=""><td class="line-num"><a href="#L22">22</a></td><td class="line-code"> </td></tr>
+<tr id="L23" class=""><td class="line-num"><a href="#L23">23</a></td><td class="line-code"><span style="color:#6A737D">Hypothesis and conclusion are the predicates of the two imported</span></td></tr>
+<tr id="L24" class=""><td class="line-num"><a href="#L24">24</a></td><td class="line-code"><span style="color:#6A737D">definition concepts. The statement is the notes' Lemma 3.2 with its</span></td></tr>
+<tr id="L25" class=""><td class="line-num"><a href="#L25">25</a></td><td class="line-code"><span style="color:#6A737D">radius index shifted by one: the notes pair a conclusion at radius *r*</span></td></tr>
+<tr id="L26" class=""><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span style="color:#6A737D">with a hypothesis at depth *r*−1, and writing the conclusion at *r*+1</span></td></tr>
+<tr id="L27" class=""><td class="line-num"><a href="#L27">27</a></td><td class="line-code"><span style="color:#6A737D">against a hypothesis at depth *r* keeps truncated natural subtraction</span></td></tr>
+<tr id="L28" class=""><td class="line-num"><a href="#L28">28</a></td><td class="line-code"><span style="color:#6A737D">out of a concept statement. This is presentation only — the shifted form</span></td></tr>
+<tr id="L29" class=""><td class="line-num"><a href="#L29">29</a></td><td class="line-code"><span style="color:#6A737D">ranges over exactly the instances *r* ≥ 1 of the notes' form, which are</span></td></tr>
+<tr id="L30" class=""><td class="line-num"><a href="#L30">30</a></td><td class="line-code"><span style="color:#6A737D">all of its instances with a defined hypothesis, and the constant is the</span></td></tr>
+<tr id="L31" class=""><td class="line-num"><a href="#L31">31</a></td><td class="line-code"><span style="color:#6A737D">notes' constant with *r* read as *r*+1.</span></td></tr>
+<tr id="L32" class=""><td class="line-num"><a href="#L32">32</a></td><td class="line-code"> </td></tr>
+<tr id="L33" class=""><td class="line-num"><a href="#L33">33</a></td><td class="line-code"><span style="color:#6A737D">The natural number *d* plays the notes' ⌈∇̃_{*r*−1}(*G*)⌉: the</span></td></tr>
+<tr id="L34" class=""><td class="line-num"><a href="#L34">34</a></td><td class="line-code"><span style="color:#6A737D">hypothesis `HasTopologicalDensityAtMost G r d` says exactly that the</span></td></tr>
+<tr id="L35" class=""><td class="line-num"><a href="#L35">35</a></td><td class="line-code"><span style="color:#6A737D">topological grad of *G* at depth *r* is at most *d*, and the notes</span></td></tr>
+<tr id="L36" class=""><td class="line-num"><a href="#L36">36</a></td><td class="line-code"><span style="color:#6A737D">instantiate their lemma at the ceiling of that grad, the least natural</span></td></tr>
+<tr id="L37" class=""><td class="line-num"><a href="#L37">37</a></td><td class="line-code"><span style="color:#6A737D">number with this property. The leading 1 of the bound is the vertex *v*</span></td></tr>
+<tr id="L38" class=""><td class="line-num"><a href="#L38">38</a></td><td class="line-code"><span style="color:#6A737D">itself, which admissibility counts.</span></td></tr>
+<tr id="L39" class=""><td class="line-num"><a href="#L39">39</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
+<tr id="L40" class=""><td class="line-num"><a href="#L40">40</a></td><td class="line-code"> </td></tr>
+<tr id="L41" class=""><td class="line-num"><a href="#L41">41</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax12.AdmissibilityBound</span></td></tr>
+<tr id="L42" class=""><td class="line-num"><a href="#L42">42</a></td><td class="line-code"> </td></tr>
+<tr id="L43" class=""><td class="line-num"><a href="#L43">43</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax12.Admissibility Lax12.ShallowTopologicalMinors</span></td></tr>
+<tr id="L44" class=""><td class="line-num"><a href="#L44">44</a></td><td class="line-code"> </td></tr>
+<tr id="L45" class="statement-line line-proven"><td class="line-num"><a href="#L45">45</a></td><td class="line-code"><span class="statement-anchor" id="s-Lax12.AdmissibilityBound.adm_le_of_hasTopologicalDensityAtMost"></span><span style="color:#6A737D">/-- A depth-`r` topological edge-density bound `d` for `G` bounds the</span></td></tr>
+<tr id="L46" class="statement-line line-proven"><td class="line-num"><a href="#L46">46</a></td><td class="line-code"><span style="color:#6A737D">`(r+1)`-admissibility of `G` by `1 + 6 · (r+1) · d ^ 3`. -/</span></td></tr>
+<tr id="L47" class="statement-line line-proven"><td class="line-num"><a href="#L47">47</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> adm_le_of_hasTopologicalDensityAtMost</span><span style="color:#24292E"> {n : ℕ} (G : SimpleGraph (Fin n))</span></td></tr>
+<tr id="L48" class="statement-line line-proven"><td class="line-num"><a href="#L48">48</a></td><td class="line-code"><span style="color:#24292E">    (r d : ℕ) (h : HasTopologicalDensityAtMost G r d) :</span></td></tr>
+<tr id="L49" class="statement-line line-proven"><td class="line-num"><a href="#L49">49</a></td><td class="line-code"><span style="color:#24292E">    adm G (r + </span><span style="color:#005CC5">1</span><span style="color:#24292E">) ≤ </span><span style="color:#005CC5">1</span><span style="color:#24292E"> + </span><span style="color:#005CC5">6</span><span style="color:#24292E"> * (r + </span><span style="color:#005CC5">1</span><span style="color:#24292E">) * d ^ </span><span style="color:#005CC5">3</span></td></tr>
+<tr id="L50" class=""><td class="line-num"><a href="#L50">50</a></td><td class="line-code"> </td></tr>
+<tr id="L51" class=""><td class="line-num"><a href="#L51">51</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax12.AdmissibilityBound</span></td></tr>
+<tr id="L52" class=""><td class="line-num"><a href="#L52">52</a></td><td class="line-code"> </td></tr>
+</table></div><span class="source-proof-rail" data-source-line="L47" aria-label="Proof links"><a class="statement-proof-button" href="https://github.com/lax-archive/lax-submissions/blob/adeee8fcd52a11c46077d34657feaf48f2df7dae/sparsity-lectures/proofs/Lax12Proofs/AdmissibilityBound.lean" aria-label="View proof Lax12Proofs.AdmissibilityBound.adm_le_of_hasTopologicalDensityAtMost on GitHub" title="Lax12Proofs.AdmissibilityBound.adm_le_of_hasTopologicalDensityAtMost"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">Show Proof</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a></span><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
+<div class="block"><h3>Formalization notes</h3><div class="latex-content"><p>Hypothesis and conclusion are the predicates of the two imported
+definition concepts. The statement is the notes' Lemma 3.2 with its
+radius index shifted by one: the notes pair a conclusion at radius <em>r</em>
+with a hypothesis at depth <em>r</em>−1, and writing the conclusion at <em>r</em>+1
+against a hypothesis at depth <em>r</em> keeps truncated natural subtraction
+out of a concept statement. This is presentation only — the shifted form
+ranges over exactly the instances <em>r</em> ≥ 1 of the notes' form, which are
+all of its instances with a defined hypothesis, and the constant is the
+notes' constant with <em>r</em> read as <em>r</em>+1.</p>
+<p>The natural number <em>d</em> plays the notes' ⌈∇̃_{<em>r</em>−1}(<em>G</em>)⌉: the
+hypothesis <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>H</mi><mi>a</mi><mi>s</mi><mi>T</mi><mi>o</mi><mi>p</mi><mi>o</mi><mi>l</mi><mi>o</mi><mi>g</mi><mi>i</mi><mi>c</mi><mi>a</mi><mi>l</mi><mi>D</mi><mi>e</mi><mi>n</mi><mi>s</mi><mi>i</mi><mi>t</mi><mi>y</mi><mi>A</mi><mi>t</mi><mi>M</mi><mi>o</mi><mi>s</mi><mi>t</mi><mi>G</mi><mi>r</mi><mi>d</mi></mrow><annotation encoding="application/x-tex">HasTopologicalDensityAtMost G r d</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.0813em;">H</span><span class="mord mathnormal">a</span><span class="mord mathnormal">s</span><span class="mord mathnormal" style="margin-right:0.1389em;">T</span><span class="mord mathnormal">o</span><span class="mord mathnormal">p</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.0197em;">l</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.0359em;">g</span><span class="mord mathnormal">i</span><span class="mord mathnormal">c</span><span class="mord mathnormal">a</span><span class="mord mathnormal" style="margin-right:0.0197em;">l</span><span class="mord mathnormal" style="margin-right:0.0278em;">D</span><span class="mord mathnormal">e</span><span class="mord mathnormal">n</span><span class="mord mathnormal">s</span><span class="mord mathnormal">i</span><span class="mord mathnormal">t</span><span class="mord mathnormal" style="margin-right:0.0359em;">y</span><span class="mord mathnormal">A</span><span class="mord mathnormal" style="margin-right:0.109em;">tM</span><span class="mord mathnormal">os</span><span class="mord mathnormal">tG</span><span class="mord mathnormal" style="margin-right:0.0278em;">r</span><span class="mord mathnormal">d</span></span></span></span> says exactly that the
+topological grad of <em>G</em> at depth <em>r</em> is at most <em>d</em>, and the notes
+instantiate their lemma at the ceiling of that grad, the least natural
+number with this property. The leading 1 of the bound is the vertex <em>v</em>
+itself, which admissibility counts.</p>
+</div></div>
+<div class="block"><div class="deps-columns">
+<div class="deps-col"><h3>Builds on</h3><ul class="deps-list"><li><a href="../lax-12/Lax12.Admissibility.html"><code>Lax12.Admissibility</code></a></li><li><a href="../lax-12/Lax12.ShallowTopologicalMinors.html"><code>Lax12.ShallowTopologicalMinors</code></a></li></ul></div>
+<div class="deps-col"><h3>Used by</h3><p class="empty-note">none</p></div>
+<div class="deps-col"><h3>From Mathlib</h3><p class="empty-note">none</p></div>
+</div></div>
+<section class="page-section discussion-section" aria-labelledby="discussion-title">
+<div class="discussion-heading">
+<div class="discussion-heading-copy">
+<p class="discussion-eyebrow">Community review</p>
+<h3 class="section-title" id="discussion-title">Discussion</h3>
+<p>Ask a question or add context. Endorsements and structured flags are kept in the review panel above; your ORCID profile must share a public name.</p>
+</div>
+<p class="discussion-count"><span class="remark42__counter" data-url="https://laxarchive.org/lax-12/Lax12.AdmissibilityBound.html">0</span> <span>comments</span></p>
+</div>
+<div class="discussion-embed-shell">
+<p class="discussion-loading" id="remark42-status" role="status"><span class="discussion-loading-mark" aria-hidden="true"></span>Loading discussion…</p>
+<div id="remark42" data-remark42-host="https://comments.laxarchive.org" data-remark42-site="remark" data-remark42-url="https://laxarchive.org/lax-12/Lax12.AdmissibilityBound.html"></div>
+</div>
+<noscript><p class="discussion-unavailable">Enable JavaScript to read or join the discussion.</p></noscript>
+</section>
+<script type="application/json" id="graph-data">{"concepts":{"nodes":[{"id":"Lax12.Admissibility","href":"../lax-12/Lax12.Admissibility.html","title":"Admissibility","owner":"lax-12","status":"none","ext":true,"dir":"up"},{"id":"Lax12.AdmissibilityBound","href":"../lax-12/Lax12.AdmissibilityBound.html","title":"Admissibility is bounded by topological shallow-minor density","owner":"lax-12","status":"proven","ext":false,"dir":"core"},{"id":"Lax12.GraphClasses","href":"../lax-12/Lax12.GraphClasses.html","title":"Graph classes","owner":"lax-12","status":"none","ext":true,"dir":"up"},{"id":"Lax12.ShallowTopologicalMinors","href":"../lax-12/Lax12.ShallowTopologicalMinors.html","title":"Shallow topological minors","owner":"lax-12","status":"none","ext":true,"dir":"up"}],"edges":[{"from":"Lax12.GraphClasses","to":"Lax12.Admissibility"},{"from":"Lax12.Admissibility","to":"Lax12.AdmissibilityBound"},{"from":"Lax12.ShallowTopologicalMinors","to":"Lax12.AdmissibilityBound"}],"home":"lax-12"},"proofs":{"statements":[],"proofs":[]}}</script>
+</div></section>
+</main>
+<dialog class="account-dialog" id="account-dialog" aria-labelledby="account-dialog-title">
+<div class="account-dialog-inner">
+<header class="account-dialog-header">
+<div><p class="account-dialog-eyebrow">ORCID account</p><h2 id="account-dialog-title">Settings</h2></div>
+<button class="account-dialog-close" data-account-close type="button" aria-label="Close account settings">×</button>
+</header>
+<div class="account-dialog-body">
+<p class="account-status" data-account-status role="status">Checking your ORCID session…</p>
+<section data-account-content hidden>
+<div class="account-identity">
+<span class="account-avatar" data-account-avatar aria-hidden="true">iD</span>
+<div><a class="account-name" data-account-name target="_blank" rel="noopener noreferrer"></a><p class="account-id" data-account-id></p></div>
+</div>
+<p class="account-name-note">Your public name comes from ORCID. ORCID names are self-asserted and may change.</p>
+<div class="account-actions">
+<a data-account-refresh href="https://comments.laxarchive.org/auth/orcid/login?from=https%3A%2F%2Flaxarchive.org&amp;site=remark">Refresh from ORCID</a>
+<button data-account-logout type="button">Sign out</button>
+</div>
+<div class="account-comments-heading"><h3>Your comments</h3><span data-account-comment-count></span></div>
+<ol class="account-comments" data-account-comments></ol>
+<p class="account-comments-status" data-account-comments-status role="status"></p>
+</section>
+</div>
+</div>
+</dialog>
+<script src="../assets/sidebar.js?v=dae45c1c3e55"></script>
+<script src="../assets/account.js?v=ec80ece877ec"></script>
+<script src="../assets/layout.js?v=41e28199b546"></script>
+<script src="../assets/dag.js?v=2a0b2e1bec54"></script>
+<script src="../assets/source-proof.js?v=b4c48aaad400"></script>
+<script src="../assets/comments.js?v=493b5ebde364"></script>
+</body></html>

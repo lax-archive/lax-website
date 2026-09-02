@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src https: data:; font-src 'self'; frame-src https://comments.laxarchive.org; connect-src https://comments.laxarchive.org">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Lax — an archive of formalized mathematical concepts and their proofs">
+<title>Paper — lax-48</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
+<link rel="stylesheet" href="../assets/style.css?v=649e003e88f9">
+</head><body>
+<header class="site-header">
+  <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
+  <h1 class="site-title"><a href="../index.html">Lax <span class="site-title-quiet">Lean Archive</span></a></h1>
+  <nav class="header-actions" aria-label="Account">
+    <div class="account-header" data-account-root data-remark42-host="https://comments.laxarchive.org" data-remark42-site="remark" data-identity-url="https://comments.laxarchive.org/reactions/v1/identity">
+  <a class="account-control" data-account-login href="https://comments.laxarchive.org/auth/orcid/login?from=https%3A%2F%2Flaxarchive.org&amp;site=remark"><span class="orcid-mark" aria-hidden="true">iD</span><span>Sign in with ORCID</span></a>
+  <button class="account-control" data-account-settings type="button" aria-haspopup="dialog" aria-controls="account-dialog" hidden><span class="orcid-mark" aria-hidden="true">iD</span><span>Settings</span></button>
+</div>
+  </nav>
+</header>
+<main id="content-shell">
+<div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+<aside id="sidebar">
+<a class="sidebar-back" href="../lax-48/index.html"><span class="sidebar-back-arrow" aria-hidden="true">←</span>lax-48</a>
+<div class="sidebar-filters"><div class="filter-group">
+<label for="filter-search">Search</label>
+<input id="filter-search" class="filter-input" type="search" placeholder="Filter entries" aria-controls="entry-list">
+</div>
+<div class="filter-group">
+<label for="filter-type">Type</label>
+<select id="filter-type" class="filter-select">
+<option value="all">All types</option>
+<option value="definition">definition</option>
+<option value="theorem">theorem</option>
+<option value="proof">proof</option>
+</select>
+</div></div>
+<ul id="entry-list">
+<li class="entry-heading" aria-hidden="true">Concepts</li>
+<li data-type="theorem" data-search="lax48.exponentialseparation twin-width can be exponential in treewidth theorem"><a class="entry-link" href="../lax-48/Lax48.ExponentialSeparation.html" data-full-title="Twin-width can be exponential in treewidth"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax48.ExponentialSeparation</span></span></a></li>
+<li data-type="definition" data-search="lax48.treewidth treewidth definition"><a class="entry-link" href="../lax-48/Lax48.Treewidth.html" data-full-title="Treewidth"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax48.Treewidth</span></span></a></li>
+<li data-type="definition" data-search="lax48.twinwidth twin-width definition"><a class="entry-link" href="../lax-48/Lax48.TwinWidth.html" data-full-title="Twin-width"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax48.TwinWidth</span></span></a></li>
+<li class="entry-heading" aria-hidden="true">Proofs</li>
+<li data-type="proof" data-search="lax48proofs.main.exists_treewidth_le_and_two_pow_lt_twinwidth proof"><a class="entry-link" href="../lax-48/Lax48Proofs.Main.exists_treewidth_le_and_two_pow_lt_twinWidth.html" data-full-title="Lax48Proofs.Main.exists_treewidth_le_and_two_pow_lt_twinWidth"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax48Proofs.Main.exists_treewidth_le_and_two_pow_lt_twinWidth</span></span></a></li>
+<li id="entry-list-empty" hidden>No entries match.</li>
+</ul>
+</aside>
+<section id="main"><div id="detail" class="detail-manuscript">
+<p class="draft-banner"><strong>Draft</strong> — mutable and not usable as a dependency; its citation marks the draft state.</p>
+<div class="manuscript">
+<div class="detail-heading concept-heading manuscript-heading">
+<div><p class="concept-id">Paper</p>
+<h1 class="concept-title">Twin-Width Can Be Exponential in Treewidth</h1>
+<p class="concept-microline">11 pages · 7 marked passages · pdflatex · <a href="index.html">lax-48</a></p></div>
+</div>
+<section class="manuscript-index-section"><h3 class="manuscript-index-heading">Marked in this paper</h3>
+<ol class="manuscript-index">
+<li class="manuscript-index-item kind-submission"><a class="manuscript-index-link" href="#m1"><span class="manuscript-index-name">lax-48</span></a><span class="manuscript-index-page">p. 1</span></li>
+<li class="manuscript-index-item kind-concept"><a class="manuscript-index-link" href="#m2"><span class="type-badge" title="definition">def</span><span class="manuscript-index-name">Lax48.TwinWidth</span></a><span class="manuscript-index-page">p. 1</span></li>
+<li class="manuscript-index-item kind-concept"><a class="manuscript-index-link" href="#m3"><span class="type-badge" title="definition">def</span><span class="manuscript-index-name">Lax48.Treewidth</span></a><span class="manuscript-index-page">p. 2</span></li>
+<li class="manuscript-index-item kind-concept"><a class="manuscript-index-link" href="#m4"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="manuscript-index-name">Lax48.ExponentialSeparation</span></a><span class="manuscript-index-page">p. 3</span></li>
+<li class="manuscript-index-item kind-concept"><a class="manuscript-index-link" href="#m5"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="manuscript-index-name">Lax48.ExponentialSeparation</span></a><span class="manuscript-index-page">p. 4</span></li>
+<li class="manuscript-index-item kind-concept"><a class="manuscript-index-link" href="#m6"><span class="type-badge" title="definition">def</span><span class="manuscript-index-name">Lax48.TwinWidth</span></a><span class="manuscript-index-page">p. 4</span></li>
+<li class="manuscript-index-item kind-proof"><a class="manuscript-index-link" href="#m7"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="manuscript-index-name">Lax48Proofs.Main.exists_treewidth_le_and_two_pow_lt_twinWidth</span></a><span class="manuscript-index-page">p. 5</span></li>
+</ol>
+</section>
+<p class="empty-note">The PDF is not part of preview builds; the published archive shows it here beside the cards.</p>
+<ol class="manuscript-rail manuscript-rail-static">
+<li class="manuscript-card kind-submission" id="m1" data-mark="1">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><a href="../lax-48/index.html"><span class="submission-meta-id">lax-48</span></a></span>
+<span class="manuscript-card-page">p. 1</span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m1-body" aria-label="Show details of lax-48"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m1-body" hidden>
+<p class="manuscript-card-title">Twin-Width Can Be Exponential in Treewidth</p>
+</div>
+</li>
+<li class="manuscript-card kind-concept" id="m2" data-mark="2">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><span class="type-badge" title="definition">def</span><a href="../lax-48/Lax48.TwinWidth.html"><code>Lax48.TwinWidth</code></a></span>
+<span class="manuscript-card-page">p. 1</span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m2-body" aria-label="Show details of Lax48.TwinWidth"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m2-body" hidden>
+<p class="manuscript-card-title">Twin-width</p>
+<div class="latex-content"><p>A contraction sequence of a finite simple graph <em>G</em> is a sequence of vertex
+partitions: it starts at the partition into singletons and merges two parts
+at every step, until at most one part remains. Two parts are homogeneous if
+<em>G</em> has either all possible edges between them or none; the red degree of a
+part is the number of other parts it is not homogeneous with. The width of a
+contraction sequence is the largest red degree of any part occurring in it.</p>
+<p>The twin-width of <em>G</em> is the least <em>d</em> such that <em>G</em> has a contraction
+sequence of width at most <em>d</em>.</p>
+</div>
+
+</div>
+</li>
+<li class="manuscript-card kind-concept" id="m3" data-mark="3">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><span class="type-badge" title="definition">def</span><a href="../lax-48/Lax48.Treewidth.html"><code>Lax48.Treewidth</code></a></span>
+<span class="manuscript-card-page">p. 2</span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m3-body" aria-label="Show details of Lax48.Treewidth"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m3-body" hidden>
+<p class="manuscript-card-title">Treewidth</p>
+<div class="latex-content"><p>A tree decomposition of a finite simple graph <em>G</em> consists of a finite tree
+<em>T</em> and a bag of graph vertices at each node such that every graph
+vertex occurs in a bag, the endpoints of every graph edge occur together in a
+bag, and the nodes whose bags contain any fixed vertex induce a connected
+subgraph of <em>T</em>.</p>
+<p>The treewidth of <em>G</em> is the least <em>w</em> such that <em>G</em> has a tree
+decomposition with every bag of size at most <em>w</em> + 1.</p>
+</div>
+
+</div>
+</li>
+<li class="manuscript-card kind-concept line-proven" id="m4" data-mark="4">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="../lax-48/Lax48.ExponentialSeparation.html"><code>Lax48.ExponentialSeparation</code></a></span>
+<span class="manuscript-card-page">p. 3</span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m4-body" aria-label="Show details of Lax48.ExponentialSeparation"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m4-body" hidden>
+<p class="manuscript-card-title">Twin-width can be exponential in treewidth</p>
+<div class="latex-content"><p>For every natural number <em>k</em>, there is a finite simple graph <em>G</em> with
+treewidth at most 2<em>k</em> + 4 and twin-width greater than 2ᵏ. Treewidth and
+twin-width are the parameters defined in the two prerequisite concepts.</p>
+</div>
+<ul class="manuscript-card-claims"><li><span class="claim-entry"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="../lax-48/Lax48.ExponentialSeparation.html" title="Lax48.ExponentialSeparation.exists_treewidth_le_and_two_pow_lt_twinWidth"><code>Lax48.ExponentialSeparation</code></a></span></li></ul>
+</div>
+</li>
+<li class="manuscript-card kind-concept line-proven" id="m5" data-mark="5">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="../lax-48/Lax48.ExponentialSeparation.html"><code>Lax48.ExponentialSeparation</code></a></span>
+<span class="manuscript-card-page">p. 4</span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m5-body" aria-label="Show details of Lax48.ExponentialSeparation"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m5-body" hidden>
+<p class="manuscript-card-title">Twin-width can be exponential in treewidth</p>
+<div class="latex-content"><p>For every natural number <em>k</em>, there is a finite simple graph <em>G</em> with
+treewidth at most 2<em>k</em> + 4 and twin-width greater than 2ᵏ. Treewidth and
+twin-width are the parameters defined in the two prerequisite concepts.</p>
+</div>
+<ul class="manuscript-card-claims"><li><span class="claim-entry"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="../lax-48/Lax48.ExponentialSeparation.html" title="Lax48.ExponentialSeparation.exists_treewidth_le_and_two_pow_lt_twinWidth"><code>Lax48.ExponentialSeparation</code></a></span></li></ul>
+</div>
+</li>
+<li class="manuscript-card kind-concept" id="m6" data-mark="6">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><span class="type-badge" title="definition">def</span><a href="../lax-48/Lax48.TwinWidth.html"><code>Lax48.TwinWidth</code></a></span>
+<span class="manuscript-card-page">p. 4</span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m6-body" aria-label="Show details of Lax48.TwinWidth"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m6-body" hidden>
+<p class="manuscript-card-title">Twin-width</p>
+<div class="latex-content"><p>A contraction sequence of a finite simple graph <em>G</em> is a sequence of vertex
+partitions: it starts at the partition into singletons and merges two parts
+at every step, until at most one part remains. Two parts are homogeneous if
+<em>G</em> has either all possible edges between them or none; the red degree of a
+part is the number of other parts it is not homogeneous with. The width of a
+contraction sequence is the largest red degree of any part occurring in it.</p>
+<p>The twin-width of <em>G</em> is the least <em>d</em> such that <em>G</em> has a contraction
+sequence of width at most <em>d</em>.</p>
+</div>
+
+</div>
+</li>
+<li class="manuscript-card kind-proof line-proven" id="m7" data-mark="7">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a href="../lax-48/Lax48Proofs.Main.exists_treewidth_le_and_two_pow_lt_twinWidth.html"><code>Lax48Proofs.Main.exists_treewidth_le_and_two_pow_lt_twinWidth</code></a></span>
+<span class="manuscript-card-page">pp. 5–9</span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m7-body" aria-label="Show details of Lax48Proofs.Main.exists_treewidth_le_and_two_pow_lt_twinWidth"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m7-body" hidden>
+<div class="judgment">
+<div class="judgment-assumptions"><p class="judgment-unconditional">no assumptions</p></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="../lax-48/Lax48.ExponentialSeparation.html" title="Lax48.ExponentialSeparation.exists_treewidth_le_and_two_pow_lt_twinWidth"><code>Lax48.ExponentialSeparation</code></a></span></div>
+</div><div class="latex-content"><p>Self-contained proof of the Bonnet–Déprés exponential gap: for every <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.0315em;">k</span></span></span></span>, the
+Bonnet–Déprés graph <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi><msub><mi>D</mi><mi>k</mi></msub></mrow><annotation encoding="application/x-tex">BD_k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord mathnormal" style="margin-right:0.0502em;">B</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0278em;">D</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0315em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> has treewidth at most <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mo>∗</mo><mi>k</mi><mo>+</mo><mn>4</mn></mrow><annotation encoding="application/x-tex">2*k + 4</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.7778em;vertical-align:-0.0833em;"></span><span class="mord mathnormal" style="margin-right:0.0315em;">k</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">4</span></span></span></span> while its
+twin-width exceeds <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mi>k</mi></msup></mrow><annotation encoding="application/x-tex">2^k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8491em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8491em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0315em;">k</span></span></span></span></span></span></span></span></span></span></span>.</p>
+</div>
+</div>
+</li>
+</ol>
+<script type="application/json" id="manuscript-data">{"pageSizes":[[595.28,841.89],[595.28,841.89],[595.28,841.89],[595.28,841.89],[595.28,841.89],[595.28,841.89],[595.28,841.89],[595.28,841.89],[595.28,841.89],[595.28,841.89],[595.28,841.89]],"marks":[{"n":1,"id":"lax-48","kind":"submission","begin":{"page":1,"x":90.71,"y":647.44,"mode":"h"},"end":{"page":1,"x":305.23,"y":599.62,"mode":"h"}},{"n":2,"id":"Lax48.TwinWidth","kind":"concept","begin":{"page":1,"x":90.71,"y":505.56,"mode":"h"},"end":{"page":1,"x":374.68,"y":401.95,"mode":"h"}},{"n":3,"id":"Lax48.Treewidth","kind":"concept","begin":{"page":2,"x":107.72,"y":473.71,"mode":"h"},"end":{"page":2,"x":257.41,"y":473.71,"mode":"h"}},{"n":4,"id":"Lax48.ExponentialSeparation","kind":"concept","begin":{"page":3,"x":90.71,"y":217.77,"mode":"v"},"end":{"page":3,"x":90.71,"y":183.68,"mode":"v"}},{"n":5,"id":"Lax48.ExponentialSeparation","kind":"concept","begin":{"page":4,"x":107.72,"y":731.34,"mode":"v"},"end":{"page":4,"x":107.72,"y":695.87,"mode":"v"}},{"n":6,"id":"Lax48.TwinWidth","kind":"concept","begin":{"page":4,"x":107.72,"y":384.7,"mode":"v"},"end":{"page":4,"x":187.71,"y":230.87,"mode":"h"}},{"n":7,"id":"Lax48Proofs.Main.exists_treewidth_le_and_two_pow_lt_twinWidth","kind":"proof","begin":{"page":5,"x":90.71,"y":621.52,"mode":"v"},"end":{"page":9,"x":174.62,"y":494.96,"mode":"h"}}]}</script>
+</div>
+</div></section>
+</main>
+<dialog class="account-dialog" id="account-dialog" aria-labelledby="account-dialog-title">
+<div class="account-dialog-inner">
+<header class="account-dialog-header">
+<div><p class="account-dialog-eyebrow">ORCID account</p><h2 id="account-dialog-title">Settings</h2></div>
+<button class="account-dialog-close" data-account-close type="button" aria-label="Close account settings">×</button>
+</header>
+<div class="account-dialog-body">
+<p class="account-status" data-account-status role="status">Checking your ORCID session…</p>
+<section data-account-content hidden>
+<div class="account-identity">
+<span class="account-avatar" data-account-avatar aria-hidden="true">iD</span>
+<div><a class="account-name" data-account-name target="_blank" rel="noopener noreferrer"></a><p class="account-id" data-account-id></p></div>
+</div>
+<p class="account-name-note">Your public name comes from ORCID. ORCID names are self-asserted and may change.</p>
+<div class="account-actions">
+<a data-account-refresh href="https://comments.laxarchive.org/auth/orcid/login?from=https%3A%2F%2Flaxarchive.org&amp;site=remark">Refresh from ORCID</a>
+<button data-account-logout type="button">Sign out</button>
+</div>
+<div class="account-comments-heading"><h3>Your comments</h3><span data-account-comment-count></span></div>
+<ol class="account-comments" data-account-comments></ol>
+<p class="account-comments-status" data-account-comments-status role="status"></p>
+</section>
+</div>
+</div>
+</dialog>
+<script src="../assets/sidebar.js?v=dae45c1c3e55"></script>
+<script src="../assets/account.js?v=ec80ece877ec"></script>
+</body></html>
