@@ -29,7 +29,7 @@
   const pageEls = [...pagesEl.querySelectorAll('.manuscript-page')];
   const cards = marks.map((mark) => {
     const el = document.getElementById(`m${mark.n}`);
-    return { mark, el, hits: [], rects: [], shadows: [], shadowX: null, want: 0, resolved: null, link: null, pinned: false };
+    return { mark, el, hits: [], rects: [], shadows: [], shadowX: null, band: null, want: 0, resolved: null, link: null, pinned: false };
   }).filter((card) => card.el);
 
   const setStatus = (text, failed = false) => {
@@ -281,7 +281,7 @@
     // meet without a seam, and ends under the card's border.
     const xr = railEl.offsetLeft + 2;
     for (const card of cards) {
-      if (!card.shadows.length) { if (card.link) { card.link.remove(); card.link = null; } continue; }
+      if (!card.shadows.length) { if (card.link) { card.link.remove(); card.link = null; } card.band = null; continue; }
       const xl = pagesEl.offsetLeft + pageState[0].el.clientLeft + card.shadowX.x1 - 1;
       const xm = (xl + xr) / 2;
       const first = card.shadows[0];
@@ -296,7 +296,29 @@
         linksEl.append(card.link);
       }
       card.link.setAttribute('d', d);
+      // The ribbon's geometry, for hit-testing: the shadow's column over
+      // the pages (gaps included) and the band across the gutter.
+      card.band = { xs0: xl + 1 - (card.shadowX.x1 - card.shadowX.x0), xl, xm, xr, top, bottom, ct, cb };
     }
+  }
+
+  // Whether (x, y), in the body's coordinates, lies on a card's ribbon:
+  // in the shadow's column between the passage's first and last line
+  // (the gaps between pages included), or inside the gutter band, whose
+  // edges are the cubic curves drawLinks draws.
+  function ribbonContains(band, x, y) {
+    if (x >= band.xs0 && x <= band.xl) return y >= band.top && y <= band.bottom;
+    if (x < band.xl || x > band.xr) return false;
+    // x(t) is monotone in t, so bisect for the t under the pointer.
+    const bez = (a, b, c, d, t) => a * (1 - t) ** 3 + 3 * b * t * (1 - t) ** 2 + 3 * c * t * t * (1 - t) + d * t ** 3;
+    let lo = 0;
+    let hi = 1;
+    for (let i = 0; i < 24; i++) {
+      const mid = (lo + hi) / 2;
+      if (bez(band.xl, band.xm, band.xm, band.xr, mid) < x) lo = mid; else hi = mid;
+    }
+    const t = (lo + hi) / 2;
+    return y >= bez(band.top, band.top, band.ct, band.ct, t) && y <= bez(band.bottom, band.bottom, band.cb, band.cb, t);
   }
 
   // The card in front: its band drawn over the others.
@@ -398,20 +420,39 @@
       }
       return best;
     };
+    // Off the pages — the gap between two pages, or the gutter — the
+    // ribbon is the target too, the one drawn in front winning.
+    const cardAtRibbon = (event) => {
+      if (!bodyEl || !linksEl || event.target.closest('.manuscript-page, .manuscript-rail, a')) return null;
+      const box = bodyEl.getBoundingClientRect();
+      const x = event.clientX - box.left + bodyEl.scrollLeft;
+      const y = event.clientY - box.top + bodyEl.scrollTop;
+      let best = null;
+      let bestOrder = -1;
+      for (const card of cards) {
+        if (!card.band || !card.link || !ribbonContains(card.band, x, y)) continue;
+        const order = Array.prototype.indexOf.call(linksEl.children, card.link);
+        if (order > bestOrder) { best = card; bestOrder = order; }
+      }
+      return best;
+    };
+    const hoverSurface = bodyEl || pagesEl;
     let hovered = null;
-    pagesEl.addEventListener('mousemove', (event) => {
-      const card = cardAt(event);
+    hoverSurface.addEventListener('mousemove', (event) => {
+      if (event.target.closest('.manuscript-rail')) return;
+      const card = cardAt(event) || cardAtRibbon(event);
       if (card === hovered) return;
       if (hovered) { setHover(hovered, false); hovered.el.classList.remove('manuscript-card-hover'); }
       hovered = card;
       if (hovered) { setHover(hovered, true); hovered.el.classList.add('manuscript-card-hover'); }
     });
-    pagesEl.addEventListener('mouseleave', () => {
+    hoverSurface.addEventListener('mouseleave', () => {
       if (hovered) { setHover(hovered, false); hovered.el.classList.remove('manuscript-card-hover'); }
       hovered = null;
     });
-    pagesEl.addEventListener('click', (event) => {
-      const best = cardAt(event);
+    hoverSurface.addEventListener('click', (event) => {
+      if (event.target.closest('.manuscript-rail')) return;
+      const best = cardAt(event) || cardAtRibbon(event);
       if (!best) return;
       const pinned = !best.pinned;
       setPinned(best, pinned);
