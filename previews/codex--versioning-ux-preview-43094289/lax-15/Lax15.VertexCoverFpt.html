@@ -7,7 +7,7 @@
 <title>Vertex cover in explicit fixed-parameter time — Lax15.VertexCoverFpt</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=aaf1d3db4db6">
+<link rel="stylesheet" href="../assets/style.css?v=36bd3de5b294">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -133,7 +133,7 @@ against, and the base 2 is the point of this statement: no reduction
 rules are applied, and nothing here competes with the refined analyses
 that beat it.</p>
 </div></div>
-<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/4af91eadd1217e0c3b3db5837b8c966f31c8c523/vertex-cover-ladder/concepts/Lax15/VertexCoverFpt.lean">view on GitHub</a></h3>
+<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/d4afd0339c6a40896d5a1564edae29e3ab5a8185/vertex-cover-ladder/concepts/Lax15/VertexCoverFpt.lean">view on GitHub</a></h3>
 <div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
 <tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax13.RamComputes</span></td></tr>
 <tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax11.GraphEncoding</span></td></tr>
@@ -278,7 +278,7 @@ that beat it.</p>
 <tr id="L141" class=""><td class="line-num"><a href="#L141">141</a></td><td class="line-code"> </td></tr>
 <tr id="L142" class=""><td class="line-num"><a href="#L142">142</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax15.VertexCoverFpt</span></td></tr>
 <tr id="L143" class=""><td class="line-num"><a href="#L143">143</a></td><td class="line-code"> </td></tr>
-</table></div><span class="source-proof-rail" data-source-line="L135" aria-label="Proof links"><a class="statement-proof-button" href="https://github.com/lax-archive/lax-submissions/blob/4af91eadd1217e0c3b3db5837b8c966f31c8c523/vertex-cover-ladder/proofs/Lax15Proofs/MainFpt.lean" aria-label="View proof Lax15Proofs.VCFptMain.exists_fptTime_program_vertexCover on GitHub" title="Lax15Proofs.VCFptMain.exists_fptTime_program_vertexCover"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">Show Proof</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a></span><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
+</table></div><span class="source-proof-rail" data-source-line="L135" aria-label="Proof links"><a class="statement-proof-button" href="https://github.com/lax-archive/lax-submissions/blob/d4afd0339c6a40896d5a1564edae29e3ab5a8185/vertex-cover-ladder/proofs/Lax15Proofs/MainFpt.lean" aria-label="View proof Lax15Proofs.VCFptMain.exists_fptTime_program_vertexCover on GitHub" title="Lax15Proofs.VCFptMain.exists_fptTime_program_vertexCover"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">Show Proof</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a></span><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
 <div class="block"><h3>Formalization notes</h3><div class="latex-content"><p>The parameter dependence is written into the bound. The usual
 definition of fixed-parameter tractability hides it behind an
 existential — &quot;some computable <em>f</em> with running time <em>f</em>(<em>k</em>)·poly&quot; —
