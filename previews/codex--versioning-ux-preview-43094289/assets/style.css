@@ -848,7 +848,7 @@ body{
 .version-notice strong{ color: var(--accent); font-size: 1.02rem; }
 .version-notice-superseded{
   border-color: var(--warn-border);
-  background: #fae7e3;
+  background: #f4ccc5;
 }
 .version-notice-superseded strong{ color: var(--warn-fg); }
 .version-notice-proposed{ border-style: dashed; }
