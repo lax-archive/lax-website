@@ -2,11 +2,13 @@
 
 *Last updated: 2 September 2026*
 
-## 1. Controller
+## 1. Controllers
 
-**Clemens Kuske (Lax Archive)**; c/o Hasso Plattner Institute, Chair for Algorithm Engineering; Prof.-Dr.-Helmert-Str. 2–3, 14482 Potsdam, Germany
+- **Clemens Kuske**; c/o Hasso Plattner Institute, Chair for Algorithm Engineering; Prof.-Dr.-Helmert-Str. 2–3, 14482 Potsdam, Germany
+- **Jan Dreier**; c/o Hasso Plattner Institute, Chair for Algorithm Engineering; Prof.-Dr.-Helmert-Str. 2–3, 14482 Potsdam, Germany
+- **Édouard Bonnet**; c/o Laboratoire de l'Informatique du Parallélisme (LIP), ENS de Lyon; 46 allée d'Italie, 69007 Lyon, France
 
-Email: [mail@clemens-kuske.de](mailto:mail@clemens-kuske.de)
+The three persons named above jointly operate the Lax Archive. You may exercise your data protection rights against any of them. For privacy enquiries and requests, the central contact is [mail@clemens-kuske.de](mailto:mail@clemens-kuske.de).
 
 ## 2. Website hosting
 

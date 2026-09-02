@@ -26,10 +26,17 @@ describe("footer and legal pages", () => {
     const privacy = fs.readFileSync(path.join(root, "privacy.html"), "utf8");
 
     expect(impressum).toContain('<h1 class="paper-title">Imprint</h1>');
-    expect(impressum).toContain("Service provider");
+    expect(impressum).toContain("Service providers");
     expect(impressum).not.toContain("Anbieter und Verantwortlicher");
+    expect(impressum).toContain("Clemens Kuske");
+    expect(impressum).toContain("Jan Dreier");
+    expect(impressum).toContain("Édouard Bonnet");
     expect(impressum).toContain("Prof.-Dr.-Helmert-Str. 2–3");
+    expect(impressum).toContain("46 allée d'Italie");
     expect(impressum).toContain("mail@clemens-kuske.de");
+    expect(privacy).toContain("Controllers");
+    expect(privacy).toContain("Jan Dreier");
+    expect(privacy).toContain("Édouard Bonnet");
     expect(privacy).toContain("GitHub Pages");
     expect(privacy).toContain("Amazon Web Services (AWS)");
     expect(privacy).toContain("ORCID iD");
