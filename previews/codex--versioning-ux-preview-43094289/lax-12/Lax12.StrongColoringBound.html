@@ -7,7 +7,7 @@
 <title>Strong coloring numbers are bounded by admissibility — Lax12.StrongColoringBound</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=d1f9b31ff5b2">
+<link rel="stylesheet" href="../assets/style.css?v=28f02637cfe2">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -136,7 +136,7 @@ strong coloring number are functionally equivalent parameters.</p>
 edition), which state it for a fixed vertex ordering; the two bounds
 combine in their Corollary 2.7 to wcol_r ≤ 1 + <em>r</em>(adm_r − 1)^(<em>r</em>²).</p>
 </div></div>
-<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/becb5782d64a8587b9cd3f53269c1ce35cdb1ff0/sparsity-lectures/concepts/Lax12/StrongColoringBound.lean">view on GitHub</a></h3>
+<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/adeee8fcd52a11c46077d34657feaf48f2df7dae/sparsity-lectures/concepts/Lax12/StrongColoringBound.lean">view on GitHub</a></h3>
 <div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
 <tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax12.Admissibility</span></td></tr>
 <tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax12.ColoringNumbers</span></td></tr>
@@ -177,7 +177,7 @@ combine in their Corollary 2.7 to wcol_r ≤ 1 + <em>r</em>(adm_r − 1)^(<em>r<
 <tr id="L37" class=""><td class="line-num"><a href="#L37">37</a></td><td class="line-code"> </td></tr>
 <tr id="L38" class=""><td class="line-num"><a href="#L38">38</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax12.StrongColoringBound</span></td></tr>
 <tr id="L39" class=""><td class="line-num"><a href="#L39">39</a></td><td class="line-code"> </td></tr>
-</table></div><span class="source-proof-rail" data-source-line="L35" aria-label="Proof links"><a class="statement-proof-button" href="https://github.com/lax-archive/lax-submissions/blob/becb5782d64a8587b9cd3f53269c1ce35cdb1ff0/sparsity-lectures/proofs/Lax12Proofs/StrongColoringBound.lean" aria-label="View proof Lax12Proofs.StrongColoringBound.scol_le_of_adm on GitHub" title="Lax12Proofs.StrongColoringBound.scol_le_of_adm"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">Show Proof</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a></span><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
+</table></div><span class="source-proof-rail" data-source-line="L35" aria-label="Proof links"><a class="statement-proof-button" href="https://github.com/lax-archive/lax-submissions/blob/adeee8fcd52a11c46077d34657feaf48f2df7dae/sparsity-lectures/proofs/Lax12Proofs/StrongColoringBound.lean" aria-label="View proof Lax12Proofs.StrongColoringBound.scol_le_of_adm on GitHub" title="Lax12Proofs.StrongColoringBound.scol_le_of_adm"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">Show Proof</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a></span><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
 <div class="block"><h3>Formalization notes</h3><div class="latex-content"><p>Both parameters are the minima over vertex orderings defined in the
 imported concepts, and the statement is the minimized form: the
 literature proves it for each ordering separately, and the minimized
