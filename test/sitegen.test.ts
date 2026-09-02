@@ -6,6 +6,7 @@ import { generateSite, type SiteSubmission } from "../src/sitegen/generate.js";
 import { countsPill, typeBadge, typeBadgeText } from "../src/sitegen/html.js";
 import { compareIds, SiteModel } from "../src/sitegen/model.js";
 import { MarkdownRenderer } from "../src/sitegen/markdown.js";
+import { repositorySource, sourceProviderName } from "../src/sitegen/pages/shared.js";
 import { submissionTagIndex } from "../src/sitegen/tags.js";
 import { tmpDir } from "./helpers.js";
 
@@ -87,6 +88,63 @@ function snapshot(root: string): Map<string, Buffer> {
 }
 
 describe("site generator", () => {
+  it("builds provider-aware immutable source links", () => {
+    const commit = "a".repeat(40);
+    const cases = [
+      {
+        repository: "https://github.com/example/math",
+        provider: "GitHub",
+        file: `https://github.com/example/math/blob/${commit}/submission/concepts/Lax2/C.lean#L12`,
+      },
+      {
+        repository: "https://gitlab.com/group/subgroup/math",
+        provider: "GitLab",
+        file: `https://gitlab.com/group/subgroup/math/-/blob/${commit}/submission/concepts/Lax2/C.lean#L12`,
+      },
+      {
+        repository: "https://codeberg.org/example/math",
+        provider: "Codeberg",
+        file: `https://codeberg.org/example/math/src/commit/${commit}/submission/concepts/Lax2/C.lean#L12`,
+      },
+      {
+        repository: "https://bitbucket.org/example/math",
+        provider: "Bitbucket",
+        file: `https://bitbucket.org/example/math/src/${commit}/submission/concepts/Lax2/C.lean#C.lean-12`,
+      },
+    ];
+    for (const entry of cases) {
+      const href = repositorySource(
+        entry.repository,
+        commit,
+        "submission",
+        "concepts/Lax2/C.lean",
+        12,
+      );
+      expect(href).toBe(entry.file);
+      expect(sourceProviderName(href!)).toBe(entry.provider);
+    }
+    expect(repositorySource("https://example.com/example/math", commit, ".")).toBeUndefined();
+    expect(repositorySource("https://constructor/example/math", commit, ".")).toBeUndefined();
+    expect(repositorySource("http://github.com/example/math", commit, ".")).toBeUndefined();
+    expect(repositorySource("https://token@github.com/example/math", commit, ".")).toBeUndefined();
+  });
+
+  it("renders GitLab source actions for nested-group repositories", async () => {
+    const root = tmpDir("lax-site-gitlab-source-");
+    const values = submissions();
+    values[0]!.record.source!.repository = "https://gitlab.com/group/subgroup/math";
+    await generateSite(values, root);
+    const submission = fs.readFileSync(path.join(root, "Lax2", "index.html"), "utf8");
+    const concept = fs.readFileSync(path.join(root, "Lax2", "Lax2.C.html"), "utf8");
+    const proof = fs.readFileSync(path.join(root, "Lax2", "Lax2Proofs.truth.html"), "utf8");
+    expect(submission).toContain("GitLab @aaaaaaa");
+    expect(submission).toContain("proofs/ on GitLab");
+    expect(submission).toContain(`gitlab.com/group/subgroup/math/-/tree/${"a".repeat(40)}/proofs`);
+    expect(concept).toContain("view on GitLab");
+    expect(concept).toContain(`gitlab.com/group/subgroup/math/-/blob/${"a".repeat(40)}/concepts/Lax2/C.lean`);
+    expect(proof).toContain("Read the Lean proof on GitLab");
+  });
+
   it("uses numeric archive ordering", () => {
     expect(["Lax10", "Lax2", "Lax1"].sort(compareIds)).toEqual(["Lax1", "Lax2", "Lax10"]);
   });
