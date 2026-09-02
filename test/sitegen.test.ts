@@ -1315,7 +1315,7 @@ describe("supersedes version chains", () => {
     expect(oldPage).toContain("GitHub source");
     expect(oldPage).toContain("https://github.com/example/formalization/tree/3333333333333333333333333333333333333333/submission-3");
     expect(oldPage).toContain("note = {superseded by lax-3}");
-    expect(oldPage.indexOf('class="paper-head"')).toBeLessThan(oldPage.indexOf('class="version-notice'));
+    expect(oldPage.indexOf('class="page-reactions"')).toBeLessThan(oldPage.indexOf('class="version-notice'));
     expect(oldPage.indexOf('class="version-notice')).toBeLessThan(oldPage.indexOf('class="paper-abstract"'));
 
     const oldConcept = fs.readFileSync(path.join(root, "lax-1", "lax1.C.html"), "utf8");
