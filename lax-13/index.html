@@ -44,7 +44,7 @@
 <p class="draft-banner"><strong>Draft</strong> — mutable and not usable as a dependency; its citation marks the draft state.</p>
 <header class="paper-head">
 <h1 class="paper-title">The Word RAM</h1>
-<p class="paper-meta"><span class="submission-meta-id">lax-13</span><span class="meta-sep">·</span><span class="formalized-label">formalized by</span> <span class="paper-author">Jan Dreier</span><span class="author-sep">·</span><span class="paper-author">Claude Fable 5 (Anthropic)</span><span class="meta-sep">·</span>created 2026-08-02<span class="meta-sep">·</span><a href="https://github.com/lax-archive/lax-submissions/tree/d35ba57ad420ce6a6d3c763aa7f6a4a8be1d406d/word-ram" title="https://github.com/lax-archive/lax-submissions/tree/d35ba57ad420ce6a6d3c763aa7f6a4a8be1d406d/word-ram"><code>GitHub @d35ba57</code></a><span class="meta-sep">·</span>Lean <code>v4.30.0</code> · mathlib <code>c5ea00351c28</code></p>
+<p class="paper-meta"><span class="submission-meta-id">lax-13</span><span class="meta-sep">·</span><span class="formalized-label">formalized by</span> <span class="paper-author">Jan Dreier</span><span class="author-sep">·</span><span class="paper-author">Claude Fable 5 (Anthropic)</span><span class="meta-sep">·</span>created 2026-08-02<span class="meta-sep">·</span><a href="https://github.com/lax-archive/lax-submissions/tree/92ae2d6275d09b856c02d6f851755590fdcb30ed/word-ram" title="https://github.com/lax-archive/lax-submissions/tree/92ae2d6275d09b856c02d6f851755590fdcb30ed/word-ram"><code>GitHub @92ae2d6</code></a><span class="meta-sep">·</span>Lean <code>v4.30.0</code> · mathlib <code>c5ea00351c28</code></p>
 </header>
 <section class="page-reactions" aria-label="Community review" data-reactions-host="https://comments.laxarchive.org" data-reactions-url="https://laxarchive.org/lax-13/" data-review-kind="submission" data-source-lines="0">
 <div class="page-reactions-actions">
@@ -81,27 +81,28 @@
 <section class="paper-abstract">
 <h2 class="abstract-heading">Abstract</h2>
 <div class="latex-content"><p>The word RAM is the machine the modern analysis of algorithms is
-stated on. It is the random access machine of Aho, Hopcroft and Ullman
-— an accumulator, a memory of cells addressed by number, direct and
-indirect addressing, an input and an output tape, jumps against zero —
-with its numbers bounded instead of its instruction set: cells hold
-<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>w</mi></mrow><annotation encoding="application/x-tex">w</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.0269em;">w</span></span></span></span>-bit words, and multiplication, division, shifts and the bitwise
-operations each cost one time unit because on words each of them is
-one instruction of a real machine. This submission fixes the archive's
-canonical encoding of that model. It carries two definitions and no
-proof obligations: the machine, whose semantics is parameterized by
-the word length and obeys one uniform truncation rule — every value
-the machine produces and every address it uses is taken modulo <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mi>w</mi></msup></mrow><annotation encoding="application/x-tex">2 ^ w</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6644em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0269em;">w</span></span></span></span></span></span></span></span></span></span></span>
-— and the predicate saying that a program computes a function of words
-within a time bound on a set of admissible inputs, the running time
-being the machine's own step count rather than an annotation carried
-alongside the program. Neither is a claim, so neither is stated as
-one; the review question is faithfulness of the model, and the
-formalization notes argue every choice a reviewer would want argued:
-why subtraction truncates at zero rather than wrapping, why remainder
-and bitwise negation are omitted as derivable, why a program can
-measure <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>w</mi></mrow><annotation encoding="application/x-tex">w</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.0269em;">w</span></span></span></span> and therefore needs no instruction reporting it, and why
-the machine reduces oversized input entries instead of rejecting them.</p>
+stated on. It is a random access machine in the register-transfer
+format of Cook and Reckhow — a memory of cells addressed by number and
+no other storage, an instruction that sets one cell from one or two
+others, indirect addressing through a cell holding an address, an input
+and an output tape, jumps against zero — with its numbers bounded
+rather than its instruction set: cells hold <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>w</mi></mrow><annotation encoding="application/x-tex">w</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.0269em;">w</span></span></span></span>-bit words, and
+multiplication, division, shifts and the bitwise operations each cost
+one time unit because on words each of them is one instruction of a
+real machine. This submission fixes the archive's canonical encoding of
+that model. It carries two definitions and no proof obligations: the
+machine, whose semantics is parameterized by the word length and obeys
+one uniform truncation rule — every value the machine produces and
+every address it uses is taken modulo <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mi>w</mi></msup></mrow><annotation encoding="application/x-tex">2 ^ w</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6644em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0269em;">w</span></span></span></span></span></span></span></span></span></span></span> — and the predicate
+saying that a program computes a function of words within a time bound
+on a set of admissible inputs, the running time being the machine's own
+step count rather than an annotation carried alongside the program.
+Neither is a claim, so neither is stated as one; the review question is
+faithfulness of the model, and the formalization notes give the word
+model and its sources, the truncation rule and what follows from it,
+the constant-cost derivations of the remaining standard operations —
+disjunction, exclusive or, the right shift, the remainder and the
+comparisons — and the machine's halting behaviour and time measure.</p>
 <p>Statements about algorithms are then made downstream, over these two
 concepts, in a fixed shape: one program is quantified before the word
 length, so that a claim is about a single program uniform in <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>w</mi></mrow><annotation encoding="application/x-tex">w</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.0269em;">w</span></span></span></span> and
@@ -117,7 +118,12 @@ value fits into a word, and a reasoning layer of Hoare-style rules
 with a cost potential and compositional value bounds. The word length
 enters that pipeline exactly once, at its boundary, so an algorithm is
 verified on clean unbounded natural-number semantics and lands as a
-running-time claim about this machine.</p>
+running-time claim about this machine.
+The refinement framework built on that pipeline — the port of the
+Isabelle NREST/Autoref/Sepref stack through which algorithms verified
+against abstract specifications descend to this machine — is the
+separate submission <em>A Refinement Framework for the Word RAM</em>, which
+requires this proof package.</p>
 </div>
 </section>
 
@@ -171,6 +177,7 @@ running-time claim about this machine.</p>
 <li id="ref-CookReckhow1973">Stephen A. Cook and Robert A. Reckhow. <span class="reference-title">Time bounded random access machines</span>. Journal of Computer and System Sciences 7(4):354–375, 1973. <a href="https://doi.org/10.1016/S0022-0000(73)80029-7">doi:10.1016/S0022-0000(73)80029-7</a></li>
 <li id="ref-Hagerup1998">Torben Hagerup. <span class="reference-title">Sorting and searching on the word RAM</span>. In STACS 98: 15th Annual Symposium on Theoretical Aspects of Computer Science 1373:366–398, 1998. <a href="https://doi.org/10.1007/BFb0028575">doi:10.1007/BFb0028575</a></li>
 <li id="ref-FredmanWillard1993">Michael L. Fredman and Dan E. Willard. <span class="reference-title">Surpassing the information theoretic bound with fusion trees</span>. Journal of Computer and System Sciences 47(3):424–436, 1993. <a href="https://doi.org/10.1016/0022-0000(93)90040-4">doi:10.1016/0022-0000(93)90040-4</a></li>
+<li id="ref-vanEmdeBoas1990">Peter van Emde Boas. <span class="reference-title">Machine models and simulations</span>. In Handbook of Theoretical Computer Science, Volume A: Algorithms and Complexity 1–66, 1990.</li>
 </ol>
 </section>
 <section class="page-section discussion-section" aria-labelledby="discussion-title">
