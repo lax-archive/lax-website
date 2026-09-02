@@ -1,0 +1,35 @@
+{
+  "web": {
+    "format": {
+      "tool": "reflowtex",
+      "rev": "36f8365eed25ece1db38e0059bcbba3c250802e1",
+      "schema": "3945c88319938b29cad7651187a0585c8f94f76cff9145c8d57a6eec83c6d221"
+    },
+    "bundle": {
+      "digest": "ad7e8ff2ce8aabf320a0b50f92c2b8f896446f5d8ac4a7cdac5edb5b3161d6be",
+      "bytes": 753152
+    }
+  },
+  "marks": [
+    {
+      "n": 1,
+      "id": "Lax21.One",
+      "kind": "concept"
+    },
+    {
+      "n": 2,
+      "id": "Lax21.Zero",
+      "kind": "concept"
+    },
+    {
+      "n": 3,
+      "id": "Lax21Proofs.zero_eq",
+      "kind": "proof"
+    },
+    {
+      "n": 4,
+      "id": "Lax21Proofs.one_eq",
+      "kind": "proof"
+    }
+  ]
+}
