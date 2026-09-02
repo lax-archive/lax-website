@@ -1304,6 +1304,7 @@ describe("supersedes version chains", () => {
     expect(oldPage).toContain("Current Result");
     expect(oldPage).toContain('data-version-dialog');
     expect(oldPage).toContain('data-version-dialog-open');
+    expect(oldPage).not.toContain('class="paper-version-button"');
     expect(oldPage).toContain('href="../lax-2/index.html?version=lax-2"');
     expect(oldPage).toContain("current version");
     expect(oldPage).toContain("viewing");
@@ -1326,11 +1327,12 @@ describe("supersedes version chains", () => {
     expect(middlePage).toContain('class="version-item version-selected"');
 
     const currentPage = fs.readFileSync(path.join(root, "lax-3", "index.html"), "utf8");
-    expect(currentPage).toContain('class="version-notice"');
-    expect(currentPage).not.toContain("version-notice-superseded");
-    expect(currentPage).toContain("<strong>Current version.</strong> 2 older versions are available");
-    expect(currentPage).toContain('class="version-history-button" type="button"');
-    expect(currentPage).toContain("View 3 versions");
+    expect(currentPage).not.toContain('class="version-notice');
+    expect(currentPage).toContain('class="paper-version-button" type="button"');
+    expect(currentPage).toContain(">3 versions</button>");
+    expect(currentPage).toContain('data-version-dialog');
+    const currentMeta = currentPage.slice(currentPage.indexOf('<p class="paper-meta">'), currentPage.indexOf("</p>", currentPage.indexOf('<p class="paper-meta">')));
+    expect(currentMeta.indexOf("paper-version-button")).toBeGreaterThan(currentMeta.indexOf("mathlib"));
     expect(currentPage).toContain('href="../lax-1/index.html?version=lax-1"');
     expect(currentPage).toContain('href="../lax-2/index.html?version=lax-2"');
     expect(currentPage).toContain("version-mark-latest");

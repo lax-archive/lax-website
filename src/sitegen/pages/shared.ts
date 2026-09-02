@@ -427,11 +427,17 @@ function versionHref(rootRel: string, id: string): string {
   return `${rootRel}${id}/index.html?version=${encodeURIComponent(id)}`;
 }
 
-/** A prominent summary and modal containing the complete version chain. The
+/** Version-history UI containing the complete chain. Superseded and proposed
+ * versions get a prominent summary; the current submission page opts into
+ * only the modal because its compact trigger lives in the metadata line. The
  * current registered version and the version shown on this page are distinct
- * states and are both marked. A draft claimant sees the history it proposes
- * to extend, but does not appear on the pages it has not superseded yet. */
-export function versionHistoryPanel(ctx: PageContext, submissionId: string, rootRel: string): string {
+ * states and are both marked. */
+export function versionHistoryPanel(
+  ctx: PageContext,
+  submissionId: string,
+  rootRel: string,
+  includeCurrentDialog = false,
+): string {
   const chain = ctx.model.versionHistory(submissionId);
   if (chain.length < 2) return "";
 
@@ -445,6 +451,8 @@ export function versionHistoryPanel(ctx: PageContext, submissionId: string, root
   const currentLink = `<a href="${attr(versionHref(rootRel, currentId))}">${currentLabel}</a>`;
   const draftProposal = shown.record.state === "draft" && ctx.model.supersedesClaim.has(submissionId);
   const superseded = !draftProposal && currentId !== submissionId;
+  const compactCurrent = !draftProposal && !superseded;
+  if (compactCurrent && !includeCurrentDialog) return "";
   const olderCount = chain.indexOf(submissionId);
   const countLabel = `${chain.length} ${chain.length === 1 ? "version" : "versions"}`;
   const summary = draftProposal
@@ -495,10 +503,11 @@ ${title ? `<p class="version-item-title">${ctx.markdown.renderAuthorInline(title
 </li>`;
   });
 
-  return `<aside class="version-notice${superseded ? " version-notice-superseded" : ""}${draftProposal ? " version-notice-proposed" : ""}" aria-label="Submission version">
+  const notice = compactCurrent ? "" : `<aside class="version-notice${superseded ? " version-notice-superseded" : ""}${draftProposal ? " version-notice-proposed" : ""}" aria-label="Submission version">
 <p>${summary}</p>
 <div class="version-notice-actions">${currentAction}<button class="version-history-button" type="button" data-version-dialog-open aria-haspopup="dialog" aria-controls="version-history-dialog">View ${countLabel}</button></div>
-</aside>
+</aside>`;
+  return `${notice}
 <dialog class="version-history-dialog" id="version-history-dialog" data-version-dialog aria-labelledby="version-history-title">
 <div class="version-dialog-header"><div><p class="version-dialog-eyebrow">Version history</p><h2 id="version-history-title">Submission versions</h2></div><button class="version-dialog-close" type="button" data-version-dialog-close aria-label="Close version history">×</button></div>
 <p class="version-dialog-intro">Newest first. “Current version” is the latest registered successor; drafts are identified separately.</p>
@@ -508,15 +517,24 @@ ${rows.join("\n")}
 </dialog>`;
 }
 
+/** Compact trigger appended to the technical metadata on the current
+ * submission page. Superseded and proposed versions use the prominent notice
+ * instead. */
+export function versionHistoryMetaButton(ctx: PageContext, submissionId: string): string {
+  const chain = ctx.model.versionHistory(submissionId);
+  if (chain.length < 2 || ctx.model.currentVersion(submissionId) !== submissionId) return "";
+  return `<button class="paper-version-button" type="button" data-version-dialog-open aria-haspopup="dialog" aria-controls="version-history-dialog">${chain.length} versions</button>`;
+}
+
 /** The submission page's paper-style masthead: big title and a compact
  * metadata line (id, authors, state, dates, source, pins). Falls back
  * gracefully when there is no build output yet (title = id). */
-export function paperHeader(markdown: MarkdownRenderer, submission: SiteSubmission, rootRel: string): string {
+export function paperHeader(markdown: MarkdownRenderer, submission: SiteSubmission, rootRel: string, metaAction = ""): string {
   const { record, output } = submission;
   const title = output?.manifest.title ?? record.id;
   return `<header class="paper-head">
 <h1 class="paper-title">${markdown.renderAuthorInline(title, rootRel)}</h1>
-<p class="paper-meta">${metaBits(submission)}</p>
+<p class="paper-meta">${metaBits(submission, metaAction)}</p>
 </header>`;
 }
 
@@ -543,7 +561,7 @@ function authorByline(submission: SiteSubmission): string {
 }
 
 /** The dim technical line under the title: id, authors, state, dates, source, pins. */
-function metaBits(submission: SiteSubmission): string {
+function metaBits(submission: SiteSubmission, metaAction: string): string {
   const { record, output } = submission;
   const source = record.source;
   const sourceBit = source
@@ -570,7 +588,7 @@ function metaBits(submission: SiteSubmission): string {
   // makes the mutable state look like ordinary metadata.
   const state = record.state === "draft" ? "" : statePill(record.state);
   const id = output ? `<span class="submission-meta-id">${esc(record.id)}</span>` : "";
-  const parts = [id, authorBit, state, dates, sourceBit, pins].filter(Boolean);
+  const parts = [id, authorBit, state, dates, sourceBit, pins, metaAction].filter(Boolean);
   return parts.join('<span class="meta-sep">·</span>');
 }
 
