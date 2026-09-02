@@ -25,7 +25,17 @@
   const CARD_GAP = 8;
   const SHADOW_MARGIN = 18; // px beyond the passage's leftmost and rightmost extent
   const SVG = 'http://www.w3.org/2000/svg';
-  const sideRail = window.matchMedia('(min-width: 1101px)');
+  // The rail sits beside the pages once the manuscript itself is this wide
+  // (the sidebar's state and the detail column's cap both count, which a
+  // viewport query would miss); narrower, it stacks under them.
+  const SIDE_MIN_REM = 60;
+  const remPx = () => parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
+  const sideRail = () => root.classList.contains('manuscript-side');
+  function updateMode() {
+    const side = root.clientWidth >= SIDE_MIN_REM * remPx();
+    if (side === sideRail()) return;
+    root.classList.toggle('manuscript-side', side);
+  }
 
   const pageEls = [...pagesEl.querySelectorAll('.manuscript-page')];
   const cards = marks.map((mark) => {
@@ -72,10 +82,26 @@
   async function pageText(state) {
     if (!state.text) {
       const page = await pdfPage(state);
-      state.text = await page.getTextContent();
+      state.text = await readTextContent(page);
       state.analysed = place.analyzePage(place.textItems(state.text));
     }
     return state.text;
+  }
+
+  // pdf.js's own getTextContent drains the text stream with `for await`,
+  // which WebKit cannot do (ReadableStream has no async iterator there, so
+  // mobile Safari failed before the first page); a reader reads the same
+  // stream everywhere.
+  async function readTextContent(page) {
+    const reader = page.streamTextContent().getReader();
+    const text = { items: [], styles: Object.create(null), lang: null };
+    for (;;) {
+      const { value, done } = await reader.read();
+      if (done) return text;
+      if (text.lang == null && value.lang != null) text.lang = value.lang;
+      Object.assign(text.styles, value.styles);
+      text.items.push(...value.items);
+    }
   }
 
   function currentScale() {
@@ -238,7 +264,7 @@
   }
 
   function stack() {
-    if (!sideRail.matches) {
+    if (!sideRail()) {
       railEl.classList.remove('manuscript-rail-live');
       railEl.style.height = '';
       for (const card of cards) card.el.style.top = '';
@@ -262,7 +288,7 @@
   // the body's.
   function drawLinks() {
     if (!linksEl || !bodyEl) return;
-    if (!sideRail.matches) {
+    if (!sideRail()) {
       linksEl.classList.remove('manuscript-links-live');
       return;
     }
@@ -409,7 +435,7 @@
       const pinned = !best.pinned;
       setPinned(best, pinned);
       flash(best);
-      if (!sideRail.matches && pinned) best.el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      if (!sideRail() && pinned) best.el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     });
   }
 
@@ -449,6 +475,7 @@
 
   let lastWidth = pagesEl.clientWidth;
   const onResize = () => {
+    updateMode();
     const width = pagesEl.clientWidth;
     if (Math.abs(width - lastWidth) < 2) { stack(); return; }
     lastWidth = width;
@@ -456,6 +483,8 @@
   };
 
   async function main() {
+    updateMode();
+    lastWidth = pagesEl.clientWidth;
     await loadDocument();
     await resolveMarks();
     wireCards();
@@ -466,7 +495,6 @@
     openFromHash();
     window.addEventListener('hashchange', openFromHash);
     window.addEventListener('resize', onResize);
-    sideRail.addEventListener('change', () => stack());
     if ('ResizeObserver' in window) new ResizeObserver(onResize).observe(pagesEl);
     document.fonts?.ready.then(() => stack());
   }
