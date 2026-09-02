@@ -22,6 +22,7 @@ const place = context.laxManuscript as {
     segments: Segment[];
   } | null;
   segmentRects(pd: Analysed, seg: Segment): { x0: number; x1: number; top: number; bot: number }[];
+  segmentShapes(pd: Analysed, seg: Segment): { points: [number, number][]; x0: number; x1: number; top: number; bot: number }[];
   stackCards(cards: { want: number; height: number }[], gap: number): number[];
 };
 
@@ -133,6 +134,104 @@ describe("paper viewer placement", () => {
     expect(straddling.segments.map((s) => s.page)).toEqual([1, 2]);
     expect(straddling.segments[0]!.to).toBe(pages[0]!.flow.last);
     expect(place.segmentRects(pages[0]!, straddling.segments[0]!)).toHaveLength(2);
+  });
+
+  it("draws a passage as one region per column, first and last lines clipped", () => {
+    const { items, line } = twoColumnPage();
+    const pages = [place.analyzePage(items)];
+    // mid-line 5 of column 1 to mid-line 2 of column 2
+    const range = place.resolveRange({
+      begin: { page: 1, x: 150, y: baseline(5), mode: "h" },
+      end: { page: 1, x: 400, y: baseline(2), mode: "h" },
+    }, pages)!;
+    expect(range.segments).toHaveLength(1);
+    const shapes = place.segmentShapes(pages[0]!, range.segments[0]!);
+    expect(shapes).toHaveLength(2);
+    const [left, right] = shapes as [typeof shapes[0], typeof shapes[0]];
+    // column 1: starts at the clip, runs to the column's right edge, ends at its foot
+    expect(left.points).toHaveLength(8);
+    expect(left.points[0]).toEqual([150, baseline(5) + 8.6]);
+    expect(left.points[1]![0]).toBeCloseTo(COLUMNS[0]! + COLUMN_WIDTH);
+    expect(left.points[5]![0]).toBeCloseTo(COLUMNS[0]!);
+    expect(left.bot).toBeCloseTo(baseline(LINES - 1) - 2.2);
+    // the leading between lines is filled: the cut after line 5 lies between its box and line 6's
+    expect(left.points[7]![1]).toBeCloseTo((baseline(5) - 2.2 + baseline(6) + 8.6) / 2);
+    // column 2: from its left edge, ending at the clip on line 2
+    expect(right.points[0]).toEqual([COLUMNS[1], baseline(0) + 8.6]);
+    expect(right.points[4]![0]).toBe(400);
+    expect(right.x0).toBeCloseTo(COLUMNS[1]!);
+    expect(range.segments[0]!.from).toBe(line(0, 5)); // the first half of line 5 passes x=150
+    // a single line is a plain rectangle
+    const one = place.resolveRange({
+      begin: { page: 1, x: 80, y: baseline(3), mode: "h" },
+      end: { page: 1, x: 250, y: baseline(3), mode: "h" },
+    }, pages)!;
+    expect(place.segmentShapes(pages[0]!, one.segments[0]!)).toEqual([
+      { points: [[80, baseline(3) + 8.6], [250, baseline(3) + 8.6], [250, baseline(3) - 2.2], [80, baseline(3) - 2.2]], x0: 80, x1: 250, top: baseline(3) + 8.6, bot: baseline(3) - 2.2 },
+    ]);
+  });
+
+  it("keeps a display formula's raised delimiters on its line and out of a new run", () => {
+    const items: Item[] = [
+      { x: 72, y: 600, w: 200, h: 10, str: "We set" },
+      { x: 207, y: 574, w: 28, h: 10, str: "f(t) =" },
+      { x: 238, y: 585, w: 5, h: 10, str: "⌈" }, // pdfTeX places the tall bracket on a raised baseline
+      { x: 243, y: 574, w: 100, h: 10, str: "2 + C" },
+      { x: 275, y: 578, w: 40, h: 7, str: "(1−ε)t" },
+      { x: 366, y: 585, w: 5, h: 10, str: "⌉" },
+      { x: 72, y: 548, w: 200, h: 10, str: "where" },
+    ];
+    const pd = place.analyzePage(items);
+    const seg = { page: 1, from: 0, to: items.length - 1 };
+    const rects = place.segmentRects(pd, seg);
+    expect(rects).toHaveLength(3);
+    expect(rects[1]).toMatchObject({ x0: 207, x1: 371, top: 585 + 8.6, bot: 574 - 2.2 });
+    expect(place.segmentShapes(pd, seg)).toHaveLength(1);
+  });
+
+  it("merges a display formula's fractions into their rows and the rows into one region", () => {
+    // pdfTeX's content order for two rows of an aligned display (page 9 of
+    // lax-48's paper): numerators and denominators come with their row,
+    // each dropping or rising against the row's baseline, and the second
+    // row starts a new block by the drop.
+    const items: Item[] = [
+      { x: 72, y: 620, w: 300, h: 10, str: "This is a contradiction since" },
+      { x: 167.2, y: 598.3, w: 7.7, h: 10, str: "⩾" },
+      { x: 186.3, y: 591.5, w: 8.9, h: 10, str: "(1" },
+      { x: 222.3, y: 598.3, w: 12.7, h: 10, str: "log" },
+      { x: 131.3, y: 566.7, w: 7.7, h: 10, str: "=" },
+      { x: 141.8, y: 577.8, w: 5.9, h: 10, str: "(" },
+      { x: 147.8, y: 566.7, w: 18.8, h: 10, str: "(2 +" },
+      { x: 275.6, y: 559.9, w: 2.8, h: 10, str: "|" },
+      { x: 72, y: 530, w: 300, h: 10, str: "since, we recall," },
+    ];
+    const pd = place.analyzePage(items);
+    expect(pd.blocks.length).toBeGreaterThan(1);
+    const seg = { page: 1, from: 0, to: items.length - 1 };
+    const rects = place.segmentRects(pd, seg);
+    expect(rects).toHaveLength(4);
+    expect(rects[1]).toMatchObject({ x0: 167.2, top: 598.3 + 8.6, bot: 591.5 - 2.2 });
+    expect(rects[2]).toMatchObject({ x0: 131.3, top: 577.8 + 8.6, bot: 559.9 - 2.2 });
+    const shapes = place.segmentShapes(pd, seg);
+    expect(shapes).toHaveLength(1);
+    expect(shapes[0]!.points).toHaveLength(8);
+    expect(shapes[0]!.top).toBeCloseTo(628.6);
+    expect(shapes[0]!.bot).toBeCloseTo(527.8);
+  });
+
+  it("keeps a running head out of the flow like the folio", () => {
+    const { items } = twoColumnPage();
+    const withHead: Item[] = [
+      { x: 72, y: 760, w: 80, h: 10, str: "É. Bonnet, H. Déprés" },
+      { x: 520, y: 760, w: 6, h: 10, str: "5" },
+      ...items,
+    ];
+    const pd = place.analyzePage(withHead);
+    expect(pd.flow.first).toBe(2);
+    expect(pd.flow.last).toBe(withHead.length - 2);
+    // a section heading close above its paragraph stays in the flow
+    const withHeading: Item[] = [{ x: 72, y: TOP + 22, w: 120, h: 12, str: "3 Proof of Theorem 4" }, ...items];
+    expect(place.analyzePage(withHeading).flow.first).toBe(0);
   });
 
   it("stacks cards greedily in the given order", () => {

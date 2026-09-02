@@ -73,10 +73,12 @@ jobs:
           echo "mode=$mode" >> "$GITHUB_OUTPUT"
           echo "slug=$(node .github/scripts/pages-previews.mjs slug "$branch")" >> "$GITHUB_OUTPUT"
 
-      # Only production carries the papers' PDFs: the gh-pages branch keeps
-      # every deployment's full tree, and previews would multiply the corpus.
+      # Production and previews alike carry the papers' PDFs, so a preview
+      # shows the viewer as it will ship. (The gh-pages branch keeps every
+      # deployment's full tree; the corpus is small for now, and a preview
+      # is removed with its branch.)
       - name: Restore the papers cache
-        if: steps.target.outputs.mode == 'production'
+        if: github.event_name != 'delete'
         uses: actions/cache@v4
         with:
           path: data/papers
@@ -84,20 +86,12 @@ jobs:
           restore-keys: papers-
 
       - name: Fetch the compiled papers
-        if: steps.target.outputs.mode == 'production'
+        if: github.event_name != 'delete'
         run: npm run papers:fetch -- --database data/lax-db --papers data/papers
 
       - name: Build the current branch
         if: github.event_name != 'delete'
-        env:
-          MODE: ${{ steps.target.outputs.mode }}
-        run: |
-          set -euo pipefail
-          if [[ "$MODE" == "production" ]]; then
-            npm run site:build -- --database data/lax-db --papers data/papers --out _site
-          else
-            npm run site:build -- --database data/lax-db --no-papers --out _site
-          fi
+        run: npm run site:build -- --database data/lax-db --papers data/papers --out _site
 
       - name: Restore the published Pages tree
         run: |

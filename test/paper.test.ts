@@ -32,7 +32,7 @@ function archive(): SiteSubmission[] {
       manifest: { specVersion: "1", id: "lax-7", leanVersion: "v4.30.0", mathlibVersion: "c".repeat(40), title: "A Spike Paper", authors: [], bibEntries: [] },
       abstract: "With a paper.", requiredByConcepts: ["Lax3"], requiredByProofs: [],
       concepts: [
-        { id: "Lax7.Treewidth", path: "concepts/Lax7/Treewidth.lean", title: "Treewidth is $monotone$", type: "theorem", description: "Does not grow.", imports: ["Lax3.Bags"], mathlibImports: [], sourceText: "", statements: [{ id: "Lax7.Treewidth.mono", signature: "mono : True" }] },
+        { id: "Lax7.Treewidth", path: "concepts/Lax7/Treewidth.lean", title: "Treewidth is $monotone$", type: "theorem", description: "Does not grow.", imports: ["Lax3.Bags"], mathlibImports: [], sourceText: TREEWIDTH_SOURCE, statements: [{ id: "Lax7.Treewidth.mono", signature: "mono : True", startLine: 10, endLine: 10 }] },
       ],
       proofs: [{ id: "Lax7Proofs.mono", path: "proofs/Lax7Proofs/Mono.lean", conclusion: "Lax7.Treewidth.mono", assumptions: [], description: "Direct." }],
       paper: {
@@ -49,6 +49,19 @@ function archive(): SiteSubmission[] {
     },
   }];
 }
+
+const TREEWIDTH_SOURCE = `import Lax3.Bags
+
+/-!
+---
+title: Treewidth
+---
+Does not grow.
+-/
+
+/-- The declaration's own docstring stays. -/
+theorem Lax7.Treewidth.mono : True := trivial
+`;
 
 function withPdf(submissions: SiteSubmission[]): SiteSubmission[] {
   const file = path.join(tmpDir("lax-paper-cache-"), `${digest}.pdf`);
@@ -100,20 +113,35 @@ describe("paper pages", () => {
     const data = JSON.parse(/<script type="application\/json" id="manuscript-data">(.*?)<\/script>/.exec(html)![1]!);
     expect(data.pageSizes).toHaveLength(2);
     expect(data.marks[1]).toMatchObject({ n: 2, id: "Lax7Proofs.mono", kind: "proof", begin: { page: 1, x: 300, y: 500, mode: "h" } });
-    // the sidebar leads back to the submission
+    // the sidebar leads back to the submission, and starts collapsed for the room
     expect(html).toContain('<a class="sidebar-back" href="../lax-7/index.html">');
+    expect(html).toContain('<header class="site-header sidebar-hidden">');
+    expect(html).toContain('<main id="content-shell" class="sidebar-hidden">');
+    expect(fs.readFileSync(path.join(root, "lax-7", "Lax7.Treewidth.html"), "utf8")).toContain('<header class="site-header">');
+    // the gutter bands' overlay
+    expect(html).toContain('<svg class="manuscript-links" id="manuscript-links" aria-hidden="true"></svg>');
+    // a concept card carries the Lean source, module docstring elided, without the concept page's row anchors
+    const card = html.slice(html.indexOf('id="m1"'), html.indexOf('id="m2"'));
+    expect(card).toContain('<div class="manuscript-card-source"><div class="inline-contract-wrap"><table class="inline-contract-table">');
+    expect(card).toContain('<tr class="line-elided"><td class="line-num"></td><td class="line-code">… module docstring, 6 lines</td></tr>');
+    expect(card).not.toContain("title: Treewidth");
+    expect(card).toContain("own docstring stays.");
+    expect(card).toMatch(/<tr class="statement-line line-proven"><td class="line-num">10<\/td>/);
+    expect(card).not.toContain('id="L');
+    expect(card).not.toContain('id="s-');
+    expect(html).not.toContain('id="L1"');
   });
 
   it("links the paper from the submission, concept, and proof pages", async () => {
     const root = tmpDir("lax-site-paper-links-");
     await generateSite(withPdf(archive()), root);
     const submission = fs.readFileSync(path.join(root, "lax-7", "index.html"), "utf8");
-    expect(submission).toContain('<h3 class="section-title">Paper</h3>');
-    expect(submission).toContain('<a class="source-button" href="paper.html">');
-    expect(submission).toContain('2 pages · 4 marked passages · <a href="paper.pdf">PDF</a>');
-    expect(submission).toContain('<a class="manuscript-index-link" href="paper.html#m2">');
-    expect(submission.indexOf('class="paper-abstract"')).toBeLessThan(submission.indexOf('<h3 class="section-title">Paper</h3>'));
-    expect(submission.indexOf('<h3 class="section-title">Paper</h3>')).toBeLessThan(submission.indexOf('<h3 class="section-title">Concepts</h3>'));
+    // one centered button after the abstract, the counts under it, no list of marks
+    expect(submission).toContain('<section class="page-section paper-cta">\n<a class="source-button paper-cta-button" href="paper.html"><span>View annotated paper</span></a>\n<p class="paper-cta-facts">2 pages · 4 marked passages</p>\n</section>');
+    expect(submission).not.toContain('manuscript-index-link');
+    expect(submission).not.toContain('In the paper'); // its own mention is the button
+    expect(submission.indexOf('class="paper-abstract"')).toBeLessThan(submission.indexOf('class="page-section paper-cta"'));
+    expect(submission.indexOf('class="page-section paper-cta"')).toBeLessThan(submission.indexOf('<h3 class="section-title">Concepts</h3>'));
     const concept = fs.readFileSync(path.join(root, "lax-7", "Lax7.Treewidth.html"), "utf8");
     expect(concept).toContain('<h3>In the paper</h3>');
     expect(concept).toContain('<li><a href="../lax-7/paper.html#m1">page 1</a> of this submission\'s paper</li>');
@@ -123,7 +151,7 @@ describe("paper pages", () => {
     const foreign = fs.readFileSync(path.join(root, "lax-3", "Lax3.Bags.html"), "utf8");
     expect(foreign).toContain('<li><a href="../lax-7/paper.html#m3">page 2</a> of the paper of <span class="submission-meta-id">lax-7</span>, A Spike Paper</li>');
     const marked = fs.readFileSync(path.join(root, "lax-3", "index.html"), "utf8");
-    expect(marked).not.toContain('<h3 class="section-title">Paper</h3>');
+    expect(marked).not.toContain('paper-cta');
     expect(marked).toContain('<a href="../lax-7/paper.html#m4">page 2</a> of the paper of');
   });
 
@@ -139,7 +167,7 @@ describe("paper pages", () => {
     expect(html).toContain('<ol class="manuscript-rail manuscript-rail-static">');
     expect(html).toContain('id="m4"');
     const submission = fs.readFileSync(path.join(root, "lax-7", "index.html"), "utf8");
-    expect(submission).toContain("2 pages · 4 marked passages</span>");
+    expect(submission).toContain("2 pages · 4 marked passages</p>");
     expect(submission).not.toContain('href="paper.pdf"');
   });
 

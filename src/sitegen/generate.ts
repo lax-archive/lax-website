@@ -44,7 +44,7 @@ export async function generateSite(submissions: SiteSubmission[], outDir: string
     // The paper page exists for every declared paper; the PDF beside it only
     // when the papers cache supplied the bytes (production, not previews).
     if (submission.output.paper) {
-      files.set(path.join(submission.record.id, "paper.html"), paperPage(context, submission));
+      files.set(path.join(submission.record.id, "paper.html"), await paperPage(context, submission));
       if (submission.paperFile)
         files.set(path.join(submission.record.id, "paper.pdf"), fs.readFileSync(submission.paperFile));
     }

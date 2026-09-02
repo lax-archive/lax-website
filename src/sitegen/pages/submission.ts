@@ -3,7 +3,7 @@ import { renderBibEntry } from "../bibtex.js";
 import { conceptGraph, graphDataScript, submissionGraph, type SubmissionGraphData } from "../graphs.js";
 import type { SiteSubmission } from "../model.js";
 import { discussion, pageReactions } from "./discussion.js";
-import { inPaperBlock, paperMarksIndex } from "./paper.js";
+import { inPaperBlock } from "./paper.js";
 import {
   bibtex,
   conceptBadgeLegend,
@@ -134,16 +134,17 @@ ${graphDataScript(graphs)}`;
   });
 }
 
-/** The paper section: where to read the compiled document beside its cards,
- * and what it marks. Below it, where *other* papers mark this submission. */
+/** The way into the annotated paper, right after the abstract: one
+ * centered button with the page and passage counts under it. Below,
+ * where *other* papers mark this submission. */
 function paperSection(ctx: PageContext, submission: SiteSubmission): string {
   const { record, output } = submission;
   const paper = output!.paper;
-  const mentions = inPaperBlock(ctx, record.id, record.id, "../");
+  const mentions = inPaperBlock(ctx, record.id, record.id, "../", { foreignOnly: true });
   if (!paper) return mentions;
-  return `<section class="page-section"><h3 class="section-title">Paper</h3>
-<p class="paper-section-lead"><a class="source-button" href="paper.html"><span>Read the paper with its cards</span></a> <span class="paper-section-facts">${plural(paper.pdf.pages, "page")} · ${plural(paper.marks.length, "marked passage")}${submission.paperFile ? ` · <a href="paper.pdf">PDF</a>` : ""}</span></p>
-${paperMarksIndex(ctx.model, submission, "../", "paper.html")}
+  return `<section class="page-section paper-cta">
+<a class="source-button paper-cta-button" href="paper.html"><span>View annotated paper</span></a>
+<p class="paper-cta-facts">${plural(paper.pdf.pages, "page")} · ${plural(paper.marks.length, "marked passage")}</p>
 </section>
 ${mentions}`;
 }

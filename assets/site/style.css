@@ -3469,7 +3469,7 @@ body.graph-window-open::after{
    The compiled PDF beside its cards. `manuscript-*` throughout; `paper-*`
    is the submission masthead. */
 
-#detail.detail-manuscript{ width: min(100%, 78em); }
+#detail.detail-manuscript{ width: min(100%, 114em); }
 
 .manuscript-heading .concept-id{ font-variant: small-caps; letter-spacing: 0.05em; }
 
@@ -3499,23 +3499,55 @@ body.graph-window-open::after{
   border-radius: var(--radius-control);
   background: var(--surface);
   font-size: 0.8rem;
+  max-width: 100%;
 }
 .manuscript-index-link{ display: inline-flex; align-items: center; gap: 0.3rem; color: var(--link); text-decoration: none; min-width: 0; }
 .manuscript-index-link:hover{ text-decoration: underline; }
 .manuscript-index-link .type-badge, .manuscript-index-link .proof-badge{ margin-right: 0; }
-.manuscript-index-name{ font-family: 'Latin Modern', Georgia, serif; }
+/* A long name breaks rather than pushing the chip past a phone's edge. */
+.manuscript-index-name{ font-family: 'Latin Modern', Georgia, serif; min-width: 0; overflow-wrap: anywhere; }
 .manuscript-index-item.kind-submission .manuscript-index-name{ font-family: var(--mono); font-size: 0.72rem; }
 .manuscript-index-origin, .manuscript-index-page{ color: var(--text-dim); font-size: 0.72rem; white-space: nowrap; }
 
+/* Always side by side: the pages keep a readable minimum width and the
+   rail gives way first, down to a card's worth; where the screen is
+   narrower than the two together the body scrolls sideways rather than
+   stacking. The padding keeps card shadows and outlines out of the clip. */
 .manuscript-body{
+  position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 1.25rem;
+  grid-template-columns: minmax(32rem, 1fr) minmax(24rem, min(40rem, 38%));
+  column-gap: 3rem;
   align-items: start;
+  overflow-x: auto;
+  padding: 0.25rem 0.6rem 0.6rem;
+  margin: -0.25rem -0.6rem 0;
 }
-@media (min-width: 1101px){
-  .manuscript-body{ grid-template-columns: minmax(0, 1fr) 20rem; }
+
+/* The gutter bands: one path per placed card, from the passage's shadow to
+   the whole card. Band and shadow share their fills and are both
+   multiplied onto what is under them, so they read as one ribbon. */
+.manuscript-links{
+  display: none;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 3;
+  overflow: visible;
+  mix-blend-mode: multiply;
 }
+.manuscript-links-live{ display: block; }
+.manuscript-link, .manuscript-hl-shadow{ fill: rgba(253, 216, 53, 0.22); stroke: none; transition: fill 150ms ease; }
+.manuscript-link.kind-proof, .manuscript-hl-shadow.kind-proof{ fill: rgba(59, 107, 154, 0.16); }
+.manuscript-link.kind-submission, .manuscript-hl-shadow.kind-submission{ fill: rgba(120, 120, 120, 0.14); }
+.manuscript-link-hover, .manuscript-link-active,
+.manuscript-hl-shadow.manuscript-hl-hover, .manuscript-hl-shadow.manuscript-hl-active{ fill: rgba(253, 216, 53, 0.4); }
+.manuscript-link-hover.kind-proof, .manuscript-link-active.kind-proof,
+.manuscript-hl-shadow.manuscript-hl-hover.kind-proof, .manuscript-hl-shadow.manuscript-hl-active.kind-proof{ fill: rgba(59, 107, 154, 0.3); }
+.manuscript-link-hover.kind-submission, .manuscript-link-active.kind-submission,
+.manuscript-hl-shadow.manuscript-hl-hover.kind-submission, .manuscript-hl-shadow.manuscript-hl-active.kind-submission{ fill: rgba(120, 120, 120, 0.28); }
 
 .manuscript-pages{ position: relative; min-width: 0; }
 .manuscript-page{
@@ -3529,19 +3561,36 @@ body.graph-window-open::after{
 }
 .manuscript-page canvas{ display: block; width: 100%; }
 .manuscript-page-rendered{ border-color: transparent; }
-.manuscript-hl-layer{ position: absolute; inset: 0; z-index: 2; pointer-events: none; }
-.manuscript-hl{
+/* Highlights: an SVG per page, multiplied onto the rendered canvas so the
+   text stays crisp. One flat region per passage and column over a lighter
+   shadow across the page's full width, which the gutter band continues. */
+.manuscript-hl-layer{
   position: absolute;
-  border-radius: 2px;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
   mix-blend-mode: multiply;
-  background: rgba(253, 216, 53, 0.42);
-  transition: outline-color 200ms ease;
-  outline: 1px solid transparent;
+  overflow: visible;
 }
-.manuscript-hl.kind-proof{ background: rgba(59, 107, 154, 0.26); }
-.manuscript-hl.kind-submission{ background: rgba(120, 120, 120, 0.22); }
-.manuscript-hl-active{ outline-color: rgba(43, 43, 43, 0.45); }
-.manuscript-hl-flash{ outline: 2px solid var(--accent); }
+.manuscript-hl{
+  fill: rgba(255, 226, 110, 0.55);
+  stroke: none;
+  transition: fill 150ms ease;
+}
+.manuscript-hl.kind-proof{ fill: rgba(170, 198, 230, 0.55); }
+.manuscript-hl.kind-submission{ fill: rgba(214, 214, 214, 0.6); }
+.manuscript-hl-hover{ fill: rgba(255, 220, 80, 0.7); }
+.manuscript-hl-hover.kind-proof{ fill: rgba(150, 185, 225, 0.7); }
+.manuscript-hl-hover.kind-submission{ fill: rgba(200, 200, 200, 0.75); }
+/* The open passage carries no outline; a flash is a moment of the hover fill. */
+.manuscript-hl-flash{ fill: rgba(255, 220, 80, 0.7); }
+.manuscript-hl-flash.kind-proof{ fill: rgba(150, 185, 225, 0.7); }
+.manuscript-hl-flash.kind-submission{ fill: rgba(200, 200, 200, 0.75); }
+.manuscript-hl-shadow.manuscript-hl-flash{ fill: rgba(253, 216, 53, 0.4); }
+.manuscript-hl-shadow.manuscript-hl-flash.kind-proof{ fill: rgba(59, 107, 154, 0.3); }
+.manuscript-hl-shadow.manuscript-hl-flash.kind-submission{ fill: rgba(120, 120, 120, 0.28); }
 
 /* The rail: a plain list until manuscript.js takes over, then cards sit at
    the y of their passages, pushed down where they would overlap. */
@@ -3562,7 +3611,7 @@ body.graph-window-open::after{
   cursor: pointer;
   transition: box-shadow 120ms ease;
 }
-.manuscript-card:hover{ box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12); }
+.manuscript-card:hover, .manuscript-card-hover{ box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12); }
 .manuscript-card:target{ outline: 2px solid var(--accent); outline-offset: 1px; }
 .manuscript-card-expanded{ box-shadow: 0 2px 10px rgba(0, 0, 0, 0.16); }
 .manuscript-card-head{ display: flex; align-items: center; gap: 0.4rem; min-width: 0; }
@@ -3596,6 +3645,7 @@ body.graph-window-open::after{
 }
 .manuscript-card-toggle:hover, .manuscript-card-toggle:focus-visible{ background: var(--accent-light); color: var(--accent); }
 .manuscript-card-expanded .manuscript-card-toggle{ transform: rotate(90deg); }
+.manuscript-card-pinned .manuscript-card-toggle{ color: var(--accent); }
 .manuscript-card-body{
   margin-top: 0.45rem;
   padding-top: 0.45rem;
@@ -3607,6 +3657,23 @@ body.graph-window-open::after{
 .manuscript-card-body .judgment-arrow{ font-size: 1.2rem; }
 .manuscript-card-title{ font-weight: 600; margin: 0 0 0.2rem; }
 .manuscript-card-claims{ list-style: none; margin: 0.3rem 0 0; padding: 0; display: flex; flex-direction: column; gap: 0.25rem; }
+/* The concept's Lean source under its description: the concept page's
+   table, smaller, long lines wrapped rather than scrolled, scrolling inside
+   the card past a screen's worth. */
+.manuscript-card-source{
+  margin-top: 0.5rem;
+  max-height: 26rem;
+  overflow: auto;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-control);
+  background: var(--code-bg);
+}
+.manuscript-card-source .inline-contract-wrap{ overflow: visible; }
+.manuscript-card-source .inline-contract-table{ font-size: 0.7rem; line-height: 1.55; }
+.manuscript-card-source .inline-contract-table .line-num{ width: 2.6rem; padding: 0 0.6rem 0 0.4rem; }
+.manuscript-card-source .inline-contract-table .line-code{ padding-right: 0.6rem; white-space: pre-wrap; overflow-wrap: anywhere; }
+.inline-contract-table tr.line-elided td{ color: var(--text-dim); font-style: italic; white-space: normal; }
+.inline-contract-table tr.line-elided .line-code{ padding: 0.15rem 0.6rem 0.15rem 0; }
 .manuscript-card.line-proven > .manuscript-card-head{ border-left: 3px solid var(--proven-border); padding-left: 0.35rem; margin-left: -0.55rem; }
 .manuscript-card.line-open > .manuscript-card-head{ border-left: 3px solid var(--partial-border); padding-left: 0.35rem; margin-left: -0.55rem; }
 .manuscript-card-unplaced{ opacity: 0.7; }
@@ -3616,8 +3683,11 @@ body.graph-window-open::after{
 .manuscript-status-failed{ color: var(--warn-fg); }
 .manuscript-ready .manuscript-status{ opacity: 0.7; }
 
-.paper-section-lead{ display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem 1rem; margin-bottom: 0.8rem; }
-.paper-section-facts{ color: var(--text-dim); font-size: 0.85rem; }
+/* The submission page's way into the annotated paper: one centered button,
+   the counts in grey under it. */
+.paper-cta{ display: flex; flex-direction: column; align-items: center; gap: 0.45rem; text-align: center; }
+.paper-cta-button{ padding: 0.55rem 1.1rem; font-size: 0.95rem; }
+.paper-cta-facts{ margin: 0; color: var(--text-dim); font-size: 0.85rem; }
 .in-paper-list{ list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.25rem; font-size: 0.9rem; }
 
 /* pdf.js text layer (from pdf.js's text_layer_builder.css, Apache-2.0):
