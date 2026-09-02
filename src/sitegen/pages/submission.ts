@@ -31,8 +31,8 @@ export function submissionPage(ctx: PageContext, submission: SiteSubmission): st
   const { record, output } = submission;
   const sidebar = submissionSidebar(ctx.model, submission, "../");
   if (!output) {
-    const content = `${versionHistoryPanel(ctx, record.id, "../", true)}${draftBanner(record.state)}
-${paperHeader(ctx.markdown, submission, "../", versionHistoryMetaButton(ctx, record.id))}
+    const content = `${draftBanner(record.state)}${paperHeader(ctx.markdown, submission, "../", versionHistoryMetaButton(ctx, record.id))}
+${versionHistoryPanel(ctx, record.id, "../", true)}
 ${pageReactions(`${record.id}/`, { kind: "submission" })}
 <p class="empty-note">No content uploaded yet. Run <code>lax build</code> and submit a draft.</p>
 ${discussion(`${record.id}/`)}`;
@@ -73,8 +73,8 @@ ${submissionMapLegend()}
 </figure>`
     : `<p class="empty-note">No other submission in the archive builds on this one, and this one builds on none.</p>`;
 
-  const content = `${versionHistoryPanel(ctx, record.id, "../", true)}${draftBanner(record.state)}
-${paperHeader(ctx.markdown, submission, "../", versionHistoryMetaButton(ctx, record.id))}
+  const content = `${draftBanner(record.state)}${paperHeader(ctx.markdown, submission, "../", versionHistoryMetaButton(ctx, record.id))}
+${versionHistoryPanel(ctx, record.id, "../", true)}
 ${pageReactions(`${record.id}/`, { kind: "submission" })}
 ${output.abstract.trim() ? paperAbstract(ctx.markdown.renderAuthorProse(output.abstract, "../")) : ""}
 <section class="page-section"><h3 class="section-title">Concepts</h3>
