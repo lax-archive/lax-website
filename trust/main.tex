@@ -1,14 +1,9 @@
 \documentclass[11pt,a4paper]{article}
 \usepackage[lmargin=1.0in,rmargin=1.0in,bottom=1.0in,top=1.0in,twoside=False]{geometry}
-\usepackage{mathtools}
 \usepackage{hchang}
 
-\let\proof\relax
-\let\endproof\relax
-\let\qedhere\relax
+%\usepackage{authblk}
 
-\usepackage{amsthm}
-%\usepackage{amsmath}
 \usepackage{graphicx}
 \usepackage{enumerate}
 \usepackage[scale=0.88]{FiraMono}
@@ -26,9 +21,10 @@
 \usepackage{enumitem}
 
 \usepackage{microtype}
-%\usepackage{amsfonts}
 \usepackage{comment}
+\usepackage{hyperref}
 \usepackage[capitalize,nameinlink]{cleveref}
+
 
 \renewcommand{\figurename}{Figure}
 \crefname{figure}{Figure}{Figures}
@@ -40,6 +36,30 @@
 \definecolor{LaxThmBackground}{HTML}{E8F5E8}
 \definecolor{LaxThmForeground}{HTML}{2D6A2D}
 \definecolor{LaxThmBorder}{HTML}{B8DAB8}
+
+\definecolor{orcidgray}{HTML}{A7A9AC}
+\definecolor{orcidgreen}{HTML}{A6CE39}
+
+\newcommand{\orcgray}[1]{\textcolor{orcidgray}{#1}}
+\newcommand{\idgreen}[1]{\textcolor{orcidgreen}{#1}}
+
+\newcommand{\ORCID}{%
+  \begingroup
+  \fontfamily{phv}\selectfont\bfseries
+  \scalebox{0.93}[1]{%
+    \textcolor{orcidgray}{ORC}%
+    \textcolor{orcidgreen}{%
+      \makebox[0.29em][c]{%
+        \ooalign{%
+          \hfil I\hfil\cr
+          \hfil\raisebox{0.79em}{\rule{0.15em}{0.15em}}\hfil\cr
+        }%
+      }%
+      D%
+    }%
+  }%
+  \endgroup
+}
 
 \DeclareRobustCommand{\laxthm}{%
   \tikz[baseline=(LaxTHM.base)]{%
@@ -85,6 +105,25 @@
 \newcommand{\bover}[1]{\accentset{\bullet}{#1}}
 \newcommand{\real}{\mathbb{R}}
 
+\nolinenumbers
+
+\usepackage{array}
+
+\author{%
+\begin{tabular}{@{}
+>{\centering\arraybackslash}p{0.28\textwidth}
+>{\centering\arraybackslash}p{0.28\textwidth}
+>{\centering\arraybackslash}p{0.28\textwidth}
+@{}}
+Édouard Bonnet & Jan Dreier & Clemens Kuske \\[0.3ex]
+{\small CNRS, ENS Lyon, LIP} &
+{\small TU Wien/HPI Postdam} &
+{\small TU Wien/HPI Postdam} \\
+{\small\href{mailto:edouard.bonnet@ens-lyon.fr}{edouard.bonnet@ens-lyon.fr}} &
+{\small\href{mailto:dreier@ac.tuwien.ac.at}{dreier@ac.tuwien.ac.at}} &
+{\small\href{mailto:mail@clemens-kuske.de}{mail@clemens-kuske.de}}
+\end{tabular}%
+}
 
 \title{Lax}
 
@@ -120,10 +159,10 @@ Lax does, however, expect that these claims (the \emph{concepts}, see next secti
 \section{What is a lax submission?}
 
 A lax submission is a~commit to a~public Git repository which contains appropriate files and folders.
-Rather than going through the whole specification, which can be consulted by humans and AI agents (for instance, by running `lax spec'), we highlight its salient features.
+Rather than going through the whole specification, which can be consulted by humans and AI agents, we highlight its salient features.
 
 A lax submission separates its Lean content in two folders, \emph{concepts} and \emph{proofs}.
-In the concepts folder, each Lean file has a~possibly empty list of definitions\footnote{introduced with the Lean keywords \textsf{def}, \textsf{structure}, \textsf{inductive}, \textsf{abbrev}, etc.} and at most one statement introduced as an axiom.
+In the concepts folder, each Lean file has a~possibly empty list of definitions\footnote{introduced with the Lean keywords \textsf{def}, \textsf{structure}, \textsf{inductive}, \textsf{abbrev}, etc.} and a~possibly empty list of statements, each introduced as an axiom.
 The content of the concepts folder is semantically closed: Every declaration in the concepts folder depends only on declarations from that folder and from Mathlib.
 In the proofs folder, Lean files are unconstrained.
 In a~typical submission, every axiom declared in the concept files is restated in the proofs folder as a~theorem and proven (under the basic Lean axioms propext, Quot.sound, Classical.choice).
@@ -148,11 +187,11 @@ Lax submissions can reuse and build on past permanent entries.
 \section{Why use lax?}
 
 The starting point is that you are already convinced of the benefits of having results you care about formalized.
-In 2026, frontier AI agents unlocked the ability of fully autonomously translating natural-language proofs, however long they were, into Lean.
+In 2026, frontier AI agents unlocked the ability of fully autonomously translating natural-language proofs, however long they are, into Lean.
 Consequently, at a~small (and ever smaller) cost, after telling an agent which result to formalize, you may return to the session later and find the requested proof completed.
 
 Once you thus get a~Lean proof of, say, your latest result, why make the additional effort of submitting it to lax?
-Why? Because, this way, your work
+Because, this way, your work
 \begin{itemize}
 \item is \textbf{more visible}: now a~searchable platform (attracting a~growing community) points to it.
 \item is \textbf{more legible}: the presentation work is automated away by the submission guidelines, the submitting agent, and the website.
@@ -187,7 +226,7 @@ Even if you happen to know the submitter, the Lean code (likely written by an AI
 In most submissions, you should easily be able to tell that the concept files are harmless.
 Not to complicate the submission process, at this early stage, the pipeline does nothing to guarantee that.
 Future versions of lax might restrict the concept files to a~safe Lean dialect.
-The next important feature that we will add to the website is the option to vouch that a~declaration is formalized correctly, that is, faithful to the mathematical intent.
+Users, logged in via \ORCID, can vouch that a~declaration is formalized correctly, that is, faithful to the mathematical intent, or flag a~possible gap (and elaborate in the comment section).
 
 \section{How is lax built?}
 
@@ -324,5 +363,8 @@ Here is a~simplified diagram of the lax suite:
 
 If you are interested in lax, please submit your formalized proofs, review concept files (when that feature is available), talk about the project around you, or reach out to us with comments, inquiries, or suggestions.
 We are curious to know what you think that we should do next.
+
+\bibliographystyle{plain}
+\bibliography{main}
 
 \end{document}
