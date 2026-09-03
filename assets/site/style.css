@@ -1996,6 +1996,128 @@ body{
 
 .landing-open-problems-link b{ color: var(--link); font-size: 0.82rem; }
 
+/* The FAQ is intentionally a native disclosure list: it works without
+   JavaScript and exposes its expanded state to assistive technology. */
+.landing-faq{
+  max-width: 52em;
+  margin: 3.4rem auto 1rem;
+  scroll-margin-top: calc(var(--header-height) + 1rem);
+}
+
+.landing-faq-heading{
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(16rem, 0.72fr);
+  gap: 0.25rem 2rem;
+  align-items: end;
+  margin-bottom: 1.25rem;
+}
+
+.landing-faq-heading .landing-action-eyebrow{ grid-column: 1 / -1; }
+
+#detail .landing-faq-heading h2{
+  margin: 0;
+  font-size: clamp(1.55rem, 3vw, 2rem);
+  line-height: 1.18;
+  letter-spacing: 0.01em;
+}
+
+.landing-faq-introduction{
+  color: var(--text-dim);
+  font-size: 0.94rem;
+  line-height: 1.5;
+}
+
+.landing-faq-introduction p,
+.landing-faq-answer p:last-child{ margin-bottom: 0; }
+
+.landing-faq-list{
+  overflow: hidden;
+  padding: 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius-card) + 3px);
+  box-shadow: 0 12px 32px rgba(43, 43, 43, 0.055);
+  list-style: none;
+}
+
+.landing-faq-list-item + .landing-faq-list-item{ border-top: 1px solid var(--border-light); }
+
+.landing-faq-item summary{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 4.6rem;
+  padding: 1rem 1.15rem;
+  list-style: none;
+  color: var(--text);
+  cursor: pointer;
+  transition: background 140ms ease, color 140ms ease;
+}
+
+.landing-faq-item summary::-webkit-details-marker{ display: none; }
+
+.landing-faq-item summary:hover,
+.landing-faq-item summary:focus-visible{
+  color: var(--accent);
+  background: linear-gradient(90deg, var(--surface), var(--accent-light));
+  outline: none;
+}
+
+.landing-faq-item summary:focus-visible{ box-shadow: inset 3px 0 var(--accent); }
+
+.landing-faq-question{
+  display: grid;
+  grid-template-columns: 2rem minmax(0, 1fr);
+  align-items: baseline;
+  gap: 0.65rem;
+  min-width: 0;
+  font-size: 1.04rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.landing-faq-number{
+  color: var(--text-dim);
+  font: 600 0.66rem/1 var(--mono);
+  letter-spacing: 0.06em;
+}
+
+.landing-faq-toggle{
+  position: relative;
+  width: 1.65rem;
+  height: 1.65rem;
+  flex: 0 0 1.65rem;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: var(--panel-bg);
+}
+
+.landing-faq-toggle::before,
+.landing-faq-toggle::after{
+  content: '';
+  position: absolute;
+  inset: 50% auto auto 50%;
+  width: 0.62rem;
+  height: 1px;
+  background: currentColor;
+  transform: translate(-50%, -50%);
+  transition: transform 160ms ease;
+}
+
+.landing-faq-toggle::after{ transform: translate(-50%, -50%) rotate(90deg); }
+.landing-faq-item[open] .landing-faq-toggle::after{ transform: translate(-50%, -50%) rotate(0); }
+
+.landing-faq-answer{
+  padding: 0 4.55rem 1.25rem 3.8rem;
+  color: #4f5966;
+  font-size: 0.96rem;
+  line-height: 1.62;
+}
+
+.landing-faq-answer p{ margin-bottom: 0.72rem; }
+.landing-faq-answer a{ color: var(--link); text-underline-offset: 0.16em; }
+
 .stats-line{
   font-variant: small-caps;
   letter-spacing: 0.04em;
@@ -3398,6 +3520,12 @@ body.graph-window-open::after{
   .landing-action-hint,
   .landing-action-status{ opacity: 1; transform: none; }
   .landing-action-panel{ padding: 1rem; }
+  .landing-faq{ margin-top: 2.7rem; }
+  .landing-faq-heading{ display: block; }
+  .landing-faq-introduction{ margin-top: 0.45rem; }
+  .landing-faq-item summary{ min-height: 4.2rem; padding: 0.9rem 0.85rem; }
+  .landing-faq-question{ grid-template-columns: 1.55rem minmax(0, 1fr); gap: 0.35rem; font-size: 0.98rem; }
+  .landing-faq-answer{ padding: 0 3.65rem 1rem 2.75rem; font-size: 0.92rem; }
   .tag-browser-heading{ display: block; }
   .tag-browser-heading p{ margin-top: 0.18rem; text-align: left; }
   .landing-open-problems-link{ align-items: flex-start; flex-direction: column; gap: 0.35rem; }
@@ -3427,7 +3555,9 @@ body.graph-window-open::after{
   .landing-action-card,
   .landing-action-hint,
   .landing-action-status,
-  .landing-action-panel{ animation: none; transition: none; }
+  .landing-action-panel,
+  .landing-faq-item summary,
+  .landing-faq-toggle::after{ animation: none; transition: none; }
 }
 
 /* ── Paper (manuscript) page ──

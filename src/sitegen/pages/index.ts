@@ -11,6 +11,7 @@ import {
 import { collectOpenProblems } from "./open-problems.js";
 
 interface LandingAction { id: string; title: string; description: string }
+interface LandingFaq { question: string; answer: string }
 
 const ACTION_HEADING = "\n## What you can do here\n";
 const SUBMIT_HEADING = "\n## Creating your own submission\n";
@@ -123,6 +124,50 @@ function landingCopy(source: string): {
   };
 }
 
+function landingFaqCopy(source: string): {
+  title: string;
+  introduction: string;
+  items: LandingFaq[];
+} {
+  const chunks = source.trim().split(/\n(?=## )/);
+  const heading = /^# ([^\n]+)\n+([\s\S]*)$/.exec(chunks.shift() ?? "");
+  if (!heading) throw new Error("faq.md must start with a title and introduction");
+
+  const items = chunks.map((chunk) => {
+    const match = /^## ([^\n]+)\n+([\s\S]+)$/.exec(chunk.trim());
+    if (!match) throw new Error(`invalid FAQ entry: ${chunk}`);
+    return { question: match[1]!.trim(), answer: match[2]!.trim() };
+  });
+  if (!items.length) throw new Error("faq.md must contain at least one question");
+
+  return {
+    title: heading[1]!.trim(),
+    introduction: heading[2]!.trim(),
+    items,
+  };
+}
+
+function landingFaq(source: string, markdown: PageContext["markdown"]): string {
+  const faq = landingFaqCopy(source);
+  const items = faq.items.map(({ question, answer }, index) => `<li class="landing-faq-list-item"><details class="landing-faq-item">
+<summary><span class="landing-faq-question"><span class="landing-faq-number" aria-hidden="true">${String(index + 1).padStart(2, "0")}</span><span>${esc(question)}</span></span><span class="landing-faq-toggle" aria-hidden="true"></span></summary>
+<div class="landing-faq-answer latex-content">
+${markdown.render(answer, "")}
+</div>
+</details></li>`).join("\n");
+
+  return `<section class="landing-faq" id="faq" aria-labelledby="landing-faq-heading">
+<header class="landing-faq-heading">
+<p class="landing-action-eyebrow">About Lax</p>
+<h2 id="landing-faq-heading">${esc(faq.title)}</h2>
+<div class="landing-faq-introduction latex-content">${markdown.render(faq.introduction, "")}</div>
+</header>
+<ol class="landing-faq-list">
+${items}
+</ol>
+</section>`;
+}
+
 function actionCard(action: LandingAction, available: boolean, href?: string): string {
   const heading = `<span class="landing-action-title">${esc(action.title)}.</span>`;
   const copy = `<span class="landing-action-copy">${esc(action.description)}</span>`;
@@ -180,6 +225,7 @@ ${authors ? `<span class="submissions-list-meta"><span class="formalized-label">
 </a></li>`;
   });
   const landing = landingCopy(contentMarkdown("landing.md").trim());
+  const faq = landingFaq(contentMarkdown("faq.md"), markdown);
   const demo = await landingDemo();
   const actionOrder = ["read", "review", "submit", "cite"];
   const reviewConcepts = concepts
@@ -293,7 +339,8 @@ ${library}
 ${review}
 ${proofObligations}
 </div>
-</section>`;
+</section>
+${faq}`;
   return page({
     title: "Lax Lean Archive",
     rootRel: "",
