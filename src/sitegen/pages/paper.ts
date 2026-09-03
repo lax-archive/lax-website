@@ -313,7 +313,7 @@ ${cards.join("\n")}
 <h1 class="concept-title">${title}</h1>
 <p class="concept-microline">${facts}</p></div>
 </div>
-<section class="manuscript-index-section"><h3 class="manuscript-index-heading">Marked in this paper</h3>
+<section class="manuscript-index-section" aria-label="Marked in this paper">
 ${paperMarksIndex(ctx.model, submission, "../", "")}
 </section>
 ${body}

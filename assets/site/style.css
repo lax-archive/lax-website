@@ -3439,14 +3439,6 @@ body.graph-window-open::after{
 .manuscript-heading .concept-id{ font-variant: small-caps; letter-spacing: 0.05em; }
 
 .manuscript-index-section{ margin: 0 0 1.4rem; }
-.manuscript-index-heading{
-  font-size: 0.85rem;
-  font-weight: 700;
-  font-variant: small-caps;
-  color: var(--text-dim);
-  letter-spacing: 0.05em;
-  margin-bottom: 0.4rem;
-}
 .manuscript-index{
   list-style: none;
   display: flex;
@@ -3478,6 +3470,9 @@ body.graph-window-open::after{
    rail gives way first, down to a card's worth; where the screen is
    narrower than the two together the body scrolls sideways rather than
    stacking. The padding keeps card shadows and outlines out of the clip. */
+/* `display: grid` would otherwise beat the `hidden` attribute the view
+   toggle sets, leaving both surfaces on the page at once. */
+.manuscript-body[hidden]{ display: none; }
 .manuscript-body{
   position: relative;
   display: grid;
@@ -3670,6 +3665,10 @@ body.graph-window-open::after{
   border-color: var(--accent);
   background: var(--accent-light);
 }
+/* The reflow body keeps room on the left for the passages' shadows, which
+   run a margin beyond the text column on both sides (the PDF page's own
+   margins do this on the printed surface). */
+.manuscript-reflow-body{ padding-left: 1.2rem; margin-left: -1.2rem; }
 .manuscript-reflow-doc{ min-width: 0; position: relative; }
 .latex-block{ position: relative; min-width: 0; }
 .latex-block svg{ max-width: none; }
