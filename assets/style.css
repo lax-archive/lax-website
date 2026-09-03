@@ -2001,7 +2001,8 @@ body{
 .landing-faq{
   overflow: hidden;
   max-width: 52em;
-  margin: 3.4rem auto 1rem;
+  width: 100%;
+  margin: 0;
   padding-top: 1.05rem;
   background: var(--panel-bg);
   border: 1px solid var(--border);
@@ -3522,7 +3523,7 @@ body.graph-window-open::after{
   .landing-action-hint,
   .landing-action-status{ opacity: 1; transform: none; }
   .landing-action-panel{ padding: 1rem; }
-  .landing-faq{ margin-top: 2.7rem; padding-top: 0.9rem; }
+  .landing-faq{ padding-top: 0.9rem; }
   .landing-faq-heading{ padding: 0 0.85rem 0.7rem; }
   .landing-faq-item summary{ min-height: 3.1rem; padding: 0.5rem 0.65rem; }
   .landing-faq-question{ grid-template-columns: 1.15rem minmax(0, 1fr); gap: 0.2rem; font-size: 0.82rem; }
