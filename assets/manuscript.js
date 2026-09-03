@@ -526,10 +526,5 @@
     setStatus(`The paper could not be shown here (${error && error.message ? error.message : error}). Download the PDF instead.`, true);
     root.classList.add('manuscript-failed');
   });
-  // On a page with a reflow surface the PDF is the secondary, "as printed"
-  // view: don't fetch it (or the pdf.js worker) until the reader switches to
-  // it. The view toggle in manuscript-reflow.js unhides the surface first,
-  // then fires this event, so the first layout measures real widths.
-  if ('pdfDeferred' in root.dataset) document.addEventListener('lax:show-pdf', start, { once: true });
-  else start();
+  start();
 })();
