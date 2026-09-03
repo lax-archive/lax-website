@@ -1,5 +1,5 @@
-// Landing-page action cards scroll to their always-visible sections and keep
-// shareable ?view= URLs in sync.
+// Landing-page action buttons scroll to their always-visible sections and keep
+// shareable ?view= URLs in sync. The Cite card is a regular cross-page link.
 (() => {
   const RESET_DELAY = 2200;
 
@@ -97,7 +97,7 @@
       });
     }
 
-    for (const view of views.filter((candidate) => !candidate.dataset.landingAction)) {
+    for (const view of views.filter((candidate) => candidate.getAttribute('aria-disabled') === 'true')) {
       const selectUnavailable = () => selectView(view.dataset.landingView, true);
       view.addEventListener('click', selectUnavailable);
       view.addEventListener('keydown', (event) => {

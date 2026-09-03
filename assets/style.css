@@ -1836,10 +1836,10 @@ body{
   transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
 }
 
-.landing-action-card:is(button){ cursor: pointer; }
+.landing-action-card:is(button, a){ cursor: pointer; text-decoration: none; }
 
-.landing-action-card:is(button):hover,
-.landing-action-card:is(button):focus-visible{
+.landing-action-card:is(button, a):hover,
+.landing-action-card:is(button, a):focus-visible{
   transform: translateY(-3px);
   border-color: var(--accent);
   box-shadow: 0 8px 22px rgba(44, 95, 138, 0.12);
@@ -1847,7 +1847,7 @@ body{
   outline: none;
 }
 
-.landing-action-card:is(button):focus-visible{ box-shadow: 0 0 0 3px rgba(59, 107, 154, 0.18), 0 8px 22px rgba(44, 95, 138, 0.12); }
+.landing-action-card:is(button, a):focus-visible{ box-shadow: 0 0 0 3px rgba(59, 107, 154, 0.18), 0 8px 22px rgba(44, 95, 138, 0.12); }
 
 .landing-action-title{
   font-size: 1.25rem;
@@ -1873,8 +1873,8 @@ body{
   transition: opacity 140ms ease, transform 140ms ease;
 }
 
-.landing-action-card:is(button):hover .landing-action-hint,
-.landing-action-card:is(button):focus-visible .landing-action-hint,
+.landing-action-card:is(button, a):hover .landing-action-hint,
+.landing-action-card:is(button, a):focus-visible .landing-action-hint,
 .landing-action-card.unavailable:hover .landing-action-status,
 .landing-action-card.unavailable:focus-visible .landing-action-status{
   opacity: 1;
