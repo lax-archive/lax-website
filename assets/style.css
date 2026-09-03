@@ -2047,8 +2047,8 @@ body{
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  min-height: 4.6rem;
-  padding: 1rem 1.15rem;
+  min-height: 4rem;
+  padding: 0.78rem 1.05rem;
   list-style: none;
   color: var(--text);
   cursor: pointer;
@@ -2068,26 +2068,26 @@ body{
 
 .landing-faq-question{
   display: grid;
-  grid-template-columns: 2rem minmax(0, 1fr);
+  grid-template-columns: 1.75rem minmax(0, 1fr);
   align-items: baseline;
-  gap: 0.65rem;
+  gap: 0.5rem;
   min-width: 0;
-  font-size: 1.04rem;
-  font-weight: 700;
-  line-height: 1.35;
+  font-size: 0.94rem;
+  font-weight: 600;
+  line-height: 1.38;
 }
 
 .landing-faq-number{
   color: var(--text-dim);
-  font: 600 0.66rem/1 var(--mono);
+  font: 600 0.62rem/1 var(--mono);
   letter-spacing: 0.06em;
 }
 
 .landing-faq-toggle{
   position: relative;
-  width: 1.65rem;
-  height: 1.65rem;
-  flex: 0 0 1.65rem;
+  width: 1.45rem;
+  height: 1.45rem;
+  flex: 0 0 1.45rem;
   border: 1px solid var(--border);
   border-radius: 50%;
   background: var(--panel-bg);
@@ -2098,7 +2098,7 @@ body{
   content: '';
   position: absolute;
   inset: 50% auto auto 50%;
-  width: 0.62rem;
+  width: 0.54rem;
   height: 1px;
   background: currentColor;
   transform: translate(-50%, -50%);
@@ -2109,7 +2109,7 @@ body{
 .landing-faq-item[open] .landing-faq-toggle::after{ transform: translate(-50%, -50%) rotate(0); }
 
 .landing-faq-answer{
-  padding: 0 4.55rem 1.25rem 3.8rem;
+  padding: 0 4.1rem 1.05rem 3.3rem;
   color: #4f5966;
   font-size: 0.96rem;
   line-height: 1.62;
@@ -3533,9 +3533,9 @@ body.graph-window-open::after{
   .landing-faq{ margin-top: 2.7rem; }
   .landing-faq-heading{ display: block; }
   .landing-faq-introduction{ margin-top: 0.45rem; }
-  .landing-faq-item summary{ min-height: 4.2rem; padding: 0.9rem 0.85rem; }
-  .landing-faq-question{ grid-template-columns: 1.55rem minmax(0, 1fr); gap: 0.35rem; font-size: 0.98rem; }
-  .landing-faq-answer{ padding: 0 3.65rem 1rem 2.75rem; font-size: 0.92rem; }
+  .landing-faq-item summary{ min-height: 3.7rem; padding: 0.68rem 0.75rem; }
+  .landing-faq-question{ grid-template-columns: 1.35rem minmax(0, 1fr); gap: 0.3rem; font-size: 0.9rem; }
+  .landing-faq-answer{ padding: 0 3.2rem 0.9rem 2.4rem; font-size: 0.92rem; }
   .tag-browser-heading{ display: block; }
   .tag-browser-heading p{ margin-top: 0.18rem; text-align: left; }
   .landing-open-problems-link{ align-items: flex-start; flex-direction: column; gap: 0.35rem; }
