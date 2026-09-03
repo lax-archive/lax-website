@@ -156,6 +156,7 @@ ${markdown.render(answer, "")}
 
   return `<section class="landing-faq" id="faq" aria-labelledby="landing-faq-heading">
 <header class="landing-faq-heading">
+<p class="landing-action-eyebrow">About Lax</p>
 <h2 id="landing-faq-heading">${esc(faq.title)}</h2>
 </header>
 <ol class="landing-faq-list">

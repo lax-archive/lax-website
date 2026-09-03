@@ -2028,7 +2028,7 @@ body{
   padding: 0;
   background: var(--surface);
   border: 0;
-  border-top: 1px solid var(--border);
+  border-top: 1px solid var(--border-light);
   list-style: none;
 }
 
@@ -2103,7 +2103,7 @@ body{
 .landing-faq-answer{
   padding: 0 3.45rem 0.9rem 2.55rem;
   color: #4f5966;
-  font-size: 0.88rem;
+  font-size: 0.94rem;
   line-height: 1.62;
 }
 
@@ -3526,7 +3526,7 @@ body.graph-window-open::after{
   .landing-faq-heading{ padding: 0 0.85rem 0.7rem; }
   .landing-faq-item summary{ min-height: 3.1rem; padding: 0.5rem 0.65rem; }
   .landing-faq-question{ grid-template-columns: 1.15rem minmax(0, 1fr); gap: 0.2rem; font-size: 0.82rem; }
-  .landing-faq-answer{ padding: 0 2.75rem 0.8rem 2rem; font-size: 0.86rem; }
+  .landing-faq-answer{ padding: 0 2.75rem 0.8rem 2rem; font-size: 0.9rem; }
   .tag-browser-heading{ display: block; }
   .tag-browser-heading p{ margin-top: 0.18rem; text-align: left; }
   .landing-open-problems-link{ align-items: flex-start; flex-direction: column; gap: 0.35rem; }
