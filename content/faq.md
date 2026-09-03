@@ -1,7 +1,4 @@
-# Frequently asked questions
-
-Short answers about submissions, peer review, compatibility, and how Lax fits
-into the formalization ecosystem.
+# FAQ
 
 ## How does Lax relate to projects such as Merely True and Tau Ceti?
 

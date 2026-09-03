@@ -126,12 +126,11 @@ function landingCopy(source: string): {
 
 function landingFaqCopy(source: string): {
   title: string;
-  introduction: string;
   items: LandingFaq[];
 } {
   const chunks = source.trim().split(/\n(?=## )/);
-  const heading = /^# ([^\n]+)\n+([\s\S]*)$/.exec(chunks.shift() ?? "");
-  if (!heading) throw new Error("faq.md must start with a title and introduction");
+  const heading = /^# ([^\n]+)$/.exec((chunks.shift() ?? "").trim());
+  if (!heading) throw new Error("faq.md must start with a title");
 
   const items = chunks.map((chunk) => {
     const match = /^## ([^\n]+)\n+([\s\S]+)$/.exec(chunk.trim());
@@ -142,7 +141,6 @@ function landingFaqCopy(source: string): {
 
   return {
     title: heading[1]!.trim(),
-    introduction: heading[2]!.trim(),
     items,
   };
 }
@@ -158,9 +156,7 @@ ${markdown.render(answer, "")}
 
   return `<section class="landing-faq" id="faq" aria-labelledby="landing-faq-heading">
 <header class="landing-faq-heading">
-<p class="landing-action-eyebrow">About Lax</p>
 <h2 id="landing-faq-heading">${esc(faq.title)}</h2>
-<div class="landing-faq-introduction latex-content">${markdown.render(faq.introduction, "")}</div>
 </header>
 <ol class="landing-faq-list">
 ${items}
