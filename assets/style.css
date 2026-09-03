@@ -3683,6 +3683,48 @@ body.graph-window-open::after{
 .manuscript-status-failed{ color: var(--warn-fg); }
 .manuscript-ready .manuscript-status{ opacity: 0.7; }
 
+/* ── The reflow surface ──
+   The vendored ReflowTeX viewer paints the paper as SVG text at the
+   reader's width; the cards rail and gutter bands reuse the manuscript
+   vocabulary above, joined on the viewer's `.latex-anchor` elements by
+   manuscript-reflow.js. */
+.manuscript-view-switch{ display: flex; gap: 0.4rem; margin: 0 0 0.9rem; }
+.manuscript-view-button{
+  appearance: none;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-control);
+  background: none;
+  color: var(--text-dim);
+  font-size: 0.78rem;
+  padding: 0.3rem 0.7rem;
+  cursor: pointer;
+}
+.manuscript-view-button:hover{ color: var(--accent); border-color: var(--accent); }
+.manuscript-view-button[aria-pressed="true"]{
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--accent-light);
+}
+.manuscript-reflow-doc{ min-width: 0; position: relative; }
+.latex-block{ position: relative; min-width: 0; }
+.latex-block svg{ max-width: none; }
+/* The viewer pads an overflowing display's wrapper by its measured ink
+   overhang; the scroll box itself only needs the horizontal axis. */
+.latex-display{ overflow-x: auto; }
+/* Zero-size, invisible; a deep link lands the passage below the sticky
+   header. The viewer positions in-paragraph anchors absolutely itself. */
+.latex-anchor{ display: block; width: 0; height: 0; scroll-margin-top: 7rem; }
+/* The AGPL §13 source offer for the viewer running in this page. */
+.manuscript-reflow-notice{
+  margin: 3rem auto 0.75rem;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  text-align: center;
+  color: var(--text-dim);
+  opacity: 0.75;
+}
+.manuscript-reflow-notice a{ color: inherit; }
+
 /* The submission page's way into the annotated paper: one centered button,
    the counts in grey under it. */
 .paper-cta{ display: flex; flex-direction: column; align-items: center; gap: 0.45rem; text-align: center; }
