@@ -124,9 +124,9 @@ word length, given any graph in compressed sparse row form as a word
 <em>c</em>(|x|+1) steps with the labels of all vertices, in vertex order, as
 its output.</p>
 </div></div>
-<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/adeee8fcd52a11c46077d34657feaf48f2df7dae/ram-linear-time/concepts/Lax11/ConnectedComponents.lean">view on GitHub</a></h3>
+<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/a41a8de28c0b3e3a604ae9adb16117949f948184/ram-linear-time/concepts/Lax11/ConnectedComponents.lean">view on GitHub</a></h3>
 <div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
-<tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax13.RamComputes</span></td></tr>
+<tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax67.RamComputes</span></td></tr>
 <tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax11.GraphEncoding</span></td></tr>
 <tr id="L3" class=""><td class="line-num"><a href="#L3">3</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Combinatorics.SimpleGraph.Connectivity.Connected</span></td></tr>
 <tr id="L4" class=""><td class="line-num"><a href="#L4">4</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Data.Nat.Lattice</span></td></tr>
@@ -201,7 +201,7 @@ its output.</p>
 <tr id="L73" class=""><td class="line-num"><a href="#L73">73</a></td><td class="line-code"> </td></tr>
 <tr id="L74" class=""><td class="line-num"><a href="#L74">74</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax11.ConnectedComponents</span></td></tr>
 <tr id="L75" class=""><td class="line-num"><a href="#L75">75</a></td><td class="line-code"> </td></tr>
-<tr id="L76" class=""><td class="line-num"><a href="#L76">76</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax13.Ram Lax13.RamComputes Lax11.GraphEncoding</span></td></tr>
+<tr id="L76" class=""><td class="line-num"><a href="#L76">76</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax67.Ram Lax67.RamComputes Lax11.GraphEncoding</span></td></tr>
 <tr id="L77" class=""><td class="line-num"><a href="#L77">77</a></td><td class="line-code"> </td></tr>
 <tr id="L78" class=""><td class="line-num"><a href="#L78">78</a></td><td class="line-code"><span style="color:#6A737D">/-- The label of a vertex: the least vertex of its connected</span></td></tr>
 <tr id="L79" class=""><td class="line-num"><a href="#L79">79</a></td><td class="line-code"><span style="color:#6A737D">component. -/</span></td></tr>
@@ -225,7 +225,7 @@ its output.</p>
 <tr id="L97" class=""><td class="line-num"><a href="#L97">97</a></td><td class="line-code"> </td></tr>
 <tr id="L98" class=""><td class="line-num"><a href="#L98">98</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax11.ConnectedComponents</span></td></tr>
 <tr id="L99" class=""><td class="line-num"><a href="#L99">99</a></td><td class="line-code"> </td></tr>
-</table></div><span class="source-proof-rail" data-source-line="L93" aria-label="Proof links"><a class="statement-proof-button" href="https://github.com/lax-archive/lax-submissions/blob/adeee8fcd52a11c46077d34657feaf48f2df7dae/ram-linear-time/proofs/Lax11Proofs/CCMain.lean" aria-label="View proof Lax11Proofs.CCMain.exists_linearTime_program_ccLabels on GitHub" title="Lax11Proofs.CCMain.exists_linearTime_program_ccLabels"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">Show Proof</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a></span><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
+</table></div><span class="source-proof-rail" data-source-line="L93" aria-label="Proof links"><a class="statement-proof-button" href="https://github.com/lax-archive/lax-submissions/blob/a41a8de28c0b3e3a604ae9adb16117949f948184/ram-linear-time/proofs/Lax11Proofs/CCMain.lean" aria-label="View proof Lax11Proofs.CCMain.exists_linearTime_program_ccLabels on GitHub" title="Lax11Proofs.CCMain.exists_linearTime_program_ccLabels"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">Show Proof</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a></span><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
 <div class="block"><h3>Formalization notes</h3><div class="latex-content"><p>Labelling a vertex by the least vertex reachable from it makes the
 output a <em>function</em> of the graph, so the statement is about computing a
 function and needs no convention for choosing representatives. Any
@@ -273,7 +273,7 @@ arbitrarily on words that encode nothing, and on words too long for its
 word length.</p>
 </div></div>
 <div class="block"><div class="deps-columns">
-<div class="deps-col"><h3>Builds on</h3><ul class="deps-list"><li><a href="../lax-11/Lax11.GraphEncoding.html"><code>Lax11.GraphEncoding</code></a></li><li><a href="../lax-13/Lax13.RamComputes.html"><code>Lax13.RamComputes</code></a></li></ul></div>
+<div class="deps-col"><h3>Builds on</h3><ul class="deps-list"><li><a href="../lax-11/Lax11.GraphEncoding.html"><code>Lax11.GraphEncoding</code></a></li><li><a href="../lax-67/Lax67.RamComputes.html"><code>Lax67.RamComputes</code></a></li></ul></div>
 <div class="deps-col"><h3>Used by</h3><p class="empty-note">none</p></div>
 <div class="deps-col"><h3>From Mathlib</h3><ul class="deps-list"><li><a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Connectivity/Connected.html"><code>Mathlib.Combinatorics.SimpleGraph.Connectivity.Connected</code></a></li><li><a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/Nat/Lattice.html"><code>Mathlib.Data.Nat.Lattice</code></a></li></ul></div>
 </div></div>
@@ -292,7 +292,7 @@ word length.</p>
 </div>
 <noscript><p class="discussion-unavailable">Enable JavaScript to read or join the discussion.</p></noscript>
 </section>
-<script type="application/json" id="graph-data">{"concepts":{"nodes":[{"id":"Lax11.ConnectedComponents","href":"../lax-11/Lax11.ConnectedComponents.html","title":"Connected components in linear time","owner":"lax-11","status":"proven","ext":false,"dir":"core"},{"id":"Lax11.GraphEncoding","href":"../lax-11/Lax11.GraphEncoding.html","title":"Compressed sparse row encoding of a graph","owner":"lax-11","status":"none","ext":true,"dir":"up"},{"id":"Lax13.Ram","href":"../lax-13/Lax13.Ram.html","title":"The word RAM","owner":"lax-13","status":"none","ext":true,"dir":"up"},{"id":"Lax13.RamComputes","href":"../lax-13/Lax13.RamComputes.html","title":"Computing a function within a time bound","owner":"lax-13","status":"none","ext":true,"dir":"up"}],"edges":[{"from":"Lax11.GraphEncoding","to":"Lax11.ConnectedComponents"},{"from":"Lax13.RamComputes","to":"Lax11.ConnectedComponents"},{"from":"Lax13.Ram","to":"Lax13.RamComputes"}],"home":"lax-11"},"proofs":{"statements":[],"proofs":[]}}</script>
+<script type="application/json" id="graph-data">{"concepts":{"nodes":[{"id":"Lax11.ConnectedComponents","href":"../lax-11/Lax11.ConnectedComponents.html","title":"Connected components in linear time","owner":"lax-11","status":"proven","ext":false,"dir":"core"},{"id":"Lax11.GraphEncoding","href":"../lax-11/Lax11.GraphEncoding.html","title":"Compressed sparse row encoding of a graph","owner":"lax-11","status":"none","ext":true,"dir":"up"},{"id":"Lax67.Ram","href":"../lax-67/Lax67.Ram.html","title":"The word RAM","owner":"lax-67","status":"none","ext":true,"dir":"up"},{"id":"Lax67.RamComputes","href":"../lax-67/Lax67.RamComputes.html","title":"Computing a function within a time bound","owner":"lax-67","status":"none","ext":true,"dir":"up"}],"edges":[{"from":"Lax11.GraphEncoding","to":"Lax11.ConnectedComponents"},{"from":"Lax67.RamComputes","to":"Lax11.ConnectedComponents"},{"from":"Lax67.Ram","to":"Lax67.RamComputes"}],"home":"lax-11"},"proofs":{"statements":[],"proofs":[]}}</script>
 </div>
 <footer class="site-footer">
   <nav class="site-footer-nav" aria-label="Legal and about">

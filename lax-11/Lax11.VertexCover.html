@@ -105,9 +105,9 @@
 compressed sparse row block encoding the graph, followed by the single
 entry <em>k</em>. This file defines that instance format and nothing else.</p>
 </div></div>
-<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/adeee8fcd52a11c46077d34657feaf48f2df7dae/ram-linear-time/concepts/Lax11/VertexCover.lean">view on GitHub</a></h3>
+<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/a41a8de28c0b3e3a604ae9adb16117949f948184/ram-linear-time/concepts/Lax11/VertexCover.lean">view on GitHub</a></h3>
 <div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
-<tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax13.RamComputes</span></td></tr>
+<tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax67.RamComputes</span></td></tr>
 <tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax11.GraphEncoding</span></td></tr>
 <tr id="L3" class=""><td class="line-num"><a href="#L3">3</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Combinatorics.SimpleGraph.VertexCover</span></td></tr>
 <tr id="L4" class=""><td class="line-num"><a href="#L4">4</a></td><td class="line-code"> </td></tr>
@@ -142,7 +142,7 @@ entry <em>k</em>. This file defines that instance format and nothing else.</p>
 <tr id="L33" class=""><td class="line-num"><a href="#L33">33</a></td><td class="line-code"> </td></tr>
 <tr id="L34" class=""><td class="line-num"><a href="#L34">34</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax11.VertexCover</span></td></tr>
 <tr id="L35" class=""><td class="line-num"><a href="#L35">35</a></td><td class="line-code"> </td></tr>
-<tr id="L36" class=""><td class="line-num"><a href="#L36">36</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax13.Ram Lax13.RamComputes Lax11.GraphEncoding</span></td></tr>
+<tr id="L36" class=""><td class="line-num"><a href="#L36">36</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax67.Ram Lax67.RamComputes Lax11.GraphEncoding</span></td></tr>
 <tr id="L37" class=""><td class="line-num"><a href="#L37">37</a></td><td class="line-code"> </td></tr>
 <tr id="L38" class=""><td class="line-num"><a href="#L38">38</a></td><td class="line-code"><span style="color:#6A737D">/-- The word `x` presents the graph `G` on `n` vertices together with</span></td></tr>
 <tr id="L39" class=""><td class="line-num"><a href="#L39">39</a></td><td class="line-code"><span style="color:#6A737D">the parameter `k`: a compressed sparse row block encoding `G`, followed</span></td></tr>
@@ -170,7 +170,7 @@ is in this submission's proof package, where the format's first
 consumer was built.</p>
 </div></div>
 <div class="block"><div class="deps-columns">
-<div class="deps-col"><h3>Builds on</h3><ul class="deps-list"><li><a href="../lax-11/Lax11.GraphEncoding.html"><code>Lax11.GraphEncoding</code></a></li><li><a href="../lax-13/Lax13.RamComputes.html"><code>Lax13.RamComputes</code></a></li></ul></div>
+<div class="deps-col"><h3>Builds on</h3><ul class="deps-list"><li><a href="../lax-11/Lax11.GraphEncoding.html"><code>Lax11.GraphEncoding</code></a></li><li><a href="../lax-67/Lax67.RamComputes.html"><code>Lax67.RamComputes</code></a></li></ul></div>
 <div class="deps-col"><h3>Used by</h3><p class="empty-note">none</p></div>
 <div class="deps-col"><h3>From Mathlib</h3><ul class="deps-list"><li><a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/VertexCover.html"><code>Mathlib.Combinatorics.SimpleGraph.VertexCover</code></a></li></ul></div>
 </div></div>
@@ -189,7 +189,7 @@ consumer was built.</p>
 </div>
 <noscript><p class="discussion-unavailable">Enable JavaScript to read or join the discussion.</p></noscript>
 </section>
-<script type="application/json" id="graph-data">{"concepts":{"nodes":[{"id":"Lax11.GraphEncoding","href":"../lax-11/Lax11.GraphEncoding.html","title":"Compressed sparse row encoding of a graph","owner":"lax-11","status":"none","ext":true,"dir":"up"},{"id":"Lax11.VertexCover","href":"../lax-11/Lax11.VertexCover.html","title":"A graph with a parameter appended","owner":"lax-11","status":"none","ext":false,"dir":"core"},{"id":"Lax13.Ram","href":"../lax-13/Lax13.Ram.html","title":"The word RAM","owner":"lax-13","status":"none","ext":true,"dir":"up"},{"id":"Lax13.RamComputes","href":"../lax-13/Lax13.RamComputes.html","title":"Computing a function within a time bound","owner":"lax-13","status":"none","ext":true,"dir":"up"}],"edges":[{"from":"Lax11.GraphEncoding","to":"Lax11.VertexCover"},{"from":"Lax13.RamComputes","to":"Lax11.VertexCover"},{"from":"Lax13.Ram","to":"Lax13.RamComputes"}],"home":"lax-11"},"proofs":{"statements":[],"proofs":[]}}</script>
+<script type="application/json" id="graph-data">{"concepts":{"nodes":[{"id":"Lax11.GraphEncoding","href":"../lax-11/Lax11.GraphEncoding.html","title":"Compressed sparse row encoding of a graph","owner":"lax-11","status":"none","ext":true,"dir":"up"},{"id":"Lax11.VertexCover","href":"../lax-11/Lax11.VertexCover.html","title":"A graph with a parameter appended","owner":"lax-11","status":"none","ext":false,"dir":"core"},{"id":"Lax67.Ram","href":"../lax-67/Lax67.Ram.html","title":"The word RAM","owner":"lax-67","status":"none","ext":true,"dir":"up"},{"id":"Lax67.RamComputes","href":"../lax-67/Lax67.RamComputes.html","title":"Computing a function within a time bound","owner":"lax-67","status":"none","ext":true,"dir":"up"}],"edges":[{"from":"Lax11.GraphEncoding","to":"Lax11.VertexCover"},{"from":"Lax67.RamComputes","to":"Lax11.VertexCover"},{"from":"Lax67.Ram","to":"Lax67.RamComputes"}],"home":"lax-11"},"proofs":{"statements":[],"proofs":[]}}</script>
 </div>
 <footer class="site-footer">
   <nav class="site-footer-nav" aria-label="Legal and about">

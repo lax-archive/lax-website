@@ -107,7 +107,7 @@
 <div class="graph-toolbar"><button type="button" id="concept-expand" aria-controls="concept-dag" aria-pressed="true">Hide ancestors</button><button type="button" id="concept-descend" aria-controls="concept-dag" aria-pressed="false">Show descendants</button><output id="concept-graph-status" aria-live="polite"></output></div>
 <div id="concept-dag" class="figure-container" data-graph="concepts" data-ancestry="true"></div>
 <div class="graph-tooltip" role="tooltip" hidden></div>
-<figcaption class="graph-legend" aria-label="Concept map legend"><span><i class="legend-node fill-none"></i>Definition</span><span><i class="legend-node stroke-own"></i>This concept</span><span><i class="legend-node stroke-ext"></i>Related concept</span><span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B builds on A</span></figcaption>
+<figcaption class="graph-legend" aria-label="Concept map legend"><span><i class="legend-node fill-proven"></i>Proven claim</span><span><i class="legend-node fill-none"></i>Definition</span><span><i class="legend-node stroke-own"></i>This concept</span><span><i class="legend-node stroke-ext"></i>Related concept</span><span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B builds on A</span></figcaption>
 </figure>
 
 
@@ -227,7 +227,7 @@ carries a bound, and plain computability is the special case in which
 </div></div>
 <div class="block"><div class="deps-columns">
 <div class="deps-col"><h3>Builds on</h3><ul class="deps-list"><li><a href="../lax-67/Lax67.Ram.html"><code>Lax67.Ram</code></a></li></ul></div>
-<div class="deps-col"><h3>Used by</h3><p class="empty-note">none</p></div>
+<div class="deps-col"><h3>Used by</h3><ul class="deps-list"><li><a href="../lax-11/Lax11.ConnectedComponents.html"><code>Lax11.ConnectedComponents</code></a></li><li><a href="../lax-11/Lax11.Courcelle.html"><code>Lax11.Courcelle</code></a></li><li><a href="../lax-11/Lax11.VertexCover.html"><code>Lax11.VertexCover</code></a></li></ul></div>
 <div class="deps-col"><h3>From Mathlib</h3><ul class="deps-list"><li><a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/Set/Basic.html"><code>Mathlib.Data.Set.Basic</code></a></li></ul></div>
 </div></div>
 <section class="page-section discussion-section" aria-labelledby="discussion-title">
@@ -245,7 +245,7 @@ carries a bound, and plain computability is the special case in which
 </div>
 <noscript><p class="discussion-unavailable">Enable JavaScript to read or join the discussion.</p></noscript>
 </section>
-<script type="application/json" id="graph-data">{"concepts":{"nodes":[{"id":"Lax67.Ram","href":"../lax-67/Lax67.Ram.html","title":"The word RAM","owner":"lax-67","status":"none","ext":true,"dir":"up"},{"id":"Lax67.RamComputes","href":"../lax-67/Lax67.RamComputes.html","title":"Computing a function within a time bound","owner":"lax-67","status":"none","ext":false,"dir":"core"}],"edges":[{"from":"Lax67.Ram","to":"Lax67.RamComputes"}],"home":"lax-67"},"proofs":{"statements":[],"proofs":[]}}</script>
+<script type="application/json" id="graph-data">{"concepts":{"nodes":[{"id":"Lax11.ConnectedComponents","href":"../lax-11/Lax11.ConnectedComponents.html","title":"Connected components in linear time","owner":"lax-11","status":"proven","ext":true,"dir":"down"},{"id":"Lax11.Courcelle","href":"../lax-11/Lax11.Courcelle.html","title":"Courcelle's theorem on a word RAM","owner":"lax-11","status":"proven","ext":true,"dir":"down"},{"id":"Lax11.VertexCover","href":"../lax-11/Lax11.VertexCover.html","title":"A graph with a parameter appended","owner":"lax-11","status":"none","ext":true,"dir":"down"},{"id":"Lax67.Ram","href":"../lax-67/Lax67.Ram.html","title":"The word RAM","owner":"lax-67","status":"none","ext":true,"dir":"up"},{"id":"Lax67.RamComputes","href":"../lax-67/Lax67.RamComputes.html","title":"Computing a function within a time bound","owner":"lax-67","status":"none","ext":false,"dir":"core"}],"edges":[{"from":"Lax67.RamComputes","to":"Lax11.ConnectedComponents"},{"from":"Lax67.RamComputes","to":"Lax11.Courcelle"},{"from":"Lax67.RamComputes","to":"Lax11.VertexCover"},{"from":"Lax67.Ram","to":"Lax67.RamComputes"}],"home":"lax-67"},"proofs":{"statements":[],"proofs":[]}}</script>
 </div>
 <footer class="site-footer">
   <nav class="site-footer-nav" aria-label="Legal and about">

@@ -141,7 +141,7 @@ comparisons — and the machine's halting behaviour and time measure.</p>
 <div class="graph-toolbar"><button type="button" id="concept-expand" aria-controls="concept-dag" aria-pressed="true">Hide ancestors</button><button type="button" id="concept-descend" aria-controls="concept-dag" aria-pressed="false">Show descendants</button><output id="concept-graph-status" aria-live="polite"></output></div>
 <div id="concept-dag" class="figure-container" data-graph="concepts" data-ancestry="true"></div>
 <div class="graph-tooltip" role="tooltip" hidden></div>
-<figcaption class="graph-legend" aria-label="Concept map legend"><span><i class="legend-node fill-none"></i>Definition</span><span><i class="legend-node stroke-own"></i>This submission</span><span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B builds on A</span></figcaption>
+<figcaption class="graph-legend" aria-label="Concept map legend"><span><i class="legend-node fill-proven"></i>Proven claim</span><span><i class="legend-node fill-none"></i>Definition</span><span><i class="legend-node stroke-own"></i>This submission</span><span><i class="legend-node stroke-ext"></i>Other submission</span><span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B builds on A</span></figcaption>
 </figure>
 </section>
 <section class="page-section"><h3 class="section-title">Proofs</h3>
@@ -149,7 +149,12 @@ comparisons — and the machine's halting behaviour and time measure.</p>
 <p class="honesty-note">Proof code is not displayed; the archive records each proof's checked relationship between claims.</p>
 </section>
 <section class="page-section"><h3 class="section-title">Related submissions</h3>
-<p class="empty-note">No other submission in the archive builds on this one, and this one builds on none.</p>
+<h4 class="figure-title">Submission map</h4>
+<figure class="graph-figure">
+<div id="submission-dag" class="figure-container" data-graph="submissions"></div>
+<div class="graph-tooltip" role="tooltip" hidden></div>
+<figcaption class="graph-legend" aria-label="Submission map legend"><span><i class="legend-node stroke-own"></i>This submission</span><span><i class="legend-node stroke-ext"></i>Other submission</span><span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B's concepts build on A</span></figcaption>
+</figure>
 </section>
 <section class="page-section"><h3 class="section-title" id="citation">Cite this</h3>
 <div class="citation-box">
@@ -189,7 +194,7 @@ comparisons — and the machine's halting behaviour and time measure.</p>
 </div>
 <noscript><p class="discussion-unavailable">Enable JavaScript to read or join the discussion.</p></noscript>
 </section>
-<script type="application/json" id="graph-data">{"concepts":{"nodes":[{"id":"Lax67.Ram","href":"../lax-67/Lax67.Ram.html","title":"The word RAM","owner":"lax-67","status":"none","ext":false,"dir":"core"},{"id":"Lax67.RamComputes","href":"../lax-67/Lax67.RamComputes.html","title":"Computing a function within a time bound","owner":"lax-67","status":"none","ext":false,"dir":"core"}],"edges":[{"from":"Lax67.Ram","to":"Lax67.RamComputes"}],"home":"lax-67"},"proofs":{"statements":[],"proofs":[],"home":"lax-67"},"submissions":{"nodes":[{"id":"lax-67","href":"../lax-67/index.html","title":"The Word RAM","state":"draft","concepts":2,"proofs":0,"dir":"core","ext":false}],"edges":[]}}</script>
+<script type="application/json" id="graph-data">{"concepts":{"nodes":[{"id":"Lax11.ConnectedComponents","href":"../lax-11/Lax11.ConnectedComponents.html","title":"Connected components in linear time","owner":"lax-11","status":"proven","ext":true,"dir":"down"},{"id":"Lax11.Courcelle","href":"../lax-11/Lax11.Courcelle.html","title":"Courcelle's theorem on a word RAM","owner":"lax-11","status":"proven","ext":true,"dir":"down"},{"id":"Lax11.VertexCover","href":"../lax-11/Lax11.VertexCover.html","title":"A graph with a parameter appended","owner":"lax-11","status":"none","ext":true,"dir":"down"},{"id":"Lax67.Ram","href":"../lax-67/Lax67.Ram.html","title":"The word RAM","owner":"lax-67","status":"none","ext":false,"dir":"core"},{"id":"Lax67.RamComputes","href":"../lax-67/Lax67.RamComputes.html","title":"Computing a function within a time bound","owner":"lax-67","status":"none","ext":false,"dir":"core"}],"edges":[{"from":"Lax67.RamComputes","to":"Lax11.ConnectedComponents"},{"from":"Lax67.RamComputes","to":"Lax11.Courcelle"},{"from":"Lax67.RamComputes","to":"Lax11.VertexCover"},{"from":"Lax67.Ram","to":"Lax67.RamComputes"}],"home":"lax-67"},"proofs":{"statements":[],"proofs":[],"home":"lax-67"},"submissions":{"nodes":[{"id":"lax-3","href":"../lax-3/index.html","title":"First-Order Model Checking on Nowhere Dense Graph Classes in Almost Linear Time","state":"draft","concepts":11,"proofs":4,"dir":"down","ext":true},{"id":"lax-11","href":"../lax-11/index.html","title":"Algorithmic Experiments on a Random Access Machine","state":"draft","concepts":7,"proofs":2,"dir":"down","ext":true},{"id":"lax-67","href":"../lax-67/index.html","title":"The Word RAM","state":"draft","concepts":2,"proofs":0,"dir":"core","ext":false}],"edges":[{"from":"lax-11","to":"lax-3","kind":"concepts"},{"from":"lax-67","to":"lax-11","kind":"concepts"}]}}</script>
 </div>
 <footer class="site-footer">
   <nav class="site-footer-nav" aria-label="Legal and about">
