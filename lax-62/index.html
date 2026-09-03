@@ -43,7 +43,7 @@
 <p class="draft-banner"><strong>Draft</strong> — mutable and not usable as a dependency; its citation marks the draft state.</p>
 <header class="paper-head">
 <h1 class="paper-title">A Refinement Framework for the Word RAM</h1>
-<p class="paper-meta"><span class="submission-meta-id">lax-62</span><span class="meta-sep">·</span><span class="formalized-label">formalized by</span> <span class="paper-author">Jan Dreier</span><span class="author-sep">·</span><span class="paper-author">Claude Fable 5 (Anthropic)</span><span class="meta-sep">·</span>created 2026-09-02<span class="meta-sep">·</span><a href="https://github.com/lax-archive/lax-submissions/tree/3639289680141e252c0cfc3c3f29071815391ffd/refinement-tower" title="https://github.com/lax-archive/lax-submissions/tree/3639289680141e252c0cfc3c3f29071815391ffd/refinement-tower"><code>GitHub @3639289</code></a><span class="meta-sep">·</span>Lean <code>v4.30.0</code> · mathlib <code>c5ea00351c28</code></p>
+<p class="paper-meta"><span class="submission-meta-id">lax-62</span><span class="meta-sep">·</span><span class="formalized-label">formalized by</span> <span class="paper-author">Jan Dreier</span><span class="author-sep">·</span><span class="paper-author">Claude Fable 5 (Anthropic)</span><span class="meta-sep">·</span>created 2026-09-02<span class="meta-sep">·</span><a href="https://github.com/lax-archive/lax-submissions/tree/5704aabc200158c0f04e9772817f98bf693a2bcb/refinement-tower" title="https://github.com/lax-archive/lax-submissions/tree/5704aabc200158c0f04e9772817f98bf693a2bcb/refinement-tower"><code>GitHub @5704aab</code></a><span class="meta-sep">·</span>Lean <code>v4.30.0</code> · mathlib <code>c5ea00351c28</code></p>
 </header>
 <section class="page-reactions" aria-label="Community review" data-reactions-host="https://comments.laxarchive.org" data-reactions-url="https://laxarchive.org/lax-62/" data-review-kind="submission" data-source-lines="0">
 <div class="page-reactions-actions">
@@ -79,20 +79,19 @@
 </section>
 <section class="paper-abstract">
 <h2 class="abstract-heading">Abstract</h2>
-<div class="latex-content"><p>This submission has no concepts and states no theorem. Its concept
-package is empty, and everything it contains is in its proof package: a
-refinement framework for the word RAM, the machinery through which an
-algorithm verified against an abstract specification is carried down,
-one proved step at a time, to a program of the structured
-while-language of <em>The Word RAM</em> together with a bound on the machine's
-own step count. Nothing of it shows on the concept level because none
-of it is a claim about a mathematical object. It is theorems and tactics
-about programs and their costs, and they are consumed only by other
-proof packages, which require this one the way a proof package requires
-mathlib: the running-time claims those submissions state are their own,
-on their own surfaces, in the fixed shape <em>The Word RAM</em> prescribes —
-one program quantified before the word length, an explicit bound — and
-the descent that discharges them is done here once.</p>
+<div class="latex-content"><p>This submission is a refinement framework for the word RAM: the
+machinery through which an algorithm verified against an abstract
+specification is carried down, one proved step at a time, to a program
+of the structured while-language of <em>The Word RAM</em> together with a
+bound on the machine's own step count. Its concept package is empty and
+it states no theorem, because nothing in it is a claim about a
+mathematical object. It is theorems and tactics about programs and
+their costs, consumed by the proof packages of the submissions that
+state running times, which require this one the way a proof package
+requires mathlib: their claims stay on their own surfaces, in the fixed
+shape <em>The Word RAM</em> prescribes — one program quantified before the
+word length, an explicit bound — and the descent that discharges them
+is done here once.</p>
 <p>The framework is a port to Lean of the Isabelle refinement stack of
 Peter Lammich and Maximilian P. L. Haslbeck, kept as close to its
 sources as the substrate allows, with every departure recorded in the
@@ -115,14 +114,13 @@ to Imperative/HOL</em> — arrays, dynamic arrays, stacks, queues, heaps,
 maps, matrices, and a union–find with the time analysis of Charguéraud
 and Pottier; the one- and two-dimensional asymptotic calculus and the
 recurrence lemmas of Zhan and Haslbeck's timed Imperative/HOL, so that a
-bound can also be read in Landau form; and a code generator, which is
-this submission's own, that embeds the intermediate language into the
+bound can also be read in Landau form; and a code generator, this
+submission's own, that embeds the intermediate language into the
 while-language and pays every bound down to the machine through <em>The
 Word RAM</em>'s simulation theorem, where the Isabelle stack ends in a
 trusted printer. The examples in the package — breadth-first search in
 several forms, array fill, an introsort budget — are acceptance tests
-and templates for the submissions that state running times, not
-statements.</p>
+and templates for the submissions that state running times.</p>
 </div>
 </section>
 
@@ -138,7 +136,7 @@ statements.</p>
 <figure class="graph-figure">
 <div id="submission-dag" class="figure-container" data-graph="submissions"></div>
 <div class="graph-tooltip" role="tooltip" hidden></div>
-<figcaption class="graph-legend" aria-label="Submission map legend"><span><i class="legend-node stroke-own"></i>This submission</span><span><i class="legend-node stroke-ext"></i>Other submission</span><span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B's concepts build on A</span><span><i class="legend-arrow proof-dep" aria-hidden="true">→</i>A → B: only B's proofs build on A</span></figcaption>
+<figcaption class="graph-legend" aria-label="Submission map legend"><span><i class="legend-node stroke-own"></i>This submission</span><span><i class="legend-node stroke-ext"></i>Other submission</span><span><i class="legend-arrow proof-dep" aria-hidden="true">→</i>A → B: only B's proofs build on A</span></figcaption>
 </figure>
 </section>
 <section class="page-section"><h3 class="section-title" id="citation">Cite this</h3>
@@ -188,7 +186,7 @@ statements.</p>
 </div>
 <noscript><p class="discussion-unavailable">Enable JavaScript to read or join the discussion.</p></noscript>
 </section>
-<script type="application/json" id="graph-data">{"concepts":{"nodes":[],"edges":[],"home":"lax-62"},"proofs":{"statements":[],"proofs":[],"home":"lax-62"},"submissions":{"nodes":[{"id":"lax-3","href":"../lax-3/index.html","title":"First-Order Model Checking on Nowhere Dense Graph Classes in Almost Linear Time","state":"draft","concepts":11,"proofs":4,"dir":"down","ext":true},{"id":"lax-13","href":"../lax-13/index.html","title":"The Word RAM","state":"registered","concepts":2,"proofs":0,"dir":"up","ext":true},{"id":"lax-62","href":"../lax-62/index.html","title":"A Refinement Framework for the Word RAM","state":"draft","concepts":0,"proofs":0,"dir":"core","ext":false}],"edges":[{"from":"lax-13","to":"lax-3","kind":"concepts"},{"from":"lax-62","to":"lax-3","kind":"proofs"},{"from":"lax-13","to":"lax-62","kind":"proofs"}]}}</script>
+<script type="application/json" id="graph-data">{"concepts":{"nodes":[],"edges":[],"home":"lax-62"},"proofs":{"statements":[],"proofs":[],"home":"lax-62"},"submissions":{"nodes":[{"id":"lax-3","href":"../lax-3/index.html","title":"First-Order Model Checking on Nowhere Dense Graph Classes in Almost Linear Time","state":"draft","concepts":11,"proofs":4,"dir":"down","ext":true},{"id":"lax-62","href":"../lax-62/index.html","title":"A Refinement Framework for the Word RAM","state":"draft","concepts":0,"proofs":0,"dir":"core","ext":false},{"id":"lax-67","href":"../lax-67/index.html","title":"The Word RAM","state":"draft","concepts":2,"proofs":0,"dir":"up","ext":true}],"edges":[{"from":"lax-62","to":"lax-3","kind":"proofs"},{"from":"lax-67","to":"lax-62","kind":"proofs"}]}}</script>
 </div>
 <footer class="site-footer">
   <nav class="site-footer-nav" aria-label="Legal and about">
