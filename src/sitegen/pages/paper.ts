@@ -201,19 +201,21 @@ function manuscriptData(submission: SiteSubmission): string {
  * vendored viewer's provenance header names the rev and the modifications. */
 const REFLOW_NOTICE = `<footer class="manuscript-reflow-notice">Rendered with <a href="https://github.com/radek-p/reflowtex" rel="license">ReflowTeX</a> — free software under <abbr title="GNU Affero General Public License v3.0 or later">AGPL-3.0-or-later</abbr>. <a href="https://github.com/radek-p/reflowtex">Source code</a>.</footer>`;
 
-/** The reflow surface: the viewer's schema and font-map islands, one
+/** The two surfaces of a paper that has a reflow bundle: the paper as
+ * printed, which is what the page opens on, and behind the switch the
+ * reflow surface — the viewer's schema and font-map islands, one
  * `.latex-block` per block (embedded, or fetched past the embed budget),
- * the cards rail the anchors join, and the deferred "as printed" surface. */
+ * and the cards rail its anchors join. */
 function reflowBody(cards: string[], pdfCards: string[], pages: string[], web: PaperWebPage): string {
   const blocks = web.blocks.map((block) =>
     "b64" in block
       ? `<div class="latex-block" data-nodelist-b64="${block.b64}"></div>`
       : `<div class="latex-block" data-nodelist-src="${attr(block.src)}"></div>`);
   return `<div class="manuscript-view-switch" role="group" aria-label="Paper view">
-<button type="button" class="manuscript-view-button" data-view="reflow" aria-pressed="true">Reflowed</button>
-<button type="button" class="manuscript-view-button" data-view="pdf" aria-pressed="false">As printed</button>
+<button type="button" class="manuscript-view-button" data-view="pdf" aria-pressed="true">As printed</button>
+<button type="button" class="manuscript-view-button" data-view="reflow" aria-pressed="false">Reflowed</button>
 </div>
-<div class="manuscript-body manuscript-reflow-body" id="manuscript-reflow">
+<div class="manuscript-body manuscript-reflow-body" id="manuscript-reflow" hidden>
 <div class="manuscript-reflow-doc" id="manuscript-reflow-doc">
 ${blocks.join("\n")}
 ${REFLOW_NOTICE}
@@ -223,7 +225,7 @@ ${cards.join("\n")}
 </ol>
 <svg class="manuscript-links" id="manuscript-reflow-links" aria-hidden="true"></svg>
 </div>
-<div class="manuscript-pdf" id="manuscript-pdf" hidden>
+<div class="manuscript-pdf" id="manuscript-pdf">
 <div class="manuscript-body">
 <div class="manuscript-pages" id="manuscript-pages">
 ${pages.join("\n")}
@@ -257,7 +259,7 @@ export async function paperPage(ctx: PageContext, submission: SiteSubmission, we
   const pages = paper.pageSizes.map(([width, height], index) =>
     `<div class="manuscript-page" data-page="${index + 1}" style="aspect-ratio: ${width} / ${height}"></div>`);
   const pdfAttributes = hasPdf
-    ? ` data-pdf="paper.pdf" data-pdfjs="${attr(`../assets/pdfjs/pdf.min.mjs?v=${siteAssetVersion("pdfjs/pdf.min.mjs")}`)}" data-pdfjs-worker="${attr(`../assets/pdfjs/pdf.worker.min.mjs?v=${siteAssetVersion("pdfjs/pdf.worker.min.mjs")}`)}"${reflow ? " data-pdf-deferred" : ""}`
+    ? ` data-pdf="paper.pdf" data-pdfjs="${attr(`../assets/pdfjs/pdf.min.mjs?v=${siteAssetVersion("pdfjs/pdf.min.mjs")}`)}" data-pdfjs-worker="${attr(`../assets/pdfjs/pdf.worker.min.mjs?v=${siteAssetVersion("pdfjs/pdf.worker.min.mjs")}`)}"`
     : "";
   const facts = [
     plural(paper.pdf.pages, "page"),

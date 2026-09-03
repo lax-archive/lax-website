@@ -38,15 +38,16 @@ describe("the reflow paper page", () => {
     expect(logs).toEqual([]);
     const html = fs.readFileSync(path.join(root, "lax-21", "paper.html"), "utf8");
 
-    // The two surfaces: reflow visible with the blocks inline (the fixture
-    // sits far under the embed budget), the PDF surface deferred behind the
-    // toggle, annotated in its own right — its own rail of cards, under
-    // their own ids, and the mark table its script reads.
-    expect(html).toContain('<div class="manuscript-body manuscript-reflow-body" id="manuscript-reflow">');
+    // The two surfaces: the paper as printed is the one the page opens on,
+    // annotated in its own right — its own rail of cards, under their own
+    // ids, and the mark table its script reads — with the reflow surface
+    // behind the toggle, its blocks inline (the fixture sits far under the
+    // embed budget) and laid out hidden until the reader asks for it.
+    expect(html).toContain('<div class="manuscript-body manuscript-reflow-body" id="manuscript-reflow" hidden>');
+    expect(html).toContain('<div class="manuscript-pdf" id="manuscript-pdf">');
+    expect(html).not.toContain("data-pdf-deferred");
     expect(html).toMatch(/<div class="latex-block" data-nodelist-b64="[A-Za-z0-9+/=]+"><\/div>/);
     expect(html).not.toContain("data-nodelist-src");
-    expect(html).toContain('<div class="manuscript-pdf" id="manuscript-pdf" hidden>');
-    expect(html).toContain(" data-pdf-deferred>");
     expect(html).toContain('<ol class="manuscript-rail" id="manuscript-rail">\n<li class="manuscript-card');
     expect(html).toContain('"marks":[{"n":1');
     // One card per mark on each surface, the reflow set beside the passages
@@ -56,7 +57,10 @@ describe("the reflow paper page", () => {
       expect(html).toContain(`id="m${mark.n}-pdf-card" data-mark="${mark.n}"`);
       expect(html).not.toContain(`<li class="manuscript-card kind-${mark.kind}" id="m${mark.n}"`);
     }
-    expect(html).toContain('<button type="button" class="manuscript-view-button" data-view="pdf" aria-pressed="false">As printed</button>');
+    // The printed view is first in the switch and pressed; the reflowed one
+    // is the option beside it.
+    expect(html).toContain('<button type="button" class="manuscript-view-button" data-view="pdf" aria-pressed="true">As printed</button>');
+    expect(html).toContain('<button type="button" class="manuscript-view-button" data-view="reflow" aria-pressed="false">Reflowed</button>');
 
     // The islands: the wire schema and the font map, fonts through ../fonts/.
     const schemaB64 = /data-schema-b64="([A-Za-z0-9+/=]+)"/.exec(html)![1]!;

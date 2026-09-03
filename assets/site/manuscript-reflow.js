@@ -3,7 +3,8 @@
 // re-anchored by the viewer on every reflow), paints each passage's
 // highlight and shadow over the text, stacks the cards beside their
 // passages, draws the gutter band from each passage's shadow to its card,
-// and owns the reflow/PDF view toggle and the `#m<n>` deep links.
+// and owns the view toggle (the page opens on the paper as printed) and the
+// `#m<n>` deep links into the reflowed text.
 // The join is structural — anchor offsets only, no text matching and no
 // geometry from the PDF. The placement and outline math is pure and lives
 // up top so node:vm can test it the way manuscript-place.js is tested.
@@ -146,17 +147,14 @@
   // ---- the view toggle ----
 
   const buttons = [...root.querySelectorAll('.manuscript-view-button')];
-  let pdfStarted = false;
   function show(view) {
     reflowBody.hidden = view !== 'reflow';
     if (pdfSurface) pdfSurface.hidden = view !== 'pdf';
     for (const button of buttons) button.setAttribute('aria-pressed', String(button.dataset.view === view));
-    // The PDF loads on first switch only (manuscript.js waits for this event
-    // on deferred pages); unhide first so its layout measures real widths.
-    if (view === 'pdf' && pdfSurface && !pdfStarted) {
-      pdfStarted = true;
-      document.dispatchEvent(new CustomEvent('lax:show-pdf'));
-    }
+    // The page opens on the paper as printed, so the reflow surface lays out
+    // while hidden — the viewer keeps that first layout until the element has
+    // a real width, which showing it gives; its own observer then re-lays out
+    // and the reflow event brings the cards along.
     if (view === 'reflow') schedule();
   }
   for (const button of buttons) button.addEventListener('click', () => show(button.dataset.view));
@@ -415,10 +413,13 @@
   function honourHash() {
     const match = /^#m(\d+)$/.exec(location.hash);
     if (!match) return;
+    // Only this surface's business while it is the one showing: the printed
+    // surface honours the same fragment on its own cards (manuscript.js), and
+    // a link must not move the reader off the view they opened.
+    if (reflowBody.hidden) return;
     const card = cards.find((c) => c.n === Number(match[1]));
     if (card && !hashPinned) {
       hashPinned = true;
-      show('reflow');
       setPinned(card, true);
       flash(card);
     }
