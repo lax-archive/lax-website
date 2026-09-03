@@ -7,7 +7,7 @@
 <title>Lax Lean Archive</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="assets/style.css?v=0ec192168ebc">
+<link rel="stylesheet" href="assets/style.css?v=6440c8dbf4bf">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -434,6 +434,92 @@ to formalize &lt;my result&gt;.
 <a class="landing-open-problems-link" href="open-proof-obligations.html"><span><strong>10</strong> proof obligations</span><b>Browse proof obligations <span aria-hidden="true">→</span></b></a>
 </section>
 </div>
+</section>
+<section class="landing-faq" id="faq" aria-labelledby="landing-faq-heading">
+<header class="landing-faq-heading">
+<p class="landing-action-eyebrow">About Lax</p>
+<h2 id="landing-faq-heading">Frequently asked questions</h2>
+<div class="landing-faq-introduction latex-content"><p>Short answers about submissions, peer review, compatibility, and how Lax fits
+into the formalization ecosystem.</p>
+</div>
+</header>
+<ol class="landing-faq-list">
+<li class="landing-faq-list-item"><details class="landing-faq-item">
+<summary><span class="landing-faq-question"><span class="landing-faq-number" aria-hidden="true">01</span><span>How does Lax relate to projects such as Merely True and Tau Ceti?</span></span><span class="landing-faq-toggle" aria-hidden="true"></span></summary>
+<div class="landing-faq-answer latex-content">
+<p>In Merely True and Tau Ceti, individual contributions blend into a shared
+library. Lax keeps each submission as a distinct, citable unit. This is closer
+to academic publishing culture: a submission can be cited directly or attached
+— anonymously, if needed — to a conference or journal submission for review.</p>
+<p>Like Lean Pool and the <a href="https://palomar-registry.org/">Palomar Registry</a>, Lax
+archives individual submissions. The important difference is that Lax
+submissions can build on one another. A base submission might define a concept
+such as treewidth; later submissions can cite and import it instead of asking
+the community to vet the same definition again.</p>
+
+</div>
+</details></li>
+<li class="landing-faq-list-item"><details class="landing-faq-item">
+<summary><span class="landing-faq-question"><span class="landing-faq-number" aria-hidden="true">02</span><span>How can Lax help with conference and journal review?</span></span><span class="landing-faq-toggle" aria-hidden="true"></span></summary>
+<div class="landing-faq-answer latex-content">
+<p>A paper accompanied by a Lax submission gives reviewers a shorter route to
+checking that its formal statements are correct. Lax exposes the semantic
+closure of each statement: the definitions, assumptions, and results on which
+it depends. Reviewers can therefore focus their limited time on the ideas and
+techniques, while readers can inspect full proofs whenever those details matter
+to them.</p>
+
+</div>
+</details></li>
+<li class="landing-faq-list-item"><details class="landing-faq-item">
+<summary><span class="landing-faq-question"><span class="landing-faq-number" aria-hidden="true">03</span><span>Can I use Lax for anonymous peer review?</span></span><span class="landing-faq-toggle" aria-hidden="true"></span></summary>
+<div class="landing-faq-answer latex-content">
+<p>Yes. List the author as <strong>Anonymous author</strong> and keep the submission in draft
+mode during review. You can replace the placeholder with the real author name
+before registering the final, permanent version.</p>
+
+</div>
+</details></li>
+<li class="landing-faq-list-item"><details class="landing-faq-item">
+<summary><span class="landing-faq-question"><span class="landing-faq-number" aria-hidden="true">04</span><span>Can I work on two submissions in parallel locally?</span></span><span class="landing-faq-toggle" aria-hidden="true"></span></summary>
+<div class="landing-faq-answer latex-content">
+<p>Yes. Keep each submission in a separate repository checkout or Git worktree,
+then run Lax from the corresponding project directory. That keeps each
+submission's manifest and working tree independent while sharing the installed
+toolchain.</p>
+
+</div>
+</details></li>
+<li class="landing-faq-list-item"><details class="landing-faq-item">
+<summary><span class="landing-faq-question"><span class="landing-faq-number" aria-hidden="true">05</span><span>Which operating systems does Lax support?</span></span><span class="landing-faq-toggle" aria-hidden="true"></span></summary>
+<div class="landing-faq-answer latex-content">
+<p>Lax is tested on Linux and macOS. On Windows, use the Windows Subsystem for
+Linux (WSL); native Windows support is not currently tested.</p>
+
+</div>
+</details></li>
+<li class="landing-faq-list-item"><details class="landing-faq-item">
+<summary><span class="landing-faq-question"><span class="landing-faq-number" aria-hidden="true">06</span><span>Does my submission need to be hosted on GitHub?</span></span><span class="landing-faq-toggle" aria-hidden="true"></span></summary>
+<div class="landing-faq-answer latex-content">
+<p>No. Lax accepts submissions hosted on <a href="https://github.com/">GitHub</a>,
+<a href="https://gitlab.com/">GitLab.com</a>, <a href="https://codeberg.org/">Codeberg</a>, and
+<a href="https://bitbucket.org/">Bitbucket Cloud</a>. If your preferred Git host is
+missing, contact the Lax team so support can be considered.</p>
+
+</div>
+</details></li>
+<li class="landing-faq-list-item"><details class="landing-faq-item">
+<summary><span class="landing-faq-question"><span class="landing-faq-number" aria-hidden="true">07</span><span>How do dependencies stay compatible as mathlib changes?</span></span><span class="landing-faq-toggle" aria-hidden="true"></span></summary>
+<div class="landing-faq-answer latex-content">
+<p>Submissions that build on one another need compatible Lean, mathlib, and other
+dependency versions. Lax therefore plans to use long epochs that freeze those
+versions across the archive. When a new epoch is needed, the community can
+carry useful submissions forward based on demand: if you build on something,
+help bump it. Epoch length will follow how the archive and its community evolve.</p>
+
+</div>
+</details></li>
+</ol>
 </section>
 </div>
 <footer class="site-footer">
