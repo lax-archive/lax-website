@@ -1,6 +1,6 @@
 import { DEFAULT_SITE_URL } from "../../config.js";
 import type { BuildOutput, ConceptEntry, ProofEntry } from "../../types.js";
-import type { ConceptGraphData } from "../graphs.js";
+import type { ConceptGraphData, SubmissionGraphData } from "../graphs.js";
 import { attr, code, esc, formatDate, proofBadge, statePill, typeBadge } from "../html.js";
 import type { MarkdownRenderer } from "../markdown.js";
 import { compareIds, type LocatedProof, type SiteModel, type SiteSubmission } from "../model.js";
@@ -233,9 +233,18 @@ export function conceptMapLegend(data: ConceptGraphData, ownLabel: string, extLa
 
 /** The submission map's legend. Same grammar one level up: stroke = origin,
  * arrow = direction of dependency. Submissions carry no proven/open status of
- * their own, so the fill axis stays out of it. */
-export function submissionMapLegend(): string {
-  return `<figcaption class="graph-legend" aria-label="Submission map legend"><span><i class="legend-node stroke-own"></i>This submission</span><span><i class="legend-node stroke-ext"></i>Other submission</span><span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B builds on A</span></figcaption>`;
+ * their own, so the fill axis stays out of it, and the freed colour axis goes
+ * to the arrow instead: which half of the dependent submission reaches
+ * across. Each arrow entry appears only when the map actually draws one. */
+export function submissionMapLegend(data: SubmissionGraphData): string {
+  const kinds = new Set(data.edges.map((edge) => edge.kind));
+  const items = [
+    `<span><i class="legend-node stroke-own"></i>This submission</span>`,
+    `<span><i class="legend-node stroke-ext"></i>Other submission</span>`,
+    kinds.has("concepts") ? `<span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B's concepts build on A</span>` : "",
+    kinds.has("proofs") ? `<span><i class="legend-arrow proof-dep" aria-hidden="true">→</i>A → B: only B's proofs build on A</span>` : "",
+  ];
+  return `<figcaption class="graph-legend" aria-label="Submission map legend">${items.join("")}</figcaption>`;
 }
 
 export function proofNetworkLegend(data: ProofNetworkLegendData): string {

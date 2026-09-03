@@ -151,6 +151,34 @@ describe("site generator", () => {
 
   it("uses numeric archive ordering", () => {
     expect(["Lax10", "Lax2", "Lax1"].sort(compareIds)).toEqual(["Lax1", "Lax2", "Lax10"]);
+    // The hyphenated spelling the database stores sorts numerically too —
+    // read as text, `lax-10` would come before `lax-3`.
+    expect(["lax-10", "lax-3", "lax-62", "lax-9"].sort(compareIds))
+      .toEqual(["lax-3", "lax-9", "lax-10", "lax-62"]);
+    // Mixed spellings still order by the number they share.
+    expect(["Lax10", "lax-3"].sort(compareIds)).toEqual(["lax-3", "Lax10"]);
+    // An id carrying no archive number sorts last, and by name among its kind.
+    expect(["lax-3", "draft-b", "draft-a"].sort(compareIds))
+      .toEqual(["lax-3", "draft-a", "draft-b"]);
+  });
+
+  it("lists the archive in numeric order for hyphenated database ids", async () => {
+    const all = graphSubmissions();
+    // The spelling the live database uses, at numbers where text order and
+    // numeric order disagree.
+    for (const [index, id] of ["lax-3", "lax-10", "lax-62"].entries()) {
+      all[index]!.record.id = id;
+      all[index]!.output!.id = id;
+    }
+    expect(new SiteModel(all).submissions.map((s) => s.record.id))
+      .toEqual(["lax-3", "lax-10", "lax-62"]);
+
+    const root = tmpDir("lax-site-idorder-");
+    await generateSite(all, root);
+    const html = fs.readFileSync(path.join(root, "index.html"), "utf8");
+    const listed = [...html.matchAll(/class="submissions-list-link" href="(lax-\d+)\//g)]
+      .map((match) => match[1]);
+    expect(listed).toEqual(["lax-3", "lax-10", "lax-62"]);
   });
 
   it("derives complete topic phrases from submission and concept titles", async () => {
@@ -1071,7 +1099,13 @@ After the formula.`, "");
     expect(top.html).toContain("Submission map legend");
     expect(top.data.nodes.map((n: { id: string; dir: string }) => [n.id, n.dir]))
       .toEqual([["Lax1", "up"], ["Lax3", "up"], ["Lax4", "core"]]);
-    expect(top.data.edges).toEqual([{ from: "Lax1", to: "Lax3" }, { from: "Lax3", to: "Lax4" }]);
+    expect(top.data.edges).toEqual([
+      { from: "Lax1", to: "Lax3", kind: "concepts" },
+      { from: "Lax3", to: "Lax4", kind: "concepts" },
+    ]);
+    // Concept dependencies throughout, so the legend names only that arrow.
+    expect(top.html).toContain("B's concepts build on A");
+    expect(top.html).not.toContain("only B's proofs build on A");
     expect(top.data.nodes[0]).toMatchObject({ href: "../Lax1/index.html", title: "Lax1", state: "registered", concepts: 1, proofs: 0, ext: true });
 
     const base = mapOf("Lax1");
@@ -1094,10 +1128,52 @@ After the formula.`, "");
     all[0]!.output!.requiredByConcepts = ["Lax1"];
     all[0]!.output!.requiredByProofs = ["Lax1Proofs", "mathlib"];
     const model = new SiteModel(all);
-    expect([...model.submissionUses.get("Lax2")!]).toEqual(["Lax1"]);
+    expect([...model.submissionUses.get("Lax2")!]).toEqual([["Lax1", "concepts"]]);
     expect(model.submissionDownstream("Lax1")).toEqual(["Lax2", "Lax3", "Lax4"]);
     // "mathlib" is not a submission and never becomes a node
     expect(model.submissionById.has("mathlib")).toBe(false);
+  });
+
+  it("labels a require only the proof package declares as a proof dependency", () => {
+    const all = [...submissions(), ...graphSubmissions()];
+    // Lax2's concepts stand alone; only its proofs reach for Lax1's proofs.
+    all[0]!.output!.requiredByProofs = ["Lax1Proofs"];
+    const model = new SiteModel(all);
+    expect([...model.submissionUses.get("Lax2")!]).toEqual([["Lax1", "proofs"]]);
+    expect([...model.submissionUsedBy.get("Lax1")!]).toContainEqual(["Lax2", "proofs"]);
+    // A concept-level require on the same target wins: the statements
+    // themselves already rest on Lax1, so the proof half says nothing more.
+    all[0]!.output!.requiredByConcepts = ["Lax1"];
+    expect([...new SiteModel(all).submissionUses.get("Lax2")!]).toEqual([["Lax1", "concepts"]]);
+  });
+
+  it("resolves a package require whose spelling differs from the submission id", () => {
+    const all = graphSubmissions();
+    // Records are keyed `lax-1`, lakefiles name the package `Lax1Proofs`.
+    for (const submission of all) {
+      submission.record.id = submission.record.id.replace(/^Lax/, "lax-");
+      submission.output!.id = submission.record.id;
+    }
+    all[2]!.output!.requiredByProofs = ["Lax1Proofs"];
+    const model = new SiteModel(all);
+    expect([...model.submissionUses.get("lax-4")!]).toContainEqual(["lax-1", "proofs"]);
+  });
+
+  it("draws a proof-only dependency as its own edge and names it in the legend", async () => {
+    const root = tmpDir("lax-site-proofdep-");
+    const all = [...submissions(), ...graphSubmissions()];
+    all[0]!.output!.requiredByProofs = ["Lax1Proofs"];
+    await generateSite(all, root);
+    const html = fs.readFileSync(path.join(root, "Lax2", "index.html"), "utf8");
+    const data = JSON.parse(
+      /<script type="application\/json" id="graph-data">(.*?)<\/script>/s.exec(html)![1]!,
+    ).submissions;
+    expect(data.edges).toContainEqual({ from: "Lax1", to: "Lax2", kind: "proofs" });
+    expect(html).toContain("only B's proofs build on A");
+    const script = fs.readFileSync(path.join(root, "assets", "dag.js"), "utf8");
+    expect(script).toContain("edge.kind === 'proofs' ? ' proof-dep' : ''");
+    const css = fs.readFileSync(path.join(root, "assets", "style.css"), "utf8");
+    expect(css).toContain(".dag-edge.proof-dep{ stroke: var(--proof-dep)");
   });
 
   it("renders the concept page: type heading, tinted source, sections, deps", async () => {

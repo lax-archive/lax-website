@@ -71,7 +71,7 @@ ${discussion(`${record.id}/`)}`;
 <figure class="graph-figure">
 <div id="submission-dag" class="figure-container" data-graph="submissions"></div>
 ${graphTooltip()}
-${submissionMapLegend()}
+${submissionMapLegend(related)}
 </figure>`
     : `<p class="empty-note">No other submission in the archive builds on this one, and this one builds on none.</p>`;
 

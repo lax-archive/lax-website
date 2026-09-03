@@ -24,8 +24,21 @@ export interface LocatedConcept { submission: SiteSubmission; output: BuildOutpu
 export interface LocatedStatement extends LocatedConcept { statement: StatementEntry }
 export interface LocatedProof { submission: SiteSubmission; output: BuildOutput; proof: ProofEntry }
 
+/** Which half of a submission carries a dependency on another: its concepts
+ * (and therefore its statements), or only its proofs. */
+export type SubmissionDepKind = "concepts" | "proofs";
+
+/** A Lean package name and a submission id spell the same thing differently:
+ * `Lax62` and `lax-62`. Compare them on letters and digits alone. */
+function packageKey(name: string): string {
+  return name.replace(/[^0-9a-z]/gi, "").toLowerCase();
+}
+
+/** The number an archive id sorts by. Both spellings the archive has used
+ * carry it — `Lax62` and the hyphenated `lax-62` the database now stores —
+ * and anything else sorts last, by name. */
 function idNumber(id: string): number {
-  const match = /^(?:Lax)?(\d+)/i.exec(id);
+  const match = /^(?:Lax-?)?(\d+)$/i.exec(id);
   return match ? Number(match[1]) : Number.MAX_SAFE_INTEGER;
 }
 
@@ -44,10 +57,11 @@ export class SiteModel {
   readonly proofHome = new Map<string, LocatedProof>();
   readonly importers = new Map<string, LocatedConcept[]>();
   readonly statementProofs = new Map<string, LocatedProof[]>();
-  /** Submission-level dependencies: the submissions each one builds on. */
-  readonly submissionUses = new Map<string, Set<string>>();
+  /** Submission-level dependencies: the submissions each one builds on, and
+   * which half of it does. */
+  readonly submissionUses = new Map<string, Map<string, SubmissionDepKind>>();
   /** The same relation reversed: the submissions that build on each one. */
-  readonly submissionUsedBy = new Map<string, Set<string>>();
+  readonly submissionUsedBy = new Map<string, Map<string, SubmissionDepKind>>();
   /** Each submission's declared supersedes target, bound or not. */
   readonly supersedesClaim = new Map<string, string>();
   /** Bound forward version pointers: the registered successor by superseded id. */
@@ -200,38 +214,57 @@ export class SiteModel {
    * declared without a reference — so the requires are the complete list and
    * the references are the visible reason for most of it.
    *
+   * Each edge is also labelled with the half of the submission that carries
+   * it. A submission whose concepts stand alone but whose proofs require
+   * another submission's proof package is a real consumer of that work, and
+   * the label is what lets the submission map say so.
+   *
    * Records that only reserved an id have no dependencies to read and are no
    * one's dependency, so the relation covers exactly the outputs.
    */
   private linkSubmissions(): void {
-    const known = new Set(this.outputs.map((output) => output.id));
-    for (const id of known) {
-      this.submissionUses.set(id, new Set());
-      this.submissionUsedBy.set(id, new Set());
+    // Lakefiles name Lean packages (`Lax62`, `Lax62Proofs`) where records are
+    // keyed by submission id (`lax-62`), so a require is resolved through a
+    // spelling-insensitive index rather than compared to the id directly.
+    const byPackage = new Map<string, string>();
+    for (const output of this.outputs) {
+      byPackage.set(packageKey(output.id), output.id);
+      this.submissionUses.set(output.id, new Map());
+      this.submissionUsedBy.set(output.id, new Map());
     }
+    const required = (pkg: string): string | undefined =>
+      byPackage.get(packageKey(pkg)) ??
+      (pkg.endsWith(PROOF_SUFFIX)
+        // Both halves of a submission live in the submission itself.
+        ? byPackage.get(packageKey(pkg.slice(0, -PROOF_SUFFIX.length)))
+        : undefined);
     for (const output of this.outputs) {
       const uses = this.submissionUses.get(output.id)!;
-      const add = (id: string | undefined) => {
-        if (id && id !== output.id && known.has(id)) uses.add(id);
+      // A concept-level dependency subsumes a proof-level one: once the
+      // statements themselves rest on the other submission, saying that the
+      // proofs do too adds nothing.
+      const add = (id: string | undefined, kind: SubmissionDepKind) => {
+        if (!id || id === output.id || !this.submissionUses.has(id)) return;
+        if (kind === "concepts" || !uses.has(id)) uses.set(id, kind);
       };
       for (const concept of output.concepts)
-        for (const imported of concept.imports) add(this.conceptHome.get(imported)?.output.id);
+        for (const imported of concept.imports)
+          add(this.conceptHome.get(imported)?.output.id, "concepts");
+      for (const pkg of output.requiredByConcepts) add(required(pkg), "concepts");
       for (const proof of output.proofs)
         for (const statement of [proof.conclusion, ...proof.assumptions])
-          add(this.statementHome.get(statement)?.output.id);
-      // A proof package requires `<id>Proofs`; both halves live in submission `id`.
-      for (const pkg of [...output.requiredByConcepts, ...output.requiredByProofs])
-        add(pkg.endsWith(PROOF_SUFFIX) ? pkg.slice(0, -PROOF_SUFFIX.length) : pkg);
+          add(this.statementHome.get(statement)?.output.id, "proofs");
+      for (const pkg of output.requiredByProofs) add(required(pkg), "proofs");
     }
     for (const [id, uses] of this.submissionUses)
-      for (const used of uses) this.submissionUsedBy.get(used)!.add(id);
+      for (const [used, kind] of uses) this.submissionUsedBy.get(used)!.set(id, kind);
   }
 
   /** Transitive closure of a submission relation from `id`, `id` excluded. */
-  private submissionClosure(relation: Map<string, Set<string>>, id: string): string[] {
+  private submissionClosure(relation: Map<string, Map<string, SubmissionDepKind>>, id: string): string[] {
     const found = new Set<string>();
     const visit = (current: string) => {
-      for (const next of relation.get(current) ?? []) {
+      for (const next of relation.get(current)?.keys() ?? []) {
         if (next === id || found.has(next)) continue;
         found.add(next);
         visit(next);

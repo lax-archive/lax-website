@@ -1,4 +1,4 @@
-import { compareIds, type SiteModel } from "./model.js";
+import { compareIds, type SiteModel, type SubmissionDepKind } from "./model.js";
 
 /** Placement relative to a figure's roots: the always-visible core (the roots
  * themselves), or a direction away from them — "up" for the whole ancestry,
@@ -41,9 +41,15 @@ export interface SubmissionGraphNode {
   ext: boolean;
 }
 
+export interface SubmissionGraphEdge extends ConceptGraphEdge {
+  /** which half of `to` reaches back to `from`: its concepts, or only its
+   * proofs — the figure draws the two in different colours */
+  kind: SubmissionDepKind;
+}
+
 export interface SubmissionGraphData {
   nodes: SubmissionGraphNode[];
-  edges: ConceptGraphEdge[];
+  edges: SubmissionGraphEdge[];
 }
 
 /** Build the semantic import graph around one or more roots: the roots form
@@ -98,7 +104,9 @@ export function conceptGraph(model: SiteModel, rootIds: Iterable<string>): Conce
  * Both directions run over the whole archive, and both are always shown —
  * submissions are few enough that the figure needs no toggles. Edges between
  * two neighbours are kept as well, so a dependency that bypasses the root
- * stays visible instead of being redrawn through it. */
+ * stays visible instead of being redrawn through it. Every edge carries the
+ * half of the dependent submission that needs the other, so a submission
+ * whose proofs alone build on a framework still shows up as its consumer. */
 export function submissionGraph(model: SiteModel, rootId: string): SubmissionGraphData {
   const dirOf = new Map<string, GraphDir>();
   if (model.submissionUses.has(rootId)) dirOf.set(rootId, "core");
@@ -122,9 +130,9 @@ export function submissionGraph(model: SiteModel, rootId: string): SubmissionGra
   });
   const edges = ids.flatMap((id) =>
     [...model.submissionUses.get(id)!]
-      .filter((from) => dirOf.has(from))
-      .sort(compareIds)
-      .map((from) => ({ from, to: id })));
+      .filter(([from]) => dirOf.has(from))
+      .sort(([a], [b]) => compareIds(a, b))
+      .map(([from, kind]) => ({ from, to: id, kind })));
   return { nodes, edges };
 }
 
