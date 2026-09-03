@@ -49,6 +49,7 @@
   --code-bg: #f6f8fb;
   --panel-bg: #faf9f7;
   --neutral-stroke: #9aa3ad;
+  --proof-dep: #8a5aa8;
   --radius-chip: 2px;
   --radius-control: 4px;
   --radius-card: 7px;
@@ -3269,6 +3270,7 @@ body.graph-window-open::after{
 .legend-node.stroke-own{ border-color: var(--accent); background: var(--surface); }
 .legend-node.stroke-ext{ border-color: var(--none-border); background: var(--surface); }
 .legend-arrow{ color: var(--text-dim); font-family: var(--mono); font-size: 0.9rem; font-style: normal; line-height: 1; }
+.legend-arrow.proof-dep{ color: var(--proof-dep); }
 .legend-proof-chip{
   display: inline-flex;
   align-items: center;
@@ -3416,6 +3418,12 @@ body.graph-window-open::after{
 
 .net-edge.conclusion{ stroke: var(--accent); stroke-opacity: 0.7; }
 
+/* Submission map only: a dependency that only the proof package declares.
+   The dependent's statements stand on their own and just its proofs reach
+   across, so the edge is a distinct hue rather than a status colour — a
+   submission map has no proven/open axis to confuse it with. */
+.dag-edge.proof-dep{ stroke: var(--proof-dep); stroke-opacity: 0.75; }
+
 /* Hovering or focusing a node lights up its incident edges (dag.js). */
 .dag-edge.hot,
 .net-edge.hot{
@@ -3424,6 +3432,7 @@ body.graph-window-open::after{
   stroke-width: 1.9;
 }
 .net-edge.conclusion.hot{ stroke: var(--accent); }
+.dag-edge.proof-dep.hot{ stroke: var(--proof-dep); stroke-opacity: 1; }
 
 .cycle-component{
   fill: var(--code-bg);

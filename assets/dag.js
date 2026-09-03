@@ -370,8 +370,10 @@
   /** Draw a layered DAG into `container`: layout, edge routing, boxes,
    * tooltips. `spec` carries the per-figure specifics — the arrow marker's
    * id, the SVG's accessible name, the prefix labels drop, the node class,
-   * and the tooltip rows. Everything else is the same picture, laid out by
-   * the shared crossing-minimizing engine in layout.js.
+   * the optional per-edge class, and the tooltip rows. Everything else is the
+   * same picture, laid out by the shared crossing-minimizing engine in
+   * layout.js. The arrowhead marker takes its fill from the path it ends
+   * (`context-stroke` in style.css), so a recoloured edge recolours whole.
    *
    * Both callers pass an acyclic graph: concept imports are Lean imports,
    * and the archive admits a dependency only on a submission that already
@@ -454,7 +456,7 @@
       });
     });
     edges.forEach((edge, edgeIndex) => {
-      const path = appendEdge(group, 'dag-edge',
+      const path = appendEdge(group, spec.edgeClass ? spec.edgeClass(edge) : 'dag-edge',
         edgePath(pointSets[edgeIndex]), spec.arrowId);
       incident.get(edge.from).push(path);
       incident.get(edge.to).push(path);
@@ -540,6 +542,10 @@
       arrowId: 'submission-arrow',
       ariaLabel: 'Submission dependency graph',
       classOf: () => 'dag-node submission',
+      // A dependency only the proof package declares is drawn apart: the
+      // dependent's statements stand on their own and just its proofs reach
+      // across, which is how a proof framework's consumers become visible.
+      edgeClass: (edge) => 'dag-edge' + (edge.kind === 'proofs' ? ' proof-dep' : ''),
       tooltipRows: (node) => [
         ['Submission', node.id],
         ...(node.title && node.title !== node.id ? [['Title', node.title]] : []),
