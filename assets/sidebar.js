@@ -1,8 +1,11 @@
 // Sidebar behavior: mobile drawer toggle and entry filtering. All data is in
 // the DOM (data-search / data-type attributes); nothing is fetched.
 (() => {
+  const SUBMISSION_PAGE_SIZE = 10;
   let searchHasSelectedRead = false;
   let selectedTag = '';
+  let submissionFilterKey;
+  let submissionVisibleLimit = SUBMISSION_PAGE_SIZE;
 
   function isMobile() {
     return window.matchMedia('(max-width: 900px)').matches;
@@ -69,16 +72,38 @@
     return visible;
   }
 
-  function updateTagStatus(visible) {
+  function updateTagStatus(total, shown) {
     const status = document.getElementById('tag-results-status');
     if (!status) return;
     const active = document.querySelector(`[data-tag-filter="${CSS.escape(selectedTag)}"]`);
     const label = active?.querySelector('span')?.textContent ?? selectedTag;
     const search = document.getElementById('filter-search')?.value.trim();
     const suffix = search ? ' matching your search' : '';
+    const count = total === shown ? `${total}` : `${shown} of ${total}`;
     status.textContent = selectedTag
-      ? `Showing ${visible} ${visible === 1 ? 'submission' : 'submissions'} tagged “${label}”${suffix}.`
-      : `Showing all ${visible} ${visible === 1 ? 'submission' : 'submissions'}${suffix}.`;
+      ? `Showing ${count} ${total === 1 ? 'submission' : 'submissions'} tagged “${label}”${suffix}.`
+      : `Showing ${count} ${total === 1 ? 'submission' : 'submissions'}${suffix}.`;
+  }
+
+  function applySubmissionPagination(list, total) {
+    const rows = [...list.querySelectorAll('li[data-search-title]')].filter((row) => !row.hidden);
+    rows.forEach((row, index) => {
+      if (index < submissionVisibleLimit) {
+        delete row.dataset.paginationHidden;
+        return;
+      }
+      row.dataset.paginationHidden = 'true';
+      row.setAttribute('hidden', 'until-found');
+    });
+
+    const shown = Math.min(submissionVisibleLimit, total);
+    const button = document.getElementById('submissions-load-more');
+    if (button) {
+      const remaining = Math.max(0, total - shown);
+      button.hidden = remaining === 0;
+      button.setAttribute('aria-label', `Load ${Math.min(SUBMISSION_PAGE_SIZE, remaining)} more submissions`);
+    }
+    return shown;
   }
 
   function applySidebarFilters() {
@@ -112,10 +137,16 @@
     if (!submissions) return;
     const searchEl = document.getElementById('filter-search');
     const search = searchEl?.value.trim().toLowerCase() ?? '';
+    const filterKey = `${search}\u0000${selectedTag}`;
+    if (filterKey !== submissionFilterKey) {
+      submissionFilterKey = filterKey;
+      submissionVisibleLimit = SUBMISSION_PAGE_SIZE;
+    }
     const randomSubmission = document.querySelector('.random-submission');
     if (randomSubmission) randomSubmission.hidden = Boolean(searchEl?.value.length);
-    const visible = filterList(submissions, search, 'all', 'submissions-list-empty', selectedTag);
-    updateTagStatus(visible);
+    const total = filterList(submissions, search, 'all', 'submissions-list-empty', selectedTag);
+    const shown = applySubmissionPagination(submissions, total);
+    updateTagStatus(total, shown);
     // Search results live in the always-visible Read section. Move there
     // once when a visitor begins a new search, not on every keystroke.
     const readAction = document.querySelector('[data-landing-action="read"]');
@@ -146,6 +177,15 @@
     const selected = candidates[Math.floor(Math.random() * candidates.length)];
     link.href = selected.href;
     link.replaceChildren(...[...selected.childNodes].map((node) => node.cloneNode(true)));
+  }
+
+  function setupSubmissionPagination() {
+    const button = document.getElementById('submissions-load-more');
+    if (!button) return;
+    button.addEventListener('click', () => {
+      submissionVisibleLimit += SUBMISSION_PAGE_SIZE;
+      applySubmissionFilters();
+    });
   }
 
   function setupTagFilters() {
@@ -297,6 +337,7 @@
 
   function init() {
     setupRandomSubmission();
+    setupSubmissionPagination();
     setupFilters();
     setupTagFilters();
     applyFilters();
