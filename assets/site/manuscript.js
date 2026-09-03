@@ -27,8 +27,10 @@
   const SVG = 'http://www.w3.org/2000/svg';
 
   const pageEls = [...pagesEl.querySelectorAll('.manuscript-page')];
+  // The cards this surface owns are the ones in its own rail: a page with a
+  // reflow surface beside it has a second set there, under other ids.
   const cards = marks.map((mark) => {
-    const el = document.getElementById(`m${mark.n}`);
+    const el = railEl.querySelector(`.manuscript-card[data-mark="${mark.n}"]`);
     return { mark, el, hits: [], rects: [], shadows: [], shadowX: null, band: null, want: 0, resolved: null, link: null, pinned: false };
   }).filter((card) => card.el);
 

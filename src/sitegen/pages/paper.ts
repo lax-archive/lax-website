@@ -136,7 +136,9 @@ ${statements}${source}`;
 /** One card, mark-numbered, in the vocabulary of the pages it links to.
  * On the PDF-only page the card itself owns the `m<n>` id the cross-links
  * target; on the reflow page that id belongs to the passage's anchor in the
- * text, and the card steps aside to `m<n>-card`. */
+ * text, so the reflow card steps aside to `m<n>-card` and the printed
+ * surface's own copy to `m<n>-pdf-card`. Every card carries `data-mark`,
+ * which is how each surface's script finds the cards in its own rail. */
 async function markCard(ctx: PageContext, mark: PaperMark, n: number, home: string, cardId = `m${n}`): Promise<string> {
   const { model } = ctx;
   const span = mark.begin.page === mark.end.page
@@ -147,39 +149,12 @@ async function markCard(ctx: PageContext, mark: PaperMark, n: number, home: stri
 <span class="manuscript-card-swatch" aria-hidden="true"></span>
 <span class="manuscript-card-name">${markBadge(model, mark)}${markName(model, mark, home, "../")}</span>
 <span class="manuscript-card-page">${esc(span)}</span>
-<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m${n}-body" aria-label="${attr(`Show details of ${mark.id}`)}"><span aria-hidden="true">▸</span></button>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="${attr(`${cardId}-body`)}" aria-label="${attr(`Show details of ${mark.id}`)}"><span aria-hidden="true">▸</span></button>
 </div>
-<div class="manuscript-card-body" id="m${n}-body" hidden>
+<div class="manuscript-card-body" id="${attr(`${cardId}-body`)}" hidden>
 ${await markBody(ctx, mark, home, "../")}
 </div>
 </li>`;
-}
-
-/** The short index of what a paper marks, own and foreign, each entry
- * linking to its card. Shared by the paper page and the submission page. */
-export function paperMarksIndex(model: SiteModel, submission: SiteSubmission, rootRel: string, cardHref: string): string {
-  const paper = submission.output?.paper;
-  if (!paper || !paper.marks.length) return `<p class="empty-note">This paper marks no passages.</p>`;
-  const home = submission.record.id;
-  const rows = paper.marks.map((mark, index) => {
-    const n = index + 1;
-    const foreign = markForeign(model, mark, home) ? `<span class="manuscript-index-origin">from ${esc(markOrigin(model, mark))}</span>` : "";
-    return `<li class="manuscript-index-item kind-${mark.kind}"><a class="manuscript-index-link" href="${attr(`${cardHref}#m${n}`)}">${markBadge(model, mark)}<span class="manuscript-index-name">${esc(markTarget(model, mark, home, rootRel).label)}</span></a>${foreign}<span class="manuscript-index-page">p. ${mark.begin.page}</span></li>`;
-  });
-  return `<ol class="manuscript-index">
-${rows.join("\n")}
-</ol>`;
-}
-
-function markOrigin(model: SiteModel, mark: PaperMark): string {
-  if (mark.kind === "concept") return model.conceptHome.get(mark.id)?.output.id ?? "";
-  if (mark.kind === "proof") return model.proofHome.get(mark.id)?.output.id ?? "";
-  return mark.id;
-}
-
-function markForeign(model: SiteModel, mark: PaperMark, home: string): boolean {
-  const origin = markOrigin(model, mark);
-  return origin !== "" && origin !== home;
 }
 
 /** The "In the paper" block of a concept or proof page — and the submission
@@ -210,16 +185,13 @@ ${rows.join("\n")}
 }
 
 /** Inert JSON for assets/manuscript.js: page sizes and the marks' points.
- * On the reflow page the PDF surface is purely "as printed" — the cards and
- * their highlights live on the reflow surface — so it gets an empty mark
- * list and manuscript.js degrades to a plain page renderer. */
-function manuscriptData(submission: SiteSubmission, withMarks: boolean): string {
+ * Both surfaces are annotated, so the printed one gets the mark table even
+ * where a reflow surface is beside it. */
+function manuscriptData(submission: SiteSubmission): string {
   const paper = submission.output!.paper!;
   return inertJsonScript("manuscript-data", {
     pageSizes: paper.pageSizes,
-    marks: withMarks
-      ? paper.marks.map((mark, index) => ({ n: index + 1, id: mark.id, kind: mark.kind, begin: mark.begin, end: mark.end }))
-      : [],
+    marks: paper.marks.map((mark, index) => ({ n: index + 1, id: mark.id, kind: mark.kind, begin: mark.begin, end: mark.end })),
   });
 }
 
@@ -232,7 +204,7 @@ const REFLOW_NOTICE = `<footer class="manuscript-reflow-notice">Rendered with <a
 /** The reflow surface: the viewer's schema and font-map islands, one
  * `.latex-block` per block (embedded, or fetched past the embed budget),
  * the cards rail the anchors join, and the deferred "as printed" surface. */
-function reflowBody(cards: string[], pages: string[], web: PaperWebPage): string {
+function reflowBody(cards: string[], pdfCards: string[], pages: string[], web: PaperWebPage): string {
   const blocks = web.blocks.map((block) =>
     "b64" in block
       ? `<div class="latex-block" data-nodelist-b64="${block.b64}"></div>`
@@ -256,7 +228,9 @@ ${cards.join("\n")}
 <div class="manuscript-pages" id="manuscript-pages">
 ${pages.join("\n")}
 </div>
-<ol class="manuscript-rail" id="manuscript-rail"></ol>
+<ol class="manuscript-rail" id="manuscript-rail">
+${pdfCards.join("\n")}
+</ol>
 <svg class="manuscript-links" id="manuscript-links" aria-hidden="true"></svg>
 </div>
 <p class="manuscript-status" id="manuscript-status" role="status">Loading the paper…</p>
@@ -275,6 +249,11 @@ export async function paperPage(ctx: PageContext, submission: SiteSubmission, we
   const reflow = hasPdf && web !== undefined;
   const cards = await Promise.all(paper.marks.map((mark, index) =>
     markCard(ctx, mark, index + 1, home, reflow ? `m${index + 1}-card` : undefined)));
+  // The two surfaces never show at once, but each owns its rail outright:
+  // one set of cards would mean two scripts driving the same elements.
+  const pdfCards = reflow
+    ? await Promise.all(paper.marks.map((mark, index) => markCard(ctx, mark, index + 1, home, `m${index + 1}-pdf-card`)))
+    : [];
   const pages = paper.pageSizes.map(([width, height], index) =>
     `<div class="manuscript-page" data-page="${index + 1}" style="aspect-ratio: ${width} / ${height}"></div>`);
   const pdfAttributes = hasPdf
@@ -288,7 +267,7 @@ export async function paperPage(ctx: PageContext, submission: SiteSubmission, we
     `<a href="index.html">${esc(home)}</a>`,
   ].filter(Boolean).join(" · ");
   const body = reflow
-    ? reflowBody(cards, pages, web)
+    ? reflowBody(cards, pdfCards, pages, web)
     : hasPdf
       ? `<div class="manuscript-body">
 <div class="manuscript-pages" id="manuscript-pages">
@@ -313,11 +292,8 @@ ${cards.join("\n")}
 <h1 class="concept-title">${title}</h1>
 <p class="concept-microline">${facts}</p></div>
 </div>
-<section class="manuscript-index-section" aria-label="Marked in this paper">
-${paperMarksIndex(ctx.model, submission, "../", "")}
-</section>
 ${body}
-${manuscriptData(submission, !reflow)}
+${manuscriptData(submission)}
 </div>`;
 
   // The reflow scripts: placement math first (manuscript.js reads it too),

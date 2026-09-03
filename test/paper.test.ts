@@ -106,9 +106,8 @@ describe("paper pages", () => {
     expect(html).toContain("Bags and separations");
     expect(html).toContain('<span class="manuscript-card-page">pp. 1–2</span>');
     expect(html).toContain('aria-controls="m2-body"');
-    // the index above the columns, foreign marks labelled with their origin
-    expect(html).toContain('<a class="manuscript-index-link" href="#m3">');
-    expect(html).toContain('<span class="manuscript-index-origin">from lax-3</span>');
+    // no list of marks above the columns: the cards beside the passages are the index
+    expect(html).not.toContain("manuscript-index");
     // the inert payload the viewer reads
     const data = JSON.parse(/<script type="application\/json" id="manuscript-data">(.*?)<\/script>/.exec(html)![1]!);
     expect(data.pageSizes).toHaveLength(2);
@@ -138,7 +137,7 @@ describe("paper pages", () => {
     const submission = fs.readFileSync(path.join(root, "lax-7", "index.html"), "utf8");
     // one centered button after the abstract, the counts under it, no list of marks
     expect(submission).toContain('<section class="page-section paper-cta">\n<a class="source-button paper-cta-button" href="paper.html"><span>View annotated paper</span></a>\n<p class="paper-cta-facts">2 pages · 4 marked passages</p>\n</section>');
-    expect(submission).not.toContain('manuscript-index-link');
+    expect(submission).not.toContain('manuscript-index');
     expect(submission).not.toContain('In the paper'); // its own mention is the button
     expect(submission.indexOf('class="paper-abstract"')).toBeLessThan(submission.indexOf('class="page-section paper-cta"'));
     expect(submission.indexOf('class="page-section paper-cta"')).toBeLessThan(submission.indexOf('<h3 class="section-title">Concepts</h3>'));

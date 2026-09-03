@@ -40,14 +40,22 @@ describe("the reflow paper page", () => {
 
     // The two surfaces: reflow visible with the blocks inline (the fixture
     // sits far under the embed budget), the PDF surface deferred behind the
-    // toggle with an empty rail and an empty mark table.
+    // toggle, annotated in its own right — its own rail of cards, under
+    // their own ids, and the mark table its script reads.
     expect(html).toContain('<div class="manuscript-body manuscript-reflow-body" id="manuscript-reflow">');
     expect(html).toMatch(/<div class="latex-block" data-nodelist-b64="[A-Za-z0-9+/=]+"><\/div>/);
     expect(html).not.toContain("data-nodelist-src");
     expect(html).toContain('<div class="manuscript-pdf" id="manuscript-pdf" hidden>');
     expect(html).toContain(" data-pdf-deferred>");
-    expect(html).toContain('<ol class="manuscript-rail" id="manuscript-rail"></ol>');
-    expect(html).toContain('"marks":[]');
+    expect(html).toContain('<ol class="manuscript-rail" id="manuscript-rail">\n<li class="manuscript-card');
+    expect(html).toContain('"marks":[{"n":1');
+    // One card per mark on each surface, the reflow set beside the passages
+    // and the printed set beside the pages; the `m<n>` ids stay the text's.
+    for (const mark of fixtureRecord.marks) {
+      expect(html).toContain(`id="m${mark.n}-card" data-mark="${mark.n}"`);
+      expect(html).toContain(`id="m${mark.n}-pdf-card" data-mark="${mark.n}"`);
+      expect(html).not.toContain(`<li class="manuscript-card kind-${mark.kind}" id="m${mark.n}"`);
+    }
     expect(html).toContain('<button type="button" class="manuscript-view-button" data-view="pdf" aria-pressed="false">As printed</button>');
 
     // The islands: the wire schema and the font map, fonts through ../fonts/.
@@ -63,12 +71,8 @@ describe("the reflow paper page", () => {
     for (const served of Object.values(fontMap))
       expect(fs.existsSync(path.join(root, "fonts", served)), served).toBe(true);
 
-    // Cards step aside to m<n>-card; the m<n> ids belong to the viewer's
-    // passage anchors at runtime. The index keeps linking to #m<n>.
-    for (const mark of fixtureRecord.marks) {
-      expect(html).toContain(`id="m${mark.n}-card" data-mark="${mark.n}"`);
-      expect(html).toContain(`href="#m${mark.n}"`);
-    }
+    // Cards step aside to m<n>-card and m<n>-pdf-card; the m<n> ids belong
+    // to the viewer's passage anchors at runtime, so the page ships none.
     expect(html).not.toMatch(/id="m\d+"[^-]/);
 
     // The AGPL notice under the reflow surface, linking upstream.
