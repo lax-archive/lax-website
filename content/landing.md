@@ -6,9 +6,9 @@ can read, software can check, and future work can build upon.
 
 ## What you can do here
 
-- **Read.** Browse submissions and their concepts as human-readable statements
-  alongside their Lean source. Every claim shows its evidence: which proofs
-  establish it, under which assumptions.
+- **Read.** Browse submissions and their concepts. Compare human readable
+  statements alongside their Lean source. Every claim shows its evidence:
+  which proofs establish it, under which assumptions.
 - **Review.** Review a concept or submission, endorse correct mathematics, or
   flag possible flaws.
 - **Submit.** Publish your own formalization. You may build upon definitions

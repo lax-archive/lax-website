@@ -123,13 +123,17 @@ function landingCopy(source: string): {
   };
 }
 
-function actionCard(action: LandingAction, available: boolean): string {
+function actionCard(action: LandingAction, available: boolean, href?: string): string {
   const heading = `<span class="landing-action-title">${esc(action.title)}.</span>`;
   const copy = `<span class="landing-action-copy">${esc(action.description)}</span>`;
   if (!available) return `<div class="landing-action-card unavailable" id="landing-action-${attr(action.id)}" data-landing-view="${attr(action.id)}" role="button" aria-disabled="true" tabindex="0" aria-label="${attr(action.title)}, coming soon">
 ${heading}${copy}
 <span class="landing-action-status" aria-hidden="true">Coming soon</span>
 </div>`;
+  if (href) return `<a class="landing-action-card" id="landing-action-${attr(action.id)}" href="${attr(href)}" data-landing-view="${attr(action.id)}">
+${heading}${copy}
+<span class="landing-action-hint" aria-hidden="true">See citation <b>→</b></span>
+</a>`;
   return `<button class="landing-action-card" id="landing-action-${attr(action.id)}" type="button" data-landing-view="${attr(action.id)}" data-landing-action="${attr(action.id)}" aria-controls="landing-panel-${attr(action.id)}">
 ${heading}${copy}
 <span class="landing-action-hint" aria-hidden="true">Go to section <b>↓</b></span>
@@ -178,7 +182,6 @@ ${authors ? `<span class="submissions-list-meta"><span class="formalized-label">
   const landing = landingCopy(contentMarkdown("landing.md").trim());
   const demo = await landingDemo();
   const actionOrder = ["read", "review", "submit", "cite"];
-  const actionCards = actionOrder.map((id) => actionCard(landing.actions.get(id)!, true));
   const reviewConcepts = concepts
     .map((concept) => {
       const located = model.conceptHome.get(concept.id)!;
@@ -210,6 +213,11 @@ ${authors ? `<span class="submissions-list-meta"><span class="formalized-label">
   const citeExample = listed.find((submission) => submission.record.id.toLowerCase().replace(/[^a-z0-9]/g, "") === "lax17")
     ?? listed.find((submission) => submission.record.state === "registered")
     ?? listed[0];
+  const actionCards = actionOrder.map((id) => actionCard(
+    landing.actions.get(id)!,
+    true,
+    id === "cite" && citeExample ? `${citeExample.record.id}/index.html?tour=citation` : undefined,
+  ));
   const citeExampleLink = citeExample ? `<div class="landing-cite-example">
 <p>Example submission</p>
 <a href="${attr(citeExample.record.id)}/index.html#citation">

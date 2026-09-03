@@ -1,5 +1,26 @@
 (() => {
   const RESET_DELAY = 2200;
+  const TOUR_DELAY = 1200;
+
+  function setupCitationTour() {
+    const url = new URL(window.location.href);
+    if (url.searchParams.get("tour") !== "citation") return;
+    const target = document.getElementById("citation");
+    if (!target) return;
+
+    url.searchParams.delete("tour");
+    window.history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
+
+    const reveal = () => setTimeout(() => {
+      const behavior = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
+      target.setAttribute("tabindex", "-1");
+      target.focus({ preventScroll: true });
+      target.scrollIntoView({ behavior, block: "start" });
+    }, TOUR_DELAY);
+
+    if (document.readyState === "complete") reveal();
+    else window.addEventListener("load", reveal, { once: true });
+  }
 
   function legacyCopy(text) {
     const field = document.createElement("textarea");
@@ -21,6 +42,8 @@
     }
     legacyCopy(text);
   }
+
+  setupCitationTour();
 
   for (const button of document.querySelectorAll("[data-copy-citation]")) {
     let resetTimer;
