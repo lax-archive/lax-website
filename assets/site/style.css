@@ -3290,8 +3290,8 @@ body.graph-window-open::after{
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 13px;
-  height: 13px;
+  width: 11px;
+  height: 11px;
   border: 1px solid var(--accent);
   border-radius: 50%;
   background: var(--proven-bg);
@@ -3367,7 +3367,7 @@ body.graph-window-open::after{
 .net-dock.open circle{ fill: var(--partial-bg); }
 .net-dock.ext circle{ stroke: var(--none-border); }
 .net-dock text{
-  font-size: 9px;
+  font-size: 7.5px;
   fill: var(--text);
   font-family: var(--mono);
 }

@@ -637,8 +637,11 @@
     ];
   }
 
-  const DOCK_R = 7;
-  const DOCK_GAP = 20;
+  // Small and tight against the box, so a concept and its docks read as one
+  // unit rather than a box with satellites.
+  const DOCK_R = 5;
+  const DOCK_GAP = 13;
+  const DOCK_DROP = 1;
 
   /** Docks hang in a row under the box's bottom edge, centred on it. */
   function dockOffsetX(node, index) {
@@ -669,7 +672,7 @@
             kind: 'concept', key: 'c:' + statement.concept, id: statement.concept,
             label, title: statement.title, owner: statement.owner, ext: statement.ext,
             href: statement.href ? statement.href.split('#')[0] : undefined,
-            docks: [], width: nodeWidth(label), height: NODE_H + 4 + 2 * DOCK_R,
+            docks: [], width: nodeWidth(label), height: NODE_H + DOCK_DROP + 2 * DOCK_R,
           };
           conceptNodes.set(statement.concept, node);
           nodes.push(node);
@@ -693,7 +696,7 @@
       node.docks = node.docks.filter(Boolean);
       node.docks.forEach((dock, index) => placeOf.set(dock.id, { key: node.key, dock: index + 1 }));
       node.proven = node.docks.every((dock) => dock.proven);
-      node.width = Math.max(node.width, node.docks.length * DOCK_GAP + 16);
+      node.width = Math.max(node.width, node.docks.length * DOCK_GAP + 12);
     }
     for (const proof of data.proofs) {
       const node = { ...proof, kind: 'proof', key: 'p:' + proof.id, width: 28, height: 28 };
@@ -1043,7 +1046,7 @@
           });
           makeInteractive(dockGroup, dock);
           svgEl(dockGroup, 'circle', { cx: x, cy: y, r: DOCK_R });
-          svgEl(dockGroup, 'text', { x, y, 'text-anchor': 'middle', dy: 3 })
+          svgEl(dockGroup, 'text', { x, y, 'text-anchor': 'middle', dy: 2.5 })
             .textContent = String(index + 1);
           attachTooltip(dockGroup, container, dockTooltipRows(node, dock, index + 1));
           attachHotEdges(dockGroup, dockIncident.get(`${node.key}\0${index + 1}`));
