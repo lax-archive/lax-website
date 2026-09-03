@@ -53,7 +53,7 @@
 <div class="version-item-heading"><span class="version-item-id">lax-67</span><span class="version-item-marks"><span class="version-mark version-mark-viewing">viewing</span><span class="version-mark version-mark-draft">draft</span></span></div>
 <p class="version-item-title">The Word RAM</p>
 <div class="version-metadata"><span><b>Created</b> <time datetime="2026-09-03T12:41:41Z">2026-09-03</time></span><span><b>Lean</b> <code>v4.30.0</code></span><span><b>mathlib</b> <code>c5ea00351c28e24afc9f0f84379aa41082b1188f</code></span></div>
-<div class="version-item-actions"><a class="version-source-link" href="https://github.com/lax-archive/lax-submissions/tree/483f38bc95ffabaa57f5935a1abf3641cbec53ed/word-ram"><svg class="source-mark" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true" focusable="false"><path fill="currentColor" d="M5.22 3.22a.75.75 0 0 1 1.06 1.06L2.56 8l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06Zm5.56 0 4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 1 1-1.06-1.06L13.44 8 9.72 4.28a.75.75 0 1 1 1.06-1.06Z"/></svg><span>GitHub source</span></a><span class="version-viewing-label">Shown on this page</span></div>
+<div class="version-item-actions"><a class="version-source-link" href="https://github.com/lax-archive/lax-submissions/tree/6238874189453158698301e7127fb4f7d9bf0858/word-ram"><svg class="source-mark" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true" focusable="false"><path fill="currentColor" d="M5.22 3.22a.75.75 0 0 1 1.06 1.06L2.56 8l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06Zm5.56 0 4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 1 1-1.06-1.06L13.44 8 9.72 4.28a.75.75 0 1 1 1.06-1.06Z"/></svg><span>GitHub source</span></a><span class="version-viewing-label">Shown on this page</span></div>
 </li>
 <li class="version-item version-latest">
 <div class="version-item-heading"><span class="version-item-id">lax-13</span><span class="version-item-marks"><span class="version-mark version-mark-latest">current version</span></span></div>
@@ -65,7 +65,7 @@
 </dialog>
 <header class="paper-head">
 <h1 class="paper-title">The Word RAM</h1>
-<p class="paper-meta"><span class="submission-meta-id">lax-67</span><span class="meta-sep">·</span><span class="formalized-label">formalized by</span> <span class="paper-author">Jan Dreier</span><span class="author-sep">·</span><span class="paper-author">Claude Fable 5 (Anthropic)</span><span class="meta-sep">·</span>created 2026-09-03<span class="meta-sep">·</span><a href="https://github.com/lax-archive/lax-submissions/tree/483f38bc95ffabaa57f5935a1abf3641cbec53ed/word-ram" title="https://github.com/lax-archive/lax-submissions/tree/483f38bc95ffabaa57f5935a1abf3641cbec53ed/word-ram"><code>GitHub @483f38b</code></a><span class="meta-sep">·</span>Lean <code>v4.30.0</code> · mathlib <code>c5ea00351c28</code></p>
+<p class="paper-meta"><span class="submission-meta-id">lax-67</span><span class="meta-sep">·</span><span class="formalized-label">formalized by</span> <span class="paper-author">Jan Dreier</span><span class="author-sep">·</span><span class="paper-author">Claude Fable 5 (Anthropic)</span><span class="meta-sep">·</span>created 2026-09-03<span class="meta-sep">·</span><a href="https://github.com/lax-archive/lax-submissions/tree/6238874189453158698301e7127fb4f7d9bf0858/word-ram" title="https://github.com/lax-archive/lax-submissions/tree/6238874189453158698301e7127fb4f7d9bf0858/word-ram"><code>GitHub @6238874</code></a><span class="meta-sep">·</span>Lean <code>v4.30.0</code> · mathlib <code>c5ea00351c28</code></p>
 </header>
 <section class="page-reactions" aria-label="Community review" data-reactions-host="https://comments.laxarchive.org" data-reactions-url="https://laxarchive.org/lax-67/" data-review-kind="submission" data-source-lines="0">
 <div class="page-reactions-actions">
@@ -124,27 +124,6 @@ model and its sources, the truncation rule and what follows from it,
 the constant-cost derivations of the remaining standard operations —
 disjunction, exclusive or, the right shift, the remainder and the
 comparisons — and the machine's halting behaviour and time measure.</p>
-<p>Statements about algorithms are then made downstream, over these two
-concepts, in a fixed shape: one program is quantified before the word
-length, so that a claim is about a single program uniform in <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>w</mi></mrow><annotation encoding="application/x-tex">w</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.0269em;">w</span></span></span></span> and
-no advice can be smuggled in, and the hypotheses on the word length
-are explicit inequalities against <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mi>w</mi></msup></mrow><annotation encoding="application/x-tex">2 ^ w</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6644em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0269em;">w</span></span></span></span></span></span></span></span></span></span></span> rather than logarithms.
-The proof package discharges nothing — there is nothing to discharge —
-and instead carries a reusable verified pipeline for the submissions
-that will: a structured while-language with named scalars and arrays
-whose big-step semantics counts the statements it executes, a compiler
-into machine code, a simulation theorem bounding the machine's step
-count by a constant multiple of that cost provided every intermediate
-value fits into a word, and a reasoning layer of Hoare-style rules
-with a cost potential and compositional value bounds. The word length
-enters that pipeline exactly once, at its boundary, so an algorithm is
-verified on clean unbounded natural-number semantics and lands as a
-running-time claim about this machine.
-The refinement framework built on that pipeline — the port of the
-Isabelle NREST/Autoref/Sepref stack through which algorithms verified
-against abstract specifications descend to this machine — is the
-separate submission <em>A Refinement Framework for the Word RAM</em>, which
-requires this proof package.</p>
 </div>
 </section>
 
