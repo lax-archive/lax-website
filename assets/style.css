@@ -3570,34 +3570,6 @@ body.graph-window-open::after{
 
 .manuscript-heading .concept-id{ font-variant: small-caps; letter-spacing: 0.05em; }
 
-.manuscript-index-section{ margin: 0 0 1.4rem; }
-.manuscript-index{
-  list-style: none;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.35rem 0.6rem;
-  padding: 0;
-  margin: 0;
-}
-.manuscript-index-item{
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  padding: 0.18rem 0.5rem 0.18rem 0.35rem;
-  border: 1px solid var(--border-light);
-  border-radius: var(--radius-control);
-  background: var(--surface);
-  font-size: 0.8rem;
-  max-width: 100%;
-}
-.manuscript-index-link{ display: inline-flex; align-items: center; gap: 0.3rem; color: var(--link); text-decoration: none; min-width: 0; }
-.manuscript-index-link:hover{ text-decoration: underline; }
-.manuscript-index-link .type-badge, .manuscript-index-link .proof-badge{ margin-right: 0; }
-/* A long name breaks rather than pushing the chip past a phone's edge. */
-.manuscript-index-name{ font-family: 'Latin Modern', Georgia, serif; min-width: 0; overflow-wrap: anywhere; }
-.manuscript-index-item.kind-submission .manuscript-index-name{ font-family: var(--mono); font-size: 0.72rem; }
-.manuscript-index-origin, .manuscript-index-page{ color: var(--text-dim); font-size: 0.72rem; white-space: nowrap; }
-
 /* Always side by side: the pages keep a readable minimum width and the
    rail gives way first, down to a card's worth; where the screen is
    narrower than the two together the body scrolls sideways rather than
