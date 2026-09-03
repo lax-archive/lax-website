@@ -2005,29 +2005,16 @@ body{
 }
 
 .landing-faq-heading{
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(16rem, 0.72fr);
-  gap: 0.25rem 2rem;
-  align-items: end;
-  margin-bottom: 1.25rem;
+  margin-bottom: 0.8rem;
 }
-
-.landing-faq-heading .landing-action-eyebrow{ grid-column: 1 / -1; }
 
 #detail .landing-faq-heading h2{
   margin: 0;
-  font-size: clamp(1.55rem, 3vw, 2rem);
+  font-size: 1.4rem;
   line-height: 1.18;
   letter-spacing: 0.01em;
 }
 
-.landing-faq-introduction{
-  color: var(--text-dim);
-  font-size: 0.94rem;
-  line-height: 1.5;
-}
-
-.landing-faq-introduction p,
 .landing-faq-answer p:last-child{ margin-bottom: 0; }
 
 .landing-faq-list{
@@ -2047,8 +2034,8 @@ body{
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  min-height: 4rem;
-  padding: 0.78rem 1.05rem;
+  min-height: 3.35rem;
+  padding: 0.55rem 0.85rem;
   list-style: none;
   color: var(--text);
   cursor: pointer;
@@ -2068,26 +2055,26 @@ body{
 
 .landing-faq-question{
   display: grid;
-  grid-template-columns: 1.75rem minmax(0, 1fr);
+  grid-template-columns: 1.35rem minmax(0, 1fr);
   align-items: baseline;
-  gap: 0.5rem;
+  gap: 0.35rem;
   min-width: 0;
-  font-size: 0.94rem;
+  font-size: 0.84rem;
   font-weight: 600;
-  line-height: 1.38;
+  line-height: 1.35;
 }
 
 .landing-faq-number{
   color: var(--text-dim);
-  font: 600 0.62rem/1 var(--mono);
+  font: 600 0.56rem/1 var(--mono);
   letter-spacing: 0.06em;
 }
 
 .landing-faq-toggle{
   position: relative;
-  width: 1.45rem;
-  height: 1.45rem;
-  flex: 0 0 1.45rem;
+  width: 1.2rem;
+  height: 1.2rem;
+  flex: 0 0 1.2rem;
   border: 1px solid var(--border);
   border-radius: 50%;
   background: var(--panel-bg);
@@ -2098,7 +2085,7 @@ body{
   content: '';
   position: absolute;
   inset: 50% auto auto 50%;
-  width: 0.54rem;
+  width: 0.45rem;
   height: 1px;
   background: currentColor;
   transform: translate(-50%, -50%);
@@ -2109,9 +2096,9 @@ body{
 .landing-faq-item[open] .landing-faq-toggle::after{ transform: translate(-50%, -50%) rotate(0); }
 
 .landing-faq-answer{
-  padding: 0 4.1rem 1.05rem 3.3rem;
+  padding: 0 3.45rem 0.9rem 2.55rem;
   color: #4f5966;
-  font-size: 0.96rem;
+  font-size: 0.88rem;
   line-height: 1.62;
 }
 
@@ -3531,11 +3518,9 @@ body.graph-window-open::after{
   .landing-action-status{ opacity: 1; transform: none; }
   .landing-action-panel{ padding: 1rem; }
   .landing-faq{ margin-top: 2.7rem; }
-  .landing-faq-heading{ display: block; }
-  .landing-faq-introduction{ margin-top: 0.45rem; }
-  .landing-faq-item summary{ min-height: 3.7rem; padding: 0.68rem 0.75rem; }
-  .landing-faq-question{ grid-template-columns: 1.35rem minmax(0, 1fr); gap: 0.3rem; font-size: 0.9rem; }
-  .landing-faq-answer{ padding: 0 3.2rem 0.9rem 2.4rem; font-size: 0.92rem; }
+  .landing-faq-item summary{ min-height: 3.1rem; padding: 0.5rem 0.65rem; }
+  .landing-faq-question{ grid-template-columns: 1.15rem minmax(0, 1fr); gap: 0.2rem; font-size: 0.82rem; }
+  .landing-faq-answer{ padding: 0 2.75rem 0.8rem 2rem; font-size: 0.86rem; }
   .tag-browser-heading{ display: block; }
   .tag-browser-heading p{ margin-top: 0.18rem; text-align: left; }
   .landing-open-problems-link{ align-items: flex-start; flex-direction: column; gap: 0.35rem; }
