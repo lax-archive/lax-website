@@ -401,6 +401,7 @@ After the formula.`, "");
     expect(css).toContain(".landing-demo-concept .landing-demo-code-line-accent");
     expect(css).toContain(".landing-review-start[hidden]{ display: none; }");
     expect(css).toContain(".landing-action-card:is(button, a)");
+    expect(css).toContain(".submissions-load-more[hidden]{ display: none; }");
     const unavailableRest = css.match(/\.landing-action-card\.unavailable\{([^}]*)\}/)?.[1] ?? "";
     expect(unavailableRest).not.toContain("background");
     expect(css).toMatch(/\.landing-action-card\.unavailable:hover,[\s\S]*?background: var\(--panel-bg\);/);
@@ -430,7 +431,7 @@ After the formula.`, "");
     expect(citationScript).toContain('target.scrollIntoView({ behavior, block: "start" })');
     expect(sidebarScript).toContain("document.querySelectorAll('[data-tag-filter]')");
     expect(sidebarScript).toContain("url.searchParams.set('tag', tag)");
-    expect(sidebarScript).toContain("updateTagStatus(visible)");
+    expect(sidebarScript).toContain("updateTagStatus(total, shown)");
     expect(sidebarScript).toContain("function applySidebarFilters()");
     expect(sidebarScript).toContain("el.dataset.searchTitle !== undefined");
     expect(sidebarScript).toContain("function applySubmissionFilters()");
@@ -439,6 +440,9 @@ After the formula.`, "");
     expect(sidebarScript).toContain("function setupRandomSubmission()");
     expect(sidebarScript).toContain("Math.floor(Math.random() * candidates.length)");
     expect(sidebarScript).toContain("randomSubmission.hidden = Boolean(searchEl?.value.length)");
+    expect(sidebarScript).toContain("const SUBMISSION_PAGE_SIZE = 10");
+    expect(sidebarScript).toContain("function applySubmissionPagination(list, total)");
+    expect(sidebarScript).toContain("submissionVisibleLimit += SUBMISSION_PAGE_SIZE");
   });
 
   it("rejects generated page paths that escape the output directory", async () => {
@@ -515,7 +519,7 @@ After the formula.`, "");
     expect(index).toContain('data-copy-prompt aria-controls="landing-submission-prompt" aria-label="Copy prompt to clipboard"');
     expect(index).toContain('<output class="prompt-copy-status" aria-live="polite"></output>');
     expect(index).toContain('id="landing-panel-submit" aria-labelledby="landing-action-submit">');
-    expect(index).toContain('id="landing-panel-cite" aria-labelledby="landing-action-cite">');
+    expect(index).not.toContain('id="landing-panel-cite"');
     expect(index).toContain('id="landing-panel-review" aria-labelledby="landing-action-review">');
     expect(index).toContain("<h3>Review a concept</h3>");
     // An import from another concept in the same submission is not enough to
@@ -530,15 +534,13 @@ After the formula.`, "");
     expect(index).toContain('<h3 id="landing-proof-obligations-heading">Open proof obligations</h3>');
     expect(reviewPanelEnd).toBeLessThan(index.indexOf('id="landing-proof-obligations"'));
     expect(index).toContain('class="landing-open-problems-link" href="open-proof-obligations.html"');
-    expect(index).not.toMatch(/id="landing-panel-(?:read|submit|cite)"[^>]* hidden/);
+    expect(index).not.toMatch(/id="landing-panel-(?:read|submit)"[^>]* hidden/);
     expect(index.indexOf('id="landing-panel-submit"')).toBeLessThan(index.indexOf('id="landing-panel-read"'));
-    expect(index.indexOf('id="landing-panel-read"')).toBeLessThan(index.indexOf('id="landing-panel-cite"'));
     expect(index).toContain('Go to section <b>↓</b>');
     expect(index).toContain('See citation <b>→</b>');
-    expect(index).toContain("Every submission page ends with a <strong>Citation</strong> section");
-    expect(index).toContain('class="landing-cite-example"');
-    expect(index).toContain('href="Lax2/index.html#citation"');
-    expect(index).toContain('class="landing-cite-example-action">View citation');
+    expect(index).not.toContain("Cite the formalization");
+    expect(index).not.toContain("Ready-made BibTeX");
+    expect(index).not.toContain('class="landing-cite-example"');
     expect(index).toContain("contributing.html");
     expect(index).toMatch(/<script src="assets\/landing\.js\?v=[0-9a-f]{12}"><\/script>/);
     expect(index).toMatch(/<script src="assets\/sidebar\.js\?v=[0-9a-f]{12}"><\/script>/);
@@ -577,6 +579,7 @@ After the formula.`, "");
     expect(index.indexOf('class="random-submission"')).toBeLessThan(index.indexOf('<ul id="entry-list">'));
     expect(index).toContain('id="submissions-list"');
     expect(index).toContain('id="submissions-list-empty"');
+    expect(index).toContain('<button class="submissions-load-more" id="submissions-load-more" type="button" aria-controls="submissions-list" hidden>Load more</button>');
     // sidebar rows share the flat entry grammar and use titles alone
     expect(index).not.toContain("sidebar-submission");
     expect(index).toContain('data-entry-group="registered">Registered</li>');
@@ -684,7 +687,7 @@ After the formula.`, "");
     expect(html).not.toContain('href="Lax1/Lax1.Base.html"');
   });
 
-  it("uses Lax17 as the landing citation example when it is available", async () => {
+  it("uses Lax17 for the landing citation tour when it is available", async () => {
     const archive = submissions();
     const lax17 = structuredClone(archive[0]!);
     lax17.record.id = "lax-17";
@@ -701,7 +704,6 @@ After the formula.`, "");
     await generateSite([...archive, lax17], root);
     const index = fs.readFileSync(path.join(root, "index.html"), "utf8");
     expect(index).toContain('href="lax-17/index.html?tour=citation" data-landing-view="cite"');
-    expect(index).toContain('href="lax-17/index.html#citation"');
     expect(index).toContain("A Polynomial Bound for the Grid-Minor Theorem");
   });
 

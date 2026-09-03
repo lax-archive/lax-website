@@ -1942,11 +1942,6 @@ body{
 .landing-prompt-box{ position: relative; margin: 0.9rem 0; }
 .landing-prompt-box pre{ margin: 0; padding-right: 4rem; }
 
-.landing-cite-panel{
-  border-left: 4px solid var(--accent);
-  background: linear-gradient(120deg, var(--surface), var(--accent-light));
-}
-
 .landing-review-panel{
   border-left: 4px solid var(--partial-border);
   background: linear-gradient(120deg, var(--surface), var(--partial-bg));
@@ -2000,58 +1995,6 @@ body{
 }
 
 .landing-open-problems-link b{ color: var(--link); font-size: 0.82rem; }
-
-.landing-cite-example{
-  display: grid;
-  gap: 0.35rem;
-  margin-top: 1.15rem;
-}
-
-.landing-cite-example > p{
-  color: var(--text-dim);
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-.landing-cite-example > a{
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 0.7rem;
-  padding: 0.72rem 0.85rem;
-  color: var(--text);
-  background: rgba(255, 255, 255, 0.78);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-card);
-  text-decoration: none;
-  transition: border-color 140ms ease, box-shadow 140ms ease, transform 140ms ease;
-}
-
-.landing-cite-example > a:hover,
-.landing-cite-example > a:focus-visible{
-  border-color: var(--accent);
-  box-shadow: 0 5px 16px rgba(44, 95, 138, 0.1);
-  transform: translateY(-1px);
-  outline: none;
-}
-
-.landing-cite-example-id{
-  color: var(--link);
-  font-family: var(--mono);
-  font-size: 0.78rem;
-}
-
-.landing-cite-example strong{ line-height: 1.35; }
-
-.landing-cite-example-action{
-  color: var(--link);
-  font-size: 0.78rem;
-  white-space: nowrap;
-}
-
-.landing-cite-example-action b{ font-size: 0.95rem; }
 
 .stats-line{
   font-variant: small-caps;
@@ -2208,6 +2151,30 @@ body{
   color: var(--text-dim);
   padding: 0.75rem 0;
 }
+
+.submissions-load-more{
+  display: block;
+  margin: 1rem auto 0;
+  padding: 0.62rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-control);
+  background: var(--surface);
+  color: var(--text);
+  font: 600 0.76rem/1.2 var(--mono);
+  cursor: pointer;
+}
+
+.submissions-load-more[hidden]{ display: none; }
+
+.submissions-load-more:hover,
+.submissions-load-more:focus-visible{
+  border-color: var(--accent);
+  background: var(--accent-light);
+  color: var(--accent);
+  outline: none;
+}
+
+.submissions-load-more:focus-visible{ box-shadow: 0 0 0 3px rgba(59, 107, 154, 0.16); }
 
 /* ── Archive-wide proof obligations ── */
 
@@ -3431,8 +3398,6 @@ body.graph-window-open::after{
   .landing-action-hint,
   .landing-action-status{ opacity: 1; transform: none; }
   .landing-action-panel{ padding: 1rem; }
-  .landing-cite-example > a{ grid-template-columns: auto minmax(0, 1fr); }
-  .landing-cite-example-action{ grid-column: 1 / -1; }
   .tag-browser-heading{ display: block; }
   .tag-browser-heading p{ margin-top: 0.18rem; text-align: left; }
   .landing-open-problems-link{ align-items: flex-start; flex-direction: column; gap: 0.35rem; }

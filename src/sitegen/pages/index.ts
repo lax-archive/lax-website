@@ -218,14 +218,6 @@ ${authors ? `<span class="submissions-list-meta"><span class="formalized-label">
     true,
     id === "cite" && citeExample ? `${citeExample.record.id}/index.html?tour=citation` : undefined,
   ));
-  const citeExampleLink = citeExample ? `<div class="landing-cite-example">
-<p>Example submission</p>
-<a href="${attr(citeExample.record.id)}/index.html#citation">
-<span class="landing-cite-example-id">${esc(citeExample.record.id)}</span>
-<strong>${markdown.renderAuthorInline(citeExample.output!.manifest.title, "")}</strong>
-<span class="landing-cite-example-action">View citation <b aria-hidden="true">→</b></span>
-</a>
-</div>` : "";
   const tagButtons = tagIndex.tags.map((tag) => {
     const count = tag.submissionIds.length;
     return `<button class="tag-chip" type="button" data-tag-filter="${attr(tag.key)}" aria-pressed="false" aria-label="${attr(`${tag.label}, ${plural(count, "submission")}`)}"><span>${esc(tag.label)}</span><b aria-hidden="true">${count}</b></button>`;
@@ -249,6 +241,7 @@ ${tagBrowser}
 ${rows.join("\n")}
 <li id="submissions-list-empty" class="submissions-list-empty" hidden>No submissions match.</li>
 </ul>
+<button class="submissions-load-more" id="submissions-load-more" type="button" aria-controls="submissions-list" hidden>Load more</button>
 </section>`;
   const submit = `<section class="landing-action-panel landing-submit-panel latex-content" id="landing-panel-submit" aria-labelledby="landing-action-submit">
 <p class="landing-action-eyebrow">Contribute to Lax</p>
@@ -276,12 +269,6 @@ ${reviewStarts}
     : "Every claim currently has a grounded proof; this view will update automatically when a proof obligation is submitted."}</p>
 <a class="landing-open-problems-link" href="open-proof-obligations.html"><span><strong>${openProblems.length}</strong> ${openProblems.length === 1 ? "proof obligation" : "proof obligations"}</span><b>Browse proof obligations <span aria-hidden="true">→</span></b></a>
 </section>`;
-  const cite = `<section class="landing-action-panel landing-cite-panel" id="landing-panel-cite" aria-labelledby="landing-action-cite">
-<p class="landing-action-eyebrow">Cite the formalization</p>
-<h3>Ready-made BibTeX</h3>
-<p>Every submission page ends with a <strong>Citation</strong> section containing a ready-made BibTeX entry. Open the submission you used, scroll to the bottom, and copy that entry into your bibliography.</p>
-${citeExampleLink}
-</section>`;
   const content = `<section class="landing-demo-showcase" aria-label="How Lax separates mathematical meaning from proof evidence">
 <div class="landing-lede latex-content">
 ${markdown.render(landing.lede, "")}
@@ -305,7 +292,6 @@ ${submit}
 ${library}
 ${review}
 ${proofObligations}
-${cite}
 </div>
 </section>`;
   return page({
