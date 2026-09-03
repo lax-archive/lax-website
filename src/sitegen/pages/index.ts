@@ -335,9 +335,9 @@ ${submit}
 ${library}
 ${review}
 ${proofObligations}
+${faq}
 </div>
-</section>
-${faq}`;
+</section>`;
   return page({
     title: "Lax Lean Archive",
     rootRel: "",
