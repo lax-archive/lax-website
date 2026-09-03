@@ -2581,6 +2581,27 @@ body{
   margin-bottom: 0.7rem;
 }
 
+/* Which statement of a multi-statement claim is meant: a quiet qualifier,
+   never competing with the claim's own name. */
+.claim-ordinal{
+  color: var(--text-dim);
+  font-weight: 400;
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+
+.evidence-statement + .evidence-statement{ margin-top: 1.1rem; }
+.evidence-statement h4{
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0 0 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+.evidence-statement h4 code{ font-family: var(--mono); font-size: 0.78rem; font-weight: 400; }
+
 .honesty-note,
 .empty-note{
   color: var(--text-dim);
@@ -3264,6 +3285,22 @@ body.graph-window-open::after{
   line-height: 1;
 }
 .legend-cycle{ width: 18px; height: 12px; border: 1px solid var(--neutral-stroke); border-radius: var(--radius-chip); }
+/* The numbered dock of a claim with several statements. */
+.legend-dock{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 13px;
+  height: 13px;
+  border: 1px solid var(--accent);
+  border-radius: 50%;
+  background: var(--proven-bg);
+  color: var(--text);
+  font-family: var(--mono);
+  font-style: normal;
+  font-size: 0.55rem;
+  line-height: 1;
+}
 
 .graph-tooltip{
   position: absolute;
@@ -3317,6 +3354,28 @@ body.graph-window-open::after{
 .net-node.ext rect{ stroke: var(--none-border); }
 .dag-node.ext text,
 .net-node.ext text{ fill: var(--text-dim); }
+
+/* Docks: one small numbered circle per statement of a multi-statement
+   concept, hanging under its box. Same axes as the boxes — fill = status,
+   stroke = origin — one size down. */
+.net-dock circle{
+  stroke-width: 1.2;
+  fill: var(--none-bg);
+  stroke: var(--accent);
+}
+.net-dock.proven circle{ fill: var(--proven-bg); }
+.net-dock.open circle{ fill: var(--partial-bg); }
+.net-dock.ext circle{ stroke: var(--none-border); }
+.net-dock text{
+  font-size: 9px;
+  fill: var(--text);
+  font-family: var(--mono);
+}
+.net-dock.ext text{ fill: var(--text-dim); }
+.net-dock[role="link"],
+.net-dock[role="link"] *{ cursor: pointer; }
+.net-dock[role="link"]:hover circle,
+.net-dock:focus-visible circle{ outline: none; stroke: var(--link); stroke-width: 2.4; }
 
 .net-proof rect{ fill: var(--surface); stroke: var(--text-dim); stroke-width: 1.3; }
 .net-proof text{ font-family: serif; font-size: 16px; fill: var(--text); }

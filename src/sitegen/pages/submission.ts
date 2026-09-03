@@ -197,15 +197,28 @@ function pageGraphData(ctx: PageContext, submission: SiteSubmission, related: Su
       });
     }
   }
+  // Every sibling statement of a displayed concept comes along, so the figure
+  // can draw one dock per statement — each with its own status — even where no
+  // displayed proof touches it.
+  for (const id of [...statementIds])
+    for (const sibling of model.statementHome.get(id)?.concept.statements ?? [])
+      statementIds.add(sibling.id);
   const statementNodes = [...statementIds].sort().map((id) => {
     const home = model.statementHome.get(id);
+    const siblings = home?.concept.statements ?? [];
+    const index = siblings.findIndex((statement) => statement.id === id) + 1;
     return {
       id,
-      // One-statement rule: the claim displays as its home concept; the raw
-      // statement id stays available for the tooltip.
+      // A claim displays as its home concept; the raw statement id stays
+      // available for the tooltip. `index`/`count` place the statement inside
+      // a multi-statement concept, which the figure draws as one box with a
+      // numbered dock per statement.
       label: home?.concept.id,
       title: home?.concept.title,
       owner: home?.output.id,
+      concept: home?.concept.id,
+      index: index || undefined,
+      count: home ? siblings.length : undefined,
       href: home ? `../${home.output.id}/${home.concept.id}.html#s-${id}` : undefined,
       proven: model.network.proven.has(id),
       ext: !ownStatements.has(id),

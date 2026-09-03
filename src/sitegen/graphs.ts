@@ -65,10 +65,12 @@ export function conceptGraph(model: SiteModel, rootIds: Iterable<string>): Conce
   const ids = new Set(dirOf.keys());
   const nodes = [...ids].sort().map((id) => {
     const home = model.conceptHome.get(id)!;
-    const statement = home.concept.statements[0];
-    const status = !statement
+    // A concept declaring several statements is proven only once every one
+    // of them is; a concept declaring none is a definition.
+    const statements = home.concept.statements;
+    const status = !statements.length
       ? ("none" as const)
-      : model.network.proven.has(statement.id)
+      : statements.every((statement) => model.network.proven.has(statement.id))
         ? ("proven" as const)
         : ("open" as const);
     return {

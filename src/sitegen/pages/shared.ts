@@ -32,28 +32,82 @@ export function conceptLink(model: SiteModel, id: string, rootRel: string, home?
 
 // ---- proofs as judgments between claims ----
 
-/** A statement rendered as its home claim-concept (one-statement rule: the
- * concept *is* the claim): type badge with the proven mark, linked to the
- * concept page. Every statement a proof names must resolve — a missing home
- * means a corrupt or incomplete database, not something to render around. */
-export function claimEntry(model: SiteModel, statementId: string, rootRel: string, pageHome?: string): string {
+/** English ordinal for a 1-based position: 1st, 2nd, 3rd, 4th, 11th, 21st. */
+export function ordinal(n: number): string {
+  const tens = Math.abs(n) % 100;
+  const ones = Math.abs(n) % 10;
+  const suffix = tens >= 11 && tens <= 13
+    ? "th"
+    : ones === 1 ? "st" : ones === 2 ? "nd" : ones === 3 ? "rd" : "th";
+  return `${n}${suffix}`;
+}
+
+export interface StatementOrdinal { index: number; count: number; label: string }
+
+/** The anonymous position of a statement inside a multi-statement concept
+ * ("2nd statement"); undefined for the common single-statement concept, whose
+ * concept *is* its claim and needs no ordinal. */
+export function statementOrdinal(model: SiteModel, statementId: string): StatementOrdinal | undefined {
+  const home = model.statementHome.get(statementId);
+  if (!home || home.concept.statements.length < 2) return undefined;
+  const index = home.concept.statements.findIndex((s) => s.id === statementId) + 1;
+  if (index === 0) return undefined;
+  const count = home.concept.statements.length;
+  return { index, count, label: `${ordinal(index)} statement` };
+}
+
+/** A statement rendered as its home claim-concept: type badge with the proven
+ * mark, linked to the concept page. A concept declaring several statements is
+ * still one entry; only a *conclusion* names which of them is meant, by its
+ * anonymous position — an assumption never says which statement was used, so
+ * it carries the concept's aggregate status and the concept's own id.
+ * Every statement a proof names must resolve — a missing home means a corrupt
+ * or incomplete database, not something to render around. */
+export function claimEntry(
+  model: SiteModel,
+  statementId: string,
+  rootRel: string,
+  pageHome?: string,
+  opts: { role?: "conclusion" | "assumption" } = {},
+): string {
   const home = model.statementHome.get(statementId);
   if (!home) throw new Error(`statement ${statementId} has no home concept in the archive`);
+  const page = `${rootRel}${home.output.id}/${home.concept.id}.html`;
+  const position = statementOrdinal(model, statementId);
+  const label = code(shortId(home.concept.id, pageHome));
+  if (!position) {
+    const proven = model.network.proven.has(statementId);
+    return `<span class="claim-entry">${typeBadge(home.concept.type, proven)}<a href="${attr(page)}" title="${attr(statementId)}">${label}</a></span>`;
+  }
+  if ((opts.role ?? "conclusion") === "assumption") {
+    const proven = home.concept.statements.every((s) => model.network.proven.has(s.id));
+    return `<span class="claim-entry">${typeBadge(home.concept.type, proven)}<a href="${attr(page)}" title="${attr(home.concept.id)}">${label}</a></span>`;
+  }
   const proven = model.network.proven.has(statementId);
-  const href = `${rootRel}${home.output.id}/${home.concept.id}.html`;
-  return `<span class="claim-entry">${typeBadge(home.concept.type, proven)}<a href="${attr(href)}" title="${attr(statementId)}">${code(shortId(home.concept.id, pageHome))}</a></span>`;
+  const href = `${page}#s-${statementId}`;
+  return `<span class="claim-entry">${typeBadge(home.concept.type, proven)}<a href="${attr(href)}" title="${attr(statementId)}">${label} <span class="claim-ordinal">(${esc(position.label)})</span></a></span>`;
 }
 
 /** The judgment card: assumptions boxed on the left, an arrow, the concluded
- * claim on the right — the checked relationship a proof contributes. */
+ * claim on the right — the checked relationship a proof contributes. Several
+ * assumed statements of one multi-statement concept collapse to a single
+ * entry: the card says which claims are relied on, not which axioms. */
 export function proofJudgment(model: SiteModel, proof: ProofEntry, rootRel: string, pageHome?: string): string {
-  const assumptions = proof.assumptions.length
-    ? `<ul>${proof.assumptions.map((id) => `<li>${claimEntry(model, id, rootRel, pageHome)}</li>`).join("\n")}</ul>`
+  const seen = new Set<string>();
+  const assumed = proof.assumptions.filter((id) => {
+    const home = model.statementHome.get(id);
+    if (!home || home.concept.statements.length < 2) return true;
+    if (seen.has(home.concept.id)) return false;
+    seen.add(home.concept.id);
+    return true;
+  });
+  const assumptions = assumed.length
+    ? `<ul>${assumed.map((id) => `<li>${claimEntry(model, id, rootRel, pageHome, { role: "assumption" })}</li>`).join("\n")}</ul>`
     : `<p class="judgment-unconditional">no assumptions</p>`;
   return `<div class="judgment">
 <div class="judgment-assumptions">${assumptions}</div>
 <span class="judgment-arrow" aria-hidden="true">→</span>
-<div class="judgment-conclusion">${claimEntry(model, proof.conclusion, rootRel, pageHome)}</div>
+<div class="judgment-conclusion">${claimEntry(model, proof.conclusion, rootRel, pageHome, { role: "conclusion" })}</div>
 </div>`;
 }
 
@@ -97,7 +151,7 @@ export function proofShortName(output: BuildOutput, proof: ProofEntry, pageHome?
 type ClaimStatus = ConceptGraphData["nodes"][number]["status"];
 
 interface ProofNetworkLegendData {
-  statements: { id: string; proven: boolean; ext: boolean }[];
+  statements: { id: string; proven: boolean; ext: boolean; count?: number }[];
   proofs: { id: string; assumptions: string[]; conclusion: string; ext: boolean }[];
 }
 
@@ -190,6 +244,9 @@ export function proofNetworkLegend(data: ProofNetworkLegendData): string {
   const items = [
     data.proofs.length ? `<span class="proof-flow">assumptions <i class="legend-arrow" aria-hidden="true">→</i><i class="legend-proof-chip" aria-hidden="true">⊢</i><i class="legend-arrow" aria-hidden="true">→</i> conclusion</span>` : "",
     claimFillLegend(statuses),
+    data.statements.some((statement) => (statement.count ?? 1) > 1)
+      ? `<span><i class="legend-dock" aria-hidden="true">1</i>Statement 1, 2, … of a claim with several statements</span>`
+      : "",
     nodes.some((node) => !node.ext) ? `<span><i class="legend-node stroke-own"></i>This submission</span>` : "",
     nodes.some((node) => node.ext) ? `<span><i class="legend-node stroke-ext"></i>From another submission</span>` : "",
     data.proofs.length ? `<span><i class="legend-proof-chip" aria-hidden="true">⊢</i>Proof — click to open</span>` : "",

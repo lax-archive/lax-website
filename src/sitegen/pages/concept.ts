@@ -10,6 +10,8 @@ import {
   conceptShortName,
   draftBanner,
   figureTitle,
+  ordinal,
+  shortId,
   versionHistoryPanel,
   repositorySource,
   graphExpandButton,
@@ -36,22 +38,37 @@ function statementDeclarationLine(source: string, start?: number, end?: number):
 /** The evidence block of a claim-concept: every archived proof concluding
  * this claim, each relative to its own assumptions — "true relative to what".
  * Definition-concepts (no statement) claim nothing and get no block; an open
- * claim says so explicitly. */
+ * claim says so explicitly. A concept declaring several statements gets one
+ * sub-block per statement, each named by its anonymous position. */
 function evidence(ctx: PageContext, located: LocatedConcept): string {
   const { output, concept } = located;
-  const statement = concept.statements[0];
-  if (!statement) return "";
-  if (concept.statements.length > 1)
-    throw new Error(`concept ${concept.id} declares ${concept.statements.length} statements; the one-statement rule admits at most one`);
-  const items = (ctx.model.statementProofs.get(statement.id) ?? []).map((proof) =>
-    proofItem(ctx.model, proof, "../", { origin: proof.output.id !== output.id, home: output.id }));
-  const body = items.length
+  if (!concept.statements.length) return "";
+  const proofsOf = (statementId: string) =>
+    (ctx.model.statementProofs.get(statementId) ?? []).map((proof) =>
+      proofItem(ctx.model, proof, "../", { origin: proof.output.id !== output.id, home: output.id }));
+  const list = (items: string[], empty: string) => items.length
     ? `<ul class="proof-list">\n${items.join("\n")}\n</ul>`
-    : `<p class="empty-note">No proof in the archive yet — this claim is open.</p>`;
-  return `<div class="block block-evidence"><h3>Evidence</h3>
-<p class="evidence-intro">Each proof establishes this claim relative to its assumptions.</p>
+    : `<p class="empty-note">${empty}</p>`;
+  const block = (intro: string, body: string) => `<div class="block block-evidence"><h3>Evidence</h3>
+<p class="evidence-intro">${intro}</p>
 ${body}
 </div>`;
+  if (concept.statements.length === 1)
+    return block(
+      "Each proof establishes this claim relative to its assumptions.",
+      list(proofsOf(concept.statements[0]!.id), "No proof in the archive yet — this claim is open."),
+    );
+  const proven = ctx.model.network.proven;
+  const blocks = concept.statements.map((statement, index) => {
+    const heading = `<a href="#s-${attr(statement.id)}">${esc(ordinal(index + 1))} statement</a> ${code(shortId(statement.id, concept.id))} ${countsPill(proven.has(statement.id) ? 1 : 0, 1)}`;
+    return `<div class="evidence-statement"><h4>${heading}</h4>
+${list(proofsOf(statement.id), "No proof in the archive yet — this statement is open.")}
+</div>`;
+  });
+  return block(
+    `This concept declares ${concept.statements.length} statements. Each proof establishes one of them relative to its assumptions.`,
+    blocks.join("\n"),
+  );
 }
 
 /** The concept page: NL block under the type heading, the full Lean module as
@@ -81,25 +98,24 @@ export async function conceptPage(ctx: PageContext, located: LocatedConcept): Pr
   const depsCol = (heading: string, rows: string[]) =>
     `<div class="deps-col"><h3>${esc(heading)}</h3>${rows.length ? `<ul class="deps-list">${rows.join("")}</ul>` : `<p class="empty-note">none</p>`}</div>`;
 
-  const statement = concept.statements[0];
-  const declarationLine = statement
-    ? statementDeclarationLine(concept.sourceText, statement.startLine, statement.endLine)
-    : undefined;
-  const proofLinks = statement
-    ? (ctx.model.statementProofs.get(statement.id) ?? []).flatMap(({ submission: proofSubmission, proof }) => {
-        const proofSource = proofSubmission.record.source;
-        const href = proofSource
-          ? repositorySource(proofSource.repository, proofSource.commit, proofSource.folder, proof.path)
-          : undefined;
-        return href ? [{ id: proof.id, href, provider: sourceProviderName(href) }] : [];
-      })
-    : [];
-  const proofActions = proofLinks.length && declarationLine !== undefined
-    ? `<span class="source-proof-rail" data-source-line="L${declarationLine}" aria-label="Proof links">${proofLinks.map((link, index) => {
-        const label = proofLinks.length === 1 ? "Show Proof" : `Show Proof ${index + 1}`;
-        return `<a class="statement-proof-button" href="${attr(link.href)}" aria-label="${attr(`View proof ${link.id} on ${link.provider}`)}" title="${attr(link.id)}"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">${label}</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a>`;
-      }).join("")}</span>`
-    : "";
+  // One rail per statement that has proofs, anchored at that statement's own
+  // declaration row; source-proof.js groups rails by row, so several of them
+  // on one page position independently.
+  const proofActions = concept.statements.map((statement) => {
+    const declarationLine = statementDeclarationLine(concept.sourceText, statement.startLine, statement.endLine);
+    const proofLinks = (ctx.model.statementProofs.get(statement.id) ?? []).flatMap(({ submission: proofSubmission, proof }) => {
+      const proofSource = proofSubmission.record.source;
+      const href = proofSource
+        ? repositorySource(proofSource.repository, proofSource.commit, proofSource.folder, proof.path)
+        : undefined;
+      return href ? [{ id: proof.id, href, provider: sourceProviderName(href) }] : [];
+    });
+    if (!proofLinks.length || declarationLine === undefined) return "";
+    return `<span class="source-proof-rail" data-source-line="L${declarationLine}" aria-label="Proof links">${proofLinks.map((link, index) => {
+      const label = proofLinks.length === 1 ? "Show Proof" : `Show Proof ${index + 1}`;
+      return `<a class="statement-proof-button" href="${attr(link.href)}" aria-label="${attr(`View proof ${link.id} on ${link.provider}`)}" title="${attr(link.id)}"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">${label}</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a>`;
+    }).join("")}</span>`;
+  }).join("");
   const sourceRows = await highlightSource(concept.sourceText, concept.statements, proven);
 
   const content = `${versionHistoryPanel(ctx, submission.record.id, "../")}${draftBanner(submission.record.state)}

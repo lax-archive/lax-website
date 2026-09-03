@@ -6,7 +6,7 @@ import { generateSite, type SiteSubmission } from "../src/sitegen/generate.js";
 import { countsPill, statePill, typeBadge, typeBadgeText } from "../src/sitegen/html.js";
 import { compareIds, SiteModel } from "../src/sitegen/model.js";
 import { MarkdownRenderer } from "../src/sitegen/markdown.js";
-import { repositorySource, sourceProviderName } from "../src/sitegen/pages/shared.js";
+import { ordinal, repositorySource, sourceProviderName, statementOrdinal } from "../src/sitegen/pages/shared.js";
 import { submissionTagIndex } from "../src/sitegen/tags.js";
 import { tmpDir } from "./helpers.js";
 
@@ -871,12 +871,17 @@ After the formula.`, "");
     expect(data.concepts.edges).toEqual([{ from: "Lax2.C", to: "Lax2.D" }]);
     expect(data.proofs.proofs[0]).toMatchObject({ id: "Lax2Proofs.truth", conclusion: "Lax2.C.truth", ext: false });
     // fill = status: concept nodes carry it; statement nodes display their
-    // home concept (one-statement rule) with the raw id kept for tooltips
+    // home concept, with the raw id kept for tooltips and the statement's
+    // position inside that concept for the figure's docks
     expect(data.concepts.nodes.map((n: { id: string; status: string }) => [n.id, n.status]))
       .toEqual([["Lax2.C", "proven"], ["Lax2.D", "none"]]);
     expect(data.proofs.statements[0]).toMatchObject({
       id: "Lax2.C.truth", label: "Lax2.C", owner: "Lax2", proven: true, ext: false,
+      concept: "Lax2.C", index: 1, count: 1,
     });
+    // a single-statement archive shows no ordinals and no dock furniture
+    expect(html).not.toContain("claim-ordinal");
+    expect(html).not.toContain("legend-dock");
     // both figures share the legend grammar and a tooltip panel
     expect(html).toContain("legend-proof-chip");
     expect(html).toContain('class="legend-node fill-proven"');
@@ -1034,7 +1039,7 @@ After the formula.`, "");
     expect(script).toContain("routeDagEdge");
     expect(script).toContain("segmentIsClear");
     expect(script).toContain("MIN_ARC_SEPARATION");
-    expect(script).toContain("proof.assumptions.length === 1");
+    expect(script).toContain("sources.length === 1");
     expect(script).toContain("EDGE_BEND_RADIUS");
     expect(script).toContain(" Q${corner.x},${corner.y}");
     expect(script).toContain("graph-edge-casing");
@@ -1280,15 +1285,12 @@ end Lax2.C`;
     expect(html).toContain('<pre class="bib-entry">@book{x}</pre>');
   });
 
-  it("fails fast on statements without a home and on multi-statement concepts", async () => {
+  it("fails fast on statements without a home and on typeless concepts", async () => {
     const broken = submissions();
     broken[0]!.output!.proofs[0]!.assumptions = ["Nobody.here"];
     await expect(generateSite(broken, tmpDir("lax-site-nohome-"))).rejects.toThrow(
       "statement Nobody.here has no home concept",
     );
-    const multi = submissions();
-    multi[0]!.output!.concepts[0]!.statements.push({ id: "Lax2.C.more", signature: "more : True" });
-    await expect(generateSite(multi, tmpDir("lax-site-multi-"))).rejects.toThrow("one-statement rule");
     const typeless = submissions();
     delete typeless[0]!.output!.concepts[1]!.type;
     await expect(generateSite(typeless, tmpDir("lax-site-typeless-"))).rejects.toThrow(
@@ -1501,5 +1503,145 @@ describe("supersedes version chains", () => {
     expect(index).toContain("2 submissions · 2 concepts");
     expect(index).toContain('data-random-submission-candidate');
     expect(index).not.toContain('href="lax-1/index.html" data-random-submission-candidate');
+  });
+});
+
+describe("multi-statement concepts", () => {
+  /** One claim-concept declaring three statements: the first is proven
+   * outright, the third from the first and the second of the same concept,
+   * and the second stays open. Plus a definition-concept, so the concept map
+   * keeps both fills. */
+  const multiStatement = (): SiteSubmission[] => [{
+    record: {
+      specVersion: "1", id: "Lax5", state: "registered", createdAt: "2026-01-01T00:00:00Z",
+      registeredAt: "2026-01-02T00:00:00Z",
+      source: { repository: "https://github.com/example/menger", commit: "b".repeat(40), folder: "." },
+    },
+    output: {
+      specVersion: "1", id: "Lax5",
+      manifest: {
+        specVersion: "1", id: "Lax5", leanVersion: "v4.30.0", mathlibVersion: "abc",
+        title: "Menger", authors: [], bibEntries: [],
+      },
+      abstract: "", requiredByConcepts: [], requiredByProofs: [],
+      concepts: [
+        {
+          id: "Lax5.Menger", path: "concepts/Lax5/Menger.lean", title: "Menger's theorem",
+          type: "theorem", description: "Three faces of one theorem.",
+          imports: [], mathlibImports: [],
+          sourceText: [
+            "namespace Lax5.Menger",
+            "axiom vertexVersion : True",
+            "axiom edgeVersion : True",
+            "axiom globalVersion : True",
+            "end Lax5.Menger",
+          ].join("\n"),
+          statements: [
+            { id: "Lax5.Menger.vertexVersion", signature: "vertexVersion : True", startLine: 2, endLine: 2 },
+            { id: "Lax5.Menger.edgeVersion", signature: "edgeVersion : True", startLine: 3, endLine: 3 },
+            { id: "Lax5.Menger.globalVersion", signature: "globalVersion : True", startLine: 4, endLine: 4 },
+          ],
+        },
+        {
+          id: "Lax5.Graph", path: "concepts/Lax5/Graph.lean", title: "Graphs", type: "definition",
+          description: "", imports: [], mathlibImports: [], sourceText: "", statements: [],
+        },
+      ],
+      proofs: [
+        {
+          id: "Lax5Proofs.vertex", path: "proofs/Lax5Proofs/Vertex.lean",
+          conclusion: "Lax5.Menger.vertexVersion", assumptions: [], description: "Direct.",
+        },
+        {
+          id: "Lax5Proofs.global", path: "proofs/Lax5Proofs/Global.lean",
+          conclusion: "Lax5.Menger.globalVersion",
+          assumptions: ["Lax5.Menger.vertexVersion", "Lax5.Menger.edgeVersion"],
+          description: "From both versions.",
+        },
+      ],
+    },
+  }];
+
+  it("numbers English ordinals correctly", () => {
+    const cases: [number, string][] = [
+      [1, "1st"], [2, "2nd"], [3, "3rd"], [4, "4th"], [11, "11th"], [12, "12th"],
+      [13, "13th"], [21, "21st"], [22, "22nd"], [23, "23rd"], [101, "101st"], [111, "111th"],
+    ];
+    for (const [value, expected] of cases) expect(ordinal(value)).toBe(expected);
+  });
+
+  it("names a statement by its anonymous position inside its concept", () => {
+    const model = new SiteModel(multiStatement());
+    expect(statementOrdinal(model, "Lax5.Menger.vertexVersion"))
+      .toEqual({ index: 1, count: 3, label: "1st statement" });
+    expect(statementOrdinal(model, "Lax5.Menger.globalVersion"))
+      .toEqual({ index: 3, count: 3, label: "3rd statement" });
+    // a single-statement concept *is* its claim and takes no ordinal
+    expect(statementOrdinal(new SiteModel(submissions()), "Lax2.C.truth")).toBeUndefined();
+  });
+
+  it("gives every statement its own evidence block and proof rail", async () => {
+    const root = tmpDir("lax-site-multi-concept-");
+    await generateSite(multiStatement(), root);
+    const html = fs.readFileSync(path.join(root, "Lax5", "Lax5.Menger.html"), "utf8");
+
+    expect(html).toContain("This concept declares 3 statements. Each proof establishes one of them relative to its assumptions.");
+    expect((html.match(/class="evidence-statement"/g) ?? []).length).toBe(3);
+    expect(html).toContain('<h4><a href="#s-Lax5.Menger.vertexVersion">1st statement</a> <code>vertexVersion</code>');
+    expect(html).toContain('<h4><a href="#s-Lax5.Menger.edgeVersion">2nd statement</a> <code>edgeVersion</code>');
+    expect(html).toContain('<h4><a href="#s-Lax5.Menger.globalVersion">3rd statement</a> <code>globalVersion</code>');
+    // the open second statement says so, and only it
+    expect((html.match(/this statement is open/g) ?? []).length).toBe(1);
+    const openBlock = html.slice(html.indexOf("#s-Lax5.Menger.edgeVersion"), html.indexOf("#s-Lax5.Menger.globalVersion"));
+    expect(openBlock).toContain("this statement is open");
+    // one rail per statement that has proofs, each on its own declaration row
+    const rails = [...html.matchAll(/<span class="source-proof-rail" data-source-line="(L\d+)"/g)]
+      .map((match) => match[1]);
+    expect(rails).toEqual(["L2", "L4"]);
+    // the concept as a whole is open while one statement is unproven
+    expect(html).toContain('<span class="status-pill pill-partial"');
+  });
+
+  it("shows which statement a proof concludes and never which one it assumes", async () => {
+    const root = tmpDir("lax-site-multi-proof-");
+    await generateSite(multiStatement(), root);
+    const html = fs.readFileSync(path.join(root, "Lax5", "Lax5Proofs.global.html"), "utf8");
+
+    expect(html).toContain("<h1 class=\"concept-title\">Proof of <span class=\"proof-concept-title\">`Menger's theorem`</span> <span class=\"claim-ordinal\">(3rd statement)</span></h1>");
+    const conclusion = html.slice(html.indexOf('class="judgment-conclusion"'));
+    expect(conclusion).toContain('href="../Lax5/Lax5.Menger.html#s-Lax5.Menger.globalVersion" title="Lax5.Menger.globalVersion"');
+    expect(conclusion).toContain('<span class="claim-ordinal">(3rd statement)</span>');
+    // both assumed statements belong to one concept: one entry, no ordinal,
+    // and a title that names the concept rather than the statement used
+    const assumptions = html.slice(html.indexOf('class="judgment-assumptions"'), html.indexOf('class="judgment-arrow"'));
+    expect((assumptions.match(/class="claim-entry"/g) ?? []).length).toBe(1);
+    expect(assumptions).not.toContain("claim-ordinal");
+    expect(assumptions).toContain('href="../Lax5/Lax5.Menger.html" title="Lax5.Menger"');
+    expect(assumptions).not.toContain("#s-");
+    // the aggregate claim is still open, so the badge says so
+    expect(assumptions).toContain("thm×");
+    expect(html).toContain("conditional — 1 open assumption");
+  });
+
+  it("carries statement positions and every sibling into the graph data", async () => {
+    const root = tmpDir("lax-site-multi-graph-");
+    await generateSite(multiStatement(), root);
+    const html = fs.readFileSync(path.join(root, "Lax5", "index.html"), "utf8");
+    const data = JSON.parse(/<script type="application\/json" id="graph-data">(.*?)<\/script>/s.exec(html)![1]!);
+
+    expect(data.proofs.statements.map((s: { id: string }) => s.id)).toEqual([
+      "Lax5.Menger.edgeVersion", "Lax5.Menger.globalVersion", "Lax5.Menger.vertexVersion",
+    ]);
+    for (const statement of data.proofs.statements)
+      expect(statement).toMatchObject({ concept: "Lax5.Menger", count: 3, ext: false });
+    expect(data.proofs.statements.map((s: { index: number }) => s.index)).toEqual([2, 3, 1]);
+    // globalVersion rests on the still-open edgeVersion, so only the first
+    // statement is proven
+    expect(data.proofs.statements.map((s: { proven: boolean }) => s.proven)).toEqual([false, false, true]);
+    // the concept map reports the claim as open while one statement is not proven
+    expect(data.concepts.nodes.map((n: { id: string; status: string }) => [n.id, n.status]))
+      .toEqual([["Lax5.Graph", "none"], ["Lax5.Menger", "open"]]);
+    // the legend gains the dock swatch exactly here
+    expect(html).toContain('<i class="legend-dock" aria-hidden="true">1</i>Statement 1, 2, … of a claim with several statements');
   });
 });

@@ -7,6 +7,7 @@ import {
   repositorySource,
   type PageContext,
   proofJudgment,
+  statementOrdinal,
   sourceButton,
   sourceProviderName,
   submissionSidebar,
@@ -20,6 +21,9 @@ export function proofPage(ctx: PageContext, located: LocatedProof): string {
   const conclusion = ctx.model.statementHome.get(proof.conclusion);
   if (!conclusion)
     throw new Error(`statement ${proof.conclusion} has no home concept in the archive`);
+  // A concept declaring several statements: say which of them this proof
+  // concludes, by its anonymous position.
+  const position = statementOrdinal(ctx.model, proof.conclusion);
   const proven = ctx.model.network.proven;
   const outstanding = proof.assumptions.filter((id) => !proven.has(id));
   const groundedHelp = "No open assumptions remain in the archive: every dependency is backed by a checked proof, ultimately reducing to Lean and Mathlib.";
@@ -41,7 +45,7 @@ export function proofPage(ctx: PageContext, located: LocatedProof): string {
 
   const content = `${versionHistoryPanel(ctx, submission.record.id, "../")}${draftBanner(submission.record.state)}
 <div class="detail-heading concept-heading proof-heading">
-<div class="proof-heading-content"><h1 class="concept-title">Proof of <span class="proof-concept-title">\`${ctx.markdown.renderAuthorInline(conclusion.concept.title, "../")}\`</span></h1>
+<div class="proof-heading-content"><h1 class="concept-title">Proof of <span class="proof-concept-title">\`${ctx.markdown.renderAuthorInline(conclusion.concept.title, "../")}\`</span>${position ? ` <span class="claim-ordinal">(${esc(position.label)})</span>` : ""}</h1>
 <p class="concept-microline proof-microline"><span class="status-pills">${pill}</span><span>${pathLink} · <a href="index.html">${esc(output.id)}</a></span></p></div>
 </div>
 <div class="block block-evidence"><h3>What this proof establishes</h3>

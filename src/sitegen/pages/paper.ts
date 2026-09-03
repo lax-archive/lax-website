@@ -100,7 +100,7 @@ async function markBody(ctx: PageContext, mark: PaperMark, home: string, rootRel
     if (!located) return `<p class="empty-note">Not in this archive.</p>`;
     const { concept } = located;
     const statements = concept.statements.length
-      ? `<ul class="manuscript-card-claims">${concept.statements.map((s) => `<li>${claimEntry(model, s.id, rootRel, home)}</li>`).join("")}</ul>`
+      ? `<ul class="manuscript-card-claims">${concept.statements.map((s) => `<li>${claimEntry(model, s.id, rootRel, home, { role: "conclusion" })}</li>`).join("")}</ul>`
       : "";
     // The Lean source as the concept page shows it, minus the module
     // docstring (the description above already says it) and without row
