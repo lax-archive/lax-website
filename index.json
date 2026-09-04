@@ -235,7 +235,7 @@
     },
     {
       "id": "lax-12",
-      "state": "draft",
+      "state": "registered",
       "environment": "v4.30.0",
       "title": "Sparsity Lectures: Nowhere Denseness, Quasi-Wideness, and Generalized Coloring Numbers",
       "concepts": [
