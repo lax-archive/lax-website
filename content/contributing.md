@@ -15,7 +15,6 @@ identity. Then:
 
 ```sh
 npm install -g lax-archive
-lax login     # sign in with GitHub (identity only, no repo access)
 lax doctor    # checks your setup and installs whatever is missing
 ```
 
@@ -35,7 +34,7 @@ want formalized. The steps below are that same workflow, by hand.
    lax init my-submission
    ```
 
-   The archive allocates your submission id and scaffolds a complete Lean
+   This generates your submission id and scaffolds a complete Lean
    workspace with mathlib pinned and prebuilt.
 
 2. **Author.** Write your concepts and proofs in the scaffold. The

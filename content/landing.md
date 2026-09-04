@@ -23,7 +23,6 @@ Contributing is a two-step process.
 
    ```sh
    npm install -g lax-archive
-   lax login     # sign in with GitHub (identity only, no repo access)
    lax doctor    # checks your setup and installs whatever is missing
    ```
 
