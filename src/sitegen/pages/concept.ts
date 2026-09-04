@@ -9,6 +9,7 @@ import {
   conceptMapLegend,
   conceptShortName,
   draftBanner,
+  environmentNotice,
   figureTitle,
   ordinal,
   shortId,
@@ -118,7 +119,7 @@ export async function conceptPage(ctx: PageContext, located: LocatedConcept): Pr
   }).join("");
   const sourceRows = await highlightSource(concept.sourceText, concept.statements, proven);
 
-  const content = `${versionHistoryPanel(ctx, submission.record.id, "../")}${draftBanner(submission.record.state)}
+  const content = `${versionHistoryPanel(ctx, submission.record.id, "../")}${draftBanner(submission.record.state)}${environmentNotice(ctx.model, submission)}
 <div class="detail-heading concept-heading">
 <div><p class="concept-id"><code>${esc(concept.id)}</code></p>
 <h1 class="concept-title">${ctx.markdown.renderAuthorInline(concept.title, "../")}</h1>

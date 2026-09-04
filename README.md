@@ -120,6 +120,40 @@ bytes therefore differ from production's, deterministically per flag set).
   `paper.pdf` when the papers cache holds it); concept and proof pages the
   paper marks link back to their passages.
 
+## Environments and the epoch
+
+A record is built in one *environment* — a Lean toolchain and the mathlib
+release it pins, named by the Lean version string (`v4.30.0`) that the
+record's `manifest.leanVersion` carries. One of them is the archive's
+*epoch*, the environment this year's submissions are recommended to use;
+only submissions in the same environment can cite each other. The site's copy
+of the epoch is `EPOCH` in `src/config.ts`, edited once a year at the epoch
+bump; `generateSite(submissions, outDir, epoch)` takes an override as its
+third argument (an epoch id, or an options object carrying `epoch`), which is
+how `lax serve` shows the epoch the installed CLI's own environment table
+names rather than the pinned renderer's.
+
+Three surfaces follow from it:
+
+- **The off-epoch notice**, beside the draft banner on submission, concept,
+  proof, and paper pages of any record outside the epoch: the environment, the
+  epoch, and the one consequence — only submissions in that environment can
+  cite the work. It uses the draft banner's box in a muted palette and no
+  warning mark, because the record is neither wrong nor at risk. Records in
+  the epoch get an `epoch` label beside the masthead's `Lean` pin instead.
+- **The environment facet**, `data-env` on every listing row and the
+  environment folded into the row's `data-tags`, so environments are chips in
+  the existing topic strip rather than a second control. The chips appear only
+  once the archive holds work in more than one environment. Listings put the
+  epoch's submissions first and the other environments newest first, inside
+  the existing registered/work-in-progress groups.
+- **`index.json` and `environments.json`** at the site root: every rendered
+  record with its state, environment, title, `supersedes`/`supersededBy`,
+  concepts (id, title, type) and proof ids; and the epoch with a registered
+  and draft count per environment. They exist so an agent need not clone
+  `lax-database` or scrape the HTML, and `content/contributing.md` links
+  both. Like every other output they are deterministic.
+
 The generated HTML is deterministic. Math is rendered at build time with
 KaTeX, highlighting with Shiki, all runtime assets are local, and the page
 shell applies a strict Content Security Policy.

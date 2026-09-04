@@ -1,4 +1,4 @@
-import { PROOF_SUFFIX } from "../config.js";
+import { EPOCH, PROOF_SUFFIX } from "../config.js";
 import type { BuildOutput, ConceptEntry, DbRecord, ProofEntry, StatementEntry } from "../types.js";
 import { computeNetwork, type ProofNetwork } from "./network.js";
 
@@ -47,9 +47,35 @@ export function compareIds(a: string, b: string): number {
   return idNumber(a) - idNumber(b) || a.localeCompare(b);
 }
 
+/** An environment id is a Lean version string, `v4.30.0`. */
+function versionParts(id: string): number[] {
+  return (id.match(/\d+/g) ?? []).map(Number);
+}
+
+/** Environments newest first: `v4.33.0` before `v4.30.0`. An id that is not a
+ * version string sorts last, by name, so unexpected data still orders. */
+export function compareEnvironments(a: string, b: string): number {
+  const left = versionParts(a);
+  const right = versionParts(b);
+  for (let i = 0; i < Math.max(left.length, right.length); i += 1) {
+    const difference = (right[i] ?? -1) - (left[i] ?? -1);
+    if (difference !== 0) return difference;
+  }
+  return a.localeCompare(b);
+}
+
 export class SiteModel {
   readonly submissions: SiteSubmission[];
   readonly outputs: BuildOutput[];
+  /** The environment the archive recommends this year. Every other admitted
+   * environment is a separate citation island, which the pages say out loud. */
+  readonly epoch: string;
+  /** Each submission's environment, by id: its `manifest.leanVersion`, the
+   * only place a record names one. Records that reserved an id have none. */
+  readonly environmentOf = new Map<string, string>();
+  /** Every environment the archive holds work in, the epoch first and the
+   * rest newest first. One entry for a single-environment archive. */
+  readonly environments: string[] = [];
   readonly network: ProofNetwork;
   readonly submissionById = new Map<string, SiteSubmission>();
   readonly conceptHome = new Map<string, LocatedConcept>();
@@ -72,7 +98,8 @@ export class SiteModel {
    * submission, mark order within each paper. */
   readonly paperMentions = new Map<string, PaperMention[]>();
 
-  constructor(submissions: SiteSubmission[]) {
+  constructor(submissions: SiteSubmission[], epoch: string = EPOCH) {
+    this.epoch = epoch;
     // A deleted record is a tombstone that exists only to retire its id: no
     // page, no listing, no graph node. Filtering here covers every site
     // generator caller, and keys on the state rather than on a missing
@@ -86,6 +113,7 @@ export class SiteModel {
       this.submissionById.set(submission.record.id, submission);
       const output = submission.output;
       if (!output) continue;
+      this.environmentOf.set(submission.record.id, output.manifest.leanVersion);
       for (const concept of output.concepts) {
         // The annotation gate requires a type since 2026-07-27; a record
         // without one is pre-gate data the archive must surface, not render
@@ -112,9 +140,22 @@ export class SiteModel {
     }
     for (const values of [...this.importers.values(), ...this.statementProofs.values()])
       values.sort((a, b) => a.output.id.localeCompare(b.output.id));
+    const present = new Set(this.environmentOf.values());
+    const hasEpoch = present.delete(epoch);
+    this.environments = [...(hasEpoch ? [epoch] : []), ...[...present].sort(compareEnvironments)];
     this.linkSubmissions();
     this.linkVersions();
     this.linkPapers();
+  }
+
+  /** Where a submission's environment sorts in listings: the epoch leads,
+   * other environments follow newest first, and a record with no build output
+   * (an id reservation) sorts last — it is never listed anyway. */
+  environmentRank(id: string): number {
+    const environment = this.environmentOf.get(id);
+    if (environment === undefined) return this.environments.length;
+    const rank = this.environments.indexOf(environment);
+    return rank < 0 ? this.environments.length : rank;
   }
 
   private linkPapers(): void {

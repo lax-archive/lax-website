@@ -261,15 +261,31 @@ ${authors ? `<span class="submissions-list-meta"><span class="formalized-label">
     true,
     id === "cite" && citeExample ? `${citeExample.record.id}/index.html?tour=citation` : undefined,
   ));
-  const tagButtons = tagIndex.tags.map((tag) => {
-    const count = tag.submissionIds.length;
-    return `<button class="tag-chip" type="button" data-tag-filter="${attr(tag.key)}" aria-pressed="false" aria-label="${attr(`${tag.label}, ${plural(count, "submission")}`)}"><span>${esc(tag.label)}</span><b aria-hidden="true">${count}</b></button>`;
-  });
-  const tagBrowser = tagButtons.length ? `<section class="tag-browser" aria-labelledby="tag-browser-heading">
-<div class="tag-browser-heading"><h4 id="tag-browser-heading">Browse by topic</h4><p>Suggested from submission and concept titles.</p></div>
+  const chip = (key: string, label: string, count: number, extraClass = ""): string =>
+    `<button class="tag-chip${extraClass}" type="button" data-tag-filter="${attr(key)}" aria-pressed="false" aria-label="${attr(`${label}, ${plural(count, "submission")}`)}"><span>${esc(label)}</span><b aria-hidden="true">${count}</b></button>`;
+  // The environment is one more chip in the same strip: the browser filters
+  // on `data-tags`, which carries it, so a flat facet needs no second control.
+  // It appears only once the archive holds work in more than one environment —
+  // before that the single chip would name the only thing there is. The chips
+  // lead the strip because the strip is clipped to three rows.
+  const environmentButtons = model.environments.length > 1
+    ? model.environments.map((environment) => chip(
+        environment,
+        environment === model.epoch ? `${environment} · epoch` : environment,
+        listed.filter((submission) => model.environmentOf.get(submission.record.id) === environment).length,
+        " environment-chip",
+      ))
+    : [];
+  const tagButtons = tagIndex.tags.map((tag) => chip(tag.key, tag.label, tag.submissionIds.length));
+  const facetButtons = [...environmentButtons, ...tagButtons];
+  const facetSummary = environmentButtons.length
+    ? "Environments first, then topics suggested from submission and concept titles."
+    : "Suggested from submission and concept titles.";
+  const tagBrowser = facetButtons.length ? `<section class="tag-browser" aria-labelledby="tag-browser-heading">
+<div class="tag-browser-heading"><h4 id="tag-browser-heading">Browse by topic</h4><p>${esc(facetSummary)}</p></div>
 <div class="tag-chip-list" role="group" aria-label="Filter submissions by topic">
 <button class="tag-chip" type="button" data-tag-filter="" aria-pressed="true" aria-label="All, ${plural(listed.length, "submission")}"><span>All</span><b aria-hidden="true">${listed.length}</b></button>
-${tagButtons.join("\n")}
+${facetButtons.join("\n")}
 </div>
 <p class="tag-results-status" id="tag-results-status" aria-live="polite">Showing all ${plural(listed.length, "submission")}.</p>
 </section>` : "";

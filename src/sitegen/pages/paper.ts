@@ -22,6 +22,7 @@ import {
   claimEntry,
   conceptShortName,
   draftBanner,
+  environmentNotice,
   type PageContext,
   proofJudgment,
   proofShortName,
@@ -287,7 +288,7 @@ ${cards.join("\n")}
 ${cards.join("\n")}
 </ol>`;
 
-  const content = `${draftBanner(record.state)}${versionHistoryPanel(ctx, home, "../")}
+  const content = `${draftBanner(record.state)}${environmentNotice(ctx.model, submission)}${versionHistoryPanel(ctx, home, "../")}
 <div class="manuscript"${pdfAttributes}>
 <div class="detail-heading concept-heading manuscript-heading">
 <div><p class="concept-id">Paper</p>

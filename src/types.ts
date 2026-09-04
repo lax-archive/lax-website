@@ -130,10 +130,24 @@ export interface PaperEntry {
   web?: PaperWebEntry;
 }
 
+/** The dependency capture the archive sealed for this record: the pins the
+ * validated build actually ran under. The archive records a record's pins
+ * twice — here and in `manifest.leanVersion`/`.mathlibVersion` — and the
+ * environment a record belongs to is the manifest's `leanVersion`. Declared
+ * here so the toolchain string is typed rather than reached for through the
+ * loader's spread of the stored output; the rest of the capture block (its
+ * file list, digests) is deliberately not part of the renderer's model. */
+export interface CaptureEntry {
+  leanToolchain: string;
+  mathlibCommit: string;
+}
+
 export interface BuildOutput {
   specVersion: string;
   id: string;
   captureId?: string;
+  /** Absent only from a record predating captures, or a local `lax build`. */
+  capture?: CaptureEntry;
   manifest: Manifest;
   abstract: string;
   requiredByConcepts: string[];

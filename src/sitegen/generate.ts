@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { copyAssets } from "./assets.js";
+import { environmentIndex, recordIndex } from "./machine-index.js";
 import { MarkdownRenderer } from "./markdown.js";
 import { SiteModel, type SiteSubmission } from "./model.js";
 import { preparePaperWeb } from "./paper-web.js";
@@ -19,12 +20,31 @@ export interface GenerateOptions {
   /** Where schema-gate drops (a paper page falling back to PDF-only) are
    * reported. Defaults to console.warn so production builds always say so. */
   log?: (line: string) => void;
+  /**
+   * The archive's epoch — the environment this year's submissions are
+   * recommended to be written in. Defaults to `EPOCH` in `src/config.ts`.
+   * `lax serve` passes the epoch its own environment table names, because a
+   * pinned renderer's config is as old as the release that carried it.
+   */
+  epoch?: string;
 }
 
-/** Generate a deterministic, fully static archive website into outDir. */
-export async function generateSite(submissions: SiteSubmission[], outDir: string, options: GenerateOptions = {}): Promise<void> {
-  const log = options.log ?? ((line: string) => console.warn(line));
-  const model = new SiteModel(submissions);
+/**
+ * Generate a deterministic, fully static archive website into outDir.
+ *
+ * The third argument may be the epoch id on its own: that is the shape `lax
+ * serve` calls with, and it is the whole reason the options bag is not the
+ * only form. A caller that passes nothing (an older CLI) gets the config's
+ * epoch, which is correct until the year it is not.
+ */
+export async function generateSite(
+  submissions: SiteSubmission[],
+  outDir: string,
+  options: GenerateOptions | string = {},
+): Promise<void> {
+  const settings = typeof options === "string" ? { epoch: options } : options;
+  const log = settings.log ?? ((line: string) => console.warn(line));
+  const model = new SiteModel(submissions, settings.epoch);
   const context = { model, markdown: new MarkdownRenderer(model) };
   const files = new Map<string, string | Buffer>();
   /** Content-addressed outputs (hashed fonts) may be shared between records;
@@ -38,6 +58,10 @@ export async function generateSite(submissions: SiteSubmission[], outDir: string
     files.set(relative, content);
   };
   files.set("index.html", await indexPage(context));
+  // The machine-readable pair, documented in content/contributing.md. Two
+  // spaces and a trailing newline: these are files people read as well.
+  files.set("index.json", `${JSON.stringify(recordIndex(model), null, 2)}\n`);
+  files.set("environments.json", `${JSON.stringify(environmentIndex(model), null, 2)}\n`);
   files.set(path.join("all-comments", "index.html"), allCommentsPage(context));
   files.set("contributing.html", contentPage(context, "contributing", "Getting started"));
   files.set("impressum.html", contentPage(context, "impressum", "Imprint"));

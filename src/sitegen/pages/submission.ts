@@ -9,6 +9,7 @@ import {
   conceptBadgeLegend,
   conceptMapLegend,
   draftBanner,
+  environmentNotice,
   versionHistoryMetaButton,
   versionHistoryPanel,
   figureTitle,
@@ -33,8 +34,8 @@ export function submissionPage(ctx: PageContext, submission: SiteSubmission): st
   const { record, output } = submission;
   const sidebar = submissionSidebar(ctx.model, submission, "../");
   if (!output) {
-    const content = `${draftBanner(record.state)}${versionHistoryPanel(ctx, record.id, "../", true)}
-${paperHeader(ctx.markdown, submission, "../", versionHistoryMetaButton(ctx, record.id))}
+    const content = `${draftBanner(record.state)}${environmentNotice(ctx.model, submission)}${versionHistoryPanel(ctx, record.id, "../", true)}
+${paperHeader(ctx, submission, "../", versionHistoryMetaButton(ctx, record.id))}
 ${pageReactions(`${record.id}/`, { kind: "submission" })}
 <p class="empty-note">No content uploaded yet. Run <code>lax build</code> and submit a draft.</p>
 ${discussion(`${record.id}/`)}`;
@@ -75,8 +76,8 @@ ${submissionMapLegend(related)}
 </figure>`
     : `<p class="empty-note">No other submission in the archive builds on this one, and this one builds on none.</p>`;
 
-  const content = `${draftBanner(record.state)}${versionHistoryPanel(ctx, record.id, "../", true)}
-${paperHeader(ctx.markdown, submission, "../", versionHistoryMetaButton(ctx, record.id))}
+  const content = `${draftBanner(record.state)}${environmentNotice(ctx.model, submission)}${versionHistoryPanel(ctx, record.id, "../", true)}
+${paperHeader(ctx, submission, "../", versionHistoryMetaButton(ctx, record.id))}
 ${pageReactions(`${record.id}/`, { kind: "submission" })}
 ${output.abstract.trim() ? paperAbstract(ctx.markdown.renderAuthorProse(output.abstract, "../")) : ""}
 ${paperSection(ctx, submission)}

@@ -383,16 +383,25 @@ function submissionStateRank(state: string): number {
   return 2;
 }
 
-/** Registered submissions lead drafts both before and during search. Archive
- * ids break ties so the generated order is stable and unsurprising. */
-export function compareSearchSubmissions(a: SiteSubmission, b: SiteSubmission): number {
+/** Registered submissions lead drafts both before and during search. Within a
+ * state, the epoch's island comes first and the other environments follow
+ * newest first — an off-epoch submission is not lesser work, but it is the
+ * work most readers cannot cite. Archive ids break ties so the generated
+ * order is stable and unsurprising. */
+export function compareSearchSubmissions(model: SiteModel, a: SiteSubmission, b: SiteSubmission): number {
   return submissionStateRank(a.record.state) - submissionStateRank(b.record.state)
+    || model.environmentRank(a.record.id) - model.environmentRank(b.record.id)
     || compareIds(a.record.id, b.record.id);
 }
 
 /** Search metadata shared by the index sidebar and the full library. The
  * browser keeps submission title/id words separate from concept names so it
- * can rank title hits first without shipping a second search index. */
+ * can rank title hits first without shipping a second search index.
+ *
+ * The environment appears twice and on purpose: as `data-env`, which is the
+ * honest fact about the row, and folded into `data-tags`, which is what the
+ * chip filter already reads — so an environment chip is one more chip and the
+ * browser code stays as it is. */
 export function submissionSearchAttributes(
   submission: SiteSubmission,
   order: number,
@@ -404,8 +413,10 @@ export function submissionSearchAttributes(
     .flatMap((concept) => [concept.id, concept.title, concept.type ?? ""])
     .join(" ")
     .toLowerCase();
-  const tagKeys = tags.length ? `|${tags.join("|")}|` : "";
-  return `data-search-title="${attr(title)}" data-search-concepts="${attr(concepts)}" data-state="${attr(submission.record.state)}" data-search-order="${order}" data-tags="${attr(tagKeys)}"`;
+  const environment = output.manifest.leanVersion;
+  const keys = [...tags, environment];
+  const tagKeys = `|${keys.join("|")}|`;
+  return `data-search-title="${attr(title)}" data-search-concepts="${attr(concepts)}" data-state="${attr(submission.record.state)}" data-env="${attr(environment)}" data-search-order="${order}" data-tags="${attr(tagKeys)}"`;
 }
 
 /** A homepage-only progressive-enhancement card. The first submission is a
@@ -466,7 +477,7 @@ ${EMPTY_ROW}
 export function currentSubmissions(model: SiteModel): SiteSubmission[] {
   return model.submissions
     .filter((submission) => submission.output && !model.isSuperseded(submission.record.id))
-    .sort(compareSearchSubmissions);
+    .sort((a, b) => compareSearchSubmissions(model, a, b));
 }
 
 /** Sidebar of submission, concept, and proof pages: back-link, search, type
@@ -534,6 +545,20 @@ export function draftBanner(state: string): string {
   return state === "draft"
     ? `<p class="draft-banner"><strong>Draft</strong> — mutable and not usable as a dependency; its citation marks the draft state.</p>`
     : "";
+}
+
+/**
+ * Said beside the draft banner on every page of a submission that is not in
+ * the archive's epoch. It is a fact, not a fault: the record is as valid and
+ * as permanent as any other, and the only consequence is which work can build
+ * on it — an olean built by one Lean version cannot be loaded by another. So
+ * the banner keeps the draft banner's shape in a muted palette, and carries
+ * no warning mark.
+ */
+export function environmentNotice(model: SiteModel, submission: SiteSubmission): string {
+  const environment = model.environmentOf.get(submission.record.id);
+  if (environment === undefined || environment === model.epoch) return "";
+  return `<p class="environment-notice">Environment ${code(environment)}. The archive's epoch is ${code(model.epoch)}; only submissions in ${code(environment)} can cite this work.</p>`;
 }
 
 function versionHref(rootRel: string, id: string): string {
@@ -638,12 +663,12 @@ export function versionHistoryMetaButton(ctx: PageContext, submissionId: string)
 /** The submission page's paper-style masthead: big title and a compact
  * metadata line (id, authors, state, dates, source, pins). Falls back
  * gracefully when there is no build output yet (title = id). */
-export function paperHeader(markdown: MarkdownRenderer, submission: SiteSubmission, rootRel: string, metaAction = ""): string {
+export function paperHeader(ctx: PageContext, submission: SiteSubmission, rootRel: string, metaAction = ""): string {
   const { record, output } = submission;
   const title = output?.manifest.title ?? record.id;
   return `<header class="paper-head">
-<h1 class="paper-title">${markdown.renderAuthorInline(title, rootRel)}</h1>
-<p class="paper-meta">${metaBits(submission, metaAction)}</p>
+<h1 class="paper-title">${ctx.markdown.renderAuthorInline(title, rootRel)}</h1>
+<p class="paper-meta">${metaBits(ctx.model, submission, metaAction)}</p>
 </header>`;
 }
 
@@ -670,7 +695,7 @@ function authorByline(submission: SiteSubmission): string {
 }
 
 /** The dim technical line under the title: id, authors, state, dates, source, pins. */
-function metaBits(submission: SiteSubmission, metaAction: string): string {
+function metaBits(model: SiteModel, submission: SiteSubmission, metaAction: string): string {
   const { record, output } = submission;
   const source = record.source;
   const sourceBit = source
@@ -691,8 +716,13 @@ function metaBits(submission: SiteSubmission, metaAction: string): string {
     `created ${formatDay(record.createdAt)}`,
     ...(record.registeredAt ? [`registered ${formatDay(record.registeredAt)}`] : []),
   ].join(" · ");
+  // The pins *are* the environment; the label says only that this one is the
+  // environment the archive currently recommends, which no version string can.
+  const epochLabel = output?.manifest.leanVersion === model.epoch
+    ? ` <span class="meta-epoch" title="the environment the archive recommends this year">epoch</span>`
+    : "";
   const pins = output
-    ? `Lean ${code(output.manifest.leanVersion)} · mathlib ${code(output.manifest.mathlibVersion.slice(0, 12))}`
+    ? `Lean ${code(output.manifest.leanVersion)}${epochLabel} · mathlib ${code(output.manifest.mathlibVersion.slice(0, 12))}`
     : "";
   // Drafts use the prominent page banner; repeating a tiny state pill here
   // makes the mutable state look like ordinary metadata.

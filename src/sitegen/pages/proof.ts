@@ -3,6 +3,7 @@ import type { LocatedProof } from "../model.js";
 import { inPaperBlock } from "./paper.js";
 import {
   draftBanner,
+  environmentNotice,
   versionHistoryPanel,
   repositorySource,
   type PageContext,
@@ -43,7 +44,7 @@ export function proofPage(ctx: PageContext, located: LocatedProof): string {
     ? `<a href="${attr(sourceFile)}"><code>${esc(proof.path)}</code></a>`
     : `<code>${esc(proof.path)}</code>`;
 
-  const content = `${versionHistoryPanel(ctx, submission.record.id, "../")}${draftBanner(submission.record.state)}
+  const content = `${versionHistoryPanel(ctx, submission.record.id, "../")}${draftBanner(submission.record.state)}${environmentNotice(ctx.model, submission)}
 <div class="detail-heading concept-heading proof-heading">
 <div class="proof-heading-content"><h1 class="concept-title">Proof of <span class="proof-concept-title">\`${ctx.markdown.renderAuthorInline(conclusion.concept.title, "../")}\`</span>${position ? ` <span class="claim-ordinal">(${esc(position.label)})</span>` : ""}</h1>
 <p class="concept-microline proof-microline"><span class="status-pills">${pill}</span><span>${pathLink} · <a href="index.html">${esc(output.id)}</a></span></p></div>

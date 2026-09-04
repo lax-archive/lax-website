@@ -76,3 +76,17 @@ want formalized. The steps below are that same workflow, by hand.
 
 Owners are GitHub identities. Use `lax owners` to share a submission with
 co-authors before registration.
+
+The archive builds in a small set of **environments** — a Lean toolchain and
+the mathlib release it pins — and recommends one of them, the **epoch**, at a
+time; a submission can only be cited by submissions in its own environment,
+so `lax init` uses the epoch unless you ask for another.
+
+## Reading the archive with a program
+
+Two files at the site root save you cloning the database or scraping these
+pages: [`/index.json`](index.json) lists every record with its state,
+environment, title, version links, concepts and proofs, and
+[`/environments.json`](environments.json) names the epoch and counts the
+submissions in each environment. Both are regenerated with the site and are
+byte-for-byte reproducible.
