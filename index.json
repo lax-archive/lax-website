@@ -1,0 +1,1351 @@
+{
+  "records": [
+    {
+      "id": "lax-3",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "First-Order Model Checking on Nowhere Dense Graph Classes in Almost Linear Time",
+      "concepts": [
+        {
+          "id": "Lax3.ColoredGraphs",
+          "title": "Colored graphs and walk distance",
+          "type": "definition"
+        },
+        {
+          "id": "Lax3.DistFO",
+          "title": "Distance logic and distance rank",
+          "type": "definition"
+        },
+        {
+          "id": "Lax3.FirstOrder",
+          "title": "First-order logic on graphs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax3.Locality",
+          "title": "Locality theorem for distance logic",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax3.ModelChecking",
+          "title": "First-order model checking on nowhere dense classes in almost linear time",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax3.NeighborhoodCoverBound",
+          "title": "Neighborhood covers of weak coloring degree",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax3.NeighborhoodCovers",
+          "title": "Sparse neighborhood covers",
+          "type": "definition"
+        },
+        {
+          "id": "Lax3.NormalForm",
+          "title": "Normal form for distance logic",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax3.NowhereDenseSplitter",
+          "title": "Splitter wins on nowhere dense classes",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax3.ScatterSentences",
+          "title": "Scatter sentences",
+          "type": "definition"
+        },
+        {
+          "id": "Lax3.SplitterGame",
+          "title": "The isolation splitter game",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax3Proofs.Assembly.locality",
+        "Lax3Proofs.Assembly.normalForm",
+        "Lax3Proofs.CoverConstruction.exists_neighborhoodCover_degree_wcol",
+        "Lax3Proofs.SplitterWin.splitterWins_of_nowhereDense"
+      ]
+    },
+    {
+      "id": "lax-5",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "Almost Linear Neighborhood Complexity of Monadically Dependent Graph Classes",
+      "concepts": [
+        {
+          "id": "Lax5.AdlerAdler",
+          "title": "Nowhere dense classes are monadically dependent",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax5.AlmostLinearNC",
+          "title": "Monadically dependent classes have almost linear neighborhood complexity",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax5.GraphClasses",
+          "title": "Weakly sparse graph classes",
+          "type": "definition"
+        },
+        {
+          "id": "Lax5.GraphTransductions",
+          "title": "Graph transductions",
+          "type": "definition"
+        },
+        {
+          "id": "Lax5.MonadicDependence",
+          "title": "Monadic dependence",
+          "type": "definition"
+        },
+        {
+          "id": "Lax5.Transductions",
+          "title": "First-order transductions",
+          "type": "definition"
+        },
+        {
+          "id": "Lax5.WeaklySparseDependent",
+          "title": "Weakly sparse monadically dependent classes are nowhere dense",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax5Proofs.AdlerAdler.monadicallyDependent_of_nowhereDense",
+        "Lax5Proofs.Corollary6a.nowhereDense_of_weaklySparse_of_monadicallyDependent",
+        "Lax5Proofs.Theorem2.hasAlmostLinearNC_of_monadicallyDependent"
+      ]
+    },
+    {
+      "id": "lax-9",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "χ-Boundedness and Neighbourhood Complexity of Bounded Merge-Width Graphs",
+      "concepts": [
+        {
+          "id": "Lax9.BoundedMergeWidthChiBounded",
+          "title": "χ-Boundedness of Bounded Merge-Width Classes",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax9.BoundedMergeWidthLinearNeighborhoodComplexity",
+          "title": "Linear Neighbourhood Complexity of Bounded Merge-Width Classes",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax9.ChiBoundedness",
+          "title": "χ-Boundedness",
+          "type": "definition"
+        },
+        {
+          "id": "Lax9.MergeWidth",
+          "title": "Merge-Width",
+          "type": "definition"
+        },
+        {
+          "id": "Lax9.NeighborhoodComplexity",
+          "title": "Linear Neighbourhood Complexity",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax9Proofs.chiBounded_of_boundedMergeWidth",
+        "Lax9Proofs.linearNeighborhoodComplexity_of_boundedMergeWidth"
+      ]
+    },
+    {
+      "id": "lax-10",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "Graphs without a 3-Connected Subgraph are 4-Colourable",
+      "concepts": [
+        {
+          "id": "Lax10.Fragile",
+          "title": "Fragile and m-fragile graphs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax10.FragileFourColorable",
+          "title": "Graphs without a 3-connected subgraph are 4-colorable",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax10.Theorem2",
+          "title": "Theorem 2",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax10.ThreeConnectedAndColorable",
+          "title": "3-connected graphs and 4-colorability",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax10Proofs.Main.fragile_four_colorable",
+        "Lax10Proofs.Main.theorem2"
+      ]
+    },
+    {
+      "id": "lax-11",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "Algorithmic Experiments on a Random Access Machine",
+      "concepts": [
+        {
+          "id": "Lax11.CliqueExpr",
+          "title": "k-expressions, and the graphs of cliquewidth at most k",
+          "type": "definition"
+        },
+        {
+          "id": "Lax11.ConnectedComponents",
+          "title": "Connected components in linear time",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax11.Courcelle",
+          "title": "Courcelle's theorem on a word RAM",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax11.GraphEncoding",
+          "title": "Compressed sparse row encoding of a graph",
+          "type": "definition"
+        },
+        {
+          "id": "Lax11.InstanceEncoding",
+          "title": "Encoding a graph together with a k-expression",
+          "type": "definition"
+        },
+        {
+          "id": "Lax11.Mso",
+          "title": "Monadic second-order logic on graphs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax11.VertexCover",
+          "title": "A graph with a parameter appended",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax11Proofs.CCMain.exists_linearTime_program_ccLabels",
+        "Lax11Proofs.Courcelle.exists_linearTime_program_modelChecking"
+      ]
+    },
+    {
+      "id": "lax-12",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "Sparsity Lectures: Nowhere Denseness, Quasi-Wideness, and Generalized Coloring Numbers",
+      "concepts": [
+        {
+          "id": "Lax12.Admissibility",
+          "title": "Admissibility",
+          "type": "definition"
+        },
+        {
+          "id": "Lax12.AdmissibilityBound",
+          "title": "Admissibility is bounded by topological shallow-minor density",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax12.ColoringNumbers",
+          "title": "Generalized coloring numbers",
+          "type": "definition"
+        },
+        {
+          "id": "Lax12.GraphClasses",
+          "title": "Graph classes",
+          "type": "definition"
+        },
+        {
+          "id": "Lax12.NeighborhoodComplexity",
+          "title": "Neighborhood complexity",
+          "type": "definition"
+        },
+        {
+          "id": "Lax12.NowhereDenseClasses",
+          "title": "Nowhere dense graph classes",
+          "type": "definition"
+        },
+        {
+          "id": "Lax12.NowhereDenseDensity",
+          "title": "Nowhere dense classes have subpolynomial shallow-minor density",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax12.NowhereDenseNC",
+          "title": "Nowhere dense classes have almost linear neighborhood complexity",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax12.NowhereDenseUQW",
+          "title": "Nowhere dense classes are uniformly quasi-wide",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax12.NowhereDenseWcol",
+          "title": "Nowhere dense classes have subpolynomial weak coloring numbers",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax12.ShallowMinorDensity",
+          "title": "Edge density of shallow minors",
+          "type": "definition"
+        },
+        {
+          "id": "Lax12.ShallowTopologicalMinors",
+          "title": "Shallow topological minors",
+          "type": "definition"
+        },
+        {
+          "id": "Lax12.StrongColoringBound",
+          "title": "Strong coloring numbers are bounded by admissibility",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax12.UniformQuasiWideness",
+          "title": "Uniform quasi-wideness",
+          "type": "definition"
+        },
+        {
+          "id": "Lax12.WeakColoringBound",
+          "title": "Weak coloring numbers are bounded by strong coloring numbers",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax12Proofs.AdmissibilityBound.adm_le_of_hasTopologicalDensityAtMost",
+        "Lax12Proofs.NowhereDenseDensity.hasSubpolynomialDensity_of_nowhereDense",
+        "Lax12Proofs.NowhereDenseNC.hasAlmostLinearNC_of_nowhereDense",
+        "Lax12Proofs.NowhereDenseUQW.uniformlyQuasiWide_of_nowhereDense",
+        "Lax12Proofs.NowhereDenseWcol.hasSubpolynomialWcol_of_nowhereDense",
+        "Lax12Proofs.StrongColoringBound.scol_le_of_adm",
+        "Lax12Proofs.WeakColoringBound.wcol_le_of_scol"
+      ]
+    },
+    {
+      "id": "lax-13",
+      "state": "registered",
+      "environment": "v4.30.0",
+      "title": "The Word RAM",
+      "concepts": [
+        {
+          "id": "Lax13.Ram",
+          "title": "The word RAM",
+          "type": "definition"
+        },
+        {
+          "id": "Lax13.RamComputes",
+          "title": "Computing a function within a time bound",
+          "type": "definition"
+        }
+      ],
+      "proofs": []
+    },
+    {
+      "id": "lax-14",
+      "state": "registered",
+      "environment": "v4.30.0",
+      "title": "Finite Ramsey Theorems for Pairs and Tuples",
+      "concepts": [
+        {
+          "id": "Lax14.MulticolorRamsey",
+          "title": "Ramsey's theorem for colourings of pairs",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax14.OrderTypes",
+          "title": "Order type of a tuple",
+          "type": "definition"
+        },
+        {
+          "id": "Lax14.Ramsey",
+          "title": "Ramsey's theorem",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax14.TupleRamsey",
+          "title": "Ramsey's theorem for tuples",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax14Proofs.MulticolorRamsey.exists_monochromatic_set",
+        "Lax14Proofs.Ramsey.exists_clique_or_indepSet",
+        "Lax14Proofs.TupleRamsey.exists_orderType_homogeneous"
+      ]
+    },
+    {
+      "id": "lax-16",
+      "state": "registered",
+      "environment": "v4.30.0",
+      "title": "A Batch Approach to the Positive NCTD of Planar Graphs",
+      "supersededBy": "lax-60",
+      "concepts": [
+        {
+          "id": "Lax16.AnchorLabels",
+          "title": "An anchor label certifies against every concept that omits it",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax16.BatchFramework",
+          "title": "Admissible batches and last-assignment schedules",
+          "type": "definition"
+        },
+        {
+          "id": "Lax16.BatchReassignment",
+          "title": "Last assignments from admissible batches form a global teaching map",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax16.DominatorCount",
+          "title": "A planar center has at most one dominator above degree four and at most two in degree four",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax16.DominatorDefinitions",
+          "title": "Active dominators and their local teaching assignments",
+          "type": "definition"
+        },
+        {
+          "id": "Lax16.OuterplanarBlockAssignment",
+          "title": "Two-connected outerplanar graphs admit two-label teaching maps",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax16.OuterplanarBound",
+          "title": "Outerplanar graphs have positive NCTD at most two",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax16.OuterplanarLayer",
+          "title": "Outerplanar neighbor layers admit width-three ambient assignments",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax16.OuterplanarSharpness",
+          "title": "Some outerplanar graph has positive NCTD at least two",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax16.PlanarBound",
+          "title": "Planar graphs have positive NCTD at most four",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax16.PlanarGraphs",
+          "title": "Planar and outerplanar finite simple graphs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax16.PlanarSharpness",
+          "title": "Some planar graph has positive NCTD at least four",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax16.PlanarVertexBatch",
+          "title": "Every planar vertex with at least four neighbors admits a width-four batch",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax16.SmallDegreeBatch",
+          "title": "Every vertex of degree at most three admits a width-four neighborhood batch",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax16.TeachingMaps",
+          "title": "No-clash teaching for closed graph balls",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax16Proofs.AnchorLabels.anchor_certifies",
+        "Lax16Proofs.BatchReassignment.reassignment",
+        "Lax16Proofs.DominatorCount.dominator_count_bounds",
+        "Lax16Proofs.OuterplanarBlockAssignment.exists_two_label_assignment",
+        "Lax16Proofs.OuterplanarBound.positiveNCTD_le_two",
+        "Lax16Proofs.OuterplanarLayer.exists_outerplanar_layer_assignment",
+        "Lax16Proofs.OuterplanarSharpness.positiveNCTD_ge_two",
+        "Lax16Proofs.PlanarBound.positiveNCTD_le_four",
+        "Lax16Proofs.PlanarSharpness.positiveNCTD_ge_four",
+        "Lax16Proofs.PlanarVertexBatch.exists_planar_vertex_batch_of_degree_ge_four",
+        "Lax16Proofs.SmallDegreeBatch.exists_small_degree_batch"
+      ]
+    },
+    {
+      "id": "lax-17",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "Exponent 8 ($\\times$ Polylogarithmic) Bound for the Grid-Minor Theorem",
+      "concepts": [
+        {
+          "id": "Lax17.Crossbar",
+          "title": "Crossbars and pseudo-grids",
+          "type": "definition"
+        },
+        {
+          "id": "Lax17.CrossbarOrPseudoGrid",
+          "title": "Crossbar-or-pseudo-grid dichotomy",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax17.CrossbarStitching",
+          "title": "Crossbar stitching",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax17.CutMatchingTheorem",
+          "title": "Cut-matching expansion theorem",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax17.Degree",
+          "title": "Degree bounds",
+          "type": "definition"
+        },
+        {
+          "id": "Lax17.EdgeMenger",
+          "title": "Edge-Menger theorem",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax17.ExpanderGrid",
+          "title": "Grid minors from separator expansion",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax17.Expansion",
+          "title": "Edge expansion and cut-matching transcripts",
+          "type": "definition"
+        },
+        {
+          "id": "Lax17.ExponentTenCrossbarDichotomy",
+          "title": "Exponent-ten crossbar dichotomy",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax17.Grid",
+          "title": "Square grid graphs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax17.GridMinor",
+          "title": "Square grid minors",
+          "type": "definition"
+        },
+        {
+          "id": "Lax17.HairyPathOfSetsFromTreewidth",
+          "title": "A hairy path-of-sets system from treewidth",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax17.HindOellermann",
+          "title": "Hind--Oellermann deletion--contraction theorem",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax17.Linkedness",
+          "title": "Linked terminal sets",
+          "type": "definition"
+        },
+        {
+          "id": "Lax17.LocalRoutingOrGrid",
+          "title": "Local routing-or-grid alternative",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax17.LowDegreeWellLinkedCore",
+          "title": "A low-degree well-linked core",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax17.Mader",
+          "title": "Mader's admissible split-off theorem",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax17.Minor",
+          "title": "Graph minors",
+          "type": "definition"
+        },
+        {
+          "id": "Lax17.NodeWellLinkedSetFromTreewidth",
+          "title": "A well-linked set from treewidth",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax17.ParallelClusterSplitting",
+          "title": "Parallel cluster splitting",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax17.PathOfSets",
+          "title": "Strong and hairy path-of-sets systems",
+          "type": "definition"
+        },
+        {
+          "id": "Lax17.Paths",
+          "title": "Paths, linkages, and separators",
+          "type": "definition"
+        },
+        {
+          "id": "Lax17.PolynomialGridMinor",
+          "title": "Exponent 8 ($\\times$ Polylogarithmic) Bound for the Grid-Minor Theorem",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax17.SinghLau",
+          "title": "Singh--Lau bounded-degree spanning-tree theorem",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax17.SmallLinkedSubsets",
+          "title": "Linking small terminal subsets",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax17.SpanningTreeRounding",
+          "title": "Bounded-degree spanning-tree relaxation",
+          "type": "definition"
+        },
+        {
+          "id": "Lax17.StrongPathExtraction",
+          "title": "Strong path extraction",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax17.StrongPathOfSetsContainsGrid",
+          "title": "A grid minor from a strong path-of-sets system",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax17.StrongPathOfSetsFromTreewidth",
+          "title": "A strong path-of-sets system from treewidth",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax17.StrongTreeOfSetsConstruction",
+          "title": "Strong tree-of-sets construction",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax17.TerminalConnectivity",
+          "title": "Terminal element connectivity and split-off operations",
+          "type": "definition"
+        },
+        {
+          "id": "Lax17.TerminalElementMenger",
+          "title": "Terminal element-Menger theorem",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax17.TreeOfSets",
+          "title": "Strong tree-of-sets systems",
+          "type": "definition"
+        },
+        {
+          "id": "Lax17.Treewidth",
+          "title": "Treewidth",
+          "type": "definition"
+        },
+        {
+          "id": "Lax17.TreewidthMinorMonotonicity",
+          "title": "Treewidth monotonicity under graph minors",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax17.TreewidthSparsifier",
+          "title": "Degree-three treewidth sparsifier",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax17.VertexMenger",
+          "title": "Vertex-Menger theorem",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax17.WellLinkednessBoosting",
+          "title": "Well-linkedness boosting",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax17Proofs.Exposed.crossbarOrPseudoGrid",
+        "Lax17Proofs.Exposed.crossbarStitching",
+        "Lax17Proofs.Exposed.degreeThreeTreewidthSparsifier",
+        "Lax17Proofs.Exposed.edgeMenger",
+        "Lax17Proofs.Exposed.expanderContainsGrid",
+        "Lax17Proofs.Exposed.exponentTenCrossbarDichotomy",
+        "Lax17Proofs.Exposed.hairyPathOfSetsFromTreewidth",
+        "Lax17Proofs.Exposed.hindOellermannDeletionContraction",
+        "Lax17Proofs.Exposed.localRoutingOrGrid",
+        "Lax17Proofs.Exposed.logarithmicCutMatchingExpansion",
+        "Lax17Proofs.Exposed.lowDegreeWellLinkedCore",
+        "Lax17Proofs.Exposed.maderAdmissibleSplitOff",
+        "Lax17Proofs.Exposed.nodeWellLinkedSetFromTreewidth",
+        "Lax17Proofs.Exposed.parallelClusterSplitting",
+        "Lax17Proofs.Exposed.singhLauBoundedDegreeSpanningTree",
+        "Lax17Proofs.Exposed.smallLinkedSubsets",
+        "Lax17Proofs.Exposed.strongPathExtraction",
+        "Lax17Proofs.Exposed.strongPathOfSetsContainsGrid",
+        "Lax17Proofs.Exposed.strongPathOfSetsFromTreewidth",
+        "Lax17Proofs.Exposed.strongTreeOfSetsConstruction",
+        "Lax17Proofs.Exposed.terminalElementMenger",
+        "Lax17Proofs.Exposed.treewidth_mono_minor",
+        "Lax17Proofs.Exposed.vertexMenger",
+        "Lax17Proofs.Exposed.wellLinkednessBoosting",
+        "Lax17Proofs.Final.polynomial_grid_minor_eight_polylog"
+      ]
+    },
+    {
+      "id": "lax-18",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "Szemerédi's Regularity Lemma",
+      "concepts": [
+        {
+          "id": "Lax18.EdgeDensity",
+          "title": "Edge density between two vertex sets",
+          "type": "definition"
+        },
+        {
+          "id": "Lax18.EnergyIncrement",
+          "title": "The energy-increment refinement lemma",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax18.EquitableCleanup",
+          "title": "Equitable cleanup of a bounded partition",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax18.FiniteGraphPartitions",
+          "title": "Finite graph vertex partitions",
+          "type": "definition"
+        },
+        {
+          "id": "Lax18.PartitionEnergy",
+          "title": "Refinement and the index of a graph partition",
+          "type": "definition"
+        },
+        {
+          "id": "Lax18.PartitionEnergyBounds",
+          "title": "Bounds for partition energy",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax18.PartitionEnergyMonotonicity",
+          "title": "Monotonicity of partition energy under refinement",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax18.RegularPairs",
+          "title": "Regular pairs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax18.RegularPartitions",
+          "title": "Regular partitions",
+          "type": "definition"
+        },
+        {
+          "id": "Lax18.SzemerediRegularityLemma",
+          "title": "Szemerédi's regularity lemma",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax18Proofs.energy_increment_refinement",
+        "Lax18Proofs.equitable_cleanup",
+        "Lax18Proofs.partitionEnergy_mem_unitInterval",
+        "Lax18Proofs.partitionEnergy_mono_of_refines",
+        "Lax18Proofs.szemeredi_regularity_lemma"
+      ]
+    },
+    {
+      "id": "lax-41",
+      "state": "registered",
+      "environment": "v4.30.0",
+      "title": "Constructive Lovász Local Lemma",
+      "concepts": [
+        {
+          "id": "Lax41.HaeuplerSahaSrinivasanDefinitions",
+          "title": "Definitions for the Haeupler–Saha–Srinivasan distributional theorem",
+          "type": "definition"
+        },
+        {
+          "id": "Lax41.HaeuplerSahaSrinivasanTheorem22",
+          "title": "Haeupler–Saha–Srinivasan Theorem 2.2",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax41.MoserTardos",
+          "title": "The Moser–Tardos theorem",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax41.MoserTardosDefinitions",
+          "title": "Definitions for the Moser–Tardos resampling algorithm",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax41Proofs.moser_tardos",
+        "Lax41Proofs.theorem_2_2"
+      ]
+    },
+    {
+      "id": "lax-47",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "Tight Inapproximability of Max Independent Set in Triangle-Free Graphs",
+      "concepts": [
+        {
+          "id": "Lax47.Complexity",
+          "title": "Executable graph encodings and triangle-free approximation",
+          "type": "definition"
+        },
+        {
+          "id": "Lax47.Gap",
+          "title": "Finite-Turing promise-gap algorithms for Max Independent Set",
+          "type": "definition"
+        },
+        {
+          "id": "Lax47.Hastad",
+          "title": "Håstad's inapproximability of Max Independent Set",
+          "type": "definition"
+        },
+        {
+          "id": "Lax47.Machine",
+          "title": "Polynomial-time computation on the Lax51 finite-Turing model",
+          "type": "definition"
+        },
+        {
+          "id": "Lax47.Theorem12",
+          "title": "Håstad hardness implies tight inapproximability in triangle-free graphs",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax47Proofs.theorem_1_2"
+      ]
+    },
+    {
+      "id": "lax-48",
+      "state": "registered",
+      "environment": "v4.30.0",
+      "title": "Twin-Width Can Be Exponential in Treewidth",
+      "concepts": [
+        {
+          "id": "Lax48.ExponentialSeparation",
+          "title": "Twin-width can be exponential in treewidth",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax48.Treewidth",
+          "title": "Treewidth",
+          "type": "definition"
+        },
+        {
+          "id": "Lax48.TwinWidth",
+          "title": "Twin-width",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax48Proofs.Main.exists_treewidth_le_and_two_pow_lt_twinWidth"
+      ]
+    },
+    {
+      "id": "lax-49",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "Functional Equivalence of Twin-Width and Mixed Minor Number",
+      "concepts": [
+        {
+          "id": "Lax49.FunctionalEquivalence",
+          "title": "Twin-width and mixed minor number are functionally equivalent",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax49.GraphParameters",
+          "title": "Graph parameters and functional equivalence",
+          "type": "definition"
+        },
+        {
+          "id": "Lax49.MixedMinorNumber",
+          "title": "Mixed minor number",
+          "type": "definition"
+        },
+        {
+          "id": "Lax49.MixedMinorNumberFromTwinWidth",
+          "title": "Mixed minor number is bounded by a function of twin-width",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax49.TwinWidthFromMixedMinorNumber",
+          "title": "Twin-width is bounded by a function of mixed minor number",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax49Proofs.Main.twin_width_functionally_equivalent_mixed_minor_number",
+        "Lax49Proofs.MixedMinorNumberFromTwinWidth.exists_mixedMinorNumber_bound_of_twinWidth",
+        "Lax49Proofs.TwinWidthFromMixedMinorNumber.exists_twinWidth_bound_of_mixedMinorNumber"
+      ]
+    },
+    {
+      "id": "lax-51",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "Computability and polynomial-time equivalence of Turing machines and word RAMs",
+      "concepts": [
+        {
+          "id": "Lax51.BinaryWordEncoding",
+          "title": "Binary encoding of finite words",
+          "type": "definition"
+        },
+        {
+          "id": "Lax51.RamPolytime",
+          "title": "Polynomial-time computation by a word RAM",
+          "type": "definition"
+        },
+        {
+          "id": "Lax51.RamToTuringGenericTime",
+          "title": "Generic-time simulation of word RAMs by Turing machines",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax51.TuringPolytime",
+          "title": "Polynomial-time computation by a Turing machine",
+          "type": "definition"
+        },
+        {
+          "id": "Lax51.TuringRamEquivalence",
+          "title": "Equivalence of Turing machines and word RAMs",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax51.TuringRamPolytimeEquivalence",
+          "title": "Polynomial-time equivalence of Turing machines and word RAMs",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax51.TuringToRamGenericTime",
+          "title": "Generic-time simulation of Turing machines by word RAMs",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax51Proofs.GenericTimeSimulation.ramInTime_to_turingInPolynomialOverhead",
+        "Lax51Proofs.GenericTimeSimulation.turingWithInputTime_to_ramInPolynomialOverhead",
+        "Lax51Proofs.TuringRamEquivalence.ramComputable_iff_computable",
+        "Lax51Proofs.TuringRamPolytimeEquivalence.ramPolytime_iff_turingPolytime"
+      ]
+    },
+    {
+      "id": "lax-52",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "MSO-automata",
+      "concepts": [
+        {
+          "id": "Lax52.MSOAutomataEquivalence",
+          "title": "Büchi-Elgot-Trakhtenbrot theorem for finite words",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax52.MSOSemantics",
+          "title": "Semantics of monadic second-order logic",
+          "type": "definition"
+        },
+        {
+          "id": "Lax52.MSOSyntax",
+          "title": "Monadic second-order syntax",
+          "type": "definition"
+        },
+        {
+          "id": "Lax52.MSOToNFA",
+          "title": "MSO-definable word languages are NFA-recognizable",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax52.NFARecognizable",
+          "title": "Recognition by a finite nondeterministic automaton",
+          "type": "definition"
+        },
+        {
+          "id": "Lax52.NFAToMSO",
+          "title": "Finite automata are MSO-definable",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax52.WordStructure",
+          "title": "Words as finite relational structures",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax52Proofs.existsUnique_wordStructure_proof",
+        "Lax52Proofs.mso_definable_is_nfaRecognizable_proof",
+        "Lax52Proofs.nfa_definable_by_mso_proof",
+        "Lax52Proofs.nfaRecognizable_iff_msoDefinable_proof"
+      ]
+    },
+    {
+      "id": "lax-54",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "Erdős–Hajnal for graphs with no 5-hole",
+      "concepts": [
+        {
+          "id": "Lax54.AveragingLemma",
+          "title": "Sparse graph thinning lemma",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax54.BipartiteCombLemma",
+          "title": "Bipartite comb lemma",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax54.CriticalCombInput",
+          "title": "Quantitative critical-comb consequence",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax54.ErdosHajnalC5",
+          "title": "Erdős–Hajnal theorem for the five-cycle",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax54.GraphDefinitions",
+          "title": "Finite graph notions for the five-cycle Erdős–Hajnal theorem",
+          "type": "definition"
+        },
+        {
+          "id": "Lax54.KeyCombLemma",
+          "title": "Stable hubbed comb in a critical graph",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax54.MaximumDegreeReduction",
+          "title": "Maximum-degree form of Rödl's theorem",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax54.RodlTheorem",
+          "title": "Rödl's theorem for induced-subgraph-free graphs",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax54Proofs.bipartite_comb_lemma",
+        "Lax54Proofs.CriticalCombInput.exists_critical_comb_parameters",
+        "Lax54Proofs.erdos_hajnal_C5",
+        "Lax54Proofs.key_comb_lemma",
+        "Lax54Proofs.maximum_degree_reduction",
+        "Lax54Proofs.RodlTheorem.rodl_theorem",
+        "Lax54Proofs.sparse_graph_thinning"
+      ]
+    },
+    {
+      "id": "lax-57",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "Erdős–Hajnal for the five-vertex path",
+      "concepts": [
+        {
+          "id": "Lax57.AnticomponentBlockade",
+          "title": "Anticomponent or complete blockade",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax57.BlockadeThinning",
+          "title": "Simultaneous thinning of a semisparse blockade",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax57.ErdosHajnalP5",
+          "title": "Erdős–Hajnal theorem for the five-vertex path",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax57.GraphDefinitions",
+          "title": "Finite graph notions for the five-vertex path theorem",
+          "type": "definition"
+        },
+        {
+          "id": "Lax57.HouseDichotomy",
+          "title": "Restricted set or uniform blockade in a house-free graph",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax57.PreparedHouseBlockade",
+          "title": "Prepared sparse-or-complete house blockades",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax57.SemisparseBlockade",
+          "title": "Polynomial semisparse blockades for the house",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax57.SparseHouseAcceleration",
+          "title": "Sparse-house acceleration",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax57.SparseHouseTools",
+          "title": "Anticomplete pairs in sparse $P_5$-free graphs",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax57.SparseHouseTrichotomy",
+          "title": "The sparse-house trichotomy",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax57Proofs.anticomponent_or_complete_blockade",
+        "Lax57Proofs.erdos_hajnal_P5",
+        "Lax57Proofs.house_dichotomy",
+        "Lax57Proofs.prepared_house_blockade",
+        "Lax57Proofs.semisparse_blockade_thinning",
+        "Lax57Proofs.semisparse_house_blockade",
+        "Lax57Proofs.sparse_house_acceleration",
+        "Lax57Proofs.sparse_house_trichotomy",
+        "Lax57Proofs.sparse_P5_anticomplete_pair"
+      ]
+    },
+    {
+      "id": "lax-59",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "Nagura's Theorem and the Interesting Numbers",
+      "concepts": [
+        {
+          "id": "Lax59.InterestingNumbers",
+          "title": "Classification of Interesting Numbers",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax59.Nagura",
+          "title": "Nagura's Prime Interval Theorem",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax59Proofs.InterestingNumbers.interesting_iff",
+        "Lax59Proofs.nagura_bound"
+      ]
+    },
+    {
+      "id": "lax-60",
+      "state": "registered",
+      "environment": "v4.30.0",
+      "title": "A Batch Approach to the Positive NCTD of Planar Graphs",
+      "supersedes": "lax-16",
+      "concepts": [
+        {
+          "id": "Lax60.AnchorLabels",
+          "title": "An anchor label certifies against every concept that omits it",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax60.BatchFramework",
+          "title": "Admissible batches and last-assignment schedules",
+          "type": "definition"
+        },
+        {
+          "id": "Lax60.BatchReassignment",
+          "title": "Last assignments from admissible batches form a global teaching map",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax60.DominatorCount",
+          "title": "A planar center has at most one dominator above degree four and at most two in degree four",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax60.DominatorDefinitions",
+          "title": "Active dominators and their local teaching assignments",
+          "type": "definition"
+        },
+        {
+          "id": "Lax60.OuterplanarBlockAssignment",
+          "title": "Two-connected outerplanar graphs admit two-label teaching maps",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax60.OuterplanarBound",
+          "title": "Outerplanar graphs have positive NCTD at most two",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax60.OuterplanarLayer",
+          "title": "Outerplanar neighbor layers admit width-three ambient assignments",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax60.OuterplanarSharpness",
+          "title": "Some outerplanar graph has positive NCTD at least two",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax60.PlanarBound",
+          "title": "Planar graphs have positive NCTD at most four",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax60.PlanarGraphs",
+          "title": "Planar and outerplanar finite simple graphs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax60.PlanarSharpness",
+          "title": "Some planar graph has positive NCTD at least four",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax60.PlanarVertexBatch",
+          "title": "Every planar vertex with at least four neighbors admits a width-four batch",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax60.SmallDegreeBatch",
+          "title": "Every vertex of degree at most three admits a width-four neighborhood batch",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax60.TeachingMaps",
+          "title": "No-clash teaching for closed graph balls",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax60Proofs.AnchorLabels.anchor_certifies",
+        "Lax60Proofs.BatchReassignment.reassignment",
+        "Lax60Proofs.DominatorCount.dominator_count_bounds",
+        "Lax60Proofs.OuterplanarBlockAssignment.exists_two_label_assignment",
+        "Lax60Proofs.OuterplanarBound.positiveNCTD_le_two",
+        "Lax60Proofs.OuterplanarLayer.exists_outerplanar_layer_assignment",
+        "Lax60Proofs.OuterplanarSharpness.positiveNCTD_ge_two",
+        "Lax60Proofs.PlanarBound.positiveNCTD_le_four",
+        "Lax60Proofs.PlanarSharpness.positiveNCTD_ge_four",
+        "Lax60Proofs.PlanarVertexBatch.exists_planar_vertex_batch_of_degree_ge_four",
+        "Lax60Proofs.SmallDegreeBatch.exists_small_degree_batch"
+      ]
+    },
+    {
+      "id": "lax-62",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "A Refinement Framework for the Word RAM",
+      "concepts": [],
+      "proofs": []
+    },
+    {
+      "id": "lax-65",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "Twin-Width Can Be Exponential in Treewidth",
+      "supersedes": "lax-48",
+      "concepts": [
+        {
+          "id": "Lax65.ApexCorollary",
+          "title": "Adding an apex can almost double twin-width",
+          "type": "corollary"
+        },
+        {
+          "id": "Lax65.BonnetDepresGraph",
+          "title": "The graph G_{t,ε}",
+          "type": "definition"
+        },
+        {
+          "id": "Lax65.ExponentialSeparation",
+          "title": "Twin-width can be exponential in treewidth",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax65.FeedbackVertexSet",
+          "title": "Feedback vertex set",
+          "type": "definition"
+        },
+        {
+          "id": "Lax65.GraphFamily",
+          "title": "Families of graphs with unbounded twin-width",
+          "type": "definition"
+        },
+        {
+          "id": "Lax65.GridNumber",
+          "title": "Grid number",
+          "type": "definition"
+        },
+        {
+          "id": "Lax65.GridNumberCorollary",
+          "title": "Twin-width exponential in grid number",
+          "type": "corollary"
+        },
+        {
+          "id": "Lax65.GridNumberOfBonnetDepres",
+          "title": "Grid number of G_t",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax65.OrientedTwinWidth",
+          "title": "Oriented twin-width",
+          "type": "definition"
+        },
+        {
+          "id": "Lax65.OrientedTwinWidthCorollary",
+          "title": "Twin-width exponential in oriented twin-width",
+          "type": "corollary"
+        },
+        {
+          "id": "Lax65.OrientedTwinWidthOfBonnetDepres",
+          "title": "Oriented twin-width of G_t",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax65.TreewidthCorollary",
+          "title": "Twin-width exponential in treewidth, as a family",
+          "type": "corollary"
+        },
+        {
+          "id": "Lax65.TreewidthOfBonnetDepres",
+          "title": "Treewidth of G_t",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax65.TwinWidthOfBonnetDepres",
+          "title": "Twin-width of G_t",
+          "type": "lemma"
+        }
+      ],
+      "proofs": []
+    },
+    {
+      "id": "lax-67",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "The Word RAM",
+      "supersedes": "lax-13",
+      "concepts": [
+        {
+          "id": "Lax67.Ram",
+          "title": "The word RAM",
+          "type": "definition"
+        },
+        {
+          "id": "Lax67.RamComputes",
+          "title": "Computing a function within a time bound",
+          "type": "definition"
+        }
+      ],
+      "proofs": []
+    }
+  ]
+}

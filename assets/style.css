@@ -862,6 +862,29 @@ body{
   margin: 0.9rem 0;
 }
 
+/* A record outside the archive's epoch says so in the draft banner's box,
+   muted: the environment is a fact about which work can cite this one, not a
+   defect in it, so it takes the neutral palette and no warning mark. */
+.environment-notice{
+  background: var(--panel-bg);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-control);
+  color: var(--text-dim);
+  font-size: 0.88rem;
+  text-align: center;
+  padding: 0.55rem 0.9rem;
+  margin: 0.9rem 0;
+}
+
+.environment-notice code{ color: var(--text); background: none; }
+
+/* "epoch" beside the masthead's Lean pin: a label on the pin, not a pin. */
+.meta-epoch{
+  font-variant: small-caps;
+  letter-spacing: 0.03em;
+  color: var(--text-dim);
+}
+
 /* Version history stays at the top of every version page. Superseded pages
    use the warning palette; current and proposed pages retain the archive's
    blue accent. */
@@ -2174,6 +2197,10 @@ body{
 }
 
 .tag-chip[hidden]{ display: none; }
+
+/* The environment facet sits in the topic strip but is an archive fact, not a
+   suggested phrase: mono, like every other version pin on the site. */
+.tag-chip.environment-chip span{ font-family: var(--mono); font-size: 0.72rem; }
 
 .tag-chip b{
   display: inline-grid;
