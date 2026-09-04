@@ -59,7 +59,7 @@
 <p class="concept-microline"><code>concepts/Lax11/VertexCover.lean</code> · <a href="index.html">lax-11</a></p></div>
 <span class="status-pills"><span class="status-pill pill-none">definition</span></span>
 </div>
-<section class="page-reactions" aria-label="Community review" data-reactions-host="https://comments.laxarchive.org" data-reactions-url="https://laxarchive.org/lax-11/Lax11.VertexCover.html" data-review-kind="concept" data-source-lines="45">
+<section class="page-reactions" aria-label="Community review" data-reactions-host="https://comments.laxarchive.org" data-reactions-url="https://laxarchive.org/lax-11/Lax11.VertexCover.html" data-review-kind="concept" data-source-lines="44">
 <div class="page-reactions-actions">
 <div class="page-reaction-control">
 <button class="page-reaction-button" type="button" data-reaction="endorse" aria-pressed="false" title="Say that this concept is correct"><span class="page-reaction-icon" aria-hidden="true">✅</span><span>Endorse</span></button>
@@ -105,7 +105,7 @@
 compressed sparse row block encoding the graph, followed by the single
 entry <em>k</em>. This file defines that instance format and nothing else.</p>
 </div></div>
-<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/a41a8de28c0b3e3a604ae9adb16117949f948184/ram-linear-time/concepts/Lax11/VertexCover.lean">view on GitHub</a></h3>
+<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/688029c9426eccb2fc339e3a1f2179cb97116edc/ram-linear-time/concepts/Lax11/VertexCover.lean">view on GitHub</a></h3>
 <div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
 <tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax67.RamComputes</span></td></tr>
 <tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax11.GraphEncoding</span></td></tr>
@@ -131,27 +131,26 @@ entry <em>k</em>. This file defines that instance format and nothing else.</p>
 <tr id="L22" class=""><td class="line-num"><a href="#L22">22</a></td><td class="line-code"><span style="color:#6A737D">on this encoding.</span></td></tr>
 <tr id="L23" class=""><td class="line-num"><a href="#L23">23</a></td><td class="line-code"> </td></tr>
 <tr id="L24" class=""><td class="line-num"><a href="#L24">24</a></td><td class="line-code"><span style="color:#6A737D">The format is defined here, next to the encoding it extends, and the</span></td></tr>
-<tr id="L25" class=""><td class="line-num"><a href="#L25">25</a></td><td class="line-code"><span style="color:#6A737D">statements made on it live elsewhere: the vertex cover ladder — the</span></td></tr>
-<tr id="L26" class=""><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span style="color:#6A737D">2^*k* bounded search tree and the two statements that lower its</span></td></tr>
-<tr id="L27" class=""><td class="line-num"><a href="#L27">27</a></td><td class="line-code"><span style="color:#6A737D">base — is the submission *Vertex Cover Below Two to the k*, which</span></td></tr>
-<tr id="L28" class=""><td class="line-num"><a href="#L28">28</a></td><td class="line-code"><span style="color:#6A737D">imports this format rather than restating it, so that all of its bounds</span></td></tr>
-<tr id="L29" class=""><td class="line-num"><a href="#L29">29</a></td><td class="line-code"><span style="color:#6A737D">are claims about literally the same inputs. The proof of its base rung</span></td></tr>
-<tr id="L30" class=""><td class="line-num"><a href="#L30">30</a></td><td class="line-code"><span style="color:#6A737D">is in this submission's proof package, where the format's first</span></td></tr>
-<tr id="L31" class=""><td class="line-num"><a href="#L31">31</a></td><td class="line-code"><span style="color:#6A737D">consumer was built.</span></td></tr>
-<tr id="L32" class=""><td class="line-num"><a href="#L32">32</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
-<tr id="L33" class=""><td class="line-num"><a href="#L33">33</a></td><td class="line-code"> </td></tr>
-<tr id="L34" class=""><td class="line-num"><a href="#L34">34</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax11.VertexCover</span></td></tr>
-<tr id="L35" class=""><td class="line-num"><a href="#L35">35</a></td><td class="line-code"> </td></tr>
-<tr id="L36" class=""><td class="line-num"><a href="#L36">36</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax67.Ram Lax67.RamComputes Lax11.GraphEncoding</span></td></tr>
-<tr id="L37" class=""><td class="line-num"><a href="#L37">37</a></td><td class="line-code"> </td></tr>
-<tr id="L38" class=""><td class="line-num"><a href="#L38">38</a></td><td class="line-code"><span style="color:#6A737D">/-- The word `x` presents the graph `G` on `n` vertices together with</span></td></tr>
-<tr id="L39" class=""><td class="line-num"><a href="#L39">39</a></td><td class="line-code"><span style="color:#6A737D">the parameter `k`: a compressed sparse row block encoding `G`, followed</span></td></tr>
-<tr id="L40" class=""><td class="line-num"><a href="#L40">40</a></td><td class="line-code"><span style="color:#6A737D">by the single entry `k`. -/</span></td></tr>
-<tr id="L41" class=""><td class="line-num"><a href="#L41">41</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> EncodesParamInstance</span><span style="color:#24292E"> (x : List ℕ) (n : ℕ) (G : SimpleGraph (Fin n)) (k : ℕ) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
-<tr id="L42" class=""><td class="line-num"><a href="#L42">42</a></td><td class="line-code"><span style="color:#24292E">  ∃ g, x = g ++ [k] ∧ EncodesGraph g n G</span></td></tr>
-<tr id="L43" class=""><td class="line-num"><a href="#L43">43</a></td><td class="line-code"> </td></tr>
-<tr id="L44" class=""><td class="line-num"><a href="#L44">44</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax11.VertexCover</span></td></tr>
-<tr id="L45" class=""><td class="line-num"><a href="#L45">45</a></td><td class="line-code"> </td></tr>
+<tr id="L25" class=""><td class="line-num"><a href="#L25">25</a></td><td class="line-code"><span style="color:#6A737D">statements made on it live in the proof packages that import it rather</span></td></tr>
+<tr id="L26" class=""><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span style="color:#6A737D">than restate it, so that every bound stated over it is a claim about</span></td></tr>
+<tr id="L27" class=""><td class="line-num"><a href="#L27">27</a></td><td class="line-code"><span style="color:#6A737D">literally the same inputs. Its first consumer is in this submission's</span></td></tr>
+<tr id="L28" class=""><td class="line-num"><a href="#L28">28</a></td><td class="line-code"><span style="color:#6A737D">own proof package: the bounded search tree of Downey and Fellows, which</span></td></tr>
+<tr id="L29" class=""><td class="line-num"><a href="#L29">29</a></td><td class="line-code"><span style="color:#6A737D">decides vertex cover within *c* · 2^*k* · (|x|+1) steps over this</span></td></tr>
+<tr id="L30" class=""><td class="line-num"><a href="#L30">30</a></td><td class="line-code"><span style="color:#6A737D">format.</span></td></tr>
+<tr id="L31" class=""><td class="line-num"><a href="#L31">31</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
+<tr id="L32" class=""><td class="line-num"><a href="#L32">32</a></td><td class="line-code"> </td></tr>
+<tr id="L33" class=""><td class="line-num"><a href="#L33">33</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax11.VertexCover</span></td></tr>
+<tr id="L34" class=""><td class="line-num"><a href="#L34">34</a></td><td class="line-code"> </td></tr>
+<tr id="L35" class=""><td class="line-num"><a href="#L35">35</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax67.Ram Lax67.RamComputes Lax11.GraphEncoding</span></td></tr>
+<tr id="L36" class=""><td class="line-num"><a href="#L36">36</a></td><td class="line-code"> </td></tr>
+<tr id="L37" class=""><td class="line-num"><a href="#L37">37</a></td><td class="line-code"><span style="color:#6A737D">/-- The word `x` presents the graph `G` on `n` vertices together with</span></td></tr>
+<tr id="L38" class=""><td class="line-num"><a href="#L38">38</a></td><td class="line-code"><span style="color:#6A737D">the parameter `k`: a compressed sparse row block encoding `G`, followed</span></td></tr>
+<tr id="L39" class=""><td class="line-num"><a href="#L39">39</a></td><td class="line-code"><span style="color:#6A737D">by the single entry `k`. -/</span></td></tr>
+<tr id="L40" class=""><td class="line-num"><a href="#L40">40</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> EncodesParamInstance</span><span style="color:#24292E"> (x : List ℕ) (n : ℕ) (G : SimpleGraph (Fin n)) (k : ℕ) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr id="L41" class=""><td class="line-num"><a href="#L41">41</a></td><td class="line-code"><span style="color:#24292E">  ∃ g, x = g ++ [k] ∧ EncodesGraph g n G</span></td></tr>
+<tr id="L42" class=""><td class="line-num"><a href="#L42">42</a></td><td class="line-code"> </td></tr>
+<tr id="L43" class=""><td class="line-num"><a href="#L43">43</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax11.VertexCover</span></td></tr>
+<tr id="L44" class=""><td class="line-num"><a href="#L44">44</a></td><td class="line-code"> </td></tr>
 </table></div><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
 <div class="block"><h3>Formalization notes</h3><div class="latex-content"><p>The instance word is the graph block with one entry appended. The
 compressed sparse row block is self-delimiting — its own header
@@ -161,13 +160,12 @@ by the word itself, not chosen. The parameter comes last so that the
 graph block sits at the same offsets as in every other statement built
 on this encoding.</p>
 <p>The format is defined here, next to the encoding it extends, and the
-statements made on it live elsewhere: the vertex cover ladder — the
-2^<em>k</em> bounded search tree and the two statements that lower its
-base — is the submission <em>Vertex Cover Below Two to the k</em>, which
-imports this format rather than restating it, so that all of its bounds
-are claims about literally the same inputs. The proof of its base rung
-is in this submission's proof package, where the format's first
-consumer was built.</p>
+statements made on it live in the proof packages that import it rather
+than restate it, so that every bound stated over it is a claim about
+literally the same inputs. Its first consumer is in this submission's
+own proof package: the bounded search tree of Downey and Fellows, which
+decides vertex cover within <em>c</em> · 2^<em>k</em> · (|x|+1) steps over this
+format.</p>
 </div></div>
 <div class="block"><div class="deps-columns">
 <div class="deps-col"><h3>Builds on</h3><ul class="deps-list"><li><a href="../lax-11/Lax11.GraphEncoding.html"><code>Lax11.GraphEncoding</code></a></li><li><a href="../lax-67/Lax67.RamComputes.html"><code>Lax67.RamComputes</code></a></li></ul></div>
