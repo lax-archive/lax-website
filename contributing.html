@@ -43,7 +43,6 @@ archive links to it rather than hosting a copy.</p>
 and a <strong>GitHub account</strong> — submissions are authenticated with your GitHub
 identity. Then:</p>
 <pre><code class="language-sh">npm install -g lax-archive
-lax login     # sign in with GitHub (identity only, no repo access)
 lax doctor    # checks your setup and installs whatever is missing
 </code></pre>
 <p><code>lax doctor</code> installs everything building requires: the Lean toolchain and
@@ -56,7 +55,7 @@ want formalized. The steps below are that same workflow, by hand.</p>
 <li><p><strong>Create a submission.</strong> From inside a public git repository of yours:</p>
 <pre><code class="language-sh">lax init my-submission
 </code></pre>
-<p>The archive allocates your submission id and scaffolds a complete Lean
+<p>This generates your submission id and scaffolds a complete Lean
 workspace with mathlib pinned and prebuilt.</p>
 </li>
 <li><p><strong>Author.</strong> Write your concepts and proofs in the scaffold. The
