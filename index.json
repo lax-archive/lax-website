@@ -1346,6 +1346,22 @@
         }
       ],
       "proofs": []
+    },
+    {
+      "id": "lax-851268",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Off-epoch round trip (throwaway)",
+      "concepts": [
+        {
+          "id": "Lax851268.Succ",
+          "title": "A number is at most its successor",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax851268Proofs.leSucc"
+      ]
     }
   ]
 }
