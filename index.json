@@ -1053,6 +1053,38 @@
       ]
     },
     {
+      "id": "lax-56",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "Large Finite Point Sets Have 4 Collinear Points or a 6-Clique",
+      "concepts": [
+        {
+          "id": "Lax56.Geometry",
+          "title": "Point visibility in the real plane",
+          "type": "definition"
+        },
+        {
+          "id": "Lax56.HujterKisfaludiBak",
+          "title": "The empty-hexagon input to the Hujter--Kisfaludi-Bak theorem",
+          "type": "definition"
+        },
+        {
+          "id": "Lax56.MainTheorem",
+          "title": "Large finite point sets have four collinear points or a visible six-clique",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax56.VertexRemovalStability",
+          "title": "Quantitative vertex-removal Erdős--Simonovits stability for K₆",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax56Proofs.MainTheorem.large_point_set_four_collinear_or_visible_six",
+        "Lax56Proofs.VertexRemovalStability.exists_fiveColorable_delete"
+      ]
+    },
+    {
       "id": "lax-57",
       "state": "draft",
       "environment": "v4.30.0",
