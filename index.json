@@ -1154,6 +1154,66 @@
       ]
     },
     {
+      "id": "lax-58",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "Certified structural representations of finite data",
+      "concepts": [
+        {
+          "id": "Lax58.CertifiedDerivation",
+          "title": "Field-encoding agreement (infrastructure)",
+          "type": "infrastructure"
+        },
+        {
+          "id": "Lax58.CertifiedDerivationElab",
+          "title": "Certified encoding derivation (elaboration infrastructure)",
+          "type": "elaboration infrastructure"
+        },
+        {
+          "id": "Lax58.FormulaExample",
+          "title": "Example — structural encoding of propositional formulas",
+          "type": "definition"
+        },
+        {
+          "id": "Lax58.StructuralCombinators",
+          "title": "Certified structural presentation combinators",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax58.StructuralDerivation",
+          "title": "Unrestricted structural folds (elaboration infrastructure)",
+          "type": "elaboration infrastructure"
+        },
+        {
+          "id": "Lax58.StructuralPresentation",
+          "title": "Structural presentations of finite data",
+          "type": "definition"
+        },
+        {
+          "id": "Lax58.WordArena",
+          "title": "Distinguished immutable word arenas",
+          "type": "definition and theorem"
+        }
+      ],
+      "proofs": [
+        "Lax58Proofs.StructuralCombinators.constructor_eq_iff_proof",
+        "Lax58Proofs.StructuralCombinators.structural_combinator_size_laws",
+        "Lax58Proofs.StructuralCombinators.structural_combinators_lawful",
+        "Lax58Proofs.WordArena.encode_fits_proof",
+        "Lax58Proofs.WordArena.encode_memoryWords_proof",
+        "Lax58Proofs.WordArena.encode_represents_proof",
+        "Lax58Proofs.WordArena.encode_toInput_length_proof",
+        "Lax58Proofs.WordArena.encode_totalWords_proof",
+        "Lax58Proofs.WordArena.encodeRaw_dense_proof",
+        "Lax58Proofs.WordArena.encodeRaw_fits_proof",
+        "Lax58Proofs.WordArena.encodeRaw_memoryWords_proof",
+        "Lax58Proofs.WordArena.encodeRaw_represents_proof",
+        "Lax58Proofs.WordArena.encodeRaw_toInput_length_proof",
+        "Lax58Proofs.WordArena.encodeRaw_totalWords_proof",
+        "Lax58Proofs.WordArena.encodeRaw_wellFormed_proof"
+      ]
+    },
+    {
       "id": "lax-59",
       "state": "draft",
       "environment": "v4.30.0",
