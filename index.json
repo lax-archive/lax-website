@@ -1160,6 +1160,11 @@
       "title": "Certified structural representations of finite data",
       "concepts": [
         {
+          "id": "Lax58.BitPolynomialTime",
+          "title": "Polynomial time with polynomial word length",
+          "type": "definition"
+        },
+        {
           "id": "Lax58.CertifiedDerivation",
           "title": "Field-encoding agreement (infrastructure)",
           "type": "infrastructure"
@@ -1173,6 +1178,26 @@
           "id": "Lax58.FormulaExample",
           "title": "Example — structural encoding of propositional formulas",
           "type": "definition"
+        },
+        {
+          "id": "Lax58.RamComplexity",
+          "title": "Time and word-capacity bounds on the word-RAM",
+          "type": "definition"
+        },
+        {
+          "id": "Lax58.RamComplexityElab",
+          "title": "Automatic RAM encoding selection (elaboration infrastructure)",
+          "type": "elaboration infrastructure"
+        },
+        {
+          "id": "Lax58.RamComplexityExample",
+          "title": "Examples — separate resource bounds and polynomial time",
+          "type": "definition"
+        },
+        {
+          "id": "Lax58.RamPolynomialComparison",
+          "title": "Two polynomial-time conventions, and their separation",
+          "type": "definition and theorem"
         },
         {
           "id": "Lax58.StructuralCombinators",
@@ -1196,6 +1221,9 @@
         }
       ],
       "proofs": [
+        "Lax58Proofs.RamExponentialExample.exponentialLength_bitPolynomialTime",
+        "Lax58Proofs.RamPolynomialComparison.bitPolynomialTime_iff_ramPolytime",
+        "Lax58Proofs.RamPolynomialSeparation.exponentialLength_not_polynomialTime",
         "Lax58Proofs.StructuralCombinators.constructor_eq_iff_proof",
         "Lax58Proofs.StructuralCombinators.structural_combinator_size_laws",
         "Lax58Proofs.StructuralCombinators.structural_combinators_lawful",

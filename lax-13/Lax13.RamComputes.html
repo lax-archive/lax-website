@@ -107,7 +107,7 @@
 <div class="graph-toolbar"><button type="button" id="concept-expand" aria-controls="concept-dag" aria-pressed="true">Hide ancestors</button><button type="button" id="concept-descend" aria-controls="concept-dag" aria-pressed="false">Show descendants</button><output id="concept-graph-status" aria-live="polite"></output></div>
 <div id="concept-dag" class="figure-container" data-graph="concepts" data-ancestry="true"></div>
 <div class="graph-tooltip" role="tooltip" hidden></div>
-<figcaption class="graph-legend" aria-label="Concept map legend"><span><i class="legend-node fill-none"></i>Definition</span><span><i class="legend-node stroke-own"></i>This concept</span><span><i class="legend-node stroke-ext"></i>Related concept</span><span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B builds on A</span></figcaption>
+<figcaption class="graph-legend" aria-label="Concept map legend"><span><i class="legend-node fill-proven"></i>Proven claim</span><span><i class="legend-node fill-none"></i>Definition</span><span><i class="legend-node stroke-own"></i>This concept</span><span><i class="legend-node stroke-ext"></i>Related concept</span><span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B builds on A</span></figcaption>
 </figure>
 
 
@@ -227,7 +227,7 @@ carries a bound, and plain computability is the special case in which
 </div></div>
 <div class="block"><div class="deps-columns">
 <div class="deps-col"><h3>Builds on</h3><ul class="deps-list"><li><a href="../lax-13/Lax13.Ram.html"><code>Lax13.Ram</code></a></li></ul></div>
-<div class="deps-col"><h3>Used by</h3><p class="empty-note">none</p></div>
+<div class="deps-col"><h3>Used by</h3><ul class="deps-list"><li><a href="../lax-58/Lax58.RamComplexity.html"><code>Lax58.RamComplexity</code></a></li></ul></div>
 <div class="deps-col"><h3>From Mathlib</h3><ul class="deps-list"><li><a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/Set/Basic.html"><code>Mathlib.Data.Set.Basic</code></a></li></ul></div>
 </div></div>
 <section class="page-section discussion-section" aria-labelledby="discussion-title">
@@ -245,7 +245,7 @@ carries a bound, and plain computability is the special case in which
 </div>
 <noscript><p class="discussion-unavailable">Enable JavaScript to read or join the discussion.</p></noscript>
 </section>
-<script type="application/json" id="graph-data">{"concepts":{"nodes":[{"id":"Lax13.Ram","href":"../lax-13/Lax13.Ram.html","title":"The word RAM","owner":"lax-13","status":"none","ext":true,"dir":"up"},{"id":"Lax13.RamComputes","href":"../lax-13/Lax13.RamComputes.html","title":"Computing a function within a time bound","owner":"lax-13","status":"none","ext":false,"dir":"core"}],"edges":[{"from":"Lax13.Ram","to":"Lax13.RamComputes"}],"home":"lax-13"},"proofs":{"statements":[],"proofs":[]}}</script>
+<script type="application/json" id="graph-data">{"concepts":{"nodes":[{"id":"Lax13.Ram","href":"../lax-13/Lax13.Ram.html","title":"The word RAM","owner":"lax-13","status":"none","ext":true,"dir":"up"},{"id":"Lax13.RamComputes","href":"../lax-13/Lax13.RamComputes.html","title":"Computing a function within a time bound","owner":"lax-13","status":"none","ext":false,"dir":"core"},{"id":"Lax58.BitPolynomialTime","href":"../lax-58/Lax58.BitPolynomialTime.html","title":"Polynomial time with polynomial word length","owner":"lax-58","status":"none","ext":true,"dir":"down"},{"id":"Lax58.RamComplexity","href":"../lax-58/Lax58.RamComplexity.html","title":"Time and word-capacity bounds on the word-RAM","owner":"lax-58","status":"none","ext":true,"dir":"down"},{"id":"Lax58.RamComplexityElab","href":"../lax-58/Lax58.RamComplexityElab.html","title":"Automatic RAM encoding selection (elaboration infrastructure)","owner":"lax-58","status":"none","ext":true,"dir":"down"},{"id":"Lax58.RamComplexityExample","href":"../lax-58/Lax58.RamComplexityExample.html","title":"Examples — separate resource bounds and polynomial time","owner":"lax-58","status":"none","ext":true,"dir":"down"},{"id":"Lax58.RamPolynomialComparison","href":"../lax-58/Lax58.RamPolynomialComparison.html","title":"Two polynomial-time conventions, and their separation","owner":"lax-58","status":"proven","ext":true,"dir":"down"}],"edges":[{"from":"Lax13.Ram","to":"Lax13.RamComputes"},{"from":"Lax58.RamComplexity","to":"Lax58.BitPolynomialTime"},{"from":"Lax13.RamComputes","to":"Lax58.RamComplexity"},{"from":"Lax58.RamComplexity","to":"Lax58.RamComplexityElab"},{"from":"Lax58.RamComplexityElab","to":"Lax58.RamComplexityExample"},{"from":"Lax58.BitPolynomialTime","to":"Lax58.RamPolynomialComparison"},{"from":"Lax58.RamComplexityExample","to":"Lax58.RamPolynomialComparison"}],"home":"lax-13"},"proofs":{"statements":[],"proofs":[]}}</script>
 </div>
 <footer class="site-footer">
   <nav class="site-footer-nav" aria-label="Legal and about">
