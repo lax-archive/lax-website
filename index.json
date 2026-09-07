@@ -2145,7 +2145,153 @@
       "state": "draft",
       "environment": "v4.30.0",
       "title": "Transducers, Part C: Regular Functions, Two-Way Transducers and Streaming String Transducers",
-      "concepts": [],
+      "concepts": [
+        {
+          "id": "Lax916827.ConfigurationGraphOutput",
+          "title": "Checking the output of a configuration graph against a regular language",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax916827.ConfigurationGraphRational",
+          "title": "Computing the reachable configuration graph is rational",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax916827.ConfigurationGraphs",
+          "title": "The string representation of the reachable configuration graph",
+          "type": "definition"
+        },
+        {
+          "id": "Lax916827.DuplicationContinuous",
+          "title": "String duplication is continuous",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax916827.MapLiftingContinuity",
+          "title": "The map lifting of a continuous function is continuous",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax916827.RegularComposition",
+          "title": "Regular functions are closed under composition",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax916827.RegularConcatenation",
+          "title": "Regular functions are closed under concatenation",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax916827.RegularConditional",
+          "title": "Regular functions are closed under conditionals over regular languages",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax916827.RegularContinuity",
+          "title": "Regular functions are continuous",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax916827.RegularEquivalenceDecidable",
+          "title": "Decidable equivalence of regular functions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax916827.RegularFunctions",
+          "title": "Regular functions",
+          "type": "definition"
+        },
+        {
+          "id": "Lax916827.RegularMapLifting",
+          "title": "Regular functions are closed under map lifting",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax916827.RegularOfSST",
+          "title": "Every streaming string transducer computes a regular function",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax916827.RegularOfTwoWay",
+          "title": "Every two-way transducer computes a regular function",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax916827.RegularSum",
+          "title": "The sum of two regular functions on disjoint alphabets",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax916827.ReversalContinuous",
+          "title": "String reversal is continuous",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax916827.SnakeGraphs",
+          "title": "Snake graphs and their outputs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax916827.SnakeLemma",
+          "title": "The snake lemma: the output of a snake graph is a regular function",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax916827.SSTIffRegular",
+          "title": "Streaming string transducers compute exactly the regular functions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax916827.SSTOfRegular",
+          "title": "Every regular function is computed by a streaming string transducer",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax916827.StreamingStringTransducers",
+          "title": "Streaming string transducers",
+          "type": "definition"
+        },
+        {
+          "id": "Lax916827.TwoWayCodes",
+          "title": "Codes of two-way transducers",
+          "type": "definition"
+        },
+        {
+          "id": "Lax916827.TwoWayComposition",
+          "title": "Two-way transducers are closed under composition",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax916827.TwoWayContinuity",
+          "title": "Two-way transducers are continuous",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax916827.TwoWayIffRegular",
+          "title": "Two-way transducers compute exactly the regular functions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax916827.TwoWayMealyPrecomposition",
+          "title": "Two-way transducers are closed under pre-composition with Mealy machines",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax916827.TwoWayOfRegular",
+          "title": "Every regular function is computed by a two-way transducer",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax916827.TwoWayRationalPrecomposition",
+          "title": "Two-way transducers are closed under pre-composition with rational functions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax916827.TwoWayTransducers",
+          "title": "Two-way transducers",
+          "type": "definition"
+        }
+      ],
       "proofs": []
     }
   ]
