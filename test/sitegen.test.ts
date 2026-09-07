@@ -1114,9 +1114,9 @@ After the formula.`, "");
 
     expect(usedStart).toBeGreaterThan(ownStart);
     expect(html).toContain('data-used-concepts-toggle aria-controls="used-concepts-list"');
-    expect(used).toContain('href="../Lax1/Lax1.Base.html" title="Lax1.Base"><code>Base</code></a>');
+    expect(used).toContain('href="../Lax1/Lax1.Base.html" title="Lax1.Base"><code>Lax1.Base</code></a>');
     expect(used).toContain('data-concept-review-url="https://laxarchive.org/Lax1/Lax1.Base.html" hidden');
-    expect(used).toContain('href="../Lax3/Lax3.Middle.html" title="Lax3.Middle"><code>Middle</code></a>');
+    expect(used).toContain('href="../Lax3/Lax3.Middle.html" title="Lax3.Middle"><code>Lax3.Middle</code></a>');
     expect(used).not.toContain("Lax4.Top");
   });
 

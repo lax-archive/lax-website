@@ -74,9 +74,8 @@ function usedConceptRows(ctx: PageContext, concepts: LocatedConcept[]): string {
 ${concepts.map(({ concept, submission }) => {
     const provenCount = concept.statements.filter((statement) => ctx.model.network.proven.has(statement.id)).length;
     const status = concept.statements.length ? provenCount === concept.statements.length : undefined;
-    const label = shortId(concept.id, concept.id.split(".", 1)[0]);
     const pathname = `${submission.record.id}/${concept.id}.html`;
-    return `<li>${typeBadge(concept.type, status)}<a href="${attr(`../${pathname}`)}" title="${attr(concept.id)}"><code>${esc(label)}</code></a>${conceptReviewBadge(pathname)}</li>`;
+    return `<li>${typeBadge(concept.type, status)}<a href="${attr(`../${pathname}`)}" title="${attr(concept.id)}"><code>${esc(concept.id)}</code></a>${conceptReviewBadge(pathname)}</li>`;
   }).join("\n")}
 </ul>`;
 }
