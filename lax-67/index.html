@@ -7,7 +7,7 @@
 <title>The Word RAM — lax-67</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=73e868f7b85e">
+<link rel="stylesheet" href="../assets/style.css?v=2abcfca823d8">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -35,8 +35,8 @@
 </select>
 </div></div>
 <ul id="entry-list">
-<li data-type="definition" data-search="lax67.ram the word ram definition"><a class="entry-link" href="../lax-67/Lax67.Ram.html" data-full-title="The word RAM"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax67.Ram</span></span></a></li>
-<li data-type="definition" data-search="lax67.ramcomputes computing a function within a time bound definition"><a class="entry-link" href="../lax-67/Lax67.RamComputes.html" data-full-title="Computing a function within a time bound"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax67.RamComputes</span></span></a></li>
+<li data-type="definition" data-search="lax67.ram the word ram definition"><a class="entry-link" href="../lax-67/Lax67.Ram.html" data-full-title="The word RAM"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax67.Ram</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-67/Lax67.Ram.html" hidden></span></span></a></li>
+<li data-type="definition" data-search="lax67.ramcomputes computing a function within a time bound definition"><a class="entry-link" href="../lax-67/Lax67.RamComputes.html" data-full-title="Computing a function within a time bound"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax67.RamComputes</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-67/Lax67.RamComputes.html" hidden></span></span></a></li>
 <li id="entry-list-empty" hidden>No entries match.</li>
 </ul>
 </aside>
@@ -65,7 +65,8 @@
 <h1 class="paper-title">The Word RAM</h1>
 <p class="paper-meta"><span class="submission-meta-id">lax-67</span><span class="meta-sep">·</span><span class="formalized-label">formalized by</span> <span class="paper-author">Jan Dreier</span><span class="author-sep">·</span><span class="paper-author">Claude Fable 5 (Anthropic)</span><span class="meta-sep">·</span><span class="status-pill state-registered">registered</span><span class="meta-sep">·</span>created 2026-09-03<span class="meta-sep">·</span><a href="https://github.com/lax-archive/lax-submissions/tree/9d9639601dea95e60803cfb7db1f6296478dcb42/word-ram" title="https://github.com/lax-archive/lax-submissions/tree/9d9639601dea95e60803cfb7db1f6296478dcb42/word-ram"><code>GitHub @9d96396</code></a><span class="meta-sep">·</span>Lean <code>v4.30.0</code> <span class="meta-epoch" title="the environment the archive recommends this year">epoch</span> · mathlib <code>c5ea00351c28</code><span class="meta-sep">·</span><button class="paper-version-button" type="button" data-version-dialog-open aria-haspopup="dialog" aria-controls="version-history-dialog">2 versions</button></p>
 </header>
-<section class="page-reactions" aria-label="Community review" data-reactions-host="https://comments.laxarchive.org" data-reactions-url="https://laxarchive.org/lax-67/" data-review-kind="submission" data-source-lines="0">
+<section class="page-reactions" aria-label="Community review" data-reactions-host="https://comments.laxarchive.org" data-reactions-url="https://laxarchive.org/lax-67/" data-review-kind="submission" data-source-lines="0" data-submission-concept-urls="[&quot;https://laxarchive.org/lax-67/Lax67.Ram.html&quot;,&quot;https://laxarchive.org/lax-67/Lax67.RamComputes.html&quot;]">
+<div class="page-reactions-line">
 <div class="page-reactions-actions">
 <div class="page-reaction-control">
 <button class="page-reaction-button" type="button" data-reaction="endorse" aria-pressed="false" title="Say that this submission is correct"><span class="page-reaction-icon" aria-hidden="true">✅</span><span>Endorse</span></button>
@@ -76,6 +77,8 @@
 <button class="page-reaction-button" type="button" data-reaction="flag" aria-pressed="false" aria-haspopup="dialog" title="Explain why this submission may be false"><span class="page-reaction-icon" aria-hidden="true">🚩</span><span>Flag</span></button>
 <button class="page-reaction-voters" type="button" data-flag-list-open aria-haspopup="dialog" aria-controls="page-flag-list"><strong data-reaction-count="flag">0</strong><span class="visually-hidden">Show flags for this submission</span></button>
 </div>
+</div>
+<p class="submission-flagged-note" data-submission-flagged-note hidden><span aria-hidden="true">⚑</span><span data-submission-flagged-note-text></span></p>
 </div>
 <p class="page-reactions-status" data-reactions-status role="status">Loading review…</p>
 <a class="visually-hidden" data-reactions-login href="https://comments.laxarchive.org/auth/orcid/login?site=remark&amp;from=https%3A%2F%2Flaxarchive.org%2Flax-67%2F">Sign in with ORCID</a>
@@ -127,10 +130,15 @@ comparisons — and the machine's halting behaviour and time measure.</p>
 
 <section class="page-section"><h3 class="section-title">Concepts</h3>
 <div class="concept-list-box">
+<div class="concept-review-progress" data-concept-review-progress data-concept-review-urls="[&quot;https://laxarchive.org/lax-67/Lax67.Ram.html&quot;,&quot;https://laxarchive.org/lax-67/Lax67.RamComputes.html&quot;]" hidden>
+<div class="concept-review-progress-heading"><span>Review progress</span><span data-concept-review-progress-label></span></div>
+<div class="concept-review-progress-track" data-concept-review-progress-track role="img"></div>
+</div>
 <ul class="concept-list">
-<li><span class="type-badge" title="definition">def</span><a href="Lax67.Ram.html" title="Lax67.Ram"><code>Lax67.Ram</code></a></li>
-<li><span class="type-badge" title="definition">def</span><a href="Lax67.RamComputes.html" title="Lax67.RamComputes"><code>Lax67.RamComputes</code></a></li>
+<li><span class="type-badge" title="definition">def</span><a href="Lax67.Ram.html" title="Lax67.Ram"><code>Lax67.Ram</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-67/Lax67.Ram.html" hidden></span></li>
+<li><span class="type-badge" title="definition">def</span><a href="Lax67.RamComputes.html" title="Lax67.RamComputes"><code>Lax67.RamComputes</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-67/Lax67.RamComputes.html" hidden></span></li>
 </ul>
+
 <div class="badge-legend" aria-label="Concept badge legend"><span><span class="type-badge" title="definition">def</span>definition</span></div>
 </div>
 <h4 class="figure-title">Concept map</h4>
@@ -228,10 +236,10 @@ comparisons — and the machine's halting behaviour and time measure.</p>
 </div>
 </dialog>
 <script src="../assets/sidebar.js?v=b1e289522120"></script>
-<script src="../assets/account.js?v=ec80ece877ec"></script>
+<script src="../assets/account.js?v=8591f501c4ab"></script>
 <script src="../assets/layout.js?v=41e28199b546"></script>
-<script src="../assets/dag.js?v=10792958c8e9"></script>
+<script src="../assets/dag.js?v=0d34983dc6ac"></script>
 <script src="../assets/citation.js?v=dd5ce19082ad"></script>
 <script src="../assets/version-history.js?v=a36e868140dd"></script>
-<script src="../assets/comments.js?v=493b5ebde364"></script>
+<script src="../assets/comments.js?v=936ec0d73bed"></script>
 </body></html>

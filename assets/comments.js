@@ -310,6 +310,11 @@
       setReactionStatus("Sign in with ORCID to review.", "signed-out");
       if (reactionLogin) reactionLogin.hidden = false;
     }
+    if (typeof window.dispatchEvent === "function" && typeof CustomEvent === "function") {
+      window.dispatchEvent(new CustomEvent("LAX::review-change", {
+        detail: { url, reaction: data.viewer_reaction === "endorse" || data.viewer_reaction === "flag" ? data.viewer_reaction : "" },
+      }));
+    }
   };
 
   const pendingReaction = () => {
