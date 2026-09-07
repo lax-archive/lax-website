@@ -1593,6 +1593,14 @@
       "proofs": []
     },
     {
+      "id": "lax-709149",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "Transducers, Part C: Regular Functions in Terms of Combinators",
+      "concepts": [],
+      "proofs": []
+    },
+    {
       "id": "lax-765601",
       "state": "draft",
       "environment": "v4.30.0",
