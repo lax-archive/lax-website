@@ -41,6 +41,7 @@ function fixture(
   user: { id: string; name: string },
   initiallyAuthenticated = true,
   conceptReviews: Array<{ url: string; reaction: string }> = [],
+  deferConceptReviews = false,
 ) {
   let authenticated = initiallyAuthenticated;
   let logoutStatus = 200;
@@ -143,11 +144,12 @@ function fixture(
     clearTimeout,
   };
   const bridgeMessages: Array<Record<string, unknown>> = [];
+  let pendingConceptResponse: (() => void) | null = null;
   const respondToBridge = (source: Record<string, unknown>, message: Record<string, unknown>, origin: string) => {
     bridgeMessages.push(message);
     if (message.action === "logout" && logoutStatus === 200) authenticated = false;
     const responseStatus = message.action === "logout" ? logoutStatus : 200;
-    queueMicrotask(() => listeners.message?.({
+    const sendResponse = () => listeners.message?.({
       origin,
       source,
       data: {
@@ -176,7 +178,9 @@ function fixture(
             }])).values()],
           } : {},
       },
-    }));
+    });
+    if (message.action === "concepts" && deferConceptReviews) pendingConceptResponse = sendResponse;
+    else queueMicrotask(sendResponse);
   };
   const bridgeWindow = {
     postMessage(message: Record<string, unknown>, origin: string) { respondToBridge(bridgeWindow, message, origin); },
@@ -198,7 +202,7 @@ function fixture(
     body: new FakeElement(),
     head: new FakeElement(),
   };
-  return { root, dialog, login, loginLabel, settings, settingsLabel, elements, conceptBadges, progress, progressTrack, progressLabel, submissionReview, flaggedNote, flaggedNoteText, requests, events, fetch, window, document, FakeCustomEvent, listeners, bridgeWindow, remarkBridgeWindow, bridgeMessages, get authChannel() { return authChannel; }, setAuthenticated(value: boolean) { authenticated = value; }, setLogoutStatus(value: number) { logoutStatus = value; } };
+  return { root, dialog, login, loginLabel, settings, settingsLabel, elements, conceptBadges, progress, progressTrack, progressLabel, submissionReview, flaggedNote, flaggedNoteText, requests, events, fetch, window, document, FakeCustomEvent, listeners, bridgeWindow, remarkBridgeWindow, bridgeMessages, get authChannel() { return authChannel; }, setAuthenticated(value: boolean) { authenticated = value; }, setLogoutStatus(value: number) { logoutStatus = value; }, releaseConceptReviews() { const response = pendingConceptResponse; pendingConceptResponse = null; if (response) queueMicrotask(response); } };
 }
 
 describe("ORCID account header", () => {
@@ -354,10 +358,40 @@ describe("ORCID account header", () => {
 
     fx.listeners["LAX::review-change"]!({ detail: { url: endorsed, reaction: "" } });
     expect(fx.progress?.hidden).toBe(true);
+    expect(fx.conceptBadges.every((badge) => badge.hidden)).toBe(true);
 
     fx.setAuthenticated(false);
     fx.listeners.message!({ origin: "https://remark42.example.test", source: fx.bridgeWindow, data: { source: "lax-reactions", type: "session-change" } });
     await settle();
+    expect(fx.conceptBadges.every((badge) => badge.hidden)).toBe(true);
+  });
+
+  it("shows an authenticated loading bar, then hides review UI when every concept is unevaluated", async () => {
+    const first = "https://laxarchive.org/lax-4/Lax4.First.html";
+    const second = "https://laxarchive.org/lax-4/Lax4.Second.html";
+    const fx = fixture({ id: `orcid_${"8".repeat(40)}`, name: "Ada Lovelace" }, true, [
+      { url: first, reaction: "" },
+      { url: second, reaction: "" },
+    ], true);
+    const context = { document: fx.document, window: fx.window, fetch: fx.fetch, URL, CustomEvent: fx.FakeCustomEvent, Date, setTimeout };
+    vm.createContext(context);
+    vm.runInContext(fs.readFileSync("assets/site/account.js", "utf8"), context);
+    expect(fx.progress?.hidden).toBe(true);
+
+    fx.listeners.message!({ origin: "https://remark42.example.test", source: fx.bridgeWindow, data: { source: "lax-reactions", type: "ready" } });
+    await settle();
+    expect(fx.progress?.hidden).toBe(false);
+    expect(fx.progress?.className).toBe("concept-review-progress loading");
+    expect(fx.progressLabel?.textContent).toBe("Loading review status...");
+    expect(fx.progressTrack?.attributes.get("role")).toBe("progressbar");
+    expect(fx.progressTrack?.attributes.get("aria-busy")).toBe("true");
+    expect(fx.conceptBadges.every((badge) => badge.hidden)).toBe(true);
+
+    fx.releaseConceptReviews();
+    await settle();
+    expect(fx.progress?.hidden).toBe(true);
+    expect(fx.progress?.className).toBe("concept-review-progress");
+    expect(fx.progressTrack?.attributes.has("aria-busy")).toBe(false);
     expect(fx.conceptBadges.every((badge) => badge.hidden)).toBe(true);
   });
 

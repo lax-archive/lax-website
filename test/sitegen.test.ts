@@ -429,6 +429,7 @@ After the formula.`, "");
     expect(css).toContain(".landing-demo-concept .landing-demo-code-line-accent");
     expect(css).toContain(".landing-review-start[hidden]{ display: none; }");
     expect(css).toContain(".entry-label .concept-review-badge.pending{ display: none; }");
+    expect(css).toContain("@keyframes concept-review-loading");
     expect(css).toContain(".landing-action-card:is(button, a)");
     expect(css).toContain(".submissions-load-more[hidden]{ display: none; }");
     expect(css).toContain(".landing-faq-item summary::-webkit-details-marker{ display: none; }");
