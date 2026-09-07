@@ -2063,7 +2063,23 @@
           "type": "theorem"
         }
       ],
-      "proofs": []
+      "proofs": [
+        "Lax194892Proofs.Results.continuous_of_isPebbleTransducer",
+        "Lax194892Proofs.Results.continuous_of_isPolyregular",
+        "Lax194892Proofs.Results.exists_forTransducer_cgOut",
+        "Lax194892Proofs.Results.exists_forTransducer_childGraph",
+        "Lax194892Proofs.Results.exists_forTransducer_children",
+        "Lax194892Proofs.Results.exists_prenexForm",
+        "Lax194892Proofs.Results.exists_regular_balancedLang",
+        "Lax194892Proofs.Results.exists_regular_reachLang",
+        "Lax194892Proofs.Results.isForTransducer_comp",
+        "Lax194892Proofs.Results.isForTransducer_of_isPebbleTransducer",
+        "Lax194892Proofs.Results.isForTransducer_of_isPolyregular",
+        "Lax194892Proofs.Results.isPebbleTransducer_iff_isForTransducer",
+        "Lax194892Proofs.Results.isPebbleTransducer_of_isForTransducer",
+        "Lax194892Proofs.Results.isPolyregular_iff_isForTransducer",
+        "Lax194892Proofs.Results.isPolyregular_of_isForTransducer"
+      ]
     },
     {
       "id": "lax-242665",
