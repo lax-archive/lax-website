@@ -100,10 +100,11 @@
     if (!target) throw new Error("account bridge is unavailable");
     const id = `lax-account-${Date.now()}-${bridgeSequence += 1}`;
     const response = new Promise((resolve, reject) => {
+      const responseTimeout = action === "concepts" ? 12000 : 5000;
       const timeout = window.setTimeout(() => {
         bridgeRequests.delete(id);
         reject(new Error("account bridge timed out"));
-      }, 5000);
+      }, responseTimeout);
       bridgeRequests.set(id, {
         source: target,
         resolve: (message) => {
