@@ -1591,6 +1591,14 @@
       "title": "Transducers, Part A: Mealy Machines",
       "concepts": [],
       "proofs": []
+    },
+    {
+      "id": "lax-916827",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "Transducers, Part C: Regular Functions, Two-Way Transducers and Streaming String Transducers",
+      "concepts": [],
+      "proofs": []
     }
   ]
 }
