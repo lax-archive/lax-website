@@ -1462,6 +1462,111 @@
         }
       ],
       "proofs": []
+    },
+    {
+      "id": "lax-68",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "Planar Graph Classes",
+      "concepts": [
+        {
+          "id": "Lax68.GridsAndWalls",
+          "title": "Grids and walls",
+          "type": "definition"
+        },
+        {
+          "id": "Lax68.HalinGraphs",
+          "title": "Halin graphs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax68.Ladders",
+          "title": "Ladders",
+          "type": "definition"
+        },
+        {
+          "id": "Lax68.MaximalOuterplanar",
+          "title": "Maximal outerplanar graphs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax68.Outerplanar",
+          "title": "Outerplanar graphs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax68.Paths",
+          "title": "Paths",
+          "type": "definition"
+        },
+        {
+          "id": "Lax68.Planar",
+          "title": "Planar graphs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax68.Relationships",
+          "title": "Basic relationships between planar graph classes",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax68.SeriesParallel",
+          "title": "Series-parallel graphs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax68.Stars",
+          "title": "Stars",
+          "type": "definition"
+        },
+        {
+          "id": "Lax68.Trees",
+          "title": "Trees",
+          "type": "definition"
+        },
+        {
+          "id": "Lax68.Triangles",
+          "title": "Triangles",
+          "type": "definition"
+        },
+        {
+          "id": "Lax68.Triangulations",
+          "title": "Triangulations",
+          "type": "definition"
+        },
+        {
+          "id": "Lax68.Wheels",
+          "title": "Wheels",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax68Proofs.grid_planar",
+        "Lax68Proofs.halin_planar",
+        "Lax68Proofs.ladder_grid",
+        "Lax68Proofs.ladder_outerplanar",
+        "Lax68Proofs.ladder_planar",
+        "Lax68Proofs.ladder_seriesParallel",
+        "Lax68Proofs.maximalOuterplanar_outerplanar",
+        "Lax68Proofs.maximalOuterplanar_planar",
+        "Lax68Proofs.outerplanar_planar",
+        "Lax68Proofs.path_outerplanar",
+        "Lax68Proofs.path_planar",
+        "Lax68Proofs.path_tree",
+        "Lax68Proofs.seriesParallel_planar",
+        "Lax68Proofs.star_outerplanar",
+        "Lax68Proofs.star_planar",
+        "Lax68Proofs.star_tree",
+        "Lax68Proofs.tree_outerplanar",
+        "Lax68Proofs.tree_planar",
+        "Lax68Proofs.triangle_maximalOuterplanar",
+        "Lax68Proofs.triangle_outerplanar",
+        "Lax68Proofs.triangle_planar",
+        "Lax68Proofs.triangulation_planar",
+        "Lax68Proofs.wall_planar",
+        "Lax68Proofs.wheel_halin",
+        "Lax68Proofs.wheel_planar"
+      ]
     }
   ]
 }
