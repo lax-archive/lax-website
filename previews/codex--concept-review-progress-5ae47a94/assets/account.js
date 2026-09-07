@@ -273,6 +273,23 @@
     badge.setAttribute("aria-label", label);
   }
 
+  function renderConceptReviewLoading() {
+    conceptReviewState = new Map();
+    conceptReviewBadges.forEach((badge) => renderConceptReviewBadge(badge, ""));
+    for (const progress of conceptReviewProgresses) {
+      const track = progress.querySelector("[data-concept-review-progress-track]");
+      const label = progress.querySelector("[data-concept-review-progress-label]");
+      progress.hidden = false;
+      progress.className = "concept-review-progress loading";
+      if (label) label.textContent = "Loading review status...";
+      track?.replaceChildren();
+      track?.setAttribute("role", "progressbar");
+      track?.setAttribute("aria-label", "Loading review status");
+      track?.setAttribute("aria-busy", "true");
+    }
+    if (submissionFlaggedNote) submissionFlaggedNote.hidden = true;
+  }
+
   function renderConceptReviewSummaries() {
     for (const progress of conceptReviewProgresses) {
       const urls = [...new Set(readConceptReviewURLs(progress.dataset.conceptReviewUrls))];
@@ -283,7 +300,10 @@
       const evaluated = endorsed + flagged;
       const track = progress.querySelector("[data-concept-review-progress-track]");
       const label = progress.querySelector("[data-concept-review-progress-label]");
+      progress.className = "concept-review-progress";
       progress.hidden = evaluated === 0;
+      track?.setAttribute("role", "img");
+      track?.removeAttribute("aria-busy");
       if (!track || !label || evaluated === 0 || reactions.length === 0) {
         track?.replaceChildren();
         if (label) label.textContent = "";
@@ -334,6 +354,7 @@
     const sequence = conceptReviewSequence += 1;
     const viewerId = currentUser.id;
     const urls = conceptReviewURLs;
+    renderConceptReviewLoading();
     try {
       const reviews = [];
       for (let start = 0; start < urls.length; start += 50) {
@@ -351,8 +372,9 @@
         byURL.set(review.url, review.viewer_reaction === "endorse" || review.viewer_reaction === "flag" ? review.viewer_reaction : "");
       });
       conceptReviewState = byURL;
+      const showReviewStates = [...byURL.values()].some((reaction) => reaction === "endorse" || reaction === "flag");
       conceptReviewBadges.forEach((badge) =>
-        renderConceptReviewBadge(badge, byURL.get(badge.dataset.conceptReviewUrl), true));
+        renderConceptReviewBadge(badge, byURL.get(badge.dataset.conceptReviewUrl), showReviewStates));
       renderConceptReviewSummaries();
     } catch {
       if (sequence !== conceptReviewSequence || currentUser?.id !== viewerId) return;
@@ -390,12 +412,13 @@
   window.addEventListener("LAX::review-change", (event) => {
     const changedURL = typeof event.detail?.url === "string" ? event.detail.url : "";
     if (!changedURL) return;
-    conceptReviewBadges
-      .filter((badge) => badge.dataset.conceptReviewUrl === changedURL)
-      .forEach((badge) => renderConceptReviewBadge(badge, event.detail?.reaction, Boolean(currentUser)));
     if (conceptReviewURLSet.has(changedURL)) {
       const reaction = event.detail?.reaction === "endorse" || event.detail?.reaction === "flag" ? event.detail.reaction : "";
       conceptReviewState.set(changedURL, reaction);
+      const showReviewStates = Boolean(currentUser) && [...conceptReviewState.values()]
+        .some((value) => value === "endorse" || value === "flag");
+      conceptReviewBadges.forEach((badge) =>
+        renderConceptReviewBadge(badge, conceptReviewState.get(badge.dataset.conceptReviewUrl), showReviewStates));
       renderConceptReviewSummaries();
     }
   });

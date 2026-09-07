@@ -2499,11 +2499,29 @@ body.sidebar-resizing #content-shell{ transition: none; }
 .concept-review-progress-heading > span:first-child{ color: var(--text); font-weight: 700; }
 .concept-review-progress-track{
   display: flex;
+  position: relative;
   width: 100%;
   height: 0.42rem;
   overflow: hidden;
   border: 1px solid var(--border);
   border-radius: var(--radius-chip);
+}
+.concept-review-progress.loading .concept-review-progress-track{
+  background: var(--none-bg);
+  border-color: var(--none-border);
+}
+.concept-review-progress.loading .concept-review-progress-track::after{
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 30%;
+  background: var(--accent);
+  opacity: 0.78;
+  transform: translateX(-110%);
+  animation: concept-review-loading 1.15s cubic-bezier(.4, 0, .2, 1) infinite;
+}
+@keyframes concept-review-loading{
+  to{ transform: translateX(445%); }
 }
 .concept-review-progress-segment{ flex: 1 1 0; min-width: 0; }
 .concept-review-progress-segment.endorsed{ background: var(--proven-fg); }
@@ -3796,6 +3814,7 @@ body.graph-window-open::after{
 }
 
 @media (prefers-reduced-motion: reduce){
+  .concept-review-progress.loading .concept-review-progress-track::after,
   .discussion-loading-mark,
   .landing-demo-card,
   .landing-demo-inner,
@@ -3808,6 +3827,11 @@ body.graph-window-open::after{
   .landing-action-panel,
   .landing-faq-item summary,
   .landing-faq-toggle::after{ animation: none; transition: none; }
+  .concept-review-progress.loading .concept-review-progress-track::after{
+    width: 100%;
+    opacity: 0.2;
+    transform: none;
+  }
 }
 
 /* ── Paper (manuscript) page ──
