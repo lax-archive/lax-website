@@ -1477,6 +1477,11 @@
       "title": "Planar Graph Classes",
       "concepts": [
         {
+          "id": "Lax68.GridPlanar",
+          "title": "Grids are planar",
+          "type": "theorem"
+        },
+        {
           "id": "Lax68.GridsAndWalls",
           "title": "Grids and walls",
           "type": "definition"
@@ -1487,9 +1492,34 @@
           "type": "definition"
         },
         {
+          "id": "Lax68.HalinPlanar",
+          "title": "Halin graphs are planar",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax68.LadderGrid",
+          "title": "Ladders are grids",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax68.LadderOuterplanar",
+          "title": "Ladders are outerplanar",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax68.LadderPlanar",
+          "title": "Ladders are planar",
+          "type": "theorem"
+        },
+        {
           "id": "Lax68.Ladders",
           "title": "Ladders",
           "type": "definition"
+        },
+        {
+          "id": "Lax68.LadderSeriesParallel",
+          "title": "Ladders are series-parallel",
+          "type": "theorem"
         },
         {
           "id": "Lax68.MaximalOuterplanar",
@@ -1497,9 +1527,34 @@
           "type": "definition"
         },
         {
+          "id": "Lax68.MaximalOuterplanarOuterplanar",
+          "title": "Maximal outerplanar graphs are outerplanar",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax68.MaximalOuterplanarPlanar",
+          "title": "Maximal outerplanar graphs are planar",
+          "type": "theorem"
+        },
+        {
           "id": "Lax68.Outerplanar",
           "title": "Outerplanar graphs",
           "type": "definition"
+        },
+        {
+          "id": "Lax68.OuterplanarPlanar",
+          "title": "Outerplanar graphs are planar",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax68.PathOuterplanar",
+          "title": "Paths are outerplanar",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax68.PathPlanar",
+          "title": "Paths are planar",
+          "type": "theorem"
         },
         {
           "id": "Lax68.Paths",
@@ -1507,14 +1562,14 @@
           "type": "definition"
         },
         {
+          "id": "Lax68.PathTree",
+          "title": "Paths are trees",
+          "type": "theorem"
+        },
+        {
           "id": "Lax68.Planar",
           "title": "Planar graphs",
           "type": "definition"
-        },
-        {
-          "id": "Lax68.Relationships",
-          "title": "Basic relationships between planar graph classes",
-          "type": "theorem"
         },
         {
           "id": "Lax68.SeriesParallel",
@@ -1522,9 +1577,39 @@
           "type": "definition"
         },
         {
+          "id": "Lax68.SeriesParallelPlanar",
+          "title": "Series-parallel graphs are planar",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax68.StarOuterplanar",
+          "title": "Stars are outerplanar",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax68.StarPlanar",
+          "title": "Stars are planar",
+          "type": "theorem"
+        },
+        {
           "id": "Lax68.Stars",
           "title": "Stars",
           "type": "definition"
+        },
+        {
+          "id": "Lax68.StarTree",
+          "title": "Stars are trees",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax68.TreeOuterplanar",
+          "title": "Trees are outerplanar",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax68.TreePlanar",
+          "title": "Trees are planar",
+          "type": "theorem"
         },
         {
           "id": "Lax68.Trees",
@@ -1532,14 +1617,49 @@
           "type": "definition"
         },
         {
+          "id": "Lax68.TriangleMaximalOuterplanar",
+          "title": "Triangles are maximal outerplanar",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax68.TriangleOuterplanar",
+          "title": "Triangles are outerplanar",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax68.TrianglePlanar",
+          "title": "Triangles are planar",
+          "type": "theorem"
+        },
+        {
           "id": "Lax68.Triangles",
           "title": "Triangles",
           "type": "definition"
         },
         {
+          "id": "Lax68.TriangulationPlanar",
+          "title": "Triangulations are planar",
+          "type": "theorem"
+        },
+        {
           "id": "Lax68.Triangulations",
           "title": "Triangulations",
           "type": "definition"
+        },
+        {
+          "id": "Lax68.WallPlanar",
+          "title": "Walls are planar",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax68.WheelHalin",
+          "title": "Wheels are Halin graphs",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax68.WheelPlanar",
+          "title": "Wheels are planar",
+          "type": "theorem"
         },
         {
           "id": "Lax68.Wheels",
