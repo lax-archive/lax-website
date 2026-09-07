@@ -1621,8 +1621,133 @@
       "state": "draft",
       "environment": "v4.30.0",
       "title": "Transducers, Part A: Mealy Machines",
-      "concepts": [],
-      "proofs": []
+      "concepts": [
+        {
+          "id": "Lax765601.Aperiodicity",
+          "title": "Aperiodic string-to-string functions",
+          "type": "definition"
+        },
+        {
+          "id": "Lax765601.AperiodicityMinimalMachine",
+          "title": "Aperiodicity through the state transformations of the minimal machine",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax765601.AperiodicMealy",
+          "title": "Aperiodic Mealy machines are exactly the compositions of flip-flops",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax765601.AperiodicOfFlipFlops",
+          "title": "Compositions of flip-flop machines are aperiodic",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax765601.AperiodicPumping",
+          "title": "Aperiodicity as a pumping property",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax765601.CompositionClosure",
+          "title": "Closure of a family of functions under composition",
+          "type": "definition"
+        },
+        {
+          "id": "Lax765601.Continuity",
+          "title": "Continuous string-to-string functions",
+          "type": "definition"
+        },
+        {
+          "id": "Lax765601.Derivatives",
+          "title": "Derivatives of a string-to-string function",
+          "type": "definition"
+        },
+        {
+          "id": "Lax765601.ElementaryProperties",
+          "title": "Prefix preservation and length preservation",
+          "type": "definition"
+        },
+        {
+          "id": "Lax765601.FlipFlopsOfAperiodic",
+          "title": "Aperiodic Mealy machines are compositions of flip-flops",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax765601.KrohnRhodes",
+          "title": "The Krohn–Rhodes decomposition theorem",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax765601.MapLifting",
+          "title": "Map lifting",
+          "type": "definition"
+        },
+        {
+          "id": "Lax765601.MapLiftingDecomposition",
+          "title": "Map lifting preserves decompositions into primes",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax765601.MealyComposition",
+          "title": "Mealy machines are closed under composition",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax765601.MealyContinuity",
+          "title": "Mealy machines are continuous",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax765601.MealyDerivatives",
+          "title": "Myhill–Nerode for Mealy machines",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax765601.MealyEquivalenceBound",
+          "title": "Decidable equivalence of Mealy machines",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax765601.MealyMachine",
+          "title": "Mealy machines",
+          "type": "definition"
+        },
+        {
+          "id": "Lax765601.PrimeMealyMachines",
+          "title": "Prime Mealy machines: reversible and flip-flop",
+          "type": "definition"
+        },
+        {
+          "id": "Lax765601.ReversibleComposition",
+          "title": "Reversible Mealy machines are closed under composition",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax765601.StateTransformationDecomposition",
+          "title": "The state transformation transducer is a composition of primes",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax765601.StateTransformations",
+          "title": "State transformations of a pre-automaton",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax765601Proofs.Results.aperiodic_iff_compClosure_flipFlop",
+        "Lax765601Proofs.Results.aperiodic_iff_pumping",
+        "Lax765601Proofs.Results.aperiodic_iff_transAperiodic",
+        "Lax765601Proofs.Results.aperiodic_of_compClosure_flipFlop",
+        "Lax765601Proofs.Results.compClosure_flipFlop_of_aperiodic",
+        "Lax765601Proofs.Results.compClosure_mapLift",
+        "Lax765601Proofs.Results.compClosure_primeMealy_of_isMealy",
+        "Lax765601Proofs.Results.compClosure_stateTransTransducer",
+        "Lax765601Proofs.Results.continuous_of_isMealy",
+        "Lax765601Proofs.Results.eval_eq_iff_short",
+        "Lax765601Proofs.Results.isMealy_comp",
+        "Lax765601Proofs.Results.isMealy_iff_derivatives",
+        "Lax765601Proofs.Results.isReversibleMealy_comp"
+      ]
     },
     {
       "id": "lax-916827",
