@@ -266,7 +266,7 @@
       return;
     }
     const label = validReaction === "endorse"
-      ? "You accepted this concept"
+      ? "You endorsed this concept"
       : validReaction === "flag" ? "You flagged this concept" : "You have not evaluated this concept";
     badge.title = label;
     badge.setAttribute("role", "img");
