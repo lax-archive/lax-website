@@ -69,12 +69,12 @@ function conceptPath({ submission, concept }: LocatedConcept): string {
 
 function usedConceptRows(ctx: PageContext, concepts: LocatedConcept[]): string {
   if (!concepts.length) return "";
-  return `<button class="concept-used-toggle" type="button" data-used-concepts-toggle aria-controls="used-concepts-list" aria-expanded="false">Show concepts used from other submissions</button>
+  return `<button class="concept-used-toggle" type="button" data-used-concepts-toggle aria-controls="used-concepts-list" aria-expanded="false">Show referenced concepts</button>
 <ul class="concept-list concept-used-list" id="used-concepts-list" aria-label="Concepts used from other submissions" hidden>
-${concepts.map(({ concept, output, submission }) => {
+${concepts.map(({ concept, submission }) => {
     const provenCount = concept.statements.filter((statement) => ctx.model.network.proven.has(statement.id)).length;
     const status = concept.statements.length ? provenCount === concept.statements.length : undefined;
-    const label = `${output.id}.${shortId(concept.id, output.id)}`;
+    const label = shortId(concept.id, concept.id.split(".", 1)[0]);
     const pathname = `${submission.record.id}/${concept.id}.html`;
     return `<li>${typeBadge(concept.type, status)}<a href="${attr(`../${pathname}`)}" title="${attr(concept.id)}"><code>${esc(label)}</code></a>${conceptReviewBadge(pathname)}</li>`;
   }).join("\n")}

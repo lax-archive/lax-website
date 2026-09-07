@@ -1092,7 +1092,7 @@
     button.addEventListener('click', () => {
       const expanded = list.hidden;
       list.hidden = !expanded;
-      button.textContent = `${expanded ? 'Hide' : 'Show'} concepts used from other submissions`;
+      button.textContent = `${expanded ? 'Hide' : 'Show'} referenced concepts`;
       button.setAttribute('aria-expanded', String(expanded));
     });
   }
