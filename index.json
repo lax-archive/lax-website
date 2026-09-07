@@ -2066,6 +2066,44 @@
       "proofs": []
     },
     {
+      "id": "lax-242665",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "An Introduction to Lax",
+      "concepts": [
+        {
+          "id": "Lax242665.BertrandPostulate",
+          "title": "Bertrand's postulate",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax242665.InfinitelyManyPrimes",
+          "title": "There are infinitely many primes",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax242665.OddPrimeBetween",
+          "title": "An odd prime between n and 2n",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax242665.OddPrimes",
+          "title": "Every prime other than 2 is odd",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax242665.Primes",
+          "title": "Prime numbers",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax242665Proofs.InfinitelyManyPrimes.exists_prime_gt",
+        "Lax242665Proofs.OddPrimeBetween.exists_odd_prime_between",
+        "Lax242665Proofs.OddPrimes.odd_of_prime"
+      ]
+    },
+    {
       "id": "lax-251941",
       "state": "draft",
       "environment": "v4.30.0",
