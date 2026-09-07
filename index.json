@@ -1575,6 +1575,14 @@
       "title": "Undecidability of the Post Correspondence Problem",
       "concepts": [],
       "proofs": []
+    },
+    {
+      "id": "lax-765601",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "Transducers, Part A: Mealy Machines",
+      "concepts": [],
+      "proofs": []
     }
   ]
 }
