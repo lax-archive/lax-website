@@ -1585,6 +1585,14 @@
       "proofs": []
     },
     {
+      "id": "lax-314295",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "Transducers, Part C: Regular Functions in Terms of Logic",
+      "concepts": [],
+      "proofs": []
+    },
+    {
       "id": "lax-765601",
       "state": "draft",
       "environment": "v4.30.0",
