@@ -1912,7 +1912,37 @@
           "type": "theorem"
         }
       ],
-      "proofs": []
+      "proofs": [
+        "Lax132576Proofs.Results.compClosure_primeRational_of_isRationalFun",
+        "Lax132576Proofs.Results.decidable_codeRel_eq",
+        "Lax132576Proofs.Results.decidable_isMealy",
+        "Lax132576Proofs.Results.decidable_lengthPreserving",
+        "Lax132576Proofs.Results.decidable_wcodeEval_eq",
+        "Lax132576Proofs.Results.decidable_wcodeEval_eq_zero",
+        "Lax132576Proofs.Results.exists_extended_epsilonFree",
+        "Lax132576Proofs.Results.exists_isUnambiguousRel_le",
+        "Lax132576Proofs.Results.exists_nfao_epsilonFree",
+        "Lax132576Proofs.Results.exists_nfao_length_eq",
+        "Lax132576Proofs.Results.isBimachine_of_isRationalFun",
+        "Lax132576Proofs.Results.isMealy_iff",
+        "Lax132576Proofs.Results.isMealy_iff_of_isRationalFun",
+        "Lax132576Proofs.Results.isRationalFun_iff",
+        "Lax132576Proofs.Results.isRationalFun_iff_compClosure_primeRational",
+        "Lax132576Proofs.Results.isRationalFun_iff_weighted_precomp",
+        "Lax132576Proofs.Results.isRationalFun_of_compClosure_primeRational",
+        "Lax132576Proofs.Results.isRationalFun_of_isBimachine",
+        "Lax132576Proofs.Results.isRationalFun_of_weighted_precomp",
+        "Lax132576Proofs.Results.isRationalRel_comp",
+        "Lax132576Proofs.Results.isRationalRel_ne_homOf",
+        "Lax132576Proofs.Results.isSequential_iff",
+        "Lax132576Proofs.Results.isSubsequential_iff",
+        "Lax132576Proofs.Results.isUnambiguousRel_of_isRationalFun",
+        "Lax132576Proofs.Results.isWeighted_comp_of_isRationalFun",
+        "Lax132576Proofs.Results.lengthPreserving_iff_typing",
+        "Lax132576Proofs.Results.not_computablePred_codeRel_eq",
+        "Lax132576Proofs.Results.relContinuous_of_isRationalRel",
+        "Lax132576Proofs.Results.tfae_rational_unambiguous_bimachine"
+      ]
     },
     {
       "id": "lax-157538",
