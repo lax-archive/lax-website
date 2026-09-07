@@ -1569,6 +1569,14 @@
       ]
     },
     {
+      "id": "lax-132576",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "Transducers, Part B: Rational Functions",
+      "concepts": [],
+      "proofs": []
+    },
+    {
       "id": "lax-251941",
       "state": "draft",
       "environment": "v4.30.0",
