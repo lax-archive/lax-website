@@ -332,9 +332,10 @@ describe("ORCID account header", () => {
       { hidden: false, className: "concept-review-badge endorsed", text: "✓" },
       { hidden: false, className: "concept-review-badge endorsed", text: "✓" },
       { hidden: false, className: "concept-review-badge flagged", text: "⚑" },
-      { hidden: true, className: "concept-review-badge", text: "" },
+      { hidden: false, className: "concept-review-badge pending", text: "" },
     ]);
     expect(fx.conceptBadges[0]!.attributes.get("aria-label")).toBe("You endorsed this concept");
+    expect(fx.conceptBadges[3]!.attributes.get("aria-label")).toBe("You have not evaluated this concept");
     expect(fx.progress?.hidden).toBe(false);
     expect(fx.progressLabel?.textContent).toBe("33% endorsed · 34% not evaluated · 33% flagged");
     expect(fx.progressTrack?.children.map((segment) => segment.className)).toEqual([
@@ -346,7 +347,8 @@ describe("ORCID account header", () => {
     expect(fx.flaggedNoteText?.textContent).toBe("This submission contains or depends on a concept you flagged.");
 
     fx.listeners["LAX::review-change"]!({ detail: { url: flagged, reaction: "" } });
-    expect(fx.conceptBadges[2]!.hidden).toBe(true);
+    expect(fx.conceptBadges[2]!.hidden).toBe(false);
+    expect(fx.conceptBadges[2]!.className).toBe("concept-review-badge pending");
     expect(fx.progressLabel?.textContent).toBe("33% endorsed · 67% not evaluated · 0% flagged");
     expect(fx.flaggedNote?.hidden).toBe(true);
 
