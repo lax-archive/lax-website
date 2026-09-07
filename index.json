@@ -1140,18 +1140,28 @@
       "title": "Large Finite Point Sets Have 4 Collinear Points or a 6-Clique",
       "concepts": [
         {
+          "id": "Lax56.ConvexLayers",
+          "title": "Convex layers and minimal polygons",
+          "type": "definition"
+        },
+        {
           "id": "Lax56.Geometry",
           "title": "Point visibility in the real plane",
           "type": "definition"
         },
         {
           "id": "Lax56.HujterKisfaludiBak",
-          "title": "The empty-hexagon input to the Hujter--Kisfaludi-Bak theorem",
+          "title": "The unoptimized empty-hexagon bound",
           "type": "definition"
         },
         {
           "id": "Lax56.MainTheorem",
           "title": "Large finite point sets have four collinear points or a visible six-clique",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax56.ValtrFourLayer",
+          "title": "Valtr's four-layer lemma",
           "type": "theorem"
         },
         {
@@ -1161,7 +1171,9 @@
         }
       ],
       "proofs": [
+        "Lax56Proofs.EmptyHexagon.exists_emptyConvexHexagon",
         "Lax56Proofs.MainTheorem.large_point_set_four_collinear_or_visible_six",
+        "Lax56Proofs.ValtrFourLayer.exists_emptyHexagon_of_four_layers",
         "Lax56Proofs.VertexRemovalStability.exists_fiveColorable_delete"
       ]
     },

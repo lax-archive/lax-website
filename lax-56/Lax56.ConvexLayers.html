@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://comments.laxarchive.org; style-src 'self' 'unsafe-inline'; img-src https: data:; font-src 'self'; frame-src https://comments.laxarchive.org; connect-src https://comments.laxarchive.org">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Lax — an archive of formalized mathematical concepts and their proofs">
-<title>Large finite point sets have four collinear points or a visible six-clique — Lax56.MainTheorem</title>
+<title>Convex layers and minimal polygons — Lax56.ConvexLayers</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
 <link rel="stylesheet" href="../assets/style.css?v=73e868f7b85e">
@@ -38,10 +38,10 @@
 </div></div>
 <ul id="entry-list">
 <li class="entry-heading" aria-hidden="true">Concepts</li>
-<li data-type="definition" data-search="lax56.convexlayers convex layers and minimal polygons definition"><a class="entry-link" href="../lax-56/Lax56.ConvexLayers.html" data-full-title="Convex layers and minimal polygons"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax56.ConvexLayers</span></span></a></li>
+<li class="active" data-type="definition" data-search="lax56.convexlayers convex layers and minimal polygons definition"><a class="entry-link" href="../lax-56/Lax56.ConvexLayers.html" data-full-title="Convex layers and minimal polygons"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax56.ConvexLayers</span></span></a></li>
 <li data-type="definition" data-search="lax56.geometry point visibility in the real plane definition"><a class="entry-link" href="../lax-56/Lax56.Geometry.html" data-full-title="Point visibility in the real plane"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax56.Geometry</span></span></a></li>
 <li data-type="definition" data-search="lax56.hujterkisfaludibak the unoptimized empty-hexagon bound definition"><a class="entry-link" href="../lax-56/Lax56.HujterKisfaludiBak.html" data-full-title="The unoptimized empty-hexagon bound"><span class="entry-label"><span class="type-badge proven" title="definition — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">def✓</span><span class="entry-label-text">Lax56.HujterKisfaludiBak</span></span></a></li>
-<li class="active" data-type="theorem" data-search="lax56.maintheorem large finite point sets have four collinear points or a visible six-clique theorem"><a class="entry-link" href="../lax-56/Lax56.MainTheorem.html" data-full-title="Large finite point sets have four collinear points or a visible six-clique"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax56.MainTheorem</span></span></a></li>
+<li data-type="theorem" data-search="lax56.maintheorem large finite point sets have four collinear points or a visible six-clique theorem"><a class="entry-link" href="../lax-56/Lax56.MainTheorem.html" data-full-title="Large finite point sets have four collinear points or a visible six-clique"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax56.MainTheorem</span></span></a></li>
 <li data-type="theorem" data-search="lax56.valtrfourlayer valtr's four-layer lemma theorem"><a class="entry-link" href="../lax-56/Lax56.ValtrFourLayer.html" data-full-title="Valtr's four-layer lemma"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax56.ValtrFourLayer</span></span></a></li>
 <li data-type="theorem" data-search="lax56.vertexremovalstability quantitative vertex-removal erdős--simonovits stability for k₆ theorem"><a class="entry-link" href="../lax-56/Lax56.VertexRemovalStability.html" data-full-title="Quantitative vertex-removal Erdős--Simonovits stability for K₆"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax56.VertexRemovalStability</span></span></a></li>
 <li class="entry-heading" aria-hidden="true">Proofs</li>
@@ -56,12 +56,12 @@
 <section id="main"><div id="detail">
 <p class="draft-banner"><strong>Draft</strong> — mutable and not usable as a dependency; its citation marks the draft state.</p>
 <div class="detail-heading concept-heading">
-<div><p class="concept-id"><code>Lax56.MainTheorem</code></p>
-<h1 class="concept-title">Large finite point sets have four collinear points or a visible six-clique</h1>
-<p class="concept-microline"><code>concepts/Lax56/MainTheorem.lean</code> · <a href="index.html">lax-56</a></p></div>
-<span class="status-pills"><span class="status-pill pill-proven" title="Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">proven</span></span>
+<div><p class="concept-id"><code>Lax56.ConvexLayers</code></p>
+<h1 class="concept-title">Convex layers and minimal polygons</h1>
+<p class="concept-microline"><code>concepts/Lax56/ConvexLayers.lean</code> · <a href="index.html">lax-56</a></p></div>
+<span class="status-pills"><span class="status-pill pill-none">definition</span></span>
 </div>
-<section class="page-reactions" aria-label="Community review" data-reactions-host="https://comments.laxarchive.org" data-reactions-url="https://laxarchive.org/lax-56/Lax56.MainTheorem.html" data-review-kind="concept" data-source-lines="22">
+<section class="page-reactions" aria-label="Community review" data-reactions-host="https://comments.laxarchive.org" data-reactions-url="https://laxarchive.org/lax-56/Lax56.ConvexLayers.html" data-review-kind="concept" data-source-lines="59">
 <div class="page-reactions-actions">
 <div class="page-reaction-control">
 <button class="page-reaction-button" type="button" data-reaction="endorse" aria-pressed="false" title="Say that this concept is correct"><span class="page-reaction-icon" aria-hidden="true">✅</span><span>Endorse</span></button>
@@ -74,7 +74,7 @@
 </div>
 </div>
 <p class="page-reactions-status" data-reactions-status role="status">Loading review…</p>
-<a class="visually-hidden" data-reactions-login href="https://comments.laxarchive.org/auth/orcid/login?site=remark&amp;from=https%3A%2F%2Flaxarchive.org%2Flax-56%2FLax56.MainTheorem.html">Sign in with ORCID</a>
+<a class="visually-hidden" data-reactions-login href="https://comments.laxarchive.org/auth/orcid/login?site=remark&amp;from=https%3A%2F%2Flaxarchive.org%2Flax-56%2FLax56.ConvexLayers.html">Sign in with ORCID</a>
 <dialog class="review-dialog flag-list-dialog" id="page-flag-list" data-flag-list-dialog aria-labelledby="page-flag-list-title">
 <div class="review-dialog-header"><div><p class="discussion-eyebrow">Community review</p><h2 id="page-flag-list-title">Flags</h2></div><button class="review-dialog-close" type="button" data-flag-list-close aria-label="Close flags">×</button></div>
 <p class="review-dialog-intro">Each flag is tied to a public ORCID identity and explains why this concept may be incorrect.</p>
@@ -91,7 +91,7 @@
 <div class="review-dialog-actions"><button class="danger-button" type="button" data-flag-remove hidden>Remove my flag</button><span></span><button class="secondary-button" type="button" data-flag-cancel>Cancel</button><button class="primary-button" type="submit">Publish flag</button></div>
 </form>
 </dialog>
-<noscript><p class="page-reactions-noscript"><a href="https://comments.laxarchive.org/auth/orcid/login?site=remark&amp;from=https%3A%2F%2Flaxarchive.org%2Flax-56%2FLax56.MainTheorem.html">Sign in with ORCID</a> to review this page.</p></noscript>
+<noscript><p class="page-reactions-noscript"><a href="https://comments.laxarchive.org/auth/orcid/login?site=remark&amp;from=https%3A%2F%2Flaxarchive.org%2Flax-56%2FLax56.ConvexLayers.html">Sign in with ORCID</a> to review this page.</p></noscript>
 </section>
 <h4 class="figure-title">Concept map</h4>
 <figure class="graph-figure concept-root-graph">
@@ -101,57 +101,78 @@
 <div class="graph-tooltip" role="tooltip" hidden></div>
 <figcaption class="graph-legend" aria-label="Concept map legend"><span><i class="legend-node fill-proven"></i>Proven claim</span><span><i class="legend-node fill-none"></i>Definition</span><span><i class="legend-node stroke-own"></i>This concept</span><span><i class="legend-node stroke-ext"></i>Related concept</span><span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B builds on A</span></figcaption>
 </figure>
-<div class="block block-evidence"><h3>Evidence</h3>
-<p class="evidence-intro">Each proof establishes this claim relative to its assumptions.</p>
-<ul class="proof-list">
-<li class="proof-item">
-<div class="judgment-frame">
-<a class="judgment-overlay" href="../lax-56/Lax56Proofs.MainTheorem.large_point_set_four_collinear_or_visible_six.html" aria-label="Open proof Lax56Proofs.MainTheorem.large_point_set_four_collinear_or_visible_six"></a>
-<div class="judgment">
-<div class="judgment-assumptions"><p class="judgment-unconditional">no assumptions</p></div>
-<span class="judgment-arrow" aria-hidden="true">→</span>
-<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="../lax-56/Lax56.MainTheorem.html" title="Lax56.MainTheorem.large_point_set_four_collinear_or_visible_six"><code>Lax56.MainTheorem</code></a></span></div>
-</div>
-</div>
-<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-56/Lax56Proofs.MainTheorem.large_point_set_four_collinear_or_visible_six.html"><code>Lax56Proofs.MainTheorem.large_point_set_four_collinear_or_visible_six</code></a></p>
-</li>
-</ul>
-</div>
 
-<div class="block block-statement"><h3>Theorem</h3><div class="latex-content"><p>Every finite set of at least <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>10</mn><mo stretchy="false">(</mo></msup><msup><mn>2</mn><mn>4</mn></msup><mn>50</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">10^(2^450)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1.138em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.888em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mopen mtight">(</span></span></span></span></span></span></span></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight">4</span></span></span></span></span></span></span></span><span class="mord">50</span><span class="mclose">)</span></span></span></span> points in the real plane contains
-four distinct collinear points or six distinct points that pairwise see one
-another with respect to the whole set.</p>
+
+<div class="block block-statement"><h3>Definition</h3><div class="latex-content"><p>The unordered, finite-set definitions used in the unoptimized convex-layer
+route to Valtr's empty-hexagon theorem. No geometric theorem is assumed here.</p>
 </div></div>
-<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/EdouardBonnet/big-line-big-clique/blob/730c74fec86c041054279663b009afd953fe24b5/concepts/Lax56/MainTheorem.lean">view on GitHub</a></h3>
+<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/EdouardBonnet/big-line-big-clique/blob/730c74fec86c041054279663b009afd953fe24b5/concepts/Lax56/ConvexLayers.lean">view on GitHub</a></h3>
 <div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
 <tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax56.Geometry</span></td></tr>
-<tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"> </td></tr>
-<tr id="L3" class=""><td class="line-num"><a href="#L3">3</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
-<tr id="L4" class=""><td class="line-num"><a href="#L4">4</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
-<tr id="L5" class=""><td class="line-num"><a href="#L5">5</a></td><td class="line-code"><span style="color:#6A737D">title: Large finite point sets have four collinear points or a visible six-clique</span></td></tr>
-<tr id="L6" class=""><td class="line-num"><a href="#L6">6</a></td><td class="line-code"><span style="color:#6A737D">type: theorem</span></td></tr>
-<tr id="L7" class=""><td class="line-num"><a href="#L7">7</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
-<tr id="L8" class=""><td class="line-num"><a href="#L8">8</a></td><td class="line-code"><span style="color:#6A737D">Every finite set of at least `10^(2^450)` points in the real plane contains</span></td></tr>
-<tr id="L9" class=""><td class="line-num"><a href="#L9">9</a></td><td class="line-code"><span style="color:#6A737D">four distinct collinear points or six distinct points that pairwise see one</span></td></tr>
-<tr id="L10" class=""><td class="line-num"><a href="#L10">10</a></td><td class="line-code"><span style="color:#6A737D">another with respect to the whole set.</span></td></tr>
+<tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Analysis.Convex.Independent</span></td></tr>
+<tr id="L3" class=""><td class="line-num"><a href="#L3">3</a></td><td class="line-code"> </td></tr>
+<tr id="L4" class=""><td class="line-num"><a href="#L4">4</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
+<tr id="L5" class=""><td class="line-num"><a href="#L5">5</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
+<tr id="L6" class=""><td class="line-num"><a href="#L6">6</a></td><td class="line-code"><span style="color:#6A737D">title: Convex layers and minimal polygons</span></td></tr>
+<tr id="L7" class=""><td class="line-num"><a href="#L7">7</a></td><td class="line-code"><span style="color:#6A737D">type: definition</span></td></tr>
+<tr id="L8" class=""><td class="line-num"><a href="#L8">8</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
+<tr id="L9" class=""><td class="line-num"><a href="#L9">9</a></td><td class="line-code"><span style="color:#6A737D">The unordered, finite-set definitions used in the unoptimized convex-layer</span></td></tr>
+<tr id="L10" class=""><td class="line-num"><a href="#L10">10</a></td><td class="line-code"><span style="color:#6A737D">route to Valtr's empty-hexagon theorem. No geometric theorem is assumed here.</span></td></tr>
 <tr id="L11" class=""><td class="line-num"><a href="#L11">11</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
 <tr id="L12" class=""><td class="line-num"><a href="#L12">12</a></td><td class="line-code"> </td></tr>
-<tr id="L13" class=""><td class="line-num"><a href="#L13">13</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax56.MainTheorem</span></td></tr>
+<tr id="L13" class=""><td class="line-num"><a href="#L13">13</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax56.ConvexLayers</span></td></tr>
 <tr id="L14" class=""><td class="line-num"><a href="#L14">14</a></td><td class="line-code"> </td></tr>
 <tr id="L15" class=""><td class="line-num"><a href="#L15">15</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax56.Geometry</span></td></tr>
-<tr id="L16" class=""><td class="line-num"><a href="#L16">16</a></td><td class="line-code"> </td></tr>
-<tr id="L17" class="statement-line line-proven"><td class="line-num"><a href="#L17">17</a></td><td class="line-code"><span class="statement-anchor" id="s-Lax56.MainTheorem.large_point_set_four_collinear_or_visible_six"></span><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> large_point_set_four_collinear_or_visible_six</span></td></tr>
-<tr id="L18" class="statement-line line-proven"><td class="line-num"><a href="#L18">18</a></td><td class="line-code"><span style="color:#24292E">    (P : Finset Point) (hP : </span><span style="color:#005CC5">10</span><span style="color:#24292E"> ^ (</span><span style="color:#005CC5">2</span><span style="color:#24292E"> ^ </span><span style="color:#005CC5">450</span><span style="color:#24292E">) ≤ P.card) :</span></td></tr>
-<tr id="L19" class="statement-line line-proven"><td class="line-num"><a href="#L19">19</a></td><td class="line-code"><span style="color:#24292E">    HasFourCollinear P ∨ HasVisibleClique P </span><span style="color:#005CC5">6</span></td></tr>
-<tr id="L20" class=""><td class="line-num"><a href="#L20">20</a></td><td class="line-code"> </td></tr>
-<tr id="L21" class=""><td class="line-num"><a href="#L21">21</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax56.MainTheorem</span></td></tr>
-<tr id="L22" class=""><td class="line-num"><a href="#L22">22</a></td><td class="line-code"> </td></tr>
-</table></div><span class="source-proof-rail" data-source-line="L17" aria-label="Proof links"><a class="statement-proof-button" href="https://github.com/EdouardBonnet/big-line-big-clique/blob/730c74fec86c041054279663b009afd953fe24b5/proofs/Lax56Proofs/MainTheorem.lean" aria-label="View proof Lax56Proofs.MainTheorem.large_point_set_four_collinear_or_visible_six on GitHub" title="Lax56Proofs.MainTheorem.large_point_set_four_collinear_or_visible_six"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">Show Proof</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a></span><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
+<tr id="L16" class=""><td class="line-num"><a href="#L16">16</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#D73A49"> scoped</span><span style="color:#24292E"> Classical</span></td></tr>
+<tr id="L17" class=""><td class="line-num"><a href="#L17">17</a></td><td class="line-code"> </td></tr>
+<tr id="L18" class=""><td class="line-num"><a href="#L18">18</a></td><td class="line-code"><span style="color:#6A737D">/-- Every point is a vertex: no point lies in the convex hull of the others. -/</span></td></tr>
+<tr id="L19" class=""><td class="line-num"><a href="#L19">19</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> ConvexPosition</span><span style="color:#24292E"> (P : Finset Point) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr id="L20" class=""><td class="line-num"><a href="#L20">20</a></td><td class="line-code"><span style="color:#24292E">  ConvexIndependent ℝ (</span><span style="color:#D73A49">fun</span><span style="color:#24292E"> p : {p : Point // p ∈ P} ↦ p.val)</span></td></tr>
+<tr id="L21" class=""><td class="line-num"><a href="#L21">21</a></td><td class="line-code"> </td></tr>
+<tr id="L22" class=""><td class="line-num"><a href="#L22">22</a></td><td class="line-code"><span style="color:#6A737D">/-- Vertices of the convex hull, including all points of sets of size at most two. -/</span></td></tr>
+<tr id="L23" class=""><td class="line-num"><a href="#L23">23</a></td><td class="line-code"><span style="color:#D73A49">noncomputable</span><span style="color:#D73A49"> def</span><span style="color:#6F42C1"> extremeLayer</span><span style="color:#24292E"> (P : Finset Point) : Finset Point :=</span></td></tr>
+<tr id="L24" class=""><td class="line-num"><a href="#L24">24</a></td><td class="line-code"><span style="color:#24292E">  P.filter (</span><span style="color:#D73A49">fun</span><span style="color:#24292E"> p ↦ p ∈ (convexHull ℝ (P : Set Point)).extremePoints ℝ)</span></td></tr>
+<tr id="L25" class=""><td class="line-num"><a href="#L25">25</a></td><td class="line-code"> </td></tr>
+<tr id="L26" class=""><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span style="color:#6A737D">/-- The remainder after deleting the current outer layer. -/</span></td></tr>
+<tr id="L27" class=""><td class="line-num"><a href="#L27">27</a></td><td class="line-code"><span style="color:#D73A49">noncomputable</span><span style="color:#D73A49"> def</span><span style="color:#6F42C1"> inner</span><span style="color:#24292E"> (P : Finset Point) : Finset Point := P \ extremeLayer P</span></td></tr>
+<tr id="L28" class=""><td class="line-num"><a href="#L28">28</a></td><td class="line-code"> </td></tr>
+<tr id="L29" class=""><td class="line-num"><a href="#L29">29</a></td><td class="line-code"><span style="color:#6A737D">/-- The remainder after `n` layers have been removed. -/</span></td></tr>
+<tr id="L30" class=""><td class="line-num"><a href="#L30">30</a></td><td class="line-code"><span style="color:#D73A49">noncomputable</span><span style="color:#D73A49"> def</span><span style="color:#6F42C1"> remainder</span><span style="color:#24292E"> (P : Finset Point) : ℕ → Finset Point</span></td></tr>
+<tr id="L31" class=""><td class="line-num"><a href="#L31">31</a></td><td class="line-code"><span style="color:#24292E">  | </span><span style="color:#005CC5">0</span><span style="color:#24292E"> =&gt; P</span></td></tr>
+<tr id="L32" class=""><td class="line-num"><a href="#L32">32</a></td><td class="line-code"><span style="color:#24292E">  | n + </span><span style="color:#005CC5">1</span><span style="color:#24292E"> =&gt; inner (remainder P n)</span></td></tr>
+<tr id="L33" class=""><td class="line-num"><a href="#L33">33</a></td><td class="line-code"> </td></tr>
+<tr id="L34" class=""><td class="line-num"><a href="#L34">34</a></td><td class="line-code"><span style="color:#6A737D">/-- Layers are indexed from zero: `layer P 0` is the outer layer. -/</span></td></tr>
+<tr id="L35" class=""><td class="line-num"><a href="#L35">35</a></td><td class="line-code"><span style="color:#D73A49">noncomputable</span><span style="color:#D73A49"> def</span><span style="color:#6F42C1"> layer</span><span style="color:#24292E"> (P : Finset Point) (n : ℕ) : Finset Point :=</span></td></tr>
+<tr id="L36" class=""><td class="line-num"><a href="#L36">36</a></td><td class="line-code"><span style="color:#24292E">  extremeLayer (remainder P n)</span></td></tr>
+<tr id="L37" class=""><td class="line-num"><a href="#L37">37</a></td><td class="line-code"> </td></tr>
+<tr id="L38" class=""><td class="line-num"><a href="#L38">38</a></td><td class="line-code"><span style="color:#6A737D">/-- All ambient points in the convex hull of `A`, not just its interior points. -/</span></td></tr>
+<tr id="L39" class=""><td class="line-num"><a href="#L39">39</a></td><td class="line-code"><span style="color:#D73A49">noncomputable</span><span style="color:#D73A49"> def</span><span style="color:#6F42C1"> hullClosure</span><span style="color:#24292E"> (P A : Finset Point) : Finset Point :=</span></td></tr>
+<tr id="L40" class=""><td class="line-num"><a href="#L40">40</a></td><td class="line-code"><span style="color:#24292E">  P.filter (</span><span style="color:#D73A49">fun</span><span style="color:#24292E"> p ↦ p ∈ convexHull ℝ (A : Set Point))</span></td></tr>
+<tr id="L41" class=""><td class="line-num"><a href="#L41">41</a></td><td class="line-code"> </td></tr>
+<tr id="L42" class=""><td class="line-num"><a href="#L42">42</a></td><td class="line-code"><span style="color:#6A737D">/-- Passing from `P` to `S` loses no ambient point inside the new convex hull. -/</span></td></tr>
+<tr id="L43" class=""><td class="line-num"><a href="#L43">43</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> HullClosedIn</span><span style="color:#24292E"> (P S : Finset Point) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr id="L44" class=""><td class="line-num"><a href="#L44">44</a></td><td class="line-code"><span style="color:#24292E">  S ⊆ P ∧ ∀ p ∈ P, p ∈ convexHull ℝ (S : Set Point) → p ∈ S</span></td></tr>
+<tr id="L45" class=""><td class="line-num"><a href="#L45">45</a></td><td class="line-code"> </td></tr>
+<tr id="L46" class=""><td class="line-num"><a href="#L46">46</a></td><td class="line-code"><span style="color:#6A737D">/-- The exact minimality condition in the proposed four-layer lemma. -/</span></td></tr>
+<tr id="L47" class=""><td class="line-num"><a href="#L47">47</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> MinimalOuter</span><span style="color:#24292E"> (S : Finset Point) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr id="L48" class=""><td class="line-num"><a href="#L48">48</a></td><td class="line-code"><span style="color:#24292E">  ∀ X ⊆ S, ConvexPosition X → (extremeLayer S).card ≤ X.card → X = extremeLayer S</span></td></tr>
+<tr id="L49" class=""><td class="line-num"><a href="#L49">49</a></td><td class="line-code"> </td></tr>
+<tr id="L50" class=""><td class="line-num"><a href="#L50">50</a></td><td class="line-code"><span style="color:#6A737D">/-- An unordered empty convex polygon with exactly `k` vertices. -/</span></td></tr>
+<tr id="L51" class=""><td class="line-num"><a href="#L51">51</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> EmptyPolygon</span><span style="color:#24292E"> (P H : Finset Point) (k : ℕ) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr id="L52" class=""><td class="line-num"><a href="#L52">52</a></td><td class="line-code"><span style="color:#24292E">  H ⊆ P ∧ H.card = k ∧ ConvexPosition H ∧</span></td></tr>
+<tr id="L53" class=""><td class="line-num"><a href="#L53">53</a></td><td class="line-code"><span style="color:#24292E">    ∀ p ∈ P, p ∈ convexHull ℝ (H : Set Point) → p ∈ H</span></td></tr>
+<tr id="L54" class=""><td class="line-num"><a href="#L54">54</a></td><td class="line-code"> </td></tr>
+<tr id="L55" class=""><td class="line-num"><a href="#L55">55</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> HasEmptyHexagon</span><span style="color:#24292E"> (P : Finset Point) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr id="L56" class=""><td class="line-num"><a href="#L56">56</a></td><td class="line-code"><span style="color:#24292E">  ∃ H, EmptyPolygon P H </span><span style="color:#005CC5">6</span></td></tr>
+<tr id="L57" class=""><td class="line-num"><a href="#L57">57</a></td><td class="line-code"> </td></tr>
+<tr id="L58" class=""><td class="line-num"><a href="#L58">58</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax56.ConvexLayers</span></td></tr>
+<tr id="L59" class=""><td class="line-num"><a href="#L59">59</a></td><td class="line-code"> </td></tr>
+</table></div><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
 
 <div class="block"><div class="deps-columns">
 <div class="deps-col"><h3>Builds on</h3><ul class="deps-list"><li><a href="../lax-56/Lax56.Geometry.html"><code>Lax56.Geometry</code></a></li></ul></div>
-<div class="deps-col"><h3>Used by</h3><p class="empty-note">none</p></div>
-<div class="deps-col"><h3>From Mathlib</h3><p class="empty-note">none</p></div>
+<div class="deps-col"><h3>Used by</h3><ul class="deps-list"><li><a href="../lax-56/Lax56.ValtrFourLayer.html"><code>Lax56.ValtrFourLayer</code></a></li></ul></div>
+<div class="deps-col"><h3>From Mathlib</h3><ul class="deps-list"><li><a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Analysis/Convex/Independent.html"><code>Mathlib.Analysis.Convex.Independent</code></a></li></ul></div>
 </div></div>
 <section class="page-section discussion-section" aria-labelledby="discussion-title">
 <div class="discussion-heading">
@@ -160,15 +181,15 @@ another with respect to the whole set.</p>
 <h3 class="section-title" id="discussion-title">Discussion</h3>
 <p>Ask a question or add context. Endorsements and structured flags are kept in the review panel above; your ORCID profile must share a public name.</p>
 </div>
-<p class="discussion-count"><span class="remark42__counter" data-url="https://laxarchive.org/lax-56/Lax56.MainTheorem.html">0</span> <span>comments</span></p>
+<p class="discussion-count"><span class="remark42__counter" data-url="https://laxarchive.org/lax-56/Lax56.ConvexLayers.html">0</span> <span>comments</span></p>
 </div>
 <div class="discussion-embed-shell">
 <p class="discussion-loading" id="remark42-status" role="status"><span class="discussion-loading-mark" aria-hidden="true"></span>Loading discussion…</p>
-<div id="remark42" data-remark42-host="https://comments.laxarchive.org" data-remark42-site="remark" data-remark42-url="https://laxarchive.org/lax-56/Lax56.MainTheorem.html"></div>
+<div id="remark42" data-remark42-host="https://comments.laxarchive.org" data-remark42-site="remark" data-remark42-url="https://laxarchive.org/lax-56/Lax56.ConvexLayers.html"></div>
 </div>
 <noscript><p class="discussion-unavailable">Enable JavaScript to read or join the discussion.</p></noscript>
 </section>
-<script type="application/json" id="graph-data">{"concepts":{"nodes":[{"id":"Lax56.Geometry","href":"../lax-56/Lax56.Geometry.html","title":"Point visibility in the real plane","owner":"lax-56","status":"none","ext":true,"dir":"up"},{"id":"Lax56.MainTheorem","href":"../lax-56/Lax56.MainTheorem.html","title":"Large finite point sets have four collinear points or a visible six-clique","owner":"lax-56","status":"proven","ext":false,"dir":"core"}],"edges":[{"from":"Lax56.Geometry","to":"Lax56.MainTheorem"}],"home":"lax-56"},"proofs":{"statements":[],"proofs":[]}}</script>
+<script type="application/json" id="graph-data">{"concepts":{"nodes":[{"id":"Lax56.ConvexLayers","href":"../lax-56/Lax56.ConvexLayers.html","title":"Convex layers and minimal polygons","owner":"lax-56","status":"none","ext":false,"dir":"core"},{"id":"Lax56.Geometry","href":"../lax-56/Lax56.Geometry.html","title":"Point visibility in the real plane","owner":"lax-56","status":"none","ext":true,"dir":"up"},{"id":"Lax56.ValtrFourLayer","href":"../lax-56/Lax56.ValtrFourLayer.html","title":"Valtr's four-layer lemma","owner":"lax-56","status":"proven","ext":true,"dir":"down"}],"edges":[{"from":"Lax56.Geometry","to":"Lax56.ConvexLayers"},{"from":"Lax56.ConvexLayers","to":"Lax56.ValtrFourLayer"}],"home":"lax-56"},"proofs":{"statements":[],"proofs":[]}}</script>
 </div>
 <footer class="site-footer">
   <nav class="site-footer-nav" aria-label="Legal and about">
