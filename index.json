@@ -2165,7 +2165,28 @@
       "state": "draft",
       "environment": "v4.30.0",
       "title": "Transducers, Part C: Regular Functions in Terms of Combinators",
-      "concepts": [],
+      "concepts": [
+        {
+          "id": "Lax709149.RegularOfTerm",
+          "title": "Regular terms define regular functions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax709149.RegularTerms",
+          "title": "Regular terms",
+          "type": "definition"
+        },
+        {
+          "id": "Lax709149.RegularUnderRepresentation",
+          "title": "Regular functions on types under string representation",
+          "type": "definition"
+        },
+        {
+          "id": "Lax709149.Types",
+          "title": "Types and their string representation",
+          "type": "definition"
+        }
+      ],
       "proofs": []
     },
     {

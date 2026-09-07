@@ -31,11 +31,15 @@
 <label for="filter-type">Type</label>
 <select id="filter-type" class="filter-select">
 <option value="all">All types</option>
-
+<option value="definition">definition</option>
+<option value="theorem">theorem</option>
 </select>
 </div></div>
 <ul id="entry-list">
-
+<li data-type="theorem" data-search="lax709149.regularofterm regular terms define regular functions theorem"><a class="entry-link" href="../lax-709149/Lax709149.RegularOfTerm.html" data-full-title="Regular terms define regular functions"><span class="entry-label"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><span class="entry-label-text">Lax709149.RegularOfTerm</span></span></a></li>
+<li data-type="definition" data-search="lax709149.regularterms regular terms definition"><a class="entry-link" href="../lax-709149/Lax709149.RegularTerms.html" data-full-title="Regular terms"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax709149.RegularTerms</span></span></a></li>
+<li data-type="definition" data-search="lax709149.regularunderrepresentation regular functions on types under string representation definition"><a class="entry-link" href="../lax-709149/Lax709149.RegularUnderRepresentation.html" data-full-title="Regular functions on types under string representation"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax709149.RegularUnderRepresentation</span></span></a></li>
+<li data-type="definition" data-search="lax709149.types types and their string representation definition"><a class="entry-link" href="../lax-709149/Lax709149.Types.html" data-full-title="Types and their string representation"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax709149.Types</span></span></a></li>
 <li id="entry-list-empty" hidden>No entries match.</li>
 </ul>
 </aside>
@@ -43,7 +47,7 @@
 <p class="draft-banner"><strong>Draft</strong> — mutable and not usable as a dependency; its citation marks the draft state.</p>
 <header class="paper-head">
 <h1 class="paper-title">Transducers, Part C: Regular Functions in Terms of Combinators</h1>
-<p class="paper-meta"><span class="submission-meta-id">lax-709149</span><span class="meta-sep">·</span><span class="formalized-label">formalized by</span> <span class="paper-author">Mikołaj Bojańczyk</span><span class="author-sep">·</span><span class="paper-author">Aristotle (Harmonic)</span><span class="meta-sep">·</span>created 2026-09-07<span class="meta-sep">·</span><a href="https://github.com/bojanczyk/transducer-book/tree/a2e2a89d2d19f9eb52f1329453dcabf5d0e172e3/lax/regular-combinators" title="https://github.com/bojanczyk/transducer-book/tree/a2e2a89d2d19f9eb52f1329453dcabf5d0e172e3/lax/regular-combinators"><code>GitHub @a2e2a89</code></a><span class="meta-sep">·</span>Lean <code>v4.30.0</code> <span class="meta-epoch" title="the environment the archive recommends this year">epoch</span> · mathlib <code>c5ea00351c28</code></p>
+<p class="paper-meta"><span class="submission-meta-id">lax-709149</span><span class="meta-sep">·</span><span class="formalized-label">formalized by</span> <span class="paper-author">Mikołaj Bojańczyk</span><span class="author-sep">·</span><span class="paper-author">Aristotle (Harmonic)</span><span class="meta-sep">·</span>created 2026-09-07<span class="meta-sep">·</span><a href="https://github.com/bojanczyk/transducer-book/tree/b0dca40c64fef02dddb3436500db54c5aa5271ad/lax/regular-combinators" title="https://github.com/bojanczyk/transducer-book/tree/b0dca40c64fef02dddb3436500db54c5aa5271ad/lax/regular-combinators"><code>GitHub @b0dca40</code></a><span class="meta-sep">·</span>Lean <code>v4.30.0</code> <span class="meta-epoch" title="the environment the archive recommends this year">epoch</span> · mathlib <code>c5ea00351c28</code></p>
 </header>
 <section class="page-reactions" aria-label="Community review" data-reactions-host="https://comments.laxarchive.org" data-reactions-url="https://laxarchive.org/lax-709149/" data-review-kind="submission" data-source-lines="0">
 <div class="page-reactions-actions">
@@ -79,19 +83,54 @@
 </section>
 <section class="paper-abstract">
 <h2 class="abstract-heading">Abstract</h2>
-<div class="latex-content"><p>Section 5 of Part C of the book <em>Transducers</em> (M. Bojańczyk): types, their string representations, the regular terms, and the fact that every function defined by a regular term is regular under string representation.</p>
+<div class="latex-content"><p>Section 5 of Part C of the book <em>Transducers</em> (M. Bojańczyk) as concepts and
+a proof: the combinator description of the regular functions. The Lean
+development is Aristotle's formalisation of the book, re-presented in the
+archive's form; it requires the submissions for Parts B and C §1–3.</p>
+<p>The definition-concepts are the types built from the unit type by product,
+co-product and list, with the string representation of their elements over
+an eight-letter alphabet (C.5.1), regularity of a type-to-type function
+under string representation (C.5.2), and the regular terms with their
+semantics (C.5.3). The theorem-concept is the implication of Theorem C.5.4
+that every function defined by a regular term is regular under string
+representation, proved by induction on the term with a bracket-counter
+parser of the representations. The converse implication, expressive
+completeness of the terms, is not formalised and no statement here asserts
+it; the auxiliary lemmas and claims of the section are its steps and do not
+appear.</p>
 </div>
 </section>
 
 <section class="page-section"><h3 class="section-title">Concepts</h3>
-<p class="empty-note">No concepts in this submission.</p>
+<div class="concept-list-box">
+<ul class="concept-list">
+<li><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><a href="Lax709149.RegularOfTerm.html" title="Lax709149.RegularOfTerm"><code>Lax709149.RegularOfTerm</code></a></li>
+<li><span class="type-badge" title="definition">def</span><a href="Lax709149.RegularTerms.html" title="Lax709149.RegularTerms"><code>Lax709149.RegularTerms</code></a></li>
+<li><span class="type-badge" title="definition">def</span><a href="Lax709149.RegularUnderRepresentation.html" title="Lax709149.RegularUnderRepresentation"><code>Lax709149.RegularUnderRepresentation</code></a></li>
+<li><span class="type-badge" title="definition">def</span><a href="Lax709149.Types.html" title="Lax709149.Types"><code>Lax709149.Types</code></a></li>
+</ul>
+<div class="badge-legend" aria-label="Concept badge legend"><span><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span>open claim</span><span><span class="type-badge" title="definition">def</span>definition</span></div>
+</div>
+<h4 class="figure-title">Concept map</h4>
+<figure class="graph-figure">
+<button class="graph-expand" type="button" data-graph-expand data-graph-label="concept map" aria-expanded="false" aria-label="Open concept map in a large window" title="Open in large window"><svg class="graph-expand-open" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M2.5 6V2.5H6M10 2.5h3.5V6M13.5 10v3.5H10M6 13.5H2.5V10"/></svg><span class="graph-expand-close" aria-hidden="true">×</span></button>
+<div class="graph-toolbar"><button type="button" id="concept-expand" aria-controls="concept-dag" aria-pressed="true">Hide ancestors</button><button type="button" id="concept-descend" aria-controls="concept-dag" aria-pressed="false">Show descendants</button><output id="concept-graph-status" aria-live="polite"></output></div>
+<div id="concept-dag" class="figure-container" data-graph="concepts" data-ancestry="true"></div>
+<div class="graph-tooltip" role="tooltip" hidden></div>
+<figcaption class="graph-legend" aria-label="Concept map legend"><span><i class="legend-node fill-open"></i>Open claim</span><span><i class="legend-node fill-none"></i>Definition</span><span><i class="legend-node stroke-own"></i>This submission</span><span><i class="legend-node stroke-ext"></i>Other submission</span><span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B builds on A</span></figcaption>
+</figure>
 </section>
 <section class="page-section"><h3 class="section-title">Proofs</h3>
 <p class="empty-note">No proofs in this submission.</p>
 <p class="honesty-note">Proof code is not displayed; the archive records each proof's checked relationship between claims.</p>
 </section>
 <section class="page-section"><h3 class="section-title">Related submissions</h3>
-<p class="empty-note">No other submission in the archive builds on this one, and this one builds on none.</p>
+<h4 class="figure-title">Submission map</h4>
+<figure class="graph-figure">
+<div id="submission-dag" class="figure-container" data-graph="submissions"></div>
+<div class="graph-tooltip" role="tooltip" hidden></div>
+<figcaption class="graph-legend" aria-label="Submission map legend"><span><i class="legend-node stroke-own"></i>This submission</span><span><i class="legend-node stroke-ext"></i>Other submission</span><span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B's concepts build on A</span><span><i class="legend-arrow proof-dep" aria-hidden="true">→</i>A → B: only B's proofs build on A</span></figcaption>
+</figure>
 </section>
 <section class="page-section"><h3 class="section-title" id="citation">Cite this</h3>
 <div class="citation-box">
@@ -107,7 +146,12 @@
 <output class="citation-copy-status" aria-live="polite"></output>
 </div>
 </section>
-
+<section class="page-section"><h3 class="section-title">References</h3>
+<ol class="reference-list">
+<li id="ref-BojanczykDaviaudKrishna2018">Mikołaj Bojańczyk, Laure Daviaud and Shankara Narayanan Krishna. <span class="reference-title">Regular and First-Order List Functions</span>. In Proceedings of the 33rd Annual ACM/IEEE Symposium on Logic in Computer Science (LICS 2018) 125–134, 2018. <a href="https://doi.org/10.1145/3209108.3209163">doi:10.1145/3209108.3209163</a></li>
+<li id="ref-Bojanczyk-transducers">Mikołaj Bojańczyk. <span class="reference-title">Transducers</span>. 2026. Book in preparation; sources at r̆lhttps://github.com/bojanczyk/transducer-book.</li>
+</ol>
+</section>
 <section class="page-section discussion-section" aria-labelledby="discussion-title">
 <div class="discussion-heading">
 <div class="discussion-heading-copy">
@@ -123,7 +167,7 @@
 </div>
 <noscript><p class="discussion-unavailable">Enable JavaScript to read or join the discussion.</p></noscript>
 </section>
-<script type="application/json" id="graph-data">{"concepts":{"nodes":[],"edges":[],"home":"lax-709149"},"proofs":{"statements":[],"proofs":[],"home":"lax-709149"},"submissions":{"nodes":[{"id":"lax-709149","href":"../lax-709149/index.html","title":"Transducers, Part C: Regular Functions in Terms of Combinators","state":"draft","concepts":0,"proofs":0,"dir":"core","ext":false}],"edges":[]}}</script>
+<script type="application/json" id="graph-data">{"concepts":{"nodes":[{"id":"Lax132576.LabelledAutomata","href":"../lax-132576/Lax132576.LabelledAutomata.html","title":"Automata with labelled transitions","owner":"lax-132576","status":"none","ext":true,"dir":"up"},{"id":"Lax132576.RationalFunctions","href":"../lax-132576/Lax132576.RationalFunctions.html","title":"Rational functions","owner":"lax-132576","status":"none","ext":true,"dir":"up"},{"id":"Lax132576.RationalRelations","href":"../lax-132576/Lax132576.RationalRelations.html","title":"Nondeterministic automata with output and rational relations","owner":"lax-132576","status":"none","ext":true,"dir":"up"},{"id":"Lax709149.RegularOfTerm","href":"../lax-709149/Lax709149.RegularOfTerm.html","title":"Regular terms define regular functions","owner":"lax-709149","status":"open","ext":false,"dir":"core"},{"id":"Lax709149.RegularTerms","href":"../lax-709149/Lax709149.RegularTerms.html","title":"Regular terms","owner":"lax-709149","status":"none","ext":false,"dir":"core"},{"id":"Lax709149.RegularUnderRepresentation","href":"../lax-709149/Lax709149.RegularUnderRepresentation.html","title":"Regular functions on types under string representation","owner":"lax-709149","status":"none","ext":false,"dir":"core"},{"id":"Lax709149.Types","href":"../lax-709149/Lax709149.Types.html","title":"Types and their string representation","owner":"lax-709149","status":"none","ext":false,"dir":"core"},{"id":"Lax765601.CompositionClosure","href":"../lax-765601/Lax765601.CompositionClosure.html","title":"Closure of a family of functions under composition","owner":"lax-765601","status":"none","ext":true,"dir":"up"},{"id":"Lax765601.MapLifting","href":"../lax-765601/Lax765601.MapLifting.html","title":"Map lifting","owner":"lax-765601","status":"none","ext":true,"dir":"up"},{"id":"Lax916827.RegularFunctions","href":"../lax-916827/Lax916827.RegularFunctions.html","title":"Regular functions","owner":"lax-916827","status":"none","ext":true,"dir":"up"}],"edges":[{"from":"Lax132576.RationalRelations","to":"Lax132576.RationalFunctions"},{"from":"Lax132576.LabelledAutomata","to":"Lax132576.RationalRelations"},{"from":"Lax709149.RegularTerms","to":"Lax709149.RegularOfTerm"},{"from":"Lax709149.RegularUnderRepresentation","to":"Lax709149.RegularOfTerm"},{"from":"Lax709149.Types","to":"Lax709149.RegularTerms"},{"from":"Lax132576.RationalFunctions","to":"Lax709149.RegularUnderRepresentation"},{"from":"Lax709149.Types","to":"Lax709149.RegularUnderRepresentation"},{"from":"Lax916827.RegularFunctions","to":"Lax709149.RegularUnderRepresentation"},{"from":"Lax132576.RationalFunctions","to":"Lax916827.RegularFunctions"},{"from":"Lax765601.CompositionClosure","to":"Lax916827.RegularFunctions"},{"from":"Lax765601.MapLifting","to":"Lax916827.RegularFunctions"}],"home":"lax-709149"},"proofs":{"statements":[{"id":"Lax709149.RegularOfTerm.isRegularUnderRepr_of_isRegularTermFun","label":"Lax709149.RegularOfTerm","title":"Regular terms define regular functions","owner":"lax-709149","concept":"Lax709149.RegularOfTerm","index":1,"count":1,"href":"../lax-709149/Lax709149.RegularOfTerm.html#s-Lax709149.RegularOfTerm.isRegularUnderRepr_of_isRegularTermFun","proven":false,"ext":false}],"proofs":[],"home":"lax-709149"},"submissions":{"nodes":[{"id":"lax-132576","href":"../lax-132576/index.html","title":"Transducers, Part B: Rational Functions","state":"draft","concepts":42,"proofs":29,"dir":"up","ext":true},{"id":"lax-251941","href":"../lax-251941/index.html","title":"Undecidability of the Post Correspondence Problem","state":"draft","concepts":9,"proofs":6,"dir":"up","ext":true},{"id":"lax-709149","href":"../lax-709149/index.html","title":"Transducers, Part C: Regular Functions in Terms of Combinators","state":"draft","concepts":4,"proofs":0,"dir":"core","ext":false},{"id":"lax-765601","href":"../lax-765601/index.html","title":"Transducers, Part A: Mealy Machines","state":"draft","concepts":22,"proofs":13,"dir":"up","ext":true},{"id":"lax-916827","href":"../lax-916827/index.html","title":"Transducers, Part C: Regular Functions, Two-Way Transducers and Streaming String Transducers","state":"draft","concepts":29,"proofs":0,"dir":"up","ext":true}],"edges":[{"from":"lax-251941","to":"lax-132576","kind":"proofs"},{"from":"lax-765601","to":"lax-132576","kind":"concepts"},{"from":"lax-132576","to":"lax-709149","kind":"concepts"},{"from":"lax-916827","to":"lax-709149","kind":"concepts"},{"from":"lax-132576","to":"lax-916827","kind":"concepts"},{"from":"lax-765601","to":"lax-916827","kind":"concepts"}]}}</script>
 </div>
 <footer class="site-footer">
   <nav class="site-footer-nav" aria-label="Legal and about">
