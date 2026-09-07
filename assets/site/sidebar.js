@@ -2,6 +2,10 @@
 // the DOM (data-search / data-type attributes); nothing is fetched.
 (() => {
   const SUBMISSION_PAGE_SIZE = 10;
+  const SIDEBAR_DEFAULT_WIDTH = 285;
+  const SIDEBAR_MIN_WIDTH = 220;
+  const SIDEBAR_MAX_WIDTH = 520;
+  const SIDEBAR_WIDTH_STORAGE_KEY = 'lax-sidebar-width';
   let searchHasSelectedRead = false;
   let selectedTag = '';
   let submissionFilterKey;
@@ -296,6 +300,91 @@
     window.addEventListener('resize', hide);
   }
 
+  function setupSidebarResize() {
+    const sidebar = document.getElementById('sidebar');
+    const resizer = document.getElementById('sidebar-resizer');
+    if (!sidebar || !resizer || !document.documentElement?.style) return;
+
+    function storedWidth() {
+      try {
+        const value = Number.parseFloat(localStorage.getItem(SIDEBAR_WIDTH_STORAGE_KEY) || '');
+        return Number.isFinite(value) ? value : undefined;
+      } catch {
+        return undefined;
+      }
+    }
+
+    function saveWidth(value) {
+      try {
+        localStorage.setItem(SIDEBAR_WIDTH_STORAGE_KEY, String(Math.round(value)));
+      } catch {
+        // Resizing still works when storage is unavailable or disabled.
+      }
+    }
+
+    function clampWidth(value) {
+      return Math.min(SIDEBAR_MAX_WIDTH, Math.max(SIDEBAR_MIN_WIDTH, value));
+    }
+
+    let width = clampWidth(storedWidth() ?? SIDEBAR_DEFAULT_WIDTH);
+    let dragStartX = 0;
+    let dragStartWidth = width;
+    let dragging = false;
+
+    function applyWidth(value) {
+      width = clampWidth(value);
+      document.documentElement.style.setProperty('--sidebar-width', `${Math.round(width)}px`);
+      resizer.setAttribute('aria-valuenow', String(Math.round(width)));
+    }
+
+    function notifyLayoutChange() {
+      window.dispatchEvent(new Event('resize'));
+    }
+
+    function finishResize(event) {
+      if (!dragging) return;
+      dragging = false;
+      document.body.classList.remove('sidebar-resizing');
+      saveWidth(width);
+      if (event?.pointerId !== undefined && resizer.hasPointerCapture?.(event.pointerId))
+        resizer.releasePointerCapture(event.pointerId);
+      notifyLayoutChange();
+    }
+
+    applyWidth(width);
+
+    resizer.addEventListener('pointerdown', (event) => {
+      if (isMobile() || event.button !== 0) return;
+      event.preventDefault();
+      dragging = true;
+      dragStartX = event.clientX;
+      dragStartWidth = width;
+      document.body.classList.add('sidebar-resizing');
+      resizer.setPointerCapture?.(event.pointerId);
+    });
+    resizer.addEventListener('pointermove', (event) => {
+      if (!dragging) return;
+      applyWidth(dragStartWidth + event.clientX - dragStartX);
+    });
+    resizer.addEventListener('pointerup', finishResize);
+    resizer.addEventListener('pointercancel', finishResize);
+    resizer.addEventListener('lostpointercapture', finishResize);
+    window.addEventListener('blur', finishResize);
+    resizer.addEventListener('keydown', (event) => {
+      let nextWidth;
+      const step = event.shiftKey ? 32 : 10;
+      if (event.key === 'ArrowLeft') nextWidth = width - step;
+      if (event.key === 'ArrowRight') nextWidth = width + step;
+      if (event.key === 'Home') nextWidth = SIDEBAR_MIN_WIDTH;
+      if (event.key === 'End') nextWidth = SIDEBAR_MAX_WIDTH;
+      if (nextWidth === undefined) return;
+      event.preventDefault();
+      applyWidth(nextWidth);
+      saveWidth(width);
+      notifyLayoutChange();
+    });
+  }
+
   function setupToggle() {
     const sidebar = document.getElementById('sidebar');
     const backdrop = document.getElementById('sidebar-backdrop');
@@ -342,6 +431,7 @@
     setupTagFilters();
     applyFilters();
     setupEntryTooltips();
+    setupSidebarResize();
     setupToggle();
   }
 

@@ -134,6 +134,7 @@ export function page(shell: PageShell): string {
 <aside id="sidebar">
 ${shell.sidebar}
 </aside>
+<div id="sidebar-resizer" class="sidebar-resizer" role="separator" aria-label="Resize sidebar" aria-controls="sidebar" aria-orientation="vertical" aria-valuemin="220" aria-valuemax="520" aria-valuenow="285" tabindex="0" title="Drag to resize sidebar"></div>
 <section id="main"><div id="detail"${shell.detailClass ? ` class="${attr(shell.detailClass)}"` : ""}>
 ${shell.content}
 </div>

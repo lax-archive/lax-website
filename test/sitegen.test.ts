@@ -479,6 +479,7 @@ After the formula.`, "");
     expect(sidebarScript).toContain("const SUBMISSION_PAGE_SIZE = 10");
     expect(sidebarScript).toContain("function applySubmissionPagination(list, total)");
     expect(sidebarScript).toContain("submissionVisibleLimit += SUBMISSION_PAGE_SIZE");
+    expect(sidebarScript).toContain("function setupSidebarResize()");
   });
 
   it("rejects generated page paths that escape the output directory", async () => {
@@ -596,6 +597,7 @@ After the formula.`, "");
     expect(index).toContain('data-account-login');
     expect(index).toContain('data-account-settings');
     expect(index).toContain('<nav class="header-actions" aria-label="Account">');
+    expect(index).toContain('id="sidebar-resizer" class="sidebar-resizer" role="separator" aria-label="Resize sidebar"');
     expect(index).not.toContain('class="header-submit"');
     expect(index).toContain('<span>Sign in with ORCID</span>');
     expect(index).toContain('id="account-dialog"');
