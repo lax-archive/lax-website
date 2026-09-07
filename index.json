@@ -996,6 +996,81 @@
       ]
     },
     {
+      "id": "lax-53",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "MSO and tree automata on finite ranked trees",
+      "concepts": [
+        {
+          "id": "Lax53.AutomatonLinearTime",
+          "title": "Word-RAM evaluation of tree automata",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax53.Determinization",
+          "title": "Determinization of tree automata",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax53.MSOLinearTime",
+          "title": "Uniform word-RAM model checking for intrinsic MSO sentences",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax53.MSOTreeAutomataEquivalence",
+          "title": "Thatcher–Wright–Doner theorem for finite ranked trees",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax53.RankedTree",
+          "title": "Finite ranked trees",
+          "type": "definition"
+        },
+        {
+          "id": "Lax53.StructuralRepresentations",
+          "title": "Certified structural representations for ranked-tree model checking",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax53.TreeAutomaton",
+          "title": "Bottom-up tree automata",
+          "type": "definition"
+        },
+        {
+          "id": "Lax53.TreeModelCheckingEncoding",
+          "title": "Distinguished structural inputs for tree-automaton evaluation",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax53.TreeStructure",
+          "title": "Ranked trees as finite relational structures",
+          "type": "definition"
+        },
+        {
+          "id": "Lax53.ValueTranslations",
+          "title": "Value-level translations between MSO and tree automata",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax53Proofs.AutomatonLinearTime.exists_fixed_automatonAcceptance_proof",
+        "Lax53Proofs.AutomatonLinearTime.exists_uniform_automatonAcceptance_proof",
+        "Lax53Proofs.Determinization.exists_deterministic_equivalent_proof",
+        "Lax53Proofs.FixedSentenceModelChecking.exists_fixed_sentence_modelChecking_proof",
+        "Lax53Proofs.IntrinsicUniformModelChecking.exists_uniform_msoModelChecking_proof",
+        "Lax53Proofs.MSOLinearTime.modelCheckingInput_length_proof",
+        "Lax53Proofs.MSOToTreeAutomata.mso_definable_is_recognizable_proof",
+        "Lax53Proofs.MSOTreeAutomataEquivalence.recognizable_iff_msoDefinable_proof",
+        "Lax53Proofs.StructuralRepresentations.formula_structural_proof",
+        "Lax53Proofs.StructuralRepresentations.sentence_lawful_proof",
+        "Lax53Proofs.StructuralRepresentations.tree_lawful_proof",
+        "Lax53Proofs.StructuralRepresentations.tree_structural_proof",
+        "Lax53Proofs.TreeAutomataToMSO.automaton_definable_by_mso_proof",
+        "Lax53Proofs.TreeModelCheckingEncoding.automatonInput_length_proof",
+        "Lax53Proofs.ValueTranslations.language_equivalence_proof"
+      ]
+    },
+    {
       "id": "lax-54",
       "state": "draft",
       "environment": "v4.30.0",

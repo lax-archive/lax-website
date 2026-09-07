@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://comments.laxarchive.org; style-src 'self' 'unsafe-inline'; img-src https: data:; font-src 'self'; frame-src https://comments.laxarchive.org; connect-src https://comments.laxarchive.org">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Lax — an archive of formalized mathematical concepts and their proofs">
+<title>Uniform word-RAM model checking for intrinsic MSO sentences — Lax53.MSOLinearTime</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
+<link rel="stylesheet" href="../assets/style.css?v=76a1570ffb9d">
+</head><body>
+<header class="site-header">
+  <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
+  <h1 class="site-title"><a href="../index.html">Lax <span class="site-title-quiet">Lean Archive</span></a></h1>
+  <nav class="header-actions" aria-label="Account">
+    <div class="account-header" data-account-root data-remark42-host="https://comments.laxarchive.org" data-remark42-site="remark" data-identity-url="https://comments.laxarchive.org/reactions/v1/identity">
+  <a class="account-control" data-account-login href="https://comments.laxarchive.org/auth/orcid/login?from=https%3A%2F%2Flaxarchive.org&amp;site=remark"><span class="orcid-mark" aria-hidden="true">iD</span><span>Sign in with ORCID</span></a>
+  <button class="account-control" data-account-settings type="button" aria-haspopup="dialog" aria-controls="account-dialog" hidden><span class="orcid-mark" aria-hidden="true">iD</span><span>Settings</span></button>
+</div>
+  </nav>
+</header>
+<main id="content-shell">
+<div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+<aside id="sidebar">
+<a class="sidebar-back" href="../lax-53/index.html"><span class="sidebar-back-arrow" aria-hidden="true">←</span>lax-53</a>
+<div class="sidebar-filters"><div class="filter-group">
+<label for="filter-search">Search</label>
+<input id="filter-search" class="filter-input" type="search" placeholder="Filter entries" aria-controls="entry-list">
+</div>
+<div class="filter-group">
+<label for="filter-type">Type</label>
+<select id="filter-type" class="filter-select">
+<option value="all">All types</option>
+<option value="definition">definition</option>
+<option value="definition and theorem">definition and theorem</option>
+<option value="theorem">theorem</option>
+<option value="proof">proof</option>
+</select>
+</div></div>
+<ul id="entry-list">
+<li class="entry-heading" aria-hidden="true">Concepts</li>
+<li data-type="theorem" data-search="lax53.automatonlineartime word-ram evaluation of tree automata theorem"><a class="entry-link" href="../lax-53/Lax53.AutomatonLinearTime.html" data-full-title="Word-RAM evaluation of tree automata"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax53.AutomatonLinearTime</span></span></a></li>
+<li data-type="theorem" data-search="lax53.determinization determinization of tree automata theorem"><a class="entry-link" href="../lax-53/Lax53.Determinization.html" data-full-title="Determinization of tree automata"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax53.Determinization</span></span></a></li>
+<li class="active" data-type="definition and theorem" data-search="lax53.msolineartime uniform word-ram model checking for intrinsic mso sentences definition and theorem"><a class="entry-link" href="../lax-53/Lax53.MSOLinearTime.html" data-full-title="Uniform word-RAM model checking for intrinsic MSO sentences"><span class="entry-label"><span class="type-badge proven" title="definition and theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">def✓</span><span class="entry-label-text">Lax53.MSOLinearTime</span></span></a></li>
+<li data-type="theorem" data-search="lax53.msotreeautomataequivalence thatcher–wright–doner theorem for finite ranked trees theorem"><a class="entry-link" href="../lax-53/Lax53.MSOTreeAutomataEquivalence.html" data-full-title="Thatcher–Wright–Doner theorem for finite ranked trees"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax53.MSOTreeAutomataEquivalence</span></span></a></li>
+<li data-type="definition" data-search="lax53.rankedtree finite ranked trees definition"><a class="entry-link" href="../lax-53/Lax53.RankedTree.html" data-full-title="Finite ranked trees"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax53.RankedTree</span></span></a></li>
+<li data-type="definition and theorem" data-search="lax53.structuralrepresentations certified structural representations for ranked-tree model checking definition and theorem"><a class="entry-link" href="../lax-53/Lax53.StructuralRepresentations.html" data-full-title="Certified structural representations for ranked-tree model checking"><span class="entry-label"><span class="type-badge proven" title="definition and theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">def✓</span><span class="entry-label-text">Lax53.StructuralRepresentations</span></span></a></li>
+<li data-type="definition" data-search="lax53.treeautomaton bottom-up tree automata definition"><a class="entry-link" href="../lax-53/Lax53.TreeAutomaton.html" data-full-title="Bottom-up tree automata"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax53.TreeAutomaton</span></span></a></li>
+<li data-type="definition and theorem" data-search="lax53.treemodelcheckingencoding distinguished structural inputs for tree-automaton evaluation definition and theorem"><a class="entry-link" href="../lax-53/Lax53.TreeModelCheckingEncoding.html" data-full-title="Distinguished structural inputs for tree-automaton evaluation"><span class="entry-label"><span class="type-badge proven" title="definition and theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">def✓</span><span class="entry-label-text">Lax53.TreeModelCheckingEncoding</span></span></a></li>
+<li data-type="definition" data-search="lax53.treestructure ranked trees as finite relational structures definition"><a class="entry-link" href="../lax-53/Lax53.TreeStructure.html" data-full-title="Ranked trees as finite relational structures"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax53.TreeStructure</span></span></a></li>
+<li data-type="theorem" data-search="lax53.valuetranslations value-level translations between mso and tree automata theorem"><a class="entry-link" href="../lax-53/Lax53.ValueTranslations.html" data-full-title="Value-level translations between MSO and tree automata"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax53.ValueTranslations</span></span></a></li>
+<li class="entry-heading" aria-hidden="true">Proofs</li>
+<li data-type="proof" data-search="lax53proofs.automatonlineartime.exists_fixed_automatonacceptance_proof proof"><a class="entry-link" href="../lax-53/Lax53Proofs.AutomatonLinearTime.exists_fixed_automatonAcceptance_proof.html" data-full-title="Lax53Proofs.AutomatonLinearTime.exists_fixed_automatonAcceptance_proof"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax53Proofs.AutomatonLinearTime.exists_fixed_automatonAcceptance_proof</span></span></a></li>
+<li data-type="proof" data-search="lax53proofs.automatonlineartime.exists_uniform_automatonacceptance_proof proof"><a class="entry-link" href="../lax-53/Lax53Proofs.AutomatonLinearTime.exists_uniform_automatonAcceptance_proof.html" data-full-title="Lax53Proofs.AutomatonLinearTime.exists_uniform_automatonAcceptance_proof"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax53Proofs.AutomatonLinearTime.exists_uniform_automatonAcceptance_proof</span></span></a></li>
+<li data-type="proof" data-search="lax53proofs.determinization.exists_deterministic_equivalent_proof proof"><a class="entry-link" href="../lax-53/Lax53Proofs.Determinization.exists_deterministic_equivalent_proof.html" data-full-title="Lax53Proofs.Determinization.exists_deterministic_equivalent_proof"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax53Proofs.Determinization.exists_deterministic_equivalent_proof</span></span></a></li>
+<li data-type="proof" data-search="lax53proofs.fixedsentencemodelchecking.exists_fixed_sentence_modelchecking_proof proof"><a class="entry-link" href="../lax-53/Lax53Proofs.FixedSentenceModelChecking.exists_fixed_sentence_modelChecking_proof.html" data-full-title="Lax53Proofs.FixedSentenceModelChecking.exists_fixed_sentence_modelChecking_proof"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax53Proofs.FixedSentenceModelChecking.exists_fixed_sentence_modelChecking_proof</span></span></a></li>
+<li data-type="proof" data-search="lax53proofs.intrinsicuniformmodelchecking.exists_uniform_msomodelchecking_proof proof"><a class="entry-link" href="../lax-53/Lax53Proofs.IntrinsicUniformModelChecking.exists_uniform_msoModelChecking_proof.html" data-full-title="Lax53Proofs.IntrinsicUniformModelChecking.exists_uniform_msoModelChecking_proof"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax53Proofs.IntrinsicUniformModelChecking.exists_uniform_msoModelChecking_proof</span></span></a></li>
+<li data-type="proof" data-search="lax53proofs.msolineartime.modelcheckinginput_length_proof proof"><a class="entry-link" href="../lax-53/Lax53Proofs.MSOLinearTime.modelCheckingInput_length_proof.html" data-full-title="Lax53Proofs.MSOLinearTime.modelCheckingInput_length_proof"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax53Proofs.MSOLinearTime.modelCheckingInput_length_proof</span></span></a></li>
+<li data-type="proof" data-search="lax53proofs.msototreeautomata.mso_definable_is_recognizable_proof proof"><a class="entry-link" href="../lax-53/Lax53Proofs.MSOToTreeAutomata.mso_definable_is_recognizable_proof.html" data-full-title="Lax53Proofs.MSOToTreeAutomata.mso_definable_is_recognizable_proof"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax53Proofs.MSOToTreeAutomata.mso_definable_is_recognizable_proof</span></span></a></li>
+<li data-type="proof" data-search="lax53proofs.msotreeautomataequivalence.recognizable_iff_msodefinable_proof proof"><a class="entry-link" href="../lax-53/Lax53Proofs.MSOTreeAutomataEquivalence.recognizable_iff_msoDefinable_proof.html" data-full-title="Lax53Proofs.MSOTreeAutomataEquivalence.recognizable_iff_msoDefinable_proof"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax53Proofs.MSOTreeAutomataEquivalence.recognizable_iff_msoDefinable_proof</span></span></a></li>
+<li data-type="proof" data-search="lax53proofs.structuralrepresentations.formula_structural_proof proof"><a class="entry-link" href="../lax-53/Lax53Proofs.StructuralRepresentations.formula_structural_proof.html" data-full-title="Lax53Proofs.StructuralRepresentations.formula_structural_proof"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax53Proofs.StructuralRepresentations.formula_structural_proof</span></span></a></li>
+<li data-type="proof" data-search="lax53proofs.structuralrepresentations.sentence_lawful_proof proof"><a class="entry-link" href="../lax-53/Lax53Proofs.StructuralRepresentations.sentence_lawful_proof.html" data-full-title="Lax53Proofs.StructuralRepresentations.sentence_lawful_proof"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax53Proofs.StructuralRepresentations.sentence_lawful_proof</span></span></a></li>
+<li data-type="proof" data-search="lax53proofs.structuralrepresentations.tree_lawful_proof proof"><a class="entry-link" href="../lax-53/Lax53Proofs.StructuralRepresentations.tree_lawful_proof.html" data-full-title="Lax53Proofs.StructuralRepresentations.tree_lawful_proof"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax53Proofs.StructuralRepresentations.tree_lawful_proof</span></span></a></li>
+<li data-type="proof" data-search="lax53proofs.structuralrepresentations.tree_structural_proof proof"><a class="entry-link" href="../lax-53/Lax53Proofs.StructuralRepresentations.tree_structural_proof.html" data-full-title="Lax53Proofs.StructuralRepresentations.tree_structural_proof"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax53Proofs.StructuralRepresentations.tree_structural_proof</span></span></a></li>
+<li data-type="proof" data-search="lax53proofs.treeautomatatomso.automaton_definable_by_mso_proof proof"><a class="entry-link" href="../lax-53/Lax53Proofs.TreeAutomataToMSO.automaton_definable_by_mso_proof.html" data-full-title="Lax53Proofs.TreeAutomataToMSO.automaton_definable_by_mso_proof"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax53Proofs.TreeAutomataToMSO.automaton_definable_by_mso_proof</span></span></a></li>
+<li data-type="proof" data-search="lax53proofs.treemodelcheckingencoding.automatoninput_length_proof proof"><a class="entry-link" href="../lax-53/Lax53Proofs.TreeModelCheckingEncoding.automatonInput_length_proof.html" data-full-title="Lax53Proofs.TreeModelCheckingEncoding.automatonInput_length_proof"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax53Proofs.TreeModelCheckingEncoding.automatonInput_length_proof</span></span></a></li>
+<li data-type="proof" data-search="lax53proofs.valuetranslations.language_equivalence_proof proof"><a class="entry-link" href="../lax-53/Lax53Proofs.ValueTranslations.language_equivalence_proof.html" data-full-title="Lax53Proofs.ValueTranslations.language_equivalence_proof"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax53Proofs.ValueTranslations.language_equivalence_proof</span></span></a></li>
+<li id="entry-list-empty" hidden>No entries match.</li>
+</ul>
+</aside>
+<section id="main"><div id="detail">
+<p class="draft-banner"><strong>Draft</strong> — mutable and not usable as a dependency; its citation marks the draft state.</p>
+<div class="detail-heading concept-heading">
+<div><p class="concept-id"><code>Lax53.MSOLinearTime</code></p>
+<h1 class="concept-title">Uniform word-RAM model checking for intrinsic MSO sentences</h1>
+<p class="concept-microline"><code>concepts/Lax53/MSOLinearTime.lean</code> · <a href="index.html">lax-53</a></p></div>
+<span class="status-pills"><span class="status-pill pill-proven" title="Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">proven</span></span>
+</div>
+<section class="page-reactions" aria-label="Community review" data-reactions-host="https://comments.laxarchive.org" data-reactions-url="https://laxarchive.org/lax-53/Lax53.MSOLinearTime.html" data-review-kind="concept" data-source-lines="185">
+<div class="page-reactions-actions">
+<div class="page-reaction-control">
+<button class="page-reaction-button" type="button" data-reaction="endorse" aria-pressed="false" title="Say that this concept is correct"><span class="page-reaction-icon" aria-hidden="true">✅</span><span>Endorse</span></button>
+<button class="page-reaction-voters" type="button" data-reaction-voters="endorse" aria-expanded="false" aria-controls="page-reaction-voters-endorse"><strong data-reaction-count="endorse">0</strong><span class="visually-hidden">Show people who endorse this concept</span></button>
+<div class="page-reaction-voters-popover" id="page-reaction-voters-endorse" data-reaction-voters-popover="endorse" hidden><p data-reaction-empty>No public endorsements yet.</p><ul></ul></div>
+</div>
+<div class="page-reaction-control page-flag-control">
+<button class="page-reaction-button" type="button" data-reaction="flag" aria-pressed="false" aria-haspopup="dialog" title="Explain why this concept may be false"><span class="page-reaction-icon" aria-hidden="true">🚩</span><span>Flag</span></button>
+<button class="page-reaction-voters" type="button" data-flag-list-open aria-haspopup="dialog" aria-controls="page-flag-list"><strong data-reaction-count="flag">0</strong><span class="visually-hidden">Show flags for this concept</span></button>
+</div>
+</div>
+<p class="page-reactions-status" data-reactions-status role="status">Loading review…</p>
+<a class="visually-hidden" data-reactions-login href="https://comments.laxarchive.org/auth/orcid/login?site=remark&amp;from=https%3A%2F%2Flaxarchive.org%2Flax-53%2FLax53.MSOLinearTime.html">Sign in with ORCID</a>
+<dialog class="review-dialog flag-list-dialog" id="page-flag-list" data-flag-list-dialog aria-labelledby="page-flag-list-title">
+<div class="review-dialog-header"><div><p class="discussion-eyebrow">Community review</p><h2 id="page-flag-list-title">Flags</h2></div><button class="review-dialog-close" type="button" data-flag-list-close aria-label="Close flags">×</button></div>
+<p class="review-dialog-intro">Each flag is tied to a public ORCID identity and explains why this concept may be incorrect.</p>
+<p data-flag-list-empty>No flags have been submitted.</p><ol class="flag-list" data-flag-list></ol>
+</dialog>
+<dialog class="review-dialog flag-editor-dialog" id="page-flag-editor" data-flag-editor aria-labelledby="page-flag-editor-title">
+<form data-flag-form>
+<div class="review-dialog-header"><div><p class="discussion-eyebrow">Community review</p><h2 id="page-flag-editor-title">Flag this concept</h2></div><button class="review-dialog-close" type="button" data-flag-cancel aria-label="Close flag form">×</button></div>
+<p class="review-dialog-intro">State precisely what appears incorrect. This explanation will be public under your ORCID name.</p>
+<label class="flag-message-label" for="page-flag-message">What is wrong?</label>
+<textarea id="page-flag-message" data-flag-message rows="6" maxlength="2000" required placeholder="Describe the incorrect claim, missing assumption, or counterexample."></textarea>
+<div class="flag-line-fields"><input type="hidden" data-flag-line><button class="secondary-button" type="button" data-flag-line-picker>Choose from source</button><p class="flag-line-selection" data-flag-line-selection aria-live="polite">No source line selected.</p></div>
+<p class="flag-form-status" data-flag-form-status role="status"></p>
+<div class="review-dialog-actions"><button class="danger-button" type="button" data-flag-remove hidden>Remove my flag</button><span></span><button class="secondary-button" type="button" data-flag-cancel>Cancel</button><button class="primary-button" type="submit">Publish flag</button></div>
+</form>
+</dialog>
+<noscript><p class="page-reactions-noscript"><a href="https://comments.laxarchive.org/auth/orcid/login?site=remark&amp;from=https%3A%2F%2Flaxarchive.org%2Flax-53%2FLax53.MSOLinearTime.html">Sign in with ORCID</a> to review this page.</p></noscript>
+</section>
+<h4 class="figure-title">Concept map</h4>
+<figure class="graph-figure concept-root-graph">
+<button class="graph-expand" type="button" data-graph-expand data-graph-label="concept map" aria-expanded="false" aria-label="Open concept map in a large window" title="Open in large window"><svg class="graph-expand-open" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M2.5 6V2.5H6M10 2.5h3.5V6M13.5 10v3.5H10M6 13.5H2.5V10"/></svg><span class="graph-expand-close" aria-hidden="true">×</span></button>
+<div class="graph-toolbar"><button type="button" id="concept-expand" aria-controls="concept-dag" aria-pressed="true">Hide ancestors</button><button type="button" id="concept-descend" aria-controls="concept-dag" aria-pressed="false">Show descendants</button><output id="concept-graph-status" aria-live="polite"></output></div>
+<div id="concept-dag" class="figure-container" data-graph="concepts" data-ancestry="true"></div>
+<div class="graph-tooltip" role="tooltip" hidden></div>
+<figcaption class="graph-legend" aria-label="Concept map legend"><span><i class="legend-node fill-proven"></i>Proven claim</span><span><i class="legend-node fill-none"></i>Definition</span><span><i class="legend-node stroke-own"></i>This concept</span><span><i class="legend-node stroke-ext"></i>Related concept</span><span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B builds on A</span></figcaption>
+</figure>
+<div class="block block-evidence"><h3>Evidence</h3>
+<p class="evidence-intro">This concept declares 3 statements. Each proof establishes one of them relative to its assumptions.</p>
+<div class="evidence-statement"><h4><a href="#s-Lax53.MSOLinearTime.exists_fixed_sentence_modelChecking">1st statement</a> <code>exists_fixed_sentence_modelChecking</code> <span class="status-pill pill-proven" title="Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">proven</span></h4>
+<ul class="proof-list">
+<li class="proof-item">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-53/Lax53Proofs.FixedSentenceModelChecking.exists_fixed_sentence_modelChecking_proof.html" aria-label="Open proof Lax53Proofs.FixedSentenceModelChecking.exists_fixed_sentence_modelChecking_proof"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><p class="judgment-unconditional">no assumptions</p></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="definition and theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">def✓</span><a href="../lax-53/Lax53.MSOLinearTime.html#s-Lax53.MSOLinearTime.exists_fixed_sentence_modelChecking" title="Lax53.MSOLinearTime.exists_fixed_sentence_modelChecking"><code>Lax53.MSOLinearTime</code> <span class="claim-ordinal">(1st statement)</span></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-53/Lax53Proofs.FixedSentenceModelChecking.exists_fixed_sentence_modelChecking_proof.html"><code>Lax53Proofs.FixedSentenceModelChecking.exists_fixed_sentence_modelChecking_proof</code></a></p>
+</li>
+</ul>
+</div>
+<div class="evidence-statement"><h4><a href="#s-Lax53.MSOLinearTime.exists_uniform_msoModelChecking">2nd statement</a> <code>exists_uniform_msoModelChecking</code> <span class="status-pill pill-proven" title="Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">proven</span></h4>
+<ul class="proof-list">
+<li class="proof-item">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-53/Lax53Proofs.IntrinsicUniformModelChecking.exists_uniform_msoModelChecking_proof.html" aria-label="Open proof Lax53Proofs.IntrinsicUniformModelChecking.exists_uniform_msoModelChecking_proof"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><p class="judgment-unconditional">no assumptions</p></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="definition and theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">def✓</span><a href="../lax-53/Lax53.MSOLinearTime.html#s-Lax53.MSOLinearTime.exists_uniform_msoModelChecking" title="Lax53.MSOLinearTime.exists_uniform_msoModelChecking"><code>Lax53.MSOLinearTime</code> <span class="claim-ordinal">(2nd statement)</span></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-53/Lax53Proofs.IntrinsicUniformModelChecking.exists_uniform_msoModelChecking_proof.html"><code>Lax53Proofs.IntrinsicUniformModelChecking.exists_uniform_msoModelChecking_proof</code></a></p>
+</li>
+</ul>
+</div>
+<div class="evidence-statement"><h4><a href="#s-Lax53.MSOLinearTime.modelCheckingInput_length">3rd statement</a> <code>modelCheckingInput_length</code> <span class="status-pill pill-proven" title="Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">proven</span></h4>
+<ul class="proof-list">
+<li class="proof-item">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-53/Lax53Proofs.MSOLinearTime.modelCheckingInput_length_proof.html" aria-label="Open proof Lax53Proofs.MSOLinearTime.modelCheckingInput_length_proof"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><ul><li><span class="claim-entry"><span class="type-badge proven" title="definition and theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">def✓</span><a href="../lax-58/Lax58.WordArena.html" title="Lax58.WordArena"><code>Lax58.WordArena</code></a></span></li></ul></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="definition and theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">def✓</span><a href="../lax-53/Lax53.MSOLinearTime.html#s-Lax53.MSOLinearTime.modelCheckingInput_length" title="Lax53.MSOLinearTime.modelCheckingInput_length"><code>Lax53.MSOLinearTime</code> <span class="claim-ordinal">(3rd statement)</span></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-53/Lax53Proofs.MSOLinearTime.modelCheckingInput_length_proof.html"><code>Lax53Proofs.MSOLinearTime.modelCheckingInput_length_proof</code></a></p>
+</li>
+</ul>
+</div>
+</div>
+
+<div class="block block-statement"><h3>Definition and theorem</h3><div class="latex-content"><p>One fixed word-RAM program decides monadic second-order satisfaction when the
+ranked alphabet, the intrinsically scoped Lax-52 sentence, and the ranked tree
+are all supplied at runtime. Their sole machine input is the distinguished
+constructor-certified Lax-58 arena. The actual Lax-13 instruction bound
+includes all sentence-to-automaton compilation and tree-automaton evaluation.</p>
+<p>The resource coefficients are computable functions only of the constructor
+size of the alphabet and sentence and of the largest symbol rank. This leaves
+the unavoidable nonelementary dependence on the sentence abstract while
+stating the uniform runtime in terms of mathematical sizes rather than a
+serialization. For a fixed alphabet and sentence, a separate companion
+program receives only the tree and runs linearly in its number of nodes.</p>
+<p>The reusable Lax58 predicate packages the single program, every sufficient
+word width, and the payload/address/capacity premises. No constructor tags,
+arena offsets, compiled automata, or intermediate syntax belong to this
+concept.</p>
+</div></div>
+<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/szymtor/lax53/blob/a6c430547f2da496e2155c29533248464245b10e/concepts/Lax53/MSOLinearTime.lean">view on GitHub</a></h3>
+<div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Computability.Partrec</span></td></tr>
+<tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax58.RamComplexity</span></td></tr>
+<tr id="L3" class=""><td class="line-num"><a href="#L3">3</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax53.StructuralRepresentations</span></td></tr>
+<tr id="L4" class=""><td class="line-num"><a href="#L4">4</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax53.TreeModelCheckingEncoding</span></td></tr>
+<tr id="L5" class=""><td class="line-num"><a href="#L5">5</a></td><td class="line-code"> </td></tr>
+<tr id="L6" class=""><td class="line-num"><a href="#L6">6</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
+<tr id="L7" class=""><td class="line-num"><a href="#L7">7</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
+<tr id="L8" class=""><td class="line-num"><a href="#L8">8</a></td><td class="line-code"><span style="color:#6A737D">title: Uniform word-RAM model checking for intrinsic MSO sentences</span></td></tr>
+<tr id="L9" class=""><td class="line-num"><a href="#L9">9</a></td><td class="line-code"><span style="color:#6A737D">type: definition and theorem</span></td></tr>
+<tr id="L10" class=""><td class="line-num"><a href="#L10">10</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
+<tr id="L11" class=""><td class="line-num"><a href="#L11">11</a></td><td class="line-code"> </td></tr>
+<tr id="L12" class=""><td class="line-num"><a href="#L12">12</a></td><td class="line-code"><span style="color:#6A737D">One fixed word-RAM program decides monadic second-order satisfaction when the</span></td></tr>
+<tr id="L13" class=""><td class="line-num"><a href="#L13">13</a></td><td class="line-code"><span style="color:#6A737D">ranked alphabet, the intrinsically scoped Lax-52 sentence, and the ranked tree</span></td></tr>
+<tr id="L14" class=""><td class="line-num"><a href="#L14">14</a></td><td class="line-code"><span style="color:#6A737D">are all supplied at runtime. Their sole machine input is the distinguished</span></td></tr>
+<tr id="L15" class=""><td class="line-num"><a href="#L15">15</a></td><td class="line-code"><span style="color:#6A737D">constructor-certified Lax-58 arena. The actual Lax-13 instruction bound</span></td></tr>
+<tr id="L16" class=""><td class="line-num"><a href="#L16">16</a></td><td class="line-code"><span style="color:#6A737D">includes all sentence-to-automaton compilation and tree-automaton evaluation.</span></td></tr>
+<tr id="L17" class=""><td class="line-num"><a href="#L17">17</a></td><td class="line-code"> </td></tr>
+<tr id="L18" class=""><td class="line-num"><a href="#L18">18</a></td><td class="line-code"><span style="color:#6A737D">The resource coefficients are computable functions only of the constructor</span></td></tr>
+<tr id="L19" class=""><td class="line-num"><a href="#L19">19</a></td><td class="line-code"><span style="color:#6A737D">size of the alphabet and sentence and of the largest symbol rank. This leaves</span></td></tr>
+<tr id="L20" class=""><td class="line-num"><a href="#L20">20</a></td><td class="line-code"><span style="color:#6A737D">the unavoidable nonelementary dependence on the sentence abstract while</span></td></tr>
+<tr id="L21" class=""><td class="line-num"><a href="#L21">21</a></td><td class="line-code"><span style="color:#6A737D">stating the uniform runtime in terms of mathematical sizes rather than a</span></td></tr>
+<tr id="L22" class=""><td class="line-num"><a href="#L22">22</a></td><td class="line-code"><span style="color:#6A737D">serialization. For a fixed alphabet and sentence, a separate companion</span></td></tr>
+<tr id="L23" class=""><td class="line-num"><a href="#L23">23</a></td><td class="line-code"><span style="color:#6A737D">program receives only the tree and runs linearly in its number of nodes.</span></td></tr>
+<tr id="L24" class=""><td class="line-num"><a href="#L24">24</a></td><td class="line-code"> </td></tr>
+<tr id="L25" class=""><td class="line-num"><a href="#L25">25</a></td><td class="line-code"><span style="color:#6A737D">The reusable Lax58 predicate packages the single program, every sufficient</span></td></tr>
+<tr id="L26" class=""><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span style="color:#6A737D">word width, and the payload/address/capacity premises. No constructor tags,</span></td></tr>
+<tr id="L27" class=""><td class="line-num"><a href="#L27">27</a></td><td class="line-code"><span style="color:#6A737D">arena offsets, compiled automata, or intermediate syntax belong to this</span></td></tr>
+<tr id="L28" class=""><td class="line-num"><a href="#L28">28</a></td><td class="line-code"><span style="color:#6A737D">concept.</span></td></tr>
+<tr id="L29" class=""><td class="line-num"><a href="#L29">29</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
+<tr id="L30" class=""><td class="line-num"><a href="#L30">30</a></td><td class="line-code"> </td></tr>
+<tr id="L31" class=""><td class="line-num"><a href="#L31">31</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax53.MSOLinearTime</span></td></tr>
+<tr id="L32" class=""><td class="line-num"><a href="#L32">32</a></td><td class="line-code"> </td></tr>
+<tr id="L33" class=""><td class="line-num"><a href="#L33">33</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax52.MSOSyntax</span></td></tr>
+<tr id="L34" class=""><td class="line-num"><a href="#L34">34</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax53.RankedTree</span></td></tr>
+<tr id="L35" class=""><td class="line-num"><a href="#L35">35</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax53.TreeStructure</span></td></tr>
+<tr id="L36" class=""><td class="line-num"><a href="#L36">36</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax53.ValueTranslations</span></td></tr>
+<tr id="L37" class=""><td class="line-num"><a href="#L37">37</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax53.StructuralRepresentations</span></td></tr>
+<tr id="L38" class=""><td class="line-num"><a href="#L38">38</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax53.TreeModelCheckingEncoding</span></td></tr>
+<tr id="L39" class=""><td class="line-num"><a href="#L39">39</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax58.StructuralPresentation</span></td></tr>
+<tr id="L40" class=""><td class="line-num"><a href="#L40">40</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax58.StructuralPresentation.Presentation</span></td></tr>
+<tr id="L41" class=""><td class="line-num"><a href="#L41">41</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax58.StructuralCombinators</span></td></tr>
+<tr id="L42" class=""><td class="line-num"><a href="#L42">42</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax58.WordArena</span></td></tr>
+<tr id="L43" class=""><td class="line-num"><a href="#L43">43</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax58.RamComplexity</span></td></tr>
+<tr id="L44" class=""><td class="line-num"><a href="#L44">44</a></td><td class="line-code"> </td></tr>
+<tr id="L45" class=""><td class="line-num"><a href="#L45">45</a></td><td class="line-code"><span style="color:#6A737D">/-- Constructor size of an intrinsic MSO sentence, including its term and</span></td></tr>
+<tr id="L46" class=""><td class="line-num"><a href="#L46">46</a></td><td class="line-code"><span style="color:#6A737D">relation fields but excluding any physical arena layout. -/</span></td></tr>
+<tr id="L47" class=""><td class="line-num"><a href="#L47">47</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> sentenceSize</span><span style="color:#24292E"> (alphabet : RankedAlphabetCode)</span></td></tr>
+<tr id="L48" class=""><td class="line-num"><a href="#L48">48</a></td><td class="line-code"><span style="color:#24292E">    (phi : Sentence (treeSignature alphabet.toRankedAlphabet)) : Nat :=</span></td></tr>
+<tr id="L49" class=""><td class="line-num"><a href="#L49">49</a></td><td class="line-code"><span style="color:#24292E">  (formulaStructure alphabet phi).nodes</span></td></tr>
+<tr id="L50" class=""><td class="line-num"><a href="#L50">50</a></td><td class="line-code"> </td></tr>
+<tr id="L51" class=""><td class="line-num"><a href="#L51">51</a></td><td class="line-code"><span style="color:#6A737D">/-- Mathematical parameter size controlling the formula-dependent part of</span></td></tr>
+<tr id="L52" class=""><td class="line-num"><a href="#L52">52</a></td><td class="line-code"><span style="color:#6A737D">the uniform algorithm. Symbol arity is explicit because one natural payload</span></td></tr>
+<tr id="L53" class=""><td class="line-num"><a href="#L53">53</a></td><td class="line-code"><span style="color:#6A737D">can prescribe an arbitrarily large finite family. -/</span></td></tr>
+<tr id="L54" class=""><td class="line-num"><a href="#L54">54</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> parameterSize</span><span style="color:#24292E"> (alphabet : RankedAlphabetCode)</span></td></tr>
+<tr id="L55" class=""><td class="line-num"><a href="#L55">55</a></td><td class="line-code"><span style="color:#24292E">    (phi : Sentence (treeSignature alphabet.toRankedAlphabet)) : Nat :=</span></td></tr>
+<tr id="L56" class=""><td class="line-num"><a href="#L56">56</a></td><td class="line-code"><span style="color:#24292E">  (derivedPresentation : Presentation RankedAlphabetCode).structuralSize alphabet +</span></td></tr>
+<tr id="L57" class=""><td class="line-num"><a href="#L57">57</a></td><td class="line-code"><span style="color:#24292E">    sentenceSize alphabet phi + maximumRank alphabet</span></td></tr>
+<tr id="L58" class=""><td class="line-num"><a href="#L58">58</a></td><td class="line-code"> </td></tr>
+<tr id="L59" class=""><td class="line-num"><a href="#L59">59</a></td><td class="line-code"><span style="color:#6A737D">/-- A complete dependent model-checking input, bundled as one ordinary type</span></td></tr>
+<tr id="L60" class=""><td class="line-num"><a href="#L60">60</a></td><td class="line-code"><span style="color:#6A737D">for use with the reusable Lax58 RAM-complexity predicate. -/</span></td></tr>
+<tr id="L61" class=""><td class="line-num"><a href="#L61">61</a></td><td class="line-code"><span style="color:#D73A49">structure</span><span style="color:#6F42C1"> ModelCheckingInstance</span><span style="color:#D73A49"> where</span></td></tr>
+<tr id="L62" class=""><td class="line-num"><a href="#L62">62</a></td><td class="line-code"><span style="color:#24292E">  alphabet : RankedAlphabetCode</span></td></tr>
+<tr id="L63" class=""><td class="line-num"><a href="#L63">63</a></td><td class="line-code"><span style="color:#24292E">  sentence : Sentence (treeSignature alphabet.toRankedAlphabet)</span></td></tr>
+<tr id="L64" class=""><td class="line-num"><a href="#L64">64</a></td><td class="line-code"><span style="color:#24292E">  tree : Tree alphabet.toRankedAlphabet</span></td></tr>
+<tr id="L65" class=""><td class="line-num"><a href="#L65">65</a></td><td class="line-code"> </td></tr>
+<tr id="L66" class=""><td class="line-num"><a href="#L66">66</a></td><td class="line-code"><span style="color:#6A737D">/-- Complete constructor-derived content of one uniform model-checking</span></td></tr>
+<tr id="L67" class=""><td class="line-num"><a href="#L67">67</a></td><td class="line-code"><span style="color:#6A737D">instance. The dependent typing of the sentence and tree is enforced before</span></td></tr>
+<tr id="L68" class=""><td class="line-num"><a href="#L68">68</a></td><td class="line-code"><span style="color:#6A737D">this representation is formed. -/</span></td></tr>
+<tr id="L69" class=""><td class="line-num"><a href="#L69">69</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> msoTreeRaw</span><span style="color:#24292E"> (alphabet : RankedAlphabetCode)</span></td></tr>
+<tr id="L70" class=""><td class="line-num"><a href="#L70">70</a></td><td class="line-code"><span style="color:#24292E">    (phi : Sentence (treeSignature alphabet.toRankedAlphabet))</span></td></tr>
+<tr id="L71" class=""><td class="line-num"><a href="#L71">71</a></td><td class="line-code"><span style="color:#24292E">    (t : Tree alphabet.toRankedAlphabet) : Raw :=</span></td></tr>
+<tr id="L72" class=""><td class="line-num"><a href="#L72">72</a></td><td class="line-code"><span style="color:#24292E">  Raw.constructor </span><span style="color:#032F62">&quot;msoModelChecking&quot;</span></td></tr>
+<tr id="L73" class=""><td class="line-num"><a href="#L73">73</a></td><td class="line-code"><span style="color:#24292E">    [(derivedPresentation : Presentation RankedAlphabetCode).toRaw alphabet,</span></td></tr>
+<tr id="L74" class=""><td class="line-num"><a href="#L74">74</a></td><td class="line-code"><span style="color:#24292E">      formulaStructure alphabet phi,</span></td></tr>
+<tr id="L75" class=""><td class="line-num"><a href="#L75">75</a></td><td class="line-code"><span style="color:#24292E">      treeStructure alphabet t]</span></td></tr>
+<tr id="L76" class=""><td class="line-num"><a href="#L76">76</a></td><td class="line-code"> </td></tr>
+<tr id="L77" class=""><td class="line-num"><a href="#L77">77</a></td><td class="line-code"><span style="color:#6A737D">/-- Exact structural content of a bundled uniform model-checking input. -/</span></td></tr>
+<tr id="L78" class=""><td class="line-num"><a href="#L78">78</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> modelCheckingInstanceRaw</span><span style="color:#24292E"> (input : ModelCheckingInstance) : Raw :=</span></td></tr>
+<tr id="L79" class=""><td class="line-num"><a href="#L79">79</a></td><td class="line-code"><span style="color:#24292E">  msoTreeRaw input.alphabet input.sentence input.tree</span></td></tr>
+<tr id="L80" class=""><td class="line-num"><a href="#L80">80</a></td><td class="line-code"> </td></tr>
+<tr id="L81" class=""><td class="line-num"><a href="#L81">81</a></td><td class="line-code"><span style="color:#6A737D">/-- Presentation used by the reusable RAM predicate. Its encoder is exactly</span></td></tr>
+<tr id="L82" class=""><td class="line-num"><a href="#L82">82</a></td><td class="line-code"><span style="color:#6A737D">`msoTreeRaw`, so bundling introduces no tags, advice, or alternate layout. -/</span></td></tr>
+<tr id="L83" class=""><td class="line-num"><a href="#L83">83</a></td><td class="line-code"><span style="color:#D73A49">noncomputable</span><span style="color:#D73A49"> def</span><span style="color:#6F42C1"> modelCheckingPresentation</span><span style="color:#24292E"> :</span></td></tr>
+<tr id="L84" class=""><td class="line-num"><a href="#L84">84</a></td><td class="line-code"><span style="color:#24292E">    Presentation ModelCheckingInstance :=</span></td></tr>
+<tr id="L85" class=""><td class="line-num"><a href="#L85">85</a></td><td class="line-code"><span style="color:#24292E">  presentationOf modelCheckingInstanceRaw</span></td></tr>
+<tr id="L86" class=""><td class="line-num"><a href="#L86">86</a></td><td class="line-code"> </td></tr>
+<tr id="L87" class=""><td class="line-num"><a href="#L87">87</a></td><td class="line-code"><span style="color:#6A737D">/-- Structural size of the complete uniform runtime input. -/</span></td></tr>
+<tr id="L88" class=""><td class="line-num"><a href="#L88">88</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> inputStructuralSize</span><span style="color:#24292E"> (alphabet : RankedAlphabetCode)</span></td></tr>
+<tr id="L89" class=""><td class="line-num"><a href="#L89">89</a></td><td class="line-code"><span style="color:#24292E">    (phi : Sentence (treeSignature alphabet.toRankedAlphabet))</span></td></tr>
+<tr id="L90" class=""><td class="line-num"><a href="#L90">90</a></td><td class="line-code"><span style="color:#24292E">    (t : Tree alphabet.toRankedAlphabet) : Nat :=</span></td></tr>
+<tr id="L91" class=""><td class="line-num"><a href="#L91">91</a></td><td class="line-code"><span style="color:#24292E">  (msoTreeRaw alphabet phi t).nodes</span></td></tr>
+<tr id="L92" class=""><td class="line-num"><a href="#L92">92</a></td><td class="line-code"> </td></tr>
+<tr id="L93" class=""><td class="line-num"><a href="#L93">93</a></td><td class="line-code"><span style="color:#6A737D">/-- Largest primitive natural payload in the complete uniform input. -/</span></td></tr>
+<tr id="L94" class=""><td class="line-num"><a href="#L94">94</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> inputPayloadMax</span><span style="color:#24292E"> (alphabet : RankedAlphabetCode)</span></td></tr>
+<tr id="L95" class=""><td class="line-num"><a href="#L95">95</a></td><td class="line-code"><span style="color:#24292E">    (phi : Sentence (treeSignature alphabet.toRankedAlphabet))</span></td></tr>
+<tr id="L96" class=""><td class="line-num"><a href="#L96">96</a></td><td class="line-code"><span style="color:#24292E">    (t : Tree alphabet.toRankedAlphabet) : Nat :=</span></td></tr>
+<tr id="L97" class=""><td class="line-num"><a href="#L97">97</a></td><td class="line-code"><span style="color:#24292E">  (msoTreeRaw alphabet phi t).maxNat</span></td></tr>
+<tr id="L98" class=""><td class="line-num"><a href="#L98">98</a></td><td class="line-code"> </td></tr>
+<tr id="L99" class=""><td class="line-num"><a href="#L99">99</a></td><td class="line-code"><span style="color:#6A737D">/-- Primitive payloads in the complete uniform input fit in a `w`-bit word. -/</span></td></tr>
+<tr id="L100" class=""><td class="line-num"><a href="#L100">100</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> InputPayloadsFitInWord</span><span style="color:#24292E"> (alphabet : RankedAlphabetCode)</span></td></tr>
+<tr id="L101" class=""><td class="line-num"><a href="#L101">101</a></td><td class="line-code"><span style="color:#24292E">    (phi : Sentence (treeSignature alphabet.toRankedAlphabet))</span></td></tr>
+<tr id="L102" class=""><td class="line-num"><a href="#L102">102</a></td><td class="line-code"><span style="color:#24292E">    (t : Tree alphabet.toRankedAlphabet) (w : Nat) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr id="L103" class=""><td class="line-num"><a href="#L103">103</a></td><td class="line-code"><span style="color:#24292E">  (msoTreeRaw alphabet phi t).PayloadsFitInWord w</span></td></tr>
+<tr id="L104" class=""><td class="line-num"><a href="#L104">104</a></td><td class="line-code"> </td></tr>
+<tr id="L105" class=""><td class="line-num"><a href="#L105">105</a></td><td class="line-code"><span style="color:#6A737D">/-- Distinguished Lax-13 input containing the alphabet, intrinsic sentence,</span></td></tr>
+<tr id="L106" class=""><td class="line-num"><a href="#L106">106</a></td><td class="line-code"><span style="color:#6A737D">and tree. -/</span></td></tr>
+<tr id="L107" class=""><td class="line-num"><a href="#L107">107</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> modelCheckingInput</span><span style="color:#24292E"> (alphabet : RankedAlphabetCode)</span></td></tr>
+<tr id="L108" class=""><td class="line-num"><a href="#L108">108</a></td><td class="line-code"><span style="color:#24292E">    (phi : Sentence (treeSignature alphabet.toRankedAlphabet))</span></td></tr>
+<tr id="L109" class=""><td class="line-num"><a href="#L109">109</a></td><td class="line-code"><span style="color:#24292E">    (t : Tree alphabet.toRankedAlphabet) : List Nat :=</span></td></tr>
+<tr id="L110" class=""><td class="line-num"><a href="#L110">110</a></td><td class="line-code"><span style="color:#24292E">  (encodeRaw (msoTreeRaw alphabet phi t)).toInput</span></td></tr>
+<tr id="L111" class=""><td class="line-num"><a href="#L111">111</a></td><td class="line-code"> </td></tr>
+<tr id="L112" class="statement-line line-proven"><td class="line-num"><a href="#L112">112</a></td><td class="line-code"><span class="statement-anchor" id="s-Lax53.MSOLinearTime.modelCheckingInput_length"></span><span style="color:#6A737D">/-- Exact footprint of the uniform model-checking input. -/</span></td></tr>
+<tr id="L113" class="statement-line line-proven"><td class="line-num"><a href="#L113">113</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> modelCheckingInput_length</span><span style="color:#24292E"> (alphabet : RankedAlphabetCode)</span></td></tr>
+<tr id="L114" class="statement-line line-proven"><td class="line-num"><a href="#L114">114</a></td><td class="line-code"><span style="color:#24292E">    (phi : Sentence (treeSignature alphabet.toRankedAlphabet))</span></td></tr>
+<tr id="L115" class="statement-line line-proven"><td class="line-num"><a href="#L115">115</a></td><td class="line-code"><span style="color:#24292E">    (t : Tree alphabet.toRankedAlphabet) :</span></td></tr>
+<tr id="L116" class="statement-line line-proven"><td class="line-num"><a href="#L116">116</a></td><td class="line-code"><span style="color:#24292E">    (modelCheckingInput alphabet phi t).length =</span></td></tr>
+<tr id="L117" class="statement-line line-proven"><td class="line-num"><a href="#L117">117</a></td><td class="line-code"><span style="color:#005CC5">      3</span><span style="color:#24292E"> * inputStructuralSize alphabet phi t + </span><span style="color:#005CC5">1</span></td></tr>
+<tr id="L118" class=""><td class="line-num"><a href="#L118">118</a></td><td class="line-code"> </td></tr>
+<tr id="L119" class=""><td class="line-num"><a href="#L119">119</a></td><td class="line-code"><span style="color:#6A737D">/-- The actual instruction allowance for the uniform model checker. The</span></td></tr>
+<tr id="L120" class=""><td class="line-num"><a href="#L120">120</a></td><td class="line-code"><span style="color:#6A737D">computable coefficient absorbs sentence compilation and the automaton</span></td></tr>
+<tr id="L121" class=""><td class="line-num"><a href="#L121">121</a></td><td class="line-code"><span style="color:#6A737D">workload; the remaining dependence is linear in tree nodes. -/</span></td></tr>
+<tr id="L122" class=""><td class="line-num"><a href="#L122">122</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> uniformTimeBound</span><span style="color:#24292E"> (coefficient : Nat → Nat)</span></td></tr>
+<tr id="L123" class=""><td class="line-num"><a href="#L123">123</a></td><td class="line-code"><span style="color:#24292E">    (alphabet : RankedAlphabetCode)</span></td></tr>
+<tr id="L124" class=""><td class="line-num"><a href="#L124">124</a></td><td class="line-code"><span style="color:#24292E">    (phi : Sentence (treeSignature alphabet.toRankedAlphabet))</span></td></tr>
+<tr id="L125" class=""><td class="line-num"><a href="#L125">125</a></td><td class="line-code"><span style="color:#24292E">    (t : Tree alphabet.toRankedAlphabet) : Nat :=</span></td></tr>
+<tr id="L126" class=""><td class="line-num"><a href="#L126">126</a></td><td class="line-code"><span style="color:#24292E">  coefficient (parameterSize alphabet phi) * (treeSize t + </span><span style="color:#005CC5">1</span><span style="color:#24292E">)</span></td></tr>
+<tr id="L127" class=""><td class="line-num"><a href="#L127">127</a></td><td class="line-code"> </td></tr>
+<tr id="L128" class=""><td class="line-num"><a href="#L128">128</a></td><td class="line-code"><span style="color:#6A737D">/-- Public word-resource allowance for the uniform implementation. -/</span></td></tr>
+<tr id="L129" class=""><td class="line-num"><a href="#L129">129</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> uniformWordBound</span><span style="color:#24292E"> (coefficient : Nat → Nat)</span></td></tr>
+<tr id="L130" class=""><td class="line-num"><a href="#L130">130</a></td><td class="line-code"><span style="color:#24292E">    (alphabet : RankedAlphabetCode)</span></td></tr>
+<tr id="L131" class=""><td class="line-num"><a href="#L131">131</a></td><td class="line-code"><span style="color:#24292E">    (phi : Sentence (treeSignature alphabet.toRankedAlphabet))</span></td></tr>
+<tr id="L132" class=""><td class="line-num"><a href="#L132">132</a></td><td class="line-code"><span style="color:#24292E">    (t : Tree alphabet.toRankedAlphabet) : Nat :=</span></td></tr>
+<tr id="L133" class=""><td class="line-num"><a href="#L133">133</a></td><td class="line-code"><span style="color:#24292E">  coefficient (parameterSize alphabet phi) *</span></td></tr>
+<tr id="L134" class=""><td class="line-num"><a href="#L134">134</a></td><td class="line-code"><span style="color:#24292E">    (inputStructuralSize alphabet phi t + inputPayloadMax alphabet phi t + </span><span style="color:#005CC5">1</span><span style="color:#24292E">)</span></td></tr>
+<tr id="L135" class=""><td class="line-num"><a href="#L135">135</a></td><td class="line-code"> </td></tr>
+<tr id="L136" class=""><td class="line-num"><a href="#L136">136</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Classical </span><span style="color:#D73A49">in</span></td></tr>
+<tr id="L137" class="statement-line line-proven"><td class="line-num"><a href="#L137">137</a></td><td class="line-code"><span class="statement-anchor" id="s-Lax53.MSOLinearTime.exists_uniform_msoModelChecking"></span><span style="color:#6A737D">/-- A single program handles every alphabet, intrinsic sentence, tree, and</span></td></tr>
+<tr id="L138" class="statement-line line-proven"><td class="line-num"><a href="#L138">138</a></td><td class="line-code"><span style="color:#6A737D">sufficient word width. Formula compilation is part of this measured run. -/</span></td></tr>
+<tr id="L139" class="statement-line line-proven"><td class="line-num"><a href="#L139">139</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> exists_uniform_msoModelChecking</span><span style="color:#24292E"> :</span></td></tr>
+<tr id="L140" class="statement-line line-proven"><td class="line-num"><a href="#L140">140</a></td><td class="line-code"><span style="color:#24292E">  ∃ timeCoefficient wordCoefficient : Nat → Nat,</span></td></tr>
+<tr id="L141" class="statement-line line-proven"><td class="line-num"><a href="#L141">141</a></td><td class="line-code"><span style="color:#24292E">    Computable timeCoefficient ∧ Computable wordCoefficient ∧</span></td></tr>
+<tr id="L142" class="statement-line line-proven"><td class="line-num"><a href="#L142">142</a></td><td class="line-code"><span style="color:#24292E">    RamComputableWithinUsing modelCheckingPresentation natOutput</span></td></tr>
+<tr id="L143" class="statement-line line-proven"><td class="line-num"><a href="#L143">143</a></td><td class="line-code"><span style="color:#24292E">      (</span><span style="color:#D73A49">fun</span><span style="color:#24292E"> input =&gt; </span><span style="color:#D73A49">if</span><span style="color:#24292E"> input.tree ∈ sentenceLanguage input.sentence </span><span style="color:#D73A49">then</span><span style="color:#005CC5"> 1</span><span style="color:#D73A49"> else</span><span style="color:#005CC5"> 0</span><span style="color:#24292E">)</span></td></tr>
+<tr id="L144" class="statement-line line-proven"><td class="line-num"><a href="#L144">144</a></td><td class="line-code"><span style="color:#24292E">      (</span><span style="color:#D73A49">fun</span><span style="color:#24292E"> input =&gt; uniformTimeBound timeCoefficient input.alphabet</span></td></tr>
+<tr id="L145" class="statement-line line-proven"><td class="line-num"><a href="#L145">145</a></td><td class="line-code"><span style="color:#24292E">        input.sentence input.tree)</span></td></tr>
+<tr id="L146" class="statement-line line-proven"><td class="line-num"><a href="#L146">146</a></td><td class="line-code"><span style="color:#24292E">      (</span><span style="color:#D73A49">fun</span><span style="color:#24292E"> input =&gt; uniformWordBound wordCoefficient input.alphabet</span></td></tr>
+<tr id="L147" class="statement-line line-proven"><td class="line-num"><a href="#L147">147</a></td><td class="line-code"><span style="color:#24292E">        input.sentence input.tree)</span></td></tr>
+<tr id="L148" class=""><td class="line-num"><a href="#L148">148</a></td><td class="line-code"> </td></tr>
+<tr id="L149" class=""><td class="line-num"><a href="#L149">149</a></td><td class="line-code"><span style="color:#6A737D">/-- Structural size of a tree-only fixed-parameter input. -/</span></td></tr>
+<tr id="L150" class=""><td class="line-num"><a href="#L150">150</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> treeStructuralSize</span><span style="color:#24292E"> (alphabet : RankedAlphabetCode)</span></td></tr>
+<tr id="L151" class=""><td class="line-num"><a href="#L151">151</a></td><td class="line-code"><span style="color:#24292E">    (t : Tree alphabet.toRankedAlphabet) : Nat :=</span></td></tr>
+<tr id="L152" class=""><td class="line-num"><a href="#L152">152</a></td><td class="line-code"><span style="color:#24292E">  (treeStructure alphabet t).nodes</span></td></tr>
+<tr id="L153" class=""><td class="line-num"><a href="#L153">153</a></td><td class="line-code"> </td></tr>
+<tr id="L154" class=""><td class="line-num"><a href="#L154">154</a></td><td class="line-code"><span style="color:#6A737D">/-- Largest primitive payload in a tree-only fixed-parameter input. -/</span></td></tr>
+<tr id="L155" class=""><td class="line-num"><a href="#L155">155</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> treePayloadMax</span><span style="color:#24292E"> (alphabet : RankedAlphabetCode)</span></td></tr>
+<tr id="L156" class=""><td class="line-num"><a href="#L156">156</a></td><td class="line-code"><span style="color:#24292E">    (t : Tree alphabet.toRankedAlphabet) : Nat :=</span></td></tr>
+<tr id="L157" class=""><td class="line-num"><a href="#L157">157</a></td><td class="line-code"><span style="color:#24292E">  (treeStructure alphabet t).maxNat</span></td></tr>
+<tr id="L158" class=""><td class="line-num"><a href="#L158">158</a></td><td class="line-code"> </td></tr>
+<tr id="L159" class=""><td class="line-num"><a href="#L159">159</a></td><td class="line-code"><span style="color:#6A737D">/-- Primitive tree payloads fit in a `w`-bit word. -/</span></td></tr>
+<tr id="L160" class=""><td class="line-num"><a href="#L160">160</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> TreePayloadsFitInWord</span><span style="color:#24292E"> (alphabet : RankedAlphabetCode)</span></td></tr>
+<tr id="L161" class=""><td class="line-num"><a href="#L161">161</a></td><td class="line-code"><span style="color:#24292E">    (t : Tree alphabet.toRankedAlphabet) (w : Nat) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr id="L162" class=""><td class="line-num"><a href="#L162">162</a></td><td class="line-code"><span style="color:#24292E">  (treeStructure alphabet t).PayloadsFitInWord w</span></td></tr>
+<tr id="L163" class=""><td class="line-num"><a href="#L163">163</a></td><td class="line-code"> </td></tr>
+<tr id="L164" class=""><td class="line-num"><a href="#L164">164</a></td><td class="line-code"><span style="color:#6A737D">/-- Distinguished tree-only input for a program specialized to a fixed</span></td></tr>
+<tr id="L165" class=""><td class="line-num"><a href="#L165">165</a></td><td class="line-code"><span style="color:#6A737D">alphabet and sentence. -/</span></td></tr>
+<tr id="L166" class=""><td class="line-num"><a href="#L166">166</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> treeInput</span><span style="color:#24292E"> (alphabet : RankedAlphabetCode)</span></td></tr>
+<tr id="L167" class=""><td class="line-num"><a href="#L167">167</a></td><td class="line-code"><span style="color:#24292E">    (t : Tree alphabet.toRankedAlphabet) : List Nat :=</span></td></tr>
+<tr id="L168" class=""><td class="line-num"><a href="#L168">168</a></td><td class="line-code"><span style="color:#24292E">  (encodeRaw (treeStructure alphabet t)).toInput</span></td></tr>
+<tr id="L169" class=""><td class="line-num"><a href="#L169">169</a></td><td class="line-code"> </td></tr>
+<tr id="L170" class=""><td class="line-num"><a href="#L170">170</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Classical </span><span style="color:#D73A49">in</span></td></tr>
+<tr id="L171" class="statement-line line-proven"><td class="line-num"><a href="#L171">171</a></td><td class="line-code"><span class="statement-anchor" id="s-Lax53.MSOLinearTime.exists_fixed_sentence_modelChecking"></span><span style="color:#6A737D">/-- Once the alphabet and sentence are fixed before program choice, the</span></td></tr>
+<tr id="L172" class="statement-line line-proven"><td class="line-num"><a href="#L172">172</a></td><td class="line-code"><span style="color:#6A737D">specialized program receives only a tree and has linear tree-node time. This</span></td></tr>
+<tr id="L173" class="statement-line line-proven"><td class="line-num"><a href="#L173">173</a></td><td class="line-code"><span style="color:#6A737D">existential statement makes no effective program-generation claim. -/</span></td></tr>
+<tr id="L174" class="statement-line line-proven"><td class="line-num"><a href="#L174">174</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> exists_fixed_sentence_modelChecking</span></td></tr>
+<tr id="L175" class="statement-line line-proven"><td class="line-num"><a href="#L175">175</a></td><td class="line-code"><span style="color:#24292E">    (alphabet : RankedAlphabetCode)</span></td></tr>
+<tr id="L176" class="statement-line line-proven"><td class="line-num"><a href="#L176">176</a></td><td class="line-code"><span style="color:#24292E">    (phi : Sentence (treeSignature alphabet.toRankedAlphabet)) :</span></td></tr>
+<tr id="L177" class="statement-line line-proven"><td class="line-num"><a href="#L177">177</a></td><td class="line-code"><span style="color:#24292E">  ∃ timeCoefficient wordCoefficient : Nat,</span></td></tr>
+<tr id="L178" class="statement-line line-proven"><td class="line-num"><a href="#L178">178</a></td><td class="line-code"><span style="color:#24292E">    RamComputableWithinUsing (treePresentation alphabet) natOutput</span></td></tr>
+<tr id="L179" class="statement-line line-proven"><td class="line-num"><a href="#L179">179</a></td><td class="line-code"><span style="color:#24292E">      (</span><span style="color:#D73A49">fun</span><span style="color:#24292E"> t =&gt; </span><span style="color:#D73A49">if</span><span style="color:#24292E"> t ∈ sentenceLanguage phi </span><span style="color:#D73A49">then</span><span style="color:#005CC5"> 1</span><span style="color:#D73A49"> else</span><span style="color:#005CC5"> 0</span><span style="color:#24292E">)</span></td></tr>
+<tr id="L180" class="statement-line line-proven"><td class="line-num"><a href="#L180">180</a></td><td class="line-code"><span style="color:#24292E">      (</span><span style="color:#D73A49">fun</span><span style="color:#24292E"> t =&gt; timeCoefficient * (treeSize t + </span><span style="color:#005CC5">1</span><span style="color:#24292E">))</span></td></tr>
+<tr id="L181" class="statement-line line-proven"><td class="line-num"><a href="#L181">181</a></td><td class="line-code"><span style="color:#24292E">      (</span><span style="color:#D73A49">fun</span><span style="color:#24292E"> t =&gt; wordCoefficient * inputMagnitudeUsing</span></td></tr>
+<tr id="L182" class="statement-line line-proven"><td class="line-num"><a href="#L182">182</a></td><td class="line-code"><span style="color:#24292E">        (treePresentation alphabet) t)</span></td></tr>
+<tr id="L183" class=""><td class="line-num"><a href="#L183">183</a></td><td class="line-code"> </td></tr>
+<tr id="L184" class=""><td class="line-num"><a href="#L184">184</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax53.MSOLinearTime</span></td></tr>
+<tr id="L185" class=""><td class="line-num"><a href="#L185">185</a></td><td class="line-code"> </td></tr>
+</table></div><span class="source-proof-rail" data-source-line="L174" aria-label="Proof links"><a class="statement-proof-button" href="https://github.com/szymtor/lax53/blob/a6c430547f2da496e2155c29533248464245b10e/proofs/Lax53Proofs/FixedSentenceModelChecking.lean" aria-label="View proof Lax53Proofs.FixedSentenceModelChecking.exists_fixed_sentence_modelChecking_proof on GitHub" title="Lax53Proofs.FixedSentenceModelChecking.exists_fixed_sentence_modelChecking_proof"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">Show Proof</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a></span><span class="source-proof-rail" data-source-line="L139" aria-label="Proof links"><a class="statement-proof-button" href="https://github.com/szymtor/lax53/blob/a6c430547f2da496e2155c29533248464245b10e/proofs/Lax53Proofs/IntrinsicUniformModelChecking.lean" aria-label="View proof Lax53Proofs.IntrinsicUniformModelChecking.exists_uniform_msoModelChecking_proof on GitHub" title="Lax53Proofs.IntrinsicUniformModelChecking.exists_uniform_msoModelChecking_proof"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">Show Proof</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a></span><span class="source-proof-rail" data-source-line="L113" aria-label="Proof links"><a class="statement-proof-button" href="https://github.com/szymtor/lax53/blob/a6c430547f2da496e2155c29533248464245b10e/proofs/Lax53Proofs/MSOLinearTime.lean" aria-label="View proof Lax53Proofs.MSOLinearTime.modelCheckingInput_length_proof on GitHub" title="Lax53Proofs.MSOLinearTime.modelCheckingInput_length_proof"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">Show Proof</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a></span><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
+
+<div class="block"><div class="deps-columns">
+<div class="deps-col"><h3>Builds on</h3><ul class="deps-list"><li><a href="../lax-53/Lax53.StructuralRepresentations.html"><code>Lax53.StructuralRepresentations</code></a></li><li><a href="../lax-53/Lax53.TreeModelCheckingEncoding.html"><code>Lax53.TreeModelCheckingEncoding</code></a></li><li><a href="../lax-58/Lax58.RamComplexity.html"><code>Lax58.RamComplexity</code></a></li></ul></div>
+<div class="deps-col"><h3>Used by</h3><p class="empty-note">none</p></div>
+<div class="deps-col"><h3>From Mathlib</h3><ul class="deps-list"><li><a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Computability/Partrec.html"><code>Mathlib.Computability.Partrec</code></a></li></ul></div>
+</div></div>
+<section class="page-section discussion-section" aria-labelledby="discussion-title">
+<div class="discussion-heading">
+<div class="discussion-heading-copy">
+<p class="discussion-eyebrow">Community review</p>
+<h3 class="section-title" id="discussion-title">Discussion</h3>
+<p>Ask a question or add context. Endorsements and structured flags are kept in the review panel above; your ORCID profile must share a public name.</p>
+</div>
+<p class="discussion-count"><span class="remark42__counter" data-url="https://laxarchive.org/lax-53/Lax53.MSOLinearTime.html">0</span> <span>comments</span></p>
+</div>
+<div class="discussion-embed-shell">
+<p class="discussion-loading" id="remark42-status" role="status"><span class="discussion-loading-mark" aria-hidden="true"></span>Loading discussion…</p>
+<div id="remark42" data-remark42-host="https://comments.laxarchive.org" data-remark42-site="remark" data-remark42-url="https://laxarchive.org/lax-53/Lax53.MSOLinearTime.html"></div>
+</div>
+<noscript><p class="discussion-unavailable">Enable JavaScript to read or join the discussion.</p></noscript>
+</section>
+<script type="application/json" id="graph-data">{"concepts":{"nodes":[{"id":"Lax13.Ram","href":"../lax-13/Lax13.Ram.html","title":"The word RAM","owner":"lax-13","status":"none","ext":true,"dir":"up"},{"id":"Lax13.RamComputes","href":"../lax-13/Lax13.RamComputes.html","title":"Computing a function within a time bound","owner":"lax-13","status":"none","ext":true,"dir":"up"},{"id":"Lax52.MSOSemantics","href":"../lax-52/Lax52.MSOSemantics.html","title":"Semantics of monadic second-order logic","owner":"lax-52","status":"none","ext":true,"dir":"up"},{"id":"Lax52.MSOSyntax","href":"../lax-52/Lax52.MSOSyntax.html","title":"Monadic second-order syntax","owner":"lax-52","status":"none","ext":true,"dir":"up"},{"id":"Lax53.MSOLinearTime","href":"../lax-53/Lax53.MSOLinearTime.html","title":"Uniform word-RAM model checking for intrinsic MSO sentences","owner":"lax-53","status":"proven","ext":false,"dir":"core"},{"id":"Lax53.RankedTree","href":"../lax-53/Lax53.RankedTree.html","title":"Finite ranked trees","owner":"lax-53","status":"none","ext":true,"dir":"up"},{"id":"Lax53.StructuralRepresentations","href":"../lax-53/Lax53.StructuralRepresentations.html","title":"Certified structural representations for ranked-tree model checking","owner":"lax-53","status":"proven","ext":true,"dir":"up"},{"id":"Lax53.TreeAutomaton","href":"../lax-53/Lax53.TreeAutomaton.html","title":"Bottom-up tree automata","owner":"lax-53","status":"none","ext":true,"dir":"up"},{"id":"Lax53.TreeModelCheckingEncoding","href":"../lax-53/Lax53.TreeModelCheckingEncoding.html","title":"Distinguished structural inputs for tree-automaton evaluation","owner":"lax-53","status":"proven","ext":true,"dir":"up"},{"id":"Lax53.TreeStructure","href":"../lax-53/Lax53.TreeStructure.html","title":"Ranked trees as finite relational structures","owner":"lax-53","status":"none","ext":true,"dir":"up"},{"id":"Lax53.ValueTranslations","href":"../lax-53/Lax53.ValueTranslations.html","title":"Value-level translations between MSO and tree automata","owner":"lax-53","status":"proven","ext":true,"dir":"up"},{"id":"Lax58.CertifiedDerivation","href":"../lax-58/Lax58.CertifiedDerivation.html","title":"Field-encoding agreement (infrastructure)","owner":"lax-58","status":"none","ext":true,"dir":"up"},{"id":"Lax58.CertifiedDerivationElab","href":"../lax-58/Lax58.CertifiedDerivationElab.html","title":"Certified encoding derivation (elaboration infrastructure)","owner":"lax-58","status":"none","ext":true,"dir":"up"},{"id":"Lax58.RamComplexity","href":"../lax-58/Lax58.RamComplexity.html","title":"Time and word-capacity bounds on the word-RAM","owner":"lax-58","status":"none","ext":true,"dir":"up"},{"id":"Lax58.StructuralCombinators","href":"../lax-58/Lax58.StructuralCombinators.html","title":"Certified structural presentation combinators","owner":"lax-58","status":"proven","ext":true,"dir":"up"},{"id":"Lax58.StructuralPresentation","href":"../lax-58/Lax58.StructuralPresentation.html","title":"Structural presentations of finite data","owner":"lax-58","status":"none","ext":true,"dir":"up"},{"id":"Lax58.WordArena","href":"../lax-58/Lax58.WordArena.html","title":"Distinguished immutable word arenas","owner":"lax-58","status":"proven","ext":true,"dir":"up"}],"edges":[{"from":"Lax13.Ram","to":"Lax13.RamComputes"},{"from":"Lax52.MSOSyntax","to":"Lax52.MSOSemantics"},{"from":"Lax53.StructuralRepresentations","to":"Lax53.MSOLinearTime"},{"from":"Lax53.TreeModelCheckingEncoding","to":"Lax53.MSOLinearTime"},{"from":"Lax58.RamComplexity","to":"Lax53.MSOLinearTime"},{"from":"Lax53.ValueTranslations","to":"Lax53.StructuralRepresentations"},{"from":"Lax58.CertifiedDerivationElab","to":"Lax53.StructuralRepresentations"},{"from":"Lax58.WordArena","to":"Lax53.StructuralRepresentations"},{"from":"Lax53.RankedTree","to":"Lax53.TreeAutomaton"},{"from":"Lax53.StructuralRepresentations","to":"Lax53.TreeModelCheckingEncoding"},{"from":"Lax52.MSOSemantics","to":"Lax53.TreeStructure"},{"from":"Lax52.MSOSyntax","to":"Lax53.TreeStructure"},{"from":"Lax53.RankedTree","to":"Lax53.TreeStructure"},{"from":"Lax52.MSOSyntax","to":"Lax53.ValueTranslations"},{"from":"Lax53.RankedTree","to":"Lax53.ValueTranslations"},{"from":"Lax53.TreeAutomaton","to":"Lax53.ValueTranslations"},{"from":"Lax53.TreeStructure","to":"Lax53.ValueTranslations"},{"from":"Lax58.StructuralCombinators","to":"Lax58.CertifiedDerivation"},{"from":"Lax58.CertifiedDerivation","to":"Lax58.CertifiedDerivationElab"},{"from":"Lax13.RamComputes","to":"Lax58.RamComplexity"},{"from":"Lax58.WordArena","to":"Lax58.RamComplexity"},{"from":"Lax58.StructuralPresentation","to":"Lax58.StructuralCombinators"},{"from":"Lax58.StructuralPresentation","to":"Lax58.WordArena"}],"home":"lax-53"},"proofs":{"statements":[],"proofs":[]}}</script>
+</div>
+<footer class="site-footer">
+  <nav class="site-footer-nav" aria-label="Legal and about">
+    <a class="site-footer-link" href="../impressum.html">Imprint</a>
+    <a class="site-footer-link" href="../privacy.html">Privacy</a>
+    <a class="site-footer-link" href="../assets/lax-white-paper.pdf">About</a>
+  </nav>
+</footer>
+</section>
+</main>
+<dialog class="account-dialog" id="account-dialog" aria-labelledby="account-dialog-title">
+<div class="account-dialog-inner">
+<header class="account-dialog-header">
+<div><p class="account-dialog-eyebrow">ORCID account</p><h2 id="account-dialog-title">Settings</h2></div>
+<button class="account-dialog-close" data-account-close type="button" aria-label="Close account settings">×</button>
+</header>
+<div class="account-dialog-body">
+<p class="account-status" data-account-status role="status">Checking your ORCID session…</p>
+<section data-account-content hidden>
+<div class="account-identity">
+<span class="account-avatar" data-account-avatar aria-hidden="true">iD</span>
+<div><a class="account-name" data-account-name target="_blank" rel="noopener noreferrer"></a><p class="account-id" data-account-id></p></div>
+</div>
+<p class="account-name-note">Your public name comes from ORCID. ORCID names are self-asserted and may change.</p>
+<div class="account-actions">
+<a data-account-refresh href="https://comments.laxarchive.org/auth/orcid/login?from=https%3A%2F%2Flaxarchive.org&amp;site=remark">Refresh from ORCID</a>
+<button data-account-logout type="button">Sign out</button>
+</div>
+<div class="account-comments-heading"><h3>Your comments</h3><span data-account-comment-count></span></div>
+<ol class="account-comments" data-account-comments></ol>
+<p class="account-comments-status" data-account-comments-status role="status"></p>
+</section>
+</div>
+</div>
+</dialog>
+<script src="../assets/sidebar.js?v=2f663022750f"></script>
+<script src="../assets/account.js?v=ec80ece877ec"></script>
+<script src="../assets/layout.js?v=41e28199b546"></script>
+<script src="../assets/dag.js?v=10792958c8e9"></script>
+<script src="../assets/source-proof.js?v=b4c48aaad400"></script>
+<script src="../assets/version-history.js?v=a36e868140dd"></script>
+<script src="../assets/comments.js?v=493b5ebde364"></script>
+</body></html>
