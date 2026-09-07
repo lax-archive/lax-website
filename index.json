@@ -390,7 +390,6 @@
       "state": "registered",
       "environment": "v4.30.0",
       "title": "A Batch Approach to the Positive NCTD of Planar Graphs",
-      "supersededBy": "lax-60",
       "concepts": [
         {
           "id": "Lax16.AnchorLabels",
@@ -1347,7 +1346,7 @@
     },
     {
       "id": "lax-60",
-      "state": "registered",
+      "state": "draft",
       "environment": "v4.30.0",
       "title": "A Batch Approach to the Positive NCTD of Planar Graphs",
       "supersedes": "lax-16",
