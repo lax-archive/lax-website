@@ -1567,6 +1567,14 @@
         "Lax68Proofs.wheel_halin",
         "Lax68Proofs.wheel_planar"
       ]
+    },
+    {
+      "id": "lax-251941",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "Undecidability of the Post Correspondence Problem",
+      "concepts": [],
+      "proofs": []
     }
   ]
 }
