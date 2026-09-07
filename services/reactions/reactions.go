@@ -12,7 +12,6 @@ import (
 	"sort"
 	"strconv"
 	"strings"
-	"sync"
 	"time"
 	"unicode/utf8"
 )
@@ -27,7 +26,7 @@ const (
 	maximumFlagTextBytes = 2000
 	maximumFlagLine      = 1_000_000
 	maximumConceptBatch  = 50
-	conceptBatchWorkers  = 6
+	remarkFindInterval   = 125 * time.Millisecond
 )
 
 var publicReviews = []string{reviewEndorse, reviewFlag}
@@ -104,54 +103,22 @@ func emptyConceptReviews(urls []string) []conceptReviewResponse {
 
 func (a *app) viewerConceptReviews(ctx context.Context, urls []string, viewerORCID string) ([]conceptReviewResponse, error) {
 	result := emptyConceptReviews(urls)
-	ctx, cancel := context.WithCancel(ctx)
-	defer cancel()
-
-	jobs := make(chan int)
-	var workers sync.WaitGroup
-	var firstError error
-	var errorOnce sync.Once
-	workerCount := min(conceptBatchWorkers, len(urls))
-	for range workerCount {
-		workers.Add(1)
-		go func() {
-			defer workers.Done()
-			for index := range jobs {
-				page, err := a.reactionPage(ctx, urls[index])
-				if err != nil {
-					errorOnce.Do(func() {
-						firstError = err
-						cancel()
-					})
-					continue
-				}
-				for _, reaction := range publicReviews {
-					for _, voter := range page.Voters[reaction] {
-						if voter.ORCID == viewerORCID {
-							result[index].ViewerReaction = reaction
-							break
-						}
-					}
-					if result[index].ViewerReaction != "" {
-						break
-					}
+	for index, conceptURL := range urls {
+		page, err := a.reactionPage(ctx, conceptURL)
+		if err != nil {
+			return nil, err
+		}
+		for _, reaction := range publicReviews {
+			for _, voter := range page.Voters[reaction] {
+				if voter.ORCID == viewerORCID {
+					result[index].ViewerReaction = reaction
+					break
 				}
 			}
-		}()
-	}
-
-sendJobs:
-	for index := range urls {
-		select {
-		case jobs <- index:
-		case <-ctx.Done():
-			break sendJobs
+			if result[index].ViewerReaction != "" {
+				break
+			}
 		}
-	}
-	close(jobs)
-	workers.Wait()
-	if firstError != nil {
-		return nil, firstError
 	}
 	return result, nil
 }
@@ -248,7 +215,33 @@ func reviewFromMarker(value string) (reviewEvent, bool) {
 	return reviewEvent{Kind: reviewFlag, Message: message, LineStart: start, LineEnd: end}, true
 }
 
+func (a *app) waitForRemarkFind(ctx context.Context) error {
+	a.remarkFindMu.Lock()
+	start := time.Now()
+	if a.remarkFindNext.After(start) {
+		start = a.remarkFindNext
+	}
+	a.remarkFindNext = start.Add(remarkFindInterval)
+	a.remarkFindMu.Unlock()
+
+	delay := time.Until(start)
+	if delay <= 0 {
+		return nil
+	}
+	timer := time.NewTimer(delay)
+	defer timer.Stop()
+	select {
+	case <-timer.C:
+		return nil
+	case <-ctx.Done():
+		return ctx.Err()
+	}
+}
+
 func (a *app) reactionPage(ctx context.Context, pageURL string) (reactionPageResult, error) {
+	if err := a.waitForRemarkFind(ctx); err != nil {
+		return reactionPageResult{}, err
+	}
 	hiddenURL, err := hiddenReactionURL(pageURL)
 	if err != nil {
 		return reactionPageResult{}, err

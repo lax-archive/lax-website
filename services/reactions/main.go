@@ -86,10 +86,12 @@ type publicIdentity struct {
 }
 
 type app struct {
-	config config
-	store  *store
-	client *http.Client
-	limits *rateLimits
+	config         config
+	store          *store
+	client         *http.Client
+	limits         *rateLimits
+	remarkFindMu   sync.Mutex
+	remarkFindNext time.Time
 }
 
 func env(key, fallback string) string {

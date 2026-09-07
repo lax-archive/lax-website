@@ -8,6 +8,7 @@ import (
 	"net/http/httptest"
 	"path/filepath"
 	"strings"
+	"sync"
 	"sync/atomic"
 	"testing"
 	"time"
@@ -490,6 +491,75 @@ func TestConceptBatchUsesBridgeViewerORCIDWithoutEndpointCookie(t *testing.T) {
 	}
 	if len(got.Concepts) != 1 || got.Concepts[0].ViewerReaction != reviewEndorse {
 		t.Fatalf("bridge ORCID did not recover the public review: %+v", got.Concepts)
+	}
+}
+
+func TestConceptBatchStaysWithinRemarkFindRateLimit(t *testing.T) {
+	const remarkID = "orcid_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+	const orcid = "0000-0002-1825-0097"
+	var requestMu sync.Mutex
+	requestTimes := []time.Time{}
+	remark := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+		now := time.Now()
+		requestMu.Lock()
+		active := requestTimes[:0]
+		for _, requestedAt := range requestTimes {
+			if now.Sub(requestedAt) < time.Second {
+				active = append(active, requestedAt)
+			}
+		}
+		requestTimes = active
+		if len(requestTimes) >= 10 {
+			requestMu.Unlock()
+			http.Error(w, "rate limited", http.StatusTooManyRequests)
+			return
+		}
+		requestTimes = append(requestTimes, now)
+		requestMu.Unlock()
+		comment := remarkReactionComment{ID: "review", Orig: endorseMarker, Time: now.UTC()}
+		comment.User.ID = remarkID
+		_ = json.NewEncoder(w).Encode(remarkFindResponse{Comments: []remarkReactionComment{comment}})
+	}))
+	defer remark.Close()
+	db := testStore(t)
+	if err := db.putIdentity(identity{RemarkID: remarkID, ORCID: orcid, Name: "Alice Example"}); err != nil {
+		t.Fatal(err)
+	}
+	a := &app{
+		config: config{remarkFindURL: remark.URL},
+		store:  db,
+		client: remark.Client(),
+		limits: newRateLimits(),
+	}
+	urls := make([]string, 12)
+	for index := range urls {
+		urls[index] = "https://laxarchive.org/Lax2/Lax2.C" + string(rune('A'+index)) + ".html"
+	}
+	body, err := json.Marshal(struct {
+		URLs        []string `json:"urls"`
+		ViewerORCID string   `json:"viewer_orcid"`
+	}{URLs: urls, ViewerORCID: orcid})
+	if err != nil {
+		t.Fatal(err)
+	}
+	request := httptest.NewRequest(http.MethodPost, "/reactions/v1/concepts", strings.NewReader(string(body)))
+	request.Header.Set("Content-Type", "application/json")
+	recorder := httptest.NewRecorder()
+	a.postConcepts(recorder, request)
+	if recorder.Code != http.StatusOK {
+		t.Fatalf("paced concept batch failed: %d %s", recorder.Code, recorder.Body.String())
+	}
+	var got conceptReviewsResponse
+	if err = json.Unmarshal(recorder.Body.Bytes(), &got); err != nil {
+		t.Fatal(err)
+	}
+	if len(got.Concepts) != len(urls) {
+		t.Fatalf("unexpected paced concept count: %d", len(got.Concepts))
+	}
+	for _, concept := range got.Concepts {
+		if concept.ViewerReaction != reviewEndorse {
+			t.Fatalf("paced concept lost review state: %+v", concept)
+		}
 	}
 }
 
