@@ -8,6 +8,8 @@ import (
 	"net/http/httptest"
 	"path/filepath"
 	"strings"
+	"sync"
+	"sync/atomic"
 	"testing"
 	"time"
 )
@@ -66,6 +68,28 @@ func TestHiddenReactionURLIsDerivedFromCanonicalPage(t *testing.T) {
 	}
 	if _, err := hiddenReactionURL("https://evil.test/Lax2/"); err == nil {
 		t.Fatal("non-canonical reaction page was accepted")
+	}
+}
+
+func TestCanonicalConceptURLsAllowsMixedSubmissionsAndCollapsesDuplicates(t *testing.T) {
+	first := "https://laxarchive.org/Lax2/Lax2.C.html"
+	second := "https://laxarchive.org/Lax9/Lax9.Other.html"
+	got, err := canonicalConceptURLs([]string{first, second, first})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(got) != 2 || got[0] != first || got[1] != second {
+		t.Fatalf("unexpected canonical concepts: %+v", got)
+	}
+	for _, invalid := range [][]string{
+		{},
+		{"https://laxarchive.org/Lax2/"},
+		{"https://evil.test/Lax2/Lax2.C.html"},
+		make([]string, maximumConceptBatch+1),
+	} {
+		if _, err := canonicalConceptURLs(invalid); err == nil {
+			t.Fatalf("invalid concept list was accepted: %+v", invalid)
+		}
 	}
 }
 
@@ -364,6 +388,202 @@ func TestSessionEndpointReturnsValidatedPublicORCIDIdentity(t *testing.T) {
 	}
 }
 
+func TestConceptBatchReturnsViewerReviewsAcrossSubmissions(t *testing.T) {
+	const remarkID = "orcid_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+	first := "https://laxarchive.org/Lax2/Lax2.C.html"
+	second := "https://laxarchive.org/Lax9/Lax9.Other.html"
+	flag, err := reviewMarker(reviewEvent{Kind: reviewFlag, Message: "A missing case."})
+	if err != nil {
+		t.Fatal(err)
+	}
+	var findRequests atomic.Int32
+	remark := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		switch r.URL.Path {
+		case "/user":
+			if r.Header.Get("X-JWT") != "iframe-session" {
+				t.Errorf("iframe JWT was not forwarded to Remark42")
+			}
+			_ = json.NewEncoder(w).Encode(remarkUser{ID: remarkID, Name: "Alice Example"})
+		case "/find":
+			findRequests.Add(1)
+			marker := endorseMarker
+			switch r.URL.Query().Get("url") {
+			case "https://laxarchive.org/_reactions/Lax2/Lax2.C.html":
+			case "https://laxarchive.org/_reactions/Lax9/Lax9.Other.html":
+				marker = flag
+			default:
+				t.Errorf("unexpected concept lookup: %s", r.URL.String())
+			}
+			comment := remarkReactionComment{ID: "review", Orig: marker, Time: time.Now().UTC()}
+			comment.User.ID = remarkID
+			_ = json.NewEncoder(w).Encode(remarkFindResponse{Comments: []remarkReactionComment{comment}})
+		default:
+			http.NotFound(w, r)
+		}
+	}))
+	defer remark.Close()
+	db := testStore(t)
+	if err = db.putIdentity(identity{RemarkID: remarkID, ORCID: "0000-0002-1825-0097", Name: "Alice Example"}); err != nil {
+		t.Fatal(err)
+	}
+	a := &app{
+		config: config{remarkUserURL: remark.URL + "/user", remarkFindURL: remark.URL + "/find"},
+		store:  db,
+		client: remark.Client(),
+		limits: newRateLimits(),
+	}
+	request := httptest.NewRequest(http.MethodPost, "/reactions/v1/concepts", strings.NewReader(`{"urls":["`+first+`","`+second+`","`+first+`"]}`))
+	request.Header.Set("Content-Type", "application/json")
+	request.Header.Set("X-JWT", "iframe-session")
+	recorder := httptest.NewRecorder()
+	a.postConcepts(recorder, request)
+	if recorder.Code != http.StatusOK {
+		t.Fatalf("unexpected concept response: %d %s", recorder.Code, recorder.Body.String())
+	}
+	var got conceptReviewsResponse
+	if err = json.Unmarshal(recorder.Body.Bytes(), &got); err != nil {
+		t.Fatal(err)
+	}
+	if !got.Authenticated || !got.Eligible || got.Viewer == nil || got.Viewer.RemarkID != remarkID {
+		t.Fatalf("unexpected concept review session: %+v", got)
+	}
+	if len(got.Concepts) != 2 || got.Concepts[0].URL != first || got.Concepts[0].ViewerReaction != reviewEndorse || got.Concepts[1].URL != second || got.Concepts[1].ViewerReaction != reviewFlag {
+		t.Fatalf("unexpected concept reviews: %+v", got.Concepts)
+	}
+	if findRequests.Load() != 2 {
+		t.Fatalf("duplicate concepts caused extra lookups: %d", findRequests.Load())
+	}
+}
+
+func TestConceptBatchUsesBridgeViewerORCIDWithoutEndpointCookie(t *testing.T) {
+	const remarkID = "orcid_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+	const orcid = "0000-0002-1825-0097"
+	conceptURL := "https://laxarchive.org/Lax2/Lax2.C.html"
+	remark := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.URL.Path != "/find" {
+			t.Fatalf("unexpected authenticated lookup: %s", r.URL.Path)
+		}
+		comment := remarkReactionComment{ID: "review", Orig: endorseMarker, Time: time.Now().UTC()}
+		comment.User.ID = remarkID
+		_ = json.NewEncoder(w).Encode(remarkFindResponse{Comments: []remarkReactionComment{comment}})
+	}))
+	defer remark.Close()
+	db := testStore(t)
+	if err := db.putIdentity(identity{RemarkID: remarkID, ORCID: orcid, Name: "Alice Example"}); err != nil {
+		t.Fatal(err)
+	}
+	a := &app{
+		config: config{remarkFindURL: remark.URL + "/find"},
+		store:  db,
+		client: remark.Client(),
+		limits: newRateLimits(),
+	}
+	request := httptest.NewRequest(http.MethodPost, "/reactions/v1/concepts", strings.NewReader(`{"urls":["`+conceptURL+`"],"viewer_orcid":"`+orcid+`"}`))
+	request.Header.Set("Content-Type", "application/json")
+	recorder := httptest.NewRecorder()
+	a.postConcepts(recorder, request)
+	if recorder.Code != http.StatusOK {
+		t.Fatalf("unexpected concept response: %d %s", recorder.Code, recorder.Body.String())
+	}
+	var got conceptReviewsResponse
+	if err := json.Unmarshal(recorder.Body.Bytes(), &got); err != nil {
+		t.Fatal(err)
+	}
+	if len(got.Concepts) != 1 || got.Concepts[0].ViewerReaction != reviewEndorse {
+		t.Fatalf("bridge ORCID did not recover the public review: %+v", got.Concepts)
+	}
+}
+
+func TestConceptBatchStaysWithinRemarkFindRateLimit(t *testing.T) {
+	const remarkID = "orcid_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+	const orcid = "0000-0002-1825-0097"
+	var requestMu sync.Mutex
+	requestTimes := []time.Time{}
+	remark := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+		now := time.Now()
+		requestMu.Lock()
+		active := requestTimes[:0]
+		for _, requestedAt := range requestTimes {
+			if now.Sub(requestedAt) < time.Second {
+				active = append(active, requestedAt)
+			}
+		}
+		requestTimes = active
+		if len(requestTimes) >= 10 {
+			requestMu.Unlock()
+			http.Error(w, "rate limited", http.StatusTooManyRequests)
+			return
+		}
+		requestTimes = append(requestTimes, now)
+		requestMu.Unlock()
+		comment := remarkReactionComment{ID: "review", Orig: endorseMarker, Time: now.UTC()}
+		comment.User.ID = remarkID
+		_ = json.NewEncoder(w).Encode(remarkFindResponse{Comments: []remarkReactionComment{comment}})
+	}))
+	defer remark.Close()
+	db := testStore(t)
+	if err := db.putIdentity(identity{RemarkID: remarkID, ORCID: orcid, Name: "Alice Example"}); err != nil {
+		t.Fatal(err)
+	}
+	a := &app{
+		config: config{remarkFindURL: remark.URL},
+		store:  db,
+		client: remark.Client(),
+		limits: newRateLimits(),
+	}
+	urls := make([]string, 12)
+	for index := range urls {
+		urls[index] = "https://laxarchive.org/Lax2/Lax2.C" + string(rune('A'+index)) + ".html"
+	}
+	body, err := json.Marshal(struct {
+		URLs        []string `json:"urls"`
+		ViewerORCID string   `json:"viewer_orcid"`
+	}{URLs: urls, ViewerORCID: orcid})
+	if err != nil {
+		t.Fatal(err)
+	}
+	request := httptest.NewRequest(http.MethodPost, "/reactions/v1/concepts", strings.NewReader(string(body)))
+	request.Header.Set("Content-Type", "application/json")
+	recorder := httptest.NewRecorder()
+	a.postConcepts(recorder, request)
+	if recorder.Code != http.StatusOK {
+		t.Fatalf("paced concept batch failed: %d %s", recorder.Code, recorder.Body.String())
+	}
+	var got conceptReviewsResponse
+	if err = json.Unmarshal(recorder.Body.Bytes(), &got); err != nil {
+		t.Fatal(err)
+	}
+	if len(got.Concepts) != len(urls) {
+		t.Fatalf("unexpected paced concept count: %d", len(got.Concepts))
+	}
+	for _, concept := range got.Concepts {
+		if concept.ViewerReaction != reviewEndorse {
+			t.Fatalf("paced concept lost review state: %+v", concept)
+		}
+	}
+}
+
+func TestConceptBatchRejectsInvalidInputBeforeAuthentication(t *testing.T) {
+	a := &app{limits: newRateLimits()}
+	for name, body := range map[string]string{
+		"empty":          `{"urls":[]}`,
+		"submission":     `{"urls":["https://laxarchive.org/Lax2/"]}`,
+		"foreign origin": `{"urls":["https://evil.test/Lax2/Lax2.C.html"]}`,
+		"invalid ORCID":  `{"urls":["https://laxarchive.org/Lax2/Lax2.C.html"],"viewer_orcid":"0000-0000-0000-0000"}`,
+		"unknown field":  `{"urls":["https://laxarchive.org/Lax2/Lax2.C.html"],"extra":true}`,
+	} {
+		t.Run(name, func(t *testing.T) {
+			request := httptest.NewRequest(http.MethodPost, "/reactions/v1/concepts", strings.NewReader(body))
+			request.Header.Set("Content-Type", "application/json")
+			recorder := httptest.NewRecorder()
+			a.postConcepts(recorder, request)
+			if recorder.Code != http.StatusBadRequest {
+				t.Fatalf("invalid concept batch reached authentication: %d %s", recorder.Code, recorder.Body.String())
+			}
+		})
+	}
+}
+
 func TestReviewClearsStaleHttpOnlySession(t *testing.T) {
 	remark := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 		http.Error(w, "invalid session", http.StatusUnauthorized)
@@ -404,10 +624,10 @@ func TestBridgeIsRestrictedToConfiguredParents(t *testing.T) {
 	scriptRecorder := httptest.NewRecorder()
 	a.bridgeScript(scriptRecorder, scriptRequest)
 	script := scriptRecorder.Body.String()
-	if scriptRecorder.Code != http.StatusOK || !strings.Contains(script, `new Set(["https://laxarchive.org"])`) || strings.Contains(script, `postMessage(value,"*")`) || !strings.Contains(script, `request.action==="comments"`) || !strings.Contains(script, `request.action==="logout"`) {
+	if scriptRecorder.Code != http.StatusOK || !strings.Contains(script, `new Set(["https://laxarchive.org"])`) || strings.Contains(script, `postMessage(value,"*")`) || !strings.Contains(script, `request.action==="concepts"`) || !strings.Contains(script, `request.action==="comments"`) || !strings.Contains(script, `request.action==="logout"`) {
 		t.Fatalf("bridge script does not enforce exact parent origins: %s", scriptRecorder.Body.String())
 	}
-	for _, expected := range []string{`/api/v1/user?site=remark`, `/api/v1/comment?site=remark`, `X-XSRF-TOKEN`, `X-JWT`, `response.headers`, `pathname==="/auth/logout"`, `fetch("/auth/logout",{credentials:"include",cache:"no-store",headers:authHeaders({Accept:"application/json"})})`, `type:"session-change"`, `lax-review:v2:flag:`, `A flag explanation is required`, `Choose one valid source line`, `Submission flags cannot reference concept source lines`, `sessionCache&&Date.now()-sessionCacheAt<2000`, `if(sessionPromise)return sessionPromise`, `clearSessionCache();notifySessionChange()`} {
+	for _, expected := range []string{`/api/v1/user?site=remark`, `/api/v1/comment?site=remark`, `/reactions/v1/concepts`, `viewer_orcid:viewerORCID`, `X-XSRF-TOKEN`, `X-JWT`, `response.headers`, `pathname==="/auth/logout"`, `fetch("/auth/logout",{credentials:"include",cache:"no-store",headers:authHeaders({Accept:"application/json"})})`, `type:"session-change"`, `lax-review:v2:flag:`, `A flag explanation is required`, `Choose one valid source line`, `Submission flags cannot reference concept source lines`, `sessionCache&&Date.now()-sessionCacheAt<2000`, `if(sessionPromise)return sessionPromise`, `clearSessionCache();notifySessionChange()`} {
 		if !strings.Contains(script, expected) {
 			t.Fatalf("bridge script does not use the authenticated Remark42 iframe session, missing %q", expected)
 		}

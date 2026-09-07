@@ -36,6 +36,23 @@ Remark42. Mutations require an allowed `Origin`, JSON content type, and the
 `X-Lax-CSRF: 1` header. The service validates the Remark42 session server-side,
 rate-limits reads and writes, and accepts only canonical production URLs.
 
+Clients can request review state for an arbitrary set of concepts, including
+concepts owned by other submissions. The service-owned bridge adds the ORCID
+iD from its verified session as `viewer_orcid`; this matches the same public
+voter data used on individual concept pages even when a partitioned browser
+does not send its Remark42 cookie to the API route. The selector grants no
+write access and reveals no data beyond the already-public voter lists. The
+input is limited to 50 canonical concept URLs, preserves first-seen order, and
+collapses duplicates. Every requested concept is returned;
+`viewer_reaction` is empty when the selected viewer has not reviewed it.
+
+```text
+POST /reactions/v1/concepts
+Content-Type: application/json
+
+{"urls":["https://laxarchive.org/Lax2/Lax2.C.html","https://laxarchive.org/Lax9/Lax9.Other.html"],"viewer_orcid":"0000-0002-1825-0097"}
+```
+
 Persistent data and 14 daily online backups live below `/var/lib/reactions`.
 
 The public service is hosted at `https://comments.laxarchive.org`. Keeping the
