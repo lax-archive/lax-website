@@ -1577,6 +1577,14 @@
       "proofs": []
     },
     {
+      "id": "lax-194892",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "Transducers, Part D: Polyregular Functions",
+      "concepts": [],
+      "proofs": []
+    },
+    {
       "id": "lax-251941",
       "state": "draft",
       "environment": "v4.30.0",
