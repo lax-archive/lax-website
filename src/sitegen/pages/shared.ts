@@ -4,6 +4,7 @@ import type { ConceptGraphData, SubmissionGraphData } from "../graphs.js";
 import { attr, code, esc, formatDate, proofBadge, statePill, typeBadge } from "../html.js";
 import type { MarkdownRenderer } from "../markdown.js";
 import { compareIds, type LocatedProof, type SiteModel, type SiteSubmission } from "../model.js";
+import { conceptReviewBadge } from "./discussion.js";
 
 export interface PageContext { model: SiteModel; markdown: MarkdownRenderer }
 
@@ -512,7 +513,7 @@ ${typeOptions}
     const haystack = `${concept.id} ${concept.title} ${type}`.toLowerCase();
     const active = concept.id === opts.activeId ? ' class="active"' : "";
     const href = `${rootRel}${submission.record.id}/${concept.id}.html`;
-    return `<li${active} data-type="${attr(type)}" data-search="${attr(haystack)}"><a class="entry-link" href="${attr(href)}" data-full-title="${attr(concept.title)}"><span class="entry-label">${typeBadge(concept.type, status)}<span class="entry-label-text">${esc(name)}</span></span></a></li>`;
+    return `<li${active} data-type="${attr(type)}" data-search="${attr(haystack)}"><a class="entry-link" href="${attr(href)}" data-full-title="${attr(concept.title)}"><span class="entry-label">${typeBadge(concept.type, status)}<span class="entry-label-text">${esc(name)}</span>${conceptReviewBadge(`${submission.record.id}/${concept.id}.html`)}</span></a></li>`;
   });
   const proofRows = proofs.map((proof) => {
     const name = proofShortName(output!, proof, output!.id);

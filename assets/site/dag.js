@@ -1084,6 +1084,19 @@
     renderSubmissionDag(data.submissions);
   }
 
+  function installUsedConceptToggle() {
+    const button = document.querySelector('[data-used-concepts-toggle]');
+    if (!button) return;
+    const list = document.getElementById(button.getAttribute('aria-controls'));
+    if (!list) return;
+    button.addEventListener('click', () => {
+      const expanded = list.hidden;
+      list.hidden = !expanded;
+      button.textContent = `${expanded ? 'Hide' : 'Show'} concepts used from other submissions`;
+      button.setAttribute('aria-expanded', String(expanded));
+    });
+  }
+
   // ---- large graph window ----
 
   let expandedFigure = null;
@@ -1132,6 +1145,7 @@
   }
 
   function initialize() {
+    installUsedConceptToggle();
     installGraphExpanders();
     render();
   }

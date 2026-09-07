@@ -9,6 +9,7 @@ import {
   type PageContext,
 } from "./shared.js";
 import { collectOpenProblems } from "./open-problems.js";
+import { conceptReviewBadge } from "./discussion.js";
 
 interface LandingAction { id: string; title: string; description: string }
 interface LandingFaq { question: string; answer: string }
@@ -310,7 +311,7 @@ ${copyablePrompt(markdown.render(landing.submit, ""))}
   const reviewStarts = reviewConcepts.map(({ located, users, otherSubmissionCount, weight }, index) => `<div class="landing-review-start" data-review-concept="${attr(located.concept.id)}" data-review-weight="${weight}"${index ? " hidden" : ""}>
 <div class="landing-review-start-copy">
 <p class="landing-action-eyebrow">Used by ${plural(otherSubmissionCount, "other submission")} and ${plural(users.length, "other concept")}</p>
-<h4>${markdown.renderAuthorInline(located.concept.title, "")}</h4>
+<h4><span class="landing-review-title">${markdown.renderAuthorInline(located.concept.title, "")}</span>${conceptReviewBadge(`${located.submission.record.id}/${located.concept.id}.html`)}</h4>
 <p>This concept is reused elsewhere in the archive. Review its mathematical correctness, endorse it if correct, or flag a flaw.</p>
 </div>
 <a class="landing-hero-button primary" href="${attr(`${located.output.id}/${located.concept.id}.html`)}">Review now <b aria-hidden="true">→</b></a>

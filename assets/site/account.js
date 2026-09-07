@@ -30,9 +30,21 @@
   const commentList = dialog.querySelector("[data-account-comments]");
   const commentsStatus = dialog.querySelector("[data-account-comments-status]");
   const commentCount = dialog.querySelector("[data-account-comment-count]");
+  const conceptReviewBadges = [...(document.querySelectorAll?.("[data-concept-review-url]") || [])];
+  const conceptReviewProgresses = [...(document.querySelectorAll?.("[data-concept-review-progress]") || [])];
+  const submissionConceptReview = document.querySelector("[data-submission-concept-urls]");
+  const submissionFlaggedNote = document.querySelector("[data-submission-flagged-note]");
+  const conceptReviewURLSet = new Set(conceptReviewBadges.map((badge) => badge.dataset.conceptReviewUrl).filter(Boolean));
+  conceptReviewProgresses.forEach((progress) => readConceptReviewURLs(progress.dataset.conceptReviewUrls)
+    .forEach((url) => conceptReviewURLSet.add(url)));
+  readConceptReviewURLs(submissionConceptReview?.dataset.submissionConceptUrls)
+    .forEach((url) => conceptReviewURLSet.add(url));
+  const conceptReviewURLs = [...conceptReviewURLSet];
   let currentUser = null;
   let currentIdentity = null;
   let commentsLoadedFor = "";
+  let conceptReviewState = new Map();
+  let conceptReviewSequence = 0;
   let loginWatchTimer = null;
   let loginWatchUntil = 0;
 
@@ -209,6 +221,16 @@
       const response = await fetch(url, { credentials: "include", cache: "no-store", headers: { Accept: "application/json" } });
       return { ok: response.ok, status: response.status, data: await response.json() };
     }
+    if (action === "concepts") {
+      const response = await fetch(`${host}/reactions/v1/concepts`, {
+        method: "POST",
+        credentials: "include",
+        cache: "no-store",
+        headers: { Accept: "application/json", "Content-Type": "application/json" },
+        body: JSON.stringify({ urls: payload.urls }),
+      });
+      return { ok: response.ok, status: response.status, data: await response.json() };
+    }
     const response = await fetch(`${host}/auth/logout`, { credentials: "include", cache: "no-store" });
     return { ok: response.ok, status: response.status, data: {} };
   }
@@ -221,6 +243,113 @@
     }
   }
 
+  function readConceptReviewURLs(value) {
+    try {
+      const urls = JSON.parse(value || "[]");
+      return Array.isArray(urls) ? urls.filter((url) => typeof url === "string" && url) : [];
+    } catch {
+      return [];
+    }
+  }
+
+  function renderConceptReviewBadge(badge, reaction) {
+    const validReaction = reaction === "endorse" || reaction === "flag" ? reaction : "";
+    badge.hidden = !validReaction;
+    badge.className = `concept-review-badge${validReaction ? ` ${validReaction === "endorse" ? "endorsed" : "flagged"}` : ""}`;
+    badge.textContent = validReaction === "endorse" ? "✓" : validReaction === "flag" ? "⚑" : "";
+    if (!validReaction) {
+      badge.title = "";
+      badge.removeAttribute("role");
+      badge.removeAttribute("aria-label");
+      return;
+    }
+    const label = validReaction === "endorse" ? "You endorsed this concept" : "You flagged this concept";
+    badge.title = label;
+    badge.setAttribute("role", "img");
+    badge.setAttribute("aria-label", label);
+  }
+
+  function renderConceptReviewSummaries() {
+    for (const progress of conceptReviewProgresses) {
+      const urls = [...new Set(readConceptReviewURLs(progress.dataset.conceptReviewUrls))];
+      const reactions = urls.map((url) => conceptReviewState.get(url) || "");
+      const endorsed = reactions.filter((reaction) => reaction === "endorse").length;
+      const flagged = reactions.filter((reaction) => reaction === "flag").length;
+      const pending = reactions.length - endorsed - flagged;
+      const evaluated = endorsed + flagged;
+      const track = progress.querySelector("[data-concept-review-progress-track]");
+      const label = progress.querySelector("[data-concept-review-progress-label]");
+      progress.hidden = evaluated === 0;
+      if (!track || !label || evaluated === 0 || reactions.length === 0) {
+        track?.replaceChildren();
+        if (label) label.textContent = "";
+        track?.removeAttribute("aria-label");
+        continue;
+      }
+      const endorsedPercentage = Math.round((endorsed / reactions.length) * 100);
+      const flaggedPercentage = Math.round((flagged / reactions.length) * 100);
+      const pendingPercentage = 100 - endorsedPercentage - flaggedPercentage;
+      const description = `${endorsedPercentage}% endorsed · ${flaggedPercentage}% flagged · ${pendingPercentage}% not evaluated`;
+      label.textContent = description;
+      track.setAttribute("aria-label", `Review progress: ${description}`);
+      track.replaceChildren(...reactions.map((reaction) => {
+        const segment = document.createElement("span");
+        segment.className = `concept-review-progress-segment ${reaction === "endorse" ? "endorsed" : reaction === "flag" ? "flagged" : "pending"}`;
+        segment.setAttribute("aria-hidden", "true");
+        return segment;
+      }));
+    }
+
+    if (!submissionFlaggedNote || !submissionConceptReview) return;
+    const dependencies = [...new Set(readConceptReviewURLs(submissionConceptReview.dataset.submissionConceptUrls))];
+    const flagged = dependencies.filter((url) => conceptReviewState.get(url) === "flag").length;
+    submissionFlaggedNote.hidden = flagged === 0;
+    const text = submissionFlaggedNote.querySelector("[data-submission-flagged-note-text]");
+    if (text) text.textContent = flagged === 1
+      ? "This submission contains or depends on a concept you flagged."
+      : flagged > 1 ? `This submission contains or depends on ${flagged} concepts you flagged.` : "";
+  }
+
+  function clearConceptReviewBadges() {
+    conceptReviewSequence += 1;
+    conceptReviewState = new Map();
+    conceptReviewBadges.forEach((badge) => renderConceptReviewBadge(badge, ""));
+    renderConceptReviewSummaries();
+  }
+
+  async function loadConceptReviewBadges() {
+    if (!currentUser || !conceptReviewURLs.length) {
+      clearConceptReviewBadges();
+      return;
+    }
+    const sequence = conceptReviewSequence += 1;
+    const viewerId = currentUser.id;
+    const urls = conceptReviewURLs;
+    try {
+      const reviews = [];
+      for (let start = 0; start < urls.length; start += 50) {
+        const response = await accountRequest("concepts", { urls: urls.slice(start, start + 50) });
+        if (!response.ok) throw new Error(String(response.status));
+        if (Array.isArray(response.data?.concepts)) reviews.push(...response.data.concepts);
+      }
+      if (sequence !== conceptReviewSequence || currentUser?.id !== viewerId) return;
+      const byURL = new Map(urls.map((url) => [url, ""]));
+      reviews.forEach((review) => {
+        if (typeof review?.url !== "string" || !byURL.has(review.url)) return;
+        byURL.set(review.url, review.viewer_reaction === "endorse" || review.viewer_reaction === "flag" ? review.viewer_reaction : "");
+      });
+      conceptReviewState = byURL;
+      conceptReviewBadges.forEach((badge) =>
+        renderConceptReviewBadge(badge, byURL.get(badge.dataset.conceptReviewUrl)));
+      renderConceptReviewSummaries();
+    } catch {
+      if (sequence !== conceptReviewSequence || currentUser?.id !== viewerId) return;
+      conceptReviewState = new Map();
+      conceptReviewBadges.forEach((badge) => renderConceptReviewBadge(badge, ""));
+      renderConceptReviewSummaries();
+    }
+  }
+
   function initials(name) {
     const parts = name.split(/\s+/).filter(Boolean);
     return parts.slice(0, 2).map((part) => part[0]).join("").toUpperCase() || "iD";
@@ -230,6 +359,7 @@
     currentUser = null;
     currentIdentity = null;
     commentsLoadedFor = "";
+    clearConceptReviewBadges();
     login.hidden = false;
     settings.hidden = true;
     if (settingsLabel) settingsLabel.textContent = "Settings";
@@ -239,10 +369,24 @@
   }
 
   function accountEvent() {
+    void loadConceptReviewBadges();
     window.dispatchEvent(new CustomEvent("LAX::account-ready", {
-      detail: currentUser ? { user: currentUser, identity: currentIdentity } : null,
+      detail: currentUser ? { authenticated: true, user: currentUser, identity: currentIdentity } : null,
     }));
   }
+
+  window.addEventListener("LAX::review-change", (event) => {
+    const changedURL = typeof event.detail?.url === "string" ? event.detail.url : "";
+    if (!changedURL) return;
+    conceptReviewBadges
+      .filter((badge) => badge.dataset.conceptReviewUrl === changedURL)
+      .forEach((badge) => renderConceptReviewBadge(badge, event.detail?.reaction));
+    if (conceptReviewURLSet.has(changedURL)) {
+      const reaction = event.detail?.reaction === "endorse" || event.detail?.reaction === "flag" ? event.detail.reaction : "";
+      conceptReviewState.set(changedURL, reaction);
+      renderConceptReviewSummaries();
+    }
+  });
 
   async function checkAccount() {
     try {

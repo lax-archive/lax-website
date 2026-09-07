@@ -12,6 +12,7 @@ import (
 	"sort"
 	"strconv"
 	"strings"
+	"sync"
 	"time"
 	"unicode/utf8"
 )
@@ -25,6 +26,8 @@ const (
 	clearMarker          = "↩️ Review cleared\n\n" + reviewPrefix + reviewClear
 	maximumFlagTextBytes = 2000
 	maximumFlagLine      = 1_000_000
+	maximumConceptBatch  = 50
+	conceptBatchWorkers  = 6
 )
 
 var publicReviews = []string{reviewEndorse, reviewFlag}
@@ -66,6 +69,81 @@ type remarkReactionComment struct {
 
 type remarkFindResponse struct {
 	Comments []remarkReactionComment `json:"comments"`
+}
+
+func canonicalConceptURLs(raw []string) ([]string, error) {
+	if len(raw) < 1 || len(raw) > maximumConceptBatch {
+		return nil, fmt.Errorf("provide between 1 and %d concept URLs", maximumConceptBatch)
+	}
+	seen := make(map[string]struct{}, len(raw))
+	result := make([]string, 0, len(raw))
+	for _, value := range raw {
+		canonical, err := canonicalPage(value)
+		if err != nil {
+			return nil, fmt.Errorf("invalid concept URL %q: %w", value, err)
+		}
+		if strings.HasSuffix(canonical, "/") {
+			return nil, fmt.Errorf("URL %q is a submission; only concept URLs are accepted", value)
+		}
+		if _, exists := seen[canonical]; exists {
+			continue
+		}
+		seen[canonical] = struct{}{}
+		result = append(result, canonical)
+	}
+	return result, nil
+}
+
+func emptyConceptReviews(urls []string) []conceptReviewResponse {
+	result := make([]conceptReviewResponse, len(urls))
+	for index, conceptURL := range urls {
+		result[index].URL = conceptURL
+	}
+	return result
+}
+
+func (a *app) viewerConceptReviews(ctx context.Context, urls []string, remarkID string) ([]conceptReviewResponse, error) {
+	result := emptyConceptReviews(urls)
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
+	jobs := make(chan int)
+	var workers sync.WaitGroup
+	var firstError error
+	var errorOnce sync.Once
+	workerCount := min(conceptBatchWorkers, len(urls))
+	for range workerCount {
+		workers.Add(1)
+		go func() {
+			defer workers.Done()
+			for index := range jobs {
+				page, err := a.reactionPage(ctx, urls[index])
+				if err != nil {
+					errorOnce.Do(func() {
+						firstError = err
+						cancel()
+					})
+					continue
+				}
+				result[index].ViewerReaction = page.viewerByRemarkID[remarkID].Kind
+			}
+		}()
+	}
+
+sendJobs:
+	for index := range urls {
+		select {
+		case jobs <- index:
+		case <-ctx.Done():
+			break sendJobs
+		}
+	}
+	close(jobs)
+	workers.Wait()
+	if firstError != nil {
+		return nil, firstError
+	}
+	return result, nil
 }
 
 func validReview(value string) bool {

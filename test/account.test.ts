@@ -37,7 +37,11 @@ const settle = async () => {
   await new Promise((resolve) => setTimeout(resolve, 0));
 };
 
-function fixture(user: { id: string; name: string }, initiallyAuthenticated = true) {
+function fixture(
+  user: { id: string; name: string },
+  initiallyAuthenticated = true,
+  conceptReviews: Array<{ url: string; reaction: string }> = [],
+) {
   let authenticated = initiallyAuthenticated;
   let logoutStatus = 200;
   const root = new FakeElement();
@@ -58,6 +62,28 @@ function fixture(user: { id: string; name: string }, initiallyAuthenticated = tr
   settings.hidden = true;
   root.selectors.set("[data-account-login]", login);
   root.selectors.set("[data-account-settings]", settings);
+  const conceptBadges = conceptReviews.map(({ url }) => {
+    const badge = new FakeElement();
+    badge.dataset.conceptReviewUrl = url;
+    badge.hidden = true;
+    return badge;
+  });
+  const conceptURLs = [...new Set(conceptReviews.map(({ url }) => url))];
+  const progress = conceptURLs.length ? new FakeElement() : null;
+  const progressTrack = conceptURLs.length ? new FakeElement() : null;
+  const progressLabel = conceptURLs.length ? new FakeElement() : null;
+  const submissionReview = conceptURLs.length ? new FakeElement() : null;
+  const flaggedNote = conceptURLs.length ? new FakeElement() : null;
+  const flaggedNoteText = conceptURLs.length ? new FakeElement() : null;
+  if (progress && progressTrack && progressLabel && submissionReview && flaggedNote && flaggedNoteText) {
+    progress.hidden = true;
+    progress.dataset.conceptReviewUrls = JSON.stringify(conceptURLs);
+    progress.selectors.set("[data-concept-review-progress-track]", progressTrack);
+    progress.selectors.set("[data-concept-review-progress-label]", progressLabel);
+    submissionReview.dataset.submissionConceptUrls = JSON.stringify(conceptURLs);
+    flaggedNote.hidden = true;
+    flaggedNote.selectors.set("[data-submission-flagged-note-text]", flaggedNoteText);
+  }
 
   const elements: Record<string, FakeElement> = {
     "[data-account-close]": new FakeElement(),
@@ -141,6 +167,13 @@ function fixture(user: { id: string; name: string }, initiallyAuthenticated = tr
               time: "2026-08-18T10:00:00Z",
             }],
             count: 1,
+          } : message.action === "concepts" ? {
+            authenticated: true,
+            eligible: true,
+            concepts: [...new Map(conceptReviews.map((review) => [review.url, {
+              url: review.url,
+              viewer_reaction: review.reaction,
+            }])).values()],
           } : {},
       },
     }));
@@ -154,13 +187,18 @@ function fixture(user: { id: string; name: string }, initiallyAuthenticated = tr
   const iframe = Object.assign(new FakeElement(), { contentWindow: bridgeWindow, src: "" });
   const remarkFrame = Object.assign(new FakeElement(), { contentWindow: remarkBridgeWindow });
   const document = {
-    querySelector: (selector: string) => selector === "[data-account-root]" ? root : selector === "#remark42 iframe" ? remarkFrame : null,
+    querySelector: (selector: string) => selector === "[data-account-root]" ? root
+      : selector === "#remark42 iframe" ? remarkFrame
+      : selector === "[data-submission-concept-urls]" ? submissionReview
+      : selector === "[data-submission-flagged-note]" ? flaggedNote : null,
+    querySelectorAll: (selector: string) => selector === "[data-concept-review-url]" ? conceptBadges
+      : selector === "[data-concept-review-progress]" && progress ? [progress] : [],
     getElementById: (id: string) => id === "account-dialog" ? dialog : null,
     createElement: (tag: string) => tag === "iframe" ? iframe : new FakeElement(),
     body: new FakeElement(),
     head: new FakeElement(),
   };
-  return { root, dialog, login, loginLabel, settings, settingsLabel, elements, requests, events, fetch, window, document, FakeCustomEvent, listeners, bridgeWindow, remarkBridgeWindow, bridgeMessages, get authChannel() { return authChannel; }, setAuthenticated(value: boolean) { authenticated = value; }, setLogoutStatus(value: number) { logoutStatus = value; } };
+  return { root, dialog, login, loginLabel, settings, settingsLabel, elements, conceptBadges, progress, progressTrack, progressLabel, submissionReview, flaggedNote, flaggedNoteText, requests, events, fetch, window, document, FakeCustomEvent, listeners, bridgeWindow, remarkBridgeWindow, bridgeMessages, get authChannel() { return authChannel; }, setAuthenticated(value: boolean) { authenticated = value; }, setLogoutStatus(value: number) { logoutStatus = value; } };
 }
 
 describe("ORCID account header", () => {
@@ -175,6 +213,14 @@ describe("ORCID account header", () => {
     expect(fx.login.hidden).toBe(true);
     expect(fx.settings.hidden).toBe(false);
     expect(fx.settingsLabel.textContent).toBe("Ada Lovelace");
+    expect(fx.events.at(-1)).toEqual({
+      type: "LAX::account-ready",
+      detail: {
+        authenticated: true,
+        user: { id: `orcid_${"a".repeat(40)}`, name: "Ada Lovelace" },
+        identity: { orcidId: "0000-0002-1825-0097", name: "Ada Lovelace" },
+      },
+    });
     expect(fx.elements["[data-account-name]"]!.textContent).toBe("Ada Lovelace");
     expect(fx.elements["[data-account-name]"]!.href).toBe("https://orcid.org/0000-0002-1825-0097");
     const loginUrl = new URL(fx.login.href);
@@ -261,6 +307,55 @@ describe("ORCID account header", () => {
     expect(fx.login.hidden).toBe(false);
     expect(fx.settings.hidden).toBe(true);
     expect(fx.events.at(-1)).toEqual({ type: "LAX::account-ready", detail: null });
+  });
+
+  it("loads deduplicated concept reviews and keeps every matching badge current", async () => {
+    const endorsed = "https://laxarchive.org/lax-1/Lax1.Base.html";
+    const flagged = "https://laxarchive.org/lax-3/Lax3.Middle.html";
+    const pending = "https://laxarchive.org/lax-4/Lax4.Top.html";
+    const fx = fixture({ id: `orcid_${"9".repeat(40)}`, name: "Ada Lovelace" }, true, [
+      { url: endorsed, reaction: "endorse" },
+      { url: endorsed, reaction: "endorse" },
+      { url: flagged, reaction: "flag" },
+      { url: pending, reaction: "" },
+    ]);
+    const context = { document: fx.document, window: fx.window, fetch: fx.fetch, URL, CustomEvent: fx.FakeCustomEvent, Date, setTimeout };
+    vm.createContext(context);
+    vm.runInContext(fs.readFileSync("assets/site/account.js", "utf8"), context);
+    fx.listeners.message!({ origin: "https://remark42.example.test", source: fx.bridgeWindow, data: { source: "lax-reactions", type: "ready" } });
+    await settle();
+
+    const request = fx.bridgeMessages.find((message) => message.action === "concepts");
+    expect(request?.urls).toEqual([endorsed, flagged, pending]);
+    expect(fx.conceptBadges.map((badge) => ({ hidden: badge.hidden, className: badge.className, text: badge.textContent }))).toEqual([
+      { hidden: false, className: "concept-review-badge endorsed", text: "✓" },
+      { hidden: false, className: "concept-review-badge endorsed", text: "✓" },
+      { hidden: false, className: "concept-review-badge flagged", text: "⚑" },
+      { hidden: true, className: "concept-review-badge", text: "" },
+    ]);
+    expect(fx.conceptBadges[0]!.attributes.get("aria-label")).toBe("You endorsed this concept");
+    expect(fx.progress?.hidden).toBe(false);
+    expect(fx.progressLabel?.textContent).toBe("33% endorsed · 33% flagged · 34% not evaluated");
+    expect(fx.progressTrack?.children.map((segment) => segment.className)).toEqual([
+      "concept-review-progress-segment endorsed",
+      "concept-review-progress-segment flagged",
+      "concept-review-progress-segment pending",
+    ]);
+    expect(fx.flaggedNote?.hidden).toBe(false);
+    expect(fx.flaggedNoteText?.textContent).toBe("This submission contains or depends on a concept you flagged.");
+
+    fx.listeners["LAX::review-change"]!({ detail: { url: flagged, reaction: "" } });
+    expect(fx.conceptBadges[2]!.hidden).toBe(true);
+    expect(fx.progressLabel?.textContent).toBe("33% endorsed · 0% flagged · 67% not evaluated");
+    expect(fx.flaggedNote?.hidden).toBe(true);
+
+    fx.listeners["LAX::review-change"]!({ detail: { url: endorsed, reaction: "" } });
+    expect(fx.progress?.hidden).toBe(true);
+
+    fx.setAuthenticated(false);
+    fx.listeners.message!({ origin: "https://remark42.example.test", source: fx.bridgeWindow, data: { source: "lax-reactions", type: "session-change" } });
+    await settle();
+    expect(fx.conceptBadges.every((badge) => badge.hidden)).toBe(true);
   });
 
   it("rechecks only once when the comment bridge repeats its ready announcement", async () => {

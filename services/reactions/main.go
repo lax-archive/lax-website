@@ -64,6 +64,19 @@ type sessionResponse struct {
 	Viewer         *publicIdentity `json:"viewer,omitempty"`
 }
 
+type conceptReviewResponse struct {
+	URL            string `json:"url"`
+	ViewerReaction string `json:"viewer_reaction"`
+}
+
+type conceptReviewsResponse struct {
+	Authenticated  bool                    `json:"authenticated"`
+	Eligible       bool                    `json:"eligible"`
+	Reauthenticate bool                    `json:"reauthenticate"`
+	Viewer         *publicIdentity         `json:"viewer,omitempty"`
+	Concepts       []conceptReviewResponse `json:"concepts"`
+}
+
 type publicIdentity struct {
 	RemarkID  string  `json:"remark42_id"`
 	ORCID     string  `json:"orcid_id"`
@@ -136,6 +149,7 @@ func main() {
 	mux.HandleFunc("OPTIONS /reactions/v1/{rest...}", application.preflight)
 	mux.HandleFunc("GET /reactions/v1/me", application.getMe)
 	mux.HandleFunc("GET /reactions/v1/page", application.getPage)
+	mux.HandleFunc("POST /reactions/v1/concepts", application.postConcepts)
 	mux.HandleFunc("GET /reactions/v1/identity", application.getIdentity)
 	mux.HandleFunc("GET /reactions/v1/identities", application.getIdentities)
 	mux.HandleFunc("PUT /reactions/v1/reaction", application.putReaction)
@@ -212,7 +226,7 @@ func (a *app) preflight(w http.ResponseWriter, r *http.Request) {
 		writeError(w, http.StatusBadRequest, "origin is required")
 		return
 	}
-	w.Header().Set("Access-Control-Allow-Methods", "GET, PUT, OPTIONS")
+	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, OPTIONS")
 	w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, X-Lax-CSRF")
 	w.Header().Set("Access-Control-Max-Age", "600")
 	w.WriteHeader(http.StatusNoContent)
@@ -358,6 +372,25 @@ const page=async(raw)=>{
   }
   return data;
 };
+const concepts=async(raw)=>{
+  if(!Array.isArray(raw)||raw.length<1||raw.length>50)throw fail("Provide between 1 and 50 concept URLs.",400);
+  const seen=new Set();
+  const urls=[];
+  for(const item of raw){
+    if(typeof item!=="string")throw fail("Invalid concept URL.",400);
+    const canonical=canonicalPage(item);
+    if(new URL(canonical).pathname.endsWith("/"))throw fail("Only concept URLs are accepted.",400);
+    if(!seen.has(canonical)){seen.add(canonical);urls.push(canonical)}
+  }
+  const response=await fetch("/reactions/v1/concepts",{
+    method:"POST",credentials:"include",cache:"no-store",
+    headers:authHeaders({Accept:"application/json","Content-Type":"application/json"}),
+    body:JSON.stringify({urls})
+  });
+  const data=await readJSON(response);
+  if(!response.ok)throw fail(data.error||"concept reviews are temporarily unavailable",response.status);
+  return data;
+};
 const cookie=(name)=>{
   const prefix=name+"=";
   const item=document.cookie.split(";").map((value)=>value.trim()).find((value)=>value.startsWith(prefix));
@@ -406,6 +439,7 @@ window.addEventListener("message",async(event)=>{
   try{
     let data={};
     if(request.action==="page"&&typeof request.url==="string")data=await page(request.url);
+    else if(request.action==="concepts")data=await concepts(request.urls);
     else if(request.action==="me")data=await session();
     else if(request.action==="reaction"&&typeof request.url==="string"&&["endorse","flag","clear"].includes(request.reaction))data=await saveReaction(request.url,request.reaction,request.message,request.line_start,request.line_end);
     else if(request.action==="comments"&&typeof request.site==="string"&&/^[a-zA-Z0-9._-]{1,64}$/.test(request.site)&&typeof request.user==="string"&&/^orcid_[a-f0-9]{40}$/.test(request.user)&&Number.isInteger(request.skip)&&request.skip>=0&&Number.isInteger(request.limit)&&request.limit>=1&&request.limit<=100){
@@ -470,7 +504,7 @@ func validORCID(value string) bool {
 }
 
 func (a *app) currentUser(r *http.Request) (*remarkUser, error) {
-	if r.Header.Get("Cookie") == "" {
+	if r.Header.Get("Cookie") == "" && r.Header.Get("X-JWT") == "" {
 		return nil, nil
 	}
 	request, err := http.NewRequestWithContext(r.Context(), http.MethodGet, a.config.remarkUserURL, nil)
@@ -479,6 +513,9 @@ func (a *app) currentUser(r *http.Request) (*remarkUser, error) {
 	}
 	request.Header.Set("Cookie", r.Header.Get("Cookie"))
 	request.Header.Set("Accept", "application/json")
+	if jwt := r.Header.Get("X-JWT"); jwt != "" && len(jwt) <= 4096 {
+		request.Header.Set("X-JWT", jwt)
+	}
 	if address := clientIP(r); address != "" {
 		request.Header.Set("X-Forwarded-For", address)
 		request.Header.Set("X-Real-IP", address)
@@ -597,6 +634,64 @@ func (a *app) getPage(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Printf("page response failed: %v", err)
 		writeError(w, http.StatusServiceUnavailable, "page responses are temporarily unavailable")
+		return
+	}
+	writeJSON(w, http.StatusOK, answer)
+}
+
+func (a *app) postConcepts(w http.ResponseWriter, r *http.Request) {
+	if !a.limits.allow(clientIP(r), false) {
+		w.Header().Set("Retry-After", "10")
+		writeError(w, http.StatusTooManyRequests, "too many requests")
+		return
+	}
+	if !strings.HasPrefix(strings.ToLower(r.Header.Get("Content-Type")), "application/json") {
+		writeError(w, http.StatusUnsupportedMediaType, "content type must be application/json")
+		return
+	}
+	var input struct {
+		URLs []string `json:"urls"`
+	}
+	decoder := json.NewDecoder(http.MaxBytesReader(w, r.Body, 64<<10))
+	decoder.DisallowUnknownFields()
+	if err := decoder.Decode(&input); err != nil {
+		writeError(w, http.StatusBadRequest, "request body must contain a list of concept URLs")
+		return
+	}
+	urls, err := canonicalConceptURLs(input.URLs)
+	if err != nil {
+		writeError(w, http.StatusBadRequest, err.Error())
+		return
+	}
+	answer := conceptReviewsResponse{Concepts: emptyConceptReviews(urls)}
+	user, err := a.currentUser(r)
+	if err != nil {
+		log.Printf("concept review session failed: %v", err)
+		writeError(w, http.StatusServiceUnavailable, "authentication is temporarily unavailable")
+		return
+	}
+	if user == nil {
+		answer.Reauthenticate = hasRemarkSession(r)
+		writeJSON(w, http.StatusOK, answer)
+		return
+	}
+	answer.Authenticated = true
+	person, found, err := a.store.identity(user.ID)
+	if err != nil {
+		writeError(w, http.StatusServiceUnavailable, "identity lookup is temporarily unavailable")
+		return
+	}
+	if !found || strings.TrimSpace(person.Name) == "" || !validORCID(person.ORCID) {
+		writeJSON(w, http.StatusOK, answer)
+		return
+	}
+	answer.Eligible = true
+	viewer := toPublicIdentity(person)
+	answer.Viewer = &viewer
+	answer.Concepts, err = a.viewerConceptReviews(r.Context(), urls, user.ID)
+	if err != nil {
+		log.Printf("concept review batch failed: %v", err)
+		writeError(w, http.StatusServiceUnavailable, "concept reviews are temporarily unavailable")
 		return
 	}
 	writeJSON(w, http.StatusOK, answer)

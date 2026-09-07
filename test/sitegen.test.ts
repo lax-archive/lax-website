@@ -868,6 +868,10 @@ After the formula.`, "");
     expect(html).toContain('class="page-reactions"');
     expect(html).toContain('data-reactions-url="https://laxarchive.org/Lax2/"');
     expect(html).toContain('data-review-kind="submission" data-source-lines="0"');
+    expect(html).toContain('data-submission-concept-urls="');
+    expect(html).toContain('data-submission-flagged-note hidden');
+    expect(html).toContain('data-concept-review-progress');
+    expect(html).toContain('data-concept-review-url="https://laxarchive.org/Lax2/Lax2.C.html" hidden');
     expect(html).toContain('data-reaction="endorse"');
     expect(html).toContain('data-reaction="flag"');
     expect(html).not.toContain('data-reaction="like"');
@@ -991,6 +995,10 @@ After the formula.`, "");
     const root = tmpDir("lax-site-graphs-");
     await generateSite([...submissions(), ...graphSubmissions()], root);
     const html = fs.readFileSync(path.join(root, "Lax4", "index.html"), "utf8");
+    const landing = fs.readFileSync(path.join(root, "index.html"), "utf8");
+    expect(landing).toContain('data-review-concept="Lax1.Base"');
+    expect(landing).toContain('data-concept-review-url="https://laxarchive.org/Lax1/Lax1.Base.html" hidden');
+    expect(html).toContain('data-concept-review-url="https://laxarchive.org/Lax4/Lax4.Top.html" hidden');
     // ancestors are on by default, descendants off — both closures run over
     // the whole archive, not just this submission
     expect(html).toContain('id="concept-expand"');
@@ -1083,6 +1091,33 @@ After the formula.`, "");
     expect(script).toContain("event.key !== 'Escape'");
   });
 
+  it("reveals directly used concepts from other submissions below the submission's own", async () => {
+    const archive = graphSubmissions();
+    const base = archive[0]!.output!.concepts[0]!;
+    base.type = "theorem";
+    base.statements = [{ id: "Lax1.Base.fact", signature: "fact : True" }];
+    archive[2]!.output!.proofs.push({
+      id: "Lax4Proofs.external",
+      path: "proofs/Lax4Proofs/External.lean",
+      conclusion: "Lax4.Top.a",
+      assumptions: ["Lax1.Base.fact"],
+      description: "uses an external statement",
+    });
+    const root = tmpDir("lax-site-used-concepts-");
+    await generateSite(archive, root);
+    const html = fs.readFileSync(path.join(root, "Lax4", "index.html"), "utf8");
+    const ownStart = html.indexOf('<ul class="concept-list">');
+    const usedStart = html.indexOf('<ul class="concept-list concept-used-list"');
+    const used = html.slice(usedStart, html.indexOf("</ul>", usedStart));
+
+    expect(usedStart).toBeGreaterThan(ownStart);
+    expect(html).toContain('data-used-concepts-toggle aria-controls="used-concepts-list"');
+    expect(used).toContain('href="../Lax1/Lax1.Base.html" title="Lax1.Base"><code>Lax1.Base</code></a>');
+    expect(used).toContain('data-concept-review-url="https://laxarchive.org/Lax1/Lax1.Base.html" hidden');
+    expect(used).toContain('href="../Lax3/Lax3.Middle.html" title="Lax3.Middle"><code>Lax3.Middle</code></a>');
+    expect(used).not.toContain("Lax4.Top");
+  });
+
   it("maps each submission's dependants and dependencies across the whole archive", async () => {
     const root = tmpDir("lax-site-submap-");
     await generateSite([...submissions(), ...graphSubmissions()], root);
@@ -1099,6 +1134,13 @@ After the formula.`, "");
     expect(top.html).toContain('<h4 class="figure-title">Submission map</h4>');
     expect(top.html).toContain('id="submission-dag"');
     expect(top.html).toContain("Submission map legend");
+    const reviewDependencies = /data-submission-concept-urls="([^"]+)"/.exec(top.html)?.[1] ?? "";
+    const visibleReviewConcepts = /data-concept-review-urls="([^"]+)"/.exec(top.html)?.[1] ?? "";
+    expect(reviewDependencies).toContain("https://laxarchive.org/Lax1/Lax1.Base.html");
+    expect(reviewDependencies).toContain("https://laxarchive.org/Lax3/Lax3.Middle.html");
+    expect(reviewDependencies).toContain("https://laxarchive.org/Lax4/Lax4.Top.html");
+    expect(visibleReviewConcepts).not.toContain("Lax1.Base.html");
+    expect(visibleReviewConcepts).toContain("Lax3.Middle.html");
     expect(top.data.nodes.map((n: { id: string; dir: string }) => [n.id, n.dir]))
       .toEqual([["Lax1", "up"], ["Lax3", "up"], ["Lax4", "core"]]);
     expect(top.data.edges).toEqual([

@@ -1,8 +1,8 @@
 import { attr, esc, page, plural, typeBadge } from "../html.js";
 import { renderBibEntry } from "../bibtex.js";
 import { conceptGraph, graphDataScript, submissionGraph, type SubmissionGraphData } from "../graphs.js";
-import type { SiteSubmission } from "../model.js";
-import { discussion, pageReactions } from "./discussion.js";
+import { compareIds, type LocatedConcept, type SiteSubmission } from "../model.js";
+import { conceptReviewBadge, conceptReviewProgress, discussion, pageReactions } from "./discussion.js";
 import { inPaperBlock } from "./paper.js";
 import {
   bibtex,
@@ -27,6 +27,59 @@ import {
   submissionMapLegend,
   submissionSidebar,
 } from "./shared.js";
+
+/** Concepts from another submission that this submission references directly.
+ * Concept imports explain definition-level dependencies; proof statements add
+ * assumptions that otherwise appear only in the proof package. */
+function usedExternalConcepts(ctx: PageContext, submission: SiteSubmission): LocatedConcept[] {
+  const output = submission.output!;
+  const used = new Map<string, LocatedConcept>();
+  const add = (id: string) => {
+    const home = ctx.model.conceptHome.get(id) ?? ctx.model.statementHome.get(id);
+    if (home && home.output.id !== output.id) used.set(home.concept.id, home);
+  };
+  for (const concept of output.concepts)
+    for (const imported of concept.imports) add(imported);
+  for (const proof of output.proofs)
+    for (const statement of [proof.conclusion, ...proof.assumptions]) add(statement);
+  return [...used.values()].sort((a, b) =>
+    compareIds(a.output.id, b.output.id) || a.concept.id.localeCompare(b.concept.id));
+}
+
+/** All reviewable concepts whose correctness this submission relies on,
+ * including transitive concept imports and concepts named by proofs. */
+function submissionReviewConcepts(ctx: PageContext, submission: SiteSubmission): LocatedConcept[] {
+  const output = submission.output!;
+  const concepts = new Map<string, LocatedConcept>();
+  const add = (id: string) => {
+    const home = ctx.model.conceptHome.get(id) ?? ctx.model.statementHome.get(id);
+    if (!home || concepts.has(home.concept.id)) return;
+    concepts.set(home.concept.id, home);
+    home.concept.imports.forEach(add);
+  };
+  output.concepts.forEach((concept) => add(concept.id));
+  output.proofs.forEach((proof) => [proof.conclusion, ...proof.assumptions].forEach(add));
+  return [...concepts.values()].sort((a, b) =>
+    compareIds(a.output.id, b.output.id) || a.concept.id.localeCompare(b.concept.id));
+}
+
+function conceptPath({ submission, concept }: LocatedConcept): string {
+  return `${submission.record.id}/${concept.id}.html`;
+}
+
+function usedConceptRows(ctx: PageContext, concepts: LocatedConcept[]): string {
+  if (!concepts.length) return "";
+  return `<button class="concept-used-toggle" type="button" data-used-concepts-toggle aria-controls="used-concepts-list" aria-expanded="false">Show concepts used from other submissions</button>
+<ul class="concept-list concept-used-list" id="used-concepts-list" aria-label="Concepts used from other submissions" hidden>
+${concepts.map(({ concept, output, submission }) => {
+    const provenCount = concept.statements.filter((statement) => ctx.model.network.proven.has(statement.id)).length;
+    const status = concept.statements.length ? provenCount === concept.statements.length : undefined;
+    const label = `${output.id}.${shortId(concept.id, output.id)}`;
+    const pathname = `${submission.record.id}/${concept.id}.html`;
+    return `<li>${typeBadge(concept.type, status)}<a href="${attr(`../${pathname}`)}" title="${attr(concept.id)}"><code>${esc(label)}</code></a>${conceptReviewBadge(pathname)}</li>`;
+  }).join("\n")}
+</ul>`;
+}
 
 /** The submission page: abstract first, sleek meta, concepts with their DAG,
  * proofs with the proof network, citation, references. */
@@ -53,11 +106,18 @@ ${discussion(`${record.id}/`)}`;
   // exactly the same nodes and edges.
   const related = submissionGraph(ctx.model, output.id);
   const graphs = pageGraphData(ctx, submission, related);
+  const usedConcepts = usedExternalConcepts(ctx, submission);
+  const reviewedConceptPaths = submissionReviewConcepts(ctx, submission).map(conceptPath);
+  const listedConceptPaths = [
+    ...output.concepts.map((concept) => `${record.id}/${concept.id}.html`),
+    ...usedConcepts.map(conceptPath),
+  ];
+  const externalConcepts = usedConceptRows(ctx, usedConcepts);
   const conceptRows = output.concepts.map((concept) => {
     const provenCount = concept.statements.filter((s) => proven.has(s.id)).length;
     const status = concept.statements.length ? provenCount === concept.statements.length : undefined;
     const name = shortId(concept.id, output.id);
-    return `<li>${typeBadge(concept.type, status)}<a href="${attr(`${concept.id}.html`)}" title="${attr(concept.id)}"><code>${esc(name)}</code></a></li>`;
+    return `<li>${typeBadge(concept.type, status)}<a href="${attr(`${concept.id}.html`)}" title="${attr(concept.id)}"><code>${esc(name)}</code></a>${conceptReviewBadge(`${record.id}/${concept.id}.html`)}</li>`;
   });
   const proofsHref = proofsSource(submission);
   const proofRows = output.proofs.map((proof) =>
@@ -78,24 +138,26 @@ ${submissionMapLegend(related)}
 
   const content = `${draftBanner(record.state)}${environmentNotice(ctx.model, submission)}${versionHistoryPanel(ctx, record.id, "../", true)}
 ${paperHeader(ctx, submission, "../", versionHistoryMetaButton(ctx, record.id))}
-${pageReactions(`${record.id}/`, { kind: "submission" })}
+${pageReactions(`${record.id}/`, { kind: "submission", conceptPaths: reviewedConceptPaths })}
 ${output.abstract.trim() ? paperAbstract(ctx.markdown.renderAuthorProse(output.abstract, "../")) : ""}
 ${paperSection(ctx, submission)}
 <section class="page-section"><h3 class="section-title">Concepts</h3>
-${output.concepts.length ? `<div class="concept-list-box">
-<ul class="concept-list">
+${output.concepts.length || usedConcepts.length ? `<div class="concept-list-box">
+${conceptReviewProgress(listedConceptPaths)}
+${output.concepts.length ? `<ul class="concept-list">
 ${conceptRows.join("\n")}
-</ul>
+</ul>` : ""}
+${externalConcepts}
 ${conceptBadgeLegend(graphs.concepts.nodes.filter((node) => !node.ext).map((node) => node.status))}
-</div>
-${figureTitle("Concept map")}
+</div>` : `<p class="empty-note">No concepts in this submission.</p>`}
+${output.concepts.length ? `${figureTitle("Concept map")}
 <figure class="graph-figure">
 ${graphExpandButton("concept map")}
 <div class="graph-toolbar"><button type="button" id="concept-expand" aria-controls="concept-dag" aria-pressed="true">Hide ancestors</button><button type="button" id="concept-descend" aria-controls="concept-dag" aria-pressed="false">Show descendants</button><output id="concept-graph-status" aria-live="polite"></output></div>
 <div id="concept-dag" class="figure-container" data-graph="concepts" data-ancestry="true"></div>
 ${graphTooltip()}
 ${conceptMapLegend(graphs.concepts, "This submission", "Other submission")}
-</figure>` : `<p class="empty-note">No concepts in this submission.</p>`}
+</figure>` : ""}
 </section>
 <section class="page-section"><h3 class="section-title">Proofs</h3>
 ${output.proofs.length ? `${figureTitle("Proof network", proofsHref)}
