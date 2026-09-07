@@ -1700,7 +1700,218 @@
       "state": "draft",
       "environment": "v4.30.0",
       "title": "Transducers, Part B: Rational Functions",
-      "concepts": [],
+      "concepts": [
+        {
+          "id": "Lax132576.BimachineOfRational",
+          "title": "Rational functions are computed by bimachines",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax132576.Bimachines",
+          "title": "Bimachines",
+          "type": "definition"
+        },
+        {
+          "id": "Lax132576.EpsilonEliminationExtended",
+          "title": "Elimination of ε-transitions, with extended transitions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax132576.EpsilonEliminationFinite",
+          "title": "Elimination of ε-transitions for finitely valued relations",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax132576.EpsilonFreeAutomata",
+          "title": "Extended transitions and the elimination of ε-transitions",
+          "type": "definition"
+        },
+        {
+          "id": "Lax132576.HomomorphismComplement",
+          "title": "The complement of a homomorphism is rational",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax132576.LabelledAutomata",
+          "title": "Automata with labelled transitions",
+          "type": "definition"
+        },
+        {
+          "id": "Lax132576.LeftDistance",
+          "title": "Left distance and bounded variation",
+          "type": "definition"
+        },
+        {
+          "id": "Lax132576.LengthPreservingDecidable",
+          "title": "Deciding length preservation of a rational function",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax132576.LengthPreservingNormalForm",
+          "title": "Length preserving rational functions have length preserving automata",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax132576.LengthPreservingTyping",
+          "title": "Length preservation through a typing of the states",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax132576.MealyDecidable",
+          "title": "Deciding whether a rational function is a Mealy machine",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax132576.MealyMachineIndependent",
+          "title": "Machine-independent characterisation of Mealy machines",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax132576.PrimeRationalFunctions",
+          "title": "The prime rational functions",
+          "type": "definition"
+        },
+        {
+          "id": "Lax132576.PrimesOfRational",
+          "title": "Rational functions decompose into prime rational functions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax132576.RationalComposition",
+          "title": "Rational relations are closed under composition",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax132576.RationalContinuity",
+          "title": "Rational relations are continuous",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax132576.RationalEquivalenceDecidable",
+          "title": "Decidable equivalence of rational functions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax132576.RationalEquivalenceUndecidable",
+          "title": "Equivalence of rational relations is undecidable",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax132576.RationalFunctions",
+          "title": "Rational functions",
+          "type": "definition"
+        },
+        {
+          "id": "Lax132576.RationalMachineIndependent",
+          "title": "Machine-independent characterisation of rational functions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax132576.RationalMealyCharacterisation",
+          "title": "Which rational functions are Mealy machines",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax132576.RationalOfBimachine",
+          "title": "Bimachines compute rational functions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax132576.RationalOfPrimes",
+          "title": "Compositions of prime rational functions are rational",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax132576.RationalOfWeightedPrecomposition",
+          "title": "Functions that weighted automata can be pre-composed with are rational",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax132576.RationalPrimes",
+          "title": "The rational functions are the compositions of prime rational functions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax132576.RationalRelations",
+          "title": "Nondeterministic automata with output and rational relations",
+          "type": "definition"
+        },
+        {
+          "id": "Lax132576.RationalUnambiguousBimachine",
+          "title": "Eilenberg's theorem: rational functions, unambiguous automata and bimachines",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax132576.RationalViaWeighted",
+          "title": "Rational functions characterised by weighted automata",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax132576.SequentialCharacterisation",
+          "title": "Machine-independent characterisation of sequential functions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax132576.SequentialTransducers",
+          "title": "Sequential transducers",
+          "type": "definition"
+        },
+        {
+          "id": "Lax132576.StringHomomorphisms",
+          "title": "String homomorphisms",
+          "type": "definition"
+        },
+        {
+          "id": "Lax132576.SubsequentialCharacterisation",
+          "title": "Machine-independent characterisation of subsequential functions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax132576.SubsequentialTransducers",
+          "title": "Subsequential transducers",
+          "type": "definition"
+        },
+        {
+          "id": "Lax132576.TransducerCodes",
+          "title": "Codes of automata with output, and decidability under a promise",
+          "type": "definition"
+        },
+        {
+          "id": "Lax132576.UnambiguousOfRational",
+          "title": "Rational functions are computed by unambiguous automata",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax132576.Uniformisation",
+          "title": "Uniformisation of total rational relations",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax132576.WeightedAutomata",
+          "title": "Weighted automata",
+          "type": "definition"
+        },
+        {
+          "id": "Lax132576.WeightedCodes",
+          "title": "Codes of weighted automata over the rationals",
+          "type": "definition"
+        },
+        {
+          "id": "Lax132576.WeightedEquivalenceDecidable",
+          "title": "Decidable equivalence of weighted automata over the rationals",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax132576.WeightedPrecomposition",
+          "title": "Weighted automata are closed under pre-composition with rational functions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax132576.WeightedZeronessDecidable",
+          "title": "Decidable zeroness of weighted automata over the rationals",
+          "type": "theorem"
+        }
+      ],
       "proofs": []
     },
     {
