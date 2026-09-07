@@ -2474,7 +2474,31 @@
           "type": "definition"
         }
       ],
-      "proofs": []
+      "proofs": [
+        "Lax916827Proofs.Results.continuous_duplicate",
+        "Lax916827Proofs.Results.continuous_mapLift",
+        "Lax916827Proofs.Results.continuous_of_isRegularFun",
+        "Lax916827Proofs.Results.continuous_of_isTwoWay",
+        "Lax916827Proofs.Results.continuous_reverse",
+        "Lax916827Proofs.Results.decidable_twoWayCodeRel_eq",
+        "Lax916827Proofs.Results.exists_isRegularFun_sum",
+        "Lax916827Proofs.Results.isRationalFun_enc",
+        "Lax916827Proofs.Results.isRegular_encOutputLang",
+        "Lax916827Proofs.Results.isRegularFun_comp",
+        "Lax916827Proofs.Results.isRegularFun_concat",
+        "Lax916827Proofs.Results.isRegularFun_ite",
+        "Lax916827Proofs.Results.isRegularFun_mapLift",
+        "Lax916827Proofs.Results.isRegularFun_of_isSST",
+        "Lax916827Proofs.Results.isRegularFun_of_isTwoWay",
+        "Lax916827Proofs.Results.isRegularFun_snakeOut",
+        "Lax916827Proofs.Results.isSST_iff_isRegularFun",
+        "Lax916827Proofs.Results.isSST_of_isRegularFun",
+        "Lax916827Proofs.Results.isTwoWay_comp",
+        "Lax916827Proofs.Results.isTwoWay_comp_isMealy",
+        "Lax916827Proofs.Results.isTwoWay_comp_isRationalFun",
+        "Lax916827Proofs.Results.isTwoWay_iff_isRegularFun",
+        "Lax916827Proofs.Results.isTwoWay_of_isRegularFun"
+      ]
     }
   ]
 }
