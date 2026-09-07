@@ -1577,6 +1577,14 @@
       "proofs": []
     },
     {
+      "id": "lax-157538",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "Transducers",
+      "concepts": [],
+      "proofs": []
+    },
+    {
       "id": "lax-194892",
       "state": "draft",
       "environment": "v4.30.0",
