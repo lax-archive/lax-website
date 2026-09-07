@@ -2026,7 +2026,138 @@
       "state": "draft",
       "environment": "v4.30.0",
       "title": "Transducers, Part C: Regular Functions in Terms of Logic",
-      "concepts": [],
+      "concepts": [
+        {
+          "id": "Lax314295.AperiodicBimachineOfFORelabelling",
+          "title": "First-order relabellings are computed by aperiodic bimachines",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax314295.AperiodicOfFO",
+          "title": "First-order definable languages are aperiodic",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax314295.BuchiTheorem",
+          "title": "Büchi's theorem: regular languages are the MSO-definable ones",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax314295.FOIffAperiodic",
+          "title": "First-order definable languages are exactly the aperiodic ones",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax314295.FOOfAperiodic",
+          "title": "Aperiodic automata recognise first-order definable languages",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax314295.FORelabellingIffAperiodicBimachine",
+          "title": "First-order relabellings are exactly the aperiodic bimachines",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax314295.FORelabellingOfAperiodicBimachine",
+          "title": "Aperiodic bimachines compute first-order relabellings",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax314295.KTypes",
+          "title": "The k-type of a string",
+          "type": "definition"
+        },
+        {
+          "id": "Lax314295.KTypesAperiodicity",
+          "title": "k-types are aperiodic",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax314295.KTypesCongruence",
+          "title": "k-types are a congruence for concatenation",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax314295.KTypesFOEquivalence",
+          "title": "k-types capture first-order sentences of quantifier rank k",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax314295.KTypesRefinement",
+          "title": "k-types refine each other",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax314295.LogicPrecomputation",
+          "title": "Precomputing the answers of MSO formulas by a rational function",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax314295.MSOAnnotationRegular",
+          "title": "The correctly annotated strings of an MSO relabelling form a regular language",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax314295.MSODefinableOfRegular",
+          "title": "Regular languages are MSO-definable",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax314295.MSOFreeVariables",
+          "title": "Formulas with free variables define regular languages of annotated strings",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax314295.MSOLogic",
+          "title": "Monadic second-order logic on strings",
+          "type": "definition"
+        },
+        {
+          "id": "Lax314295.MSORelabellings",
+          "title": "MSO relabellings",
+          "type": "definition"
+        },
+        {
+          "id": "Lax314295.MSOTransductionIffRegular",
+          "title": "MSO transductions define exactly the regular functions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax314295.MSOTransductionOfRegular",
+          "title": "Regular functions are MSO transductions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax314295.MSOTransductions",
+          "title": "String-to-string MSO transductions",
+          "type": "definition"
+        },
+        {
+          "id": "Lax314295.RationalIffRelabelling",
+          "title": "Rational functions are exactly the MSO relabellings",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax314295.RationalOfRelabelling",
+          "title": "MSO relabellings are rational",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax314295.RegularOfMSODefinable",
+          "title": "MSO-definable languages are regular",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax314295.RegularOfMSOTransduction",
+          "title": "MSO transductions define regular functions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax314295.RelabellingOfRational",
+          "title": "Rational functions are MSO relabellings",
+          "type": "theorem"
+        }
+      ],
       "proofs": []
     },
     {
