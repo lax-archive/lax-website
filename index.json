@@ -2301,7 +2301,30 @@
           "type": "theorem"
         }
       ],
-      "proofs": []
+      "proofs": [
+        "Lax314295Proofs.Results.exists_aperiodic_dfa_of_foDefinable",
+        "Lax314295Proofs.Results.exists_rational_precomputation",
+        "Lax314295Proofs.Results.exists_tp_npow_eq",
+        "Lax314295Proofs.Results.foDefinable_iff_aperiodic_dfa",
+        "Lax314295Proofs.Results.foDefinable_of_aperiodic_dfa",
+        "Lax314295Proofs.Results.isAperiodicBimachine_of_isFORelabelling",
+        "Lax314295Proofs.Results.isFORelabelling_iff_isAperiodicBimachine",
+        "Lax314295Proofs.Results.isFORelabelling_of_isAperiodicBimachine",
+        "Lax314295Proofs.Results.isMSORelabelling_of_isRationalFun",
+        "Lax314295Proofs.Results.isMSOTransduction_iff_isRegularFun",
+        "Lax314295Proofs.Results.isMSOTransduction_of_isRegularFun",
+        "Lax314295Proofs.Results.isRationalFun_iff_isMSORelabelling",
+        "Lax314295Proofs.Results.isRationalFun_of_isMSORelabelling",
+        "Lax314295Proofs.Results.isRegular_annotated",
+        "Lax314295Proofs.Results.isRegular_annotation",
+        "Lax314295Proofs.Results.isRegular_iff_msoDefinable",
+        "Lax314295Proofs.Results.isRegular_of_msoDefinable",
+        "Lax314295Proofs.Results.isRegularFun_of_isMSOTransduction",
+        "Lax314295Proofs.Results.msoDefinable_of_isRegular",
+        "Lax314295Proofs.Results.tp_append_congr",
+        "Lax314295Proofs.Results.tp_eq_iff_fo_equiv",
+        "Lax314295Proofs.Results.tp_eq_of_tp_succ_eq"
+      ]
     },
     {
       "id": "lax-709149",
