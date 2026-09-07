@@ -98,19 +98,19 @@ ${conceptMapLegend(graphs.concepts, "This submission", "Other submission")}
 </figure>` : `<p class="empty-note">No concepts in this submission.</p>`}
 </section>
 <section class="page-section"><h3 class="section-title">Proofs</h3>
-${output.proofs.length ? `<div class="proof-list-box">
-<ul class="proof-list">
-${proofRows.join("\n")}
-</ul>
-${proofsHref ? `<p class="proof-list-source">Lean sources for these proofs: ${sourceLink(proofsHref, `proofs/ on ${sourceProviderName(proofsHref)}`)}</p>` : ""}
-</div>
-${figureTitle("Proof network", proofsHref)}
+${output.proofs.length ? `${figureTitle("Proof network", proofsHref)}
 <figure class="graph-figure proof-network-figure">
 ${graphExpandButton("proof network")}
 <div id="proof-network" class="figure-container" data-graph="proofs"></div>
 ${graphTooltip()}
 ${proofNetworkLegend(graphs.proofs)}
-</figure>` : `<p class="empty-note">No proofs in this submission.</p>`}
+</figure>
+<div class="proof-list-box">
+<ul class="proof-list">
+${proofRows.join("\n")}
+</ul>
+${proofsHref ? `<p class="proof-list-source">Lean sources for these proofs: ${sourceLink(proofsHref, `proofs/ on ${sourceProviderName(proofsHref)}`)}</p>` : ""}
+</div>` : `<p class="empty-note">No proofs in this submission.</p>`}
 <p class="honesty-note">Proof code is not displayed; the archive records each proof's checked relationship between claims.</p>
 </section>
 <section class="page-section"><h3 class="section-title">Related submissions</h3>

@@ -849,7 +849,7 @@ After the formula.`, "");
     expect(html).toMatch(/judgment-conclusion[^]*?Lax2\.C\.html[^]*?<code>C<\/code>/);
     expect(html).toContain('title="Lax2Proofs.truth"><code>truth</code>');
     expect(html).not.toContain("Strategy");
-    expect(html.indexOf('class="proof-list"')).toBeLessThan(html.indexOf('id="proof-network"'));
+    expect(html.indexOf('id="proof-network"')).toBeLessThan(html.indexOf('class="proof-list"'));
     // both proof surfaces link out to the proof package — a tree link, since
     // `proofs/` is a directory, not the file the `path` argument means
     const proofsTree = `https://github.com/example/math/tree/${"a".repeat(40)}/proofs`;
