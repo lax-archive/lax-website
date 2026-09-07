@@ -266,7 +266,7 @@
       return;
     }
     const label = validReaction === "endorse"
-      ? "You endorsed this concept"
+      ? "You accepted this concept"
       : validReaction === "flag" ? "You flagged this concept" : "You have not evaluated this concept";
     badge.title = label;
     badge.setAttribute("role", "img");
@@ -313,7 +313,7 @@
       const endorsedPercentage = Math.round((endorsed / reactions.length) * 100);
       const flaggedPercentage = Math.round((flagged / reactions.length) * 100);
       const pendingPercentage = 100 - endorsedPercentage - flaggedPercentage;
-      const description = `${endorsedPercentage}% endorsed · ${pendingPercentage}% not evaluated · ${flaggedPercentage}% flagged`;
+      const description = `${endorsedPercentage}% accepted · ${pendingPercentage}% not evaluated · ${flaggedPercentage}% flagged`;
       label.textContent = description;
       track.setAttribute("aria-label", `Review progress: ${description}`);
       const orderedReactions = [

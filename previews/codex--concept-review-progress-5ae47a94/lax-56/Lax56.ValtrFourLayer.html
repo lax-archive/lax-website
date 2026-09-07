@@ -61,7 +61,7 @@
 <p class="concept-microline"><code>concepts/Lax56/ValtrFourLayer.lean</code> · <a href="index.html">lax-56</a></p></div>
 <span class="status-pills"><span class="status-pill pill-proven" title="Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">proven</span></span>
 </div>
-<section class="page-reactions" aria-label="Community review" data-reactions-host="https://comments.laxarchive.org" data-reactions-url="https://laxarchive.org/lax-56/Lax56.ValtrFourLayer.html" data-review-kind="concept" data-source-lines="30">
+<section class="page-reactions" aria-label="Community review" data-reactions-host="https://comments.laxarchive.org" data-reactions-url="https://laxarchive.org/lax-56/Lax56.ValtrFourLayer.html" data-review-kind="concept" data-source-lines="31">
 <div class="page-reactions-line">
 <div class="page-reactions-actions">
 <div class="page-reaction-control">
@@ -125,11 +125,12 @@
 The outer-layer threshold sixteen allows an unoptimized endgame; it is
 sufficient for the 216-point convex-position application. Chain replacement,
 all endpoint cases, and the four-layer reduction are proved in Lean. The
-main proof invokes the proved theorem, not this specification as an axiom.</p>
+empty-hexagon proof uses this theorem interface so Lax records the dependency
+on the proof supplied in this package.</p>
 <p>Reference: Pavel Valtr, &quot;On Empty Hexagons&quot;, Section 3 (Section 2 in the
 author's preprint at <a href="https://kam.mff.cuni.cz/~valtr/h.ps">https://kam.mff.cuni.cz/~valtr/h.ps</a>).</p>
 </div></div>
-<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/EdouardBonnet/big-line-big-clique/blob/730c74fec86c041054279663b009afd953fe24b5/concepts/Lax56/ValtrFourLayer.lean">view on GitHub</a></h3>
+<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/EdouardBonnet/big-line-big-clique/blob/813f2644f1fed120595da57e9cbcc4694b8e4ac7/concepts/Lax56/ValtrFourLayer.lean">view on GitHub</a></h3>
 <div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
 <tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax56.ConvexLayers</span></td></tr>
 <tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"> </td></tr>
@@ -142,26 +143,27 @@ author's preprint at <a href="https://kam.mff.cuni.cz/~valtr/h.ps">https://kam.m
 <tr id="L9" class=""><td class="line-num"><a href="#L9">9</a></td><td class="line-code"><span style="color:#6A737D">The outer-layer threshold sixteen allows an unoptimized endgame; it is</span></td></tr>
 <tr id="L10" class=""><td class="line-num"><a href="#L10">10</a></td><td class="line-code"><span style="color:#6A737D">sufficient for the 216-point convex-position application. Chain replacement,</span></td></tr>
 <tr id="L11" class=""><td class="line-num"><a href="#L11">11</a></td><td class="line-code"><span style="color:#6A737D">all endpoint cases, and the four-layer reduction are proved in Lean. The</span></td></tr>
-<tr id="L12" class=""><td class="line-num"><a href="#L12">12</a></td><td class="line-code"><span style="color:#6A737D">main proof invokes the proved theorem, not this specification as an axiom.</span></td></tr>
-<tr id="L13" class=""><td class="line-num"><a href="#L13">13</a></td><td class="line-code"> </td></tr>
-<tr id="L14" class=""><td class="line-num"><a href="#L14">14</a></td><td class="line-code"><span style="color:#6A737D">Reference: Pavel Valtr, &quot;On Empty Hexagons&quot;, Section 3 (Section 2 in the</span></td></tr>
-<tr id="L15" class=""><td class="line-num"><a href="#L15">15</a></td><td class="line-code"><span style="color:#6A737D">author's preprint at https://kam.mff.cuni.cz/~valtr/h.ps).</span></td></tr>
-<tr id="L16" class=""><td class="line-num"><a href="#L16">16</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
-<tr id="L17" class=""><td class="line-num"><a href="#L17">17</a></td><td class="line-code"> </td></tr>
-<tr id="L18" class=""><td class="line-num"><a href="#L18">18</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax56.ValtrFourLayer</span></td></tr>
-<tr id="L19" class=""><td class="line-num"><a href="#L19">19</a></td><td class="line-code"> </td></tr>
-<tr id="L20" class=""><td class="line-num"><a href="#L20">20</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax56.Geometry Lax56.ConvexLayers</span></td></tr>
-<tr id="L21" class=""><td class="line-num"><a href="#L21">21</a></td><td class="line-code"> </td></tr>
-<tr id="L22" class="statement-line line-proven"><td class="line-num"><a href="#L22">22</a></td><td class="line-code"><span class="statement-anchor" id="s-Lax56.ValtrFourLayer.exists_emptyHexagon_of_four_layers"></span><span style="color:#6A737D">/-- The weakened four-layer lemma requested for the unoptimized proof.</span></td></tr>
-<tr id="L23" class="statement-line line-proven"><td class="line-num"><a href="#L23">23</a></td><td class="line-code"><span style="color:#6A737D">`layer S 3` is the fourth layer because layer indices start at zero. -/</span></td></tr>
-<tr id="L24" class="statement-line line-proven"><td class="line-num"><a href="#L24">24</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> exists_emptyHexagon_of_four_layers</span></td></tr>
-<tr id="L25" class="statement-line line-proven"><td class="line-num"><a href="#L25">25</a></td><td class="line-code"><span style="color:#24292E">    (S : Finset Point) (hgeneral : ¬HasThreeCollinear S)</span></td></tr>
-<tr id="L26" class="statement-line line-proven"><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span style="color:#24292E">    (hminimal : MinimalOuter S) (hlarge : </span><span style="color:#005CC5">16</span><span style="color:#24292E"> ≤ (extremeLayer S).card)</span></td></tr>
-<tr id="L27" class="statement-line line-proven"><td class="line-num"><a href="#L27">27</a></td><td class="line-code"><span style="color:#24292E">    (hfourth : (layer S </span><span style="color:#005CC5">3</span><span style="color:#24292E">).Nonempty) : HasEmptyHexagon S</span></td></tr>
-<tr id="L28" class=""><td class="line-num"><a href="#L28">28</a></td><td class="line-code"> </td></tr>
-<tr id="L29" class=""><td class="line-num"><a href="#L29">29</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax56.ValtrFourLayer</span></td></tr>
-<tr id="L30" class=""><td class="line-num"><a href="#L30">30</a></td><td class="line-code"> </td></tr>
-</table></div><span class="source-proof-rail" data-source-line="L24" aria-label="Proof links"><a class="statement-proof-button" href="https://github.com/EdouardBonnet/big-line-big-clique/blob/730c74fec86c041054279663b009afd953fe24b5/proofs/Lax56Proofs/ValtrFourLayer.lean" aria-label="View proof Lax56Proofs.ValtrFourLayer.exists_emptyHexagon_of_four_layers on GitHub" title="Lax56Proofs.ValtrFourLayer.exists_emptyHexagon_of_four_layers"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">Show Proof</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a></span><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
+<tr id="L12" class=""><td class="line-num"><a href="#L12">12</a></td><td class="line-code"><span style="color:#6A737D">empty-hexagon proof uses this theorem interface so Lax records the dependency</span></td></tr>
+<tr id="L13" class=""><td class="line-num"><a href="#L13">13</a></td><td class="line-code"><span style="color:#6A737D">on the proof supplied in this package.</span></td></tr>
+<tr id="L14" class=""><td class="line-num"><a href="#L14">14</a></td><td class="line-code"> </td></tr>
+<tr id="L15" class=""><td class="line-num"><a href="#L15">15</a></td><td class="line-code"><span style="color:#6A737D">Reference: Pavel Valtr, &quot;On Empty Hexagons&quot;, Section 3 (Section 2 in the</span></td></tr>
+<tr id="L16" class=""><td class="line-num"><a href="#L16">16</a></td><td class="line-code"><span style="color:#6A737D">author's preprint at https://kam.mff.cuni.cz/~valtr/h.ps).</span></td></tr>
+<tr id="L17" class=""><td class="line-num"><a href="#L17">17</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
+<tr id="L18" class=""><td class="line-num"><a href="#L18">18</a></td><td class="line-code"> </td></tr>
+<tr id="L19" class=""><td class="line-num"><a href="#L19">19</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax56.ValtrFourLayer</span></td></tr>
+<tr id="L20" class=""><td class="line-num"><a href="#L20">20</a></td><td class="line-code"> </td></tr>
+<tr id="L21" class=""><td class="line-num"><a href="#L21">21</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax56.Geometry Lax56.ConvexLayers</span></td></tr>
+<tr id="L22" class=""><td class="line-num"><a href="#L22">22</a></td><td class="line-code"> </td></tr>
+<tr id="L23" class="statement-line line-proven"><td class="line-num"><a href="#L23">23</a></td><td class="line-code"><span class="statement-anchor" id="s-Lax56.ValtrFourLayer.exists_emptyHexagon_of_four_layers"></span><span style="color:#6A737D">/-- The weakened four-layer lemma requested for the unoptimized proof.</span></td></tr>
+<tr id="L24" class="statement-line line-proven"><td class="line-num"><a href="#L24">24</a></td><td class="line-code"><span style="color:#6A737D">`layer S 3` is the fourth layer because layer indices start at zero. -/</span></td></tr>
+<tr id="L25" class="statement-line line-proven"><td class="line-num"><a href="#L25">25</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> exists_emptyHexagon_of_four_layers</span></td></tr>
+<tr id="L26" class="statement-line line-proven"><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span style="color:#24292E">    (S : Finset Point) (hgeneral : ¬HasThreeCollinear S)</span></td></tr>
+<tr id="L27" class="statement-line line-proven"><td class="line-num"><a href="#L27">27</a></td><td class="line-code"><span style="color:#24292E">    (hminimal : MinimalOuter S) (hlarge : </span><span style="color:#005CC5">16</span><span style="color:#24292E"> ≤ (extremeLayer S).card)</span></td></tr>
+<tr id="L28" class="statement-line line-proven"><td class="line-num"><a href="#L28">28</a></td><td class="line-code"><span style="color:#24292E">    (hfourth : (layer S </span><span style="color:#005CC5">3</span><span style="color:#24292E">).Nonempty) : HasEmptyHexagon S</span></td></tr>
+<tr id="L29" class=""><td class="line-num"><a href="#L29">29</a></td><td class="line-code"> </td></tr>
+<tr id="L30" class=""><td class="line-num"><a href="#L30">30</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax56.ValtrFourLayer</span></td></tr>
+<tr id="L31" class=""><td class="line-num"><a href="#L31">31</a></td><td class="line-code"> </td></tr>
+</table></div><span class="source-proof-rail" data-source-line="L25" aria-label="Proof links"><a class="statement-proof-button" href="https://github.com/EdouardBonnet/big-line-big-clique/blob/813f2644f1fed120595da57e9cbcc4694b8e4ac7/proofs/Lax56Proofs/ValtrFourLayer.lean" aria-label="View proof Lax56Proofs.ValtrFourLayer.exists_emptyHexagon_of_four_layers on GitHub" title="Lax56Proofs.ValtrFourLayer.exists_emptyHexagon_of_four_layers"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">Show Proof</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a></span><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
 
 <div class="block"><div class="deps-columns">
 <div class="deps-col"><h3>Builds on</h3><ul class="deps-list"><li><a href="../lax-56/Lax56.ConvexLayers.html"><code>Lax56.ConvexLayers</code></a></li></ul></div>
@@ -220,7 +222,7 @@ author's preprint at <a href="https://kam.mff.cuni.cz/~valtr/h.ps">https://kam.m
 </div>
 </dialog>
 <script src="../assets/sidebar.js?v=b1e289522120"></script>
-<script src="../assets/account.js?v=7287754d1ec6"></script>
+<script src="../assets/account.js?v=f385c8e4d221"></script>
 <script src="../assets/layout.js?v=41e28199b546"></script>
 <script src="../assets/dag.js?v=0c4b25b5d45e"></script>
 <script src="../assets/source-proof.js?v=b4c48aaad400"></script>
