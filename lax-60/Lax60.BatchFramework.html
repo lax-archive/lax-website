@@ -81,7 +81,7 @@
 <div class="version-item-heading"><span class="version-item-id">lax-60</span><span class="version-item-marks"><span class="version-mark version-mark-viewing">viewing</span><span class="version-mark version-mark-draft">draft</span></span></div>
 <p class="version-item-title">A Batch Approach to the Positive NCTD of Planar Graphs</p>
 <div class="version-metadata"><span><b>Created</b> <time datetime="2026-09-01T14:12:08Z">2026-09-01</time></span><span><b>Lean</b> <code>v4.30.0</code></span><span><b>mathlib</b> <code>c5ea00351c28e24afc9f0f84379aa41082b1188f</code></span></div>
-<div class="version-item-actions"><a class="version-source-link" href="https://github.com/clemenskuske/nctd-autoformalization/tree/d07f4ba590781bdbbcfa12f2a3b944e55b2cf81c/submission-v2"><svg class="source-mark" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true" focusable="false"><path fill="currentColor" d="M5.22 3.22a.75.75 0 0 1 1.06 1.06L2.56 8l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06Zm5.56 0 4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 1 1-1.06-1.06L13.44 8 9.72 4.28a.75.75 0 1 1 1.06-1.06Z"/></svg><span>GitHub source</span></a><span class="version-viewing-label">Shown on this page</span></div>
+<div class="version-item-actions"><a class="version-source-link" href="https://github.com/clemenskuske/nctd-autoformalization/tree/13489c08b05d25107d370046a580c881b23aa606/submission-v2"><svg class="source-mark" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true" focusable="false"><path fill="currentColor" d="M5.22 3.22a.75.75 0 0 1 1.06 1.06L2.56 8l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06Zm5.56 0 4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 1 1-1.06-1.06L13.44 8 9.72 4.28a.75.75 0 1 1 1.06-1.06Z"/></svg><span>GitHub source</span></a><span class="version-viewing-label">Shown on this page</span></div>
 </li>
 <li class="version-item version-latest">
 <div class="version-item-heading"><span class="version-item-id">lax-16</span><span class="version-item-marks"><span class="version-mark version-mark-latest">current version</span></span></div>
@@ -97,7 +97,7 @@
 <p class="concept-microline"><code>concepts/Lax60/BatchFramework.lean</code> · <a href="index.html">lax-60</a></p></div>
 <span class="status-pills"><span class="status-pill pill-none">definition</span></span>
 </div>
-<section class="page-reactions" aria-label="Community review" data-reactions-host="https://comments.laxarchive.org" data-reactions-url="https://laxarchive.org/lax-60/Lax60.BatchFramework.html" data-review-kind="concept" data-source-lines="66">
+<section class="page-reactions" aria-label="Community review" data-reactions-host="https://comments.laxarchive.org" data-reactions-url="https://laxarchive.org/lax-60/Lax60.BatchFramework.html" data-review-kind="concept" data-source-lines="67">
 <div class="page-reactions-actions">
 <div class="page-reaction-control">
 <button class="page-reaction-button" type="button" data-reaction="endorse" aria-pressed="false" title="Say that this concept is correct"><span class="page-reaction-icon" aria-hidden="true">✅</span><span>Endorse</span></button>
@@ -139,15 +139,15 @@
 </figure>
 
 
-<div class="block block-statement"><h3>Definition</h3><div class="latex-content"><p>A batch consists of a finite set of vertices and a proposed teaching set for
-each vertex.  It is admissible at radius one when the teaching sets are
-positive and uniformly bounded, separate every pair inside the batch, and
-each batch vertex certifies itself against every distinct concept outside the
-batch.</p>
+<div class="block block-statement"><h3>Definition</h3><div class="latex-content"><p>This framework is defined only for positive teaching sets.  A batch consists
+of a finite set of vertices and a proposed positive teaching set for each
+vertex.  It is admissible at radius one when the teaching sets are uniformly
+bounded, separate every pair inside the batch, and each batch vertex certifies
+itself against every distinct concept outside the batch.</p>
 <p>A finite schedule records, for each vertex, the last batch containing it.
 Retaining the corresponding teaching sets defines its final assignment.</p>
 </div></div>
-<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/clemenskuske/nctd-autoformalization/blob/d07f4ba590781bdbbcfa12f2a3b944e55b2cf81c/submission-v2/concepts/Lax60/BatchFramework.lean">view on GitHub</a></h3>
+<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/clemenskuske/nctd-autoformalization/blob/13489c08b05d25107d370046a580c881b23aa606/submission-v2/concepts/Lax60/BatchFramework.lean">view on GitHub</a></h3>
 <div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
 <tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax60.TeachingMaps</span></td></tr>
 <tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"> </td></tr>
@@ -156,11 +156,11 @@ Retaining the corresponding teaching sets defines its final assignment.</p>
 <tr id="L5" class=""><td class="line-num"><a href="#L5">5</a></td><td class="line-code"><span style="color:#6A737D">title: Admissible batches and last-assignment schedules</span></td></tr>
 <tr id="L6" class=""><td class="line-num"><a href="#L6">6</a></td><td class="line-code"><span style="color:#6A737D">type: definition</span></td></tr>
 <tr id="L7" class=""><td class="line-num"><a href="#L7">7</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
-<tr id="L8" class=""><td class="line-num"><a href="#L8">8</a></td><td class="line-code"><span style="color:#6A737D">A batch consists of a finite set of vertices and a proposed teaching set for</span></td></tr>
-<tr id="L9" class=""><td class="line-num"><a href="#L9">9</a></td><td class="line-code"><span style="color:#6A737D">each vertex.  It is admissible at radius one when the teaching sets are</span></td></tr>
-<tr id="L10" class=""><td class="line-num"><a href="#L10">10</a></td><td class="line-code"><span style="color:#6A737D">positive and uniformly bounded, separate every pair inside the batch, and</span></td></tr>
-<tr id="L11" class=""><td class="line-num"><a href="#L11">11</a></td><td class="line-code"><span style="color:#6A737D">each batch vertex certifies itself against every distinct concept outside the</span></td></tr>
-<tr id="L12" class=""><td class="line-num"><a href="#L12">12</a></td><td class="line-code"><span style="color:#6A737D">batch.</span></td></tr>
+<tr id="L8" class=""><td class="line-num"><a href="#L8">8</a></td><td class="line-code"><span style="color:#6A737D">This framework is defined only for positive teaching sets.  A batch consists</span></td></tr>
+<tr id="L9" class=""><td class="line-num"><a href="#L9">9</a></td><td class="line-code"><span style="color:#6A737D">of a finite set of vertices and a proposed positive teaching set for each</span></td></tr>
+<tr id="L10" class=""><td class="line-num"><a href="#L10">10</a></td><td class="line-code"><span style="color:#6A737D">vertex.  It is admissible at radius one when the teaching sets are uniformly</span></td></tr>
+<tr id="L11" class=""><td class="line-num"><a href="#L11">11</a></td><td class="line-code"><span style="color:#6A737D">bounded, separate every pair inside the batch, and each batch vertex certifies</span></td></tr>
+<tr id="L12" class=""><td class="line-num"><a href="#L12">12</a></td><td class="line-code"><span style="color:#6A737D">itself against every distinct concept outside the batch.</span></td></tr>
 <tr id="L13" class=""><td class="line-num"><a href="#L13">13</a></td><td class="line-code"> </td></tr>
 <tr id="L14" class=""><td class="line-num"><a href="#L14">14</a></td><td class="line-code"><span style="color:#6A737D">A finite schedule records, for each vertex, the last batch containing it.</span></td></tr>
 <tr id="L15" class=""><td class="line-num"><a href="#L15">15</a></td><td class="line-code"><span style="color:#6A737D">Retaining the corresponding teaching sets defines its final assignment.</span></td></tr>
@@ -172,14 +172,14 @@ Retaining the corresponding teaching sets defines its final assignment.</p>
 <tr id="L21" class=""><td class="line-num"><a href="#L21">21</a></td><td class="line-code"> </td></tr>
 <tr id="L22" class=""><td class="line-num"><a href="#L22">22</a></td><td class="line-code"><span style="color:#D73A49">universe</span><span style="color:#24292E"> u</span></td></tr>
 <tr id="L23" class=""><td class="line-num"><a href="#L23">23</a></td><td class="line-code"> </td></tr>
-<tr id="L24" class=""><td class="line-num"><a href="#L24">24</a></td><td class="line-code"><span style="color:#6A737D">/-- A finite batch of vertices together with proposed teaching sets. -/</span></td></tr>
+<tr id="L24" class=""><td class="line-num"><a href="#L24">24</a></td><td class="line-code"><span style="color:#6A737D">/-- A finite batch of vertices together with proposed positive teaching sets. -/</span></td></tr>
 <tr id="L25" class=""><td class="line-num"><a href="#L25">25</a></td><td class="line-code"><span style="color:#D73A49">structure</span><span style="color:#6F42C1"> BatchAssignment</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E"> u} (G : SimpleGraph V) </span><span style="color:#D73A49">where</span></td></tr>
 <tr id="L26" class=""><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span style="color:#6A737D">  /-- The vertices assigned in this batch. -/</span></td></tr>
 <tr id="L27" class=""><td class="line-num"><a href="#L27">27</a></td><td class="line-code"><span style="color:#24292E">  vertices : Finset V</span></td></tr>
-<tr id="L28" class=""><td class="line-num"><a href="#L28">28</a></td><td class="line-code"><span style="color:#6A737D">  /-- A total map whose values on `vertices` are the batch assignments. -/</span></td></tr>
+<tr id="L28" class=""><td class="line-num"><a href="#L28">28</a></td><td class="line-code"><span style="color:#6A737D">  /-- A total map whose values on `vertices` are the proposed positive assignments. -/</span></td></tr>
 <tr id="L29" class=""><td class="line-num"><a href="#L29">29</a></td><td class="line-code"><span style="color:#24292E">  teaching : TeachingMap V </span><span style="color:#005CC5">1</span></td></tr>
 <tr id="L30" class=""><td class="line-num"><a href="#L30">30</a></td><td class="line-code"> </td></tr>
-<tr id="L31" class=""><td class="line-num"><a href="#L31">31</a></td><td class="line-code"><span style="color:#6A737D">/-- The three admissibility conditions from the batch construction. -/</span></td></tr>
+<tr id="L31" class=""><td class="line-num"><a href="#L31">31</a></td><td class="line-code"><span style="color:#6A737D">/-- The positive-teaching-set admissibility conditions from the batch construction. -/</span></td></tr>
 <tr id="L32" class=""><td class="line-num"><a href="#L32">32</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> IsAdmissible</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E"> u} (G : SimpleGraph V) (d : ℕ)</span></td></tr>
 <tr id="L33" class=""><td class="line-num"><a href="#L33">33</a></td><td class="line-code"><span style="color:#24292E">    (B : BatchAssignment G) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
 <tr id="L34" class=""><td class="line-num"><a href="#L34">34</a></td><td class="line-code"><span style="color:#24292E">  (∀ ⦃v x : V⦄, v ∈ B.vertices → x ∈ B.teaching v →</span></td></tr>
@@ -192,29 +192,30 @@ Retaining the corresponding teaching sets defines its final assignment.</p>
 <tr id="L41" class=""><td class="line-num"><a href="#L41">41</a></td><td class="line-code"><span style="color:#24292E">      ∃ y ∈ B.teaching v, y ∉ closedBall G </span><span style="color:#005CC5">1</span><span style="color:#24292E"> x)</span></td></tr>
 <tr id="L42" class=""><td class="line-num"><a href="#L42">42</a></td><td class="line-code"> </td></tr>
 <tr id="L43" class=""><td class="line-num"><a href="#L43">43</a></td><td class="line-code"><span style="color:#6A737D">/--</span></td></tr>
-<tr id="L44" class=""><td class="line-num"><a href="#L44">44</a></td><td class="line-code"><span style="color:#6A737D">A finite batch schedule with an explicit, verified last batch for each</span></td></tr>
-<tr id="L45" class=""><td class="line-num"><a href="#L45">45</a></td><td class="line-code"><span style="color:#6A737D">vertex.  Carrying the last index as data keeps the final assignment readable.</span></td></tr>
-<tr id="L46" class=""><td class="line-num"><a href="#L46">46</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
-<tr id="L47" class=""><td class="line-num"><a href="#L47">47</a></td><td class="line-code"><span style="color:#D73A49">structure</span><span style="color:#6F42C1"> BatchSchedule</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E"> u} (G : SimpleGraph V) </span><span style="color:#D73A49">where</span></td></tr>
-<tr id="L48" class=""><td class="line-num"><a href="#L48">48</a></td><td class="line-code"><span style="color:#6A737D">  /-- Number of batches in the schedule. -/</span></td></tr>
-<tr id="L49" class=""><td class="line-num"><a href="#L49">49</a></td><td class="line-code"><span style="color:#24292E">  batchCount : ℕ</span></td></tr>
-<tr id="L50" class=""><td class="line-num"><a href="#L50">50</a></td><td class="line-code"><span style="color:#6A737D">  /-- The batches, in chronological order. -/</span></td></tr>
-<tr id="L51" class=""><td class="line-num"><a href="#L51">51</a></td><td class="line-code"><span style="color:#24292E">  batch : Fin batchCount → BatchAssignment G</span></td></tr>
-<tr id="L52" class=""><td class="line-num"><a href="#L52">52</a></td><td class="line-code"><span style="color:#6A737D">  /-- The last batch containing each vertex. -/</span></td></tr>
-<tr id="L53" class=""><td class="line-num"><a href="#L53">53</a></td><td class="line-code"><span style="color:#24292E">  last : V → Fin batchCount</span></td></tr>
-<tr id="L54" class=""><td class="line-num"><a href="#L54">54</a></td><td class="line-code"><span style="color:#6A737D">  /-- Every vertex belongs to its selected last batch. -/</span></td></tr>
-<tr id="L55" class=""><td class="line-num"><a href="#L55">55</a></td><td class="line-code"><span style="color:#24292E">  mem_last : ∀ v : V, v ∈ (batch (last v)).vertices</span></td></tr>
-<tr id="L56" class=""><td class="line-num"><a href="#L56">56</a></td><td class="line-code"><span style="color:#6A737D">  /-- No later batch contains the vertex. -/</span></td></tr>
-<tr id="L57" class=""><td class="line-num"><a href="#L57">57</a></td><td class="line-code"><span style="color:#24292E">  last_is_last :</span></td></tr>
-<tr id="L58" class=""><td class="line-num"><a href="#L58">58</a></td><td class="line-code"><span style="color:#24292E">    ∀ (v : V) (i : Fin batchCount), v ∈ (batch i).vertices → i ≤ last v</span></td></tr>
-<tr id="L59" class=""><td class="line-num"><a href="#L59">59</a></td><td class="line-code"> </td></tr>
-<tr id="L60" class=""><td class="line-num"><a href="#L60">60</a></td><td class="line-code"><span style="color:#6A737D">/-- The final map obtained by retaining each vertex's last assignment. -/</span></td></tr>
-<tr id="L61" class=""><td class="line-num"><a href="#L61">61</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> BatchSchedule.finalTeaching</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E"> u} {G : SimpleGraph V}</span></td></tr>
-<tr id="L62" class=""><td class="line-num"><a href="#L62">62</a></td><td class="line-code"><span style="color:#24292E">    (S : BatchSchedule G) : TeachingMap V </span><span style="color:#005CC5">1</span><span style="color:#24292E"> :=</span></td></tr>
-<tr id="L63" class=""><td class="line-num"><a href="#L63">63</a></td><td class="line-code"><span style="color:#D73A49">  fun</span><span style="color:#24292E"> v =&gt; (S.batch (S.last v)).teaching v</span></td></tr>
-<tr id="L64" class=""><td class="line-num"><a href="#L64">64</a></td><td class="line-code"> </td></tr>
-<tr id="L65" class=""><td class="line-num"><a href="#L65">65</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax60.BatchFramework</span></td></tr>
-<tr id="L66" class=""><td class="line-num"><a href="#L66">66</a></td><td class="line-code"> </td></tr>
+<tr id="L44" class=""><td class="line-num"><a href="#L44">44</a></td><td class="line-code"><span style="color:#6A737D">A finite positive-teaching-set batch schedule with an explicit, verified last</span></td></tr>
+<tr id="L45" class=""><td class="line-num"><a href="#L45">45</a></td><td class="line-code"><span style="color:#6A737D">batch for each vertex.  Carrying the last index as data keeps the final</span></td></tr>
+<tr id="L46" class=""><td class="line-num"><a href="#L46">46</a></td><td class="line-code"><span style="color:#6A737D">assignment readable.</span></td></tr>
+<tr id="L47" class=""><td class="line-num"><a href="#L47">47</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
+<tr id="L48" class=""><td class="line-num"><a href="#L48">48</a></td><td class="line-code"><span style="color:#D73A49">structure</span><span style="color:#6F42C1"> BatchSchedule</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E"> u} (G : SimpleGraph V) </span><span style="color:#D73A49">where</span></td></tr>
+<tr id="L49" class=""><td class="line-num"><a href="#L49">49</a></td><td class="line-code"><span style="color:#6A737D">  /-- Number of batches in the schedule. -/</span></td></tr>
+<tr id="L50" class=""><td class="line-num"><a href="#L50">50</a></td><td class="line-code"><span style="color:#24292E">  batchCount : ℕ</span></td></tr>
+<tr id="L51" class=""><td class="line-num"><a href="#L51">51</a></td><td class="line-code"><span style="color:#6A737D">  /-- The batches, in chronological order. -/</span></td></tr>
+<tr id="L52" class=""><td class="line-num"><a href="#L52">52</a></td><td class="line-code"><span style="color:#24292E">  batch : Fin batchCount → BatchAssignment G</span></td></tr>
+<tr id="L53" class=""><td class="line-num"><a href="#L53">53</a></td><td class="line-code"><span style="color:#6A737D">  /-- The last batch containing each vertex. -/</span></td></tr>
+<tr id="L54" class=""><td class="line-num"><a href="#L54">54</a></td><td class="line-code"><span style="color:#24292E">  last : V → Fin batchCount</span></td></tr>
+<tr id="L55" class=""><td class="line-num"><a href="#L55">55</a></td><td class="line-code"><span style="color:#6A737D">  /-- Every vertex belongs to its selected last batch. -/</span></td></tr>
+<tr id="L56" class=""><td class="line-num"><a href="#L56">56</a></td><td class="line-code"><span style="color:#24292E">  mem_last : ∀ v : V, v ∈ (batch (last v)).vertices</span></td></tr>
+<tr id="L57" class=""><td class="line-num"><a href="#L57">57</a></td><td class="line-code"><span style="color:#6A737D">  /-- No later batch contains the vertex. -/</span></td></tr>
+<tr id="L58" class=""><td class="line-num"><a href="#L58">58</a></td><td class="line-code"><span style="color:#24292E">  last_is_last :</span></td></tr>
+<tr id="L59" class=""><td class="line-num"><a href="#L59">59</a></td><td class="line-code"><span style="color:#24292E">    ∀ (v : V) (i : Fin batchCount), v ∈ (batch i).vertices → i ≤ last v</span></td></tr>
+<tr id="L60" class=""><td class="line-num"><a href="#L60">60</a></td><td class="line-code"> </td></tr>
+<tr id="L61" class=""><td class="line-num"><a href="#L61">61</a></td><td class="line-code"><span style="color:#6A737D">/-- The final map obtained by retaining each vertex's last positive assignment. -/</span></td></tr>
+<tr id="L62" class=""><td class="line-num"><a href="#L62">62</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> BatchSchedule.finalTeaching</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E"> u} {G : SimpleGraph V}</span></td></tr>
+<tr id="L63" class=""><td class="line-num"><a href="#L63">63</a></td><td class="line-code"><span style="color:#24292E">    (S : BatchSchedule G) : TeachingMap V </span><span style="color:#005CC5">1</span><span style="color:#24292E"> :=</span></td></tr>
+<tr id="L64" class=""><td class="line-num"><a href="#L64">64</a></td><td class="line-code"><span style="color:#D73A49">  fun</span><span style="color:#24292E"> v =&gt; (S.batch (S.last v)).teaching v</span></td></tr>
+<tr id="L65" class=""><td class="line-num"><a href="#L65">65</a></td><td class="line-code"> </td></tr>
+<tr id="L66" class=""><td class="line-num"><a href="#L66">66</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax60.BatchFramework</span></td></tr>
+<tr id="L67" class=""><td class="line-num"><a href="#L67">67</a></td><td class="line-code"> </td></tr>
 </table></div><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
 
 <div class="block"><div class="deps-columns">
