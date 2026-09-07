@@ -2292,7 +2292,9 @@
           "type": "definition"
         }
       ],
-      "proofs": []
+      "proofs": [
+        "Lax709149Proofs.Results.isRegularUnderRepr_of_isRegularTermFun"
+      ]
     },
     {
       "id": "lax-765601",

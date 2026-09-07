@@ -33,13 +33,17 @@
 <option value="all">All types</option>
 <option value="definition">definition</option>
 <option value="theorem">theorem</option>
+<option value="proof">proof</option>
 </select>
 </div></div>
 <ul id="entry-list">
-<li data-type="theorem" data-search="lax709149.regularofterm regular terms define regular functions theorem"><a class="entry-link" href="../lax-709149/Lax709149.RegularOfTerm.html" data-full-title="Regular terms define regular functions"><span class="entry-label"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><span class="entry-label-text">Lax709149.RegularOfTerm</span></span></a></li>
+<li class="entry-heading" aria-hidden="true">Concepts</li>
+<li data-type="theorem" data-search="lax709149.regularofterm regular terms define regular functions theorem"><a class="entry-link" href="../lax-709149/Lax709149.RegularOfTerm.html" data-full-title="Regular terms define regular functions"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax709149.RegularOfTerm</span></span></a></li>
 <li class="active" data-type="definition" data-search="lax709149.regularterms regular terms definition"><a class="entry-link" href="../lax-709149/Lax709149.RegularTerms.html" data-full-title="Regular terms"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax709149.RegularTerms</span></span></a></li>
 <li data-type="definition" data-search="lax709149.regularunderrepresentation regular functions on types under string representation definition"><a class="entry-link" href="../lax-709149/Lax709149.RegularUnderRepresentation.html" data-full-title="Regular functions on types under string representation"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax709149.RegularUnderRepresentation</span></span></a></li>
 <li data-type="definition" data-search="lax709149.types types and their string representation definition"><a class="entry-link" href="../lax-709149/Lax709149.Types.html" data-full-title="Types and their string representation"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax709149.Types</span></span></a></li>
+<li class="entry-heading" aria-hidden="true">Proofs</li>
+<li data-type="proof" data-search="lax709149proofs.results.isregularunderrepr_of_isregulartermfun proof"><a class="entry-link" href="../lax-709149/Lax709149Proofs.Results.isRegularUnderRepr_of_isRegularTermFun.html" data-full-title="Lax709149Proofs.Results.isRegularUnderRepr_of_isRegularTermFun"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax709149Proofs.Results.isRegularUnderRepr_of_isRegularTermFun</span></span></a></li>
 <li id="entry-list-empty" hidden>No entries match.</li>
 </ul>
 </aside>
@@ -89,7 +93,7 @@
 <div class="graph-toolbar"><button type="button" id="concept-expand" aria-controls="concept-dag" aria-pressed="true">Hide ancestors</button><button type="button" id="concept-descend" aria-controls="concept-dag" aria-pressed="false">Show descendants</button><output id="concept-graph-status" aria-live="polite"></output></div>
 <div id="concept-dag" class="figure-container" data-graph="concepts" data-ancestry="true"></div>
 <div class="graph-tooltip" role="tooltip" hidden></div>
-<figcaption class="graph-legend" aria-label="Concept map legend"><span><i class="legend-node fill-open"></i>Open claim</span><span><i class="legend-node fill-none"></i>Definition</span><span><i class="legend-node stroke-own"></i>This concept</span><span><i class="legend-node stroke-ext"></i>Related concept</span><span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B builds on A</span></figcaption>
+<figcaption class="graph-legend" aria-label="Concept map legend"><span><i class="legend-node fill-proven"></i>Proven claim</span><span><i class="legend-node fill-none"></i>Definition</span><span><i class="legend-node stroke-own"></i>This concept</span><span><i class="legend-node stroke-ext"></i>Related concept</span><span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B builds on A</span></figcaption>
 </figure>
 
 
@@ -107,7 +111,7 @@ co-pairing <span class="katex"><span class="katex-mathml"><math xmlns="http://ww
 Every regular term defines a type-to-type function; Theorem C.5.4 relates the
 functions so defined to the regular functions under string representation.</p>
 </div></div>
-<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/bojanczyk/transducer-book/blob/1b02fa63e9ce86a384e91f03fee5dc49a6e1d86b/lax/regular-combinators/concepts/Lax709149/RegularTerms.lean">view on GitHub</a></h3>
+<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/bojanczyk/transducer-book/blob/86f2df5c5c7a60b2f19cd47442310ab27cd92811/lax/regular-combinators/concepts/Lax709149/RegularTerms.lean">view on GitHub</a></h3>
 <div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
 <tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Algebra.Group.Defs</span></td></tr>
 <tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Data.Finite.Defs</span></td></tr>
@@ -248,7 +252,7 @@ type, which the book requires and which the regularity of its semantics needs.
 </div>
 <noscript><p class="discussion-unavailable">Enable JavaScript to read or join the discussion.</p></noscript>
 </section>
-<script type="application/json" id="graph-data">{"concepts":{"nodes":[{"id":"Lax709149.RegularOfTerm","href":"../lax-709149/Lax709149.RegularOfTerm.html","title":"Regular terms define regular functions","owner":"lax-709149","status":"open","ext":true,"dir":"down"},{"id":"Lax709149.RegularTerms","href":"../lax-709149/Lax709149.RegularTerms.html","title":"Regular terms","owner":"lax-709149","status":"none","ext":false,"dir":"core"},{"id":"Lax709149.Types","href":"../lax-709149/Lax709149.Types.html","title":"Types and their string representation","owner":"lax-709149","status":"none","ext":true,"dir":"up"}],"edges":[{"from":"Lax709149.RegularTerms","to":"Lax709149.RegularOfTerm"},{"from":"Lax709149.Types","to":"Lax709149.RegularTerms"}],"home":"lax-709149"},"proofs":{"statements":[],"proofs":[]}}</script>
+<script type="application/json" id="graph-data">{"concepts":{"nodes":[{"id":"Lax709149.RegularOfTerm","href":"../lax-709149/Lax709149.RegularOfTerm.html","title":"Regular terms define regular functions","owner":"lax-709149","status":"proven","ext":true,"dir":"down"},{"id":"Lax709149.RegularTerms","href":"../lax-709149/Lax709149.RegularTerms.html","title":"Regular terms","owner":"lax-709149","status":"none","ext":false,"dir":"core"},{"id":"Lax709149.Types","href":"../lax-709149/Lax709149.Types.html","title":"Types and their string representation","owner":"lax-709149","status":"none","ext":true,"dir":"up"}],"edges":[{"from":"Lax709149.RegularTerms","to":"Lax709149.RegularOfTerm"},{"from":"Lax709149.Types","to":"Lax709149.RegularTerms"}],"home":"lax-709149"},"proofs":{"statements":[],"proofs":[]}}</script>
 </div>
 <footer class="site-footer">
   <nav class="site-footer-nav" aria-label="Legal and about">
