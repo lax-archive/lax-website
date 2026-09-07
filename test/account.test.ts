@@ -338,7 +338,7 @@ describe("ORCID account header", () => {
       { hidden: false, className: "concept-review-badge flagged", text: "⚑" },
       { hidden: false, className: "concept-review-badge pending", text: "" },
     ]);
-    expect(fx.conceptBadges[0]!.attributes.get("aria-label")).toBe("You accepted this concept");
+    expect(fx.conceptBadges[0]!.attributes.get("aria-label")).toBe("You endorsed this concept");
     expect(fx.conceptBadges[3]!.attributes.get("aria-label")).toBe("You have not evaluated this concept");
     expect(fx.progress?.hidden).toBe(false);
     expect(fx.progressLabel?.textContent).toBe("33% accepted · 34% not evaluated · 33% flagged");
