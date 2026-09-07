@@ -1,0 +1,484 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://comments.laxarchive.org; style-src 'self' 'unsafe-inline'; img-src https: data:; font-src 'self'; frame-src https://comments.laxarchive.org; connect-src https://comments.laxarchive.org">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Lax — an archive of formalized mathematical concepts and their proofs">
+<title>Certified structural representations of finite data — lax-58</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
+<link rel="stylesheet" href="../assets/style.css?v=aae04607e49e">
+</head><body>
+<header class="site-header">
+  <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
+  <h1 class="site-title"><a href="../index.html">Lax <span class="site-title-quiet">Lean Archive</span></a></h1>
+  <nav class="header-actions" aria-label="Account">
+    <div class="account-header" data-account-root data-remark42-host="https://comments.laxarchive.org" data-remark42-site="remark" data-identity-url="https://comments.laxarchive.org/reactions/v1/identity">
+  <a class="account-control" data-account-login href="https://comments.laxarchive.org/auth/orcid/login?from=https%3A%2F%2Flaxarchive.org&amp;site=remark"><span class="orcid-mark" aria-hidden="true">iD</span><span>Sign in with ORCID</span></a>
+  <button class="account-control" data-account-settings type="button" aria-haspopup="dialog" aria-controls="account-dialog" hidden><span class="orcid-mark" aria-hidden="true">iD</span><span>Settings</span></button>
+</div>
+  </nav>
+</header>
+<main id="content-shell">
+<div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+<aside id="sidebar">
+<a class="sidebar-back" href="../index.html"><span class="sidebar-back-arrow" aria-hidden="true">←</span>All submissions</a>
+<div class="sidebar-filters"><div class="filter-group">
+<label for="filter-search">Search</label>
+<input id="filter-search" class="filter-input" type="search" placeholder="Filter entries" aria-controls="entry-list">
+</div>
+<div class="filter-group">
+<label for="filter-type">Type</label>
+<select id="filter-type" class="filter-select">
+<option value="all">All types</option>
+<option value="definition">definition</option>
+<option value="definition and theorem">definition and theorem</option>
+<option value="elaboration infrastructure">elaboration infrastructure</option>
+<option value="infrastructure">infrastructure</option>
+<option value="proof">proof</option>
+</select>
+</div></div>
+<ul id="entry-list">
+<li class="entry-heading" aria-hidden="true">Concepts</li>
+<li data-type="definition" data-search="lax58.bitpolynomialtime polynomial time with polynomial word length definition"><a class="entry-link" href="../lax-58/Lax58.BitPolynomialTime.html" data-full-title="Polynomial time with polynomial word length"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax58.BitPolynomialTime</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-58/Lax58.BitPolynomialTime.html" hidden></span></span></a></li>
+<li data-type="infrastructure" data-search="lax58.certifiedderivation field-encoding agreement (infrastructure) infrastructure"><a class="entry-link" href="../lax-58/Lax58.CertifiedDerivation.html" data-full-title="Field-encoding agreement (infrastructure)"><span class="entry-label"><span class="type-badge" title="infrastructure">inf</span><span class="entry-label-text">Lax58.CertifiedDerivation</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-58/Lax58.CertifiedDerivation.html" hidden></span></span></a></li>
+<li data-type="elaboration infrastructure" data-search="lax58.certifiedderivationelab certified encoding derivation (elaboration infrastructure) elaboration infrastructure"><a class="entry-link" href="../lax-58/Lax58.CertifiedDerivationElab.html" data-full-title="Certified encoding derivation (elaboration infrastructure)"><span class="entry-label"><span class="type-badge" title="elaboration infrastructure">ela</span><span class="entry-label-text">Lax58.CertifiedDerivationElab</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-58/Lax58.CertifiedDerivationElab.html" hidden></span></span></a></li>
+<li data-type="definition" data-search="lax58.formulaexample example — structural encoding of propositional formulas definition"><a class="entry-link" href="../lax-58/Lax58.FormulaExample.html" data-full-title="Example — structural encoding of propositional formulas"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax58.FormulaExample</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-58/Lax58.FormulaExample.html" hidden></span></span></a></li>
+<li data-type="definition" data-search="lax58.ramcomplexity time and word-capacity bounds on the word-ram definition"><a class="entry-link" href="../lax-58/Lax58.RamComplexity.html" data-full-title="Time and word-capacity bounds on the word-RAM"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax58.RamComplexity</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-58/Lax58.RamComplexity.html" hidden></span></span></a></li>
+<li data-type="elaboration infrastructure" data-search="lax58.ramcomplexityelab automatic ram encoding selection (elaboration infrastructure) elaboration infrastructure"><a class="entry-link" href="../lax-58/Lax58.RamComplexityElab.html" data-full-title="Automatic RAM encoding selection (elaboration infrastructure)"><span class="entry-label"><span class="type-badge" title="elaboration infrastructure">ela</span><span class="entry-label-text">Lax58.RamComplexityElab</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-58/Lax58.RamComplexityElab.html" hidden></span></span></a></li>
+<li data-type="definition" data-search="lax58.ramcomplexityexample examples — separate resource bounds and polynomial time definition"><a class="entry-link" href="../lax-58/Lax58.RamComplexityExample.html" data-full-title="Examples — separate resource bounds and polynomial time"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax58.RamComplexityExample</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-58/Lax58.RamComplexityExample.html" hidden></span></span></a></li>
+<li data-type="definition and theorem" data-search="lax58.rampolynomialcomparison two polynomial-time conventions, and their separation definition and theorem"><a class="entry-link" href="../lax-58/Lax58.RamPolynomialComparison.html" data-full-title="Two polynomial-time conventions, and their separation"><span class="entry-label"><span class="type-badge proven" title="definition and theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">def✓</span><span class="entry-label-text">Lax58.RamPolynomialComparison</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-58/Lax58.RamPolynomialComparison.html" hidden></span></span></a></li>
+<li data-type="definition and theorem" data-search="lax58.structuralcombinators certified structural presentation combinators definition and theorem"><a class="entry-link" href="../lax-58/Lax58.StructuralCombinators.html" data-full-title="Certified structural presentation combinators"><span class="entry-label"><span class="type-badge proven" title="definition and theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">def✓</span><span class="entry-label-text">Lax58.StructuralCombinators</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-58/Lax58.StructuralCombinators.html" hidden></span></span></a></li>
+<li data-type="elaboration infrastructure" data-search="lax58.structuralderivation unrestricted structural folds (elaboration infrastructure) elaboration infrastructure"><a class="entry-link" href="../lax-58/Lax58.StructuralDerivation.html" data-full-title="Unrestricted structural folds (elaboration infrastructure)"><span class="entry-label"><span class="type-badge" title="elaboration infrastructure">ela</span><span class="entry-label-text">Lax58.StructuralDerivation</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-58/Lax58.StructuralDerivation.html" hidden></span></span></a></li>
+<li data-type="definition" data-search="lax58.structuralpresentation structural presentations of finite data definition"><a class="entry-link" href="../lax-58/Lax58.StructuralPresentation.html" data-full-title="Structural presentations of finite data"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax58.StructuralPresentation</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-58/Lax58.StructuralPresentation.html" hidden></span></span></a></li>
+<li data-type="definition and theorem" data-search="lax58.wordarena distinguished immutable word arenas definition and theorem"><a class="entry-link" href="../lax-58/Lax58.WordArena.html" data-full-title="Distinguished immutable word arenas"><span class="entry-label"><span class="type-badge proven" title="definition and theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">def✓</span><span class="entry-label-text">Lax58.WordArena</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-58/Lax58.WordArena.html" hidden></span></span></a></li>
+<li class="entry-heading" aria-hidden="true">Proofs</li>
+<li data-type="proof" data-search="lax58proofs.ramexponentialexample.exponentiallength_bitpolynomialtime proof"><a class="entry-link" href="../lax-58/Lax58Proofs.RamExponentialExample.exponentialLength_bitPolynomialTime.html" data-full-title="Lax58Proofs.RamExponentialExample.exponentialLength_bitPolynomialTime"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax58Proofs.RamExponentialExample.exponentialLength_bitPolynomialTime</span></span></a></li>
+<li data-type="proof" data-search="lax58proofs.rampolynomialcomparison.bitpolynomialtime_iff_rampolytime proof"><a class="entry-link" href="../lax-58/Lax58Proofs.RamPolynomialComparison.bitPolynomialTime_iff_ramPolytime.html" data-full-title="Lax58Proofs.RamPolynomialComparison.bitPolynomialTime_iff_ramPolytime"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax58Proofs.RamPolynomialComparison.bitPolynomialTime_iff_ramPolytime</span></span></a></li>
+<li data-type="proof" data-search="lax58proofs.rampolynomialseparation.exponentiallength_not_polynomialtime proof"><a class="entry-link" href="../lax-58/Lax58Proofs.RamPolynomialSeparation.exponentialLength_not_polynomialTime.html" data-full-title="Lax58Proofs.RamPolynomialSeparation.exponentialLength_not_polynomialTime"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax58Proofs.RamPolynomialSeparation.exponentialLength_not_polynomialTime</span></span></a></li>
+<li data-type="proof" data-search="lax58proofs.structuralcombinators.constructor_eq_iff_proof proof"><a class="entry-link" href="../lax-58/Lax58Proofs.StructuralCombinators.constructor_eq_iff_proof.html" data-full-title="Lax58Proofs.StructuralCombinators.constructor_eq_iff_proof"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax58Proofs.StructuralCombinators.constructor_eq_iff_proof</span></span></a></li>
+<li data-type="proof" data-search="lax58proofs.structuralcombinators.structural_combinator_size_laws proof"><a class="entry-link" href="../lax-58/Lax58Proofs.StructuralCombinators.structural_combinator_size_laws.html" data-full-title="Lax58Proofs.StructuralCombinators.structural_combinator_size_laws"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax58Proofs.StructuralCombinators.structural_combinator_size_laws</span></span></a></li>
+<li data-type="proof" data-search="lax58proofs.structuralcombinators.structural_combinators_lawful proof"><a class="entry-link" href="../lax-58/Lax58Proofs.StructuralCombinators.structural_combinators_lawful.html" data-full-title="Lax58Proofs.StructuralCombinators.structural_combinators_lawful"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax58Proofs.StructuralCombinators.structural_combinators_lawful</span></span></a></li>
+<li data-type="proof" data-search="lax58proofs.wordarena.encode_fits_proof proof"><a class="entry-link" href="../lax-58/Lax58Proofs.WordArena.encode_fits_proof.html" data-full-title="Lax58Proofs.WordArena.encode_fits_proof"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax58Proofs.WordArena.encode_fits_proof</span></span></a></li>
+<li data-type="proof" data-search="lax58proofs.wordarena.encode_memorywords_proof proof"><a class="entry-link" href="../lax-58/Lax58Proofs.WordArena.encode_memoryWords_proof.html" data-full-title="Lax58Proofs.WordArena.encode_memoryWords_proof"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax58Proofs.WordArena.encode_memoryWords_proof</span></span></a></li>
+<li data-type="proof" data-search="lax58proofs.wordarena.encode_represents_proof proof"><a class="entry-link" href="../lax-58/Lax58Proofs.WordArena.encode_represents_proof.html" data-full-title="Lax58Proofs.WordArena.encode_represents_proof"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax58Proofs.WordArena.encode_represents_proof</span></span></a></li>
+<li data-type="proof" data-search="lax58proofs.wordarena.encode_toinput_length_proof proof"><a class="entry-link" href="../lax-58/Lax58Proofs.WordArena.encode_toInput_length_proof.html" data-full-title="Lax58Proofs.WordArena.encode_toInput_length_proof"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax58Proofs.WordArena.encode_toInput_length_proof</span></span></a></li>
+<li data-type="proof" data-search="lax58proofs.wordarena.encode_totalwords_proof proof"><a class="entry-link" href="../lax-58/Lax58Proofs.WordArena.encode_totalWords_proof.html" data-full-title="Lax58Proofs.WordArena.encode_totalWords_proof"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax58Proofs.WordArena.encode_totalWords_proof</span></span></a></li>
+<li data-type="proof" data-search="lax58proofs.wordarena.encoderaw_dense_proof proof"><a class="entry-link" href="../lax-58/Lax58Proofs.WordArena.encodeRaw_dense_proof.html" data-full-title="Lax58Proofs.WordArena.encodeRaw_dense_proof"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax58Proofs.WordArena.encodeRaw_dense_proof</span></span></a></li>
+<li data-type="proof" data-search="lax58proofs.wordarena.encoderaw_fits_proof proof"><a class="entry-link" href="../lax-58/Lax58Proofs.WordArena.encodeRaw_fits_proof.html" data-full-title="Lax58Proofs.WordArena.encodeRaw_fits_proof"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax58Proofs.WordArena.encodeRaw_fits_proof</span></span></a></li>
+<li data-type="proof" data-search="lax58proofs.wordarena.encoderaw_memorywords_proof proof"><a class="entry-link" href="../lax-58/Lax58Proofs.WordArena.encodeRaw_memoryWords_proof.html" data-full-title="Lax58Proofs.WordArena.encodeRaw_memoryWords_proof"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax58Proofs.WordArena.encodeRaw_memoryWords_proof</span></span></a></li>
+<li data-type="proof" data-search="lax58proofs.wordarena.encoderaw_represents_proof proof"><a class="entry-link" href="../lax-58/Lax58Proofs.WordArena.encodeRaw_represents_proof.html" data-full-title="Lax58Proofs.WordArena.encodeRaw_represents_proof"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax58Proofs.WordArena.encodeRaw_represents_proof</span></span></a></li>
+<li data-type="proof" data-search="lax58proofs.wordarena.encoderaw_toinput_length_proof proof"><a class="entry-link" href="../lax-58/Lax58Proofs.WordArena.encodeRaw_toInput_length_proof.html" data-full-title="Lax58Proofs.WordArena.encodeRaw_toInput_length_proof"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax58Proofs.WordArena.encodeRaw_toInput_length_proof</span></span></a></li>
+<li data-type="proof" data-search="lax58proofs.wordarena.encoderaw_totalwords_proof proof"><a class="entry-link" href="../lax-58/Lax58Proofs.WordArena.encodeRaw_totalWords_proof.html" data-full-title="Lax58Proofs.WordArena.encodeRaw_totalWords_proof"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax58Proofs.WordArena.encodeRaw_totalWords_proof</span></span></a></li>
+<li data-type="proof" data-search="lax58proofs.wordarena.encoderaw_wellformed_proof proof"><a class="entry-link" href="../lax-58/Lax58Proofs.WordArena.encodeRaw_wellFormed_proof.html" data-full-title="Lax58Proofs.WordArena.encodeRaw_wellFormed_proof"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax58Proofs.WordArena.encodeRaw_wellFormed_proof</span></span></a></li>
+<li id="entry-list-empty" hidden>No entries match.</li>
+</ul>
+</aside>
+<div id="sidebar-resizer" class="sidebar-resizer" role="separator" aria-label="Resize sidebar" aria-controls="sidebar" aria-orientation="vertical" aria-valuemin="220" aria-valuemax="520" aria-valuenow="285" tabindex="0" title="Drag to resize sidebar"></div>
+<section id="main"><div id="detail">
+<p class="draft-banner"><strong>Draft</strong> — mutable and not usable as a dependency; its citation marks the draft state.</p>
+<header class="paper-head">
+<h1 class="paper-title">Certified structural representations of finite data</h1>
+<p class="paper-meta"><span class="submission-meta-id">lax-58</span><span class="meta-sep">·</span><span class="formalized-label">formalized by</span> <span class="paper-author">Jan Dreier</span><span class="author-sep">·</span><span class="paper-author">Szymon Toruńczyk <span class="author-links"><a href="https://github.com/szymtor">@szymtor</a></span></span><span class="author-sep">·</span><span class="paper-author">ChatGPT (5.6 and 6)</span><span class="meta-sep">·</span>created 2026-08-31<span class="meta-sep">·</span><a href="https://github.com/szymtor/lax58/tree/83d795f06ae20b48ceed34a9f1284975d305b9c4/" title="https://github.com/szymtor/lax58/tree/83d795f06ae20b48ceed34a9f1284975d305b9c4/"><code>GitHub @83d795f</code></a><span class="meta-sep">·</span>Lean <code>v4.30.0</code> <span class="meta-epoch" title="the environment the archive recommends this year">epoch</span> · mathlib <code>c5ea00351c28</code></p>
+</header>
+<section class="page-reactions" aria-label="Community review" data-reactions-host="https://comments.laxarchive.org" data-reactions-url="https://laxarchive.org/lax-58/" data-review-kind="submission" data-source-lines="0" data-submission-concept-urls="[&quot;https://laxarchive.org/lax-13/Lax13.Ram.html&quot;,&quot;https://laxarchive.org/lax-13/Lax13.RamComputes.html&quot;,&quot;https://laxarchive.org/lax-51/Lax51.BinaryWordEncoding.html&quot;,&quot;https://laxarchive.org/lax-51/Lax51.RamPolytime.html&quot;,&quot;https://laxarchive.org/lax-58/Lax58.BitPolynomialTime.html&quot;,&quot;https://laxarchive.org/lax-58/Lax58.CertifiedDerivation.html&quot;,&quot;https://laxarchive.org/lax-58/Lax58.CertifiedDerivationElab.html&quot;,&quot;https://laxarchive.org/lax-58/Lax58.FormulaExample.html&quot;,&quot;https://laxarchive.org/lax-58/Lax58.RamComplexity.html&quot;,&quot;https://laxarchive.org/lax-58/Lax58.RamComplexityElab.html&quot;,&quot;https://laxarchive.org/lax-58/Lax58.RamComplexityExample.html&quot;,&quot;https://laxarchive.org/lax-58/Lax58.RamPolynomialComparison.html&quot;,&quot;https://laxarchive.org/lax-58/Lax58.StructuralCombinators.html&quot;,&quot;https://laxarchive.org/lax-58/Lax58.StructuralDerivation.html&quot;,&quot;https://laxarchive.org/lax-58/Lax58.StructuralPresentation.html&quot;,&quot;https://laxarchive.org/lax-58/Lax58.WordArena.html&quot;]">
+<div class="page-reactions-line">
+<div class="page-reactions-actions">
+<div class="page-reaction-control">
+<button class="page-reaction-button" type="button" data-reaction="endorse" aria-pressed="false" title="Say that this submission is correct"><span class="page-reaction-icon" aria-hidden="true">✅</span><span>Endorse</span></button>
+<button class="page-reaction-voters" type="button" data-reaction-voters="endorse" aria-expanded="false" aria-controls="page-reaction-voters-endorse"><strong data-reaction-count="endorse">0</strong><span class="visually-hidden">Show people who endorse this submission</span></button>
+<div class="page-reaction-voters-popover" id="page-reaction-voters-endorse" data-reaction-voters-popover="endorse" hidden><p data-reaction-empty>No public endorsements yet.</p><ul></ul></div>
+</div>
+<div class="page-reaction-control page-flag-control">
+<button class="page-reaction-button" type="button" data-reaction="flag" aria-pressed="false" aria-haspopup="dialog" title="Explain why this submission may be false"><span class="page-reaction-icon" aria-hidden="true">🚩</span><span>Flag</span></button>
+<button class="page-reaction-voters" type="button" data-flag-list-open aria-haspopup="dialog" aria-controls="page-flag-list"><strong data-reaction-count="flag">0</strong><span class="visually-hidden">Show flags for this submission</span></button>
+</div>
+</div>
+<p class="submission-flagged-note" data-submission-flagged-note hidden><span aria-hidden="true">⚑</span><span data-submission-flagged-note-text></span></p>
+</div>
+<p class="page-reactions-status" data-reactions-status role="status">Loading review…</p>
+<a class="visually-hidden" data-reactions-login href="https://comments.laxarchive.org/auth/orcid/login?site=remark&amp;from=https%3A%2F%2Flaxarchive.org%2Flax-58%2F">Sign in with ORCID</a>
+<dialog class="review-dialog flag-list-dialog" id="page-flag-list" data-flag-list-dialog aria-labelledby="page-flag-list-title">
+<div class="review-dialog-header"><div><p class="discussion-eyebrow">Community review</p><h2 id="page-flag-list-title">Flags</h2></div><button class="review-dialog-close" type="button" data-flag-list-close aria-label="Close flags">×</button></div>
+<p class="review-dialog-intro">Each flag is tied to a public ORCID identity and explains why this submission may be incorrect.</p>
+<p data-flag-list-empty>No flags have been submitted.</p><ol class="flag-list" data-flag-list></ol>
+</dialog>
+<dialog class="review-dialog flag-editor-dialog" id="page-flag-editor" data-flag-editor aria-labelledby="page-flag-editor-title">
+<form data-flag-form>
+<div class="review-dialog-header"><div><p class="discussion-eyebrow">Community review</p><h2 id="page-flag-editor-title">Flag this submission</h2></div><button class="review-dialog-close" type="button" data-flag-cancel aria-label="Close flag form">×</button></div>
+<p class="review-dialog-intro">State precisely what appears incorrect. This explanation will be public under your ORCID name.</p>
+<label class="flag-message-label" for="page-flag-message">What is wrong?</label>
+<textarea id="page-flag-message" data-flag-message rows="6" maxlength="2000" required placeholder="Describe the incorrect claim, missing assumption, or counterexample."></textarea>
+
+<p class="flag-form-status" data-flag-form-status role="status"></p>
+<div class="review-dialog-actions"><button class="danger-button" type="button" data-flag-remove hidden>Remove my flag</button><span></span><button class="secondary-button" type="button" data-flag-cancel>Cancel</button><button class="primary-button" type="submit">Publish flag</button></div>
+</form>
+</dialog>
+<noscript><p class="page-reactions-noscript"><a href="https://comments.laxarchive.org/auth/orcid/login?site=remark&amp;from=https%3A%2F%2Flaxarchive.org%2Flax-58%2F">Sign in with ORCID</a> to review this page.</p></noscript>
+</section>
+<section class="paper-abstract">
+<h2 class="abstract-heading">Abstract</h2>
+<div class="latex-content"><p>We define a neutral structural input convention for finite constructor data.
+Values are represented by binary trees with natural-number leaves; structural
+size counts tree nodes while primitive payload magnitude is tracked
+separately. A small fixed vocabulary constructs natural-number, product, and
+ordered-list presentations required by the current downstream application.
+A closed derivation command generates datatype encoders, complete constructor
+equations, and checked witnesses together. It accepts only natural numbers,
+finite indices, proof-erased subtypes, finite families, and previously derived
+datatypes. Unsupported fields fail elaboration; arbitrary field encoders have
+no access to this certified path. The generated equations remain inspectable
+and kernel-checked.</p>
+<p>The mathematical concepts are structural presentations, their fixed
+combinators, the distinguished word arena, and an encoding-aware word-RAM
+resource predicate. Separate, explicitly labeled
+infrastructure modules provide encoding-agreement bookkeeping and derivation
+tools; an arbitrary agreement value is not itself a provenance certificate.</p>
+<p>Every structural value has a distinguished dense immutable word arena. The
+arena stores exactly three words per structural node plus one root word,
+faithfully represents its source, and supplies the distinguished Lax word-RAM
+input tape consisting of that root followed by the arena. It fits in fixed-width
+word memory under separate payload and address-space hypotheses. The resource
+predicate uses the existing Lax word-RAM model to state explicit time and
+word-capacity bounds for mathematical functions. A closed frontend selects
+input and output encodings automatically; a separate example expresses linear
+dependence on one input with computable dependence on another. For natural-list
+inputs and natural outputs, verified RAM compilers prove equivalence between
+arena-based bit-polynomial time and Lax51's native length-prefixed convention.
+The implications may use polynomial bounds of unrelated degrees. The
+submission does not provide binary serialization, mutable-heap semantics, or
+a new algorithmic runtime model.</p>
+</div>
+</section>
+
+<section class="page-section"><h3 class="section-title">Concepts</h3>
+<div class="concept-list-box">
+<div class="concept-review-progress" data-concept-review-progress data-concept-review-urls="[&quot;https://laxarchive.org/lax-58/Lax58.BitPolynomialTime.html&quot;,&quot;https://laxarchive.org/lax-58/Lax58.CertifiedDerivation.html&quot;,&quot;https://laxarchive.org/lax-58/Lax58.CertifiedDerivationElab.html&quot;,&quot;https://laxarchive.org/lax-58/Lax58.FormulaExample.html&quot;,&quot;https://laxarchive.org/lax-58/Lax58.RamComplexity.html&quot;,&quot;https://laxarchive.org/lax-58/Lax58.RamComplexityElab.html&quot;,&quot;https://laxarchive.org/lax-58/Lax58.RamComplexityExample.html&quot;,&quot;https://laxarchive.org/lax-58/Lax58.RamPolynomialComparison.html&quot;,&quot;https://laxarchive.org/lax-58/Lax58.StructuralCombinators.html&quot;,&quot;https://laxarchive.org/lax-58/Lax58.StructuralDerivation.html&quot;,&quot;https://laxarchive.org/lax-58/Lax58.StructuralPresentation.html&quot;,&quot;https://laxarchive.org/lax-58/Lax58.WordArena.html&quot;,&quot;https://laxarchive.org/lax-13/Lax13.RamComputes.html&quot;,&quot;https://laxarchive.org/lax-51/Lax51.RamPolytime.html&quot;]" hidden>
+<div class="concept-review-progress-heading"><span>Review progress</span><span data-concept-review-progress-label></span></div>
+<div class="concept-review-progress-track" data-concept-review-progress-track role="img"></div>
+</div>
+<ul class="concept-list">
+<li><span class="type-badge" title="definition">def</span><a href="Lax58.BitPolynomialTime.html" title="Lax58.BitPolynomialTime"><code>Lax58.BitPolynomialTime</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-58/Lax58.BitPolynomialTime.html" hidden></span></li>
+<li><span class="type-badge" title="infrastructure">inf</span><a href="Lax58.CertifiedDerivation.html" title="Lax58.CertifiedDerivation"><code>Lax58.CertifiedDerivation</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-58/Lax58.CertifiedDerivation.html" hidden></span></li>
+<li><span class="type-badge" title="elaboration infrastructure">ela</span><a href="Lax58.CertifiedDerivationElab.html" title="Lax58.CertifiedDerivationElab"><code>Lax58.CertifiedDerivationElab</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-58/Lax58.CertifiedDerivationElab.html" hidden></span></li>
+<li><span class="type-badge" title="definition">def</span><a href="Lax58.FormulaExample.html" title="Lax58.FormulaExample"><code>Lax58.FormulaExample</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-58/Lax58.FormulaExample.html" hidden></span></li>
+<li><span class="type-badge" title="definition">def</span><a href="Lax58.RamComplexity.html" title="Lax58.RamComplexity"><code>Lax58.RamComplexity</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-58/Lax58.RamComplexity.html" hidden></span></li>
+<li><span class="type-badge" title="elaboration infrastructure">ela</span><a href="Lax58.RamComplexityElab.html" title="Lax58.RamComplexityElab"><code>Lax58.RamComplexityElab</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-58/Lax58.RamComplexityElab.html" hidden></span></li>
+<li><span class="type-badge" title="definition">def</span><a href="Lax58.RamComplexityExample.html" title="Lax58.RamComplexityExample"><code>Lax58.RamComplexityExample</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-58/Lax58.RamComplexityExample.html" hidden></span></li>
+<li><span class="type-badge proven" title="definition and theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">def✓</span><a href="Lax58.RamPolynomialComparison.html" title="Lax58.RamPolynomialComparison"><code>Lax58.RamPolynomialComparison</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-58/Lax58.RamPolynomialComparison.html" hidden></span></li>
+<li><span class="type-badge proven" title="definition and theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">def✓</span><a href="Lax58.StructuralCombinators.html" title="Lax58.StructuralCombinators"><code>Lax58.StructuralCombinators</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-58/Lax58.StructuralCombinators.html" hidden></span></li>
+<li><span class="type-badge" title="elaboration infrastructure">ela</span><a href="Lax58.StructuralDerivation.html" title="Lax58.StructuralDerivation"><code>Lax58.StructuralDerivation</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-58/Lax58.StructuralDerivation.html" hidden></span></li>
+<li><span class="type-badge" title="definition">def</span><a href="Lax58.StructuralPresentation.html" title="Lax58.StructuralPresentation"><code>Lax58.StructuralPresentation</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-58/Lax58.StructuralPresentation.html" hidden></span></li>
+<li><span class="type-badge proven" title="definition and theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">def✓</span><a href="Lax58.WordArena.html" title="Lax58.WordArena"><code>Lax58.WordArena</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-58/Lax58.WordArena.html" hidden></span></li>
+</ul>
+<button class="concept-used-toggle" type="button" data-used-concepts-toggle aria-controls="used-concepts-list" aria-expanded="false">Show concepts used from other submissions</button>
+<ul class="concept-list concept-used-list" id="used-concepts-list" aria-label="Concepts used from other submissions" hidden>
+<li><span class="type-badge" title="definition">def</span><a href="../lax-13/Lax13.RamComputes.html" title="Lax13.RamComputes"><code>lax-13.Lax13.RamComputes</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-13/Lax13.RamComputes.html" hidden></span></li>
+<li><span class="type-badge" title="definition">def</span><a href="../lax-51/Lax51.RamPolytime.html" title="Lax51.RamPolytime"><code>lax-51.Lax51.RamPolytime</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-51/Lax51.RamPolytime.html" hidden></span></li>
+</ul>
+<div class="badge-legend" aria-label="Concept badge legend"><span><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span>proven claim</span><span><span class="type-badge" title="definition">def</span>definition</span></div>
+</div>
+<h4 class="figure-title">Concept map</h4>
+<figure class="graph-figure">
+<button class="graph-expand" type="button" data-graph-expand data-graph-label="concept map" aria-expanded="false" aria-label="Open concept map in a large window" title="Open in large window"><svg class="graph-expand-open" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M2.5 6V2.5H6M10 2.5h3.5V6M13.5 10v3.5H10M6 13.5H2.5V10"/></svg><span class="graph-expand-close" aria-hidden="true">×</span></button>
+<div class="graph-toolbar"><button type="button" id="concept-expand" aria-controls="concept-dag" aria-pressed="true">Hide ancestors</button><button type="button" id="concept-descend" aria-controls="concept-dag" aria-pressed="false">Show descendants</button><output id="concept-graph-status" aria-live="polite"></output></div>
+<div id="concept-dag" class="figure-container" data-graph="concepts" data-ancestry="true"></div>
+<div class="graph-tooltip" role="tooltip" hidden></div>
+<figcaption class="graph-legend" aria-label="Concept map legend"><span><i class="legend-node fill-proven"></i>Proven claim</span><span><i class="legend-node fill-none"></i>Definition</span><span><i class="legend-node stroke-own"></i>This submission</span><span><i class="legend-node stroke-ext"></i>Other submission</span><span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B builds on A</span></figcaption>
+</figure>
+</section>
+<section class="page-section"><h3 class="section-title">Proofs</h3>
+<h4 class="figure-title">Proof network<a class="source-link" href="https://github.com/szymtor/lax58/tree/83d795f06ae20b48ceed34a9f1284975d305b9c4/proofs">view on GitHub</a></h4>
+<figure class="graph-figure proof-network-figure">
+<button class="graph-expand" type="button" data-graph-expand data-graph-label="proof network" aria-expanded="false" aria-label="Open proof network in a large window" title="Open in large window"><svg class="graph-expand-open" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M2.5 6V2.5H6M10 2.5h3.5V6M13.5 10v3.5H10M6 13.5H2.5V10"/></svg><span class="graph-expand-close" aria-hidden="true">×</span></button>
+<div id="proof-network" class="figure-container" data-graph="proofs"></div>
+<div class="graph-tooltip" role="tooltip" hidden></div>
+<figcaption class="graph-legend" aria-label="Proof network legend"><span class="proof-flow">assumptions <i class="legend-arrow" aria-hidden="true">→</i><i class="legend-proof-chip" aria-hidden="true">⊢</i><i class="legend-arrow" aria-hidden="true">→</i> conclusion</span><span><i class="legend-node fill-proven"></i>Proven claim</span><span><i class="legend-dock" aria-hidden="true">1</i>Statement 1, 2, … of a claim with several statements</span><span><i class="legend-node stroke-own"></i>This submission</span><span><i class="legend-proof-chip" aria-hidden="true">⊢</i>Proof — click to open</span></figcaption>
+</figure>
+<div class="proof-list-box">
+<ul class="proof-list">
+<li class="proof-item" id="p-Lax58Proofs.RamExponentialExample.exponentialLength_bitPolynomialTime">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-58/Lax58Proofs.RamExponentialExample.exponentialLength_bitPolynomialTime.html" aria-label="Open proof Lax58Proofs.RamExponentialExample.exponentialLength_bitPolynomialTime"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><p class="judgment-unconditional">no assumptions</p></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="definition and theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">def✓</span><a href="../lax-58/Lax58.RamPolynomialComparison.html#s-Lax58.RamPolynomialComparison.exponentialLength_bitPolynomialTime" title="Lax58.RamPolynomialComparison.exponentialLength_bitPolynomialTime"><code>Lax58.RamPolynomialComparison</code> <span class="claim-ordinal">(2nd statement)</span></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-58/Lax58Proofs.RamExponentialExample.exponentialLength_bitPolynomialTime.html"><code>Lax58Proofs.RamExponentialExample.exponentialLength_bitPolynomialTime</code></a></p>
+</li>
+<li class="proof-item" id="p-Lax58Proofs.RamPolynomialComparison.bitPolynomialTime_iff_ramPolytime">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-58/Lax58Proofs.RamPolynomialComparison.bitPolynomialTime_iff_ramPolytime.html" aria-label="Open proof Lax58Proofs.RamPolynomialComparison.bitPolynomialTime_iff_ramPolytime"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><p class="judgment-unconditional">no assumptions</p></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="definition and theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">def✓</span><a href="../lax-58/Lax58.RamPolynomialComparison.html#s-Lax58.RamPolynomialComparison.bitPolynomialTime_iff_ramPolytime" title="Lax58.RamPolynomialComparison.bitPolynomialTime_iff_ramPolytime"><code>Lax58.RamPolynomialComparison</code> <span class="claim-ordinal">(1st statement)</span></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-58/Lax58Proofs.RamPolynomialComparison.bitPolynomialTime_iff_ramPolytime.html"><code>Lax58Proofs.RamPolynomialComparison.bitPolynomialTime_iff_ramPolytime</code></a></p>
+</li>
+<li class="proof-item" id="p-Lax58Proofs.RamPolynomialSeparation.exponentialLength_not_polynomialTime">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-58/Lax58Proofs.RamPolynomialSeparation.exponentialLength_not_polynomialTime.html" aria-label="Open proof Lax58Proofs.RamPolynomialSeparation.exponentialLength_not_polynomialTime"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><p class="judgment-unconditional">no assumptions</p></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="definition and theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">def✓</span><a href="../lax-58/Lax58.RamPolynomialComparison.html#s-Lax58.RamPolynomialComparison.exponentialLength_not_polynomialTime" title="Lax58.RamPolynomialComparison.exponentialLength_not_polynomialTime"><code>Lax58.RamPolynomialComparison</code> <span class="claim-ordinal">(3rd statement)</span></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-58/Lax58Proofs.RamPolynomialSeparation.exponentialLength_not_polynomialTime.html"><code>Lax58Proofs.RamPolynomialSeparation.exponentialLength_not_polynomialTime</code></a></p>
+</li>
+<li class="proof-item" id="p-Lax58Proofs.StructuralCombinators.constructor_eq_iff_proof">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-58/Lax58Proofs.StructuralCombinators.constructor_eq_iff_proof.html" aria-label="Open proof Lax58Proofs.StructuralCombinators.constructor_eq_iff_proof"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><p class="judgment-unconditional">no assumptions</p></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="definition and theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">def✓</span><a href="../lax-58/Lax58.StructuralCombinators.html#s-Lax58.StructuralCombinators.Raw.constructor_eq_iff" title="Lax58.StructuralCombinators.Raw.constructor_eq_iff"><code>Lax58.StructuralCombinators</code> <span class="claim-ordinal">(2nd statement)</span></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-58/Lax58Proofs.StructuralCombinators.constructor_eq_iff_proof.html"><code>Lax58Proofs.StructuralCombinators.constructor_eq_iff_proof</code></a></p>
+</li>
+<li class="proof-item" id="p-Lax58Proofs.StructuralCombinators.structural_combinator_size_laws">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-58/Lax58Proofs.StructuralCombinators.structural_combinator_size_laws.html" aria-label="Open proof Lax58Proofs.StructuralCombinators.structural_combinator_size_laws"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><p class="judgment-unconditional">no assumptions</p></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="definition and theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">def✓</span><a href="../lax-58/Lax58.StructuralCombinators.html#s-Lax58.StructuralCombinators.sizeLaws" title="Lax58.StructuralCombinators.sizeLaws"><code>Lax58.StructuralCombinators</code> <span class="claim-ordinal">(3rd statement)</span></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-58/Lax58Proofs.StructuralCombinators.structural_combinator_size_laws.html"><code>Lax58Proofs.StructuralCombinators.structural_combinator_size_laws</code></a></p>
+</li>
+<li class="proof-item" id="p-Lax58Proofs.StructuralCombinators.structural_combinators_lawful">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-58/Lax58Proofs.StructuralCombinators.structural_combinators_lawful.html" aria-label="Open proof Lax58Proofs.StructuralCombinators.structural_combinators_lawful"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><p class="judgment-unconditional">no assumptions</p></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="definition and theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">def✓</span><a href="../lax-58/Lax58.StructuralCombinators.html#s-Lax58.StructuralCombinators.lawful" title="Lax58.StructuralCombinators.lawful"><code>Lax58.StructuralCombinators</code> <span class="claim-ordinal">(1st statement)</span></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-58/Lax58Proofs.StructuralCombinators.structural_combinators_lawful.html"><code>Lax58Proofs.StructuralCombinators.structural_combinators_lawful</code></a></p>
+</li>
+<li class="proof-item" id="p-Lax58Proofs.WordArena.encode_fits_proof">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-58/Lax58Proofs.WordArena.encode_fits_proof.html" aria-label="Open proof Lax58Proofs.WordArena.encode_fits_proof"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><p class="judgment-unconditional">no assumptions</p></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="definition and theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">def✓</span><a href="../lax-58/Lax58.WordArena.html#s-Lax58.WordArena.encode_fits" title="Lax58.WordArena.encode_fits"><code>Lax58.WordArena</code> <span class="claim-ordinal">(1st statement)</span></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-58/Lax58Proofs.WordArena.encode_fits_proof.html"><code>Lax58Proofs.WordArena.encode_fits_proof</code></a></p>
+</li>
+<li class="proof-item" id="p-Lax58Proofs.WordArena.encode_memoryWords_proof">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-58/Lax58Proofs.WordArena.encode_memoryWords_proof.html" aria-label="Open proof Lax58Proofs.WordArena.encode_memoryWords_proof"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><p class="judgment-unconditional">no assumptions</p></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="definition and theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">def✓</span><a href="../lax-58/Lax58.WordArena.html#s-Lax58.WordArena.encode_memoryWords" title="Lax58.WordArena.encode_memoryWords"><code>Lax58.WordArena</code> <span class="claim-ordinal">(2nd statement)</span></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-58/Lax58Proofs.WordArena.encode_memoryWords_proof.html"><code>Lax58Proofs.WordArena.encode_memoryWords_proof</code></a></p>
+</li>
+<li class="proof-item" id="p-Lax58Proofs.WordArena.encode_represents_proof">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-58/Lax58Proofs.WordArena.encode_represents_proof.html" aria-label="Open proof Lax58Proofs.WordArena.encode_represents_proof"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><p class="judgment-unconditional">no assumptions</p></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="definition and theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">def✓</span><a href="../lax-58/Lax58.WordArena.html#s-Lax58.WordArena.encode_represents" title="Lax58.WordArena.encode_represents"><code>Lax58.WordArena</code> <span class="claim-ordinal">(3rd statement)</span></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-58/Lax58Proofs.WordArena.encode_represents_proof.html"><code>Lax58Proofs.WordArena.encode_represents_proof</code></a></p>
+</li>
+<li class="proof-item" id="p-Lax58Proofs.WordArena.encode_toInput_length_proof">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-58/Lax58Proofs.WordArena.encode_toInput_length_proof.html" aria-label="Open proof Lax58Proofs.WordArena.encode_toInput_length_proof"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><p class="judgment-unconditional">no assumptions</p></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="definition and theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">def✓</span><a href="../lax-58/Lax58.WordArena.html#s-Lax58.WordArena.encode_toInput_length" title="Lax58.WordArena.encode_toInput_length"><code>Lax58.WordArena</code> <span class="claim-ordinal">(4th statement)</span></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-58/Lax58Proofs.WordArena.encode_toInput_length_proof.html"><code>Lax58Proofs.WordArena.encode_toInput_length_proof</code></a></p>
+</li>
+<li class="proof-item" id="p-Lax58Proofs.WordArena.encode_totalWords_proof">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-58/Lax58Proofs.WordArena.encode_totalWords_proof.html" aria-label="Open proof Lax58Proofs.WordArena.encode_totalWords_proof"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><p class="judgment-unconditional">no assumptions</p></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="definition and theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">def✓</span><a href="../lax-58/Lax58.WordArena.html#s-Lax58.WordArena.encode_totalWords" title="Lax58.WordArena.encode_totalWords"><code>Lax58.WordArena</code> <span class="claim-ordinal">(5th statement)</span></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-58/Lax58Proofs.WordArena.encode_totalWords_proof.html"><code>Lax58Proofs.WordArena.encode_totalWords_proof</code></a></p>
+</li>
+<li class="proof-item" id="p-Lax58Proofs.WordArena.encodeRaw_dense_proof">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-58/Lax58Proofs.WordArena.encodeRaw_dense_proof.html" aria-label="Open proof Lax58Proofs.WordArena.encodeRaw_dense_proof"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><p class="judgment-unconditional">no assumptions</p></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="definition and theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">def✓</span><a href="../lax-58/Lax58.WordArena.html#s-Lax58.WordArena.encodeRaw_dense" title="Lax58.WordArena.encodeRaw_dense"><code>Lax58.WordArena</code> <span class="claim-ordinal">(6th statement)</span></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-58/Lax58Proofs.WordArena.encodeRaw_dense_proof.html"><code>Lax58Proofs.WordArena.encodeRaw_dense_proof</code></a></p>
+</li>
+<li class="proof-item" id="p-Lax58Proofs.WordArena.encodeRaw_fits_proof">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-58/Lax58Proofs.WordArena.encodeRaw_fits_proof.html" aria-label="Open proof Lax58Proofs.WordArena.encodeRaw_fits_proof"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><p class="judgment-unconditional">no assumptions</p></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="definition and theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">def✓</span><a href="../lax-58/Lax58.WordArena.html#s-Lax58.WordArena.encodeRaw_fits" title="Lax58.WordArena.encodeRaw_fits"><code>Lax58.WordArena</code> <span class="claim-ordinal">(7th statement)</span></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-58/Lax58Proofs.WordArena.encodeRaw_fits_proof.html"><code>Lax58Proofs.WordArena.encodeRaw_fits_proof</code></a></p>
+</li>
+<li class="proof-item" id="p-Lax58Proofs.WordArena.encodeRaw_memoryWords_proof">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-58/Lax58Proofs.WordArena.encodeRaw_memoryWords_proof.html" aria-label="Open proof Lax58Proofs.WordArena.encodeRaw_memoryWords_proof"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><p class="judgment-unconditional">no assumptions</p></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="definition and theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">def✓</span><a href="../lax-58/Lax58.WordArena.html#s-Lax58.WordArena.encodeRaw_memoryWords" title="Lax58.WordArena.encodeRaw_memoryWords"><code>Lax58.WordArena</code> <span class="claim-ordinal">(8th statement)</span></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-58/Lax58Proofs.WordArena.encodeRaw_memoryWords_proof.html"><code>Lax58Proofs.WordArena.encodeRaw_memoryWords_proof</code></a></p>
+</li>
+<li class="proof-item" id="p-Lax58Proofs.WordArena.encodeRaw_represents_proof">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-58/Lax58Proofs.WordArena.encodeRaw_represents_proof.html" aria-label="Open proof Lax58Proofs.WordArena.encodeRaw_represents_proof"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><p class="judgment-unconditional">no assumptions</p></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="definition and theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">def✓</span><a href="../lax-58/Lax58.WordArena.html#s-Lax58.WordArena.encodeRaw_represents" title="Lax58.WordArena.encodeRaw_represents"><code>Lax58.WordArena</code> <span class="claim-ordinal">(9th statement)</span></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-58/Lax58Proofs.WordArena.encodeRaw_represents_proof.html"><code>Lax58Proofs.WordArena.encodeRaw_represents_proof</code></a></p>
+</li>
+<li class="proof-item" id="p-Lax58Proofs.WordArena.encodeRaw_toInput_length_proof">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-58/Lax58Proofs.WordArena.encodeRaw_toInput_length_proof.html" aria-label="Open proof Lax58Proofs.WordArena.encodeRaw_toInput_length_proof"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><p class="judgment-unconditional">no assumptions</p></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="definition and theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">def✓</span><a href="../lax-58/Lax58.WordArena.html#s-Lax58.WordArena.encodeRaw_toInput_length" title="Lax58.WordArena.encodeRaw_toInput_length"><code>Lax58.WordArena</code> <span class="claim-ordinal">(10th statement)</span></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-58/Lax58Proofs.WordArena.encodeRaw_toInput_length_proof.html"><code>Lax58Proofs.WordArena.encodeRaw_toInput_length_proof</code></a></p>
+</li>
+<li class="proof-item" id="p-Lax58Proofs.WordArena.encodeRaw_totalWords_proof">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-58/Lax58Proofs.WordArena.encodeRaw_totalWords_proof.html" aria-label="Open proof Lax58Proofs.WordArena.encodeRaw_totalWords_proof"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><p class="judgment-unconditional">no assumptions</p></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="definition and theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">def✓</span><a href="../lax-58/Lax58.WordArena.html#s-Lax58.WordArena.encodeRaw_totalWords" title="Lax58.WordArena.encodeRaw_totalWords"><code>Lax58.WordArena</code> <span class="claim-ordinal">(11th statement)</span></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-58/Lax58Proofs.WordArena.encodeRaw_totalWords_proof.html"><code>Lax58Proofs.WordArena.encodeRaw_totalWords_proof</code></a></p>
+</li>
+<li class="proof-item" id="p-Lax58Proofs.WordArena.encodeRaw_wellFormed_proof">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-58/Lax58Proofs.WordArena.encodeRaw_wellFormed_proof.html" aria-label="Open proof Lax58Proofs.WordArena.encodeRaw_wellFormed_proof"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><p class="judgment-unconditional">no assumptions</p></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="definition and theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">def✓</span><a href="../lax-58/Lax58.WordArena.html#s-Lax58.WordArena.encodeRaw_wellFormed" title="Lax58.WordArena.encodeRaw_wellFormed"><code>Lax58.WordArena</code> <span class="claim-ordinal">(12th statement)</span></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-58/Lax58Proofs.WordArena.encodeRaw_wellFormed_proof.html"><code>Lax58Proofs.WordArena.encodeRaw_wellFormed_proof</code></a></p>
+</li>
+</ul>
+<p class="proof-list-source">Lean sources for these proofs: <a class="source-link" href="https://github.com/szymtor/lax58/tree/83d795f06ae20b48ceed34a9f1284975d305b9c4/proofs">proofs/ on GitHub</a></p>
+</div>
+<p class="honesty-note">Proof code is not displayed; the archive records each proof's checked relationship between claims.</p>
+</section>
+<section class="page-section"><h3 class="section-title">Related submissions</h3>
+<h4 class="figure-title">Submission map</h4>
+<figure class="graph-figure">
+<div id="submission-dag" class="figure-container" data-graph="submissions"></div>
+<div class="graph-tooltip" role="tooltip" hidden></div>
+<figcaption class="graph-legend" aria-label="Submission map legend"><span><i class="legend-node stroke-own"></i>This submission</span><span><i class="legend-node stroke-ext"></i>Other submission</span><span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B's concepts build on A</span></figcaption>
+</figure>
+</section>
+<section class="page-section"><h3 class="section-title" id="citation">Cite this</h3>
+<div class="citation-box">
+<pre class="citation" id="submission-citation">@misc{lax-58,
+  author = {Jan Dreier and Szymon Toruńczyk and ChatGPT (5.6 and 6)},
+  title = {Certified structural representations of finite data},
+  year = {2026},
+  howpublished = {Lax Archive, lax-58},
+  url = {https://laxarchive.org/lax-58/},
+  note = {draft},
+}</pre>
+<button class="citation-copy" type="button" data-copy-citation aria-controls="submission-citation" aria-label="Copy BibTeX to clipboard" title="Copy BibTeX"><span class="citation-copy-icon" aria-hidden="true"></span></button>
+<output class="citation-copy-status" aria-live="polite"></output>
+</div>
+</section>
+
+<section class="page-section discussion-section" aria-labelledby="discussion-title">
+<div class="discussion-heading">
+<div class="discussion-heading-copy">
+<p class="discussion-eyebrow">Community review</p>
+<h3 class="section-title" id="discussion-title">Discussion</h3>
+<p>Ask a question or add context. Endorsements and structured flags are kept in the review panel above; your ORCID profile must share a public name.</p>
+</div>
+<p class="discussion-count"><span class="remark42__counter" data-url="https://laxarchive.org/lax-58/">0</span> <span>comments</span></p>
+</div>
+<div class="discussion-embed-shell">
+<p class="discussion-loading" id="remark42-status" role="status"><span class="discussion-loading-mark" aria-hidden="true"></span>Loading discussion…</p>
+<div id="remark42" data-remark42-host="https://comments.laxarchive.org" data-remark42-site="remark" data-remark42-url="https://laxarchive.org/lax-58/"></div>
+</div>
+<noscript><p class="discussion-unavailable">Enable JavaScript to read or join the discussion.</p></noscript>
+</section>
+<script type="application/json" id="graph-data">{"concepts":{"nodes":[{"id":"Lax13.Ram","href":"../lax-13/Lax13.Ram.html","title":"The word RAM","owner":"lax-13","status":"none","ext":true,"dir":"up"},{"id":"Lax13.RamComputes","href":"../lax-13/Lax13.RamComputes.html","title":"Computing a function within a time bound","owner":"lax-13","status":"none","ext":true,"dir":"up"},{"id":"Lax51.BinaryWordEncoding","href":"../lax-51/Lax51.BinaryWordEncoding.html","title":"Binary encoding of finite words","owner":"lax-51","status":"none","ext":true,"dir":"up"},{"id":"Lax51.RamPolytime","href":"../lax-51/Lax51.RamPolytime.html","title":"Polynomial-time computation by a word RAM","owner":"lax-51","status":"none","ext":true,"dir":"up"},{"id":"Lax53.AutomatonLinearTime","href":"../lax-53/Lax53.AutomatonLinearTime.html","title":"Word-RAM evaluation of tree automata","owner":"lax-53","status":"proven","ext":true,"dir":"down"},{"id":"Lax53.MSOLinearTime","href":"../lax-53/Lax53.MSOLinearTime.html","title":"Uniform word-RAM model checking for intrinsic MSO sentences","owner":"lax-53","status":"proven","ext":true,"dir":"down"},{"id":"Lax53.StructuralRepresentations","href":"../lax-53/Lax53.StructuralRepresentations.html","title":"Certified structural representations for ranked-tree model checking","owner":"lax-53","status":"proven","ext":true,"dir":"down"},{"id":"Lax53.TreeModelCheckingEncoding","href":"../lax-53/Lax53.TreeModelCheckingEncoding.html","title":"Distinguished structural inputs for tree-automaton evaluation","owner":"lax-53","status":"proven","ext":true,"dir":"down"},{"id":"Lax58.BitPolynomialTime","href":"../lax-58/Lax58.BitPolynomialTime.html","title":"Polynomial time with polynomial word length","owner":"lax-58","status":"none","ext":false,"dir":"core"},{"id":"Lax58.CertifiedDerivation","href":"../lax-58/Lax58.CertifiedDerivation.html","title":"Field-encoding agreement (infrastructure)","owner":"lax-58","status":"none","ext":false,"dir":"core"},{"id":"Lax58.CertifiedDerivationElab","href":"../lax-58/Lax58.CertifiedDerivationElab.html","title":"Certified encoding derivation (elaboration infrastructure)","owner":"lax-58","status":"none","ext":false,"dir":"core"},{"id":"Lax58.FormulaExample","href":"../lax-58/Lax58.FormulaExample.html","title":"Example — structural encoding of propositional formulas","owner":"lax-58","status":"none","ext":false,"dir":"core"},{"id":"Lax58.RamComplexity","href":"../lax-58/Lax58.RamComplexity.html","title":"Time and word-capacity bounds on the word-RAM","owner":"lax-58","status":"none","ext":false,"dir":"core"},{"id":"Lax58.RamComplexityElab","href":"../lax-58/Lax58.RamComplexityElab.html","title":"Automatic RAM encoding selection (elaboration infrastructure)","owner":"lax-58","status":"none","ext":false,"dir":"core"},{"id":"Lax58.RamComplexityExample","href":"../lax-58/Lax58.RamComplexityExample.html","title":"Examples — separate resource bounds and polynomial time","owner":"lax-58","status":"none","ext":false,"dir":"core"},{"id":"Lax58.RamPolynomialComparison","href":"../lax-58/Lax58.RamPolynomialComparison.html","title":"Two polynomial-time conventions, and their separation","owner":"lax-58","status":"proven","ext":false,"dir":"core"},{"id":"Lax58.StructuralCombinators","href":"../lax-58/Lax58.StructuralCombinators.html","title":"Certified structural presentation combinators","owner":"lax-58","status":"proven","ext":false,"dir":"core"},{"id":"Lax58.StructuralDerivation","href":"../lax-58/Lax58.StructuralDerivation.html","title":"Unrestricted structural folds (elaboration infrastructure)","owner":"lax-58","status":"none","ext":false,"dir":"core"},{"id":"Lax58.StructuralPresentation","href":"../lax-58/Lax58.StructuralPresentation.html","title":"Structural presentations of finite data","owner":"lax-58","status":"none","ext":false,"dir":"core"},{"id":"Lax58.WordArena","href":"../lax-58/Lax58.WordArena.html","title":"Distinguished immutable word arenas","owner":"lax-58","status":"proven","ext":false,"dir":"core"}],"edges":[{"from":"Lax13.Ram","to":"Lax13.RamComputes"},{"from":"Lax13.Ram","to":"Lax51.RamPolytime"},{"from":"Lax51.BinaryWordEncoding","to":"Lax51.RamPolytime"},{"from":"Lax53.TreeModelCheckingEncoding","to":"Lax53.AutomatonLinearTime"},{"from":"Lax58.RamComplexity","to":"Lax53.AutomatonLinearTime"},{"from":"Lax53.StructuralRepresentations","to":"Lax53.MSOLinearTime"},{"from":"Lax53.TreeModelCheckingEncoding","to":"Lax53.MSOLinearTime"},{"from":"Lax58.RamComplexity","to":"Lax53.MSOLinearTime"},{"from":"Lax58.CertifiedDerivationElab","to":"Lax53.StructuralRepresentations"},{"from":"Lax58.WordArena","to":"Lax53.StructuralRepresentations"},{"from":"Lax53.StructuralRepresentations","to":"Lax53.TreeModelCheckingEncoding"},{"from":"Lax58.RamComplexity","to":"Lax58.BitPolynomialTime"},{"from":"Lax58.StructuralCombinators","to":"Lax58.CertifiedDerivation"},{"from":"Lax58.CertifiedDerivation","to":"Lax58.CertifiedDerivationElab"},{"from":"Lax58.CertifiedDerivationElab","to":"Lax58.FormulaExample"},{"from":"Lax58.WordArena","to":"Lax58.FormulaExample"},{"from":"Lax13.RamComputes","to":"Lax58.RamComplexity"},{"from":"Lax58.WordArena","to":"Lax58.RamComplexity"},{"from":"Lax58.CertifiedDerivationElab","to":"Lax58.RamComplexityElab"},{"from":"Lax58.RamComplexity","to":"Lax58.RamComplexityElab"},{"from":"Lax58.RamComplexityElab","to":"Lax58.RamComplexityExample"},{"from":"Lax51.RamPolytime","to":"Lax58.RamPolynomialComparison"},{"from":"Lax58.BitPolynomialTime","to":"Lax58.RamPolynomialComparison"},{"from":"Lax58.RamComplexityExample","to":"Lax58.RamPolynomialComparison"},{"from":"Lax58.StructuralPresentation","to":"Lax58.StructuralCombinators"},{"from":"Lax58.StructuralCombinators","to":"Lax58.StructuralDerivation"},{"from":"Lax58.StructuralPresentation","to":"Lax58.WordArena"}],"home":"lax-58"},"proofs":{"statements":[{"id":"Lax58.RamPolynomialComparison.bitPolynomialTime_iff_ramPolytime","label":"Lax58.RamPolynomialComparison","title":"Two polynomial-time conventions, and their separation","owner":"lax-58","concept":"Lax58.RamPolynomialComparison","index":1,"count":3,"href":"../lax-58/Lax58.RamPolynomialComparison.html#s-Lax58.RamPolynomialComparison.bitPolynomialTime_iff_ramPolytime","proven":true,"ext":false},{"id":"Lax58.RamPolynomialComparison.exponentialLength_bitPolynomialTime","label":"Lax58.RamPolynomialComparison","title":"Two polynomial-time conventions, and their separation","owner":"lax-58","concept":"Lax58.RamPolynomialComparison","index":2,"count":3,"href":"../lax-58/Lax58.RamPolynomialComparison.html#s-Lax58.RamPolynomialComparison.exponentialLength_bitPolynomialTime","proven":true,"ext":false},{"id":"Lax58.RamPolynomialComparison.exponentialLength_not_polynomialTime","label":"Lax58.RamPolynomialComparison","title":"Two polynomial-time conventions, and their separation","owner":"lax-58","concept":"Lax58.RamPolynomialComparison","index":3,"count":3,"href":"../lax-58/Lax58.RamPolynomialComparison.html#s-Lax58.RamPolynomialComparison.exponentialLength_not_polynomialTime","proven":true,"ext":false},{"id":"Lax58.StructuralCombinators.Raw.constructor_eq_iff","label":"Lax58.StructuralCombinators","title":"Certified structural presentation combinators","owner":"lax-58","concept":"Lax58.StructuralCombinators","index":2,"count":3,"href":"../lax-58/Lax58.StructuralCombinators.html#s-Lax58.StructuralCombinators.Raw.constructor_eq_iff","proven":true,"ext":false},{"id":"Lax58.StructuralCombinators.lawful","label":"Lax58.StructuralCombinators","title":"Certified structural presentation combinators","owner":"lax-58","concept":"Lax58.StructuralCombinators","index":1,"count":3,"href":"../lax-58/Lax58.StructuralCombinators.html#s-Lax58.StructuralCombinators.lawful","proven":true,"ext":false},{"id":"Lax58.StructuralCombinators.sizeLaws","label":"Lax58.StructuralCombinators","title":"Certified structural presentation combinators","owner":"lax-58","concept":"Lax58.StructuralCombinators","index":3,"count":3,"href":"../lax-58/Lax58.StructuralCombinators.html#s-Lax58.StructuralCombinators.sizeLaws","proven":true,"ext":false},{"id":"Lax58.WordArena.encodeRaw_dense","label":"Lax58.WordArena","title":"Distinguished immutable word arenas","owner":"lax-58","concept":"Lax58.WordArena","index":6,"count":12,"href":"../lax-58/Lax58.WordArena.html#s-Lax58.WordArena.encodeRaw_dense","proven":true,"ext":false},{"id":"Lax58.WordArena.encodeRaw_fits","label":"Lax58.WordArena","title":"Distinguished immutable word arenas","owner":"lax-58","concept":"Lax58.WordArena","index":7,"count":12,"href":"../lax-58/Lax58.WordArena.html#s-Lax58.WordArena.encodeRaw_fits","proven":true,"ext":false},{"id":"Lax58.WordArena.encodeRaw_memoryWords","label":"Lax58.WordArena","title":"Distinguished immutable word arenas","owner":"lax-58","concept":"Lax58.WordArena","index":8,"count":12,"href":"../lax-58/Lax58.WordArena.html#s-Lax58.WordArena.encodeRaw_memoryWords","proven":true,"ext":false},{"id":"Lax58.WordArena.encodeRaw_represents","label":"Lax58.WordArena","title":"Distinguished immutable word arenas","owner":"lax-58","concept":"Lax58.WordArena","index":9,"count":12,"href":"../lax-58/Lax58.WordArena.html#s-Lax58.WordArena.encodeRaw_represents","proven":true,"ext":false},{"id":"Lax58.WordArena.encodeRaw_toInput_length","label":"Lax58.WordArena","title":"Distinguished immutable word arenas","owner":"lax-58","concept":"Lax58.WordArena","index":10,"count":12,"href":"../lax-58/Lax58.WordArena.html#s-Lax58.WordArena.encodeRaw_toInput_length","proven":true,"ext":false},{"id":"Lax58.WordArena.encodeRaw_totalWords","label":"Lax58.WordArena","title":"Distinguished immutable word arenas","owner":"lax-58","concept":"Lax58.WordArena","index":11,"count":12,"href":"../lax-58/Lax58.WordArena.html#s-Lax58.WordArena.encodeRaw_totalWords","proven":true,"ext":false},{"id":"Lax58.WordArena.encodeRaw_wellFormed","label":"Lax58.WordArena","title":"Distinguished immutable word arenas","owner":"lax-58","concept":"Lax58.WordArena","index":12,"count":12,"href":"../lax-58/Lax58.WordArena.html#s-Lax58.WordArena.encodeRaw_wellFormed","proven":true,"ext":false},{"id":"Lax58.WordArena.encode_fits","label":"Lax58.WordArena","title":"Distinguished immutable word arenas","owner":"lax-58","concept":"Lax58.WordArena","index":1,"count":12,"href":"../lax-58/Lax58.WordArena.html#s-Lax58.WordArena.encode_fits","proven":true,"ext":false},{"id":"Lax58.WordArena.encode_memoryWords","label":"Lax58.WordArena","title":"Distinguished immutable word arenas","owner":"lax-58","concept":"Lax58.WordArena","index":2,"count":12,"href":"../lax-58/Lax58.WordArena.html#s-Lax58.WordArena.encode_memoryWords","proven":true,"ext":false},{"id":"Lax58.WordArena.encode_represents","label":"Lax58.WordArena","title":"Distinguished immutable word arenas","owner":"lax-58","concept":"Lax58.WordArena","index":3,"count":12,"href":"../lax-58/Lax58.WordArena.html#s-Lax58.WordArena.encode_represents","proven":true,"ext":false},{"id":"Lax58.WordArena.encode_toInput_length","label":"Lax58.WordArena","title":"Distinguished immutable word arenas","owner":"lax-58","concept":"Lax58.WordArena","index":4,"count":12,"href":"../lax-58/Lax58.WordArena.html#s-Lax58.WordArena.encode_toInput_length","proven":true,"ext":false},{"id":"Lax58.WordArena.encode_totalWords","label":"Lax58.WordArena","title":"Distinguished immutable word arenas","owner":"lax-58","concept":"Lax58.WordArena","index":5,"count":12,"href":"../lax-58/Lax58.WordArena.html#s-Lax58.WordArena.encode_totalWords","proven":true,"ext":false}],"proofs":[{"id":"Lax58Proofs.RamExponentialExample.exponentialLength_bitPolynomialTime","assumptions":[],"conclusion":"Lax58.RamPolynomialComparison.exponentialLength_bitPolynomialTime","description":"Six executed RAM instructions suffice. A sufficient word length is binary\ninput size plus four, which fits the arena, the literal six, and the output.","owner":"lax-58","ext":false,"href":"../lax-58/Lax58Proofs.RamExponentialExample.exponentialLength_bitPolynomialTime.html","assumptionsProven":true,"outstanding":0},{"id":"Lax58Proofs.RamPolynomialComparison.bitPolynomialTime_iff_ramPolytime","assumptions":[],"conclusion":"Lax58.RamPolynomialComparison.bitPolynomialTime_iff_ramPolytime","description":"The two tape presentations are compiled into one another. If `T` and `Q` are\nthe source time and sufficient-width polynomials, the arena-to-native\ntranslation uses time `66*T + 6*X + 81` and width `Q + 7`; the\nnative-to-arena translation uses time `18*T + 26` and width `Q + 7`.\n\nThus a nonconstant time degree is preserved, while arena-to-native conversion\ncan raise degree zero to degree one because the current adapter buffers the\ninput in linear startup time. Width degree is unchanged for nonconstant `Q`.\nEach implication chooses its own witnesses: this theorem neither states nor\nuses equality of polynomial degrees across the two directions.","owner":"lax-58","ext":false,"href":"../lax-58/Lax58Proofs.RamPolynomialComparison.bitPolynomialTime_iff_ramPolytime.html","assumptionsProven":true,"outstanding":0},{"id":"Lax58Proofs.RamPolynomialSeparation.exponentialLength_not_polynomialTime","assumptions":[],"conclusion":"Lax58.RamPolynomialComparison.exponentialLength_not_polynomialTime","description":"The all-zero input of a sufficiently large even length admits that same\nlength as a word width, yet its exact exponential output does not fit.\nThis defeats every constant capacity coefficient, regardless of time.","owner":"lax-58","ext":false,"href":"../lax-58/Lax58Proofs.RamPolynomialSeparation.exponentialLength_not_polynomialTime.html","assumptionsProven":true,"outstanding":0},{"id":"Lax58Proofs.StructuralCombinators.constructor_eq_iff_proof","assumptions":[],"conclusion":"Lax58.StructuralCombinators.Raw.constructor_eq_iff","description":"","owner":"lax-58","ext":false,"href":"../lax-58/Lax58Proofs.StructuralCombinators.constructor_eq_iff_proof.html","assumptionsProven":true,"outstanding":0},{"id":"Lax58Proofs.StructuralCombinators.structural_combinator_size_laws","assumptions":[],"conclusion":"Lax58.StructuralCombinators.sizeLaws","description":"","owner":"lax-58","ext":false,"href":"../lax-58/Lax58Proofs.StructuralCombinators.structural_combinator_size_laws.html","assumptionsProven":true,"outstanding":0},{"id":"Lax58Proofs.StructuralCombinators.structural_combinators_lawful","assumptions":[],"conclusion":"Lax58.StructuralCombinators.lawful","description":"","owner":"lax-58","ext":false,"href":"../lax-58/Lax58Proofs.StructuralCombinators.structural_combinators_lawful.html","assumptionsProven":true,"outstanding":0},{"id":"Lax58Proofs.WordArena.encode_fits_proof","assumptions":[],"conclusion":"Lax58.WordArena.encode_fits","description":"","owner":"lax-58","ext":false,"href":"../lax-58/Lax58Proofs.WordArena.encode_fits_proof.html","assumptionsProven":true,"outstanding":0},{"id":"Lax58Proofs.WordArena.encode_memoryWords_proof","assumptions":[],"conclusion":"Lax58.WordArena.encode_memoryWords","description":"","owner":"lax-58","ext":false,"href":"../lax-58/Lax58Proofs.WordArena.encode_memoryWords_proof.html","assumptionsProven":true,"outstanding":0},{"id":"Lax58Proofs.WordArena.encode_represents_proof","assumptions":[],"conclusion":"Lax58.WordArena.encode_represents","description":"","owner":"lax-58","ext":false,"href":"../lax-58/Lax58Proofs.WordArena.encode_represents_proof.html","assumptionsProven":true,"outstanding":0},{"id":"Lax58Proofs.WordArena.encode_toInput_length_proof","assumptions":[],"conclusion":"Lax58.WordArena.encode_toInput_length","description":"","owner":"lax-58","ext":false,"href":"../lax-58/Lax58Proofs.WordArena.encode_toInput_length_proof.html","assumptionsProven":true,"outstanding":0},{"id":"Lax58Proofs.WordArena.encode_totalWords_proof","assumptions":[],"conclusion":"Lax58.WordArena.encode_totalWords","description":"","owner":"lax-58","ext":false,"href":"../lax-58/Lax58Proofs.WordArena.encode_totalWords_proof.html","assumptionsProven":true,"outstanding":0},{"id":"Lax58Proofs.WordArena.encodeRaw_dense_proof","assumptions":[],"conclusion":"Lax58.WordArena.encodeRaw_dense","description":"","owner":"lax-58","ext":false,"href":"../lax-58/Lax58Proofs.WordArena.encodeRaw_dense_proof.html","assumptionsProven":true,"outstanding":0},{"id":"Lax58Proofs.WordArena.encodeRaw_fits_proof","assumptions":[],"conclusion":"Lax58.WordArena.encodeRaw_fits","description":"","owner":"lax-58","ext":false,"href":"../lax-58/Lax58Proofs.WordArena.encodeRaw_fits_proof.html","assumptionsProven":true,"outstanding":0},{"id":"Lax58Proofs.WordArena.encodeRaw_memoryWords_proof","assumptions":[],"conclusion":"Lax58.WordArena.encodeRaw_memoryWords","description":"","owner":"lax-58","ext":false,"href":"../lax-58/Lax58Proofs.WordArena.encodeRaw_memoryWords_proof.html","assumptionsProven":true,"outstanding":0},{"id":"Lax58Proofs.WordArena.encodeRaw_represents_proof","assumptions":[],"conclusion":"Lax58.WordArena.encodeRaw_represents","description":"","owner":"lax-58","ext":false,"href":"../lax-58/Lax58Proofs.WordArena.encodeRaw_represents_proof.html","assumptionsProven":true,"outstanding":0},{"id":"Lax58Proofs.WordArena.encodeRaw_toInput_length_proof","assumptions":[],"conclusion":"Lax58.WordArena.encodeRaw_toInput_length","description":"","owner":"lax-58","ext":false,"href":"../lax-58/Lax58Proofs.WordArena.encodeRaw_toInput_length_proof.html","assumptionsProven":true,"outstanding":0},{"id":"Lax58Proofs.WordArena.encodeRaw_totalWords_proof","assumptions":[],"conclusion":"Lax58.WordArena.encodeRaw_totalWords","description":"","owner":"lax-58","ext":false,"href":"../lax-58/Lax58Proofs.WordArena.encodeRaw_totalWords_proof.html","assumptionsProven":true,"outstanding":0},{"id":"Lax58Proofs.WordArena.encodeRaw_wellFormed_proof","assumptions":[],"conclusion":"Lax58.WordArena.encodeRaw_wellFormed","description":"","owner":"lax-58","ext":false,"href":"../lax-58/Lax58Proofs.WordArena.encodeRaw_wellFormed_proof.html","assumptionsProven":true,"outstanding":0}],"home":"lax-58"},"submissions":{"nodes":[{"id":"lax-13","href":"../lax-13/index.html","title":"The Word RAM","state":"registered","concepts":2,"proofs":0,"dir":"up","ext":true},{"id":"lax-51","href":"../lax-51/index.html","title":"Computability and polynomial-time equivalence of Turing machines and word RAMs","state":"draft","concepts":7,"proofs":4,"dir":"up","ext":true},{"id":"lax-53","href":"../lax-53/index.html","title":"MSO and tree automata on finite ranked trees","state":"draft","concepts":10,"proofs":15,"dir":"down","ext":true},{"id":"lax-58","href":"../lax-58/index.html","title":"Certified structural representations of finite data","state":"draft","concepts":12,"proofs":18,"dir":"core","ext":false}],"edges":[{"from":"lax-13","to":"lax-51","kind":"concepts"},{"from":"lax-13","to":"lax-53","kind":"concepts"},{"from":"lax-58","to":"lax-53","kind":"concepts"},{"from":"lax-13","to":"lax-58","kind":"concepts"},{"from":"lax-51","to":"lax-58","kind":"concepts"}]}}</script>
+</div>
+<footer class="site-footer">
+  <nav class="site-footer-nav" aria-label="Legal and about">
+    <a class="site-footer-link" href="../impressum.html">Imprint</a>
+    <a class="site-footer-link" href="../privacy.html">Privacy</a>
+    <a class="site-footer-link" href="../assets/lax-white-paper.pdf">About</a>
+  </nav>
+</footer>
+</section>
+</main>
+<dialog class="account-dialog" id="account-dialog" aria-labelledby="account-dialog-title">
+<div class="account-dialog-inner">
+<header class="account-dialog-header">
+<div><p class="account-dialog-eyebrow">ORCID account</p><h2 id="account-dialog-title">Settings</h2></div>
+<button class="account-dialog-close" data-account-close type="button" aria-label="Close account settings">×</button>
+</header>
+<div class="account-dialog-body">
+<p class="account-status" data-account-status role="status">Checking your ORCID session…</p>
+<section data-account-content hidden>
+<div class="account-identity">
+<span class="account-avatar" data-account-avatar aria-hidden="true">iD</span>
+<div><a class="account-name" data-account-name target="_blank" rel="noopener noreferrer"></a><p class="account-id" data-account-id></p></div>
+</div>
+<p class="account-name-note">Your public name comes from ORCID. ORCID names are self-asserted and may change.</p>
+<div class="account-actions">
+<a data-account-refresh href="https://comments.laxarchive.org/auth/orcid/login?from=https%3A%2F%2Flaxarchive.org&amp;site=remark">Refresh from ORCID</a>
+<button data-account-logout type="button">Sign out</button>
+</div>
+<div class="account-comments-heading"><h3>Your comments</h3><span data-account-comment-count></span></div>
+<ol class="account-comments" data-account-comments></ol>
+<p class="account-comments-status" data-account-comments-status role="status"></p>
+</section>
+</div>
+</div>
+</dialog>
+<script src="../assets/sidebar.js?v=b1e289522120"></script>
+<script src="../assets/account.js?v=207e15d5a3ba"></script>
+<script src="../assets/layout.js?v=41e28199b546"></script>
+<script src="../assets/dag.js?v=0c4b25b5d45e"></script>
+<script src="../assets/citation.js?v=dd5ce19082ad"></script>
+<script src="../assets/version-history.js?v=a36e868140dd"></script>
+<script src="../assets/comments.js?v=936ec0d73bed"></script>
+</body></html>
