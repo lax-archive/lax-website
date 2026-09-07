@@ -1597,8 +1597,61 @@
       "state": "draft",
       "environment": "v4.30.0",
       "title": "Undecidability of the Post Correspondence Problem",
-      "concepts": [],
-      "proofs": []
+      "concepts": [
+        {
+          "id": "Lax251941.Acceptance",
+          "title": "The acceptance problem for machines",
+          "type": "definition"
+        },
+        {
+          "id": "Lax251941.AcceptanceUndecidable",
+          "title": "The acceptance problem is undecidable",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax251941.PostCorrespondence",
+          "title": "The Post correspondence problem",
+          "type": "definition"
+        },
+        {
+          "id": "Lax251941.PostCorrespondenceIndexUndecidable",
+          "title": "The Post correspondence problem in index form is undecidable",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax251941.PostCorrespondenceReduction",
+          "title": "The acceptance problem reduces to the Post correspondence problem",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax251941.PostCorrespondenceUndecidable",
+          "title": "The Post correspondence problem is undecidable",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax251941.TapeAcceptanceUndecidable",
+          "title": "The acceptance problem for Turing machines is undecidable",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax251941.TuringCompleteness",
+          "title": "Every partial recursive function is computed by a Turing machine",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax251941.TuringMachines",
+          "title": "Single-tape Turing machines as string rewriting",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax251941Proofs.Results.computablePred_accepts_of_hasMatch",
+        "Lax251941Proofs.Results.exists_tm_accepts_iff_dom",
+        "Lax251941Proofs.Results.not_computablePred_accepts",
+        "Lax251941Proofs.Results.not_computablePred_hasMatch",
+        "Lax251941Proofs.Results.not_computablePred_solvable",
+        "Lax251941Proofs.Results.not_turingDecidable_ATM"
+      ]
     },
     {
       "id": "lax-314295",
