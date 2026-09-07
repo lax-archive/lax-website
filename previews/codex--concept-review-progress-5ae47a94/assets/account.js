@@ -253,18 +253,21 @@
     }
   }
 
-  function renderConceptReviewBadge(badge, reaction) {
+  function renderConceptReviewBadge(badge, reaction, showPending = false) {
     const validReaction = reaction === "endorse" || reaction === "flag" ? reaction : "";
-    badge.hidden = !validReaction;
-    badge.className = `concept-review-badge${validReaction ? ` ${validReaction === "endorse" ? "endorsed" : "flagged"}` : ""}`;
+    const state = validReaction || (showPending ? "pending" : "");
+    badge.hidden = !state;
+    badge.className = `concept-review-badge${state ? ` ${state === "endorse" ? "endorsed" : state === "flag" ? "flagged" : "pending"}` : ""}`;
     badge.textContent = validReaction === "endorse" ? "✓" : validReaction === "flag" ? "⚑" : "";
-    if (!validReaction) {
+    if (!state) {
       badge.title = "";
       badge.removeAttribute("role");
       badge.removeAttribute("aria-label");
       return;
     }
-    const label = validReaction === "endorse" ? "You endorsed this concept" : "You flagged this concept";
+    const label = validReaction === "endorse"
+      ? "You endorsed this concept"
+      : validReaction === "flag" ? "You flagged this concept" : "You have not evaluated this concept";
     badge.title = label;
     badge.setAttribute("role", "img");
     badge.setAttribute("aria-label", label);
@@ -349,7 +352,7 @@
       });
       conceptReviewState = byURL;
       conceptReviewBadges.forEach((badge) =>
-        renderConceptReviewBadge(badge, byURL.get(badge.dataset.conceptReviewUrl)));
+        renderConceptReviewBadge(badge, byURL.get(badge.dataset.conceptReviewUrl), true));
       renderConceptReviewSummaries();
     } catch {
       if (sequence !== conceptReviewSequence || currentUser?.id !== viewerId) return;
@@ -389,7 +392,7 @@
     if (!changedURL) return;
     conceptReviewBadges
       .filter((badge) => badge.dataset.conceptReviewUrl === changedURL)
-      .forEach((badge) => renderConceptReviewBadge(badge, event.detail?.reaction));
+      .forEach((badge) => renderConceptReviewBadge(badge, event.detail?.reaction, Boolean(currentUser)));
     if (conceptReviewURLSet.has(changedURL)) {
       const reaction = event.detail?.reaction === "endorse" || event.detail?.reaction === "flag" ? event.detail.reaction : "";
       conceptReviewState.set(changedURL, reaction);

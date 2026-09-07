@@ -2592,6 +2592,7 @@ body.sidebar-resizing #content-shell{ transition: none; }
   letter-spacing: 0;
 }
 .concept-review-badge[hidden]{ display: none; }
+.concept-review-badge.pending{ background: transparent; border-color: var(--none-border); }
 .concept-review-badge.endorsed{ color: var(--proven-fg); background: var(--proven-bg); border-color: var(--proven-border); }
 .concept-review-badge.flagged{ color: var(--warn-fg); background: var(--warn-bg); border-color: var(--warn-border); }
 .entry-label .concept-review-badge{ align-self: center; margin-left: auto; }
