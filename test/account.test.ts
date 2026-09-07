@@ -336,18 +336,18 @@ describe("ORCID account header", () => {
     ]);
     expect(fx.conceptBadges[0]!.attributes.get("aria-label")).toBe("You endorsed this concept");
     expect(fx.progress?.hidden).toBe(false);
-    expect(fx.progressLabel?.textContent).toBe("33% endorsed · 33% flagged · 34% not evaluated");
+    expect(fx.progressLabel?.textContent).toBe("33% endorsed · 34% not evaluated · 33% flagged");
     expect(fx.progressTrack?.children.map((segment) => segment.className)).toEqual([
       "concept-review-progress-segment endorsed",
-      "concept-review-progress-segment flagged",
       "concept-review-progress-segment pending",
+      "concept-review-progress-segment flagged",
     ]);
     expect(fx.flaggedNote?.hidden).toBe(false);
     expect(fx.flaggedNoteText?.textContent).toBe("This submission contains or depends on a concept you flagged.");
 
     fx.listeners["LAX::review-change"]!({ detail: { url: flagged, reaction: "" } });
     expect(fx.conceptBadges[2]!.hidden).toBe(true);
-    expect(fx.progressLabel?.textContent).toBe("33% endorsed · 0% flagged · 67% not evaluated");
+    expect(fx.progressLabel?.textContent).toBe("33% endorsed · 67% not evaluated · 0% flagged");
     expect(fx.flaggedNote?.hidden).toBe(true);
 
     fx.listeners["LAX::review-change"]!({ detail: { url: endorsed, reaction: "" } });

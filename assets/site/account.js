@@ -290,10 +290,15 @@
       const endorsedPercentage = Math.round((endorsed / reactions.length) * 100);
       const flaggedPercentage = Math.round((flagged / reactions.length) * 100);
       const pendingPercentage = 100 - endorsedPercentage - flaggedPercentage;
-      const description = `${endorsedPercentage}% endorsed · ${flaggedPercentage}% flagged · ${pendingPercentage}% not evaluated`;
+      const description = `${endorsedPercentage}% endorsed · ${pendingPercentage}% not evaluated · ${flaggedPercentage}% flagged`;
       label.textContent = description;
       track.setAttribute("aria-label", `Review progress: ${description}`);
-      track.replaceChildren(...reactions.map((reaction) => {
+      const orderedReactions = [
+        ...reactions.filter((reaction) => reaction === "endorse"),
+        ...reactions.filter((reaction) => reaction === ""),
+        ...reactions.filter((reaction) => reaction === "flag"),
+      ];
+      track.replaceChildren(...orderedReactions.map((reaction) => {
         const segment = document.createElement("span");
         segment.className = `concept-review-progress-segment ${reaction === "endorse" ? "endorsed" : reaction === "flag" ? "flagged" : "pending"}`;
         segment.setAttribute("aria-hidden", "true");
