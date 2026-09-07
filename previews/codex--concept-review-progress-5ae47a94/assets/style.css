@@ -2518,7 +2518,7 @@ body.sidebar-resizing #content-shell{ transition: none; }
   background: var(--accent);
   opacity: 0.78;
   transform: translateX(-110%);
-  animation: concept-review-loading 1.15s cubic-bezier(.4, 0, .2, 1) infinite;
+  animation: concept-review-loading 2.4s cubic-bezier(.4, 0, .2, 1) infinite;
 }
 @keyframes concept-review-loading{
   to{ transform: translateX(445%); }
