@@ -1957,7 +1957,113 @@
       "state": "draft",
       "environment": "v4.30.0",
       "title": "Transducers, Part D: Polyregular Functions",
-      "concepts": [],
+      "concepts": [
+        {
+          "id": "Lax194892.BalancedRunReachability",
+          "title": "Balanced runs between configurations are regular",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax194892.ChildConfigurationGraphs",
+          "title": "Children of a configuration and child configuration graphs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax194892.ChildGraphOfConfiguration",
+          "title": "A for-transducer produces the child configuration graph",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax194892.ChildrenOfChildGraph",
+          "title": "A for-transducer reads the children off a child configuration graph",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax194892.ChildrenOfConfiguration",
+          "title": "A for-transducer produces the children of a configuration",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax194892.ForComposition",
+          "title": "For-transducers are closed under composition",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax194892.ForIffPolyregular",
+          "title": "For-transducers compute exactly the polyregular functions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax194892.ForOfPebble",
+          "title": "Pebble transducers are computed by for-transducers",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax194892.ForOfPolyregular",
+          "title": "Polyregular functions are computed by for-transducers",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax194892.ForTransducers",
+          "title": "For-transducers",
+          "type": "definition"
+        },
+        {
+          "id": "Lax194892.MarkedSquaring",
+          "title": "Marked squaring",
+          "type": "definition"
+        },
+        {
+          "id": "Lax194892.PebbleConfigurationEncoding",
+          "title": "String representations of pebble configurations, and balanced runs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax194892.PebbleContinuity",
+          "title": "Pebble transducers are continuous",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax194892.PebbleIffFor",
+          "title": "Pebble transducers and for-transducers compute the same functions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax194892.PebbleOfFor",
+          "title": "For-transducers are computed by pebble transducers",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax194892.PebbleReachability",
+          "title": "Reachability between configurations of a pebble transducer is regular",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax194892.PebbleTransducers",
+          "title": "Pebble transducers",
+          "type": "definition"
+        },
+        {
+          "id": "Lax194892.PolyregularContinuity",
+          "title": "Polyregular functions are continuous",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax194892.PolyregularFunctions",
+          "title": "Polyregular functions",
+          "type": "definition"
+        },
+        {
+          "id": "Lax194892.PolyregularOfFor",
+          "title": "For-transducers compute polyregular functions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax194892.PrenexNormalForm",
+          "title": "Every for-transducer has a prenex form",
+          "type": "theorem"
+        }
+      ],
       "proofs": []
     },
     {
