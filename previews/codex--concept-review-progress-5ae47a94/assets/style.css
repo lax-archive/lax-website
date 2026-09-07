@@ -2596,6 +2596,7 @@ body.sidebar-resizing #content-shell{ transition: none; }
 .concept-review-badge.endorsed{ color: var(--proven-fg); background: var(--proven-bg); border-color: var(--proven-border); }
 .concept-review-badge.flagged{ color: var(--warn-fg); background: var(--warn-bg); border-color: var(--warn-border); }
 .entry-label .concept-review-badge{ align-self: center; margin-left: auto; }
+.entry-label .concept-review-badge.pending{ display: none; }
 
 /* ── Proof lists: judgment cards (assumptions box → conclusion) ── */
 
