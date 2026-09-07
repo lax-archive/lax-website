@@ -102,7 +102,7 @@ func emptyConceptReviews(urls []string) []conceptReviewResponse {
 	return result
 }
 
-func (a *app) viewerConceptReviews(ctx context.Context, urls []string, remarkID string) ([]conceptReviewResponse, error) {
+func (a *app) viewerConceptReviews(ctx context.Context, urls []string, viewerORCID string) ([]conceptReviewResponse, error) {
 	result := emptyConceptReviews(urls)
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
@@ -125,7 +125,17 @@ func (a *app) viewerConceptReviews(ctx context.Context, urls []string, remarkID 
 					})
 					continue
 				}
-				result[index].ViewerReaction = page.viewerByRemarkID[remarkID].Kind
+				for _, reaction := range publicReviews {
+					for _, voter := range page.Voters[reaction] {
+						if voter.ORCID == viewerORCID {
+							result[index].ViewerReaction = reaction
+							break
+						}
+					}
+					if result[index].ViewerReaction != "" {
+						break
+					}
+				}
 			}
 		}()
 	}

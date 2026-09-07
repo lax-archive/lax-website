@@ -327,6 +327,7 @@ describe("ORCID account header", () => {
 
     const request = fx.bridgeMessages.find((message) => message.action === "concepts");
     expect(request?.urls).toEqual([endorsed, flagged, pending]);
+    expect(request?.viewer_orcid).toBe("0000-0002-1825-0097");
     expect(fx.conceptBadges.map((badge) => ({ hidden: badge.hidden, className: badge.className, text: badge.textContent }))).toEqual([
       { hidden: false, className: "concept-review-badge endorsed", text: "✓" },
       { hidden: false, className: "concept-review-badge endorsed", text: "✓" },

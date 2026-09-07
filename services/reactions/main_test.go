@@ -454,12 +454,52 @@ func TestConceptBatchReturnsViewerReviewsAcrossSubmissions(t *testing.T) {
 	}
 }
 
+func TestConceptBatchUsesBridgeViewerORCIDWithoutEndpointCookie(t *testing.T) {
+	const remarkID = "orcid_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+	const orcid = "0000-0002-1825-0097"
+	conceptURL := "https://laxarchive.org/Lax2/Lax2.C.html"
+	remark := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.URL.Path != "/find" {
+			t.Fatalf("unexpected authenticated lookup: %s", r.URL.Path)
+		}
+		comment := remarkReactionComment{ID: "review", Orig: endorseMarker, Time: time.Now().UTC()}
+		comment.User.ID = remarkID
+		_ = json.NewEncoder(w).Encode(remarkFindResponse{Comments: []remarkReactionComment{comment}})
+	}))
+	defer remark.Close()
+	db := testStore(t)
+	if err := db.putIdentity(identity{RemarkID: remarkID, ORCID: orcid, Name: "Alice Example"}); err != nil {
+		t.Fatal(err)
+	}
+	a := &app{
+		config: config{remarkFindURL: remark.URL + "/find"},
+		store:  db,
+		client: remark.Client(),
+		limits: newRateLimits(),
+	}
+	request := httptest.NewRequest(http.MethodPost, "/reactions/v1/concepts", strings.NewReader(`{"urls":["`+conceptURL+`"],"viewer_orcid":"`+orcid+`"}`))
+	request.Header.Set("Content-Type", "application/json")
+	recorder := httptest.NewRecorder()
+	a.postConcepts(recorder, request)
+	if recorder.Code != http.StatusOK {
+		t.Fatalf("unexpected concept response: %d %s", recorder.Code, recorder.Body.String())
+	}
+	var got conceptReviewsResponse
+	if err := json.Unmarshal(recorder.Body.Bytes(), &got); err != nil {
+		t.Fatal(err)
+	}
+	if len(got.Concepts) != 1 || got.Concepts[0].ViewerReaction != reviewEndorse {
+		t.Fatalf("bridge ORCID did not recover the public review: %+v", got.Concepts)
+	}
+}
+
 func TestConceptBatchRejectsInvalidInputBeforeAuthentication(t *testing.T) {
 	a := &app{limits: newRateLimits()}
 	for name, body := range map[string]string{
 		"empty":          `{"urls":[]}`,
 		"submission":     `{"urls":["https://laxarchive.org/Lax2/"]}`,
 		"foreign origin": `{"urls":["https://evil.test/Lax2/Lax2.C.html"]}`,
+		"invalid ORCID":  `{"urls":["https://laxarchive.org/Lax2/Lax2.C.html"],"viewer_orcid":"0000-0000-0000-0000"}`,
 		"unknown field":  `{"urls":["https://laxarchive.org/Lax2/Lax2.C.html"],"extra":true}`,
 	} {
 		t.Run(name, func(t *testing.T) {
@@ -517,7 +557,7 @@ func TestBridgeIsRestrictedToConfiguredParents(t *testing.T) {
 	if scriptRecorder.Code != http.StatusOK || !strings.Contains(script, `new Set(["https://laxarchive.org"])`) || strings.Contains(script, `postMessage(value,"*")`) || !strings.Contains(script, `request.action==="concepts"`) || !strings.Contains(script, `request.action==="comments"`) || !strings.Contains(script, `request.action==="logout"`) {
 		t.Fatalf("bridge script does not enforce exact parent origins: %s", scriptRecorder.Body.String())
 	}
-	for _, expected := range []string{`/api/v1/user?site=remark`, `/api/v1/comment?site=remark`, `/reactions/v1/concepts`, `X-XSRF-TOKEN`, `X-JWT`, `response.headers`, `pathname==="/auth/logout"`, `fetch("/auth/logout",{credentials:"include",cache:"no-store",headers:authHeaders({Accept:"application/json"})})`, `type:"session-change"`, `lax-review:v2:flag:`, `A flag explanation is required`, `Choose one valid source line`, `Submission flags cannot reference concept source lines`, `sessionCache&&Date.now()-sessionCacheAt<2000`, `if(sessionPromise)return sessionPromise`, `clearSessionCache();notifySessionChange()`} {
+	for _, expected := range []string{`/api/v1/user?site=remark`, `/api/v1/comment?site=remark`, `/reactions/v1/concepts`, `viewer_orcid:viewerORCID`, `X-XSRF-TOKEN`, `X-JWT`, `response.headers`, `pathname==="/auth/logout"`, `fetch("/auth/logout",{credentials:"include",cache:"no-store",headers:authHeaders({Accept:"application/json"})})`, `type:"session-change"`, `lax-review:v2:flag:`, `A flag explanation is required`, `Choose one valid source line`, `Submission flags cannot reference concept source lines`, `sessionCache&&Date.now()-sessionCacheAt<2000`, `if(sessionPromise)return sessionPromise`, `clearSessionCache();notifySessionChange()`} {
 		if !strings.Contains(script, expected) {
 			t.Fatalf("bridge script does not use the authenticated Remark42 iframe session, missing %q", expected)
 		}

@@ -382,13 +382,16 @@ const concepts=async(raw)=>{
     if(new URL(canonical).pathname.endsWith("/"))throw fail("Only concept URLs are accepted.",400);
     if(!seen.has(canonical)){seen.add(canonical);urls.push(canonical)}
   }
+  const viewerSession=await session();
+  const viewerORCID=viewerSession.eligible&&viewerSession.viewer?viewerSession.viewer.orcid_id:"";
   const response=await fetch("/reactions/v1/concepts",{
     method:"POST",credentials:"include",cache:"no-store",
     headers:authHeaders({Accept:"application/json","Content-Type":"application/json"}),
-    body:JSON.stringify({urls})
+    body:JSON.stringify({urls,viewer_orcid:viewerORCID})
   });
   const data=await readJSON(response);
   if(!response.ok)throw fail(data.error||"concept reviews are temporarily unavailable",response.status);
+  Object.assign(data,viewerSession);
   return data;
 };
 const cookie=(name)=>{
@@ -650,7 +653,8 @@ func (a *app) postConcepts(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	var input struct {
-		URLs []string `json:"urls"`
+		URLs        []string `json:"urls"`
+		ViewerORCID string   `json:"viewer_orcid,omitempty"`
 	}
 	decoder := json.NewDecoder(http.MaxBytesReader(w, r.Body, 64<<10))
 	decoder.DisallowUnknownFields()
@@ -663,7 +667,22 @@ func (a *app) postConcepts(w http.ResponseWriter, r *http.Request) {
 		writeError(w, http.StatusBadRequest, err.Error())
 		return
 	}
+	viewerORCID := strings.ToUpper(strings.TrimSpace(input.ViewerORCID))
+	if viewerORCID != "" && !validORCID(viewerORCID) {
+		writeError(w, http.StatusBadRequest, "viewer_orcid must be a valid ORCID iD")
+		return
+	}
 	answer := conceptReviewsResponse{Concepts: emptyConceptReviews(urls)}
+	if viewerORCID != "" {
+		answer.Concepts, err = a.viewerConceptReviews(r.Context(), urls, viewerORCID)
+		if err != nil {
+			log.Printf("concept review batch failed: %v", err)
+			writeError(w, http.StatusServiceUnavailable, "concept reviews are temporarily unavailable")
+			return
+		}
+		writeJSON(w, http.StatusOK, answer)
+		return
+	}
 	user, err := a.currentUser(r)
 	if err != nil {
 		log.Printf("concept review session failed: %v", err)
@@ -688,7 +707,7 @@ func (a *app) postConcepts(w http.ResponseWriter, r *http.Request) {
 	answer.Eligible = true
 	viewer := toPublicIdentity(person)
 	answer.Viewer = &viewer
-	answer.Concepts, err = a.viewerConceptReviews(r.Context(), urls, user.ID)
+	answer.Concepts, err = a.viewerConceptReviews(r.Context(), urls, person.ORCID)
 	if err != nil {
 		log.Printf("concept review batch failed: %v", err)
 		writeError(w, http.StatusServiceUnavailable, "concept reviews are temporarily unavailable")

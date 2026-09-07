@@ -227,7 +227,7 @@
         credentials: "include",
         cache: "no-store",
         headers: { Accept: "application/json", "Content-Type": "application/json" },
-        body: JSON.stringify({ urls: payload.urls }),
+        body: JSON.stringify({ urls: payload.urls, viewer_orcid: payload.viewer_orcid }),
       });
       return { ok: response.ok, status: response.status, data: await response.json() };
     }
@@ -328,7 +328,10 @@
     try {
       const reviews = [];
       for (let start = 0; start < urls.length; start += 50) {
-        const response = await accountRequest("concepts", { urls: urls.slice(start, start + 50) });
+        const response = await accountRequest("concepts", {
+          urls: urls.slice(start, start + 50),
+          viewer_orcid: currentIdentity?.orcidId || "",
+        });
         if (!response.ok) throw new Error(String(response.status));
         if (Array.isArray(response.data?.concepts)) reviews.push(...response.data.concepts);
       }
