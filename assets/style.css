@@ -4118,11 +4118,61 @@ body.graph-window-open::after{
 .latex-block{ position: relative; min-width: 0; }
 .latex-block svg{ max-width: none; }
 /* The viewer pads an overflowing display's wrapper by its measured ink
-   overhang; the scroll box itself only needs the horizontal axis. */
+   overhang; the scroll box itself only needs the horizontal axis. Its
+   frame fades the edge(s) the box can still scroll toward (data-scroll,
+   kept current by the viewer) into the page's ground, so a reader sees
+   that the display goes on — overlay scrollbars show nothing until
+   touched. */
 .latex-display{ overflow-x: auto; }
+.latex-display-frame{ position: relative; }
+.latex-display-frame::before,
+.latex-display-frame::after{
+  content: '';
+  position: absolute;
+  top: var(--latex-fade-top, 0);         /* the viewer insets the fades past */
+  bottom: var(--latex-fade-bottom, 0);   /* a lone equation-number line */
+  width: 2.75rem;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.latex-display-frame::before{ left: 0; background: linear-gradient(to right, var(--bg) 20%, transparent); }
+.latex-display-frame::after{ right: 0; background: linear-gradient(to left, var(--bg) 20%, transparent); }
+.latex-display-frame[data-scroll="start"]::after,
+.latex-display-frame[data-scroll="both"]::after,
+.latex-display-frame[data-scroll="end"]::before,
+.latex-display-frame[data-scroll="both"]::before{ opacity: 1; }
 /* Zero-size, invisible; a deep link lands the passage below the sticky
    header. The viewer positions in-paragraph anchors absolutely itself. */
 .latex-anchor{ display: block; width: 0; height: 0; scroll-margin-top: 7rem; }
+/* Footnotes as sidenotes (manuscript-reflow.js). While the rail stands
+   beside the text the body carries manuscript-sidenotes: each footnote's
+   segment is lifted into a .manuscript-footnote card in the rail and the
+   viewer's footnote rule goes with it. Without the class (the body scrolls
+   sideways) the endnotes stay in flow. */
+/* !important: the viewer sets display:block inline on every segment. */
+.manuscript-sidenotes .manuscript-reflow-doc .latex-footnote-rule{ display: none !important; }
+.manuscript-footnote{ cursor: default; padding: 0.4rem 0.6rem 0.4rem 0.55rem; }
+.manuscript-footnote > .manuscript-footnote-body{ min-width: 0; overflow: visible; }
+.manuscript-footnote > .manuscript-footnote-body > svg{ display: block; max-width: 100%; margin: 0; }
+.manuscript-footnote.manuscript-card-hover{ border-color: var(--accent); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12); }
+/* The reference's link: a small hit box over the superscript the viewer
+   painted before the anchor (the anchor sits at the baseline just after
+   it), outside the SVG so the text is untouched. Lit from either end. */
+.latex-fnref{ z-index: 4; }
+.latex-fnref-link{
+  position: absolute;
+  left: -11px;
+  top: -20px;
+  width: 14px;
+  height: 22px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.latex-fnref-link:hover, .latex-fnref-link:focus-visible,
+.latex-fnref-hover > .latex-fnref-link, .latex-fnref-flash > .latex-fnref-link{ background: var(--accent-light); outline: 1px solid var(--accent); }
+/* An endnote a reference link landed on. */
+.latex-footnote-flash{ background: var(--accent-light); transition: background 150ms ease; }
 /* The AGPL §13 source offer for the viewer running in this page. */
 .manuscript-reflow-notice{
   margin: 3rem auto 0.75rem;
