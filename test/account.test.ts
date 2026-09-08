@@ -51,6 +51,7 @@ function fixture(
   conceptReviews: Array<{ url: string; reaction: string }> = [],
   deferConceptReviews = false,
   localStorage = new FakeStorage(),
+  navigationType = "navigate",
 ) {
   let authenticated = initiallyAuthenticated;
   let logoutStatus = 200;
@@ -147,6 +148,7 @@ function fixture(
     history: { replaceState() {} },
     BroadcastChannel: FakeBroadcastChannel,
     localStorage,
+    performance: { getEntriesByType: (type: string) => type === "navigation" ? [{ type: navigationType }] : [] },
     close() {},
     dispatchEvent: (event: FakeCustomEvent) => { events.push({ type: event.type, detail: event.detail }); },
     addEventListener: (name: string, listener: (event: Record<string, unknown>) => void) => { listeners[name] = listener; },
@@ -406,13 +408,13 @@ describe("ORCID account header", () => {
     expect(fx.conceptBadges.every((badge) => badge.hidden)).toBe(true);
   });
 
-  it("caches concept reviews per viewer and requests only missing URLs", async () => {
+  it("persists concept reviews per viewer, requests missing URLs, and refreshes after reload", async () => {
     const accepted = "https://laxarchive.org/lax-4/Lax4.Accepted.html";
     const pending = "https://laxarchive.org/lax-4/Lax4.Pending.html";
     const flagged = "https://laxarchive.org/lax-4/Lax4.Flagged.html";
     const storage = new FakeStorage();
-    const load = async (reviews: Array<{ url: string; reaction: string }>) => {
-      const fx = fixture({ id: `orcid_${"7".repeat(40)}`, name: "Ada Lovelace" }, true, reviews, false, storage);
+    const load = async (reviews: Array<{ url: string; reaction: string }>, navigationType = "navigate") => {
+      const fx = fixture({ id: `orcid_${"7".repeat(40)}`, name: "Ada Lovelace" }, true, reviews, false, storage, navigationType);
       const context = { document: fx.document, window: fx.window, fetch: fx.fetch, URL, CustomEvent: fx.FakeCustomEvent, Date, setTimeout };
       vm.createContext(context);
       vm.runInContext(fs.readFileSync("assets/site/account.js", "utf8"), context);
@@ -432,6 +434,8 @@ describe("ORCID account header", () => {
       [accepted, "endorse"],
       [pending, ""],
     ]);
+    cached.entries.forEach((entry: { cached_at: number }) => { entry.cached_at = 1; });
+    storage.setItem("lax-concept-reviews:v1", JSON.stringify(cached));
 
     const second = await load([
       { url: accepted, reaction: "endorse" },
@@ -452,6 +456,24 @@ describe("ORCID account header", () => {
     ]);
     expect(third.bridgeMessages.some((message) => message.action === "concepts")).toBe(false);
     expect(third.progressLabel?.textContent).toBe("33% accepted · 34% not evaluated · 33% flagged");
+
+    const reloaded = await load([
+      { url: accepted, reaction: "flag" },
+      { url: pending, reaction: "endorse" },
+      { url: flagged, reaction: "" },
+    ], "reload");
+    expect(reloaded.bridgeMessages.find((message) => message.action === "concepts")?.urls).toEqual([accepted, pending, flagged]);
+    expect(reloaded.conceptBadges.map((badge) => badge.className)).toEqual([
+      "concept-review-badge flagged",
+      "concept-review-badge endorsed",
+      "concept-review-badge pending",
+    ]);
+    const refreshed = JSON.parse(storage.getItem("lax-concept-reviews:v1") || "null");
+    expect(Object.fromEntries(refreshed.entries.map((entry: { url: string; reaction: string }) => [entry.url, entry.reaction]))).toEqual({
+      [accepted]: "flag",
+      [pending]: "endorse",
+      [flagged]: "",
+    });
   });
 
   it("rechecks only once when the comment bridge repeats its ready announcement", async () => {
