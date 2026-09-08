@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://comments.laxarchive.org; style-src 'self' 'unsafe-inline'; img-src https: data:; font-src 'self'; frame-src https://comments.laxarchive.org; connect-src https://comments.laxarchive.org">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Lax — an archive of formalized mathematical concepts and their proofs">
-<title>Linear neighborhood complexity — Lax195003.WelzlOrdersLinearNeighborhoodComplexity</title>
+<title>Neighborhood complexity — Lax195003.WelzlOrdersNeighborhoodComplexity</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
 <link rel="stylesheet" href="../assets/style.css?v=b78d6b17a06b">
@@ -39,7 +39,7 @@
 <li data-type="definition" data-search="lax195003.welzlorders welzl orders definition"><a class="entry-link" href="../lax-195003/Lax195003.WelzlOrders.html" data-full-title="Welzl orders"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax195003.WelzlOrders</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-195003/Lax195003.WelzlOrders.html" hidden></span></span></a></li>
 <li data-type="theorem" data-search="lax195003.welzlorderscomputation near-linear-time computation of welzl orders theorem"><a class="entry-link" href="../lax-195003/Lax195003.WelzlOrdersComputation.html" data-full-title="Near-linear-time computation of Welzl orders"><span class="entry-label"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><span class="entry-label-text">Lax195003.WelzlOrdersComputation</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-195003/Lax195003.WelzlOrdersComputation.html" hidden></span></span></a></li>
 <li data-type="definition" data-search="lax195003.welzlordersingraphs welzl orders in graphs definition"><a class="entry-link" href="../lax-195003/Lax195003.WelzlOrdersInGraphs.html" data-full-title="Welzl orders in graphs"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax195003.WelzlOrdersInGraphs</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-195003/Lax195003.WelzlOrdersInGraphs.html" hidden></span></span></a></li>
-<li class="active" data-type="definition" data-search="lax195003.welzlorderslinearneighborhoodcomplexity linear neighborhood complexity definition"><a class="entry-link" href="../lax-195003/Lax195003.WelzlOrdersLinearNeighborhoodComplexity.html" data-full-title="Linear neighborhood complexity"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax195003.WelzlOrdersLinearNeighborhoodComplexity</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-195003/Lax195003.WelzlOrdersLinearNeighborhoodComplexity.html" hidden></span></span></a></li>
+<li class="active" data-type="definition" data-search="lax195003.welzlordersneighborhoodcomplexity neighborhood complexity definition"><a class="entry-link" href="../lax-195003/Lax195003.WelzlOrdersNeighborhoodComplexity.html" data-full-title="Neighborhood complexity"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax195003.WelzlOrdersNeighborhoodComplexity</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-195003/Lax195003.WelzlOrdersNeighborhoodComplexity.html" hidden></span></span></a></li>
 <li data-type="definition" data-search="lax195003.wordramrandomness randomized computation on the word ram definition"><a class="entry-link" href="../lax-195003/Lax195003.WordRamRandomness.html" data-full-title="Randomized computation on the word RAM"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax195003.WordRamRandomness</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-195003/Lax195003.WordRamRandomness.html" hidden></span></span></a></li>
 <li id="entry-list-empty" hidden>No entries match.</li>
 </ul>
@@ -48,12 +48,12 @@
 <section id="main"><div id="detail">
 <p class="draft-banner"><strong>Draft</strong> — mutable and not usable as a dependency; its citation marks the draft state.</p>
 <div class="detail-heading concept-heading">
-<div><p class="concept-id"><code>Lax195003.WelzlOrdersLinearNeighborhoodComplexity</code></p>
-<h1 class="concept-title">Linear neighborhood complexity</h1>
-<p class="concept-microline"><code>concepts/Lax195003/WelzlOrdersLinearNeighborhoodComplexity.lean</code> · <a href="index.html">lax-195003</a></p></div>
+<div><p class="concept-id"><code>Lax195003.WelzlOrdersNeighborhoodComplexity</code></p>
+<h1 class="concept-title">Neighborhood complexity</h1>
+<p class="concept-microline"><code>concepts/Lax195003/WelzlOrdersNeighborhoodComplexity.lean</code> · <a href="index.html">lax-195003</a></p></div>
 <span class="status-pills"><span class="status-pill pill-none">definition</span></span>
 </div>
-<section class="page-reactions" aria-label="Community review" data-reactions-host="https://comments.laxarchive.org" data-reactions-url="https://laxarchive.org/lax-195003/Lax195003.WelzlOrdersLinearNeighborhoodComplexity.html" data-review-kind="concept" data-source-lines="56">
+<section class="page-reactions" aria-label="Community review" data-reactions-host="https://comments.laxarchive.org" data-reactions-url="https://laxarchive.org/lax-195003/Lax195003.WelzlOrdersNeighborhoodComplexity.html" data-review-kind="concept" data-source-lines="56">
 <div class="page-reactions-line">
 <div class="page-reactions-actions">
 <div class="page-reaction-control">
@@ -69,7 +69,7 @@
 
 </div>
 <p class="page-reactions-status" data-reactions-status role="status">Loading review…</p>
-<a class="visually-hidden" data-reactions-login href="https://comments.laxarchive.org/auth/orcid/login?site=remark&amp;from=https%3A%2F%2Flaxarchive.org%2Flax-195003%2FLax195003.WelzlOrdersLinearNeighborhoodComplexity.html">Sign in with ORCID</a>
+<a class="visually-hidden" data-reactions-login href="https://comments.laxarchive.org/auth/orcid/login?site=remark&amp;from=https%3A%2F%2Flaxarchive.org%2Flax-195003%2FLax195003.WelzlOrdersNeighborhoodComplexity.html">Sign in with ORCID</a>
 <dialog class="review-dialog flag-list-dialog" id="page-flag-list" data-flag-list-dialog aria-labelledby="page-flag-list-title">
 <div class="review-dialog-header"><div><p class="discussion-eyebrow">Community review</p><h2 id="page-flag-list-title">Flags</h2></div><button class="review-dialog-close" type="button" data-flag-list-close aria-label="Close flags">×</button></div>
 <p class="review-dialog-intro">Each flag is tied to a public ORCID identity and explains why this concept may be incorrect.</p>
@@ -86,7 +86,7 @@
 <div class="review-dialog-actions"><button class="danger-button" type="button" data-flag-remove hidden>Remove my flag</button><span></span><button class="secondary-button" type="button" data-flag-cancel>Cancel</button><button class="primary-button" type="submit">Publish flag</button></div>
 </form>
 </dialog>
-<noscript><p class="page-reactions-noscript"><a href="https://comments.laxarchive.org/auth/orcid/login?site=remark&amp;from=https%3A%2F%2Flaxarchive.org%2Flax-195003%2FLax195003.WelzlOrdersLinearNeighborhoodComplexity.html">Sign in with ORCID</a> to review this page.</p></noscript>
+<noscript><p class="page-reactions-noscript"><a href="https://comments.laxarchive.org/auth/orcid/login?site=remark&amp;from=https%3A%2F%2Flaxarchive.org%2Flax-195003%2FLax195003.WelzlOrdersNeighborhoodComplexity.html">Sign in with ORCID</a> to review this page.</p></noscript>
 </section>
 <h4 class="figure-title">Concept map</h4>
 <figure class="graph-figure concept-root-graph">
@@ -105,14 +105,14 @@ number of distinct traces <span class="katex"><span class="katex-mathml"><math x
 neighborhood complexity if one constant <em>c</em> ≥ 1 works uniformly for every
 graph in the class.</p>
 </div></div>
-<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/1810dc1f9f533168d71c957bdf9ca4d821d0342a/welzl-orders/concepts/Lax195003/WelzlOrdersLinearNeighborhoodComplexity.lean">view on GitHub</a></h3>
+<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/62c2c10f6a506ab380bc3a55e2c10ee8996e4232/welzl-orders/concepts/Lax195003/WelzlOrdersNeighborhoodComplexity.lean">view on GitHub</a></h3>
 <div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
 <tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-12/Lax12.NeighborhoodComplexity.html">Lax12.NeighborhoodComplexity</a></span></td></tr>
 <tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Data.Nat.Lattice</span></td></tr>
 <tr id="L3" class=""><td class="line-num"><a href="#L3">3</a></td><td class="line-code"> </td></tr>
 <tr id="L4" class=""><td class="line-num"><a href="#L4">4</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
 <tr id="L5" class=""><td class="line-num"><a href="#L5">5</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
-<tr id="L6" class=""><td class="line-num"><a href="#L6">6</a></td><td class="line-code"><span style="color:#6A737D">title: Linear neighborhood complexity</span></td></tr>
+<tr id="L6" class=""><td class="line-num"><a href="#L6">6</a></td><td class="line-code"><span style="color:#6A737D">title: Neighborhood complexity</span></td></tr>
 <tr id="L7" class=""><td class="line-num"><a href="#L7">7</a></td><td class="line-code"><span style="color:#6A737D">type: definition</span></td></tr>
 <tr id="L8" class=""><td class="line-num"><a href="#L8">8</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
 <tr id="L9" class=""><td class="line-num"><a href="#L9">9</a></td><td class="line-code"><span style="color:#6A737D">The neighborhood complexity `π_G(k)` of a finite graph *G* is the largest</span></td></tr>
@@ -136,7 +136,7 @@ graph in the class.</p>
 <tr id="L27" class=""><td class="line-num"><a href="#L27">27</a></td><td class="line-code"><span style="color:#6A737D">trace `∅`, so the literal inequality `π_G(0) ≤ c · 0` would be false.</span></td></tr>
 <tr id="L28" class=""><td class="line-num"><a href="#L28">28</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
 <tr id="L29" class=""><td class="line-num"><a href="#L29">29</a></td><td class="line-code"> </td></tr>
-<tr id="L30" class=""><td class="line-num"><a href="#L30">30</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-195003/Lax195003.WelzlOrdersLinearNeighborhoodComplexity.html">Lax195003.WelzlOrdersLinearNeighborhoodComplexity</a></span></td></tr>
+<tr id="L30" class=""><td class="line-num"><a href="#L30">30</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-195003/Lax195003.WelzlOrdersNeighborhoodComplexity.html">Lax195003.WelzlOrdersNeighborhoodComplexity</a></span></td></tr>
 <tr id="L31" class=""><td class="line-num"><a href="#L31">31</a></td><td class="line-code"> </td></tr>
 <tr id="L32" class=""><td class="line-num"><a href="#L32">32</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-12/Lax12.GraphClasses.html">Lax12.GraphClasses</a></span></td></tr>
 <tr id="L33" class=""><td class="line-num"><a href="#L33">33</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-12/Lax12.NeighborhoodComplexity.html">Lax12.NeighborhoodComplexity</a></span></td></tr>
@@ -161,7 +161,7 @@ graph in the class.</p>
 <tr id="L52" class=""><td class="line-num"><a href="#L52">52</a></td><td class="line-code"><span style="color:#24292E">    ∀ (n : ℕ) (G : SimpleGraph (Fin n)), C n G →</span></td></tr>
 <tr id="L53" class=""><td class="line-num"><a href="#L53">53</a></td><td class="line-code"><span style="color:#24292E">      HasLinearNeighborhoodComplexityWithConstant G c</span></td></tr>
 <tr id="L54" class=""><td class="line-num"><a href="#L54">54</a></td><td class="line-code"> </td></tr>
-<tr id="L55" class=""><td class="line-num"><a href="#L55">55</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-195003/Lax195003.WelzlOrdersLinearNeighborhoodComplexity.html">Lax195003.WelzlOrdersLinearNeighborhoodComplexity</a></span></td></tr>
+<tr id="L55" class=""><td class="line-num"><a href="#L55">55</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-195003/Lax195003.WelzlOrdersNeighborhoodComplexity.html">Lax195003.WelzlOrdersNeighborhoodComplexity</a></span></td></tr>
 <tr id="L56" class=""><td class="line-num"><a href="#L56">56</a></td><td class="line-code"> </td></tr>
 </table></div><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
 <div class="block"><h3>Formalization notes</h3><div class="latex-content"><p>The count of distinct traces is the endorsed
@@ -186,15 +186,15 @@ trace <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.
 <h3 class="section-title" id="discussion-title">Discussion</h3>
 <p>Ask a question or add context. Endorsements and structured flags are kept in the review panel above; your ORCID profile must share a public name.</p>
 </div>
-<p class="discussion-count"><span class="remark42__counter" data-url="https://laxarchive.org/lax-195003/Lax195003.WelzlOrdersLinearNeighborhoodComplexity.html">0</span> <span>comments</span></p>
+<p class="discussion-count"><span class="remark42__counter" data-url="https://laxarchive.org/lax-195003/Lax195003.WelzlOrdersNeighborhoodComplexity.html">0</span> <span>comments</span></p>
 </div>
 <div class="discussion-embed-shell">
 <p class="discussion-loading" id="remark42-status" role="status"><span class="discussion-loading-mark" aria-hidden="true"></span>Loading discussion…</p>
-<div id="remark42" data-remark42-host="https://comments.laxarchive.org" data-remark42-site="remark" data-remark42-url="https://laxarchive.org/lax-195003/Lax195003.WelzlOrdersLinearNeighborhoodComplexity.html"></div>
+<div id="remark42" data-remark42-host="https://comments.laxarchive.org" data-remark42-site="remark" data-remark42-url="https://laxarchive.org/lax-195003/Lax195003.WelzlOrdersNeighborhoodComplexity.html"></div>
 </div>
 <noscript><p class="discussion-unavailable">Enable JavaScript to read or join the discussion.</p></noscript>
 </section>
-<script type="application/json" id="graph-data">{"concepts":{"nodes":[{"id":"Lax12.GraphClasses","href":"../lax-12/Lax12.GraphClasses.html","title":"Graph classes","owner":"lax-12","status":"none","ext":true,"dir":"up"},{"id":"Lax12.NeighborhoodComplexity","href":"../lax-12/Lax12.NeighborhoodComplexity.html","title":"Neighborhood complexity","owner":"lax-12","status":"none","ext":true,"dir":"up"},{"id":"Lax195003.WelzlOrdersComputation","href":"../lax-195003/Lax195003.WelzlOrdersComputation.html","title":"Near-linear-time computation of Welzl orders","owner":"lax-195003","status":"open","ext":true,"dir":"down"},{"id":"Lax195003.WelzlOrdersLinearNeighborhoodComplexity","href":"../lax-195003/Lax195003.WelzlOrdersLinearNeighborhoodComplexity.html","title":"Linear neighborhood complexity","owner":"lax-195003","status":"none","ext":false,"dir":"core"}],"edges":[{"from":"Lax12.GraphClasses","to":"Lax12.NeighborhoodComplexity"},{"from":"Lax195003.WelzlOrdersLinearNeighborhoodComplexity","to":"Lax195003.WelzlOrdersComputation"},{"from":"Lax12.NeighborhoodComplexity","to":"Lax195003.WelzlOrdersLinearNeighborhoodComplexity"}],"home":"lax-195003"},"proofs":{"statements":[],"proofs":[]}}</script>
+<script type="application/json" id="graph-data">{"concepts":{"nodes":[{"id":"Lax12.GraphClasses","href":"../lax-12/Lax12.GraphClasses.html","title":"Graph classes","owner":"lax-12","status":"none","ext":true,"dir":"up"},{"id":"Lax12.NeighborhoodComplexity","href":"../lax-12/Lax12.NeighborhoodComplexity.html","title":"Neighborhood complexity","owner":"lax-12","status":"none","ext":true,"dir":"up"},{"id":"Lax195003.WelzlOrdersComputation","href":"../lax-195003/Lax195003.WelzlOrdersComputation.html","title":"Near-linear-time computation of Welzl orders","owner":"lax-195003","status":"open","ext":true,"dir":"down"},{"id":"Lax195003.WelzlOrdersNeighborhoodComplexity","href":"../lax-195003/Lax195003.WelzlOrdersNeighborhoodComplexity.html","title":"Neighborhood complexity","owner":"lax-195003","status":"none","ext":false,"dir":"core"}],"edges":[{"from":"Lax12.GraphClasses","to":"Lax12.NeighborhoodComplexity"},{"from":"Lax195003.WelzlOrdersNeighborhoodComplexity","to":"Lax195003.WelzlOrdersComputation"},{"from":"Lax12.NeighborhoodComplexity","to":"Lax195003.WelzlOrdersNeighborhoodComplexity"}],"home":"lax-195003"},"proofs":{"statements":[],"proofs":[]}}</script>
 </div>
 <footer class="site-footer">
   <nav class="site-footer-nav" aria-label="Legal and about">

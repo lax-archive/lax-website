@@ -1917,8 +1917,8 @@
           "type": "definition"
         },
         {
-          "id": "Lax195003.WelzlOrdersLinearNeighborhoodComplexity",
-          "title": "Linear neighborhood complexity",
+          "id": "Lax195003.WelzlOrdersNeighborhoodComplexity",
+          "title": "Neighborhood complexity",
           "type": "definition"
         },
         {
