@@ -234,12 +234,20 @@ describe("paper viewer placement", () => {
     expect(place.analyzePage(withHeading).flow.first).toBe(0);
   });
 
-  it("stacks cards greedily in the given order", () => {
+  it("stacks cards greedily top to bottom, whatever order the marks come in", () => {
+    // The card wanting 50 comes last but sits first; the one wanting 110
+    // is pushed under the one wanting 100; the one wanting 400 is clear.
     expect(place.stackCards([
       { want: 100, height: 40 },
       { want: 110, height: 40 },
       { want: 400, height: 20 },
       { want: 50, height: 30 },
-    ], 8)).toEqual([100, 148, 400, 428]);
+    ], 8)).toEqual([100, 148, 400, 50]);
+    // A passage marked for several concepts: its cards keep the marks' order.
+    expect(place.stackCards([
+      { want: 200, height: 30 },
+      { want: 200, height: 30 },
+      { want: 200, height: 30 },
+    ], 8)).toEqual([200, 238, 276]);
   });
 });

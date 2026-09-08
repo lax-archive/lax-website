@@ -309,15 +309,22 @@
     return out;
   }
 
-  // The rail: every card wants the y of its passage; in the given order a
-  // card that would overlap the one before is pushed down by `gap`.
+  // The rail: every card wants the y of its passage. Top to bottom by that
+  // y — the marks come in the record's order, which need not be the pages'
+  // (a card stacked in mark order behind one from a later page would sit
+  // pages below its passage) — a card that would overlap the one before is
+  // pushed down by `gap`. Cards wanting the same y keep their given order.
+  // Returns the tops in the given order.
   function stackCards(cards, gap) {
+    const order = cards.map((card, index) => index).sort((a, b) => cards[a].want - cards[b].want || a - b);
+    const tops = new Array(cards.length);
     let cursor = -Infinity;
-    return cards.map((card) => {
-      const top = Math.max(card.want, cursor + gap);
-      cursor = top + card.height;
-      return top;
-    });
+    for (const index of order) {
+      const top = Math.max(cards[index].want, cursor + gap);
+      cursor = top + cards[index].height;
+      tops[index] = top;
+    }
+    return tops;
   }
 
   const api = { textItems, analyzePage, computeBlocks, flowSpan, resolveRange, segmentRects, segmentShapes, stackCards };

@@ -82,6 +82,18 @@ describe("reflow card placement", () => {
     expect(tops[1]).toBe(58);
     expect(tops[2]).toBe(340); // 400 - 60: back on its passage
   });
+
+  it("stacks by the bands' order, not the marks', an unbanded mark following its predecessor", () => {
+    // Mark 3 is marked first but its passage comes last; mark 4 has no
+    // anchors and queues after mark 1, the card before it in rail order.
+    const bands = { 1: { top: 100, bottom: 120 }, 2: { top: 110, bottom: 130 }, 3: { top: 700, bottom: 720 } };
+    const { tops, placed } = place.place(
+      [{ n: 3, height: 60 }, { n: 1, height: 40 }, { n: 4, height: 40 }, { n: 2, height: 40 }],
+      bands, 8, 0,
+    );
+    expect(placed).toEqual([true, true, false, true]);
+    expect(tops).toEqual([700, 100, 148, 196]);
+  });
 });
 
 describe("the passage outline", () => {
