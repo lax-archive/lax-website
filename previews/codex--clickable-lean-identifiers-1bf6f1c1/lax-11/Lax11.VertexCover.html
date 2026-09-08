@@ -151,7 +151,7 @@ entry <em>k</em>. This file defines that instance format and nothing else.</p>
 <tr id="L38" class=""><td class="line-num"><a href="#L38">38</a></td><td class="line-code"><span style="color:#6A737D">the parameter `k`: a compressed sparse row block encoding `G`, followed</span></td></tr>
 <tr id="L39" class=""><td class="line-num"><a href="#L39">39</a></td><td class="line-code"><span style="color:#6A737D">by the single entry `k`. -/</span></td></tr>
 <tr id="L40" class=""><td class="line-num"><a href="#L40">40</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> EncodesParamInstance</span><span style="color:#24292E"> (x : List ℕ) (n : ℕ) (G : SimpleGraph (Fin n)) (k : ℕ) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
-<tr id="L41" class=""><td class="line-num"><a href="#L41">41</a></td><td class="line-code"><span style="color:#24292E">  ∃ g, x = g ++ [k] ∧ EncodesGraph g n G</span></td></tr>
+<tr id="L41" class=""><td class="line-num"><a href="#L41">41</a></td><td class="line-code"><span style="color:#24292E">  ∃ g, x = g ++ [k] ∧ <a class="lean-identifier-link" href="../lax-11/Lax11.GraphEncoding.html">EncodesGraph</a> g n G</span></td></tr>
 <tr id="L42" class=""><td class="line-num"><a href="#L42">42</a></td><td class="line-code"> </td></tr>
 <tr id="L43" class=""><td class="line-num"><a href="#L43">43</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-11/Lax11.VertexCover.html">Lax11.VertexCover</a></span></td></tr>
 <tr id="L44" class=""><td class="line-num"><a href="#L44">44</a></td><td class="line-code"> </td></tr>

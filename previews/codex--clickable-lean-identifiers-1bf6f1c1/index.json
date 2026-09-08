@@ -1420,6 +1420,11 @@
           "type": "theorem"
         },
         {
+          "id": "Lax68.StraightLineDrawings",
+          "title": "Straight-line graph drawings",
+          "type": "definition"
+        },
+        {
           "id": "Lax68.TreeOuterplanar",
           "title": "Trees are outerplanar",
           "type": "theorem"

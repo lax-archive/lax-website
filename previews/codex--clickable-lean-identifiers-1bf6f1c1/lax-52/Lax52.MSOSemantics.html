@@ -144,7 +144,7 @@ elements to every monadic variable.</p>
 <tr id="L28" class=""><td class="line-num"><a href="#L28">28</a></td><td class="line-code"><span style="color:#24292E">  Fin.cases x v</span></td></tr>
 <tr id="L29" class=""><td class="line-num"><a href="#L29">29</a></td><td class="line-code"> </td></tr>
 <tr id="L30" class=""><td class="line-num"><a href="#L30">30</a></td><td class="line-code"><span style="color:#6A737D">/-- Satisfaction of an MSO formula under first-order and monadic valuations. -/</span></td></tr>
-<tr id="L31" class=""><td class="line-num"><a href="#L31">31</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> Realize</span><span style="color:#24292E"> : {n m : Nat} → Formula L n m → (Fin n → M) →</span></td></tr>
+<tr id="L31" class=""><td class="line-num"><a href="#L31">31</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> Realize</span><span style="color:#24292E"> : {n m : Nat} → <a class="lean-identifier-link" href="../lax-52/Lax52.MSOSyntax.html">Formula</a> L n m → (Fin n → M) →</span></td></tr>
 <tr id="L32" class=""><td class="line-num"><a href="#L32">32</a></td><td class="line-code"><span style="color:#24292E">    (Fin m → Set M) → </span><span style="color:#D73A49">Prop</span></td></tr>
 <tr id="L33" class=""><td class="line-num"><a href="#L33">33</a></td><td class="line-code"><span style="color:#24292E">  | _, _, .falsum, _, _ =&gt; False</span></td></tr>
 <tr id="L34" class=""><td class="line-num"><a href="#L34">34</a></td><td class="line-code"><span style="color:#24292E">  | _, _, .equal t₁ t₂, v, _ =&gt; t₁.realize v = t₂.realize v</span></td></tr>

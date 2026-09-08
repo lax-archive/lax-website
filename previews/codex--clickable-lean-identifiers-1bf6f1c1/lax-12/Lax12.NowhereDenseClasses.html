@@ -200,7 +200,7 @@ immediately after as an equivalent.</p>
 <tr id="L63" class=""><td class="line-num"><a href="#L63">63</a></td><td class="line-code"> </td></tr>
 <tr id="L64" class=""><td class="line-num"><a href="#L64">64</a></td><td class="line-code"><span style="color:#6A737D">/-- A graph class is nowhere dense if for every depth `r` some complete</span></td></tr>
 <tr id="L65" class=""><td class="line-num"><a href="#L65">65</a></td><td class="line-code"><span style="color:#6A737D">graph is not a depth-`r` minor of any member. -/</span></td></tr>
-<tr id="L66" class=""><td class="line-num"><a href="#L66">66</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> NowhereDense</span><span style="color:#24292E"> (C : GraphClass) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr id="L66" class=""><td class="line-num"><a href="#L66">66</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> NowhereDense</span><span style="color:#24292E"> (C : <a class="lean-identifier-link" href="../lax-12/Lax12.GraphClasses.html">GraphClass</a>) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
 <tr id="L67" class=""><td class="line-num"><a href="#L67">67</a></td><td class="line-code"><span style="color:#24292E">  ∀ r : ℕ, ∃ t : ℕ, ∀ (n : ℕ) (G : SimpleGraph (Fin n)), C n G →</span></td></tr>
 <tr id="L68" class=""><td class="line-num"><a href="#L68">68</a></td><td class="line-code"><span style="color:#24292E">    ¬ HasShallowMinor G r (⊤ : SimpleGraph (Fin t))</span></td></tr>
 <tr id="L69" class=""><td class="line-num"><a href="#L69">69</a></td><td class="line-code"> </td></tr>

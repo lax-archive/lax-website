@@ -63,6 +63,7 @@
 <li data-type="theorem" data-search="lax68.starplanar stars are planar theorem"><a class="entry-link" href="../lax-68/Lax68.StarPlanar.html" data-full-title="Stars are planar"><span class="entry-label"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><span class="entry-label-text">Lax68.StarPlanar</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-68/Lax68.StarPlanar.html" hidden></span></span></a></li>
 <li data-type="definition" data-search="lax68.stars stars definition"><a class="entry-link" href="../lax-68/Lax68.Stars.html" data-full-title="Stars"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax68.Stars</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-68/Lax68.Stars.html" hidden></span></span></a></li>
 <li data-type="theorem" data-search="lax68.startree stars are trees theorem"><a class="entry-link" href="../lax-68/Lax68.StarTree.html" data-full-title="Stars are trees"><span class="entry-label"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><span class="entry-label-text">Lax68.StarTree</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-68/Lax68.StarTree.html" hidden></span></span></a></li>
+<li data-type="definition" data-search="lax68.straightlinedrawings straight-line graph drawings definition"><a class="entry-link" href="../lax-68/Lax68.StraightLineDrawings.html" data-full-title="Straight-line graph drawings"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax68.StraightLineDrawings</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-68/Lax68.StraightLineDrawings.html" hidden></span></span></a></li>
 <li data-type="theorem" data-search="lax68.treeouterplanar trees are outerplanar theorem"><a class="entry-link" href="../lax-68/Lax68.TreeOuterplanar.html" data-full-title="Trees are outerplanar"><span class="entry-label"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><span class="entry-label-text">Lax68.TreeOuterplanar</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-68/Lax68.TreeOuterplanar.html" hidden></span></span></a></li>
 <li data-type="theorem" data-search="lax68.treeplanar trees are planar theorem"><a class="entry-link" href="../lax-68/Lax68.TreePlanar.html" data-full-title="Trees are planar"><span class="entry-label"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><span class="entry-label-text">Lax68.TreePlanar</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-68/Lax68.TreePlanar.html" hidden></span></span></a></li>
 <li data-type="definition" data-search="lax68.trees trees definition"><a class="entry-link" href="../lax-68/Lax68.Trees.html" data-full-title="Trees"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax68.Trees</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-68/Lax68.Trees.html" hidden></span></span></a></li>
@@ -104,7 +105,7 @@
 <p class="concept-microline"><code>concepts/Lax68/Triangles.lean</code> · <a href="index.html">lax-68</a></p></div>
 <span class="status-pills"><span class="status-pill pill-none">definition</span></span>
 </div>
-<section class="page-reactions" aria-label="Community review" data-reactions-host="https://comments.laxarchive.org" data-reactions-url="https://laxarchive.org/lax-68/Lax68.Triangles.html" data-review-kind="concept" data-source-lines="20">
+<section class="page-reactions" aria-label="Community review" data-reactions-host="https://comments.laxarchive.org" data-reactions-url="https://laxarchive.org/lax-68/Lax68.Triangles.html" data-review-kind="concept" data-source-lines="19">
 <div class="page-reactions-line">
 <div class="page-reactions-actions">
 <div class="page-reaction-control">
@@ -151,9 +152,9 @@
 
 <div class="block block-statement"><h3>Definition</h3><div class="latex-content"><p>A triangle is a finite complete graph on exactly three vertices.</p>
 </div></div>
-<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/lax-archive/lax/blob/b3059af1991dc9cf629ad98f6b23f7c3dd1b9181/planar-graph-classes/concepts/Lax68/Triangles.lean">view on GitHub</a></h3>
+<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/lax-archive/lax/blob/af383e2bc27d33ca1c8c86383e7a818a961b4d6f/planar-graph-classes/concepts/Lax68/Triangles.lean">view on GitHub</a></h3>
 <div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
-<tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Combinatorics.SimpleGraph.Basic</span></td></tr>
+<tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Combinatorics.SimpleGraph.Maps</span></td></tr>
 <tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"> </td></tr>
 <tr id="L3" class=""><td class="line-num"><a href="#L3">3</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
 <tr id="L4" class=""><td class="line-num"><a href="#L4">4</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
@@ -167,18 +168,17 @@
 <tr id="L12" class=""><td class="line-num"><a href="#L12">12</a></td><td class="line-code"> </td></tr>
 <tr id="L13" class=""><td class="line-num"><a href="#L13">13</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-68/Lax68.Triangles.html">Lax68.Triangles</a></span></td></tr>
 <tr id="L14" class=""><td class="line-num"><a href="#L14">14</a></td><td class="line-code"> </td></tr>
-<tr id="L15" class=""><td class="line-num"><a href="#L15">15</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> IsTriangle</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">*} [Fintype V] (G : SimpleGraph V) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
-<tr id="L16" class=""><td class="line-num"><a href="#L16">16</a></td><td class="line-code"><span style="color:#24292E">  Fintype.card V = </span><span style="color:#005CC5">3</span><span style="color:#24292E"> ∧</span></td></tr>
-<tr id="L17" class=""><td class="line-num"><a href="#L17">17</a></td><td class="line-code"><span style="color:#24292E">    G = SimpleGraph.completeGraph V</span></td></tr>
-<tr id="L18" class=""><td class="line-num"><a href="#L18">18</a></td><td class="line-code"> </td></tr>
-<tr id="L19" class=""><td class="line-num"><a href="#L19">19</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-68/Lax68.Triangles.html">Lax68.Triangles</a></span></td></tr>
-<tr id="L20" class=""><td class="line-num"><a href="#L20">20</a></td><td class="line-code"> </td></tr>
+<tr id="L15" class=""><td class="line-num"><a href="#L15">15</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> IsTriangle</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">*} (G : SimpleGraph V) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr id="L16" class=""><td class="line-num"><a href="#L16">16</a></td><td class="line-code"><span style="color:#24292E">  Nonempty (G ≃g SimpleGraph.completeGraph (Fin </span><span style="color:#005CC5">3</span><span style="color:#24292E">))</span></td></tr>
+<tr id="L17" class=""><td class="line-num"><a href="#L17">17</a></td><td class="line-code"> </td></tr>
+<tr id="L18" class=""><td class="line-num"><a href="#L18">18</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-68/Lax68.Triangles.html">Lax68.Triangles</a></span></td></tr>
+<tr id="L19" class=""><td class="line-num"><a href="#L19">19</a></td><td class="line-code"> </td></tr>
 </table></div><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
 
 <div class="block"><div class="deps-columns">
 <div class="deps-col"><h3>Builds on</h3><p class="empty-note">none</p></div>
 <div class="deps-col"><h3>Used by</h3><ul class="deps-list"><li><a href="../lax-68/Lax68.TriangleMaximalOuterplanar.html"><code>Lax68.TriangleMaximalOuterplanar</code></a></li><li><a href="../lax-68/Lax68.TriangleOuterplanar.html"><code>Lax68.TriangleOuterplanar</code></a></li><li><a href="../lax-68/Lax68.TrianglePlanar.html"><code>Lax68.TrianglePlanar</code></a></li></ul></div>
-<div class="deps-col"><h3>From Mathlib</h3><ul class="deps-list"><li><a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Basic.html"><code>Mathlib.Combinatorics.SimpleGraph.Basic</code></a></li></ul></div>
+<div class="deps-col"><h3>From Mathlib</h3><ul class="deps-list"><li><a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Maps.html"><code>Mathlib.Combinatorics.SimpleGraph.Maps</code></a></li></ul></div>
 </div></div>
 <section class="page-section discussion-section" aria-labelledby="discussion-title">
 <div class="discussion-heading">

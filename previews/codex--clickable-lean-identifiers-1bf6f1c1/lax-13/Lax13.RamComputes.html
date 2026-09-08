@@ -187,9 +187,9 @@ are stated by instantiating <em>T</em>.</p>
 <tr id="L61" class=""><td class="line-num"><a href="#L61">61</a></td><td class="line-code"> </td></tr>
 <tr id="L62" class=""><td class="line-num"><a href="#L62">62</a></td><td class="line-code"><span style="color:#6A737D">/-- At word length `w`, on every admissible input `x`, the program halts</span></td></tr>
 <tr id="L63" class=""><td class="line-num"><a href="#L63">63</a></td><td class="line-code"><span style="color:#6A737D">within `T x` steps with output `f x`. -/</span></td></tr>
-<tr id="L64" class=""><td class="line-num"><a href="#L64">64</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> ComputesInTime</span><span style="color:#24292E"> (w : ℕ) (p : Program) (D : Set (List ℕ))</span></td></tr>
+<tr id="L64" class=""><td class="line-num"><a href="#L64">64</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> ComputesInTime</span><span style="color:#24292E"> (w : ℕ) (p : <a class="lean-identifier-link" href="../lax-13/Lax13.Ram.html">Program</a>) (D : Set (List ℕ))</span></td></tr>
 <tr id="L65" class=""><td class="line-num"><a href="#L65">65</a></td><td class="line-code"><span style="color:#24292E">    (f : List ℕ → List ℕ) (T : List ℕ → ℕ) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
-<tr id="L66" class=""><td class="line-num"><a href="#L66">66</a></td><td class="line-code"><span style="color:#24292E">  ∀ x ∈ D, ∃ t ≤ T x, RunsTo w p x (f x) t</span></td></tr>
+<tr id="L66" class=""><td class="line-num"><a href="#L66">66</a></td><td class="line-code"><span style="color:#24292E">  ∀ x ∈ D, ∃ t ≤ T x, <a class="lean-identifier-link" href="../lax-13/Lax13.Ram.html">RunsTo</a> w p x (f x) t</span></td></tr>
 <tr id="L67" class=""><td class="line-num"><a href="#L67">67</a></td><td class="line-code"> </td></tr>
 <tr id="L68" class=""><td class="line-num"><a href="#L68">68</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-13/Lax13.RamComputes.html">Lax13.RamComputes</a></span></td></tr>
 <tr id="L69" class=""><td class="line-num"><a href="#L69">69</a></td><td class="line-code"> </td></tr>
