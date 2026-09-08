@@ -29,6 +29,7 @@ export type SourceIdentifierHref = (identifier: string) => string | undefined;
 const LEAN_IDENTIFIER = /^[\p{L}_][\p{L}\p{N}\p{M}_']*(?:\.[\p{L}_][\p{L}\p{N}\p{M}_']*)*/u;
 const IDENTIFIER_START = /[\p{L}_]/u;
 const IDENTIFIER_BOUNDARY = /[\p{L}\p{N}\p{M}_'.]/u;
+const LEAN_DECLARATION = /^[ \t]*(?:@\[[^\]\n]*\][ \t]*)*(?:(?:private|protected|noncomputable|unsafe|partial)[ \t]+)*(?:def|abbrev|structure|class|inductive|theorem|lemma|axiom|opaque|constant)[ \t]+([\p{L}_][\p{L}\p{N}\p{M}_']*(?:\.[\p{L}_][\p{L}\p{N}\p{M}_']*)*)/gmu;
 
 function escapedAt(source: string, index: number): boolean {
   let slashes = 0;
@@ -77,6 +78,59 @@ function commentRanges(source: string): SourceRange[] {
     index += 1;
   }
   return ranges;
+}
+
+/** Extract ordinary named Lean declarations while ignoring comments, strings,
+ * and quoted identifiers. These names let a concept source link unqualified
+ * definitions imported from other archive modules without pretending that
+ * arbitrary identifiers are globally unique. */
+export function leanDeclarationNames(source: string): string[] {
+  const masked = source.split("");
+  const blank = (start: number, end: number) => {
+    for (let index = start; index < end; index++)
+      if (masked[index] !== "\n" && masked[index] !== "\r") masked[index] = " ";
+  };
+
+  for (let index = 0; index < source.length;) {
+    const start = index;
+    if (source[index] === "\"") {
+      index += 1;
+      while (index < source.length) {
+        if (source[index] === "\\") index += 2;
+        else if (source[index++] === "\"") break;
+      }
+      blank(start, Math.min(index, source.length));
+      continue;
+    }
+    if (source[index] === "«") {
+      const closing = source.indexOf("»", index + 1);
+      index = closing < 0 ? source.length : closing + 1;
+      blank(start, index);
+      continue;
+    }
+    if (source.startsWith("--", index)) {
+      const closing = source.indexOf("\n", index + 2);
+      index = closing < 0 ? source.length : closing;
+      blank(start, index);
+      continue;
+    }
+    if (source.startsWith("/-", index)) {
+      let depth = 1;
+      index += 2;
+      while (index < source.length && depth > 0) {
+        if (source.startsWith("/-", index)) { depth += 1; index += 2; }
+        else if (source.startsWith("-/", index)) { depth -= 1; index += 2; }
+        else index += 1;
+      }
+      blank(start, index);
+      continue;
+    }
+    index += 1;
+  }
+
+  const names: string[] = [];
+  for (const match of masked.join("").matchAll(LEAN_DECLARATION)) names.push(match[1]!);
+  return names;
 }
 
 function closingDollar(source: string, start: number, end: number, display: boolean): number {

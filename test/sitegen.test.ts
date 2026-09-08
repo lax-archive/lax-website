@@ -1320,10 +1320,18 @@ end Lax2.C`;
 
   it("links resolved archive identifiers in Lean code", async () => {
     const authored = submissions();
+    authored[0]!.output!.concepts[0]!.sourceText = [
+      authored[0]!.output!.concepts[0]!.sourceText,
+      "def ImportedThing : Type := Nat",
+      "-- def CommentOnly : Type := Nat",
+      'def declarationLabel := "def StringOnly : Type := Nat"',
+    ].join("\n");
     authored[0]!.output!.concepts[1]!.sourceText = [
       "import Lax2.C",
       "#check Lax2.C.truth",
-      "axiom local_truth : True",
+      "axiom local_truth (x : ImportedThing) : True",
+      "#check CommentOnly",
+      "#check StringOnly",
       "-- Lax2.C.truth is prose here",
       'def label := "Lax2.C"',
       "#check Lax999.Unknown",
@@ -1344,7 +1352,12 @@ end Lax2.C`;
     expect(source).toContain('<a class="lean-identifier-link" href="../Lax2/Lax2.C.html">Lax2.C</a>');
     expect(source).toContain('<a class="lean-identifier-link" href="../Lax2/Lax2.C.html#s-Lax2.C.truth">Lax2.C.truth</a>');
     expect(source).toContain('<a class="lean-identifier-link" href="../Lax2/Lax2.D.html#s-Lax2.D.local_truth">local_truth</a>');
-    expect(source.match(/class="lean-identifier-link"/g)).toHaveLength(3);
+    expect(source).toContain('<a class="lean-identifier-link" href="../Lax2/Lax2.C.html">ImportedThing</a>');
+    expect(source.match(/class="lean-identifier-link"/g)).toHaveLength(4);
+    expect(source).toContain("CommentOnly");
+    expect(source).toContain("StringOnly");
+    expect(source).not.toContain('href="../Lax2/Lax2.C.html">CommentOnly</a>');
+    expect(source).not.toContain('href="../Lax2/Lax2.C.html">StringOnly</a>');
     expect(source).toContain("-- Lax2.C.truth is prose here");
     expect(source).toContain("&quot;Lax2.C&quot;");
     expect(source).toContain("Lax999.Unknown");
