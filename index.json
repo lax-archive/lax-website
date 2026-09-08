@@ -1649,7 +1649,7 @@
         },
         {
           "id": "Lax68.TriangulationPlanar",
-          "title": "Triangulations are planar",
+          "title": "Triangulations of planar graphs are planar",
           "type": "theorem"
         },
         {
@@ -1692,7 +1692,7 @@
         "Lax68Proofs.tree_planar",
         "Lax68Proofs.triangle_outerplanar",
         "Lax68Proofs.triangle_planar",
-        "Lax68Proofs.triangulation_planar",
+        "Lax68Proofs.triangulationOf_planar",
         "Lax68Proofs.wheel_planar"
       ]
     },
