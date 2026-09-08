@@ -876,6 +876,8 @@ After the formula.`, "");
     expect(html).toContain('data-concept-review-url="https://laxarchive.org/Lax2/Lax2.C.html" hidden');
     expect(html).toContain('data-reaction="endorse"');
     expect(html).toContain('data-reaction="flag"');
+    expect(html).toContain('<span class="page-reaction-icon" aria-hidden="true">🥳</span><span>Endorse</span>');
+    expect(html).toContain('<span class="page-reaction-icon" aria-hidden="true">🚩</span><span>Flag</span>');
     expect(html).not.toContain('data-reaction="like"');
     expect(html).not.toContain('data-reaction="dislike"');
     expect(html).not.toContain('data-reaction="rocket"');

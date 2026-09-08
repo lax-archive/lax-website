@@ -312,7 +312,7 @@
     const state = validReaction || (showPending ? "pending" : "");
     badge.hidden = !state;
     badge.className = `concept-review-badge${state ? ` ${state === "endorse" ? "endorsed" : state === "flag" ? "flagged" : "pending"}` : ""}`;
-    badge.textContent = validReaction === "endorse" ? "✓" : validReaction === "flag" ? "⚑" : "";
+    badge.textContent = validReaction === "endorse" ? "🥳" : validReaction === "flag" ? "⚑" : "";
     if (!state) {
       badge.title = "";
       badge.removeAttribute("role");

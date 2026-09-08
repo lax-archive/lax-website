@@ -70,7 +70,7 @@ export function pageReactions(pathname: string, options: PageReviewOptions = {})
 <div class="page-reactions-line">
 <div class="page-reactions-actions">
 <div class="page-reaction-control">
-<button class="page-reaction-button" type="button" data-reaction="endorse" aria-pressed="false" title="Say that this ${target} is correct"><span class="page-reaction-icon" aria-hidden="true">✅</span><span>Endorse</span></button>
+<button class="page-reaction-button" type="button" data-reaction="endorse" aria-pressed="false" title="Say that this ${target} is correct"><span class="page-reaction-icon" aria-hidden="true">🥳</span><span>Endorse</span></button>
 <button class="page-reaction-voters" type="button" data-reaction-voters="endorse" aria-expanded="false" aria-controls="page-reaction-voters-endorse"><strong data-reaction-count="endorse">0</strong><span class="visually-hidden">Show people who endorse this ${target}</span></button>
 <div class="page-reaction-voters-popover" id="page-reaction-voters-endorse" data-reaction-voters-popover="endorse" hidden><p data-reaction-empty>No public endorsements yet.</p><ul></ul></div>
 </div>

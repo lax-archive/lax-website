@@ -3,7 +3,7 @@
 This companion service adds two page-level review actions per ORCID identity
 and canonical submission/concept URL:
 
-- `✅ Endorse` says that the page is correct.
+- `🥳 Endorse` says that the page is correct.
 - `🚩 Flag` says that something may be false and requires a public explanation.
   A concept flag may also reference one Lean source line.
 
