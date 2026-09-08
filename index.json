@@ -1896,6 +1896,30 @@
       ]
     },
     {
+      "id": "lax-195003",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "Near-Linear Time Computation of Welzl Orders on Graphs with Linear Neighborhood Complexity",
+      "concepts": [
+        {
+          "id": "Lax195003.WelzlOrders",
+          "title": "Welzl orders",
+          "type": "definition"
+        },
+        {
+          "id": "Lax195003.WelzlOrdersComputation",
+          "title": "Near-linear-time computation of Welzl orders",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax195003.WordRamRandomness",
+          "title": "Randomized computation on the word RAM",
+          "type": "definition"
+        }
+      ],
+      "proofs": []
+    },
+    {
       "id": "lax-242665",
       "state": "draft",
       "environment": "v4.30.0",
