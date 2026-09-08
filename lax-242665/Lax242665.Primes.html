@@ -112,7 +112,7 @@
 <div class="block block-statement"><h3>Definition</h3><div class="latex-content"><p>A natural number greater than 1 is <em>prime</em> if it is divisible only by 1 and
 by itself.</p>
 </div></div>
-<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/08d157fb35cd511a5911497a3356b63f340ed158/lax-introduction/concepts/Lax242665/Primes.lean">view on GitHub</a></h3>
+<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/9d46096fba7730dc3607f05e60aff40d213c6f14/lax-introduction/concepts/Lax242665/Primes.lean">view on GitHub</a></h3>
 <div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
 <tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Data.Nat.Notation</span></td></tr>
 <tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"> </td></tr>
@@ -127,10 +127,10 @@ by itself.</p>
 <tr id="L11" class=""><td class="line-num"><a href="#L11">11</a></td><td class="line-code"> </td></tr>
 <tr id="L12" class=""><td class="line-num"><a href="#L12">12</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax242665.Primes</span></td></tr>
 <tr id="L13" class=""><td class="line-num"><a href="#L13">13</a></td><td class="line-code"> </td></tr>
-<tr id="L14" class=""><td class="line-num"><a href="#L14">14</a></td><td class="line-code"><span style="color:#6A737D">/-- `n` is prime: it is greater than 1, and its only divisors are 1 and `n`</span></td></tr>
-<tr id="L15" class=""><td class="line-num"><a href="#L15">15</a></td><td class="line-code"><span style="color:#6A737D">itself. -/</span></td></tr>
+<tr id="L14" class=""><td class="line-num"><a href="#L14">14</a></td><td class="line-code"><span style="color:#6A737D">/-- `n` is prime: it is greater than 1, and every divisor `d` of `n` is</span></td></tr>
+<tr id="L15" class=""><td class="line-num"><a href="#L15">15</a></td><td class="line-code"><span style="color:#6A737D">`1` or `n` itself. -/</span></td></tr>
 <tr id="L16" class=""><td class="line-num"><a href="#L16">16</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> Prime</span><span style="color:#24292E"> (n : ℕ) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
-<tr id="L17" class=""><td class="line-num"><a href="#L17">17</a></td><td class="line-code"><span style="color:#005CC5">  1</span><span style="color:#24292E"> &lt; n ∧ ∀ d, d ∣ n → d = </span><span style="color:#005CC5">1</span><span style="color:#24292E"> ∨ d = n</span></td></tr>
+<tr id="L17" class=""><td class="line-num"><a href="#L17">17</a></td><td class="line-code"><span style="color:#005CC5">  1</span><span style="color:#24292E"> &lt; n ∧ ∀ d : ℕ, d ∣ n → d = </span><span style="color:#005CC5">1</span><span style="color:#24292E"> ∨ d = n</span></td></tr>
 <tr id="L18" class=""><td class="line-num"><a href="#L18">18</a></td><td class="line-code"> </td></tr>
 <tr id="L19" class=""><td class="line-num"><a href="#L19">19</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax242665.Primes</span></td></tr>
 <tr id="L20" class=""><td class="line-num"><a href="#L20">20</a></td><td class="line-code"> </td></tr>
