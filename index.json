@@ -1922,6 +1922,11 @@
           "type": "definition"
         },
         {
+          "id": "Lax195003.WelzlOrdersNeighborhoodSetSystem",
+          "title": "Neighborhood set systems of graphs",
+          "type": "definition"
+        },
+        {
           "id": "Lax195003.WordRamRandomness",
           "title": "Randomized computation on the word RAM",
           "type": "definition"
