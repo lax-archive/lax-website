@@ -5,7 +5,7 @@ import type { SiteModel } from "./model.js";
 export type CrossrefKind = "submission" | "concept" | "statement" | "proof";
 export interface ResolvedCrossref { kind: CrossrefKind; href: string }
 
-function resolveCrossref(model: SiteModel, target: string, rootRel: string): ResolvedCrossref | undefined {
+export function resolveCrossref(model: SiteModel, target: string, rootRel: string): ResolvedCrossref | undefined {
   const submission = model.submissions.find((s) => s.record.id === target);
   if (submission) return { kind: "submission", href: `${rootRel}${target}/index.html` };
   const concept = model.conceptHome.get(target);
