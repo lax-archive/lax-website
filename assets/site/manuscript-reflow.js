@@ -1,10 +1,14 @@
-// The reflow paper surface: joins the pre-rendered cards to the anchor
+// The reflow paper page: joins the pre-rendered cards to the anchor
 // elements the vendored ReflowTeX viewer emits (`[data-mark][data-side]`,
 // re-anchored by the viewer on every reflow), paints each passage's
-// highlight and shadow over the text, stacks the cards beside their
-// passages, draws the gutter band from each passage's shadow to its card,
-// and owns the view toggle (the page opens on the paper as printed) and the
-// `#m<n>` deep links into the reflowed text.
+// highlight and shadow over the text, and honours the `#m<n>` deep links
+// into the reflowed text. Beside the text — the rail — the cards stack at
+// their passages' height with a gutter band from each passage's shadow to
+// its card, opening on hover and pinned by a click. On a narrow screen
+// there is no room beside the text: the rail is gone, a tap on a passage
+// opens its card in the text right under the passage (the viewer keeps a
+// slot after the passage's last line), and a tap on the card, its ×, or
+// the passage again closes it.
 // The paper's footnotes become sidenotes in the same rail: the viewer lays
 // the footnote text out as endnotes (its own `.latex-footnote` segment per
 // footnote, behind a `.latex-footnote-rule`) and marks each reference point
@@ -12,8 +16,9 @@
 // segment — the one element, so the viewer's repaints keep reaching it —
 // into a `.manuscript-footnote` card stacked with the mark cards at its
 // reference's line, asks the viewer to set it at the card's measure, and
-// hides the endnotes. Where the rail is not beside the text (the body
-// scrolls sideways), the endnotes stay in flow and no sidenote card shows.
+// hides the endnotes. Where the rail is not beside the text (the narrow
+// layout, or a body that scrolls sideways), the endnotes stay in flow and
+// no sidenote card shows.
 // The join is structural — anchor offsets only, no text matching and no
 // geometry from the PDF. The placement and outline math is pure and lives
 // up top so node:vm can test it the way manuscript-place.js is tested.
@@ -156,7 +161,6 @@
   const docEl = document.getElementById('manuscript-reflow-doc');
   const railEl = document.getElementById('manuscript-rail-reflow');
   const linksEl = document.getElementById('manuscript-reflow-links');
-  const pdfSurface = document.getElementById('manuscript-pdf');
   const footnoteTemplate = document.getElementById('manuscript-footnote-card');
   if (!root || !reflowBody || !docEl || !railEl) return;
 
@@ -165,6 +169,7 @@
   const LINE_BELOW = 6;     // px below that baseline to the line's bottom
   const STREAM_PAD = 4;     // px a stream anchor's passage reaches beyond its blocks
   const SHADOW_MARGIN = 12; // px the shadow runs beyond the text column on each side
+  const SAME_BAND = 3;      // px within which two passages count as one (a theorem marked thrice)
   const SVG = 'http://www.w3.org/2000/svg';
 
   // The rail's cards: the mark cards the page shipped (`fn` null), and the
@@ -172,7 +177,7 @@
   // keyed `fn:<k>`, holding the footnote's segment in `body`).
   const cards = [...railEl.querySelectorAll('.manuscript-card[data-mark]')].map((el) => ({
     n: Number(el.dataset.mark), fn: null, el, kind: `kind-${[...el.classList].find((c) => c.startsWith('kind-'))?.slice(5) || 'concept'}`,
-    band: null, points: null, shadow: null, shape: null, link: null, ribbon: null, pinned: false,
+    band: null, points: null, shadow: null, shape: null, link: null, ribbon: null, pinned: false, inline: false, slot: null, slotY: null,
   }));
   const markCards = () => cards.filter((card) => !card.fn);
 
@@ -190,20 +195,24 @@
   hlEl.append(shadowsEl, shapesEl);
   docEl.append(hlEl);
 
-  // ---- the view toggle ----
+  // ---- the view switch: the printed page keeps the reader's passage ----
 
-  const buttons = [...root.querySelectorAll('.manuscript-view-button')];
-  function show(view) {
-    reflowBody.hidden = view !== 'reflow';
-    if (pdfSurface) pdfSurface.hidden = view !== 'pdf';
-    for (const button of buttons) button.setAttribute('aria-pressed', String(button.dataset.view === view));
-    // The page opens on the paper as printed, so the reflow surface lays out
-    // while hidden — the viewer keeps that first layout until the element has
-    // a real width, which showing it gives; its own observer then re-lays out
-    // and the reflow event brings the cards along.
-    if (view === 'reflow') schedule();
+  const viewLinks = [...root.querySelectorAll('.manuscript-view-link')];
+  function syncViewLinks() {
+    for (const link of viewLinks) {
+      const target = (link.getAttribute('href') || '').split('#')[0];
+      link.setAttribute('href', target + (/^#m\d+$/.test(location.hash) ? location.hash : ''));
+    }
   }
-  for (const button of buttons) button.addEventListener('click', () => show(button.dataset.view));
+  syncViewLinks();
+
+  // ---- the two layouts ----
+  //
+  // Beside the text or, on a narrow screen, in it: the stylesheet's own
+  // breakpoint, read here so the cards move between the rail and the text
+  // as the screen crosses it.
+  const narrowQuery = window.matchMedia('(max-width: 900px)');
+  const narrow = () => narrowQuery.matches;
 
   // ---- the anchor join ----
 
@@ -230,7 +239,7 @@
         bottom += LINE_BELOW;
       } else if (side === 'b') {
         let next = a.nextElementSibling;
-        while (next && next.classList.contains('latex-anchor')) next = next.nextElementSibling;
+        while (next && (next.classList.contains('latex-anchor') || next.classList.contains('manuscript-card'))) next = next.nextElementSibling;
         if (next) top = next.getBoundingClientRect().top - box.top;
         top -= STREAM_PAD;
         bottom = top;
@@ -244,9 +253,11 @@
 
   // ---- footnotes as sidenotes ----
 
-  // Whether the rail stands beside the text: the body's grid never stacks,
-  // it scrolls sideways where the two columns do not fit (style.css), and
-  // a sidenote in a rail scrolled off the screen is worse than an endnote.
+  // Whether the rail stands beside the text: above the breakpoint the
+  // body's grid never stacks, it scrolls sideways where the two columns do
+  // not fit (style.css), and a sidenote in a rail scrolled off the screen
+  // is worse than an endnote; below it there is no rail (placeCards reads
+  // `narrow()` first).
   let sidenotes = false;
   function railBesideText() {
     return reflowBody.scrollWidth <= reflowBody.clientWidth + 1;
@@ -397,16 +408,37 @@
   // ---- placement ----
 
   function placeCards() {
-    if (reflowBody.hidden) return;
-    sidenotes = railBesideText();
+    // The sidenotes first: they may ask the viewer for a re-layout, which
+    // moves everything measured below.
+    sidenotes = !narrow() && railBesideText();
     settleFootnotes();
     linkReferences();
     const active = cards.filter((card) => !card.fn || !card.el.hidden);
     if (!active.length) return;
+    const byMark = bands(measureAnchors());
+    for (const card of cards) card.band = byMark[card.n] || null;
+    if (narrow()) {
+      // A card that moved changed the text's height; the viewer re-pins the
+      // anchors below it and announces a reflow, which paints — painting
+      // now would draw the passages where they were.
+      if (placeInline()) return;
+    } else {
+      placeRail(active, byMark);
+    }
+    paintHighlights();
+    drawLinks();
+  }
+
+  // Beside the text: every card in the rail, stacked by its passage —
+  // `active` being the mark cards and the footnote cards showing.
+  function placeRail(active, byMark) {
+    if (cards.some((card) => card.inline)) {
+      for (const card of cards) leaveText(card);
+      railEl.append(...cards.map((card) => card.el));
+    }
     const bodyBox = reflowBody.getBoundingClientRect();
     const docTop = docEl.getBoundingClientRect().top - bodyBox.top;
     const railTop = railEl.getBoundingClientRect().top - bodyBox.top;
-    const byMark = bands(measureAnchors());
     railEl.classList.add('manuscript-rail-live');
     // The rail in document order (the DOM too, when it moved).
     const order = railOrder(active, byMark);
@@ -422,12 +454,104 @@
     sorted.forEach((card, index) => {
       card.el.style.top = `${result.tops[index]}px`;
       card.el.classList.toggle('manuscript-card-unplaced', !result.placed[index]);
-      card.band = byMark[card.n] || null;
       bottom = Math.max(bottom, result.tops[index] + card.el.offsetHeight);
     });
     railEl.style.height = `${Math.max(docEl.offsetHeight, bottom + 24)}px`;
-    paintHighlights();
-    drawLinks();
+  }
+
+  // In the text: a pinned card sits in its slot — under the run of text
+  // the reader tapped, or under the passage's first run for a deep link
+  // (a proof can run for pages; the card belongs where the reader is) —
+  // and failing a slot, after the passage's end anchor, which the viewer
+  // keeps after the segment holding the passage's last line. Cards of one
+  // passage stack in mark order. The others wait in the rail, which the
+  // stylesheet hides. The viewer rebuilds its tree on every re-layout,
+  // dropping the card, so this runs on every reflow and is a no-op when
+  // the card is already where it belongs. Returns whether the text
+  // changed.
+  function placeInline() {
+    railEl.style.height = '';
+    let changed = false;
+    for (const card of markCards()) {
+      card.el.classList.toggle('manuscript-card-unplaced', !card.band);
+      changed = (card.pinned ? enterText(card) : leaveText(card)) || changed;
+    }
+    return changed;
+  }
+
+  // The viewer's segments — the runs of paragraphs and the displays, one
+  // element each in a block's root — are what a card can follow.
+  const isMount = (el) => !el.classList.contains('latex-anchor') && !el.classList.contains('manuscript-card');
+  function mountsOf(block) {
+    const root = block.firstElementChild;
+    return root ? [...root.children].filter(isMount) : [];
+  }
+
+  // The slot under the text at `y` (the document's coordinates): the
+  // segment there, or the last one above it, as {block, mount} indices —
+  // stable across the viewer's reflows, which never re-segment.
+  function slotAtY(y) {
+    if (!Number.isFinite(y)) return null;
+    const docTop = docEl.getBoundingClientRect().top;
+    const blocks = [...docEl.querySelectorAll('.latex-block')];
+    for (let b = 0; b < blocks.length; b++) {
+      const box = blocks[b].getBoundingClientRect();
+      if (y < box.top - docTop || y > box.bottom - docTop) continue;
+      const mounts = mountsOf(blocks[b]);
+      let slot = null;
+      mounts.forEach((mount, m) => { if (mount.getBoundingClientRect().top - docTop <= y) slot = { block: b, mount: m }; });
+      return slot;
+    }
+    return null;
+  }
+
+  function slotElement(slot) {
+    if (!slot) return null;
+    const block = docEl.querySelectorAll('.latex-block')[slot.block];
+    return block ? mountsOf(block)[slot.mount] || null : null;
+  }
+
+  function endAnchor(card) {
+    return docEl.querySelector(`.latex-anchor[data-mark="${card.n}"][data-side="e"]`)
+      || docEl.querySelector(`.latex-anchor[data-mark="${card.n}"][data-side="b"]`);
+  }
+
+  function enterText(card) {
+    // The slot resolves once the text has the passage — a deep link pins
+    // its card before the viewer has laid anything out — and then holds.
+    if (!card.slot) card.slot = slotAtY(card.slotY !== null ? card.slotY : card.band ? card.band.top + LINE_ABOVE + 2 : NaN);
+    // A passage the text does not locate: the card heads the paper, with
+    // its note saying so.
+    let ref = slotElement(card.slot) || endAnchor(card);
+    let next = ref ? ref.nextElementSibling : docEl.firstElementChild;
+    // Past the anchors closing passages here (an end anchor sits on its
+    // segment's bottom edge, and a card before it would stretch its
+    // passage), and the cards of the same slot before this one.
+    for (;;) {
+      if (!next || next === card.el) break;
+      if (next.classList.contains('latex-anchor')) {
+        if (next.dataset.side !== 'e' && next.style.position !== 'absolute') break;
+      } else if (!next.classList.contains('manuscript-card') || Number(next.dataset.mark) > card.n) break;
+      ref = next;
+      next = next.nextElementSibling;
+    }
+    if (next === card.el && card.inline) return false;
+    if (ref) ref.after(card.el);
+    else docEl.prepend(card.el);
+    card.inline = true;
+    card.el.style.top = '';
+    card.el.classList.add('manuscript-card-inline');
+    return true;
+  }
+
+  function leaveText(card) {
+    if (!card.inline) return false;
+    card.inline = false;
+    card.el.classList.remove('manuscript-card-inline');
+    const before = [...railEl.children].find((el) => Number(el.dataset.mark) > card.n);
+    if (before) railEl.insertBefore(card.el, before);
+    else railEl.append(card.el);
+    return true;
   }
 
   // Per passage: its flat region along the text, and behind it a lighter
@@ -447,12 +571,12 @@
       }
       card.points = outline(card.band, width);
       if (!card.shape) {
-        card.shape = svgNode('path', { class: `manuscript-hl ${card.kind}` });
+        card.shape = svgNode('path', { class: `manuscript-hl ${card.kind}`, 'data-mark': card.n });
         shapesEl.append(card.shape);
       }
       card.shape.setAttribute('d', `M${card.points.map(([x, y]) => `${x.toFixed(1)},${y.toFixed(1)}`).join('L')}Z`);
       if (!card.shadow) {
-        card.shadow = svgNode('rect', { class: `manuscript-hl-shadow ${card.kind}` });
+        card.shadow = svgNode('rect', { class: `manuscript-hl-shadow ${card.kind}`, 'data-mark': card.n });
         shadowsEl.append(card.shadow);
       }
       card.shadow.setAttribute('x', String(-SHADOW_MARGIN));
@@ -466,7 +590,7 @@
   // the passage's shadow at its right edge, the whole card at the rail's
   // left edge, cubic curves across the gutter. Coordinates are the reflow
   // body's; the band starts a pixel inside the shadow so the two meet
-  // without a seam.
+  // without a seam. Nothing to draw where the cards are in the text.
   function drawLinks() {
     if (!linksEl) return;
     linksEl.setAttribute('viewBox', `0 0 ${reflowBody.clientWidth} ${reflowBody.clientHeight}`);
@@ -478,7 +602,7 @@
     const xr = railEl.offsetLeft + 2;
     const xm = (xl + xr) / 2;
     for (const card of markCards()) {
-      if (!card.band) {
+      if (!card.band || narrow()) {
         if (card.link) { card.link.remove(); card.link = null; }
         card.ribbon = null;
         continue;
@@ -489,7 +613,7 @@
       const cb = ct + card.el.offsetHeight;
       const d = `M${xl},${top.toFixed(1)} C${xm},${top.toFixed(1)} ${xm},${ct} ${xr},${ct} L${xr},${cb} C${xm},${cb} ${xm},${bottom.toFixed(1)} ${xl},${bottom.toFixed(1)} Z`;
       if (!card.link) {
-        card.link = svgNode('path', { class: `manuscript-link ${card.kind}` });
+        card.link = svgNode('path', { class: `manuscript-link ${card.kind}`, 'data-mark': card.n });
         linksEl.append(card.link);
       }
       card.link.setAttribute('d', d);
@@ -548,10 +672,25 @@
     if (!card.pinned && isExpanded(card) !== hovering) setExpanded(card, hovering);
   }
 
-  function setPinned(card, pinned) {
+  // `y`, in the document's coordinates, is where the card should open in
+  // the text; without one it opens under the passage's first line.
+  function setPinned(card, pinned, y) {
     card.pinned = pinned;
+    card.slot = null;
+    card.slotY = pinned && Number.isFinite(y) ? y : null;
     card.el.classList.toggle('manuscript-card-pinned', pinned);
     if (isExpanded(card) !== pinned) setExpanded(card, pinned);
+    else if (narrow()) placeCards();
+  }
+
+  // The cards of one passage: in the text, a tap on a theorem marked for
+  // three concepts opens all three (there is no rail to reach the others
+  // from); in the rail each card is its own.
+  function passageCards(card) {
+    if (!narrow() || !card.band) return [card];
+    return markCards().filter((other) => other === card || (other.band
+      && Math.abs(other.band.top - card.band.top) < SAME_BAND
+      && Math.abs(other.band.bottom - card.band.bottom) < SAME_BAND));
   }
 
   // A flash is a moment of the hover fill on the passage's highlight.
@@ -575,6 +714,12 @@
     });
     card.el.addEventListener('click', (event) => {
       if (event.target.closest('a, button')) return;
+      // In the text the card is under its passage already: a tap on the
+      // head closes it, and the body is for reading.
+      if (card.inline) {
+        if (event.target.closest('.manuscript-card-head')) setPinned(card, false);
+        return;
+      }
       setPinned(card, !card.pinned);
       scrollToPassage(card);
     });
@@ -588,7 +733,7 @@
   // the ribbons across the gutter (the one drawn in front). The footnote
   // cards and their reference links keep their own hover (noteHover).
   function cardAt(event) {
-    if (event.target.closest('.manuscript-rail, a')) return null;
+    if (event.target.closest('.manuscript-rail, .manuscript-card, a')) return null;
     const best = cardAtPassage(event);
     return best || cardAtRibbon(event);
   }
@@ -632,7 +777,8 @@
   // One hover: a card stays open while the pointer is on the card, its
   // passage, or the ribbon between them, and moving from one to another
   // never closes it in between (closing would shrink the ribbon under the
-  // pointer) — the PDF surface's rule.
+  // pointer) — the PDF surface's rule. No hover in the text: a touch
+  // screen's tap would open on the move and close on the click.
   let hovered = null;
   function hover(card) {
     if (card === hovered) return;
@@ -645,17 +791,20 @@
     return el ? cards.find((card) => card.el === el && !card.fn) || null : null;
   }
   reflowBody.addEventListener('mousemove', (event) => {
+    if (narrow()) return;
     hover(cardInRail(event) || cardAt(event));
   });
   reflowBody.addEventListener('mouseleave', () => hover(null));
   reflowBody.addEventListener('click', (event) => {
-    if (event.target.closest('.manuscript-rail')) return;
+    if (event.target.closest('.manuscript-rail, .manuscript-card')) return;
     const best = cardAt(event);
     if (!best) return;
     const pinned = !best.pinned;
-    setPinned(best, pinned);
+    const y = event.clientY - docEl.getBoundingClientRect().top;
+    for (const card of passageCards(best)) setPinned(card, pinned, y);
     flash(best);
-    // Brings the card into view where the rail is scrolled off to the side.
+    // Brings the card into view: where the rail is scrolled off to the
+    // side, or where it opened under a passage longer than the screen.
     if (pinned) best.el.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
   });
 
@@ -676,10 +825,6 @@
   function honourHash() {
     const match = /^#m(\d+)$/.exec(location.hash);
     if (!match) return;
-    // Only this surface's business while it is the one showing: the printed
-    // surface honours the same fragment on its own cards (manuscript.js), and
-    // a link must not move the reader off the view they opened.
-    if (reflowBody.hidden) return;
     const card = cards.find((c) => c.n === Number(match[1]));
     if (card && !hashPinned) {
       hashPinned = true;
@@ -707,10 +852,13 @@
   // the footnotes back into their cards before the frame paints, then
   // re-place everything.
   document.addEventListener('latex-viewer:reflow', () => {
-    if (sidenotes && !reflowBody.hidden) adoptFootnotes();
+    if (sidenotes) adoptFootnotes();
     schedule();
   });
   window.addEventListener('resize', schedule);
-  window.addEventListener('hashchange', () => { hashPinned = false; honourHash(); });
+  const onNarrowChange = () => { hover(null); schedule(); };
+  if (narrowQuery.addEventListener) narrowQuery.addEventListener('change', onNarrowChange);
+  else narrowQuery.addListener(onNarrowChange);
+  window.addEventListener('hashchange', () => { hashPinned = false; syncViewLinks(); honourHash(); });
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(schedule);
 })();

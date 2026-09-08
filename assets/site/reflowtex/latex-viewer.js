@@ -15,7 +15,12 @@
 //      re-anchored on every reflow, resize, and font repaint. A stream
 //      marker closes the current text segment so its anchor can sit in
 //      flow between the segments (the inter-segment margin reproduces the
-//      same TeX interline rule, so spacing is unchanged).
+//      same TeX interline rule, so spacing is unchanged); a paragraph
+//      holding a mark closes its segment too, and its anchors follow that
+//      segment in the tree, so whatever the page mounts after an end
+//      anchor (a card under the passage, on a narrow screen) sits right
+//      under the passage's last line. A height-only resize of a block —
+//      such a mount — re-pins the anchors without a re-layout.
 //   2. Fetched blocks. A block may carry data-nodelist-src (a same-origin
 //      URL) instead of data-nodelist-b64; the viewer fetches the bytes.
 //      Pages whose blocks exceed the embed budget use this.
@@ -336,7 +341,9 @@ function reflowBlock(el) {
         : (el.clientWidth / ZOOM) || DEFAULT_WIDTH_PT;
     // Re-read alignment every time: a media query may have changed --latex-align.
     const newAlign = alignFromEl(el);
-    // lax: the sidenote measure too (see footnoteWidthFromEl).
+    // lax: the sidenote measure too (see footnoteWidthFromEl). Nothing of
+    // the three changed: nothing to do here — a block that changed only
+    // its height is the observer's case (repinBlock).
     const newFnWidth = footnoteWidthFromEl(el);
     if (Math.abs(newWidth - data.lastWidth) < 0.5 && newAlign === data.lastAlign
         && Math.abs(newFnWidth - data.lastFnWidth) < 0.5) return false;
@@ -429,9 +436,23 @@ const ro = new ResizeObserver(entries => {
         roScheduled = false;
         const els = [...roPending];
         roPending.clear();
-        for (const el of els) reflowBlock(el);
+        for (const el of els) if (!reflowBlock(el)) repinBlock(el);
     });
 });
+
+// lax: the block changed size at the same width, alignment and sidenote
+// measure — its height moved because the page mounted or removed
+// something in its flow (a card under a passage, a footnote segment lifted
+// out to the rail). The layout stands, but the segments below moved, so
+// the in-paragraph anchors are re-pinned and the page told. Only the
+// observer comes here: the page's own reflow(el) with nothing changed is
+// a no-op, so a placement pass that asks every block cannot echo.
+function repinBlock(el) {
+    const data = blockData.get(el);
+    if (!data || !data.cache.layout || (el.clientWidth === 0 && !el.dataset.latexWidth)) return;
+    placeAnchors(data.cache);
+    el.dispatchEvent(new CustomEvent('latex-viewer:reflow', { bubbles: true }));
+}
 
 // ── Per-segment painting (grow-only) ──────────────────────────────────────────
 // Layout always covers the whole block (cheap pure computation, and it must, so
@@ -1741,6 +1762,11 @@ function segmentsOf(doc) {
         }
         text.items.push({ index: item.para, para });
         gap = 0;
+        // lax: a paragraph carrying a mark closes its segment as a stream
+        // marker does, so the tree has a slot right after the passage's
+        // last line (see layoutDocument). The split is spacing-neutral for
+        // the same reason.
+        if (containsMark(para.nodes)) text = null;
     }
     // lax: the footnote rule — the rule-line display in front of the first
     // footnote segment (\footnoterule, set in vertical mode as its own
@@ -2443,20 +2469,21 @@ function layoutDocument(fontInfo, doc, widthPt, p, cache) {
             dom.root.appendChild(a);
         }
         dom.root.appendChild(mount);
+        // lax: the absolutely positioned elements for the segment's
+        // in-paragraph markers follow the mount in the tree (flow-neutral,
+        // so the order is free): an end anchor's next sibling is then the
+        // slot right under its passage. Their coordinates need the block in
+        // the document, so placeAnchors (called after the root is mounted,
+        // and after every reflow) fills them in.
+        for (const m of (L.anchors || [])) dom.root.appendChild(anchorEl(m));
     });
-    // lax: markers after the last flow item, and the absolutely positioned
-    // elements for in-paragraph markers. Their coordinates need the block in
-    // the document, so placeAnchors (called after the root is mounted, and
-    // after every reflow) fills them in.
+    // lax: markers after the last flow item.
     for (const m of trailingMarkers) {
         const a = anchorEl(m);
         a.style.position = '';
         a.style.left = '';
         a.style.top = '';
         dom.root.appendChild(a);
-    }
-    for (const L of laid) {
-        for (const m of (L.anchors || [])) dom.root.appendChild(anchorEl(m));
     }
     // lax: the scroll cues need the boxes' final widths — read once the
     // root is in the document (initBlock mounts it after this returns).

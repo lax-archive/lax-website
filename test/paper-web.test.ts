@@ -37,34 +37,51 @@ describe("the reflow paper page", () => {
     await generateSite(attach(webArchive(), { bundle: FIXTURE_TAR }), root, { log: (line) => logs.push(line) });
     expect(logs).toEqual([]);
     const html = fs.readFileSync(path.join(root, "lax-21", "paper.html"), "utf8");
+    const printed = fs.readFileSync(path.join(root, "lax-21", "paper-pdf.html"), "utf8");
 
-    // The two surfaces: the paper as printed is the one the page opens on,
-    // annotated in its own right — its own rail of cards, under their own
-    // ids, and the mark table its script reads — with the reflow surface
-    // behind the toggle, its blocks inline (the fixture sits far under the
-    // embed budget) and laid out hidden until the reader asks for it.
-    expect(html).toContain('<div class="manuscript-body manuscript-reflow-body" id="manuscript-reflow" hidden>');
-    expect(html).toContain('<div class="manuscript-pdf" id="manuscript-pdf">');
-    expect(html).not.toContain("data-pdf-deferred");
+    // Two pages. paper.html is the reflowed text: its blocks inline (the
+    // fixture sits far under the embed budget), its cards in the rail under
+    // `m<n>-card` — the `m<n>` ids belong to the viewer's passage anchors at
+    // runtime, so the page ships none — and nothing of pdf.js on it.
+    expect(html).toContain("<title>Paper — lax-21</title>");
+    expect(html).toContain('<div class="manuscript-body manuscript-reflow-body" id="manuscript-reflow">');
     expect(html).toMatch(/<div class="latex-block" data-nodelist-b64="[A-Za-z0-9+/=]+"><\/div>/);
     expect(html).not.toContain("data-nodelist-src");
-    expect(html).toContain('<ol class="manuscript-rail" id="manuscript-rail">\n<li class="manuscript-card');
-    expect(html).toContain('"marks":[{"n":1');
+    expect(html).not.toContain("manuscript-pages");
+    expect(html).not.toContain("manuscript-data");
+    expect(html).not.toContain("data-pdf=");
+    expect(html).not.toContain("manuscript-pdf");
+    expect(html).not.toMatch(/id="m\d+"[^-]/);
     // The footnote card the reflow script clones a sidenote from, once per
-    // footnote the viewer reveals; the printed surface has no sidenotes.
+    // footnote the viewer reveals, shipped inside the reflow body beside
+    // the rail; the printed page has no sidenotes.
     expect(html).toContain('<template id="manuscript-footnote-card"><li class="manuscript-card manuscript-footnote"><div class="manuscript-footnote-body"></div></li></template>');
-    expect(html.indexOf("manuscript-footnote-card")).toBeLessThan(html.indexOf('id="manuscript-pdf"'));
-    // One card per mark on each surface, the reflow set beside the passages
-    // and the printed set beside the pages; the `m<n>` ids stay the text's.
+    expect(html.indexOf('id="manuscript-rail-reflow"')).toBeLessThan(html.indexOf("manuscript-footnote-card"));
+    expect(html.indexOf("manuscript-footnote-card")).toBeLessThan(html.indexOf("<noscript>"));
+    expect(printed).not.toContain("manuscript-footnote");
     for (const mark of fixtureRecord.marks) {
       expect(html).toContain(`id="m${mark.n}-card" data-mark="${mark.n}"`);
-      expect(html).toContain(`id="m${mark.n}-pdf-card" data-mark="${mark.n}"`);
-      expect(html).not.toContain(`<li class="manuscript-card kind-${mark.kind}" id="m${mark.n}"`);
+      expect(html).not.toContain(`-pdf-card`);
     }
-    // The printed view is first in the switch and pressed; the reflowed one
-    // is the option beside it.
-    expect(html).toContain('<button type="button" class="manuscript-view-button" data-view="pdf" aria-pressed="true">As printed</button>');
-    expect(html).toContain('<button type="button" class="manuscript-view-button" data-view="reflow" aria-pressed="false">Reflowed</button>');
+    // paper-pdf.html is the paper as printed, annotated in its own right:
+    // the cards under the `m<n>` ids and the mark table its script reads.
+    expect(printed).toContain("<title>Paper as printed — lax-21</title>");
+    expect(printed).toContain('<div class="manuscript" data-pdf="paper.pdf"');
+    expect(printed).toContain('<ol class="manuscript-rail" id="manuscript-rail">\n<li class="manuscript-card');
+    expect(printed).toContain('"marks":[{"n":1');
+    expect(printed).not.toContain("latex-block");
+    for (const mark of fixtureRecord.marks) expect(printed).toContain(`id="m${mark.n}" data-mark="${mark.n}"`);
+    // Each page links the other from the switch above the paper, the
+    // reflowed text first on both, the current one marked.
+    const reflowSwitch = '<div class="manuscript-view-switch" role="group" aria-label="Paper view">\n<a class="manuscript-view-link" href="paper.html" aria-current="page">Reflowed</a>\n<a class="manuscript-view-link" href="paper-pdf.html">As printed</a>\n</div>';
+    const printedSwitch = '<div class="manuscript-view-switch" role="group" aria-label="Paper view">\n<a class="manuscript-view-link" href="paper.html">Reflowed</a>\n<a class="manuscript-view-link" href="paper-pdf.html" aria-current="page">As printed</a>\n</div>';
+    expect(html).toContain(reflowSwitch);
+    expect(printed).toContain(printedSwitch);
+    // The submission page's button, and every `#m<n>` cross-link, lead to
+    // paper.html — the reflowed text where there is one.
+    const submission = fs.readFileSync(path.join(root, "lax-21", "index.html"), "utf8");
+    expect(submission).toContain('<a class="source-button paper-cta-button" href="paper.html">');
+    expect(fs.readFileSync(path.join(root, "lax-21", "Lax21.One.html"), "utf8")).toContain('href="../lax-21/paper.html#m1"');
 
     // The islands: the wire schema and the font map, fonts through ../fonts/.
     const schemaB64 = /data-schema-b64="([A-Za-z0-9+/=]+)"/.exec(html)![1]!;
@@ -79,16 +96,18 @@ describe("the reflow paper page", () => {
     for (const served of Object.values(fontMap))
       expect(fs.existsSync(path.join(root, "fonts", served)), served).toBe(true);
 
-    // Cards step aside to m<n>-card and m<n>-pdf-card; the m<n> ids belong
-    // to the viewer's passage anchors at runtime, so the page ships none.
-    expect(html).not.toMatch(/id="m\d+"[^-]/);
-
     // The AGPL notice under the reflow surface, linking upstream.
     expect(html).toContain('<footer class="manuscript-reflow-notice">Rendered with <a href="https://github.com/radek-p/reflowtex" rel="license">ReflowTeX</a>');
     expect(html).toContain("AGPL-3.0-or-later");
 
-    // The scripts, in dependency order, and the vendored files beside them.
-    expect(html).toMatch(/manuscript-place\.js\?v=[0-9a-f]{12}"><\/script>\n<script src="\.\.\/assets\/reflowtex\/latex-viewer\.js\?v=[0-9a-f]{12}"><\/script>\n<script src="\.\.\/assets\/manuscript-reflow\.js\?v=[0-9a-f]{12}"><\/script>\n<script src="\.\.\/assets\/manuscript\.js\?v=[0-9a-f]{12}"><\/script>/);
+    // The scripts, in dependency order, and the vendored files beside them;
+    // nothing of pdf.js on the reflow page, nothing of the viewer on the
+    // printed one.
+    expect(html).toMatch(/<script src="\.\.\/assets\/reflowtex\/latex-viewer\.js\?v=[0-9a-f]{12}"><\/script>\n<script src="\.\.\/assets\/manuscript-reflow\.js\?v=[0-9a-f]{12}"><\/script>/);
+    expect(html).not.toContain("manuscript.js?v=");
+    expect(html).not.toContain("manuscript-place.js");
+    expect(printed).toMatch(/manuscript-place\.js\?v=[0-9a-f]{12}"><\/script>\n<script src="\.\.\/assets\/manuscript\.js\?v=[0-9a-f]{12}"><\/script>/);
+    expect(printed).not.toContain("latex-viewer.js");
     for (const asset of ["reflowtex/latex-viewer.js", "reflowtex/LICENSE.txt", "reflowtex/supported-schemas.json", "manuscript-reflow.js"])
       expect(fs.existsSync(path.join(root, "assets", asset)), asset).toBe(true);
     // The CSP finding, kept fixed: no protobuf.js (its decoder needs
@@ -101,15 +120,19 @@ describe("the reflow paper page", () => {
     expect(viewer).toContain("AGPL");
     expect(viewer.split("\n").length).toBeGreaterThan(1000);
 
-    // The plan's claim, asserted: the reflow page ships under exactly the
-    // CSP the pdf.js paper page already had — no loosening, no new sources.
+    // The plan's claim, asserted: the reflow page ships under the CSP the
+    // pdf.js paper page already had, less the worker it does not run — no
+    // loosening, no new sources; the printed page keeps its policy.
     const plain = tmpDir("lax-site-plain-");
     const noWeb = attach(webArchive()).map((s) => {
       const { web: _, ...paper } = s.output!.paper!;
       return { ...s, output: { ...s.output!, paper } };
     });
     await generateSite(noWeb, plain, { log: () => {} });
-    expect(csp(html)).toBe(csp(fs.readFileSync(path.join(plain, "lax-21", "paper.html"), "utf8")));
+    const pdfCsp = csp(fs.readFileSync(path.join(plain, "lax-21", "paper.html"), "utf8"));
+    expect(pdfCsp).toContain("worker-src 'self'; ");
+    expect(csp(html)).toBe(pdfCsp.replace("worker-src 'self'; ", ""));
+    expect(csp(printed)).toBe(pdfCsp);
   });
 
   it("drops to the PDF-only page, logged, when the schema is not the vendored viewer's", async () => {
@@ -127,10 +150,11 @@ describe("the reflow paper page", () => {
     expect(html).not.toContain("latex-block");
     expect(html).not.toContain("manuscript-reflow");
     expect(html).not.toContain("manuscript-footnote");
-    expect(html).not.toContain("data-pdf-deferred");
+    expect(html).not.toContain("manuscript-view-switch");
     expect(html).toContain('<ol class="manuscript-rail" id="manuscript-rail">\n<li class="manuscript-card');
     expect(html).toContain('id="m1" data-mark="1"');
     expect(html).toContain('"marks":[{"n":1');
+    expect(fs.readFileSync(path.join(root, "lax-21", "paper-pdf.html"), "utf8")).not.toContain("manuscript-view-switch");
     expect(fs.existsSync(path.join(root, "fonts"))).toBe(false);
   });
 

@@ -85,12 +85,20 @@ describe("paper pages", () => {
     await generateSite(withPdf(archive()), root);
     expect(fs.readFileSync(path.join(root, "lax-7", "paper.pdf"))).toEqual(pdf);
     expect(fs.existsSync(path.join(root, "lax-3", "paper.html"))).toBe(false);
+    // Without a reflow bundle the paper page is the printed one, and the
+    // printed page keeps its own address beside it — no switch on either.
+    const printed = fs.readFileSync(path.join(root, "lax-7", "paper-pdf.html"), "utf8");
+    expect(printed).toContain("<title>Paper as printed — lax-7</title>");
+    expect(printed).not.toContain("manuscript-view-switch");
+    expect(printed).toContain('<div class="manuscript" data-pdf="paper.pdf"');
     for (const asset of ["pdfjs/pdf.min.mjs", "pdfjs/pdf.worker.min.mjs", "pdfjs/LICENSE.txt", "manuscript.js", "manuscript-place.js"])
       expect(fs.existsSync(path.join(root, "assets", asset)), asset).toBe(true);
     const html = fs.readFileSync(path.join(root, "lax-7", "paper.html"), "utf8");
     expect(html).toContain("worker-src 'self'");
     expect(html).toContain("connect-src 'self' https://comments.laxarchive.org");
     expect(html).toContain('<div id="detail" class="detail-manuscript">');
+    expect(html).toContain("<title>Paper — lax-7</title>");
+    expect(html).not.toContain("manuscript-view-switch");
     expect(html).toMatch(/<div class="manuscript" data-pdf="paper\.pdf" data-pdfjs="\.\.\/assets\/pdfjs\/pdf\.min\.mjs\?v=[0-9a-f]{12}" data-pdfjs-worker="\.\.\/assets\/pdfjs\/pdf\.worker\.min\.mjs\?v=[0-9a-f]{12}">/);
     expect(html).toMatch(/<script src="\.\.\/assets\/manuscript-place\.js\?v=[0-9a-f]{12}"><\/script>\n<script src="\.\.\/assets\/manuscript\.js\?v=[0-9a-f]{12}"><\/script>/);
     expect(html).toContain("2 pages · 4 marked passages · pdflatex · <a href=\"paper.pdf\">download PDF</a>");
@@ -158,6 +166,7 @@ describe("paper pages", () => {
     const root = tmpDir("lax-site-paper-preview-");
     await generateSite(archive(), root);
     expect(fs.existsSync(path.join(root, "lax-7", "paper.pdf"))).toBe(false);
+    expect(fs.existsSync(path.join(root, "lax-7", "paper-pdf.html"))).toBe(false);
     const html = fs.readFileSync(path.join(root, "lax-7", "paper.html"), "utf8");
     expect(html).not.toContain("worker-src");
     expect(html).not.toContain("manuscript.js");
