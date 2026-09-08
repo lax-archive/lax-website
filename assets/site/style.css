@@ -4049,8 +4049,30 @@ body.graph-window-open::after{
 .latex-block{ position: relative; min-width: 0; }
 .latex-block svg{ max-width: none; }
 /* The viewer pads an overflowing display's wrapper by its measured ink
-   overhang; the scroll box itself only needs the horizontal axis. */
+   overhang; the scroll box itself only needs the horizontal axis. Its
+   frame fades the edge(s) the box can still scroll toward (data-scroll,
+   kept current by the viewer) into the page's ground, so a reader sees
+   that the display goes on — overlay scrollbars show nothing until
+   touched. */
 .latex-display{ overflow-x: auto; }
+.latex-display-frame{ position: relative; }
+.latex-display-frame::before,
+.latex-display-frame::after{
+  content: '';
+  position: absolute;
+  top: var(--latex-fade-top, 0);         /* the viewer insets the fades past */
+  bottom: var(--latex-fade-bottom, 0);   /* a lone equation-number line */
+  width: 2.75rem;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.latex-display-frame::before{ left: 0; background: linear-gradient(to right, var(--bg) 20%, transparent); }
+.latex-display-frame::after{ right: 0; background: linear-gradient(to left, var(--bg) 20%, transparent); }
+.latex-display-frame[data-scroll="start"]::after,
+.latex-display-frame[data-scroll="both"]::after,
+.latex-display-frame[data-scroll="end"]::before,
+.latex-display-frame[data-scroll="both"]::before{ opacity: 1; }
 /* Zero-size, invisible; a deep link lands the passage below the sticky
    header. The viewer positions in-paragraph anchors absolutely itself. */
 .latex-anchor{ display: block; width: 0; height: 0; scroll-margin-top: 7rem; }

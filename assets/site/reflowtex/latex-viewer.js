@@ -41,9 +41,15 @@
 //      room, else on a line of its own. The body is centred whenever it
 //      fits and the scroll box counts the body alone, so the number is
 //      always in view (splitEquationNumber, layoutDisplaySegment).
-//   7. Wide pictures. A picture standing in a paragraph that is wider than
-//      the column is scaled down to fit, uniformly, and its line metrics
-//      with it; recomputed on every reflow (pictureFit, fitPictures).
+//   7. Wide pictures and rules. A picture standing in a paragraph that is
+//      wider than the column is scaled down to fit, uniformly, and its
+//      line metrics with it; recomputed on every reflow (pictureFit,
+//      fitPictures). A picture's advance may be the kern after a
+//      zero-width box (pgf), which scales with it (pictureUnits, kW); a
+//      line KP cannot break — a figure's panels side by side — takes one
+//      scale for all its pictures, so their composition survives. A lone
+//      rule (\hrule width\hsize, the footnote rule) is fitted the same
+//      way, in a paragraph or as a rule-line display (loneRule, rW).
 //   8. First paint waits for the fonts. Faces are registered through the
 //      FontFace API and a block paints only once its faces have loaded (or
 //      3 s have passed); the layout, and so the block's height, is done
@@ -51,6 +57,13 @@
 //   9. Both indents of a \parshape band. A paragraph's right inset (an
 //      abstract, a quote) is recovered from the widest band in the
 //      document and kept, like the left one (paraBand).
+//  10. \parbox paragraphs. A paragraph whose only ink is a vlist of
+//      compile-time lines (a LIPIcs caption) is rebuilt as running text
+//      before layout, so KP re-breaks it at the column
+//      (unboxPresetParagraphs).
+//  11. Scroll cue. A display's scroll box sits in a .latex-display-frame
+//      whose data-scroll names the edge(s) it can still pan toward; the
+//      stylesheet fades those edges (noteScrollEdges).
 //
 // Upstream header follows.
 //
@@ -651,6 +664,14 @@ const pW = n => (n.width  ?? 0) * pS(n);
 const pH = n => (n.height ?? 0) * pS(n);
 const pD = n => (n.depth  ?? 0) * pS(n);
 const bW = pW, bH = pH, bD = pD;    // the same readers, named for boxes
+// lax: the same scale on a kern and on a rule. pgf sets a picture as a
+// zero-width box followed by a kern of the picture's width, so the kern is
+// the advance that has to shrink with it (see pictureUnits); and a lone
+// rule — \hrule width\hsize, a footnote rule — is fitted like a lone
+// picture, its drawn width following the column (see fitPictures,
+// layoutDisplaySegment). A rule's thickness is never scaled.
+const kW = n => (n.kern  ?? 0) * pS(n);
+const rW = n => (n.width ?? 0) * pS(n);
 
 // ── Width helpers ─────────────────────────────────────────────────────────────
 
@@ -658,7 +679,10 @@ function nodeWidthSp(n) {
     switch (n.type) {
         case 'glyph':               return gW(n);
         case 'picture':             return pW(n);   // lax: fitted (see pictureFit)
-        case 'kern':                return n.kern;
+        case 'kern':                return kW(n);   // lax: fitted beside a fitted picture
+        // lax: a rule standing in the paragraph advances the pen when drawn
+        // (renderNodes), so it has to count here too; fitted like a picture.
+        case 'rule':                return n.width === RUNNING_RULE ? 0 : rW(n);
         case 'glue':                return n.width;
         case 'disc':                return sumWidthSp(n.replace);
         // A transform is drawing-only and has no metrics of its own; its
@@ -686,7 +710,7 @@ function fillInfo(nodes) {
     }
     return { order, stretch };
 }
-function sumRigidWidth(nodes) { return nodes.reduce((a, n) => n.type==='glyph' ? a+gW(n) : n.type==='kern' ? a+n.kern : a, 0); }
+function sumRigidWidth(nodes) { return nodes.reduce((a, n) => n.type==='glyph' ? a+gW(n) : n.type==='kern' ? a+kW(n) : a, 0); }
 
 // The set size of one glue node under a box's packing ratio.
 function setGlue(g, ratio, fillOrder) {
@@ -786,7 +810,7 @@ function buildBreakCandidates(nodes) {
             let lgW=0,lgS=0,lgZ=0,firstAfterLG=i+1;
             for (let k=i+1;k<nodes.length;k++) {
                 const m=nodes[k];
-                if (m.type==='kern') { lgW+=m.kern; firstAfterLG=k+1; }
+                if (m.type==='kern') { lgW+=kW(m); firstAfterLG=k+1; }
                 else if (m.type==='glue') { lgW+=m.width; lgS+=!m.stretch_order?m.stretch:0; lgZ+=!m.shrink_order?m.shrink:0; firstAfterLG=k+1; }
                 else break;
             }
@@ -794,7 +818,7 @@ function buildBreakCandidates(nodes) {
         } else {
             cumW+=nodeWidthSp(n);
             if (n.type==='glyph') cumGlyphW+=gW(n);
-            else if (n.type==='kern') cumGlyphW+=n.kern;
+            else if (n.type==='kern') cumGlyphW+=kW(n);
             if (n.type==='glue') { cumS+=!n.stretch_order?n.stretch:0; cumZ+=!n.shrink_order?n.shrink:0; }
         }
     }
@@ -946,7 +970,7 @@ function lineProfile(fontInfo, nodes, xStart, ratio, expandRatio) {
                     items.push({x1:x,x2:x+w,h,d}); x+=w; break;
                 }
                 case 'glue':{let w=n.width; if(r>0&&!(n.stretch_order||0)&&n.stretch>0)w+=r*n.stretch; else if(r<0&&!(n.shrink_order||0)&&n.shrink>0)w+=r*n.shrink; x+=w*SP_TO_PX; break;}
-                case 'kern': x+=n.kern*(1+er)*SP_TO_PX; break;
+                case 'kern': x+=kW(n)*(1+er)*SP_TO_PX; break;   // lax: fitted (see kW)
                 case 'disc': x=walk(n.replace,x,0,er); break;
                 case 'math': x+=n.surround*SP_TO_PX; break;
                 case 'picture':{
@@ -1495,7 +1519,7 @@ function renderVlistBody(fontInfo, sink, n, vlistX, refY){
         if(child.type==='kern'){curY+=child.kern*SP_TO_PX;}
         else if(child.type==='glue'){curY+=setGlue(child,vr,vfo)*SP_TO_PX;}
         else if(child.type==='rule'){
-            const rw=(child.width===RUNNING_RULE?vlistW:child.width)*SP_TO_PX;
+            const rw=(child.width===RUNNING_RULE?vlistW:rW(child))*SP_TO_PX;   // lax: fitted (see rW)
             const rh=(child.height+child.depth)*SP_TO_PX;
             sink.rule(child,vlistX,curY,rw,rh);
             curY+=rh;
@@ -1524,7 +1548,7 @@ function renderNodes(fontInfo, sink, nodes, x, baselineY, ratio, expandRatio, fi
             case 'rule':{
                 // In an hlist a rule is a vrule: its width is set, its height/depth
                 // run to the enclosing box. Draw it, then advance the pen by its width.
-                const w =(n.width ===RUNNING_RULE?0:(n.width ??0));
+                const w =(n.width ===RUNNING_RULE?0:rW(n));   // lax: fitted (see rW)
                 const h =(n.height===RUNNING_RULE?runH:(n.height??0));
                 const d =(n.depth ===RUNNING_RULE?runD:(n.depth ??0));
                 const hp=h*SP_TO_PX, dp=d*SP_TO_PX;
@@ -1544,7 +1568,7 @@ function renderNodes(fontInfo, sink, nodes, x, baselineY, ratio, expandRatio, fi
                 if(n.subtype===13) sink.space(n, x, baselineY);
                 x+=w*SP_TO_PX; break;
             }
-            case 'kern':  x+=n.kern*(1+expandRatio)*SP_TO_PX; break;
+            case 'kern':  x+=kW(n)*(1+expandRatio)*SP_TO_PX; break;   // lax: fitted (see kW)
             case 'picture':{
                 // The picture fills its TeX box exactly; the box is what makes
                 // it behave like any other box in text, math or an align row.
@@ -1749,24 +1773,104 @@ function lonePicture(n) {
     return found ? [n, ...found] : null;
 }
 
-// lax: scale a paragraph's own pictures (its top-level picture nodes, or
-// top-level boxes holding nothing but one) down to the band when they are
-// wider than it, and return a key naming the scales applied — the break
-// candidates sum node widths, so they are rebuilt whenever this key changes
-// (see layoutTextSegment). The one scale goes on the picture and on every
-// wrapper, so their widths, heights and depths shrink together.
-function fitPictures(nodes, availSp) {
-    let key = '';
-    for (const n of nodes) {
-        if (n.type !== 'picture' && n.type !== 'hlist' && n.type !== 'vlist') continue;
-        const chain = lonePicture(n);
+// lax: the same shape for a rule — the rule itself and the boxes wrapping
+// it, when the node holds exactly one rule of a set width and no other
+// ink. \hrule width\hsize in an \rlap (the LIPIcs abstract rule) and the
+// footnote rule are what this recognises; a rule with a running width is
+// sized by its box and needs nothing.
+function loneRule(n) {
+    if (n.type === 'rule') return n.width !== RUNNING_RULE && n.width > 0 ? [n] : null;
+    if (n.type !== 'hlist' && n.type !== 'vlist') return null;
+    let found = null;
+    for (const c of n.children || []) {
+        if (c.type === 'glue' || c.type === 'kern' || c.type === 'penalty') continue;
+        if (c.type === 'rule' || c.type === 'hlist' || c.type === 'vlist') {
+            const inner = loneRule(c);
+            if (!inner || found) return null;
+            found = inner;
+            continue;
+        }
+        return null;
+    }
+    return found ? [n, ...found] : null;
+}
+
+// lax: the units a paragraph's own pictures (and lone rules) form among
+// its top-level nodes: the chain of nodes that scale together, the width
+// the unit advances the pen by, and the width of its ink. The two differ
+// for pgf's idiom — \hbox to 0pt{<picture>\hss}\kern<width> — where the
+// box advances nothing and the kern that follows it carries the width; the
+// kern joins the chain so it shrinks with the picture. An \rlap of a
+// picture or rule advances nothing at all and only its ink is fitted.
+function pictureUnits(nodes) {
+    const units = [];
+    for (let i = 0; i < nodes.length; i++) {
+        const n = nodes[i];
+        if (n.type !== 'picture' && n.type !== 'rule' && n.type !== 'hlist' && n.type !== 'vlist') continue;
+        const chain = lonePicture(n) || loneRule(n);
         if (!chain) continue;
-        if (n.width > availSp) {
-            const s = availSp / n.width;
-            for (const m of chain) pictureFit.set(m, s);
-            key += s.toFixed(6) + ';';
-        } else {
-            for (const m of chain) pictureFit.delete(m);
+        const inkSp = chain[chain.length - 1].width;
+        let advSp = n.width;
+        const next = nodes[i + 1];
+        if (advSp === 0 && next && next.type === 'kern' && next.kern > 0) {
+            chain.push(next);
+            advSp = next.kern;
+            i++;
+        }
+        units.push({ chain, advSp, inkSp });
+    }
+    return units;
+}
+
+// lax: whether KP could break this paragraph anywhere (the candidates
+// buildBreakCandidates would find besides its start and end).
+function hasBreakOpportunity(nodes) {
+    for (const n of nodes) {
+        if (n.type === 'glue' && n.subtype === 15) return false;
+        if (n.type === 'glue' && n.subtype === 13 && !(n.stretch_order > 0)) return true;
+        if (n.type === 'disc' || (n.type === 'penalty' && n.penalty < 10000)) return true;
+    }
+    return false;
+}
+
+// lax: scale a paragraph's own pictures (its top-level picture nodes, or
+// top-level boxes holding nothing but one — see pictureUnits) down to the
+// band when they are wider than it, and return a key naming the scales
+// applied — the break candidates sum node widths, so they are rebuilt
+// whenever this key changes (see layoutTextSegment). The one scale goes on
+// the picture and on every wrapper, so their widths, heights and depths
+// shrink together.
+//
+// Two fits, the smaller wins. Each unit alone is never wider than the
+// band. And a paragraph KP cannot break anywhere is one line whatever its
+// width — a figure of several panels set side by side — so when its
+// natural width exceeds the band, every unit takes the same scale, the
+// one that brings the line to the band: the panels keep their relative
+// placement, and the line then centres (or sits) in the column as any
+// line that fits does. Glyphs in the line are not scaled; the units
+// absorb the whole excess, as far as they can.
+function fitPictures(nodes, availSp) {
+    const units = pictureUnits(nodes);
+    if (!units.length) return '';
+    for (const u of units) {
+        for (const m of u.chain) pictureFit.delete(m);
+        u.scale = Math.min(u.inkSp > availSp ? availSp / u.inkSp : 1,
+                           u.advSp > availSp ? availSp / u.advSp : 1);
+    }
+    if (!hasBreakOpportunity(nodes)) {
+        let natSp = 0, unitSp = 0;
+        for (const n of nodes) natSp += nodeWidthSp(n);   // at scale 1: the map was just cleared
+        for (const u of units) unitSp += u.advSp;
+        if (natSp > availSp && unitSp > 0) {
+            const s = (availSp - (natSp - unitSp)) / unitSp;
+            if (s > 0) for (const u of units) u.scale = Math.min(u.scale, s);
+        }
+    }
+    let key = '';
+    for (const u of units) {
+        if (u.scale < 1) {
+            for (const m of u.chain) pictureFit.set(m, u.scale);
+            key += u.scale.toFixed(6) + ';';
         }
     }
     return key;
@@ -1979,6 +2083,30 @@ function layoutDisplaySegment(fontInfo, seg, widthPt, cache) {
     const diPx   = band.indentSp * SP_TO_PX;
     const availW = band.availSp * SP_TO_PX;
 
+    // lax: a rule line — a display whose box holds one rule and nothing
+    // else (a vertical-mode \hrule: the footnote separator, a class's
+    // decorative rules). It is drawn at the column, never wider: a rule as
+    // wide as its band (a running \hrule) spans the whole column, a shorter
+    // one keeps its share of the band, flush left as TeX set it. The chain
+    // takes the scale (see rW; the thickness is never scaled), and no
+    // scroll box is ever needed for it.
+    const ruleChain = seg.rows.length === 1 ? loneRule(first.box) : null;
+    if (ruleChain) {
+        const rule    = ruleChain[ruleChain.length - 1];
+        const bandSp  = first.display_width || 0;
+        const wantSp  = bandSp > 0 && rule.width < bandSp
+            ? band.availSp * rule.width / bandSp
+            : band.availSp;
+        const s = Math.min(wantSp, band.availSp) / rule.width;
+        for (const m of ruleChain) pictureFit.set(m, s);
+        return {
+            lines: [{ nodes: [first.box], ratio: 0, fitness: 2, leftProtrusion: 0 }],
+            lrp:   [{ ratio: 0, er: 0, x0: diPx }],
+            gaps:  [null],
+            W: Math.ceil(columnPx),
+        };
+    }
+
     const rows = seg.rows.map(r => {
         const split = splitEquationNumber(fontInfo, r.item.box);
         const body  = split ? split.bodyBox : r.item.box;
@@ -2007,8 +2135,10 @@ function layoutDisplaySegment(fontInfo, seg, widthPt, cache) {
         : -gMin;
 
     const lines = [], lrp = [], gaps = [];
-    const push = (nodes, x0, gap) => {
-        lines.push({ nodes, ratio: 0, fitness: 2, leftProtrusion: 0 });
+    const push = (nodes, x0, gap, tag) => {
+        // tag: a line holding only an equation number, at the column edge
+        // where no scrolling is needed — the scroll cue keeps clear of it.
+        lines.push({ nodes, ratio: 0, fitness: 2, leftProtrusion: 0, tag: !!tag });
         lrp.push({ ratio: 0, er: 0, x0 });
         gaps.push(gap);
     };
@@ -2024,7 +2154,7 @@ function layoutDisplaySegment(fontInfo, seg, widthPt, cache) {
                 push([r.body, { type: 'kern', kern: (xNum - bodyAdv) / SP_TO_PX }, numberBox], x0, rowGap);
             } else {
                 push([r.body], x0, rowGap);
-                push([numberBox], xNum, TAG_LINE_GAP_PX);
+                push([numberBox], xNum, TAG_LINE_GAP_PX, true);
             }
         } else {
             const xNum = diPx - numInk.min;                      // number ink flush left
@@ -2032,7 +2162,7 @@ function layoutDisplaySegment(fontInfo, seg, widthPt, cache) {
                 const numAdv = xNum + numberBox.width * SP_TO_PX;
                 push([numberBox, { type: 'kern', kern: (x0 - numAdv) / SP_TO_PX }, r.body], xNum, rowGap);
             } else {
-                push([numberBox], xNum, rowGap);
+                push([numberBox], xNum, rowGap, true);
                 push([r.body], x0, TAG_LINE_GAP_PX);
             }
         }
@@ -2141,7 +2271,15 @@ function layoutDocument(fontInfo, doc, widthPt, p, cache) {
         // segments with margin-top = gap reproduces exactly the baseline-to-
         // baseline advance TeX asked for. firstMeta carries this segment's leading
         // parameters so a text→text join can add TeX's interline glue (see below).
-        return { ...geom, seg, profiles, baselineYs, H, firstAscent, lastDepth, anchors,
+        // lax: the bands a lone equation-number line occupies at the top
+        // (\leqno) or bottom of a display, in px from the svg's edges; the
+        // scroll cue's fades are inset past them (paintSegment).
+        const n = geom.lines.length;
+        const tagTop    = n > 1 && geom.lines[0].tag
+            ? baselineYs[1] - profiles[1].reduce((m, it) => Math.max(m, it.h), 0) : 0;
+        const tagBottom = n > 1 && geom.lines[n-1].tag
+            ? H - (baselineYs[n-2] + profiles[n-2].reduce((m, it) => Math.max(m, it.d), 0)) : 0;
+        return { ...geom, seg, profiles, baselineYs, H, firstAscent, lastDepth, anchors, tagTop, tagBottom,
                  firstMeta: (geom.meta && geom.meta[0]) || null, gapBefore: seg.gapBefore || 0 };
     });
 
@@ -2188,10 +2326,20 @@ function layoutDocument(fontInfo, doc, widthPt, p, cache) {
         const overflows = L.seg.kind === 'display' && L.W > columnPx;
         let mount = s.svg;
         if (overflows) {
-            if (!s.wrap) s.wrap = document.createElement('div');
+            // lax: the scroll box sits in a frame that carries the cue that
+            // there is more to the side — data-scroll names the edge(s) the
+            // box can still scroll toward, and the page's stylesheet fades
+            // those edges (.latex-display-frame). Kept current on scroll.
+            if (!s.wrap) {
+                s.wrap  = document.createElement('div');
+                s.frame = document.createElement('div');
+                s.frame.className = 'latex-display-frame';
+                s.frame.appendChild(s.wrap);
+                s.wrap.addEventListener('scroll', () => noteScrollEdges(s), { passive: true });
+            }
             s.wrap.className = 'latex-display';
             if (s.svg.parentNode !== s.wrap) s.wrap.replaceChildren(s.svg);
-            mount = s.wrap;
+            mount = s.frame;
         } else if (s.wrap && s.svg.parentNode === s.wrap) {
             s.svg.remove();          // no longer overflowing: shed the scroll box
         }
@@ -2206,7 +2354,7 @@ function layoutDocument(fontInfo, doc, widthPt, p, cache) {
             margin += texInterlineGlue(prev.lastDepth, L.firstAscent, L.firstMeta);
         }
         s.svg.style.marginTop = '';
-        if (s.wrap) s.wrap.style.marginTop = '';
+        if (s.frame) s.frame.style.marginTop = '';
         mount.style.marginTop = margin ? `${margin}px` : '';
         // lax: stream-marker anchors sit in flow between the mounts. They are
         // zero-size and margin-free, so the next mount's collapsed margin is
@@ -2234,12 +2382,24 @@ function layoutDocument(fontInfo, doc, widthPt, p, cache) {
     for (const L of laid) {
         for (const m of (L.anchors || [])) dom.root.appendChild(anchorEl(m));
     }
+    // lax: the scroll cues need the boxes' final widths — read once the
+    // root is in the document (initBlock mounts it after this returns).
+    requestAnimationFrame(() => { for (const s of dom.segs) if (s.frame && s.frame.parentNode) noteScrollEdges(s); });
 
     cache.layout = { laid };
     // Track each segment by its own <svg>, not by a running height model that would
     // drift from the real layout (see the per-segment painting section).
     observeSegments(cache);
     return dom.root;
+}
+
+// lax: which edge(s) a display's scroll box can still scroll toward —
+// 'start' (only to the right), 'end' (only back to the left), 'both', or
+// 'none' when it fits after all. Stamped on the frame for the stylesheet.
+function noteScrollEdges(s) {
+    const w = s.wrap, max = w.scrollWidth - w.clientWidth;
+    const state = max <= 1 ? 'none' : w.scrollLeft <= 1 ? 'start' : w.scrollLeft >= max - 1 ? 'end' : 'both';
+    if (s.frame.dataset.scroll !== state) s.frame.dataset.scroll = state;
 }
 
 // lax: pin each in-paragraph anchor at its recorded (x, baselineY), mapped
@@ -2329,6 +2489,11 @@ function paintSegment(fontInfo, cache, i) {
             const BASE_PAD = 4, pad = v => Math.round(Math.max(0, v) + BASE_PAD) + 'px';
             s.wrap.style.paddingTop    = pad(-bb.y);
             s.wrap.style.paddingBottom = pad((bb.y + bb.height) - L.H);
+            // lax: keep the scroll cue's fades off a lone number line, which
+            // sits at the column edge and has to stay legible.
+            const inset = (band, padPx) => band ? `${Math.round(band + parseFloat(padPx))}px` : '0px';
+            s.frame.style.setProperty('--latex-fade-top',    inset(L.tagTop,    s.wrap.style.paddingTop));
+            s.frame.style.setProperty('--latex-fade-bottom', inset(L.tagBottom, s.wrap.style.paddingBottom));
         }
     }
 }
@@ -2345,6 +2510,79 @@ function paintDocument(fontInfo, cache) {
 
 // Hang each picture's payload on the node that draws it, once per block, so
 // the renderer never has to thread the document through every call.
+// lax: a paragraph whose only ink is a \parbox — one vlist of the lines
+// TeX broke at compile time (hlist subtype 1), stacked with interline
+// glue — is rebuilt as the running text those lines were made from, so
+// KP re-breaks it at the reader's width like any other paragraph. LIPIcs
+// sets its captions this way (\parbox to \hsize); left as a box the
+// caption would keep the compiled measure and overhang the column. The
+// lines' own line-end furniture goes — \leftskip and \rightskip (their
+// stretch is remembered as the paragraph's alignment), \parfillskip, the
+// penalties between lines — and the lines are joined by an inter-word
+// space cloned from the text, except after a line that ended in its own
+// fill (a \\), which keeps its forced break, and after a hyphen TeX
+// inserted at the line end, which becomes a discretionary again. Runs
+// once, over the decoded document, before any layout (initBlock).
+const HL_LINE = 1;
+const GLUE_LEFTSKIP = 8, GLUE_RIGHTSKIP = 9, GLUE_SPACE = 13, GLUE_PARFILL = 15;
+function unboxPresetParagraph(para) {
+    const nodes = para.nodes;
+    let vi = -1;
+    for (let i = 0; i < nodes.length; i++) {
+        const n = nodes[i];
+        if (n.type === 'vlist') { if (vi >= 0) return false; vi = i; continue; }
+        if (n.type === 'glue' || n.type === 'kern' || n.type === 'penalty' || n.type === 'mark' || n.type === 'local_par') continue;
+        if (n.type === 'hlist' && !(n.children && n.children.length)) continue;   // the \parindent box
+        return false;
+    }
+    if (vi < 0) return false;
+    const lines = [];
+    for (const c of nodes[vi].children || []) {
+        if (c.type === 'hlist' && c.subtype === HL_LINE) lines.push(c);
+        else if (c.type === 'glue' || c.type === 'kern' || c.type === 'penalty') continue;
+        else return false;
+    }
+    if (!lines.length) return false;
+    const out = [];
+    let space = null, leftFil = false, rightFil = false;
+    const isFil = g => g.type === 'glue' && (g.stretch_order || 0) > 0;
+    const firstGlyph = ns => ns.find(n => n.type === 'glyph' || n.type === 'hlist' || n.type === 'disc');
+    lines.forEach((ln, k) => {
+        const ch = (ln.children || []).slice();
+        if (ch.length && ch[0].type === 'glue' && ch[0].subtype === GLUE_LEFTSKIP) { if (isFil(ch[0])) leftFil = true; ch.shift(); }
+        while (ch.length) {
+            const t = ch[ch.length - 1];
+            if (t.type === 'glue' && (t.subtype === GLUE_RIGHTSKIP || t.subtype === GLUE_PARFILL)) {
+                if (t.subtype === GLUE_RIGHTSKIP && isFil(t)) rightFil = true;
+                ch.pop(); continue;
+            }
+            if (t.type === 'penalty') { ch.pop(); continue; }
+            break;
+        }
+        for (const n of ch) if (n.type === 'glue' && n.subtype === GLUE_SPACE && !(n.stretch_order > 0)) space = n;
+        if (k > 0) {
+            const prev = out[out.length - 1];
+            if (prev && isFil(prev)) {
+                out.push({ type: 'penalty', penalty: -10000 });
+            } else if (prev && prev.type === 'glyph' && (prev.char === 45 || prev.char === 0x2010)
+                       && firstGlyph(ch) && firstGlyph(ch).type === 'glyph') {
+                out.pop();
+                out.push({ type: 'disc', subtype: 0, pre: [prev], post: [], replace: [] });
+            } else {
+                // A clone: the paint reconciler keys elements by node identity.
+                out.push(space ? { ...space } : { type: 'glue', subtype: GLUE_SPACE, width: 218453, stretch: 109226, shrink: 72818 });
+            }
+        }
+        for (const n of ch) out.push(n);
+    });
+    nodes.splice(vi, 1, ...out);
+    if (!para.align) para.align = leftFil && rightFil ? 'center' : leftFil ? 'right' : rightFil ? 'left' : para.align;
+    return true;
+}
+function unboxPresetParagraphs(doc) {
+    for (const p of doc.paragraphs) if (p.nodes && p.nodes.some(n => n.type === 'vlist')) unboxPresetParagraph(p);
+}
+
 function resolvePictures(doc) {
     const pics = doc.pictures;
     if (!pics || !pics.length) return;
@@ -2380,8 +2618,12 @@ function loadSchema() {
 // repository proves byte-for-byte equivalence against protobuf.js over the
 // committed fixture block.
 const LAX_ENUMS = {
-    NodeType: ['glyph','glue','kern','rule','hlist','vlist','disc','penalty','math','picture','transform','mark'],
-    ItemKind: ['paragraph','display','vspace','marker'],
+    // lax: `mark` is NodeType's wire name for a \laxmark whatsit and `fnref`
+    // its name for a footnote's reference point — proto2 scopes enum value
+    // names to the package, so neither can reuse ItemKind's `marker` and
+    // `footnote_ref`.
+    NodeType: ['glyph','glue','kern','rule','hlist','vlist','disc','penalty','math','picture','transform','mark','fnref'],
+    ItemKind: ['paragraph','display','vspace','marker','footnote_ref'],
 };
 const LAX_MESSAGES = {
     Document: {
@@ -2394,11 +2636,14 @@ const LAX_MESSAGES = {
     Paragraph: {
         1: ['nodes','rep','Node'], 2: ['indent','i32'], 3: ['baselineskip','i32'],
         4: ['lineskip','i32'], 5: ['lineskiplimit','i32'], 6: ['align','str'],
-        // lax: the \parshape band's width (sp), which the serializer records
-        // beside `indent` but latex.proto does not yet carry; read here so a
-        // bundle that has it gets its right inset (see paraBand). Absent in
-        // every bundle until the schema gains the field.
+        // lax: the \parshape band's width (sp), the only statement of a
+        // paragraph's right inset (see paraBand). Absent in bundles sealed
+        // before the schema gained the field.
         7: ['width','i32'],
+        // lax: a footnote's paragraphs carry its ordinal here — the `n` of the
+        // `fnref` node or `footnote_ref` item at the reference point. Absent
+        // on body paragraphs, and in bundles sealed before the field.
+        8: ['footnote','i32'],
     },
     ContentItem: {
         1: ['kind','enum','ItemKind'], 2: ['para','u32'], 3: ['box','msg','Node'], 4: ['amount','i32'],
@@ -2518,6 +2763,7 @@ async function initBlock(el) {
     const t0        = performance.now();
     const doc       = decodeBlock(await blockBytes(el));
     resolvePictures(doc);
+    unboxPresetParagraphs(doc);   // lax: \parbox paragraphs become running text
     const t1        = performance.now();
     const fontsData = Object.fromEntries(doc.fonts.map(f => [String(f.id), f]));
     // lax: register now, wait later — the layout below needs no browser

@@ -129,28 +129,67 @@ describe("the reflow paper page", () => {
     expect(fs.existsSync(path.join(root, "fonts"))).toBe(false);
   });
 
-  it("renders a bundle sealed with the schema that carries the paragraph band width", async () => {
-    // The next wire schema, spliced exactly as the fork's latex.proto adds
-    // Paragraph.width (field 7): a bundle carrying it is sealed by `lax`,
-    // not here, so the committed fixture still predates the field. Both
-    // hashes are supported — a schema bump must not drop old paper pages.
-    const widthField = [
-      "  // sp; the width of the \\parshape band `indent` starts at. Lists, quote and",
-      "  // the abstract inset both sides, and only this states the second one: the",
-      "  // right inset is hsize - indent - width. Absent in bundles sealed before",
-      "  // the field existed, which the renderer reads as \"no right inset\".",
-      "  optional int32 width = 7;",
-      "",
-    ].join("\n");
-    const align = "  optional string align = 6;\n";
-    const text = fixtureSchema.toString("utf8");
-    const nextSchema = text.includes("optional int32 width = 7;")
-      ? fixtureSchema
-      : Buffer.from(text.replace(align, align + widthField), "utf8");
+  it("renders a bundle sealed with the current fork schema", async () => {
+    // The fork's latex.proto as it stands, spliced out of the committed
+    // fixture: the paragraph band width (Paragraph field 7) and the footnote
+    // wiring the fork added after it — NodeType.fnref, ItemKind.footnote_ref
+    // and Paragraph.footnote (field 8). A bundle carrying them is sealed by
+    // `lax`, not here, so the committed fixture still predates all of it.
+    // Both hashes stay supported — a schema bump must not drop old paper
+    // pages — and the intermediate width-only schema never shipped, so it
+    // must not be admitted.
+    const splices: Array<[string, "before" | "after", string]> = [
+      ["  mark      = 11;\n", "after", [
+        "  // lax: a footnote's reference point inside a paragraph \u2014 where its",
+        "  // \\footnote insert sat before the line breaker moved it out. No ink, no",
+        "  // width; `n` is the footnote's ordinal, the `footnote` of its paragraphs.",
+        "  // Same scoping rule as `mark`: ItemKind claims `footnote_ref` (the",
+        "  // vertical-mode form), so the wire name here is `fnref`; the serializer's",
+        "  // JSON says type:\"footnote_ref\" for both and encode_pb maps it.",
+        "  fnref     = 12;",
+        "",
+      ].join("\n")],
+      ["  optional string   side          = 33;\n", "before",
+        "  // fnref (lax) reuses `n` for the footnote ordinal.\n"],
+      ["  optional string align = 6;\n", "after", [
+        "  // sp; the width of the \\parshape band `indent` starts at. Lists, quote and",
+        "  // the abstract inset both sides, and only this states the second one: the",
+        "  // right inset is hsize - indent - width. Absent in bundles sealed before",
+        "  // the field existed, which the renderer reads as \"no right inset\".",
+        "  optional int32 width = 7;",
+        "  // lax: set on a footnote's paragraphs to the footnote's ordinal k \u2014 the",
+        "  // `n` of the `fnref` node or `footnote_ref` item at its reference point.",
+        "  // The stream still carries these paragraphs as endnotes (the fallback",
+        "  // rendering); a viewer with a margin rail sets them beside the reference.",
+        "  // Absent on body paragraphs.",
+        "  optional int32 footnote = 8;",
+        "",
+      ].join("\n")],
+      ["  marker    = 3;  // lax: a \\laxmark whatsit between paragraphs/displays (vertical mode)\n", "after", [
+        "  // lax: a footnote reference with no paragraph to sit in (\\thanks, a",
+        "  // \\footnotetext between paragraphs): emitted at the walk position, as a",
+        "  // marker is. `n` is the footnote's ordinal.",
+        "  footnote_ref = 4;",
+        "",
+      ].join("\n")],
+      ["  optional string side = 8;\n", "before",
+        "  // footnote_ref (lax) reuses `n` for the footnote ordinal.\n"],
+    ];
+    let text = fixtureSchema.toString("utf8");
+    for (const [anchor, where, added] of splices) {
+      const parts = text.split(anchor);
+      // A fixture recut that moved an anchor would otherwise splice silently
+      // into the wrong place, or nowhere, and only the hash would complain.
+      expect(parts).toHaveLength(2);
+      text = where === "after" ? parts[0] + anchor + added + parts[1] : parts[0] + added + anchor + parts[1];
+    }
+    const nextSchema = Buffer.from(text, "utf8");
     const schema = sha256(nextSchema);
-    expect(schema).toBe("cc98f34310989a431b0bc3b745417577d5fa608020356dfc27f497172362e3b0");
+    expect(schema).toBe("3fd9498729c7cd91acc0069ed83d52de555bce3d0bfd1e8c4d43d964deace2c7");
     expect(supportedSchemas().has(schema)).toBe(true);
     expect(supportedSchemas().has(fixtureRecord.web.format.schema)).toBe(true);
+    // The width-only lab step was never sealed in production.
+    expect(supportedSchemas().has("cc98f34310989a431b0bc3b745417577d5fa608020356dfc27f497172362e3b0")).toBe(false);
 
     const block = extractBundleTar(fs.readFileSync(FIXTURE_TAR)).get("blocks/000.pb")!;
     const index = {
@@ -162,20 +201,20 @@ describe("the reflow paper page", () => {
       { name: "blocks/000.pb", bytes: block },
       { name: "schema/latex.proto", bytes: nextSchema },
     ]);
-    const bundleFile = path.join(tmpDir("lax-bundle-width-"), "width.tar");
+    const bundleFile = path.join(tmpDir("lax-bundle-fnote-"), "fnote.tar");
     fs.writeFileSync(bundleFile, tar);
     const web: PaperWebEntry = {
       format: { tool: "reflowtex", rev: index.rev, schema },
       bundle: { digest: sha256(tar), bytes: tar.length },
     };
-    const root = tmpDir("lax-site-width-");
+    const root = tmpDir("lax-site-fnote-");
     const logs: string[] = [];
     await generateSite(attach(webArchive(web), { bundle: bundleFile }), root, { log: (line) => logs.push(line) });
     expect(logs).toEqual([]);
     const html = fs.readFileSync(path.join(root, "lax-21", "paper.html"), "utf8");
     expect(html).toMatch(/<div class="latex-block" data-nodelist-b64="[A-Za-z0-9+/=]+"><\/div>/);
     // The page ships the schema it was sealed with, so the viewer's decoder
-    // and the bundle agree on field 7.
+    // and the bundle agree on fields 7 and 8.
     const schemaB64 = /data-schema-b64="([A-Za-z0-9+/=]+)"/.exec(html)![1]!;
     expect(sha256(Buffer.from(schemaB64, "base64"))).toBe(schema);
   });
