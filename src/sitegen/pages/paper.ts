@@ -1,15 +1,15 @@
-// The paper page: the compiled PDF on the left, one card per marked passage
-// on the right, the cards pre-rendered here so the browser only places them
-// (assets/manuscript.js). Without the PDF bytes — a preview build — the page
-// still lists the cards and says where the paper went.
-//
-// A record whose bundle passed the schema gate gets the reflow surface
-// instead: the vendored ReflowTeX viewer paints the same paper as reflowable
-// SVG at the reader's width, the marks surface as `m<n>` anchors at exact
-// stream positions (so every existing `paper.html#m<n>` link lands on the
-// passage), and the cards join those anchors (assets/manuscript-reflow.js).
-// The pdf.js surface stays on the page as the "as printed" view behind a
-// toggle, loading only when first shown.
+// The paper pages. `paper.html` is the paper: for a record whose reflow
+// bundle passed the schema gate, the vendored ReflowTeX viewer paints the
+// paper as reflowable SVG at the reader's width, the marks surface as
+// `m<n>` anchors at exact stream positions (so every `paper.html#m<n>`
+// link lands on the passage), and one pre-rendered card per mark joins its
+// anchor (assets/manuscript-reflow.js); without a bundle it is the paper as
+// printed instead. `paper-pdf.html` is always the paper as printed: the
+// compiled PDF on the left, the cards on the right, placed by
+// assets/manuscript.js. The two surfaces are two pages, each linking the
+// other from a switch above the paper (the scripts carry `#m<n>` across).
+// Without the PDF bytes — a preview build — the page still lists the cards
+// and says where the paper went.
 
 import { siteAssetVersion } from "../assets.js";
 import { attr, code, esc, page, plural, proofBadge, typeBadge } from "../html.js";
@@ -135,11 +135,10 @@ ${statements}${source}`;
 }
 
 /** One card, mark-numbered, in the vocabulary of the pages it links to.
- * On the PDF-only page the card itself owns the `m<n>` id the cross-links
+ * On the printed page the card itself owns the `m<n>` id the cross-links
  * target; on the reflow page that id belongs to the passage's anchor in the
- * text, so the reflow card steps aside to `m<n>-card` and the printed
- * surface's own copy to `m<n>-pdf-card`. Every card carries `data-mark`,
- * which is how each surface's script finds the cards in its own rail. */
+ * text, so the card steps aside to `m<n>-card`. Every card carries
+ * `data-mark`, which is how the surface's script finds it in the rail. */
 async function markCard(ctx: PageContext, mark: PaperMark, n: number, home: string, cardId = `m${n}`): Promise<string> {
   const { model } = ctx;
   const span = mark.begin.page === mark.end.page
@@ -185,9 +184,7 @@ ${rows.join("\n")}
 </div>`;
 }
 
-/** Inert JSON for assets/manuscript.js: page sizes and the marks' points.
- * Both surfaces are annotated, so the printed one gets the mark table even
- * where a reflow surface is beside it. */
+/** Inert JSON for assets/manuscript.js: page sizes and the marks' points. */
 function manuscriptData(submission: SiteSubmission): string {
   const paper = submission.output!.paper!;
   return inertJsonScript("manuscript-data", {
@@ -202,21 +199,30 @@ function manuscriptData(submission: SiteSubmission): string {
  * vendored viewer's provenance header names the rev and the modifications. */
 const REFLOW_NOTICE = `<footer class="manuscript-reflow-notice">Rendered with <a href="https://github.com/radek-p/reflowtex" rel="license">ReflowTeX</a> — free software under <abbr title="GNU Affero General Public License v3.0 or later">AGPL-3.0-or-later</abbr>. <a href="https://github.com/radek-p/reflowtex">Source code</a>.</footer>`;
 
-/** The two surfaces of a paper that has a reflow bundle: the paper as
- * printed, which is what the page opens on, and behind the switch the
- * reflow surface — the viewer's schema and font-map islands, one
+type PaperView = "reflow" | "pdf";
+
+/** The switch above a paper that has both surfaces: the reflowed text
+ * first (it is what `paper.html` opens on), the paper as printed beside it,
+ * the current one marked. Links, not buttons — each surface is its own
+ * page — and the surface's script carries the `#m<n>` fragment across. */
+function viewSwitch(current: PaperView): string {
+  const link = (view: PaperView, href: string, label: string) =>
+    `<a class="manuscript-view-link" href="${href}"${view === current ? ` aria-current="page"` : ""}>${label}</a>`;
+  return `<div class="manuscript-view-switch" role="group" aria-label="Paper view">
+${link("reflow", "paper.html", "Reflowed")}
+${link("pdf", "paper-pdf.html", "As printed")}
+</div>`;
+}
+
+/** The reflow surface: the viewer's schema and font-map islands, one
  * `.latex-block` per block (embedded, or fetched past the embed budget),
  * and the cards rail its anchors join. */
-function reflowBody(cards: string[], pdfCards: string[], pages: string[], web: PaperWebPage): string {
+function reflowBody(cards: string[], web: PaperWebPage): string {
   const blocks = web.blocks.map((block) =>
     "b64" in block
       ? `<div class="latex-block" data-nodelist-b64="${block.b64}"></div>`
       : `<div class="latex-block" data-nodelist-src="${attr(block.src)}"></div>`);
-  return `<div class="manuscript-view-switch" role="group" aria-label="Paper view">
-<button type="button" class="manuscript-view-button" data-view="pdf" aria-pressed="true">As printed</button>
-<button type="button" class="manuscript-view-button" data-view="reflow" aria-pressed="false">Reflowed</button>
-</div>
-<div class="manuscript-body manuscript-reflow-body" id="manuscript-reflow" hidden>
+  return `<div class="manuscript-body manuscript-reflow-body" id="manuscript-reflow">
 <div class="manuscript-reflow-doc" id="manuscript-reflow-doc">
 ${blocks.join("\n")}
 ${REFLOW_NOTICE}
@@ -226,42 +232,45 @@ ${cards.join("\n")}
 </ol>
 <svg class="manuscript-links" id="manuscript-reflow-links" aria-hidden="true"></svg>
 </div>
-<div class="manuscript-pdf" id="manuscript-pdf">
-<div class="manuscript-body">
-<div class="manuscript-pages" id="manuscript-pages">
-${pages.join("\n")}
-</div>
-<ol class="manuscript-rail" id="manuscript-rail">
-${pdfCards.join("\n")}
-</ol>
-<svg class="manuscript-links" id="manuscript-links" aria-hidden="true"></svg>
-</div>
-<p class="manuscript-status" id="manuscript-status" role="status">Loading the paper…</p>
-</div>
 <noscript><p class="empty-note">Enable JavaScript to read the paper here, or <a href="paper.pdf">download the PDF</a>.</p></noscript>
 <div id="latex-schema" data-schema-b64="${web.schemaB64}" hidden></div>
 <script type="application/json" id="latex-font-map" data-fonts-base="../fonts/">${JSON.stringify(web.fontMap).replace(/</g, "\\u003c")}</script>`;
 }
 
-export async function paperPage(ctx: PageContext, submission: SiteSubmission, web?: PaperWebPage): Promise<string> {
+/** The printed surface: one box per page for pdf.js to fill, the cards
+ * rail beside them, the gutter bands' overlay. */
+function pdfBody(cards: string[], pages: string[]): string {
+  return `<div class="manuscript-body">
+<div class="manuscript-pages" id="manuscript-pages">
+${pages.join("\n")}
+</div>
+<ol class="manuscript-rail" id="manuscript-rail">
+${cards.join("\n")}
+</ol>
+<svg class="manuscript-links" id="manuscript-links" aria-hidden="true"></svg>
+</div>
+<p class="manuscript-status" id="manuscript-status" role="status">Loading the paper…</p>
+<noscript><p class="empty-note">Enable JavaScript to read the paper here, or <a href="paper.pdf">download the PDF</a>.</p></noscript>`;
+}
+
+interface PaperPageOptions {
+  /** The reflow bundle, for the reflow page. */
+  web?: PaperWebPage;
+  /** This is `paper-pdf.html`, titled as printed. */
+  printed?: boolean;
+  /** Whether a reflow page exists beside this printed page (the switch). */
+  reflowBeside?: boolean;
+}
+
+async function renderPaper(ctx: PageContext, submission: SiteSubmission, options: PaperPageOptions): Promise<string> {
   const { record, output } = submission;
   const paper = output!.paper!;
   const home = record.id;
   const title = ctx.markdown.renderAuthorInline(output!.manifest.title, "../");
   const hasPdf = Boolean(submission.paperFile);
-  const reflow = hasPdf && web !== undefined;
+  const reflow = options.web !== undefined;
   const cards = await Promise.all(paper.marks.map((mark, index) =>
     markCard(ctx, mark, index + 1, home, reflow ? `m${index + 1}-card` : undefined)));
-  // The two surfaces never show at once, but each owns its rail outright:
-  // one set of cards would mean two scripts driving the same elements.
-  const pdfCards = reflow
-    ? await Promise.all(paper.marks.map((mark, index) => markCard(ctx, mark, index + 1, home, `m${index + 1}-pdf-card`)))
-    : [];
-  const pages = paper.pageSizes.map(([width, height], index) =>
-    `<div class="manuscript-page" data-page="${index + 1}" style="aspect-ratio: ${width} / ${height}"></div>`);
-  const pdfAttributes = hasPdf
-    ? ` data-pdf="paper.pdf" data-pdfjs="${attr(`../assets/pdfjs/pdf.min.mjs?v=${siteAssetVersion("pdfjs/pdf.min.mjs")}`)}" data-pdfjs-worker="${attr(`../assets/pdfjs/pdf.worker.min.mjs?v=${siteAssetVersion("pdfjs/pdf.worker.min.mjs")}`)}"`
-    : "";
   const facts = [
     plural(paper.pdf.pages, "page"),
     plural(paper.marks.length, "marked passage"),
@@ -269,45 +278,42 @@ export async function paperPage(ctx: PageContext, submission: SiteSubmission, we
     hasPdf ? `<a href="paper.pdf">download PDF</a>` : "",
     `<a href="index.html">${esc(home)}</a>`,
   ].filter(Boolean).join(" · ");
-  const body = reflow
-    ? reflowBody(cards, pdfCards, pages, web)
-    : hasPdf
-      ? `<div class="manuscript-body">
-<div class="manuscript-pages" id="manuscript-pages">
-${pages.join("\n")}
-</div>
-<ol class="manuscript-rail" id="manuscript-rail">
-${cards.join("\n")}
-</ol>
-<svg class="manuscript-links" id="manuscript-links" aria-hidden="true"></svg>
-</div>
-<p class="manuscript-status" id="manuscript-status" role="status">Loading the paper…</p>
-<noscript><p class="empty-note">Enable JavaScript to read the paper here, or <a href="paper.pdf">download the PDF</a>.</p></noscript>`
-      : `<p class="empty-note">The PDF is not part of preview builds; the published archive shows it here beside the cards.</p>
+
+  let body: string;
+  let rootAttributes = "";
+  let scripts: string[];
+  if (reflow) {
+    body = viewSwitch("reflow") + "\n" + reflowBody(cards, options.web!);
+    // The vendored viewer (self-contained — its lax fork decodes blocks
+    // without protobuf.js), then the join glue.
+    scripts = ["assets/version-history.js", "assets/reflowtex/latex-viewer.js", "assets/manuscript-reflow.js"];
+  } else if (hasPdf) {
+    const pages = paper.pageSizes.map(([width, height], index) =>
+      `<div class="manuscript-page" data-page="${index + 1}" style="aspect-ratio: ${width} / ${height}"></div>`);
+    body = (options.reflowBeside ? viewSwitch("pdf") + "\n" : "") + pdfBody(cards, pages) + "\n" + manuscriptData(submission);
+    rootAttributes = ` data-pdf="paper.pdf" data-pdfjs="${attr(`../assets/pdfjs/pdf.min.mjs?v=${siteAssetVersion("pdfjs/pdf.min.mjs")}`)}" data-pdfjs-worker="${attr(`../assets/pdfjs/pdf.worker.min.mjs?v=${siteAssetVersion("pdfjs/pdf.worker.min.mjs")}`)}"`;
+    // Placement math first, then the DOM and pdf.js glue that reads it.
+    scripts = ["assets/version-history.js", "assets/manuscript-place.js", "assets/manuscript.js"];
+  } else {
+    body = `<p class="empty-note">The PDF is not part of preview builds; the published archive shows it here beside the cards.</p>
 <ol class="manuscript-rail manuscript-rail-static">
 ${cards.join("\n")}
 </ol>`;
+    scripts = ["assets/version-history.js"];
+  }
 
   const content = `${draftBanner(record.state)}${environmentNotice(ctx.model, submission)}${versionHistoryPanel(ctx, home, "../")}
-<div class="manuscript"${pdfAttributes}>
+<div class="manuscript"${rootAttributes}>
 <div class="detail-heading concept-heading manuscript-heading">
 <div><p class="concept-id">Paper</p>
 <h1 class="concept-title">${title}</h1>
 <p class="concept-microline">${facts}</p></div>
 </div>
 ${body}
-${manuscriptData(submission)}
 </div>`;
 
-  // The reflow scripts: placement math first (manuscript.js reads it too),
-  // then the vendored viewer (self-contained — its lax fork decodes blocks
-  // without protobuf.js), the join/toggle glue, and the deferred PDF driver.
-  const scripts = reflow
-    ? ["assets/version-history.js", "assets/manuscript-place.js", "assets/reflowtex/latex-viewer.js", "assets/manuscript-reflow.js", "assets/manuscript.js"]
-    : ["assets/version-history.js", ...(hasPdf ? ["assets/manuscript-place.js", "assets/manuscript.js"] : [])];
-
   return page({
-    title: `Paper — ${home}`,
+    title: `${options.printed ? "Paper as printed" : "Paper"} — ${home}`,
     rootRel: "../",
     sidebar: submissionSidebar(ctx.model, submission, "../", { backToSubmission: true }),
     content,
@@ -315,4 +321,17 @@ ${manuscriptData(submission)}
     sidebarHidden: true,
     scripts,
   });
+}
+
+/** `paper.html`: the reflowed paper when the bundle is there, the paper as
+ * printed otherwise (and the cards alone in a preview build). */
+export function paperPage(ctx: PageContext, submission: SiteSubmission, web?: PaperWebPage): Promise<string> {
+  return renderPaper(ctx, submission, { web });
+}
+
+/** `paper-pdf.html`: the paper as printed, emitted beside every cached
+ * PDF so the printed rendering keeps one address whether or not a reflow
+ * page stands in front of it. */
+export function paperPdfPage(ctx: PageContext, submission: SiteSubmission, reflowBeside: boolean): Promise<string> {
+  return renderPaper(ctx, submission, { printed: true, reflowBeside });
 }

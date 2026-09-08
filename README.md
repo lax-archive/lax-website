@@ -86,19 +86,29 @@ A record may additionally carry a derived reflowable rendering of the same
 paper (`paper.web`, a ReflowTeX bundle sealed by the archive — see
 `paper-web-plan.md` in the `lax` repository). `npm run papers:fetch` also
 downloads those bundles into `data/bundles/<digest>.tar` (`--bundles DIR`
-moves the cache), and `site:build` then renders `paper.html` with the
-reflow surface as the default view — the paper re-typeset as SVG at the
-reader's width by the vendored viewer (`assets/site/reflowtex/`, AGPL, the
-source served unminified), the marked passages exposed as `#m<n>` anchors
-the cards attach to, and the pdf.js view behind an "As printed" toggle.
-The build content-hashes every served font under the site root's `fonts/`,
-embeds the protobuf blocks inline up to a ~2 MiB budget (past it they are
-emitted as `<id>/paper-web/*.pb` files the viewer fetches same-origin),
-and gates every bundle's recorded schema against the viewer's supported
-set (`assets/site/reflowtex/supported-schemas.json`) — a mismatch drops
-that page to the PDF-only surface with a build warning, never a broken
-reflow page. `--no-papers` suppresses bundles along with PDFs — one flag —
-so preview builds keep today's card-list page (a preview's `paper.html`
+moves the cache), and `site:build` then renders `paper.html` as the reflowed
+paper — re-typeset as SVG at the reader's width by the vendored viewer
+(`assets/site/reflowtex/`, AGPL, the source served unminified), the marked
+passages exposed as `#m<n>` anchors the cards attach to
+(`assets/site/manuscript-reflow.js`) — while the paper as printed keeps
+its own address, `<id>/paper-pdf.html`, emitted beside every cached PDF
+whether or not a reflow page stands in front of it. Every link into a
+paper (the submission page's button, the "In the paper" lists) targets
+`paper.html`: the reflowed text where there is one, the printed paper
+otherwise; a page with both surfaces links the other from a switch above
+the paper, carrying the `#m<n>` fragment across. On a screen narrower than
+the site's mobile breakpoint the reflowed paper drops to one column: no
+rail, and a tap on a passage opens its card in the text right under the
+passage (the viewer's lax fork keeps a slot after the segment holding a
+mark), closed again by its ×, its head, or the passage. The build
+content-hashes every served font under the site root's `fonts/`, embeds
+the protobuf blocks inline up to a ~2 MiB budget (past it they are emitted
+as `<id>/paper-web/*.pb` files the viewer fetches same-origin), and gates
+every bundle's recorded schema against the viewer's supported set
+(`assets/site/reflowtex/supported-schemas.json`) — a mismatch drops that
+page to the printed surface with a build warning, never a broken reflow
+page. `--no-papers` suppresses bundles along with PDFs — one flag — so
+preview builds keep today's card-list page (a preview's `paper.html`
 bytes therefore differ from production's, deterministically per flag set).
 
 ## Content
