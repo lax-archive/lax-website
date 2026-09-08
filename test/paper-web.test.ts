@@ -6,7 +6,7 @@ import { extractBundleTar } from "../src/bundles.js";
 import { loadSubmissions, submissionsMissingPapers } from "../src/database.js";
 import { SITE_MIME } from "../src/sitegen/assets.js";
 import { generateSite, type SiteSubmission } from "../src/sitegen/generate.js";
-import { EMBED_BUDGET_BYTES } from "../src/sitegen/paper-web.js";
+import { EMBED_BUDGET_BYTES, supportedSchemas } from "../src/sitegen/paper-web.js";
 import type { PaperWebEntry } from "../src/types.js";
 import { makeTar } from "./tar-helper.js";
 import { tmpDir } from "./helpers.js";
@@ -127,6 +127,57 @@ describe("the reflow paper page", () => {
     expect(html).toContain('id="m1" data-mark="1"');
     expect(html).toContain('"marks":[{"n":1');
     expect(fs.existsSync(path.join(root, "fonts"))).toBe(false);
+  });
+
+  it("renders a bundle sealed with the schema that carries the paragraph band width", async () => {
+    // The next wire schema, spliced exactly as the fork's latex.proto adds
+    // Paragraph.width (field 7): a bundle carrying it is sealed by `lax`,
+    // not here, so the committed fixture still predates the field. Both
+    // hashes are supported — a schema bump must not drop old paper pages.
+    const widthField = [
+      "  // sp; the width of the \\parshape band `indent` starts at. Lists, quote and",
+      "  // the abstract inset both sides, and only this states the second one: the",
+      "  // right inset is hsize - indent - width. Absent in bundles sealed before",
+      "  // the field existed, which the renderer reads as \"no right inset\".",
+      "  optional int32 width = 7;",
+      "",
+    ].join("\n");
+    const align = "  optional string align = 6;\n";
+    const text = fixtureSchema.toString("utf8");
+    const nextSchema = text.includes("optional int32 width = 7;")
+      ? fixtureSchema
+      : Buffer.from(text.replace(align, align + widthField), "utf8");
+    const schema = sha256(nextSchema);
+    expect(schema).toBe("cc98f34310989a431b0bc3b745417577d5fa608020356dfc27f497172362e3b0");
+    expect(supportedSchemas().has(schema)).toBe(true);
+    expect(supportedSchemas().has(fixtureRecord.web.format.schema)).toBe(true);
+
+    const block = extractBundleTar(fs.readFileSync(FIXTURE_TAR)).get("blocks/000.pb")!;
+    const index = {
+      formatVersion: 1, tool: "reflowtex", rev: fixtureRecord.web.format.rev,
+      schema, blocks: ["blocks/000.pb"], fonts: {},
+    };
+    const tar = makeTar([
+      { name: "index.json", bytes: Buffer.from(JSON.stringify(index)) },
+      { name: "blocks/000.pb", bytes: block },
+      { name: "schema/latex.proto", bytes: nextSchema },
+    ]);
+    const bundleFile = path.join(tmpDir("lax-bundle-width-"), "width.tar");
+    fs.writeFileSync(bundleFile, tar);
+    const web: PaperWebEntry = {
+      format: { tool: "reflowtex", rev: index.rev, schema },
+      bundle: { digest: sha256(tar), bytes: tar.length },
+    };
+    const root = tmpDir("lax-site-width-");
+    const logs: string[] = [];
+    await generateSite(attach(webArchive(web), { bundle: bundleFile }), root, { log: (line) => logs.push(line) });
+    expect(logs).toEqual([]);
+    const html = fs.readFileSync(path.join(root, "lax-21", "paper.html"), "utf8");
+    expect(html).toMatch(/<div class="latex-block" data-nodelist-b64="[A-Za-z0-9+/=]+"><\/div>/);
+    // The page ships the schema it was sealed with, so the viewer's decoder
+    // and the bundle agree on field 7.
+    const schemaB64 = /data-schema-b64="([A-Za-z0-9+/=]+)"/.exec(html)![1]!;
+    expect(sha256(Buffer.from(schemaB64, "base64"))).toBe(schema);
   });
 
   it("keeps the PDF-only page when no bundle is attached (previews, missing cache)", async () => {

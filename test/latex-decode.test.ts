@@ -72,6 +72,44 @@ describe("the viewer's fixed-schema decoder", () => {
     expect(kerns.some((kern) => kern < 0)).toBe(true);
   });
 
+  // The band width the schema gained as Paragraph field 7 (the \parshape
+  // width the serializer has always recorded beside `indent`, and the only
+  // statement of a paragraph's right inset — see paraBand). The committed
+  // fixture predates the field, so the round trip is proved over a small
+  // document encoded by the fork's own descriptor-driven encoder against the
+  // new schema:
+  //
+  //   PYTHONPATH=<checkout>/build python -c "import encode_pb; \\
+  //     encode_pb.serialize_document({...two paragraphs, one inset...})"
+  //
+  // Paragraph 1 is a body paragraph ({0, hsize}); paragraph 2 is inset on
+  // both sides ({indent, hsize - indent - right}), the case the field exists
+  // for. Recut this constant only if the encoder's shape changes.
+  const WIDTH_BLOCK_B64 =
+    "CjAIARIRbG1yb21hbjEwLXJlZ3VsYXIYgIAoIhVsbXJvbWFuMTAtcmVndWxhci5vdGYSHAoJCAAQQRgB" +
+    "gAIBEAAYgIAwIICABCgAOICAoAsSJgoJCAAQQhgBgAIBEP+/bRiAgDAggIAEKAAyBmNlbnRlcjiCgMUJ" +
+    "GgQIABABGgQIABACKgoIgKgdEKrjGxgA";
+
+  it("reads the paragraph band width the new schema carries", () => {
+    const decoded = viewerContext().window.laxLatexViewer.decodeBlock(new Uint8Array(Buffer.from(WIDTH_BLOCK_B64, "base64")));
+    const bands = decoded.paragraphs.map((paragraph: { indent?: number; width?: number }) => [paragraph.indent, paragraph.width]);
+    expect(bands).toEqual([[0, 23592960], [1794047, 20004866]]);
+    // The rest of the paragraph is untouched by the new field.
+    expect(decoded.paragraphs[1].align).toBe("center");
+    expect(decoded.paragraphs[1].baselineskip).toBe(786432);
+    expect(decoded.paragraphs[1].nodes[0]).toMatchObject({ type: "glyph", char: 66, font: 1, metrics: 1 });
+    // hsize is the widest band; the inset paragraph's right inset follows.
+    const hsize = Math.max(...decoded.paragraphs.map((paragraph: { width: number }) => paragraph.width));
+    expect(hsize - (decoded.paragraphs[1].indent ?? 0) - decoded.paragraphs[1].width).toBe(1794047);
+  });
+
+  it("leaves width absent for a bundle sealed before the field existed", () => {
+    // Old bundles must keep rendering: the fixture's paragraphs carry no
+    // field 7, and the decoder reports it as absent rather than 0.
+    const decoded = viewerContext().window.laxLatexViewer.decodeBlock(new Uint8Array(block));
+    expect(decoded.paragraphs.every((paragraph: { width?: number }) => paragraph.width === undefined)).toBe(true);
+  });
+
   it("fails closed on truncated and malformed bytes", () => {
     const decodeBlock = viewerContext().window.laxLatexViewer.decodeBlock;
     // Cutting into the final field leaves a length prefix overrunning the
