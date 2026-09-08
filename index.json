@@ -2531,6 +2531,65 @@
         "Lax916827Proofs.Results.isTwoWay_iff_isRegularFun",
         "Lax916827Proofs.Results.isTwoWay_of_isRegularFun"
       ]
+    },
+    {
+      "id": "lax-979537",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "The Immerman–Vardi theorem",
+      "concepts": [
+        {
+          "id": "Lax979537.FixedPointEvaluation",
+          "title": "Polynomial-time evaluation of fixed-point queries",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax979537.FixedPointSemantics",
+          "title": "Semantics and definability in FO(LFP)",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax979537.FixedPointSyntax",
+          "title": "First-order logic with least fixed points",
+          "type": "definition"
+        },
+        {
+          "id": "Lax979537.ImmermanVardi",
+          "title": "The Immerman–Vardi theorem",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax979537.LeastFixedPoints",
+          "title": "Least fixed points on finite relations",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax979537.OrderedStructures",
+          "title": "Finite ordered relational structures and queries",
+          "type": "definition"
+        },
+        {
+          "id": "Lax979537.PolynomialTime",
+          "title": "Polynomial-time queries on ordered structures",
+          "type": "definition"
+        },
+        {
+          "id": "Lax979537.StructureEncoding",
+          "title": "Binary encodings of ordered structures and tuples",
+          "type": "definition and theorem"
+        }
+      ],
+      "proofs": [
+        "Lax979537Proofs.FixedPointEvaluation.evaluationInP",
+        "Lax979537Proofs.ImmermanVardi.capturesPtime",
+        "Lax979537Proofs.ImmermanVardi.ptimeDefinable",
+        "Lax979537Proofs.LeastFixedPoints.finiteConvergence",
+        "Lax979537Proofs.LeastFixedPoints.fixedPoint",
+        "Lax979537Proofs.LeastFixedPoints.least",
+        "Lax979537Proofs.Positivity.positiveBodyMonotone",
+        "Lax979537Proofs.StructureEncoding.encodeInjective",
+        "Lax979537Proofs.StructureEncoding.encodeLength"
+      ]
     }
   ]
 }
