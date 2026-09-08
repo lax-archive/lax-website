@@ -13,8 +13,8 @@
   const authPopupName = "lax-orcid-login";
   const authMessage = "lax-orcid-auth-complete";
   const conceptReviewCacheKey = "lax-concept-reviews:v1";
-  const conceptReviewCacheTTL = 5 * 60 * 1000;
   const conceptReviewCacheLimit = 500;
+  const pageWasReloaded = window.performance?.getEntriesByType?.("navigation")?.[0]?.type === "reload";
   const authChannel = typeof window.BroadcastChannel === "function"
     ? new window.BroadcastChannel("lax-orcid-auth-v1")
     : null;
@@ -48,6 +48,7 @@
   let commentsLoadedFor = "";
   let conceptReviewState = new Map();
   let conceptReviewSequence = 0;
+  let conceptReviewReloadRefreshStarted = false;
   let loginWatchTimer = null;
   let loginWatchUntil = 0;
 
@@ -273,12 +274,10 @@
     try {
       const parsed = JSON.parse(window.localStorage?.getItem(conceptReviewCacheKey) || "null");
       if (parsed?.viewer_orcid !== viewerORCID || !Array.isArray(parsed.entries)) return result;
-      const now = Date.now();
       for (const entry of parsed.entries) {
         const reaction = entry?.reaction === "endorse" || entry?.reaction === "flag" ? entry.reaction : "";
         const cachedAt = Number(entry?.cached_at);
-        if (!validCachedConceptURL(entry?.url) || !Number.isFinite(cachedAt)
-          || cachedAt > now || now - cachedAt > conceptReviewCacheTTL) continue;
+        if (!validCachedConceptURL(entry?.url) || !Number.isFinite(cachedAt)) continue;
         result.set(entry.url, { reaction, cachedAt });
       }
     } catch {
@@ -419,7 +418,9 @@
     const viewerORCID = currentIdentity?.orcidId || "";
     const urls = conceptReviewURLs;
     const cached = readConceptReviewCache(viewerORCID);
-    const missingURLs = urls.filter((url) => !cached.has(url));
+    const refreshAfterReload = pageWasReloaded && !conceptReviewReloadRefreshStarted;
+    if (refreshAfterReload) conceptReviewReloadRefreshStarted = true;
+    const missingURLs = refreshAfterReload ? urls : urls.filter((url) => !cached.has(url));
     if (missingURLs.length === 0) {
       renderLoadedConceptReviews(new Map(urls.map((url) => [url, cached.get(url).reaction])));
       return;
