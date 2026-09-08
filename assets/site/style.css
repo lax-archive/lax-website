@@ -944,6 +944,14 @@ body.sidebar-resizing #content-shell{ transition: none; }
 }
 .version-notice-superseded strong{ color: var(--warn-fg); }
 .version-notice-proposed{ border-style: dashed; }
+.version-notice-pending{
+  padding: 0.7rem 0.85rem;
+  border: 1px dashed var(--border);
+  background: var(--panel-bg);
+  color: var(--text-dim);
+  box-shadow: none;
+}
+.version-notice-pending strong{ color: var(--text); font-size: 0.94rem; }
 .version-notice-actions,
 .version-item-actions{
   display: flex;
@@ -977,6 +985,10 @@ body.sidebar-resizing #content-shell{ transition: none; }
 .version-notice-superseded .version-current-button{
   border-color: var(--warn-border);
   background: var(--warn-fg);
+}
+.version-notice-pending .version-history-button{
+  border-color: var(--border);
+  color: var(--text-dim);
 }
 .version-history-button:hover,
 .version-history-button:focus-visible,

@@ -90,6 +90,8 @@ export class SiteModel {
   readonly submissionUsedBy = new Map<string, Map<string, SubmissionDepKind>>();
   /** Each submission's declared supersedes target, bound or not. */
   readonly supersedesClaim = new Map<string, string>();
+  /** Draft successors by the submission they propose to replace. */
+  readonly draftSuccessors = new Map<string, string[]>();
   /** Bound forward version pointers: the registered successor by superseded id. */
   readonly supersededBy = new Map<string, string>();
   /** The bound pointers reversed: the superseded submission by successor id. */
@@ -184,10 +186,17 @@ export class SiteModel {
       const target = submission.output?.manifest.supersedes;
       if (!target || target === id || !this.submissionById.has(target)) continue;
       this.supersedesClaim.set(id, target);
+      if (submission.record.state === "draft") {
+        const drafts = this.draftSuccessors.get(target) ?? [];
+        drafts.push(id);
+        this.draftSuccessors.set(target, drafts);
+        continue;
+      }
       if (submission.record.state !== "registered") continue;
       const existing = this.supersededBy.get(target);
       if (existing === undefined || compareIds(id, existing) < 0) this.supersededBy.set(target, id);
     }
+    for (const drafts of this.draftSuccessors.values()) drafts.sort(compareIds);
     for (const [older, newer] of this.supersededBy) this.predecessorOf.set(newer, older);
   }
 
@@ -232,9 +241,13 @@ export class SiteModel {
     const chain = this.versionChain(id);
     const submission = this.submissionById.get(id);
     const target = submission?.record.state === "draft" ? this.supersedesClaim.get(id) : undefined;
-    if (!target) return chain;
-    const previous = this.versionChain(target);
-    return previous.includes(id) ? previous : [...previous, id];
+    if (target) {
+      const previous = this.versionChain(target);
+      return previous.includes(id) ? previous : [...previous, id];
+    }
+    if (this.currentVersion(id) !== id) return chain;
+    const drafts = this.draftSuccessors.get(id) ?? [];
+    return drafts.length ? [...chain, ...drafts.filter((draft) => !chain.includes(draft))] : chain;
   }
 
   /** The registered version readers should normally use. A draft that

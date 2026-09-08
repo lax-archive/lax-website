@@ -586,15 +586,26 @@ export function versionHistoryPanel(
   const currentLink = `<a href="${attr(versionHref(rootRel, currentId))}">${currentLabel}</a>`;
   const draftProposal = shown.record.state === "draft" && ctx.model.supersedesClaim.has(submissionId);
   const superseded = !draftProposal && currentId !== submissionId;
-  const compactCurrent = !draftProposal && !superseded;
+  const pendingDrafts = !draftProposal && !superseded
+    ? ctx.model.draftSuccessors.get(submissionId) ?? []
+    : [];
+  const pendingProposal = pendingDrafts.length > 0;
+  const compactCurrent = !draftProposal && !superseded && !pendingProposal;
   if (compactCurrent && !includeCurrentDialog) return "";
   const olderCount = chain.indexOf(submissionId);
   const countLabel = `${chain.length} ${chain.length === 1 ? "version" : "versions"}`;
+  const pendingLinks = pendingDrafts.map((id) =>
+    `<a href="${attr(versionHref(rootRel, id))}"><span class="submission-meta-id">${esc(id)}</span></a>`);
+  const linkedDrafts = pendingLinks.length === 1
+    ? pendingLinks[0]
+    : `${pendingLinks.slice(0, -1).join(", ")} and ${pendingLinks.at(-1)}`;
   const summary = draftProposal
     ? `<strong>Proposed new version.</strong> This draft would follow the current registered version, ${currentLink}.`
     : superseded
       ? `<strong>Outdated version.</strong> You are viewing <span class="submission-meta-id">${esc(submissionId)}</span>. The current version is ${currentLink}.`
-      : `<strong>Current version.</strong> ${olderCount} older ${olderCount === 1 ? "version is" : "versions are"} available for reference.`;
+      : pendingProposal
+        ? `<strong>${pendingDrafts.length === 1 ? "New version" : "New versions"} in progress.</strong> ${pendingDrafts.length === 1 ? "A draft" : "Drafts"}, ${linkedDrafts}, ${pendingDrafts.length === 1 ? "is proposed" : "are proposed"} as the next version. This remains the current registered version.`
+        : `<strong>Current version.</strong> ${olderCount} older ${olderCount === 1 ? "version is" : "versions are"} available for reference.`;
   const currentAction = currentId !== submissionId
     ? `<a class="version-current-button" href="${attr(versionHref(rootRel, currentId))}">Open current version <span aria-hidden="true">→</span></a>`
     : "";
@@ -638,7 +649,7 @@ ${title ? `<p class="version-item-title">${ctx.markdown.renderAuthorInline(title
 </li>`;
   });
 
-  const notice = compactCurrent ? "" : `<aside class="version-notice${superseded ? " version-notice-superseded" : ""}${draftProposal ? " version-notice-proposed" : ""}" aria-label="Submission version">
+  const notice = compactCurrent ? "" : `<aside class="version-notice${superseded ? " version-notice-superseded" : ""}${draftProposal ? " version-notice-proposed" : ""}${pendingProposal ? " version-notice-pending" : ""}" aria-label="Submission version">
 <p>${summary}</p>
 <div class="version-notice-actions">${currentAction}<button class="version-history-button" type="button" data-version-dialog-open aria-haspopup="dialog" aria-controls="version-history-dialog">View ${countLabel}</button></div>
 </aside>`;
@@ -657,7 +668,9 @@ ${rows.join("\n")}
  * instead. */
 export function versionHistoryMetaButton(ctx: PageContext, submissionId: string): string {
   const chain = ctx.model.versionHistory(submissionId);
-  if (chain.length < 2 || ctx.model.currentVersion(submissionId) !== submissionId) return "";
+  if (chain.length < 2
+    || ctx.model.currentVersion(submissionId) !== submissionId
+    || ctx.model.draftSuccessors.has(submissionId)) return "";
   return `<button class="paper-version-button" type="button" data-version-dialog-open aria-haspopup="dialog" aria-controls="version-history-dialog">${chain.length} versions</button>`;
 }
 

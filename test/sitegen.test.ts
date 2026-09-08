@@ -1496,12 +1496,14 @@ describe("supersedes version chains", () => {
     // the draft's claim is recorded but does not bind
     expect(model.isSuperseded("lax-3")).toBe(false);
     expect(model.supersedesClaim.get("lax-4")).toBe("lax-3");
+    expect(model.draftSuccessors.get("lax-3")).toEqual(["lax-4"]);
     expect(model.latestVersion("lax-1")).toBe("lax-3");
     expect(model.latestVersion("lax-2")).toBe("lax-3");
     expect(model.versionChain("lax-1")).toEqual(["lax-1", "lax-2", "lax-3"]);
     expect(model.versionChain("lax-2")).toEqual(["lax-1", "lax-2", "lax-3"]);
     expect(model.versionChain("lax-3")).toEqual(["lax-1", "lax-2", "lax-3"]);
     expect(model.versionChain("lax-4")).toEqual(["lax-4"]);
+    expect(model.versionHistory("lax-3")).toEqual(["lax-1", "lax-2", "lax-3", "lax-4"]);
     expect(model.versionHistory("lax-4")).toEqual(["lax-1", "lax-2", "lax-3", "lax-4"]);
     expect(model.currentVersion("lax-1")).toBe("lax-3");
     expect(model.currentVersion("lax-2")).toBe("lax-3");
@@ -1547,17 +1549,22 @@ describe("supersedes version chains", () => {
     expect(middlePage).toContain('class="version-item version-selected"');
 
     const currentPage = fs.readFileSync(path.join(root, "lax-3", "index.html"), "utf8");
-    expect(currentPage).not.toContain('class="version-notice');
-    expect(currentPage).toContain('class="paper-version-button" type="button"');
-    expect(currentPage).toContain(">3 versions</button>");
+    expect(currentPage).toContain('class="version-notice version-notice-pending"');
+    expect(currentPage).toContain("<strong>New version in progress.</strong>");
+    expect(currentPage).toContain("This remains the current registered version.");
+    expect(currentPage).toContain('href="../lax-4/index.html?version=lax-4"');
+    expect(currentPage).not.toContain('class="paper-version-button"');
+    expect(currentPage).toContain("View 4 versions");
     expect(currentPage).toContain('data-version-dialog');
-    const currentMeta = currentPage.slice(currentPage.indexOf('<p class="paper-meta">'), currentPage.indexOf("</p>", currentPage.indexOf('<p class="paper-meta">')));
-    expect(currentMeta.indexOf("paper-version-button")).toBeGreaterThan(currentMeta.indexOf("mathlib"));
     expect(currentPage).toContain('href="../lax-1/index.html?version=lax-1"');
     expect(currentPage).toContain('href="../lax-2/index.html?version=lax-2"');
     expect(currentPage).toContain("version-mark-latest");
     expect(currentPage).toContain("version-mark-viewing");
     expect(currentPage).not.toContain("note = {superseded");
+
+    const currentConcept = fs.readFileSync(path.join(root, "lax-3", "lax3.C.html"), "utf8");
+    expect(currentConcept).toContain('class="version-notice version-notice-pending"');
+    expect(currentConcept).toContain('href="../lax-4/index.html?version=lax-4"');
 
     const draftPage = fs.readFileSync(path.join(root, "lax-4", "index.html"), "utf8");
     expect(draftPage).toContain("<strong>Proposed new version.</strong>");

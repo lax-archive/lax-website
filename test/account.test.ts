@@ -32,6 +32,14 @@ class FakeElement {
   close() { this.opened = false; }
 }
 
+class FakeStorage {
+  values = new Map<string, string>();
+
+  getItem(key: string) { return this.values.get(key) ?? null; }
+  setItem(key: string, value: string) { this.values.set(key, value); }
+  removeItem(key: string) { this.values.delete(key); }
+}
+
 const settle = async () => {
   await new Promise((resolve) => setTimeout(resolve, 0));
   await new Promise((resolve) => setTimeout(resolve, 0));
@@ -42,6 +50,8 @@ function fixture(
   initiallyAuthenticated = true,
   conceptReviews: Array<{ url: string; reaction: string }> = [],
   deferConceptReviews = false,
+  localStorage = new FakeStorage(),
+  navigationType = "navigate",
 ) {
   let authenticated = initiallyAuthenticated;
   let logoutStatus = 200;
@@ -137,6 +147,8 @@ function fixture(
     opener: null,
     history: { replaceState() {} },
     BroadcastChannel: FakeBroadcastChannel,
+    localStorage,
+    performance: { getEntriesByType: (type: string) => type === "navigation" ? [{ type: navigationType }] : [] },
     close() {},
     dispatchEvent: (event: FakeCustomEvent) => { events.push({ type: event.type, detail: event.detail }); },
     addEventListener: (name: string, listener: (event: Record<string, unknown>) => void) => { listeners[name] = listener; },
@@ -149,6 +161,7 @@ function fixture(
     bridgeMessages.push(message);
     if (message.action === "logout" && logoutStatus === 200) authenticated = false;
     const responseStatus = message.action === "logout" ? logoutStatus : 200;
+    const requestedConceptURLs = Array.isArray(message.urls) ? new Set(message.urls) : null;
     const sendResponse = () => listeners.message?.({
       origin,
       source,
@@ -172,7 +185,7 @@ function fixture(
           } : message.action === "concepts" ? {
             authenticated: true,
             eligible: true,
-            concepts: [...new Map(conceptReviews.map((review) => [review.url, {
+            concepts: [...new Map(conceptReviews.filter((review) => !requestedConceptURLs || requestedConceptURLs.has(review.url)).map((review) => [review.url, {
               url: review.url,
               viewer_reaction: review.reaction,
             }])).values()],
@@ -202,7 +215,7 @@ function fixture(
     body: new FakeElement(),
     head: new FakeElement(),
   };
-  return { root, dialog, login, loginLabel, settings, settingsLabel, elements, conceptBadges, progress, progressTrack, progressLabel, submissionReview, flaggedNote, flaggedNoteText, requests, events, fetch, window, document, FakeCustomEvent, listeners, bridgeWindow, remarkBridgeWindow, bridgeMessages, get authChannel() { return authChannel; }, setAuthenticated(value: boolean) { authenticated = value; }, setLogoutStatus(value: number) { logoutStatus = value; }, releaseConceptReviews() { const response = pendingConceptResponse; pendingConceptResponse = null; if (response) queueMicrotask(response); } };
+  return { root, dialog, login, loginLabel, settings, settingsLabel, elements, conceptBadges, progress, progressTrack, progressLabel, submissionReview, flaggedNote, flaggedNoteText, requests, events, fetch, window, document, FakeCustomEvent, listeners, bridgeWindow, remarkBridgeWindow, bridgeMessages, localStorage, get authChannel() { return authChannel; }, setAuthenticated(value: boolean) { authenticated = value; }, setLogoutStatus(value: number) { logoutStatus = value; }, releaseConceptReviews() { const response = pendingConceptResponse; pendingConceptResponse = null; if (response) queueMicrotask(response); } };
 }
 
 describe("ORCID account header", () => {
@@ -393,6 +406,74 @@ describe("ORCID account header", () => {
     expect(fx.progress?.className).toBe("concept-review-progress");
     expect(fx.progressTrack?.attributes.has("aria-busy")).toBe(false);
     expect(fx.conceptBadges.every((badge) => badge.hidden)).toBe(true);
+  });
+
+  it("persists concept reviews per viewer, requests missing URLs, and refreshes after reload", async () => {
+    const accepted = "https://laxarchive.org/lax-4/Lax4.Accepted.html";
+    const pending = "https://laxarchive.org/lax-4/Lax4.Pending.html";
+    const flagged = "https://laxarchive.org/lax-4/Lax4.Flagged.html";
+    const storage = new FakeStorage();
+    const load = async (reviews: Array<{ url: string; reaction: string }>, navigationType = "navigate") => {
+      const fx = fixture({ id: `orcid_${"7".repeat(40)}`, name: "Ada Lovelace" }, true, reviews, false, storage, navigationType);
+      const context = { document: fx.document, window: fx.window, fetch: fx.fetch, URL, CustomEvent: fx.FakeCustomEvent, Date, setTimeout };
+      vm.createContext(context);
+      vm.runInContext(fs.readFileSync("assets/site/account.js", "utf8"), context);
+      fx.listeners.message!({ origin: "https://remark42.example.test", source: fx.bridgeWindow, data: { source: "lax-reactions", type: "ready" } });
+      await settle();
+      return fx;
+    };
+
+    const first = await load([
+      { url: accepted, reaction: "endorse" },
+      { url: pending, reaction: "" },
+    ]);
+    expect(first.bridgeMessages.find((message) => message.action === "concepts")?.urls).toEqual([accepted, pending]);
+    const cached = JSON.parse(storage.getItem("lax-concept-reviews:v1") || "null");
+    expect(cached.viewer_orcid).toBe("0000-0002-1825-0097");
+    expect(cached.entries.map((entry: { url: string; reaction: string }) => [entry.url, entry.reaction])).toEqual([
+      [accepted, "endorse"],
+      [pending, ""],
+    ]);
+    cached.entries.forEach((entry: { cached_at: number }) => { entry.cached_at = 1; });
+    storage.setItem("lax-concept-reviews:v1", JSON.stringify(cached));
+
+    const second = await load([
+      { url: accepted, reaction: "endorse" },
+      { url: pending, reaction: "" },
+      { url: flagged, reaction: "flag" },
+    ]);
+    expect(second.bridgeMessages.find((message) => message.action === "concepts")?.urls).toEqual([flagged]);
+    expect(second.conceptBadges.map((badge) => badge.className)).toEqual([
+      "concept-review-badge endorsed",
+      "concept-review-badge pending",
+      "concept-review-badge flagged",
+    ]);
+
+    const third = await load([
+      { url: accepted, reaction: "endorse" },
+      { url: pending, reaction: "" },
+      { url: flagged, reaction: "flag" },
+    ]);
+    expect(third.bridgeMessages.some((message) => message.action === "concepts")).toBe(false);
+    expect(third.progressLabel?.textContent).toBe("33% accepted · 34% not evaluated · 33% flagged");
+
+    const reloaded = await load([
+      { url: accepted, reaction: "flag" },
+      { url: pending, reaction: "endorse" },
+      { url: flagged, reaction: "" },
+    ], "reload");
+    expect(reloaded.bridgeMessages.find((message) => message.action === "concepts")?.urls).toEqual([accepted, pending, flagged]);
+    expect(reloaded.conceptBadges.map((badge) => badge.className)).toEqual([
+      "concept-review-badge flagged",
+      "concept-review-badge endorsed",
+      "concept-review-badge pending",
+    ]);
+    const refreshed = JSON.parse(storage.getItem("lax-concept-reviews:v1") || "null");
+    expect(Object.fromEntries(refreshed.entries.map((entry: { url: string; reaction: string }) => [entry.url, entry.reaction]))).toEqual({
+      [accepted]: "flag",
+      [pending]: "endorse",
+      [flagged]: "",
+    });
   });
 
   it("rechecks only once when the comment bridge repeats its ready announcement", async () => {
