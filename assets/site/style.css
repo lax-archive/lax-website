@@ -1272,6 +1272,24 @@ body.sidebar-resizing #content-shell{ transition: none; }
 
 .inline-contract-table .line-code{ padding-right: 1rem; }
 
+.inline-contract-table .lean-identifier-link{
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--neutral-stroke);
+  text-underline-offset: 0.14em;
+}
+
+.inline-contract-table .lean-identifier-link:hover,
+.inline-contract-table .lean-identifier-link:focus-visible{
+  color: var(--link);
+  text-decoration-color: currentColor;
+}
+
+.inline-contract-table .lean-identifier-link:focus-visible{
+  outline: 2px solid rgba(59, 107, 154, 0.38);
+  outline-offset: 1px;
+}
+
 /* Prose formulas embedded in Lean comments retain syntax highlighting around
    them, but use the document's mathematical face instead of comment/mono
    styling. Display formulas occupy their source row and center in the code

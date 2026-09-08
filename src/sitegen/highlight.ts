@@ -1,6 +1,6 @@
 import { createHighlighter, type Highlighter } from "shiki";
 import type { StatementEntry } from "../types.js";
-import { esc } from "./html.js";
+import { attr, esc } from "./html.js";
 import { renderDisplayMath, renderInlineMath } from "./math.js";
 
 let highlighterPromise: Promise<Highlighter> | undefined;
@@ -17,6 +17,17 @@ interface SourceMathReplacement {
   placeholder: string;
   html: string;
 }
+
+interface SourceLinkReplacement {
+  placeholder: string;
+  identifier: string;
+  href: string;
+}
+
+export type SourceIdentifierHref = (identifier: string) => string | undefined;
+
+const ARCHIVE_IDENTIFIER = /^Lax\d+(?:Proofs)?(?:\.[A-Za-z_][A-Za-z0-9_']*)*/;
+const IDENTIFIER_BOUNDARY = /[\p{L}\p{N}\p{M}_'.]/u;
 
 function escapedAt(source: string, index: number): boolean {
   let slashes = 0;
@@ -136,6 +147,86 @@ function restoreCommentMath(html: string, replacements: SourceMathReplacement[])
   return html;
 }
 
+/** Replace resolvable archive identifiers in actual Lean code with inert
+ * tokens before highlighting. Comments, strings, and quoted identifiers are
+ * deliberately skipped: their contents are prose or data, not references in
+ * the Lean syntax tree. */
+function maskSourceLinks(source: string, hrefForIdentifier?: SourceIdentifierHref): {
+  masked: string;
+  replacements: SourceLinkReplacement[];
+} {
+  if (!hrefForIdentifier) return { masked: source, replacements: [] };
+
+  let prefix = "LAXSOURCELINKTOKEN";
+  while (source.includes(prefix)) prefix += "X";
+  const matches: { start: number; end: number; replacement: SourceLinkReplacement }[] = [];
+
+  for (let index = 0; index < source.length;) {
+    if (source[index] === "\"") {
+      index += 1;
+      while (index < source.length) {
+        if (source[index] === "\\") index += 2;
+        else if (source[index++] === "\"") break;
+      }
+      continue;
+    }
+    if (source[index] === "«") {
+      const closing = source.indexOf("»", index + 1);
+      index = closing < 0 ? source.length : closing + 1;
+      continue;
+    }
+    if (source.startsWith("--", index)) {
+      const closing = source.indexOf("\n", index + 2);
+      index = closing < 0 ? source.length : closing + 1;
+      continue;
+    }
+    if (source.startsWith("/-", index)) {
+      let depth = 1;
+      index += 2;
+      while (index < source.length && depth > 0) {
+        if (source.startsWith("/-", index)) { depth += 1; index += 2; }
+        else if (source.startsWith("-/", index)) { depth -= 1; index += 2; }
+        else index += 1;
+      }
+      continue;
+    }
+
+    const previous = source[index - 1];
+    if (source[index] !== "L" || (previous !== undefined && IDENTIFIER_BOUNDARY.test(previous))) {
+      index += 1;
+      continue;
+    }
+    const identifier = ARCHIVE_IDENTIFIER.exec(source.slice(index))?.[0];
+    const next = identifier === undefined ? undefined : source[index + identifier.length];
+    if (!identifier || (next !== undefined && IDENTIFIER_BOUNDARY.test(next))) {
+      index += 1;
+      continue;
+    }
+    const href = hrefForIdentifier(identifier);
+    if (href) {
+      matches.push({
+        start: index,
+        end: index + identifier.length,
+        replacement: { placeholder: `${prefix}${matches.length}END`, identifier, href },
+      });
+    }
+    index += identifier.length;
+  }
+
+  let masked = source;
+  for (const match of [...matches].reverse())
+    masked = masked.slice(0, match.start) + match.replacement.placeholder + masked.slice(match.end);
+  return { masked, replacements: matches.map((match) => match.replacement) };
+}
+
+function restoreSourceLinks(html: string, replacements: SourceLinkReplacement[]): string {
+  for (const replacement of replacements) {
+    const link = `<a class="lean-identifier-link" href="${attr(replacement.href)}">${esc(replacement.identifier)}</a>`;
+    html = html.replace(replacement.placeholder, () => link);
+  }
+  return html;
+}
+
 function renderNode(node: HastNode): string {
   if (node.type === "text") return esc(node.value ?? "");
   if (node.type !== "element") return (node.children ?? []).map(renderNode).join("");
@@ -209,6 +300,9 @@ export interface SourceOptions {
   /** Emit `id`s and links on the rows (the concept page); off where the
    * same source may appear more than once on a page (the paper cards). */
   anchors?: boolean;
+  /** Turn archive-qualified Lean names into links when the destination is
+   * known to the site model. */
+  hrefForIdentifier?: SourceIdentifierHref;
 }
 
 /** The 1-based line range of the module docstring — the first `/-!` block
@@ -236,6 +330,7 @@ export async function highlightSource(
   const anchors = options.anchors ?? true;
   const elided = options.omitModuleDoc ? moduleDocRange(source) : undefined;
   const math = maskCommentMath(source);
+  const links = maskSourceLinks(math.masked, options.hrefForIdentifier);
   const row = (n: number, highlighted: string) => {
     if (elided && n >= elided[0] && n <= elided[1]) {
       return n === elided[0]
@@ -249,11 +344,17 @@ export async function highlightSource(
   };
   let rows: string[];
   try {
-    const hast = (await highlighter()).codeToHast(math.masked, { lang: "lean4", theme: "github-light" }) as HastNode;
+    const hast = (await highlighter()).codeToHast(links.masked, { lang: "lean4", theme: "github-light" }) as HastNode;
     rows = lineNodes(hast).map((line, index) =>
-      row(index + 1, restoreCommentMath((line.children ?? []).map(renderNode).join(""), math.replacements)));
+      row(index + 1, restoreCommentMath(
+        restoreSourceLinks((line.children ?? []).map(renderNode).join(""), links.replacements),
+        math.replacements,
+      )));
   } catch {
-    rows = math.masked.split("\n").map((line, index) => row(index + 1, restoreCommentMath(esc(line), math.replacements)));
+    rows = links.masked.split("\n").map((line, index) => row(index + 1, restoreCommentMath(
+        restoreSourceLinks(esc(line), links.replacements),
+        math.replacements,
+      )));
   }
   return rows.filter(Boolean).join("\n");
 }

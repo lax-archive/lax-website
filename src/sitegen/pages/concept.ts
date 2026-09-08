@@ -1,4 +1,5 @@
 import { attr, code, countsPill, esc, page } from "../html.js";
+import { resolveCrossref } from "../crossref.js";
 import { conceptGraph, graphDataScript } from "../graphs.js";
 import { highlightSource } from "../highlight.js";
 import type { LocatedConcept } from "../model.js";
@@ -117,7 +118,12 @@ export async function conceptPage(ctx: PageContext, located: LocatedConcept): Pr
       return `<a class="statement-proof-button" href="${attr(link.href)}" aria-label="${attr(`View proof ${link.id} on ${link.provider}`)}" title="${attr(link.id)}"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">${label}</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a>`;
     }).join("")}</span>`;
   }).join("");
-  const sourceRows = await highlightSource(concept.sourceText, concept.statements, proven);
+  const sourceRows = await highlightSource(
+    concept.sourceText,
+    concept.statements,
+    proven,
+    { hrefForIdentifier: (identifier) => resolveCrossref(ctx.model, identifier, "../")?.href },
+  );
 
   const content = `${versionHistoryPanel(ctx, submission.record.id, "../")}${draftBanner(submission.record.state)}${environmentNotice(ctx.model, submission)}
 <div class="detail-heading concept-heading">

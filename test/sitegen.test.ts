@@ -1318,6 +1318,31 @@ end Lax2.C`;
     expect(source).not.toContain("LAXSOURCEMATHTOKEN");
   });
 
+  it("links resolved archive identifiers in Lean code", async () => {
+    const authored = submissions();
+    authored[0]!.output!.concepts[1]!.sourceText = [
+      "import Lax2.C",
+      "#check Lax2.C.truth",
+      "-- Lax2.C.truth is prose here",
+      'def label := "Lax2.C"',
+      "#check Lax999.Unknown",
+    ].join("\n");
+
+    const root = tmpDir("lax-site-source-links-");
+    await generateSite(authored, root);
+    const html = fs.readFileSync(path.join(root, "Lax2", "Lax2.D.html"), "utf8");
+    const tableStart = html.indexOf('<table class="inline-contract-table">');
+    const source = html.slice(tableStart, html.indexOf("</table>", tableStart));
+
+    expect(source).toContain('<a class="lean-identifier-link" href="../Lax2/Lax2.C.html">Lax2.C</a>');
+    expect(source).toContain('<a class="lean-identifier-link" href="../Lax2/Lax2.C.html#s-Lax2.C.truth">Lax2.C.truth</a>');
+    expect(source.match(/class="lean-identifier-link"/g)).toHaveLength(2);
+    expect(source).toContain("-- Lax2.C.truth is prose here");
+    expect(source).toContain("&quot;Lax2.C&quot;");
+    expect(source).toContain("Lax999.Unknown");
+    expect(source).not.toContain("LAXSOURCELINKTOKEN");
+  });
+
   it("renders proof pages: judgment card, status pill, annotation sections", async () => {
     const root = tmpDir("lax-site-proof-");
     await generateSite([...submissions(), ...graphSubmissions()], root);
