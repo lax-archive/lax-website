@@ -12,6 +12,9 @@
   const authReturnParameter = "lax_auth_complete";
   const authPopupName = "lax-orcid-login";
   const authMessage = "lax-orcid-auth-complete";
+  const conceptReviewCacheKey = "lax-concept-reviews:v1";
+  const conceptReviewCacheTTL = 5 * 60 * 1000;
+  const conceptReviewCacheLimit = 500;
   const authChannel = typeof window.BroadcastChannel === "function"
     ? new window.BroadcastChannel("lax-orcid-auth-v1")
     : null;
@@ -253,6 +256,58 @@
     }
   }
 
+  function validCachedConceptURL(value) {
+    if (typeof value !== "string") return false;
+    try {
+      const parsed = new URL(value);
+      return parsed.origin === "https://laxarchive.org" && parsed.pathname.endsWith(".html")
+        && !parsed.search && !parsed.hash;
+    } catch {
+      return false;
+    }
+  }
+
+  function readConceptReviewCache(viewerORCID) {
+    const result = new Map();
+    if (!viewerORCID) return result;
+    try {
+      const parsed = JSON.parse(window.localStorage?.getItem(conceptReviewCacheKey) || "null");
+      if (parsed?.viewer_orcid !== viewerORCID || !Array.isArray(parsed.entries)) return result;
+      const now = Date.now();
+      for (const entry of parsed.entries) {
+        const reaction = entry?.reaction === "endorse" || entry?.reaction === "flag" ? entry.reaction : "";
+        const cachedAt = Number(entry?.cached_at);
+        if (!validCachedConceptURL(entry?.url) || !Number.isFinite(cachedAt)
+          || cachedAt > now || now - cachedAt > conceptReviewCacheTTL) continue;
+        result.set(entry.url, { reaction, cachedAt });
+      }
+    } catch {
+      // Storage can be disabled or contain data from an interrupted write.
+    }
+    return result;
+  }
+
+  function cacheConceptReviews(viewerORCID, reviews) {
+    if (!viewerORCID || !Array.isArray(reviews)) return;
+    try {
+      const cached = readConceptReviewCache(viewerORCID);
+      const now = Date.now();
+      for (const review of reviews) {
+        if (!validCachedConceptURL(review?.url)) continue;
+        const reaction = review.viewer_reaction === "endorse" || review.viewer_reaction === "flag"
+          ? review.viewer_reaction : "";
+        cached.set(review.url, { reaction, cachedAt: now });
+      }
+      const entries = [...cached.entries()]
+        .sort((left, right) => right[1].cachedAt - left[1].cachedAt)
+        .slice(0, conceptReviewCacheLimit)
+        .map(([url, entry]) => ({ url, reaction: entry.reaction, cached_at: entry.cachedAt }));
+      window.localStorage?.setItem(conceptReviewCacheKey, JSON.stringify({ viewer_orcid: viewerORCID, entries }));
+    } catch {
+      // A cache failure must never prevent live review data from rendering.
+    }
+  }
+
   function renderConceptReviewBadge(badge, reaction, showPending = false) {
     const validReaction = reaction === "endorse" || reaction === "flag" ? reaction : "";
     const state = validReaction || (showPending ? "pending" : "");
@@ -339,6 +394,14 @@
       : flagged > 1 ? `This submission contains or depends on ${flagged} concepts you flagged.` : "";
   }
 
+  function renderLoadedConceptReviews(byURL) {
+    conceptReviewState = byURL;
+    const showReviewStates = [...byURL.values()].some((reaction) => reaction === "endorse" || reaction === "flag");
+    conceptReviewBadges.forEach((badge) =>
+      renderConceptReviewBadge(badge, byURL.get(badge.dataset.conceptReviewUrl), showReviewStates));
+    renderConceptReviewSummaries();
+  }
+
   function clearConceptReviewBadges() {
     conceptReviewSequence += 1;
     conceptReviewState = new Map();
@@ -353,29 +416,33 @@
     }
     const sequence = conceptReviewSequence += 1;
     const viewerId = currentUser.id;
+    const viewerORCID = currentIdentity?.orcidId || "";
     const urls = conceptReviewURLs;
+    const cached = readConceptReviewCache(viewerORCID);
+    const missingURLs = urls.filter((url) => !cached.has(url));
+    if (missingURLs.length === 0) {
+      renderLoadedConceptReviews(new Map(urls.map((url) => [url, cached.get(url).reaction])));
+      return;
+    }
     renderConceptReviewLoading();
     try {
       const reviews = [];
-      for (let start = 0; start < urls.length; start += 50) {
+      for (let start = 0; start < missingURLs.length; start += 50) {
         const response = await accountRequest("concepts", {
-          urls: urls.slice(start, start + 50),
-          viewer_orcid: currentIdentity?.orcidId || "",
+          urls: missingURLs.slice(start, start + 50),
+          viewer_orcid: viewerORCID,
         });
         if (!response.ok) throw new Error(String(response.status));
         if (Array.isArray(response.data?.concepts)) reviews.push(...response.data.concepts);
       }
       if (sequence !== conceptReviewSequence || currentUser?.id !== viewerId) return;
-      const byURL = new Map(urls.map((url) => [url, ""]));
+      const byURL = new Map(urls.map((url) => [url, cached.get(url)?.reaction || ""]));
       reviews.forEach((review) => {
         if (typeof review?.url !== "string" || !byURL.has(review.url)) return;
         byURL.set(review.url, review.viewer_reaction === "endorse" || review.viewer_reaction === "flag" ? review.viewer_reaction : "");
       });
-      conceptReviewState = byURL;
-      const showReviewStates = [...byURL.values()].some((reaction) => reaction === "endorse" || reaction === "flag");
-      conceptReviewBadges.forEach((badge) =>
-        renderConceptReviewBadge(badge, byURL.get(badge.dataset.conceptReviewUrl), showReviewStates));
-      renderConceptReviewSummaries();
+      cacheConceptReviews(viewerORCID, reviews);
+      renderLoadedConceptReviews(byURL);
     } catch {
       if (sequence !== conceptReviewSequence || currentUser?.id !== viewerId) return;
       conceptReviewState = new Map();
@@ -412,8 +479,9 @@
   window.addEventListener("LAX::review-change", (event) => {
     const changedURL = typeof event.detail?.url === "string" ? event.detail.url : "";
     if (!changedURL) return;
+    const reaction = event.detail?.reaction === "endorse" || event.detail?.reaction === "flag" ? event.detail.reaction : "";
+    cacheConceptReviews(currentIdentity?.orcidId || "", [{ url: changedURL, viewer_reaction: reaction }]);
     if (conceptReviewURLSet.has(changedURL)) {
-      const reaction = event.detail?.reaction === "endorse" || event.detail?.reaction === "flag" ? event.detail.reaction : "";
       conceptReviewState.set(changedURL, reaction);
       const showReviewStates = Boolean(currentUser) && [...conceptReviewState.values()]
         .some((value) => value === "endorse" || value === "flag");
