@@ -5,6 +5,15 @@
 // passages, draws the gutter band from each passage's shadow to its card,
 // and owns the view toggle (the page opens on the paper as printed) and the
 // `#m<n>` deep links into the reflowed text.
+// The paper's footnotes become sidenotes in the same rail: the viewer lays
+// the footnote text out as endnotes (its own `.latex-footnote` segment per
+// footnote, behind a `.latex-footnote-rule`) and marks each reference point
+// with a `.latex-fnref[data-footnote]` anchor; this script lifts each
+// segment — the one element, so the viewer's repaints keep reaching it —
+// into a `.manuscript-footnote` card stacked with the mark cards at its
+// reference's line, asks the viewer to set it at the card's measure, and
+// hides the endnotes. Where the rail is not beside the text (the body
+// scrolls sideways), the endnotes stay in flow and no sidenote card shows.
 // The join is structural — anchor offsets only, no text matching and no
 // geometry from the PDF. The placement and outline math is pure and lives
 // up top so node:vm can test it the way manuscript-place.js is tested.
@@ -19,11 +28,12 @@
   // top), with those two anchors kept as `begin` and `end` for the outline.
   // An anchor without `bottom` is a point. A mark with only one side
   // collapses to that side; a mark with neither is absent, and its card
-  // goes unplaced.
+  // goes unplaced. `n` is a mark's number, or any non-empty string key —
+  // a footnote's reference is `fn:<k>`, a begin-side point.
   function bands(anchors) {
     const out = {};
     for (const a of anchors) {
-      if (!a || !Number.isFinite(a.n) || !Number.isFinite(a.top)) continue;
+      if (!a || !validKey(a.n) || !Number.isFinite(a.top)) continue;
       const band = out[a.n] || (out[a.n] = { top: Infinity, bottom: -Infinity });
       if (a.side === 'e') {
         const bottom = Number.isFinite(a.bottom) ? a.bottom : a.top;
@@ -39,6 +49,10 @@
     return out;
   }
 
+  function validKey(n) {
+    return typeof n === 'number' ? Number.isFinite(n) : typeof n === 'string' && n !== '';
+  }
+
   // Stack the cards top to bottom by their bands: a placed card wants its
   // band's top (less `offset`, the rail's own top in the shared space); a
   // card whose mark has no band follows the card before it in rail order.
@@ -48,7 +62,8 @@
   // cards wanting the same y keep their rail order. Then a card that would
   // overlap its predecessor is pushed down by `gap` — the same rule the PDF
   // surface uses (laxManuscript.stackCards). `tops` and `placed` are in
-  // rail order.
+  // rail order. Footnote cards are cards like any other here: keyed
+  // `fn:<k>`, wanting their reference's line.
   function place(cards, bandsByMark, gap, offset) {
     const wants = [];
     const keys = [];
@@ -68,6 +83,22 @@
       cursor = top + cards[index].height;
     }
     return { tops, placed };
+  }
+
+  // The rail order the cards should have: by their bands' tops (document
+  // position), a card without a band keeping its place after the card
+  // before it, ties keeping the order given. Returns the indices in that
+  // order — the mark cards come in the record's order and the footnote
+  // cards join them as the viewer reveals them, so the rail is re-sorted
+  // on every placement and the DOM follows (tab order, and place()'s
+  // follow rule for an unbanded card, both read the rail order).
+  function railOrder(cards, bandsByMark) {
+    const keys = [];
+    cards.forEach((card, index) => {
+      const band = bandsByMark[card.n];
+      keys.push(band !== undefined ? band.top : index > 0 ? keys[index - 1] : -Infinity);
+    });
+    return cards.map((card, index) => index).sort((a, b) => keys[a] - keys[b] || a - b);
   }
 
   // A passage's flat region over a column of `width`: the split-diff shape
@@ -113,7 +144,7 @@
     return inside;
   }
 
-  const api = { bands, place, outline, contains };
+  const api = { bands, place, railOrder, outline, contains };
   if (typeof window !== 'undefined') window.laxReflowPlace = api;
   else if (typeof globalThis !== 'undefined') globalThis.laxReflowPlace = api;
   if (typeof document === 'undefined') return;
@@ -126,6 +157,7 @@
   const railEl = document.getElementById('manuscript-rail-reflow');
   const linksEl = document.getElementById('manuscript-reflow-links');
   const pdfSurface = document.getElementById('manuscript-pdf');
+  const footnoteTemplate = document.getElementById('manuscript-footnote-card');
   if (!root || !reflowBody || !docEl || !railEl) return;
 
   const CARD_GAP = 8;
@@ -135,10 +167,14 @@
   const SHADOW_MARGIN = 12; // px the shadow runs beyond the text column on each side
   const SVG = 'http://www.w3.org/2000/svg';
 
+  // The rail's cards: the mark cards the page shipped (`fn` null), and the
+  // footnote cards made here as the viewer reveals footnotes (`fn` = k,
+  // keyed `fn:<k>`, holding the footnote's segment in `body`).
   const cards = [...railEl.querySelectorAll('.manuscript-card[data-mark]')].map((el) => ({
-    n: Number(el.dataset.mark), el, kind: `kind-${[...el.classList].find((c) => c.startsWith('kind-'))?.slice(5) || 'concept'}`,
+    n: Number(el.dataset.mark), fn: null, el, kind: `kind-${[...el.classList].find((c) => c.startsWith('kind-'))?.slice(5) || 'concept'}`,
     band: null, points: null, shadow: null, shape: null, link: null, ribbon: null, pinned: false,
   }));
+  const markCards = () => cards.filter((card) => !card.fn);
 
   function svgNode(name, attrs) {
     const node = document.createElementNS(SVG, name);
@@ -178,11 +214,13 @@
   // is that block's edge, padded — a begin anchor's block is the next mount
   // (the anchor stands above the mount's margin), an end anchor's is the
   // previous, whose bottom edge the zero-size anchor already sits on.
+  // A footnote's reference anchor is a begin side keyed `fn:<k>`.
   function measureAnchors() {
     const box = docEl.getBoundingClientRect();
-    return [...docEl.querySelectorAll('.latex-anchor[data-mark]')].map((a) => {
+    return [...docEl.querySelectorAll('.latex-anchor[data-mark], .latex-fnref[data-footnote]')].map((a) => {
       const r = a.getBoundingClientRect();
-      const side = a.dataset.side === 'e' ? 'e' : 'b';
+      const footnote = a.dataset.footnote !== undefined;
+      const side = !footnote && a.dataset.side === 'e' ? 'e' : 'b';
       const inline = a.style.position === 'absolute';
       const x = r.left - box.left;
       let top = r.top - box.top;
@@ -200,20 +238,188 @@
         bottom += STREAM_PAD;
         top = bottom;
       }
-      return { n: Number(a.dataset.mark), side, top, bottom, x, inline };
+      return { n: footnote ? `fn:${a.dataset.footnote}` : Number(a.dataset.mark), side, top, bottom, x, inline };
     });
   }
 
+  // ---- footnotes as sidenotes ----
+
+  // Whether the rail stands beside the text: the body's grid never stacks,
+  // it scrolls sideways where the two columns do not fit (style.css), and
+  // a sidenote in a rail scrolled off the screen is worse than an endnote.
+  let sidenotes = false;
+  function railBesideText() {
+    return reflowBody.scrollWidth <= reflowBody.clientWidth + 1;
+  }
+
+  const blocks = () => [...docEl.querySelectorAll('.latex-block')];
+  const viewer = () => window.laxLatexViewer;
+
+  function footnoteCard(k) {
+    let card = cards.find((c) => c.fn === k);
+    if (card) return card;
+    let el;
+    if (footnoteTemplate && footnoteTemplate.content) {
+      el = footnoteTemplate.content.firstElementChild.cloneNode(true);
+    } else {
+      el = document.createElement('li');
+      el.className = 'manuscript-card manuscript-footnote';
+      el.append(Object.assign(document.createElement('div'), { className: 'manuscript-footnote-body' }));
+    }
+    el.dataset.footnote = String(k);
+    el.id = `fn-${k}`;
+    el.hidden = true;
+    const body = el.querySelector('.manuscript-footnote-body') || el;
+    card = {
+      n: `fn:${k}`, fn: k, el, body, kind: 'kind-footnote',
+      band: null, points: null, shadow: null, shape: null, link: null, ribbon: null, pinned: false,
+    };
+    el.addEventListener('mouseenter', () => noteHover(card, true));
+    el.addEventListener('mouseleave', () => noteHover(card, false));
+    el.addEventListener('click', (event) => {
+      if (event.target.closest('a, button')) return;
+      scrollToReference(card);
+    });
+    cards.push(card);
+    railEl.append(el);
+    return card;
+  }
+
+  // Lift every footnote segment the viewer has in the document into its
+  // card. The viewer re-appends the segments to its root on every
+  // re-layout and makes fresh ones on a font repaint (rerenderBlock), so
+  // this runs, synchronously, on every reflow event; a segment already in
+  // its card is not in the document and is left alone, a stale one is
+  // replaced. The segment is moved, never copied: the viewer paints and
+  // repaints it by reference (its own element, its own observer),
+  // wherever it is mounted.
+  function adoptFootnotes() {
+    let moved = 0;
+    for (const seg of docEl.querySelectorAll('.latex-footnote[data-footnote]')) {
+      const k = Number(seg.dataset.footnote);
+      if (!Number.isFinite(k) || k <= 0) continue;
+      const card = footnoteCard(k);
+      card.body.replaceChildren(seg);
+      card.el.hidden = false;
+      moved += 1;
+    }
+    // The viewer painted what was near the viewport before the move; a
+    // segment that came from the end of the document is still empty or
+    // stale, so ask again now that it sits beside its reference.
+    const api = viewer();
+    if (moved && api && api.paint) for (const block of blocks()) api.paint(block);
+  }
+
+  // Say whether the sidenotes are on, and at what measure, then let the
+  // viewer re-lay out any block that needs it: a footnote segment is set at
+  // the card's width while it is a sidenote and at the column's when it is
+  // an endnote again, in which case the re-layout also returns it to the
+  // document (the viewer re-mounts every segment). A block that changed
+  // dispatches the reflow event, whose handler adopts and re-schedules.
+  function settleFootnotes() {
+    reflowBody.classList.toggle('manuscript-sidenotes', sidenotes);
+    if (sidenotes) adoptFootnotes();
+    const first = cards.find((card) => card.fn && !card.el.hidden);
+    const measure = sidenotes && first ? first.body.clientWidth : 0;
+    const api = viewer();
+    for (const block of blocks()) {
+      if (measure > 0) block.dataset.latexFootnoteWidth = String(measure);
+      else delete block.dataset.latexFootnoteWidth;
+      if (api && api.reflow) api.reflow(block);
+    }
+    if (!sidenotes) for (const card of cards) if (card.fn) card.el.hidden = true;
+  }
+
+  // The reference anchor carries a link to the sidenote — a small hit box
+  // over the superscript the viewer painted before the anchor, outside the
+  // SVG, so the text is untouched — for a pinned (in-paragraph) anchor
+  // only; a stream anchor (\thanks) has nothing to sit over. The viewer
+  // rebuilds its anchors on a font repaint, so this runs on every reflow.
+  function linkReferences() {
+    for (const anchor of docEl.querySelectorAll('.latex-fnref[data-footnote]')) {
+      if (anchor.firstElementChild || anchor.style.position !== 'absolute') continue;
+      const k = anchor.dataset.footnote;
+      const link = document.createElement('a');
+      link.className = 'latex-fnref-link';
+      link.href = `#fn-${k}`;
+      link.setAttribute('aria-label', `Footnote ${k}`);
+      const card = () => cards.find((c) => c.fn === Number(k));
+      link.addEventListener('mouseenter', () => { const c = card(); if (c) noteHover(c, true); });
+      link.addEventListener('mouseleave', () => { const c = card(); if (c) noteHover(c, false); });
+      link.addEventListener('focus', () => { const c = card(); if (c) noteHover(c, true); });
+      link.addEventListener('blur', () => { const c = card(); if (c) noteHover(c, false); });
+      link.addEventListener('click', (event) => {
+        const c = card();
+        if (!c) return;
+        if (sidenotes && !c.el.hidden) {
+          // The browser lands on the card (#fn-<k>, its :target outline);
+          // a moment of the hover style says which one.
+          noteFlash(c);
+          return;
+        }
+        // The endnote is the segment itself, back in the document.
+        const seg = docEl.querySelector(`.latex-footnote[data-footnote="${k}"]`);
+        if (!seg) return;
+        event.preventDefault();
+        seg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        seg.classList.add('latex-footnote-flash');
+        setTimeout(() => seg.classList.remove('latex-footnote-flash'), 1200);
+      });
+      anchor.append(link);
+    }
+  }
+
+  function referenceOf(card) {
+    return docEl.querySelector(`.latex-fnref[data-footnote="${card.fn}"]`);
+  }
+
+  // Hovering (or focusing) either end lights both: the card and the
+  // reference's hit box.
+  function noteHover(card, hovering) {
+    card.el.classList.toggle('manuscript-card-hover', hovering);
+    const anchor = referenceOf(card);
+    if (anchor) anchor.classList.toggle('latex-fnref-hover', hovering);
+  }
+
+  function noteFlash(card) {
+    card.el.classList.add('manuscript-card-hover');
+    setTimeout(() => card.el.classList.remove('manuscript-card-hover'), 1200);
+  }
+
+  function scrollToReference(card) {
+    const anchor = referenceOf(card);
+    if (!anchor) return;
+    anchor.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    anchor.classList.add('latex-fnref-flash');
+    setTimeout(() => anchor.classList.remove('latex-fnref-flash'), 1200);
+  }
+
+  // ---- placement ----
+
   function placeCards() {
-    if (reflowBody.hidden || !cards.length) return;
+    if (reflowBody.hidden) return;
+    sidenotes = railBesideText();
+    settleFootnotes();
+    linkReferences();
+    const active = cards.filter((card) => !card.fn || !card.el.hidden);
+    if (!active.length) return;
     const bodyBox = reflowBody.getBoundingClientRect();
     const docTop = docEl.getBoundingClientRect().top - bodyBox.top;
     const railTop = railEl.getBoundingClientRect().top - bodyBox.top;
     const byMark = bands(measureAnchors());
     railEl.classList.add('manuscript-rail-live');
-    const result = place(cards.map((card) => ({ n: card.n, height: card.el.offsetHeight })), byMark, CARD_GAP, railTop - docTop);
+    // The rail in document order (the DOM too, when it moved).
+    const order = railOrder(active, byMark);
+    const sorted = order.map((index) => active[index]);
+    if (sorted.some((card, index) => card !== active[index])) {
+      const others = cards.filter((card) => !active.includes(card));
+      cards.length = 0;
+      cards.push(...sorted, ...others);
+      railEl.append(...sorted.map((card) => card.el));
+    }
+    const result = place(sorted.map((card) => ({ n: card.n, height: card.el.offsetHeight })), byMark, CARD_GAP, railTop - docTop);
     let bottom = 0;
-    cards.forEach((card, index) => {
+    sorted.forEach((card, index) => {
       card.el.style.top = `${result.tops[index]}px`;
       card.el.classList.toggle('manuscript-card-unplaced', !result.placed[index]);
       card.band = byMark[card.n] || null;
@@ -227,11 +433,12 @@
   // Per passage: its flat region along the text, and behind it a lighter
   // shadow a fixed margin beyond the column on both sides, from the
   // passage's first line to its last. The gutter band starts at the
-  // shadow's right edge. Coordinates are the document's.
+  // shadow's right edge. Coordinates are the document's. A sidenote has
+  // no passage: nothing is painted for it.
   function paintHighlights() {
     const width = docEl.clientWidth;
     hlEl.setAttribute('viewBox', `0 0 ${width} ${docEl.clientHeight}`);
-    for (const card of cards) {
+    for (const card of markCards()) {
       if (!card.band) {
         if (card.shape) { card.shape.remove(); card.shape = null; }
         if (card.shadow) { card.shadow.remove(); card.shadow = null; }
@@ -270,7 +477,7 @@
     const xl = docBox.left - bodyBox.left + docEl.clientWidth + SHADOW_MARGIN - 1;
     const xr = railEl.offsetLeft + 2;
     const xm = (xl + xr) / 2;
-    for (const card of cards) {
+    for (const card of markCards()) {
       if (!card.band) {
         if (card.link) { card.link.remove(); card.link = null; }
         card.ribbon = null;
@@ -360,7 +567,7 @@
     flash(card);
   }
 
-  for (const card of cards) {
+  for (const card of markCards()) {
     const toggle = card.el.querySelector('.manuscript-card-toggle');
     if (toggle) toggle.addEventListener('click', (event) => {
       event.stopPropagation();
@@ -378,7 +585,8 @@
   // The highlight layer takes no pointer events so the text under it stays
   // selectable; hovers and clicks are hit-tested here against the regions
   // (the innermost passage winning), then the shadows (the shortest), then
-  // the ribbons across the gutter (the one drawn in front).
+  // the ribbons across the gutter (the one drawn in front). The footnote
+  // cards and their reference links keep their own hover (noteHover).
   function cardAt(event) {
     if (event.target.closest('.manuscript-rail, a')) return null;
     const best = cardAtPassage(event);
@@ -392,7 +600,7 @@
     const y = event.clientY - box.top + reflowBody.scrollTop;
     let best = null;
     let bestOrder = -1;
-    for (const card of cards) {
+    for (const card of markCards()) {
       if (!card.ribbon || !card.link || !ribbonContains(card.ribbon, x, y)) continue;
       const order = Array.prototype.indexOf.call(linksEl.children, card.link);
       if (order > bestOrder) { best = card; bestOrder = order; }
@@ -406,7 +614,7 @@
     const y = event.clientY - box.top;
     let best = null;
     let bestSpan = Infinity;
-    for (const card of cards) {
+    for (const card of markCards()) {
       if (!card.points || !contains(card.points, x, y)) continue;
       const span = card.band.bottom - card.band.top;
       if (span < bestSpan) { best = card; bestSpan = span; }
@@ -414,7 +622,7 @@
     if (best) return best;
     const width = docEl.clientWidth;
     if (x < -SHADOW_MARGIN || x > width + SHADOW_MARGIN) return null;
-    for (const card of cards) {
+    for (const card of markCards()) {
       if (!card.band || y < card.band.top || y > card.band.bottom) continue;
       const span = card.band.bottom - card.band.top;
       if (span < bestSpan) { best = card; bestSpan = span; }
@@ -434,7 +642,7 @@
   }
   function cardInRail(event) {
     const el = event.target.closest('.manuscript-card');
-    return el ? cards.find((card) => card.el === el) || null : null;
+    return el ? cards.find((card) => card.el === el && !card.fn) || null : null;
   }
   reflowBody.addEventListener('mousemove', (event) => {
     hover(cardInRail(event) || cardAt(event));
@@ -495,7 +703,13 @@
     });
   }
 
-  document.addEventListener('latex-viewer:reflow', schedule);
+  // A re-layout has just re-mounted every segment in the document: take
+  // the footnotes back into their cards before the frame paints, then
+  // re-place everything.
+  document.addEventListener('latex-viewer:reflow', () => {
+    if (sidenotes && !reflowBody.hidden) adoptFootnotes();
+    schedule();
+  });
   window.addEventListener('resize', schedule);
   window.addEventListener('hashchange', () => { hashPinned = false; honourHash(); });
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(schedule);

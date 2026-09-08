@@ -9,16 +9,18 @@ const context: Record<string, unknown> = {};
 vm.createContext(context);
 vm.runInContext(fs.readFileSync("assets/site/manuscript-reflow.js", "utf8"), context);
 
-type Anchor = { n: number; side: "b" | "e"; top: number; bottom?: number; x?: number; inline?: boolean };
+type Key = number | string;
+type Anchor = { n: Key; side: "b" | "e"; top: number; bottom?: number; x?: number; inline?: boolean };
 type Band = { top: number; bottom: number; begin?: Anchor; end?: Anchor };
 const place = context.laxReflowPlace as {
-  bands(anchors: Anchor[]): Record<number, Band>;
+  bands(anchors: Anchor[]): Record<Key, Band>;
   place(
-    cards: { n: number; height: number }[],
-    bands: Record<number, Band>,
+    cards: { n: Key; height: number }[],
+    bands: Record<Key, Band>,
     gap: number,
     offset: number,
   ): { tops: number[]; placed: boolean[] };
+  railOrder(cards: { n: Key }[], bands: Record<Key, Band>): number[];
   outline(band: Band, width: number): [number, number][];
   contains(points: [number, number][], x: number, y: number): boolean;
 };
@@ -93,6 +95,68 @@ describe("reflow card placement", () => {
     );
     expect(placed).toEqual([true, true, false, true]);
     expect(tops).toEqual([700, 100, 148, 196]);
+  });
+});
+
+describe("footnote cards among the mark cards", () => {
+  // A footnote's reference is one begin-side anchor keyed `fn:<k>`, its
+  // line's top and bottom as measureAnchors reports them; with no end side
+  // it bands to the point at its line's top (the begin-only rule), which is
+  // where its sidenote wants to be, and stacks with the marks by position,
+  // not by kind or key.
+  it("bands a footnote reference like a begin anchor under its string key", () => {
+    const bands = place.bands([
+      { n: 1, side: "b", top: 100, bottom: 120, x: 40, inline: true },
+      { n: "fn:1", side: "b", top: 240, bottom: 260, x: 300, inline: true },
+      { n: 1, side: "e", top: 300, bottom: 320, x: 80, inline: true },
+      { n: "fn:2", side: "b", top: 30, bottom: 30, inline: false },   // a \thanks, in the stream
+      { n: "", side: "b", top: 1 },                                    // an empty key is junk
+    ]);
+    expect(span(bands[1])).toEqual({ top: 100, bottom: 320 });
+    expect(span(bands["fn:1"])).toEqual({ top: 240, bottom: 240 });
+    expect(bands["fn:1"].begin).toMatchObject({ x: 300, bottom: 260 });
+    expect(span(bands["fn:2"])).toEqual({ top: 30, bottom: 30 });
+    expect(Object.keys(bands).sort()).toEqual(["1", "fn:1", "fn:2"]);
+  });
+
+  it("stacks sidenotes and mark cards together by position, pushing whichever comes later", () => {
+    // Mark 1's passage spans a footnote reference; the sidenote wants the
+    // reference's line but the mark's card, wanting the passage's top and
+    // tall, is in the way, so the sidenote goes below it. Mark 2's passage
+    // is below that; footnote 2 sits far down alone.
+    const bands = {
+      1: { top: 100, bottom: 320 }, "fn:1": { top: 240, bottom: 260 },
+      2: { top: 400, bottom: 420 }, "fn:2": { top: 900, bottom: 920 },
+    };
+    const { tops, placed } = place.place(
+      [{ n: 1, height: 200 }, { n: 2, height: 40 }, { n: "fn:1", height: 60 }, { n: "fn:2", height: 30 }],
+      bands, 8, 0,
+    );
+    expect(placed).toEqual([true, true, true, true]);
+    expect(tops).toEqual([100, 400, 308, 900]);   // fn:1 at 100+200+8; mark 2 clears it and lands on its passage
+  });
+
+  it("orders the rail by position, a card without a band following its predecessor", () => {
+    const bands = { 1: { top: 500, bottom: 520 }, "fn:1": { top: 120, bottom: 140 }, 2: { top: 120, bottom: 300 } };
+    // Rail order as it stands: the marks first (the record's order), the
+    // footnote cards appended as the viewer revealed them, mark 3 unlocated.
+    const order = place.railOrder([{ n: 1 }, { n: 2 }, { n: 3 }, { n: "fn:1" }], bands);
+    // Mark 2 and the sidenote want the same line: mark 2 keeps its earlier
+    // rail place; mark 3 follows mark 2 (its predecessor) and so comes
+    // before the sidenote only by that tie rule — then mark 1, last.
+    expect(order).toEqual([1, 2, 3, 0]);
+    // The same cards already in position order stay put.
+    expect(place.railOrder([{ n: 2 }, { n: "fn:1" }, { n: 1 }], bands)).toEqual([0, 1, 2]);
+  });
+
+  it("lets an unlocated sidenote queue after the card before it", () => {
+    const bands = { 1: { top: 100, bottom: 120 }, 2: { top: 600, bottom: 620 } };
+    const { tops, placed } = place.place(
+      [{ n: 1, height: 50 }, { n: "fn:1", height: 40 }, { n: 2, height: 50 }],
+      bands, 8, 0,
+    );
+    expect(placed).toEqual([true, false, true]);
+    expect(tops).toEqual([100, 158, 600]);
   });
 });
 

@@ -64,6 +64,24 @@
 //  11. Scroll cue. A display's scroll box sits in a .latex-display-frame
 //      whose data-scroll names the edge(s) it can still pan toward; the
 //      stylesheet fades those edges (noteScrollEdges).
+//  12. Footnotes. The schema carries a footnote's reference point as an
+//      `fnref` node (in a paragraph) or a `footnote_ref` item (between
+//      flow items), and its text as ordinary paragraphs at the end of the
+//      stream with Paragraph.footnote = k. The reference points take the
+//      marker anchor path exactly — a zero-size element
+//      <span class="latex-anchor latex-fnref" data-footnote="k"
+//      id="fn-ref-k"> at the pen position, re-placed on every reflow. The
+//      footnote's paragraphs are laid out and painted as before (they are
+//      the endnotes fallback) but each footnote is its own text segment,
+//      whose element carries class latex-footnote and data-footnote="k",
+//      and the rule display in front of the first one carries
+//      latex-footnote-rule — so a page with a margin rail can lift the
+//      segments out as sidenotes and hide the rule. Such a page states the
+//      sidenotes' measure in data-latex-footnote-width (CSS px) on the
+//      block, and footnote segments are then laid out at that width
+//      instead of the column's; reflowBlock treats a change of it like a
+//      change of width, and window.laxLatexViewer.reflow(el) lets the page
+//      ask for that re-layout (a no-op when nothing changed).
 //
 // Upstream header follows.
 //
@@ -248,6 +266,15 @@ function installColorMaps() {
 
 // Read the current alignment for an element: CSS custom property wins over data attr.
 // Called both at mount time and on every resize so media-query changes are picked up.
+// lax: the measure a page sets for the footnote segments it lifts into a
+// margin rail — data-latex-footnote-width, in CSS px like clientWidth (so
+// the page can stamp what it measured), converted to pt as the column's
+// width is. 0 (absent, or unparseable) means the column's own width.
+function footnoteWidthFromEl(el) {
+    const px = parseFloat(el.dataset.latexFootnoteWidth);
+    return Number.isFinite(px) && px > 0 ? px / ZOOM : 0;
+}
+
 function alignFromEl(el) {
     const css = getComputedStyle(el).getPropertyValue('--latex-align').trim();
     return css || el.dataset.align || DEFAULT_ALIGN;
@@ -309,10 +336,14 @@ function reflowBlock(el) {
         : (el.clientWidth / ZOOM) || DEFAULT_WIDTH_PT;
     // Re-read alignment every time: a media query may have changed --latex-align.
     const newAlign = alignFromEl(el);
-    if (Math.abs(newWidth - data.lastWidth) < 0.5 && newAlign === data.lastAlign) return false;
+    // lax: the sidenote measure too (see footnoteWidthFromEl).
+    const newFnWidth = footnoteWidthFromEl(el);
+    if (Math.abs(newWidth - data.lastWidth) < 0.5 && newAlign === data.lastAlign
+        && Math.abs(newFnWidth - data.lastFnWidth) < 0.5) return false;
     data.lastWidth = newWidth;
     data.lastAlign = newAlign;
-    const params = { ...data.params, align: newAlign };
+    data.lastFnWidth = newFnWidth;
+    const params = { ...data.params, align: newAlign, footnoteWidthPt: newFnWidth };
     const t0  = performance.now();
     // Layout always runs for the whole block so its height (and the page's scroll
     // geometry) stays correct — it is pure computation and cheap. Painting, the
@@ -351,7 +382,7 @@ function rerenderBlock(el) {
     if (data.cache.dom) for (const s of data.cache.dom.segs) segIO.unobserve(s.svg);
     data.cache.dom = null;
     data.cache.layout = null;
-    const params = { ...data.params, align: data.lastAlign };
+    const params = { ...data.params, align: data.lastAlign, footnoteWidthPt: data.lastFnWidth };
     el.replaceChildren(layoutDocument(data.fontInfo, data.doc, data.lastWidth, params, data.cache));
     paintVisibleNow(data.fontInfo, data.cache);
     // lax: the rebuild made fresh anchor elements; re-place and re-announce.
@@ -1595,6 +1626,9 @@ function renderNodes(fontInfo, sink, nodes, x, baselineY, ratio, expandRatio, fi
             // never drawn. Sinks that record anchors declare `marker`; the
             // paint and ink-measurement sinks do not, and skip it.
             case 'mark':  if (sink.marker) sink.marker(n, x, baselineY); break;
+            // lax: a footnote's reference point — the same shape, its own
+            // sink method (the superscript glyph before it is ordinary ink).
+            case 'fnref': if (sink.footnote) sink.footnote(n, x, baselineY); break;
             case 'math':  x+=n.surround*SP_TO_PX; break;
             case 'hlist':{
                 const{ratio:hr,fillOrder:hfo}=hlistGlueRatio(n);
@@ -1661,8 +1695,12 @@ function segmentsOf(doc) {
         // arithmetic. It also closes the current text run; the split is
         // spacing-neutral because a text→text join reproduces TeX's own
         // interline rule as an inter-segment margin (see layoutDocument).
-        if (item.kind === 'marker') {
-            if (item.n) pendingMarkers.push({ side: item.side === 'e' ? 'e' : 'b', n: item.n });
+        // A vertical-mode footnote reference (\thanks) is the same anchor
+        // shape, keyed by the footnote's ordinal (see anchorKey).
+        if (item.kind === 'marker' || item.kind === 'footnote_ref') {
+            if (item.n) pendingMarkers.push(item.kind === 'marker'
+                ? { side: item.side === 'e' ? 'e' : 'b', n: item.n }
+                : { fn: true, n: item.n });
             text = null;
             continue;
         }
@@ -1691,15 +1729,34 @@ function segmentsOf(doc) {
         // \vspace, or a section heading's before/after skip) breaks that merge:
         // the paragraph starts a new segment whose gapBefore reproduces exactly
         // the space TeX asked for (segment boxes stack baseline-to-baseline).
-        if (!text || gap || pendingMarkers.length) {
+        // lax: a footnote's paragraphs form a segment of their own, keyed by
+        // the footnote (a page lifts the whole element out as a sidenote);
+        // a footnote of several paragraphs stays one segment.
+        const footnote = para.footnote || 0;
+        if (!text || gap || pendingMarkers.length || (text.footnote || 0) !== footnote) {
             text = { kind: 'text', items: [], gapBefore: gap, markersBefore: pendingMarkers };
+            if (footnote) text.footnote = footnote;
             pendingMarkers = [];
             segs.push(text);
         }
         text.items.push({ index: item.para, para });
         gap = 0;
     }
+    // lax: the footnote rule — the rule-line display in front of the first
+    // footnote segment (\footnoterule, set in vertical mode as its own
+    // display) — so a page showing sidenotes can hide it with them.
+    const firstFn = segs.findIndex(seg => seg.footnote);
+    if (firstFn > 0) {
+        const prev = segs[firstFn - 1];
+        if (prev.kind === 'display' && prev.rows.length === 1 && loneRule(prev.rows[0].item.box)) prev.footnoteRule = true;
+    }
     return { segs, trailingMarkers: pendingMarkers };
+}
+
+// lax: the identity an anchor element is pooled under across reflows — a
+// mark's side, or a footnote reference (`fn`, one per footnote).
+function anchorKey(m) {
+    return m.fn ? `fn:${m.n}` : `${m.n}:${m.side}`;
 }
 
 // lax: whether a line's node list carries a marker anywhere — the cheap gate
@@ -1707,7 +1764,7 @@ function segmentsOf(doc) {
 // child arrays (toObject arrays:true), so the recursion is safe.
 function containsMark(nodes) {
     for (const n of nodes) {
-        if (n.type === 'mark') return true;
+        if (n.type === 'mark' || n.type === 'fnref') return true;
         if ((n.children && containsMark(n.children)) || (n.replace && containsMark(n.replace))
             || (n.pre && containsMark(n.pre)) || (n.post && containsMark(n.post))) return true;
     }
@@ -1723,6 +1780,7 @@ function anchorSink(out) {
         beginLine: noop, beginTransform: noop, endTransform: noop,
         glyph: noop, missing: noop, space: noop, rule: noop, picture: noop,
         marker(n, x, y) { out.push({ side: n.side === 'e' ? 'e' : 'b', n: n.n, x, y }); },
+        footnote(n, x, y) { if (n.n) out.push({ fn: true, n: n.n, x, y }); },
     };
 }
 
@@ -2216,9 +2274,11 @@ function layoutDocument(fontInfo, doc, widthPt, p, cache) {
     dom.root.style.visibility = '';   // may have been hidden while paint was deferred
 
     const laid = segs.map((seg, i) => {
+        // lax: a footnote segment takes the sidenote measure when the page
+        // has set one (params.footnoteWidthPt, see footnoteWidthFromEl).
         const geom = seg.kind === 'display'
             ? layoutDisplaySegment(fontInfo, seg, widthPt, cache)
-            : layoutTextSegment(fontInfo, seg, widthPt, p, cache);
+            : layoutTextSegment(fontInfo, seg, seg.footnote && p.footnoteWidthPt ? p.footnoteWidthPt : widthPt, p, cache);
 
         // Profiles use actual render coords so collision detection matches real ink positions.
         const profiles = geom.lines.map((ln, j) =>
@@ -2286,15 +2346,23 @@ function layoutDocument(fontInfo, doc, widthPt, p, cache) {
     // lax: anchor elements, pooled by mark identity so reflows re-place the
     // same element (deep links and card joins keep their targets). The begin
     // side carries the page-wide id the cross-links use.
+    // (lax: a footnote reference is pooled the same way, under its own
+    // class and id — fn-ref-<k> — so a page can join a sidenote to it.)
     const anchorEl = (m) => {
-        const key = `${m.n}:${m.side}`;
+        const key = anchorKey(m);
         let a = dom.anchors.get(key);
         if (!a) {
             a = document.createElement('span');
-            a.className = 'latex-anchor';
-            a.dataset.mark = String(m.n);
-            a.dataset.side = m.side;
-            if (m.side === 'b') a.id = `m${m.n}`;
+            if (m.fn) {
+                a.className = 'latex-anchor latex-fnref';
+                a.dataset.footnote = String(m.n);
+                a.id = `fn-ref-${m.n}`;
+            } else {
+                a.className = 'latex-anchor';
+                a.dataset.mark = String(m.n);
+                a.dataset.side = m.side;
+                if (m.side === 'b') a.id = `m${m.n}`;
+            }
             dom.anchors.set(key, a);
         }
         return a;
@@ -2356,6 +2424,14 @@ function layoutDocument(fontInfo, doc, widthPt, p, cache) {
         s.svg.style.marginTop = '';
         if (s.frame) s.frame.style.marginTop = '';
         mount.style.marginTop = margin ? `${margin}px` : '';
+        // lax: a footnote's segment and the rule in front of the first one
+        // are named for the page (segmentation is width-independent, so a
+        // segment's element keeps its role across reflows).
+        if (L.seg.footnote) {
+            mount.classList.add('latex-footnote');
+            mount.dataset.footnote = String(L.seg.footnote);
+        }
+        if (L.seg.footnoteRule) mount.classList.add('latex-footnote-rule');
         // lax: stream-marker anchors sit in flow between the mounts. They are
         // zero-size and margin-free, so the next mount's collapsed margin is
         // exactly what it was without them.
@@ -2416,7 +2492,7 @@ function placeAnchors(cache) {
         if (!L.anchors || !L.anchors.length) return;
         const svgBox = dom.segs[i].svg.getBoundingClientRect();
         for (const m of L.anchors) {
-            const a = dom.anchors.get(`${m.n}:${m.side}`);
+            const a = dom.anchors.get(anchorKey(m));
             if (!a) continue;
             a.style.position = 'absolute';
             a.style.left = `${svgBox.left - rootBox.left + m.x}px`;
@@ -2531,7 +2607,7 @@ function unboxPresetParagraph(para) {
     for (let i = 0; i < nodes.length; i++) {
         const n = nodes[i];
         if (n.type === 'vlist') { if (vi >= 0) return false; vi = i; continue; }
-        if (n.type === 'glue' || n.type === 'kern' || n.type === 'penalty' || n.type === 'mark' || n.type === 'local_par') continue;
+        if (n.type === 'glue' || n.type === 'kern' || n.type === 'penalty' || n.type === 'mark' || n.type === 'fnref' || n.type === 'local_par') continue;
         if (n.type === 'hlist' && !(n.children && n.children.length)) continue;   // the \parindent box
         return false;
     }
@@ -2778,13 +2854,15 @@ async function initBlock(el) {
     // holdPaint (lax): no segment paints — not the first paint below, not the
     // IntersectionObserver's, not a resize's — until the faces have settled.
     const cache = { bcs: null, dom: null, layout: null, stats: null, holdPaint: true };  // bcs: Map(paraIdx → break candidates), built lazily
-    const data  = { doc, fontInfo, lastWidth: widthPt, lastAlign: params.align, params, cache, painted: false };
+    // lax: the sidenote measure, if the page has already set one.
+    const fnWidthPt = footnoteWidthFromEl(el);
+    const data  = { doc, fontInfo, lastWidth: widthPt, lastAlign: params.align, lastFnWidth: fnWidthPt, params, cache, painted: false };
     blockData.set(el, data);
     // Layout first (this sets the svg's final height), then decide from the
     // block's resulting position whether to paint now or on approach. Blocks
     // are initialised top to bottom, so earlier blocks already have their
     // final heights when later ones measure their distance to the viewport.
-    el.replaceChildren(layoutDocument(fontInfo, doc, widthPt, params, cache));
+    el.replaceChildren(layoutDocument(fontInfo, doc, widthPt, { ...params, footnoteWidthPt: fnWidthPt }, cache));
     const t3 = performance.now();
     // lax: the block now has its final height (the segments' <svg>s are
     // sized, and empty). Hold the first paint until the faces have arrived
@@ -2857,7 +2935,24 @@ document.addEventListener('DOMContentLoaded', init);
 
 // lax: the fixed-schema decoder, exposed for the site's equivalence tests
 // (test/latex-decode.test.ts proves it against protobuf.js) and for console
-// debugging; nothing on the page depends on this surface.
-if (typeof window !== 'undefined') window.laxLatexViewer = { decodeBlock };
+// debugging, with the segmentation and the anchor walk beside it for the
+// same tests. Two calls are for a page that mounts segments elsewhere
+// (footnotes as sidenotes): `reflow(el)` re-lays out a painted block if
+// its width, alignment, or sidenote measure changed (reflowBlock's own
+// test) and says whether it did; `paint(el)` paints whatever of the block
+// is near the viewport and still unpainted or dirty — a segment the page
+// has just moved from the end of the document to beside its reference,
+// which the re-layout's own pass found far off screen.
+if (typeof window !== 'undefined') window.laxLatexViewer = {
+    decodeBlock, segmentsOf, containsMark, anchorSink, renderNodes, useGlyphMetrics,
+    reflow(el) {
+        const data = blockData.get(el);
+        return Boolean(data && data.painted && reflowBlock(el));
+    },
+    paint(el) {
+        const data = blockData.get(el);
+        return data && data.painted ? paintVisibleNow(data.fontInfo, data.cache) : 0;
+    },
+};
 
 })();

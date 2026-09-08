@@ -50,6 +50,10 @@ describe("the reflow paper page", () => {
     expect(html).not.toContain("data-nodelist-src");
     expect(html).toContain('<ol class="manuscript-rail" id="manuscript-rail">\n<li class="manuscript-card');
     expect(html).toContain('"marks":[{"n":1');
+    // The footnote card the reflow script clones a sidenote from, once per
+    // footnote the viewer reveals; the printed surface has no sidenotes.
+    expect(html).toContain('<template id="manuscript-footnote-card"><li class="manuscript-card manuscript-footnote"><div class="manuscript-footnote-body"></div></li></template>');
+    expect(html.indexOf("manuscript-footnote-card")).toBeLessThan(html.indexOf('id="manuscript-pdf"'));
     // One card per mark on each surface, the reflow set beside the passages
     // and the printed set beside the pages; the `m<n>` ids stay the text's.
     for (const mark of fixtureRecord.marks) {
@@ -122,6 +126,7 @@ describe("the reflow paper page", () => {
     const html = fs.readFileSync(path.join(root, "lax-21", "paper.html"), "utf8");
     expect(html).not.toContain("latex-block");
     expect(html).not.toContain("manuscript-reflow");
+    expect(html).not.toContain("manuscript-footnote");
     expect(html).not.toContain("data-pdf-deferred");
     expect(html).toContain('<ol class="manuscript-rail" id="manuscript-rail">\n<li class="manuscript-card');
     expect(html).toContain('id="m1" data-mark="1"');

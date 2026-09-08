@@ -9,7 +9,11 @@
 // stream positions (so every existing `paper.html#m<n>` link lands on the
 // passage), and the cards join those anchors (assets/manuscript-reflow.js).
 // The pdf.js surface stays on the page as the "as printed" view behind a
-// toggle, loading only when first shown.
+// toggle, loading only when first shown. The paper's footnotes join the
+// same rail as sidenotes: the viewer emits each footnote's text as its own
+// segment (an endnote) and its reference point as an `fn-ref-<k>` anchor,
+// and the script lifts the segment into a footnote card it clones from the
+// template shipped here, so the markup stays this generator's.
 
 import { siteAssetVersion } from "../assets.js";
 import { attr, code, esc, page, plural, proofBadge, typeBadge } from "../html.js";
@@ -206,7 +210,8 @@ const REFLOW_NOTICE = `<footer class="manuscript-reflow-notice">Rendered with <a
  * printed, which is what the page opens on, and behind the switch the
  * reflow surface — the viewer's schema and font-map islands, one
  * `.latex-block` per block (embedded, or fetched past the embed budget),
- * and the cards rail its anchors join. */
+ * the cards rail its anchors join, and the template the script clones a
+ * footnote's sidenote card from (one per footnote the viewer reveals). */
 function reflowBody(cards: string[], pdfCards: string[], pages: string[], web: PaperWebPage): string {
   const blocks = web.blocks.map((block) =>
     "b64" in block
@@ -225,6 +230,7 @@ ${REFLOW_NOTICE}
 ${cards.join("\n")}
 </ol>
 <svg class="manuscript-links" id="manuscript-reflow-links" aria-hidden="true"></svg>
+<template id="manuscript-footnote-card"><li class="manuscript-card manuscript-footnote"><div class="manuscript-footnote-body"></div></li></template>
 </div>
 <div class="manuscript-pdf" id="manuscript-pdf">
 <div class="manuscript-body">

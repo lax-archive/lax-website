@@ -150,6 +150,61 @@ describe("the viewer's fixed-schema decoder", () => {
     expect(decoded.paragraphs[0].nodes[0]).toMatchObject({ type: "glyph", char: 65, font: 1, metrics: 1 });
   });
 
+  // The viewer's footnote wiring over that block (modification 12): the
+  // segmentation keeps each footnote's paragraphs as a segment of their own
+  // and carries a stream-level reference as a pending anchor, and the
+  // anchor walk records an in-paragraph reference at the pen position after
+  // the glyph before it — no ink, no advance.
+  it("segments footnotes apart and records their reference points as anchors", () => {
+    const viewer = viewerContext().window.laxLatexViewer;
+    const doc = viewer.decodeBlock(new Uint8Array(Buffer.from(FOOTNOTE_BLOCK_B64, "base64")));
+    const { segs, trailingMarkers } = viewer.segmentsOf(doc);
+    expect(segs.map((seg: any) => [seg.kind, seg.footnote, seg.items.map((item: any) => item.index)])).toEqual([
+      ["text", undefined, [1]], ["text", 1, [2]], ["text", 2, [3]],
+    ]);
+    // The \thanks reference ahead of the body: an anchor in front of the
+    // first segment, keyed by the footnote.
+    expect(segs[0].markersBefore).toEqual([{ fn: true, n: 2 }]);
+    expect(segs[1].markersBefore).toEqual([]);
+    expect(trailingMarkers).toEqual([]);
+    expect(segs.some((seg: any) => seg.footnoteRule)).toBe(false);
+    // The in-paragraph reference: the gate sees it, the walk records it
+    // after the "A" (its width from the interned metrics), and nothing
+    // else is recorded for the footnote paragraphs.
+    expect(viewer.containsMark(doc.paragraphs[0].nodes)).toBe(true);
+    expect(viewer.containsMark(doc.paragraphs[1].nodes)).toBe(false);
+    viewer.useGlyphMetrics(doc.glyph_metrics);
+    const anchors: any[] = [];
+    const end = viewer.renderNodes({}, viewer.anchorSink(anchors), doc.paragraphs[0].nodes, 0, 30);
+    const glyphWidthPx = doc.glyph_metrics[0].width * 2 / 65536;
+    expect(anchors).toEqual([{ fn: true, n: 1, x: glyphWidthPx, y: 30 }]);
+    expect(end).toBe(glyphWidthPx);   // the reference advanced the pen by nothing
+  });
+
+  it("names the rule display in front of the first footnote", () => {
+    const viewer = viewerContext().window.laxLatexViewer;
+    // A body paragraph, then the footnote rule — a vertical-mode \hrule
+    // serialized as a display whose box holds the one rule — and the
+    // footnote; the shape the encoder emits, in miniature.
+    const rule = { type: "hlist", children: [{ type: "rule", width: 5898240, height: 26214, depth: 0 }] };
+    const doc = {
+      paragraphs: [{ nodes: [] }, { nodes: [], footnote: 1 }],
+      content: [
+        { kind: "paragraph", para: 1 },
+        { kind: "vspace", amount: 65536 },
+        { kind: "display", box: rule },
+        { kind: "paragraph", para: 2 },
+      ],
+    };
+    const { segs } = viewer.segmentsOf(doc);
+    expect(segs.map((seg: any) => [seg.kind, seg.footnote, seg.footnoteRule])).toEqual([
+      ["text", undefined, undefined], ["display", undefined, true], ["text", 1, undefined],
+    ]);
+    // A rule elsewhere — no footnote after it — is not the footnote rule.
+    const other = viewer.segmentsOf({ ...doc, content: doc.content.slice(0, 3) });
+    expect(other.segs.some((seg: any) => seg.footnoteRule)).toBe(false);
+  });
+
   it("leaves width absent for a bundle sealed before the field existed", () => {
     // Old bundles must keep rendering: the fixture's paragraphs carry no
     // field 7, and the decoder reports it as absent rather than 0.
