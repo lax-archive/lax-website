@@ -346,8 +346,8 @@ describe("ORCID account header", () => {
     expect(request?.urls).toEqual([endorsed, flagged, pending]);
     expect(request?.viewer_orcid).toBe("0000-0002-1825-0097");
     expect(fx.conceptBadges.map((badge) => ({ hidden: badge.hidden, className: badge.className, text: badge.textContent }))).toEqual([
-      { hidden: false, className: "concept-review-badge endorsed", text: "✓" },
-      { hidden: false, className: "concept-review-badge endorsed", text: "✓" },
+      { hidden: false, className: "concept-review-badge endorsed", text: "🥳" },
+      { hidden: false, className: "concept-review-badge endorsed", text: "🥳" },
       { hidden: false, className: "concept-review-badge flagged", text: "⚑" },
       { hidden: false, className: "concept-review-badge pending", text: "" },
     ]);

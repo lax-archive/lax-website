@@ -15,9 +15,10 @@ function canonicalConceptURLs(pathnames: string[]): string[] {
   return [...new Set(pathnames.map(canonicalThreadUrl))];
 }
 
-/** Viewer-specific progress for the concepts listed in a submission. */
+/** Viewer-specific progress for the non-lemma concepts listed in a submission. */
 export function conceptReviewProgress(pathnames: string[]): string {
   const urls = canonicalConceptURLs(pathnames);
+  if (!urls.length) return "";
   return `<div class="concept-review-progress" data-concept-review-progress data-concept-review-urls="${attr(JSON.stringify(urls))}" hidden>
 <div class="concept-review-progress-heading"><span>Review progress</span><span data-concept-review-progress-label></span></div>
 <div class="concept-review-progress-track" data-concept-review-progress-track role="img"></div>
@@ -70,7 +71,7 @@ export function pageReactions(pathname: string, options: PageReviewOptions = {})
 <div class="page-reactions-line">
 <div class="page-reactions-actions">
 <div class="page-reaction-control">
-<button class="page-reaction-button" type="button" data-reaction="endorse" aria-pressed="false" title="Say that this ${target} is correct"><span class="page-reaction-icon" aria-hidden="true">✅</span><span>Endorse</span></button>
+<button class="page-reaction-button" type="button" data-reaction="endorse" aria-pressed="false" title="Say that this ${target} is correct"><span class="page-reaction-icon" aria-hidden="true">🥳</span><span>Endorse</span></button>
 <button class="page-reaction-voters" type="button" data-reaction-voters="endorse" aria-expanded="false" aria-controls="page-reaction-voters-endorse"><strong data-reaction-count="endorse">0</strong><span class="visually-hidden">Show people who endorse this ${target}</span></button>
 <div class="page-reaction-voters-popover" id="page-reaction-voters-endorse" data-reaction-voters-popover="endorse" hidden><p data-reaction-empty>No public endorsements yet.</p><ul></ul></div>
 </div>
