@@ -26,7 +26,8 @@ interface SourceLinkReplacement {
 
 export type SourceIdentifierHref = (identifier: string) => string | undefined;
 
-const ARCHIVE_IDENTIFIER = /^Lax\d+(?:Proofs)?(?:\.[A-Za-z_][A-Za-z0-9_']*)*/;
+const LEAN_IDENTIFIER = /^[\p{L}_][\p{L}\p{N}\p{M}_']*(?:\.[\p{L}_][\p{L}\p{N}\p{M}_']*)*/u;
+const IDENTIFIER_START = /[\p{L}_]/u;
 const IDENTIFIER_BOUNDARY = /[\p{L}\p{N}\p{M}_'.]/u;
 
 function escapedAt(source: string, index: number): boolean {
@@ -192,11 +193,11 @@ function maskSourceLinks(source: string, hrefForIdentifier?: SourceIdentifierHre
     }
 
     const previous = source[index - 1];
-    if (source[index] !== "L" || (previous !== undefined && IDENTIFIER_BOUNDARY.test(previous))) {
+    if (!IDENTIFIER_START.test(source[index]!) || (previous !== undefined && IDENTIFIER_BOUNDARY.test(previous))) {
       index += 1;
       continue;
     }
-    const identifier = ARCHIVE_IDENTIFIER.exec(source.slice(index))?.[0];
+    const identifier = LEAN_IDENTIFIER.exec(source.slice(index))?.[0];
     const next = identifier === undefined ? undefined : source[index + identifier.length];
     if (!identifier || (next !== undefined && IDENTIFIER_BOUNDARY.test(next))) {
       index += 1;

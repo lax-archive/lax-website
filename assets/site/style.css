@@ -1274,15 +1274,12 @@ body.sidebar-resizing #content-shell{ transition: none; }
 
 .inline-contract-table .lean-identifier-link{
   color: inherit;
-  text-decoration: underline;
-  text-decoration-color: var(--neutral-stroke);
-  text-underline-offset: 0.14em;
+  text-decoration: none;
 }
 
 .inline-contract-table .lean-identifier-link:hover,
 .inline-contract-table .lean-identifier-link:focus-visible{
   color: var(--link);
-  text-decoration-color: currentColor;
 }
 
 .inline-contract-table .lean-identifier-link:focus-visible{

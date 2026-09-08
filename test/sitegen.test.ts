@@ -1323,10 +1323,17 @@ end Lax2.C`;
     authored[0]!.output!.concepts[1]!.sourceText = [
       "import Lax2.C",
       "#check Lax2.C.truth",
+      "axiom local_truth : True",
       "-- Lax2.C.truth is prose here",
       'def label := "Lax2.C"',
       "#check Lax999.Unknown",
     ].join("\n");
+    authored[0]!.output!.concepts[1]!.statements = [{
+      id: "Lax2.D.local_truth",
+      signature: "local_truth : True",
+      startLine: 3,
+      endLine: 3,
+    }];
 
     const root = tmpDir("lax-site-source-links-");
     await generateSite(authored, root);
@@ -1336,7 +1343,8 @@ end Lax2.C`;
 
     expect(source).toContain('<a class="lean-identifier-link" href="../Lax2/Lax2.C.html">Lax2.C</a>');
     expect(source).toContain('<a class="lean-identifier-link" href="../Lax2/Lax2.C.html#s-Lax2.C.truth">Lax2.C.truth</a>');
-    expect(source.match(/class="lean-identifier-link"/g)).toHaveLength(2);
+    expect(source).toContain('<a class="lean-identifier-link" href="../Lax2/Lax2.D.html#s-Lax2.D.local_truth">local_truth</a>');
+    expect(source.match(/class="lean-identifier-link"/g)).toHaveLength(3);
     expect(source).toContain("-- Lax2.C.truth is prose here");
     expect(source).toContain("&quot;Lax2.C&quot;");
     expect(source).toContain("Lax999.Unknown");
