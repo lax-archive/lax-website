@@ -1378,6 +1378,38 @@ end Lax2.C`;
     expect(sidebar).toContain('<option value="proof">proof</option>');
   });
 
+  it("keeps lemma review badges but excludes local and referenced lemmas from progress", async () => {
+    const values = graphSubmissions();
+    const externalLemma = values[1]!.output!.concepts.find((concept) => concept.id === "Lax3.Middle")!;
+    const localLemma = values[2]!.output!.concepts.find((concept) => concept.id === "Lax4.Aux")!;
+    externalLemma.type = "lemma";
+    localLemma.type = "lemma";
+    const root = tmpDir("lax-site-review-progress-lemmas-");
+    await generateSite(values, root);
+
+    const html = fs.readFileSync(path.join(root, "Lax4", "index.html"), "utf8");
+    const progress = html.match(/<div class="concept-review-progress"[^>]+>/)?.[0] ?? "";
+    expect(progress).toContain("Lax4.Top.html");
+    expect(progress).not.toContain("Lax4.Aux.html");
+    expect(progress).not.toContain("Lax3.Middle.html");
+    expect(html).toContain('data-concept-review-url="https://laxarchive.org/Lax4/Lax4.Aux.html" hidden');
+    expect(html).toContain('data-concept-review-url="https://laxarchive.org/Lax3/Lax3.Middle.html" hidden');
+    expect(html).toMatch(/data-submission-concept-urls="[^"]*Lax4\.Aux\.html/);
+    expect(html).toMatch(/data-submission-concept-urls="[^"]*Lax3\.Middle\.html/);
+  });
+
+  it("omits review progress when a submission lists only lemmas", async () => {
+    const values = submissions();
+    values[0]!.output!.concepts.forEach((concept) => { concept.type = "lemma"; });
+    const root = tmpDir("lax-site-review-progress-only-lemmas-");
+    await generateSite(values, root);
+
+    const html = fs.readFileSync(path.join(root, "Lax2", "index.html"), "utf8");
+    expect(html).not.toContain("data-concept-review-progress");
+    expect(html).toContain('data-concept-review-url="https://laxarchive.org/Lax2/Lax2.C.html" hidden');
+    expect(html).toContain('data-concept-review-url="https://laxarchive.org/Lax2/Lax2.D.html" hidden');
+  });
+
   it("compiles references instead of printing BibTeX, keeping unparseable entries raw", async () => {
     const authored = submissions();
     authored[0]!.output!.manifest.bibEntries.splice(1, 0, String.raw`@article{math-ref,

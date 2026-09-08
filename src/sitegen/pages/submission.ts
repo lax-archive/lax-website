@@ -67,6 +67,10 @@ function conceptPath({ submission, concept }: LocatedConcept): string {
   return `${submission.record.id}/${concept.id}.html`;
 }
 
+function countsTowardReviewProgress({ concept }: LocatedConcept): boolean {
+  return concept.type?.trim().toLowerCase() !== "lemma";
+}
+
 function usedConceptRows(ctx: PageContext, concepts: LocatedConcept[]): string {
   if (!concepts.length) return "";
   return `<button class="concept-used-toggle" type="button" data-used-concepts-toggle aria-controls="used-concepts-list" aria-expanded="false">Show referenced concepts</button>
@@ -107,10 +111,11 @@ ${discussion(`${record.id}/`)}`;
   const graphs = pageGraphData(ctx, submission, related);
   const usedConcepts = usedExternalConcepts(ctx, submission);
   const reviewedConceptPaths = submissionReviewConcepts(ctx, submission).map(conceptPath);
-  const listedConceptPaths = [
-    ...output.concepts.map((concept) => `${record.id}/${concept.id}.html`),
-    ...usedConcepts.map(conceptPath),
+  const listedConcepts: LocatedConcept[] = [
+    ...output.concepts.map((concept) => ({ submission, output, concept })),
+    ...usedConcepts,
   ];
+  const progressConceptPaths = listedConcepts.filter(countsTowardReviewProgress).map(conceptPath);
   const externalConcepts = usedConceptRows(ctx, usedConcepts);
   const conceptRows = output.concepts.map((concept) => {
     const provenCount = concept.statements.filter((s) => proven.has(s.id)).length;
@@ -142,7 +147,7 @@ ${output.abstract.trim() ? paperAbstract(ctx.markdown.renderAuthorProse(output.a
 ${paperSection(ctx, submission)}
 <section class="page-section"><h3 class="section-title">Concepts</h3>
 ${output.concepts.length || usedConcepts.length ? `<div class="concept-list-box">
-${conceptReviewProgress(listedConceptPaths)}
+${conceptReviewProgress(progressConceptPaths)}
 ${output.concepts.length ? `<ul class="concept-list">
 ${conceptRows.join("\n")}
 </ul>` : ""}

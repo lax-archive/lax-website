@@ -15,9 +15,10 @@ function canonicalConceptURLs(pathnames: string[]): string[] {
   return [...new Set(pathnames.map(canonicalThreadUrl))];
 }
 
-/** Viewer-specific progress for the concepts listed in a submission. */
+/** Viewer-specific progress for the non-lemma concepts listed in a submission. */
 export function conceptReviewProgress(pathnames: string[]): string {
   const urls = canonicalConceptURLs(pathnames);
+  if (!urls.length) return "";
   return `<div class="concept-review-progress" data-concept-review-progress data-concept-review-urls="${attr(JSON.stringify(urls))}" hidden>
 <div class="concept-review-progress-heading"><span>Review progress</span><span data-concept-review-progress-label></span></div>
 <div class="concept-review-progress-track" data-concept-review-progress-track role="img"></div>
