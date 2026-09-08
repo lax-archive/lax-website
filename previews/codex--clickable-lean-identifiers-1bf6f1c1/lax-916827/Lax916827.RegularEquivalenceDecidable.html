@@ -7,7 +7,7 @@
 <title>Decidable equivalence of regular functions — Lax916827.RegularEquivalenceDecidable</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=f540aa1c31b2">
+<link rel="stylesheet" href="../assets/style.css?v=b78d6b17a06b">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -210,7 +210,7 @@ reverse and map duplicate by two constructions with triples of states.</p>
 <tr id="L31" class=""><td class="line-num"><a href="#L31">31</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-132576/Lax132576.TransducerCodes.html">Lax132576.TransducerCodes</a> <a class="lean-identifier-link" href="../lax-916827/Lax916827.TwoWayCodes.html">Lax916827.TwoWayCodes</a></span></td></tr>
 <tr id="L32" class=""><td class="line-num"><a href="#L32">32</a></td><td class="line-code"> </td></tr>
 <tr id="L33" class="statement-line line-proven"><td class="line-num"><a href="#L33">33</a></td><td class="line-code"><span class="statement-anchor" id="s-Lax916827.RegularEquivalenceDecidable.decidable_twoWayCodeRel_eq"></span><span style="color:#6A737D">/-- Equivalence of two total coded two-way transducers is decidable. -/</span></td></tr>
-<tr id="L34" class="statement-line line-proven"><td class="line-num"><a href="#L34">34</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> decidable_twoWayCodeRel_eq</span><span style="color:#24292E"> :</span></td></tr>
+<tr id="L34" class="statement-line line-proven"><td class="line-num"><a href="#L34">34</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> <a class="lean-identifier-link" href="../lax-916827/Lax916827.RegularEquivalenceDecidable.html#s-Lax916827.RegularEquivalenceDecidable.decidable_twoWayCodeRel_eq">decidable_twoWayCodeRel_eq</a></span><span style="color:#24292E"> :</span></td></tr>
 <tr id="L35" class="statement-line line-proven"><td class="line-num"><a href="#L35">35</a></td><td class="line-code"><span style="color:#24292E">    DecidableUnderPromise</span></td></tr>
 <tr id="L36" class="statement-line line-proven"><td class="line-num"><a href="#L36">36</a></td><td class="line-code"><span style="color:#24292E">      (</span><span style="color:#D73A49">fun</span><span style="color:#24292E"> p : TwoWayCode × TwoWayCode =&gt; TwoWayCodeTotal p.</span><span style="color:#005CC5">1</span><span style="color:#24292E"> ∧ TwoWayCodeTotal p.</span><span style="color:#005CC5">2</span><span style="color:#24292E">)</span></td></tr>
 <tr id="L37" class="statement-line line-proven"><td class="line-num"><a href="#L37">37</a></td><td class="line-code"><span style="color:#24292E">      (</span><span style="color:#D73A49">fun</span><span style="color:#24292E"> p =&gt; twoWayCodeRel p.</span><span style="color:#005CC5">1</span><span style="color:#24292E"> = twoWayCodeRel p.</span><span style="color:#005CC5">2</span><span style="color:#24292E">)</span></td></tr>

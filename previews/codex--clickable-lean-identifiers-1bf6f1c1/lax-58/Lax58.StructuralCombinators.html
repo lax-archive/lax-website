@@ -7,7 +7,7 @@
 <title>Certified structural presentation combinators — Lax58.StructuralCombinators</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=f540aa1c31b2">
+<link rel="stylesheet" href="../assets/style.css?v=b78d6b17a06b">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -238,7 +238,7 @@ operations, without exposing numeric tags or binary-pair nesting.</p>
 <tr id="L49" class=""><td class="line-num"><a href="#L49">49</a></td><td class="line-code"><span style="color:#24292E">  .pair (.nat (constructorNameCode name)) (fields xs)</span></td></tr>
 <tr id="L50" class=""><td class="line-num"><a href="#L50">50</a></td><td class="line-code"> </td></tr>
 <tr id="L51" class="statement-line line-proven"><td class="line-num"><a href="#L51">51</a></td><td class="line-code"><span class="statement-anchor" id="s-Lax58.StructuralCombinators.Raw.constructor_eq_iff"></span><span style="color:#6A737D">/-- Named constructors agree exactly when their names and ordered fields agree. -/</span></td></tr>
-<tr id="L52" class="statement-line line-proven"><td class="line-num"><a href="#L52">52</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> constructor_eq_iff</span><span style="color:#24292E"> {name₁ name₂ : String}</span></td></tr>
+<tr id="L52" class="statement-line line-proven"><td class="line-num"><a href="#L52">52</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> <a class="lean-identifier-link" href="../lax-58/Lax58.StructuralCombinators.html#s-Lax58.StructuralCombinators.Raw.constructor_eq_iff">constructor_eq_iff</a></span><span style="color:#24292E"> {name₁ name₂ : String}</span></td></tr>
 <tr id="L53" class="statement-line line-proven"><td class="line-num"><a href="#L53">53</a></td><td class="line-code"><span style="color:#24292E">    {xs₁ xs₂ : List StructuralPresentation.Raw} :</span></td></tr>
 <tr id="L54" class="statement-line line-proven"><td class="line-num"><a href="#L54">54</a></td><td class="line-code"><span style="color:#24292E">    constructor name₁ xs₁ = constructor name₂ xs₂ ↔ name₁ = name₂ ∧ xs₁ = xs₂</span></td></tr>
 <tr id="L55" class=""><td class="line-num"><a href="#L55">55</a></td><td class="line-code"> </td></tr>
@@ -301,9 +301,9 @@ operations, without exposing numeric tags or binary-pair nesting.</p>
 <tr id="L112" class=""><td class="line-num"><a href="#L112">112</a></td><td class="line-code"><span style="color:#24292E">    (StructuralCombinators.list P).structuralSize xs =</span></td></tr>
 <tr id="L113" class=""><td class="line-num"><a href="#L113">113</a></td><td class="line-code"><span style="color:#005CC5">      1</span><span style="color:#24292E"> + xs.length + (xs.map P.structuralSize).sum</span></td></tr>
 <tr id="L114" class=""><td class="line-num"><a href="#L114">114</a></td><td class="line-code"> </td></tr>
-<tr id="L115" class="statement-line line-proven"><td class="line-num"><a href="#L115">115</a></td><td class="line-code"><span class="statement-anchor" id="s-Lax58.StructuralCombinators.lawful"></span><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> lawful</span><span style="color:#24292E"> : Lawful.{u, v}</span></td></tr>
+<tr id="L115" class="statement-line line-proven"><td class="line-num"><a href="#L115">115</a></td><td class="line-code"><span class="statement-anchor" id="s-Lax58.StructuralCombinators.lawful"></span><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> <a class="lean-identifier-link" href="../lax-58/Lax58.StructuralCombinators.html#s-Lax58.StructuralCombinators.lawful">lawful</a></span><span style="color:#24292E"> : Lawful.{u, v}</span></td></tr>
 <tr id="L116" class=""><td class="line-num"><a href="#L116">116</a></td><td class="line-code"> </td></tr>
-<tr id="L117" class="statement-line line-proven"><td class="line-num"><a href="#L117">117</a></td><td class="line-code"><span class="statement-anchor" id="s-Lax58.StructuralCombinators.sizeLaws"></span><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> sizeLaws</span><span style="color:#24292E"> : SizeLaws.{u, v}</span></td></tr>
+<tr id="L117" class="statement-line line-proven"><td class="line-num"><a href="#L117">117</a></td><td class="line-code"><span class="statement-anchor" id="s-Lax58.StructuralCombinators.sizeLaws"></span><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> <a class="lean-identifier-link" href="../lax-58/Lax58.StructuralCombinators.html#s-Lax58.StructuralCombinators.sizeLaws">sizeLaws</a></span><span style="color:#24292E"> : SizeLaws.{u, v}</span></td></tr>
 <tr id="L118" class=""><td class="line-num"><a href="#L118">118</a></td><td class="line-code"> </td></tr>
 <tr id="L119" class=""><td class="line-num"><a href="#L119">119</a></td><td class="line-code"><span style="color:#6A737D">/-- Evidence that a presentation was obtained solely from the fixed primitive</span></td></tr>
 <tr id="L120" class=""><td class="line-num"><a href="#L120">120</a></td><td class="line-code"><span style="color:#6A737D">and combinator vocabulary. Unlike an unconstrained presentation typeclass,</span></td></tr>

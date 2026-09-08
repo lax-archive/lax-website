@@ -7,7 +7,7 @@
 <title>Courcelle's theorem on a word RAM — Lax11.Courcelle</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=f540aa1c31b2">
+<link rel="stylesheet" href="../assets/style.css?v=b78d6b17a06b">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -242,7 +242,7 @@ pairing the two notions are matched to.</p>
 <tr id="L104" class="statement-line line-proven"><td class="line-num"><a href="#L104">104</a></td><td class="line-code"><span style="color:#6A737D">the program halts within a constant multiple of the length of the input,</span></td></tr>
 <tr id="L105" class="statement-line line-proven"><td class="line-num"><a href="#L105">105</a></td><td class="line-code"><span style="color:#6A737D">having written `1` if the sentence holds in the graph and `0`</span></td></tr>
 <tr id="L106" class="statement-line line-proven"><td class="line-num"><a href="#L106">106</a></td><td class="line-code"><span style="color:#6A737D">otherwise. -/</span></td></tr>
-<tr id="L107" class="statement-line line-proven"><td class="line-num"><a href="#L107">107</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> exists_linearTime_program_modelChecking</span><span style="color:#24292E"> :</span></td></tr>
+<tr id="L107" class="statement-line line-proven"><td class="line-num"><a href="#L107">107</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> <a class="lean-identifier-link" href="../lax-11/Lax11.Courcelle.html#s-Lax11.Courcelle.exists_linearTime_program_modelChecking">exists_linearTime_program_modelChecking</a></span><span style="color:#24292E"> :</span></td></tr>
 <tr id="L108" class="statement-line line-proven"><td class="line-num"><a href="#L108">108</a></td><td class="line-code"><span style="color:#24292E">    ∀ (φ : MSO </span><span style="color:#005CC5">0</span><span style="color:#005CC5"> 0</span><span style="color:#24292E">) (k : ℕ),</span></td></tr>
 <tr id="L109" class="statement-line line-proven"><td class="line-num"><a href="#L109">109</a></td><td class="line-code"><span style="color:#24292E">      ∃ (p : Program) (c : ℕ), ∀ (n : ℕ) (G : SimpleGraph (Fin n)) (w : ℕ),</span></td></tr>
 <tr id="L110" class="statement-line line-proven"><td class="line-num"><a href="#L110">110</a></td><td class="line-code"><span style="color:#24292E">        ComputesInTime w p</span></td></tr>

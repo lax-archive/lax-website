@@ -7,7 +7,7 @@
 <title>Distinguished structural inputs for tree-automaton evaluation — Lax53.TreeModelCheckingEncoding</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=f540aa1c31b2">
+<link rel="stylesheet" href="../assets/style.css?v=b78d6b17a06b">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -246,7 +246,7 @@ specialized evaluator layout is part of this concept.</p>
 <tr id="L95" class=""><td class="line-num"><a href="#L95">95</a></td><td class="line-code"><span style="color:#24292E">  (encodeRaw (automatonTreeRaw M t)).toInput</span></td></tr>
 <tr id="L96" class=""><td class="line-num"><a href="#L96">96</a></td><td class="line-code"> </td></tr>
 <tr id="L97" class="statement-line line-proven"><td class="line-num"><a href="#L97">97</a></td><td class="line-code"><span class="statement-anchor" id="s-Lax53.TreeModelCheckingEncoding.automatonInput_length"></span><span style="color:#6A737D">/-- Exact footprint of the distinguished structural machine input. -/</span></td></tr>
-<tr id="L98" class="statement-line line-proven"><td class="line-num"><a href="#L98">98</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> automatonInput_length</span><span style="color:#24292E"> (M : EncodedAutomaton)</span></td></tr>
+<tr id="L98" class="statement-line line-proven"><td class="line-num"><a href="#L98">98</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> <a class="lean-identifier-link" href="../lax-53/Lax53.TreeModelCheckingEncoding.html#s-Lax53.TreeModelCheckingEncoding.automatonInput_length">automatonInput_length</a></span><span style="color:#24292E"> (M : EncodedAutomaton)</span></td></tr>
 <tr id="L99" class="statement-line line-proven"><td class="line-num"><a href="#L99">99</a></td><td class="line-code"><span style="color:#24292E">    (t : Tree M.</span><span style="color:#005CC5">1</span><span style="color:#24292E">.toRankedAlphabet) :</span></td></tr>
 <tr id="L100" class="statement-line line-proven"><td class="line-num"><a href="#L100">100</a></td><td class="line-code"><span style="color:#24292E">    (automatonInput M t).length = </span><span style="color:#005CC5">3</span><span style="color:#24292E"> * inputStructuralSize M t + </span><span style="color:#005CC5">1</span></td></tr>
 <tr id="L101" class=""><td class="line-num"><a href="#L101">101</a></td><td class="line-code"> </td></tr>

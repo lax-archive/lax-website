@@ -7,7 +7,7 @@
 <title>Length preservation through a typing of the states — Lax132576.LengthPreservingTyping</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=f540aa1c31b2">
+<link rel="stylesheet" href="../assets/style.css?v=b78d6b17a06b">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -230,7 +230,7 @@ state has nonzero type, a run reaching it witnesses the same.</p>
 <tr id="L31" class="statement-line line-proven"><td class="line-num"><a href="#L31">31</a></td><td class="line-code"><span class="statement-anchor" id="s-Lax132576.LengthPreservingTyping.lengthPreserving_iff_typing"></span><span style="color:#6A737D">/-- A function computed by an automaton with output with productive states is length</span></td></tr>
 <tr id="L32" class="statement-line line-proven"><td class="line-num"><a href="#L32">32</a></td><td class="line-code"><span style="color:#6A737D">preserving if and only if the automaton has a typing vanishing on the accepting</span></td></tr>
 <tr id="L33" class="statement-line line-proven"><td class="line-num"><a href="#L33">33</a></td><td class="line-code"><span style="color:#6A737D">states. -/</span></td></tr>
-<tr id="L34" class="statement-line line-proven"><td class="line-num"><a href="#L34">34</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> lengthPreserving_iff_typing</span><span style="color:#24292E"> {A B Q : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">} (M : NFAO A B Q)</span></td></tr>
+<tr id="L34" class="statement-line line-proven"><td class="line-num"><a href="#L34">34</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> <a class="lean-identifier-link" href="../lax-132576/Lax132576.LengthPreservingTyping.html#s-Lax132576.LengthPreservingTyping.lengthPreserving_iff_typing">lengthPreserving_iff_typing</a></span><span style="color:#24292E"> {A B Q : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">} (M : NFAO A B Q)</span></td></tr>
 <tr id="L35" class="statement-line line-proven"><td class="line-num"><a href="#L35">35</a></td><td class="line-code"><span style="color:#24292E">    (hprod : ∀ q, M.Productive q) {f : List A → List B} (hM : ∀ w v, M.rel w v ↔ v = f w) :</span></td></tr>
 <tr id="L36" class="statement-line line-proven"><td class="line-num"><a href="#L36">36</a></td><td class="line-code"><span style="color:#24292E">    LengthPreserving f ↔</span></td></tr>
 <tr id="L37" class="statement-line line-proven"><td class="line-num"><a href="#L37">37</a></td><td class="line-code"><span style="color:#24292E">      ∃ τ : Q → ℤ,</span></td></tr>

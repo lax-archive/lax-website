@@ -7,7 +7,7 @@
 <title>Map lifting preserves decompositions into primes — Lax765601.MapLiftingDecomposition</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=f540aa1c31b2">
+<link rel="stylesheet" href="../assets/style.css?v=b78d6b17a06b">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -196,7 +196,7 @@ all of which is a one-state machine's work.</p>
 <tr id="L31" class=""><td class="line-num"><a href="#L31">31</a></td><td class="line-code"> </td></tr>
 <tr id="L32" class="statement-line line-proven"><td class="line-num"><a href="#L32">32</a></td><td class="line-code"><span class="statement-anchor" id="s-Lax765601.MapLiftingDecomposition.compClosure_mapLift"></span><span style="color:#6A737D">/-- The map lifting of a composition of prime Mealy machines is a composition of</span></td></tr>
 <tr id="L33" class="statement-line line-proven"><td class="line-num"><a href="#L33">33</a></td><td class="line-code"><span style="color:#6A737D">prime Mealy machines. -/</span></td></tr>
-<tr id="L34" class="statement-line line-proven"><td class="line-num"><a href="#L34">34</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> compClosure_mapLift</span><span style="color:#24292E"> {A B : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">} [Finite A] {f : List A → List B}</span></td></tr>
+<tr id="L34" class="statement-line line-proven"><td class="line-num"><a href="#L34">34</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> <a class="lean-identifier-link" href="../lax-765601/Lax765601.MapLiftingDecomposition.html#s-Lax765601.MapLiftingDecomposition.compClosure_mapLift">compClosure_mapLift</a></span><span style="color:#24292E"> {A B : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">} [Finite A] {f : List A → List B}</span></td></tr>
 <tr id="L35" class="statement-line line-proven"><td class="line-num"><a href="#L35">35</a></td><td class="line-code"><span style="color:#24292E">    (hf : CompClosure PrimeMealyFam A B f) :</span></td></tr>
 <tr id="L36" class="statement-line line-proven"><td class="line-num"><a href="#L36">36</a></td><td class="line-code"><span style="color:#24292E">    CompClosure PrimeMealyFam (Option A) (Option B) (mapLift f)</span></td></tr>
 <tr id="L37" class=""><td class="line-num"><a href="#L37">37</a></td><td class="line-code"> </td></tr>

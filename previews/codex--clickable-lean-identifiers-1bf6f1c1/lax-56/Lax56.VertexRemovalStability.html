@@ -7,7 +7,7 @@
 <title>Quantitative vertex-removal Erdős--Simonovits stability for K₆ — Lax56.VertexRemovalStability</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=f540aa1c31b2">
+<link rel="stylesheet" href="../assets/style.css?v=b78d6b17a06b">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -152,7 +152,7 @@ in the paper.</p>
 <tr id="L22" class=""><td class="line-num"><a href="#L22">22</a></td><td class="line-code"><span style="color:#D73A49">noncomputable</span><span style="color:#D73A49"> def</span><span style="color:#6F42C1"> edgeCount</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">*} [Finite V] (G : SimpleGraph V) : ℕ :=</span></td></tr>
 <tr id="L23" class=""><td class="line-num"><a href="#L23">23</a></td><td class="line-code"><span style="color:#24292E">  Nat.card G.edgeSet</span></td></tr>
 <tr id="L24" class=""><td class="line-num"><a href="#L24">24</a></td><td class="line-code"> </td></tr>
-<tr id="L25" class="statement-line line-proven"><td class="line-num"><a href="#L25">25</a></td><td class="line-code"><span class="statement-anchor" id="s-Lax56.VertexRemovalStability.exists_fiveColorable_delete"></span><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> exists_fiveColorable_delete</span></td></tr>
+<tr id="L25" class="statement-line line-proven"><td class="line-num"><a href="#L25">25</a></td><td class="line-code"><span class="statement-anchor" id="s-Lax56.VertexRemovalStability.exists_fiveColorable_delete"></span><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> <a class="lean-identifier-link" href="../lax-56/Lax56.VertexRemovalStability.html#s-Lax56.VertexRemovalStability.exists_fiveColorable_delete">exists_fiveColorable_delete</a></span></td></tr>
 <tr id="L26" class="statement-line line-proven"><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span style="color:#24292E">    {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">*} [Fintype V] (G : SimpleGraph V) (eps : ℝ)</span></td></tr>
 <tr id="L27" class="statement-line line-proven"><td class="line-num"><a href="#L27">27</a></td><td class="line-code"><span style="color:#24292E">    (hepsPos : </span><span style="color:#005CC5">0</span><span style="color:#24292E"> &lt; eps) (hepsSmall : eps &lt; </span><span style="color:#005CC5">1</span><span style="color:#24292E"> / </span><span style="color:#005CC5">3750</span><span style="color:#24292E">)</span></td></tr>
 <tr id="L28" class="statement-line line-proven"><td class="line-num"><a href="#L28">28</a></td><td class="line-code"><span style="color:#24292E">    (hcard : </span><span style="color:#005CC5">20</span><span style="color:#24292E"> ≤ Fintype.card V) (hK6 : G.CliqueFree </span><span style="color:#005CC5">6</span><span style="color:#24292E">)</span></td></tr>

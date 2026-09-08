@@ -7,7 +7,7 @@
 <title>Uniform word-RAM model checking for intrinsic MSO sentences — Lax53.MSOLinearTime</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=f540aa1c31b2">
+<link rel="stylesheet" href="../assets/style.css?v=b78d6b17a06b">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -299,7 +299,7 @@ concept.</p>
 <tr id="L110" class=""><td class="line-num"><a href="#L110">110</a></td><td class="line-code"><span style="color:#24292E">  (encodeRaw (msoTreeRaw alphabet phi t)).toInput</span></td></tr>
 <tr id="L111" class=""><td class="line-num"><a href="#L111">111</a></td><td class="line-code"> </td></tr>
 <tr id="L112" class="statement-line line-proven"><td class="line-num"><a href="#L112">112</a></td><td class="line-code"><span class="statement-anchor" id="s-Lax53.MSOLinearTime.modelCheckingInput_length"></span><span style="color:#6A737D">/-- Exact footprint of the uniform model-checking input. -/</span></td></tr>
-<tr id="L113" class="statement-line line-proven"><td class="line-num"><a href="#L113">113</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> modelCheckingInput_length</span><span style="color:#24292E"> (alphabet : RankedAlphabetCode)</span></td></tr>
+<tr id="L113" class="statement-line line-proven"><td class="line-num"><a href="#L113">113</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> <a class="lean-identifier-link" href="../lax-53/Lax53.MSOLinearTime.html#s-Lax53.MSOLinearTime.modelCheckingInput_length">modelCheckingInput_length</a></span><span style="color:#24292E"> (alphabet : RankedAlphabetCode)</span></td></tr>
 <tr id="L114" class="statement-line line-proven"><td class="line-num"><a href="#L114">114</a></td><td class="line-code"><span style="color:#24292E">    (phi : Sentence (treeSignature alphabet.toRankedAlphabet))</span></td></tr>
 <tr id="L115" class="statement-line line-proven"><td class="line-num"><a href="#L115">115</a></td><td class="line-code"><span style="color:#24292E">    (t : Tree alphabet.toRankedAlphabet) :</span></td></tr>
 <tr id="L116" class="statement-line line-proven"><td class="line-num"><a href="#L116">116</a></td><td class="line-code"><span style="color:#24292E">    (modelCheckingInput alphabet phi t).length =</span></td></tr>
@@ -325,7 +325,7 @@ concept.</p>
 <tr id="L136" class=""><td class="line-num"><a href="#L136">136</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Classical </span><span style="color:#D73A49">in</span></td></tr>
 <tr id="L137" class="statement-line line-proven"><td class="line-num"><a href="#L137">137</a></td><td class="line-code"><span class="statement-anchor" id="s-Lax53.MSOLinearTime.exists_uniform_msoModelChecking"></span><span style="color:#6A737D">/-- A single program handles every alphabet, intrinsic sentence, tree, and</span></td></tr>
 <tr id="L138" class="statement-line line-proven"><td class="line-num"><a href="#L138">138</a></td><td class="line-code"><span style="color:#6A737D">sufficient word width. Formula compilation is part of this measured run. -/</span></td></tr>
-<tr id="L139" class="statement-line line-proven"><td class="line-num"><a href="#L139">139</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> exists_uniform_msoModelChecking</span><span style="color:#24292E"> :</span></td></tr>
+<tr id="L139" class="statement-line line-proven"><td class="line-num"><a href="#L139">139</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> <a class="lean-identifier-link" href="../lax-53/Lax53.MSOLinearTime.html#s-Lax53.MSOLinearTime.exists_uniform_msoModelChecking">exists_uniform_msoModelChecking</a></span><span style="color:#24292E"> :</span></td></tr>
 <tr id="L140" class="statement-line line-proven"><td class="line-num"><a href="#L140">140</a></td><td class="line-code"><span style="color:#24292E">  ∃ timeCoefficient wordCoefficient : Nat → Nat,</span></td></tr>
 <tr id="L141" class="statement-line line-proven"><td class="line-num"><a href="#L141">141</a></td><td class="line-code"><span style="color:#24292E">    Computable timeCoefficient ∧ Computable wordCoefficient ∧</span></td></tr>
 <tr id="L142" class="statement-line line-proven"><td class="line-num"><a href="#L142">142</a></td><td class="line-code"><span style="color:#24292E">    RamComputableWithinUsing modelCheckingPresentation natOutput</span></td></tr>
@@ -360,7 +360,7 @@ concept.</p>
 <tr id="L171" class="statement-line line-proven"><td class="line-num"><a href="#L171">171</a></td><td class="line-code"><span class="statement-anchor" id="s-Lax53.MSOLinearTime.exists_fixed_sentence_modelChecking"></span><span style="color:#6A737D">/-- Once the alphabet and sentence are fixed before program choice, the</span></td></tr>
 <tr id="L172" class="statement-line line-proven"><td class="line-num"><a href="#L172">172</a></td><td class="line-code"><span style="color:#6A737D">specialized program receives only a tree and has linear tree-node time. This</span></td></tr>
 <tr id="L173" class="statement-line line-proven"><td class="line-num"><a href="#L173">173</a></td><td class="line-code"><span style="color:#6A737D">existential statement makes no effective program-generation claim. -/</span></td></tr>
-<tr id="L174" class="statement-line line-proven"><td class="line-num"><a href="#L174">174</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> exists_fixed_sentence_modelChecking</span></td></tr>
+<tr id="L174" class="statement-line line-proven"><td class="line-num"><a href="#L174">174</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> <a class="lean-identifier-link" href="../lax-53/Lax53.MSOLinearTime.html#s-Lax53.MSOLinearTime.exists_fixed_sentence_modelChecking">exists_fixed_sentence_modelChecking</a></span></td></tr>
 <tr id="L175" class="statement-line line-proven"><td class="line-num"><a href="#L175">175</a></td><td class="line-code"><span style="color:#24292E">    (alphabet : RankedAlphabetCode)</span></td></tr>
 <tr id="L176" class="statement-line line-proven"><td class="line-num"><a href="#L176">176</a></td><td class="line-code"><span style="color:#24292E">    (phi : Sentence (treeSignature alphabet.toRankedAlphabet)) :</span></td></tr>
 <tr id="L177" class="statement-line line-proven"><td class="line-num"><a href="#L177">177</a></td><td class="line-code"><span style="color:#24292E">  ∃ timeCoefficient wordCoefficient : Nat,</span></td></tr>

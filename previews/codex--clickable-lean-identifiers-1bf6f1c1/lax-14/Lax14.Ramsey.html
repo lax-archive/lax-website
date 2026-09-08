@@ -7,7 +7,7 @@
 <title>Ramsey's theorem — Lax14.Ramsey</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=f540aa1c31b2">
+<link rel="stylesheet" href="../assets/style.css?v=b78d6b17a06b">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -163,7 +163,7 @@ graph with two colours always leaves a monochromatic clique.</p>
 <tr id="L36" class=""><td class="line-num"><a href="#L36">36</a></td><td class="line-code"> </td></tr>
 <tr id="L37" class="statement-line line-proven"><td class="line-num"><a href="#L37">37</a></td><td class="line-code"><span class="statement-anchor" id="s-Lax14.Ramsey.exists_clique_or_indepSet"></span><span style="color:#6A737D">/-- Ramsey's theorem: a large enough graph contains a clique on `a`</span></td></tr>
 <tr id="L38" class="statement-line line-proven"><td class="line-num"><a href="#L38">38</a></td><td class="line-code"><span style="color:#6A737D">vertices or an independent set on `b` vertices. -/</span></td></tr>
-<tr id="L39" class="statement-line line-proven"><td class="line-num"><a href="#L39">39</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> exists_clique_or_indepSet</span><span style="color:#24292E"> (a b : ℕ) :</span></td></tr>
+<tr id="L39" class="statement-line line-proven"><td class="line-num"><a href="#L39">39</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> <a class="lean-identifier-link" href="../lax-14/Lax14.Ramsey.html#s-Lax14.Ramsey.exists_clique_or_indepSet">exists_clique_or_indepSet</a></span><span style="color:#24292E"> (a b : ℕ) :</span></td></tr>
 <tr id="L40" class="statement-line line-proven"><td class="line-num"><a href="#L40">40</a></td><td class="line-code"><span style="color:#24292E">    ∃ N : ℕ, ∀ (n : ℕ) (G : SimpleGraph (Fin n)), N ≤ n →</span></td></tr>
 <tr id="L41" class="statement-line line-proven"><td class="line-num"><a href="#L41">41</a></td><td class="line-code"><span style="color:#24292E">      (∃ S : Set (Fin n), G.IsClique S ∧ a ≤ S.ncard) ∨</span></td></tr>
 <tr id="L42" class="statement-line line-proven"><td class="line-num"><a href="#L42">42</a></td><td class="line-code"><span style="color:#24292E">      (∃ S : Set (Fin n), G.IsIndepSet S ∧ b ≤ S.ncard)</span></td></tr>

@@ -7,7 +7,7 @@
 <title>First-order model checking on nowhere dense classes in almost linear time — Lax3.ModelChecking</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=f540aa1c31b2">
+<link rel="stylesheet" href="../assets/style.css?v=b78d6b17a06b">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -265,7 +265,7 @@ computation is the main algorithmic weight of the theorem.</p>
 <tr id="L112" class="statement-line line-proven"><td class="line-num"><a href="#L112">112</a></td><td class="line-code"><span style="color:#6A737D">`x` each of whose entries `v` satisfies `c * (x.length + v + 1) ^ 2 ≤</span></td></tr>
 <tr id="L113" class="statement-line line-proven"><td class="line-num"><a href="#L113">113</a></td><td class="line-code"><span style="color:#6A737D">2 ^ w`, the program halts within `T x` steps, having written `1` if</span></td></tr>
 <tr id="L114" class="statement-line line-proven"><td class="line-num"><a href="#L114">114</a></td><td class="line-code"><span style="color:#6A737D">the sentence holds in the graph and `0` otherwise. -/</span></td></tr>
-<tr id="L115" class="statement-line line-proven"><td class="line-num"><a href="#L115">115</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> exists_almostLinearTime_program_modelChecking</span><span style="color:#24292E"> :</span></td></tr>
+<tr id="L115" class="statement-line line-proven"><td class="line-num"><a href="#L115">115</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> <a class="lean-identifier-link" href="../lax-3/Lax3.ModelChecking.html#s-Lax3.ModelChecking.exists_almostLinearTime_program_modelChecking">exists_almostLinearTime_program_modelChecking</a></span><span style="color:#24292E"> :</span></td></tr>
 <tr id="L116" class="statement-line line-proven"><td class="line-num"><a href="#L116">116</a></td><td class="line-code"><span style="color:#24292E">    ∀ (C : GraphClass), NowhereDense C →</span></td></tr>
 <tr id="L117" class="statement-line line-proven"><td class="line-num"><a href="#L117">117</a></td><td class="line-code"><span style="color:#24292E">    ∀ (φ : FO </span><span style="color:#005CC5">0</span><span style="color:#24292E">) (ε : ℝ), </span><span style="color:#005CC5">0</span><span style="color:#24292E"> &lt; ε →</span></td></tr>
 <tr id="L118" class="statement-line line-proven"><td class="line-num"><a href="#L118">118</a></td><td class="line-code"><span style="color:#24292E">      ∃ (p : Program) (c : ℕ) (T : List ℕ → ℕ),</span></td></tr>

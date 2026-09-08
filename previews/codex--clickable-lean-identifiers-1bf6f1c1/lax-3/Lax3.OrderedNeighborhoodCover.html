@@ -7,7 +7,7 @@
 <title>Neighborhood covers from vertex orderings — Lax3.OrderedNeighborhoodCover</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=f540aa1c31b2">
+<link rel="stylesheet" href="../assets/style.css?v=b78d6b17a06b">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -190,7 +190,7 @@ itself as the degree bound.</p>
 <tr id="L46" class="statement-line line-proven"><td class="line-num"><a href="#L46">46</a></td><td class="line-code"><span style="color:#6A737D">This is the arbitrary-order construction of Lemma 6.9 of</span></td></tr>
 <tr id="L47" class="statement-line line-proven"><td class="line-num"><a href="#L47">47</a></td><td class="line-code"><span style="color:#6A737D">Grohe–Kreutzer–Siebertz, used both by the algorithm with its computed</span></td></tr>
 <tr id="L48" class="statement-line line-proven"><td class="line-num"><a href="#L48">48</a></td><td class="line-code"><span style="color:#6A737D">ordering and by the existential cover theorem with an optimal one. -/</span></td></tr>
-<tr id="L49" class="statement-line line-proven"><td class="line-num"><a href="#L49">49</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> isNeighborhoodCover_wreach</span><span style="color:#24292E"> {n : ℕ} (G : SimpleGraph (Fin n)) (r k : ℕ)</span></td></tr>
+<tr id="L49" class="statement-line line-proven"><td class="line-num"><a href="#L49">49</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> <a class="lean-identifier-link" href="../lax-3/Lax3.OrderedNeighborhoodCover.html#s-Lax3.OrderedNeighborhoodCover.isNeighborhoodCover_wreach">isNeighborhoodCover_wreach</a></span><span style="color:#24292E"> {n : ℕ} (G : SimpleGraph (Fin n)) (r k : ℕ)</span></td></tr>
 <tr id="L50" class="statement-line line-proven"><td class="line-num"><a href="#L50">50</a></td><td class="line-code"><span style="color:#24292E">    (π : Equiv.Perm (Fin n)) (hk : ∀ v, (wreach G π (</span><span style="color:#005CC5">2</span><span style="color:#24292E"> * r) v).ncard ≤ k) :</span></td></tr>
 <tr id="L51" class="statement-line line-proven"><td class="line-num"><a href="#L51">51</a></td><td class="line-code"><span style="color:#24292E">    IsNeighborhoodCover G r (</span><span style="color:#D73A49">fun</span><span style="color:#24292E"> u =&gt; {w | u ∈ wreach G π (</span><span style="color:#005CC5">2</span><span style="color:#24292E"> * r) w}) k</span></td></tr>
 <tr id="L52" class=""><td class="line-num"><a href="#L52">52</a></td><td class="line-code"> </td></tr>
