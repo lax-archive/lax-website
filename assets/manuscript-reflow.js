@@ -39,23 +39,33 @@
     return out;
   }
 
-  // Stack the cards in rail order: a placed card wants its band's top (less
-  // `offset`, the rail's own top in the shared space); a card whose mark has
-  // no band follows the one before it. In the given order a card that would
+  // Stack the cards top to bottom by their bands: a placed card wants its
+  // band's top (less `offset`, the rail's own top in the shared space); a
+  // card whose mark has no band follows the card before it in rail order.
+  // The marks come in the record's order, which need not be the text's, so
+  // the cards are sorted by what they want first (a card stacked in rail
+  // order behind one from further down would sit far below its passage);
+  // cards wanting the same y keep their rail order. Then a card that would
   // overlap its predecessor is pushed down by `gap` — the same rule the PDF
-  // surface uses (laxManuscript.stackCards).
+  // surface uses (laxManuscript.stackCards). `tops` and `placed` are in
+  // rail order.
   function place(cards, bandsByMark, gap, offset) {
-    const tops = [];
-    const placed = [];
-    let cursor = -Infinity;
-    for (const card of cards) {
+    const wants = [];
+    const keys = [];
+    cards.forEach((card, index) => {
       const band = bandsByMark[card.n];
-      const has = band !== undefined;
-      const want = has ? Math.max(0, band.top - offset) : (cursor === -Infinity ? 0 : cursor + gap);
-      const top = Math.max(want, cursor === -Infinity ? want : cursor + gap);
-      tops.push(top);
-      placed.push(has);
-      cursor = top + card.height;
+      wants.push(band !== undefined ? Math.max(0, band.top - offset) : null);
+      keys.push(wants[index] !== null ? wants[index] : index > 0 ? keys[index - 1] : 0);
+    });
+    const order = cards.map((card, index) => index).sort((a, b) => keys[a] - keys[b] || a - b);
+    const tops = new Array(cards.length);
+    const placed = wants.map((want) => want !== null);
+    let cursor = -Infinity;
+    for (const index of order) {
+      const follow = cursor === -Infinity ? 0 : cursor + gap;
+      const top = Math.max(wants[index] !== null ? wants[index] : follow, follow);
+      tops[index] = top;
+      cursor = top + cards[index].height;
     }
     return { tops, placed };
   }
@@ -127,7 +137,7 @@
 
   const cards = [...railEl.querySelectorAll('.manuscript-card[data-mark]')].map((el) => ({
     n: Number(el.dataset.mark), el, kind: `kind-${[...el.classList].find((c) => c.startsWith('kind-'))?.slice(5) || 'concept'}`,
-    band: null, points: null, shadow: null, shape: null, link: null, pinned: false,
+    band: null, points: null, shadow: null, shape: null, link: null, ribbon: null, pinned: false,
   }));
 
   function svgNode(name, attrs) {
@@ -263,6 +273,7 @@
     for (const card of cards) {
       if (!card.band) {
         if (card.link) { card.link.remove(); card.link = null; }
+        card.ribbon = null;
         continue;
       }
       const top = docTop + card.band.top;
@@ -275,7 +286,25 @@
         linksEl.append(card.link);
       }
       card.link.setAttribute('d', d);
+      // The ribbon's geometry, for hit-testing: the band across the gutter.
+      card.ribbon = { xl, xm, xr, top, bottom, ct, cb };
     }
+  }
+
+  // Whether (x, y), in the reflow body's coordinates, lies inside the
+  // gutter band, whose edges are the cubic curves drawLinks draws (the PDF
+  // surface's test, manuscript.js).
+  function ribbonContains(band, x, y) {
+    if (x < band.xl || x > band.xr) return false;
+    const bez = (a, b, c, d, t) => a * (1 - t) ** 3 + 3 * b * t * (1 - t) ** 2 + 3 * c * t * t * (1 - t) + d * t ** 3;
+    let lo = 0;
+    let hi = 1;
+    for (let i = 0; i < 24; i++) {
+      const mid = (lo + hi) / 2;
+      if (bez(band.xl, band.xm, band.xm, band.xr, mid) < x) lo = mid; else hi = mid;
+    }
+    const t = (lo + hi) / 2;
+    return y >= bez(band.top, band.top, band.ct, band.ct, t) && y <= bez(band.bottom, band.bottom, band.cb, band.cb, t);
   }
 
   // ---- cards: hover opens, click pins, like the PDF surface ----
@@ -342,17 +371,36 @@
       setPinned(card, !card.pinned);
       scrollToPassage(card);
     });
-    card.el.addEventListener('mouseenter', () => setHover(card, true));
-    card.el.addEventListener('mouseleave', () => setHover(card, false));
   }
 
   // ---- the passages: hover opens their cards, click pins ----
   //
   // The highlight layer takes no pointer events so the text under it stays
   // selectable; hovers and clicks are hit-tested here against the regions
-  // (the innermost passage winning) and then the shadows (the shortest).
+  // (the innermost passage winning), then the shadows (the shortest), then
+  // the ribbons across the gutter (the one drawn in front).
   function cardAt(event) {
     if (event.target.closest('.manuscript-rail, a')) return null;
+    const best = cardAtPassage(event);
+    return best || cardAtRibbon(event);
+  }
+
+  function cardAtRibbon(event) {
+    if (!linksEl) return null;
+    const box = reflowBody.getBoundingClientRect();
+    const x = event.clientX - box.left + reflowBody.scrollLeft;
+    const y = event.clientY - box.top + reflowBody.scrollTop;
+    let best = null;
+    let bestOrder = -1;
+    for (const card of cards) {
+      if (!card.ribbon || !card.link || !ribbonContains(card.ribbon, x, y)) continue;
+      const order = Array.prototype.indexOf.call(linksEl.children, card.link);
+      if (order > bestOrder) { best = card; bestOrder = order; }
+    }
+    return best;
+  }
+
+  function cardAtPassage(event) {
     const box = docEl.getBoundingClientRect();
     const x = event.clientX - box.left;
     const y = event.clientY - box.top;
@@ -373,6 +421,10 @@
     }
     return best;
   }
+  // One hover: a card stays open while the pointer is on the card, its
+  // passage, or the ribbon between them, and moving from one to another
+  // never closes it in between (closing would shrink the ribbon under the
+  // pointer) — the PDF surface's rule.
   let hovered = null;
   function hover(card) {
     if (card === hovered) return;
@@ -380,9 +432,12 @@
     hovered = card;
     if (hovered) { setHover(hovered, true); hovered.el.classList.add('manuscript-card-hover'); }
   }
+  function cardInRail(event) {
+    const el = event.target.closest('.manuscript-card');
+    return el ? cards.find((card) => card.el === el) || null : null;
+  }
   reflowBody.addEventListener('mousemove', (event) => {
-    if (event.target.closest('.manuscript-rail')) return;
-    hover(cardAt(event));
+    hover(cardInRail(event) || cardAt(event));
   });
   reflowBody.addEventListener('mouseleave', () => hover(null));
   reflowBody.addEventListener('click', (event) => {

@@ -31,7 +31,7 @@
   // reflow surface beside it has a second set there, under other ids.
   const cards = marks.map((mark) => {
     const el = railEl.querySelector(`.manuscript-card[data-mark="${mark.n}"]`);
-    return { mark, el, hits: [], rects: [], shadows: [], shadowX: null, band: null, want: 0, resolved: null, link: null, pinned: false };
+    return { mark, el, hits: [], rects: [], shadows: [], shadowX: null, band: null, want: 0, resolved: null, link: null, pinned: false, hovering: false };
   }).filter((card) => card.el);
 
   const setStatus = (text, failed = false) => {
@@ -189,8 +189,31 @@
   // straight from page to page, running to the foot of a page it leaves
   // and from the head of a page it continues on. The gutter band starts
   // at its right edge.
+  //
+  // A passage marked for several concepts (a theorem stating three) is one
+  // region: cards resolving to the same shape share the element — the
+  // layer multiplies, so stacked copies would darken with every card —
+  // and each shared element lists its owners, whose state it follows.
+  function sharedNode(group, key, make, card) {
+    let node = group.laxNodes.get(key);
+    if (!node) {
+      node = make();
+      node.laxOwners = [];
+      group.laxNodes.set(key, node);
+      group.append(node);
+    }
+    node.laxOwners.push(card);
+    card.hits.push(node);
+    return node;
+  }
+
   async function paintHighlights() {
-    for (const state of pageState) { state.shadows.replaceChildren(); state.shapes.replaceChildren(); }
+    for (const state of pageState) {
+      state.shadows.replaceChildren();
+      state.shapes.replaceChildren();
+      state.shadows.laxNodes = new Map();
+      state.shapes.laxNodes = new Map();
+    }
     for (const card of cards) {
       card.hits = [];
       card.rects = [];
@@ -211,9 +234,8 @@
           const [ax, ay] = viewport.convertToViewportPoint(shape.x0, shape.top);
           const [bx, by] = viewport.convertToViewportPoint(shape.x1, shape.bot);
           const rect = { page: seg.page, left: Math.min(ax, bx), top: Math.min(ay, by), width: Math.abs(bx - ax), height: Math.abs(by - ay) };
-          const path = svgNode('path', { class: `manuscript-hl ${kind}`, d: `M${points.map(([x, y]) => `${x.toFixed(2)},${y.toFixed(2)}`).join('L')}Z` });
-          state.shapes.append(path);
-          card.hits.push(path);
+          const d = `M${points.map(([x, y]) => `${x.toFixed(2)},${y.toFixed(2)}`).join('L')}Z`;
+          sharedNode(state.shapes, `${kind} ${d}`, () => svgNode('path', { class: `manuscript-hl ${kind}`, d }), card);
           card.rects.push(rect);
           top = Math.min(top, rect.top);
           bottom = Math.max(bottom, rect.top + rect.height);
@@ -229,9 +251,8 @@
         if (span.top >= span.bottom) return;
         const top = i > 0 ? 0 : span.top;
         const bottom = i < spans.length - 1 ? span.viewport.height : span.bottom;
-        const shadow = svgNode('rect', { class: `manuscript-hl-shadow ${kind}`, x: x0.toFixed(2), y: top.toFixed(2), width: (x1 - x0).toFixed(2), height: (bottom - top).toFixed(2) });
-        span.state.shadows.append(shadow);
-        card.hits.push(shadow);
+        const attrs = { x: x0.toFixed(2), y: top.toFixed(2), width: (x1 - x0).toFixed(2), height: (bottom - top).toFixed(2) };
+        sharedNode(span.state.shadows, `${kind} ${Object.values(attrs).join(' ')}`, () => svgNode('rect', { class: `manuscript-hl-shadow ${kind}`, ...attrs }), card);
         card.shadows.push({ page: span.page, top, bottom });
       });
     }
@@ -266,7 +287,19 @@
       bottom = Math.max(bottom, tops[index] + card.el.offsetHeight);
     });
     railEl.style.height = `${Math.max(pagesEl.offsetHeight, bottom + 24)}px`;
+    orderRail(tops);
     drawLinks();
+  }
+
+  // The rail's elements in the order the cards show: the marks come in the
+  // record's order, so without this the tab order (and a screen reader's)
+  // would jump about the pages.
+  function orderRail(tops) {
+    const sorted = cards.map((card, index) => ({ card, top: tops[index], index }))
+      .sort((a, b) => a.top - b.top || a.index - b.index)
+      .map(({ card }) => card.el);
+    if (sorted.every((el, i) => railEl.children[i] === el)) return;
+    railEl.append(...sorted);
   }
 
   // The band from a passage to its card, split-diff style: the passage's
@@ -328,13 +361,22 @@
     if (card.link && linksEl && linksEl.lastElementChild !== card.link) linksEl.append(card.link);
   }
 
+  // A highlight shared by several cards is lit while any of them is.
+  function refreshHits(card) {
+    for (const hit of card.hits) {
+      const owners = hit.laxOwners || [card];
+      hit.classList.toggle('manuscript-hl-active', owners.some((owner) => isExpanded(owner)));
+      hit.classList.toggle('manuscript-hl-hover', owners.some((owner) => owner.hovering));
+    }
+  }
+
   function setExpanded(card, expanded) {
     card.el.classList.toggle('manuscript-card-expanded', expanded);
     const body = card.el.querySelector('.manuscript-card-body');
     const toggle = card.el.querySelector('.manuscript-card-toggle');
     if (body) body.hidden = !expanded;
     if (toggle) toggle.setAttribute('aria-expanded', String(expanded));
-    for (const hit of card.hits) hit.classList.toggle('manuscript-hl-active', expanded);
+    refreshHits(card);
     stack();
     if (card.link) card.link.classList.toggle('manuscript-link-active', expanded);
     if (expanded) raise(card);
@@ -343,7 +385,8 @@
   // A card opens while hovered — from the rail or from its passage — and
   // stays open once pinned by a click.
   function setHover(card, hovering) {
-    for (const hit of card.hits) hit.classList.toggle('manuscript-hl-hover', hovering);
+    card.hovering = hovering;
+    refreshHits(card);
     if (card.link) card.link.classList.toggle('manuscript-link-hover', hovering);
     if (hovering) raise(card);
     if (!card.pinned && isExpanded(card) !== hovering) setExpanded(card, hovering);
@@ -386,8 +429,6 @@
         setPinned(card, !card.pinned);
         scrollToPassage(card);
       });
-      card.el.addEventListener('mouseenter', () => setHover(card, true));
-      card.el.addEventListener('mouseleave', () => setHover(card, false));
     }
     // Highlights take no pointer events so the text under them stays
     // selectable; clicks and hovers are hit-tested here, the innermost
@@ -422,10 +463,10 @@
       }
       return best;
     };
-    // Off the pages — the gap between two pages, or the gutter — the
-    // ribbon is the target too, the one drawn in front winning.
+    // The ribbon is a target too — over the page's margin, the gap between
+    // two pages, or the gutter — the one drawn in front winning.
     const cardAtRibbon = (event) => {
-      if (!bodyEl || !linksEl || event.target.closest('.manuscript-page, .manuscript-rail, a')) return null;
+      if (!bodyEl || !linksEl || event.target.closest('.manuscript-rail, a')) return null;
       const box = bodyEl.getBoundingClientRect();
       const x = event.clientX - box.left + bodyEl.scrollLeft;
       const y = event.clientY - box.top + bodyEl.scrollTop;
@@ -438,20 +479,28 @@
       }
       return best;
     };
+    // The card in the rail is the target on its own element.
+    const cardInRail = (event) => {
+      const el = event.target.closest('.manuscript-card');
+      return el ? cards.find((card) => card.el === el) || null : null;
+    };
+    // One hover: a card stays open while the pointer is on the card, its
+    // passage, or the ribbon between them, and moving from one to another
+    // never closes it in between — closing would shrink the ribbon under
+    // the pointer. Tested where the pointer is on every move, and the
+    // hovered card is only ever swapped, never dropped and re-found.
     const hoverSurface = bodyEl || pagesEl;
     let hovered = null;
-    hoverSurface.addEventListener('mousemove', (event) => {
-      if (event.target.closest('.manuscript-rail')) return;
-      const card = cardAt(event) || cardAtRibbon(event);
+    const hover = (card) => {
       if (card === hovered) return;
       if (hovered) { setHover(hovered, false); hovered.el.classList.remove('manuscript-card-hover'); }
       hovered = card;
       if (hovered) { setHover(hovered, true); hovered.el.classList.add('manuscript-card-hover'); }
+    };
+    hoverSurface.addEventListener('mousemove', (event) => {
+      hover(cardInRail(event) || cardAt(event) || cardAtRibbon(event));
     });
-    hoverSurface.addEventListener('mouseleave', () => {
-      if (hovered) { setHover(hovered, false); hovered.el.classList.remove('manuscript-card-hover'); }
-      hovered = null;
-    });
+    hoverSurface.addEventListener('mouseleave', () => hover(null));
     hoverSurface.addEventListener('click', (event) => {
       if (event.target.closest('.manuscript-rail')) return;
       const best = cardAt(event) || cardAtRibbon(event);
