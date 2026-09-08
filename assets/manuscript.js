@@ -27,12 +27,22 @@
   const SVG = 'http://www.w3.org/2000/svg';
 
   const pageEls = [...pagesEl.querySelectorAll('.manuscript-page')];
-  // The cards this surface owns are the ones in its own rail: a page with a
-  // reflow surface beside it has a second set there, under other ids.
   const cards = marks.map((mark) => {
     const el = railEl.querySelector(`.manuscript-card[data-mark="${mark.n}"]`);
     return { mark, el, hits: [], rects: [], shadows: [], shadowX: null, band: null, want: 0, resolved: null, link: null, pinned: false, hovering: false };
   }).filter((card) => card.el);
+
+  // The switch to the reflowed page keeps the reader's passage: its link
+  // carries the `#m<n>` fragment along.
+  const viewLinks = [...root.querySelectorAll('.manuscript-view-link')];
+  const syncViewLinks = () => {
+    for (const link of viewLinks) {
+      const target = (link.getAttribute('href') || '').split('#')[0];
+      link.setAttribute('href', target + (/^#m\d+$/.test(location.hash) ? location.hash : ''));
+    }
+  };
+  syncViewLinks();
+  window.addEventListener('hashchange', syncViewLinks);
 
   const setStatus = (text, failed = false) => {
     if (!statusEl) return;

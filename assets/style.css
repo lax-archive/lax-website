@@ -3721,6 +3721,21 @@ body.graph-window-open::after{
 
   .landing-hero-title{ max-width: 15em; }
   .landing-trust-path{ width: min(100%, 20rem); }
+
+  /* The reflowed paper in one column: the text at the screen's width, the
+     rail and the gutter bands gone, the cards opening in the text under
+     their passages. The passages' shadows still run their margin beyond
+     the column, into the page's own padding. */
+  .manuscript-reflow-body{
+    display: block;
+    overflow: visible;
+    padding: 0.25rem 0.8rem 0.6rem;
+    margin: -0.25rem -0.8rem 0;
+  }
+  .manuscript-reflow-body .manuscript-rail,
+  .manuscript-reflow-body .manuscript-links{ display: none; }
+  .manuscript-card-inline{ font-size: 0.86rem; }
+  .manuscript-card-inline .manuscript-card-body .latex-content{ font-size: 0.84rem; }
 }
 
 @media (max-width: 640px){
@@ -3840,6 +3855,32 @@ body.graph-window-open::after{
 
 #detail.detail-manuscript{ width: min(100%, 114em); }
 
+/* The marks' palette, shared by the printed and the reflowed surface: per
+   kind, the passage's own region (`ink`), the lighter shadow behind it and
+   the gutter band to its card (`band`), each with its hovered/flashed
+   shade, and the card's swatch. Concepts are the highlighter's yellow;
+   proofs a light sky blue, kept paler than the yellow reads — a proof is
+   the passage's supporting argument, not its claim, and its region
+   should not sit heavier on the text; submissions a warm neutral. The
+   layers multiply onto the text, so every alpha is the whole tint. */
+.manuscript{
+  --mark-concept-ink: rgba(255, 226, 96, 0.5);
+  --mark-concept-ink-hot: rgba(255, 212, 48, 0.68);
+  --mark-concept-band: rgba(255, 214, 56, 0.17);
+  --mark-concept-band-hot: rgba(255, 204, 32, 0.34);
+  --mark-concept-swatch: rgba(246, 200, 56, 0.85);
+  --mark-proof-ink: rgba(184, 214, 244, 0.3);
+  --mark-proof-ink-hot: rgba(150, 196, 240, 0.48);
+  --mark-proof-band: rgba(134, 184, 236, 0.09);
+  --mark-proof-band-hot: rgba(104, 164, 228, 0.19);
+  --mark-proof-swatch: rgba(122, 172, 224, 0.8);
+  --mark-submission-ink: rgba(206, 200, 194, 0.42);
+  --mark-submission-ink-hot: rgba(188, 180, 172, 0.58);
+  --mark-submission-band: rgba(150, 142, 134, 0.1);
+  --mark-submission-band-hot: rgba(130, 122, 114, 0.22);
+  --mark-submission-swatch: rgba(160, 152, 144, 0.7);
+}
+
 .manuscript-heading .concept-id{ font-variant: small-caps; letter-spacing: 0.05em; }
 
 /* Always side by side: the pages keep a readable minimum width and the
@@ -3875,15 +3916,15 @@ body.graph-window-open::after{
   mix-blend-mode: multiply;
 }
 .manuscript-links-live{ display: block; }
-.manuscript-link, .manuscript-hl-shadow{ fill: rgba(253, 216, 53, 0.22); stroke: none; transition: fill 150ms ease; }
-.manuscript-link.kind-proof, .manuscript-hl-shadow.kind-proof{ fill: rgba(59, 107, 154, 0.16); }
-.manuscript-link.kind-submission, .manuscript-hl-shadow.kind-submission{ fill: rgba(120, 120, 120, 0.14); }
-.manuscript-link-hover, .manuscript-link-active,
-.manuscript-hl-shadow.manuscript-hl-hover, .manuscript-hl-shadow.manuscript-hl-active{ fill: rgba(253, 216, 53, 0.4); }
-.manuscript-link-hover.kind-proof, .manuscript-link-active.kind-proof,
-.manuscript-hl-shadow.manuscript-hl-hover.kind-proof, .manuscript-hl-shadow.manuscript-hl-active.kind-proof{ fill: rgba(59, 107, 154, 0.3); }
-.manuscript-link-hover.kind-submission, .manuscript-link-active.kind-submission,
-.manuscript-hl-shadow.manuscript-hl-hover.kind-submission, .manuscript-hl-shadow.manuscript-hl-active.kind-submission{ fill: rgba(120, 120, 120, 0.28); }
+.manuscript-link, .manuscript-hl-shadow{ fill: var(--mark-concept-band); stroke: none; transition: fill 150ms ease; }
+.manuscript-link.kind-proof, .manuscript-hl-shadow.kind-proof{ fill: var(--mark-proof-band); }
+.manuscript-link.kind-submission, .manuscript-hl-shadow.kind-submission{ fill: var(--mark-submission-band); }
+.manuscript-link.manuscript-link-hover, .manuscript-link.manuscript-link-active,
+.manuscript-hl-shadow.manuscript-hl-hover, .manuscript-hl-shadow.manuscript-hl-active, .manuscript-hl-shadow.manuscript-hl-flash{ fill: var(--mark-concept-band-hot); }
+.manuscript-link.manuscript-link-hover.kind-proof, .manuscript-link.manuscript-link-active.kind-proof,
+.manuscript-hl-shadow.manuscript-hl-hover.kind-proof, .manuscript-hl-shadow.manuscript-hl-active.kind-proof, .manuscript-hl-shadow.manuscript-hl-flash.kind-proof{ fill: var(--mark-proof-band-hot); }
+.manuscript-link.manuscript-link-hover.kind-submission, .manuscript-link.manuscript-link-active.kind-submission,
+.manuscript-hl-shadow.manuscript-hl-hover.kind-submission, .manuscript-hl-shadow.manuscript-hl-active.kind-submission, .manuscript-hl-shadow.manuscript-hl-flash.kind-submission{ fill: var(--mark-submission-band-hot); }
 
 .manuscript-pages{ position: relative; min-width: 0; }
 .manuscript-page{
@@ -3911,22 +3952,16 @@ body.graph-window-open::after{
   overflow: visible;
 }
 .manuscript-hl{
-  fill: rgba(255, 226, 110, 0.55);
+  fill: var(--mark-concept-ink);
   stroke: none;
   transition: fill 150ms ease;
 }
-.manuscript-hl.kind-proof{ fill: rgba(170, 198, 230, 0.55); }
-.manuscript-hl.kind-submission{ fill: rgba(214, 214, 214, 0.6); }
-.manuscript-hl-hover{ fill: rgba(255, 220, 80, 0.7); }
-.manuscript-hl-hover.kind-proof{ fill: rgba(150, 185, 225, 0.7); }
-.manuscript-hl-hover.kind-submission{ fill: rgba(200, 200, 200, 0.75); }
+.manuscript-hl.kind-proof{ fill: var(--mark-proof-ink); }
+.manuscript-hl.kind-submission{ fill: var(--mark-submission-ink); }
 /* The open passage carries no outline; a flash is a moment of the hover fill. */
-.manuscript-hl-flash{ fill: rgba(255, 220, 80, 0.7); }
-.manuscript-hl-flash.kind-proof{ fill: rgba(150, 185, 225, 0.7); }
-.manuscript-hl-flash.kind-submission{ fill: rgba(200, 200, 200, 0.75); }
-.manuscript-hl-shadow.manuscript-hl-flash{ fill: rgba(253, 216, 53, 0.4); }
-.manuscript-hl-shadow.manuscript-hl-flash.kind-proof{ fill: rgba(59, 107, 154, 0.3); }
-.manuscript-hl-shadow.manuscript-hl-flash.kind-submission{ fill: rgba(120, 120, 120, 0.28); }
+.manuscript-hl.manuscript-hl-hover, .manuscript-hl.manuscript-hl-flash{ fill: var(--mark-concept-ink-hot); }
+.manuscript-hl.manuscript-hl-hover.kind-proof, .manuscript-hl.manuscript-hl-flash.kind-proof{ fill: var(--mark-proof-ink-hot); }
+.manuscript-hl.manuscript-hl-hover.kind-submission, .manuscript-hl.manuscript-hl-flash.kind-submission{ fill: var(--mark-submission-ink-hot); }
 
 /* The rail: a plain list until manuscript.js takes over, then cards sit at
    the y of their passages, pushed down where they would overlap. */
@@ -3956,10 +3991,10 @@ body.graph-window-open::after{
   width: 0.55rem;
   height: 1.1rem;
   border-radius: 2px;
-  background: rgba(253, 216, 53, 0.75);
+  background: var(--mark-concept-swatch);
 }
-.kind-proof > .manuscript-card-head .manuscript-card-swatch{ background: rgba(59, 107, 154, 0.55); }
-.kind-submission > .manuscript-card-head .manuscript-card-swatch{ background: rgba(120, 120, 120, 0.45); }
+.kind-proof > .manuscript-card-head .manuscript-card-swatch{ background: var(--mark-proof-swatch); }
+.kind-submission > .manuscript-card-head .manuscript-card-swatch{ background: var(--mark-submission-swatch); }
 .manuscript-card-name{ display: inline-flex; align-items: center; gap: 0.3rem; min-width: 0; flex: 1 1 auto; overflow: hidden; }
 .manuscript-card-name a{ color: var(--link); text-decoration: none; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .manuscript-card-name a:hover{ text-decoration: underline; }
@@ -4024,28 +4059,50 @@ body.graph-window-open::after{
    reader's width; the cards rail and gutter bands reuse the manuscript
    vocabulary above, joined on the viewer's `.latex-anchor` elements by
    manuscript-reflow.js. */
+/* The switch between the two pages: the reflowed text and the paper as
+   printed, the current one marked. */
 .manuscript-view-switch{ display: flex; gap: 0.4rem; margin: 0 0 0.9rem; }
-.manuscript-view-button{
-  appearance: none;
+.manuscript-view-link{
   border: 1px solid var(--border-light);
   border-radius: var(--radius-control);
-  background: none;
   color: var(--text-dim);
   font-size: 0.78rem;
+  line-height: 1.2;
   padding: 0.3rem 0.7rem;
-  cursor: pointer;
+  text-decoration: none;
 }
-.manuscript-view-button:hover{ color: var(--accent); border-color: var(--accent); }
-.manuscript-view-button[aria-pressed="true"]{
+.manuscript-view-link:hover{ color: var(--accent); border-color: var(--accent); }
+.manuscript-view-link[aria-current="page"]{
   color: var(--accent);
   border-color: var(--accent);
   background: var(--accent-light);
 }
-/* The reflow body keeps room on the left for the passages' shadows, which
-   run a margin beyond the text column on both sides (the PDF page's own
-   margins do this on the printed surface). */
-.manuscript-reflow-body{ padding-left: 1.2rem; margin-left: -1.2rem; }
+/* The reflowed text needs no minimum width — that is the point of it — so
+   its column gives way before the rail does, and the two stay side by side
+   down to the stylesheet's mobile breakpoint, where the rail goes and the
+   cards open in the text instead (manuscript-reflow.js). The body keeps
+   room on the left for the passages' shadows, which run a margin beyond
+   the text column on both sides (the PDF page's own margins do this on the
+   printed surface). */
+.manuscript-reflow-body{
+  grid-template-columns: minmax(22rem, 1fr) minmax(19rem, min(40rem, 36%));
+  padding-left: 1.2rem;
+  margin-left: -1.2rem;
+}
 .manuscript-reflow-doc{ min-width: 0; position: relative; }
+/* A card opened in the text, under its passage: in flow between the
+   viewer's segments, above the highlight layer, its × closing it. */
+.manuscript-card-inline{
+  position: relative;
+  z-index: 3;
+  list-style: none;
+  margin: 0.6rem 0 0.9rem;
+  cursor: auto;
+}
+.manuscript-card-inline .manuscript-card-head{ cursor: pointer; }
+.manuscript-card-inline .manuscript-card-toggle{ transform: none; padding: 0.2rem 0.45rem; font-size: 1.05rem; }
+.manuscript-card-inline .manuscript-card-toggle span{ display: none; }
+.manuscript-card-inline .manuscript-card-toggle::after{ content: '×'; }
 .latex-block{ position: relative; min-width: 0; }
 .latex-block svg{ max-width: none; }
 /* The viewer pads an overflowing display's wrapper by its measured ink
