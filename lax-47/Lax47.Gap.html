@@ -7,7 +7,7 @@
 <title>Finite-Turing promise-gap algorithms for Max Independent Set — Lax47.Gap</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=b137f5f99a33">
+<link rel="stylesheet" href="../assets/style.css?v=b78d6b17a06b">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -113,7 +113,7 @@ annotation.  For an integer <span class="katex"><span class="katex-mathml"><math
 </div></div>
 <div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/EdouardBonnet/mis-inapproximability/blob/e8e3010e3aae3531db7677c4acb8b0561cc21022/concepts/Lax47/Gap.lean">view on GitHub</a></h3>
 <div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
-<tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax47.Complexity</span></td></tr>
+<tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-47/Lax47.Complexity.html">Lax47.Complexity</a></span></td></tr>
 <tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"> </td></tr>
 <tr id="L3" class=""><td class="line-num"><a href="#L3">3</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
 <tr id="L4" class=""><td class="line-num"><a href="#L4">4</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
@@ -132,31 +132,31 @@ annotation.  For an integer <span class="katex"><span class="katex-mathml"><math
 <tr id="L17" class=""><td class="line-num"><a href="#L17">17</a></td><td class="line-code"> </td></tr>
 <tr id="L18" class=""><td class="line-num"><a href="#L18">18</a></td><td class="line-code"><span style="color:#D73A49">set_option</span><span style="color:#24292E"> autoImplicit </span><span style="color:#005CC5">false</span></td></tr>
 <tr id="L19" class=""><td class="line-num"><a href="#L19">19</a></td><td class="line-code"> </td></tr>
-<tr id="L20" class=""><td class="line-num"><a href="#L20">20</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax47.Gap</span></td></tr>
+<tr id="L20" class=""><td class="line-num"><a href="#L20">20</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-47/Lax47.Gap.html">Lax47.Gap</a></span></td></tr>
 <tr id="L21" class=""><td class="line-num"><a href="#L21">21</a></td><td class="line-code"> </td></tr>
-<tr id="L22" class=""><td class="line-num"><a href="#L22">22</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax47.Machine Lax47.Complexity</span></td></tr>
+<tr id="L22" class=""><td class="line-num"><a href="#L22">22</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-47/Lax47.Machine.html">Lax47.Machine</a> <a class="lean-identifier-link" href="../lax-47/Lax47.Complexity.html">Lax47.Complexity</a></span></td></tr>
 <tr id="L23" class=""><td class="line-num"><a href="#L23">23</a></td><td class="line-code"> </td></tr>
 <tr id="L24" class=""><td class="line-num"><a href="#L24">24</a></td><td class="line-code"><span style="color:#6A737D">/- ### Standard randomized finite-Turing programs -/</span></td></tr>
 <tr id="L25" class=""><td class="line-num"><a href="#L25">25</a></td><td class="line-code"> </td></tr>
 <tr id="L26" class=""><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span style="color:#6A737D">/-- A polynomial-time finite-Turing program with one fixed monomial tape bound. -/</span></td></tr>
 <tr id="L27" class=""><td class="line-num"><a href="#L27">27</a></td><td class="line-code"><span style="color:#D73A49">structure</span><span style="color:#6F42C1"> GapProgram</span><span style="color:#24292E"> (q : ℕ) </span><span style="color:#D73A49">where</span></td></tr>
-<tr id="L28" class=""><td class="line-num"><a href="#L28">28</a></td><td class="line-code"><span style="color:#24292E">  program : PolytimeProgram</span></td></tr>
+<tr id="L28" class=""><td class="line-num"><a href="#L28">28</a></td><td class="line-code"><span style="color:#24292E">  program : <a class="lean-identifier-link" href="../lax-47/Lax47.Machine.html">PolytimeProgram</a></span></td></tr>
 <tr id="L29" class=""><td class="line-num"><a href="#L29">29</a></td><td class="line-code"><span style="color:#24292E">  randomnessConstant : ℕ</span></td></tr>
 <tr id="L30" class=""><td class="line-num"><a href="#L30">30</a></td><td class="line-code"><span style="color:#24292E">  randomnessExponent : ℕ</span></td></tr>
 <tr id="L31" class=""><td class="line-num"><a href="#L31">31</a></td><td class="line-code"><span style="color:#24292E">  randomnessConstant_pos : </span><span style="color:#005CC5">0</span><span style="color:#24292E"> &lt; randomnessConstant</span></td></tr>
 <tr id="L32" class=""><td class="line-num"><a href="#L32">32</a></td><td class="line-code"> </td></tr>
 <tr id="L33" class=""><td class="line-num"><a href="#L33">33</a></td><td class="line-code"><span style="color:#6A737D">/-- The exact, uniformly specified random-tape length on order <span class="source-math source-math-inline"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span></span>. -/</span></td></tr>
 <tr id="L34" class=""><td class="line-num"><a href="#L34">34</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> GapProgram.randomBitCount</span><span style="color:#24292E"> {q : ℕ} (program : GapProgram q) (n : ℕ) : ℕ :=</span></td></tr>
-<tr id="L35" class=""><td class="line-num"><a href="#L35">35</a></td><td class="line-code"><span style="color:#24292E">  polynomialBound program.randomnessConstant program.randomnessExponent n</span></td></tr>
+<tr id="L35" class=""><td class="line-num"><a href="#L35">35</a></td><td class="line-code"><span style="color:#24292E">  <a class="lean-identifier-link" href="../lax-47/Lax47.Machine.html">polynomialBound</a> program.randomnessConstant program.randomnessExponent n</span></td></tr>
 <tr id="L36" class=""><td class="line-num"><a href="#L36">36</a></td><td class="line-code"> </td></tr>
 <tr id="L37" class=""><td class="line-num"><a href="#L37">37</a></td><td class="line-code"><span style="color:#6A737D">/-- Finite uniform seed type read by a gap program on an <span class="source-math source-math-inline"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span></span>-vertex graph. -/</span></td></tr>
 <tr id="L38" class=""><td class="line-num"><a href="#L38">38</a></td><td class="line-code"><span style="color:#D73A49">abbrev</span><span style="color:#6F42C1"> GapProgram.Seed</span><span style="color:#24292E"> {q : ℕ} (program : GapProgram q) (n : ℕ) :=</span></td></tr>
-<tr id="L39" class=""><td class="line-num"><a href="#L39">39</a></td><td class="line-code"><span style="color:#24292E">  RandomSeed (program.randomBitCount n)</span></td></tr>
+<tr id="L39" class=""><td class="line-num"><a href="#L39">39</a></td><td class="line-code"><span style="color:#24292E">  <a class="lean-identifier-link" href="../lax-47/Lax47.Machine.html">RandomSeed</a> (program.randomBitCount n)</span></td></tr>
 <tr id="L40" class=""><td class="line-num"><a href="#L40">40</a></td><td class="line-code"> </td></tr>
 <tr id="L41" class=""><td class="line-num"><a href="#L41">41</a></td><td class="line-code"><span style="color:#6A737D">/-- Boolean answer returned by the program's certified Turing computation. -/</span></td></tr>
 <tr id="L42" class=""><td class="line-num"><a href="#L42">42</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> GapProgram.accepts</span><span style="color:#24292E"> {q : ℕ} (program : GapProgram q) (n : ℕ)</span></td></tr>
-<tr id="L43" class=""><td class="line-num"><a href="#L43">43</a></td><td class="line-code"><span style="color:#24292E">    (input : GraphCode n) (seed : program.Seed n) : Bool :=</span></td></tr>
-<tr id="L44" class=""><td class="line-num"><a href="#L44">44</a></td><td class="line-code"><span style="color:#24292E">  decide (program.program.output (pairBits input.bits seed.bits) = [</span><span style="color:#005CC5">1</span><span style="color:#24292E">])</span></td></tr>
+<tr id="L43" class=""><td class="line-num"><a href="#L43">43</a></td><td class="line-code"><span style="color:#24292E">    (input : <a class="lean-identifier-link" href="../lax-47/Lax47.Complexity.html">GraphCode</a> n) (seed : program.Seed n) : Bool :=</span></td></tr>
+<tr id="L44" class=""><td class="line-num"><a href="#L44">44</a></td><td class="line-code"><span style="color:#24292E">  decide (program.program.output (<a class="lean-identifier-link" href="../lax-47/Lax47.Machine.html">pairBits</a> input.bits seed.bits) = [</span><span style="color:#005CC5">1</span><span style="color:#24292E">])</span></td></tr>
 <tr id="L45" class=""><td class="line-num"><a href="#L45">45</a></td><td class="line-code"> </td></tr>
 <tr id="L46" class=""><td class="line-num"><a href="#L46">46</a></td><td class="line-code"><span style="color:#6A737D">/-- Uniform seed enumeration for a finite-Turing program. -/</span></td></tr>
 <tr id="L47" class=""><td class="line-num"><a href="#L47">47</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> GapProgram.seeds</span><span style="color:#24292E"> {q : ℕ} (program : GapProgram q) (n : ℕ) :</span></td></tr>
@@ -165,7 +165,7 @@ annotation.  For an integer <span class="katex"><span class="katex-mathml"><math
 <tr id="L50" class=""><td class="line-num"><a href="#L50">50</a></td><td class="line-code"> </td></tr>
 <tr id="L51" class=""><td class="line-num"><a href="#L51">51</a></td><td class="line-code"><span style="color:#6A737D">/-- Seeds on which the finite-Turing program returns true. -/</span></td></tr>
 <tr id="L52" class=""><td class="line-num"><a href="#L52">52</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> GapProgram.acceptingSeeds</span><span style="color:#24292E"> {q : ℕ} (program : GapProgram q)</span></td></tr>
-<tr id="L53" class=""><td class="line-num"><a href="#L53">53</a></td><td class="line-code"><span style="color:#24292E">    (n : ℕ) (input : GraphCode n) : Finset (program.Seed n) :=</span></td></tr>
+<tr id="L53" class=""><td class="line-num"><a href="#L53">53</a></td><td class="line-code"><span style="color:#24292E">    (n : ℕ) (input : <a class="lean-identifier-link" href="../lax-47/Lax47.Complexity.html">GraphCode</a> n) : Finset (program.Seed n) :=</span></td></tr>
 <tr id="L54" class=""><td class="line-num"><a href="#L54">54</a></td><td class="line-code"><span style="color:#24292E">  (program.seeds n).filter </span><span style="color:#D73A49">fun</span><span style="color:#24292E"> seed ↦ program.accepts n input seed</span></td></tr>
 <tr id="L55" class=""><td class="line-num"><a href="#L55">55</a></td><td class="line-code"> </td></tr>
 <tr id="L56" class=""><td class="line-num"><a href="#L56">56</a></td><td class="line-code"><span style="color:#6A737D">/- ### Certified polynomial gap solvers -/</span></td></tr>
@@ -178,16 +178,16 @@ annotation.  For an integer <span class="katex"><span class="katex-mathml"><math
 <tr id="L63" class=""><td class="line-num"><a href="#L63">63</a></td><td class="line-code"><span style="color:#D73A49">structure</span><span style="color:#6F42C1"> MISGapSolver</span><span style="color:#24292E"> (q : ℕ) </span><span style="color:#D73A49">where</span></td></tr>
 <tr id="L64" class=""><td class="line-num"><a href="#L64">64</a></td><td class="line-code"><span style="color:#24292E">  program : GapProgram q</span></td></tr>
 <tr id="L65" class=""><td class="line-num"><a href="#L65">65</a></td><td class="line-code"><span style="color:#24292E">  cutoff : ℕ</span></td></tr>
-<tr id="L66" class=""><td class="line-num"><a href="#L66">66</a></td><td class="line-code"><span style="color:#24292E">  completeness : ∀ (n : ℕ), cutoff ≤ n → ∀ input : GraphCode n,</span></td></tr>
+<tr id="L66" class=""><td class="line-num"><a href="#L66">66</a></td><td class="line-code"><span style="color:#24292E">  completeness : ∀ (n : ℕ), cutoff ≤ n → ∀ input : <a class="lean-identifier-link" href="../lax-47/Lax47.Complexity.html">GraphCode</a> n,</span></td></tr>
 <tr id="L67" class=""><td class="line-num"><a href="#L67">67</a></td><td class="line-code"><span style="color:#24292E">    Real.rpow n (</span><span style="color:#005CC5">1</span><span style="color:#24292E"> - (q : ℝ)⁻¹) ≤ (input.graph.indepNum : ℝ) →</span></td></tr>
 <tr id="L68" class=""><td class="line-num"><a href="#L68">68</a></td><td class="line-code"><span style="color:#005CC5">      2</span><span style="color:#24292E"> * (program.seeds n).card ≤</span></td></tr>
 <tr id="L69" class=""><td class="line-num"><a href="#L69">69</a></td><td class="line-code"><span style="color:#005CC5">        3</span><span style="color:#24292E"> * (program.acceptingSeeds n input).card</span></td></tr>
-<tr id="L70" class=""><td class="line-num"><a href="#L70">70</a></td><td class="line-code"><span style="color:#24292E">  soundness : ∀ (n : ℕ), cutoff ≤ n → ∀ input : GraphCode n,</span></td></tr>
+<tr id="L70" class=""><td class="line-num"><a href="#L70">70</a></td><td class="line-code"><span style="color:#24292E">  soundness : ∀ (n : ℕ), cutoff ≤ n → ∀ input : <a class="lean-identifier-link" href="../lax-47/Lax47.Complexity.html">GraphCode</a> n,</span></td></tr>
 <tr id="L71" class=""><td class="line-num"><a href="#L71">71</a></td><td class="line-code"><span style="color:#24292E">    (input.graph.indepNum : ℝ) ≤ Real.rpow n ((q : ℝ)⁻¹) →</span></td></tr>
 <tr id="L72" class=""><td class="line-num"><a href="#L72">72</a></td><td class="line-code"><span style="color:#005CC5">      3</span><span style="color:#24292E"> * (program.acceptingSeeds n input).card ≤</span></td></tr>
 <tr id="L73" class=""><td class="line-num"><a href="#L73">73</a></td><td class="line-code"><span style="color:#24292E">        (program.seeds n).card</span></td></tr>
 <tr id="L74" class=""><td class="line-num"><a href="#L74">74</a></td><td class="line-code"> </td></tr>
-<tr id="L75" class=""><td class="line-num"><a href="#L75">75</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax47.Gap</span></td></tr>
+<tr id="L75" class=""><td class="line-num"><a href="#L75">75</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-47/Lax47.Gap.html">Lax47.Gap</a></span></td></tr>
 <tr id="L76" class=""><td class="line-num"><a href="#L76">76</a></td><td class="line-code"> </td></tr>
 </table></div><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
 

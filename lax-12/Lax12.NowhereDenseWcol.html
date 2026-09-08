@@ -7,7 +7,7 @@
 <title>Nowhere dense classes have subpolynomial weak coloring numbers — Lax12.NowhereDenseWcol</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=b137f5f99a33">
+<link rel="stylesheet" href="../assets/style.css?v=b78d6b17a06b">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -145,8 +145,8 @@ edition).</p>
 </div></div>
 <div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/25a164f8439311426b1033ba7ea21947d829ff88/sparsity-lectures/concepts/Lax12/NowhereDenseWcol.lean">view on GitHub</a></h3>
 <div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
-<tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax12.NowhereDenseClasses</span></td></tr>
-<tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax12.ColoringNumbers</span></td></tr>
+<tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-12/Lax12.NowhereDenseClasses.html">Lax12.NowhereDenseClasses</a></span></td></tr>
+<tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-12/Lax12.ColoringNumbers.html">Lax12.ColoringNumbers</a></span></td></tr>
 <tr id="L3" class=""><td class="line-num"><a href="#L3">3</a></td><td class="line-code"> </td></tr>
 <tr id="L4" class=""><td class="line-num"><a href="#L4">4</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
 <tr id="L5" class=""><td class="line-num"><a href="#L5">5</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
@@ -176,17 +176,17 @@ edition).</p>
 <tr id="L29" class=""><td class="line-num"><a href="#L29">29</a></td><td class="line-code"><span style="color:#6A737D">two links of the coloring-number chain.</span></td></tr>
 <tr id="L30" class=""><td class="line-num"><a href="#L30">30</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
 <tr id="L31" class=""><td class="line-num"><a href="#L31">31</a></td><td class="line-code"> </td></tr>
-<tr id="L32" class=""><td class="line-num"><a href="#L32">32</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax12.NowhereDenseWcol</span></td></tr>
+<tr id="L32" class=""><td class="line-num"><a href="#L32">32</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-12/Lax12.NowhereDenseWcol.html">Lax12.NowhereDenseWcol</a></span></td></tr>
 <tr id="L33" class=""><td class="line-num"><a href="#L33">33</a></td><td class="line-code"> </td></tr>
-<tr id="L34" class=""><td class="line-num"><a href="#L34">34</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax12.GraphClasses Lax12.NowhereDenseClasses Lax12.ColoringNumbers</span></td></tr>
+<tr id="L34" class=""><td class="line-num"><a href="#L34">34</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-12/Lax12.GraphClasses.html">Lax12.GraphClasses</a> <a class="lean-identifier-link" href="../lax-12/Lax12.NowhereDenseClasses.html">Lax12.NowhereDenseClasses</a> <a class="lean-identifier-link" href="../lax-12/Lax12.ColoringNumbers.html">Lax12.ColoringNumbers</a></span></td></tr>
 <tr id="L35" class=""><td class="line-num"><a href="#L35">35</a></td><td class="line-code"> </td></tr>
 <tr id="L36" class="statement-line line-proven"><td class="line-num"><a href="#L36">36</a></td><td class="line-code"><span class="statement-anchor" id="s-Lax12.NowhereDenseWcol.hasSubpolynomialWcol_of_nowhereDense"></span><span style="color:#6A737D">/-- Nowhere dense graph classes have subpolynomial weak coloring</span></td></tr>
 <tr id="L37" class="statement-line line-proven"><td class="line-num"><a href="#L37">37</a></td><td class="line-code"><span style="color:#6A737D">numbers. -/</span></td></tr>
-<tr id="L38" class="statement-line line-proven"><td class="line-num"><a href="#L38">38</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> hasSubpolynomialWcol_of_nowhereDense</span></td></tr>
-<tr id="L39" class="statement-line line-proven"><td class="line-num"><a href="#L39">39</a></td><td class="line-code"><span style="color:#24292E">    (C : GraphClass) (h : NowhereDense C) :</span></td></tr>
-<tr id="L40" class="statement-line line-proven"><td class="line-num"><a href="#L40">40</a></td><td class="line-code"><span style="color:#24292E">    HasSubpolynomialWcol C</span></td></tr>
+<tr id="L38" class="statement-line line-proven"><td class="line-num"><a href="#L38">38</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> <a class="lean-identifier-link" href="../lax-12/Lax12.NowhereDenseWcol.html#s-Lax12.NowhereDenseWcol.hasSubpolynomialWcol_of_nowhereDense">hasSubpolynomialWcol_of_nowhereDense</a></span></td></tr>
+<tr id="L39" class="statement-line line-proven"><td class="line-num"><a href="#L39">39</a></td><td class="line-code"><span style="color:#24292E">    (C : <a class="lean-identifier-link" href="../lax-12/Lax12.GraphClasses.html">GraphClass</a>) (h : <a class="lean-identifier-link" href="../lax-12/Lax12.NowhereDenseClasses.html">NowhereDense</a> C) :</span></td></tr>
+<tr id="L40" class="statement-line line-proven"><td class="line-num"><a href="#L40">40</a></td><td class="line-code"><span style="color:#24292E">    <a class="lean-identifier-link" href="../lax-12/Lax12.ColoringNumbers.html">HasSubpolynomialWcol</a> C</span></td></tr>
 <tr id="L41" class=""><td class="line-num"><a href="#L41">41</a></td><td class="line-code"> </td></tr>
-<tr id="L42" class=""><td class="line-num"><a href="#L42">42</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax12.NowhereDenseWcol</span></td></tr>
+<tr id="L42" class=""><td class="line-num"><a href="#L42">42</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-12/Lax12.NowhereDenseWcol.html">Lax12.NowhereDenseWcol</a></span></td></tr>
 <tr id="L43" class=""><td class="line-num"><a href="#L43">43</a></td><td class="line-code"> </td></tr>
 </table></div><span class="source-proof-rail" data-source-line="L38" aria-label="Proof links"><a class="statement-proof-button" href="https://github.com/lax-archive/lax-submissions/blob/25a164f8439311426b1033ba7ea21947d829ff88/sparsity-lectures/proofs/Lax12Proofs/NowhereDenseWcol.lean" aria-label="View proof Lax12Proofs.NowhereDenseWcol.hasSubpolynomialWcol_of_nowhereDense on GitHub" title="Lax12Proofs.NowhereDenseWcol.hasSubpolynomialWcol_of_nowhereDense"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">Show Proof</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a></span><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
 <div class="block"><h3>Formalization notes</h3><div class="latex-content"><p>The hypothesis is the shallow-minor definition of the nowhere dense

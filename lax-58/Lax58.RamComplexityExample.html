@@ -7,7 +7,7 @@
 <title>Examples — separate resource bounds and polynomial time — Lax58.RamComplexityExample</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=b137f5f99a33">
+<link rel="stylesheet" href="../assets/style.css?v=b78d6b17a06b">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -143,7 +143,7 @@ is an upper bound on the time exponent, not a claim of optimality.</p>
 <div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/szymtor/lax58/blob/83d795f06ae20b48ceed34a9f1284975d305b9c4/concepts/Lax58/RamComplexityExample.lean">view on GitHub</a></h3>
 <div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
 <tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Computability.Partrec</span></td></tr>
-<tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax58.RamComplexityElab</span></td></tr>
+<tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-58/Lax58.RamComplexityElab.html">Lax58.RamComplexityElab</a></span></td></tr>
 <tr id="L3" class=""><td class="line-num"><a href="#L3">3</a></td><td class="line-code"> </td></tr>
 <tr id="L4" class=""><td class="line-num"><a href="#L4">4</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
 <tr id="L5" class=""><td class="line-num"><a href="#L5">5</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
@@ -165,7 +165,7 @@ is an upper bound on the time exponent, not a claim of optimality.</p>
 <tr id="L21" class=""><td class="line-num"><a href="#L21">21</a></td><td class="line-code"><span style="color:#6A737D">is an upper bound on the time exponent, not a claim of optimality.</span></td></tr>
 <tr id="L22" class=""><td class="line-num"><a href="#L22">22</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
 <tr id="L23" class=""><td class="line-num"><a href="#L23">23</a></td><td class="line-code"> </td></tr>
-<tr id="L24" class=""><td class="line-num"><a href="#L24">24</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax58.RamComplexityExample</span></td></tr>
+<tr id="L24" class=""><td class="line-num"><a href="#L24">24</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-58/Lax58.RamComplexityExample.html">Lax58.RamComplexityExample</a></span></td></tr>
 <tr id="L25" class=""><td class="line-num"><a href="#L25">25</a></td><td class="line-code"> </td></tr>
 <tr id="L26" class=""><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span style="color:#D73A49">abbrev</span><span style="color:#6F42C1"> Input</span><span style="color:#24292E"> := List Nat × List Nat</span></td></tr>
 <tr id="L27" class=""><td class="line-num"><a href="#L27">27</a></td><td class="line-code"> </td></tr>
@@ -205,7 +205,7 @@ is an upper bound on the time exponent, not a claim of optimality.</p>
 <tr id="L61" class=""><td class="line-num"><a href="#L61">61</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> PolynomialTime</span><span style="color:#24292E"> (f : List Nat → Nat) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
 <tr id="L62" class=""><td class="line-num"><a href="#L62">62</a></td><td class="line-code"><span style="color:#24292E">  ∃ d : Nat, PolynomialTimeOfDegree f d</span></td></tr>
 <tr id="L63" class=""><td class="line-num"><a href="#L63">63</a></td><td class="line-code"> </td></tr>
-<tr id="L64" class=""><td class="line-num"><a href="#L64">64</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax58.RamComplexityExample</span></td></tr>
+<tr id="L64" class=""><td class="line-num"><a href="#L64">64</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-58/Lax58.RamComplexityExample.html">Lax58.RamComplexityExample</a></span></td></tr>
 <tr id="L65" class=""><td class="line-num"><a href="#L65">65</a></td><td class="line-code"> </td></tr>
 </table></div><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
 

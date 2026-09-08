@@ -7,7 +7,7 @@
 <title>Scatter sentences — Lax3.ScatterSentences</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=b137f5f99a33">
+<link rel="stylesheet" href="../assets/style.css?v=b78d6b17a06b">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -138,8 +138,8 @@ finite colored graphs of <span class="katex"><span class="katex-mathml"><math xm
 </div></div>
 <div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/bd9bba6fdc632df94938a125b2741a79a267faef/nowhere-dense-model-checking/concepts/Lax3/ScatterSentences.lean">view on GitHub</a></h3>
 <div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
-<tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax3.DistFO</span></td></tr>
-<tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax12.UniformQuasiWideness</span></td></tr>
+<tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-3/Lax3.DistFO.html">Lax3.DistFO</a></span></td></tr>
+<tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-12/Lax12.UniformQuasiWideness.html">Lax12.UniformQuasiWideness</a></span></td></tr>
 <tr id="L3" class=""><td class="line-num"><a href="#L3">3</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Data.Set.Card</span></td></tr>
 <tr id="L4" class=""><td class="line-num"><a href="#L4">4</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Order.Minimal</span></td></tr>
 <tr id="L5" class=""><td class="line-num"><a href="#L5">5</a></td><td class="line-code"> </td></tr>
@@ -204,9 +204,9 @@ finite colored graphs of <span class="katex"><span class="katex-mathml"><math xm
 <tr id="L64" class=""><td class="line-num"><a href="#L64">64</a></td><td class="line-code"><span style="color:#6A737D">which is the source's convention made into a fact.</span></td></tr>
 <tr id="L65" class=""><td class="line-num"><a href="#L65">65</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
 <tr id="L66" class=""><td class="line-num"><a href="#L66">66</a></td><td class="line-code"> </td></tr>
-<tr id="L67" class=""><td class="line-num"><a href="#L67">67</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax3.ScatterSentences</span></td></tr>
+<tr id="L67" class=""><td class="line-num"><a href="#L67">67</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-3/Lax3.ScatterSentences.html">Lax3.ScatterSentences</a></span></td></tr>
 <tr id="L68" class=""><td class="line-num"><a href="#L68">68</a></td><td class="line-code"> </td></tr>
-<tr id="L69" class=""><td class="line-num"><a href="#L69">69</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax3.ColoredGraphs Lax3.DistFO Lax12.UniformQuasiWideness</span></td></tr>
+<tr id="L69" class=""><td class="line-num"><a href="#L69">69</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-3/Lax3.ColoredGraphs.html">Lax3.ColoredGraphs</a> <a class="lean-identifier-link" href="../lax-3/Lax3.DistFO.html">Lax3.DistFO</a> <a class="lean-identifier-link" href="../lax-12/Lax12.UniformQuasiWideness.html">Lax12.UniformQuasiWideness</a></span></td></tr>
 <tr id="L70" class=""><td class="line-num"><a href="#L70">70</a></td><td class="line-code"> </td></tr>
 <tr id="L71" class=""><td class="line-num"><a href="#L71">71</a></td><td class="line-code"><span style="color:#6A737D">/-- A choice of scatter values: for every graph `G`, radius `r` and</span></td></tr>
 <tr id="L72" class=""><td class="line-num"><a href="#L72">72</a></td><td class="line-code"><span style="color:#6A737D">vertex set `X`, a number `size G r X` which is the cardinality of some</span></td></tr>
@@ -221,7 +221,7 @@ finite colored graphs of <span class="katex"><span class="katex-mathml"><math xm
 <tr id="L81" class=""><td class="line-num"><a href="#L81">81</a></td><td class="line-code"><span style="color:#6A737D">  `r`-scattered subset of `X`. -/</span></td></tr>
 <tr id="L82" class=""><td class="line-num"><a href="#L82">82</a></td><td class="line-code"><span style="color:#24292E">  spec : ∀ {n : ℕ} (G : SimpleGraph (Fin n)) (r : ℕ) (X : Set (Fin n)),</span></td></tr>
 <tr id="L83" class=""><td class="line-num"><a href="#L83">83</a></td><td class="line-code"><span style="color:#24292E">    ∃ S : Set (Fin n), S ⊆ X ∧</span></td></tr>
-<tr id="L84" class=""><td class="line-num"><a href="#L84">84</a></td><td class="line-code"><span style="color:#24292E">      Maximal (</span><span style="color:#D73A49">fun</span><span style="color:#24292E"> T =&gt; T ⊆ X ∧ DistIndependent G r T) S ∧ S.ncard = size G r X</span></td></tr>
+<tr id="L84" class=""><td class="line-num"><a href="#L84">84</a></td><td class="line-code"><span style="color:#24292E">      Maximal (</span><span style="color:#D73A49">fun</span><span style="color:#24292E"> T =&gt; T ⊆ X ∧ <a class="lean-identifier-link" href="../lax-12/Lax12.UniformQuasiWideness.html">DistIndependent</a> G r T) S ∧ S.ncard = size G r X</span></td></tr>
 <tr id="L85" class=""><td class="line-num"><a href="#L85">85</a></td><td class="line-code"> </td></tr>
 <tr id="L86" class=""><td class="line-num"><a href="#L86">86</a></td><td class="line-code"><span style="color:#6A737D">/-- A scatter sentence: there is an `r`-scattered set of `t` vertices</span></td></tr>
 <tr id="L87" class=""><td class="line-num"><a href="#L87">87</a></td><td class="line-code"><span style="color:#6A737D">satisfying the one-variable formula `β`, in the sense fixed by a</span></td></tr>
@@ -230,7 +230,7 @@ finite colored graphs of <span class="katex"><span class="katex-mathml"><math xm
 <tr id="L90" class=""><td class="line-num"><a href="#L90">90</a></td><td class="line-code"><span style="color:#6A737D">  /-- The radius at which the witnesses are scattered. -/</span></td></tr>
 <tr id="L91" class=""><td class="line-num"><a href="#L91">91</a></td><td class="line-code"><span style="color:#24292E">  r : ℕ</span></td></tr>
 <tr id="L92" class=""><td class="line-num"><a href="#L92">92</a></td><td class="line-code"><span style="color:#6A737D">  /-- The one-variable formula the witnesses satisfy. -/</span></td></tr>
-<tr id="L93" class=""><td class="line-num"><a href="#L93">93</a></td><td class="line-code"><span style="color:#24292E">  β : DistFO L </span><span style="color:#005CC5">1</span></td></tr>
+<tr id="L93" class=""><td class="line-num"><a href="#L93">93</a></td><td class="line-code"><span style="color:#24292E">  β : <a class="lean-identifier-link" href="../lax-3/Lax3.DistFO.html">DistFO</a> L </span><span style="color:#005CC5">1</span></td></tr>
 <tr id="L94" class=""><td class="line-num"><a href="#L94">94</a></td><td class="line-code"><span style="color:#6A737D">  /-- The number of witnesses demanded. -/</span></td></tr>
 <tr id="L95" class=""><td class="line-num"><a href="#L95">95</a></td><td class="line-code"><span style="color:#24292E">  t : ℕ</span></td></tr>
 <tr id="L96" class=""><td class="line-num"><a href="#L96">96</a></td><td class="line-code"> </td></tr>
@@ -240,7 +240,7 @@ finite colored graphs of <span class="katex"><span class="katex-mathml"><math xm
 <tr id="L100" class=""><td class="line-num"><a href="#L100">100</a></td><td class="line-code"><span style="color:#6A737D">chosen scatter value of the set defined by `β`, at radius `r`, is at</span></td></tr>
 <tr id="L101" class=""><td class="line-num"><a href="#L101">101</a></td><td class="line-code"><span style="color:#6A737D">least `t`. -/</span></td></tr>
 <tr id="L102" class=""><td class="line-num"><a href="#L102">102</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> ScatterSentence.Sat</span><span style="color:#24292E"> (choice : ScatterChoice) (G : SimpleGraph (Fin n))</span></td></tr>
-<tr id="L103" class=""><td class="line-num"><a href="#L103">103</a></td><td class="line-code"><span style="color:#24292E">    (col : Coloring n L) (σ : ScatterSentence L) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr id="L103" class=""><td class="line-num"><a href="#L103">103</a></td><td class="line-code"><span style="color:#24292E">    (col : <a class="lean-identifier-link" href="../lax-3/Lax3.ColoredGraphs.html">Coloring</a> n L) (σ : ScatterSentence L) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
 <tr id="L104" class=""><td class="line-num"><a href="#L104">104</a></td><td class="line-code"><span style="color:#24292E">  σ.t ≤ choice.size G σ.r {a | DistFO.Sat G col (</span><span style="color:#D73A49">fun</span><span style="color:#24292E"> _ =&gt; a) σ.β}</span></td></tr>
 <tr id="L105" class=""><td class="line-num"><a href="#L105">105</a></td><td class="line-code"> </td></tr>
 <tr id="L106" class=""><td class="line-num"><a href="#L106">106</a></td><td class="line-code"><span style="color:#6A737D">/-- The scatter sentence has distance rank `(k, q)`: it demands at most</span></td></tr>
@@ -250,9 +250,9 @@ finite colored graphs of <span class="katex"><span class="katex-mathml"><math xm
 <tr id="L110" class=""><td class="line-num"><a href="#L110">110</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> ScatterSentence.DRank</span><span style="color:#24292E"> (k q : ℕ) (σ : ScatterSentence L) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
 <tr id="L111" class=""><td class="line-num"><a href="#L111">111</a></td><td class="line-code"><span style="color:#24292E">  σ.t ≤ k + q ∧ ∃ i, </span><span style="color:#005CC5">1</span><span style="color:#24292E"> ≤ i ∧ i ≤ q ∧ DistFO.IsLocal σ.β ∧</span></td></tr>
 <tr id="L112" class=""><td class="line-num"><a href="#L112">112</a></td><td class="line-code"><span style="color:#24292E">    DistFO.DRank (k + i) (q - i) σ.β ∧</span></td></tr>
-<tr id="L113" class=""><td class="line-num"><a href="#L113">113</a></td><td class="line-code"><span style="color:#005CC5">    4</span><span style="color:#24292E"> * rhoMinus (k + i) (q - i) ≤ σ.r ∧ σ.r ≤ </span><span style="color:#005CC5">9</span><span style="color:#24292E"> ^ (k + i) * rhoMinus (k + i) (q - i)</span></td></tr>
+<tr id="L113" class=""><td class="line-num"><a href="#L113">113</a></td><td class="line-code"><span style="color:#005CC5">    4</span><span style="color:#24292E"> * <a class="lean-identifier-link" href="../lax-3/Lax3.DistFO.html">rhoMinus</a> (k + i) (q - i) ≤ σ.r ∧ σ.r ≤ </span><span style="color:#005CC5">9</span><span style="color:#24292E"> ^ (k + i) * <a class="lean-identifier-link" href="../lax-3/Lax3.DistFO.html">rhoMinus</a> (k + i) (q - i)</span></td></tr>
 <tr id="L114" class=""><td class="line-num"><a href="#L114">114</a></td><td class="line-code"> </td></tr>
-<tr id="L115" class=""><td class="line-num"><a href="#L115">115</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax3.ScatterSentences</span></td></tr>
+<tr id="L115" class=""><td class="line-num"><a href="#L115">115</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-3/Lax3.ScatterSentences.html">Lax3.ScatterSentences</a></span></td></tr>
 <tr id="L116" class=""><td class="line-num"><a href="#L116">116</a></td><td class="line-code"> </td></tr>
 </table></div><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
 <div class="block"><h3>Formalization notes</h3><div class="latex-content"><p>The scatter choice is per graph, radius and vertex set; the source's is

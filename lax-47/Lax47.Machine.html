@@ -7,7 +7,7 @@
 <title>Polynomial-time computation on the Lax51 finite-Turing model — Lax47.Machine</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=b137f5f99a33">
+<link rel="stylesheet" href="../assets/style.css?v=b78d6b17a06b">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -113,7 +113,7 @@ list of independent uniform bits, represented by the words <span class="katex"><
 </div></div>
 <div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/EdouardBonnet/mis-inapproximability/blob/e8e3010e3aae3531db7677c4acb8b0561cc21022/concepts/Lax47/Machine.lean">view on GitHub</a></h3>
 <div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
-<tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax51.TuringPolytime</span></td></tr>
+<tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-51/Lax51.TuringPolytime.html">Lax51.TuringPolytime</a></span></td></tr>
 <tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"> </td></tr>
 <tr id="L3" class=""><td class="line-num"><a href="#L3">3</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
 <tr id="L4" class=""><td class="line-num"><a href="#L4">4</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
@@ -133,9 +133,9 @@ list of independent uniform bits, represented by the words <span class="katex"><
 <tr id="L18" class=""><td class="line-num"><a href="#L18">18</a></td><td class="line-code"> </td></tr>
 <tr id="L19" class=""><td class="line-num"><a href="#L19">19</a></td><td class="line-code"><span style="color:#D73A49">set_option</span><span style="color:#24292E"> autoImplicit </span><span style="color:#005CC5">false</span></td></tr>
 <tr id="L20" class=""><td class="line-num"><a href="#L20">20</a></td><td class="line-code"> </td></tr>
-<tr id="L21" class=""><td class="line-num"><a href="#L21">21</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax47.Machine</span></td></tr>
+<tr id="L21" class=""><td class="line-num"><a href="#L21">21</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-47/Lax47.Machine.html">Lax47.Machine</a></span></td></tr>
 <tr id="L22" class=""><td class="line-num"><a href="#L22">22</a></td><td class="line-code"> </td></tr>
-<tr id="L23" class=""><td class="line-num"><a href="#L23">23</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax51.BinaryWordEncoding Lax51.TuringPolytime</span></td></tr>
+<tr id="L23" class=""><td class="line-num"><a href="#L23">23</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-51/Lax51.BinaryWordEncoding.html">Lax51.BinaryWordEncoding</a> <a class="lean-identifier-link" href="../lax-51/Lax51.TuringPolytime.html">Lax51.TuringPolytime</a></span></td></tr>
 <tr id="L24" class=""><td class="line-num"><a href="#L24">24</a></td><td class="line-code"> </td></tr>
 <tr id="L25" class=""><td class="line-num"><a href="#L25">25</a></td><td class="line-code"><span style="color:#6A737D">/-- A finite machine word.  Boolean data use the entries <span class="source-math source-math-inline"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn></mrow><annotation encoding="application/x-tex">0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span></span> and <span class="source-math source-math-inline"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn></mrow><annotation encoding="application/x-tex">1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span></span>. -/</span></td></tr>
 <tr id="L26" class=""><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span style="color:#D73A49">abbrev</span><span style="color:#6F42C1"> BitString</span><span style="color:#24292E"> := List ℕ</span></td></tr>
@@ -147,7 +147,7 @@ list of independent uniform bits, represented by the words <span class="katex"><
 <tr id="L32" class=""><td class="line-num"><a href="#L32">32</a></td><td class="line-code"><span style="color:#6A737D">/-- A total word function computed in polynomial time by a finite Turing machine. -/</span></td></tr>
 <tr id="L33" class=""><td class="line-num"><a href="#L33">33</a></td><td class="line-code"><span style="color:#D73A49">structure</span><span style="color:#6F42C1"> PolytimeProgram</span><span style="color:#D73A49"> where</span></td></tr>
 <tr id="L34" class=""><td class="line-num"><a href="#L34">34</a></td><td class="line-code"><span style="color:#24292E">  function : BitString → BitString</span></td></tr>
-<tr id="L35" class=""><td class="line-num"><a href="#L35">35</a></td><td class="line-code"><span style="color:#24292E">  polytime : TuringPolytime function</span></td></tr>
+<tr id="L35" class=""><td class="line-num"><a href="#L35">35</a></td><td class="line-code"><span style="color:#24292E">  polytime : <a class="lean-identifier-link" href="../lax-51/Lax51.TuringPolytime.html">TuringPolytime</a> function</span></td></tr>
 <tr id="L36" class=""><td class="line-num"><a href="#L36">36</a></td><td class="line-code"> </td></tr>
 <tr id="L37" class=""><td class="line-num"><a href="#L37">37</a></td><td class="line-code"><span style="color:#6A737D">/-- The semantic output certified by the program's finite Turing machine. -/</span></td></tr>
 <tr id="L38" class=""><td class="line-num"><a href="#L38">38</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> PolytimeProgram.output</span><span style="color:#24292E"> (program : PolytimeProgram)</span></td></tr>
@@ -180,8 +180,8 @@ list of independent uniform bits, represented by the words <span class="katex"><
 <tr id="L65" class=""><td class="line-num"><a href="#L65">65</a></td><td class="line-code"><span style="color:#24292E">  certificateConstant_pos : </span><span style="color:#005CC5">0</span><span style="color:#24292E"> &lt; certificateConstant</span></td></tr>
 <tr id="L66" class=""><td class="line-num"><a href="#L66">66</a></td><td class="line-code"><span style="color:#24292E">  correctness : ∀ input : BitString,</span></td></tr>
 <tr id="L67" class=""><td class="line-num"><a href="#L67">67</a></td><td class="line-code"><span style="color:#24292E">    input ∈ language ↔ ∃ certificate : BitString,</span></td></tr>
-<tr id="L68" class=""><td class="line-num"><a href="#L68">68</a></td><td class="line-code"><span style="color:#24292E">      bitSize certificate ≤ polynomialBound</span></td></tr>
-<tr id="L69" class=""><td class="line-num"><a href="#L69">69</a></td><td class="line-code"><span style="color:#24292E">        certificateConstant certificateExponent (bitSize input) ∧</span></td></tr>
+<tr id="L68" class=""><td class="line-num"><a href="#L68">68</a></td><td class="line-code"><span style="color:#24292E">      <a class="lean-identifier-link" href="../lax-51/Lax51.BinaryWordEncoding.html">bitSize</a> certificate ≤ polynomialBound</span></td></tr>
+<tr id="L69" class=""><td class="line-num"><a href="#L69">69</a></td><td class="line-code"><span style="color:#24292E">        certificateConstant certificateExponent (<a class="lean-identifier-link" href="../lax-51/Lax51.BinaryWordEncoding.html">bitSize</a> input) ∧</span></td></tr>
 <tr id="L70" class=""><td class="line-num"><a href="#L70">70</a></td><td class="line-code"><span style="color:#24292E">      program.output (pairBits input certificate) = [</span><span style="color:#005CC5">1</span><span style="color:#24292E">]</span></td></tr>
 <tr id="L71" class=""><td class="line-num"><a href="#L71">71</a></td><td class="line-code"> </td></tr>
 <tr id="L72" class=""><td class="line-num"><a href="#L72">72</a></td><td class="line-code"><span style="color:#6A737D">/-- Membership in <span class="source-math source-math-inline"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mi>P</mi></mrow><annotation encoding="application/x-tex">NP</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.109em;">N</span><span class="mord mathnormal" style="margin-right:0.1389em;">P</span></span></span></span></span> in the Lax51 finite-Turing model. -/</span></td></tr>
@@ -196,7 +196,7 @@ list of independent uniform bits, represented by the words <span class="katex"><
 <tr id="L81" class=""><td class="line-num"><a href="#L81">81</a></td><td class="line-code"><span style="color:#24292E">  randomnessConstant_pos : </span><span style="color:#005CC5">0</span><span style="color:#24292E"> &lt; randomnessConstant</span></td></tr>
 <tr id="L82" class=""><td class="line-num"><a href="#L82">82</a></td><td class="line-code"><span style="color:#24292E">  correctness : ∀ input : BitString,</span></td></tr>
 <tr id="L83" class=""><td class="line-num"><a href="#L83">83</a></td><td class="line-code"><span style="color:#D73A49">    let</span><span style="color:#24292E"> randomBitCount := polynomialBound</span></td></tr>
-<tr id="L84" class=""><td class="line-num"><a href="#L84">84</a></td><td class="line-code"><span style="color:#24292E">      randomnessConstant randomnessExponent (bitSize input)</span></td></tr>
+<tr id="L84" class=""><td class="line-num"><a href="#L84">84</a></td><td class="line-code"><span style="color:#24292E">      randomnessConstant randomnessExponent (<a class="lean-identifier-link" href="../lax-51/Lax51.BinaryWordEncoding.html">bitSize</a> input)</span></td></tr>
 <tr id="L85" class=""><td class="line-num"><a href="#L85">85</a></td><td class="line-code"><span style="color:#D73A49">    let</span><span style="color:#24292E"> seeds : Finset (RandomSeed randomBitCount) := Finset.univ</span></td></tr>
 <tr id="L86" class=""><td class="line-num"><a href="#L86">86</a></td><td class="line-code"><span style="color:#D73A49">    let</span><span style="color:#24292E"> accepting := seeds.filter </span><span style="color:#D73A49">fun</span><span style="color:#24292E"> seed ↦</span></td></tr>
 <tr id="L87" class=""><td class="line-num"><a href="#L87">87</a></td><td class="line-code"><span style="color:#24292E">      program.output (pairBits input seed.bits) = [</span><span style="color:#005CC5">1</span><span style="color:#24292E">]</span></td></tr>
@@ -211,7 +211,7 @@ list of independent uniform bits, represented by the words <span class="katex"><
 <tr id="L96" class=""><td class="line-num"><a href="#L96">96</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> NPSubsetBPP</span><span style="color:#24292E"> : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
 <tr id="L97" class=""><td class="line-num"><a href="#L97">97</a></td><td class="line-code"><span style="color:#24292E">  ∀ language : Language, InNP language → InBPP language</span></td></tr>
 <tr id="L98" class=""><td class="line-num"><a href="#L98">98</a></td><td class="line-code"> </td></tr>
-<tr id="L99" class=""><td class="line-num"><a href="#L99">99</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax47.Machine</span></td></tr>
+<tr id="L99" class=""><td class="line-num"><a href="#L99">99</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-47/Lax47.Machine.html">Lax47.Machine</a></span></td></tr>
 <tr id="L100" class=""><td class="line-num"><a href="#L100">100</a></td><td class="line-code"> </td></tr>
 </table></div><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
 

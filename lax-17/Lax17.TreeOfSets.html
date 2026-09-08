@@ -7,7 +7,7 @@
 <title>Strong tree-of-sets systems — Lax17.TreeOfSets</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=b137f5f99a33">
+<link rel="stylesheet" href="../assets/style.css?v=b78d6b17a06b">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -168,8 +168,8 @@ interfaces incident with one cluster mutually linked inside that cluster.</p>
 <div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/EdouardBonnet/polynomial-grid-minor-theorem/blob/fe2848173913a00d85c64d2a17af63f2cf0d4fbf/concepts/Lax17/TreeOfSets.lean">view on GitHub</a></h3>
 <div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
 <tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Combinatorics.SimpleGraph.Acyclic</span></td></tr>
-<tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax17.Degree</span></td></tr>
-<tr id="L3" class=""><td class="line-num"><a href="#L3">3</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax17.PathOfSets</span></td></tr>
+<tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-17/Lax17.Degree.html">Lax17.Degree</a></span></td></tr>
+<tr id="L3" class=""><td class="line-num"><a href="#L3">3</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-17/Lax17.PathOfSets.html">Lax17.PathOfSets</a></span></td></tr>
 <tr id="L4" class=""><td class="line-num"><a href="#L4">4</a></td><td class="line-code"> </td></tr>
 <tr id="L5" class=""><td class="line-num"><a href="#L5">5</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
 <tr id="L6" class=""><td class="line-num"><a href="#L6">6</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
@@ -183,25 +183,25 @@ interfaces incident with one cluster mutually linked inside that cluster.</p>
 <tr id="L14" class=""><td class="line-num"><a href="#L14">14</a></td><td class="line-code"><span style="color:#6A737D">interfaces incident with one cluster mutually linked inside that cluster.</span></td></tr>
 <tr id="L15" class=""><td class="line-num"><a href="#L15">15</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
 <tr id="L16" class=""><td class="line-num"><a href="#L16">16</a></td><td class="line-code"> </td></tr>
-<tr id="L17" class=""><td class="line-num"><a href="#L17">17</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax17.TreeOfSets</span></td></tr>
+<tr id="L17" class=""><td class="line-num"><a href="#L17">17</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-17/Lax17.TreeOfSets.html">Lax17.TreeOfSets</a></span></td></tr>
 <tr id="L18" class=""><td class="line-num"><a href="#L18">18</a></td><td class="line-code"> </td></tr>
 <tr id="L19" class=""><td class="line-num"><a href="#L19">19</a></td><td class="line-code"><span style="color:#D73A49">universe</span><span style="color:#24292E"> u</span></td></tr>
 <tr id="L20" class=""><td class="line-num"><a href="#L20">20</a></td><td class="line-code"> </td></tr>
-<tr id="L21" class=""><td class="line-num"><a href="#L21">21</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax17.Degree</span></td></tr>
-<tr id="L22" class=""><td class="line-num"><a href="#L22">22</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax17.Linkedness</span></td></tr>
-<tr id="L23" class=""><td class="line-num"><a href="#L23">23</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax17.PathOfSets</span></td></tr>
-<tr id="L24" class=""><td class="line-num"><a href="#L24">24</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax17.Paths</span></td></tr>
+<tr id="L21" class=""><td class="line-num"><a href="#L21">21</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-17/Lax17.Degree.html">Lax17.Degree</a></span></td></tr>
+<tr id="L22" class=""><td class="line-num"><a href="#L22">22</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-17/Lax17.Linkedness.html">Lax17.Linkedness</a></span></td></tr>
+<tr id="L23" class=""><td class="line-num"><a href="#L23">23</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-17/Lax17.PathOfSets.html">Lax17.PathOfSets</a></span></td></tr>
+<tr id="L24" class=""><td class="line-num"><a href="#L24">24</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-17/Lax17.Paths.html">Lax17.Paths</a></span></td></tr>
 <tr id="L25" class=""><td class="line-num"><a href="#L25">25</a></td><td class="line-code"> </td></tr>
 <tr id="L26" class=""><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span style="color:#6A737D">/-- A subcubic tree-of-sets system with `m` clusters and width `w`. -/</span></td></tr>
-<tr id="L27" class=""><td class="line-num"><a href="#L27">27</a></td><td class="line-code"><span style="color:#D73A49">structure</span><span style="color:#6F42C1"> System</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E"> u} [DecidableEq V]</span></td></tr>
+<tr id="L27" class=""><td class="line-num"><a href="#L27">27</a></td><td class="line-code"><span style="color:#D73A49">structure</span><span style="color:#6F42C1"> <a class="lean-identifier-link" href="../lax-17/Lax17.PathOfSets.html">System</a></span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E"> u} [DecidableEq V]</span></td></tr>
 <tr id="L28" class=""><td class="line-num"><a href="#L28">28</a></td><td class="line-code"><span style="color:#24292E">    (G : SimpleGraph V) (m w : ℕ) </span><span style="color:#D73A49">where</span></td></tr>
 <tr id="L29" class=""><td class="line-num"><a href="#L29">29</a></td><td class="line-code"><span style="color:#24292E">  clusterCount_pos : </span><span style="color:#005CC5">0</span><span style="color:#24292E"> &lt; m</span></td></tr>
 <tr id="L30" class=""><td class="line-num"><a href="#L30">30</a></td><td class="line-code"><span style="color:#24292E">  width_pos : </span><span style="color:#005CC5">0</span><span style="color:#24292E"> &lt; w</span></td></tr>
 <tr id="L31" class=""><td class="line-num"><a href="#L31">31</a></td><td class="line-code"><span style="color:#24292E">  metaTree : SimpleGraph (Fin m)</span></td></tr>
 <tr id="L32" class=""><td class="line-num"><a href="#L32">32</a></td><td class="line-code"><span style="color:#24292E">  meta_isTree : metaTree.IsTree</span></td></tr>
-<tr id="L33" class=""><td class="line-num"><a href="#L33">33</a></td><td class="line-code"><span style="color:#24292E">  meta_subcubic : MaximumAtMost metaTree </span><span style="color:#005CC5">3</span></td></tr>
+<tr id="L33" class=""><td class="line-num"><a href="#L33">33</a></td><td class="line-code"><span style="color:#24292E">  meta_subcubic : <a class="lean-identifier-link" href="../lax-17/Lax17.Degree.html">MaximumAtMost</a> metaTree </span><span style="color:#005CC5">3</span></td></tr>
 <tr id="L34" class=""><td class="line-num"><a href="#L34">34</a></td><td class="line-code"><span style="color:#24292E">  cluster : Fin m → Finset V</span></td></tr>
-<tr id="L35" class=""><td class="line-num"><a href="#L35">35</a></td><td class="line-code"><span style="color:#24292E">  cluster_connected : ∀ i : Fin m, IsCluster G (cluster i)</span></td></tr>
+<tr id="L35" class=""><td class="line-num"><a href="#L35">35</a></td><td class="line-code"><span style="color:#24292E">  cluster_connected : ∀ i : Fin m, <a class="lean-identifier-link" href="../lax-17/Lax17.PathOfSets.html">IsCluster</a> G (cluster i)</span></td></tr>
 <tr id="L36" class=""><td class="line-num"><a href="#L36">36</a></td><td class="line-code"><span style="color:#24292E">  cluster_disjoint :</span></td></tr>
 <tr id="L37" class=""><td class="line-num"><a href="#L37">37</a></td><td class="line-code"><span style="color:#24292E">    ∀ ⦃i j : Fin m⦄, i ≠ j → Disjoint (cluster i) (cluster j)</span></td></tr>
 <tr id="L38" class=""><td class="line-num"><a href="#L38">38</a></td><td class="line-code"><span style="color:#24292E">  interface :</span></td></tr>
@@ -218,7 +218,7 @@ interfaces incident with one cluster mutually linked inside that cluster.</p>
 <tr id="L49" class=""><td class="line-num"><a href="#L49">49</a></td><td class="line-code"><span style="color:#24292E">        j ≠ k → Disjoint (interface i j hij) (interface i k hik)</span></td></tr>
 <tr id="L50" class=""><td class="line-num"><a href="#L50">50</a></td><td class="line-code"><span style="color:#24292E">  connector :</span></td></tr>
 <tr id="L51" class=""><td class="line-num"><a href="#L51">51</a></td><td class="line-code"><span style="color:#24292E">    ∀ (i j : Fin m) (hij : metaTree.Adj i j),</span></td></tr>
-<tr id="L52" class=""><td class="line-num"><a href="#L52">52</a></td><td class="line-code"><span style="color:#24292E">      VertexLinkage G (interface i j hij)</span></td></tr>
+<tr id="L52" class=""><td class="line-num"><a href="#L52">52</a></td><td class="line-code"><span style="color:#24292E">      <a class="lean-identifier-link" href="../lax-17/Lax17.Paths.html">VertexLinkage</a> G (interface i j hij)</span></td></tr>
 <tr id="L53" class=""><td class="line-num"><a href="#L53">53</a></td><td class="line-code"><span style="color:#24292E">        (interface j i (metaTree.symm hij)) w</span></td></tr>
 <tr id="L54" class=""><td class="line-num"><a href="#L54">54</a></td><td class="line-code"><span style="color:#24292E">  connector_avoids_clusters :</span></td></tr>
 <tr id="L55" class=""><td class="line-num"><a href="#L55">55</a></td><td class="line-code"><span style="color:#24292E">    ∀ (i j : Fin m) (hij : metaTree.Adj i j)</span></td></tr>
@@ -233,28 +233,28 @@ interfaces incident with one cluster mutually linked inside that cluster.</p>
 <tr id="L64" class=""><td class="line-num"><a href="#L64">64</a></td><td class="line-code"><span style="color:#24292E">              ((connector p q hpq).path b).vertices</span></td></tr>
 <tr id="L65" class=""><td class="line-num"><a href="#L65">65</a></td><td class="line-code"> </td></tr>
 <tr id="L66" class=""><td class="line-num"><a href="#L66">66</a></td><td class="line-code"><span style="color:#6A737D">/-- A strong tree-of-sets system. -/</span></td></tr>
-<tr id="L67" class=""><td class="line-num"><a href="#L67">67</a></td><td class="line-code"><span style="color:#D73A49">structure</span><span style="color:#6F42C1"> StrongSystem</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E"> u} [DecidableEq V]</span></td></tr>
-<tr id="L68" class=""><td class="line-num"><a href="#L68">68</a></td><td class="line-code"><span style="color:#24292E">    (G : SimpleGraph V) (m w : ℕ) </span><span style="color:#D73A49">extends</span><span style="color:#24292E"> System G m w </span><span style="color:#D73A49">where</span></td></tr>
+<tr id="L67" class=""><td class="line-num"><a href="#L67">67</a></td><td class="line-code"><span style="color:#D73A49">structure</span><span style="color:#6F42C1"> <a class="lean-identifier-link" href="../lax-17/Lax17.PathOfSets.html">StrongSystem</a></span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E"> u} [DecidableEq V]</span></td></tr>
+<tr id="L68" class=""><td class="line-num"><a href="#L68">68</a></td><td class="line-code"><span style="color:#24292E">    (G : SimpleGraph V) (m w : ℕ) </span><span style="color:#D73A49">extends</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-17/Lax17.PathOfSets.html">System</a> G m w </span><span style="color:#D73A49">where</span></td></tr>
 <tr id="L69" class=""><td class="line-num"><a href="#L69">69</a></td><td class="line-code"><span style="color:#24292E">  interface_well_linked :</span></td></tr>
 <tr id="L70" class=""><td class="line-num"><a href="#L70">70</a></td><td class="line-code"><span style="color:#24292E">    ∀ (i j : Fin m) (hij : metaTree.Adj i j),</span></td></tr>
-<tr id="L71" class=""><td class="line-num"><a href="#L71">71</a></td><td class="line-code"><span style="color:#24292E">      NodeWellLinkedIn G (cluster i) (interface i j hij)</span></td></tr>
+<tr id="L71" class=""><td class="line-num"><a href="#L71">71</a></td><td class="line-code"><span style="color:#24292E">      <a class="lean-identifier-link" href="../lax-17/Lax17.Linkedness.html">NodeWellLinkedIn</a> G (cluster i) (interface i j hij)</span></td></tr>
 <tr id="L72" class=""><td class="line-num"><a href="#L72">72</a></td><td class="line-code"><span style="color:#24292E">  incident_interfaces_linked :</span></td></tr>
 <tr id="L73" class=""><td class="line-num"><a href="#L73">73</a></td><td class="line-code"><span style="color:#24292E">    ∀ {i j k : Fin m} (hij : metaTree.Adj i j)</span></td></tr>
 <tr id="L74" class=""><td class="line-num"><a href="#L74">74</a></td><td class="line-code"><span style="color:#24292E">      (hik : metaTree.Adj i k),</span></td></tr>
 <tr id="L75" class=""><td class="line-num"><a href="#L75">75</a></td><td class="line-code"><span style="color:#24292E">        j ≠ k →</span></td></tr>
-<tr id="L76" class=""><td class="line-num"><a href="#L76">76</a></td><td class="line-code"><span style="color:#24292E">          NodeLinkedIn G (cluster i)</span></td></tr>
+<tr id="L76" class=""><td class="line-num"><a href="#L76">76</a></td><td class="line-code"><span style="color:#24292E">          <a class="lean-identifier-link" href="../lax-17/Lax17.Linkedness.html">NodeLinkedIn</a> G (cluster i)</span></td></tr>
 <tr id="L77" class=""><td class="line-num"><a href="#L77">77</a></td><td class="line-code"><span style="color:#24292E">            (interface i j hij) (interface i k hik)</span></td></tr>
 <tr id="L78" class=""><td class="line-num"><a href="#L78">78</a></td><td class="line-code"> </td></tr>
 <tr id="L79" class=""><td class="line-num"><a href="#L79">79</a></td><td class="line-code"><span style="color:#6A737D">/-- The meta-tree contains an ordered simple path with `ℓ` vertices. -/</span></td></tr>
 <tr id="L80" class=""><td class="line-num"><a href="#L80">80</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> HasMetaPath</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E"> u} [DecidableEq V]</span></td></tr>
 <tr id="L81" class=""><td class="line-num"><a href="#L81">81</a></td><td class="line-code"><span style="color:#24292E">    {G : SimpleGraph V} {m w : ℕ}</span></td></tr>
-<tr id="L82" class=""><td class="line-num"><a href="#L82">82</a></td><td class="line-code"><span style="color:#24292E">    (T : StrongSystem G m w) (ℓ : ℕ) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr id="L82" class=""><td class="line-num"><a href="#L82">82</a></td><td class="line-code"><span style="color:#24292E">    (T : <a class="lean-identifier-link" href="../lax-17/Lax17.PathOfSets.html">StrongSystem</a> G m w) (ℓ : ℕ) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
 <tr id="L83" class=""><td class="line-num"><a href="#L83">83</a></td><td class="line-code"><span style="color:#24292E">  ∃ order : Fin ℓ → Fin m,</span></td></tr>
 <tr id="L84" class=""><td class="line-num"><a href="#L84">84</a></td><td class="line-code"><span style="color:#24292E">    Function.Injective order ∧</span></td></tr>
 <tr id="L85" class=""><td class="line-num"><a href="#L85">85</a></td><td class="line-code"><span style="color:#24292E">      ∀ (i : Fin ℓ) (hi : i.</span><span style="color:#005CC5">1</span><span style="color:#24292E"> + </span><span style="color:#005CC5">1</span><span style="color:#24292E"> &lt; ℓ),</span></td></tr>
 <tr id="L86" class=""><td class="line-num"><a href="#L86">86</a></td><td class="line-code"><span style="color:#24292E">        T.metaTree.Adj (order i) (order ⟨i.</span><span style="color:#005CC5">1</span><span style="color:#24292E"> + </span><span style="color:#005CC5">1</span><span style="color:#24292E">, hi⟩)</span></td></tr>
 <tr id="L87" class=""><td class="line-num"><a href="#L87">87</a></td><td class="line-code"> </td></tr>
-<tr id="L88" class=""><td class="line-num"><a href="#L88">88</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax17.TreeOfSets</span></td></tr>
+<tr id="L88" class=""><td class="line-num"><a href="#L88">88</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-17/Lax17.TreeOfSets.html">Lax17.TreeOfSets</a></span></td></tr>
 <tr id="L89" class=""><td class="line-num"><a href="#L89">89</a></td><td class="line-code"> </td></tr>
 </table></div><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
 

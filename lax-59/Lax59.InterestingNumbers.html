@@ -7,7 +7,7 @@
 <title>Classification of Interesting Numbers — Lax59.InterestingNumbers</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=b137f5f99a33">
+<link rel="stylesheet" href="../assets/style.css?v=b78d6b17a06b">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -141,7 +141,7 @@ commutative.</p>
 <tr id="L15" class=""><td class="line-num"><a href="#L15">15</a></td><td class="line-code"><span style="color:#6A737D">commutative.</span></td></tr>
 <tr id="L16" class=""><td class="line-num"><a href="#L16">16</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
 <tr id="L17" class=""><td class="line-num"><a href="#L17">17</a></td><td class="line-code"> </td></tr>
-<tr id="L18" class=""><td class="line-num"><a href="#L18">18</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax59.InterestingNumbers</span></td></tr>
+<tr id="L18" class=""><td class="line-num"><a href="#L18">18</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-59/Lax59.InterestingNumbers.html">Lax59.InterestingNumbers</a></span></td></tr>
 <tr id="L19" class=""><td class="line-num"><a href="#L19">19</a></td><td class="line-code"> </td></tr>
 <tr id="L20" class=""><td class="line-num"><a href="#L20">20</a></td><td class="line-code"><span style="color:#6A737D">/-- The number called `pNext` is the first prime strictly after `p`. -/</span></td></tr>
 <tr id="L21" class=""><td class="line-num"><a href="#L21">21</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> NextPrime</span><span style="color:#24292E"> (p pNext : ℕ) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
@@ -159,9 +159,9 @@ commutative.</p>
 <tr id="L33" class=""><td class="line-num"><a href="#L33">33</a></td><td class="line-code"><span style="color:#24292E">    n = p * q ∧ n + </span><span style="color:#005CC5">1</span><span style="color:#24292E"> = pNext * qPrev</span></td></tr>
 <tr id="L34" class=""><td class="line-num"><a href="#L34">34</a></td><td class="line-code"> </td></tr>
 <tr id="L35" class="statement-line line-proven"><td class="line-num"><a href="#L35">35</a></td><td class="line-code"><span class="statement-anchor" id="s-Lax59.InterestingNumbers.interesting_iff"></span><span style="color:#6A737D">/-- Exactly 14 and 21 satisfy the interesting-number property. -/</span></td></tr>
-<tr id="L36" class="statement-line line-proven"><td class="line-num"><a href="#L36">36</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> interesting_iff</span><span style="color:#24292E"> (n : ℕ) : Interesting n ↔ n = </span><span style="color:#005CC5">14</span><span style="color:#24292E"> ∨ n = </span><span style="color:#005CC5">21</span></td></tr>
+<tr id="L36" class="statement-line line-proven"><td class="line-num"><a href="#L36">36</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> <a class="lean-identifier-link" href="../lax-59/Lax59.InterestingNumbers.html#s-Lax59.InterestingNumbers.interesting_iff">interesting_iff</a></span><span style="color:#24292E"> (n : ℕ) : Interesting n ↔ n = </span><span style="color:#005CC5">14</span><span style="color:#24292E"> ∨ n = </span><span style="color:#005CC5">21</span></td></tr>
 <tr id="L37" class=""><td class="line-num"><a href="#L37">37</a></td><td class="line-code"> </td></tr>
-<tr id="L38" class=""><td class="line-num"><a href="#L38">38</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax59.InterestingNumbers</span></td></tr>
+<tr id="L38" class=""><td class="line-num"><a href="#L38">38</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-59/Lax59.InterestingNumbers.html">Lax59.InterestingNumbers</a></span></td></tr>
 <tr id="L39" class=""><td class="line-num"><a href="#L39">39</a></td><td class="line-code"> </td></tr>
 </table></div><span class="source-proof-rail" data-source-line="L36" aria-label="Proof links"><a class="statement-proof-button" href="https://github.com/konradn/nagura-lean/blob/c6e00c1d591695115629b5e040624f3a9e969965/lax-submission/proofs/Lax59Proofs/InterestingNumbersComplete.lean" aria-label="View proof Lax59Proofs.InterestingNumbers.interesting_iff on GitHub" title="Lax59Proofs.InterestingNumbers.interesting_iff"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">Show Proof</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a></span><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
 

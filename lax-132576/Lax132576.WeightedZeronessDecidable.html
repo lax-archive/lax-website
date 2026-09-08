@@ -7,7 +7,7 @@
 <title>Decidable zeroness of weighted automata over the rationals — Lax132576.WeightedZeronessDecidable</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=b137f5f99a33">
+<link rel="stylesheet" href="../assets/style.css?v=b78d6b17a06b">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -195,8 +195,8 @@ bound on the length of a witness, and derives both.</p>
 </div></div>
 <div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/bojanczyk/transducer-book/blob/972ebefba92c54889997d65db9028aee76522813/lax/rational-functions/concepts/Lax132576/WeightedZeronessDecidable.lean">view on GitHub</a></h3>
 <div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
-<tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax132576.TransducerCodes</span></td></tr>
-<tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax132576.WeightedCodes</span></td></tr>
+<tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-132576/Lax132576.TransducerCodes.html">Lax132576.TransducerCodes</a></span></td></tr>
+<tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-132576/Lax132576.WeightedCodes.html">Lax132576.WeightedCodes</a></span></td></tr>
 <tr id="L3" class=""><td class="line-num"><a href="#L3">3</a></td><td class="line-code"> </td></tr>
 <tr id="L4" class=""><td class="line-num"><a href="#L4">4</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
 <tr id="L5" class=""><td class="line-num"><a href="#L5">5</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
@@ -216,15 +216,15 @@ bound on the length of a witness, and derives both.</p>
 <tr id="L19" class=""><td class="line-num"><a href="#L19">19</a></td><td class="line-code"><span style="color:#6A737D">function is `0`.</span></td></tr>
 <tr id="L20" class=""><td class="line-num"><a href="#L20">20</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
 <tr id="L21" class=""><td class="line-num"><a href="#L21">21</a></td><td class="line-code"> </td></tr>
-<tr id="L22" class=""><td class="line-num"><a href="#L22">22</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax132576.WeightedZeronessDecidable</span></td></tr>
+<tr id="L22" class=""><td class="line-num"><a href="#L22">22</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-132576/Lax132576.WeightedZeronessDecidable.html">Lax132576.WeightedZeronessDecidable</a></span></td></tr>
 <tr id="L23" class=""><td class="line-num"><a href="#L23">23</a></td><td class="line-code"> </td></tr>
-<tr id="L24" class=""><td class="line-num"><a href="#L24">24</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax132576.TransducerCodes Lax132576.WeightedCodes</span></td></tr>
+<tr id="L24" class=""><td class="line-num"><a href="#L24">24</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-132576/Lax132576.TransducerCodes.html">Lax132576.TransducerCodes</a> <a class="lean-identifier-link" href="../lax-132576/Lax132576.WeightedCodes.html">Lax132576.WeightedCodes</a></span></td></tr>
 <tr id="L25" class=""><td class="line-num"><a href="#L25">25</a></td><td class="line-code"> </td></tr>
 <tr id="L26" class="statement-line line-proven"><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span class="statement-anchor" id="s-Lax132576.WeightedZeronessDecidable.decidable_wcodeEval_eq_zero"></span><span style="color:#6A737D">/-- Zeroness of a valid coded weighted automaton over `ℚ` is decidable. -/</span></td></tr>
-<tr id="L27" class="statement-line line-proven"><td class="line-num"><a href="#L27">27</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> decidable_wcodeEval_eq_zero</span><span style="color:#24292E"> :</span></td></tr>
-<tr id="L28" class="statement-line line-proven"><td class="line-num"><a href="#L28">28</a></td><td class="line-code"><span style="color:#24292E">    DecidableUnderPromise WCodeValid (</span><span style="color:#D73A49">fun</span><span style="color:#24292E"> c =&gt; wcodeEval c = </span><span style="color:#005CC5">0</span><span style="color:#24292E">)</span></td></tr>
+<tr id="L27" class="statement-line line-proven"><td class="line-num"><a href="#L27">27</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> <a class="lean-identifier-link" href="../lax-132576/Lax132576.WeightedZeronessDecidable.html#s-Lax132576.WeightedZeronessDecidable.decidable_wcodeEval_eq_zero">decidable_wcodeEval_eq_zero</a></span><span style="color:#24292E"> :</span></td></tr>
+<tr id="L28" class="statement-line line-proven"><td class="line-num"><a href="#L28">28</a></td><td class="line-code"><span style="color:#24292E">    <a class="lean-identifier-link" href="../lax-132576/Lax132576.TransducerCodes.html">DecidableUnderPromise</a> <a class="lean-identifier-link" href="../lax-132576/Lax132576.WeightedCodes.html">WCodeValid</a> (</span><span style="color:#D73A49">fun</span><span style="color:#24292E"> c =&gt; <a class="lean-identifier-link" href="../lax-132576/Lax132576.WeightedCodes.html">wcodeEval</a> c = </span><span style="color:#005CC5">0</span><span style="color:#24292E">)</span></td></tr>
 <tr id="L29" class=""><td class="line-num"><a href="#L29">29</a></td><td class="line-code"> </td></tr>
-<tr id="L30" class=""><td class="line-num"><a href="#L30">30</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax132576.WeightedZeronessDecidable</span></td></tr>
+<tr id="L30" class=""><td class="line-num"><a href="#L30">30</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-132576/Lax132576.WeightedZeronessDecidable.html">Lax132576.WeightedZeronessDecidable</a></span></td></tr>
 <tr id="L31" class=""><td class="line-num"><a href="#L31">31</a></td><td class="line-code"> </td></tr>
 </table></div><span class="source-proof-rail" data-source-line="L27" aria-label="Proof links"><a class="statement-proof-button" href="https://github.com/bojanczyk/transducer-book/blob/972ebefba92c54889997d65db9028aee76522813/lax/rational-functions/proofs/Lax132576Proofs/Results.lean" aria-label="View proof Lax132576Proofs.Results.decidable_wcodeEval_eq_zero on GitHub" title="Lax132576Proofs.Results.decidable_wcodeEval_eq_zero"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">Show Proof</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a></span><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
 <div class="block"><h3>Formalization notes</h3><div class="latex-content"><p>The automaton is given by a valid code, and the decided property is that its

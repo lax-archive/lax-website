@@ -7,7 +7,7 @@
 <title>Pebble transducers and for-transducers compute the same functions — Lax194892.PebbleIffFor</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=b137f5f99a33">
+<link rel="stylesheet" href="../assets/style.css?v=b78d6b17a06b">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -159,8 +159,8 @@ conjunction.</p>
 </div></div>
 <div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/bojanczyk/transducer-book/blob/4bdfaae88ff9a670e7cc1319c283a4be3227aede/lax/polyregular-functions/concepts/Lax194892/PebbleIffFor.lean">view on GitHub</a></h3>
 <div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
-<tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax194892.PebbleTransducers</span></td></tr>
-<tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax194892.ForTransducers</span></td></tr>
+<tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-194892/Lax194892.PebbleTransducers.html">Lax194892.PebbleTransducers</a></span></td></tr>
+<tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-194892/Lax194892.ForTransducers.html">Lax194892.ForTransducers</a></span></td></tr>
 <tr id="L3" class=""><td class="line-num"><a href="#L3">3</a></td><td class="line-code"> </td></tr>
 <tr id="L4" class=""><td class="line-num"><a href="#L4">4</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
 <tr id="L5" class=""><td class="line-num"><a href="#L5">5</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
@@ -177,16 +177,16 @@ conjunction.</p>
 <tr id="L16" class=""><td class="line-num"><a href="#L16">16</a></td><td class="line-code"><span style="color:#6A737D">Both alphabets are assumed finite.</span></td></tr>
 <tr id="L17" class=""><td class="line-num"><a href="#L17">17</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
 <tr id="L18" class=""><td class="line-num"><a href="#L18">18</a></td><td class="line-code"> </td></tr>
-<tr id="L19" class=""><td class="line-num"><a href="#L19">19</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax194892.PebbleIffFor</span></td></tr>
+<tr id="L19" class=""><td class="line-num"><a href="#L19">19</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-194892/Lax194892.PebbleIffFor.html">Lax194892.PebbleIffFor</a></span></td></tr>
 <tr id="L20" class=""><td class="line-num"><a href="#L20">20</a></td><td class="line-code"> </td></tr>
-<tr id="L21" class=""><td class="line-num"><a href="#L21">21</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax194892.PebbleTransducers Lax194892.ForTransducers</span></td></tr>
+<tr id="L21" class=""><td class="line-num"><a href="#L21">21</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-194892/Lax194892.PebbleTransducers.html">Lax194892.PebbleTransducers</a> <a class="lean-identifier-link" href="../lax-194892/Lax194892.ForTransducers.html">Lax194892.ForTransducers</a></span></td></tr>
 <tr id="L22" class=""><td class="line-num"><a href="#L22">22</a></td><td class="line-code"> </td></tr>
 <tr id="L23" class="statement-line line-proven"><td class="line-num"><a href="#L23">23</a></td><td class="line-code"><span class="statement-anchor" id="s-Lax194892.PebbleIffFor.isPebbleTransducer_iff_isForTransducer"></span><span style="color:#6A737D">/-- A function is computed by a pebble transducer if and only if it is computed by</span></td></tr>
 <tr id="L24" class="statement-line line-proven"><td class="line-num"><a href="#L24">24</a></td><td class="line-code"><span style="color:#6A737D">a for-transducer. -/</span></td></tr>
-<tr id="L25" class="statement-line line-proven"><td class="line-num"><a href="#L25">25</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> isPebbleTransducer_iff_isForTransducer</span><span style="color:#24292E"> {A B : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">} [Finite A] [Finite B]</span></td></tr>
-<tr id="L26" class="statement-line line-proven"><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span style="color:#24292E">    (f : List A → List B) : IsPebbleTransducer f ↔ IsForTransducer f</span></td></tr>
+<tr id="L25" class="statement-line line-proven"><td class="line-num"><a href="#L25">25</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> <a class="lean-identifier-link" href="../lax-194892/Lax194892.PebbleIffFor.html#s-Lax194892.PebbleIffFor.isPebbleTransducer_iff_isForTransducer">isPebbleTransducer_iff_isForTransducer</a></span><span style="color:#24292E"> {A B : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">} [Finite A] [Finite B]</span></td></tr>
+<tr id="L26" class="statement-line line-proven"><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span style="color:#24292E">    (f : List A → List B) : <a class="lean-identifier-link" href="../lax-194892/Lax194892.PebbleTransducers.html">IsPebbleTransducer</a> f ↔ <a class="lean-identifier-link" href="../lax-194892/Lax194892.ForTransducers.html">IsForTransducer</a> f</span></td></tr>
 <tr id="L27" class=""><td class="line-num"><a href="#L27">27</a></td><td class="line-code"> </td></tr>
-<tr id="L28" class=""><td class="line-num"><a href="#L28">28</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax194892.PebbleIffFor</span></td></tr>
+<tr id="L28" class=""><td class="line-num"><a href="#L28">28</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-194892/Lax194892.PebbleIffFor.html">Lax194892.PebbleIffFor</a></span></td></tr>
 <tr id="L29" class=""><td class="line-num"><a href="#L29">29</a></td><td class="line-code"> </td></tr>
 </table></div><span class="source-proof-rail" data-source-line="L25" aria-label="Proof links"><a class="statement-proof-button" href="https://github.com/bojanczyk/transducer-book/blob/4bdfaae88ff9a670e7cc1319c283a4be3227aede/lax/polyregular-functions/proofs/Lax194892Proofs/Results.lean" aria-label="View proof Lax194892Proofs.Results.isPebbleTransducer_iff_isForTransducer on GitHub" title="Lax194892Proofs.Results.isPebbleTransducer_iff_isForTransducer"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">Show Proof</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a></span><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
 <div class="block"><h3>Formalization notes</h3><div class="latex-content"><p>Both alphabets are assumed finite.</p>

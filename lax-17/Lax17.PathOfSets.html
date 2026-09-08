@@ -7,7 +7,7 @@
 <title>Strong and hairy path-of-sets systems — Lax17.PathOfSets</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=b137f5f99a33">
+<link rel="stylesheet" href="../assets/style.css?v=b78d6b17a06b">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -171,7 +171,7 @@ hair-side endpoints are well-linked in the hair cluster.</p>
 <div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/EdouardBonnet/polynomial-grid-minor-theorem/blob/fe2848173913a00d85c64d2a17af63f2cf0d4fbf/concepts/Lax17/PathOfSets.lean">view on GitHub</a></h3>
 <div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
 <tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Combinatorics.SimpleGraph.Connectivity.Connected</span></td></tr>
-<tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax17.Linkedness</span></td></tr>
+<tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-17/Lax17.Linkedness.html">Lax17.Linkedness</a></span></td></tr>
 <tr id="L3" class=""><td class="line-num"><a href="#L3">3</a></td><td class="line-code"> </td></tr>
 <tr id="L4" class=""><td class="line-num"><a href="#L4">4</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
 <tr id="L5" class=""><td class="line-num"><a href="#L5">5</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
@@ -189,12 +189,12 @@ hair-side endpoints are well-linked in the hair cluster.</p>
 <tr id="L17" class=""><td class="line-num"><a href="#L17">17</a></td><td class="line-code"><span style="color:#6A737D">hair-side endpoints are well-linked in the hair cluster.</span></td></tr>
 <tr id="L18" class=""><td class="line-num"><a href="#L18">18</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
 <tr id="L19" class=""><td class="line-num"><a href="#L19">19</a></td><td class="line-code"> </td></tr>
-<tr id="L20" class=""><td class="line-num"><a href="#L20">20</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax17.PathOfSets</span></td></tr>
+<tr id="L20" class=""><td class="line-num"><a href="#L20">20</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-17/Lax17.PathOfSets.html">Lax17.PathOfSets</a></span></td></tr>
 <tr id="L21" class=""><td class="line-num"><a href="#L21">21</a></td><td class="line-code"> </td></tr>
 <tr id="L22" class=""><td class="line-num"><a href="#L22">22</a></td><td class="line-code"><span style="color:#D73A49">universe</span><span style="color:#24292E"> u</span></td></tr>
 <tr id="L23" class=""><td class="line-num"><a href="#L23">23</a></td><td class="line-code"> </td></tr>
-<tr id="L24" class=""><td class="line-num"><a href="#L24">24</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax17.Linkedness</span></td></tr>
-<tr id="L25" class=""><td class="line-num"><a href="#L25">25</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax17.Paths</span></td></tr>
+<tr id="L24" class=""><td class="line-num"><a href="#L24">24</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-17/Lax17.Linkedness.html">Lax17.Linkedness</a></span></td></tr>
+<tr id="L25" class=""><td class="line-num"><a href="#L25">25</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-17/Lax17.Paths.html">Lax17.Paths</a></span></td></tr>
 <tr id="L26" class=""><td class="line-num"><a href="#L26">26</a></td><td class="line-code"> </td></tr>
 <tr id="L27" class=""><td class="line-num"><a href="#L27">27</a></td><td class="line-code"><span style="color:#6A737D">/-- A finite vertex set inducing a connected graph. -/</span></td></tr>
 <tr id="L28" class=""><td class="line-num"><a href="#L28">28</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> IsCluster</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E"> u} [DecidableEq V]</span></td></tr>
@@ -219,7 +219,7 @@ hair-side endpoints are well-linked in the hair cluster.</p>
 <tr id="L47" class=""><td class="line-num"><a href="#L47">47</a></td><td class="line-code"><span style="color:#24292E">  right_card : ∀ i : Fin ℓ, (right i).card = w</span></td></tr>
 <tr id="L48" class=""><td class="line-num"><a href="#L48">48</a></td><td class="line-code"><span style="color:#24292E">  connector :</span></td></tr>
 <tr id="L49" class=""><td class="line-num"><a href="#L49">49</a></td><td class="line-code"><span style="color:#24292E">    (i : Fin ℓ) → (hi : i.</span><span style="color:#005CC5">1</span><span style="color:#24292E"> + </span><span style="color:#005CC5">1</span><span style="color:#24292E"> &lt; ℓ) →</span></td></tr>
-<tr id="L50" class=""><td class="line-num"><a href="#L50">50</a></td><td class="line-code"><span style="color:#24292E">      VertexLinkage G (right i) (left ⟨i.</span><span style="color:#005CC5">1</span><span style="color:#24292E"> + </span><span style="color:#005CC5">1</span><span style="color:#24292E">, hi⟩) w</span></td></tr>
+<tr id="L50" class=""><td class="line-num"><a href="#L50">50</a></td><td class="line-code"><span style="color:#24292E">      <a class="lean-identifier-link" href="../lax-17/Lax17.Paths.html">VertexLinkage</a> G (right i) (left ⟨i.</span><span style="color:#005CC5">1</span><span style="color:#24292E"> + </span><span style="color:#005CC5">1</span><span style="color:#24292E">, hi⟩) w</span></td></tr>
 <tr id="L51" class=""><td class="line-num"><a href="#L51">51</a></td><td class="line-code"><span style="color:#24292E">  connector_avoids_clusters :</span></td></tr>
 <tr id="L52" class=""><td class="line-num"><a href="#L52">52</a></td><td class="line-code"><span style="color:#24292E">    ∀ (i : Fin ℓ) (hi : i.</span><span style="color:#005CC5">1</span><span style="color:#24292E"> + </span><span style="color:#005CC5">1</span><span style="color:#24292E"> &lt; ℓ) (j : Fin ℓ)</span></td></tr>
 <tr id="L53" class=""><td class="line-num"><a href="#L53">53</a></td><td class="line-code"><span style="color:#24292E">      (a : Fin w),</span></td></tr>
@@ -250,11 +250,11 @@ hair-side endpoints are well-linked in the hair cluster.</p>
 <tr id="L78" class=""><td class="line-num"><a href="#L78">78</a></td><td class="line-code"><span style="color:#D73A49">structure</span><span style="color:#6F42C1"> StrongSystem</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E"> u} [DecidableEq V]</span></td></tr>
 <tr id="L79" class=""><td class="line-num"><a href="#L79">79</a></td><td class="line-code"><span style="color:#24292E">    (G : SimpleGraph V) (ℓ w : ℕ) </span><span style="color:#D73A49">extends</span><span style="color:#24292E"> System G ℓ w </span><span style="color:#D73A49">where</span></td></tr>
 <tr id="L80" class=""><td class="line-num"><a href="#L80">80</a></td><td class="line-code"><span style="color:#24292E">  left_well_linked :</span></td></tr>
-<tr id="L81" class=""><td class="line-num"><a href="#L81">81</a></td><td class="line-code"><span style="color:#24292E">    ∀ i : Fin ℓ, NodeWellLinkedIn G (cluster i) (left i)</span></td></tr>
+<tr id="L81" class=""><td class="line-num"><a href="#L81">81</a></td><td class="line-code"><span style="color:#24292E">    ∀ i : Fin ℓ, <a class="lean-identifier-link" href="../lax-17/Lax17.Linkedness.html">NodeWellLinkedIn</a> G (cluster i) (left i)</span></td></tr>
 <tr id="L82" class=""><td class="line-num"><a href="#L82">82</a></td><td class="line-code"><span style="color:#24292E">  right_well_linked :</span></td></tr>
-<tr id="L83" class=""><td class="line-num"><a href="#L83">83</a></td><td class="line-code"><span style="color:#24292E">    ∀ i : Fin ℓ, NodeWellLinkedIn G (cluster i) (right i)</span></td></tr>
+<tr id="L83" class=""><td class="line-num"><a href="#L83">83</a></td><td class="line-code"><span style="color:#24292E">    ∀ i : Fin ℓ, <a class="lean-identifier-link" href="../lax-17/Lax17.Linkedness.html">NodeWellLinkedIn</a> G (cluster i) (right i)</span></td></tr>
 <tr id="L84" class=""><td class="line-num"><a href="#L84">84</a></td><td class="line-code"><span style="color:#24292E">  interfaces_linked :</span></td></tr>
-<tr id="L85" class=""><td class="line-num"><a href="#L85">85</a></td><td class="line-code"><span style="color:#24292E">    ∀ i : Fin ℓ, NodeLinkedIn G (cluster i) (left i) (right i)</span></td></tr>
+<tr id="L85" class=""><td class="line-num"><a href="#L85">85</a></td><td class="line-code"><span style="color:#24292E">    ∀ i : Fin ℓ, <a class="lean-identifier-link" href="../lax-17/Lax17.Linkedness.html">NodeLinkedIn</a> G (cluster i) (left i) (right i)</span></td></tr>
 <tr id="L86" class=""><td class="line-num"><a href="#L86">86</a></td><td class="line-code"> </td></tr>
 <tr id="L87" class=""><td class="line-num"><a href="#L87">87</a></td><td class="line-code"><span style="color:#6A737D">/-- A hairy path-of-sets system. -/</span></td></tr>
 <tr id="L88" class=""><td class="line-num"><a href="#L88">88</a></td><td class="line-code"><span style="color:#D73A49">structure</span><span style="color:#6F42C1"> HairySystem</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E"> u} [DecidableEq V]</span></td></tr>
@@ -282,13 +282,13 @@ hair-side endpoints are well-linked in the hair cluster.</p>
 <tr id="L110" class=""><td class="line-num"><a href="#L110">110</a></td><td class="line-code"><span style="color:#24292E">      Disjoint (baseEndpoint i) (base.left i ∪ base.right i)</span></td></tr>
 <tr id="L111" class=""><td class="line-num"><a href="#L111">111</a></td><td class="line-code"><span style="color:#24292E">  hairEndpoint_well_linked :</span></td></tr>
 <tr id="L112" class=""><td class="line-num"><a href="#L112">112</a></td><td class="line-code"><span style="color:#24292E">    ∀ i : Fin ℓ,</span></td></tr>
-<tr id="L113" class=""><td class="line-num"><a href="#L113">113</a></td><td class="line-code"><span style="color:#24292E">      NodeWellLinkedIn G (hairCluster i) (hairEndpoint i)</span></td></tr>
+<tr id="L113" class=""><td class="line-num"><a href="#L113">113</a></td><td class="line-code"><span style="color:#24292E">      <a class="lean-identifier-link" href="../lax-17/Lax17.Linkedness.html">NodeWellLinkedIn</a> G (hairCluster i) (hairEndpoint i)</span></td></tr>
 <tr id="L114" class=""><td class="line-num"><a href="#L114">114</a></td><td class="line-code"><span style="color:#24292E">  baseEndpoint_linked :</span></td></tr>
 <tr id="L115" class=""><td class="line-num"><a href="#L115">115</a></td><td class="line-code"><span style="color:#24292E">    ∀ i : Fin ℓ,</span></td></tr>
-<tr id="L116" class=""><td class="line-num"><a href="#L116">116</a></td><td class="line-code"><span style="color:#24292E">      NodeLinkedIn G (base.cluster i) (base.left i) (baseEndpoint i)</span></td></tr>
+<tr id="L116" class=""><td class="line-num"><a href="#L116">116</a></td><td class="line-code"><span style="color:#24292E">      <a class="lean-identifier-link" href="../lax-17/Lax17.Linkedness.html">NodeLinkedIn</a> G (base.cluster i) (base.left i) (baseEndpoint i)</span></td></tr>
 <tr id="L117" class=""><td class="line-num"><a href="#L117">117</a></td><td class="line-code"><span style="color:#24292E">  hairLinkage :</span></td></tr>
 <tr id="L118" class=""><td class="line-num"><a href="#L118">118</a></td><td class="line-code"><span style="color:#24292E">    ∀ i : Fin ℓ,</span></td></tr>
-<tr id="L119" class=""><td class="line-num"><a href="#L119">119</a></td><td class="line-code"><span style="color:#24292E">      VertexLinkage G (baseEndpoint i) (hairEndpoint i) w</span></td></tr>
+<tr id="L119" class=""><td class="line-num"><a href="#L119">119</a></td><td class="line-code"><span style="color:#24292E">      <a class="lean-identifier-link" href="../lax-17/Lax17.Paths.html">VertexLinkage</a> G (baseEndpoint i) (hairEndpoint i) w</span></td></tr>
 <tr id="L120" class=""><td class="line-num"><a href="#L120">120</a></td><td class="line-code"><span style="color:#24292E">  hair_linkages_disjoint :</span></td></tr>
 <tr id="L121" class=""><td class="line-num"><a href="#L121">121</a></td><td class="line-code"><span style="color:#24292E">    ∀ ⦃i j : Fin ℓ⦄, i ≠ j → ∀ a b : Fin w,</span></td></tr>
 <tr id="L122" class=""><td class="line-num"><a href="#L122">122</a></td><td class="line-code"><span style="color:#24292E">      Disjoint ((hairLinkage i).path a).vertices</span></td></tr>
@@ -333,11 +333,11 @@ hair-side endpoints are well-linked in the hair cluster.</p>
 <tr id="L161" class=""><td class="line-num"><a href="#L161">161</a></td><td class="line-code"><span style="color:#24292E">  second_card : secondTerminals.card = q</span></td></tr>
 <tr id="L162" class=""><td class="line-num"><a href="#L162">162</a></td><td class="line-code"><span style="color:#24292E">  third_card : thirdTerminals.card = q</span></td></tr>
 <tr id="L163" class=""><td class="line-num"><a href="#L163">163</a></td><td class="line-code"><span style="color:#24292E">  first_well_linked :</span></td></tr>
-<tr id="L164" class=""><td class="line-num"><a href="#L164">164</a></td><td class="line-code"><span style="color:#24292E">    NodeWellLinkedIn G firstCluster firstTerminals</span></td></tr>
+<tr id="L164" class=""><td class="line-num"><a href="#L164">164</a></td><td class="line-code"><span style="color:#24292E">    <a class="lean-identifier-link" href="../lax-17/Lax17.Linkedness.html">NodeWellLinkedIn</a> G firstCluster firstTerminals</span></td></tr>
 <tr id="L165" class=""><td class="line-num"><a href="#L165">165</a></td><td class="line-code"><span style="color:#24292E">  second_well_linked :</span></td></tr>
-<tr id="L166" class=""><td class="line-num"><a href="#L166">166</a></td><td class="line-code"><span style="color:#24292E">    NodeWellLinkedIn G secondCluster secondTerminals</span></td></tr>
+<tr id="L166" class=""><td class="line-num"><a href="#L166">166</a></td><td class="line-code"><span style="color:#24292E">    <a class="lean-identifier-link" href="../lax-17/Lax17.Linkedness.html">NodeWellLinkedIn</a> G secondCluster secondTerminals</span></td></tr>
 <tr id="L167" class=""><td class="line-num"><a href="#L167">167</a></td><td class="line-code"><span style="color:#24292E">  third_well_linked :</span></td></tr>
-<tr id="L168" class=""><td class="line-num"><a href="#L168">168</a></td><td class="line-code"><span style="color:#24292E">    NodeWellLinkedIn G thirdCluster thirdTerminals</span></td></tr>
+<tr id="L168" class=""><td class="line-num"><a href="#L168">168</a></td><td class="line-code"><span style="color:#24292E">    <a class="lean-identifier-link" href="../lax-17/Lax17.Linkedness.html">NodeWellLinkedIn</a> G thirdCluster thirdTerminals</span></td></tr>
 <tr id="L169" class=""><td class="line-num"><a href="#L169">169</a></td><td class="line-code"> </td></tr>
 <tr id="L170" class=""><td class="line-num"><a href="#L170">170</a></td><td class="line-code"><span style="color:#6A737D">/-- The Appendix A.3 split of one cluster into a new base cluster and a</span></td></tr>
 <tr id="L171" class=""><td class="line-num"><a href="#L171">171</a></td><td class="line-code"><span style="color:#6A737D">disjoint hair cluster, together with the retained interfaces and hair</span></td></tr>
@@ -368,15 +368,15 @@ hair-side endpoints are well-linked in the hair cluster.</p>
 <tr id="L196" class=""><td class="line-num"><a href="#L196">196</a></td><td class="line-code"><span style="color:#24292E">  interfaces_disjoint : Disjoint left right</span></td></tr>
 <tr id="L197" class=""><td class="line-num"><a href="#L197">197</a></td><td class="line-code"><span style="color:#24292E">  baseEndpoint_disjoint_interfaces :</span></td></tr>
 <tr id="L198" class=""><td class="line-num"><a href="#L198">198</a></td><td class="line-code"><span style="color:#24292E">    Disjoint baseEndpoint (left ∪ right)</span></td></tr>
-<tr id="L199" class=""><td class="line-num"><a href="#L199">199</a></td><td class="line-code"><span style="color:#24292E">  left_well_linked : NodeWellLinkedIn G baseCluster left</span></td></tr>
-<tr id="L200" class=""><td class="line-num"><a href="#L200">200</a></td><td class="line-code"><span style="color:#24292E">  right_well_linked : NodeWellLinkedIn G baseCluster right</span></td></tr>
-<tr id="L201" class=""><td class="line-num"><a href="#L201">201</a></td><td class="line-code"><span style="color:#24292E">  interfaces_linked : NodeLinkedIn G baseCluster left right</span></td></tr>
+<tr id="L199" class=""><td class="line-num"><a href="#L199">199</a></td><td class="line-code"><span style="color:#24292E">  left_well_linked : <a class="lean-identifier-link" href="../lax-17/Lax17.Linkedness.html">NodeWellLinkedIn</a> G baseCluster left</span></td></tr>
+<tr id="L200" class=""><td class="line-num"><a href="#L200">200</a></td><td class="line-code"><span style="color:#24292E">  right_well_linked : <a class="lean-identifier-link" href="../lax-17/Lax17.Linkedness.html">NodeWellLinkedIn</a> G baseCluster right</span></td></tr>
+<tr id="L201" class=""><td class="line-num"><a href="#L201">201</a></td><td class="line-code"><span style="color:#24292E">  interfaces_linked : <a class="lean-identifier-link" href="../lax-17/Lax17.Linkedness.html">NodeLinkedIn</a> G baseCluster left right</span></td></tr>
 <tr id="L202" class=""><td class="line-num"><a href="#L202">202</a></td><td class="line-code"><span style="color:#24292E">  left_baseEndpoint_linked :</span></td></tr>
-<tr id="L203" class=""><td class="line-num"><a href="#L203">203</a></td><td class="line-code"><span style="color:#24292E">    NodeLinkedIn G baseCluster left baseEndpoint</span></td></tr>
+<tr id="L203" class=""><td class="line-num"><a href="#L203">203</a></td><td class="line-code"><span style="color:#24292E">    <a class="lean-identifier-link" href="../lax-17/Lax17.Linkedness.html">NodeLinkedIn</a> G baseCluster left baseEndpoint</span></td></tr>
 <tr id="L204" class=""><td class="line-num"><a href="#L204">204</a></td><td class="line-code"><span style="color:#24292E">  hairEndpoint_well_linked :</span></td></tr>
-<tr id="L205" class=""><td class="line-num"><a href="#L205">205</a></td><td class="line-code"><span style="color:#24292E">    NodeWellLinkedIn G hairCluster hairEndpoint</span></td></tr>
+<tr id="L205" class=""><td class="line-num"><a href="#L205">205</a></td><td class="line-code"><span style="color:#24292E">    <a class="lean-identifier-link" href="../lax-17/Lax17.Linkedness.html">NodeWellLinkedIn</a> G hairCluster hairEndpoint</span></td></tr>
 <tr id="L206" class=""><td class="line-num"><a href="#L206">206</a></td><td class="line-code"><span style="color:#24292E">  hairLinkage :</span></td></tr>
-<tr id="L207" class=""><td class="line-num"><a href="#L207">207</a></td><td class="line-code"><span style="color:#24292E">    VertexLinkage G baseEndpoint hairEndpoint w</span></td></tr>
+<tr id="L207" class=""><td class="line-num"><a href="#L207">207</a></td><td class="line-code"><span style="color:#24292E">    <a class="lean-identifier-link" href="../lax-17/Lax17.Paths.html">VertexLinkage</a> G baseEndpoint hairEndpoint w</span></td></tr>
 <tr id="L208" class=""><td class="line-num"><a href="#L208">208</a></td><td class="line-code"><span style="color:#24292E">  hairLinkage_stays_in_cluster :</span></td></tr>
 <tr id="L209" class=""><td class="line-num"><a href="#L209">209</a></td><td class="line-code"><span style="color:#24292E">    ∀ i : Fin w, (hairLinkage.path i).StaysIn C</span></td></tr>
 <tr id="L210" class=""><td class="line-num"><a href="#L210">210</a></td><td class="line-code"><span style="color:#24292E">  hairLinkage_avoids_base :</span></td></tr>
@@ -384,7 +384,7 @@ hair-side endpoints are well-linked in the hair cluster.</p>
 <tr id="L212" class=""><td class="line-num"><a href="#L212">212</a></td><td class="line-code"><span style="color:#24292E">  hairLinkage_avoids_hair :</span></td></tr>
 <tr id="L213" class=""><td class="line-num"><a href="#L213">213</a></td><td class="line-code"><span style="color:#24292E">    ∀ i : Fin w, (hairLinkage.path i).InternallyAvoids hairCluster</span></td></tr>
 <tr id="L214" class=""><td class="line-num"><a href="#L214">214</a></td><td class="line-code"> </td></tr>
-<tr id="L215" class=""><td class="line-num"><a href="#L215">215</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax17.PathOfSets</span></td></tr>
+<tr id="L215" class=""><td class="line-num"><a href="#L215">215</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-17/Lax17.PathOfSets.html">Lax17.PathOfSets</a></span></td></tr>
 <tr id="L216" class=""><td class="line-num"><a href="#L216">216</a></td><td class="line-code"> </td></tr>
 </table></div><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
 

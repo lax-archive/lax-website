@@ -7,7 +7,7 @@
 <title>Single-tape Turing machines as string rewriting — Lax251941.TuringMachines</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=b137f5f99a33">
+<link rel="stylesheet" href="../assets/style.css?v=b78d6b17a06b">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -177,7 +177,7 @@ are read off the transition table.</p>
 <tr id="L43" class=""><td class="line-num"><a href="#L43">43</a></td><td class="line-code"><span style="color:#6A737D">problems about machines can be stated with mathlib's `ComputablePred`.</span></td></tr>
 <tr id="L44" class=""><td class="line-num"><a href="#L44">44</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
 <tr id="L45" class=""><td class="line-num"><a href="#L45">45</a></td><td class="line-code"> </td></tr>
-<tr id="L46" class=""><td class="line-num"><a href="#L46">46</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax251941.TuringMachines</span></td></tr>
+<tr id="L46" class=""><td class="line-num"><a href="#L46">46</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-251941/Lax251941.TuringMachines.html">Lax251941.TuringMachines</a></span></td></tr>
 <tr id="L47" class=""><td class="line-num"><a href="#L47">47</a></td><td class="line-code"> </td></tr>
 <tr id="L48" class=""><td class="line-num"><a href="#L48">48</a></td><td class="line-code"><span style="color:#6A737D">/-- The symbols in which configurations of a Turing machine, and the strings of</span></td></tr>
 <tr id="L49" class=""><td class="line-num"><a href="#L49">49</a></td><td class="line-code"><span style="color:#6A737D">Sipser's reduction, are written. -/</span></td></tr>
@@ -296,7 +296,7 @@ are read off the transition table.</p>
 <tr id="L162" class=""><td class="line-num"><a href="#L162">162</a></td><td class="line-code"> </td></tr>
 <tr id="L163" class=""><td class="line-num"><a href="#L163">163</a></td><td class="line-code"><span style="color:#D73A49">instance</span><span style="color:#24292E"> : Primcodable TM := Primcodable.ofEquiv _ tmEquiv</span></td></tr>
 <tr id="L164" class=""><td class="line-num"><a href="#L164">164</a></td><td class="line-code"> </td></tr>
-<tr id="L165" class=""><td class="line-num"><a href="#L165">165</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax251941.TuringMachines</span></td></tr>
+<tr id="L165" class=""><td class="line-num"><a href="#L165">165</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-251941/Lax251941.TuringMachines.html">Lax251941.TuringMachines</a></span></td></tr>
 <tr id="L166" class=""><td class="line-num"><a href="#L166">166</a></td><td class="line-code"> </td></tr>
 </table></div><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
 <div class="block"><h3>Formalization notes</h3><div class="latex-content"><p>Tape symbols and states are natural numbers, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn></mrow><annotation encoding="application/x-tex">0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span> being the blank. The alphabet

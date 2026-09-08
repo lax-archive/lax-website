@@ -7,7 +7,7 @@
 <title>Computing a function within a time bound — Lax67.RamComputes</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=b137f5f99a33">
+<link rel="stylesheet" href="../assets/style.css?v=b78d6b17a06b">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -103,7 +103,7 @@ are stated by instantiating <em>T</em>.</p>
 </div></div>
 <div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/9d9639601dea95e60803cfb7db1f6296478dcb42/word-ram/concepts/Lax67/RamComputes.lean">view on GitHub</a></h3>
 <div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
-<tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax67.Ram</span></td></tr>
+<tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-67/Lax67.Ram.html">Lax67.Ram</a></span></td></tr>
 <tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Data.Set.Basic</span></td></tr>
 <tr id="L3" class=""><td class="line-num"><a href="#L3">3</a></td><td class="line-code"> </td></tr>
 <tr id="L4" class=""><td class="line-num"><a href="#L4">4</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
@@ -160,17 +160,17 @@ are stated by instantiating <em>T</em>.</p>
 <tr id="L55" class=""><td class="line-num"><a href="#L55">55</a></td><td class="line-code"><span style="color:#6A737D">`T` is unconstrained.</span></td></tr>
 <tr id="L56" class=""><td class="line-num"><a href="#L56">56</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
 <tr id="L57" class=""><td class="line-num"><a href="#L57">57</a></td><td class="line-code"> </td></tr>
-<tr id="L58" class=""><td class="line-num"><a href="#L58">58</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax67.RamComputes</span></td></tr>
+<tr id="L58" class=""><td class="line-num"><a href="#L58">58</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-67/Lax67.RamComputes.html">Lax67.RamComputes</a></span></td></tr>
 <tr id="L59" class=""><td class="line-num"><a href="#L59">59</a></td><td class="line-code"> </td></tr>
-<tr id="L60" class=""><td class="line-num"><a href="#L60">60</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax67.Ram</span></td></tr>
+<tr id="L60" class=""><td class="line-num"><a href="#L60">60</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-67/Lax67.Ram.html">Lax67.Ram</a></span></td></tr>
 <tr id="L61" class=""><td class="line-num"><a href="#L61">61</a></td><td class="line-code"> </td></tr>
 <tr id="L62" class=""><td class="line-num"><a href="#L62">62</a></td><td class="line-code"><span style="color:#6A737D">/-- At word length `w`, on every admissible input `x`, the program halts</span></td></tr>
 <tr id="L63" class=""><td class="line-num"><a href="#L63">63</a></td><td class="line-code"><span style="color:#6A737D">within `T x` steps with output `f x`. -/</span></td></tr>
-<tr id="L64" class=""><td class="line-num"><a href="#L64">64</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> ComputesInTime</span><span style="color:#24292E"> (w : ℕ) (p : Program) (D : Set (List ℕ))</span></td></tr>
+<tr id="L64" class=""><td class="line-num"><a href="#L64">64</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> ComputesInTime</span><span style="color:#24292E"> (w : ℕ) (p : <a class="lean-identifier-link" href="../lax-67/Lax67.Ram.html">Program</a>) (D : Set (List ℕ))</span></td></tr>
 <tr id="L65" class=""><td class="line-num"><a href="#L65">65</a></td><td class="line-code"><span style="color:#24292E">    (f : List ℕ → List ℕ) (T : List ℕ → ℕ) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
-<tr id="L66" class=""><td class="line-num"><a href="#L66">66</a></td><td class="line-code"><span style="color:#24292E">  ∀ x ∈ D, ∃ t ≤ T x, RunsTo w p x (f x) t</span></td></tr>
+<tr id="L66" class=""><td class="line-num"><a href="#L66">66</a></td><td class="line-code"><span style="color:#24292E">  ∀ x ∈ D, ∃ t ≤ T x, <a class="lean-identifier-link" href="../lax-67/Lax67.Ram.html">RunsTo</a> w p x (f x) t</span></td></tr>
 <tr id="L67" class=""><td class="line-num"><a href="#L67">67</a></td><td class="line-code"> </td></tr>
-<tr id="L68" class=""><td class="line-num"><a href="#L68">68</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax67.RamComputes</span></td></tr>
+<tr id="L68" class=""><td class="line-num"><a href="#L68">68</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-67/Lax67.RamComputes.html">Lax67.RamComputes</a></span></td></tr>
 <tr id="L69" class=""><td class="line-num"><a href="#L69">69</a></td><td class="line-code"> </td></tr>
 </table></div><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
 <div class="block"><h3>Formalization notes</h3><div class="latex-content"><p>The number of steps is the machine's own step count, so a time bound is

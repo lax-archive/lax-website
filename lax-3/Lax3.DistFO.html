@@ -7,7 +7,7 @@
 <title>Distance logic and distance rank — Lax3.DistFO</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=b137f5f99a33">
+<link rel="stylesheet" href="../assets/style.css?v=b78d6b17a06b">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -150,7 +150,7 @@ tuple.</p>
 </div></div>
 <div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/bd9bba6fdc632df94938a125b2741a79a267faef/nowhere-dense-model-checking/concepts/Lax3/DistFO.lean">view on GitHub</a></h3>
 <div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
-<tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax3.ColoredGraphs</span></td></tr>
+<tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-3/Lax3.ColoredGraphs.html">Lax3.ColoredGraphs</a></span></td></tr>
 <tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Data.Fin.Tuple.Basic</span></td></tr>
 <tr id="L3" class=""><td class="line-num"><a href="#L3">3</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Data.Finset.Image</span></td></tr>
 <tr id="L4" class=""><td class="line-num"><a href="#L4">4</a></td><td class="line-code"> </td></tr>
@@ -288,9 +288,9 @@ tuple.</p>
 <tr id="L136" class=""><td class="line-num"><a href="#L136">136</a></td><td class="line-code"><span style="color:#6A737D">proofs that use them.</span></td></tr>
 <tr id="L137" class=""><td class="line-num"><a href="#L137">137</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
 <tr id="L138" class=""><td class="line-num"><a href="#L138">138</a></td><td class="line-code"> </td></tr>
-<tr id="L139" class=""><td class="line-num"><a href="#L139">139</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax3.DistFO</span></td></tr>
+<tr id="L139" class=""><td class="line-num"><a href="#L139">139</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-3/Lax3.DistFO.html">Lax3.DistFO</a></span></td></tr>
 <tr id="L140" class=""><td class="line-num"><a href="#L140">140</a></td><td class="line-code"> </td></tr>
-<tr id="L141" class=""><td class="line-num"><a href="#L141">141</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax3.ColoredGraphs</span></td></tr>
+<tr id="L141" class=""><td class="line-num"><a href="#L141">141</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-3/Lax3.ColoredGraphs.html">Lax3.ColoredGraphs</a></span></td></tr>
 <tr id="L142" class=""><td class="line-num"><a href="#L142">142</a></td><td class="line-code"> </td></tr>
 <tr id="L143" class=""><td class="line-num"><a href="#L143">143</a></td><td class="line-code"><span style="color:#6A737D">/-- The lower horizon function ρ⁻ of the source: the largest radius a</span></td></tr>
 <tr id="L144" class=""><td class="line-num"><a href="#L144">144</a></td><td class="line-code"><span style="color:#6A737D">distance atom of distance rank `(k, q)` may carry. -/</span></td></tr>
@@ -344,18 +344,18 @@ tuple.</p>
 <tr id="L192" class=""><td class="line-num"><a href="#L192">192</a></td><td class="line-code"><span style="color:#6A737D">local quantifier ranges over the vertices within `r` of some variable</span></td></tr>
 <tr id="L193" class=""><td class="line-num"><a href="#L193">193</a></td><td class="line-code"><span style="color:#6A737D">in its guard set — an empty condition, hence unsatisfiable, when the</span></td></tr>
 <tr id="L194" class=""><td class="line-num"><a href="#L194">194</a></td><td class="line-code"><span style="color:#6A737D">set is empty. -/</span></td></tr>
-<tr id="L195" class=""><td class="line-num"><a href="#L195">195</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> Sat</span><span style="color:#24292E"> (G : SimpleGraph (Fin n)) (col : Coloring n L) :</span></td></tr>
+<tr id="L195" class=""><td class="line-num"><a href="#L195">195</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> Sat</span><span style="color:#24292E"> (G : SimpleGraph (Fin n)) (col : <a class="lean-identifier-link" href="../lax-3/Lax3.ColoredGraphs.html">Coloring</a> n L) :</span></td></tr>
 <tr id="L196" class=""><td class="line-num"><a href="#L196">196</a></td><td class="line-code"><span style="color:#24292E">    {k : ℕ} → (Fin k → Fin n) → DistFO L k → </span><span style="color:#D73A49">Prop</span></td></tr>
 <tr id="L197" class=""><td class="line-num"><a href="#L197">197</a></td><td class="line-code"><span style="color:#24292E">  | _, m, .adj i j =&gt; G.Adj (m i) (m j)</span></td></tr>
 <tr id="L198" class=""><td class="line-num"><a href="#L198">198</a></td><td class="line-code"><span style="color:#24292E">  | _, m, .eq i j =&gt; m i = m j</span></td></tr>
 <tr id="L199" class=""><td class="line-num"><a href="#L199">199</a></td><td class="line-code"><span style="color:#24292E">  | _, m, .color c i =&gt; m i ∈ col c</span></td></tr>
-<tr id="L200" class=""><td class="line-num"><a href="#L200">200</a></td><td class="line-code"><span style="color:#24292E">  | _, m, .distLe r i j =&gt; WithinDist G r (m i) (m j)</span></td></tr>
+<tr id="L200" class=""><td class="line-num"><a href="#L200">200</a></td><td class="line-code"><span style="color:#24292E">  | _, m, .distLe r i j =&gt; <a class="lean-identifier-link" href="../lax-3/Lax3.ColoredGraphs.html">WithinDist</a> G r (m i) (m j)</span></td></tr>
 <tr id="L201" class=""><td class="line-num"><a href="#L201">201</a></td><td class="line-code"><span style="color:#24292E">  | _, m, .distColorLt r c i =&gt; ∃ y ∈ col c, ∃ w : G.Walk (m i) y, w.length &lt; r</span></td></tr>
 <tr id="L202" class=""><td class="line-num"><a href="#L202">202</a></td><td class="line-code"><span style="color:#24292E">  | _, m, .not φ =&gt; ¬ Sat G col m φ</span></td></tr>
 <tr id="L203" class=""><td class="line-num"><a href="#L203">203</a></td><td class="line-code"><span style="color:#24292E">  | _, m, .and φ ψ =&gt; Sat G col m φ ∧ Sat G col m ψ</span></td></tr>
 <tr id="L204" class=""><td class="line-num"><a href="#L204">204</a></td><td class="line-code"><span style="color:#24292E">  | _, m, .exU φ =&gt; ∃ v : Fin n, Sat G col (Fin.snoc m v) φ</span></td></tr>
 <tr id="L205" class=""><td class="line-num"><a href="#L205">205</a></td><td class="line-code"><span style="color:#24292E">  | _, m, .exL r g φ =&gt;</span></td></tr>
-<tr id="L206" class=""><td class="line-num"><a href="#L206">206</a></td><td class="line-code"><span style="color:#24292E">      ∃ v : Fin n, (∃ i ∈ g, WithinDist G r (m i) v) ∧ Sat G col (Fin.snoc m v) φ</span></td></tr>
+<tr id="L206" class=""><td class="line-num"><a href="#L206">206</a></td><td class="line-code"><span style="color:#24292E">      ∃ v : Fin n, (∃ i ∈ g, <a class="lean-identifier-link" href="../lax-3/Lax3.ColoredGraphs.html">WithinDist</a> G r (m i) v) ∧ Sat G col (Fin.snoc m v) φ</span></td></tr>
 <tr id="L207" class=""><td class="line-num"><a href="#L207">207</a></td><td class="line-code"> </td></tr>
 <tr id="L208" class=""><td class="line-num"><a href="#L208">208</a></td><td class="line-code"><span style="color:#6A737D">/-- Renaming of variables along `f`. Under a binder the renaming is</span></td></tr>
 <tr id="L209" class=""><td class="line-num"><a href="#L209">209</a></td><td class="line-code"><span style="color:#6A737D">lifted to `Fin (k + 1) → Fin (k' + 1)` by sending the bound variable —</span></td></tr>
@@ -433,7 +433,7 @@ tuple.</p>
 <tr id="L281" class=""><td class="line-num"><a href="#L281">281</a></td><td class="line-code"><span style="color:#6A737D">kept: quantifiers range over `D`, an edge counts only if both endpoints</span></td></tr>
 <tr id="L282" class=""><td class="line-num"><a href="#L282">282</a></td><td class="line-code"><span style="color:#6A737D">lie in `D`, color classes are intersected with `D`, and distances are</span></td></tr>
 <tr id="L283" class=""><td class="line-num"><a href="#L283">283</a></td><td class="line-code"><span style="color:#6A737D">measured along walks inside `D`. -/</span></td></tr>
-<tr id="L284" class=""><td class="line-num"><a href="#L284">284</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> SatWithin</span><span style="color:#24292E"> (D : Set (Fin n)) (G : SimpleGraph (Fin n)) (col : Coloring n L) :</span></td></tr>
+<tr id="L284" class=""><td class="line-num"><a href="#L284">284</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> SatWithin</span><span style="color:#24292E"> (D : Set (Fin n)) (G : SimpleGraph (Fin n)) (col : <a class="lean-identifier-link" href="../lax-3/Lax3.ColoredGraphs.html">Coloring</a> n L) :</span></td></tr>
 <tr id="L285" class=""><td class="line-num"><a href="#L285">285</a></td><td class="line-code"><span style="color:#24292E">    {k : ℕ} → (Fin k → Fin n) → DistFO L k → </span><span style="color:#D73A49">Prop</span></td></tr>
 <tr id="L286" class=""><td class="line-num"><a href="#L286">286</a></td><td class="line-code"><span style="color:#24292E">  | _, m, .adj i j =&gt; G.Adj (m i) (m j) ∧ m i ∈ D ∧ m j ∈ D</span></td></tr>
 <tr id="L287" class=""><td class="line-num"><a href="#L287">287</a></td><td class="line-code"><span style="color:#24292E">  | _, m, .eq i j =&gt; m i = m j</span></td></tr>
@@ -453,10 +453,10 @@ tuple.</p>
 <tr id="L301" class=""><td class="line-num"><a href="#L301">301</a></td><td class="line-code"><span style="color:#6A737D">of the `r`-balls around the tuple agree, in every colored graph and at</span></td></tr>
 <tr id="L302" class=""><td class="line-num"><a href="#L302">302</a></td><td class="line-code"><span style="color:#6A737D">every tuple. -/</span></td></tr>
 <tr id="L303" class=""><td class="line-num"><a href="#L303">303</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> SemanticallyLocal</span><span style="color:#24292E"> (r : ℕ) {k : ℕ} (φ : DistFO L k) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
-<tr id="L304" class=""><td class="line-num"><a href="#L304">304</a></td><td class="line-code"><span style="color:#24292E">  ∀ (n : ℕ) (G : SimpleGraph (Fin n)) (col : Coloring n L) (m : Fin k → Fin n),</span></td></tr>
-<tr id="L305" class=""><td class="line-num"><a href="#L305">305</a></td><td class="line-code"><span style="color:#24292E">    Sat G col m φ ↔ SatWithin (⋃ i, ball G r (m i)) G col m φ</span></td></tr>
+<tr id="L304" class=""><td class="line-num"><a href="#L304">304</a></td><td class="line-code"><span style="color:#24292E">  ∀ (n : ℕ) (G : SimpleGraph (Fin n)) (col : <a class="lean-identifier-link" href="../lax-3/Lax3.ColoredGraphs.html">Coloring</a> n L) (m : Fin k → Fin n),</span></td></tr>
+<tr id="L305" class=""><td class="line-num"><a href="#L305">305</a></td><td class="line-code"><span style="color:#24292E">    Sat G col m φ ↔ SatWithin (⋃ i, <a class="lean-identifier-link" href="../lax-3/Lax3.ColoredGraphs.html">ball</a> G r (m i)) G col m φ</span></td></tr>
 <tr id="L306" class=""><td class="line-num"><a href="#L306">306</a></td><td class="line-code"> </td></tr>
-<tr id="L307" class=""><td class="line-num"><a href="#L307">307</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax3.DistFO</span></td></tr>
+<tr id="L307" class=""><td class="line-num"><a href="#L307">307</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-3/Lax3.DistFO.html">Lax3.DistFO</a></span></td></tr>
 <tr id="L308" class=""><td class="line-num"><a href="#L308">308</a></td><td class="line-code"> </td></tr>
 </table></div><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
 <div class="block"><h3>Formalization notes</h3><div class="latex-content"><p>The horizon functions are the source's concrete pair, ρ⁻(<em>k</em>, <em>q</em>) =

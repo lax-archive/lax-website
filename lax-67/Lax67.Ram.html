@@ -7,7 +7,7 @@
 <title>The word RAM — Lax67.Ram</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=b137f5f99a33">
+<link rel="stylesheet" href="../assets/style.css?v=b78d6b17a06b">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -261,7 +261,7 @@ each costing one time unit.</p>
 <tr id="L137" class=""><td class="line-num"><a href="#L137">137</a></td><td class="line-code"><span style="color:#6A737D">the model.</span></td></tr>
 <tr id="L138" class=""><td class="line-num"><a href="#L138">138</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
 <tr id="L139" class=""><td class="line-num"><a href="#L139">139</a></td><td class="line-code"> </td></tr>
-<tr id="L140" class=""><td class="line-num"><a href="#L140">140</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax67.Ram</span></td></tr>
+<tr id="L140" class=""><td class="line-num"><a href="#L140">140</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-67/Lax67.Ram.html">Lax67.Ram</a></span></td></tr>
 <tr id="L141" class=""><td class="line-num"><a href="#L141">141</a></td><td class="line-code"> </td></tr>
 <tr id="L142" class=""><td class="line-num"><a href="#L142">142</a></td><td class="line-code"><span style="color:#6A737D">/-- An instruction. Every number naming a cell is read, except that</span></td></tr>
 <tr id="L143" class=""><td class="line-num"><a href="#L143">143</a></td><td class="line-code"><span style="color:#6A737D">the first one names the cell written by `set`, `load`, `read` and the</span></td></tr>
@@ -419,7 +419,7 @@ each costing one time unit.</p>
 <tr id="L295" class=""><td class="line-num"><a href="#L295">295</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> RunsTo</span><span style="color:#24292E"> (w : ℕ) (p : Program) (x y : List ℕ) (t : ℕ) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
 <tr id="L296" class=""><td class="line-num"><a href="#L296">296</a></td><td class="line-code"><span style="color:#24292E">  ∃ s : State, run w p t (initState x) = some s ∧ step w p s = none ∧ s.out = y</span></td></tr>
 <tr id="L297" class=""><td class="line-num"><a href="#L297">297</a></td><td class="line-code"> </td></tr>
-<tr id="L298" class=""><td class="line-num"><a href="#L298">298</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax67.Ram</span></td></tr>
+<tr id="L298" class=""><td class="line-num"><a href="#L298">298</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-67/Lax67.Ram.html">Lax67.Ram</a></span></td></tr>
 <tr id="L299" class=""><td class="line-num"><a href="#L299">299</a></td><td class="line-code"> </td></tr>
 </table></div><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
 <div class="block"><h3>Formalization notes</h3><div class="latex-content"><p>This is the machine the modern analysis of algorithms is stated on. Its

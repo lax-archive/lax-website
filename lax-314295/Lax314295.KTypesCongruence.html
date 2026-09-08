@@ -7,7 +7,7 @@
 <title>k-types are a congruence for concatenation — Lax314295.KTypesCongruence</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=b137f5f99a33">
+<link rel="stylesheet" href="../assets/style.css?v=b78d6b17a06b">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -169,7 +169,7 @@ and of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3
 </div></div>
 <div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/bojanczyk/transducer-book/blob/8b8f8c62ecc4868f7004615a209bae7d46d78d3d/lax/mso-transductions/concepts/Lax314295/KTypesCongruence.lean">view on GitHub</a></h3>
 <div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
-<tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax314295.KTypes</span></td></tr>
+<tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-314295/Lax314295.KTypes.html">Lax314295.KTypes</a></span></td></tr>
 <tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"> </td></tr>
 <tr id="L3" class=""><td class="line-num"><a href="#L3">3</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
 <tr id="L4" class=""><td class="line-num"><a href="#L4">4</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
@@ -185,15 +185,15 @@ and of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3
 <tr id="L14" class=""><td class="line-num"><a href="#L14">14</a></td><td class="line-code"><span style="color:#6A737D">Stated over any alphabet; no finiteness is needed.</span></td></tr>
 <tr id="L15" class=""><td class="line-num"><a href="#L15">15</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
 <tr id="L16" class=""><td class="line-num"><a href="#L16">16</a></td><td class="line-code"> </td></tr>
-<tr id="L17" class=""><td class="line-num"><a href="#L17">17</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax314295.KTypesCongruence</span></td></tr>
+<tr id="L17" class=""><td class="line-num"><a href="#L17">17</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-314295/Lax314295.KTypesCongruence.html">Lax314295.KTypesCongruence</a></span></td></tr>
 <tr id="L18" class=""><td class="line-num"><a href="#L18">18</a></td><td class="line-code"> </td></tr>
-<tr id="L19" class=""><td class="line-num"><a href="#L19">19</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax314295.KTypes</span></td></tr>
+<tr id="L19" class=""><td class="line-num"><a href="#L19">19</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-314295/Lax314295.KTypes.html">Lax314295.KTypes</a></span></td></tr>
 <tr id="L20" class=""><td class="line-num"><a href="#L20">20</a></td><td class="line-code"> </td></tr>
 <tr id="L21" class="statement-line line-proven"><td class="line-num"><a href="#L21">21</a></td><td class="line-code"><span class="statement-anchor" id="s-Lax314295.KTypesCongruence.tp_append_congr"></span><span style="color:#6A737D">/-- The `k`-type of a concatenation is determined by the `k`-types of the parts. -/</span></td></tr>
-<tr id="L22" class="statement-line line-proven"><td class="line-num"><a href="#L22">22</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> tp_append_congr</span><span style="color:#24292E"> {A : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">} (k : ℕ) (w w' v v' : List A)</span></td></tr>
-<tr id="L23" class="statement-line line-proven"><td class="line-num"><a href="#L23">23</a></td><td class="line-code"><span style="color:#24292E">    (hw : tp k w = tp k w') (hv : tp k v = tp k v') : tp k (w ++ v) = tp k (w' ++ v')</span></td></tr>
+<tr id="L22" class="statement-line line-proven"><td class="line-num"><a href="#L22">22</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> <a class="lean-identifier-link" href="../lax-314295/Lax314295.KTypesCongruence.html#s-Lax314295.KTypesCongruence.tp_append_congr">tp_append_congr</a></span><span style="color:#24292E"> {A : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">} (k : ℕ) (w w' v v' : List A)</span></td></tr>
+<tr id="L23" class="statement-line line-proven"><td class="line-num"><a href="#L23">23</a></td><td class="line-code"><span style="color:#24292E">    (hw : <a class="lean-identifier-link" href="../lax-314295/Lax314295.KTypes.html">tp</a> k w = <a class="lean-identifier-link" href="../lax-314295/Lax314295.KTypes.html">tp</a> k w') (hv : <a class="lean-identifier-link" href="../lax-314295/Lax314295.KTypes.html">tp</a> k v = <a class="lean-identifier-link" href="../lax-314295/Lax314295.KTypes.html">tp</a> k v') : <a class="lean-identifier-link" href="../lax-314295/Lax314295.KTypes.html">tp</a> k (w ++ v) = <a class="lean-identifier-link" href="../lax-314295/Lax314295.KTypes.html">tp</a> k (w' ++ v')</span></td></tr>
 <tr id="L24" class=""><td class="line-num"><a href="#L24">24</a></td><td class="line-code"> </td></tr>
-<tr id="L25" class=""><td class="line-num"><a href="#L25">25</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax314295.KTypesCongruence</span></td></tr>
+<tr id="L25" class=""><td class="line-num"><a href="#L25">25</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-314295/Lax314295.KTypesCongruence.html">Lax314295.KTypesCongruence</a></span></td></tr>
 <tr id="L26" class=""><td class="line-num"><a href="#L26">26</a></td><td class="line-code"> </td></tr>
 </table></div><span class="source-proof-rail" data-source-line="L22" aria-label="Proof links"><a class="statement-proof-button" href="https://github.com/bojanczyk/transducer-book/blob/8b8f8c62ecc4868f7004615a209bae7d46d78d3d/lax/mso-transductions/proofs/Lax314295Proofs/Results.lean" aria-label="View proof Lax314295Proofs.Results.tp_append_congr on GitHub" title="Lax314295Proofs.Results.tp_append_congr"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">Show Proof</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a></span><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
 <div class="block"><h3>Formalization notes</h3><div class="latex-content"><p>Stated over any alphabet; no finiteness is needed.</p>

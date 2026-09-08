@@ -7,7 +7,7 @@
 <title>Refinement and the index of a graph partition — Lax18.PartitionEnergy</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=b137f5f99a33">
+<link rel="stylesheet" href="../assets/style.css?v=b78d6b17a06b">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -122,7 +122,7 @@ convenient for the refinement argument.</p>
 <div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/faghasemi/szemeredi-regularity-lemma-lax/blob/35e33040b5f561131c764c4e0dad922eeecd2dc2/regularity-lemma/concepts/Lax18/PartitionEnergy.lean">view on GitHub</a></h3>
 <div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
 <tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Algebra.BigOperators.Group.Finset.Basic</span></td></tr>
-<tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax18.RegularPartitions</span></td></tr>
+<tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-18/Lax18.RegularPartitions.html">Lax18.RegularPartitions</a></span></td></tr>
 <tr id="L3" class=""><td class="line-num"><a href="#L3">3</a></td><td class="line-code"> </td></tr>
 <tr id="L4" class=""><td class="line-num"><a href="#L4">4</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
 <tr id="L5" class=""><td class="line-num"><a href="#L5">5</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
@@ -139,10 +139,10 @@ convenient for the refinement argument.</p>
 <tr id="L16" class=""><td class="line-num"><a href="#L16">16</a></td><td class="line-code"><span style="color:#6A737D">convenient for the refinement argument.</span></td></tr>
 <tr id="L17" class=""><td class="line-num"><a href="#L17">17</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
 <tr id="L18" class=""><td class="line-num"><a href="#L18">18</a></td><td class="line-code"> </td></tr>
-<tr id="L19" class=""><td class="line-num"><a href="#L19">19</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax18.PartitionEnergy</span></td></tr>
+<tr id="L19" class=""><td class="line-num"><a href="#L19">19</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-18/Lax18.PartitionEnergy.html">Lax18.PartitionEnergy</a></span></td></tr>
 <tr id="L20" class=""><td class="line-num"><a href="#L20">20</a></td><td class="line-code"> </td></tr>
-<tr id="L21" class=""><td class="line-num"><a href="#L21">21</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax18.EdgeDensity</span></td></tr>
-<tr id="L22" class=""><td class="line-num"><a href="#L22">22</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax18.FiniteGraphPartitions</span></td></tr>
+<tr id="L21" class=""><td class="line-num"><a href="#L21">21</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-18/Lax18.EdgeDensity.html">Lax18.EdgeDensity</a></span></td></tr>
+<tr id="L22" class=""><td class="line-num"><a href="#L22">22</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-18/Lax18.FiniteGraphPartitions.html">Lax18.FiniteGraphPartitions</a></span></td></tr>
 <tr id="L23" class=""><td class="line-num"><a href="#L23">23</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#D73A49"> scoped</span><span style="color:#24292E"> BigOperators</span></td></tr>
 <tr id="L24" class=""><td class="line-num"><a href="#L24">24</a></td><td class="line-code"> </td></tr>
 <tr id="L25" class=""><td class="line-num"><a href="#L25">25</a></td><td class="line-code"><span style="color:#D73A49">universe</span><span style="color:#24292E"> u</span></td></tr>
@@ -150,24 +150,24 @@ convenient for the refinement argument.</p>
 <tr id="L27" class=""><td class="line-num"><a href="#L27">27</a></td><td class="line-code"><span style="color:#D73A49">variable</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E"> u} [Fintype V] [DecidableEq V]</span></td></tr>
 <tr id="L28" class=""><td class="line-num"><a href="#L28">28</a></td><td class="line-code"> </td></tr>
 <tr id="L29" class=""><td class="line-num"><a href="#L29">29</a></td><td class="line-code"><span style="color:#6A737D">/-- `Q.Refines P` means that every class of `Q` lies in a class of `P`. -/</span></td></tr>
-<tr id="L30" class=""><td class="line-num"><a href="#L30">30</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> Refines</span><span style="color:#24292E"> (Q P : VertexPartition V) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr id="L30" class=""><td class="line-num"><a href="#L30">30</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> Refines</span><span style="color:#24292E"> (Q P : <a class="lean-identifier-link" href="../lax-18/Lax18.FiniteGraphPartitions.html">VertexPartition</a> V) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
 <tr id="L31" class=""><td class="line-num"><a href="#L31">31</a></td><td class="line-code"><span style="color:#24292E">  ∀ j : Fin Q.partCount,</span></td></tr>
 <tr id="L32" class=""><td class="line-num"><a href="#L32">32</a></td><td class="line-code"><span style="color:#24292E">    ∃ i : Fin P.partCount, Q.part j ⊆ P.part i</span></td></tr>
 <tr id="L33" class=""><td class="line-num"><a href="#L33">33</a></td><td class="line-code"> </td></tr>
 <tr id="L34" class=""><td class="line-num"><a href="#L34">34</a></td><td class="line-code"><span style="color:#6A737D">/-- The normalized weight of the ordered pair of classes `(i,j)`. -/</span></td></tr>
-<tr id="L35" class=""><td class="line-num"><a href="#L35">35</a></td><td class="line-code"><span style="color:#D73A49">noncomputable</span><span style="color:#D73A49"> def</span><span style="color:#6F42C1"> pairWeight</span><span style="color:#24292E"> (P : VertexPartition V)</span></td></tr>
+<tr id="L35" class=""><td class="line-num"><a href="#L35">35</a></td><td class="line-code"><span style="color:#D73A49">noncomputable</span><span style="color:#D73A49"> def</span><span style="color:#6F42C1"> pairWeight</span><span style="color:#24292E"> (P : <a class="lean-identifier-link" href="../lax-18/Lax18.FiniteGraphPartitions.html">VertexPartition</a> V)</span></td></tr>
 <tr id="L36" class=""><td class="line-num"><a href="#L36">36</a></td><td class="line-code"><span style="color:#24292E">    (i j : Fin P.partCount) : ℝ :=</span></td></tr>
 <tr id="L37" class=""><td class="line-num"><a href="#L37">37</a></td><td class="line-code"><span style="color:#24292E">  ((P.partSize i : ℝ) * (P.partSize j : ℝ)) /</span></td></tr>
 <tr id="L38" class=""><td class="line-num"><a href="#L38">38</a></td><td class="line-code"><span style="color:#24292E">    (Fintype.card V : ℝ) ^ </span><span style="color:#005CC5">2</span></td></tr>
 <tr id="L39" class=""><td class="line-num"><a href="#L39">39</a></td><td class="line-code"> </td></tr>
 <tr id="L40" class=""><td class="line-num"><a href="#L40">40</a></td><td class="line-code"><span style="color:#6A737D">/-- The weighted mean-square density (or index) of a graph partition. -/</span></td></tr>
 <tr id="L41" class=""><td class="line-num"><a href="#L41">41</a></td><td class="line-code"><span style="color:#D73A49">noncomputable</span><span style="color:#D73A49"> def</span><span style="color:#6F42C1"> partitionEnergy</span><span style="color:#24292E"> (G : SimpleGraph V)</span></td></tr>
-<tr id="L42" class=""><td class="line-num"><a href="#L42">42</a></td><td class="line-code"><span style="color:#24292E">    (P : VertexPartition V) : ℝ :=</span></td></tr>
+<tr id="L42" class=""><td class="line-num"><a href="#L42">42</a></td><td class="line-code"><span style="color:#24292E">    (P : <a class="lean-identifier-link" href="../lax-18/Lax18.FiniteGraphPartitions.html">VertexPartition</a> V) : ℝ :=</span></td></tr>
 <tr id="L43" class=""><td class="line-num"><a href="#L43">43</a></td><td class="line-code"><span style="color:#24292E">  ∑ i : Fin P.partCount,</span></td></tr>
 <tr id="L44" class=""><td class="line-num"><a href="#L44">44</a></td><td class="line-code"><span style="color:#24292E">    ∑ j : Fin P.partCount,</span></td></tr>
-<tr id="L45" class=""><td class="line-num"><a href="#L45">45</a></td><td class="line-code"><span style="color:#24292E">      pairWeight P i j * (density G (P.part i) (P.part j)) ^ </span><span style="color:#005CC5">2</span></td></tr>
+<tr id="L45" class=""><td class="line-num"><a href="#L45">45</a></td><td class="line-code"><span style="color:#24292E">      pairWeight P i j * (<a class="lean-identifier-link" href="../lax-18/Lax18.EdgeDensity.html">density</a> G (P.part i) (P.part j)) ^ </span><span style="color:#005CC5">2</span></td></tr>
 <tr id="L46" class=""><td class="line-num"><a href="#L46">46</a></td><td class="line-code"> </td></tr>
-<tr id="L47" class=""><td class="line-num"><a href="#L47">47</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax18.PartitionEnergy</span></td></tr>
+<tr id="L47" class=""><td class="line-num"><a href="#L47">47</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-18/Lax18.PartitionEnergy.html">Lax18.PartitionEnergy</a></span></td></tr>
 <tr id="L48" class=""><td class="line-num"><a href="#L48">48</a></td><td class="line-code"> </td></tr>
 </table></div><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
 

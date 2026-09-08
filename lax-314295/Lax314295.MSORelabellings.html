@@ -7,7 +7,7 @@
 <title>MSO relabellings — Lax314295.MSORelabellings</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=b137f5f99a33">
+<link rel="stylesheet" href="../assets/style.css?v=b78d6b17a06b">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -162,7 +162,7 @@ formulas are first-order — exactly the functions of aperiodic bimachines
 </div></div>
 <div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/bojanczyk/transducer-book/blob/8b8f8c62ecc4868f7004615a209bae7d46d78d3d/lax/mso-transductions/concepts/Lax314295/MSORelabellings.lean">view on GitHub</a></h3>
 <div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
-<tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lax314295.MSOLogic</span></td></tr>
+<tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-314295/Lax314295.MSOLogic.html">Lax314295.MSOLogic</a></span></td></tr>
 <tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"> </td></tr>
 <tr id="L3" class=""><td class="line-num"><a href="#L3">3</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
 <tr id="L4" class=""><td class="line-num"><a href="#L4">4</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
@@ -189,9 +189,9 @@ formulas are first-order — exactly the functions of aperiodic bimachines
 <tr id="L25" class=""><td class="line-num"><a href="#L25">25</a></td><td class="line-code"><span style="color:#6A737D">the relabelling, uniqueness of the true formula being a field of the structure.</span></td></tr>
 <tr id="L26" class=""><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
 <tr id="L27" class=""><td class="line-num"><a href="#L27">27</a></td><td class="line-code"> </td></tr>
-<tr id="L28" class=""><td class="line-num"><a href="#L28">28</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax314295.MSORelabellings</span></td></tr>
+<tr id="L28" class=""><td class="line-num"><a href="#L28">28</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-314295/Lax314295.MSORelabellings.html">Lax314295.MSORelabellings</a></span></td></tr>
 <tr id="L29" class=""><td class="line-num"><a href="#L29">29</a></td><td class="line-code"> </td></tr>
-<tr id="L30" class=""><td class="line-num"><a href="#L30">30</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax314295.MSOLogic</span></td></tr>
+<tr id="L30" class=""><td class="line-num"><a href="#L30">30</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-314295/Lax314295.MSOLogic.html">Lax314295.MSOLogic</a></span></td></tr>
 <tr id="L31" class=""><td class="line-num"><a href="#L31">31</a></td><td class="line-code"> </td></tr>
 <tr id="L32" class=""><td class="line-num"><a href="#L32">32</a></td><td class="line-code"><span style="color:#6A737D">/-- An mso relabelling: a finite family of formulas with one free first-order</span></td></tr>
 <tr id="L33" class=""><td class="line-num"><a href="#L33">33</a></td><td class="line-code"><span style="color:#6A737D">variable (the variable `0`), exactly one of which holds at each position of each</span></td></tr>
@@ -202,7 +202,7 @@ formulas are first-order — exactly the functions of aperiodic bimachines
 <tr id="L38" class=""><td class="line-num"><a href="#L38">38</a></td><td class="line-code"><span style="color:#6A737D">  /-- Finiteness of the index set. -/</span></td></tr>
 <tr id="L39" class=""><td class="line-num"><a href="#L39">39</a></td><td class="line-code"><span style="color:#24292E">  finIdx : Finite Idx</span></td></tr>
 <tr id="L40" class=""><td class="line-num"><a href="#L40">40</a></td><td class="line-code"><span style="color:#6A737D">  /-- The formulas, each with the one free first-order variable `x₀`. -/</span></td></tr>
-<tr id="L41" class=""><td class="line-num"><a href="#L41">41</a></td><td class="line-code"><span style="color:#24292E">  form : Idx → MSO A</span></td></tr>
+<tr id="L41" class=""><td class="line-num"><a href="#L41">41</a></td><td class="line-code"><span style="color:#24292E">  form : Idx → <a class="lean-identifier-link" href="../lax-314295/Lax314295.MSOLogic.html">MSO</a> A</span></td></tr>
 <tr id="L42" class=""><td class="line-num"><a href="#L42">42</a></td><td class="line-code"><span style="color:#6A737D">  /-- The output string of each formula. -/</span></td></tr>
 <tr id="L43" class=""><td class="line-num"><a href="#L43">43</a></td><td class="line-code"><span style="color:#24292E">  out : Idx → List B</span></td></tr>
 <tr id="L44" class=""><td class="line-num"><a href="#L44">44</a></td><td class="line-code"><span style="color:#6A737D">  /-- The output string for the empty input. -/</span></td></tr>
@@ -237,7 +237,7 @@ formulas are first-order — exactly the functions of aperiodic bimachines
 <tr id="L73" class=""><td class="line-num"><a href="#L73">73</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> IsFORelabelling</span><span style="color:#24292E"> {A B : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">} (f : List A → List B) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
 <tr id="L74" class=""><td class="line-num"><a href="#L74">74</a></td><td class="line-code"><span style="color:#24292E">  ∃ R : MSORelabelling A B, R.AllFO ∧ ∀ w, R.Relabels w (f w)</span></td></tr>
 <tr id="L75" class=""><td class="line-num"><a href="#L75">75</a></td><td class="line-code"> </td></tr>
-<tr id="L76" class=""><td class="line-num"><a href="#L76">76</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax314295.MSORelabellings</span></td></tr>
+<tr id="L76" class=""><td class="line-num"><a href="#L76">76</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-314295/Lax314295.MSORelabellings.html">Lax314295.MSORelabellings</a></span></td></tr>
 <tr id="L77" class=""><td class="line-num"><a href="#L77">77</a></td><td class="line-code"> </td></tr>
 </table></div><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
 <div class="block"><h3>Formalization notes</h3><div class="latex-content"><p>The set of formulas is indexed by a finite type <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>I</mi><mi>d</mi><mi>x</mi></mrow><annotation encoding="application/x-tex">Idx</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.0785em;">I</span><span class="mord mathnormal">d</span><span class="mord mathnormal">x</span></span></span></span>; the free variable of every

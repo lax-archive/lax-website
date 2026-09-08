@@ -7,7 +7,7 @@
 <title>Types and their string representation — Lax709149.Types</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=b137f5f99a33">
+<link rel="stylesheet" href="../assets/style.css?v=b78d6b17a06b">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -144,7 +144,7 @@ be computed by string-to-string transducers (Definition C.5.2).</p>
 <tr id="L25" class=""><td class="line-num"><a href="#L25">25</a></td><td class="line-code"><span style="color:#6A737D">commas of the book and no trailing separator.</span></td></tr>
 <tr id="L26" class=""><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
 <tr id="L27" class=""><td class="line-num"><a href="#L27">27</a></td><td class="line-code"> </td></tr>
-<tr id="L28" class=""><td class="line-num"><a href="#L28">28</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax709149.Types</span></td></tr>
+<tr id="L28" class=""><td class="line-num"><a href="#L28">28</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-709149/Lax709149.Types.html">Lax709149.Types</a></span></td></tr>
 <tr id="L29" class=""><td class="line-num"><a href="#L29">29</a></td><td class="line-code"> </td></tr>
 <tr id="L30" class=""><td class="line-num"><a href="#L30">30</a></td><td class="line-code"><span style="color:#6A737D">/-- A type: built from the unit type by product, co-product and list. -/</span></td></tr>
 <tr id="L31" class=""><td class="line-num"><a href="#L31">31</a></td><td class="line-code"><span style="color:#D73A49">inductive</span><span style="color:#6F42C1"> Ty</span><span style="color:#24292E"> : </span><span style="color:#D73A49">Type</span></td></tr>
@@ -180,7 +180,7 @@ be computed by string-to-string transducers (Definition C.5.2).</p>
 <tr id="L61" class=""><td class="line-num"><a href="#L61">61</a></td><td class="line-code"><span style="color:#24292E">  | .sum A B, x =&gt; Sum.elim (</span><span style="color:#D73A49">fun</span><span style="color:#24292E"> a =&gt; Sym8.left :: A.repr a) (</span><span style="color:#D73A49">fun</span><span style="color:#24292E"> b =&gt; Sym8.right :: B.repr b) x</span></td></tr>
 <tr id="L62" class=""><td class="line-num"><a href="#L62">62</a></td><td class="line-code"><span style="color:#24292E">  | .list A, l =&gt; Sym8.lbrack :: (joinSep (l.map A.repr) ++ [Sym8.rbrack])</span></td></tr>
 <tr id="L63" class=""><td class="line-num"><a href="#L63">63</a></td><td class="line-code"> </td></tr>
-<tr id="L64" class=""><td class="line-num"><a href="#L64">64</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax709149.Types</span></td></tr>
+<tr id="L64" class=""><td class="line-num"><a href="#L64">64</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-709149/Lax709149.Types.html">Lax709149.Types</a></span></td></tr>
 <tr id="L65" class=""><td class="line-num"><a href="#L65">65</a></td><td class="line-code"> </td></tr>
 </table></div><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
 <div class="block"><h3>Formalization notes</h3><div class="latex-content"><p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mi>y</mi><mi mathvariant="normal">.</mi><mi>E</mi><mi>l</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">Ty.Elt</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.1389em;">T</span><span class="mord mathnormal" style="margin-right:0.0359em;">y</span><span class="mord">.</span><span class="mord mathnormal" style="margin-right:0.0576em;">E</span><span class="mord mathnormal" style="margin-right:0.0197em;">l</span><span class="mord mathnormal">t</span></span></span></span> interprets a type as a Lean type — <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>U</mi><mi>n</mi><mi>i</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">Unit</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.109em;">U</span><span class="mord mathnormal">ni</span><span class="mord mathnormal">t</span></span></span></span>, products, sums and lists —
