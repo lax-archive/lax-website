@@ -33,7 +33,7 @@ describe("footer and legal pages", () => {
     expect(impressum).toContain("Édouard Bonnet");
     expect(impressum).toContain("Prof.-Dr.-Helmert-Str. 2–3");
     expect(impressum).toContain("46 allée d'Italie");
-    expect(impressum).toContain("mail@clemens-kuske.de");
+    expect(impressum).toContain("lax.lean.archive@gmail.com");
     expect(privacy).toContain("Controllers");
     expect(privacy).toContain("Jan Dreier");
     expect(privacy).toContain("Édouard Bonnet");

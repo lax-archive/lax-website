@@ -8,7 +8,7 @@
 - **Jan Dreier**; c/o Hasso Plattner Institute, Chair for Algorithm Engineering; Prof.-Dr.-Helmert-Str. 2–3, 14482 Potsdam, Germany
 - **Édouard Bonnet**; c/o Laboratoire de l'Informatique du Parallélisme (LIP), ENS de Lyon; 46 allée d'Italie, 69007 Lyon, France
 
-The three persons named above jointly operate the Lax Archive. You may exercise your data protection rights against any of them. For privacy enquiries and requests, the central contact is [mail@clemens-kuske.de](mailto:mail@clemens-kuske.de).
+The three persons named above jointly operate the Lax Archive. You may exercise your data protection rights against any of them. For privacy enquiries and requests, the central contact is [lax.lean.archive@gmail.com](mailto:lax.lean.archive@gmail.com).
 
 ## 2. Website hosting
 
@@ -46,7 +46,7 @@ The archive publishes scientific content and attribution data from the public La
 
 Public comments, endorsements, and flags are generally retained for as long as the associated Lax submission remains part of the archive, unless they are deleted sooner. The link between an ORCID iD and display name is retained only for as long as it is needed for a retained contribution or review. Session data expires when the session ends or you sign out. Technical log data is retained only for as long as necessary for operation, security, or legal obligations; logs maintained by service providers are additionally subject to their retention policies.
 
-You may request deletion at any time by emailing [mail@clemens-kuske.de](mailto:mail@clemens-kuske.de). Where a deletion request is justified, we remove the affected data from Remark42 and the associated ORCID/name mapping from active systems, unless a statutory exception applies. Deleted data from the Lax reactions service may remain in daily rotating backups for up to 14 days. Remark42 backups are overwritten automatically according to the configured rotation and are used exclusively for restoration.
+You may request deletion at any time by emailing [lax.lean.archive@gmail.com](mailto:lax.lean.archive@gmail.com). Where a deletion request is justified, we remove the affected data from Remark42 and the associated ORCID/name mapping from active systems, unless a statutory exception applies. Deleted data from the Lax reactions service may remain in daily rotating backups for up to 14 days. Remark42 backups are overwritten automatically according to the configured rotation and are used exclusively for restoration.
 
 ## 7. Your rights
 
