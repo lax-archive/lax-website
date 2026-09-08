@@ -1095,18 +1095,8 @@ After the formula.`, "");
     expect(script).toContain("event.key !== 'Escape'");
   });
 
-  it("reveals directly used concepts from other submissions below the submission's own", async () => {
+  it("reveals transitively used concepts from other submissions below the submission's own", async () => {
     const archive = graphSubmissions();
-    const base = archive[0]!.output!.concepts[0]!;
-    base.type = "theorem";
-    base.statements = [{ id: "Lax1.Base.fact", signature: "fact : True" }];
-    archive[2]!.output!.proofs.push({
-      id: "Lax4Proofs.external",
-      path: "proofs/Lax4Proofs/External.lean",
-      conclusion: "Lax4.Top.a",
-      assumptions: ["Lax1.Base.fact"],
-      description: "uses an external statement",
-    });
     const root = tmpDir("lax-site-used-concepts-");
     await generateSite(archive, root);
     const html = fs.readFileSync(path.join(root, "Lax4", "index.html"), "utf8");
@@ -1143,7 +1133,7 @@ After the formula.`, "");
     expect(reviewDependencies).toContain("https://laxarchive.org/Lax1/Lax1.Base.html");
     expect(reviewDependencies).toContain("https://laxarchive.org/Lax3/Lax3.Middle.html");
     expect(reviewDependencies).toContain("https://laxarchive.org/Lax4/Lax4.Top.html");
-    expect(visibleReviewConcepts).not.toContain("Lax1.Base.html");
+    expect(visibleReviewConcepts).toContain("Lax1.Base.html");
     expect(visibleReviewConcepts).toContain("Lax3.Middle.html");
     expect(top.data.nodes.map((n: { id: string; dir: string }) => [n.id, n.dir]))
       .toEqual([["Lax1", "up"], ["Lax3", "up"], ["Lax4", "core"]]);
@@ -1390,10 +1380,12 @@ end Lax2.C`;
     const html = fs.readFileSync(path.join(root, "Lax4", "index.html"), "utf8");
     const progress = html.match(/<div class="concept-review-progress"[^>]+>/)?.[0] ?? "";
     expect(progress).toContain("Lax4.Top.html");
+    expect(progress).toContain("Lax1.Base.html");
     expect(progress).not.toContain("Lax4.Aux.html");
     expect(progress).not.toContain("Lax3.Middle.html");
     expect(html).toContain('data-concept-review-url="https://laxarchive.org/Lax4/Lax4.Aux.html" hidden');
     expect(html).toContain('data-concept-review-url="https://laxarchive.org/Lax3/Lax3.Middle.html" hidden');
+    expect(html).toContain('data-concept-review-url="https://laxarchive.org/Lax1/Lax1.Base.html" hidden');
     expect(html).toMatch(/data-submission-concept-urls="[^"]*Lax4\.Aux\.html/);
     expect(html).toMatch(/data-submission-concept-urls="[^"]*Lax3\.Middle\.html/);
   });

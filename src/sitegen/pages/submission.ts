@@ -28,24 +28,6 @@ import {
   submissionSidebar,
 } from "./shared.js";
 
-/** Concepts from another submission that this submission references directly.
- * Concept imports explain definition-level dependencies; proof statements add
- * assumptions that otherwise appear only in the proof package. */
-function usedExternalConcepts(ctx: PageContext, submission: SiteSubmission): LocatedConcept[] {
-  const output = submission.output!;
-  const used = new Map<string, LocatedConcept>();
-  const add = (id: string) => {
-    const home = ctx.model.conceptHome.get(id) ?? ctx.model.statementHome.get(id);
-    if (home && home.output.id !== output.id) used.set(home.concept.id, home);
-  };
-  for (const concept of output.concepts)
-    for (const imported of concept.imports) add(imported);
-  for (const proof of output.proofs)
-    for (const statement of [proof.conclusion, ...proof.assumptions]) add(statement);
-  return [...used.values()].sort((a, b) =>
-    compareIds(a.output.id, b.output.id) || a.concept.id.localeCompare(b.concept.id));
-}
-
 /** All reviewable concepts whose correctness this submission relies on,
  * including transitive concept imports and concepts named by proofs. */
 function submissionReviewConcepts(ctx: PageContext, submission: SiteSubmission): LocatedConcept[] {
@@ -109,8 +91,9 @@ ${discussion(`${record.id}/`)}`;
   // exactly the same nodes and edges.
   const related = submissionGraph(ctx.model, output.id);
   const graphs = pageGraphData(ctx, submission, related);
-  const usedConcepts = usedExternalConcepts(ctx, submission);
-  const reviewedConceptPaths = submissionReviewConcepts(ctx, submission).map(conceptPath);
+  const reviewedConcepts = submissionReviewConcepts(ctx, submission);
+  const usedConcepts = reviewedConcepts.filter((located) => located.output.id !== output.id);
+  const reviewedConceptPaths = reviewedConcepts.map(conceptPath);
   const listedConcepts: LocatedConcept[] = [
     ...output.concepts.map((concept) => ({ submission, output, concept })),
     ...usedConcepts,
