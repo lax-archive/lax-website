@@ -1912,6 +1912,11 @@
           "type": "theorem"
         },
         {
+          "id": "Lax195003.WelzlOrdersLinearNeighborhoodComplexity",
+          "title": "Linear neighborhood complexity",
+          "type": "definition"
+        },
+        {
           "id": "Lax195003.WordRamRandomness",
           "title": "Randomized computation on the word RAM",
           "type": "definition"
