@@ -5,10 +5,11 @@ import { fileURLToPath } from "node:url";
 import { fetchBundles } from "./bundles.js";
 import { loadSubmissions, submissionsMissingPapers } from "./database.js";
 import { fetchPapers } from "./papers.js";
+import { fetchReferences } from "./references.js";
 import { SITE_MIME } from "./sitegen/assets.js";
 import { generateSite } from "./sitegen/generate.js";
 
-type Command = "build" | "serve" | "fetch-papers";
+type Command = "build" | "serve" | "fetch-papers" | "fetch-references";
 
 function option(name: string, fallback: string): string {
   const index = process.argv.indexOf(name);
@@ -31,21 +32,21 @@ function numberOption(name: string, fallback: number): number {
 }
 
 const command = (process.argv[2] ?? "build") as Command;
-if (command !== "build" && command !== "serve" && command !== "fetch-papers")
-  throw new Error("usage: npm run site:build|site:serve|papers:fetch -- [--database DIR] [--papers DIR] [--bundles DIR] [--no-papers] [--out DIR] [--port N]");
+if (!["build", "serve", "fetch-papers", "fetch-references"].includes(command))
+  throw new Error("usage: npm run site:build|site:serve|papers:fetch|references:fetch -- [--database DIR] [--references DIR] [--no-references] [--papers DIR] [--bundles DIR] [--no-papers] [--out DIR] [--port N]");
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const databaseDir = path.resolve(option("--database", path.join(root, "data", "lax-db")));
 const papersDir = path.resolve(option("--papers", path.join(root, "data", "papers")));
 const bundlesDir = path.resolve(option("--bundles", path.join(root, "data", "bundles")));
-// Previews carry no PDFs and no reflow bundles — one flag governs both (the
-// gh-pages branch keeps every deployment's full tree); production must have
-// every paper and bundle the database references.
+const referencesDir = flag("--no-references") ? undefined : path.resolve(option("--references", path.join(root, "data", "references")));
+// Only --no-papers suppresses PDFs and reflow bundles. Production and branch
+// previews otherwise require every paper the database references.
 const withPapers = !flag("--no-papers");
 const outDir = path.resolve(option("--out", path.join(root, "_site")));
 
 async function build(): Promise<void> {
-  const submissions = loadSubmissions(databaseDir, withPapers ? { papersDir, bundlesDir } : {});
+  const submissions = loadSubmissions(databaseDir, { referencesDir, ...(withPapers ? { papersDir, bundlesDir } : {}) });
   if (withPapers) {
     const missing = submissionsMissingPapers(submissions);
     if (missing.length)
@@ -55,7 +56,11 @@ async function build(): Promise<void> {
   console.log(`generated ${submissions.length} archive records in ${outDir}`);
 }
 
-if (command === "fetch-papers") {
+if (command === "fetch-references") {
+  if (!referencesDir) throw new Error("references:fetch cannot use --no-references");
+  const fetched = await fetchReferences(loadSubmissions(databaseDir), referencesDir, { log: (line) => console.log(line) });
+  console.log(`references cache ${referencesDir}: ${fetched.length} fetched`);
+} else if (command === "fetch-papers") {
   const submissions = loadSubmissions(databaseDir);
   const fetched = await fetchPapers(submissions, papersDir, { log: (line) => console.log(line) });
   const fetchedBundles = await fetchBundles(submissions, bundlesDir, { log: (line) => console.log(line) });

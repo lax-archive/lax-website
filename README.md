@@ -35,13 +35,14 @@ Build the complete static website into `_site/`:
 
 ```sh
 npm run papers:fetch   # once per database change; see "Papers" below
+npm run references:fetch
 npm run site:build
 ```
 
-Previews and quick local builds can skip the papers entirely:
+Quick local builds can skip the papers and compiler reference cache:
 
 ```sh
-npm run site:build -- --no-papers
+npm run site:build -- --no-papers --no-references
 ```
 
 Preview it locally and rebuild when database, content, or assets change:
@@ -124,25 +125,31 @@ bytes therefore differ from production's, deterministically per flag set).
 - In the line-numbered Lean source, `$...$` and `$$...$$` inside comments are
   rendered as inline and display math; dollar text in Lean code and strings is
   left unchanged.
-- Lean source links, on concept pages and paper cards, are built from a shared
-  declaration inventory (`src/sitegen/source-links.ts`). Names are looked up
-  in the current namespace and its parents within the concept's archive
-  import closure, respecting the order of local declarations. Links go to the
+- Lean source links, on concept pages and paper cards, use Lean's resolved
+  references from the submission's sealed `.ilean` files. This covers archive
+  declarations, structure keys and projections, aliases, private globals and
+  constructors, with type and scope information from the validated build.
+  Local variables, external library names (including Mathlib), and names at
+  their own definition sites stay plain. Imported archive module names link
+  to their concept pages. Declaration uses link to the
   beginning of the declaration's preceding comments (or its attributes and
   modifiers when there are no comments); statements retain their `s-…` anchors
   at the same comment start. Source targets align below the sticky header, with
   enough scroll space for short pages. Hover and keyboard focus use bold
-  text. Declaration names stay plain; their uses and imported module names
-  are clickable. The inventory follows ordinary namespace/section commands;
-  a module's filename is not assumed to be its declaration namespace.
-- This is conservative source navigation, not Lean's elaborated name lookup.
-  Ambiguous or potentially shadowed names, private imported declarations,
-  generated fields, names requiring `open`/`export` aliases, macros and
-  unresolved names stay plain. A unique spelling among imports alone is
-  insufficient to create a link.
-  Complete coverage (including Mathlib and scope-dependent names) needs
-  compiler-produced reference metadata from the archive build. The website
-  does not compile or execute submissions to guess those references.
+  text. Generated helpers without their own source span link to the nearest
+  enclosing declaration, or the module if no enclosing span exists.
+- `npm run references:fetch` fills `data/references/<sha256>.ilean` from the
+  existing public captures. It uses bounded HTTP ranges, checks each tar
+  header and member digest, and verifies the displayed source against the
+  capture manifest. It neither extracts tar paths nor compiles submissions.
+  Builds reverify cached bytes and validate Lean's version-5 JSON and UTF-16
+  ranges. Missing, stale or unsupported metadata fails a normal archive build
+  with an explanatory error. `--references DIR` moves the cache. Both CI and
+  branch deployments fetch it before building.
+- Local `lax` callers without sealed captures, and explicit `--no-references`
+  builds, retain conservative lexical navigation. That fallback does not
+  promise complete coverage: fields, aliases and potentially shadowed names
+  need compiler metadata. Normal archive and preview builds use the metadata.
 - Source links are static relative URLs to generated pages. They preserve
   syntax colours, source text and line anchors, work in branch previews, and
   require no browser scripts, external requests or CSP changes. Each build
@@ -200,8 +207,8 @@ deployed.
 ## Automation and triggers
 
 `.github/workflows/ci.yml` verifies pull requests and pushes, builds against
-the real public archive database (fetching the compiled papers through a
-cached `data/papers/`), and uploads the rendered site as an artifact.
+the real public archive database (fetching papers, reflow bundles and compiler
+references through local caches), and uploads the rendered site as an artifact.
 
 `.github/workflows/deploy-pages.yml` builds and deploys GitHub Pages when:
 

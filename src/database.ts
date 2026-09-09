@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { bundleCachePath } from "./bundles.js";
 import { paperCachePath } from "./papers.js";
+import { loadReferences } from "./references.js";
 import type { BuildOutput, DbRecord, PaperEntry, PaperMark, PaperMarkPoint, PaperWebEntry } from "./types.js";
 import type { SiteSubmission } from "./sitegen/model.js";
 
@@ -153,6 +154,8 @@ function rendererOutput(value: unknown, label: string): BuildOutput | undefined 
 }
 
 export interface LoadOptions {
+  /** Verified .ilean cache; omitted for local callers without captures. */
+  referencesDir?: string;
   /**
    * The papers cache: `<papersDir>/<digest>.pdf` per compiled paper, filled
    * by `npm run papers:fetch`. Omitted, no PDF is attached and paper pages
@@ -193,6 +196,8 @@ export function loadSubmissions(databaseDir: string, options: LoadOptions = {}):
       const rawOutput = readJson<unknown>(outputFile);
       const output = rawOutput === undefined ? undefined : rendererOutput(rawOutput, outputFile);
       const submission: SiteSubmission = { record, output };
+      if (options.referencesDir !== undefined)
+        submission.sourceReferences = loadReferences(submission, options.referencesDir);
       if (output?.paper && options.papersDir !== undefined) {
         const file = paperCachePath(options.papersDir, output.paper.pdf.digest);
         if (fs.existsSync(file)) submission.paperFile = file;

@@ -1,145 +1,154 @@
 # Lean identifier navigation review
 
-Reviewed and fixed on `codex/fix-lean-identifier-links`, based on website
-commit `5e93143b` (including the three identifier-link commits).
+Implemented on `codex/fix-lean-identifier-links`, based on website commit
+`5e93143b`. Main is reserved for review and has not been changed.
 
-## Findings and changes
+## Problem and final design
 
-The original build-time approach fits the static website and its CSP, but
-the implementation had three problems:
+The original static-link approach fits the website, but its name lookup knew
+concept and statement IDs rather than all ordinary declarations. It missed
+`Lax17.Treewidth.treewidth` and `Lax17.GridMinor.ContainsGridMinor`. Inferring
+short aliases from imported source also confused namespaces and shadowing.
+Repeated whole-source replacements made rendering scale poorly.
 
-1. Its archive cross-reference resolver knew concept and statement IDs,
-   not the full names of ordinary definitions. The imported-name scan added
-   short aliases but discarded namespace information. Thus
-   `Lax17.Treewidth.treewidth` and `Lax17.GridMinor.ContainsGridMinor` were
-   missed even though their defining modules were present.
-2. A unique short spelling in the import closure does not establish what a
-   Lean occurrence means. Local binders and open namespaces can change its
-   meaning. Even dotted syntax can be local (`let N.value := …; N.value`).
-3. Masking each link rebuilt the source repeatedly; restoring it scanned
-   every replacement on every source line. It also changed the text Shiki
-   highlighted. Imported source was reparsed for each dependent page.
+A lexical inventory fixed ordinary names and the unqualified occurrences of
+`HasTreewidthAtMost`, but could not resolve typed projections, record keys,
+aliases or arbitrary Lean syntax reliably. Adding more spelling rules would
+reimplement part of Lean and still leave gaps.
 
-The replacement separates a shared lexical inventory, destination lookup,
-and rendering. Ordinary namespace and section commands determine the names
-of declarations, independently of module filenames. Exact, unambiguous
-names are resolved within the current concept's import closure, considering
-the current namespace and then its parents. This includes unqualified uses
-such as all three occurrences of `HasTreewidthAtMost` in `treewidth`.
-Local declarations become candidates in source order; a later declaration
-cannot change an earlier reference's destination. Qualified declaration
-bodies use their declared namespace, and section/namespace exits restore
-the enclosing context, following Lean's documented
-[namespace rules](https://lean-lang.org/doc/reference/latest/Namespaces-and-Sections/).
+The final archive build uses Lean's own `.ilean` reference maps. They already
+exist in every current concept's sealed capture; no archive schema change,
+recompilation, Lean installation in CI, or execution of submissions is needed.
+Lean records each constant's owning module, full declaration name, definition
+span and usage spans, including field information. The frontend deliberately
+omits local variables. The website consumes version 5 of this format, using
+its LSP UTF-16 positions against the exact displayed source.
 
-Definition destinations use existing `L<n>` source anchors at the beginning
-of their preceding comments (or their attributes/modifiers without comments).
-Statements keep their existing `s-…` anchors, moved to the same comment start.
-Declaration names and namespace/section labels stay plain. Uses of those
-declarations and imported module names link. The original references now
-target `Lax17.Treewidth.html#L62` and `Lax17.GridMinor.html#L20`.
-The three `HasTreewidthAtMost` references target `Lax17.Treewidth.html#L57`.
+Primary implementation references:
+[Lean reference serialization and field handling](https://github.com/leanprover/lean4/blob/v4.30.0/src/Lean/Server/References.lean)
+and [the frontend's ilean output](https://github.com/leanprover/lean4/blob/v4.30.0/src/Lean/Elab/Frontend.lean).
+The archive's capture format 1 uses sorted, epoch-zero, uncompressed ustar
+(`lax/src/submission-validation/captures/seal.ts`).
 
-Unrestricted short-name aliases were deliberately removed. Potential local
-shadows are suppressed conservatively across the file. Private globals are
-visible only inside their own module. Names not verified by this
-inventory remain plain; the implementation does not manufacture a link by
-truncating a name until a module prefix matches.
+`references:fetch` caches verified compiler metadata before building.
+`loadSubmissions` attaches parsed references; `source-links.ts` indexes
+destinations and consumes recorded usages. The existing highlighter wraps
+original highlighted text with static relative anchors. Both concept pages
+and paper cards share this index and target canonical concept pages.
 
-The renderer decorates the original highlighted text, wrapping all coloured
-fragments of an identifier in one anchor. It processes comment math through
-the same range mechanism, so no placeholder strings or HTML substitutions
-are needed. Paper cards use the same resolver and canonical concept-page
-destinations, without adding source IDs to repeated cards. Hover and keyboard
-focus bold links while retaining syntax colours.
+This handles record literals and updates, fields on different types sharing
+the same spelling, namespace aliases, private globals, inductive constructors
+and generated helpers. Helpers without their own source span navigate to
+their nearest enclosing declaration; a module is the fallback only when no
+enclosing declaration has a span. No such module-only fallback is needed by
+the current archive's referenced globals.
 
-Native fragment navigation aligns the comment's row below the sticky header.
-Statement anchors sit at the top of their row rather than the text baseline.
-Source-fragment visits reserve a viewport of space after the footer so even
-a late declaration on a short page can reach that position. This uses CSS
-only and works with JavaScript disabled; ordinary page visits keep their
-existing length. Module documentation and trailing comments on a previous
-command are excluded from declaration preambles.
+Definition sites remain plain, including structure field declarations and
+compiler-reported uses overlapping a definition. Locals and external library
+names, including Mathlib and Lean's standard library, remain plain. Imported
+archive module names still link to their concept pages. Duplicate compiler
+spans such as `T` and `T.{u}` link only the precise name, leaving `u` plain.
+
+The conservative lexical implementation remains available for local `lax`
+callers without captures and explicit `--no-references` builds. Normal CLI,
+CI and branch-preview builds require captured references; missing or
+unsupported metadata produces a build error instead of silently falling
+back to incomplete navigation.
+
+## Landing and presentation
+
+Links land at the beginning of preceding comments, including field comments,
+or at the declaration's attributes/modifiers when no comments precede it.
+Statements retain their stable `s-…` IDs at that same comment start.
+The reported targets remain `Lax17.Treewidth.html#L62`,
+`Lax17.GridMinor.html#L20`, and `Lax17.Treewidth.html#L57` for the three uses
+of `HasTreewidthAtMost`. `D.Node`, `D.bag` and `D.nodeFintype` now link their
+field components to the respective field comments.
+
+Native fragment navigation aligns the target below the sticky header, with
+CSS providing enough trailing scroll space even on short pages. Hover and
+keyboard focus use bold text, preserve syntax colours, and have no underline.
+The proof/review rails allow pointer events only on their actual controls,
+so padding cannot intercept a neighbouring source link.
 
 ## Scaling
 
-Each build model owns a cached declaration inventory and resolved links;
-there is no persistent cache to go stale between database builds. Only
-candidate identifier tokens are retained after scanning. Import traversal
-is iterative and cycle-safe. Repeated occurrences reuse their destination
-candidate lookup, including unresolved and ambiguous results. Namespace
-resolution also checks each occurrence's source position. Rendering groups
-source ranges by line and walks the highlighted fragments once, rather than
-doing a line-count × reference-count replacement loop.
+- Current data: 402 concept modules in 35 nonempty captures. The ilean
+  payloads total 1,455,837 bytes. Fetching them uses 112 bounded HTTP ranges
+  totalling 6,937,930 bytes, rather than downloading approximately 1.59 GB
+  of capture file contents. A warm fetch makes no registry requests.
+- Nearby members share a request, with gaps limited to 64 KiB and groups to
+  2 MiB (one individually bounded larger member can use a larger range).
+  Capture manifests are bounded and indexed once per submission. Cache files
+  are named by content digest and reused across database updates and branches.
+- Each immutable site model builds its source/target index once and caches
+  resolved links. Semantic lookup uses exact owning-module/name pairs rather
+  than searching imports for each occurrence. Overlap handling sorts ranges
+  and sweeps definition sites. Rendering walks highlighted fragments without
+  repeated whole-source substitutions or a line-count × reference-count loop.
+- No browser-side index, extra script, runtime network request, dependency or
+  CSP exception is introduced. Other site features still have their existing
+  dependency-graph costs; this is not a claim that the whole build is linear.
 
-A warmed local Node comparison, using the same
-source text and destination in both renderers, measured:
+## Integrity and security boundaries
 
-| References | Original renderer | Fixed renderer |
-| ---: | ---: | ---: |
-| 1,000 | 1,211 ms | 77 ms |
-| 2,000 | 4,162 ms | 79 ms |
-| 4,000 | 17,873 ms | 162 ms |
+- Only strict, digest-addressed public GHCR references are accepted. Downloads
+  use anonymous pull tokens, fixed HTTPS hosts, bounded redirects and timeouts.
+  Tokens go only to GHCR, never to the signed storage redirect. Token responses
+  cannot redirect, and credentials, alternate ports and off-list hosts are
+  rejected on blob redirects.
+- Byte-range requests require HTTP 206 and an exact Content-Range. Ignored
+  ranges never cause a full capture download. Responses are size-bounded while
+  streaming, including when no Content-Length is supplied; truncated or
+  oversized ranges fail before any cache entry is published.
+- Capture format, paths, duplicate entries, file/directory collisions, counts
+  and sizes are checked. The offsets mirror the recorded tar traversal, but
+  are never trusted alone: each requested member's ustar checksum, path,
+  regular-file type and size must match, followed by SHA-256 verification
+  against the database manifest. Tar files are never extracted.
+- Each displayed source must match its captured source's size and SHA-256.
+  Metadata is capped at 8 MiB per module, parsed as inert JSON, and checked for
+  module identity, supported version, schema, range bounds, direction and
+  Unicode boundaries. Cache reads recheck size and digest; writes use a unique
+  temporary file and atomic rename. Wrong metadata cannot silently generate
+  links for a newer source revision.
+- Hrefs are constructed from generated archive destinations, with encoded
+  components. The renderer separately rejects active schemes/external hrefs
+  and escapes source labels. Compiler names, quoted identifiers and metadata
+  never become executable code or raw HTML. Syntax-highlighting failure still
+  produces escaped text with links and comment math.
 
-These are illustrative local measurements, not production latency promises.
-Other site features still traverse dependency graphs; this change does not
-claim to make the whole generator linear in archive size.
+## Validation
 
-## Security and regression checks
+Validation used the read-only database at
+`66e58be2c0e10217a9959307d2a6d1a069e3394c`, including all 402 concepts,
+265 proofs and three papers with PDFs and reflow bundles.
 
-- Link destinations come from archive pages, with encoded path and fragment
-  components. The renderer accepts relative archive-page hrefs and escapes
-  HTML; it rejects active schemes and external URLs. Source labels remain
-  escaped text, including quoted Lean identifiers containing HTML syntax.
-- The lexer skips nested comments, strings, raw strings, character literals,
-  quoted names used as data, and parenthesized syntax quotations. Identifier
-  boundaries include primes, `!`, `?`, subscripts and Lean's Unicode letters.
-  UTF-16 offsets preserve astral characters and CRLF line numbering.
-- The feature adds no dependencies, browser scripts, network lookups,
-  compiler execution, or CSP relaxations. Syntax-highlighting failure still
-  produces escaped text with safe links and comment math.
-- Regression tests cover the reported references, namespace/section nesting,
-  rooted and quoted names, private declarations, collisions, import cycles,
-  local shadows, strings/comments/quotations, source preservation, malformed
-  hrefs/ranges, repeated paper cards, thousands of references, and complete
-  comment preambles before multiline attributes and modifiers. The follow-up
-  covers unqualified references, definition names staying plain, nested and
-  qualified declaration namespaces, declaration order, private local names,
-  ambiguous nearest namespaces, and local binders, patterns and projections.
+- All 402 captured reference files were fetched and verified from GHCR.
+- An independent metadata audit found 4,634 archive constant usages: 15
+  overlap definition sites and are intentionally plain; all remaining 4,619
+  have navigation to the compiler-recorded owning module. Duplicate universe
+  spans account for multiple metadata records sharing one precise link.
+- Concept pages contain 5,125 source links including imported modules. Across
+  paper cards and concept pages, all 8,695 source links and 65,046 static local
+  links resolve. No duplicate IDs, changed CSP values or displayed-source
+  differences were found across 717 HTML pages. Dynamic paper passage anchors
+  are excluded from static checking; every source target is checked against
+  an emitted ID.
+- Two complete builds produced identical 834-file output trees.
+- `npm run check` passed 185 tests. The six browser tests normally skipped
+  without Chromium also passed with system Chrome. They cover desktop/mobile,
+  JavaScript enabled/disabled, native comment alignment, bold focus, proof-rail
+  hit testing, record keys, record updates, typed projections, and the paper
+  viewer. Existing tests retain namespace, source preservation, escaping,
+  thousands-of-links, statement anchors and repeated-card coverage.
+- A checked-in Lean 4.30.0 reference fixture exercises actual compiler output,
+  including aliases, same-spelling fields, private globals, local shadowing,
+  generated/inductive constructors, Unicode and HTML-like identifier text.
+  Registry tests cover corrupt metadata/headers, wrong source, stale cache,
+  traversal paths, symlinks in tar headers, invalid redirects, ignored/wrong
+  ranges, truncation and streamed oversize responses.
 
-Validation used read-only database commit
-`66e58be2c0e10217a9959307d2a6d1a069e3394c`, with 402 concepts, 265 proofs and
-all three cached PDFs/reflow bundles. Two complete builds produced identical
-834-file trees. Across their 717 HTML pages, all 4,148 source links and
-60,499 static local links resolved; there were no duplicate IDs, changed
-CSP values, or displayed source-text differences from the original build.
-Dynamic paper passage anchors were excluded from the static anchor check;
-source-link destinations were all checked against actual emitted IDs.
-
-`npm run check` passed 178 tests; its six normally skipped browser tests
-were also run separately with system Chrome. The browser suite's resize wait
-was made null-safe because reflow can temporarily detach a card while it is
-being polled. Separate checks exercised the two reported links by keyboard
-at desktop and mobile widths, under both root and branch-preview URLs, and
-with JavaScript disabled. The browser regression also checks bold hover and
-keyboard focus, exact alignment below the header on tall and mobile screens,
-stable statement anchors at their leading ordinary comments, and navigation
-within a page from an unqualified reference while declaration names stay plain.
-The test also exposed proof-rail padding intercepting an adjacent source link;
-only the actual proof/review controls now capture pointer events on those rails.
-Concept navigation produced no CSP violations or page errors. Native link
-clicks from both reflow and PDF paper cards reached their canonical concept pages.
-
-## Deliberate limits
-
-This is a lexical navigation aid, not a substitute for Lean's elaborator.
-It cannot guarantee semantic resolution for arbitrary Lean extensions and
-scope rules. Names available only through `open` or `export` aliases,
-generated structure fields/constructors, notation, macros and external Mathlib
-names need compiler-produced reference metadata for complete coverage. That should be
-an upstream archive-build feature; the website should consume validated
-metadata rather than grow a second implementation of Lean name resolution.
-
-The checks above establish specific regression and security properties;
-they are not a guarantee that all possible Lean programs or browser states
-are free of bugs.
+These checks establish the stated coverage and regression properties for the
+current archive. Future compiler or capture format changes need explicit
+support; an unknown format fails the build rather than emitting guessed links.

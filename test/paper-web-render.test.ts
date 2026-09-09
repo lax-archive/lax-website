@@ -7,6 +7,7 @@ import { chromium, type Browser, type Page } from "playwright-core";
 import { SITE_MIME } from "../src/sitegen/assets.js";
 import { generateSite } from "../src/sitegen/generate.js";
 import { tmpDir } from "./helpers.js";
+import { referenceSubmission } from "./lean-reference-fixture.js";
 
 // The real end-check: the fixture bundle rendered by the vendored viewer in
 // headless Chromium, over HTTP so the page's own CSP governs every fetch.
@@ -97,6 +98,7 @@ describe.skipIf(!executable)("the reflow surface, rendered", () => {
     caller!.sourceText = "import Lax21.One\n#check Lax21.One.value\n#check Lax21.One.eq";
     caller!.imports = [target!.id];
     await generateSite(submissions, path.join(root, "previews", "navigation"), { log: () => {} });
+    await generateSite([referenceSubmission()], path.join(root, "previews", "fields"), { log: () => {} });
     for (const options of [
       { viewport: { width: 1500, height: 1200 }, javaScriptEnabled: true },
       { viewport: { width: 390, height: 800 }, javaScriptEnabled: true },
@@ -132,6 +134,18 @@ describe.skipIf(!executable)("the reflow surface, rendered", () => {
         await page.waitForURL(`${base}/previews/navigation/lax-21/Lax21.One.html#L2`);
         await page.waitForFunction(() => Math.abs(document.getElementById("L2")!.getBoundingClientRect().top -
           document.querySelector(".site-header")!.getBoundingClientRect().bottom) < 2);
+      }
+      const fieldsPage = `${base}/previews/fields/lax-17/Lax17.Fields.html`;
+      for (const [row, name, target] of [[14, "value", 6], [14, "enabled", 8], [15, "value", 6], [17, "value", 12]]) {
+        await page.goto(fieldsPage, { waitUntil: "load" });
+        const link = page.locator(`#L${row} .lean-identifier-link`).filter({ hasText: new RegExp(`^${name}$`, "u") });
+        expect(await link.count()).toBe(1);
+        expect(await page.locator("#L7 .lean-identifier-link, #L9 .lean-identifier-link, #L12 .lean-identifier-link, #L29 .lean-identifier-link").count()).toBe(0);
+        await link.click();
+        await page.waitForURL(`${fieldsPage}#L${target}`);
+        await page.evaluate(() => document.fonts.ready);
+        await page.waitForFunction((id) => Math.abs(document.getElementById(`L${id}`)!.getBoundingClientRect().top -
+          document.querySelector(".site-header")!.getBoundingClientRect().bottom) < 2, target);
       }
       await page.close();
     }

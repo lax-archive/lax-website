@@ -39,6 +39,12 @@ jobs:
           key: papers-${{ hashFiles('data/lax-db/*/build-output.json') }}
           restore-keys: papers-
       - run: npm run papers:fetch -- --database data/lax-db --papers data/papers --bundles data/bundles
+      - uses: actions/cache@v4
+        with:
+          path: data/references
+          key: references-v1-${{ hashFiles('data/lax-db/*/build-output.json') }}
+          restore-keys: references-v1-
+      - run: npm run references:fetch -- --database data/lax-db --references data/references
       - run: npm run site:build -- --database data/lax-db --papers data/papers --bundles data/bundles --out _site
 
       - name: Verify deployable output

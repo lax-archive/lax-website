@@ -1,10 +1,17 @@
 import { leanDeclarations, nameKey, nameParts, scanLeanSource, type LeanSource, type LeanToken, type SourceRange } from "./lean-source.js";
 import type { LocatedConcept, SiteModel } from "./model.js";
+import type { LeanReferences } from "../lean-references.js";
 
 export interface SourceLink extends SourceRange { href: string }
 interface Target { module: string; href: string; offset: number; private: boolean }
 interface Reference { token: LeanToken; namespace: readonly string[] }
-interface ModuleSource { references: Reference[]; locals: Set<string> }
+interface ModuleSource {
+  references: Reference[];
+  locals: Set<string>;
+  semantic?: LeanReferences;
+  definitionSites: SourceRange[];
+  imports: SourceLink[];
+}
 
 /** Even dotted syntax can be local: `let N.value := ...; N.value`, or a
  * projection through a binder named N. Suppress these spellings throughout
@@ -57,6 +64,7 @@ const indexes = new WeakMap<SiteModel, SourceLinkIndex>();
 class SourceLinkIndex {
   private readonly modules = new Map<string, ModuleSource>();
   private readonly names = new Map<string, Target[]>();
+  private readonly semanticTargets = new Map<string, Map<string, string>>();
   private readonly resolved = new Map<string, SourceLink[]>();
 
   constructor(private readonly model: SiteModel) {
@@ -64,9 +72,11 @@ class SourceLinkIndex {
       const { concept } = located;
       const source = scanLeanSource(concept.sourceText);
       const references: Reference[] = [];
-      const inventory = leanDeclarations(source, (token, namespace) => references.push({ token, namespace }));
+      const semantic = located.submission.sourceReferences?.get(concept.id);
+      const inventory = leanDeclarations(source, semantic ? undefined : (token, namespace) => references.push({ token, namespace }));
       const declarations = new Set(inventory.map((declaration) => declaration.token.start));
       const statements = new Map(concept.statements.map((s) => [nameKey(nameParts(s.id)), s]));
+      const statementsById = new Map(concept.statements.map((statement) => [statement.id, statement]));
       for (const declaration of inventory) {
         const key = nameKey(declaration.name);
         const statement = statements.get(key);
@@ -77,8 +87,42 @@ class SourceLinkIndex {
         candidates.push(target);
         this.names.set(key, candidates);
       }
+      const definitionSites: SourceRange[] = inventory.map((entry) => entry.token);
+      if (semantic) {
+        const targets = new Map<string, string>();
+        const firstOnLine = new Map<number, LeanToken>();
+        for (const token of source.tokens) if (!firstOnLine.has(token.line)) firstOnLine.set(token.line, token);
+        const preambles = new Map(inventory.map((entry) => [entry.token.start, entry.startLine]));
+        const definitions = new Map(semantic.constants.flatMap((ref) =>
+          ref.definition ? [[ref.name, ref.definition] as const] : []));
+        for (const [name, declaration] of semantic.declarations)
+          if (!definitions.has(name)) definitions.set(name, declaration.selection);
+        for (const [name, definition] of definitions) {
+          if (definition.start < definition.end) definitionSites.push(definition);
+          const declaration = semantic.declarations.get(name);
+          const line = Math.min(definition.line, declaration?.range.line ?? definition.line,
+            preambles.get(definition.start) ?? firstOnLine.get(definition.line)?.leadingCommentLine ?? definition.line);
+          const statement = statementsById.get(name);
+          const fragment = statement?.startLine !== undefined ? `s-${statement.id}` : `L${line}`;
+          targets.set(name, `${this.page(located)}#${encodeURIComponent(fragment)}`);
+        }
+        this.semanticTargets.set(concept.id, targets);
+      }
+      const imports: SourceLink[] = [];
+      const imported = new Set(concept.imports);
+      for (let i = 0; i < source.tokens.length; i++) {
+        if (source.tokens[i]!.text !== "import") continue;
+        for (let j = i + 1; j < source.tokens.length; j++) {
+          const token = source.tokens[j]!;
+          if (token.text === "all") continue;
+          if (!imported.has(token.text)) break;
+          const target = model.conceptHome.get(token.text);
+          if (target) imports.push({ start: token.start, end: token.end, href: this.page(target) });
+        }
+      }
       this.modules.set(concept.id, {
-        references, locals: possibleLocals(source, declarations),
+        references, locals: semantic ? new Set() : possibleLocals(source, declarations),
+        semantic, definitionSites, imports,
       });
     }
   }
@@ -87,11 +131,71 @@ class SourceLinkIndex {
     return `${encodeURIComponent(output.id)}/${encodeURIComponent(concept.id)}.html`;
   }
 
+  /** The compiler gives the owning module and exact declaration name. For
+   * generated constructors/recursors without their own source, navigate to
+   * the nearest enclosing declaration (or the module if none has a span). */
+  private semanticTarget(module: string, name: string): string | undefined {
+    const located = this.model.conceptHome.get(module);
+    if (!located) return undefined; // Mathlib/Lean and other non-archive code.
+    const targets = this.semanticTargets.get(module);
+    for (let parent = name; parent; parent = parent.slice(0, parent.lastIndexOf("."))) {
+      const target = targets?.get(parent);
+      if (target) return target;
+      if (!parent.includes(".")) break;
+    }
+    return this.page(located);
+  }
+
+  private semanticLinks(module: ModuleSource): SourceLink[] {
+    const candidates = [...module.imports];
+    for (const reference of module.semantic!.constants) {
+      const href = this.semanticTarget(reference.module, reference.name);
+      if (!href) continue;
+      for (const usage of reference.usages) {
+        if (usage.start === usage.end) continue;
+        candidates.push({ start: usage.start, end: usage.end, href });
+      }
+    }
+    // Lean can report a definition as a use through generated syntax. Keep
+    // all definition sites plain, even in that case. Sweep, rather than
+    // checking every declaration for every reference.
+    const sites = [...module.definitionSites].sort((a, b) => a.start - b.start);
+    candidates.sort((a, b) => a.start - b.start || a.end - b.end || a.href.localeCompare(b.href));
+    let index = 0;
+    const links: SourceLink[] = [];
+    for (const candidate of candidates) {
+      while (index < sites.length && sites[index]!.end <= candidate.start) index++;
+      if (sites[index] && sites[index]!.start < candidate.end) continue;
+      const previous = links.at(-1);
+      if (previous && previous.end > candidate.start) {
+        // Lean records both `T` and `T.{u}` for a universe application.
+        // Keep the precise name span; the universe variable stays plain.
+        if (previous.href === candidate.href) {
+          if (candidate.start <= previous.start && candidate.end >= previous.end) continue;
+          if (previous.start <= candidate.start && previous.end >= candidate.end) {
+            links[links.length - 1] = candidate;
+            continue;
+          }
+        }
+        // A new compiler format must not turn overlapping semantic spans
+        // into silently lost links or nested anchors.
+        throw new Error(`${module.semantic!.module}: overlapping Lean reference targets`);
+      }
+      links.push(candidate);
+    }
+    return links;
+  }
+
   links(conceptId: string): SourceLink[] {
     const cached = this.resolved.get(conceptId);
     if (cached) return cached;
     const module = this.modules.get(conceptId);
     if (!module) return [];
+    if (module.semantic) {
+      const links = this.semanticLinks(module);
+      this.resolved.set(conceptId, links);
+      return links;
+    }
     // Iterative and cycle-safe; don't parse every ancestor again for each page.
     const visible = new Set<string>();
     const pending = [conceptId];
