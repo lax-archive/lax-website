@@ -1294,6 +1294,16 @@
       "title": "Planar Graph Classes",
       "concepts": [
         {
+          "id": "Lax68.GraphMinors",
+          "title": "Graph minors",
+          "type": "definition"
+        },
+        {
+          "id": "Lax68.GraphTopologicalMinors",
+          "title": "Topological graph minors",
+          "type": "definition"
+        },
+        {
           "id": "Lax68.GridPlanar",
           "title": "Grids are planar",
           "type": "theorem"
@@ -1311,6 +1321,11 @@
         {
           "id": "Lax68.HalinPlanar",
           "title": "Halin graphs are planar",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax68.KuratowskiPlanarity",
+          "title": "Kuratowski's theorem in straight-line form",
           "type": "theorem"
         },
         {
@@ -1474,6 +1489,11 @@
           "type": "definition"
         },
         {
+          "id": "Lax68.WagnerObstructionBridge",
+          "title": "The Kuratowski-Wagner obstruction bridge",
+          "type": "theorem"
+        },
+        {
           "id": "Lax68.WallPlanar",
           "title": "Walls are planar",
           "type": "theorem"
@@ -1503,6 +1523,7 @@
         "Lax68Proofs.outerplanar_planar",
         "Lax68Proofs.path_outerplanar",
         "Lax68Proofs.path_planar",
+        "Lax68Proofs.planar_iff_excludedMinors",
         "Lax68Proofs.star_outerplanar",
         "Lax68Proofs.star_planar",
         "Lax68Proofs.tree_planar",
@@ -2404,6 +2425,33 @@
         "Lax434930Proofs.Certificates.pair_injective",
         "Lax434930Proofs.Certificates.pair_length",
         "Lax434930Proofs.Certificates.unpair_pair"
+      ]
+    },
+    {
+      "id": "lax-485480",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "Welzl Trees of Cographs",
+      "concepts": [
+        {
+          "id": "Lax485480.CographWelzlTreeLowerBound",
+          "title": "Cographs can require logarithmic Welzl trees",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax485480.CographWelzlTreeUpperBound",
+          "title": "Cographs have logarithmic Welzl trees",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax485480.WelzlTrees",
+          "title": "Welzl trees",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax485480Proofs.CographWelzlTreeLowerBound.exists_cograph_requiring_treeCrossingNumber_at_least",
+        "Lax485480Proofs.CographWelzlTreeUpperBound.exists_welzlTree_crossingNumber_le_four_clog_add_one"
       ]
     },
     {

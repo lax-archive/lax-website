@@ -1514,10 +1514,11 @@ body.sidebar-resizing #content-shell{ transition: none; }
    and keyboard readers can turn it over as well as pointer users. */
 
 /* ── Landing page ──
-   The manifesto, the paper excerpt beside its concept cards, the concept
-   and proof-network sections, the two ways in, then the library and FAQ
-   panels. `landing-*` throughout; the excerpt borrows `manuscript-*` for
-   the cards and the marks' palette. */
+   The manifesto, the examples box (excerpts of annotated papers beside
+   their cards, one at a time), the proof network, the one way in, the
+   three columns and the foundations, then the library and FAQ panels.
+   `landing-*` throughout; the excerpts borrow `manuscript-*` for the cards
+   and the marks' palette. */
 
 .landing-hero{
   max-width: 40em;
@@ -1567,27 +1568,144 @@ body.sidebar-resizing #content-shell{ transition: none; }
 }
 
 /* "How it works": a paragraph leads into each figure — the concepts
-   paragraphs into the paper excerpt (which spans the page's width), the
+   paragraph into the examples box (which spans the page's width), the
    proof-network paragraph into the network. */
 .landing-how{ max-width: none; }
 .landing-how > .landing-section-copy{ max-width: 40em; margin-inline: auto; }
 
-/* The three boxes — the paper, the inference, the network — share one
-   width, centred under the text. The paper's cards may hang out past
-   the box's right edge; the box itself stays where the others are. */
-.landing-box{ width: min(100%, 46em); margin: 1.4rem auto 2.4rem; }
-.landing-how > .landing-paper{ margin: 1.4rem auto 2.4rem; }
+/* The two boxes — the examples, the network — share one width, centred
+   under the text. An open card may hang out past the examples box's
+   right edge and below its bottom edge, into the whitespace before the
+   next paragraph; the box itself never grows for it. */
+.landing-box{ width: min(100%, 62em); margin: 1.4rem auto 2.4rem; }
+.landing-how > .landing-paper{ margin: 1.4rem auto 4.5rem; }
 /* .graph-figure sets its own margin later in the sheet; the box's wins. */
-.landing-how > .landing-network-figure{ margin: 1.4rem auto 2.4rem; padding-top: 1.15rem; }
-.landing-network-figure > .landing-box-caption{ margin-bottom: 1rem; padding: 0 2.6rem; }
+.landing-how > .landing-network-figure{ margin: 1.4rem auto 2.4rem; }
+.landing-network-figure > .landing-box-caption{
+  margin: 0 0 0.9rem;
+  padding: 1rem 3.4rem 1rem 1.7rem;
+  border-radius: calc(var(--radius-card) - 1px) calc(var(--radius-card) - 1px) 0 0;
+}
 
-/* ── The paper excerpt ──
-   The text column reads like the paper page's reflowed text; the marked
-   passages are highlighted in the marks' concept yellow and joined to
-   their cards in the rail by a band across the gutter. landing.js sets
-   each card at its passage's height and pushes it down where it would
-   overlap the one above. */
-.landing-paper{ max-width: none; }
+/* The network is wider than the box: it is centred by landing.js and
+   fades out at the sides until the pointer is over it, when the fades
+   lift and the scrollbars show. The scrollbars are always laid out (thin,
+   transparent), so nothing shifts on hover. */
+.landing-network-viewport{ position: relative; }
+.landing-network-viewport::before,
+.landing-network-viewport::after{
+  content: '';
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  bottom: 0;
+  width: 18%;
+  max-width: 9rem;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 220ms ease;
+}
+
+.landing-network-viewport::before{ left: 0; background: linear-gradient(to right, var(--surface) 12%, rgba(255, 255, 255, 0)); }
+.landing-network-viewport::after{ right: 0; background: linear-gradient(to left, var(--surface) 12%, rgba(255, 255, 255, 0)); }
+.landing-network-figure:hover .landing-network-viewport::before,
+.landing-network-figure:hover .landing-network-viewport::after,
+.landing-network-figure:focus-within .landing-network-viewport::before,
+.landing-network-figure:focus-within .landing-network-viewport::after,
+.graph-expanded .landing-network-viewport::before,
+.graph-expanded .landing-network-viewport::after{ opacity: 0; }
+
+.landing-network-viewport > .figure-container{
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+  transition: scrollbar-color 220ms ease;
+}
+
+.landing-network-figure:hover .landing-network-viewport > .figure-container,
+.landing-network-figure:focus-within .landing-network-viewport > .figure-container,
+.graph-expanded .landing-network-viewport > .figure-container{ scrollbar-color: var(--border) transparent; }
+
+/* In the large window the viewport takes the figure's height. */
+.graph-expanded > .landing-network-viewport{ flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
+.graph-expanded > .landing-network-viewport > .figure-container{ flex: 1 1 auto; min-height: 0; height: auto !important; }
+
+/* ── The examples box ──
+   Each example reads like the paper page's reflowed text; the marked
+   passages are highlighted in the marks' concept yellow (proofs in the
+   proof blue) and joined to their cards in the rail by a band across the
+   gutter. landing.js sets each card at its passage's height and pushes it
+   down where it would overlap the one above. The examples are stacked in
+   one grid cell, so the box is as tall as the tallest and does not move
+   when the reader switches; the tabs above them switch. */
+.landing-paper{ position: relative; max-width: none; }
+
+.landing-carousel-dots{
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding-top: 0.5rem;
+}
+
+/* A dot per example, the selected one a short bar in the accent. */
+.landing-carousel-dot{
+  appearance: none;
+  width: 0.55rem;
+  height: 0.55rem;
+  padding: 0;
+  border: 0;
+  border-radius: 0.3rem;
+  background: var(--border);
+  cursor: pointer;
+  transition: width 260ms ease, background 160ms ease;
+}
+
+.landing-carousel-dot:hover{ background: #b9c3cf; }
+.landing-carousel-dot:focus-visible{ outline: 2px solid var(--accent); outline-offset: 3px; }
+.landing-carousel-dot[aria-selected="true"]{ width: 1.5rem; background: var(--accent); cursor: default; }
+
+/* The arrows: large, at the box's sides, half outside the frame, so
+   there is no doubt what they do. */
+.landing-carousel-arrow{
+  appearance: none;
+  position: absolute;
+  z-index: 8;
+  top: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  padding: 0 0 0.3rem;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--link);
+  font: inherit;
+  font-size: 2.2rem;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(43, 43, 43, 0.12);
+  transform: translateY(-50%);
+  transition: color 120ms ease, background 120ms ease, border-color 120ms ease, box-shadow 120ms ease;
+}
+
+.landing-carousel-arrow-prev{ left: -4.2rem; }
+.landing-carousel-arrow-next{ right: -4.2rem; }
+
+/* Where the box fills the page, the arrows straddle its edges instead. */
+@media (max-width: 1199px){
+  .landing-carousel-arrow-prev{ left: -1.5rem; }
+  .landing-carousel-arrow-next{ right: -1.5rem; }
+}
+.landing-carousel-arrow:hover{ border-color: var(--accent); background: var(--accent-light); box-shadow: 0 6px 16px rgba(44, 95, 138, 0.18); }
+.landing-carousel-arrow:focus-visible{ outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* The slides: the selected one in flow, the others laid out but out of
+   flow and invisible, so the box is as tall as the selected slide (and
+   landing.js eases the height between two). */
+.landing-carousel-slides{ position: relative; transition: height 320ms ease; }
+.landing-carousel-slide{ min-width: 0; }
+.landing-carousel-slide-off{ position: absolute; top: 0; left: 0; right: 0; visibility: hidden; pointer-events: none; }
 
 .landing-paper-frame{
   position: relative;
@@ -1604,20 +1722,45 @@ body.sidebar-resizing #content-shell{ transition: none; }
   box-shadow: 0 10px 28px rgba(43, 43, 43, 0.06);
 }
 
-.landing-paper-foot{ position: relative; z-index: 5; display: flex; justify-content: center; }
+/* The way in, centred under both columns, below the rail's closed
+   height (so never under a card at rest). */
+.landing-paper-foot{ position: relative; z-index: 5; grid-column: 1 / -1; display: flex; justify-content: center; margin-top: 0.4rem; }
 
-/* Each box says what it shows, at its top, inside the frame. */
+/* Each box says what it shows in a tinted band across its top, inside
+   the frame's border: the first sentence bold, the rest a shade lighter. */
 .landing-box-caption{
   position: relative;
   z-index: 5;
-  max-width: 44em;
-  margin: 0 auto 1.15rem;
-  color: #4f5966;
-  font-size: 1.05rem;
+  margin: 0 0 1.15rem;
+  color: var(--text);
+  font-size: 1.02rem;
+  font-weight: 500;
   line-height: 1.55;
-  text-align: center;
+  text-align: left;
   hyphens: none;
 }
+
+.landing-box-caption strong{ font-weight: 700; }
+
+/* The examples box's head is the band: the caption, the dots at its
+   right, pulled out to the frame's edges over the frame's padding. */
+.landing-box-head{
+  position: relative;
+  z-index: 5;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: 1.5rem;
+  align-items: start;
+  margin: calc(1px - 1.15rem) calc(1px - 1.5rem) 1.15rem calc(1px - 1.7rem);
+  padding: 1rem 1.5rem 1rem 1.7rem;
+  border-bottom: 1px solid var(--border-light);
+  border-radius: calc(var(--radius-card) - 1px) calc(var(--radius-card) - 1px) 0 0;
+}
+
+.landing-box-head > .landing-box-caption{ margin-bottom: 0; }
+.landing-box-head,
+.landing-network-figure > .landing-box-caption{ background: var(--accent-light); }
+.landing-network-figure > .landing-box-caption{ border-bottom: 1px solid var(--border-light); }
 
 .landing-box-caption p{ margin: 0; }
 .landing-box-caption strong{ color: var(--text); }
@@ -1637,7 +1780,7 @@ body.sidebar-resizing #content-shell{ transition: none; }
    right edge and the cards lean out over it, instead of taking width from
    the paper; the panel keeps the boxes' shared width and place. */
 @media (min-width: 1200px){
-  .landing-paper-grid{ margin-right: -9rem; grid-template-columns: minmax(0, 1fr) minmax(21rem, 44%); }
+  .landing-paper-grid{ grid-template-columns: minmax(0, 1fr) minmax(21rem, 44%); }
   .landing-paper-rail > .manuscript-card{ box-shadow: 0 6px 18px rgba(43, 43, 43, 0.12); }
   .landing-paper-rail .manuscript-card-expanded{ box-shadow: 0 10px 26px rgba(43, 43, 43, 0.16); }
 }
@@ -1723,7 +1866,11 @@ body.sidebar-resizing #content-shell{ transition: none; }
 .landing-paper-rail > .manuscript-card{ margin: 0 0 0.5rem; }
 /* Above the next box, for a card hanging out below this one. */
 .landing-paper-rail-live > .manuscript-card{ position: absolute; left: 0; right: 0; margin: 0; z-index: 6; }
-.landing-paper-rail .manuscript-card-source{ max-height: 18rem; }
+/* An open card scrolls past a screen's worth, one scrollbar for the
+   whole body, so it hangs into the whitespace under the box and no
+   further. */
+.landing-paper-rail .manuscript-card-body{ max-height: 38rem; overflow: auto; }
+.landing-paper-rail .manuscript-card-source{ max-height: none; overflow: visible; }
 
 /* The one call to action under the boxes: larger than any other button. */
 .landing-hero-button.landing-cta{
@@ -1732,38 +1879,81 @@ body.sidebar-resizing #content-shell{ transition: none; }
   font-size: 1.12rem;
 }
 
-/* Three tiles under the call to action: what Lax is for. */
-.landing-tiles-section{ max-width: none; margin: 2.8rem auto 0; }
+/* Getting started: a plain section, its commands in code blocks. */
+.landing-plain-section{ margin: 3rem auto 0; }
+.landing-plain-section pre{ margin: 0.6rem 0 1rem; }
 
-.landing-tiles{
+/* Three columns of plain text. Text, not tiles. */
+.landing-columns-section{ max-width: none; margin: 3rem auto 0; }
+
+.landing-columns{
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1rem;
-  width: min(100%, 62em);
+  gap: 2.2rem;
+  width: min(100%, 60em);
   margin: 0 auto;
 }
 
-.landing-tile{
-  padding: 1.15rem 1.25rem 1.3rem;
-  background: var(--panel-bg);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-card);
-  box-shadow: 0 10px 28px rgba(43, 43, 43, 0.06);
-}
-
-.landing-tile h3{
-  margin: 0 0 0.55rem;
-  font-size: 1.12rem;
+.landing-column h3{
+  margin: 0 0 0.5rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid var(--border-light);
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  font-weight: 700;
+  font-variant: small-caps;
+  letter-spacing: 0.05em;
   line-height: 1.3;
 }
 
-.landing-tile-copy{
+.landing-column-copy{
   color: #3b4350;
-  font-size: 0.92rem;
-  line-height: 1.55;
+  font-size: 0.95rem;
+  line-height: 1.58;
   text-align: left;
   hyphens: none;
 }
+
+.landing-column-copy p{ margin: 0; }
+.landing-column-copy p + p{ margin-top: 0.6rem; }
+
+/* The foundations: a paragraph, then the definitions as links, each with
+   its type badge, its submission, and how many further submissions build
+   on it. */
+.landing-foundations{ max-width: none; margin: 3rem auto 0; }
+.landing-foundations > .landing-section-copy{ max-width: 40em; margin-inline: auto; }
+
+.landing-foundation-list{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.6rem;
+  width: min(100%, 60em);
+  margin: 1.3rem auto 0;
+  padding: 0;
+  list-style: none;
+}
+
+.landing-foundation{
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: 0.55rem;
+  align-items: center;
+  padding: 0.55rem 0.9rem 0.55rem 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  background: var(--surface);
+  color: var(--text);
+  text-decoration: none;
+  transition: border-color 120ms ease, box-shadow 120ms ease;
+}
+
+.landing-foundation:hover,
+.landing-foundation:focus-visible{ border-color: var(--accent); box-shadow: 0 4px 12px rgba(44, 95, 138, 0.12); outline: none; }
+.landing-foundation > .type-badge{ margin: 0; }
+.landing-foundation-title{ font-weight: 600; font-size: 0.95rem; line-height: 1.3; }
+.landing-foundation-meta{ grid-column: 2; display: flex; flex-wrap: wrap; gap: 0.15rem 0.6rem; color: var(--text-dim); font-size: 0.78rem; line-height: 1.3; }
+.landing-foundation-meta .submission-meta-id{ font-size: 0.78rem; }
 
 .landing-hero-actions{
   display: flex;
@@ -3567,7 +3757,11 @@ body.graph-window-open::after{
   .landing-paper-grid{ grid-template-columns: 1fr; row-gap: 0.9rem; }
   .landing-paper-rail-live > .manuscript-card{ position: static; margin: 0 0 0.5rem; }
   .landing-hero-actions{ display: grid; grid-template-columns: 1fr; }
-  .landing-tiles{ grid-template-columns: 1fr; }
+  .landing-carousel-arrow{ width: 2.2rem; height: 2.2rem; font-size: 1.6rem; }
+  .landing-carousel-arrow-prev{ left: -0.6rem; }
+  .landing-carousel-arrow-next{ right: -0.6rem; }
+  .landing-columns{ grid-template-columns: 1fr; gap: 1.4rem; }
+  .landing-foundation{ width: 100%; }
   .landing-hero-button{ width: 100%; }
   .landing-action-panel{ padding: 1rem; }
   .landing-faq{ padding-top: 0.9rem; }

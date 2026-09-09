@@ -1,7 +1,8 @@
 // The landing page: the "Browse submissions" button scrolls to the library
-// and keeps a shareable ?view= URL in sync; the paper excerpt joins each
-// highlighted passage to its concept card the way the paper page does —
-// hover opens the card, a click pins it open.
+// and keeps a shareable ?view= URL in sync; each example joins its
+// highlighted passages to their cards the way the paper page does — hover
+// opens the card, a click pins it open; the tabs above the examples switch
+// between them; the proof network is centred in its box.
 (() => {
   function setupLandingActions() {
     const buttons = [...document.querySelectorAll('[data-landing-action]')];
@@ -80,17 +81,20 @@
       }
       rail.classList.add('landing-paper-rail-live');
       const docTop = doc.getBoundingClientRect().top;
-      // The rail is as tall as the cards would be closed: an open card
-      // hangs out over the box's edge rather than stretching the box.
+      // The rail is as tall as the cards would be closed — except the card
+      // that opened with the page, which counts open — so a card the reader
+      // opens hangs out over the box's edge rather than stretching the box,
+      // and nothing hangs out before the reader touches anything.
       let bottom = 0;
       let closedBottom = 0;
-      for (const { passage, card } of placed) {
+      for (const pair of placed) {
+        const { passage, card } = pair;
         const wanted = passage.getBoundingClientRect().top - docTop;
         const y = Math.max(wanted, bottom);
         card.style.top = `${y}px`;
         bottom = y + card.offsetHeight + CARD_GAP;
         const yClosed = Math.max(wanted, closedBottom);
-        closedBottom = yClosed + closedHeight(card) + CARD_GAP;
+        closedBottom = yClosed + (pair.opening ? card.offsetHeight : closedHeight(card)) + CARD_GAP;
       }
       rail.style.minHeight = `${Math.max(0, closedBottom - CARD_GAP)}px`;
     }
@@ -219,9 +223,105 @@
     for (const box of document.querySelectorAll('[data-card-box]')) setupCardBox(box);
   }
 
+  // The examples: one dot per example, a large arrow either side of the
+  // box to step through them, and the left and right arrow keys anywhere
+  // on the page outside a field or a scrolling figure. Nothing moves on
+  // its own. The slides stay in the page: an inactive one is out of flow,
+  // invisible and inert, and the box eases its height from one slide to
+  // the next.
+  function setupCarousel(root) {
+    const tabs = [...root.querySelectorAll('[role="tab"]')];
+    if (tabs.length < 2) return;
+    const slides = tabs.map((tab) => document.getElementById(tab.getAttribute('aria-controls')));
+    const stage = root.querySelector('.landing-carousel-slides');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let current = Math.max(0, tabs.findIndex((tab) => tab.getAttribute('aria-selected') === 'true'));
+
+    function select(index, focus) {
+      const next = (index + tabs.length) % tabs.length;
+      const from = stage ? stage.offsetHeight : 0;
+      current = next;
+      tabs.forEach((tab, i) => {
+        const selected = i === current;
+        tab.setAttribute('aria-selected', String(selected));
+        tab.tabIndex = selected ? 0 : -1;
+        const slide = slides[i];
+        if (!slide) return;
+        slide.classList.toggle('landing-carousel-slide-off', !selected);
+        if (selected) {
+          slide.removeAttribute('aria-hidden');
+          slide.removeAttribute('inert');
+        } else {
+          slide.setAttribute('aria-hidden', 'true');
+          slide.setAttribute('inert', '');
+        }
+      });
+      if (stage && from && !reduceMotion.matches) {
+        const to = stage.offsetHeight;
+        if (to !== from) {
+          stage.style.height = `${from}px`;
+          void stage.offsetHeight;
+          stage.style.height = `${to}px`;
+          const done = (event) => {
+            if (event.target !== stage) return;
+            stage.style.height = '';
+            stage.removeEventListener('transitionend', done);
+          };
+          stage.addEventListener('transitionend', done);
+        }
+      }
+      if (focus) tabs[current].focus();
+    }
+
+    tabs.forEach((tab, index) => {
+      tab.addEventListener('click', () => { if (index !== current) select(index, false); });
+      tab.addEventListener('keydown', (event) => {
+        if (event.key === 'ArrowRight' || event.key === 'ArrowDown') select(index + 1, true);
+        else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') select(index - 1, true);
+        else if (event.key === 'Home') select(0, true);
+        else if (event.key === 'End') select(tabs.length - 1, true);
+        else return;
+        event.preventDefault();
+      });
+    });
+    for (const arrow of root.querySelectorAll('[data-carousel-step]')) {
+      arrow.addEventListener('click', () => select(current + Number(arrow.dataset.carouselStep || 1), false));
+    }
+    document.addEventListener('keydown', (event) => {
+      if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+      if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
+      const target = event.target;
+      if (target && target !== document.body && !root.contains(target)) return;
+      select(current + (event.key === 'ArrowRight' ? 1 : -1), false);
+      event.preventDefault();
+    });
+    select(current, false);
+  }
+
+  function setupCarousels() {
+    for (const root of document.querySelectorAll('[data-carousel]')) setupCarousel(root);
+  }
+
+  // The proof network is wider than its box: keep it centred whenever
+  // dag.js draws it (on load, and again after a resize), and let the
+  // stylesheet fade its sides until the pointer is over it.
+  function setupNetwork() {
+    const container = document.getElementById('proof-network');
+    if (!container) return;
+    function center() {
+      const svg = container.querySelector('svg');
+      if (!svg) return;
+      container.scrollLeft = Math.max(0, (container.scrollWidth - container.clientWidth) / 2);
+    }
+    if (typeof MutationObserver === 'function') new MutationObserver(center).observe(container, { childList: true });
+    center();
+  }
+
   function setupLanding() {
     setupLandingActions();
     setupCardBoxes();
+    setupCarousels();
+    setupNetwork();
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', setupLanding);
