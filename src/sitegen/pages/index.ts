@@ -117,8 +117,9 @@ ${items}
  * each marked passage highlighted as on the paper page, and the archive's
  * own card for the concept beside it (the first one open, so the Lean
  * encoding is on the page before anyone hovers). landing.js sets each
- * card beside its passage the way the paper page does; without it the
- * cards stack in the rail. */
+ * card beside its passage and draws the band between them in the SVG
+ * overlay, the way the paper page does; without it the cards stack in
+ * the rail. */
 async function paperExcerpt(ctx: PageContext, intro: SiteSubmission): Promise<string> {
   const { markdown } = ctx;
   const paper = intro.output!.paper!;
@@ -153,6 +154,7 @@ ${markdown.render(INTRO_EXCERPT.after, "")}
 <ol class="manuscript-rail landing-paper-rail" aria-label="Concept cards">
 ${cards.join("\n")}
 </ol>
+<svg class="manuscript-links landing-paper-links" aria-hidden="true"></svg>
 </div>
 </div>
 </section>`;
@@ -243,7 +245,7 @@ ${tagBrowser}
 ${rows.join("\n")}
 <li id="submissions-list-empty" class="submissions-list-empty" hidden>No submissions match.</li>
 </ul>
-<button class="submissions-load-more" id="submissions-load-more" type="button" aria-controls="submissions-list" hidden>Load more</button>
+<button class="submissions-load-more" id="submissions-load-more" type="button" aria-controls="submissions-list" hidden>Show all ${plural(listed.length, "submission")} <b aria-hidden="true">↓</b></button>
 </section>`;
   const introLink = intro
     ? `<a class="landing-hero-button primary" href="${attr(`${intro.record.id}/paper.html`)}">Read the introduction to Lax <b aria-hidden="true">→</b></a>`
