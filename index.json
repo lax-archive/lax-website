@@ -2346,6 +2346,40 @@
       ]
     },
     {
+      "id": "lax-678846",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "Fagin’s theorem",
+      "concepts": [
+        {
+          "id": "Lax678846.ExistentialSecondOrder",
+          "title": "Existential second-order logic",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax678846.Fagin",
+          "title": "Fagin’s theorem",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax678846.FiniteStructures",
+          "title": "Finite relational structures and their properties",
+          "type": "definition"
+        },
+        {
+          "id": "Lax678846.NondeterministicPolynomialTime",
+          "title": "NP through polynomially bounded certificates",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax678846Proofs.Fagin.capturesNP",
+        "Lax678846Proofs.Fagin.definableInNP",
+        "Lax678846Proofs.Fagin.npDefinable",
+        "Lax678846Proofs.Isomorphism.satisfiesInvariant"
+      ]
+    },
+    {
       "id": "lax-709149",
       "state": "draft",
       "environment": "v4.30.0",
