@@ -126,11 +126,14 @@ bytes therefore differ from production's, deterministically per flag set).
   left unchanged.
 - Lean source links, on concept pages and paper cards, are built from a shared
   declaration inventory (`src/sitegen/source-links.ts`). Exact qualified names
-  in the concept's archive import closure link to their declaration's source
-  line; statements retain their existing `s-…` anchors. Declaration sites and
-  imported module names are clickable too. The inventory follows ordinary
-  namespace/section commands; a module's filename is not assumed to be its
-  declaration namespace.
+  in the concept's archive import closure link to the beginning of the
+  declaration's preceding comments (or its attributes/modifiers when there
+  are no comments); statements retain their existing `s-…` anchors at the
+  same comment start. Source targets align below the sticky header, with
+  enough scroll space for short pages. Hover and keyboard focus use bold
+  text. Declaration sites and imported module names are clickable too.
+  The inventory follows ordinary namespace/section commands; a module's
+  filename is not assumed to be its declaration namespace.
 - This is conservative source navigation, not Lean's elaborated name lookup.
   Bare references, ambiguous or potentially shadowed names, private imported
   declarations, generated fields, macros and unresolved names stay plain.

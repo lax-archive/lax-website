@@ -2,7 +2,7 @@ import { createHighlighter, type Highlighter } from "shiki";
 import type { StatementEntry } from "../types.js";
 import { attr, esc } from "./html.js";
 import { renderDisplayMath, renderInlineMath } from "./math.js";
-import { scanLeanSource, type SourceRange } from "./lean-source.js";
+import { leanDeclarations, nameKey, nameParts, scanLeanSource, type SourceRange } from "./lean-source.js";
 import type { SourceLink } from "./source-links.js";
 
 let highlighterPromise: Promise<Highlighter> | undefined;
@@ -32,9 +32,9 @@ function closingDollar(source: string, start: number, end: number, display: bool
 
 /** Decorations are applied to the original highlighted text. No placeholder
  * substitution: preserve syntax colours and never re-interpret generated HTML. */
-function commentMath(source: string): Decoration[] {
+function commentMath(source: string, comments: SourceRange[]): Decoration[] {
   const matches: Decoration[] = [];
-  for (const range of scanLeanSource(source).comments) {
+  for (const range of comments) {
     for (let index = range.start; index < range.end;) {
       if (source[index] !== "$" || escapedAt(source, index)) { index++; continue; }
       const display = source[index + 1] === "$";
@@ -60,12 +60,12 @@ function commentMath(source: string): Decoration[] {
 // supplied as part of a name. The resolver URL-encodes path/fragment components.
 const ARCHIVE_HREF = /^(?:\.\.?\/)*[a-zA-Z0-9_%.'-]+\/[a-zA-Z0-9_%.'-]+\.html(?:#[a-zA-Z0-9_%.'-]+)?$/u;
 
-function decorationsByLine(source: string, links: readonly SourceLink[]): Decoration[][] {
+function decorationsByLine(source: string, links: readonly SourceLink[], comments: SourceRange[]): Decoration[][] {
   const lines = source.split("\n");
   const offsets = [0];
   for (const line of lines) offsets.push(offsets.at(-1)! + line.length + 1);
   const result: Decoration[][] = lines.map(() => []);
-  const decorations: Decoration[] = [...commentMath(source), ...links.filter((link) =>
+  const decorations: Decoration[] = [...commentMath(source, comments), ...links.filter((link) =>
     Number.isInteger(link.start) && Number.isInteger(link.end) && link.start >= 0 &&
     link.end > link.start && link.end <= source.length && ARCHIVE_HREF.test(link.href),
   )].sort((a, b) => a.start - b.start);
@@ -233,7 +233,17 @@ export async function highlightSource(
 ): Promise<string> {
   const anchors = options.anchors ?? true;
   const elided = options.omitModuleDoc ? moduleDocRange(source) : undefined;
-  const decorations = decorationsByLine(source, options.links ?? []);
+  const parsed = scanLeanSource(source);
+  const decorations = decorationsByLine(source, options.links ?? [], parsed.comments);
+  // Keep stable statement IDs, but place them at their complete comment
+  // preamble. Archive ranges may begin after leading ordinary line comments.
+  const starts = anchors && statements.length
+    ? new Map(leanDeclarations(parsed).map((d) => [nameKey(d.name), d.startLine]))
+    : new Map<string, number>();
+  const anchorStatements = statements.map((statement) => ({
+    ...statement,
+    startLine: starts.get(nameKey(nameParts(statement.id))) ?? statement.startLine,
+  }));
   const row = (n: number, highlighted: string) => {
     if (elided && n >= elided[0] && n <= elided[1]) {
       return n === elided[0]
@@ -242,7 +252,7 @@ export async function highlightSource(
     }
     const id = anchors ? ` id="L${n}"` : "";
     const num = anchors ? `<a href="#L${n}">${n}</a>` : String(n);
-    const anchorSpans = anchors ? statementAnchors(n, statements) : "";
+    const anchorSpans = anchors ? statementAnchors(n, anchorStatements) : "";
     return `<tr${id} class="${lineStatus(n, statements, proven).trim()}"><td class="line-num">${num}</td><td class="line-code">${anchorSpans}${highlighted || " "}</td></tr>`;
   };
   let rows: string[];

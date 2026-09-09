@@ -62,9 +62,39 @@ describe("Lean source navigation", () => {
       ["Different", "Inner", "thing"], ["Different", "other"], ["Root", "value"], ["global"],
     ]);
     expect(links(archive([target, caller]), caller.id)).toEqual([
-      { text: "Different.Inner.thing", href: "../lax-17/Lax17.Module.html#L8" },
+      { text: "Different.Inner.thing", href: "../lax-17/Lax17.Module.html#L4" },
       { text: "Different.other", href: "../lax-17/Lax17.Module.html#L11" },
       { text: "Root.value", href: "../lax-17/Lax17.Module.html#L12" },
+    ]);
+  });
+
+  it("lands at the complete leading comments before attributes and modifiers", async () => {
+    const target = concept("Lax17.Target", [
+      "namespace Shared", "-- The public description.", "/-- A nested /- note -/ and more details.",
+      "The second paragraph. -/", "@[", "  simp", "]", "noncomputable", "def thing := 0",
+      "-- A statement's first comment.", "/-- Its docstring. -/", "axiom claim : True", "end Shared",
+    ].join("\r\n"));
+    target.statements = [{ id: "Shared.claim", signature: "claim : True", startLine: 11, endLine: 12 }];
+    const caller = concept("Lax17.Caller", "#check Shared.thing\n#check Shared.claim", [target.id]);
+    const model = archive([target, caller]);
+    expect(links(model, caller.id)).toEqual([
+      { text: "Shared.thing", href: "../lax-17/Lax17.Target.html#L2" },
+      { text: "Shared.claim", href: "../lax-17/Lax17.Target.html#s-Shared.claim" },
+    ]);
+    const html = await highlightSource(target.sourceText, target.statements);
+    expect(html).toMatch(/<tr id="L10"[^]*?<td class="line-code"><span class="statement-anchor" id="s-Shared.claim"><\/span>/u);
+    expect(html.match(/id="s-Shared.claim"/gu)).toHaveLength(1);
+  });
+
+  it("does not use module docs, trailing comments, or comments before another command", () => {
+    const source = [
+      "/-! Module documentation. -/", "def first := 0 -- trailing comment",
+      "def second := 1 /- trailing block", "comment -/", "def third := 2",
+      "/-- About the namespace. -/", "namespace Shared", "def fourth := 3",
+      'def text := "/-- Not a comment. -/"', "def fifth := 4",
+    ].join("\n");
+    expect(leanDeclarations(scanLeanSource(source)).map((d) => [d.name.join("."), d.startLine])).toEqual([
+      ["first", 2], ["second", 3], ["third", 5], ["Shared.fourth", 8], ["Shared.text", 9], ["Shared.fifth", 10],
     ]);
   });
 

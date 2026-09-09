@@ -24,10 +24,11 @@ The replacement separates a shared lexical inventory, destination lookup,
 and rendering. Ordinary namespace and section commands determine the names
 of declarations, independently of module filenames. Exact, unambiguous
 qualified names are resolved within the current concept's import closure.
-Definition destinations use existing `L<n>` source anchors; statements keep
-their existing `s-…` anchors. Declaration sites and module names also link.
-The reported references now target `Lax17.Treewidth.html#L67` and
-`Lax17.GridMinor.html#L21`.
+Definition destinations use existing `L<n>` source anchors at the beginning
+of their preceding comments (or their attributes/modifiers without comments).
+Statements keep their existing `s-…` anchors, moved to the same comment start.
+Declaration sites and module names also link. The reported references now
+target `Lax17.Treewidth.html#L62` and `Lax17.GridMinor.html#L20`.
 
 Unrestricted short-name aliases were deliberately removed. Potential local
 shadows are suppressed conservatively across the file. Private globals are
@@ -40,7 +41,15 @@ fragments of an identifier in one anchor. It processes comment math through
 the same range mechanism, so no placeholder strings or HTML substitutions
 are needed. Paper cards use the same resolver and canonical concept-page
 destinations, without adding source IDs to repeated cards. Hover and keyboard
-focus underline links while retaining syntax colours.
+focus bold links while retaining syntax colours.
+
+Native fragment navigation aligns the comment's row below the sticky header.
+Statement anchors sit at the top of their row rather than the text baseline.
+Source-fragment visits reserve a viewport of space after the footer so even
+a late declaration on a short page can reach that position. This uses CSS
+only and works with JavaScript disabled; ordinary page visits keep their
+existing length. Module documentation and trailing comments on a previous
+command are excluded from declaration preambles.
 
 ## Scaling
 
@@ -81,7 +90,8 @@ claim to make the whole generator linear in archive size.
 - Regression tests cover the reported references, namespace/section nesting,
   rooted and quoted names, private declarations, collisions, import cycles,
   local shadows, strings/comments/quotations, source preservation, malformed
-  hrefs/ranges, repeated paper cards, and thousands of references.
+  hrefs/ranges, repeated paper cards, thousands of references, and complete
+  comment preambles before multiline attributes and modifiers.
 
 Validation used read-only database commit
 `66e58be2c0e10217a9959307d2a6d1a069e3394c`, with 402 concepts, 265 proofs and
@@ -92,13 +102,16 @@ CSP values, or displayed source-text differences from the original build.
 Dynamic paper passage anchors were excluded from the static anchor check;
 source-link destinations were all checked against actual emitted IDs.
 
-`npm run check` passed 171 tests; its five normally skipped browser tests
+`npm run check` passed 173 tests; its six normally skipped browser tests
 were also run separately with system Chrome. The browser suite's resize wait
 was made null-safe because reflow can temporarily detach a card while it is
 being polled. Separate checks exercised the two reported links by keyboard
 at desktop and mobile widths, under both root and branch-preview URLs, and
-with JavaScript disabled. Concept navigation produced no CSP violations or
-page errors. Native link clicks from both reflow and PDF paper cards reached
+with JavaScript disabled. The browser regression also checks bold hover and
+keyboard focus, exact alignment below the header on tall and mobile screens,
+and stable statement anchors at their leading ordinary comments.
+Concept navigation produced no CSP violations or page errors. Native link
+clicks from both reflow and PDF paper cards reached
 their canonical concept pages.
 
 ## Deliberate limits

@@ -58,7 +58,7 @@ class SourceLinkIndex {
       for (const declaration of leanDeclarations(source)) {
         const key = nameKey(declaration.name);
         const statement = statements.get(key);
-        const fragment = statement?.startLine !== undefined ? `s-${statement.id}` : `L${declaration.token.line}`;
+        const fragment = statement?.startLine !== undefined ? `s-${statement.id}` : `L${declaration.startLine}`;
         const target = { module: concept.id, href: `${this.page(located)}#${encodeURIComponent(fragment)}` };
         declarations.set(declaration.token.start, target);
         if (declaration.private) continue; // Lean gives private globals generated names.

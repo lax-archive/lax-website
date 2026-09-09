@@ -4,6 +4,8 @@ export interface SourceRange { start: number; end: number }
 export interface LeanToken extends SourceRange {
   text: string;
   line: number;
+  /** Start of standalone comments immediately before this token. */
+  leadingCommentLine?: number;
   /** Components keep `A.«B.C»` distinct from `A.B.C`. */
   name?: string[];
 }
@@ -34,6 +36,12 @@ export function scanLeanSource(source: string): LeanSource {
   let index = 0;
   let line = 1;
   let quotedDepth = 0;
+  let lastCodeLine = 0;
+  let leadingCommentLine: number | undefined;
+  const code = () => { lastCodeLine = line; leadingCommentLine = undefined; };
+  const token = (value: LeanToken) => {
+    if (!quotedDepth) tokens.push({ ...value, leadingCommentLine });
+  };
   const advance = (end: number) => {
     while (index < end) if (source[index++] === "\n") line++;
   };
@@ -41,12 +49,15 @@ export function scanLeanSource(source: string): LeanSource {
     const start = index;
     if (/\s/u.test(source[index]!)) { advance(index + 1); continue; }
     if (source.startsWith("--", index)) {
+      if (!quotedDepth && line > lastCodeLine) leadingCommentLine ??= line;
       const end = source.indexOf("\n", index + 2);
       advance(end < 0 ? source.length : end);
       if (!quotedDepth) comments.push({ start, end: index });
       continue;
     }
     if (source.startsWith("/-", index)) {
+      if (source.startsWith("/-!", index)) leadingCommentLine = undefined;
+      else if (!quotedDepth && line > lastCodeLine) leadingCommentLine ??= line;
       let depth = 1;
       advance(index + 2);
       while (index < source.length && depth) {
@@ -64,6 +75,7 @@ export function scanLeanSource(source: string): LeanSource {
       const delimiter = `"${raw[1] ?? ""}`;
       const end = source.indexOf(delimiter, index + raw[0].length);
       advance(end < 0 ? source.length : end + delimiter.length);
+      code();
       continue;
     }
     if (source[index] === '"' || source[index] === "'") {
@@ -74,6 +86,7 @@ export function scanLeanSource(source: string): LeanSource {
         else if (source[index] === delimiter) { advance(index + 1); break; }
         else advance(index + 1);
       }
+      code();
       continue;
     }
     if (source[index] === "`") {
@@ -85,27 +98,32 @@ export function scanLeanSource(source: string): LeanSource {
         const quoted = NAME.exec(source);
         if (quoted) advance(index + quoted[0].length);
       }
+      code();
       continue;
     }
     NAME.lastIndex = index;
     const identifier = NAME.exec(source)?.[0];
     if (identifier) {
-      if (!quotedDepth) tokens.push({ start, end: index + identifier.length, text: identifier, line, name: nameParts(identifier) });
+      token({ start, end: index + identifier.length, text: identifier, line, name: nameParts(identifier) });
       advance(index + identifier.length);
+      code();
       continue;
     }
     const symbol = String.fromCodePoint(source.codePointAt(index)!);
     if (quotedDepth) {
       if (symbol === "(") quotedDepth++;
       if (symbol === ")") quotedDepth--;
-    } else tokens.push({ start, end: index + symbol.length, text: symbol, line });
+    } else token({ start, end: index + symbol.length, text: symbol, line });
     advance(index + symbol.length);
+    code();
   }
   return { tokens, comments };
 }
 
 export interface LeanDeclaration {
   token: LeanToken;
+  /** First preceding comment, or the declaration's attributes/modifiers. */
+  startLine: number;
   name: string[];
   private: boolean;
 }
@@ -121,6 +139,7 @@ export function leanDeclarations({ tokens }: LeanSource): LeanDeclaration[] {
   let namespace: string[] = [];
   let depth = 0;
   let prefix = false;
+  let startLine = 1;
   let isPrivate = false;
   for (let i = 0; i < tokens.length; i++) {
     const token = tokens[i]!;
@@ -129,7 +148,10 @@ export function leanDeclarations({ tokens }: LeanSource): LeanDeclaration[] {
     if ([")", "]", "}", "⦄"].includes(text)) { depth = Math.max(0, depth - 1); continue; }
     if (depth) continue;
     const first = i === 0 || tokens[i - 1]!.line < token.line;
-    if (first) prefix = true;
+    if (first && !prefix) {
+      prefix = true;
+      startLine = token.leadingCommentLine ?? token.line;
+    }
     if (!prefix) continue;
     if (text === "@" && tokens[i + 1]?.text === "[") continue;
     if (MODIFIER.has(text)) { if (text === "private") isPrivate = true; continue; }
@@ -144,7 +166,7 @@ export function leanDeclarations({ tokens }: LeanSource): LeanDeclaration[] {
     } else if (DECLARATION.has(text) && tokens[i + 1]?.name) {
       const declared = tokens[i + 1]!;
       const parts = declared.name!;
-      result.push({ token: declared, name: parts[0] === "_root_" ? parts.slice(1) : [...namespace, ...parts], private: isPrivate });
+      result.push({ token: declared, startLine, name: parts[0] === "_root_" ? parts.slice(1) : [...namespace, ...parts], private: isPrivate });
     }
     prefix = false;
     isPrivate = false;

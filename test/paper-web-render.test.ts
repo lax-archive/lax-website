@@ -34,12 +34,13 @@ describe.skipIf(!executable)("the reflow surface, rendered", () => {
   let browser: Browser;
   let server: http.Server;
   let base: string;
+  let root: string;
   const consoleErrors: string[] = [];
   const pageErrors: string[] = [];
   const failedRequests: string[] = [];
 
   beforeAll(async () => {
-    const root = tmpDir("lax-site-rendered-");
+    root = tmpDir("lax-site-rendered-");
     await generateSite(attachFixturePaper(), root, { log: () => {} });
     server = http.createServer((request, response) => {
       const relative = decodeURIComponent(new URL(request.url ?? "/", "http://localhost").pathname).replace(/^\/+/u, "");
@@ -83,6 +84,50 @@ describe.skipIf(!executable)("the reflow surface, rendered", () => {
 
   const lineCount = (page: Page) =>
     page.evaluate(() => document.querySelectorAll(".latex-block svg > text").length);
+
+  it("lands source links at their leading comments below the header, with bold focus", async () => {
+    const submissions = attachFixturePaper();
+    const [target, caller] = submissions[0]!.output!.concepts;
+    target!.sourceText = [
+      "namespace Lax21.One", "-- Definition introduction.", "/-- The definition's documentation. -/",
+      "@[simp]", "def value : Nat := 1", "-- Statement introduction.",
+      "/-- The statement's documentation. -/", "axiom eq : True", "end Lax21.One",
+    ].join("\n");
+    target!.statements = [{ id: "Lax21.One.eq", signature: "eq : True", startLine: 7, endLine: 8 }];
+    caller!.sourceText = "import Lax21.One\n#check Lax21.One.value\n#check Lax21.One.eq";
+    caller!.imports = [target!.id];
+    await generateSite(submissions, path.join(root, "previews", "navigation"), { log: () => {} });
+    for (const options of [
+      { viewport: { width: 1500, height: 1200 }, javaScriptEnabled: true },
+      { viewport: { width: 390, height: 800 }, javaScriptEnabled: true },
+      { viewport: { width: 1500, height: 1200 }, javaScriptEnabled: false },
+    ]) {
+      const page = await browser.newPage(options);
+      await watch(page);
+      for (const [name, fragment, row] of [["value", "L2", "L2"], ["eq", "s-Lax21.One.eq", "L6"]]) {
+        await page.goto(`${base}/previews/navigation/lax-21/Lax21.Zero.html`, { waitUntil: "load" });
+        const link = page.locator(".lean-identifier-link").filter({ hasText: `Lax21.One.${name}` });
+        await link.hover();
+        expect(await link.evaluate((element) => ({
+          weight: getComputedStyle(element).fontWeight,
+          decoration: getComputedStyle(element).textDecorationLine,
+        }))).toEqual({ weight: "700", decoration: "none" });
+        await page.mouse.move(0, 0);
+        await link.focus();
+        expect(await link.evaluate((element) => getComputedStyle(element).fontWeight)).toBe("700");
+        await link.press("Enter");
+        await page.waitForURL(`${base}/previews/navigation/lax-21/Lax21.One.html#${fragment}`);
+        await page.evaluate(() => document.fonts.ready);
+        await page.waitForFunction((id) => {
+          const top = document.getElementById(id!)!.getBoundingClientRect().top;
+          const header = document.querySelector(".site-header")!.getBoundingClientRect().bottom;
+          return Math.abs(top - header) < 2;
+        }, row);
+        expect(await page.locator(`#${row}`).textContent()).toContain("introduction.");
+      }
+      await page.close();
+    }
+  }, 60_000);
 
   it("paints SVG text, anchors the marks, places a card beside its passage, and reflows", async () => {
     const page = await browser.newPage({ viewport: { width: 1500, height: 1000 } });
