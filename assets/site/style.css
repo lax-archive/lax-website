@@ -1280,6 +1280,8 @@ body.sidebar-resizing #content-shell{ transition: none; }
 .inline-contract-table .lean-identifier-link:hover,
 .inline-contract-table .lean-identifier-link:focus-visible{
   color: var(--link);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
 }
 
 .inline-contract-table .lean-identifier-link:focus-visible{

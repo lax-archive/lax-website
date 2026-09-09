@@ -1,7 +1,7 @@
 import { attr, code, countsPill, esc, page } from "../html.js";
-import { resolveCrossref } from "../crossref.js";
 import { conceptGraph, graphDataScript } from "../graphs.js";
-import { highlightSource, leanDeclarationNames } from "../highlight.js";
+import { highlightSource } from "../highlight.js";
+import { sourceLinks } from "../source-links.js";
 import type { LocatedConcept } from "../model.js";
 import { discussion, pageReactions } from "./discussion.js";
 import { inPaperBlock } from "./paper.js";
@@ -118,46 +118,9 @@ export async function conceptPage(ctx: PageContext, located: LocatedConcept): Pr
       return `<a class="statement-proof-button" href="${attr(link.href)}" aria-label="${attr(`View proof ${link.id} on ${link.provider}`)}" title="${attr(link.id)}"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">${label}</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a>`;
     }).join("")}</span>`;
   }).join("");
-  const localStatementIds = new Map<string, string>();
-  const ambiguousLocalIds = new Set<string>();
-  for (const statement of concept.statements) {
-    const aliases = new Set([
-      shortId(statement.id, concept.id),
-      statement.id.split(".").at(-1)!,
-    ]);
-    for (const alias of aliases) {
-      const existing = localStatementIds.get(alias);
-      if (existing && existing !== statement.id) ambiguousLocalIds.add(alias);
-      else localStatementIds.set(alias, statement.id);
-    }
-  }
-  for (const alias of ambiguousLocalIds) localStatementIds.delete(alias);
-  const importedDeclarationIds = new Map<string, string>();
-  const ambiguousImportedIds = new Set<string>();
-  for (const imported of ctx.model.upstreamClosure(concept.id)) {
-    for (const name of leanDeclarationNames(imported.concept.sourceText)) {
-      const aliases = new Set([name, name.split(".").at(-1)!]);
-      for (const alias of aliases) {
-        const existing = importedDeclarationIds.get(alias);
-        if (existing && existing !== imported.concept.id) ambiguousImportedIds.add(alias);
-        else importedDeclarationIds.set(alias, imported.concept.id);
-      }
-    }
-  }
-  for (const alias of ambiguousImportedIds) importedDeclarationIds.delete(alias);
-  const sourceRows = await highlightSource(
-    concept.sourceText,
-    concept.statements,
-    proven,
-    {
-      hrefForIdentifier: (identifier) =>
-        resolveCrossref(
-          ctx.model,
-          localStatementIds.get(identifier) ?? importedDeclarationIds.get(identifier) ?? identifier,
-          "../",
-        )?.href,
-    },
-  );
+  const sourceRows = await highlightSource(concept.sourceText, concept.statements, proven, {
+    links: sourceLinks(ctx.model, concept.id, "../"),
+  });
 
   const content = `${versionHistoryPanel(ctx, submission.record.id, "../")}${draftBanner(submission.record.state)}${environmentNotice(ctx.model, submission)}
 <div class="detail-heading concept-heading">

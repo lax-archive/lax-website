@@ -1329,7 +1329,9 @@ end Lax2.C`;
     authored[0]!.output!.concepts[1]!.sourceText = [
       "import Lax2.C",
       "#check Lax2.C.truth",
+      "namespace Lax2.D",
       "axiom local_truth (x : ImportedThing) : True",
+      "end Lax2.D",
       "#check CommentOnly",
       "#check StringOnly",
       "-- Lax2.C.truth is prose here",
@@ -1339,8 +1341,8 @@ end Lax2.C`;
     authored[0]!.output!.concepts[1]!.statements = [{
       id: "Lax2.D.local_truth",
       signature: "local_truth : True",
-      startLine: 3,
-      endLine: 3,
+      startLine: 4,
+      endLine: 4,
     }];
 
     const root = tmpDir("lax-site-source-links-");
@@ -1349,11 +1351,13 @@ end Lax2.C`;
     const tableStart = html.indexOf('<table class="inline-contract-table">');
     const source = html.slice(tableStart, html.indexOf("</table>", tableStart));
 
-    expect(source).toContain('<a class="lean-identifier-link" href="../Lax2/Lax2.C.html">Lax2.C</a>');
-    expect(source).toContain('<a class="lean-identifier-link" href="../Lax2/Lax2.C.html#s-Lax2.C.truth">Lax2.C.truth</a>');
-    expect(source).toContain('<a class="lean-identifier-link" href="../Lax2/Lax2.D.html#s-Lax2.D.local_truth">local_truth</a>');
-    expect(source).toContain('<a class="lean-identifier-link" href="../Lax2/Lax2.C.html">ImportedThing</a>');
-    expect(source.match(/class="lean-identifier-link"/g)).toHaveLength(4);
+    const linked = [...source.matchAll(/<a class="lean-identifier-link" href="([^"]+)">([^]*?)<\/a>/g)]
+      .map((match) => ({ href: match[1], name: match[2]!.replace(/<[^>]*>/g, "") }));
+    expect(linked).toContainEqual({ href: "../Lax2/Lax2.C.html", name: "Lax2.C" });
+    expect(linked).toContainEqual({ href: "../Lax2/Lax2.C.html#s-Lax2.C.truth", name: "Lax2.C.truth" });
+    expect(linked).toContainEqual({ href: "../Lax2/Lax2.D.html#s-Lax2.D.local_truth", name: "local_truth" });
+    // A short name alone cannot distinguish an imported definition from a binder.
+    expect(linked.map((link) => link.name)).not.toContain("ImportedThing");
     expect(source).toContain("CommentOnly");
     expect(source).toContain("StringOnly");
     expect(source).not.toContain('href="../Lax2/Lax2.C.html">CommentOnly</a>');

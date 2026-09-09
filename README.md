@@ -124,6 +124,25 @@ bytes therefore differ from production's, deterministically per flag set).
 - In the line-numbered Lean source, `$...$` and `$$...$$` inside comments are
   rendered as inline and display math; dollar text in Lean code and strings is
   left unchanged.
+- Lean source links, on concept pages and paper cards, are built from a shared
+  declaration inventory (`src/sitegen/source-links.ts`). Exact qualified names
+  in the concept's archive import closure link to their declaration's source
+  line; statements retain their existing `s-…` anchors. Declaration sites and
+  imported module names are clickable too. The inventory follows ordinary
+  namespace/section commands; a module's filename is not assumed to be its
+  declaration namespace.
+- This is conservative source navigation, not Lean's elaborated name lookup.
+  Bare references, ambiguous or potentially shadowed names, private imported
+  declarations, generated fields, macros and unresolved names stay plain.
+  Complete coverage (including Mathlib and scope-dependent names) needs
+  compiler-produced reference metadata from the archive build. The website
+  does not compile or execute submissions to guess those references.
+- Source links are static relative URLs to generated pages. They preserve
+  syntax colours, source text and line anchors, work in branch previews, and
+  require no browser scripts, external requests or CSP changes. Each build
+  scans each concept once for its declaration inventory and caches resolved
+  links; rendering walks highlighted fragments without repeated whole-source
+  replacements or scanning every reference on every line.
 - Records whose state is still `init` are id reservations, not submissions;
   website builds ignore them completely.
 - A record with a `paper` block additionally gets `<id>/paper.html` (and

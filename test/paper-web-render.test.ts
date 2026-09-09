@@ -247,8 +247,9 @@ describe.skipIf(!executable)("the reflow surface, rendered", () => {
     // Widening the screen moves the open card back beside the text.
     await page.setViewportSize({ width: 1400, height: 800 });
     await page.waitForFunction(() => {
-      const card = document.getElementById("m4-card")!;
-      return card.parentElement!.id === "manuscript-rail-reflow" && card.classList.contains("manuscript-card-expanded") && card.style.top !== "";
+      // Reflow can briefly detach the card; keep polling until it is placed.
+      const card = document.getElementById("m4-card");
+      return card?.parentElement?.id === "manuscript-rail-reflow" && card.classList.contains("manuscript-card-expanded") && card.style.top !== "";
     }, undefined, { timeout: 10_000 });
     await page.close();
   }, 90_000);

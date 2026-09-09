@@ -162,6 +162,23 @@ describe("paper pages", () => {
     expect(marked).toContain('<a href="../lax-7/paper.html#m4">page 2</a> of the paper of');
   });
 
+  it("links repeated concept cards to canonical declaration anchors without duplicate source ids", async () => {
+    const submissions = archive();
+    const paper = submissions[1]!.output!.paper!;
+    paper.marks.push({ ...paper.marks[0]! });
+    const root = tmpDir("lax-paper-source-links-");
+    await generateSite(withPdf(submissions), root);
+    for (const name of ["paper.html", "paper-pdf.html"]) {
+      const html = fs.readFileSync(path.join(root, "lax-7", name), "utf8");
+      const links = [...html.matchAll(/<a class="lean-identifier-link" href="([^"]+)"/gu)].map((match) => match[1]);
+      expect(links.filter((href) => href === "../lax-7/Lax7.Treewidth.html#s-Lax7.Treewidth.mono")).toHaveLength(2);
+      expect(links.filter((href) => href === "../lax-3/Lax3.Bags.html")).toHaveLength(2);
+      expect(html).not.toMatch(/\bid="(?:L\d+|s-)/u);
+      const ids = [...html.matchAll(/\bid="([^"]+)"/gu)].map((match) => match[1]);
+      expect(new Set(ids).size).toBe(ids.length);
+    }
+  });
+
   it("renders the page without the viewer when the PDF is not attached (previews)", async () => {
     const root = tmpDir("lax-site-paper-preview-");
     await generateSite(archive(), root);
