@@ -1,0 +1,2750 @@
+{
+  "records": [
+    {
+      "id": "lax-3",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "First-Order Model Checking on Nowhere Dense Graph Classes in Almost Linear Time",
+      "concepts": [
+        {
+          "id": "Lax3.ColoredGraphs",
+          "title": "Colored graphs and walk distance",
+          "type": "definition"
+        },
+        {
+          "id": "Lax3.DistFO",
+          "title": "Distance logic and distance rank",
+          "type": "definition"
+        },
+        {
+          "id": "Lax3.FirstOrder",
+          "title": "First-order logic on graphs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax3.Locality",
+          "title": "Locality theorem for distance logic",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax3.ModelChecking",
+          "title": "First-order model checking on nowhere dense classes in almost linear time",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax3.NeighborhoodCoverBound",
+          "title": "Neighborhood covers of weak coloring degree",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax3.NeighborhoodCovers",
+          "title": "Sparse neighborhood covers",
+          "type": "definition"
+        },
+        {
+          "id": "Lax3.NormalForm",
+          "title": "Normal form for distance logic",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax3.NowhereDenseSplitter",
+          "title": "Splitter wins on nowhere dense classes",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax3.OrderedNeighborhoodCover",
+          "title": "Neighborhood covers from vertex orderings",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax3.ScatterSentences",
+          "title": "Scatter sentences",
+          "type": "definition"
+        },
+        {
+          "id": "Lax3.SplitterGame",
+          "title": "The isolation splitter game",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax3Proofs.Assembly.locality",
+        "Lax3Proofs.Assembly.normalForm",
+        "Lax3Proofs.CoverConstruction.exists_neighborhoodCover_degree_wcol",
+        "Lax3Proofs.CoverConstruction.isNeighborhoodCover_wreach",
+        "Lax3Proofs.ModelChecking.exists_almostLinearTime_program_modelChecking",
+        "Lax3Proofs.SplitterWin.splitterWins_of_nowhereDense"
+      ]
+    },
+    {
+      "id": "lax-5",
+      "state": "registered",
+      "environment": "v4.30.0",
+      "title": "Almost Linear Neighborhood Complexity of Monadically Dependent Graph Classes",
+      "concepts": [
+        {
+          "id": "Lax5.AdlerAdler",
+          "title": "Nowhere dense classes are monadically dependent",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax5.AlmostLinearNC",
+          "title": "Monadically dependent classes have almost linear neighborhood complexity",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax5.GraphClasses",
+          "title": "Weakly sparse graph classes",
+          "type": "definition"
+        },
+        {
+          "id": "Lax5.GraphTransductions",
+          "title": "Graph transductions",
+          "type": "definition"
+        },
+        {
+          "id": "Lax5.MonadicDependence",
+          "title": "Monadic dependence",
+          "type": "definition"
+        },
+        {
+          "id": "Lax5.Transductions",
+          "title": "First-order transductions",
+          "type": "definition"
+        },
+        {
+          "id": "Lax5.WeaklySparseDependent",
+          "title": "Weakly sparse monadically dependent classes are nowhere dense",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax5Proofs.AdlerAdler.monadicallyDependent_of_nowhereDense",
+        "Lax5Proofs.Corollary6a.nowhereDense_of_weaklySparse_of_monadicallyDependent",
+        "Lax5Proofs.Theorem2.hasAlmostLinearNC_of_monadicallyDependent"
+      ]
+    },
+    {
+      "id": "lax-9",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "χ-Boundedness and Neighbourhood Complexity of Bounded Merge-Width Graphs",
+      "concepts": [
+        {
+          "id": "Lax9.BoundedMergeWidthChiBounded",
+          "title": "χ-Boundedness of Bounded Merge-Width Classes",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax9.BoundedMergeWidthLinearNeighborhoodComplexity",
+          "title": "Linear Neighbourhood Complexity of Bounded Merge-Width Classes",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax9.ChiBoundedness",
+          "title": "χ-Boundedness",
+          "type": "definition"
+        },
+        {
+          "id": "Lax9.MergeWidth",
+          "title": "Merge-Width",
+          "type": "definition"
+        },
+        {
+          "id": "Lax9.NeighborhoodComplexity",
+          "title": "Linear Neighbourhood Complexity",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax9Proofs.chiBounded_of_boundedMergeWidth",
+        "Lax9Proofs.linearNeighborhoodComplexity_of_boundedMergeWidth"
+      ]
+    },
+    {
+      "id": "lax-10",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "Graphs without a 3-Connected Subgraph are 4-Colourable",
+      "concepts": [
+        {
+          "id": "Lax10.Fragile",
+          "title": "Fragile and m-fragile graphs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax10.FragileFourColorable",
+          "title": "Graphs without a 3-connected subgraph are 4-colorable",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax10.Theorem2",
+          "title": "Theorem 2",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax10.ThreeConnectedAndColorable",
+          "title": "3-connected graphs and 4-colorability",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax10Proofs.Main.fragile_four_colorable",
+        "Lax10Proofs.Main.theorem2"
+      ]
+    },
+    {
+      "id": "lax-11",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "Algorithmic Experiments on a Random Access Machine",
+      "concepts": [
+        {
+          "id": "Lax11.CliqueExpr",
+          "title": "k-expressions, and the graphs of cliquewidth at most k",
+          "type": "definition"
+        },
+        {
+          "id": "Lax11.ConnectedComponents",
+          "title": "Connected components in linear time",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax11.Courcelle",
+          "title": "Courcelle's theorem on a word RAM",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax11.GraphEncoding",
+          "title": "Compressed sparse row encoding of a graph",
+          "type": "definition"
+        },
+        {
+          "id": "Lax11.InstanceEncoding",
+          "title": "Encoding a graph together with a k-expression",
+          "type": "definition"
+        },
+        {
+          "id": "Lax11.Mso",
+          "title": "Monadic second-order logic on graphs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax11.VertexCover",
+          "title": "A graph with a parameter appended",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax11Proofs.CCMain.exists_linearTime_program_ccLabels",
+        "Lax11Proofs.Courcelle.exists_linearTime_program_modelChecking"
+      ]
+    },
+    {
+      "id": "lax-12",
+      "state": "registered",
+      "environment": "v4.30.0",
+      "title": "Sparsity Lectures: Nowhere Denseness, Quasi-Wideness, and Generalized Coloring Numbers",
+      "concepts": [
+        {
+          "id": "Lax12.Admissibility",
+          "title": "Admissibility",
+          "type": "definition"
+        },
+        {
+          "id": "Lax12.AdmissibilityBound",
+          "title": "Admissibility is bounded by topological shallow-minor density",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax12.ColoringNumbers",
+          "title": "Generalized coloring numbers",
+          "type": "definition"
+        },
+        {
+          "id": "Lax12.GraphClasses",
+          "title": "Graph classes",
+          "type": "definition"
+        },
+        {
+          "id": "Lax12.NeighborhoodComplexity",
+          "title": "Neighborhood complexity",
+          "type": "definition"
+        },
+        {
+          "id": "Lax12.NowhereDenseClasses",
+          "title": "Nowhere dense graph classes",
+          "type": "definition"
+        },
+        {
+          "id": "Lax12.NowhereDenseDensity",
+          "title": "Nowhere dense classes have subpolynomial shallow-minor density",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax12.NowhereDenseNC",
+          "title": "Nowhere dense classes have almost linear neighborhood complexity",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax12.NowhereDenseUQW",
+          "title": "Nowhere dense classes are uniformly quasi-wide",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax12.NowhereDenseWcol",
+          "title": "Nowhere dense classes have subpolynomial weak coloring numbers",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax12.ShallowMinorDensity",
+          "title": "Edge density of shallow minors",
+          "type": "definition"
+        },
+        {
+          "id": "Lax12.ShallowTopologicalMinors",
+          "title": "Shallow topological minors",
+          "type": "definition"
+        },
+        {
+          "id": "Lax12.StrongColoringBound",
+          "title": "Strong coloring numbers are bounded by admissibility",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax12.UniformQuasiWideness",
+          "title": "Uniform quasi-wideness",
+          "type": "definition"
+        },
+        {
+          "id": "Lax12.WeakColoringBound",
+          "title": "Weak coloring numbers are bounded by strong coloring numbers",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax12Proofs.AdmissibilityBound.adm_le_of_hasTopologicalDensityAtMost",
+        "Lax12Proofs.NowhereDenseDensity.hasSubpolynomialDensity_of_nowhereDense",
+        "Lax12Proofs.NowhereDenseNC.hasAlmostLinearNC_of_nowhereDense",
+        "Lax12Proofs.NowhereDenseUQW.uniformlyQuasiWide_of_nowhereDense",
+        "Lax12Proofs.NowhereDenseWcol.hasSubpolynomialWcol_of_nowhereDense",
+        "Lax12Proofs.StrongColoringBound.scol_le_of_adm",
+        "Lax12Proofs.WeakColoringBound.wcol_le_of_scol"
+      ]
+    },
+    {
+      "id": "lax-13",
+      "state": "registered",
+      "environment": "v4.30.0",
+      "title": "The Word RAM",
+      "concepts": [
+        {
+          "id": "Lax13.Ram",
+          "title": "The word RAM",
+          "type": "definition"
+        },
+        {
+          "id": "Lax13.RamComputes",
+          "title": "Computing a function within a time bound",
+          "type": "definition"
+        }
+      ],
+      "proofs": []
+    },
+    {
+      "id": "lax-14",
+      "state": "registered",
+      "environment": "v4.30.0",
+      "title": "Finite Ramsey Theorems for Pairs and Tuples",
+      "concepts": [
+        {
+          "id": "Lax14.MulticolorRamsey",
+          "title": "Ramsey's theorem for colourings of pairs",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax14.OrderTypes",
+          "title": "Order type of a tuple",
+          "type": "definition"
+        },
+        {
+          "id": "Lax14.Ramsey",
+          "title": "Ramsey's theorem",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax14.TupleRamsey",
+          "title": "Ramsey's theorem for tuples",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax14Proofs.MulticolorRamsey.exists_monochromatic_set",
+        "Lax14Proofs.Ramsey.exists_clique_or_indepSet",
+        "Lax14Proofs.TupleRamsey.exists_orderType_homogeneous"
+      ]
+    },
+    {
+      "id": "lax-17",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "Exponent 8 ($\\times$ Polylogarithmic) Bound for the Grid-Minor Theorem",
+      "concepts": [
+        {
+          "id": "Lax17.Crossbar",
+          "title": "Crossbars and pseudo-grids",
+          "type": "definition"
+        },
+        {
+          "id": "Lax17.CrossbarOrPseudoGrid",
+          "title": "Crossbar-or-pseudo-grid dichotomy",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax17.CrossbarStitching",
+          "title": "Crossbar stitching",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax17.CutMatchingTheorem",
+          "title": "Cut-matching expansion theorem",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax17.Degree",
+          "title": "Degree bounds",
+          "type": "definition"
+        },
+        {
+          "id": "Lax17.EdgeMenger",
+          "title": "Edge-Menger theorem",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax17.ExpanderGrid",
+          "title": "Grid minors from separator expansion",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax17.Expansion",
+          "title": "Edge expansion and cut-matching transcripts",
+          "type": "definition"
+        },
+        {
+          "id": "Lax17.ExponentTenCrossbarDichotomy",
+          "title": "Exponent-ten crossbar dichotomy",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax17.Grid",
+          "title": "Square grid graphs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax17.GridMinor",
+          "title": "Square grid minors",
+          "type": "definition"
+        },
+        {
+          "id": "Lax17.HairyPathOfSetsFromTreewidth",
+          "title": "A hairy path-of-sets system from treewidth",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax17.HindOellermann",
+          "title": "Hind--Oellermann deletion--contraction theorem",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax17.Linkedness",
+          "title": "Linked terminal sets",
+          "type": "definition"
+        },
+        {
+          "id": "Lax17.LocalRoutingOrGrid",
+          "title": "Local routing-or-grid alternative",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax17.LowDegreeWellLinkedCore",
+          "title": "A low-degree well-linked core",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax17.Mader",
+          "title": "Mader's admissible split-off theorem",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax17.Minor",
+          "title": "Graph minors",
+          "type": "definition"
+        },
+        {
+          "id": "Lax17.NodeWellLinkedSetFromTreewidth",
+          "title": "A well-linked set from treewidth",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax17.ParallelClusterSplitting",
+          "title": "Parallel cluster splitting",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax17.PathOfSets",
+          "title": "Strong and hairy path-of-sets systems",
+          "type": "definition"
+        },
+        {
+          "id": "Lax17.Paths",
+          "title": "Paths, linkages, and separators",
+          "type": "definition"
+        },
+        {
+          "id": "Lax17.PolynomialGridMinor",
+          "title": "Exponent 8 ($\\times$ Polylogarithmic) Bound for the Grid-Minor Theorem",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax17.SinghLau",
+          "title": "Singh--Lau bounded-degree spanning-tree theorem",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax17.SmallLinkedSubsets",
+          "title": "Linking small terminal subsets",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax17.SpanningTreeRounding",
+          "title": "Bounded-degree spanning-tree relaxation",
+          "type": "definition"
+        },
+        {
+          "id": "Lax17.StrongPathExtraction",
+          "title": "Strong path extraction",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax17.StrongPathOfSetsContainsGrid",
+          "title": "A grid minor from a strong path-of-sets system",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax17.StrongPathOfSetsFromTreewidth",
+          "title": "A strong path-of-sets system from treewidth",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax17.StrongTreeOfSetsConstruction",
+          "title": "Strong tree-of-sets construction",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax17.TerminalConnectivity",
+          "title": "Terminal element connectivity and split-off operations",
+          "type": "definition"
+        },
+        {
+          "id": "Lax17.TerminalElementMenger",
+          "title": "Terminal element-Menger theorem",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax17.TreeOfSets",
+          "title": "Strong tree-of-sets systems",
+          "type": "definition"
+        },
+        {
+          "id": "Lax17.Treewidth",
+          "title": "Treewidth",
+          "type": "definition"
+        },
+        {
+          "id": "Lax17.TreewidthMinorMonotonicity",
+          "title": "Treewidth monotonicity under graph minors",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax17.TreewidthSparsifier",
+          "title": "Degree-three treewidth sparsifier",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax17.VertexMenger",
+          "title": "Vertex-Menger theorem",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax17.WellLinkednessBoosting",
+          "title": "Well-linkedness boosting",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax17Proofs.Exposed.crossbarOrPseudoGrid",
+        "Lax17Proofs.Exposed.crossbarStitching",
+        "Lax17Proofs.Exposed.degreeThreeTreewidthSparsifier",
+        "Lax17Proofs.Exposed.edgeMenger",
+        "Lax17Proofs.Exposed.expanderContainsGrid",
+        "Lax17Proofs.Exposed.exponentTenCrossbarDichotomy",
+        "Lax17Proofs.Exposed.hairyPathOfSetsFromTreewidth",
+        "Lax17Proofs.Exposed.hindOellermannDeletionContraction",
+        "Lax17Proofs.Exposed.localRoutingOrGrid",
+        "Lax17Proofs.Exposed.logarithmicCutMatchingExpansion",
+        "Lax17Proofs.Exposed.lowDegreeWellLinkedCore",
+        "Lax17Proofs.Exposed.maderAdmissibleSplitOff",
+        "Lax17Proofs.Exposed.nodeWellLinkedSetFromTreewidth",
+        "Lax17Proofs.Exposed.parallelClusterSplitting",
+        "Lax17Proofs.Exposed.singhLauBoundedDegreeSpanningTree",
+        "Lax17Proofs.Exposed.smallLinkedSubsets",
+        "Lax17Proofs.Exposed.strongPathExtraction",
+        "Lax17Proofs.Exposed.strongPathOfSetsContainsGrid",
+        "Lax17Proofs.Exposed.strongPathOfSetsFromTreewidth",
+        "Lax17Proofs.Exposed.strongTreeOfSetsConstruction",
+        "Lax17Proofs.Exposed.terminalElementMenger",
+        "Lax17Proofs.Exposed.treewidth_mono_minor",
+        "Lax17Proofs.Exposed.vertexMenger",
+        "Lax17Proofs.Exposed.wellLinkednessBoosting",
+        "Lax17Proofs.Final.polynomial_grid_minor_eight_polylog"
+      ]
+    },
+    {
+      "id": "lax-18",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "Szemerédi's Regularity Lemma",
+      "concepts": [
+        {
+          "id": "Lax18.EdgeDensity",
+          "title": "Edge density between two vertex sets",
+          "type": "definition"
+        },
+        {
+          "id": "Lax18.EnergyIncrement",
+          "title": "The energy-increment refinement lemma",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax18.EquitableCleanup",
+          "title": "Equitable cleanup of a bounded partition",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax18.FiniteGraphPartitions",
+          "title": "Finite graph vertex partitions",
+          "type": "definition"
+        },
+        {
+          "id": "Lax18.PartitionEnergy",
+          "title": "Refinement and the index of a graph partition",
+          "type": "definition"
+        },
+        {
+          "id": "Lax18.PartitionEnergyBounds",
+          "title": "Bounds for partition energy",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax18.PartitionEnergyMonotonicity",
+          "title": "Monotonicity of partition energy under refinement",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax18.RegularPairs",
+          "title": "Regular pairs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax18.RegularPartitions",
+          "title": "Regular partitions",
+          "type": "definition"
+        },
+        {
+          "id": "Lax18.SzemerediRegularityLemma",
+          "title": "Szemerédi's regularity lemma",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax18Proofs.energy_increment_refinement",
+        "Lax18Proofs.equitable_cleanup",
+        "Lax18Proofs.partitionEnergy_mem_unitInterval",
+        "Lax18Proofs.partitionEnergy_mono_of_refines",
+        "Lax18Proofs.szemeredi_regularity_lemma"
+      ]
+    },
+    {
+      "id": "lax-41",
+      "state": "registered",
+      "environment": "v4.30.0",
+      "title": "Constructive Lovász Local Lemma",
+      "concepts": [
+        {
+          "id": "Lax41.HaeuplerSahaSrinivasanDefinitions",
+          "title": "Definitions for the Haeupler–Saha–Srinivasan distributional theorem",
+          "type": "definition"
+        },
+        {
+          "id": "Lax41.HaeuplerSahaSrinivasanTheorem22",
+          "title": "Haeupler–Saha–Srinivasan Theorem 2.2",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax41.MoserTardos",
+          "title": "The Moser–Tardos theorem",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax41.MoserTardosDefinitions",
+          "title": "Definitions for the Moser–Tardos resampling algorithm",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax41Proofs.moser_tardos",
+        "Lax41Proofs.theorem_2_2"
+      ]
+    },
+    {
+      "id": "lax-47",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "Tight Inapproximability of Max Independent Set in Triangle-Free Graphs",
+      "concepts": [
+        {
+          "id": "Lax47.Complexity",
+          "title": "Executable graph encodings and triangle-free approximation",
+          "type": "definition"
+        },
+        {
+          "id": "Lax47.Gap",
+          "title": "Finite-Turing promise-gap algorithms for Max Independent Set",
+          "type": "definition"
+        },
+        {
+          "id": "Lax47.Hastad",
+          "title": "Håstad's inapproximability of Max Independent Set",
+          "type": "definition"
+        },
+        {
+          "id": "Lax47.Machine",
+          "title": "Polynomial-time computation on the Lax51 finite-Turing model",
+          "type": "definition"
+        },
+        {
+          "id": "Lax47.Theorem12",
+          "title": "Håstad hardness implies tight inapproximability in triangle-free graphs",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax47Proofs.theorem_1_2"
+      ]
+    },
+    {
+      "id": "lax-48",
+      "state": "registered",
+      "environment": "v4.30.0",
+      "title": "Twin-Width Can Be Exponential in Treewidth",
+      "concepts": [
+        {
+          "id": "Lax48.ExponentialSeparation",
+          "title": "Twin-width can be exponential in treewidth",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax48.Treewidth",
+          "title": "Treewidth",
+          "type": "definition"
+        },
+        {
+          "id": "Lax48.TwinWidth",
+          "title": "Twin-width",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax48Proofs.Main.exists_treewidth_le_and_two_pow_lt_twinWidth"
+      ]
+    },
+    {
+      "id": "lax-49",
+      "state": "registered",
+      "environment": "v4.30.0",
+      "title": "Functional Equivalence of Twin-Width and Mixed Minor Number",
+      "concepts": [
+        {
+          "id": "Lax49.FunctionalEquivalence",
+          "title": "Twin-width and mixed minor number are functionally equivalent",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax49.GraphParameters",
+          "title": "Graph parameters and functional equivalence",
+          "type": "definition"
+        },
+        {
+          "id": "Lax49.MixedMinorNumber",
+          "title": "Mixed minor number",
+          "type": "definition"
+        },
+        {
+          "id": "Lax49.MixedMinorNumberFromTwinWidth",
+          "title": "Mixed minor number is bounded by a function of twin-width",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax49.TwinWidthFromMixedMinorNumber",
+          "title": "Twin-width is bounded by a function of mixed minor number",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax49Proofs.Main.twin_width_functionally_equivalent_mixed_minor_number",
+        "Lax49Proofs.MixedMinorNumberFromTwinWidth.exists_mixedMinorNumber_bound_of_twinWidth",
+        "Lax49Proofs.TwinWidthFromMixedMinorNumber.exists_twinWidth_bound_of_mixedMinorNumber"
+      ]
+    },
+    {
+      "id": "lax-51",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "Computability and polynomial-time equivalence of Turing machines and word RAMs",
+      "concepts": [
+        {
+          "id": "Lax51.BinaryWordEncoding",
+          "title": "Binary encoding of finite words",
+          "type": "definition"
+        },
+        {
+          "id": "Lax51.RamPolytime",
+          "title": "Polynomial-time computation by a word RAM",
+          "type": "definition"
+        },
+        {
+          "id": "Lax51.RamToTuringGenericTime",
+          "title": "Generic-time simulation of word RAMs by Turing machines",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax51.TuringPolytime",
+          "title": "Polynomial-time computation by a Turing machine",
+          "type": "definition"
+        },
+        {
+          "id": "Lax51.TuringRamEquivalence",
+          "title": "Equivalence of Turing machines and word RAMs",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax51.TuringRamPolytimeEquivalence",
+          "title": "Polynomial-time equivalence of Turing machines and word RAMs",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax51.TuringToRamGenericTime",
+          "title": "Generic-time simulation of Turing machines by word RAMs",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax51Proofs.GenericTimeSimulation.ramInTime_to_turingInPolynomialOverhead",
+        "Lax51Proofs.GenericTimeSimulation.turingWithInputTime_to_ramInPolynomialOverhead",
+        "Lax51Proofs.TuringRamEquivalence.ramComputable_iff_computable",
+        "Lax51Proofs.TuringRamPolytimeEquivalence.ramPolytime_iff_turingPolytime"
+      ]
+    },
+    {
+      "id": "lax-52",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "MSO-automata",
+      "concepts": [
+        {
+          "id": "Lax52.MSOAutomataEquivalence",
+          "title": "Büchi-Elgot-Trakhtenbrot theorem for finite words",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax52.MSOSemantics",
+          "title": "Semantics of monadic second-order logic",
+          "type": "definition"
+        },
+        {
+          "id": "Lax52.MSOSyntax",
+          "title": "Monadic second-order syntax",
+          "type": "definition"
+        },
+        {
+          "id": "Lax52.MSOToNFA",
+          "title": "MSO-definable word languages are NFA-recognizable",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax52.NFARecognizable",
+          "title": "Recognition by a finite nondeterministic automaton",
+          "type": "definition"
+        },
+        {
+          "id": "Lax52.NFAToMSO",
+          "title": "Finite automata are MSO-definable",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax52.WordStructure",
+          "title": "Words as finite relational structures",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax52Proofs.existsUnique_wordStructure_proof",
+        "Lax52Proofs.mso_definable_is_nfaRecognizable_proof",
+        "Lax52Proofs.nfa_definable_by_mso_proof",
+        "Lax52Proofs.nfaRecognizable_iff_msoDefinable_proof"
+      ]
+    },
+    {
+      "id": "lax-53",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "MSO and tree automata on finite ranked trees",
+      "concepts": [
+        {
+          "id": "Lax53.AutomatonLinearTime",
+          "title": "Word-RAM evaluation of tree automata",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax53.Determinization",
+          "title": "Determinization of tree automata",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax53.MSOLinearTime",
+          "title": "Uniform word-RAM model checking for intrinsic MSO sentences",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax53.MSOTreeAutomataEquivalence",
+          "title": "Thatcher–Wright–Doner theorem for finite ranked trees",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax53.RankedTree",
+          "title": "Finite ranked trees",
+          "type": "definition"
+        },
+        {
+          "id": "Lax53.StructuralRepresentations",
+          "title": "Certified structural representations for ranked-tree model checking",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax53.TreeAutomaton",
+          "title": "Bottom-up tree automata",
+          "type": "definition"
+        },
+        {
+          "id": "Lax53.TreeModelCheckingEncoding",
+          "title": "Distinguished structural inputs for tree-automaton evaluation",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax53.TreeStructure",
+          "title": "Ranked trees as finite relational structures",
+          "type": "definition"
+        },
+        {
+          "id": "Lax53.ValueTranslations",
+          "title": "Value-level translations between MSO and tree automata",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax53Proofs.AutomatonLinearTime.exists_fixed_automatonAcceptance_proof",
+        "Lax53Proofs.AutomatonLinearTime.exists_uniform_automatonAcceptance_proof",
+        "Lax53Proofs.Determinization.exists_deterministic_equivalent_proof",
+        "Lax53Proofs.FixedSentenceModelChecking.exists_fixed_sentence_modelChecking_proof",
+        "Lax53Proofs.IntrinsicUniformModelChecking.exists_uniform_msoModelChecking_proof",
+        "Lax53Proofs.MSOLinearTime.modelCheckingInput_length_proof",
+        "Lax53Proofs.MSOToTreeAutomata.mso_definable_is_recognizable_proof",
+        "Lax53Proofs.MSOTreeAutomataEquivalence.recognizable_iff_msoDefinable_proof",
+        "Lax53Proofs.StructuralRepresentations.formula_structural_proof",
+        "Lax53Proofs.StructuralRepresentations.sentence_lawful_proof",
+        "Lax53Proofs.StructuralRepresentations.tree_lawful_proof",
+        "Lax53Proofs.StructuralRepresentations.tree_structural_proof",
+        "Lax53Proofs.TreeAutomataToMSO.automaton_definable_by_mso_proof",
+        "Lax53Proofs.TreeModelCheckingEncoding.automatonInput_length_proof",
+        "Lax53Proofs.ValueTranslations.language_equivalence_proof"
+      ]
+    },
+    {
+      "id": "lax-54",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "Erdős–Hajnal for graphs with no 5-hole",
+      "concepts": [
+        {
+          "id": "Lax54.AveragingLemma",
+          "title": "Sparse graph thinning lemma",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax54.BipartiteCombLemma",
+          "title": "Bipartite comb lemma",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax54.CriticalCombInput",
+          "title": "Quantitative critical-comb consequence",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax54.ErdosHajnalC5",
+          "title": "Erdős–Hajnal theorem for the five-cycle",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax54.GraphDefinitions",
+          "title": "Finite graph notions for the five-cycle Erdős–Hajnal theorem",
+          "type": "definition"
+        },
+        {
+          "id": "Lax54.KeyCombLemma",
+          "title": "Stable hubbed comb in a critical graph",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax54.MaximumDegreeReduction",
+          "title": "Maximum-degree form of Rödl's theorem",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax54.RodlTheorem",
+          "title": "Rödl's theorem for induced-subgraph-free graphs",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax54Proofs.bipartite_comb_lemma",
+        "Lax54Proofs.CriticalCombInput.exists_critical_comb_parameters",
+        "Lax54Proofs.erdos_hajnal_C5",
+        "Lax54Proofs.key_comb_lemma",
+        "Lax54Proofs.maximum_degree_reduction",
+        "Lax54Proofs.RodlTheorem.rodl_theorem",
+        "Lax54Proofs.sparse_graph_thinning"
+      ]
+    },
+    {
+      "id": "lax-56",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "Large Finite Point Sets Have 4 Collinear Points or a 6-Clique",
+      "concepts": [
+        {
+          "id": "Lax56.ConvexLayers",
+          "title": "Convex layers and minimal polygons",
+          "type": "definition"
+        },
+        {
+          "id": "Lax56.Geometry",
+          "title": "Point visibility in the real plane",
+          "type": "definition"
+        },
+        {
+          "id": "Lax56.HujterKisfaludiBak",
+          "title": "The unoptimized empty-hexagon bound",
+          "type": "definition"
+        },
+        {
+          "id": "Lax56.MainTheorem",
+          "title": "Large finite point sets have four collinear points or a visible six-clique",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax56.ValtrFourLayer",
+          "title": "Valtr's four-layer lemma",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax56.VertexRemovalStability",
+          "title": "Quantitative vertex-removal Erdős--Simonovits stability for K₆",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax56Proofs.EmptyHexagon.exists_emptyConvexHexagon",
+        "Lax56Proofs.MainTheorem.large_point_set_four_collinear_or_visible_six",
+        "Lax56Proofs.ValtrFourLayer.exists_emptyHexagon_of_four_layers",
+        "Lax56Proofs.VertexRemovalStability.exists_fiveColorable_delete"
+      ]
+    },
+    {
+      "id": "lax-57",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "Erdős–Hajnal for the five-vertex path",
+      "concepts": [
+        {
+          "id": "Lax57.AnticomponentBlockade",
+          "title": "Anticomponent or complete blockade",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax57.BlockadeThinning",
+          "title": "Simultaneous thinning of a semisparse blockade",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax57.ErdosHajnalP5",
+          "title": "Erdős–Hajnal theorem for the five-vertex path",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax57.GraphDefinitions",
+          "title": "Finite graph notions for the five-vertex path theorem",
+          "type": "definition"
+        },
+        {
+          "id": "Lax57.HouseDichotomy",
+          "title": "Restricted set or uniform blockade in a house-free graph",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax57.PreparedHouseBlockade",
+          "title": "Prepared sparse-or-complete house blockades",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax57.SemisparseBlockade",
+          "title": "Polynomial semisparse blockades for the house",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax57.SparseHouseAcceleration",
+          "title": "Sparse-house acceleration",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax57.SparseHouseTools",
+          "title": "Anticomplete pairs in sparse $P_5$-free graphs",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax57.SparseHouseTrichotomy",
+          "title": "The sparse-house trichotomy",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax57Proofs.anticomponent_or_complete_blockade",
+        "Lax57Proofs.erdos_hajnal_P5",
+        "Lax57Proofs.house_dichotomy",
+        "Lax57Proofs.prepared_house_blockade",
+        "Lax57Proofs.semisparse_blockade_thinning",
+        "Lax57Proofs.semisparse_house_blockade",
+        "Lax57Proofs.sparse_house_acceleration",
+        "Lax57Proofs.sparse_house_trichotomy",
+        "Lax57Proofs.sparse_P5_anticomplete_pair"
+      ]
+    },
+    {
+      "id": "lax-58",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "Certified structural representations of finite data",
+      "concepts": [
+        {
+          "id": "Lax58.BitPolynomialTime",
+          "title": "Polynomial time with polynomial word length",
+          "type": "definition"
+        },
+        {
+          "id": "Lax58.CertifiedDerivation",
+          "title": "Field-encoding agreement (infrastructure)",
+          "type": "infrastructure"
+        },
+        {
+          "id": "Lax58.CertifiedDerivationElab",
+          "title": "Certified encoding derivation (elaboration infrastructure)",
+          "type": "elaboration infrastructure"
+        },
+        {
+          "id": "Lax58.FormulaExample",
+          "title": "Example — structural encoding of propositional formulas",
+          "type": "definition"
+        },
+        {
+          "id": "Lax58.RamComplexity",
+          "title": "Time and word-capacity bounds on the word-RAM",
+          "type": "definition"
+        },
+        {
+          "id": "Lax58.RamComplexityElab",
+          "title": "Automatic RAM encoding selection (elaboration infrastructure)",
+          "type": "elaboration infrastructure"
+        },
+        {
+          "id": "Lax58.RamComplexityExample",
+          "title": "Examples — separate resource bounds and polynomial time",
+          "type": "definition"
+        },
+        {
+          "id": "Lax58.RamPolynomialComparison",
+          "title": "Two polynomial-time conventions, and their separation",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax58.StructuralCombinators",
+          "title": "Certified structural presentation combinators",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax58.StructuralDerivation",
+          "title": "Unrestricted structural folds (elaboration infrastructure)",
+          "type": "elaboration infrastructure"
+        },
+        {
+          "id": "Lax58.StructuralPresentation",
+          "title": "Structural presentations of finite data",
+          "type": "definition"
+        },
+        {
+          "id": "Lax58.WordArena",
+          "title": "Distinguished immutable word arenas",
+          "type": "definition and theorem"
+        }
+      ],
+      "proofs": [
+        "Lax58Proofs.RamExponentialExample.exponentialLength_bitPolynomialTime",
+        "Lax58Proofs.RamPolynomialComparison.bitPolynomialTime_iff_ramPolytime",
+        "Lax58Proofs.RamPolynomialSeparation.exponentialLength_not_polynomialTime",
+        "Lax58Proofs.StructuralCombinators.constructor_eq_iff_proof",
+        "Lax58Proofs.StructuralCombinators.structural_combinator_size_laws",
+        "Lax58Proofs.StructuralCombinators.structural_combinators_lawful",
+        "Lax58Proofs.WordArena.encode_fits_proof",
+        "Lax58Proofs.WordArena.encode_memoryWords_proof",
+        "Lax58Proofs.WordArena.encode_represents_proof",
+        "Lax58Proofs.WordArena.encode_toInput_length_proof",
+        "Lax58Proofs.WordArena.encode_totalWords_proof",
+        "Lax58Proofs.WordArena.encodeRaw_dense_proof",
+        "Lax58Proofs.WordArena.encodeRaw_fits_proof",
+        "Lax58Proofs.WordArena.encodeRaw_memoryWords_proof",
+        "Lax58Proofs.WordArena.encodeRaw_represents_proof",
+        "Lax58Proofs.WordArena.encodeRaw_toInput_length_proof",
+        "Lax58Proofs.WordArena.encodeRaw_totalWords_proof",
+        "Lax58Proofs.WordArena.encodeRaw_wellFormed_proof"
+      ]
+    },
+    {
+      "id": "lax-59",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "Nagura's Theorem and the Interesting Numbers",
+      "concepts": [
+        {
+          "id": "Lax59.InterestingNumbers",
+          "title": "Classification of Interesting Numbers",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax59.Nagura",
+          "title": "Nagura's Prime Interval Theorem",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax59Proofs.InterestingNumbers.interesting_iff",
+        "Lax59Proofs.nagura_bound"
+      ]
+    },
+    {
+      "id": "lax-62",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "A Refinement Framework for the Word RAM",
+      "concepts": [],
+      "proofs": []
+    },
+    {
+      "id": "lax-67",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "The Word RAM",
+      "supersedes": "lax-13",
+      "concepts": [
+        {
+          "id": "Lax67.Ram",
+          "title": "The word RAM",
+          "type": "definition"
+        },
+        {
+          "id": "Lax67.RamComputes",
+          "title": "Computing a function within a time bound",
+          "type": "definition"
+        }
+      ],
+      "proofs": []
+    },
+    {
+      "id": "lax-68",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "Planar Graph Classes",
+      "concepts": [
+        {
+          "id": "Lax68.GridPlanar",
+          "title": "Grids are planar",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax68.GridsAndWalls",
+          "title": "Grids and walls",
+          "type": "definition"
+        },
+        {
+          "id": "Lax68.HalinGraphs",
+          "title": "Halin graphs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax68.HalinPlanar",
+          "title": "Halin graphs are planar",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax68.LadderGrid",
+          "title": "Ladders are grids",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax68.LadderOuterplanar",
+          "title": "Ladders are outerplanar",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax68.LadderPlanar",
+          "title": "Ladders are planar",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax68.Ladders",
+          "title": "Ladders",
+          "type": "definition"
+        },
+        {
+          "id": "Lax68.LadderSeriesParallel",
+          "title": "Ladders are series-parallel",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax68.MaximalOuterplanar",
+          "title": "Maximal outerplanar graphs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax68.MaximalOuterplanarOuterplanar",
+          "title": "Maximal outerplanar graphs are outerplanar",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax68.MaximalOuterplanarPlanar",
+          "title": "Maximal outerplanar graphs are planar",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax68.Outerplanar",
+          "title": "Outerplanar graphs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax68.OuterplanarPlanar",
+          "title": "Outerplanar graphs are planar",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax68.PathOuterplanar",
+          "title": "Paths are outerplanar",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax68.PathPlanar",
+          "title": "Paths are planar",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax68.Paths",
+          "title": "Paths",
+          "type": "definition"
+        },
+        {
+          "id": "Lax68.PathTree",
+          "title": "Paths are trees",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax68.Planar",
+          "title": "Planar graphs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax68.SeriesParallel",
+          "title": "Series-parallel graphs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax68.SeriesParallelPlanar",
+          "title": "Series-parallel graphs are planar",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax68.StarOuterplanar",
+          "title": "Stars are outerplanar",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax68.StarPlanar",
+          "title": "Stars are planar",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax68.Stars",
+          "title": "Stars",
+          "type": "definition"
+        },
+        {
+          "id": "Lax68.StarTree",
+          "title": "Stars are trees",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax68.StraightLineDrawings",
+          "title": "Straight-line graph drawings",
+          "type": "definition"
+        },
+        {
+          "id": "Lax68.TreeOuterplanar",
+          "title": "Trees are outerplanar",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax68.TreePlanar",
+          "title": "Trees are planar",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax68.Trees",
+          "title": "Trees",
+          "type": "definition"
+        },
+        {
+          "id": "Lax68.TriangleMaximalOuterplanar",
+          "title": "Triangles are maximal outerplanar",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax68.TriangleOuterplanar",
+          "title": "Triangles are outerplanar",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax68.TrianglePlanar",
+          "title": "Triangles are planar",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax68.Triangles",
+          "title": "Triangles",
+          "type": "definition"
+        },
+        {
+          "id": "Lax68.TriangulationPlanar",
+          "title": "Triangulations of planar graphs are planar",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax68.Triangulations",
+          "title": "Triangulations",
+          "type": "definition"
+        },
+        {
+          "id": "Lax68.WallPlanar",
+          "title": "Walls are planar",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax68.WheelHalin",
+          "title": "Wheels are Halin graphs",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax68.WheelPlanar",
+          "title": "Wheels are planar",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax68.Wheels",
+          "title": "Wheels",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax68Proofs.halin_planar",
+        "Lax68Proofs.ladder_grid",
+        "Lax68Proofs.ladder_planar",
+        "Lax68Proofs.maximalOuterplanar_outerplanar",
+        "Lax68Proofs.maximalOuterplanar_planar",
+        "Lax68Proofs.outerplanar_planar",
+        "Lax68Proofs.path_outerplanar",
+        "Lax68Proofs.path_planar",
+        "Lax68Proofs.star_outerplanar",
+        "Lax68Proofs.star_planar",
+        "Lax68Proofs.tree_planar",
+        "Lax68Proofs.triangle_outerplanar",
+        "Lax68Proofs.triangle_planar",
+        "Lax68Proofs.triangulationOf_planar",
+        "Lax68Proofs.wheel_planar"
+      ]
+    },
+    {
+      "id": "lax-132576",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "Transducers, Part B: Rational Functions",
+      "concepts": [
+        {
+          "id": "Lax132576.BimachineOfRational",
+          "title": "Rational functions are computed by bimachines",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax132576.Bimachines",
+          "title": "Bimachines",
+          "type": "definition"
+        },
+        {
+          "id": "Lax132576.EpsilonEliminationExtended",
+          "title": "Elimination of ε-transitions, with extended transitions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax132576.EpsilonEliminationFinite",
+          "title": "Elimination of ε-transitions for finitely valued relations",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax132576.EpsilonFreeAutomata",
+          "title": "Extended transitions and the elimination of ε-transitions",
+          "type": "definition"
+        },
+        {
+          "id": "Lax132576.HomomorphismComplement",
+          "title": "The complement of a homomorphism is rational",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax132576.LabelledAutomata",
+          "title": "Automata with labelled transitions",
+          "type": "definition"
+        },
+        {
+          "id": "Lax132576.LeftDistance",
+          "title": "Left distance and bounded variation",
+          "type": "definition"
+        },
+        {
+          "id": "Lax132576.LengthPreservingDecidable",
+          "title": "Deciding length preservation of a rational function",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax132576.LengthPreservingNormalForm",
+          "title": "Length preserving rational functions have length preserving automata",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax132576.LengthPreservingTyping",
+          "title": "Length preservation through a typing of the states",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax132576.MealyDecidable",
+          "title": "Deciding whether a rational function is a Mealy machine",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax132576.MealyMachineIndependent",
+          "title": "Machine-independent characterisation of Mealy machines",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax132576.PrimeRationalFunctions",
+          "title": "The prime rational functions",
+          "type": "definition"
+        },
+        {
+          "id": "Lax132576.PrimesOfRational",
+          "title": "Rational functions decompose into prime rational functions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax132576.RationalComposition",
+          "title": "Rational relations are closed under composition",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax132576.RationalContinuity",
+          "title": "Rational relations are continuous",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax132576.RationalEquivalenceDecidable",
+          "title": "Decidable equivalence of rational functions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax132576.RationalEquivalenceUndecidable",
+          "title": "Equivalence of rational relations is undecidable",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax132576.RationalFunctions",
+          "title": "Rational functions",
+          "type": "definition"
+        },
+        {
+          "id": "Lax132576.RationalMachineIndependent",
+          "title": "Machine-independent characterisation of rational functions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax132576.RationalMealyCharacterisation",
+          "title": "Which rational functions are Mealy machines",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax132576.RationalOfBimachine",
+          "title": "Bimachines compute rational functions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax132576.RationalOfPrimes",
+          "title": "Compositions of prime rational functions are rational",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax132576.RationalOfWeightedPrecomposition",
+          "title": "Functions that weighted automata can be pre-composed with are rational",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax132576.RationalPrimes",
+          "title": "The rational functions are the compositions of prime rational functions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax132576.RationalRelations",
+          "title": "Nondeterministic automata with output and rational relations",
+          "type": "definition"
+        },
+        {
+          "id": "Lax132576.RationalUnambiguousBimachine",
+          "title": "Eilenberg's theorem: rational functions, unambiguous automata and bimachines",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax132576.RationalViaWeighted",
+          "title": "Rational functions characterised by weighted automata",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax132576.SequentialCharacterisation",
+          "title": "Machine-independent characterisation of sequential functions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax132576.SequentialTransducers",
+          "title": "Sequential transducers",
+          "type": "definition"
+        },
+        {
+          "id": "Lax132576.StringHomomorphisms",
+          "title": "String homomorphisms",
+          "type": "definition"
+        },
+        {
+          "id": "Lax132576.SubsequentialCharacterisation",
+          "title": "Machine-independent characterisation of subsequential functions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax132576.SubsequentialTransducers",
+          "title": "Subsequential transducers",
+          "type": "definition"
+        },
+        {
+          "id": "Lax132576.TransducerCodes",
+          "title": "Codes of automata with output, and decidability under a promise",
+          "type": "definition"
+        },
+        {
+          "id": "Lax132576.UnambiguousOfRational",
+          "title": "Rational functions are computed by unambiguous automata",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax132576.Uniformisation",
+          "title": "Uniformisation of total rational relations",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax132576.WeightedAutomata",
+          "title": "Weighted automata",
+          "type": "definition"
+        },
+        {
+          "id": "Lax132576.WeightedCodes",
+          "title": "Codes of weighted automata over the rationals",
+          "type": "definition"
+        },
+        {
+          "id": "Lax132576.WeightedEquivalenceDecidable",
+          "title": "Decidable equivalence of weighted automata over the rationals",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax132576.WeightedPrecomposition",
+          "title": "Weighted automata are closed under pre-composition with rational functions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax132576.WeightedZeronessDecidable",
+          "title": "Decidable zeroness of weighted automata over the rationals",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax132576Proofs.Results.compClosure_primeRational_of_isRationalFun",
+        "Lax132576Proofs.Results.decidable_codeRel_eq",
+        "Lax132576Proofs.Results.decidable_isMealy",
+        "Lax132576Proofs.Results.decidable_lengthPreserving",
+        "Lax132576Proofs.Results.decidable_wcodeEval_eq",
+        "Lax132576Proofs.Results.decidable_wcodeEval_eq_zero",
+        "Lax132576Proofs.Results.exists_extended_epsilonFree",
+        "Lax132576Proofs.Results.exists_isUnambiguousRel_le",
+        "Lax132576Proofs.Results.exists_nfao_epsilonFree",
+        "Lax132576Proofs.Results.exists_nfao_length_eq",
+        "Lax132576Proofs.Results.isBimachine_of_isRationalFun",
+        "Lax132576Proofs.Results.isMealy_iff",
+        "Lax132576Proofs.Results.isMealy_iff_of_isRationalFun",
+        "Lax132576Proofs.Results.isRationalFun_iff",
+        "Lax132576Proofs.Results.isRationalFun_iff_compClosure_primeRational",
+        "Lax132576Proofs.Results.isRationalFun_iff_weighted_precomp",
+        "Lax132576Proofs.Results.isRationalFun_of_compClosure_primeRational",
+        "Lax132576Proofs.Results.isRationalFun_of_isBimachine",
+        "Lax132576Proofs.Results.isRationalFun_of_weighted_precomp",
+        "Lax132576Proofs.Results.isRationalRel_comp",
+        "Lax132576Proofs.Results.isRationalRel_ne_homOf",
+        "Lax132576Proofs.Results.isSequential_iff",
+        "Lax132576Proofs.Results.isSubsequential_iff",
+        "Lax132576Proofs.Results.isUnambiguousRel_of_isRationalFun",
+        "Lax132576Proofs.Results.isWeighted_comp_of_isRationalFun",
+        "Lax132576Proofs.Results.lengthPreserving_iff_typing",
+        "Lax132576Proofs.Results.not_computablePred_codeRel_eq",
+        "Lax132576Proofs.Results.relContinuous_of_isRationalRel",
+        "Lax132576Proofs.Results.tfae_rational_unambiguous_bimachine"
+      ]
+    },
+    {
+      "id": "lax-157538",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "Transducers",
+      "concepts": [],
+      "proofs": []
+    },
+    {
+      "id": "lax-194892",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "Transducers, Part D: Polyregular Functions",
+      "concepts": [
+        {
+          "id": "Lax194892.BalancedRunReachability",
+          "title": "Balanced runs between configurations are regular",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax194892.ChildConfigurationGraphs",
+          "title": "Children of a configuration and child configuration graphs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax194892.ChildGraphOfConfiguration",
+          "title": "A for-transducer produces the child configuration graph",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax194892.ChildrenOfChildGraph",
+          "title": "A for-transducer reads the children off a child configuration graph",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax194892.ChildrenOfConfiguration",
+          "title": "A for-transducer produces the children of a configuration",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax194892.ForComposition",
+          "title": "For-transducers are closed under composition",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax194892.ForIffPolyregular",
+          "title": "For-transducers compute exactly the polyregular functions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax194892.ForOfPebble",
+          "title": "Pebble transducers are computed by for-transducers",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax194892.ForOfPolyregular",
+          "title": "Polyregular functions are computed by for-transducers",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax194892.ForTransducers",
+          "title": "For-transducers",
+          "type": "definition"
+        },
+        {
+          "id": "Lax194892.MarkedSquaring",
+          "title": "Marked squaring",
+          "type": "definition"
+        },
+        {
+          "id": "Lax194892.PebbleConfigurationEncoding",
+          "title": "String representations of pebble configurations, and balanced runs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax194892.PebbleContinuity",
+          "title": "Pebble transducers are continuous",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax194892.PebbleIffFor",
+          "title": "Pebble transducers and for-transducers compute the same functions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax194892.PebbleOfFor",
+          "title": "For-transducers are computed by pebble transducers",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax194892.PebbleReachability",
+          "title": "Reachability between configurations of a pebble transducer is regular",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax194892.PebbleTransducers",
+          "title": "Pebble transducers",
+          "type": "definition"
+        },
+        {
+          "id": "Lax194892.PolyregularContinuity",
+          "title": "Polyregular functions are continuous",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax194892.PolyregularFunctions",
+          "title": "Polyregular functions",
+          "type": "definition"
+        },
+        {
+          "id": "Lax194892.PolyregularOfFor",
+          "title": "For-transducers compute polyregular functions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax194892.PrenexNormalForm",
+          "title": "Every for-transducer has a prenex form",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax194892Proofs.Results.continuous_of_isPebbleTransducer",
+        "Lax194892Proofs.Results.continuous_of_isPolyregular",
+        "Lax194892Proofs.Results.exists_forTransducer_cgOut",
+        "Lax194892Proofs.Results.exists_forTransducer_childGraph",
+        "Lax194892Proofs.Results.exists_forTransducer_children",
+        "Lax194892Proofs.Results.exists_prenexForm",
+        "Lax194892Proofs.Results.exists_regular_balancedLang",
+        "Lax194892Proofs.Results.exists_regular_reachLang",
+        "Lax194892Proofs.Results.isForTransducer_comp",
+        "Lax194892Proofs.Results.isForTransducer_of_isPebbleTransducer",
+        "Lax194892Proofs.Results.isForTransducer_of_isPolyregular",
+        "Lax194892Proofs.Results.isPebbleTransducer_iff_isForTransducer",
+        "Lax194892Proofs.Results.isPebbleTransducer_of_isForTransducer",
+        "Lax194892Proofs.Results.isPolyregular_iff_isForTransducer",
+        "Lax194892Proofs.Results.isPolyregular_of_isForTransducer"
+      ]
+    },
+    {
+      "id": "lax-195003",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "Near-Linear Time Computation of Welzl Orders on Graphs with Linear Neighborhood Complexity",
+      "concepts": [
+        {
+          "id": "Lax195003.WelzlOrders",
+          "title": "Welzl orders",
+          "type": "definition"
+        },
+        {
+          "id": "Lax195003.WelzlOrdersComputation",
+          "title": "Near-linear-time computation of Welzl orders",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax195003.WelzlOrdersInGraphs",
+          "title": "Welzl orders in graphs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax195003.WelzlOrdersNeighborhoodComplexity",
+          "title": "Neighborhood complexity",
+          "type": "definition"
+        },
+        {
+          "id": "Lax195003.WelzlOrdersNeighborhoodSetSystem",
+          "title": "Neighborhood set systems of graphs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax195003.WordRamRandomness",
+          "title": "Randomized computation on the word RAM",
+          "type": "definition"
+        }
+      ],
+      "proofs": []
+    },
+    {
+      "id": "lax-214022",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "Welzl Orders of Cographs",
+      "concepts": [
+        {
+          "id": "Lax214022.Cographs",
+          "title": "Cographs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax214022.CographWelzlLowerBound",
+          "title": "Cographs can require logarithmic Welzl orders",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax214022.CographWelzlUpperBound",
+          "title": "Cographs have logarithmic Welzl orders",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax214022Proofs.CographWelzlLowerBound.exists_cograph_requiring_crossingNumber_at_least",
+        "Lax214022Proofs.CographWelzlUpperBound.exists_welzlOrder_crossingNumber_le_four_clog_add_one"
+      ]
+    },
+    {
+      "id": "lax-242665",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "An Introduction to Lax",
+      "concepts": [
+        {
+          "id": "Lax242665.BertrandPostulate",
+          "title": "Bertrand's postulate",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax242665.InfinitelyManyPrimes",
+          "title": "There are infinitely many primes",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax242665.OddPrimeBetween",
+          "title": "An odd prime between n and 2n",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax242665.OddPrimes",
+          "title": "Every prime other than 2 is odd",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax242665.Primes",
+          "title": "Prime numbers",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax242665Proofs.InfinitelyManyPrimes.exists_prime_gt",
+        "Lax242665Proofs.OddPrimeBetween.exists_odd_prime_between",
+        "Lax242665Proofs.OddPrimes.odd_of_prime"
+      ]
+    },
+    {
+      "id": "lax-251941",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "Undecidability of the Post Correspondence Problem",
+      "concepts": [
+        {
+          "id": "Lax251941.Acceptance",
+          "title": "The acceptance problem for machines",
+          "type": "definition"
+        },
+        {
+          "id": "Lax251941.AcceptanceUndecidable",
+          "title": "The acceptance problem is undecidable",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax251941.PostCorrespondence",
+          "title": "The Post correspondence problem",
+          "type": "definition"
+        },
+        {
+          "id": "Lax251941.PostCorrespondenceIndexUndecidable",
+          "title": "The Post correspondence problem in index form is undecidable",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax251941.PostCorrespondenceReduction",
+          "title": "The acceptance problem reduces to the Post correspondence problem",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax251941.PostCorrespondenceUndecidable",
+          "title": "The Post correspondence problem is undecidable",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax251941.TapeAcceptanceUndecidable",
+          "title": "The acceptance problem for Turing machines is undecidable",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax251941.TuringCompleteness",
+          "title": "Every partial recursive function is computed by a Turing machine",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax251941.TuringMachines",
+          "title": "Single-tape Turing machines as string rewriting",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax251941Proofs.Results.computablePred_accepts_of_hasMatch",
+        "Lax251941Proofs.Results.exists_tm_accepts_iff_dom",
+        "Lax251941Proofs.Results.not_computablePred_accepts",
+        "Lax251941Proofs.Results.not_computablePred_hasMatch",
+        "Lax251941Proofs.Results.not_computablePred_solvable",
+        "Lax251941Proofs.Results.not_turingDecidable_ATM"
+      ]
+    },
+    {
+      "id": "lax-314295",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "Transducers, Part C: Regular Functions in Terms of Logic",
+      "concepts": [
+        {
+          "id": "Lax314295.AperiodicBimachineOfFORelabelling",
+          "title": "First-order relabellings are computed by aperiodic bimachines",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax314295.AperiodicOfFO",
+          "title": "First-order definable languages are aperiodic",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax314295.BuchiTheorem",
+          "title": "Büchi's theorem: regular languages are the MSO-definable ones",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax314295.FOIffAperiodic",
+          "title": "First-order definable languages are exactly the aperiodic ones",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax314295.FOOfAperiodic",
+          "title": "Aperiodic automata recognise first-order definable languages",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax314295.FORelabellingIffAperiodicBimachine",
+          "title": "First-order relabellings are exactly the aperiodic bimachines",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax314295.FORelabellingOfAperiodicBimachine",
+          "title": "Aperiodic bimachines compute first-order relabellings",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax314295.KTypes",
+          "title": "The k-type of a string",
+          "type": "definition"
+        },
+        {
+          "id": "Lax314295.KTypesAperiodicity",
+          "title": "k-types are aperiodic",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax314295.KTypesCongruence",
+          "title": "k-types are a congruence for concatenation",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax314295.KTypesFOEquivalence",
+          "title": "k-types capture first-order sentences of quantifier rank k",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax314295.KTypesRefinement",
+          "title": "k-types refine each other",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax314295.LogicPrecomputation",
+          "title": "Precomputing the answers of MSO formulas by a rational function",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax314295.MSOAnnotationRegular",
+          "title": "The correctly annotated strings of an MSO relabelling form a regular language",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax314295.MSODefinableOfRegular",
+          "title": "Regular languages are MSO-definable",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax314295.MSOFreeVariables",
+          "title": "Formulas with free variables define regular languages of annotated strings",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax314295.MSOLogic",
+          "title": "Monadic second-order logic on strings",
+          "type": "definition"
+        },
+        {
+          "id": "Lax314295.MSORelabellings",
+          "title": "MSO relabellings",
+          "type": "definition"
+        },
+        {
+          "id": "Lax314295.MSOTransductionIffRegular",
+          "title": "MSO transductions define exactly the regular functions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax314295.MSOTransductionOfRegular",
+          "title": "Regular functions are MSO transductions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax314295.MSOTransductions",
+          "title": "String-to-string MSO transductions",
+          "type": "definition"
+        },
+        {
+          "id": "Lax314295.RationalIffRelabelling",
+          "title": "Rational functions are exactly the MSO relabellings",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax314295.RationalOfRelabelling",
+          "title": "MSO relabellings are rational",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax314295.RegularOfMSODefinable",
+          "title": "MSO-definable languages are regular",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax314295.RegularOfMSOTransduction",
+          "title": "MSO transductions define regular functions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax314295.RelabellingOfRational",
+          "title": "Rational functions are MSO relabellings",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax314295Proofs.Results.exists_aperiodic_dfa_of_foDefinable",
+        "Lax314295Proofs.Results.exists_rational_precomputation",
+        "Lax314295Proofs.Results.exists_tp_npow_eq",
+        "Lax314295Proofs.Results.foDefinable_iff_aperiodic_dfa",
+        "Lax314295Proofs.Results.foDefinable_of_aperiodic_dfa",
+        "Lax314295Proofs.Results.isAperiodicBimachine_of_isFORelabelling",
+        "Lax314295Proofs.Results.isFORelabelling_iff_isAperiodicBimachine",
+        "Lax314295Proofs.Results.isFORelabelling_of_isAperiodicBimachine",
+        "Lax314295Proofs.Results.isMSORelabelling_of_isRationalFun",
+        "Lax314295Proofs.Results.isMSOTransduction_iff_isRegularFun",
+        "Lax314295Proofs.Results.isMSOTransduction_of_isRegularFun",
+        "Lax314295Proofs.Results.isRationalFun_iff_isMSORelabelling",
+        "Lax314295Proofs.Results.isRationalFun_of_isMSORelabelling",
+        "Lax314295Proofs.Results.isRegular_annotated",
+        "Lax314295Proofs.Results.isRegular_annotation",
+        "Lax314295Proofs.Results.isRegular_iff_msoDefinable",
+        "Lax314295Proofs.Results.isRegular_of_msoDefinable",
+        "Lax314295Proofs.Results.isRegularFun_of_isMSOTransduction",
+        "Lax314295Proofs.Results.msoDefinable_of_isRegular",
+        "Lax314295Proofs.Results.tp_append_congr",
+        "Lax314295Proofs.Results.tp_eq_iff_fo_equiv",
+        "Lax314295Proofs.Results.tp_eq_of_tp_succ_eq"
+      ]
+    },
+    {
+      "id": "lax-434930",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "Classical Complexity Classes",
+      "concepts": [
+        {
+          "id": "Lax434930.BasicProperties",
+          "title": "Elementary properties of the complexity classes",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434930.Certificates",
+          "title": "Binary encoding of an input and a certificate",
+          "type": "definition"
+        },
+        {
+          "id": "Lax434930.ComplementClasses",
+          "title": "The complexity classes coNL and coNP",
+          "type": "definition"
+        },
+        {
+          "id": "Lax434930.ExponentialTime",
+          "title": "The complexity class EXPTIME",
+          "type": "definition"
+        },
+        {
+          "id": "Lax434930.LogarithmicSpace",
+          "title": "The complexity class L",
+          "type": "definition"
+        },
+        {
+          "id": "Lax434930.NondeterministicLogarithmicSpace",
+          "title": "The complexity class NL",
+          "type": "definition"
+        },
+        {
+          "id": "Lax434930.NondeterministicPolynomialSpace",
+          "title": "The complexity class NPSPACE",
+          "type": "definition"
+        },
+        {
+          "id": "Lax434930.NondeterministicPolynomialTime",
+          "title": "The complexity class NP",
+          "type": "definition"
+        },
+        {
+          "id": "Lax434930.PolynomialSpace",
+          "title": "The complexity class PSPACE",
+          "type": "definition"
+        },
+        {
+          "id": "Lax434930.PolynomialTime",
+          "title": "The complexity class P",
+          "type": "definition"
+        },
+        {
+          "id": "Lax434930.SpaceBounds",
+          "title": "Deterministic and nondeterministic space bounds",
+          "type": "definition"
+        },
+        {
+          "id": "Lax434930.SpaceMachines",
+          "title": "Finite Turing machines with a read-only input tape",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax434930Proofs.BasicProperties.co_co",
+        "Lax434930Proofs.BasicProperties.L_subset_NL",
+        "Lax434930Proofs.BasicProperties.L_subset_PSPACE",
+        "Lax434930Proofs.BasicProperties.mem_coNP_iff",
+        "Lax434930Proofs.BasicProperties.NL_subset_NPSPACE",
+        "Lax434930Proofs.BasicProperties.P_subset_EXPTIME",
+        "Lax434930Proofs.BasicProperties.PSPACE_subset_NPSPACE",
+        "Lax434930Proofs.Certificates.pair_injective",
+        "Lax434930Proofs.Certificates.pair_length",
+        "Lax434930Proofs.Certificates.unpair_pair"
+      ]
+    },
+    {
+      "id": "lax-554803",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "Polynomial Time and Closure under Complement",
+      "concepts": [
+        {
+          "id": "Lax554803.ComplementClosure",
+          "title": "P is closed under complement",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax554803.FiniteStackEquivalence",
+          "title": "Finite stack alphabets suffice",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax554803.MachineModels",
+          "title": "Finite-stack and elementary single-tape definitions of P",
+          "type": "definition"
+        },
+        {
+          "id": "Lax554803.ModelEquivalence",
+          "title": "Single-tape characterization of P",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax554803.PolynomialTime",
+          "title": "The complexity class P",
+          "type": "definition"
+        },
+        {
+          "id": "Lax554803.SingleTapeComplement",
+          "title": "Single-tape P is closed under complement",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax554803Proofs.closed_under_complement",
+        "Lax554803Proofs.ModelEquivalence.finiteStackP_eq_P",
+        "Lax554803Proofs.ModelEquivalence.singleTape_closed_under_complement",
+        "Lax554803Proofs.ModelEquivalence.singleTapeP_eq_P"
+      ]
+    },
+    {
+      "id": "lax-709149",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "Transducers, Part C: Regular Functions in Terms of Combinators",
+      "concepts": [
+        {
+          "id": "Lax709149.RegularOfTerm",
+          "title": "Regular terms define regular functions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax709149.RegularTerms",
+          "title": "Regular terms",
+          "type": "definition"
+        },
+        {
+          "id": "Lax709149.RegularUnderRepresentation",
+          "title": "Regular functions on types under string representation",
+          "type": "definition"
+        },
+        {
+          "id": "Lax709149.Types",
+          "title": "Types and their string representation",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax709149Proofs.Results.isRegularUnderRepr_of_isRegularTermFun"
+      ]
+    },
+    {
+      "id": "lax-765601",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "Transducers, Part A: Mealy Machines",
+      "concepts": [
+        {
+          "id": "Lax765601.Aperiodicity",
+          "title": "Aperiodic string-to-string functions",
+          "type": "definition"
+        },
+        {
+          "id": "Lax765601.AperiodicityMinimalMachine",
+          "title": "Aperiodicity through the state transformations of the minimal machine",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax765601.AperiodicMealy",
+          "title": "Aperiodic Mealy machines are exactly the compositions of flip-flops",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax765601.AperiodicOfFlipFlops",
+          "title": "Compositions of flip-flop machines are aperiodic",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax765601.AperiodicPumping",
+          "title": "Aperiodicity as a pumping property",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax765601.CompositionClosure",
+          "title": "Closure of a family of functions under composition",
+          "type": "definition"
+        },
+        {
+          "id": "Lax765601.Continuity",
+          "title": "Continuous string-to-string functions",
+          "type": "definition"
+        },
+        {
+          "id": "Lax765601.Derivatives",
+          "title": "Derivatives of a string-to-string function",
+          "type": "definition"
+        },
+        {
+          "id": "Lax765601.ElementaryProperties",
+          "title": "Prefix preservation and length preservation",
+          "type": "definition"
+        },
+        {
+          "id": "Lax765601.FlipFlopsOfAperiodic",
+          "title": "Aperiodic Mealy machines are compositions of flip-flops",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax765601.KrohnRhodes",
+          "title": "The Krohn–Rhodes decomposition theorem",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax765601.MapLifting",
+          "title": "Map lifting",
+          "type": "definition"
+        },
+        {
+          "id": "Lax765601.MapLiftingDecomposition",
+          "title": "Map lifting preserves decompositions into primes",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax765601.MealyComposition",
+          "title": "Mealy machines are closed under composition",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax765601.MealyContinuity",
+          "title": "Mealy machines are continuous",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax765601.MealyDerivatives",
+          "title": "Myhill–Nerode for Mealy machines",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax765601.MealyEquivalenceBound",
+          "title": "Decidable equivalence of Mealy machines",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax765601.MealyMachine",
+          "title": "Mealy machines",
+          "type": "definition"
+        },
+        {
+          "id": "Lax765601.PrimeMealyMachines",
+          "title": "Prime Mealy machines: reversible and flip-flop",
+          "type": "definition"
+        },
+        {
+          "id": "Lax765601.ReversibleComposition",
+          "title": "Reversible Mealy machines are closed under composition",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax765601.StateTransformationDecomposition",
+          "title": "The state transformation transducer is a composition of primes",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax765601.StateTransformations",
+          "title": "State transformations of a pre-automaton",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax765601Proofs.Results.aperiodic_iff_compClosure_flipFlop",
+        "Lax765601Proofs.Results.aperiodic_iff_pumping",
+        "Lax765601Proofs.Results.aperiodic_iff_transAperiodic",
+        "Lax765601Proofs.Results.aperiodic_of_compClosure_flipFlop",
+        "Lax765601Proofs.Results.compClosure_flipFlop_of_aperiodic",
+        "Lax765601Proofs.Results.compClosure_mapLift",
+        "Lax765601Proofs.Results.compClosure_primeMealy_of_isMealy",
+        "Lax765601Proofs.Results.compClosure_stateTransTransducer",
+        "Lax765601Proofs.Results.continuous_of_isMealy",
+        "Lax765601Proofs.Results.eval_eq_iff_short",
+        "Lax765601Proofs.Results.isMealy_comp",
+        "Lax765601Proofs.Results.isMealy_iff_derivatives",
+        "Lax765601Proofs.Results.isReversibleMealy_comp"
+      ]
+    },
+    {
+      "id": "lax-916827",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "Transducers, Part C: Regular Functions, Two-Way Transducers and Streaming String Transducers",
+      "concepts": [
+        {
+          "id": "Lax916827.ConfigurationGraphOutput",
+          "title": "Checking the output of a configuration graph against a regular language",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax916827.ConfigurationGraphRational",
+          "title": "Computing the reachable configuration graph is rational",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax916827.ConfigurationGraphs",
+          "title": "The string representation of the reachable configuration graph",
+          "type": "definition"
+        },
+        {
+          "id": "Lax916827.DuplicationContinuous",
+          "title": "String duplication is continuous",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax916827.MapLiftingContinuity",
+          "title": "The map lifting of a continuous function is continuous",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax916827.RegularComposition",
+          "title": "Regular functions are closed under composition",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax916827.RegularConcatenation",
+          "title": "Regular functions are closed under concatenation",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax916827.RegularConditional",
+          "title": "Regular functions are closed under conditionals over regular languages",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax916827.RegularContinuity",
+          "title": "Regular functions are continuous",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax916827.RegularEquivalenceDecidable",
+          "title": "Decidable equivalence of regular functions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax916827.RegularFunctions",
+          "title": "Regular functions",
+          "type": "definition"
+        },
+        {
+          "id": "Lax916827.RegularMapLifting",
+          "title": "Regular functions are closed under map lifting",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax916827.RegularOfSST",
+          "title": "Every streaming string transducer computes a regular function",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax916827.RegularOfTwoWay",
+          "title": "Every two-way transducer computes a regular function",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax916827.RegularSum",
+          "title": "The sum of two regular functions on disjoint alphabets",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax916827.ReversalContinuous",
+          "title": "String reversal is continuous",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax916827.SnakeGraphs",
+          "title": "Snake graphs and their outputs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax916827.SnakeLemma",
+          "title": "The snake lemma: the output of a snake graph is a regular function",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax916827.SSTIffRegular",
+          "title": "Streaming string transducers compute exactly the regular functions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax916827.SSTOfRegular",
+          "title": "Every regular function is computed by a streaming string transducer",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax916827.StreamingStringTransducers",
+          "title": "Streaming string transducers",
+          "type": "definition"
+        },
+        {
+          "id": "Lax916827.TwoWayCodes",
+          "title": "Codes of two-way transducers",
+          "type": "definition"
+        },
+        {
+          "id": "Lax916827.TwoWayComposition",
+          "title": "Two-way transducers are closed under composition",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax916827.TwoWayContinuity",
+          "title": "Two-way transducers are continuous",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax916827.TwoWayIffRegular",
+          "title": "Two-way transducers compute exactly the regular functions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax916827.TwoWayMealyPrecomposition",
+          "title": "Two-way transducers are closed under pre-composition with Mealy machines",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax916827.TwoWayOfRegular",
+          "title": "Every regular function is computed by a two-way transducer",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax916827.TwoWayRationalPrecomposition",
+          "title": "Two-way transducers are closed under pre-composition with rational functions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax916827.TwoWayTransducers",
+          "title": "Two-way transducers",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax916827Proofs.Results.continuous_duplicate",
+        "Lax916827Proofs.Results.continuous_mapLift",
+        "Lax916827Proofs.Results.continuous_of_isRegularFun",
+        "Lax916827Proofs.Results.continuous_of_isTwoWay",
+        "Lax916827Proofs.Results.continuous_reverse",
+        "Lax916827Proofs.Results.decidable_twoWayCodeRel_eq",
+        "Lax916827Proofs.Results.exists_isRegularFun_sum",
+        "Lax916827Proofs.Results.isRationalFun_enc",
+        "Lax916827Proofs.Results.isRegular_encOutputLang",
+        "Lax916827Proofs.Results.isRegularFun_comp",
+        "Lax916827Proofs.Results.isRegularFun_concat",
+        "Lax916827Proofs.Results.isRegularFun_ite",
+        "Lax916827Proofs.Results.isRegularFun_mapLift",
+        "Lax916827Proofs.Results.isRegularFun_of_isSST",
+        "Lax916827Proofs.Results.isRegularFun_of_isTwoWay",
+        "Lax916827Proofs.Results.isRegularFun_snakeOut",
+        "Lax916827Proofs.Results.isSST_iff_isRegularFun",
+        "Lax916827Proofs.Results.isSST_of_isRegularFun",
+        "Lax916827Proofs.Results.isTwoWay_comp",
+        "Lax916827Proofs.Results.isTwoWay_comp_isMealy",
+        "Lax916827Proofs.Results.isTwoWay_comp_isRationalFun",
+        "Lax916827Proofs.Results.isTwoWay_iff_isRegularFun",
+        "Lax916827Proofs.Results.isTwoWay_of_isRegularFun"
+      ]
+    },
+    {
+      "id": "lax-979537",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "The Immerman–Vardi theorem",
+      "concepts": [
+        {
+          "id": "Lax979537.FixedPointEvaluation",
+          "title": "Polynomial-time evaluation of fixed-point queries",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax979537.FixedPointSemantics",
+          "title": "Semantics and definability in FO(LFP)",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax979537.FixedPointSyntax",
+          "title": "First-order logic with least fixed points",
+          "type": "definition"
+        },
+        {
+          "id": "Lax979537.ImmermanVardi",
+          "title": "The Immerman–Vardi theorem",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax979537.LeastFixedPoints",
+          "title": "Least fixed points on finite relations",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax979537.OrderedStructures",
+          "title": "Finite ordered relational structures and queries",
+          "type": "definition"
+        },
+        {
+          "id": "Lax979537.PolynomialTime",
+          "title": "Polynomial-time queries on ordered structures",
+          "type": "definition"
+        },
+        {
+          "id": "Lax979537.StructureEncoding",
+          "title": "Binary encodings of ordered structures and tuples",
+          "type": "definition and theorem"
+        }
+      ],
+      "proofs": [
+        "Lax979537Proofs.FixedPointEvaluation.evaluationInP",
+        "Lax979537Proofs.ImmermanVardi.capturesPtime",
+        "Lax979537Proofs.ImmermanVardi.ptimeDefinable",
+        "Lax979537Proofs.LeastFixedPoints.finiteConvergence",
+        "Lax979537Proofs.LeastFixedPoints.fixedPoint",
+        "Lax979537Proofs.LeastFixedPoints.least",
+        "Lax979537Proofs.Positivity.positiveBodyMonotone",
+        "Lax979537Proofs.StructureEncoding.encodeInjective",
+        "Lax979537Proofs.StructureEncoding.encodeLength"
+      ]
+    }
+  ]
+}
