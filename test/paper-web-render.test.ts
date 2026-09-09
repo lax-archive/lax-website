@@ -147,15 +147,6 @@ describe.skipIf(!executable)("the reflow surface, rendered", () => {
         await page.waitForFunction((id) => Math.abs(document.getElementById(`L${id}`)!.getBoundingClientRect().top -
           document.querySelector(".site-header")!.getBoundingClientRect().bottom) < 2, target);
       }
-      await page.goto(`${base}/previews/fields/lax-17/index.html`, { waitUntil: "load" });
-      const submissionId = page.locator(".paper-meta a.submission-meta-id");
-      expect(await submissionId.textContent()).toBe("lax-17");
-      expect(await submissionId.getAttribute("href")).toBe("../lax-17/index.html");
-      await submissionId.focus();
-      expect(await submissionId.evaluate((element) => ({ weight: getComputedStyle(element).fontWeight,
-        decoration: getComputedStyle(element).textDecorationLine }))).toEqual({ weight: "700", decoration: "none" });
-      await submissionId.press("Enter");
-      await page.waitForURL(`${base}/previews/fields/lax-17/index.html`);
       await page.close();
     }
   }, 60_000);

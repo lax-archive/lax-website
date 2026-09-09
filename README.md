@@ -133,7 +133,8 @@ bytes therefore differ from production's, deterministically per flag set).
   their own definition sites stay plain. Imported archive module names link
   to their concept pages. Archive namespaces in `open` commands link to their
   owning concept or declaration; standalone submission namespaces such as
-  `Lax17` link to the submission page, as do displayed `lax-17` metadata labels.
+  `Lax17` link to the submission page, as do displayed `lax-17` metadata labels
+  on other pages. The ID beneath a submission's own title stays plain.
   Namespace navigation uses known, unambiguous destinations within the
   module's archive imports. Declaration uses link to the
   beginning of the declaration's preceding comments (or its attributes and

@@ -686,7 +686,7 @@ export function paperHeader(ctx: PageContext, submission: SiteSubmission, rootRe
   const title = output?.manifest.title ?? record.id;
   return `<header class="paper-head">
 <h1 class="paper-title">${ctx.markdown.renderAuthorInline(title, rootRel)}</h1>
-<p class="paper-meta">${metaBits(ctx.model, submission, rootRel, metaAction)}</p>
+<p class="paper-meta">${metaBits(ctx.model, submission, metaAction)}</p>
 </header>`;
 }
 
@@ -713,7 +713,7 @@ function authorByline(submission: SiteSubmission): string {
 }
 
 /** The dim technical line under the title: id, authors, state, dates, source, pins. */
-function metaBits(model: SiteModel, submission: SiteSubmission, rootRel: string, metaAction: string): string {
+function metaBits(model: SiteModel, submission: SiteSubmission, metaAction: string): string {
   const { record, output } = submission;
   const source = record.source;
   const sourceBit = source
@@ -745,7 +745,7 @@ function metaBits(model: SiteModel, submission: SiteSubmission, rootRel: string,
   // Drafts use the prominent page banner; repeating a tiny state pill here
   // makes the mutable state look like ordinary metadata.
   const state = record.state === "draft" ? "" : statePill(record.state);
-  const id = output ? submissionIdLink(record.id, rootRel) : "";
+  const id = output ? `<span class="submission-meta-id">${esc(record.id)}</span>` : "";
   const parts = [id, authorBit, state, dates, sourceBit, pins, metaAction].filter(Boolean);
   return parts.join('<span class="meta-sep">·</span>');
 }

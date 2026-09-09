@@ -59,7 +59,8 @@ into namespace guesses; their declaration links still come from Lean.
 Comments, strings, syntax quotations and section labels are excluded.
 Standalone submission namespace names, such as `open Lax17`, `namespace
 Lax17` and `end Lax17`, link to the submission index. Visible submission IDs
-in page metadata, version banners and paper references link there too.
+in page metadata, version banners and paper references link there too. The ID
+beneath a submission's own title stays plain to avoid a self-link.
 
 The conservative lexical implementation remains available for local `lax`
 callers without captures and explicit `--no-references` builds. Normal CLI,
@@ -145,7 +146,7 @@ Validation used the read-only database at
   337 `open` commands; all 513 have links. Namespace navigation preserves
   the existing coverage of all 4,619 eligible compiler-recorded usages.
 - Concept pages contain 5,650 source links including imported modules. Across
-  paper cards and concept pages, all 9,716 source links and 66,320 static local
+  paper cards and concept pages, all 9,716 source links and all static local
   links resolve. No duplicate IDs, changed CSP values or displayed-source
   differences were found across 717 HTML pages. Dynamic paper passage anchors
   are excluded from static checking; every source target is checked against
@@ -155,7 +156,7 @@ Validation used the read-only database at
   without Chromium also passed with system Chrome. They cover desktop/mobile,
   JavaScript enabled/disabled, native comment alignment, bold focus, proof-rail
   hit testing, record keys, record updates, typed projections, opened type
-  namespaces, submission-ID navigation, and the paper viewer. Existing tests
+  namespaces, and the paper viewer. Existing tests
   retain namespace, source preservation, escaping,
   thousands-of-links, statement anchors and repeated-card coverage.
 - A checked-in Lean 4.30.0 reference fixture exercises actual compiler output,
