@@ -23,16 +23,26 @@ the implementation had three problems:
 The replacement separates a shared lexical inventory, destination lookup,
 and rendering. Ordinary namespace and section commands determine the names
 of declarations, independently of module filenames. Exact, unambiguous
-qualified names are resolved within the current concept's import closure.
+names are resolved within the current concept's import closure, considering
+the current namespace and then its parents. This includes unqualified uses
+such as all three occurrences of `HasTreewidthAtMost` in `treewidth`.
+Local declarations become candidates in source order; a later declaration
+cannot change an earlier reference's destination. Qualified declaration
+bodies use their declared namespace, and section/namespace exits restore
+the enclosing context, following Lean's documented
+[namespace rules](https://lean-lang.org/doc/reference/latest/Namespaces-and-Sections/).
+
 Definition destinations use existing `L<n>` source anchors at the beginning
 of their preceding comments (or their attributes/modifiers without comments).
 Statements keep their existing `s-…` anchors, moved to the same comment start.
-Declaration sites and module names also link. The reported references now
+Declaration names and namespace/section labels stay plain. Uses of those
+declarations and imported module names link. The original references now
 target `Lax17.Treewidth.html#L62` and `Lax17.GridMinor.html#L20`.
+The three `HasTreewidthAtMost` references target `Lax17.Treewidth.html#L57`.
 
 Unrestricted short-name aliases were deliberately removed. Potential local
 shadows are suppressed conservatively across the file. Private globals are
-not exported into the reference inventory. Names not verified by this
+visible only inside their own module. Names not verified by this
 inventory remain plain; the implementation does not manufacture a link by
 truncating a name until a module prefix matches.
 
@@ -57,9 +67,10 @@ Each build model owns a cached declaration inventory and resolved links;
 there is no persistent cache to go stale between database builds. Only
 candidate identifier tokens are retained after scanning. Import traversal
 is iterative and cycle-safe. Repeated occurrences reuse their destination
-lookup, including unresolved and ambiguous results. Rendering groups source
-ranges by line and walks the highlighted fragments once, rather than doing
-a line-count × reference-count replacement loop.
+candidate lookup, including unresolved and ambiguous results. Namespace
+resolution also checks each occurrence's source position. Rendering groups
+source ranges by line and walks the highlighted fragments once, rather than
+doing a line-count × reference-count replacement loop.
 
 A warmed local Node comparison, using the same
 source text and destination in both renderers, measured:
@@ -91,36 +102,41 @@ claim to make the whole generator linear in archive size.
   rooted and quoted names, private declarations, collisions, import cycles,
   local shadows, strings/comments/quotations, source preservation, malformed
   hrefs/ranges, repeated paper cards, thousands of references, and complete
-  comment preambles before multiline attributes and modifiers.
+  comment preambles before multiline attributes and modifiers. The follow-up
+  covers unqualified references, definition names staying plain, nested and
+  qualified declaration namespaces, declaration order, private local names,
+  ambiguous nearest namespaces, and local binders, patterns and projections.
 
 Validation used read-only database commit
 `66e58be2c0e10217a9959307d2a6d1a069e3394c`, with 402 concepts, 265 proofs and
 all three cached PDFs/reflow bundles. Two complete builds produced identical
-834-file trees. Across their 717 HTML pages, all 5,456 source links and
-61,807 static local links resolved; there were no duplicate IDs, changed
+834-file trees. Across their 717 HTML pages, all 4,148 source links and
+60,499 static local links resolved; there were no duplicate IDs, changed
 CSP values, or displayed source-text differences from the original build.
 Dynamic paper passage anchors were excluded from the static anchor check;
 source-link destinations were all checked against actual emitted IDs.
 
-`npm run check` passed 173 tests; its six normally skipped browser tests
+`npm run check` passed 178 tests; its six normally skipped browser tests
 were also run separately with system Chrome. The browser suite's resize wait
 was made null-safe because reflow can temporarily detach a card while it is
 being polled. Separate checks exercised the two reported links by keyboard
 at desktop and mobile widths, under both root and branch-preview URLs, and
 with JavaScript disabled. The browser regression also checks bold hover and
 keyboard focus, exact alignment below the header on tall and mobile screens,
-and stable statement anchors at their leading ordinary comments.
+stable statement anchors at their leading ordinary comments, and navigation
+within a page from an unqualified reference while declaration names stay plain.
+The test also exposed proof-rail padding intercepting an adjacent source link;
+only the actual proof/review controls now capture pointer events on those rails.
 Concept navigation produced no CSP violations or page errors. Native link
-clicks from both reflow and PDF paper cards reached
-their canonical concept pages.
+clicks from both reflow and PDF paper cards reached their canonical concept pages.
 
 ## Deliberate limits
 
 This is a lexical navigation aid, not a substitute for Lean's elaborator.
 It cannot guarantee semantic resolution for arbitrary Lean extensions and
-scope rules. Bare references, generated structure fields/constructors,
-notation, macros, `export` aliases and external Mathlib names need
-compiler-produced reference metadata for complete coverage. That should be
+scope rules. Names available only through `open` or `export` aliases,
+generated structure fields/constructors, notation, macros and external Mathlib
+names need compiler-produced reference metadata for complete coverage. That should be
 an upstream archive-build feature; the website should consume validated
 metadata rather than grow a second implementation of Lean name resolution.
 

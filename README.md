@@ -125,18 +125,21 @@ bytes therefore differ from production's, deterministically per flag set).
   rendered as inline and display math; dollar text in Lean code and strings is
   left unchanged.
 - Lean source links, on concept pages and paper cards, are built from a shared
-  declaration inventory (`src/sitegen/source-links.ts`). Exact qualified names
-  in the concept's archive import closure link to the beginning of the
-  declaration's preceding comments (or its attributes/modifiers when there
-  are no comments); statements retain their existing `s-…` anchors at the
-  same comment start. Source targets align below the sticky header, with
+  declaration inventory (`src/sitegen/source-links.ts`). Names are looked up
+  in the current namespace and its parents within the concept's archive
+  import closure, respecting the order of local declarations. Links go to the
+  beginning of the declaration's preceding comments (or its attributes and
+  modifiers when there are no comments); statements retain their `s-…` anchors
+  at the same comment start. Source targets align below the sticky header, with
   enough scroll space for short pages. Hover and keyboard focus use bold
-  text. Declaration sites and imported module names are clickable too.
-  The inventory follows ordinary namespace/section commands; a module's
-  filename is not assumed to be its declaration namespace.
+  text. Declaration names stay plain; their uses and imported module names
+  are clickable. The inventory follows ordinary namespace/section commands;
+  a module's filename is not assumed to be its declaration namespace.
 - This is conservative source navigation, not Lean's elaborated name lookup.
-  Bare references, ambiguous or potentially shadowed names, private imported
-  declarations, generated fields, macros and unresolved names stay plain.
+  Ambiguous or potentially shadowed names, private imported declarations,
+  generated fields, names requiring `open`/`export` aliases, macros and
+  unresolved names stay plain. A unique spelling among imports alone is
+  insufficient to create a link.
   Complete coverage (including Mathlib and scope-dependent names) needs
   compiler-produced reference metadata from the archive build. The website
   does not compile or execute submissions to guess those references.

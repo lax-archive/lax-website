@@ -1355,9 +1355,9 @@ end Lax2.C`;
       .map((match) => ({ href: match[1], name: match[2]!.replace(/<[^>]*>/g, "") }));
     expect(linked).toContainEqual({ href: "../Lax2/Lax2.C.html", name: "Lax2.C" });
     expect(linked).toContainEqual({ href: "../Lax2/Lax2.C.html#s-Lax2.C.truth", name: "Lax2.C.truth" });
-    expect(linked).toContainEqual({ href: "../Lax2/Lax2.D.html#s-Lax2.D.local_truth", name: "local_truth" });
-    // A short name alone cannot distinguish an imported definition from a binder.
-    expect(linked.map((link) => link.name)).not.toContain("ImportedThing");
+    expect(linked.map((link) => link.name)).not.toContain("local_truth");
+    // This definition was explicitly declared in the root namespace.
+    expect(linked).toContainEqual({ href: "../Lax2/Lax2.C.html#L5", name: "ImportedThing" });
     expect(source).toContain("CommentOnly");
     expect(source).toContain("StringOnly");
     expect(source).not.toContain('href="../Lax2/Lax2.C.html">CommentOnly</a>');

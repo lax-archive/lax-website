@@ -91,7 +91,7 @@ describe.skipIf(!executable)("the reflow surface, rendered", () => {
     target!.sourceText = [
       "namespace Lax21.One", "-- Definition introduction.", "/-- The definition's documentation. -/",
       "@[simp]", "def value : Nat := 1", "-- Statement introduction.",
-      "/-- The statement's documentation. -/", "axiom eq : True", "end Lax21.One",
+      "/-- The statement's documentation. -/", "axiom eq : True", "def copy : Nat := value", "end Lax21.One",
     ].join("\n");
     target!.statements = [{ id: "Lax21.One.eq", signature: "eq : True", startLine: 7, endLine: 8 }];
     caller!.sourceText = "import Lax21.One\n#check Lax21.One.value\n#check Lax21.One.eq";
@@ -124,6 +124,14 @@ describe.skipIf(!executable)("the reflow surface, rendered", () => {
           return Math.abs(top - header) < 2;
         }, row);
         expect(await page.locator(`#${row}`).textContent()).toContain("introduction.");
+        expect(await page.locator("#L5 .lean-identifier-link, #L8 .lean-identifier-link").count()).toBe(0);
+        const local = page.locator("#L9 .lean-identifier-link");
+        expect(await local.textContent()).toBe("value");
+        await page.locator(".source-proof-rail a").first().click({ trial: true });
+        await local.click();
+        await page.waitForURL(`${base}/previews/navigation/lax-21/Lax21.One.html#L2`);
+        await page.waitForFunction(() => Math.abs(document.getElementById("L2")!.getBoundingClientRect().top -
+          document.querySelector(".site-header")!.getBoundingClientRect().bottom) < 2);
       }
       await page.close();
     }

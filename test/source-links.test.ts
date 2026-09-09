@@ -44,9 +44,74 @@ describe("Lean source navigation", () => {
     expect(renderedLinks(html)).toEqual(expect.arrayContaining([
       { text: "Lax17.Treewidth.treewidth", href: "../lax-17/Lax17.Treewidth.html#L2" },
       { text: "Lax17.GridMinor.ContainsGridMinor", href: "../lax-17/Lax17.GridMinor.html#L2" },
-      { text: "polynomial_grid_minor_eight_polylog", href: `../lax-17/${claim.id}.html#s-${claim.statements[0]!.id}` },
     ]));
+    expect(renderedLinks(html).map((link) => link.text)).not.toContain("polynomial_grid_minor_eight_polylog");
     expect(html).toContain(`id="s-${claim.statements[0]!.id}"`);
+  });
+
+  it("links unqualified HasTreewidthAtMost uses but not the defining names", () => {
+    const tree = concept("Lax17.Treewidth", [
+      "namespace Lax17.Treewidth", "/-- A decomposition of bounded width. -/",
+      "def HasTreewidthAtMost (G : Nat) (k : Nat) : Prop := G ≤ k",
+      "/-- The least width. -/", "noncomputable def treewidth (G : Nat) : Nat :=",
+      "  letI := Classical.decPred (HasTreewidthAtMost G)",
+      "  letI := Classical.propDecidable (∃ k, HasTreewidthAtMost G k)",
+      "  if h : ∃ k, HasTreewidthAtMost G k then Nat.find h else 0", "end Lax17.Treewidth",
+    ].join("\n"));
+    expect(links(archive([tree]), tree.id)).toEqual(Array.from({ length: 3 }, () => ({
+      text: "HasTreewidthAtMost", href: "../lax-17/Lax17.Treewidth.html#L2",
+    })));
+  });
+
+  it("resolves current and parent namespaces in source order, without leaking nested scopes", () => {
+    const base = concept("Lax17.Base", "def A.value := 1\ndef Other.value := 9");
+    const caller = concept("Lax17.Caller", [
+      "namespace A", "section S", "namespace Inner", "#check value", "def value := 2",
+      "#check value", "#check _root_.A.value", "end Inner", "end S", "#check value",
+      "#check Inner.value", "end A", "open Other", "#check value", "#check A.Inner.value",
+    ].join("\n"), [base.id]);
+    expect(links(archive([base, caller]), caller.id)).toEqual([
+      { text: "value", href: "../lax-17/Lax17.Base.html#L1" },
+      { text: "value", href: "../lax-17/Lax17.Caller.html#L5" },
+      { text: "_root_.A.value", href: "../lax-17/Lax17.Base.html#L1" },
+      { text: "value", href: "../lax-17/Lax17.Base.html#L1" },
+      { text: "Inner.value", href: "../lax-17/Lax17.Caller.html#L5" },
+      { text: "A.Inner.value", href: "../lax-17/Lax17.Caller.html#L5" },
+    ]);
+  });
+
+  it("uses the namespace of a qualified declaration only inside that declaration", () => {
+    const target = concept("Lax17.Target", [
+      "def A.value := 1", "def A.copy : Nat :=", "  value", "def copy := value",
+      "def A.quoted := value", "#check value", "#check A.copy",
+    ].join("\n"));
+    expect(links(archive([target]), target.id)).toEqual([
+      { text: "value", href: "../lax-17/Lax17.Target.html#L1" },
+      { text: "value", href: "../lax-17/Lax17.Target.html#L1" },
+      { text: "A.copy", href: "../lax-17/Lax17.Target.html#L2" },
+    ]);
+  });
+
+  it("keeps declaration sites and possible bare local bindings plain", () => {
+    for (const body of [
+      "def test (value : Nat) := value", "def test := let value := 2; value",
+      "def test := fun value => value", "def test := ∀ value : Nat, value = value",
+      "variable (value : Nat)\ndef test := value", "def test := match pair with | (value, x) => value",
+      "def test := do\n  value ← action\n  pure value", "def test := by\n  intro value\n  exact value",
+      "def test := (.value)", "def test := (record).value",
+    ]) {
+      const target = concept("Lax17.Target", `namespace A\ndef value := 1\n${body}\nend A`);
+      expect(links(archive([target]), target.id), body).toEqual([]);
+    }
+  });
+
+  it("does not fall back past an ambiguous closest namespace or export private names", () => {
+    const first = concept("Lax17.First", "def A.Inner.value := 1\ndef A.value := 0\nprivate def A.hidden := 0");
+    const second = concept("Lax17.Second", "def A.Inner.value := 2");
+    const caller = concept("Lax17.Caller", "namespace A.Inner\n#check value\n#check A.hidden\nend A.Inner", [first.id, second.id]);
+    expect(links(archive([first, second, caller]), caller.id)).toEqual([]);
+    const own = concept("Lax17.Own", "namespace A\nprivate def hidden := 0\ndef copy := hidden\nend A");
+    expect(links(archive([own]), own.id)).toEqual([{ text: "hidden", href: "../lax-17/Lax17.Own.html#L2" }]);
   });
 
   it("uses declaration namespaces, nested sections, rooted names, and multiline modifiers", () => {
@@ -98,7 +163,7 @@ describe("Lean source navigation", () => {
     ]);
   });
 
-  it("does not guess short names, private globals, generated fields, or namespace prefixes", () => {
+  it("does not guess opened names, private globals, generated fields, or namespace prefixes", () => {
     const target = concept("Lax17.Definitions", "namespace Shared\nprivate def hidden := 0\ndef visible := 1\nstructure Record where\n  field : Nat\nend Shared");
     const caller = concept("Lax17.Caller", [
       "open Shared", "example (visible : Nat) : Nat := visible", "#check Shared.hidden", "#check Shared.Record.field",

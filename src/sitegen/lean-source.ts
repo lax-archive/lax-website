@@ -4,6 +4,7 @@ export interface SourceRange { start: number; end: number }
 export interface LeanToken extends SourceRange {
   text: string;
   line: number;
+  column: number;
   /** Start of standalone comments immediately before this token. */
   leadingCommentLine?: number;
   /** Components keep `A.«B.C»` distinct from `A.B.C`. */
@@ -35,6 +36,7 @@ export function scanLeanSource(source: string): LeanSource {
   const comments: SourceRange[] = [];
   let index = 0;
   let line = 1;
+  let lineStart = 0;
   let quotedDepth = 0;
   let lastCodeLine = 0;
   let leadingCommentLine: number | undefined;
@@ -43,7 +45,7 @@ export function scanLeanSource(source: string): LeanSource {
     if (!quotedDepth) tokens.push({ ...value, leadingCommentLine });
   };
   const advance = (end: number) => {
-    while (index < end) if (source[index++] === "\n") line++;
+    while (index < end) if (source[index++] === "\n") { line++; lineStart = index; }
   };
   while (index < source.length) {
     const start = index;
@@ -104,7 +106,7 @@ export function scanLeanSource(source: string): LeanSource {
     NAME.lastIndex = index;
     const identifier = NAME.exec(source)?.[0];
     if (identifier) {
-      token({ start, end: index + identifier.length, text: identifier, line, name: nameParts(identifier) });
+      token({ start, end: index + identifier.length, text: identifier, line, column: start - lineStart, name: nameParts(identifier) });
       advance(index + identifier.length);
       code();
       continue;
@@ -113,7 +115,7 @@ export function scanLeanSource(source: string): LeanSource {
     if (quotedDepth) {
       if (symbol === "(") quotedDepth++;
       if (symbol === ")") quotedDepth--;
-    } else token({ start, end: index + symbol.length, text: symbol, line });
+    } else token({ start, end: index + symbol.length, text: symbol, line, column: start - lineStart });
     advance(index + symbol.length);
     code();
   }
@@ -132,11 +134,18 @@ const DECLARATION = new Set(["def", "abbrev", "structure", "class", "inductive",
 const MODIFIER = new Set(["private", "protected", "noncomputable", "unsafe", "partial", "nonrec", "public"]);
 
 /** Inventory ordinary command declarations and namespace/section nesting.
+ * Optionally visit identifier uses with their current namespace, sharing the
+ * same command walk. Declaration names and scope labels are not references.
  * Does not invent names for fields, macros, `export`, or `where` helpers. */
-export function leanDeclarations({ tokens }: LeanSource): LeanDeclaration[] {
+export function leanDeclarations(
+  { tokens }: LeanSource,
+  reference?: (token: LeanToken, namespace: readonly string[]) => void,
+): LeanDeclaration[] {
   const result: LeanDeclaration[] = [];
   const scopes: string[][] = [];
   let namespace: string[] = [];
+  let bodyNamespace: string[] | undefined;
+  let commandColumn = 0;
   let depth = 0;
   let prefix = false;
   let startLine = 1;
@@ -144,15 +153,22 @@ export function leanDeclarations({ tokens }: LeanSource): LeanDeclaration[] {
   for (let i = 0; i < tokens.length; i++) {
     const token = tokens[i]!;
     const text = token.text;
+    const first = i === 0 || tokens[i - 1]!.line < token.line;
+    const commandStart = first && !depth && (bodyNamespace === undefined || token.column <= commandColumn);
+    if (commandStart) bodyNamespace = undefined;
+    const visit = () => {
+      // `.field` and `(term).field` need type information, not namespace lookup.
+      if (token.name && tokens[i - 1]?.text !== ".") reference?.(token, bodyNamespace ?? namespace);
+    };
     if (["(", "[", "{", "⦃"].includes(text)) { depth++; continue; }
     if ([")", "]", "}", "⦄"].includes(text)) { depth = Math.max(0, depth - 1); continue; }
-    if (depth) continue;
-    const first = i === 0 || tokens[i - 1]!.line < token.line;
-    if (first && !prefix) {
+    if (depth) { visit(); continue; }
+    if (commandStart && !prefix) {
       prefix = true;
+      commandColumn = token.column;
       startLine = token.leadingCommentLine ?? token.line;
     }
-    if (!prefix) continue;
+    if (!prefix) { visit(); continue; }
     if (text === "@" && tokens[i + 1]?.text === "[") continue;
     if (MODIFIER.has(text)) { if (text === "private") isPrivate = true; continue; }
     if (text === "namespace" || text === "section") {
@@ -161,12 +177,21 @@ export function leanDeclarations({ tokens }: LeanSource): LeanDeclaration[] {
         const parts = tokens[i + 1]!.name!;
         namespace = parts[0] === "_root_" ? parts.slice(1) : [...namespace, ...parts];
       }
+      if (tokens[i + 1]?.name && tokens[i + 1]!.line === token.line) i++;
     } else if (text === "end") {
       namespace = scopes.pop() ?? [];
+      if (tokens[i + 1]?.name && tokens[i + 1]!.line === token.line) i++;
     } else if (DECLARATION.has(text) && tokens[i + 1]?.name) {
       const declared = tokens[i + 1]!;
       const parts = declared.name!;
-      result.push({ token: declared, startLine, name: parts[0] === "_root_" ? parts.slice(1) : [...namespace, ...parts], private: isPrivate });
+      const name = parts[0] === "_root_" ? parts.slice(1) : [...namespace, ...parts];
+      result.push({ token: declared, startLine, name, private: isPrivate });
+      // `def A.f` elaborates its signature/body in namespace A, even without
+      // an explicit `namespace A` command. A new command ends that context.
+      bodyNamespace = name.slice(0, -1);
+      i++;
+    } else if (text === "#" && tokens[i + 1]?.name) {
+      i++; // The name in `#check`, `#eval`, etc. is a command, not a term.
     }
     prefix = false;
     isPrivate = false;

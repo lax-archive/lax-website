@@ -166,6 +166,7 @@ describe("paper pages", () => {
     const submissions = archive();
     const paper = submissions[1]!.output!.paper!;
     paper.marks.push({ ...paper.marks[0]! });
+    submissions[1]!.output!.concepts[0]!.sourceText += "\n#check Lax7.Treewidth.mono\n";
     const root = tmpDir("lax-paper-source-links-");
     await generateSite(withPdf(submissions), root);
     for (const name of ["paper.html", "paper-pdf.html"]) {

@@ -2,28 +2,38 @@ import { leanDeclarations, nameKey, nameParts, scanLeanSource, type LeanSource, 
 import type { LocatedConcept, SiteModel } from "./model.js";
 
 export interface SourceLink extends SourceRange { href: string }
-interface Target { module: string; href: string }
-interface ModuleSource { tokens: LeanToken[]; declarations: Map<number, Target>; locals: Set<string> }
+interface Target { module: string; href: string; offset: number; private: boolean }
+interface Reference { token: LeanToken; namespace: readonly string[] }
+interface ModuleSource { references: Reference[]; locals: Set<string> }
 
 /** Even dotted syntax can be local: `let N.value := ...; N.value`, or a
  * projection through a binder named N. Suppress these spellings throughout
  * the file; narrowing their scopes would require elaborated references. */
-function possibleLocals(source: LeanSource, declarations: Map<number, Target>): Set<string> {
+function possibleLocals(source: LeanSource, declarations: Set<number>): Set<string> {
   const locals = new Set<string>();
   const bind = (index: number) => {
     const token = source.tokens[index]!;
     if (token.name && !declarations.has(token.start)) locals.add(token.name[0]!);
   };
   let header = false;
+  let patternLine = -1;
   let depth = 0;
   for (let i = 0; i < source.tokens.length; i++) {
     const token = source.tokens[i]!;
-    if (["let", "have", "suffices", "obtain", "fun", "∀", "∃", "λ"].includes(token.text)) {
+    if (patternLine >= 0 && token.line !== patternLine) { header = false; patternLine = -1; }
+    if (token.text === "|" || ["intro", "intros", "rintro", "rcases", "cases", "induction", "case", "rename_i"].includes(token.text)) {
       header = true;
       depth = 0;
+      patternLine = token.line;
       continue;
     }
-    if (token.text === ":" || (token.text === "=" && source.tokens[i + 1]?.text === ">")) {
+    if (["let", "letI", "letI'", "let'", "have", "haveI", "suffices", "obtain", "fun", "∀", "∃", "λ"].includes(token.text)) {
+      header = true;
+      depth = 0;
+      patternLine = -1;
+      continue;
+    }
+    if (token.text === ":" || token.text === "←" || (token.text === "=" && source.tokens[i + 1]?.text === ">")) {
       for (let before = i - 1; before >= 0 && source.tokens[before]!.name; before--) {
         const previous = source.tokens[before]!;
         if (declarations.has(previous.start) || ["example", "instance", "variable", "variables"].includes(previous.text)) break;
@@ -32,9 +42,9 @@ function possibleLocals(source: LeanSource, declarations: Map<number, Target>): 
       header = false;
     }
     if (!header) continue;
-    if (["(", "[", "{", "⦃"].includes(token.text)) depth++;
-    if ([")", "]", "}", "⦄"].includes(token.text)) depth--;
-    if ((token.text === "," && depth === 0) || token.text === "in" || token.text === "=") header = false;
+    if (["(", "[", "{", "⦃", "⟨"].includes(token.text)) depth++;
+    if ([")", "]", "}", "⦄", "⟩"].includes(token.text)) depth--;
+    if ((token.text === "," && depth === 0) || token.text === "in" || token.text === "=" || token.text === "←") header = false;
     else bind(i);
   }
   return locals;
@@ -53,22 +63,22 @@ class SourceLinkIndex {
     for (const located of model.conceptHome.values()) {
       const { concept } = located;
       const source = scanLeanSource(concept.sourceText);
-      const declarations = new Map<number, Target>();
+      const references: Reference[] = [];
+      const inventory = leanDeclarations(source, (token, namespace) => references.push({ token, namespace }));
+      const declarations = new Set(inventory.map((declaration) => declaration.token.start));
       const statements = new Map(concept.statements.map((s) => [nameKey(nameParts(s.id)), s]));
-      for (const declaration of leanDeclarations(source)) {
+      for (const declaration of inventory) {
         const key = nameKey(declaration.name);
         const statement = statements.get(key);
         const fragment = statement?.startLine !== undefined ? `s-${statement.id}` : `L${declaration.startLine}`;
-        const target = { module: concept.id, href: `${this.page(located)}#${encodeURIComponent(fragment)}` };
-        declarations.set(declaration.token.start, target);
-        if (declaration.private) continue; // Lean gives private globals generated names.
+        const target = { module: concept.id, href: `${this.page(located)}#${encodeURIComponent(fragment)}`,
+          offset: declaration.token.start, private: declaration.private };
         const candidates = this.names.get(key) ?? [];
         candidates.push(target);
         this.names.set(key, candidates);
       }
       this.modules.set(concept.id, {
-        tokens: source.tokens.filter((token) => declarations.has(token.start) || (token.name?.length ?? 0) > 1),
-        declarations, locals: possibleLocals(source, declarations),
+        references, locals: possibleLocals(source, declarations),
       });
     }
   }
@@ -92,29 +102,43 @@ class SourceLinkIndex {
       pending.push(...(this.model.conceptHome.get(id)?.concept.imports ?? []));
     }
     const links: SourceLink[] = [];
-    const destinations = new Map<string, Target | undefined>();
-    for (const token of module.tokens) {
+    const destinations = new Map<string, Target[]>();
+    const candidates = (parts: readonly string[]) => {
+      const key = nameKey(parts);
+      let found = destinations.get(key);
+      if (!found) {
+        found = (this.names.get(key) ?? []).filter((entry) => visible.has(entry.module) &&
+          (!entry.private || entry.module === conceptId));
+        destinations.set(key, found);
+      }
+      return found;
+    };
+    for (const { token, namespace } of module.references) {
       if (!token.name) continue;
-      let target = module.declarations.get(token.start);
-      // A bare spelling is not evidence of an imported reference. Binders,
-      // open namespaces, dot notation and macros require Lean's elaborator.
-      // Link declaration sites and exact qualified names, never suffix guesses.
-      if (!target && token.name.length > 1 && !module.locals.has(token.name[0]!)) {
-        const parts = token.name[0] === "_root_" ? token.name.slice(1) : token.name;
-        const key = nameKey(parts);
-        if (destinations.has(key)) target = destinations.get(key);
-        else {
-          const candidates = (this.names.get(key) ?? []).filter((entry) => visible.has(entry.module));
-          if (candidates.length === 1) target = candidates[0];
-          else if (!candidates.length) {
-            const imported = this.model.conceptHome.get(parts.join("."));
-            if (imported && visible.has(imported.concept.id) && nameKey(nameParts(imported.concept.id)) === key)
-              target = { module: imported.concept.id, href: this.page(imported) };
-          }
-          destinations.set(key, target);
+      const rooted = token.name[0] === "_root_";
+      if (!rooted && module.locals.has(token.name[0]!)) continue;
+      const parts = rooted ? token.name.slice(1) : token.name;
+      let target: Target | undefined;
+      let matched = false;
+      // Search the current namespace and its parents, closest first. Never
+      // invent a suffix alias from all imports. Keep source order: a later
+      // declaration cannot retroactively become a reference's destination.
+      for (let depth = rooted ? 0 : namespace.length; depth >= 0; depth--) {
+        const found = candidates([...namespace.slice(0, depth), ...parts])
+          .filter((entry) => entry.module !== conceptId || entry.offset < token.start);
+        if (found.length) {
+          matched = true;
+          if (found.length === 1) target = found[0];
+          break; // Ambiguity in the closest namespace must not fall outward.
         }
       }
-      if (target) links.push({ start: token.start, end: token.end, href: target.href });
+      let href = target?.href;
+      if (!matched && parts.length > 1 && !candidates(parts).length) {
+        const imported = this.model.conceptHome.get(parts.join("."));
+        if (imported && visible.has(imported.concept.id) && nameKey(nameParts(imported.concept.id)) === nameKey(parts))
+          href = this.page(imported);
+      }
+      if (href) links.push({ start: token.start, end: token.end, href });
     }
     this.resolved.set(conceptId, links);
     return links;
