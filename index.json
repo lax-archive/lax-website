@@ -195,7 +195,7 @@
     },
     {
       "id": "lax-11",
-      "state": "registered",
+      "state": "draft",
       "environment": "v4.30.0",
       "title": "Algorithmic Experiments on a Random Access Machine",
       "concepts": [
