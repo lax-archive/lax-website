@@ -2177,11 +2177,13 @@
         "Lax307052Proofs.configuration_count",
         "Lax307052Proofs.finite_reachability",
         "Lax307052Proofs.path_splitting",
+        "Lax307052Proofs.polynomial_constructible",
         "Lax307052Proofs.polynomial_space",
         "Lax307052Proofs.quadratic_stack",
         "Lax307052Proofs.recursive_reachability",
         "Lax307052Proofs.savitch",
         "Lax307052Proofs.search_acceptance",
+        "Lax307052Proofs.search_machine",
         "Lax307052Proofs.short_paths"
       ]
     },
