@@ -337,7 +337,6 @@
       "state": "registered",
       "environment": "v4.30.0",
       "title": "The Word RAM",
-      "supersededBy": "lax-67",
       "concepts": [
         {
           "id": "Lax13.Ram",
@@ -1270,7 +1269,7 @@
     },
     {
       "id": "lax-67",
-      "state": "registered",
+      "state": "draft",
       "environment": "v4.30.0",
       "title": "The Word RAM",
       "supersedes": "lax-13",
