@@ -1389,6 +1389,11 @@
           "type": "definition"
         },
         {
+          "id": "Lax68.PlanarExcludedMinors",
+          "title": "Wagner's theorem",
+          "type": "theorem"
+        },
+        {
           "id": "Lax68.SeriesParallel",
           "title": "Series-parallel graphs",
           "type": "definition"
