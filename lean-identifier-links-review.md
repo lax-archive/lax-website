@@ -1,7 +1,7 @@
 # Lean identifier navigation review
 
-Implemented on `codex/fix-lean-identifier-links`, based on website commit
-`5e93143b`. Main is reserved for review and has not been changed.
+Implemented and reviewed on `codex/fix-lean-identifier-links`, based on website
+commit `5e93143b`. The user approved publication to `main` on 2026-09-09.
 
 ## Problem and final design
 
