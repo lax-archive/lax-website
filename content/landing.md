@@ -13,50 +13,44 @@ attention where it really matters: building *intuition*, *clarity*, and
 ## How it works
 
 **The paper stays the paper.** Lax annotates natural-language mathematics
-with Lean: each definition or lemma, where it stands, is tied to a *concept*,
-a reusable block that pairs a mathematical idea with a faithful Lean
-encoding. Concepts can be shared and built upon across submissions.
-
-## Proofs
-
-**Proofs compose.** A proof derives one concept from others, and Lax records
-exactly what it rests on. Annotating the lemmas along the way gives trust
-not only in the theorem but in every step leading there.
+with Lean. Each definition or claim, where it stands in the paper, is tied
+to a *concept*: a reusable block that pairs a mathematical statement with a
+faithful Lean encoding. Each proof is tied to Lean code that derives one
+concept from others. Freely composable across papers.
 
 ## Proof network
 
-**Nothing is taken on faith.** The proof network gives a high-level overview
-of the ideas, and says which statements are proven relative to which others,
-and which [proof obligations](open-proof-obligations.html) still remain.
-Any later submission can discharge an open obligation, and every result that
-rested on it is proven from that moment on.
+**Nothing is taken on faith.** A submission's proof network shows every
+claim it states, every proof it holds, and what each proof rests on: which
+claims are proven outright, which are proven relative to others, and which
+[proof obligations](open-proof-obligations.html) remain open. Any later
+submission can discharge an open obligation, and every result that rested
+on it is proven from that moment on.
 
-## What it is for
+## Get started right away
 
-### While you write
+Set up, once per machine:
 
-Write the paper as you always have. Pin the definitions and lemmas that
-matter to Lean statements, and let an agent grind out the proofs while you
-keep writing. You decide what the statements mean; the machine decides
-whether the proofs go through. When a formalization attempt fails, that is
-usually where the gap in your own argument is, and you find it before a
-referee does.
+```
+npm install -g lax-archive && lax doctor
+```
 
-### Peer review
+Hand your coding agent a prompt like:
 
-Referees spend most of their time checking whether the details work, and
-almost none on whether the ideas are good. A Lax-annotated submission moves
-the first part to the machine: a referee sees which claims carry a verified
-proof, which are stated but open, and which definitions others have
-endorsed, and spends the report on the mathematics. Submissions can stay
-anonymous while under review, so the formal side is checked without
-unblinding anyone.
+```
+Run `lax print instructions` and follow the guide it prints
+to formalize <my result>.
+```
 
-### Digesting existing results
+## Foundations
 
-A proof that exists is a different thing from a proof that is understood.
-Take a result someone else has verified and write the exposition that makes
-it clear: a cleaner definition, a sharper intermediate lemma, a different
-route to the same theorem. Your commentary is pinned to the same verified
-statements, so it inherits their correctness and adds what was missing.
-Understanding becomes a contribution the archive records and credits.
+Concepts are shared across submissions. A paper that needs a model of
+computation imports the archive's word RAM rather than fixing its own; a
+bound on twin-width is stated against the archive's twin-width. The
+definitions below are the ones later submissions already build on.
+
+- Lax67.Ram
+- Lax48.Treewidth
+- Lax48.TwinWidth
+- Lax12.NowhereDenseClasses
+- Lax11.GraphEncoding
