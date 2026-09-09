@@ -557,11 +557,13 @@ After the formula.`, "");
     expect(css).toContain(".landing-passage.manuscript-hl-hover,");
     expect(css).not.toContain(".landing-passage::after");
     expect(css).toContain(".landing-paper-grid{\n  position: relative;");
-    expect(css).toContain(".landing-carousel-slide{ grid-area: 1 / 1; min-width: 0; }");
-    expect(css).toContain(".landing-carousel-slide-off{ visibility: hidden; pointer-events: none; }");
+    expect(css).toContain(".landing-carousel-slide{ min-width: 0; }");
+    expect(css).toContain(".landing-carousel-slide-off{ position: absolute; top: 0; left: 0; right: 0; visibility: hidden; pointer-events: none; }");
+    expect(css).toContain(".landing-carousel-arrow{");
     expect(css).toContain(".landing-network-viewport::before,");
-    expect(css).toContain(".landing-columns{");
+    expect(css).toContain(".landing-plain-section{");
     expect(css).toContain(".landing-foundation{");
+    expect(css).not.toContain("landing-carousel-count");
     expect(css).not.toContain(".landing-tile");
     expect(css).toContain(".submissions-list-clipped::after{");
     expect(css).toContain(".landing-paper-rail-live > .manuscript-card{ position: absolute; left: 0; right: 0; margin: 0; z-index: 6; }");
@@ -662,14 +664,14 @@ After the formula.`, "");
     expect(index).not.toContain("landing-paper-caption");
     expect(index.indexOf("landing-hero")).toBeLessThan(index.indexOf("landing-how"));
     expect(index.indexOf("landing-how")).toBeLessThan(index.indexOf("landing-hero-actions"));
-    expect(index.indexOf("landing-hero-actions")).toBeLessThan(index.indexOf("landing-columns-section"));
-    expect(index.indexOf("landing-columns-section")).toBeLessThan(index.indexOf('id="landing-library-heading"'));
-    // What changes: three columns of plain text, no tiles.
-    expect(index).toContain('<h2 class="landing-section-title" id="landing-changes-heading">What changes</h2>');
-    expect(index).toContain('<div class="landing-column"><h3>Writing</h3>');
-    expect(index).toContain('<div class="landing-column"><h3>Reviewing</h3>');
-    expect(index).toContain('<div class="landing-column"><h3>Reading</h3>');
+    expect(index.indexOf("landing-hero-actions")).toBeLessThan(index.indexOf("landing-plain-section"));
+    expect(index.indexOf("landing-plain-section")).toBeLessThan(index.indexOf('id="landing-library-heading"'));
+    // Getting started: a plain section with the two commands, no tiles.
+    expect(index).toContain('<h2 class="landing-section-title" id="landing-start-heading">Get started right away</h2>');
+    expect(index).toContain("npm install -g lax-archive &amp;&amp; lax doctor");
+    expect(index).toContain("Run `lax print instructions` and follow the guide it prints");
     expect(index).not.toContain("landing-tile");
+    expect(index).not.toContain("landing-column");
     expect(index).not.toContain("What it is for");
     expect(index).toContain('<nav class="landing-hero-actions" aria-label="Ways into Lax">');
     expect(index).not.toContain("Browse submissions");
@@ -688,7 +690,8 @@ After the formula.`, "");
     expect(index).not.toContain('id="proof-network"');
     expect(index).not.toContain('id="graph-data"');
     expect(index).not.toContain("landing-foundations");
-    expect(index).not.toContain("landing-paper-foot");
+    expect(index).toContain('<div class="landing-paper-foot"><a class="landing-paper-more" href="assets/lax-white-paper.pdf" download="lax-white-paper.pdf">Read the Lax paper</a></div>');
+    expect(index).not.toContain("See full submission");
     expect(index).toContain('<a class="landing-hero-button primary landing-cta" href="assets/lax-white-paper.pdf" download="lax-white-paper.pdf">Read the Lax paper</a>');
     expect(index).not.toMatch(/<script src="assets\/dag\.js/);
     // The old landing's parts are gone.
@@ -781,19 +784,22 @@ After the formula.`, "");
     await generateSite([...submissions(), introSubmission(), ...landingArchive()], root);
     const index = fs.readFileSync(path.join(root, "index.html"), "utf8");
 
-    // The examples box: three tabs, three slides stacked, the first
-    // selected, the others invisible and inert.
+    // The examples box: a dot per example, an arrow either side, three
+    // slides, the first selected, the others invisible and inert.
     expect(index).toContain('<section class="landing-box landing-paper manuscript" aria-label="Excerpts of 3 annotated papers, as the archive shows them: a paper on prime numbers, a paper on Ramsey\'s theorem, a paper on algorithms on a random access machine" data-carousel>');
-    expect(index).toContain('<div class="landing-carousel-tablist" role="tablist" aria-label="Examples">');
-    expect(index).toContain('<button class="landing-carousel-tab" role="tab" type="button" id="landing-tab-primes" aria-selected="true" aria-controls="landing-example-primes" tabindex="0">Infinitely many primes</button>');
-    expect(index).toContain('<button class="landing-carousel-tab" role="tab" type="button" id="landing-tab-ramsey" aria-selected="false" aria-controls="landing-example-ramsey" tabindex="-1">Ramsey\'s theorem</button>');
-    expect(index).toContain('<button class="landing-carousel-tab" role="tab" type="button" id="landing-tab-ram" aria-selected="false" aria-controls="landing-example-ram" tabindex="-1">Graphs on a word RAM</button>');
-    expect(index).toContain('<button class="landing-carousel-arrow" type="button" data-carousel-step="-1" aria-label="Previous example">');
+    expect(index).toContain('<div class="landing-box-head">');
+    expect(index).toContain('<div class="landing-carousel-dots" role="tablist" aria-label="Examples">');
+    expect(index).toContain('<button class="landing-carousel-dot" role="tab" type="button" id="landing-tab-primes" aria-selected="true" aria-controls="landing-example-primes" aria-label="Example 1 of 3: a paper on prime numbers" tabindex="0"></button>');
+    expect(index).toContain('<button class="landing-carousel-dot" role="tab" type="button" id="landing-tab-ramsey" aria-selected="false" aria-controls="landing-example-ramsey" aria-label="Example 2 of 3: a paper on Ramsey\'s theorem" tabindex="-1"></button>');
+    expect(index).toContain('<button class="landing-carousel-dot" role="tab" type="button" id="landing-tab-ram" aria-selected="false" aria-controls="landing-example-ram" aria-label="Example 3 of 3: a paper on algorithms on a random access machine" tabindex="-1"></button>');
+    expect(index).toContain('<button class="landing-carousel-arrow landing-carousel-arrow-prev" type="button" data-carousel-step="-1" aria-label="Previous example" title="Previous example (←)">');
+    expect(index).toContain('<button class="landing-carousel-arrow landing-carousel-arrow-next" type="button" data-carousel-step="1" aria-label="Next example" title="Next example (→)">');
     expect(index).toContain('<div class="landing-carousel-slide" role="tabpanel" id="landing-example-primes" aria-labelledby="landing-tab-primes" data-card-box data-paper-excerpt>');
     expect(index).toContain('<div class="landing-carousel-slide landing-carousel-slide-off" role="tabpanel" id="landing-example-ramsey" aria-labelledby="landing-tab-ramsey" aria-hidden="true" inert data-card-box data-paper-excerpt>');
     // The primes example: definition, lemma, its proof, theorem, its proof
     // (which rests on the lemma); the first card open, not pinned.
-    expect(index).toContain("<h3>2 Primes</h3>");
+    expect(index).toContain("<h3>2 Lorem ipsum</h3>");
+    expect(index).toContain("Lorem ipsum dolor sit amet");
     expect(index).toContain('<div class="landing-passage landing-passage-1 kind-concept manuscript-hl-active" role="button" tabindex="0" aria-pressed="false" aria-controls="landing-primes-1" aria-label="Definition 1, prime numbers: show the concept card" data-excerpt-card="landing-primes-1" data-kind="concept">');
     expect(index).toContain("<strong>Definition 1.</strong> A natural number greater than 1 is <em>prime</em>");
     expect(index).toContain('<div class="landing-passage landing-passage-3 kind-proof" role="button" tabindex="0" aria-pressed="false" aria-controls="landing-primes-3" aria-label="Proof of Lemma A: show the proof card" data-excerpt-card="landing-primes-3" data-kind="proof">');
@@ -806,22 +812,17 @@ After the formula.`, "");
     expect(index).not.toContain("manuscript-card-pinned");
     expect(index).toContain('<span class="manuscript-card-name"><span class="type-badge" title="definition">def</span><code>Primes</code></span>');
     expect(index).toContain('<p class="manuscript-card-title">Prime numbers</p>');
-    const text = (id: string) => index.slice(index.indexOf(`id="${id}-body"`), index.indexOf("</li>", index.indexOf(`id="${id}-body"`))).replace(/<[^>]+>/g, "");
-    expect(text("landing-primes-1")).toContain("1 &lt; n ∧ ∀ d, d ∣ n → d = 1 ∨ d = n");
-    expect(text("landing-primes-2")).toContain("∀ n : ℕ, 1 &lt; n → ∃ p, Prime p ∧ p ∣ n");
-    expect(text("landing-ramsey-2")).toContain("IsClique G S ∧ a ≤ S.ncard");
     expect(index).toContain('<ul class="manuscript-card-claims"><li><span class="claim-entry"><span class="type-badge proven"');
-    // The proof of Theorem B rests on the lemma.
-    const euclid = index.slice(index.indexOf('id="landing-primes-5-body"'), index.indexOf("</li>", index.indexOf('id="landing-primes-5-body"')));
-    expect(euclid).toContain('<div class="judgment-assumptions"><ul><li><span class="claim-entry"><span class="type-badge proven"');
+    // The proof of Theorem B rests on the lemma; the proof of the lemma on nothing.
+    const euclid = index.slice(index.indexOf('id="landing-primes-5-body"'), index.indexOf('id="landing-example-ramsey"'));
+    expect(euclid).toContain('<div class="judgment-assumptions"><ul><li>');
     expect(euclid).toContain("<code>PrimeDivisor</code>");
-    expect(euclid).toContain('<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven"');
     expect(euclid).toContain("<code>Euclid</code>");
     const primeDivisor = index.slice(index.indexOf('id="landing-primes-3-body"'), index.indexOf("</li>", index.indexOf('id="landing-primes-3-body"')));
     expect(primeDivisor).toContain('<p class="judgment-unconditional">no assumptions</p>');
-    // Written cards link nowhere; the slide links to its submission.
+    // Written cards link nowhere; the slide leads into the introduction.
     expect(index).not.toContain('<a href="lax-242665/Lax242665.Primes.html">');
-    expect(index).toContain('<div class="landing-paper-foot"><a class="landing-paper-more" href="lax-242665/index.html">In the archive: An Introduction to Lax <span class="submission-meta-id">lax-242665</span></a></div>');
+    expect(index).toContain('<div class="landing-paper-foot"><a class="landing-paper-more" href="lax-242665/paper.html">Read full introduction to Lax</a></div>');
     // The word RAM example draws the archive\'s own cards, linked from the site root.
     expect(index).toContain('aria-controls="landing-ram-1" aria-label="Definition 1, the word RAM: show the concept card"');
     expect(index).toContain('<li class="manuscript-card kind-concept manuscript-card-expanded" id="landing-ram-1" data-mark="1">');
@@ -829,7 +830,7 @@ After the formula.`, "");
     expect(index).toContain('<a href="lax-11/Lax11.ConnectedComponents.html"><code>Lax11.ConnectedComponents</code></a>');
     expect(index).toContain('<li class="manuscript-card kind-proof line-proven" id="landing-ram-4" data-mark="4">');
     expect(index).toContain('<a href="lax-11/Lax11Proofs.CCMain.exists_linearTime_program_ccLabels.html"><code>Lax11Proofs.CCMain.exists_linearTime_program_ccLabels</code></a>');
-    expect(index).toContain('href="lax-11/index.html">In the archive: Title of lax-11');
+    expect(index).toContain('<div class="landing-paper-foot"><a class="landing-paper-more" href="lax-11/index.html">See full submission</a></div>');
     expect(index).not.toContain('href="../lax-11/');
     expect(index).toContain('<ol class="manuscript-rail landing-paper-rail" aria-label="Cards">');
     expect(index).toContain('<svg class="manuscript-links landing-paper-links" aria-hidden="true"></svg>');
@@ -840,7 +841,7 @@ After the formula.`, "");
     expect(index).not.toContain("<strong>Proofs compose.</strong>");
     // The network: the network submission\'s figure and data, rooted at the site.
     expect(index).toContain('<figure class="landing-box graph-figure proof-network-figure landing-network-figure" aria-label="The proof network of lax-17">');
-    expect(index).toContain('<p class="landing-network-source"><a href="lax-17/index.html">Title of lax-17</a> <span class="submission-meta-id">lax-17</span></p>');
+    expect(index).not.toContain("landing-network-source");
     expect(index).toContain('<a href="open-proof-obligations.html">proof obligations</a> remain open.');
     expect(index).toContain('<div class="landing-network-viewport">\n<div id="proof-network" class="figure-container" data-graph="proofs"></div>\n</div>');
     const data = JSON.parse(index.match(/<script type="application\/json" id="graph-data">(.*?)<\/script>/)![1]!);
@@ -862,13 +863,13 @@ After the formula.`, "");
     expect(index).toContain('<span class="submission-meta-id">lax-48</span><span class="landing-foundation-uses">built on in 1 further submission</span>');
     expect(index).not.toContain("Lax48.Treewidth");
     expect(index).not.toContain("Lax12.NowhereDenseClasses");
-    // Examples, network, in that order, before the button; the columns and
-    // foundations after it.
+    // Examples, network, in that order, before the button; getting started
+    // and the foundations after it.
     expect(index.indexOf('id="landing-how-heading"')).toBeLessThan(index.indexOf("data-carousel"));
     expect(index.indexOf("data-carousel")).toBeLessThan(index.indexOf('id="proof-network"'));
     expect(index.indexOf('id="proof-network"')).toBeLessThan(index.indexOf("landing-cta"));
-    expect(index.indexOf("landing-cta")).toBeLessThan(index.indexOf("landing-columns-section"));
-    expect(index.indexOf("landing-columns-section")).toBeLessThan(index.indexOf("landing-foundations"));
+    expect(index.indexOf("landing-cta")).toBeLessThan(index.indexOf("landing-plain-section"));
+    expect(index.indexOf("landing-plain-section")).toBeLessThan(index.indexOf("landing-foundations"));
     // The submission's own pages keep their `../` links.
     const submission = fs.readFileSync(path.join(root, "lax-242665", "index.html"), "utf8");
     expect(submission).toContain('"href":"../lax-242665/Lax242665Proofs.InfinitelyManyPrimes.exists_prime_gt.html"');
