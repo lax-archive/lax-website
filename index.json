@@ -1294,6 +1294,11 @@
       "title": "Planar Graph Classes",
       "concepts": [
         {
+          "id": "Lax68.GraphMinors",
+          "title": "Graph minors",
+          "type": "definition"
+        },
+        {
           "id": "Lax68.GridPlanar",
           "title": "Grids are planar",
           "type": "theorem"
