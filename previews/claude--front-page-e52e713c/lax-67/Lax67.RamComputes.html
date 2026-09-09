@@ -7,7 +7,7 @@
 <title>Computing a function within a time bound — Lax67.RamComputes</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=89f7ea15df6b">
+<link rel="stylesheet" href="../assets/style.css?v=64c7f2fa8ffb">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -42,14 +42,35 @@
 </aside>
 <div id="sidebar-resizer" class="sidebar-resizer" role="separator" aria-label="Resize sidebar" aria-controls="sidebar" aria-orientation="vertical" aria-valuemin="220" aria-valuemax="520" aria-valuenow="285" tabindex="0" title="Drag to resize sidebar"></div>
 <section id="main"><div id="detail">
-
+<aside class="version-notice version-notice-proposed" aria-label="Submission version">
+<p><strong>Proposed new version.</strong> This draft would follow the current registered version, <a href="../lax-13/index.html?version=lax-13"><span class="submission-meta-id">lax-13</span></a>.</p>
+<div class="version-notice-actions"><a class="version-current-button" href="../lax-13/index.html?version=lax-13">Open current version <span aria-hidden="true">→</span></a><button class="version-history-button" type="button" data-version-dialog-open aria-haspopup="dialog" aria-controls="version-history-dialog">View 2 versions</button></div>
+</aside>
+<dialog class="version-history-dialog" id="version-history-dialog" data-version-dialog aria-labelledby="version-history-title">
+<div class="version-dialog-header"><div><p class="version-dialog-eyebrow">Version history</p><h2 id="version-history-title">Submission versions</h2></div><button class="version-dialog-close" type="button" data-version-dialog-close aria-label="Close version history">×</button></div>
+<p class="version-dialog-intro">Newest first. “Current version” is the latest registered successor; drafts are identified separately.</p>
+<ol class="version-list">
+<li class="version-item version-selected" aria-current="page">
+<div class="version-item-heading"><span class="version-item-id">lax-67</span><span class="version-item-marks"><span class="version-mark version-mark-viewing">viewing</span><span class="version-mark version-mark-draft">draft</span></span></div>
+<p class="version-item-title">The Word RAM</p>
+<div class="version-metadata"><span><b>Created</b> <time datetime="2026-09-03T12:41:41Z">2026-09-03</time></span><span><b>Lean</b> <code>v4.30.0</code></span><span><b>mathlib</b> <code>c5ea00351c28e24afc9f0f84379aa41082b1188f</code></span></div>
+<div class="version-item-actions"><a class="version-source-link" href="https://github.com/lax-archive/lax-submissions/tree/bc4c6e6f09dab6d8a34af65986006b407bf6d63a/word-ram"><svg class="source-mark" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true" focusable="false"><path fill="currentColor" d="M5.22 3.22a.75.75 0 0 1 1.06 1.06L2.56 8l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06Zm5.56 0 4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 1 1-1.06-1.06L13.44 8 9.72 4.28a.75.75 0 1 1 1.06-1.06Z"/></svg><span>GitHub source</span></a><span class="version-viewing-label">Shown on this page</span></div>
+</li>
+<li class="version-item version-latest">
+<div class="version-item-heading"><span class="version-item-id">lax-13</span><span class="version-item-marks"><span class="version-mark version-mark-latest">current version</span></span></div>
+<p class="version-item-title">The Word RAM</p>
+<div class="version-metadata"><span><b>Created</b> <time datetime="2026-08-02T18:01:40Z">2026-08-02</time></span><span><b>Lean</b> <code>v4.30.0</code></span><span><b>mathlib</b> <code>c5ea00351c28e24afc9f0f84379aa41082b1188f</code></span></div>
+<div class="version-item-actions"><a class="version-source-link" href="https://github.com/lax-archive/lax-submissions/tree/92ae2d6275d09b856c02d6f851755590fdcb30ed/word-ram"><svg class="source-mark" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true" focusable="false"><path fill="currentColor" d="M5.22 3.22a.75.75 0 0 1 1.06 1.06L2.56 8l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06Zm5.56 0 4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 1 1-1.06-1.06L13.44 8 9.72 4.28a.75.75 0 1 1 1.06-1.06Z"/></svg><span>GitHub source</span></a><a class="version-open-link" href="../lax-13/index.html?version=lax-13">Open version <span aria-hidden="true">→</span></a></div>
+</li>
+</ol>
+</dialog><p class="draft-banner"><strong>Draft</strong> — mutable and not usable as a dependency; its citation marks the draft state.</p>
 <div class="detail-heading concept-heading">
 <div><p class="concept-id"><code>Lax67.RamComputes</code></p>
 <h1 class="concept-title">Computing a function within a time bound</h1>
 <p class="concept-microline"><code>concepts/Lax67/RamComputes.lean</code> · <a href="index.html">lax-67</a></p></div>
 <span class="status-pills"><span class="status-pill pill-none">definition</span></span>
 </div>
-<section class="page-reactions" aria-label="Community review" data-reactions-host="https://comments.laxarchive.org" data-reactions-url="https://laxarchive.org/lax-67/Lax67.RamComputes.html" data-review-kind="concept" data-source-lines="69">
+<section class="page-reactions" aria-label="Community review" data-reactions-host="https://comments.laxarchive.org" data-reactions-url="https://laxarchive.org/lax-67/Lax67.RamComputes.html" data-review-kind="concept" data-source-lines="76">
 <div class="page-reactions-line">
 <div class="page-reactions-actions">
 <div class="page-reaction-control">
@@ -96,12 +117,12 @@
 
 <div class="block block-statement"><h3>Definition</h3><div class="latex-content"><p>A word RAM program computes a function of words within a time bound <em>T</em>
 on a set <em>D</em> of admissible inputs if, started on any input <em>x</em> in <em>D</em> at
-word length <em>w</em>, it halts after at most <em>T(x)</em> steps having written the
+word length <em>w</em>, it halts after at most <em>T(x)</em> instructions having written the
 value of the function at <em>x</em> to its output tape. The bound is a function
 of the input, so that bounds like &quot;linear in the length of the input&quot;
 are stated by instantiating <em>T</em>.</p>
 </div></div>
-<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/9d9639601dea95e60803cfb7db1f6296478dcb42/word-ram/concepts/Lax67/RamComputes.lean">view on GitHub</a></h3>
+<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/bc4c6e6f09dab6d8a34af65986006b407bf6d63a/word-ram/concepts/Lax67/RamComputes.lean">view on GitHub</a></h3>
 <div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
 <tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-67/Lax67.Ram.html">Lax67.Ram</a></span></td></tr>
 <tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Data.Set.Basic</span></td></tr>
@@ -113,67 +134,80 @@ are stated by instantiating <em>T</em>.</p>
 <tr id="L8" class=""><td class="line-num"><a href="#L8">8</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
 <tr id="L9" class=""><td class="line-num"><a href="#L9">9</a></td><td class="line-code"><span style="color:#6A737D">A word RAM program computes a function of words within a time bound *T*</span></td></tr>
 <tr id="L10" class=""><td class="line-num"><a href="#L10">10</a></td><td class="line-code"><span style="color:#6A737D">on a set *D* of admissible inputs if, started on any input *x* in *D* at</span></td></tr>
-<tr id="L11" class=""><td class="line-num"><a href="#L11">11</a></td><td class="line-code"><span style="color:#6A737D">word length *w*, it halts after at most *T(x)* steps having written the</span></td></tr>
+<tr id="L11" class=""><td class="line-num"><a href="#L11">11</a></td><td class="line-code"><span style="color:#6A737D">word length *w*, it halts after at most *T(x)* instructions having written the</span></td></tr>
 <tr id="L12" class=""><td class="line-num"><a href="#L12">12</a></td><td class="line-code"><span style="color:#6A737D">value of the function at *x* to its output tape. The bound is a function</span></td></tr>
 <tr id="L13" class=""><td class="line-num"><a href="#L13">13</a></td><td class="line-code"><span style="color:#6A737D">of the input, so that bounds like &quot;linear in the length of the input&quot;</span></td></tr>
 <tr id="L14" class=""><td class="line-num"><a href="#L14">14</a></td><td class="line-code"><span style="color:#6A737D">are stated by instantiating *T*.</span></td></tr>
 <tr id="L15" class=""><td class="line-num"><a href="#L15">15</a></td><td class="line-code"> </td></tr>
 <tr id="L16" class=""><td class="line-num"><a href="#L16">16</a></td><td class="line-code"><span style="color:#6A737D"># Formalization notes</span></td></tr>
 <tr id="L17" class=""><td class="line-num"><a href="#L17">17</a></td><td class="line-code"> </td></tr>
-<tr id="L18" class=""><td class="line-num"><a href="#L18">18</a></td><td class="line-code"><span style="color:#6A737D">The number of steps is the machine's own step count, so a time bound is</span></td></tr>
-<tr id="L19" class=""><td class="line-num"><a href="#L19">19</a></td><td class="line-code"><span style="color:#6A737D">a statement about the *program*: nothing is annotated onto the program</span></td></tr>
-<tr id="L20" class=""><td class="line-num"><a href="#L20">20</a></td><td class="line-code"><span style="color:#6A737D">and then trusted. Only inputs in `D` are constrained; a program is free</span></td></tr>
-<tr id="L21" class=""><td class="line-num"><a href="#L21">21</a></td><td class="line-code"><span style="color:#6A737D">to do anything at all on malformed input, which is what a statement</span></td></tr>
-<tr id="L22" class=""><td class="line-num"><a href="#L22">22</a></td><td class="line-code"><span style="color:#6A737D">about an algorithm on encoded objects should say.</span></td></tr>
-<tr id="L23" class=""><td class="line-num"><a href="#L23">23</a></td><td class="line-code"> </td></tr>
-<tr id="L24" class=""><td class="line-num"><a href="#L24">24</a></td><td class="line-code"><span style="color:#6A737D">The bound is stated elementarily — an explicit `T` that the step count</span></td></tr>
-<tr id="L25" class=""><td class="line-num"><a href="#L25">25</a></td><td class="line-code"><span style="color:#6A737D">does not exceed — rather than through asymptotic notation. Asymptotics</span></td></tr>
-<tr id="L26" class=""><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span style="color:#6A737D">would require a filter on inputs and would obscure, rather than clarify,</span></td></tr>
-<tr id="L27" class=""><td class="line-num"><a href="#L27">27</a></td><td class="line-code"><span style="color:#6A737D">a statement that quantifies over encodings of every graph; a linear</span></td></tr>
-<tr id="L28" class=""><td class="line-num"><a href="#L28">28</a></td><td class="line-code"><span style="color:#6A737D">bound is spelled out at the point of use as `c * (x.length + 1)` with an</span></td></tr>
-<tr id="L29" class=""><td class="line-num"><a href="#L29">29</a></td><td class="line-code"><span style="color:#6A737D">explicit constant, a fixed-parameter bound as</span></td></tr>
-<tr id="L30" class=""><td class="line-num"><a href="#L30">30</a></td><td class="line-code"><span style="color:#6A737D">`c * 2 ^ k * (x.length + 1)` with the parameter dependence written in,</span></td></tr>
-<tr id="L31" class=""><td class="line-num"><a href="#L31">31</a></td><td class="line-code"><span style="color:#6A737D">the `+ 1` making both meaningful for the empty input as well.</span></td></tr>
-<tr id="L32" class=""><td class="line-num"><a href="#L32">32</a></td><td class="line-code"> </td></tr>
-<tr id="L33" class=""><td class="line-num"><a href="#L33">33</a></td><td class="line-code"><span style="color:#6A737D">The word length `w` is an explicit argument, and statements built on</span></td></tr>
-<tr id="L34" class=""><td class="line-num"><a href="#L34">34</a></td><td class="line-code"><span style="color:#6A737D">this notion quantify it visibly, in the order</span></td></tr>
-<tr id="L35" class=""><td class="line-num"><a href="#L35">35</a></td><td class="line-code"><span style="color:#6A737D">`∃ p, ∀ …, ∀ w, (word-length hypothesis) → ComputesInTime w p D f T`.</span></td></tr>
-<tr id="L36" class=""><td class="line-num"><a href="#L36">36</a></td><td class="line-code"><span style="color:#6A737D">The program is quantified *before* the word length: one program that</span></td></tr>
-<tr id="L37" class=""><td class="line-num"><a href="#L37">37</a></td><td class="line-code"><span style="color:#6A737D">works at every sufficiently large word length, so that `w` cannot</span></td></tr>
-<tr id="L38" class=""><td class="line-num"><a href="#L38">38</a></td><td class="line-code"><span style="color:#6A737D">smuggle advice into the machine — a program chosen after `w` could hide</span></td></tr>
-<tr id="L39" class=""><td class="line-num"><a href="#L39">39</a></td><td class="line-code"><span style="color:#6A737D">an arbitrary amount of information in its literals. This is the same</span></td></tr>
-<tr id="L40" class=""><td class="line-num"><a href="#L40">40</a></td><td class="line-code"><span style="color:#6A737D">uniformity discipline the quantifier order enforces for the parameter of</span></td></tr>
-<tr id="L41" class=""><td class="line-num"><a href="#L41">41</a></td><td class="line-code"><span style="color:#6A737D">a fixed-parameter bound.</span></td></tr>
-<tr id="L42" class=""><td class="line-num"><a href="#L42">42</a></td><td class="line-code"> </td></tr>
-<tr id="L43" class=""><td class="line-num"><a href="#L43">43</a></td><td class="line-code"><span style="color:#6A737D">Word-length hypotheses are written as explicit inequalities against</span></td></tr>
-<tr id="L44" class=""><td class="line-num"><a href="#L44">44</a></td><td class="line-code"><span style="color:#6A737D">`2 ^ w` — `c * (x.length + 1) ≤ 2 ^ w`, or &quot;every entry of `x` is less</span></td></tr>
-<tr id="L45" class=""><td class="line-num"><a href="#L45">45</a></td><td class="line-code"><span style="color:#6A737D">than `2 ^ w`&quot; — never through logarithms. This keeps the no-asymptotics</span></td></tr>
-<tr id="L46" class=""><td class="line-num"><a href="#L46">46</a></td><td class="line-code"><span style="color:#6A737D">style of the surrounding statements and says exactly what a proof needs:</span></td></tr>
-<tr id="L47" class=""><td class="line-num"><a href="#L47">47</a></td><td class="line-code"><span style="color:#6A737D">that the quantities the program manipulates fit into a word. Where</span></td></tr>
-<tr id="L48" class=""><td class="line-num"><a href="#L48">48</a></td><td class="line-code"><span style="color:#6A737D">honesty requires it, the same fitting conditions appear in the</span></td></tr>
-<tr id="L49" class=""><td class="line-num"><a href="#L49">49</a></td><td class="line-code"><span style="color:#6A737D">admissible set `D` itself, alongside the well-formedness conditions of</span></td></tr>
-<tr id="L50" class=""><td class="line-num"><a href="#L50">50</a></td><td class="line-code"><span style="color:#6A737D">the encoding, since the machine reduces oversized input entries modulo</span></td></tr>
-<tr id="L51" class=""><td class="line-num"><a href="#L51">51</a></td><td class="line-code"><span style="color:#6A737D">`2 ^ w` rather than rejecting them.</span></td></tr>
-<tr id="L52" class=""><td class="line-num"><a href="#L52">52</a></td><td class="line-code"> </td></tr>
-<tr id="L53" class=""><td class="line-num"><a href="#L53">53</a></td><td class="line-code"><span style="color:#6A737D">Only the timed notion is defined: every statement built on this machine</span></td></tr>
-<tr id="L54" class=""><td class="line-num"><a href="#L54">54</a></td><td class="line-code"><span style="color:#6A737D">carries a bound, and plain computability is the special case in which</span></td></tr>
-<tr id="L55" class=""><td class="line-num"><a href="#L55">55</a></td><td class="line-code"><span style="color:#6A737D">`T` is unconstrained.</span></td></tr>
-<tr id="L56" class=""><td class="line-num"><a href="#L56">56</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
-<tr id="L57" class=""><td class="line-num"><a href="#L57">57</a></td><td class="line-code"> </td></tr>
-<tr id="L58" class=""><td class="line-num"><a href="#L58">58</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-67/Lax67.RamComputes.html">Lax67.RamComputes</a></span></td></tr>
+<tr id="L18" class=""><td class="line-num"><a href="#L18">18</a></td><td class="line-code"><span style="color:#6A737D">The count includes explicit `halt` and exhausted `read`, but charges</span></td></tr>
+<tr id="L19" class=""><td class="line-num"><a href="#L19">19</a></td><td class="line-code"><span style="color:#6A737D">nothing for an out-of-range program counter. Input is the supplied raw</span></td></tr>
+<tr id="L20" class=""><td class="line-num"><a href="#L20">20</a></td><td class="line-code"><span style="color:#6A737D">list: there is no implicit header or marker. EOF testing and indexed</span></td></tr>
+<tr id="L21" class=""><td class="line-num"><a href="#L21">21</a></td><td class="line-code"><span style="color:#6A737D">read-only input access, with original length metadata, are available</span></td></tr>
+<tr id="L22" class=""><td class="line-num"><a href="#L22">22</a></td><td class="line-code"><span style="color:#6A737D">at unit cost, as specified in `Ram`. No initial input-loading scan is</span></td></tr>
+<tr id="L23" class=""><td class="line-num"><a href="#L23">23</a></td><td class="line-code"><span style="color:#6A737D">charged. The complete append-only output must equal the function value.</span></td></tr>
+<tr id="L24" class=""><td class="line-num"><a href="#L24">24</a></td><td class="line-code"> </td></tr>
+<tr id="L25" class=""><td class="line-num"><a href="#L25">25</a></td><td class="line-code"><span style="color:#6A737D">The number of instructions comes from the machine semantics, so a time bound is</span></td></tr>
+<tr id="L26" class=""><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span style="color:#6A737D">a statement about the *program*: nothing is annotated onto the program</span></td></tr>
+<tr id="L27" class=""><td class="line-num"><a href="#L27">27</a></td><td class="line-code"><span style="color:#6A737D">and then trusted. Only inputs in `D` are constrained; a program is free</span></td></tr>
+<tr id="L28" class=""><td class="line-num"><a href="#L28">28</a></td><td class="line-code"><span style="color:#6A737D">to do anything at all on malformed input, which is what a statement</span></td></tr>
+<tr id="L29" class=""><td class="line-num"><a href="#L29">29</a></td><td class="line-code"><span style="color:#6A737D">about an algorithm on encoded objects should say.</span></td></tr>
+<tr id="L30" class=""><td class="line-num"><a href="#L30">30</a></td><td class="line-code"> </td></tr>
+<tr id="L31" class=""><td class="line-num"><a href="#L31">31</a></td><td class="line-code"><span style="color:#6A737D">The bound is stated elementarily — an explicit `T` that the step count</span></td></tr>
+<tr id="L32" class=""><td class="line-num"><a href="#L32">32</a></td><td class="line-code"><span style="color:#6A737D">does not exceed — rather than through asymptotic notation. Asymptotics</span></td></tr>
+<tr id="L33" class=""><td class="line-num"><a href="#L33">33</a></td><td class="line-code"><span style="color:#6A737D">would require a filter on inputs and would obscure, rather than clarify,</span></td></tr>
+<tr id="L34" class=""><td class="line-num"><a href="#L34">34</a></td><td class="line-code"><span style="color:#6A737D">a statement that quantifies over encodings of every graph; a linear</span></td></tr>
+<tr id="L35" class=""><td class="line-num"><a href="#L35">35</a></td><td class="line-code"><span style="color:#6A737D">bound is spelled out at the point of use as `c * (x.length + 1)` with an</span></td></tr>
+<tr id="L36" class=""><td class="line-num"><a href="#L36">36</a></td><td class="line-code"><span style="color:#6A737D">explicit constant, a fixed-parameter bound as</span></td></tr>
+<tr id="L37" class=""><td class="line-num"><a href="#L37">37</a></td><td class="line-code"><span style="color:#6A737D">`c * 2 ^ k * (x.length + 1)` with the parameter dependence written in,</span></td></tr>
+<tr id="L38" class=""><td class="line-num"><a href="#L38">38</a></td><td class="line-code"><span style="color:#6A737D">the `+ 1` making both meaningful for the empty input as well.</span></td></tr>
+<tr id="L39" class=""><td class="line-num"><a href="#L39">39</a></td><td class="line-code"> </td></tr>
+<tr id="L40" class=""><td class="line-num"><a href="#L40">40</a></td><td class="line-code"><span style="color:#6A737D">The word length `w` is an explicit argument, and statements built on</span></td></tr>
+<tr id="L41" class=""><td class="line-num"><a href="#L41">41</a></td><td class="line-code"><span style="color:#6A737D">this notion quantify it visibly, in the order</span></td></tr>
+<tr id="L42" class=""><td class="line-num"><a href="#L42">42</a></td><td class="line-code"><span style="color:#6A737D">`∃ p, ∀ …, ∀ w, (word-length hypothesis) → ComputesInTime w p D f T`.</span></td></tr>
+<tr id="L43" class=""><td class="line-num"><a href="#L43">43</a></td><td class="line-code"><span style="color:#6A737D">The program is quantified *before* the word length: one program that</span></td></tr>
+<tr id="L44" class=""><td class="line-num"><a href="#L44">44</a></td><td class="line-code"><span style="color:#6A737D">works at every sufficiently large word length, so that `w` cannot</span></td></tr>
+<tr id="L45" class=""><td class="line-num"><a href="#L45">45</a></td><td class="line-code"><span style="color:#6A737D">smuggle advice into the machine — a program chosen after `w` could hide</span></td></tr>
+<tr id="L46" class=""><td class="line-num"><a href="#L46">46</a></td><td class="line-code"><span style="color:#6A737D">an arbitrary amount of information in its literals. This is the same</span></td></tr>
+<tr id="L47" class=""><td class="line-num"><a href="#L47">47</a></td><td class="line-code"><span style="color:#6A737D">uniformity discipline the quantifier order enforces for the parameter of</span></td></tr>
+<tr id="L48" class=""><td class="line-num"><a href="#L48">48</a></td><td class="line-code"><span style="color:#6A737D">a fixed-parameter bound.</span></td></tr>
+<tr id="L49" class=""><td class="line-num"><a href="#L49">49</a></td><td class="line-code"> </td></tr>
+<tr id="L50" class=""><td class="line-num"><a href="#L50">50</a></td><td class="line-code"><span style="color:#6A737D">Word-length hypotheses are written as explicit inequalities against</span></td></tr>
+<tr id="L51" class=""><td class="line-num"><a href="#L51">51</a></td><td class="line-code"><span style="color:#6A737D">`2 ^ w` — `c * (x.length + 1) ≤ 2 ^ w`, or &quot;every entry of `x` is less</span></td></tr>
+<tr id="L52" class=""><td class="line-num"><a href="#L52">52</a></td><td class="line-code"><span style="color:#6A737D">than `2 ^ w`&quot; — never through logarithms. This keeps the no-asymptotics</span></td></tr>
+<tr id="L53" class=""><td class="line-num"><a href="#L53">53</a></td><td class="line-code"><span style="color:#6A737D">style of the surrounding statements and says exactly what a proof needs:</span></td></tr>
+<tr id="L54" class=""><td class="line-num"><a href="#L54">54</a></td><td class="line-code"><span style="color:#6A737D">that the quantities the program manipulates fit into a word. Where</span></td></tr>
+<tr id="L55" class=""><td class="line-num"><a href="#L55">55</a></td><td class="line-code"><span style="color:#6A737D">honesty requires it, the same fitting conditions appear in the</span></td></tr>
+<tr id="L56" class=""><td class="line-num"><a href="#L56">56</a></td><td class="line-code"><span style="color:#6A737D">admissible set `D` itself, alongside the well-formedness conditions of</span></td></tr>
+<tr id="L57" class=""><td class="line-num"><a href="#L57">57</a></td><td class="line-code"><span style="color:#6A737D">the encoding, since the machine reduces oversized input entries modulo</span></td></tr>
+<tr id="L58" class=""><td class="line-num"><a href="#L58">58</a></td><td class="line-code"><span style="color:#6A737D">`2 ^ w` rather than rejecting them.</span></td></tr>
 <tr id="L59" class=""><td class="line-num"><a href="#L59">59</a></td><td class="line-code"> </td></tr>
-<tr id="L60" class=""><td class="line-num"><a href="#L60">60</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-67/Lax67.Ram.html">Lax67.Ram</a></span></td></tr>
-<tr id="L61" class=""><td class="line-num"><a href="#L61">61</a></td><td class="line-code"> </td></tr>
-<tr id="L62" class=""><td class="line-num"><a href="#L62">62</a></td><td class="line-code"><span style="color:#6A737D">/-- At word length `w`, on every admissible input `x`, the program halts</span></td></tr>
-<tr id="L63" class=""><td class="line-num"><a href="#L63">63</a></td><td class="line-code"><span style="color:#6A737D">within `T x` steps with output `f x`. -/</span></td></tr>
-<tr id="L64" class=""><td class="line-num"><a href="#L64">64</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> ComputesInTime</span><span style="color:#24292E"> (w : ℕ) (p : <a class="lean-identifier-link" href="../lax-67/Lax67.Ram.html">Program</a>) (D : Set (List ℕ))</span></td></tr>
-<tr id="L65" class=""><td class="line-num"><a href="#L65">65</a></td><td class="line-code"><span style="color:#24292E">    (f : List ℕ → List ℕ) (T : List ℕ → ℕ) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
-<tr id="L66" class=""><td class="line-num"><a href="#L66">66</a></td><td class="line-code"><span style="color:#24292E">  ∀ x ∈ D, ∃ t ≤ T x, <a class="lean-identifier-link" href="../lax-67/Lax67.Ram.html">RunsTo</a> w p x (f x) t</span></td></tr>
-<tr id="L67" class=""><td class="line-num"><a href="#L67">67</a></td><td class="line-code"> </td></tr>
-<tr id="L68" class=""><td class="line-num"><a href="#L68">68</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-67/Lax67.RamComputes.html">Lax67.RamComputes</a></span></td></tr>
-<tr id="L69" class=""><td class="line-num"><a href="#L69">69</a></td><td class="line-code"> </td></tr>
+<tr id="L60" class=""><td class="line-num"><a href="#L60">60</a></td><td class="line-code"><span style="color:#6A737D">Only the timed notion is defined: every statement built on this machine</span></td></tr>
+<tr id="L61" class=""><td class="line-num"><a href="#L61">61</a></td><td class="line-code"><span style="color:#6A737D">carries a bound, and plain computability is the special case in which</span></td></tr>
+<tr id="L62" class=""><td class="line-num"><a href="#L62">62</a></td><td class="line-code"><span style="color:#6A737D">`T` is unconstrained.</span></td></tr>
+<tr id="L63" class=""><td class="line-num"><a href="#L63">63</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
+<tr id="L64" class=""><td class="line-num"><a href="#L64">64</a></td><td class="line-code"> </td></tr>
+<tr id="L65" class=""><td class="line-num"><a href="#L65">65</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-67/Lax67.RamComputes.html">Lax67.RamComputes</a></span></td></tr>
+<tr id="L66" class=""><td class="line-num"><a href="#L66">66</a></td><td class="line-code"> </td></tr>
+<tr id="L67" class=""><td class="line-num"><a href="#L67">67</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-67/Lax67.Ram.html">Lax67.Ram</a></span></td></tr>
+<tr id="L68" class=""><td class="line-num"><a href="#L68">68</a></td><td class="line-code"> </td></tr>
+<tr id="L69" class=""><td class="line-num"><a href="#L69">69</a></td><td class="line-code"><span style="color:#6A737D">/-- At word length `w`, on every admissible input `x`, the program halts</span></td></tr>
+<tr id="L70" class=""><td class="line-num"><a href="#L70">70</a></td><td class="line-code"><span style="color:#6A737D">within `T x` executed instructions with output `f x`. -/</span></td></tr>
+<tr id="L71" class=""><td class="line-num"><a href="#L71">71</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> ComputesInTime</span><span style="color:#24292E"> (w : ℕ) (p : <a class="lean-identifier-link" href="../lax-67/Lax67.Ram.html">Program</a>) (D : Set (List ℕ))</span></td></tr>
+<tr id="L72" class=""><td class="line-num"><a href="#L72">72</a></td><td class="line-code"><span style="color:#24292E">    (f : List ℕ → List ℕ) (T : List ℕ → ℕ) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr id="L73" class=""><td class="line-num"><a href="#L73">73</a></td><td class="line-code"><span style="color:#24292E">  ∀ x ∈ D, ∃ t ≤ T x, <a class="lean-identifier-link" href="../lax-67/Lax67.Ram.html">RunsTo</a> w p x (f x) t</span></td></tr>
+<tr id="L74" class=""><td class="line-num"><a href="#L74">74</a></td><td class="line-code"> </td></tr>
+<tr id="L75" class=""><td class="line-num"><a href="#L75">75</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-67/Lax67.RamComputes.html">Lax67.RamComputes</a></span></td></tr>
+<tr id="L76" class=""><td class="line-num"><a href="#L76">76</a></td><td class="line-code"> </td></tr>
 </table></div><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
-<div class="block"><h3>Formalization notes</h3><div class="latex-content"><p>The number of steps is the machine's own step count, so a time bound is
+<div class="block"><h3>Formalization notes</h3><div class="latex-content"><p>The count includes explicit <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mi>a</mi><mi>l</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">halt</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6944em;"></span><span class="mord mathnormal">ha</span><span class="mord mathnormal" style="margin-right:0.0197em;">l</span><span class="mord mathnormal">t</span></span></span></span> and exhausted <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mi>e</mi><mi>a</mi><mi>d</mi></mrow><annotation encoding="application/x-tex">read</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">r</span><span class="mord mathnormal">e</span><span class="mord mathnormal">a</span><span class="mord mathnormal">d</span></span></span></span>, but charges
+nothing for an out-of-range program counter. Input is the supplied raw
+list: there is no implicit header or marker. EOF testing and indexed
+read-only input access, with original length metadata, are available
+at unit cost, as specified in <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mi>a</mi><mi>m</mi></mrow><annotation encoding="application/x-tex">Ram</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.0077em;">R</span><span class="mord mathnormal">am</span></span></span></span>. No initial input-loading scan is
+charged. The complete append-only output must equal the function value.</p>
+<p>The number of instructions comes from the machine semantics, so a time bound is
 a statement about the <em>program</em>: nothing is annotated onto the program
 and then trusted. Only inputs in <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>D</mi></mrow><annotation encoding="application/x-tex">D</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">D</span></span></span></span> are constrained; a program is free
 to do anything at all on malformed input, which is what a statement

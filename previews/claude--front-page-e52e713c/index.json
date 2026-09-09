@@ -195,7 +195,7 @@
     },
     {
       "id": "lax-11",
-      "state": "registered",
+      "state": "draft",
       "environment": "v4.30.0",
       "title": "Algorithmic Experiments on a Random Access Machine",
       "concepts": [
@@ -337,7 +337,6 @@
       "state": "registered",
       "environment": "v4.30.0",
       "title": "The Word RAM",
-      "supersededBy": "lax-67",
       "concepts": [
         {
           "id": "Lax13.Ram",
@@ -1270,7 +1269,7 @@
     },
     {
       "id": "lax-67",
-      "state": "registered",
+      "state": "draft",
       "environment": "v4.30.0",
       "title": "The Word RAM",
       "supersedes": "lax-13",
@@ -1388,6 +1387,11 @@
           "id": "Lax68.Planar",
           "title": "Planar graphs",
           "type": "definition"
+        },
+        {
+          "id": "Lax68.PlanarExcludedMinors",
+          "title": "Wagner's theorem",
+          "type": "theorem"
         },
         {
           "id": "Lax68.SeriesParallel",
@@ -1935,6 +1939,33 @@
       "proofs": []
     },
     {
+      "id": "lax-214022",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "Welzl Orders of Cographs",
+      "concepts": [
+        {
+          "id": "Lax214022.Cographs",
+          "title": "Cographs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax214022.CographWelzlLowerBound",
+          "title": "Cographs can require logarithmic Welzl orders",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax214022.CographWelzlUpperBound",
+          "title": "Cographs have logarithmic Welzl orders",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax214022Proofs.CographWelzlLowerBound.exists_cograph_requiring_crossingNumber_at_least",
+        "Lax214022Proofs.CographWelzlUpperBound.exists_welzlOrder_crossingNumber_le_four_clog_add_one"
+      ]
+    },
+    {
       "id": "lax-242665",
       "state": "draft",
       "environment": "v4.30.0",
@@ -2031,6 +2062,106 @@
         "Lax251941Proofs.Results.not_computablePred_hasMatch",
         "Lax251941Proofs.Results.not_computablePred_solvable",
         "Lax251941Proofs.Results.not_turingDecidable_ATM"
+      ]
+    },
+    {
+      "id": "lax-307052",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "Savitch's Theorem",
+      "concepts": [
+        {
+          "id": "Lax307052.Acceptance",
+          "title": "Correctness of the configuration search",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax307052.BoundedConfigurations",
+          "title": "Bounded machine configurations",
+          "type": "definition"
+        },
+        {
+          "id": "Lax307052.ConfigCount",
+          "title": "Number of bounded configurations",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax307052.ConfigurationGraph",
+          "title": "The bounded configuration graph",
+          "type": "definition"
+        },
+        {
+          "id": "Lax307052.FiniteSearch",
+          "title": "Deciding finite reachability",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax307052.PolyBounds",
+          "title": "Constructing polynomial space bounds",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax307052.PolynomialSpace",
+          "title": "PSPACE equals NPSPACE",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax307052.Reachability",
+          "title": "Bounded reachability",
+          "type": "definition"
+        },
+        {
+          "id": "Lax307052.Recursion",
+          "title": "Correctness of recursive reachability",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax307052.Runs",
+          "title": "Runs and configuration reachability",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax307052.Savitch",
+          "title": "Savitch's theorem",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax307052.SearchBounds",
+          "title": "Quadratic space for the recursion stack",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax307052.SearchMachine",
+          "title": "Space bound for the search machine",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax307052.ShortPaths",
+          "title": "Short paths in a finite graph",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax307052.SpaceConstructibility",
+          "title": "Space-constructible bounds",
+          "type": "definition"
+        },
+        {
+          "id": "Lax307052.SplitWalk",
+          "title": "Splitting a bounded walk",
+          "type": "lemma"
+        }
+      ],
+      "proofs": [
+        "Lax307052Proofs.configuration_acceptance",
+        "Lax307052Proofs.configuration_count",
+        "Lax307052Proofs.finite_reachability",
+        "Lax307052Proofs.path_splitting",
+        "Lax307052Proofs.polynomial_space",
+        "Lax307052Proofs.quadratic_stack",
+        "Lax307052Proofs.recursive_reachability",
+        "Lax307052Proofs.savitch",
+        "Lax307052Proofs.search_acceptance",
+        "Lax307052Proofs.short_paths"
       ]
     },
     {
@@ -2196,6 +2327,86 @@
       ]
     },
     {
+      "id": "lax-434930",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "Classical Complexity Classes",
+      "concepts": [
+        {
+          "id": "Lax434930.BasicProperties",
+          "title": "Elementary properties of the complexity classes",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434930.Certificates",
+          "title": "Binary encoding of an input and a certificate",
+          "type": "definition"
+        },
+        {
+          "id": "Lax434930.ComplementClasses",
+          "title": "The complexity classes coNL and coNP",
+          "type": "definition"
+        },
+        {
+          "id": "Lax434930.ExponentialTime",
+          "title": "The complexity class EXPTIME",
+          "type": "definition"
+        },
+        {
+          "id": "Lax434930.LogarithmicSpace",
+          "title": "The complexity class L",
+          "type": "definition"
+        },
+        {
+          "id": "Lax434930.NondeterministicLogarithmicSpace",
+          "title": "The complexity class NL",
+          "type": "definition"
+        },
+        {
+          "id": "Lax434930.NondeterministicPolynomialSpace",
+          "title": "The complexity class NPSPACE",
+          "type": "definition"
+        },
+        {
+          "id": "Lax434930.NondeterministicPolynomialTime",
+          "title": "The complexity class NP",
+          "type": "definition"
+        },
+        {
+          "id": "Lax434930.PolynomialSpace",
+          "title": "The complexity class PSPACE",
+          "type": "definition"
+        },
+        {
+          "id": "Lax434930.PolynomialTime",
+          "title": "The complexity class P",
+          "type": "definition"
+        },
+        {
+          "id": "Lax434930.SpaceBounds",
+          "title": "Deterministic and nondeterministic space bounds",
+          "type": "definition"
+        },
+        {
+          "id": "Lax434930.SpaceMachines",
+          "title": "Finite Turing machines with a read-only input tape",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax434930Proofs.BasicProperties.co_co",
+        "Lax434930Proofs.BasicProperties.L_subset_NL",
+        "Lax434930Proofs.BasicProperties.L_subset_PSPACE",
+        "Lax434930Proofs.BasicProperties.mem_coNP_iff",
+        "Lax434930Proofs.BasicProperties.NL_subset_NPSPACE",
+        "Lax434930Proofs.BasicProperties.P_subset_EXPTIME",
+        "Lax434930Proofs.BasicProperties.PSPACE_subset_NPSPACE",
+        "Lax434930Proofs.Certificates.pair_injective",
+        "Lax434930Proofs.Certificates.pair_length",
+        "Lax434930Proofs.Certificates.unpair_pair"
+      ]
+    },
+    {
       "id": "lax-554803",
       "state": "draft",
       "environment": "v4.30.0",
@@ -2237,6 +2448,40 @@
         "Lax554803Proofs.ModelEquivalence.finiteStackP_eq_P",
         "Lax554803Proofs.ModelEquivalence.singleTape_closed_under_complement",
         "Lax554803Proofs.ModelEquivalence.singleTapeP_eq_P"
+      ]
+    },
+    {
+      "id": "lax-678846",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "Fagin’s theorem",
+      "concepts": [
+        {
+          "id": "Lax678846.ExistentialSecondOrder",
+          "title": "Existential second-order logic",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax678846.Fagin",
+          "title": "Fagin’s theorem",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax678846.FiniteStructures",
+          "title": "Finite relational structures and their properties",
+          "type": "definition"
+        },
+        {
+          "id": "Lax678846.NondeterministicPolynomialTime",
+          "title": "NP through polynomially bounded certificates",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax678846Proofs.Fagin.capturesNP",
+        "Lax678846Proofs.Fagin.definableInNP",
+        "Lax678846Proofs.Fagin.npDefinable",
+        "Lax678846Proofs.Isomorphism.satisfiesInvariant"
       ]
     },
     {

@@ -53,13 +53,16 @@
 
   const CARD_GAP = 8;
 
-  function setupPaperExcerpt() {
-    const excerpt = document.querySelector('[data-paper-excerpt]');
-    if (!excerpt) return;
-    const grid = excerpt.querySelector('.landing-paper-grid');
-    const doc = excerpt.querySelector('.landing-paper-doc');
-    const rail = excerpt.querySelector('.landing-paper-rail');
-    const links = excerpt.querySelector('.landing-paper-links');
+  // A box of cards: the paper excerpt (passages in a text column, their
+  // cards in a rail beside it, bands between them) or the inference (cards
+  // alone). Hover opens a card, a click pins it; a card that opened with
+  // the page stays open only until the reader's first hover anywhere in
+  // the box, then every card follows the usual rule.
+  function setupCardBox(box) {
+    const grid = box.querySelector('.landing-paper-grid');
+    const doc = box.querySelector('.landing-paper-doc');
+    const rail = box.querySelector('.landing-paper-rail');
+    const links = box.querySelector('.landing-paper-links');
     const canHover = window.matchMedia('(hover: hover)');
     const narrow = window.matchMedia('(max-width: 640px)');
     const pairs = [];
@@ -68,21 +71,35 @@
     // the card above; in one column the cards stay in flow under the text.
     function placeCards() {
       if (!doc || !rail) return;
+      const placed = pairs.filter((pair) => pair.passage);
       if (narrow.matches) {
         rail.classList.remove('landing-paper-rail-live');
-        for (const { card } of pairs) card.style.top = '';
+        for (const { card } of placed) card.style.top = '';
         rail.style.minHeight = '';
         return;
       }
       rail.classList.add('landing-paper-rail-live');
       const docTop = doc.getBoundingClientRect().top;
+      // The rail is as tall as the cards would be closed: an open card
+      // hangs out over the box's edge rather than stretching the box.
       let bottom = 0;
-      for (const { passage, card } of pairs) {
-        const y = Math.max(passage.getBoundingClientRect().top - docTop, bottom);
+      let closedBottom = 0;
+      for (const { passage, card } of placed) {
+        const wanted = passage.getBoundingClientRect().top - docTop;
+        const y = Math.max(wanted, bottom);
         card.style.top = `${y}px`;
         bottom = y + card.offsetHeight + CARD_GAP;
+        const yClosed = Math.max(wanted, closedBottom);
+        closedBottom = yClosed + closedHeight(card) + CARD_GAP;
       }
-      rail.style.minHeight = `${Math.max(0, bottom - CARD_GAP)}px`;
+      rail.style.minHeight = `${Math.max(0, closedBottom - CARD_GAP)}px`;
+    }
+
+    // A card's height with its body closed.
+    function closedHeight(card) {
+      const body = card.querySelector('.manuscript-card-body');
+      if (!body || body.hidden) return card.offsetHeight;
+      return card.offsetHeight - body.offsetHeight - parseFloat(getComputedStyle(body).marginTop || '0');
     }
 
     // The band from a passage to its card, the paper page's split-diff
@@ -98,6 +115,7 @@
       links.setAttribute('viewBox', `0 0 ${grid.clientWidth} ${grid.clientHeight}`);
       links.classList.add('manuscript-links-live');
       for (const pair of pairs) {
+        if (!pair.passage) continue;
         const p = pair.passage.getBoundingClientRect();
         const c = pair.card.getBoundingClientRect();
         const xl = p.right - box.left - 1;
@@ -109,7 +127,7 @@
         const cb = c.bottom - box.top;
         if (!pair.link) {
           pair.link = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-          pair.link.setAttribute('class', 'manuscript-link kind-concept');
+          pair.link.setAttribute('class', `manuscript-link kind-${pair.passage.dataset.kind || 'concept'}`);
           links.append(pair.link);
         }
         pair.link.setAttribute('d', `M${xl.toFixed(1)},${top.toFixed(1)} C${xm.toFixed(1)},${top.toFixed(1)} ${xm.toFixed(1)},${ct.toFixed(1)} ${xr.toFixed(1)},${ct.toFixed(1)} L${xr.toFixed(1)},${cb.toFixed(1)} C${xm.toFixed(1)},${cb.toFixed(1)} ${xm.toFixed(1)},${bottom.toFixed(1)} ${xl.toFixed(1)},${bottom.toFixed(1)} Z`);
@@ -121,48 +139,63 @@
       drawLinks();
     }
 
-    for (const passage of excerpt.querySelectorAll('[data-excerpt-card]')) {
-      const card = document.getElementById(passage.dataset.excerptCard);
-      if (!card) continue;
-      const pair = { passage, card, link: null };
+    function clearOpening(except) {
+      for (const other of pairs) {
+        if (other === except || !other.opening) continue;
+        other.opening = false;
+        other.close();
+      }
+    }
+
+    for (const card of box.querySelectorAll('.manuscript-card')) {
+      const passage = card.id ? box.querySelector(`[data-excerpt-card="${CSS.escape(card.id)}"]`) : null;
+      const pair = { passage, card, link: null, opening: card.classList.contains('manuscript-card-expanded'), close: () => undefined };
       pairs.push(pair);
       const body = card.querySelector('.manuscript-card-body');
       const toggle = card.querySelector('.manuscript-card-toggle');
-      let pinned = card.classList.contains('manuscript-card-pinned');
+      let pinned = false;
+      pair.close = () => { if (!pinned) setExpanded(false); };
 
       function setExpanded(expanded) {
         card.classList.toggle('manuscript-card-expanded', expanded);
         if (body) body.hidden = !expanded;
         if (toggle) toggle.setAttribute('aria-expanded', String(expanded));
-        passage.classList.toggle('manuscript-hl-active', expanded);
+        if (passage) passage.classList.toggle('manuscript-hl-active', expanded);
         if (pair.link) pair.link.classList.toggle('manuscript-link-active', expanded);
         layout();
       }
 
       function setHover(hovering) {
-        passage.classList.toggle('manuscript-hl-hover', hovering);
+        if (hovering) clearOpening(pair);
+        else pair.opening = false;
+        if (passage) passage.classList.toggle('manuscript-hl-hover', hovering);
         card.classList.toggle('manuscript-card-hover', hovering);
         if (pair.link) pair.link.classList.toggle('manuscript-link-hover', hovering);
         if (!pinned) setExpanded(hovering);
       }
 
       function setPinned(next) {
+        pair.opening = false;
+        clearOpening(pair);
         pinned = next;
         card.classList.toggle('manuscript-card-pinned', pinned);
-        passage.setAttribute('aria-pressed', String(pinned));
+        if (passage) passage.setAttribute('aria-pressed', String(pinned));
         setExpanded(pinned);
       }
 
       for (const el of [passage, card]) {
+        if (!el) continue;
         el.addEventListener('mouseenter', () => { if (canHover.matches) setHover(true); });
         el.addEventListener('mouseleave', () => { if (canHover.matches) setHover(false); });
       }
-      passage.addEventListener('click', () => setPinned(!pinned));
-      passage.addEventListener('keydown', (event) => {
-        if (event.key !== 'Enter' && event.key !== ' ') return;
-        event.preventDefault();
-        setPinned(!pinned);
-      });
+      if (passage) {
+        passage.addEventListener('click', () => setPinned(!pinned));
+        passage.addEventListener('keydown', (event) => {
+          if (event.key !== 'Enter' && event.key !== ' ') return;
+          event.preventDefault();
+          setPinned(!pinned);
+        });
+      }
       card.addEventListener('click', (event) => {
         // Links in the card lead away; the body is for reading and selecting.
         if (event.target.closest('a') || (body && body.contains(event.target))) return;
@@ -182,9 +215,13 @@
     layout();
   }
 
+  function setupCardBoxes() {
+    for (const box of document.querySelectorAll('[data-card-box]')) setupCardBox(box);
+  }
+
   function setupLanding() {
     setupLandingActions();
-    setupPaperExcerpt();
+    setupCardBoxes();
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', setupLanding);
