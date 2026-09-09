@@ -1294,6 +1294,11 @@
       "title": "Planar Graph Classes",
       "concepts": [
         {
+          "id": "Lax68.ExcludedMinorsKuratowskiFree",
+          "title": "Excluding the two minors excludes their subdivisions",
+          "type": "theorem"
+        },
+        {
           "id": "Lax68.GraphMinors",
           "title": "Graph minors",
           "type": "definition"
@@ -1321,6 +1326,21 @@
         {
           "id": "Lax68.HalinPlanar",
           "title": "Halin graphs are planar",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax68.K33MinorTopologicalObstruction",
+          "title": "A K₃,₃ minor yields a K₃,₃ subdivision",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax68.K5MinorTopologicalObstruction",
+          "title": "A K₅ minor yields a Kuratowski subdivision",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax68.KuratowskiFreeExcludedMinors",
+          "title": "The two minor obstructions yield a Kuratowski subdivision",
           "type": "theorem"
         },
         {
@@ -1444,6 +1464,11 @@
           "type": "definition"
         },
         {
+          "id": "Lax68.TopologicalMinorIsMinor",
+          "title": "Every topological minor is a minor",
+          "type": "theorem"
+        },
+        {
           "id": "Lax68.TreeOuterplanar",
           "title": "Trees are outerplanar",
           "type": "theorem"
@@ -1515,7 +1540,10 @@
         }
       ],
       "proofs": [
+        "Lax68Proofs.excludedMinors_kuratowskiFree",
         "Lax68Proofs.halin_planar",
+        "Lax68Proofs.kuratowskiFree_excludedMinors",
+        "Lax68Proofs.kuratowskiFree_iff_excludedMinors",
         "Lax68Proofs.ladder_grid",
         "Lax68Proofs.ladder_planar",
         "Lax68Proofs.maximalOuterplanar_outerplanar",
@@ -1526,6 +1554,7 @@
         "Lax68Proofs.planar_iff_excludedMinors",
         "Lax68Proofs.star_outerplanar",
         "Lax68Proofs.star_planar",
+        "Lax68Proofs.TopologicalMinorToMinor.isMinor_of_isTopologicalMinor",
         "Lax68Proofs.tree_planar",
         "Lax68Proofs.triangle_outerplanar",
         "Lax68Proofs.triangle_planar",
