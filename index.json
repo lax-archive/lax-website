@@ -1935,6 +1935,33 @@
       "proofs": []
     },
     {
+      "id": "lax-214022",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "Welzl Orders of Cographs",
+      "concepts": [
+        {
+          "id": "Lax214022.Cographs",
+          "title": "Cographs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax214022.CographWelzlLowerBound",
+          "title": "Cographs can require logarithmic Welzl orders",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax214022.CographWelzlUpperBound",
+          "title": "Cographs have logarithmic Welzl orders",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax214022Proofs.CographWelzlLowerBound.exists_cograph_requiring_crossingNumber_at_least",
+        "Lax214022Proofs.CographWelzlUpperBound.exists_welzlOrder_crossingNumber_le_four_clog_add_one"
+      ]
+    },
+    {
       "id": "lax-242665",
       "state": "draft",
       "environment": "v4.30.0",
