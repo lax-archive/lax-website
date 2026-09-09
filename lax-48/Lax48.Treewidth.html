@@ -7,7 +7,7 @@
 <title>Treewidth — Lax48.Treewidth</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=b78d6b17a06b">
+<link rel="stylesheet" href="../assets/style.css?v=293d33df3472">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -139,7 +139,7 @@ decomposition with every bag of size at most <em>w</em> + 1.</p>
 <tr id="L23" class=""><td class="line-num"><a href="#L23">23</a></td><td class="line-code"><span style="color:#6A737D">signature shared by all graph parameters in this archive.</span></td></tr>
 <tr id="L24" class=""><td class="line-num"><a href="#L24">24</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
 <tr id="L25" class=""><td class="line-num"><a href="#L25">25</a></td><td class="line-code"> </td></tr>
-<tr id="L26" class=""><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-48/Lax48.Treewidth.html">Lax48.Treewidth</a></span></td></tr>
+<tr id="L26" class=""><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax48.Treewidth</span></td></tr>
 <tr id="L27" class=""><td class="line-num"><a href="#L27">27</a></td><td class="line-code"> </td></tr>
 <tr id="L28" class=""><td class="line-num"><a href="#L28">28</a></td><td class="line-code"><span style="color:#6A737D">/-- A tree decomposition of a simple graph: a finite tree of nodes with a bag</span></td></tr>
 <tr id="L29" class=""><td class="line-num"><a href="#L29">29</a></td><td class="line-code"><span style="color:#6A737D">of graph vertices at each node, such that the bags cover every vertex and</span></td></tr>
@@ -168,15 +168,15 @@ decomposition with every bag of size at most <em>w</em> + 1.</p>
 <tr id="L52" class=""><td class="line-num"><a href="#L52">52</a></td><td class="line-code"><span style="color:#6A737D">/-- `G` has a tree decomposition all of whose bags have at most `w + 1`</span></td></tr>
 <tr id="L53" class=""><td class="line-num"><a href="#L53">53</a></td><td class="line-code"><span style="color:#6A737D">vertices. -/</span></td></tr>
 <tr id="L54" class=""><td class="line-num"><a href="#L54">54</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> HasTreewidthAtMost</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">} (G : SimpleGraph V) (w : ℕ) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
-<tr id="L55" class=""><td class="line-num"><a href="#L55">55</a></td><td class="line-code"><span style="color:#24292E">  ∃ D : TreeDecomposition G, ∀ i, (D.bag i).card ≤ w + </span><span style="color:#005CC5">1</span></td></tr>
+<tr id="L55" class=""><td class="line-num"><a href="#L55">55</a></td><td class="line-code"><span style="color:#24292E">  ∃ D : </span><a class="lean-identifier-link" href="../lax-48/Lax48.Treewidth.html#L28"><span style="color:#24292E">TreeDecomposition</span></a><span style="color:#24292E"> G, ∀ i, (D.</span><a class="lean-identifier-link" href="../lax-48/Lax48.Treewidth.html#L41"><span style="color:#24292E">bag</span></a><span style="color:#24292E"> i).card ≤ w + </span><span style="color:#005CC5">1</span></td></tr>
 <tr id="L56" class=""><td class="line-num"><a href="#L56">56</a></td><td class="line-code"> </td></tr>
 <tr id="L57" class=""><td class="line-num"><a href="#L57">57</a></td><td class="line-code"><span style="color:#6A737D">/-- The treewidth of a finite simple graph: the least `w` such that the</span></td></tr>
 <tr id="L58" class=""><td class="line-num"><a href="#L58">58</a></td><td class="line-code"><span style="color:#6A737D">graph has a tree decomposition with bags of at most `w + 1` vertices. -/</span></td></tr>
 <tr id="L59" class=""><td class="line-num"><a href="#L59">59</a></td><td class="line-code"><span style="color:#D73A49">noncomputable</span><span style="color:#D73A49"> def</span><span style="color:#6F42C1"> treewidth</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">} [Fintype V] [DecidableEq V]</span></td></tr>
 <tr id="L60" class=""><td class="line-num"><a href="#L60">60</a></td><td class="line-code"><span style="color:#24292E">    (G : SimpleGraph V) : ℕ :=</span></td></tr>
-<tr id="L61" class=""><td class="line-num"><a href="#L61">61</a></td><td class="line-code"><span style="color:#24292E">  sInf {w | HasTreewidthAtMost G w}</span></td></tr>
+<tr id="L61" class=""><td class="line-num"><a href="#L61">61</a></td><td class="line-code"><span style="color:#24292E">  sInf {w | </span><a class="lean-identifier-link" href="../lax-48/Lax48.Treewidth.html#L52"><span style="color:#24292E">HasTreewidthAtMost</span></a><span style="color:#24292E"> G w}</span></td></tr>
 <tr id="L62" class=""><td class="line-num"><a href="#L62">62</a></td><td class="line-code"> </td></tr>
-<tr id="L63" class=""><td class="line-num"><a href="#L63">63</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-48/Lax48.Treewidth.html">Lax48.Treewidth</a></span></td></tr>
+<tr id="L63" class=""><td class="line-num"><a href="#L63">63</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax48.Treewidth</span></td></tr>
 <tr id="L64" class=""><td class="line-num"><a href="#L64">64</a></td><td class="line-code"> </td></tr>
 </table></div><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
 <div class="block"><h3>Formalization notes</h3><div class="latex-content"><p>A tree decomposition always exists (a single node whose bag is all of the

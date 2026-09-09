@@ -7,7 +7,7 @@
 <title>Finite graph vertex partitions — Lax18.FiniteGraphPartitions</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=b78d6b17a06b">
+<link rel="stylesheet" href="../assets/style.css?v=293d33df3472">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -138,7 +138,7 @@ leftover class.</p>
 <tr id="L16" class=""><td class="line-num"><a href="#L16">16</a></td><td class="line-code"><span style="color:#6A737D">leftover class.</span></td></tr>
 <tr id="L17" class=""><td class="line-num"><a href="#L17">17</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
 <tr id="L18" class=""><td class="line-num"><a href="#L18">18</a></td><td class="line-code"> </td></tr>
-<tr id="L19" class=""><td class="line-num"><a href="#L19">19</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-18/Lax18.FiniteGraphPartitions.html">Lax18.FiniteGraphPartitions</a></span></td></tr>
+<tr id="L19" class=""><td class="line-num"><a href="#L19">19</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax18.FiniteGraphPartitions</span></td></tr>
 <tr id="L20" class=""><td class="line-num"><a href="#L20">20</a></td><td class="line-code"> </td></tr>
 <tr id="L21" class=""><td class="line-num"><a href="#L21">21</a></td><td class="line-code"><span style="color:#D73A49">universe</span><span style="color:#24292E"> u</span></td></tr>
 <tr id="L22" class=""><td class="line-num"><a href="#L22">22</a></td><td class="line-code"> </td></tr>
@@ -161,22 +161,22 @@ leftover class.</p>
 <tr id="L39" class=""><td class="line-num"><a href="#L39">39</a></td><td class="line-code"><span style="color:#D73A49">variable</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E"> u} [Fintype V] [DecidableEq V]</span></td></tr>
 <tr id="L40" class=""><td class="line-num"><a href="#L40">40</a></td><td class="line-code"> </td></tr>
 <tr id="L41" class=""><td class="line-num"><a href="#L41">41</a></td><td class="line-code"><span style="color:#6A737D">/-- The size of a part of a vertex partition. -/</span></td></tr>
-<tr id="L42" class=""><td class="line-num"><a href="#L42">42</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> partSize</span><span style="color:#24292E"> (P : VertexPartition V) (i : Fin P.partCount) : ℕ :=</span></td></tr>
-<tr id="L43" class=""><td class="line-num"><a href="#L43">43</a></td><td class="line-code"><span style="color:#24292E">  (P.part i).card</span></td></tr>
+<tr id="L42" class=""><td class="line-num"><a href="#L42">42</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> partSize</span><span style="color:#24292E"> (P : </span><a class="lean-identifier-link" href="../lax-18/Lax18.FiniteGraphPartitions.html#L23"><span style="color:#24292E">VertexPartition</span></a><span style="color:#24292E"> V) (i : Fin P.</span><a class="lean-identifier-link" href="../lax-18/Lax18.FiniteGraphPartitions.html#L25"><span style="color:#24292E">partCount</span></a><span style="color:#24292E">) : ℕ :=</span></td></tr>
+<tr id="L43" class=""><td class="line-num"><a href="#L43">43</a></td><td class="line-code"><span style="color:#24292E">  (P.</span><a class="lean-identifier-link" href="../lax-18/Lax18.FiniteGraphPartitions.html#L27"><span style="color:#24292E">part</span></a><span style="color:#24292E"> i).card</span></td></tr>
 <tr id="L44" class=""><td class="line-num"><a href="#L44">44</a></td><td class="line-code"> </td></tr>
 <tr id="L45" class=""><td class="line-num"><a href="#L45">45</a></td><td class="line-code"><span style="color:#6A737D">/-- A partition is equitable if any two part sizes differ by at most one. -/</span></td></tr>
-<tr id="L46" class=""><td class="line-num"><a href="#L46">46</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> Equitable</span><span style="color:#24292E"> (P : VertexPartition V) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
-<tr id="L47" class=""><td class="line-num"><a href="#L47">47</a></td><td class="line-code"><span style="color:#24292E">  ∀ i j : Fin P.partCount,</span></td></tr>
-<tr id="L48" class=""><td class="line-num"><a href="#L48">48</a></td><td class="line-code"><span style="color:#24292E">    P.partSize i ≤ P.partSize j + </span><span style="color:#005CC5">1</span><span style="color:#24292E"> ∧</span></td></tr>
-<tr id="L49" class=""><td class="line-num"><a href="#L49">49</a></td><td class="line-code"><span style="color:#24292E">      P.partSize j ≤ P.partSize i + </span><span style="color:#005CC5">1</span></td></tr>
+<tr id="L46" class=""><td class="line-num"><a href="#L46">46</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> Equitable</span><span style="color:#24292E"> (P : </span><a class="lean-identifier-link" href="../lax-18/Lax18.FiniteGraphPartitions.html#L23"><span style="color:#24292E">VertexPartition</span></a><span style="color:#24292E"> V) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr id="L47" class=""><td class="line-num"><a href="#L47">47</a></td><td class="line-code"><span style="color:#24292E">  ∀ i j : Fin P.</span><a class="lean-identifier-link" href="../lax-18/Lax18.FiniteGraphPartitions.html#L25"><span style="color:#24292E">partCount</span></a><span style="color:#24292E">,</span></td></tr>
+<tr id="L48" class=""><td class="line-num"><a href="#L48">48</a></td><td class="line-code"><span style="color:#24292E">    P.</span><a class="lean-identifier-link" href="../lax-18/Lax18.FiniteGraphPartitions.html#L41"><span style="color:#24292E">partSize</span></a><span style="color:#24292E"> i ≤ P.</span><a class="lean-identifier-link" href="../lax-18/Lax18.FiniteGraphPartitions.html#L41"><span style="color:#24292E">partSize</span></a><span style="color:#24292E"> j + </span><span style="color:#005CC5">1</span><span style="color:#24292E"> ∧</span></td></tr>
+<tr id="L49" class=""><td class="line-num"><a href="#L49">49</a></td><td class="line-code"><span style="color:#24292E">      P.</span><a class="lean-identifier-link" href="../lax-18/Lax18.FiniteGraphPartitions.html#L41"><span style="color:#24292E">partSize</span></a><span style="color:#24292E"> j ≤ P.</span><a class="lean-identifier-link" href="../lax-18/Lax18.FiniteGraphPartitions.html#L41"><span style="color:#24292E">partSize</span></a><span style="color:#24292E"> i + </span><span style="color:#005CC5">1</span></td></tr>
 <tr id="L50" class=""><td class="line-num"><a href="#L50">50</a></td><td class="line-code"> </td></tr>
 <tr id="L51" class=""><td class="line-num"><a href="#L51">51</a></td><td class="line-code"><span style="color:#6A737D">/-- A partition has exactly `k` parts. -/</span></td></tr>
-<tr id="L52" class=""><td class="line-num"><a href="#L52">52</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> HasPartCount</span><span style="color:#24292E"> (P : VertexPartition V) (k : ℕ) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
-<tr id="L53" class=""><td class="line-num"><a href="#L53">53</a></td><td class="line-code"><span style="color:#24292E">  P.partCount = k</span></td></tr>
+<tr id="L52" class=""><td class="line-num"><a href="#L52">52</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> HasPartCount</span><span style="color:#24292E"> (P : </span><a class="lean-identifier-link" href="../lax-18/Lax18.FiniteGraphPartitions.html#L23"><span style="color:#24292E">VertexPartition</span></a><span style="color:#24292E"> V) (k : ℕ) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr id="L53" class=""><td class="line-num"><a href="#L53">53</a></td><td class="line-code"><span style="color:#24292E">  P.</span><a class="lean-identifier-link" href="../lax-18/Lax18.FiniteGraphPartitions.html#L25"><span style="color:#24292E">partCount</span></a><span style="color:#24292E"> = k</span></td></tr>
 <tr id="L54" class=""><td class="line-num"><a href="#L54">54</a></td><td class="line-code"> </td></tr>
 <tr id="L55" class=""><td class="line-num"><a href="#L55">55</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> VertexPartition</span></td></tr>
 <tr id="L56" class=""><td class="line-num"><a href="#L56">56</a></td><td class="line-code"> </td></tr>
-<tr id="L57" class=""><td class="line-num"><a href="#L57">57</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-18/Lax18.FiniteGraphPartitions.html">Lax18.FiniteGraphPartitions</a></span></td></tr>
+<tr id="L57" class=""><td class="line-num"><a href="#L57">57</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax18.FiniteGraphPartitions</span></td></tr>
 <tr id="L58" class=""><td class="line-num"><a href="#L58">58</a></td><td class="line-code"> </td></tr>
 </table></div><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
 

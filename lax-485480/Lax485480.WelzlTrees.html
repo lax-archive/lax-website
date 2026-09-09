@@ -7,7 +7,7 @@
 <title>Welzl trees — Lax485480.WelzlTrees</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=b78d6b17a06b">
+<link rel="stylesheet" href="../assets/style.css?v=293d33df3472">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -110,7 +110,7 @@ most <em>k</em> is a spanning tree whose crossing number is at most <em>k</em>.<
 </div></div>
 <div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/144563d5a10a9ae014978a6c8e55bdf6d06b3ebd/cograph-welzl-trees/concepts/Lax485480/WelzlTrees.lean">view on GitHub</a></h3>
 <div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
-<tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-195003/Lax195003.WelzlOrders.html">Lax195003.WelzlOrders</a></span></td></tr>
+<tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-195003/Lax195003.WelzlOrders.html"><span style="color:#24292E">Lax195003.WelzlOrders</span></a></td></tr>
 <tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Combinatorics.SimpleGraph.Acyclic</span></td></tr>
 <tr id="L3" class=""><td class="line-num"><a href="#L3">3</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Data.Nat.Lattice</span></td></tr>
 <tr id="L4" class=""><td class="line-num"><a href="#L4">4</a></td><td class="line-code"> </td></tr>
@@ -141,9 +141,9 @@ most <em>k</em> is a spanning tree whose crossing number is at most <em>k</em>.<
 <tr id="L29" class=""><td class="line-num"><a href="#L29">29</a></td><td class="line-code"><span style="color:#6A737D">structure carrying data already determined by the tree and set system.</span></td></tr>
 <tr id="L30" class=""><td class="line-num"><a href="#L30">30</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
 <tr id="L31" class=""><td class="line-num"><a href="#L31">31</a></td><td class="line-code"> </td></tr>
-<tr id="L32" class=""><td class="line-num"><a href="#L32">32</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-485480/Lax485480.WelzlTrees.html">Lax485480.WelzlTrees</a></span></td></tr>
+<tr id="L32" class=""><td class="line-num"><a href="#L32">32</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax485480.WelzlTrees</span></td></tr>
 <tr id="L33" class=""><td class="line-num"><a href="#L33">33</a></td><td class="line-code"> </td></tr>
-<tr id="L34" class=""><td class="line-num"><a href="#L34">34</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-195003/Lax195003.WelzlOrders.html">Lax195003.WelzlOrders</a></span></td></tr>
+<tr id="L34" class=""><td class="line-num"><a href="#L34">34</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-195003/Lax195003.WelzlOrders.html"><span style="color:#24292E">Lax195003.WelzlOrders</span></a></td></tr>
 <tr id="L35" class=""><td class="line-num"><a href="#L35">35</a></td><td class="line-code"> </td></tr>
 <tr id="L36" class=""><td class="line-num"><a href="#L36">36</a></td><td class="line-code"><span style="color:#6A737D">/-- The symmetric cut relation determined by `X`: its two arguments lie on</span></td></tr>
 <tr id="L37" class=""><td class="line-num"><a href="#L37">37</a></td><td class="line-code"><span style="color:#6A737D">opposite sides of `X`. -/</span></td></tr>
@@ -152,27 +152,27 @@ most <em>k</em> is a spanning tree whose crossing number is at most <em>k</em>.<
 <tr id="L40" class=""><td class="line-num"><a href="#L40">40</a></td><td class="line-code"> </td></tr>
 <tr id="L41" class=""><td class="line-num"><a href="#L41">41</a></td><td class="line-code"><span style="color:#6A737D">/-- The unordered pairs whose endpoints lie on opposite sides of `X`. -/</span></td></tr>
 <tr id="L42" class=""><td class="line-num"><a href="#L42">42</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> cutEdges</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">*} (X : Set V) : Set (Sym2 V) :=</span></td></tr>
-<tr id="L43" class=""><td class="line-num"><a href="#L43">43</a></td><td class="line-code"><span style="color:#24292E">  Sym2.fromRel (r := SeparatedBy X) (</span><span style="color:#D73A49">by</span></td></tr>
+<tr id="L43" class=""><td class="line-num"><a href="#L43">43</a></td><td class="line-code"><span style="color:#24292E">  Sym2.fromRel (r := </span><a class="lean-identifier-link" href="../lax-485480/Lax485480.WelzlTrees.html#L36"><span style="color:#24292E">SeparatedBy</span></a><span style="color:#24292E"> X) (</span><span style="color:#D73A49">by</span></td></tr>
 <tr id="L44" class=""><td class="line-num"><a href="#L44">44</a></td><td class="line-code"><span style="color:#24292E">    intro u v</span></td></tr>
-<tr id="L45" class=""><td class="line-num"><a href="#L45">45</a></td><td class="line-code"><span style="color:#24292E">    simp only [SeparatedBy]</span></td></tr>
+<tr id="L45" class=""><td class="line-num"><a href="#L45">45</a></td><td class="line-code"><span style="color:#24292E">    simp only [</span><a class="lean-identifier-link" href="../lax-485480/Lax485480.WelzlTrees.html#L36"><span style="color:#24292E">SeparatedBy</span></a><span style="color:#24292E">]</span></td></tr>
 <tr id="L46" class=""><td class="line-num"><a href="#L46">46</a></td><td class="line-code"><span style="color:#24292E">    tauto)</span></td></tr>
 <tr id="L47" class=""><td class="line-num"><a href="#L47">47</a></td><td class="line-code"> </td></tr>
 <tr id="L48" class=""><td class="line-num"><a href="#L48">48</a></td><td class="line-code"><span style="color:#6A737D">/-- The number of edges of `T` crossed by `X`. -/</span></td></tr>
 <tr id="L49" class=""><td class="line-num"><a href="#L49">49</a></td><td class="line-code"><span style="color:#D73A49">noncomputable</span><span style="color:#D73A49"> def</span><span style="color:#6F42C1"> treeCrossingCount</span><span style="color:#24292E"> {n : ℕ} (T : SimpleGraph (Fin n))</span></td></tr>
 <tr id="L50" class=""><td class="line-num"><a href="#L50">50</a></td><td class="line-code"><span style="color:#24292E">    (X : Set (Fin n)) : ℕ :=</span></td></tr>
-<tr id="L51" class=""><td class="line-num"><a href="#L51">51</a></td><td class="line-code"><span style="color:#24292E">  (T.edgeSet ∩ cutEdges X).ncard</span></td></tr>
+<tr id="L51" class=""><td class="line-num"><a href="#L51">51</a></td><td class="line-code"><span style="color:#24292E">  (T.edgeSet ∩ </span><a class="lean-identifier-link" href="../lax-485480/Lax485480.WelzlTrees.html#L41"><span style="color:#24292E">cutEdges</span></a><span style="color:#24292E"> X).ncard</span></td></tr>
 <tr id="L52" class=""><td class="line-num"><a href="#L52">52</a></td><td class="line-code"> </td></tr>
 <tr id="L53" class=""><td class="line-num"><a href="#L53">53</a></td><td class="line-code"><span style="color:#6A737D">/-- The largest tree crossing count of a member of `𝒜`. -/</span></td></tr>
-<tr id="L54" class=""><td class="line-num"><a href="#L54">54</a></td><td class="line-code"><span style="color:#D73A49">noncomputable</span><span style="color:#D73A49"> def</span><span style="color:#6F42C1"> treeCrossingNumber</span><span style="color:#24292E"> {n : ℕ} (𝓕 : <a class="lean-identifier-link" href="../lax-195003/Lax195003.WelzlOrders.html">SetSystem</a> (Fin n))</span></td></tr>
+<tr id="L54" class=""><td class="line-num"><a href="#L54">54</a></td><td class="line-code"><span style="color:#D73A49">noncomputable</span><span style="color:#D73A49"> def</span><span style="color:#6F42C1"> treeCrossingNumber</span><span style="color:#24292E"> {n : ℕ} (𝓕 : </span><a class="lean-identifier-link" href="../lax-195003/Lax195003.WelzlOrders.html#L36"><span style="color:#24292E">SetSystem</span></a><span style="color:#24292E"> (Fin n))</span></td></tr>
 <tr id="L55" class=""><td class="line-num"><a href="#L55">55</a></td><td class="line-code"><span style="color:#24292E">    (T : SimpleGraph (Fin n)) : ℕ :=</span></td></tr>
-<tr id="L56" class=""><td class="line-num"><a href="#L56">56</a></td><td class="line-code"><span style="color:#24292E">  sSup {k : ℕ | ∃ X ∈ 𝓕, k = treeCrossingCount T X}</span></td></tr>
+<tr id="L56" class=""><td class="line-num"><a href="#L56">56</a></td><td class="line-code"><span style="color:#24292E">  sSup {k : ℕ | ∃ X ∈ 𝓕, k = </span><a class="lean-identifier-link" href="../lax-485480/Lax485480.WelzlTrees.html#L48"><span style="color:#24292E">treeCrossingCount</span></a><span style="color:#24292E"> T X}</span></td></tr>
 <tr id="L57" class=""><td class="line-num"><a href="#L57">57</a></td><td class="line-code"> </td></tr>
 <tr id="L58" class=""><td class="line-num"><a href="#L58">58</a></td><td class="line-code"><span style="color:#6A737D">/-- `T` is a spanning Welzl tree of crossing number at most `k` for `𝒜`. -/</span></td></tr>
-<tr id="L59" class=""><td class="line-num"><a href="#L59">59</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> IsWelzlTree</span><span style="color:#24292E"> {n : ℕ} (𝓕 : <a class="lean-identifier-link" href="../lax-195003/Lax195003.WelzlOrders.html">SetSystem</a> (Fin n))</span></td></tr>
+<tr id="L59" class=""><td class="line-num"><a href="#L59">59</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> IsWelzlTree</span><span style="color:#24292E"> {n : ℕ} (𝓕 : </span><a class="lean-identifier-link" href="../lax-195003/Lax195003.WelzlOrders.html#L36"><span style="color:#24292E">SetSystem</span></a><span style="color:#24292E"> (Fin n))</span></td></tr>
 <tr id="L60" class=""><td class="line-num"><a href="#L60">60</a></td><td class="line-code"><span style="color:#24292E">    (T : SimpleGraph (Fin n)) (k : ℕ) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
-<tr id="L61" class=""><td class="line-num"><a href="#L61">61</a></td><td class="line-code"><span style="color:#24292E">  T.IsTree ∧ treeCrossingNumber 𝓕 T ≤ k</span></td></tr>
+<tr id="L61" class=""><td class="line-num"><a href="#L61">61</a></td><td class="line-code"><span style="color:#24292E">  T.IsTree ∧ </span><a class="lean-identifier-link" href="../lax-485480/Lax485480.WelzlTrees.html#L53"><span style="color:#24292E">treeCrossingNumber</span></a><span style="color:#24292E"> 𝓕 T ≤ k</span></td></tr>
 <tr id="L62" class=""><td class="line-num"><a href="#L62">62</a></td><td class="line-code"> </td></tr>
-<tr id="L63" class=""><td class="line-num"><a href="#L63">63</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-485480/Lax485480.WelzlTrees.html">Lax485480.WelzlTrees</a></span></td></tr>
+<tr id="L63" class=""><td class="line-num"><a href="#L63">63</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax485480.WelzlTrees</span></td></tr>
 <tr id="L64" class=""><td class="line-num"><a href="#L64">64</a></td><td class="line-code"> </td></tr>
 </table></div><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
 <div class="block"><h3>Formalization notes</h3><div class="latex-content"><p>An edge is represented by its unordered pair of endpoints.  The cut of <em>X</em>

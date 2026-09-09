@@ -7,7 +7,7 @@
 <title>Welzl orders in graphs — Lax195003.WelzlOrdersInGraphs</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=b78d6b17a06b">
+<link rel="stylesheet" href="../assets/style.css?v=293d33df3472">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -105,7 +105,7 @@ therefore crossed at most <em>ℓ</em> times by every open <em>k</em>-neighborho
 </div></div>
 <div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/d684a8ff47b66a64608ba165c63a505a83a55ceb/welzl-orders/concepts/Lax195003/WelzlOrdersInGraphs.lean">view on GitHub</a></h3>
 <div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
-<tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-195003/Lax195003.WelzlOrdersNeighborhoodSetSystem.html">Lax195003.WelzlOrdersNeighborhoodSetSystem</a></span></td></tr>
+<tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-195003/Lax195003.WelzlOrdersNeighborhoodSetSystem.html"><span style="color:#24292E">Lax195003.WelzlOrdersNeighborhoodSetSystem</span></a></td></tr>
 <tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"> </td></tr>
 <tr id="L3" class=""><td class="line-num"><a href="#L3">3</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
 <tr id="L4" class=""><td class="line-num"><a href="#L4">4</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
@@ -130,10 +130,10 @@ therefore crossed at most <em>ℓ</em> times by every open <em>k</em>-neighborho
 <tr id="L23" class=""><td class="line-num"><a href="#L23">23</a></td><td class="line-code"><span style="color:#6A737D">which of the potentially many good orders an algorithm must choose.</span></td></tr>
 <tr id="L24" class=""><td class="line-num"><a href="#L24">24</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
 <tr id="L25" class=""><td class="line-num"><a href="#L25">25</a></td><td class="line-code"> </td></tr>
-<tr id="L26" class=""><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-195003/Lax195003.WelzlOrdersInGraphs.html">Lax195003.WelzlOrdersInGraphs</a></span></td></tr>
+<tr id="L26" class=""><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax195003.WelzlOrdersInGraphs</span></td></tr>
 <tr id="L27" class=""><td class="line-num"><a href="#L27">27</a></td><td class="line-code"> </td></tr>
-<tr id="L28" class=""><td class="line-num"><a href="#L28">28</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-195003/Lax195003.WelzlOrders.html">Lax195003.WelzlOrders</a></span></td></tr>
-<tr id="L29" class=""><td class="line-num"><a href="#L29">29</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-195003/Lax195003.WelzlOrdersNeighborhoodSetSystem.html">Lax195003.WelzlOrdersNeighborhoodSetSystem</a></span></td></tr>
+<tr id="L28" class=""><td class="line-num"><a href="#L28">28</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-195003/Lax195003.WelzlOrders.html"><span style="color:#24292E">Lax195003.WelzlOrders</span></a></td></tr>
+<tr id="L29" class=""><td class="line-num"><a href="#L29">29</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-195003/Lax195003.WelzlOrdersNeighborhoodSetSystem.html"><span style="color:#24292E">Lax195003.WelzlOrdersNeighborhoodSetSystem</span></a></td></tr>
 <tr id="L30" class=""><td class="line-num"><a href="#L30">30</a></td><td class="line-code"> </td></tr>
 <tr id="L31" class=""><td class="line-num"><a href="#L31">31</a></td><td class="line-code"><span style="color:#6A737D">/-- The word `y` encodes a Welzl order of crossing number at most</span></td></tr>
 <tr id="L32" class=""><td class="line-num"><a href="#L32">32</a></td><td class="line-code"><span style="color:#6A737D">`crossingBound` for the `radius`-neighborhood set system of `G`. -/</span></td></tr>
@@ -141,9 +141,9 @@ therefore crossed at most <em>ℓ</em> times by every open <em>k</em>-neighborho
 <tr id="L34" class=""><td class="line-num"><a href="#L34">34</a></td><td class="line-code"><span style="color:#24292E">    (radius crossingBound : ℕ) (y : List ℕ) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
 <tr id="L35" class=""><td class="line-num"><a href="#L35">35</a></td><td class="line-code"><span style="color:#24292E">  ∃ π : Equiv.Perm (Fin n),</span></td></tr>
 <tr id="L36" class=""><td class="line-num"><a href="#L36">36</a></td><td class="line-code"><span style="color:#24292E">    y = List.ofFn (</span><span style="color:#D73A49">fun</span><span style="color:#24292E"> i : Fin n =&gt; (π.symm i).val) ∧</span></td></tr>
-<tr id="L37" class=""><td class="line-num"><a href="#L37">37</a></td><td class="line-code"><span style="color:#24292E">      <a class="lean-identifier-link" href="../lax-195003/Lax195003.WelzlOrders.html">IsWelzlOrder</a> (<a class="lean-identifier-link" href="../lax-195003/Lax195003.WelzlOrdersNeighborhoodSetSystem.html">neighborhoodSetSystem</a> G radius) π crossingBound</span></td></tr>
+<tr id="L37" class=""><td class="line-num"><a href="#L37">37</a></td><td class="line-code"><span style="color:#24292E">      </span><a class="lean-identifier-link" href="../lax-195003/Lax195003.WelzlOrders.html#L52"><span style="color:#24292E">IsWelzlOrder</span></a><span style="color:#24292E"> (</span><a class="lean-identifier-link" href="../lax-195003/Lax195003.WelzlOrdersNeighborhoodSetSystem.html#L24"><span style="color:#24292E">neighborhoodSetSystem</span></a><span style="color:#24292E"> G radius) π crossingBound</span></td></tr>
 <tr id="L38" class=""><td class="line-num"><a href="#L38">38</a></td><td class="line-code"> </td></tr>
-<tr id="L39" class=""><td class="line-num"><a href="#L39">39</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-195003/Lax195003.WelzlOrdersInGraphs.html">Lax195003.WelzlOrdersInGraphs</a></span></td></tr>
+<tr id="L39" class=""><td class="line-num"><a href="#L39">39</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax195003.WelzlOrdersInGraphs</span></td></tr>
 <tr id="L40" class=""><td class="line-num"><a href="#L40">40</a></td><td class="line-code"> </td></tr>
 </table></div><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
 <div class="block"><h3>Formalization notes</h3><div class="latex-content"><p>The neighborhood set system and its bounded-walk definition are provided by

@@ -7,7 +7,7 @@
 <title>Regular functions are MSO transductions — Lax314295.MSOTransductionOfRegular</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=b78d6b17a06b">
+<link rel="stylesheet" href="../assets/style.css?v=293d33df3472">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -160,7 +160,7 @@
 </div>
 <div class="block block-paper"><h3>In the paper</h3>
 <ul class="in-paper-list">
-<li><a href="../lax-157538/paper.html#m143">page 127</a> of the paper of <span class="submission-meta-id">lax-157538</span>, Transducers</li>
+<li><a href="../lax-157538/paper.html#m143">page 127</a> of the paper of <a class="submission-meta-id" href="../lax-157538/index.html">lax-157538</a>, Transducers</li>
 </ul>
 </div>
 <div class="block block-statement"><h3>Theorem</h3><div class="latex-content"><p>Every regular function is defined by a string-to-string mso transduction
@@ -174,8 +174,8 @@ marked positions, hence mso-definable by Büchi's theorem.</p>
 </div></div>
 <div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/bojanczyk/transducer-book/blob/8b8f8c62ecc4868f7004615a209bae7d46d78d3d/lax/mso-transductions/concepts/Lax314295/MSOTransductionOfRegular.lean">view on GitHub</a></h3>
 <div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
-<tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-916827/Lax916827.RegularFunctions.html">Lax916827.RegularFunctions</a></span></td></tr>
-<tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-314295/Lax314295.MSOTransductions.html">Lax314295.MSOTransductions</a></span></td></tr>
+<tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-916827/Lax916827.RegularFunctions.html"><span style="color:#24292E">Lax916827.RegularFunctions</span></a></td></tr>
+<tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-314295/Lax314295.MSOTransductions.html"><span style="color:#24292E">Lax314295.MSOTransductions</span></a></td></tr>
 <tr id="L3" class=""><td class="line-num"><a href="#L3">3</a></td><td class="line-code"> </td></tr>
 <tr id="L4" class=""><td class="line-num"><a href="#L4">4</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
 <tr id="L5" class=""><td class="line-num"><a href="#L5">5</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
@@ -196,15 +196,15 @@ marked positions, hence mso-definable by Büchi's theorem.</p>
 <tr id="L20" class=""><td class="line-num"><a href="#L20">20</a></td><td class="line-code"><span style="color:#6A737D">Both alphabets are assumed finite, as in the book.</span></td></tr>
 <tr id="L21" class=""><td class="line-num"><a href="#L21">21</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
 <tr id="L22" class=""><td class="line-num"><a href="#L22">22</a></td><td class="line-code"> </td></tr>
-<tr id="L23" class=""><td class="line-num"><a href="#L23">23</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-314295/Lax314295.MSOTransductionOfRegular.html">Lax314295.MSOTransductionOfRegular</a></span></td></tr>
+<tr id="L23" class=""><td class="line-num"><a href="#L23">23</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax314295.MSOTransductionOfRegular</span></td></tr>
 <tr id="L24" class=""><td class="line-num"><a href="#L24">24</a></td><td class="line-code"> </td></tr>
-<tr id="L25" class=""><td class="line-num"><a href="#L25">25</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-916827/Lax916827.RegularFunctions.html">Lax916827.RegularFunctions</a> <a class="lean-identifier-link" href="../lax-314295/Lax314295.MSOTransductions.html">Lax314295.MSOTransductions</a></span></td></tr>
+<tr id="L25" class=""><td class="line-num"><a href="#L25">25</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-916827/Lax916827.RegularFunctions.html"><span style="color:#24292E">Lax916827.RegularFunctions</span></a><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-314295/Lax314295.MSOTransductions.html"><span style="color:#24292E">Lax314295.MSOTransductions</span></a></td></tr>
 <tr id="L26" class=""><td class="line-num"><a href="#L26">26</a></td><td class="line-code"> </td></tr>
 <tr id="L27" class="statement-line line-proven"><td class="line-num"><a href="#L27">27</a></td><td class="line-code"><span class="statement-anchor" id="s-Lax314295.MSOTransductionOfRegular.isMSOTransduction_of_isRegularFun"></span><span style="color:#6A737D">/-- A regular function is defined by an mso transduction. -/</span></td></tr>
-<tr id="L28" class="statement-line line-proven"><td class="line-num"><a href="#L28">28</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> <a class="lean-identifier-link" href="../lax-314295/Lax314295.MSOTransductionOfRegular.html#s-Lax314295.MSOTransductionOfRegular.isMSOTransduction_of_isRegularFun">isMSOTransduction_of_isRegularFun</a></span><span style="color:#24292E"> {A B : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">} [Finite A] [Finite B]</span></td></tr>
-<tr id="L29" class="statement-line line-proven"><td class="line-num"><a href="#L29">29</a></td><td class="line-code"><span style="color:#24292E">    {f : List A → List B} (hf : <a class="lean-identifier-link" href="../lax-916827/Lax916827.RegularFunctions.html">IsRegularFun</a> f) : <a class="lean-identifier-link" href="../lax-314295/Lax314295.MSOTransductions.html">IsMSOTransduction</a> f</span></td></tr>
+<tr id="L28" class="statement-line line-proven"><td class="line-num"><a href="#L28">28</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> isMSOTransduction_of_isRegularFun</span><span style="color:#24292E"> {A B : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">} [Finite A] [Finite B]</span></td></tr>
+<tr id="L29" class="statement-line line-proven"><td class="line-num"><a href="#L29">29</a></td><td class="line-code"><span style="color:#24292E">    {f : List A → List B} (hf : </span><a class="lean-identifier-link" href="../lax-916827/Lax916827.RegularFunctions.html#L51"><span style="color:#24292E">IsRegularFun</span></a><span style="color:#24292E"> f) : </span><a class="lean-identifier-link" href="../lax-314295/Lax314295.MSOTransductions.html#L129"><span style="color:#24292E">IsMSOTransduction</span></a><span style="color:#24292E"> f</span></td></tr>
 <tr id="L30" class=""><td class="line-num"><a href="#L30">30</a></td><td class="line-code"> </td></tr>
-<tr id="L31" class=""><td class="line-num"><a href="#L31">31</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-314295/Lax314295.MSOTransductionOfRegular.html">Lax314295.MSOTransductionOfRegular</a></span></td></tr>
+<tr id="L31" class=""><td class="line-num"><a href="#L31">31</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax314295.MSOTransductionOfRegular</span></td></tr>
 <tr id="L32" class=""><td class="line-num"><a href="#L32">32</a></td><td class="line-code"> </td></tr>
 </table></div><span class="source-proof-rail" data-source-line="L28" aria-label="Proof links"><a class="statement-proof-button" href="https://github.com/bojanczyk/transducer-book/blob/8b8f8c62ecc4868f7004615a209bae7d46d78d3d/lax/mso-transductions/proofs/Lax314295Proofs/Results.lean" aria-label="View proof Lax314295Proofs.Results.isMSOTransduction_of_isRegularFun on GitHub" title="Lax314295Proofs.Results.isMSOTransduction_of_isRegularFun"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">Show Proof</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a></span><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
 <div class="block"><h3>Formalization notes</h3><div class="latex-content"><p>Both alphabets are assumed finite, as in the book.</p>

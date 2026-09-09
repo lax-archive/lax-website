@@ -7,7 +7,7 @@
 <title>Wheels — Lax68.Wheels</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=b78d6b17a06b">
+<link rel="stylesheet" href="../assets/style.css?v=293d33df3472">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -174,7 +174,7 @@ with one hub adjacent to every rim vertex, and has no other edges.</p>
 <tr id="L11" class=""><td class="line-num"><a href="#L11">11</a></td><td class="line-code"> </td></tr>
 <tr id="L12" class=""><td class="line-num"><a href="#L12">12</a></td><td class="line-code"><span style="color:#D73A49">set_option</span><span style="color:#24292E"> autoImplicit </span><span style="color:#005CC5">false</span></td></tr>
 <tr id="L13" class=""><td class="line-num"><a href="#L13">13</a></td><td class="line-code"> </td></tr>
-<tr id="L14" class=""><td class="line-num"><a href="#L14">14</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-68/Lax68.Wheels.html">Lax68.Wheels</a></span></td></tr>
+<tr id="L14" class=""><td class="line-num"><a href="#L14">14</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax68.Wheels</span></td></tr>
 <tr id="L15" class=""><td class="line-num"><a href="#L15">15</a></td><td class="line-code"> </td></tr>
 <tr id="L16" class=""><td class="line-num"><a href="#L16">16</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> CycleAdjacent</span><span style="color:#24292E"> {n : ℕ} (i j : Fin n) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
 <tr id="L17" class=""><td class="line-num"><a href="#L17">17</a></td><td class="line-code"><span style="color:#24292E">  i.val + </span><span style="color:#005CC5">1</span><span style="color:#24292E"> = j.val ∨</span></td></tr>
@@ -189,22 +189,22 @@ with one hub adjacent to every rim vertex, and has no other edges.</p>
 <tr id="L26" class=""><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span style="color:#005CC5">      3</span><span style="color:#24292E"> ≤ n ∧</span></td></tr>
 <tr id="L27" class=""><td class="line-num"><a href="#L27">27</a></td><td class="line-code"><span style="color:#24292E">      ∃ e : Fin n ≃ {v : V // v ∈ S},</span></td></tr>
 <tr id="L28" class=""><td class="line-num"><a href="#L28">28</a></td><td class="line-code"><span style="color:#24292E">        ∀ i j,</span></td></tr>
-<tr id="L29" class=""><td class="line-num"><a href="#L29">29</a></td><td class="line-code"><span style="color:#24292E">          R.Adj (e i).</span><span style="color:#005CC5">1</span><span style="color:#24292E"> (e j).</span><span style="color:#005CC5">1</span><span style="color:#24292E"> ↔ CycleAdjacent i j</span></td></tr>
+<tr id="L29" class=""><td class="line-num"><a href="#L29">29</a></td><td class="line-code"><span style="color:#24292E">          R.Adj (e i).</span><span style="color:#005CC5">1</span><span style="color:#24292E"> (e j).</span><span style="color:#005CC5">1</span><span style="color:#24292E"> ↔ </span><a class="lean-identifier-link" href="../lax-68/Lax68.Wheels.html#L16"><span style="color:#24292E">CycleAdjacent</span></a><span style="color:#24292E"> i j</span></td></tr>
 <tr id="L30" class=""><td class="line-num"><a href="#L30">30</a></td><td class="line-code"> </td></tr>
 <tr id="L31" class=""><td class="line-num"><a href="#L31">31</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> HasWheelShape</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">*} (G : SimpleGraph V) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
 <tr id="L32" class=""><td class="line-num"><a href="#L32">32</a></td><td class="line-code"><span style="color:#24292E">  ∃ hub : V,</span></td></tr>
 <tr id="L33" class=""><td class="line-num"><a href="#L33">33</a></td><td class="line-code"><span style="color:#24292E">    hub ∈ G.universalVerts ∧</span></td></tr>
 <tr id="L34" class=""><td class="line-num"><a href="#L34">34</a></td><td class="line-code"><span style="color:#24292E">    ∃ rim : SimpleGraph V,</span></td></tr>
-<tr id="L35" class=""><td class="line-num"><a href="#L35">35</a></td><td class="line-code"><span style="color:#24292E">      IsCycleOn rim {v | v ≠ hub} ∧</span></td></tr>
+<tr id="L35" class=""><td class="line-num"><a href="#L35">35</a></td><td class="line-code"><span style="color:#24292E">      </span><a class="lean-identifier-link" href="../lax-68/Lax68.Wheels.html#L22"><span style="color:#24292E">IsCycleOn</span></a><span style="color:#24292E"> rim {v | v ≠ hub} ∧</span></td></tr>
 <tr id="L36" class=""><td class="line-num"><a href="#L36">36</a></td><td class="line-code"><span style="color:#24292E">      ∀ ⦃u v⦄,</span></td></tr>
 <tr id="L37" class=""><td class="line-num"><a href="#L37">37</a></td><td class="line-code"><span style="color:#24292E">        u ≠ hub →</span></td></tr>
 <tr id="L38" class=""><td class="line-num"><a href="#L38">38</a></td><td class="line-code"><span style="color:#24292E">        v ≠ hub →</span></td></tr>
 <tr id="L39" class=""><td class="line-num"><a href="#L39">39</a></td><td class="line-code"><span style="color:#24292E">        (G.Adj u v ↔ rim.Adj u v)</span></td></tr>
 <tr id="L40" class=""><td class="line-num"><a href="#L40">40</a></td><td class="line-code"> </td></tr>
 <tr id="L41" class=""><td class="line-num"><a href="#L41">41</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> IsWheel</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">*} (G : SimpleGraph V) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
-<tr id="L42" class=""><td class="line-num"><a href="#L42">42</a></td><td class="line-code"><span style="color:#24292E">  HasWheelShape G</span></td></tr>
+<tr id="L42" class=""><td class="line-num"><a href="#L42">42</a></td><td class="line-code"><span style="color:#24292E">  </span><a class="lean-identifier-link" href="../lax-68/Lax68.Wheels.html#L31"><span style="color:#24292E">HasWheelShape</span></a><span style="color:#24292E"> G</span></td></tr>
 <tr id="L43" class=""><td class="line-num"><a href="#L43">43</a></td><td class="line-code"> </td></tr>
-<tr id="L44" class=""><td class="line-num"><a href="#L44">44</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-68/Lax68.Wheels.html">Lax68.Wheels</a></span></td></tr>
+<tr id="L44" class=""><td class="line-num"><a href="#L44">44</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax68.Wheels</span></td></tr>
 <tr id="L45" class=""><td class="line-num"><a href="#L45">45</a></td><td class="line-code"> </td></tr>
 </table></div><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
 

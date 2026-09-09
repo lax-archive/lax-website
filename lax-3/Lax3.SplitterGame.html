@@ -7,7 +7,7 @@
 <title>The isolation splitter game — Lax3.SplitterGame</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=b78d6b17a06b">
+<link rel="stylesheet" href="../assets/style.css?v=293d33df3472">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -134,8 +134,8 @@ on whether a variable lands on the batch.</p>
 </div></div>
 <div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/3dc030d77f97405fec41e13b2f3fc7bd179dba70/nowhere-dense-model-checking/concepts/Lax3/SplitterGame.lean">view on GitHub</a></h3>
 <div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
-<tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-3/Lax3.ColoredGraphs.html">Lax3.ColoredGraphs</a></span></td></tr>
-<tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-12/Lax12.UniformQuasiWideness.html">Lax12.UniformQuasiWideness</a></span></td></tr>
+<tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-3/Lax3.ColoredGraphs.html"><span style="color:#24292E">Lax3.ColoredGraphs</span></a></td></tr>
+<tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-12/Lax12.UniformQuasiWideness.html"><span style="color:#24292E">Lax12.UniformQuasiWideness</span></a></td></tr>
 <tr id="L3" class=""><td class="line-num"><a href="#L3">3</a></td><td class="line-code"> </td></tr>
 <tr id="L4" class=""><td class="line-num"><a href="#L4">4</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
 <tr id="L5" class=""><td class="line-num"><a href="#L5">5</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
@@ -194,10 +194,10 @@ on whether a variable lands on the batch.</p>
 <tr id="L58" class=""><td class="line-num"><a href="#L58">58</a></td><td class="line-code"><span style="color:#6A737D">mathlib's empty graph.</span></td></tr>
 <tr id="L59" class=""><td class="line-num"><a href="#L59">59</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
 <tr id="L60" class=""><td class="line-num"><a href="#L60">60</a></td><td class="line-code"> </td></tr>
-<tr id="L61" class=""><td class="line-num"><a href="#L61">61</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-3/Lax3.SplitterGame.html">Lax3.SplitterGame</a></span></td></tr>
+<tr id="L61" class=""><td class="line-num"><a href="#L61">61</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax3.SplitterGame</span></td></tr>
 <tr id="L62" class=""><td class="line-num"><a href="#L62">62</a></td><td class="line-code"> </td></tr>
-<tr id="L63" class=""><td class="line-num"><a href="#L63">63</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-3/Lax3.ColoredGraphs.html">Lax3.ColoredGraphs</a></span></td></tr>
-<tr id="L64" class=""><td class="line-num"><a href="#L64">64</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-12/Lax12.UniformQuasiWideness.html">Lax12.UniformQuasiWideness</a></span></td></tr>
+<tr id="L63" class=""><td class="line-num"><a href="#L63">63</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-3/Lax3.ColoredGraphs.html"><span style="color:#24292E">Lax3.ColoredGraphs</span></a></td></tr>
+<tr id="L64" class=""><td class="line-num"><a href="#L64">64</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-12/Lax12.UniformQuasiWideness.html"><span style="color:#24292E">Lax12.UniformQuasiWideness</span></a></td></tr>
 <tr id="L65" class=""><td class="line-num"><a href="#L65">65</a></td><td class="line-code"> </td></tr>
 <tr id="L66" class=""><td class="line-num"><a href="#L66">66</a></td><td class="line-code"><span style="color:#6A737D">/-- Winning positions of Splitter in the (`ℓ`, `m`, `r`)-isolation</span></td></tr>
 <tr id="L67" class=""><td class="line-num"><a href="#L67">67</a></td><td class="line-code"><span style="color:#6A737D">splitter game, by recursion on the remaining budget `ℓ`: the arena `G`</span></td></tr>
@@ -208,10 +208,10 @@ on whether a variable lands on the batch.</p>
 <tr id="L72" class=""><td class="line-num"><a href="#L72">72</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> SplitterWins</span><span style="color:#24292E"> {n : ℕ} (m r : ℕ) : ℕ → SimpleGraph (Fin n) → </span><span style="color:#D73A49">Prop</span></td></tr>
 <tr id="L73" class=""><td class="line-num"><a href="#L73">73</a></td><td class="line-code"><span style="color:#24292E">  | </span><span style="color:#005CC5">0</span><span style="color:#24292E">, G =&gt; G = ⊥</span></td></tr>
 <tr id="L74" class=""><td class="line-num"><a href="#L74">74</a></td><td class="line-code"><span style="color:#24292E">  | ℓ + </span><span style="color:#005CC5">1</span><span style="color:#24292E">, G =&gt; G = ⊥ ∨</span></td></tr>
-<tr id="L75" class=""><td class="line-num"><a href="#L75">75</a></td><td class="line-code"><span style="color:#24292E">      ∀ v : Fin n, ∃ W : Set (Fin n), W ⊆ <a class="lean-identifier-link" href="../lax-3/Lax3.ColoredGraphs.html">ball</a> G r v ∧ W.ncard ≤ m ∧</span></td></tr>
-<tr id="L76" class=""><td class="line-num"><a href="#L76">76</a></td><td class="line-code"><span style="color:#24292E">        SplitterWins m r ℓ (<a class="lean-identifier-link" href="../lax-12/Lax12.UniformQuasiWideness.html">deleteVerts</a> (<a class="lean-identifier-link" href="../lax-12/Lax12.UniformQuasiWideness.html">deleteVerts</a> G (<a class="lean-identifier-link" href="../lax-3/Lax3.ColoredGraphs.html">ball</a> G r v)ᶜ) W)</span></td></tr>
+<tr id="L75" class=""><td class="line-num"><a href="#L75">75</a></td><td class="line-code"><span style="color:#24292E">      ∀ v : Fin n, ∃ W : Set (Fin n), W ⊆ </span><a class="lean-identifier-link" href="../lax-3/Lax3.ColoredGraphs.html#L89"><span style="color:#24292E">ball</span></a><span style="color:#24292E"> G r v ∧ W.ncard ≤ m ∧</span></td></tr>
+<tr id="L76" class=""><td class="line-num"><a href="#L76">76</a></td><td class="line-code"><span style="color:#24292E">        </span><a class="lean-identifier-link" href="../lax-3/Lax3.SplitterGame.html#L66"><span style="color:#24292E">SplitterWins</span></a><span style="color:#24292E"> m r ℓ (</span><a class="lean-identifier-link" href="../lax-12/Lax12.UniformQuasiWideness.html#L52"><span style="color:#24292E">deleteVerts</span></a><span style="color:#24292E"> (</span><a class="lean-identifier-link" href="../lax-12/Lax12.UniformQuasiWideness.html#L52"><span style="color:#24292E">deleteVerts</span></a><span style="color:#24292E"> G (</span><a class="lean-identifier-link" href="../lax-3/Lax3.ColoredGraphs.html#L89"><span style="color:#24292E">ball</span></a><span style="color:#24292E"> G r v)ᶜ) W)</span></td></tr>
 <tr id="L77" class=""><td class="line-num"><a href="#L77">77</a></td><td class="line-code"> </td></tr>
-<tr id="L78" class=""><td class="line-num"><a href="#L78">78</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-3/Lax3.SplitterGame.html">Lax3.SplitterGame</a></span></td></tr>
+<tr id="L78" class=""><td class="line-num"><a href="#L78">78</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax3.SplitterGame</span></td></tr>
 <tr id="L79" class=""><td class="line-num"><a href="#L79">79</a></td><td class="line-code"> </td></tr>
 </table></div><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
 <div class="block"><h3>Formalization notes</h3><div class="latex-content"><p>Both moves of a round are the same operation: restricting to the ball

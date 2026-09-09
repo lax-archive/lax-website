@@ -7,7 +7,7 @@
 <title>Equivalence of Turing machines and word RAMs — Lax51.TuringRamEquivalence</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=b78d6b17a06b">
+<link rel="stylesheet" href="../assets/style.css?v=293d33df3472">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -144,7 +144,7 @@ overhead.</p>
 </div></div>
 <div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/szymtor/RAM-TM/blob/6fe5a3d94f6c2da46cc2c5ab98cd36997b130737/concepts/Lax51/TuringRamEquivalence.lean">view on GitHub</a></h3>
 <div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
-<tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-13/Lax13.Ram.html">Lax13.Ram</a></span></td></tr>
+<tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-13/Lax13.Ram.html"><span style="color:#24292E">Lax13.Ram</span></a></td></tr>
 <tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Computability.TuringMachine.ToPartrec</span></td></tr>
 <tr id="L3" class=""><td class="line-num"><a href="#L3">3</a></td><td class="line-code"> </td></tr>
 <tr id="L4" class=""><td class="line-num"><a href="#L4">4</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
@@ -176,26 +176,26 @@ overhead.</p>
 <tr id="L30" class=""><td class="line-num"><a href="#L30">30</a></td><td class="line-code"><span style="color:#6A737D">overhead.</span></td></tr>
 <tr id="L31" class=""><td class="line-num"><a href="#L31">31</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
 <tr id="L32" class=""><td class="line-num"><a href="#L32">32</a></td><td class="line-code"> </td></tr>
-<tr id="L33" class=""><td class="line-num"><a href="#L33">33</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-51/Lax51.TuringRamEquivalence.html">Lax51.TuringRamEquivalence</a></span></td></tr>
+<tr id="L33" class=""><td class="line-num"><a href="#L33">33</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax51.TuringRamEquivalence</span></td></tr>
 <tr id="L34" class=""><td class="line-num"><a href="#L34">34</a></td><td class="line-code"> </td></tr>
-<tr id="L35" class=""><td class="line-num"><a href="#L35">35</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-13/Lax13.Ram.html">Lax13.Ram</a></span></td></tr>
+<tr id="L35" class=""><td class="line-num"><a href="#L35">35</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-13/Lax13.Ram.html"><span style="color:#24292E">Lax13.Ram</span></a></td></tr>
 <tr id="L36" class=""><td class="line-num"><a href="#L36">36</a></td><td class="line-code"> </td></tr>
 <tr id="L37" class=""><td class="line-num"><a href="#L37">37</a></td><td class="line-code"><span style="color:#6A737D">/-- A total function on finite words is computable by a word RAM if one</span></td></tr>
 <tr id="L38" class=""><td class="line-num"><a href="#L38">38</a></td><td class="line-code"><span style="color:#6A737D">uniform program computes it from the length-prefixed physical input</span></td></tr>
 <tr id="L39" class=""><td class="line-num"><a href="#L39">39</a></td><td class="line-code"><span style="color:#6A737D">`x.length :: x` at every effectively sufficient word length. -/</span></td></tr>
 <tr id="L40" class=""><td class="line-num"><a href="#L40">40</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> RamComputable</span><span style="color:#24292E"> (f : List ℕ → List ℕ) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
-<tr id="L41" class=""><td class="line-num"><a href="#L41">41</a></td><td class="line-code"><span style="color:#24292E">  ∃ (p : <a class="lean-identifier-link" href="../lax-13/Lax13.Ram.html">Program</a>) (threshold : List ℕ → ℕ),</span></td></tr>
+<tr id="L41" class=""><td class="line-num"><a href="#L41">41</a></td><td class="line-code"><span style="color:#24292E">  ∃ (p : </span><a class="lean-identifier-link" href="../lax-13/Lax13.Ram.html#L181"><span style="color:#24292E">Program</span></a><span style="color:#24292E">) (threshold : List ℕ → ℕ),</span></td></tr>
 <tr id="L42" class=""><td class="line-num"><a href="#L42">42</a></td><td class="line-code"><span style="color:#24292E">    Computable threshold ∧</span></td></tr>
 <tr id="L43" class=""><td class="line-num"><a href="#L43">43</a></td><td class="line-code"><span style="color:#24292E">      ∀ (x : List ℕ) (w : ℕ), threshold x ≤ w →</span></td></tr>
-<tr id="L44" class=""><td class="line-num"><a href="#L44">44</a></td><td class="line-code"><span style="color:#24292E">        ∃ t : ℕ, <a class="lean-identifier-link" href="../lax-13/Lax13.Ram.html">RunsTo</a> w p (x.length :: x) (f x) t</span></td></tr>
+<tr id="L44" class=""><td class="line-num"><a href="#L44">44</a></td><td class="line-code"><span style="color:#24292E">        ∃ t : ℕ, </span><a class="lean-identifier-link" href="../lax-13/Lax13.Ram.html#L284"><span style="color:#24292E">RunsTo</span></a><span style="color:#24292E"> w p (x.length :: x) (f x) t</span></td></tr>
 <tr id="L45" class=""><td class="line-num"><a href="#L45">45</a></td><td class="line-code"> </td></tr>
 <tr id="L46" class="statement-line line-proven"><td class="line-num"><a href="#L46">46</a></td><td class="line-code"><span class="statement-anchor" id="s-Lax51.TuringRamEquivalence.ramComputable_iff_computable"></span><span style="color:#6A737D">/-- **Equivalence of Turing machines and word RAMs.** A total function on</span></td></tr>
 <tr id="L47" class="statement-line line-proven"><td class="line-num"><a href="#L47">47</a></td><td class="line-code"><span style="color:#6A737D">finite words is computable by the archive's word RAM model exactly when it</span></td></tr>
 <tr id="L48" class="statement-line line-proven"><td class="line-num"><a href="#L48">48</a></td><td class="line-code"><span style="color:#6A737D">is Turing-computable. -/</span></td></tr>
-<tr id="L49" class="statement-line line-proven"><td class="line-num"><a href="#L49">49</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> <a class="lean-identifier-link" href="../lax-51/Lax51.TuringRamEquivalence.html#s-Lax51.TuringRamEquivalence.ramComputable_iff_computable">ramComputable_iff_computable</a></span><span style="color:#24292E"> (f : List ℕ → List ℕ) :</span></td></tr>
-<tr id="L50" class="statement-line line-proven"><td class="line-num"><a href="#L50">50</a></td><td class="line-code"><span style="color:#24292E">  RamComputable f ↔ Computable f</span></td></tr>
+<tr id="L49" class="statement-line line-proven"><td class="line-num"><a href="#L49">49</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> ramComputable_iff_computable</span><span style="color:#24292E"> (f : List ℕ → List ℕ) :</span></td></tr>
+<tr id="L50" class="statement-line line-proven"><td class="line-num"><a href="#L50">50</a></td><td class="line-code"><span style="color:#24292E">  </span><a class="lean-identifier-link" href="../lax-51/Lax51.TuringRamEquivalence.html#L37"><span style="color:#24292E">RamComputable</span></a><span style="color:#24292E"> f ↔ Computable f</span></td></tr>
 <tr id="L51" class=""><td class="line-num"><a href="#L51">51</a></td><td class="line-code"> </td></tr>
-<tr id="L52" class=""><td class="line-num"><a href="#L52">52</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-51/Lax51.TuringRamEquivalence.html">Lax51.TuringRamEquivalence</a></span></td></tr>
+<tr id="L52" class=""><td class="line-num"><a href="#L52">52</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax51.TuringRamEquivalence</span></td></tr>
 <tr id="L53" class=""><td class="line-num"><a href="#L53">53</a></td><td class="line-code"> </td></tr>
 </table></div><span class="source-proof-rail" data-source-line="L49" aria-label="Proof links"><a class="statement-proof-button" href="https://github.com/szymtor/RAM-TM/blob/6fe5a3d94f6c2da46cc2c5ab98cd36997b130737/proofs/Lax51Proofs/TuringRamEquivalence.lean" aria-label="View proof Lax51Proofs.TuringRamEquivalence.ramComputable_iff_computable on GitHub" title="Lax51Proofs.TuringRamEquivalence.ramComputable_iff_computable"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">Show Proof</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a></span><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
 
