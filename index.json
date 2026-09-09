@@ -2066,17 +2066,17 @@
       "title": "Savitch's Theorem",
       "concepts": [
         {
+          "id": "Lax307052.Acceptance",
+          "title": "Correctness of the configuration search",
+          "type": "lemma"
+        },
+        {
           "id": "Lax307052.BoundedConfigurations",
           "title": "Bounded machine configurations",
           "type": "definition"
         },
         {
-          "id": "Lax307052.ConfigurationCorrespondence",
-          "title": "Runs and configuration reachability",
-          "type": "lemma"
-        },
-        {
-          "id": "Lax307052.ConfigurationCount",
+          "id": "Lax307052.ConfigCount",
           "title": "Number of bounded configurations",
           "type": "lemma"
         },
@@ -2086,17 +2086,12 @@
           "type": "definition"
         },
         {
-          "id": "Lax307052.FiniteReachability",
+          "id": "Lax307052.FiniteSearch",
           "title": "Deciding finite reachability",
           "type": "lemma"
         },
         {
-          "id": "Lax307052.PathSplitting",
-          "title": "Splitting a bounded walk",
-          "type": "lemma"
-        },
-        {
-          "id": "Lax307052.PolynomialBounds",
+          "id": "Lax307052.PolyBounds",
           "title": "Constructing polynomial space bounds",
           "type": "lemma"
         },
@@ -2111,8 +2106,13 @@
           "type": "definition"
         },
         {
-          "id": "Lax307052.RecursiveReachability",
+          "id": "Lax307052.Recursion",
           "title": "Correctness of recursive reachability",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax307052.Runs",
+          "title": "Runs and configuration reachability",
           "type": "lemma"
         },
         {
@@ -2121,12 +2121,12 @@
           "type": "theorem"
         },
         {
-          "id": "Lax307052.SearchAcceptance",
-          "title": "Correctness of the configuration search",
+          "id": "Lax307052.SearchBounds",
+          "title": "Quadratic space for the recursion stack",
           "type": "lemma"
         },
         {
-          "id": "Lax307052.SearchImplementation",
+          "id": "Lax307052.SearchMachine",
           "title": "Space bound for the search machine",
           "type": "lemma"
         },
@@ -2139,6 +2139,11 @@
           "id": "Lax307052.SpaceConstructibility",
           "title": "Space-constructible bounds",
           "type": "definition"
+        },
+        {
+          "id": "Lax307052.SplitWalk",
+          "title": "Splitting a bounded walk",
+          "type": "lemma"
         }
       ],
       "proofs": [
@@ -2147,6 +2152,7 @@
         "Lax307052Proofs.finite_reachability",
         "Lax307052Proofs.path_splitting",
         "Lax307052Proofs.polynomial_space",
+        "Lax307052Proofs.quadratic_stack",
         "Lax307052Proofs.recursive_reachability",
         "Lax307052Proofs.savitch",
         "Lax307052Proofs.search_acceptance",
