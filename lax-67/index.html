@@ -54,7 +54,7 @@
 <div class="version-item-heading"><span class="version-item-id">lax-67</span><span class="version-item-marks"><span class="version-mark version-mark-viewing">viewing</span><span class="version-mark version-mark-draft">draft</span></span></div>
 <p class="version-item-title">The Word RAM</p>
 <div class="version-metadata"><span><b>Created</b> <time datetime="2026-09-03T12:41:41Z">2026-09-03</time></span><span><b>Lean</b> <code>v4.30.0</code></span><span><b>mathlib</b> <code>c5ea00351c28e24afc9f0f84379aa41082b1188f</code></span></div>
-<div class="version-item-actions"><a class="version-source-link" href="https://github.com/lax-archive/lax-submissions/tree/9d9639601dea95e60803cfb7db1f6296478dcb42/word-ram"><svg class="source-mark" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true" focusable="false"><path fill="currentColor" d="M5.22 3.22a.75.75 0 0 1 1.06 1.06L2.56 8l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06Zm5.56 0 4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 1 1-1.06-1.06L13.44 8 9.72 4.28a.75.75 0 1 1 1.06-1.06Z"/></svg><span>GitHub source</span></a><span class="version-viewing-label">Shown on this page</span></div>
+<div class="version-item-actions"><a class="version-source-link" href="https://github.com/lax-archive/lax-submissions/tree/bc4c6e6f09dab6d8a34af65986006b407bf6d63a/word-ram"><svg class="source-mark" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true" focusable="false"><path fill="currentColor" d="M5.22 3.22a.75.75 0 0 1 1.06 1.06L2.56 8l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06Zm5.56 0 4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 1 1-1.06-1.06L13.44 8 9.72 4.28a.75.75 0 1 1 1.06-1.06Z"/></svg><span>GitHub source</span></a><span class="version-viewing-label">Shown on this page</span></div>
 </li>
 <li class="version-item version-latest">
 <div class="version-item-heading"><span class="version-item-id">lax-13</span><span class="version-item-marks"><span class="version-mark version-mark-latest">current version</span></span></div>
@@ -66,7 +66,7 @@
 </dialog>
 <header class="paper-head">
 <h1 class="paper-title">The Word RAM</h1>
-<p class="paper-meta"><span class="submission-meta-id">lax-67</span><span class="meta-sep">·</span><span class="formalized-label">formalized by</span> <span class="paper-author">Jan Dreier</span><span class="author-sep">·</span><span class="paper-author">Claude Fable 5 (Anthropic)</span><span class="meta-sep">·</span>created 2026-09-03<span class="meta-sep">·</span><a href="https://github.com/lax-archive/lax-submissions/tree/9d9639601dea95e60803cfb7db1f6296478dcb42/word-ram" title="https://github.com/lax-archive/lax-submissions/tree/9d9639601dea95e60803cfb7db1f6296478dcb42/word-ram"><code>GitHub @9d96396</code></a><span class="meta-sep">·</span>Lean <code>v4.30.0</code> <span class="meta-epoch" title="the environment the archive recommends this year">epoch</span> · mathlib <code>c5ea00351c28</code></p>
+<p class="paper-meta"><span class="submission-meta-id">lax-67</span><span class="meta-sep">·</span><span class="formalized-label">formalized by</span> <span class="paper-author">Jan Dreier</span><span class="author-sep">·</span><span class="paper-author">Claude Fable 5 (Anthropic)</span><span class="meta-sep">·</span>created 2026-09-03<span class="meta-sep">·</span><a href="https://github.com/lax-archive/lax-submissions/tree/bc4c6e6f09dab6d8a34af65986006b407bf6d63a/word-ram" title="https://github.com/lax-archive/lax-submissions/tree/bc4c6e6f09dab6d8a34af65986006b407bf6d63a/word-ram"><code>GitHub @bc4c6e6</code></a><span class="meta-sep">·</span>Lean <code>v4.30.0</code> <span class="meta-epoch" title="the environment the archive recommends this year">epoch</span> · mathlib <code>c5ea00351c28</code></p>
 </header>
 <section class="page-reactions" aria-label="Community review" data-reactions-host="https://comments.laxarchive.org" data-reactions-url="https://laxarchive.org/lax-67/" data-review-kind="submission" data-source-lines="0" data-submission-concept-urls="[&quot;https://laxarchive.org/lax-67/Lax67.Ram.html&quot;,&quot;https://laxarchive.org/lax-67/Lax67.RamComputes.html&quot;]">
 <div class="page-reactions-line">
@@ -105,29 +105,25 @@
 </section>
 <section class="paper-abstract">
 <h2 class="abstract-heading">Abstract</h2>
-<div class="latex-content"><p>The word RAM is the machine the modern analysis of algorithms is
-stated on. It is a random access machine in the register-transfer
-format of Cook and Reckhow — a memory of cells addressed by number and
-no other storage, an instruction that sets one cell from one or two
-others, indirect addressing through a cell holding an address, an input
-and an output tape, jumps against zero — with its numbers bounded
-rather than its instruction set: cells hold <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>w</mi></mrow><annotation encoding="application/x-tex">w</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.0269em;">w</span></span></span></span>-bit words, and
-multiplication, division, shifts and the bitwise operations each cost
-one time unit because on words each of them is one instruction of a
-real machine. This submission fixes the archive's canonical encoding of
-that model. It carries two definitions and no proof obligations: the
-machine, whose semantics is parameterized by the word length and obeys
-one uniform truncation rule — every value the machine produces and
-every address it uses is taken modulo <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mi>w</mi></msup></mrow><annotation encoding="application/x-tex">2 ^ w</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6644em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0269em;">w</span></span></span></span></span></span></span></span></span></span></span> — and the predicate
-saying that a program computes a function of words within a time bound
-on a set of admissible inputs, the running time being the machine's own
-step count rather than an annotation carried alongside the program.
-Neither is a claim, so neither is stated as one; the review question is
-faithfulness of the model, and the formalization notes give the word
-model and its sources, the truncation rule and what follows from it,
-the constant-cost derivations of the remaining standard operations —
-disjunction, exclusive or, the right shift, the remainder and the
-comparisons — and the machine's halting behaviour and time measure.</p>
+<div class="latex-content"><p>This submission defines a word RAM and computation within an explicit
+instruction bound on a stated domain of inputs. Writable memory has
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mi>w</mi></msup></mrow><annotation encoding="application/x-tex">2 ^ w</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6644em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0269em;">w</span></span></span></span></span></span></span></span></span></span></span> cells holding <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>w</mi></mrow><annotation encoding="application/x-tex">w</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.0269em;">w</span></span></span></span>-bit words and starts at zero. The read-only
+input is a finite array supplied at initialization, with constant-time
+indexed access and length metadata, a sequential read operation, and
+an explicit end-of-input test. Zero remains ordinary input data. Output
+is append-only, and correctness constrains the complete output list.</p>
+<p>Arithmetic values, input values and lengths, input indices, and
+data-memory addresses are reduced modulo <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mi>w</mi></msup></mrow><annotation encoding="application/x-tex">2 ^ w</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6644em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0269em;">w</span></span></span></span></span></span></span></span></span></span></span>. Program labels and
+the program counter are unrestricted natural numbers. Time charges one
+unit per executed instruction, including explicit <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mi>a</mi><mi>l</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">halt</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6944em;"></span><span class="mord mathnormal">ha</span><span class="mord mathnormal" style="margin-right:0.0197em;">l</span><span class="mord mathnormal">t</span></span></span></span> and exhausted
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mi>e</mi><mi>a</mi><mi>d</mi></mrow><annotation encoding="application/x-tex">read</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">r</span><span class="mord mathnormal">e</span><span class="mord mathnormal">a</span><span class="mord mathnormal">d</span></span></span></span>; falling outside the program costs no nonexistent instruction.
+The formalization notes state fitting conditions, the input-access
+convention, the additive linear cost of loading sequential input when
+comparing models, and the distinction from Cook and Reckhow's terminated
+input encoding. The proof package provides compiler transfer theorems,
+a verified execution driver, and semantic regression proofs for raw-list
+length parity, constant-time indexed input access, and exact termination
+costs.</p>
 </div>
 </section>
 

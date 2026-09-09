@@ -298,193 +298,222 @@ immediately after as an equivalent.</p>
 </div>
 <div class="manuscript-card-body" id="m6-card-body" hidden>
 <p class="manuscript-card-title">The word RAM</p>
-<div class="latex-content"><p>A word RAM is a random access machine whose cells hold <em>words</em>: natural
-numbers below <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mi>w</mi></msup></mrow><annotation encoding="application/x-tex">2 ^ w</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6644em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0269em;">w</span></span></span></span></span></span></span></span></span></span></span>, for a word length <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>w</mi></mrow><annotation encoding="application/x-tex">w</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.0269em;">w</span></span></span></span> that is a parameter of the
-model. It has a memory of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mi>w</mi></msup></mrow><annotation encoding="application/x-tex">2 ^ w</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6644em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0269em;">w</span></span></span></span></span></span></span></span></span></span></span> cells, addressed by number, and no
-other storage. Input arrives on a read-only input tape and output is
-written on a write-only output tape. A program is a finite sequence of
-instructions, executed in order unless a jump instruction changes the
-program counter. Every instruction names the cells it works on: it sets
-a cell to a literal; it reads or writes a cell through the address held
-in another cell; it sets a cell to the sum, the difference, the product,
-the quotient, the bitwise conjunction or the left shift of two cells, or
-to the bitwise complement of one; it jumps unconditionally or if a cell
-is zero; it halts; or it reads the next input number into a cell or
-writes a cell to the output tape.</p>
-<p>All arithmetic is arithmetic on words: every value the machine produces
-is taken modulo <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mi>w</mi></msup></mrow><annotation encoding="application/x-tex">2 ^ w</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6644em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0269em;">w</span></span></span></span></span></span></span></span></span></span></span>, and every address is taken modulo <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mi>w</mi></msup></mrow><annotation encoding="application/x-tex">2 ^ w</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6644em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0269em;">w</span></span></span></span></span></span></span></span></span></span></span>.
-Subtraction is truncated at zero rather than wrapping. Division is
-integer division, with <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mi mathvariant="normal">/</mi><mn>0</mn><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">x / 0 = 0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">x</span><span class="mord">/0</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span>.</p>
-<p>The machine starts with all memory cells zero, the whole input word on
-the input tape and the output tape empty; it halts having written the
-output word. The running time is the number of instructions executed,
-each costing one time unit.</p>
+<div class="latex-content"><p>A word RAM is a random access machine whose writable memory consists of
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mi>w</mi></msup></mrow><annotation encoding="application/x-tex">2 ^ w</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6644em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0269em;">w</span></span></span></span></span></span></span></span></span></span></span> cells holding natural numbers below <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mi>w</mi></msup></mrow><annotation encoding="application/x-tex">2 ^ w</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6644em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0269em;">w</span></span></span></span></span></span></span></span></span></span></span>. The word length
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>w</mi></mrow><annotation encoding="application/x-tex">w</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.0269em;">w</span></span></span></span> is a parameter; one finite program serves all word lengths. Input
+is a read-only finite array supplied at initialization, also accessible
+as a sequential tape. Output is an append-only tape. Working memory
+starts at zero and output starts empty.</p>
+<p>The input interface has four operations. <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mi>e</mi><mi>a</mi><mi>d</mi><mi>a</mi></mrow><annotation encoding="application/x-tex">read a</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">r</span><span class="mord mathnormal">e</span><span class="mord mathnormal">a</span><span class="mord mathnormal">d</span><span class="mord mathnormal">a</span></span></span></span> consumes the next
+entry of the sequential tape into cell <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi></mrow><annotation encoding="application/x-tex">a</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal">a</span></span></span></span>, halting if the tape is
+empty. <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>j</mi><mi>e</mi><mi>o</mi><mi>f</mi><mi>l</mi></mrow><annotation encoding="application/x-tex">jeof l</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.0572em;">j</span><span class="mord mathnormal">eo</span><span class="mord mathnormal" style="margin-right:0.1076em;">f</span><span class="mord mathnormal" style="margin-right:0.0197em;">l</span></span></span></span> branches on tape emptiness without consuming input.
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi><mi>n</mi><mi>p</mi><mi>u</mi><mi>t</mi><mi>L</mi><mi>e</mi><mi>n</mi><mi>g</mi><mi>t</mi><mi>h</mi><mi>a</mi></mrow><annotation encoding="application/x-tex">inputLength a</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">in</span><span class="mord mathnormal">p</span><span class="mord mathnormal">u</span><span class="mord mathnormal">t</span><span class="mord mathnormal">L</span><span class="mord mathnormal">e</span><span class="mord mathnormal">n</span><span class="mord mathnormal" style="margin-right:0.0359em;">g</span><span class="mord mathnormal">t</span><span class="mord mathnormal">ha</span></span></span></span> writes the original input length into cell <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi></mrow><annotation encoding="application/x-tex">a</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal">a</span></span></span></span>.
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi><mi>n</mi><mi>p</mi><mi>u</mi><mi>t</mi><mi>L</mi><mi>o</mi><mi>a</mi><mi>d</mi><mi>a</mi><mi>b</mi></mrow><annotation encoding="application/x-tex">inputLoad a b</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">in</span><span class="mord mathnormal">p</span><span class="mord mathnormal">u</span><span class="mord mathnormal">t</span><span class="mord mathnormal">L</span><span class="mord mathnormal">o</span><span class="mord mathnormal">a</span><span class="mord mathnormal">d</span><span class="mord mathnormal">ab</span></span></span></span> reads the original input at the index in cell <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>b</mi></mrow><annotation encoding="application/x-tex">b</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6944em;"></span><span class="mord mathnormal">b</span></span></span></span> into
+cell <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi></mrow><annotation encoding="application/x-tex">a</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal">a</span></span></span></span>, returning zero outside the input. Indexed access never
+consumes the sequential tape, and sequential reads never change the
+original input. Zero is ordinary data, not an end marker. Each operation
+costs one instruction. No length header or other framing is added to
+the supplied list.</p>
+<p>Arithmetic results, input values and lengths, output values, and
+data-memory addresses are reduced modulo <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mi>w</mi></msup></mrow><annotation encoding="application/x-tex">2 ^ w</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6644em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0269em;">w</span></span></span></span></span></span></span></span></span></span></span>. Subtraction is
+truncated at zero, and division is integer division with <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mi mathvariant="normal">/</mi><mn>0</mn><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">x / 0 = 0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">x</span><span class="mord">/0</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span>.
+Input indices are words too. Program labels and the program counter are
+natural numbers and are not reduced modulo <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mi>w</mi></msup></mrow><annotation encoding="application/x-tex">2 ^ w</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6644em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0269em;">w</span></span></span></span></span></span></span></span></span></span></span>.</p>
 </div>
 <div class="manuscript-card-source"><div class="inline-contract-wrap"><table class="inline-contract-table">
 <tr class=""><td class="line-num">1</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Data.List.Basic</span></td></tr>
 <tr class=""><td class="line-num">2</td><td class="line-code"> </td></tr>
-<tr class="line-elided"><td class="line-num"></td><td class="line-code">… module docstring, 136 lines</td></tr>
-<tr class=""><td class="line-num">139</td><td class="line-code"> </td></tr>
-<tr class=""><td class="line-num">140</td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax67.Ram</span></td></tr>
-<tr class=""><td class="line-num">141</td><td class="line-code"> </td></tr>
-<tr class=""><td class="line-num">142</td><td class="line-code"><span style="color:#6A737D">/-- An instruction. Every number naming a cell is read, except that</span></td></tr>
-<tr class=""><td class="line-num">143</td><td class="line-code"><span style="color:#6A737D">the first one names the cell written by `set`, `load`, `read` and the</span></td></tr>
-<tr class=""><td class="line-num">144</td><td class="line-code"><span style="color:#6A737D">arithmetic instructions, and the cell holding the address written by</span></td></tr>
-<tr class=""><td class="line-num">145</td><td class="line-code"><span style="color:#6A737D">`store`; `set` is the only instruction carrying a literal, and `jump`,</span></td></tr>
-<tr class=""><td class="line-num">146</td><td class="line-code"><span style="color:#6A737D">`jzero` carry a program address. -/</span></td></tr>
-<tr class=""><td class="line-num">147</td><td class="line-code"><span style="color:#D73A49">inductive</span><span style="color:#6F42C1"> Instr</span></td></tr>
-<tr class=""><td class="line-num">148</td><td class="line-code"><span style="color:#6A737D">  /-- Set cell `a` to the literal `n`. -/</span></td></tr>
-<tr class=""><td class="line-num">149</td><td class="line-code"><span style="color:#24292E">  | set (a n : ℕ)</span></td></tr>
-<tr class=""><td class="line-num">150</td><td class="line-code"><span style="color:#6A737D">  /-- Set cell `a` to the contents of the cell whose address cell `b`</span></td></tr>
-<tr class=""><td class="line-num">151</td><td class="line-code"><span style="color:#6A737D">  holds. -/</span></td></tr>
-<tr class=""><td class="line-num">152</td><td class="line-code"><span style="color:#24292E">  | load (a b : ℕ)</span></td></tr>
-<tr class=""><td class="line-num">153</td><td class="line-code"><span style="color:#6A737D">  /-- Set the cell whose address cell `a` holds to the contents of cell</span></td></tr>
-<tr class=""><td class="line-num">154</td><td class="line-code"><span style="color:#6A737D">  `b`. -/</span></td></tr>
-<tr class=""><td class="line-num">155</td><td class="line-code"><span style="color:#24292E">  | store (a b : ℕ)</span></td></tr>
-<tr class=""><td class="line-num">156</td><td class="line-code"><span style="color:#6A737D">  /-- Set cell `a` to the sum of cells `b` and `c`, wrapping around</span></td></tr>
-<tr class=""><td class="line-num">157</td><td class="line-code"><span style="color:#6A737D">  modulo `2 ^ w`. -/</span></td></tr>
-<tr class=""><td class="line-num">158</td><td class="line-code"><span style="color:#24292E">  | add (a b c : ℕ)</span></td></tr>
-<tr class=""><td class="line-num">159</td><td class="line-code"><span style="color:#6A737D">  /-- Set cell `a` to the difference of cells `b` and `c`, truncated at</span></td></tr>
-<tr class=""><td class="line-num">160</td><td class="line-code"><span style="color:#6A737D">  zero rather than wrapping around. -/</span></td></tr>
-<tr class=""><td class="line-num">161</td><td class="line-code"><span style="color:#24292E">  | sub (a b c : ℕ)</span></td></tr>
-<tr class=""><td class="line-num">162</td><td class="line-code"><span style="color:#6A737D">  /-- Set cell `a` to the product of cells `b` and `c`, wrapping around</span></td></tr>
-<tr class=""><td class="line-num">163</td><td class="line-code"><span style="color:#6A737D">  modulo `2 ^ w`. -/</span></td></tr>
-<tr class=""><td class="line-num">164</td><td class="line-code"><span style="color:#24292E">  | mul (a b c : ℕ)</span></td></tr>
-<tr class=""><td class="line-num">165</td><td class="line-code"><span style="color:#6A737D">  /-- Set cell `a` to the quotient of cells `b` and `c`, rounding</span></td></tr>
-<tr class=""><td class="line-num">166</td><td class="line-code"><span style="color:#6A737D">  towards zero; division by zero yields zero. -/</span></td></tr>
-<tr class=""><td class="line-num">167</td><td class="line-code"><span style="color:#24292E">  | div (a b c : ℕ)</span></td></tr>
-<tr class=""><td class="line-num">168</td><td class="line-code"><span style="color:#6A737D">  /-- Set cell `a` to the bitwise conjunction of cells `b` and `c`. -/</span></td></tr>
-<tr class=""><td class="line-num">169</td><td class="line-code"><span style="color:#24292E">  | and (a b c : ℕ)</span></td></tr>
-<tr class=""><td class="line-num">170</td><td class="line-code"><span style="color:#6A737D">  /-- Set cell `a` to cell `b` shifted left by the number of bits cell</span></td></tr>
-<tr class=""><td class="line-num">171</td><td class="line-code"><span style="color:#6A737D">  `c` holds, wrapping around modulo `2 ^ w`; a shift by `w` or more</span></td></tr>
-<tr class=""><td class="line-num">172</td><td class="line-code"><span style="color:#6A737D">  yields zero. -/</span></td></tr>
-<tr class=""><td class="line-num">173</td><td class="line-code"><span style="color:#24292E">  | shiftl (a b c : ℕ)</span></td></tr>
-<tr class=""><td class="line-num">174</td><td class="line-code"><span style="color:#6A737D">  /-- Set cell `a` to the bitwise complement `2 ^ w - 1 - m[b]` of cell</span></td></tr>
-<tr class=""><td class="line-num">175</td><td class="line-code"><span style="color:#6A737D">  `b` within the word length. -/</span></td></tr>
-<tr class=""><td class="line-num">176</td><td class="line-code"><span style="color:#24292E">  | not (a b : ℕ)</span></td></tr>
-<tr class=""><td class="line-num">177</td><td class="line-code"><span style="color:#6A737D">  /-- Continue at instruction `l`. -/</span></td></tr>
-<tr class=""><td class="line-num">178</td><td class="line-code"><span style="color:#24292E">  | jump (l : ℕ)</span></td></tr>
-<tr class=""><td class="line-num">179</td><td class="line-code"><span style="color:#6A737D">  /-- Continue at instruction `l` if cell `a` is zero. -/</span></td></tr>
-<tr class=""><td class="line-num">180</td><td class="line-code"><span style="color:#24292E">  | jzero (a l : ℕ)</span></td></tr>
-<tr class=""><td class="line-num">181</td><td class="line-code"><span style="color:#6A737D">  /-- Halt. -/</span></td></tr>
-<tr class=""><td class="line-num">182</td><td class="line-code"><span style="color:#24292E">  | halt</span></td></tr>
-<tr class=""><td class="line-num">183</td><td class="line-code"><span style="color:#6A737D">  /-- Read the next number of the input tape into cell `a`, or halt if</span></td></tr>
-<tr class=""><td class="line-num">184</td><td class="line-code"><span style="color:#6A737D">  the tape is exhausted. -/</span></td></tr>
-<tr class=""><td class="line-num">185</td><td class="line-code"><span style="color:#24292E">  | read (a : ℕ)</span></td></tr>
-<tr class=""><td class="line-num">186</td><td class="line-code"><span style="color:#6A737D">  /-- Append the contents of cell `a` to the output tape. -/</span></td></tr>
-<tr class=""><td class="line-num">187</td><td class="line-code"><span style="color:#24292E">  | write (a : ℕ)</span></td></tr>
-<tr class=""><td class="line-num">188</td><td class="line-code"> </td></tr>
-<tr class=""><td class="line-num">189</td><td class="line-code"><span style="color:#6A737D">/-- A program: a finite sequence of instructions, numbered from `0`. -/</span></td></tr>
-<tr class=""><td class="line-num">190</td><td class="line-code"><span style="color:#D73A49">abbrev</span><span style="color:#6F42C1"> Program</span><span style="color:#24292E"> : </span><span style="color:#D73A49">Type</span><span style="color:#24292E"> := List Instr</span></td></tr>
-<tr class=""><td class="line-num">191</td><td class="line-code"> </td></tr>
-<tr class=""><td class="line-num">192</td><td class="line-code"><span style="color:#6A737D">/-- A machine state: the program counter, the contents of every memory</span></td></tr>
-<tr class=""><td class="line-num">193</td><td class="line-code"><span style="color:#6A737D">cell, the part of the input tape not yet read, and the output tape</span></td></tr>
-<tr class=""><td class="line-num">194</td><td class="line-code"><span style="color:#6A737D">written so far. Memory is the only storage there is. -/</span></td></tr>
-<tr class=""><td class="line-num">195</td><td class="line-code"><span style="color:#D73A49">structure</span><span style="color:#6F42C1"> State</span><span style="color:#D73A49"> where</span></td></tr>
-<tr class=""><td class="line-num">196</td><td class="line-code"><span style="color:#6A737D">  /-- The number of the instruction to be executed next. -/</span></td></tr>
-<tr class=""><td class="line-num">197</td><td class="line-code"><span style="color:#24292E">  pc : ℕ</span></td></tr>
-<tr class=""><td class="line-num">198</td><td class="line-code"><span style="color:#6A737D">  /-- The contents of the memory cells; only the cells with number below</span></td></tr>
-<tr class=""><td class="line-num">199</td><td class="line-code"><span style="color:#6A737D">  `2 ^ w` are ever addressed. -/</span></td></tr>
-<tr class=""><td class="line-num">200</td><td class="line-code"><span style="color:#24292E">  mem : ℕ → ℕ</span></td></tr>
-<tr class=""><td class="line-num">201</td><td class="line-code"><span style="color:#6A737D">  /-- The numbers still to be read from the input tape. -/</span></td></tr>
-<tr class=""><td class="line-num">202</td><td class="line-code"><span style="color:#24292E">  inp : List ℕ</span></td></tr>
-<tr class=""><td class="line-num">203</td><td class="line-code"><span style="color:#6A737D">  /-- The numbers written to the output tape so far. -/</span></td></tr>
-<tr class=""><td class="line-num">204</td><td class="line-code"><span style="color:#24292E">  out : List ℕ</span></td></tr>
-<tr class=""><td class="line-num">205</td><td class="line-code"> </td></tr>
-<tr class=""><td class="line-num">206</td><td class="line-code"><span style="color:#6A737D">/-- The memory `m` with cell `a` set to `v`, at word length `w`: the</span></td></tr>
-<tr class=""><td class="line-num">207</td><td class="line-code"><span style="color:#6A737D">address and the value written are both taken modulo `2 ^ w`. -/</span></td></tr>
-<tr class=""><td class="line-num">208</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> setCell</span><span style="color:#24292E"> (w : ℕ) (m : ℕ → ℕ) (a v : ℕ) : ℕ → ℕ :=</span></td></tr>
-<tr class=""><td class="line-num">209</td><td class="line-code"><span style="color:#D73A49">  fun</span><span style="color:#24292E"> b =&gt; </span><span style="color:#D73A49">if</span><span style="color:#24292E"> b = a % </span><span style="color:#005CC5">2</span><span style="color:#24292E"> ^ w </span><span style="color:#D73A49">then</span><span style="color:#24292E"> v % </span><span style="color:#005CC5">2</span><span style="color:#24292E"> ^ w </span><span style="color:#D73A49">else</span><span style="color:#24292E"> m b</span></td></tr>
-<tr class=""><td class="line-num">210</td><td class="line-code"> </td></tr>
-<tr class=""><td class="line-num">211</td><td class="line-code"><span style="color:#6A737D">/-- The effect of one instruction on the state at word length `w`, or</span></td></tr>
-<tr class=""><td class="line-num">212</td><td class="line-code"><span style="color:#6A737D">`none` if it halts the machine, which a `halt` instruction and a read</span></td></tr>
-<tr class=""><td class="line-num">213</td><td class="line-code"><span style="color:#6A737D">from an exhausted input tape do. Every value produced is reduced modulo</span></td></tr>
-<tr class=""><td class="line-num">214</td><td class="line-code"><span style="color:#6A737D">`2 ^ w` and every address used is reduced modulo `2 ^ w`. -/</span></td></tr>
-<tr class=""><td class="line-num">215</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> Instr.effect</span><span style="color:#24292E"> (w : ℕ) : Instr → State → Option State</span></td></tr>
-<tr class=""><td class="line-num">216</td><td class="line-code"><span style="color:#24292E">  | set a n, s =&gt; some { s </span><span style="color:#D73A49">with</span><span style="color:#24292E"> pc := s.pc + </span><span style="color:#005CC5">1</span><span style="color:#24292E">, mem := setCell w s.mem a n }</span></td></tr>
-<tr class=""><td class="line-num">217</td><td class="line-code"><span style="color:#24292E">  | load a b, s =&gt;</span></td></tr>
-<tr class=""><td class="line-num">218</td><td class="line-code"><span style="color:#24292E">      some</span></td></tr>
-<tr class=""><td class="line-num">219</td><td class="line-code"><span style="color:#24292E">        { s </span><span style="color:#D73A49">with</span></td></tr>
-<tr class=""><td class="line-num">220</td><td class="line-code"><span style="color:#24292E">          pc := s.pc + </span><span style="color:#005CC5">1</span></td></tr>
-<tr class=""><td class="line-num">221</td><td class="line-code"><span style="color:#24292E">          mem := setCell w s.mem a (s.mem (s.mem (b % </span><span style="color:#005CC5">2</span><span style="color:#24292E"> ^ w) % </span><span style="color:#005CC5">2</span><span style="color:#24292E"> ^ w)) }</span></td></tr>
-<tr class=""><td class="line-num">222</td><td class="line-code"><span style="color:#24292E">  | store a b, s =&gt;</span></td></tr>
-<tr class=""><td class="line-num">223</td><td class="line-code"><span style="color:#24292E">      some</span></td></tr>
-<tr class=""><td class="line-num">224</td><td class="line-code"><span style="color:#24292E">        { s </span><span style="color:#D73A49">with</span></td></tr>
-<tr class=""><td class="line-num">225</td><td class="line-code"><span style="color:#24292E">          pc := s.pc + </span><span style="color:#005CC5">1</span></td></tr>
-<tr class=""><td class="line-num">226</td><td class="line-code"><span style="color:#24292E">          mem := setCell w s.mem (s.mem (a % </span><span style="color:#005CC5">2</span><span style="color:#24292E"> ^ w)) (s.mem (b % </span><span style="color:#005CC5">2</span><span style="color:#24292E"> ^ w)) }</span></td></tr>
-<tr class=""><td class="line-num">227</td><td class="line-code"><span style="color:#24292E">  | add a b c, s =&gt;</span></td></tr>
-<tr class=""><td class="line-num">228</td><td class="line-code"><span style="color:#24292E">      some</span></td></tr>
-<tr class=""><td class="line-num">229</td><td class="line-code"><span style="color:#24292E">        { s </span><span style="color:#D73A49">with</span></td></tr>
-<tr class=""><td class="line-num">230</td><td class="line-code"><span style="color:#24292E">          pc := s.pc + </span><span style="color:#005CC5">1</span></td></tr>
-<tr class=""><td class="line-num">231</td><td class="line-code"><span style="color:#24292E">          mem := setCell w s.mem a (s.mem (b % </span><span style="color:#005CC5">2</span><span style="color:#24292E"> ^ w) + s.mem (c % </span><span style="color:#005CC5">2</span><span style="color:#24292E"> ^ w)) }</span></td></tr>
-<tr class=""><td class="line-num">232</td><td class="line-code"><span style="color:#24292E">  | sub a b c, s =&gt;</span></td></tr>
-<tr class=""><td class="line-num">233</td><td class="line-code"><span style="color:#24292E">      some</span></td></tr>
-<tr class=""><td class="line-num">234</td><td class="line-code"><span style="color:#24292E">        { s </span><span style="color:#D73A49">with</span></td></tr>
-<tr class=""><td class="line-num">235</td><td class="line-code"><span style="color:#24292E">          pc := s.pc + </span><span style="color:#005CC5">1</span></td></tr>
-<tr class=""><td class="line-num">236</td><td class="line-code"><span style="color:#24292E">          mem := setCell w s.mem a (s.mem (b % </span><span style="color:#005CC5">2</span><span style="color:#24292E"> ^ w) - s.mem (c % </span><span style="color:#005CC5">2</span><span style="color:#24292E"> ^ w)) }</span></td></tr>
-<tr class=""><td class="line-num">237</td><td class="line-code"><span style="color:#24292E">  | mul a b c, s =&gt;</span></td></tr>
-<tr class=""><td class="line-num">238</td><td class="line-code"><span style="color:#24292E">      some</span></td></tr>
-<tr class=""><td class="line-num">239</td><td class="line-code"><span style="color:#24292E">        { s </span><span style="color:#D73A49">with</span></td></tr>
-<tr class=""><td class="line-num">240</td><td class="line-code"><span style="color:#24292E">          pc := s.pc + </span><span style="color:#005CC5">1</span></td></tr>
-<tr class=""><td class="line-num">241</td><td class="line-code"><span style="color:#24292E">          mem := setCell w s.mem a (s.mem (b % </span><span style="color:#005CC5">2</span><span style="color:#24292E"> ^ w) * s.mem (c % </span><span style="color:#005CC5">2</span><span style="color:#24292E"> ^ w)) }</span></td></tr>
-<tr class=""><td class="line-num">242</td><td class="line-code"><span style="color:#24292E">  | div a b c, s =&gt;</span></td></tr>
-<tr class=""><td class="line-num">243</td><td class="line-code"><span style="color:#24292E">      some</span></td></tr>
-<tr class=""><td class="line-num">244</td><td class="line-code"><span style="color:#24292E">        { s </span><span style="color:#D73A49">with</span></td></tr>
-<tr class=""><td class="line-num">245</td><td class="line-code"><span style="color:#24292E">          pc := s.pc + </span><span style="color:#005CC5">1</span></td></tr>
-<tr class=""><td class="line-num">246</td><td class="line-code"><span style="color:#24292E">          mem := setCell w s.mem a (s.mem (b % </span><span style="color:#005CC5">2</span><span style="color:#24292E"> ^ w) / s.mem (c % </span><span style="color:#005CC5">2</span><span style="color:#24292E"> ^ w)) }</span></td></tr>
-<tr class=""><td class="line-num">247</td><td class="line-code"><span style="color:#24292E">  | and a b c, s =&gt;</span></td></tr>
-<tr class=""><td class="line-num">248</td><td class="line-code"><span style="color:#24292E">      some</span></td></tr>
-<tr class=""><td class="line-num">249</td><td class="line-code"><span style="color:#24292E">        { s </span><span style="color:#D73A49">with</span></td></tr>
-<tr class=""><td class="line-num">250</td><td class="line-code"><span style="color:#24292E">          pc := s.pc + </span><span style="color:#005CC5">1</span></td></tr>
-<tr class=""><td class="line-num">251</td><td class="line-code"><span style="color:#24292E">          mem := setCell w s.mem a (Nat.land (s.mem (b % </span><span style="color:#005CC5">2</span><span style="color:#24292E"> ^ w)) (s.mem (c % </span><span style="color:#005CC5">2</span><span style="color:#24292E"> ^ w))) }</span></td></tr>
-<tr class=""><td class="line-num">252</td><td class="line-code"><span style="color:#24292E">  | shiftl a b c, s =&gt;</span></td></tr>
-<tr class=""><td class="line-num">253</td><td class="line-code"><span style="color:#24292E">      some</span></td></tr>
-<tr class=""><td class="line-num">254</td><td class="line-code"><span style="color:#24292E">        { s </span><span style="color:#D73A49">with</span></td></tr>
-<tr class=""><td class="line-num">255</td><td class="line-code"><span style="color:#24292E">          pc := s.pc + </span><span style="color:#005CC5">1</span></td></tr>
-<tr class=""><td class="line-num">256</td><td class="line-code"><span style="color:#24292E">          mem := setCell w s.mem a (s.mem (b % </span><span style="color:#005CC5">2</span><span style="color:#24292E"> ^ w) * </span><span style="color:#005CC5">2</span><span style="color:#24292E"> ^ s.mem (c % </span><span style="color:#005CC5">2</span><span style="color:#24292E"> ^ w)) }</span></td></tr>
-<tr class=""><td class="line-num">257</td><td class="line-code"><span style="color:#24292E">  | not a b, s =&gt;</span></td></tr>
-<tr class=""><td class="line-num">258</td><td class="line-code"><span style="color:#24292E">      some</span></td></tr>
-<tr class=""><td class="line-num">259</td><td class="line-code"><span style="color:#24292E">        { s </span><span style="color:#D73A49">with</span></td></tr>
-<tr class=""><td class="line-num">260</td><td class="line-code"><span style="color:#24292E">          pc := s.pc + </span><span style="color:#005CC5">1</span></td></tr>
-<tr class=""><td class="line-num">261</td><td class="line-code"><span style="color:#24292E">          mem := setCell w s.mem a (</span><span style="color:#005CC5">2</span><span style="color:#24292E"> ^ w - </span><span style="color:#005CC5">1</span><span style="color:#24292E"> - s.mem (b % </span><span style="color:#005CC5">2</span><span style="color:#24292E"> ^ w)) }</span></td></tr>
-<tr class=""><td class="line-num">262</td><td class="line-code"><span style="color:#24292E">  | jump l, s =&gt; some { s </span><span style="color:#D73A49">with</span><span style="color:#24292E"> pc := l }</span></td></tr>
-<tr class=""><td class="line-num">263</td><td class="line-code"><span style="color:#24292E">  | jzero a l, s =&gt; some { s </span><span style="color:#D73A49">with</span><span style="color:#24292E"> pc := </span><span style="color:#D73A49">if</span><span style="color:#24292E"> s.mem (a % </span><span style="color:#005CC5">2</span><span style="color:#24292E"> ^ w) = </span><span style="color:#005CC5">0</span><span style="color:#D73A49"> then</span><span style="color:#24292E"> l </span><span style="color:#D73A49">else</span><span style="color:#24292E"> s.pc + </span><span style="color:#005CC5">1</span><span style="color:#24292E"> }</span></td></tr>
-<tr class=""><td class="line-num">264</td><td class="line-code"><span style="color:#24292E">  | halt, _ =&gt; none</span></td></tr>
-<tr class=""><td class="line-num">265</td><td class="line-code"><span style="color:#24292E">  | read a, s =&gt;</span></td></tr>
-<tr class=""><td class="line-num">266</td><td class="line-code"><span style="color:#24292E">      s.inp.head?.map </span><span style="color:#D73A49">fun</span><span style="color:#24292E"> v =&gt;</span></td></tr>
-<tr class=""><td class="line-num">267</td><td class="line-code"><span style="color:#24292E">        { s </span><span style="color:#D73A49">with</span><span style="color:#24292E"> pc := s.pc + </span><span style="color:#005CC5">1</span><span style="color:#24292E">, mem := setCell w s.mem a v, inp := s.inp.tail }</span></td></tr>
-<tr class=""><td class="line-num">268</td><td class="line-code"><span style="color:#24292E">  | write a, s =&gt;</span></td></tr>
-<tr class=""><td class="line-num">269</td><td class="line-code"><span style="color:#24292E">      some { s </span><span style="color:#D73A49">with</span><span style="color:#24292E"> pc := s.pc + </span><span style="color:#005CC5">1</span><span style="color:#24292E">, out := s.out ++ [s.mem (a % </span><span style="color:#005CC5">2</span><span style="color:#24292E"> ^ w) % </span><span style="color:#005CC5">2</span><span style="color:#24292E"> ^ w] }</span></td></tr>
+<tr class="line-elided"><td class="line-num"></td><td class="line-code">… module docstring, 110 lines</td></tr>
+<tr class=""><td class="line-num">113</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">114</td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax67.Ram</span></td></tr>
+<tr class=""><td class="line-num">115</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">116</td><td class="line-code"><span style="color:#6A737D">/-- An instruction. Every number naming a cell is read, except that</span></td></tr>
+<tr class=""><td class="line-num">117</td><td class="line-code"><span style="color:#6A737D">the first one names the destination for instructions that write a cell,</span></td></tr>
+<tr class=""><td class="line-num">118</td><td class="line-code"><span style="color:#6A737D">and the cell holding the destination address for `store`. `set` carries</span></td></tr>
+<tr class=""><td class="line-num">119</td><td class="line-code"><span style="color:#6A737D">a literal value; `jump`, `jzero`, and `jeof` carry program labels,</span></td></tr>
+<tr class=""><td class="line-num">120</td><td class="line-code"><span style="color:#6A737D">which are not data-memory addresses. -/</span></td></tr>
+<tr class=""><td class="line-num">121</td><td class="line-code"><span style="color:#D73A49">inductive</span><span style="color:#6F42C1"> Instr</span></td></tr>
+<tr class=""><td class="line-num">122</td><td class="line-code"><span style="color:#6A737D">  /-- Set cell `a` to the literal `n`. -/</span></td></tr>
+<tr class=""><td class="line-num">123</td><td class="line-code"><span style="color:#24292E">  | set (a n : ℕ)</span></td></tr>
+<tr class=""><td class="line-num">124</td><td class="line-code"><span style="color:#6A737D">  /-- Set cell `a` to the contents of the cell whose address cell `b`</span></td></tr>
+<tr class=""><td class="line-num">125</td><td class="line-code"><span style="color:#6A737D">  holds. -/</span></td></tr>
+<tr class=""><td class="line-num">126</td><td class="line-code"><span style="color:#24292E">  | load (a b : ℕ)</span></td></tr>
+<tr class=""><td class="line-num">127</td><td class="line-code"><span style="color:#6A737D">  /-- Set the cell whose address cell `a` holds to the contents of cell</span></td></tr>
+<tr class=""><td class="line-num">128</td><td class="line-code"><span style="color:#6A737D">  `b`. -/</span></td></tr>
+<tr class=""><td class="line-num">129</td><td class="line-code"><span style="color:#24292E">  | store (a b : ℕ)</span></td></tr>
+<tr class=""><td class="line-num">130</td><td class="line-code"><span style="color:#6A737D">  /-- Set cell `a` to the sum of cells `b` and `c`, wrapping around</span></td></tr>
+<tr class=""><td class="line-num">131</td><td class="line-code"><span style="color:#6A737D">  modulo `2 ^ w`. -/</span></td></tr>
+<tr class=""><td class="line-num">132</td><td class="line-code"><span style="color:#24292E">  | add (a b c : ℕ)</span></td></tr>
+<tr class=""><td class="line-num">133</td><td class="line-code"><span style="color:#6A737D">  /-- Set cell `a` to the difference of cells `b` and `c`, truncated at</span></td></tr>
+<tr class=""><td class="line-num">134</td><td class="line-code"><span style="color:#6A737D">  zero rather than wrapping around. -/</span></td></tr>
+<tr class=""><td class="line-num">135</td><td class="line-code"><span style="color:#24292E">  | sub (a b c : ℕ)</span></td></tr>
+<tr class=""><td class="line-num">136</td><td class="line-code"><span style="color:#6A737D">  /-- Set cell `a` to the product of cells `b` and `c`, wrapping around</span></td></tr>
+<tr class=""><td class="line-num">137</td><td class="line-code"><span style="color:#6A737D">  modulo `2 ^ w`. -/</span></td></tr>
+<tr class=""><td class="line-num">138</td><td class="line-code"><span style="color:#24292E">  | mul (a b c : ℕ)</span></td></tr>
+<tr class=""><td class="line-num">139</td><td class="line-code"><span style="color:#6A737D">  /-- Set cell `a` to the quotient of cells `b` and `c`, rounding</span></td></tr>
+<tr class=""><td class="line-num">140</td><td class="line-code"><span style="color:#6A737D">  towards zero; division by zero yields zero. -/</span></td></tr>
+<tr class=""><td class="line-num">141</td><td class="line-code"><span style="color:#24292E">  | div (a b c : ℕ)</span></td></tr>
+<tr class=""><td class="line-num">142</td><td class="line-code"><span style="color:#6A737D">  /-- Set cell `a` to the bitwise conjunction of cells `b` and `c`. -/</span></td></tr>
+<tr class=""><td class="line-num">143</td><td class="line-code"><span style="color:#24292E">  | and (a b c : ℕ)</span></td></tr>
+<tr class=""><td class="line-num">144</td><td class="line-code"><span style="color:#6A737D">  /-- Set cell `a` to cell `b` shifted left by the number of bits cell</span></td></tr>
+<tr class=""><td class="line-num">145</td><td class="line-code"><span style="color:#6A737D">  `c` holds, wrapping around modulo `2 ^ w`; a shift by `w` or more</span></td></tr>
+<tr class=""><td class="line-num">146</td><td class="line-code"><span style="color:#6A737D">  yields zero. -/</span></td></tr>
+<tr class=""><td class="line-num">147</td><td class="line-code"><span style="color:#24292E">  | shiftl (a b c : ℕ)</span></td></tr>
+<tr class=""><td class="line-num">148</td><td class="line-code"><span style="color:#6A737D">  /-- Set cell `a` to the bitwise complement `2 ^ w - 1 - m[b]` of cell</span></td></tr>
+<tr class=""><td class="line-num">149</td><td class="line-code"><span style="color:#6A737D">  `b` within the word length. -/</span></td></tr>
+<tr class=""><td class="line-num">150</td><td class="line-code"><span style="color:#24292E">  | not (a b : ℕ)</span></td></tr>
+<tr class=""><td class="line-num">151</td><td class="line-code"><span style="color:#6A737D">  /-- Continue at instruction `l`. -/</span></td></tr>
+<tr class=""><td class="line-num">152</td><td class="line-code"><span style="color:#24292E">  | jump (l : ℕ)</span></td></tr>
+<tr class=""><td class="line-num">153</td><td class="line-code"><span style="color:#6A737D">  /-- Continue at instruction `l` if cell `a` is zero. -/</span></td></tr>
+<tr class=""><td class="line-num">154</td><td class="line-code"><span style="color:#24292E">  | jzero (a l : ℕ)</span></td></tr>
+<tr class=""><td class="line-num">155</td><td class="line-code"><span style="color:#6A737D">  /-- Continue at instruction `l` exactly when the remaining input tape</span></td></tr>
+<tr class=""><td class="line-num">156</td><td class="line-code"><span style="color:#6A737D">  is empty. This test does not consume input. -/</span></td></tr>
+<tr class=""><td class="line-num">157</td><td class="line-code"><span style="color:#24292E">  | jeof (l : ℕ)</span></td></tr>
+<tr class=""><td class="line-num">158</td><td class="line-code"><span style="color:#6A737D">  /-- Write the original input length, reduced to a word, into cell `a`. -/</span></td></tr>
+<tr class=""><td class="line-num">159</td><td class="line-code"><span style="color:#24292E">  | inputLength (a : ℕ)</span></td></tr>
+<tr class=""><td class="line-num">160</td><td class="line-code"><span style="color:#6A737D">  /-- Read original input at the word index in cell `b` into cell `a`,</span></td></tr>
+<tr class=""><td class="line-num">161</td><td class="line-code"><span style="color:#6A737D">  returning zero outside the input. Read the index before writing `a`,</span></td></tr>
+<tr class=""><td class="line-num">162</td><td class="line-code"><span style="color:#6A737D">  even when the two cell addresses coincide. Do not consume input. -/</span></td></tr>
+<tr class=""><td class="line-num">163</td><td class="line-code"><span style="color:#24292E">  | inputLoad (a b : ℕ)</span></td></tr>
+<tr class=""><td class="line-num">164</td><td class="line-code"><span style="color:#6A737D">  /-- Halt. -/</span></td></tr>
+<tr class=""><td class="line-num">165</td><td class="line-code"><span style="color:#24292E">  | halt</span></td></tr>
+<tr class=""><td class="line-num">166</td><td class="line-code"><span style="color:#6A737D">  /-- Read the next number of the input tape into cell `a`, or halt if</span></td></tr>
+<tr class=""><td class="line-num">167</td><td class="line-code"><span style="color:#6A737D">  the tape is exhausted. -/</span></td></tr>
+<tr class=""><td class="line-num">168</td><td class="line-code"><span style="color:#24292E">  | read (a : ℕ)</span></td></tr>
+<tr class=""><td class="line-num">169</td><td class="line-code"><span style="color:#6A737D">  /-- Append the contents of cell `a` to the output tape. -/</span></td></tr>
+<tr class=""><td class="line-num">170</td><td class="line-code"><span style="color:#24292E">  | write (a : ℕ)</span></td></tr>
+<tr class=""><td class="line-num">171</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">172</td><td class="line-code"><span style="color:#6A737D">/-- A program: a finite sequence of instructions, numbered from `0`. -/</span></td></tr>
+<tr class=""><td class="line-num">173</td><td class="line-code"><span style="color:#D73A49">abbrev</span><span style="color:#6F42C1"> Program</span><span style="color:#24292E"> : </span><span style="color:#D73A49">Type</span><span style="color:#24292E"> := List Instr</span></td></tr>
+<tr class=""><td class="line-num">174</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">175</td><td class="line-code"><span style="color:#6A737D">/-- A machine state: the program counter, the contents of every memory</span></td></tr>
+<tr class=""><td class="line-num">176</td><td class="line-code"><span style="color:#6A737D">cell, the immutable original input array, the remaining sequential input</span></td></tr>
+<tr class=""><td class="line-num">177</td><td class="line-code"><span style="color:#6A737D">tape, and the output tape written so far. -/</span></td></tr>
+<tr class=""><td class="line-num">178</td><td class="line-code"><span style="color:#D73A49">structure</span><span style="color:#6F42C1"> State</span><span style="color:#D73A49"> where</span></td></tr>
+<tr class=""><td class="line-num">179</td><td class="line-code"><span style="color:#6A737D">  /-- The number of the instruction to be executed next. -/</span></td></tr>
+<tr class=""><td class="line-num">180</td><td class="line-code"><span style="color:#24292E">  pc : ℕ</span></td></tr>
+<tr class=""><td class="line-num">181</td><td class="line-code"><span style="color:#6A737D">  /-- The contents of the memory cells; only the cells with number below</span></td></tr>
+<tr class=""><td class="line-num">182</td><td class="line-code"><span style="color:#6A737D">  `2 ^ w` are ever addressed. -/</span></td></tr>
+<tr class=""><td class="line-num">183</td><td class="line-code"><span style="color:#24292E">  mem : ℕ → ℕ</span></td></tr>
+<tr class=""><td class="line-num">184</td><td class="line-code"><span style="color:#6A737D">  /-- The original read-only input, unchanged by every instruction. -/</span></td></tr>
+<tr class=""><td class="line-num">185</td><td class="line-code"><span style="color:#24292E">  input : List ℕ</span></td></tr>
+<tr class=""><td class="line-num">186</td><td class="line-code"><span style="color:#6A737D">  /-- The numbers still to be read from the input tape. -/</span></td></tr>
+<tr class=""><td class="line-num">187</td><td class="line-code"><span style="color:#24292E">  inp : List ℕ</span></td></tr>
+<tr class=""><td class="line-num">188</td><td class="line-code"><span style="color:#6A737D">  /-- The numbers written to the output tape so far. -/</span></td></tr>
+<tr class=""><td class="line-num">189</td><td class="line-code"><span style="color:#24292E">  out : List ℕ</span></td></tr>
+<tr class=""><td class="line-num">190</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">191</td><td class="line-code"><span style="color:#6A737D">/-- The memory `m` with cell `a` set to `v`, at word length `w`: the</span></td></tr>
+<tr class=""><td class="line-num">192</td><td class="line-code"><span style="color:#6A737D">address and the value written are both taken modulo `2 ^ w`. -/</span></td></tr>
+<tr class=""><td class="line-num">193</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> setCell</span><span style="color:#24292E"> (w : ℕ) (m : ℕ → ℕ) (a v : ℕ) : ℕ → ℕ :=</span></td></tr>
+<tr class=""><td class="line-num">194</td><td class="line-code"><span style="color:#D73A49">  fun</span><span style="color:#24292E"> b =&gt; </span><span style="color:#D73A49">if</span><span style="color:#24292E"> b = a % </span><span style="color:#005CC5">2</span><span style="color:#24292E"> ^ w </span><span style="color:#D73A49">then</span><span style="color:#24292E"> v % </span><span style="color:#005CC5">2</span><span style="color:#24292E"> ^ w </span><span style="color:#D73A49">else</span><span style="color:#24292E"> m b</span></td></tr>
+<tr class=""><td class="line-num">195</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">196</td><td class="line-code"><span style="color:#6A737D">/-- The effect of one instruction on the state at word length `w`, or</span></td></tr>
+<tr class=""><td class="line-num">197</td><td class="line-code"><span style="color:#6A737D">`none` if it halts the machine, which a `halt` instruction and a read</span></td></tr>
+<tr class=""><td class="line-num">198</td><td class="line-code"><span style="color:#6A737D">from an exhausted input tape do. Data values, input indices, and</span></td></tr>
+<tr class=""><td class="line-num">199</td><td class="line-code"><span style="color:#6A737D">data-memory addresses are reduced modulo `2 ^ w`; program labels and</span></td></tr>
+<tr class=""><td class="line-num">200</td><td class="line-code"><span style="color:#6A737D">the counter are not. -/</span></td></tr>
+<tr class=""><td class="line-num">201</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> Instr.effect</span><span style="color:#24292E"> (w : ℕ) : Instr → State → Option State</span></td></tr>
+<tr class=""><td class="line-num">202</td><td class="line-code"><span style="color:#24292E">  | set a n, s =&gt; some { s </span><span style="color:#D73A49">with</span><span style="color:#24292E"> pc := s.pc + </span><span style="color:#005CC5">1</span><span style="color:#24292E">, mem := setCell w s.mem a n }</span></td></tr>
+<tr class=""><td class="line-num">203</td><td class="line-code"><span style="color:#24292E">  | load a b, s =&gt;</span></td></tr>
+<tr class=""><td class="line-num">204</td><td class="line-code"><span style="color:#24292E">      some</span></td></tr>
+<tr class=""><td class="line-num">205</td><td class="line-code"><span style="color:#24292E">        { s </span><span style="color:#D73A49">with</span></td></tr>
+<tr class=""><td class="line-num">206</td><td class="line-code"><span style="color:#24292E">          pc := s.pc + </span><span style="color:#005CC5">1</span></td></tr>
+<tr class=""><td class="line-num">207</td><td class="line-code"><span style="color:#24292E">          mem := setCell w s.mem a (s.mem (s.mem (b % </span><span style="color:#005CC5">2</span><span style="color:#24292E"> ^ w) % </span><span style="color:#005CC5">2</span><span style="color:#24292E"> ^ w)) }</span></td></tr>
+<tr class=""><td class="line-num">208</td><td class="line-code"><span style="color:#24292E">  | store a b, s =&gt;</span></td></tr>
+<tr class=""><td class="line-num">209</td><td class="line-code"><span style="color:#24292E">      some</span></td></tr>
+<tr class=""><td class="line-num">210</td><td class="line-code"><span style="color:#24292E">        { s </span><span style="color:#D73A49">with</span></td></tr>
+<tr class=""><td class="line-num">211</td><td class="line-code"><span style="color:#24292E">          pc := s.pc + </span><span style="color:#005CC5">1</span></td></tr>
+<tr class=""><td class="line-num">212</td><td class="line-code"><span style="color:#24292E">          mem := setCell w s.mem (s.mem (a % </span><span style="color:#005CC5">2</span><span style="color:#24292E"> ^ w)) (s.mem (b % </span><span style="color:#005CC5">2</span><span style="color:#24292E"> ^ w)) }</span></td></tr>
+<tr class=""><td class="line-num">213</td><td class="line-code"><span style="color:#24292E">  | add a b c, s =&gt;</span></td></tr>
+<tr class=""><td class="line-num">214</td><td class="line-code"><span style="color:#24292E">      some</span></td></tr>
+<tr class=""><td class="line-num">215</td><td class="line-code"><span style="color:#24292E">        { s </span><span style="color:#D73A49">with</span></td></tr>
+<tr class=""><td class="line-num">216</td><td class="line-code"><span style="color:#24292E">          pc := s.pc + </span><span style="color:#005CC5">1</span></td></tr>
+<tr class=""><td class="line-num">217</td><td class="line-code"><span style="color:#24292E">          mem := setCell w s.mem a (s.mem (b % </span><span style="color:#005CC5">2</span><span style="color:#24292E"> ^ w) + s.mem (c % </span><span style="color:#005CC5">2</span><span style="color:#24292E"> ^ w)) }</span></td></tr>
+<tr class=""><td class="line-num">218</td><td class="line-code"><span style="color:#24292E">  | sub a b c, s =&gt;</span></td></tr>
+<tr class=""><td class="line-num">219</td><td class="line-code"><span style="color:#24292E">      some</span></td></tr>
+<tr class=""><td class="line-num">220</td><td class="line-code"><span style="color:#24292E">        { s </span><span style="color:#D73A49">with</span></td></tr>
+<tr class=""><td class="line-num">221</td><td class="line-code"><span style="color:#24292E">          pc := s.pc + </span><span style="color:#005CC5">1</span></td></tr>
+<tr class=""><td class="line-num">222</td><td class="line-code"><span style="color:#24292E">          mem := setCell w s.mem a (s.mem (b % </span><span style="color:#005CC5">2</span><span style="color:#24292E"> ^ w) - s.mem (c % </span><span style="color:#005CC5">2</span><span style="color:#24292E"> ^ w)) }</span></td></tr>
+<tr class=""><td class="line-num">223</td><td class="line-code"><span style="color:#24292E">  | mul a b c, s =&gt;</span></td></tr>
+<tr class=""><td class="line-num">224</td><td class="line-code"><span style="color:#24292E">      some</span></td></tr>
+<tr class=""><td class="line-num">225</td><td class="line-code"><span style="color:#24292E">        { s </span><span style="color:#D73A49">with</span></td></tr>
+<tr class=""><td class="line-num">226</td><td class="line-code"><span style="color:#24292E">          pc := s.pc + </span><span style="color:#005CC5">1</span></td></tr>
+<tr class=""><td class="line-num">227</td><td class="line-code"><span style="color:#24292E">          mem := setCell w s.mem a (s.mem (b % </span><span style="color:#005CC5">2</span><span style="color:#24292E"> ^ w) * s.mem (c % </span><span style="color:#005CC5">2</span><span style="color:#24292E"> ^ w)) }</span></td></tr>
+<tr class=""><td class="line-num">228</td><td class="line-code"><span style="color:#24292E">  | div a b c, s =&gt;</span></td></tr>
+<tr class=""><td class="line-num">229</td><td class="line-code"><span style="color:#24292E">      some</span></td></tr>
+<tr class=""><td class="line-num">230</td><td class="line-code"><span style="color:#24292E">        { s </span><span style="color:#D73A49">with</span></td></tr>
+<tr class=""><td class="line-num">231</td><td class="line-code"><span style="color:#24292E">          pc := s.pc + </span><span style="color:#005CC5">1</span></td></tr>
+<tr class=""><td class="line-num">232</td><td class="line-code"><span style="color:#24292E">          mem := setCell w s.mem a (s.mem (b % </span><span style="color:#005CC5">2</span><span style="color:#24292E"> ^ w) / s.mem (c % </span><span style="color:#005CC5">2</span><span style="color:#24292E"> ^ w)) }</span></td></tr>
+<tr class=""><td class="line-num">233</td><td class="line-code"><span style="color:#24292E">  | and a b c, s =&gt;</span></td></tr>
+<tr class=""><td class="line-num">234</td><td class="line-code"><span style="color:#24292E">      some</span></td></tr>
+<tr class=""><td class="line-num">235</td><td class="line-code"><span style="color:#24292E">        { s </span><span style="color:#D73A49">with</span></td></tr>
+<tr class=""><td class="line-num">236</td><td class="line-code"><span style="color:#24292E">          pc := s.pc + </span><span style="color:#005CC5">1</span></td></tr>
+<tr class=""><td class="line-num">237</td><td class="line-code"><span style="color:#24292E">          mem := setCell w s.mem a (Nat.land (s.mem (b % </span><span style="color:#005CC5">2</span><span style="color:#24292E"> ^ w)) (s.mem (c % </span><span style="color:#005CC5">2</span><span style="color:#24292E"> ^ w))) }</span></td></tr>
+<tr class=""><td class="line-num">238</td><td class="line-code"><span style="color:#24292E">  | shiftl a b c, s =&gt;</span></td></tr>
+<tr class=""><td class="line-num">239</td><td class="line-code"><span style="color:#24292E">      some</span></td></tr>
+<tr class=""><td class="line-num">240</td><td class="line-code"><span style="color:#24292E">        { s </span><span style="color:#D73A49">with</span></td></tr>
+<tr class=""><td class="line-num">241</td><td class="line-code"><span style="color:#24292E">          pc := s.pc + </span><span style="color:#005CC5">1</span></td></tr>
+<tr class=""><td class="line-num">242</td><td class="line-code"><span style="color:#24292E">          mem := setCell w s.mem a (s.mem (b % </span><span style="color:#005CC5">2</span><span style="color:#24292E"> ^ w) * </span><span style="color:#005CC5">2</span><span style="color:#24292E"> ^ s.mem (c % </span><span style="color:#005CC5">2</span><span style="color:#24292E"> ^ w)) }</span></td></tr>
+<tr class=""><td class="line-num">243</td><td class="line-code"><span style="color:#24292E">  | not a b, s =&gt;</span></td></tr>
+<tr class=""><td class="line-num">244</td><td class="line-code"><span style="color:#24292E">      some</span></td></tr>
+<tr class=""><td class="line-num">245</td><td class="line-code"><span style="color:#24292E">        { s </span><span style="color:#D73A49">with</span></td></tr>
+<tr class=""><td class="line-num">246</td><td class="line-code"><span style="color:#24292E">          pc := s.pc + </span><span style="color:#005CC5">1</span></td></tr>
+<tr class=""><td class="line-num">247</td><td class="line-code"><span style="color:#24292E">          mem := setCell w s.mem a (</span><span style="color:#005CC5">2</span><span style="color:#24292E"> ^ w - </span><span style="color:#005CC5">1</span><span style="color:#24292E"> - s.mem (b % </span><span style="color:#005CC5">2</span><span style="color:#24292E"> ^ w)) }</span></td></tr>
+<tr class=""><td class="line-num">248</td><td class="line-code"><span style="color:#24292E">  | jump l, s =&gt; some { s </span><span style="color:#D73A49">with</span><span style="color:#24292E"> pc := l }</span></td></tr>
+<tr class=""><td class="line-num">249</td><td class="line-code"><span style="color:#24292E">  | jzero a l, s =&gt; some { s </span><span style="color:#D73A49">with</span><span style="color:#24292E"> pc := </span><span style="color:#D73A49">if</span><span style="color:#24292E"> s.mem (a % </span><span style="color:#005CC5">2</span><span style="color:#24292E"> ^ w) = </span><span style="color:#005CC5">0</span><span style="color:#D73A49"> then</span><span style="color:#24292E"> l </span><span style="color:#D73A49">else</span><span style="color:#24292E"> s.pc + </span><span style="color:#005CC5">1</span><span style="color:#24292E"> }</span></td></tr>
+<tr class=""><td class="line-num">250</td><td class="line-code"><span style="color:#24292E">  | jeof l, s =&gt; some { s </span><span style="color:#D73A49">with</span><span style="color:#24292E"> pc := </span><span style="color:#D73A49">if</span><span style="color:#24292E"> s.inp.isEmpty </span><span style="color:#D73A49">then</span><span style="color:#24292E"> l </span><span style="color:#D73A49">else</span><span style="color:#24292E"> s.pc + </span><span style="color:#005CC5">1</span><span style="color:#24292E"> }</span></td></tr>
+<tr class=""><td class="line-num">251</td><td class="line-code"><span style="color:#24292E">  | inputLength a, s =&gt;</span></td></tr>
+<tr class=""><td class="line-num">252</td><td class="line-code"><span style="color:#24292E">      some { s </span><span style="color:#D73A49">with</span><span style="color:#24292E"> pc := s.pc + </span><span style="color:#005CC5">1</span><span style="color:#24292E">, mem := setCell w s.mem a s.input.length }</span></td></tr>
+<tr class=""><td class="line-num">253</td><td class="line-code"><span style="color:#24292E">  | inputLoad a b, s =&gt;</span></td></tr>
+<tr class=""><td class="line-num">254</td><td class="line-code"><span style="color:#24292E">      some { s </span><span style="color:#D73A49">with</span></td></tr>
+<tr class=""><td class="line-num">255</td><td class="line-code"><span style="color:#24292E">        pc := s.pc + </span><span style="color:#005CC5">1</span></td></tr>
+<tr class=""><td class="line-num">256</td><td class="line-code"><span style="color:#24292E">        mem := setCell w s.mem a (s.input[s.mem (b % </span><span style="color:#005CC5">2</span><span style="color:#24292E"> ^ w) % </span><span style="color:#005CC5">2</span><span style="color:#24292E"> ^ w]?.getD </span><span style="color:#005CC5">0</span><span style="color:#24292E">) }</span></td></tr>
+<tr class=""><td class="line-num">257</td><td class="line-code"><span style="color:#24292E">  | halt, _ =&gt; none</span></td></tr>
+<tr class=""><td class="line-num">258</td><td class="line-code"><span style="color:#24292E">  | read a, s =&gt;</span></td></tr>
+<tr class=""><td class="line-num">259</td><td class="line-code"><span style="color:#24292E">      s.inp.head?.map </span><span style="color:#D73A49">fun</span><span style="color:#24292E"> v =&gt;</span></td></tr>
+<tr class=""><td class="line-num">260</td><td class="line-code"><span style="color:#24292E">        { s </span><span style="color:#D73A49">with</span><span style="color:#24292E"> pc := s.pc + </span><span style="color:#005CC5">1</span><span style="color:#24292E">, mem := setCell w s.mem a v, inp := s.inp.tail }</span></td></tr>
+<tr class=""><td class="line-num">261</td><td class="line-code"><span style="color:#24292E">  | write a, s =&gt;</span></td></tr>
+<tr class=""><td class="line-num">262</td><td class="line-code"><span style="color:#24292E">      some { s </span><span style="color:#D73A49">with</span><span style="color:#24292E"> pc := s.pc + </span><span style="color:#005CC5">1</span><span style="color:#24292E">, out := s.out ++ [s.mem (a % </span><span style="color:#005CC5">2</span><span style="color:#24292E"> ^ w) % </span><span style="color:#005CC5">2</span><span style="color:#24292E"> ^ w] }</span></td></tr>
+<tr class=""><td class="line-num">263</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">264</td><td class="line-code"><span style="color:#6A737D">/-- One step of the machine at word length `w`: fetch the instruction</span></td></tr>
+<tr class=""><td class="line-num">265</td><td class="line-code"><span style="color:#6A737D">the program counter points at and execute it. The result is `none` if</span></td></tr>
+<tr class=""><td class="line-num">266</td><td class="line-code"><span style="color:#6A737D">the machine has halted, which also happens when the program counter has</span></td></tr>
+<tr class=""><td class="line-num">267</td><td class="line-code"><span style="color:#6A737D">run past the program. -/</span></td></tr>
+<tr class=""><td class="line-num">268</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> step</span><span style="color:#24292E"> (w : ℕ) (p : Program) (s : State) : Option State :=</span></td></tr>
+<tr class=""><td class="line-num">269</td><td class="line-code"><span style="color:#24292E">  p[s.pc]?.bind </span><span style="color:#D73A49">fun</span><span style="color:#24292E"> i =&gt; i.effect w s</span></td></tr>
 <tr class=""><td class="line-num">270</td><td class="line-code"> </td></tr>
-<tr class=""><td class="line-num">271</td><td class="line-code"><span style="color:#6A737D">/-- One step of the machine at word length `w`: fetch the instruction</span></td></tr>
-<tr class=""><td class="line-num">272</td><td class="line-code"><span style="color:#6A737D">the program counter points at and execute it. The result is `none` if</span></td></tr>
-<tr class=""><td class="line-num">273</td><td class="line-code"><span style="color:#6A737D">the machine has halted, which also happens when the program counter has</span></td></tr>
-<tr class=""><td class="line-num">274</td><td class="line-code"><span style="color:#6A737D">run past the program. -/</span></td></tr>
-<tr class=""><td class="line-num">275</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> step</span><span style="color:#24292E"> (w : ℕ) (p : Program) (s : State) : Option State :=</span></td></tr>
-<tr class=""><td class="line-num">276</td><td class="line-code"><span style="color:#24292E">  p[s.pc]?.bind </span><span style="color:#D73A49">fun</span><span style="color:#24292E"> i =&gt; i.effect w s</span></td></tr>
+<tr class=""><td class="line-num">271</td><td class="line-code"><span style="color:#6A737D">/-- The state after `t` successful transitions at word length `w`, or</span></td></tr>
+<tr class=""><td class="line-num">272</td><td class="line-code"><span style="color:#6A737D">`none` if one of those transitions terminates. This auxiliary count does</span></td></tr>
+<tr class=""><td class="line-num">273</td><td class="line-code"><span style="color:#6A737D">not include a fetched terminal instruction; `RunsTo` charges that too. -/</span></td></tr>
+<tr class=""><td class="line-num">274</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> run</span><span style="color:#24292E"> (w : ℕ) (p : Program) : ℕ → State → Option State</span></td></tr>
+<tr class=""><td class="line-num">275</td><td class="line-code"><span style="color:#24292E">  | </span><span style="color:#005CC5">0</span><span style="color:#24292E">, s =&gt; some s</span></td></tr>
+<tr class=""><td class="line-num">276</td><td class="line-code"><span style="color:#24292E">  | t + </span><span style="color:#005CC5">1</span><span style="color:#24292E">, s =&gt; (step w p s).bind (run w p t)</span></td></tr>
 <tr class=""><td class="line-num">277</td><td class="line-code"> </td></tr>
-<tr class=""><td class="line-num">278</td><td class="line-code"><span style="color:#6A737D">/-- The state after `t` steps at word length `w`, or `none` if the</span></td></tr>
-<tr class=""><td class="line-num">279</td><td class="line-code"><span style="color:#6A737D">machine halts before executing `t` instructions. -/</span></td></tr>
-<tr class=""><td class="line-num">280</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> run</span><span style="color:#24292E"> (w : ℕ) (p : Program) : ℕ → State → Option State</span></td></tr>
-<tr class=""><td class="line-num">281</td><td class="line-code"><span style="color:#24292E">  | </span><span style="color:#005CC5">0</span><span style="color:#24292E">, s =&gt; some s</span></td></tr>
-<tr class=""><td class="line-num">282</td><td class="line-code"><span style="color:#24292E">  | t + </span><span style="color:#005CC5">1</span><span style="color:#24292E">, s =&gt; (step w p s).bind (run w p t)</span></td></tr>
-<tr class=""><td class="line-num">283</td><td class="line-code"> </td></tr>
-<tr class=""><td class="line-num">284</td><td class="line-code"><span style="color:#6A737D">/-- The initial state on input `x`: program counter zero, all memory</span></td></tr>
-<tr class=""><td class="line-num">285</td><td class="line-code"><span style="color:#6A737D">cells zero, the input word on the input tape, the output tape empty. -/</span></td></tr>
-<tr class=""><td class="line-num">286</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> initState</span><span style="color:#24292E"> (x : List ℕ) : State </span><span style="color:#D73A49">where</span></td></tr>
-<tr class=""><td class="line-num">287</td><td class="line-code"><span style="color:#24292E">  pc := </span><span style="color:#005CC5">0</span></td></tr>
-<tr class=""><td class="line-num">288</td><td class="line-code"><span style="color:#24292E">  mem := </span><span style="color:#D73A49">fun</span><span style="color:#24292E"> _ =&gt; </span><span style="color:#005CC5">0</span></td></tr>
-<tr class=""><td class="line-num">289</td><td class="line-code"><span style="color:#24292E">  inp := x</span></td></tr>
-<tr class=""><td class="line-num">290</td><td class="line-code"><span style="color:#24292E">  out := []</span></td></tr>
-<tr class=""><td class="line-num">291</td><td class="line-code"> </td></tr>
-<tr class=""><td class="line-num">292</td><td class="line-code"><span style="color:#6A737D">/-- Started on input `x` at word length `w`, the machine executes</span></td></tr>
-<tr class=""><td class="line-num">293</td><td class="line-code"><span style="color:#6A737D">exactly `t` instructions and then halts, having written the word `y` to</span></td></tr>
-<tr class=""><td class="line-num">294</td><td class="line-code"><span style="color:#6A737D">its output tape. -/</span></td></tr>
-<tr class=""><td class="line-num">295</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> RunsTo</span><span style="color:#24292E"> (w : ℕ) (p : Program) (x y : List ℕ) (t : ℕ) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
-<tr class=""><td class="line-num">296</td><td class="line-code"><span style="color:#24292E">  ∃ s : State, run w p t (initState x) = some s ∧ step w p s = none ∧ s.out = y</span></td></tr>
-<tr class=""><td class="line-num">297</td><td class="line-code"> </td></tr>
-<tr class=""><td class="line-num">298</td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax67.Ram</span></td></tr>
-<tr class=""><td class="line-num">299</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">278</td><td class="line-code"><span style="color:#6A737D">/-- The initial state on input `x`: program counter zero, all memory</span></td></tr>
+<tr class=""><td class="line-num">279</td><td class="line-code"><span style="color:#6A737D">cells zero, the original input array and its sequential tape both `x`,</span></td></tr>
+<tr class=""><td class="line-num">280</td><td class="line-code"><span style="color:#6A737D">and the output tape empty. -/</span></td></tr>
+<tr class=""><td class="line-num">281</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> initState</span><span style="color:#24292E"> (x : List ℕ) : State </span><span style="color:#D73A49">where</span></td></tr>
+<tr class=""><td class="line-num">282</td><td class="line-code"><span style="color:#24292E">  pc := </span><span style="color:#005CC5">0</span></td></tr>
+<tr class=""><td class="line-num">283</td><td class="line-code"><span style="color:#24292E">  mem := </span><span style="color:#D73A49">fun</span><span style="color:#24292E"> _ =&gt; </span><span style="color:#005CC5">0</span></td></tr>
+<tr class=""><td class="line-num">284</td><td class="line-code"><span style="color:#24292E">  input := x</span></td></tr>
+<tr class=""><td class="line-num">285</td><td class="line-code"><span style="color:#24292E">  inp := x</span></td></tr>
+<tr class=""><td class="line-num">286</td><td class="line-code"><span style="color:#24292E">  out := []</span></td></tr>
+<tr class=""><td class="line-num">287</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">288</td><td class="line-code"><span style="color:#6A737D">/-- Cost of termination at `s`, when `step w p s = none`: a fetched</span></td></tr>
+<tr class=""><td class="line-num">289</td><td class="line-code"><span style="color:#6A737D">terminal instruction costs one, while an out-of-range program counter</span></td></tr>
+<tr class=""><td class="line-num">290</td><td class="line-code"><span style="color:#6A737D">costs zero because there is no instruction to execute. -/</span></td></tr>
+<tr class=""><td class="line-num">291</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> terminalCost</span><span style="color:#24292E"> (p : Program) (s : State) : ℕ :=</span></td></tr>
+<tr class=""><td class="line-num">292</td><td class="line-code"><span style="color:#D73A49">  if</span><span style="color:#24292E"> s.pc &lt; p.length </span><span style="color:#D73A49">then</span><span style="color:#005CC5"> 1</span><span style="color:#D73A49"> else</span><span style="color:#005CC5"> 0</span></td></tr>
+<tr class=""><td class="line-num">293</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">294</td><td class="line-code"><span style="color:#6A737D">/-- Started on input `x` at word length `w`, the machine executes</span></td></tr>
+<tr class=""><td class="line-num">295</td><td class="line-code"><span style="color:#6A737D">exactly `t` instructions and then halts, having written the word `y` to</span></td></tr>
+<tr class=""><td class="line-num">296</td><td class="line-code"><span style="color:#6A737D">its output tape. -/</span></td></tr>
+<tr class=""><td class="line-num">297</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> RunsTo</span><span style="color:#24292E"> (w : ℕ) (p : Program) (x y : List ℕ) (t : ℕ) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr class=""><td class="line-num">298</td><td class="line-code"><span style="color:#24292E">  ∃ (k : ℕ) (s : State), run w p k (initState x) = some s ∧</span></td></tr>
+<tr class=""><td class="line-num">299</td><td class="line-code"><span style="color:#24292E">    step w p s = none ∧ s.out = y ∧ t = k + terminalCost p s</span></td></tr>
+<tr class=""><td class="line-num">300</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">301</td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax67.Ram</span></td></tr>
+<tr class=""><td class="line-num">302</td><td class="line-code"> </td></tr>
 </table></div></div>
 </div>
 </li>
