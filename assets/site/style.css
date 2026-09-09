@@ -846,6 +846,10 @@ body.sidebar-resizing #content-shell{ transition: none; }
 
 .paper-meta a{ color: var(--link); text-decoration: none; }
 .paper-meta a:hover{ text-decoration: underline; }
+a.submission-meta-id,
+.paper-meta a.submission-meta-id{ color: var(--accent); text-decoration: none; }
+a.submission-meta-id:is(:hover, :focus-visible),
+.paper-meta a.submission-meta-id:is(:hover, :focus-visible){ font-weight: 700; text-decoration: none; }
 .paper-meta code{ font-family: var(--mono); font-size: 0.9em; }
 .paper-meta .status-pill{ vertical-align: middle; }
 .paper-version-button{

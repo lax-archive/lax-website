@@ -1,4 +1,4 @@
-import { leanDeclarations, nameKey, nameParts, scanLeanSource, type LeanSource, type LeanToken, type SourceRange } from "./lean-source.js";
+import { leanDeclarations, nameKey, nameParts, scanLeanSource, type LeanNamespaceReference, type LeanSource, type LeanToken, type SourceRange } from "./lean-source.js";
 import type { LocatedConcept, SiteModel } from "./model.js";
 import type { LeanReferences } from "../lean-references.js";
 
@@ -11,6 +11,7 @@ interface ModuleSource {
   semantic?: LeanReferences;
   definitionSites: SourceRange[];
   imports: SourceLink[];
+  namespaces: LeanNamespaceReference[];
 }
 
 /** Even dotted syntax can be local: `let N.value := ...; N.value`, or a
@@ -65,15 +66,23 @@ class SourceLinkIndex {
   private readonly modules = new Map<string, ModuleSource>();
   private readonly names = new Map<string, Target[]>();
   private readonly semanticTargets = new Map<string, Map<string, string>>();
+  private readonly namespaceHomes = new Map<string, Map<string, string>>();
+  private readonly submissionNamespaces = new Map<string, string>();
   private readonly resolved = new Map<string, SourceLink[]>();
 
   constructor(private readonly model: SiteModel) {
+    for (const { record } of model.submissions) {
+      const number = /^(?:lax-|Lax)([0-9]+)$/u.exec(record.id)?.[1];
+      if (number) this.submissionNamespaces.set(nameKey([`Lax${number}`]), `${encodeURIComponent(record.id)}/index.html`);
+    }
     for (const located of model.conceptHome.values()) {
       const { concept } = located;
       const source = scanLeanSource(concept.sourceText);
       const references: Reference[] = [];
       const semantic = located.submission.sourceReferences?.get(concept.id);
-      const inventory = leanDeclarations(source, semantic ? undefined : (token, namespace) => references.push({ token, namespace }));
+      const namespaces: LeanNamespaceReference[] = [];
+      const inventory = leanDeclarations(source, semantic ? undefined : (token, namespace) => references.push({ token, namespace }),
+        (reference) => namespaces.push(reference));
       const declarations = new Set(inventory.map((declaration) => declaration.token.start));
       const statements = new Map(concept.statements.map((s) => [nameKey(nameParts(s.id)), s]));
       const statementsById = new Map(concept.statements.map((statement) => [statement.id, statement]));
@@ -122,8 +131,24 @@ class SourceLinkIndex {
       }
       this.modules.set(concept.id, {
         references, locals: semantic ? new Set() : possibleLocals(source, declarations),
-        semantic, definitionSites, imports,
+        semantic, definitionSites, imports, namespaces,
       });
+      const addNamespace = (parts: readonly string[]) => {
+        const key = nameKey(parts);
+        const homes = this.namespaceHomes.get(key) ?? new Map<string, string>();
+        const declaration = this.semanticTargets.get(concept.id)?.get(parts.join(".")) ??
+          (this.names.get(key) ?? []).find((target) => target.module === concept.id)?.href;
+        homes.set(concept.id, declaration ?? this.page(located));
+        this.namespaceHomes.set(key, homes);
+      };
+      const addPrefixes = (parts: readonly string[]) => {
+        for (let end = 1; end <= parts.length; end++) addNamespace(parts.slice(0, end));
+      };
+      addPrefixes(nameParts(concept.id));
+      for (const ref of namespaces) if (ref.kind === "namespace") addPrefixes(ref.namespace);
+      const names = semantic ? [...semantic.declarations.keys(), ...semantic.constants.filter((ref) => ref.definition).map((ref) => ref.name)]
+        .map(nameParts) : inventory.map((declaration) => declaration.name);
+      for (const parts of names) addPrefixes(parts);
     }
   }
 
@@ -146,8 +171,31 @@ class SourceLinkIndex {
     return this.page(located);
   }
 
-  private semanticLinks(module: ModuleSource): SourceLink[] {
-    const candidates = [...module.imports];
+  private namespaceLinks(source: ModuleSource, visible: Set<string>): SourceLink[] {
+    const links: SourceLink[] = [];
+    for (const reference of source.namespaces) {
+      const { token, namespace, kind } = reference;
+      let href: string | undefined;
+      if (kind !== "open") href = this.submissionNamespaces.get(nameKey(namespace));
+      else {
+        const rooted = token.name![0] === "_root_";
+        const parts = rooted ? token.name!.slice(1) : token.name!;
+        for (let depth = rooted ? 0 : namespace.length; depth >= 0; depth--) {
+          const key = nameKey([...namespace.slice(0, depth), ...parts]);
+          const homes = this.namespaceHomes.get(key);
+          const candidates = [...(homes ?? [])].filter(([module]) => visible.has(module));
+          if (!candidates.length) continue;
+          href = this.submissionNamespaces.get(key) ?? (candidates.length === 1 ? candidates[0]![1] : undefined);
+          break;
+        }
+      }
+      if (href) links.push({ start: token.start, end: token.end, href });
+    }
+    return links;
+  }
+
+  private semanticLinks(module: ModuleSource, namespaceLinks: SourceLink[]): SourceLink[] {
+    const candidates = [...module.imports, ...namespaceLinks];
     for (const reference of module.semantic!.constants) {
       const href = this.semanticTarget(reference.module, reference.name);
       if (!href) continue;
@@ -191,11 +239,6 @@ class SourceLinkIndex {
     if (cached) return cached;
     const module = this.modules.get(conceptId);
     if (!module) return [];
-    if (module.semantic) {
-      const links = this.semanticLinks(module);
-      this.resolved.set(conceptId, links);
-      return links;
-    }
     // Iterative and cycle-safe; don't parse every ancestor again for each page.
     const visible = new Set<string>();
     const pending = [conceptId];
@@ -205,7 +248,14 @@ class SourceLinkIndex {
       visible.add(id);
       pending.push(...(this.model.conceptHome.get(id)?.concept.imports ?? []));
     }
-    const links: SourceLink[] = [];
+    const namespaceLinks = this.namespaceLinks(module, visible);
+    if (module.semantic) {
+      const links = this.semanticLinks(module, namespaceLinks);
+      this.resolved.set(conceptId, links);
+      return links;
+    }
+    const links: SourceLink[] = [...namespaceLinks];
+    const namespaceSites = new Set(namespaceLinks.map((link) => link.start));
     const destinations = new Map<string, Target[]>();
     const candidates = (parts: readonly string[]) => {
       const key = nameKey(parts);
@@ -218,6 +268,7 @@ class SourceLinkIndex {
       return found;
     };
     for (const { token, namespace } of module.references) {
+      if (namespaceSites.has(token.start)) continue;
       if (!token.name) continue;
       const rooted = token.name[0] === "_root_";
       if (!rooted && module.locals.has(token.name[0]!)) continue;
@@ -244,6 +295,7 @@ class SourceLinkIndex {
       }
       if (href) links.push({ start: token.start, end: token.end, href });
     }
+    links.sort((a, b) => a.start - b.start);
     this.resolved.set(conceptId, links);
     return links;
   }

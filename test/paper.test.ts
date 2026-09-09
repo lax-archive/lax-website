@@ -156,7 +156,7 @@ describe("paper pages", () => {
     expect(proof).toContain('<li><a href="../lax-7/paper.html#m2">page 1</a> of this submission\'s paper</li>');
     // the foreign concept and the marked submission point at lax-7's paper
     const foreign = fs.readFileSync(path.join(root, "lax-3", "Lax3.Bags.html"), "utf8");
-    expect(foreign).toContain('<li><a href="../lax-7/paper.html#m3">page 2</a> of the paper of <span class="submission-meta-id">lax-7</span>, A Spike Paper</li>');
+    expect(foreign).toContain('<li><a href="../lax-7/paper.html#m3">page 2</a> of the paper of <a class="submission-meta-id" href="../lax-7/index.html">lax-7</a>, A Spike Paper</li>');
     const marked = fs.readFileSync(path.join(root, "lax-3", "index.html"), "utf8");
     expect(marked).not.toContain('paper-cta');
     expect(marked).toContain('<a href="../lax-7/paper.html#m4">page 2</a> of the paper of');

@@ -131,7 +131,11 @@ bytes therefore differ from production's, deterministically per flag set).
   constructors, with type and scope information from the validated build.
   Local variables, external library names (including Mathlib), and names at
   their own definition sites stay plain. Imported archive module names link
-  to their concept pages. Declaration uses link to the
+  to their concept pages. Archive namespaces in `open` commands link to their
+  owning concept or declaration; standalone submission namespaces such as
+  `Lax17` link to the submission page, as do displayed `lax-17` metadata labels.
+  Namespace navigation uses known, unambiguous destinations within the
+  module's archive imports. Declaration uses link to the
   beginning of the declaration's preceding comments (or its attributes and
   modifiers when there are no comments); statements retain their `s-…` anchors
   at the same comment start. Source targets align below the sticky header, with

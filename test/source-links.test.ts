@@ -30,6 +30,21 @@ const renderedLinks = (html: string) => [...html.matchAll(/<a class="lean-identi
   .map((match) => ({ href: match[1], text: strip(match[2]!) }));
 
 describe("Lean source navigation", () => {
+  it("keeps opened namespaces within imports and refuses ambiguous or invented targets", () => {
+    const left = concept("Lax17.Left", "namespace Shared\ndef value := 1\nend Shared");
+    const right = concept("Lax17.Right", "namespace Shared\ndef other := 2\nend Shared");
+    const caller = concept("Lax17.Caller", [
+      "open Lax17.Left Lax17.Right", "open Shared", "open Lax17.Left.Invented", "open Lax17",
+    ].join("\n"), [left.id]);
+    expect(links(archive([left, right, caller]), caller.id)).toEqual([
+      { text: "Lax17.Left", href: "../lax-17/Lax17.Left.html" },
+      { text: "Shared", href: "../lax-17/Lax17.Left.html" },
+      { text: "Lax17", href: "../lax-17/index.html" },
+    ]);
+    caller.imports.push(right.id);
+    expect(links(archive([left, right, caller]), caller.id).map((link) => link.text)).toEqual(["Lax17.Left", "Lax17.Right", "Lax17"]);
+  });
+
   it("links the reported treewidth/grid-minor references to their actual declarations", async () => {
     const tree = concept("Lax17.Treewidth", "namespace Lax17.Treewidth\nnoncomputable def treewidth : Nat := 0\nend Lax17.Treewidth");
     const grid = concept("Lax17.GridMinor", "namespace Lax17.GridMinor\ndef ContainsGridMinor : Prop := True\nend Lax17.GridMinor");
@@ -76,6 +91,7 @@ describe("Lean source navigation", () => {
       { text: "_root_.A.value", href: "../lax-17/Lax17.Base.html#L1" },
       { text: "value", href: "../lax-17/Lax17.Base.html#L1" },
       { text: "Inner.value", href: "../lax-17/Lax17.Caller.html#L5" },
+      { text: "Other", href: "../lax-17/Lax17.Base.html" },
       { text: "A.Inner.value", href: "../lax-17/Lax17.Caller.html#L5" },
     ]);
   });
@@ -169,7 +185,10 @@ describe("Lean source navigation", () => {
       "open Shared", "example (visible : Nat) : Nat := visible", "#check Shared.hidden", "#check Shared.Record.field",
       "#check Lax17.Definitions.unknown", "#check Shared.visible", "#check Shared.visible!", "#check Shared.visible?", "#check Shared.visible₁",
     ].join("\n"), [target.id]);
-    expect(links(archive([target, caller]), caller.id)).toEqual([{ text: "Shared.visible", href: "../lax-17/Lax17.Definitions.html#L3" }]);
+    expect(links(archive([target, caller]), caller.id)).toEqual([
+      { text: "Shared", href: "../lax-17/Lax17.Definitions.html" },
+      { text: "Shared.visible", href: "../lax-17/Lax17.Definitions.html#L3" },
+    ]);
   });
 
   it("resolves only reachable, unambiguous declarations, even through import cycles", () => {

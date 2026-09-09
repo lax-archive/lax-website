@@ -130,6 +130,12 @@ export interface LeanDeclaration {
   private: boolean;
 }
 
+export interface LeanNamespaceReference {
+  token: LeanToken;
+  namespace: readonly string[];
+  kind: "open" | "namespace" | "end";
+}
+
 const DECLARATION = new Set(["def", "abbrev", "structure", "class", "inductive", "theorem", "lemma", "axiom", "opaque", "constant"]);
 const MODIFIER = new Set(["private", "protected", "noncomputable", "unsafe", "partial", "nonrec", "public"]);
 
@@ -140,9 +146,10 @@ const MODIFIER = new Set(["private", "protected", "noncomputable", "unsafe", "pa
 export function leanDeclarations(
   { tokens }: LeanSource,
   reference?: (token: LeanToken, namespace: readonly string[]) => void,
+  namespaceReference?: (reference: LeanNamespaceReference) => void,
 ): LeanDeclaration[] {
   const result: LeanDeclaration[] = [];
-  const scopes: string[][] = [];
+  const scopes: { namespace: string[]; kind: "namespace" | "section" }[] = [];
   let namespace: string[] = [];
   let bodyNamespace: string[] | undefined;
   let commandColumn = 0;
@@ -160,6 +167,27 @@ export function leanDeclarations(
       // `.field` and `(term).field` need type information, not namespace lookup.
       if (token.name && tokens[i - 1]?.text !== ".") reference?.(token, bodyNamespace ?? namespace);
     };
+    if (text === "open" && namespaceReference) {
+      // Namespace operands precede any selective opening/hiding/renaming.
+      // Stop at `in` and at a new command's indentation; selected declaration
+      // names keep their compiler-provided links, never namespace guesses.
+      for (let j = i + 1; j < tokens.length; j++) {
+        const next = tokens[j]!;
+        if (next.line > token.line && next.column <= commandColumn) break;
+        if (j === i + 1 && next.text === "scoped") continue;
+        if (next.text === "(") {
+          let selectionDepth = 1;
+          while (++j < tokens.length && selectionDepth) {
+            if (tokens[j]!.text === "(") selectionDepth++;
+            if (tokens[j]!.text === ")") selectionDepth--;
+          }
+          j--;
+          continue;
+        }
+        if (!next.name || ["in", "hiding", "renaming"].includes(next.text)) break;
+        namespaceReference({ token: next, namespace: bodyNamespace ?? namespace, kind: "open" });
+      }
+    }
     if (["(", "[", "{", "⦃"].includes(text)) { depth++; continue; }
     if ([")", "]", "}", "⦄"].includes(text)) { depth = Math.max(0, depth - 1); continue; }
     if (depth) { visit(); continue; }
@@ -172,14 +200,18 @@ export function leanDeclarations(
     if (text === "@" && tokens[i + 1]?.text === "[") continue;
     if (MODIFIER.has(text)) { if (text === "private") isPrivate = true; continue; }
     if (text === "namespace" || text === "section") {
-      scopes.push(namespace);
+      scopes.push({ namespace, kind: text });
       if (text === "namespace" && tokens[i + 1]?.name) {
         const parts = tokens[i + 1]!.name!;
         namespace = parts[0] === "_root_" ? parts.slice(1) : [...namespace, ...parts];
+        namespaceReference?.({ token: tokens[i + 1]!, namespace, kind: "namespace" });
       }
       if (tokens[i + 1]?.name && tokens[i + 1]!.line === token.line) i++;
     } else if (text === "end") {
-      namespace = scopes.pop() ?? [];
+      const scope = scopes.pop();
+      if (scope?.kind === "namespace" && tokens[i + 1]?.name && tokens[i + 1]!.line === token.line)
+        namespaceReference?.({ token: tokens[i + 1]!, namespace, kind: "end" });
+      namespace = scope?.namespace ?? [];
       if (tokens[i + 1]?.name && tokens[i + 1]!.line === token.line) i++;
     } else if (DECLARATION.has(text) && tokens[i + 1]?.name) {
       const declared = tokens[i + 1]!;

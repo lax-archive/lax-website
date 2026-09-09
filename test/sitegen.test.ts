@@ -810,7 +810,7 @@ After the formula.`, "");
     expect(html).not.toContain('class="submission-title-id"');
     expect(html).not.toContain('class="submission-title-separator"');
     expect(html).not.toContain('class="paper-authors"');
-    expect(html).toContain('<p class="paper-meta"><span class="submission-meta-id">Lax2</span><span class="meta-sep">·</span><span class="formalized-label">formalized by</span> <span class="paper-author"><a class="paper-author-name" href="https://orcid.org/0000-0002-1825-0097" target="_blank" rel="noopener noreferrer">Alice</a>');
+    expect(html).toContain('<p class="paper-meta"><a class="submission-meta-id" href="../Lax2/index.html">Lax2</a><span class="meta-sep">·</span><span class="formalized-label">formalized by</span> <span class="paper-author"><a class="paper-author-name" href="https://orcid.org/0000-0002-1825-0097" target="_blank" rel="noopener noreferrer">Alice</a>');
     expect(html.indexOf('class="paper-meta"')).toBeLessThan(html.indexOf('class="katex"'));
     // the abstract is rendered under its own heading, not as an inline block
     expect(html).toContain("Abstract");

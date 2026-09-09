@@ -26,6 +26,7 @@ import { compareIds, type SiteModel, type SiteSubmission } from "../model.js";
 import type { PaperWebPage } from "../paper-web.js";
 import type { PaperMark } from "../../types.js";
 import {
+  submissionIdLink,
   claimEntry,
   conceptShortName,
   draftBanner,
@@ -183,7 +184,7 @@ export function inPaperBlock(ctx: PageContext, id: string, home: string, rootRel
     const href = `${rootRel}${sid}/paper.html#m${n}`;
     const where = sid === home
       ? "this submission's paper"
-      : `the paper of <span class="submission-meta-id">${esc(sid)}</span>${submission.output ? `, ${ctx.markdown.renderAuthorInline(submission.output.manifest.title, rootRel)}` : ""}`;
+      : `the paper of ${submissionIdLink(sid, rootRel)}${submission.output ? `, ${ctx.markdown.renderAuthorInline(submission.output.manifest.title, rootRel)}` : ""}`;
     return `<li><a href="${attr(href)}">page ${pageNumber}</a> of ${where}</li>`;
   });
   return `<div class="block block-paper"><h3>In the paper</h3>

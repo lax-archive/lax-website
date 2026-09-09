@@ -31,6 +31,10 @@ export function conceptLink(model: SiteModel, id: string, rootRel: string, home?
   return href ? `<a href="${attr(href)}"${title}>${code(label)}</a>` : code(id);
 }
 
+export function submissionIdLink(id: string, rootRel: string): string {
+  return `<a class="submission-meta-id" href="${attr(`${rootRel}${encodeURIComponent(id)}/index.html`)}">${esc(id)}</a>`;
+}
+
 // ---- proofs as judgments between claims ----
 
 /** English ordinal for a 1-based position: 1st, 2nd, 3rd, 4th, 11th, 21st. */
@@ -602,7 +606,7 @@ export function versionHistoryPanel(
   const summary = draftProposal
     ? `<strong>Proposed new version.</strong> This draft would follow the current registered version, ${currentLink}.`
     : superseded
-      ? `<strong>Outdated version.</strong> You are viewing <span class="submission-meta-id">${esc(submissionId)}</span>. The current version is ${currentLink}.`
+      ? `<strong>Outdated version.</strong> You are viewing ${submissionIdLink(submissionId, rootRel)}. The current version is ${currentLink}.`
       : pendingProposal
         ? `<strong>${pendingDrafts.length === 1 ? "New version" : "New versions"} in progress.</strong> ${pendingDrafts.length === 1 ? "A draft" : "Drafts"}, ${linkedDrafts}, ${pendingDrafts.length === 1 ? "is proposed" : "are proposed"} as the next version. This remains the current registered version.`
         : `<strong>Current version.</strong> ${olderCount} older ${olderCount === 1 ? "version is" : "versions are"} available for reference.`;
@@ -682,7 +686,7 @@ export function paperHeader(ctx: PageContext, submission: SiteSubmission, rootRe
   const title = output?.manifest.title ?? record.id;
   return `<header class="paper-head">
 <h1 class="paper-title">${ctx.markdown.renderAuthorInline(title, rootRel)}</h1>
-<p class="paper-meta">${metaBits(ctx.model, submission, metaAction)}</p>
+<p class="paper-meta">${metaBits(ctx.model, submission, rootRel, metaAction)}</p>
 </header>`;
 }
 
@@ -709,7 +713,7 @@ function authorByline(submission: SiteSubmission): string {
 }
 
 /** The dim technical line under the title: id, authors, state, dates, source, pins. */
-function metaBits(model: SiteModel, submission: SiteSubmission, metaAction: string): string {
+function metaBits(model: SiteModel, submission: SiteSubmission, rootRel: string, metaAction: string): string {
   const { record, output } = submission;
   const source = record.source;
   const sourceBit = source
@@ -741,7 +745,7 @@ function metaBits(model: SiteModel, submission: SiteSubmission, metaAction: stri
   // Drafts use the prominent page banner; repeating a tiny state pill here
   // makes the mutable state look like ordinary metadata.
   const state = record.state === "draft" ? "" : statePill(record.state);
-  const id = output ? `<span class="submission-meta-id">${esc(record.id)}</span>` : "";
+  const id = output ? submissionIdLink(record.id, rootRel) : "";
   const parts = [id, authorBit, state, dates, sourceBit, pins, metaAction].filter(Boolean);
   return parts.join('<span class="meta-sep">·</span>');
 }

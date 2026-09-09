@@ -21,6 +21,47 @@ function model() {
 }
 
 describe("compiler-backed navigation", () => {
+  it("links open namespaces and standalone submission namespaces without touching locals or selectors", () => {
+    const { entry } = model();
+    const suffix = [
+      "namespace Lax17",
+      "open Fields",
+      "open Fields (Packet) Fields.Other",
+      "open scoped Fields in",
+      "section Example",
+      "end Example",
+      "open Fields hiding Packet Other",
+      "open Fields renaming Packet → Renamed",
+      "open",
+      "  Fields",
+      "  Fields.Other",
+      "def localName (Lax17 : Nat) := Lax17",
+      'def literal := "open Lax17.Fields"',
+      "-- open Lax17.Fields",
+      "def quoted := `(open Lax17.Fields)",
+      "end Lax17",
+      "open _root_.Lax17",
+      "open Lax17.Fields.Unknown",
+      "open Classical",
+    ].join("\n");
+    const fullSource = source + suffix;
+    entry.output!.concepts[0]!.sourceText = fullSource;
+    const links = sourceLinks(new SiteModel([entry]), module, "../../").filter((link) => link.start >= source.length);
+    expect(links.map((link) => [fullSource.slice(link.start, link.end), link.href])).toEqual([
+      ["Lax17", "../../lax-17/index.html"],
+      ["Fields", "../../lax-17/Lax17.Fields.html"],
+      ["Fields", "../../lax-17/Lax17.Fields.html"],
+      ["Fields.Other", "../../lax-17/Lax17.Fields.html#L11"],
+      ["Fields", "../../lax-17/Lax17.Fields.html"],
+      ["Fields", "../../lax-17/Lax17.Fields.html"],
+      ["Fields", "../../lax-17/Lax17.Fields.html"],
+      ["Fields", "../../lax-17/Lax17.Fields.html"],
+      ["Fields.Other", "../../lax-17/Lax17.Fields.html#L11"],
+      ["Lax17", "../../lax-17/index.html"],
+      ["_root_.Lax17", "../../lax-17/index.html"],
+    ]);
+  });
+
   it("links record keys, updates, typed projections, aliases and private declarations", async () => {
     const { site, references } = model();
     const links = sourceLinks(site, module, "../");

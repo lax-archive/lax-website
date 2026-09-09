@@ -49,6 +49,18 @@ names, including Mathlib and Lean's standard library, remain plain. Imported
 archive module names still link to their concept pages. Duplicate compiler
 spans such as `T` and `T.{u}` link only the precise name, leaving `u` plain.
 
+Lean's reference maps omit namespace operands. A supplemental index of
+archive namespaces and declarations links `open` operands to their owning
+concept page, or to a declaration's comments when opening a type namespace.
+Lookup respects the current namespace, its parents, `_root_`, and the
+module's archive import closure. Unknown or ambiguous destinations stay
+plain. Selective openings, hiding and renaming do not turn selected names
+into namespace guesses; their declaration links still come from Lean.
+Comments, strings, syntax quotations and section labels are excluded.
+Standalone submission namespace names, such as `open Lax17`, `namespace
+Lax17` and `end Lax17`, link to the submission index. Visible submission IDs
+in page metadata, version banners and paper references link there too.
+
 The conservative lexical implementation remains available for local `lax`
 callers without captures and explicit `--no-references` builds. Normal CLI,
 CI and branch-preview builds require captured references; missing or
@@ -129,18 +141,22 @@ Validation used the read-only database at
   overlap definition sites and are intentionally plain; all remaining 4,619
   have navigation to the compiler-recorded owning module. Duplicate universe
   spans account for multiple metadata records sharing one precise link.
-- Concept pages contain 5,125 source links including imported modules. Across
-  paper cards and concept pages, all 8,695 source links and 65,046 static local
+- An independent source audit found 513 archive namespace operands across
+  337 `open` commands; all 513 have links. Namespace navigation preserves
+  the existing coverage of all 4,619 eligible compiler-recorded usages.
+- Concept pages contain 5,650 source links including imported modules. Across
+  paper cards and concept pages, all 9,716 source links and 66,320 static local
   links resolve. No duplicate IDs, changed CSP values or displayed-source
   differences were found across 717 HTML pages. Dynamic paper passage anchors
   are excluded from static checking; every source target is checked against
   an emitted ID.
 - Two complete builds produced identical 834-file output trees.
-- `npm run check` passed 185 tests. The six browser tests normally skipped
+- `npm run check` passed 187 tests. The six browser tests normally skipped
   without Chromium also passed with system Chrome. They cover desktop/mobile,
   JavaScript enabled/disabled, native comment alignment, bold focus, proof-rail
-  hit testing, record keys, record updates, typed projections, and the paper
-  viewer. Existing tests retain namespace, source preservation, escaping,
+  hit testing, record keys, record updates, typed projections, opened type
+  namespaces, submission-ID navigation, and the paper viewer. Existing tests
+  retain namespace, source preservation, escaping,
   thousands-of-links, statement anchors and repeated-card coverage.
 - A checked-in Lean 4.30.0 reference fixture exercises actual compiler output,
   including aliases, same-spelling fields, private globals, local shadowing,
