@@ -2196,6 +2196,86 @@
       ]
     },
     {
+      "id": "lax-434930",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "Classical Complexity Classes",
+      "concepts": [
+        {
+          "id": "Lax434930.BasicProperties",
+          "title": "Elementary properties of the complexity classes",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434930.Certificates",
+          "title": "Binary encoding of an input and a certificate",
+          "type": "definition"
+        },
+        {
+          "id": "Lax434930.ComplementClasses",
+          "title": "The complexity classes coNL and coNP",
+          "type": "definition"
+        },
+        {
+          "id": "Lax434930.ExponentialTime",
+          "title": "The complexity class EXPTIME",
+          "type": "definition"
+        },
+        {
+          "id": "Lax434930.LogarithmicSpace",
+          "title": "The complexity class L",
+          "type": "definition"
+        },
+        {
+          "id": "Lax434930.NondeterministicLogarithmicSpace",
+          "title": "The complexity class NL",
+          "type": "definition"
+        },
+        {
+          "id": "Lax434930.NondeterministicPolynomialSpace",
+          "title": "The complexity class NPSPACE",
+          "type": "definition"
+        },
+        {
+          "id": "Lax434930.NondeterministicPolynomialTime",
+          "title": "The complexity class NP",
+          "type": "definition"
+        },
+        {
+          "id": "Lax434930.PolynomialSpace",
+          "title": "The complexity class PSPACE",
+          "type": "definition"
+        },
+        {
+          "id": "Lax434930.PolynomialTime",
+          "title": "The complexity class P",
+          "type": "definition"
+        },
+        {
+          "id": "Lax434930.SpaceBounds",
+          "title": "Deterministic and nondeterministic space bounds",
+          "type": "definition"
+        },
+        {
+          "id": "Lax434930.SpaceMachines",
+          "title": "Finite Turing machines with a read-only input tape",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax434930Proofs.BasicProperties.co_co",
+        "Lax434930Proofs.BasicProperties.L_subset_NL",
+        "Lax434930Proofs.BasicProperties.L_subset_PSPACE",
+        "Lax434930Proofs.BasicProperties.mem_coNP_iff",
+        "Lax434930Proofs.BasicProperties.NL_subset_NPSPACE",
+        "Lax434930Proofs.BasicProperties.P_subset_EXPTIME",
+        "Lax434930Proofs.BasicProperties.PSPACE_subset_NPSPACE",
+        "Lax434930Proofs.Certificates.pair_injective",
+        "Lax434930Proofs.Certificates.pair_length",
+        "Lax434930Proofs.Certificates.unpair_pair"
+      ]
+    },
+    {
       "id": "lax-554803",
       "state": "draft",
       "environment": "v4.30.0",
