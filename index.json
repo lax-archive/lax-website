@@ -2718,6 +2718,86 @@
       ]
     },
     {
+      "id": "lax-733996",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "The Immerman–Szelepcsényi Theorem",
+      "concepts": [
+        {
+          "id": "Lax733996.Classification",
+          "title": "Correctness of vertex classification",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax733996.ComplementClosure",
+          "title": "Complementing a logarithmic space language",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax733996.ConfigurationCounting",
+          "title": "Counting on the configuration graph",
+          "type": "definition"
+        },
+        {
+          "id": "Lax733996.Counting",
+          "title": "Inductive counting certificates",
+          "type": "definition"
+        },
+        {
+          "id": "Lax733996.CountingStep",
+          "title": "Correctness of one counting step",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax733996.CountingTrace",
+          "title": "Correctness of the count sequence",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax733996.CountMachine",
+          "title": "Logarithmic space for inductive counting",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax733996.ExactCensus",
+          "title": "Exact censuses enumerate the whole layer",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax733996.NLcoNL",
+          "title": "The Immerman–Szelepcsényi theorem",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax733996.Nonreachability",
+          "title": "Correctness of nonreachability certificates",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax733996.Rejection",
+          "title": "Correctness of rejection by counting",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax733996.SuccessorLayer",
+          "title": "The next reachable layer",
+          "type": "lemma"
+        }
+      ],
+      "proofs": [
+        "Lax733996Proofs.classification",
+        "Lax733996Proofs.complement_closed",
+        "Lax733996Proofs.counting_rejection",
+        "Lax733996Proofs.counting_step",
+        "Lax733996Proofs.counting_trace",
+        "Lax733996Proofs.CountingProgram.counting_machine_implementation",
+        "Lax733996Proofs.exact_census",
+        "Lax733996Proofs.immerman_szelepcsenyi",
+        "Lax733996Proofs.nonreachability",
+        "Lax733996Proofs.successor_layer"
+      ]
+    },
+    {
       "id": "lax-765601",
       "state": "draft",
       "environment": "v4.30.0",
