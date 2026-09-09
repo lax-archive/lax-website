@@ -1,128 +1,75 @@
 import { attr, esc, formatDate, page, plural, statePill } from "../html.js";
 import { contentMarkdown } from "../content.js";
-import { highlightSnippet } from "../highlight.js";
+import { graphDataScript } from "../graphs.js";
 import { submissionTagIndex } from "../tags.js";
+import type { SiteSubmission } from "../model.js";
 import {
   currentSubmissions,
+  graphExpandButton,
+  graphTooltip,
   indexSidebar,
+  proofNetworkLegend,
   submissionSearchAttributes,
   type PageContext,
 } from "./shared.js";
-import { collectOpenProblems } from "./open-problems.js";
-import { conceptReviewBadge } from "./discussion.js";
+import { markCard } from "./paper.js";
+import { proofNetworkData } from "./submission.js";
 
-interface LandingAction { id: string; title: string; description: string }
 interface LandingFaq { question: string; answer: string }
 
-const ACTION_HEADING = "\n## What you can do here\n";
-const SUBMIT_HEADING = "\n## Creating your own submission\n";
-const REVIEW_OTHER_SUBMISSION_WEIGHT = 10;
+/** The submission the landing page shows Lax with: "An Introduction to
+ * Lax", itself a Lax submission with an annotated paper. Its first page
+ * is the excerpt, its proofs are the network. Without it in the archive
+ * (a preview from a fixture, a fork) the page keeps the text and drops
+ * the two figures and the link into the paper. */
+export const INTRO_SUBMISSION_ID = "lax-242665";
 
-const CONCEPT_DEMO = String.raw`import Mathlib.Combinatorics.SimpleGraph.Clique
+/** The cropped paper: what page 1 says around its first two marked
+ * passages, in the paper's own words (the passages are typeset here from
+ * the same LaTeX, in Markdown with KaTeX), each passage joined to the
+ * archive's card for the concept it marks. */
+const INTRO_EXCERPT = {
+  page: 1,
+  before: `### 1 Concepts
 
-open Filter Real SimpleGraph
+Lax represents mathematical definitions and claims as so-called *concepts*. A concept pairs a natural-language statement, as it would appear in a paper, with a faithful encoding of that statement in Lean. This section is annotated with two of them, shown on the right.`,
+  passages: [
+    {
+      id: "Lax242665.Primes",
+      label: "Definition 1, prime numbers",
+      text: "**Definition 1.** A natural number greater than 1 is *prime* if it is divisible only by 1 and by itself.",
+    },
+    {
+      id: "Lax242665.InfinitelyManyPrimes",
+      label: "Theorem 1, Euclid",
+      text: "**Theorem 1** (Euclid)**.** *For every natural number $n$ there is a prime $p > n$.*",
+    },
+  ],
+  after: `Even if you are not familiar with Lean, try reading the Lean code to see whether it encodes the intended meaning. One thing stands out: Theorem 1 is stated not as a \`theorem\` but as an \`axiom\`, without a proof. That is Lax's way of separating claims from proofs. The correctness of a formal proof is guaranteed by Lean, so with Lax, readers only review the one thing Lean can *not* check: whether the Lean code faithfully represents the intended mathematics.`,
+};
 
-abbrev C₅ : SimpleGraph (Fin 5) := cycleGraph 5
-
-def C₅Free {V : Type*} [Fintype V] (G : SimpleGraph V) : Prop :=
-  ¬ ∃ f : Fin 5 ↪ V, C₅ = G.comap f
-
-def HasLargeHomogeneousSet {V : Type*} [Fintype V]
-    (G : SimpleGraph V) (r : ℝ) : Prop :=
-  G.indepNum ≥ r ∨ G.cliqueNum ≥ r
-
-axiom erdosHajnal_C₅ :
-  ∃ c > 0, ∀ᶠ n in atTop, ∀ G : SimpleGraph (Fin n),
-    C₅Free G → HasLargeHomogeneousSet G ((n : ℝ) ^ c)`;
-
-const PROOF_DEMO = String.raw`theorem erdosHajnal_C₅ :
-    ∃ c > 0,
-      ∀ᶠ n in atTop,
-        ∀ G : SimpleGraph (Fin n),
-          C₅Free G →
-            HasLargeHomogeneousSet G ((n : ℝ) ^ c) := by
-  obtain ⟨c, hc, hmain⟩ :=
-    polynomial_homogeneous_set_for_five_hole
-  refine ⟨c, hc, ?_⟩
-  filter_upwards [hmain] with n hn
-  intro G hG
-  exact hn G (by
-    simpa [C₅Free] using hG)`;
-
-function landingDemoFace(
-  side: "concept" | "proof",
-  path: string,
-  code: string,
-): string {
-  const concept = side === "concept";
-  const codeBlock = concept
-    ? `<span class="landing-demo-code"><code>${code}</code></span>`
-    : `<span class="landing-demo-code landing-demo-code-excerpt">
-<span class="landing-demo-continuation" aria-hidden="true"><i></i><b>⋮</b><i></i></span>
-<code>${code}</code>
-<span class="landing-demo-continuation" aria-hidden="true"><i></i><b>⋮</b><i></i></span>
-</span>`;
-  return `<span class="landing-demo-face landing-demo-${side}" aria-hidden="true">
-<span class="landing-demo-filebar">
-<span class="landing-demo-file-heading"><strong>${concept ? "Concept file" : "Proof file"}</strong>${concept ? "" : '<span class="landing-demo-file-note">excerpt</span>'}</span>
-<span class="landing-demo-file-path">${esc(path)}</span>
-</span>
-${codeBlock}
-<span class="landing-demo-trust">
-<span class="landing-demo-trust-copy"><strong>${concept ? "Meaning" : "Evidence"}</strong><small>${concept ? "read by people" : "checked by Lean"}</small></span>
-${concept ? '<span class="landing-demo-turn"><span>See the proof</span><b>↻</b></span>' : ""}
-</span>
-</span>`;
+interface LandingCopy {
+  title: string;
+  /** the manifesto under the title, Markdown */
+  intro: string;
+  /** the `## ` sections by heading, Markdown */
+  sections: Map<string, string>;
 }
 
-async function landingDemo(): Promise<string> {
-  const [concept, proof] = await Promise.all([
-    highlightSnippet(CONCEPT_DEMO, { accentLines: [14, 15, 16] }),
-    highlightSnippet(PROOF_DEMO, { startLine: 417 }),
-  ]);
-  return `<button class="landing-demo-card" type="button" data-proof-flip aria-pressed="false" aria-label="Concept file: Erdős–Hajnal for the five-cycle. Hover or activate to see a proof excerpt.">
-<span class="landing-demo-inner">
-${landingDemoFace("concept", "concepts/ErdosHajnal/C5.lean", concept)}
-${landingDemoFace("proof", "proofs/ErdosHajnalProofs/C5.lean", proof)}
-</span>
-</button>`;
-}
-
-function landingCopy(source: string): {
-  lede: string;
-  introduction: string;
-  actions: Map<string, LandingAction>;
-  submit: string;
-} {
-  const actionStart = source.indexOf(ACTION_HEADING);
-  const submitStart = source.indexOf(SUBMIT_HEADING, actionStart + ACTION_HEADING.length);
-  if (actionStart === -1 || submitStart === -1)
-    throw new Error("landing.md must contain the action and submission headings");
-  if (actionStart >= submitStart)
-    throw new Error("landing.md sections are out of order");
-
-  const introduction = source.slice(0, actionStart).trim();
-  const ledeEnd = introduction.indexOf("\n\n");
-  const lede = ledeEnd === -1 ? introduction : introduction.slice(0, ledeEnd);
-  const body = ledeEnd === -1 ? "" : introduction.slice(ledeEnd).trim();
-  const actionSource = source.slice(actionStart + ACTION_HEADING.length, submitStart).trim();
-  const actions = new Map<string, LandingAction>();
-  for (const chunk of actionSource.split(/\n(?=- \*\*)/)) {
-    const match = /^- \*\*([^*]+)\.\*\*\s+([\s\S]+)$/.exec(chunk.trim());
-    if (!match) throw new Error(`invalid landing action: ${chunk}`);
-    const title = match[1]!.trim();
-    const id = title.toLowerCase();
-    actions.set(id, { id, title, description: match[2]!.replace(/\s+/g, " ").trim() });
+function landingCopy(source: string): LandingCopy {
+  const chunks = source.trim().split(/\n(?=## )/);
+  const head = chunks.shift() ?? "";
+  const title = /^# ([^\n]+)\n/.exec(head);
+  if (!title) throw new Error("landing.md must start with a title");
+  const sections = new Map<string, string>();
+  for (const chunk of chunks) {
+    const match = /^## ([^\n]+)\n+([\s\S]+)$/.exec(chunk.trim());
+    if (!match) throw new Error(`invalid landing section: ${chunk}`);
+    sections.set(match[1]!.trim(), match[2]!.trim());
   }
-  for (const id of ["read", "review", "submit", "cite"])
-    if (!actions.has(id)) throw new Error(`landing.md is missing the ${id} action`);
-
-  return {
-    lede,
-    introduction: body,
-    actions,
-    submit: source.slice(submitStart + SUBMIT_HEADING.length).trim(),
-  };
+  for (const heading of ["Concepts", "Proof network"])
+    if (!sections.has(heading)) throw new Error(`landing.md is missing the ${heading} section`);
+  return { title: title[1]!.trim(), intro: head.slice(title[0].length).trim(), sections };
 }
 
 function landingFaqCopy(source: string): {
@@ -166,47 +113,74 @@ ${items}
 </section>`;
 }
 
-function actionCard(action: LandingAction, available: boolean, href?: string): string {
-  const heading = `<span class="landing-action-title">${esc(action.title)}.</span>`;
-  const copy = `<span class="landing-action-copy">${esc(action.description)}</span>`;
-  if (!available) return `<div class="landing-action-card unavailable" id="landing-action-${attr(action.id)}" data-landing-view="${attr(action.id)}" role="button" aria-disabled="true" tabindex="0" aria-label="${attr(action.title)}, coming soon">
-${heading}${copy}
-<span class="landing-action-status" aria-hidden="true">Coming soon</span>
-</div>`;
-  if (href) return `<a class="landing-action-card" id="landing-action-${attr(action.id)}" href="${attr(href)}" data-landing-view="${attr(action.id)}">
-${heading}${copy}
-<span class="landing-action-hint" aria-hidden="true">See citation <b>→</b></span>
-</a>`;
-  return `<button class="landing-action-card" id="landing-action-${attr(action.id)}" type="button" data-landing-view="${attr(action.id)}" data-landing-action="${attr(action.id)}" aria-controls="landing-panel-${attr(action.id)}">
-${heading}${copy}
-<span class="landing-action-hint" aria-hidden="true">Go to section <b>↓</b></span>
-</button>`;
+/** The paper excerpt: the prose around the passages in the text column,
+ * each marked passage highlighted as on the paper page, and the archive's
+ * own card for the concept beside it (the first one open, so the Lean
+ * encoding is on the page before anyone hovers). landing.js sets each
+ * card beside its passage the way the paper page does; without it the
+ * cards stack in the rail. */
+async function paperExcerpt(ctx: PageContext, intro: SiteSubmission): Promise<string> {
+  const { markdown } = ctx;
+  const paper = intro.output!.paper!;
+  const home = intro.record.id;
+  const passages: string[] = [];
+  const cards: string[] = [];
+  for (const [index, passage] of INTRO_EXCERPT.passages.entries()) {
+    const n = paper.marks.findIndex((mark) => mark.kind === "concept" && mark.id === passage.id) + 1;
+    if (!n) throw new Error(`the introduction's paper does not mark ${passage.id}`);
+    const cardId = `landing-m${n}`;
+    const first = index === 0;
+    passages.push(`<div class="landing-passage landing-passage-${index + 1} kind-concept${first ? " manuscript-hl-active" : ""}" role="button" tabindex="0" aria-pressed="${first}" aria-controls="${attr(cardId)}" aria-label="${attr(`${passage.label}: show the concept card`)}" data-excerpt-card="${attr(cardId)}">
+${markdown.render(passage.text, "")}
+</div>`);
+    cards.push(await markCard(ctx, paper.marks[n - 1]!, n, home, cardId, { rootRel: "", expanded: first }));
+  }
+  const title = markdown.renderAuthorInline(intro.output!.manifest.title, "");
+  return `<section class="landing-paper manuscript" aria-labelledby="landing-paper-heading" data-paper-excerpt>
+<p class="landing-action-eyebrow" id="landing-paper-heading">Annotated paper</p>
+<p class="landing-paper-caption">Page ${INTRO_EXCERPT.page} of <a href="${attr(`${home}/paper.html`)}"><cite>${title}</cite></a>, as the archive shows it: hover a highlighted passage to open the concept it is annotated with.</p>
+<div class="landing-paper-frame">
+<div class="landing-paper-grid">
+<div class="landing-paper-doc">
+<div class="landing-paper-prose latex-content">
+${markdown.render(INTRO_EXCERPT.before, "")}
+</div>
+${passages.join("\n")}
+<div class="landing-paper-prose latex-content">
+${markdown.render(INTRO_EXCERPT.after, "")}
+</div>
+</div>
+<ol class="manuscript-rail landing-paper-rail" aria-label="Concept cards">
+${cards.join("\n")}
+</ol>
+</div>
+</div>
+</section>`;
 }
 
-function copyablePrompt(html: string): string {
-  // The agent prompt is the section's last fence; earlier fences (the setup
-  // commands) stay plain code blocks.
-  const open = "<pre>";
-  const close = "</pre>";
-  const start = html.lastIndexOf(open);
-  const end = html.indexOf(close, start + open.length);
-  if (start < 0 || end < 0) throw new Error("landing submit section must include a fenced prompt");
-  const prompt = html.slice(start, end + close.length)
-    .replace(open, '<pre id="landing-submission-prompt">');
-  return `${html.slice(0, start)}<div class="landing-prompt-box">
-${prompt}
-<button class="prompt-copy" type="button" data-copy-prompt aria-controls="landing-submission-prompt" aria-label="Copy prompt to clipboard" title="Copy prompt"><span class="prompt-copy-icon" aria-hidden="true"></span></button>
-<output class="prompt-copy-status" aria-live="polite"></output>
-</div>${html.slice(end + close.length)}`;
+/** The introduction's proof network, drawn by dag.js from the same data
+ * the submission page embeds, with links from the site root. */
+function proofNetworkFigure(ctx: PageContext, intro: SiteSubmission): string {
+  const data = proofNetworkData(ctx, intro, "");
+  const title = ctx.markdown.renderAuthorInline(intro.output!.manifest.title, "");
+  return `<figure class="graph-figure proof-network-figure landing-network-figure">
+${graphExpandButton("proof network")}
+<div id="proof-network" class="figure-container" data-graph="proofs"></div>
+${graphTooltip()}
+${proofNetworkLegend(data)}
+</figure>
+<p class="landing-paper-caption">The proof network of <a href="${attr(`${intro.record.id}/index.html`)}"><cite>${title}</cite></a>: each box is a claim, green once proven and yellow while open; each <span class="legend-proof-chip-inline" aria-hidden="true">⊢</span> chip is a proof deriving its conclusion from its assumptions. Click a node to open its page.</p>
+${graphDataScript({ proofs: data })}`;
 }
 
-/** The landing page: content/landing.md, then the submissions
- * library with its stats. Records that only reserved an id have nothing to
- * show and stay off the library and the stats (their pages exist for direct
- * links). */
-export async function indexPage({ model, markdown }: PageContext): Promise<string> {
+/** The landing page: the manifesto from content/landing.md, the paper
+ * excerpt and proof network of the introduction submission, the two ways
+ * in, the submissions library with its stats, and the FAQ. Records that
+ * only reserved an id have nothing to show and stay off the library and
+ * the stats (their pages exist for direct links). */
+export async function indexPage(ctx: PageContext): Promise<string> {
+  const { model, markdown } = ctx;
   const listed = currentSubmissions(model);
-  const currentIds = new Set(listed.map((submission) => submission.record.id));
   const concepts = listed.flatMap((submission) => submission.output!.concepts);
   const statements = concepts.flatMap((c) => c.statements);
   const provenStatements = statements.filter((statement) => model.network.proven.has(statement.id)).length;
@@ -222,46 +196,14 @@ ${authors ? `<span class="submissions-list-meta"><span class="formalized-label">
 <span class="submissions-list-counts">${counts} ${statePill(record.state)}</span>
 </a></li>`;
   });
-  const landing = landingCopy(contentMarkdown("landing.md").trim());
+  const landing = landingCopy(contentMarkdown("landing.md"));
   const faq = landingFaq(contentMarkdown("faq.md"), markdown);
-  const demo = await landingDemo();
-  const actionOrder = ["read", "review", "submit", "cite"];
-  const reviewConcepts = concepts
-    .map((concept) => {
-      const located = model.conceptHome.get(concept.id)!;
-      const users = [...new Map(
-        (model.importers.get(concept.id) ?? [])
-          .filter((user) => user.concept.id !== concept.id && currentIds.has(user.output.id))
-          .map((user) => [user.concept.id, user]),
-      ).values()];
-      const otherSubmissionCount = new Set(
-        users
-          .filter((user) => user.output.id !== located.output.id)
-          .map((user) => user.output.id),
-      ).size;
-      return {
-        located,
-        users,
-        otherSubmissionCount,
-        weight: otherSubmissionCount * REVIEW_OTHER_SUBMISSION_WEIGHT + users.length,
-      };
-    })
-    .filter(({ otherSubmissionCount }) => otherSubmissionCount > 0)
-    .sort((a, b) =>
-      Number(b.located.submission.record.state === "registered") - Number(a.located.submission.record.state === "registered")
-      || b.weight - a.weight
-      || a.located.concept.id.localeCompare(b.located.concept.id))
-    .slice(0, 8);
-  const openProblems = collectOpenProblems(model);
-  const openProblemSubmissions = new Set(openProblems.map(({ located }) => located.output.id)).size;
-  const citeExample = listed.find((submission) => submission.record.id.toLowerCase().replace(/[^a-z0-9]/g, "") === "lax17")
-    ?? listed.find((submission) => submission.record.state === "registered")
-    ?? listed[0];
-  const actionCards = actionOrder.map((id) => actionCard(
-    landing.actions.get(id)!,
-    true,
-    id === "cite" && citeExample ? `${citeExample.record.id}/index.html?tour=citation` : undefined,
-  ));
+  const intro = listed.find((submission) => submission.record.id === INTRO_SUBMISSION_ID
+    && submission.output?.paper
+    && INTRO_EXCERPT.passages.every((passage) => submission.output!.paper!.marks.some((mark) => mark.kind === "concept" && mark.id === passage.id)));
+  const excerpt = intro ? await paperExcerpt(ctx, intro) : "";
+  const network = intro ? proofNetworkFigure(ctx, intro) : "";
+
   const chip = (key: string, label: string, count: number, extraClass = ""): string =>
     `<button class="tag-chip${extraClass}" type="button" data-tag-filter="${attr(key)}" aria-pressed="false" aria-label="${attr(`${label}, ${plural(count, "submission")}`)}"><span>${esc(label)}</span><b aria-hidden="true">${count}</b></button>`;
   // The environment is one more chip in the same strip: the browser filters
@@ -290,10 +232,10 @@ ${facetButtons.join("\n")}
 </div>
 <p class="tag-results-status" id="tag-results-status" aria-live="polite">Showing all ${plural(listed.length, "submission")}.</p>
 </section>` : "";
-  const library = `<section class="landing-action-panel submissions-library" id="landing-panel-read" aria-labelledby="landing-action-read">
+  const library = `<section class="landing-action-panel submissions-library" id="landing-panel-read" aria-labelledby="landing-library-heading">
 <div class="landing-action-panel-heading">
 <p class="landing-action-eyebrow">Read the archive</p>
-<h3>Submissions</h3>
+<h3 id="landing-library-heading">Submissions</h3>
 <p class="stats-line">${plural(listed.length, "submission")} · ${plural(concepts.length, "concept")} · ${plural(statements.length, "statement")}, ${provenStatements} proven</p>
 </div>
 ${tagBrowser}
@@ -303,63 +245,45 @@ ${rows.join("\n")}
 </ul>
 <button class="submissions-load-more" id="submissions-load-more" type="button" aria-controls="submissions-list" hidden>Load more</button>
 </section>`;
-  const submit = `<section class="landing-action-panel landing-submit-panel latex-content" id="landing-panel-submit" aria-labelledby="landing-action-submit">
-<p class="landing-action-eyebrow">Contribute to Lax</p>
-<h3>Creating your own submission</h3>
-${copyablePrompt(markdown.render(landing.submit, ""))}
-</section>`;
-  const reviewStarts = reviewConcepts.map(({ located, users, otherSubmissionCount, weight }, index) => `<div class="landing-review-start" data-review-concept="${attr(located.concept.id)}" data-review-weight="${weight}"${index ? " hidden" : ""}>
-<div class="landing-review-start-copy">
-<p class="landing-action-eyebrow">Used by ${plural(otherSubmissionCount, "other submission")} and ${plural(users.length, "other concept")}</p>
-<h4><span class="landing-review-title">${markdown.renderAuthorInline(located.concept.title, "")}</span>${conceptReviewBadge(`${located.submission.record.id}/${located.concept.id}.html`)}</h4>
-<p>This concept is reused elsewhere in the archive. Review its mathematical correctness, endorse it if correct, or flag a flaw.</p>
-</div>
-<a class="landing-hero-button primary" href="${attr(`${located.output.id}/${located.concept.id}.html`)}">Review now <b aria-hidden="true">→</b></a>
-</div>`).join("\n");
-  const review = `<section class="landing-action-panel landing-review-panel" id="landing-panel-review" aria-labelledby="landing-action-review">
-<p class="landing-action-eyebrow">Contribute a review</p>
-<h3>Review a concept</h3>
-${reviewStarts}
-</section>`;
-  const proofObligations = `<section class="landing-action-panel landing-proof-obligations-panel" id="landing-proof-obligations" aria-labelledby="landing-proof-obligations-heading">
-<p class="landing-action-eyebrow">Contribute a proof</p>
-<h3 id="landing-proof-obligations-heading">Open proof obligations</h3>
-<p>${openProblems.length
-    ? `Browse every claim that does not yet have a grounded proof, across ${plural(openProblemSubmissions, "submission")}.`
-    : "Every claim currently has a grounded proof; this view will update automatically when a proof obligation is submitted."}</p>
-<a class="landing-open-problems-link" href="open-proof-obligations.html"><span><strong>${openProblems.length}</strong> ${openProblems.length === 1 ? "proof obligation" : "proof obligations"}</span><b>Browse proof obligations <span aria-hidden="true">→</span></b></a>
-</section>`;
-  const content = `<section class="landing-demo-showcase" aria-label="How Lax separates mathematical meaning from proof evidence">
-<div class="landing-lede latex-content">
-${markdown.render(landing.lede, "")}
-</div>
-${demo}
-<div class="landing-demo-summary latex-content">
-${markdown.render(landing.introduction, "")}
-</div>
-<div class="landing-hero-actions">
-<button class="landing-hero-button primary" type="button" data-landing-action="read" aria-controls="landing-panel-read">Browse submissions <b aria-hidden="true">↓</b></button>
-<a class="landing-hero-button secondary" href="assets/lax-white-paper.pdf" download="lax-white-paper.pdf">Read the Lax paper <b aria-hidden="true">↗</b></a>
+  const introLink = intro
+    ? `<a class="landing-hero-button primary" href="${attr(`${intro.record.id}/paper.html`)}">Read the introduction to Lax <b aria-hidden="true">→</b></a>`
+    : `<a class="landing-hero-button primary" href="assets/lax-white-paper.pdf" download="lax-white-paper.pdf">Read the Lax paper <b aria-hidden="true">↗</b></a>`;
+  const links = `<nav class="landing-hero-actions" aria-label="Ways into Lax">
+${introLink}
+<button class="landing-hero-button secondary" type="button" data-landing-action="read" aria-controls="landing-panel-read">Browse submissions <b aria-hidden="true">↓</b></button>
+</nav>
+${intro ? `<p class="landing-links-note">The introduction is itself a Lax submission: every feature it describes is at work on its own pages.</p>` : ""}`;
+
+  const content = `<section class="landing-hero" aria-labelledby="landing-title">
+<h1 class="landing-title" id="landing-title">${esc(landing.title)}</h1>
+<div class="landing-manifesto latex-content">
+${markdown.render(landing.intro, "")}
 </div>
 </section>
-<section class="landing-actions" aria-labelledby="landing-actions-heading">
-<h2 id="landing-actions-heading">What you can do here</h2>
-<div class="landing-action-grid">
-${actionCards.join("\n")}
+${excerpt}
+<section class="landing-section landing-concepts" aria-labelledby="landing-concepts-heading">
+<h2 class="landing-section-title" id="landing-concepts-heading">Concepts</h2>
+<div class="landing-section-copy latex-content">
+${markdown.render(landing.sections.get("Concepts")!, "")}
 </div>
-<div class="landing-action-panels" aria-live="polite">
-${submit}
+</section>
+<section class="landing-section landing-network" aria-labelledby="landing-network-heading">
+<h2 class="landing-section-title" id="landing-network-heading">Proof network</h2>
+<div class="landing-section-copy latex-content">
+${markdown.render(landing.sections.get("Proof network")!, "")}
+</div>
+${network}
+</section>
+${links}
+<div class="landing-action-panels">
 ${library}
-${review}
-${proofObligations}
 ${faq}
-</div>
-</section>`;
+</div>`;
   return page({
     title: "Lax Lean Archive",
     rootRel: "",
     sidebar: indexSidebar(model, markdown, tagIndex.bySubmission),
     content,
-    scripts: ["assets/landing.js"],
+    scripts: intro ? ["assets/layout.js", "assets/dag.js", "assets/landing.js"] : ["assets/landing.js"],
   });
 }

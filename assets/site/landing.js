@@ -1,66 +1,12 @@
-// Landing-page action buttons scroll to their always-visible sections and keep
-// shareable ?view= URLs in sync. The Cite card is a regular cross-page link.
+// The landing page: the "Browse submissions" button scrolls to the library
+// and keeps a shareable ?view= URL in sync; the paper excerpt joins each
+// highlighted passage to its concept card the way the paper page does —
+// hover opens the card, a click pins it open.
 (() => {
-  const RESET_DELAY = 2200;
-
-  function legacyCopy(text) {
-    const field = document.createElement('textarea');
-    field.value = text;
-    field.setAttribute('readonly', '');
-    field.style.position = 'fixed';
-    field.style.opacity = '0';
-    document.body.append(field);
-    field.select();
-    const copied = document.execCommand('copy');
-    field.remove();
-    if (!copied) throw new Error('copy command failed');
-  }
-
-  async function copyText(text) {
-    if (navigator.clipboard && window.isSecureContext) {
-      await navigator.clipboard.writeText(text);
-      return;
-    }
-    legacyCopy(text);
-  }
-
-  function setupPromptCopy() {
-    const button = document.querySelector('[data-copy-prompt]');
-    if (!button) return;
-    const prompt = document.getElementById(button.getAttribute('aria-controls'));
-    const status = button.parentElement.querySelector('.prompt-copy-status');
-    if (!prompt || !status) return;
-    let resetTimer;
-
-    button.addEventListener('click', async () => {
-      clearTimeout(resetTimer);
-      try {
-        await copyText(prompt.textContent);
-        button.classList.add('is-copied');
-        button.setAttribute('aria-label', 'Prompt copied');
-        button.title = 'Copied';
-        status.textContent = 'Copied';
-      } catch {
-        button.classList.remove('is-copied');
-        button.setAttribute('aria-label', 'Could not copy prompt');
-        button.title = 'Could not copy';
-        status.textContent = 'Select and copy manually';
-      }
-
-      resetTimer = setTimeout(() => {
-        button.classList.remove('is-copied');
-        button.setAttribute('aria-label', 'Copy prompt to clipboard');
-        button.title = 'Copy prompt';
-        status.textContent = '';
-      }, RESET_DELAY);
-    });
-  }
-
   function setupLandingActions() {
     const buttons = [...document.querySelectorAll('[data-landing-action]')];
     if (!buttons.length) return;
-    const views = [...document.querySelectorAll('[data-landing-view]')];
-    const viewIds = new Set(views.map((view) => view.dataset.landingView));
+    const viewIds = new Set(buttons.map((button) => button.dataset.landingAction));
 
     function urlView() {
       const id = new URLSearchParams(window.location.search).get('view');
@@ -77,8 +23,7 @@
     }
 
     function scrollToView(id) {
-      const target = document.getElementById(`landing-panel-${id}`)
-        ?? views.find((view) => view.dataset.landingView === id);
+      const target = document.getElementById(`landing-panel-${id}`);
       if (!target) return;
       const behavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
       requestAnimationFrame(() => requestAnimationFrame(() => {
@@ -97,16 +42,6 @@
       });
     }
 
-    for (const view of views.filter((candidate) => candidate.getAttribute('aria-disabled') === 'true')) {
-      const selectUnavailable = () => selectView(view.dataset.landingView, true);
-      view.addEventListener('click', selectUnavailable);
-      view.addEventListener('keydown', (event) => {
-        if (event.key !== 'Enter' && event.key !== ' ') return;
-        event.preventDefault();
-        selectUnavailable();
-      });
-    }
-
     window.addEventListener('popstate', () => {
       const id = urlView();
       if (id) selectView(id, false);
@@ -116,47 +51,93 @@
     if (initialView) selectView(initialView, false);
   }
 
-  function setupProofFlip() {
-    const card = document.querySelector('[data-proof-flip]');
-    if (!card) return;
-    const precisePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
+  const CARD_GAP = 8;
 
-    function setFlipped(flipped) {
-      card.classList.toggle('is-flipped', flipped);
-      card.setAttribute('aria-pressed', String(flipped));
-      card.setAttribute('aria-label', flipped
-        ? 'Proof excerpt: Erdős–Hajnal for the five-cycle. Activate to return to its concept file.'
-        : 'Concept file: Erdős–Hajnal for the five-cycle. Hover or activate to see a proof excerpt.');
+  function setupPaperExcerpt() {
+    const excerpt = document.querySelector('[data-paper-excerpt]');
+    if (!excerpt) return;
+    const doc = excerpt.querySelector('.landing-paper-doc');
+    const rail = excerpt.querySelector('.landing-paper-rail');
+    const canHover = window.matchMedia('(hover: hover)');
+    const narrow = window.matchMedia('(max-width: 640px)');
+    const pairs = [];
+
+    // Each card at its passage's height, pushed down where it would overlap
+    // the card above; in one column the cards stay in flow under the text.
+    function placeCards() {
+      if (!doc || !rail) return;
+      if (narrow.matches) {
+        rail.classList.remove('landing-paper-rail-live');
+        for (const { card } of pairs) card.style.top = '';
+        rail.style.minHeight = '';
+        return;
+      }
+      rail.classList.add('landing-paper-rail-live');
+      const docTop = doc.getBoundingClientRect().top;
+      let bottom = 0;
+      for (const { passage, card } of pairs) {
+        const y = Math.max(passage.getBoundingClientRect().top - docTop, bottom);
+        card.style.top = `${y}px`;
+        bottom = y + card.offsetHeight + CARD_GAP;
+      }
+      rail.style.minHeight = `${Math.max(0, bottom - CARD_GAP)}px`;
     }
 
-    card.addEventListener('click', (event) => {
-      // A precise pointer gets the physical hover gesture. Keyboard activation
-      // (detail 0) and coarse pointers toggle a persistent side instead.
-      if (precisePointer.matches && event.detail !== 0) return;
-      setFlipped(!card.classList.contains('is-flipped'));
-    });
+    for (const passage of excerpt.querySelectorAll('[data-excerpt-card]')) {
+      const card = document.getElementById(passage.dataset.excerptCard);
+      if (!card) continue;
+      pairs.push({ passage, card });
+      const body = card.querySelector('.manuscript-card-body');
+      const toggle = card.querySelector('.manuscript-card-toggle');
+      let pinned = card.classList.contains('manuscript-card-pinned');
 
-    card.addEventListener('keydown', (event) => {
-      if (event.key !== 'Escape' || !card.classList.contains('is-flipped')) return;
-      event.preventDefault();
-      setFlipped(false);
-    });
-  }
+      function setExpanded(expanded) {
+        card.classList.toggle('manuscript-card-expanded', expanded);
+        if (body) body.hidden = !expanded;
+        if (toggle) toggle.setAttribute('aria-expanded', String(expanded));
+        passage.classList.toggle('manuscript-hl-active', expanded);
+        placeCards();
+      }
 
-  function setupReviewConcept() {
-    const options = [...document.querySelectorAll('[data-review-concept]')];
-    if (options.length < 2) return;
-    const weights = options.map((option) => Math.max(1, Number(option.dataset.reviewWeight) || 1));
-    let draw = Math.random() * weights.reduce((sum, weight) => sum + weight, 0);
-    const selected = options.find((_option, index) => (draw -= weights[index]) <= 0) ?? options[0];
-    for (const option of options) option.hidden = option !== selected;
+      function setHover(hovering) {
+        passage.classList.toggle('manuscript-hl-hover', hovering);
+        card.classList.toggle('manuscript-card-hover', hovering);
+        if (!pinned) setExpanded(hovering);
+      }
+
+      function setPinned(next) {
+        pinned = next;
+        card.classList.toggle('manuscript-card-pinned', pinned);
+        passage.setAttribute('aria-pressed', String(pinned));
+        setExpanded(pinned);
+      }
+
+      for (const el of [passage, card]) {
+        el.addEventListener('mouseenter', () => { if (canHover.matches) setHover(true); });
+        el.addEventListener('mouseleave', () => { if (canHover.matches) setHover(false); });
+      }
+      passage.addEventListener('click', () => setPinned(!pinned));
+      passage.addEventListener('keydown', (event) => {
+        if (event.key !== 'Enter' && event.key !== ' ') return;
+        event.preventDefault();
+        setPinned(!pinned);
+      });
+      card.addEventListener('click', (event) => {
+        // Links in the card lead away; the body is for reading and selecting.
+        if (event.target.closest('a') || (body && body.contains(event.target))) return;
+        setPinned(!pinned);
+      });
+    }
+
+    window.addEventListener('resize', placeCards);
+    narrow.addEventListener('change', placeCards);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(placeCards);
+    placeCards();
   }
 
   function setupLanding() {
-    setupProofFlip();
     setupLandingActions();
-    setupReviewConcept();
-    setupPromptCopy();
+    setupPaperExcerpt();
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', setupLanding);

@@ -1,44 +1,37 @@
-Formalized mathematics that can be read, checked, and built upon.
+# Lax: let's stay in control of mathematics
 
-Lax is an open archive for contemporary mathematics written in Lean. Think of
-it as an arXiv for formalization: independent, citable submissions that people
-can read, software can check, and future work can build upon.
+AI is about to massively accelerate mathematical research. This will push the
+classical system of peer review and publishing beyond its limits. We need new,
+scalable mechanisms for digesting mathematics, or we risk losing control of
+our own field.
 
-## What you can do here
+Publications serve (at least) two purposes:
 
-- **Read.** Browse submissions and their concepts. Compare human readable
-  statements alongside their Lean source. Every claim shows its evidence:
-  which proofs establish it, under which assumptions.
-- **Review.** Review a concept or submission, endorse correct mathematics, or
-  flag possible flaws.
-- **Submit.** Publish your own formalization. You may build upon definitions
-  and theorems of existing submissions.
-- **Cite.** Every page carries a ready-made BibTeX entry.
+- **Correctness**: establishing which things are true, via rigorous technical
+  arguments.
+- **Understanding**: explaining why these things are true, by providing
+  intuition, clarity, and abstractions.
 
-## Creating your own submission
+We believe proof systems like Lean provide a scalable way of ensuring the
+*correctness* of mathematics. This frees humans to spend their finite
+attention where it really matters: building intuition, clarity, and
+abstractions. Lax is a community-run archive that annotates natural-language
+mathematics with Lean theorems.
 
-Contributing is a two-step process.
+## Concepts
 
-1. **Set up**, once per machine:
+Natural-language mathematics is annotated with *concepts*: reusable blocks
+that pair a mathematical idea with a faithful Lean encoding. Concepts are
+reusable across submissions, so what the community has verified and endorsed
+becomes the foundation the next result stands on.
 
-   ```sh
-   npm install -g lax-archive
-   lax doctor    # checks your setup and installs whatever is missing
-   ```
+By annotating intermediate lemmas with formalizations too, authors provide
+trust not only in the correctness of the result, but also in the mechanism
+leading to it.
 
-2. **Hand your coding agent** a prompt like:
+## Proof network
 
-   ```
-   Run `lax print instructions` and follow the guide it prints
-   to formalize <my result>.
-   ```
-
-Prefer to work hands-on, or want to know what happens at each step? See
-[Getting started](contributing.html).
-
-<!--## Background-->
-<!---->
-<!--Technically, a concept states a claim as a Lean ``axiom``, and a proof-->
-<!--discharges it by providing a ``theorem`` whose statement is definitionally-->
-<!--equal to that axiom.-->
-<!--Our server (todo give guarantees).-->
+The proof network between these concepts provides a high-level overview of
+the ideas, as well as authority over which statements are proven, relative
+to which other ones, and which
+[proof obligations](open-proof-obligations.html) still remain.

@@ -205,13 +205,24 @@ ${mentions}`;
  * submission data is the same dependency question one level up. */
 function pageGraphData(ctx: PageContext, submission: SiteSubmission, related: SubmissionGraphData) {
   const output = submission.output!;
-  const model = ctx.model;
   const own = new Set(output.concepts.map((c) => c.id));
-  const concepts = conceptGraph(model, own);
+  const concepts = conceptGraph(ctx.model, own);
+  // `home` lets dag.js shorten the page's own concept ids to bare names.
+  return {
+    concepts: { ...concepts, home: output.id },
+    proofs: proofNetworkData(ctx, submission, "../"),
+    submissions: related,
+  };
+}
 
-  // Proof network: own statements and proofs, plus external proofs that
-  // conclude an own statement. Keep every assumption of those external
-  // proofs so the displayed hyperedge is never made misleadingly easier.
+/** The proof network figure's data: the submission's own statements and
+ * proofs, plus external proofs that conclude an own statement. Every
+ * assumption of those external proofs is kept so the displayed hyperedge
+ * is never made misleadingly easier. `rootRel` prefixes the node links —
+ * the landing page draws a submission's network from the site root. */
+export function proofNetworkData(ctx: PageContext, submission: SiteSubmission, rootRel: string) {
+  const output = submission.output!;
+  const model = ctx.model;
   const ownStatements = new Set(output.concepts.flatMap((c) => c.statements.map((s) => s.id)));
   const statementIds = new Set<string>(ownStatements);
   const proofs = new Map<string, {
@@ -269,7 +280,7 @@ function pageGraphData(ctx: PageContext, submission: SiteSubmission, related: Su
       concept: home?.concept.id,
       index: index || undefined,
       count: home ? siblings.length : undefined,
-      href: home ? `../${home.output.id}/${home.concept.id}.html#s-${id}` : undefined,
+      href: home ? `${rootRel}${home.output.id}/${home.concept.id}.html#s-${id}` : undefined,
       proven: model.network.proven.has(id),
       ext: !ownStatements.has(id),
     };
@@ -281,17 +292,12 @@ function pageGraphData(ctx: PageContext, submission: SiteSubmission, related: Su
       return {
         ...proof,
         href: model.proofHome.has(proof.id)
-          ? `../${model.proofHome.get(proof.id)!.output.id}/${proof.id}.html`
+          ? `${rootRel}${model.proofHome.get(proof.id)!.output.id}/${proof.id}.html`
           : undefined,
         assumptionsProven: outstanding.length === 0,
         outstanding: outstanding.length,
       };
     });
 
-  // `home` lets dag.js shorten the page's own concept ids to bare names.
-  return {
-    concepts: { ...concepts, home: output.id },
-    proofs: { statements: statementNodes, proofs: proofNodes, home: output.id },
-    submissions: related,
-  };
+  return { statements: statementNodes, proofs: proofNodes, home: output.id };
 }
