@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://comments.laxarchive.org; style-src 'self' 'unsafe-inline'; img-src https: data:; font-src 'self'; frame-src https://comments.laxarchive.org; connect-src https://comments.laxarchive.org">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Lax — an archive of formalized mathematical concepts and their proofs">
+<title>Near-Linear Time Computation of Welzl Orders on Graphs with Linear Neighborhood Complexity — lax-195003</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
+<link rel="stylesheet" href="../assets/style.css?v=e74e9b7042b9">
+</head><body>
+<header class="site-header">
+  <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
+  <h1 class="site-title"><a href="../index.html">Lax <span class="site-title-quiet">Lean Archive</span></a></h1>
+  <nav class="header-actions" aria-label="Account">
+    <div class="account-header" data-account-root data-remark42-host="https://comments.laxarchive.org" data-remark42-site="remark" data-identity-url="https://comments.laxarchive.org/reactions/v1/identity">
+  <a class="account-control" data-account-login href="https://comments.laxarchive.org/auth/orcid/login?from=https%3A%2F%2Flaxarchive.org&amp;site=remark"><span class="orcid-mark" aria-hidden="true">iD</span><span>Sign in with ORCID</span></a>
+  <button class="account-control" data-account-settings type="button" aria-haspopup="dialog" aria-controls="account-dialog" hidden><span class="orcid-mark" aria-hidden="true">iD</span><span>Settings</span></button>
+</div>
+  </nav>
+</header>
+<main id="content-shell">
+<div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+<aside id="sidebar">
+<a class="sidebar-back" href="../index.html"><span class="sidebar-back-arrow" aria-hidden="true">←</span>All submissions</a>
+<div class="sidebar-filters"><div class="filter-group">
+<label for="filter-search">Search</label>
+<input id="filter-search" class="filter-input" type="search" placeholder="Filter entries" aria-controls="entry-list">
+</div>
+<div class="filter-group">
+<label for="filter-type">Type</label>
+<select id="filter-type" class="filter-select">
+<option value="all">All types</option>
+<option value="definition">definition</option>
+<option value="theorem">theorem</option>
+</select>
+</div></div>
+<ul id="entry-list">
+<li data-type="definition" data-search="lax195003.welzlorders welzl orders definition"><a class="entry-link" href="../lax-195003/Lax195003.WelzlOrders.html" data-full-title="Welzl orders"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax195003.WelzlOrders</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-195003/Lax195003.WelzlOrders.html" hidden></span></span></a></li>
+<li data-type="theorem" data-search="lax195003.welzlorderscomputation near-linear-time computation of welzl orders theorem"><a class="entry-link" href="../lax-195003/Lax195003.WelzlOrdersComputation.html" data-full-title="Near-linear-time computation of Welzl orders"><span class="entry-label"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><span class="entry-label-text">Lax195003.WelzlOrdersComputation</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-195003/Lax195003.WelzlOrdersComputation.html" hidden></span></span></a></li>
+<li data-type="definition" data-search="lax195003.welzlordersingraphs welzl orders in graphs definition"><a class="entry-link" href="../lax-195003/Lax195003.WelzlOrdersInGraphs.html" data-full-title="Welzl orders in graphs"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax195003.WelzlOrdersInGraphs</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-195003/Lax195003.WelzlOrdersInGraphs.html" hidden></span></span></a></li>
+<li data-type="definition" data-search="lax195003.welzlordersneighborhoodcomplexity neighborhood complexity definition"><a class="entry-link" href="../lax-195003/Lax195003.WelzlOrdersNeighborhoodComplexity.html" data-full-title="Neighborhood complexity"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax195003.WelzlOrdersNeighborhoodComplexity</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-195003/Lax195003.WelzlOrdersNeighborhoodComplexity.html" hidden></span></span></a></li>
+<li data-type="definition" data-search="lax195003.welzlordersneighborhoodsetsystem neighborhood set systems of graphs definition"><a class="entry-link" href="../lax-195003/Lax195003.WelzlOrdersNeighborhoodSetSystem.html" data-full-title="Neighborhood set systems of graphs"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax195003.WelzlOrdersNeighborhoodSetSystem</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-195003/Lax195003.WelzlOrdersNeighborhoodSetSystem.html" hidden></span></span></a></li>
+<li data-type="definition" data-search="lax195003.wordramrandomness randomized computation on the word ram definition"><a class="entry-link" href="../lax-195003/Lax195003.WordRamRandomness.html" data-full-title="Randomized computation on the word RAM"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax195003.WordRamRandomness</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-195003/Lax195003.WordRamRandomness.html" hidden></span></span></a></li>
+<li id="entry-list-empty" hidden>No entries match.</li>
+</ul>
+</aside>
+<div id="sidebar-resizer" class="sidebar-resizer" role="separator" aria-label="Resize sidebar" aria-controls="sidebar" aria-orientation="vertical" aria-valuemin="220" aria-valuemax="520" aria-valuenow="285" tabindex="0" title="Drag to resize sidebar"></div>
+<section id="main"><div id="detail">
+<p class="draft-banner"><strong>Draft</strong> — mutable and not usable as a dependency; its citation marks the draft state.</p>
+<header class="paper-head">
+<h1 class="paper-title">Near-Linear Time Computation of Welzl Orders on Graphs with Linear Neighborhood Complexity</h1>
+<p class="paper-meta"><span class="submission-meta-id">lax-195003</span><span class="meta-sep">·</span><span class="formalized-label">formalized by</span> <span class="paper-author">Clemens Kuske <span class="author-links"><a href="https://github.com/clemenskuske">@clemenskuske</a></span></span><span class="author-sep">·</span><span class="paper-author">Codex (OpenAI)</span><span class="meta-sep">·</span>created 2026-09-08<span class="meta-sep">·</span><a href="https://github.com/lax-archive/lax-submissions/tree/d684a8ff47b66a64608ba165c63a505a83a55ceb/welzl-orders" title="https://github.com/lax-archive/lax-submissions/tree/d684a8ff47b66a64608ba165c63a505a83a55ceb/welzl-orders"><code>GitHub @d684a8f</code></a><span class="meta-sep">·</span>Lean <code>v4.30.0</code> <span class="meta-epoch" title="the environment the archive recommends this year">epoch</span> · mathlib <code>c5ea00351c28</code></p>
+</header>
+<section class="page-reactions" aria-label="Community review" data-reactions-host="https://comments.laxarchive.org" data-reactions-url="https://laxarchive.org/lax-195003/" data-review-kind="submission" data-source-lines="0" data-submission-concept-urls="[&quot;https://laxarchive.org/lax-11/Lax11.GraphEncoding.html&quot;,&quot;https://laxarchive.org/lax-12/Lax12.GraphClasses.html&quot;,&quot;https://laxarchive.org/lax-67/Lax67.Ram.html&quot;,&quot;https://laxarchive.org/lax-195003/Lax195003.WelzlOrders.html&quot;,&quot;https://laxarchive.org/lax-195003/Lax195003.WelzlOrdersComputation.html&quot;,&quot;https://laxarchive.org/lax-195003/Lax195003.WelzlOrdersInGraphs.html&quot;,&quot;https://laxarchive.org/lax-195003/Lax195003.WelzlOrdersNeighborhoodComplexity.html&quot;,&quot;https://laxarchive.org/lax-195003/Lax195003.WelzlOrdersNeighborhoodSetSystem.html&quot;,&quot;https://laxarchive.org/lax-195003/Lax195003.WordRamRandomness.html&quot;]">
+<div class="page-reactions-line">
+<div class="page-reactions-actions">
+<div class="page-reaction-control">
+<button class="page-reaction-button" type="button" data-reaction="endorse" aria-pressed="false" title="Say that this submission is correct"><span class="page-reaction-icon" aria-hidden="true">🥳</span><span>Endorse</span></button>
+<button class="page-reaction-voters" type="button" data-reaction-voters="endorse" aria-expanded="false" aria-controls="page-reaction-voters-endorse"><strong data-reaction-count="endorse">0</strong><span class="visually-hidden">Show people who endorse this submission</span></button>
+<div class="page-reaction-voters-popover" id="page-reaction-voters-endorse" data-reaction-voters-popover="endorse" hidden><p data-reaction-empty>No public endorsements yet.</p><ul></ul></div>
+</div>
+<div class="page-reaction-control page-flag-control">
+<button class="page-reaction-button" type="button" data-reaction="flag" aria-pressed="false" aria-haspopup="dialog" title="Explain why this submission may be false"><span class="page-reaction-icon" aria-hidden="true">🚩</span><span>Flag</span></button>
+<button class="page-reaction-voters" type="button" data-flag-list-open aria-haspopup="dialog" aria-controls="page-flag-list"><strong data-reaction-count="flag">0</strong><span class="visually-hidden">Show flags for this submission</span></button>
+</div>
+</div>
+<p class="submission-flagged-note" data-submission-flagged-note hidden><span aria-hidden="true">⚑</span><span data-submission-flagged-note-text></span></p>
+</div>
+<p class="page-reactions-status" data-reactions-status role="status">Loading review…</p>
+<a class="visually-hidden" data-reactions-login href="https://comments.laxarchive.org/auth/orcid/login?site=remark&amp;from=https%3A%2F%2Flaxarchive.org%2Flax-195003%2F">Sign in with ORCID</a>
+<dialog class="review-dialog flag-list-dialog" id="page-flag-list" data-flag-list-dialog aria-labelledby="page-flag-list-title">
+<div class="review-dialog-header"><div><p class="discussion-eyebrow">Community review</p><h2 id="page-flag-list-title">Flags</h2></div><button class="review-dialog-close" type="button" data-flag-list-close aria-label="Close flags">×</button></div>
+<p class="review-dialog-intro">Each flag is tied to a public ORCID identity and explains why this submission may be incorrect.</p>
+<p data-flag-list-empty>No flags have been submitted.</p><ol class="flag-list" data-flag-list></ol>
+</dialog>
+<dialog class="review-dialog flag-editor-dialog" id="page-flag-editor" data-flag-editor aria-labelledby="page-flag-editor-title">
+<form data-flag-form>
+<div class="review-dialog-header"><div><p class="discussion-eyebrow">Community review</p><h2 id="page-flag-editor-title">Flag this submission</h2></div><button class="review-dialog-close" type="button" data-flag-cancel aria-label="Close flag form">×</button></div>
+<p class="review-dialog-intro">State precisely what appears incorrect. This explanation will be public under your ORCID name.</p>
+<label class="flag-message-label" for="page-flag-message">What is wrong?</label>
+<textarea id="page-flag-message" data-flag-message rows="6" maxlength="2000" required placeholder="Describe the incorrect claim, missing assumption, or counterexample."></textarea>
+
+<p class="flag-form-status" data-flag-form-status role="status"></p>
+<div class="review-dialog-actions"><button class="danger-button" type="button" data-flag-remove hidden>Remove my flag</button><span></span><button class="secondary-button" type="button" data-flag-cancel>Cancel</button><button class="primary-button" type="submit">Publish flag</button></div>
+</form>
+</dialog>
+<noscript><p class="page-reactions-noscript"><a href="https://comments.laxarchive.org/auth/orcid/login?site=remark&amp;from=https%3A%2F%2Flaxarchive.org%2Flax-195003%2F">Sign in with ORCID</a> to review this page.</p></noscript>
+</section>
+<section class="paper-abstract">
+<h2 class="abstract-heading">Abstract</h2>
+<div class="latex-content"><p>This submission states the graph form of the main result of Jan Dreier and
+Clemens Kuske, <em>Near-Linear Time Computation of Welzl Orders on Graphs with
+Linear Neighborhood Complexity</em> (arXiv:2602.14625). Given a member of a graph
+class whose neighborhood complexity is uniformly bounded by <em>c</em> · <em>k</em>, a
+randomized algorithm computes, with probability at least 2/3, an ordering
+crossed at most 12<em>c</em>² log² <em>n</em> times by every open 1-neighborhood. Its running
+time is <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mo stretchy="false">(</mo><mi>n</mi><mo>+</mo><mi>m</mi><mo stretchy="false">)</mo><mi>l</mi><mi>o</mi><mi>g</mi><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O((n+m) log n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">((</span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">m</span><span class="mclose">)</span><span class="mord mathnormal" style="margin-right:0.0197em;">l</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.0359em;">g</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span> on the word RAM.</p>
+<p>The concept surface has six review units and starts with Welzl orders
+themselves: the crossing count of a set in a total order and the maximum over
+a set system. A second unit defines the open <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.0315em;">k</span></span></span></span>-neighborhood set system of a
+graph, and a separate graph concept specializes the Welzl-order definition to
+that set system; the theorem uses its radius-one instance, which is the
+ordinary open neighborhood system. Another unit defines the graph's
+neighborhood complexity function and the
+exact linear bound <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>π</mi><mi>G</mi></msub><mo stretchy="false">(</mo><mi>k</mi><mo stretchy="false">)</mo><mo>≤</mo><mi>c</mi><mo separator="true">⋅</mo><mi>k</mi></mrow><annotation encoding="application/x-tex">π_G(k) ≤ c · k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0359em;">π</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">G</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.0315em;">k</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6944em;"></span><span class="mord mathnormal">c</span><span class="mpunct">⋅</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.0315em;">k</span></span></span></span>, both for one graph with a specified
+constant and uniformly over a graph class; this is distinct from almost-linear
+neighborhood complexity. Another gives the finite-randomness reading of a
+randomized word-RAM computation with a rational success threshold: independent
+uniform random bits are appended to the ordinary input, every run respects the
+time bound, and the requested fraction of bit strings produce an accepted
+output. The theorem instantiates this parameter with <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mi mathvariant="normal">/</mi><mn>3</mn></mrow><annotation encoding="application/x-tex">2/3</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">2/3</span></span></span></span> and is stated for
+graphs in compressed sparse row form with its constants exposed.</p>
+<p>The submission reuses rather than restates three registered concepts. The word
+RAM and its step-count semantics are those of <em>The Word RAM</em> (Lax67), and the
+graph input is the compressed sparse row representation of <em>Algorithmic
+Experiments on a Random Access Machine</em> (Lax11), while graph classes use the
+representation from <em>Sparsity Lectures</em> (Lax12). This submission still defines
+the bounded-walk neighborhood set system, neighborhood trace count, the maximum
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>π</mi><mi>G</mi></msub></mrow><annotation encoding="application/x-tex">π_G</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0359em;">π</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">G</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>, and its linear bound directly.</p>
+<p>This draft contains the definition and theorem statements only. Its proof
+obligation is intentionally open while the concept files are reviewed and
+endorsed.</p>
+</div>
+</section>
+
+<section class="page-section"><h3 class="section-title">Concepts</h3>
+<div class="concept-list-box">
+<div class="concept-review-progress" data-concept-review-progress data-concept-review-urls="[&quot;https://laxarchive.org/lax-195003/Lax195003.WelzlOrders.html&quot;,&quot;https://laxarchive.org/lax-195003/Lax195003.WelzlOrdersComputation.html&quot;,&quot;https://laxarchive.org/lax-195003/Lax195003.WelzlOrdersInGraphs.html&quot;,&quot;https://laxarchive.org/lax-195003/Lax195003.WelzlOrdersNeighborhoodComplexity.html&quot;,&quot;https://laxarchive.org/lax-195003/Lax195003.WelzlOrdersNeighborhoodSetSystem.html&quot;,&quot;https://laxarchive.org/lax-195003/Lax195003.WordRamRandomness.html&quot;,&quot;https://laxarchive.org/lax-11/Lax11.GraphEncoding.html&quot;,&quot;https://laxarchive.org/lax-12/Lax12.GraphClasses.html&quot;,&quot;https://laxarchive.org/lax-67/Lax67.Ram.html&quot;]" hidden>
+<div class="concept-review-progress-heading"><span>Review progress</span><span data-concept-review-progress-label></span></div>
+<div class="concept-review-progress-track" data-concept-review-progress-track role="img"></div>
+</div>
+<ul class="concept-list">
+<li><span class="type-badge" title="definition">def</span><a href="Lax195003.WelzlOrders.html" title="Lax195003.WelzlOrders"><code>Lax195003.WelzlOrders</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-195003/Lax195003.WelzlOrders.html" hidden></span></li>
+<li><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><a href="Lax195003.WelzlOrdersComputation.html" title="Lax195003.WelzlOrdersComputation"><code>Lax195003.WelzlOrdersComputation</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-195003/Lax195003.WelzlOrdersComputation.html" hidden></span></li>
+<li><span class="type-badge" title="definition">def</span><a href="Lax195003.WelzlOrdersInGraphs.html" title="Lax195003.WelzlOrdersInGraphs"><code>Lax195003.WelzlOrdersInGraphs</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-195003/Lax195003.WelzlOrdersInGraphs.html" hidden></span></li>
+<li><span class="type-badge" title="definition">def</span><a href="Lax195003.WelzlOrdersNeighborhoodComplexity.html" title="Lax195003.WelzlOrdersNeighborhoodComplexity"><code>Lax195003.WelzlOrdersNeighborhoodComplexity</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-195003/Lax195003.WelzlOrdersNeighborhoodComplexity.html" hidden></span></li>
+<li><span class="type-badge" title="definition">def</span><a href="Lax195003.WelzlOrdersNeighborhoodSetSystem.html" title="Lax195003.WelzlOrdersNeighborhoodSetSystem"><code>Lax195003.WelzlOrdersNeighborhoodSetSystem</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-195003/Lax195003.WelzlOrdersNeighborhoodSetSystem.html" hidden></span></li>
+<li><span class="type-badge" title="definition">def</span><a href="Lax195003.WordRamRandomness.html" title="Lax195003.WordRamRandomness"><code>Lax195003.WordRamRandomness</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-195003/Lax195003.WordRamRandomness.html" hidden></span></li>
+</ul>
+<button class="concept-used-toggle" type="button" data-used-concepts-toggle aria-controls="used-concepts-list" aria-expanded="false">Show referenced concepts</button>
+<ul class="concept-list concept-used-list" id="used-concepts-list" aria-label="Concepts used from other submissions" hidden>
+<li><span class="type-badge" title="definition">def</span><a href="../lax-11/Lax11.GraphEncoding.html" title="Lax11.GraphEncoding"><code>Lax11.GraphEncoding</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-11/Lax11.GraphEncoding.html" hidden></span></li>
+<li><span class="type-badge" title="definition">def</span><a href="../lax-12/Lax12.GraphClasses.html" title="Lax12.GraphClasses"><code>Lax12.GraphClasses</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-12/Lax12.GraphClasses.html" hidden></span></li>
+<li><span class="type-badge" title="definition">def</span><a href="../lax-67/Lax67.Ram.html" title="Lax67.Ram"><code>Lax67.Ram</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-67/Lax67.Ram.html" hidden></span></li>
+</ul>
+<div class="badge-legend" aria-label="Concept badge legend"><span><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span>open claim</span><span><span class="type-badge" title="definition">def</span>definition</span></div>
+</div>
+<h4 class="figure-title">Concept map</h4>
+<figure class="graph-figure">
+<button class="graph-expand" type="button" data-graph-expand data-graph-label="concept map" aria-expanded="false" aria-label="Open concept map in a large window" title="Open in large window"><svg class="graph-expand-open" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M2.5 6V2.5H6M10 2.5h3.5V6M13.5 10v3.5H10M6 13.5H2.5V10"/></svg><span class="graph-expand-close" aria-hidden="true">×</span></button>
+<div class="graph-toolbar"><button type="button" id="concept-expand" aria-controls="concept-dag" aria-pressed="true">Hide ancestors</button><button type="button" id="concept-descend" aria-controls="concept-dag" aria-pressed="false">Show descendants</button><output id="concept-graph-status" aria-live="polite"></output></div>
+<div id="concept-dag" class="figure-container" data-graph="concepts" data-ancestry="true"></div>
+<div class="graph-tooltip" role="tooltip" hidden></div>
+<figcaption class="graph-legend" aria-label="Concept map legend"><span><i class="legend-node fill-open"></i>Open claim</span><span><i class="legend-node fill-none"></i>Definition</span><span><i class="legend-node stroke-own"></i>This submission</span><span><i class="legend-node stroke-ext"></i>Other submission</span><span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B builds on A</span></figcaption>
+</figure>
+</section>
+<section class="page-section"><h3 class="section-title">Proofs</h3>
+<p class="empty-note">No proofs in this submission.</p>
+<p class="honesty-note">Proof code is not displayed; the archive records each proof's checked relationship between claims.</p>
+</section>
+<section class="page-section"><h3 class="section-title">Related submissions</h3>
+<h4 class="figure-title">Submission map</h4>
+<figure class="graph-figure">
+<div id="submission-dag" class="figure-container" data-graph="submissions"></div>
+<div class="graph-tooltip" role="tooltip" hidden></div>
+<figcaption class="graph-legend" aria-label="Submission map legend"><span><i class="legend-node stroke-own"></i>This submission</span><span><i class="legend-node stroke-ext"></i>Other submission</span><span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B's concepts build on A</span><span><i class="legend-arrow proof-dep" aria-hidden="true">→</i>A → B: only B's proofs build on A</span></figcaption>
+</figure>
+</section>
+<section class="page-section"><h3 class="section-title" id="citation">Cite this</h3>
+<div class="citation-box">
+<pre class="citation" id="submission-citation">@misc{lax-195003,
+  author = {Clemens Kuske and Codex (OpenAI)},
+  title = {Near-Linear Time Computation of Welzl Orders on Graphs with Linear Neighborhood Complexity},
+  year = {2026},
+  howpublished = {Lax Archive, lax-195003},
+  url = {https://laxarchive.org/lax-195003/},
+  note = {draft},
+}</pre>
+<button class="citation-copy" type="button" data-copy-citation aria-controls="submission-citation" aria-label="Copy BibTeX to clipboard" title="Copy BibTeX"><span class="citation-copy-icon" aria-hidden="true"></span></button>
+<output class="citation-copy-status" aria-live="polite"></output>
+</div>
+</section>
+<section class="page-section"><h3 class="section-title">References</h3>
+<ol class="reference-list">
+<li id="ref-DreierKuske2026">Jan Dreier and Clemens Kuske. <span class="reference-title">Near-Linear Time Computation of Welzl Orders on Graphs with Linear Neighborhood Complexity</span>. 2026. <a href="https://doi.org/10.48550/arXiv.2602.14625">doi:10.48550/arXiv.2602.14625</a> · <a href="https://arxiv.org/abs/2602.14625">arXiv:2602.14625</a></li>
+<li id="ref-Welzl1988">Emo Welzl. <span class="reference-title">Partition Trees for Triangle Counting and Other Range Searching Problems</span>. In Proceedings of the Fourth Annual Symposium on Computational Geometry 23–33, 1988. <a href="https://doi.org/10.1145/73393.73397">doi:10.1145/73393.73397</a></li>
+</ol>
+</section>
+<section class="page-section discussion-section" aria-labelledby="discussion-title">
+<div class="discussion-heading">
+<div class="discussion-heading-copy">
+<p class="discussion-eyebrow">Community review</p>
+<h3 class="section-title" id="discussion-title">Discussion</h3>
+<p>Ask a question or add context. Endorsements and structured flags are kept in the review panel above; your ORCID profile must share a public name.</p>
+</div>
+<p class="discussion-count"><span class="remark42__counter" data-url="https://laxarchive.org/lax-195003/">0</span> <span>comments</span></p>
+</div>
+<div class="discussion-embed-shell">
+<p class="discussion-loading" id="remark42-status" role="status"><span class="discussion-loading-mark" aria-hidden="true"></span>Loading discussion…</p>
+<div id="remark42" data-remark42-host="https://comments.laxarchive.org" data-remark42-site="remark" data-remark42-url="https://laxarchive.org/lax-195003/"></div>
+</div>
+<noscript><p class="discussion-unavailable">Enable JavaScript to read or join the discussion.</p></noscript>
+</section>
+<script type="application/json" id="graph-data">{"concepts":{"nodes":[{"id":"Lax11.GraphEncoding","href":"../lax-11/Lax11.GraphEncoding.html","title":"Compressed sparse row encoding of a graph","owner":"lax-11","status":"none","ext":true,"dir":"up"},{"id":"Lax12.GraphClasses","href":"../lax-12/Lax12.GraphClasses.html","title":"Graph classes","owner":"lax-12","status":"none","ext":true,"dir":"up"},{"id":"Lax195003.WelzlOrders","href":"../lax-195003/Lax195003.WelzlOrders.html","title":"Welzl orders","owner":"lax-195003","status":"none","ext":false,"dir":"core"},{"id":"Lax195003.WelzlOrdersComputation","href":"../lax-195003/Lax195003.WelzlOrdersComputation.html","title":"Near-linear-time computation of Welzl orders","owner":"lax-195003","status":"open","ext":false,"dir":"core"},{"id":"Lax195003.WelzlOrdersInGraphs","href":"../lax-195003/Lax195003.WelzlOrdersInGraphs.html","title":"Welzl orders in graphs","owner":"lax-195003","status":"none","ext":false,"dir":"core"},{"id":"Lax195003.WelzlOrdersNeighborhoodComplexity","href":"../lax-195003/Lax195003.WelzlOrdersNeighborhoodComplexity.html","title":"Neighborhood complexity","owner":"lax-195003","status":"none","ext":false,"dir":"core"},{"id":"Lax195003.WelzlOrdersNeighborhoodSetSystem","href":"../lax-195003/Lax195003.WelzlOrdersNeighborhoodSetSystem.html","title":"Neighborhood set systems of graphs","owner":"lax-195003","status":"none","ext":false,"dir":"core"},{"id":"Lax195003.WordRamRandomness","href":"../lax-195003/Lax195003.WordRamRandomness.html","title":"Randomized computation on the word RAM","owner":"lax-195003","status":"none","ext":false,"dir":"core"},{"id":"Lax67.Ram","href":"../lax-67/Lax67.Ram.html","title":"The word RAM","owner":"lax-67","status":"none","ext":true,"dir":"up"}],"edges":[{"from":"Lax11.GraphEncoding","to":"Lax195003.WelzlOrdersComputation"},{"from":"Lax195003.WelzlOrdersInGraphs","to":"Lax195003.WelzlOrdersComputation"},{"from":"Lax195003.WelzlOrdersNeighborhoodComplexity","to":"Lax195003.WelzlOrdersComputation"},{"from":"Lax195003.WordRamRandomness","to":"Lax195003.WelzlOrdersComputation"},{"from":"Lax195003.WelzlOrdersNeighborhoodSetSystem","to":"Lax195003.WelzlOrdersInGraphs"},{"from":"Lax12.GraphClasses","to":"Lax195003.WelzlOrdersNeighborhoodComplexity"},{"from":"Lax195003.WelzlOrders","to":"Lax195003.WelzlOrdersNeighborhoodSetSystem"},{"from":"Lax67.Ram","to":"Lax195003.WordRamRandomness"}],"home":"lax-195003"},"proofs":{"statements":[{"id":"Lax195003.WelzlOrdersComputation.exists_nearLinearTime_randomized_welzlOrder_program","label":"Lax195003.WelzlOrdersComputation","title":"Near-linear-time computation of Welzl orders","owner":"lax-195003","concept":"Lax195003.WelzlOrdersComputation","index":1,"count":1,"href":"../lax-195003/Lax195003.WelzlOrdersComputation.html#s-Lax195003.WelzlOrdersComputation.exists_nearLinearTime_randomized_welzlOrder_program","proven":false,"ext":false}],"proofs":[],"home":"lax-195003"},"submissions":{"nodes":[{"id":"lax-11","href":"../lax-11/index.html","title":"Algorithmic Experiments on a Random Access Machine","state":"registered","concepts":7,"proofs":2,"dir":"up","ext":true},{"id":"lax-12","href":"../lax-12/index.html","title":"Sparsity Lectures: Nowhere Denseness, Quasi-Wideness, and Generalized Coloring Numbers","state":"registered","concepts":15,"proofs":7,"dir":"up","ext":true},{"id":"lax-14","href":"../lax-14/index.html","title":"Finite Ramsey Theorems for Pairs and Tuples","state":"registered","concepts":4,"proofs":3,"dir":"up","ext":true},{"id":"lax-67","href":"../lax-67/index.html","title":"The Word RAM","state":"registered","concepts":2,"proofs":0,"dir":"up","ext":true},{"id":"lax-195003","href":"../lax-195003/index.html","title":"Near-Linear Time Computation of Welzl Orders on Graphs with Linear Neighborhood Complexity","state":"draft","concepts":6,"proofs":0,"dir":"core","ext":false}],"edges":[{"from":"lax-67","to":"lax-11","kind":"concepts"},{"from":"lax-14","to":"lax-12","kind":"proofs"},{"from":"lax-11","to":"lax-195003","kind":"concepts"},{"from":"lax-12","to":"lax-195003","kind":"concepts"},{"from":"lax-67","to":"lax-195003","kind":"concepts"}]}}</script>
+</div>
+<footer class="site-footer">
+  <nav class="site-footer-nav" aria-label="Legal and about">
+    <a class="site-footer-link" href="../impressum.html">Imprint</a>
+    <a class="site-footer-link" href="../privacy.html">Privacy</a>
+    <a class="site-footer-link" href="../assets/lax-white-paper.pdf">About</a>
+  </nav>
+</footer>
+</section>
+</main>
+<dialog class="account-dialog" id="account-dialog" aria-labelledby="account-dialog-title">
+<div class="account-dialog-inner">
+<header class="account-dialog-header">
+<div><p class="account-dialog-eyebrow">ORCID account</p><h2 id="account-dialog-title">Settings</h2></div>
+<button class="account-dialog-close" data-account-close type="button" aria-label="Close account settings">×</button>
+</header>
+<div class="account-dialog-body">
+<p class="account-status" data-account-status role="status">Checking your ORCID session…</p>
+<section data-account-content hidden>
+<div class="account-identity">
+<span class="account-avatar" data-account-avatar aria-hidden="true">iD</span>
+<div><a class="account-name" data-account-name target="_blank" rel="noopener noreferrer"></a><p class="account-id" data-account-id></p></div>
+</div>
+<p class="account-name-note">Your public name comes from ORCID. ORCID names are self-asserted and may change.</p>
+<div class="account-actions">
+<a data-account-refresh href="https://comments.laxarchive.org/auth/orcid/login?from=https%3A%2F%2Flaxarchive.org&amp;site=remark">Refresh from ORCID</a>
+<button data-account-logout type="button">Sign out</button>
+</div>
+<div class="account-comments-heading"><h3>Your comments</h3><span data-account-comment-count></span></div>
+<ol class="account-comments" data-account-comments></ol>
+<p class="account-comments-status" data-account-comments-status role="status"></p>
+</section>
+</div>
+</div>
+</dialog>
+<script src="../assets/sidebar.js?v=b1e289522120"></script>
+<script src="../assets/account.js?v=e3db2efa7b34"></script>
+<script src="../assets/layout.js?v=41e28199b546"></script>
+<script src="../assets/dag.js?v=0d34983dc6ac"></script>
+<script src="../assets/citation.js?v=dd5ce19082ad"></script>
+<script src="../assets/version-history.js?v=a36e868140dd"></script>
+<script src="../assets/comments.js?v=936ec0d73bed"></script>
+</body></html>
