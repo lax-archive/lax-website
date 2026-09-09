@@ -7,7 +7,7 @@
 <title>Crossbars and pseudo-grids — Lax17.Crossbar</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=cbddb6900009">
+<link rel="stylesheet" href="../assets/style.css?v=b5c5ef914dab">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -190,19 +190,19 @@ most <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.o
 <tr id="L18" class=""><td class="line-num"><a href="#L18">18</a></td><td class="line-code"><span style="color:#6A737D">most \(2g^2\) columns meet a row in that block.</span></td></tr>
 <tr id="L19" class=""><td class="line-num"><a href="#L19">19</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
 <tr id="L20" class=""><td class="line-num"><a href="#L20">20</a></td><td class="line-code"> </td></tr>
-<tr id="L21" class=""><td class="line-num"><a href="#L21">21</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-17/Lax17.Crossbar.html"><span style="color:#24292E">Lax17.Crossbar</span></a></td></tr>
+<tr id="L21" class=""><td class="line-num"><a href="#L21">21</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax17.Crossbar</span></td></tr>
 <tr id="L22" class=""><td class="line-num"><a href="#L22">22</a></td><td class="line-code"> </td></tr>
 <tr id="L23" class=""><td class="line-num"><a href="#L23">23</a></td><td class="line-code"><span style="color:#D73A49">universe</span><span style="color:#24292E"> u</span></td></tr>
 <tr id="L24" class=""><td class="line-num"><a href="#L24">24</a></td><td class="line-code"> </td></tr>
 <tr id="L25" class=""><td class="line-num"><a href="#L25">25</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-17/Lax17.Paths.html"><span style="color:#24292E">Lax17.Paths</span></a></td></tr>
 <tr id="L26" class=""><td class="line-num"><a href="#L26">26</a></td><td class="line-code"> </td></tr>
 <tr id="L27" class=""><td class="line-num"><a href="#L27">27</a></td><td class="line-code"><span style="color:#6A737D">/-- The parameter is an integral power of two. -/</span></td></tr>
-<tr id="L28" class=""><td class="line-num"><a href="#L28">28</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> </span><a class="lean-identifier-link" href="../lax-17/Lax17.Crossbar.html#L27"><span style="color:#6F42C1">IsPowerOfTwo</span></a><span style="color:#24292E"> (g : ℕ) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr id="L28" class=""><td class="line-num"><a href="#L28">28</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> IsPowerOfTwo</span><span style="color:#24292E"> (g : ℕ) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
 <tr id="L29" class=""><td class="line-num"><a href="#L29">29</a></td><td class="line-code"><span style="color:#24292E">  ∃ exponent : ℕ, g = </span><span style="color:#005CC5">2</span><span style="color:#24292E"> ^ exponent</span></td></tr>
 <tr id="L30" class=""><td class="line-num"><a href="#L30">30</a></td><td class="line-code"> </td></tr>
 <tr id="L31" class=""><td class="line-num"><a href="#L31">31</a></td><td class="line-code"><span style="color:#6A737D">/-- The graph has a minor carrying a strong path-of-sets system of the</span></td></tr>
 <tr id="L32" class=""><td class="line-num"><a href="#L32">32</a></td><td class="line-code"><span style="color:#6A737D">specified length and width. -/</span></td></tr>
-<tr id="L33" class=""><td class="line-num"><a href="#L33">33</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> </span><a class="lean-identifier-link" href="../lax-17/Lax17.Crossbar.html#L31"><span style="color:#6F42C1">HasStrongPathOfSetsMinor</span></a><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E"> u} [DecidableEq V]</span></td></tr>
+<tr id="L33" class=""><td class="line-num"><a href="#L33">33</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> HasStrongPathOfSetsMinor</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E"> u} [DecidableEq V]</span></td></tr>
 <tr id="L34" class=""><td class="line-num"><a href="#L34">34</a></td><td class="line-code"><span style="color:#24292E">    (G : SimpleGraph V) (length width : ℕ) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
 <tr id="L35" class=""><td class="line-num"><a href="#L35">35</a></td><td class="line-code"><span style="color:#24292E">  ∃ (W : </span><span style="color:#D73A49">Type</span><span style="color:#24292E"> u) (_ : Fintype W) (_ : DecidableEq W)</span></td></tr>
 <tr id="L36" class=""><td class="line-num"><a href="#L36">36</a></td><td class="line-code"><span style="color:#24292E">    (H : SimpleGraph W),</span></td></tr>
@@ -210,7 +210,7 @@ most <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.o
 <tr id="L38" class=""><td class="line-num"><a href="#L38">38</a></td><td class="line-code"><span style="color:#24292E">        Nonempty (</span><a class="lean-identifier-link" href="../lax-17/Lax17.PathOfSets.html#L77"><span style="color:#24292E">Lax17.PathOfSets.StrongSystem</span></a><span style="color:#24292E"> H length width)</span></td></tr>
 <tr id="L39" class=""><td class="line-num"><a href="#L39">39</a></td><td class="line-code"> </td></tr>
 <tr id="L40" class=""><td class="line-num"><a href="#L40">40</a></td><td class="line-code"><span style="color:#6A737D">/-- A crossbar of width `ρ`. -/</span></td></tr>
-<tr id="L41" class=""><td class="line-num"><a href="#L41">41</a></td><td class="line-code"><span style="color:#D73A49">structure</span><span style="color:#6F42C1"> </span><a class="lean-identifier-link" href="../lax-17/Lax17.Crossbar.html#L40"><span style="color:#6F42C1">System</span></a><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E"> u} [DecidableEq V]</span></td></tr>
+<tr id="L41" class=""><td class="line-num"><a href="#L41">41</a></td><td class="line-code"><span style="color:#D73A49">structure</span><span style="color:#6F42C1"> System</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E"> u} [DecidableEq V]</span></td></tr>
 <tr id="L42" class=""><td class="line-num"><a href="#L42">42</a></td><td class="line-code"><span style="color:#24292E">    (G : SimpleGraph V) (A B X : Finset V) (ρ : ℕ) </span><span style="color:#D73A49">where</span></td></tr>
 <tr id="L43" class=""><td class="line-num"><a href="#L43">43</a></td><td class="line-code"><span style="color:#24292E">  mainPath : Fin ρ → Path G</span></td></tr>
 <tr id="L44" class=""><td class="line-num"><a href="#L44">44</a></td><td class="line-code"><span style="color:#24292E">  main_connects : ∀ i : Fin ρ, (mainPath i).Connects A B</span></td></tr>
@@ -247,7 +247,7 @@ most <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.o
 <tr id="L75" class=""><td class="line-num"><a href="#L75">75</a></td><td class="line-code"><span style="color:#24292E">      Disjoint (spokePath i).vertices (mainPath j).vertices</span></td></tr>
 <tr id="L76" class=""><td class="line-num"><a href="#L76">76</a></td><td class="line-code"> </td></tr>
 <tr id="L77" class=""><td class="line-num"><a href="#L77">77</a></td><td class="line-code"><span style="color:#6A737D">/-- A depth-`D` pseudo-grid with `κ` main rows at scale `g`. -/</span></td></tr>
-<tr id="L78" class=""><td class="line-num"><a href="#L78">78</a></td><td class="line-code"><span style="color:#D73A49">structure</span><span style="color:#6F42C1"> </span><a class="lean-identifier-link" href="../lax-17/Lax17.Crossbar.html#L77"><span style="color:#6F42C1">PseudoGrid</span></a><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E"> u} [DecidableEq V]</span></td></tr>
+<tr id="L78" class=""><td class="line-num"><a href="#L78">78</a></td><td class="line-code"><span style="color:#D73A49">structure</span><span style="color:#6F42C1"> PseudoGrid</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E"> u} [DecidableEq V]</span></td></tr>
 <tr id="L79" class=""><td class="line-num"><a href="#L79">79</a></td><td class="line-code"><span style="color:#24292E">    (G : SimpleGraph V) (A B X : Finset V)</span></td></tr>
 <tr id="L80" class=""><td class="line-num"><a href="#L80">80</a></td><td class="line-code"><span style="color:#24292E">    (g D κ : ℕ) </span><span style="color:#D73A49">where</span></td></tr>
 <tr id="L81" class=""><td class="line-num"><a href="#L81">81</a></td><td class="line-code"><span style="color:#24292E">  RowIndex : </span><span style="color:#D73A49">Type</span></td></tr>
@@ -289,7 +289,7 @@ most <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.o
 <tr id="L117" class=""><td class="line-num"><a href="#L117">117</a></td><td class="line-code"><span style="color:#24292E">            ∃ p ∈ reserved i,</span></td></tr>
 <tr id="L118" class=""><td class="line-num"><a href="#L118">118</a></td><td class="line-code"><span style="color:#24292E">              ¬ Disjoint (row p).vertices (column j).vertices</span></td></tr>
 <tr id="L119" class=""><td class="line-num"><a href="#L119">119</a></td><td class="line-code"> </td></tr>
-<tr id="L120" class=""><td class="line-num"><a href="#L120">120</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-17/Lax17.Crossbar.html"><span style="color:#24292E">Lax17.Crossbar</span></a></td></tr>
+<tr id="L120" class=""><td class="line-num"><a href="#L120">120</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax17.Crossbar</span></td></tr>
 <tr id="L121" class=""><td class="line-num"><a href="#L121">121</a></td><td class="line-code"> </td></tr>
 </table></div><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
 

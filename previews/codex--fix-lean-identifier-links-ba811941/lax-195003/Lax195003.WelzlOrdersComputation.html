@@ -7,7 +7,7 @@
 <title>Near-linear-time computation of Welzl orders — Lax195003.WelzlOrdersComputation</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=cbddb6900009">
+<link rel="stylesheet" href="../assets/style.css?v=b5c5ef914dab">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -174,7 +174,7 @@ Welzl Orders on Graphs with Linear Neighborhood Complexity</em> (2026).</p>
 <tr id="L60" class=""><td class="line-num"><a href="#L60">60</a></td><td class="line-code"><span style="color:#6A737D">imposing an arbitrary tie-breaking rule absent from the paper.</span></td></tr>
 <tr id="L61" class=""><td class="line-num"><a href="#L61">61</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
 <tr id="L62" class=""><td class="line-num"><a href="#L62">62</a></td><td class="line-code"> </td></tr>
-<tr id="L63" class=""><td class="line-num"><a href="#L63">63</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-195003/Lax195003.WelzlOrdersComputation.html"><span style="color:#24292E">Lax195003.WelzlOrdersComputation</span></a></td></tr>
+<tr id="L63" class=""><td class="line-num"><a href="#L63">63</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax195003.WelzlOrdersComputation</span></td></tr>
 <tr id="L64" class=""><td class="line-num"><a href="#L64">64</a></td><td class="line-code"> </td></tr>
 <tr id="L65" class=""><td class="line-num"><a href="#L65">65</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-11/Lax11.GraphEncoding.html"><span style="color:#24292E">Lax11.GraphEncoding</span></a></td></tr>
 <tr id="L66" class=""><td class="line-num"><a href="#L66">66</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-12/Lax12.GraphClasses.html"><span style="color:#24292E">Lax12.GraphClasses</span></a></td></tr>
@@ -187,7 +187,7 @@ Welzl Orders on Graphs with Linear Neighborhood Complexity</em> (2026).</p>
 <tr id="L73" class="statement-line line-open"><td class="line-num"><a href="#L73">73</a></td><td class="line-code"><span style="color:#6A737D">whose neighborhood complexity is uniformly at most `c · k`, returns with</span></td></tr>
 <tr id="L74" class="statement-line line-open"><td class="line-num"><a href="#L74">74</a></td><td class="line-code"><span style="color:#6A737D">probability at least `2/3` an order with crossing number at most</span></td></tr>
 <tr id="L75" class="statement-line line-open"><td class="line-num"><a href="#L75">75</a></td><td class="line-code"><span style="color:#6A737D">`12 · c^2 · log₂(n)^2`, within a constant multiple of `(n+m) log n` steps. -/</span></td></tr>
-<tr id="L76" class="statement-line line-open"><td class="line-num"><a href="#L76">76</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> </span><a class="lean-identifier-link" href="../lax-195003/Lax195003.WelzlOrdersComputation.html#s-Lax195003.WelzlOrdersComputation.exists_nearLinearTime_randomized_welzlOrder_program"><span style="color:#6F42C1">exists_nearLinearTime_randomized_welzlOrder_program</span></a><span style="color:#24292E"> :</span></td></tr>
+<tr id="L76" class="statement-line line-open"><td class="line-num"><a href="#L76">76</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> exists_nearLinearTime_randomized_welzlOrder_program</span><span style="color:#24292E"> :</span></td></tr>
 <tr id="L77" class="statement-line line-open"><td class="line-num"><a href="#L77">77</a></td><td class="line-code"><span style="color:#24292E">    ∃ (p : Program) (K : ℕ), </span><span style="color:#005CC5">1</span><span style="color:#24292E"> ≤ K ∧</span></td></tr>
 <tr id="L78" class="statement-line line-open"><td class="line-num"><a href="#L78">78</a></td><td class="line-code"><span style="color:#24292E">      ∀ (C : GraphClass) (c : ℕ), </span><span style="color:#005CC5">1</span><span style="color:#24292E"> ≤ c →</span></td></tr>
 <tr id="L79" class="statement-line line-open"><td class="line-num"><a href="#L79">79</a></td><td class="line-code"><span style="color:#24292E">        (∀ (n : ℕ) (G : SimpleGraph (Fin n)), C n G →</span></td></tr>
@@ -202,7 +202,7 @@ Welzl Orders on Graphs with Linear Neighborhood Complexity</em> (2026).</p>
 <tr id="L88" class="statement-line line-open"><td class="line-num"><a href="#L88">88</a></td><td class="line-code"><span style="color:#005CC5">              1</span></td></tr>
 <tr id="L89" class="statement-line line-open"><td class="line-num"><a href="#L89">89</a></td><td class="line-code"><span style="color:#24292E">              (</span><span style="color:#005CC5">12</span><span style="color:#24292E"> * c ^ </span><span style="color:#005CC5">2</span><span style="color:#24292E"> * (Nat.clog </span><span style="color:#005CC5">2</span><span style="color:#24292E"> n) ^ </span><span style="color:#005CC5">2</span><span style="color:#24292E">))</span></td></tr>
 <tr id="L90" class=""><td class="line-num"><a href="#L90">90</a></td><td class="line-code"> </td></tr>
-<tr id="L91" class=""><td class="line-num"><a href="#L91">91</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-195003/Lax195003.WelzlOrdersComputation.html"><span style="color:#24292E">Lax195003.WelzlOrdersComputation</span></a></td></tr>
+<tr id="L91" class=""><td class="line-num"><a href="#L91">91</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax195003.WelzlOrdersComputation</span></td></tr>
 <tr id="L92" class=""><td class="line-num"><a href="#L92">92</a></td><td class="line-code"> </td></tr>
 </table></div><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
 <div class="block"><h3>Formalization notes</h3><div class="latex-content"><p>Linear neighborhood complexity is the separate definition

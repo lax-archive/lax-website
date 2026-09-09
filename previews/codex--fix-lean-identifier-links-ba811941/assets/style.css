@@ -1334,7 +1334,12 @@ body.sidebar-resizing #content-shell{ transition: none; }
   background: var(--surface);
   box-shadow: 0 3px 10px rgba(43, 43, 43, 0.16);
   transform: translateY(-50%);
+  /* Rail padding must not capture clicks on the adjacent source row. */
+  pointer-events: none;
 }
+
+.source-proof-rail > a,
+.source-review-rail > button{ pointer-events: auto; }
 
 .source-proof-rail.outside,
 .source-review-rail.outside{

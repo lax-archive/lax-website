@@ -7,7 +7,7 @@
 <title>Regular functions are closed under composition — Lax916827.RegularComposition</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=cbddb6900009">
+<link rel="stylesheet" href="../assets/style.css?v=b5c5ef914dab">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -189,15 +189,15 @@ of the regular functions as compositions of primes.</p>
 <tr id="L14" class=""><td class="line-num"><a href="#L14">14</a></td><td class="line-code"><span style="color:#6A737D">The intermediate alphabet is assumed finite, as in the composition closure.</span></td></tr>
 <tr id="L15" class=""><td class="line-num"><a href="#L15">15</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
 <tr id="L16" class=""><td class="line-num"><a href="#L16">16</a></td><td class="line-code"> </td></tr>
-<tr id="L17" class=""><td class="line-num"><a href="#L17">17</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-916827/Lax916827.RegularComposition.html"><span style="color:#24292E">Lax916827.RegularComposition</span></a></td></tr>
+<tr id="L17" class=""><td class="line-num"><a href="#L17">17</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax916827.RegularComposition</span></td></tr>
 <tr id="L18" class=""><td class="line-num"><a href="#L18">18</a></td><td class="line-code"> </td></tr>
 <tr id="L19" class=""><td class="line-num"><a href="#L19">19</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-916827/Lax916827.RegularFunctions.html"><span style="color:#24292E">Lax916827.RegularFunctions</span></a></td></tr>
 <tr id="L20" class=""><td class="line-num"><a href="#L20">20</a></td><td class="line-code"> </td></tr>
 <tr id="L21" class="statement-line line-proven"><td class="line-num"><a href="#L21">21</a></td><td class="line-code"><span class="statement-anchor" id="s-Lax916827.RegularComposition.isRegularFun_comp"></span><span style="color:#6A737D">/-- The composition of two regular functions is regular. -/</span></td></tr>
-<tr id="L22" class="statement-line line-proven"><td class="line-num"><a href="#L22">22</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> </span><a class="lean-identifier-link" href="../lax-916827/Lax916827.RegularComposition.html#s-Lax916827.RegularComposition.isRegularFun_comp"><span style="color:#6F42C1">isRegularFun_comp</span></a><span style="color:#24292E"> {A B C : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">} [Finite B] {f : List A → List B} {g : List B → List C}</span></td></tr>
+<tr id="L22" class="statement-line line-proven"><td class="line-num"><a href="#L22">22</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> isRegularFun_comp</span><span style="color:#24292E"> {A B C : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">} [Finite B] {f : List A → List B} {g : List B → List C}</span></td></tr>
 <tr id="L23" class="statement-line line-proven"><td class="line-num"><a href="#L23">23</a></td><td class="line-code"><span style="color:#24292E">    (hf : IsRegularFun f) (hg : IsRegularFun g) : IsRegularFun (g ∘ f)</span></td></tr>
 <tr id="L24" class=""><td class="line-num"><a href="#L24">24</a></td><td class="line-code"> </td></tr>
-<tr id="L25" class=""><td class="line-num"><a href="#L25">25</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-916827/Lax916827.RegularComposition.html"><span style="color:#24292E">Lax916827.RegularComposition</span></a></td></tr>
+<tr id="L25" class=""><td class="line-num"><a href="#L25">25</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax916827.RegularComposition</span></td></tr>
 <tr id="L26" class=""><td class="line-num"><a href="#L26">26</a></td><td class="line-code"> </td></tr>
 </table></div><span class="source-proof-rail" data-source-line="L22" aria-label="Proof links"><a class="statement-proof-button" href="https://github.com/bojanczyk/transducer-book/blob/2fb96b21ff6f644e216d6c933869a6b19d87af3b/lax/regular-functions/proofs/Lax916827Proofs/Results.lean" aria-label="View proof Lax916827Proofs.Results.isRegularFun_comp on GitHub" title="Lax916827Proofs.Results.isRegularFun_comp"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">Show Proof</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a></span><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
 <div class="block"><h3>Formalization notes</h3><div class="latex-content"><p>The intermediate alphabet is assumed finite, as in the composition closure.</p>

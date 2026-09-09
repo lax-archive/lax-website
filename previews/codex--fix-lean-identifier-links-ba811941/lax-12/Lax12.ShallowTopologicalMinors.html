@@ -7,7 +7,7 @@
 <title>Shallow topological minors — Lax12.ShallowTopologicalMinors</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=cbddb6900009">
+<link rel="stylesheet" href="../assets/style.css?v=b5c5ef914dab">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -200,7 +200,7 @@ topological minor is in particular a depth-<em>r</em> minor.</p>
 <tr id="L61" class=""><td class="line-num"><a href="#L61">61</a></td><td class="line-code"><span style="color:#6A737D">ordinary-minor concepts.</span></td></tr>
 <tr id="L62" class=""><td class="line-num"><a href="#L62">62</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
 <tr id="L63" class=""><td class="line-num"><a href="#L63">63</a></td><td class="line-code"> </td></tr>
-<tr id="L64" class=""><td class="line-num"><a href="#L64">64</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-12/Lax12.ShallowTopologicalMinors.html"><span style="color:#24292E">Lax12.ShallowTopologicalMinors</span></a></td></tr>
+<tr id="L64" class=""><td class="line-num"><a href="#L64">64</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax12.ShallowTopologicalMinors</span></td></tr>
 <tr id="L65" class=""><td class="line-num"><a href="#L65">65</a></td><td class="line-code"> </td></tr>
 <tr id="L66" class=""><td class="line-num"><a href="#L66">66</a></td><td class="line-code"><span style="color:#6A737D">/-- A model of `H` as a depth-`r` topological minor of `G`: an injective</span></td></tr>
 <tr id="L67" class=""><td class="line-num"><a href="#L67">67</a></td><td class="line-code"><span style="color:#6A737D">choice of a principal vertex of `G` for each vertex of `H`, together</span></td></tr>
@@ -208,7 +208,7 @@ topological minor is in particular a depth-<em>r</em> minor.</p>
 <tr id="L69" class=""><td class="line-num"><a href="#L69">69</a></td><td class="line-code"><span style="color:#6A737D">`H`, where the walks pass through no principal vertex other than those</span></td></tr>
 <tr id="L70" class=""><td class="line-num"><a href="#L70">70</a></td><td class="line-code"><span style="color:#6A737D">of their own two endpoints and meet each other only in principal</span></td></tr>
 <tr id="L71" class=""><td class="line-num"><a href="#L71">71</a></td><td class="line-code"><span style="color:#6A737D">vertices. -/</span></td></tr>
-<tr id="L72" class=""><td class="line-num"><a href="#L72">72</a></td><td class="line-code"><span style="color:#D73A49">structure</span><span style="color:#6F42C1"> </span><a class="lean-identifier-link" href="../lax-12/Lax12.ShallowTopologicalMinors.html#L66"><span style="color:#6F42C1">ShallowTopologicalMinorModel</span></a><span style="color:#24292E"> {V W : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">*} (r : ℕ) (H : SimpleGraph W)</span></td></tr>
+<tr id="L72" class=""><td class="line-num"><a href="#L72">72</a></td><td class="line-code"><span style="color:#D73A49">structure</span><span style="color:#6F42C1"> ShallowTopologicalMinorModel</span><span style="color:#24292E"> {V W : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">*} (r : ℕ) (H : SimpleGraph W)</span></td></tr>
 <tr id="L73" class=""><td class="line-num"><a href="#L73">73</a></td><td class="line-code"><span style="color:#24292E">    (G : SimpleGraph V) </span><span style="color:#D73A49">where</span></td></tr>
 <tr id="L74" class=""><td class="line-num"><a href="#L74">74</a></td><td class="line-code"><span style="color:#6A737D">  /-- The principal vertex of `G` realizing each vertex of `H`. -/</span></td></tr>
 <tr id="L75" class=""><td class="line-num"><a href="#L75">75</a></td><td class="line-code"><span style="color:#24292E">  principal : W → V</span></td></tr>
@@ -232,18 +232,18 @@ topological minor is in particular a depth-<em>r</em> minor.</p>
 <tr id="L93" class=""><td class="line-num"><a href="#L93">93</a></td><td class="line-code"><span style="color:#24292E">      x ∉ Set.range principal → (u = u' ∧ v = v') ∨ (u = v' ∧ v = u')</span></td></tr>
 <tr id="L94" class=""><td class="line-num"><a href="#L94">94</a></td><td class="line-code"> </td></tr>
 <tr id="L95" class=""><td class="line-num"><a href="#L95">95</a></td><td class="line-code"><span style="color:#6A737D">/-- `H` is a topological minor of `G` at depth `r`. -/</span></td></tr>
-<tr id="L96" class=""><td class="line-num"><a href="#L96">96</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> </span><a class="lean-identifier-link" href="../lax-12/Lax12.ShallowTopologicalMinors.html#L95"><span style="color:#6F42C1">HasShallowTopologicalMinor</span></a><span style="color:#24292E"> {V W : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">*} (G : SimpleGraph V) (r : ℕ)</span></td></tr>
+<tr id="L96" class=""><td class="line-num"><a href="#L96">96</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> HasShallowTopologicalMinor</span><span style="color:#24292E"> {V W : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">*} (G : SimpleGraph V) (r : ℕ)</span></td></tr>
 <tr id="L97" class=""><td class="line-num"><a href="#L97">97</a></td><td class="line-code"><span style="color:#24292E">    (H : SimpleGraph W) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
-<tr id="L98" class=""><td class="line-num"><a href="#L98">98</a></td><td class="line-code"><span style="color:#24292E">  Nonempty (ShallowTopologicalMinorModel r H G)</span></td></tr>
+<tr id="L98" class=""><td class="line-num"><a href="#L98">98</a></td><td class="line-code"><span style="color:#24292E">  Nonempty (</span><a class="lean-identifier-link" href="../lax-12/Lax12.ShallowTopologicalMinors.html#L66"><span style="color:#24292E">ShallowTopologicalMinorModel</span></a><span style="color:#24292E"> r H G)</span></td></tr>
 <tr id="L99" class=""><td class="line-num"><a href="#L99">99</a></td><td class="line-code"> </td></tr>
 <tr id="L100" class=""><td class="line-num"><a href="#L100">100</a></td><td class="line-code"><span style="color:#6A737D">/-- Every depth-`r` topological minor of `G`, on `m` vertices, has at</span></td></tr>
 <tr id="L101" class=""><td class="line-num"><a href="#L101">101</a></td><td class="line-code"><span style="color:#6A737D">most `d · m` edges. -/</span></td></tr>
-<tr id="L102" class=""><td class="line-num"><a href="#L102">102</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> </span><a class="lean-identifier-link" href="../lax-12/Lax12.ShallowTopologicalMinors.html#L100"><span style="color:#6F42C1">HasTopologicalDensityAtMost</span></a><span style="color:#24292E"> {n : ℕ} (G : SimpleGraph (Fin n)) (r d : ℕ) :</span></td></tr>
+<tr id="L102" class=""><td class="line-num"><a href="#L102">102</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> HasTopologicalDensityAtMost</span><span style="color:#24292E"> {n : ℕ} (G : SimpleGraph (Fin n)) (r d : ℕ) :</span></td></tr>
 <tr id="L103" class=""><td class="line-num"><a href="#L103">103</a></td><td class="line-code"><span style="color:#D73A49">    Prop</span><span style="color:#24292E"> :=</span></td></tr>
-<tr id="L104" class=""><td class="line-num"><a href="#L104">104</a></td><td class="line-code"><span style="color:#24292E">  ∀ (m : ℕ) (H : SimpleGraph (Fin m)), HasShallowTopologicalMinor G r H →</span></td></tr>
+<tr id="L104" class=""><td class="line-num"><a href="#L104">104</a></td><td class="line-code"><span style="color:#24292E">  ∀ (m : ℕ) (H : SimpleGraph (Fin m)), </span><a class="lean-identifier-link" href="../lax-12/Lax12.ShallowTopologicalMinors.html#L95"><span style="color:#24292E">HasShallowTopologicalMinor</span></a><span style="color:#24292E"> G r H →</span></td></tr>
 <tr id="L105" class=""><td class="line-num"><a href="#L105">105</a></td><td class="line-code"><span style="color:#24292E">    H.edgeSet.ncard ≤ d * m</span></td></tr>
 <tr id="L106" class=""><td class="line-num"><a href="#L106">106</a></td><td class="line-code"> </td></tr>
-<tr id="L107" class=""><td class="line-num"><a href="#L107">107</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-12/Lax12.ShallowTopologicalMinors.html"><span style="color:#24292E">Lax12.ShallowTopologicalMinors</span></a></td></tr>
+<tr id="L107" class=""><td class="line-num"><a href="#L107">107</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax12.ShallowTopologicalMinors</span></td></tr>
 <tr id="L108" class=""><td class="line-num"><a href="#L108">108</a></td><td class="line-code"> </td></tr>
 </table></div><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
 <div class="block"><h3>Formalization notes</h3><div class="latex-content"><p>The subdivision reading and the model stated here are the same notion:

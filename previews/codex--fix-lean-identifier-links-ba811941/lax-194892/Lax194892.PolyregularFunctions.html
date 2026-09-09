@@ -7,7 +7,7 @@
 <title>Polyregular functions — Lax194892.PolyregularFunctions</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=cbddb6900009">
+<link rel="stylesheet" href="../assets/style.css?v=b5c5ef914dab">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -169,22 +169,22 @@ transducers.</p>
 <tr id="L22" class=""><td class="line-num"><a href="#L22">22</a></td><td class="line-code"><span style="color:#6A737D">`IsPolyregular` is the composition closure of `Lax765601.CompositionClosure`.</span></td></tr>
 <tr id="L23" class=""><td class="line-num"><a href="#L23">23</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
 <tr id="L24" class=""><td class="line-num"><a href="#L24">24</a></td><td class="line-code"> </td></tr>
-<tr id="L25" class=""><td class="line-num"><a href="#L25">25</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-194892/Lax194892.PolyregularFunctions.html"><span style="color:#24292E">Lax194892.PolyregularFunctions</span></a></td></tr>
+<tr id="L25" class=""><td class="line-num"><a href="#L25">25</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax194892.PolyregularFunctions</span></td></tr>
 <tr id="L26" class=""><td class="line-num"><a href="#L26">26</a></td><td class="line-code"> </td></tr>
 <tr id="L27" class=""><td class="line-num"><a href="#L27">27</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-765601/Lax765601.CompositionClosure.html"><span style="color:#24292E">Lax765601.CompositionClosure</span></a><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-916827/Lax916827.RegularFunctions.html"><span style="color:#24292E">Lax916827.RegularFunctions</span></a><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-194892/Lax194892.MarkedSquaring.html"><span style="color:#24292E">Lax194892.MarkedSquaring</span></a></td></tr>
 <tr id="L28" class=""><td class="line-num"><a href="#L28">28</a></td><td class="line-code"> </td></tr>
 <tr id="L29" class=""><td class="line-num"><a href="#L29">29</a></td><td class="line-code"><span style="color:#6A737D">/-- The family of prime polyregular functions: regular functions and marked</span></td></tr>
 <tr id="L30" class=""><td class="line-num"><a href="#L30">30</a></td><td class="line-code"><span style="color:#6A737D">squaring, up to a renaming of the alphabets. -/</span></td></tr>
-<tr id="L31" class=""><td class="line-num"><a href="#L31">31</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> </span><a class="lean-identifier-link" href="../lax-194892/Lax194892.PolyregularFunctions.html#L29"><span style="color:#6F42C1">PolyregularFam</span></a><span style="color:#24292E"> : Family := </span><span style="color:#D73A49">fun</span><span style="color:#24292E"> A B f =&gt;</span></td></tr>
+<tr id="L31" class=""><td class="line-num"><a href="#L31">31</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> PolyregularFam</span><span style="color:#24292E"> : Family := </span><span style="color:#D73A49">fun</span><span style="color:#24292E"> A B f =&gt;</span></td></tr>
 <tr id="L32" class=""><td class="line-num"><a href="#L32">32</a></td><td class="line-code"><span style="color:#24292E">  IsRegularFun f ∨</span></td></tr>
 <tr id="L33" class=""><td class="line-num"><a href="#L33">33</a></td><td class="line-code"><span style="color:#24292E">  (∃ (A₀ : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">) (e : A ≃ A₀) (e' : B ≃ A₀ ⊕ A₀),</span></td></tr>
 <tr id="L34" class=""><td class="line-num"><a href="#L34">34</a></td><td class="line-code"><span style="color:#24292E">      ∀ w, f w = (markedSquare A₀ (w.map e)).map e'.symm)</span></td></tr>
 <tr id="L35" class=""><td class="line-num"><a href="#L35">35</a></td><td class="line-code"> </td></tr>
 <tr id="L36" class=""><td class="line-num"><a href="#L36">36</a></td><td class="line-code"><span style="color:#6A737D">/-- A function is polyregular if it is a finite composition of regular functions</span></td></tr>
 <tr id="L37" class=""><td class="line-num"><a href="#L37">37</a></td><td class="line-code"><span style="color:#6A737D">and marked squaring. -/</span></td></tr>
-<tr id="L38" class=""><td class="line-num"><a href="#L38">38</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> </span><a class="lean-identifier-link" href="../lax-194892/Lax194892.PolyregularFunctions.html#L36"><span style="color:#6F42C1">IsPolyregular</span></a><span style="color:#24292E"> {A B : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">} (f : List A → List B) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> := CompClosure PolyregularFam A B f</span></td></tr>
+<tr id="L38" class=""><td class="line-num"><a href="#L38">38</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> IsPolyregular</span><span style="color:#24292E"> {A B : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">} (f : List A → List B) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> := CompClosure </span><a class="lean-identifier-link" href="../lax-194892/Lax194892.PolyregularFunctions.html#L29"><span style="color:#24292E">PolyregularFam</span></a><span style="color:#24292E"> A B f</span></td></tr>
 <tr id="L39" class=""><td class="line-num"><a href="#L39">39</a></td><td class="line-code"> </td></tr>
-<tr id="L40" class=""><td class="line-num"><a href="#L40">40</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-194892/Lax194892.PolyregularFunctions.html"><span style="color:#24292E">Lax194892.PolyregularFunctions</span></a></td></tr>
+<tr id="L40" class=""><td class="line-num"><a href="#L40">40</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax194892.PolyregularFunctions</span></td></tr>
 <tr id="L41" class=""><td class="line-num"><a href="#L41">41</a></td><td class="line-code"> </td></tr>
 </table></div><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
 <div class="block"><h3>Formalization notes</h3><div class="latex-content"><p>As for the regular functions, marked squaring appears in the family up to a

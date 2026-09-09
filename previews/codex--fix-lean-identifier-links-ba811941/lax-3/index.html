@@ -7,7 +7,7 @@
 <title>First-Order Model Checking on Nowhere Dense Graph Classes in Almost Linear Time — lax-3</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=cbddb6900009">
+<link rel="stylesheet" href="../assets/style.css?v=b5c5ef914dab">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -65,7 +65,7 @@
 <p class="draft-banner"><strong>Draft</strong> — mutable and not usable as a dependency; its citation marks the draft state.</p>
 <header class="paper-head">
 <h1 class="paper-title">First-Order Model Checking on Nowhere Dense Graph Classes in Almost Linear Time</h1>
-<p class="paper-meta"><span class="submission-meta-id">lax-3</span><span class="meta-sep">·</span><span class="formalized-label">formalized by</span> <span class="paper-author">Jan Dreier</span><span class="author-sep">·</span><span class="paper-author">Claude Fable 5 (Anthropic)</span><span class="meta-sep">·</span>created 2026-08-02<span class="meta-sep">·</span><a href="https://github.com/lax-archive/lax-submissions/tree/bd9bba6fdc632df94938a125b2741a79a267faef/nowhere-dense-model-checking" title="https://github.com/lax-archive/lax-submissions/tree/bd9bba6fdc632df94938a125b2741a79a267faef/nowhere-dense-model-checking"><code>GitHub @bd9bba6</code></a><span class="meta-sep">·</span>Lean <code>v4.30.0</code> <span class="meta-epoch" title="the environment the archive recommends this year">epoch</span> · mathlib <code>c5ea00351c28</code></p>
+<p class="paper-meta"><span class="submission-meta-id">lax-3</span><span class="meta-sep">·</span><span class="formalized-label">formalized by</span> <span class="paper-author">Jan Dreier</span><span class="author-sep">·</span><span class="paper-author">Claude Fable 5 (Anthropic)</span><span class="meta-sep">·</span>created 2026-08-02<span class="meta-sep">·</span><a href="https://github.com/lax-archive/lax-submissions/tree/dcdf38f72851790ebc9e37e6e7b7a8603029e5ab/nowhere-dense-model-checking" title="https://github.com/lax-archive/lax-submissions/tree/dcdf38f72851790ebc9e37e6e7b7a8603029e5ab/nowhere-dense-model-checking"><code>GitHub @dcdf38f</code></a><span class="meta-sep">·</span>Lean <code>v4.30.0</code> <span class="meta-epoch" title="the environment the archive recommends this year">epoch</span> · mathlib <code>c5ea00351c28</code></p>
 </header>
 <section class="page-reactions" aria-label="Community review" data-reactions-host="https://comments.laxarchive.org" data-reactions-url="https://laxarchive.org/lax-3/" data-review-kind="submission" data-source-lines="0" data-submission-concept-urls="[&quot;https://laxarchive.org/lax-3/Lax3.ColoredGraphs.html&quot;,&quot;https://laxarchive.org/lax-3/Lax3.DistFO.html&quot;,&quot;https://laxarchive.org/lax-3/Lax3.FirstOrder.html&quot;,&quot;https://laxarchive.org/lax-3/Lax3.Locality.html&quot;,&quot;https://laxarchive.org/lax-3/Lax3.ModelChecking.html&quot;,&quot;https://laxarchive.org/lax-3/Lax3.NeighborhoodCoverBound.html&quot;,&quot;https://laxarchive.org/lax-3/Lax3.NeighborhoodCovers.html&quot;,&quot;https://laxarchive.org/lax-3/Lax3.NormalForm.html&quot;,&quot;https://laxarchive.org/lax-3/Lax3.NowhereDenseSplitter.html&quot;,&quot;https://laxarchive.org/lax-3/Lax3.OrderedNeighborhoodCover.html&quot;,&quot;https://laxarchive.org/lax-3/Lax3.ScatterSentences.html&quot;,&quot;https://laxarchive.org/lax-3/Lax3.SplitterGame.html&quot;,&quot;https://laxarchive.org/lax-11/Lax11.GraphEncoding.html&quot;,&quot;https://laxarchive.org/lax-12/Lax12.ColoringNumbers.html&quot;,&quot;https://laxarchive.org/lax-12/Lax12.GraphClasses.html&quot;,&quot;https://laxarchive.org/lax-12/Lax12.NowhereDenseClasses.html&quot;,&quot;https://laxarchive.org/lax-12/Lax12.NowhereDenseUQW.html&quot;,&quot;https://laxarchive.org/lax-12/Lax12.UniformQuasiWideness.html&quot;,&quot;https://laxarchive.org/lax-67/Lax67.Ram.html&quot;,&quot;https://laxarchive.org/lax-67/Lax67.RamComputes.html&quot;]">
 <div class="page-reactions-line">
@@ -106,47 +106,30 @@
 <h2 class="abstract-heading">Abstract</h2>
 <div class="latex-content"><p>First-order model checking is fixed-parameter tractable on nowhere
 dense graph classes (Grohe–Kreutzer–Siebertz, JACM 2017). This
-submission proves that theorem as a running-time claim on the word RAM
+submission states that theorem as a running-time claim on the word RAM
 of <em>The Word RAM</em> (Lax67): for every nowhere dense class <em>C</em>, every
 first-order sentence φ and every ε &gt; 0 there is one program that
 decides φ on every member of <em>C</em>, given in compressed sparse row form
-as a word <em>x</em>, within <em>c</em> · (|x| + 1)^(1+ε) steps. Program, constant
-and time bound are fixed before the graph and the word length, and the
-graph is the whole input: every auxiliary object the algorithm uses is
-computed from it.</p>
+as a word <em>x</em>, within <em>c</em> · (|x| + 1)^(1+ε) steps.</p>
 <p>The route is not the original proof. The logic engine is the
 rank-preserving locality theorem of Dreier–Toruńczyk
-(arXiv 2606.23180), a purely syntactic rewriting of a sentence into a
-boolean combination of local formulas and scatter sentences; around it
-the algorithm is rebuilt from an isolation-form splitter game and
-sparse neighborhood covers obtained from weak coloring orderings. The
-recursion descends the game tree: at each node it computes a
-neighborhood cover of the current arena, relativizes the formula to
-every cluster, isolates the batch of vertices Splitter picks, records
-their distance profiles, and recurses; Splitter's win on nowhere dense
-classes bounds the depth.</p>
-<p>On the machine the cover is computed as Grohe, Kreutzer and Siebertz
-compute it: a transitive–fraternal augmentation chain built sparsely
-from the input rows, a minimum-degree elimination order of the
-augmented graph, and a peeling sweep that emits the cluster of each
-centre in order. The degree of that cover is bounded by the class's
-subpolynomial weak coloring number, which is what makes the cluster
-family of every node <em>n</em>^(1+δ) in size and the whole recursion almost
-linear. All programs are written as structured commands in the
-refinement framework of Lax62 and compiled to the word RAM together
-with their step counts; the time bound is the machine's own count.</p>
-<p>The combinatorial hypotheses — nowhere denseness, uniform
-quasi-wideness, subpolynomial weak coloring numbers — are consumed from
-<em>Sparsity Lectures</em> (Lax12); the machine model and timed computation
-from <em>The Word RAM</em> (Lax67) and its refinement framework (Lax62); graph
+(arXiv 2606.23180), a purely syntactic rewriting; around it the
+algorithm is rebuilt from an isolation-form splitter game and sparse
+neighborhood covers obtained from weak coloring orderings. The
+combinatorial hypotheses — nowhere denseness, uniform quasi-wideness,
+subpolynomial weak coloring numbers — are consumed from <em>Sparsity
+Lectures</em> (Lax12); the machine model and timed computation from <em>The
+Word RAM</em> (Lax67) and its refinement framework (Lax62); graph
 encodings from <em>Algorithmic Experiments on a Random Access Machine</em>
 (Lax11).</p>
-<p>The model-checking theorem and the neighborhood-cover construction of
-Section 6 are those of Grohe, Kreutzer and Siebertz (JACM 2017, cited
-by the numbering of arXiv:1311.3899); the locality theorem is
-Dreier–Toruńczyk (arXiv 2606.23180); the sparsity theory behind the
-hypotheses follows the Pilipczuk–Siebertz lecture notes as formalized
-in Lax12.</p>
+<p>The concept surface has eleven review units: colored graphs and their
+walk distance, first-order logic and the distance logic with its rank
+measure, scatter sentences, the isolation splitter game, sparse
+neighborhood covers, and five theorems. The proof package discharges
+four of them — the locality theorem and its normal form, the
+neighborhood-cover bound, and Splitter's win on nowhere dense classes,
+the last assuming uniform quasi-wideness from Lax12. The model-checking
+theorem itself is the open obligation of this draft.</p>
 </div>
 </section>
 
@@ -193,7 +176,7 @@ in Lax12.</p>
 </figure>
 </section>
 <section class="page-section"><h3 class="section-title">Proofs</h3>
-<h4 class="figure-title">Proof network<a class="source-link" href="https://github.com/lax-archive/lax-submissions/tree/bd9bba6fdc632df94938a125b2741a79a267faef/nowhere-dense-model-checking/proofs">view on GitHub</a></h4>
+<h4 class="figure-title">Proof network<a class="source-link" href="https://github.com/lax-archive/lax-submissions/tree/dcdf38f72851790ebc9e37e6e7b7a8603029e5ab/nowhere-dense-model-checking/proofs">view on GitHub</a></h4>
 <figure class="graph-figure proof-network-figure">
 <button class="graph-expand" type="button" data-graph-expand data-graph-label="proof network" aria-expanded="false" aria-label="Open proof network in a large window" title="Open in large window"><svg class="graph-expand-open" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M2.5 6V2.5H6M10 2.5h3.5V6M13.5 10v3.5H10M6 13.5H2.5V10"/></svg><span class="graph-expand-close" aria-hidden="true">×</span></button>
 <div id="proof-network" class="figure-container" data-graph="proofs"></div>
@@ -271,7 +254,7 @@ in Lax12.</p>
 <p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-3/Lax3Proofs.SplitterWin.splitterWins_of_nowhereDense.html"><code>Lax3Proofs.SplitterWin.splitterWins_of_nowhereDense</code></a></p>
 </li>
 </ul>
-<p class="proof-list-source">Lean sources for these proofs: <a class="source-link" href="https://github.com/lax-archive/lax-submissions/tree/bd9bba6fdc632df94938a125b2741a79a267faef/nowhere-dense-model-checking/proofs">proofs/ on GitHub</a></p>
+<p class="proof-list-source">Lean sources for these proofs: <a class="source-link" href="https://github.com/lax-archive/lax-submissions/tree/dcdf38f72851790ebc9e37e6e7b7a8603029e5ab/nowhere-dense-model-checking/proofs">proofs/ on GitHub</a></p>
 </div>
 <p class="honesty-note">Proof code is not displayed; the archive records each proof's checked relationship between claims.</p>
 </section>

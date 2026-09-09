@@ -7,7 +7,7 @@
 <title>Polynomial-time computation by a word RAM — Lax51.RamPolytime</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=cbddb6900009">
+<link rel="stylesheet" href="../assets/style.css?v=b5c5ef914dab">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -157,13 +157,13 @@ native input entries, and all exact output entries are representable.</p>
 <tr id="L28" class=""><td class="line-num"><a href="#L28">28</a></td><td class="line-code"><span style="color:#6A737D">native input entries, and all exact output entries are representable.</span></td></tr>
 <tr id="L29" class=""><td class="line-num"><a href="#L29">29</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
 <tr id="L30" class=""><td class="line-num"><a href="#L30">30</a></td><td class="line-code"> </td></tr>
-<tr id="L31" class=""><td class="line-num"><a href="#L31">31</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-51/Lax51.RamPolytime.html"><span style="color:#24292E">Lax51.RamPolytime</span></a></td></tr>
+<tr id="L31" class=""><td class="line-num"><a href="#L31">31</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax51.RamPolytime</span></td></tr>
 <tr id="L32" class=""><td class="line-num"><a href="#L32">32</a></td><td class="line-code"> </td></tr>
 <tr id="L33" class=""><td class="line-num"><a href="#L33">33</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-13/Lax13.Ram.html"><span style="color:#24292E">Lax13.Ram</span></a></td></tr>
 <tr id="L34" class=""><td class="line-num"><a href="#L34">34</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-51/Lax51.BinaryWordEncoding.html"><span style="color:#24292E">Lax51.BinaryWordEncoding</span></a></td></tr>
 <tr id="L35" class=""><td class="line-num"><a href="#L35">35</a></td><td class="line-code"> </td></tr>
 <tr id="L36" class=""><td class="line-num"><a href="#L36">36</a></td><td class="line-code"><span style="color:#6A737D">/-- Every entry of `x` is representable by a word of `w` bits. -/</span></td></tr>
-<tr id="L37" class=""><td class="line-num"><a href="#L37">37</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> </span><a class="lean-identifier-link" href="../lax-51/Lax51.RamPolytime.html#L36"><span style="color:#6F42C1">FitsInWords</span></a><span style="color:#24292E"> (w : ℕ) (x : List ℕ) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr id="L37" class=""><td class="line-num"><a href="#L37">37</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> FitsInWords</span><span style="color:#24292E"> (w : ℕ) (x : List ℕ) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
 <tr id="L38" class=""><td class="line-num"><a href="#L38">38</a></td><td class="line-code"><span style="color:#24292E">  ∀ a ∈ x, a &lt; </span><span style="color:#005CC5">2</span><span style="color:#24292E"> ^ w</span></td></tr>
 <tr id="L39" class=""><td class="line-num"><a href="#L39">39</a></td><td class="line-code"> </td></tr>
 <tr id="L40" class=""><td class="line-num"><a href="#L40">40</a></td><td class="line-code"><span style="color:#6A737D">/-- Polynomial-time computation by one uniform word-RAM program, measured</span></td></tr>
@@ -171,15 +171,15 @@ native input entries, and all exact output entries are representable.</p>
 <tr id="L42" class=""><td class="line-num"><a href="#L42">42</a></td><td class="line-code"><span style="color:#6A737D">length-prefixed, so a program can consume exactly the logical input and then</span></td></tr>
 <tr id="L43" class=""><td class="line-num"><a href="#L43">43</a></td><td class="line-code"><span style="color:#6A737D">continue computing even though the underlying RAM's exhausted-input behavior</span></td></tr>
 <tr id="L44" class=""><td class="line-num"><a href="#L44">44</a></td><td class="line-code"><span style="color:#6A737D">is an unconditional halt. -/</span></td></tr>
-<tr id="L45" class=""><td class="line-num"><a href="#L45">45</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> </span><a class="lean-identifier-link" href="../lax-51/Lax51.RamPolytime.html#L40"><span style="color:#6F42C1">RamPolytime</span></a><span style="color:#24292E"> (f : List ℕ → List ℕ) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr id="L45" class=""><td class="line-num"><a href="#L45">45</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> RamPolytime</span><span style="color:#24292E"> (f : List ℕ → List ℕ) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
 <tr id="L46" class=""><td class="line-num"><a href="#L46">46</a></td><td class="line-code"><span style="color:#24292E">  ∃ (p : Program) (wordBound timeBound : Polynomial ℕ),</span></td></tr>
 <tr id="L47" class=""><td class="line-num"><a href="#L47">47</a></td><td class="line-code"><span style="color:#24292E">    ∀ x : List ℕ,</span></td></tr>
-<tr id="L48" class=""><td class="line-num"><a href="#L48">48</a></td><td class="line-code"><span style="color:#24292E">      FitsInWords (wordBound.eval (bitSize x)) ((x.length :: x) ++ f x) ∧</span></td></tr>
+<tr id="L48" class=""><td class="line-num"><a href="#L48">48</a></td><td class="line-code"><span style="color:#24292E">      </span><a class="lean-identifier-link" href="../lax-51/Lax51.RamPolytime.html#L36"><span style="color:#24292E">FitsInWords</span></a><span style="color:#24292E"> (wordBound.eval (bitSize x)) ((x.length :: x) ++ f x) ∧</span></td></tr>
 <tr id="L49" class=""><td class="line-num"><a href="#L49">49</a></td><td class="line-code"><span style="color:#24292E">        ∀ w : ℕ, wordBound.eval (bitSize x) ≤ w →</span></td></tr>
 <tr id="L50" class=""><td class="line-num"><a href="#L50">50</a></td><td class="line-code"><span style="color:#24292E">          ∃ t ≤ timeBound.eval (bitSize x),</span></td></tr>
 <tr id="L51" class=""><td class="line-num"><a href="#L51">51</a></td><td class="line-code"><span style="color:#24292E">            RunsTo w p (x.length :: x) (f x) t</span></td></tr>
 <tr id="L52" class=""><td class="line-num"><a href="#L52">52</a></td><td class="line-code"> </td></tr>
-<tr id="L53" class=""><td class="line-num"><a href="#L53">53</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-51/Lax51.RamPolytime.html"><span style="color:#24292E">Lax51.RamPolytime</span></a></td></tr>
+<tr id="L53" class=""><td class="line-num"><a href="#L53">53</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax51.RamPolytime</span></td></tr>
 <tr id="L54" class=""><td class="line-num"><a href="#L54">54</a></td><td class="line-code"> </td></tr>
 </table></div><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
 

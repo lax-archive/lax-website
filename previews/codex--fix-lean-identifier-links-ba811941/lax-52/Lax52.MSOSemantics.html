@@ -7,7 +7,7 @@
 <title>Semantics of monadic second-order logic — Lax52.MSOSemantics</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=cbddb6900009">
+<link rel="stylesheet" href="../assets/style.css?v=b5c5ef914dab">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -128,7 +128,7 @@ elements to every monadic variable.</p>
 <tr id="L12" class=""><td class="line-num"><a href="#L12">12</a></td><td class="line-code"><span style="color:#6A737D">elements to every monadic variable.</span></td></tr>
 <tr id="L13" class=""><td class="line-num"><a href="#L13">13</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
 <tr id="L14" class=""><td class="line-num"><a href="#L14">14</a></td><td class="line-code"> </td></tr>
-<tr id="L15" class=""><td class="line-num"><a href="#L15">15</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-52/Lax52.MSOSemantics.html"><span style="color:#24292E">Lax52.MSOSemantics</span></a></td></tr>
+<tr id="L15" class=""><td class="line-num"><a href="#L15">15</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax52.MSOSemantics</span></td></tr>
 <tr id="L16" class=""><td class="line-num"><a href="#L16">16</a></td><td class="line-code"> </td></tr>
 <tr id="L17" class=""><td class="line-num"><a href="#L17">17</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> FirstOrder</span></td></tr>
 <tr id="L18" class=""><td class="line-num"><a href="#L18">18</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> FirstOrder.Language</span></td></tr>
@@ -140,22 +140,22 @@ elements to every monadic variable.</p>
 <tr id="L24" class=""><td class="line-num"><a href="#L24">24</a></td><td class="line-code"><span style="color:#D73A49">variable</span><span style="color:#24292E"> {L : Language.{u, v}} {M : </span><span style="color:#D73A49">Type</span><span style="color:#24292E"> w} [L.Structure M]</span></td></tr>
 <tr id="L25" class=""><td class="line-num"><a href="#L25">25</a></td><td class="line-code"> </td></tr>
 <tr id="L26" class=""><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span style="color:#6A737D">/-- Extend a valuation by putting a newly bound variable at index zero. -/</span></td></tr>
-<tr id="L27" class=""><td class="line-num"><a href="#L27">27</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> </span><a class="lean-identifier-link" href="../lax-52/Lax52.MSOSemantics.html#L26"><span style="color:#6F42C1">consVal</span></a><span style="color:#24292E"> {n : Nat} (x : M) (v : Fin n → M) : Fin (n + </span><span style="color:#005CC5">1</span><span style="color:#24292E">) → M :=</span></td></tr>
+<tr id="L27" class=""><td class="line-num"><a href="#L27">27</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> consVal</span><span style="color:#24292E"> {n : Nat} (x : M) (v : Fin n → M) : Fin (n + </span><span style="color:#005CC5">1</span><span style="color:#24292E">) → M :=</span></td></tr>
 <tr id="L28" class=""><td class="line-num"><a href="#L28">28</a></td><td class="line-code"><span style="color:#24292E">  Fin.cases x v</span></td></tr>
 <tr id="L29" class=""><td class="line-num"><a href="#L29">29</a></td><td class="line-code"> </td></tr>
 <tr id="L30" class=""><td class="line-num"><a href="#L30">30</a></td><td class="line-code"><span style="color:#6A737D">/-- Satisfaction of an MSO formula under first-order and monadic valuations. -/</span></td></tr>
-<tr id="L31" class=""><td class="line-num"><a href="#L31">31</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> </span><a class="lean-identifier-link" href="../lax-52/Lax52.MSOSemantics.html#L30"><span style="color:#6F42C1">Realize</span></a><span style="color:#24292E"> : {n m : Nat} → Formula L n m → (Fin n → M) →</span></td></tr>
+<tr id="L31" class=""><td class="line-num"><a href="#L31">31</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> Realize</span><span style="color:#24292E"> : {n m : Nat} → Formula L n m → (Fin n → M) →</span></td></tr>
 <tr id="L32" class=""><td class="line-num"><a href="#L32">32</a></td><td class="line-code"><span style="color:#24292E">    (Fin m → Set M) → </span><span style="color:#D73A49">Prop</span></td></tr>
 <tr id="L33" class=""><td class="line-num"><a href="#L33">33</a></td><td class="line-code"><span style="color:#24292E">  | _, _, .falsum, _, _ =&gt; False</span></td></tr>
 <tr id="L34" class=""><td class="line-num"><a href="#L34">34</a></td><td class="line-code"><span style="color:#24292E">  | _, _, .equal t₁ t₂, v, _ =&gt; t₁.realize v = t₂.realize v</span></td></tr>
 <tr id="L35" class=""><td class="line-num"><a href="#L35">35</a></td><td class="line-code"><span style="color:#24292E">  | _, _, .rel r ts, v, _ =&gt; RelMap r (</span><span style="color:#D73A49">fun</span><span style="color:#24292E"> i =&gt; (ts i).realize v)</span></td></tr>
 <tr id="L36" class=""><td class="line-num"><a href="#L36">36</a></td><td class="line-code"><span style="color:#24292E">  | _, _, .mem t X, v, V =&gt; t.realize v ∈ V X</span></td></tr>
-<tr id="L37" class=""><td class="line-num"><a href="#L37">37</a></td><td class="line-code"><span style="color:#24292E">  | _, _, .or phi psi, v, V =&gt; Realize phi v V ∨ Realize psi v V</span></td></tr>
-<tr id="L38" class=""><td class="line-num"><a href="#L38">38</a></td><td class="line-code"><span style="color:#24292E">  | _, _, .neg phi, v, V =&gt; ¬Realize phi v V</span></td></tr>
-<tr id="L39" class=""><td class="line-num"><a href="#L39">39</a></td><td class="line-code"><span style="color:#24292E">  | _, _, .exFO phi, v, V =&gt; ∃ x : M, Realize phi (consVal x v) V</span></td></tr>
-<tr id="L40" class=""><td class="line-num"><a href="#L40">40</a></td><td class="line-code"><span style="color:#24292E">  | _, _, .exSO phi, v, V =&gt; ∃ X : Set M, Realize phi v (consVal X V)</span></td></tr>
+<tr id="L37" class=""><td class="line-num"><a href="#L37">37</a></td><td class="line-code"><span style="color:#24292E">  | _, _, .or phi psi, v, V =&gt; </span><a class="lean-identifier-link" href="../lax-52/Lax52.MSOSemantics.html#L30"><span style="color:#24292E">Realize</span></a><span style="color:#24292E"> phi v V ∨ </span><a class="lean-identifier-link" href="../lax-52/Lax52.MSOSemantics.html#L30"><span style="color:#24292E">Realize</span></a><span style="color:#24292E"> psi v V</span></td></tr>
+<tr id="L38" class=""><td class="line-num"><a href="#L38">38</a></td><td class="line-code"><span style="color:#24292E">  | _, _, .neg phi, v, V =&gt; ¬</span><a class="lean-identifier-link" href="../lax-52/Lax52.MSOSemantics.html#L30"><span style="color:#24292E">Realize</span></a><span style="color:#24292E"> phi v V</span></td></tr>
+<tr id="L39" class=""><td class="line-num"><a href="#L39">39</a></td><td class="line-code"><span style="color:#24292E">  | _, _, .exFO phi, v, V =&gt; ∃ x : M, </span><a class="lean-identifier-link" href="../lax-52/Lax52.MSOSemantics.html#L30"><span style="color:#24292E">Realize</span></a><span style="color:#24292E"> phi (</span><a class="lean-identifier-link" href="../lax-52/Lax52.MSOSemantics.html#L26"><span style="color:#24292E">consVal</span></a><span style="color:#24292E"> x v) V</span></td></tr>
+<tr id="L40" class=""><td class="line-num"><a href="#L40">40</a></td><td class="line-code"><span style="color:#24292E">  | _, _, .exSO phi, v, V =&gt; ∃ X : Set M, </span><a class="lean-identifier-link" href="../lax-52/Lax52.MSOSemantics.html#L30"><span style="color:#24292E">Realize</span></a><span style="color:#24292E"> phi v (</span><a class="lean-identifier-link" href="../lax-52/Lax52.MSOSemantics.html#L26"><span style="color:#24292E">consVal</span></a><span style="color:#24292E"> X V)</span></td></tr>
 <tr id="L41" class=""><td class="line-num"><a href="#L41">41</a></td><td class="line-code"> </td></tr>
-<tr id="L42" class=""><td class="line-num"><a href="#L42">42</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-52/Lax52.MSOSemantics.html"><span style="color:#24292E">Lax52.MSOSemantics</span></a></td></tr>
+<tr id="L42" class=""><td class="line-num"><a href="#L42">42</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax52.MSOSemantics</span></td></tr>
 <tr id="L43" class=""><td class="line-num"><a href="#L43">43</a></td><td class="line-code"> </td></tr>
 </table></div><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
 
