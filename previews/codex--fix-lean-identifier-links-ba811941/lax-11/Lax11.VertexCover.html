@@ -109,7 +109,7 @@
 compressed sparse row block encoding the graph, followed by the single
 entry <em>k</em>. This file defines that instance format and nothing else.</p>
 </div></div>
-<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/418d847240ab3ad89b56e8e1fbd8f3fa02acde16/ram-linear-time/concepts/Lax11/VertexCover.lean">view on GitHub</a></h3>
+<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/d82625d050fde928adbe5d23b024a940e6f7d8da/ram-linear-time/concepts/Lax11/VertexCover.lean">view on GitHub</a></h3>
 <div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
 <tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-67/Lax67.RamComputes.html"><span style="color:#24292E">Lax67.RamComputes</span></a></td></tr>
 <tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-11/Lax11.GraphEncoding.html"><span style="color:#24292E">Lax11.GraphEncoding</span></a></td></tr>
@@ -145,13 +145,13 @@ entry <em>k</em>. This file defines that instance format and nothing else.</p>
 <tr id="L32" class=""><td class="line-num"><a href="#L32">32</a></td><td class="line-code"> </td></tr>
 <tr id="L33" class=""><td class="line-num"><a href="#L33">33</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax11.VertexCover</span></td></tr>
 <tr id="L34" class=""><td class="line-num"><a href="#L34">34</a></td><td class="line-code"> </td></tr>
-<tr id="L35" class=""><td class="line-num"><a href="#L35">35</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-67/Lax67.Ram.html"><span style="color:#24292E">Lax67.Ram</span></a><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-67/Lax67.RamComputes.html"><span style="color:#24292E">Lax67.RamComputes</span></a><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-11/Lax11.GraphEncoding.html"><span style="color:#24292E">Lax11.GraphEncoding</span></a></td></tr>
+<tr id="L35" class=""><td class="line-num"><a href="#L35">35</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax67.Ram Lax67.RamComputes Lax11.GraphEncoding</span></td></tr>
 <tr id="L36" class=""><td class="line-num"><a href="#L36">36</a></td><td class="line-code"> </td></tr>
 <tr id="L37" class=""><td class="line-num"><a href="#L37">37</a></td><td class="line-code"><span style="color:#6A737D">/-- The word `x` presents the graph `G` on `n` vertices together with</span></td></tr>
 <tr id="L38" class=""><td class="line-num"><a href="#L38">38</a></td><td class="line-code"><span style="color:#6A737D">the parameter `k`: a compressed sparse row block encoding `G`, followed</span></td></tr>
 <tr id="L39" class=""><td class="line-num"><a href="#L39">39</a></td><td class="line-code"><span style="color:#6A737D">by the single entry `k`. -/</span></td></tr>
 <tr id="L40" class=""><td class="line-num"><a href="#L40">40</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> EncodesParamInstance</span><span style="color:#24292E"> (x : List ℕ) (n : ℕ) (G : SimpleGraph (Fin n)) (k : ℕ) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
-<tr id="L41" class=""><td class="line-num"><a href="#L41">41</a></td><td class="line-code"><span style="color:#24292E">  ∃ g, x = g ++ [k] ∧ EncodesGraph g n G</span></td></tr>
+<tr id="L41" class=""><td class="line-num"><a href="#L41">41</a></td><td class="line-code"><span style="color:#24292E">  ∃ g, x = g ++ [k] ∧ </span><a class="lean-identifier-link" href="../lax-11/Lax11.GraphEncoding.html#L68"><span style="color:#24292E">EncodesGraph</span></a><span style="color:#24292E"> g n G</span></td></tr>
 <tr id="L42" class=""><td class="line-num"><a href="#L42">42</a></td><td class="line-code"> </td></tr>
 <tr id="L43" class=""><td class="line-num"><a href="#L43">43</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax11.VertexCover</span></td></tr>
 <tr id="L44" class=""><td class="line-num"><a href="#L44">44</a></td><td class="line-code"> </td></tr>

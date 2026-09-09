@@ -163,7 +163,7 @@ the five-vertex path.</p>
 <tr id="L18" class=""><td class="line-num"><a href="#L18">18</a></td><td class="line-code"> </td></tr>
 <tr id="L19" class=""><td class="line-num"><a href="#L19">19</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax57.HouseDichotomy</span></td></tr>
 <tr id="L20" class=""><td class="line-num"><a href="#L20">20</a></td><td class="line-code"> </td></tr>
-<tr id="L21" class=""><td class="line-num"><a href="#L21">21</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-57/Lax57.GraphDefinitions.html"><span style="color:#24292E">Lax57.GraphDefinitions</span></a></td></tr>
+<tr id="L21" class=""><td class="line-num"><a href="#L21">21</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax57.GraphDefinitions</span></td></tr>
 <tr id="L22" class=""><td class="line-num"><a href="#L22">22</a></td><td class="line-code"> </td></tr>
 <tr id="L23" class=""><td class="line-num"><a href="#L23">23</a></td><td class="line-code"><span style="color:#D73A49">universe</span><span style="color:#24292E"> u</span></td></tr>
 <tr id="L24" class=""><td class="line-num"><a href="#L24">24</a></td><td class="line-code"> </td></tr>
@@ -173,10 +173,10 @@ the five-vertex path.</p>
 <tr id="L28" class="statement-line line-proven"><td class="line-num"><a href="#L28">28</a></td><td class="line-code"><span style="color:#24292E">      ∀ E : ℕ, </span><span style="color:#005CC5">3</span><span style="color:#24292E"> ≤ E →</span></td></tr>
 <tr id="L29" class="statement-line line-proven"><td class="line-num"><a href="#L29">29</a></td><td class="line-code"><span style="color:#24292E">        ∀ {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E"> u} [Fintype V] [DecidableEq V] (G : SimpleGraph V)</span></td></tr>
 <tr id="L30" class="statement-line line-proven"><td class="line-num"><a href="#L30">30</a></td><td class="line-code"><span style="color:#24292E">          [DecidableRel G.Adj],</span></td></tr>
-<tr id="L31" class="statement-line line-proven"><td class="line-num"><a href="#L31">31</a></td><td class="line-code"><span style="color:#24292E">          IsHouseFree G →</span></td></tr>
+<tr id="L31" class="statement-line line-proven"><td class="line-num"><a href="#L31">31</a></td><td class="line-code"><span style="color:#24292E">          </span><a class="lean-identifier-link" href="../lax-57/Lax57.GraphDefinitions.html#L34"><span style="color:#24292E">IsHouseFree</span></a><span style="color:#24292E"> G →</span></td></tr>
 <tr id="L32" class="statement-line line-proven"><td class="line-num"><a href="#L32">32</a></td><td class="line-code"><span style="color:#24292E">            (∃ X : Finset V,</span></td></tr>
-<tr id="L33" class="statement-line line-proven"><td class="line-num"><a href="#L33">33</a></td><td class="line-code"><span style="color:#24292E">                Fintype.card V ≤ E ^ a * X.card ∧ ERestricted G E X) ∨</span></td></tr>
-<tr id="L34" class="statement-line line-proven"><td class="line-num"><a href="#L34">34</a></td><td class="line-code"><span style="color:#24292E">              HasUniformBlockade G E a</span></td></tr>
+<tr id="L33" class="statement-line line-proven"><td class="line-num"><a href="#L33">33</a></td><td class="line-code"><span style="color:#24292E">                Fintype.card V ≤ E ^ a * X.card ∧ </span><a class="lean-identifier-link" href="../lax-57/Lax57.GraphDefinitions.html#L70"><span style="color:#24292E">ERestricted</span></a><span style="color:#24292E"> G E X) ∨</span></td></tr>
+<tr id="L34" class="statement-line line-proven"><td class="line-num"><a href="#L34">34</a></td><td class="line-code"><span style="color:#24292E">              </span><a class="lean-identifier-link" href="../lax-57/Lax57.GraphDefinitions.html#L128"><span style="color:#24292E">HasUniformBlockade</span></a><span style="color:#24292E"> G E a</span></td></tr>
 <tr id="L35" class=""><td class="line-num"><a href="#L35">35</a></td><td class="line-code"> </td></tr>
 <tr id="L36" class=""><td class="line-num"><a href="#L36">36</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax57.HouseDichotomy</span></td></tr>
 <tr id="L37" class=""><td class="line-num"><a href="#L37">37</a></td><td class="line-code"> </td></tr>

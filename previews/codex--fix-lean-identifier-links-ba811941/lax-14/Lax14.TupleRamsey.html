@@ -168,7 +168,7 @@ Erdős and Rado, in the order-type form used in model theory.</p>
 <tr id="L38" class=""><td class="line-num"><a href="#L38">38</a></td><td class="line-code"> </td></tr>
 <tr id="L39" class=""><td class="line-num"><a href="#L39">39</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax14.TupleRamsey</span></td></tr>
 <tr id="L40" class=""><td class="line-num"><a href="#L40">40</a></td><td class="line-code"> </td></tr>
-<tr id="L41" class=""><td class="line-num"><a href="#L41">41</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-14/Lax14.OrderTypes.html"><span style="color:#24292E">Lax14.OrderTypes</span></a></td></tr>
+<tr id="L41" class=""><td class="line-num"><a href="#L41">41</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax14.OrderTypes</span></td></tr>
 <tr id="L42" class=""><td class="line-num"><a href="#L42">42</a></td><td class="line-code"> </td></tr>
 <tr id="L43" class="statement-line line-proven"><td class="line-num"><a href="#L43">43</a></td><td class="line-code"><span class="statement-anchor" id="s-Lax14.TupleRamsey.exists_orderType_homogeneous"></span><span style="color:#6A737D">/-- Ramsey's theorem for tuples: every `k`-colouring of the `ℓ`-tuples</span></td></tr>
 <tr id="L44" class="statement-line line-proven"><td class="line-num"><a href="#L44">44</a></td><td class="line-code"><span style="color:#6A737D">over a large enough linearly ordered finite set has a subset of size `s`</span></td></tr>
@@ -177,7 +177,7 @@ Erdős and Rado, in the order-type form used in model theory.</p>
 <tr id="L47" class="statement-line line-proven"><td class="line-num"><a href="#L47">47</a></td><td class="line-code"><span style="color:#24292E">    ∃ N : ℕ, ∀ (n : ℕ) (c : (Fin ℓ → Fin n) → Fin k), N ≤ n →</span></td></tr>
 <tr id="L48" class="statement-line line-proven"><td class="line-num"><a href="#L48">48</a></td><td class="line-code"><span style="color:#24292E">      ∃ I : Set (Fin n), s ≤ I.ncard ∧</span></td></tr>
 <tr id="L49" class="statement-line line-proven"><td class="line-num"><a href="#L49">49</a></td><td class="line-code"><span style="color:#24292E">        ∀ a b : Fin ℓ → Fin n, (∀ i, a i ∈ I) → (∀ i, b i ∈ I) →</span></td></tr>
-<tr id="L50" class="statement-line line-proven"><td class="line-num"><a href="#L50">50</a></td><td class="line-code"><span style="color:#24292E">          orderType a = orderType b → c a = c b</span></td></tr>
+<tr id="L50" class="statement-line line-proven"><td class="line-num"><a href="#L50">50</a></td><td class="line-code"><span style="color:#24292E">          </span><a class="lean-identifier-link" href="../lax-14/Lax14.OrderTypes.html#L32"><span style="color:#24292E">orderType</span></a><span style="color:#24292E"> a = </span><a class="lean-identifier-link" href="../lax-14/Lax14.OrderTypes.html#L32"><span style="color:#24292E">orderType</span></a><span style="color:#24292E"> b → c a = c b</span></td></tr>
 <tr id="L51" class=""><td class="line-num"><a href="#L51">51</a></td><td class="line-code"> </td></tr>
 <tr id="L52" class=""><td class="line-num"><a href="#L52">52</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax14.TupleRamsey</span></td></tr>
 <tr id="L53" class=""><td class="line-num"><a href="#L53">53</a></td><td class="line-code"> </td></tr>

@@ -54,7 +54,7 @@
 <div class="version-item-heading"><span class="version-item-id">lax-67</span><span class="version-item-marks"><span class="version-mark version-mark-viewing">viewing</span><span class="version-mark version-mark-draft">draft</span></span></div>
 <p class="version-item-title">The Word RAM</p>
 <div class="version-metadata"><span><b>Created</b> <time datetime="2026-09-03T12:41:41Z">2026-09-03</time></span><span><b>Lean</b> <code>v4.30.0</code></span><span><b>mathlib</b> <code>c5ea00351c28e24afc9f0f84379aa41082b1188f</code></span></div>
-<div class="version-item-actions"><a class="version-source-link" href="https://github.com/lax-archive/lax-submissions/tree/bc4c6e6f09dab6d8a34af65986006b407bf6d63a/word-ram"><svg class="source-mark" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true" focusable="false"><path fill="currentColor" d="M5.22 3.22a.75.75 0 0 1 1.06 1.06L2.56 8l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06Zm5.56 0 4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 1 1-1.06-1.06L13.44 8 9.72 4.28a.75.75 0 1 1 1.06-1.06Z"/></svg><span>GitHub source</span></a><span class="version-viewing-label">Shown on this page</span></div>
+<div class="version-item-actions"><a class="version-source-link" href="https://github.com/lax-archive/lax-submissions/tree/512403f000f23689a1c40d8826062d20f1e28f03/word-ram"><svg class="source-mark" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true" focusable="false"><path fill="currentColor" d="M5.22 3.22a.75.75 0 0 1 1.06 1.06L2.56 8l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06Zm5.56 0 4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 1 1-1.06-1.06L13.44 8 9.72 4.28a.75.75 0 1 1 1.06-1.06Z"/></svg><span>GitHub source</span></a><span class="version-viewing-label">Shown on this page</span></div>
 </li>
 <li class="version-item version-latest">
 <div class="version-item-heading"><span class="version-item-id">lax-13</span><span class="version-item-marks"><span class="version-mark version-mark-latest">current version</span></span></div>
@@ -122,7 +122,7 @@ value of the function at <em>x</em> to its output tape. The bound is a function
 of the input, so that bounds like &quot;linear in the length of the input&quot;
 are stated by instantiating <em>T</em>.</p>
 </div></div>
-<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/bc4c6e6f09dab6d8a34af65986006b407bf6d63a/word-ram/concepts/Lax67/RamComputes.lean">view on GitHub</a></h3>
+<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/512403f000f23689a1c40d8826062d20f1e28f03/word-ram/concepts/Lax67/RamComputes.lean">view on GitHub</a></h3>
 <div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
 <tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-67/Lax67.Ram.html"><span style="color:#24292E">Lax67.Ram</span></a></td></tr>
 <tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Data.Set.Basic</span></td></tr>
@@ -190,13 +190,13 @@ are stated by instantiating <em>T</em>.</p>
 <tr id="L64" class=""><td class="line-num"><a href="#L64">64</a></td><td class="line-code"> </td></tr>
 <tr id="L65" class=""><td class="line-num"><a href="#L65">65</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax67.RamComputes</span></td></tr>
 <tr id="L66" class=""><td class="line-num"><a href="#L66">66</a></td><td class="line-code"> </td></tr>
-<tr id="L67" class=""><td class="line-num"><a href="#L67">67</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-67/Lax67.Ram.html"><span style="color:#24292E">Lax67.Ram</span></a></td></tr>
+<tr id="L67" class=""><td class="line-num"><a href="#L67">67</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax67.Ram</span></td></tr>
 <tr id="L68" class=""><td class="line-num"><a href="#L68">68</a></td><td class="line-code"> </td></tr>
 <tr id="L69" class=""><td class="line-num"><a href="#L69">69</a></td><td class="line-code"><span style="color:#6A737D">/-- At word length `w`, on every admissible input `x`, the program halts</span></td></tr>
 <tr id="L70" class=""><td class="line-num"><a href="#L70">70</a></td><td class="line-code"><span style="color:#6A737D">within `T x` executed instructions with output `f x`. -/</span></td></tr>
-<tr id="L71" class=""><td class="line-num"><a href="#L71">71</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> ComputesInTime</span><span style="color:#24292E"> (w : ℕ) (p : Program) (D : Set (List ℕ))</span></td></tr>
+<tr id="L71" class=""><td class="line-num"><a href="#L71">71</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> ComputesInTime</span><span style="color:#24292E"> (w : ℕ) (p : </span><a class="lean-identifier-link" href="../lax-67/Lax67.Ram.html#L172"><span style="color:#24292E">Program</span></a><span style="color:#24292E">) (D : Set (List ℕ))</span></td></tr>
 <tr id="L72" class=""><td class="line-num"><a href="#L72">72</a></td><td class="line-code"><span style="color:#24292E">    (f : List ℕ → List ℕ) (T : List ℕ → ℕ) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
-<tr id="L73" class=""><td class="line-num"><a href="#L73">73</a></td><td class="line-code"><span style="color:#24292E">  ∀ x ∈ D, ∃ t ≤ T x, RunsTo w p x (f x) t</span></td></tr>
+<tr id="L73" class=""><td class="line-num"><a href="#L73">73</a></td><td class="line-code"><span style="color:#24292E">  ∀ x ∈ D, ∃ t ≤ T x, </span><a class="lean-identifier-link" href="../lax-67/Lax67.Ram.html#L294"><span style="color:#24292E">RunsTo</span></a><span style="color:#24292E"> w p x (f x) t</span></td></tr>
 <tr id="L74" class=""><td class="line-num"><a href="#L74">74</a></td><td class="line-code"> </td></tr>
 <tr id="L75" class=""><td class="line-num"><a href="#L75">75</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax67.RamComputes</span></td></tr>
 <tr id="L76" class=""><td class="line-num"><a href="#L76">76</a></td><td class="line-code"> </td></tr>

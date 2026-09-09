@@ -175,7 +175,7 @@ functions <em>N</em> the wideness functions.</p>
 <tr id="L42" class=""><td class="line-num"><a href="#L42">42</a></td><td class="line-code"> </td></tr>
 <tr id="L43" class=""><td class="line-num"><a href="#L43">43</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax12.UniformQuasiWideness</span></td></tr>
 <tr id="L44" class=""><td class="line-num"><a href="#L44">44</a></td><td class="line-code"> </td></tr>
-<tr id="L45" class=""><td class="line-num"><a href="#L45">45</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-12/Lax12.GraphClasses.html"><span style="color:#24292E">Lax12.GraphClasses</span></a></td></tr>
+<tr id="L45" class=""><td class="line-num"><a href="#L45">45</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax12.GraphClasses</span></td></tr>
 <tr id="L46" class=""><td class="line-num"><a href="#L46">46</a></td><td class="line-code"> </td></tr>
 <tr id="L47" class=""><td class="line-num"><a href="#L47">47</a></td><td class="line-code"><span style="color:#6A737D">/-- A set of vertices is distance-`r` independent in `G` when every walk</span></td></tr>
 <tr id="L48" class=""><td class="line-num"><a href="#L48">48</a></td><td class="line-code"><span style="color:#6A737D">between two distinct members is longer than `r`. -/</span></td></tr>
@@ -194,7 +194,7 @@ functions <em>N</em> the wideness functions.</p>
 <tr id="L61" class=""><td class="line-num"><a href="#L61">61</a></td><td class="line-code"><span style="color:#6A737D">every member, every vertex set of size at least `N m` contains a</span></td></tr>
 <tr id="L62" class=""><td class="line-num"><a href="#L62">62</a></td><td class="line-code"><span style="color:#6A737D">distance-`r` independent subset of size at least `m` after deleting at</span></td></tr>
 <tr id="L63" class=""><td class="line-num"><a href="#L63">63</a></td><td class="line-code"><span style="color:#6A737D">most `s` vertices. -/</span></td></tr>
-<tr id="L64" class=""><td class="line-num"><a href="#L64">64</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> UniformlyQuasiWide</span><span style="color:#24292E"> (C : GraphClass) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr id="L64" class=""><td class="line-num"><a href="#L64">64</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> UniformlyQuasiWide</span><span style="color:#24292E"> (C : </span><a class="lean-identifier-link" href="../lax-12/Lax12.GraphClasses.html#L25"><span style="color:#24292E">GraphClass</span></a><span style="color:#24292E">) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
 <tr id="L65" class=""><td class="line-num"><a href="#L65">65</a></td><td class="line-code"><span style="color:#24292E">  ∀ r : ℕ, ∃ (N : ℕ → ℕ) (s : ℕ),</span></td></tr>
 <tr id="L66" class=""><td class="line-num"><a href="#L66">66</a></td><td class="line-code"><span style="color:#24292E">    ∀ (m n : ℕ) (G : SimpleGraph (Fin n)), C n G →</span></td></tr>
 <tr id="L67" class=""><td class="line-num"><a href="#L67">67</a></td><td class="line-code"><span style="color:#24292E">      ∀ A : Set (Fin n), N m ≤ A.ncard →</span></td></tr>

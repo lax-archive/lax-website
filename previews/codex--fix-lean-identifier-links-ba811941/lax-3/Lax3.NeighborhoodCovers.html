@@ -173,7 +173,7 @@ size of all clusters at <em>n</em>^(1+ε).</p>
 <tr id="L42" class=""><td class="line-num"><a href="#L42">42</a></td><td class="line-code"> </td></tr>
 <tr id="L43" class=""><td class="line-num"><a href="#L43">43</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax3.NeighborhoodCovers</span></td></tr>
 <tr id="L44" class=""><td class="line-num"><a href="#L44">44</a></td><td class="line-code"> </td></tr>
-<tr id="L45" class=""><td class="line-num"><a href="#L45">45</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-3/Lax3.ColoredGraphs.html"><span style="color:#24292E">Lax3.ColoredGraphs</span></a></td></tr>
+<tr id="L45" class=""><td class="line-num"><a href="#L45">45</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax3.ColoredGraphs</span></td></tr>
 <tr id="L46" class=""><td class="line-num"><a href="#L46">46</a></td><td class="line-code"> </td></tr>
 <tr id="L47" class=""><td class="line-num"><a href="#L47">47</a></td><td class="line-code"><span style="color:#6A737D">/-- `X` is an `r`-neighborhood cover of `G` of radius `2r` and degree</span></td></tr>
 <tr id="L48" class=""><td class="line-num"><a href="#L48">48</a></td><td class="line-code"><span style="color:#6A737D">`d`: every `r`-ball is inside some cluster, the cluster of `u` lies in</span></td></tr>
@@ -181,9 +181,9 @@ size of all clusters at <em>n</em>^(1+ε).</p>
 <tr id="L50" class=""><td class="line-num"><a href="#L50">50</a></td><td class="line-code"><span style="color:#D73A49">structure</span><span style="color:#6F42C1"> IsNeighborhoodCover</span><span style="color:#24292E"> {n : ℕ} (G : SimpleGraph (Fin n)) (r : ℕ)</span></td></tr>
 <tr id="L51" class=""><td class="line-num"><a href="#L51">51</a></td><td class="line-code"><span style="color:#24292E">    (X : Fin n → Set (Fin n)) (d : ℕ) : </span><span style="color:#D73A49">Prop</span><span style="color:#D73A49"> where</span></td></tr>
 <tr id="L52" class=""><td class="line-num"><a href="#L52">52</a></td><td class="line-code"><span style="color:#6A737D">  /-- Every `r`-ball is contained in some cluster. -/</span></td></tr>
-<tr id="L53" class=""><td class="line-num"><a href="#L53">53</a></td><td class="line-code"><span style="color:#24292E">  ball_subset : ∀ v : Fin n, ∃ u : Fin n, ball G r v ⊆ X u</span></td></tr>
+<tr id="L53" class=""><td class="line-num"><a href="#L53">53</a></td><td class="line-code"><span style="color:#24292E">  ball_subset : ∀ v : Fin n, ∃ u : Fin n, </span><a class="lean-identifier-link" href="../lax-3/Lax3.ColoredGraphs.html#L89"><span style="color:#24292E">ball</span></a><span style="color:#24292E"> G r v ⊆ X u</span></td></tr>
 <tr id="L54" class=""><td class="line-num"><a href="#L54">54</a></td><td class="line-code"><span style="color:#6A737D">  /-- Each cluster lies in the `2r`-ball of its center. -/</span></td></tr>
-<tr id="L55" class=""><td class="line-num"><a href="#L55">55</a></td><td class="line-code"><span style="color:#24292E">  subset_ball : ∀ u : Fin n, X u ⊆ ball G (</span><span style="color:#005CC5">2</span><span style="color:#24292E"> * r) u</span></td></tr>
+<tr id="L55" class=""><td class="line-num"><a href="#L55">55</a></td><td class="line-code"><span style="color:#24292E">  subset_ball : ∀ u : Fin n, X u ⊆ </span><a class="lean-identifier-link" href="../lax-3/Lax3.ColoredGraphs.html#L89"><span style="color:#24292E">ball</span></a><span style="color:#24292E"> G (</span><span style="color:#005CC5">2</span><span style="color:#24292E"> * r) u</span></td></tr>
 <tr id="L56" class=""><td class="line-num"><a href="#L56">56</a></td><td class="line-code"><span style="color:#6A737D">  /-- No vertex belongs to more than `d` clusters. -/</span></td></tr>
 <tr id="L57" class=""><td class="line-num"><a href="#L57">57</a></td><td class="line-code"><span style="color:#24292E">  degree_le : ∀ v : Fin n, {u : Fin n | v ∈ X u}.ncard ≤ d</span></td></tr>
 <tr id="L58" class=""><td class="line-num"><a href="#L58">58</a></td><td class="line-code"> </td></tr>

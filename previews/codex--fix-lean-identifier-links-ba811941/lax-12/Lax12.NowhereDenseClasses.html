@@ -170,7 +170,7 @@ immediately after as an equivalent.</p>
 <tr id="L33" class=""><td class="line-num"><a href="#L33">33</a></td><td class="line-code"> </td></tr>
 <tr id="L34" class=""><td class="line-num"><a href="#L34">34</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax12.NowhereDenseClasses</span></td></tr>
 <tr id="L35" class=""><td class="line-num"><a href="#L35">35</a></td><td class="line-code"> </td></tr>
-<tr id="L36" class=""><td class="line-num"><a href="#L36">36</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-12/Lax12.GraphClasses.html"><span style="color:#24292E">Lax12.GraphClasses</span></a></td></tr>
+<tr id="L36" class=""><td class="line-num"><a href="#L36">36</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Lax12.GraphClasses</span></td></tr>
 <tr id="L37" class=""><td class="line-num"><a href="#L37">37</a></td><td class="line-code"> </td></tr>
 <tr id="L38" class=""><td class="line-num"><a href="#L38">38</a></td><td class="line-code"><span style="color:#6A737D">/-- A model of `H` as a depth-`r` minor of `G`: pairwise disjoint branch</span></td></tr>
 <tr id="L39" class=""><td class="line-num"><a href="#L39">39</a></td><td class="line-code"><span style="color:#6A737D">sets, each spanned by walks of length at most `r` from a center vertex</span></td></tr>
@@ -200,7 +200,7 @@ immediately after as an equivalent.</p>
 <tr id="L63" class=""><td class="line-num"><a href="#L63">63</a></td><td class="line-code"> </td></tr>
 <tr id="L64" class=""><td class="line-num"><a href="#L64">64</a></td><td class="line-code"><span style="color:#6A737D">/-- A graph class is nowhere dense if for every depth `r` some complete</span></td></tr>
 <tr id="L65" class=""><td class="line-num"><a href="#L65">65</a></td><td class="line-code"><span style="color:#6A737D">graph is not a depth-`r` minor of any member. -/</span></td></tr>
-<tr id="L66" class=""><td class="line-num"><a href="#L66">66</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> NowhereDense</span><span style="color:#24292E"> (C : GraphClass) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr id="L66" class=""><td class="line-num"><a href="#L66">66</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> NowhereDense</span><span style="color:#24292E"> (C : </span><a class="lean-identifier-link" href="../lax-12/Lax12.GraphClasses.html#L25"><span style="color:#24292E">GraphClass</span></a><span style="color:#24292E">) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
 <tr id="L67" class=""><td class="line-num"><a href="#L67">67</a></td><td class="line-code"><span style="color:#24292E">  ∀ r : ℕ, ∃ t : ℕ, ∀ (n : ℕ) (G : SimpleGraph (Fin n)), C n G →</span></td></tr>
 <tr id="L68" class=""><td class="line-num"><a href="#L68">68</a></td><td class="line-code"><span style="color:#24292E">    ¬ </span><a class="lean-identifier-link" href="../lax-12/Lax12.NowhereDenseClasses.html#L59"><span style="color:#24292E">HasShallowMinor</span></a><span style="color:#24292E"> G r (⊤ : SimpleGraph (Fin t))</span></td></tr>
 <tr id="L69" class=""><td class="line-num"><a href="#L69">69</a></td><td class="line-code"> </td></tr>

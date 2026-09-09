@@ -122,7 +122,7 @@ in which every part of every partition has red degree at most <em>d</em>.</p>
 <tr class=""><td class="line-num">39</td><td class="line-code"><span style="color:#6A737D">other parts of `P` that are not homogeneous with `A`. -/</span></td></tr>
 <tr class=""><td class="line-num">40</td><td class="line-code"><span style="color:#D73A49">noncomputable</span><span style="color:#D73A49"> def</span><span style="color:#6F42C1"> redDegree</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">} (G : SimpleGraph V)</span></td></tr>
 <tr class=""><td class="line-num">41</td><td class="line-code"><span style="color:#24292E">    (P : Finset (Finset V)) (A : Finset V) : ℕ :=</span></td></tr>
-<tr class=""><td class="line-num">42</td><td class="line-code"><span style="color:#24292E">  {B | B ∈ P ∧ B ≠ A ∧ ¬ Homogeneous G A B}.ncard</span></td></tr>
+<tr class=""><td class="line-num">42</td><td class="line-code"><span style="color:#24292E">  {B | B ∈ P ∧ B ≠ A ∧ ¬ </span><a class="lean-identifier-link" href="../lax-48/Lax48.TwinWidth.html#L33"><span style="color:#24292E">Homogeneous</span></a><span style="color:#24292E"> G A B}.ncard</span></td></tr>
 <tr class=""><td class="line-num">43</td><td class="line-code"> </td></tr>
 <tr class=""><td class="line-num">44</td><td class="line-code"><span style="color:#6A737D">/-- The partition of a finite vertex type into singletons. -/</span></td></tr>
 <tr class=""><td class="line-num">45</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> singletonPartition</span><span style="color:#24292E"> (V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">) [Fintype V] [DecidableEq V] :</span></td></tr>
@@ -139,7 +139,7 @@ in which every part of every partition has red degree at most <em>d</em>.</p>
 <tr class=""><td class="line-num">56</td><td class="line-code"><span style="color:#6A737D">  /-- The partition after each number of merge steps. -/</span></td></tr>
 <tr class=""><td class="line-num">57</td><td class="line-code"><span style="color:#24292E">  partition : ℕ → Finset (Finset V)</span></td></tr>
 <tr class=""><td class="line-num">58</td><td class="line-code"><span style="color:#6A737D">  /-- The sequence starts at the singleton partition. -/</span></td></tr>
-<tr class=""><td class="line-num">59</td><td class="line-code"><span style="color:#24292E">  starts : partition </span><span style="color:#005CC5">0</span><span style="color:#24292E"> = singletonPartition V</span></td></tr>
+<tr class=""><td class="line-num">59</td><td class="line-code"><span style="color:#24292E">  starts : partition </span><span style="color:#005CC5">0</span><span style="color:#24292E"> = </span><a class="lean-identifier-link" href="../lax-48/Lax48.TwinWidth.html#L44"><span style="color:#24292E">singletonPartition</span></a><span style="color:#24292E"> V</span></td></tr>
 <tr class=""><td class="line-num">60</td><td class="line-code"><span style="color:#6A737D">  /-- The sequence ends with a single part. -/</span></td></tr>
 <tr class=""><td class="line-num">61</td><td class="line-code"><span style="color:#24292E">  ends : (partition stepCount).card ≤ </span><span style="color:#005CC5">1</span></td></tr>
 <tr class=""><td class="line-num">62</td><td class="line-code"><span style="color:#6A737D">  /-- Each step merges two distinct parts into one and keeps all other</span></td></tr>
@@ -164,7 +164,7 @@ in which every part of every partition has red degree at most <em>d</em>.</p>
 <tr class=""><td class="line-num">81</td><td class="line-code"><span style="color:#6A737D">`d`. -/</span></td></tr>
 <tr class=""><td class="line-num">82</td><td class="line-code"><span style="color:#D73A49">noncomputable</span><span style="color:#D73A49"> def</span><span style="color:#6F42C1"> twinWidth</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">} [Fintype V] [DecidableEq V]</span></td></tr>
 <tr class=""><td class="line-num">83</td><td class="line-code"><span style="color:#24292E">    (G : SimpleGraph V) : ℕ :=</span></td></tr>
-<tr class=""><td class="line-num">84</td><td class="line-code"><span style="color:#24292E">  sInf {d | HasTwinWidthAtMost G d}</span></td></tr>
+<tr class=""><td class="line-num">84</td><td class="line-code"><span style="color:#24292E">  sInf {d | </span><a class="lean-identifier-link" href="../lax-48/Lax48.TwinWidth.html#L73"><span style="color:#24292E">HasTwinWidthAtMost</span></a><span style="color:#24292E"> G d}</span></td></tr>
 <tr class=""><td class="line-num">85</td><td class="line-code"> </td></tr>
 <tr class=""><td class="line-num">86</td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax48.TwinWidth</span></td></tr>
 <tr class=""><td class="line-num">87</td><td class="line-code"> </td></tr>
@@ -223,13 +223,13 @@ decomposition with every bag of size at most <em>w</em> + 1.</p>
 <tr class=""><td class="line-num">52</td><td class="line-code"><span style="color:#6A737D">/-- `G` has a tree decomposition all of whose bags have at most `w + 1`</span></td></tr>
 <tr class=""><td class="line-num">53</td><td class="line-code"><span style="color:#6A737D">vertices. -/</span></td></tr>
 <tr class=""><td class="line-num">54</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> HasTreewidthAtMost</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">} (G : SimpleGraph V) (w : ℕ) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
-<tr class=""><td class="line-num">55</td><td class="line-code"><span style="color:#24292E">  ∃ D : </span><a class="lean-identifier-link" href="../lax-48/Lax48.Treewidth.html#L28"><span style="color:#24292E">TreeDecomposition</span></a><span style="color:#24292E"> G, ∀ i, (D.bag i).card ≤ w + </span><span style="color:#005CC5">1</span></td></tr>
+<tr class=""><td class="line-num">55</td><td class="line-code"><span style="color:#24292E">  ∃ D : </span><a class="lean-identifier-link" href="../lax-48/Lax48.Treewidth.html#L28"><span style="color:#24292E">TreeDecomposition</span></a><span style="color:#24292E"> G, ∀ i, (D.</span><a class="lean-identifier-link" href="../lax-48/Lax48.Treewidth.html#L41"><span style="color:#24292E">bag</span></a><span style="color:#24292E"> i).card ≤ w + </span><span style="color:#005CC5">1</span></td></tr>
 <tr class=""><td class="line-num">56</td><td class="line-code"> </td></tr>
 <tr class=""><td class="line-num">57</td><td class="line-code"><span style="color:#6A737D">/-- The treewidth of a finite simple graph: the least `w` such that the</span></td></tr>
 <tr class=""><td class="line-num">58</td><td class="line-code"><span style="color:#6A737D">graph has a tree decomposition with bags of at most `w + 1` vertices. -/</span></td></tr>
 <tr class=""><td class="line-num">59</td><td class="line-code"><span style="color:#D73A49">noncomputable</span><span style="color:#D73A49"> def</span><span style="color:#6F42C1"> treewidth</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">} [Fintype V] [DecidableEq V]</span></td></tr>
 <tr class=""><td class="line-num">60</td><td class="line-code"><span style="color:#24292E">    (G : SimpleGraph V) : ℕ :=</span></td></tr>
-<tr class=""><td class="line-num">61</td><td class="line-code"><span style="color:#24292E">  sInf {w | HasTreewidthAtMost G w}</span></td></tr>
+<tr class=""><td class="line-num">61</td><td class="line-code"><span style="color:#24292E">  sInf {w | </span><a class="lean-identifier-link" href="../lax-48/Lax48.Treewidth.html#L52"><span style="color:#24292E">HasTreewidthAtMost</span></a><span style="color:#24292E"> G w}</span></td></tr>
 <tr class=""><td class="line-num">62</td><td class="line-code"> </td></tr>
 <tr class=""><td class="line-num">63</td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax48.Treewidth</span></td></tr>
 <tr class=""><td class="line-num">64</td><td class="line-code"> </td></tr>
@@ -339,7 +339,7 @@ in which every part of every partition has red degree at most <em>d</em>.</p>
 <tr class=""><td class="line-num">39</td><td class="line-code"><span style="color:#6A737D">other parts of `P` that are not homogeneous with `A`. -/</span></td></tr>
 <tr class=""><td class="line-num">40</td><td class="line-code"><span style="color:#D73A49">noncomputable</span><span style="color:#D73A49"> def</span><span style="color:#6F42C1"> redDegree</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">} (G : SimpleGraph V)</span></td></tr>
 <tr class=""><td class="line-num">41</td><td class="line-code"><span style="color:#24292E">    (P : Finset (Finset V)) (A : Finset V) : ℕ :=</span></td></tr>
-<tr class=""><td class="line-num">42</td><td class="line-code"><span style="color:#24292E">  {B | B ∈ P ∧ B ≠ A ∧ ¬ Homogeneous G A B}.ncard</span></td></tr>
+<tr class=""><td class="line-num">42</td><td class="line-code"><span style="color:#24292E">  {B | B ∈ P ∧ B ≠ A ∧ ¬ </span><a class="lean-identifier-link" href="../lax-48/Lax48.TwinWidth.html#L33"><span style="color:#24292E">Homogeneous</span></a><span style="color:#24292E"> G A B}.ncard</span></td></tr>
 <tr class=""><td class="line-num">43</td><td class="line-code"> </td></tr>
 <tr class=""><td class="line-num">44</td><td class="line-code"><span style="color:#6A737D">/-- The partition of a finite vertex type into singletons. -/</span></td></tr>
 <tr class=""><td class="line-num">45</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> singletonPartition</span><span style="color:#24292E"> (V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">) [Fintype V] [DecidableEq V] :</span></td></tr>
@@ -356,7 +356,7 @@ in which every part of every partition has red degree at most <em>d</em>.</p>
 <tr class=""><td class="line-num">56</td><td class="line-code"><span style="color:#6A737D">  /-- The partition after each number of merge steps. -/</span></td></tr>
 <tr class=""><td class="line-num">57</td><td class="line-code"><span style="color:#24292E">  partition : ℕ → Finset (Finset V)</span></td></tr>
 <tr class=""><td class="line-num">58</td><td class="line-code"><span style="color:#6A737D">  /-- The sequence starts at the singleton partition. -/</span></td></tr>
-<tr class=""><td class="line-num">59</td><td class="line-code"><span style="color:#24292E">  starts : partition </span><span style="color:#005CC5">0</span><span style="color:#24292E"> = singletonPartition V</span></td></tr>
+<tr class=""><td class="line-num">59</td><td class="line-code"><span style="color:#24292E">  starts : partition </span><span style="color:#005CC5">0</span><span style="color:#24292E"> = </span><a class="lean-identifier-link" href="../lax-48/Lax48.TwinWidth.html#L44"><span style="color:#24292E">singletonPartition</span></a><span style="color:#24292E"> V</span></td></tr>
 <tr class=""><td class="line-num">60</td><td class="line-code"><span style="color:#6A737D">  /-- The sequence ends with a single part. -/</span></td></tr>
 <tr class=""><td class="line-num">61</td><td class="line-code"><span style="color:#24292E">  ends : (partition stepCount).card ≤ </span><span style="color:#005CC5">1</span></td></tr>
 <tr class=""><td class="line-num">62</td><td class="line-code"><span style="color:#6A737D">  /-- Each step merges two distinct parts into one and keeps all other</span></td></tr>
@@ -381,7 +381,7 @@ in which every part of every partition has red degree at most <em>d</em>.</p>
 <tr class=""><td class="line-num">81</td><td class="line-code"><span style="color:#6A737D">`d`. -/</span></td></tr>
 <tr class=""><td class="line-num">82</td><td class="line-code"><span style="color:#D73A49">noncomputable</span><span style="color:#D73A49"> def</span><span style="color:#6F42C1"> twinWidth</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">} [Fintype V] [DecidableEq V]</span></td></tr>
 <tr class=""><td class="line-num">83</td><td class="line-code"><span style="color:#24292E">    (G : SimpleGraph V) : ℕ :=</span></td></tr>
-<tr class=""><td class="line-num">84</td><td class="line-code"><span style="color:#24292E">  sInf {d | HasTwinWidthAtMost G d}</span></td></tr>
+<tr class=""><td class="line-num">84</td><td class="line-code"><span style="color:#24292E">  sInf {d | </span><a class="lean-identifier-link" href="../lax-48/Lax48.TwinWidth.html#L73"><span style="color:#24292E">HasTwinWidthAtMost</span></a><span style="color:#24292E"> G d}</span></td></tr>
 <tr class=""><td class="line-num">85</td><td class="line-code"> </td></tr>
 <tr class=""><td class="line-num">86</td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax48.TwinWidth</span></td></tr>
 <tr class=""><td class="line-num">87</td><td class="line-code"> </td></tr>
