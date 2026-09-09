@@ -2457,6 +2457,129 @@
       ]
     },
     {
+      "id": "lax-489179",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "ETH, SETH, Weighted APSP, and 3SUM",
+      "concepts": [
+        {
+          "id": "Lax489179.Algorithms",
+          "title": "Deterministic and bounded-error algorithms",
+          "type": "definition"
+        },
+        {
+          "id": "Lax489179.APSPHypothesis",
+          "title": "The weighted APSP complexity assumption",
+          "type": "definition"
+        },
+        {
+          "id": "Lax489179.DeterministicSemantics",
+          "title": "Exact correctness of deterministic computations",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax489179.DistanceProperties",
+          "title": "Uniqueness and diagonal entries of shortest-path distances",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax489179.EncodingProperties",
+          "title": "Integer encodings and distinct 3-SUM entries",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax489179.ETH",
+          "title": "The Exponential Time Hypothesis (ETH)",
+          "type": "definition"
+        },
+        {
+          "id": "Lax489179.HypothesisProperties",
+          "title": "Negations and algorithm conventions for the four hypotheses",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax489179.IntegerEncoding",
+          "title": "Encoding signed integers and missing distances",
+          "type": "definition"
+        },
+        {
+          "id": "Lax489179.Satisfiability",
+          "title": "Bounded-width CNF satisfiability and its encoding",
+          "type": "definition"
+        },
+        {
+          "id": "Lax489179.SATTime",
+          "title": "Exponential running time for bounded-width SAT",
+          "type": "definition"
+        },
+        {
+          "id": "Lax489179.SETH",
+          "title": "The Strong Exponential Time Hypothesis (SETH)",
+          "type": "definition"
+        },
+        {
+          "id": "Lax489179.ThreeSUM",
+          "title": "The integer 3-SUM problem",
+          "type": "definition"
+        },
+        {
+          "id": "Lax489179.ThreeSUMHypothesis",
+          "title": "The 3-SUM Hypothesis",
+          "type": "definition"
+        },
+        {
+          "id": "Lax489179.TimeProperties",
+          "title": "Monotonicity of running-time bounds",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax489179.TuringMachine",
+          "title": "Finite multitape Turing machines",
+          "type": "definition"
+        },
+        {
+          "id": "Lax489179.WeightedAPSP",
+          "title": "Weighted all-pairs shortest paths",
+          "type": "definition"
+        },
+        {
+          "id": "Lax489179.WordPrograms",
+          "title": "Word-RAM programs with optional fair coins",
+          "type": "definition"
+        },
+        {
+          "id": "Lax489179.WordTime",
+          "title": "Polynomial running time on logarithmic words",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax489179Proofs.decode_encode_int",
+        "Lax489179Proofs.decode_encode_option",
+        "Lax489179Proofs.diagonal_zero",
+        "Lax489179Proofs.distance_unique",
+        "Lax489179Proofs.encode_int_injective",
+        "Lax489179Proofs.encode_option_injective",
+        "Lax489179Proofs.matrix_length",
+        "Lax489179Proofs.not_apsp",
+        "Lax489179Proofs.not_eth",
+        "Lax489179Proofs.not_seth",
+        "Lax489179Proofs.not_three_sum",
+        "Lax489179Proofs.randomized_apsp",
+        "Lax489179Proofs.randomized_eth",
+        "Lax489179Proofs.randomized_seth",
+        "Lax489179Proofs.randomized_three_sum",
+        "Lax489179Proofs.sat_exponent_mono",
+        "Lax489179Proofs.sat_randomized",
+        "Lax489179Proofs.sat_width_mono",
+        "Lax489179Proofs.three_entries",
+        "Lax489179Proofs.turing_exact",
+        "Lax489179Proofs.word_exact",
+        "Lax489179Proofs.word_exponent_mono",
+        "Lax489179Proofs.word_randomized"
+      ]
+    },
+    {
       "id": "lax-554803",
       "state": "draft",
       "environment": "v4.30.0",
