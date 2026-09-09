@@ -1299,6 +1299,11 @@
           "type": "definition"
         },
         {
+          "id": "Lax68.GraphTopologicalMinors",
+          "title": "Topological graph minors",
+          "type": "definition"
+        },
+        {
           "id": "Lax68.GridPlanar",
           "title": "Grids are planar",
           "type": "theorem"
@@ -1316,6 +1321,11 @@
         {
           "id": "Lax68.HalinPlanar",
           "title": "Halin graphs are planar",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax68.KuratowskiPlanarity",
+          "title": "Kuratowski's theorem in straight-line form",
           "type": "theorem"
         },
         {
@@ -1479,6 +1489,11 @@
           "type": "definition"
         },
         {
+          "id": "Lax68.WagnerObstructionBridge",
+          "title": "The Kuratowski-Wagner obstruction bridge",
+          "type": "theorem"
+        },
+        {
           "id": "Lax68.WallPlanar",
           "title": "Walls are planar",
           "type": "theorem"
@@ -1508,6 +1523,7 @@
         "Lax68Proofs.outerplanar_planar",
         "Lax68Proofs.path_outerplanar",
         "Lax68Proofs.path_planar",
+        "Lax68Proofs.planar_iff_excludedMinors",
         "Lax68Proofs.star_outerplanar",
         "Lax68Proofs.star_planar",
         "Lax68Proofs.tree_planar",
