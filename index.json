@@ -2060,6 +2060,100 @@
       ]
     },
     {
+      "id": "lax-307052",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "Savitch's Theorem",
+      "concepts": [
+        {
+          "id": "Lax307052.BoundedConfigurations",
+          "title": "Bounded machine configurations",
+          "type": "definition"
+        },
+        {
+          "id": "Lax307052.ConfigurationCorrespondence",
+          "title": "Runs and configuration reachability",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax307052.ConfigurationCount",
+          "title": "Number of bounded configurations",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax307052.ConfigurationGraph",
+          "title": "The bounded configuration graph",
+          "type": "definition"
+        },
+        {
+          "id": "Lax307052.FiniteReachability",
+          "title": "Deciding finite reachability",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax307052.PathSplitting",
+          "title": "Splitting a bounded walk",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax307052.PolynomialBounds",
+          "title": "Constructing polynomial space bounds",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax307052.PolynomialSpace",
+          "title": "PSPACE equals NPSPACE",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax307052.Reachability",
+          "title": "Bounded reachability",
+          "type": "definition"
+        },
+        {
+          "id": "Lax307052.RecursiveReachability",
+          "title": "Correctness of recursive reachability",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax307052.Savitch",
+          "title": "Savitch's theorem",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax307052.SearchAcceptance",
+          "title": "Correctness of the configuration search",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax307052.SearchImplementation",
+          "title": "Space bound for the search machine",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax307052.ShortPaths",
+          "title": "Short paths in a finite graph",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax307052.SpaceConstructibility",
+          "title": "Space-constructible bounds",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax307052Proofs.configuration_acceptance",
+        "Lax307052Proofs.configuration_count",
+        "Lax307052Proofs.finite_reachability",
+        "Lax307052Proofs.path_splitting",
+        "Lax307052Proofs.polynomial_space",
+        "Lax307052Proofs.recursive_reachability",
+        "Lax307052Proofs.savitch",
+        "Lax307052Proofs.search_acceptance",
+        "Lax307052Proofs.short_paths"
+      ]
+    },
+    {
       "id": "lax-314295",
       "state": "draft",
       "environment": "v4.30.0",
