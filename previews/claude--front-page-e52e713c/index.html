@@ -7,7 +7,7 @@
 <title>Lax Lean Archive</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="assets/style.css?v=59f925fbe3d9">
+<link rel="stylesheet" href="assets/style.css?v=89f7ea15df6b">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -119,24 +119,27 @@
 classical system of peer review and publishing beyond its limits. We need new,
 scalable mechanisms for digesting mathematics, or we risk losing control of
 our own field.</p>
-<p>Publications serve (at least) two purposes:</p>
-<ul>
-<li><strong>Correctness</strong>: establishing which things are true, via rigorous technical
-arguments.</li>
-<li><strong>Understanding</strong>: explaining why these things are true, by providing
-intuition, clarity, and abstractions.</li>
-</ul>
 <p>We believe proof systems like Lean provide a scalable way of ensuring the
 <em>correctness</em> of mathematics. This frees humans to spend their finite
 attention where it really matters: building intuition, clarity, and
-abstractions. Lax is a community-run archive that annotates natural-language
-mathematics with Lean theorems.</p>
+abstractions.</p>
 
 </div>
 </section>
-<section class="landing-paper manuscript" aria-labelledby="landing-paper-heading" data-paper-excerpt>
-<p class="landing-action-eyebrow" id="landing-paper-heading">Annotated paper</p>
-<p class="landing-paper-caption">Page 1 of <a href="lax-242665/paper.html"><cite>An Introduction to Lax</cite></a>, as the archive shows it: hover a highlighted passage to open the concept it is annotated with.</p>
+<section class="landing-section landing-how" aria-labelledby="landing-how-heading">
+<h2 class="landing-section-title" id="landing-how-heading">How it works</h2>
+<div class="landing-section-copy latex-content">
+<p>Lax is a community-run archive that annotates natural-language mathematics
+with Lean theorems. The annotations are <em>concepts</em>: reusable blocks that pair
+a mathematical idea with a faithful Lean encoding. Concepts are shared across
+submissions, so what the community has verified and endorsed becomes the
+foundation the next result stands on.</p>
+<p>By annotating intermediate lemmas with formalizations too, authors provide
+trust not only in the correctness of the result, but also in the mechanism
+leading to it.</p>
+
+</div>
+<section class="landing-paper manuscript" aria-label="Page 1 of the annotated paper of lax-242665, as the archive shows it" data-paper-excerpt>
 <div class="landing-paper-frame">
 <div class="landing-paper-grid">
 <div class="landing-paper-doc">
@@ -217,37 +220,22 @@ by itself.</p>
 </ol>
 <svg class="manuscript-links landing-paper-links" aria-hidden="true"></svg>
 </div>
+<a class="landing-paper-more" href="lax-242665/paper.html">Read the full text <b aria-hidden="true">→</b></a>
 </div>
 </section>
-<section class="landing-section landing-concepts" aria-labelledby="landing-concepts-heading">
-<h2 class="landing-section-title" id="landing-concepts-heading">Concepts</h2>
-<div class="landing-section-copy latex-content">
-<p>Natural-language mathematics is annotated with <em>concepts</em>: reusable blocks
-that pair a mathematical idea with a faithful Lean encoding. Concepts are
-reusable across submissions, so what the community has verified and endorsed
-becomes the foundation the next result stands on.</p>
-<p>By annotating intermediate lemmas with formalizations too, authors provide
-trust not only in the correctness of the result, but also in the mechanism
-leading to it.</p>
-
-</div>
-</section>
-<section class="landing-section landing-network" aria-labelledby="landing-network-heading">
-<h2 class="landing-section-title" id="landing-network-heading">Proof network</h2>
-<div class="landing-section-copy latex-content">
+<div class="landing-section-copy landing-network-copy latex-content">
 <p>The proof network between these concepts provides a high-level overview of
 the ideas, as well as authority over which statements are proven, relative
 to which other ones, and which
 <a href="open-proof-obligations.html">proof obligations</a> still remain.</p>
 
 </div>
-<figure class="graph-figure proof-network-figure landing-network-figure">
+<figure class="graph-figure proof-network-figure landing-network-figure" aria-label="The proof network of lax-242665">
 <button class="graph-expand" type="button" data-graph-expand data-graph-label="proof network" aria-expanded="false" aria-label="Open proof network in a large window" title="Open in large window"><svg class="graph-expand-open" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M2.5 6V2.5H6M10 2.5h3.5V6M13.5 10v3.5H10M6 13.5H2.5V10"/></svg><span class="graph-expand-close" aria-hidden="true">×</span></button>
 <div id="proof-network" class="figure-container" data-graph="proofs"></div>
 <div class="graph-tooltip" role="tooltip" hidden></div>
 <figcaption class="graph-legend" aria-label="Proof network legend"><span class="proof-flow">assumptions <i class="legend-arrow" aria-hidden="true">→</i><i class="legend-proof-chip" aria-hidden="true">⊢</i><i class="legend-arrow" aria-hidden="true">→</i> conclusion</span><span><i class="legend-node fill-proven"></i>Proven claim</span><span><i class="legend-node fill-open"></i>Open claim</span><span><i class="legend-node stroke-own"></i>This submission</span><span><i class="legend-proof-chip" aria-hidden="true">⊢</i>Proof — click to open</span></figcaption>
 </figure>
-<p class="landing-paper-caption">The proof network of <a href="lax-242665/index.html"><cite>An Introduction to Lax</cite></a>: each box is a claim, green once proven and yellow while open; each <span class="legend-proof-chip-inline" aria-hidden="true">⊢</span> chip is a proof deriving its conclusion from its assumptions. Click a node to open its page.</p>
 <script type="application/json" id="graph-data">{"proofs":{"statements":[{"id":"Lax242665.BertrandPostulate.exists_prime_between","label":"Lax242665.BertrandPostulate","title":"Bertrand's postulate","owner":"lax-242665","concept":"Lax242665.BertrandPostulate","index":1,"count":1,"href":"lax-242665/Lax242665.BertrandPostulate.html#s-Lax242665.BertrandPostulate.exists_prime_between","proven":false,"ext":false},{"id":"Lax242665.InfinitelyManyPrimes.exists_prime_gt","label":"Lax242665.InfinitelyManyPrimes","title":"There are infinitely many primes","owner":"lax-242665","concept":"Lax242665.InfinitelyManyPrimes","index":1,"count":1,"href":"lax-242665/Lax242665.InfinitelyManyPrimes.html#s-Lax242665.InfinitelyManyPrimes.exists_prime_gt","proven":true,"ext":false},{"id":"Lax242665.OddPrimeBetween.exists_odd_prime_between","label":"Lax242665.OddPrimeBetween","title":"An odd prime between n and 2n","owner":"lax-242665","concept":"Lax242665.OddPrimeBetween","index":1,"count":1,"href":"lax-242665/Lax242665.OddPrimeBetween.html#s-Lax242665.OddPrimeBetween.exists_odd_prime_between","proven":false,"ext":false},{"id":"Lax242665.OddPrimes.odd_of_prime","label":"Lax242665.OddPrimes","title":"Every prime other than 2 is odd","owner":"lax-242665","concept":"Lax242665.OddPrimes","index":1,"count":1,"href":"lax-242665/Lax242665.OddPrimes.html#s-Lax242665.OddPrimes.odd_of_prime","proven":true,"ext":false}],"proofs":[{"id":"Lax242665Proofs.InfinitelyManyPrimes.exists_prime_gt","assumptions":[],"conclusion":"Lax242665.InfinitelyManyPrimes.exists_prime_gt","description":"Euclid's argument: the smallest prime factor `p` of `n! + 1` cannot be at\nmost `n`, because then `p` would divide `n!` and hence divide `1`.","owner":"lax-242665","ext":false,"href":"lax-242665/Lax242665Proofs.InfinitelyManyPrimes.exists_prime_gt.html","assumptionsProven":true,"outstanding":0},{"id":"Lax242665Proofs.OddPrimeBetween.exists_odd_prime_between","assumptions":["Lax242665.BertrandPostulate.exists_prime_between","Lax242665.OddPrimes.odd_of_prime"],"conclusion":"Lax242665.OddPrimeBetween.exists_odd_prime_between","description":"Bertrand's postulate gives a prime `p` with `n \u003c p ≤ 2n`. Since `n ≥ 2`, this\nprime is not `2`, hence odd.","owner":"lax-242665","ext":false,"href":"lax-242665/Lax242665Proofs.OddPrimeBetween.exists_odd_prime_between.html","assumptionsProven":false,"outstanding":1},{"id":"Lax242665Proofs.OddPrimes.odd_of_prime","assumptions":[],"conclusion":"Lax242665.OddPrimes.odd_of_prime","description":"An even prime is divisible by `2`, so `2` is `1` or the prime itself.","owner":"lax-242665","ext":false,"href":"lax-242665/Lax242665Proofs.OddPrimes.odd_of_prime.html","assumptionsProven":true,"outstanding":0}],"home":"lax-242665"}}</script>
 </section>
 <nav class="landing-hero-actions" aria-label="Ways into Lax">
