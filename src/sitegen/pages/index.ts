@@ -67,7 +67,7 @@ function landingCopy(source: string): LandingCopy {
     if (!match) throw new Error(`invalid landing section: ${chunk}`);
     sections.set(match[1]!.trim(), match[2]!.trim());
   }
-  for (const heading of ["Concepts", "Proof network"])
+  for (const heading of ["How it works", "Proof network"])
     if (!sections.has(heading)) throw new Error(`landing.md is missing the ${heading} section`);
   return { title: title[1]!.trim(), intro: head.slice(title[0].length).trim(), sections };
 }
@@ -136,10 +136,7 @@ ${markdown.render(passage.text, "")}
 </div>`);
     cards.push(await markCard(ctx, paper.marks[n - 1]!, n, home, cardId, { rootRel: "", expanded: first }));
   }
-  const title = markdown.renderAuthorInline(intro.output!.manifest.title, "");
-  return `<section class="landing-paper manuscript" aria-labelledby="landing-paper-heading" data-paper-excerpt>
-<p class="landing-action-eyebrow" id="landing-paper-heading">Annotated paper</p>
-<p class="landing-paper-caption">Page ${INTRO_EXCERPT.page} of <a href="${attr(`${home}/paper.html`)}"><cite>${title}</cite></a>, as the archive shows it: hover a highlighted passage to open the concept it is annotated with.</p>
+  return `<section class="landing-paper manuscript" aria-label="${attr(`Page ${INTRO_EXCERPT.page} of the annotated paper of ${home}, as the archive shows it`)}" data-paper-excerpt>
 <div class="landing-paper-frame">
 <div class="landing-paper-grid">
 <div class="landing-paper-doc">
@@ -156,6 +153,7 @@ ${cards.join("\n")}
 </ol>
 <svg class="manuscript-links landing-paper-links" aria-hidden="true"></svg>
 </div>
+<a class="landing-paper-more" href="${attr(`${home}/paper.html`)}">Read the full text <b aria-hidden="true">→</b></a>
 </div>
 </section>`;
 }
@@ -164,20 +162,20 @@ ${cards.join("\n")}
  * the submission page embeds, with links from the site root. */
 function proofNetworkFigure(ctx: PageContext, intro: SiteSubmission): string {
   const data = proofNetworkData(ctx, intro, "");
-  const title = ctx.markdown.renderAuthorInline(intro.output!.manifest.title, "");
-  return `<figure class="graph-figure proof-network-figure landing-network-figure">
+  return `<figure class="graph-figure proof-network-figure landing-network-figure" aria-label="${attr(`The proof network of ${intro.record.id}`)}">
 ${graphExpandButton("proof network")}
 <div id="proof-network" class="figure-container" data-graph="proofs"></div>
 ${graphTooltip()}
 ${proofNetworkLegend(data)}
 </figure>
-<p class="landing-paper-caption">The proof network of <a href="${attr(`${intro.record.id}/index.html`)}"><cite>${title}</cite></a>: each box is a claim, green once proven and yellow while open; each <span class="legend-proof-chip-inline" aria-hidden="true">⊢</span> chip is a proof deriving its conclusion from its assumptions. Click a node to open its page.</p>
 ${graphDataScript({ proofs: data })}`;
 }
 
-/** The landing page: the manifesto from content/landing.md, the paper
- * excerpt and proof network of the introduction submission, the two ways
- * in, the submissions library with its stats, and the FAQ. Records that
+/** The landing page: the manifesto from content/landing.md, then "How it
+ * works" — its concepts paragraphs leading into the introduction
+ * submission's paper excerpt, its proof-network paragraph leading into
+ * that submission's network — the two ways in, the submissions library
+ * with its stats, and the FAQ. Records that
  * only reserved an id have nothing to show and stay off the library and
  * the stats (their pages exist for direct links). */
 export async function indexPage(ctx: PageContext): Promise<string> {
@@ -262,16 +260,13 @@ ${intro ? `<p class="landing-links-note">The introduction is itself a Lax submis
 ${markdown.render(landing.intro, "")}
 </div>
 </section>
-${excerpt}
-<section class="landing-section landing-concepts" aria-labelledby="landing-concepts-heading">
-<h2 class="landing-section-title" id="landing-concepts-heading">Concepts</h2>
+<section class="landing-section landing-how" aria-labelledby="landing-how-heading">
+<h2 class="landing-section-title" id="landing-how-heading">How it works</h2>
 <div class="landing-section-copy latex-content">
-${markdown.render(landing.sections.get("Concepts")!, "")}
+${markdown.render(landing.sections.get("How it works")!, "")}
 </div>
-</section>
-<section class="landing-section landing-network" aria-labelledby="landing-network-heading">
-<h2 class="landing-section-title" id="landing-network-heading">Proof network</h2>
-<div class="landing-section-copy latex-content">
+${excerpt}
+<div class="landing-section-copy landing-network-copy latex-content">
 ${markdown.render(landing.sections.get("Proof network")!, "")}
 </div>
 ${network}

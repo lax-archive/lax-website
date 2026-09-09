@@ -564,15 +564,16 @@ After the formula.`, "");
     expect(index).toContain(`<h1 class="landing-title" id="landing-title">Lax: let's stay in control of mathematics</h1>`);
     expect(index).toContain('<div class="landing-manifesto latex-content">');
     expect(index).toMatch(/AI is about to massively accelerate mathematical research/);
-    expect(index).toContain("<strong>Correctness</strong>: establishing which things are true");
-    expect(index).toContain("<strong>Understanding</strong>: explaining why these things are true");
-    expect(index).toContain('<h2 class="landing-section-title" id="landing-concepts-heading">Concepts</h2>');
-    expect(index).toContain('<h2 class="landing-section-title" id="landing-network-heading">Proof network</h2>');
-    expect(index).toContain("Natural-language mathematics is annotated with <em>concepts</em>");
+    expect(index).not.toContain("<strong>Correctness</strong>");
+    expect(index).not.toContain("<strong>Understanding</strong>");
+    expect(index).toContain('<section class="landing-section landing-how" aria-labelledby="landing-how-heading">');
+    expect(index).toContain('<h2 class="landing-section-title" id="landing-how-heading">How it works</h2>');
+    expect(index).toMatch(/<p>Lax is a community-run archive that annotates natural-language mathematics\s+with Lean theorems\. The annotations are <em>concepts<\/em>/);
+    expect(index).not.toContain("landing-paper-caption");
     expect(index).toContain('<a href="open-proof-obligations.html">proof obligations</a> still remain.');
-    expect(index.indexOf("landing-hero")).toBeLessThan(index.indexOf("landing-concepts"));
-    expect(index.indexOf("landing-concepts")).toBeLessThan(index.indexOf("landing-network"));
-    expect(index.indexOf("landing-network")).toBeLessThan(index.indexOf("landing-hero-actions"));
+    expect(index.indexOf("landing-hero")).toBeLessThan(index.indexOf("landing-how"));
+    expect(index.indexOf("landing-how")).toBeLessThan(index.indexOf("landing-network-copy"));
+    expect(index.indexOf("landing-network-copy")).toBeLessThan(index.indexOf("landing-hero-actions"));
     expect(index.indexOf("landing-hero-actions")).toBeLessThan(index.indexOf('id="landing-panel-read"'));
     // The fixture archive has no introduction submission: the excerpt and the
     // network stay off the page, the paper link falls back to the white paper.
@@ -672,8 +673,9 @@ After the formula.`, "");
     await generateSite([...submissions(), introSubmission()], root);
     const index = fs.readFileSync(path.join(root, "index.html"), "utf8");
 
-    expect(index).toContain('<section class="landing-paper manuscript" aria-labelledby="landing-paper-heading" data-paper-excerpt>');
-    expect(index).toContain('Page 1 of <a href="lax-242665/paper.html"><cite>An Introduction to Lax</cite></a>');
+    expect(index).toContain('<section class="landing-paper manuscript" aria-label="Page 1 of the annotated paper of lax-242665, as the archive shows it" data-paper-excerpt>');
+    expect(index).not.toContain("Annotated paper</p>");
+    expect(index).not.toContain("landing-paper-caption");
     expect(index).toContain("<h3>1 Concepts</h3>");
     expect(index).toContain("Lax represents mathematical definitions and claims as so-called <em>concepts</em>.");
     // The passages, in the paper's words, each joined to the card of the
@@ -684,6 +686,7 @@ After the formula.`, "");
     expect(index).toContain("<strong>Theorem 1</strong> (Euclid)<strong>.</strong> <em>For every natural number <span class=\"katex\">");
     expect(index).toContain('<ol class="manuscript-rail landing-paper-rail" aria-label="Concept cards">');
     expect(index).toContain('<svg class="manuscript-links landing-paper-links" aria-hidden="true"></svg>');
+    expect(index).toContain('<a class="landing-paper-more" href="lax-242665/paper.html">Read the full text <b aria-hidden="true">→</b></a>');
     expect(index).toContain('<li class="manuscript-card kind-concept manuscript-card-expanded manuscript-card-pinned" id="landing-m2" data-mark="2">');
     expect(index).toContain('<li class="manuscript-card kind-concept line-proven" id="landing-m3" data-mark="3">');
     expect(index).toContain('aria-expanded="true" aria-controls="landing-m2-body"');
@@ -694,9 +697,9 @@ After the formula.`, "");
     expect(index).toContain('<p class="manuscript-card-title">Prime numbers</p>');
     expect(index).not.toContain('href="../lax-242665/');
     // The network: the submission page's figure and data, rooted at the site.
-    expect(index).toContain('<figure class="graph-figure proof-network-figure landing-network-figure">');
+    expect(index).toContain('<figure class="graph-figure proof-network-figure landing-network-figure" aria-label="The proof network of lax-242665">');
     expect(index).toContain('<div id="proof-network" class="figure-container" data-graph="proofs"></div>');
-    expect(index).toContain('The proof network of <a href="lax-242665/index.html"><cite>An Introduction to Lax</cite></a>');
+    expect(index).not.toContain("The proof network of <a");
     const data = JSON.parse(index.match(/<script type="application\/json" id="graph-data">(.*?)<\/script>/)![1]!);
     expect(Object.keys(data)).toEqual(["proofs"]);
     expect(data.proofs.home).toBe("lax-242665");
@@ -709,8 +712,11 @@ After the formula.`, "");
     expect(index).toContain('<a class="landing-hero-button primary" href="lax-242665/paper.html">Read the introduction to Lax <b aria-hidden="true">→</b></a>');
     expect(index).toContain('<p class="landing-links-note">The introduction is itself a Lax submission');
     expect(index).not.toContain("lax-white-paper.pdf\" download");
-    expect(index.indexOf("data-paper-excerpt")).toBeLessThan(index.indexOf("landing-concepts"));
-    expect(index.indexOf('id="landing-network-heading"')).toBeLessThan(index.indexOf('id="proof-network"'));
+    // The concepts paragraph leads into the excerpt, the network paragraph
+    // into the network.
+    expect(index.indexOf("The annotations are <em>concepts</em>")).toBeLessThan(index.indexOf("data-paper-excerpt"));
+    expect(index.indexOf("data-paper-excerpt")).toBeLessThan(index.indexOf("landing-network-copy"));
+    expect(index.indexOf("still remain.")).toBeLessThan(index.indexOf('id="proof-network"'));
     // The submission's own pages keep their `../` links.
     const submission = fs.readFileSync(path.join(root, "lax-242665", "index.html"), "utf8");
     expect(submission).toContain('"href":"../lax-242665/Lax242665Proofs.InfinitelyManyPrimes.exists_prime_gt.html"');

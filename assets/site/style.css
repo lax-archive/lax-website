@@ -1556,29 +1556,19 @@ body.sidebar-resizing #content-shell{ transition: none; }
 }
 
 #detail .landing-section-title{
-  margin: 0 0 0.55rem;
-  color: var(--accent);
-  font-variant: normal;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
-/* The proof network: the submission page's figure, widened to the page. */
-.landing-network-figure{ margin: 1.2rem 0 0.8rem; }
-.landing-network .landing-paper-caption{ margin-bottom: 0; }
-.legend-proof-chip-inline{
-  display: inline-block;
-  min-width: 1.1em;
-  padding: 0 0.2em;
-  border: 1px solid var(--neutral-stroke);
-  border-radius: 3px;
-  font-family: var(--mono);
-  font-size: 0.8em;
-  line-height: 1.3;
+  margin: 0 0 0.8rem;
+  font-size: 1.45rem;
+  letter-spacing: 0.06em;
   text-align: center;
 }
+
+/* "How it works": a paragraph leads into each figure — the concepts
+   paragraphs into the paper excerpt (which spans the page's width), the
+   proof-network paragraph into the network. */
+.landing-how{ max-width: none; }
+.landing-how > .landing-section-copy{ max-width: 40em; margin-inline: auto; }
+.landing-how > .landing-paper{ margin: 1.3rem auto 2.4rem; }
+.landing-network-figure{ max-width: 40em; margin: 1.3rem auto 0; }
 
 /* ── The paper excerpt ──
    The text column reads like the paper page's reflowed text; the marked
@@ -1590,21 +1580,6 @@ body.sidebar-resizing #content-shell{ transition: none; }
   max-width: 52em;
   margin: 0 auto 2.7rem;
 }
-
-.landing-paper > .landing-action-eyebrow{ text-align: center; }
-
-.landing-paper-caption{
-  max-width: 40em;
-  margin: 0 auto 0.9rem;
-  color: var(--text-dim);
-  font-size: 0.86rem;
-  line-height: 1.5;
-  text-align: center;
-  hyphens: none;
-}
-
-.landing-paper-caption a{ color: var(--link); }
-.landing-paper-caption cite{ font-style: italic; }
 
 .landing-paper-frame{
   position: relative;
@@ -1678,6 +1653,33 @@ body.sidebar-resizing #content-shell{ transition: none; }
 .landing-passage.manuscript-hl-hover,
 .landing-passage.manuscript-hl-active{ background: var(--mark-concept-ink-hot); }
 .landing-passage:focus-visible{ outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* The way into the whole paper, at the foot of the crop, above the fade. */
+.landing-paper-more{
+  position: relative;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  width: fit-content;
+  margin: 1.1rem auto 0;
+  padding: 0.45rem 0.9rem;
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-control);
+  background: var(--surface);
+  color: var(--link);
+  font-size: 0.84rem;
+  font-weight: 700;
+  line-height: 1.2;
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(44, 95, 138, 0.12);
+  transition: background 120ms ease, transform 140ms ease;
+}
+
+.landing-paper-more b{ font-size: 1rem; line-height: 1; }
+.landing-paper-more:hover,
+.landing-paper-more:focus-visible{ background: var(--accent-light); transform: translateY(-2px); outline: none; }
+.landing-paper-more:focus-visible{ box-shadow: 0 0 0 3px rgba(59, 107, 154, 0.18), 0 4px 12px rgba(44, 95, 138, 0.12); }
 
 .landing-paper-rail{ position: relative; min-width: 0; }
 .landing-paper-rail > .manuscript-card{ margin: 0 0 0.5rem; }
@@ -3520,6 +3522,7 @@ body.graph-window-open::after{
   .discussion-loading-mark,
   .landing-hero-button,
   .landing-passage,
+  .landing-paper-more,
   .landing-action-panel,
   .landing-faq-item summary,
   .landing-faq-toggle::after{ animation: none; transition: none; }
