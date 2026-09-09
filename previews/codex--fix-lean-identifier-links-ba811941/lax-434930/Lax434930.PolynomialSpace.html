@@ -7,7 +7,7 @@
 <title>The complexity class PSPACE — Lax434930.PolynomialSpace</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=7aa96422e96c">
+<link rel="stylesheet" href="../assets/style.css?v=cbddb6900009">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -114,7 +114,7 @@
 <div class="graph-toolbar"><button type="button" id="concept-expand" aria-controls="concept-dag" aria-pressed="true">Hide ancestors</button><button type="button" id="concept-descend" aria-controls="concept-dag" aria-pressed="false">Show descendants</button><output id="concept-graph-status" aria-live="polite"></output></div>
 <div id="concept-dag" class="figure-container" data-graph="concepts" data-ancestry="true"></div>
 <div class="graph-tooltip" role="tooltip" hidden></div>
-<figcaption class="graph-legend" aria-label="Concept map legend"><span><i class="legend-node fill-proven"></i>Proven claim</span><span><i class="legend-node fill-none"></i>Definition</span><span><i class="legend-node stroke-own"></i>This concept</span><span><i class="legend-node stroke-ext"></i>Related concept</span><span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B builds on A</span></figcaption>
+<figcaption class="graph-legend" aria-label="Concept map legend"><span><i class="legend-node fill-proven"></i>Proven claim</span><span><i class="legend-node fill-open"></i>Open claim</span><span><i class="legend-node fill-none"></i>Definition</span><span><i class="legend-node stroke-own"></i>This concept</span><span><i class="legend-node stroke-ext"></i>Related concept</span><span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B builds on A</span></figcaption>
 </figure>
 
 
@@ -143,7 +143,7 @@ read-only and excluded from work space, and the machine always halts.</p>
 <tr id="L16" class=""><td class="line-num"><a href="#L16">16</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> PolynomialTime SpaceBounds</span></td></tr>
 <tr id="L17" class=""><td class="line-num"><a href="#L17">17</a></td><td class="line-code"> </td></tr>
 <tr id="L18" class=""><td class="line-num"><a href="#L18">18</a></td><td class="line-code"><span style="color:#6A737D">/-- Deterministic polynomial work space. -/</span></td></tr>
-<tr id="L19" class=""><td class="line-num"><a href="#L19">19</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> </span><a class="lean-identifier-link" href="../lax-434930/Lax434930.PolynomialSpace.html#L19"><span style="color:#6F42C1">PSPACE</span></a><span style="color:#24292E"> : Set Language :=</span></td></tr>
+<tr id="L19" class=""><td class="line-num"><a href="#L19">19</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> </span><a class="lean-identifier-link" href="../lax-434930/Lax434930.PolynomialSpace.html#L18"><span style="color:#6F42C1">PSPACE</span></a><span style="color:#24292E"> : Set Language :=</span></td></tr>
 <tr id="L20" class=""><td class="line-num"><a href="#L20">20</a></td><td class="line-code"><span style="color:#24292E">  {A | ∃ p : Polynomial ℕ, A ∈ DSPACE p.eval}</span></td></tr>
 <tr id="L21" class=""><td class="line-num"><a href="#L21">21</a></td><td class="line-code"> </td></tr>
 <tr id="L22" class=""><td class="line-num"><a href="#L22">22</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-434930/Lax434930.PolynomialSpace.html"><span style="color:#24292E">Lax434930.PolynomialSpace</span></a></td></tr>
@@ -152,7 +152,7 @@ read-only and excluded from work space, and the machine always halts.</p>
 
 <div class="block"><div class="deps-columns">
 <div class="deps-col"><h3>Builds on</h3><ul class="deps-list"><li><a href="../lax-434930/Lax434930.SpaceBounds.html"><code>Lax434930.SpaceBounds</code></a></li></ul></div>
-<div class="deps-col"><h3>Used by</h3><ul class="deps-list"><li><a href="../lax-434930/Lax434930.BasicProperties.html"><code>Lax434930.BasicProperties</code></a></li></ul></div>
+<div class="deps-col"><h3>Used by</h3><ul class="deps-list"><li><a href="../lax-307052/Lax307052.PolynomialSpace.html"><code>Lax307052.PolynomialSpace</code></a></li><li><a href="../lax-434930/Lax434930.BasicProperties.html"><code>Lax434930.BasicProperties</code></a></li></ul></div>
 <div class="deps-col"><h3>From Mathlib</h3><p class="empty-note">none</p></div>
 </div></div>
 <section class="page-section discussion-section" aria-labelledby="discussion-title">
@@ -170,7 +170,7 @@ read-only and excluded from work space, and the machine always halts.</p>
 </div>
 <noscript><p class="discussion-unavailable">Enable JavaScript to read or join the discussion.</p></noscript>
 </section>
-<script type="application/json" id="graph-data">{"concepts":{"nodes":[{"id":"Lax434930.BasicProperties","href":"../lax-434930/Lax434930.BasicProperties.html","title":"Elementary properties of the complexity classes","owner":"lax-434930","status":"proven","ext":true,"dir":"down"},{"id":"Lax434930.PolynomialSpace","href":"../lax-434930/Lax434930.PolynomialSpace.html","title":"The complexity class PSPACE","owner":"lax-434930","status":"none","ext":false,"dir":"core"},{"id":"Lax434930.PolynomialTime","href":"../lax-434930/Lax434930.PolynomialTime.html","title":"The complexity class P","owner":"lax-434930","status":"none","ext":true,"dir":"up"},{"id":"Lax434930.SpaceBounds","href":"../lax-434930/Lax434930.SpaceBounds.html","title":"Deterministic and nondeterministic space bounds","owner":"lax-434930","status":"none","ext":true,"dir":"up"},{"id":"Lax434930.SpaceMachines","href":"../lax-434930/Lax434930.SpaceMachines.html","title":"Finite Turing machines with a read-only input tape","owner":"lax-434930","status":"none","ext":true,"dir":"up"},{"id":"Lax554803.PolynomialTime","href":"../lax-554803/Lax554803.PolynomialTime.html","title":"The complexity class P","owner":"lax-554803","status":"none","ext":true,"dir":"up"}],"edges":[{"from":"Lax434930.PolynomialSpace","to":"Lax434930.BasicProperties"},{"from":"Lax434930.SpaceBounds","to":"Lax434930.PolynomialSpace"},{"from":"Lax554803.PolynomialTime","to":"Lax434930.PolynomialTime"},{"from":"Lax434930.SpaceMachines","to":"Lax434930.SpaceBounds"},{"from":"Lax434930.PolynomialTime","to":"Lax434930.SpaceMachines"}],"home":"lax-434930"},"proofs":{"statements":[],"proofs":[]}}</script>
+<script type="application/json" id="graph-data">{"concepts":{"nodes":[{"id":"Lax307052.PolynomialSpace","href":"../lax-307052/Lax307052.PolynomialSpace.html","title":"PSPACE equals NPSPACE","owner":"lax-307052","status":"open","ext":true,"dir":"down"},{"id":"Lax434930.BasicProperties","href":"../lax-434930/Lax434930.BasicProperties.html","title":"Elementary properties of the complexity classes","owner":"lax-434930","status":"proven","ext":true,"dir":"down"},{"id":"Lax434930.PolynomialSpace","href":"../lax-434930/Lax434930.PolynomialSpace.html","title":"The complexity class PSPACE","owner":"lax-434930","status":"none","ext":false,"dir":"core"},{"id":"Lax434930.PolynomialTime","href":"../lax-434930/Lax434930.PolynomialTime.html","title":"The complexity class P","owner":"lax-434930","status":"none","ext":true,"dir":"up"},{"id":"Lax434930.SpaceBounds","href":"../lax-434930/Lax434930.SpaceBounds.html","title":"Deterministic and nondeterministic space bounds","owner":"lax-434930","status":"none","ext":true,"dir":"up"},{"id":"Lax434930.SpaceMachines","href":"../lax-434930/Lax434930.SpaceMachines.html","title":"Finite Turing machines with a read-only input tape","owner":"lax-434930","status":"none","ext":true,"dir":"up"},{"id":"Lax554803.PolynomialTime","href":"../lax-554803/Lax554803.PolynomialTime.html","title":"The complexity class P","owner":"lax-554803","status":"none","ext":true,"dir":"up"}],"edges":[{"from":"Lax434930.PolynomialSpace","to":"Lax307052.PolynomialSpace"},{"from":"Lax434930.PolynomialSpace","to":"Lax434930.BasicProperties"},{"from":"Lax434930.SpaceBounds","to":"Lax434930.PolynomialSpace"},{"from":"Lax554803.PolynomialTime","to":"Lax434930.PolynomialTime"},{"from":"Lax434930.SpaceMachines","to":"Lax434930.SpaceBounds"},{"from":"Lax434930.PolynomialTime","to":"Lax434930.SpaceMachines"}],"home":"lax-434930"},"proofs":{"statements":[],"proofs":[]}}</script>
 </div>
 <footer class="site-footer">
   <nav class="site-footer-nav" aria-label="Legal and about">

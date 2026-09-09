@@ -7,7 +7,7 @@
 <title>Monadic second-order logic on graphs — Lax11.Mso</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=7aa96422e96c">
+<link rel="stylesheet" href="../assets/style.css?v=cbddb6900009">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -114,7 +114,7 @@ vertices to its free set variables, by the usual reading of the
 connectives and the quantifiers. The quantifier rank of a formula is
 the nesting depth of its quantifiers, counting both kinds.</p>
 </div></div>
-<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/688029c9426eccb2fc339e3a1f2179cb97116edc/ram-linear-time/concepts/Lax11/Mso.lean">view on GitHub</a></h3>
+<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/418d847240ab3ad89b56e8e1fbd8f3fa02acde16/ram-linear-time/concepts/Lax11/Mso.lean">view on GitHub</a></h3>
 <div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
 <tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Combinatorics.SimpleGraph.Basic</span></td></tr>
 <tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Data.Fin.Tuple.Basic</span></td></tr>
@@ -181,7 +181,7 @@ the nesting depth of its quantifiers, counting both kinds.</p>
 <tr id="L63" class=""><td class="line-num"><a href="#L63">63</a></td><td class="line-code"><span style="color:#6A737D">signature, with `r` free vertex variables and `s` free set variables.</span></td></tr>
 <tr id="L64" class=""><td class="line-num"><a href="#L64">64</a></td><td class="line-code"><span style="color:#6A737D">Vertex variables are `Fin r`, set variables are `Fin s`, and a</span></td></tr>
 <tr id="L65" class=""><td class="line-num"><a href="#L65">65</a></td><td class="line-code"><span style="color:#6A737D">quantifier binds the *new last* index. -/</span></td></tr>
-<tr id="L66" class=""><td class="line-num"><a href="#L66">66</a></td><td class="line-code"><span style="color:#D73A49">inductive</span><span style="color:#6F42C1"> </span><a class="lean-identifier-link" href="../lax-11/Lax11.Mso.html#L66"><span style="color:#6F42C1">MSO</span></a><span style="color:#24292E"> : ℕ → ℕ → </span><span style="color:#D73A49">Type</span></td></tr>
+<tr id="L66" class=""><td class="line-num"><a href="#L66">66</a></td><td class="line-code"><span style="color:#D73A49">inductive</span><span style="color:#6F42C1"> </span><a class="lean-identifier-link" href="../lax-11/Lax11.Mso.html#L62"><span style="color:#6F42C1">MSO</span></a><span style="color:#24292E"> : ℕ → ℕ → </span><span style="color:#D73A49">Type</span></td></tr>
 <tr id="L67" class=""><td class="line-num"><a href="#L67">67</a></td><td class="line-code"><span style="color:#6A737D">  /-- The vertices `i` and `j` are adjacent. -/</span></td></tr>
 <tr id="L68" class=""><td class="line-num"><a href="#L68">68</a></td><td class="line-code"><span style="color:#24292E">  | adj {r s : ℕ} (i j : Fin r) : MSO r s</span></td></tr>
 <tr id="L69" class=""><td class="line-num"><a href="#L69">69</a></td><td class="line-code"><span style="color:#6A737D">  /-- The vertices `i` and `j` are equal. -/</span></td></tr>
@@ -200,7 +200,7 @@ the nesting depth of its quantifiers, counting both kinds.</p>
 <tr id="L82" class=""><td class="line-num"><a href="#L82">82</a></td><td class="line-code"> </td></tr>
 <tr id="L83" class=""><td class="line-num"><a href="#L83">83</a></td><td class="line-code"><span style="color:#6A737D">/-- The quantifier rank: the nesting depth of quantifiers, counting</span></td></tr>
 <tr id="L84" class=""><td class="line-num"><a href="#L84">84</a></td><td class="line-code"><span style="color:#6A737D">both kinds. -/</span></td></tr>
-<tr id="L85" class=""><td class="line-num"><a href="#L85">85</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> </span><a class="lean-identifier-link" href="../lax-11/Lax11.Mso.html#L85"><span style="color:#6F42C1">rank</span></a><span style="color:#24292E"> : {r s : ℕ} → MSO r s → ℕ</span></td></tr>
+<tr id="L85" class=""><td class="line-num"><a href="#L85">85</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> </span><a class="lean-identifier-link" href="../lax-11/Lax11.Mso.html#L83"><span style="color:#6F42C1">rank</span></a><span style="color:#24292E"> : {r s : ℕ} → MSO r s → ℕ</span></td></tr>
 <tr id="L86" class=""><td class="line-num"><a href="#L86">86</a></td><td class="line-code"><span style="color:#24292E">  | _, _, .adj _ _ =&gt; </span><span style="color:#005CC5">0</span></td></tr>
 <tr id="L87" class=""><td class="line-num"><a href="#L87">87</a></td><td class="line-code"><span style="color:#24292E">  | _, _, .eq _ _ =&gt; </span><span style="color:#005CC5">0</span></td></tr>
 <tr id="L88" class=""><td class="line-num"><a href="#L88">88</a></td><td class="line-code"><span style="color:#24292E">  | _, _, .mem _ _ =&gt; </span><span style="color:#005CC5">0</span></td></tr>
@@ -213,7 +213,7 @@ the nesting depth of its quantifiers, counting both kinds.</p>
 <tr id="L95" class=""><td class="line-num"><a href="#L95">95</a></td><td class="line-code"> </td></tr>
 <tr id="L96" class=""><td class="line-num"><a href="#L96">96</a></td><td class="line-code"><span style="color:#6A737D">/-- Satisfaction of a formula in the graph `G`, under a vertex</span></td></tr>
 <tr id="L97" class=""><td class="line-num"><a href="#L97">97</a></td><td class="line-code"><span style="color:#6A737D">environment `m` and a set environment `A`. -/</span></td></tr>
-<tr id="L98" class=""><td class="line-num"><a href="#L98">98</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> </span><a class="lean-identifier-link" href="../lax-11/Lax11.Mso.html#L98"><span style="color:#6F42C1">Sat</span></a><span style="color:#24292E"> (G : SimpleGraph (Fin n)) :</span></td></tr>
+<tr id="L98" class=""><td class="line-num"><a href="#L98">98</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> </span><a class="lean-identifier-link" href="../lax-11/Lax11.Mso.html#L96"><span style="color:#6F42C1">Sat</span></a><span style="color:#24292E"> (G : SimpleGraph (Fin n)) :</span></td></tr>
 <tr id="L99" class=""><td class="line-num"><a href="#L99">99</a></td><td class="line-code"><span style="color:#24292E">    {r s : ℕ} → (Fin r → Fin n) → (Fin s → Set (Fin n)) → MSO r s → </span><span style="color:#D73A49">Prop</span></td></tr>
 <tr id="L100" class=""><td class="line-num"><a href="#L100">100</a></td><td class="line-code"><span style="color:#24292E">  | _, _, m, _, .adj i j =&gt; G.Adj (m i) (m j)</span></td></tr>
 <tr id="L101" class=""><td class="line-num"><a href="#L101">101</a></td><td class="line-code"><span style="color:#24292E">  | _, _, m, _, .eq i j =&gt; m i = m j</span></td></tr>

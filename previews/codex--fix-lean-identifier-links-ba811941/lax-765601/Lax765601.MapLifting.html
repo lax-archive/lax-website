@@ -7,7 +7,7 @@
 <title>Map lifting — Lax765601.MapLifting</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=7aa96422e96c">
+<link rel="stylesheet" href="../assets/style.css?v=cbddb6900009">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -183,7 +183,7 @@ are map liftings.</p>
 <tr id="L34" class=""><td class="line-num"><a href="#L34">34</a></td><td class="line-code"><span style="color:#6A737D">/-- Cut a string over `A + 1` (the separator being `none`) into its maximal blocks</span></td></tr>
 <tr id="L35" class=""><td class="line-num"><a href="#L35">35</a></td><td class="line-code"><span style="color:#6A737D">without the separator; there is always one block more than there are separators.</span></td></tr>
 <tr id="L36" class=""><td class="line-num"><a href="#L36">36</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
-<tr id="L37" class=""><td class="line-num"><a href="#L37">37</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> </span><a class="lean-identifier-link" href="../lax-765601/Lax765601.MapLifting.html#L37"><span style="color:#6F42C1">splitSep</span></a><span style="color:#24292E"> {A : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">} : List (Option A) → List (List A)</span></td></tr>
+<tr id="L37" class=""><td class="line-num"><a href="#L37">37</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> </span><a class="lean-identifier-link" href="../lax-765601/Lax765601.MapLifting.html#L34"><span style="color:#6F42C1">splitSep</span></a><span style="color:#24292E"> {A : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">} : List (Option A) → List (List A)</span></td></tr>
 <tr id="L38" class=""><td class="line-num"><a href="#L38">38</a></td><td class="line-code"><span style="color:#24292E">  | [] =&gt; [[]]</span></td></tr>
 <tr id="L39" class=""><td class="line-num"><a href="#L39">39</a></td><td class="line-code"><span style="color:#24292E">  | none :: w =&gt; [] :: splitSep w</span></td></tr>
 <tr id="L40" class=""><td class="line-num"><a href="#L40">40</a></td><td class="line-code"><span style="color:#24292E">  | some a :: w =&gt;</span></td></tr>
@@ -193,7 +193,7 @@ are map liftings.</p>
 <tr id="L44" class=""><td class="line-num"><a href="#L44">44</a></td><td class="line-code"> </td></tr>
 <tr id="L45" class=""><td class="line-num"><a href="#L45">45</a></td><td class="line-code"><span style="color:#6A737D">/-- The map lifting of `f`: apply `f` to every block delimited by the separator,</span></td></tr>
 <tr id="L46" class=""><td class="line-num"><a href="#L46">46</a></td><td class="line-code"><span style="color:#6A737D">`w₁ # ⋯ # wₙ ↦ f w₁ # ⋯ # f wₙ`. -/</span></td></tr>
-<tr id="L47" class=""><td class="line-num"><a href="#L47">47</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> </span><a class="lean-identifier-link" href="../lax-765601/Lax765601.MapLifting.html#L47"><span style="color:#6F42C1">mapLift</span></a><span style="color:#24292E"> {A B : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">} (f : List A → List B) (w : List (Option A)) : List (Option B) :=</span></td></tr>
+<tr id="L47" class=""><td class="line-num"><a href="#L47">47</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> </span><a class="lean-identifier-link" href="../lax-765601/Lax765601.MapLifting.html#L45"><span style="color:#6F42C1">mapLift</span></a><span style="color:#24292E"> {A B : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">} (f : List A → List B) (w : List (Option A)) : List (Option B) :=</span></td></tr>
 <tr id="L48" class=""><td class="line-num"><a href="#L48">48</a></td><td class="line-code"><span style="color:#24292E">  List.intercalate [none] ((splitSep w).map (</span><span style="color:#D73A49">fun</span><span style="color:#24292E"> u =&gt; (f u).map some))</span></td></tr>
 <tr id="L49" class=""><td class="line-num"><a href="#L49">49</a></td><td class="line-code"> </td></tr>
 <tr id="L50" class=""><td class="line-num"><a href="#L50">50</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-765601/Lax765601.MapLifting.html"><span style="color:#24292E">Lax765601.MapLifting</span></a></td></tr>

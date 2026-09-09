@@ -7,7 +7,7 @@
 <title>Weakly sparse graph classes — Lax5.GraphClasses</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=7aa96422e96c">
+<link rel="stylesheet" href="../assets/style.css?v=cbddb6900009">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -149,11 +149,11 @@ graph <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.
 <tr id="L34" class=""><td class="line-num"><a href="#L34">34</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-12/Lax12.GraphClasses.html"><span style="color:#24292E">Lax12.GraphClasses</span></a></td></tr>
 <tr id="L35" class=""><td class="line-num"><a href="#L35">35</a></td><td class="line-code"> </td></tr>
 <tr id="L36" class=""><td class="line-num"><a href="#L36">36</a></td><td class="line-code"><span style="color:#6A737D">/-- The class of all finite simple graphs. -/</span></td></tr>
-<tr id="L37" class=""><td class="line-num"><a href="#L37">37</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> </span><a class="lean-identifier-link" href="../lax-5/Lax5.GraphClasses.html#L37"><span style="color:#6F42C1">allGraphs</span></a><span style="color:#24292E"> : GraphClass := </span><span style="color:#D73A49">fun</span><span style="color:#24292E"> _ _ =&gt; True</span></td></tr>
+<tr id="L37" class=""><td class="line-num"><a href="#L37">37</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> </span><a class="lean-identifier-link" href="../lax-5/Lax5.GraphClasses.html#L36"><span style="color:#6F42C1">allGraphs</span></a><span style="color:#24292E"> : GraphClass := </span><span style="color:#D73A49">fun</span><span style="color:#24292E"> _ _ =&gt; True</span></td></tr>
 <tr id="L38" class=""><td class="line-num"><a href="#L38">38</a></td><td class="line-code"> </td></tr>
 <tr id="L39" class=""><td class="line-num"><a href="#L39">39</a></td><td class="line-code"><span style="color:#6A737D">/-- A graph class is weakly sparse if some complete bipartite graph</span></td></tr>
 <tr id="L40" class=""><td class="line-num"><a href="#L40">40</a></td><td class="line-code"><span style="color:#6A737D">`K_{t,t}` occurs in no member as a subgraph. -/</span></td></tr>
-<tr id="L41" class=""><td class="line-num"><a href="#L41">41</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> </span><a class="lean-identifier-link" href="../lax-5/Lax5.GraphClasses.html#L41"><span style="color:#6F42C1">WeaklySparse</span></a><span style="color:#24292E"> (C : GraphClass) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr id="L41" class=""><td class="line-num"><a href="#L41">41</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> </span><a class="lean-identifier-link" href="../lax-5/Lax5.GraphClasses.html#L39"><span style="color:#6F42C1">WeaklySparse</span></a><span style="color:#24292E"> (C : GraphClass) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
 <tr id="L42" class=""><td class="line-num"><a href="#L42">42</a></td><td class="line-code"><span style="color:#24292E">  ∃ t : ℕ, ∀ (n : ℕ) (G : SimpleGraph (Fin n)), C n G →</span></td></tr>
 <tr id="L43" class=""><td class="line-num"><a href="#L43">43</a></td><td class="line-code"><span style="color:#24292E">    ¬ completeBipartiteGraph (Fin t) (Fin t) ⊑ G</span></td></tr>
 <tr id="L44" class=""><td class="line-num"><a href="#L44">44</a></td><td class="line-code"> </td></tr>

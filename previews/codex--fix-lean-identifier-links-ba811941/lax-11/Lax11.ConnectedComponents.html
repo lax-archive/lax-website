@@ -7,7 +7,7 @@
 <title>Connected components in linear time — Lax11.ConnectedComponents</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=7aa96422e96c">
+<link rel="stylesheet" href="../assets/style.css?v=cbddb6900009">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -128,7 +128,7 @@ word length, given any graph in compressed sparse row form as a word
 <em>c</em>(|x|+1) steps with the labels of all vertices, in vertex order, as
 its output.</p>
 </div></div>
-<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/688029c9426eccb2fc339e3a1f2179cb97116edc/ram-linear-time/concepts/Lax11/ConnectedComponents.lean">view on GitHub</a></h3>
+<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/418d847240ab3ad89b56e8e1fbd8f3fa02acde16/ram-linear-time/concepts/Lax11/ConnectedComponents.lean">view on GitHub</a></h3>
 <div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
 <tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-67/Lax67.RamComputes.html"><span style="color:#24292E">Lax67.RamComputes</span></a></td></tr>
 <tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-11/Lax11.GraphEncoding.html"><span style="color:#24292E">Lax11.GraphEncoding</span></a></td></tr>
@@ -209,12 +209,12 @@ its output.</p>
 <tr id="L77" class=""><td class="line-num"><a href="#L77">77</a></td><td class="line-code"> </td></tr>
 <tr id="L78" class=""><td class="line-num"><a href="#L78">78</a></td><td class="line-code"><span style="color:#6A737D">/-- The label of a vertex: the least vertex of its connected</span></td></tr>
 <tr id="L79" class=""><td class="line-num"><a href="#L79">79</a></td><td class="line-code"><span style="color:#6A737D">component. -/</span></td></tr>
-<tr id="L80" class=""><td class="line-num"><a href="#L80">80</a></td><td class="line-code"><span style="color:#D73A49">noncomputable</span><span style="color:#D73A49"> def</span><span style="color:#6F42C1"> </span><a class="lean-identifier-link" href="../lax-11/Lax11.ConnectedComponents.html#L80"><span style="color:#6F42C1">label</span></a><span style="color:#24292E"> {n : ℕ} (G : SimpleGraph (Fin n)) (v : Fin n) : ℕ :=</span></td></tr>
+<tr id="L80" class=""><td class="line-num"><a href="#L80">80</a></td><td class="line-code"><span style="color:#D73A49">noncomputable</span><span style="color:#D73A49"> def</span><span style="color:#6F42C1"> </span><a class="lean-identifier-link" href="../lax-11/Lax11.ConnectedComponents.html#L78"><span style="color:#6F42C1">label</span></a><span style="color:#24292E"> {n : ℕ} (G : SimpleGraph (Fin n)) (v : Fin n) : ℕ :=</span></td></tr>
 <tr id="L81" class=""><td class="line-num"><a href="#L81">81</a></td><td class="line-code"><span style="color:#24292E">  sInf (Fin.val '' {u : Fin n | G.Reachable u v})</span></td></tr>
 <tr id="L82" class=""><td class="line-num"><a href="#L82">82</a></td><td class="line-code"> </td></tr>
 <tr id="L83" class=""><td class="line-num"><a href="#L83">83</a></td><td class="line-code"><span style="color:#6A737D">/-- The component labelling of a graph: the labels of all vertices, in</span></td></tr>
 <tr id="L84" class=""><td class="line-num"><a href="#L84">84</a></td><td class="line-code"><span style="color:#6A737D">vertex order. -/</span></td></tr>
-<tr id="L85" class=""><td class="line-num"><a href="#L85">85</a></td><td class="line-code"><span style="color:#D73A49">noncomputable</span><span style="color:#D73A49"> def</span><span style="color:#6F42C1"> </span><a class="lean-identifier-link" href="../lax-11/Lax11.ConnectedComponents.html#L85"><span style="color:#6F42C1">ccLabels</span></a><span style="color:#24292E"> {n : ℕ} (G : SimpleGraph (Fin n)) : List ℕ :=</span></td></tr>
+<tr id="L85" class=""><td class="line-num"><a href="#L85">85</a></td><td class="line-code"><span style="color:#D73A49">noncomputable</span><span style="color:#D73A49"> def</span><span style="color:#6F42C1"> </span><a class="lean-identifier-link" href="../lax-11/Lax11.ConnectedComponents.html#L83"><span style="color:#6F42C1">ccLabels</span></a><span style="color:#24292E"> {n : ℕ} (G : SimpleGraph (Fin n)) : List ℕ :=</span></td></tr>
 <tr id="L86" class=""><td class="line-num"><a href="#L86">86</a></td><td class="line-code"><span style="color:#24292E">  List.ofFn (label G)</span></td></tr>
 <tr id="L87" class=""><td class="line-num"><a href="#L87">87</a></td><td class="line-code"> </td></tr>
 <tr id="L88" class="statement-line line-proven"><td class="line-num"><a href="#L88">88</a></td><td class="line-code"><span class="statement-anchor" id="s-Lax11.ConnectedComponents.exists_linearTime_program_ccLabels"></span><span style="color:#6A737D">/-- Connected components can be computed in linear time on a word</span></td></tr>
@@ -229,7 +229,7 @@ its output.</p>
 <tr id="L97" class=""><td class="line-num"><a href="#L97">97</a></td><td class="line-code"> </td></tr>
 <tr id="L98" class=""><td class="line-num"><a href="#L98">98</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-11/Lax11.ConnectedComponents.html"><span style="color:#24292E">Lax11.ConnectedComponents</span></a></td></tr>
 <tr id="L99" class=""><td class="line-num"><a href="#L99">99</a></td><td class="line-code"> </td></tr>
-</table></div><span class="source-proof-rail" data-source-line="L93" aria-label="Proof links"><a class="statement-proof-button" href="https://github.com/lax-archive/lax-submissions/blob/688029c9426eccb2fc339e3a1f2179cb97116edc/ram-linear-time/proofs/Lax11Proofs/CCMain.lean" aria-label="View proof Lax11Proofs.CCMain.exists_linearTime_program_ccLabels on GitHub" title="Lax11Proofs.CCMain.exists_linearTime_program_ccLabels"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">Show Proof</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a></span><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
+</table></div><span class="source-proof-rail" data-source-line="L93" aria-label="Proof links"><a class="statement-proof-button" href="https://github.com/lax-archive/lax-submissions/blob/418d847240ab3ad89b56e8e1fbd8f3fa02acde16/ram-linear-time/proofs/Lax11Proofs/CCMain.lean" aria-label="View proof Lax11Proofs.CCMain.exists_linearTime_program_ccLabels on GitHub" title="Lax11Proofs.CCMain.exists_linearTime_program_ccLabels"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">Show Proof</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a></span><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
 <div class="block"><h3>Formalization notes</h3><div class="latex-content"><p>Labelling a vertex by the least vertex reachable from it makes the
 output a <em>function</em> of the graph, so the statement is about computing a
 function and needs no convention for choosing representatives. Any

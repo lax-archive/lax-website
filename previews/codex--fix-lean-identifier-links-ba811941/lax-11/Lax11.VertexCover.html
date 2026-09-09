@@ -7,7 +7,7 @@
 <title>A graph with a parameter appended — Lax11.VertexCover</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=7aa96422e96c">
+<link rel="stylesheet" href="../assets/style.css?v=cbddb6900009">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -109,7 +109,7 @@
 compressed sparse row block encoding the graph, followed by the single
 entry <em>k</em>. This file defines that instance format and nothing else.</p>
 </div></div>
-<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/688029c9426eccb2fc339e3a1f2179cb97116edc/ram-linear-time/concepts/Lax11/VertexCover.lean">view on GitHub</a></h3>
+<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/418d847240ab3ad89b56e8e1fbd8f3fa02acde16/ram-linear-time/concepts/Lax11/VertexCover.lean">view on GitHub</a></h3>
 <div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
 <tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-67/Lax67.RamComputes.html"><span style="color:#24292E">Lax67.RamComputes</span></a></td></tr>
 <tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-11/Lax11.GraphEncoding.html"><span style="color:#24292E">Lax11.GraphEncoding</span></a></td></tr>
@@ -150,7 +150,7 @@ entry <em>k</em>. This file defines that instance format and nothing else.</p>
 <tr id="L37" class=""><td class="line-num"><a href="#L37">37</a></td><td class="line-code"><span style="color:#6A737D">/-- The word `x` presents the graph `G` on `n` vertices together with</span></td></tr>
 <tr id="L38" class=""><td class="line-num"><a href="#L38">38</a></td><td class="line-code"><span style="color:#6A737D">the parameter `k`: a compressed sparse row block encoding `G`, followed</span></td></tr>
 <tr id="L39" class=""><td class="line-num"><a href="#L39">39</a></td><td class="line-code"><span style="color:#6A737D">by the single entry `k`. -/</span></td></tr>
-<tr id="L40" class=""><td class="line-num"><a href="#L40">40</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> </span><a class="lean-identifier-link" href="../lax-11/Lax11.VertexCover.html#L40"><span style="color:#6F42C1">EncodesParamInstance</span></a><span style="color:#24292E"> (x : List ℕ) (n : ℕ) (G : SimpleGraph (Fin n)) (k : ℕ) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr id="L40" class=""><td class="line-num"><a href="#L40">40</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> </span><a class="lean-identifier-link" href="../lax-11/Lax11.VertexCover.html#L37"><span style="color:#6F42C1">EncodesParamInstance</span></a><span style="color:#24292E"> (x : List ℕ) (n : ℕ) (G : SimpleGraph (Fin n)) (k : ℕ) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
 <tr id="L41" class=""><td class="line-num"><a href="#L41">41</a></td><td class="line-code"><span style="color:#24292E">  ∃ g, x = g ++ [k] ∧ EncodesGraph g n G</span></td></tr>
 <tr id="L42" class=""><td class="line-num"><a href="#L42">42</a></td><td class="line-code"> </td></tr>
 <tr id="L43" class=""><td class="line-num"><a href="#L43">43</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-11/Lax11.VertexCover.html"><span style="color:#24292E">Lax11.VertexCover</span></a></td></tr>

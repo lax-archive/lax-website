@@ -2060,6 +2060,106 @@
       ]
     },
     {
+      "id": "lax-307052",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "Savitch's Theorem",
+      "concepts": [
+        {
+          "id": "Lax307052.Acceptance",
+          "title": "Correctness of the configuration search",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax307052.BoundedConfigurations",
+          "title": "Bounded machine configurations",
+          "type": "definition"
+        },
+        {
+          "id": "Lax307052.ConfigCount",
+          "title": "Number of bounded configurations",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax307052.ConfigurationGraph",
+          "title": "The bounded configuration graph",
+          "type": "definition"
+        },
+        {
+          "id": "Lax307052.FiniteSearch",
+          "title": "Deciding finite reachability",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax307052.PolyBounds",
+          "title": "Constructing polynomial space bounds",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax307052.PolynomialSpace",
+          "title": "PSPACE equals NPSPACE",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax307052.Reachability",
+          "title": "Bounded reachability",
+          "type": "definition"
+        },
+        {
+          "id": "Lax307052.Recursion",
+          "title": "Correctness of recursive reachability",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax307052.Runs",
+          "title": "Runs and configuration reachability",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax307052.Savitch",
+          "title": "Savitch's theorem",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax307052.SearchBounds",
+          "title": "Quadratic space for the recursion stack",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax307052.SearchMachine",
+          "title": "Space bound for the search machine",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax307052.ShortPaths",
+          "title": "Short paths in a finite graph",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax307052.SpaceConstructibility",
+          "title": "Space-constructible bounds",
+          "type": "definition"
+        },
+        {
+          "id": "Lax307052.SplitWalk",
+          "title": "Splitting a bounded walk",
+          "type": "lemma"
+        }
+      ],
+      "proofs": [
+        "Lax307052Proofs.configuration_acceptance",
+        "Lax307052Proofs.configuration_count",
+        "Lax307052Proofs.finite_reachability",
+        "Lax307052Proofs.path_splitting",
+        "Lax307052Proofs.polynomial_space",
+        "Lax307052Proofs.quadratic_stack",
+        "Lax307052Proofs.recursive_reachability",
+        "Lax307052Proofs.savitch",
+        "Lax307052Proofs.search_acceptance",
+        "Lax307052Proofs.short_paths"
+      ]
+    },
+    {
       "id": "lax-314295",
       "state": "draft",
       "environment": "v4.30.0",
@@ -2343,6 +2443,40 @@
         "Lax554803Proofs.ModelEquivalence.finiteStackP_eq_P",
         "Lax554803Proofs.ModelEquivalence.singleTape_closed_under_complement",
         "Lax554803Proofs.ModelEquivalence.singleTapeP_eq_P"
+      ]
+    },
+    {
+      "id": "lax-678846",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "Fagin’s theorem",
+      "concepts": [
+        {
+          "id": "Lax678846.ExistentialSecondOrder",
+          "title": "Existential second-order logic",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax678846.Fagin",
+          "title": "Fagin’s theorem",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax678846.FiniteStructures",
+          "title": "Finite relational structures and their properties",
+          "type": "definition"
+        },
+        {
+          "id": "Lax678846.NondeterministicPolynomialTime",
+          "title": "NP through polynomially bounded certificates",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax678846Proofs.Fagin.capturesNP",
+        "Lax678846Proofs.Fagin.definableInNP",
+        "Lax678846Proofs.Fagin.npDefinable",
+        "Lax678846Proofs.Isomorphism.satisfiesInvariant"
       ]
     },
     {

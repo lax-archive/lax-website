@@ -7,7 +7,7 @@
 <title>Classification of Interesting Numbers — Lax59.InterestingNumbers</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=7aa96422e96c">
+<link rel="stylesheet" href="../assets/style.css?v=cbddb6900009">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -144,15 +144,15 @@ commutative.</p>
 <tr id="L18" class=""><td class="line-num"><a href="#L18">18</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-59/Lax59.InterestingNumbers.html"><span style="color:#24292E">Lax59.InterestingNumbers</span></a></td></tr>
 <tr id="L19" class=""><td class="line-num"><a href="#L19">19</a></td><td class="line-code"> </td></tr>
 <tr id="L20" class=""><td class="line-num"><a href="#L20">20</a></td><td class="line-code"><span style="color:#6A737D">/-- The number called `pNext` is the first prime strictly after `p`. -/</span></td></tr>
-<tr id="L21" class=""><td class="line-num"><a href="#L21">21</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> </span><a class="lean-identifier-link" href="../lax-59/Lax59.InterestingNumbers.html#L21"><span style="color:#6F42C1">NextPrime</span></a><span style="color:#24292E"> (p pNext : ℕ) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr id="L21" class=""><td class="line-num"><a href="#L21">21</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> </span><a class="lean-identifier-link" href="../lax-59/Lax59.InterestingNumbers.html#L20"><span style="color:#6F42C1">NextPrime</span></a><span style="color:#24292E"> (p pNext : ℕ) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
 <tr id="L22" class=""><td class="line-num"><a href="#L22">22</a></td><td class="line-code"><span style="color:#24292E">  pNext.Prime ∧ p &lt; pNext ∧ ∀ r, r.Prime → p &lt; r → pNext ≤ r</span></td></tr>
 <tr id="L23" class=""><td class="line-num"><a href="#L23">23</a></td><td class="line-code"> </td></tr>
 <tr id="L24" class=""><td class="line-num"><a href="#L24">24</a></td><td class="line-code"><span style="color:#6A737D">/-- The number called `qPrev` is the last prime strictly before `q`. -/</span></td></tr>
-<tr id="L25" class=""><td class="line-num"><a href="#L25">25</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> </span><a class="lean-identifier-link" href="../lax-59/Lax59.InterestingNumbers.html#L25"><span style="color:#6F42C1">PrevPrime</span></a><span style="color:#24292E"> (qPrev q : ℕ) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr id="L25" class=""><td class="line-num"><a href="#L25">25</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> </span><a class="lean-identifier-link" href="../lax-59/Lax59.InterestingNumbers.html#L24"><span style="color:#6F42C1">PrevPrime</span></a><span style="color:#24292E"> (qPrev q : ℕ) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
 <tr id="L26" class=""><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span style="color:#24292E">  qPrev.Prime ∧ qPrev &lt; q ∧ ∀ r, r.Prime → r &lt; q → r ≤ qPrev</span></td></tr>
 <tr id="L27" class=""><td class="line-num"><a href="#L27">27</a></td><td class="line-code"> </td></tr>
 <tr id="L28" class=""><td class="line-num"><a href="#L28">28</a></td><td class="line-code"><span style="color:#6A737D">/-- The neighboring-prime factorization property from issue #6091. -/</span></td></tr>
-<tr id="L29" class=""><td class="line-num"><a href="#L29">29</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> </span><a class="lean-identifier-link" href="../lax-59/Lax59.InterestingNumbers.html#L29"><span style="color:#6F42C1">Interesting</span></a><span style="color:#24292E"> (n : ℕ) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr id="L29" class=""><td class="line-num"><a href="#L29">29</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> </span><a class="lean-identifier-link" href="../lax-59/Lax59.InterestingNumbers.html#L28"><span style="color:#6F42C1">Interesting</span></a><span style="color:#24292E"> (n : ℕ) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
 <tr id="L30" class=""><td class="line-num"><a href="#L30">30</a></td><td class="line-code"><span style="color:#24292E">  ∃ p q pNext qPrev : ℕ,</span></td></tr>
 <tr id="L31" class=""><td class="line-num"><a href="#L31">31</a></td><td class="line-code"><span style="color:#24292E">    p.Prime ∧ q.Prime ∧ p ≠ q ∧</span></td></tr>
 <tr id="L32" class=""><td class="line-num"><a href="#L32">32</a></td><td class="line-code"><span style="color:#24292E">    NextPrime p pNext ∧ PrevPrime qPrev q ∧</span></td></tr>

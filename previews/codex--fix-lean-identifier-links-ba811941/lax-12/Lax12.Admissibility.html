@@ -7,7 +7,7 @@
 <title>Admissibility — Lax12.Admissibility</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=7aa96422e96c">
+<link rel="stylesheet" href="../assets/style.css?v=cbddb6900009">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -183,7 +183,7 @@ the reachability sets, which contain the vertex itself.</p>
 <tr id="L48" class=""><td class="line-num"><a href="#L48">48</a></td><td class="line-code"><span style="color:#6A737D">/-- An admissible family of `k` paths at `v` under the ordering `π`:</span></td></tr>
 <tr id="L49" class=""><td class="line-num"><a href="#L49">49</a></td><td class="line-code"><span style="color:#6A737D">`k` walks of length at most `r` out of `v`, each ending strictly before</span></td></tr>
 <tr id="L50" class=""><td class="line-num"><a href="#L50">50</a></td><td class="line-code"><span style="color:#6A737D">`v` in the ordering, pairwise meeting only in `v`. -/</span></td></tr>
-<tr id="L51" class=""><td class="line-num"><a href="#L51">51</a></td><td class="line-code"><span style="color:#D73A49">structure</span><span style="color:#6F42C1"> </span><a class="lean-identifier-link" href="../lax-12/Lax12.Admissibility.html#L51"><span style="color:#6F42C1">AdmFamily</span></a><span style="color:#24292E"> {n : ℕ} (G : SimpleGraph (Fin n))</span></td></tr>
+<tr id="L51" class=""><td class="line-num"><a href="#L51">51</a></td><td class="line-code"><span style="color:#D73A49">structure</span><span style="color:#6F42C1"> </span><a class="lean-identifier-link" href="../lax-12/Lax12.Admissibility.html#L48"><span style="color:#6F42C1">AdmFamily</span></a><span style="color:#24292E"> {n : ℕ} (G : SimpleGraph (Fin n))</span></td></tr>
 <tr id="L52" class=""><td class="line-num"><a href="#L52">52</a></td><td class="line-code"><span style="color:#24292E">    (π : Equiv.Perm (Fin n)) (r k : ℕ) (v : Fin n) </span><span style="color:#D73A49">where</span></td></tr>
 <tr id="L53" class=""><td class="line-num"><a href="#L53">53</a></td><td class="line-code"><span style="color:#6A737D">  /-- The endpoint of each path. -/</span></td></tr>
 <tr id="L54" class=""><td class="line-num"><a href="#L54">54</a></td><td class="line-code"><span style="color:#24292E">  target : Fin k → Fin n</span></td></tr>
@@ -199,13 +199,13 @@ the reachability sets, which contain the vertex itself.</p>
 <tr id="L64" class=""><td class="line-num"><a href="#L64">64</a></td><td class="line-code"> </td></tr>
 <tr id="L65" class=""><td class="line-num"><a href="#L65">65</a></td><td class="line-code"><span style="color:#6A737D">/-- Some vertex ordering admits no admissible family of `k` paths at any</span></td></tr>
 <tr id="L66" class=""><td class="line-num"><a href="#L66">66</a></td><td class="line-code"><span style="color:#6A737D">vertex: the `r`-admissibility is at most `k`. -/</span></td></tr>
-<tr id="L67" class=""><td class="line-num"><a href="#L67">67</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> </span><a class="lean-identifier-link" href="../lax-12/Lax12.Admissibility.html#L67"><span style="color:#6F42C1">HasAdmAtMost</span></a><span style="color:#24292E"> {n : ℕ} (G : SimpleGraph (Fin n)) (r k : ℕ) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr id="L67" class=""><td class="line-num"><a href="#L67">67</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> </span><a class="lean-identifier-link" href="../lax-12/Lax12.Admissibility.html#L65"><span style="color:#6F42C1">HasAdmAtMost</span></a><span style="color:#24292E"> {n : ℕ} (G : SimpleGraph (Fin n)) (r k : ℕ) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
 <tr id="L68" class=""><td class="line-num"><a href="#L68">68</a></td><td class="line-code"><span style="color:#24292E">  ∃ π : Equiv.Perm (Fin n), ∀ (v : Fin n) (j : ℕ),</span></td></tr>
 <tr id="L69" class=""><td class="line-num"><a href="#L69">69</a></td><td class="line-code"><span style="color:#24292E">    Nonempty (AdmFamily G π r j v) → j + </span><span style="color:#005CC5">1</span><span style="color:#24292E"> ≤ k</span></td></tr>
 <tr id="L70" class=""><td class="line-num"><a href="#L70">70</a></td><td class="line-code"> </td></tr>
 <tr id="L71" class=""><td class="line-num"><a href="#L71">71</a></td><td class="line-code"><span style="color:#6A737D">/-- The `r`-admissibility of `G`: the least bound achieved by some</span></td></tr>
 <tr id="L72" class=""><td class="line-num"><a href="#L72">72</a></td><td class="line-code"><span style="color:#6A737D">vertex ordering. -/</span></td></tr>
-<tr id="L73" class=""><td class="line-num"><a href="#L73">73</a></td><td class="line-code"><span style="color:#D73A49">noncomputable</span><span style="color:#D73A49"> def</span><span style="color:#6F42C1"> </span><a class="lean-identifier-link" href="../lax-12/Lax12.Admissibility.html#L73"><span style="color:#6F42C1">adm</span></a><span style="color:#24292E"> {n : ℕ} (G : SimpleGraph (Fin n)) (r : ℕ) : ℕ :=</span></td></tr>
+<tr id="L73" class=""><td class="line-num"><a href="#L73">73</a></td><td class="line-code"><span style="color:#D73A49">noncomputable</span><span style="color:#D73A49"> def</span><span style="color:#6F42C1"> </span><a class="lean-identifier-link" href="../lax-12/Lax12.Admissibility.html#L71"><span style="color:#6F42C1">adm</span></a><span style="color:#24292E"> {n : ℕ} (G : SimpleGraph (Fin n)) (r : ℕ) : ℕ :=</span></td></tr>
 <tr id="L74" class=""><td class="line-num"><a href="#L74">74</a></td><td class="line-code"><span style="color:#24292E">  sInf {k | HasAdmAtMost G r k}</span></td></tr>
 <tr id="L75" class=""><td class="line-num"><a href="#L75">75</a></td><td class="line-code"> </td></tr>
 <tr id="L76" class=""><td class="line-num"><a href="#L76">76</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-12/Lax12.Admissibility.html"><span style="color:#24292E">Lax12.Admissibility</span></a></td></tr>
