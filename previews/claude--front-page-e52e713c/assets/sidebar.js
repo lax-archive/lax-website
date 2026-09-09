@@ -1,7 +1,9 @@
 // Sidebar behavior: mobile drawer toggle and entry filtering. All data is in
 // the DOM (data-search / data-type attributes); nothing is fetched.
 (() => {
-  const SUBMISSION_PAGE_SIZE = 10;
+  // The front page's library shows a few rows under a fade; one click
+  // shows every matching submission.
+  const SUBMISSION_PREVIEW_SIZE = 3;
   const SIDEBAR_DEFAULT_WIDTH = 285;
   const SIDEBAR_MIN_WIDTH = 220;
   const SIDEBAR_MAX_WIDTH = 520;
@@ -9,7 +11,7 @@
   let searchHasSelectedRead = false;
   let selectedTag = '';
   let submissionFilterKey;
-  let submissionVisibleLimit = SUBMISSION_PAGE_SIZE;
+  let submissionVisibleLimit = SUBMISSION_PREVIEW_SIZE;
 
   function isMobile() {
     return window.matchMedia('(max-width: 900px)').matches;
@@ -101,11 +103,14 @@
     });
 
     const shown = Math.min(submissionVisibleLimit, total);
+    const clipped = shown < total;
+    if (list.classList) list.classList.toggle('submissions-list-clipped', clipped);
     const button = document.getElementById('submissions-load-more');
     if (button) {
-      const remaining = Math.max(0, total - shown);
-      button.hidden = remaining === 0;
-      button.setAttribute('aria-label', `Load ${Math.min(SUBMISSION_PAGE_SIZE, remaining)} more submissions`);
+      button.hidden = !clipped;
+      const label = `Show all ${total} ${total === 1 ? 'submission' : 'submissions'}`;
+      button.setAttribute('aria-label', label);
+      if (button.firstChild && button.firstChild.nodeType === 3) button.firstChild.textContent = `${label} `;
     }
     return shown;
   }
@@ -144,7 +149,7 @@
     const filterKey = `${search}\u0000${selectedTag}`;
     if (filterKey !== submissionFilterKey) {
       submissionFilterKey = filterKey;
-      submissionVisibleLimit = SUBMISSION_PAGE_SIZE;
+      submissionVisibleLimit = SUBMISSION_PREVIEW_SIZE;
     }
     const randomSubmission = document.querySelector('.random-submission');
     if (randomSubmission) randomSubmission.hidden = Boolean(searchEl?.value.length);
@@ -187,7 +192,7 @@
     const button = document.getElementById('submissions-load-more');
     if (!button) return;
     button.addEventListener('click', () => {
-      submissionVisibleLimit += SUBMISSION_PAGE_SIZE;
+      submissionVisibleLimit = Infinity;
       applySubmissionFilters();
     });
   }
