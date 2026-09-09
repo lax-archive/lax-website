@@ -1555,6 +1555,10 @@ body.sidebar-resizing #content-shell{ transition: none; }
   margin: 0 auto 2.7rem;
 }
 
+#detail.detail-landing{ width: min(100%, 72em); }
+.detail-landing .landing-action-panels,
+.detail-landing .landing-faq{ max-width: 52em; margin-inline: auto; }
+
 #detail .landing-section-title{
   margin: 0 0 0.8rem;
   font-size: 1.45rem;
@@ -1567,8 +1571,15 @@ body.sidebar-resizing #content-shell{ transition: none; }
    proof-network paragraph into the network. */
 .landing-how{ max-width: none; }
 .landing-how > .landing-section-copy{ max-width: 40em; margin-inline: auto; }
-.landing-how > .landing-paper{ margin: 1.3rem auto 2.4rem; }
-.landing-network-figure{ max-width: 40em; margin: 1.3rem auto 0; }
+
+/* The three boxes — the paper, the inference, the network — share one
+   width, centred under the text. The paper's cards may hang out past
+   the box's right edge; the box itself stays where the others are. */
+.landing-box{ width: min(100%, 46em); margin: 1.4rem auto 2.4rem; }
+.landing-how > .landing-paper{ margin: 1.4rem auto 2.4rem; }
+/* .graph-figure sets its own margin later in the sheet; the box's wins. */
+.landing-how > .landing-network-figure{ margin: 1.4rem auto 2.4rem; padding-top: 1.15rem; }
+.landing-network-figure > .landing-box-caption{ margin-bottom: 1rem; padding: 0 2.6rem; }
 
 /* ── The paper excerpt ──
    The text column reads like the paper page's reflowed text; the marked
@@ -1576,44 +1587,71 @@ body.sidebar-resizing #content-shell{ transition: none; }
    their cards in the rail by a band across the gutter. landing.js sets
    each card at its passage's height and pushes it down where it would
    overlap the one above. */
-.landing-paper{
-  max-width: 52em;
-  margin: 0 auto 2.7rem;
-}
+.landing-paper{ max-width: none; }
 
 .landing-paper-frame{
   position: relative;
-  padding: 1.5rem 1.5rem 1.4rem 1.7rem;
+  padding: 1.15rem 1.5rem 1.25rem 1.7rem;
+}
+
+.landing-paper-frame::before{
+  content: '';
+  position: absolute;
+  inset: 0;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-card);
   box-shadow: 0 10px 28px rgba(43, 43, 43, 0.06);
-  overflow: hidden;
 }
 
-/* The crop: the page continues above and below the frame. */
-.landing-paper-frame::before,
-.landing-paper-frame::after{
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 1.5rem;
-  pointer-events: none;
-  z-index: 4;
+.landing-paper-foot{ position: relative; z-index: 5; display: flex; justify-content: center; }
+
+/* Each box says what it shows, at its top, inside the frame. */
+.landing-box-caption{
+  position: relative;
+  z-index: 5;
+  max-width: 44em;
+  margin: 0 auto 1.15rem;
+  color: #4f5966;
+  font-size: 1.05rem;
+  line-height: 1.55;
+  text-align: center;
+  hyphens: none;
 }
 
-.landing-paper-frame::before{ top: 0; background: linear-gradient(to bottom, var(--surface), transparent); }
-.landing-paper-frame::after{ bottom: 0; background: linear-gradient(to top, var(--surface), transparent); }
+.landing-box-caption p{ margin: 0; }
+.landing-box-caption strong{ color: var(--text); }
+.landing-box-caption a{ color: var(--link); }
 
 /* The grid is the bands' coordinate space: the overlay (.manuscript-links,
    drawn by landing.js) covers it. */
 .landing-paper-grid{
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(18rem, 44%);
-  column-gap: 1.7rem;
+  grid-template-columns: minmax(0, 1fr) minmax(20rem, 46%);
+  column-gap: 1.9rem;
   align-items: start;
+}
+
+/* Where there is room beside the box, the grid runs on past the panel's
+   right edge and the cards lean out over it, instead of taking width from
+   the paper; the panel keeps the boxes' shared width and place. */
+@media (min-width: 1200px){
+  .landing-paper-grid{ margin-right: -9rem; grid-template-columns: minmax(0, 1fr) minmax(21rem, 44%); }
+  .landing-paper-rail > .manuscript-card{ box-shadow: 0 6px 18px rgba(43, 43, 43, 0.12); }
+  .landing-paper-rail .manuscript-card-expanded{ box-shadow: 0 10px 26px rgba(43, 43, 43, 0.16); }
+}
+
+/* The crop: the paper continues above and below, so the prose around the
+   two marked passages fades in at the top and out at the bottom. */
+.landing-paper-before{
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 6.6rem);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 6.6rem);
+}
+
+.landing-paper-after{
+  -webkit-mask-image: linear-gradient(to top, transparent 0, #000 5.6rem);
+  mask-image: linear-gradient(to top, transparent 0, #000 5.6rem);
 }
 
 .landing-paper-doc{ min-width: 0; }
@@ -1630,7 +1668,7 @@ body.sidebar-resizing #content-shell{ transition: none; }
   line-height: 1.3;
 }
 
-.landing-paper-prose + .landing-passage{ margin-top: 0.6rem; }
+.landing-paper-prose + .landing-passage{ margin-top: 0.55rem; }
 .landing-passage + .landing-passage{ margin-top: 0.4rem; }
 .landing-passage + .landing-paper-prose{ margin-top: 0.7rem; }
 
@@ -1652,17 +1690,17 @@ body.sidebar-resizing #content-shell{ transition: none; }
 
 .landing-passage.manuscript-hl-hover,
 .landing-passage.manuscript-hl-active{ background: var(--mark-concept-ink-hot); }
+.landing-passage.kind-proof{ background: var(--mark-proof-ink); }
+.landing-passage.kind-proof.manuscript-hl-hover,
+.landing-passage.kind-proof.manuscript-hl-active{ background: var(--mark-proof-ink-hot); }
 .landing-passage:focus-visible{ outline: 2px solid var(--accent); outline-offset: 2px; }
 
 /* The way into the whole paper, at the foot of the crop, above the fade. */
 .landing-paper-more{
-  position: relative;
-  z-index: 5;
   display: flex;
   align-items: center;
   gap: 0.45rem;
-  width: fit-content;
-  margin: 1.1rem auto 0;
+  margin-top: 1.1rem;
   padding: 0.45rem 0.9rem;
   border: 1px solid var(--accent);
   border-radius: var(--radius-control);
@@ -1683,15 +1721,48 @@ body.sidebar-resizing #content-shell{ transition: none; }
 
 .landing-paper-rail{ position: relative; min-width: 0; }
 .landing-paper-rail > .manuscript-card{ margin: 0 0 0.5rem; }
-.landing-paper-rail-live > .manuscript-card{ position: absolute; left: 0; right: 0; margin: 0; }
+/* Above the next box, for a card hanging out below this one. */
+.landing-paper-rail-live > .manuscript-card{ position: absolute; left: 0; right: 0; margin: 0; z-index: 6; }
 .landing-paper-rail .manuscript-card-source{ max-height: 18rem; }
 
-.landing-links-note{
-  max-width: 40em;
-  margin: 0.9rem auto 0;
-  color: var(--text-dim);
-  font-size: 0.86rem;
-  text-align: center;
+/* The one call to action under the boxes: larger than any other button. */
+.landing-hero-button.landing-cta{
+  min-height: 3.4rem;
+  padding: 0.9rem 1.8rem;
+  font-size: 1.12rem;
+}
+
+/* Three tiles under the call to action: what Lax is for. */
+.landing-tiles-section{ max-width: none; margin: 2.8rem auto 0; }
+
+.landing-tiles{
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  width: min(100%, 62em);
+  margin: 0 auto;
+}
+
+.landing-tile{
+  padding: 1.15rem 1.25rem 1.3rem;
+  background: var(--panel-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  box-shadow: 0 10px 28px rgba(43, 43, 43, 0.06);
+}
+
+.landing-tile h3{
+  margin: 0 0 0.55rem;
+  font-size: 1.12rem;
+  line-height: 1.3;
+}
+
+.landing-tile-copy{
+  color: #3b4350;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  text-align: left;
+  hyphens: none;
 }
 
 .landing-hero-actions{
@@ -1744,9 +1815,11 @@ body.sidebar-resizing #content-shell{ transition: none; }
 .landing-action-panels{
   display: grid;
   gap: 1rem;
-  margin-top: 2.7rem;
+  margin-top: 2.8rem;
   min-width: 0;
 }
+
+.landing-action-panels > .landing-section-title{ margin-bottom: 0; }
 
 .landing-action-panel{
   scroll-margin-top: calc(var(--header-height) + 1rem);
@@ -3494,6 +3567,7 @@ body.graph-window-open::after{
   .landing-paper-grid{ grid-template-columns: 1fr; row-gap: 0.9rem; }
   .landing-paper-rail-live > .manuscript-card{ position: static; margin: 0 0 0.5rem; }
   .landing-hero-actions{ display: grid; grid-template-columns: 1fr; }
+  .landing-tiles{ grid-template-columns: 1fr; }
   .landing-hero-button{ width: 100%; }
   .landing-action-panel{ padding: 1rem; }
   .landing-faq{ padding-top: 0.9rem; }

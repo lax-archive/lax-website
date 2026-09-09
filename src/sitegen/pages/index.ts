@@ -24,28 +24,88 @@ interface LandingFaq { question: string; answer: string }
  * the two figures and the link into the paper. */
 export const INTRO_SUBMISSION_ID = "lax-242665";
 
-/** The cropped paper: what page 1 says around its first two marked
- * passages, in the paper's own words (the passages are typeset here from
- * the same LaTeX, in Markdown with KaTeX), each passage joined to the
- * archive's card for the concept it marks. */
-const INTRO_EXCERPT = {
+interface ExcerptPassage {
+  id: string;
+  kind: "concept" | "proof";
+  /** the passage as the aria label names it */
+  label: string;
+  /** the passage's text, Markdown with KaTeX */
+  text: string;
+  /** this passage's card opens with the page (default: the first one) */
+  open?: boolean;
+}
+
+interface Excerpt {
+  page: number;
+  /** the prose before the passages, Markdown */
+  before: string;
+  passages: ExcerptPassage[];
+  /** the prose after the passages, Markdown */
+  after: string;
+  /** link the "read" button to the first passage rather than the top */
+  deepLink?: boolean;
+}
+
+// The two crops are the landing page's own telling of the introduction's
+// running example, not the paper's text: the prose here is written for
+// the boxes, the passages are typeset from the paper's statements
+// (Markdown with KaTeX), and every card is the archive's real card for
+// the concept or proof the paper marks.
+
+/** Concepts: the definition of a prime and the two lemmas the headline
+ * theorem will rest on. Lemma B is stated and left open. */
+const INTRO_EXCERPT: Excerpt = {
   page: 1,
   before: `### 1 Concepts
 
-Lax represents mathematical definitions and claims as so-called *concepts*. A concept pairs a natural-language statement, as it would appear in a paper, with a faithful encoding of that statement in Lean. This section is annotated with two of them, shown on the right.`,
+A Lax submission states its mathematics as *concepts*: a definition or a claim in prose, paired with a faithful Lean encoding of exactly that statement. This section introduces three of them.`,
   passages: [
     {
       id: "Lax242665.Primes",
+      kind: "concept",
       label: "Definition 1, prime numbers",
       text: "**Definition 1.** A natural number greater than 1 is *prime* if it is divisible only by 1 and by itself.",
     },
     {
-      id: "Lax242665.InfinitelyManyPrimes",
-      label: "Theorem 1, Euclid",
-      text: "**Theorem 1** (Euclid)**.** *For every natural number $n$ there is a prime $p > n$.*",
+      id: "Lax242665.OddPrimes",
+      kind: "concept",
+      label: "Lemma A, every prime other than 2 is odd",
+      text: "**Lemma A.** *Every prime other than 2 is odd.*",
+    },
+    {
+      id: "Lax242665.BertrandPostulate",
+      kind: "concept",
+      label: "Lemma B, Bertrand's postulate",
+      text: "**Lemma B** (Bertrand's postulate)**.** *For every natural number $n \\geq 1$ there is a prime $p$ with $n < p \\leq 2n$.*",
     },
   ],
-  after: `Even if you are not familiar with Lean, try reading the Lean code to see whether it encodes the intended meaning. One thing stands out: Theorem 1 is stated not as a \`theorem\` but as an \`axiom\`, without a proof. That is Lax's way of separating claims from proofs. The correctness of a formal proof is guaranteed by Lean, so with Lax, readers only review the one thing Lean can *not* check: whether the Lean code faithfully represents the intended mathematics.`,
+  after: `Each concept's card shows its Lean encoding. Even without knowing Lean, compare the two: whether the code says what the prose says is the one thing Lean cannot check, and the one thing a reviewer needs to. Note that Lemma B is stated as an \`axiom\`, without a proof — Lax separates stating a claim from proving it.`,
+};
+
+/** Proofs: the headline theorem, proven from Lemmas A and B; the proof's
+ * card opens with the page, showing what the proof assumes and concludes. */
+const INTRO_PROOF_EXCERPT: Excerpt = {
+  page: 3,
+  deepLink: true,
+  before: `### 2 Proofs
+
+A proof in Lax is Lean code that derives one concept from others. Lax does not display the code; it records, checked by Lean, which concepts the proof assumes and which it concludes. Here is the submission's main result.`,
+  passages: [
+    {
+      id: "Lax242665.OddPrimeBetween",
+      kind: "concept",
+      label: "Theorem 2, an odd prime between n and 2n",
+      text: "**Theorem 2.** *For every natural number $n \\geq 2$ there is an odd prime $p$ with $n < p \\leq 2n$.*",
+    },
+    {
+      id: "Lax242665Proofs.OddPrimeBetween.exists_odd_prime_between",
+      kind: "proof",
+      label: "Proof of Theorem 2",
+      open: true,
+      text: "*Proof.* By Lemma B there is a prime $p$ with $n < p \\leq 2n$. Since $n \\geq 2$, we have $p > 2$, so $p$ is odd by Lemma A. $\\square$",
+    },
+  ],
+  after: `The proof rests on Lemma A and Lemma B, and its card says so. Lemma A is proven in this submission; Lemma B is not, so Theorem 2 is proven *relative to* Lemma B until a follow-up submission supplies that proof — at which point both turn green, without anyone touching this submission.`,
 };
 
 interface LandingCopy {
@@ -67,9 +127,37 @@ function landingCopy(source: string): LandingCopy {
     if (!match) throw new Error(`invalid landing section: ${chunk}`);
     sections.set(match[1]!.trim(), match[2]!.trim());
   }
-  for (const heading of ["How it works", "Proof network"])
+  for (const heading of ["How it works", "Proofs", "Proof network", "What it is for"])
     if (!sections.has(heading)) throw new Error(`landing.md is missing the ${heading} section`);
   return { title: title[1]!.trim(), intro: head.slice(title[0].length).trim(), sections };
+}
+
+/** A section's paragraphs, split into the prose that stays in the text
+ * column and the last paragraph, which is the caption of the figure the
+ * section leads into (captions sit inside their box). */
+function splitCaption(section: string): { body: string; caption: string } {
+  const paragraphs = section.trim().split(/\n\s*\n/);
+  const caption = paragraphs.pop() ?? "";
+  return { body: paragraphs.join("\n\n"), caption };
+}
+
+/** A section of `### ` tiles: heading and Markdown body each. */
+function landingTiles(heading: string, section: string, markdown: PageContext["markdown"]): string {
+  const tiles = section.trim().split(/\n(?=### )/).map((chunk) => {
+    const match = /^### ([^\n]+)\n+([\s\S]+)$/.exec(chunk.trim());
+    if (!match) throw new Error(`invalid landing tile: ${chunk}`);
+    return `<article class="landing-tile"><h3>${esc(match[1]!.trim())}</h3>
+<div class="landing-tile-copy latex-content">
+${markdown.render(match[2]!.trim(), "")}
+</div>
+</article>`;
+  });
+  return `<section class="landing-section landing-tiles-section" aria-labelledby="landing-tiles-heading">
+<h2 class="landing-section-title" id="landing-tiles-heading">${esc(heading)}</h2>
+<div class="landing-tiles">
+${tiles.join("\n")}
+</div>
+</section>`;
 }
 
 function landingFaqCopy(source: string): {
@@ -116,53 +204,63 @@ ${items}
 /** The paper excerpt: the prose around the passages in the text column,
  * each marked passage highlighted as on the paper page, and the archive's
  * own card for the concept beside it (the first one open, so the Lean
- * encoding is on the page before anyone hovers). landing.js sets each
+ * encoding is on the page before anyone hovers; it is open, not pinned,
+ * so the first hover away closes it and the usual behaviour takes over). landing.js sets each
  * card beside its passage and draws the band between them in the SVG
  * overlay, the way the paper page does; without it the cards stack in
  * the rail. */
-async function paperExcerpt(ctx: PageContext, intro: SiteSubmission): Promise<string> {
+async function paperExcerpt(ctx: PageContext, intro: SiteSubmission, excerpt: Excerpt, caption: string): Promise<string> {
   const { markdown } = ctx;
   const paper = intro.output!.paper!;
   const home = intro.record.id;
   const passages: string[] = [];
   const cards: string[] = [];
-  for (const [index, passage] of INTRO_EXCERPT.passages.entries()) {
-    const n = paper.marks.findIndex((mark) => mark.kind === "concept" && mark.id === passage.id) + 1;
+  let firstMark = 0;
+  for (const [index, passage] of excerpt.passages.entries()) {
+    const n = paper.marks.findIndex((mark) => mark.kind === passage.kind && mark.id === passage.id) + 1;
     if (!n) throw new Error(`the introduction's paper does not mark ${passage.id}`);
     const cardId = `landing-m${n}`;
-    const first = index === 0;
-    passages.push(`<div class="landing-passage landing-passage-${index + 1} kind-concept${first ? " manuscript-hl-active" : ""}" role="button" tabindex="0" aria-pressed="${first}" aria-controls="${attr(cardId)}" aria-label="${attr(`${passage.label}: show the concept card`)}" data-excerpt-card="${attr(cardId)}">
+    const first = excerpt.passages.some((p) => p.open) ? passage.open === true : index === 0;
+    if (index === 0) firstMark = n;
+    passages.push(`<div class="landing-passage landing-passage-${index + 1} kind-${passage.kind}${first ? " manuscript-hl-active" : ""}" role="button" tabindex="0" aria-pressed="false" aria-controls="${attr(cardId)}" aria-label="${attr(`${passage.label}: show the ${passage.kind} card`)}" data-excerpt-card="${attr(cardId)}" data-kind="${passage.kind}">
 ${markdown.render(passage.text, "")}
 </div>`);
     cards.push(await markCard(ctx, paper.marks[n - 1]!, n, home, cardId, { rootRel: "", expanded: first }));
   }
-  return `<section class="landing-paper manuscript" aria-label="${attr(`Page ${INTRO_EXCERPT.page} of the annotated paper of ${home}, as the archive shows it`)}" data-paper-excerpt>
+  const href = `${home}/paper.html${excerpt.deepLink ? `#m${firstMark}` : ""}`;
+  return `<section class="landing-box landing-paper manuscript" aria-label="${attr(`Page ${excerpt.page} of the annotated paper of ${home}, as the archive shows it`)}" data-card-box data-paper-excerpt>
 <div class="landing-paper-frame">
+<div class="landing-box-caption latex-content">
+${markdown.render(caption, "")}
+</div>
 <div class="landing-paper-grid">
 <div class="landing-paper-doc">
-<div class="landing-paper-prose latex-content">
-${markdown.render(INTRO_EXCERPT.before, "")}
+<div class="landing-paper-prose landing-paper-before latex-content">
+${markdown.render(excerpt.before, "")}
 </div>
 ${passages.join("\n")}
-<div class="landing-paper-prose latex-content">
-${markdown.render(INTRO_EXCERPT.after, "")}
+<div class="landing-paper-prose landing-paper-after latex-content">
+${markdown.render(excerpt.after, "")}
 </div>
 </div>
-<ol class="manuscript-rail landing-paper-rail" aria-label="Concept cards">
+<ol class="manuscript-rail landing-paper-rail" aria-label="Cards">
 ${cards.join("\n")}
 </ol>
 <svg class="manuscript-links landing-paper-links" aria-hidden="true"></svg>
 </div>
-<a class="landing-paper-more" href="${attr(`${home}/paper.html`)}">Read the full text <b aria-hidden="true">→</b></a>
+<div class="landing-paper-foot"><a class="landing-paper-more" href="${attr(href)}">Read full introduction to Lax</a></div>
 </div>
 </section>`;
 }
 
 /** The introduction's proof network, drawn by dag.js from the same data
  * the submission page embeds, with links from the site root. */
-function proofNetworkFigure(ctx: PageContext, intro: SiteSubmission): string {
+function proofNetworkFigure(ctx: PageContext, intro: SiteSubmission, caption: string): string {
   const data = proofNetworkData(ctx, intro, "");
-  return `<figure class="graph-figure proof-network-figure landing-network-figure" aria-label="${attr(`The proof network of ${intro.record.id}`)}">
+  return `<figure class="landing-box graph-figure proof-network-figure landing-network-figure" aria-label="${attr(`The proof network of ${intro.record.id}`)}">
+<div class="landing-box-caption latex-content">
+${ctx.markdown.render(caption, "")}
+</div>
 ${graphExpandButton("proof network")}
 <div id="proof-network" class="figure-container" data-graph="proofs"></div>
 ${graphTooltip()}
@@ -172,9 +270,9 @@ ${graphDataScript({ proofs: data })}`;
 }
 
 /** The landing page: the manifesto from content/landing.md, then "How it
- * works" — its concepts paragraphs leading into the introduction
- * submission's paper excerpt, its proof-network paragraph leading into
- * that submission's network — the two ways in, the submissions library
+ * works" — its prose leading into the introduction submission's paper
+ * excerpt and that submission's proof network, each box captioned by the
+ * last paragraph of its section — the two ways in, the submissions library
  * with its stats, and the FAQ. Records that
  * only reserved an id have nothing to show and stay off the library and
  * the stats (their pages exist for direct links). */
@@ -200,9 +298,14 @@ ${authors ? `<span class="submissions-list-meta"><span class="formalized-label">
   const faq = landingFaq(contentMarkdown("faq.md"), markdown);
   const intro = listed.find((submission) => submission.record.id === INTRO_SUBMISSION_ID
     && submission.output?.paper
-    && INTRO_EXCERPT.passages.every((passage) => submission.output!.paper!.marks.some((mark) => mark.kind === "concept" && mark.id === passage.id)));
-  const excerpt = intro ? await paperExcerpt(ctx, intro) : "";
-  const network = intro ? proofNetworkFigure(ctx, intro) : "";
+    && [...INTRO_EXCERPT.passages, ...INTRO_PROOF_EXCERPT.passages].every((passage) =>
+      submission.output!.paper!.marks.some((mark) => mark.kind === passage.kind && mark.id === passage.id)));
+  const how = splitCaption(landing.sections.get("How it works")!);
+  const proofsCopy = splitCaption(landing.sections.get("Proofs")!);
+  const networkCopy = splitCaption(landing.sections.get("Proof network")!);
+  const excerpt = intro ? await paperExcerpt(ctx, intro, INTRO_EXCERPT, how.caption) : "";
+  const inference = intro ? await paperExcerpt(ctx, intro, INTRO_PROOF_EXCERPT, proofsCopy.caption) : "";
+  const network = intro ? proofNetworkFigure(ctx, intro, networkCopy.caption) : "";
 
   const chip = (key: string, label: string, count: number, extraClass = ""): string =>
     `<button class="tag-chip${extraClass}" type="button" data-tag-filter="${attr(key)}" aria-pressed="false" aria-label="${attr(`${label}, ${plural(count, "submission")}`)}"><span>${esc(label)}</span><b aria-hidden="true">${count}</b></button>`;
@@ -234,8 +337,6 @@ ${facetButtons.join("\n")}
 </section>` : "";
   const library = `<section class="landing-action-panel submissions-library" id="landing-panel-read" aria-labelledby="landing-library-heading">
 <div class="landing-action-panel-heading">
-<p class="landing-action-eyebrow">Read the archive</p>
-<h3 id="landing-library-heading">Submissions</h3>
 <p class="stats-line">${plural(listed.length, "submission")} · ${plural(concepts.length, "concept")} · ${plural(statements.length, "statement")}, ${provenStatements} proven</p>
 </div>
 ${tagBrowser}
@@ -246,13 +347,11 @@ ${rows.join("\n")}
 <button class="submissions-load-more" id="submissions-load-more" type="button" aria-controls="submissions-list" hidden>Show all ${plural(listed.length, "submission")} <b aria-hidden="true">↓</b></button>
 </section>`;
   const introLink = intro
-    ? `<a class="landing-hero-button primary" href="${attr(`${intro.record.id}/paper.html`)}">Read the introduction to Lax <b aria-hidden="true">→</b></a>`
-    : `<a class="landing-hero-button primary" href="assets/lax-white-paper.pdf" download="lax-white-paper.pdf">Read the Lax paper <b aria-hidden="true">↗</b></a>`;
+    ? `<a class="landing-hero-button primary landing-cta" href="${attr(`${intro.record.id}/paper.html`)}">Read the introduction to Lax</a>`
+    : `<a class="landing-hero-button primary landing-cta" href="assets/lax-white-paper.pdf" download="lax-white-paper.pdf">Read the Lax paper</a>`;
   const links = `<nav class="landing-hero-actions" aria-label="Ways into Lax">
 ${introLink}
-<button class="landing-hero-button secondary" type="button" data-landing-action="read" aria-controls="landing-panel-read">Browse submissions <b aria-hidden="true">↓</b></button>
-</nav>
-${intro ? `<p class="landing-links-note">The introduction is itself a Lax submission: every feature it describes is at work on its own pages.</p>` : ""}`;
+</nav>`;
 
   const content = `<section class="landing-hero" aria-labelledby="landing-title">
 <h1 class="landing-title" id="landing-title">${esc(landing.title)}</h1>
@@ -263,16 +362,22 @@ ${markdown.render(landing.intro, "")}
 <section class="landing-section landing-how" aria-labelledby="landing-how-heading">
 <h2 class="landing-section-title" id="landing-how-heading">How it works</h2>
 <div class="landing-section-copy latex-content">
-${markdown.render(landing.sections.get("How it works")!, "")}
+${markdown.render(how.body, "")}
 </div>
 ${excerpt}
-<div class="landing-section-copy landing-network-copy latex-content">
-${markdown.render(landing.sections.get("Proof network")!, "")}
-</div>
+${proofsCopy.body ? `<div class="landing-section-copy landing-proofs-copy latex-content">
+${markdown.render(proofsCopy.body, "")}
+</div>` : ""}
+${inference}
+${networkCopy.body ? `<div class="landing-section-copy landing-network-copy latex-content">
+${markdown.render(networkCopy.body, "")}
+</div>` : ""}
 ${network}
 </section>
 ${links}
+${landingTiles("What it is for", landing.sections.get("What it is for")!, markdown)}
 <div class="landing-action-panels">
+<h2 class="landing-section-title" id="landing-library-heading">Submissions</h2>
 ${library}
 ${faq}
 </div>`;
@@ -281,6 +386,8 @@ ${faq}
     rootRel: "",
     sidebar: indexSidebar(model, markdown, tagIndex.bySubmission),
     content,
+    detailClass: "detail-landing",
+    sidebarHidden: true,
     scripts: intro ? ["assets/layout.js", "assets/dag.js", "assets/landing.js"] : ["assets/landing.js"],
   });
 }

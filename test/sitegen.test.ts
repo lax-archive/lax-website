@@ -72,11 +72,41 @@ function introSubmission(): SiteSubmission {
           sourceText: "namespace Lax242665.InfinitelyManyPrimes\naxiom exists_prime_gt (n : ℕ) : ∃ p, n < p ∧ Primes.Prime p\nend Lax242665.InfinitelyManyPrimes\n",
           statements: [{ id: "Lax242665.InfinitelyManyPrimes.exists_prime_gt", signature: "exists_prime_gt (n : ℕ) : ∃ p, n < p ∧ Primes.Prime p", startLine: 2, endLine: 2, doc: "Beyond every natural number lies a prime." }],
         },
+        {
+          id: "Lax242665.OddPrimes", path: "concepts/Lax242665/OddPrimes.lean", title: "Every prime other than 2 is odd", type: "lemma",
+          description: "Every prime number $p \\neq 2$ is odd.", imports: ["Lax242665.Primes"], mathlibImports: [],
+          sourceText: "namespace Lax242665.OddPrimes\naxiom odd_of_prime (p : ℕ) (hp : Primes.Prime p) (h2 : p ≠ 2) : Odd p\nend Lax242665.OddPrimes\n",
+          statements: [{ id: "Lax242665.OddPrimes.odd_of_prime", signature: "odd_of_prime (p : ℕ) (hp : Primes.Prime p) (h2 : p ≠ 2) : Odd p", startLine: 2, endLine: 2, doc: "A prime other than 2 is odd." }],
+        },
+        {
+          id: "Lax242665.BertrandPostulate", path: "concepts/Lax242665/BertrandPostulate.lean", title: "Bertrand's postulate", type: "lemma",
+          description: "For every natural number $n \\geq 1$ there is a prime number $p$ with $n < p \\leq 2n$.", imports: ["Lax242665.Primes"], mathlibImports: [],
+          sourceText: "namespace Lax242665.BertrandPostulate\naxiom exists_prime_between (n : ℕ) (hn : 1 ≤ n) : ∃ p, Primes.Prime p ∧ n < p ∧ p ≤ 2 * n\nend Lax242665.BertrandPostulate\n",
+          statements: [{ id: "Lax242665.BertrandPostulate.exists_prime_between", signature: "exists_prime_between (n : ℕ) (hn : 1 ≤ n) : ∃ p, Primes.Prime p ∧ n < p ∧ p ≤ 2 * n", startLine: 2, endLine: 2, doc: "Between n and 2n there is always a prime." }],
+        },
+        {
+          id: "Lax242665.OddPrimeBetween", path: "concepts/Lax242665/OddPrimeBetween.lean", title: "An odd prime between n and 2n", type: "theorem",
+          description: "For every natural number $n \\geq 2$ there is an odd prime number $p$ with $n < p \\leq 2n$.", imports: ["Lax242665.Primes"], mathlibImports: [],
+          sourceText: "namespace Lax242665.OddPrimeBetween\naxiom exists_odd_prime_between (n : ℕ) (hn : 2 ≤ n) : ∃ p, Primes.Prime p ∧ Odd p ∧ n < p ∧ p ≤ 2 * n\nend Lax242665.OddPrimeBetween\n",
+          statements: [{ id: "Lax242665.OddPrimeBetween.exists_odd_prime_between", signature: "exists_odd_prime_between (n : ℕ) (hn : 2 ≤ n) : ∃ p, Primes.Prime p ∧ Odd p ∧ n < p ∧ p ≤ 2 * n", startLine: 2, endLine: 2, doc: "Between n ≥ 2 and 2n there is always an odd prime." }],
+        },
       ],
-      proofs: [{
-        id: "Lax242665Proofs.InfinitelyManyPrimes.exists_prime_gt", path: "proofs/Lax242665Proofs/InfinitelyManyPrimes.lean",
-        conclusion: "Lax242665.InfinitelyManyPrimes.exists_prime_gt", assumptions: [], description: "Euclid's argument.",
-      }],
+      proofs: [
+        {
+          id: "Lax242665Proofs.InfinitelyManyPrimes.exists_prime_gt", path: "proofs/Lax242665Proofs/InfinitelyManyPrimes.lean",
+          conclusion: "Lax242665.InfinitelyManyPrimes.exists_prime_gt", assumptions: [], description: "Euclid's argument.",
+        },
+        {
+          id: "Lax242665Proofs.OddPrimes.odd_of_prime", path: "proofs/Lax242665Proofs/OddPrimes.lean",
+          conclusion: "Lax242665.OddPrimes.odd_of_prime", assumptions: [], description: "An even prime is divisible by 2.",
+        },
+        {
+          id: "Lax242665Proofs.OddPrimeBetween.exists_odd_prime_between", path: "proofs/Lax242665Proofs/OddPrimeBetween.lean",
+          conclusion: "Lax242665.OddPrimeBetween.exists_odd_prime_between",
+          assumptions: ["Lax242665.BertrandPostulate.exists_prime_between", "Lax242665.OddPrimes.odd_of_prime"],
+          description: "Bertrand's postulate gives a prime, which is odd since it is not 2.",
+        },
+      ],
       paper: {
         folder: "paper", main: "main.tex", engine: "pdflatex",
         pdf: { digest: "c".repeat(64), bytes: 1, pages: 5, registryBlob: `ghcr.io/lax-archive/lax-captures@sha256:${"c".repeat(64)}` },
@@ -85,6 +115,12 @@ function introSubmission(): SiteSubmission {
           { id: "lax-242665", kind: "submission", begin: point(1, 518.21), end: { page: 1, x: 218.11, y: 422.57, mode: "h" } },
           { id: "Lax242665.Primes", kind: "concept", begin: point(1, 321.07), end: point(1, 285.01) },
           { id: "Lax242665.InfinitelyManyPrimes", kind: "concept", begin: point(1, 285.01), end: point(1, 261.89) },
+          { id: "Lax242665Proofs.InfinitelyManyPrimes.exists_prime_gt", kind: "proof", begin: point(2, 441.89), end: point(2, 392.82) },
+          { id: "Lax242665.OddPrimes", kind: "concept", begin: point(2, 200), end: point(2, 180) },
+          { id: "Lax242665Proofs.OddPrimes.odd_of_prime", kind: "proof", begin: point(2, 180), end: point(3, 700) },
+          { id: "Lax242665.BertrandPostulate", kind: "concept", begin: point(3, 680), end: point(3, 650) },
+          { id: "Lax242665.OddPrimeBetween", kind: "concept", begin: point(3, 650), end: point(3, 620) },
+          { id: "Lax242665Proofs.OddPrimeBetween.exists_odd_prime_between", kind: "proof", begin: point(3, 620), end: point(3, 580) },
         ],
       },
     },
@@ -478,7 +514,7 @@ After the formula.`, "");
     expect(css).not.toContain(".landing-passage::after");
     expect(css).toContain(".landing-paper-grid{\n  position: relative;");
     expect(css).toContain(".submissions-list-clipped::after{");
-    expect(css).toContain(".landing-paper-rail-live > .manuscript-card{ position: absolute; left: 0; right: 0; margin: 0; }");
+    expect(css).toContain(".landing-paper-rail-live > .manuscript-card{ position: absolute; left: 0; right: 0; margin: 0; z-index: 6; }");
     expect(css).toContain(".landing-paper-rail-live > .manuscript-card{ position: static; margin: 0 0 0.5rem; }");
     expect(css).toContain(".landing-paper-grid{ grid-template-columns: 1fr; row-gap: 0.9rem; }");
     expect(css).toContain(".entry-label .concept-review-badge.pending{ display: none; }");
@@ -486,7 +522,7 @@ After the formula.`, "");
     expect(css).toContain(".submissions-load-more[hidden]{ display: none; }");
     expect(css).toContain(".landing-faq-item summary::-webkit-details-marker{ display: none; }");
     expect(css).toContain(".landing-faq-item[open] .landing-faq-toggle::after");
-    const faqPanel = css.match(/\.landing-faq\{([^}]*)\}/)?.[1] ?? "";
+    const faqPanel = css.match(/\n\.landing-faq\{([^}]*)\}/)?.[1] ?? "";
     expect(faqPanel).toContain("border: 1px solid var(--border)");
     expect(faqPanel).toContain("margin: 0");
     const faqList = css.match(/\.landing-faq-list\{([^}]*)\}/)?.[1] ?? "";
@@ -499,13 +535,13 @@ After the formula.`, "");
     expect(landingScript).toContain("window.addEventListener('popstate'");
     expect(landingScript).toContain("const initialView = urlView()");
     expect(landingScript).toContain("document.getElementById(`landing-panel-${id}`)");
-    expect(landingScript).toContain("function setupPaperExcerpt()");
-    expect(landingScript).toContain("document.querySelector('[data-paper-excerpt]')");
-    expect(landingScript).toContain("document.getElementById(passage.dataset.excerptCard)");
+    expect(landingScript).toContain("function setupCardBox(box)");
+    expect(landingScript).toContain("document.querySelectorAll('[data-card-box]')");
+    expect(landingScript).toContain("box.querySelectorAll('.manuscript-card')");
     expect(landingScript).toContain("rail.classList.add('landing-paper-rail-live')");
     expect(landingScript).toContain("function drawLinks()");
     expect(landingScript).toContain("links.classList.add('manuscript-links-live')");
-    expect(landingScript).toContain("pair.link.setAttribute('class', 'manuscript-link kind-concept')");
+    expect(landingScript).toContain("pair.link.setAttribute('class', `manuscript-link kind-${pair.passage.dataset.kind || 'concept'}`)");
     expect(landingScript).toContain("new ResizeObserver(() => layout())");
     expect(landingScript).toContain("card.classList.toggle('manuscript-card-pinned', pinned)");
     expect(landingScript).toContain("passage.setAttribute('aria-pressed', String(pinned))");
@@ -568,12 +604,18 @@ After the formula.`, "");
     expect(index).not.toContain("<strong>Understanding</strong>");
     expect(index).toContain('<section class="landing-section landing-how" aria-labelledby="landing-how-heading">');
     expect(index).toContain('<h2 class="landing-section-title" id="landing-how-heading">How it works</h2>');
-    expect(index).toMatch(/<p>Lax is a community-run archive that annotates natural-language mathematics\s+with Lean theorems\. The annotations are <em>concepts<\/em>/);
     expect(index).not.toContain("landing-paper-caption");
-    expect(index).toContain('<a href="open-proof-obligations.html">proof obligations</a> still remain.');
     expect(index.indexOf("landing-hero")).toBeLessThan(index.indexOf("landing-how"));
-    expect(index.indexOf("landing-how")).toBeLessThan(index.indexOf("landing-network-copy"));
-    expect(index.indexOf("landing-network-copy")).toBeLessThan(index.indexOf("landing-hero-actions"));
+    expect(index.indexOf("landing-how")).toBeLessThan(index.indexOf("landing-hero-actions"));
+    expect(index.indexOf("landing-hero-actions")).toBeLessThan(index.indexOf("landing-tiles-section"));
+    expect(index.indexOf("landing-tiles-section")).toBeLessThan(index.indexOf('id="landing-library-heading"'));
+    expect(index).toContain('<h2 class="landing-section-title" id="landing-tiles-heading">What it is for</h2>');
+    expect(index).toContain('<article class="landing-tile"><h3>While you write</h3>');
+    expect(index).toContain('<article class="landing-tile"><h3>Peer review</h3>');
+    expect(index).toContain('<article class="landing-tile"><h3>Digesting existing results</h3>');
+    expect(index).toContain('<nav class="landing-hero-actions" aria-label="Ways into Lax">');
+    expect(index).not.toContain("Browse submissions");
+    expect(index).not.toContain("landing-links-note");
     expect(index.indexOf("landing-hero-actions")).toBeLessThan(index.indexOf('id="landing-panel-read"'));
     // The fixture archive has no introduction submission: the excerpt and the
     // network stay off the page, the paper link falls back to the white paper.
@@ -581,8 +623,7 @@ After the formula.`, "");
     expect(index).not.toContain('id="proof-network"');
     expect(index).not.toContain('id="graph-data"');
     expect(index).not.toContain("landing-links-note");
-    expect(index).toContain('class="landing-hero-button primary" href="assets/lax-white-paper.pdf" download="lax-white-paper.pdf"');
-    expect(index).toContain('<button class="landing-hero-button secondary" type="button" data-landing-action="read" aria-controls="landing-panel-read">Browse submissions <b aria-hidden="true">↓</b></button>');
+    expect(index).toContain('<a class="landing-hero-button primary landing-cta" href="assets/lax-white-paper.pdf" download="lax-white-paper.pdf">Read the Lax paper</a>');
     expect(index).not.toMatch(/<script src="assets\/dag\.js/);
     // The old landing's parts are gone.
     expect(index).not.toContain("What you can do here");
@@ -593,7 +634,8 @@ After the formula.`, "");
     expect(index).not.toContain('id="landing-proof-obligations"');
     expect(index).not.toContain("data-review-concept");
     expect(index).toContain('<section class="landing-action-panel submissions-library" id="landing-panel-read" aria-labelledby="landing-library-heading">');
-    expect(index).toContain('<h3 id="landing-library-heading">Submissions</h3>');
+    expect(index).toContain('<h2 class="landing-section-title" id="landing-library-heading">Submissions</h2>');
+    expect(index).not.toContain("Read the archive");
     expect(index).toContain('<section class="landing-faq" id="faq" aria-labelledby="landing-faq-heading">');
     expect(index).toContain('<h2 id="landing-faq-heading">FAQ</h2>');
     expect(index).toContain('<p class="landing-action-eyebrow">About Lax</p>');
@@ -673,50 +715,64 @@ After the formula.`, "");
     await generateSite([...submissions(), introSubmission()], root);
     const index = fs.readFileSync(path.join(root, "index.html"), "utf8");
 
-    expect(index).toContain('<section class="landing-paper manuscript" aria-label="Page 1 of the annotated paper of lax-242665, as the archive shows it" data-paper-excerpt>');
-    expect(index).not.toContain("Annotated paper</p>");
-    expect(index).not.toContain("landing-paper-caption");
+    // Two crops: concepts (Definition 1, Lemmas A and B) and proofs
+    // (Theorem 2 and its proof), each passage joined to the archive's card.
+    expect(index).toContain('<section class="landing-box landing-paper manuscript" aria-label="Page 1 of the annotated paper of lax-242665, as the archive shows it" data-card-box data-paper-excerpt>');
+    expect(index).toContain('<section class="landing-box landing-paper manuscript" aria-label="Page 3 of the annotated paper of lax-242665, as the archive shows it" data-card-box data-paper-excerpt>');
     expect(index).toContain("<h3>1 Concepts</h3>");
-    expect(index).toContain("Lax represents mathematical definitions and claims as so-called <em>concepts</em>.");
-    // The passages, in the paper's words, each joined to the card of the
-    // concept it marks; the first one opens with the page.
-    expect(index).toContain('<div class="landing-passage landing-passage-1 kind-concept manuscript-hl-active" role="button" tabindex="0" aria-pressed="true" aria-controls="landing-m2" aria-label="Definition 1, prime numbers: show the concept card" data-excerpt-card="landing-m2">');
+    expect(index).toContain("<h3>2 Proofs</h3>");
+    expect(index).toContain('<div class="landing-passage landing-passage-1 kind-concept manuscript-hl-active" role="button" tabindex="0" aria-pressed="false" aria-controls="landing-m2" aria-label="Definition 1, prime numbers: show the concept card" data-excerpt-card="landing-m2" data-kind="concept">');
     expect(index).toContain("<strong>Definition 1.</strong> A natural number greater than 1 is <em>prime</em>");
-    expect(index).toContain('<div class="landing-passage landing-passage-2 kind-concept" role="button" tabindex="0" aria-pressed="false" aria-controls="landing-m3" aria-label="Theorem 1, Euclid: show the concept card" data-excerpt-card="landing-m3">');
-    expect(index).toContain("<strong>Theorem 1</strong> (Euclid)<strong>.</strong> <em>For every natural number <span class=\"katex\">");
-    expect(index).toContain('<ol class="manuscript-rail landing-paper-rail" aria-label="Concept cards">');
+    expect(index).toContain('aria-controls="landing-m5" aria-label="Lemma A, every prime other than 2 is odd: show the concept card"');
+    expect(index).toContain(`aria-controls="landing-m7" aria-label="Lemma B, Bertrand's postulate: show the concept card"`);
+    expect(index).toContain('<div class="landing-passage landing-passage-2 kind-proof manuscript-hl-active" role="button" tabindex="0" aria-pressed="false" aria-controls="landing-m9" aria-label="Proof of Theorem 2: show the proof card" data-excerpt-card="landing-m9" data-kind="proof">');
+    expect(index).toContain('<ol class="manuscript-rail landing-paper-rail" aria-label="Cards">');
     expect(index).toContain('<svg class="manuscript-links landing-paper-links" aria-hidden="true"></svg>');
-    expect(index).toContain('<a class="landing-paper-more" href="lax-242665/paper.html">Read the full text <b aria-hidden="true">→</b></a>');
-    expect(index).toContain('<li class="manuscript-card kind-concept manuscript-card-expanded manuscript-card-pinned" id="landing-m2" data-mark="2">');
-    expect(index).toContain('<li class="manuscript-card kind-concept line-proven" id="landing-m3" data-mark="3">');
-    expect(index).toContain('aria-expanded="true" aria-controls="landing-m2-body"');
+    expect(index).toContain('<a class="landing-paper-more" href="lax-242665/paper.html">Read full introduction to Lax</a>');
+    expect(index).toContain('<a class="landing-paper-more" href="lax-242665/paper.html#m8">Read full introduction to Lax</a>');
+    // The first concept's card and the proof's card open with the page (not pinned).
+    expect(index).toContain('<li class="manuscript-card kind-concept manuscript-card-expanded" id="landing-m2" data-mark="2">');
+    expect(index).toContain('<li class="manuscript-card kind-concept line-proven" id="landing-m5" data-mark="5">');
+    expect(index).toContain('<li class="manuscript-card kind-concept line-open" id="landing-m7" data-mark="7">');
+    expect(index).toContain('<li class="manuscript-card kind-concept line-open" id="landing-m8" data-mark="8">');
+    expect(index).toContain('<li class="manuscript-card kind-proof line-open manuscript-card-expanded" id="landing-m9" data-mark="9">');
+    expect(index).not.toContain("manuscript-card-pinned");
     expect(index).toContain('<div class="manuscript-card-body" id="landing-m2-body">');
-    expect(index).toContain('<div class="manuscript-card-body" id="landing-m3-body" hidden>');
+    expect(index).toContain('<div class="manuscript-card-body" id="landing-m5-body" hidden>');
+    expect(index).toContain('<div class="manuscript-card-body" id="landing-m9-body">');
     // Card links start at the site root, not at a submission's directory.
     expect(index).toContain('<a href="lax-242665/Lax242665.Primes.html"><code>Lax242665.Primes</code></a>');
     expect(index).toContain('<p class="manuscript-card-title">Prime numbers</p>');
     expect(index).not.toContain('href="../lax-242665/');
+    // Captions sit inside the boxes.
+    expect(index).toContain('<div class="landing-box-caption latex-content">');
+    expect(index).toContain("<strong>The paper stays the paper.</strong>");
+    expect(index).toContain("<strong>Proofs compose.</strong>");
+    expect(index).toContain("<strong>Nothing is taken on faith.</strong>");
     // The network: the submission page's figure and data, rooted at the site.
-    expect(index).toContain('<figure class="graph-figure proof-network-figure landing-network-figure" aria-label="The proof network of lax-242665">');
+    expect(index).toContain('<figure class="landing-box graph-figure proof-network-figure landing-network-figure" aria-label="The proof network of lax-242665">');
+    expect(index).toContain('<a href="open-proof-obligations.html">proof obligations</a> still remain.');
     expect(index).toContain('<div id="proof-network" class="figure-container" data-graph="proofs"></div>');
     expect(index).not.toContain("The proof network of <a");
     const data = JSON.parse(index.match(/<script type="application\/json" id="graph-data">(.*?)<\/script>/)![1]!);
     expect(Object.keys(data)).toEqual(["proofs"]);
     expect(data.proofs.home).toBe("lax-242665");
     expect(data.proofs.statements.map((s: { id: string; href: string; proven: boolean }) => [s.id, s.href, s.proven])).toEqual([
+      ["Lax242665.BertrandPostulate.exists_prime_between", "lax-242665/Lax242665.BertrandPostulate.html#s-Lax242665.BertrandPostulate.exists_prime_between", false],
       ["Lax242665.InfinitelyManyPrimes.exists_prime_gt", "lax-242665/Lax242665.InfinitelyManyPrimes.html#s-Lax242665.InfinitelyManyPrimes.exists_prime_gt", true],
+      ["Lax242665.OddPrimeBetween.exists_odd_prime_between", "lax-242665/Lax242665.OddPrimeBetween.html#s-Lax242665.OddPrimeBetween.exists_odd_prime_between", false],
+      ["Lax242665.OddPrimes.odd_of_prime", "lax-242665/Lax242665.OddPrimes.html#s-Lax242665.OddPrimes.odd_of_prime", true],
     ]);
     expect(data.proofs.proofs[0].href).toBe("lax-242665/Lax242665Proofs.InfinitelyManyPrimes.exists_prime_gt.html");
     expect(index).toMatch(/<script src="assets\/layout\.js\?v=[0-9a-f]{12}"><\/script>\n<script src="assets\/dag\.js\?v=[0-9a-f]{12}"><\/script>\n<script src="assets\/landing\.js\?v=[0-9a-f]{12}"><\/script>/);
-    // The ways in: the annotated paper, then the library.
-    expect(index).toContain('<a class="landing-hero-button primary" href="lax-242665/paper.html">Read the introduction to Lax <b aria-hidden="true">→</b></a>');
-    expect(index).toContain('<p class="landing-links-note">The introduction is itself a Lax submission');
+    // The one way in: the annotated paper.
+    expect(index).toContain('<a class="landing-hero-button primary landing-cta" href="lax-242665/paper.html">Read the introduction to Lax</a>');
     expect(index).not.toContain("lax-white-paper.pdf\" download");
-    // The concepts paragraph leads into the excerpt, the network paragraph
-    // into the network.
-    expect(index.indexOf("The annotations are <em>concepts</em>")).toBeLessThan(index.indexOf("data-paper-excerpt"));
-    expect(index.indexOf("data-paper-excerpt")).toBeLessThan(index.indexOf("landing-network-copy"));
-    expect(index.indexOf("still remain.")).toBeLessThan(index.indexOf('id="proof-network"'));
+    // Concepts box, proofs box, network, in that order, before the button.
+    expect(index.indexOf('id="landing-how-heading"')).toBeLessThan(index.indexOf("Page 1 of the annotated paper"));
+    expect(index.indexOf("Page 1 of the annotated paper")).toBeLessThan(index.indexOf("Page 3 of the annotated paper"));
+    expect(index.indexOf("Page 3 of the annotated paper")).toBeLessThan(index.indexOf('id="proof-network"'));
+    expect(index.indexOf('id="proof-network"')).toBeLessThan(index.indexOf("landing-cta"));
     // The submission's own pages keep their `../` links.
     const submission = fs.readFileSync(path.join(root, "lax-242665", "index.html"), "utf8");
     expect(submission).toContain('"href":"../lax-242665/Lax242665Proofs.InfinitelyManyPrimes.exists_prime_gt.html"');

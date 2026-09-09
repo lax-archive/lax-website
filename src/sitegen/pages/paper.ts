@@ -161,7 +161,7 @@ export async function markCard(
   const span = mark.begin.page === mark.end.page
     ? `p. ${mark.begin.page}`
     : `pp. ${mark.begin.page}–${mark.end.page}`;
-  return `<li class="manuscript-card kind-${mark.kind}${markStatus(model, mark)}${expanded ? " manuscript-card-expanded manuscript-card-pinned" : ""}" id="${cardId}" data-mark="${n}">
+  return `<li class="manuscript-card kind-${mark.kind}${markStatus(model, mark)}${expanded ? " manuscript-card-expanded" : ""}" id="${cardId}" data-mark="${n}">
 <div class="manuscript-card-head">
 <span class="manuscript-card-swatch" aria-hidden="true"></span>
 <span class="manuscript-card-name">${markBadge(model, mark)}${markName(model, mark, home, rootRel)}</span>
