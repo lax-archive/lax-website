@@ -52,7 +52,7 @@
 <p class="draft-banner"><strong>Draft</strong> — mutable and not usable as a dependency; its citation marks the draft state.</p>
 <div class="detail-heading concept-heading proof-heading">
 <div class="proof-heading-content"><h1 class="concept-title">Proof of <span class="proof-concept-title">`Cographs have logarithmic Welzl trees`</span></h1>
-<p class="concept-microline proof-microline"><span class="status-pills"><span class="status-pill pill-proven" tabindex="0" data-tooltip="No open assumptions remain in the archive: every dependency is backed by a checked proof, ultimately reducing to Lean and Mathlib." aria-label="Grounded. No open assumptions remain in the archive: every dependency is backed by a checked proof, ultimately reducing to Lean and Mathlib.">grounded</span></span><span><a href="https://github.com/lax-archive/lax-submissions/blob/d90f7c04f9ed9700dbf93fa45a768d3d71833207/cograph-welzl-trees/proofs/Lax485480Proofs/CographWelzlTreeUpperBound.lean"><code>proofs/Lax485480Proofs/CographWelzlTreeUpperBound.lean</code></a> · <a href="index.html">lax-485480</a></span></p></div>
+<p class="concept-microline proof-microline"><span class="status-pills"><span class="status-pill pill-proven" tabindex="0" data-tooltip="No open assumptions remain in the archive: every dependency is backed by a checked proof, ultimately reducing to Lean and Mathlib." aria-label="Grounded. No open assumptions remain in the archive: every dependency is backed by a checked proof, ultimately reducing to Lean and Mathlib.">grounded</span></span><span><a href="https://github.com/lax-archive/lax-submissions/blob/144563d5a10a9ae014978a6c8e55bdf6d06b3ebd/cograph-welzl-trees/proofs/Lax485480Proofs/CographWelzlTreeUpperBound.lean"><code>proofs/Lax485480Proofs/CographWelzlTreeUpperBound.lean</code></a> · <a href="index.html">lax-485480</a></span></p></div>
 </div>
 <div class="block block-evidence"><h3>What this proof establishes</h3>
 <div class="judgment">
@@ -61,7 +61,7 @@
 <div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="../lax-485480/Lax485480.CographWelzlTreeUpperBound.html" title="Lax485480.CographWelzlTreeUpperBound.exists_welzlTree_crossingNumber_le_four_clog_add_one"><code>Lax485480.CographWelzlTreeUpperBound</code></a></span></div>
 </div>
 <p class="honesty-note">Assuming the claims on the left, the claim on the right holds — checked by the archive's pipeline. Proof code is not displayed here.</p>
-<p class="source-action"><a class="source-button" href="https://github.com/lax-archive/lax-submissions/blob/d90f7c04f9ed9700dbf93fa45a768d3d71833207/cograph-welzl-trees/proofs/Lax485480Proofs/CographWelzlTreeUpperBound.lean"><svg class="source-mark" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true" focusable="false"><path fill="currentColor" d="M5.22 3.22a.75.75 0 0 1 1.06 1.06L2.56 8l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06Zm5.56 0 4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 1 1-1.06-1.06L13.44 8 9.72 4.28a.75.75 0 1 1 1.06-1.06Z"/></svg><span>Read the Lean proof on GitHub</span></a></p>
+<p class="source-action"><a class="source-button" href="https://github.com/lax-archive/lax-submissions/blob/144563d5a10a9ae014978a6c8e55bdf6d06b3ebd/cograph-welzl-trees/proofs/Lax485480Proofs/CographWelzlTreeUpperBound.lean"><svg class="source-mark" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true" focusable="false"><path fill="currentColor" d="M5.22 3.22a.75.75 0 0 1 1.06 1.06L2.56 8l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06Zm5.56 0 4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 1 1-1.06-1.06L13.44 8 9.72 4.28a.75.75 0 1 1 1.06-1.06Z"/></svg><span>Read the Lean proof on GitHub</span></a></p>
 </div>
 
 <div class="block block-statement"><h3>Description</h3><div class="latex-content"><p>Every nonempty cograph has a spanning Welzl tree with at most
@@ -72,8 +72,10 @@ vertices of its witnessing order.  This graph is a spanning path, hence a
 tree, and the order-path bridge identifies its tree crossing number with the
 crossing number of the order.</p>
 </div></div>
-<div class="block"><h3>Attribution</h3><div class="latex-content"><p>The path construction is the immediate tree form of Welzl's crossing-number
-definition; the cograph order bound is imported from lax-214022.</p>
+<div class="block"><h3>Attribution</h3><div class="latex-content"><p>The logarithmic cograph-order phenomenon is the contiguity upper bound of
+Crespelle and Gambette.  The path construction is the immediate tree form
+of Welzl's crossing-number definition; its formal order bound is imported
+from lax-214022.</p>
 </div></div>
 </div>
 <footer class="site-footer">

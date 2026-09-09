@@ -52,7 +52,7 @@
 <p class="draft-banner"><strong>Draft</strong> — mutable and not usable as a dependency; its citation marks the draft state.</p>
 <header class="paper-head">
 <h1 class="paper-title">Welzl Trees of Cographs</h1>
-<p class="paper-meta"><span class="submission-meta-id">lax-485480</span><span class="meta-sep">·</span><span class="formalized-label">formalized by</span> <span class="paper-author">Clemens Kuske <span class="author-links"><a href="https://github.com/clemenskuske">@clemenskuske</a></span></span><span class="author-sep">·</span><span class="paper-author">Codex (OpenAI)</span><span class="meta-sep">·</span>created 2026-09-09<span class="meta-sep">·</span><a href="https://github.com/lax-archive/lax-submissions/tree/d90f7c04f9ed9700dbf93fa45a768d3d71833207/cograph-welzl-trees" title="https://github.com/lax-archive/lax-submissions/tree/d90f7c04f9ed9700dbf93fa45a768d3d71833207/cograph-welzl-trees"><code>GitHub @d90f7c0</code></a><span class="meta-sep">·</span>Lean <code>v4.30.0</code> <span class="meta-epoch" title="the environment the archive recommends this year">epoch</span> · mathlib <code>c5ea00351c28</code></p>
+<p class="paper-meta"><span class="submission-meta-id">lax-485480</span><span class="meta-sep">·</span><span class="formalized-label">formalized by</span> <span class="paper-author">Clemens Kuske <span class="author-links"><a href="https://github.com/clemenskuske">@clemenskuske</a></span></span><span class="author-sep">·</span><span class="paper-author">Codex (OpenAI)</span><span class="meta-sep">·</span>created 2026-09-09<span class="meta-sep">·</span><a href="https://github.com/lax-archive/lax-submissions/tree/144563d5a10a9ae014978a6c8e55bdf6d06b3ebd/cograph-welzl-trees" title="https://github.com/lax-archive/lax-submissions/tree/144563d5a10a9ae014978a6c8e55bdf6d06b3ebd/cograph-welzl-trees"><code>GitHub @144563d</code></a><span class="meta-sep">·</span>Lean <code>v4.30.0</code> <span class="meta-epoch" title="the environment the archive recommends this year">epoch</span> · mathlib <code>c5ea00351c28</code></p>
 </header>
 <section class="page-reactions" aria-label="Community review" data-reactions-host="https://comments.laxarchive.org" data-reactions-url="https://laxarchive.org/lax-485480/" data-review-kind="submission" data-source-lines="0" data-submission-concept-urls="[&quot;https://laxarchive.org/lax-48/Lax48.TwinWidth.html&quot;,&quot;https://laxarchive.org/lax-195003/Lax195003.WelzlOrders.html&quot;,&quot;https://laxarchive.org/lax-195003/Lax195003.WelzlOrdersNeighborhoodSetSystem.html&quot;,&quot;https://laxarchive.org/lax-214022/Lax214022.Cographs.html&quot;,&quot;https://laxarchive.org/lax-214022/Lax214022.CographWelzlLowerBound.html&quot;,&quot;https://laxarchive.org/lax-214022/Lax214022.CographWelzlUpperBound.html&quot;,&quot;https://laxarchive.org/lax-485480/Lax485480.CographWelzlTreeLowerBound.html&quot;,&quot;https://laxarchive.org/lax-485480/Lax485480.CographWelzlTreeUpperBound.html&quot;,&quot;https://laxarchive.org/lax-485480/Lax485480.WelzlTrees.html&quot;]">
 <div class="page-reactions-line">
@@ -107,6 +107,14 @@ general bridges.  An order is itself a path tree with the same crossing
 number.  In the other direction, repeatedly deleting a leaf of a tree and
 reinserting it beside its neighbor produces an order whose crossing number
 is at most twice that of the tree.</p>
+<p>The logarithmic order phenomenon is the contiguity theorem of Crespelle and
+Gambette: they prove logarithmic upper and lower bounds for the number of
+intervals needed to represent all neighborhoods of a cograph in one vertex
+order.  Interval count and the number of membership changes along an order
+are equivalent up to a factor of two and an additive constant.  The present
+submission recasts that result in Welzl's crossing language and shows that
+allowing an arbitrary spanning tree, rather than only an order path, still
+changes the optimum by at most a factor of two.</p>
 </div>
 </section>
 
@@ -142,7 +150,7 @@ is at most twice that of the tree.</p>
 </figure>
 </section>
 <section class="page-section"><h3 class="section-title">Proofs</h3>
-<h4 class="figure-title">Proof network<a class="source-link" href="https://github.com/lax-archive/lax-submissions/tree/d90f7c04f9ed9700dbf93fa45a768d3d71833207/cograph-welzl-trees/proofs">view on GitHub</a></h4>
+<h4 class="figure-title">Proof network<a class="source-link" href="https://github.com/lax-archive/lax-submissions/tree/144563d5a10a9ae014978a6c8e55bdf6d06b3ebd/cograph-welzl-trees/proofs">view on GitHub</a></h4>
 <figure class="graph-figure proof-network-figure">
 <button class="graph-expand" type="button" data-graph-expand data-graph-label="proof network" aria-expanded="false" aria-label="Open proof network in a large window" title="Open in large window"><svg class="graph-expand-open" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M2.5 6V2.5H6M10 2.5h3.5V6M13.5 10v3.5H10M6 13.5H2.5V10"/></svg><span class="graph-expand-close" aria-hidden="true">×</span></button>
 <div id="proof-network" class="figure-container" data-graph="proofs"></div>
@@ -174,7 +182,7 @@ is at most twice that of the tree.</p>
 <p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-485480/Lax485480Proofs.CographWelzlTreeUpperBound.exists_welzlTree_crossingNumber_le_four_clog_add_one.html"><code>Lax485480Proofs.CographWelzlTreeUpperBound.exists_welzlTree_crossingNumber_le_four_clog_add_one</code></a></p>
 </li>
 </ul>
-<p class="proof-list-source">Lean sources for these proofs: <a class="source-link" href="https://github.com/lax-archive/lax-submissions/tree/d90f7c04f9ed9700dbf93fa45a768d3d71833207/cograph-welzl-trees/proofs">proofs/ on GitHub</a></p>
+<p class="proof-list-source">Lean sources for these proofs: <a class="source-link" href="https://github.com/lax-archive/lax-submissions/tree/144563d5a10a9ae014978a6c8e55bdf6d06b3ebd/cograph-welzl-trees/proofs">proofs/ on GitHub</a></p>
 </div>
 <p class="honesty-note">Proof code is not displayed; the archive records each proof's checked relationship between claims.</p>
 </section>
@@ -202,6 +210,7 @@ is at most twice that of the tree.</p>
 </section>
 <section class="page-section"><h3 class="section-title">References</h3>
 <ol class="reference-list">
+<li id="ref-CrespelleGambette2014">Christophe Crespelle and Philippe Gambette. <span class="reference-title">(Nearly-)Tight Bounds on the Contiguity and Linearity of Cographs</span>. Theoretical Computer Science 522:1–12, 2014. <a href="https://doi.org/10.1016/j.tcs.2013.11.036">doi:10.1016/j.tcs.2013.11.036</a> · <a href="https://webusers.i3s.unice.fr/~ccrespelle/publications/J06_CographLinearity.pdf">webusers.i3s.unice.fr/~ccrespelle/publications/J06_CographLinearity.pdf</a></li>
 <li id="ref-Welzl1992">Emo Welzl. <span class="reference-title">On Spanning Trees with Low Crossing Numbers</span>. In Data Structures and Efficient Algorithms 594:233–249, 1992. <a href="https://doi.org/10.1007/3-540-55488-2_30">doi:10.1007/3-540-55488-2_30</a></li>
 </ol>
 </section>
