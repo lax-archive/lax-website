@@ -897,7 +897,7 @@ After the formula.`, "");
     expect(html).toContain('data-remark42-url="https://laxarchive.org/Lax2/"');
     expect(html).toContain('class="remark42__counter" data-url="https://laxarchive.org/Lax2/"');
     expect(html).toMatch(/<p class="discussion-loading" id="remark42-status"[^>]*>[^]*?<\/p>\s*<div id="remark42"[^>]*><\/div>/);
-    expect(html).toContain("your ORCID profile must share a public name.");
+    expect(html).not.toContain("your ORCID profile must share a public name.");
     expect(html).toMatch(/<script src="\.\.\/assets\/comments\.js\?v=[0-9a-f]{12}"><\/script>/);
     expect(html).toContain("script-src 'self' https://comments.laxarchive.org");
     expect(html).toContain("frame-src https://comments.laxarchive.org");
