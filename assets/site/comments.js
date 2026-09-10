@@ -10,6 +10,20 @@
   const url = container.dataset.remark42Url || `${window.location.origin}${window.location.pathname}`;
   if (!host.startsWith("https://")) return;
 
+  const discussionCount = document.querySelector(".discussion-count");
+  const commentCounter = discussionCount?.querySelector(".remark42__counter");
+  if (commentCounter) {
+    const updateCountVisibility = () => {
+      const count = Number(commentCounter.textContent);
+      discussionCount.hidden = !Number.isInteger(count) || count < 2;
+    };
+    // Remark42 fills the counter asynchronously and may update it later.
+    new MutationObserver(updateCountVisibility).observe(commentCounter, {
+      childList: true, characterData: true, subtree: true,
+    });
+    updateCountVisibility();
+  }
+
   const reactions = document.querySelector("[data-reactions-host]");
   const reactionStatus = reactions?.querySelector("[data-reactions-status]");
   const reactionButtons = reactions ? [...reactions.querySelectorAll("[data-reaction]")] : [];

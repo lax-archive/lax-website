@@ -38,7 +38,7 @@ export function discussion(pathname: string): string {
 <h3 class="section-title" id="discussion-title">Discussion</h3>
 <p>Ask a question or add context. Endorsements and structured flags are kept in the review panel above.</p>
 </div>
-<p class="discussion-count"><span class="remark42__counter" data-url="${attr(threadUrl)}">0</span> <span>comments</span></p>
+<p class="discussion-count" hidden><span class="remark42__counter" data-url="${attr(threadUrl)}">0</span> <span>comments</span></p>
 </div>
 <div class="discussion-embed-shell">
 <p class="discussion-loading" id="remark42-status" role="status"><span class="discussion-loading-mark" aria-hidden="true"></span>Loading discussion…</p>
