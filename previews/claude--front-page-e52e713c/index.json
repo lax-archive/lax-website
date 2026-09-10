@@ -2379,6 +2379,112 @@
       ]
     },
     {
+      "id": "lax-429075",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "The Cook–Levin Theorem",
+      "concepts": [
+        {
+          "id": "Lax429075.CircuitMachine",
+          "title": "Polynomial circuit simulation of a verifier",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax429075.Circuits",
+          "title": "Boolean circuits",
+          "type": "definition"
+        },
+        {
+          "id": "Lax429075.CNF",
+          "title": "Conjunctive normal form",
+          "type": "definition"
+        },
+        {
+          "id": "Lax429075.CookLevin",
+          "title": "The Cook–Levin theorem",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax429075.Encoding",
+          "title": "Binary encoding of CNF formulas",
+          "type": "definition"
+        },
+        {
+          "id": "Lax429075.EncodingCorrect",
+          "title": "Decoding an encoded formula",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax429075.FiniteWitness",
+          "title": "A bounded satisfying assignment",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax429075.GateCorrect",
+          "title": "Correctness of gate clauses",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax429075.Reductions",
+          "title": "Polynomial many-one reductions and NP-completeness",
+          "type": "definition"
+        },
+        {
+          "id": "Lax429075.SATEncoding",
+          "title": "Satisfiability and binary encodings",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax429075.SATHard",
+          "title": "NP-hardness of SAT",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax429075.SATinNP",
+          "title": "SAT belongs to NP",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax429075.Satisfiability",
+          "title": "The satisfiability language and verifier",
+          "type": "definition"
+        },
+        {
+          "id": "Lax429075.Tseitin",
+          "title": "Gate clauses",
+          "type": "definition"
+        },
+        {
+          "id": "Lax429075.TseitinCorrect",
+          "title": "Correctness of the circuit encoding",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax429075.VerifierCorrect",
+          "title": "Correctness of the SAT verifier",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax429075.VerifierTime",
+          "title": "Polynomial time for CNF verification",
+          "type": "lemma"
+        }
+      ],
+      "proofs": [
+        "Lax429075Proofs.cook_levin",
+        "Lax429075Proofs.encoding_roundtrip",
+        "Lax429075Proofs.finite_witness",
+        "Lax429075Proofs.gate_correct",
+        "Lax429075Proofs.sat_encoding",
+        "Lax429075Proofs.sat_hard",
+        "Lax429075Proofs.sat_in_np",
+        "Lax429075Proofs.Streaming.circuit_machine",
+        "Lax429075Proofs.tseitin_correct",
+        "Lax429075Proofs.verifier_correct",
+        "Lax429075Proofs.verifier_polynomial"
+      ]
+    },
+    {
       "id": "lax-434930",
       "state": "draft",
       "environment": "v4.30.0",

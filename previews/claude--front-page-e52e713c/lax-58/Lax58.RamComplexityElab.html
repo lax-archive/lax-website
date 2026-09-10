@@ -7,19 +7,24 @@
 <title>Automatic RAM encoding selection (elaboration infrastructure) — Lax58.RamComplexityElab</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=7615a4f2c3d4">
+<link rel="stylesheet" href="../assets/style.css?v=da86e33efa6c">
 </head><body>
-<header class="site-header">
-  <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
+<header class="site-header sidebar-hidden">
+  <div class="site-brand">
   <h1 class="site-title"><a href="../index.html">Lax <span class="site-title-quiet">Lean Archive</span></a></h1>
+  <nav class="site-nav" aria-label="Site">
+    <a class="site-nav-link" href="../lax-242665/paper.html">Introduction</a>
+    <a class="site-nav-link" href="../about.html">About</a>
+  </nav>
+  </div>
   <nav class="header-actions" aria-label="Account">
     <div class="account-header" data-account-root data-remark42-host="https://comments.laxarchive.org" data-remark42-site="remark" data-identity-url="https://comments.laxarchive.org/reactions/v1/identity">
-  <a class="account-control" data-account-login href="https://comments.laxarchive.org/auth/orcid/login?from=https%3A%2F%2Flaxarchive.org&amp;site=remark"><span class="orcid-mark" aria-hidden="true">iD</span><span>Sign in with ORCID</span></a>
+  <a class="account-control" data-account-login href="https://comments.laxarchive.org/auth/orcid/login?from=https%3A%2F%2Flaxarchive.org&amp;site=remark"><span class="orcid-mark" aria-hidden="true">iD</span><span>Sign in<span class="account-login-long"> with ORCID</span></span></a>
   <button class="account-control" data-account-settings type="button" aria-haspopup="dialog" aria-controls="account-dialog" hidden><span class="orcid-mark" aria-hidden="true">iD</span><span>Settings</span></button>
 </div>
   </nav>
 </header>
-<main id="content-shell">
+<main id="content-shell" class="sidebar-hidden">
 <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
 <aside id="sidebar">
 <a class="sidebar-back" href="../lax-58/index.html"><span class="sidebar-back-arrow" aria-hidden="true">←</span>lax-58</a>
@@ -266,10 +271,9 @@ uses exactly the same input resolver as <span class="katex"><span class="katex-m
 <script type="application/json" id="graph-data">{"concepts":{"nodes":[{"id":"Lax13.Ram","href":"../lax-13/Lax13.Ram.html","title":"The word RAM","owner":"lax-13","status":"none","ext":true,"dir":"up"},{"id":"Lax13.RamComputes","href":"../lax-13/Lax13.RamComputes.html","title":"Computing a function within a time bound","owner":"lax-13","status":"none","ext":true,"dir":"up"},{"id":"Lax58.CertifiedDerivation","href":"../lax-58/Lax58.CertifiedDerivation.html","title":"Field-encoding agreement (infrastructure)","owner":"lax-58","status":"none","ext":true,"dir":"up"},{"id":"Lax58.CertifiedDerivationElab","href":"../lax-58/Lax58.CertifiedDerivationElab.html","title":"Certified encoding derivation (elaboration infrastructure)","owner":"lax-58","status":"none","ext":true,"dir":"up"},{"id":"Lax58.RamComplexity","href":"../lax-58/Lax58.RamComplexity.html","title":"Time and word-capacity bounds on the word-RAM","owner":"lax-58","status":"none","ext":true,"dir":"up"},{"id":"Lax58.RamComplexityElab","href":"../lax-58/Lax58.RamComplexityElab.html","title":"Automatic RAM encoding selection (elaboration infrastructure)","owner":"lax-58","status":"none","ext":false,"dir":"core"},{"id":"Lax58.RamComplexityExample","href":"../lax-58/Lax58.RamComplexityExample.html","title":"Examples — separate resource bounds and polynomial time","owner":"lax-58","status":"none","ext":true,"dir":"down"},{"id":"Lax58.RamPolynomialComparison","href":"../lax-58/Lax58.RamPolynomialComparison.html","title":"Two polynomial-time conventions, and their separation","owner":"lax-58","status":"proven","ext":true,"dir":"down"},{"id":"Lax58.StructuralCombinators","href":"../lax-58/Lax58.StructuralCombinators.html","title":"Certified structural presentation combinators","owner":"lax-58","status":"proven","ext":true,"dir":"up"},{"id":"Lax58.StructuralPresentation","href":"../lax-58/Lax58.StructuralPresentation.html","title":"Structural presentations of finite data","owner":"lax-58","status":"none","ext":true,"dir":"up"},{"id":"Lax58.WordArena","href":"../lax-58/Lax58.WordArena.html","title":"Distinguished immutable word arenas","owner":"lax-58","status":"proven","ext":true,"dir":"up"}],"edges":[{"from":"Lax13.Ram","to":"Lax13.RamComputes"},{"from":"Lax58.StructuralCombinators","to":"Lax58.CertifiedDerivation"},{"from":"Lax58.CertifiedDerivation","to":"Lax58.CertifiedDerivationElab"},{"from":"Lax13.RamComputes","to":"Lax58.RamComplexity"},{"from":"Lax58.WordArena","to":"Lax58.RamComplexity"},{"from":"Lax58.CertifiedDerivationElab","to":"Lax58.RamComplexityElab"},{"from":"Lax58.RamComplexity","to":"Lax58.RamComplexityElab"},{"from":"Lax58.RamComplexityElab","to":"Lax58.RamComplexityExample"},{"from":"Lax58.RamComplexityExample","to":"Lax58.RamPolynomialComparison"},{"from":"Lax58.StructuralPresentation","to":"Lax58.StructuralCombinators"},{"from":"Lax58.StructuralPresentation","to":"Lax58.WordArena"}],"home":"lax-58"},"proofs":{"statements":[],"proofs":[]}}</script>
 </div>
 <footer class="site-footer">
-  <nav class="site-footer-nav" aria-label="Legal and about">
+  <nav class="site-footer-nav" aria-label="Legal">
     <a class="site-footer-link" href="../impressum.html">Imprint</a>
     <a class="site-footer-link" href="../privacy.html">Privacy</a>
-    <a class="site-footer-link" href="../assets/lax-white-paper.pdf">About</a>
   </nav>
 </footer>
 </section>

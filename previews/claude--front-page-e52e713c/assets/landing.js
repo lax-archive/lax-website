@@ -58,13 +58,15 @@
   // cards in a rail beside it, bands between them) or the inference (cards
   // alone). Hover opens a card, a click pins it; a card that opened with
   // the page stays open only until the reader's first hover anywhere in
-  // the box, then every card follows the usual rule. On a phone there is
-  // no rail: each card sits in the text under its passage.
+  // the box, then every card follows the usual rule. Under the cards a
+  // hint says what to do, until the first hover or tap. On a phone there
+  // is no rail: each card sits in the text under its passage.
   function setupCardBox(box) {
     const grid = box.querySelector('.landing-paper-grid');
     const doc = box.querySelector('.landing-paper-doc');
     const rail = box.querySelector('.landing-paper-rail');
     const links = box.querySelector('.landing-paper-links');
+    const hint = box.querySelector('.landing-paper-hint');
     const canHover = window.matchMedia('(hover: hover)');
     const narrow = window.matchMedia('(max-width: 640px)');
     const pairs = [];
@@ -83,6 +85,8 @@
         rail.classList.remove('landing-paper-rail-live');
         rail.classList.add('landing-paper-rail-inline');
         rail.style.minHeight = '';
+        // The hint leads the text.
+        if (hint && doc.firstElementChild !== hint) { hint.style.top = ''; doc.prepend(hint); }
         for (const { passage, card } of placed) {
           card.style.top = '';
           card.classList.add('landing-card-inline');
@@ -96,18 +100,37 @@
           card.classList.remove('landing-card-inline');
           rail.append(card);
         }
+        if (hint) rail.append(hint);
       }
       rail.classList.add('landing-paper-rail-live');
       const docTop = doc.getBoundingClientRect().top;
       let bottom = 0;
+      let first = Infinity;
       for (const pair of placed) {
         const { passage, card } = pair;
         const wanted = passage.getBoundingClientRect().top - docTop;
         const y = Math.max(wanted, bottom);
         card.style.top = `${y}px`;
+        first = Math.min(first, y);
         bottom = y + (pair.opening || pair.pinned ? card.offsetHeight : closedHeight(card)) + CARD_GAP;
       }
+      // The hint in the room above the first card — the rail's top, where
+      // the paper's prose runs before its first passage — or, where there
+      // is none, under the last card.
+      if (hint) {
+        if (first >= hint.offsetHeight + CARD_GAP) hint.style.top = '0px';
+        else {
+          hint.style.top = `${bottom}px`;
+          bottom += hint.offsetHeight + CARD_GAP;
+        }
+      }
       rail.style.minHeight = `${Math.max(0, bottom - CARD_GAP)}px`;
+    }
+
+    // The first hover or tap in any example takes the hints away, in
+    // every example: the reader knows.
+    function touched() {
+      (box.closest('[data-carousel]') || box).classList.add('landing-paper-touched');
     }
 
     // A card's height with its body closed.
@@ -180,6 +203,7 @@
       }
 
       function setHover(hovering) {
+        if (hovering) touched();
         if (hovering) clearOpening(pair);
         else pair.opening = false;
         if (passage) passage.classList.toggle('manuscript-hl-hover', hovering);
@@ -189,6 +213,7 @@
       }
 
       function setPinned(next) {
+        touched();
         pair.opening = false;
         clearOpening(pair);
         pair.pinned = next;
@@ -312,19 +337,37 @@
     for (const root of document.querySelectorAll('[data-carousel]')) setupCarousel(root);
   }
 
-  // The proof network is wider than its box: keep it centred whenever
-  // dag.js draws it (on load, and again after a resize), and let the
-  // stylesheet fade its sides until the pointer is over it.
+  // The proof network is wider than its box, and may be taller. On a
+  // desktop it is scaled down to the box's height, so the whole of it is
+  // in view top to bottom and only scrolls sideways, centred (the large
+  // window shows it at full size); on a phone it keeps its size, centred,
+  // as the box is as tall as the graph there. Again whenever dag.js draws
+  // it (on load, after a resize, on opening or closing the large window).
   function setupNetwork() {
     const container = document.getElementById('proof-network');
     if (!container) return;
-    function center() {
+    const figure = container.closest('.graph-figure');
+    const narrow = window.matchMedia('(max-width: 640px)');
+    function fit() {
       const svg = container.querySelector('svg');
       if (!svg) return;
+      const natural = Number(svg.getAttribute('height')) || svg.getBoundingClientRect().height;
+      const cap = parseFloat(getComputedStyle(container).maxHeight);
+      const fitted = !narrow.matches && !(figure && figure.classList.contains('graph-expanded')) && Number.isFinite(cap) && cap < natural;
+      if (fitted) {
+        svg.style.height = `${cap}px`;
+        svg.style.width = 'auto';
+        container.style.height = `${cap}px`;
+      } else {
+        svg.style.height = '';
+        svg.style.width = '';
+        container.style.height = `${natural}px`;
+      }
       container.scrollLeft = Math.max(0, (container.scrollWidth - container.clientWidth) / 2);
     }
-    if (typeof MutationObserver === 'function') new MutationObserver(center).observe(container, { childList: true });
-    center();
+    if (typeof MutationObserver === 'function') new MutationObserver(fit).observe(container, { childList: true });
+    narrow.addEventListener('change', fit);
+    fit();
   }
 
   function setupLanding() {
