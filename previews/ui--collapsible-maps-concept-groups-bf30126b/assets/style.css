@@ -1140,7 +1140,8 @@ a.submission-meta-id:is(:hover, :focus-visible),
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
 }
 
-.block h3{
+.block h3,
+.block-details > summary{
   font-size: 0.85rem;
   font-weight: 700;
   font-variant: small-caps;
@@ -1148,6 +1149,11 @@ a.submission-meta-id:is(:hover, :focus-visible),
   margin-bottom: 0.7rem;
   letter-spacing: 0.05em;
 }
+
+.block-details:not([open]) > summary{ margin-bottom: 0; }
+.block-details > summary{ cursor: pointer; }
+.block-details > summary:hover{ color: var(--link); }
+.block-details > summary:focus-visible{ outline: 2px solid rgba(59, 107, 154, 0.35); outline-offset: 3px; }
 
 .block-statement .latex-content{ font-style: italic; }
 

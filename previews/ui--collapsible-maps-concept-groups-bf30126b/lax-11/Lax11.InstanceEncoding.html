@@ -7,7 +7,7 @@
 <title>Encoding a graph together with a k-expression — Lax11.InstanceEncoding</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=e736aa2aaedd">
+<link rel="stylesheet" href="../assets/style.css?v=1c21b9ee2c19">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -245,7 +245,7 @@ last node.</p>
 <tr id="L124" class=""><td class="line-num"><a href="#L124">124</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax11.InstanceEncoding</span></td></tr>
 <tr id="L125" class=""><td class="line-num"><a href="#L125">125</a></td><td class="line-code"> </td></tr>
 </table></div><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
-<div class="block"><h3>Formalization notes</h3><div class="latex-content"><p>The expression block is a certificate, and it is required to be a
+<details class="block block-details"><summary>Formalization notes</summary><div class="latex-content"><p>The expression block is a certificate, and it is required to be a
 correct one: the encoding says that the arrays describe some valid
 expression that evaluates to exactly the graph in the first block.
 Since the two blocks describe the same graph, a statement is not
@@ -275,11 +275,11 @@ inside the program.</p>
 exactly as in the compressed sparse row encoding; the length condition
 pins the expression block down completely, so the default value is
 never reached at a position the other conditions constrain.</p>
-</div></div>
+</div></details>
 <div class="block"><div class="deps-columns">
-<div class="deps-col"><h3>Builds on</h3><ul class="deps-list"><li><a href="../lax-11/Lax11.CliqueExpr.html"><code>Lax11.CliqueExpr</code></a></li><li><a href="../lax-11/Lax11.GraphEncoding.html"><code>Lax11.GraphEncoding</code></a></li></ul></div>
-<div class="deps-col"><h3>Used by</h3><ul class="deps-list"><li><a href="../lax-11/Lax11.Courcelle.html"><code>Lax11.Courcelle</code></a></li></ul></div>
-<div class="deps-col"><h3>From Mathlib</h3><p class="empty-note">none</p></div>
+<details class="deps-col block-details"><summary>Builds on</summary><ul class="deps-list"><li><a href="../lax-11/Lax11.CliqueExpr.html"><code>Lax11.CliqueExpr</code></a></li><li><a href="../lax-11/Lax11.GraphEncoding.html"><code>Lax11.GraphEncoding</code></a></li></ul></details>
+<details class="deps-col block-details"><summary>Used by</summary><ul class="deps-list"><li><a href="../lax-11/Lax11.Courcelle.html"><code>Lax11.Courcelle</code></a></li></ul></details>
+<details class="deps-col block-details"><summary>From Mathlib</summary><p class="empty-note">none</p></details>
 </div></div>
 <section class="page-section discussion-section" aria-labelledby="discussion-title">
 <div class="discussion-heading">

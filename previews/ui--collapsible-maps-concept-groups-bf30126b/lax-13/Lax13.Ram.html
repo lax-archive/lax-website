@@ -7,7 +7,7 @@
 <title>The word RAM — Lax13.Ram</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=e736aa2aaedd">
+<link rel="stylesheet" href="../assets/style.css?v=1c21b9ee2c19">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -433,7 +433,7 @@ each costing one time unit.</p>
 <tr id="L290" class=""><td class="line-num"><a href="#L290">290</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax13.Ram</span></td></tr>
 <tr id="L291" class=""><td class="line-num"><a href="#L291">291</a></td><td class="line-code"> </td></tr>
 </table></div><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
-<div class="block"><h3>Formalization notes</h3><div class="latex-content"><p>This is the machine the modern analysis of algorithms is stated on. Its
+<details class="block block-details"><summary>Formalization notes</summary><div class="latex-content"><p>This is the machine the modern analysis of algorithms is stated on. Its
 format is that of Cook and Reckhow (<em>Time bounded random access
 machines</em>, JCSS 7, 1973): memory cells are the only storage, an
 instruction is <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>c</mi><mi>e</mi><mi>l</mi><mi>l</mi><mo>←</mo><mi>f</mi><mo stretchy="false">(</mo><mi>c</mi><mi>e</mi><mi>l</mi><mi>l</mi><mi>s</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">cell ← f(cells)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6944em;"></span><span class="mord mathnormal">ce</span><span class="mord mathnormal" style="margin-right:0.0197em;">l</span><span class="mord mathnormal" style="margin-right:0.0197em;">l</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">←</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.1076em;">f</span><span class="mopen">(</span><span class="mord mathnormal">ce</span><span class="mord mathnormal" style="margin-right:0.0197em;">l</span><span class="mord mathnormal" style="margin-right:0.0197em;">l</span><span class="mord mathnormal">s</span><span class="mclose">)</span></span></span></span>, literals enter through one instruction
@@ -563,11 +563,11 @@ address. Randomness is absent as well; a randomized program is a
 deterministic program that consumes a word list of random numbers,
 which is definable downstream over this same machine, with no change to
 the model.</p>
-</div></div>
+</div></details>
 <div class="block"><div class="deps-columns">
-<div class="deps-col"><h3>Builds on</h3><p class="empty-note">none</p></div>
-<div class="deps-col"><h3>Used by</h3><ul class="deps-list"><li><a href="../lax-13/Lax13.RamComputes.html"><code>Lax13.RamComputes</code></a></li><li><a href="../lax-51/Lax51.RamPolytime.html"><code>Lax51.RamPolytime</code></a></li><li><a href="../lax-51/Lax51.TuringRamEquivalence.html"><code>Lax51.TuringRamEquivalence</code></a></li><li><a href="../lax-51/Lax51.TuringToRamGenericTime.html"><code>Lax51.TuringToRamGenericTime</code></a></li></ul></div>
-<div class="deps-col"><h3>From Mathlib</h3><ul class="deps-list"><li><a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/List/Basic.html"><code>Mathlib.Data.List.Basic</code></a></li></ul></div>
+<details class="deps-col block-details"><summary>Builds on</summary><p class="empty-note">none</p></details>
+<details class="deps-col block-details"><summary>Used by</summary><ul class="deps-list"><li><a href="../lax-13/Lax13.RamComputes.html"><code>Lax13.RamComputes</code></a></li><li><a href="../lax-51/Lax51.RamPolytime.html"><code>Lax51.RamPolytime</code></a></li><li><a href="../lax-51/Lax51.TuringRamEquivalence.html"><code>Lax51.TuringRamEquivalence</code></a></li><li><a href="../lax-51/Lax51.TuringToRamGenericTime.html"><code>Lax51.TuringToRamGenericTime</code></a></li></ul></details>
+<details class="deps-col block-details"><summary>From Mathlib</summary><ul class="deps-list"><li><a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/List/Basic.html"><code>Mathlib.Data.List.Basic</code></a></li></ul></details>
 </div></div>
 <section class="page-section discussion-section" aria-labelledby="discussion-title">
 <div class="discussion-heading">

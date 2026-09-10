@@ -7,7 +7,7 @@
 <title>Reachability between configurations of a pebble transducer is regular — Lax194892.PebbleReachability</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=e736aa2aaedd">
+<link rel="stylesheet" href="../assets/style.css?v=1c21b9ee2c19">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -207,7 +207,7 @@ checked by a pebble automaton with one pebble more.</p>
 <tr id="L43" class=""><td class="line-num"><a href="#L43">43</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax194892.PebbleReachability</span></td></tr>
 <tr id="L44" class=""><td class="line-num"><a href="#L44">44</a></td><td class="line-code"> </td></tr>
 </table></div><span class="source-proof-rail" data-source-line="L35" aria-label="Proof links"><a class="statement-proof-button" href="https://github.com/bojanczyk/transducer-book/blob/4bdfaae88ff9a670e7cc1319c283a4be3227aede/lax/polyregular-functions/proofs/Lax194892Proofs/Results.lean" aria-label="View proof Lax194892Proofs.Results.exists_regular_reachLang on GitHub" title="Lax194892Proofs.Results.exists_regular_reachLang"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">Show Proof</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a></span><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
-<div class="block"><h3>Formalization notes</h3><div class="latex-content"><p>The book asks for an mso formula whose two free variables range over
+<details class="block block-details"><summary>Formalization notes</summary><div class="latex-content"><p>The book asks for an mso formula whose two free variables range over
 configurations. Here the pair of configurations is encoded into the input
 string (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mi>a</mi><mi>i</mi><mi>r</mi><mi>E</mi><mi>n</mi><mi>c</mi></mrow><annotation encoding="application/x-tex">pairEnc</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8778em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">p</span><span class="mord mathnormal">ai</span><span class="mord mathnormal" style="margin-right:0.0278em;">r</span><span class="mord mathnormal" style="margin-right:0.0576em;">E</span><span class="mord mathnormal">n</span><span class="mord mathnormal">c</span></span></span></span>, one letter per gap) and the conclusion is that the set of
 encodings of reachable pairs is a <em>regular language</em> — equivalently, by Büchi's
@@ -216,11 +216,11 @@ genuine structure, the language is only required to be correct on genuine
 encodings: stacks of at most <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.0315em;">k</span></span></span></span> gaps of the input. Stated for pebble
 transducers rather than pebble automata, which have the same configuration
 graph.</p>
-</div></div>
+</div></details>
 <div class="block"><div class="deps-columns">
-<div class="deps-col"><h3>Builds on</h3><ul class="deps-list"><li><a href="../lax-194892/Lax194892.PebbleConfigurationEncoding.html"><code>Lax194892.PebbleConfigurationEncoding</code></a></li></ul></div>
-<div class="deps-col"><h3>Used by</h3><p class="empty-note">none</p></div>
-<div class="deps-col"><h3>From Mathlib</h3><ul class="deps-list"><li><a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Computability/DFA.html"><code>Mathlib.Computability.DFA</code></a></li></ul></div>
+<details class="deps-col block-details"><summary>Builds on</summary><ul class="deps-list"><li><a href="../lax-194892/Lax194892.PebbleConfigurationEncoding.html"><code>Lax194892.PebbleConfigurationEncoding</code></a></li></ul></details>
+<details class="deps-col block-details"><summary>Used by</summary><p class="empty-note">none</p></details>
+<details class="deps-col block-details"><summary>From Mathlib</summary><ul class="deps-list"><li><a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Computability/DFA.html"><code>Mathlib.Computability.DFA</code></a></li></ul></details>
 </div></div>
 <section class="page-section discussion-section" aria-labelledby="discussion-title">
 <div class="discussion-heading">
