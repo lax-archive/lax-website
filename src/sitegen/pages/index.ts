@@ -519,11 +519,10 @@ ${foot}
 
 /** The examples box: the caption at the top left with a dot per
  * example beside it, the slides below, and a large arrow at either side
- * of the box to step through them (on a phone the arrows ride along at
- * the middle of the screen while the box is in view). landing.js shows
- * one slide at a time (the arrow keys step too); without it the first
- * example shows. Every slide ends in the way on: the introduction, or the
- * submission. */
+ * of the box, centred on the slides, to step through them. landing.js
+ * shows one slide at a time (the arrow keys step too); without it the
+ * first example shows. Every slide ends in the way on: the introduction,
+ * or the submission. */
 async function examplesBox(ctx: PageContext, listed: SiteSubmission[], caption: string): Promise<string> {
   const examples = EXAMPLES.filter((example) => exampleAvailable(ctx.model, example));
   const dots = examples.map((example, index) =>
@@ -538,7 +537,6 @@ ${dots.join("\n")}
 <button class="landing-carousel-arrow landing-carousel-arrow-next" type="button" data-carousel-step="1" aria-label="Next example" title="Next example (→)"><span aria-hidden="true">›</span></button>
 </div>` : "";
   return `<section class="landing-box landing-paper manuscript" aria-label="${attr(`Excerpts of ${plural(examples.length, "annotated paper")}, as the archive shows them: ${examples.map((e) => e.subject).join(", ")}`)}" data-carousel>
-${arrows}
 <div class="landing-paper-frame">
 <div class="landing-box-head">
 <div class="landing-box-caption latex-content">
@@ -547,6 +545,7 @@ ${ctx.markdown.render(caption, "")}
 ${tablist}
 </div>
 <div class="landing-carousel-slides">
+${arrows}
 ${slides.join("\n")}
 </div>
 </div>
