@@ -3493,6 +3493,7 @@ body.graph-window-open::after{
   min-height: 38px;
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-evenly;
   align-items: center;
   gap: 0.45rem 1rem;
   padding: 0.45rem 0.7rem;
@@ -3523,6 +3524,16 @@ body.graph-window-open::after{
 .legend-node.stroke-ext{ border-color: var(--none-border); background: var(--surface); }
 .legend-arrow{ color: var(--text-dim); font-family: var(--mono); font-size: 0.9rem; font-style: normal; line-height: 1; }
 .legend-arrow.proof-dep{ color: var(--proof-dep); }
+.legend-assumptions{
+  width: 28px;
+  height: 26px;
+  flex: 0 0 auto;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.25;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
 .legend-proof-chip{
   display: inline-flex;
   align-items: center;
@@ -3577,8 +3588,13 @@ body.graph-window-open::after{
 
 .proof-network-figure .graph-tooltip{
   width: max-content;
+  background: rgba(248, 250, 252, 0.82);
   font-family: 'Latin Modern', Georgia, serif;
   font-size: 0.82rem;
+}
+
+.proof-network-figure .graph-tooltip .katex-display{
+  margin: 0.45rem 0;
 }
 
 /* Graph nodes, both figures: fill = status, stroke = origin. */
