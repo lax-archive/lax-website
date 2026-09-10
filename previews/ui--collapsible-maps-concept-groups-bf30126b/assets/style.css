@@ -3279,6 +3279,8 @@ a.submission-meta-id:is(:hover, :focus-visible),
   white-space: nowrap;
 }
 
+.discussion-count[hidden]{ display: none; }
+
 .discussion-count .remark42__counter{
   color: var(--text);
   font-weight: 700;
