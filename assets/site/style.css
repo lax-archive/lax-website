@@ -1832,7 +1832,7 @@ body.sidebar-resizing #content-shell{ transition: none; }
   mask-image: linear-gradient(to top, transparent 0, #000 5.6rem);
 }
 
-.landing-paper-doc{ min-width: 0; }
+.landing-paper-doc{ position: relative; min-width: 0; }
 
 .landing-paper-prose{
   font-size: 0.94rem;
@@ -1933,8 +1933,18 @@ body.sidebar-resizing #content-shell{ transition: none; }
   50%{ transform: translateY(-4px); }
 }
 .landing-paper-rail-live > .landing-paper-hint{ position: absolute; left: 0; right: 0; }
-/* On a phone the hint leads the text (landing.js moves it there). */
-.landing-paper-doc > .landing-paper-hint{ margin: 0 0 0.9rem; }
+/* On a phone the hint lies over the first lines of the text (landing.js
+   moves it there), taking no room of its own, so nothing moves when it
+   goes. */
+.landing-paper-doc > .landing-paper-hint{
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 8;
+  margin: 0;
+  pointer-events: none;
+}
 .landing-paper-hint > .landing-paper-hint-touch{ display: none; }
 @media (hover: none), (pointer: coarse){
   .landing-paper-hint > .landing-paper-hint-hover{ display: none; }
@@ -3849,7 +3859,6 @@ body.graph-window-open::after{
   .landing-box-head{ grid-template-columns: minmax(0, 1fr); }
   .landing-carousel-dots{ position: absolute; top: -1.15rem; right: 0.5rem; padding: 0; }
   .landing-card-inline:not(.manuscript-card-expanded){ display: none; }
-  .landing-paper-touched .landing-paper-doc > .landing-paper-hint{ display: none; }
   .landing-hero-actions{ display: grid; grid-template-columns: 1fr; }
   .landing-carousel-arrow{ width: 2.2rem; height: 2.2rem; font-size: 1.6rem; }
   .landing-carousel-arrow-prev{ left: -1.6rem; }
