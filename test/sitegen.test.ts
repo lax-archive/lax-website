@@ -961,7 +961,7 @@ After the formula.`, "");
     expect(html).toContain('data-graph-label="concept map" aria-expanded="false"');
     expect(html).toContain('data-graph-label="proof network" aria-expanded="false"');
     expect(html).toContain('<figure class="graph-figure proof-network-figure">');
-    expect(html).toMatch(/<span class="proof-flow">assumptions <svg class="legend-assumptions"[^>]*><path[^>]*\/><path[^>]*\/><\/svg><i class="legend-proof-chip" aria-hidden="true">⊢<\/i><i class="legend-arrow" aria-hidden="true">→<\/i> conclusion<\/span>/);
+    expect(html).toMatch(/<span class="proof-flow">assumptions <span class="legend-assumptions" aria-hidden="true">(<i class="legend-arrow">→<\/i>){3}<\/span><i class="legend-proof-chip" aria-hidden="true">⊢<\/i><i class="legend-arrow" aria-hidden="true">→<\/i> conclusion<\/span>/);
     expect(html).not.toContain("click to open");
     expect(html).not.toContain('class="legend-note">assumptions');
   });

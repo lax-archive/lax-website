@@ -255,7 +255,7 @@ export function proofNetworkLegend(data: ProofNetworkLegendData): string {
   const statuses = data.statements.map((statement) => statement.proven ? "proven" as const : "open" as const);
   const nodes = [...data.statements, ...data.proofs];
   const items = [
-    data.proofs.length ? `<span class="proof-flow">assumptions <svg class="legend-assumptions" viewBox="0 0 28 26" aria-hidden="true" focusable="false"><path d="M2 2 24 10m-6-6 6 6-8 1"/><path d="M2 24 24 16m-8-1 8 1-6 6"/></svg><i class="legend-proof-chip" aria-hidden="true">⊢</i><i class="legend-arrow" aria-hidden="true">→</i> conclusion</span>` : "",
+    data.proofs.length ? `<span class="proof-flow">assumptions <span class="legend-assumptions" aria-hidden="true"><i class="legend-arrow">→</i><i class="legend-arrow">→</i><i class="legend-arrow">→</i></span><i class="legend-proof-chip" aria-hidden="true">⊢</i><i class="legend-arrow" aria-hidden="true">→</i> conclusion</span>` : "",
     claimFillLegend(statuses),
     data.statements.some((statement) => (statement.count ?? 1) > 1)
       ? `<span><i class="legend-dock" aria-hidden="true">1</i>Statement 1, 2, … of a claim with several statements</span>`
