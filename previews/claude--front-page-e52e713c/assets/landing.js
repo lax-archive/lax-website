@@ -58,7 +58,8 @@
   // cards in a rail beside it, bands between them) or the inference (cards
   // alone). Hover opens a card, a click pins it; a card that opened with
   // the page stays open only until the reader's first hover anywhere in
-  // the box, then every card follows the usual rule.
+  // the box, then every card follows the usual rule. On a phone there is
+  // no rail: each card sits in the text under its passage.
   function setupCardBox(box) {
     const grid = box.querySelector('.landing-paper-grid');
     const doc = box.querySelector('.landing-paper-doc');
@@ -69,34 +70,44 @@
     const pairs = [];
 
     // Each card at its passage's height, pushed down where it would overlap
-    // the card above; in one column the cards stay in flow under the text.
+    // the card above. A card takes the room it has closed — except one
+    // that opened with the page or that the reader pinned — so a card
+    // opening under the pointer lies over the cards below it instead of
+    // shoving them down, and the box is as tall as the cards at rest. On a
+    // phone each card goes into the text under its passage (and back to
+    // the rail when the screen widens).
     function placeCards() {
       if (!doc || !rail) return;
       const placed = pairs.filter((pair) => pair.passage);
       if (narrow.matches) {
         rail.classList.remove('landing-paper-rail-live');
-        for (const { card } of placed) card.style.top = '';
+        rail.classList.add('landing-paper-rail-inline');
         rail.style.minHeight = '';
+        for (const { passage, card } of placed) {
+          card.style.top = '';
+          card.classList.add('landing-card-inline');
+          if (passage.nextElementSibling !== card) passage.after(card);
+        }
         return;
+      }
+      if (rail.classList.contains('landing-paper-rail-inline')) {
+        rail.classList.remove('landing-paper-rail-inline');
+        for (const { card } of pairs) {
+          card.classList.remove('landing-card-inline');
+          rail.append(card);
+        }
       }
       rail.classList.add('landing-paper-rail-live');
       const docTop = doc.getBoundingClientRect().top;
-      // The rail is as tall as the cards would be closed — except the card
-      // that opened with the page, which counts open — so a card the reader
-      // opens hangs out over the box's edge rather than stretching the box,
-      // and nothing hangs out before the reader touches anything.
       let bottom = 0;
-      let closedBottom = 0;
       for (const pair of placed) {
         const { passage, card } = pair;
         const wanted = passage.getBoundingClientRect().top - docTop;
         const y = Math.max(wanted, bottom);
         card.style.top = `${y}px`;
-        bottom = y + card.offsetHeight + CARD_GAP;
-        const yClosed = Math.max(wanted, closedBottom);
-        closedBottom = yClosed + (pair.opening ? card.offsetHeight : closedHeight(card)) + CARD_GAP;
+        bottom = y + (pair.opening || pair.pinned ? card.offsetHeight : closedHeight(card)) + CARD_GAP;
       }
-      rail.style.minHeight = `${Math.max(0, closedBottom - CARD_GAP)}px`;
+      rail.style.minHeight = `${Math.max(0, bottom - CARD_GAP)}px`;
     }
 
     // A card's height with its body closed.
@@ -153,12 +164,11 @@
 
     for (const card of box.querySelectorAll('.manuscript-card')) {
       const passage = card.id ? box.querySelector(`[data-excerpt-card="${CSS.escape(card.id)}"]`) : null;
-      const pair = { passage, card, link: null, opening: card.classList.contains('manuscript-card-expanded'), close: () => undefined };
+      const pair = { passage, card, link: null, opening: card.classList.contains('manuscript-card-expanded'), pinned: false, close: () => undefined };
       pairs.push(pair);
       const body = card.querySelector('.manuscript-card-body');
       const toggle = card.querySelector('.manuscript-card-toggle');
-      let pinned = false;
-      pair.close = () => { if (!pinned) setExpanded(false); };
+      pair.close = () => { if (!pair.pinned) setExpanded(false); };
 
       function setExpanded(expanded) {
         card.classList.toggle('manuscript-card-expanded', expanded);
@@ -175,16 +185,16 @@
         if (passage) passage.classList.toggle('manuscript-hl-hover', hovering);
         card.classList.toggle('manuscript-card-hover', hovering);
         if (pair.link) pair.link.classList.toggle('manuscript-link-hover', hovering);
-        if (!pinned) setExpanded(hovering);
+        if (!pair.pinned) setExpanded(hovering);
       }
 
       function setPinned(next) {
         pair.opening = false;
         clearOpening(pair);
-        pinned = next;
-        card.classList.toggle('manuscript-card-pinned', pinned);
-        if (passage) passage.setAttribute('aria-pressed', String(pinned));
-        setExpanded(pinned);
+        pair.pinned = next;
+        card.classList.toggle('manuscript-card-pinned', next);
+        if (passage) passage.setAttribute('aria-pressed', String(next));
+        setExpanded(next);
       }
 
       for (const el of [passage, card]) {
@@ -193,17 +203,17 @@
         el.addEventListener('mouseleave', () => { if (canHover.matches) setHover(false); });
       }
       if (passage) {
-        passage.addEventListener('click', () => setPinned(!pinned));
+        passage.addEventListener('click', () => setPinned(!pair.pinned));
         passage.addEventListener('keydown', (event) => {
           if (event.key !== 'Enter' && event.key !== ' ') return;
           event.preventDefault();
-          setPinned(!pinned);
+          setPinned(!pair.pinned);
         });
       }
       card.addEventListener('click', (event) => {
         // Links in the card lead away; the body is for reading and selecting.
         if (event.target.closest('a') || (body && body.contains(event.target))) return;
-        setPinned(!pinned);
+        setPinned(!pair.pinned);
       });
     }
 

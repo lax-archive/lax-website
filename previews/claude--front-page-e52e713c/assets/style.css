@@ -1621,6 +1621,10 @@ body.sidebar-resizing #content-shell{ transition: none; }
   transition: scrollbar-color 220ms ease;
 }
 
+/* The box fits a screen with its caption and legend; the graph scrolls
+   inside it (it opens in the large window for the whole). */
+.landing-network-figure:not(.graph-expanded) .landing-network-viewport > .figure-container{ max-height: 30rem; }
+
 .landing-network-figure:hover .landing-network-viewport > .figure-container,
 .landing-network-figure:focus-within .landing-network-viewport > .figure-container,
 .graph-expanded .landing-network-viewport > .figure-container{ scrollbar-color: var(--border) transparent; }
@@ -1664,12 +1668,16 @@ body.sidebar-resizing #content-shell{ transition: none; }
 .landing-carousel-dot[aria-selected="true"]{ width: 1.5rem; background: var(--accent); cursor: default; }
 
 /* The arrows: large, at the box's sides, half outside the frame, so
-   there is no doubt what they do. */
+   there is no doubt what they do. They sit in a strip over the box; on
+   a phone, where a slide is several screens tall, the strip sticks to the
+   middle of the screen while the box is in view. */
+.landing-carousel-arrows{ position: absolute; z-index: 8; inset: 0; pointer-events: none; }
 .landing-carousel-arrow{
   appearance: none;
   position: absolute;
   z-index: 8;
   top: 50%;
+  pointer-events: auto;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1866,6 +1874,14 @@ body.sidebar-resizing #content-shell{ transition: none; }
 .landing-paper-rail > .manuscript-card{ margin: 0 0 0.5rem; }
 /* Above the next box, for a card hanging out below this one. */
 .landing-paper-rail-live > .manuscript-card{ position: absolute; left: 0; right: 0; margin: 0; z-index: 6; }
+.landing-paper-rail-live > .manuscript-card-hover,
+.landing-paper-rail-live > .manuscript-card-expanded{ z-index: 7; }
+/* On a phone the cards leave the rail for the text (landing.js), each
+   under its passage. */
+.landing-paper-rail-inline{ display: none; }
+.landing-card-inline{ position: relative; z-index: 3; list-style: none; margin: 0.5rem 0 0.9rem; }
+.landing-card-inline + .landing-passage,
+.landing-card-inline + .landing-paper-prose{ margin-top: 0.7rem; }
 /* An open card scrolls past a screen's worth, one scrollbar for the
    whole body, so it hangs into the whitespace under the box and no
    further. */
@@ -3756,10 +3772,14 @@ body.graph-window-open::after{
   .landing-paper-frame{ padding: 1.1rem 0.9rem 1rem 1rem; }
   .landing-paper-grid{ grid-template-columns: 1fr; row-gap: 0.9rem; }
   .landing-paper-rail-live > .manuscript-card{ position: static; margin: 0 0 0.5rem; }
+  .landing-paper-prose, .landing-passage{ text-align: left; }
   .landing-hero-actions{ display: grid; grid-template-columns: 1fr; }
-  .landing-carousel-arrow{ width: 2.2rem; height: 2.2rem; font-size: 1.6rem; }
+  .landing-carousel-arrows{ position: sticky; inset: auto; top: 50vh; height: 0; }
+  .landing-carousel-arrow{ top: 0; width: 2.2rem; height: 2.2rem; font-size: 1.6rem; }
   .landing-carousel-arrow-prev{ left: -0.6rem; }
   .landing-carousel-arrow-next{ right: -0.6rem; }
+  /* The page scrolls through the network; the graph only sideways. */
+  .landing-network-figure:not(.graph-expanded) .landing-network-viewport > .figure-container{ height: auto !important; max-height: none; overflow-y: hidden; }
   .landing-columns{ grid-template-columns: 1fr; gap: 1.4rem; }
   .landing-foundation{ width: 100%; }
   .landing-hero-button{ width: 100%; }
@@ -3920,6 +3940,11 @@ body.graph-window-open::after{
 .manuscript-rail{ list-style: none; margin: 0; padding: 0; min-width: 0; }
 .manuscript-rail-live{ position: relative; }
 .manuscript-rail-live .manuscript-card{ position: absolute; left: 0; right: 0; margin: 0; }
+/* A card open under the pointer takes no room in the rail: it lies over
+   the cards below it. A pinned card takes its room. */
+.manuscript-rail-live .manuscript-card-hover,
+.manuscript-rail-live .manuscript-card-expanded{ z-index: 2; }
+.manuscript-rail-live .manuscript-card-pinned{ z-index: 1; }
 .manuscript-rail-static{ max-width: 34rem; }
 
 .manuscript-card{
@@ -3952,7 +3977,6 @@ body.graph-window-open::after{
 .manuscript-card-name a:hover{ text-decoration: underline; }
 .manuscript-card-name code{ font-family: 'Latin Modern', Georgia, serif; font-size: 0.82rem; }
 .manuscript-card-name .type-badge, .manuscript-card-name .proof-badge{ margin-right: 0; }
-.manuscript-card-page{ color: var(--text-dim); font-size: 0.7rem; white-space: nowrap; }
 .manuscript-card-toggle{
   flex: 0 0 auto;
   appearance: none;
@@ -4000,7 +4024,7 @@ body.graph-window-open::after{
 .manuscript-card.line-proven > .manuscript-card-head{ border-left: 3px solid var(--proven-border); padding-left: 0.35rem; margin-left: -0.55rem; }
 .manuscript-card.line-open > .manuscript-card-head{ border-left: 3px solid var(--partial-border); padding-left: 0.35rem; margin-left: -0.55rem; }
 .manuscript-card-unplaced{ opacity: 0.7; }
-.manuscript-card-unplaced .manuscript-card-page::after{ content: ' · passage not located'; }
+.manuscript-card-unplaced .manuscript-card-name::after{ content: 'passage not located'; margin-left: 0.4rem; color: var(--text-dim); font-size: 0.7rem; white-space: nowrap; }
 
 .manuscript-status{ color: var(--text-dim); font-size: 0.8rem; margin-top: 0.4rem; }
 .manuscript-status-failed{ color: var(--warn-fg); }
