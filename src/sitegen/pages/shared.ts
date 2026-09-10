@@ -2,7 +2,7 @@ import { DEFAULT_SITE_URL } from "../../config.js";
 import type { BuildOutput, ConceptEntry, ProofEntry } from "../../types.js";
 import type { ConceptGraphData, SubmissionGraphData } from "../graphs.js";
 import { attr, code, esc, formatDate, proofBadge, statePill, typeBadge } from "../html.js";
-import type { MarkdownRenderer } from "../markdown.js";
+import { plainAuthorTitle, type MarkdownRenderer } from "../markdown.js";
 import { compareIds, type LocatedProof, type SiteModel, type SiteSubmission } from "../model.js";
 import { conceptReviewBadge } from "./discussion.js";
 
@@ -510,14 +510,14 @@ ${typeOptions}
 </select>
 </div>`;
   const conceptRows = concepts.map((concept) => {
-    const name = conceptShortName(output!, concept);
+    const name = plainAuthorTitle(concept.title);
     const type = concept.type!.trim().toLowerCase();
     const provenCount = concept.statements.filter((s) => proven.has(s.id)).length;
     const status = concept.statements.length ? provenCount === concept.statements.length : undefined;
     const haystack = `${concept.id} ${concept.title} ${type}`.toLowerCase();
     const active = concept.id === opts.activeId ? ' class="active"' : "";
     const href = `${rootRel}${submission.record.id}/${concept.id}.html`;
-    return `<li${active} data-type="${attr(type)}" data-search="${attr(haystack)}"><a class="entry-link" href="${attr(href)}" data-full-title="${attr(concept.title)}"><span class="entry-label">${typeBadge(concept.type, status)}<span class="entry-label-text">${esc(name)}</span>${conceptReviewBadge(`${submission.record.id}/${concept.id}.html`)}</span></a></li>`;
+    return `<li${active} data-type="${attr(type)}" data-search="${attr(haystack)}"><a class="entry-link" href="${attr(href)}" data-full-title="${attr(name)}"><span class="entry-label">${typeBadge(concept.type, status)}<span class="entry-label-text">${esc(name)}</span>${conceptReviewBadge(`${submission.record.id}/${concept.id}.html`)}</span></a></li>`;
   });
   const proofRows = proofs.map((proof) => {
     const name = proofShortName(output!, proof, output!.id);

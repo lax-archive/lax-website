@@ -8,7 +8,6 @@ import { inPaperBlock } from "./paper.js";
 import {
   conceptLink,
   conceptMapLegend,
-  conceptShortName,
   draftBanner,
   environmentNotice,
   figureTitle,
@@ -125,8 +124,7 @@ export async function conceptPage(ctx: PageContext, located: LocatedConcept): Pr
 
   const content = `${versionHistoryPanel(ctx, submission.record.id, "../")}${draftBanner(submission.record.state)}${environmentNotice(ctx.model, submission)}
 <div class="detail-heading concept-heading">
-<div><p class="concept-id"><code>${esc(concept.id)}</code></p>
-<h1 class="concept-title">${ctx.markdown.renderAuthorInline(concept.title, "../")}</h1>
+<div><h1 class="concept-title">${ctx.markdown.renderAuthorInline(concept.title, "../")}</h1>
 <p class="concept-microline"><code>${esc(concept.path)}</code> · <a href="index.html">${esc(output.id)}</a></p></div>
 <span class="status-pills">${countsPill(provenCount, concept.statements.length)}</span>
 </div>
@@ -159,7 +157,7 @@ ${graphDataScript({
   })}`;
 
   return page({
-    title: `${concept.title} — ${conceptShortName(output, concept)}`,
+    title: ctx.markdown.plainAuthorTitle(concept.title),
     rootRel: "../",
     sidebar: submissionSidebar(ctx.model, submission, "../", { activeId: concept.id }),
     content,

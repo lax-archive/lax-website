@@ -135,8 +135,8 @@
     el.addEventListener('blur', () => hideTooltip(container));
   }
 
-  function appendBoxNode(parent, node, cls, label, width = node.width || nodeWidth(label)) {
-    const g = svgEl(parent, 'g', { class: cls + (node.ext ? ' ext' : ''), 'aria-label': node.id });
+  function appendBoxNode(parent, node, cls, label, width = node.width || nodeWidth(label), ariaLabel = node.id) {
+    const g = svgEl(parent, 'g', { class: cls + (node.ext ? ' ext' : ''), 'aria-label': ariaLabel });
     makeInteractive(g, node);
     svgEl(g, 'rect', {
       x: -width / 2, y: -NODE_H / 2, width, height: NODE_H, rx: 4,
@@ -467,7 +467,7 @@
     for (const node of nodes) {
       const position = positions.get(node.id);
       const g = appendBoxNode(group, node, spec.classOf(node), labelOf.get(node.id),
-        labelWidth(node.id));
+        labelWidth(node.id), spec.ariaLabelOf ? spec.ariaLabelOf(node) : node.id);
       g.setAttribute('transform', `translate(${position.x},${position.y})`);
       attachTooltip(g, container, spec.tooltipRows(node));
       attachHotEdges(g, incident.get(node.id));
@@ -518,10 +518,11 @@
       home: data.home,
       arrowId: 'concept-arrow',
       ariaLabel: 'Concept dependency graph',
+      labelOf: (node) => node.title || 'Untitled concept',
+      ariaLabelOf: (node) => node.title || 'Untitled concept',
       classOf: (node) => 'dag-node ' + (node.status || ''),
       tooltipRows: (node) => [
-        ['Concept', node.id],
-        ...(node.title && node.title !== node.id ? [['Title', node.title]] : []),
+        ['Concept', node.title || 'Untitled concept'],
         ['Status', node.status === 'none' ? 'definition' : node.status || 'unknown'],
         ...(node.owner ? [['Submission', node.owner]] : []),
       ],
