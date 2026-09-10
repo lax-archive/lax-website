@@ -1558,6 +1558,7 @@
         "Lax68Proofs.ConnectedThreeFan.exists_threeFan",
         "Lax68Proofs.excludedMinors_kuratowskiFree",
         "Lax68Proofs.halin_planar",
+        "Lax68Proofs.K33MinorTopologicalObstruction.k33Minor_topologicalMinor",
         "Lax68Proofs.kuratowskiFree_excludedMinors",
         "Lax68Proofs.kuratowskiFree_iff_excludedMinors",
         "Lax68Proofs.ladder_grid",
