@@ -47,15 +47,15 @@
     if (node.href) location.href = node.href;
   }
 
-  function makeInteractive(el, node) {
-    if (!node.href) return;
+  function makeInteractive(el, node, activate = follow, role = 'link') {
+    if (!activate) return;
     el.setAttribute('tabindex', 0);
-    el.setAttribute('role', 'link');
-    el.addEventListener('click', () => follow(node));
+    el.setAttribute('role', role);
+    el.addEventListener('click', (event) => activate(node, event));
     el.addEventListener('keydown', (event) => {
       if (event.key === 'Enter' || event.key === ' ') {
         event.preventDefault();
-        follow(node);
+        activate(node, event);
       }
     });
   }
@@ -135,9 +135,9 @@
     el.addEventListener('blur', () => hideTooltip(container));
   }
 
-  function appendBoxNode(parent, node, cls, label, width = node.width || nodeWidth(label)) {
+  function appendBoxNode(parent, node, cls, label, width = node.width || nodeWidth(label), interactive = true) {
     const g = svgEl(parent, 'g', { class: cls + (node.ext ? ' ext' : ''), 'aria-label': node.id });
-    makeInteractive(g, node);
+    if (interactive) makeInteractive(g, node, node.href ? follow : null);
     svgEl(g, 'rect', {
       x: -width / 2, y: -NODE_H / 2, width, height: NODE_H, rx: 4,
     });
@@ -349,6 +349,7 @@
    * visible path is returned so node hover can still highlight it. */
   function appendEdge(parent, cls, d, markerId) {
     const route = svgEl(parent, 'g', { class: 'graph-edge-route' });
+    svgEl(route, 'path', { class: 'graph-edge-hit', d });
     svgEl(route, 'path', { class: 'graph-edge-casing', d });
     return svgEl(route, 'path', {
       class: cls, d, 'marker-end': `url(#${markerId})`,
@@ -363,6 +364,416 @@
     el.addEventListener('mouseleave', set(false));
     el.addEventListener('focus', set(true));
     el.addEventListener('blur', set(false));
+  }
+
+  // ---- proof-network selection and detail drawer ----
+
+  const proofContexts = new WeakMap();
+  const reviewCache = new Map();
+  let activeProofContext = null;
+  let reviewSequence = 0;
+
+  function appendText(parent, name, cls, text) {
+    const element = document.createElement(name);
+    if (cls) element.className = cls;
+    element.textContent = text;
+    parent.append(element);
+    return element;
+  }
+
+  /** This markup was already rendered and sanitized by MarkdownRenderer at
+   * build time. Keeping that work on the server also gives drawer formulas
+   * the same KaTeX output as the concept and proof pages. */
+  function appendRendered(parent, cls, html) {
+    if (!html) return null;
+    const element = document.createElement('div');
+    element.className = cls;
+    element.innerHTML = html;
+    parent.append(element);
+    return element;
+  }
+
+  function ensureDetailPanel(container) {
+    const figure = container.closest('.graph-figure');
+    if (!figure) return null;
+    let panel = figure.querySelector('.graph-detail-panel');
+    if (panel) return panel;
+    panel = document.createElement('aside');
+    panel.className = 'graph-detail-panel';
+    panel.hidden = true;
+    panel.setAttribute('aria-label', 'Graph details');
+
+    const close = appendText(panel, 'button', 'graph-detail-close', '×');
+    close.type = 'button';
+    close.setAttribute('aria-label', 'Close graph details');
+    close.addEventListener('click', () => {
+      const context = proofContexts.get(container);
+      const trigger = context?.trigger;
+      clearProofSelection(context);
+      trigger?.focus?.();
+    });
+    appendText(panel, 'div', 'graph-detail-scroll', '');
+    figure.append(panel);
+    return panel;
+  }
+
+  function detailHeading(parent, detail, eyebrow, name) {
+    appendText(parent, 'p', 'graph-detail-eyebrow', eyebrow);
+    const heading = document.createElement('h3');
+    if (!name && detail.nameHtml) heading.innerHTML = detail.nameHtml;
+    else heading.textContent = name || detail.name || 'Details';
+    parent.append(heading);
+    if (detail.status) {
+      const status = appendText(parent, 'p', `graph-detail-status ${detail.status}`,
+        detail.status + (detail.statusDetail ? ` — ${detail.statusDetail}` : ''));
+      status.setAttribute('aria-label', `Status: ${status.textContent}`);
+    }
+  }
+
+  function detailFacts(parent, detail) {
+    const facts = [];
+    if (detail.type) facts.push(['Type', detail.type]);
+    if (detail.submission?.name) facts.push(['Submission', detail.submission.name]);
+    if (detail.submission?.state) facts.push(['Submission state', detail.submission.state]);
+    if (!facts.length) return;
+    const list = document.createElement('dl');
+    list.className = 'graph-detail-facts';
+    for (const [term, value] of facts) {
+      appendText(list, 'dt', '', term);
+      appendText(list, 'dd', '', value);
+    }
+    parent.append(list);
+  }
+
+  function renderReviewSummary(parent, detail, panel) {
+    if (!detail.reviewUrl) return;
+    const section = document.createElement('section');
+    section.className = 'graph-detail-review';
+    appendText(section, 'h4', '', detail.reviewLabel || 'Community review');
+    const values = document.createElement('div');
+    values.className = 'graph-detail-review-values';
+    appendText(values, 'span', 'graph-detail-review-loading', 'Loading endorsements and flags…');
+    section.append(values);
+    parent.append(section);
+
+    const host = document.querySelector('[data-reactions-host]')?.dataset.reactionsHost;
+    if (!host || !host.startsWith('https://')) {
+      values.replaceChildren();
+      appendText(values, 'span', 'graph-detail-review-unavailable', 'Review counts unavailable');
+      return;
+    }
+    const token = String(reviewSequence += 1);
+    panel.dataset.reviewToken = token;
+    let request = reviewCache.get(detail.reviewUrl);
+    if (!request) {
+      const url = new URL('/reactions/v1/page', host);
+      url.searchParams.set('url', detail.reviewUrl);
+      request = fetch(url, { cache: 'no-store', headers: { Accept: 'application/json' } })
+        .then((response) => {
+          if (!response.ok) throw new Error(`review service returned ${response.status}`);
+          return response.json();
+        })
+        .catch((error) => {
+          reviewCache.delete(detail.reviewUrl);
+          throw error;
+        });
+      reviewCache.set(detail.reviewUrl, request);
+    }
+    request.then((data) => {
+      if (panel.dataset.reviewToken !== token) return;
+      values.replaceChildren();
+      appendText(values, 'span', 'graph-detail-review-count endorse',
+        `🥳 ${Number(data.counts?.endorse) || 0} endorsement${Number(data.counts?.endorse) === 1 ? '' : 's'}`);
+      appendText(values, 'span', 'graph-detail-review-count flag',
+        `🚩 ${Number(data.counts?.flag) || 0} flag${Number(data.counts?.flag) === 1 ? '' : 's'}`);
+    }).catch(() => {
+      if (panel.dataset.reviewToken !== token) return;
+      values.replaceChildren();
+      appendText(values, 'span', 'graph-detail-review-unavailable', 'Review counts temporarily unavailable');
+    });
+  }
+
+  function appendClaimLink(parent, claim, prefix = '') {
+    const row = document.createElement('li');
+    if (prefix) row.append(document.createTextNode(prefix));
+    if (claim.href) {
+      const link = document.createElement('a');
+      link.href = claim.href;
+      link.textContent = claim.name;
+      row.append(link);
+    } else row.append(document.createTextNode(claim.name));
+    if (claim.statement) row.append(document.createTextNode(` (statement ${claim.statement} of ${claim.statementCount})`));
+    row.append(document.createTextNode(claim.proven ? ' — proven' : ' — open'));
+    parent.append(row);
+  }
+
+  function renderConceptDetails(parent, detail, focusStatement) {
+    if (detail.descriptionHtml) {
+      const section = document.createElement('section');
+      appendText(section, 'h4', '', 'Natural-language statement');
+      appendRendered(section, 'graph-detail-prose latex-content', detail.descriptionHtml);
+      parent.append(section);
+    }
+    if (detail.statements?.length) {
+      const section = document.createElement('section');
+      appendText(section, 'h4', '', 'Lean formalization');
+      for (const statement of detail.statements) {
+        const block = document.createElement('div');
+        block.className = 'graph-detail-formalization' +
+          (focusStatement === statement.id ? ' is-focused' : '');
+        if (detail.statements.length > 1)
+          appendText(block, 'p', 'graph-detail-formalization-label',
+            `${statement.name} · ${statement.proven ? 'proven' : 'open'}`);
+        const pre = document.createElement('pre');
+        appendText(pre, 'code', '', statement.signature);
+        block.append(pre);
+        section.append(block);
+      }
+      parent.append(section);
+    }
+  }
+
+  function renderProofDetails(parent, detail) {
+    if (detail.descriptionHtml) {
+      const description = document.createElement('section');
+      appendText(description, 'h4', '', 'Description');
+      appendRendered(description, 'graph-detail-prose latex-content', detail.descriptionHtml);
+      parent.append(description);
+    }
+    const section = document.createElement('section');
+    appendText(section, 'h4', '', 'Checked relationship');
+    const list = document.createElement('ul');
+    list.className = 'graph-detail-claims';
+    if (detail.assumptions?.length) {
+      for (const claim of detail.assumptions) appendClaimLink(list, claim, 'Assumes ');
+    } else appendText(list, 'li', '', 'No assumptions');
+    if (detail.conclusion) appendClaimLink(list, detail.conclusion, 'Concludes ');
+    section.append(list);
+    parent.append(section);
+    if (detail.leanPath) {
+      const source = document.createElement('section');
+      appendText(source, 'h4', '', 'Lean source');
+      const code = appendText(source, 'code', 'graph-detail-path', detail.leanPath);
+      if (detail.sourceHref) {
+        const link = document.createElement('a');
+        link.className = 'graph-detail-source-link';
+        link.href = detail.sourceHref;
+        link.textContent = 'View source';
+        source.append(link);
+      }
+      code.title = detail.leanPath;
+      parent.append(source);
+    }
+  }
+
+  function renderDetailPanel(context, view) {
+    const panel = context.panel;
+    const scroll = panel.querySelector('.graph-detail-scroll');
+    scroll.replaceChildren();
+    const body = document.createElement('div');
+    body.className = 'graph-detail-body';
+    detailHeading(body, view.detail, view.eyebrow, view.name);
+    if (view.relation) appendText(body, 'p', 'graph-detail-relation', view.relation);
+    detailFacts(body, view.detail);
+    renderReviewSummary(body, view.detail, panel);
+    if (view.detail.kind === 'concept') renderConceptDetails(body, view.detail, view.focusStatement);
+    else if (view.detail.kind === 'proof') renderProofDetails(body, view.detail);
+    if (view.proofDetail && view.proofDetail !== view.detail) {
+      const proof = document.createElement('section');
+      appendText(proof, 'h4', '', 'Proof step');
+      const link = document.createElement('a');
+      link.href = view.proofDetail.href;
+      link.textContent = view.proofDetail.name;
+      proof.append(link);
+      if (view.proofDetail.statusDetail)
+        appendText(proof, 'p', 'graph-detail-secondary', view.proofDetail.statusDetail);
+      body.append(proof);
+    }
+    for (const annotation of view.detail.sections || []) {
+      const section = document.createElement('section');
+      const heading = document.createElement('h4');
+      heading.innerHTML = annotation.titleHtml;
+      section.append(heading);
+      appendRendered(section, 'graph-detail-prose latex-content', annotation.bodyHtml);
+      body.append(section);
+    }
+    scroll.append(body);
+    if (view.href) {
+      const action = document.createElement('a');
+      action.className = 'graph-detail-action';
+      action.href = view.href;
+      action.textContent = view.actionLabel || 'Open page';
+      scroll.append(action);
+    }
+    panel.hidden = false;
+    scroll.scrollTop = 0;
+  }
+
+  function graphClosure(context, roots) {
+    const successors = new Map(context.nodes.map((node) => [node.key, []]));
+    const predecessors = new Map(context.nodes.map((node) => [node.key, []]));
+    for (const link of context.links) {
+      successors.get(link.source)?.push(link.target);
+      predecessors.get(link.target)?.push(link.source);
+    }
+    const related = new Set(roots);
+    const visit = (adjacency, root) => {
+      const pending = [root];
+      while (pending.length) {
+        const key = pending.pop();
+        for (const next of adjacency.get(key) || []) {
+          if (related.has(next)) continue;
+          related.add(next);
+          pending.push(next);
+        }
+      }
+    };
+    for (const root of roots) {
+      visit(successors, root);
+      visit(predecessors, root);
+    }
+    return related;
+  }
+
+  function centerGraphSelection(context, related) {
+    const boxes = [...related].flatMap((key) => {
+      const node = context.byKey.get(key);
+      return node ? [node] : [];
+    });
+    if (!boxes.length) return;
+    const left = Math.min(...boxes.map((node) => node.x - node.width / 2));
+    const right = Math.max(...boxes.map((node) => node.x + node.width / 2));
+    const top = Math.min(...boxes.map((node) => node.y - node.height / 2));
+    const bottom = Math.max(...boxes.map((node) => node.y + node.height / 2));
+    // The narrow-screen drawer intentionally covers the graph. It should not
+    // distort the graph's scroll target as though a few pixels remained beside it.
+    const measuredPanelWidth = context.panel.offsetWidth || 0;
+    const panelWidth = measuredPanelWidth < context.container.clientWidth * 0.8
+      ? measuredPanelWidth : 0;
+    const availableWidth = Math.max(1, context.container.clientWidth - panelWidth);
+    const panelOnLeft = context.panel.classList.contains('graph-detail-left');
+    const viewportCenterOffset = (panelOnLeft ? panelWidth : 0) + availableWidth / 2;
+    const targetLeft = (left + right) / 2 - viewportCenterOffset;
+    const targetTop = (top + bottom) / 2 - context.container.clientHeight / 2;
+    context.container.scrollTo?.({
+      left: Math.max(0, targetLeft),
+      top: Math.max(0, targetTop),
+      behavior: 'smooth',
+    });
+  }
+
+  function clearProofSelection(context) {
+    if (!context) return;
+    for (const item of context.items.values())
+      item.element.classList.remove('graph-selected', 'graph-related', 'graph-dimmed');
+    for (const item of context.edges)
+      item.route.classList.remove('graph-selected', 'graph-related', 'graph-dimmed');
+    context.selection = null;
+    context.trigger = null;
+    context.panel.hidden = true;
+    delete context.panel.dataset.reviewToken;
+    if (activeProofContext === context) activeProofContext = null;
+  }
+
+  function selectProofItem(context, descriptor, renderPanel = true) {
+    const item = context.items.get(descriptor.token);
+    if (!item) return;
+    if (activeProofContext && activeProofContext !== context) clearProofSelection(activeProofContext);
+    activeProofContext = context;
+    context.selection = descriptor;
+    context.trigger = item.element;
+
+    const related = graphClosure(context, item.roots);
+    for (const candidate of context.items.values()) {
+      const isRelated = candidate.roots.some((key) => related.has(key));
+      candidate.element.classList.toggle('graph-selected', candidate.token === descriptor.token);
+      candidate.element.classList.toggle('graph-related', isRelated && candidate.token !== descriptor.token);
+      candidate.element.classList.toggle('graph-dimmed', !isRelated);
+    }
+    context.edges.forEach((edge, index) => {
+      const isRelated = related.has(edge.link.source) && related.has(edge.link.target);
+      edge.route.classList.toggle('graph-selected', descriptor.edgeIndex === index);
+      edge.route.classList.toggle('graph-related', isRelated && descriptor.edgeIndex !== index);
+      edge.route.classList.toggle('graph-dimmed', !isRelated);
+    });
+
+    const elementBox = item.element.getBoundingClientRect();
+    const figureBox = context.panel.parentElement.getBoundingClientRect();
+    const panelOnLeft = (elementBox.left + elementBox.right) / 2 >
+      (figureBox.left + figureBox.right) / 2;
+    context.panel.classList.toggle('graph-detail-left', panelOnLeft);
+    context.panel.classList.toggle('graph-detail-right', !panelOnLeft);
+    hideTooltip(context.container);
+    if (renderPanel) renderDetailPanel(context, item.view);
+    requestAnimationFrame(() => centerGraphSelection(context, related));
+  }
+
+  function installProofSelection(container, data, nodes, byKey, links, nodeItems, edges) {
+    const panel = ensureDetailPanel(container);
+    if (!panel) return;
+    const previous = proofContexts.get(container)?.selection;
+    const context = { container, panel, nodes, byKey, links, items: new Map(), edges, selection: null, trigger: null };
+    proofContexts.set(container, context);
+
+    for (const item of nodeItems) {
+      const detailsKey = item.node.kind === 'proof'
+        ? `proof:${item.node.id}`
+        : `concept:${item.node.concept || item.node.id}`;
+      const detail = data.details?.[detailsKey];
+      if (!detail) continue;
+      const view = {
+        detail,
+        eyebrow: item.node.kind === 'proof'
+          ? 'Proof'
+          : detail.type ? detail.type.charAt(0).toUpperCase() + detail.type.slice(1) : 'Claim',
+        focusStatement: item.focusStatement,
+        href: item.href || item.node.href || detail.href,
+        actionLabel: item.node.kind === 'proof' ? 'Open proof page' : 'Open concept page',
+      };
+      const registered = { ...item, view, roots: [item.node.key] };
+      context.items.set(item.token, registered);
+      makeInteractive(item.element, registered,
+        () => selectProofItem(context, { token: item.token }), 'button');
+    }
+
+    edges.forEach((edge, edgeIndex) => {
+      const proofDetail = data.details?.[`proof:${edge.link.proofId}`];
+      const statement = data.statements.find((entry) => edge.link.statementIds?.includes(entry.id));
+      const conceptDetail = statement
+        ? data.details?.[`concept:${statement.concept || statement.id}`]
+        : null;
+      if (!proofDetail || !conceptDetail) return;
+      const assumption = edge.link.kind === 'assumption';
+      const relation = assumption
+        ? `${conceptDetail.name} is used as an assumption of ${proofDetail.name}.`
+        : `${proofDetail.name} establishes ${conceptDetail.name}.`;
+      const token = `edge:${edgeIndex}`;
+      const hit = edge.route.querySelector('.graph-edge-hit');
+      edge.route.classList.add('is-interactive');
+      hit.setAttribute('aria-label', assumption
+        ? `${conceptDetail.name}, assumption of ${proofDetail.name}`
+        : `${proofDetail.name}, conclusion ${conceptDetail.name}`);
+      const registered = {
+        token,
+        element: hit,
+        roots: [edge.link.source, edge.link.target],
+        view: {
+          detail: conceptDetail,
+          eyebrow: assumption ? 'Assumption link' : 'Conclusion link',
+          name: conceptDetail.name,
+          relation,
+          proofDetail,
+          focusStatement: edge.link.statementIds?.[0],
+          href: proofDetail.href,
+          actionLabel: 'Open proof page',
+        },
+      };
+      context.items.set(token, registered);
+      makeInteractive(hit, registered,
+        () => selectProofItem(context, { token, edgeIndex }), 'button');
+    });
+    if (previous && context.items.has(previous.token))
+      selectProofItem(context, previous);
   }
 
   // ---- layered DAG figures: dependency-free nodes at the bottom ----
@@ -674,7 +1085,7 @@
     for (const statement of data.statements) {
       // A claim displays as its home concept; a concept declaring several
       // statements is one box with a dock per statement.
-      const label = truncate(displayId(statement.label || statement.id, data.home), MAX_LABEL);
+      const label = truncate(statement.label || statement.title || statement.id, MAX_LABEL);
       if ((statement.count || 1) > 1 && statement.concept) {
         let node = conceptNodes.get(statement.concept);
         if (!node) {
@@ -719,17 +1130,21 @@
       const proofKey = 'p:' + proof.id;
       // Assumptions name a claim, never which of its statements was used, so
       // several assumed statements of one concept share a single edge.
-      const sources = [];
+      const sources = new Map();
       for (const assumption of proof.assumptions) {
         const place = placeOf.get(assumption);
-        if (!place || sources.includes(place.key)) continue;
-        sources.push(place.key);
+        if (!place) continue;
+        const statementIds = sources.get(place.key) || [];
+        statementIds.push(assumption);
+        sources.set(place.key, statementIds);
       }
-      for (const source of sources) links.push({
+      for (const [source, statementIds] of sources) links.push({
         source,
         target: proofKey,
         kind: 'assumption',
-        align: sources.length === 1,
+        align: sources.size === 1,
+        proofId: proof.id,
+        statementIds,
       });
       const conclusion = placeOf.get(proof.conclusion);
       if (conclusion) links.push({
@@ -738,6 +1153,8 @@
         kind: 'conclusion',
         align: true,
         dock: conclusion.dock,
+        proofId: proof.id,
+        statementIds: [proof.conclusion],
       });
     }
     links.sort((a, b) => `${a.source}\0${a.target}`.localeCompare(`${b.source}\0${b.target}`));
@@ -982,6 +1399,7 @@
     });
     const incident = new Map(nodes.map((node) => [node.key, []]));
     const dockIncident = new Map();
+    const renderedEdges = [];
     links.forEach((link, edgeIndex) => {
       const sourceNode = byKey.get(link.source);
       const targetNode = byKey.get(link.target);
@@ -1021,6 +1439,7 @@
         path = edgePath(linkPointSets[edgeIndex]);
       }
       const element = appendEdge(group, `net-edge ${link.kind}`, path, 'proof-arrow');
+      renderedEdges.push({ link, path: element, route: element.closest('.graph-edge-route') });
       incident.get(link.source).push(element);
       incident.get(link.target).push(element);
       if (link.dock) {
@@ -1030,12 +1449,16 @@
       }
     });
 
+    const nodeItems = [];
     for (const node of nodes) {
       if (node.kind === 'statement') {
-        const g = appendBoxNode(group, node, 'net-node ' + (node.proven ? 'proven' : 'open'), node.label);
+        const g = appendBoxNode(group, node, 'net-node ' + (node.proven ? 'proven' : 'open'),
+          node.label, node.width, false);
         g.setAttribute('transform', `translate(${node.x},${node.y})`);
+        g.setAttribute('aria-label', node.label);
         attachTooltip(g, container, statementTooltipRows(node));
         attachHotEdges(g, incident.get(node.key));
+        nodeItems.push({ token: node.key, element: g, node, focusStatement: node.id });
         continue;
       }
       if (node.kind === 'concept') {
@@ -1043,32 +1466,34 @@
         // below it, so an arrow into a dock still arrives at the node's bottom.
         const g = svgEl(group, 'g', { transform: `translate(${node.x},${node.y})` });
         const box = appendBoxNode(g, node, 'net-node ' + (node.proven ? 'proven' : 'open'),
-          node.label, node.width);
+          node.label, node.width, false);
         box.setAttribute('transform', `translate(0,${-node.height / 2 + NODE_H / 2})`);
+        box.setAttribute('aria-label', node.label);
         attachTooltip(box, container, conceptTooltipRows(node));
         attachHotEdges(box, incident.get(node.key));
+        nodeItems.push({ token: node.key, element: box, node });
         node.docks.forEach((dock, index) => {
           const x = dockOffsetX(node, index + 1);
           const y = dockCenterY(node);
           const dockGroup = svgEl(g, 'g', {
             class: 'net-dock ' + (dock.proven ? 'proven' : 'open') + (dock.ext ? ' ext' : ''),
-            'aria-label': `${node.id}, statement ${index + 1} of ${node.docks.length}`,
+            'aria-label': `${node.label}, statement ${index + 1} of ${node.docks.length}`,
           });
-          makeInteractive(dockGroup, dock);
           svgEl(dockGroup, 'circle', { cx: x, cy: y, r: DOCK_R });
           svgEl(dockGroup, 'text', { x, y, 'text-anchor': 'middle', dy: 2.5 })
             .textContent = String(index + 1);
           attachTooltip(dockGroup, container, dockTooltipRows(node, dock, index + 1));
           attachHotEdges(dockGroup, dockIncident.get(`${node.key}\0${index + 1}`));
+          nodeItems.push({ token: `dock:${dock.id}`, element: dockGroup, node,
+            focusStatement: dock.id, href: dock.href });
         });
         continue;
       }
       const g = svgEl(group, 'g', {
         class: 'net-proof' + (node.ext ? ' ext' : ''),
-        'aria-label': node.id,
+        'aria-label': data.details?.[`proof:${node.id}`]?.name || 'Proof',
         transform: `translate(${node.x},${node.y})`,
       });
-      makeInteractive(g, node);
       svgEl(g, 'rect', {
         x: -node.width / 2, y: -node.height / 2,
         width: node.width, height: node.height, rx: 4,
@@ -1076,7 +1501,9 @@
       svgEl(g, 'text', { 'text-anchor': 'middle', dy: 4.5 }).textContent = '⊢';
       attachTooltip(g, container, proofTooltipRows(node));
       attachHotEdges(g, incident.get(node.key));
+      nodeItems.push({ token: node.key, element: g, node });
     }
+    installProofSelection(container, data, nodes, byKey, links, nodeItems, renderedEdges);
   }
 
   function render() {
@@ -1148,8 +1575,20 @@
     });
   }
 
+  function installProofDetailDismissal() {
+    window.addEventListener('keydown', (event) => {
+      if (event.key !== 'Escape' || !activeProofContext || activeProofContext.panel.hidden) return;
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      const trigger = activeProofContext.trigger;
+      clearProofSelection(activeProofContext);
+      trigger?.focus?.();
+    });
+  }
+
   function initialize() {
     installUsedConceptToggle();
+    installProofDetailDismissal();
     installGraphExpanders();
     render();
   }

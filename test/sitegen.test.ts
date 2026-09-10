@@ -852,7 +852,8 @@ After the formula.`, "");
     // judgment claims and the proof-id subline drop the page's own prefixes
     expect(html).toMatch(/judgment-conclusion[^]*?Lax2\.C\.html[^]*?<code>C<\/code>/);
     expect(html).toContain('title="Lax2Proofs.truth"><code>truth</code>');
-    expect(html).not.toContain("Strategy");
+    const visibleProofList = html.slice(html.indexOf('class="proof-list-box"'), html.indexOf('class="honesty-note"'));
+    expect(visibleProofList).not.toContain("Strategy");
     expect(html.indexOf('id="proof-network"')).toBeLessThan(html.indexOf('class="proof-list"'));
     // both proof surfaces link out to the proof package — a tree link, since
     // `proofs/` is a directory, not the file the `path` argument means
@@ -914,9 +915,26 @@ After the formula.`, "");
     expect(data.concepts.nodes.map((n: { id: string; status: string }) => [n.id, n.status]))
       .toEqual([["Lax2.C", "proven"], ["Lax2.D", "none"]]);
     expect(data.proofs.statements[0]).toMatchObject({
-      id: "Lax2.C.truth", label: "Lax2.C", owner: "Lax2", proven: true, ext: false,
+      id: "Lax2.C.truth", label: "Truth", owner: "Lax2", proven: true, ext: false,
       concept: "Lax2.C", index: 1, count: 1,
     });
+    expect(data.proofs.details["concept:Lax2.C"]).toMatchObject({
+      kind: "concept", name: "Truth", type: "theorem", status: "proven",
+      submission: { id: "Lax2", name: "Two", state: "registered" },
+      statements: [{ id: "Lax2.C.truth", signature: "truth : True", proven: true }],
+      href: "../Lax2/Lax2.C.html",
+      reviewUrl: "https://laxarchive.org/Lax2/Lax2.C.html",
+    });
+    expect(data.proofs.details["concept:Lax2.C"].descriptionHtml).toContain("A description with $$x+y$$.");
+    expect(data.proofs.details["proof:Lax2Proofs.truth"]).toMatchObject({
+      kind: "proof", name: "Proof of Truth", status: "grounded",
+      submission: { id: "Lax2", name: "Two", state: "registered" },
+      leanPath: "proofs/Lax2Proofs/Basic.lean",
+      href: "../Lax2/Lax2Proofs.truth.html",
+    });
+    expect(data.proofs.details["proof:Lax2Proofs.truth"].sections).toEqual([
+      { titleHtml: "Strategy", bodyHtml: "<p>Trivial.</p>\n" },
+    ]);
     // a single-statement archive shows no ordinals and no dock furniture
     expect(html).not.toContain("claim-ordinal");
     expect(html).not.toContain("legend-dock");
@@ -975,7 +993,7 @@ After the formula.`, "");
     expect(groundedProofs).toContain("stroke-own");
     expect(groundedProofs).not.toContain("stroke-ext");
     expect(groundedProofs).not.toContain("legend-cycle");
-    inOrder(groundedProofs, ["proof-flow", "fill-proven", "stroke-own", "Proof — click to open"]);
+    inOrder(groundedProofs, ["proof-flow", "fill-proven", "stroke-own", "Proof — click for details"]);
 
     // Lax4's claims are open, its concept ancestry contains definitions from
     // other submissions, and its two proofs form a cycle.
@@ -992,7 +1010,7 @@ After the formula.`, "");
     const cyclicProofs = legend(cyclic, "Proof network legend", "figcaption");
     expect(cyclicProofs).not.toContain("fill-proven");
     expect(cyclicProofs).not.toContain("stroke-ext");
-    inOrder(cyclicProofs, ["proof-flow", "fill-open", "stroke-own", "Proof — click to open", "legend-cycle"]);
+    inOrder(cyclicProofs, ["proof-flow", "fill-open", "stroke-own", "Proof — click for details", "legend-cycle"]);
   });
 
   it("emits expandable concept closures and proof readiness metadata for deterministic DAGs", async () => {
@@ -1081,10 +1099,20 @@ After the formula.`, "");
     expect(script).toContain("routeDagEdge");
     expect(script).toContain("segmentIsClear");
     expect(script).toContain("MIN_ARC_SEPARATION");
-    expect(script).toContain("sources.length === 1");
+    expect(script).toContain("sources.size === 1");
     expect(script).toContain("EDGE_BEND_RADIUS");
     expect(script).toContain(" Q${corner.x},${corner.y}");
     expect(script).toContain("graph-edge-casing");
+    expect(script).toContain("installProofSelection");
+    expect(script).toContain("graphClosure");
+    expect(script).toContain("centerGraphSelection");
+    expect(script).toContain("graph-edge-hit");
+    expect(script).toContain("Open concept page");
+    expect(script).toContain("Open proof page");
+    const css = fs.readFileSync(path.join(root, "assets", "style.css"), "utf8");
+    expect(css).toContain(".graph-detail-panel{");
+    expect(css).toContain(".graph-edge-route.graph-selected .net-edge");
+    expect(css).toContain(".graph-detail-scroll{");
     const layoutScript = fs.readFileSync(path.join(root, "assets", "layout.js"), "utf8");
     expect(layoutScript).toContain("optimizeOrdering");
     expect(layoutScript).toContain("removeRepeatedCrossings");
