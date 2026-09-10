@@ -33,6 +33,9 @@
   --text-dim: #6b7280;
   --accent: #3b6b9a;
   --accent-light: #e9f0f7;
+  /* The band across a landing box's top: the page's own warm ground, a
+     shade darker. Not the accent — that blue is the proof marks'. */
+  --box-head: #f2efe9;
   --link: #2c5f8a;
   --proven-bg: #e8f5e8;
   --proven-fg: #2d6a2d;
@@ -1794,7 +1797,7 @@ body.sidebar-resizing #content-shell{ transition: none; }
 
 .landing-box-head > .landing-box-caption{ margin-bottom: 0; }
 .landing-box-head,
-.landing-network-figure > .landing-box-caption{ background: var(--accent-light); }
+.landing-network-figure > .landing-box-caption{ background: var(--box-head); }
 .landing-network-figure > .landing-box-caption{ border-bottom: 1px solid var(--border-light); }
 
 .landing-box-caption p{ margin: 0; }
@@ -3972,15 +3975,23 @@ body.graph-window-open::after{
   mix-blend-mode: multiply;
 }
 .manuscript-links-live{ display: block; }
-.manuscript-link, .manuscript-hl-shadow{ fill: var(--mark-concept-band); stroke: none; transition: fill 150ms ease; }
-.manuscript-link.kind-proof, .manuscript-hl-shadow.kind-proof{ fill: var(--mark-proof-band); }
-.manuscript-link.kind-submission, .manuscript-hl-shadow.kind-submission{ fill: var(--mark-submission-band); }
-.manuscript-link.manuscript-link-hover, .manuscript-link.manuscript-link-active,
+.manuscript-link, .manuscript-hl-shadow{ stroke: none; transition: fill 150ms ease; }
+/* The shadow behind a printed passage keeps the pale band shade — it lies
+   under the page's own mark. The band across the gutter takes the
+   passage's shade itself, so a highlight and the tie to its card read as
+   one region. */
+.manuscript-hl-shadow{ fill: var(--mark-concept-band); }
+.manuscript-hl-shadow.kind-proof{ fill: var(--mark-proof-band); }
+.manuscript-hl-shadow.kind-submission{ fill: var(--mark-submission-band); }
 .manuscript-hl-shadow.manuscript-hl-hover, .manuscript-hl-shadow.manuscript-hl-active, .manuscript-hl-shadow.manuscript-hl-flash{ fill: var(--mark-concept-band-hot); }
-.manuscript-link.manuscript-link-hover.kind-proof, .manuscript-link.manuscript-link-active.kind-proof,
 .manuscript-hl-shadow.manuscript-hl-hover.kind-proof, .manuscript-hl-shadow.manuscript-hl-active.kind-proof, .manuscript-hl-shadow.manuscript-hl-flash.kind-proof{ fill: var(--mark-proof-band-hot); }
-.manuscript-link.manuscript-link-hover.kind-submission, .manuscript-link.manuscript-link-active.kind-submission,
 .manuscript-hl-shadow.manuscript-hl-hover.kind-submission, .manuscript-hl-shadow.manuscript-hl-active.kind-submission, .manuscript-hl-shadow.manuscript-hl-flash.kind-submission{ fill: var(--mark-submission-band-hot); }
+.manuscript-link{ fill: var(--mark-concept-ink); }
+.manuscript-link.kind-proof{ fill: var(--mark-proof-ink); }
+.manuscript-link.kind-submission{ fill: var(--mark-submission-ink); }
+.manuscript-link.manuscript-link-hover, .manuscript-link.manuscript-link-active{ fill: var(--mark-concept-ink-hot); }
+.manuscript-link.manuscript-link-hover.kind-proof, .manuscript-link.manuscript-link-active.kind-proof{ fill: var(--mark-proof-ink-hot); }
+.manuscript-link.manuscript-link-hover.kind-submission, .manuscript-link.manuscript-link-active.kind-submission{ fill: var(--mark-submission-ink-hot); }
 
 .manuscript-pages{ position: relative; min-width: 0; }
 .manuscript-page{
