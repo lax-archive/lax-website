@@ -6,6 +6,7 @@ import type { LocatedConcept } from "../model.js";
 import { discussion, pageReactions } from "./discussion.js";
 import { inPaperBlock } from "./paper.js";
 import {
+  annotationSections,
   conceptLink,
   conceptMapLegend,
   conceptShortName,
@@ -87,9 +88,7 @@ export async function conceptPage(ctx: PageContext, located: LocatedConcept): Pr
   const type = concept.type!.trim();
   const typeHeading = type.charAt(0).toUpperCase() + type.slice(1);
 
-  const sections = (concept.sections ?? [])
-    .map((s) => `<div class="block"><h3>${ctx.markdown.renderAuthorInline(s.title, "../")}</h3><div class="latex-content">${ctx.markdown.renderAuthorProse(s.markdown, "../")}</div></div>`)
-    .join("\n");
+  const sections = annotationSections(ctx, concept.sections, "../");
 
   const importRows = concept.imports.map((id) => `<li>${conceptLink(ctx.model, id, "../", output.id)}</li>`);
   const mathlibRows = (concept.mathlibImports ?? []).map((id) =>
@@ -97,7 +96,7 @@ export async function conceptPage(ctx: PageContext, located: LocatedConcept): Pr
   const usedByRows = (ctx.model.importers.get(concept.id) ?? []).map((item) =>
     `<li>${conceptLink(ctx.model, item.concept.id, "../", output.id)}</li>`);
   const depsCol = (heading: string, rows: string[]) =>
-    `<div class="deps-col"><h3>${esc(heading)}</h3>${rows.length ? `<ul class="deps-list">${rows.join("")}</ul>` : `<p class="empty-note">none</p>`}</div>`;
+    `<details class="deps-col block-details"><summary>${esc(heading)}</summary>${rows.length ? `<ul class="deps-list">${rows.join("")}</ul>` : `<p class="empty-note">none</p>`}</details>`;
 
   // One rail per statement that has proofs, anchored at that statement's own
   // declaration row; source-proof.js groups rails by row, so several of them

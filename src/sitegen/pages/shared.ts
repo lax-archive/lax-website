@@ -1,5 +1,5 @@
 import { DEFAULT_SITE_URL } from "../../config.js";
-import type { BuildOutput, ConceptEntry, ProofEntry } from "../../types.js";
+import type { AnnotationSection, BuildOutput, ConceptEntry, ProofEntry } from "../../types.js";
 import type { ConceptGraphData, SubmissionGraphData } from "../graphs.js";
 import { attr, code, esc, formatDate, proofBadge, statePill, typeBadge } from "../html.js";
 import type { MarkdownRenderer } from "../markdown.js";
@@ -7,6 +7,17 @@ import { compareIds, type LocatedProof, type SiteModel, type SiteSubmission } fr
 import { conceptReviewBadge } from "./discussion.js";
 
 export interface PageContext { model: SiteModel; markdown: MarkdownRenderer }
+
+/** Author sections share their rendering across concept and proof pages. */
+export function annotationSections(ctx: PageContext, sections: AnnotationSection[] | undefined, rootRel: string): string {
+  return (sections ?? []).map((section) => {
+    const title = ctx.markdown.renderAuthorInline(section.title, rootRel);
+    const body = `<div class="latex-content">${ctx.markdown.renderAuthorProse(section.markdown, rootRel)}</div>`;
+    return section.title.trim().toLowerCase() === "formalization notes"
+      ? `<details class="block block-details"><summary>${title}</summary>${body}</details>`
+      : `<div class="block"><h3>${title}</h3>${body}</div>`;
+  }).join("\n");
+}
 
 // ---- display names ----
 

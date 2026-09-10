@@ -1235,9 +1235,9 @@ After the formula.`, "");
     expect(html).not.toContain('block-statements');
     expect(html).toContain("mathlib4_docs/Mathlib/Data/Nat/Basic.html");
     expect(html).toContain(">proven</span>");
-    expect(html).toContain("<h3>Builds on</h3>");
-    expect(html).toContain("<h3>Used by</h3>");
-    expect(html).toContain("<h3>From Mathlib</h3>");
+    expect(html).toContain('<details class="deps-col block-details"><summary>Builds on</summary>');
+    expect(html).toContain('<details class="deps-col block-details"><summary>Used by</summary>');
+    expect(html).toContain('<details class="deps-col block-details"><summary>From Mathlib</summary>');
     expect(html).not.toContain("<h3>Imported</h3>");
     expect(html).not.toContain("Mathlib imports");
     // the claim's evidence block lists the archived proof, linking to its page
