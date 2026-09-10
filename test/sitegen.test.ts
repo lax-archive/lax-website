@@ -827,9 +827,9 @@ After the formula.`, "");
     expect(html).not.toContain('class="status-mark');
     expect(html).toContain('<a href="Lax2.C.html" title="Lax2.C"><code>C</code></a>');
     expect(html.indexOf('class="concept-list"')).toBeLessThan(html.indexOf('id="concept-dag"'));
-    // the concept box explains its own badges, real components as samples
-    expect(html).toContain('class="badge-legend"');
-    expect(html.indexOf('class="concept-list"')).toBeLessThan(html.indexOf('class="badge-legend"'));
+    // Statements and definitions form separate grids, with no badge legend.
+    expect(html).toMatch(/<ul class="concept-list" aria-label="Statements">\s*<li>[^]*?Lax2\.C\.html[^]*?<\/ul>\s*<ul class="concept-list" aria-label="Definitions">\s*<li>[^]*?Lax2\.D\.html[^]*?<\/ul>/);
+    expect(html).not.toContain('class="badge-legend"');
     expect(html).not.toContain("letters abbreviate the concept's type");
     // judgment-card proof entry: head links to the proof page, the conclusion
     // is rendered as its claim-concept, annotation sections stay off this page
@@ -854,6 +854,7 @@ After the formula.`, "");
     expect(html).toContain('title="Lax2Proofs.truth"><code>truth</code>');
     expect(html).not.toContain("Strategy");
     expect(html.indexOf('id="proof-network"')).toBeLessThan(html.indexOf('class="proof-list"'));
+    expect(html).toMatch(/<details class="figure-details">\s*<summary>Proof list<\/summary>\s*<div class="proof-list-box">/);
     // both proof surfaces link out to the proof package — a tree link, since
     // `proofs/` is a directory, not the file the `path` argument means
     const proofsTree = `https://github.com/example/math/tree/${"a".repeat(40)}/proofs`;
@@ -954,13 +955,6 @@ After the formula.`, "");
     // Lax2 has a proven claim and a definition, but no open or external
     // concepts. Its one proof is grounded, local, and acyclic.
     const grounded = fs.readFileSync(path.join(root, "Lax2", "index.html"), "utf8");
-    const badges = legend(grounded, "Concept badge legend", "div");
-    expect(badges).toContain("proven claim");
-    expect(badges).not.toContain("open claim");
-    expect(badges).toContain("definition");
-    expect(badges).not.toContain("letters abbreviate");
-    inOrder(badges, ["proven claim", "definition"]);
-
     const groundedConcepts = legend(grounded, "Concept map legend", "figcaption");
     expect(groundedConcepts).toContain("fill-proven");
     expect(groundedConcepts).not.toContain("fill-open");
@@ -980,11 +974,6 @@ After the formula.`, "");
     // Lax4's claims are open, its concept ancestry contains definitions from
     // other submissions, and its two proofs form a cycle.
     const cyclic = fs.readFileSync(path.join(root, "Lax4", "index.html"), "utf8");
-    const cyclicBadges = legend(cyclic, "Concept badge legend", "div");
-    expect(cyclicBadges).not.toContain("proven claim");
-    expect(cyclicBadges).toContain("open claim");
-    expect(cyclicBadges).not.toContain("definition");
-
     const cyclicConcepts = legend(cyclic, "Concept map legend", "figcaption");
     expect(cyclicConcepts).not.toContain("fill-proven");
     inOrder(cyclicConcepts, ["fill-open", "fill-none", "stroke-own", "stroke-ext", "legend-arrow"]);
@@ -1011,8 +1000,8 @@ After the formula.`, "");
     expect(html).toContain('id="concept-descend"');
     expect(html).toContain("Show descendants");
     expect(html).not.toContain('aria-controls="concept-dag" aria-pressed="false">Hide');
-    // figure titles sit in the flow above the boxes, not inside the chrome
-    expect(html).toContain('<h4 class="figure-title">Concept map</h4>');
+    // The concept map starts collapsed; the proof network remains visible.
+    expect(html).toMatch(/<details class="figure-details">\s*<summary>Concept map<\/summary>\s*<figure class="graph-figure">/);
     expect(html).toContain('<h4 class="figure-title">Proof network</h4>');
     expect(html).not.toContain("graph-toolbar-title");
     expect(html).toContain("B builds on A");
@@ -1039,6 +1028,7 @@ After the formula.`, "");
     ]));
 
     const conceptHtml = fs.readFileSync(path.join(root, "Lax4", "Lax4.Top.html"), "utf8");
+    expect(conceptHtml).toMatch(/<details class="figure-details">\s*<summary>Concept map<\/summary>\s*<figure class="graph-figure concept-root-graph">/);
     expect(conceptHtml).toContain("This concept");
     expect(conceptHtml).toContain("Hide ancestors");
     expect(conceptHtml).toContain('data-graph="concepts" data-ancestry="true"');
@@ -1100,9 +1090,9 @@ After the formula.`, "");
     const root = tmpDir("lax-site-used-concepts-");
     await generateSite(archive, root);
     const html = fs.readFileSync(path.join(root, "Lax4", "index.html"), "utf8");
-    const ownStart = html.indexOf('<ul class="concept-list">');
-    const usedStart = html.indexOf('<ul class="concept-list concept-used-list"');
-    const used = html.slice(usedStart, html.indexOf("</ul>", usedStart));
+    const ownStart = html.indexOf('<ul class="concept-list"');
+    const usedStart = html.indexOf('<div class="concept-used-list"');
+    const used = html.slice(usedStart, html.indexOf("</div>", usedStart));
 
     expect(usedStart).toBeGreaterThan(ownStart);
     expect(html).toContain('data-used-concepts-toggle aria-controls="used-concepts-list"');

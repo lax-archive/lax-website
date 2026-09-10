@@ -474,6 +474,7 @@
   function renderConceptDag(data) {
     const container = document.getElementById('concept-dag');
     if (!container || !data || !data.nodes.length) return;
+    if (container.closest('details:not([open])')) return;
     container.replaceChildren();
 
     const showAncestry = container.dataset.ancestry === 'true';
@@ -1097,6 +1098,16 @@
     });
   }
 
+  function installConceptDisclosure() {
+    const disclosure = document.getElementById('concept-dag')?.closest('details');
+    if (!disclosure) return;
+    disclosure.addEventListener('toggle', () => {
+      if (!disclosure.open || !globalThis.laxLayout) return;
+      const data = readData();
+      if (data) renderConceptDag(data.concepts);
+    });
+  }
+
   // ---- large graph window ----
 
   let expandedFigure = null;
@@ -1146,6 +1157,7 @@
 
   function initialize() {
     installUsedConceptToggle();
+    installConceptDisclosure();
     installGraphExpanders();
     render();
   }

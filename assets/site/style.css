@@ -2590,6 +2590,12 @@ a.submission-meta-id:is(:hover, :focus-visible),
   gap: 0;
 }
 
+.concept-list + .concept-list{
+  margin-top: 0.35rem;
+  padding-top: 0.7rem;
+  border-top: 1px solid var(--border-light);
+}
+
 .concept-used-list{
   padding-top: 0.2rem;
   border-top: 1px solid var(--border-light);
@@ -2616,22 +2622,6 @@ a.submission-meta-id:is(:hover, :focus-visible),
 
 .concept-used-toggle:hover{ color: var(--link); text-decoration-color: currentColor; }
 .concept-used-toggle:focus-visible{ outline: 2px solid rgba(59, 107, 154, 0.35); outline-offset: 2px; }
-
-/* The badge legend: a quiet footer row shaped like the graph-figure
-   legends — smaller than the list it explains, never competing with it. */
-.badge-legend{
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.35rem 0.9rem;
-  padding: 0.32rem 0.7rem;
-  border-top: 1px solid var(--border-light);
-  color: var(--text-dim);
-  font-size: 0.66rem;
-}
-
-.badge-legend > span{ display: inline-flex; align-items: center; gap: 0.3rem; }
-.badge-legend .type-badge{ margin-right: 0; font-size: 0.52rem; padding: 0.5px 3px; }
 
 .concept-list li{
   display: flex;
@@ -3448,7 +3438,8 @@ body.graph-window-open::after{
 
 /* Figure headings live in the text flow above the box, styled like the
    block headings — the box itself carries only content and controls. */
-.figure-title{
+.figure-title,
+.figure-details > summary{
   font-size: 0.85rem;
   font-weight: 700;
   font-variant: small-caps;
@@ -3456,6 +3447,11 @@ body.graph-window-open::after{
   color: var(--text-dim);
   margin: 1.1rem 0 0.4rem;
 }
+
+.figure-details{ margin-bottom: 1rem; }
+.figure-details > summary{ cursor: pointer; }
+.figure-details > summary:hover{ color: var(--link); }
+.figure-details > summary:focus-visible{ outline: 2px solid rgba(59, 107, 154, 0.35); outline-offset: 3px; }
 
 .graph-toolbar button{
   border: 1px solid var(--border);

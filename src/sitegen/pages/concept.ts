@@ -11,7 +11,6 @@ import {
   conceptShortName,
   draftBanner,
   environmentNotice,
-  figureTitle,
   ordinal,
   shortId,
   versionHistoryPanel,
@@ -130,7 +129,8 @@ export async function conceptPage(ctx: PageContext, located: LocatedConcept): Pr
 <span class="status-pills">${countsPill(provenCount, concept.statements.length)}</span>
 </div>
 ${pageReactions(`${submission.record.id}/${concept.id}.html`, { kind: "concept", sourceLines: concept.sourceText.split("\n").length })}
-${figureTitle("Concept map")}
+<details class="figure-details">
+<summary>Concept map</summary>
 <figure class="graph-figure concept-root-graph">
 ${graphExpandButton("concept map")}
 <div class="graph-toolbar"><button type="button" id="concept-expand" aria-controls="concept-dag" aria-pressed="true">Hide ancestors</button><button type="button" id="concept-descend" aria-controls="concept-dag" aria-pressed="false">Show descendants</button><output id="concept-graph-status" aria-live="polite"></output></div>
@@ -138,6 +138,7 @@ ${graphExpandButton("concept map")}
 ${graphTooltip()}
 ${conceptMapLegend(graph, "This concept", "Related concept")}
 </figure>
+</details>
 ${evidence(ctx, located)}
 ${inPaperBlock(ctx, concept.id, output.id, "../")}
 <div class="block block-statement"><h3>${esc(typeHeading)}</h3><div class="latex-content">${ctx.markdown.renderAuthorProse(concept.description, "../")}</div></div>

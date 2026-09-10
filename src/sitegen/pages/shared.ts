@@ -214,18 +214,6 @@ export function figureTitle(title: string, source?: string): string {
   return `<h4 class="figure-title">${esc(title)}${source ? sourceLink(source) : ""}</h4>`;
 }
 
-/** The concept-list legend: what the badge letters, marks, and tints mean.
- * Sample badges are the real component, so the legend cannot drift. */
-export function conceptBadgeLegend(statuses: Iterable<ClaimStatus>): string {
-  const present = new Set(statuses);
-  const items = [
-    present.has("proven") ? `<span>${typeBadge("theorem", true)}proven claim</span>` : "",
-    present.has("open") ? `<span>${typeBadge("theorem", false)}open claim</span>` : "",
-    present.has("none") ? `<span>${typeBadge("definition")}definition</span>` : "",
-  ];
-  return `<div class="badge-legend" aria-label="Concept badge legend">${items.join("")}</div>`;
-}
-
 export function conceptMapLegend(data: ConceptGraphData, ownLabel: string, extLabel: string): string {
   const items = [
     claimFillLegend(data.nodes.map((node) => node.status), true),
