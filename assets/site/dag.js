@@ -70,8 +70,8 @@
     return figure ? figure.querySelector('.graph-tooltip') : null;
   }
 
-  function positionProofTooltip(container, element, tooltip, figure) {
-    const gap = 10;
+  function positionProofTooltip(element, tooltip, figure) {
+    const gap = 8;
     const inset = 8;
     const figureBox = figure.getBoundingClientRect();
     const expanded = figure.classList.contains('graph-expanded');
@@ -91,53 +91,26 @@
       left: box.left - padding, right: box.right + padding,
       top: box.top - padding, bottom: box.bottom + padding,
     });
-    const clip = (box, bounds) => ({
-      left: Math.max(box.left, bounds.left), right: Math.min(box.right, bounds.right),
-      top: Math.max(box.top, bounds.top), bottom: Math.min(box.bottom, bounds.bottom),
-    });
-    const plot = clip(container.getBoundingClientRect(), frame);
-    const boxes = (selector, padding) => [...container.querySelectorAll(selector)]
-      .map((node) => clip(padded(node.getBoundingClientRect(), padding), plot))
-      .filter((box) => box.right > box.left && box.bottom > box.top);
-    const nodes = boxes('.net-node, .net-proof, .net-dock', 4);
-    // Edge bounds include a little clearance, including for perfectly
-    // horizontal/vertical paths whose bounding rectangle has zero area.
-    const edges = boxes('.net-edge', 3);
     const centerX = (anchor.left + anchor.right) / 2;
     const centerY = (anchor.top + anchor.bottom) / 2;
-    const candidates = [];
-    const seen = new Set();
-    const add = (left, top) => {
+    const candidates = [
+      [centerX - width / 2, anchor.top - height - gap],
+      [centerX - width / 2, anchor.bottom + gap],
+      [anchor.right + gap, centerY - height / 2],
+      [anchor.left - width - gap, centerY - height / 2],
+    ].map(([left, top]) => {
       left = Math.max(frame.left, Math.min(left, frame.right - width));
       top = Math.max(frame.top, Math.min(top, frame.bottom - height));
-      const key = `${left},${top}`;
-      if (seen.has(key)) return;
-      seen.add(key);
-      candidates.push({ left, top, right: left + width, bottom: top + height });
-    };
-    const around = (box) => {
-      add(box.right + gap, centerY - height / 2);
-      add(box.left - width - gap, centerY - height / 2);
-      add(centerX - width / 2, box.top - height - gap);
-      add(centerX - width / 2, box.bottom + gap);
-    };
-    around(anchor);
-    around(plot);
-    nodes.forEach(around);
-    for (const left of [frame.left, plot.left, plot.right - width, frame.right - width])
-      for (const top of [frame.top, plot.top, plot.bottom - height, frame.bottom - height]) add(left, top);
+      return { left, top, right: left + width, bottom: top + height };
+    });
 
-    // First protect the hovered node, then other nodes and connecting lines.
-    // Among equally clear positions, prefer outside the plot, then nearby.
-    // On a crowded or narrow screen this chooses the least obstructive fit.
+    // Stay beside the hovered node, choosing the closest side that leaves
+    // it visible. The translucent panel can sit over the rest of the graph.
     const protectedAnchor = padded(anchor, gap);
     const ranked = candidates.map((box) => ({
       box,
       score: [
         overlap(box, protectedAnchor),
-        nodes.reduce((area, node) => area + overlap(box, node), 0),
-        edges.reduce((area, edge) => area + overlap(box, edge), 0),
-        overlap(box, plot),
         (box.left + width / 2 - centerX) ** 2 + (box.top + height / 2 - centerY) ** 2,
       ],
     })).sort((a, b) => {
@@ -150,12 +123,16 @@
     tooltip.style.top = best.top - figureBox.top - figure.clientTop + 'px';
   }
 
-  function showTooltip(container, element, content) {
+  function showTooltip(container, element, content, renderedHtml) {
     const tooltip = figureTooltip(container);
     const figure = tooltip && tooltip.closest('.graph-figure');
     if (!tooltip || !figure) return;
     tooltip.replaceChildren();
-    if (typeof content === 'string') {
+    if (typeof renderedHtml === 'string') {
+      // Only build-time Markdown/KaTeX output goes here; author HTML is
+      // escaped by the renderer before it enters the inert graph payload.
+      tooltip.innerHTML = renderedHtml;
+    } else if (typeof content === 'string') {
       tooltip.textContent = content;
     } else {
       for (const [label, value] of content) {
@@ -172,8 +149,9 @@
       return;
     }
     if (container.dataset.graph === 'proofs') {
-      positionProofTooltip(container, element, tooltip, figure);
+      positionProofTooltip(element, tooltip, figure);
       activeProofTooltip = { container, element, tooltip, figure };
+      document.fonts?.ready.then(refreshProofTooltip);
       return;
     }
     const figureBox = figure.getBoundingClientRect();
@@ -238,14 +216,14 @@
         hideTooltip(container);
         return;
       }
-      positionProofTooltip(container, element, tooltip, figure);
+      positionProofTooltip(element, tooltip, figure);
     });
   }
 
-  function attachTooltip(el, container, content) {
-    el.addEventListener('mouseenter', () => showTooltip(container, el, content));
+  function attachTooltip(el, container, content, renderedHtml) {
+    el.addEventListener('mouseenter', () => showTooltip(container, el, content, renderedHtml));
     el.addEventListener('mouseleave', () => hideTooltip(container));
-    el.addEventListener('focus', () => showTooltip(container, el, content));
+    el.addEventListener('focus', () => showTooltip(container, el, content, renderedHtml));
     el.addEventListener('blur', () => hideTooltip(container));
   }
 
@@ -746,7 +724,8 @@
         if (!node) {
           node = {
             kind: 'concept', key: 'c:' + statement.concept, id: statement.concept,
-            label, title: statement.title, owner: statement.owner, ext: statement.ext,
+            label, title: statement.title, tooltipHtml: statement.tooltipHtml,
+            owner: statement.owner, ext: statement.ext,
             href: statement.href ? statement.href.split('#')[0] : undefined,
             docks: [], width: nodeWidth(label), height: NODE_H + DOCK_DROP + 2 * DOCK_R,
           };
@@ -1100,7 +1079,7 @@
       if (node.kind === 'statement') {
         const g = appendBoxNode(group, node, 'net-node ' + (node.proven ? 'proven' : 'open'), node.label);
         g.setAttribute('transform', `translate(${node.x},${node.y})`);
-        attachTooltip(g, container, node.title || '');
+        attachTooltip(g, container, node.title || '', node.tooltipHtml);
         attachHotEdges(g, incident.get(node.key));
         continue;
       }
@@ -1111,7 +1090,7 @@
         const box = appendBoxNode(g, node, 'net-node ' + (node.proven ? 'proven' : 'open'),
           node.label, node.width);
         box.setAttribute('transform', `translate(0,${-node.height / 2 + NODE_H / 2})`);
-        attachTooltip(box, container, node.title || '');
+        attachTooltip(box, container, node.title || '', node.tooltipHtml);
         attachHotEdges(box, incident.get(node.key));
         node.docks.forEach((dock, index) => {
           const x = dockOffsetX(node, index + 1);
@@ -1124,7 +1103,7 @@
           svgEl(dockGroup, 'circle', { cx: x, cy: y, r: DOCK_R });
           svgEl(dockGroup, 'text', { x, y, 'text-anchor': 'middle', dy: 2.5 })
             .textContent = String(index + 1);
-          attachTooltip(dockGroup, container, dock.title || node.title || '');
+          attachTooltip(dockGroup, container, dock.title || node.title || '', dock.tooltipHtml ?? node.tooltipHtml);
           attachHotEdges(dockGroup, dockIncident.get(`${node.key}\0${index + 1}`));
         });
         continue;
@@ -1140,9 +1119,14 @@
         width: node.width, height: node.height, rx: 4,
       });
       svgEl(g, 'text', { 'text-anchor': 'middle', dy: 4.5 }).textContent = '⊢';
-      attachTooltip(g, container, node.description || '');
+      attachTooltip(g, container, node.description || '', node.tooltipHtml);
       attachHotEdges(g, incident.get(node.key));
     }
+
+    // Conclusions are at the top. Start there, centered across networks
+    // wider than the window, in both the inline and expanded views.
+    container.scrollTop = 0;
+    container.scrollLeft = (container.scrollWidth - container.clientWidth) / 2;
   }
 
   function render() {

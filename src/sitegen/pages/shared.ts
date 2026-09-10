@@ -255,14 +255,14 @@ export function proofNetworkLegend(data: ProofNetworkLegendData): string {
   const statuses = data.statements.map((statement) => statement.proven ? "proven" as const : "open" as const);
   const nodes = [...data.statements, ...data.proofs];
   const items = [
-    data.proofs.length ? `<span class="proof-flow">assumptions <i class="legend-arrow" aria-hidden="true">→</i><i class="legend-proof-chip" aria-hidden="true">⊢</i><i class="legend-arrow" aria-hidden="true">→</i> conclusion</span>` : "",
+    data.proofs.length ? `<span class="proof-flow">assumptions <svg class="legend-assumptions" viewBox="0 0 28 26" aria-hidden="true" focusable="false"><path d="M2 2 24 10m-6-6 6 6-8 1"/><path d="M2 24 24 16m-8-1 8 1-6 6"/></svg><i class="legend-proof-chip" aria-hidden="true">⊢</i><i class="legend-arrow" aria-hidden="true">→</i> conclusion</span>` : "",
     claimFillLegend(statuses),
     data.statements.some((statement) => (statement.count ?? 1) > 1)
       ? `<span><i class="legend-dock" aria-hidden="true">1</i>Statement 1, 2, … of a claim with several statements</span>`
       : "",
     nodes.some((node) => !node.ext) ? `<span><i class="legend-node stroke-own"></i>This submission</span>` : "",
     nodes.some((node) => node.ext) ? `<span><i class="legend-node stroke-ext"></i>From another submission</span>` : "",
-    data.proofs.length ? `<span><i class="legend-proof-chip" aria-hidden="true">⊢</i>Proof — click to open</span>` : "",
+    data.proofs.length ? `<span><i class="legend-proof-chip" aria-hidden="true">⊢</i>Proof</span>` : "",
     proofNetworkHasCycle(data) ? `<span><i class="legend-cycle"></i>Cycle — claims proving each other</span>` : "",
   ];
   return `<figcaption class="graph-legend" aria-label="Proof network legend">${items.join("")}</figcaption>`;

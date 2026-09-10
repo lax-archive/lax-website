@@ -272,6 +272,7 @@ function pageGraphData(ctx: PageContext, submission: SiteSubmission, related: Su
       // numbered dock per statement.
       label: home?.concept.id,
       title: home?.concept.title,
+      tooltipHtml: ctx.markdown.renderAuthorTooltip(home?.concept.title ?? "", "../"),
       owner: home?.output.id,
       concept: home?.concept.id,
       index: index || undefined,
@@ -287,6 +288,7 @@ function pageGraphData(ctx: PageContext, submission: SiteSubmission, related: Su
       const outstanding = proof.assumptions.filter((id) => !model.network.proven.has(id));
       return {
         ...proof,
+        tooltipHtml: ctx.markdown.renderAuthorTooltip(proof.description, "../"),
         href: model.proofHome.has(proof.id)
           ? `../${model.proofHome.get(proof.id)!.output.id}/${proof.id}.html`
           : undefined,

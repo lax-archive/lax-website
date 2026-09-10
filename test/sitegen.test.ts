@@ -384,6 +384,33 @@ After the formula.`, "");
     }
   });
 
+  it("renders proof-network tooltip math at build time while keeping author HTML inert", async () => {
+    const authored = submissions();
+    const output = authored[0]!.output!;
+    output.concepts[0]!.title = String.raw`A **sharp** $x^2$ bound with $$x \le y$$.`;
+    output.proofs[0]!.description = String.raw`Use $y_i$ and $$\sum_{i=1}^n i = \frac{n(n+1)}{2}$$.
+\[\frac{a}{b}\]
+</script><img src=x onerror="alert(1)"> [link](javascript:alert(1)) $\badcommand$`;
+
+    const root = tmpDir("lax-site-tooltip-math-");
+    await generateSite(authored, root);
+    const html = fs.readFileSync(path.join(root, "Lax2", "index.html"), "utf8");
+    const graph = JSON.parse(/<script type="application\/json" id="graph-data">(.*?)<\/script>/s.exec(html)![1]!);
+    const title = graph.proofs.statements[0].tooltipHtml;
+    const description = graph.proofs.proofs[0].tooltipHtml;
+    expect(title).toContain("<strong>sharp</strong>");
+    expect(title.match(/class="katex"/g)).toHaveLength(2);
+    expect(title.match(/class="katex-display"/g)).toHaveLength(1);
+    expect(description.match(/class="katex"/g)).toHaveLength(3);
+    expect(description.match(/class="katex-display"/g)).toHaveLength(2);
+    expect(description).toContain('class="math-error"');
+    expect(description).toContain("&lt;/script&gt;&lt;img");
+    expect(description).not.toMatch(/<script|<img|<a\b/);
+    expect(html).not.toContain('</script><img src=x');
+    expect(graph.proofs.statements[0].title).toBe(output.concepts[0]!.title);
+    expect(graph.proofs.proofs[0].description).toBe(output.proofs[0]!.description);
+  });
+
   it("escapes crossref labels, preserves escaped syntax, and survives invalid TeX", () => {
     const markdown = new MarkdownRenderer(new SiteModel(submissions()));
     const html = markdown.render(String.raw`[[Lax2.C|<img src=x>]] \[[Lax2.C]] $\badcommand$`, "");
@@ -934,7 +961,8 @@ After the formula.`, "");
     expect(html).toContain('data-graph-label="concept map" aria-expanded="false"');
     expect(html).toContain('data-graph-label="proof network" aria-expanded="false"');
     expect(html).toContain('<figure class="graph-figure proof-network-figure">');
-    expect(html).toContain('<span class="proof-flow">assumptions <i class="legend-arrow" aria-hidden="true">→</i><i class="legend-proof-chip" aria-hidden="true">⊢</i><i class="legend-arrow" aria-hidden="true">→</i> conclusion</span>');
+    expect(html).toMatch(/<span class="proof-flow">assumptions <svg class="legend-assumptions"[^>]*><path[^>]*\/><path[^>]*\/><\/svg><i class="legend-proof-chip" aria-hidden="true">⊢<\/i><i class="legend-arrow" aria-hidden="true">→<\/i> conclusion<\/span>/);
+    expect(html).not.toContain("click to open");
     expect(html).not.toContain('class="legend-note">assumptions');
   });
 
@@ -969,7 +997,7 @@ After the formula.`, "");
     expect(groundedProofs).toContain("stroke-own");
     expect(groundedProofs).not.toContain("stroke-ext");
     expect(groundedProofs).not.toContain("legend-cycle");
-    inOrder(groundedProofs, ["proof-flow", "fill-proven", "stroke-own", "Proof — click to open"]);
+    inOrder(groundedProofs, ["proof-flow", "fill-proven", "stroke-own", "⊢</i>Proof</span>"]);
 
     // Lax4's claims are open, its concept ancestry contains definitions from
     // other submissions, and its two proofs form a cycle.
@@ -981,7 +1009,7 @@ After the formula.`, "");
     const cyclicProofs = legend(cyclic, "Proof network legend", "figcaption");
     expect(cyclicProofs).not.toContain("fill-proven");
     expect(cyclicProofs).not.toContain("stroke-ext");
-    inOrder(cyclicProofs, ["proof-flow", "fill-open", "stroke-own", "Proof — click to open", "legend-cycle"]);
+    inOrder(cyclicProofs, ["proof-flow", "fill-open", "stroke-own", "⊢</i>Proof</span>", "legend-cycle"]);
   });
 
   it("emits expandable concept closures and proof readiness metadata for deterministic DAGs", async () => {
