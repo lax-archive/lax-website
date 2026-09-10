@@ -1114,7 +1114,9 @@ After the formula.`, "");
 
   it("maps each submission's dependants and dependencies across the whole archive", async () => {
     const root = tmpDir("lax-site-submap-");
-    await generateSite([...submissions(), ...graphSubmissions()], root);
+    const archive = graphSubmissions();
+    archive[0]!.output!.manifest.title = "Foundational submission";
+    await generateSite([...submissions(), ...archive], root);
     const mapOf = (id: string) => {
       const html = fs.readFileSync(path.join(root, id, "index.html"), "utf8");
       const match = /<script type="application\/json" id="graph-data">(.*?)<\/script>/s.exec(html)!;
@@ -1144,7 +1146,10 @@ After the formula.`, "");
     // Concept dependencies throughout, so the legend names only that arrow.
     expect(top.html).toContain("B's concepts build on A");
     expect(top.html).not.toContain("only B's proofs build on A");
-    expect(top.data.nodes[0]).toMatchObject({ href: "../Lax1/index.html", title: "Lax1", state: "registered", concepts: 1, proofs: 0, ext: true });
+    expect(top.data.nodes[0]).toMatchObject({ href: "../Lax1/index.html", title: "Foundational submission", state: "registered", concepts: 1, proofs: 0, ext: true });
+
+    const dagScript = fs.readFileSync(path.join(root, "assets", "dag.js"), "utf8");
+    expect(dagScript).toContain("labelOf: (node) => node.title");
 
     const base = mapOf("Lax1");
     expect(base.data.nodes.map((n: { id: string; dir: string }) => [n.id, n.dir]))

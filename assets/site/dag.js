@@ -369,8 +369,8 @@
 
   /** Draw a layered DAG into `container`: layout, edge routing, boxes,
    * tooltips. `spec` carries the per-figure specifics — the arrow marker's
-   * id, the SVG's accessible name, the prefix labels drop, the node class,
-   * the optional per-edge class, and the tooltip rows. Everything else is the
+   * id, the SVG's accessible name, the node-label rule, the node class, the
+   * optional per-edge class, and the tooltip rows. Everything else is the
    * same picture, laid out by the shared crossing-minimizing engine in
    * layout.js. The arrowhead marker takes its fill from the path it ends
    * (`context-stroke` in style.css), so a recoloured edge recolours whole.
@@ -379,7 +379,10 @@
    * and the archive admits a dependency only on a submission that already
    * exists, so neither relation can close a loop. */
   function drawDag(container, nodes, edges, spec) {
-    const labelOf = new Map(nodes.map((node) => [node.id, truncate(displayId(node.id, spec.home), MAX_LABEL)]));
+    const labelOf = new Map(nodes.map((node) => {
+      const label = spec.labelOf ? spec.labelOf(node) : displayId(node.id, spec.home);
+      return [node.id, truncate(label || node.id, MAX_LABEL)];
+    }));
     const degrees = new Map(nodes.map((node) => [node.id, { incoming: 0, outgoing: 0 }]));
     for (const edge of edges) {
       degrees.get(edge.from).outgoing += 1;
@@ -541,6 +544,7 @@
     drawDag(container, data.nodes, data.edges, {
       arrowId: 'submission-arrow',
       ariaLabel: 'Submission dependency graph',
+      labelOf: (node) => node.title,
       classOf: () => 'dag-node submission',
       // A dependency only the proof package declares is drawn apart: the
       // dependent's statements stand on their own and just its proofs reach
