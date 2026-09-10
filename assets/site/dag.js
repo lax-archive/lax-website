@@ -62,24 +62,120 @@
 
   // ---- tooltips: one floating panel per graph figure ----
 
+  let activeProofTooltip = null;
+  let proofTooltipFrame;
+
   function figureTooltip(container) {
     const figure = container.closest('.graph-figure');
     return figure ? figure.querySelector('.graph-tooltip') : null;
   }
 
-  function showTooltip(container, element, rows) {
+  function positionProofTooltip(container, element, tooltip, figure) {
+    const gap = 10;
+    const inset = 8;
+    const figureBox = figure.getBoundingClientRect();
+    const expanded = figure.classList.contains('graph-expanded');
+    const frame = {
+      left: Math.max(inset, (expanded ? figureBox.left : document.getElementById('main')?.getBoundingClientRect().left || 0) + inset),
+      right: Math.min(window.innerWidth - inset, expanded ? figureBox.right - inset : Infinity),
+      top: Math.max(inset, (expanded ? figureBox.top : document.querySelector('.site-header')?.getBoundingClientRect().bottom || 0) + inset),
+      bottom: Math.min(window.innerHeight - inset, expanded ? figureBox.bottom - inset : Infinity),
+    };
+    tooltip.style.maxWidth = Math.min(390, frame.right - frame.left) + 'px';
+    const width = tooltip.offsetWidth;
+    const height = tooltip.offsetHeight;
+    const anchor = element.getBoundingClientRect();
+    const overlap = (a, b) => Math.max(0, Math.min(a.right, b.right) - Math.max(a.left, b.left)) *
+      Math.max(0, Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top));
+    const padded = (box, padding) => ({
+      left: box.left - padding, right: box.right + padding,
+      top: box.top - padding, bottom: box.bottom + padding,
+    });
+    const clip = (box, bounds) => ({
+      left: Math.max(box.left, bounds.left), right: Math.min(box.right, bounds.right),
+      top: Math.max(box.top, bounds.top), bottom: Math.min(box.bottom, bounds.bottom),
+    });
+    const plot = clip(container.getBoundingClientRect(), frame);
+    const boxes = (selector, padding) => [...container.querySelectorAll(selector)]
+      .map((node) => clip(padded(node.getBoundingClientRect(), padding), plot))
+      .filter((box) => box.right > box.left && box.bottom > box.top);
+    const nodes = boxes('.net-node, .net-proof, .net-dock', 4);
+    // Edge bounds include a little clearance, including for perfectly
+    // horizontal/vertical paths whose bounding rectangle has zero area.
+    const edges = boxes('.net-edge', 3);
+    const centerX = (anchor.left + anchor.right) / 2;
+    const centerY = (anchor.top + anchor.bottom) / 2;
+    const candidates = [];
+    const seen = new Set();
+    const add = (left, top) => {
+      left = Math.max(frame.left, Math.min(left, frame.right - width));
+      top = Math.max(frame.top, Math.min(top, frame.bottom - height));
+      const key = `${left},${top}`;
+      if (seen.has(key)) return;
+      seen.add(key);
+      candidates.push({ left, top, right: left + width, bottom: top + height });
+    };
+    const around = (box) => {
+      add(box.right + gap, centerY - height / 2);
+      add(box.left - width - gap, centerY - height / 2);
+      add(centerX - width / 2, box.top - height - gap);
+      add(centerX - width / 2, box.bottom + gap);
+    };
+    around(anchor);
+    around(plot);
+    nodes.forEach(around);
+    for (const left of [frame.left, plot.left, plot.right - width, frame.right - width])
+      for (const top of [frame.top, plot.top, plot.bottom - height, frame.bottom - height]) add(left, top);
+
+    // First protect the hovered node, then other nodes and connecting lines.
+    // Among equally clear positions, prefer outside the plot, then nearby.
+    // On a crowded or narrow screen this chooses the least obstructive fit.
+    const protectedAnchor = padded(anchor, gap);
+    const ranked = candidates.map((box) => ({
+      box,
+      score: [
+        overlap(box, protectedAnchor),
+        nodes.reduce((area, node) => area + overlap(box, node), 0),
+        edges.reduce((area, edge) => area + overlap(box, edge), 0),
+        overlap(box, plot),
+        (box.left + width / 2 - centerX) ** 2 + (box.top + height / 2 - centerY) ** 2,
+      ],
+    })).sort((a, b) => {
+      for (let i = 0; i < a.score.length; i++)
+        if (a.score[i] !== b.score[i]) return a.score[i] - b.score[i];
+      return 0;
+    });
+    const best = ranked[0].box;
+    tooltip.style.left = best.left - figureBox.left - figure.clientLeft + 'px';
+    tooltip.style.top = best.top - figureBox.top - figure.clientTop + 'px';
+  }
+
+  function showTooltip(container, element, content) {
     const tooltip = figureTooltip(container);
     const figure = tooltip && tooltip.closest('.graph-figure');
     if (!tooltip || !figure) return;
     tooltip.replaceChildren();
-    for (const [label, value] of rows) {
-      const row = document.createElement('div');
-      const heading = document.createElement('strong');
-      heading.textContent = label + ': ';
-      row.append(heading, document.createTextNode(value));
-      tooltip.append(row);
+    if (typeof content === 'string') {
+      tooltip.textContent = content;
+    } else {
+      for (const [label, value] of content) {
+        const row = document.createElement('div');
+        const heading = document.createElement('strong');
+        heading.textContent = label + ': ';
+        row.append(heading, document.createTextNode(value));
+        tooltip.append(row);
+      }
     }
-    tooltip.hidden = false;
+    tooltip.hidden = !tooltip.textContent.trim();
+    if (tooltip.hidden) {
+      hideTooltip(container);
+      return;
+    }
+    if (container.dataset.graph === 'proofs') {
+      positionProofTooltip(container, element, tooltip, figure);
+      activeProofTooltip = { container, element, tooltip, figure };
+      return;
+    }
     const figureBox = figure.getBoundingClientRect();
     const elementBox = element.getBoundingClientRect();
 
@@ -126,12 +222,30 @@
   function hideTooltip(container) {
     const tooltip = figureTooltip(container);
     if (tooltip) tooltip.hidden = true;
+    if (activeProofTooltip?.container === container) activeProofTooltip = null;
   }
 
-  function attachTooltip(el, container, rows) {
-    el.addEventListener('mouseenter', () => showTooltip(container, el, rows));
+  function refreshProofTooltip() {
+    if (!activeProofTooltip) return;
+    cancelAnimationFrame(proofTooltipFrame);
+    proofTooltipFrame = requestAnimationFrame(() => {
+      if (!activeProofTooltip) return;
+      const { container, element, tooltip, figure } = activeProofTooltip;
+      const node = element.getBoundingClientRect();
+      const plot = container.getBoundingClientRect();
+      if (node.right <= Math.max(0, plot.left) || node.left >= Math.min(window.innerWidth, plot.right) ||
+          node.bottom <= Math.max(0, plot.top) || node.top >= Math.min(window.innerHeight, plot.bottom)) {
+        hideTooltip(container);
+        return;
+      }
+      positionProofTooltip(container, element, tooltip, figure);
+    });
+  }
+
+  function attachTooltip(el, container, content) {
+    el.addEventListener('mouseenter', () => showTooltip(container, el, content));
     el.addEventListener('mouseleave', () => hideTooltip(container));
-    el.addEventListener('focus', () => showTooltip(container, el, rows));
+    el.addEventListener('focus', () => showTooltip(container, el, content));
     el.addEventListener('blur', () => hideTooltip(container));
   }
 
@@ -598,52 +712,6 @@
     return result;
   }
 
-  function proofTooltipRows(node) {
-    return [
-      ['Proof', node.id],
-      ...(node.description ? [['Description', node.description]] : []),
-      ['Conclusion', node.conclusion],
-      ['Assumptions', node.assumptions.length ? node.assumptions.join(', ') : 'none'],
-      ['Submission', node.owner],
-      ['Status', node.assumptionsProven ? 'grounded — all assumptions proven' : `conditional — ${node.outstanding} open assumption${node.outstanding === 1 ? '' : 's'}`],
-    ];
-  }
-
-  function statementTooltipRows(node) {
-    return [
-      ['Claim', node.label || node.id],
-      ...(node.title && node.title !== (node.label || node.id) ? [['Title', node.title]] : []),
-      ...(node.label && node.label !== node.id ? [['Statement', node.id]] : []),
-      ['Status', node.proven ? 'proven' : 'open'],
-      ...(node.owner ? [['Submission', node.owner]] : []),
-    ];
-  }
-
-  /** A concept box standing for several statements. It speaks for the claim as
-   * a whole; the individual axiom ids belong to the concept page. */
-  function conceptTooltipRows(node) {
-    const provenCount = node.docks.filter((dock) => dock.proven).length;
-    return [
-      ['Claim', node.id],
-      ...(node.title && node.title !== node.id ? [['Title', node.title]] : []),
-      ['Statements', `${node.docks.length} (${provenCount} proven)`],
-      ['Status', node.proven ? 'proven' : 'open'],
-      ...(node.owner ? [['Submission', node.owner]] : []),
-    ];
-  }
-
-  /** One dock. Statements of a multi-statement concept are named here by
-   * position only — anonymity is the point on this surface, and the raw id is
-   * one click away through the dock's link. */
-  function dockTooltipRows(node, dock, index) {
-    return [
-      ['Claim', node.id],
-      ['Statement', `${index} of ${node.docks.length}`],
-      ['Status', dock.proven ? 'proven' : 'open'],
-      ...(dock.owner ? [['Submission', dock.owner]] : []),
-    ];
-  }
-
   // Small and tight against the box, so a concept and its docks read as one
   // unit rather than a box with satellites.
   const DOCK_R = 5;
@@ -660,6 +728,7 @@
   function renderProofNetwork(data) {
     const container = document.getElementById('proof-network');
     if (!container || !data || !data.proofs.length) return;
+    hideTooltip(container);
     container.replaceChildren();
 
     const nodes = [];
@@ -1031,7 +1100,7 @@
       if (node.kind === 'statement') {
         const g = appendBoxNode(group, node, 'net-node ' + (node.proven ? 'proven' : 'open'), node.label);
         g.setAttribute('transform', `translate(${node.x},${node.y})`);
-        attachTooltip(g, container, statementTooltipRows(node));
+        attachTooltip(g, container, node.title || '');
         attachHotEdges(g, incident.get(node.key));
         continue;
       }
@@ -1042,7 +1111,7 @@
         const box = appendBoxNode(g, node, 'net-node ' + (node.proven ? 'proven' : 'open'),
           node.label, node.width);
         box.setAttribute('transform', `translate(0,${-node.height / 2 + NODE_H / 2})`);
-        attachTooltip(box, container, conceptTooltipRows(node));
+        attachTooltip(box, container, node.title || '');
         attachHotEdges(box, incident.get(node.key));
         node.docks.forEach((dock, index) => {
           const x = dockOffsetX(node, index + 1);
@@ -1055,7 +1124,7 @@
           svgEl(dockGroup, 'circle', { cx: x, cy: y, r: DOCK_R });
           svgEl(dockGroup, 'text', { x, y, 'text-anchor': 'middle', dy: 2.5 })
             .textContent = String(index + 1);
-          attachTooltip(dockGroup, container, dockTooltipRows(node, dock, index + 1));
+          attachTooltip(dockGroup, container, dock.title || node.title || '');
           attachHotEdges(dockGroup, dockIncident.get(`${node.key}\0${index + 1}`));
         });
         continue;
@@ -1071,7 +1140,7 @@
         width: node.width, height: node.height, rx: 4,
       });
       svgEl(g, 'text', { 'text-anchor': 'middle', dy: 4.5 }).textContent = '⊢';
-      attachTooltip(g, container, proofTooltipRows(node));
+      attachTooltip(g, container, node.description || '');
       attachHotEdges(g, incident.get(node.key));
     }
   }
@@ -1159,6 +1228,7 @@
     installUsedConceptToggle();
     installConceptDisclosure();
     installGraphExpanders();
+    window.addEventListener('scroll', refreshProofTooltip, { capture: true, passive: true });
     render();
   }
 

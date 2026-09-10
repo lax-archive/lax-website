@@ -267,8 +267,7 @@ function pageGraphData(ctx: PageContext, submission: SiteSubmission, related: Su
     const index = siblings.findIndex((statement) => statement.id === id) + 1;
     return {
       id,
-      // A claim displays as its home concept; the raw statement id stays
-      // available for the tooltip. `index`/`count` place the statement inside
+      // A claim displays as its home concept. `index`/`count` place it inside
       // a multi-statement concept, which the figure draws as one box with a
       // numbered dock per statement.
       label: home?.concept.id,
