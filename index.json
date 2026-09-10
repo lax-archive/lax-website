@@ -2989,7 +2989,7 @@
         },
         {
           "id": "Lax762056.CycleObstruction",
-          "title": "Asteroidal cycles obstruct induced minors",
+          "title": "Asteroidal cycle triples obstruct induced minors",
           "type": "lemma"
         },
         {
@@ -3004,12 +3004,12 @@
         },
         {
           "id": "Lax762056.Grid",
-          "title": "Excluding the five-by-five grid as an induced minor",
+          "title": "Excluded induced grid minors",
           "type": "definition"
         },
         {
           "id": "Lax762056.GridExclusion",
-          "title": "The constructed graphs exclude the five-by-five grid",
+          "title": "Excluding the 5×5 induced grid minor",
           "type": "lemma"
         },
         {
@@ -3019,7 +3019,7 @@
         },
         {
           "id": "Lax762056.IndependentSetHardness",
-          "title": "Independent Set is NP-hard with an excluded grid",
+          "title": "Independent Set without a 5×5 induced grid minor",
           "type": "theorem"
         },
         {
@@ -3049,13 +3049,13 @@
         }
       ],
       "proofs": [
-        "Lax762056Proofs.columnGraph_excludes_grid",
-        "Lax762056Proofs.GridWitness.grid_has_avoidingCycles",
+        "Lax762056Proofs.columnGraph_excludes_inducedGrid",
+        "Lax762056Proofs.GridWitness.grid_five_has_asteroidalCycles",
         "Lax762056Proofs.independence_eq_maxCut_offset",
-        "Lax762056Proofs.independentSet_grid_hardness",
+        "Lax762056Proofs.independentSet_inducedGrid_hardness",
         "Lax762056Proofs.maxCut_hardness",
-        "Lax762056Proofs.Obstruction.avoidingCycles_obstruction",
-        "Lax762056Proofs.reduction_excludes_grid",
+        "Lax762056Proofs.Obstruction.asteroidalCycles_obstruction",
+        "Lax762056Proofs.reduction_excludes_inducedGrid",
         "Lax762056Proofs.reduction_polynomial_time"
       ]
     },
