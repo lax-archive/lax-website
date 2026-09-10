@@ -2559,6 +2559,11 @@
           "type": "definition"
         },
         {
+          "id": "Lax434930.PVersusNP",
+          "title": "P versus NP",
+          "type": "open question"
+        },
+        {
           "id": "Lax434930.SpaceBounds",
           "title": "Deterministic and nondeterministic space bounds",
           "type": "definition"
