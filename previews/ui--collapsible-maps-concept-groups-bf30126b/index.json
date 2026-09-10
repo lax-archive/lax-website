@@ -2988,6 +2988,11 @@
           "type": "definition"
         },
         {
+          "id": "Lax762056.ColumnGridExclusion",
+          "title": "Induced grid exclusion in row and column graphs",
+          "type": "lemma"
+        },
+        {
           "id": "Lax762056.CycleObstruction",
           "title": "Asteroidal cycle triples obstruct induced minors",
           "type": "lemma"
@@ -3009,7 +3014,7 @@
         },
         {
           "id": "Lax762056.GridExclusion",
-          "title": "Excluding the 5×5 induced grid minor",
+          "title": "Induced grid exclusion in the reduction",
           "type": "lemma"
         },
         {

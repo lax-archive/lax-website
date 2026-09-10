@@ -3575,6 +3575,12 @@ body.graph-window-open::after{
 
 .graph-tooltip[hidden]{ display: none; }
 
+.proof-network-figure .graph-tooltip{
+  width: max-content;
+  font-family: 'Latin Modern', Georgia, serif;
+  font-size: 0.82rem;
+}
+
 /* Graph nodes, both figures: fill = status, stroke = origin. */
 
 .dag-node rect,
