@@ -257,7 +257,7 @@ export function proofNetworkLegend(data: ProofNetworkLegendData): string {
   // Every flow arrow is the same small shape; the extra assumptions only
   // rotate and translate it toward the turnstile.
   const arrow = "M1 0h10m-3-3 3 3-3 3";
-  const incoming = `<svg class="legend-assumptions" viewBox="0 0 14 24" aria-hidden="true" focusable="false"><path d="${arrow}" transform="translate(0 12)"/><path d="${arrow}" transform="translate(0 3) rotate(35)"/><path d="${arrow}" transform="translate(0 21) rotate(-35)"/></svg>`;
+  const incoming = `<svg class="legend-assumptions" viewBox="0 0 14 24" aria-hidden="true" focusable="false"><path d="${arrow}" transform="translate(0 12)"/><path d="${arrow}" transform="translate(0 3) rotate(15)"/><path d="${arrow}" transform="translate(0 21) rotate(-15)"/></svg>`;
   const outgoing = `<svg class="legend-arrow legend-flow-arrow" viewBox="0 -4 12 8" aria-hidden="true" focusable="false"><path d="${arrow}"/></svg>`;
   const items = [
     data.proofs.length ? `<span class="proof-flow">assumptions ${incoming}<i class="legend-proof-chip" aria-hidden="true">⊢</i>${outgoing} conclusion</span>` : "",
