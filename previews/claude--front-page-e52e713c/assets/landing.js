@@ -85,7 +85,8 @@
         rail.classList.remove('landing-paper-rail-live');
         rail.classList.add('landing-paper-rail-inline');
         rail.style.minHeight = '';
-        // The hint leads the text.
+        // The hint lies over the text's first lines, in no room of
+        // its own, so nothing shifts when it goes.
         if (hint && doc.firstElementChild !== hint) { hint.style.top = ''; doc.prepend(hint); }
         for (const { passage, card } of placed) {
           card.style.top = '';

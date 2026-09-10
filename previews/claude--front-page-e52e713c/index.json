@@ -1294,6 +1294,11 @@
       "title": "Planar Graph Classes",
       "concepts": [
         {
+          "id": "Lax68.ConnectedThreeFan",
+          "title": "Three vertices in a connected graph have a three-fan",
+          "type": "theorem"
+        },
+        {
           "id": "Lax68.ExcludedMinorsKuratowskiFree",
           "title": "Excluding the two minors excludes their subdivisions",
           "type": "theorem"
@@ -1464,6 +1469,11 @@
           "type": "definition"
         },
         {
+          "id": "Lax68.ThreeFans",
+          "title": "Three-fans",
+          "type": "definition"
+        },
+        {
           "id": "Lax68.TopologicalMinorIsMinor",
           "title": "Every topological minor is a minor",
           "type": "theorem"
@@ -1482,6 +1492,11 @@
           "id": "Lax68.Trees",
           "title": "Trees",
           "type": "definition"
+        },
+        {
+          "id": "Lax68.TreeThreeFan",
+          "title": "Three vertices in a tree have a three-fan",
+          "type": "theorem"
         },
         {
           "id": "Lax68.TriangleMaximalOuterplanar",
@@ -1540,6 +1555,7 @@
         }
       ],
       "proofs": [
+        "Lax68Proofs.ConnectedThreeFan.exists_threeFan",
         "Lax68Proofs.excludedMinors_kuratowskiFree",
         "Lax68Proofs.halin_planar",
         "Lax68Proofs.kuratowskiFree_excludedMinors",
@@ -1555,6 +1571,7 @@
         "Lax68Proofs.star_outerplanar",
         "Lax68Proofs.star_planar",
         "Lax68Proofs.TopologicalMinorToMinor.isMinor_of_isTopologicalMinor",
+        "Lax68Proofs.tree_exists_threeFan",
         "Lax68Proofs.tree_planar",
         "Lax68Proofs.triangle_outerplanar",
         "Lax68Proofs.triangle_planar",
