@@ -509,7 +509,7 @@ ${markdown.render(AFTER_PASSAGES, "")}
 </div>
 <ol class="manuscript-rail landing-paper-rail" aria-label="Cards">
 ${cards.join("\n")}
-<li class="landing-paper-hint" aria-hidden="true"><span class="landing-paper-hint-hover">Hover an annotation to expand</span><span class="landing-paper-hint-touch">Tap an annotation to expand</span></li>
+<li class="landing-paper-hint" aria-hidden="true"><span class="landing-paper-hint-hover">Hover a highlight to expand</span><span class="landing-paper-hint-touch">Tap a highlight to expand</span></li>
 </ol>
 <svg class="manuscript-links landing-paper-links" aria-hidden="true"></svg>
 ${foot}

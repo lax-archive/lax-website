@@ -810,7 +810,7 @@ After the formula.`, "");
     expect(index).toContain('<li class="manuscript-card kind-proof line-proven" id="landing-primes-5">');
     expect(index).not.toContain("manuscript-card-expanded");
     expect(index).toContain('<div class="manuscript-card-body" id="landing-primes-1-body" hidden>');
-    expect(index).toContain('<li class="landing-paper-hint" aria-hidden="true"><span class="landing-paper-hint-hover">Hover an annotation to expand</span>');
+    expect(index).toContain('<li class="landing-paper-hint" aria-hidden="true"><span class="landing-paper-hint-hover">Hover a highlight to expand</span>');
     expect(index).not.toContain("manuscript-card-pinned");
     expect(index).toContain('<span class="manuscript-card-name"><span class="type-badge" title="definition">def</span><code>Primes</code></span>');
     expect(index).toContain('<p class="manuscript-card-title">Prime numbers</p>');
