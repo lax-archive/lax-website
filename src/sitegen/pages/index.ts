@@ -3,6 +3,7 @@ import { contentMarkdown } from "../content.js";
 import { highlightSnippet } from "../highlight.js";
 import { submissionTagIndex } from "../tags.js";
 import {
+  anonymityPlaceholder,
   indexSidebar,
   partitionSuperseded,
   submissionSearchAttributes,
@@ -167,7 +168,9 @@ export async function indexPage({ model, markdown }: PageContext): Promise<strin
     const { record, output } = submission;
     const state = model.isSuperseded(record.id) ? "superseded" : record.state;
     const date = formatDate(record.registeredAt ?? record.createdAt);
-    const authors = output!.manifest.authors.map((a) => esc(a.name)).join(", ");
+    const authors = output!.manifest.anonymous === true && output!.manifest.authors.length
+      ? anonymityPlaceholder("withheld during anonymous review", "anonymity-placeholder-inline")
+      : output!.manifest.authors.map((a) => esc(a.name)).join(", ");
     const counts = `${plural(output!.concepts.length, "concept")}, ${plural(output!.proofs.length, "proof")}`;
     return `<li ${submissionSearchAttributes(submission, order, tagIndex.bySubmission.get(record.id), state)}><a class="submissions-list-link" href="${attr(record.id)}/index.html">
 <span class="submissions-list-title">${markdown.renderAuthorInline(output!.manifest.title, "")}<span class="submissions-list-date">(${date})</span></span>

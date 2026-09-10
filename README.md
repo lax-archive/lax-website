@@ -62,6 +62,10 @@ npm run site:serve -- --database /path/to/lax-db --out /tmp/lax-site --port 8080
   left unchanged.
 - Records whose state is still `init` are id reservations, not submissions;
   website builds ignore them completely.
+- Manifests with `anonymous: true` keep their mathematical content visible,
+  but presentation surfaces replace author identities, source-repository
+  links, endorser identities, citations, and references with explicit
+  anonymous-review notices.
 
 The generated HTML is deterministic. Math is rendered at build time with
 KaTeX, highlighting with Shiki, all runtime assets are local, and the page

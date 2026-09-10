@@ -6,7 +6,7 @@ import { generateSite } from "../src/sitegen/generate.js";
 import { tmpDir } from "./helpers.js";
 
 describe("public database loader", () => {
-  it("adapts accepted manifest and abstract inputs for the renderer", async () => {
+  it("adapts accepted manifest and abstract inputs, including anonymous", async () => {
     const database = tmpDir("lax-database-inputs-");
     const submission = path.join(database, "lax-14");
     fs.mkdirSync(submission);
@@ -28,6 +28,7 @@ describe("public database loader", () => {
           title: "Finite Ramsey Theorems",
           authors: [{ name: "Jan Dreier" }],
           bibEntries: [],
+          anonymous: true,
         },
         abstract: "A validated abstract.",
       },
@@ -39,13 +40,15 @@ describe("public database loader", () => {
 
     const submissions = loadSubmissions(database);
     expect(submissions[0]?.output?.manifest.title).toBe("Finite Ramsey Theorems");
+    expect(submissions[0]?.output?.manifest.anonymous).toBe(true);
     expect(submissions[0]?.output?.abstract).toBe("A validated abstract.");
 
     const site = tmpDir("lax-site-inputs-");
     await generateSite(submissions, site);
-    expect(fs.readFileSync(path.join(site, "index.html"), "utf8")).toContain(
-      "Finite Ramsey Theorems",
-    );
+    const index = fs.readFileSync(path.join(site, "index.html"), "utf8");
+    expect(index).toContain("Finite Ramsey Theorems");
+    expect(index).toContain("withheld during anonymous review");
+    expect(index).not.toContain("Jan Dreier");
   });
 
   it("omits the byline when the manifest author list is empty", async () => {

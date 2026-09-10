@@ -151,8 +151,8 @@ export function graphExpandButton(label: string): string {
 
 /** A figure's heading, in the text flow above the box like every other
  * heading — boxes hold content and controls, never their own title. */
-export function figureTitle(title: string, source?: string): string {
-  return `<h4 class="figure-title">${esc(title)}${source ? sourceLink(source) : ""}</h4>`;
+export function figureTitle(title: string, source?: string, sourceWithheld = false): string {
+  return `<h4 class="figure-title">${esc(title)}${source ? sourceLink(source) : sourceWithheld ? withheldSourceLink() : ""}</h4>`;
 }
 
 /** The concept-list legend: what the badge letters, marks, and tints mean.
@@ -209,9 +209,27 @@ export function proofNetworkLegend(data: ProofNetworkLegendData): string {
 const GITHUB_MARK =
   `<svg class="gh-mark" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true" focusable="false"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>`;
 
+const ANONYMITY_LOCK = `<span class="anonymity-lock" aria-hidden="true">🔒</span>`;
+
+/** An inert replacement for identity-bearing content during anonymous review. */
+export function anonymityPlaceholder(label: string, extraClass = ""): string {
+  const classes = `anonymity-placeholder${extraClass ? ` ${extraClass}` : ""}`;
+  return `<span class="${classes}">${ANONYMITY_LOCK}<span>${esc(label)}</span></span>`;
+}
+
+/** A visible section-level notice that content exists but cannot be opened. */
+export function anonymityNotice(title: string, detail: string): string {
+  return `<div class="anonymity-notice" role="note">${ANONYMITY_LOCK}<p><strong>${esc(title)}</strong><span>${esc(detail)}</span></p></div>`;
+}
+
 /** A quiet inline "view on GitHub" link, for headings and figure titles. */
 export function sourceLink(href: string, label = "view on GitHub"): string {
   return `<a class="source-link" href="${attr(href)}">${esc(label)}</a>`;
+}
+
+/** A source link that is deliberately present but inert during anonymous review. */
+export function withheldSourceLink(label = "source link withheld"): string {
+  return `<span class="source-link source-link-withheld" aria-disabled="true" title="Unavailable during anonymous review">${ANONYMITY_LOCK}<span>${esc(label)}</span></span>`;
 }
 
 /** The prominent variant: a bordered button carrying the GitHub mark. */
@@ -219,9 +237,15 @@ export function sourceButton(href: string, label: string): string {
   return `<a class="source-button" href="${attr(href)}">${GITHUB_MARK}<span>${esc(label)}</span></a>`;
 }
 
+/** The button-shaped counterpart to an unavailable anonymous source link. */
+export function withheldSourceButton(label = "Lean proof source withheld"): string {
+  return `<span class="source-button source-button-withheld" aria-disabled="true" title="Unavailable during anonymous review">${ANONYMITY_LOCK}<span>${esc(label)}</span></span>`;
+}
+
 /** The GitHub link to a submission's whole proof package — `proofs/` is a
  * fixed part of the submission layout. Undefined off github.com. */
 export function proofsSource(submission: SiteSubmission): string | undefined {
+  if (submission.output?.manifest.anonymous === true) return undefined;
   const source = submission.record.source;
   if (!source) return undefined;
   // `proofs/` goes in as part of the folder rather than as the path, so the
@@ -507,9 +531,12 @@ export function paperAbstract(rendered: string): string {
 </section>`;
 }
 
-/** Named authors (with ORCID/GitHub). An empty list intentionally omits the byline. */
+/** Named authors (with ORCID/GitHub), or an explicit anonymous-review marker. */
 function authorByline(submission: SiteSubmission): string {
-  const authors = (submission.output?.manifest.authors ?? []).map((author) => {
+  const manifest = submission.output?.manifest;
+  if (manifest?.anonymous === true && manifest.authors.length)
+    return anonymityPlaceholder("withheld during anonymous review", "anonymity-placeholder-inline");
+  const authors = (manifest?.authors ?? []).map((author) => {
     const name = author.orcid
       ? `<a class="paper-author-name" href="https://orcid.org/${attr(author.orcid)}" target="_blank" rel="noopener noreferrer">${esc(author.name)}</a>`
       : esc(author.name);
@@ -526,13 +553,15 @@ function metaBits(submission: SiteSubmission): string {
   const { record, output } = submission;
   const source = record.source;
   const sourceBit = source
-    ? (() => {
+    ? output?.manifest.anonymous === true
+      ? anonymityPlaceholder("source withheld during anonymous review", "anonymity-placeholder-inline")
+      : (() => {
         const href = githubSource(source.repository, source.commit, source.folder);
         const short = `GitHub @${source.commit.slice(0, 7)}`;
         return href
           ? `<a href="${attr(href)}" title="${attr(href)}"><code>${esc(short)}</code></a>`
           : `<code>${esc(short)}</code>`;
-      })()
+        })()
     : "";
   const authors = authorByline(submission);
   const authorBit = authors
@@ -563,6 +592,7 @@ function formatDay(value: string): string {
 export function bibtex(model: SiteModel, submission: SiteSubmission): string {
   const { record, output } = submission;
   const manifest = output!.manifest;
+  if (manifest.anonymous === true) return "";
   const clean = (s: string) => s.replace(/[{}\\]/g, "");
   const year = new Date(record.registeredAt ?? record.createdAt).getUTCFullYear();
   const author = manifest.authors.map((a) => clean(a.name)).join(" and ");

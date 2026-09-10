@@ -530,6 +530,48 @@ After the formula.`, "");
     expect(fs.readFileSync(path.join(root, "open-problems.html"), "utf8")).toBe(proofObligations);
   });
 
+  it("renders anonymous submissions without exposing identities or source repositories", async () => {
+    const archive = submissions();
+    archive[0]!.output!.manifest.anonymous = true;
+
+    const root = tmpDir("lax-site-anonymous-");
+    await generateSite(archive, root);
+    const index = fs.readFileSync(path.join(root, "index.html"), "utf8");
+    const submission = fs.readFileSync(path.join(root, "Lax2", "index.html"), "utf8");
+    const concept = fs.readFileSync(path.join(root, "Lax2", "Lax2.C.html"), "utf8");
+    const proof = fs.readFileSync(path.join(root, "Lax2", "Lax2Proofs.truth.html"), "utf8");
+
+    expect(index).toContain("formalized by");
+    expect(index).toContain("withheld during anonymous review");
+    for (const html of [index, submission, concept, proof]) {
+      expect(html).not.toContain("Alice");
+      expect(html).not.toContain("https://orcid.org/0000-0002-1825-0097");
+      expect(html).not.toContain("https://github.com/alice");
+    }
+    for (const html of [submission, concept, proof])
+      expect(html).not.toContain("https://github.com/example/math");
+
+    expect(submission).toContain("source withheld during anonymous review");
+    expect(submission).toContain('class="source-link source-link-withheld" aria-disabled="true"');
+    expect(submission).toContain("Citation withheld");
+    expect(submission).toContain("A citation exists for this submission");
+    expect(submission).not.toContain("@misc{Lax2");
+    expect(submission).not.toContain("data-copy-citation");
+    expect(submission).not.toContain("assets/citation.js");
+    expect(submission).toContain("References withheld");
+    expect(submission).toContain("References are present");
+    expect(submission).not.toContain('class="reference-list"');
+    expect(submission).not.toContain("Jane Doe");
+    expect(submission).toContain('data-anonymous-review="true"');
+    expect(submission).toContain("Endorser identities are withheld during anonymous review.");
+
+    expect(concept).toContain('class="statement-proof-button statement-proof-button-withheld" aria-disabled="true"');
+    expect(concept).toContain("Proof source withheld");
+    expect(concept).toContain('data-anonymous-review="true"');
+    expect(proof).toContain('class="source-button source-button-withheld" aria-disabled="true"');
+    expect(proof).toContain("Lean proof source withheld");
+  });
+
   it("weights review concepts by distinct external submissions and reports both reuse counts", async () => {
     const archive = graphSubmissions();
     const middle = archive[1]!.output!.concepts[0]!;

@@ -63,7 +63,7 @@ describe("Remark42 browser loader", () => {
     expect(loading.textContent).toBe("Discussion is temporarily unavailable. Please try again later.");
   });
 
-  it("loads public reviews with credentials and enables them for a validated ORCID identity", async () => {
+  it.each([false, true])("loads public reviews with credentials and anonymous=%s", async (anonymous) => {
     const count = (value: string) => ({ textContent: value });
     const endorseCount = count("0");
     const flagCount = count("0");
@@ -87,7 +87,7 @@ describe("Remark42 browser loader", () => {
     const voterEmpty = { hidden: false };
     const voterPopover = { querySelector: (selector: string) => selector === "ul" ? voterList : selector === "[data-reaction-empty]" ? voterEmpty : null };
     const reactions = {
-      dataset: { reviewKind: "submission", sourceLines: "0" },
+      dataset: { reviewKind: "submission", sourceLines: "0", anonymousReview: String(anonymous) },
       querySelector: (selector: string) => {
         if (selector === "[data-reactions-status]") return reactionStatus;
         if (selector === "[data-reactions-login]") return login;
@@ -132,14 +132,18 @@ describe("Remark42 browser loader", () => {
     expect(flagCount.textContent).toBe("1");
     expect(reactionStatus.textContent).toBe("Signed in as Alice");
     expect(login.hidden).toBe(true);
-    const voterLink = voterList.children[0]!.children as Array<Record<string, unknown>>;
-    expect(voterLink[0]).toMatchObject({
-      href: "https://orcid.org/0000-0002-1825-0097",
-      target: "_blank",
-      rel: "noopener noreferrer",
-      textContent: "Ada Lovelace",
-      title: "Ada Lovelace — ORCID iD 0000-0002-1825-0097",
-    });
+    if (anonymous) {
+      expect(voterList.children).toEqual([]);
+    } else {
+      const voterLink = voterList.children[0]!.children as Array<Record<string, unknown>>;
+      expect(voterLink[0]).toMatchObject({
+        href: "https://orcid.org/0000-0002-1825-0097",
+        target: "_blank",
+        rel: "noopener noreferrer",
+        textContent: "Ada Lovelace",
+        title: "Ada Lovelace — ORCID iD 0000-0002-1825-0097",
+      });
+    }
   });
 
   it("renders public flag explanations and their validated concept source line", async () => {

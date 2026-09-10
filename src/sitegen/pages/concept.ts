@@ -17,9 +17,13 @@ import {
   type PageContext,
   proofItem,
   submissionSidebar,
+  withheldSourceLink,
 } from "./shared.js";
 
 const MATHLIB_DOCS = "https://leanprover-community.github.io/mathlib4_docs/";
+
+type ProofSourceAction = { id: string; withheld: true }
+  | { id: string; withheld: false; href: string };
 
 /** Statement ranges include their leading documentation. Find the declaration
  * row so a proof action can be positioned beside the axiom itself. */
@@ -60,10 +64,12 @@ export async function conceptPage(ctx: PageContext, located: LocatedConcept): Pr
   const proven = ctx.model.network.proven;
   const provenCount = concept.statements.filter((s) => proven.has(s.id)).length;
   const graph = conceptGraph(ctx.model, [concept.id]);
+  const anonymous = output.manifest.anonymous === true;
   const source = submission.record.source;
-  const githubFile = source
+  const githubFile = source && !anonymous
     ? githubSource(source.repository, source.commit, source.folder, concept.path)
     : undefined;
+  const sourceWithheld = anonymous && Boolean(source);
 
   const type = concept.type!.trim();
   const typeHeading = type.charAt(0).toUpperCase() + type.slice(1);
@@ -85,16 +91,20 @@ export async function conceptPage(ctx: PageContext, located: LocatedConcept): Pr
     ? statementDeclarationLine(concept.sourceText, statement.startLine, statement.endLine)
     : undefined;
   const proofLinks = statement
-    ? (ctx.model.statementProofs.get(statement.id) ?? []).flatMap(({ submission: proofSubmission, proof }) => {
+    ? (ctx.model.statementProofs.get(statement.id) ?? []).flatMap<ProofSourceAction>(({ submission: proofSubmission, proof }) => {
         const proofSource = proofSubmission.record.source;
+        if (proofSource && (anonymous || proofSubmission.output?.manifest.anonymous === true))
+          return [{ id: proof.id, withheld: true as const }];
         const href = proofSource
           ? githubSource(proofSource.repository, proofSource.commit, proofSource.folder, proof.path)
           : undefined;
-        return href ? [{ id: proof.id, href }] : [];
+        return href ? [{ id: proof.id, withheld: false as const, href }] : [];
       })
     : [];
   const proofActions = proofLinks.length && declarationLine !== undefined
     ? `<span class="source-proof-rail" data-source-line="L${declarationLine}" aria-label="Proof links">${proofLinks.map((link, index) => {
+        if (link.withheld)
+          return `<span class="statement-proof-button statement-proof-button-withheld" aria-disabled="true" title="${attr(`Proof ${link.id} source unavailable during anonymous review`)}"><span class="anonymity-lock" aria-hidden="true">🔒</span><span class="statement-proof-label">Proof source withheld</span></span>`;
         const label = proofLinks.length === 1 ? "Show Proof" : `Show Proof ${index + 1}`;
         return `<a class="statement-proof-button" href="${attr(link.href)}" aria-label="${attr(`View proof ${link.id} on GitHub`)}" title="${attr(link.id)}"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">${label}</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a>`;
       }).join("")}</span>`
@@ -113,7 +123,7 @@ export async function conceptPage(ctx: PageContext, located: LocatedConcept): Pr
 <p class="concept-microline"><code>${esc(concept.path)}</code> · <a href="index.html">${esc(output.id)}</a></p></div>
 <span class="status-pills">${countsPill(provenCount, concept.statements.length)}</span>
 </div>
-${pageReactions(`${submission.record.id}/${concept.id}.html`, { kind: "concept", sourceLines: concept.sourceText.split("\n").length })}
+${pageReactions(`${submission.record.id}/${concept.id}.html`, { kind: "concept", sourceLines: concept.sourceText.split("\n").length, anonymous })}
 ${figureTitle("Concept map")}
 <figure class="graph-figure concept-root-graph">
 ${graphExpandButton("concept map")}
@@ -124,7 +134,7 @@ ${conceptMapLegend(graph, "This concept", "Related concept")}
 </figure>
 ${evidence(ctx, located)}
 <div class="block block-statement"><h3>${esc(typeHeading)}</h3><div class="latex-content">${ctx.markdown.renderAuthorProse(concept.description, "../")}</div></div>
-<div class="block block-lean"><h3 class="section-heading">Lean source${githubFile ? ` <a class="source-link" href="${attr(githubFile)}">view on GitHub</a>` : ""}</h3>
+<div class="block block-lean"><h3 class="section-heading">Lean source${githubFile ? ` <a class="source-link" href="${attr(githubFile)}">view on GitHub</a>` : sourceWithheld ? withheldSourceLink() : ""}</h3>
 <div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
 ${sourceRows}
 </table></div>${proofActions}<span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>

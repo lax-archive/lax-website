@@ -33,6 +33,7 @@ export function discussion(pathname: string): string {
 interface PageReviewOptions {
   kind?: "submission" | "concept";
   sourceLines?: number;
+  anonymous?: boolean;
 }
 
 /** Compact page-level review controls placed beside the primary metadata. */
@@ -42,12 +43,14 @@ export function pageReactions(pathname: string, options: PageReviewOptions = {})
   const kind = options.kind ?? "submission";
   const sourceLines = kind === "concept" ? Math.max(0, options.sourceLines ?? 0) : 0;
   const target = kind === "concept" ? "concept" : "submission";
-  return `<section class="page-reactions" aria-label="Community review" data-reactions-host="${attr(REMARK42_URL)}" data-reactions-url="${attr(threadUrl)}" data-review-kind="${kind}" data-source-lines="${sourceLines}">
+  const anonymous = options.anonymous === true;
+  const anonymousData = anonymous ? ` data-anonymous-review="true"` : "";
+  return `<section class="page-reactions" aria-label="Community review" data-reactions-host="${attr(REMARK42_URL)}" data-reactions-url="${attr(threadUrl)}" data-review-kind="${kind}" data-source-lines="${sourceLines}"${anonymousData}>
 <div class="page-reactions-actions">
 <div class="page-reaction-control">
 <button class="page-reaction-button" type="button" data-reaction="endorse" aria-pressed="false" title="Say that this ${target} is correct"><span class="page-reaction-icon" aria-hidden="true">✅</span><span>Endorse</span></button>
-<button class="page-reaction-voters" type="button" data-reaction-voters="endorse" aria-expanded="false" aria-controls="page-reaction-voters-endorse"><strong data-reaction-count="endorse">0</strong><span class="visually-hidden">Show people who endorse this ${target}</span></button>
-<div class="page-reaction-voters-popover" id="page-reaction-voters-endorse" data-reaction-voters-popover="endorse" hidden><p data-reaction-empty>No public endorsements yet.</p><ul></ul></div>
+<button class="page-reaction-voters" type="button" data-reaction-voters="endorse" aria-expanded="false" aria-controls="page-reaction-voters-endorse"><strong data-reaction-count="endorse">0</strong><span class="visually-hidden">${anonymous ? `Show endorsement details for this ${target}` : `Show people who endorse this ${target}`}</span></button>
+<div class="page-reaction-voters-popover" id="page-reaction-voters-endorse" data-reaction-voters-popover="endorse" hidden>${anonymous ? `<p data-reaction-identities-hidden>Endorser identities are withheld during anonymous review.</p>` : `<p data-reaction-empty>No public endorsements yet.</p>`}<ul></ul></div>
 </div>
 <div class="page-reaction-control page-flag-control">
 <button class="page-reaction-button" type="button" data-reaction="flag" aria-pressed="false" aria-haspopup="dialog" title="Explain why this ${target} may be false"><span class="page-reaction-icon" aria-hidden="true">🚩</span><span>Flag</span></button>

@@ -4,6 +4,7 @@ import { conceptGraph, graphDataScript, submissionGraph, type SubmissionGraphDat
 import type { SiteSubmission } from "../model.js";
 import { discussion, pageReactions } from "./discussion.js";
 import {
+  anonymityNotice,
   bibtex,
   conceptBadgeLegend,
   conceptMapLegend,
@@ -24,6 +25,7 @@ import {
   sourceLink,
   submissionMapLegend,
   submissionSidebar,
+  withheldSourceLink,
 } from "./shared.js";
 
 /** The submission page: abstract first, sleek meta, concepts with their DAG,
@@ -47,6 +49,7 @@ ${discussion(`${record.id}/`)}`;
   }
 
   const proven = ctx.model.network.proven;
+  const anonymous = output.manifest.anonymous === true;
   // Build each figure's data once so its legend and embedded JSON describe
   // exactly the same nodes and edges.
   const related = submissionGraph(ctx.model, output.id);
@@ -58,11 +61,13 @@ ${discussion(`${record.id}/`)}`;
     return `<li>${typeBadge(concept.type, status)}<a href="${attr(`${concept.id}.html`)}" title="${attr(concept.id)}"><code>${esc(name)}</code></a></li>`;
   });
   const proofsHref = proofsSource(submission);
+  const proofsSourceWithheld = anonymous && Boolean(record.source);
   const proofRows = output.proofs.map((proof) =>
     proofItem(ctx.model, { submission, output, proof }, "../", { anchorId: `p-${proof.id}`, home: output.id }));
-  const references = output.manifest.bibEntries
-    .map((entry) => renderBibEntry(entry))
-    .join("\n");
+  const hasReferences = output.manifest.bibEntries.length > 0;
+  const references = anonymous
+    ? ""
+    : output.manifest.bibEntries.map((entry) => renderBibEntry(entry)).join("\n");
   // A submission alone in its corner of the archive gets a sentence, not an
   // empty figure: the map only says something once there is a neighbour.
   const relatedFigure = related.nodes.length > 1
@@ -76,7 +81,7 @@ ${submissionMapLegend()}
 
   const content = `${supersededBanner(ctx, record.id, "../")}${draftBanner(record.state)}${supersedesNote(ctx, submission, "../")}
 ${paperHeader(ctx.markdown, submission, "../")}
-${pageReactions(`${record.id}/`, { kind: "submission" })}
+${pageReactions(`${record.id}/`, { kind: "submission", anonymous })}
 ${output.abstract.trim() ? paperAbstract(ctx.markdown.renderAuthorProse(output.abstract, "../")) : ""}
 <section class="page-section"><h3 class="section-title">Concepts</h3>
 ${output.concepts.length ? `<div class="concept-list-box">
@@ -99,9 +104,13 @@ ${output.proofs.length ? `<div class="proof-list-box">
 <ul class="proof-list">
 ${proofRows.join("\n")}
 </ul>
-${proofsHref ? `<p class="proof-list-source">Lean sources for these proofs: ${sourceLink(proofsHref, "proofs/ on GitHub")}</p>` : ""}
+${proofsHref
+    ? `<p class="proof-list-source">Lean sources for these proofs: ${sourceLink(proofsHref, "proofs/ on GitHub")}</p>`
+    : proofsSourceWithheld
+      ? `<p class="proof-list-source">Lean sources for these proofs: ${withheldSourceLink("withheld during anonymous review")}</p>`
+      : ""}
 </div>
-${figureTitle("Proof network", proofsHref)}
+${figureTitle("Proof network", proofsHref, proofsSourceWithheld)}
 <figure class="graph-figure proof-network-figure">
 ${graphExpandButton("proof network")}
 <div id="proof-network" class="figure-container" data-graph="proofs"></div>
@@ -115,13 +124,19 @@ ${relatedFigure}
 </section>
 ${versionsSection(ctx, submission, "../")}
 <section class="page-section"><h3 class="section-title" id="citation">Cite this</h3>
-<div class="citation-box">
+${anonymous
+    ? anonymityNotice("Citation withheld", "A citation exists for this submission, but it is unavailable during anonymous review.")
+    : `<div class="citation-box">
 <pre class="citation" id="submission-citation">${esc(bibtex(ctx.model, submission))}</pre>
 <button class="citation-copy" type="button" data-copy-citation aria-controls="submission-citation" aria-label="Copy BibTeX to clipboard" title="Copy BibTeX"><span class="citation-copy-icon" aria-hidden="true"></span></button>
 <output class="citation-copy-status" aria-live="polite"></output>
-</div>
+</div>`}
 </section>
-${references ? `<section class="page-section"><h3 class="section-title">References</h3>\n<ol class="reference-list">\n${references}\n</ol>\n</section>` : ""}
+${hasReferences
+    ? anonymous
+      ? `<section class="page-section"><h3 class="section-title">References</h3>\n${anonymityNotice("References withheld", "References are present, but they are unavailable during anonymous review.")}\n</section>`
+      : `<section class="page-section"><h3 class="section-title">References</h3>\n<ol class="reference-list">\n${references}\n</ol>\n</section>`
+    : ""}
 ${discussion(`${record.id}/`)}
 ${graphDataScript(graphs)}`;
   return page({
@@ -129,7 +144,7 @@ ${graphDataScript(graphs)}`;
     rootRel: "../",
     sidebar,
     content,
-    scripts: ["assets/layout.js", "assets/dag.js", "assets/citation.js", "assets/comments.js"],
+    scripts: ["assets/layout.js", "assets/dag.js", ...(anonymous ? [] : ["assets/citation.js"]), "assets/comments.js"],
   });
 }
 

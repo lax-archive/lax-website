@@ -8,6 +8,7 @@ import {
   proofJudgment,
   sourceButton,
   submissionSidebar,
+  withheldSourceButton,
 } from "./shared.js";
 
 /** The proof page: the judgment card up front, then the annotation body.
@@ -25,10 +26,12 @@ export function proofPage(ctx: PageContext, located: LocatedProof): string {
     ? `<span class="status-pill pill-proven" tabindex="0" data-tooltip="${attr(groundedHelp)}" aria-label="Grounded. ${attr(groundedHelp)}">grounded</span>`
     : `<span class="status-pill pill-partial" title="The relationship is checked, but ${plural(outstanding.length, "assumption is", "assumptions are")} still open.">conditional — ${plural(outstanding.length, "open assumption")}</span>`;
 
+  const anonymous = output.manifest.anonymous === true;
   const source = submission.record.source;
-  const githubFile = source
+  const githubFile = source && !anonymous
     ? githubSource(source.repository, source.commit, source.folder, proof.path)
     : undefined;
+  const sourceWithheld = anonymous && Boolean(source);
 
   const sections = (proof.sections ?? [])
     .map((s) => `<div class="block"><h3>${ctx.markdown.renderAuthorInline(s.title, "../")}</h3><div class="latex-content">${ctx.markdown.renderAuthorProse(s.markdown, "../")}</div></div>`)
@@ -45,7 +48,11 @@ export function proofPage(ctx: PageContext, located: LocatedProof): string {
 <div class="block block-evidence"><h3>What this proof establishes</h3>
 ${proofJudgment(ctx.model, proof, "../", output.id)}
 <p class="honesty-note">Assuming the claims on the left, the claim on the right holds — checked by the archive's pipeline. Proof code is not displayed here.</p>
-${githubFile ? `<p class="source-action">${sourceButton(githubFile, "Read the Lean proof on GitHub")}</p>` : ""}
+${githubFile
+    ? `<p class="source-action">${sourceButton(githubFile, "Read the Lean proof on GitHub")}</p>`
+    : sourceWithheld
+      ? `<p class="source-action">${withheldSourceButton()}</p>`
+      : ""}
 </div>
 ${proof.description.trim() ? `<div class="block block-statement"><h3>Description</h3><div class="latex-content">${ctx.markdown.renderAuthorProse(proof.description, "../")}</div></div>` : ""}
 ${sections}`;
