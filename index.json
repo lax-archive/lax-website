@@ -2921,6 +2921,89 @@
       ]
     },
     {
+      "id": "lax-762056",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "Max Independent Set Remains NP-hard when Excluding a Planar Induced Minor",
+      "concepts": [
+        {
+          "id": "Lax762056.AsteroidalCycles",
+          "title": "Three mutually avoiding cycles",
+          "type": "definition"
+        },
+        {
+          "id": "Lax762056.ColumnGraph",
+          "title": "The intermediate graph of rows, columns, and sides",
+          "type": "definition"
+        },
+        {
+          "id": "Lax762056.CycleObstruction",
+          "title": "The cycle obstruction to an induced minor",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax762056.GraphEncoding",
+          "title": "Binary encoding of graph decision instances",
+          "type": "definition"
+        },
+        {
+          "id": "Lax762056.Grid",
+          "title": "Excluding the five-by-five grid as an induced minor",
+          "type": "definition"
+        },
+        {
+          "id": "Lax762056.GridExclusion",
+          "title": "The constructed graphs exclude the five-by-five grid",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax762056.IndependenceIdentity",
+          "title": "The independence number records the maximum cut",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax762056.InducedMinors",
+          "title": "Induced minors",
+          "type": "definition"
+        },
+        {
+          "id": "Lax762056.MaxCut",
+          "title": "Maximum cuts",
+          "type": "definition"
+        },
+        {
+          "id": "Lax762056.MaxCutHard",
+          "title": "NP-hardness of unweighted Max Cut",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax762056.Reduction",
+          "title": "The Bonnet–Chang reduction",
+          "type": "definition"
+        },
+        {
+          "id": "Lax762056.ReductionTime",
+          "title": "The reduction can be computed in polynomial time",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax762056.Theorem5",
+          "title": "MIS is NP-hard when excluding the five-by-five grid as an induced minor",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax762056Proofs.GridWitness.grid_has_triple",
+        "Lax762056Proofs.independence_identity",
+        "Lax762056Proofs.intermediate_excludes_grid",
+        "Lax762056Proofs.maxCut_np_hard",
+        "Lax762056Proofs.Obstruction.excludes_triple",
+        "Lax762056Proofs.reduction_excludes_grid",
+        "Lax762056Proofs.reduction_polynomial_time",
+        "Lax762056Proofs.theorem5"
+      ]
+    },
+    {
       "id": "lax-765601",
       "state": "draft",
       "environment": "v4.30.0",
