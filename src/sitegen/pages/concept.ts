@@ -92,11 +92,12 @@ export async function conceptPage(ctx: PageContext, located: LocatedConcept): Pr
     .map((s) => `<div class="block"><h3>${ctx.markdown.renderAuthorInline(s.title, "../")}</h3><div class="latex-content">${ctx.markdown.renderAuthorProse(s.markdown, "../")}</div></div>`)
     .join("\n");
 
-  const importRows = concept.imports.map((id) => `<li>${conceptLink(ctx.model, id, "../", output.id)}</li>`);
+  const importRows = concept.imports.map((id) =>
+    `<li title="${attr(id)}">${conceptLink(ctx.model, id, "../", output.id)}</li>`);
   const mathlibRows = (concept.mathlibImports ?? []).map((id) =>
-    `<li><a href="${attr(`${MATHLIB_DOCS}${id.replace(/\./g, "/")}.html`)}">${code(id)}</a></li>`);
+    `<li title="${attr(id)}"><a href="${attr(`${MATHLIB_DOCS}${id.replace(/\./g, "/")}.html`)}">${code(id)}</a></li>`);
   const usedByRows = (ctx.model.importers.get(concept.id) ?? []).map((item) =>
-    `<li>${conceptLink(ctx.model, item.concept.id, "../", output.id)}</li>`);
+    `<li title="${attr(item.concept.id)}">${conceptLink(ctx.model, item.concept.id, "../", output.id)}</li>`);
   const depsCol = (heading: string, rows: string[]) =>
     `<div class="deps-col"><h3>${esc(heading)}</h3>${rows.length ? `<ul class="deps-list">${rows.join("")}</ul>` : `<p class="empty-note">none</p>`}</div>`;
 

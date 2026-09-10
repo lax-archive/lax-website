@@ -1526,7 +1526,15 @@ a.submission-meta-id:is(:hover, :focus-visible),
 
 .deps-list li{ margin-bottom: 0.3rem; }
 
-.deps-list a{ color: var(--link); text-decoration: none; overflow-wrap: anywhere; }
+.deps-list a,
+.deps-list li > code{
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.deps-list a{ color: var(--link); text-decoration: none; }
 .deps-list a:hover{ text-decoration: underline; }
 /* Concept identifiers, not code: text face, like concept-list/claim-entry.
    Mathlib entries in the same columns inherit this deliberately. */
