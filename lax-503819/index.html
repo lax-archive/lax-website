@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://comments.laxarchive.org; style-src 'self' 'unsafe-inline'; img-src https: data:; font-src 'self'; frame-src https://comments.laxarchive.org; connect-src https://comments.laxarchive.org">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Lax — an archive of formalized mathematical concepts and their proofs">
+<title>Undecidability of positive first-order definability on words — lax-503819</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
+<link rel="stylesheet" href="../assets/style.css?v=293d33df3472">
+</head><body>
+<header class="site-header">
+  <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
+  <h1 class="site-title"><a href="../index.html">Lax <span class="site-title-quiet">Lean Archive</span></a></h1>
+  <nav class="header-actions" aria-label="Account">
+    <div class="account-header" data-account-root data-remark42-host="https://comments.laxarchive.org" data-remark42-site="remark" data-identity-url="https://comments.laxarchive.org/reactions/v1/identity">
+  <a class="account-control" data-account-login href="https://comments.laxarchive.org/auth/orcid/login?from=https%3A%2F%2Flaxarchive.org&amp;site=remark"><span class="orcid-mark" aria-hidden="true">iD</span><span>Sign in with ORCID</span></a>
+  <button class="account-control" data-account-settings type="button" aria-haspopup="dialog" aria-controls="account-dialog" hidden><span class="orcid-mark" aria-hidden="true">iD</span><span>Settings</span></button>
+</div>
+  </nav>
+</header>
+<main id="content-shell">
+<div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+<aside id="sidebar">
+<a class="sidebar-back" href="../index.html"><span class="sidebar-back-arrow" aria-hidden="true">←</span>All submissions</a>
+<div class="sidebar-filters"><div class="filter-group">
+<label for="filter-search">Search</label>
+<input id="filter-search" class="filter-input" type="search" placeholder="Filter entries" aria-controls="entry-list">
+</div>
+<div class="filter-group">
+<label for="filter-type">Type</label>
+<select id="filter-type" class="filter-select">
+<option value="all">All types</option>
+<option value="definition">definition</option>
+<option value="theorem">theorem</option>
+<option value="proof">proof</option>
+</select>
+</div></div>
+<ul id="entry-list">
+<li class="entry-heading" aria-hidden="true">Concepts</li>
+<li data-type="definition" data-search="lax503819.automata finite automaton inputs on powerset alphabets definition"><a class="entry-link" href="../lax-503819/Lax503819.Automata.html" data-full-title="Finite automaton inputs on powerset alphabets"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax503819.Automata</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-503819/Lax503819.Automata.html" hidden></span></span></a></li>
+<li data-type="theorem" data-search="lax503819.mortality uniform mortality of deterministic turing machines theorem"><a class="entry-link" href="../lax-503819/Lax503819.Mortality.html" data-full-title="Uniform mortality of deterministic Turing machines"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax503819.Mortality</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-503819/Lax503819.Mortality.html" hidden></span></span></a></li>
+<li data-type="theorem" data-search="lax503819.positivegames positive ehrenfeucht–fraïssé games theorem"><a class="entry-link" href="../lax-503819/Lax503819.PositiveGames.html" data-full-title="Positive Ehrenfeucht–Fraïssé games"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax503819.PositiveGames</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-503819/Lax503819.PositiveGames.html" hidden></span></span></a></li>
+<li data-type="definition" data-search="lax503819.positivelogic positive first-order logic on finite words definition"><a class="entry-link" href="../lax-503819/Lax503819.PositiveLogic.html" data-full-title="Positive first-order logic on finite words"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax503819.PositiveLogic</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-503819/Lax503819.PositiveLogic.html" hidden></span></span></a></li>
+<li data-type="theorem" data-search="lax503819.reduction mortality reduces to positive first-order definability theorem"><a class="entry-link" href="../lax-503819/Lax503819.Reduction.html" data-full-title="Mortality reduces to positive first-order definability"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax503819.Reduction</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-503819/Lax503819.Reduction.html" hidden></span></span></a></li>
+<li data-type="theorem" data-search="lax503819.undecidability undecidability of positive first-order definability theorem"><a class="entry-link" href="../lax-503819/Lax503819.Undecidability.html" data-full-title="Undecidability of positive first-order definability"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax503819.Undecidability</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-503819/Lax503819.Undecidability.html" hidden></span></span></a></li>
+<li data-type="definition" data-search="lax503819.words words over an ordered alphabet definition"><a class="entry-link" href="../lax-503819/Lax503819.Words.html" data-full-title="Words over an ordered alphabet"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax503819.Words</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-503819/Lax503819.Words.html" hidden></span></span></a></li>
+<li class="entry-heading" aria-hidden="true">Proofs</li>
+<li data-type="proof" data-search="lax503819proofs.computablereduction.mortality_reduces proof"><a class="entry-link" href="../lax-503819/Lax503819Proofs.ComputableReduction.mortality_reduces.html" data-full-title="Lax503819Proofs.ComputableReduction.mortality_reduces"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax503819Proofs.ComputableReduction.mortality_reduces</span></span></a></li>
+<li data-type="proof" data-search="lax503819proofs.definability.bounded_game_characterization proof"><a class="entry-link" href="../lax-503819/Lax503819Proofs.Definability.bounded_game_characterization.html" data-full-title="Lax503819Proofs.Definability.bounded_game_characterization"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax503819Proofs.Definability.bounded_game_characterization</span></span></a></li>
+<li data-type="proof" data-search="lax503819proofs.games.game_formula_correspondence proof"><a class="entry-link" href="../lax-503819/Lax503819Proofs.Games.game_formula_correspondence.html" data-full-title="Lax503819Proofs.Games.game_formula_correspondence"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax503819Proofs.Games.game_formula_correspondence</span></span></a></li>
+<li data-type="proof" data-search="lax503819proofs.mortality.mortality_undecidable proof"><a class="entry-link" href="../lax-503819/Lax503819Proofs.Mortality.mortality_undecidable.html" data-full-title="Lax503819Proofs.Mortality.mortality_undecidable"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax503819Proofs.Mortality.mortality_undecidable</span></span></a></li>
+<li data-type="proof" data-search="lax503819proofs.undecidability.positive_definability_undecidable proof"><a class="entry-link" href="../lax-503819/Lax503819Proofs.Undecidability.positive_definability_undecidable.html" data-full-title="Lax503819Proofs.Undecidability.positive_definability_undecidable"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax503819Proofs.Undecidability.positive_definability_undecidable</span></span></a></li>
+<li id="entry-list-empty" hidden>No entries match.</li>
+</ul>
+</aside>
+<div id="sidebar-resizer" class="sidebar-resizer" role="separator" aria-label="Resize sidebar" aria-controls="sidebar" aria-orientation="vertical" aria-valuemin="220" aria-valuemax="520" aria-valuenow="285" tabindex="0" title="Drag to resize sidebar"></div>
+<section id="main"><div id="detail">
+<p class="draft-banner"><strong>Draft</strong> — mutable and not usable as a dependency; its citation marks the draft state.</p>
+<header class="paper-head">
+<h1 class="paper-title">Undecidability of positive first-order definability on words</h1>
+<p class="paper-meta"><span class="submission-meta-id">lax-503819</span><span class="meta-sep">·</span><span class="formalized-label">formalized by</span> <span class="paper-author">Denis Kuperberg <span class="author-links"><a href="https://github.com/deniskup">@deniskup</a></span></span><span class="meta-sep">·</span>created 2026-09-10<span class="meta-sep">·</span><a href="https://github.com/deniskup/kuperberg-positive/tree/e1ac951bf42ea45114857a7b604b01210fe8d620/" title="https://github.com/deniskup/kuperberg-positive/tree/e1ac951bf42ea45114857a7b604b01210fe8d620/"><code>GitHub @e1ac951</code></a><span class="meta-sep">·</span>Lean <code>v4.30.0</code> <span class="meta-epoch" title="the environment the archive recommends this year">epoch</span> · mathlib <code>c5ea00351c28</code></p>
+</header>
+<section class="page-reactions" aria-label="Community review" data-reactions-host="https://comments.laxarchive.org" data-reactions-url="https://laxarchive.org/lax-503819/" data-review-kind="submission" data-source-lines="0" data-submission-concept-urls="[&quot;https://laxarchive.org/lax-503819/Lax503819.Automata.html&quot;,&quot;https://laxarchive.org/lax-503819/Lax503819.Mortality.html&quot;,&quot;https://laxarchive.org/lax-503819/Lax503819.PositiveGames.html&quot;,&quot;https://laxarchive.org/lax-503819/Lax503819.PositiveLogic.html&quot;,&quot;https://laxarchive.org/lax-503819/Lax503819.Reduction.html&quot;,&quot;https://laxarchive.org/lax-503819/Lax503819.Undecidability.html&quot;,&quot;https://laxarchive.org/lax-503819/Lax503819.Words.html&quot;]">
+<div class="page-reactions-line">
+<div class="page-reactions-actions">
+<div class="page-reaction-control">
+<button class="page-reaction-button" type="button" data-reaction="endorse" aria-pressed="false" title="Say that this submission is correct"><span class="page-reaction-icon" aria-hidden="true">🥳</span><span>Endorse</span></button>
+<button class="page-reaction-voters" type="button" data-reaction-voters="endorse" aria-expanded="false" aria-controls="page-reaction-voters-endorse"><strong data-reaction-count="endorse">0</strong><span class="visually-hidden">Show people who endorse this submission</span></button>
+<div class="page-reaction-voters-popover" id="page-reaction-voters-endorse" data-reaction-voters-popover="endorse" hidden><p data-reaction-empty>No public endorsements yet.</p><ul></ul></div>
+</div>
+<div class="page-reaction-control page-flag-control">
+<button class="page-reaction-button" type="button" data-reaction="flag" aria-pressed="false" aria-haspopup="dialog" title="Explain why this submission may be false"><span class="page-reaction-icon" aria-hidden="true">🚩</span><span>Flag</span></button>
+<button class="page-reaction-voters" type="button" data-flag-list-open aria-haspopup="dialog" aria-controls="page-flag-list"><strong data-reaction-count="flag">0</strong><span class="visually-hidden">Show flags for this submission</span></button>
+</div>
+</div>
+<p class="submission-flagged-note" data-submission-flagged-note hidden><span aria-hidden="true">⚑</span><span data-submission-flagged-note-text></span></p>
+</div>
+<p class="page-reactions-status" data-reactions-status role="status">Loading review…</p>
+<a class="visually-hidden" data-reactions-login href="https://comments.laxarchive.org/auth/orcid/login?site=remark&amp;from=https%3A%2F%2Flaxarchive.org%2Flax-503819%2F">Sign in with ORCID</a>
+<dialog class="review-dialog flag-list-dialog" id="page-flag-list" data-flag-list-dialog aria-labelledby="page-flag-list-title">
+<div class="review-dialog-header"><div><p class="discussion-eyebrow">Community review</p><h2 id="page-flag-list-title">Flags</h2></div><button class="review-dialog-close" type="button" data-flag-list-close aria-label="Close flags">×</button></div>
+<p class="review-dialog-intro">Each flag is tied to a public ORCID identity and explains why this submission may be incorrect.</p>
+<p data-flag-list-empty>No flags have been submitted.</p><ol class="flag-list" data-flag-list></ol>
+</dialog>
+<dialog class="review-dialog flag-editor-dialog" id="page-flag-editor" data-flag-editor aria-labelledby="page-flag-editor-title">
+<form data-flag-form>
+<div class="review-dialog-header"><div><p class="discussion-eyebrow">Community review</p><h2 id="page-flag-editor-title">Flag this submission</h2></div><button class="review-dialog-close" type="button" data-flag-cancel aria-label="Close flag form">×</button></div>
+<p class="review-dialog-intro">State precisely what appears incorrect. This explanation will be public under your ORCID name.</p>
+<label class="flag-message-label" for="page-flag-message">What is wrong?</label>
+<textarea id="page-flag-message" data-flag-message rows="6" maxlength="2000" required placeholder="Describe the incorrect claim, missing assumption, or counterexample."></textarea>
+
+<p class="flag-form-status" data-flag-form-status role="status"></p>
+<div class="review-dialog-actions"><button class="danger-button" type="button" data-flag-remove hidden>Remove my flag</button><span></span><button class="secondary-button" type="button" data-flag-cancel>Cancel</button><button class="primary-button" type="submit">Publish flag</button></div>
+</form>
+</dialog>
+<noscript><p class="page-reactions-noscript"><a href="https://comments.laxarchive.org/auth/orcid/login?site=remark&amp;from=https%3A%2F%2Flaxarchive.org%2Flax-503819%2F">Sign in with ORCID</a> to review this page.</p></noscript>
+</section>
+<section class="paper-abstract">
+<h2 class="abstract-heading">Abstract</h2>
+<div class="latex-content"><p>This submission fully formalizes and proves in Lean Theorem 6.1 of Denis
+Kuperberg's <em>Positive First-order
+Logic on Words and Graphs</em> (LMCS, 2023): no algorithm decides whether the
+language of a finite automaton over a powerset alphabet is definable in
+positive first-order logic.</p>
+<p>The supporting results are also fully formalized and proved: the positive
+Ehrenfeucht–Fraïssé game–formula correspondence, the bounded-game
+characterization of positive first-order definability, undecidability of
+uniform Turing-machine mortality, and the computable reduction from mortality
+to positive first-order definability. The submission contains seven concepts
+and five completed proofs, with no remaining statement obligations.</p>
+<p>The number of letter predicates is part of the input; the undecidability
+result is uniform over finite powerset alphabets.</p>
+</div>
+</section>
+
+<section class="page-section"><h3 class="section-title">Concepts</h3>
+<div class="concept-list-box">
+<div class="concept-review-progress" data-concept-review-progress data-concept-review-urls="[&quot;https://laxarchive.org/lax-503819/Lax503819.Automata.html&quot;,&quot;https://laxarchive.org/lax-503819/Lax503819.Mortality.html&quot;,&quot;https://laxarchive.org/lax-503819/Lax503819.PositiveGames.html&quot;,&quot;https://laxarchive.org/lax-503819/Lax503819.PositiveLogic.html&quot;,&quot;https://laxarchive.org/lax-503819/Lax503819.Reduction.html&quot;,&quot;https://laxarchive.org/lax-503819/Lax503819.Undecidability.html&quot;,&quot;https://laxarchive.org/lax-503819/Lax503819.Words.html&quot;]" hidden>
+<div class="concept-review-progress-heading"><span>Review progress</span><span data-concept-review-progress-label></span></div>
+<div class="concept-review-progress-track" data-concept-review-progress-track role="img"></div>
+</div>
+<ul class="concept-list">
+<li><span class="type-badge" title="definition">def</span><a href="Lax503819.Automata.html" title="Lax503819.Automata"><code>Lax503819.Automata</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-503819/Lax503819.Automata.html" hidden></span></li>
+<li><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="Lax503819.Mortality.html" title="Lax503819.Mortality"><code>Lax503819.Mortality</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-503819/Lax503819.Mortality.html" hidden></span></li>
+<li><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="Lax503819.PositiveGames.html" title="Lax503819.PositiveGames"><code>Lax503819.PositiveGames</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-503819/Lax503819.PositiveGames.html" hidden></span></li>
+<li><span class="type-badge" title="definition">def</span><a href="Lax503819.PositiveLogic.html" title="Lax503819.PositiveLogic"><code>Lax503819.PositiveLogic</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-503819/Lax503819.PositiveLogic.html" hidden></span></li>
+<li><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="Lax503819.Reduction.html" title="Lax503819.Reduction"><code>Lax503819.Reduction</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-503819/Lax503819.Reduction.html" hidden></span></li>
+<li><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="Lax503819.Undecidability.html" title="Lax503819.Undecidability"><code>Lax503819.Undecidability</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-503819/Lax503819.Undecidability.html" hidden></span></li>
+<li><span class="type-badge" title="definition">def</span><a href="Lax503819.Words.html" title="Lax503819.Words"><code>Lax503819.Words</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-503819/Lax503819.Words.html" hidden></span></li>
+</ul>
+
+<div class="badge-legend" aria-label="Concept badge legend"><span><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span>proven claim</span><span><span class="type-badge" title="definition">def</span>definition</span></div>
+</div>
+<h4 class="figure-title">Concept map</h4>
+<figure class="graph-figure">
+<button class="graph-expand" type="button" data-graph-expand data-graph-label="concept map" aria-expanded="false" aria-label="Open concept map in a large window" title="Open in large window"><svg class="graph-expand-open" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M2.5 6V2.5H6M10 2.5h3.5V6M13.5 10v3.5H10M6 13.5H2.5V10"/></svg><span class="graph-expand-close" aria-hidden="true">×</span></button>
+<div class="graph-toolbar"><button type="button" id="concept-expand" aria-controls="concept-dag" aria-pressed="true">Hide ancestors</button><button type="button" id="concept-descend" aria-controls="concept-dag" aria-pressed="false">Show descendants</button><output id="concept-graph-status" aria-live="polite"></output></div>
+<div id="concept-dag" class="figure-container" data-graph="concepts" data-ancestry="true"></div>
+<div class="graph-tooltip" role="tooltip" hidden></div>
+<figcaption class="graph-legend" aria-label="Concept map legend"><span><i class="legend-node fill-proven"></i>Proven claim</span><span><i class="legend-node fill-none"></i>Definition</span><span><i class="legend-node stroke-own"></i>This submission</span><span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B builds on A</span></figcaption>
+</figure>
+</section>
+<section class="page-section"><h3 class="section-title">Proofs</h3>
+<h4 class="figure-title">Proof network<a class="source-link" href="https://github.com/deniskup/kuperberg-positive/tree/e1ac951bf42ea45114857a7b604b01210fe8d620/proofs">view on GitHub</a></h4>
+<figure class="graph-figure proof-network-figure">
+<button class="graph-expand" type="button" data-graph-expand data-graph-label="proof network" aria-expanded="false" aria-label="Open proof network in a large window" title="Open in large window"><svg class="graph-expand-open" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M2.5 6V2.5H6M10 2.5h3.5V6M13.5 10v3.5H10M6 13.5H2.5V10"/></svg><span class="graph-expand-close" aria-hidden="true">×</span></button>
+<div id="proof-network" class="figure-container" data-graph="proofs"></div>
+<div class="graph-tooltip" role="tooltip" hidden></div>
+<figcaption class="graph-legend" aria-label="Proof network legend"><span class="proof-flow">assumptions <i class="legend-arrow" aria-hidden="true">→</i><i class="legend-proof-chip" aria-hidden="true">⊢</i><i class="legend-arrow" aria-hidden="true">→</i> conclusion</span><span><i class="legend-node fill-proven"></i>Proven claim</span><span><i class="legend-dock" aria-hidden="true">1</i>Statement 1, 2, … of a claim with several statements</span><span><i class="legend-node stroke-own"></i>This submission</span><span><i class="legend-proof-chip" aria-hidden="true">⊢</i>Proof — click to open</span></figcaption>
+</figure>
+<div class="proof-list-box">
+<ul class="proof-list">
+<li class="proof-item" id="p-Lax503819Proofs.ComputableReduction.mortality_reduces">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-503819/Lax503819Proofs.ComputableReduction.mortality_reduces.html" aria-label="Open proof Lax503819Proofs.ComputableReduction.mortality_reduces"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><p class="judgment-unconditional">no assumptions</p></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="../lax-503819/Lax503819.Reduction.html" title="Lax503819.Reduction.mortality_reduces"><code>Lax503819.Reduction</code></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-503819/Lax503819Proofs.ComputableReduction.mortality_reduces.html"><code>Lax503819Proofs.ComputableReduction.mortality_reduces</code></a></p>
+</li>
+<li class="proof-item" id="p-Lax503819Proofs.Definability.bounded_game_characterization">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-503819/Lax503819Proofs.Definability.bounded_game_characterization.html" aria-label="Open proof Lax503819Proofs.Definability.bounded_game_characterization"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><p class="judgment-unconditional">no assumptions</p></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="../lax-503819/Lax503819.PositiveGames.html#s-Lax503819.PositiveGames.definable_iff_bounded_games" title="Lax503819.PositiveGames.definable_iff_bounded_games"><code>Lax503819.PositiveGames</code> <span class="claim-ordinal">(1st statement)</span></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-503819/Lax503819Proofs.Definability.bounded_game_characterization.html"><code>Lax503819Proofs.Definability.bounded_game_characterization</code></a></p>
+</li>
+<li class="proof-item" id="p-Lax503819Proofs.Games.game_formula_correspondence">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-503819/Lax503819Proofs.Games.game_formula_correspondence.html" aria-label="Open proof Lax503819Proofs.Games.game_formula_correspondence"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><p class="judgment-unconditional">no assumptions</p></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="../lax-503819/Lax503819.PositiveGames.html#s-Lax503819.PositiveGames.survives_iff_formulas" title="Lax503819.PositiveGames.survives_iff_formulas"><code>Lax503819.PositiveGames</code> <span class="claim-ordinal">(2nd statement)</span></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-503819/Lax503819Proofs.Games.game_formula_correspondence.html"><code>Lax503819Proofs.Games.game_formula_correspondence</code></a></p>
+</li>
+<li class="proof-item" id="p-Lax503819Proofs.Mortality.mortality_undecidable">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-503819/Lax503819Proofs.Mortality.mortality_undecidable.html" aria-label="Open proof Lax503819Proofs.Mortality.mortality_undecidable"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><p class="judgment-unconditional">no assumptions</p></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="../lax-503819/Lax503819.Mortality.html" title="Lax503819.Mortality.mortality_undecidable"><code>Lax503819.Mortality</code></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-503819/Lax503819Proofs.Mortality.mortality_undecidable.html"><code>Lax503819Proofs.Mortality.mortality_undecidable</code></a></p>
+</li>
+<li class="proof-item" id="p-Lax503819Proofs.Undecidability.positive_definability_undecidable">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-503819/Lax503819Proofs.Undecidability.positive_definability_undecidable.html" aria-label="Open proof Lax503819Proofs.Undecidability.positive_definability_undecidable"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><p class="judgment-unconditional">no assumptions</p></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="../lax-503819/Lax503819.Undecidability.html" title="Lax503819.Undecidability.positive_definability_undecidable"><code>Lax503819.Undecidability</code></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-503819/Lax503819Proofs.Undecidability.positive_definability_undecidable.html"><code>Lax503819Proofs.Undecidability.positive_definability_undecidable</code></a></p>
+</li>
+</ul>
+<p class="proof-list-source">Lean sources for these proofs: <a class="source-link" href="https://github.com/deniskup/kuperberg-positive/tree/e1ac951bf42ea45114857a7b604b01210fe8d620/proofs">proofs/ on GitHub</a></p>
+</div>
+<p class="honesty-note">Proof code is not displayed; the archive records each proof's checked relationship between claims.</p>
+</section>
+<section class="page-section"><h3 class="section-title">Related submissions</h3>
+<p class="empty-note">No other submission in the archive builds on this one, and this one builds on none.</p>
+</section>
+<section class="page-section"><h3 class="section-title" id="citation">Cite this</h3>
+<div class="citation-box">
+<pre class="citation" id="submission-citation">@misc{lax-503819,
+  author = {Denis Kuperberg},
+  title = {Undecidability of positive first-order definability on words},
+  year = {2026},
+  howpublished = {Lax Archive, lax-503819},
+  url = {https://laxarchive.org/lax-503819/},
+  note = {draft},
+}</pre>
+<button class="citation-copy" type="button" data-copy-citation aria-controls="submission-citation" aria-label="Copy BibTeX to clipboard" title="Copy BibTeX"><span class="citation-copy-icon" aria-hidden="true"></span></button>
+<output class="citation-copy-status" aria-live="polite"></output>
+</div>
+</section>
+<section class="page-section"><h3 class="section-title">References</h3>
+<ol class="reference-list">
+<li id="ref-Kuperberg2023">Denis Kuperberg. <span class="reference-title">Positive First-order Logic on Words and Graphs</span>. Logical Methods in Computer Science 19(3):7:1–7:35, 2023. <a href="https://doi.org/10.46298/lmcs-19(3:7)2023">doi:10.46298/lmcs-19(3:7)2023</a> · <a href="https://lmcs.episciences.org/11660">lmcs.episciences.org/11660</a></li>
+<li id="ref-Hooper1966">Philip K. Hooper. <span class="reference-title">The Undecidability of the Turing Machine Immortality Problem</span>. The Journal of Symbolic Logic 31(2):219–234, 1966. <a href="https://doi.org/10.2307/2269811">doi:10.2307/2269811</a> · <a href="https://www.jstor.org/stable/2269811">jstor.org/stable/2269811</a></li>
+</ol>
+</section>
+<section class="page-section discussion-section" aria-labelledby="discussion-title">
+<div class="discussion-heading">
+<div class="discussion-heading-copy">
+<p class="discussion-eyebrow">Community review</p>
+<h3 class="section-title" id="discussion-title">Discussion</h3>
+<p>Ask a question or add context. Endorsements and structured flags are kept in the review panel above; your ORCID profile must share a public name.</p>
+</div>
+<p class="discussion-count"><span class="remark42__counter" data-url="https://laxarchive.org/lax-503819/">0</span> <span>comments</span></p>
+</div>
+<div class="discussion-embed-shell">
+<p class="discussion-loading" id="remark42-status" role="status"><span class="discussion-loading-mark" aria-hidden="true"></span>Loading discussion…</p>
+<div id="remark42" data-remark42-host="https://comments.laxarchive.org" data-remark42-site="remark" data-remark42-url="https://laxarchive.org/lax-503819/"></div>
+</div>
+<noscript><p class="discussion-unavailable">Enable JavaScript to read or join the discussion.</p></noscript>
+</section>
+<script type="application/json" id="graph-data">{"concepts":{"nodes":[{"id":"Lax503819.Automata","href":"../lax-503819/Lax503819.Automata.html","title":"Finite automaton inputs on powerset alphabets","owner":"lax-503819","status":"none","ext":false,"dir":"core"},{"id":"Lax503819.Mortality","href":"../lax-503819/Lax503819.Mortality.html","title":"Uniform mortality of deterministic Turing machines","owner":"lax-503819","status":"proven","ext":false,"dir":"core"},{"id":"Lax503819.PositiveGames","href":"../lax-503819/Lax503819.PositiveGames.html","title":"Positive Ehrenfeucht–Fraïssé games","owner":"lax-503819","status":"proven","ext":false,"dir":"core"},{"id":"Lax503819.PositiveLogic","href":"../lax-503819/Lax503819.PositiveLogic.html","title":"Positive first-order logic on finite words","owner":"lax-503819","status":"none","ext":false,"dir":"core"},{"id":"Lax503819.Reduction","href":"../lax-503819/Lax503819.Reduction.html","title":"Mortality reduces to positive first-order definability","owner":"lax-503819","status":"proven","ext":false,"dir":"core"},{"id":"Lax503819.Undecidability","href":"../lax-503819/Lax503819.Undecidability.html","title":"Undecidability of positive first-order definability","owner":"lax-503819","status":"proven","ext":false,"dir":"core"},{"id":"Lax503819.Words","href":"../lax-503819/Lax503819.Words.html","title":"Words over an ordered alphabet","owner":"lax-503819","status":"none","ext":false,"dir":"core"}],"edges":[{"from":"Lax503819.PositiveLogic","to":"Lax503819.Automata"},{"from":"Lax503819.PositiveLogic","to":"Lax503819.PositiveGames"},{"from":"Lax503819.Words","to":"Lax503819.PositiveLogic"},{"from":"Lax503819.Automata","to":"Lax503819.Reduction"},{"from":"Lax503819.Mortality","to":"Lax503819.Reduction"},{"from":"Lax503819.Automata","to":"Lax503819.Undecidability"}],"home":"lax-503819"},"proofs":{"statements":[{"id":"Lax503819.Mortality.mortality_undecidable","label":"Lax503819.Mortality","title":"Uniform mortality of deterministic Turing machines","owner":"lax-503819","concept":"Lax503819.Mortality","index":1,"count":1,"href":"../lax-503819/Lax503819.Mortality.html#s-Lax503819.Mortality.mortality_undecidable","proven":true,"ext":false},{"id":"Lax503819.PositiveGames.definable_iff_bounded_games","label":"Lax503819.PositiveGames","title":"Positive Ehrenfeucht–Fraïssé games","owner":"lax-503819","concept":"Lax503819.PositiveGames","index":1,"count":2,"href":"../lax-503819/Lax503819.PositiveGames.html#s-Lax503819.PositiveGames.definable_iff_bounded_games","proven":true,"ext":false},{"id":"Lax503819.PositiveGames.survives_iff_formulas","label":"Lax503819.PositiveGames","title":"Positive Ehrenfeucht–Fraïssé games","owner":"lax-503819","concept":"Lax503819.PositiveGames","index":2,"count":2,"href":"../lax-503819/Lax503819.PositiveGames.html#s-Lax503819.PositiveGames.survives_iff_formulas","proven":true,"ext":false},{"id":"Lax503819.Reduction.mortality_reduces","label":"Lax503819.Reduction","title":"Mortality reduces to positive first-order definability","owner":"lax-503819","concept":"Lax503819.Reduction","index":1,"count":1,"href":"../lax-503819/Lax503819.Reduction.html#s-Lax503819.Reduction.mortality_reduces","proven":true,"ext":false},{"id":"Lax503819.Undecidability.positive_definability_undecidable","label":"Lax503819.Undecidability","title":"Undecidability of positive first-order definability","owner":"lax-503819","concept":"Lax503819.Undecidability","index":1,"count":1,"href":"../lax-503819/Lax503819.Undecidability.html#s-Lax503819.Undecidability.positive_definability_undecidable","proven":true,"ext":false}],"proofs":[{"id":"Lax503819Proofs.ComputableReduction.mortality_reduces","assumptions":[],"conclusion":"Lax503819.Reduction.mortality_reduces","description":"Section 6 and Remark 6.25: the explicit compiler is primitive recursive,\nand the positive-game arguments establish its mortality equivalence.","owner":"lax-503819","ext":false,"href":"../lax-503819/Lax503819Proofs.ComputableReduction.mortality_reduces.html","assumptionsProven":true,"outstanding":0},{"id":"Lax503819Proofs.Definability.bounded_game_characterization","assumptions":[],"conclusion":"Lax503819.PositiveGames.definable_iff_bounded_games","description":"Corollary 3.8, with the finite-rank argument implemented by finite codes of\nword positions. The proof uses the proved game theorem through its helpers,\nnot the concept axiom. Empty languages and universal languages are covered by\nempty disjunctions and conjunctions.","owner":"lax-503819","ext":false,"href":"../lax-503819/Lax503819Proofs.Definability.bounded_game_characterization.html","assumptionsProven":true,"outstanding":0},{"id":"Lax503819Proofs.Games.game_formula_correspondence","assumptions":[],"conclusion":"Lax503819.PositiveGames.survives_iff_formulas","description":"The word specialization of Theorem 5.7 (and hence Theorem 3.7).\nSoundness is induction on formulas; completeness combines finitely many\nseparating formulas, one per possible response in the other finite word.","owner":"lax-503819","ext":false,"href":"../lax-503819/Lax503819Proofs.Games.game_formula_correspondence.html","assumptionsProven":true,"outstanding":0},{"id":"Lax503819Proofs.Mortality.mortality_undecidable","assumptions":[],"conclusion":"Lax503819.Mortality.mortality_undecidable","description":"Kuperberg Theorem 6.2: Hooper's arbitrary-configuration construction, the\nPost-to-write/move compiler, and finite-window compactness reduce halting at\nzero to the approved uniform finite-segment mortality predicate.","owner":"lax-503819","ext":false,"href":"../lax-503819/Lax503819Proofs.Mortality.mortality_undecidable.html","assumptionsProven":true,"outstanding":0},{"id":"Lax503819Proofs.Undecidability.positive_definability_undecidable","assumptions":[],"conclusion":"Lax503819.Undecidability.positive_definability_undecidable","description":"Theorem 6.1: a positive-definability decision algorithm would decide mortality\nvia the proved computable reduction. Both prerequisites are proved in the\nproof package; no concept axiom is used in this composition.","owner":"lax-503819","ext":false,"href":"../lax-503819/Lax503819Proofs.Undecidability.positive_definability_undecidable.html","assumptionsProven":true,"outstanding":0}],"home":"lax-503819"},"submissions":{"nodes":[{"id":"lax-503819","href":"../lax-503819/index.html","title":"Undecidability of positive first-order definability on words","state":"draft","concepts":7,"proofs":5,"dir":"core","ext":false}],"edges":[]}}</script>
+</div>
+<footer class="site-footer">
+  <nav class="site-footer-nav" aria-label="Legal and about">
+    <a class="site-footer-link" href="../impressum.html">Imprint</a>
+    <a class="site-footer-link" href="../privacy.html">Privacy</a>
+    <a class="site-footer-link" href="../assets/lax-white-paper.pdf">About</a>
+  </nav>
+</footer>
+</section>
+</main>
+<dialog class="account-dialog" id="account-dialog" aria-labelledby="account-dialog-title">
+<div class="account-dialog-inner">
+<header class="account-dialog-header">
+<div><p class="account-dialog-eyebrow">ORCID account</p><h2 id="account-dialog-title">Settings</h2></div>
+<button class="account-dialog-close" data-account-close type="button" aria-label="Close account settings">×</button>
+</header>
+<div class="account-dialog-body">
+<p class="account-status" data-account-status role="status">Checking your ORCID session…</p>
+<section data-account-content hidden>
+<div class="account-identity">
+<span class="account-avatar" data-account-avatar aria-hidden="true">iD</span>
+<div><a class="account-name" data-account-name target="_blank" rel="noopener noreferrer"></a><p class="account-id" data-account-id></p></div>
+</div>
+<p class="account-name-note">Your public name comes from ORCID. ORCID names are self-asserted and may change.</p>
+<div class="account-actions">
+<a data-account-refresh href="https://comments.laxarchive.org/auth/orcid/login?from=https%3A%2F%2Flaxarchive.org&amp;site=remark">Refresh from ORCID</a>
+<button data-account-logout type="button">Sign out</button>
+</div>
+<div class="account-comments-heading"><h3>Your comments</h3><span data-account-comment-count></span></div>
+<ol class="account-comments" data-account-comments></ol>
+<p class="account-comments-status" data-account-comments-status role="status"></p>
+</section>
+</div>
+</div>
+</dialog>
+<script src="../assets/sidebar.js?v=b1e289522120"></script>
+<script src="../assets/account.js?v=e3db2efa7b34"></script>
+<script src="../assets/layout.js?v=41e28199b546"></script>
+<script src="../assets/dag.js?v=0d34983dc6ac"></script>
+<script src="../assets/citation.js?v=dd5ce19082ad"></script>
+<script src="../assets/version-history.js?v=a36e868140dd"></script>
+<script src="../assets/comments.js?v=936ec0d73bed"></script>
+</body></html>

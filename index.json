@@ -2733,6 +2733,56 @@
       ]
     },
     {
+      "id": "lax-503819",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "Undecidability of positive first-order definability on words",
+      "concepts": [
+        {
+          "id": "Lax503819.Automata",
+          "title": "Finite automaton inputs on powerset alphabets",
+          "type": "definition"
+        },
+        {
+          "id": "Lax503819.Mortality",
+          "title": "Uniform mortality of deterministic Turing machines",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax503819.PositiveGames",
+          "title": "Positive Ehrenfeucht–Fraïssé games",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax503819.PositiveLogic",
+          "title": "Positive first-order logic on finite words",
+          "type": "definition"
+        },
+        {
+          "id": "Lax503819.Reduction",
+          "title": "Mortality reduces to positive first-order definability",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax503819.Undecidability",
+          "title": "Undecidability of positive first-order definability",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax503819.Words",
+          "title": "Words over an ordered alphabet",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax503819Proofs.ComputableReduction.mortality_reduces",
+        "Lax503819Proofs.Definability.bounded_game_characterization",
+        "Lax503819Proofs.Games.game_formula_correspondence",
+        "Lax503819Proofs.Mortality.mortality_undecidable",
+        "Lax503819Proofs.Undecidability.positive_definability_undecidable"
+      ]
+    },
+    {
       "id": "lax-554803",
       "state": "draft",
       "environment": "v4.30.0",
