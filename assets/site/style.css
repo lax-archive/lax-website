@@ -3525,22 +3525,17 @@ body.graph-window-open::after{
 .legend-arrow{ color: var(--text-dim); font-family: var(--mono); font-size: 0.9rem; font-style: normal; line-height: 1; }
 .legend-arrow.proof-dep{ color: var(--proof-dep); }
 .legend-assumptions{
-  position: relative;
-  width: 0.9rem;
-  height: 26px;
+  width: 14px;
+  height: 24px;
   flex: 0 0 auto;
 }
-.legend-assumptions .legend-arrow{
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-}
-.legend-assumptions .legend-arrow:nth-child(2){
-  transform: translate(-50%, calc(-50% - 7px)) rotate(35deg);
-}
-.legend-assumptions .legend-arrow:nth-child(3){
-  transform: translate(-50%, calc(-50% + 7px)) rotate(-35deg);
+.legend-flow-arrow{ width: 12px; height: 8px; flex: 0 0 auto; }
+.proof-flow svg{
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 .legend-proof-chip{
   display: inline-flex;
@@ -3596,10 +3591,19 @@ body.graph-window-open::after{
 
 .proof-network-figure .graph-tooltip{
   width: max-content;
-  background: rgba(248, 250, 252, 0.65);
+  background: rgb(248, 250, 252);
   font-family: 'Latin Modern', Georgia, serif;
   font-size: 0.82rem;
   font-weight: 700;
+}
+
+.proof-network-figure.graph-expanded .graph-tooltip{
+  background: rgba(248, 250, 252, 0.7);
+}
+
+.proof-network-figure:not(.graph-expanded) .graph-tooltip{
+  position: fixed;
+  z-index: 200;
 }
 
 .proof-network-figure .graph-tooltip .katex{ font-weight: inherit; }

@@ -76,23 +76,73 @@
     const figureBox = figure.getBoundingClientRect();
     const expanded = figure.classList.contains('graph-expanded');
     const frame = {
-      left: Math.max(inset, (expanded ? figureBox.left : document.getElementById('main')?.getBoundingClientRect().left || 0) + inset),
+      left: expanded ? Math.max(inset, figureBox.left + inset) : inset,
       right: Math.min(window.innerWidth - inset, expanded ? figureBox.right - inset : Infinity),
       top: Math.max(inset, (expanded ? figureBox.top : document.querySelector('.site-header')?.getBoundingClientRect().bottom || 0) + inset),
       bottom: Math.min(window.innerHeight - inset, expanded ? figureBox.bottom - inset : Infinity),
     };
     tooltip.style.maxWidth = Math.min(390, frame.right - frame.left) + 'px';
+    const anchor = element.getBoundingClientRect();
+    const centerX = (anchor.left + anchor.right) / 2;
+    const centerY = (anchor.top + anchor.bottom) / 2;
+    const place = (left, top, placement) => {
+      tooltip.dataset.placement = placement;
+      tooltip.style.left = (expanded ? left - figureBox.left - figure.clientLeft : left) + 'px';
+      tooltip.style.top = (expanded ? top - figureBox.top - figure.clientTop : top) + 'px';
+    };
+
+    if (!expanded) {
+      // Use the page margins, including space over the sidebar, so the
+      // opaque panel leaves the network unobstructed at the node's height.
+      const sides = [
+        { name: 'left', space: figureBox.left - gap - frame.left, distance: centerX - figureBox.left },
+        { name: 'right', space: frame.right - figureBox.right - gap, distance: figureBox.right - centerX },
+      ].sort((a, b) => a.distance - b.distance);
+      const style = getComputedStyle(tooltip);
+      const padding = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight) + 2;
+      const mathWidth = Math.max(0, ...[...tooltip.querySelectorAll('.katex-html')]
+        .map((math) => math.getBoundingClientRect().width));
+      const minWidth = Math.min(tooltip.offsetWidth, Math.max(140, mathWidth + padding));
+      for (const side of sides) {
+        if (side.space < minWidth) continue;
+        tooltip.style.maxWidth = Math.min(390, side.space) + 'px';
+        const width = tooltip.offsetWidth;
+        const height = tooltip.offsetHeight;
+        if (height > frame.bottom - frame.top) continue;
+        const left = side.name === 'left' ? figureBox.left - gap - width : figureBox.right + gap;
+        const top = Math.max(frame.top, Math.min(centerY - height / 2, frame.bottom - height));
+        place(left, top, side.name);
+        return;
+      }
+
+      // A narrow screen may have no usable side margin. Prefer an opaque
+      // panel below the figure, or above it if only that space is visible.
+      tooltip.style.maxWidth = Math.min(390, frame.right - frame.left) + 'px';
+      const width = tooltip.offsetWidth;
+      const height = tooltip.offsetHeight;
+      const left = Math.max(frame.left, Math.min(
+        sides[0].name === 'left' ? figureBox.left : figureBox.right - width,
+        frame.right - width,
+      ));
+      if (figureBox.bottom + gap + height <= frame.bottom) {
+        place(left, figureBox.bottom + gap, 'below');
+        return;
+      }
+      if (figureBox.top - gap - height >= frame.top) {
+        place(left, figureBox.top - gap - height, 'above');
+        return;
+      }
+      // If the network fills the viewport, keep the panel readable nearby.
+    }
+
     const width = tooltip.offsetWidth;
     const height = tooltip.offsetHeight;
-    const anchor = element.getBoundingClientRect();
     const overlap = (a, b) => Math.max(0, Math.min(a.right, b.right) - Math.max(a.left, b.left)) *
       Math.max(0, Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top));
     const padded = (box, padding) => ({
       left: box.left - padding, right: box.right + padding,
       top: box.top - padding, bottom: box.bottom + padding,
     });
-    const centerX = (anchor.left + anchor.right) / 2;
-    const centerY = (anchor.top + anchor.bottom) / 2;
     const candidates = [
       [centerX - width / 2, anchor.top - height - gap],
       [centerX - width / 2, anchor.bottom + gap],
@@ -104,8 +154,7 @@
       return { left, top, right: left + width, bottom: top + height };
     });
 
-    // Stay beside the hovered node, choosing the closest side that leaves
-    // it visible. The translucent panel can sit over the rest of the graph.
+    // In the large window, stay beside the hovered node and leave it visible.
     const protectedAnchor = padded(anchor, gap);
     const ranked = candidates.map((box) => ({
       box,
@@ -119,8 +168,7 @@
       return 0;
     });
     const best = ranked[0].box;
-    tooltip.style.left = best.left - figureBox.left - figure.clientLeft + 'px';
-    tooltip.style.top = best.top - figureBox.top - figure.clientTop + 'px';
+    place(best.left, best.top, 'near');
   }
 
   function showTooltip(container, element, content, renderedHtml) {
