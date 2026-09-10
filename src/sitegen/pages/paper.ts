@@ -338,7 +338,6 @@ ${body}
     sidebar: submissionSidebar(ctx.model, submission, "../", { backToSubmission: true }),
     content,
     detailClass: "detail-manuscript",
-    sidebarHidden: true,
     scripts,
   });
 }

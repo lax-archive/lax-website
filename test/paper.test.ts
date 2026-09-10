@@ -120,11 +120,11 @@ describe("paper pages", () => {
     const data = JSON.parse(/<script type="application\/json" id="manuscript-data">(.*?)<\/script>/.exec(html)![1]!);
     expect(data.pageSizes).toHaveLength(2);
     expect(data.marks[1]).toMatchObject({ n: 2, id: "Lax7Proofs.mono", kind: "proof", begin: { page: 1, x: 300, y: 500, mode: "h" } });
-    // the sidebar leads back to the submission, and starts collapsed for the room
+    // the sidebar leads back to the submission; every page ships with it collapsed
     expect(html).toContain('<a class="sidebar-back" href="../lax-7/index.html">');
     expect(html).toContain('<header class="site-header sidebar-hidden">');
     expect(html).toContain('<main id="content-shell" class="sidebar-hidden">');
-    expect(fs.readFileSync(path.join(root, "lax-7", "Lax7.Treewidth.html"), "utf8")).toContain('<header class="site-header">');
+    expect(fs.readFileSync(path.join(root, "lax-7", "Lax7.Treewidth.html"), "utf8")).toContain('<header class="site-header sidebar-hidden">');
     // the gutter bands' overlay
     expect(html).toContain('<svg class="manuscript-links" id="manuscript-links" aria-hidden="true"></svg>');
     // a concept card carries the Lean source, module docstring elided, without the concept page's row anchors

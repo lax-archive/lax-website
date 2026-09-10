@@ -8,7 +8,8 @@ import { preparePaperWeb } from "./paper-web.js";
 import { conceptPage } from "./pages/concept.js";
 import { allCommentsPage } from "./pages/all-comments.js";
 import { contentPage } from "./pages/content.js";
-import { indexPage } from "./pages/index.js";
+import { configureSiteNav } from "./html.js";
+import { INTRO_SUBMISSION_ID, indexPage } from "./pages/index.js";
 import { openProblemsPage } from "./pages/open-problems.js";
 import { paperPage, paperPdfPage } from "./pages/paper.js";
 import { proofPage } from "./pages/proof.js";
@@ -46,6 +47,10 @@ export async function generateSite(
   const log = settings.log ?? ((line: string) => console.warn(line));
   const model = new SiteModel(submissions, settings.epoch);
   const context = { model, markdown: new MarkdownRenderer(model) };
+  // The header's "Introduction" leads into the introduction's paper, once
+  // the archive holds it.
+  const intro = model.submissions.find((submission) => submission.record.id === INTRO_SUBMISSION_ID && submission.output?.paper);
+  configureSiteNav({ introduction: intro ? `${intro.record.id}/paper.html` : undefined });
   const files = new Map<string, string | Buffer>();
   /** Content-addressed outputs (hashed fonts) may be shared between records;
    * the same path must always carry the same bytes. */
@@ -63,6 +68,7 @@ export async function generateSite(
   files.set("index.json", `${JSON.stringify(recordIndex(model), null, 2)}\n`);
   files.set("environments.json", `${JSON.stringify(environmentIndex(model), null, 2)}\n`);
   files.set(path.join("all-comments", "index.html"), allCommentsPage(context));
+  files.set("about.html", contentPage(context, "about", "About Lax", { warning: "<strong>Placeholder.</strong> This page is a first draft and will be rewritten." }));
   files.set("contributing.html", contentPage(context, "contributing", "Getting started"));
   files.set("impressum.html", contentPage(context, "impressum", "Imprint"));
   files.set("privacy.html", contentPage(context, "privacy", "Privacy Notice"));

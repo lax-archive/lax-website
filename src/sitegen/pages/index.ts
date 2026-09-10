@@ -20,9 +20,9 @@ import { proofNetworkData } from "./submission.js";
 interface LandingFaq { question: string; answer: string }
 
 /** "An Introduction to Lax", itself a Lax submission with an annotated
- * paper: the landing page's one call to action leads into it. Without it
- * in the archive (a preview from a fixture, a fork) the button falls back
- * to the white paper. */
+ * paper: the header's "Introduction" and the first example's way on lead
+ * into it. Without it in the archive (a preview from a fixture, a fork)
+ * the header link is left out and the example leads to the white paper. */
 export const INTRO_SUBMISSION_ID = "lax-242665";
 
 /** The submission whose proof network the landing page draws: a real
@@ -76,8 +76,6 @@ interface ExamplePassage {
   label: string;
   /** the passage's text, Markdown with KaTeX */
   text: string;
-  /** this passage's card opens with the page (default: the first one) */
-  open?: boolean;
   card: ExampleCard;
 }
 
@@ -93,11 +91,9 @@ interface Example {
 const lean = (lines: string[]): string => `${lines.join("\n")}\n`;
 
 /** The prose around the passages: filler, so that nothing competes with
- * the definitions and claims for attention. It fades in from the top of
- * the crop and out at its bottom. */
-const BEFORE_PASSAGES = `### 2 Lorem ipsum
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.`;
+ * the definitions and claims for attention. Two lines fade in from the
+ * top of the crop; a few fade out at its bottom. */
+const BEFORE_PASSAGES = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.`;
 const AFTER_PASSAGES = `Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`;
 
 const PRIMES_EXAMPLE: Example = {
@@ -374,11 +370,8 @@ ${markdown.render(answer, "")}
 </div>
 </details></li>`).join("\n");
 
-  return `<section class="landing-faq" id="faq" aria-labelledby="landing-faq-heading">
-<header class="landing-faq-heading">
-<p class="landing-action-eyebrow">About Lax</p>
-<h2 id="landing-faq-heading">${esc(faq.title)}</h2>
-</header>
+  return `<h2 class="landing-section-title landing-faq-title" id="landing-faq-heading">${esc(faq.title)}</h2>
+<section class="landing-faq" id="faq" aria-labelledby="landing-faq-heading">
 <ol class="landing-faq-list">
 ${items}
 </ol>
@@ -474,26 +467,23 @@ ${body}
 }
 
 /** One example as a slide: the prose around the passages in the text
- * column, each passage highlighted as on the paper page, and its card in
- * the rail beside it (the first card open, so a Lean encoding is on the
- * page before anyone hovers; it is open, not pinned, so the first hover
- * away closes it and the usual behaviour takes over). landing.js sets
- * each card beside its passage and draws the band between them in the
- * SVG overlay, the way the paper page does — on a phone it sets each card
- * under its passage instead; without it the cards stack in the rail. */
+ * column, each passage highlighted as on the paper page, and its card,
+ * closed, in the rail beside it, with a hint under the cards saying what
+ * to do (it goes with the first hover or tap). landing.js sets each card
+ * beside its passage and draws the band between them in the SVG overlay,
+ * the way the paper page does — on a phone it sets each card under its
+ * passage instead; without it the cards stack in the rail. */
 async function exampleSlide(ctx: PageContext, example: Example, listed: SiteSubmission[], selected: boolean): Promise<string> {
   const { markdown } = ctx;
   const passages: string[] = [];
   const cards: string[] = [];
-  const anyOpen = example.passages.some((p) => p.open);
   for (const [index, passage] of example.passages.entries()) {
     const cardId = `landing-${example.key}-${index + 1}`;
-    const first = anyOpen ? passage.open === true : index === 0;
     const kind = passage.card.kind === "archive" ? passage.card.of : passage.card.kind;
-    passages.push(`<div class="landing-passage landing-passage-${index + 1} kind-${kind}${first ? " manuscript-hl-active" : ""}" role="button" tabindex="0" aria-pressed="false" aria-controls="${attr(cardId)}" aria-label="${attr(`${passage.label}: show the ${kind} card`)}" data-excerpt-card="${attr(cardId)}" data-kind="${kind}">
+    passages.push(`<div class="landing-passage landing-passage-${index + 1} kind-${kind}" role="button" tabindex="0" aria-pressed="false" aria-controls="${attr(cardId)}" aria-label="${attr(`${passage.label}: show the ${kind} card`)}" data-excerpt-card="${attr(cardId)}" data-kind="${kind}">
 ${markdown.render(passage.text, "")}
 </div>`);
-    cards.push(await exampleCard(ctx, example, passage, index + 1, cardId, first));
+    cards.push(await exampleCard(ctx, example, passage, index + 1, cardId, false));
   }
   // The way on: the introduction's paper for the first example (the white
   // paper without it), the submission page for one drawn from the archive.
@@ -519,6 +509,7 @@ ${markdown.render(AFTER_PASSAGES, "")}
 </div>
 <ol class="manuscript-rail landing-paper-rail" aria-label="Cards">
 ${cards.join("\n")}
+<li class="landing-paper-hint" aria-hidden="true"><span class="landing-paper-hint-hover">Hover an annotation to expand</span><span class="landing-paper-hint-touch">Tap an annotation to expand</span></li>
 </ol>
 <svg class="manuscript-links landing-paper-links" aria-hidden="true"></svg>
 ${foot}
@@ -585,9 +576,8 @@ ${graphDataScript({ proofs: data })}`;
 /** The landing page: the manifesto from content/landing.md, then "How it
  * works" — its prose leading into the examples box — and "Proof network"
  * — its prose leading into a submission's network — each box captioned by
- * the last paragraph of its section; the one way in; what changes, in
- * three columns; the foundations the archive builds on; the submissions
- * library with its stats; and the FAQ. Records that only reserved an id
+ * the last paragraph of its section; getting started; the foundations the
+ * archive builds on; the submissions library with its stats; and the FAQ. Records that only reserved an id
  * have nothing to show and stay off the library and the stats (their
  * pages exist for direct links). */
 export async function indexPage(ctx: PageContext): Promise<string> {
@@ -610,7 +600,6 @@ ${authors ? `<span class="submissions-list-meta"><span class="formalized-label">
   });
   const landing = landingCopy(contentMarkdown("landing.md"));
   const faq = landingFaq(contentMarkdown("faq.md"), markdown);
-  const intro = listed.find((submission) => submission.record.id === INTRO_SUBMISSION_ID && submission.output?.paper);
   const networkSubmission = listed.find((submission) => submission.record.id === NETWORK_SUBMISSION_ID && submission.output?.proofs.length);
   const how = splitCaption(landing.sections.get("How it works")!);
   const networkCopy = splitCaption(landing.sections.get("Proof network")!);
@@ -656,13 +645,6 @@ ${rows.join("\n")}
 </ul>
 <button class="submissions-load-more" id="submissions-load-more" type="button" aria-controls="submissions-list" hidden>Show all ${plural(listed.length, "submission")} <b aria-hidden="true">↓</b></button>
 </section>`;
-  const introLink = intro
-    ? `<a class="landing-hero-button primary landing-cta" href="${attr(`${intro.record.id}/paper.html`)}">Read the introduction to Lax</a>`
-    : `<a class="landing-hero-button primary landing-cta" href="assets/lax-white-paper.pdf" download="lax-white-paper.pdf">Read the Lax paper</a>`;
-  const links = `<nav class="landing-hero-actions" aria-label="Ways into Lax">
-${introLink}
-</nav>`;
-
   const content = `<section class="landing-hero" aria-labelledby="landing-title">
 <h1 class="landing-title" id="landing-title">${esc(landing.title)}</h1>
 <div class="landing-manifesto latex-content">
@@ -680,7 +662,6 @@ ${markdown.render(networkCopy.body, "")}
 </div>` : ""}
 ${network}
 </section>
-${links}
 ${landingSection("start", "Get started right away", landing.sections.get("Get started right away")!, markdown)}
 ${landingFoundations(ctx, "Build foundations together", landing.sections.get("Build foundations together")!)}
 <div class="landing-action-panels">
@@ -694,7 +675,6 @@ ${faq}
     sidebar: indexSidebar(model, markdown, tagIndex.bySubmission),
     content,
     detailClass: "detail-landing",
-    sidebarHidden: true,
     scripts: network ? ["assets/layout.js", "assets/dag.js", "assets/landing.js"] : ["assets/landing.js"],
   });
 }

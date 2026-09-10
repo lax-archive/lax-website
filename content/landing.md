@@ -20,12 +20,10 @@ concept from others. Freely composable across papers.
 
 ## Proof network
 
-**Nothing is taken on faith.** A submission's proof network shows every
-claim it states, every proof it holds, and what each proof rests on: which
-claims are proven outright, which are proven relative to others, and which
-[proof obligations](open-proof-obligations.html) remain open. Any later
-submission can discharge an open obligation, and every result that rested
-on it is proven from that moment on.
+**Proof network.** Explore how proofs compose, which claims are proven,
+and which not yet. Any later submission can discharge an
+[open obligation](open-proof-obligations.html), and every result that
+rested on it is proven from that moment on.
 
 ## Get started right away
 
@@ -42,16 +40,12 @@ Run `lax print instructions` and follow the guide it prints
 to formalize <my result>.
 ```
 
-Lax takes care of guiding your agent through the whole process.
+Then your agent takes over and guides you through the process.
 
 ## Build foundations together
 
-Concepts are shared across submissions. Nobody hands down the
-definitions: whoever formalizes a paper first writes the ones it needs,
-and later papers import them instead of fixing their own. A model of
-computation, a width measure, a graph encoding: the definitions below are
-the ones other submissions already build on, and every new submission adds
-to them.
+Concepts are shared across submissions. Below are some definitions other
+submissions already build on.
 
 - Lax67.Ram
 - Lax48.Treewidth

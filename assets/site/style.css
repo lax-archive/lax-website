@@ -99,11 +99,33 @@ body{
 
 .site-header.sidebar-hidden{ --sidebar-column: 0px; }
 
-.site-title{
+/* The name, centred on the page, and to its right the way into the
+   introduction and the about page. */
+.site-brand{
   grid-column: 2;
-  justify-self: center;
   position: relative;
   z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: baseline;
+}
+
+.site-brand > .site-title{ grid-column: 2; }
+.site-nav{ grid-column: 3; justify-self: start; display: flex; align-items: baseline; gap: 1.3rem; margin-left: 2.6rem; }
+
+.site-nav-link{
+  color: var(--text-dim);
+  font-size: 0.95rem;
+  font-variant: small-caps;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  transition: color 120ms ease;
+}
+
+.site-nav-link:hover,
+.site-nav-link:focus-visible{ color: var(--accent); outline: none; }
+
+.site-title{
   font-size: 1.45rem;
   line-height: 1.2;
   font-variant: small-caps;
@@ -1544,6 +1566,8 @@ body.sidebar-resizing #content-shell{ transition: none; }
   hyphens: none;
 }
 
+.landing-manifesto{ text-align: center; }
+
 .landing-manifesto p + p,
 .landing-section-copy p + p{ margin-top: 0.85rem; }
 .landing-manifesto ul{ margin: 0.7rem 0 0.85rem 1.25rem; }
@@ -1578,6 +1602,8 @@ body.sidebar-resizing #content-shell{ transition: none; }
    right edge and below its bottom edge, into the whitespace before the
    next paragraph; the box itself never grows for it. */
 .landing-box{ width: min(100%, 62em); margin: 1.4rem auto 2.4rem; }
+/* In the large window the network's box fills the screen like any graph's. */
+.landing-box.graph-expanded{ width: auto; }
 .landing-how > .landing-paper{ margin: 1.4rem auto 4.5rem; }
 /* .graph-figure sets its own margin later in the sheet; the box's wins. */
 .landing-how > .landing-network-figure{ margin: 1.4rem auto 2.4rem; }
@@ -1621,8 +1647,9 @@ body.sidebar-resizing #content-shell{ transition: none; }
   transition: scrollbar-color 220ms ease;
 }
 
-/* The box fits a screen with its caption and legend; the graph scrolls
-   inside it (it opens in the large window for the whole). */
+/* The box fits a screen with its caption and legend: on a desktop the
+   graph is scaled down to this height (landing.js) and scrolls sideways;
+   on a phone it is as tall as the graph. */
 .landing-network-figure:not(.graph-expanded) .landing-network-viewport > .figure-container{ max-height: 30rem; }
 
 .landing-network-figure:hover .landing-network-viewport > .figure-container,
@@ -1796,8 +1823,8 @@ body.sidebar-resizing #content-shell{ transition: none; }
 /* The crop: the paper continues above and below, so the prose around the
    two marked passages fades in at the top and out at the bottom. */
 .landing-paper-before{
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 6.6rem);
-  mask-image: linear-gradient(to bottom, transparent 0, #000 6.6rem);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 3rem);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 3rem);
 }
 
 .landing-paper-after{
@@ -1876,6 +1903,44 @@ body.sidebar-resizing #content-shell{ transition: none; }
 .landing-paper-rail-live > .manuscript-card{ position: absolute; left: 0; right: 0; margin: 0; z-index: 6; }
 .landing-paper-rail-live > .manuscript-card-hover,
 .landing-paper-rail-live > .manuscript-card-expanded{ z-index: 7; }
+/* Above the cards, until the first hover or tap: what to do, as a pill
+   in the accent that no one can miss. The touch wording where there is
+   no pointer to hover with. */
+.landing-paper-hint{
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  padding: 0.2rem 0;
+  transition: opacity 260ms ease;
+}
+.landing-paper-hint > span{
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.5rem 1.1rem;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 700;
+  line-height: 1.2;
+  box-shadow: 0 6px 16px rgba(44, 95, 138, 0.28);
+  animation: landing-hint-bob 1.8s ease-in-out infinite;
+}
+.landing-paper-hint > span::before{ content: '☞'; font-size: 1.15rem; line-height: 1; }
+@keyframes landing-hint-bob{
+  0%, 100%{ transform: translateY(0); }
+  50%{ transform: translateY(-4px); }
+}
+.landing-paper-rail-live > .landing-paper-hint{ position: absolute; left: 0; right: 0; }
+/* On a phone the hint leads the text (landing.js moves it there). */
+.landing-paper-doc > .landing-paper-hint{ margin: 0 0 0.9rem; }
+.landing-paper-hint > .landing-paper-hint-touch{ display: none; }
+@media (hover: none), (pointer: coarse){
+  .landing-paper-hint > .landing-paper-hint-hover{ display: none; }
+  .landing-paper-hint > .landing-paper-hint-touch{ display: inline-flex; }
+}
+.landing-paper-touched .landing-paper-hint{ opacity: 0; pointer-events: none; }
 /* On a phone the cards leave the rail for the text (landing.js), each
    under its passage. */
 .landing-paper-rail-inline{ display: none; }
@@ -1887,13 +1952,6 @@ body.sidebar-resizing #content-shell{ transition: none; }
    further. */
 .landing-paper-rail .manuscript-card-body{ max-height: 38rem; overflow: auto; }
 .landing-paper-rail .manuscript-card-source{ max-height: none; overflow: visible; }
-
-/* The one call to action under the boxes: larger than any other button. */
-.landing-hero-button.landing-cta{
-  min-height: 3.4rem;
-  padding: 0.9rem 1.8rem;
-  font-size: 1.12rem;
-}
 
 /* Getting started: a plain section, its commands in code blocks. */
 .landing-plain-section{ margin: 3rem auto 0; }
@@ -2018,6 +2076,20 @@ body.sidebar-resizing #content-shell{ transition: none; }
    the landing page's promotional card treatment for heading-adjacent lists. */
 .content-page{ max-width: 42em; margin: 0 auto 2.2rem; }
 
+/* A warning above an editorial page's text: unmissable. */
+.content-warning{
+  max-width: 42em;
+  margin: 0 auto 1.6rem;
+  padding: 0.9rem 1.1rem;
+  border: 2px solid #c0392b;
+  border-radius: var(--radius-card);
+  background: #fdecea;
+  color: #7a1f14;
+  font-size: 1.1rem;
+  line-height: 1.5;
+}
+.content-warning strong{ color: #a12b1d; }
+
 .landing-action-panels{
   display: grid;
   gap: 1rem;
@@ -2060,28 +2132,19 @@ body.sidebar-resizing #content-shell{ transition: none; }
 
 /* The FAQ is intentionally a native disclosure list: it works without
    JavaScript and exposes its expanded state to assistive technology. */
+/* The FAQ's title stands above its panel like every section's. */
+.landing-action-panels > .landing-faq-title{ margin-top: 2.4rem; }
+
 .landing-faq{
   overflow: hidden;
   max-width: 52em;
   width: 100%;
   margin: 0;
-  padding-top: 1.05rem;
   background: var(--panel-bg);
   border: 1px solid var(--border);
   border-radius: var(--radius-card);
   box-shadow: 0 10px 28px rgba(43, 43, 43, 0.06);
   scroll-margin-top: calc(var(--header-height) + 1rem);
-}
-
-.landing-faq-heading{
-  padding: 0 1.15rem 0.85rem;
-}
-
-#detail .landing-faq-heading h2{
-  margin: 0;
-  font-size: 1.3rem;
-  line-height: 1.18;
-  letter-spacing: 0.01em;
 }
 
 .landing-faq-answer p:last-child{ margin-bottom: 0; }
@@ -3676,6 +3739,12 @@ body.graph-window-open::after{
 @media (max-width: 900px){
   .site-header{ --sidebar-column: 0px; }
 
+  /* Where the sign-in button would meet a centred name: the name starts
+     at the left with the nav beside it, and the button says "Sign in". */
+  .site-brand{ display: flex; gap: 1rem; margin-left: 1rem; }
+  .site-nav{ margin-left: 0; }
+  .account-login-long{ display: none; }
+
   .sidebar-resizer{ display: none; }
 
   #content-shell{
@@ -3753,7 +3822,9 @@ body.graph-window-open::after{
 
 @media (max-width: 640px){
   .site-title-quiet{ display: none; }
-  .site-title{ justify-self: start; margin-left: 2.8rem; font-size: 1.25rem; }
+  .site-nav{ gap: 0.7rem; }
+  .site-nav-link{ font-size: 0.86rem; }
+  .site-title{ font-size: 1.25rem; }
   .header-actions{ right: 0.4rem; gap: 0.28rem; }
   .account-control,
   .account-control{ gap: 0.3rem; }
@@ -3773,6 +3844,12 @@ body.graph-window-open::after{
   .landing-paper-grid{ grid-template-columns: 1fr; row-gap: 0.9rem; }
   .landing-paper-rail-live > .manuscript-card{ position: static; margin: 0 0 0.5rem; }
   .landing-paper-prose, .landing-passage{ text-align: left; }
+  /* The caption takes the box's width; the dots sit at the top right,
+     just outside the box. A card shows only while open, under its passage. */
+  .landing-box-head{ grid-template-columns: minmax(0, 1fr); }
+  .landing-carousel-dots{ position: absolute; top: -1.15rem; right: 0.5rem; padding: 0; }
+  .landing-card-inline:not(.manuscript-card-expanded){ display: none; }
+  .landing-paper-touched .landing-paper-doc > .landing-paper-hint{ display: none; }
   .landing-hero-actions{ display: grid; grid-template-columns: 1fr; }
   .landing-carousel-arrows{ position: sticky; inset: auto; top: 50vh; height: 0; }
   .landing-carousel-arrow{ top: 0; width: 2.2rem; height: 2.2rem; font-size: 1.6rem; }
@@ -3784,8 +3861,6 @@ body.graph-window-open::after{
   .landing-foundation{ width: 100%; }
   .landing-hero-button{ width: 100%; }
   .landing-action-panel{ padding: 1rem; }
-  .landing-faq{ padding-top: 0.9rem; }
-  .landing-faq-heading{ padding: 0 0.85rem 0.7rem; }
   .landing-faq-item summary{ min-height: 3.1rem; padding: 0.5rem 0.65rem; }
   .landing-faq-question{ grid-template-columns: 1.15rem minmax(0, 1fr); gap: 0.2rem; font-size: 0.88rem; }
   .landing-faq-answer{ padding: 0 2.75rem 0.8rem 2rem; font-size: 0.9rem; }
@@ -3813,7 +3888,8 @@ body.graph-window-open::after{
   .landing-paper-more,
   .landing-action-panel,
   .landing-faq-item summary,
-  .landing-faq-toggle::after{ animation: none; transition: none; }
+  .landing-faq-toggle::after,
+  .landing-paper-hint > span{ animation: none; transition: none; }
   .concept-review-progress.loading .concept-review-progress-track::after{
     width: 100%;
     opacity: 0.2;

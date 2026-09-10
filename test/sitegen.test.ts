@@ -667,8 +667,8 @@ After the formula.`, "");
     expect(index).toContain('<h2 class="landing-section-title" id="landing-how-heading">How it works</h2>');
     expect(index).not.toContain("landing-paper-caption");
     expect(index.indexOf("landing-hero")).toBeLessThan(index.indexOf("landing-how"));
-    expect(index.indexOf("landing-how")).toBeLessThan(index.indexOf("landing-hero-actions"));
-    expect(index.indexOf("landing-hero-actions")).toBeLessThan(index.indexOf("landing-plain-section"));
+    expect(index.indexOf("landing-how")).toBeLessThan(index.indexOf("landing-plain-section"));
+    expect(index).not.toContain("landing-hero-actions");
     expect(index.indexOf("landing-plain-section")).toBeLessThan(index.indexOf('id="landing-library-heading"'));
     // Getting started: a plain section with the two commands, no tiles.
     expect(index).toContain('<h2 class="landing-section-title" id="landing-start-heading">Get started right away</h2>');
@@ -677,10 +677,8 @@ After the formula.`, "");
     expect(index).not.toContain("landing-tile");
     expect(index).not.toContain("landing-column");
     expect(index).not.toContain("What it is for");
-    expect(index).toContain('<nav class="landing-hero-actions" aria-label="Ways into Lax">');
     expect(index).not.toContain("Browse submissions");
     expect(index).not.toContain("landing-links-note");
-    expect(index.indexOf("landing-hero-actions")).toBeLessThan(index.indexOf('id="landing-panel-read"'));
     // The examples written for the page are always there; the one drawn
     // from the archive (the word RAM) needs its concepts, and the network
     // needs its submission. Neither is in the fixture archive, nor the
@@ -696,7 +694,7 @@ After the formula.`, "");
     expect(index).not.toContain("landing-foundations");
     expect(index).toContain('<div class="landing-paper-foot"><a class="landing-paper-more" href="assets/lax-white-paper.pdf" download="lax-white-paper.pdf">Read the Lax paper</a></div>');
     expect(index).not.toContain("See full submission");
-    expect(index).toContain('<a class="landing-hero-button primary landing-cta" href="assets/lax-white-paper.pdf" download="lax-white-paper.pdf">Read the Lax paper</a>');
+    expect(index).not.toContain("landing-cta");
     expect(index).not.toMatch(/<script src="assets\/dag\.js/);
     // The old landing's parts are gone.
     expect(index).not.toContain("What you can do here");
@@ -710,8 +708,7 @@ After the formula.`, "");
     expect(index).toContain('<h2 class="landing-section-title" id="landing-library-heading">Submissions</h2>');
     expect(index).not.toContain("Read the archive");
     expect(index).toContain('<section class="landing-faq" id="faq" aria-labelledby="landing-faq-heading">');
-    expect(index).toContain('<h2 id="landing-faq-heading">FAQ</h2>');
-    expect(index).toContain('<p class="landing-action-eyebrow">About Lax</p>');
+    expect(index).toContain('<h2 class="landing-section-title landing-faq-title" id="landing-faq-heading">FAQ</h2>');
     expect(index).toContain('<ol class="landing-faq-list">');
     expect(index).toContain('<li class="landing-faq-list-item"><details class="landing-faq-item">');
     expect(index.match(/<details class="landing-faq-item">/g)).toHaveLength(8);
@@ -731,7 +728,7 @@ After the formula.`, "");
     expect(index).toContain('<nav class="header-actions" aria-label="Account">');
     expect(index).toContain('id="sidebar-resizer" class="sidebar-resizer" role="separator" aria-label="Resize sidebar"');
     expect(index).not.toContain('class="header-submit"');
-    expect(index).toContain('<span>Sign in with ORCID</span>');
+    expect(index).toContain('<span>Sign in<span class="account-login-long"> with ORCID</span></span>');
     expect(index).toContain('id="account-dialog"');
     expect(index).not.toContain('href="all-comments/');
     expect(index).toMatch(/<link rel="stylesheet" href="assets\/style\.css\?v=[0-9a-f]{12}">/);
@@ -802,17 +799,18 @@ After the formula.`, "");
     expect(index).toContain('<div class="landing-carousel-slide landing-carousel-slide-off" role="tabpanel" id="landing-example-ramsey" aria-labelledby="landing-tab-ramsey" aria-hidden="true" inert data-card-box data-paper-excerpt>');
     // The primes example: definition, lemma, its proof, theorem, its proof
     // (which rests on the lemma); the first card open, not pinned.
-    expect(index).toContain("<h3>2 Lorem ipsum</h3>");
     expect(index).toContain("Lorem ipsum dolor sit amet");
-    expect(index).toContain('<div class="landing-passage landing-passage-1 kind-concept manuscript-hl-active" role="button" tabindex="0" aria-pressed="false" aria-controls="landing-primes-1" aria-label="Definition 1, prime numbers: show the concept card" data-excerpt-card="landing-primes-1" data-kind="concept">');
+    expect(index).toContain('<div class="landing-passage landing-passage-1 kind-concept" role="button" tabindex="0" aria-pressed="false" aria-controls="landing-primes-1" aria-label="Definition 1, prime numbers: show the concept card" data-excerpt-card="landing-primes-1" data-kind="concept">');
     expect(index).toContain("<strong>Definition 1.</strong> A natural number greater than 1 is <em>prime</em>");
     expect(index).toContain('<div class="landing-passage landing-passage-3 kind-proof" role="button" tabindex="0" aria-pressed="false" aria-controls="landing-primes-3" aria-label="Proof of Lemma A: show the proof card" data-excerpt-card="landing-primes-3" data-kind="proof">');
     expect(index).toContain('aria-label="Theorem B, Euclid\'s theorem: show the concept card"');
-    expect(index).toContain('<li class="manuscript-card kind-concept line-proven manuscript-card-expanded" id="landing-primes-1">');
+    // Every card closed, a hint under them.
+    expect(index).toContain('<li class="manuscript-card kind-concept line-proven" id="landing-primes-1">');
     expect(index).toContain('<li class="manuscript-card kind-concept line-proven" id="landing-primes-2">');
     expect(index).toContain('<li class="manuscript-card kind-proof line-proven" id="landing-primes-5">');
-    expect(index).toContain('<div class="manuscript-card-body" id="landing-primes-1-body">');
-    expect(index).toContain('<div class="manuscript-card-body" id="landing-primes-2-body" hidden>');
+    expect(index).not.toContain("manuscript-card-expanded");
+    expect(index).toContain('<div class="manuscript-card-body" id="landing-primes-1-body" hidden>');
+    expect(index).toContain('<li class="landing-paper-hint" aria-hidden="true"><span class="landing-paper-hint-hover">Hover an annotation to expand</span>');
     expect(index).not.toContain("manuscript-card-pinned");
     expect(index).toContain('<span class="manuscript-card-name"><span class="type-badge" title="definition">def</span><code>Primes</code></span>');
     expect(index).toContain('<p class="manuscript-card-title">Prime numbers</p>');
@@ -831,7 +829,7 @@ After the formula.`, "");
     expect(index).toContain('<div class="landing-paper-foot"><a class="landing-paper-more" href="lax-242665/paper.html">Read full introduction to Lax</a></div>');
     // The word RAM example draws the archive\'s own cards, linked from the site root.
     expect(index).toContain('aria-controls="landing-ram-1" aria-label="Definition 1, the word RAM: show the concept card"');
-    expect(index).toContain('<li class="manuscript-card kind-concept manuscript-card-expanded" id="landing-ram-1" data-mark="1">');
+    expect(index).toContain('<li class="manuscript-card kind-concept" id="landing-ram-1" data-mark="1">');
     expect(index).toContain('<a href="lax-67/Lax67.Ram.html"><code>Lax67.Ram</code></a>');
     expect(index).toContain('<a href="lax-11/Lax11.ConnectedComponents.html"><code>Lax11.ConnectedComponents</code></a>');
     expect(index).toContain('<li class="manuscript-card kind-proof line-proven" id="landing-ram-4" data-mark="4">');
@@ -843,12 +841,12 @@ After the formula.`, "");
     // Captions sit inside the boxes.
     expect(index).toContain('<div class="landing-box-caption latex-content">');
     expect(index).toContain("<strong>The paper stays the paper.</strong>");
-    expect(index).toContain("<strong>Nothing is taken on faith.</strong>");
+    expect(index).toContain("<strong>Proof network.</strong> Explore how proofs compose");
     expect(index).not.toContain("<strong>Proofs compose.</strong>");
     // The network: the network submission\'s figure and data, rooted at the site.
     expect(index).toContain('<figure class="landing-box graph-figure proof-network-figure landing-network-figure" aria-label="The proof network of lax-17">');
     expect(index).not.toContain("landing-network-source");
-    expect(index).toContain('<a href="open-proof-obligations.html">proof obligations</a> remain open.');
+    expect(index).toContain('<a href="open-proof-obligations.html">open obligation</a>, and every result');
     expect(index).toContain('<div class="landing-network-viewport">\n<div id="proof-network" class="figure-container" data-graph="proofs"></div>\n</div>');
     const data = JSON.parse(index.match(/<script type="application\/json" id="graph-data">(.*?)<\/script>/)![1]!);
     expect(Object.keys(data)).toEqual(["proofs"]);
@@ -859,7 +857,9 @@ After the formula.`, "");
     expect(data.proofs.proofs[0].href).toBe("lax-17/Lax17Proofs.Final.polynomial_grid_minor.html");
     expect(index).toMatch(/<script src="assets\/layout\.js\?v=[0-9a-f]{12}"><\/script>\n<script src="assets\/dag\.js\?v=[0-9a-f]{12}"><\/script>\n<script src="assets\/landing\.js\?v=[0-9a-f]{12}"><\/script>/);
     // The one way in: the annotated paper.
-    expect(index).toContain('<a class="landing-hero-button primary landing-cta" href="lax-242665/paper.html">Read the introduction to Lax</a>');
+    expect(index).toContain('<a class="site-nav-link" href="lax-242665/paper.html">Introduction</a>');
+    expect(index).toContain('<a class="site-nav-link" href="about.html">About</a>');
+    expect(index).not.toContain("landing-cta");
     expect(index).not.toContain("lax-white-paper.pdf\" download");
     // The foundations: the listed definitions the archive holds, with how
     // many further submissions build on them.
@@ -873,8 +873,7 @@ After the formula.`, "");
     // and the foundations after it.
     expect(index.indexOf('id="landing-how-heading"')).toBeLessThan(index.indexOf("data-carousel"));
     expect(index.indexOf("data-carousel")).toBeLessThan(index.indexOf('id="proof-network"'));
-    expect(index.indexOf('id="proof-network"')).toBeLessThan(index.indexOf("landing-cta"));
-    expect(index.indexOf("landing-cta")).toBeLessThan(index.indexOf("landing-plain-section"));
+    expect(index.indexOf('id="proof-network"')).toBeLessThan(index.indexOf("landing-plain-section"));
     expect(index.indexOf("landing-plain-section")).toBeLessThan(index.indexOf("landing-foundations"));
     // The submission's own pages keep their `../` links.
     const submission = fs.readFileSync(path.join(root, "lax-242665", "index.html"), "utf8");
