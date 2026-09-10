@@ -285,12 +285,21 @@
     stack();
   }
 
+  // A card's height with its body closed: the room it takes in the rail
+  // unless pinned. A card opening under the pointer lies over the cards
+  // below it (the stylesheet raises it) rather than shoving them down.
+  function closedHeight(card) {
+    const body = card.el.querySelector('.manuscript-card-body');
+    if (!body || body.hidden) return card.el.offsetHeight;
+    return card.el.offsetHeight - body.offsetHeight - parseFloat(getComputedStyle(body).marginTop || '0');
+  }
+
   // The rail is always beside the pages (the body scrolls sideways where
   // the screen is narrower than the two together), so cards sit at their
   // passages' y from the first layout on.
   function stack() {
     railEl.classList.add('manuscript-rail-live');
-    const tops = place.stackCards(cards.map((card) => ({ want: card.want, height: card.el.offsetHeight })), CARD_GAP);
+    const tops = place.stackCards(cards.map((card) => ({ want: card.want, height: card.pinned ? card.el.offsetHeight : closedHeight(card) })), CARD_GAP);
     let bottom = 0;
     cards.forEach((card, index) => {
       card.el.style.top = `${tops[index]}px`;

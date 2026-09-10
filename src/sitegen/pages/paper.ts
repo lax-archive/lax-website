@@ -99,14 +99,18 @@ function markName(model: SiteModel, mark: PaperMark, home: string, rootRel: stri
 }
 
 /** The body a card expands to: what the concept, proof, or submission page
- * leads with, so a reader can judge the passage without leaving the paper. */
-async function markBody(ctx: PageContext, mark: PaperMark, home: string, rootRel: string): Promise<string> {
+ * leads with, so a reader can judge the passage without leaving the paper.
+ * A concept's claims are listed only where there are several: the badge
+ * in the card's head already says how a single claim stands. A proof's
+ * description can be left out (`proofDescription: false`), leaving the
+ * judgment alone. */
+async function markBody(ctx: PageContext, mark: PaperMark, home: string, rootRel: string, options: { proofDescription?: boolean } = {}): Promise<string> {
   const { model, markdown } = ctx;
   if (mark.kind === "concept") {
     const located = model.conceptHome.get(mark.id);
     if (!located) return `<p class="empty-note">Not in this archive.</p>`;
     const { concept } = located;
-    const statements = concept.statements.length
+    const statements = concept.statements.length > 1
       ? `<ul class="manuscript-card-claims">${concept.statements.map((s) => `<li>${claimEntry(model, s.id, rootRel, home, { role: "conclusion" })}</li>`).join("")}</ul>`
       : "";
     // The Lean source as the concept page shows it, minus the module
@@ -128,7 +132,7 @@ ${statements}${source}`;
   if (mark.kind === "proof") {
     const located = model.proofHome.get(mark.id);
     if (!located) return `<p class="empty-note">Not in this archive.</p>`;
-    const description = located.proof.description.trim()
+    const description = options.proofDescription !== false && located.proof.description.trim()
       ? `<div class="latex-content">${markdown.renderAuthorProse(located.proof.description, rootRel)}</div>`
       : "";
     return `${proofJudgment(model, located.proof, rootRel, home)}${description}`;
@@ -145,31 +149,28 @@ ${statements}${source}`;
  * target; on the reflow page that id belongs to the passage's anchor in the
  * text, so the card steps aside to `m<n>-card`. Every card carries
  * `data-mark`, which is how the surface's script finds it in the rail.
- * The landing page borrows the same card for its paper excerpt, with its
- * own id and the site root as `rootRel`. */
+ * The card sits beside its passage, so it does not say the page. The
+ * landing page borrows the same card for its paper excerpt, with its own
+ * id and the site root as `rootRel`. */
 export async function markCard(
   ctx: PageContext,
   mark: PaperMark,
   n: number,
   home: string,
   cardId = `m${n}`,
-  options: { rootRel?: string; expanded?: boolean } = {},
+  options: { rootRel?: string; expanded?: boolean; proofDescription?: boolean } = {},
 ): Promise<string> {
   const { model } = ctx;
   const rootRel = options.rootRel ?? "../";
   const expanded = options.expanded === true;
-  const span = mark.begin.page === mark.end.page
-    ? `p. ${mark.begin.page}`
-    : `pp. ${mark.begin.page}–${mark.end.page}`;
   return `<li class="manuscript-card kind-${mark.kind}${markStatus(model, mark)}${expanded ? " manuscript-card-expanded" : ""}" id="${cardId}" data-mark="${n}">
 <div class="manuscript-card-head">
 <span class="manuscript-card-swatch" aria-hidden="true"></span>
 <span class="manuscript-card-name">${markBadge(model, mark)}${markName(model, mark, home, rootRel)}</span>
-<span class="manuscript-card-page">${esc(span)}</span>
 <button class="manuscript-card-toggle" type="button" aria-expanded="${expanded}" aria-controls="${attr(`${cardId}-body`)}" aria-label="${attr(`Show details of ${mark.id}`)}"><span aria-hidden="true">▸</span></button>
 </div>
 <div class="manuscript-card-body" id="${attr(`${cardId}-body`)}"${expanded ? "" : " hidden"}>
-${await markBody(ctx, mark, home, rootRel)}
+${await markBody(ctx, mark, home, rootRel, { proofDescription: options.proofDescription })}
 </div>
 </li>`;
 }

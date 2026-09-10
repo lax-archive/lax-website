@@ -36,7 +36,8 @@ export const NETWORK_SUBMISSION_ID = "lax-17";
 // concept or proof of a named id, rendered exactly as the paper page
 // renders it, linked to its page — or written here: complete, valid Lean
 // for a small self-contained example, in the archive's card markup, linked
-// nowhere. Nothing on a card is abbreviated.
+// nowhere. Nothing on a card is abbreviated. A proof card is its judgment
+// alone: what it rests on, what it concludes.
 
 interface ExampleConcept {
   kind: "concept";
@@ -57,7 +58,6 @@ interface ExampleProof {
   assumptions: string[];
   /** name of the concept card it concludes */
   conclusion: string;
-  description: string;
 }
 
 /** A card that is the archive's own: the concept or proof of that id,
@@ -149,7 +149,6 @@ const PRIMES_EXAMPLE: Example = {
       text: "*Proof.* Let $d$ be the least divisor of $n$ with $d > 1$. Every divisor of $d$ divides $n$, so $d$ has no divisor strictly between 1 and $d$; hence $d$ is prime. $\\square$",
       card: {
         kind: "proof", name: "Proofs.PrimeDivisor", assumptions: [], conclusion: "PrimeDivisor",
-        description: "The least divisor `d > 1` of `n` is prime: a divisor of `d` strictly between `1` and `d` would be a smaller divisor of `n`.",
       },
     },
     {
@@ -176,7 +175,6 @@ const PRIMES_EXAMPLE: Example = {
       text: "*Proof.* By Lemma A, $n! + 1$ has a prime divisor $p$. If $p \\leq n$, then $p$ divides $n!$ and hence divides 1, which is impossible. So $p > n$. $\\square$",
       card: {
         kind: "proof", name: "Proofs.Euclid", assumptions: ["PrimeDivisor"], conclusion: "Euclid",
-        description: "Euclid's argument: a prime divisor `p` of `n! + 1`, which Lemma A provides, cannot be at most `n`, because then `p` would divide `n!` and hence divide `1`.",
       },
     },
   ],
@@ -277,7 +275,7 @@ interface LandingCopy {
   sections: Map<string, string>;
 }
 
-const LANDING_SECTIONS = ["How it works", "Proof network", "Get started right away", "Foundations"];
+const LANDING_SECTIONS = ["How it works", "Proof network", "Get started right away", "Build foundations together"];
 
 function landingCopy(source: string): LandingCopy {
   const chunks = source.trim().split(/\n(?=## )/);
@@ -314,7 +312,7 @@ ${markdown.render(body.trim(), "")}
 </section>`;
 }
 
-/** The "Foundations" section: its prose, then the concepts its list names
+/** The foundations section: its prose, then the concepts its list names
  * that the archive holds, each linked to its page with the number of
  * further submissions whose concepts build on it. Nothing when the archive
  * has none of them. */
@@ -407,17 +405,17 @@ function exampleAvailable(model: SiteModel, example: Example): boolean {
 }
 
 /** An archive card of an example: the paper page's card for the concept
- * or proof, as if the paper marked it on its first page, linked from the
- * site root. */
+ * or proof, linked from the site root; a proof's card is its judgment
+ * alone. */
 async function archiveCard(ctx: PageContext, card: ExampleArchiveCard, n: number, cardId: string, expanded: boolean): Promise<string> {
   const home = card.of === "concept" ? ctx.model.conceptHome.get(card.id)?.output.id : ctx.model.proofHome.get(card.id)?.output.id;
   if (!home) throw new Error(`the archive does not hold ${card.id}`);
   const point = { page: 1, x: 0, y: 0, mode: "v" as const };
   const mark: PaperMark = { id: card.id, kind: card.of, begin: point, end: point };
-  return markCard(ctx, mark, n, home, cardId, { rootRel: "", expanded });
+  return markCard(ctx, mark, n, home, cardId, { rootRel: "", expanded, proofDescription: false });
 }
 
-/** A claim of the example as the judgment names it: badge and name. Every
+/** A claim of the example as a judgment names it: badge and name. Every
  * claim of the examples counts as proven — each is proven in the
  * archive's version of the example — so the badge carries the mark. */
 function exampleClaim(concept: ExampleConcept): string {
@@ -426,8 +424,9 @@ function exampleClaim(concept: ExampleConcept): string {
 
 /** One card of an example: the archive's own for an archive card, else
  * the same markup (the paper page's `markCard`) around the concept's
- * title, description, claim and Lean, or the proof's judgment and
- * description. */
+ * title, description and Lean, or the proof's judgment. Each concept
+ * states one claim, which the card's head already names, so there is no
+ * claims list. */
 async function exampleCard(ctx: PageContext, example: Example, passage: ExamplePassage, n: number, cardId: string, expanded: boolean): Promise<string> {
   const { markdown } = ctx;
   const { card } = passage;
@@ -442,10 +441,9 @@ async function exampleCard(ctx: PageContext, example: Example, passage: ExampleP
       : [];
     badge = typeBadge(card.type, statements.length ? true : undefined);
     const rows = await highlightSource(card.lean, statements, new Set(statements.map((s) => s.id)), { anchors: false });
-    const claims = statements.length ? `<ul class="manuscript-card-claims"><li>${exampleClaim(card)}</li></ul>` : "";
     body = `<p class="manuscript-card-title">${markdown.renderAuthorInline(card.title, "")}</p>
 <div class="latex-content">${markdown.renderAuthorProse(card.description, "")}</div>
-${claims}<div class="manuscript-card-source"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<div class="manuscript-card-source"><div class="inline-contract-wrap"><table class="inline-contract-table">
 ${rows}
 </table></div></div>`;
   } else {
@@ -461,14 +459,12 @@ ${rows}
 <div class="judgment-assumptions">${assumed.length ? `<ul>${assumed.join("\n")}</ul>` : `<p class="judgment-unconditional">no assumptions</p>`}</div>
 <span class="judgment-arrow" aria-hidden="true">→</span>
 <div class="judgment-conclusion">${exampleClaim(conclusion)}</div>
-</div>
-<div class="latex-content">${markdown.renderAuthorProse(card.description, "")}</div>`;
+</div>`;
   }
   return `<li class="manuscript-card kind-${card.kind} line-proven${expanded ? " manuscript-card-expanded" : ""}" id="${attr(cardId)}">
 <div class="manuscript-card-head">
 <span class="manuscript-card-swatch" aria-hidden="true"></span>
 <span class="manuscript-card-name">${badge}${code(card.name)}</span>
-<span class="manuscript-card-page">p. 1</span>
 <button class="manuscript-card-toggle" type="button" aria-expanded="${expanded}" aria-controls="${attr(`${cardId}-body`)}" aria-label="${attr(`Show details of ${card.name}`)}"><span aria-hidden="true">▸</span></button>
 </div>
 <div class="manuscript-card-body" id="${attr(`${cardId}-body`)}"${expanded ? "" : " hidden"}>
@@ -483,8 +479,8 @@ ${body}
  * page before anyone hovers; it is open, not pinned, so the first hover
  * away closes it and the usual behaviour takes over). landing.js sets
  * each card beside its passage and draws the band between them in the
- * SVG overlay, the way the paper page does; without it the cards stack
- * in the rail. */
+ * SVG overlay, the way the paper page does — on a phone it sets each card
+ * under its passage instead; without it the cards stack in the rail. */
 async function exampleSlide(ctx: PageContext, example: Example, listed: SiteSubmission[], selected: boolean): Promise<string> {
   const { markdown } = ctx;
   const passages: string[] = [];
@@ -532,9 +528,11 @@ ${foot}
 
 /** The examples box: the caption at the top left with a dot per
  * example beside it, the slides below, and a large arrow at either side
- * of the box to step through them. landing.js shows one slide at a time
- * (the arrow keys step too); without it the first example shows. Every
- * slide ends in the way on: the introduction, or the submission. */
+ * of the box to step through them (on a phone the arrows ride along at
+ * the middle of the screen while the box is in view). landing.js shows
+ * one slide at a time (the arrow keys step too); without it the first
+ * example shows. Every slide ends in the way on: the introduction, or the
+ * submission. */
 async function examplesBox(ctx: PageContext, listed: SiteSubmission[], caption: string): Promise<string> {
   const examples = EXAMPLES.filter((example) => exampleAvailable(ctx.model, example));
   const dots = examples.map((example, index) =>
@@ -544,9 +542,12 @@ async function examplesBox(ctx: PageContext, listed: SiteSubmission[], caption: 
   const tablist = examples.length > 1 ? `<div class="landing-carousel-dots" role="tablist" aria-label="Examples">
 ${dots.join("\n")}
 </div>` : "";
-  const arrows = examples.length > 1 ? `<button class="landing-carousel-arrow landing-carousel-arrow-prev" type="button" data-carousel-step="-1" aria-label="Previous example" title="Previous example (←)"><span aria-hidden="true">‹</span></button>
-<button class="landing-carousel-arrow landing-carousel-arrow-next" type="button" data-carousel-step="1" aria-label="Next example" title="Next example (→)"><span aria-hidden="true">›</span></button>` : "";
+  const arrows = examples.length > 1 ? `<div class="landing-carousel-arrows">
+<button class="landing-carousel-arrow landing-carousel-arrow-prev" type="button" data-carousel-step="-1" aria-label="Previous example" title="Previous example (←)"><span aria-hidden="true">‹</span></button>
+<button class="landing-carousel-arrow landing-carousel-arrow-next" type="button" data-carousel-step="1" aria-label="Next example" title="Next example (→)"><span aria-hidden="true">›</span></button>
+</div>` : "";
   return `<section class="landing-box landing-paper manuscript" aria-label="${attr(`Excerpts of ${plural(examples.length, "annotated paper")}, as the archive shows them: ${examples.map((e) => e.subject).join(", ")}`)}" data-carousel>
+${arrows}
 <div class="landing-paper-frame">
 <div class="landing-box-head">
 <div class="landing-box-caption latex-content">
@@ -558,7 +559,6 @@ ${tablist}
 ${slides.join("\n")}
 </div>
 </div>
-${arrows}
 </section>`;
 }
 
@@ -682,7 +682,7 @@ ${network}
 </section>
 ${links}
 ${landingSection("start", "Get started right away", landing.sections.get("Get started right away")!, markdown)}
-${landingFoundations(ctx, "Foundations", landing.sections.get("Foundations")!)}
+${landingFoundations(ctx, "Build foundations together", landing.sections.get("Build foundations together")!)}
 <div class="landing-action-panels">
 <h2 class="landing-section-title" id="landing-library-heading">Submissions</h2>
 ${library}

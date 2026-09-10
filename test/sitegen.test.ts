@@ -595,8 +595,12 @@ After the formula.`, "");
     expect(landingScript).toContain("links.classList.add('manuscript-links-live')");
     expect(landingScript).toContain("pair.link.setAttribute('class', `manuscript-link kind-${pair.passage.dataset.kind || 'concept'}`)");
     expect(landingScript).toContain("new ResizeObserver(() => layout())");
-    expect(landingScript).toContain("card.classList.toggle('manuscript-card-pinned', pinned)");
-    expect(landingScript).toContain("passage.setAttribute('aria-pressed', String(pinned))");
+    expect(landingScript).toContain("card.classList.toggle('manuscript-card-pinned', next)");
+    expect(landingScript).toContain("passage.setAttribute('aria-pressed', String(next))");
+    // A card open under the pointer takes no room; on a phone the cards go under their passages.
+    expect(landingScript).toContain("pair.opening || pair.pinned ? card.offsetHeight : closedHeight(card)");
+    expect(landingScript).toContain("card.classList.add('landing-card-inline')");
+    expect(landingScript).toContain("if (passage.nextElementSibling !== card) passage.after(card)");
     expect(landingScript).toContain("window.matchMedia('(hover: hover)')");
     expect(landingScript).toContain("window.matchMedia('(max-width: 640px)')");
     expect(landingScript).toContain("function setupCarousel(root)");
@@ -654,7 +658,7 @@ After the formula.`, "");
     expect(index).toContain('Lax <span class="site-title-quiet">Lean Archive</span>');
     // The fixed site header supplies the title; the landing does not repeat it.
     expect(index).not.toContain('<h1 class="paper-title">Lax <span class="site-title-quiet">Lean Archive</span></h1>');
-    expect(index).toContain(`<h1 class="landing-title" id="landing-title">Lax: let's stay in control of mathematics</h1>`);
+    expect(index).toContain(`<h1 class="landing-title" id="landing-title">Let's stay in control of mathematics</h1>`);
     expect(index).toContain('<div class="landing-manifesto latex-content">');
     expect(index).toMatch(/AI is about to massively accelerate mathematical research/);
     expect(index).not.toContain("<strong>Correctness</strong>");
@@ -812,7 +816,9 @@ After the formula.`, "");
     expect(index).not.toContain("manuscript-card-pinned");
     expect(index).toContain('<span class="manuscript-card-name"><span class="type-badge" title="definition">def</span><code>Primes</code></span>');
     expect(index).toContain('<p class="manuscript-card-title">Prime numbers</p>');
-    expect(index).toContain('<ul class="manuscript-card-claims"><li><span class="claim-entry"><span class="type-badge proven"');
+    // One claim per concept, named in the head: no claims list, no page.
+    expect(index).not.toContain('<ul class="manuscript-card-claims">');
+    expect(index).not.toContain("manuscript-card-page");
     // The proof of Theorem B rests on the lemma; the proof of the lemma on nothing.
     const euclid = index.slice(index.indexOf('id="landing-primes-5-body"'), index.indexOf('id="landing-example-ramsey"'));
     expect(euclid).toContain('<div class="judgment-assumptions"><ul><li>');
@@ -857,7 +863,7 @@ After the formula.`, "");
     expect(index).not.toContain("lax-white-paper.pdf\" download");
     // The foundations: the listed definitions the archive holds, with how
     // many further submissions build on them.
-    expect(index).toContain('<h2 class="landing-section-title" id="landing-foundations-heading">Foundations</h2>');
+    expect(index).toContain('<h2 class="landing-section-title" id="landing-foundations-heading">Build foundations together</h2>');
     expect(index).toContain('<li><a class="landing-foundation" href="lax-67/Lax67.Ram.html" title="Lax67.Ram">\n<span class="type-badge" title="definition">def</span><span class="landing-foundation-title">The word RAM</span>\n<span class="landing-foundation-meta"><span class="submission-meta-id">lax-67</span><span class="landing-foundation-uses">built on in 1 further submission</span></span>\n</a></li>');
     expect(index).toContain('href="lax-48/Lax48.TwinWidth.html" title="Lax48.TwinWidth"');
     expect(index).toContain('<span class="submission-meta-id">lax-48</span><span class="landing-foundation-uses">built on in 1 further submission</span>');

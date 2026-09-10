@@ -112,7 +112,7 @@ describe("paper pages", () => {
     expect(html).toContain('class="judgment"');
     expect(html).toContain('<a href="../lax-3/index.html"><span class="submission-meta-id">lax-3</span></a>');
     expect(html).toContain("Bags and separations");
-    expect(html).toContain('<span class="manuscript-card-page">pp. 1–2</span>');
+    expect(html).not.toContain("manuscript-card-page");
     expect(html).toContain('aria-controls="m2-body"');
     // no list of marks above the columns: the cards beside the passages are the index
     expect(html).not.toContain("manuscript-index");

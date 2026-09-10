@@ -1,11 +1,11 @@
-# Lax: let's stay in control of mathematics
+# Let's stay in control of mathematics
 
 AI is about to massively accelerate mathematical research. This will push the
 classical system of peer review and publishing beyond its limits. We need new,
 scalable mechanisms for digesting mathematics, or we risk losing control of
 our own field.
 
-We believe proof systems like Lean provide a scalable way of ensuring the
+Proof systems like Lean provide a scalable way of ensuring the
 *correctness* of mathematics. This frees humans to spend their finite
 attention where it really matters: building *intuition*, *clarity*, and
 *abstractions*.
@@ -42,12 +42,16 @@ Run `lax print instructions` and follow the guide it prints
 to formalize <my result>.
 ```
 
-## Foundations
+Lax takes care of guiding your agent through the whole process.
 
-Concepts are shared across submissions. A paper that needs a model of
-computation imports the archive's word RAM rather than fixing its own; a
-bound on twin-width is stated against the archive's twin-width. The
-definitions below are the ones later submissions already build on.
+## Build foundations together
+
+Concepts are shared across submissions. Nobody hands down the
+definitions: whoever formalizes a paper first writes the ones it needs,
+and later papers import them instead of fixing their own. A model of
+computation, a width measure, a graph encoding: the definitions below are
+the ones other submissions already build on, and every new submission adds
+to them.
 
 - Lax67.Ram
 - Lax48.Treewidth
