@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://comments.laxarchive.org; style-src 'self' 'unsafe-inline'; img-src https: data:; font-src 'self'; frame-src https://comments.laxarchive.org; connect-src https://comments.laxarchive.org">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Lax — an archive of formalized mathematical concepts and their proofs">
+<title>The Cook–Levin Theorem — lax-429075</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
+<link rel="stylesheet" href="../assets/style.css?v=293d33df3472">
+</head><body>
+<header class="site-header">
+  <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
+  <h1 class="site-title"><a href="../index.html">Lax <span class="site-title-quiet">Lean Archive</span></a></h1>
+  <nav class="header-actions" aria-label="Account">
+    <div class="account-header" data-account-root data-remark42-host="https://comments.laxarchive.org" data-remark42-site="remark" data-identity-url="https://comments.laxarchive.org/reactions/v1/identity">
+  <a class="account-control" data-account-login href="https://comments.laxarchive.org/auth/orcid/login?from=https%3A%2F%2Flaxarchive.org&amp;site=remark"><span class="orcid-mark" aria-hidden="true">iD</span><span>Sign in with ORCID</span></a>
+  <button class="account-control" data-account-settings type="button" aria-haspopup="dialog" aria-controls="account-dialog" hidden><span class="orcid-mark" aria-hidden="true">iD</span><span>Settings</span></button>
+</div>
+  </nav>
+</header>
+<main id="content-shell">
+<div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+<aside id="sidebar">
+<a class="sidebar-back" href="../index.html"><span class="sidebar-back-arrow" aria-hidden="true">←</span>All submissions</a>
+<div class="sidebar-filters"><div class="filter-group">
+<label for="filter-search">Search</label>
+<input id="filter-search" class="filter-input" type="search" placeholder="Filter entries" aria-controls="entry-list">
+</div>
+<div class="filter-group">
+<label for="filter-type">Type</label>
+<select id="filter-type" class="filter-select">
+<option value="all">All types</option>
+<option value="definition">definition</option>
+<option value="lemma">lemma</option>
+<option value="theorem">theorem</option>
+<option value="proof">proof</option>
+</select>
+</div></div>
+<ul id="entry-list">
+<li class="entry-heading" aria-hidden="true">Concepts</li>
+<li data-type="lemma" data-search="lax429075.circuitmachine polynomial circuit simulation of a verifier lemma"><a class="entry-link" href="../lax-429075/Lax429075.CircuitMachine.html" data-full-title="Polynomial circuit simulation of a verifier"><span class="entry-label"><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><span class="entry-label-text">Lax429075.CircuitMachine</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-429075/Lax429075.CircuitMachine.html" hidden></span></span></a></li>
+<li data-type="definition" data-search="lax429075.circuits boolean circuits definition"><a class="entry-link" href="../lax-429075/Lax429075.Circuits.html" data-full-title="Boolean circuits"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax429075.Circuits</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-429075/Lax429075.Circuits.html" hidden></span></span></a></li>
+<li data-type="definition" data-search="lax429075.cnf conjunctive normal form definition"><a class="entry-link" href="../lax-429075/Lax429075.CNF.html" data-full-title="Conjunctive normal form"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax429075.CNF</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-429075/Lax429075.CNF.html" hidden></span></span></a></li>
+<li data-type="theorem" data-search="lax429075.cooklevin the cook–levin theorem theorem"><a class="entry-link" href="../lax-429075/Lax429075.CookLevin.html" data-full-title="The Cook–Levin theorem"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax429075.CookLevin</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-429075/Lax429075.CookLevin.html" hidden></span></span></a></li>
+<li data-type="definition" data-search="lax429075.encoding binary encoding of cnf formulas definition"><a class="entry-link" href="../lax-429075/Lax429075.Encoding.html" data-full-title="Binary encoding of CNF formulas"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax429075.Encoding</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-429075/Lax429075.Encoding.html" hidden></span></span></a></li>
+<li data-type="lemma" data-search="lax429075.encodingcorrect decoding an encoded formula lemma"><a class="entry-link" href="../lax-429075/Lax429075.EncodingCorrect.html" data-full-title="Decoding an encoded formula"><span class="entry-label"><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><span class="entry-label-text">Lax429075.EncodingCorrect</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-429075/Lax429075.EncodingCorrect.html" hidden></span></span></a></li>
+<li data-type="lemma" data-search="lax429075.finitewitness a bounded satisfying assignment lemma"><a class="entry-link" href="../lax-429075/Lax429075.FiniteWitness.html" data-full-title="A bounded satisfying assignment"><span class="entry-label"><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><span class="entry-label-text">Lax429075.FiniteWitness</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-429075/Lax429075.FiniteWitness.html" hidden></span></span></a></li>
+<li data-type="lemma" data-search="lax429075.gatecorrect correctness of gate clauses lemma"><a class="entry-link" href="../lax-429075/Lax429075.GateCorrect.html" data-full-title="Correctness of gate clauses"><span class="entry-label"><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><span class="entry-label-text">Lax429075.GateCorrect</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-429075/Lax429075.GateCorrect.html" hidden></span></span></a></li>
+<li data-type="definition" data-search="lax429075.reductions polynomial many-one reductions and np-completeness definition"><a class="entry-link" href="../lax-429075/Lax429075.Reductions.html" data-full-title="Polynomial many-one reductions and NP-completeness"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax429075.Reductions</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-429075/Lax429075.Reductions.html" hidden></span></span></a></li>
+<li data-type="lemma" data-search="lax429075.satencoding satisfiability and binary encodings lemma"><a class="entry-link" href="../lax-429075/Lax429075.SATEncoding.html" data-full-title="Satisfiability and binary encodings"><span class="entry-label"><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><span class="entry-label-text">Lax429075.SATEncoding</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-429075/Lax429075.SATEncoding.html" hidden></span></span></a></li>
+<li data-type="lemma" data-search="lax429075.sathard np-hardness of sat lemma"><a class="entry-link" href="../lax-429075/Lax429075.SATHard.html" data-full-title="NP-hardness of SAT"><span class="entry-label"><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><span class="entry-label-text">Lax429075.SATHard</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-429075/Lax429075.SATHard.html" hidden></span></span></a></li>
+<li data-type="lemma" data-search="lax429075.satinnp sat belongs to np lemma"><a class="entry-link" href="../lax-429075/Lax429075.SATinNP.html" data-full-title="SAT belongs to NP"><span class="entry-label"><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><span class="entry-label-text">Lax429075.SATinNP</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-429075/Lax429075.SATinNP.html" hidden></span></span></a></li>
+<li data-type="definition" data-search="lax429075.satisfiability the satisfiability language and verifier definition"><a class="entry-link" href="../lax-429075/Lax429075.Satisfiability.html" data-full-title="The satisfiability language and verifier"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax429075.Satisfiability</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-429075/Lax429075.Satisfiability.html" hidden></span></span></a></li>
+<li data-type="definition" data-search="lax429075.tseitin gate clauses definition"><a class="entry-link" href="../lax-429075/Lax429075.Tseitin.html" data-full-title="Gate clauses"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax429075.Tseitin</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-429075/Lax429075.Tseitin.html" hidden></span></span></a></li>
+<li data-type="lemma" data-search="lax429075.tseitincorrect correctness of the circuit encoding lemma"><a class="entry-link" href="../lax-429075/Lax429075.TseitinCorrect.html" data-full-title="Correctness of the circuit encoding"><span class="entry-label"><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><span class="entry-label-text">Lax429075.TseitinCorrect</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-429075/Lax429075.TseitinCorrect.html" hidden></span></span></a></li>
+<li data-type="lemma" data-search="lax429075.verifiercorrect correctness of the sat verifier lemma"><a class="entry-link" href="../lax-429075/Lax429075.VerifierCorrect.html" data-full-title="Correctness of the SAT verifier"><span class="entry-label"><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><span class="entry-label-text">Lax429075.VerifierCorrect</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-429075/Lax429075.VerifierCorrect.html" hidden></span></span></a></li>
+<li data-type="lemma" data-search="lax429075.verifiertime polynomial time for cnf verification lemma"><a class="entry-link" href="../lax-429075/Lax429075.VerifierTime.html" data-full-title="Polynomial time for CNF verification"><span class="entry-label"><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><span class="entry-label-text">Lax429075.VerifierTime</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-429075/Lax429075.VerifierTime.html" hidden></span></span></a></li>
+<li class="entry-heading" aria-hidden="true">Proofs</li>
+<li data-type="proof" data-search="lax429075proofs.cook_levin proof"><a class="entry-link" href="../lax-429075/Lax429075Proofs.cook_levin.html" data-full-title="Lax429075Proofs.cook_levin"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax429075Proofs.cook_levin</span></span></a></li>
+<li data-type="proof" data-search="lax429075proofs.encoding_roundtrip proof"><a class="entry-link" href="../lax-429075/Lax429075Proofs.encoding_roundtrip.html" data-full-title="Lax429075Proofs.encoding_roundtrip"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax429075Proofs.encoding_roundtrip</span></span></a></li>
+<li data-type="proof" data-search="lax429075proofs.finite_witness proof"><a class="entry-link" href="../lax-429075/Lax429075Proofs.finite_witness.html" data-full-title="Lax429075Proofs.finite_witness"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax429075Proofs.finite_witness</span></span></a></li>
+<li data-type="proof" data-search="lax429075proofs.gate_correct proof"><a class="entry-link" href="../lax-429075/Lax429075Proofs.gate_correct.html" data-full-title="Lax429075Proofs.gate_correct"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax429075Proofs.gate_correct</span></span></a></li>
+<li data-type="proof" data-search="lax429075proofs.sat_encoding proof"><a class="entry-link" href="../lax-429075/Lax429075Proofs.sat_encoding.html" data-full-title="Lax429075Proofs.sat_encoding"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax429075Proofs.sat_encoding</span></span></a></li>
+<li data-type="proof" data-search="lax429075proofs.sat_hard proof"><a class="entry-link" href="../lax-429075/Lax429075Proofs.sat_hard.html" data-full-title="Lax429075Proofs.sat_hard"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax429075Proofs.sat_hard</span></span></a></li>
+<li data-type="proof" data-search="lax429075proofs.sat_in_np proof"><a class="entry-link" href="../lax-429075/Lax429075Proofs.sat_in_np.html" data-full-title="Lax429075Proofs.sat_in_np"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax429075Proofs.sat_in_np</span></span></a></li>
+<li data-type="proof" data-search="lax429075proofs.streaming.circuit_machine proof"><a class="entry-link" href="../lax-429075/Lax429075Proofs.Streaming.circuit_machine.html" data-full-title="Lax429075Proofs.Streaming.circuit_machine"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax429075Proofs.Streaming.circuit_machine</span></span></a></li>
+<li data-type="proof" data-search="lax429075proofs.tseitin_correct proof"><a class="entry-link" href="../lax-429075/Lax429075Proofs.tseitin_correct.html" data-full-title="Lax429075Proofs.tseitin_correct"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax429075Proofs.tseitin_correct</span></span></a></li>
+<li data-type="proof" data-search="lax429075proofs.verifier_correct proof"><a class="entry-link" href="../lax-429075/Lax429075Proofs.verifier_correct.html" data-full-title="Lax429075Proofs.verifier_correct"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax429075Proofs.verifier_correct</span></span></a></li>
+<li data-type="proof" data-search="lax429075proofs.verifier_polynomial proof"><a class="entry-link" href="../lax-429075/Lax429075Proofs.verifier_polynomial.html" data-full-title="Lax429075Proofs.verifier_polynomial"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax429075Proofs.verifier_polynomial</span></span></a></li>
+<li id="entry-list-empty" hidden>No entries match.</li>
+</ul>
+</aside>
+<div id="sidebar-resizer" class="sidebar-resizer" role="separator" aria-label="Resize sidebar" aria-controls="sidebar" aria-orientation="vertical" aria-valuemin="220" aria-valuemax="520" aria-valuenow="285" tabindex="0" title="Drag to resize sidebar"></div>
+<section id="main"><div id="detail">
+<p class="draft-banner"><strong>Draft</strong> — mutable and not usable as a dependency; its citation marks the draft state.</p>
+<header class="paper-head">
+<h1 class="paper-title">The Cook–Levin Theorem</h1>
+<p class="paper-meta"><span class="submission-meta-id">lax-429075</span><span class="meta-sep">·</span><span class="formalized-label">formalized by</span> <span class="paper-author">Édouard Bonnet</span><span class="author-sep">·</span><span class="paper-author">gpt-6-astra</span><span class="meta-sep">·</span>created 2026-09-10<span class="meta-sep">·</span><a href="https://github.com/EdouardBonnet/cook-levin/tree/3481a9cc2e2693124717e398f443f8053629d730/" title="https://github.com/EdouardBonnet/cook-levin/tree/3481a9cc2e2693124717e398f443f8053629d730/"><code>GitHub @3481a9c</code></a><span class="meta-sep">·</span>Lean <code>v4.30.0</code> <span class="meta-epoch" title="the environment the archive recommends this year">epoch</span> · mathlib <code>c5ea00351c28</code></p>
+</header>
+<section class="page-reactions" aria-label="Community review" data-reactions-host="https://comments.laxarchive.org" data-reactions-url="https://laxarchive.org/lax-429075/" data-review-kind="submission" data-source-lines="0" data-submission-concept-urls="[&quot;https://laxarchive.org/lax-429075/Lax429075.CircuitMachine.html&quot;,&quot;https://laxarchive.org/lax-429075/Lax429075.Circuits.html&quot;,&quot;https://laxarchive.org/lax-429075/Lax429075.CNF.html&quot;,&quot;https://laxarchive.org/lax-429075/Lax429075.CookLevin.html&quot;,&quot;https://laxarchive.org/lax-429075/Lax429075.Encoding.html&quot;,&quot;https://laxarchive.org/lax-429075/Lax429075.EncodingCorrect.html&quot;,&quot;https://laxarchive.org/lax-429075/Lax429075.FiniteWitness.html&quot;,&quot;https://laxarchive.org/lax-429075/Lax429075.GateCorrect.html&quot;,&quot;https://laxarchive.org/lax-429075/Lax429075.Reductions.html&quot;,&quot;https://laxarchive.org/lax-429075/Lax429075.SATEncoding.html&quot;,&quot;https://laxarchive.org/lax-429075/Lax429075.SATHard.html&quot;,&quot;https://laxarchive.org/lax-429075/Lax429075.SATinNP.html&quot;,&quot;https://laxarchive.org/lax-429075/Lax429075.Satisfiability.html&quot;,&quot;https://laxarchive.org/lax-429075/Lax429075.Tseitin.html&quot;,&quot;https://laxarchive.org/lax-429075/Lax429075.TseitinCorrect.html&quot;,&quot;https://laxarchive.org/lax-429075/Lax429075.VerifierCorrect.html&quot;,&quot;https://laxarchive.org/lax-429075/Lax429075.VerifierTime.html&quot;,&quot;https://laxarchive.org/lax-434930/Lax434930.Certificates.html&quot;,&quot;https://laxarchive.org/lax-434930/Lax434930.NondeterministicPolynomialTime.html&quot;,&quot;https://laxarchive.org/lax-434930/Lax434930.PolynomialTime.html&quot;,&quot;https://laxarchive.org/lax-554803/Lax554803.MachineModels.html&quot;,&quot;https://laxarchive.org/lax-554803/Lax554803.ModelEquivalence.html&quot;,&quot;https://laxarchive.org/lax-554803/Lax554803.PolynomialTime.html&quot;]">
+<div class="page-reactions-line">
+<div class="page-reactions-actions">
+<div class="page-reaction-control">
+<button class="page-reaction-button" type="button" data-reaction="endorse" aria-pressed="false" title="Say that this submission is correct"><span class="page-reaction-icon" aria-hidden="true">🥳</span><span>Endorse</span></button>
+<button class="page-reaction-voters" type="button" data-reaction-voters="endorse" aria-expanded="false" aria-controls="page-reaction-voters-endorse"><strong data-reaction-count="endorse">0</strong><span class="visually-hidden">Show people who endorse this submission</span></button>
+<div class="page-reaction-voters-popover" id="page-reaction-voters-endorse" data-reaction-voters-popover="endorse" hidden><p data-reaction-empty>No public endorsements yet.</p><ul></ul></div>
+</div>
+<div class="page-reaction-control page-flag-control">
+<button class="page-reaction-button" type="button" data-reaction="flag" aria-pressed="false" aria-haspopup="dialog" title="Explain why this submission may be false"><span class="page-reaction-icon" aria-hidden="true">🚩</span><span>Flag</span></button>
+<button class="page-reaction-voters" type="button" data-flag-list-open aria-haspopup="dialog" aria-controls="page-flag-list"><strong data-reaction-count="flag">0</strong><span class="visually-hidden">Show flags for this submission</span></button>
+</div>
+</div>
+<p class="submission-flagged-note" data-submission-flagged-note hidden><span aria-hidden="true">⚑</span><span data-submission-flagged-note-text></span></p>
+</div>
+<p class="page-reactions-status" data-reactions-status role="status">Loading review…</p>
+<a class="visually-hidden" data-reactions-login href="https://comments.laxarchive.org/auth/orcid/login?site=remark&amp;from=https%3A%2F%2Flaxarchive.org%2Flax-429075%2F">Sign in with ORCID</a>
+<dialog class="review-dialog flag-list-dialog" id="page-flag-list" data-flag-list-dialog aria-labelledby="page-flag-list-title">
+<div class="review-dialog-header"><div><p class="discussion-eyebrow">Community review</p><h2 id="page-flag-list-title">Flags</h2></div><button class="review-dialog-close" type="button" data-flag-list-close aria-label="Close flags">×</button></div>
+<p class="review-dialog-intro">Each flag is tied to a public ORCID identity and explains why this submission may be incorrect.</p>
+<p data-flag-list-empty>No flags have been submitted.</p><ol class="flag-list" data-flag-list></ol>
+</dialog>
+<dialog class="review-dialog flag-editor-dialog" id="page-flag-editor" data-flag-editor aria-labelledby="page-flag-editor-title">
+<form data-flag-form>
+<div class="review-dialog-header"><div><p class="discussion-eyebrow">Community review</p><h2 id="page-flag-editor-title">Flag this submission</h2></div><button class="review-dialog-close" type="button" data-flag-cancel aria-label="Close flag form">×</button></div>
+<p class="review-dialog-intro">State precisely what appears incorrect. This explanation will be public under your ORCID name.</p>
+<label class="flag-message-label" for="page-flag-message">What is wrong?</label>
+<textarea id="page-flag-message" data-flag-message rows="6" maxlength="2000" required placeholder="Describe the incorrect claim, missing assumption, or counterexample."></textarea>
+
+<p class="flag-form-status" data-flag-form-status role="status"></p>
+<div class="review-dialog-actions"><button class="danger-button" type="button" data-flag-remove hidden>Remove my flag</button><span></span><button class="secondary-button" type="button" data-flag-cancel>Cancel</button><button class="primary-button" type="submit">Publish flag</button></div>
+</form>
+</dialog>
+<noscript><p class="page-reactions-noscript"><a href="https://comments.laxarchive.org/auth/orcid/login?site=remark&amp;from=https%3A%2F%2Flaxarchive.org%2Flax-429075%2F">Sign in with ORCID</a> to review this page.</p></noscript>
+</section>
+<section class="paper-abstract">
+<h2 class="abstract-heading">Abstract</h2>
+<div class="latex-content"><p>We prove that binary-encoded CNF satisfiability is NP-complete under polynomial many-one reductions. The proof implements the SAT verifier and the reduction from bounded computations through Boolean circuits and gate clauses. It includes machine correctness and polynomial running-time bounds, using NP from lax-434930 and the machine model of lax-554803.</p>
+</div>
+</section>
+
+<section class="page-section"><h3 class="section-title">Concepts</h3>
+<div class="concept-list-box">
+<div class="concept-review-progress" data-concept-review-progress data-concept-review-urls="[&quot;https://laxarchive.org/lax-429075/Lax429075.Circuits.html&quot;,&quot;https://laxarchive.org/lax-429075/Lax429075.CNF.html&quot;,&quot;https://laxarchive.org/lax-429075/Lax429075.CookLevin.html&quot;,&quot;https://laxarchive.org/lax-429075/Lax429075.Encoding.html&quot;,&quot;https://laxarchive.org/lax-429075/Lax429075.Reductions.html&quot;,&quot;https://laxarchive.org/lax-429075/Lax429075.Satisfiability.html&quot;,&quot;https://laxarchive.org/lax-429075/Lax429075.Tseitin.html&quot;,&quot;https://laxarchive.org/lax-434930/Lax434930.Certificates.html&quot;,&quot;https://laxarchive.org/lax-434930/Lax434930.NondeterministicPolynomialTime.html&quot;,&quot;https://laxarchive.org/lax-434930/Lax434930.PolynomialTime.html&quot;,&quot;https://laxarchive.org/lax-554803/Lax554803.MachineModels.html&quot;,&quot;https://laxarchive.org/lax-554803/Lax554803.ModelEquivalence.html&quot;,&quot;https://laxarchive.org/lax-554803/Lax554803.PolynomialTime.html&quot;]" hidden>
+<div class="concept-review-progress-heading"><span>Review progress</span><span data-concept-review-progress-label></span></div>
+<div class="concept-review-progress-track" data-concept-review-progress-track role="img"></div>
+</div>
+<ul class="concept-list">
+<li><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><a href="Lax429075.CircuitMachine.html" title="Lax429075.CircuitMachine"><code>Lax429075.CircuitMachine</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-429075/Lax429075.CircuitMachine.html" hidden></span></li>
+<li><span class="type-badge" title="definition">def</span><a href="Lax429075.Circuits.html" title="Lax429075.Circuits"><code>Lax429075.Circuits</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-429075/Lax429075.Circuits.html" hidden></span></li>
+<li><span class="type-badge" title="definition">def</span><a href="Lax429075.CNF.html" title="Lax429075.CNF"><code>Lax429075.CNF</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-429075/Lax429075.CNF.html" hidden></span></li>
+<li><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="Lax429075.CookLevin.html" title="Lax429075.CookLevin"><code>Lax429075.CookLevin</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-429075/Lax429075.CookLevin.html" hidden></span></li>
+<li><span class="type-badge" title="definition">def</span><a href="Lax429075.Encoding.html" title="Lax429075.Encoding"><code>Lax429075.Encoding</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-429075/Lax429075.Encoding.html" hidden></span></li>
+<li><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><a href="Lax429075.EncodingCorrect.html" title="Lax429075.EncodingCorrect"><code>Lax429075.EncodingCorrect</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-429075/Lax429075.EncodingCorrect.html" hidden></span></li>
+<li><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><a href="Lax429075.FiniteWitness.html" title="Lax429075.FiniteWitness"><code>Lax429075.FiniteWitness</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-429075/Lax429075.FiniteWitness.html" hidden></span></li>
+<li><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><a href="Lax429075.GateCorrect.html" title="Lax429075.GateCorrect"><code>Lax429075.GateCorrect</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-429075/Lax429075.GateCorrect.html" hidden></span></li>
+<li><span class="type-badge" title="definition">def</span><a href="Lax429075.Reductions.html" title="Lax429075.Reductions"><code>Lax429075.Reductions</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-429075/Lax429075.Reductions.html" hidden></span></li>
+<li><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><a href="Lax429075.SATEncoding.html" title="Lax429075.SATEncoding"><code>Lax429075.SATEncoding</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-429075/Lax429075.SATEncoding.html" hidden></span></li>
+<li><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><a href="Lax429075.SATHard.html" title="Lax429075.SATHard"><code>Lax429075.SATHard</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-429075/Lax429075.SATHard.html" hidden></span></li>
+<li><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><a href="Lax429075.SATinNP.html" title="Lax429075.SATinNP"><code>Lax429075.SATinNP</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-429075/Lax429075.SATinNP.html" hidden></span></li>
+<li><span class="type-badge" title="definition">def</span><a href="Lax429075.Satisfiability.html" title="Lax429075.Satisfiability"><code>Lax429075.Satisfiability</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-429075/Lax429075.Satisfiability.html" hidden></span></li>
+<li><span class="type-badge" title="definition">def</span><a href="Lax429075.Tseitin.html" title="Lax429075.Tseitin"><code>Lax429075.Tseitin</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-429075/Lax429075.Tseitin.html" hidden></span></li>
+<li><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><a href="Lax429075.TseitinCorrect.html" title="Lax429075.TseitinCorrect"><code>Lax429075.TseitinCorrect</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-429075/Lax429075.TseitinCorrect.html" hidden></span></li>
+<li><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><a href="Lax429075.VerifierCorrect.html" title="Lax429075.VerifierCorrect"><code>Lax429075.VerifierCorrect</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-429075/Lax429075.VerifierCorrect.html" hidden></span></li>
+<li><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><a href="Lax429075.VerifierTime.html" title="Lax429075.VerifierTime"><code>Lax429075.VerifierTime</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-429075/Lax429075.VerifierTime.html" hidden></span></li>
+</ul>
+<button class="concept-used-toggle" type="button" data-used-concepts-toggle aria-controls="used-concepts-list" aria-expanded="false">Show referenced concepts</button>
+<ul class="concept-list concept-used-list" id="used-concepts-list" aria-label="Concepts used from other submissions" hidden>
+<li><span class="type-badge proven" title="definition — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">def✓</span><a href="../lax-434930/Lax434930.Certificates.html" title="Lax434930.Certificates"><code>Lax434930.Certificates</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-434930/Lax434930.Certificates.html" hidden></span></li>
+<li><span class="type-badge" title="definition">def</span><a href="../lax-434930/Lax434930.NondeterministicPolynomialTime.html" title="Lax434930.NondeterministicPolynomialTime"><code>Lax434930.NondeterministicPolynomialTime</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-434930/Lax434930.NondeterministicPolynomialTime.html" hidden></span></li>
+<li><span class="type-badge" title="definition">def</span><a href="../lax-434930/Lax434930.PolynomialTime.html" title="Lax434930.PolynomialTime"><code>Lax434930.PolynomialTime</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-434930/Lax434930.PolynomialTime.html" hidden></span></li>
+<li><span class="type-badge" title="definition">def</span><a href="../lax-554803/Lax554803.MachineModels.html" title="Lax554803.MachineModels"><code>Lax554803.MachineModels</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-554803/Lax554803.MachineModels.html" hidden></span></li>
+<li><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="../lax-554803/Lax554803.ModelEquivalence.html" title="Lax554803.ModelEquivalence"><code>Lax554803.ModelEquivalence</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-554803/Lax554803.ModelEquivalence.html" hidden></span></li>
+<li><span class="type-badge" title="definition">def</span><a href="../lax-554803/Lax554803.PolynomialTime.html" title="Lax554803.PolynomialTime"><code>Lax554803.PolynomialTime</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-554803/Lax554803.PolynomialTime.html" hidden></span></li>
+</ul>
+<div class="badge-legend" aria-label="Concept badge legend"><span><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span>proven claim</span><span><span class="type-badge" title="definition">def</span>definition</span></div>
+</div>
+<h4 class="figure-title">Concept map</h4>
+<figure class="graph-figure">
+<button class="graph-expand" type="button" data-graph-expand data-graph-label="concept map" aria-expanded="false" aria-label="Open concept map in a large window" title="Open in large window"><svg class="graph-expand-open" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M2.5 6V2.5H6M10 2.5h3.5V6M13.5 10v3.5H10M6 13.5H2.5V10"/></svg><span class="graph-expand-close" aria-hidden="true">×</span></button>
+<div class="graph-toolbar"><button type="button" id="concept-expand" aria-controls="concept-dag" aria-pressed="true">Hide ancestors</button><button type="button" id="concept-descend" aria-controls="concept-dag" aria-pressed="false">Show descendants</button><output id="concept-graph-status" aria-live="polite"></output></div>
+<div id="concept-dag" class="figure-container" data-graph="concepts" data-ancestry="true"></div>
+<div class="graph-tooltip" role="tooltip" hidden></div>
+<figcaption class="graph-legend" aria-label="Concept map legend"><span><i class="legend-node fill-proven"></i>Proven claim</span><span><i class="legend-node fill-none"></i>Definition</span><span><i class="legend-node stroke-own"></i>This submission</span><span><i class="legend-node stroke-ext"></i>Other submission</span><span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B builds on A</span></figcaption>
+</figure>
+</section>
+<section class="page-section"><h3 class="section-title">Proofs</h3>
+<h4 class="figure-title">Proof network<a class="source-link" href="https://github.com/EdouardBonnet/cook-levin/tree/3481a9cc2e2693124717e398f443f8053629d730/proofs">view on GitHub</a></h4>
+<figure class="graph-figure proof-network-figure">
+<button class="graph-expand" type="button" data-graph-expand data-graph-label="proof network" aria-expanded="false" aria-label="Open proof network in a large window" title="Open in large window"><svg class="graph-expand-open" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M2.5 6V2.5H6M10 2.5h3.5V6M13.5 10v3.5H10M6 13.5H2.5V10"/></svg><span class="graph-expand-close" aria-hidden="true">×</span></button>
+<div id="proof-network" class="figure-container" data-graph="proofs"></div>
+<div class="graph-tooltip" role="tooltip" hidden></div>
+<figcaption class="graph-legend" aria-label="Proof network legend"><span class="proof-flow">assumptions <i class="legend-arrow" aria-hidden="true">→</i><i class="legend-proof-chip" aria-hidden="true">⊢</i><i class="legend-arrow" aria-hidden="true">→</i> conclusion</span><span><i class="legend-node fill-proven"></i>Proven claim</span><span><i class="legend-dock" aria-hidden="true">1</i>Statement 1, 2, … of a claim with several statements</span><span><i class="legend-node stroke-own"></i>This submission</span><span><i class="legend-node stroke-ext"></i>From another submission</span><span><i class="legend-proof-chip" aria-hidden="true">⊢</i>Proof — click to open</span></figcaption>
+</figure>
+<div class="proof-list-box">
+<ul class="proof-list">
+<li class="proof-item" id="p-Lax429075Proofs.cook_levin">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-429075/Lax429075Proofs.cook_levin.html" aria-label="Open proof Lax429075Proofs.cook_levin"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><ul><li><span class="claim-entry"><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><a href="../lax-429075/Lax429075.SATHard.html" title="Lax429075.SATHard.hardness"><code>Lax429075.SATHard</code></a></span></li>
+<li><span class="claim-entry"><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><a href="../lax-429075/Lax429075.SATinNP.html" title="Lax429075.SATinNP.membership"><code>Lax429075.SATinNP</code></a></span></li></ul></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="../lax-429075/Lax429075.CookLevin.html" title="Lax429075.CookLevin.np_complete"><code>Lax429075.CookLevin</code></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-429075/Lax429075Proofs.cook_levin.html"><code>Lax429075Proofs.cook_levin</code></a></p>
+</li>
+<li class="proof-item" id="p-Lax429075Proofs.encoding_roundtrip">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-429075/Lax429075Proofs.encoding_roundtrip.html" aria-label="Open proof Lax429075Proofs.encoding_roundtrip"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><p class="judgment-unconditional">no assumptions</p></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><a href="../lax-429075/Lax429075.EncodingCorrect.html" title="Lax429075.EncodingCorrect.roundtrip"><code>Lax429075.EncodingCorrect</code></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-429075/Lax429075Proofs.encoding_roundtrip.html"><code>Lax429075Proofs.encoding_roundtrip</code></a></p>
+</li>
+<li class="proof-item" id="p-Lax429075Proofs.finite_witness">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-429075/Lax429075Proofs.finite_witness.html" aria-label="Open proof Lax429075Proofs.finite_witness"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><p class="judgment-unconditional">no assumptions</p></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><a href="../lax-429075/Lax429075.FiniteWitness.html" title="Lax429075.FiniteWitness.bounded"><code>Lax429075.FiniteWitness</code></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-429075/Lax429075Proofs.finite_witness.html"><code>Lax429075Proofs.finite_witness</code></a></p>
+</li>
+<li class="proof-item" id="p-Lax429075Proofs.gate_correct">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-429075/Lax429075Proofs.gate_correct.html" aria-label="Open proof Lax429075Proofs.gate_correct"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><p class="judgment-unconditional">no assumptions</p></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><a href="../lax-429075/Lax429075.GateCorrect.html" title="Lax429075.GateCorrect.correct"><code>Lax429075.GateCorrect</code></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-429075/Lax429075Proofs.gate_correct.html"><code>Lax429075Proofs.gate_correct</code></a></p>
+</li>
+<li class="proof-item" id="p-Lax429075Proofs.sat_encoding">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-429075/Lax429075Proofs.sat_encoding.html" aria-label="Open proof Lax429075Proofs.sat_encoding"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><ul><li><span class="claim-entry"><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><a href="../lax-429075/Lax429075.EncodingCorrect.html" title="Lax429075.EncodingCorrect.roundtrip"><code>Lax429075.EncodingCorrect</code></a></span></li></ul></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><a href="../lax-429075/Lax429075.SATEncoding.html" title="Lax429075.SATEncoding.correct"><code>Lax429075.SATEncoding</code></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-429075/Lax429075Proofs.sat_encoding.html"><code>Lax429075Proofs.sat_encoding</code></a></p>
+</li>
+<li class="proof-item" id="p-Lax429075Proofs.sat_hard">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-429075/Lax429075Proofs.sat_hard.html" aria-label="Open proof Lax429075Proofs.sat_hard"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><ul><li><span class="claim-entry"><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><a href="../lax-429075/Lax429075.CircuitMachine.html" title="Lax429075.CircuitMachine.compile"><code>Lax429075.CircuitMachine</code></a></span></li>
+<li><span class="claim-entry"><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><a href="../lax-429075/Lax429075.SATEncoding.html" title="Lax429075.SATEncoding.correct"><code>Lax429075.SATEncoding</code></a></span></li>
+<li><span class="claim-entry"><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><a href="../lax-429075/Lax429075.TseitinCorrect.html" title="Lax429075.TseitinCorrect.correct"><code>Lax429075.TseitinCorrect</code></a></span></li></ul></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><a href="../lax-429075/Lax429075.SATHard.html" title="Lax429075.SATHard.hardness"><code>Lax429075.SATHard</code></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-429075/Lax429075Proofs.sat_hard.html"><code>Lax429075Proofs.sat_hard</code></a></p>
+</li>
+<li class="proof-item" id="p-Lax429075Proofs.sat_in_np">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-429075/Lax429075Proofs.sat_in_np.html" aria-label="Open proof Lax429075Proofs.sat_in_np"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><ul><li><span class="claim-entry"><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><a href="../lax-429075/Lax429075.VerifierCorrect.html" title="Lax429075.VerifierCorrect.correct"><code>Lax429075.VerifierCorrect</code></a></span></li>
+<li><span class="claim-entry"><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><a href="../lax-429075/Lax429075.VerifierTime.html" title="Lax429075.VerifierTime.polynomial"><code>Lax429075.VerifierTime</code></a></span></li></ul></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><a href="../lax-429075/Lax429075.SATinNP.html" title="Lax429075.SATinNP.membership"><code>Lax429075.SATinNP</code></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-429075/Lax429075Proofs.sat_in_np.html"><code>Lax429075Proofs.sat_in_np</code></a></p>
+</li>
+<li class="proof-item" id="p-Lax429075Proofs.Streaming.circuit_machine">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-429075/Lax429075Proofs.Streaming.circuit_machine.html" aria-label="Open proof Lax429075Proofs.Streaming.circuit_machine"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><ul><li><span class="claim-entry"><span class="type-badge proven" title="definition — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">def✓</span><a href="../lax-434930/Lax434930.Certificates.html" title="Lax434930.Certificates"><code>Lax434930.Certificates</code></a></span></li>
+<li><span class="claim-entry"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="../lax-554803/Lax554803.ModelEquivalence.html" title="Lax554803.ModelEquivalence.singleTapeP_eq_P"><code>Lax554803.ModelEquivalence</code></a></span></li></ul></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><a href="../lax-429075/Lax429075.CircuitMachine.html" title="Lax429075.CircuitMachine.compile"><code>Lax429075.CircuitMachine</code></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-429075/Lax429075Proofs.Streaming.circuit_machine.html"><code>Lax429075Proofs.Streaming.circuit_machine</code></a></p>
+</li>
+<li class="proof-item" id="p-Lax429075Proofs.tseitin_correct">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-429075/Lax429075Proofs.tseitin_correct.html" aria-label="Open proof Lax429075Proofs.tseitin_correct"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><ul><li><span class="claim-entry"><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><a href="../lax-429075/Lax429075.GateCorrect.html" title="Lax429075.GateCorrect.correct"><code>Lax429075.GateCorrect</code></a></span></li></ul></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><a href="../lax-429075/Lax429075.TseitinCorrect.html" title="Lax429075.TseitinCorrect.correct"><code>Lax429075.TseitinCorrect</code></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-429075/Lax429075Proofs.tseitin_correct.html"><code>Lax429075Proofs.tseitin_correct</code></a></p>
+</li>
+<li class="proof-item" id="p-Lax429075Proofs.verifier_correct">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-429075/Lax429075Proofs.verifier_correct.html" aria-label="Open proof Lax429075Proofs.verifier_correct"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><ul><li><span class="claim-entry"><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><a href="../lax-429075/Lax429075.FiniteWitness.html" title="Lax429075.FiniteWitness.bounded"><code>Lax429075.FiniteWitness</code></a></span></li>
+<li><span class="claim-entry"><span class="type-badge proven" title="definition — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">def✓</span><a href="../lax-434930/Lax434930.Certificates.html" title="Lax434930.Certificates"><code>Lax434930.Certificates</code></a></span></li></ul></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><a href="../lax-429075/Lax429075.VerifierCorrect.html" title="Lax429075.VerifierCorrect.correct"><code>Lax429075.VerifierCorrect</code></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-429075/Lax429075Proofs.verifier_correct.html"><code>Lax429075Proofs.verifier_correct</code></a></p>
+</li>
+<li class="proof-item" id="p-Lax429075Proofs.verifier_polynomial">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-429075/Lax429075Proofs.verifier_polynomial.html" aria-label="Open proof Lax429075Proofs.verifier_polynomial"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><p class="judgment-unconditional">no assumptions</p></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><a href="../lax-429075/Lax429075.VerifierTime.html" title="Lax429075.VerifierTime.polynomial"><code>Lax429075.VerifierTime</code></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-429075/Lax429075Proofs.verifier_polynomial.html"><code>Lax429075Proofs.verifier_polynomial</code></a></p>
+</li>
+</ul>
+<p class="proof-list-source">Lean sources for these proofs: <a class="source-link" href="https://github.com/EdouardBonnet/cook-levin/tree/3481a9cc2e2693124717e398f443f8053629d730/proofs">proofs/ on GitHub</a></p>
+</div>
+<p class="honesty-note">Proof code is not displayed; the archive records each proof's checked relationship between claims.</p>
+</section>
+<section class="page-section"><h3 class="section-title">Related submissions</h3>
+<h4 class="figure-title">Submission map</h4>
+<figure class="graph-figure">
+<div id="submission-dag" class="figure-container" data-graph="submissions"></div>
+<div class="graph-tooltip" role="tooltip" hidden></div>
+<figcaption class="graph-legend" aria-label="Submission map legend"><span><i class="legend-node stroke-own"></i>This submission</span><span><i class="legend-node stroke-ext"></i>Other submission</span><span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B's concepts build on A</span><span><i class="legend-arrow proof-dep" aria-hidden="true">→</i>A → B: only B's proofs build on A</span></figcaption>
+</figure>
+</section>
+<section class="page-section"><h3 class="section-title" id="citation">Cite this</h3>
+<div class="citation-box">
+<pre class="citation" id="submission-citation">@misc{lax-429075,
+  author = {Édouard Bonnet and gpt-6-astra},
+  title = {The Cook–Levin Theorem},
+  year = {2026},
+  howpublished = {Lax Archive, lax-429075},
+  url = {https://laxarchive.org/lax-429075/},
+  note = {draft},
+}</pre>
+<button class="citation-copy" type="button" data-copy-citation aria-controls="submission-citation" aria-label="Copy BibTeX to clipboard" title="Copy BibTeX"><span class="citation-copy-icon" aria-hidden="true"></span></button>
+<output class="citation-copy-status" aria-live="polite"></output>
+</div>
+</section>
+<section class="page-section"><h3 class="section-title">References</h3>
+<ol class="reference-list">
+<li id="ref-Cook1971">Stephen A. Cook. <span class="reference-title">The Complexity of Theorem-Proving Procedures</span>. In Proceedings of the Third Annual ACM Symposium on Theory of Computing 151–158, 1971. <a href="https://doi.org/10.1145/800157.805047">doi:10.1145/800157.805047</a></li>
+<li id="ref-Levin1973">Leonid A. Levin. <span class="reference-title">Universal Sequential Search Problems</span>. Problems of Information Transmission 9(3):265–266, 1973. <a href="https://www.mathnet.ru/eng/ppi914">mathnet.ru/eng/ppi914</a></li>
+</ol>
+</section>
+<section class="page-section discussion-section" aria-labelledby="discussion-title">
+<div class="discussion-heading">
+<div class="discussion-heading-copy">
+<p class="discussion-eyebrow">Community review</p>
+<h3 class="section-title" id="discussion-title">Discussion</h3>
+<p>Ask a question or add context. Endorsements and structured flags are kept in the review panel above; your ORCID profile must share a public name.</p>
+</div>
+<p class="discussion-count"><span class="remark42__counter" data-url="https://laxarchive.org/lax-429075/">0</span> <span>comments</span></p>
+</div>
+<div class="discussion-embed-shell">
+<p class="discussion-loading" id="remark42-status" role="status"><span class="discussion-loading-mark" aria-hidden="true"></span>Loading discussion…</p>
+<div id="remark42" data-remark42-host="https://comments.laxarchive.org" data-remark42-site="remark" data-remark42-url="https://laxarchive.org/lax-429075/"></div>
+</div>
+<noscript><p class="discussion-unavailable">Enable JavaScript to read or join the discussion.</p></noscript>
+</section>
+<script type="application/json" id="graph-data">{"concepts":{"nodes":[{"id":"Lax429075.CNF","href":"../lax-429075/Lax429075.CNF.html","title":"Conjunctive normal form","owner":"lax-429075","status":"none","ext":false,"dir":"core"},{"id":"Lax429075.CircuitMachine","href":"../lax-429075/Lax429075.CircuitMachine.html","title":"Polynomial circuit simulation of a verifier","owner":"lax-429075","status":"proven","ext":false,"dir":"core"},{"id":"Lax429075.Circuits","href":"../lax-429075/Lax429075.Circuits.html","title":"Boolean circuits","owner":"lax-429075","status":"none","ext":false,"dir":"core"},{"id":"Lax429075.CookLevin","href":"../lax-429075/Lax429075.CookLevin.html","title":"The Cook–Levin theorem","owner":"lax-429075","status":"proven","ext":false,"dir":"core"},{"id":"Lax429075.Encoding","href":"../lax-429075/Lax429075.Encoding.html","title":"Binary encoding of CNF formulas","owner":"lax-429075","status":"none","ext":false,"dir":"core"},{"id":"Lax429075.EncodingCorrect","href":"../lax-429075/Lax429075.EncodingCorrect.html","title":"Decoding an encoded formula","owner":"lax-429075","status":"proven","ext":false,"dir":"core"},{"id":"Lax429075.FiniteWitness","href":"../lax-429075/Lax429075.FiniteWitness.html","title":"A bounded satisfying assignment","owner":"lax-429075","status":"proven","ext":false,"dir":"core"},{"id":"Lax429075.GateCorrect","href":"../lax-429075/Lax429075.GateCorrect.html","title":"Correctness of gate clauses","owner":"lax-429075","status":"proven","ext":false,"dir":"core"},{"id":"Lax429075.Reductions","href":"../lax-429075/Lax429075.Reductions.html","title":"Polynomial many-one reductions and NP-completeness","owner":"lax-429075","status":"none","ext":false,"dir":"core"},{"id":"Lax429075.SATEncoding","href":"../lax-429075/Lax429075.SATEncoding.html","title":"Satisfiability and binary encodings","owner":"lax-429075","status":"proven","ext":false,"dir":"core"},{"id":"Lax429075.SATHard","href":"../lax-429075/Lax429075.SATHard.html","title":"NP-hardness of SAT","owner":"lax-429075","status":"proven","ext":false,"dir":"core"},{"id":"Lax429075.SATinNP","href":"../lax-429075/Lax429075.SATinNP.html","title":"SAT belongs to NP","owner":"lax-429075","status":"proven","ext":false,"dir":"core"},{"id":"Lax429075.Satisfiability","href":"../lax-429075/Lax429075.Satisfiability.html","title":"The satisfiability language and verifier","owner":"lax-429075","status":"none","ext":false,"dir":"core"},{"id":"Lax429075.Tseitin","href":"../lax-429075/Lax429075.Tseitin.html","title":"Gate clauses","owner":"lax-429075","status":"none","ext":false,"dir":"core"},{"id":"Lax429075.TseitinCorrect","href":"../lax-429075/Lax429075.TseitinCorrect.html","title":"Correctness of the circuit encoding","owner":"lax-429075","status":"proven","ext":false,"dir":"core"},{"id":"Lax429075.VerifierCorrect","href":"../lax-429075/Lax429075.VerifierCorrect.html","title":"Correctness of the SAT verifier","owner":"lax-429075","status":"proven","ext":false,"dir":"core"},{"id":"Lax429075.VerifierTime","href":"../lax-429075/Lax429075.VerifierTime.html","title":"Polynomial time for CNF verification","owner":"lax-429075","status":"proven","ext":false,"dir":"core"},{"id":"Lax434930.Certificates","href":"../lax-434930/Lax434930.Certificates.html","title":"Binary encoding of an input and a certificate","owner":"lax-434930","status":"proven","ext":true,"dir":"up"},{"id":"Lax434930.NondeterministicPolynomialTime","href":"../lax-434930/Lax434930.NondeterministicPolynomialTime.html","title":"The complexity class NP","owner":"lax-434930","status":"none","ext":true,"dir":"up"},{"id":"Lax434930.PolynomialTime","href":"../lax-434930/Lax434930.PolynomialTime.html","title":"The complexity class P","owner":"lax-434930","status":"none","ext":true,"dir":"up"},{"id":"Lax554803.PolynomialTime","href":"../lax-554803/Lax554803.PolynomialTime.html","title":"The complexity class P","owner":"lax-554803","status":"none","ext":true,"dir":"up"}],"edges":[{"from":"Lax434930.PolynomialTime","to":"Lax429075.CNF"},{"from":"Lax429075.Encoding","to":"Lax429075.CircuitMachine"},{"from":"Lax429075.Tseitin","to":"Lax429075.CircuitMachine"},{"from":"Lax434930.NondeterministicPolynomialTime","to":"Lax429075.CircuitMachine"},{"from":"Lax429075.CNF","to":"Lax429075.Circuits"},{"from":"Lax429075.Reductions","to":"Lax429075.CookLevin"},{"from":"Lax429075.Satisfiability","to":"Lax429075.CookLevin"},{"from":"Lax429075.CNF","to":"Lax429075.Encoding"},{"from":"Lax429075.Encoding","to":"Lax429075.EncodingCorrect"},{"from":"Lax429075.Satisfiability","to":"Lax429075.FiniteWitness"},{"from":"Lax429075.Tseitin","to":"Lax429075.GateCorrect"},{"from":"Lax434930.NondeterministicPolynomialTime","to":"Lax429075.Reductions"},{"from":"Lax429075.Satisfiability","to":"Lax429075.SATEncoding"},{"from":"Lax429075.Reductions","to":"Lax429075.SATHard"},{"from":"Lax429075.Satisfiability","to":"Lax429075.SATHard"},{"from":"Lax429075.Satisfiability","to":"Lax429075.SATinNP"},{"from":"Lax434930.NondeterministicPolynomialTime","to":"Lax429075.SATinNP"},{"from":"Lax429075.Encoding","to":"Lax429075.Satisfiability"},{"from":"Lax434930.Certificates","to":"Lax429075.Satisfiability"},{"from":"Lax429075.Circuits","to":"Lax429075.Tseitin"},{"from":"Lax429075.Tseitin","to":"Lax429075.TseitinCorrect"},{"from":"Lax429075.Satisfiability","to":"Lax429075.VerifierCorrect"},{"from":"Lax429075.Satisfiability","to":"Lax429075.VerifierTime"},{"from":"Lax434930.PolynomialTime","to":"Lax434930.Certificates"},{"from":"Lax434930.Certificates","to":"Lax434930.NondeterministicPolynomialTime"},{"from":"Lax554803.PolynomialTime","to":"Lax434930.PolynomialTime"}],"home":"lax-429075"},"proofs":{"statements":[{"id":"Lax429075.CircuitMachine.compile","label":"Lax429075.CircuitMachine","title":"Polynomial circuit simulation of a verifier","owner":"lax-429075","concept":"Lax429075.CircuitMachine","index":1,"count":1,"href":"../lax-429075/Lax429075.CircuitMachine.html#s-Lax429075.CircuitMachine.compile","proven":true,"ext":false},{"id":"Lax429075.CookLevin.np_complete","label":"Lax429075.CookLevin","title":"The Cook–Levin theorem","owner":"lax-429075","concept":"Lax429075.CookLevin","index":1,"count":1,"href":"../lax-429075/Lax429075.CookLevin.html#s-Lax429075.CookLevin.np_complete","proven":true,"ext":false},{"id":"Lax429075.EncodingCorrect.roundtrip","label":"Lax429075.EncodingCorrect","title":"Decoding an encoded formula","owner":"lax-429075","concept":"Lax429075.EncodingCorrect","index":1,"count":1,"href":"../lax-429075/Lax429075.EncodingCorrect.html#s-Lax429075.EncodingCorrect.roundtrip","proven":true,"ext":false},{"id":"Lax429075.FiniteWitness.bounded","label":"Lax429075.FiniteWitness","title":"A bounded satisfying assignment","owner":"lax-429075","concept":"Lax429075.FiniteWitness","index":1,"count":1,"href":"../lax-429075/Lax429075.FiniteWitness.html#s-Lax429075.FiniteWitness.bounded","proven":true,"ext":false},{"id":"Lax429075.GateCorrect.correct","label":"Lax429075.GateCorrect","title":"Correctness of gate clauses","owner":"lax-429075","concept":"Lax429075.GateCorrect","index":1,"count":1,"href":"../lax-429075/Lax429075.GateCorrect.html#s-Lax429075.GateCorrect.correct","proven":true,"ext":false},{"id":"Lax429075.SATEncoding.correct","label":"Lax429075.SATEncoding","title":"Satisfiability and binary encodings","owner":"lax-429075","concept":"Lax429075.SATEncoding","index":1,"count":1,"href":"../lax-429075/Lax429075.SATEncoding.html#s-Lax429075.SATEncoding.correct","proven":true,"ext":false},{"id":"Lax429075.SATHard.hardness","label":"Lax429075.SATHard","title":"NP-hardness of SAT","owner":"lax-429075","concept":"Lax429075.SATHard","index":1,"count":1,"href":"../lax-429075/Lax429075.SATHard.html#s-Lax429075.SATHard.hardness","proven":true,"ext":false},{"id":"Lax429075.SATinNP.membership","label":"Lax429075.SATinNP","title":"SAT belongs to NP","owner":"lax-429075","concept":"Lax429075.SATinNP","index":1,"count":1,"href":"../lax-429075/Lax429075.SATinNP.html#s-Lax429075.SATinNP.membership","proven":true,"ext":false},{"id":"Lax429075.TseitinCorrect.correct","label":"Lax429075.TseitinCorrect","title":"Correctness of the circuit encoding","owner":"lax-429075","concept":"Lax429075.TseitinCorrect","index":1,"count":1,"href":"../lax-429075/Lax429075.TseitinCorrect.html#s-Lax429075.TseitinCorrect.correct","proven":true,"ext":false},{"id":"Lax429075.VerifierCorrect.correct","label":"Lax429075.VerifierCorrect","title":"Correctness of the SAT verifier","owner":"lax-429075","concept":"Lax429075.VerifierCorrect","index":1,"count":1,"href":"../lax-429075/Lax429075.VerifierCorrect.html#s-Lax429075.VerifierCorrect.correct","proven":true,"ext":false},{"id":"Lax429075.VerifierTime.polynomial","label":"Lax429075.VerifierTime","title":"Polynomial time for CNF verification","owner":"lax-429075","concept":"Lax429075.VerifierTime","index":1,"count":1,"href":"../lax-429075/Lax429075.VerifierTime.html#s-Lax429075.VerifierTime.polynomial","proven":true,"ext":false},{"id":"Lax434930.Certificates.pair_injective","label":"Lax434930.Certificates","title":"Binary encoding of an input and a certificate","owner":"lax-434930","concept":"Lax434930.Certificates","index":1,"count":3,"href":"../lax-434930/Lax434930.Certificates.html#s-Lax434930.Certificates.pair_injective","proven":true,"ext":true},{"id":"Lax434930.Certificates.pair_length","label":"Lax434930.Certificates","title":"Binary encoding of an input and a certificate","owner":"lax-434930","concept":"Lax434930.Certificates","index":2,"count":3,"href":"../lax-434930/Lax434930.Certificates.html#s-Lax434930.Certificates.pair_length","proven":true,"ext":true},{"id":"Lax434930.Certificates.unpair_pair","label":"Lax434930.Certificates","title":"Binary encoding of an input and a certificate","owner":"lax-434930","concept":"Lax434930.Certificates","index":3,"count":3,"href":"../lax-434930/Lax434930.Certificates.html#s-Lax434930.Certificates.unpair_pair","proven":true,"ext":true},{"id":"Lax554803.ModelEquivalence.singleTapeP_eq_P","label":"Lax554803.ModelEquivalence","title":"Single-tape characterization of P","owner":"lax-554803","concept":"Lax554803.ModelEquivalence","index":1,"count":1,"href":"../lax-554803/Lax554803.ModelEquivalence.html#s-Lax554803.ModelEquivalence.singleTapeP_eq_P","proven":true,"ext":true}],"proofs":[{"id":"Lax429075Proofs.cook_levin","assumptions":["Lax429075.SATHard.hardness","Lax429075.SATinNP.membership"],"conclusion":"Lax429075.CookLevin.np_complete","description":"Combine membership in NP with polynomial many-one hardness.","owner":"lax-429075","ext":false,"href":"../lax-429075/Lax429075Proofs.cook_levin.html","assumptionsProven":true,"outstanding":0},{"id":"Lax429075Proofs.encoding_roundtrip","assumptions":[],"conclusion":"Lax429075.EncodingCorrect.roundtrip","description":"Decode unary indices, then literals, clauses, and the outer list.","owner":"lax-429075","ext":false,"href":"../lax-429075/Lax429075Proofs.encoding_roundtrip.html","assumptionsProven":true,"outstanding":0},{"id":"Lax429075Proofs.finite_witness","assumptions":[],"conclusion":"Lax429075.FiniteWitness.bounded","description":"Restrict a satisfying assignment to the input-length prefix containing every variable.","owner":"lax-429075","ext":false,"href":"../lax-429075/Lax429075Proofs.finite_witness.html","assumptionsProven":true,"outstanding":0},{"id":"Lax429075Proofs.gate_correct","assumptions":[],"conclusion":"Lax429075.GateCorrect.correct","description":"Check the finite truth tables of the five gate forms.","owner":"lax-429075","ext":false,"href":"../lax-429075/Lax429075Proofs.gate_correct.html","assumptionsProven":true,"outstanding":0},{"id":"Lax429075Proofs.sat_encoding","assumptions":["Lax429075.EncodingCorrect.roundtrip"],"conclusion":"Lax429075.SATEncoding.correct","description":"The decoder's left-inverse property makes the binary encoding injective.","owner":"lax-429075","ext":false,"href":"../lax-429075/Lax429075Proofs.sat_encoding.html","assumptionsProven":true,"outstanding":0},{"id":"Lax429075Proofs.sat_hard","assumptions":["Lax429075.CircuitMachine.compile","Lax429075.SATEncoding.correct","Lax429075.TseitinCorrect.correct"],"conclusion":"Lax429075.SATHard.hardness","description":"Compile the verifier, impose the gate clauses, and encode the resulting formula.","owner":"lax-429075","ext":false,"href":"../lax-429075/Lax429075Proofs.sat_hard.html","assumptionsProven":true,"outstanding":0},{"id":"Lax429075Proofs.sat_in_np","assumptions":["Lax429075.VerifierCorrect.correct","Lax429075.VerifierTime.polynomial"],"conclusion":"Lax429075.SATinNP.membership","description":"Use the identity polynomial as the certificate-length bound.","owner":"lax-429075","ext":false,"href":"../lax-429075/Lax429075Proofs.sat_in_np.html","assumptionsProven":true,"outstanding":0},{"id":"Lax429075Proofs.Streaming.circuit_machine","assumptions":["Lax434930.Certificates.pair_length","Lax554803.ModelEquivalence.singleTapeP_eq_P"],"conclusion":"Lax429075.CircuitMachine.compile","description":"Unroll the bounded verifier and emit its gate clauses with polynomially bounded loops.","owner":"lax-429075","ext":false,"href":"../lax-429075/Lax429075Proofs.Streaming.circuit_machine.html","assumptionsProven":true,"outstanding":0},{"id":"Lax429075Proofs.tseitin_correct","assumptions":["Lax429075.GateCorrect.correct"],"conclusion":"Lax429075.TseitinCorrect.correct","description":"Conjoin the gate equivalences with the unit output clause.","owner":"lax-429075","ext":false,"href":"../lax-429075/Lax429075Proofs.tseitin_correct.html","assumptionsProven":true,"outstanding":0},{"id":"Lax429075Proofs.verifier_correct","assumptions":["Lax429075.FiniteWitness.bounded","Lax434930.Certificates.pair_injective"],"conclusion":"Lax429075.VerifierCorrect.correct","description":"Use the bounded assignment and the injective encoding of input-certificate pairs.","owner":"lax-429075","ext":false,"href":"../lax-429075/Lax429075Proofs.verifier_correct.html","assumptionsProven":true,"outstanding":0},{"id":"Lax429075Proofs.verifier_polynomial","assumptions":[],"conclusion":"Lax429075.VerifierTime.polynomial","description":"Decode the pair, evaluate the formula against the certificate, and clear the\nwork stacks. The finite stack program takes at most $100(n+1)^4$ steps on\nevery input, including malformed encodings.","owner":"lax-429075","ext":false,"href":"../lax-429075/Lax429075Proofs.verifier_polynomial.html","assumptionsProven":true,"outstanding":0}],"home":"lax-429075"},"submissions":{"nodes":[{"id":"lax-429075","href":"../lax-429075/index.html","title":"The Cook–Levin Theorem","state":"draft","concepts":17,"proofs":11,"dir":"core","ext":false},{"id":"lax-434930","href":"../lax-434930/index.html","title":"Classical Complexity Classes","state":"draft","concepts":12,"proofs":10,"dir":"up","ext":true},{"id":"lax-554803","href":"../lax-554803/index.html","title":"Polynomial Time and Closure under Complement","state":"draft","concepts":6,"proofs":4,"dir":"up","ext":true},{"id":"lax-979537","href":"../lax-979537/index.html","title":"The Immerman–Vardi theorem","state":"draft","concepts":8,"proofs":9,"dir":"up","ext":true}],"edges":[{"from":"lax-434930","to":"lax-429075","kind":"concepts"},{"from":"lax-554803","to":"lax-429075","kind":"concepts"},{"from":"lax-979537","to":"lax-429075","kind":"proofs"},{"from":"lax-554803","to":"lax-434930","kind":"concepts"}]}}</script>
+</div>
+<footer class="site-footer">
+  <nav class="site-footer-nav" aria-label="Legal and about">
+    <a class="site-footer-link" href="../impressum.html">Imprint</a>
+    <a class="site-footer-link" href="../privacy.html">Privacy</a>
+    <a class="site-footer-link" href="../assets/lax-white-paper.pdf">About</a>
+  </nav>
+</footer>
+</section>
+</main>
+<dialog class="account-dialog" id="account-dialog" aria-labelledby="account-dialog-title">
+<div class="account-dialog-inner">
+<header class="account-dialog-header">
+<div><p class="account-dialog-eyebrow">ORCID account</p><h2 id="account-dialog-title">Settings</h2></div>
+<button class="account-dialog-close" data-account-close type="button" aria-label="Close account settings">×</button>
+</header>
+<div class="account-dialog-body">
+<p class="account-status" data-account-status role="status">Checking your ORCID session…</p>
+<section data-account-content hidden>
+<div class="account-identity">
+<span class="account-avatar" data-account-avatar aria-hidden="true">iD</span>
+<div><a class="account-name" data-account-name target="_blank" rel="noopener noreferrer"></a><p class="account-id" data-account-id></p></div>
+</div>
+<p class="account-name-note">Your public name comes from ORCID. ORCID names are self-asserted and may change.</p>
+<div class="account-actions">
+<a data-account-refresh href="https://comments.laxarchive.org/auth/orcid/login?from=https%3A%2F%2Flaxarchive.org&amp;site=remark">Refresh from ORCID</a>
+<button data-account-logout type="button">Sign out</button>
+</div>
+<div class="account-comments-heading"><h3>Your comments</h3><span data-account-comment-count></span></div>
+<ol class="account-comments" data-account-comments></ol>
+<p class="account-comments-status" data-account-comments-status role="status"></p>
+</section>
+</div>
+</div>
+</dialog>
+<script src="../assets/sidebar.js?v=b1e289522120"></script>
+<script src="../assets/account.js?v=e3db2efa7b34"></script>
+<script src="../assets/layout.js?v=41e28199b546"></script>
+<script src="../assets/dag.js?v=0d34983dc6ac"></script>
+<script src="../assets/citation.js?v=dd5ce19082ad"></script>
+<script src="../assets/version-history.js?v=a36e868140dd"></script>
+<script src="../assets/comments.js?v=936ec0d73bed"></script>
+</body></html>
