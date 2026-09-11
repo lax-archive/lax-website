@@ -33,6 +33,9 @@ describe("footer and legal pages", () => {
     expect(about).toContain('<figure class="content-figure"><img src="assets/concept-proof.svg"');
     expect(about).toContain("<figcaption>Left: a concept file");
     expect(about).not.toContain("Placeholder");
+    // no sidebar on a page that is not about a submission, and no toggle to summon one
+    expect(about).toContain('<header class="site-header sidebar-hidden">');
+    expect(about).not.toContain('id="sidebar-toggle"');
     // Without the introduction in the archive the header names only the about page.
     expect(about).not.toContain('>Introduction</a>');
     expect(impressum).toContain("Service providers");

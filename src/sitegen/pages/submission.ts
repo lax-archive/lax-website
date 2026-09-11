@@ -81,6 +81,7 @@ ${discussion(`${record.id}/`)}`;
       title: `${record.id} — Lax`,
       rootRel: "../",
       sidebar,
+      sidebarState: "open",
       content,
       scripts: ["assets/version-history.js", "assets/comments.js"],
     });
@@ -179,6 +180,7 @@ ${graphDataScript(graphs)}`;
     title: `${output.manifest.title} — ${record.id}`,
     rootRel: "../",
     sidebar,
+    sidebarState: "open",
     content,
     scripts: ["assets/layout.js", "assets/dag.js", "assets/citation.js", "assets/version-history.js", "assets/comments.js"],
   });

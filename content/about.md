@@ -71,8 +71,6 @@ The archive's code, metadata, the submissions, and the generated artifacts are a
 
 - [An Introduction to Lax](lax-242665/paper.html), itself a Lax submission,
   walks through concepts, proofs, and papers on a running example.
-- [Getting started](contributing.html) explains what happens at each step of
-  a submission.
 - The [FAQ](index.html#faq) answers the questions we are asked most.
 
 ## Who we are

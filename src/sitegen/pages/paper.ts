@@ -336,6 +336,7 @@ ${body}
     title: `${options.printed ? "Paper as printed" : "Paper"} — ${home}`,
     rootRel: "../",
     sidebar: submissionSidebar(ctx.model, submission, "../", { backToSubmission: true }),
+    sidebarState: "collapsed",
     content,
     detailClass: "detail-manuscript",
     scripts,

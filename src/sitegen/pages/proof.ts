@@ -62,6 +62,7 @@ ${sections}`;
     title: `${proof.id} — ${output.id}`,
     rootRel: "../",
     sidebar: submissionSidebar(ctx.model, submission, "../", { activeId: proof.id }),
+    sidebarState: "open",
     content,
     scripts: ["assets/version-history.js"],
   });
