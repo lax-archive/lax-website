@@ -1165,7 +1165,8 @@ a.submission-meta-id:is(:hover, :focus-visible),
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
 }
 
-.block h3{
+.block h3,
+.block-details > summary{
   font-size: 0.85rem;
   font-weight: 700;
   font-variant: small-caps;
@@ -1173,6 +1174,11 @@ a.submission-meta-id:is(:hover, :focus-visible),
   margin-bottom: 0.7rem;
   letter-spacing: 0.05em;
 }
+
+.block-details:not([open]) > summary{ margin-bottom: 0; }
+.block-details > summary{ cursor: pointer; }
+.block-details > summary:hover{ color: var(--link); }
+.block-details > summary:focus-visible{ outline: 2px solid rgba(59, 107, 154, 0.35); outline-offset: 3px; }
 
 .block-statement .latex-content{ font-style: italic; }
 
@@ -2675,6 +2681,12 @@ a.submission-meta-id:is(:hover, :focus-visible),
   gap: 0;
 }
 
+.concept-list + .concept-list{
+  margin-top: 0.35rem;
+  padding-top: 0.7rem;
+  border-top: 1px solid var(--border-light);
+}
+
 .concept-used-list{
   padding-top: 0.2rem;
   border-top: 1px solid var(--border-light);
@@ -2701,22 +2713,6 @@ a.submission-meta-id:is(:hover, :focus-visible),
 
 .concept-used-toggle:hover{ color: var(--link); text-decoration-color: currentColor; }
 .concept-used-toggle:focus-visible{ outline: 2px solid rgba(59, 107, 154, 0.35); outline-offset: 2px; }
-
-/* The badge legend: a quiet footer row shaped like the graph-figure
-   legends — smaller than the list it explains, never competing with it. */
-.badge-legend{
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.35rem 0.9rem;
-  padding: 0.32rem 0.7rem;
-  border-top: 1px solid var(--border-light);
-  color: var(--text-dim);
-  font-size: 0.66rem;
-}
-
-.badge-legend > span{ display: inline-flex; align-items: center; gap: 0.3rem; }
-.badge-legend .type-badge{ margin-right: 0; font-size: 0.52rem; padding: 0.5px 3px; }
 
 .concept-list li{
   display: flex;
@@ -3368,6 +3364,8 @@ a.submission-meta-id:is(:hover, :focus-visible),
   white-space: nowrap;
 }
 
+.discussion-count[hidden]{ display: none; }
+
 .discussion-count .remark42__counter{
   color: var(--text);
   font-weight: 700;
@@ -3533,7 +3531,8 @@ body.graph-window-open::after{
 
 /* Figure headings live in the text flow above the box, styled like the
    block headings — the box itself carries only content and controls. */
-.figure-title{
+.figure-title,
+.figure-details > summary{
   font-size: 0.85rem;
   font-weight: 700;
   font-variant: small-caps;
@@ -3541,6 +3540,11 @@ body.graph-window-open::after{
   color: var(--text-dim);
   margin: 1.1rem 0 0.4rem;
 }
+
+.figure-details{ margin-bottom: 1rem; }
+.figure-details > summary{ cursor: pointer; }
+.figure-details > summary:hover{ color: var(--link); }
+.figure-details > summary:focus-visible{ outline: 2px solid rgba(59, 107, 154, 0.35); outline-offset: 3px; }
 
 .graph-toolbar button{
   border: 1px solid var(--border);
@@ -3574,6 +3578,7 @@ body.graph-window-open::after{
   min-height: 38px;
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-evenly;
   align-items: center;
   gap: 0.45rem 1rem;
   padding: 0.45rem 0.7rem;
@@ -3604,6 +3609,19 @@ body.graph-window-open::after{
 .legend-node.stroke-ext{ border-color: var(--none-border); background: var(--surface); }
 .legend-arrow{ color: var(--text-dim); font-family: var(--mono); font-size: 0.9rem; font-style: normal; line-height: 1; }
 .legend-arrow.proof-dep{ color: var(--proof-dep); }
+.legend-assumptions{
+  width: 14px;
+  height: 24px;
+  flex: 0 0 auto;
+}
+.legend-flow-arrow{ width: 12px; height: 8px; flex: 0 0 auto; }
+.proof-flow svg{
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
 .legend-proof-chip{
   display: inline-flex;
   align-items: center;
@@ -3655,6 +3673,29 @@ body.graph-window-open::after{
 }
 
 .graph-tooltip[hidden]{ display: none; }
+
+.proof-network-figure .graph-tooltip{
+  width: max-content;
+  background: rgb(248, 250, 252);
+  font-family: 'Latin Modern', Georgia, serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.proof-network-figure.graph-expanded .graph-tooltip{
+  background: rgba(248, 250, 252, 0.7);
+}
+
+.proof-network-figure:not(.graph-expanded) .graph-tooltip{
+  position: fixed;
+  z-index: 200;
+}
+
+.proof-network-figure .graph-tooltip .katex{ font-weight: inherit; }
+
+.proof-network-figure .graph-tooltip .katex-display{
+  margin: 0.45rem 0;
+}
 
 /* Graph nodes, both figures: fill = status, stroke = origin. */
 

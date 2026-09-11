@@ -7,7 +7,7 @@
 <title>Aperiodic Mealy machines are compositions of flip-flops</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=dac430f58d9e">
+<link rel="stylesheet" href="../assets/style.css?v=5ce2669d8214">
 </head><body>
 <header class="site-header with-sidebar">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="true" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -126,7 +126,8 @@
 </dialog>
 <noscript><p class="page-reactions-noscript"><a href="https://comments.laxarchive.org/auth/orcid/login?site=remark&amp;from=https%3A%2F%2Flaxarchive.org%2Flax-765601%2FLax765601.FlipFlopsOfAperiodic.html">Sign in with ORCID</a> to review this page.</p></noscript>
 </section>
-<h4 class="figure-title">Concept map</h4>
+<details class="figure-details">
+<summary>Concept map</summary>
 <figure class="graph-figure concept-root-graph">
 <button class="graph-expand" type="button" data-graph-expand data-graph-label="concept map" aria-expanded="false" aria-label="Open concept map in a large window" title="Open in large window"><svg class="graph-expand-open" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M2.5 6V2.5H6M10 2.5h3.5V6M13.5 10v3.5H10M6 13.5H2.5V10"/></svg><span class="graph-expand-close" aria-hidden="true">×</span></button>
 <div class="graph-toolbar"><button type="button" id="concept-expand" aria-controls="concept-dag" aria-pressed="true">Hide ancestors</button><button type="button" id="concept-descend" aria-controls="concept-dag" aria-pressed="false">Show descendants</button><output id="concept-graph-status" aria-live="polite"></output></div>
@@ -134,6 +135,7 @@
 <div class="graph-tooltip" role="tooltip" hidden></div>
 <figcaption class="graph-legend" aria-label="Concept map legend"><span><i class="legend-node fill-proven"></i>Proven claim</span><span><i class="legend-node fill-none"></i>Definition</span><span><i class="legend-node stroke-own"></i>This concept</span><span><i class="legend-node stroke-ext"></i>Related concept</span><span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B builds on A</span></figcaption>
 </figure>
+</details>
 <div class="block block-evidence"><h3>Evidence</h3>
 <p class="evidence-intro">Each proof establishes this claim relative to its assumptions.</p>
 <ul class="proof-list">
@@ -205,23 +207,22 @@ appears and every prime in the decomposition is a flip-flop.</p>
 <tr id="L36" class=""><td class="line-num"><a href="#L36">36</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax765601.FlipFlopsOfAperiodic</span></td></tr>
 <tr id="L37" class=""><td class="line-num"><a href="#L37">37</a></td><td class="line-code"> </td></tr>
 </table></div><span class="source-proof-rail" data-source-line="L32" aria-label="Proof links"><a class="statement-proof-button" href="https://github.com/bojanczyk/transducer-book/blob/cf8ade7b9a07bf575705db4ddc28bd90b2c6cb74/lax/mealy-machines/proofs/Lax765601Proofs/Results.lean" aria-label="View proof Lax765601Proofs.Results.compClosure_flipFlop_of_aperiodic on GitHub" title="Lax765601Proofs.Results.compClosure_flipFlop_of_aperiodic"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">Show Proof</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a></span><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
-<div class="block"><h3>Formalization notes</h3><div class="latex-content"><p>The two alphabets are assumed finite, as for the Krohn–Rhodes theorem, whose
+<details class="block block-details"><summary>Formalization notes</summary><div class="latex-content"><p>The two alphabets are assumed finite, as for the Krohn–Rhodes theorem, whose
 construction this statement repeats inside the class of flip-flops. The
 conclusion is membership in <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><mi>o</mi><mi>m</mi><mi>p</mi><mi>C</mi><mi>l</mi><mi>o</mi><mi>s</mi><mi>u</mi><mi>r</mi><mi>e</mi><mi>F</mi><mi>l</mi><mi>i</mi><mi>p</mi><mi>F</mi><mi>l</mi><mi>o</mi><mi>p</mi><mi>F</mi><mi>a</mi><mi>m</mi></mrow><annotation encoding="application/x-tex">CompClosure FlipFlopFam</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.0715em;">C</span><span class="mord mathnormal">o</span><span class="mord mathnormal">m</span><span class="mord mathnormal" style="margin-right:0.0715em;">pC</span><span class="mord mathnormal" style="margin-right:0.0197em;">l</span><span class="mord mathnormal">os</span><span class="mord mathnormal">u</span><span class="mord mathnormal" style="margin-right:0.0278em;">r</span><span class="mord mathnormal">e</span><span class="mord mathnormal" style="margin-right:0.1389em;">F</span><span class="mord mathnormal" style="margin-right:0.0197em;">l</span><span class="mord mathnormal">i</span><span class="mord mathnormal" style="margin-right:0.1389em;">pF</span><span class="mord mathnormal" style="margin-right:0.0197em;">l</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.1389em;">pF</span><span class="mord mathnormal">am</span></span></span></span>.</p>
-</div></div>
+</div></details>
 <div class="block"><div class="deps-columns">
-<div class="deps-col"><h3>Builds on</h3><ul class="deps-list"><li title="Lax765601.Aperiodicity"><a href="../lax-765601/Lax765601.Aperiodicity.html"><code>Lax765601.Aperiodicity</code></a></li><li title="Lax765601.PrimeMealyMachines"><a href="../lax-765601/Lax765601.PrimeMealyMachines.html"><code>Lax765601.PrimeMealyMachines</code></a></li></ul></div>
-<div class="deps-col"><h3>Used by</h3><p class="empty-note">none</p></div>
-<div class="deps-col"><h3>From Mathlib</h3><p class="empty-note">none</p></div>
+<details class="deps-col block-details"><summary>Builds on</summary><ul class="deps-list"><li title="Lax765601.Aperiodicity"><a href="../lax-765601/Lax765601.Aperiodicity.html"><code>Lax765601.Aperiodicity</code></a></li><li title="Lax765601.PrimeMealyMachines"><a href="../lax-765601/Lax765601.PrimeMealyMachines.html"><code>Lax765601.PrimeMealyMachines</code></a></li></ul></details>
+<details class="deps-col block-details"><summary>Used by</summary><p class="empty-note">none</p></details>
+<details class="deps-col block-details"><summary>From Mathlib</summary><p class="empty-note">none</p></details>
 </div></div>
 <section class="page-section discussion-section" aria-labelledby="discussion-title">
 <div class="discussion-heading">
 <div class="discussion-heading-copy">
-<p class="discussion-eyebrow">Community review</p>
 <h3 class="section-title" id="discussion-title">Discussion</h3>
-<p>Ask a question or add context. Endorsements and structured flags are kept in the review panel above; your ORCID profile must share a public name.</p>
+<p>Ask a question or add context. Endorsements and structured flags are kept in the review panel above.</p>
 </div>
-<p class="discussion-count"><span class="remark42__counter" data-url="https://laxarchive.org/lax-765601/Lax765601.FlipFlopsOfAperiodic.html">0</span> <span>comments</span></p>
+<p class="discussion-count" hidden><span class="remark42__counter" data-url="https://laxarchive.org/lax-765601/Lax765601.FlipFlopsOfAperiodic.html">0</span> <span>comments</span></p>
 </div>
 <div class="discussion-embed-shell">
 <p class="discussion-loading" id="remark42-status" role="status"><span class="discussion-loading-mark" aria-hidden="true"></span>Loading discussion…</p>
@@ -267,8 +268,8 @@ conclusion is membership in <span class="katex"><span class="katex-mathml"><math
 <script src="../assets/sidebar.js?v=0db6145b12ac"></script>
 <script src="../assets/account.js?v=e3db2efa7b34"></script>
 <script src="../assets/layout.js?v=41e28199b546"></script>
-<script src="../assets/dag.js?v=96ff87e994df"></script>
+<script src="../assets/dag.js?v=ac501d9a56ee"></script>
 <script src="../assets/source-proof.js?v=b4c48aaad400"></script>
 <script src="../assets/version-history.js?v=a36e868140dd"></script>
-<script src="../assets/comments.js?v=936ec0d73bed"></script>
+<script src="../assets/comments.js?v=e71ac07c51ee"></script>
 </body></html>

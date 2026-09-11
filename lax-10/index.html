@@ -7,7 +7,7 @@
 <title>Graphs without a 3-Connected Subgraph are 4-Colourable — lax-10</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=dac430f58d9e">
+<link rel="stylesheet" href="../assets/style.css?v=5ce2669d8214">
 </head><body>
 <header class="site-header with-sidebar">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="true" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -111,16 +111,18 @@ Only its consequence, Theorem 2, and the result claimed in the title are exposed
 <div class="concept-review-progress-heading"><span>Review progress</span><span data-concept-review-progress-label></span></div>
 <div class="concept-review-progress-track" data-concept-review-progress-track role="img"></div>
 </div>
-<ul class="concept-list">
-<li><span class="type-badge" title="definition">def</span><a href="Lax10.Fragile.html" title="Lax10.Fragile"><code>Lax10.Fragile</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-10/Lax10.Fragile.html" hidden></span></li>
+<ul class="concept-list" aria-label="Statements">
 <li><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="Lax10.FragileFourColorable.html" title="Lax10.FragileFourColorable"><code>Lax10.FragileFourColorable</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-10/Lax10.FragileFourColorable.html" hidden></span></li>
 <li><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="Lax10.Theorem2.html" title="Lax10.Theorem2"><code>Lax10.Theorem2</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-10/Lax10.Theorem2.html" hidden></span></li>
+</ul>
+<ul class="concept-list" aria-label="Definitions">
+<li><span class="type-badge" title="definition">def</span><a href="Lax10.Fragile.html" title="Lax10.Fragile"><code>Lax10.Fragile</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-10/Lax10.Fragile.html" hidden></span></li>
 <li><span class="type-badge" title="definition">def</span><a href="Lax10.ThreeConnectedAndColorable.html" title="Lax10.ThreeConnectedAndColorable"><code>Lax10.ThreeConnectedAndColorable</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-10/Lax10.ThreeConnectedAndColorable.html" hidden></span></li>
 </ul>
 
-<div class="badge-legend" aria-label="Concept badge legend"><span><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span>proven claim</span><span><span class="type-badge" title="definition">def</span>definition</span></div>
 </div>
-<h4 class="figure-title">Concept map</h4>
+<details class="figure-details">
+<summary>Concept map</summary>
 <figure class="graph-figure">
 <button class="graph-expand" type="button" data-graph-expand data-graph-label="concept map" aria-expanded="false" aria-label="Open concept map in a large window" title="Open in large window"><svg class="graph-expand-open" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M2.5 6V2.5H6M10 2.5h3.5V6M13.5 10v3.5H10M6 13.5H2.5V10"/></svg><span class="graph-expand-close" aria-hidden="true">×</span></button>
 <div class="graph-toolbar"><button type="button" id="concept-expand" aria-controls="concept-dag" aria-pressed="true">Hide ancestors</button><button type="button" id="concept-descend" aria-controls="concept-dag" aria-pressed="false">Show descendants</button><output id="concept-graph-status" aria-live="polite"></output></div>
@@ -128,6 +130,7 @@ Only its consequence, Theorem 2, and the result claimed in the title are exposed
 <div class="graph-tooltip" role="tooltip" hidden></div>
 <figcaption class="graph-legend" aria-label="Concept map legend"><span><i class="legend-node fill-proven"></i>Proven claim</span><span><i class="legend-node fill-none"></i>Definition</span><span><i class="legend-node stroke-own"></i>This submission</span><span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B builds on A</span></figcaption>
 </figure>
+</details>
 </section>
 <section class="page-section"><h3 class="section-title">Proofs</h3>
 <h4 class="figure-title">Proof network<a class="source-link" href="https://github.com/EdouardBonnet/fragile-graphs-are-4-colorable/tree/7b348ba968573cc7ca130483f319c24003509200/proofs">view on GitHub</a></h4>
@@ -135,8 +138,10 @@ Only its consequence, Theorem 2, and the result claimed in the title are exposed
 <button class="graph-expand" type="button" data-graph-expand data-graph-label="proof network" aria-expanded="false" aria-label="Open proof network in a large window" title="Open in large window"><svg class="graph-expand-open" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M2.5 6V2.5H6M10 2.5h3.5V6M13.5 10v3.5H10M6 13.5H2.5V10"/></svg><span class="graph-expand-close" aria-hidden="true">×</span></button>
 <div id="proof-network" class="figure-container" data-graph="proofs"></div>
 <div class="graph-tooltip" role="tooltip" hidden></div>
-<figcaption class="graph-legend" aria-label="Proof network legend"><span class="proof-flow">assumptions <i class="legend-arrow" aria-hidden="true">→</i><i class="legend-proof-chip" aria-hidden="true">⊢</i><i class="legend-arrow" aria-hidden="true">→</i> conclusion</span><span><i class="legend-node fill-proven"></i>Proven claim</span><span><i class="legend-node stroke-own"></i>This submission</span><span><i class="legend-proof-chip" aria-hidden="true">⊢</i>Proof — click to open</span></figcaption>
+<figcaption class="graph-legend" aria-label="Proof network legend"><span class="proof-flow">assumptions <svg class="legend-assumptions" viewBox="0 0 14 24" aria-hidden="true" focusable="false"><path d="M1 0h10m-3-3 3 3-3 3" transform="translate(0 12)"/><path d="M1 0h10m-3-3 3 3-3 3" transform="translate(0 3) rotate(15)"/><path d="M1 0h10m-3-3 3 3-3 3" transform="translate(0 21) rotate(-15)"/></svg><i class="legend-proof-chip" aria-hidden="true">⊢</i><svg class="legend-arrow legend-flow-arrow" viewBox="0 -4 12 8" aria-hidden="true" focusable="false"><path d="M1 0h10m-3-3 3 3-3 3"/></svg> conclusion</span><span><i class="legend-node fill-proven"></i>Proven claim</span><span><i class="legend-node stroke-own"></i>This submission</span><span><i class="legend-proof-chip" aria-hidden="true">⊢</i>Proof</span></figcaption>
 </figure>
+<details class="figure-details">
+<summary>Proof list</summary>
 <div class="proof-list-box">
 <ul class="proof-list">
 <li class="proof-item" id="p-Lax10Proofs.Main.fragile_four_colorable">
@@ -164,6 +169,7 @@ Only its consequence, Theorem 2, and the result claimed in the title are exposed
 </ul>
 <p class="proof-list-source">Lean sources for these proofs: <a class="source-link" href="https://github.com/EdouardBonnet/fragile-graphs-are-4-colorable/tree/7b348ba968573cc7ca130483f319c24003509200/proofs">proofs/ on GitHub</a></p>
 </div>
+</details>
 <p class="honesty-note">Proof code is not displayed; the archive records each proof's checked relationship between claims.</p>
 </section>
 <section class="page-section"><h3 class="section-title">Related submissions</h3>
@@ -191,11 +197,10 @@ Only its consequence, Theorem 2, and the result claimed in the title are exposed
 <section class="page-section discussion-section" aria-labelledby="discussion-title">
 <div class="discussion-heading">
 <div class="discussion-heading-copy">
-<p class="discussion-eyebrow">Community review</p>
 <h3 class="section-title" id="discussion-title">Discussion</h3>
-<p>Ask a question or add context. Endorsements and structured flags are kept in the review panel above; your ORCID profile must share a public name.</p>
+<p>Ask a question or add context. Endorsements and structured flags are kept in the review panel above.</p>
 </div>
-<p class="discussion-count"><span class="remark42__counter" data-url="https://laxarchive.org/lax-10/">0</span> <span>comments</span></p>
+<p class="discussion-count" hidden><span class="remark42__counter" data-url="https://laxarchive.org/lax-10/">0</span> <span>comments</span></p>
 </div>
 <div class="discussion-embed-shell">
 <p class="discussion-loading" id="remark42-status" role="status"><span class="discussion-loading-mark" aria-hidden="true"></span>Loading discussion…</p>
@@ -203,7 +208,7 @@ Only its consequence, Theorem 2, and the result claimed in the title are exposed
 </div>
 <noscript><p class="discussion-unavailable">Enable JavaScript to read or join the discussion.</p></noscript>
 </section>
-<script type="application/json" id="graph-data">{"concepts":{"nodes":[{"id":"Lax10.Fragile","href":"../lax-10/Lax10.Fragile.html","title":"Fragile and m-fragile graphs","owner":"lax-10","status":"none","ext":false,"dir":"core"},{"id":"Lax10.FragileFourColorable","href":"../lax-10/Lax10.FragileFourColorable.html","title":"Graphs without a 3-connected subgraph are 4-colorable","owner":"lax-10","status":"proven","ext":false,"dir":"core"},{"id":"Lax10.Theorem2","href":"../lax-10/Lax10.Theorem2.html","title":"Theorem 2","owner":"lax-10","status":"proven","ext":false,"dir":"core"},{"id":"Lax10.ThreeConnectedAndColorable","href":"../lax-10/Lax10.ThreeConnectedAndColorable.html","title":"3-connected graphs and 4-colorability","owner":"lax-10","status":"none","ext":false,"dir":"core"}],"edges":[{"from":"Lax10.ThreeConnectedAndColorable","to":"Lax10.Fragile"},{"from":"Lax10.Fragile","to":"Lax10.FragileFourColorable"},{"from":"Lax10.ThreeConnectedAndColorable","to":"Lax10.Theorem2"}],"home":"lax-10"},"proofs":{"statements":[{"id":"Lax10.FragileFourColorable.fragile_four_colorable","label":"Lax10.FragileFourColorable","title":"Graphs without a 3-connected subgraph are 4-colorable","owner":"lax-10","concept":"Lax10.FragileFourColorable","index":1,"count":1,"href":"../lax-10/Lax10.FragileFourColorable.html#s-Lax10.FragileFourColorable.fragile_four_colorable","proven":true,"ext":false},{"id":"Lax10.Theorem2.theorem2","label":"Lax10.Theorem2","title":"Theorem 2","owner":"lax-10","concept":"Lax10.Theorem2","index":1,"count":1,"href":"../lax-10/Lax10.Theorem2.html#s-Lax10.Theorem2.theorem2","proven":true,"ext":false}],"proofs":[{"id":"Lax10Proofs.Main.fragile_four_colorable","assumptions":[],"conclusion":"Lax10.FragileFourColorable.fragile_four_colorable","description":"The main 4-colorability corollary.","owner":"lax-10","ext":false,"href":"../lax-10/Lax10Proofs.Main.fragile_four_colorable.html","assumptionsProven":true,"outstanding":0},{"id":"Lax10Proofs.Main.theorem2","assumptions":[],"conclusion":"Lax10.Theorem2.theorem2","description":"The chromatic-number form of Theorem 2.","owner":"lax-10","ext":false,"href":"../lax-10/Lax10Proofs.Main.theorem2.html","assumptionsProven":true,"outstanding":0}],"home":"lax-10"},"submissions":{"nodes":[{"id":"lax-10","href":"../lax-10/index.html","title":"Graphs without a 3-Connected Subgraph are 4-Colourable","state":"draft","concepts":4,"proofs":2,"dir":"core","ext":false}],"edges":[]}}</script>
+<script type="application/json" id="graph-data">{"concepts":{"nodes":[{"id":"Lax10.Fragile","href":"../lax-10/Lax10.Fragile.html","title":"Fragile and m-fragile graphs","owner":"lax-10","status":"none","ext":false,"dir":"core"},{"id":"Lax10.FragileFourColorable","href":"../lax-10/Lax10.FragileFourColorable.html","title":"Graphs without a 3-connected subgraph are 4-colorable","owner":"lax-10","status":"proven","ext":false,"dir":"core"},{"id":"Lax10.Theorem2","href":"../lax-10/Lax10.Theorem2.html","title":"Theorem 2","owner":"lax-10","status":"proven","ext":false,"dir":"core"},{"id":"Lax10.ThreeConnectedAndColorable","href":"../lax-10/Lax10.ThreeConnectedAndColorable.html","title":"3-connected graphs and 4-colorability","owner":"lax-10","status":"none","ext":false,"dir":"core"}],"edges":[{"from":"Lax10.ThreeConnectedAndColorable","to":"Lax10.Fragile"},{"from":"Lax10.Fragile","to":"Lax10.FragileFourColorable"},{"from":"Lax10.ThreeConnectedAndColorable","to":"Lax10.Theorem2"}],"home":"lax-10"},"proofs":{"statements":[{"id":"Lax10.FragileFourColorable.fragile_four_colorable","label":"Lax10.FragileFourColorable","title":"Graphs without a 3-connected subgraph are 4-colorable","tooltipHtml":"Graphs without a 3-connected subgraph are 4-colorable","owner":"lax-10","concept":"Lax10.FragileFourColorable","index":1,"count":1,"href":"../lax-10/Lax10.FragileFourColorable.html#s-Lax10.FragileFourColorable.fragile_four_colorable","proven":true,"ext":false},{"id":"Lax10.Theorem2.theorem2","label":"Lax10.Theorem2","title":"Theorem 2","tooltipHtml":"Theorem 2","owner":"lax-10","concept":"Lax10.Theorem2","index":1,"count":1,"href":"../lax-10/Lax10.Theorem2.html#s-Lax10.Theorem2.theorem2","proven":true,"ext":false}],"proofs":[{"id":"Lax10Proofs.Main.fragile_four_colorable","assumptions":[],"conclusion":"Lax10.FragileFourColorable.fragile_four_colorable","description":"The main 4-colorability corollary.","owner":"lax-10","ext":false,"tooltipHtml":"The main 4-colorability corollary.","href":"../lax-10/Lax10Proofs.Main.fragile_four_colorable.html","assumptionsProven":true,"outstanding":0},{"id":"Lax10Proofs.Main.theorem2","assumptions":[],"conclusion":"Lax10.Theorem2.theorem2","description":"The chromatic-number form of Theorem 2.","owner":"lax-10","ext":false,"tooltipHtml":"The chromatic-number form of Theorem 2.","href":"../lax-10/Lax10Proofs.Main.theorem2.html","assumptionsProven":true,"outstanding":0}],"home":"lax-10"},"submissions":{"nodes":[{"id":"lax-10","href":"../lax-10/index.html","title":"Graphs without a 3-Connected Subgraph are 4-Colourable","state":"draft","concepts":4,"proofs":2,"dir":"core","ext":false}],"edges":[]}}</script>
 </div>
 <footer class="site-footer">
   <nav class="site-footer-nav" aria-label="Legal">
@@ -241,8 +246,8 @@ Only its consequence, Theorem 2, and the result claimed in the title are exposed
 <script src="../assets/sidebar.js?v=0db6145b12ac"></script>
 <script src="../assets/account.js?v=e3db2efa7b34"></script>
 <script src="../assets/layout.js?v=41e28199b546"></script>
-<script src="../assets/dag.js?v=96ff87e994df"></script>
+<script src="../assets/dag.js?v=ac501d9a56ee"></script>
 <script src="../assets/citation.js?v=dd5ce19082ad"></script>
 <script src="../assets/version-history.js?v=a36e868140dd"></script>
-<script src="../assets/comments.js?v=936ec0d73bed"></script>
+<script src="../assets/comments.js?v=e71ac07c51ee"></script>
 </body></html>
