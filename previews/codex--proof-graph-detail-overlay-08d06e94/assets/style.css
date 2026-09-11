@@ -3859,6 +3859,7 @@ body.graph-window-open::after{
   pointer-events: stroke;
   cursor: pointer;
 }
+.graph-edge-route.is-interactive .net-edge{ pointer-events: none; }
 .graph-edge-hit:focus{ outline: none; }
 .graph-edge-route:has(.graph-edge-hit:focus-visible) .net-edge{
   stroke: var(--link);

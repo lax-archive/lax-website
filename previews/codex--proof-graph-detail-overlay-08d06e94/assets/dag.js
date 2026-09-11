@@ -1628,6 +1628,17 @@
   }
 
   function installProofDetailDismissal() {
+    window.addEventListener('click', (event) => {
+      const context = activeProofContext;
+      if (!context || context.panel.hidden) return;
+      const target = event.target;
+      if (!(target instanceof Element) || context.panel.contains(target)) return;
+      const graphItem = target.closest(
+        '.net-node, .net-proof, .net-dock, .graph-edge-route.is-interactive',
+      );
+      if (graphItem && context.container.contains(graphItem)) return;
+      clearProofSelection(context);
+    });
     window.addEventListener('keydown', (event) => {
       if (event.key !== 'Escape' || !activeProofContext || activeProofContext.panel.hidden) return;
       event.preventDefault();
