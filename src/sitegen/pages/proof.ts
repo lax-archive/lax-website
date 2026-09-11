@@ -2,6 +2,7 @@ import { attr, esc, page, plural } from "../html.js";
 import type { LocatedProof } from "../model.js";
 import { inPaperBlock } from "./paper.js";
 import {
+  annotationSections,
   draftBanner,
   environmentNotice,
   versionHistoryPanel,
@@ -40,9 +41,7 @@ export function proofPage(ctx: PageContext, located: LocatedProof): string {
     : undefined;
   const sourceWithheld = anonymous && Boolean(source);
 
-  const sections = (proof.sections ?? [])
-    .map((s) => `<div class="block"><h3>${ctx.markdown.renderAuthorInline(s.title, "../")}</h3><div class="latex-content">${ctx.markdown.renderAuthorProse(s.markdown, "../")}</div></div>`)
-    .join("\n");
+  const sections = annotationSections(ctx, proof.sections, "../");
   const pathLink = sourceFile
     ? `<a href="${attr(sourceFile)}"><code>${esc(proof.path)}</code></a>`
     : `<code>${esc(proof.path)}</code>`;
@@ -69,6 +68,7 @@ ${sections}`;
     title: `${proof.id} — ${output.id}`,
     rootRel: "../",
     sidebar: submissionSidebar(ctx.model, submission, "../", { activeId: proof.id }),
+    sidebarState: "open",
     content,
     scripts: ["assets/version-history.js"],
   });

@@ -45,6 +45,24 @@ export function renderDisplayMath(text: string, raw = `$$${text}$$`): string {
   return render(text, true, raw);
 }
 
+/** Tooltips also accept display math inside a single-line title or sentence. */
+export const inlineDisplayMathExtension: MarkedExtension = {
+  extensions: [{
+    name: "inlineDisplayMath", level: "inline",
+    start(src: string) {
+      const match = /\$\$|\\\[/.exec(src);
+      return match?.index;
+    },
+    tokenizer(src: string): Tokens.Generic | undefined {
+      const match = /^\$\$([\s\S]+?)\$\$/.exec(src) ?? /^\\\[([\s\S]+?)\\\]/.exec(src);
+      return match ? { type: "inlineDisplayMath", raw: match[0], text: match[1]!.trim() } : undefined;
+    },
+    renderer(token: Tokens.Generic) {
+      return renderDisplayMath(token.text as string, token.raw);
+    },
+  }],
+};
+
 export const mathExtension: MarkedExtension = {
   extensions: [
     {

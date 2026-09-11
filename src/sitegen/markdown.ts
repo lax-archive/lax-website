@@ -1,8 +1,8 @@
-import { Marked, type Tokens } from "marked";
+import { Marked, type MarkedExtension, type Tokens } from "marked";
 import { detex } from "./bibtex.js";
 import { crossrefExtension } from "./crossref.js";
-import { esc } from "./html.js";
-import { mathExtension, renderInlineMath } from "./math.js";
+import { attr, esc } from "./html.js";
+import { inlineDisplayMathExtension, mathExtension, renderInlineMath } from "./math.js";
 import type { SiteModel } from "./model.js";
 
 function safeUrl(href: string): boolean {
@@ -80,7 +80,13 @@ export class MarkdownRenderer {
     return plainAuthorTitle(text);
   }
 
-  private renderWithOptions(text: string, rootRel: string, backtickMath: boolean, inline = false): string {
+  /** Graph panels use safe inline prose without links or images, while
+   * retaining displayed formulas even inside a single-line title. */
+  renderAuthorTooltip(text: string, rootRel: string): string {
+    return this.renderWithOptions(text, rootRel, true, true, inlineDisplayMathExtension);
+  }
+
+  private renderWithOptions(text: string, rootRel: string, backtickMath: boolean, inline = false, extra?: MarkedExtension): string {
     const parser = new Marked();
     parser.use(mathExtension, crossrefExtension(this.model, rootRel, !inline), {
       renderer: {
@@ -91,6 +97,13 @@ export class MarkdownRenderer {
         },
         image(token: Tokens.Image): string | false {
           return inline || !safeUrl(token.href) ? esc(token.text) : false;
+        },
+        // A paragraph holding nothing but a titled image is a figure, with
+        // the title as its caption.
+        paragraph(token: Tokens.Paragraph): string | false {
+          const image = token.tokens.length === 1 ? token.tokens[0] as Tokens.Image : undefined;
+          if (inline || image?.type !== "image" || !image.title || !safeUrl(image.href)) return false;
+          return `<figure class="content-figure"><img src="${attr(image.href)}" alt="${attr(image.text)}"><figcaption>${esc(image.title)}</figcaption></figure>\n`;
         },
         text(token: Tokens.Text | Tokens.Escape): string {
           if ("tokens" in token && token.tokens) return this.parser.parseInline(token.tokens);
@@ -106,6 +119,7 @@ export class MarkdownRenderer {
         },
       },
     });
+    if (extra) parser.use(extra);
     return (inline ? parser.parseInline(text, { async: false }) : parser.parse(text, { async: false })) as string;
   }
 }

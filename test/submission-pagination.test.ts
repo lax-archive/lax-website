@@ -3,7 +3,7 @@ import vm from "node:vm";
 import { describe, expect, it } from "vitest";
 
 describe("front-page submission pagination", () => {
-  it("shows ten rows at a time and resets when the search changes", () => {
+  it("shows three rows, shows all on request, and resets when the search changes", () => {
     const rows = Array.from({ length: 25 }, (_, index) => ({
       dataset: {
         searchTitle: `submission needle${index}`,
@@ -20,7 +20,9 @@ describe("front-page submission pagination", () => {
     }));
     const empty = { hidden: true };
     const children: any[] = [...rows, empty];
+    const classes = new Set<string>();
     const submissions = {
+      classList: { toggle(name: string, force: boolean) { if (force) classes.add(name); else classes.delete(name); } },
       querySelectorAll(selector: string) {
         if (selector === "li[data-search], li[data-search-title]" || selector === "li[data-search-title]") return rows;
         return [];
@@ -41,6 +43,7 @@ describe("front-page submission pagination", () => {
     const buttonAttributes = new Map<string, string>();
     const button = {
       hidden: true,
+      firstChild: { nodeType: 3, textContent: "Show all 1 submission " },
       addEventListener(name: string, listener: () => void) { buttonListeners.set(name, listener); },
       setAttribute(name: string, value: string) { buttonAttributes.set(name, value); },
     };
@@ -78,21 +81,18 @@ describe("front-page submission pagination", () => {
     vm.runInContext(fs.readFileSync("assets/site/sidebar.js", "utf8"), context);
 
     const visibleCount = () => rows.filter((row) => !row.hidden).length;
-    expect(visibleCount()).toBe(10);
+    expect(visibleCount()).toBe(3);
     expect(button.hidden).toBe(false);
-    expect(buttonAttributes.get("aria-label")).toBe("Load 10 more submissions");
-    expect(status.textContent).toBe("Showing 10 of 25 submissions.");
-
-    buttonListeners.get("click")!();
-    expect(visibleCount()).toBe(20);
-    expect(button.hidden).toBe(false);
-    expect(buttonAttributes.get("aria-label")).toBe("Load 5 more submissions");
-    expect(status.textContent).toBe("Showing 20 of 25 submissions.");
+    expect(button.firstChild.textContent).toBe("Show all 25 submissions ");
+    expect(buttonAttributes.get("aria-label")).toBe("Show all 25 submissions");
+    expect(status.textContent).toBe("Showing 3 of 25 submissions.");
+    expect(classes.has("submissions-list-clipped")).toBe(true);
 
     buttonListeners.get("click")!();
     expect(visibleCount()).toBe(25);
     expect(button.hidden).toBe(true);
     expect(status.textContent).toBe("Showing 25 submissions.");
+    expect(classes.has("submissions-list-clipped")).toBe(false);
 
     search.value = "needle24";
     searchListeners.get("input")!();
@@ -102,7 +102,8 @@ describe("front-page submission pagination", () => {
 
     search.value = "";
     searchListeners.get("input")!();
-    expect(visibleCount()).toBe(10);
+    expect(visibleCount()).toBe(3);
     expect(button.hidden).toBe(false);
+    expect(buttonAttributes.get("aria-label")).toBe("Show all 25 submissions");
   });
 });

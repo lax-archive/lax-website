@@ -33,8 +33,12 @@ export interface PageShell {
   scripts?: string[];
   /** extra class on the content pane, for pages that need another measure */
   detailClass?: string;
-  /** start with the sidebar collapsed (desktop); the toggle brings it back */
-  sidebarHidden?: boolean;
+  /** Mark the front-page header for its narrowest responsive adjustment. */
+  landingHeader?: boolean;
+  /** Show the sidebar and its toggle: open on desktop, or collapsed until
+   * the toggle brings it back. Pages about a submission set it; the front
+   * page and the editorial pages ship the sidebar hidden, with no toggle. */
+  sidebarState?: "open" | "collapsed";
 }
 
 const REMARK42_ORIGIN = new URL(REMARK42_URL).origin;
@@ -43,25 +47,25 @@ const ACCOUNT_CONNECT_ORIGINS = [...new Set([
   new URL(REMARK42_IDENTITY_URL).origin,
 ])].join(" ");
 const BASE_CSP =
-  `default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src https: data:; font-src 'self'; frame-src ${REMARK42_ORIGIN}; connect-src ${ACCOUNT_CONNECT_ORIGINS}`;
+  `default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self'; frame-src ${REMARK42_ORIGIN}; connect-src ${ACCOUNT_CONNECT_ORIGINS}`;
 
 // The paper viewer runs pdf.js in a same-origin module worker and fetches
 // the PDF itself, so its page alone opens worker-src and same-origin
 // connect-src; every other page keeps the base policy.
 const PAPER_CSP =
-  `default-src 'none'; script-src 'self'; worker-src 'self'; style-src 'self' 'unsafe-inline'; img-src https: data:; font-src 'self'; frame-src ${REMARK42_ORIGIN}; connect-src 'self' ${ACCOUNT_CONNECT_ORIGINS}`;
+  `default-src 'none'; script-src 'self'; worker-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self'; frame-src ${REMARK42_ORIGIN}; connect-src 'self' ${ACCOUNT_CONNECT_ORIGINS}`;
 
 // The reflow page fetches its blocks from the same origin past the embed
 // budget (and its fonts, which the base policy already allows); it runs no
 // worker.
 const REFLOW_CSP =
-  `default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src https: data:; font-src 'self'; frame-src ${REMARK42_ORIGIN}; connect-src 'self' ${ACCOUNT_CONNECT_ORIGINS}`;
+  `default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self'; frame-src ${REMARK42_ORIGIN}; connect-src 'self' ${ACCOUNT_CONNECT_ORIGINS}`;
 
 function contentSecurityPolicy(scripts: string[]): string {
   if (scripts.includes("assets/manuscript.js")) return PAPER_CSP;
   if (scripts.includes("assets/manuscript-reflow.js")) return REFLOW_CSP;
   if (!scripts.includes("assets/comments.js")) return BASE_CSP;
-  return `default-src 'none'; script-src 'self' ${REMARK42_ORIGIN}; style-src 'self' 'unsafe-inline'; img-src https: data:; font-src 'self'; frame-src ${REMARK42_ORIGIN}; connect-src ${ACCOUNT_CONNECT_ORIGINS}`;
+  return `default-src 'none'; script-src 'self' ${REMARK42_ORIGIN}; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self'; frame-src ${REMARK42_ORIGIN}; connect-src ${ACCOUNT_CONNECT_ORIGINS}`;
 }
 
 function accountLoginHref(): string {
@@ -73,7 +77,7 @@ function accountLoginHref(): string {
 
 function accountUi(): string {
   return `<div class="account-header" data-account-root data-remark42-host="${attr(REMARK42_URL)}" data-remark42-site="${attr(REMARK42_SITE_ID)}" data-identity-url="${attr(REMARK42_IDENTITY_URL)}">
-  <a class="account-control" data-account-login href="${attr(accountLoginHref())}"><span class="orcid-mark" aria-hidden="true">iD</span><span>Sign in with ORCID</span></a>
+  <a class="account-control" data-account-login href="${attr(accountLoginHref())}"><span class="orcid-mark" aria-hidden="true">iD</span><span>Sign in<span class="account-login-long"> with ORCID</span></span></a>
   <button class="account-control" data-account-settings type="button" aria-haspopup="dialog" aria-controls="account-dialog" hidden><span class="orcid-mark" aria-hidden="true">iD</span><span>Settings</span></button>
 </div>`;
 }
@@ -110,6 +114,25 @@ function accountDialog(): string {
 // plain-http `lax serve`, where an assets/ file would violate `img-src`.
 const FAVICON = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E";
 
+/** The links beside the site's name, on every page: the introduction to
+ * Lax (its own submission's paper, when the archive holds it) and the
+ * about page. generate.ts sets the introduction once per build. */
+let siteNav: { introduction?: string } = {};
+
+export function configureSiteNav(nav: { introduction?: string }): void {
+  siteNav = { ...nav };
+}
+
+function siteNavLinks(root: string): string {
+  const links = [
+    siteNav.introduction ? `<a class="site-nav-link" href="${attr(root + siteNav.introduction)}">Introduction</a>` : "",
+    `<a class="site-nav-link" href="${attr(`${root}about.html`)}">About</a>`,
+  ].filter(Boolean);
+  return `<nav class="site-nav" aria-label="Site">
+    ${links.join("\n    ")}
+  </nav>`;
+}
+
 export function page(shell: PageShell): string {
   const root = shell.rootRel;
   const csp = contentSecurityPolicy(shell.scripts ?? []);
@@ -117,7 +140,13 @@ export function page(shell: PageShell): string {
     .map((src) => `<script src="${attr(root + src)}?v=${siteAssetVersion(src.replace(/^assets\//, ""))}"></script>`)
     .join("\n");
   const stylesheet = (src: string) => `${root}assets/${src}?v=${siteAssetVersion(src)}`;
-  const hidden = shell.sidebarHidden ? " sidebar-hidden" : "";
+  const withSidebar = shell.sidebarState ? " with-sidebar" : "";
+  const hidden = shell.sidebarState === "open" ? "" : " sidebar-hidden";
+  const landingHeader = shell.landingHeader ? " landing-header" : "";
+  const toggle = shell.sidebarState
+    ? `<button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="${shell.sidebarState === "open"}" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
+  `
+    : "";
   return `<!doctype html>
 <html lang="en"><head>
 <meta charset="utf-8">
@@ -129,9 +158,11 @@ export function page(shell: PageShell): string {
 <link rel="stylesheet" href="${stylesheet("katex.css")}">
 <link rel="stylesheet" href="${stylesheet("style.css")}">
 </head><body>
-<header class="site-header${hidden}">
-  <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
+<header class="site-header${withSidebar}${hidden}${landingHeader}">
+  ${toggle}<div class="site-brand">
   <h1 class="site-title"><a href="${root}index.html">Lax <span class="site-title-quiet">Lean Archive</span></a></h1>
+  ${siteNavLinks(root)}
+  </div>
   <nav class="header-actions" aria-label="Account">
     ${accountUi()}
   </nav>
@@ -146,10 +177,9 @@ ${shell.sidebar}
 ${shell.content}
 </div>
 <footer class="site-footer">
-  <nav class="site-footer-nav" aria-label="Legal and about">
+  <nav class="site-footer-nav" aria-label="Legal">
     <a class="site-footer-link" href="${root}impressum.html">Imprint</a>
     <a class="site-footer-link" href="${root}privacy.html">Privacy</a>
-    <a class="site-footer-link" href="${root}assets/lax-white-paper.pdf">About</a>
   </nav>
 </footer>
 </section>

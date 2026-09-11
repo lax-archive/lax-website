@@ -116,6 +116,7 @@ bytes therefore differ from production's, deterministically per flag set).
 
 - `content/landing.md` supplies the landing-page introduction.
 - `content/contributing.md` generates `/contributing.html`.
+- `content/about.md` generates `/about.html`, linked from the header.
 - Submission, concept, and proof pages come from `record.json` and
   `build-output.json` in `lax-db`.
 - Submission/concept titles and annotation headings accept inline Markdown and
