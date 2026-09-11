@@ -2592,11 +2592,6 @@ a.submission-meta-id:is(:hover, :focus-visible),
 
 .open-statement-list > li + li{ margin-top: 0.55rem; }
 
-.open-statement-name{ margin-bottom: 0.32rem; font-size: 0.8rem; }
-.open-statement-name a{ color: var(--link); text-decoration: none; }
-.open-statement-name a:hover{ text-decoration: underline; }
-.open-statement-name code{ font-family: var(--mono); overflow-wrap: anywhere; }
-
 .open-statement-summary{ color: var(--text); font-size: 0.87rem; line-height: 1.55; }
 .open-statement-summary > :last-child{ margin-bottom: 0; }
 
