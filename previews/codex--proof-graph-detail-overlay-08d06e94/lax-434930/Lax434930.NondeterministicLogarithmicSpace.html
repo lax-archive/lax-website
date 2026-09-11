@@ -7,7 +7,7 @@
 <title>The complexity class NL — Lax434930.NondeterministicLogarithmicSpace</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=c414450cf8ae">
+<link rel="stylesheet" href="../assets/style.css?v=d97fdc22ebda">
 </head><body>
 <header class="site-header">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -32,6 +32,7 @@
 <select id="filter-type" class="filter-select">
 <option value="all">All types</option>
 <option value="definition">definition</option>
+<option value="open question">open question</option>
 <option value="theorem">theorem</option>
 <option value="proof">proof</option>
 </select>
@@ -48,6 +49,7 @@
 <li data-type="definition" data-search="lax434930.nondeterministicpolynomialtime the complexity class np definition"><a class="entry-link" href="../lax-434930/Lax434930.NondeterministicPolynomialTime.html" data-full-title="The complexity class NP"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax434930.NondeterministicPolynomialTime</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-434930/Lax434930.NondeterministicPolynomialTime.html" hidden></span></span></a></li>
 <li data-type="definition" data-search="lax434930.polynomialspace the complexity class pspace definition"><a class="entry-link" href="../lax-434930/Lax434930.PolynomialSpace.html" data-full-title="The complexity class PSPACE"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax434930.PolynomialSpace</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-434930/Lax434930.PolynomialSpace.html" hidden></span></span></a></li>
 <li data-type="definition" data-search="lax434930.polynomialtime the complexity class p definition"><a class="entry-link" href="../lax-434930/Lax434930.PolynomialTime.html" data-full-title="The complexity class P"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax434930.PolynomialTime</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-434930/Lax434930.PolynomialTime.html" hidden></span></span></a></li>
+<li data-type="open question" data-search="lax434930.pversusnp p versus np open question"><a class="entry-link" href="../lax-434930/Lax434930.PVersusNP.html" data-full-title="P versus NP"><span class="entry-label"><span class="type-badge open" title="open question — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">ope×</span><span class="entry-label-text">Lax434930.PVersusNP</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-434930/Lax434930.PVersusNP.html" hidden></span></span></a></li>
 <li data-type="definition" data-search="lax434930.spacebounds deterministic and nondeterministic space bounds definition"><a class="entry-link" href="../lax-434930/Lax434930.SpaceBounds.html" data-full-title="Deterministic and nondeterministic space bounds"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax434930.SpaceBounds</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-434930/Lax434930.SpaceBounds.html" hidden></span></span></a></li>
 <li data-type="definition" data-search="lax434930.spacemachines finite turing machines with a read-only input tape definition"><a class="entry-link" href="../lax-434930/Lax434930.SpaceMachines.html" data-full-title="Finite Turing machines with a read-only input tape"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax434930.SpaceMachines</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-434930/Lax434930.SpaceMachines.html" hidden></span></span></a></li>
 <li class="entry-heading" aria-hidden="true">Proofs</li>
@@ -124,7 +126,7 @@ read-only input tape. Every branch halts and respects the space bound;
 membership means that at least one branch accepts. The bound is
 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>c</mi><mo stretchy="false">⌊</mo><msub><mrow><mi>log</mi><mo>⁡</mo></mrow><mn>2</mn></msub><mo stretchy="false">(</mo><mi>n</mi><mo>+</mo><mn>2</mn><mo stretchy="false">)</mo><mo stretchy="false">⌋</mo></mrow><annotation encoding="application/x-tex">c\lfloor\log_2(n+2)\rfloor</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">c</span><span class="mopen">⌊</span><span class="mop"><span class="mop">lo<span style="margin-right:0.0139em;">g</span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.207em;"><span style="top:-2.4559em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2441em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">2</span><span class="mclose">)⌋</span></span></span></span> for one positive constant <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>c</mi></mrow><annotation encoding="application/x-tex">c</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal">c</span></span></span></span>.</p>
 </div></div>
-<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/EdouardBonnet/classical-complexity/blob/026a662d6c203952e4fc6c6023a3c1adf7f0bc3e/concepts/Lax434930/NondeterministicLogarithmicSpace.lean">view on GitHub</a></h3>
+<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/EdouardBonnet/classical-complexity/blob/557e11e3eac8a60b14421d316444ef7878fb6b09/concepts/Lax434930/NondeterministicLogarithmicSpace.lean">view on GitHub</a></h3>
 <div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
 <tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-434930/Lax434930.SpaceBounds.html"><span style="color:#24292E">Lax434930.SpaceBounds</span></a></td></tr>
 <tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"> </td></tr>
@@ -211,7 +213,7 @@ membership means that at least one branch accepts. The bound is
 <script src="../assets/sidebar.js?v=b1e289522120"></script>
 <script src="../assets/account.js?v=e3db2efa7b34"></script>
 <script src="../assets/layout.js?v=41e28199b546"></script>
-<script src="../assets/dag.js?v=5c06a55f32d9"></script>
+<script src="../assets/dag.js?v=0f86ceaec25f"></script>
 <script src="../assets/source-proof.js?v=b4c48aaad400"></script>
 <script src="../assets/version-history.js?v=a36e868140dd"></script>
 <script src="../assets/comments.js?v=936ec0d73bed"></script>

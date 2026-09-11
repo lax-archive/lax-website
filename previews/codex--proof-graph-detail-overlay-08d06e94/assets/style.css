@@ -3592,6 +3592,15 @@ body.graph-window-open::after{
 .graph-detail-panel.graph-detail-left{ left: 0.4rem; }
 .graph-detail-panel.graph-detail-right{ right: 0.4rem; }
 .graph-expanded .graph-detail-panel{ width: min(29rem, 42vw); }
+.graph-detail-panel.graph-detail-outside{ width: var(--graph-detail-outside-width); }
+.graph-detail-panel.graph-detail-outside.graph-detail-left{
+  left: auto;
+  right: calc(100% + 1rem);
+}
+.graph-detail-panel.graph-detail-outside.graph-detail-right{
+  right: auto;
+  left: calc(100% + 1rem);
+}
 .graph-detail-close{
   position: absolute;
   z-index: 1;

@@ -31,6 +31,11 @@
   const EDGE_ROW_CLEARANCE = 10;
   const EDGE_BEND_RADIUS = 10;
   const MIN_ARC_SEPARATION = 7;
+  const PROOF_NETWORK_MIN_WIDTH = 720;
+  const PROOF_SELECTION_SCALE = 1.28;
+  const DETAIL_PANEL_MIN_OUTSIDE_WIDTH = 320;
+  const DETAIL_PANEL_MAX_OUTSIDE_WIDTH = 400;
+  const DETAIL_PANEL_OUTSIDE_GAP = 16;
 
   function nodeWidth(label) { return Math.round(label.length * CHAR_W) + 18; }
 
@@ -635,19 +640,35 @@
     return related;
   }
 
+  function setProofMagnification(context, magnified) {
+    const scale = magnified ? PROOF_SELECTION_SCALE : 1;
+    if (context.magnification === scale) return;
+    context.magnification = scale;
+    context.svg.style.width = `${Math.round(context.svgWidth * scale)}px`;
+    context.svg.style.height = `${Math.round(context.svgHeight * scale)}px`;
+    context.container.style.height = `${Math.min(
+      Math.round(context.svgHeight * scale),
+      720,
+    )}px`;
+    context.container.classList.toggle('graph-magnified', magnified);
+  }
+
   function centerGraphSelection(context, related) {
     const boxes = [...related].flatMap((key) => {
       const node = context.byKey.get(key);
       return node ? [node] : [];
     });
     if (!boxes.length) return;
-    const left = Math.min(...boxes.map((node) => node.x - node.width / 2));
-    const right = Math.max(...boxes.map((node) => node.x + node.width / 2));
-    const top = Math.min(...boxes.map((node) => node.y - node.height / 2));
-    const bottom = Math.max(...boxes.map((node) => node.y + node.height / 2));
+    const scale = context.magnification || 1;
+    const left = Math.min(...boxes.map((node) => node.x - node.width / 2)) * scale;
+    const right = Math.max(...boxes.map((node) => node.x + node.width / 2)) * scale;
+    const top = Math.min(...boxes.map((node) => node.y - node.height / 2)) * scale;
+    const bottom = Math.max(...boxes.map((node) => node.y + node.height / 2)) * scale;
     // The narrow-screen drawer intentionally covers the graph. It should not
     // distort the graph's scroll target as though a few pixels remained beside it.
-    const measuredPanelWidth = context.panel.offsetWidth || 0;
+    const measuredPanelWidth = context.panel.classList.contains('graph-detail-outside')
+      ? 0
+      : context.panel.offsetWidth || 0;
     const panelWidth = measuredPanelWidth < context.container.clientWidth * 0.8
       ? measuredPanelWidth : 0;
     const availableWidth = Math.max(1, context.container.clientWidth - panelWidth);
@@ -662,6 +683,38 @@
     });
   }
 
+  function placeDetailPanel(context, element) {
+    const figure = context.panel.parentElement;
+    const elementBox = element.getBoundingClientRect();
+    const figureBox = figure.getBoundingClientRect();
+    const panelOnLeft = (elementBox.left + elementBox.right) / 2 >
+      (figureBox.left + figureBox.right) / 2;
+    context.panel.classList.toggle('graph-detail-left', panelOnLeft);
+    context.panel.classList.toggle('graph-detail-right', !panelOnLeft);
+
+    // Keep the panel outside the graph when the preferred side has enough
+    // room. The desktop sidebar counts as occupied viewport space; on tighter
+    // layouts the panel falls back to covering the far side of the graph.
+    const sidebar = document.getElementById('sidebar');
+    const sidebarBox = sidebar?.getBoundingClientRect();
+    const sidebarVisible = sidebar && getComputedStyle(sidebar).display !== 'none' &&
+      sidebarBox.right > 0 && sidebarBox.left < window.innerWidth;
+    const leftBoundary = sidebarVisible ? Math.max(0, sidebarBox.right) : 0;
+    const viewportInset = 8;
+    const sideSpace = panelOnLeft
+      ? figureBox.left - leftBoundary
+      : document.documentElement.clientWidth - figureBox.right;
+    const availableWidth = Math.floor(sideSpace - DETAIL_PANEL_OUTSIDE_GAP - viewportInset);
+    const outside = availableWidth >= DETAIL_PANEL_MIN_OUTSIDE_WIDTH;
+    context.panel.classList.toggle('graph-detail-outside', outside);
+    if (outside) {
+      context.panel.style.setProperty('--graph-detail-outside-width',
+        `${Math.min(DETAIL_PANEL_MAX_OUTSIDE_WIDTH, availableWidth)}px`);
+    } else {
+      context.panel.style.removeProperty('--graph-detail-outside-width');
+    }
+  }
+
   function clearProofSelection(context) {
     if (!context) return;
     for (const item of context.items.values())
@@ -671,6 +724,7 @@
     context.selection = null;
     context.trigger = null;
     context.panel.hidden = true;
+    setProofMagnification(context, false);
     delete context.panel.dataset.reviewToken;
     if (activeProofContext === context) activeProofContext = null;
   }
@@ -697,12 +751,8 @@
       edge.route.classList.toggle('graph-dimmed', !isRelated);
     });
 
-    const elementBox = item.element.getBoundingClientRect();
-    const figureBox = context.panel.parentElement.getBoundingClientRect();
-    const panelOnLeft = (elementBox.left + elementBox.right) / 2 >
-      (figureBox.left + figureBox.right) / 2;
-    context.panel.classList.toggle('graph-detail-left', panelOnLeft);
-    context.panel.classList.toggle('graph-detail-right', !panelOnLeft);
+    setProofMagnification(context, true);
+    placeDetailPanel(context, item.element);
     hideTooltip(context.container);
     if (renderPanel) renderDetailPanel(context, item.view);
     requestAnimationFrame(() => centerGraphSelection(context, related));
@@ -712,7 +762,16 @@
     const panel = ensureDetailPanel(container);
     if (!panel) return;
     const previous = proofContexts.get(container)?.selection;
-    const context = { container, panel, nodes, byKey, links, items: new Map(), edges, selection: null, trigger: null };
+    const svg = container.querySelector('svg');
+    if (!svg) return;
+    const context = {
+      container, panel, svg, nodes, byKey, links, items: new Map(), edges,
+      svgWidth: Number(svg.getAttribute('width')),
+      svgHeight: Number(svg.getAttribute('height')),
+      magnification: 1,
+      selection: null,
+      trigger: null,
+    };
     proofContexts.set(container, context);
 
     for (const item of nodeItems) {
@@ -1265,7 +1324,11 @@
     const padX = 38;
     const padY = 26;
     const rowGap = 26;
-    const width = Math.max(container.clientWidth, Math.ceil(layout.width) + 2 * padX);
+    const width = Math.max(
+      PROOF_NETWORK_MIN_WIDTH,
+      container.clientWidth,
+      Math.ceil(layout.width) + 2 * padX,
+    );
     const offsetX = (width - layout.width) / 2;
     const height = rowHeights.reduce((sum, value) => sum + value, 0) + layout.maxLayer * rowGap + 2 * padY;
     container.style.height = Math.min(height, 720) + 'px';
