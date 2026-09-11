@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://comments.laxarchive.org; style-src 'self' 'unsafe-inline'; img-src https: data:; font-src 'self'; frame-src https://comments.laxarchive.org; connect-src https://comments.laxarchive.org">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Lax — an archive of formalized mathematical concepts and their proofs">
+<title>The Immerman–Szelepcsényi Theorem — lax-733996</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
+<link rel="stylesheet" href="../assets/style.css?v=23866243e5a9">
+</head><body>
+<header class="site-header">
+  <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
+  <h1 class="site-title"><a href="../index.html">Lax <span class="site-title-quiet">Lean Archive</span></a></h1>
+  <nav class="header-actions" aria-label="Account">
+    <div class="account-header" data-account-root data-remark42-host="https://comments.laxarchive.org" data-remark42-site="remark" data-identity-url="https://comments.laxarchive.org/reactions/v1/identity">
+  <a class="account-control" data-account-login href="https://comments.laxarchive.org/auth/orcid/login?from=https%3A%2F%2Flaxarchive.org&amp;site=remark"><span class="orcid-mark" aria-hidden="true">iD</span><span>Sign in with ORCID</span></a>
+  <button class="account-control" data-account-settings type="button" aria-haspopup="dialog" aria-controls="account-dialog" hidden><span class="orcid-mark" aria-hidden="true">iD</span><span>Settings</span></button>
+</div>
+  </nav>
+</header>
+<main id="content-shell">
+<div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+<aside id="sidebar">
+<a class="sidebar-back" href="../index.html"><span class="sidebar-back-arrow" aria-hidden="true">←</span>All submissions</a>
+<div class="sidebar-filters"><div class="filter-group">
+<label for="filter-search">Search</label>
+<input id="filter-search" class="filter-input" type="search" placeholder="Filter entries" aria-controls="entry-list">
+</div>
+<div class="filter-group">
+<label for="filter-type">Type</label>
+<select id="filter-type" class="filter-select">
+<option value="all">All types</option>
+<option value="definition">definition</option>
+<option value="lemma">lemma</option>
+<option value="theorem">theorem</option>
+<option value="proof">proof</option>
+</select>
+</div></div>
+<ul id="entry-list">
+<li class="entry-heading" aria-hidden="true">Concepts</li>
+<li data-type="lemma" data-search="lax733996.classification correctness of vertex classification lemma"><a class="entry-link" href="../lax-733996/Lax733996.Classification.html" data-full-title="Correctness of vertex classification"><span class="entry-label"><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><span class="entry-label-text">Correctness of vertex classification</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-733996/Lax733996.Classification.html" hidden></span></span></a></li>
+<li data-type="lemma" data-search="lax733996.complementclosure complementing a logarithmic space language lemma"><a class="entry-link" href="../lax-733996/Lax733996.ComplementClosure.html" data-full-title="Complementing a logarithmic space language"><span class="entry-label"><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><span class="entry-label-text">Complementing a logarithmic space language</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-733996/Lax733996.ComplementClosure.html" hidden></span></span></a></li>
+<li data-type="definition" data-search="lax733996.configurationcounting counting on the configuration graph definition"><a class="entry-link" href="../lax-733996/Lax733996.ConfigurationCounting.html" data-full-title="Counting on the configuration graph"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Counting on the configuration graph</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-733996/Lax733996.ConfigurationCounting.html" hidden></span></span></a></li>
+<li data-type="definition" data-search="lax733996.counting inductive counting certificates definition"><a class="entry-link" href="../lax-733996/Lax733996.Counting.html" data-full-title="Inductive counting certificates"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Inductive counting certificates</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-733996/Lax733996.Counting.html" hidden></span></span></a></li>
+<li data-type="lemma" data-search="lax733996.countingstep correctness of one counting step lemma"><a class="entry-link" href="../lax-733996/Lax733996.CountingStep.html" data-full-title="Correctness of one counting step"><span class="entry-label"><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><span class="entry-label-text">Correctness of one counting step</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-733996/Lax733996.CountingStep.html" hidden></span></span></a></li>
+<li data-type="lemma" data-search="lax733996.countingtrace correctness of the count sequence lemma"><a class="entry-link" href="../lax-733996/Lax733996.CountingTrace.html" data-full-title="Correctness of the count sequence"><span class="entry-label"><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><span class="entry-label-text">Correctness of the count sequence</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-733996/Lax733996.CountingTrace.html" hidden></span></span></a></li>
+<li data-type="lemma" data-search="lax733996.countmachine logarithmic space for inductive counting lemma"><a class="entry-link" href="../lax-733996/Lax733996.CountMachine.html" data-full-title="Logarithmic space for inductive counting"><span class="entry-label"><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><span class="entry-label-text">Logarithmic space for inductive counting</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-733996/Lax733996.CountMachine.html" hidden></span></span></a></li>
+<li data-type="lemma" data-search="lax733996.exactcensus exact censuses enumerate the whole layer lemma"><a class="entry-link" href="../lax-733996/Lax733996.ExactCensus.html" data-full-title="Exact censuses enumerate the whole layer"><span class="entry-label"><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><span class="entry-label-text">Exact censuses enumerate the whole layer</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-733996/Lax733996.ExactCensus.html" hidden></span></span></a></li>
+<li data-type="theorem" data-search="lax733996.nlconl the immerman–szelepcsényi theorem theorem"><a class="entry-link" href="../lax-733996/Lax733996.NLcoNL.html" data-full-title="The Immerman–Szelepcsényi theorem"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">The Immerman–Szelepcsényi theorem</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-733996/Lax733996.NLcoNL.html" hidden></span></span></a></li>
+<li data-type="lemma" data-search="lax733996.nonreachability correctness of nonreachability certificates lemma"><a class="entry-link" href="../lax-733996/Lax733996.Nonreachability.html" data-full-title="Correctness of nonreachability certificates"><span class="entry-label"><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><span class="entry-label-text">Correctness of nonreachability certificates</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-733996/Lax733996.Nonreachability.html" hidden></span></span></a></li>
+<li data-type="lemma" data-search="lax733996.rejection correctness of rejection by counting lemma"><a class="entry-link" href="../lax-733996/Lax733996.Rejection.html" data-full-title="Correctness of rejection by counting"><span class="entry-label"><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><span class="entry-label-text">Correctness of rejection by counting</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-733996/Lax733996.Rejection.html" hidden></span></span></a></li>
+<li data-type="lemma" data-search="lax733996.successorlayer the next reachable layer lemma"><a class="entry-link" href="../lax-733996/Lax733996.SuccessorLayer.html" data-full-title="The next reachable layer"><span class="entry-label"><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><span class="entry-label-text">The next reachable layer</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-733996/Lax733996.SuccessorLayer.html" hidden></span></span></a></li>
+<li class="entry-heading" aria-hidden="true">Proofs</li>
+<li data-type="proof" data-search="lax733996proofs.classification proof"><a class="entry-link" href="../lax-733996/Lax733996Proofs.classification.html" data-full-title="Lax733996Proofs.classification"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax733996Proofs.classification</span></span></a></li>
+<li data-type="proof" data-search="lax733996proofs.complement_closed proof"><a class="entry-link" href="../lax-733996/Lax733996Proofs.complement_closed.html" data-full-title="Lax733996Proofs.complement_closed"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax733996Proofs.complement_closed</span></span></a></li>
+<li data-type="proof" data-search="lax733996proofs.counting_rejection proof"><a class="entry-link" href="../lax-733996/Lax733996Proofs.counting_rejection.html" data-full-title="Lax733996Proofs.counting_rejection"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax733996Proofs.counting_rejection</span></span></a></li>
+<li data-type="proof" data-search="lax733996proofs.counting_step proof"><a class="entry-link" href="../lax-733996/Lax733996Proofs.counting_step.html" data-full-title="Lax733996Proofs.counting_step"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax733996Proofs.counting_step</span></span></a></li>
+<li data-type="proof" data-search="lax733996proofs.counting_trace proof"><a class="entry-link" href="../lax-733996/Lax733996Proofs.counting_trace.html" data-full-title="Lax733996Proofs.counting_trace"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax733996Proofs.counting_trace</span></span></a></li>
+<li data-type="proof" data-search="lax733996proofs.countingprogram.counting_machine_implementation proof"><a class="entry-link" href="../lax-733996/Lax733996Proofs.CountingProgram.counting_machine_implementation.html" data-full-title="Lax733996Proofs.CountingProgram.counting_machine_implementation"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax733996Proofs.CountingProgram.counting_machine_implementation</span></span></a></li>
+<li data-type="proof" data-search="lax733996proofs.exact_census proof"><a class="entry-link" href="../lax-733996/Lax733996Proofs.exact_census.html" data-full-title="Lax733996Proofs.exact_census"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax733996Proofs.exact_census</span></span></a></li>
+<li data-type="proof" data-search="lax733996proofs.immerman_szelepcsenyi proof"><a class="entry-link" href="../lax-733996/Lax733996Proofs.immerman_szelepcsenyi.html" data-full-title="Lax733996Proofs.immerman_szelepcsenyi"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax733996Proofs.immerman_szelepcsenyi</span></span></a></li>
+<li data-type="proof" data-search="lax733996proofs.nonreachability proof"><a class="entry-link" href="../lax-733996/Lax733996Proofs.nonreachability.html" data-full-title="Lax733996Proofs.nonreachability"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax733996Proofs.nonreachability</span></span></a></li>
+<li data-type="proof" data-search="lax733996proofs.successor_layer proof"><a class="entry-link" href="../lax-733996/Lax733996Proofs.successor_layer.html" data-full-title="Lax733996Proofs.successor_layer"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax733996Proofs.successor_layer</span></span></a></li>
+<li id="entry-list-empty" hidden>No entries match.</li>
+</ul>
+</aside>
+<div id="sidebar-resizer" class="sidebar-resizer" role="separator" aria-label="Resize sidebar" aria-controls="sidebar" aria-orientation="vertical" aria-valuemin="220" aria-valuemax="520" aria-valuenow="285" tabindex="0" title="Drag to resize sidebar"></div>
+<section id="main"><div id="detail">
+<p class="draft-banner"><strong>Draft</strong> — mutable and not usable as a dependency; its citation marks the draft state.</p>
+<header class="paper-head">
+<h1 class="paper-title">The Immerman–Szelepcsényi Theorem</h1>
+<p class="paper-meta"><span class="submission-meta-id">lax-733996</span><span class="meta-sep">·</span><span class="formalized-label">formalized by</span> <span class="paper-author">Édouard Bonnet</span><span class="author-sep">·</span><span class="paper-author">gpt-6-astra</span><span class="meta-sep">·</span>created 2026-09-09<span class="meta-sep">·</span><a href="https://github.com/EdouardBonnet/immerman-szelepcsenyi/tree/fae3750ccee617c7f97680c6f1ceef3996b3f47e/" title="https://github.com/EdouardBonnet/immerman-szelepcsenyi/tree/fae3750ccee617c7f97680c6f1ceef3996b3f47e/"><code>GitHub @fae3750</code></a><span class="meta-sep">·</span>Lean <code>v4.30.0</code> <span class="meta-epoch" title="the environment the archive recommends this year">epoch</span> · mathlib <code>c5ea00351c28</code></p>
+</header>
+<section class="page-reactions" aria-label="Community review" data-reactions-host="https://comments.laxarchive.org" data-reactions-url="https://laxarchive.org/lax-733996/" data-review-kind="submission" data-source-lines="0" data-submission-concept-urls="[&quot;https://laxarchive.org/lax-307052/Lax307052.BoundedConfigurations.html&quot;,&quot;https://laxarchive.org/lax-307052/Lax307052.ConfigurationGraph.html&quot;,&quot;https://laxarchive.org/lax-307052/Lax307052.Reachability.html&quot;,&quot;https://laxarchive.org/lax-307052/Lax307052.Runs.html&quot;,&quot;https://laxarchive.org/lax-307052/Lax307052.ShortPaths.html&quot;,&quot;https://laxarchive.org/lax-434930/Lax434930.Certificates.html&quot;,&quot;https://laxarchive.org/lax-434930/Lax434930.ComplementClasses.html&quot;,&quot;https://laxarchive.org/lax-434930/Lax434930.NondeterministicLogarithmicSpace.html&quot;,&quot;https://laxarchive.org/lax-434930/Lax434930.NondeterministicPolynomialTime.html&quot;,&quot;https://laxarchive.org/lax-434930/Lax434930.PolynomialTime.html&quot;,&quot;https://laxarchive.org/lax-434930/Lax434930.SpaceBounds.html&quot;,&quot;https://laxarchive.org/lax-434930/Lax434930.SpaceMachines.html&quot;,&quot;https://laxarchive.org/lax-554803/Lax554803.PolynomialTime.html&quot;,&quot;https://laxarchive.org/lax-733996/Lax733996.Classification.html&quot;,&quot;https://laxarchive.org/lax-733996/Lax733996.ComplementClosure.html&quot;,&quot;https://laxarchive.org/lax-733996/Lax733996.ConfigurationCounting.html&quot;,&quot;https://laxarchive.org/lax-733996/Lax733996.Counting.html&quot;,&quot;https://laxarchive.org/lax-733996/Lax733996.CountingStep.html&quot;,&quot;https://laxarchive.org/lax-733996/Lax733996.CountingTrace.html&quot;,&quot;https://laxarchive.org/lax-733996/Lax733996.CountMachine.html&quot;,&quot;https://laxarchive.org/lax-733996/Lax733996.ExactCensus.html&quot;,&quot;https://laxarchive.org/lax-733996/Lax733996.NLcoNL.html&quot;,&quot;https://laxarchive.org/lax-733996/Lax733996.Nonreachability.html&quot;,&quot;https://laxarchive.org/lax-733996/Lax733996.Rejection.html&quot;,&quot;https://laxarchive.org/lax-733996/Lax733996.SuccessorLayer.html&quot;]">
+<div class="page-reactions-line">
+<div class="page-reactions-actions">
+<div class="page-reaction-control">
+<button class="page-reaction-button" type="button" data-reaction="endorse" aria-pressed="false" title="Say that this submission is correct"><span class="page-reaction-icon" aria-hidden="true">🥳</span><span>Endorse</span></button>
+<button class="page-reaction-voters" type="button" data-reaction-voters="endorse" aria-expanded="false" aria-controls="page-reaction-voters-endorse"><strong data-reaction-count="endorse">0</strong><span class="visually-hidden">Show people who endorse this submission</span></button>
+<div class="page-reaction-voters-popover" id="page-reaction-voters-endorse" data-reaction-voters-popover="endorse" hidden><p data-reaction-empty>No public endorsements yet.</p><ul></ul></div>
+</div>
+<div class="page-reaction-control page-flag-control">
+<button class="page-reaction-button" type="button" data-reaction="flag" aria-pressed="false" aria-haspopup="dialog" title="Explain why this submission may be false"><span class="page-reaction-icon" aria-hidden="true">🚩</span><span>Flag</span></button>
+<button class="page-reaction-voters" type="button" data-flag-list-open aria-haspopup="dialog" aria-controls="page-flag-list"><strong data-reaction-count="flag">0</strong><span class="visually-hidden">Show flags for this submission</span></button>
+</div>
+</div>
+<p class="submission-flagged-note" data-submission-flagged-note hidden><span aria-hidden="true">⚑</span><span data-submission-flagged-note-text></span></p>
+</div>
+<p class="page-reactions-status" data-reactions-status role="status">Loading review…</p>
+<a class="visually-hidden" data-reactions-login href="https://comments.laxarchive.org/auth/orcid/login?site=remark&amp;from=https%3A%2F%2Flaxarchive.org%2Flax-733996%2F">Sign in with ORCID</a>
+<dialog class="review-dialog flag-list-dialog" id="page-flag-list" data-flag-list-dialog aria-labelledby="page-flag-list-title">
+<div class="review-dialog-header"><div><p class="discussion-eyebrow">Community review</p><h2 id="page-flag-list-title">Flags</h2></div><button class="review-dialog-close" type="button" data-flag-list-close aria-label="Close flags">×</button></div>
+<p class="review-dialog-intro">Each flag is tied to a public ORCID identity and explains why this submission may be incorrect.</p>
+<p data-flag-list-empty>No flags have been submitted.</p><ol class="flag-list" data-flag-list></ol>
+</dialog>
+<dialog class="review-dialog flag-editor-dialog" id="page-flag-editor" data-flag-editor aria-labelledby="page-flag-editor-title">
+<form data-flag-form>
+<div class="review-dialog-header"><div><p class="discussion-eyebrow">Community review</p><h2 id="page-flag-editor-title">Flag this submission</h2></div><button class="review-dialog-close" type="button" data-flag-cancel aria-label="Close flag form">×</button></div>
+<p class="review-dialog-intro">State precisely what appears incorrect. This explanation will be public under your ORCID name.</p>
+<label class="flag-message-label" for="page-flag-message">What is wrong?</label>
+<textarea id="page-flag-message" data-flag-message rows="6" maxlength="2000" required placeholder="Describe the incorrect claim, missing assumption, or counterexample."></textarea>
+
+<p class="flag-form-status" data-flag-form-status role="status"></p>
+<div class="review-dialog-actions"><button class="danger-button" type="button" data-flag-remove hidden>Remove my flag</button><span></span><button class="secondary-button" type="button" data-flag-cancel>Cancel</button><button class="primary-button" type="submit">Publish flag</button></div>
+</form>
+</dialog>
+<noscript><p class="page-reactions-noscript"><a href="https://comments.laxarchive.org/auth/orcid/login?site=remark&amp;from=https%3A%2F%2Flaxarchive.org%2Flax-733996%2F">Sign in with ORCID</a> to review this page.</p></noscript>
+</section>
+<section class="paper-abstract">
+<h2 class="abstract-heading">Abstract</h2>
+<div class="latex-content"><p>We prove <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">N</mi><mi mathvariant="normal">L</mi></mrow><mo>=</mo><mrow><mi mathvariant="normal">c</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">N</mi><mi mathvariant="normal">L</mi></mrow></mrow><annotation encoding="application/x-tex">\mathrm{NL}=\mathrm{coNL}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord"><span class="mord mathrm">NL</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord"><span class="mord mathrm">coNL</span></span></span></span></span> by inductive counting on finite configuration graphs. The proof constructs a nondeterministic Turing machine that generates paths and census witnesses sequentially, halts on every branch, and uses logarithmic space. Machine classes come from lax-434930; configuration encodings and stack routines come from lax-307052.</p>
+</div>
+</section>
+
+<section class="page-section"><h3 class="section-title">Concepts</h3>
+<div class="concept-list-box">
+<div class="concept-review-progress" data-concept-review-progress data-concept-review-urls="[&quot;https://laxarchive.org/lax-733996/Lax733996.ConfigurationCounting.html&quot;,&quot;https://laxarchive.org/lax-733996/Lax733996.Counting.html&quot;,&quot;https://laxarchive.org/lax-733996/Lax733996.NLcoNL.html&quot;,&quot;https://laxarchive.org/lax-307052/Lax307052.BoundedConfigurations.html&quot;,&quot;https://laxarchive.org/lax-307052/Lax307052.ConfigurationGraph.html&quot;,&quot;https://laxarchive.org/lax-307052/Lax307052.Reachability.html&quot;,&quot;https://laxarchive.org/lax-434930/Lax434930.Certificates.html&quot;,&quot;https://laxarchive.org/lax-434930/Lax434930.ComplementClasses.html&quot;,&quot;https://laxarchive.org/lax-434930/Lax434930.NondeterministicLogarithmicSpace.html&quot;,&quot;https://laxarchive.org/lax-434930/Lax434930.NondeterministicPolynomialTime.html&quot;,&quot;https://laxarchive.org/lax-434930/Lax434930.PolynomialTime.html&quot;,&quot;https://laxarchive.org/lax-434930/Lax434930.SpaceBounds.html&quot;,&quot;https://laxarchive.org/lax-434930/Lax434930.SpaceMachines.html&quot;,&quot;https://laxarchive.org/lax-554803/Lax554803.PolynomialTime.html&quot;]" hidden>
+<div class="concept-review-progress-heading"><span>Review progress</span><span data-concept-review-progress-label></span></div>
+<div class="concept-review-progress-track" data-concept-review-progress-track role="img"></div>
+</div>
+<ul class="concept-list">
+<li><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><a href="Lax733996.Classification.html" title="Lax733996.Classification"><code>Lax733996.Classification</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-733996/Lax733996.Classification.html" hidden></span></li>
+<li><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><a href="Lax733996.ComplementClosure.html" title="Lax733996.ComplementClosure"><code>Lax733996.ComplementClosure</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-733996/Lax733996.ComplementClosure.html" hidden></span></li>
+<li><span class="type-badge" title="definition">def</span><a href="Lax733996.ConfigurationCounting.html" title="Lax733996.ConfigurationCounting"><code>Lax733996.ConfigurationCounting</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-733996/Lax733996.ConfigurationCounting.html" hidden></span></li>
+<li><span class="type-badge" title="definition">def</span><a href="Lax733996.Counting.html" title="Lax733996.Counting"><code>Lax733996.Counting</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-733996/Lax733996.Counting.html" hidden></span></li>
+<li><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><a href="Lax733996.CountingStep.html" title="Lax733996.CountingStep"><code>Lax733996.CountingStep</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-733996/Lax733996.CountingStep.html" hidden></span></li>
+<li><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><a href="Lax733996.CountingTrace.html" title="Lax733996.CountingTrace"><code>Lax733996.CountingTrace</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-733996/Lax733996.CountingTrace.html" hidden></span></li>
+<li><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><a href="Lax733996.CountMachine.html" title="Lax733996.CountMachine"><code>Lax733996.CountMachine</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-733996/Lax733996.CountMachine.html" hidden></span></li>
+<li><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><a href="Lax733996.ExactCensus.html" title="Lax733996.ExactCensus"><code>Lax733996.ExactCensus</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-733996/Lax733996.ExactCensus.html" hidden></span></li>
+<li><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="Lax733996.NLcoNL.html" title="Lax733996.NLcoNL"><code>Lax733996.NLcoNL</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-733996/Lax733996.NLcoNL.html" hidden></span></li>
+<li><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><a href="Lax733996.Nonreachability.html" title="Lax733996.Nonreachability"><code>Lax733996.Nonreachability</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-733996/Lax733996.Nonreachability.html" hidden></span></li>
+<li><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><a href="Lax733996.Rejection.html" title="Lax733996.Rejection"><code>Lax733996.Rejection</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-733996/Lax733996.Rejection.html" hidden></span></li>
+<li><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><a href="Lax733996.SuccessorLayer.html" title="Lax733996.SuccessorLayer"><code>Lax733996.SuccessorLayer</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-733996/Lax733996.SuccessorLayer.html" hidden></span></li>
+</ul>
+<button class="concept-used-toggle" type="button" data-used-concepts-toggle aria-controls="used-concepts-list" aria-expanded="false">Show referenced concepts</button>
+<ul class="concept-list concept-used-list" id="used-concepts-list" aria-label="Concepts used from other submissions" hidden>
+<li><span class="type-badge" title="definition">def</span><a href="../lax-307052/Lax307052.BoundedConfigurations.html" title="Lax307052.BoundedConfigurations"><code>Lax307052.BoundedConfigurations</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-307052/Lax307052.BoundedConfigurations.html" hidden></span></li>
+<li><span class="type-badge" title="definition">def</span><a href="../lax-307052/Lax307052.ConfigurationGraph.html" title="Lax307052.ConfigurationGraph"><code>Lax307052.ConfigurationGraph</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-307052/Lax307052.ConfigurationGraph.html" hidden></span></li>
+<li><span class="type-badge" title="definition">def</span><a href="../lax-307052/Lax307052.Reachability.html" title="Lax307052.Reachability"><code>Lax307052.Reachability</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-307052/Lax307052.Reachability.html" hidden></span></li>
+<li><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><a href="../lax-307052/Lax307052.Runs.html" title="Lax307052.Runs"><code>Lax307052.Runs</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-307052/Lax307052.Runs.html" hidden></span></li>
+<li><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><a href="../lax-307052/Lax307052.ShortPaths.html" title="Lax307052.ShortPaths"><code>Lax307052.ShortPaths</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-307052/Lax307052.ShortPaths.html" hidden></span></li>
+<li><span class="type-badge proven" title="definition — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">def✓</span><a href="../lax-434930/Lax434930.Certificates.html" title="Lax434930.Certificates"><code>Lax434930.Certificates</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-434930/Lax434930.Certificates.html" hidden></span></li>
+<li><span class="type-badge" title="definition">def</span><a href="../lax-434930/Lax434930.ComplementClasses.html" title="Lax434930.ComplementClasses"><code>Lax434930.ComplementClasses</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-434930/Lax434930.ComplementClasses.html" hidden></span></li>
+<li><span class="type-badge" title="definition">def</span><a href="../lax-434930/Lax434930.NondeterministicLogarithmicSpace.html" title="Lax434930.NondeterministicLogarithmicSpace"><code>Lax434930.NondeterministicLogarithmicSpace</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-434930/Lax434930.NondeterministicLogarithmicSpace.html" hidden></span></li>
+<li><span class="type-badge" title="definition">def</span><a href="../lax-434930/Lax434930.NondeterministicPolynomialTime.html" title="Lax434930.NondeterministicPolynomialTime"><code>Lax434930.NondeterministicPolynomialTime</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-434930/Lax434930.NondeterministicPolynomialTime.html" hidden></span></li>
+<li><span class="type-badge" title="definition">def</span><a href="../lax-434930/Lax434930.PolynomialTime.html" title="Lax434930.PolynomialTime"><code>Lax434930.PolynomialTime</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-434930/Lax434930.PolynomialTime.html" hidden></span></li>
+<li><span class="type-badge" title="definition">def</span><a href="../lax-434930/Lax434930.SpaceBounds.html" title="Lax434930.SpaceBounds"><code>Lax434930.SpaceBounds</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-434930/Lax434930.SpaceBounds.html" hidden></span></li>
+<li><span class="type-badge" title="definition">def</span><a href="../lax-434930/Lax434930.SpaceMachines.html" title="Lax434930.SpaceMachines"><code>Lax434930.SpaceMachines</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-434930/Lax434930.SpaceMachines.html" hidden></span></li>
+<li><span class="type-badge" title="definition">def</span><a href="../lax-554803/Lax554803.PolynomialTime.html" title="Lax554803.PolynomialTime"><code>Lax554803.PolynomialTime</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-554803/Lax554803.PolynomialTime.html" hidden></span></li>
+</ul>
+<div class="badge-legend" aria-label="Concept badge legend"><span><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span>proven claim</span><span><span class="type-badge" title="definition">def</span>definition</span></div>
+</div>
+<h4 class="figure-title">Concept map</h4>
+<figure class="graph-figure">
+<button class="graph-expand" type="button" data-graph-expand data-graph-label="concept map" aria-expanded="false" aria-label="Open concept map in a large window" title="Open in large window"><svg class="graph-expand-open" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M2.5 6V2.5H6M10 2.5h3.5V6M13.5 10v3.5H10M6 13.5H2.5V10"/></svg><span class="graph-expand-close" aria-hidden="true">×</span></button>
+<div class="graph-toolbar"><button type="button" id="concept-expand" aria-controls="concept-dag" aria-pressed="true">Hide ancestors</button><button type="button" id="concept-descend" aria-controls="concept-dag" aria-pressed="false">Show descendants</button><output id="concept-graph-status" aria-live="polite"></output></div>
+<div id="concept-dag" class="figure-container" data-graph="concepts" data-ancestry="true"></div>
+<div class="graph-tooltip" role="tooltip" hidden></div>
+<figcaption class="graph-legend" aria-label="Concept map legend"><span><i class="legend-node fill-proven"></i>Proven claim</span><span><i class="legend-node fill-none"></i>Definition</span><span><i class="legend-node stroke-own"></i>This submission</span><span><i class="legend-node stroke-ext"></i>Other submission</span><span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B builds on A</span></figcaption>
+</figure>
+</section>
+<section class="page-section"><h3 class="section-title">Proofs</h3>
+<h4 class="figure-title">Proof network<a class="source-link" href="https://github.com/EdouardBonnet/immerman-szelepcsenyi/tree/fae3750ccee617c7f97680c6f1ceef3996b3f47e/proofs">view on GitHub</a></h4>
+<figure class="graph-figure proof-network-figure">
+<button class="graph-expand" type="button" data-graph-expand data-graph-label="proof network" aria-expanded="false" aria-label="Open proof network in a large window" title="Open in large window"><svg class="graph-expand-open" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M2.5 6V2.5H6M10 2.5h3.5V6M13.5 10v3.5H10M6 13.5H2.5V10"/></svg><span class="graph-expand-close" aria-hidden="true">×</span></button>
+<div id="proof-network" class="figure-container" data-graph="proofs"></div>
+<div class="graph-tooltip" role="tooltip" hidden></div>
+<figcaption class="graph-legend" aria-label="Proof network legend"><span class="proof-flow">assumptions <i class="legend-arrow" aria-hidden="true">→</i><i class="legend-proof-chip" aria-hidden="true">⊢</i><i class="legend-arrow" aria-hidden="true">→</i> conclusion</span><span><i class="legend-node fill-proven"></i>Proven claim</span><span><i class="legend-node stroke-own"></i>This submission</span><span><i class="legend-node stroke-ext"></i>From another submission</span><span><i class="legend-proof-chip" aria-hidden="true">⊢</i>Proof — click to open</span></figcaption>
+</figure>
+<div class="proof-list-box">
+<ul class="proof-list">
+<li class="proof-item" id="p-Lax733996Proofs.classification">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-733996/Lax733996Proofs.classification.html" aria-label="Open proof Lax733996Proofs.classification"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><ul><li><span class="claim-entry"><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><a href="../lax-733996/Lax733996.ExactCensus.html" title="Lax733996.ExactCensus.complete"><code>Lax733996.ExactCensus</code></a></span></li>
+<li><span class="claim-entry"><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><a href="../lax-733996/Lax733996.SuccessorLayer.html" title="Lax733996.SuccessorLayer.successor"><code>Lax733996.SuccessorLayer</code></a></span></li></ul></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><a href="../lax-733996/Lax733996.Classification.html" title="Lax733996.Classification.correct"><code>Lax733996.Classification</code></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-733996/Lax733996Proofs.classification.html"><code>Lax733996Proofs.classification</code></a></p>
+</li>
+<li class="proof-item" id="p-Lax733996Proofs.complement_closed">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-733996/Lax733996Proofs.complement_closed.html" aria-label="Open proof Lax733996Proofs.complement_closed"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><ul><li><span class="claim-entry"><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><a href="../lax-733996/Lax733996.CountMachine.html" title="Lax733996.CountMachine.implement"><code>Lax733996.CountMachine</code></a></span></li>
+<li><span class="claim-entry"><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><a href="../lax-733996/Lax733996.Rejection.html" title="Lax733996.Rejection.correct"><code>Lax733996.Rejection</code></a></span></li></ul></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><a href="../lax-733996/Lax733996.ComplementClosure.html" title="Lax733996.ComplementClosure.closed"><code>Lax733996.ComplementClosure</code></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-733996/Lax733996Proofs.complement_closed.html"><code>Lax733996Proofs.complement_closed</code></a></p>
+</li>
+<li class="proof-item" id="p-Lax733996Proofs.counting_rejection">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-733996/Lax733996Proofs.counting_rejection.html" aria-label="Open proof Lax733996Proofs.counting_rejection"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><ul><li><span class="claim-entry"><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><a href="../lax-307052/Lax307052.Runs.html" title="Lax307052.Runs.acceptance"><code>Lax307052.Runs</code></a></span></li>
+<li><span class="claim-entry"><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><a href="../lax-733996/Lax733996.Nonreachability.html" title="Lax733996.Nonreachability.correct"><code>Lax733996.Nonreachability</code></a></span></li></ul></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><a href="../lax-733996/Lax733996.Rejection.html" title="Lax733996.Rejection.correct"><code>Lax733996.Rejection</code></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-733996/Lax733996Proofs.counting_rejection.html"><code>Lax733996Proofs.counting_rejection</code></a></p>
+</li>
+<li class="proof-item" id="p-Lax733996Proofs.counting_step">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-733996/Lax733996Proofs.counting_step.html" aria-label="Open proof Lax733996Proofs.counting_step"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><ul><li><span class="claim-entry"><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><a href="../lax-733996/Lax733996.Classification.html" title="Lax733996.Classification.correct"><code>Lax733996.Classification</code></a></span></li></ul></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><a href="../lax-733996/Lax733996.CountingStep.html" title="Lax733996.CountingStep.correct"><code>Lax733996.CountingStep</code></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-733996/Lax733996Proofs.counting_step.html"><code>Lax733996Proofs.counting_step</code></a></p>
+</li>
+<li class="proof-item" id="p-Lax733996Proofs.counting_trace">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-733996/Lax733996Proofs.counting_trace.html" aria-label="Open proof Lax733996Proofs.counting_trace"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><ul><li><span class="claim-entry"><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><a href="../lax-733996/Lax733996.CountingStep.html" title="Lax733996.CountingStep.correct"><code>Lax733996.CountingStep</code></a></span></li></ul></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><a href="../lax-733996/Lax733996.CountingTrace.html" title="Lax733996.CountingTrace.correct"><code>Lax733996.CountingTrace</code></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-733996/Lax733996Proofs.counting_trace.html"><code>Lax733996Proofs.counting_trace</code></a></p>
+</li>
+<li class="proof-item" id="p-Lax733996Proofs.CountingProgram.counting_machine_implementation">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-733996/Lax733996Proofs.CountingProgram.counting_machine_implementation.html" aria-label="Open proof Lax733996Proofs.CountingProgram.counting_machine_implementation"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><ul><li><span class="claim-entry"><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><a href="../lax-307052/Lax307052.Runs.html" title="Lax307052.Runs.acceptance"><code>Lax307052.Runs</code></a></span></li>
+<li><span class="claim-entry"><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><a href="../lax-307052/Lax307052.ShortPaths.html" title="Lax307052.ShortPaths.short_path"><code>Lax307052.ShortPaths</code></a></span></li>
+<li><span class="claim-entry"><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><a href="../lax-733996/Lax733996.Nonreachability.html" title="Lax733996.Nonreachability.correct"><code>Lax733996.Nonreachability</code></a></span></li></ul></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><a href="../lax-733996/Lax733996.CountMachine.html" title="Lax733996.CountMachine.implement"><code>Lax733996.CountMachine</code></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-733996/Lax733996Proofs.CountingProgram.counting_machine_implementation.html"><code>Lax733996Proofs.CountingProgram.counting_machine_implementation</code></a></p>
+</li>
+<li class="proof-item" id="p-Lax733996Proofs.exact_census">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-733996/Lax733996Proofs.exact_census.html" aria-label="Open proof Lax733996Proofs.exact_census"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><p class="judgment-unconditional">no assumptions</p></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><a href="../lax-733996/Lax733996.ExactCensus.html" title="Lax733996.ExactCensus.complete"><code>Lax733996.ExactCensus</code></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-733996/Lax733996Proofs.exact_census.html"><code>Lax733996Proofs.exact_census</code></a></p>
+</li>
+<li class="proof-item" id="p-Lax733996Proofs.immerman_szelepcsenyi">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-733996/Lax733996Proofs.immerman_szelepcsenyi.html" aria-label="Open proof Lax733996Proofs.immerman_szelepcsenyi"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><ul><li><span class="claim-entry"><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><a href="../lax-733996/Lax733996.ComplementClosure.html" title="Lax733996.ComplementClosure.closed"><code>Lax733996.ComplementClosure</code></a></span></li></ul></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="../lax-733996/Lax733996.NLcoNL.html" title="Lax733996.NLcoNL.nl_eq_conl"><code>Lax733996.NLcoNL</code></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-733996/Lax733996Proofs.immerman_szelepcsenyi.html"><code>Lax733996Proofs.immerman_szelepcsenyi</code></a></p>
+</li>
+<li class="proof-item" id="p-Lax733996Proofs.nonreachability">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-733996/Lax733996Proofs.nonreachability.html" aria-label="Open proof Lax733996Proofs.nonreachability"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><ul><li><span class="claim-entry"><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><a href="../lax-307052/Lax307052.ShortPaths.html" title="Lax307052.ShortPaths.short_path"><code>Lax307052.ShortPaths</code></a></span></li>
+<li><span class="claim-entry"><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><a href="../lax-733996/Lax733996.CountingTrace.html" title="Lax733996.CountingTrace.correct"><code>Lax733996.CountingTrace</code></a></span></li>
+<li><span class="claim-entry"><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><a href="../lax-733996/Lax733996.ExactCensus.html" title="Lax733996.ExactCensus.complete"><code>Lax733996.ExactCensus</code></a></span></li></ul></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><a href="../lax-733996/Lax733996.Nonreachability.html" title="Lax733996.Nonreachability.correct"><code>Lax733996.Nonreachability</code></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-733996/Lax733996Proofs.nonreachability.html"><code>Lax733996Proofs.nonreachability</code></a></p>
+</li>
+<li class="proof-item" id="p-Lax733996Proofs.successor_layer">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-733996/Lax733996Proofs.successor_layer.html" aria-label="Open proof Lax733996Proofs.successor_layer"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><p class="judgment-unconditional">no assumptions</p></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="lemma — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem✓</span><a href="../lax-733996/Lax733996.SuccessorLayer.html" title="Lax733996.SuccessorLayer.successor"><code>Lax733996.SuccessorLayer</code></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-733996/Lax733996Proofs.successor_layer.html"><code>Lax733996Proofs.successor_layer</code></a></p>
+</li>
+</ul>
+<p class="proof-list-source">Lean sources for these proofs: <a class="source-link" href="https://github.com/EdouardBonnet/immerman-szelepcsenyi/tree/fae3750ccee617c7f97680c6f1ceef3996b3f47e/proofs">proofs/ on GitHub</a></p>
+</div>
+<p class="honesty-note">Proof code is not displayed; the archive records each proof's checked relationship between claims.</p>
+</section>
+<section class="page-section"><h3 class="section-title">Related submissions</h3>
+<h4 class="figure-title">Submission map</h4>
+<figure class="graph-figure">
+<div id="submission-dag" class="figure-container" data-graph="submissions"></div>
+<div class="graph-tooltip" role="tooltip" hidden></div>
+<figcaption class="graph-legend" aria-label="Submission map legend"><span><i class="legend-node stroke-own"></i>This submission</span><span><i class="legend-node stroke-ext"></i>Other submission</span><span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B's concepts build on A</span></figcaption>
+</figure>
+</section>
+<section class="page-section"><h3 class="section-title" id="citation">Cite this</h3>
+<div class="citation-box">
+<pre class="citation" id="submission-citation">@misc{lax-733996,
+  author = {Édouard Bonnet and gpt-6-astra},
+  title = {The Immerman–Szelepcsényi Theorem},
+  year = {2026},
+  howpublished = {Lax Archive, lax-733996},
+  url = {https://laxarchive.org/lax-733996/},
+  note = {draft},
+}</pre>
+<button class="citation-copy" type="button" data-copy-citation aria-controls="submission-citation" aria-label="Copy BibTeX to clipboard" title="Copy BibTeX"><span class="citation-copy-icon" aria-hidden="true"></span></button>
+<output class="citation-copy-status" aria-live="polite"></output>
+</div>
+</section>
+<section class="page-section"><h3 class="section-title">References</h3>
+<ol class="reference-list">
+<li id="ref-Immerman1988">Neil Immerman. <span class="reference-title">Nondeterministic Space is Closed under Complementation</span>. SIAM Journal on Computing 17(5):935–938, 1988. <a href="https://doi.org/10.1137/0217058">doi:10.1137/0217058</a></li>
+<li id="ref-Szelepcsenyi1988">Róbert Szelepcsényi. <span class="reference-title">The Method of Forced Enumeration for Nondeterministic Automata</span>. Acta Informatica 26(3):279–284, 1988. <a href="https://doi.org/10.1007/BF00299636">doi:10.1007/BF00299636</a></li>
+</ol>
+</section>
+<section class="page-section discussion-section" aria-labelledby="discussion-title">
+<div class="discussion-heading">
+<div class="discussion-heading-copy">
+<p class="discussion-eyebrow">Community review</p>
+<h3 class="section-title" id="discussion-title">Discussion</h3>
+<p>Ask a question or add context. Endorsements and structured flags are kept in the review panel above; your ORCID profile must share a public name.</p>
+</div>
+<p class="discussion-count"><span class="remark42__counter" data-url="https://laxarchive.org/lax-733996/">0</span> <span>comments</span></p>
+</div>
+<div class="discussion-embed-shell">
+<p class="discussion-loading" id="remark42-status" role="status"><span class="discussion-loading-mark" aria-hidden="true"></span>Loading discussion…</p>
+<div id="remark42" data-remark42-host="https://comments.laxarchive.org" data-remark42-site="remark" data-remark42-url="https://laxarchive.org/lax-733996/"></div>
+</div>
+<noscript><p class="discussion-unavailable">Enable JavaScript to read or join the discussion.</p></noscript>
+</section>
+<script type="application/json" id="graph-data">{"concepts":{"nodes":[{"id":"Lax307052.BoundedConfigurations","href":"../lax-307052/Lax307052.BoundedConfigurations.html","title":"Bounded machine configurations","owner":"lax-307052","status":"none","ext":true,"dir":"up"},{"id":"Lax307052.ConfigurationGraph","href":"../lax-307052/Lax307052.ConfigurationGraph.html","title":"The bounded configuration graph","owner":"lax-307052","status":"none","ext":true,"dir":"up"},{"id":"Lax307052.Reachability","href":"../lax-307052/Lax307052.Reachability.html","title":"Bounded reachability","owner":"lax-307052","status":"none","ext":true,"dir":"up"},{"id":"Lax434930.Certificates","href":"../lax-434930/Lax434930.Certificates.html","title":"Binary encoding of an input and a certificate","owner":"lax-434930","status":"proven","ext":true,"dir":"up"},{"id":"Lax434930.ComplementClasses","href":"../lax-434930/Lax434930.ComplementClasses.html","title":"The complexity classes coNL and coNP","owner":"lax-434930","status":"none","ext":true,"dir":"up"},{"id":"Lax434930.NondeterministicLogarithmicSpace","href":"../lax-434930/Lax434930.NondeterministicLogarithmicSpace.html","title":"The complexity class NL","owner":"lax-434930","status":"none","ext":true,"dir":"up"},{"id":"Lax434930.NondeterministicPolynomialTime","href":"../lax-434930/Lax434930.NondeterministicPolynomialTime.html","title":"The complexity class NP","owner":"lax-434930","status":"none","ext":true,"dir":"up"},{"id":"Lax434930.PolynomialTime","href":"../lax-434930/Lax434930.PolynomialTime.html","title":"The complexity class P","owner":"lax-434930","status":"none","ext":true,"dir":"up"},{"id":"Lax434930.SpaceBounds","href":"../lax-434930/Lax434930.SpaceBounds.html","title":"Deterministic and nondeterministic space bounds","owner":"lax-434930","status":"none","ext":true,"dir":"up"},{"id":"Lax434930.SpaceMachines","href":"../lax-434930/Lax434930.SpaceMachines.html","title":"Finite Turing machines with a read-only input tape","owner":"lax-434930","status":"none","ext":true,"dir":"up"},{"id":"Lax554803.PolynomialTime","href":"../lax-554803/Lax554803.PolynomialTime.html","title":"The complexity class P","owner":"lax-554803","status":"none","ext":true,"dir":"up"},{"id":"Lax733996.Classification","href":"../lax-733996/Lax733996.Classification.html","title":"Correctness of vertex classification","owner":"lax-733996","status":"proven","ext":false,"dir":"core"},{"id":"Lax733996.ComplementClosure","href":"../lax-733996/Lax733996.ComplementClosure.html","title":"Complementing a logarithmic space language","owner":"lax-733996","status":"proven","ext":false,"dir":"core"},{"id":"Lax733996.ConfigurationCounting","href":"../lax-733996/Lax733996.ConfigurationCounting.html","title":"Counting on the configuration graph","owner":"lax-733996","status":"none","ext":false,"dir":"core"},{"id":"Lax733996.CountMachine","href":"../lax-733996/Lax733996.CountMachine.html","title":"Logarithmic space for inductive counting","owner":"lax-733996","status":"proven","ext":false,"dir":"core"},{"id":"Lax733996.Counting","href":"../lax-733996/Lax733996.Counting.html","title":"Inductive counting certificates","owner":"lax-733996","status":"none","ext":false,"dir":"core"},{"id":"Lax733996.CountingStep","href":"../lax-733996/Lax733996.CountingStep.html","title":"Correctness of one counting step","owner":"lax-733996","status":"proven","ext":false,"dir":"core"},{"id":"Lax733996.CountingTrace","href":"../lax-733996/Lax733996.CountingTrace.html","title":"Correctness of the count sequence","owner":"lax-733996","status":"proven","ext":false,"dir":"core"},{"id":"Lax733996.ExactCensus","href":"../lax-733996/Lax733996.ExactCensus.html","title":"Exact censuses enumerate the whole layer","owner":"lax-733996","status":"proven","ext":false,"dir":"core"},{"id":"Lax733996.NLcoNL","href":"../lax-733996/Lax733996.NLcoNL.html","title":"The Immerman–Szelepcsényi theorem","owner":"lax-733996","status":"proven","ext":false,"dir":"core"},{"id":"Lax733996.Nonreachability","href":"../lax-733996/Lax733996.Nonreachability.html","title":"Correctness of nonreachability certificates","owner":"lax-733996","status":"proven","ext":false,"dir":"core"},{"id":"Lax733996.Rejection","href":"../lax-733996/Lax733996.Rejection.html","title":"Correctness of rejection by counting","owner":"lax-733996","status":"proven","ext":false,"dir":"core"},{"id":"Lax733996.SuccessorLayer","href":"../lax-733996/Lax733996.SuccessorLayer.html","title":"The next reachable layer","owner":"lax-733996","status":"proven","ext":false,"dir":"core"}],"edges":[{"from":"Lax434930.SpaceMachines","to":"Lax307052.BoundedConfigurations"},{"from":"Lax307052.BoundedConfigurations","to":"Lax307052.ConfigurationGraph"},{"from":"Lax307052.Reachability","to":"Lax307052.ConfigurationGraph"},{"from":"Lax434930.PolynomialTime","to":"Lax434930.Certificates"},{"from":"Lax434930.NondeterministicLogarithmicSpace","to":"Lax434930.ComplementClasses"},{"from":"Lax434930.NondeterministicPolynomialTime","to":"Lax434930.ComplementClasses"},{"from":"Lax434930.SpaceBounds","to":"Lax434930.NondeterministicLogarithmicSpace"},{"from":"Lax434930.Certificates","to":"Lax434930.NondeterministicPolynomialTime"},{"from":"Lax554803.PolynomialTime","to":"Lax434930.PolynomialTime"},{"from":"Lax434930.SpaceMachines","to":"Lax434930.SpaceBounds"},{"from":"Lax434930.PolynomialTime","to":"Lax434930.SpaceMachines"},{"from":"Lax733996.Counting","to":"Lax733996.Classification"},{"from":"Lax434930.NondeterministicLogarithmicSpace","to":"Lax733996.ComplementClosure"},{"from":"Lax307052.ConfigurationGraph","to":"Lax733996.ConfigurationCounting"},{"from":"Lax733996.Counting","to":"Lax733996.ConfigurationCounting"},{"from":"Lax434930.SpaceBounds","to":"Lax733996.CountMachine"},{"from":"Lax733996.ConfigurationCounting","to":"Lax733996.CountMachine"},{"from":"Lax307052.Reachability","to":"Lax733996.Counting"},{"from":"Lax733996.Counting","to":"Lax733996.CountingStep"},{"from":"Lax733996.Counting","to":"Lax733996.CountingTrace"},{"from":"Lax733996.Counting","to":"Lax733996.ExactCensus"},{"from":"Lax434930.ComplementClasses","to":"Lax733996.NLcoNL"},{"from":"Lax733996.Counting","to":"Lax733996.Nonreachability"},{"from":"Lax733996.ConfigurationCounting","to":"Lax733996.Rejection"},{"from":"Lax733996.Counting","to":"Lax733996.SuccessorLayer"}],"home":"lax-733996"},"proofs":{"statements":[{"id":"Lax307052.Runs.acceptance","label":"Lax307052.Runs","title":"Runs and configuration reachability","owner":"lax-307052","concept":"Lax307052.Runs","index":1,"count":1,"href":"../lax-307052/Lax307052.Runs.html#s-Lax307052.Runs.acceptance","proven":true,"ext":true},{"id":"Lax307052.ShortPaths.short_path","label":"Lax307052.ShortPaths","title":"Short paths in a finite graph","owner":"lax-307052","concept":"Lax307052.ShortPaths","index":1,"count":1,"href":"../lax-307052/Lax307052.ShortPaths.html#s-Lax307052.ShortPaths.short_path","proven":true,"ext":true},{"id":"Lax733996.Classification.correct","label":"Lax733996.Classification","title":"Correctness of vertex classification","owner":"lax-733996","concept":"Lax733996.Classification","index":1,"count":1,"href":"../lax-733996/Lax733996.Classification.html#s-Lax733996.Classification.correct","proven":true,"ext":false},{"id":"Lax733996.ComplementClosure.closed","label":"Lax733996.ComplementClosure","title":"Complementing a logarithmic space language","owner":"lax-733996","concept":"Lax733996.ComplementClosure","index":1,"count":1,"href":"../lax-733996/Lax733996.ComplementClosure.html#s-Lax733996.ComplementClosure.closed","proven":true,"ext":false},{"id":"Lax733996.CountMachine.implement","label":"Lax733996.CountMachine","title":"Logarithmic space for inductive counting","owner":"lax-733996","concept":"Lax733996.CountMachine","index":1,"count":1,"href":"../lax-733996/Lax733996.CountMachine.html#s-Lax733996.CountMachine.implement","proven":true,"ext":false},{"id":"Lax733996.CountingStep.correct","label":"Lax733996.CountingStep","title":"Correctness of one counting step","owner":"lax-733996","concept":"Lax733996.CountingStep","index":1,"count":1,"href":"../lax-733996/Lax733996.CountingStep.html#s-Lax733996.CountingStep.correct","proven":true,"ext":false},{"id":"Lax733996.CountingTrace.correct","label":"Lax733996.CountingTrace","title":"Correctness of the count sequence","owner":"lax-733996","concept":"Lax733996.CountingTrace","index":1,"count":1,"href":"../lax-733996/Lax733996.CountingTrace.html#s-Lax733996.CountingTrace.correct","proven":true,"ext":false},{"id":"Lax733996.ExactCensus.complete","label":"Lax733996.ExactCensus","title":"Exact censuses enumerate the whole layer","owner":"lax-733996","concept":"Lax733996.ExactCensus","index":1,"count":1,"href":"../lax-733996/Lax733996.ExactCensus.html#s-Lax733996.ExactCensus.complete","proven":true,"ext":false},{"id":"Lax733996.NLcoNL.nl_eq_conl","label":"Lax733996.NLcoNL","title":"The Immerman–Szelepcsényi theorem","owner":"lax-733996","concept":"Lax733996.NLcoNL","index":1,"count":1,"href":"../lax-733996/Lax733996.NLcoNL.html#s-Lax733996.NLcoNL.nl_eq_conl","proven":true,"ext":false},{"id":"Lax733996.Nonreachability.correct","label":"Lax733996.Nonreachability","title":"Correctness of nonreachability certificates","owner":"lax-733996","concept":"Lax733996.Nonreachability","index":1,"count":1,"href":"../lax-733996/Lax733996.Nonreachability.html#s-Lax733996.Nonreachability.correct","proven":true,"ext":false},{"id":"Lax733996.Rejection.correct","label":"Lax733996.Rejection","title":"Correctness of rejection by counting","owner":"lax-733996","concept":"Lax733996.Rejection","index":1,"count":1,"href":"../lax-733996/Lax733996.Rejection.html#s-Lax733996.Rejection.correct","proven":true,"ext":false},{"id":"Lax733996.SuccessorLayer.successor","label":"Lax733996.SuccessorLayer","title":"The next reachable layer","owner":"lax-733996","concept":"Lax733996.SuccessorLayer","index":1,"count":1,"href":"../lax-733996/Lax733996.SuccessorLayer.html#s-Lax733996.SuccessorLayer.successor","proven":true,"ext":false}],"proofs":[{"id":"Lax733996Proofs.classification","assumptions":["Lax733996.ExactCensus.complete","Lax733996.SuccessorLayer.successor"],"conclusion":"Lax733996.Classification.correct","description":"An exact census makes the negative test exhaustive.","owner":"lax-733996","ext":false,"href":"../lax-733996/Lax733996Proofs.classification.html","assumptionsProven":true,"outstanding":0},{"id":"Lax733996Proofs.complement_closed","assumptions":["Lax733996.CountMachine.implement","Lax733996.Rejection.correct"],"conclusion":"Lax733996.ComplementClosure.closed","description":"The counting machine accepts the complement and preserves a logarithmic space bound.","owner":"lax-733996","ext":false,"href":"../lax-733996/Lax733996Proofs.complement_closed.html","assumptionsProven":true,"outstanding":0},{"id":"Lax733996Proofs.counting_rejection","assumptions":["Lax307052.Runs.acceptance","Lax733996.Nonreachability.correct"],"conclusion":"Lax733996.Rejection.correct","description":"Apply the nonreachability certificate to each possible accepting configuration.","owner":"lax-733996","ext":false,"href":"../lax-733996/Lax733996Proofs.counting_rejection.html","assumptionsProven":true,"outstanding":0},{"id":"Lax733996Proofs.counting_step","assumptions":["Lax733996.Classification.correct"],"conclusion":"Lax733996.CountingStep.correct","description":"The vertices classified positively are exactly the next layer.","owner":"lax-733996","ext":false,"href":"../lax-733996/Lax733996Proofs.counting_step.html","assumptionsProven":true,"outstanding":0},{"id":"Lax733996Proofs.counting_trace","assumptions":["Lax733996.CountingStep.correct"],"conclusion":"Lax733996.CountingTrace.correct","description":"Induct from the singleton initial layer through the certified counting steps.","owner":"lax-733996","ext":false,"href":"../lax-733996/Lax733996Proofs.counting_trace.html","assumptionsProven":true,"outstanding":0},{"id":"Lax733996Proofs.CountingProgram.counting_machine_implementation","assumptions":["Lax307052.Runs.acceptance","Lax307052.ShortPaths.short_path","Lax733996.Nonreachability.correct"],"conclusion":"Lax733996.CountMachine.implement","description":"Compile the sequential path and census loops to a finite Turing machine.\nEvery branch halts and every register has logarithmic length.","owner":"lax-733996","ext":false,"href":"../lax-733996/Lax733996Proofs.CountingProgram.counting_machine_implementation.html","assumptionsProven":true,"outstanding":0},{"id":"Lax733996Proofs.exact_census","assumptions":[],"conclusion":"Lax733996.ExactCensus.complete","description":"A finite subset with the same cardinality is the entire layer.","owner":"lax-733996","ext":false,"href":"../lax-733996/Lax733996Proofs.exact_census.html","assumptionsProven":true,"outstanding":0},{"id":"Lax733996Proofs.immerman_szelepcsenyi","assumptions":["Lax733996.ComplementClosure.closed"],"conclusion":"Lax733996.NLcoNL.nl_eq_conl","description":"Apply complement closure in both directions and use double complementation.","owner":"lax-733996","ext":false,"href":"../lax-733996/Lax733996Proofs.immerman_szelepcsenyi.html","assumptionsProven":true,"outstanding":0},{"id":"Lax733996Proofs.nonreachability","assumptions":["Lax307052.ShortPaths.short_path","Lax733996.CountingTrace.correct","Lax733996.ExactCensus.complete"],"conclusion":"Lax733996.Nonreachability.correct","description":"The final exact census contains every reachable vertex, so omitting the target certifies nonreachability.","owner":"lax-733996","ext":false,"href":"../lax-733996/Lax733996Proofs.nonreachability.html","assumptionsProven":true,"outstanding":0},{"id":"Lax733996Proofs.successor_layer","assumptions":[],"conclusion":"Lax733996.SuccessorLayer.successor","description":"Remove the last edge of a nonempty walk; the empty walk ends at the source.","owner":"lax-733996","ext":false,"href":"../lax-733996/Lax733996Proofs.successor_layer.html","assumptionsProven":true,"outstanding":0}],"home":"lax-733996"},"submissions":{"nodes":[{"id":"lax-307052","href":"../lax-307052/index.html","title":"Savitch's Theorem","state":"draft","concepts":16,"proofs":12,"dir":"up","ext":true},{"id":"lax-434930","href":"../lax-434930/index.html","title":"Classical Complexity Classes","state":"draft","concepts":13,"proofs":10,"dir":"up","ext":true},{"id":"lax-554803","href":"../lax-554803/index.html","title":"Polynomial Time and Closure under Complement","state":"draft","concepts":6,"proofs":4,"dir":"up","ext":true},{"id":"lax-733996","href":"../lax-733996/index.html","title":"The Immerman–Szelepcsényi Theorem","state":"draft","concepts":12,"proofs":10,"dir":"core","ext":false}],"edges":[{"from":"lax-434930","to":"lax-307052","kind":"concepts"},{"from":"lax-554803","to":"lax-307052","kind":"concepts"},{"from":"lax-554803","to":"lax-434930","kind":"concepts"},{"from":"lax-307052","to":"lax-733996","kind":"concepts"},{"from":"lax-434930","to":"lax-733996","kind":"concepts"},{"from":"lax-554803","to":"lax-733996","kind":"concepts"}]}}</script>
+</div>
+<footer class="site-footer">
+  <nav class="site-footer-nav" aria-label="Legal and about">
+    <a class="site-footer-link" href="../impressum.html">Imprint</a>
+    <a class="site-footer-link" href="../privacy.html">Privacy</a>
+    <a class="site-footer-link" href="../assets/lax-white-paper.pdf">About</a>
+  </nav>
+</footer>
+</section>
+</main>
+<dialog class="account-dialog" id="account-dialog" aria-labelledby="account-dialog-title">
+<div class="account-dialog-inner">
+<header class="account-dialog-header">
+<div><p class="account-dialog-eyebrow">ORCID account</p><h2 id="account-dialog-title">Settings</h2></div>
+<button class="account-dialog-close" data-account-close type="button" aria-label="Close account settings">×</button>
+</header>
+<div class="account-dialog-body">
+<p class="account-status" data-account-status role="status">Checking your ORCID session…</p>
+<section data-account-content hidden>
+<div class="account-identity">
+<span class="account-avatar" data-account-avatar aria-hidden="true">iD</span>
+<div><a class="account-name" data-account-name target="_blank" rel="noopener noreferrer"></a><p class="account-id" data-account-id></p></div>
+</div>
+<p class="account-name-note">Your public name comes from ORCID. ORCID names are self-asserted and may change.</p>
+<div class="account-actions">
+<a data-account-refresh href="https://comments.laxarchive.org/auth/orcid/login?from=https%3A%2F%2Flaxarchive.org&amp;site=remark">Refresh from ORCID</a>
+<button data-account-logout type="button">Sign out</button>
+</div>
+<div class="account-comments-heading"><h3>Your comments</h3><span data-account-comment-count></span></div>
+<ol class="account-comments" data-account-comments></ol>
+<p class="account-comments-status" data-account-comments-status role="status"></p>
+</section>
+</div>
+</div>
+</dialog>
+<script src="../assets/sidebar.js?v=b1e289522120"></script>
+<script src="../assets/account.js?v=e3db2efa7b34"></script>
+<script src="../assets/layout.js?v=41e28199b546"></script>
+<script src="../assets/dag.js?v=30b3351be153"></script>
+<script src="../assets/citation.js?v=dd5ce19082ad"></script>
+<script src="../assets/version-history.js?v=a36e868140dd"></script>
+<script src="../assets/comments.js?v=9782b849afc8"></script>
+</body></html>
