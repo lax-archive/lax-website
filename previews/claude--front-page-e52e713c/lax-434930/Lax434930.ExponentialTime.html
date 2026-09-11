@@ -1,13 +1,13 @@
 <!doctype html>
 <html lang="en"><head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://comments.laxarchive.org; style-src 'self' 'unsafe-inline'; img-src https: data:; font-src 'self'; frame-src https://comments.laxarchive.org; connect-src https://comments.laxarchive.org">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://comments.laxarchive.org; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self'; frame-src https://comments.laxarchive.org; connect-src https://comments.laxarchive.org">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Lax — an archive of formalized mathematical concepts and their proofs">
 <title>The complexity class EXPTIME — Lax434930.ExponentialTime</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=853e7bef2966">
+<link rel="stylesheet" href="../assets/style.css?v=bf0c26b214e0">
 </head><body>
 <header class="site-header sidebar-hidden">
   <div class="site-brand">
@@ -37,6 +37,7 @@
 <select id="filter-type" class="filter-select">
 <option value="all">All types</option>
 <option value="definition">definition</option>
+<option value="open question">open question</option>
 <option value="theorem">theorem</option>
 <option value="proof">proof</option>
 </select>
@@ -53,6 +54,7 @@
 <li data-type="definition" data-search="lax434930.nondeterministicpolynomialtime the complexity class np definition"><a class="entry-link" href="../lax-434930/Lax434930.NondeterministicPolynomialTime.html" data-full-title="The complexity class NP"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax434930.NondeterministicPolynomialTime</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-434930/Lax434930.NondeterministicPolynomialTime.html" hidden></span></span></a></li>
 <li data-type="definition" data-search="lax434930.polynomialspace the complexity class pspace definition"><a class="entry-link" href="../lax-434930/Lax434930.PolynomialSpace.html" data-full-title="The complexity class PSPACE"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax434930.PolynomialSpace</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-434930/Lax434930.PolynomialSpace.html" hidden></span></span></a></li>
 <li data-type="definition" data-search="lax434930.polynomialtime the complexity class p definition"><a class="entry-link" href="../lax-434930/Lax434930.PolynomialTime.html" data-full-title="The complexity class P"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax434930.PolynomialTime</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-434930/Lax434930.PolynomialTime.html" hidden></span></span></a></li>
+<li data-type="open question" data-search="lax434930.pversusnp p versus np open question"><a class="entry-link" href="../lax-434930/Lax434930.PVersusNP.html" data-full-title="P versus NP"><span class="entry-label"><span class="type-badge open" title="open question — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">ope×</span><span class="entry-label-text">Lax434930.PVersusNP</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-434930/Lax434930.PVersusNP.html" hidden></span></span></a></li>
 <li data-type="definition" data-search="lax434930.spacebounds deterministic and nondeterministic space bounds definition"><a class="entry-link" href="../lax-434930/Lax434930.SpaceBounds.html" data-full-title="Deterministic and nondeterministic space bounds"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax434930.SpaceBounds</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-434930/Lax434930.SpaceBounds.html" hidden></span></span></a></li>
 <li data-type="definition" data-search="lax434930.spacemachines finite turing machines with a read-only input tape definition"><a class="entry-link" href="../lax-434930/Lax434930.SpaceMachines.html" data-full-title="Finite Turing machines with a read-only input tape"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax434930.SpaceMachines</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-434930/Lax434930.SpaceMachines.html" hidden></span></span></a></li>
 <li class="entry-heading" aria-hidden="true">Proofs</li>
@@ -132,7 +134,7 @@ and each transition performs one move or one write. A terminal state's
 Boolean label gives the answer. The polynomial in the exponent may have
 any fixed degree; this is the usual EXPTIME, also called EXP.</p>
 </div></div>
-<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/EdouardBonnet/classical-complexity/blob/026a662d6c203952e4fc6c6023a3c1adf7f0bc3e/concepts/Lax434930/ExponentialTime.lean">view on GitHub</a></h3>
+<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/EdouardBonnet/classical-complexity/blob/557e11e3eac8a60b14421d316444ef7878fb6b09/concepts/Lax434930/ExponentialTime.lean">view on GitHub</a></h3>
 <div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
 <tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-434930/Lax434930.PolynomialTime.html">Lax434930.PolynomialTime</a></span></td></tr>
 <tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-554803/Lax554803.MachineModels.html">Lax554803.MachineModels</a></span></td></tr>

@@ -1558,6 +1558,7 @@
         "Lax68Proofs.ConnectedThreeFan.exists_threeFan",
         "Lax68Proofs.excludedMinors_kuratowskiFree",
         "Lax68Proofs.halin_planar",
+        "Lax68Proofs.K33MinorTopologicalObstruction.k33Minor_topologicalMinor",
         "Lax68Proofs.kuratowskiFree_excludedMinors",
         "Lax68Proofs.kuratowskiFree_iff_excludedMinors",
         "Lax68Proofs.ladder_grid",
@@ -2558,6 +2559,11 @@
           "type": "definition"
         },
         {
+          "id": "Lax434930.PVersusNP",
+          "title": "P versus NP",
+          "type": "open question"
+        },
+        {
           "id": "Lax434930.SpaceBounds",
           "title": "Deterministic and nondeterministic space bounds",
           "type": "definition"
@@ -2729,6 +2735,56 @@
         "Lax489179Proofs.word_exact",
         "Lax489179Proofs.word_exponent_mono",
         "Lax489179Proofs.word_randomized"
+      ]
+    },
+    {
+      "id": "lax-503819",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "Undecidability of positive first-order definability on words",
+      "concepts": [
+        {
+          "id": "Lax503819.Automata",
+          "title": "Finite automaton inputs on powerset alphabets",
+          "type": "definition"
+        },
+        {
+          "id": "Lax503819.Mortality",
+          "title": "Uniform mortality of deterministic Turing machines",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax503819.PositiveGames",
+          "title": "Positive Ehrenfeucht–Fraïssé games",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax503819.PositiveLogic",
+          "title": "Positive first-order logic on finite words",
+          "type": "definition"
+        },
+        {
+          "id": "Lax503819.Reduction",
+          "title": "Mortality reduces to positive first-order definability",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax503819.Undecidability",
+          "title": "Undecidability of positive first-order definability",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax503819.Words",
+          "title": "Words over an ordered alphabet",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax503819Proofs.ComputableReduction.mortality_reduces",
+        "Lax503819Proofs.Definability.bounded_game_characterization",
+        "Lax503819Proofs.Games.game_formula_correspondence",
+        "Lax503819Proofs.Mortality.mortality_undecidable",
+        "Lax503819Proofs.Undecidability.positive_definability_undecidable"
       ]
     },
     {
@@ -2918,6 +2974,99 @@
         "Lax733996Proofs.immerman_szelepcsenyi",
         "Lax733996Proofs.nonreachability",
         "Lax733996Proofs.successor_layer"
+      ]
+    },
+    {
+      "id": "lax-762056",
+      "state": "draft",
+      "environment": "v4.30.0",
+      "title": "Max Independent Set Remains NP-hard when Excluding a Planar Induced Minor",
+      "concepts": [
+        {
+          "id": "Lax762056.AsteroidalCycles",
+          "title": "Asteroidal triples of cycles",
+          "type": "definition"
+        },
+        {
+          "id": "Lax762056.ColumnGraph",
+          "title": "Row and column graphs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax762056.ColumnGridExclusion",
+          "title": "Induced grid exclusion in row and column graphs",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax762056.CycleObstruction",
+          "title": "Asteroidal cycle triples obstruct induced minors",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax762056.GraphEncoding",
+          "title": "Binary encoding of graph decision instances",
+          "type": "definition"
+        },
+        {
+          "id": "Lax762056.GraphProblems",
+          "title": "Graph decision problems and NP-hardness",
+          "type": "definition"
+        },
+        {
+          "id": "Lax762056.Grid",
+          "title": "Excluded induced grid minors",
+          "type": "definition"
+        },
+        {
+          "id": "Lax762056.GridExclusion",
+          "title": "Induced grid exclusion in the reduction",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax762056.IndependenceIdentity",
+          "title": "The independence number records the maximum cut",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax762056.IndependentSetHardness",
+          "title": "Independent Set without a 5×5 induced grid minor",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax762056.InducedMinors",
+          "title": "Induced minors",
+          "type": "definition"
+        },
+        {
+          "id": "Lax762056.MaxCut",
+          "title": "Maximum cuts",
+          "type": "definition"
+        },
+        {
+          "id": "Lax762056.MaxCutHardness",
+          "title": "NP-hardness of unweighted Max Cut",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax762056.Reduction",
+          "title": "The Bonnet–Chang reduction",
+          "type": "definition"
+        },
+        {
+          "id": "Lax762056.ReductionTime",
+          "title": "The reduction can be computed in polynomial time",
+          "type": "lemma"
+        }
+      ],
+      "proofs": [
+        "Lax762056Proofs.columnGraph_excludes_inducedGrid",
+        "Lax762056Proofs.GridWitness.grid_five_has_asteroidalCycles",
+        "Lax762056Proofs.independence_eq_maxCut_offset",
+        "Lax762056Proofs.independentSet_inducedGrid_hardness",
+        "Lax762056Proofs.maxCut_hardness",
+        "Lax762056Proofs.Obstruction.asteroidalCycles_obstruction",
+        "Lax762056Proofs.reduction_excludes_inducedGrid",
+        "Lax762056Proofs.reduction_polynomial_time"
       ]
     },
     {

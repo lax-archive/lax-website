@@ -2089,19 +2089,17 @@ body.sidebar-resizing #content-shell{ transition: none; }
    the landing page's promotional card treatment for heading-adjacent lists. */
 .content-page{ max-width: 42em; margin: 0 auto 2.2rem; }
 
-/* A warning above an editorial page's text: unmissable. */
-.content-warning{
-  max-width: 42em;
-  margin: 0 auto 1.6rem;
-  padding: 0.9rem 1.1rem;
-  border: 2px solid #c0392b;
-  border-radius: var(--radius-card);
-  background: #fdecea;
-  color: #7a1f14;
-  font-size: 1.1rem;
+/* A captioned figure in an editorial page, from a Markdown paragraph that
+   holds only a titled image. */
+.content-figure{ margin: 1.8rem 0 2rem; }
+.content-figure img{ display: block; width: 100%; height: auto; }
+.content-figure figcaption{
+  margin-top: 0.7rem;
+  color: var(--text-dim);
+  font-size: 0.92rem;
   line-height: 1.5;
+  text-align: center;
 }
-.content-warning strong{ color: #a12b1d; }
 
 .landing-action-panels{
   display: grid;

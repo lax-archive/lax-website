@@ -1,13 +1,13 @@
 <!doctype html>
 <html lang="en"><head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src https: data:; font-src 'self'; frame-src https://comments.laxarchive.org; connect-src https://comments.laxarchive.org">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self'; frame-src https://comments.laxarchive.org; connect-src https://comments.laxarchive.org">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Lax — an archive of formalized mathematical concepts and their proofs">
 <title>About Lax — Lax Lean Archive</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="assets/style.css?v=853e7bef2966">
+<link rel="stylesheet" href="assets/style.css?v=bf0c26b214e0">
 </head><body>
 <header class="site-header sidebar-hidden">
   <div class="site-brand">
@@ -37,26 +37,18 @@
 <header class="paper-head">
 <h1 class="paper-title">About Lax</h1>
 </header>
-<p class="content-warning" role="note"><strong>Placeholder.</strong> This page is a first draft and will be rewritten.</p>
 <article class="content-page latex-content">
-<h2>Let's stay in control of mathematics</h2>
-<p>AI is about to massively accelerate mathematical research. This will push the
-classical system of peer review and publishing beyond its limits. We need new,
-scalable mechanisms for digesting mathematics, or we risk losing control of
-our own field.</p>
-<p>Publications serve (at least) two purposes:</p>
+<p>A new result passes through several stages before it becomes part of mathematics. It is</p>
 <ul>
-<li><strong>Correctness</strong>: establishing which things are true, via rigorous technical
-arguments.</li>
-<li><strong>Understanding</strong>: explaining why these things are true, by providing
-intuition, clarity, and abstractions.</li>
+<li><em>proven:</em> a rigorous argument is found and checked;</li>
+<li><em>explained:</em> written up so that others can follow why it holds;</li>
+<li><em>accepted:</em> read, questioned, and vouched for by the community;</li>
+<li><em>absorbed:</em> restated in its natural generality, connected to its neighbours, and built upon.</li>
 </ul>
-<p>Proof systems like Lean provide a scalable way of ensuring the <em>correctness</em>
-of mathematics. This frees humans to spend their finite attention where it
-really matters: building intuition, clarity, and abstractions. Lax is a
-community-run archive that annotates natural-language mathematics with Lean.
-Think of it as an arXiv for formalization: independent, citable submissions
-that people can read, software can check, and later work can build upon.</p>
+<p>AI systems and formal proofs now handle the first stage at scale.
+Lax is built for the stages that come after.
+It aligns formal proofs with natural-language arguments, lemma by lemma, so that the paper remains the place where a result is explained, and every step of that explanation is certified.
+It lets mathematicians review and endorse what is stated, and it lets later work import those statements, so that results grow into a connected body of theory.</p>
 <h2>What a submission is</h2>
 <p>A Lax submission is a commit in a public git repository. It holds</p>
 <ul>
@@ -65,61 +57,31 @@ A concept pairs a natural-language statement, as it would appear in a paper,
 with a faithful Lean encoding. Claims are stated as Lean <code>axiom</code>s, without
 proof. Concepts depend only on other concepts and on mathlib, and they are
 written in plain, tactic-free Lean that a reader without a proof-assistant
-background can follow;</li>
+background can follow. They are the part of a submission a mathematician can
+check for meaning, and the part that later submissions build on;</li>
 <li><strong>proofs</strong>: a separate Lean package that restates each claim as a <code>theorem</code>
-and proves it, using no axioms beyond Lean's own. Each proof records which
-concepts it rests on and which one it concludes;</li>
-<li>optionally a <strong>paper</strong>: a LaTeX document whose passages are annotated with
-the concepts and proofs they correspond to. The same source can go to arXiv
-and to Lax; the website renders it reflowed for the screen, beside the
-as-printed PDF, with the Lean beside each marked passage.</li>
+and proves it. Each proof records which
+concepts it rests on and which one it concludes. Proofs may be long and involved, Lean's kernel certifies that they
+prove exactly the published claim, and that is the only judgement the archive
+passes on them. Explaining the argument is the paper's job;</li>
+<li>a <strong>paper</strong>: a LaTeX document whose passages are annotated with the concepts
+and proofs they correspond to, for the headline result and for the lemmas
+along the way. The same source can go to arXiv and to Lax; the website
+renders it reflowed for the screen, beside the as-printed PDF, with the Lean
+beside each marked passage.</li>
 </ul>
 <p>The concepts are the surface of the archive: they are what the website shows,
-what readers review, and what later submissions import. The proofs are the
-evidence behind that surface. They may be long, and are typically written by
-AI agents; Lean's kernel certifies that they prove exactly the published
-claim, and nothing else about them is judged.</p>
+what readers review and endorse, and what later submissions import. The proofs
+are the evidence behind that surface. The paper is where the result is
+explained, with every marked step of the explanation backed by a proof.</p>
+<figure class="content-figure"><img src="assets/concept-proof.svg" alt="A concept file beside the proof file that proves its claim."><figcaption>Left: a concept file, as displayed on the website. Right: the matching proof file, as found in the submitter's repository.</figcaption></figure>
 <p>Together, the proofs of a submission form its <em>proof network</em>: which claims
 are proven outright, which are proven relative to others, and which
 <a href="open-proof-obligations.html">proof obligations</a> remain open. Any later
 submission can discharge an open obligation, and every result that rested on
 it is proven from that moment on. Stating a claim and proving it can thus be
-separate contributions by separate people.</p>
-<h2>Principles</h2>
-<p><strong>The paper stays the paper.</strong> Mathematics is still written for people to
-read. Lax does not ask for a different way of writing; it annotates what is
-written, where it stands, with the Lean that pins its meaning down.</p>
-<p><strong>Claims are separated from proofs.</strong> Lean guarantees that a proof is
-correct. What Lean cannot check is whether the formal statement says what the
-mathematics means. Lax puts all human attention there: concepts are small
-and legible, and every one of them can be discussed, endorsed, or flagged on
-its page. Proofs are treated as opaque blobs, held to no standard but the
-kernel's.</p>
-<p><strong>Nobody hands down the definitions.</strong> Concepts are shared across
-submissions. Whoever formalizes a paper first writes the definitions it
-needs; later papers import them instead of fixing their own, and common
-standards emerge by selection rather than by decree. Lax is a bet that formal
-mathematics can grow the way informal mathematics always has: as a literature
-of independent papers that build on one another without a central authority.</p>
-<p><strong>Submissions are immutable and citable.</strong> As on arXiv, a registered
-submission never changes. Every page carries a ready-made BibTeX entry, and a
-revision is a new submission that supersedes the old one, which the website
-points readers to. Because Lean submissions can only build on each other when
-they share a mathlib version, Lax declares a <em>baseline</em> version of mathlib
-that advances rarely; submissions on any version are archived, but only those
-on the baseline can be built upon.</p>
-<p><strong>Everything is open.</strong> The command-line tool, the website generator, the
-submission pipeline, the archive's metadata, every submission, and every
-generated artifact are public and reusable under open licenses.</p>
-<p><strong>Trust is earned, not asked for.</strong> A claim marked as proven on the website
-means our pipeline verified the proof. If you would rather not take our word
-for it, the Lean code of every submission is public, and you can reproduce
-the relevant part of the pipeline yourself: check that the project builds,
-that the proof package uses no extra axioms, and that the type of each
-<code>axiom</code> in the concepts matches the type of the corresponding <code>theorem</code> in
-the proofs. The versions of Lean, Lake, and mathlib are part of the
-submission's metadata. Run such checks in a sandbox: Lean code written by an
-agent need not be safe, even when the submitter is someone you know.</p>
+separate contributions by separate people. As submissions import each
+other's concepts, the archive grows into one connected body of results.</p>
 <h2>How Lax is built</h2>
 <p>Lax consists of three parts, all of them open source:</p>
 <ul>
@@ -135,8 +97,7 @@ the result in the archive's metadata repository;</li>
 submissions, and served from GitHub Pages. Readers sign in with their ORCID
 iD to comment on and endorse concepts.</li>
 </ul>
-<p>The archive's metadata, the submissions, and the generated artifacts are all
-public: the website can be rebuilt by anyone, and so can any submission.</p>
+<p>The archive's code, metadata, the submissions, and the generated artifacts are all public.</p>
 <h2>Where to go next</h2>
 <ul>
 <li><a href="lax-242665/paper.html">An Introduction to Lax</a>, itself a Lax submission,
@@ -147,9 +108,7 @@ a submission.</li>
 </ul>
 <h2>Who we are</h2>
 <p>Lax is a project by Édouard Bonnet (CNRS, ENS Lyon), Jan Dreier (TU Wien and
-HPI Potsdam), and Clemens Kuske (TU Wien and HPI Potsdam). We are curious to know
-what you think we should do next: submit your formalized results, review
-concepts, and reach out with comments and suggestions.</p>
+HPI Potsdam), and Clemens Kuske (TU Wien and HPI Potsdam).</p>
 
 </article>
 </div>
