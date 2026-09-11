@@ -4,14 +4,16 @@ import { highlightSnippet } from "../highlight.js";
 import { submissionTagIndex } from "../tags.js";
 import {
   anonymityPlaceholder,
+  currentSubmissions,
   indexSidebar,
-  partitionSuperseded,
   submissionSearchAttributes,
   type PageContext,
 } from "./shared.js";
 import { collectOpenProblems } from "./open-problems.js";
+import { conceptReviewBadge } from "./discussion.js";
 
 interface LandingAction { id: string; title: string; description: string }
+interface LandingFaq { question: string; answer: string }
 
 const ACTION_HEADING = "\n## What you can do here\n";
 const SUBMIT_HEADING = "\n## Creating your own submission\n";
@@ -124,13 +126,58 @@ function landingCopy(source: string): {
   };
 }
 
-function actionCard(action: LandingAction, available: boolean): string {
+function landingFaqCopy(source: string): {
+  title: string;
+  items: LandingFaq[];
+} {
+  const chunks = source.trim().split(/\n(?=## )/);
+  const heading = /^# ([^\n]+)$/.exec((chunks.shift() ?? "").trim());
+  if (!heading) throw new Error("faq.md must start with a title");
+
+  const items = chunks.map((chunk) => {
+    const match = /^## ([^\n]+)\n+([\s\S]+)$/.exec(chunk.trim());
+    if (!match) throw new Error(`invalid FAQ entry: ${chunk}`);
+    return { question: match[1]!.trim(), answer: match[2]!.trim() };
+  });
+  if (!items.length) throw new Error("faq.md must contain at least one question");
+
+  return {
+    title: heading[1]!.trim(),
+    items,
+  };
+}
+
+function landingFaq(source: string, markdown: PageContext["markdown"]): string {
+  const faq = landingFaqCopy(source);
+  const items = faq.items.map(({ question, answer }, index) => `<li class="landing-faq-list-item"><details class="landing-faq-item">
+<summary><span class="landing-faq-question"><span class="landing-faq-number" aria-hidden="true">${String(index + 1).padStart(2, "0")}</span><span>${esc(question)}</span></span><span class="landing-faq-toggle" aria-hidden="true"></span></summary>
+<div class="landing-faq-answer latex-content">
+${markdown.render(answer, "")}
+</div>
+</details></li>`).join("\n");
+
+  return `<section class="landing-faq" id="faq" aria-labelledby="landing-faq-heading">
+<header class="landing-faq-heading">
+<p class="landing-action-eyebrow">About Lax</p>
+<h2 id="landing-faq-heading">${esc(faq.title)}</h2>
+</header>
+<ol class="landing-faq-list">
+${items}
+</ol>
+</section>`;
+}
+
+function actionCard(action: LandingAction, available: boolean, href?: string): string {
   const heading = `<span class="landing-action-title">${esc(action.title)}.</span>`;
   const copy = `<span class="landing-action-copy">${esc(action.description)}</span>`;
   if (!available) return `<div class="landing-action-card unavailable" id="landing-action-${attr(action.id)}" data-landing-view="${attr(action.id)}" role="button" aria-disabled="true" tabindex="0" aria-label="${attr(action.title)}, coming soon">
 ${heading}${copy}
 <span class="landing-action-status" aria-hidden="true">Coming soon</span>
 </div>`;
+  if (href) return `<a class="landing-action-card" id="landing-action-${attr(action.id)}" href="${attr(href)}" data-landing-view="${attr(action.id)}">
+${heading}${copy}
+<span class="landing-action-hint" aria-hidden="true">See citation <b>→</b></span>
+</a>`;
   return `<button class="landing-action-card" id="landing-action-${attr(action.id)}" type="button" data-landing-view="${attr(action.id)}" data-landing-action="${attr(action.id)}" aria-controls="landing-panel-${attr(action.id)}">
 ${heading}${copy}
 <span class="landing-action-hint" aria-hidden="true">Go to section <b>↓</b></span>
@@ -159,35 +206,35 @@ ${prompt}
  * show and stay off the library and the stats (their pages exist for direct
  * links). */
 export async function indexPage({ model, markdown }: PageContext): Promise<string> {
-  const concepts = model.outputs.flatMap((o) => o.concepts);
+  const listed = currentSubmissions(model);
+  const currentIds = new Set(listed.map((submission) => submission.record.id));
+  const concepts = listed.flatMap((submission) => submission.output!.concepts);
   const statements = concepts.flatMap((c) => c.statements);
-  const { current, superseded } = partitionSuperseded(model);
-  const listed = [...current, ...superseded];
+  const provenStatements = statements.filter((statement) => model.network.proven.has(statement.id)).length;
   const tagIndex = submissionTagIndex(listed);
   const rows = listed.map((submission, order) => {
     const { record, output } = submission;
-    const state = model.isSuperseded(record.id) ? "superseded" : record.state;
     const date = formatDate(record.registeredAt ?? record.createdAt);
     const authors = output!.manifest.anonymous === true && output!.manifest.authors.length
       ? anonymityPlaceholder("withheld during anonymous review", "anonymity-placeholder-inline")
       : output!.manifest.authors.map((a) => esc(a.name)).join(", ");
     const counts = `${plural(output!.concepts.length, "concept")}, ${plural(output!.proofs.length, "proof")}`;
-    return `<li ${submissionSearchAttributes(submission, order, tagIndex.bySubmission.get(record.id), state)}><a class="submissions-list-link" href="${attr(record.id)}/index.html">
+    return `<li ${submissionSearchAttributes(submission, order, tagIndex.bySubmission.get(record.id))}><a class="submissions-list-link" href="${attr(record.id)}/index.html">
 <span class="submissions-list-title">${markdown.renderAuthorInline(output!.manifest.title, "")}<span class="submissions-list-date">(${date})</span></span>
 ${authors ? `<span class="submissions-list-meta"><span class="formalized-label">formalized by</span> ${authors}</span>` : ""}
-<span class="submissions-list-counts">${counts} ${statePill(state)}</span>
+<span class="submissions-list-counts">${counts} ${statePill(record.state)}</span>
 </a></li>`;
   });
   const landing = landingCopy(contentMarkdown("landing.md").trim());
+  const faq = landingFaq(contentMarkdown("faq.md"), markdown);
   const demo = await landingDemo();
   const actionOrder = ["read", "review", "submit", "cite"];
-  const actionCards = actionOrder.map((id) => actionCard(landing.actions.get(id)!, true));
   const reviewConcepts = concepts
     .map((concept) => {
       const located = model.conceptHome.get(concept.id)!;
       const users = [...new Map(
         (model.importers.get(concept.id) ?? [])
-          .filter((user) => user.concept.id !== concept.id)
+          .filter((user) => user.concept.id !== concept.id && currentIds.has(user.output.id))
           .map((user) => [user.concept.id, user]),
       ).values()];
       const otherSubmissionCount = new Set(
@@ -213,23 +260,36 @@ ${authors ? `<span class="submissions-list-meta"><span class="formalized-label">
   const citeExample = listed.find((submission) => submission.record.id.toLowerCase().replace(/[^a-z0-9]/g, "") === "lax17")
     ?? listed.find((submission) => submission.record.state === "registered")
     ?? listed[0];
-  const citeExampleLink = citeExample ? `<div class="landing-cite-example">
-<p>Example submission</p>
-<a href="${attr(citeExample.record.id)}/index.html#citation">
-<span class="landing-cite-example-id">${esc(citeExample.record.id)}</span>
-<strong>${markdown.renderAuthorInline(citeExample.output!.manifest.title, "")}</strong>
-<span class="landing-cite-example-action">View citation <b aria-hidden="true">→</b></span>
-</a>
-</div>` : "";
-  const tagButtons = tagIndex.tags.map((tag) => {
-    const count = tag.submissionIds.length;
-    return `<button class="tag-chip" type="button" data-tag-filter="${attr(tag.key)}" aria-pressed="false" aria-label="${attr(`${tag.label}, ${plural(count, "submission")}`)}"><span>${esc(tag.label)}</span><b aria-hidden="true">${count}</b></button>`;
-  });
-  const tagBrowser = tagButtons.length ? `<section class="tag-browser" aria-labelledby="tag-browser-heading">
-<div class="tag-browser-heading"><h4 id="tag-browser-heading">Browse by topic</h4><p>Suggested from submission and concept titles.</p></div>
+  const actionCards = actionOrder.map((id) => actionCard(
+    landing.actions.get(id)!,
+    true,
+    id === "cite" && citeExample ? `${citeExample.record.id}/index.html?tour=citation` : undefined,
+  ));
+  const chip = (key: string, label: string, count: number, extraClass = ""): string =>
+    `<button class="tag-chip${extraClass}" type="button" data-tag-filter="${attr(key)}" aria-pressed="false" aria-label="${attr(`${label}, ${plural(count, "submission")}`)}"><span>${esc(label)}</span><b aria-hidden="true">${count}</b></button>`;
+  // The environment is one more chip in the same strip: the browser filters
+  // on `data-tags`, which carries it, so a flat facet needs no second control.
+  // It appears only once the archive holds work in more than one environment —
+  // before that the single chip would name the only thing there is. The chips
+  // lead the strip because the strip is clipped to three rows.
+  const environmentButtons = model.environments.length > 1
+    ? model.environments.map((environment) => chip(
+        environment,
+        environment === model.epoch ? `${environment} · epoch` : environment,
+        listed.filter((submission) => model.environmentOf.get(submission.record.id) === environment).length,
+        " environment-chip",
+      ))
+    : [];
+  const tagButtons = tagIndex.tags.map((tag) => chip(tag.key, tag.label, tag.submissionIds.length));
+  const facetButtons = [...environmentButtons, ...tagButtons];
+  const facetSummary = environmentButtons.length
+    ? "Environments first, then topics suggested from submission and concept titles."
+    : "Suggested from submission and concept titles.";
+  const tagBrowser = facetButtons.length ? `<section class="tag-browser" aria-labelledby="tag-browser-heading">
+<div class="tag-browser-heading"><h4 id="tag-browser-heading">Browse by topic</h4><p>${esc(facetSummary)}</p></div>
 <div class="tag-chip-list" role="group" aria-label="Filter submissions by topic">
 <button class="tag-chip" type="button" data-tag-filter="" aria-pressed="true" aria-label="All, ${plural(listed.length, "submission")}"><span>All</span><b aria-hidden="true">${listed.length}</b></button>
-${tagButtons.join("\n")}
+${facetButtons.join("\n")}
 </div>
 <p class="tag-results-status" id="tag-results-status" aria-live="polite">Showing all ${plural(listed.length, "submission")}.</p>
 </section>` : "";
@@ -237,13 +297,14 @@ ${tagButtons.join("\n")}
 <div class="landing-action-panel-heading">
 <p class="landing-action-eyebrow">Read the archive</p>
 <h3>Submissions</h3>
-<p class="stats-line">${plural(listed.length, "submission")} · ${plural(concepts.length, "concept")} · ${plural(statements.length, "statement")}, ${model.network.proven.size} proven</p>
+<p class="stats-line">${plural(listed.length, "submission")} · ${plural(concepts.length, "concept")} · ${plural(statements.length, "statement")}, ${provenStatements} proven</p>
 </div>
 ${tagBrowser}
 <ul class="submissions-list" id="submissions-list">
 ${rows.join("\n")}
 <li id="submissions-list-empty" class="submissions-list-empty" hidden>No submissions match.</li>
 </ul>
+<button class="submissions-load-more" id="submissions-load-more" type="button" aria-controls="submissions-list" hidden>Load more</button>
 </section>`;
   const submit = `<section class="landing-action-panel landing-submit-panel latex-content" id="landing-panel-submit" aria-labelledby="landing-action-submit">
 <p class="landing-action-eyebrow">Contribute to Lax</p>
@@ -253,7 +314,7 @@ ${copyablePrompt(markdown.render(landing.submit, ""))}
   const reviewStarts = reviewConcepts.map(({ located, users, otherSubmissionCount, weight }, index) => `<div class="landing-review-start" data-review-concept="${attr(located.concept.id)}" data-review-weight="${weight}"${index ? " hidden" : ""}>
 <div class="landing-review-start-copy">
 <p class="landing-action-eyebrow">Used by ${plural(otherSubmissionCount, "other submission")} and ${plural(users.length, "other concept")}</p>
-<h4>${markdown.renderAuthorInline(located.concept.title, "")}</h4>
+<h4><span class="landing-review-title">${markdown.renderAuthorInline(located.concept.title, "")}</span>${conceptReviewBadge(`${located.submission.record.id}/${located.concept.id}.html`)}</h4>
 <p>This concept is reused elsewhere in the archive. Review its mathematical correctness, endorse it if correct, or flag a flaw.</p>
 </div>
 <a class="landing-hero-button primary" href="${attr(`${located.output.id}/${located.concept.id}.html`)}">Review now <b aria-hidden="true">→</b></a>
@@ -270,12 +331,6 @@ ${reviewStarts}
     ? `Browse every claim that does not yet have a grounded proof, across ${plural(openProblemSubmissions, "submission")}.`
     : "Every claim currently has a grounded proof; this view will update automatically when a proof obligation is submitted."}</p>
 <a class="landing-open-problems-link" href="open-proof-obligations.html"><span><strong>${openProblems.length}</strong> ${openProblems.length === 1 ? "proof obligation" : "proof obligations"}</span><b>Browse proof obligations <span aria-hidden="true">→</span></b></a>
-</section>`;
-  const cite = `<section class="landing-action-panel landing-cite-panel" id="landing-panel-cite" aria-labelledby="landing-action-cite">
-<p class="landing-action-eyebrow">Cite the formalization</p>
-<h3>Ready-made BibTeX</h3>
-<p>Every submission page ends with a <strong>Citation</strong> section containing a ready-made BibTeX entry. Open the submission you used, scroll to the bottom, and copy that entry into your bibliography.</p>
-${citeExampleLink}
 </section>`;
   const content = `<section class="landing-demo-showcase" aria-label="How Lax separates mathematical meaning from proof evidence">
 <div class="landing-lede latex-content">
@@ -300,7 +355,7 @@ ${submit}
 ${library}
 ${review}
 ${proofObligations}
-${cite}
+${faq}
 </div>
 </section>`;
   return page({

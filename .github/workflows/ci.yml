@@ -27,12 +27,32 @@ jobs:
 
       - run: npm ci
       - run: npm run check
-      - run: npm run site:build -- --database data/lax-db --out _site
+
+      # Compiled papers and reflow bundles come from the archive's capture
+      # registry, one file per digest; the cache spares the corpus a
+      # re-download per build.
+      - uses: actions/cache@v4
+        with:
+          path: |
+            data/papers
+            data/bundles
+          key: papers-${{ hashFiles('data/lax-db/*/build-output.json') }}
+          restore-keys: papers-
+      - run: npm run papers:fetch -- --database data/lax-db --papers data/papers --bundles data/bundles
+      - uses: actions/cache@v4
+        with:
+          path: data/references
+          key: references-v1-${{ hashFiles('data/lax-db/*/build-output.json') }}
+          restore-keys: references-v1-
+      - run: npm run references:fetch -- --database data/lax-db --references data/references
+      - run: npm run site:build -- --database data/lax-db --papers data/papers --bundles data/bundles --out _site
 
       - name: Verify deployable output
         run: |
           test -s _site/index.html
           test -s _site/contributing.html
+          test -s _site/impressum.html
+          test -s _site/privacy.html
           test -s _site/assets/style.css
 
       - uses: actions/upload-artifact@v4

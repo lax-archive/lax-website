@@ -1,4 +1,5 @@
-import { compareIds, type SiteModel } from "./model.js";
+import { compareIds, type SiteModel, type SubmissionDepKind } from "./model.js";
+import { plainAuthorTitle } from "./markdown.js";
 
 /** Placement relative to a figure's roots: the always-visible core (the roots
  * themselves), or a direction away from them — "up" for the whole ancestry,
@@ -8,7 +9,7 @@ export type GraphDir = "core" | "up" | "down";
 export interface ConceptGraphNode {
   id: string;
   href: string;
-  /** the concept's human title, for the hover tooltip */
+  /** the concept's plain-text human title, used as its visible graph label */
   title: string;
   /** home submission id */
   owner: string;
@@ -41,9 +42,15 @@ export interface SubmissionGraphNode {
   ext: boolean;
 }
 
+export interface SubmissionGraphEdge extends ConceptGraphEdge {
+  /** which half of `to` reaches back to `from`: its concepts, or only its
+   * proofs — the figure draws the two in different colours */
+  kind: SubmissionDepKind;
+}
+
 export interface SubmissionGraphData {
   nodes: SubmissionGraphNode[];
-  edges: ConceptGraphEdge[];
+  edges: SubmissionGraphEdge[];
 }
 
 /** Build the semantic import graph around one or more roots: the roots form
@@ -65,16 +72,18 @@ export function conceptGraph(model: SiteModel, rootIds: Iterable<string>): Conce
   const ids = new Set(dirOf.keys());
   const nodes = [...ids].sort().map((id) => {
     const home = model.conceptHome.get(id)!;
-    const statement = home.concept.statements[0];
-    const status = !statement
+    // A concept declaring several statements is proven only once every one
+    // of them is; a concept declaring none is a definition.
+    const statements = home.concept.statements;
+    const status = !statements.length
       ? ("none" as const)
-      : model.network.proven.has(statement.id)
+      : statements.every((statement) => model.network.proven.has(statement.id))
         ? ("proven" as const)
         : ("open" as const);
     return {
       id,
       href: `../${home.output.id}/${id}.html`,
-      title: home.concept.title,
+      title: plainAuthorTitle(home.concept.title),
       owner: home.output.id,
       status,
       ext: !roots.has(id),
@@ -96,7 +105,9 @@ export function conceptGraph(model: SiteModel, rootIds: Iterable<string>): Conce
  * Both directions run over the whole archive, and both are always shown —
  * submissions are few enough that the figure needs no toggles. Edges between
  * two neighbours are kept as well, so a dependency that bypasses the root
- * stays visible instead of being redrawn through it. */
+ * stays visible instead of being redrawn through it. Every edge carries the
+ * half of the dependent submission that needs the other, so a submission
+ * whose proofs alone build on a framework still shows up as its consumer. */
 export function submissionGraph(model: SiteModel, rootId: string): SubmissionGraphData {
   const dirOf = new Map<string, GraphDir>();
   if (model.submissionUses.has(rootId)) dirOf.set(rootId, "core");
@@ -120,13 +131,18 @@ export function submissionGraph(model: SiteModel, rootId: string): SubmissionGra
   });
   const edges = ids.flatMap((id) =>
     [...model.submissionUses.get(id)!]
-      .filter((from) => dirOf.has(from))
-      .sort(compareIds)
-      .map((from) => ({ from, to: id })));
+      .filter(([from]) => dirOf.has(from))
+      .sort(([a], [b]) => compareIds(a, b))
+      .map(([from, kind]) => ({ from, to: id, kind })));
   return { nodes, edges };
 }
 
-/** CSP-safe inert graph payload consumed by assets/dag.js. */
+/** CSP-safe inert JSON payload for a browser script to read by id. */
+export function inertJsonScript(id: string, data: unknown): string {
+  return `<script type="application/json" id="${id}">${JSON.stringify(data).replace(/</g, "\\u003c")}</script>`;
+}
+
+/** The graph payload consumed by assets/dag.js. */
 export function graphDataScript(data: unknown): string {
-  return `<script type="application/json" id="graph-data">${JSON.stringify(data).replace(/</g, "\\u003c")}</script>`;
+  return inertJsonScript("graph-data", data);
 }

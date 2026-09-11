@@ -135,8 +135,8 @@
     el.addEventListener('blur', () => hideTooltip(container));
   }
 
-  function appendBoxNode(parent, node, cls, label, width = node.width || nodeWidth(label)) {
-    const g = svgEl(parent, 'g', { class: cls + (node.ext ? ' ext' : ''), 'aria-label': node.id });
+  function appendBoxNode(parent, node, cls, label, width = node.width || nodeWidth(label), ariaLabel = node.id) {
+    const g = svgEl(parent, 'g', { class: cls + (node.ext ? ' ext' : ''), 'aria-label': ariaLabel });
     makeInteractive(g, node);
     svgEl(g, 'rect', {
       x: -width / 2, y: -NODE_H / 2, width, height: NODE_H, rx: 4,
@@ -369,15 +369,20 @@
 
   /** Draw a layered DAG into `container`: layout, edge routing, boxes,
    * tooltips. `spec` carries the per-figure specifics — the arrow marker's
-   * id, the SVG's accessible name, the prefix labels drop, the node class,
-   * and the tooltip rows. Everything else is the same picture, laid out by
-   * the shared crossing-minimizing engine in layout.js.
+   * id, the SVG's accessible name, the node-label rule, the node class, the
+   * optional per-edge class, and the tooltip rows. Everything else is the
+   * same picture, laid out by the shared crossing-minimizing engine in
+   * layout.js. The arrowhead marker takes its fill from the path it ends
+   * (`context-stroke` in style.css), so a recoloured edge recolours whole.
    *
    * Both callers pass an acyclic graph: concept imports are Lean imports,
    * and the archive admits a dependency only on a submission that already
    * exists, so neither relation can close a loop. */
   function drawDag(container, nodes, edges, spec) {
-    const labelOf = new Map(nodes.map((node) => [node.id, truncate(displayId(node.id, spec.home), MAX_LABEL)]));
+    const labelOf = new Map(nodes.map((node) => {
+      const label = spec.labelOf ? spec.labelOf(node) : displayId(node.id, spec.home);
+      return [node.id, truncate(label || node.id, MAX_LABEL)];
+    }));
     const degrees = new Map(nodes.map((node) => [node.id, { incoming: 0, outgoing: 0 }]));
     for (const edge of edges) {
       degrees.get(edge.from).outgoing += 1;
@@ -454,7 +459,7 @@
       });
     });
     edges.forEach((edge, edgeIndex) => {
-      const path = appendEdge(group, 'dag-edge',
+      const path = appendEdge(group, spec.edgeClass ? spec.edgeClass(edge) : 'dag-edge',
         edgePath(pointSets[edgeIndex]), spec.arrowId);
       incident.get(edge.from).push(path);
       incident.get(edge.to).push(path);
@@ -462,7 +467,7 @@
     for (const node of nodes) {
       const position = positions.get(node.id);
       const g = appendBoxNode(group, node, spec.classOf(node), labelOf.get(node.id),
-        labelWidth(node.id));
+        labelWidth(node.id), spec.ariaLabelOf ? spec.ariaLabelOf(node) : node.id);
       g.setAttribute('transform', `translate(${position.x},${position.y})`);
       attachTooltip(g, container, spec.tooltipRows(node));
       attachHotEdges(g, incident.get(node.id));
@@ -513,10 +518,11 @@
       home: data.home,
       arrowId: 'concept-arrow',
       ariaLabel: 'Concept dependency graph',
+      labelOf: (node) => node.title || 'Untitled concept',
+      ariaLabelOf: (node) => node.title || 'Untitled concept',
       classOf: (node) => 'dag-node ' + (node.status || ''),
       tooltipRows: (node) => [
-        ['Concept', node.id],
-        ...(node.title && node.title !== node.id ? [['Title', node.title]] : []),
+        ['Concept', node.title || 'Untitled concept'],
         ['Status', node.status === 'none' ? 'definition' : node.status || 'unknown'],
         ...(node.owner ? [['Submission', node.owner]] : []),
       ],
@@ -539,7 +545,12 @@
     drawDag(container, data.nodes, data.edges, {
       arrowId: 'submission-arrow',
       ariaLabel: 'Submission dependency graph',
+      labelOf: (node) => node.title,
       classOf: () => 'dag-node submission',
+      // A dependency only the proof package declares is drawn apart: the
+      // dependent's statements stand on their own and just its proofs reach
+      // across, which is how a proof framework's consumers become visible.
+      edgeClass: (edge) => 'dag-edge' + (edge.kind === 'proofs' ? ' proof-dep' : ''),
       tooltipRows: (node) => [
         ['Submission', node.id],
         ...(node.title && node.title !== node.id ? [['Title', node.title]] : []),
@@ -612,6 +623,44 @@
     ];
   }
 
+  /** A concept box standing for several statements. It speaks for the claim as
+   * a whole; the individual axiom ids belong to the concept page. */
+  function conceptTooltipRows(node) {
+    const provenCount = node.docks.filter((dock) => dock.proven).length;
+    return [
+      ['Claim', node.id],
+      ...(node.title && node.title !== node.id ? [['Title', node.title]] : []),
+      ['Statements', `${node.docks.length} (${provenCount} proven)`],
+      ['Status', node.proven ? 'proven' : 'open'],
+      ...(node.owner ? [['Submission', node.owner]] : []),
+    ];
+  }
+
+  /** One dock. Statements of a multi-statement concept are named here by
+   * position only — anonymity is the point on this surface, and the raw id is
+   * one click away through the dock's link. */
+  function dockTooltipRows(node, dock, index) {
+    return [
+      ['Claim', node.id],
+      ['Statement', `${index} of ${node.docks.length}`],
+      ['Status', dock.proven ? 'proven' : 'open'],
+      ...(dock.owner ? [['Submission', dock.owner]] : []),
+    ];
+  }
+
+  // Small and tight against the box, so a concept and its docks read as one
+  // unit rather than a box with satellites.
+  const DOCK_R = 5;
+  const DOCK_GAP = 13;
+  const DOCK_DROP = 1;
+
+  /** Docks hang in a row under the box's bottom edge, centred on it. */
+  function dockOffsetX(node, index) {
+    return (index - 1 - (node.docks.length - 1) / 2) * DOCK_GAP;
+  }
+
+  function dockCenterY(node) { return node.height / 2 - DOCK_R; }
+
   function renderProofNetwork(data) {
     const container = document.getElementById('proof-network');
     if (!container || !data || !data.proofs.length) return;
@@ -619,15 +668,46 @@
 
     const nodes = [];
     const byKey = new Map();
+    // Where each statement is drawn: its own box, or a numbered dock under
+    // its home concept's box when that concept declares several statements.
+    const placeOf = new Map();
+    const conceptNodes = new Map();
     for (const statement of data.statements) {
-      // One-statement rule: a claim displays as its home concept.
+      // A claim displays as its home concept; a concept declaring several
+      // statements is one box with a dock per statement.
       const label = truncate(displayId(statement.label || statement.id, data.home), MAX_LABEL);
+      if ((statement.count || 1) > 1 && statement.concept) {
+        let node = conceptNodes.get(statement.concept);
+        if (!node) {
+          node = {
+            kind: 'concept', key: 'c:' + statement.concept, id: statement.concept,
+            label, title: statement.title, owner: statement.owner, ext: statement.ext,
+            href: statement.href ? statement.href.split('#')[0] : undefined,
+            docks: [], width: nodeWidth(label), height: NODE_H + DOCK_DROP + 2 * DOCK_R,
+          };
+          conceptNodes.set(statement.concept, node);
+          nodes.push(node);
+          byKey.set(node.key, node);
+        }
+        node.docks[statement.index - 1] = statement;
+        placeOf.set(statement.id, { key: node.key, dock: statement.index });
+        continue;
+      }
       const node = {
         ...statement, kind: 'statement', key: 's:' + statement.id, label,
         width: nodeWidth(label), height: NODE_H,
       };
       nodes.push(node);
       byKey.set(node.key, node);
+      placeOf.set(statement.id, { key: node.key });
+    }
+    for (const node of conceptNodes.values()) {
+      // A gap can only come from truncated data; drop it rather than draw a
+      // hole, and renumber what is left so every dock keeps a position.
+      node.docks = node.docks.filter(Boolean);
+      node.docks.forEach((dock, index) => placeOf.set(dock.id, { key: node.key, dock: index + 1 }));
+      node.proven = node.docks.every((dock) => dock.proven);
+      node.width = Math.max(node.width, node.docks.length * DOCK_GAP + 12);
     }
     for (const proof of data.proofs) {
       const node = { ...proof, kind: 'proof', key: 'p:' + proof.id, width: 28, height: 28 };
@@ -638,21 +718,27 @@
     const links = [];
     for (const proof of data.proofs) {
       const proofKey = 'p:' + proof.id;
+      // Assumptions name a claim, never which of its statements was used, so
+      // several assumed statements of one concept share a single edge.
+      const sources = [];
       for (const assumption of proof.assumptions) {
-        const statementKey = 's:' + assumption;
-        if (byKey.has(statementKey)) links.push({
-          source: statementKey,
-          target: proofKey,
-          kind: 'assumption',
-          align: proof.assumptions.length === 1,
-        });
+        const place = placeOf.get(assumption);
+        if (!place || sources.includes(place.key)) continue;
+        sources.push(place.key);
       }
-      const conclusionKey = 's:' + proof.conclusion;
-      if (byKey.has(conclusionKey)) links.push({
+      for (const source of sources) links.push({
+        source,
+        target: proofKey,
+        kind: 'assumption',
+        align: sources.length === 1,
+      });
+      const conclusion = placeOf.get(proof.conclusion);
+      if (conclusion) links.push({
         source: proofKey,
-        target: conclusionKey,
+        target: conclusion.key,
         kind: 'conclusion',
         align: true,
+        dock: conclusion.dock,
       });
     }
     links.sort((a, b) => `${a.source}\0${a.target}`.localeCompare(`${b.source}\0${b.target}`));
@@ -845,6 +931,23 @@
       crossEnds((link, edgeIndex) => ({ edgeIndex, nodeId: link.target,
         refX: byKey.get(link.source).x })),
       (key) => byKey.get(key).x, (key) => byKey.get(key).width);
+    // A docked conclusion lands on its own dock, not on the box's spread of
+    // ports; several proofs concluding one dock fan out inside it.
+    const dockedLinks = new Map();
+    links.forEach((link, edgeIndex) => {
+      if (!link.dock || componentOf.get(link.source) === componentOf.get(link.target)) return;
+      const key = `${link.target}\0${link.dock}`;
+      if (!dockedLinks.has(key)) dockedLinks.set(key, []);
+      dockedLinks.get(key).push(edgeIndex);
+    });
+    for (const [key, edgeIndices] of dockedLinks) {
+      const link = links[edgeIndices[0]];
+      const node = byKey.get(link.target);
+      const centerX = node.x + dockOffsetX(node, link.dock);
+      edgeIndices.forEach((edgeIndex, slot) => {
+        targetPorts.set(edgeIndex, centerX + (slot - (edgeIndices.length - 1) / 2) * 3);
+      });
+    }
     const internalEnds = (pick) => links.flatMap((link, edgeIndex) => {
       if (componentOf.get(link.source) !== componentOf.get(link.target)) return [];
       return [pick(link, edgeIndex)];
@@ -879,6 +982,7 @@
       });
     });
     const incident = new Map(nodes.map((node) => [node.key, []]));
+    const dockIncident = new Map();
     links.forEach((link, edgeIndex) => {
       const sourceNode = byKey.get(link.source);
       const targetNode = byKey.get(link.target);
@@ -887,7 +991,9 @@
       if (sameComponent) {
         const excluded = new Set([sourceNode.key, targetNode.key]);
         const directSource = clippedEndpoint(sourceNode, targetNode);
-        const directTarget = clippedEndpoint(targetNode, sourceNode);
+        const directTarget = link.dock
+          ? { x: targetNode.x + dockOffsetX(targetNode, link.dock), y: targetNode.y + targetNode.height / 2 }
+          : clippedEndpoint(targetNode, sourceNode);
         if (link.source !== link.target &&
           segmentIsClear(directSource, directTarget, obstacles, excluded)) {
           path = edgePath([directSource, directTarget]);
@@ -918,6 +1024,11 @@
       const element = appendEdge(group, `net-edge ${link.kind}`, path, 'proof-arrow');
       incident.get(link.source).push(element);
       incident.get(link.target).push(element);
+      if (link.dock) {
+        const key = `${link.target}\0${link.dock}`;
+        if (!dockIncident.has(key)) dockIncident.set(key, []);
+        dockIncident.get(key).push(element);
+      }
     });
 
     for (const node of nodes) {
@@ -926,6 +1037,31 @@
         g.setAttribute('transform', `translate(${node.x},${node.y})`);
         attachTooltip(g, container, statementTooltipRows(node));
         attachHotEdges(g, incident.get(node.key));
+        continue;
+      }
+      if (node.kind === 'concept') {
+        // The box occupies the node's top NODE_H; the docks hang in the strip
+        // below it, so an arrow into a dock still arrives at the node's bottom.
+        const g = svgEl(group, 'g', { transform: `translate(${node.x},${node.y})` });
+        const box = appendBoxNode(g, node, 'net-node ' + (node.proven ? 'proven' : 'open'),
+          node.label, node.width);
+        box.setAttribute('transform', `translate(0,${-node.height / 2 + NODE_H / 2})`);
+        attachTooltip(box, container, conceptTooltipRows(node));
+        attachHotEdges(box, incident.get(node.key));
+        node.docks.forEach((dock, index) => {
+          const x = dockOffsetX(node, index + 1);
+          const y = dockCenterY(node);
+          const dockGroup = svgEl(g, 'g', {
+            class: 'net-dock ' + (dock.proven ? 'proven' : 'open') + (dock.ext ? ' ext' : ''),
+            'aria-label': `${node.id}, statement ${index + 1} of ${node.docks.length}`,
+          });
+          makeInteractive(dockGroup, dock);
+          svgEl(dockGroup, 'circle', { cx: x, cy: y, r: DOCK_R });
+          svgEl(dockGroup, 'text', { x, y, 'text-anchor': 'middle', dy: 2.5 })
+            .textContent = String(index + 1);
+          attachTooltip(dockGroup, container, dockTooltipRows(node, dock, index + 1));
+          attachHotEdges(dockGroup, dockIncident.get(`${node.key}\0${index + 1}`));
+        });
         continue;
       }
       const g = svgEl(group, 'g', {
@@ -951,6 +1087,19 @@
     renderConceptDag(data.concepts);
     renderProofNetwork(data.proofs);
     renderSubmissionDag(data.submissions);
+  }
+
+  function installUsedConceptToggle() {
+    const button = document.querySelector('[data-used-concepts-toggle]');
+    if (!button) return;
+    const list = document.getElementById(button.getAttribute('aria-controls'));
+    if (!list) return;
+    button.addEventListener('click', () => {
+      const expanded = list.hidden;
+      list.hidden = !expanded;
+      button.textContent = `${expanded ? 'Hide' : 'Show'} referenced concepts`;
+      button.setAttribute('aria-expanded', String(expanded));
+    });
   }
 
   // ---- large graph window ----
@@ -1001,6 +1150,7 @@
   }
 
   function initialize() {
+    installUsedConceptToggle();
     installGraphExpanders();
     render();
   }

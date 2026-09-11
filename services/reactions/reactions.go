@@ -25,6 +25,8 @@ const (
 	clearMarker          = "↩️ Review cleared\n\n" + reviewPrefix + reviewClear
 	maximumFlagTextBytes = 2000
 	maximumFlagLine      = 1_000_000
+	maximumConceptBatch  = 50
+	remarkFindInterval   = 125 * time.Millisecond
 )
 
 var publicReviews = []string{reviewEndorse, reviewFlag}
@@ -66,6 +68,59 @@ type remarkReactionComment struct {
 
 type remarkFindResponse struct {
 	Comments []remarkReactionComment `json:"comments"`
+}
+
+func canonicalConceptURLs(raw []string) ([]string, error) {
+	if len(raw) < 1 || len(raw) > maximumConceptBatch {
+		return nil, fmt.Errorf("provide between 1 and %d concept URLs", maximumConceptBatch)
+	}
+	seen := make(map[string]struct{}, len(raw))
+	result := make([]string, 0, len(raw))
+	for _, value := range raw {
+		canonical, err := canonicalPage(value)
+		if err != nil {
+			return nil, fmt.Errorf("invalid concept URL %q: %w", value, err)
+		}
+		if strings.HasSuffix(canonical, "/") {
+			return nil, fmt.Errorf("URL %q is a submission; only concept URLs are accepted", value)
+		}
+		if _, exists := seen[canonical]; exists {
+			continue
+		}
+		seen[canonical] = struct{}{}
+		result = append(result, canonical)
+	}
+	return result, nil
+}
+
+func emptyConceptReviews(urls []string) []conceptReviewResponse {
+	result := make([]conceptReviewResponse, len(urls))
+	for index, conceptURL := range urls {
+		result[index].URL = conceptURL
+	}
+	return result
+}
+
+func (a *app) viewerConceptReviews(ctx context.Context, urls []string, viewerORCID string) ([]conceptReviewResponse, error) {
+	result := emptyConceptReviews(urls)
+	for index, conceptURL := range urls {
+		page, err := a.reactionPage(ctx, conceptURL)
+		if err != nil {
+			return nil, err
+		}
+		for _, reaction := range publicReviews {
+			for _, voter := range page.Voters[reaction] {
+				if voter.ORCID == viewerORCID {
+					result[index].ViewerReaction = reaction
+					break
+				}
+			}
+			if result[index].ViewerReaction != "" {
+				break
+			}
+		}
+	}
+	return result, nil
 }
 
 func validReview(value string) bool {
@@ -160,7 +215,33 @@ func reviewFromMarker(value string) (reviewEvent, bool) {
 	return reviewEvent{Kind: reviewFlag, Message: message, LineStart: start, LineEnd: end}, true
 }
 
+func (a *app) waitForRemarkFind(ctx context.Context) error {
+	a.remarkFindMu.Lock()
+	start := time.Now()
+	if a.remarkFindNext.After(start) {
+		start = a.remarkFindNext
+	}
+	a.remarkFindNext = start.Add(remarkFindInterval)
+	a.remarkFindMu.Unlock()
+
+	delay := time.Until(start)
+	if delay <= 0 {
+		return nil
+	}
+	timer := time.NewTimer(delay)
+	defer timer.Stop()
+	select {
+	case <-timer.C:
+		return nil
+	case <-ctx.Done():
+		return ctx.Err()
+	}
+}
+
 func (a *app) reactionPage(ctx context.Context, pageURL string) (reactionPageResult, error) {
+	if err := a.waitForRemarkFind(ctx); err != nil {
+		return reactionPageResult{}, err
+	}
 	hiddenURL, err := hiddenReactionURL(pageURL)
 	if err != nil {
 		return reactionPageResult{}, err

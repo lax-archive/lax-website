@@ -31,6 +31,10 @@ export interface PageShell {
   content: string;
   /** additional scripts (site-relative paths) loaded after sidebar.js */
   scripts?: string[];
+  /** extra class on the content pane, for pages that need another measure */
+  detailClass?: string;
+  /** start with the sidebar collapsed (desktop); the toggle brings it back */
+  sidebarHidden?: boolean;
 }
 
 const REMARK42_ORIGIN = new URL(REMARK42_URL).origin;
@@ -41,8 +45,22 @@ const ACCOUNT_CONNECT_ORIGINS = [...new Set([
 const BASE_CSP =
   `default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src https: data:; font-src 'self'; frame-src ${REMARK42_ORIGIN}; connect-src ${ACCOUNT_CONNECT_ORIGINS}`;
 
-function contentSecurityPolicy(hasDiscussion: boolean): string {
-  if (!hasDiscussion) return BASE_CSP;
+// The paper viewer runs pdf.js in a same-origin module worker and fetches
+// the PDF itself, so its page alone opens worker-src and same-origin
+// connect-src; every other page keeps the base policy.
+const PAPER_CSP =
+  `default-src 'none'; script-src 'self'; worker-src 'self'; style-src 'self' 'unsafe-inline'; img-src https: data:; font-src 'self'; frame-src ${REMARK42_ORIGIN}; connect-src 'self' ${ACCOUNT_CONNECT_ORIGINS}`;
+
+// The reflow page fetches its blocks from the same origin past the embed
+// budget (and its fonts, which the base policy already allows); it runs no
+// worker.
+const REFLOW_CSP =
+  `default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src https: data:; font-src 'self'; frame-src ${REMARK42_ORIGIN}; connect-src 'self' ${ACCOUNT_CONNECT_ORIGINS}`;
+
+function contentSecurityPolicy(scripts: string[]): string {
+  if (scripts.includes("assets/manuscript.js")) return PAPER_CSP;
+  if (scripts.includes("assets/manuscript-reflow.js")) return REFLOW_CSP;
+  if (!scripts.includes("assets/comments.js")) return BASE_CSP;
   return `default-src 'none'; script-src 'self' ${REMARK42_ORIGIN}; style-src 'self' 'unsafe-inline'; img-src https: data:; font-src 'self'; frame-src ${REMARK42_ORIGIN}; connect-src ${ACCOUNT_CONNECT_ORIGINS}`;
 }
 
@@ -94,11 +112,12 @@ const FAVICON = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' vi
 
 export function page(shell: PageShell): string {
   const root = shell.rootRel;
-  const csp = contentSecurityPolicy(shell.scripts?.includes("assets/comments.js") ?? false);
+  const csp = contentSecurityPolicy(shell.scripts ?? []);
   const scripts = ["assets/sidebar.js", "assets/account.js", ...(shell.scripts ?? [])]
     .map((src) => `<script src="${attr(root + src)}?v=${siteAssetVersion(src.replace(/^assets\//, ""))}"></script>`)
     .join("\n");
   const stylesheet = (src: string) => `${root}assets/${src}?v=${siteAssetVersion(src)}`;
+  const hidden = shell.sidebarHidden ? " sidebar-hidden" : "";
   return `<!doctype html>
 <html lang="en"><head>
 <meta charset="utf-8">
@@ -110,21 +129,30 @@ export function page(shell: PageShell): string {
 <link rel="stylesheet" href="${stylesheet("katex.css")}">
 <link rel="stylesheet" href="${stylesheet("style.css")}">
 </head><body>
-<header class="site-header">
+<header class="site-header${hidden}">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
   <h1 class="site-title"><a href="${root}index.html">Lax <span class="site-title-quiet">Lean Archive</span></a></h1>
   <nav class="header-actions" aria-label="Account">
     ${accountUi()}
   </nav>
 </header>
-<main id="content-shell">
+<main id="content-shell"${hidden ? ` class="sidebar-hidden"` : ""}>
 <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
 <aside id="sidebar">
 ${shell.sidebar}
 </aside>
-<section id="main"><div id="detail">
+<div id="sidebar-resizer" class="sidebar-resizer" role="separator" aria-label="Resize sidebar" aria-controls="sidebar" aria-orientation="vertical" aria-valuemin="220" aria-valuemax="520" aria-valuenow="285" tabindex="0" title="Drag to resize sidebar"></div>
+<section id="main"><div id="detail"${shell.detailClass ? ` class="${attr(shell.detailClass)}"` : ""}>
 ${shell.content}
-</div></section>
+</div>
+<footer class="site-footer">
+  <nav class="site-footer-nav" aria-label="Legal and about">
+    <a class="site-footer-link" href="${root}impressum.html">Imprint</a>
+    <a class="site-footer-link" href="${root}privacy.html">Privacy</a>
+    <a class="site-footer-link" href="${root}assets/lax-white-paper.pdf">About</a>
+  </nav>
+</footer>
+</section>
 </main>
 ${accountDialog()}
 ${scripts}
@@ -172,7 +200,8 @@ export function countsPill(proven: number, total: number): string {
 }
 
 export function statePill(state: string): string {
-  return `<span class="status-pill state-${esc(state)}">${esc(state)}</span>`;
+  const label = state === "superseded" ? "outdated" : state;
+  return `<span class="status-pill state-${esc(state)}">${esc(label)}</span>`;
 }
 
 export function code(value: string): string { return `<code>${esc(value)}</code>`; }

@@ -19,3 +19,18 @@ export const REMARK42_IDENTITY_URL =
 
 /** The proof package corresponding to LaxN is always named LaxNProofs. */
 export const PROOF_SUFFIX = "Proofs";
+
+/**
+ * The archive's **epoch**: the environment — a Lean toolchain and the mathlib
+ * release tag it builds, named by the Lean version string — that this year's
+ * submissions are recommended to be written in. A record in any other
+ * admitted environment is equally valid and equally permanent, but only
+ * submissions sharing its environment can cite it, so its pages say so.
+ *
+ * Edited once a year, at the epoch bump (step 3 of the runbook in
+ * `environments-plan.md` in the `lax` repository, beside the CLI's own
+ * environment table). `generateSite`'s third argument overrides it, so
+ * `lax serve` shows the epoch the *installed CLI's* table names rather than
+ * whatever this file said when the renderer was released.
+ */
+export const EPOCH = "v4.30.0";

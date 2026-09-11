@@ -51,6 +51,7 @@ function rendererFixture(): string {
     "content/landing.md": "Landing\n",
     "dist/sitegen/assets.js": "export const SITE_MIME = {};\n",
     "dist/sitegen/generate.js": "export async function generateSite() {}\n",
+    "dist/sitegen/machine-index.js": "export function machineIndex() {}\n",
   };
   for (const [relative, contents] of Object.entries(files)) {
     const filename = path.join(root, relative);

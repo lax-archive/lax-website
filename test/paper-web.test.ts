@@ -1,0 +1,409 @@
+import { createHash } from "node:crypto";
+import fs from "node:fs";
+import path from "node:path";
+import { describe, expect, it } from "vitest";
+import { extractBundleTar } from "../src/bundles.js";
+import { loadSubmissions, submissionsMissingPapers } from "../src/database.js";
+import { SITE_MIME } from "../src/sitegen/assets.js";
+import { generateSite, type SiteSubmission } from "../src/sitegen/generate.js";
+import { EMBED_BUDGET_BYTES, supportedSchemas } from "../src/sitegen/paper-web.js";
+import type { PaperWebEntry } from "../src/types.js";
+import { makeTar } from "./tar-helper.js";
+import { tmpDir } from "./helpers.js";
+
+import { attach, FIXTURE_TAR, fixtureRecord, pdf, pdfDigest, webArchive } from "./paper-web-archive.js";
+
+/** The real wire schema, so synthetic bundles pass the schema gate. */
+const fixtureSchema = extractBundleTar(fs.readFileSync(FIXTURE_TAR)).get("schema/latex.proto")!;
+
+const sha256 = (bytes: Buffer) => createHash("sha256").update(bytes).digest("hex");
+
+function snapshot(root: string, dir = ""): Map<string, Buffer> {
+  const out = new Map<string, Buffer>();
+  for (const entry of fs.readdirSync(path.join(root, dir), { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name))) {
+    const relative = path.join(dir, entry.name);
+    if (entry.isDirectory()) for (const [name, bytes] of snapshot(root, relative)) out.set(name, bytes);
+    else out.set(relative, fs.readFileSync(path.join(root, relative)));
+  }
+  return out;
+}
+
+const csp = (html: string) => /content="([^"]*)"/.exec(html.slice(html.indexOf("Content-Security-Policy")))![1]!;
+
+describe("the reflow paper page", () => {
+  it("renders the reflow surface from the committed bundle, embedded under the budget, CSP unchanged", async () => {
+    const root = tmpDir("lax-site-reflow-");
+    const logs: string[] = [];
+    await generateSite(attach(webArchive(), { bundle: FIXTURE_TAR }), root, { log: (line) => logs.push(line) });
+    expect(logs).toEqual([]);
+    const html = fs.readFileSync(path.join(root, "lax-21", "paper.html"), "utf8");
+    const printed = fs.readFileSync(path.join(root, "lax-21", "paper-pdf.html"), "utf8");
+
+    // Two pages. paper.html is the reflowed text: its blocks inline (the
+    // fixture sits far under the embed budget), its cards in the rail under
+    // `m<n>-card` — the `m<n>` ids belong to the viewer's passage anchors at
+    // runtime, so the page ships none — and nothing of pdf.js on it.
+    expect(html).toContain("<title>Paper — lax-21</title>");
+    expect(html).toContain('<div class="manuscript-body manuscript-reflow-body" id="manuscript-reflow">');
+    expect(html).toMatch(/<div class="latex-block" data-nodelist-b64="[A-Za-z0-9+/=]+"><\/div>/);
+    expect(html).not.toContain("data-nodelist-src");
+    expect(html).not.toContain("manuscript-pages");
+    expect(html).not.toContain("manuscript-data");
+    expect(html).not.toContain("data-pdf=");
+    expect(html).not.toContain("manuscript-pdf");
+    expect(html).not.toMatch(/id="m\d+"[^-]/);
+    // The footnote card the reflow script clones a sidenote from, once per
+    // footnote the viewer reveals, shipped inside the reflow body beside
+    // the rail; the printed page has no sidenotes.
+    expect(html).toContain('<template id="manuscript-footnote-card"><li class="manuscript-card manuscript-footnote"><div class="manuscript-footnote-body"></div></li></template>');
+    expect(html.indexOf('id="manuscript-rail-reflow"')).toBeLessThan(html.indexOf("manuscript-footnote-card"));
+    expect(html.indexOf("manuscript-footnote-card")).toBeLessThan(html.indexOf("<noscript>"));
+    expect(printed).not.toContain("manuscript-footnote");
+    for (const mark of fixtureRecord.marks) {
+      expect(html).toContain(`id="m${mark.n}-card" data-mark="${mark.n}"`);
+      expect(html).not.toContain(`-pdf-card`);
+    }
+    // paper-pdf.html is the paper as printed, annotated in its own right:
+    // the cards under the `m<n>` ids and the mark table its script reads.
+    expect(printed).toContain("<title>Paper as printed — lax-21</title>");
+    expect(printed).toContain('<div class="manuscript" data-pdf="paper.pdf"');
+    expect(printed).toContain('<ol class="manuscript-rail" id="manuscript-rail">\n<li class="manuscript-card');
+    expect(printed).toContain('"marks":[{"n":1');
+    expect(printed).not.toContain("latex-block");
+    for (const mark of fixtureRecord.marks) expect(printed).toContain(`id="m${mark.n}" data-mark="${mark.n}"`);
+    // Each page links the other from the switch above the paper, the
+    // reflowed text first on both, the current one marked.
+    const reflowSwitch = '<div class="manuscript-view-switch" role="group" aria-label="Paper view">\n<a class="manuscript-view-link" href="paper.html" aria-current="page">Reflowed</a>\n<a class="manuscript-view-link" href="paper-pdf.html">As printed</a>\n</div>';
+    const printedSwitch = '<div class="manuscript-view-switch" role="group" aria-label="Paper view">\n<a class="manuscript-view-link" href="paper.html">Reflowed</a>\n<a class="manuscript-view-link" href="paper-pdf.html" aria-current="page">As printed</a>\n</div>';
+    expect(html).toContain(reflowSwitch);
+    expect(printed).toContain(printedSwitch);
+    // The submission page's button, and every `#m<n>` cross-link, lead to
+    // paper.html — the reflowed text where there is one.
+    const submission = fs.readFileSync(path.join(root, "lax-21", "index.html"), "utf8");
+    expect(submission).toContain('<a class="source-button paper-cta-button" href="paper.html">');
+    expect(fs.readFileSync(path.join(root, "lax-21", "Lax21.One.html"), "utf8")).toContain('href="../lax-21/paper.html#m1"');
+
+    // The islands: the wire schema and the font map, fonts through ../fonts/.
+    const schemaB64 = /data-schema-b64="([A-Za-z0-9+/=]+)"/.exec(html)![1]!;
+    expect(sha256(Buffer.from(schemaB64, "base64"))).toBe(fixtureRecord.web.format.schema);
+    const island = /<script type="application\/json" id="latex-font-map" data-fonts-base="\.\.\/fonts\/">(.*?)<\/script>/.exec(html)![1]!;
+    const fontMap = JSON.parse(island) as Record<string, string>;
+    expect(Object.keys(fontMap)).toHaveLength(9);
+    // Served names are content-hashed uniformly; the converter's own rename
+    // is folded away rather than double-suffixed.
+    expect(fontMap["lmroman10-regular.otf"]).toMatch(/^lmroman10-regular\.[0-9a-f]{12}\.otf$/);
+    expect(fontMap["cmmi10.reflowtex-76a9a304.otf"]).toMatch(/^cmmi10\.[0-9a-f]{12}\.otf$/);
+    for (const served of Object.values(fontMap))
+      expect(fs.existsSync(path.join(root, "fonts", served)), served).toBe(true);
+
+    // The AGPL notice under the reflow surface, linking upstream.
+    expect(html).toContain('<footer class="manuscript-reflow-notice">Rendered with <a href="https://github.com/radek-p/reflowtex" rel="license">ReflowTeX</a>');
+    expect(html).toContain("AGPL-3.0-or-later");
+
+    // The scripts, in dependency order, and the vendored files beside them;
+    // nothing of pdf.js on the reflow page, nothing of the viewer on the
+    // printed one.
+    expect(html).toMatch(/<script src="\.\.\/assets\/reflowtex\/latex-viewer\.js\?v=[0-9a-f]{12}"><\/script>\n<script src="\.\.\/assets\/manuscript-reflow\.js\?v=[0-9a-f]{12}"><\/script>/);
+    expect(html).not.toContain("manuscript.js?v=");
+    expect(html).not.toContain("manuscript-place.js");
+    expect(printed).toMatch(/manuscript-place\.js\?v=[0-9a-f]{12}"><\/script>\n<script src="\.\.\/assets\/manuscript\.js\?v=[0-9a-f]{12}"><\/script>/);
+    expect(printed).not.toContain("latex-viewer.js");
+    for (const asset of ["reflowtex/latex-viewer.js", "reflowtex/LICENSE.txt", "reflowtex/supported-schemas.json", "manuscript-reflow.js"])
+      expect(fs.existsSync(path.join(root, "assets", asset)), asset).toBe(true);
+    // The CSP finding, kept fixed: no protobuf.js (its decoder needs
+    // 'unsafe-eval'); the viewer's own fixed-schema decoder replaces it.
+    expect(fs.existsSync(path.join(root, "assets", "reflowtex", "protobuf.min.js"))).toBe(false);
+    expect(html).not.toContain("protobuf");
+    // Unminified source, with the provenance header naming the upstream rev.
+    const viewer = fs.readFileSync(path.join(root, "assets", "reflowtex", "latex-viewer.js"), "utf8");
+    expect(viewer).toContain("36f8365eed25ece1db38e0059bcbba3c250802e1");
+    expect(viewer).toContain("AGPL");
+    expect(viewer.split("\n").length).toBeGreaterThan(1000);
+
+    // The plan's claim, asserted: the reflow page ships under the CSP the
+    // pdf.js paper page already had, less the worker it does not run — no
+    // loosening, no new sources; the printed page keeps its policy.
+    const plain = tmpDir("lax-site-plain-");
+    const noWeb = attach(webArchive()).map((s) => {
+      const { web: _, ...paper } = s.output!.paper!;
+      return { ...s, output: { ...s.output!, paper } };
+    });
+    await generateSite(noWeb, plain, { log: () => {} });
+    const pdfCsp = csp(fs.readFileSync(path.join(plain, "lax-21", "paper.html"), "utf8"));
+    expect(pdfCsp).toContain("worker-src 'self'; ");
+    expect(csp(html)).toBe(pdfCsp.replace("worker-src 'self'; ", ""));
+    expect(csp(printed)).toBe(pdfCsp);
+  });
+
+  it("drops to the PDF-only page, logged, when the schema is not the vendored viewer's", async () => {
+    const root = tmpDir("lax-site-gated-");
+    const logs: string[] = [];
+    const mutated = {
+      ...fixtureRecord.web,
+      format: { ...fixtureRecord.web.format, schema: "f".repeat(64) },
+    };
+    await generateSite(attach(webArchive(mutated), { bundle: FIXTURE_TAR }), root, { log: (line) => logs.push(line) });
+    expect(logs).toEqual([
+      "lax-21: paper web schema ffffffffffff is not supported by the vendored viewer; rendering the PDF-only page",
+    ]);
+    const html = fs.readFileSync(path.join(root, "lax-21", "paper.html"), "utf8");
+    expect(html).not.toContain("latex-block");
+    expect(html).not.toContain("manuscript-reflow");
+    expect(html).not.toContain("manuscript-footnote");
+    expect(html).not.toContain("manuscript-view-switch");
+    expect(html).toContain('<ol class="manuscript-rail" id="manuscript-rail">\n<li class="manuscript-card');
+    expect(html).toContain('id="m1" data-mark="1"');
+    expect(html).toContain('"marks":[{"n":1');
+    expect(fs.readFileSync(path.join(root, "lax-21", "paper-pdf.html"), "utf8")).not.toContain("manuscript-view-switch");
+    expect(fs.existsSync(path.join(root, "fonts"))).toBe(false);
+  });
+
+  it("renders a bundle sealed with the current fork schema", async () => {
+    // The fork's latex.proto as it stands, spliced out of the committed
+    // fixture: the paragraph band width (Paragraph field 7) and the footnote
+    // wiring the fork added after it — NodeType.fnref, ItemKind.footnote_ref
+    // and Paragraph.footnote (field 8). A bundle carrying them is sealed by
+    // `lax`, not here, so the committed fixture still predates all of it.
+    // Both hashes stay supported — a schema bump must not drop old paper
+    // pages — and the intermediate width-only schema never shipped, so it
+    // must not be admitted.
+    const splices: Array<[string, "before" | "after", string]> = [
+      ["  mark      = 11;\n", "after", [
+        "  // lax: a footnote's reference point inside a paragraph \u2014 where its",
+        "  // \\footnote insert sat before the line breaker moved it out. No ink, no",
+        "  // width; `n` is the footnote's ordinal, the `footnote` of its paragraphs.",
+        "  // Same scoping rule as `mark`: ItemKind claims `footnote_ref` (the",
+        "  // vertical-mode form), so the wire name here is `fnref`; the serializer's",
+        "  // JSON says type:\"footnote_ref\" for both and encode_pb maps it.",
+        "  fnref     = 12;",
+        "",
+      ].join("\n")],
+      ["  optional string   side          = 33;\n", "before",
+        "  // fnref (lax) reuses `n` for the footnote ordinal.\n"],
+      ["  optional string align = 6;\n", "after", [
+        "  // sp; the width of the \\parshape band `indent` starts at. Lists, quote and",
+        "  // the abstract inset both sides, and only this states the second one: the",
+        "  // right inset is hsize - indent - width. Absent in bundles sealed before",
+        "  // the field existed, which the renderer reads as \"no right inset\".",
+        "  optional int32 width = 7;",
+        "  // lax: set on a footnote's paragraphs to the footnote's ordinal k \u2014 the",
+        "  // `n` of the `fnref` node or `footnote_ref` item at its reference point.",
+        "  // The stream still carries these paragraphs as endnotes (the fallback",
+        "  // rendering); a viewer with a margin rail sets them beside the reference.",
+        "  // Absent on body paragraphs.",
+        "  optional int32 footnote = 8;",
+        "",
+      ].join("\n")],
+      ["  marker    = 3;  // lax: a \\laxmark whatsit between paragraphs/displays (vertical mode)\n", "after", [
+        "  // lax: a footnote reference with no paragraph to sit in (\\thanks, a",
+        "  // \\footnotetext between paragraphs): emitted at the walk position, as a",
+        "  // marker is. `n` is the footnote's ordinal.",
+        "  footnote_ref = 4;",
+        "",
+      ].join("\n")],
+      ["  optional string side = 8;\n", "before",
+        "  // footnote_ref (lax) reuses `n` for the footnote ordinal.\n"],
+    ];
+    let text = fixtureSchema.toString("utf8");
+    for (const [anchor, where, added] of splices) {
+      const parts = text.split(anchor);
+      // A fixture recut that moved an anchor would otherwise splice silently
+      // into the wrong place, or nowhere, and only the hash would complain.
+      expect(parts).toHaveLength(2);
+      text = where === "after" ? parts[0] + anchor + added + parts[1] : parts[0] + added + anchor + parts[1];
+    }
+    const nextSchema = Buffer.from(text, "utf8");
+    const schema = sha256(nextSchema);
+    expect(schema).toBe("3fd9498729c7cd91acc0069ed83d52de555bce3d0bfd1e8c4d43d964deace2c7");
+    expect(supportedSchemas().has(schema)).toBe(true);
+    expect(supportedSchemas().has(fixtureRecord.web.format.schema)).toBe(true);
+    // The width-only lab step was never sealed in production.
+    expect(supportedSchemas().has("cc98f34310989a431b0bc3b745417577d5fa608020356dfc27f497172362e3b0")).toBe(false);
+
+    const block = extractBundleTar(fs.readFileSync(FIXTURE_TAR)).get("blocks/000.pb")!;
+    const index = {
+      formatVersion: 1, tool: "reflowtex", rev: fixtureRecord.web.format.rev,
+      schema, blocks: ["blocks/000.pb"], fonts: {},
+    };
+    const tar = makeTar([
+      { name: "index.json", bytes: Buffer.from(JSON.stringify(index)) },
+      { name: "blocks/000.pb", bytes: block },
+      { name: "schema/latex.proto", bytes: nextSchema },
+    ]);
+    const bundleFile = path.join(tmpDir("lax-bundle-fnote-"), "fnote.tar");
+    fs.writeFileSync(bundleFile, tar);
+    const web: PaperWebEntry = {
+      format: { tool: "reflowtex", rev: index.rev, schema },
+      bundle: { digest: sha256(tar), bytes: tar.length },
+    };
+    const root = tmpDir("lax-site-fnote-");
+    const logs: string[] = [];
+    await generateSite(attach(webArchive(web), { bundle: bundleFile }), root, { log: (line) => logs.push(line) });
+    expect(logs).toEqual([]);
+    const html = fs.readFileSync(path.join(root, "lax-21", "paper.html"), "utf8");
+    expect(html).toMatch(/<div class="latex-block" data-nodelist-b64="[A-Za-z0-9+/=]+"><\/div>/);
+    // The page ships the schema it was sealed with, so the viewer's decoder
+    // and the bundle agree on fields 7 and 8.
+    const schemaB64 = /data-schema-b64="([A-Za-z0-9+/=]+)"/.exec(html)![1]!;
+    expect(sha256(Buffer.from(schemaB64, "base64"))).toBe(schema);
+  });
+
+  it("keeps the PDF-only page when no bundle is attached (previews, missing cache)", async () => {
+    const root = tmpDir("lax-site-nobundle-");
+    const logs: string[] = [];
+    await generateSite(attach(webArchive()), root, { log: (line) => logs.push(line) });
+    expect(logs).toEqual([]);
+    const html = fs.readFileSync(path.join(root, "lax-21", "paper.html"), "utf8");
+    expect(html).not.toContain("latex-block");
+    expect(html).toContain('id="m1" data-mark="1"');
+  });
+
+  it("ships oversize blocks as fetched files instead of embedding them", async () => {
+    // A synthetic bundle whose one block alone overruns the embed budget;
+    // its schema is the real one, so the gate passes.
+    const big = Buffer.alloc(Math.ceil(EMBED_BUDGET_BYTES * 3 / 4) + 1024, 7);
+    const index = {
+      formatVersion: 1, tool: "reflowtex", rev: fixtureRecord.web.format.rev,
+      schema: sha256(fixtureSchema), blocks: ["blocks/000.pb"], fonts: {},
+    };
+    const tar = makeTar([
+      { name: "index.json", bytes: Buffer.from(JSON.stringify(index)) },
+      { name: "blocks/000.pb", bytes: big },
+      { name: "schema/latex.proto", bytes: fixtureSchema },
+    ]);
+    const bundleFile = path.join(tmpDir("lax-bundle-big-"), "big.tar");
+    fs.writeFileSync(bundleFile, tar);
+    const web: PaperWebEntry = {
+      format: { tool: "reflowtex", rev: index.rev, schema: index.schema },
+      bundle: { digest: sha256(tar), bytes: tar.length },
+    };
+    const root = tmpDir("lax-site-bigblocks-");
+    await generateSite(attach(webArchive(web), { bundle: bundleFile }), root, { log: () => {} });
+    const html = fs.readFileSync(path.join(root, "lax-21", "paper.html"), "utf8");
+    expect(html).toContain('<div class="latex-block" data-nodelist-src="paper-web/000.pb"></div>');
+    expect(html).not.toContain("data-nodelist-b64");
+    expect(fs.readFileSync(path.join(root, "lax-21", "paper-web", "000.pb")).equals(big)).toBe(true);
+  });
+
+  it("content-hashing keeps two records' same-named fonts apart and dedupes identical bytes", async () => {
+    const fontA = Buffer.from("OTTO first font bytes");
+    const fontB = Buffer.from("OTTO second font bytes");
+    const bundleFor = (font: Buffer) => {
+      const index = {
+        formatVersion: 1, tool: "reflowtex", rev: fixtureRecord.web.format.rev,
+        schema: sha256(fixtureSchema), blocks: ["blocks/000.pb"], fonts: { "lmroman10-regular.otf": "fonts/lmroman10-regular.otf", "shared.otf": "fonts/shared.otf" },
+      };
+      return makeTar([
+        { name: "index.json", bytes: Buffer.from(JSON.stringify(index)) },
+        { name: "blocks/000.pb", bytes: Buffer.from([0x0a, 0x00]) },
+        { name: "fonts/lmroman10-regular.otf", bytes: font },
+        { name: "fonts/shared.otf", bytes: Buffer.from("OTTO shared bytes") },
+        { name: "schema/latex.proto", bytes: fixtureSchema },
+      ]);
+    };
+    const dir = tmpDir("lax-bundle-fonts-");
+    const submissions: SiteSubmission[] = [];
+    for (const [id, font] of [["lax-31", fontA], ["lax-32", fontB]] as const) {
+      const tar = bundleFor(font);
+      const file = path.join(dir, `${id}.tar`);
+      fs.writeFileSync(file, tar);
+      const [base] = webArchive({
+        format: { tool: "reflowtex", rev: fixtureRecord.web.format.rev, schema: sha256(fixtureSchema) },
+        bundle: { digest: sha256(tar), bytes: tar.length },
+      });
+      submissions.push({
+        ...attach([base!], { bundle: file })[0]!,
+        record: { ...base!.record, id },
+        output: { ...base!.output!, id, manifest: { ...base!.output!.manifest, id }, concepts: [], proofs: [], paper: { ...base!.output!.paper!, marks: [] } },
+      });
+    }
+    const root = tmpDir("lax-site-fontclash-");
+    await generateSite(submissions, root, { log: () => {} });
+    const emitted = fs.readdirSync(path.join(root, "fonts")).sort();
+    // Two different lmroman10-regular renames plus ONE shared.otf: no clash,
+    // identical bytes deduped to a single content-addressed file.
+    expect(emitted).toHaveLength(3);
+    expect(emitted.filter((name) => name.startsWith("lmroman10-regular."))).toHaveLength(2);
+    expect(emitted.filter((name) => name.startsWith("shared."))).toHaveLength(1);
+    const maps = ["lax-31", "lax-32"].map((id) => {
+      const html = fs.readFileSync(path.join(root, id, "paper.html"), "utf8");
+      return JSON.parse(/id="latex-font-map"[^>]*>(.*?)<\/script>/.exec(html)![1]!) as Record<string, string>;
+    });
+    expect(maps[0]!["lmroman10-regular.otf"]).not.toBe(maps[1]!["lmroman10-regular.otf"]);
+    expect(maps[0]!["shared.otf"]).toBe(maps[1]!["shared.otf"]);
+  });
+
+  it("builds byte-identical output twice, every emitted extension carrying a MIME type", async () => {
+    const one = tmpDir("lax-site-det-one-");
+    const two = tmpDir("lax-site-det-two-");
+    await generateSite(attach(webArchive(), { bundle: FIXTURE_TAR }), one, { log: () => {} });
+    await generateSite(attach(webArchive(), { bundle: FIXTURE_TAR }), two, { log: () => {} });
+    const first = snapshot(one);
+    const second = snapshot(two);
+    expect([...first.keys()]).toEqual([...second.keys()]);
+    for (const [name, bytes] of first) {
+      expect(bytes.equals(second.get(name)!), name).toBe(true);
+      expect(SITE_MIME[path.extname(name)], `missing MIME for ${name}`).toBeDefined();
+    }
+    expect([...first.keys()].filter((name) => name.startsWith("fonts" + path.sep))).toHaveLength(9);
+  });
+
+  it("round-trips the record's web value through the loader and counts a missing bundle", () => {
+    const database = tmpDir("lax-database-web-");
+    const papers = tmpDir("lax-papers-");
+    const bundles = tmpDir("lax-bundles-");
+    const [submission] = webArchive();
+    const dir = path.join(database, submission!.record.id);
+    fs.mkdirSync(dir);
+    fs.writeFileSync(path.join(dir, "record.json"), JSON.stringify(submission!.record));
+    const { manifest, abstract, ...rest } = submission!.output!;
+    fs.writeFileSync(path.join(dir, "build-output.json"), JSON.stringify({ ...rest, inputs: { manifest, abstract } }));
+    fs.writeFileSync(path.join(papers, `${pdfDigest}.pdf`), pdf);
+
+    // The PDF alone is not enough: the declared bundle is missing.
+    const missing = loadSubmissions(database, { papersDir: papers, bundlesDir: bundles });
+    expect(missing[0]!.output!.paper!.web).toEqual(fixtureRecord.web);
+    expect(submissionsMissingPapers(missing).map((s) => s.record.id)).toEqual(["lax-21"]);
+
+    fs.copyFileSync(FIXTURE_TAR, path.join(bundles, `${fixtureRecord.web.bundle.digest}.tar`));
+    const loaded = loadSubmissions(database, { papersDir: papers, bundlesDir: bundles });
+    expect(submissionsMissingPapers(loaded)).toEqual([]);
+    expect(loaded[0]!.bundleFile).toBe(path.join(bundles, `${fixtureRecord.web.bundle.digest}.tar`));
+    // Without a bundles cache (previews), nothing attaches and nothing is owed.
+    expect(loadSubmissions(database, {})[0]!.bundleFile).toBeUndefined();
+
+    // A corrupt web block fails the load with the record named.
+    const broken = JSON.parse(fs.readFileSync(path.join(dir, "build-output.json"), "utf8"));
+    broken.paper.web.format.schema = "not-hex";
+    fs.writeFileSync(path.join(dir, "build-output.json"), JSON.stringify(broken));
+    expect(() => loadSubmissions(database)).toThrow(/lax-21.*web format schema must be a sha256 hex string/);
+  });
+
+  it("hard-fails on cache corruption and record/bundle skew rather than serving it", async () => {
+    // Cached bytes that do not match the record's digest.
+    const wrongBytes = path.join(tmpDir("lax-bundle-corrupt-"), "wrong.tar");
+    fs.writeFileSync(wrongBytes, makeTar([{ name: "blocks/000.pb", bytes: Buffer.from("x") }]));
+    await expect(generateSite(attach(webArchive(), { bundle: wrongBytes }), tmpDir("lax-site-corrupt-"), { log: () => {} }))
+      .rejects.toThrow(/lax-21 cached web bundle does not match its record/);
+
+    // A record pinning the supported schema over a bundle sealed with
+    // different index metadata: skew, not a graceful gate.
+    const index = {
+      formatVersion: 1, tool: "reflowtex", rev: "b".repeat(40),
+      schema: sha256(fixtureSchema), blocks: ["blocks/000.pb"], fonts: {},
+    };
+    const tar = makeTar([
+      { name: "index.json", bytes: Buffer.from(JSON.stringify(index)) },
+      { name: "blocks/000.pb", bytes: Buffer.from([0x0a, 0x00]) },
+      { name: "schema/latex.proto", bytes: fixtureSchema },
+    ]);
+    const skewFile = path.join(tmpDir("lax-bundle-skew-"), "skew.tar");
+    fs.writeFileSync(skewFile, tar);
+    const web: PaperWebEntry = {
+      format: { tool: "reflowtex", rev: fixtureRecord.web.format.rev, schema: sha256(fixtureSchema) },
+      bundle: { digest: sha256(tar), bytes: tar.length },
+    };
+    await expect(generateSite(attach(webArchive(web), { bundle: skewFile }), tmpDir("lax-site-skew-"), { log: () => {} }))
+      .rejects.toThrow(/lax-21 paper web bundle index disagrees/);
+  });
+});

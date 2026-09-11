@@ -49,6 +49,7 @@
   --code-bg: #f6f8fb;
   --panel-bg: #faf9f7;
   --neutral-stroke: #9aa3ad;
+  --proof-dep: #8a5aa8;
   --radius-chip: 2px;
   --radius-control: 4px;
   --radius-card: 7px;
@@ -336,12 +337,49 @@ body{
   border-right: 1px solid var(--border);
 }
 
+.sidebar-resizer{
+  position: fixed;
+  z-index: 110;
+  inset: 0 auto 0 calc(var(--sidebar-width) - 5px);
+  width: 10px;
+  cursor: col-resize;
+  touch-action: none;
+}
+
+.sidebar-resizer::after{
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 4px;
+  width: 2px;
+  background: var(--accent);
+  opacity: 0;
+  transition: opacity 120ms ease;
+}
+
+.sidebar-resizer:hover::after,
+.sidebar-resizer:focus-visible::after,
+body.sidebar-resizing .sidebar-resizer::after{ opacity: 1; }
+
+.sidebar-resizer:focus-visible{ outline: none; }
+
+body.sidebar-resizing{
+  cursor: col-resize;
+  user-select: none;
+}
+
+body.sidebar-resizing .site-header,
+body.sidebar-resizing .site-header::before,
+body.sidebar-resizing #content-shell{ transition: none; }
+
 #content-shell.sidebar-hidden{ --sidebar-column: 0px; }
+#content-shell.sidebar-hidden .sidebar-resizer{ display: none; }
 
 #main{
   grid-column: 2;
   grid-row: 1;
   min-width: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 #detail{
@@ -349,7 +387,39 @@ body{
   margin-inline: auto;
   padding: 2rem 2rem 4rem;
   min-width: 0;
+  flex: 1 0 auto;
   line-height: 1.75;
+}
+
+.site-footer{
+  flex: 0 0 auto;
+  padding: 0.55rem 0.75rem 0.7rem;
+  border-top: 1px solid var(--border-light);
+  background: var(--panel-bg);
+}
+
+.site-footer-nav{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.7rem;
+}
+
+.site-footer-link{
+  color: var(--text-dim);
+  font: 500 0.625rem/1.2 var(--mono);
+  text-decoration: underline;
+  text-decoration-thickness: 0.06em;
+  text-underline-offset: 0.16em;
+}
+
+.site-footer-link:hover{
+  color: var(--accent);
+}
+
+.site-footer-link:focus-visible{
+  outline: 2px solid rgba(59, 107, 154, 0.38);
+  outline-offset: 2px;
 }
 
 /* ── Sidebar contents ── */
@@ -787,8 +857,31 @@ body{
 
 .paper-meta a{ color: var(--link); text-decoration: none; }
 .paper-meta a:hover{ text-decoration: underline; }
+a.submission-meta-id,
+.paper-meta a.submission-meta-id{ color: var(--accent); text-decoration: none; }
+a.submission-meta-id:is(:hover, :focus-visible),
+.paper-meta a.submission-meta-id:is(:hover, :focus-visible){ font-weight: 700; text-decoration: none; }
 .paper-meta code{ font-family: var(--mono); font-size: 0.9em; }
 .paper-meta .status-pill{ vertical-align: middle; }
+.paper-version-button{
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.18rem 0.42rem;
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-control);
+  background: var(--surface);
+  color: var(--accent);
+  font: 700 0.68rem/1.2 var(--mono);
+  vertical-align: middle;
+  cursor: pointer;
+}
+.paper-version-button:hover,
+.paper-version-button:focus-visible{
+  background: var(--accent-light);
+  outline: 2px solid rgba(59, 107, 154, 0.2);
+  outline-offset: 1px;
+}
 .meta-sep{ margin: 0 0.45rem; color: var(--text-dim); }
 
 .paper-abstract{
@@ -819,38 +912,196 @@ body{
   margin: 0.9rem 0;
 }
 
-/* The versioning nudge: same banner shape as drafts, in the accent hue so
-   "there is a newer version" reads as guidance, not as a warning. */
-.superseded-banner{
-  background: var(--accent-light);
-  border: 1px solid var(--accent);
+/* A record outside the archive's epoch says so in the draft banner's box,
+   muted: the environment is a fact about which work can cite this one, not a
+   defect in it, so it takes the neutral palette and no warning mark. */
+.environment-notice{
+  background: var(--panel-bg);
+  border: 1px solid var(--border-light);
   border-radius: var(--radius-control);
-  color: var(--accent);
+  color: var(--text-dim);
   font-size: 0.88rem;
   text-align: center;
   padding: 0.55rem 0.9rem;
   margin: 0.9rem 0;
 }
-.superseded-banner a{ color: var(--link); }
 
-/* Version chain on submission pages, newest first. */
+.environment-notice code{ color: var(--text); background: none; }
+
+/* "epoch" beside the masthead's Lean pin: a label on the pin, not a pin. */
+.meta-epoch{
+  font-variant: small-caps;
+  letter-spacing: 0.03em;
+  color: var(--text-dim);
+}
+
+/* Version history stays at the top of every version page. Superseded pages
+   use the warning palette; current and proposed pages retain the archive's
+   blue accent. */
+.version-notice{
+  display: grid;
+  align-items: start;
+  justify-items: start;
+  gap: 0.85rem 1.2rem;
+  padding: 0.95rem 1rem;
+  margin: 0.9rem 0 1.2rem;
+  border: 1px solid var(--accent);
+  border-left-width: 5px;
+  border-radius: var(--radius-control);
+  background: var(--accent-light);
+  box-shadow: 0 2px 8px rgba(43, 43, 43, 0.06);
+}
+.version-notice p{ margin: 0; line-height: 1.45; }
+.version-notice strong{ color: var(--accent); font-size: 1.02rem; }
+.version-notice-superseded{
+  border-color: var(--warn-border);
+  background: #f4ccc5;
+}
+.version-notice-superseded strong{ color: var(--warn-fg); }
+.version-notice-proposed{ border-style: dashed; }
+.version-notice-pending{
+  padding: 0.7rem 0.85rem;
+  border: 1px dashed var(--border);
+  background: var(--panel-bg);
+  color: var(--text-dim);
+  box-shadow: none;
+}
+.version-notice-pending strong{ color: var(--text); font-size: 0.94rem; }
+.version-notice-actions,
+.version-item-actions{
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.version-history-button,
+.version-current-button,
+.version-open-link{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.7rem;
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-control);
+  color: var(--accent);
+  background: var(--surface);
+  font-family: inherit;
+  font-size: 0.84rem;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.version-current-button{
+  color: var(--surface);
+  background: var(--accent);
+}
+.version-notice-superseded .version-current-button{
+  border-color: var(--warn-border);
+  background: var(--warn-fg);
+}
+.version-notice-pending .version-history-button{
+  border-color: var(--border);
+  color: var(--text-dim);
+}
+.version-history-button:hover,
+.version-history-button:focus-visible,
+.version-current-button:hover,
+.version-current-button:focus-visible,
+.version-open-link:hover,
+.version-open-link:focus-visible{
+  border-color: var(--link);
+  color: var(--surface);
+  background: var(--link);
+  outline: none;
+}
+
+.version-history-dialog{
+  width: min(52rem, calc(100vw - 2rem));
+  max-height: min(88vh, 54rem);
+  margin: auto;
+  padding: 1.25rem;
+  overflow: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: 0 20px 65px rgba(25, 31, 35, 0.28);
+}
+.version-history-dialog::backdrop{ background: rgba(25, 31, 35, 0.48); }
+.version-dialog-header{
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.version-dialog-eyebrow{
+  margin-bottom: 0.12rem;
+  color: var(--accent);
+  font: 700 0.65rem/1.2 var(--mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.version-dialog-header h2{ font-size: 1.35rem; }
+.version-dialog-close{
+  appearance: none;
+  width: 2.1rem;
+  height: 2.1rem;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--text-dim);
+  font: 300 1.35rem/1 sans-serif;
+  cursor: pointer;
+}
+.version-dialog-close:hover,
+.version-dialog-close:focus-visible{
+  border-color: var(--border);
+  background: var(--panel-bg);
+  color: var(--text);
+  outline: none;
+}
+.version-dialog-intro{ margin: 0.55rem 0 1rem; color: var(--text-dim); font-size: 0.88rem; line-height: 1.45; }
+
+/* Complete chain inside the modal, newest first. */
 .version-list{
   list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 0.45rem;
+  padding-left: 0;
+  display: grid;
+  gap: 0.7rem;
 }
 .version-item{
-  display: flex;
-  align-items: baseline;
-  gap: 0.55rem;
-  padding: 0.45rem 0.7rem;
+  padding: 0.85rem 0.95rem;
   border: 1px solid var(--border-light);
+  border-left: 4px solid var(--border);
   border-radius: var(--radius-control);
   background: var(--surface);
 }
-.version-current{ border-color: var(--accent); }
-.version-meta{ color: var(--text-dim); font-size: 0.82rem; margin-left: auto; }
+.version-item.version-latest{
+  border-color: var(--proven-border);
+  border-left-color: var(--proven-fg);
+  background: color-mix(in srgb, var(--proven-bg) 55%, var(--surface));
+}
+.version-item.version-selected{
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+.version-item-heading{ display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.45rem 0.8rem; }
+.version-item-id{ color: var(--text); font: 700 0.84rem/1.2 var(--mono); }
+.version-item-marks{ display: flex; flex-wrap: wrap; gap: 0.3rem; }
+.version-item-title{ margin: 0.35rem 0 0; font-weight: 700; line-height: 1.35; }
+.version-metadata{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 1rem;
+  margin-top: 0.55rem;
+  color: var(--text-dim);
+  font-size: 0.78rem;
+}
+.version-metadata span{ overflow-wrap: anywhere; }
+.version-metadata b{ color: var(--text); font-weight: 600; }
+.version-item-actions{ justify-content: space-between; margin-top: 0.7rem; }
 .version-mark{
   font-size: 0.72rem;
   color: var(--none-fg);
@@ -865,6 +1116,29 @@ body{
   background: var(--proven-bg);
   border-color: var(--proven-border);
 }
+.version-mark-viewing{
+  color: var(--accent);
+  background: var(--accent-light);
+  border-color: var(--accent);
+}
+.version-mark-draft{
+  color: var(--partial-fg);
+  background: var(--partial-bg);
+  border-color: var(--partial-border);
+}
+.version-source-link{
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--link);
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+.version-source-link:hover{ text-decoration: underline; }
+.version-source-missing,
+.version-viewing-label{ color: var(--text-dim); font-size: 0.8rem; }
+.version-open-link{ margin-left: auto; padding-block: 0.32rem; font-size: 0.78rem; }
 
 /* ── Blocks ── */
 
@@ -1011,19 +1285,29 @@ body{
 
 .inline-contract-table .line-num a{ color: inherit; text-decoration: none; }
 
-.inline-contract-table .line-code{ padding-right: 1rem; }
+.inline-contract-table .line-code{ position: relative; padding-right: 1rem; }
+
+/* Native fragment navigation starts the source row below the sticky header. */
+.inline-contract-table tr[id],
+.statement-anchor{ scroll-margin-top: var(--header-height); }
+
+/* Short pages need room after the footer to bring a late source target to
+   the top. Only source-fragment visits get this space; no script is needed. */
+#main:has(.inline-contract-table :target)::after{
+  content: '';
+  flex: none;
+  height: max(0px, calc(100vh - var(--header-height)));
+}
 
 .inline-contract-table .lean-identifier-link{
   color: inherit;
-  text-decoration: underline;
-  text-decoration-color: var(--neutral-stroke);
-  text-underline-offset: 0.14em;
+  text-decoration: none;
 }
 
 .inline-contract-table .lean-identifier-link:hover,
 .inline-contract-table .lean-identifier-link:focus-visible{
   color: var(--link);
-  text-decoration-color: currentColor;
+  font-weight: 700;
 }
 
 .inline-contract-table .lean-identifier-link:focus-visible{
@@ -1065,7 +1349,12 @@ body{
   background: var(--surface);
   box-shadow: 0 3px 10px rgba(43, 43, 43, 0.16);
   transform: translateY(-50%);
+  /* Rail padding must not capture clicks on the adjacent source row. */
+  pointer-events: none;
 }
+
+.source-proof-rail > a,
+.source-review-rail > button{ pointer-events: auto; }
 
 .source-proof-rail.outside,
 .source-review-rail.outside{
@@ -1134,9 +1423,12 @@ body{
 .statement-proof-button-withheld .statement-proof-label{ text-decoration: none; }
 
 .statement-anchor{
-  display: inline-block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
   width: 0;
-  scroll-margin-top: 4rem;
+  height: 0;
 }
 
 .inline-contract-table tr.line-proven td{ background: var(--proven-bg); }
@@ -1195,7 +1487,7 @@ body{
 }
 
 .source-button:hover{ border-color: var(--accent); background: var(--accent-light); }
-.source-button .gh-mark{ flex: none; }
+.source-button .source-mark{ flex: none; }
 
 .source-button-withheld{
   border-style: dashed;
@@ -1274,7 +1566,15 @@ body{
 
 .deps-list li{ margin-bottom: 0.3rem; }
 
-.deps-list a{ color: var(--link); text-decoration: none; overflow-wrap: anywhere; }
+.deps-list a,
+.deps-list li > code{
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.deps-list a{ color: var(--link); text-decoration: none; }
 .deps-list a:hover{ text-decoration: underline; }
 /* Concept identifiers, not code: text face, like concept-list/claim-entry.
    Mathlib entries in the same columns inherit this deliberately. */
@@ -1695,10 +1995,10 @@ body{
   transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
 }
 
-.landing-action-card:is(button){ cursor: pointer; }
+.landing-action-card:is(button, a){ cursor: pointer; text-decoration: none; }
 
-.landing-action-card:is(button):hover,
-.landing-action-card:is(button):focus-visible{
+.landing-action-card:is(button, a):hover,
+.landing-action-card:is(button, a):focus-visible{
   transform: translateY(-3px);
   border-color: var(--accent);
   box-shadow: 0 8px 22px rgba(44, 95, 138, 0.12);
@@ -1706,7 +2006,7 @@ body{
   outline: none;
 }
 
-.landing-action-card:is(button):focus-visible{ box-shadow: 0 0 0 3px rgba(59, 107, 154, 0.18), 0 8px 22px rgba(44, 95, 138, 0.12); }
+.landing-action-card:is(button, a):focus-visible{ box-shadow: 0 0 0 3px rgba(59, 107, 154, 0.18), 0 8px 22px rgba(44, 95, 138, 0.12); }
 
 .landing-action-title{
   font-size: 1.25rem;
@@ -1732,8 +2032,8 @@ body{
   transition: opacity 140ms ease, transform 140ms ease;
 }
 
-.landing-action-card:is(button):hover .landing-action-hint,
-.landing-action-card:is(button):focus-visible .landing-action-hint,
+.landing-action-card:is(button, a):hover .landing-action-hint,
+.landing-action-card:is(button, a):focus-visible .landing-action-hint,
 .landing-action-card.unavailable:hover .landing-action-status,
 .landing-action-card.unavailable:focus-visible .landing-action-status{
   opacity: 1;
@@ -1801,11 +2101,6 @@ body{
 .landing-prompt-box{ position: relative; margin: 0.9rem 0; }
 .landing-prompt-box pre{ margin: 0; padding-right: 4rem; }
 
-.landing-cite-panel{
-  border-left: 4px solid var(--accent);
-  background: linear-gradient(120deg, var(--surface), var(--accent-light));
-}
-
 .landing-review-panel{
   border-left: 4px solid var(--partial-border);
   background: linear-gradient(120deg, var(--surface), var(--partial-bg));
@@ -1826,7 +2121,8 @@ body{
 
 .landing-review-start[hidden]{ display: none; }
 .landing-review-start-copy{ flex: 1 1 28rem; min-width: 0; }
-.landing-review-start h4{ margin: 0.08rem 0 0.35rem; font-size: 1.08rem; line-height: 1.35; }
+.landing-review-start h4{ display: flex; align-items: center; gap: 0.4rem; margin: 0.08rem 0 0.35rem; font-size: 1.08rem; line-height: 1.35; }
+.landing-review-title{ min-width: 0; }
 .landing-review-start p:last-child{ margin-bottom: 0; }
 
 .landing-open-problems-link{
@@ -1860,57 +2156,120 @@ body{
 
 .landing-open-problems-link b{ color: var(--link); font-size: 0.82rem; }
 
-.landing-cite-example{
-  display: grid;
-  gap: 0.35rem;
-  margin-top: 1.15rem;
-}
-
-.landing-cite-example > p{
-  color: var(--text-dim);
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-.landing-cite-example > a{
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 0.7rem;
-  padding: 0.72rem 0.85rem;
-  color: var(--text);
-  background: rgba(255, 255, 255, 0.78);
+/* The FAQ is intentionally a native disclosure list: it works without
+   JavaScript and exposes its expanded state to assistive technology. */
+.landing-faq{
+  overflow: hidden;
+  max-width: 52em;
+  width: 100%;
+  margin: 0;
+  padding-top: 1.05rem;
+  background: var(--panel-bg);
   border: 1px solid var(--border);
   border-radius: var(--radius-card);
-  text-decoration: none;
-  transition: border-color 140ms ease, box-shadow 140ms ease, transform 140ms ease;
+  box-shadow: 0 10px 28px rgba(43, 43, 43, 0.06);
+  scroll-margin-top: calc(var(--header-height) + 1rem);
 }
 
-.landing-cite-example > a:hover,
-.landing-cite-example > a:focus-visible{
-  border-color: var(--accent);
-  box-shadow: 0 5px 16px rgba(44, 95, 138, 0.1);
-  transform: translateY(-1px);
+.landing-faq-heading{
+  padding: 0 1.15rem 0.85rem;
+}
+
+#detail .landing-faq-heading h2{
+  margin: 0;
+  font-size: 1.3rem;
+  line-height: 1.18;
+  letter-spacing: 0.01em;
+}
+
+.landing-faq-answer p:last-child{ margin-bottom: 0; }
+
+.landing-faq-list{
+  margin: 0;
+  padding: 0;
+  background: var(--surface);
+  border: 0;
+  border-top: 1px solid var(--border-light);
+  list-style: none;
+}
+
+.landing-faq-list-item + .landing-faq-list-item{ border-top: 1px solid var(--border-light); }
+
+.landing-faq-item summary{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 3.35rem;
+  padding: 0.55rem 0.85rem;
+  list-style: none;
+  color: var(--text);
+  cursor: pointer;
+  transition: background 140ms ease, color 140ms ease;
+}
+
+.landing-faq-item summary::-webkit-details-marker{ display: none; }
+
+.landing-faq-item summary:hover,
+.landing-faq-item summary:focus-visible{
+  color: var(--accent);
+  background: linear-gradient(90deg, var(--surface), var(--accent-light));
   outline: none;
 }
 
-.landing-cite-example-id{
-  color: var(--link);
-  font-family: var(--mono);
-  font-size: 0.78rem;
+.landing-faq-item summary:focus-visible{ box-shadow: inset 3px 0 var(--accent); }
+
+.landing-faq-question{
+  display: grid;
+  grid-template-columns: 1.35rem minmax(0, 1fr);
+  align-items: baseline;
+  gap: 0.35rem;
+  min-width: 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.35;
 }
 
-.landing-cite-example strong{ line-height: 1.35; }
-
-.landing-cite-example-action{
-  color: var(--link);
-  font-size: 0.78rem;
-  white-space: nowrap;
+.landing-faq-number{
+  color: var(--text-dim);
+  font: 600 0.56rem/1 var(--mono);
+  letter-spacing: 0.06em;
 }
 
-.landing-cite-example-action b{ font-size: 0.95rem; }
+.landing-faq-toggle{
+  position: relative;
+  width: 1.2rem;
+  height: 1.2rem;
+  flex: 0 0 1.2rem;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: var(--panel-bg);
+}
+
+.landing-faq-toggle::before,
+.landing-faq-toggle::after{
+  content: '';
+  position: absolute;
+  inset: 50% auto auto 50%;
+  width: 0.45rem;
+  height: 1px;
+  background: currentColor;
+  transform: translate(-50%, -50%);
+  transition: transform 160ms ease;
+}
+
+.landing-faq-toggle::after{ transform: translate(-50%, -50%) rotate(90deg); }
+.landing-faq-item[open] .landing-faq-toggle::after{ transform: translate(-50%, -50%) rotate(0); }
+
+.landing-faq-answer{
+  padding: 0 3.45rem 0.9rem 2.55rem;
+  color: #4f5966;
+  font-size: 0.94rem;
+  line-height: 1.62;
+}
+
+.landing-faq-answer p{ margin-bottom: 0.72rem; }
+.landing-faq-answer a{ color: var(--link); text-underline-offset: 0.16em; }
 
 .stats-line{
   font-variant: small-caps;
@@ -1975,6 +2334,10 @@ body{
 
 .tag-chip[hidden]{ display: none; }
 
+/* The environment facet sits in the topic strip but is an archive fact, not a
+   suggested phrase: mono, like every other version pin on the site. */
+.tag-chip.environment-chip span{ font-family: var(--mono); font-size: 0.72rem; }
+
 .tag-chip b{
   display: inline-grid;
   place-items: center;
@@ -2019,8 +2382,13 @@ body{
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0;
 }
+
+/* `hidden="until-found"` rows keep a layout box so browser Find can reveal
+   them. Put spacing on visible rows instead of the flex container so those
+   hidden boxes do not push the pagination control downward. */
+.submissions-list > li + li:not([hidden]){ margin-top: 0.5rem; }
 
 .submissions-list-link{
   display: block;
@@ -2067,6 +2435,35 @@ body{
   color: var(--text-dim);
   padding: 0.75rem 0;
 }
+
+.submissions-load-more{
+  display: block;
+  width: fit-content;
+  margin: 0.45rem auto 0;
+  padding: 0.34rem 0.68rem;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-control);
+  background: transparent;
+  color: var(--text-dim);
+  font-family: inherit;
+  font-size: 0.78rem;
+  font-weight: 600;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: color 120ms ease, border-color 120ms ease, background 120ms ease;
+}
+
+.submissions-load-more[hidden]{ display: none; }
+
+.submissions-load-more:hover,
+.submissions-load-more:focus-visible{
+  border-color: var(--border);
+  background: rgba(255, 255, 255, 0.58);
+  color: var(--link);
+  outline: none;
+}
+
+.submissions-load-more:focus-visible{ box-shadow: 0 0 0 2px rgba(59, 107, 154, 0.14); }
 
 /* ── Archive-wide proof obligations ── */
 
@@ -2182,6 +2579,55 @@ body{
   margin: 0 0 1rem;
 }
 
+.concept-review-progress{
+  padding: 0.52rem 0.68rem 0.58rem;
+  border-bottom: 1px solid var(--border-light);
+  background: var(--panel-bg);
+}
+.concept-review-progress[hidden]{ display: none; }
+.concept-review-progress-heading{
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.15rem 0.75rem;
+  margin-bottom: 0.32rem;
+  color: var(--text-dim);
+  font-size: 0.68rem;
+  line-height: 1.3;
+}
+.concept-review-progress-heading > span:first-child{ color: var(--text); font-weight: 700; }
+.concept-review-progress-track{
+  display: flex;
+  position: relative;
+  width: 100%;
+  height: 0.42rem;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-chip);
+}
+.concept-review-progress.loading .concept-review-progress-track{
+  background: var(--none-bg);
+  border-color: var(--none-border);
+}
+.concept-review-progress.loading .concept-review-progress-track::after{
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 30%;
+  background: var(--accent);
+  opacity: 0.78;
+  transform: translateX(-110%);
+  animation: concept-review-loading 2.4s cubic-bezier(.4, 0, .2, 1) infinite;
+}
+@keyframes concept-review-loading{
+  to{ transform: translateX(445%); }
+}
+.concept-review-progress-segment{ flex: 1 1 0; min-width: 0; }
+.concept-review-progress-segment.endorsed{ background: var(--proven-fg); }
+.concept-review-progress-segment.flagged{ background: var(--warn-fg); }
+.concept-review-progress-segment.pending{ background: var(--none-border); }
+
 .concept-list{
   font-family: 'Latin Modern', Georgia, serif;
   list-style: none;
@@ -2191,6 +2637,33 @@ body{
   grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
   gap: 0;
 }
+
+.concept-used-list{
+  padding-top: 0.2rem;
+  border-top: 1px solid var(--border-light);
+}
+
+.concept-used-list[hidden]{ display: none; }
+
+.concept-used-toggle{
+  display: block;
+  margin: 0 0.65rem 0.45rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--text-dim);
+  font: inherit;
+  font-size: 0.68rem;
+  line-height: 1.4;
+  text-align: left;
+  text-decoration: underline;
+  text-decoration-color: var(--border);
+  text-underline-offset: 0.15em;
+  cursor: pointer;
+}
+
+.concept-used-toggle:hover{ color: var(--link); text-decoration-color: currentColor; }
+.concept-used-toggle:focus-visible{ outline: 2px solid rgba(59, 107, 154, 0.35); outline-offset: 2px; }
 
 /* The badge legend: a quiet footer row shaped like the graph-figure
    legends — smaller than the list it explains, never competing with it. */
@@ -2216,10 +2689,32 @@ body{
   padding: 0.55rem 0.65rem;
 }
 
-.concept-list a{ min-width: 0; color: var(--link); text-decoration: none; }
+.concept-list a{ flex: 1 1 auto; min-width: 0; overflow: hidden; color: var(--link); text-decoration: none; }
 .concept-list a:hover{ text-decoration: underline; }
 .concept-list .type-badge{ margin-right: 0; }
 .concept-list code{ display: block; font-family: inherit; font-size: 0.74rem; overflow: hidden; text-overflow: ellipsis; }
+
+.concept-review-badge{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 1.05rem;
+  width: 1.05rem;
+  height: 1.05rem;
+  border: 1px solid;
+  border-radius: var(--radius-chip);
+  font-family: Arial, sans-serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0;
+}
+.concept-review-badge[hidden]{ display: none; }
+.concept-review-badge.pending{ background: transparent; border-color: var(--none-border); }
+.concept-review-badge.endorsed{ color: var(--proven-fg); background: var(--proven-bg); border-color: var(--proven-border); }
+.concept-review-badge.flagged{ color: var(--warn-fg); background: var(--warn-bg); border-color: var(--warn-border); }
+.entry-label .concept-review-badge{ align-self: center; margin-left: auto; }
+.entry-label .concept-review-badge.pending{ display: none; }
 
 /* ── Proof lists: judgment cards (assumptions box → conclusion) ── */
 
@@ -2347,6 +2842,27 @@ body{
   font-size: 0.85rem;
   margin-bottom: 0.7rem;
 }
+
+/* Which statement of a multi-statement claim is meant: a quiet qualifier,
+   never competing with the claim's own name. */
+.claim-ordinal{
+  color: var(--text-dim);
+  font-weight: 400;
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+
+.evidence-statement + .evidence-statement{ margin-top: 1.1rem; }
+.evidence-statement h4{
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0 0 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+.evidence-statement h4 code{ font-family: var(--mono); font-size: 0.78rem; font-weight: 400; }
 
 .honesty-note,
 .empty-note{
@@ -2538,10 +3054,45 @@ body{
   vertical-align: top;
 }
 
+.page-reactions-line{
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.38rem 0.65rem;
+}
+
 .page-reactions-actions{
   display: flex;
   flex-wrap: wrap;
   gap: 0.35rem;
+}
+
+.submission-flagged-note{
+  display: inline-flex;
+  align-items: center;
+  gap: 0.28rem;
+  max-width: 31rem;
+  margin: 0;
+  color: var(--warn-fg);
+  font-size: 0.68rem;
+  font-weight: 650;
+  line-height: 1.35;
+}
+.submission-flagged-note[hidden]{ display: none; }
+.submission-flagged-note > span[aria-hidden]{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 1.05rem;
+  width: 1.05rem;
+  height: 1.05rem;
+  border: 1px solid var(--warn-border);
+  border-radius: var(--radius-chip);
+  background: var(--warn-bg);
+  font-family: Arial, sans-serif;
+  font-size: 0.68rem;
+  line-height: 1;
+  letter-spacing: 0;
 }
 
 .page-reaction-control{
@@ -3032,6 +3583,7 @@ body.graph-window-open::after{
 .legend-node.stroke-own{ border-color: var(--accent); background: var(--surface); }
 .legend-node.stroke-ext{ border-color: var(--none-border); background: var(--surface); }
 .legend-arrow{ color: var(--text-dim); font-family: var(--mono); font-size: 0.9rem; font-style: normal; line-height: 1; }
+.legend-arrow.proof-dep{ color: var(--proof-dep); }
 .legend-proof-chip{
   display: inline-flex;
   align-items: center;
@@ -3048,6 +3600,22 @@ body.graph-window-open::after{
   line-height: 1;
 }
 .legend-cycle{ width: 18px; height: 12px; border: 1px solid var(--neutral-stroke); border-radius: var(--radius-chip); }
+/* The numbered dock of a claim with several statements. */
+.legend-dock{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 11px;
+  height: 11px;
+  border: 1px solid var(--accent);
+  border-radius: 50%;
+  background: var(--proven-bg);
+  color: var(--text);
+  font-family: var(--mono);
+  font-style: normal;
+  font-size: 0.55rem;
+  line-height: 1;
+}
 
 .graph-tooltip{
   position: absolute;
@@ -3102,6 +3670,28 @@ body.graph-window-open::after{
 .dag-node.ext text,
 .net-node.ext text{ fill: var(--text-dim); }
 
+/* Docks: one small numbered circle per statement of a multi-statement
+   concept, hanging under its box. Same axes as the boxes — fill = status,
+   stroke = origin — one size down. */
+.net-dock circle{
+  stroke-width: 1.2;
+  fill: var(--none-bg);
+  stroke: var(--accent);
+}
+.net-dock.proven circle{ fill: var(--proven-bg); }
+.net-dock.open circle{ fill: var(--partial-bg); }
+.net-dock.ext circle{ stroke: var(--none-border); }
+.net-dock text{
+  font-size: 7.5px;
+  fill: var(--text);
+  font-family: var(--mono);
+}
+.net-dock.ext text{ fill: var(--text-dim); }
+.net-dock[role="link"],
+.net-dock[role="link"] *{ cursor: pointer; }
+.net-dock[role="link"]:hover circle,
+.net-dock:focus-visible circle{ outline: none; stroke: var(--link); stroke-width: 2.4; }
+
 .net-proof rect{ fill: var(--surface); stroke: var(--text-dim); stroke-width: 1.3; }
 .net-proof text{ font-family: serif; font-size: 16px; fill: var(--text); }
 .net-proof.ext rect{ stroke: var(--none-border); }
@@ -3141,6 +3731,12 @@ body.graph-window-open::after{
 
 .net-edge.conclusion{ stroke: var(--accent); stroke-opacity: 0.7; }
 
+/* Submission map only: a dependency that only the proof package declares.
+   The dependent's statements stand on their own and just its proofs reach
+   across, so the edge is a distinct hue rather than a status colour — a
+   submission map has no proven/open axis to confuse it with. */
+.dag-edge.proof-dep{ stroke: var(--proof-dep); stroke-opacity: 0.75; }
+
 /* Hovering or focusing a node lights up its incident edges (dag.js). */
 .dag-edge.hot,
 .net-edge.hot{
@@ -3149,6 +3745,7 @@ body.graph-window-open::after{
   stroke-width: 1.9;
 }
 .net-edge.conclusion.hot{ stroke: var(--accent); }
+.dag-edge.proof-dep.hot{ stroke: var(--proof-dep); stroke-opacity: 1; }
 
 .cycle-component{
   fill: var(--code-bg);
@@ -3173,6 +3770,8 @@ body.graph-window-open::after{
 
 @media (max-width: 900px){
   .site-header{ --sidebar-column: 0px; }
+
+  .sidebar-resizer{ display: none; }
 
   #content-shell{
     --sidebar-column: 0px;
@@ -3239,6 +3838,21 @@ body.graph-window-open::after{
 
   .landing-hero-title{ max-width: 15em; }
   .landing-trust-path{ width: min(100%, 20rem); }
+
+  /* The reflowed paper in one column: the text at the screen's width, the
+     rail and the gutter bands gone, the cards opening in the text under
+     their passages. The passages' shadows still run their margin beyond
+     the column, into the page's own padding. */
+  .manuscript-reflow-body{
+    display: block;
+    overflow: visible;
+    padding: 0.25rem 0.8rem 0.6rem;
+    margin: -0.25rem -0.8rem 0;
+  }
+  .manuscript-reflow-body .manuscript-rail,
+  .manuscript-reflow-body .manuscript-links{ display: none; }
+  .manuscript-card-inline{ font-size: 0.86rem; }
+  .manuscript-card-inline .manuscript-card-body .latex-content{ font-size: 0.84rem; }
 }
 
 @media (max-width: 640px){
@@ -3307,13 +3921,22 @@ body.graph-window-open::after{
   .landing-action-hint,
   .landing-action-status{ opacity: 1; transform: none; }
   .landing-action-panel{ padding: 1rem; }
-  .landing-cite-example > a{ grid-template-columns: auto minmax(0, 1fr); }
-  .landing-cite-example-action{ grid-column: 1 / -1; }
+  .landing-faq{ padding-top: 0.9rem; }
+  .landing-faq-heading{ padding: 0 0.85rem 0.7rem; }
+  .landing-faq-item summary{ min-height: 3.1rem; padding: 0.5rem 0.65rem; }
+  .landing-faq-question{ grid-template-columns: 1.15rem minmax(0, 1fr); gap: 0.2rem; font-size: 0.88rem; }
+  .landing-faq-answer{ padding: 0 2.75rem 0.8rem 2rem; font-size: 0.9rem; }
   .tag-browser-heading{ display: block; }
   .tag-browser-heading p{ margin-top: 0.18rem; text-align: left; }
   .landing-open-problems-link{ align-items: flex-start; flex-direction: column; gap: 0.35rem; }
   .open-problem-card{ padding: 0.9rem; }
   .open-problem-meta{ margin-left: 0; }
+  .version-notice{ align-items: stretch; }
+  .version-notice-actions{ width: 100%; }
+  .version-notice-actions > *{ flex: 1 1 auto; }
+  .version-history-dialog{ width: calc(100vw - 1rem); padding: 1rem; }
+  .version-item-actions{ align-items: flex-end; }
+  .version-open-link{ flex: 1 1 100%; margin-left: 0; }
 }
 
 @media (hover: none){
@@ -3323,6 +3946,7 @@ body.graph-window-open::after{
 }
 
 @media (prefers-reduced-motion: reduce){
+  .concept-review-progress.loading .concept-review-progress-track::after,
   .discussion-loading-mark,
   .landing-demo-card,
   .landing-demo-inner,
@@ -3332,5 +3956,396 @@ body.graph-window-open::after{
   .landing-action-card,
   .landing-action-hint,
   .landing-action-status,
-  .landing-action-panel{ animation: none; transition: none; }
+  .landing-action-panel,
+  .landing-faq-item summary,
+  .landing-faq-toggle::after{ animation: none; transition: none; }
+  .concept-review-progress.loading .concept-review-progress-track::after{
+    width: 100%;
+    opacity: 0.2;
+    transform: none;
+  }
 }
+
+/* ── Paper (manuscript) page ──
+   The compiled PDF beside its cards. `manuscript-*` throughout; `paper-*`
+   is the submission masthead. */
+
+#detail.detail-manuscript{ width: min(100%, 114em); }
+
+/* The marks' palette, shared by the printed and the reflowed surface: per
+   kind, the passage's own region (`ink`), the lighter shadow behind it and
+   the gutter band to its card (`band`), each with its hovered/flashed
+   shade, and the card's swatch. Concepts are the highlighter's yellow;
+   proofs a light sky blue, kept paler than the yellow reads — a proof is
+   the passage's supporting argument, not its claim, and its region
+   should not sit heavier on the text; submissions a warm neutral. The
+   layers multiply onto the text, so every alpha is the whole tint. */
+.manuscript{
+  --mark-concept-ink: rgba(255, 226, 96, 0.5);
+  --mark-concept-ink-hot: rgba(255, 212, 48, 0.68);
+  --mark-concept-band: rgba(255, 214, 56, 0.17);
+  --mark-concept-band-hot: rgba(255, 204, 32, 0.34);
+  --mark-concept-swatch: rgba(246, 200, 56, 0.85);
+  --mark-proof-ink: rgba(184, 214, 244, 0.3);
+  --mark-proof-ink-hot: rgba(150, 196, 240, 0.48);
+  --mark-proof-band: rgba(134, 184, 236, 0.09);
+  --mark-proof-band-hot: rgba(104, 164, 228, 0.19);
+  --mark-proof-swatch: rgba(122, 172, 224, 0.8);
+  --mark-submission-ink: rgba(206, 200, 194, 0.42);
+  --mark-submission-ink-hot: rgba(188, 180, 172, 0.58);
+  --mark-submission-band: rgba(150, 142, 134, 0.1);
+  --mark-submission-band-hot: rgba(130, 122, 114, 0.22);
+  --mark-submission-swatch: rgba(160, 152, 144, 0.7);
+}
+
+.manuscript-heading .concept-id{ font-variant: small-caps; letter-spacing: 0.05em; }
+
+/* Always side by side: the pages keep a readable minimum width and the
+   rail gives way first, down to a card's worth; where the screen is
+   narrower than the two together the body scrolls sideways rather than
+   stacking. The padding keeps card shadows and outlines out of the clip. */
+/* `display: grid` would otherwise beat the `hidden` attribute the view
+   toggle sets, leaving both surfaces on the page at once. */
+.manuscript-body[hidden]{ display: none; }
+.manuscript-body{
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(32rem, 1fr) minmax(24rem, min(40rem, 38%));
+  column-gap: 3rem;
+  align-items: start;
+  overflow-x: auto;
+  padding: 0.25rem 0.6rem 0.6rem;
+  margin: -0.25rem -0.6rem 0;
+}
+
+/* The gutter bands: one path per placed card, from the passage's shadow to
+   the whole card. Band and shadow share their fills and are both
+   multiplied onto what is under them, so they read as one ribbon. */
+.manuscript-links{
+  display: none;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 3;
+  overflow: visible;
+  mix-blend-mode: multiply;
+}
+.manuscript-links-live{ display: block; }
+.manuscript-link, .manuscript-hl-shadow{ fill: var(--mark-concept-band); stroke: none; transition: fill 150ms ease; }
+.manuscript-link.kind-proof, .manuscript-hl-shadow.kind-proof{ fill: var(--mark-proof-band); }
+.manuscript-link.kind-submission, .manuscript-hl-shadow.kind-submission{ fill: var(--mark-submission-band); }
+.manuscript-link.manuscript-link-hover, .manuscript-link.manuscript-link-active,
+.manuscript-hl-shadow.manuscript-hl-hover, .manuscript-hl-shadow.manuscript-hl-active, .manuscript-hl-shadow.manuscript-hl-flash{ fill: var(--mark-concept-band-hot); }
+.manuscript-link.manuscript-link-hover.kind-proof, .manuscript-link.manuscript-link-active.kind-proof,
+.manuscript-hl-shadow.manuscript-hl-hover.kind-proof, .manuscript-hl-shadow.manuscript-hl-active.kind-proof, .manuscript-hl-shadow.manuscript-hl-flash.kind-proof{ fill: var(--mark-proof-band-hot); }
+.manuscript-link.manuscript-link-hover.kind-submission, .manuscript-link.manuscript-link-active.kind-submission,
+.manuscript-hl-shadow.manuscript-hl-hover.kind-submission, .manuscript-hl-shadow.manuscript-hl-active.kind-submission, .manuscript-hl-shadow.manuscript-hl-flash.kind-submission{ fill: var(--mark-submission-band-hot); }
+
+.manuscript-pages{ position: relative; min-width: 0; }
+.manuscript-page{
+  position: relative;
+  width: 100%;
+  margin: 0 0 1rem;
+  background: var(--surface);
+  border: 1px solid var(--border-light);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+}
+.manuscript-page canvas{ display: block; width: 100%; }
+.manuscript-page-rendered{ border-color: transparent; }
+/* Highlights: an SVG per page, multiplied onto the rendered canvas so the
+   text stays crisp. One flat region per passage and column over a lighter
+   shadow across the page's full width, which the gutter band continues. */
+.manuscript-hl-layer{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  overflow: visible;
+}
+.manuscript-hl{
+  fill: var(--mark-concept-ink);
+  stroke: none;
+  transition: fill 150ms ease;
+}
+.manuscript-hl.kind-proof{ fill: var(--mark-proof-ink); }
+.manuscript-hl.kind-submission{ fill: var(--mark-submission-ink); }
+/* The open passage carries no outline; a flash is a moment of the hover fill. */
+.manuscript-hl.manuscript-hl-hover, .manuscript-hl.manuscript-hl-flash{ fill: var(--mark-concept-ink-hot); }
+.manuscript-hl.manuscript-hl-hover.kind-proof, .manuscript-hl.manuscript-hl-flash.kind-proof{ fill: var(--mark-proof-ink-hot); }
+.manuscript-hl.manuscript-hl-hover.kind-submission, .manuscript-hl.manuscript-hl-flash.kind-submission{ fill: var(--mark-submission-ink-hot); }
+
+/* The rail: a plain list until manuscript.js takes over, then cards sit at
+   the y of their passages, pushed down where they would overlap. */
+.manuscript-rail{ list-style: none; margin: 0; padding: 0; min-width: 0; }
+.manuscript-rail-live{ position: relative; }
+.manuscript-rail-live .manuscript-card{ position: absolute; left: 0; right: 0; margin: 0; }
+.manuscript-rail-static{ max-width: 34rem; }
+
+.manuscript-card{
+  margin: 0 0 0.5rem;
+  padding: 0.45rem 0.6rem 0.45rem 0.55rem;
+  background: var(--surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-control);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  font-size: 0.82rem;
+  line-height: 1.45;
+  cursor: pointer;
+  transition: box-shadow 120ms ease;
+}
+.manuscript-card:hover, .manuscript-card-hover{ box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12); }
+.manuscript-card:target{ outline: 2px solid var(--accent); outline-offset: 1px; }
+.manuscript-card-expanded{ box-shadow: 0 2px 10px rgba(0, 0, 0, 0.16); }
+.manuscript-card-head{ display: flex; align-items: center; gap: 0.4rem; min-width: 0; }
+.manuscript-card-swatch{
+  flex: 0 0 auto;
+  width: 0.55rem;
+  height: 1.1rem;
+  border-radius: 2px;
+  background: var(--mark-concept-swatch);
+}
+.kind-proof > .manuscript-card-head .manuscript-card-swatch{ background: var(--mark-proof-swatch); }
+.kind-submission > .manuscript-card-head .manuscript-card-swatch{ background: var(--mark-submission-swatch); }
+.manuscript-card-name{ display: inline-flex; align-items: center; gap: 0.3rem; min-width: 0; flex: 1 1 auto; overflow: hidden; }
+.manuscript-card-name a{ color: var(--link); text-decoration: none; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.manuscript-card-name a:hover{ text-decoration: underline; }
+.manuscript-card-name code{ font-family: 'Latin Modern', Georgia, serif; font-size: 0.82rem; }
+.manuscript-card-name .type-badge, .manuscript-card-name .proof-badge{ margin-right: 0; }
+.manuscript-card-page{ color: var(--text-dim); font-size: 0.7rem; white-space: nowrap; }
+.manuscript-card-toggle{
+  flex: 0 0 auto;
+  appearance: none;
+  border: 0;
+  background: none;
+  color: var(--text-dim);
+  font-size: 0.8rem;
+  line-height: 1;
+  padding: 0.15rem 0.25rem;
+  cursor: pointer;
+  border-radius: var(--radius-control);
+  transition: transform 120ms ease;
+}
+.manuscript-card-toggle:hover, .manuscript-card-toggle:focus-visible{ background: var(--accent-light); color: var(--accent); }
+.manuscript-card-expanded .manuscript-card-toggle{ transform: rotate(90deg); }
+.manuscript-card-pinned .manuscript-card-toggle{ color: var(--accent); }
+.manuscript-card-body{
+  margin-top: 0.45rem;
+  padding-top: 0.45rem;
+  border-top: 1px dotted var(--border-light);
+  cursor: auto;
+}
+.manuscript-card-body .latex-content{ font-size: 0.8rem; text-align: left; margin: 0.25rem 0; }
+.manuscript-card-body .judgment{ padding: 0.2rem 0; gap: 0.5rem; }
+.manuscript-card-body .judgment-arrow{ font-size: 1.2rem; }
+.manuscript-card-title{ font-weight: 600; margin: 0 0 0.2rem; }
+.manuscript-card-claims{ list-style: none; margin: 0.3rem 0 0; padding: 0; display: flex; flex-direction: column; gap: 0.25rem; }
+/* The concept's Lean source under its description: the concept page's
+   table, smaller, long lines wrapped rather than scrolled, scrolling inside
+   the card past a screen's worth. */
+.manuscript-card-source{
+  margin-top: 0.5rem;
+  max-height: 26rem;
+  overflow: auto;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-control);
+  background: var(--code-bg);
+}
+.manuscript-card-source .inline-contract-wrap{ overflow: visible; }
+.manuscript-card-source .inline-contract-table{ font-size: 0.7rem; line-height: 1.55; }
+.manuscript-card-source .inline-contract-table .line-num{ width: 2.6rem; padding: 0 0.6rem 0 0.4rem; }
+.manuscript-card-source .inline-contract-table .line-code{ padding-right: 0.6rem; white-space: pre-wrap; overflow-wrap: anywhere; }
+.inline-contract-table tr.line-elided td{ color: var(--text-dim); font-style: italic; white-space: normal; }
+.inline-contract-table tr.line-elided .line-code{ padding: 0.15rem 0.6rem 0.15rem 0; }
+.manuscript-card.line-proven > .manuscript-card-head{ border-left: 3px solid var(--proven-border); padding-left: 0.35rem; margin-left: -0.55rem; }
+.manuscript-card.line-open > .manuscript-card-head{ border-left: 3px solid var(--partial-border); padding-left: 0.35rem; margin-left: -0.55rem; }
+.manuscript-card-unplaced{ opacity: 0.7; }
+.manuscript-card-unplaced .manuscript-card-page::after{ content: ' · passage not located'; }
+
+.manuscript-status{ color: var(--text-dim); font-size: 0.8rem; margin-top: 0.4rem; }
+.manuscript-status-failed{ color: var(--warn-fg); }
+.manuscript-ready .manuscript-status{ opacity: 0.7; }
+
+/* ── The reflow surface ──
+   The vendored ReflowTeX viewer paints the paper as SVG text at the
+   reader's width; the cards rail and gutter bands reuse the manuscript
+   vocabulary above, joined on the viewer's `.latex-anchor` elements by
+   manuscript-reflow.js. */
+/* The switch between the two pages: the reflowed text and the paper as
+   printed, the current one marked. */
+.manuscript-view-switch{ display: flex; gap: 0.4rem; margin: 0 0 0.9rem; }
+.manuscript-view-link{
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-control);
+  color: var(--text-dim);
+  font-size: 0.78rem;
+  line-height: 1.2;
+  padding: 0.3rem 0.7rem;
+  text-decoration: none;
+}
+.manuscript-view-link:hover{ color: var(--accent); border-color: var(--accent); }
+.manuscript-view-link[aria-current="page"]{
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--accent-light);
+}
+/* The reflowed text needs no minimum width — that is the point of it — so
+   its column gives way before the rail does, and the two stay side by side
+   down to the stylesheet's mobile breakpoint, where the rail goes and the
+   cards open in the text instead (manuscript-reflow.js). The body keeps
+   room on the left for the passages' shadows, which run a margin beyond
+   the text column on both sides (the PDF page's own margins do this on the
+   printed surface). */
+.manuscript-reflow-body{
+  grid-template-columns: minmax(22rem, 1fr) minmax(19rem, min(40rem, 36%));
+  padding-left: 1.2rem;
+  margin-left: -1.2rem;
+}
+.manuscript-reflow-doc{ min-width: 0; position: relative; }
+/* A card opened in the text, under its passage: in flow between the
+   viewer's segments, above the highlight layer, its × closing it. */
+.manuscript-card-inline{
+  position: relative;
+  z-index: 3;
+  list-style: none;
+  margin: 0.6rem 0 0.9rem;
+  cursor: auto;
+}
+.manuscript-card-inline .manuscript-card-head{ cursor: pointer; }
+.manuscript-card-inline .manuscript-card-toggle{ transform: none; padding: 0.2rem 0.45rem; font-size: 1.05rem; }
+.manuscript-card-inline .manuscript-card-toggle span{ display: none; }
+.manuscript-card-inline .manuscript-card-toggle::after{ content: '×'; }
+.latex-block{ position: relative; min-width: 0; }
+.latex-block svg{ max-width: none; }
+/* The viewer pads an overflowing display's wrapper by its measured ink
+   overhang; the scroll box itself only needs the horizontal axis. Its
+   frame fades the edge(s) the box can still scroll toward (data-scroll,
+   kept current by the viewer) into the page's ground, so a reader sees
+   that the display goes on — overlay scrollbars show nothing until
+   touched. */
+.latex-display{ overflow-x: auto; }
+.latex-display-frame{ position: relative; }
+.latex-display-frame::before,
+.latex-display-frame::after{
+  content: '';
+  position: absolute;
+  top: var(--latex-fade-top, 0);         /* the viewer insets the fades past */
+  bottom: var(--latex-fade-bottom, 0);   /* a lone equation-number line */
+  width: 2.75rem;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.latex-display-frame::before{ left: 0; background: linear-gradient(to right, var(--bg) 20%, transparent); }
+.latex-display-frame::after{ right: 0; background: linear-gradient(to left, var(--bg) 20%, transparent); }
+.latex-display-frame[data-scroll="start"]::after,
+.latex-display-frame[data-scroll="both"]::after,
+.latex-display-frame[data-scroll="end"]::before,
+.latex-display-frame[data-scroll="both"]::before{ opacity: 1; }
+/* Zero-size, invisible; a deep link lands the passage below the sticky
+   header. The viewer positions in-paragraph anchors absolutely itself. */
+.latex-anchor{ display: block; width: 0; height: 0; scroll-margin-top: 7rem; }
+/* Footnotes as sidenotes (manuscript-reflow.js). While the rail stands
+   beside the text the body carries manuscript-sidenotes: each footnote's
+   segment is lifted into a .manuscript-footnote card in the rail and the
+   viewer's footnote rule goes with it. Without the class (the body scrolls
+   sideways) the endnotes stay in flow. */
+/* !important: the viewer sets display:block inline on every segment. */
+.manuscript-sidenotes .manuscript-reflow-doc .latex-footnote-rule{ display: none !important; }
+.manuscript-footnote{ cursor: default; padding: 0.4rem 0.6rem 0.4rem 0.55rem; }
+.manuscript-footnote > .manuscript-footnote-body{ min-width: 0; overflow: visible; }
+.manuscript-footnote > .manuscript-footnote-body > svg{ display: block; max-width: 100%; margin: 0; }
+.manuscript-footnote.manuscript-card-hover{ border-color: var(--accent); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12); }
+/* The reference's link: a small hit box over the superscript the viewer
+   painted before the anchor (the anchor sits at the baseline just after
+   it), outside the SVG so the text is untouched. Lit from either end. */
+.latex-fnref{ z-index: 4; }
+.latex-fnref-link{
+  position: absolute;
+  left: -11px;
+  top: -20px;
+  width: 14px;
+  height: 22px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.latex-fnref-link:hover, .latex-fnref-link:focus-visible,
+.latex-fnref-hover > .latex-fnref-link, .latex-fnref-flash > .latex-fnref-link{ background: var(--accent-light); outline: 1px solid var(--accent); }
+/* An endnote a reference link landed on. */
+.latex-footnote-flash{ background: var(--accent-light); transition: background 150ms ease; }
+/* The AGPL §13 source offer for the viewer running in this page. */
+.manuscript-reflow-notice{
+  margin: 3rem auto 0.75rem;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  text-align: center;
+  color: var(--text-dim);
+  opacity: 0.75;
+}
+.manuscript-reflow-notice a{ color: inherit; }
+
+/* The submission page's way into the annotated paper: one centered button,
+   the counts in grey under it. */
+.paper-cta{ display: flex; flex-direction: column; align-items: center; gap: 0.45rem; text-align: center; }
+.paper-cta-button{ padding: 0.55rem 1.1rem; font-size: 0.95rem; }
+.paper-cta-facts{ margin: 0; color: var(--text-dim); font-size: 0.85rem; }
+.in-paper-list{ list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.25rem; font-size: 0.9rem; }
+
+/* pdf.js text layer (from pdf.js's text_layer_builder.css, Apache-2.0):
+   transparent glyph boxes over the canvas so the paper's text can be
+   selected and searched. Sized through --scale-factor / --total-scale-factor
+   on the page container. */
+.textLayer{
+  color-scheme: only light;
+  position: absolute;
+  text-align: initial;
+  inset: 0;
+  overflow: clip;
+  opacity: 1;
+  line-height: 1;
+  letter-spacing: normal;
+  word-spacing: normal;
+  text-size-adjust: none;
+  forced-color-adjust: none;
+  transform-origin: 0 0;
+  caret-color: CanvasText;
+  z-index: 1;
+  --min-font-size: 1;
+  --text-scale-factor: calc(var(--total-scale-factor) * var(--min-font-size));
+  --min-font-size-inv: calc(1 / var(--min-font-size));
+}
+.textLayer :is(span, br){
+  color: transparent;
+  position: absolute;
+  white-space: pre;
+  cursor: text;
+  transform-origin: 0% 0%;
+  user-select: text;
+}
+.textLayer > :not(.markedContent),
+.textLayer .markedContent span:not(.markedContent){
+  z-index: 1;
+  --font-height: 0;
+  font-size: calc(var(--text-scale-factor) * var(--font-height));
+  --scale-x: 1;
+  --rotate: 0deg;
+  transform: rotate(var(--rotate)) scaleX(var(--scale-x)) scale(var(--min-font-size-inv));
+}
+.textLayer .markedContent{ display: contents; }
+.textLayer span[role="img"]{ user-select: none; cursor: default; }
+.textLayer ::selection{ background: rgba(0, 0, 255, 0.25); color: transparent; }
+.textLayer br::selection{ background: transparent; }
+.textLayer .endOfContent{
+  display: block;
+  position: absolute;
+  inset: 100% 0 0;
+  z-index: 0;
+  cursor: default;
+  user-select: none;
+}
+.textLayer.selecting .endOfContent{ top: 0; }

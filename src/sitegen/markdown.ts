@@ -1,4 +1,5 @@
 import { Marked, type Tokens } from "marked";
+import { detex } from "./bibtex.js";
 import { crossrefExtension } from "./crossref.js";
 import { esc } from "./html.js";
 import { mathExtension, renderInlineMath } from "./math.js";
@@ -13,6 +14,42 @@ function safeUrl(href: string): boolean {
   try { protocol = new URL(decoded).protocol; }
   catch { return true; }
   return protocol === "http:" || protocol === "https:" || protocol === "mailto:";
+}
+
+interface TextToken {
+  type: string;
+  raw?: string;
+  text?: string;
+  tokens?: TextToken[];
+  items?: TextToken[];
+}
+
+function titleTokenText(token: TextToken): string {
+  if (token.type === "html") return " ";
+  if (token.type === "math" || token.type === "mathBlock") return detex(token.text ?? "");
+  if (token.type === "image") return token.text ?? "";
+  if (token.type === "br" || token.type === "space" || token.type === "hr") return " ";
+  if (token.tokens) return token.tokens.map(titleTokenText).join("");
+  if (token.items) return token.items.map(titleTokenText).join(" ");
+  return token.text ?? "";
+}
+
+/** Safe, markup-free text for browser titles and plain-text labels. */
+export function plainAuthorTitle(value: string): string {
+  const source = value.replace(
+    /\[\[([A-Za-z0-9_.\-']+)(?:\|([^\]\n]+))?\]\]/g,
+    (_raw, target: string, label: string | undefined) => label ?? target,
+  );
+  const parser = new Marked();
+  parser.use(mathExtension);
+  return (parser.lexer(source) as unknown as TextToken[])
+    .map(titleTokenText)
+    .join(" ")
+    .replace(/[\p{Cc}\p{Cf}]/gu, " ")
+    .replace(/\s+/gu, " ")
+    .trim()
+    .replace(/---/g, "—")
+    .replace(/--/g, "–");
 }
 
 /** One isolated parser per generated site; author HTML is always text. */
@@ -36,6 +73,11 @@ export class MarkdownRenderer {
    * Markdown and TeX grammar, without paragraph or other block wrappers. */
   renderAuthorInline(text: string, rootRel: string): string {
     return this.renderWithOptions(text, rootRel, true, true);
+  }
+
+  /** The authored title grammar reduced to inert text for labels and metadata. */
+  plainAuthorTitle(text: string): string {
+    return plainAuthorTitle(text);
   }
 
   private renderWithOptions(text: string, rootRel: string, backtickMath: boolean, inline = false): string {

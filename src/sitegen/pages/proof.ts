@@ -1,12 +1,16 @@
 import { attr, esc, page, plural } from "../html.js";
 import type { LocatedProof } from "../model.js";
+import { inPaperBlock } from "./paper.js";
 import {
   draftBanner,
-  githubSource,
-  supersededBanner,
+  environmentNotice,
+  versionHistoryPanel,
+  repositorySource,
   type PageContext,
   proofJudgment,
+  statementOrdinal,
   sourceButton,
+  sourceProviderName,
   submissionSidebar,
   withheldSourceButton,
 } from "./shared.js";
@@ -19,6 +23,9 @@ export function proofPage(ctx: PageContext, located: LocatedProof): string {
   const conclusion = ctx.model.statementHome.get(proof.conclusion);
   if (!conclusion)
     throw new Error(`statement ${proof.conclusion} has no home concept in the archive`);
+  // A concept declaring several statements: say which of them this proof
+  // concludes, by its anonymous position.
+  const position = statementOrdinal(ctx.model, proof.conclusion);
   const proven = ctx.model.network.proven;
   const outstanding = proof.assumptions.filter((id) => !proven.has(id));
   const groundedHelp = "No open assumptions remain in the archive: every dependency is backed by a checked proof, ultimately reducing to Lean and Mathlib.";
@@ -28,32 +35,33 @@ export function proofPage(ctx: PageContext, located: LocatedProof): string {
 
   const anonymous = output.manifest.anonymous === true;
   const source = submission.record.source;
-  const githubFile = source && !anonymous
-    ? githubSource(source.repository, source.commit, source.folder, proof.path)
+  const sourceFile = source && !anonymous
+    ? repositorySource(source.repository, source.commit, source.folder, proof.path)
     : undefined;
   const sourceWithheld = anonymous && Boolean(source);
 
   const sections = (proof.sections ?? [])
     .map((s) => `<div class="block"><h3>${ctx.markdown.renderAuthorInline(s.title, "../")}</h3><div class="latex-content">${ctx.markdown.renderAuthorProse(s.markdown, "../")}</div></div>`)
     .join("\n");
-  const pathLink = githubFile
-    ? `<a href="${attr(githubFile)}"><code>${esc(proof.path)}</code></a>`
+  const pathLink = sourceFile
+    ? `<a href="${attr(sourceFile)}"><code>${esc(proof.path)}</code></a>`
     : `<code>${esc(proof.path)}</code>`;
 
-  const content = `${supersededBanner(ctx, submission.record.id, "../")}${draftBanner(submission.record.state)}
+  const content = `${versionHistoryPanel(ctx, submission.record.id, "../")}${draftBanner(submission.record.state)}${environmentNotice(ctx.model, submission)}
 <div class="detail-heading concept-heading proof-heading">
-<div class="proof-heading-content"><h1 class="concept-title">Proof of <span class="proof-concept-title">\`${ctx.markdown.renderAuthorInline(conclusion.concept.title, "../")}\`</span></h1>
+<div class="proof-heading-content"><h1 class="concept-title">Proof of <span class="proof-concept-title">\`${ctx.markdown.renderAuthorInline(conclusion.concept.title, "../")}\`</span>${position ? ` <span class="claim-ordinal">(${esc(position.label)})</span>` : ""}</h1>
 <p class="concept-microline proof-microline"><span class="status-pills">${pill}</span><span>${pathLink} · <a href="index.html">${esc(output.id)}</a></span></p></div>
 </div>
 <div class="block block-evidence"><h3>What this proof establishes</h3>
 ${proofJudgment(ctx.model, proof, "../", output.id)}
 <p class="honesty-note">Assuming the claims on the left, the claim on the right holds — checked by the archive's pipeline. Proof code is not displayed here.</p>
-${githubFile
-    ? `<p class="source-action">${sourceButton(githubFile, "Read the Lean proof on GitHub")}</p>`
+${sourceFile
+    ? `<p class="source-action">${sourceButton(sourceFile, `Read the Lean proof on ${sourceProviderName(sourceFile)}`)}</p>`
     : sourceWithheld
       ? `<p class="source-action">${withheldSourceButton()}</p>`
       : ""}
 </div>
+${inPaperBlock(ctx, proof.id, output.id, "../")}
 ${proof.description.trim() ? `<div class="block block-statement"><h3>Description</h3><div class="latex-content">${ctx.markdown.renderAuthorProse(proof.description, "../")}</div></div>` : ""}
 ${sections}`;
 
@@ -62,5 +70,6 @@ ${sections}`;
     rootRel: "../",
     sidebar: submissionSidebar(ctx.model, submission, "../", { activeId: proof.id }),
     content,
+    scripts: ["assets/version-history.js"],
   });
 }

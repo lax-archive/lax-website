@@ -2,11 +2,14 @@ import fs from "node:fs";
 import http from "node:http";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { loadSubmissions } from "./database.js";
+import { fetchBundles } from "./bundles.js";
+import { loadSubmissions, submissionsMissingPapers } from "./database.js";
+import { fetchPapers } from "./papers.js";
+import { fetchReferences } from "./references.js";
 import { SITE_MIME } from "./sitegen/assets.js";
 import { generateSite } from "./sitegen/generate.js";
 
-type Command = "build" | "serve";
+type Command = "build" | "serve" | "fetch-papers" | "fetch-references";
 
 function option(name: string, fallback: string): string {
   const index = process.argv.indexOf(name);
@@ -17,6 +20,10 @@ function option(name: string, fallback: string): string {
   return value;
 }
 
+function flag(name: string): boolean {
+  return process.argv.includes(name);
+}
+
 function numberOption(name: string, fallback: number): number {
   const value = Number(option(name, String(fallback)));
   if (!Number.isInteger(value) || value < 1 || value > 65_535)
@@ -25,20 +32,40 @@ function numberOption(name: string, fallback: number): number {
 }
 
 const command = (process.argv[2] ?? "build") as Command;
-if (command !== "build" && command !== "serve")
-  throw new Error("usage: npm run site:build|site:serve -- [--database DIR] [--out DIR] [--port N]");
+if (!["build", "serve", "fetch-papers", "fetch-references"].includes(command))
+  throw new Error("usage: npm run site:build|site:serve|papers:fetch|references:fetch -- [--database DIR] [--references DIR] [--no-references] [--papers DIR] [--bundles DIR] [--no-papers] [--out DIR] [--port N]");
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const databaseDir = path.resolve(option("--database", path.join(root, "data", "lax-db")));
+const papersDir = path.resolve(option("--papers", path.join(root, "data", "papers")));
+const bundlesDir = path.resolve(option("--bundles", path.join(root, "data", "bundles")));
+const referencesDir = flag("--no-references") ? undefined : path.resolve(option("--references", path.join(root, "data", "references")));
+// Only --no-papers suppresses PDFs and reflow bundles. Production and branch
+// previews otherwise require every paper the database references.
+const withPapers = !flag("--no-papers");
 const outDir = path.resolve(option("--out", path.join(root, "_site")));
 
 async function build(): Promise<void> {
-  const submissions = loadSubmissions(databaseDir);
-  await generateSite(submissions, outDir);
+  const submissions = loadSubmissions(databaseDir, { referencesDir, ...(withPapers ? { papersDir, bundlesDir } : {}) });
+  if (withPapers) {
+    const missing = submissionsMissingPapers(submissions);
+    if (missing.length)
+      throw new Error(`papers cache lacks the PDF or web bundle of ${missing.map((s) => s.record.id).join(", ")}; run \`npm run papers:fetch\` or build with --no-papers`);
+  }
+  await generateSite(submissions, outDir, { log: (line) => console.warn(line) });
   console.log(`generated ${submissions.length} archive records in ${outDir}`);
 }
 
-if (command === "build") {
+if (command === "fetch-references") {
+  if (!referencesDir) throw new Error("references:fetch cannot use --no-references");
+  const fetched = await fetchReferences(loadSubmissions(databaseDir), referencesDir, { log: (line) => console.log(line) });
+  console.log(`references cache ${referencesDir}: ${fetched.length} fetched`);
+} else if (command === "fetch-papers") {
+  const submissions = loadSubmissions(databaseDir);
+  const fetched = await fetchPapers(submissions, papersDir, { log: (line) => console.log(line) });
+  const fetchedBundles = await fetchBundles(submissions, bundlesDir, { log: (line) => console.log(line) });
+  console.log(`papers cache ${papersDir}: ${fetched.length} fetched; bundles cache ${bundlesDir}: ${fetchedBundles.length} fetched`);
+} else if (command === "build") {
   await build();
 } else {
   const port = numberOption("--port", 3000);

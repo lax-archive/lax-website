@@ -91,11 +91,9 @@ describe("sidebar grouping during search", () => {
     const empty = element({ id: "entry-list-empty" });
     const registeredHeading = heading("registered");
     const draftHeading = heading("draft");
-    const supersededHeading = heading("superseded");
     const registered = row("lax-2", "new result", "registered", 0);
     const draft = row("lax-3", "newer still", "draft", 1);
-    const superseded = row("lax-1", "old result", "superseded", 2);
-    for (const child of [registeredHeading, registered, draftHeading, draft, supersededHeading, superseded, empty]) {
+    for (const child of [registeredHeading, registered, draftHeading, draft, empty]) {
       list.appendChild(child);
     }
 
@@ -138,37 +136,31 @@ describe("sidebar grouping during search", () => {
             ? "#empty"
             : child.dataset.searchTitle!.split(" ")[0]!,
       );
-    return { search, order, draftHeading, registeredHeading, supersededHeading, registered, draft, superseded };
+    return { search, order, draftHeading, registeredHeading, registered, draft };
   }
 
   it("keeps every row under its own heading while filtering", () => {
     const fixture = harness();
     // the empty initial search already sorts and regroups
     expect(fixture.order()).toEqual([
-      "#registered", "lax-2", "#draft", "lax-3", "#superseded", "lax-1", "#empty",
+      "#registered", "lax-2", "#draft", "lax-3", "#empty",
     ]);
 
-    // "result" hits the registered and the superseded titles, not the draft;
-    // the superseded row must stay below its heading rather than being
-    // resorted into the registered group
+    // "result" hits the registered title, not the draft.
     fixture.search("result");
     expect(fixture.order()).toEqual([
-      "#registered", "lax-2", "#draft", "lax-3", "#superseded", "lax-1", "#empty",
+      "#registered", "lax-2", "#draft", "lax-3", "#empty",
     ]);
     expect(fixture.draft.hidden).toBe(true);
     expect(fixture.draftHeading.hidden).toBe(true);
-    expect(fixture.superseded.hidden).toBe(false);
-    expect(fixture.supersededHeading.hidden).toBe(false);
   });
 
   it("hides headings whose whole group is filtered away", () => {
     const fixture = harness();
-    fixture.search("old");
+    fixture.search("newer");
     expect(fixture.registered.hidden).toBe(true);
     expect(fixture.registeredHeading.hidden).toBe(true);
-    expect(fixture.draft.hidden).toBe(true);
-    expect(fixture.draftHeading.hidden).toBe(true);
-    expect(fixture.superseded.hidden).toBe(false);
-    expect(fixture.supersededHeading.hidden).toBe(false);
+    expect(fixture.draft.hidden).toBe(false);
+    expect(fixture.draftHeading.hidden).toBe(false);
   });
 });

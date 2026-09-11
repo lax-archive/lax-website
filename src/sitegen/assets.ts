@@ -10,10 +10,17 @@ export const SITE_MIME: Record<string, string> = {
   ".html": "text/html; charset=utf-8",
   ".css": "text/css; charset=utf-8",
   ".js": "text/javascript; charset=utf-8",
+  ".mjs": "text/javascript; charset=utf-8",
   ".json": "application/json; charset=utf-8",
   ".pdf": "application/pdf",
   ".svg": "image/svg+xml",
   ".woff2": "font/woff2",
+  // The reflow paper surface: its per-paper OTF/TTF fonts, the protobuf
+  // block files pages over the embed budget fetch, and the wire schema.
+  ".otf": "font/otf",
+  ".ttf": "font/ttf",
+  ".pb": "application/octet-stream",
+  ".proto": "text/plain; charset=utf-8",
   ".txt": "text/plain; charset=utf-8",
 };
 
@@ -25,11 +32,23 @@ export function siteAssetPath(relative: string): string {
   return file;
 }
 
+/**
+ * Browser assets that ship from npm packages rather than `assets/site/`:
+ * site-relative path → module specifier. KaTeX is the one; pdf.js is
+ * vendored into `assets/site/pdfjs/` instead (scripts/vendor-pdfjs.mjs)
+ * so the renderer tarball authors install stays self-contained.
+ */
+const PACKAGED_ASSETS: Record<string, string> = {
+  "katex.css": "katex/dist/katex.min.css",
+};
+
+function packagedAssetSource(relative: string): string {
+  return createRequire(import.meta.url).resolve(PACKAGED_ASSETS[relative]!);
+}
+
 /** Stable content fingerprint for cache-busting a bundled browser asset. */
 export function siteAssetVersion(relative: string): string {
-  const file = relative === "katex.css"
-    ? createRequire(import.meta.url).resolve("katex/dist/katex.min.css")
-    : siteAssetPath(relative);
+  const file = relative in PACKAGED_ASSETS ? packagedAssetSource(relative) : siteAssetPath(relative);
   return createHash("sha256").update(fs.readFileSync(file)).digest("hex").slice(0, 12);
 }
 
@@ -38,9 +57,12 @@ export function copyAssets(outDir: string): void {
   fs.mkdirSync(target, { recursive: true });
   fs.cpSync(SITE_ASSET_DIR, target, { recursive: true });
 
-  const require = createRequire(import.meta.url);
-  const katexDir = path.dirname(require.resolve("katex/dist/katex.min.css"));
-  fs.copyFileSync(path.join(katexDir, "katex.min.css"), path.join(target, "katex.css"));
+  for (const relative of Object.keys(PACKAGED_ASSETS)) {
+    const destination = path.join(target, relative);
+    fs.mkdirSync(path.dirname(destination), { recursive: true });
+    fs.copyFileSync(packagedAssetSource(relative), destination);
+  }
+  const katexDir = path.dirname(packagedAssetSource("katex.css"));
   const fontTarget = path.join(target, "fonts");
   fs.mkdirSync(fontTarget, { recursive: true });
   for (const file of fs.readdirSync(path.join(katexDir, "fonts")).filter((name) => name.endsWith(".woff2")).sort())

@@ -109,16 +109,22 @@ describe("Remark42 browser loader", () => {
       head: { appendChild: (script: Record<string, unknown>) => scripts.push(script) }, body: { appendChild() {} },
     };
     const requests: Array<[string, Record<string, unknown>]> = [];
+    const reviewChanges: Array<{ url: string; reaction: string }> = [];
+    class FakeCustomEvent {
+      constructor(public type: string, public init: { detail: { url: string; reaction: string } }) {}
+      get detail() { return this.init.detail; }
+    }
     const window = {
       location: { origin: "https://laxarchive.org", pathname: "/Lax2/", href: "https://laxarchive.org/Lax2/" },
       addEventListener() {},
+      dispatchEvent: (event: FakeCustomEvent) => { if (event.type === "LAX::review-change") reviewChanges.push(event.detail); },
       sessionStorage: { getItem: () => null, setItem() {}, removeItem() {} },
       fetch: async (url: string, options: Record<string, unknown>) => {
         requests.push([url, options]);
         return { ok: true, json: async () => ({ counts: { endorse: 4, flag: 1 }, viewer_reaction: "endorse", authenticated: true, eligible: true, viewer: { name: "Alice" }, flags: [], voters: { endorse: [{ name: "Ada Lovelace", orcid: "0000-0002-1825-0097" }], flag: [] } }) };
       },
     };
-    const context = { document, window, URL };
+    const context = { document, window, URL, CustomEvent: FakeCustomEvent };
     vm.createContext(context);
     vm.runInContext(fs.readFileSync("assets/site/comments.js", "utf8"), context);
     await new Promise((resolve) => setImmediate(resolve));
@@ -132,6 +138,7 @@ describe("Remark42 browser loader", () => {
     expect(flagCount.textContent).toBe("1");
     expect(reactionStatus.textContent).toBe("Signed in as Alice");
     expect(login.hidden).toBe(true);
+    expect(reviewChanges).toEqual([{ url: "https://laxarchive.org/Lax2/", reaction: "endorse" }]);
     if (anonymous) {
       expect(voterList.children).toEqual([]);
     } else {
@@ -417,7 +424,13 @@ describe("Remark42 browser loader", () => {
     expect(posted.filter((entry) => entry.message.action === "page")).toHaveLength(pageRequestsBeforeRemark + 1);
     const pageRequestsBeforeAccount = posted.filter((entry) => entry.message.action === "page").length;
     for (let index = 0; index < 4; index += 1) {
-      listeners["LAX::account-ready"]!({ detail: { authenticated: true } });
+      listeners["LAX::account-ready"]!({
+        detail: {
+          authenticated: true,
+          user: { id: `orcid_${"a".repeat(40)}`, name: "Ada" },
+          identity: { orcidId: "0000-0002-1825-0097", name: "Ada" },
+        },
+      });
     }
     await new Promise((resolve) => setTimeout(resolve, 0));
     expect(posted.filter((entry) => entry.message.action === "page")).toHaveLength(pageRequestsBeforeAccount);

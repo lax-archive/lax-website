@@ -1,26 +1,71 @@
 import fs from "node:fs";
 import path from "node:path";
 import { copyAssets } from "./assets.js";
+import { environmentIndex, recordIndex } from "./machine-index.js";
 import { MarkdownRenderer } from "./markdown.js";
 import { SiteModel, type SiteSubmission } from "./model.js";
+import { preparePaperWeb } from "./paper-web.js";
 import { conceptPage } from "./pages/concept.js";
 import { allCommentsPage } from "./pages/all-comments.js";
 import { contentPage } from "./pages/content.js";
 import { indexPage } from "./pages/index.js";
 import { openProblemsPage } from "./pages/open-problems.js";
+import { paperPage, paperPdfPage } from "./pages/paper.js";
 import { proofPage } from "./pages/proof.js";
 import { submissionPage } from "./pages/submission.js";
 
 export type { SiteSubmission } from "./model.js";
 
-/** Generate a deterministic, fully static archive website into outDir. */
-export async function generateSite(submissions: SiteSubmission[], outDir: string): Promise<void> {
-  const model = new SiteModel(submissions);
+export interface GenerateOptions {
+  /** Where schema-gate drops (a paper page falling back to PDF-only) are
+   * reported. Defaults to console.warn so production builds always say so. */
+  log?: (line: string) => void;
+  /**
+   * The archive's epoch — the environment this year's submissions are
+   * recommended to be written in. Defaults to `EPOCH` in `src/config.ts`.
+   * `lax serve` passes the epoch its own environment table names, because a
+   * pinned renderer's config is as old as the release that carried it.
+   */
+  epoch?: string;
+}
+
+/**
+ * Generate a deterministic, fully static archive website into outDir.
+ *
+ * The third argument may be the epoch id on its own: that is the shape `lax
+ * serve` calls with, and it is the whole reason the options bag is not the
+ * only form. A caller that passes nothing (an older CLI) gets the config's
+ * epoch, which is correct until the year it is not.
+ */
+export async function generateSite(
+  submissions: SiteSubmission[],
+  outDir: string,
+  options: GenerateOptions | string = {},
+): Promise<void> {
+  const settings = typeof options === "string" ? { epoch: options } : options;
+  const log = settings.log ?? ((line: string) => console.warn(line));
+  const model = new SiteModel(submissions, settings.epoch);
   const context = { model, markdown: new MarkdownRenderer(model) };
-  const files = new Map<string, string>();
+  const files = new Map<string, string | Buffer>();
+  /** Content-addressed outputs (hashed fonts) may be shared between records;
+   * the same path must always carry the same bytes. */
+  const addFile = (relative: string, content: Buffer): void => {
+    const existing = files.get(relative);
+    if (existing !== undefined) {
+      if (Buffer.isBuffer(existing) && existing.equals(content)) return;
+      throw new Error(`generated file ${relative} written twice with different contents`);
+    }
+    files.set(relative, content);
+  };
   files.set("index.html", await indexPage(context));
+  // The machine-readable pair, documented in content/contributing.md. Two
+  // spaces and a trailing newline: these are files people read as well.
+  files.set("index.json", `${JSON.stringify(recordIndex(model), null, 2)}\n`);
+  files.set("environments.json", `${JSON.stringify(environmentIndex(model), null, 2)}\n`);
   files.set(path.join("all-comments", "index.html"), allCommentsPage(context));
   files.set("contributing.html", contentPage(context, "contributing", "Getting started"));
+  files.set("impressum.html", contentPage(context, "impressum", "Imprint"));
+  files.set("privacy.html", contentPage(context, "privacy", "Privacy Notice"));
   const proofObligations = openProblemsPage(context);
   files.set("open-proof-obligations.html", proofObligations);
   // Preserve shared preview and production links published under the old name.
@@ -37,6 +82,19 @@ export async function generateSite(submissions: SiteSubmission[], outDir: string
       const file = path.join(submission.record.id, `${proof.id}.html`);
       if (files.has(file)) throw new Error(`proof page ${file} collides with an existing page`);
       files.set(file, proofPage(context, model.proofHome.get(proof.id)!));
+    }
+    // The paper page exists for every declared paper: the reflowed text
+    // when the bundle passed the schema gate, the paper as printed
+    // otherwise. The PDF, and the printed page under its own address, only
+    // when the papers cache supplied the bytes (production, not previews).
+    if (submission.output.paper) {
+      const web = preparePaperWeb(submission, log);
+      files.set(path.join(submission.record.id, "paper.html"), await paperPage(context, submission, web?.page));
+      for (const [relative, content] of web?.files ?? []) addFile(relative, content);
+      if (submission.paperFile) {
+        files.set(path.join(submission.record.id, "paper-pdf.html"), await paperPdfPage(context, submission, web !== undefined));
+        files.set(path.join(submission.record.id, "paper.pdf"), fs.readFileSync(submission.paperFile));
+      }
     }
   }
   const outputRoot = path.resolve(outDir);

@@ -8,6 +8,7 @@ const REQUIRED_FILES = [
   "package.json",
   "dist/sitegen/generate.js",
   "dist/sitegen/assets.js",
+  "dist/sitegen/machine-index.js",
   "assets/site/",
   "content/landing.md",
   "content/contributing.md",

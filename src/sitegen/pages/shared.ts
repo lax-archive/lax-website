@@ -1,9 +1,10 @@
 import { DEFAULT_SITE_URL } from "../../config.js";
 import type { BuildOutput, ConceptEntry, ProofEntry } from "../../types.js";
-import type { ConceptGraphData } from "../graphs.js";
+import type { ConceptGraphData, SubmissionGraphData } from "../graphs.js";
 import { attr, code, esc, formatDate, proofBadge, statePill, typeBadge } from "../html.js";
-import type { MarkdownRenderer } from "../markdown.js";
+import { plainAuthorTitle, type MarkdownRenderer } from "../markdown.js";
 import { compareIds, type LocatedProof, type SiteModel, type SiteSubmission } from "../model.js";
+import { conceptReviewBadge } from "./discussion.js";
 
 export interface PageContext { model: SiteModel; markdown: MarkdownRenderer }
 
@@ -30,30 +31,88 @@ export function conceptLink(model: SiteModel, id: string, rootRel: string, home?
   return href ? `<a href="${attr(href)}"${title}>${code(label)}</a>` : code(id);
 }
 
+export function submissionIdLink(id: string, rootRel: string): string {
+  return `<a class="submission-meta-id" href="${attr(`${rootRel}${encodeURIComponent(id)}/index.html`)}">${esc(id)}</a>`;
+}
+
 // ---- proofs as judgments between claims ----
 
-/** A statement rendered as its home claim-concept (one-statement rule: the
- * concept *is* the claim): type badge with the proven mark, linked to the
- * concept page. Every statement a proof names must resolve — a missing home
- * means a corrupt or incomplete database, not something to render around. */
-export function claimEntry(model: SiteModel, statementId: string, rootRel: string, pageHome?: string): string {
+/** English ordinal for a 1-based position: 1st, 2nd, 3rd, 4th, 11th, 21st. */
+export function ordinal(n: number): string {
+  const tens = Math.abs(n) % 100;
+  const ones = Math.abs(n) % 10;
+  const suffix = tens >= 11 && tens <= 13
+    ? "th"
+    : ones === 1 ? "st" : ones === 2 ? "nd" : ones === 3 ? "rd" : "th";
+  return `${n}${suffix}`;
+}
+
+export interface StatementOrdinal { index: number; count: number; label: string }
+
+/** The anonymous position of a statement inside a multi-statement concept
+ * ("2nd statement"); undefined for the common single-statement concept, whose
+ * concept *is* its claim and needs no ordinal. */
+export function statementOrdinal(model: SiteModel, statementId: string): StatementOrdinal | undefined {
+  const home = model.statementHome.get(statementId);
+  if (!home || home.concept.statements.length < 2) return undefined;
+  const index = home.concept.statements.findIndex((s) => s.id === statementId) + 1;
+  if (index === 0) return undefined;
+  const count = home.concept.statements.length;
+  return { index, count, label: `${ordinal(index)} statement` };
+}
+
+/** A statement rendered as its home claim-concept: type badge with the proven
+ * mark, linked to the concept page. A concept declaring several statements is
+ * still one entry; only a *conclusion* names which of them is meant, by its
+ * anonymous position — an assumption never says which statement was used, so
+ * it carries the concept's aggregate status and the concept's own id.
+ * Every statement a proof names must resolve — a missing home means a corrupt
+ * or incomplete database, not something to render around. */
+export function claimEntry(
+  model: SiteModel,
+  statementId: string,
+  rootRel: string,
+  pageHome?: string,
+  opts: { role?: "conclusion" | "assumption" } = {},
+): string {
   const home = model.statementHome.get(statementId);
   if (!home) throw new Error(`statement ${statementId} has no home concept in the archive`);
+  const page = `${rootRel}${home.output.id}/${home.concept.id}.html`;
+  const position = statementOrdinal(model, statementId);
+  const label = code(shortId(home.concept.id, pageHome));
+  if (!position) {
+    const proven = model.network.proven.has(statementId);
+    return `<span class="claim-entry">${typeBadge(home.concept.type, proven)}<a href="${attr(page)}" title="${attr(statementId)}">${label}</a></span>`;
+  }
+  if ((opts.role ?? "conclusion") === "assumption") {
+    const proven = home.concept.statements.every((s) => model.network.proven.has(s.id));
+    return `<span class="claim-entry">${typeBadge(home.concept.type, proven)}<a href="${attr(page)}" title="${attr(home.concept.id)}">${label}</a></span>`;
+  }
   const proven = model.network.proven.has(statementId);
-  const href = `${rootRel}${home.output.id}/${home.concept.id}.html`;
-  return `<span class="claim-entry">${typeBadge(home.concept.type, proven)}<a href="${attr(href)}" title="${attr(statementId)}">${code(shortId(home.concept.id, pageHome))}</a></span>`;
+  const href = `${page}#s-${statementId}`;
+  return `<span class="claim-entry">${typeBadge(home.concept.type, proven)}<a href="${attr(href)}" title="${attr(statementId)}">${label} <span class="claim-ordinal">(${esc(position.label)})</span></a></span>`;
 }
 
 /** The judgment card: assumptions boxed on the left, an arrow, the concluded
- * claim on the right — the checked relationship a proof contributes. */
+ * claim on the right — the checked relationship a proof contributes. Several
+ * assumed statements of one multi-statement concept collapse to a single
+ * entry: the card says which claims are relied on, not which axioms. */
 export function proofJudgment(model: SiteModel, proof: ProofEntry, rootRel: string, pageHome?: string): string {
-  const assumptions = proof.assumptions.length
-    ? `<ul>${proof.assumptions.map((id) => `<li>${claimEntry(model, id, rootRel, pageHome)}</li>`).join("\n")}</ul>`
+  const seen = new Set<string>();
+  const assumed = proof.assumptions.filter((id) => {
+    const home = model.statementHome.get(id);
+    if (!home || home.concept.statements.length < 2) return true;
+    if (seen.has(home.concept.id)) return false;
+    seen.add(home.concept.id);
+    return true;
+  });
+  const assumptions = assumed.length
+    ? `<ul>${assumed.map((id) => `<li>${claimEntry(model, id, rootRel, pageHome, { role: "assumption" })}</li>`).join("\n")}</ul>`
     : `<p class="judgment-unconditional">no assumptions</p>`;
   return `<div class="judgment">
 <div class="judgment-assumptions">${assumptions}</div>
 <span class="judgment-arrow" aria-hidden="true">→</span>
-<div class="judgment-conclusion">${claimEntry(model, proof.conclusion, rootRel, pageHome)}</div>
+<div class="judgment-conclusion">${claimEntry(model, proof.conclusion, rootRel, pageHome, { role: "conclusion" })}</div>
 </div>`;
 }
 
@@ -97,7 +156,7 @@ export function proofShortName(output: BuildOutput, proof: ProofEntry, pageHome?
 type ClaimStatus = ConceptGraphData["nodes"][number]["status"];
 
 interface ProofNetworkLegendData {
-  statements: { id: string; proven: boolean; ext: boolean }[];
+  statements: { id: string; proven: boolean; ext: boolean; count?: number }[];
   proofs: { id: string; assumptions: string[]; conclusion: string; ext: boolean }[];
 }
 
@@ -179,9 +238,18 @@ export function conceptMapLegend(data: ConceptGraphData, ownLabel: string, extLa
 
 /** The submission map's legend. Same grammar one level up: stroke = origin,
  * arrow = direction of dependency. Submissions carry no proven/open status of
- * their own, so the fill axis stays out of it. */
-export function submissionMapLegend(): string {
-  return `<figcaption class="graph-legend" aria-label="Submission map legend"><span><i class="legend-node stroke-own"></i>This submission</span><span><i class="legend-node stroke-ext"></i>Other submission</span><span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B builds on A</span></figcaption>`;
+ * their own, so the fill axis stays out of it, and the freed colour axis goes
+ * to the arrow instead: which half of the dependent submission reaches
+ * across. Each arrow entry appears only when the map actually draws one. */
+export function submissionMapLegend(data: SubmissionGraphData): string {
+  const kinds = new Set(data.edges.map((edge) => edge.kind));
+  const items = [
+    `<span><i class="legend-node stroke-own"></i>This submission</span>`,
+    `<span><i class="legend-node stroke-ext"></i>Other submission</span>`,
+    kinds.has("concepts") ? `<span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B's concepts build on A</span>` : "",
+    kinds.has("proofs") ? `<span><i class="legend-arrow proof-dep" aria-hidden="true">→</i>A → B: only B's proofs build on A</span>` : "",
+  ];
+  return `<figcaption class="graph-legend" aria-label="Submission map legend">${items.join("")}</figcaption>`;
 }
 
 export function proofNetworkLegend(data: ProofNetworkLegendData): string {
@@ -190,6 +258,9 @@ export function proofNetworkLegend(data: ProofNetworkLegendData): string {
   const items = [
     data.proofs.length ? `<span class="proof-flow">assumptions <i class="legend-arrow" aria-hidden="true">→</i><i class="legend-proof-chip" aria-hidden="true">⊢</i><i class="legend-arrow" aria-hidden="true">→</i> conclusion</span>` : "",
     claimFillLegend(statuses),
+    data.statements.some((statement) => (statement.count ?? 1) > 1)
+      ? `<span><i class="legend-dock" aria-hidden="true">1</i>Statement 1, 2, … of a claim with several statements</span>`
+      : "",
     nodes.some((node) => !node.ext) ? `<span><i class="legend-node stroke-own"></i>This submission</span>` : "",
     nodes.some((node) => node.ext) ? `<span><i class="legend-node stroke-ext"></i>From another submission</span>` : "",
     data.proofs.length ? `<span><i class="legend-proof-chip" aria-hidden="true">⊢</i>Proof — click to open</span>` : "",
@@ -204,10 +275,9 @@ export function proofNetworkLegend(data: ProofNetworkLegendData): string {
 // is merely adjacent to the code, and as a button where it is the page's
 // main remaining action.
 
-/** The GitHub mark, inline so it needs no img-src and no asset. Path from
- * GitHub's Octicons (MIT). */
-const GITHUB_MARK =
-  `<svg class="gh-mark" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true" focusable="false"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>`;
+/** A generic code mark, inline so it needs no img-src and no provider asset. */
+const SOURCE_MARK =
+  `<svg class="source-mark" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true" focusable="false"><path fill="currentColor" d="M5.22 3.22a.75.75 0 0 1 1.06 1.06L2.56 8l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06Zm5.56 0 4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 1 1-1.06-1.06L13.44 8 9.72 4.28a.75.75 0 1 1 1.06-1.06Z"/></svg>`;
 
 const ANONYMITY_LOCK = `<span class="anonymity-lock" aria-hidden="true">🔒</span>`;
 
@@ -222,8 +292,26 @@ export function anonymityNotice(title: string, detail: string): string {
   return `<div class="anonymity-notice" role="note">${ANONYMITY_LOCK}<p><strong>${esc(title)}</strong><span>${esc(detail)}</span></p></div>`;
 }
 
-/** A quiet inline "view on GitHub" link, for headings and figure titles. */
-export function sourceLink(href: string, label = "view on GitHub"): string {
+const SOURCE_PROVIDERS: Record<string, string> = {
+  "github.com": "GitHub",
+  "gitlab.com": "GitLab",
+  "codeberg.org": "Codeberg",
+  "bitbucket.org": "Bitbucket",
+};
+
+export function sourceProviderName(href: string): string {
+  try {
+    const hostname = new URL(href).hostname.toLowerCase();
+    return Object.hasOwn(SOURCE_PROVIDERS, hostname)
+      ? SOURCE_PROVIDERS[hostname]!
+      : "repository host";
+  } catch {
+    return "repository host";
+  }
+}
+
+/** A quiet source link for headings and figure titles. */
+export function sourceLink(href: string, label = `view on ${sourceProviderName(href)}`): string {
   return `<a class="source-link" href="${attr(href)}">${esc(label)}</a>`;
 }
 
@@ -232,9 +320,9 @@ export function withheldSourceLink(label = "source link withheld"): string {
   return `<span class="source-link source-link-withheld" aria-disabled="true" title="Unavailable during anonymous review">${ANONYMITY_LOCK}<span>${esc(label)}</span></span>`;
 }
 
-/** The prominent variant: a bordered button carrying the GitHub mark. */
+/** The prominent variant: a bordered button carrying a generic code mark. */
 export function sourceButton(href: string, label: string): string {
-  return `<a class="source-button" href="${attr(href)}">${GITHUB_MARK}<span>${esc(label)}</span></a>`;
+  return `<a class="source-button" href="${attr(href)}">${SOURCE_MARK}<span>${esc(label)}</span></a>`;
 }
 
 /** The button-shaped counterpart to an unavailable anonymous source link. */
@@ -242,8 +330,8 @@ export function withheldSourceButton(label = "Lean proof source withheld"): stri
   return `<span class="source-button source-button-withheld" aria-disabled="true" title="Unavailable during anonymous review">${ANONYMITY_LOCK}<span>${esc(label)}</span></span>`;
 }
 
-/** The GitHub link to a submission's whole proof package — `proofs/` is a
- * fixed part of the submission layout. Undefined off github.com. */
+/** The hosted link to a submission's whole proof package — `proofs/` is a
+ * fixed part of the submission layout. */
 export function proofsSource(submission: SiteSubmission): string | undefined {
   if (submission.output?.manifest.anonymous === true) return undefined;
   const source = submission.record.source;
@@ -251,24 +339,54 @@ export function proofsSource(submission: SiteSubmission): string | undefined {
   // `proofs/` goes in as part of the folder rather than as the path, so the
   // link comes out as a tree link — the path argument means a file.
   const folder = source.folder === "." ? "proofs" : `${source.folder.replace(/\/+$/, "")}/proofs`;
-  return githubSource(source.repository, source.commit, folder);
+  return repositorySource(source.repository, source.commit, folder);
 }
 
-/** A GitHub deep link for a source triple, or undefined off github.com. */
-export function githubSource(
+/** A provider-aware deep link for a source triple on a supported host. */
+export function repositorySource(
   repository: string,
   commit: string,
   folder: string,
   path = "",
   line?: number,
 ): string | undefined {
-  if (!/^https:\/\/github\.com\//i.test(repository)) return undefined;
+  let hostname: string;
+  try {
+    const url = new URL(repository);
+    if (
+      url.protocol !== "https:" ||
+      url.username !== "" ||
+      url.password !== "" ||
+      url.port !== "" ||
+      url.search !== "" ||
+      url.hash !== ""
+    ) return undefined;
+    hostname = url.hostname.toLowerCase();
+  } catch {
+    return undefined;
+  }
+  if (!Object.hasOwn(SOURCE_PROVIDERS, hostname)) return undefined;
   const repo = repository.replace(/\.git$/, "").replace(/\/$/, "");
   const pieces = [folder === "." ? "" : folder, path]
     .filter(Boolean)
     .map((p) => p.replace(/^\/+|\/+$/g, ""));
-  const href = `${repo}/${path ? "blob" : "tree"}/${commit}/${pieces.join("/")}`;
-  return line ? `${href}#L${line}` : href;
+  const relative = pieces.join("/");
+  let href: string;
+  if (hostname === "github.com") {
+    href = `${repo}/${path ? "blob" : "tree"}/${commit}/${relative}`;
+  } else if (hostname === "gitlab.com") {
+    href = `${repo}/-/${path ? "blob" : "tree"}/${commit}/${relative}`;
+  } else if (hostname === "codeberg.org") {
+    href = `${repo}/src/commit/${commit}/${relative}`;
+  } else {
+    href = `${repo}/src/${commit}/${relative}`;
+  }
+  if (line === undefined) return href;
+  if (hostname === "bitbucket.org") {
+    const filename = path.split("/").at(-1) ?? "source";
+    return `${href}#${encodeURIComponent(filename)}-${line}`;
+  }
+  return `${href}#L${line}`;
 }
 
 // ---- sidebars ----
@@ -294,24 +412,29 @@ function submissionStateRank(state: string): number {
   return 2;
 }
 
-/** Registered submissions lead drafts both before and during search. Archive
- * ids break ties so the generated order is stable and unsurprising. */
-export function compareSearchSubmissions(a: SiteSubmission, b: SiteSubmission): number {
+/** Registered submissions lead drafts both before and during search. Within a
+ * state, the epoch's island comes first and the other environments follow
+ * newest first — an off-epoch submission is not lesser work, but it is the
+ * work most readers cannot cite. Archive ids break ties so the generated
+ * order is stable and unsurprising. */
+export function compareSearchSubmissions(model: SiteModel, a: SiteSubmission, b: SiteSubmission): number {
   return submissionStateRank(a.record.state) - submissionStateRank(b.record.state)
+    || model.environmentRank(a.record.id) - model.environmentRank(b.record.id)
     || compareIds(a.record.id, b.record.id);
 }
 
 /** Search metadata shared by the index sidebar and the full library. The
  * browser keeps submission title/id words separate from concept names so it
- * can rank title hits first without shipping a second search index. */
+ * can rank title hits first without shipping a second search index.
+ *
+ * The environment appears twice and on purpose: as `data-env`, which is the
+ * honest fact about the row, and folded into `data-tags`, which is what the
+ * chip filter already reads — so an environment chip is one more chip and the
+ * browser code stays as it is. */
 export function submissionSearchAttributes(
   submission: SiteSubmission,
   order: number,
   tags: string[] = [],
-  // "superseded" for registered work with a bound successor: the browser's
-  // re-sort during search keys on this state to keep each group's rows
-  // under their own heading.
-  state: string = submission.record.state,
 ): string {
   const output = submission.output!;
   const title = `${submission.record.id} ${output.manifest.title}`.toLowerCase();
@@ -319,8 +442,10 @@ export function submissionSearchAttributes(
     .flatMap((concept) => [concept.id, concept.title, concept.type ?? ""])
     .join(" ")
     .toLowerCase();
-  const tagKeys = tags.length ? `|${tags.join("|")}|` : "";
-  return `data-search-title="${attr(title)}" data-search-concepts="${attr(concepts)}" data-state="${attr(state)}" data-search-order="${order}" data-tags="${attr(tagKeys)}"`;
+  const environment = output.manifest.leanVersion;
+  const keys = [...tags, environment];
+  const tagKeys = `|${keys.join("|")}|`;
+  return `data-search-title="${attr(title)}" data-search-concepts="${attr(concepts)}" data-state="${attr(submission.record.state)}" data-env="${attr(environment)}" data-search-order="${order}" data-tags="${attr(tagKeys)}"`;
 }
 
 /** A homepage-only progressive-enhancement card. The first submission is a
@@ -330,11 +455,7 @@ function randomSubmissionView(
   model: SiteModel,
   markdown: MarkdownRenderer,
 ): string {
-  // Superseded work stays reachable through search and version chains, but
-  // the discovery card should never send a reader to an outdated version.
-  const listed = model.submissions
-    .filter((submission) => submission.output && !model.isSuperseded(submission.record.id))
-    .sort(compareSearchSubmissions);
+  const listed = currentSubmissions(model);
   if (!listed.length) return "";
   const candidate = (submission: SiteSubmission, dataAttribute = "") => {
     const id = submission.record.id;
@@ -350,7 +471,9 @@ ${listed.map((submission) => candidate(submission, " data-random-submission-cand
 </section>`;
 }
 
-/** Sidebar of the index page: every submission with content, searchable.
+/** Sidebar of the index page: every current submission with content,
+ * searchable. Superseded versions stay reachable from the version history
+ * on their successors instead of competing with current work here.
  * Records that only reserved an id have nothing to show and stay off the
  * lists (their pages exist for direct links). Registered and draft work live
  * in labeled groups; all rows use their title as the visible label. */
@@ -359,21 +482,16 @@ export function indexSidebar(
   markdown: MarkdownRenderer,
   tagsBySubmission = new Map<string, string[]>(),
 ): string {
-  // Superseded work trails everything current — still listed, still
-  // searchable, but no longer competing with the versions that replaced it.
-  const { current, superseded } = partitionSuperseded(model);
-  const rows = [...current, ...superseded].map((submission, order) => {
+  const listed = currentSubmissions(model);
+  const rows = listed.map((submission, order) => {
     const id = submission.record.id;
     const title = submission.output!.manifest.title;
-    const state = model.isSuperseded(id) ? "superseded" : submission.record.state;
-    return `<li ${submissionSearchAttributes(submission, order, tagsBySubmission.get(id), state)}><a class="entry-link" href="${attr(id)}/index.html" data-full-title="${attr(title)}"><span class="entry-label"><span class="entry-label-text">${markdown.renderAuthorInline(title, "")}</span></span></a></li>`;
+    return `<li ${submissionSearchAttributes(submission, order, tagsBySubmission.get(id))}><a class="entry-link" href="${attr(id)}/index.html" data-full-title="${attr(title)}"><span class="entry-label"><span class="entry-label-text">${markdown.renderAuthorInline(title, "")}</span></span></a></li>`;
   });
-  if (superseded.length)
-    rows.splice(current.length, 0, '<li class="entry-heading" data-entry-group="superseded">Superseded</li>');
-  const draftStart = current.findIndex((submission) => submission.record.state === "draft");
+  const draftStart = listed.findIndex((submission) => submission.record.state === "draft");
   if (draftStart >= 0)
     rows.splice(draftStart, 0, '<li class="entry-heading" data-entry-group="draft">Work in Progress</li>');
-  if (current.some((submission) => submission.record.state === "registered"))
+  if (listed.some((submission) => submission.record.state === "registered"))
     rows.unshift('<li class="entry-heading" data-entry-group="registered">Registered</li>');
   return `<div class="sidebar-filters">${searchGroup("Search titles and concepts", "entry-list submissions-list")}</div>
 ${randomSubmissionView(model, markdown)}
@@ -383,17 +501,12 @@ ${EMPTY_ROW}
 </ul>`;
 }
 
-/** Listable submissions split into current work and superseded versions,
- * each half in the shared search order. */
-export function partitionSuperseded(model: SiteModel): {
-  current: SiteSubmission[];
-  superseded: SiteSubmission[];
-} {
-  const listed = model.submissions.filter((s) => s.output).sort(compareSearchSubmissions);
-  return {
-    current: listed.filter((s) => !model.isSuperseded(s.record.id)),
-    superseded: listed.filter((s) => model.isSuperseded(s.record.id)),
-  };
+/** Current listable submissions in the shared search order. Historical
+ * versions are intentionally discoverable only through their version chain. */
+export function currentSubmissions(model: SiteModel): SiteSubmission[] {
+  return model.submissions
+    .filter((submission) => submission.output && !model.isSuperseded(submission.record.id))
+    .sort((a, b) => compareSearchSubmissions(model, a, b));
 }
 
 /** Sidebar of submission, concept, and proof pages: back-link, search, type
@@ -421,14 +534,14 @@ ${typeOptions}
 </select>
 </div>`;
   const conceptRows = concepts.map((concept) => {
-    const name = conceptShortName(output!, concept);
+    const name = plainAuthorTitle(concept.title);
     const type = concept.type!.trim().toLowerCase();
     const provenCount = concept.statements.filter((s) => proven.has(s.id)).length;
     const status = concept.statements.length ? provenCount === concept.statements.length : undefined;
     const haystack = `${concept.id} ${concept.title} ${type}`.toLowerCase();
     const active = concept.id === opts.activeId ? ' class="active"' : "";
     const href = `${rootRel}${submission.record.id}/${concept.id}.html`;
-    return `<li${active} data-type="${attr(type)}" data-search="${attr(haystack)}"><a class="entry-link" href="${attr(href)}" data-full-title="${attr(concept.title)}"><span class="entry-label">${typeBadge(concept.type, status)}<span class="entry-label-text">${esc(name)}</span></span></a></li>`;
+    return `<li${active} data-type="${attr(type)}" data-search="${attr(haystack)}"><a class="entry-link" href="${attr(href)}" data-full-title="${attr(name)}"><span class="entry-label">${typeBadge(concept.type, status)}<span class="entry-label-text">${esc(name)}</span>${conceptReviewBadge(`${submission.record.id}/${concept.id}.html`)}</span></a></li>`;
   });
   const proofRows = proofs.map((proof) => {
     const name = proofShortName(output!, proof, output!.id);
@@ -463,63 +576,141 @@ export function draftBanner(state: string): string {
     : "";
 }
 
-/** The versioning nudge on every page of a superseded submission: a
- * registered successor exists, so send the reader to the newest version.
- * Draft claims never bind, so the banner cannot point at mutable work. */
-export function supersededBanner(ctx: PageContext, submissionId: string, rootRel: string): string {
-  if (!ctx.model.isSuperseded(submissionId)) return "";
-  const latest = ctx.model.latestVersion(submissionId);
-  const title = ctx.model.submissionById.get(latest)?.output?.manifest.title;
-  const label = `<span class="submission-meta-id">${esc(latest)}</span>${
-    title ? ` ${ctx.markdown.renderAuthorInline(title, rootRel)}` : ""
-  }`;
-  return `<p class="superseded-banner"><strong>Superseded</strong> — a newer version of this work is available: <a href="${attr(`${rootRel}${latest}/index.html`)}">${label}</a>.</p>`;
+/**
+ * Said beside the draft banner on every page of a submission that is not in
+ * the archive's epoch. It is a fact, not a fault: the record is as valid and
+ * as permanent as any other, and the only consequence is which work can build
+ * on it — an olean built by one Lean version cannot be loaded by another. So
+ * the banner keeps the draft banner's shape in a muted palette, and carries
+ * no warning mark.
+ */
+export function environmentNotice(model: SiteModel, submission: SiteSubmission): string {
+  const environment = model.environmentOf.get(submission.record.id);
+  if (environment === undefined || environment === model.epoch) return "";
+  return `<p class="environment-notice">Environment ${code(environment)}. The archive's epoch is ${code(model.epoch)}; only submissions in ${code(environment)} can cite this work.</p>`;
 }
 
-/** On a draft claimant's own page: the declared target before the claim
- * binds, so co-owners see the pending link (and the race, if any). */
-export function supersedesNote(ctx: PageContext, submission: SiteSubmission, rootRel: string): string {
-  const target = ctx.model.supersedesClaim.get(submission.record.id);
-  if (!target || submission.record.state === "registered") return "";
-  return `<p class="draft-banner">When registered, this submission will supersede <a href="${attr(`${rootRel}${target}/index.html`)}">${esc(target)}</a>.</p>`;
+function versionHref(rootRel: string, id: string): string {
+  return `${rootRel}${id}/index.html?version=${encodeURIComponent(id)}`;
 }
 
-/** The version chain as a page section, newest first, the shown submission
- * marked. Absent entirely for unversioned submissions. */
-export function versionsSection(ctx: PageContext, submission: SiteSubmission, rootRel: string): string {
-  const chain = ctx.model.versionChain(submission.record.id);
+/** Version-history UI containing the complete chain. Superseded and proposed
+ * versions get a prominent summary; the current submission page opts into
+ * only the modal because its compact trigger lives in the metadata line. The
+ * current registered version and the version shown on this page are distinct
+ * states and are both marked. */
+export function versionHistoryPanel(
+  ctx: PageContext,
+  submissionId: string,
+  rootRel: string,
+  includeCurrentDialog = false,
+): string {
+  const chain = ctx.model.versionHistory(submissionId);
   if (chain.length < 2) return "";
-  const rows = [...chain].reverse().map((id, index) => {
+
+  const shown = ctx.model.submissionById.get(submissionId)!;
+  const currentId = ctx.model.currentVersion(submissionId);
+  const currentLabel = `<span class="submission-meta-id">${esc(currentId)}</span>`;
+  const currentLink = `<a href="${attr(versionHref(rootRel, currentId))}">${currentLabel}</a>`;
+  const draftProposal = shown.record.state === "draft" && ctx.model.supersedesClaim.has(submissionId);
+  const superseded = !draftProposal && currentId !== submissionId;
+  const pendingDrafts = !draftProposal && !superseded
+    ? ctx.model.draftSuccessors.get(submissionId) ?? []
+    : [];
+  const pendingProposal = pendingDrafts.length > 0;
+  const compactCurrent = !draftProposal && !superseded && !pendingProposal;
+  if (compactCurrent && !includeCurrentDialog) return "";
+  const olderCount = chain.indexOf(submissionId);
+  const countLabel = `${chain.length} ${chain.length === 1 ? "version" : "versions"}`;
+  const pendingLinks = pendingDrafts.map((id) =>
+    `<a href="${attr(versionHref(rootRel, id))}"><span class="submission-meta-id">${esc(id)}</span></a>`);
+  const linkedDrafts = pendingLinks.length === 1
+    ? pendingLinks[0]
+    : `${pendingLinks.slice(0, -1).join(", ")} and ${pendingLinks.at(-1)}`;
+  const summary = draftProposal
+    ? `<strong>Proposed new version.</strong> This draft would follow the current registered version, ${currentLink}.`
+    : superseded
+      ? `<strong>Outdated version.</strong> You are viewing ${submissionIdLink(submissionId, rootRel)}. The current version is ${currentLink}.`
+      : pendingProposal
+        ? `<strong>${pendingDrafts.length === 1 ? "New version" : "New versions"} in progress.</strong> ${pendingDrafts.length === 1 ? "A draft" : "Drafts"}, ${linkedDrafts}, ${pendingDrafts.length === 1 ? "is proposed" : "are proposed"} as the next version. This remains the current registered version.`
+        : `<strong>Current version.</strong> ${olderCount} older ${olderCount === 1 ? "version is" : "versions are"} available for reference.`;
+  const currentAction = currentId !== submissionId
+    ? `<a class="version-current-button" href="${attr(versionHref(rootRel, currentId))}">Open current version <span aria-hidden="true">→</span></a>`
+    : "";
+
+  const rows = [...chain].reverse().map((id) => {
     const entry = ctx.model.submissionById.get(id);
-    const title = entry?.output?.manifest.title;
-    const label = `<span class="submission-meta-id">${esc(id)}</span>${
-      title ? ` ${ctx.markdown.renderAuthorInline(title, rootRel)}` : ""
-    }`;
-    const here = id === submission.record.id;
-    const date = entry ? formatDate(entry.record.registeredAt ?? entry.record.createdAt) : "";
+    if (!entry) return "";
+    const here = id === submissionId;
+    const isCurrent = id === currentId;
+    const title = entry.output?.manifest.title;
+    const source = entry.record.source;
+    const sourceHref = source
+      ? repositorySource(source.repository, source.commit, source.folder)
+      : undefined;
+    const dates = [
+      `<span><b>Created</b> <time datetime="${attr(entry.record.createdAt)}">${formatDate(entry.record.createdAt)}</time></span>`,
+      ...(entry.record.registeredAt
+        ? [`<span><b>Registered</b> <time datetime="${attr(entry.record.registeredAt)}">${formatDate(entry.record.registeredAt)}</time></span>`]
+        : []),
+    ];
+    const pins = entry.output ? [
+      `<span><b>Lean</b> <code>${esc(entry.output.manifest.leanVersion)}</code></span>`,
+      `<span><b>mathlib</b> <code>${esc(entry.output.manifest.mathlibVersion)}</code></span>`,
+    ] : [];
     const marks = [
-      index === 0 ? `<span class="version-mark version-mark-latest">latest</span>` : "",
-      here ? `<span class="version-mark">this version</span>` : "",
-    ].join("");
-    const body = here ? label : `<a href="${attr(`${rootRel}${id}/index.html`)}">${label}</a>`;
-    return `<li class="version-item${here ? " version-current" : ""}">${body}<span class="version-meta">${esc(date)}</span>${marks}</li>`;
+      isCurrent ? `<span class="version-mark version-mark-latest">current version</span>` : "",
+      here ? `<span class="version-mark version-mark-viewing">viewing</span>` : "",
+      entry.record.state === "draft" ? `<span class="version-mark version-mark-draft">draft</span>` : "",
+    ].filter(Boolean).join("");
+    const open = here
+      ? `<span class="version-viewing-label">Shown on this page</span>`
+      : `<a class="version-open-link" href="${attr(versionHref(rootRel, id))}">Open version <span aria-hidden="true">→</span></a>`;
+    const sourceAction = sourceHref
+      ? `<a class="version-source-link" href="${attr(sourceHref)}">${SOURCE_MARK}<span>${esc(sourceProviderName(sourceHref))} source</span></a>`
+      : `<span class="version-source-missing">Source unavailable</span>`;
+    return `<li class="version-item${here ? " version-selected" : ""}${isCurrent ? " version-latest" : ""}"${here ? ' aria-current="page"' : ""}>
+<div class="version-item-heading"><span class="version-item-id">${esc(id)}</span><span class="version-item-marks">${marks}</span></div>
+${title ? `<p class="version-item-title">${ctx.markdown.renderAuthorInline(title, rootRel)}</p>` : ""}
+<div class="version-metadata">${[...dates, ...pins].join("")}</div>
+<div class="version-item-actions">${sourceAction}${open}</div>
+</li>`;
   });
-  return `<section class="page-section"><h3 class="section-title">Versions</h3>
+
+  const notice = compactCurrent ? "" : `<aside class="version-notice${superseded ? " version-notice-superseded" : ""}${draftProposal ? " version-notice-proposed" : ""}${pendingProposal ? " version-notice-pending" : ""}" aria-label="Submission version">
+<p>${summary}</p>
+<div class="version-notice-actions">${currentAction}<button class="version-history-button" type="button" data-version-dialog-open aria-haspopup="dialog" aria-controls="version-history-dialog">View ${countLabel}</button></div>
+</aside>`;
+  return `${notice}
+<dialog class="version-history-dialog" id="version-history-dialog" data-version-dialog aria-labelledby="version-history-title">
+<div class="version-dialog-header"><div><p class="version-dialog-eyebrow">Version history</p><h2 id="version-history-title">Submission versions</h2></div><button class="version-dialog-close" type="button" data-version-dialog-close aria-label="Close version history">×</button></div>
+<p class="version-dialog-intro">Newest first. “Current version” is the latest registered successor; drafts are identified separately.</p>
 <ol class="version-list">
 ${rows.join("\n")}
 </ol>
-</section>`;
+</dialog>`;
+}
+
+/** Compact trigger appended to the technical metadata on the current
+ * submission page. Superseded and proposed versions use the prominent notice
+ * instead. */
+export function versionHistoryMetaButton(ctx: PageContext, submissionId: string): string {
+  const chain = ctx.model.versionHistory(submissionId);
+  if (chain.length < 2
+    || ctx.model.currentVersion(submissionId) !== submissionId
+    || ctx.model.draftSuccessors.has(submissionId)) return "";
+  return `<button class="paper-version-button" type="button" data-version-dialog-open aria-haspopup="dialog" aria-controls="version-history-dialog">${chain.length} versions</button>`;
 }
 
 /** The submission page's paper-style masthead: big title and a compact
  * metadata line (id, authors, state, dates, source, pins). Falls back
  * gracefully when there is no build output yet (title = id). */
-export function paperHeader(markdown: MarkdownRenderer, submission: SiteSubmission, rootRel: string): string {
+export function paperHeader(ctx: PageContext, submission: SiteSubmission, rootRel: string, metaAction = ""): string {
   const { record, output } = submission;
   const title = output?.manifest.title ?? record.id;
   return `<header class="paper-head">
-<h1 class="paper-title">${markdown.renderAuthorInline(title, rootRel)}</h1>
-<p class="paper-meta">${metaBits(submission)}</p>
+<h1 class="paper-title">${ctx.markdown.renderAuthorInline(title, rootRel)}</h1>
+<p class="paper-meta">${metaBits(ctx.model, submission, metaAction)}</p>
 </header>`;
 }
 
@@ -549,15 +740,16 @@ function authorByline(submission: SiteSubmission): string {
 }
 
 /** The dim technical line under the title: id, authors, state, dates, source, pins. */
-function metaBits(submission: SiteSubmission): string {
+function metaBits(model: SiteModel, submission: SiteSubmission, metaAction: string): string {
   const { record, output } = submission;
   const source = record.source;
   const sourceBit = source
     ? output?.manifest.anonymous === true
       ? anonymityPlaceholder("source withheld during anonymous review", "anonymity-placeholder-inline")
       : (() => {
-        const href = githubSource(source.repository, source.commit, source.folder);
-        const short = `GitHub @${source.commit.slice(0, 7)}`;
+        const href = repositorySource(source.repository, source.commit, source.folder);
+        const provider = href ? sourceProviderName(href) : "Source";
+        const short = `${provider} @${source.commit.slice(0, 7)}`;
         return href
           ? `<a href="${attr(href)}" title="${attr(href)}"><code>${esc(short)}</code></a>`
           : `<code>${esc(short)}</code>`;
@@ -571,14 +763,19 @@ function metaBits(submission: SiteSubmission): string {
     `created ${formatDay(record.createdAt)}`,
     ...(record.registeredAt ? [`registered ${formatDay(record.registeredAt)}`] : []),
   ].join(" · ");
+  // The pins *are* the environment; the label says only that this one is the
+  // environment the archive currently recommends, which no version string can.
+  const epochLabel = output?.manifest.leanVersion === model.epoch
+    ? ` <span class="meta-epoch" title="the environment the archive recommends this year">epoch</span>`
+    : "";
   const pins = output
-    ? `Lean ${code(output.manifest.leanVersion)} · mathlib ${code(output.manifest.mathlibVersion.slice(0, 12))}`
+    ? `Lean ${code(output.manifest.leanVersion)}${epochLabel} · mathlib ${code(output.manifest.mathlibVersion.slice(0, 12))}`
     : "";
   // Drafts use the prominent page banner; repeating a tiny state pill here
   // makes the mutable state look like ordinary metadata.
   const state = record.state === "draft" ? "" : statePill(record.state);
   const id = output ? `<span class="submission-meta-id">${esc(record.id)}</span>` : "";
-  const parts = [id, authorBit, state, dates, sourceBit, pins].filter(Boolean);
+  const parts = [id, authorBit, state, dates, sourceBit, pins, metaAction].filter(Boolean);
   return parts.join('<span class="meta-sep">·</span>');
 }
 
@@ -588,7 +785,7 @@ function formatDay(value: string): string {
 }
 
 /** The copyable citation: all states are citable, drafts marked as such and
- * superseded versions naming their successor. */
+ * superseded versions naming the current registered successor. */
 export function bibtex(model: SiteModel, submission: SiteSubmission): string {
   const { record, output } = submission;
   const manifest = output!.manifest;
@@ -596,7 +793,7 @@ export function bibtex(model: SiteModel, submission: SiteSubmission): string {
   const clean = (s: string) => s.replace(/[{}\\]/g, "");
   const year = new Date(record.registeredAt ?? record.createdAt).getUTCFullYear();
   const author = manifest.authors.map((a) => clean(a.name)).join(" and ");
-  const successor = model.supersededBy.get(record.id);
+  const successor = model.isSuperseded(record.id) ? model.latestVersion(record.id) : undefined;
   const lines = [
     `@misc{${record.id},`,
     ...(author ? [`  author = {${author}},`] : []),

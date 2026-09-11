@@ -6,6 +6,25 @@ function canonicalThreadUrl(pathname: string): string {
   return new URL(pathname.replace(/^\/+/, ""), base).toString();
 }
 
+/** A viewer-specific review marker populated by account.js after sign-in. */
+export function conceptReviewBadge(pathname: string): string {
+  return `<span class="concept-review-badge" data-concept-review-url="${attr(canonicalThreadUrl(pathname))}" hidden></span>`;
+}
+
+function canonicalConceptURLs(pathnames: string[]): string[] {
+  return [...new Set(pathnames.map(canonicalThreadUrl))];
+}
+
+/** Viewer-specific progress for the non-lemma concepts listed in a submission. */
+export function conceptReviewProgress(pathnames: string[]): string {
+  const urls = canonicalConceptURLs(pathnames);
+  if (!urls.length) return "";
+  return `<div class="concept-review-progress" data-concept-review-progress data-concept-review-urls="${attr(JSON.stringify(urls))}" hidden>
+<div class="concept-review-progress-heading"><span>Review progress</span><span data-concept-review-progress-label></span></div>
+<div class="concept-review-progress-track" data-concept-review-progress-track role="img"></div>
+</div>`;
+}
+
 /**
  * One canonical Remark42 thread. Thread URLs always point at the production
  * archive so local builds and branch previews share the eventual live
@@ -33,6 +52,7 @@ export function discussion(pathname: string): string {
 interface PageReviewOptions {
   kind?: "submission" | "concept";
   sourceLines?: number;
+  conceptPaths?: string[];
   anonymous?: boolean;
 }
 
@@ -43,12 +63,18 @@ export function pageReactions(pathname: string, options: PageReviewOptions = {})
   const kind = options.kind ?? "submission";
   const sourceLines = kind === "concept" ? Math.max(0, options.sourceLines ?? 0) : 0;
   const target = kind === "concept" ? "concept" : "submission";
+  const conceptURLs = kind === "submission" ? canonicalConceptURLs(options.conceptPaths ?? []) : [];
+  const conceptData = conceptURLs.length ? ` data-submission-concept-urls="${attr(JSON.stringify(conceptURLs))}"` : "";
   const anonymous = options.anonymous === true;
   const anonymousData = anonymous ? ` data-anonymous-review="true"` : "";
-  return `<section class="page-reactions" aria-label="Community review" data-reactions-host="${attr(REMARK42_URL)}" data-reactions-url="${attr(threadUrl)}" data-review-kind="${kind}" data-source-lines="${sourceLines}"${anonymousData}>
+  const flaggedNote = conceptURLs.length
+    ? `<p class="submission-flagged-note" data-submission-flagged-note hidden><span aria-hidden="true">⚑</span><span data-submission-flagged-note-text></span></p>`
+    : "";
+  return `<section class="page-reactions" aria-label="Community review" data-reactions-host="${attr(REMARK42_URL)}" data-reactions-url="${attr(threadUrl)}" data-review-kind="${kind}" data-source-lines="${sourceLines}"${conceptData}${anonymousData}>
+<div class="page-reactions-line">
 <div class="page-reactions-actions">
 <div class="page-reaction-control">
-<button class="page-reaction-button" type="button" data-reaction="endorse" aria-pressed="false" title="Say that this ${target} is correct"><span class="page-reaction-icon" aria-hidden="true">✅</span><span>Endorse</span></button>
+<button class="page-reaction-button" type="button" data-reaction="endorse" aria-pressed="false" title="Say that this ${target} is correct"><span class="page-reaction-icon" aria-hidden="true">🥳</span><span>Endorse</span></button>
 <button class="page-reaction-voters" type="button" data-reaction-voters="endorse" aria-expanded="false" aria-controls="page-reaction-voters-endorse"><strong data-reaction-count="endorse">0</strong><span class="visually-hidden">${anonymous ? `Show endorsement details for this ${target}` : `Show people who endorse this ${target}`}</span></button>
 <div class="page-reaction-voters-popover" id="page-reaction-voters-endorse" data-reaction-voters-popover="endorse" hidden>${anonymous ? `<p data-reaction-identities-hidden>Endorser identities are withheld during anonymous review.</p>` : `<p data-reaction-empty>No public endorsements yet.</p>`}<ul></ul></div>
 </div>
@@ -56,6 +82,8 @@ export function pageReactions(pathname: string, options: PageReviewOptions = {})
 <button class="page-reaction-button" type="button" data-reaction="flag" aria-pressed="false" aria-haspopup="dialog" title="Explain why this ${target} may be false"><span class="page-reaction-icon" aria-hidden="true">🚩</span><span>Flag</span></button>
 <button class="page-reaction-voters" type="button" data-flag-list-open aria-haspopup="dialog" aria-controls="page-flag-list"><strong data-reaction-count="flag">0</strong><span class="visually-hidden">Show flags for this ${target}</span></button>
 </div>
+</div>
+${flaggedNote}
 </div>
 <p class="page-reactions-status" data-reactions-status role="status">Loading review…</p>
 <a class="visually-hidden" data-reactions-login href="${attr(loginUrl)}">Sign in with ORCID</a>

@@ -1,8 +1,15 @@
 // Sidebar behavior: mobile drawer toggle and entry filtering. All data is in
 // the DOM (data-search / data-type attributes); nothing is fetched.
 (() => {
+  const SUBMISSION_PAGE_SIZE = 10;
+  const SIDEBAR_DEFAULT_WIDTH = 285;
+  const SIDEBAR_MIN_WIDTH = 220;
+  const SIDEBAR_MAX_WIDTH = 520;
+  const SIDEBAR_WIDTH_STORAGE_KEY = 'lax-sidebar-width';
   let searchHasSelectedRead = false;
   let selectedTag = '';
+  let submissionFilterKey;
+  let submissionVisibleLimit = SUBMISSION_PAGE_SIZE;
 
   function isMobile() {
     return window.matchMedia('(max-width: 900px)').matches;
@@ -20,8 +27,7 @@
   function stateRank(state) {
     if (state === 'registered') return 0;
     if (state === 'draft') return 1;
-    if (state === 'superseded') return 2;
-    return 3;
+    return 2;
   }
 
   function filterList(list, search, type, emptyId, tag = '') {
@@ -46,21 +52,18 @@
     });
 
     // The index rows carry two separate search fields. Keep registered work
-    // before drafts and superseded versions last, then prefer rows with more
-    // query words in their title. Each row stays below its group heading
-    // (Work in Progress, Superseded) while filtering.
+    // before drafts, then prefer rows with more query words in their title.
+    // Each row stays below its group heading while filtering.
     if (rows.some((row) => row.dataset.searchTitle !== undefined)) {
       rows.sort((a, b) => stateRank(a.dataset.state) - stateRank(b.dataset.state)
         || (titleHits.get(b) || 0) - (titleHits.get(a) || 0)
         || Number(a.dataset.searchOrder) - Number(b.dataset.searchOrder));
       const empty = document.getElementById(emptyId);
       const draftHeading = list.querySelector('[data-entry-group="draft"]');
-      const supersededHeading = list.querySelector('[data-entry-group="superseded"]');
-      if (draftHeading || supersededHeading) {
+      if (draftHeading) {
         const boundary = (row) => {
-          if (row.dataset.state === 'superseded') return empty;
-          if (row.dataset.state === 'draft') return supersededHeading || empty;
-          return draftHeading || supersededHeading || empty;
+          if (row.dataset.state === 'draft') return empty;
+          return draftHeading;
         };
         rows.forEach((row) => list.insertBefore(row, boundary(row)));
       } else {
@@ -73,16 +76,38 @@
     return visible;
   }
 
-  function updateTagStatus(visible) {
+  function updateTagStatus(total, shown) {
     const status = document.getElementById('tag-results-status');
     if (!status) return;
     const active = document.querySelector(`[data-tag-filter="${CSS.escape(selectedTag)}"]`);
     const label = active?.querySelector('span')?.textContent ?? selectedTag;
     const search = document.getElementById('filter-search')?.value.trim();
     const suffix = search ? ' matching your search' : '';
+    const count = total === shown ? `${total}` : `${shown} of ${total}`;
     status.textContent = selectedTag
-      ? `Showing ${visible} ${visible === 1 ? 'submission' : 'submissions'} tagged “${label}”${suffix}.`
-      : `Showing all ${visible} ${visible === 1 ? 'submission' : 'submissions'}${suffix}.`;
+      ? `Showing ${count} ${total === 1 ? 'submission' : 'submissions'} tagged “${label}”${suffix}.`
+      : `Showing ${count} ${total === 1 ? 'submission' : 'submissions'}${suffix}.`;
+  }
+
+  function applySubmissionPagination(list, total) {
+    const rows = [...list.querySelectorAll('li[data-search-title]')].filter((row) => !row.hidden);
+    rows.forEach((row, index) => {
+      if (index < submissionVisibleLimit) {
+        delete row.dataset.paginationHidden;
+        return;
+      }
+      row.dataset.paginationHidden = 'true';
+      row.setAttribute('hidden', 'until-found');
+    });
+
+    const shown = Math.min(submissionVisibleLimit, total);
+    const button = document.getElementById('submissions-load-more');
+    if (button) {
+      const remaining = Math.max(0, total - shown);
+      button.hidden = remaining === 0;
+      button.setAttribute('aria-label', `Load ${Math.min(SUBMISSION_PAGE_SIZE, remaining)} more submissions`);
+    }
+    return shown;
   }
 
   function applySidebarFilters() {
@@ -116,10 +141,16 @@
     if (!submissions) return;
     const searchEl = document.getElementById('filter-search');
     const search = searchEl?.value.trim().toLowerCase() ?? '';
+    const filterKey = `${search}\u0000${selectedTag}`;
+    if (filterKey !== submissionFilterKey) {
+      submissionFilterKey = filterKey;
+      submissionVisibleLimit = SUBMISSION_PAGE_SIZE;
+    }
     const randomSubmission = document.querySelector('.random-submission');
     if (randomSubmission) randomSubmission.hidden = Boolean(searchEl?.value.length);
-    const visible = filterList(submissions, search, 'all', 'submissions-list-empty', selectedTag);
-    updateTagStatus(visible);
+    const total = filterList(submissions, search, 'all', 'submissions-list-empty', selectedTag);
+    const shown = applySubmissionPagination(submissions, total);
+    updateTagStatus(total, shown);
     // Search results live in the always-visible Read section. Move there
     // once when a visitor begins a new search, not on every keystroke.
     const readAction = document.querySelector('[data-landing-action="read"]');
@@ -150,6 +181,15 @@
     const selected = candidates[Math.floor(Math.random() * candidates.length)];
     link.href = selected.href;
     link.replaceChildren(...[...selected.childNodes].map((node) => node.cloneNode(true)));
+  }
+
+  function setupSubmissionPagination() {
+    const button = document.getElementById('submissions-load-more');
+    if (!button) return;
+    button.addEventListener('click', () => {
+      submissionVisibleLimit += SUBMISSION_PAGE_SIZE;
+      applySubmissionFilters();
+    });
   }
 
   function setupTagFilters() {
@@ -260,6 +300,91 @@
     window.addEventListener('resize', hide);
   }
 
+  function setupSidebarResize() {
+    const sidebar = document.getElementById('sidebar');
+    const resizer = document.getElementById('sidebar-resizer');
+    if (!sidebar || !resizer || !document.documentElement?.style) return;
+
+    function storedWidth() {
+      try {
+        const value = Number.parseFloat(localStorage.getItem(SIDEBAR_WIDTH_STORAGE_KEY) || '');
+        return Number.isFinite(value) ? value : undefined;
+      } catch {
+        return undefined;
+      }
+    }
+
+    function saveWidth(value) {
+      try {
+        localStorage.setItem(SIDEBAR_WIDTH_STORAGE_KEY, String(Math.round(value)));
+      } catch {
+        // Resizing still works when storage is unavailable or disabled.
+      }
+    }
+
+    function clampWidth(value) {
+      return Math.min(SIDEBAR_MAX_WIDTH, Math.max(SIDEBAR_MIN_WIDTH, value));
+    }
+
+    let width = clampWidth(storedWidth() ?? SIDEBAR_DEFAULT_WIDTH);
+    let dragStartX = 0;
+    let dragStartWidth = width;
+    let dragging = false;
+
+    function applyWidth(value) {
+      width = clampWidth(value);
+      document.documentElement.style.setProperty('--sidebar-width', `${Math.round(width)}px`);
+      resizer.setAttribute('aria-valuenow', String(Math.round(width)));
+    }
+
+    function notifyLayoutChange() {
+      window.dispatchEvent(new Event('resize'));
+    }
+
+    function finishResize(event) {
+      if (!dragging) return;
+      dragging = false;
+      document.body.classList.remove('sidebar-resizing');
+      saveWidth(width);
+      if (event?.pointerId !== undefined && resizer.hasPointerCapture?.(event.pointerId))
+        resizer.releasePointerCapture(event.pointerId);
+      notifyLayoutChange();
+    }
+
+    applyWidth(width);
+
+    resizer.addEventListener('pointerdown', (event) => {
+      if (isMobile() || event.button !== 0) return;
+      event.preventDefault();
+      dragging = true;
+      dragStartX = event.clientX;
+      dragStartWidth = width;
+      document.body.classList.add('sidebar-resizing');
+      resizer.setPointerCapture?.(event.pointerId);
+    });
+    resizer.addEventListener('pointermove', (event) => {
+      if (!dragging) return;
+      applyWidth(dragStartWidth + event.clientX - dragStartX);
+    });
+    resizer.addEventListener('pointerup', finishResize);
+    resizer.addEventListener('pointercancel', finishResize);
+    resizer.addEventListener('lostpointercapture', finishResize);
+    window.addEventListener('blur', finishResize);
+    resizer.addEventListener('keydown', (event) => {
+      let nextWidth;
+      const step = event.shiftKey ? 32 : 10;
+      if (event.key === 'ArrowLeft') nextWidth = width - step;
+      if (event.key === 'ArrowRight') nextWidth = width + step;
+      if (event.key === 'Home') nextWidth = SIDEBAR_MIN_WIDTH;
+      if (event.key === 'End') nextWidth = SIDEBAR_MAX_WIDTH;
+      if (nextWidth === undefined) return;
+      event.preventDefault();
+      applyWidth(nextWidth);
+      saveWidth(width);
+      notifyLayoutChange();
+    });
+  }
+
   function setupToggle() {
     const sidebar = document.getElementById('sidebar');
     const backdrop = document.getElementById('sidebar-backdrop');
@@ -294,16 +419,19 @@
         if (backdrop) backdrop.classList.add('ready');
       }));
     } else {
-      toggleBtn.setAttribute('aria-expanded', 'true');
+      // A page may ship with the sidebar already collapsed (the paper page).
+      toggleBtn.setAttribute('aria-expanded', visible() ? 'true' : 'false');
     }
   }
 
   function init() {
     setupRandomSubmission();
+    setupSubmissionPagination();
     setupFilters();
     setupTagFilters();
     applyFilters();
     setupEntryTooltips();
+    setupSidebarResize();
     setupToggle();
   }
 
