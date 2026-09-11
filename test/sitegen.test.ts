@@ -955,7 +955,7 @@ After the formula.`, "");
     draft.record.state = "draft";
     draft.output!.concepts[0]!.type = "open question";
     draft.output!.concepts[0]!.statements = [{ id: "Lax3.Middle.open", signature: "open : True" }];
-    // Other unproven statement types from drafts remain excluded.
+    // Unproven theorems from drafts are listed too.
     draft.output!.concepts.push({
       id: "Lax3.DraftTheorem", path: "concepts/Lax3/DraftTheorem.lean", title: "Draft theorem",
       type: "theorem", description: "", imports: [], sourceText: "",
@@ -967,7 +967,7 @@ After the formula.`, "");
     await generateSite(archive, root);
     const html = fs.readFileSync(path.join(root, "open-proof-obligations.html"), "utf8");
 
-    expect(html).toContain("3 proof obligations · 3 open statements · 2 submissions");
+    expect(html).toContain("4 proof obligations · 4 open statements · 2 submissions");
     expect(html).toContain('placeholder="Search proof obligations"');
     expect(html).toContain('id="open-problems-list"');
     expect(html).toContain('data-type="open question"');
@@ -978,7 +978,7 @@ After the formula.`, "");
     expect(html).toContain('href="Lax4/Lax4.Aux.html"');
     expect(html).toContain("Lax4.Aux.b");
     expect(html).toContain("Lax3.Middle.open");
-    expect(html).not.toContain("Lax3.DraftTheorem.fact");
+    expect(html).toContain("Lax3.DraftTheorem.fact");
     expect(html).not.toContain('href="Lax2/Lax2.C.html"');
     expect(html).not.toContain('href="Lax1/Lax1.Base.html"');
   });

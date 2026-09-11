@@ -8,17 +8,18 @@ export interface OpenProblem {
   openStatements: StatementEntry[];
 }
 
-/** Explicit open questions from draft or registered submissions, plus theorem
- * and lemma concepts from registered submissions, with at least one statement
- * outside the proof network's least fixed point. */
+/** Explicit open questions and theorem concepts from draft or registered
+ * submissions, plus lemma concepts from registered submissions, with at least
+ * one statement outside the proof network's least fixed point. */
 export function collectOpenProblems(model: SiteModel): OpenProblem[] {
   return [...model.conceptHome.values()]
     .filter(({ submission, output, concept }) => {
       if (model.isSuperseded(output.id)) return false;
       const type = concept.type!.trim().toLowerCase();
-      return type === "open question"
-        ? submission.record.state === "draft" || submission.record.state === "registered"
-        : submission.record.state === "registered" && (type === "theorem" || type === "lemma");
+      const state = submission.record.state;
+      if (state !== "draft" && state !== "registered") return false;
+      return type === "open question" || type === "theorem"
+        || (state === "registered" && type === "lemma");
     })
     .map((located) => ({
       located,
@@ -115,7 +116,7 @@ export function openProblemsPage(ctx: PageContext): string {
 <p class="paper-meta">${plural(problems.length, "proof obligation")} · ${plural(statementCount, "open statement")} · ${plural(submissionCount, "submission")}</p>
 </header>
 <div class="open-problems-intro latex-content">
-<p>This page includes open questions from draft and registered submissions, plus theorem and lemma statements from registered submissions, when they are not yet supported by a grounded chain of archived proofs.</p>
+<p>This page includes open questions and theorem statements from draft and registered submissions, plus lemma statements from registered submissions, when they are not yet supported by a grounded chain of archived proofs.</p>
 </div>
 ${problems.length ? `<ul class="open-problems-list" id="open-problems-list">
 ${problems.map((problem) => problemRow(ctx, problem)).join("\n")}
