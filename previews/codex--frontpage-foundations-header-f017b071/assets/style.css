@@ -172,7 +172,7 @@ body{
 }
 
 .site-header.landing-header:not(.landing-header-scrolled) .site-nav-link{
-  font-size: 0.78rem;
+  font-size: 0.88rem;
 }
 
 .visually-hidden{
@@ -2035,12 +2035,10 @@ a.submission-meta-id:is(:hover, :focus-visible),
 .landing-paper-rail .manuscript-card-body{ max-height: 38rem; overflow: auto; }
 .landing-paper-rail .manuscript-card-source{ max-height: none; overflow: visible; }
 
-/* Getting started and foundations are separate, bordered units. Their copy
-   keeps the common reading measure inside one shared outer width. */
-.landing-boxed-section{
-  width: min(100%, 60em);
-  max-width: 60em;
-  margin: 3rem auto 0;
+/* Getting started and foundations are separate, bordered units, with their
+   headings in the page flow above the boxes like the earlier sections. */
+.landing-section-box{
+  width: 100%;
   padding: 1.55rem clamp(1.15rem, 3vw, 2rem) 1.7rem;
   background: var(--surface);
   border: 1px solid var(--border);
@@ -2048,12 +2046,12 @@ a.submission-meta-id:is(:hover, :focus-visible),
   box-shadow: 0 6px 18px rgba(43, 43, 43, 0.05);
 }
 
-.landing-boxed-section > .landing-section-copy{
+.landing-section-box > .landing-section-copy{
   max-width: 40em;
   margin-inline: auto;
 }
 
-.landing-plain-section{ margin: 3rem auto 0; }
+.landing-plain-section{ max-width: 60em; margin: 3rem auto 0; }
 .landing-plain-section pre{ margin: 0.6rem 0 1rem; }
 
 .landing-setup-tabs,
@@ -2133,7 +2131,6 @@ a.submission-meta-id:is(:hover, :focus-visible),
    its type badge, its submission, and how many further submissions build
    on it. */
 .landing-foundations{ max-width: 60em; margin: 3rem auto 0; }
-.landing-foundations > .landing-section-copy{ max-width: 40em; margin-inline: auto; }
 
 .landing-foundation-list{
   display: flex;
@@ -3972,7 +3969,7 @@ body.graph-window-open::after{
   .site-nav{ gap: 0.7rem; }
   .site-nav-link{ font-size: 0.86rem; }
   .site-title{ font-size: 1.25rem; }
-  .site-header.landing-header:not(.landing-header-scrolled) .site-nav-link{ font-size: 0.74rem; }
+  .site-header.landing-header:not(.landing-header-scrolled) .site-nav-link{ font-size: 0.8rem; }
   .header-actions{ right: 0.4rem; gap: 0.28rem; }
   .account-control,
   .account-control{ gap: 0.3rem; }
@@ -3987,7 +3984,7 @@ body.graph-window-open::after{
   .discussion-embed-shell{ margin-inline: -0.25rem; padding-inline: 0.45rem; }
   .landing-hero{ margin-bottom: 2.2rem; }
   .landing-section, .landing-paper{ margin-bottom: 2.2rem; }
-  .landing-boxed-section{ padding: 1.15rem 1rem 1.25rem; }
+  .landing-section-box{ padding: 1.15rem 1rem 1.25rem; }
   .landing-manifesto, .landing-section-copy{ font-size: 0.98rem; }
   .landing-paper-frame{ --frame-pad-top: 1.1rem; --frame-pad-right: 0.9rem; --frame-pad-left: 1rem; padding-bottom: 1rem; }
   .landing-paper-grid{ grid-template-columns: 1fr; row-gap: 0.9rem; }
