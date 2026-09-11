@@ -69,8 +69,7 @@ The archive's code, metadata, the submissions, and the generated artifacts are a
 
 ## Where to go next
 
-- [An Introduction to Lax](lax-242665/paper.html), itself a Lax submission,
-  walks through concepts, proofs, and papers on a running example.
+- [An Introduction to Lax](lax-242665/paper.html), itself a Lax submission.
 - The [FAQ](index.html#faq) answers the questions we are asked most.
 
 ## Who we are
