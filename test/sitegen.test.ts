@@ -676,8 +676,15 @@ After the formula.`, "");
     expect(index.indexOf("landing-plain-section")).toBeLessThan(index.indexOf('id="landing-library-heading"'));
     // Getting started: a plain section with the two commands, no tiles.
     expect(index).toContain('<h2 class="landing-section-title" id="landing-start-heading">Get started right away</h2>');
-    expect(index).toContain('<section class="landing-section landing-plain-section landing-boxed-section"');
+    expect(index).toContain('<section class="landing-section landing-plain-section landing-boxed-section landing-setup"');
+    expect(index).toContain('<div class="landing-setup-tab-list" role="tablist" aria-label="Choose your operating system">');
+    expect(index).toContain('role="tab" id="landing-setup-unix-tab" aria-selected="true" aria-controls="landing-setup-unix-panel" tabindex="0">Linux / macOS</button>');
+    expect(index).toContain('role="tab" id="landing-setup-windows-tab" aria-selected="false" aria-controls="landing-setup-windows-panel" tabindex="-1">Windows</button>');
+    expect(index).toContain('id="landing-setup-windows-panel" role="tabpanel" aria-labelledby="landing-setup-windows-tab" hidden>');
+    expect(index).toContain("wsl --install");
+    expect(index).toContain('href="https://learn.microsoft.com/en-us/windows/wsl/install"');
     expect(index).toContain("npm install -g lax-archive &amp;&amp; lax doctor");
+    expect(index.match(/npm install -g lax-archive &amp;&amp; lax doctor/g)).toHaveLength(1);
     expect(index).toContain("Run `lax print instructions` and follow the guide it prints");
     expect(index).not.toContain("landing-tile");
     expect(index).not.toContain("landing-column");

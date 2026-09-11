@@ -26,6 +26,8 @@ rested on it is proven from that moment on.
 
 ## Get started right away
 
+### Linux / macOS
+
 Set up, once per machine:
 
 ```
@@ -40,6 +42,17 @@ to formalize <my result>.
 ```
 
 Then your agent takes over and guides you through the process.
+
+### Windows
+
+First, open PowerShell as administrator and install a
+[Linux terminal with WSL](https://learn.microsoft.com/en-us/windows/wsl/install):
+
+```
+wsl --install
+```
+
+After restarting, open Ubuntu and follow the Linux / macOS instructions there.
 
 ## Build foundations together
 

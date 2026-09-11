@@ -2056,6 +2056,45 @@ a.submission-meta-id:is(:hover, :focus-visible),
 .landing-plain-section{ margin: 3rem auto 0; }
 .landing-plain-section pre{ margin: 0.6rem 0 1rem; }
 
+.landing-setup-tabs,
+.landing-setup-panel{
+  max-width: 40em;
+  margin-inline: auto;
+}
+
+.landing-setup-tab-list{
+  display: flex;
+  width: fit-content;
+  margin: 0 auto 1.15rem;
+  padding: 0.18rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-control);
+  background: var(--panel-bg);
+}
+
+.landing-setup-tab{
+  min-height: 2.15rem;
+  padding: 0.42rem 0.78rem;
+  border: 0;
+  border-radius: calc(var(--radius-control) - 1px);
+  background: transparent;
+  color: var(--text-dim);
+  font: inherit;
+  font-size: 0.84rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.landing-setup-tab[aria-selected="true"]{
+  background: var(--surface);
+  color: var(--accent);
+  box-shadow: 0 1px 4px rgba(43, 43, 43, 0.14);
+}
+
+.landing-setup-tab:hover{ color: var(--accent); }
+.landing-setup-tab:focus-visible{ outline: 2px solid rgba(59, 107, 154, 0.38); outline-offset: 1px; }
+.landing-setup-panel[hidden]{ display: none; }
+
 /* Three columns of plain text. Text, not tiles. */
 .landing-columns-section{ max-width: none; margin: 3rem auto 0; }
 
