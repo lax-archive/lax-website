@@ -52,7 +52,22 @@ First, open PowerShell as administrator and install a
 wsl --install
 ```
 
-After restarting, open Ubuntu and follow the Linux / macOS instructions there.
+After restarting, open Ubuntu.
+
+Set up, once per machine:
+
+```
+npm install -g lax-archive && lax doctor
+```
+
+Hand your coding agent a prompt like:
+
+```
+Run `lax print instructions` and follow the guide it prints
+to formalize <my result>.
+```
+
+Then your agent takes over and guides you through the process.
 
 ## Build foundations together
 

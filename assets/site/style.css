@@ -172,7 +172,7 @@ body{
 }
 
 .site-header.landing-header:not(.landing-header-scrolled) .site-nav-link{
-  font-size: 0.88rem;
+  font-size: 0.78rem;
 }
 
 .visually-hidden{
@@ -3969,7 +3969,7 @@ body.graph-window-open::after{
   .site-nav{ gap: 0.7rem; }
   .site-nav-link{ font-size: 0.86rem; }
   .site-title{ font-size: 1.25rem; }
-  .site-header.landing-header:not(.landing-header-scrolled) .site-nav-link{ font-size: 0.8rem; }
+  .site-header.landing-header:not(.landing-header-scrolled) .site-nav-link{ font-size: 0.74rem; }
   .header-actions{ right: 0.4rem; gap: 0.28rem; }
   .account-control,
   .account-control{ gap: 0.3rem; }
