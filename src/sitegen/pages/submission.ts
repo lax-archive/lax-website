@@ -211,7 +211,7 @@ ${mentions}`;
 
 /** Graph data for dag.js, embedded as inert JSON (CSP-safe). Concept data
  * contains the page's own concepts plus both closures behind the toggles;
- * proof data is the submission's bipartite statement/proof neighborhood;
+ * proof data is the submission's upstream statement/proof closure;
  * submission data is the same dependency question one level up. */
 function pageGraphData(ctx: PageContext, submission: SiteSubmission, related: SubmissionGraphData) {
   const output = submission.output!;
@@ -226,15 +226,15 @@ function pageGraphData(ctx: PageContext, submission: SiteSubmission, related: Su
 }
 
 /** The proof network figure's data: the submission's own statements and
- * proofs, plus external proofs that conclude an own statement. Every
- * assumption of those external proofs is kept so the displayed hyperedge
- * is never made misleadingly easier. `rootRel` prefixes the node links —
- * the landing page draws a submission's network from the site root. */
+ * proofs, plus the complete upstream closure of archived proofs. `rootRel`
+ * prefixes the node links — the landing page draws a submission's network
+ * from the site root. */
 export function proofNetworkData(ctx: PageContext, submission: SiteSubmission, rootRel: string) {
   const output = submission.output!;
   const model = ctx.model;
   const ownStatements = new Set(output.concepts.flatMap((c) => c.statements.map((s) => s.id)));
-  const statementIds = new Set<string>(ownStatements);
+  const statementIds = new Set<string>();
+  const pendingStatements: string[] = [];
   const proofs = new Map<string, {
     id: string;
     assumptions: string[];
@@ -243,29 +243,31 @@ export function proofNetworkData(ctx: PageContext, submission: SiteSubmission, r
     owner: string;
     ext: boolean;
   }>();
-  for (const proof of output.proofs) {
-    for (const id of [proof.conclusion, ...proof.assumptions]) statementIds.add(id);
+
+  const addStatement = (id: string) => {
+    if (statementIds.has(id)) return;
+    statementIds.add(id);
+    pendingStatements.push(id);
+  };
+  const addProof = (proof: typeof output.proofs[number], owner: string) => {
+    if (proofs.has(proof.id)) return;
+    for (const id of [proof.conclusion, ...proof.assumptions]) addStatement(id);
     proofs.set(proof.id, {
       id: proof.id,
       assumptions: proof.assumptions,
       conclusion: proof.conclusion,
       description: proof.description,
-      owner: output.id,
-      ext: false,
+      owner,
+      ext: owner !== output.id,
     });
-  }
-  for (const statementId of ownStatements) {
+  };
+
+  for (const id of ownStatements) addStatement(id);
+  for (const proof of output.proofs) addProof(proof, output.id);
+  for (let index = 0; index < pendingStatements.length; index += 1) {
+    const statementId = pendingStatements[index]!;
     for (const { proof, output: home } of model.statementProofs.get(statementId) ?? []) {
-      if (home.id === output.id) continue;
-      for (const id of [proof.conclusion, ...proof.assumptions]) statementIds.add(id);
-      proofs.set(proof.id, {
-        id: proof.id,
-        assumptions: proof.assumptions,
-        conclusion: proof.conclusion,
-        description: proof.description,
-        owner: home.id,
-        ext: true,
-      });
+      addProof(proof, home.id);
     }
   }
   // Every sibling statement of a displayed concept comes along, so the figure

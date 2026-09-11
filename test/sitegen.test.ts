@@ -1314,6 +1314,53 @@ After the formula.`, "");
     expect(script).toContain("event.key !== 'Escape'");
   });
 
+  it("includes the complete upstream proof closure across submissions", async () => {
+    const chain = ["Lax20", "Lax21", "Lax22"].map((id, index): SiteSubmission => {
+      const statement = `${id}.Claim.statement`;
+      const assumptions = index === 0 ? [] : [`Lax${19 + index}.Claim.statement`];
+      return {
+        record: { specVersion: "1", id, state: "registered", createdAt: "2026-01-01T00:00:00Z" },
+        output: {
+          specVersion: "1", id,
+          manifest: {
+            specVersion: "1", id, leanVersion: "v4.30.0", mathlibVersion: "abc",
+            title: id, authors: [], bibEntries: [],
+          },
+          abstract: "", requiredByConcepts: [], requiredByProofs: [],
+          concepts: [{
+            id: `${id}.Claim`, path: `concepts/${id}/Claim.lean`, title: `${id} claim`,
+            type: "theorem", description: "", imports: [], mathlibImports: [], sourceText: "",
+            statements: [{ id: statement, signature: "statement : True" }],
+          }],
+          proofs: [{
+            id: `${id}Proofs.claim`, path: `proofs/${id}Proofs/Claim.lean`,
+            conclusion: statement, assumptions, description: "",
+          }],
+        },
+      };
+    });
+    const root = tmpDir("lax-site-proof-closure-");
+    await generateSite(chain, root);
+    const html = fs.readFileSync(path.join(root, "Lax22", "index.html"), "utf8");
+    const data = JSON.parse(
+      /<script type="application\/json" id="graph-data">(.*?)<\/script>/s.exec(html)![1]!,
+    ).proofs;
+
+    expect(data.statements.map((statement: { id: string }) => statement.id)).toEqual([
+      "Lax20.Claim.statement", "Lax21.Claim.statement", "Lax22.Claim.statement",
+    ]);
+    // The closure includes each adjacent proof edge exactly as archived; it
+    // does not invent shortcut assumptions from a conclusion to every older
+    // ancestor in the chain.
+    expect(data.proofs.map((proof: {
+      id: string; assumptions: string[]; conclusion: string; ext: boolean;
+    }) => [proof.id, proof.assumptions, proof.conclusion, proof.ext])).toEqual([
+      ["Lax20Proofs.claim", [], "Lax20.Claim.statement", true],
+      ["Lax21Proofs.claim", ["Lax20.Claim.statement"], "Lax21.Claim.statement", true],
+      ["Lax22Proofs.claim", ["Lax21.Claim.statement"], "Lax22.Claim.statement", false],
+    ]);
+  });
+
   it("reveals transitively used concepts from other submissions below the submission's own", async () => {
     const archive = graphSubmissions();
     const root = tmpDir("lax-site-used-concepts-");
