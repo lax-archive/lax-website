@@ -9,10 +9,11 @@ import { conceptPage } from "./pages/concept.js";
 import { allCommentsPage } from "./pages/all-comments.js";
 import { contentPage } from "./pages/content.js";
 import { configureSiteNav } from "./html.js";
-import { INTRO_SUBMISSION_ID, indexPage } from "./pages/index.js";
+import { indexPage } from "./pages/index.js";
 import { openProblemsPage } from "./pages/open-problems.js";
 import { paperPage, paperPdfPage } from "./pages/paper.js";
 import { proofPage } from "./pages/proof.js";
+import { INTRO_SUBMISSION_ID } from "./pages/shared.js";
 import { submissionPage } from "./pages/submission.js";
 
 export type { SiteSubmission } from "./model.js";

@@ -1,7 +1,7 @@
 import type { StatementEntry } from "../../types.js";
 import { attr, esc, page, plural, statePill, typeBadge } from "../html.js";
 import { compareIds, type LocatedConcept, type SiteModel } from "../model.js";
-import type { PageContext } from "./shared.js";
+import { INTRO_SUBMISSION_ID, type PageContext } from "./shared.js";
 
 export interface OpenProblem {
   located: LocatedConcept;
@@ -24,6 +24,7 @@ function openProblemRank(problem: OpenProblem): number {
 export function collectOpenProblems(model: SiteModel): OpenProblem[] {
   const candidates = [...model.conceptHome.values()]
     .filter(({ submission, output, concept }) => {
+      if (output.id === INTRO_SUBMISSION_ID) return false;
       if (model.isSuperseded(output.id)) return false;
       const type = concept.type!.trim().toLowerCase();
       const state = submission.record.state;

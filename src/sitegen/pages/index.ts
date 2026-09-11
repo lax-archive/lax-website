@@ -10,6 +10,7 @@ import {
   graphExpandButton,
   graphTooltip,
   indexSidebar,
+  INTRO_SUBMISSION_ID,
   proofNetworkLegend,
   submissionSearchAttributes,
   type PageContext,
@@ -18,12 +19,6 @@ import { markCard } from "./paper.js";
 import { proofNetworkData } from "./submission.js";
 
 interface LandingFaq { question: string; answer: string }
-
-/** "An Introduction to Lax", itself a Lax submission with an annotated
- * paper: the header's "Introduction" and the first example's way on lead
- * into it. Without it in the archive (a preview from a fixture, a fork)
- * the header link is left out and the example leads to the white paper. */
-export const INTRO_SUBMISSION_ID = "lax-242665";
 
 /** The submission whose proof network the landing page draws: a real
  * paper's worth of claims and proofs, wide enough to show what the network

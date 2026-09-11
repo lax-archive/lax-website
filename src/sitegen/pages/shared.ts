@@ -8,6 +8,9 @@ import { conceptReviewBadge } from "./discussion.js";
 
 export interface PageContext { model: SiteModel; markdown: MarkdownRenderer }
 
+/** The archive's self-describing worked example and introduction. */
+export const INTRO_SUBMISSION_ID = "lax-242665";
+
 /** Author sections share their rendering across concept and proof pages. */
 export function annotationSections(ctx: PageContext, sections: AnnotationSection[] | undefined, rootRel: string): string {
   return (sections ?? []).map((section) => {

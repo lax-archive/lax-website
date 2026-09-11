@@ -946,7 +946,7 @@ After the formula.`, "");
 
   it("renders an archive-wide, searchable view of open proof obligations", async () => {
     const root = tmpDir("lax-site-proof-obligations-");
-    const archive = [...submissions(), ...graphSubmissions()];
+    const archive = [...submissions(), ...graphSubmissions(), introSubmission()];
     // Explicit open questions lead the list, including registered ones.
     const registeredOpen = archive.find(({ record }) => record.id === "Lax1")!.output!.concepts[0]!;
     registeredOpen.type = "open question";
@@ -986,6 +986,8 @@ After the formula.`, "");
     expect(html).toContain('<h2><a href="Lax3/Lax3.Middle.html">Draft open question heading</a></h2>');
     expect(html).not.toContain('class="open-statement-name"');
     expect(html).not.toContain("Lax3.DraftTheorem.fact");
+    expect(html).not.toContain("An odd prime between n and 2n");
+    expect(html).not.toContain('href="lax-242665/Lax242665.');
     expect(html).toContain("Take a look at the concept");
     expect(html).not.toContain("Read the full concept");
     expect(html).not.toContain('href="Lax2/Lax2.C.html"');
