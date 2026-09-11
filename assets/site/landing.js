@@ -4,28 +4,6 @@
 // opens the card, a click pins it open; the tabs above the examples switch
 // between them; the proof network is centred in its box.
 (() => {
-  // The front page opens with its two orientation links directly below the
-  // archive name. Once the reader moves into the page, restore the compact
-  // side-by-side masthead used everywhere else.
-  function setupLandingHeader() {
-    const header = document.querySelector('.site-header.landing-header');
-    if (!header) return;
-    let frame;
-
-    function update() {
-      frame = undefined;
-      header.classList.toggle('landing-header-scrolled', window.scrollY > 1);
-    }
-
-    function queueUpdate() {
-      if (frame !== undefined) return;
-      frame = requestAnimationFrame(update);
-    }
-
-    window.addEventListener('scroll', queueUpdate, { passive: true });
-    update();
-  }
-
   function setupSetupTabs() {
     for (const root of document.querySelectorAll('[data-setup-tabs]')) {
       const tabs = [...root.querySelectorAll('[role="tab"]')];
@@ -425,7 +403,6 @@
   }
 
   function setupLanding() {
-    setupLandingHeader();
     setupSetupTabs();
     setupLandingActions();
     setupCardBoxes();

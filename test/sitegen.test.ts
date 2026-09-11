@@ -618,6 +618,8 @@ After the formula.`, "");
     expect(landingScript).not.toContain("setupReviewConcept");
     expect(landingScript).not.toContain("data-copy-prompt");
     expect(landingScript).not.toContain("sessionStorage");
+    expect(landingScript).not.toContain("setupLandingHeader");
+    expect(landingScript).not.toContain("landing-header-scrolled");
     const citationScript = fs.readFileSync(path.join(one, "assets", "citation.js"), "utf8");
     expect(citationScript).toContain("function setupCitationTour()");
     expect(citationScript).toContain('url.searchParams.get("tour") !== "citation"');

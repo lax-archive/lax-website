@@ -33,8 +33,7 @@ export interface PageShell {
   scripts?: string[];
   /** extra class on the content pane, for pages that need another measure */
   detailClass?: string;
-  /** On the front page, stack the site links under the archive name until
-   * the reader scrolls; landing.js then returns them to the compact masthead. */
+  /** Mark the front-page header for its narrowest responsive adjustment. */
   landingHeader?: boolean;
   /** Show the sidebar and its toggle: open on desktop, or collapsed until
    * the toggle brings it back. Pages about a submission set it; the front
