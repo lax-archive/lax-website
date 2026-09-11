@@ -683,27 +683,16 @@
     });
   }
 
-  function placeDetailPanel(context, element) {
+  function placeDetailPanel(context) {
     const figure = context.panel.parentElement;
-    const elementBox = element.getBoundingClientRect();
     const figureBox = figure.getBoundingClientRect();
-    const panelOnLeft = (elementBox.left + elementBox.right) / 2 >
-      (figureBox.left + figureBox.right) / 2;
-    context.panel.classList.toggle('graph-detail-left', panelOnLeft);
-    context.panel.classList.toggle('graph-detail-right', !panelOnLeft);
+    context.panel.classList.remove('graph-detail-left');
+    context.panel.classList.add('graph-detail-right');
 
-    // Keep the panel outside the graph when the preferred side has enough
-    // room. The desktop sidebar counts as occupied viewport space; on tighter
-    // layouts the panel falls back to covering the far side of the graph.
-    const sidebar = document.getElementById('sidebar');
-    const sidebarBox = sidebar?.getBoundingClientRect();
-    const sidebarVisible = sidebar && getComputedStyle(sidebar).display !== 'none' &&
-      sidebarBox.right > 0 && sidebarBox.left < window.innerWidth;
-    const leftBoundary = sidebarVisible ? Math.max(0, sidebarBox.right) : 0;
+    // Keep the panel beside the graph on its right when the viewport has
+    // enough room. On tighter layouts it covers the graph's right side.
     const viewportInset = 8;
-    const sideSpace = panelOnLeft
-      ? figureBox.left - leftBoundary
-      : document.documentElement.clientWidth - figureBox.right;
+    const sideSpace = document.documentElement.clientWidth - figureBox.right;
     const availableWidth = Math.floor(sideSpace - DETAIL_PANEL_OUTSIDE_GAP - viewportInset);
     const outside = availableWidth >= DETAIL_PANEL_MIN_OUTSIDE_WIDTH;
     context.panel.classList.toggle('graph-detail-outside', outside);
@@ -752,7 +741,7 @@
     });
 
     setProofMagnification(context, true);
-    placeDetailPanel(context, item.element);
+    placeDetailPanel(context);
     hideTooltip(context.container);
     if (renderPanel) renderDetailPanel(context, item.view);
     requestAnimationFrame(() => centerGraphSelection(context, related));
