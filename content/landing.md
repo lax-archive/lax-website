@@ -7,8 +7,7 @@ our own field.
 
 Proof systems like Lean provide a scalable way of ensuring the
 *correctness* of mathematics. This frees humans to spend their finite
-attention where it really matters: building *intuition*, *clarity*, and
-*abstractions*.
+attention on developing *intuition*, *clarity*, and *abstractions*.
 
 ## How it works
 

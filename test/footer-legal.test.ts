@@ -29,7 +29,10 @@ describe("footer and legal pages", () => {
     expect(impressum).toContain('<h1 class="paper-title">Imprint</h1>');
     const about = fs.readFileSync(path.join(root, "about.html"), "utf8");
     expect(about).toContain('<h1 class="paper-title">About Lax</h1>');
-    expect(about).toContain("<h2>Let's stay in control of mathematics</h2>");
+    expect(about).toContain("<h2>What a submission is</h2>");
+    expect(about).toContain('<figure class="content-figure"><img src="assets/concept-proof.svg"');
+    expect(about).toContain("<figcaption>Left: a concept file");
+    expect(about).not.toContain("Placeholder");
     // Without the introduction in the archive the header names only the about page.
     expect(about).not.toContain('>Introduction</a>');
     expect(impressum).toContain("Service providers");

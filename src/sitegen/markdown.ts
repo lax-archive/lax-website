@@ -1,6 +1,6 @@
 import { Marked, type Tokens } from "marked";
 import { crossrefExtension } from "./crossref.js";
-import { esc } from "./html.js";
+import { attr, esc } from "./html.js";
 import { mathExtension, renderInlineMath } from "./math.js";
 import type { SiteModel } from "./model.js";
 
@@ -49,6 +49,13 @@ export class MarkdownRenderer {
         },
         image(token: Tokens.Image): string | false {
           return inline || !safeUrl(token.href) ? esc(token.text) : false;
+        },
+        // A paragraph holding nothing but a titled image is a figure, with
+        // the title as its caption.
+        paragraph(token: Tokens.Paragraph): string | false {
+          const image = token.tokens.length === 1 ? token.tokens[0] as Tokens.Image : undefined;
+          if (inline || image?.type !== "image" || !image.title || !safeUrl(image.href)) return false;
+          return `<figure class="content-figure"><img src="${attr(image.href)}" alt="${attr(image.text)}"><figcaption>${esc(image.title)}</figcaption></figure>\n`;
         },
         text(token: Tokens.Text | Tokens.Escape): string {
           if ("tokens" in token && token.tokens) return this.parser.parseInline(token.tokens);

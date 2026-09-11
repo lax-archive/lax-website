@@ -41,25 +41,25 @@ const ACCOUNT_CONNECT_ORIGINS = [...new Set([
   new URL(REMARK42_IDENTITY_URL).origin,
 ])].join(" ");
 const BASE_CSP =
-  `default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src https: data:; font-src 'self'; frame-src ${REMARK42_ORIGIN}; connect-src ${ACCOUNT_CONNECT_ORIGINS}`;
+  `default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self'; frame-src ${REMARK42_ORIGIN}; connect-src ${ACCOUNT_CONNECT_ORIGINS}`;
 
 // The paper viewer runs pdf.js in a same-origin module worker and fetches
 // the PDF itself, so its page alone opens worker-src and same-origin
 // connect-src; every other page keeps the base policy.
 const PAPER_CSP =
-  `default-src 'none'; script-src 'self'; worker-src 'self'; style-src 'self' 'unsafe-inline'; img-src https: data:; font-src 'self'; frame-src ${REMARK42_ORIGIN}; connect-src 'self' ${ACCOUNT_CONNECT_ORIGINS}`;
+  `default-src 'none'; script-src 'self'; worker-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self'; frame-src ${REMARK42_ORIGIN}; connect-src 'self' ${ACCOUNT_CONNECT_ORIGINS}`;
 
 // The reflow page fetches its blocks from the same origin past the embed
 // budget (and its fonts, which the base policy already allows); it runs no
 // worker.
 const REFLOW_CSP =
-  `default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src https: data:; font-src 'self'; frame-src ${REMARK42_ORIGIN}; connect-src 'self' ${ACCOUNT_CONNECT_ORIGINS}`;
+  `default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self'; frame-src ${REMARK42_ORIGIN}; connect-src 'self' ${ACCOUNT_CONNECT_ORIGINS}`;
 
 function contentSecurityPolicy(scripts: string[]): string {
   if (scripts.includes("assets/manuscript.js")) return PAPER_CSP;
   if (scripts.includes("assets/manuscript-reflow.js")) return REFLOW_CSP;
   if (!scripts.includes("assets/comments.js")) return BASE_CSP;
-  return `default-src 'none'; script-src 'self' ${REMARK42_ORIGIN}; style-src 'self' 'unsafe-inline'; img-src https: data:; font-src 'self'; frame-src ${REMARK42_ORIGIN}; connect-src ${ACCOUNT_CONNECT_ORIGINS}`;
+  return `default-src 'none'; script-src 'self' ${REMARK42_ORIGIN}; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self'; frame-src ${REMARK42_ORIGIN}; connect-src ${ACCOUNT_CONNECT_ORIGINS}`;
 }
 
 function accountLoginHref(): string {

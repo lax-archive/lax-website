@@ -68,7 +68,7 @@ export async function generateSite(
   files.set("index.json", `${JSON.stringify(recordIndex(model), null, 2)}\n`);
   files.set("environments.json", `${JSON.stringify(environmentIndex(model), null, 2)}\n`);
   files.set(path.join("all-comments", "index.html"), allCommentsPage(context));
-  files.set("about.html", contentPage(context, "about", "About Lax", { warning: "<strong>Placeholder.</strong> This page is a first draft and will be rewritten." }));
+  files.set("about.html", contentPage(context, "about", "About Lax"));
   files.set("contributing.html", contentPage(context, "contributing", "Getting started"));
   files.set("impressum.html", contentPage(context, "impressum", "Imprint"));
   files.set("privacy.html", contentPage(context, "privacy", "Privacy Notice"));

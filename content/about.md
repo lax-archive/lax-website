@@ -1,25 +1,16 @@
-# About Lax
+# Lax
 
-## Let's stay in control of mathematics
+A new result passes through several stages before it becomes part of mathematics. It is
 
-AI is about to massively accelerate mathematical research. This will push the
-classical system of peer review and publishing beyond its limits. We need new,
-scalable mechanisms for digesting mathematics, or we risk losing control of
-our own field.
+- *proven:* a rigorous argument is found and checked;
+- *explained:* written up so that others can follow why it holds;
+- *accepted:* read, questioned, and vouched for by the community;
+- *absorbed:* restated in its natural generality, connected to its neighbours, and built upon.
 
-Publications serve (at least) two purposes:
-
-- **Correctness**: establishing which things are true, via rigorous technical
-  arguments.
-- **Understanding**: explaining why these things are true, by providing
-  intuition, clarity, and abstractions.
-
-Proof systems like Lean provide a scalable way of ensuring the *correctness*
-of mathematics. This frees humans to spend their finite attention where it
-really matters: building intuition, clarity, and abstractions. Lax is a
-community-run archive that annotates natural-language mathematics with Lean.
-Think of it as an arXiv for formalization: independent, citable submissions
-that people can read, software can check, and later work can build upon.
+AI systems and formal proofs now handle the first stage at scale.
+Lax is built for the stages that come after.
+It aligns formal proofs with natural-language arguments, lemma by lemma, so that the paper remains the place where a result is explained, and every step of that explanation is certified.
+It lets mathematicians review and endorse what is stated, and it lets later work import those statements, so that results grow into a connected body of theory.
 
 ## What a submission is
 
@@ -30,69 +21,33 @@ A Lax submission is a commit in a public git repository. It holds
   with a faithful Lean encoding. Claims are stated as Lean `axiom`s, without
   proof. Concepts depend only on other concepts and on mathlib, and they are
   written in plain, tactic-free Lean that a reader without a proof-assistant
-  background can follow;
+  background can follow. They are the part of a submission a mathematician can
+  check for meaning, and the part that later submissions build on;
 - **proofs**: a separate Lean package that restates each claim as a `theorem`
-  and proves it, using no axioms beyond Lean's own. Each proof records which
-  concepts it rests on and which one it concludes;
-- optionally a **paper**: a LaTeX document whose passages are annotated with
-  the concepts and proofs they correspond to. The same source can go to arXiv
-  and to Lax; the website renders it reflowed for the screen, beside the
-  as-printed PDF, with the Lean beside each marked passage.
+  and proves it. Each proof records which
+  concepts it rests on and which one it concludes. Proofs may be long and involved, Lean's kernel certifies that they
+  prove exactly the published claim, and that is the only judgement the archive
+  passes on them. Explaining the argument is the paper's job;
+- a **paper**: a LaTeX document whose passages are annotated with the concepts
+  and proofs they correspond to, for the headline result and for the lemmas
+  along the way. The same source can go to arXiv and to Lax; the website
+  renders it reflowed for the screen, beside the as-printed PDF, with the Lean
+  beside each marked passage.
 
 The concepts are the surface of the archive: they are what the website shows,
-what readers review, and what later submissions import. The proofs are the
-evidence behind that surface. They may be long, and are typically written by
-AI agents; Lean's kernel certifies that they prove exactly the published
-claim, and nothing else about them is judged.
+what readers review and endorse, and what later submissions import. The proofs
+are the evidence behind that surface. The paper is where the result is
+explained, with every marked step of the explanation backed by a proof.
+
+![A concept file beside the proof file that proves its claim.](assets/concept-proof.svg "Left: a concept file, as displayed on the website. Right: the matching proof file, as found in the submitter's repository.")
 
 Together, the proofs of a submission form its *proof network*: which claims
 are proven outright, which are proven relative to others, and which
 [proof obligations](open-proof-obligations.html) remain open. Any later
 submission can discharge an open obligation, and every result that rested on
 it is proven from that moment on. Stating a claim and proving it can thus be
-separate contributions by separate people.
-
-## Principles
-
-**The paper stays the paper.** Mathematics is still written for people to
-read. Lax does not ask for a different way of writing; it annotates what is
-written, where it stands, with the Lean that pins its meaning down.
-
-**Claims are separated from proofs.** Lean guarantees that a proof is
-correct. What Lean cannot check is whether the formal statement says what the
-mathematics means. Lax puts all human attention there: concepts are small
-and legible, and every one of them can be discussed, endorsed, or flagged on
-its page. Proofs are treated as opaque blobs, held to no standard but the
-kernel's.
-
-**Nobody hands down the definitions.** Concepts are shared across
-submissions. Whoever formalizes a paper first writes the definitions it
-needs; later papers import them instead of fixing their own, and common
-standards emerge by selection rather than by decree. Lax is a bet that formal
-mathematics can grow the way informal mathematics always has: as a literature
-of independent papers that build on one another without a central authority.
-
-**Submissions are immutable and citable.** As on arXiv, a registered
-submission never changes. Every page carries a ready-made BibTeX entry, and a
-revision is a new submission that supersedes the old one, which the website
-points readers to. Because Lean submissions can only build on each other when
-they share a mathlib version, Lax declares a *baseline* version of mathlib
-that advances rarely; submissions on any version are archived, but only those
-on the baseline can be built upon.
-
-**Everything is open.** The command-line tool, the website generator, the
-submission pipeline, the archive's metadata, every submission, and every
-generated artifact are public and reusable under open licenses.
-
-**Trust is earned, not asked for.** A claim marked as proven on the website
-means our pipeline verified the proof. If you would rather not take our word
-for it, the Lean code of every submission is public, and you can reproduce
-the relevant part of the pipeline yourself: check that the project builds,
-that the proof package uses no extra axioms, and that the type of each
-`axiom` in the concepts matches the type of the corresponding `theorem` in
-the proofs. The versions of Lean, Lake, and mathlib are part of the
-submission's metadata. Run such checks in a sandbox: Lean code written by an
-agent need not be safe, even when the submitter is someone you know.
+separate contributions by separate people. As submissions import each
+other's concepts, the archive grows into one connected body of results.
 
 ## How Lax is built
 
@@ -110,8 +65,7 @@ Lax consists of three parts, all of them open source:
   submissions, and served from GitHub Pages. Readers sign in with their ORCID
   iD to comment on and endorse concepts.
 
-The archive's metadata, the submissions, and the generated artifacts are all
-public: the website can be rebuilt by anyone, and so can any submission.
+The archive's code, metadata, the submissions, and the generated artifacts are all public.
 
 ## Where to go next
 
@@ -124,6 +78,4 @@ public: the website can be rebuilt by anyone, and so can any submission.
 ## Who we are
 
 Lax is a project by Édouard Bonnet (CNRS, ENS Lyon), Jan Dreier (TU Wien and
-HPI Potsdam), and Clemens Kuske (TU Wien and HPI Potsdam). We are curious to know
-what you think we should do next: submit your formalized results, review
-concepts, and reach out with comments and suggestions.
+HPI Potsdam), and Clemens Kuske (TU Wien and HPI Potsdam).
