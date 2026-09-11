@@ -919,17 +919,32 @@ After the formula.`, "");
 
   it("renders an archive-wide, searchable view of open proof obligations", async () => {
     const root = tmpDir("lax-site-proof-obligations-");
-    await generateSite([...submissions(), ...graphSubmissions()], root);
+    const archive = [...submissions(), ...graphSubmissions()];
+    // A registered, explicitly annotated open question is listed.
+    archive.find(({ record }) => record.id === "Lax4")!.output!.concepts[0]!.type = "open question";
+    // An unproven theorem is not an open question.
+    archive.find(({ record }) => record.id === "Lax4")!.output!.concepts[1]!.type = "theorem";
+    // Even an explicitly annotated open question stays out while its
+    // submission is a draft.
+    const draft = archive.find(({ record }) => record.id === "Lax3")!;
+    draft.record.state = "draft";
+    draft.output!.concepts[0]!.type = "open question";
+    draft.output!.concepts[0]!.statements = [{ id: "Lax3.Middle.open", signature: "open : True" }];
+    // A grounded statement does not remain a proof obligation even if its
+    // concept is still annotated as an open question.
+    archive.find(({ record }) => record.id === "Lax2")!.output!.concepts[0]!.type = "open question";
+    await generateSite(archive, root);
     const html = fs.readFileSync(path.join(root, "open-proof-obligations.html"), "utf8");
 
-    expect(html).toContain("2 proof obligations · 2 open statements · 1 submission");
+    expect(html).toContain("1 proof obligation · 1 open statement · 1 submission");
     expect(html).toContain('placeholder="Search proof obligations"');
     expect(html).toContain('id="open-problems-list"');
-    expect(html).toContain('data-type="theorem"');
+    expect(html).toContain('data-type="open question"');
     expect(html).toContain('href="Lax4/Lax4.Top.html"');
-    expect(html).toContain('href="Lax4/Lax4.Aux.html"');
     expect(html).toContain("Lax4.Top.a");
-    expect(html).toContain("Lax4.Aux.b");
+    expect(html).not.toContain('href="Lax4/Lax4.Aux.html"');
+    expect(html).not.toContain("Lax4.Aux.b");
+    expect(html).not.toContain("Lax3.Middle.open");
     expect(html).not.toContain('href="Lax2/Lax2.C.html"');
     expect(html).not.toContain('href="Lax1/Lax1.Base.html"');
   });

@@ -8,11 +8,15 @@ export interface OpenProblem {
   openStatements: StatementEntry[];
 }
 
-/** Claim-concepts with at least one statement outside the proof network's
- * least fixed point. Definitions have no statements and therefore stay out. */
+/** Registered open-question concepts with at least one statement outside the
+ * proof network's least fixed point. Unproven theorems are ordinary proof
+ * work within a submission, not archive-wide open questions. */
 export function collectOpenProblems(model: SiteModel): OpenProblem[] {
   return [...model.conceptHome.values()]
-    .filter((located) => !model.isSuperseded(located.output.id))
+    .filter(({ submission, output, concept }) =>
+      submission.record.state === "registered"
+      && !model.isSuperseded(output.id)
+      && concept.type!.trim().toLowerCase() === "open question")
     .map((located) => ({
       located,
       openStatements: located.concept.statements.filter((statement) =>
@@ -98,7 +102,7 @@ ${problem.openStatements.map((statement) => statementRow(ctx, problem, statement
 </li>`;
 }
 
-/** Archive-wide index of proof obligations that are not yet grounded. */
+/** Archive-wide index of registered open questions that are not yet grounded. */
 export function openProblemsPage(ctx: PageContext): string {
   const problems = collectOpenProblems(ctx.model);
   const statementCount = problems.reduce((sum, problem) => sum + problem.openStatements.length, 0);
@@ -108,12 +112,12 @@ export function openProblemsPage(ctx: PageContext): string {
 <p class="paper-meta">${plural(problems.length, "proof obligation")} · ${plural(statementCount, "open statement")} · ${plural(submissionCount, "submission")}</p>
 </header>
 <div class="open-problems-intro latex-content">
-<p>These proof obligations have at least one statement that is not yet supported by a grounded chain of archived proofs. Status is computed across the whole archive; draft submissions are included.</p>
+<p>Each registered submission below contains an open question that is not yet supported by a grounded chain of archived proofs.</p>
 </div>
 ${problems.length ? `<ul class="open-problems-list" id="open-problems-list">
 ${problems.map((problem) => problemRow(ctx, problem)).join("\n")}
 <li id="open-problems-list-empty" class="open-problems-empty" hidden>No proof obligations match.</li>
-</ul>` : `<p class="open-problems-empty">There are currently no open proof obligations; every claim in the archive has a grounded proof.</p>`}`;
+</ul>` : `<p class="open-problems-empty">There are currently no open proof obligations in registered submissions.</p>`}`;
   return page({
     title: "Open Proof Obligations — Lax Lean Archive",
     rootRel: "",
