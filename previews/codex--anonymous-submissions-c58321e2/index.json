@@ -1294,6 +1294,11 @@
       "title": "Planar Graph Classes",
       "concepts": [
         {
+          "id": "Lax68.ConnectedFourTerminalDichotomy",
+          "title": "Four terminals in a connected graph",
+          "type": "theorem"
+        },
+        {
           "id": "Lax68.ConnectedThreeFan",
           "title": "Three vertices in a connected graph have a three-fan",
           "type": "theorem"
@@ -1302,6 +1307,11 @@
           "id": "Lax68.ExcludedMinorsKuratowskiFree",
           "title": "Excluding the two minors excludes their subdivisions",
           "type": "theorem"
+        },
+        {
+          "id": "Lax68.FourTerminalFans",
+          "title": "Four-terminal fans",
+          "type": "definition"
         },
         {
           "id": "Lax68.GraphMinors",
@@ -1479,6 +1489,11 @@
           "type": "theorem"
         },
         {
+          "id": "Lax68.TreeFourTerminalDichotomy",
+          "title": "Four terminals in a tree",
+          "type": "theorem"
+        },
+        {
           "id": "Lax68.TreeOuterplanar",
           "title": "Trees are outerplanar",
           "type": "theorem"
@@ -1555,10 +1570,12 @@
         }
       ],
       "proofs": [
+        "Lax68Proofs.ConnectedFourTerminalDichotomy.exists_fourFan_or_split",
         "Lax68Proofs.ConnectedThreeFan.exists_threeFan",
         "Lax68Proofs.excludedMinors_kuratowskiFree",
         "Lax68Proofs.halin_planar",
         "Lax68Proofs.K33MinorTopologicalObstruction.k33Minor_topologicalMinor",
+        "Lax68Proofs.K5MinorTopologicalObstruction.k5Minor_topologicalObstruction",
         "Lax68Proofs.kuratowskiFree_excludedMinors",
         "Lax68Proofs.kuratowskiFree_iff_excludedMinors",
         "Lax68Proofs.ladder_grid",
@@ -1574,6 +1591,7 @@
         "Lax68Proofs.TopologicalMinorToMinor.isMinor_of_isTopologicalMinor",
         "Lax68Proofs.tree_exists_threeFan",
         "Lax68Proofs.tree_planar",
+        "Lax68Proofs.TreeFourTerminalDichotomy.exists_fourFan_or_split",
         "Lax68Proofs.triangle_outerplanar",
         "Lax68Proofs.triangle_planar",
         "Lax68Proofs.triangulationOf_planar",
@@ -2585,33 +2603,6 @@
         "Lax434930Proofs.Certificates.pair_injective",
         "Lax434930Proofs.Certificates.pair_length",
         "Lax434930Proofs.Certificates.unpair_pair"
-      ]
-    },
-    {
-      "id": "lax-485480",
-      "state": "draft",
-      "environment": "v4.30.0",
-      "title": "Welzl Trees of Cographs",
-      "concepts": [
-        {
-          "id": "Lax485480.CographWelzlTreeLowerBound",
-          "title": "Cographs can require logarithmic Welzl trees",
-          "type": "theorem"
-        },
-        {
-          "id": "Lax485480.CographWelzlTreeUpperBound",
-          "title": "Cographs have logarithmic Welzl trees",
-          "type": "theorem"
-        },
-        {
-          "id": "Lax485480.WelzlTrees",
-          "title": "Welzl trees",
-          "type": "definition"
-        }
-      ],
-      "proofs": [
-        "Lax485480Proofs.CographWelzlTreeLowerBound.exists_cograph_requiring_treeCrossingNumber_at_least",
-        "Lax485480Proofs.CographWelzlTreeUpperBound.exists_welzlTree_crossingNumber_le_four_clog_add_one"
       ]
     },
     {
