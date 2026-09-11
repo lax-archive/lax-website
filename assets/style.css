@@ -1623,7 +1623,7 @@ a.submission-meta-id:is(:hover, :focus-visible),
 }
 
 #detail.detail-landing{ width: min(100%, 72em); }
-.detail-landing .landing-action-panels,
+.detail-landing .landing-action-panels{ max-width: 60em; margin-inline: auto; }
 .detail-landing .landing-faq{ max-width: 52em; margin-inline: auto; }
 
 #detail .landing-section-title{
@@ -2008,9 +2008,63 @@ a.submission-meta-id:is(:hover, :focus-visible),
 .landing-paper-rail .manuscript-card-body{ max-height: 38rem; overflow: auto; }
 .landing-paper-rail .manuscript-card-source{ max-height: none; overflow: visible; }
 
-/* Getting started: a plain section, its commands in code blocks. */
-.landing-plain-section{ margin: 3rem auto 0; }
+/* Getting started and foundations are separate, bordered units, with their
+   headings in the page flow above the boxes like the earlier sections. */
+.landing-section-box{
+  width: 100%;
+  padding: 1.55rem clamp(1.15rem, 3vw, 2rem) 1.7rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  box-shadow: 0 6px 18px rgba(43, 43, 43, 0.05);
+}
+
+.landing-section-box > .landing-section-copy{
+  max-width: 40em;
+  margin-inline: auto;
+}
+
+.landing-plain-section{ max-width: 60em; margin: 3rem auto 0; }
 .landing-plain-section pre{ margin: 0.6rem 0 1rem; }
+
+.landing-setup-tabs,
+.landing-setup-panel{
+  max-width: 40em;
+  margin-inline: auto;
+}
+
+.landing-setup-tab-list{
+  display: flex;
+  width: fit-content;
+  margin: 0 auto 1.15rem;
+  padding: 0.18rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-control);
+  background: var(--panel-bg);
+}
+
+.landing-setup-tab{
+  min-height: 2.15rem;
+  padding: 0.42rem 0.78rem;
+  border: 0;
+  border-radius: calc(var(--radius-control) - 1px);
+  background: transparent;
+  color: var(--text-dim);
+  font: inherit;
+  font-size: 0.84rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.landing-setup-tab[aria-selected="true"]{
+  background: var(--surface);
+  color: var(--accent);
+  box-shadow: 0 1px 4px rgba(43, 43, 43, 0.14);
+}
+
+.landing-setup-tab:hover{ color: var(--accent); }
+.landing-setup-tab:focus-visible{ outline: 2px solid rgba(59, 107, 154, 0.38); outline-offset: 1px; }
+.landing-setup-panel[hidden]{ display: none; }
 
 /* Three columns of plain text. Text, not tiles. */
 .landing-columns-section{ max-width: none; margin: 3rem auto 0; }
@@ -2049,8 +2103,7 @@ a.submission-meta-id:is(:hover, :focus-visible),
 /* The foundations: a paragraph, then the definitions as links, each with
    its type badge, its submission, and how many further submissions build
    on it. */
-.landing-foundations{ max-width: none; margin: 3rem auto 0; }
-.landing-foundations > .landing-section-copy{ max-width: 40em; margin-inline: auto; }
+.landing-foundations{ max-width: 60em; margin: 3rem auto 0; }
 
 .landing-foundation-list{
   display: flex;
@@ -2168,9 +2221,18 @@ a.submission-meta-id:is(:hover, :focus-visible),
 }
 
 .landing-action-panel-heading{
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1rem;
   margin-bottom: 0.9rem;
   padding-bottom: 0.65rem;
   border-bottom: 1px solid var(--border-light);
+}
+
+.submissions-library-search{
+  flex: 0 1 15rem;
+  width: min(100%, 15rem);
 }
 
 .landing-action-eyebrow{
@@ -3928,6 +3990,7 @@ body.graph-window-open::after{
   .discussion-embed-shell{ margin-inline: -0.25rem; padding-inline: 0.45rem; }
   .landing-hero{ margin-bottom: 2.2rem; }
   .landing-section, .landing-paper{ margin-bottom: 2.2rem; }
+  .landing-section-box{ padding: 1.15rem 1rem 1.25rem; }
   .landing-manifesto, .landing-section-copy{ font-size: 0.98rem; }
   .landing-paper-frame{ --frame-pad-top: 1.1rem; --frame-pad-right: 0.9rem; --frame-pad-left: 1rem; padding-bottom: 1rem; }
   .landing-paper-grid{ grid-template-columns: 1fr; row-gap: 0.9rem; }
@@ -3948,6 +4011,8 @@ body.graph-window-open::after{
   .landing-foundation{ width: 100%; }
   .landing-hero-button{ width: 100%; }
   .landing-action-panel{ padding: 1rem; }
+  .landing-action-panel-heading{ display: grid; align-items: stretch; }
+  .submissions-library-search{ width: 100%; }
   .landing-faq-item summary{ min-height: 3.1rem; padding: 0.5rem 0.65rem; }
   .landing-faq-question{ grid-template-columns: 1.15rem minmax(0, 1fr); gap: 0.2rem; font-size: 0.88rem; }
   .landing-faq-answer{ padding: 0 2.75rem 0.8rem 2rem; font-size: 0.9rem; }
@@ -3961,6 +4026,11 @@ body.graph-window-open::after{
   .version-history-dialog{ width: calc(100vw - 1rem); padding: 1rem; }
   .version-item-actions{ align-items: flex-end; }
   .version-open-link{ flex: 1 1 100%; margin-left: 0; }
+}
+
+@media (max-width: 340px){
+  .site-header.landing-header .site-nav{ gap: 0.45rem; }
+  .site-header.landing-header .site-nav-link{ font-size: 0.68rem; }
 }
 
 @media (hover: none){
