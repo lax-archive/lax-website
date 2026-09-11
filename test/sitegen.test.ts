@@ -676,7 +676,8 @@ After the formula.`, "");
     expect(index.indexOf("landing-plain-section")).toBeLessThan(index.indexOf('id="landing-library-heading"'));
     // Getting started: a plain section with the two commands, no tiles.
     expect(index).toContain('<h2 class="landing-section-title" id="landing-start-heading">Get started right away</h2>');
-    expect(index).toContain('<section class="landing-section landing-plain-section landing-boxed-section landing-setup"');
+    expect(index).toContain('<section class="landing-section landing-plain-section landing-setup"');
+    expect(index).toContain('<h2 class="landing-section-title" id="landing-start-heading">Get started right away</h2>\n<div class="landing-section-box">');
     expect(index).toContain('<div class="landing-setup-tab-list" role="tablist" aria-label="Choose your operating system">');
     expect(index).toContain('role="tab" id="landing-setup-unix-tab" aria-selected="true" aria-controls="landing-setup-unix-panel" tabindex="0">Linux / macOS</button>');
     expect(index).toContain('role="tab" id="landing-setup-windows-tab" aria-selected="false" aria-controls="landing-setup-windows-panel" tabindex="-1">Windows</button>');
@@ -877,7 +878,8 @@ After the formula.`, "");
     // The foundations: the listed definitions the archive holds, with how
     // many further submissions build on them.
     expect(index).toContain('<h2 class="landing-section-title" id="landing-foundations-heading">Build foundations together</h2>');
-    expect(index).toContain('<section class="landing-section landing-foundations landing-boxed-section"');
+    expect(index).toContain('<section class="landing-section landing-foundations"');
+    expect(index).toContain('<h2 class="landing-section-title" id="landing-foundations-heading">Build foundations together</h2>\n<div class="landing-section-box">');
     expect(index).toContain('<li><a class="landing-foundation" href="lax-67/Lax67.Ram.html" title="Lax67.Ram">\n<span class="type-badge" title="definition">def</span><span class="landing-foundation-title">The word RAM</span>\n<span class="landing-foundation-meta"><span class="submission-meta-id">lax-67</span><span class="landing-foundation-uses">built on in 1 further submission</span></span>\n</a></li>');
     expect(index).toContain('href="lax-48/Lax48.TwinWidth.html" title="Lax48.TwinWidth"');
     expect(index).toContain('<span class="submission-meta-id">lax-48</span><span class="landing-foundation-uses">built on in 1 further submission</span>');

@@ -316,13 +316,15 @@ function landingSetupSection(heading: string, section: string, markdown: PageCon
   const panels = tabs.map(({ id, body }, index) => `<div class="landing-setup-panel landing-section-copy latex-content" id="landing-setup-${id}-panel" role="tabpanel" aria-labelledby="landing-setup-${id}-tab"${index === 0 ? "" : " hidden"}>
 ${markdown.render(body, "")}
 </div>`);
-  return `<section class="landing-section landing-plain-section landing-boxed-section landing-setup" aria-labelledby="landing-start-heading">
+  return `<section class="landing-section landing-plain-section landing-setup" aria-labelledby="landing-start-heading">
 <h2 class="landing-section-title" id="landing-start-heading">${esc(heading)}</h2>
+<div class="landing-section-box">
 <div class="landing-setup-tabs" data-setup-tabs>
 <div class="landing-setup-tab-list" role="tablist" aria-label="Choose your operating system">
 ${controls.join("\n")}
 </div>
 ${panels.join("\n")}
+</div>
 </div>
 </section>`;
 }
@@ -348,14 +350,16 @@ ${typeBadge(located.concept.type)}<span class="landing-foundation-title">${markd
 </a></li>`];
   });
   if (!items.length) return "";
-  return `<section class="landing-section landing-foundations landing-boxed-section" aria-labelledby="landing-foundations-heading">
+  return `<section class="landing-section landing-foundations" aria-labelledby="landing-foundations-heading">
 <h2 class="landing-section-title" id="landing-foundations-heading">${esc(heading)}</h2>
+<div class="landing-section-box">
 <div class="landing-section-copy latex-content">
 ${markdown.render(prose, "")}
 </div>
 <ul class="landing-foundation-list">
 ${items.join("\n")}
 </ul>
+</div>
 </section>`;
 }
 
