@@ -326,8 +326,8 @@ export function sourceButton(href: string, label: string): string {
 }
 
 /** The button-shaped counterpart to an unavailable anonymous source link. */
-export function withheldSourceButton(label = "Lean proof source withheld"): string {
-  return `<span class="source-button source-button-withheld" aria-disabled="true" title="Unavailable during anonymous review">${ANONYMITY_LOCK}<span>${esc(label)}</span></span>`;
+export function withheldSourceButton(label = "Verified Lean proof · source withheld"): string {
+  return `<span class="source-button source-button-withheld" aria-disabled="true" title="A Lean-checked proof exists; its source is unavailable during anonymous review">${ANONYMITY_LOCK}<span>${esc(label)}</span></span>`;
 }
 
 /** The hosted link to a submission's whole proof package — `proofs/` is a

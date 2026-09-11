@@ -123,7 +123,7 @@ export async function conceptPage(ctx: PageContext, located: LocatedConcept): Pr
     if (!proofLinks.length || declarationLine === undefined) return "";
     return `<span class="source-proof-rail" data-source-line="L${declarationLine}" aria-label="Proof links">${proofLinks.map((link, index) => {
       if (link.withheld)
-        return `<span class="statement-proof-button statement-proof-button-withheld" aria-disabled="true" title="${attr(`Proof ${link.id} source unavailable during anonymous review`)}"><span class="anonymity-lock" aria-hidden="true">🔒</span><span class="statement-proof-label">Proof source withheld</span></span>`;
+        return `<span class="statement-proof-button statement-proof-button-withheld" aria-disabled="true" title="${attr(`A Lean-checked proof (${link.id}) exists; its source is unavailable during anonymous review`)}"><span class="anonymity-lock" aria-hidden="true">🔒</span><span class="statement-proof-label">Verified proof · source withheld</span></span>`;
       const label = proofLinks.length === 1 ? "Show Proof" : `Show Proof ${index + 1}`;
       return `<a class="statement-proof-button" href="${attr(link.href)}" aria-label="${attr(`View proof ${link.id} on ${link.provider}`)}" title="${attr(link.id)}"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">${label}</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a>`;
     }).join("")}</span>`;

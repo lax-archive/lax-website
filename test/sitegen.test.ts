@@ -693,10 +693,12 @@ After the formula.`, "");
     expect(submission).toContain("Endorser identities are withheld during anonymous review.");
 
     expect(concept).toContain('class="statement-proof-button statement-proof-button-withheld" aria-disabled="true"');
-    expect(concept).toContain("Proof source withheld");
+    expect(concept).toContain("Verified proof · source withheld");
+    expect(concept).toContain("A Lean-checked proof (Lax2Proofs.truth) exists; its source is unavailable during anonymous review");
     expect(concept).toContain('data-anonymous-review="true"');
     expect(proof).toContain('class="source-button source-button-withheld" aria-disabled="true"');
-    expect(proof).toContain("Lean proof source withheld");
+    expect(proof).toContain("Verified Lean proof · source withheld");
+    expect(proof).toContain("A Lean-checked proof exists; its source is unavailable during anonymous review");
   });
 
   it("weights review concepts by distinct external submissions and reports both reuse counts", async () => {
