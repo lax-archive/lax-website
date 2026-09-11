@@ -1126,6 +1126,8 @@ After the formula.`, "");
     expect(css).toContain(".graph-edge-route.graph-selected .net-edge");
     expect(css).toContain(".graph-edge-route.is-interactive .net-edge{ pointer-events: none; }");
     expect(css).toContain(".graph-detail-scroll{");
+    expect(css).toContain(".graph-detail-formalization{ width: 100%; min-width: 0; }");
+    expect(css).toContain("max-width: none;");
     const layoutScript = fs.readFileSync(path.join(root, "assets", "layout.js"), "utf8");
     expect(layoutScript).toContain("optimizeOrdering");
     expect(layoutScript).toContain("removeRepeatedCrossings");

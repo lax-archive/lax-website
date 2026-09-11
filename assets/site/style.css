@@ -3624,7 +3624,7 @@ body.graph-window-open::after{
   overscroll-behavior: contain;
   scrollbar-gutter: stable;
 }
-.graph-detail-body{ padding-right: 1.8rem; }
+.graph-detail-body{ min-width: 0; }
 .graph-detail-eyebrow{
   margin: 0 0 0.18rem;
   color: var(--accent);
@@ -3632,6 +3632,8 @@ body.graph-window-open::after{
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
+.graph-detail-eyebrow,
+.graph-detail-body > h3{ padding-right: 1.8rem; }
 .graph-detail-body > h3{
   margin: 0 0 0.55rem;
   font-size: 1.28rem;
@@ -3689,6 +3691,7 @@ body.graph-window-open::after{
   line-height: 1.4;
 }
 .graph-detail-prose{ font-size: 0.84rem; }
+.graph-detail-formalization{ width: 100%; min-width: 0; }
 .graph-detail-formalization + .graph-detail-formalization{ margin-top: 0.55rem; }
 .graph-detail-formalization.is-focused{
   margin-inline: -0.35rem;
@@ -3702,6 +3705,8 @@ body.graph-window-open::after{
   font: 0.66rem/1.3 var(--mono);
 }
 .graph-detail-formalization pre{
+  width: 100%;
+  max-width: none;
   margin: 0;
   padding: 0.55rem 0.65rem;
   overflow: auto;
