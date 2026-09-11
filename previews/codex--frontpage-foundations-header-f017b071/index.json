@@ -2606,33 +2606,6 @@
       ]
     },
     {
-      "id": "lax-485480",
-      "state": "draft",
-      "environment": "v4.30.0",
-      "title": "Welzl Trees of Cographs",
-      "concepts": [
-        {
-          "id": "Lax485480.CographWelzlTreeLowerBound",
-          "title": "Cographs can require logarithmic Welzl trees",
-          "type": "theorem"
-        },
-        {
-          "id": "Lax485480.CographWelzlTreeUpperBound",
-          "title": "Cographs have logarithmic Welzl trees",
-          "type": "theorem"
-        },
-        {
-          "id": "Lax485480.WelzlTrees",
-          "title": "Welzl trees",
-          "type": "definition"
-        }
-      ],
-      "proofs": [
-        "Lax485480Proofs.CographWelzlTreeLowerBound.exists_cograph_requiring_treeCrossingNumber_at_least",
-        "Lax485480Proofs.CographWelzlTreeUpperBound.exists_welzlTree_crossingNumber_le_four_clog_add_one"
-      ]
-    },
-    {
       "id": "lax-489179",
       "state": "draft",
       "environment": "v4.30.0",
