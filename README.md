@@ -35,13 +35,14 @@ Build the complete static website into `_site/`:
 
 ```sh
 npm run papers:fetch   # once per database change; see "Papers" below
+npm run references:fetch
 npm run site:build
 ```
 
-Previews and quick local builds can skip the papers entirely:
+Quick local builds can skip the papers and compiler reference cache:
 
 ```sh
-npm run site:build -- --no-papers
+npm run site:build -- --no-papers --no-references
 ```
 
 Preview it locally and rebuild when database, content, or assets change:
@@ -125,6 +126,42 @@ bytes therefore differ from production's, deterministically per flag set).
 - In the line-numbered Lean source, `$...$` and `$$...$$` inside comments are
   rendered as inline and display math; dollar text in Lean code and strings is
   left unchanged.
+- Lean source links, on concept pages and paper cards, use Lean's resolved
+  references from the submission's sealed `.ilean` files. This covers archive
+  declarations, structure keys and projections, aliases, private globals and
+  constructors, with type and scope information from the validated build.
+  Local variables, external library names (including Mathlib), and names at
+  their own definition sites stay plain. Imported archive module names link
+  to their concept pages. Archive namespaces in `open` commands link to their
+  owning concept or declaration; standalone submission namespaces such as
+  `Lax17` link to the submission page, as do displayed `lax-17` metadata labels
+  on other pages. The ID beneath a submission's own title stays plain.
+  Namespace navigation uses known, unambiguous destinations within the
+  module's archive imports. Declaration uses link to the
+  beginning of the declaration's preceding comments (or its attributes and
+  modifiers when there are no comments); statements retain their `s-…` anchors
+  at the same comment start. Source targets align below the sticky header, with
+  enough scroll space for short pages. Hover and keyboard focus use bold
+  text. Generated helpers without their own source span link to the nearest
+  enclosing declaration, or the module if no enclosing span exists.
+- `npm run references:fetch` fills `data/references/<sha256>.ilean` from the
+  existing public captures. It uses bounded HTTP ranges, checks each tar
+  header and member digest, and verifies the displayed source against the
+  capture manifest. It neither extracts tar paths nor compiles submissions.
+  Builds reverify cached bytes and validate Lean's version-5 JSON and UTF-16
+  ranges. Missing, stale or unsupported metadata fails a normal archive build
+  with an explanatory error. `--references DIR` moves the cache. Both CI and
+  branch deployments fetch it before building.
+- Local `lax` callers without sealed captures, and explicit `--no-references`
+  builds, retain conservative lexical navigation. That fallback does not
+  promise complete coverage: fields, aliases and potentially shadowed names
+  need compiler metadata. Normal archive and preview builds use the metadata.
+- Source links are static relative URLs to generated pages. They preserve
+  syntax colours, source text and line anchors, work in branch previews, and
+  require no browser scripts, external requests or CSP changes. Each build
+  scans each concept once for its declaration inventory and caches resolved
+  links; rendering walks highlighted fragments without repeated whole-source
+  replacements or scanning every reference on every line.
 - Records whose state is still `init` are id reservations, not submissions;
   website builds ignore them completely.
 - A record with a `paper` block additionally gets `<id>/paper.html` (and
@@ -176,8 +213,8 @@ deployed.
 ## Automation and triggers
 
 `.github/workflows/ci.yml` verifies pull requests and pushes, builds against
-the real public archive database (fetching the compiled papers through a
-cached `data/papers/`), and uploads the rendered site as an artifact.
+the real public archive database (fetching papers, reflow bundles and compiler
+references through local caches), and uploads the rendered site as an artifact.
 
 `.github/workflows/deploy-pages.yml` builds and deploys GitHub Pages when:
 

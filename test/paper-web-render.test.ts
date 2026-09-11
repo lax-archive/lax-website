@@ -7,6 +7,7 @@ import { chromium, type Browser, type Page } from "playwright-core";
 import { SITE_MIME } from "../src/sitegen/assets.js";
 import { generateSite } from "../src/sitegen/generate.js";
 import { tmpDir } from "./helpers.js";
+import { referenceSubmission } from "./lean-reference-fixture.js";
 
 // The real end-check: the fixture bundle rendered by the vendored viewer in
 // headless Chromium, over HTTP so the page's own CSP governs every fetch.
@@ -34,12 +35,13 @@ describe.skipIf(!executable)("the reflow surface, rendered", () => {
   let browser: Browser;
   let server: http.Server;
   let base: string;
+  let root: string;
   const consoleErrors: string[] = [];
   const pageErrors: string[] = [];
   const failedRequests: string[] = [];
 
   beforeAll(async () => {
-    const root = tmpDir("lax-site-rendered-");
+    root = tmpDir("lax-site-rendered-");
     await generateSite(attachFixturePaper(), root, { log: () => {} });
     server = http.createServer((request, response) => {
       const relative = decodeURIComponent(new URL(request.url ?? "/", "http://localhost").pathname).replace(/^\/+/u, "");
@@ -83,6 +85,71 @@ describe.skipIf(!executable)("the reflow surface, rendered", () => {
 
   const lineCount = (page: Page) =>
     page.evaluate(() => document.querySelectorAll(".latex-block svg > text").length);
+
+  it("lands source links at their leading comments below the header, with bold focus", async () => {
+    const submissions = attachFixturePaper();
+    const [target, caller] = submissions[0]!.output!.concepts;
+    target!.sourceText = [
+      "namespace Lax21.One", "-- Definition introduction.", "/-- The definition's documentation. -/",
+      "@[simp]", "def value : Nat := 1", "-- Statement introduction.",
+      "/-- The statement's documentation. -/", "axiom eq : True", "def copy : Nat := value", "end Lax21.One",
+    ].join("\n");
+    target!.statements = [{ id: "Lax21.One.eq", signature: "eq : True", startLine: 7, endLine: 8 }];
+    caller!.sourceText = "import Lax21.One\n#check Lax21.One.value\n#check Lax21.One.eq";
+    caller!.imports = [target!.id];
+    await generateSite(submissions, path.join(root, "previews", "navigation"), { log: () => {} });
+    await generateSite([referenceSubmission()], path.join(root, "previews", "fields"), { log: () => {} });
+    for (const options of [
+      { viewport: { width: 1500, height: 1200 }, javaScriptEnabled: true },
+      { viewport: { width: 390, height: 800 }, javaScriptEnabled: true },
+      { viewport: { width: 1500, height: 1200 }, javaScriptEnabled: false },
+    ]) {
+      const page = await browser.newPage(options);
+      await watch(page);
+      for (const [name, fragment, row] of [["value", "L2", "L2"], ["eq", "s-Lax21.One.eq", "L6"]]) {
+        await page.goto(`${base}/previews/navigation/lax-21/Lax21.Zero.html`, { waitUntil: "load" });
+        const link = page.locator(".lean-identifier-link").filter({ hasText: `Lax21.One.${name}` });
+        await link.hover();
+        expect(await link.evaluate((element) => ({
+          weight: getComputedStyle(element).fontWeight,
+          decoration: getComputedStyle(element).textDecorationLine,
+        }))).toEqual({ weight: "700", decoration: "none" });
+        await page.mouse.move(0, 0);
+        await link.focus();
+        expect(await link.evaluate((element) => getComputedStyle(element).fontWeight)).toBe("700");
+        await link.press("Enter");
+        await page.waitForURL(`${base}/previews/navigation/lax-21/Lax21.One.html#${fragment}`);
+        await page.evaluate(() => document.fonts.ready);
+        await page.waitForFunction((id) => {
+          const top = document.getElementById(id!)!.getBoundingClientRect().top;
+          const header = document.querySelector(".site-header")!.getBoundingClientRect().bottom;
+          return Math.abs(top - header) < 2;
+        }, row);
+        expect(await page.locator(`#${row}`).textContent()).toContain("introduction.");
+        expect(await page.locator("#L5 .lean-identifier-link, #L8 .lean-identifier-link").count()).toBe(0);
+        const local = page.locator("#L9 .lean-identifier-link");
+        expect(await local.textContent()).toBe("value");
+        await page.locator(".source-proof-rail a").first().click({ trial: true });
+        await local.click();
+        await page.waitForURL(`${base}/previews/navigation/lax-21/Lax21.One.html#L2`);
+        await page.waitForFunction(() => Math.abs(document.getElementById("L2")!.getBoundingClientRect().top -
+          document.querySelector(".site-header")!.getBoundingClientRect().bottom) < 2);
+      }
+      const fieldsPage = `${base}/previews/fields/lax-17/Lax17.Fields.html`;
+      for (const [row, name, target] of [[14, "value", 6], [14, "enabled", 8], [15, "value", 6], [17, "value", 12], [20, "Packet", 4]]) {
+        await page.goto(fieldsPage, { waitUntil: "load" });
+        const link = page.locator(`#L${row} .lean-identifier-link`).filter({ hasText: new RegExp(`^${name}$`, "u") });
+        expect(await link.count()).toBe(1);
+        expect(await page.locator("#L7 .lean-identifier-link, #L9 .lean-identifier-link, #L12 .lean-identifier-link, #L29 .lean-identifier-link").count()).toBe(0);
+        await link.click();
+        await page.waitForURL(`${fieldsPage}#L${target}`);
+        await page.evaluate(() => document.fonts.ready);
+        await page.waitForFunction((id) => Math.abs(document.getElementById(`L${id}`)!.getBoundingClientRect().top -
+          document.querySelector(".site-header")!.getBoundingClientRect().bottom) < 2, target);
+      }
+      await page.close();
+    }
+  }, 60_000);
 
   it("paints SVG text, anchors the marks, places a card beside its passage, and reflows", async () => {
     const page = await browser.newPage({ viewport: { width: 1500, height: 1000 } });
@@ -247,8 +314,9 @@ describe.skipIf(!executable)("the reflow surface, rendered", () => {
     // Widening the screen moves the open card back beside the text.
     await page.setViewportSize({ width: 1400, height: 800 });
     await page.waitForFunction(() => {
-      const card = document.getElementById("m4-card")!;
-      return card.parentElement!.id === "manuscript-rail-reflow" && card.classList.contains("manuscript-card-expanded") && card.style.top !== "";
+      // Reflow can briefly detach the card; keep polling until it is placed.
+      const card = document.getElementById("m4-card");
+      return card?.parentElement?.id === "manuscript-rail-reflow" && card.classList.contains("manuscript-card-expanded") && card.style.top !== "";
     }, undefined, { timeout: 10_000 });
     await page.close();
   }, 90_000);

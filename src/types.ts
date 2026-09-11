@@ -134,13 +134,18 @@ export interface PaperEntry {
  * validated build actually ran under. The archive records a record's pins
  * twice — here and in `manifest.leanVersion`/`.mathlibVersion` — and the
  * environment a record belongs to is the manifest's `leanVersion`. Declared
- * here so the toolchain string is typed rather than reached for through the
- * loader's spread of the stored output; the rest of the capture block (its
- * file list, digests) is deliberately not part of the renderer's model. */
+ * here along with the sealed file manifest used to verify source navigation.
+ * Local builds can carry only the environment pins. */
 export interface CaptureEntry {
   leanToolchain: string;
   mathlibCommit: string;
+  formatVersion?: number;
+  digest?: string;
+  registryBlob?: string;
+  files?: CaptureFile[];
 }
+
+export interface CaptureFile { path: string; bytes: number; sha256: string }
 
 export interface BuildOutput {
   specVersion: string;

@@ -2,7 +2,7 @@ import { DEFAULT_SITE_URL } from "../../config.js";
 import type { BuildOutput, ConceptEntry, ProofEntry } from "../../types.js";
 import type { ConceptGraphData, SubmissionGraphData } from "../graphs.js";
 import { attr, code, esc, formatDate, proofBadge, statePill, typeBadge } from "../html.js";
-import type { MarkdownRenderer } from "../markdown.js";
+import { plainAuthorTitle, type MarkdownRenderer } from "../markdown.js";
 import { compareIds, type LocatedProof, type SiteModel, type SiteSubmission } from "../model.js";
 import { conceptReviewBadge } from "./discussion.js";
 
@@ -29,6 +29,10 @@ export function conceptLink(model: SiteModel, id: string, rootRel: string, home?
   const label = shortId(id, home);
   const title = label === id ? "" : ` title="${attr(id)}"`;
   return href ? `<a href="${attr(href)}"${title}>${code(label)}</a>` : code(id);
+}
+
+export function submissionIdLink(id: string, rootRel: string): string {
+  return `<a class="submission-meta-id" href="${attr(`${rootRel}${encodeURIComponent(id)}/index.html`)}">${esc(id)}</a>`;
 }
 
 // ---- proofs as judgments between claims ----
@@ -506,14 +510,14 @@ ${typeOptions}
 </select>
 </div>`;
   const conceptRows = concepts.map((concept) => {
-    const name = conceptShortName(output!, concept);
+    const name = plainAuthorTitle(concept.title);
     const type = concept.type!.trim().toLowerCase();
     const provenCount = concept.statements.filter((s) => proven.has(s.id)).length;
     const status = concept.statements.length ? provenCount === concept.statements.length : undefined;
     const haystack = `${concept.id} ${concept.title} ${type}`.toLowerCase();
     const active = concept.id === opts.activeId ? ' class="active"' : "";
     const href = `${rootRel}${submission.record.id}/${concept.id}.html`;
-    return `<li${active} data-type="${attr(type)}" data-search="${attr(haystack)}"><a class="entry-link" href="${attr(href)}" data-full-title="${attr(concept.title)}"><span class="entry-label">${typeBadge(concept.type, status)}<span class="entry-label-text">${esc(name)}</span>${conceptReviewBadge(`${submission.record.id}/${concept.id}.html`)}</span></a></li>`;
+    return `<li${active} data-type="${attr(type)}" data-search="${attr(haystack)}"><a class="entry-link" href="${attr(href)}" data-full-title="${attr(name)}"><span class="entry-label">${typeBadge(concept.type, status)}<span class="entry-label-text">${esc(name)}</span>${conceptReviewBadge(`${submission.record.id}/${concept.id}.html`)}</span></a></li>`;
   });
   const proofRows = proofs.map((proof) => {
     const name = proofShortName(output!, proof, output!.id);
@@ -602,7 +606,7 @@ export function versionHistoryPanel(
   const summary = draftProposal
     ? `<strong>Proposed new version.</strong> This draft would follow the current registered version, ${currentLink}.`
     : superseded
-      ? `<strong>Outdated version.</strong> You are viewing <span class="submission-meta-id">${esc(submissionId)}</span>. The current version is ${currentLink}.`
+      ? `<strong>Outdated version.</strong> You are viewing ${submissionIdLink(submissionId, rootRel)}. The current version is ${currentLink}.`
       : pendingProposal
         ? `<strong>${pendingDrafts.length === 1 ? "New version" : "New versions"} in progress.</strong> ${pendingDrafts.length === 1 ? "A draft" : "Drafts"}, ${linkedDrafts}, ${pendingDrafts.length === 1 ? "is proposed" : "are proposed"} as the next version. This remains the current registered version.`
         : `<strong>Current version.</strong> ${olderCount} older ${olderCount === 1 ? "version is" : "versions are"} available for reference.`;

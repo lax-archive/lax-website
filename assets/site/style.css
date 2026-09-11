@@ -871,6 +871,10 @@ body.sidebar-resizing #content-shell{ transition: none; }
 
 .paper-meta a{ color: var(--link); text-decoration: none; }
 .paper-meta a:hover{ text-decoration: underline; }
+a.submission-meta-id,
+.paper-meta a.submission-meta-id{ color: var(--accent); text-decoration: none; }
+a.submission-meta-id:is(:hover, :focus-visible),
+.paper-meta a.submission-meta-id:is(:hover, :focus-visible){ font-weight: 700; text-decoration: none; }
 .paper-meta code{ font-family: var(--mono); font-size: 0.9em; }
 .paper-meta .status-pill{ vertical-align: middle; }
 .paper-version-button{
@@ -1295,7 +1299,19 @@ body.sidebar-resizing #content-shell{ transition: none; }
 
 .inline-contract-table .line-num a{ color: inherit; text-decoration: none; }
 
-.inline-contract-table .line-code{ padding-right: 1rem; }
+.inline-contract-table .line-code{ position: relative; padding-right: 1rem; }
+
+/* Native fragment navigation starts the source row below the sticky header. */
+.inline-contract-table tr[id],
+.statement-anchor{ scroll-margin-top: var(--header-height); }
+
+/* Short pages need room after the footer to bring a late source target to
+   the top. Only source-fragment visits get this space; no script is needed. */
+#main:has(.inline-contract-table :target)::after{
+  content: '';
+  flex: none;
+  height: max(0px, calc(100vh - var(--header-height)));
+}
 
 .inline-contract-table .lean-identifier-link{
   color: inherit;
@@ -1305,6 +1321,7 @@ body.sidebar-resizing #content-shell{ transition: none; }
 .inline-contract-table .lean-identifier-link:hover,
 .inline-contract-table .lean-identifier-link:focus-visible{
   color: var(--link);
+  font-weight: 700;
 }
 
 .inline-contract-table .lean-identifier-link:focus-visible{
@@ -1346,7 +1363,12 @@ body.sidebar-resizing #content-shell{ transition: none; }
   background: var(--surface);
   box-shadow: 0 3px 10px rgba(43, 43, 43, 0.16);
   transform: translateY(-50%);
+  /* Rail padding must not capture clicks on the adjacent source row. */
+  pointer-events: none;
 }
+
+.source-proof-rail > a,
+.source-review-rail > button{ pointer-events: auto; }
 
 .source-proof-rail.outside,
 .source-review-rail.outside{
@@ -1407,9 +1429,12 @@ body.sidebar-resizing #content-shell{ transition: none; }
 }
 
 .statement-anchor{
-  display: inline-block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
   width: 0;
-  scroll-margin-top: 4rem;
+  height: 0;
 }
 
 .inline-contract-table tr.line-proven td{ background: var(--proven-bg); }
@@ -1526,7 +1551,15 @@ body.sidebar-resizing #content-shell{ transition: none; }
 
 .deps-list li{ margin-bottom: 0.3rem; }
 
-.deps-list a{ color: var(--link); text-decoration: none; overflow-wrap: anywhere; }
+.deps-list a,
+.deps-list li > code{
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.deps-list a{ color: var(--link); text-decoration: none; }
 .deps-list a:hover{ text-decoration: underline; }
 /* Concept identifiers, not code: text face, like concept-list/claim-entry.
    Mathlib entries in the same columns inherit this deliberately. */

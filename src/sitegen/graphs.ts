@@ -1,4 +1,5 @@
 import { compareIds, type SiteModel, type SubmissionDepKind } from "./model.js";
+import { plainAuthorTitle } from "./markdown.js";
 
 /** Placement relative to a figure's roots: the always-visible core (the roots
  * themselves), or a direction away from them — "up" for the whole ancestry,
@@ -8,7 +9,7 @@ export type GraphDir = "core" | "up" | "down";
 export interface ConceptGraphNode {
   id: string;
   href: string;
-  /** the concept's human title, for the hover tooltip */
+  /** the concept's plain-text human title, used as its visible graph label */
   title: string;
   /** home submission id */
   owner: string;
@@ -82,7 +83,7 @@ export function conceptGraph(model: SiteModel, rootIds: Iterable<string>): Conce
     return {
       id,
       href: `../${home.output.id}/${id}.html`,
-      title: home.concept.title,
+      title: plainAuthorTitle(home.concept.title),
       owner: home.output.id,
       status,
       ext: !roots.has(id),

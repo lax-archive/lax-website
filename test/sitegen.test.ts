@@ -485,9 +485,13 @@ After the formula.`, "");
       expect(html).toContain('class="katex"');
     }
     expect(submission.match(/<title>(.*?)<\/title>/s)?.[1]).toContain("**sharp**");
+    expect(concept).toContain("<title>The small y_i lemma</title>");
+    expect(concept).toContain('<span class="entry-label-text">The small y_i lemma</span>');
     expect(concept).toMatch(/<h1 class="concept-title">The <em>small<\/em> <span class="katex"/);
     expect(concept).toMatch(/<h3>Case <span class="katex"/);
     expect(proof).toMatch(/<h3>Step <span class="katex"/);
+    const graphMatch = /<script type="application\/json" id="graph-data">(.*?)<\/script>/s.exec(concept)!;
+    expect(JSON.parse(graphMatch[1]!).concepts.nodes[0].title).toBe("The small y_i lemma");
   });
 
   it("uses all inline-math delimiters in abstracts and annotation comments", async () => {
@@ -1282,7 +1286,9 @@ After the formula.`, "");
 
   it("maps each submission's dependants and dependencies across the whole archive", async () => {
     const root = tmpDir("lax-site-submap-");
-    await generateSite([...submissions(), ...graphSubmissions()], root);
+    const archive = graphSubmissions();
+    archive[0]!.output!.manifest.title = "Foundational submission";
+    await generateSite([...submissions(), ...archive], root);
     const mapOf = (id: string) => {
       const html = fs.readFileSync(path.join(root, id, "index.html"), "utf8");
       const match = /<script type="application\/json" id="graph-data">(.*?)<\/script>/s.exec(html)!;
@@ -1312,7 +1318,12 @@ After the formula.`, "");
     // Concept dependencies throughout, so the legend names only that arrow.
     expect(top.html).toContain("B's concepts build on A");
     expect(top.html).not.toContain("only B's proofs build on A");
-    expect(top.data.nodes[0]).toMatchObject({ href: "../Lax1/index.html", title: "Lax1", state: "registered", concepts: 1, proofs: 0, ext: true });
+    expect(top.data.nodes[0]).toMatchObject({ href: "../Lax1/index.html", title: "Foundational submission", state: "registered", concepts: 1, proofs: 0, ext: true });
+
+    const dagScript = fs.readFileSync(path.join(root, "assets", "dag.js"), "utf8");
+    expect(dagScript).toContain("labelOf: (node) => node.title");
+    expect(dagScript).toContain("labelOf: (node) => node.title || 'Untitled concept'");
+    expect(dagScript).not.toContain("['Concept', node.id]");
 
     const base = mapOf("Lax1");
     expect(base.data.nodes.map((n: { id: string; dir: string }) => [n.id, n.dir]))
@@ -1437,7 +1448,7 @@ After the formula.`, "");
     const graphMatch = /<script type="application\/json" id="graph-data">(.*?)<\/script>/s.exec(html)!;
     expect(JSON.parse(graphMatch[1]!).concepts.nodes.map((node: { id: string; dir: string }) => [node.id, node.dir]))
       .toEqual([["Lax2.C", "core"], ["Lax2.D", "down"]]);
-    expect(html.indexOf('class="concept-id"')).toBeLessThan(html.indexOf('class="concept-title"'));
+    expect(html).not.toContain('class="concept-id"');
     expect(html).toContain('<a class="sidebar-back" href="../Lax2/index.html"');
     // sidebar highlights the active concept; the NL heading is the type
     expect(html).toContain('class="active"');
@@ -1497,7 +1508,9 @@ end Lax2.C`;
     authored[0]!.output!.concepts[1]!.sourceText = [
       "import Lax2.C",
       "#check Lax2.C.truth",
+      "namespace Lax2.D",
       "axiom local_truth (x : ImportedThing) : True",
+      "end Lax2.D",
       "#check CommentOnly",
       "#check StringOnly",
       "-- Lax2.C.truth is prose here",
@@ -1507,8 +1520,8 @@ end Lax2.C`;
     authored[0]!.output!.concepts[1]!.statements = [{
       id: "Lax2.D.local_truth",
       signature: "local_truth : True",
-      startLine: 3,
-      endLine: 3,
+      startLine: 4,
+      endLine: 4,
     }];
 
     const root = tmpDir("lax-site-source-links-");
@@ -1517,11 +1530,13 @@ end Lax2.C`;
     const tableStart = html.indexOf('<table class="inline-contract-table">');
     const source = html.slice(tableStart, html.indexOf("</table>", tableStart));
 
-    expect(source).toContain('<a class="lean-identifier-link" href="../Lax2/Lax2.C.html">Lax2.C</a>');
-    expect(source).toContain('<a class="lean-identifier-link" href="../Lax2/Lax2.C.html#s-Lax2.C.truth">Lax2.C.truth</a>');
-    expect(source).toContain('<a class="lean-identifier-link" href="../Lax2/Lax2.D.html#s-Lax2.D.local_truth">local_truth</a>');
-    expect(source).toContain('<a class="lean-identifier-link" href="../Lax2/Lax2.C.html">ImportedThing</a>');
-    expect(source.match(/class="lean-identifier-link"/g)).toHaveLength(4);
+    const linked = [...source.matchAll(/<a class="lean-identifier-link" href="([^"]+)">([^]*?)<\/a>/g)]
+      .map((match) => ({ href: match[1], name: match[2]!.replace(/<[^>]*>/g, "") }));
+    expect(linked).toContainEqual({ href: "../Lax2/Lax2.C.html", name: "Lax2.C" });
+    expect(linked).toContainEqual({ href: "../Lax2/Lax2.C.html#s-Lax2.C.truth", name: "Lax2.C.truth" });
+    expect(linked.map((link) => link.name)).not.toContain("local_truth");
+    // This definition was explicitly declared in the root namespace.
+    expect(linked).toContainEqual({ href: "../Lax2/Lax2.C.html#L5", name: "ImportedThing" });
     expect(source).toContain("CommentOnly");
     expect(source).toContain("StringOnly");
     expect(source).not.toContain('href="../Lax2/Lax2.C.html">CommentOnly</a>');
@@ -1575,6 +1590,8 @@ end Lax2.C`;
     // the theorem and the definition with their corresponding badge styles
     expect(sidebar).toMatch(/data-type="theorem"[^]*?type-badge proven[^]*?thm✓/);
     expect(sidebar).toMatch(/data-type="definition"[^]*?<span class="type-badge"[^]*?def</);
+    expect(sidebar).toContain('<span class="entry-label-text">Truth</span>');
+    expect(sidebar).toContain('<span class="entry-label-text">Definition helper</span>');
     // the proofs group follows the concepts, ⊢-chipped, prefix-pruned,
     // filterable as its own type
     expect(sidebar.indexOf(">Concepts</li>")).toBeLessThan(sidebar.indexOf(">Proofs</li>"));

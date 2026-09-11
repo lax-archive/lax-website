@@ -91,6 +91,18 @@ jobs:
         if: github.event_name != 'delete'
         run: npm run papers:fetch -- --database data/lax-db --papers data/papers --bundles data/bundles
 
+      - name: Restore Lean references
+        if: github.event_name != 'delete'
+        uses: actions/cache@v4
+        with:
+          path: data/references
+          key: references-v1-${{ hashFiles('data/lax-db/*/build-output.json') }}
+          restore-keys: references-v1-
+
+      - name: Fetch Lean references
+        if: github.event_name != 'delete'
+        run: npm run references:fetch -- --database data/lax-db --references data/references
+
       - name: Build the current branch
         if: github.event_name != 'delete'
         run: npm run site:build -- --database data/lax-db --papers data/papers --bundles data/bundles --out _site
@@ -129,10 +141,14 @@ jobs:
             --database "$GITHUB_WORKSPACE/data/lax-db" \
             --papers "$GITHUB_WORKSPACE/data/papers" \
             --bundles "$GITHUB_WORKSPACE/data/bundles"
+          npm --prefix "$source_dir" run references:fetch --if-present -- \
+            --database "$GITHUB_WORKSPACE/data/lax-db" \
+            --references "$GITHUB_WORKSPACE/data/references"
           npm --prefix "$source_dir" run site:build -- \
             --database "$GITHUB_WORKSPACE/data/lax-db" \
             --papers "$GITHUB_WORKSPACE/data/papers" \
             --bundles "$GITHUB_WORKSPACE/data/bundles" \
+            --references "$GITHUB_WORKSPACE/data/references" \
             --out "$GITHUB_WORKSPACE/_production_site"
           cp -a _production_site/. _pages/
 

@@ -85,20 +85,52 @@ export async function fetchPapers(
   return fetched;
 }
 
-/** Download one public registry blob by its recorded address — anonymous
- * pull token, bounded redirects to the known hosts, size-capped. Shared by
- * the papers and bundles caches; callers verify the digest of what arrives. */
-export async function downloadBlob(reference: string, doFetch: typeof fetch): Promise<Buffer> {
+export interface ByteRange { start: number; end: number }
+
+/** Bound memory while reading, including chunked responses without a length. */
+async function boundedBody(response: Response, limit: number): Promise<Buffer> {
+  const length = Number(response.headers.get("content-length") ?? "0");
+  if (!Number.isSafeInteger(length) || length < 0 || length > limit) {
+    await response.body?.cancel();
+    throw new Error(`registry response exceeds ${limit} bytes or has an invalid length`);
+  }
+  const chunks: Uint8Array[] = [];
+  let size = 0;
+  const reader = response.body?.getReader();
+  if (reader) {
+    try {
+      for (;;) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        size += value.byteLength;
+        if (size > limit) {
+          await reader.cancel();
+          throw new Error(`registry response exceeds ${limit} bytes`);
+        }
+        chunks.push(value);
+      }
+    } finally { reader.releaseLock(); }
+  }
+  return Buffer.concat(chunks, size);
+}
+
+/** Download a public registry blob, or a bounded range within it. Shared by
+ * papers, bundles and Lean references; callers verify the returned bytes
+ * against the appropriate blob or member digest. */
+export async function downloadBlob(reference: string, doFetch: typeof fetch, range?: ByteRange): Promise<Buffer> {
   const match = BLOB_REFERENCE.exec(reference);
   if (match === null) throw new Error(`not a ghcr digest reference: ${reference}`);
+  if (range && (!Number.isSafeInteger(range.start) || !Number.isSafeInteger(range.end) ||
+    range.start < 0 || range.end < range.start || range.end - range.start >= MAX_PAPER_BYTES))
+    throw new Error("invalid registry byte range");
   const [, repository, digest] = match;
   // Public packages hand out pull tokens anonymously; no credential is sent.
   const tokenResponse = await doFetch(
     `https://${REGISTRY_HOST}/token?service=${REGISTRY_HOST}&scope=${encodeURIComponent(`repository:${repository}:pull`)}`,
-    { signal: AbortSignal.timeout(60_000) },
+    { redirect: "error", signal: AbortSignal.timeout(60_000) },
   );
   if (tokenResponse.status !== 200) throw new Error(`ghcr token request failed with HTTP ${tokenResponse.status}`);
-  const token = (JSON.parse(await tokenResponse.text()) as { token?: unknown }).token;
+  const token = (JSON.parse((await boundedBody(tokenResponse, 64 * 1024)).toString("utf8")) as { token?: unknown }).token;
   if (typeof token !== "string" || token === "" || /[\s"\\]/u.test(token))
     throw new Error("ghcr token response is malformed");
 
@@ -108,18 +140,27 @@ export async function downloadBlob(reference: string, doFetch: typeof fetch): Pr
     // The bearer token goes only to the registry itself; redirect targets are
     // pre-signed URLs that must never see it.
     const headers: Record<string, string> = url.hostname === REGISTRY_HOST ? { authorization: `Bearer ${token}` } : {};
+    if (range) headers.range = `bytes=${range.start}-${range.end}`;
     response = await doFetch(url, { headers, redirect: "manual", signal: AbortSignal.timeout(10 * 60_000) });
     if (![301, 302, 303, 307, 308].includes(response.status)) break;
     const location = response.headers.get("location");
+    await response.body?.cancel();
     if (location === null || redirects === MAX_REDIRECTS) throw new Error("paper download has an invalid redirect chain");
     url = new URL(location, url);
-    if (url.protocol !== "https:" || !REDIRECT_HOSTS.has(url.hostname) || url.username || url.password)
+    if (url.protocol !== "https:" || !REDIRECT_HOSTS.has(url.hostname) || url.port || url.username || url.password)
       throw new Error("paper redirect leaves the allowed public HTTPS locations");
   }
   if (response === undefined || !response.ok) throw new Error(`paper download failed with HTTP ${response?.status ?? "?"}`);
-  const length = Number(response.headers.get("content-length") ?? "0");
-  if (length > MAX_PAPER_BYTES) throw new Error(`paper exceeds ${MAX_PAPER_BYTES} bytes`);
-  const bytes = Buffer.from(await response.arrayBuffer());
-  if (bytes.length > MAX_PAPER_BYTES) throw new Error(`paper exceeds ${MAX_PAPER_BYTES} bytes`);
+  const limit = range ? range.end - range.start + 1 : MAX_PAPER_BYTES;
+  if (range) {
+    const contentRange = /^bytes (\d+)-(\d+)\/(\d+)$/u.exec(response.headers.get("content-range") ?? "");
+    if (response.status !== 206 || !contentRange || Number(contentRange[1]) !== range.start ||
+      Number(contentRange[2]) !== range.end || !Number.isSafeInteger(Number(contentRange[3])) || Number(contentRange[3]) <= range.end) {
+      await response.body?.cancel();
+      throw new Error("registry did not return the requested byte range");
+    }
+  }
+  const bytes = await boundedBody(response, limit);
+  if (range && bytes.length !== limit) throw new Error("registry byte range was truncated");
   return bytes;
 }

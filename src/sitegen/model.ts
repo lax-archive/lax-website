@@ -1,4 +1,5 @@
 import { EPOCH, PROOF_SUFFIX } from "../config.js";
+import type { LeanReferences } from "../lean-references.js";
 import type { BuildOutput, ConceptEntry, DbRecord, ProofEntry, StatementEntry } from "../types.js";
 import { computeNetwork, type ProofNetwork } from "./network.js";
 
@@ -9,6 +10,8 @@ export interface SiteSubmission {
   paperFile?: string;
   /** The derived reflow bundle tar on disk, when the bundles cache holds it. */
   bundleFile?: string;
+  /** Verified compiler references, indexed by concept module. */
+  sourceReferences?: Map<string, LeanReferences>;
 }
 
 /** One passage of a paper that marks a concept, proof, or submission. */
