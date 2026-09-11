@@ -167,6 +167,13 @@
     const list = popover?.querySelector("ul");
     const empty = popover?.querySelector("[data-reaction-empty]");
     if (!popover || !list) return;
+    if (reactions?.dataset.anonymousReview === "true") {
+      // Counts remain useful review evidence, but anonymous submissions must
+      // never put the returned ORCID identities into the document.
+      list.replaceChildren();
+      if (empty) empty.hidden = true;
+      return;
+    }
     const identities = voters.flatMap((voter) => {
       const orcid = validOrcidId(voter.orcid);
       const name = typeof voter.name === "string" ? voter.name.trim() : "";

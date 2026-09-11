@@ -7,7 +7,7 @@
 <title>Cographs can require logarithmic Welzl orders</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=9f6c7f0cf44a">
+<link rel="stylesheet" href="../assets/style.css?v=e3e7650126df">
 </head><body>
 <header class="site-header with-sidebar">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="true" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -61,13 +61,13 @@
 <p class="concept-microline"><code>concepts/Lax214022/CographWelzlLowerBound.lean</code> · <a href="index.html">lax-214022</a></p></div>
 <span class="status-pills"><span class="status-pill pill-proven" title="Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">proven</span></span>
 </div>
-<section class="page-reactions" aria-label="Community review" data-reactions-host="https://comments.laxarchive.org" data-reactions-url="https://laxarchive.org/lax-214022/Lax214022.CographWelzlLowerBound.html" data-review-kind="concept" data-source-lines="44">
+<section class="page-reactions" aria-label="Community review" data-reactions-host="https://comments.laxarchive.org" data-reactions-url="https://laxarchive.org/lax-214022/Lax214022.CographWelzlLowerBound.html" data-review-kind="concept" data-source-lines="44" data-anonymous-review="true">
 <div class="page-reactions-line">
 <div class="page-reactions-actions">
 <div class="page-reaction-control">
 <button class="page-reaction-button" type="button" data-reaction="endorse" aria-pressed="false" title="Say that this concept is correct"><span class="page-reaction-icon" aria-hidden="true">🥳</span><span>Endorse</span></button>
-<button class="page-reaction-voters" type="button" data-reaction-voters="endorse" aria-expanded="false" aria-controls="page-reaction-voters-endorse"><strong data-reaction-count="endorse">0</strong><span class="visually-hidden">Show people who endorse this concept</span></button>
-<div class="page-reaction-voters-popover" id="page-reaction-voters-endorse" data-reaction-voters-popover="endorse" hidden><p data-reaction-empty>No public endorsements yet.</p><ul></ul></div>
+<button class="page-reaction-voters" type="button" data-reaction-voters="endorse" aria-expanded="false" aria-controls="page-reaction-voters-endorse"><strong data-reaction-count="endorse">0</strong><span class="visually-hidden">Show endorsement details for this concept</span></button>
+<div class="page-reaction-voters-popover" id="page-reaction-voters-endorse" data-reaction-voters-popover="endorse" hidden><p data-reaction-identities-hidden>Endorser identities are withheld during anonymous review.</p><ul></ul></div>
 </div>
 <div class="page-reaction-control page-flag-control">
 <button class="page-reaction-button" type="button" data-reaction="flag" aria-pressed="false" aria-haspopup="dialog" title="Explain why this concept may be false"><span class="page-reaction-icon" aria-hidden="true">🚩</span><span>Flag</span></button>
@@ -133,7 +133,7 @@ over three disjoint copies of the preceding graph.  In cotree language this
 adds a join node and a union node, so every two new cotree levels force one
 new crossing.</p>
 </div></div>
-<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/687565a84c428ccb4830c4a04c3270a0afa88bef/cograph-welzl-orders/concepts/Lax214022/CographWelzlLowerBound.lean">view on GitHub</a></h3>
+<div class="block block-lean"><h3 class="section-heading">Lean source<span class="source-link source-link-withheld" aria-disabled="true" title="Unavailable during anonymous review"><span class="anonymity-lock" aria-hidden="true">🔒</span><span>source link withheld</span></span></h3>
 <div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
 <tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-214022/Lax214022.Cographs.html"><span style="color:#24292E">Lax214022.Cographs</span></a></td></tr>
 <tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-195003/Lax195003.WelzlOrdersNeighborhoodSetSystem.html"><span style="color:#24292E">Lax195003.WelzlOrdersNeighborhoodSetSystem</span></a></td></tr>
@@ -179,7 +179,7 @@ new crossing.</p>
 <tr id="L42" class=""><td class="line-num"><a href="#L42">42</a></td><td class="line-code"> </td></tr>
 <tr id="L43" class=""><td class="line-num"><a href="#L43">43</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax214022.CographWelzlLowerBound</span></td></tr>
 <tr id="L44" class=""><td class="line-num"><a href="#L44">44</a></td><td class="line-code"> </td></tr>
-</table></div><span class="source-proof-rail" data-source-line="L37" aria-label="Proof links"><a class="statement-proof-button" href="https://github.com/lax-archive/lax-submissions/blob/687565a84c428ccb4830c4a04c3270a0afa88bef/cograph-welzl-orders/proofs/Lax214022Proofs/CographWelzlLowerBound.lean" aria-label="View proof Lax214022Proofs.CographWelzlLowerBound.exists_cograph_requiring_crossingNumber_at_least on GitHub" title="Lax214022Proofs.CographWelzlLowerBound.exists_cograph_requiring_crossingNumber_at_least"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">Show Proof</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a></span><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
+</table></div><span class="source-proof-rail" data-source-line="L37" aria-label="Proof links"><span class="statement-proof-button statement-proof-button-withheld" aria-disabled="true" title="A Lean-checked proof (Lax214022Proofs.CographWelzlLowerBound.exists_cograph_requiring_crossingNumber_at_least) exists; its source is unavailable during anonymous review"><span class="anonymity-lock" aria-hidden="true">🔒</span><span class="statement-proof-label">Verified proof · source withheld</span></span></span><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
 <details class="block block-details"><summary>Formalization notes</summary><div class="latex-content"><p>The two exponential inequalities state the logarithmic relation without
 introducing rounded real logarithms.  The theorem uses the registered
 crossing number directly, at radius one.  Thus it asserts a lower bound for
@@ -246,5 +246,5 @@ crossing number.</p>
 <script src="../assets/dag.js?v=ac501d9a56ee"></script>
 <script src="../assets/source-proof.js?v=b4c48aaad400"></script>
 <script src="../assets/version-history.js?v=a36e868140dd"></script>
-<script src="../assets/comments.js?v=e71ac07c51ee"></script>
+<script src="../assets/comments.js?v=32f8665770fa"></script>
 </body></html>

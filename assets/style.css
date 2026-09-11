@@ -863,6 +863,17 @@ body.sidebar-resizing #content-shell{ transition: none; }
 .author-links a{ color: var(--link); }
 .author-sep{ margin: 0 0.55rem; color: var(--text-dim); }
 
+.anonymity-placeholder{
+  display: inline-flex;
+  align-items: center;
+  gap: 0.28rem;
+  color: var(--text-dim);
+  font-style: italic;
+}
+
+.anonymity-placeholder-inline{ white-space: nowrap; }
+.anonymity-lock{ flex: none; font-family: system-ui, sans-serif; font-size: 0.82em; font-style: normal; }
+
 .paper-meta{
   font-size: 0.8rem;
   color: var(--text-dim);
@@ -1434,6 +1445,14 @@ a.submission-meta-id:is(:hover, :focus-visible),
   outline-offset: 2px;
 }
 
+.statement-proof-button-withheld{
+  color: var(--text-dim);
+  cursor: not-allowed;
+  font-style: italic;
+}
+
+.statement-proof-button-withheld .statement-proof-label{ text-decoration: none; }
+
 .statement-anchor{
   position: absolute;
   top: 0;
@@ -1472,6 +1491,17 @@ a.submission-meta-id:is(:hover, :focus-visible),
 
 .source-link:hover{ text-decoration: underline; }
 
+.source-link-withheld{
+  display: inline-flex;
+  align-items: center;
+  gap: 0.28rem;
+  color: var(--text-dim);
+  cursor: not-allowed;
+  font-style: italic;
+}
+
+.source-link-withheld:hover{ text-decoration: none; }
+
 .source-action{ margin-top: 0.9rem; }
 
 .source-button{
@@ -1489,6 +1519,16 @@ a.submission-meta-id:is(:hover, :focus-visible),
 
 .source-button:hover{ border-color: var(--accent); background: var(--accent-light); }
 .source-button .source-mark{ flex: none; }
+
+.source-button-withheld{
+  border-style: dashed;
+  background: var(--panel-bg);
+  color: var(--text-dim);
+  cursor: not-allowed;
+  font-style: italic;
+}
+
+.source-button-withheld:hover{ border-color: var(--border); background: var(--panel-bg); }
 
 .proof-list-source{
   border-top: 1px solid var(--border-light);
@@ -2984,6 +3024,23 @@ a.submission-meta-id:is(:hover, :focus-visible),
   margin-bottom: 0;
   padding-right: 3.5rem;
 }
+
+.anonymity-notice{
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.85rem;
+  padding: 0.8rem 0.95rem;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-card);
+  background: var(--panel-bg);
+  color: var(--text-dim);
+}
+
+.anonymity-notice > .anonymity-lock{ font-size: 1.15rem; }
+.anonymity-notice p{ margin: 0; line-height: 1.4; }
+.anonymity-notice strong{ display: block; color: var(--text); font-size: 0.88rem; }
+.anonymity-notice p span{ display: block; margin-top: 0.12rem; font-size: 0.82rem; }
 
 .citation-copy,
 .prompt-copy{
