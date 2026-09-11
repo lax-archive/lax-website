@@ -198,6 +198,9 @@ function landingArchive(): SiteSubmission[] {
     ], [
       { id: "Lax17Proofs.Final.polynomial_grid_minor", path: "proofs/Lax17Proofs/Final.lean", conclusion: "Lax17.PolynomialGridMinor.polynomial_grid_minor", assumptions: [], description: "The main proof." },
     ]),
+    make("lax-434930", [{ conceptId: "Lax434930.NondeterministicPolynomialTime", title: "The complexity class NP" }]),
+    make("lax-132576", [{ conceptId: "Lax132576.RationalFunctions", title: "Rational functions" }]),
+    make("lax-194892", [{ conceptId: "Lax194892.Application", title: "Application of rational functions", imports: ["Lax132576.RationalFunctions"] }]),
     make("lax-48", [{ conceptId: "Lax48.TwinWidth", title: "Twin-width" }]),
     make("lax-49", [{ conceptId: "Lax49.FunctionalEquivalence", title: "Functional equivalence", imports: ["Lax48.TwinWidth"] }]),
   ];
@@ -594,6 +597,8 @@ After the formula.`, "");
     expect(css).toContain(".landing-network-viewport::before,");
     expect(css).toContain(".landing-plain-section{");
     expect(css).toContain(".landing-foundation{");
+    expect(css).toContain(".detail-landing .landing-action-panels{ max-width: 60em;");
+    expect(css).toContain(".submissions-library-search{");
     expect(css).not.toContain("landing-carousel-count");
     expect(css).not.toContain(".landing-tile");
     expect(css).toContain(".submissions-list-clipped::after{");
@@ -643,6 +648,8 @@ After the formula.`, "");
     expect(landingScript).not.toContain("setupReviewConcept");
     expect(landingScript).not.toContain("data-copy-prompt");
     expect(landingScript).not.toContain("sessionStorage");
+    expect(landingScript).not.toContain("setupLandingHeader");
+    expect(landingScript).not.toContain("landing-header-scrolled");
     const citationScript = fs.readFileSync(path.join(one, "assets", "citation.js"), "utf8");
     expect(citationScript).toContain("function setupCitationTour()");
     expect(citationScript).toContain('url.searchParams.get("tour") !== "citation"');
@@ -653,6 +660,8 @@ After the formula.`, "");
     expect(sidebarScript).toContain("function applySidebarFilters()");
     expect(sidebarScript).toContain("el.dataset.searchTitle !== undefined");
     expect(sidebarScript).toContain("function applySubmissionFilters()");
+    expect(sidebarScript).toContain("const submissionsSearch = document.getElementById('submissions-search');");
+    expect(sidebarScript).toContain("connectSearch(submissionsSearch, search);");
     expect(sidebarScript).toContain("filterList(list, search, type, 'entry-list-empty');");
     expect(sidebarScript).not.toContain("filterList(list, search, type, 'entry-list-empty', selectedTag)");
     expect(sidebarScript).toContain("function setupRandomSubmission()");
@@ -703,7 +712,17 @@ After the formula.`, "");
     expect(index.indexOf("landing-plain-section")).toBeLessThan(index.indexOf('id="landing-library-heading"'));
     // Getting started: a plain section with the two commands, no tiles.
     expect(index).toContain('<h2 class="landing-section-title" id="landing-start-heading">Get started right away</h2>');
+    expect(index).toContain('<section class="landing-section landing-plain-section landing-setup"');
+    expect(index).toContain('<h2 class="landing-section-title" id="landing-start-heading">Get started right away</h2>\n<div class="landing-section-box">');
+    expect(index).toContain('<div class="landing-setup-tab-list" role="tablist" aria-label="Choose your operating system">');
+    expect(index).toContain('role="tab" id="landing-setup-unix-tab" aria-selected="true" aria-controls="landing-setup-unix-panel" tabindex="0">Linux / macOS</button>');
+    expect(index).toContain('role="tab" id="landing-setup-windows-tab" aria-selected="false" aria-controls="landing-setup-windows-panel" tabindex="-1">Windows</button>');
+    expect(index).toContain('id="landing-setup-windows-panel" role="tabpanel" aria-labelledby="landing-setup-windows-tab" hidden>');
+    expect(index).toContain("wsl --install");
+    expect(index).toContain('href="https://learn.microsoft.com/en-us/windows/wsl/install"');
     expect(index).toContain("npm install -g lax-archive &amp;&amp; lax doctor");
+    expect(index.match(/npm install -g lax-archive &amp;&amp; lax doctor/g)).toHaveLength(2);
+    expect(index.match(/Run `lax print instructions` and follow the guide it prints/g)).toHaveLength(2);
     expect(index).toContain("Run `lax print instructions` and follow the guide it prints");
     expect(index).not.toContain("landing-tile");
     expect(index).not.toContain("landing-column");
@@ -737,6 +756,8 @@ After the formula.`, "");
     expect(index).not.toContain("data-review-concept");
     expect(index).toContain('<section class="landing-action-panel submissions-library" id="landing-panel-read" aria-labelledby="landing-library-heading">');
     expect(index).toContain('<h2 class="landing-section-title" id="landing-library-heading">Submissions</h2>');
+    expect(index).toContain('<input id="submissions-search" class="filter-input submissions-library-search" type="search" placeholder="Search titles and concepts" aria-label="Search submissions" aria-controls="submissions-list">');
+    expect(index).not.toContain('<label for="submissions-search">');
     expect(index).not.toContain("Read the archive");
     expect(index).toContain('<section class="landing-faq" id="faq" aria-labelledby="landing-faq-heading">');
     expect(index).toContain('<h2 class="landing-section-title landing-faq-title" id="landing-faq-heading">FAQ</h2>');
@@ -890,14 +911,20 @@ After the formula.`, "");
     // The one way in: the annotated paper.
     expect(index).toContain('<a class="site-nav-link" href="lax-242665/paper.html">Introduction</a>');
     expect(index).toContain('<a class="site-nav-link" href="about.html">About</a>');
+    expect(index).toContain('<header class="site-header sidebar-hidden landing-header">');
     expect(index).not.toContain("landing-cta");
     expect(index).not.toContain("lax-white-paper.pdf\" download");
     // The foundations: the listed definitions the archive holds, with how
     // many further submissions build on them.
     expect(index).toContain('<h2 class="landing-section-title" id="landing-foundations-heading">Build foundations together</h2>');
+    expect(index).toContain('<section class="landing-section landing-foundations"');
+    expect(index).toContain('<h2 class="landing-section-title" id="landing-foundations-heading">Build foundations together</h2>\n<div class="landing-section-box">');
     expect(index).toContain('<li><a class="landing-foundation" href="lax-67/Lax67.Ram.html" title="Lax67.Ram">\n<span class="type-badge" title="definition">def</span><span class="landing-foundation-title">The word RAM</span>\n<span class="landing-foundation-meta"><span class="submission-meta-id">lax-67</span><span class="landing-foundation-uses">built on in 1 further submission</span></span>\n</a></li>');
+    expect(index).toContain('href="lax-434930/Lax434930.NondeterministicPolynomialTime.html" title="Lax434930.NondeterministicPolynomialTime"');
     expect(index).toContain('href="lax-48/Lax48.TwinWidth.html" title="Lax48.TwinWidth"');
-    expect(index).toContain('<span class="submission-meta-id">lax-48</span><span class="landing-foundation-uses">built on in 1 further submission</span>');
+    expect(index).toContain('href="lax-132576/Lax132576.RationalFunctions.html" title="Lax132576.RationalFunctions"');
+    expect(index).not.toContain("Lax12.GraphClasses");
+    expect(index).not.toContain("Lax68.Planar");
     expect(index).not.toContain("Lax48.Treewidth");
     expect(index).not.toContain("Lax12.NowhereDenseClasses");
     // Examples, network, in that order, before the button; getting started

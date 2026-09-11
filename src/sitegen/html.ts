@@ -33,6 +33,8 @@ export interface PageShell {
   scripts?: string[];
   /** extra class on the content pane, for pages that need another measure */
   detailClass?: string;
+  /** Mark the front-page header for its narrowest responsive adjustment. */
+  landingHeader?: boolean;
   /** Show the sidebar and its toggle: open on desktop, or collapsed until
    * the toggle brings it back. Pages about a submission set it; the front
    * page and the editorial pages ship the sidebar hidden, with no toggle. */
@@ -140,6 +142,7 @@ export function page(shell: PageShell): string {
   const stylesheet = (src: string) => `${root}assets/${src}?v=${siteAssetVersion(src)}`;
   const withSidebar = shell.sidebarState ? " with-sidebar" : "";
   const hidden = shell.sidebarState === "open" ? "" : " sidebar-hidden";
+  const landingHeader = shell.landingHeader ? " landing-header" : "";
   const toggle = shell.sidebarState
     ? `<button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="${shell.sidebarState === "open"}" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
   `
@@ -155,7 +158,7 @@ export function page(shell: PageShell): string {
 <link rel="stylesheet" href="${stylesheet("katex.css")}">
 <link rel="stylesheet" href="${stylesheet("style.css")}">
 </head><body>
-<header class="site-header${withSidebar}${hidden}">
+<header class="site-header${withSidebar}${hidden}${landingHeader}">
   ${toggle}<div class="site-brand">
   <h1 class="site-title"><a href="${root}index.html">Lax <span class="site-title-quiet">Lean Archive</span></a></h1>
   ${siteNavLinks(root)}

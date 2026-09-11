@@ -293,12 +293,33 @@ function splitCaption(section: string): { body: string; caption: string } {
   return { body: paragraphs.join("\n\n"), caption };
 }
 
-/** A plain section: heading and Markdown body in the text column. */
-function landingSection(id: string, heading: string, body: string, markdown: PageContext["markdown"]): string {
-  return `<section class="landing-section landing-plain-section" aria-labelledby="landing-${id}-heading">
-<h2 class="landing-section-title" id="landing-${id}-heading">${esc(heading)}</h2>
-<div class="landing-section-copy latex-content">
-${markdown.render(body.trim(), "")}
+/** Getting started: one compact, accessible tab per supported host system. */
+function landingSetupSection(heading: string, section: string, markdown: PageContext["markdown"]): string {
+  const ids = new Map([["Linux / macOS", "unix"], ["Windows", "windows"]]);
+  const tabs = section.trim().split(/\n(?=### )/).map((chunk) => {
+    const match = /^### ([^\n]+)\n+([\s\S]+)$/u.exec(chunk.trim());
+    if (!match) throw new Error(`invalid getting-started tab: ${chunk}`);
+    const label = match[1]!.trim();
+    const id = ids.get(label);
+    if (!id) throw new Error(`unsupported getting-started tab: ${label}`);
+    return { id, label, body: match[2]!.trim() };
+  });
+  for (const label of ids.keys())
+    if (!tabs.some((tab) => tab.label === label)) throw new Error(`landing.md is missing the ${label} getting-started tab`);
+  const controls = tabs.map(({ id, label }, index) =>
+    `<button class="landing-setup-tab" type="button" role="tab" id="landing-setup-${id}-tab" aria-selected="${index === 0}" aria-controls="landing-setup-${id}-panel" tabindex="${index === 0 ? 0 : -1}">${esc(label)}</button>`);
+  const panels = tabs.map(({ id, body }, index) => `<div class="landing-setup-panel landing-section-copy latex-content" id="landing-setup-${id}-panel" role="tabpanel" aria-labelledby="landing-setup-${id}-tab"${index === 0 ? "" : " hidden"}>
+${markdown.render(body, "")}
+</div>`);
+  return `<section class="landing-section landing-plain-section landing-setup" aria-labelledby="landing-start-heading">
+<h2 class="landing-section-title" id="landing-start-heading">${esc(heading)}</h2>
+<div class="landing-section-box">
+<div class="landing-setup-tabs" data-setup-tabs>
+<div class="landing-setup-tab-list" role="tablist" aria-label="Choose your operating system">
+${controls.join("\n")}
+</div>
+${panels.join("\n")}
+</div>
 </div>
 </section>`;
 }
@@ -326,12 +347,14 @@ ${typeBadge(located.concept.type)}<span class="landing-foundation-title">${markd
   if (!items.length) return "";
   return `<section class="landing-section landing-foundations" aria-labelledby="landing-foundations-heading">
 <h2 class="landing-section-title" id="landing-foundations-heading">${esc(heading)}</h2>
+<div class="landing-section-box">
 <div class="landing-section-copy latex-content">
 ${markdown.render(prose, "")}
 </div>
 <ul class="landing-foundation-list">
 ${items.join("\n")}
 </ul>
+</div>
 </section>`;
 }
 
@@ -631,6 +654,7 @@ ${facetButtons.join("\n")}
   const library = `<section class="landing-action-panel submissions-library" id="landing-panel-read" aria-labelledby="landing-library-heading">
 <div class="landing-action-panel-heading">
 <p class="stats-line">${plural(listed.length, "submission")} · ${plural(concepts.length, "concept")} · ${plural(statements.length, "statement")}, ${provenStatements} proven</p>
+<input id="submissions-search" class="filter-input submissions-library-search" type="search" placeholder="Search titles and concepts" aria-label="Search submissions" aria-controls="submissions-list">
 </div>
 ${tagBrowser}
 <ul class="submissions-list" id="submissions-list">
@@ -656,7 +680,7 @@ ${markdown.render(networkCopy.body, "")}
 </div>` : ""}
 ${network}
 </section>
-${landingSection("start", "Get started right away", landing.sections.get("Get started right away")!, markdown)}
+${landingSetupSection("Get started right away", landing.sections.get("Get started right away")!, markdown)}
 ${landingFoundations(ctx, "Build foundations together", landing.sections.get("Build foundations together")!)}
 <div class="landing-action-panels">
 <h2 class="landing-section-title" id="landing-library-heading">Submissions</h2>
@@ -669,6 +693,7 @@ ${faq}
     sidebar: indexSidebar(model, markdown, tagIndex.bySubmission),
     content,
     detailClass: "detail-landing",
+    landingHeader: true,
     scripts: network ? ["assets/layout.js", "assets/dag.js", "assets/landing.js"] : ["assets/landing.js"],
   });
 }
