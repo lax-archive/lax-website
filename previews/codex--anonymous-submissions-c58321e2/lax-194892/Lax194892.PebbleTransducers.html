@@ -1,20 +1,26 @@
 <!doctype html>
 <html lang="en"><head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://comments.laxarchive.org; style-src 'self' 'unsafe-inline'; img-src https: data:; font-src 'self'; frame-src https://comments.laxarchive.org; connect-src https://comments.laxarchive.org">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://comments.laxarchive.org; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self'; frame-src https://comments.laxarchive.org; connect-src https://comments.laxarchive.org">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Lax — an archive of formalized mathematical concepts and their proofs">
 <title>Pebble transducers</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=23866243e5a9">
+<link rel="stylesheet" href="../assets/style.css?v=e3e7650126df">
 </head><body>
-<header class="site-header">
-  <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
+<header class="site-header with-sidebar">
+  <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="true" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
+  <div class="site-brand">
   <h1 class="site-title"><a href="../index.html">Lax <span class="site-title-quiet">Lean Archive</span></a></h1>
+  <nav class="site-nav" aria-label="Site">
+    <a class="site-nav-link" href="../lax-242665/paper.html">Introduction</a>
+    <a class="site-nav-link" href="../about.html">About</a>
+  </nav>
+  </div>
   <nav class="header-actions" aria-label="Account">
     <div class="account-header" data-account-root data-remark42-host="https://comments.laxarchive.org" data-remark42-site="remark" data-identity-url="https://comments.laxarchive.org/reactions/v1/identity">
-  <a class="account-control" data-account-login href="https://comments.laxarchive.org/auth/orcid/login?from=https%3A%2F%2Flaxarchive.org&amp;site=remark"><span class="orcid-mark" aria-hidden="true">iD</span><span>Sign in with ORCID</span></a>
+  <a class="account-control" data-account-login href="https://comments.laxarchive.org/auth/orcid/login?from=https%3A%2F%2Flaxarchive.org&amp;site=remark"><span class="orcid-mark" aria-hidden="true">iD</span><span>Sign in<span class="account-login-long"> with ORCID</span></span></a>
   <button class="account-control" data-account-settings type="button" aria-haspopup="dialog" aria-controls="account-dialog" hidden><span class="orcid-mark" aria-hidden="true">iD</span><span>Settings</span></button>
 </div>
   </nav>
@@ -121,7 +127,8 @@
 </dialog>
 <noscript><p class="page-reactions-noscript"><a href="https://comments.laxarchive.org/auth/orcid/login?site=remark&amp;from=https%3A%2F%2Flaxarchive.org%2Flax-194892%2FLax194892.PebbleTransducers.html">Sign in with ORCID</a> to review this page.</p></noscript>
 </section>
-<h4 class="figure-title">Concept map</h4>
+<details class="figure-details">
+<summary>Concept map</summary>
 <figure class="graph-figure concept-root-graph">
 <button class="graph-expand" type="button" data-graph-expand data-graph-label="concept map" aria-expanded="false" aria-label="Open concept map in a large window" title="Open in large window"><svg class="graph-expand-open" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M2.5 6V2.5H6M10 2.5h3.5V6M13.5 10v3.5H10M6 13.5H2.5V10"/></svg><span class="graph-expand-close" aria-hidden="true">×</span></button>
 <div class="graph-toolbar"><button type="button" id="concept-expand" aria-controls="concept-dag" aria-pressed="true">Hide ancestors</button><button type="button" id="concept-descend" aria-controls="concept-dag" aria-pressed="false">Show descendants</button><output id="concept-graph-status" aria-live="polite"></output></div>
@@ -129,6 +136,7 @@
 <div class="graph-tooltip" role="tooltip" hidden></div>
 <figcaption class="graph-legend" aria-label="Concept map legend"><span><i class="legend-node fill-proven"></i>Proven claim</span><span><i class="legend-node fill-none"></i>Definition</span><span><i class="legend-node stroke-own"></i>This concept</span><span><i class="legend-node stroke-ext"></i>Related concept</span><span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B builds on A</span></figcaption>
 </figure>
+</details>
 
 <div class="block block-paper"><h3>In the paper</h3>
 <ul class="in-paper-list">
@@ -267,27 +275,26 @@ for-transducers (Theorem D.2.4), hence the polyregular functions.</p>
 <tr id="L116" class=""><td class="line-num"><a href="#L116">116</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax194892.PebbleTransducers</span></td></tr>
 <tr id="L117" class=""><td class="line-num"><a href="#L117">117</a></td><td class="line-code"> </td></tr>
 </table></div><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
-<div class="block"><h3>Formalization notes</h3><div class="latex-content"><p>The information available to the transducer is its <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mi>e</mi><mi>b</mi><mi>b</mi><mi>l</mi><mi>e</mi><mi>V</mi><mi>i</mi><mi>e</mi><mi>w</mi></mrow><annotation encoding="application/x-tex">PebbleView</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.1389em;">P</span><span class="mord mathnormal">e</span><span class="mord mathnormal">bb</span><span class="mord mathnormal" style="margin-right:0.0197em;">l</span><span class="mord mathnormal">e</span><span class="mord mathnormal" style="margin-right:0.2222em;">V</span><span class="mord mathnormal">i</span><span class="mord mathnormal">e</span><span class="mord mathnormal" style="margin-right:0.0269em;">w</span></span></span></span>: for each
+<details class="block block-details"><summary>Formalization notes</summary><div class="latex-content"><p>The information available to the transducer is its <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mi>e</mi><mi>b</mi><mi>b</mi><mi>l</mi><mi>e</mi><mi>V</mi><mi>i</mi><mi>e</mi><mi>w</mi></mrow><annotation encoding="application/x-tex">PebbleView</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.1389em;">P</span><span class="mord mathnormal">e</span><span class="mord mathnormal">bb</span><span class="mord mathnormal" style="margin-right:0.0197em;">l</span><span class="mord mathnormal">e</span><span class="mord mathnormal" style="margin-right:0.2222em;">V</span><span class="mord mathnormal">i</span><span class="mord mathnormal">e</span><span class="mord mathnormal" style="margin-right:0.0269em;">w</span></span></span></span>: for each
 pebble, from the bottom of the stack, the two adjacent letters and the Booleans
 saying which pebbles share its place. A configuration is a state and the stack
 of gaps, or the halting vertex; a step is undefined if the head would leave the
 input, the stack bound would be exceeded, or an empty stack popped. <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>I</mi><mi>s</mi><mi>P</mi><mi>e</mi><mi>b</mi><mi>b</mi><mi>l</mi><mi>e</mi><mi>T</mi><mi>r</mi><mi>a</mi><mi>n</mi><mi>s</mi><mi>d</mi><mi>u</mi><mi>c</mi><mi>e</mi><mi>r</mi></mrow><annotation encoding="application/x-tex">IsPebbleTransducer</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.0785em;">I</span><span class="mord mathnormal">s</span><span class="mord mathnormal" style="margin-right:0.1389em;">P</span><span class="mord mathnormal">e</span><span class="mord mathnormal">bb</span><span class="mord mathnormal" style="margin-right:0.0197em;">l</span><span class="mord mathnormal">e</span><span class="mord mathnormal" style="margin-right:0.1389em;">T</span><span class="mord mathnormal" style="margin-right:0.0278em;">r</span><span class="mord mathnormal">an</span><span class="mord mathnormal">s</span><span class="mord mathnormal">d</span><span class="mord mathnormal">u</span><span class="mord mathnormal" style="margin-right:0.0278em;">cer</span></span></span></span>
 asks for some bound <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.0315em;">k</span></span></span></span>, a finite state space and a transducer computing <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mi>w</mi></mrow><annotation encoding="application/x-tex">f w</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.1076em;">f</span><span class="mord mathnormal" style="margin-right:0.0269em;">w</span></span></span></span>
 on every <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>w</mi></mrow><annotation encoding="application/x-tex">w</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.0269em;">w</span></span></span></span>.</p>
-</div></div>
+</div></details>
 <div class="block"><div class="deps-columns">
-<div class="deps-col"><h3>Builds on</h3><p class="empty-note">none</p></div>
-<div class="deps-col"><h3>Used by</h3><ul class="deps-list"><li title="Lax194892.ForOfPebble"><a href="../lax-194892/Lax194892.ForOfPebble.html"><code>Lax194892.ForOfPebble</code></a></li><li title="Lax194892.PebbleConfigurationEncoding"><a href="../lax-194892/Lax194892.PebbleConfigurationEncoding.html"><code>Lax194892.PebbleConfigurationEncoding</code></a></li><li title="Lax194892.PebbleContinuity"><a href="../lax-194892/Lax194892.PebbleContinuity.html"><code>Lax194892.PebbleContinuity</code></a></li><li title="Lax194892.PebbleIffFor"><a href="../lax-194892/Lax194892.PebbleIffFor.html"><code>Lax194892.PebbleIffFor</code></a></li><li title="Lax194892.PebbleOfFor"><a href="../lax-194892/Lax194892.PebbleOfFor.html"><code>Lax194892.PebbleOfFor</code></a></li></ul></div>
-<div class="deps-col"><h3>From Mathlib</h3><ul class="deps-list"><li title="Mathlib.Data.Finite.Defs"><a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/Finite/Defs.html"><code>Mathlib.Data.Finite.Defs</code></a></li><li title="Mathlib.Data.List.Basic"><a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/List/Basic.html"><code>Mathlib.Data.List.Basic</code></a></li></ul></div>
+<details class="deps-col block-details"><summary>Builds on</summary><p class="empty-note">none</p></details>
+<details class="deps-col block-details"><summary>Used by</summary><ul class="deps-list"><li title="Lax194892.ForOfPebble"><a href="../lax-194892/Lax194892.ForOfPebble.html"><code>Lax194892.ForOfPebble</code></a></li><li title="Lax194892.PebbleConfigurationEncoding"><a href="../lax-194892/Lax194892.PebbleConfigurationEncoding.html"><code>Lax194892.PebbleConfigurationEncoding</code></a></li><li title="Lax194892.PebbleContinuity"><a href="../lax-194892/Lax194892.PebbleContinuity.html"><code>Lax194892.PebbleContinuity</code></a></li><li title="Lax194892.PebbleIffFor"><a href="../lax-194892/Lax194892.PebbleIffFor.html"><code>Lax194892.PebbleIffFor</code></a></li><li title="Lax194892.PebbleOfFor"><a href="../lax-194892/Lax194892.PebbleOfFor.html"><code>Lax194892.PebbleOfFor</code></a></li></ul></details>
+<details class="deps-col block-details"><summary>From Mathlib</summary><ul class="deps-list"><li title="Mathlib.Data.Finite.Defs"><a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/Finite/Defs.html"><code>Mathlib.Data.Finite.Defs</code></a></li><li title="Mathlib.Data.List.Basic"><a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/List/Basic.html"><code>Mathlib.Data.List.Basic</code></a></li></ul></details>
 </div></div>
 <section class="page-section discussion-section" aria-labelledby="discussion-title">
 <div class="discussion-heading">
 <div class="discussion-heading-copy">
-<p class="discussion-eyebrow">Community review</p>
 <h3 class="section-title" id="discussion-title">Discussion</h3>
-<p>Ask a question or add context. Endorsements and structured flags are kept in the review panel above; your ORCID profile must share a public name.</p>
+<p>Ask a question or add context. Endorsements and structured flags are kept in the review panel above.</p>
 </div>
-<p class="discussion-count"><span class="remark42__counter" data-url="https://laxarchive.org/lax-194892/Lax194892.PebbleTransducers.html">0</span> <span>comments</span></p>
+<p class="discussion-count" hidden><span class="remark42__counter" data-url="https://laxarchive.org/lax-194892/Lax194892.PebbleTransducers.html">0</span> <span>comments</span></p>
 </div>
 <div class="discussion-embed-shell">
 <p class="discussion-loading" id="remark42-status" role="status"><span class="discussion-loading-mark" aria-hidden="true"></span>Loading discussion…</p>
@@ -298,10 +305,9 @@ on every <span class="katex"><span class="katex-mathml"><math xmlns="http://www.
 <script type="application/json" id="graph-data">{"concepts":{"nodes":[{"id":"Lax194892.BalancedRunReachability","href":"../lax-194892/Lax194892.BalancedRunReachability.html","title":"Balanced runs between configurations are regular","owner":"lax-194892","status":"proven","ext":true,"dir":"down"},{"id":"Lax194892.ChildConfigurationGraphs","href":"../lax-194892/Lax194892.ChildConfigurationGraphs.html","title":"Children of a configuration and child configuration graphs","owner":"lax-194892","status":"none","ext":true,"dir":"down"},{"id":"Lax194892.ChildGraphOfConfiguration","href":"../lax-194892/Lax194892.ChildGraphOfConfiguration.html","title":"A for-transducer produces the child configuration graph","owner":"lax-194892","status":"proven","ext":true,"dir":"down"},{"id":"Lax194892.ChildrenOfChildGraph","href":"../lax-194892/Lax194892.ChildrenOfChildGraph.html","title":"A for-transducer reads the children off a child configuration graph","owner":"lax-194892","status":"proven","ext":true,"dir":"down"},{"id":"Lax194892.ChildrenOfConfiguration","href":"../lax-194892/Lax194892.ChildrenOfConfiguration.html","title":"A for-transducer produces the children of a configuration","owner":"lax-194892","status":"proven","ext":true,"dir":"down"},{"id":"Lax194892.ForOfPebble","href":"../lax-194892/Lax194892.ForOfPebble.html","title":"Pebble transducers are computed by for-transducers","owner":"lax-194892","status":"proven","ext":true,"dir":"down"},{"id":"Lax194892.PebbleConfigurationEncoding","href":"../lax-194892/Lax194892.PebbleConfigurationEncoding.html","title":"String representations of pebble configurations, and balanced runs","owner":"lax-194892","status":"none","ext":true,"dir":"down"},{"id":"Lax194892.PebbleContinuity","href":"../lax-194892/Lax194892.PebbleContinuity.html","title":"Pebble transducers are continuous","owner":"lax-194892","status":"proven","ext":true,"dir":"down"},{"id":"Lax194892.PebbleIffFor","href":"../lax-194892/Lax194892.PebbleIffFor.html","title":"Pebble transducers and for-transducers compute the same functions","owner":"lax-194892","status":"proven","ext":true,"dir":"down"},{"id":"Lax194892.PebbleOfFor","href":"../lax-194892/Lax194892.PebbleOfFor.html","title":"For-transducers are computed by pebble transducers","owner":"lax-194892","status":"proven","ext":true,"dir":"down"},{"id":"Lax194892.PebbleReachability","href":"../lax-194892/Lax194892.PebbleReachability.html","title":"Reachability between configurations of a pebble transducer is regular","owner":"lax-194892","status":"proven","ext":true,"dir":"down"},{"id":"Lax194892.PebbleTransducers","href":"../lax-194892/Lax194892.PebbleTransducers.html","title":"Pebble transducers","owner":"lax-194892","status":"none","ext":false,"dir":"core"}],"edges":[{"from":"Lax194892.PebbleConfigurationEncoding","to":"Lax194892.BalancedRunReachability"},{"from":"Lax194892.PebbleConfigurationEncoding","to":"Lax194892.ChildConfigurationGraphs"},{"from":"Lax194892.ChildConfigurationGraphs","to":"Lax194892.ChildGraphOfConfiguration"},{"from":"Lax194892.ChildConfigurationGraphs","to":"Lax194892.ChildrenOfChildGraph"},{"from":"Lax194892.ChildConfigurationGraphs","to":"Lax194892.ChildrenOfConfiguration"},{"from":"Lax194892.PebbleTransducers","to":"Lax194892.ForOfPebble"},{"from":"Lax194892.PebbleTransducers","to":"Lax194892.PebbleConfigurationEncoding"},{"from":"Lax194892.PebbleTransducers","to":"Lax194892.PebbleContinuity"},{"from":"Lax194892.PebbleTransducers","to":"Lax194892.PebbleIffFor"},{"from":"Lax194892.PebbleTransducers","to":"Lax194892.PebbleOfFor"},{"from":"Lax194892.PebbleConfigurationEncoding","to":"Lax194892.PebbleReachability"}],"home":"lax-194892"},"proofs":{"statements":[],"proofs":[]}}</script>
 </div>
 <footer class="site-footer">
-  <nav class="site-footer-nav" aria-label="Legal and about">
+  <nav class="site-footer-nav" aria-label="Legal">
     <a class="site-footer-link" href="../impressum.html">Imprint</a>
     <a class="site-footer-link" href="../privacy.html">Privacy</a>
-    <a class="site-footer-link" href="../assets/lax-white-paper.pdf">About</a>
   </nav>
 </footer>
 </section>
@@ -331,11 +337,11 @@ on every <span class="katex"><span class="katex-mathml"><math xmlns="http://www.
 </div>
 </div>
 </dialog>
-<script src="../assets/sidebar.js?v=b1e289522120"></script>
+<script src="../assets/sidebar.js?v=e4e626f46671"></script>
 <script src="../assets/account.js?v=e3db2efa7b34"></script>
 <script src="../assets/layout.js?v=41e28199b546"></script>
-<script src="../assets/dag.js?v=30b3351be153"></script>
+<script src="../assets/dag.js?v=ac501d9a56ee"></script>
 <script src="../assets/source-proof.js?v=b4c48aaad400"></script>
 <script src="../assets/version-history.js?v=a36e868140dd"></script>
-<script src="../assets/comments.js?v=9782b849afc8"></script>
+<script src="../assets/comments.js?v=32f8665770fa"></script>
 </body></html>

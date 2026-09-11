@@ -1,20 +1,26 @@
 <!doctype html>
 <html lang="en"><head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://comments.laxarchive.org; style-src 'self' 'unsafe-inline'; img-src https: data:; font-src 'self'; frame-src https://comments.laxarchive.org; connect-src https://comments.laxarchive.org">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://comments.laxarchive.org; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self'; frame-src https://comments.laxarchive.org; connect-src https://comments.laxarchive.org">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Lax — an archive of formalized mathematical concepts and their proofs">
 <title>Distinguished immutable word arenas</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=23866243e5a9">
+<link rel="stylesheet" href="../assets/style.css?v=e3e7650126df">
 </head><body>
-<header class="site-header">
-  <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
+<header class="site-header with-sidebar">
+  <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="true" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
+  <div class="site-brand">
   <h1 class="site-title"><a href="../index.html">Lax <span class="site-title-quiet">Lean Archive</span></a></h1>
+  <nav class="site-nav" aria-label="Site">
+    <a class="site-nav-link" href="../lax-242665/paper.html">Introduction</a>
+    <a class="site-nav-link" href="../about.html">About</a>
+  </nav>
+  </div>
   <nav class="header-actions" aria-label="Account">
     <div class="account-header" data-account-root data-remark42-host="https://comments.laxarchive.org" data-remark42-site="remark" data-identity-url="https://comments.laxarchive.org/reactions/v1/identity">
-  <a class="account-control" data-account-login href="https://comments.laxarchive.org/auth/orcid/login?from=https%3A%2F%2Flaxarchive.org&amp;site=remark"><span class="orcid-mark" aria-hidden="true">iD</span><span>Sign in with ORCID</span></a>
+  <a class="account-control" data-account-login href="https://comments.laxarchive.org/auth/orcid/login?from=https%3A%2F%2Flaxarchive.org&amp;site=remark"><span class="orcid-mark" aria-hidden="true">iD</span><span>Sign in<span class="account-login-long"> with ORCID</span></span></a>
   <button class="account-control" data-account-settings type="button" aria-haspopup="dialog" aria-controls="account-dialog" hidden><span class="orcid-mark" aria-hidden="true">iD</span><span>Settings</span></button>
 </div>
   </nav>
@@ -117,7 +123,8 @@
 </dialog>
 <noscript><p class="page-reactions-noscript"><a href="https://comments.laxarchive.org/auth/orcid/login?site=remark&amp;from=https%3A%2F%2Flaxarchive.org%2Flax-58%2FLax58.WordArena.html">Sign in with ORCID</a> to review this page.</p></noscript>
 </section>
-<h4 class="figure-title">Concept map</h4>
+<details class="figure-details">
+<summary>Concept map</summary>
 <figure class="graph-figure concept-root-graph">
 <button class="graph-expand" type="button" data-graph-expand data-graph-label="concept map" aria-expanded="false" aria-label="Open concept map in a large window" title="Open in large window"><svg class="graph-expand-open" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M2.5 6V2.5H6M10 2.5h3.5V6M13.5 10v3.5H10M6 13.5H2.5V10"/></svg><span class="graph-expand-close" aria-hidden="true">×</span></button>
 <div class="graph-toolbar"><button type="button" id="concept-expand" aria-controls="concept-dag" aria-pressed="true">Hide ancestors</button><button type="button" id="concept-descend" aria-controls="concept-dag" aria-pressed="false">Show descendants</button><output id="concept-graph-status" aria-live="polite"></output></div>
@@ -125,6 +132,7 @@
 <div class="graph-tooltip" role="tooltip" hidden></div>
 <figcaption class="graph-legend" aria-label="Concept map legend"><span><i class="legend-node fill-proven"></i>Proven claim</span><span><i class="legend-node fill-none"></i>Definition</span><span><i class="legend-node stroke-own"></i>This concept</span><span><i class="legend-node stroke-ext"></i>Related concept</span><span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B builds on A</span></figcaption>
 </figure>
+</details>
 <div class="block block-evidence"><h3>Evidence</h3>
 <p class="evidence-intro">This concept declares 12 statements. Each proof establishes one of them relative to its assumptions.</p>
 <div class="evidence-statement"><h4><a href="#s-Lax58.WordArena.encode_fits">1st statement</a> <code>encode_fits</code> <span class="status-pill pill-proven" title="Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">proven</span></h4>
@@ -523,18 +531,17 @@ operation-cost model is imposed.</p>
 </table></div><span class="source-proof-rail" data-source-line="L191" aria-label="Proof links"><a class="statement-proof-button" href="https://github.com/szymtor/lax58/blob/83d795f06ae20b48ceed34a9f1284975d305b9c4/proofs/Lax58Proofs/WordArena.lean" aria-label="View proof Lax58Proofs.WordArena.encode_fits_proof on GitHub" title="Lax58Proofs.WordArena.encode_fits_proof"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">Show Proof</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a></span><span class="source-proof-rail" data-source-line="L182" aria-label="Proof links"><a class="statement-proof-button" href="https://github.com/szymtor/lax58/blob/83d795f06ae20b48ceed34a9f1284975d305b9c4/proofs/Lax58Proofs/WordArena.lean" aria-label="View proof Lax58Proofs.WordArena.encode_memoryWords_proof on GitHub" title="Lax58Proofs.WordArena.encode_memoryWords_proof"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">Show Proof</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a></span><span class="source-proof-rail" data-source-line="L179" aria-label="Proof links"><a class="statement-proof-button" href="https://github.com/szymtor/lax58/blob/83d795f06ae20b48ceed34a9f1284975d305b9c4/proofs/Lax58Proofs/WordArena.lean" aria-label="View proof Lax58Proofs.WordArena.encode_represents_proof on GitHub" title="Lax58Proofs.WordArena.encode_represents_proof"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">Show Proof</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a></span><span class="source-proof-rail" data-source-line="L188" aria-label="Proof links"><a class="statement-proof-button" href="https://github.com/szymtor/lax58/blob/83d795f06ae20b48ceed34a9f1284975d305b9c4/proofs/Lax58Proofs/WordArena.lean" aria-label="View proof Lax58Proofs.WordArena.encode_toInput_length_proof on GitHub" title="Lax58Proofs.WordArena.encode_toInput_length_proof"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">Show Proof</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a></span><span class="source-proof-rail" data-source-line="L185" aria-label="Proof links"><a class="statement-proof-button" href="https://github.com/szymtor/lax58/blob/83d795f06ae20b48ceed34a9f1284975d305b9c4/proofs/Lax58Proofs/WordArena.lean" aria-label="View proof Lax58Proofs.WordArena.encode_totalWords_proof on GitHub" title="Lax58Proofs.WordArena.encode_totalWords_proof"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">Show Proof</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a></span><span class="source-proof-rail" data-source-line="L162" aria-label="Proof links"><a class="statement-proof-button" href="https://github.com/szymtor/lax58/blob/83d795f06ae20b48ceed34a9f1284975d305b9c4/proofs/Lax58Proofs/WordArena.lean" aria-label="View proof Lax58Proofs.WordArena.encodeRaw_dense_proof on GitHub" title="Lax58Proofs.WordArena.encodeRaw_dense_proof"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">Show Proof</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a></span><span class="source-proof-rail" data-source-line="L174" aria-label="Proof links"><a class="statement-proof-button" href="https://github.com/szymtor/lax58/blob/83d795f06ae20b48ceed34a9f1284975d305b9c4/proofs/Lax58Proofs/WordArena.lean" aria-label="View proof Lax58Proofs.WordArena.encodeRaw_fits_proof on GitHub" title="Lax58Proofs.WordArena.encodeRaw_fits_proof"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">Show Proof</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a></span><span class="source-proof-rail" data-source-line="L165" aria-label="Proof links"><a class="statement-proof-button" href="https://github.com/szymtor/lax58/blob/83d795f06ae20b48ceed34a9f1284975d305b9c4/proofs/Lax58Proofs/WordArena.lean" aria-label="View proof Lax58Proofs.WordArena.encodeRaw_memoryWords_proof on GitHub" title="Lax58Proofs.WordArena.encodeRaw_memoryWords_proof"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">Show Proof</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a></span><span class="source-proof-rail" data-source-line="L156" aria-label="Proof links"><a class="statement-proof-button" href="https://github.com/szymtor/lax58/blob/83d795f06ae20b48ceed34a9f1284975d305b9c4/proofs/Lax58Proofs/WordArena.lean" aria-label="View proof Lax58Proofs.WordArena.encodeRaw_represents_proof on GitHub" title="Lax58Proofs.WordArena.encodeRaw_represents_proof"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">Show Proof</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a></span><span class="source-proof-rail" data-source-line="L171" aria-label="Proof links"><a class="statement-proof-button" href="https://github.com/szymtor/lax58/blob/83d795f06ae20b48ceed34a9f1284975d305b9c4/proofs/Lax58Proofs/WordArena.lean" aria-label="View proof Lax58Proofs.WordArena.encodeRaw_toInput_length_proof on GitHub" title="Lax58Proofs.WordArena.encodeRaw_toInput_length_proof"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">Show Proof</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a></span><span class="source-proof-rail" data-source-line="L168" aria-label="Proof links"><a class="statement-proof-button" href="https://github.com/szymtor/lax58/blob/83d795f06ae20b48ceed34a9f1284975d305b9c4/proofs/Lax58Proofs/WordArena.lean" aria-label="View proof Lax58Proofs.WordArena.encodeRaw_totalWords_proof on GitHub" title="Lax58Proofs.WordArena.encodeRaw_totalWords_proof"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">Show Proof</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a></span><span class="source-proof-rail" data-source-line="L159" aria-label="Proof links"><a class="statement-proof-button" href="https://github.com/szymtor/lax58/blob/83d795f06ae20b48ceed34a9f1284975d305b9c4/proofs/Lax58Proofs/WordArena.lean" aria-label="View proof Lax58Proofs.WordArena.encodeRaw_wellFormed_proof on GitHub" title="Lax58Proofs.WordArena.encodeRaw_wellFormed_proof"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">Show Proof</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a></span><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
 
 <div class="block"><div class="deps-columns">
-<div class="deps-col"><h3>Builds on</h3><ul class="deps-list"><li title="Lax58.StructuralPresentation"><a href="../lax-58/Lax58.StructuralPresentation.html"><code>Lax58.StructuralPresentation</code></a></li></ul></div>
-<div class="deps-col"><h3>Used by</h3><ul class="deps-list"><li title="Lax53.StructuralRepresentations"><a href="../lax-53/Lax53.StructuralRepresentations.html"><code>Lax53.StructuralRepresentations</code></a></li><li title="Lax58.FormulaExample"><a href="../lax-58/Lax58.FormulaExample.html"><code>Lax58.FormulaExample</code></a></li><li title="Lax58.RamComplexity"><a href="../lax-58/Lax58.RamComplexity.html"><code>Lax58.RamComplexity</code></a></li></ul></div>
-<div class="deps-col"><h3>From Mathlib</h3><p class="empty-note">none</p></div>
+<details class="deps-col block-details"><summary>Builds on</summary><ul class="deps-list"><li title="Lax58.StructuralPresentation"><a href="../lax-58/Lax58.StructuralPresentation.html"><code>Lax58.StructuralPresentation</code></a></li></ul></details>
+<details class="deps-col block-details"><summary>Used by</summary><ul class="deps-list"><li title="Lax53.StructuralRepresentations"><a href="../lax-53/Lax53.StructuralRepresentations.html"><code>Lax53.StructuralRepresentations</code></a></li><li title="Lax58.FormulaExample"><a href="../lax-58/Lax58.FormulaExample.html"><code>Lax58.FormulaExample</code></a></li><li title="Lax58.RamComplexity"><a href="../lax-58/Lax58.RamComplexity.html"><code>Lax58.RamComplexity</code></a></li></ul></details>
+<details class="deps-col block-details"><summary>From Mathlib</summary><p class="empty-note">none</p></details>
 </div></div>
 <section class="page-section discussion-section" aria-labelledby="discussion-title">
 <div class="discussion-heading">
 <div class="discussion-heading-copy">
-<p class="discussion-eyebrow">Community review</p>
 <h3 class="section-title" id="discussion-title">Discussion</h3>
-<p>Ask a question or add context. Endorsements and structured flags are kept in the review panel above; your ORCID profile must share a public name.</p>
+<p>Ask a question or add context. Endorsements and structured flags are kept in the review panel above.</p>
 </div>
-<p class="discussion-count"><span class="remark42__counter" data-url="https://laxarchive.org/lax-58/Lax58.WordArena.html">0</span> <span>comments</span></p>
+<p class="discussion-count" hidden><span class="remark42__counter" data-url="https://laxarchive.org/lax-58/Lax58.WordArena.html">0</span> <span>comments</span></p>
 </div>
 <div class="discussion-embed-shell">
 <p class="discussion-loading" id="remark42-status" role="status"><span class="discussion-loading-mark" aria-hidden="true"></span>Loading discussion…</p>
@@ -545,10 +552,9 @@ operation-cost model is imposed.</p>
 <script type="application/json" id="graph-data">{"concepts":{"nodes":[{"id":"Lax53.AutomatonLinearTime","href":"../lax-53/Lax53.AutomatonLinearTime.html","title":"Word-RAM evaluation of tree automata","owner":"lax-53","status":"proven","ext":true,"dir":"down"},{"id":"Lax53.MSOLinearTime","href":"../lax-53/Lax53.MSOLinearTime.html","title":"Uniform word-RAM model checking for intrinsic MSO sentences","owner":"lax-53","status":"proven","ext":true,"dir":"down"},{"id":"Lax53.StructuralRepresentations","href":"../lax-53/Lax53.StructuralRepresentations.html","title":"Certified structural representations for ranked-tree model checking","owner":"lax-53","status":"proven","ext":true,"dir":"down"},{"id":"Lax53.TreeModelCheckingEncoding","href":"../lax-53/Lax53.TreeModelCheckingEncoding.html","title":"Distinguished structural inputs for tree-automaton evaluation","owner":"lax-53","status":"proven","ext":true,"dir":"down"},{"id":"Lax58.BitPolynomialTime","href":"../lax-58/Lax58.BitPolynomialTime.html","title":"Polynomial time with polynomial word length","owner":"lax-58","status":"none","ext":true,"dir":"down"},{"id":"Lax58.FormulaExample","href":"../lax-58/Lax58.FormulaExample.html","title":"Example — structural encoding of propositional formulas","owner":"lax-58","status":"none","ext":true,"dir":"down"},{"id":"Lax58.RamComplexity","href":"../lax-58/Lax58.RamComplexity.html","title":"Time and word-capacity bounds on the word-RAM","owner":"lax-58","status":"none","ext":true,"dir":"down"},{"id":"Lax58.RamComplexityElab","href":"../lax-58/Lax58.RamComplexityElab.html","title":"Automatic RAM encoding selection (elaboration infrastructure)","owner":"lax-58","status":"none","ext":true,"dir":"down"},{"id":"Lax58.RamComplexityExample","href":"../lax-58/Lax58.RamComplexityExample.html","title":"Examples — separate resource bounds and polynomial time","owner":"lax-58","status":"none","ext":true,"dir":"down"},{"id":"Lax58.RamPolynomialComparison","href":"../lax-58/Lax58.RamPolynomialComparison.html","title":"Two polynomial-time conventions, and their separation","owner":"lax-58","status":"proven","ext":true,"dir":"down"},{"id":"Lax58.StructuralPresentation","href":"../lax-58/Lax58.StructuralPresentation.html","title":"Structural presentations of finite data","owner":"lax-58","status":"none","ext":true,"dir":"up"},{"id":"Lax58.WordArena","href":"../lax-58/Lax58.WordArena.html","title":"Distinguished immutable word arenas","owner":"lax-58","status":"proven","ext":false,"dir":"core"}],"edges":[{"from":"Lax53.TreeModelCheckingEncoding","to":"Lax53.AutomatonLinearTime"},{"from":"Lax58.RamComplexity","to":"Lax53.AutomatonLinearTime"},{"from":"Lax53.StructuralRepresentations","to":"Lax53.MSOLinearTime"},{"from":"Lax53.TreeModelCheckingEncoding","to":"Lax53.MSOLinearTime"},{"from":"Lax58.RamComplexity","to":"Lax53.MSOLinearTime"},{"from":"Lax58.WordArena","to":"Lax53.StructuralRepresentations"},{"from":"Lax53.StructuralRepresentations","to":"Lax53.TreeModelCheckingEncoding"},{"from":"Lax58.RamComplexity","to":"Lax58.BitPolynomialTime"},{"from":"Lax58.WordArena","to":"Lax58.FormulaExample"},{"from":"Lax58.WordArena","to":"Lax58.RamComplexity"},{"from":"Lax58.RamComplexity","to":"Lax58.RamComplexityElab"},{"from":"Lax58.RamComplexityElab","to":"Lax58.RamComplexityExample"},{"from":"Lax58.BitPolynomialTime","to":"Lax58.RamPolynomialComparison"},{"from":"Lax58.RamComplexityExample","to":"Lax58.RamPolynomialComparison"},{"from":"Lax58.StructuralPresentation","to":"Lax58.WordArena"}],"home":"lax-58"},"proofs":{"statements":[],"proofs":[]}}</script>
 </div>
 <footer class="site-footer">
-  <nav class="site-footer-nav" aria-label="Legal and about">
+  <nav class="site-footer-nav" aria-label="Legal">
     <a class="site-footer-link" href="../impressum.html">Imprint</a>
     <a class="site-footer-link" href="../privacy.html">Privacy</a>
-    <a class="site-footer-link" href="../assets/lax-white-paper.pdf">About</a>
   </nav>
 </footer>
 </section>
@@ -578,11 +584,11 @@ operation-cost model is imposed.</p>
 </div>
 </div>
 </dialog>
-<script src="../assets/sidebar.js?v=b1e289522120"></script>
+<script src="../assets/sidebar.js?v=e4e626f46671"></script>
 <script src="../assets/account.js?v=e3db2efa7b34"></script>
 <script src="../assets/layout.js?v=41e28199b546"></script>
-<script src="../assets/dag.js?v=30b3351be153"></script>
+<script src="../assets/dag.js?v=ac501d9a56ee"></script>
 <script src="../assets/source-proof.js?v=b4c48aaad400"></script>
 <script src="../assets/version-history.js?v=a36e868140dd"></script>
-<script src="../assets/comments.js?v=9782b849afc8"></script>
+<script src="../assets/comments.js?v=32f8665770fa"></script>
 </body></html>

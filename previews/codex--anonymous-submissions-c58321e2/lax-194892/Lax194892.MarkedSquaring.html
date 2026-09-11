@@ -1,20 +1,26 @@
 <!doctype html>
 <html lang="en"><head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://comments.laxarchive.org; style-src 'self' 'unsafe-inline'; img-src https: data:; font-src 'self'; frame-src https://comments.laxarchive.org; connect-src https://comments.laxarchive.org">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://comments.laxarchive.org; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self'; frame-src https://comments.laxarchive.org; connect-src https://comments.laxarchive.org">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Lax — an archive of formalized mathematical concepts and their proofs">
 <title>Marked squaring</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=23866243e5a9">
+<link rel="stylesheet" href="../assets/style.css?v=e3e7650126df">
 </head><body>
-<header class="site-header">
-  <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
+<header class="site-header with-sidebar">
+  <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="true" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
+  <div class="site-brand">
   <h1 class="site-title"><a href="../index.html">Lax <span class="site-title-quiet">Lean Archive</span></a></h1>
+  <nav class="site-nav" aria-label="Site">
+    <a class="site-nav-link" href="../lax-242665/paper.html">Introduction</a>
+    <a class="site-nav-link" href="../about.html">About</a>
+  </nav>
+  </div>
   <nav class="header-actions" aria-label="Account">
     <div class="account-header" data-account-root data-remark42-host="https://comments.laxarchive.org" data-remark42-site="remark" data-identity-url="https://comments.laxarchive.org/reactions/v1/identity">
-  <a class="account-control" data-account-login href="https://comments.laxarchive.org/auth/orcid/login?from=https%3A%2F%2Flaxarchive.org&amp;site=remark"><span class="orcid-mark" aria-hidden="true">iD</span><span>Sign in with ORCID</span></a>
+  <a class="account-control" data-account-login href="https://comments.laxarchive.org/auth/orcid/login?from=https%3A%2F%2Flaxarchive.org&amp;site=remark"><span class="orcid-mark" aria-hidden="true">iD</span><span>Sign in<span class="account-login-long"> with ORCID</span></span></a>
   <button class="account-control" data-account-settings type="button" aria-haspopup="dialog" aria-controls="account-dialog" hidden><span class="orcid-mark" aria-hidden="true">iD</span><span>Settings</span></button>
 </div>
   </nav>
@@ -121,7 +127,8 @@
 </dialog>
 <noscript><p class="page-reactions-noscript"><a href="https://comments.laxarchive.org/auth/orcid/login?site=remark&amp;from=https%3A%2F%2Flaxarchive.org%2Flax-194892%2FLax194892.MarkedSquaring.html">Sign in with ORCID</a> to review this page.</p></noscript>
 </section>
-<h4 class="figure-title">Concept map</h4>
+<details class="figure-details">
+<summary>Concept map</summary>
 <figure class="graph-figure concept-root-graph">
 <button class="graph-expand" type="button" data-graph-expand data-graph-label="concept map" aria-expanded="false" aria-label="Open concept map in a large window" title="Open in large window"><svg class="graph-expand-open" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M2.5 6V2.5H6M10 2.5h3.5V6M13.5 10v3.5H10M6 13.5H2.5V10"/></svg><span class="graph-expand-close" aria-hidden="true">×</span></button>
 <div class="graph-toolbar"><button type="button" id="concept-expand" aria-controls="concept-dag" aria-pressed="true">Hide ancestors</button><button type="button" id="concept-descend" aria-controls="concept-dag" aria-pressed="false">Show descendants</button><output id="concept-graph-status" aria-live="polite"></output></div>
@@ -129,6 +136,7 @@
 <div class="graph-tooltip" role="tooltip" hidden></div>
 <figcaption class="graph-legend" aria-label="Concept map legend"><span><i class="legend-node fill-proven"></i>Proven claim</span><span><i class="legend-node fill-none"></i>Definition</span><span><i class="legend-node stroke-own"></i>This concept</span><span><i class="legend-node stroke-ext"></i>Related concept</span><span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B builds on A</span></figcaption>
 </figure>
+</details>
 
 <div class="block block-paper"><h3>In the paper</h3>
 <ul class="in-paper-list">
@@ -179,23 +187,22 @@ functions (Definition D.0.1).</p>
 <tr id="L32" class=""><td class="line-num"><a href="#L32">32</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax194892.MarkedSquaring</span></td></tr>
 <tr id="L33" class=""><td class="line-num"><a href="#L33">33</a></td><td class="line-code"> </td></tr>
 </table></div><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
-<div class="block"><h3>Formalization notes</h3><div class="latex-content"><p>Underlined letters are <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mi>u</mi><mi>m</mi><mi mathvariant="normal">.</mi><mi>i</mi><mi>n</mi><mi>l</mi></mrow><annotation encoding="application/x-tex">Sum.inl</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.0576em;">S</span><span class="mord mathnormal">u</span><span class="mord mathnormal">m</span><span class="mord">.</span><span class="mord mathnormal">in</span><span class="mord mathnormal" style="margin-right:0.0197em;">l</span></span></span></span>, plain ones <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mi>u</mi><mi>m</mi><mi mathvariant="normal">.</mi><mi>i</mi><mi>n</mi><mi>r</mi></mrow><annotation encoding="application/x-tex">Sum.inr</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.0576em;">S</span><span class="mord mathnormal">u</span><span class="mord mathnormal">m</span><span class="mord">.</span><span class="mord mathnormal">in</span><span class="mord mathnormal" style="margin-right:0.0278em;">r</span></span></span></span>; the <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6595em;"></span><span class="mord mathnormal">i</span></span></span></span>-th copy is
+<details class="block block-details"><summary>Formalization notes</summary><div class="latex-content"><p>Underlined letters are <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mi>u</mi><mi>m</mi><mi mathvariant="normal">.</mi><mi>i</mi><mi>n</mi><mi>l</mi></mrow><annotation encoding="application/x-tex">Sum.inl</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.0576em;">S</span><span class="mord mathnormal">u</span><span class="mord mathnormal">m</span><span class="mord">.</span><span class="mord mathnormal">in</span><span class="mord mathnormal" style="margin-right:0.0197em;">l</span></span></span></span>, plain ones <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mi>u</mi><mi>m</mi><mi mathvariant="normal">.</mi><mi>i</mi><mi>n</mi><mi>r</mi></mrow><annotation encoding="application/x-tex">Sum.inr</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.0576em;">S</span><span class="mord mathnormal">u</span><span class="mord mathnormal">m</span><span class="mord">.</span><span class="mord mathnormal">in</span><span class="mord mathnormal" style="margin-right:0.0278em;">r</span></span></span></span>; the <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6595em;"></span><span class="mord mathnormal">i</span></span></span></span>-th copy is
 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>w</mi><mi mathvariant="normal">.</mi><mi>t</mi><mi>a</mi><mi>k</mi><mi>e</mi><mo stretchy="false">(</mo><mi>i</mi><mo>+</mo><mn>1</mn><mo stretchy="false">)</mo><mo stretchy="false">)</mo><mi mathvariant="normal">.</mi><mi>m</mi><mi>a</mi><mi>p</mi><mi>S</mi><mi>u</mi><mi>m</mi><mi mathvariant="normal">.</mi><mi>i</mi><mi>n</mi><mi>l</mi><mo>+</mo><mo>+</mo><mo stretchy="false">(</mo><mi>w</mi><mi mathvariant="normal">.</mi><mi>d</mi><mi>r</mi><mi>o</mi><mi>p</mi><mo stretchy="false">(</mo><mi>i</mi><mo>+</mo><mn>1</mn><mo stretchy="false">)</mo><mo stretchy="false">)</mo><mi mathvariant="normal">.</mi><mi>m</mi><mi>a</mi><mi>p</mi><mi>S</mi><mi>u</mi><mi>m</mi><mi mathvariant="normal">.</mi><mi>i</mi><mi>n</mi><mi>r</mi></mrow><annotation encoding="application/x-tex">(w.take (i+1)).map Sum.inl ++ (w.drop (i+1)).map Sum.inr</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.0269em;">w</span><span class="mord">.</span><span class="mord mathnormal">t</span><span class="mord mathnormal" style="margin-right:0.0315em;">ak</span><span class="mord mathnormal">e</span><span class="mopen">(</span><span class="mord mathnormal">i</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">))</span><span class="mord">.</span><span class="mord mathnormal">ma</span><span class="mord mathnormal" style="margin-right:0.0576em;">pS</span><span class="mord mathnormal">u</span><span class="mord mathnormal">m</span><span class="mord">.</span><span class="mord mathnormal">in</span><span class="mord mathnormal" style="margin-right:0.0197em;">l</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">+</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.0269em;">w</span><span class="mord">.</span><span class="mord mathnormal">d</span><span class="mord mathnormal" style="margin-right:0.0278em;">r</span><span class="mord mathnormal">o</span><span class="mord mathnormal">p</span><span class="mopen">(</span><span class="mord mathnormal">i</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">))</span><span class="mord">.</span><span class="mord mathnormal">ma</span><span class="mord mathnormal" style="margin-right:0.0576em;">pS</span><span class="mord mathnormal">u</span><span class="mord mathnormal">m</span><span class="mord">.</span><span class="mord mathnormal">in</span><span class="mord mathnormal" style="margin-right:0.0278em;">r</span></span></span></span>. Marked squaring is a
 family of functions, one for each alphabet.</p>
-</div></div>
+</div></details>
 <div class="block"><div class="deps-columns">
-<div class="deps-col"><h3>Builds on</h3><p class="empty-note">none</p></div>
-<div class="deps-col"><h3>Used by</h3><ul class="deps-list"><li title="Lax194892.PolyregularFunctions"><a href="../lax-194892/Lax194892.PolyregularFunctions.html"><code>Lax194892.PolyregularFunctions</code></a></li></ul></div>
-<div class="deps-col"><h3>From Mathlib</h3><ul class="deps-list"><li title="Mathlib.Data.List.Basic"><a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/List/Basic.html"><code>Mathlib.Data.List.Basic</code></a></li></ul></div>
+<details class="deps-col block-details"><summary>Builds on</summary><p class="empty-note">none</p></details>
+<details class="deps-col block-details"><summary>Used by</summary><ul class="deps-list"><li title="Lax194892.PolyregularFunctions"><a href="../lax-194892/Lax194892.PolyregularFunctions.html"><code>Lax194892.PolyregularFunctions</code></a></li></ul></details>
+<details class="deps-col block-details"><summary>From Mathlib</summary><ul class="deps-list"><li title="Mathlib.Data.List.Basic"><a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/List/Basic.html"><code>Mathlib.Data.List.Basic</code></a></li></ul></details>
 </div></div>
 <section class="page-section discussion-section" aria-labelledby="discussion-title">
 <div class="discussion-heading">
 <div class="discussion-heading-copy">
-<p class="discussion-eyebrow">Community review</p>
 <h3 class="section-title" id="discussion-title">Discussion</h3>
-<p>Ask a question or add context. Endorsements and structured flags are kept in the review panel above; your ORCID profile must share a public name.</p>
+<p>Ask a question or add context. Endorsements and structured flags are kept in the review panel above.</p>
 </div>
-<p class="discussion-count"><span class="remark42__counter" data-url="https://laxarchive.org/lax-194892/Lax194892.MarkedSquaring.html">0</span> <span>comments</span></p>
+<p class="discussion-count" hidden><span class="remark42__counter" data-url="https://laxarchive.org/lax-194892/Lax194892.MarkedSquaring.html">0</span> <span>comments</span></p>
 </div>
 <div class="discussion-embed-shell">
 <p class="discussion-loading" id="remark42-status" role="status"><span class="discussion-loading-mark" aria-hidden="true"></span>Loading discussion…</p>
@@ -206,10 +213,9 @@ family of functions, one for each alphabet.</p>
 <script type="application/json" id="graph-data">{"concepts":{"nodes":[{"id":"Lax194892.ForIffPolyregular","href":"../lax-194892/Lax194892.ForIffPolyregular.html","title":"For-transducers compute exactly the polyregular functions","owner":"lax-194892","status":"proven","ext":true,"dir":"down"},{"id":"Lax194892.ForOfPolyregular","href":"../lax-194892/Lax194892.ForOfPolyregular.html","title":"Polyregular functions are computed by for-transducers","owner":"lax-194892","status":"proven","ext":true,"dir":"down"},{"id":"Lax194892.MarkedSquaring","href":"../lax-194892/Lax194892.MarkedSquaring.html","title":"Marked squaring","owner":"lax-194892","status":"none","ext":false,"dir":"core"},{"id":"Lax194892.PolyregularContinuity","href":"../lax-194892/Lax194892.PolyregularContinuity.html","title":"Polyregular functions are continuous","owner":"lax-194892","status":"proven","ext":true,"dir":"down"},{"id":"Lax194892.PolyregularFunctions","href":"../lax-194892/Lax194892.PolyregularFunctions.html","title":"Polyregular functions","owner":"lax-194892","status":"none","ext":true,"dir":"down"},{"id":"Lax194892.PolyregularOfFor","href":"../lax-194892/Lax194892.PolyregularOfFor.html","title":"For-transducers compute polyregular functions","owner":"lax-194892","status":"proven","ext":true,"dir":"down"}],"edges":[{"from":"Lax194892.PolyregularFunctions","to":"Lax194892.ForIffPolyregular"},{"from":"Lax194892.PolyregularFunctions","to":"Lax194892.ForOfPolyregular"},{"from":"Lax194892.PolyregularFunctions","to":"Lax194892.PolyregularContinuity"},{"from":"Lax194892.MarkedSquaring","to":"Lax194892.PolyregularFunctions"},{"from":"Lax194892.PolyregularFunctions","to":"Lax194892.PolyregularOfFor"}],"home":"lax-194892"},"proofs":{"statements":[],"proofs":[]}}</script>
 </div>
 <footer class="site-footer">
-  <nav class="site-footer-nav" aria-label="Legal and about">
+  <nav class="site-footer-nav" aria-label="Legal">
     <a class="site-footer-link" href="../impressum.html">Imprint</a>
     <a class="site-footer-link" href="../privacy.html">Privacy</a>
-    <a class="site-footer-link" href="../assets/lax-white-paper.pdf">About</a>
   </nav>
 </footer>
 </section>
@@ -239,11 +245,11 @@ family of functions, one for each alphabet.</p>
 </div>
 </div>
 </dialog>
-<script src="../assets/sidebar.js?v=b1e289522120"></script>
+<script src="../assets/sidebar.js?v=e4e626f46671"></script>
 <script src="../assets/account.js?v=e3db2efa7b34"></script>
 <script src="../assets/layout.js?v=41e28199b546"></script>
-<script src="../assets/dag.js?v=30b3351be153"></script>
+<script src="../assets/dag.js?v=ac501d9a56ee"></script>
 <script src="../assets/source-proof.js?v=b4c48aaad400"></script>
 <script src="../assets/version-history.js?v=a36e868140dd"></script>
-<script src="../assets/comments.js?v=9782b849afc8"></script>
+<script src="../assets/comments.js?v=32f8665770fa"></script>
 </body></html>

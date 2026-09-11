@@ -1,25 +1,30 @@
 <!doctype html>
 <html lang="en"><head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src https: data:; font-src 'self'; frame-src https://comments.laxarchive.org; connect-src https://comments.laxarchive.org">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self'; frame-src https://comments.laxarchive.org; connect-src https://comments.laxarchive.org">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Lax — an archive of formalized mathematical concepts and their proofs">
 <title>Open Proof Obligations — Lax Lean Archive</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="assets/style.css?v=23866243e5a9">
+<link rel="stylesheet" href="assets/style.css?v=e3e7650126df">
 </head><body>
-<header class="site-header">
-  <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
+<header class="site-header sidebar-hidden">
+  <div class="site-brand">
   <h1 class="site-title"><a href="index.html">Lax <span class="site-title-quiet">Lean Archive</span></a></h1>
+  <nav class="site-nav" aria-label="Site">
+    <a class="site-nav-link" href="lax-242665/paper.html">Introduction</a>
+    <a class="site-nav-link" href="about.html">About</a>
+  </nav>
+  </div>
   <nav class="header-actions" aria-label="Account">
     <div class="account-header" data-account-root data-remark42-host="https://comments.laxarchive.org" data-remark42-site="remark" data-identity-url="https://comments.laxarchive.org/reactions/v1/identity">
-  <a class="account-control" data-account-login href="https://comments.laxarchive.org/auth/orcid/login?from=https%3A%2F%2Flaxarchive.org&amp;site=remark"><span class="orcid-mark" aria-hidden="true">iD</span><span>Sign in with ORCID</span></a>
+  <a class="account-control" data-account-login href="https://comments.laxarchive.org/auth/orcid/login?from=https%3A%2F%2Flaxarchive.org&amp;site=remark"><span class="orcid-mark" aria-hidden="true">iD</span><span>Sign in<span class="account-login-long"> with ORCID</span></span></a>
   <button class="account-control" data-account-settings type="button" aria-haspopup="dialog" aria-controls="account-dialog" hidden><span class="orcid-mark" aria-hidden="true">iD</span><span>Settings</span></button>
 </div>
   </nav>
 </header>
-<main id="content-shell">
+<main id="content-shell" class="sidebar-hidden">
 <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
 <aside id="sidebar">
 <a class="sidebar-back" href="index.html"><span class="sidebar-back-arrow" aria-hidden="true">←</span>Archive</a>
@@ -31,37 +36,14 @@
 <label for="filter-type">Type</label>
 <select id="filter-type" class="filter-select">
 <option value="all">All types</option>
-<option value="lemma">lemma</option>
 <option value="open question">open question</option>
 <option value="theorem">theorem</option>
 </select>
 </div></div>
 <ul id="entry-list">
-<li data-type="theorem" data-search="lax68.gridplanar grids are planar theorem lax-68 planar graph classes draft lax68.gridplanar.grid_planar"><a class="entry-link" href="lax-68/Lax68.GridPlanar.html" data-full-title="Grids are planar"><span class="entry-label"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><span class="entry-label-text">Grids are planar</span></span></a></li>
-<li data-type="theorem" data-search="lax68.kuratowskiplanarity kuratowski's theorem in straight-line form theorem lax-68 planar graph classes draft lax68.kuratowskiplanarity.planar_iff_kuratowskifree"><a class="entry-link" href="lax-68/Lax68.KuratowskiPlanarity.html" data-full-title="Kuratowski's theorem in straight-line form"><span class="entry-label"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><span class="entry-label-text">Kuratowski's theorem in straight-line form</span></span></a></li>
-<li data-type="theorem" data-search="lax68.ladderouterplanar ladders are outerplanar theorem lax-68 planar graph classes draft lax68.ladderouterplanar.ladder_outerplanar"><a class="entry-link" href="lax-68/Lax68.LadderOuterplanar.html" data-full-title="Ladders are outerplanar"><span class="entry-label"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><span class="entry-label-text">Ladders are outerplanar</span></span></a></li>
-<li data-type="theorem" data-search="lax68.ladderplanar ladders are planar theorem lax-68 planar graph classes draft lax68.ladderplanar.ladder_planar"><a class="entry-link" href="lax-68/Lax68.LadderPlanar.html" data-full-title="Ladders are planar"><span class="entry-label"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><span class="entry-label-text">Ladders are planar</span></span></a></li>
-<li data-type="theorem" data-search="lax68.ladderseriesparallel ladders are series-parallel theorem lax-68 planar graph classes draft lax68.ladderseriesparallel.ladder_seriesparallel"><a class="entry-link" href="lax-68/Lax68.LadderSeriesParallel.html" data-full-title="Ladders are series-parallel"><span class="entry-label"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><span class="entry-label-text">Ladders are series-parallel</span></span></a></li>
-<li data-type="theorem" data-search="lax68.pathouterplanar paths are outerplanar theorem lax-68 planar graph classes draft lax68.pathouterplanar.path_outerplanar"><a class="entry-link" href="lax-68/Lax68.PathOuterplanar.html" data-full-title="Paths are outerplanar"><span class="entry-label"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><span class="entry-label-text">Paths are outerplanar</span></span></a></li>
-<li data-type="theorem" data-search="lax68.pathplanar paths are planar theorem lax-68 planar graph classes draft lax68.pathplanar.path_planar"><a class="entry-link" href="lax-68/Lax68.PathPlanar.html" data-full-title="Paths are planar"><span class="entry-label"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><span class="entry-label-text">Paths are planar</span></span></a></li>
-<li data-type="theorem" data-search="lax68.pathtree paths are trees theorem lax-68 planar graph classes draft lax68.pathtree.path_tree"><a class="entry-link" href="lax-68/Lax68.PathTree.html" data-full-title="Paths are trees"><span class="entry-label"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><span class="entry-label-text">Paths are trees</span></span></a></li>
-<li data-type="theorem" data-search="lax68.planarexcludedminors wagner's theorem theorem lax-68 planar graph classes draft lax68.planarexcludedminors.planar_iff_excludedminors"><a class="entry-link" href="lax-68/Lax68.PlanarExcludedMinors.html" data-full-title="Wagner's theorem"><span class="entry-label"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><span class="entry-label-text">Wagner's theorem</span></span></a></li>
-<li data-type="theorem" data-search="lax68.seriesparallelplanar series-parallel graphs are planar theorem lax-68 planar graph classes draft lax68.seriesparallelplanar.seriesparallel_planar"><a class="entry-link" href="lax-68/Lax68.SeriesParallelPlanar.html" data-full-title="Series-parallel graphs are planar"><span class="entry-label"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><span class="entry-label-text">Series-parallel graphs are planar</span></span></a></li>
-<li data-type="theorem" data-search="lax68.starouterplanar stars are outerplanar theorem lax-68 planar graph classes draft lax68.starouterplanar.star_outerplanar"><a class="entry-link" href="lax-68/Lax68.StarOuterplanar.html" data-full-title="Stars are outerplanar"><span class="entry-label"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><span class="entry-label-text">Stars are outerplanar</span></span></a></li>
-<li data-type="theorem" data-search="lax68.starplanar stars are planar theorem lax-68 planar graph classes draft lax68.starplanar.star_planar"><a class="entry-link" href="lax-68/Lax68.StarPlanar.html" data-full-title="Stars are planar"><span class="entry-label"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><span class="entry-label-text">Stars are planar</span></span></a></li>
-<li data-type="theorem" data-search="lax68.startree stars are trees theorem lax-68 planar graph classes draft lax68.startree.star_tree"><a class="entry-link" href="lax-68/Lax68.StarTree.html" data-full-title="Stars are trees"><span class="entry-label"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><span class="entry-label-text">Stars are trees</span></span></a></li>
-<li data-type="theorem" data-search="lax68.treeouterplanar trees are outerplanar theorem lax-68 planar graph classes draft lax68.treeouterplanar.tree_outerplanar"><a class="entry-link" href="lax-68/Lax68.TreeOuterplanar.html" data-full-title="Trees are outerplanar"><span class="entry-label"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><span class="entry-label-text">Trees are outerplanar</span></span></a></li>
-<li data-type="theorem" data-search="lax68.treeplanar trees are planar theorem lax-68 planar graph classes draft lax68.treeplanar.tree_planar"><a class="entry-link" href="lax-68/Lax68.TreePlanar.html" data-full-title="Trees are planar"><span class="entry-label"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><span class="entry-label-text">Trees are planar</span></span></a></li>
-<li data-type="theorem" data-search="lax68.trianglemaximalouterplanar triangles are maximal outerplanar theorem lax-68 planar graph classes draft lax68.trianglemaximalouterplanar.triangle_maximalouterplanar"><a class="entry-link" href="lax-68/Lax68.TriangleMaximalOuterplanar.html" data-full-title="Triangles are maximal outerplanar"><span class="entry-label"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><span class="entry-label-text">Triangles are maximal outerplanar</span></span></a></li>
-<li data-type="theorem" data-search="lax68.triangleouterplanar triangles are outerplanar theorem lax-68 planar graph classes draft lax68.triangleouterplanar.triangle_outerplanar"><a class="entry-link" href="lax-68/Lax68.TriangleOuterplanar.html" data-full-title="Triangles are outerplanar"><span class="entry-label"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><span class="entry-label-text">Triangles are outerplanar</span></span></a></li>
-<li data-type="theorem" data-search="lax68.triangleplanar triangles are planar theorem lax-68 planar graph classes draft lax68.triangleplanar.triangle_planar"><a class="entry-link" href="lax-68/Lax68.TrianglePlanar.html" data-full-title="Triangles are planar"><span class="entry-label"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><span class="entry-label-text">Triangles are planar</span></span></a></li>
-<li data-type="theorem" data-search="lax68.wallplanar walls are planar theorem lax-68 planar graph classes draft lax68.wallplanar.wall_planar"><a class="entry-link" href="lax-68/Lax68.WallPlanar.html" data-full-title="Walls are planar"><span class="entry-label"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><span class="entry-label-text">Walls are planar</span></span></a></li>
-<li data-type="theorem" data-search="lax68.wheelhalin wheels are halin graphs theorem lax-68 planar graph classes draft lax68.wheelhalin.wheel_halin"><a class="entry-link" href="lax-68/Lax68.WheelHalin.html" data-full-title="Wheels are Halin graphs"><span class="entry-label"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><span class="entry-label-text">Wheels are Halin graphs</span></span></a></li>
-<li data-type="theorem" data-search="lax68.wheelplanar wheels are planar theorem lax-68 planar graph classes draft lax68.wheelplanar.wheel_planar"><a class="entry-link" href="lax-68/Lax68.WheelPlanar.html" data-full-title="Wheels are planar"><span class="entry-label"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><span class="entry-label-text">Wheels are planar</span></span></a></li>
-<li data-type="theorem" data-search="lax195003.welzlorderscomputation near-linear-time computation of welzl orders theorem lax-195003 near-linear time computation of welzl orders on graphs with linear neighborhood complexity draft lax195003.welzlorderscomputation.exists_nearlineartime_randomized_welzlorder_program **near-linear computation of graph welzl orders** (dreier–kuske, theorem 1.3): one randomized word-ram program, given a member of a graph class whose neighborhood complexity is uniformly at most `c · k`, returns with probability at least `2/3` an order with crossing number at most `12 · c^2 · log₂(n)^2`, within a constant multiple of `(n+m) log n` steps."><a class="entry-link" href="lax-195003/Lax195003.WelzlOrdersComputation.html" data-full-title="Near-linear-time computation of Welzl orders"><span class="entry-label"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><span class="entry-label-text">Near-linear-time computation of Welzl orders</span></span></a></li>
-<li data-type="lemma" data-search="lax242665.bertrandpostulate bertrand's postulate lemma lax-242665 an introduction to lax draft lax242665.bertrandpostulate.exists_prime_between for every `n ≥ 1` there is a prime `p` with `n &lt; p ≤ 2n`."><a class="entry-link" href="lax-242665/Lax242665.BertrandPostulate.html" data-full-title="Bertrand's postulate"><span class="entry-label"><span class="type-badge open" title="lemma — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem×</span><span class="entry-label-text">Bertrand's postulate</span></span></a></li>
-<li data-type="theorem" data-search="lax242665.oddprimebetween an odd prime between n and 2n theorem lax-242665 an introduction to lax draft lax242665.oddprimebetween.exists_odd_prime_between for every `n ≥ 2` there is an odd prime `p` with `n &lt; p ≤ 2n`."><a class="entry-link" href="lax-242665/Lax242665.OddPrimeBetween.html" data-full-title="An odd prime between n and 2n"><span class="entry-label"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><span class="entry-label-text">An odd prime between n and 2n</span></span></a></li>
 <li data-type="open question" data-search="lax434930.pversusnp p versus np open question lax-434930 classical complexity classes draft lax434930.pversusnp.p_ne_np the conjectured separation of p and np, left as an open question."><a class="entry-link" href="lax-434930/Lax434930.PVersusNP.html" data-full-title="P versus NP"><span class="entry-label"><span class="type-badge open" title="open question — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">ope×</span><span class="entry-label-text">P versus NP</span></span></a></li>
+<li data-type="theorem" data-search="lax68.gridplanar grids are planar theorem lax-68 planar graph classes draft lax68.gridplanar.grid_planar"><a class="entry-link" href="lax-68/Lax68.GridPlanar.html" data-full-title="Grids are planar"><span class="entry-label"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><span class="entry-label-text">Grids are planar</span></span></a></li>
+<li data-type="theorem" data-search="lax195003.welzlorderscomputation near-linear-time computation of welzl orders theorem lax-195003 near-linear time computation of welzl orders on graphs with linear neighborhood complexity draft lax195003.welzlorderscomputation.exists_nearlineartime_randomized_welzlorder_program **near-linear computation of graph welzl orders** (dreier–kuske, theorem 1.3): one randomized word-ram program, given a member of a graph class whose neighborhood complexity is uniformly at most `c · k`, returns with probability at least `2/3` an order with crossing number at most `12 · c^2 · log₂(n)^2`, within a constant multiple of `(n+m) log n` steps."><a class="entry-link" href="lax-195003/Lax195003.WelzlOrdersComputation.html" data-full-title="Near-linear-time computation of Welzl orders"><span class="entry-label"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><span class="entry-label-text">Near-linear-time computation of Welzl orders</span></span></a></li>
 <li id="entry-list-empty" hidden>No proof obligations match.</li>
 </ul>
 </aside>
@@ -69,12 +51,26 @@
 <section id="main"><div id="detail">
 <header class="paper-head open-problems-head">
 <h1 class="paper-title">Open Proof Obligations</h1>
-<p class="paper-meta">25 proof obligations · 25 open statements · 4 submissions</p>
+<p class="paper-meta">3 proof obligations · 3 open statements · 3 submissions</p>
 </header>
 <div class="open-problems-intro latex-content">
-<p>These proof obligations have at least one statement that is not yet supported by a grounded chain of archived proofs. Status is computed across the whole archive; draft submissions are included.</p>
+<p>This page includes open questions and theorem statements from draft and registered submissions, plus lemma statements from registered submissions, when they are not yet supported by a grounded chain of archived proofs. To keep work in progress from crowding out registered results, at most one statement is shown from each non-registered submission.</p>
 </div>
 <ul class="open-problems-list" id="open-problems-list">
+<li class="open-problem-card" data-type="open question" data-search="lax434930.pversusnp p versus np open question lax-434930 classical complexity classes draft lax434930.pversusnp.p_ne_np the conjectured separation of p and np, left as an open question.">
+<div class="open-problem-heading">
+<div class="open-problem-title-line"><span class="type-badge open" title="open question — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">ope×</span><h2><a href="lax-434930/Lax434930.PVersusNP.html">P versus NP</a></h2></div>
+<p class="open-problem-meta"><a href="lax-434930/index.html"><code>lax-434930</code></a><span aria-hidden="true">·</span>Classical Complexity Classes<span aria-hidden="true">·</span><span class="status-pill state-draft">draft</span></p>
+</div>
+<p class="open-problem-count">1 open statement</p>
+<ul class="open-statement-list">
+<li>
+<div class="open-statement-summary latex-content"><p>The conjectured separation of P and NP, left as an open question.</p>
+</div>
+</li>
+</ul>
+<p class="open-problem-action"><a href="lax-434930/Lax434930.PVersusNP.html">Take a look at the concept <span aria-hidden="true">→</span></a></p>
+</li>
 <li class="open-problem-card" data-type="theorem" data-search="lax68.gridplanar grids are planar theorem lax-68 planar graph classes draft lax68.gridplanar.grid_planar">
 <div class="open-problem-heading">
 <div class="open-problem-title-line"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><h2><a href="lax-68/Lax68.GridPlanar.html">Grids are planar</a></h2></div>
@@ -83,315 +79,11 @@
 <p class="open-problem-count">1 open statement</p>
 <ul class="open-statement-list">
 <li>
-<p class="open-statement-name"><a href="lax-68/Lax68.GridPlanar.html#s-Lax68.GridPlanar.grid_planar" title="Lax68.GridPlanar.grid_planar"><code>grid_planar</code></a></p>
 <div class="open-statement-summary latex-content"><p>Every grid graph is planar.</p>
 </div>
 </li>
 </ul>
-<p class="open-problem-action"><a href="lax-68/Lax68.GridPlanar.html">Read the full concept <span aria-hidden="true">→</span></a></p>
-</li>
-<li class="open-problem-card" data-type="theorem" data-search="lax68.kuratowskiplanarity kuratowski's theorem in straight-line form theorem lax-68 planar graph classes draft lax68.kuratowskiplanarity.planar_iff_kuratowskifree">
-<div class="open-problem-heading">
-<div class="open-problem-title-line"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><h2><a href="lax-68/Lax68.KuratowskiPlanarity.html">Kuratowski's theorem in straight-line form</a></h2></div>
-<p class="open-problem-meta"><a href="lax-68/index.html"><code>lax-68</code></a><span aria-hidden="true">·</span>Planar Graph Classes<span aria-hidden="true">·</span><span class="status-pill state-draft">draft</span></p>
-</div>
-<p class="open-problem-count">1 open statement</p>
-<ul class="open-statement-list">
-<li>
-<p class="open-statement-name"><a href="lax-68/Lax68.KuratowskiPlanarity.html#s-Lax68.KuratowskiPlanarity.planar_iff_kuratowskiFree" title="Lax68.KuratowskiPlanarity.planar_iff_kuratowskiFree"><code>planar_iff_kuratowskiFree</code></a></p>
-<div class="open-statement-summary latex-content"><p>A finite simple graph admits a crossing-free straight-line drawing exactly
-when it contains no subdivision of <em>K₅</em> or <em>K₃,₃</em>. This is Kuratowski's
-theorem together with Fáry's straight-line drawing theorem.</p>
-</div>
-</li>
-</ul>
-<p class="open-problem-action"><a href="lax-68/Lax68.KuratowskiPlanarity.html">Read the full concept <span aria-hidden="true">→</span></a></p>
-</li>
-<li class="open-problem-card" data-type="theorem" data-search="lax68.ladderouterplanar ladders are outerplanar theorem lax-68 planar graph classes draft lax68.ladderouterplanar.ladder_outerplanar">
-<div class="open-problem-heading">
-<div class="open-problem-title-line"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><h2><a href="lax-68/Lax68.LadderOuterplanar.html">Ladders are outerplanar</a></h2></div>
-<p class="open-problem-meta"><a href="lax-68/index.html"><code>lax-68</code></a><span aria-hidden="true">·</span>Planar Graph Classes<span aria-hidden="true">·</span><span class="status-pill state-draft">draft</span></p>
-</div>
-<p class="open-problem-count">1 open statement</p>
-<ul class="open-statement-list">
-<li>
-<p class="open-statement-name"><a href="lax-68/Lax68.LadderOuterplanar.html#s-Lax68.LadderOuterplanar.ladder_outerplanar" title="Lax68.LadderOuterplanar.ladder_outerplanar"><code>ladder_outerplanar</code></a></p>
-<div class="open-statement-summary latex-content"><p>Every ladder graph is outerplanar.</p>
-</div>
-</li>
-</ul>
-<p class="open-problem-action"><a href="lax-68/Lax68.LadderOuterplanar.html">Read the full concept <span aria-hidden="true">→</span></a></p>
-</li>
-<li class="open-problem-card" data-type="theorem" data-search="lax68.ladderplanar ladders are planar theorem lax-68 planar graph classes draft lax68.ladderplanar.ladder_planar">
-<div class="open-problem-heading">
-<div class="open-problem-title-line"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><h2><a href="lax-68/Lax68.LadderPlanar.html">Ladders are planar</a></h2></div>
-<p class="open-problem-meta"><a href="lax-68/index.html"><code>lax-68</code></a><span aria-hidden="true">·</span>Planar Graph Classes<span aria-hidden="true">·</span><span class="status-pill state-draft">draft</span></p>
-</div>
-<p class="open-problem-count">1 open statement</p>
-<ul class="open-statement-list">
-<li>
-<p class="open-statement-name"><a href="lax-68/Lax68.LadderPlanar.html#s-Lax68.LadderPlanar.ladder_planar" title="Lax68.LadderPlanar.ladder_planar"><code>ladder_planar</code></a></p>
-<div class="open-statement-summary latex-content"><p>Every ladder graph is planar.</p>
-</div>
-</li>
-</ul>
-<p class="open-problem-action"><a href="lax-68/Lax68.LadderPlanar.html">Read the full concept <span aria-hidden="true">→</span></a></p>
-</li>
-<li class="open-problem-card" data-type="theorem" data-search="lax68.ladderseriesparallel ladders are series-parallel theorem lax-68 planar graph classes draft lax68.ladderseriesparallel.ladder_seriesparallel">
-<div class="open-problem-heading">
-<div class="open-problem-title-line"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><h2><a href="lax-68/Lax68.LadderSeriesParallel.html">Ladders are series-parallel</a></h2></div>
-<p class="open-problem-meta"><a href="lax-68/index.html"><code>lax-68</code></a><span aria-hidden="true">·</span>Planar Graph Classes<span aria-hidden="true">·</span><span class="status-pill state-draft">draft</span></p>
-</div>
-<p class="open-problem-count">1 open statement</p>
-<ul class="open-statement-list">
-<li>
-<p class="open-statement-name"><a href="lax-68/Lax68.LadderSeriesParallel.html#s-Lax68.LadderSeriesParallel.ladder_seriesParallel" title="Lax68.LadderSeriesParallel.ladder_seriesParallel"><code>ladder_seriesParallel</code></a></p>
-<div class="open-statement-summary latex-content"><p>Every ladder graph is series-parallel.</p>
-</div>
-</li>
-</ul>
-<p class="open-problem-action"><a href="lax-68/Lax68.LadderSeriesParallel.html">Read the full concept <span aria-hidden="true">→</span></a></p>
-</li>
-<li class="open-problem-card" data-type="theorem" data-search="lax68.pathouterplanar paths are outerplanar theorem lax-68 planar graph classes draft lax68.pathouterplanar.path_outerplanar">
-<div class="open-problem-heading">
-<div class="open-problem-title-line"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><h2><a href="lax-68/Lax68.PathOuterplanar.html">Paths are outerplanar</a></h2></div>
-<p class="open-problem-meta"><a href="lax-68/index.html"><code>lax-68</code></a><span aria-hidden="true">·</span>Planar Graph Classes<span aria-hidden="true">·</span><span class="status-pill state-draft">draft</span></p>
-</div>
-<p class="open-problem-count">1 open statement</p>
-<ul class="open-statement-list">
-<li>
-<p class="open-statement-name"><a href="lax-68/Lax68.PathOuterplanar.html#s-Lax68.PathOuterplanar.path_outerplanar" title="Lax68.PathOuterplanar.path_outerplanar"><code>path_outerplanar</code></a></p>
-<div class="open-statement-summary latex-content"><p>Every path graph is outerplanar.</p>
-</div>
-</li>
-</ul>
-<p class="open-problem-action"><a href="lax-68/Lax68.PathOuterplanar.html">Read the full concept <span aria-hidden="true">→</span></a></p>
-</li>
-<li class="open-problem-card" data-type="theorem" data-search="lax68.pathplanar paths are planar theorem lax-68 planar graph classes draft lax68.pathplanar.path_planar">
-<div class="open-problem-heading">
-<div class="open-problem-title-line"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><h2><a href="lax-68/Lax68.PathPlanar.html">Paths are planar</a></h2></div>
-<p class="open-problem-meta"><a href="lax-68/index.html"><code>lax-68</code></a><span aria-hidden="true">·</span>Planar Graph Classes<span aria-hidden="true">·</span><span class="status-pill state-draft">draft</span></p>
-</div>
-<p class="open-problem-count">1 open statement</p>
-<ul class="open-statement-list">
-<li>
-<p class="open-statement-name"><a href="lax-68/Lax68.PathPlanar.html#s-Lax68.PathPlanar.path_planar" title="Lax68.PathPlanar.path_planar"><code>path_planar</code></a></p>
-<div class="open-statement-summary latex-content"><p>Every path graph is planar.</p>
-</div>
-</li>
-</ul>
-<p class="open-problem-action"><a href="lax-68/Lax68.PathPlanar.html">Read the full concept <span aria-hidden="true">→</span></a></p>
-</li>
-<li class="open-problem-card" data-type="theorem" data-search="lax68.pathtree paths are trees theorem lax-68 planar graph classes draft lax68.pathtree.path_tree">
-<div class="open-problem-heading">
-<div class="open-problem-title-line"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><h2><a href="lax-68/Lax68.PathTree.html">Paths are trees</a></h2></div>
-<p class="open-problem-meta"><a href="lax-68/index.html"><code>lax-68</code></a><span aria-hidden="true">·</span>Planar Graph Classes<span aria-hidden="true">·</span><span class="status-pill state-draft">draft</span></p>
-</div>
-<p class="open-problem-count">1 open statement</p>
-<ul class="open-statement-list">
-<li>
-<p class="open-statement-name"><a href="lax-68/Lax68.PathTree.html#s-Lax68.PathTree.path_tree" title="Lax68.PathTree.path_tree"><code>path_tree</code></a></p>
-<div class="open-statement-summary latex-content"><p>Every path graph is a tree.</p>
-</div>
-</li>
-</ul>
-<p class="open-problem-action"><a href="lax-68/Lax68.PathTree.html">Read the full concept <span aria-hidden="true">→</span></a></p>
-</li>
-<li class="open-problem-card" data-type="theorem" data-search="lax68.planarexcludedminors wagner's theorem theorem lax-68 planar graph classes draft lax68.planarexcludedminors.planar_iff_excludedminors">
-<div class="open-problem-heading">
-<div class="open-problem-title-line"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><h2><a href="lax-68/Lax68.PlanarExcludedMinors.html">Wagner's theorem</a></h2></div>
-<p class="open-problem-meta"><a href="lax-68/index.html"><code>lax-68</code></a><span aria-hidden="true">·</span>Planar Graph Classes<span aria-hidden="true">·</span><span class="status-pill state-draft">draft</span></p>
-</div>
-<p class="open-problem-count">1 open statement</p>
-<ul class="open-statement-list">
-<li>
-<p class="open-statement-name"><a href="lax-68/Lax68.PlanarExcludedMinors.html#s-Lax68.PlanarExcludedMinors.planar_iff_excludedMinors" title="Lax68.PlanarExcludedMinors.planar_iff_excludedMinors"><code>planar_iff_excludedMinors</code></a></p>
-<div class="open-statement-summary latex-content"><p>For every finite simple graph, admitting a crossing-free drawing is equivalent
-to containing neither <em>K₅</em> nor <em>K₃,₃</em> as a minor.</p>
-</div>
-</li>
-</ul>
-<p class="open-problem-action"><a href="lax-68/Lax68.PlanarExcludedMinors.html">Read the full concept <span aria-hidden="true">→</span></a></p>
-</li>
-<li class="open-problem-card" data-type="theorem" data-search="lax68.seriesparallelplanar series-parallel graphs are planar theorem lax-68 planar graph classes draft lax68.seriesparallelplanar.seriesparallel_planar">
-<div class="open-problem-heading">
-<div class="open-problem-title-line"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><h2><a href="lax-68/Lax68.SeriesParallelPlanar.html">Series-parallel graphs are planar</a></h2></div>
-<p class="open-problem-meta"><a href="lax-68/index.html"><code>lax-68</code></a><span aria-hidden="true">·</span>Planar Graph Classes<span aria-hidden="true">·</span><span class="status-pill state-draft">draft</span></p>
-</div>
-<p class="open-problem-count">1 open statement</p>
-<ul class="open-statement-list">
-<li>
-<p class="open-statement-name"><a href="lax-68/Lax68.SeriesParallelPlanar.html#s-Lax68.SeriesParallelPlanar.seriesParallel_planar" title="Lax68.SeriesParallelPlanar.seriesParallel_planar"><code>seriesParallel_planar</code></a></p>
-<div class="open-statement-summary latex-content"><p>Every series-parallel graph is planar.</p>
-</div>
-</li>
-</ul>
-<p class="open-problem-action"><a href="lax-68/Lax68.SeriesParallelPlanar.html">Read the full concept <span aria-hidden="true">→</span></a></p>
-</li>
-<li class="open-problem-card" data-type="theorem" data-search="lax68.starouterplanar stars are outerplanar theorem lax-68 planar graph classes draft lax68.starouterplanar.star_outerplanar">
-<div class="open-problem-heading">
-<div class="open-problem-title-line"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><h2><a href="lax-68/Lax68.StarOuterplanar.html">Stars are outerplanar</a></h2></div>
-<p class="open-problem-meta"><a href="lax-68/index.html"><code>lax-68</code></a><span aria-hidden="true">·</span>Planar Graph Classes<span aria-hidden="true">·</span><span class="status-pill state-draft">draft</span></p>
-</div>
-<p class="open-problem-count">1 open statement</p>
-<ul class="open-statement-list">
-<li>
-<p class="open-statement-name"><a href="lax-68/Lax68.StarOuterplanar.html#s-Lax68.StarOuterplanar.star_outerplanar" title="Lax68.StarOuterplanar.star_outerplanar"><code>star_outerplanar</code></a></p>
-<div class="open-statement-summary latex-content"><p>Every star graph is outerplanar.</p>
-</div>
-</li>
-</ul>
-<p class="open-problem-action"><a href="lax-68/Lax68.StarOuterplanar.html">Read the full concept <span aria-hidden="true">→</span></a></p>
-</li>
-<li class="open-problem-card" data-type="theorem" data-search="lax68.starplanar stars are planar theorem lax-68 planar graph classes draft lax68.starplanar.star_planar">
-<div class="open-problem-heading">
-<div class="open-problem-title-line"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><h2><a href="lax-68/Lax68.StarPlanar.html">Stars are planar</a></h2></div>
-<p class="open-problem-meta"><a href="lax-68/index.html"><code>lax-68</code></a><span aria-hidden="true">·</span>Planar Graph Classes<span aria-hidden="true">·</span><span class="status-pill state-draft">draft</span></p>
-</div>
-<p class="open-problem-count">1 open statement</p>
-<ul class="open-statement-list">
-<li>
-<p class="open-statement-name"><a href="lax-68/Lax68.StarPlanar.html#s-Lax68.StarPlanar.star_planar" title="Lax68.StarPlanar.star_planar"><code>star_planar</code></a></p>
-<div class="open-statement-summary latex-content"><p>Every star graph is planar.</p>
-</div>
-</li>
-</ul>
-<p class="open-problem-action"><a href="lax-68/Lax68.StarPlanar.html">Read the full concept <span aria-hidden="true">→</span></a></p>
-</li>
-<li class="open-problem-card" data-type="theorem" data-search="lax68.startree stars are trees theorem lax-68 planar graph classes draft lax68.startree.star_tree">
-<div class="open-problem-heading">
-<div class="open-problem-title-line"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><h2><a href="lax-68/Lax68.StarTree.html">Stars are trees</a></h2></div>
-<p class="open-problem-meta"><a href="lax-68/index.html"><code>lax-68</code></a><span aria-hidden="true">·</span>Planar Graph Classes<span aria-hidden="true">·</span><span class="status-pill state-draft">draft</span></p>
-</div>
-<p class="open-problem-count">1 open statement</p>
-<ul class="open-statement-list">
-<li>
-<p class="open-statement-name"><a href="lax-68/Lax68.StarTree.html#s-Lax68.StarTree.star_tree" title="Lax68.StarTree.star_tree"><code>star_tree</code></a></p>
-<div class="open-statement-summary latex-content"><p>Every star graph is a tree.</p>
-</div>
-</li>
-</ul>
-<p class="open-problem-action"><a href="lax-68/Lax68.StarTree.html">Read the full concept <span aria-hidden="true">→</span></a></p>
-</li>
-<li class="open-problem-card" data-type="theorem" data-search="lax68.treeouterplanar trees are outerplanar theorem lax-68 planar graph classes draft lax68.treeouterplanar.tree_outerplanar">
-<div class="open-problem-heading">
-<div class="open-problem-title-line"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><h2><a href="lax-68/Lax68.TreeOuterplanar.html">Trees are outerplanar</a></h2></div>
-<p class="open-problem-meta"><a href="lax-68/index.html"><code>lax-68</code></a><span aria-hidden="true">·</span>Planar Graph Classes<span aria-hidden="true">·</span><span class="status-pill state-draft">draft</span></p>
-</div>
-<p class="open-problem-count">1 open statement</p>
-<ul class="open-statement-list">
-<li>
-<p class="open-statement-name"><a href="lax-68/Lax68.TreeOuterplanar.html#s-Lax68.TreeOuterplanar.tree_outerplanar" title="Lax68.TreeOuterplanar.tree_outerplanar"><code>tree_outerplanar</code></a></p>
-<div class="open-statement-summary latex-content"><p>Every tree is outerplanar.</p>
-</div>
-</li>
-</ul>
-<p class="open-problem-action"><a href="lax-68/Lax68.TreeOuterplanar.html">Read the full concept <span aria-hidden="true">→</span></a></p>
-</li>
-<li class="open-problem-card" data-type="theorem" data-search="lax68.treeplanar trees are planar theorem lax-68 planar graph classes draft lax68.treeplanar.tree_planar">
-<div class="open-problem-heading">
-<div class="open-problem-title-line"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><h2><a href="lax-68/Lax68.TreePlanar.html">Trees are planar</a></h2></div>
-<p class="open-problem-meta"><a href="lax-68/index.html"><code>lax-68</code></a><span aria-hidden="true">·</span>Planar Graph Classes<span aria-hidden="true">·</span><span class="status-pill state-draft">draft</span></p>
-</div>
-<p class="open-problem-count">1 open statement</p>
-<ul class="open-statement-list">
-<li>
-<p class="open-statement-name"><a href="lax-68/Lax68.TreePlanar.html#s-Lax68.TreePlanar.tree_planar" title="Lax68.TreePlanar.tree_planar"><code>tree_planar</code></a></p>
-<div class="open-statement-summary latex-content"><p>Every tree is planar.</p>
-</div>
-</li>
-</ul>
-<p class="open-problem-action"><a href="lax-68/Lax68.TreePlanar.html">Read the full concept <span aria-hidden="true">→</span></a></p>
-</li>
-<li class="open-problem-card" data-type="theorem" data-search="lax68.trianglemaximalouterplanar triangles are maximal outerplanar theorem lax-68 planar graph classes draft lax68.trianglemaximalouterplanar.triangle_maximalouterplanar">
-<div class="open-problem-heading">
-<div class="open-problem-title-line"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><h2><a href="lax-68/Lax68.TriangleMaximalOuterplanar.html">Triangles are maximal outerplanar</a></h2></div>
-<p class="open-problem-meta"><a href="lax-68/index.html"><code>lax-68</code></a><span aria-hidden="true">·</span>Planar Graph Classes<span aria-hidden="true">·</span><span class="status-pill state-draft">draft</span></p>
-</div>
-<p class="open-problem-count">1 open statement</p>
-<ul class="open-statement-list">
-<li>
-<p class="open-statement-name"><a href="lax-68/Lax68.TriangleMaximalOuterplanar.html#s-Lax68.TriangleMaximalOuterplanar.triangle_maximalOuterplanar" title="Lax68.TriangleMaximalOuterplanar.triangle_maximalOuterplanar"><code>triangle_maximalOuterplanar</code></a></p>
-<div class="open-statement-summary latex-content"><p>Every triangle is maximal outerplanar.</p>
-</div>
-</li>
-</ul>
-<p class="open-problem-action"><a href="lax-68/Lax68.TriangleMaximalOuterplanar.html">Read the full concept <span aria-hidden="true">→</span></a></p>
-</li>
-<li class="open-problem-card" data-type="theorem" data-search="lax68.triangleouterplanar triangles are outerplanar theorem lax-68 planar graph classes draft lax68.triangleouterplanar.triangle_outerplanar">
-<div class="open-problem-heading">
-<div class="open-problem-title-line"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><h2><a href="lax-68/Lax68.TriangleOuterplanar.html">Triangles are outerplanar</a></h2></div>
-<p class="open-problem-meta"><a href="lax-68/index.html"><code>lax-68</code></a><span aria-hidden="true">·</span>Planar Graph Classes<span aria-hidden="true">·</span><span class="status-pill state-draft">draft</span></p>
-</div>
-<p class="open-problem-count">1 open statement</p>
-<ul class="open-statement-list">
-<li>
-<p class="open-statement-name"><a href="lax-68/Lax68.TriangleOuterplanar.html#s-Lax68.TriangleOuterplanar.triangle_outerplanar" title="Lax68.TriangleOuterplanar.triangle_outerplanar"><code>triangle_outerplanar</code></a></p>
-<div class="open-statement-summary latex-content"><p>Every triangle is outerplanar.</p>
-</div>
-</li>
-</ul>
-<p class="open-problem-action"><a href="lax-68/Lax68.TriangleOuterplanar.html">Read the full concept <span aria-hidden="true">→</span></a></p>
-</li>
-<li class="open-problem-card" data-type="theorem" data-search="lax68.triangleplanar triangles are planar theorem lax-68 planar graph classes draft lax68.triangleplanar.triangle_planar">
-<div class="open-problem-heading">
-<div class="open-problem-title-line"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><h2><a href="lax-68/Lax68.TrianglePlanar.html">Triangles are planar</a></h2></div>
-<p class="open-problem-meta"><a href="lax-68/index.html"><code>lax-68</code></a><span aria-hidden="true">·</span>Planar Graph Classes<span aria-hidden="true">·</span><span class="status-pill state-draft">draft</span></p>
-</div>
-<p class="open-problem-count">1 open statement</p>
-<ul class="open-statement-list">
-<li>
-<p class="open-statement-name"><a href="lax-68/Lax68.TrianglePlanar.html#s-Lax68.TrianglePlanar.triangle_planar" title="Lax68.TrianglePlanar.triangle_planar"><code>triangle_planar</code></a></p>
-<div class="open-statement-summary latex-content"><p>Every triangle is planar.</p>
-</div>
-</li>
-</ul>
-<p class="open-problem-action"><a href="lax-68/Lax68.TrianglePlanar.html">Read the full concept <span aria-hidden="true">→</span></a></p>
-</li>
-<li class="open-problem-card" data-type="theorem" data-search="lax68.wallplanar walls are planar theorem lax-68 planar graph classes draft lax68.wallplanar.wall_planar">
-<div class="open-problem-heading">
-<div class="open-problem-title-line"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><h2><a href="lax-68/Lax68.WallPlanar.html">Walls are planar</a></h2></div>
-<p class="open-problem-meta"><a href="lax-68/index.html"><code>lax-68</code></a><span aria-hidden="true">·</span>Planar Graph Classes<span aria-hidden="true">·</span><span class="status-pill state-draft">draft</span></p>
-</div>
-<p class="open-problem-count">1 open statement</p>
-<ul class="open-statement-list">
-<li>
-<p class="open-statement-name"><a href="lax-68/Lax68.WallPlanar.html#s-Lax68.WallPlanar.wall_planar" title="Lax68.WallPlanar.wall_planar"><code>wall_planar</code></a></p>
-<div class="open-statement-summary latex-content"><p>Every wall graph is planar.</p>
-</div>
-</li>
-</ul>
-<p class="open-problem-action"><a href="lax-68/Lax68.WallPlanar.html">Read the full concept <span aria-hidden="true">→</span></a></p>
-</li>
-<li class="open-problem-card" data-type="theorem" data-search="lax68.wheelhalin wheels are halin graphs theorem lax-68 planar graph classes draft lax68.wheelhalin.wheel_halin">
-<div class="open-problem-heading">
-<div class="open-problem-title-line"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><h2><a href="lax-68/Lax68.WheelHalin.html">Wheels are Halin graphs</a></h2></div>
-<p class="open-problem-meta"><a href="lax-68/index.html"><code>lax-68</code></a><span aria-hidden="true">·</span>Planar Graph Classes<span aria-hidden="true">·</span><span class="status-pill state-draft">draft</span></p>
-</div>
-<p class="open-problem-count">1 open statement</p>
-<ul class="open-statement-list">
-<li>
-<p class="open-statement-name"><a href="lax-68/Lax68.WheelHalin.html#s-Lax68.WheelHalin.wheel_halin" title="Lax68.WheelHalin.wheel_halin"><code>wheel_halin</code></a></p>
-<div class="open-statement-summary latex-content"><p>Every wheel graph is a Halin graph.</p>
-</div>
-</li>
-</ul>
-<p class="open-problem-action"><a href="lax-68/Lax68.WheelHalin.html">Read the full concept <span aria-hidden="true">→</span></a></p>
-</li>
-<li class="open-problem-card" data-type="theorem" data-search="lax68.wheelplanar wheels are planar theorem lax-68 planar graph classes draft lax68.wheelplanar.wheel_planar">
-<div class="open-problem-heading">
-<div class="open-problem-title-line"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><h2><a href="lax-68/Lax68.WheelPlanar.html">Wheels are planar</a></h2></div>
-<p class="open-problem-meta"><a href="lax-68/index.html"><code>lax-68</code></a><span aria-hidden="true">·</span>Planar Graph Classes<span aria-hidden="true">·</span><span class="status-pill state-draft">draft</span></p>
-</div>
-<p class="open-problem-count">1 open statement</p>
-<ul class="open-statement-list">
-<li>
-<p class="open-statement-name"><a href="lax-68/Lax68.WheelPlanar.html#s-Lax68.WheelPlanar.wheel_planar" title="Lax68.WheelPlanar.wheel_planar"><code>wheel_planar</code></a></p>
-<div class="open-statement-summary latex-content"><p>Every wheel graph is planar.</p>
-</div>
-</li>
-</ul>
-<p class="open-problem-action"><a href="lax-68/Lax68.WheelPlanar.html">Read the full concept <span aria-hidden="true">→</span></a></p>
+<p class="open-problem-action"><a href="lax-68/Lax68.GridPlanar.html">Take a look at the concept <span aria-hidden="true">→</span></a></p>
 </li>
 <li class="open-problem-card" data-type="theorem" data-search="lax195003.welzlorderscomputation near-linear-time computation of welzl orders theorem lax-195003 near-linear time computation of welzl orders on graphs with linear neighborhood complexity draft lax195003.welzlorderscomputation.exists_nearlineartime_randomized_welzlorder_program **near-linear computation of graph welzl orders** (dreier–kuske, theorem 1.3): one randomized word-ram program, given a member of a graph class whose neighborhood complexity is uniformly at most `c · k`, returns with probability at least `2/3` an order with crossing number at most `12 · c^2 · log₂(n)^2`, within a constant multiple of `(n+m) log n` steps.">
 <div class="open-problem-heading">
@@ -401,7 +93,6 @@ to containing neither <em>K₅</em> nor <em>K₃,₃</em> as a minor.</p>
 <p class="open-problem-count">1 open statement</p>
 <ul class="open-statement-list">
 <li>
-<p class="open-statement-name"><a href="lax-195003/Lax195003.WelzlOrdersComputation.html#s-Lax195003.WelzlOrdersComputation.exists_nearLinearTime_randomized_welzlOrder_program" title="Lax195003.WelzlOrdersComputation.exists_nearLinearTime_randomized_welzlOrder_program"><code>exists_nearLinearTime_randomized_welzlOrder_program</code></a></p>
 <div class="open-statement-summary latex-content"><p><strong>Near-linear computation of graph Welzl orders</strong> (Dreier–Kuske,
 Theorem 1.3): one randomized word-RAM program, given a member of a graph class
 whose neighborhood complexity is uniformly at most <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>c</mi><mo separator="true">⋅</mo><mi>k</mi></mrow><annotation encoding="application/x-tex">c · k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6944em;"></span><span class="mord mathnormal">c</span><span class="mpunct">⋅</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.0315em;">k</span></span></span></span>, returns with
@@ -410,61 +101,15 @@ probability at least <span class="katex"><span class="katex-mathml"><math xmlns=
 </div>
 </li>
 </ul>
-<p class="open-problem-action"><a href="lax-195003/Lax195003.WelzlOrdersComputation.html">Read the full concept <span aria-hidden="true">→</span></a></p>
-</li>
-<li class="open-problem-card" data-type="lemma" data-search="lax242665.bertrandpostulate bertrand's postulate lemma lax-242665 an introduction to lax draft lax242665.bertrandpostulate.exists_prime_between for every `n ≥ 1` there is a prime `p` with `n &lt; p ≤ 2n`.">
-<div class="open-problem-heading">
-<div class="open-problem-title-line"><span class="type-badge open" title="lemma — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">lem×</span><h2><a href="lax-242665/Lax242665.BertrandPostulate.html">Bertrand's postulate</a></h2></div>
-<p class="open-problem-meta"><a href="lax-242665/index.html"><code>lax-242665</code></a><span aria-hidden="true">·</span>An Introduction to Lax<span aria-hidden="true">·</span><span class="status-pill state-draft">draft</span></p>
-</div>
-<p class="open-problem-count">1 open statement</p>
-<ul class="open-statement-list">
-<li>
-<p class="open-statement-name"><a href="lax-242665/Lax242665.BertrandPostulate.html#s-Lax242665.BertrandPostulate.exists_prime_between" title="Lax242665.BertrandPostulate.exists_prime_between"><code>exists_prime_between</code></a></p>
-<div class="open-statement-summary latex-content"><p>For every <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>≥</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">n ≥ 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.7719em;vertical-align:-0.136em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≥</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span> there is a prime <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi></mrow><annotation encoding="application/x-tex">p</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">p</span></span></span></span> with <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>&lt;</mo><mi>p</mi><mo>≤</mo><mn>2</mn><mi>n</mi></mrow><annotation encoding="application/x-tex">n &lt; p ≤ 2n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.8304em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">p</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">2</span><span class="mord mathnormal">n</span></span></span></span>.</p>
-</div>
-</li>
-</ul>
-<p class="open-problem-action"><a href="lax-242665/Lax242665.BertrandPostulate.html">Read the full concept <span aria-hidden="true">→</span></a></p>
-</li>
-<li class="open-problem-card" data-type="theorem" data-search="lax242665.oddprimebetween an odd prime between n and 2n theorem lax-242665 an introduction to lax draft lax242665.oddprimebetween.exists_odd_prime_between for every `n ≥ 2` there is an odd prime `p` with `n &lt; p ≤ 2n`.">
-<div class="open-problem-heading">
-<div class="open-problem-title-line"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><h2><a href="lax-242665/Lax242665.OddPrimeBetween.html">An odd prime between n and 2n</a></h2></div>
-<p class="open-problem-meta"><a href="lax-242665/index.html"><code>lax-242665</code></a><span aria-hidden="true">·</span>An Introduction to Lax<span aria-hidden="true">·</span><span class="status-pill state-draft">draft</span></p>
-</div>
-<p class="open-problem-count">1 open statement</p>
-<ul class="open-statement-list">
-<li>
-<p class="open-statement-name"><a href="lax-242665/Lax242665.OddPrimeBetween.html#s-Lax242665.OddPrimeBetween.exists_odd_prime_between" title="Lax242665.OddPrimeBetween.exists_odd_prime_between"><code>exists_odd_prime_between</code></a></p>
-<div class="open-statement-summary latex-content"><p>For every <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>≥</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">n ≥ 2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.7719em;vertical-align:-0.136em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≥</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">2</span></span></span></span> there is an odd prime <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi></mrow><annotation encoding="application/x-tex">p</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">p</span></span></span></span> with <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>&lt;</mo><mi>p</mi><mo>≤</mo><mn>2</mn><mi>n</mi></mrow><annotation encoding="application/x-tex">n &lt; p ≤ 2n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.8304em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">p</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">2</span><span class="mord mathnormal">n</span></span></span></span>.</p>
-</div>
-</li>
-</ul>
-<p class="open-problem-action"><a href="lax-242665/Lax242665.OddPrimeBetween.html">Read the full concept <span aria-hidden="true">→</span></a></p>
-</li>
-<li class="open-problem-card" data-type="open question" data-search="lax434930.pversusnp p versus np open question lax-434930 classical complexity classes draft lax434930.pversusnp.p_ne_np the conjectured separation of p and np, left as an open question.">
-<div class="open-problem-heading">
-<div class="open-problem-title-line"><span class="type-badge open" title="open question — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">ope×</span><h2><a href="lax-434930/Lax434930.PVersusNP.html">P versus NP</a></h2></div>
-<p class="open-problem-meta"><a href="lax-434930/index.html"><code>lax-434930</code></a><span aria-hidden="true">·</span>Classical Complexity Classes<span aria-hidden="true">·</span><span class="status-pill state-draft">draft</span></p>
-</div>
-<p class="open-problem-count">1 open statement</p>
-<ul class="open-statement-list">
-<li>
-<p class="open-statement-name"><a href="lax-434930/Lax434930.PVersusNP.html#s-Lax434930.PVersusNP.P_ne_NP" title="Lax434930.PVersusNP.P_ne_NP"><code>P_ne_NP</code></a></p>
-<div class="open-statement-summary latex-content"><p>The conjectured separation of P and NP, left as an open question.</p>
-</div>
-</li>
-</ul>
-<p class="open-problem-action"><a href="lax-434930/Lax434930.PVersusNP.html">Read the full concept <span aria-hidden="true">→</span></a></p>
+<p class="open-problem-action"><a href="lax-195003/Lax195003.WelzlOrdersComputation.html">Take a look at the concept <span aria-hidden="true">→</span></a></p>
 </li>
 <li id="open-problems-list-empty" class="open-problems-empty" hidden>No proof obligations match.</li>
 </ul>
 </div>
 <footer class="site-footer">
-  <nav class="site-footer-nav" aria-label="Legal and about">
+  <nav class="site-footer-nav" aria-label="Legal">
     <a class="site-footer-link" href="impressum.html">Imprint</a>
     <a class="site-footer-link" href="privacy.html">Privacy</a>
-    <a class="site-footer-link" href="assets/lax-white-paper.pdf">About</a>
   </nav>
 </footer>
 </section>
@@ -494,6 +139,6 @@ probability at least <span class="katex"><span class="katex-mathml"><math xmlns=
 </div>
 </div>
 </dialog>
-<script src="assets/sidebar.js?v=b1e289522120"></script>
+<script src="assets/sidebar.js?v=e4e626f46671"></script>
 <script src="assets/account.js?v=e3db2efa7b34"></script>
 </body></html>

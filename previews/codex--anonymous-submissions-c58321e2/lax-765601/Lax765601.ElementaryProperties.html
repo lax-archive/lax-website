@@ -1,20 +1,26 @@
 <!doctype html>
 <html lang="en"><head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://comments.laxarchive.org; style-src 'self' 'unsafe-inline'; img-src https: data:; font-src 'self'; frame-src https://comments.laxarchive.org; connect-src https://comments.laxarchive.org">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://comments.laxarchive.org; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self'; frame-src https://comments.laxarchive.org; connect-src https://comments.laxarchive.org">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Lax — an archive of formalized mathematical concepts and their proofs">
 <title>Prefix preservation and length preservation</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=23866243e5a9">
+<link rel="stylesheet" href="../assets/style.css?v=e3e7650126df">
 </head><body>
-<header class="site-header">
-  <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
+<header class="site-header with-sidebar">
+  <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="true" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
+  <div class="site-brand">
   <h1 class="site-title"><a href="../index.html">Lax <span class="site-title-quiet">Lean Archive</span></a></h1>
+  <nav class="site-nav" aria-label="Site">
+    <a class="site-nav-link" href="../lax-242665/paper.html">Introduction</a>
+    <a class="site-nav-link" href="../about.html">About</a>
+  </nav>
+  </div>
   <nav class="header-actions" aria-label="Account">
     <div class="account-header" data-account-root data-remark42-host="https://comments.laxarchive.org" data-remark42-site="remark" data-identity-url="https://comments.laxarchive.org/reactions/v1/identity">
-  <a class="account-control" data-account-login href="https://comments.laxarchive.org/auth/orcid/login?from=https%3A%2F%2Flaxarchive.org&amp;site=remark"><span class="orcid-mark" aria-hidden="true">iD</span><span>Sign in with ORCID</span></a>
+  <a class="account-control" data-account-login href="https://comments.laxarchive.org/auth/orcid/login?from=https%3A%2F%2Flaxarchive.org&amp;site=remark"><span class="orcid-mark" aria-hidden="true">iD</span><span>Sign in<span class="account-login-long"> with ORCID</span></span></a>
   <button class="account-control" data-account-settings type="button" aria-haspopup="dialog" aria-controls="account-dialog" hidden><span class="orcid-mark" aria-hidden="true">iD</span><span>Settings</span></button>
 </div>
   </nav>
@@ -120,7 +126,8 @@
 </dialog>
 <noscript><p class="page-reactions-noscript"><a href="https://comments.laxarchive.org/auth/orcid/login?site=remark&amp;from=https%3A%2F%2Flaxarchive.org%2Flax-765601%2FLax765601.ElementaryProperties.html">Sign in with ORCID</a> to review this page.</p></noscript>
 </section>
-<h4 class="figure-title">Concept map</h4>
+<details class="figure-details">
+<summary>Concept map</summary>
 <figure class="graph-figure concept-root-graph">
 <button class="graph-expand" type="button" data-graph-expand data-graph-label="concept map" aria-expanded="false" aria-label="Open concept map in a large window" title="Open in large window"><svg class="graph-expand-open" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M2.5 6V2.5H6M10 2.5h3.5V6M13.5 10v3.5H10M6 13.5H2.5V10"/></svg><span class="graph-expand-close" aria-hidden="true">×</span></button>
 <div class="graph-toolbar"><button type="button" id="concept-expand" aria-controls="concept-dag" aria-pressed="true">Hide ancestors</button><button type="button" id="concept-descend" aria-controls="concept-dag" aria-pressed="false">Show descendants</button><output id="concept-graph-status" aria-live="polite"></output></div>
@@ -128,6 +135,7 @@
 <div class="graph-tooltip" role="tooltip" hidden></div>
 <figcaption class="graph-legend" aria-label="Concept map legend"><span><i class="legend-node fill-proven"></i>Proven claim</span><span><i class="legend-node fill-none"></i>Definition</span><span><i class="legend-node stroke-own"></i>This concept</span><span><i class="legend-node stroke-ext"></i>Related concept</span><span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B builds on A</span></figcaption>
 </figure>
+</details>
 
 <div class="block block-paper"><h3>In the paper</h3>
 <ul class="in-paper-list">
@@ -204,22 +212,21 @@ of Mealy machines (Theorem B.4.1).</p>
 <tr id="L48" class=""><td class="line-num"><a href="#L48">48</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax765601.ElementaryProperties</span></td></tr>
 <tr id="L49" class=""><td class="line-num"><a href="#L49">49</a></td><td class="line-code"> </td></tr>
 </table></div><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
-<div class="block"><h3>Formalization notes</h3><div class="latex-content"><p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&lt;</mo><mo>+</mo><mo>:</mo></mrow><annotation encoding="application/x-tex">&lt;+:</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord">+</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">:</span></span></span></span> is mathlib's prefix relation on lists. The three definitions quantify over
+<details class="block block-details"><summary>Formalization notes</summary><div class="latex-content"><p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&lt;</mo><mo>+</mo><mo>:</mo></mrow><annotation encoding="application/x-tex">&lt;+:</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord">+</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">:</span></span></span></span> is mathlib's prefix relation on lists. The three definitions quantify over
 all strings of the input alphabet and carry no finiteness hypothesis.</p>
-</div></div>
+</div></details>
 <div class="block"><div class="deps-columns">
-<div class="deps-col"><h3>Builds on</h3><p class="empty-note">none</p></div>
-<div class="deps-col"><h3>Used by</h3><ul class="deps-list"><li title="Lax132576.LengthPreservingNormalForm"><a href="../lax-132576/Lax132576.LengthPreservingNormalForm.html"><code>Lax132576.LengthPreservingNormalForm</code></a></li><li title="Lax132576.LengthPreservingTyping"><a href="../lax-132576/Lax132576.LengthPreservingTyping.html"><code>Lax132576.LengthPreservingTyping</code></a></li><li title="Lax132576.MealyMachineIndependent"><a href="../lax-132576/Lax132576.MealyMachineIndependent.html"><code>Lax132576.MealyMachineIndependent</code></a></li><li title="Lax132576.RationalMealyCharacterisation"><a href="../lax-132576/Lax132576.RationalMealyCharacterisation.html"><code>Lax132576.RationalMealyCharacterisation</code></a></li><li title="Lax132576.SequentialCharacterisation"><a href="../lax-132576/Lax132576.SequentialCharacterisation.html"><code>Lax132576.SequentialCharacterisation</code></a></li><li title="Lax314295.LogicPrecomputation"><a href="../lax-314295/Lax314295.LogicPrecomputation.html"><code>Lax314295.LogicPrecomputation</code></a></li><li title="Lax765601.MealyDerivatives"><a href="../lax-765601/Lax765601.MealyDerivatives.html"><code>Lax765601.MealyDerivatives</code></a></li></ul></div>
-<div class="deps-col"><h3>From Mathlib</h3><ul class="deps-list"><li title="Mathlib.Data.List.Infix"><a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/List/Infix.html"><code>Mathlib.Data.List.Infix</code></a></li></ul></div>
+<details class="deps-col block-details"><summary>Builds on</summary><p class="empty-note">none</p></details>
+<details class="deps-col block-details"><summary>Used by</summary><ul class="deps-list"><li title="Lax132576.LengthPreservingNormalForm"><a href="../lax-132576/Lax132576.LengthPreservingNormalForm.html"><code>Lax132576.LengthPreservingNormalForm</code></a></li><li title="Lax132576.LengthPreservingTyping"><a href="../lax-132576/Lax132576.LengthPreservingTyping.html"><code>Lax132576.LengthPreservingTyping</code></a></li><li title="Lax132576.MealyMachineIndependent"><a href="../lax-132576/Lax132576.MealyMachineIndependent.html"><code>Lax132576.MealyMachineIndependent</code></a></li><li title="Lax132576.RationalMealyCharacterisation"><a href="../lax-132576/Lax132576.RationalMealyCharacterisation.html"><code>Lax132576.RationalMealyCharacterisation</code></a></li><li title="Lax132576.SequentialCharacterisation"><a href="../lax-132576/Lax132576.SequentialCharacterisation.html"><code>Lax132576.SequentialCharacterisation</code></a></li><li title="Lax314295.LogicPrecomputation"><a href="../lax-314295/Lax314295.LogicPrecomputation.html"><code>Lax314295.LogicPrecomputation</code></a></li><li title="Lax765601.MealyDerivatives"><a href="../lax-765601/Lax765601.MealyDerivatives.html"><code>Lax765601.MealyDerivatives</code></a></li></ul></details>
+<details class="deps-col block-details"><summary>From Mathlib</summary><ul class="deps-list"><li title="Mathlib.Data.List.Infix"><a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/List/Infix.html"><code>Mathlib.Data.List.Infix</code></a></li></ul></details>
 </div></div>
 <section class="page-section discussion-section" aria-labelledby="discussion-title">
 <div class="discussion-heading">
 <div class="discussion-heading-copy">
-<p class="discussion-eyebrow">Community review</p>
 <h3 class="section-title" id="discussion-title">Discussion</h3>
-<p>Ask a question or add context. Endorsements and structured flags are kept in the review panel above; your ORCID profile must share a public name.</p>
+<p>Ask a question or add context. Endorsements and structured flags are kept in the review panel above.</p>
 </div>
-<p class="discussion-count"><span class="remark42__counter" data-url="https://laxarchive.org/lax-765601/Lax765601.ElementaryProperties.html">0</span> <span>comments</span></p>
+<p class="discussion-count" hidden><span class="remark42__counter" data-url="https://laxarchive.org/lax-765601/Lax765601.ElementaryProperties.html">0</span> <span>comments</span></p>
 </div>
 <div class="discussion-embed-shell">
 <p class="discussion-loading" id="remark42-status" role="status"><span class="discussion-loading-mark" aria-hidden="true"></span>Loading discussion…</p>
@@ -230,10 +237,9 @@ all strings of the input alphabet and carry no finiteness hypothesis.</p>
 <script type="application/json" id="graph-data">{"concepts":{"nodes":[{"id":"Lax132576.LengthPreservingNormalForm","href":"../lax-132576/Lax132576.LengthPreservingNormalForm.html","title":"Length preserving rational functions have length preserving automata","owner":"lax-132576","status":"proven","ext":true,"dir":"down"},{"id":"Lax132576.LengthPreservingTyping","href":"../lax-132576/Lax132576.LengthPreservingTyping.html","title":"Length preservation through a typing of the states","owner":"lax-132576","status":"proven","ext":true,"dir":"down"},{"id":"Lax132576.MealyMachineIndependent","href":"../lax-132576/Lax132576.MealyMachineIndependent.html","title":"Machine-independent characterisation of Mealy machines","owner":"lax-132576","status":"proven","ext":true,"dir":"down"},{"id":"Lax132576.RationalMealyCharacterisation","href":"../lax-132576/Lax132576.RationalMealyCharacterisation.html","title":"Which rational functions are Mealy machines","owner":"lax-132576","status":"proven","ext":true,"dir":"down"},{"id":"Lax132576.SequentialCharacterisation","href":"../lax-132576/Lax132576.SequentialCharacterisation.html","title":"Machine-independent characterisation of sequential functions","owner":"lax-132576","status":"proven","ext":true,"dir":"down"},{"id":"Lax314295.LogicPrecomputation","href":"../lax-314295/Lax314295.LogicPrecomputation.html","title":"Precomputing the answers of MSO formulas by a rational function","owner":"lax-314295","status":"proven","ext":true,"dir":"down"},{"id":"Lax765601.ElementaryProperties","href":"../lax-765601/Lax765601.ElementaryProperties.html","title":"Prefix preservation and length preservation","owner":"lax-765601","status":"none","ext":false,"dir":"core"},{"id":"Lax765601.MealyDerivatives","href":"../lax-765601/Lax765601.MealyDerivatives.html","title":"Myhill–Nerode for Mealy machines","owner":"lax-765601","status":"proven","ext":true,"dir":"down"}],"edges":[{"from":"Lax765601.ElementaryProperties","to":"Lax132576.LengthPreservingNormalForm"},{"from":"Lax765601.ElementaryProperties","to":"Lax132576.LengthPreservingTyping"},{"from":"Lax765601.ElementaryProperties","to":"Lax132576.MealyMachineIndependent"},{"from":"Lax765601.ElementaryProperties","to":"Lax132576.RationalMealyCharacterisation"},{"from":"Lax765601.ElementaryProperties","to":"Lax132576.SequentialCharacterisation"},{"from":"Lax765601.ElementaryProperties","to":"Lax314295.LogicPrecomputation"},{"from":"Lax765601.ElementaryProperties","to":"Lax765601.MealyDerivatives"}],"home":"lax-765601"},"proofs":{"statements":[],"proofs":[]}}</script>
 </div>
 <footer class="site-footer">
-  <nav class="site-footer-nav" aria-label="Legal and about">
+  <nav class="site-footer-nav" aria-label="Legal">
     <a class="site-footer-link" href="../impressum.html">Imprint</a>
     <a class="site-footer-link" href="../privacy.html">Privacy</a>
-    <a class="site-footer-link" href="../assets/lax-white-paper.pdf">About</a>
   </nav>
 </footer>
 </section>
@@ -263,11 +269,11 @@ all strings of the input alphabet and carry no finiteness hypothesis.</p>
 </div>
 </div>
 </dialog>
-<script src="../assets/sidebar.js?v=b1e289522120"></script>
+<script src="../assets/sidebar.js?v=e4e626f46671"></script>
 <script src="../assets/account.js?v=e3db2efa7b34"></script>
 <script src="../assets/layout.js?v=41e28199b546"></script>
-<script src="../assets/dag.js?v=30b3351be153"></script>
+<script src="../assets/dag.js?v=ac501d9a56ee"></script>
 <script src="../assets/source-proof.js?v=b4c48aaad400"></script>
 <script src="../assets/version-history.js?v=a36e868140dd"></script>
-<script src="../assets/comments.js?v=9782b849afc8"></script>
+<script src="../assets/comments.js?v=32f8665770fa"></script>
 </body></html>

@@ -62,24 +62,146 @@
 
   // ---- tooltips: one floating panel per graph figure ----
 
+  let activeProofTooltip = null;
+  let proofTooltipFrame;
+
   function figureTooltip(container) {
     const figure = container.closest('.graph-figure');
     return figure ? figure.querySelector('.graph-tooltip') : null;
   }
 
-  function showTooltip(container, element, rows) {
+  function positionProofTooltip(element, tooltip, figure) {
+    const gap = 8;
+    const inset = 8;
+    const figureBox = figure.getBoundingClientRect();
+    const expanded = figure.classList.contains('graph-expanded');
+    const frame = {
+      left: expanded ? Math.max(inset, figureBox.left + inset) : inset,
+      right: Math.min(window.innerWidth - inset, expanded ? figureBox.right - inset : Infinity),
+      top: Math.max(inset, (expanded ? figureBox.top : document.querySelector('.site-header')?.getBoundingClientRect().bottom || 0) + inset),
+      bottom: Math.min(window.innerHeight - inset, expanded ? figureBox.bottom - inset : Infinity),
+    };
+    tooltip.style.maxWidth = Math.min(390, frame.right - frame.left) + 'px';
+    const anchor = element.getBoundingClientRect();
+    const centerX = (anchor.left + anchor.right) / 2;
+    const centerY = (anchor.top + anchor.bottom) / 2;
+    const place = (left, top, placement) => {
+      tooltip.dataset.placement = placement;
+      tooltip.style.left = (expanded ? left - figureBox.left - figure.clientLeft : left) + 'px';
+      tooltip.style.top = (expanded ? top - figureBox.top - figure.clientTop : top) + 'px';
+    };
+
+    if (!expanded) {
+      // Use the page margins, including space over the sidebar, so the
+      // opaque panel leaves the network unobstructed at the node's height.
+      const sides = [
+        { name: 'left', space: figureBox.left - gap - frame.left, distance: centerX - figureBox.left },
+        { name: 'right', space: frame.right - figureBox.right - gap, distance: figureBox.right - centerX },
+      ].sort((a, b) => a.distance - b.distance);
+      const style = getComputedStyle(tooltip);
+      const padding = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight) + 2;
+      const mathWidth = Math.max(0, ...[...tooltip.querySelectorAll('.katex-html')]
+        .map((math) => math.getBoundingClientRect().width));
+      const minWidth = Math.min(tooltip.offsetWidth, Math.max(140, mathWidth + padding));
+      for (const side of sides) {
+        if (side.space < minWidth) continue;
+        tooltip.style.maxWidth = Math.min(390, side.space) + 'px';
+        const width = tooltip.offsetWidth;
+        const height = tooltip.offsetHeight;
+        if (height > frame.bottom - frame.top) continue;
+        const left = side.name === 'left' ? figureBox.left - gap - width : figureBox.right + gap;
+        const top = Math.max(frame.top, Math.min(centerY - height / 2, frame.bottom - height));
+        place(left, top, side.name);
+        return;
+      }
+
+      // A narrow screen may have no usable side margin. Prefer an opaque
+      // panel below the figure, or above it if only that space is visible.
+      tooltip.style.maxWidth = Math.min(390, frame.right - frame.left) + 'px';
+      const width = tooltip.offsetWidth;
+      const height = tooltip.offsetHeight;
+      const left = Math.max(frame.left, Math.min(
+        sides[0].name === 'left' ? figureBox.left : figureBox.right - width,
+        frame.right - width,
+      ));
+      if (figureBox.bottom + gap + height <= frame.bottom) {
+        place(left, figureBox.bottom + gap, 'below');
+        return;
+      }
+      if (figureBox.top - gap - height >= frame.top) {
+        place(left, figureBox.top - gap - height, 'above');
+        return;
+      }
+      // If the network fills the viewport, keep the panel readable nearby.
+    }
+
+    const width = tooltip.offsetWidth;
+    const height = tooltip.offsetHeight;
+    const overlap = (a, b) => Math.max(0, Math.min(a.right, b.right) - Math.max(a.left, b.left)) *
+      Math.max(0, Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top));
+    const padded = (box, padding) => ({
+      left: box.left - padding, right: box.right + padding,
+      top: box.top - padding, bottom: box.bottom + padding,
+    });
+    const candidates = [
+      [centerX - width / 2, anchor.top - height - gap],
+      [centerX - width / 2, anchor.bottom + gap],
+      [anchor.right + gap, centerY - height / 2],
+      [anchor.left - width - gap, centerY - height / 2],
+    ].map(([left, top]) => {
+      left = Math.max(frame.left, Math.min(left, frame.right - width));
+      top = Math.max(frame.top, Math.min(top, frame.bottom - height));
+      return { left, top, right: left + width, bottom: top + height };
+    });
+
+    // In the large window, stay beside the hovered node and leave it visible.
+    const protectedAnchor = padded(anchor, gap);
+    const ranked = candidates.map((box) => ({
+      box,
+      score: [
+        overlap(box, protectedAnchor),
+        (box.left + width / 2 - centerX) ** 2 + (box.top + height / 2 - centerY) ** 2,
+      ],
+    })).sort((a, b) => {
+      for (let i = 0; i < a.score.length; i++)
+        if (a.score[i] !== b.score[i]) return a.score[i] - b.score[i];
+      return 0;
+    });
+    const best = ranked[0].box;
+    place(best.left, best.top, 'near');
+  }
+
+  function showTooltip(container, element, content, renderedHtml) {
     const tooltip = figureTooltip(container);
     const figure = tooltip && tooltip.closest('.graph-figure');
     if (!tooltip || !figure) return;
     tooltip.replaceChildren();
-    for (const [label, value] of rows) {
-      const row = document.createElement('div');
-      const heading = document.createElement('strong');
-      heading.textContent = label + ': ';
-      row.append(heading, document.createTextNode(value));
-      tooltip.append(row);
+    if (typeof renderedHtml === 'string') {
+      // Only build-time Markdown/KaTeX output goes here; author HTML is
+      // escaped by the renderer before it enters the inert graph payload.
+      tooltip.innerHTML = renderedHtml;
+    } else if (typeof content === 'string') {
+      tooltip.textContent = content;
+    } else {
+      for (const [label, value] of content) {
+        const row = document.createElement('div');
+        const heading = document.createElement('strong');
+        heading.textContent = label + ': ';
+        row.append(heading, document.createTextNode(value));
+        tooltip.append(row);
+      }
     }
-    tooltip.hidden = false;
+    tooltip.hidden = !tooltip.textContent.trim();
+    if (tooltip.hidden) {
+      hideTooltip(container);
+      return;
+    }
+    if (container.dataset.graph === 'proofs') {
+      positionProofTooltip(element, tooltip, figure);
+      activeProofTooltip = { container, element, tooltip, figure };
+      document.fonts?.ready.then(refreshProofTooltip);
+      return;
+    }
     const figureBox = figure.getBoundingClientRect();
     const elementBox = element.getBoundingClientRect();
 
@@ -126,12 +248,30 @@
   function hideTooltip(container) {
     const tooltip = figureTooltip(container);
     if (tooltip) tooltip.hidden = true;
+    if (activeProofTooltip?.container === container) activeProofTooltip = null;
   }
 
-  function attachTooltip(el, container, rows) {
-    el.addEventListener('mouseenter', () => showTooltip(container, el, rows));
+  function refreshProofTooltip() {
+    if (!activeProofTooltip) return;
+    cancelAnimationFrame(proofTooltipFrame);
+    proofTooltipFrame = requestAnimationFrame(() => {
+      if (!activeProofTooltip) return;
+      const { container, element, tooltip, figure } = activeProofTooltip;
+      const node = element.getBoundingClientRect();
+      const plot = container.getBoundingClientRect();
+      if (node.right <= Math.max(0, plot.left) || node.left >= Math.min(window.innerWidth, plot.right) ||
+          node.bottom <= Math.max(0, plot.top) || node.top >= Math.min(window.innerHeight, plot.bottom)) {
+        hideTooltip(container);
+        return;
+      }
+      positionProofTooltip(element, tooltip, figure);
+    });
+  }
+
+  function attachTooltip(el, container, content, renderedHtml) {
+    el.addEventListener('mouseenter', () => showTooltip(container, el, content, renderedHtml));
     el.addEventListener('mouseleave', () => hideTooltip(container));
-    el.addEventListener('focus', () => showTooltip(container, el, rows));
+    el.addEventListener('focus', () => showTooltip(container, el, content, renderedHtml));
     el.addEventListener('blur', () => hideTooltip(container));
   }
 
@@ -477,6 +617,7 @@
   function renderConceptDag(data) {
     const container = document.getElementById('concept-dag');
     if (!container || !data || !data.nodes.length) return;
+    if (container.closest('details:not([open])')) return;
     container.replaceChildren();
 
     const showAncestry = container.dataset.ancestry === 'true';
@@ -602,52 +743,6 @@
     return result;
   }
 
-  function proofTooltipRows(node) {
-    return [
-      ['Proof', node.id],
-      ...(node.description ? [['Description', node.description]] : []),
-      ['Conclusion', node.conclusion],
-      ['Assumptions', node.assumptions.length ? node.assumptions.join(', ') : 'none'],
-      ['Submission', node.owner],
-      ['Status', node.assumptionsProven ? 'grounded — all assumptions proven' : `conditional — ${node.outstanding} open assumption${node.outstanding === 1 ? '' : 's'}`],
-    ];
-  }
-
-  function statementTooltipRows(node) {
-    return [
-      ['Claim', node.label || node.id],
-      ...(node.title && node.title !== (node.label || node.id) ? [['Title', node.title]] : []),
-      ...(node.label && node.label !== node.id ? [['Statement', node.id]] : []),
-      ['Status', node.proven ? 'proven' : 'open'],
-      ...(node.owner ? [['Submission', node.owner]] : []),
-    ];
-  }
-
-  /** A concept box standing for several statements. It speaks for the claim as
-   * a whole; the individual axiom ids belong to the concept page. */
-  function conceptTooltipRows(node) {
-    const provenCount = node.docks.filter((dock) => dock.proven).length;
-    return [
-      ['Claim', node.id],
-      ...(node.title && node.title !== node.id ? [['Title', node.title]] : []),
-      ['Statements', `${node.docks.length} (${provenCount} proven)`],
-      ['Status', node.proven ? 'proven' : 'open'],
-      ...(node.owner ? [['Submission', node.owner]] : []),
-    ];
-  }
-
-  /** One dock. Statements of a multi-statement concept are named here by
-   * position only — anonymity is the point on this surface, and the raw id is
-   * one click away through the dock's link. */
-  function dockTooltipRows(node, dock, index) {
-    return [
-      ['Claim', node.id],
-      ['Statement', `${index} of ${node.docks.length}`],
-      ['Status', dock.proven ? 'proven' : 'open'],
-      ...(dock.owner ? [['Submission', dock.owner]] : []),
-    ];
-  }
-
   // Small and tight against the box, so a concept and its docks read as one
   // unit rather than a box with satellites.
   const DOCK_R = 5;
@@ -664,6 +759,7 @@
   function renderProofNetwork(data) {
     const container = document.getElementById('proof-network');
     if (!container || !data || !data.proofs.length) return;
+    hideTooltip(container);
     container.replaceChildren();
 
     const nodes = [];
@@ -681,7 +777,8 @@
         if (!node) {
           node = {
             kind: 'concept', key: 'c:' + statement.concept, id: statement.concept,
-            label, title: statement.title, owner: statement.owner, ext: statement.ext,
+            label, title: statement.title, tooltipHtml: statement.tooltipHtml,
+            owner: statement.owner, ext: statement.ext,
             href: statement.href ? statement.href.split('#')[0] : undefined,
             docks: [], width: nodeWidth(label), height: NODE_H + DOCK_DROP + 2 * DOCK_R,
           };
@@ -844,11 +941,11 @@
       rowHeights[p.layer] = Math.max(rowHeights[p.layer], component.height);
     }
     // A proof step (claim → turnstile → claim) spans two rows, so the gap is
-    // kept small enough that one step roughly matches the concept map's 76px
-    // layer rhythm instead of doubling it.
+    // kept small: one step is not much taller than a layer of the concept
+    // map, and a paper's worth of steps fits a screen.
     const padX = 38;
-    const padY = 26;
-    const rowGap = 26;
+    const padY = 20;
+    const rowGap = 16;
     const width = Math.max(container.clientWidth, Math.ceil(layout.width) + 2 * padX);
     const offsetX = (width - layout.width) / 2;
     const height = rowHeights.reduce((sum, value) => sum + value, 0) + layout.maxLayer * rowGap + 2 * padY;
@@ -1035,7 +1132,7 @@
       if (node.kind === 'statement') {
         const g = appendBoxNode(group, node, 'net-node ' + (node.proven ? 'proven' : 'open'), node.label);
         g.setAttribute('transform', `translate(${node.x},${node.y})`);
-        attachTooltip(g, container, statementTooltipRows(node));
+        attachTooltip(g, container, node.title || '', node.tooltipHtml);
         attachHotEdges(g, incident.get(node.key));
         continue;
       }
@@ -1046,7 +1143,7 @@
         const box = appendBoxNode(g, node, 'net-node ' + (node.proven ? 'proven' : 'open'),
           node.label, node.width);
         box.setAttribute('transform', `translate(0,${-node.height / 2 + NODE_H / 2})`);
-        attachTooltip(box, container, conceptTooltipRows(node));
+        attachTooltip(box, container, node.title || '', node.tooltipHtml);
         attachHotEdges(box, incident.get(node.key));
         node.docks.forEach((dock, index) => {
           const x = dockOffsetX(node, index + 1);
@@ -1059,7 +1156,7 @@
           svgEl(dockGroup, 'circle', { cx: x, cy: y, r: DOCK_R });
           svgEl(dockGroup, 'text', { x, y, 'text-anchor': 'middle', dy: 2.5 })
             .textContent = String(index + 1);
-          attachTooltip(dockGroup, container, dockTooltipRows(node, dock, index + 1));
+          attachTooltip(dockGroup, container, dock.title || node.title || '', dock.tooltipHtml ?? node.tooltipHtml);
           attachHotEdges(dockGroup, dockIncident.get(`${node.key}\0${index + 1}`));
         });
         continue;
@@ -1075,9 +1172,14 @@
         width: node.width, height: node.height, rx: 4,
       });
       svgEl(g, 'text', { 'text-anchor': 'middle', dy: 4.5 }).textContent = '⊢';
-      attachTooltip(g, container, proofTooltipRows(node));
+      attachTooltip(g, container, node.description || '', node.tooltipHtml);
       attachHotEdges(g, incident.get(node.key));
     }
+
+    // Conclusions are at the top. Start there, centered across networks
+    // wider than the window, in both the inline and expanded views.
+    container.scrollTop = 0;
+    container.scrollLeft = (container.scrollWidth - container.clientWidth) / 2;
   }
 
   function render() {
@@ -1099,6 +1201,16 @@
       list.hidden = !expanded;
       button.textContent = `${expanded ? 'Hide' : 'Show'} referenced concepts`;
       button.setAttribute('aria-expanded', String(expanded));
+    });
+  }
+
+  function installConceptDisclosure() {
+    const disclosure = document.getElementById('concept-dag')?.closest('details');
+    if (!disclosure) return;
+    disclosure.addEventListener('toggle', () => {
+      if (!disclosure.open || !globalThis.laxLayout) return;
+      const data = readData();
+      if (data) renderConceptDag(data.concepts);
     });
   }
 
@@ -1151,7 +1263,9 @@
 
   function initialize() {
     installUsedConceptToggle();
+    installConceptDisclosure();
     installGraphExpanders();
+    window.addEventListener('scroll', refreshProofTooltip, { capture: true, passive: true });
     render();
   }
 
