@@ -12,7 +12,7 @@ Lax is built for the stages that come after.
 It aligns formal proofs with natural-language arguments, lemma by lemma, so that the paper remains the place where a result is explained, and every step of that explanation is certified.
 It lets mathematicians review and endorse what is stated, and it lets later work import those statements, so that results grow into a connected body of theory.
 
-## What a submission is
+## Lax Submission
 
 A Lax submission is a commit in a public git repository. It holds
 
@@ -75,5 +75,5 @@ The archive's code, metadata, the submissions, and the generated artifacts are a
 
 ## Who we are
 
-Lax is a project by Édouard Bonnet (CNRS, ENS Lyon), Jan Dreier (TU Wien and
+Lax is a project by Édouard Bonnet (CNRS, ENS Lyon, LIP), Jan Dreier (TU Wien and
 HPI Potsdam), and Clemens Kuske (TU Wien and HPI Potsdam).
