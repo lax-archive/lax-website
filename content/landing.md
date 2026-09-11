@@ -57,7 +57,8 @@ After restarting, open Ubuntu.
 Set up, once per machine:
 
 ```
-npm install -g lax-archive && lax doctor
+npm install -g lax-archive
+lax doctor
 ```
 
 Hand your coding agent a prompt like:
