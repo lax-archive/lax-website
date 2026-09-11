@@ -33,6 +33,10 @@
   const MIN_ARC_SEPARATION = 7;
   const PROOF_NETWORK_MIN_WIDTH = 720;
   const PROOF_SELECTION_SCALE = 1.28;
+  const GRAPH_ZOOM_MIN = 0.25;
+  const GRAPH_ZOOM_MAX = 1.5;
+  const GRAPH_ZOOM_STEP = 0.15;
+  const GRAPH_SCROLL_DURATION = 900;
   const DETAIL_PANEL_MIN_OUTSIDE_WIDTH = 320;
   const DETAIL_PANEL_MAX_OUTSIDE_WIDTH = 400;
   const DETAIL_PANEL_OUTSIDE_GAP = 16;
@@ -374,6 +378,8 @@
   // ---- proof-network selection and detail drawer ----
 
   const proofContexts = new WeakMap();
+  const graphZoomScales = new WeakMap();
+  const graphScrollFrames = new WeakMap();
   const reviewCache = new Map();
   let activeProofContext = null;
   let reviewSequence = 0;
@@ -640,17 +646,55 @@
     return related;
   }
 
+  function applyGraphScale(container) {
+    const svg = container.querySelector('svg');
+    if (!svg) return;
+    const context = proofContexts.get(container);
+    const userScale = graphZoomScales.get(container) || 1;
+    const selectionScale = context?.selectionMagnified ? PROOF_SELECTION_SCALE : 1;
+    const scale = userScale * selectionScale;
+    const width = Number(svg.getAttribute('width'));
+    const height = Number(svg.getAttribute('height'));
+    svg.style.width = `${Math.round(width * scale)}px`;
+    svg.style.height = `${Math.round(height * scale)}px`;
+    if (context) context.magnification = scale;
+  }
+
   function setProofMagnification(context, magnified) {
-    const scale = magnified ? PROOF_SELECTION_SCALE : 1;
-    if (context.magnification === scale) return;
-    context.magnification = scale;
-    context.svg.style.width = `${Math.round(context.svgWidth * scale)}px`;
-    context.svg.style.height = `${Math.round(context.svgHeight * scale)}px`;
-    context.container.style.height = `${Math.min(
-      Math.round(context.svgHeight * scale),
-      720,
-    )}px`;
+    context.selectionMagnified = magnified;
     context.container.classList.toggle('graph-magnified', magnified);
+    applyGraphScale(context.container);
+  }
+
+  function stopGraphScroll(container) {
+    const frame = graphScrollFrames.get(container);
+    if (frame) cancelAnimationFrame(frame);
+    graphScrollFrames.delete(container);
+  }
+
+  function animateGraphScroll(container, left, top) {
+    stopGraphScroll(container);
+    const targetLeft = Math.max(0, Math.min(left, container.scrollWidth - container.clientWidth));
+    const targetTop = Math.max(0, Math.min(top, container.scrollHeight - container.clientHeight));
+    const startLeft = container.scrollLeft;
+    const startTop = container.scrollTop;
+    if (globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
+      container.scrollLeft = targetLeft;
+      container.scrollTop = targetTop;
+      return;
+    }
+    const startedAt = performance.now();
+    const step = (now) => {
+      const progress = Math.min(1, (now - startedAt) / GRAPH_SCROLL_DURATION);
+      const eased = progress < 0.5
+        ? 4 * progress * progress * progress
+        : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+      container.scrollLeft = startLeft + (targetLeft - startLeft) * eased;
+      container.scrollTop = startTop + (targetTop - startTop) * eased;
+      if (progress < 1) graphScrollFrames.set(container, requestAnimationFrame(step));
+      else graphScrollFrames.delete(container);
+    };
+    graphScrollFrames.set(container, requestAnimationFrame(step));
   }
 
   function centerGraphSelection(context, related) {
@@ -676,11 +720,7 @@
     const viewportCenterOffset = (panelOnLeft ? panelWidth : 0) + availableWidth / 2;
     const targetLeft = (left + right) / 2 - viewportCenterOffset;
     const targetTop = (top + bottom) / 2 - context.container.clientHeight / 2;
-    context.container.scrollTo?.({
-      left: Math.max(0, targetLeft),
-      top: Math.max(0, targetTop),
-      behavior: 'smooth',
-    });
+    animateGraphScroll(context.container, targetLeft, targetTop);
   }
 
   function placeDetailPanel(context) {
@@ -706,11 +746,13 @@
 
   function clearProofSelection(context) {
     if (!context) return;
+    stopGraphScroll(context.container);
     for (const item of context.items.values())
       item.element.classList.remove('graph-selected', 'graph-related', 'graph-dimmed');
     for (const item of context.edges)
       item.route.classList.remove('graph-selected', 'graph-related', 'graph-dimmed');
     context.selection = null;
+    context.related = null;
     context.trigger = null;
     context.panel.hidden = true;
     setProofMagnification(context, false);
@@ -721,12 +763,21 @@
   function selectProofItem(context, descriptor, renderPanel = true) {
     const item = context.items.get(descriptor.token);
     if (!item) return;
+    const figure = context.container.closest('.graph-figure');
+    if (!figure.classList.contains('graph-expanded')) {
+      const expandButton = figure.querySelector('[data-graph-expand]');
+      context.selection = descriptor;
+      context.trigger = item.element;
+      setGraphExpanded(expandButton, true);
+      return;
+    }
     if (activeProofContext && activeProofContext !== context) clearProofSelection(activeProofContext);
     activeProofContext = context;
     context.selection = descriptor;
     context.trigger = item.element;
 
     const related = graphClosure(context, item.roots);
+    context.related = related;
     for (const candidate of context.items.values()) {
       const isRelated = candidate.roots.some((key) => related.has(key));
       candidate.element.classList.toggle('graph-selected', candidate.token === descriptor.token);
@@ -758,7 +809,9 @@
       svgWidth: Number(svg.getAttribute('width')),
       svgHeight: Number(svg.getAttribute('height')),
       magnification: 1,
+      selectionMagnified: false,
       selection: null,
+      related: null,
       trigger: null,
     };
     proofContexts.set(container, context);
@@ -1565,6 +1618,9 @@
     renderConceptDag(data.concepts);
     renderProofNetwork(data.proofs);
     renderSubmissionDag(data.submissions);
+    for (const container of document.querySelectorAll(
+      '.graph-figure.graph-expanded > .figure-container',
+    )) applyGraphScale(container);
   }
 
   function installUsedConceptToggle() {
@@ -1584,10 +1640,71 @@
 
   let expandedFigure = null;
 
+  function updateGraphZoomControls(figure, scale) {
+    const controls = figure.querySelector('.graph-zoom-controls');
+    if (!controls) return;
+    controls.querySelector('[data-graph-zoom-out]').disabled = scale <= GRAPH_ZOOM_MIN;
+    controls.querySelector('[data-graph-zoom-in]').disabled = scale >= GRAPH_ZOOM_MAX;
+    const reset = controls.querySelector('[data-graph-zoom-reset]');
+    reset.textContent = `${Math.round(scale * 100)}%`;
+    reset.setAttribute('aria-label', `Reset graph zoom, currently ${reset.textContent}`);
+  }
+
+  function setGraphZoom(container, nextScale) {
+    const scale = Math.max(GRAPH_ZOOM_MIN, Math.min(GRAPH_ZOOM_MAX,
+      Math.round(nextScale * 100) / 100));
+    graphZoomScales.set(container, scale);
+    applyGraphScale(container);
+    const figure = container.closest('.graph-figure');
+    updateGraphZoomControls(figure, scale);
+    const context = proofContexts.get(container);
+    if (context?.related) requestAnimationFrame(() => centerGraphSelection(context, context.related));
+  }
+
+  function installGraphZoomControls() {
+    for (const expandButton of document.querySelectorAll('[data-graph-expand]')) {
+      const figure = expandButton.closest('.graph-figure');
+      const container = figure.querySelector('.figure-container');
+      const legend = figure.querySelector('.graph-legend');
+      if (!container || !legend || legend.querySelector('.graph-zoom-controls')) continue;
+      const controls = document.createElement('div');
+      controls.className = 'graph-zoom-controls';
+      controls.setAttribute('role', 'group');
+      controls.setAttribute('aria-label', 'Graph zoom');
+      const button = (label, text, attribute) => {
+        const control = document.createElement('button');
+        control.type = 'button';
+        control.textContent = text;
+        control.setAttribute('aria-label', label);
+        control.setAttribute(attribute, '');
+        controls.append(control);
+        return control;
+      };
+      const zoomOut = button('Zoom graph out', '−', 'data-graph-zoom-out');
+      const reset = button('Reset graph zoom, currently 100%', '100%', 'data-graph-zoom-reset');
+      const zoomIn = button('Zoom graph in', '+', 'data-graph-zoom-in');
+      controls.addEventListener('click', (event) => event.stopPropagation());
+      zoomOut.addEventListener('click', () =>
+        setGraphZoom(container, (graphZoomScales.get(container) || 1) - GRAPH_ZOOM_STEP));
+      reset.addEventListener('click', () => setGraphZoom(container, 1));
+      zoomIn.addEventListener('click', () =>
+        setGraphZoom(container, (graphZoomScales.get(container) || 1) + GRAPH_ZOOM_STEP));
+      legend.prepend(controls);
+      updateGraphZoomControls(figure, 1);
+    }
+  }
+
   function setGraphExpanded(button, expanded) {
     const figure = button.closest('.graph-figure');
     if (!figure) return;
     const label = button.dataset.graphLabel || 'graph';
+    const container = figure.querySelector('.figure-container');
+    if (!expanded && container) {
+      graphZoomScales.set(container, 1);
+      const proofContext = proofContexts.get(container);
+      if (proofContext) clearProofSelection(proofContext);
+      updateGraphZoomControls(figure, 1);
+    }
     figure.classList.toggle('graph-expanded', expanded);
     button.setAttribute('aria-expanded', String(expanded));
     button.setAttribute('aria-label', expanded
@@ -1636,6 +1753,7 @@
       const graphItem = target.closest(
         '.net-node, .net-proof, .net-dock, .graph-edge-route.is-interactive',
       );
+      if (target.closest('.graph-zoom-controls')) return;
       if (graphItem && context.container.contains(graphItem)) return;
       clearProofSelection(context);
     });
@@ -1653,6 +1771,7 @@
     installUsedConceptToggle();
     installProofDetailDismissal();
     installGraphExpanders();
+    installGraphZoomControls();
     render();
   }
 

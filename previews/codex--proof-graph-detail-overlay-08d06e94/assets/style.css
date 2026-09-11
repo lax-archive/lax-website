@@ -3501,6 +3501,41 @@ body.graph-window-open::after{
 .graph-legend .legend-note{ font-style: italic; }
 .graph-legend .proof-flow{ font-style: normal; }
 
+.graph-zoom-controls{
+  display: none;
+  align-items: center;
+  gap: 0.22rem;
+  margin-right: 0.2rem;
+}
+.graph-expanded .graph-zoom-controls{ display: inline-flex; }
+.graph-zoom-controls button{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.85rem;
+  height: 1.65rem;
+  padding: 0 0.42rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-control);
+  background: var(--surface);
+  color: var(--link);
+  font: 600 0.68rem/1 var(--mono);
+  cursor: pointer;
+}
+.graph-zoom-controls [data-graph-zoom-reset]{ min-width: 3.25rem; }
+.graph-zoom-controls button:hover:not(:disabled){
+  border-color: var(--accent);
+  background: var(--accent-light);
+}
+.graph-zoom-controls button:focus-visible{
+  outline: 2px solid rgba(59, 107, 154, 0.35);
+  outline-offset: 1px;
+}
+.graph-zoom-controls button:disabled{
+  opacity: 0.45;
+  cursor: default;
+}
+
 .legend-node{
   display: inline-block;
   width: 17px;
@@ -3571,9 +3606,9 @@ body.graph-window-open::after{
 
 .graph-tooltip[hidden]{ display: none; }
 
-/* A proof-network selection opens one scrollable drawer over the side of the
-   figure farthest from the selected node. The graph stays in place beneath
-   it, so ancestry and descendants remain legible as one connected context. */
+/* A proof-network selection opens one scrollable drawer on the right. The
+   graph stays in place beneath it, so ancestry and descendants remain
+   legible as one connected context. */
 .graph-detail-panel{
   position: absolute;
   z-index: 35;
