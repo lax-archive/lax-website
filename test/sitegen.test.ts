@@ -947,6 +947,10 @@ After the formula.`, "");
   it("renders an archive-wide, searchable view of open proof obligations", async () => {
     const root = tmpDir("lax-site-proof-obligations-");
     const archive = [...submissions(), ...graphSubmissions()];
+    // Explicit open questions lead the list, including registered ones.
+    const registeredOpen = archive.find(({ record }) => record.id === "Lax1")!.output!.concepts[0]!;
+    registeredOpen.type = "open question";
+    registeredOpen.statements = [{ id: "Lax1.Base.open", signature: "open : True" }];
     // Unproven theorems and lemmas from registered submissions are listed.
     archive.find(({ record }) => record.id === "Lax4")!.output!.concepts[0]!.type = "theorem";
     archive.find(({ record }) => record.id === "Lax4")!.output!.concepts[1]!.type = "lemma";
@@ -967,7 +971,7 @@ After the formula.`, "");
     await generateSite(archive, root);
     const html = fs.readFileSync(path.join(root, "open-proof-obligations.html"), "utf8");
 
-    expect(html).toContain("4 proof obligations · 4 open statements · 2 submissions");
+    expect(html).toContain("5 proof obligations · 5 open statements · 3 submissions");
     expect(html).toContain('placeholder="Search proof obligations"');
     expect(html).toContain('id="open-problems-list"');
     expect(html).toContain('data-type="open question"');
@@ -980,7 +984,10 @@ After the formula.`, "");
     expect(html).toContain("Lax3.Middle.open");
     expect(html).toContain("Lax3.DraftTheorem.fact");
     expect(html).not.toContain('href="Lax2/Lax2.C.html"');
-    expect(html).not.toContain('href="Lax1/Lax1.Base.html"');
+    const list = html.slice(html.indexOf('<ul class="open-problems-list"'), html.indexOf('id="open-problems-list-empty"'));
+    const ordered = ["Lax1.Base.open", "Lax3.Middle.open", "Lax4.Top.a", "Lax4.Aux.b", "Lax3.DraftTheorem.fact"];
+    for (let index = 1; index < ordered.length; index += 1)
+      expect(list.indexOf(ordered[index - 1]!)).toBeLessThan(list.indexOf(ordered[index]!));
   });
 
   it("orders registered search results before drafts and indexes concept names", async () => {

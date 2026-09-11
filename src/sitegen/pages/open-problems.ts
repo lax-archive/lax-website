@@ -8,6 +8,16 @@ export interface OpenProblem {
   openStatements: StatementEntry[];
 }
 
+/** Editorial priority for the public list: explicit open questions first,
+ * followed by registered theorems, registered lemmas, and draft results. */
+function openProblemRank(problem: OpenProblem): number {
+  const { submission, concept } = problem.located;
+  const type = concept.type!.trim().toLowerCase();
+  if (type === "open question") return 0;
+  if (submission.record.state === "registered") return type === "theorem" ? 1 : 2;
+  return 3;
+}
+
 /** Explicit open questions and theorem concepts from draft or registered
  * submissions, plus lemma concepts from registered submissions, with at least
  * one statement outside the proof network's least fixed point. */
@@ -27,7 +37,8 @@ export function collectOpenProblems(model: SiteModel): OpenProblem[] {
         !model.network.proven.has(statement.id)),
     }))
     .filter((problem) => problem.openStatements.length > 0)
-    .sort((a, b) => compareIds(a.located.output.id, b.located.output.id)
+    .sort((a, b) => openProblemRank(a) - openProblemRank(b)
+      || compareIds(a.located.output.id, b.located.output.id)
       || a.located.concept.id.localeCompare(b.located.concept.id));
 }
 
