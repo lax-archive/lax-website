@@ -1650,7 +1650,7 @@ a.submission-meta-id:is(:hover, :focus-visible),
 }
 
 #detail.detail-landing{ width: min(100%, 72em); }
-.detail-landing .landing-action-panels,
+.detail-landing .landing-action-panels{ max-width: 60em; margin-inline: auto; }
 .detail-landing .landing-faq{ max-width: 52em; margin-inline: auto; }
 
 #detail .landing-section-title{
@@ -2248,9 +2248,18 @@ a.submission-meta-id:is(:hover, :focus-visible),
 }
 
 .landing-action-panel-heading{
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1rem;
   margin-bottom: 0.9rem;
   padding-bottom: 0.65rem;
   border-bottom: 1px solid var(--border-light);
+}
+
+.submissions-library-search{
+  flex: 0 1 15rem;
+  width: min(100%, 15rem);
 }
 
 .landing-action-eyebrow{
@@ -4005,6 +4014,8 @@ body.graph-window-open::after{
   .landing-foundation{ width: 100%; }
   .landing-hero-button{ width: 100%; }
   .landing-action-panel{ padding: 1rem; }
+  .landing-action-panel-heading{ display: grid; align-items: stretch; }
+  .submissions-library-search{ width: 100%; }
   .landing-faq-item summary{ min-height: 3.1rem; padding: 0.5rem 0.65rem; }
   .landing-faq-question{ grid-template-columns: 1.15rem minmax(0, 1fr); gap: 0.2rem; font-size: 0.88rem; }
   .landing-faq-answer{ padding: 0 2.75rem 0.8rem 2rem; font-size: 0.9rem; }

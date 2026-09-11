@@ -174,8 +174,17 @@
 
   function setupFilters() {
     const search = document.getElementById('filter-search');
+    const submissionsSearch = document.getElementById('submissions-search');
     const type = document.getElementById('filter-type');
-    if (search) search.addEventListener('input', applyFilters);
+    function connectSearch(source, mirror) {
+      if (!source) return;
+      source.addEventListener('input', () => {
+        if (mirror) mirror.value = source.value;
+        applyFilters();
+      });
+    }
+    connectSearch(search, submissionsSearch);
+    connectSearch(submissionsSearch, search);
     if (type) type.addEventListener('change', applyFilters);
   }
 

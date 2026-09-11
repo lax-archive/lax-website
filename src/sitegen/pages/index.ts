@@ -659,6 +659,10 @@ ${facetButtons.join("\n")}
   const library = `<section class="landing-action-panel submissions-library" id="landing-panel-read" aria-labelledby="landing-library-heading">
 <div class="landing-action-panel-heading">
 <p class="stats-line">${plural(listed.length, "submission")} · ${plural(concepts.length, "concept")} · ${plural(statements.length, "statement")}, ${provenStatements} proven</p>
+<div class="filter-group submissions-library-search">
+<label for="submissions-search">Search</label>
+<input id="submissions-search" class="filter-input" type="search" placeholder="Search titles and concepts" aria-controls="submissions-list">
+</div>
 </div>
 ${tagBrowser}
 <ul class="submissions-list" id="submissions-list">
