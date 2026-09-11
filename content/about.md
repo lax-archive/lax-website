@@ -54,7 +54,7 @@ other's concepts, the archive grows into one connected body of results.
 Lax consists of three parts, all of them open source:
 
 - the **command-line tool**, `lax`, published on npm. It creates the layout
-  of a submission, builds and previews it, and submits it. Its built-in guide
+  of a submission, builds and previews it, and finally submits it. Its built-in guide
   (`lax print instructions`) is written for coding agents, so that an agent
   can carry a formalization from the first concept to the finished proofs;
 - the **submission pipeline**, which runs as a GitHub Actions workflow. A
