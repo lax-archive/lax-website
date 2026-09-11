@@ -186,9 +186,8 @@ function landingArchive(): SiteSubmission[] {
   });
   return [
     make("lax-67", [{ conceptId: "Lax67.Ram", title: "The word RAM" }]),
-    make("lax-12", [{ conceptId: "Lax12.GraphClasses", title: "Graph classes" }]),
     make("lax-11", [
-      { conceptId: "Lax11.GraphEncoding", title: "Compressed sparse row encoding of a graph", imports: ["Lax67.Ram", "Lax12.GraphClasses"] },
+      { conceptId: "Lax11.GraphEncoding", title: "Compressed sparse row encoding of a graph", imports: ["Lax67.Ram"] },
       { conceptId: "Lax11.ConnectedComponents", title: "Connected components in linear time", imports: ["Lax11.GraphEncoding"], statements: [{ id: "Lax11.ConnectedComponents.exists_linearTime_program_ccLabels", signature: "exists_linearTime_program_ccLabels : True" }] },
     ], [
       { id: "Lax11Proofs.CCMain.exists_linearTime_program_ccLabels", path: "proofs/Lax11Proofs/CCMain.lean", conclusion: "Lax11.ConnectedComponents.exists_linearTime_program_ccLabels", assumptions: [], description: "Breadth-first search." },
@@ -200,6 +199,8 @@ function landingArchive(): SiteSubmission[] {
       { id: "Lax17Proofs.Final.polynomial_grid_minor", path: "proofs/Lax17Proofs/Final.lean", conclusion: "Lax17.PolynomialGridMinor.polynomial_grid_minor", assumptions: [], description: "The main proof." },
     ]),
     make("lax-434930", [{ conceptId: "Lax434930.NondeterministicPolynomialTime", title: "The complexity class NP" }]),
+    make("lax-132576", [{ conceptId: "Lax132576.RationalFunctions", title: "Rational functions" }]),
+    make("lax-194892", [{ conceptId: "Lax194892.Application", title: "Application of rational functions", imports: ["Lax132576.RationalFunctions"] }]),
     make("lax-48", [{ conceptId: "Lax48.TwinWidth", title: "Twin-width" }]),
     make("lax-49", [{ conceptId: "Lax49.FunctionalEquivalence", title: "Functional equivalence", imports: ["Lax48.TwinWidth"] }]),
   ];
@@ -894,7 +895,8 @@ After the formula.`, "");
     expect(index).toContain('<li><a class="landing-foundation" href="lax-67/Lax67.Ram.html" title="Lax67.Ram">\n<span class="type-badge" title="definition">def</span><span class="landing-foundation-title">The word RAM</span>\n<span class="landing-foundation-meta"><span class="submission-meta-id">lax-67</span><span class="landing-foundation-uses">built on in 1 further submission</span></span>\n</a></li>');
     expect(index).toContain('href="lax-434930/Lax434930.NondeterministicPolynomialTime.html" title="Lax434930.NondeterministicPolynomialTime"');
     expect(index).toContain('href="lax-48/Lax48.TwinWidth.html" title="Lax48.TwinWidth"');
-    expect(index).toContain('href="lax-12/Lax12.GraphClasses.html" title="Lax12.GraphClasses"');
+    expect(index).toContain('href="lax-132576/Lax132576.RationalFunctions.html" title="Lax132576.RationalFunctions"');
+    expect(index).not.toContain("Lax12.GraphClasses");
     expect(index).not.toContain("Lax68.Planar");
     expect(index).not.toContain("Lax48.Treewidth");
     expect(index).not.toContain("Lax12.NowhereDenseClasses");

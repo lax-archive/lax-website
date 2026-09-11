@@ -77,6 +77,6 @@ submissions already build on.
 - Lax67.Ram
 - Lax48.TwinWidth
 - Lax434930.NondeterministicPolynomialTime
-- Lax12.GraphClasses
+- Lax132576.RationalFunctions
 - Lax12.NowhereDenseClasses
 - Lax11.GraphEncoding
