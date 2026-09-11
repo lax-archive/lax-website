@@ -75,8 +75,8 @@ Concepts are shared across submissions. Below are some definitions other
 submissions already build on.
 
 - Lax67.Ram
-- Lax48.Treewidth
+- Lax48.TwinWidth
 - Lax434930.NondeterministicPolynomialTime
-- Lax68.Planar
+- Lax12.GraphClasses
 - Lax12.NowhereDenseClasses
 - Lax11.GraphEncoding
