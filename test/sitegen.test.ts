@@ -676,6 +676,7 @@ After the formula.`, "");
     expect(index.indexOf("landing-plain-section")).toBeLessThan(index.indexOf('id="landing-library-heading"'));
     // Getting started: a plain section with the two commands, no tiles.
     expect(index).toContain('<h2 class="landing-section-title" id="landing-start-heading">Get started right away</h2>');
+    expect(index).toContain('<section class="landing-section landing-plain-section landing-boxed-section"');
     expect(index).toContain("npm install -g lax-archive &amp;&amp; lax doctor");
     expect(index).toContain("Run `lax print instructions` and follow the guide it prints");
     expect(index).not.toContain("landing-tile");
@@ -863,11 +864,13 @@ After the formula.`, "");
     // The one way in: the annotated paper.
     expect(index).toContain('<a class="site-nav-link" href="lax-242665/paper.html">Introduction</a>');
     expect(index).toContain('<a class="site-nav-link" href="about.html">About</a>');
+    expect(index).toContain('<header class="site-header sidebar-hidden landing-header">');
     expect(index).not.toContain("landing-cta");
     expect(index).not.toContain("lax-white-paper.pdf\" download");
     // The foundations: the listed definitions the archive holds, with how
     // many further submissions build on them.
     expect(index).toContain('<h2 class="landing-section-title" id="landing-foundations-heading">Build foundations together</h2>');
+    expect(index).toContain('<section class="landing-section landing-foundations landing-boxed-section"');
     expect(index).toContain('<li><a class="landing-foundation" href="lax-67/Lax67.Ram.html" title="Lax67.Ram">\n<span class="type-badge" title="definition">def</span><span class="landing-foundation-title">The word RAM</span>\n<span class="landing-foundation-meta"><span class="submission-meta-id">lax-67</span><span class="landing-foundation-uses">built on in 1 further submission</span></span>\n</a></li>');
     expect(index).toContain('href="lax-48/Lax48.TwinWidth.html" title="Lax48.TwinWidth"');
     expect(index).toContain('<span class="submission-meta-id">lax-48</span><span class="landing-foundation-uses">built on in 1 further submission</span>');

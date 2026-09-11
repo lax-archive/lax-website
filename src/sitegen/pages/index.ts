@@ -300,7 +300,7 @@ function splitCaption(section: string): { body: string; caption: string } {
 
 /** A plain section: heading and Markdown body in the text column. */
 function landingSection(id: string, heading: string, body: string, markdown: PageContext["markdown"]): string {
-  return `<section class="landing-section landing-plain-section" aria-labelledby="landing-${id}-heading">
+  return `<section class="landing-section landing-plain-section landing-boxed-section" aria-labelledby="landing-${id}-heading">
 <h2 class="landing-section-title" id="landing-${id}-heading">${esc(heading)}</h2>
 <div class="landing-section-copy latex-content">
 ${markdown.render(body.trim(), "")}
@@ -329,7 +329,7 @@ ${typeBadge(located.concept.type)}<span class="landing-foundation-title">${markd
 </a></li>`];
   });
   if (!items.length) return "";
-  return `<section class="landing-section landing-foundations" aria-labelledby="landing-foundations-heading">
+  return `<section class="landing-section landing-foundations landing-boxed-section" aria-labelledby="landing-foundations-heading">
 <h2 class="landing-section-title" id="landing-foundations-heading">${esc(heading)}</h2>
 <div class="landing-section-copy latex-content">
 ${markdown.render(prose, "")}
@@ -674,6 +674,7 @@ ${faq}
     sidebar: indexSidebar(model, markdown, tagIndex.bySubmission),
     content,
     detailClass: "detail-landing",
+    landingHeader: true,
     scripts: network ? ["assets/layout.js", "assets/dag.js", "assets/landing.js"] : ["assets/landing.js"],
   });
 }

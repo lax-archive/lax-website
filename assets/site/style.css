@@ -142,6 +142,39 @@ body{
 
 .site-title-quiet{ font-weight: 400; color: var(--text-dim); }
 
+/* At the top of the front page the two orientation links belong to the
+   archive name. Scrolling restores the ordinary compact, horizontal brand.
+   The masthead keeps its normal height in both states, so the transition
+   cannot shift the document under the reader. */
+.site-header.landing-header:not(.landing-header-scrolled) .site-brand{
+  align-self: stretch;
+  grid-template-rows: 1fr 1fr;
+  align-items: end;
+  align-content: center;
+  row-gap: 0.02rem;
+}
+
+.site-header.landing-header:not(.landing-header-scrolled) .site-title{
+  grid-column: 2;
+  grid-row: 1;
+  padding: 0;
+  line-height: 1;
+}
+
+.site-header.landing-header:not(.landing-header-scrolled) .site-nav{
+  grid-column: 2;
+  grid-row: 2;
+  justify-self: center;
+  align-self: start;
+  gap: 1rem;
+  margin: 0.12rem 0 0;
+  line-height: 1;
+}
+
+.site-header.landing-header:not(.landing-header-scrolled) .site-nav-link{
+  font-size: 0.78rem;
+}
+
 .visually-hidden{
   position: absolute !important;
   width: 1px;
@@ -2002,7 +2035,24 @@ a.submission-meta-id:is(:hover, :focus-visible),
 .landing-paper-rail .manuscript-card-body{ max-height: 38rem; overflow: auto; }
 .landing-paper-rail .manuscript-card-source{ max-height: none; overflow: visible; }
 
-/* Getting started: a plain section, its commands in code blocks. */
+/* Getting started and foundations are separate, bordered units. Their copy
+   keeps the common reading measure inside one shared outer width. */
+.landing-boxed-section{
+  width: min(100%, 60em);
+  max-width: 60em;
+  margin: 3rem auto 0;
+  padding: 1.55rem clamp(1.15rem, 3vw, 2rem) 1.7rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  box-shadow: 0 6px 18px rgba(43, 43, 43, 0.05);
+}
+
+.landing-boxed-section > .landing-section-copy{
+  max-width: 40em;
+  margin-inline: auto;
+}
+
 .landing-plain-section{ margin: 3rem auto 0; }
 .landing-plain-section pre{ margin: 0.6rem 0 1rem; }
 
@@ -2043,7 +2093,7 @@ a.submission-meta-id:is(:hover, :focus-visible),
 /* The foundations: a paragraph, then the definitions as links, each with
    its type badge, its submission, and how many further submissions build
    on it. */
-.landing-foundations{ max-width: none; margin: 3rem auto 0; }
+.landing-foundations{ max-width: 60em; margin: 3rem auto 0; }
 .landing-foundations > .landing-section-copy{ max-width: 40em; margin-inline: auto; }
 
 .landing-foundation-list{
@@ -3798,6 +3848,11 @@ body.graph-window-open::after{
   .site-nav{ margin-left: 0; }
   .account-login-long{ display: none; }
 
+  .site-header.landing-header:not(.landing-header-scrolled) .site-brand{
+    display: grid;
+    margin-left: 0;
+  }
+
   .sidebar-resizer{ display: none; }
 
   #content-shell{
@@ -3878,6 +3933,7 @@ body.graph-window-open::after{
   .site-nav{ gap: 0.7rem; }
   .site-nav-link{ font-size: 0.86rem; }
   .site-title{ font-size: 1.25rem; }
+  .site-header.landing-header:not(.landing-header-scrolled) .site-nav-link{ font-size: 0.74rem; }
   .header-actions{ right: 0.4rem; gap: 0.28rem; }
   .account-control,
   .account-control{ gap: 0.3rem; }
@@ -3892,6 +3948,7 @@ body.graph-window-open::after{
   .discussion-embed-shell{ margin-inline: -0.25rem; padding-inline: 0.45rem; }
   .landing-hero{ margin-bottom: 2.2rem; }
   .landing-section, .landing-paper{ margin-bottom: 2.2rem; }
+  .landing-boxed-section{ padding: 1.15rem 1rem 1.25rem; }
   .landing-manifesto, .landing-section-copy{ font-size: 0.98rem; }
   .landing-paper-frame{ --frame-pad-top: 1.1rem; --frame-pad-right: 0.9rem; --frame-pad-left: 1rem; padding-bottom: 1rem; }
   .landing-paper-grid{ grid-template-columns: 1fr; row-gap: 0.9rem; }
@@ -3925,6 +3982,19 @@ body.graph-window-open::after{
   .version-history-dialog{ width: calc(100vw - 1rem); padding: 1rem; }
   .version-item-actions{ align-items: flex-end; }
   .version-open-link{ flex: 1 1 100%; margin-left: 0; }
+}
+
+@media (max-width: 480px){
+  /* Centre the two-link stack in the masthead space left by the account
+     control, so neither link is covered at the narrowest phone widths. */
+  .site-header.landing-header:not(.landing-header-scrolled) .site-brand{
+    padding-right: 4.5rem;
+  }
+}
+
+@media (max-width: 340px){
+  .site-header.landing-header.landing-header-scrolled .site-nav{ gap: 0.45rem; }
+  .site-header.landing-header.landing-header-scrolled .site-nav-link{ font-size: 0.68rem; }
 }
 
 @media (hover: none){
