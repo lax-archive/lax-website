@@ -844,11 +844,11 @@
       rowHeights[p.layer] = Math.max(rowHeights[p.layer], component.height);
     }
     // A proof step (claim → turnstile → claim) spans two rows, so the gap is
-    // kept small enough that one step roughly matches the concept map's 76px
-    // layer rhythm instead of doubling it.
+    // kept small: one step is not much taller than a layer of the concept
+    // map, and a paper's worth of steps fits a screen.
     const padX = 38;
-    const padY = 26;
-    const rowGap = 26;
+    const padY = 20;
+    const rowGap = 16;
     const width = Math.max(container.clientWidth, Math.ceil(layout.width) + 2 * padX);
     const offsetX = (width - layout.width) / 2;
     const height = rowHeights.reduce((sum, value) => sum + value, 0) + layout.maxLayer * rowGap + 2 * padY;

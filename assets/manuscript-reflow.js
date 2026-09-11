@@ -429,6 +429,15 @@
     drawLinks();
   }
 
+  // A card's height with its body closed: the room it takes in the rail
+  // unless pinned. A card opening under the pointer lies over the cards
+  // below it (the stylesheet raises it) rather than shoving them down.
+  function closedHeight(card) {
+    const body = card.el.querySelector('.manuscript-card-body');
+    if (!body || body.hidden) return card.el.offsetHeight;
+    return card.el.offsetHeight - body.offsetHeight - parseFloat(getComputedStyle(body).marginTop || '0');
+  }
+
   // Beside the text: every card in the rail, stacked by its passage —
   // `active` being the mark cards and the footnote cards showing.
   function placeRail(active, byMark) {
@@ -449,7 +458,7 @@
       cards.push(...sorted, ...others);
       railEl.append(...sorted.map((card) => card.el));
     }
-    const result = place(sorted.map((card) => ({ n: card.n, height: card.el.offsetHeight })), byMark, CARD_GAP, railTop - docTop);
+    const result = place(sorted.map((card) => ({ n: card.n, height: card.pinned ? card.el.offsetHeight : closedHeight(card) })), byMark, CARD_GAP, railTop - docTop);
     let bottom = 0;
     sorted.forEach((card, index) => {
       card.el.style.top = `${result.tops[index]}px`;

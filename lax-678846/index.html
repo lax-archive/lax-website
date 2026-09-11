@@ -1,20 +1,26 @@
 <!doctype html>
 <html lang="en"><head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://comments.laxarchive.org; style-src 'self' 'unsafe-inline'; img-src https: data:; font-src 'self'; frame-src https://comments.laxarchive.org; connect-src https://comments.laxarchive.org">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://comments.laxarchive.org; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self'; frame-src https://comments.laxarchive.org; connect-src https://comments.laxarchive.org">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Lax — an archive of formalized mathematical concepts and their proofs">
 <title>Fagin’s theorem — lax-678846</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=681ec98ec3d0">
+<link rel="stylesheet" href="../assets/style.css?v=dac430f58d9e">
 </head><body>
-<header class="site-header">
-  <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
+<header class="site-header with-sidebar">
+  <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="true" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
+  <div class="site-brand">
   <h1 class="site-title"><a href="../index.html">Lax <span class="site-title-quiet">Lean Archive</span></a></h1>
+  <nav class="site-nav" aria-label="Site">
+    <a class="site-nav-link" href="../lax-242665/paper.html">Introduction</a>
+    <a class="site-nav-link" href="../about.html">About</a>
+  </nav>
+  </div>
   <nav class="header-actions" aria-label="Account">
     <div class="account-header" data-account-root data-remark42-host="https://comments.laxarchive.org" data-remark42-site="remark" data-identity-url="https://comments.laxarchive.org/reactions/v1/identity">
-  <a class="account-control" data-account-login href="https://comments.laxarchive.org/auth/orcid/login?from=https%3A%2F%2Flaxarchive.org&amp;site=remark"><span class="orcid-mark" aria-hidden="true">iD</span><span>Sign in with ORCID</span></a>
+  <a class="account-control" data-account-login href="https://comments.laxarchive.org/auth/orcid/login?from=https%3A%2F%2Flaxarchive.org&amp;site=remark"><span class="orcid-mark" aria-hidden="true">iD</span><span>Sign in<span class="account-login-long"> with ORCID</span></span></a>
   <button class="account-control" data-account-settings type="button" aria-haspopup="dialog" aria-controls="account-dialog" hidden><span class="orcid-mark" aria-hidden="true">iD</span><span>Settings</span></button>
 </div>
   </nav>
@@ -244,10 +250,9 @@ guessed relation tables and runs the existing first-order evaluator.</p>
 <script type="application/json" id="graph-data">{"concepts":{"nodes":[{"id":"Lax678846.ExistentialSecondOrder","href":"../lax-678846/Lax678846.ExistentialSecondOrder.html","title":"Existential second-order logic","owner":"lax-678846","status":"proven","ext":false,"dir":"core"},{"id":"Lax678846.Fagin","href":"../lax-678846/Lax678846.Fagin.html","title":"Fagin’s theorem","owner":"lax-678846","status":"proven","ext":false,"dir":"core"},{"id":"Lax678846.FiniteStructures","href":"../lax-678846/Lax678846.FiniteStructures.html","title":"Finite relational structures and their properties","owner":"lax-678846","status":"none","ext":false,"dir":"core"},{"id":"Lax678846.NondeterministicPolynomialTime","href":"../lax-678846/Lax678846.NondeterministicPolynomialTime.html","title":"NP through polynomially bounded certificates","owner":"lax-678846","status":"none","ext":false,"dir":"core"},{"id":"Lax979537.OrderedStructures","href":"../lax-979537/Lax979537.OrderedStructures.html","title":"Finite ordered relational structures and queries","owner":"lax-979537","status":"none","ext":true,"dir":"up"},{"id":"Lax979537.StructureEncoding","href":"../lax-979537/Lax979537.StructureEncoding.html","title":"Binary encodings of ordered structures and tuples","owner":"lax-979537","status":"proven","ext":true,"dir":"up"}],"edges":[{"from":"Lax678846.FiniteStructures","to":"Lax678846.ExistentialSecondOrder"},{"from":"Lax678846.ExistentialSecondOrder","to":"Lax678846.Fagin"},{"from":"Lax678846.NondeterministicPolynomialTime","to":"Lax678846.Fagin"},{"from":"Lax979537.OrderedStructures","to":"Lax678846.FiniteStructures"},{"from":"Lax979537.StructureEncoding","to":"Lax678846.FiniteStructures"},{"from":"Lax678846.FiniteStructures","to":"Lax678846.NondeterministicPolynomialTime"},{"from":"Lax979537.OrderedStructures","to":"Lax979537.StructureEncoding"}],"home":"lax-678846"},"proofs":{"statements":[{"id":"Lax678846.ExistentialSecondOrder.satisfiesInvariant","label":"Lax678846.ExistentialSecondOrder","title":"Existential second-order logic","owner":"lax-678846","concept":"Lax678846.ExistentialSecondOrder","index":1,"count":1,"href":"../lax-678846/Lax678846.ExistentialSecondOrder.html#s-Lax678846.ExistentialSecondOrder.satisfiesInvariant","proven":true,"ext":false},{"id":"Lax678846.Fagin.capturesNP","label":"Lax678846.Fagin","title":"Fagin’s theorem","owner":"lax-678846","concept":"Lax678846.Fagin","index":1,"count":3,"href":"../lax-678846/Lax678846.Fagin.html#s-Lax678846.Fagin.capturesNP","proven":true,"ext":false},{"id":"Lax678846.Fagin.definableInNP","label":"Lax678846.Fagin","title":"Fagin’s theorem","owner":"lax-678846","concept":"Lax678846.Fagin","index":2,"count":3,"href":"../lax-678846/Lax678846.Fagin.html#s-Lax678846.Fagin.definableInNP","proven":true,"ext":false},{"id":"Lax678846.Fagin.npDefinable","label":"Lax678846.Fagin","title":"Fagin’s theorem","owner":"lax-678846","concept":"Lax678846.Fagin","index":3,"count":3,"href":"../lax-678846/Lax678846.Fagin.html#s-Lax678846.Fagin.npDefinable","proven":true,"ext":false}],"proofs":[{"id":"Lax678846Proofs.Fagin.capturesNP","assumptions":[],"conclusion":"Lax678846.Fagin.capturesNP","description":"Combine the concrete nondeterministic certificate verifier with the\nexistential second-order definition constructed for each NP property.","owner":"lax-678846","ext":false,"href":"../lax-678846/Lax678846Proofs.Fagin.capturesNP.html","assumptionsProven":true,"outstanding":0},{"id":"Lax678846Proofs.Fagin.definableInNP","assumptions":[],"conclusion":"Lax678846.Fagin.definableInNP","description":"Guess the characteristic tables of the existential relations. Their total\nlength is polynomial in the original input length. The concrete verifier\nsplits and decodes the pair, uses the Immerman–Vardi first-order evaluator,\nrejects malformed encodings, and returns its answer in polynomial TM2 time.","owner":"lax-678846","ext":false,"href":"../lax-678846/Lax678846Proofs.Fagin.definableInNP.html","assumptionsProven":true,"outstanding":0},{"id":"Lax678846Proofs.Fagin.npDefinable","assumptions":[],"conclusion":"Lax678846.Fagin.npDefinable","description":"Represent the polynomial binary certificate by two guessed relation tables.\nA concrete polynomial preprocessor and the original NP verifier decide the\nexpanded ordered query. Reuse the Immerman–Vardi computation rules, eliminate\ntheir least fixed point by exact iteration tables, project the certificate\nrelations, patch the two smallest domains, and remove the guessed order\nusing isomorphism invariance of the original property.","owner":"lax-678846","ext":false,"href":"../lax-678846/Lax678846Proofs.Fagin.npDefinable.html","assumptionsProven":true,"outstanding":0},{"id":"Lax678846Proofs.Isomorphism.satisfiesInvariant","assumptions":[],"conclusion":"Lax678846.ExistentialSecondOrder.satisfiesInvariant","description":"Transport both input tuples and existential witness relations along the\nisomorphism; induction on the first-order matrix preserves satisfaction.","owner":"lax-678846","ext":false,"href":"../lax-678846/Lax678846Proofs.Isomorphism.satisfiesInvariant.html","assumptionsProven":true,"outstanding":0}],"home":"lax-678846"},"submissions":{"nodes":[{"id":"lax-678846","href":"../lax-678846/index.html","title":"Fagin’s theorem","state":"draft","concepts":4,"proofs":4,"dir":"core","ext":false},{"id":"lax-979537","href":"../lax-979537/index.html","title":"The Immerman–Vardi theorem","state":"draft","concepts":8,"proofs":9,"dir":"up","ext":true}],"edges":[{"from":"lax-979537","to":"lax-678846","kind":"concepts"}]}}</script>
 </div>
 <footer class="site-footer">
-  <nav class="site-footer-nav" aria-label="Legal and about">
+  <nav class="site-footer-nav" aria-label="Legal">
     <a class="site-footer-link" href="../impressum.html">Imprint</a>
     <a class="site-footer-link" href="../privacy.html">Privacy</a>
-    <a class="site-footer-link" href="../assets/lax-white-paper.pdf">About</a>
   </nav>
 </footer>
 </section>
@@ -277,10 +282,10 @@ guessed relation tables and runs the existing first-order evaluator.</p>
 </div>
 </div>
 </dialog>
-<script src="../assets/sidebar.js?v=b1e289522120"></script>
+<script src="../assets/sidebar.js?v=0db6145b12ac"></script>
 <script src="../assets/account.js?v=e3db2efa7b34"></script>
 <script src="../assets/layout.js?v=41e28199b546"></script>
-<script src="../assets/dag.js?v=30b3351be153"></script>
+<script src="../assets/dag.js?v=96ff87e994df"></script>
 <script src="../assets/citation.js?v=dd5ce19082ad"></script>
 <script src="../assets/version-history.js?v=a36e868140dd"></script>
 <script src="../assets/comments.js?v=936ec0d73bed"></script>

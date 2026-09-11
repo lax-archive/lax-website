@@ -1,20 +1,26 @@
 <!doctype html>
 <html lang="en"><head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://comments.laxarchive.org; style-src 'self' 'unsafe-inline'; img-src https: data:; font-src 'self'; frame-src https://comments.laxarchive.org; connect-src https://comments.laxarchive.org">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://comments.laxarchive.org; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self'; frame-src https://comments.laxarchive.org; connect-src https://comments.laxarchive.org">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Lax — an archive of formalized mathematical concepts and their proofs">
 <title>Undecidability of positive first-order definability on words — lax-503819</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=681ec98ec3d0">
+<link rel="stylesheet" href="../assets/style.css?v=dac430f58d9e">
 </head><body>
-<header class="site-header">
-  <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
+<header class="site-header with-sidebar">
+  <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="true" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
+  <div class="site-brand">
   <h1 class="site-title"><a href="../index.html">Lax <span class="site-title-quiet">Lean Archive</span></a></h1>
+  <nav class="site-nav" aria-label="Site">
+    <a class="site-nav-link" href="../lax-242665/paper.html">Introduction</a>
+    <a class="site-nav-link" href="../about.html">About</a>
+  </nav>
+  </div>
   <nav class="header-actions" aria-label="Account">
     <div class="account-header" data-account-root data-remark42-host="https://comments.laxarchive.org" data-remark42-site="remark" data-identity-url="https://comments.laxarchive.org/reactions/v1/identity">
-  <a class="account-control" data-account-login href="https://comments.laxarchive.org/auth/orcid/login?from=https%3A%2F%2Flaxarchive.org&amp;site=remark"><span class="orcid-mark" aria-hidden="true">iD</span><span>Sign in with ORCID</span></a>
+  <a class="account-control" data-account-login href="https://comments.laxarchive.org/auth/orcid/login?from=https%3A%2F%2Flaxarchive.org&amp;site=remark"><span class="orcid-mark" aria-hidden="true">iD</span><span>Sign in<span class="account-login-long"> with ORCID</span></span></a>
   <button class="account-control" data-account-settings type="button" aria-haspopup="dialog" aria-controls="account-dialog" hidden><span class="orcid-mark" aria-hidden="true">iD</span><span>Settings</span></button>
 </div>
   </nav>
@@ -252,10 +258,9 @@ result is uniform over finite powerset alphabets.</p>
 <script type="application/json" id="graph-data">{"concepts":{"nodes":[{"id":"Lax503819.Automata","href":"../lax-503819/Lax503819.Automata.html","title":"Finite automaton inputs on powerset alphabets","owner":"lax-503819","status":"none","ext":false,"dir":"core"},{"id":"Lax503819.Mortality","href":"../lax-503819/Lax503819.Mortality.html","title":"Uniform mortality of deterministic Turing machines","owner":"lax-503819","status":"proven","ext":false,"dir":"core"},{"id":"Lax503819.PositiveGames","href":"../lax-503819/Lax503819.PositiveGames.html","title":"Positive Ehrenfeucht–Fraïssé games","owner":"lax-503819","status":"proven","ext":false,"dir":"core"},{"id":"Lax503819.PositiveLogic","href":"../lax-503819/Lax503819.PositiveLogic.html","title":"Positive first-order logic on finite words","owner":"lax-503819","status":"none","ext":false,"dir":"core"},{"id":"Lax503819.Reduction","href":"../lax-503819/Lax503819.Reduction.html","title":"Mortality reduces to positive first-order definability","owner":"lax-503819","status":"proven","ext":false,"dir":"core"},{"id":"Lax503819.Undecidability","href":"../lax-503819/Lax503819.Undecidability.html","title":"Undecidability of positive first-order definability","owner":"lax-503819","status":"proven","ext":false,"dir":"core"},{"id":"Lax503819.Words","href":"../lax-503819/Lax503819.Words.html","title":"Words over an ordered alphabet","owner":"lax-503819","status":"none","ext":false,"dir":"core"}],"edges":[{"from":"Lax503819.PositiveLogic","to":"Lax503819.Automata"},{"from":"Lax503819.PositiveLogic","to":"Lax503819.PositiveGames"},{"from":"Lax503819.Words","to":"Lax503819.PositiveLogic"},{"from":"Lax503819.Automata","to":"Lax503819.Reduction"},{"from":"Lax503819.Mortality","to":"Lax503819.Reduction"},{"from":"Lax503819.Automata","to":"Lax503819.Undecidability"}],"home":"lax-503819"},"proofs":{"statements":[{"id":"Lax503819.Mortality.mortality_undecidable","label":"Lax503819.Mortality","title":"Uniform mortality of deterministic Turing machines","owner":"lax-503819","concept":"Lax503819.Mortality","index":1,"count":1,"href":"../lax-503819/Lax503819.Mortality.html#s-Lax503819.Mortality.mortality_undecidable","proven":true,"ext":false},{"id":"Lax503819.PositiveGames.definable_iff_bounded_games","label":"Lax503819.PositiveGames","title":"Positive Ehrenfeucht–Fraïssé games","owner":"lax-503819","concept":"Lax503819.PositiveGames","index":1,"count":2,"href":"../lax-503819/Lax503819.PositiveGames.html#s-Lax503819.PositiveGames.definable_iff_bounded_games","proven":true,"ext":false},{"id":"Lax503819.PositiveGames.survives_iff_formulas","label":"Lax503819.PositiveGames","title":"Positive Ehrenfeucht–Fraïssé games","owner":"lax-503819","concept":"Lax503819.PositiveGames","index":2,"count":2,"href":"../lax-503819/Lax503819.PositiveGames.html#s-Lax503819.PositiveGames.survives_iff_formulas","proven":true,"ext":false},{"id":"Lax503819.Reduction.mortality_reduces","label":"Lax503819.Reduction","title":"Mortality reduces to positive first-order definability","owner":"lax-503819","concept":"Lax503819.Reduction","index":1,"count":1,"href":"../lax-503819/Lax503819.Reduction.html#s-Lax503819.Reduction.mortality_reduces","proven":true,"ext":false},{"id":"Lax503819.Undecidability.positive_definability_undecidable","label":"Lax503819.Undecidability","title":"Undecidability of positive first-order definability","owner":"lax-503819","concept":"Lax503819.Undecidability","index":1,"count":1,"href":"../lax-503819/Lax503819.Undecidability.html#s-Lax503819.Undecidability.positive_definability_undecidable","proven":true,"ext":false}],"proofs":[{"id":"Lax503819Proofs.ComputableReduction.mortality_reduces","assumptions":[],"conclusion":"Lax503819.Reduction.mortality_reduces","description":"Section 6 and Remark 6.25: the explicit compiler is primitive recursive,\nand the positive-game arguments establish its mortality equivalence.","owner":"lax-503819","ext":false,"href":"../lax-503819/Lax503819Proofs.ComputableReduction.mortality_reduces.html","assumptionsProven":true,"outstanding":0},{"id":"Lax503819Proofs.Definability.bounded_game_characterization","assumptions":[],"conclusion":"Lax503819.PositiveGames.definable_iff_bounded_games","description":"Corollary 3.8, with the finite-rank argument implemented by finite codes of\nword positions. The proof uses the proved game theorem through its helpers,\nnot the concept axiom. Empty languages and universal languages are covered by\nempty disjunctions and conjunctions.","owner":"lax-503819","ext":false,"href":"../lax-503819/Lax503819Proofs.Definability.bounded_game_characterization.html","assumptionsProven":true,"outstanding":0},{"id":"Lax503819Proofs.Games.game_formula_correspondence","assumptions":[],"conclusion":"Lax503819.PositiveGames.survives_iff_formulas","description":"The word specialization of Theorem 5.7 (and hence Theorem 3.7).\nSoundness is induction on formulas; completeness combines finitely many\nseparating formulas, one per possible response in the other finite word.","owner":"lax-503819","ext":false,"href":"../lax-503819/Lax503819Proofs.Games.game_formula_correspondence.html","assumptionsProven":true,"outstanding":0},{"id":"Lax503819Proofs.Mortality.mortality_undecidable","assumptions":[],"conclusion":"Lax503819.Mortality.mortality_undecidable","description":"Kuperberg Theorem 6.2: Hooper's arbitrary-configuration construction, the\nPost-to-write/move compiler, and finite-window compactness reduce halting at\nzero to the approved uniform finite-segment mortality predicate.","owner":"lax-503819","ext":false,"href":"../lax-503819/Lax503819Proofs.Mortality.mortality_undecidable.html","assumptionsProven":true,"outstanding":0},{"id":"Lax503819Proofs.Undecidability.positive_definability_undecidable","assumptions":[],"conclusion":"Lax503819.Undecidability.positive_definability_undecidable","description":"Theorem 6.1: a positive-definability decision algorithm would decide mortality\nvia the proved computable reduction. Both prerequisites are proved in the\nproof package; no concept axiom is used in this composition.","owner":"lax-503819","ext":false,"href":"../lax-503819/Lax503819Proofs.Undecidability.positive_definability_undecidable.html","assumptionsProven":true,"outstanding":0}],"home":"lax-503819"},"submissions":{"nodes":[{"id":"lax-503819","href":"../lax-503819/index.html","title":"Undecidability of positive first-order definability on words","state":"draft","concepts":7,"proofs":5,"dir":"core","ext":false}],"edges":[]}}</script>
 </div>
 <footer class="site-footer">
-  <nav class="site-footer-nav" aria-label="Legal and about">
+  <nav class="site-footer-nav" aria-label="Legal">
     <a class="site-footer-link" href="../impressum.html">Imprint</a>
     <a class="site-footer-link" href="../privacy.html">Privacy</a>
-    <a class="site-footer-link" href="../assets/lax-white-paper.pdf">About</a>
   </nav>
 </footer>
 </section>
@@ -285,10 +290,10 @@ result is uniform over finite powerset alphabets.</p>
 </div>
 </div>
 </dialog>
-<script src="../assets/sidebar.js?v=b1e289522120"></script>
+<script src="../assets/sidebar.js?v=0db6145b12ac"></script>
 <script src="../assets/account.js?v=e3db2efa7b34"></script>
 <script src="../assets/layout.js?v=41e28199b546"></script>
-<script src="../assets/dag.js?v=30b3351be153"></script>
+<script src="../assets/dag.js?v=96ff87e994df"></script>
 <script src="../assets/citation.js?v=dd5ce19082ad"></script>
 <script src="../assets/version-history.js?v=a36e868140dd"></script>
 <script src="../assets/comments.js?v=936ec0d73bed"></script>

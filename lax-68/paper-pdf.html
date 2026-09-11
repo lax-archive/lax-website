@@ -1,0 +1,727 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; worker-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self'; frame-src https://comments.laxarchive.org; connect-src 'self' https://comments.laxarchive.org">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Lax — an archive of formalized mathematical concepts and their proofs">
+<title>Paper as printed — lax-68</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
+<link rel="stylesheet" href="../assets/style.css?v=dac430f58d9e">
+</head><body>
+<header class="site-header with-sidebar sidebar-hidden">
+  <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
+  <div class="site-brand">
+  <h1 class="site-title"><a href="../index.html">Lax <span class="site-title-quiet">Lean Archive</span></a></h1>
+  <nav class="site-nav" aria-label="Site">
+    <a class="site-nav-link" href="../lax-242665/paper.html">Introduction</a>
+    <a class="site-nav-link" href="../about.html">About</a>
+  </nav>
+  </div>
+  <nav class="header-actions" aria-label="Account">
+    <div class="account-header" data-account-root data-remark42-host="https://comments.laxarchive.org" data-remark42-site="remark" data-identity-url="https://comments.laxarchive.org/reactions/v1/identity">
+  <a class="account-control" data-account-login href="https://comments.laxarchive.org/auth/orcid/login?from=https%3A%2F%2Flaxarchive.org&amp;site=remark"><span class="orcid-mark" aria-hidden="true">iD</span><span>Sign in<span class="account-login-long"> with ORCID</span></span></a>
+  <button class="account-control" data-account-settings type="button" aria-haspopup="dialog" aria-controls="account-dialog" hidden><span class="orcid-mark" aria-hidden="true">iD</span><span>Settings</span></button>
+</div>
+  </nav>
+</header>
+<main id="content-shell" class="sidebar-hidden">
+<div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+<aside id="sidebar">
+<a class="sidebar-back" href="../lax-68/index.html"><span class="sidebar-back-arrow" aria-hidden="true">←</span>lax-68</a>
+<div class="sidebar-filters"><div class="filter-group">
+<label for="filter-search">Search</label>
+<input id="filter-search" class="filter-input" type="search" placeholder="Filter entries" aria-controls="entry-list">
+</div>
+<div class="filter-group">
+<label for="filter-type">Type</label>
+<select id="filter-type" class="filter-select">
+<option value="all">All types</option>
+<option value="definition">definition</option>
+<option value="theorem">theorem</option>
+<option value="proof">proof</option>
+</select>
+</div></div>
+<ul id="entry-list">
+<li class="entry-heading" aria-hidden="true">Concepts</li>
+<li data-type="theorem" data-search="lax68.connectedfourterminaldichotomy four terminals in a connected graph theorem"><a class="entry-link" href="../lax-68/Lax68.ConnectedFourTerminalDichotomy.html" data-full-title="Four terminals in a connected graph"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Four terminals in a connected graph</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-68/Lax68.ConnectedFourTerminalDichotomy.html" hidden></span></span></a></li>
+<li data-type="theorem" data-search="lax68.connectedthreefan three vertices in a connected graph have a three-fan theorem"><a class="entry-link" href="../lax-68/Lax68.ConnectedThreeFan.html" data-full-title="Three vertices in a connected graph have a three-fan"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Three vertices in a connected graph have a three-fan</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-68/Lax68.ConnectedThreeFan.html" hidden></span></span></a></li>
+<li data-type="theorem" data-search="lax68.excludedminorskuratowskifree excluding the two minors excludes their subdivisions theorem"><a class="entry-link" href="../lax-68/Lax68.ExcludedMinorsKuratowskiFree.html" data-full-title="Excluding the two minors excludes their subdivisions"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Excluding the two minors excludes their subdivisions</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-68/Lax68.ExcludedMinorsKuratowskiFree.html" hidden></span></span></a></li>
+<li data-type="definition" data-search="lax68.fourterminalfans four-terminal fans definition"><a class="entry-link" href="../lax-68/Lax68.FourTerminalFans.html" data-full-title="Four-terminal fans"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Four-terminal fans</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-68/Lax68.FourTerminalFans.html" hidden></span></span></a></li>
+<li data-type="definition" data-search="lax68.graphminors graph minors definition"><a class="entry-link" href="../lax-68/Lax68.GraphMinors.html" data-full-title="Graph minors"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Graph minors</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-68/Lax68.GraphMinors.html" hidden></span></span></a></li>
+<li data-type="definition" data-search="lax68.graphtopologicalminors topological graph minors definition"><a class="entry-link" href="../lax-68/Lax68.GraphTopologicalMinors.html" data-full-title="Topological graph minors"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Topological graph minors</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-68/Lax68.GraphTopologicalMinors.html" hidden></span></span></a></li>
+<li data-type="theorem" data-search="lax68.gridplanar grids are planar theorem"><a class="entry-link" href="../lax-68/Lax68.GridPlanar.html" data-full-title="Grids are planar"><span class="entry-label"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><span class="entry-label-text">Grids are planar</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-68/Lax68.GridPlanar.html" hidden></span></span></a></li>
+<li data-type="definition" data-search="lax68.gridsandwalls grids and walls definition"><a class="entry-link" href="../lax-68/Lax68.GridsAndWalls.html" data-full-title="Grids and walls"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Grids and walls</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-68/Lax68.GridsAndWalls.html" hidden></span></span></a></li>
+<li data-type="definition" data-search="lax68.halingraphs halin graphs definition"><a class="entry-link" href="../lax-68/Lax68.HalinGraphs.html" data-full-title="Halin graphs"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Halin graphs</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-68/Lax68.HalinGraphs.html" hidden></span></span></a></li>
+<li data-type="theorem" data-search="lax68.halinplanar halin graphs are planar theorem"><a class="entry-link" href="../lax-68/Lax68.HalinPlanar.html" data-full-title="Halin graphs are planar"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Halin graphs are planar</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-68/Lax68.HalinPlanar.html" hidden></span></span></a></li>
+<li data-type="theorem" data-search="lax68.k33minortopologicalobstruction a k₃,₃ minor yields a k₃,₃ subdivision theorem"><a class="entry-link" href="../lax-68/Lax68.K33MinorTopologicalObstruction.html" data-full-title="A K₃,₃ minor yields a K₃,₃ subdivision"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">A K₃,₃ minor yields a K₃,₃ subdivision</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-68/Lax68.K33MinorTopologicalObstruction.html" hidden></span></span></a></li>
+<li data-type="theorem" data-search="lax68.k5minortopologicalobstruction a k₅ minor yields a kuratowski subdivision theorem"><a class="entry-link" href="../lax-68/Lax68.K5MinorTopologicalObstruction.html" data-full-title="A K₅ minor yields a Kuratowski subdivision"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">A K₅ minor yields a Kuratowski subdivision</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-68/Lax68.K5MinorTopologicalObstruction.html" hidden></span></span></a></li>
+<li data-type="theorem" data-search="lax68.kuratowskifreeexcludedminors the two minor obstructions yield a kuratowski subdivision theorem"><a class="entry-link" href="../lax-68/Lax68.KuratowskiFreeExcludedMinors.html" data-full-title="The two minor obstructions yield a Kuratowski subdivision"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">The two minor obstructions yield a Kuratowski subdivision</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-68/Lax68.KuratowskiFreeExcludedMinors.html" hidden></span></span></a></li>
+<li data-type="theorem" data-search="lax68.kuratowskiplanarity kuratowski's theorem in straight-line form theorem"><a class="entry-link" href="../lax-68/Lax68.KuratowskiPlanarity.html" data-full-title="Kuratowski's theorem in straight-line form"><span class="entry-label"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><span class="entry-label-text">Kuratowski's theorem in straight-line form</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-68/Lax68.KuratowskiPlanarity.html" hidden></span></span></a></li>
+<li data-type="theorem" data-search="lax68.laddergrid ladders are grids theorem"><a class="entry-link" href="../lax-68/Lax68.LadderGrid.html" data-full-title="Ladders are grids"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Ladders are grids</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-68/Lax68.LadderGrid.html" hidden></span></span></a></li>
+<li data-type="theorem" data-search="lax68.ladderouterplanar ladders are outerplanar theorem"><a class="entry-link" href="../lax-68/Lax68.LadderOuterplanar.html" data-full-title="Ladders are outerplanar"><span class="entry-label"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><span class="entry-label-text">Ladders are outerplanar</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-68/Lax68.LadderOuterplanar.html" hidden></span></span></a></li>
+<li data-type="theorem" data-search="lax68.ladderplanar ladders are planar theorem"><a class="entry-link" href="../lax-68/Lax68.LadderPlanar.html" data-full-title="Ladders are planar"><span class="entry-label"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><span class="entry-label-text">Ladders are planar</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-68/Lax68.LadderPlanar.html" hidden></span></span></a></li>
+<li data-type="definition" data-search="lax68.ladders ladders definition"><a class="entry-link" href="../lax-68/Lax68.Ladders.html" data-full-title="Ladders"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Ladders</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-68/Lax68.Ladders.html" hidden></span></span></a></li>
+<li data-type="theorem" data-search="lax68.ladderseriesparallel ladders are series-parallel theorem"><a class="entry-link" href="../lax-68/Lax68.LadderSeriesParallel.html" data-full-title="Ladders are series-parallel"><span class="entry-label"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><span class="entry-label-text">Ladders are series-parallel</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-68/Lax68.LadderSeriesParallel.html" hidden></span></span></a></li>
+<li data-type="definition" data-search="lax68.maximalouterplanar maximal outerplanar graphs definition"><a class="entry-link" href="../lax-68/Lax68.MaximalOuterplanar.html" data-full-title="Maximal outerplanar graphs"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Maximal outerplanar graphs</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-68/Lax68.MaximalOuterplanar.html" hidden></span></span></a></li>
+<li data-type="theorem" data-search="lax68.maximalouterplanarouterplanar maximal outerplanar graphs are outerplanar theorem"><a class="entry-link" href="../lax-68/Lax68.MaximalOuterplanarOuterplanar.html" data-full-title="Maximal outerplanar graphs are outerplanar"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Maximal outerplanar graphs are outerplanar</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-68/Lax68.MaximalOuterplanarOuterplanar.html" hidden></span></span></a></li>
+<li data-type="theorem" data-search="lax68.maximalouterplanarplanar maximal outerplanar graphs are planar theorem"><a class="entry-link" href="../lax-68/Lax68.MaximalOuterplanarPlanar.html" data-full-title="Maximal outerplanar graphs are planar"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Maximal outerplanar graphs are planar</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-68/Lax68.MaximalOuterplanarPlanar.html" hidden></span></span></a></li>
+<li data-type="definition" data-search="lax68.outerplanar outerplanar graphs definition"><a class="entry-link" href="../lax-68/Lax68.Outerplanar.html" data-full-title="Outerplanar graphs"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Outerplanar graphs</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-68/Lax68.Outerplanar.html" hidden></span></span></a></li>
+<li data-type="theorem" data-search="lax68.outerplanarplanar outerplanar graphs are planar theorem"><a class="entry-link" href="../lax-68/Lax68.OuterplanarPlanar.html" data-full-title="Outerplanar graphs are planar"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Outerplanar graphs are planar</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-68/Lax68.OuterplanarPlanar.html" hidden></span></span></a></li>
+<li data-type="theorem" data-search="lax68.pathouterplanar paths are outerplanar theorem"><a class="entry-link" href="../lax-68/Lax68.PathOuterplanar.html" data-full-title="Paths are outerplanar"><span class="entry-label"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><span class="entry-label-text">Paths are outerplanar</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-68/Lax68.PathOuterplanar.html" hidden></span></span></a></li>
+<li data-type="theorem" data-search="lax68.pathplanar paths are planar theorem"><a class="entry-link" href="../lax-68/Lax68.PathPlanar.html" data-full-title="Paths are planar"><span class="entry-label"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><span class="entry-label-text">Paths are planar</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-68/Lax68.PathPlanar.html" hidden></span></span></a></li>
+<li data-type="definition" data-search="lax68.paths paths definition"><a class="entry-link" href="../lax-68/Lax68.Paths.html" data-full-title="Paths"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Paths</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-68/Lax68.Paths.html" hidden></span></span></a></li>
+<li data-type="theorem" data-search="lax68.pathtree paths are trees theorem"><a class="entry-link" href="../lax-68/Lax68.PathTree.html" data-full-title="Paths are trees"><span class="entry-label"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><span class="entry-label-text">Paths are trees</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-68/Lax68.PathTree.html" hidden></span></span></a></li>
+<li data-type="definition" data-search="lax68.planar planar graphs definition"><a class="entry-link" href="../lax-68/Lax68.Planar.html" data-full-title="Planar graphs"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Planar graphs</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-68/Lax68.Planar.html" hidden></span></span></a></li>
+<li data-type="theorem" data-search="lax68.planarexcludedminors wagner's theorem theorem"><a class="entry-link" href="../lax-68/Lax68.PlanarExcludedMinors.html" data-full-title="Wagner's theorem"><span class="entry-label"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><span class="entry-label-text">Wagner's theorem</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-68/Lax68.PlanarExcludedMinors.html" hidden></span></span></a></li>
+<li data-type="definition" data-search="lax68.seriesparallel series-parallel graphs definition"><a class="entry-link" href="../lax-68/Lax68.SeriesParallel.html" data-full-title="Series-parallel graphs"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Series-parallel graphs</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-68/Lax68.SeriesParallel.html" hidden></span></span></a></li>
+<li data-type="theorem" data-search="lax68.seriesparallelplanar series-parallel graphs are planar theorem"><a class="entry-link" href="../lax-68/Lax68.SeriesParallelPlanar.html" data-full-title="Series-parallel graphs are planar"><span class="entry-label"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><span class="entry-label-text">Series-parallel graphs are planar</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-68/Lax68.SeriesParallelPlanar.html" hidden></span></span></a></li>
+<li data-type="theorem" data-search="lax68.starouterplanar stars are outerplanar theorem"><a class="entry-link" href="../lax-68/Lax68.StarOuterplanar.html" data-full-title="Stars are outerplanar"><span class="entry-label"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><span class="entry-label-text">Stars are outerplanar</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-68/Lax68.StarOuterplanar.html" hidden></span></span></a></li>
+<li data-type="theorem" data-search="lax68.starplanar stars are planar theorem"><a class="entry-link" href="../lax-68/Lax68.StarPlanar.html" data-full-title="Stars are planar"><span class="entry-label"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><span class="entry-label-text">Stars are planar</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-68/Lax68.StarPlanar.html" hidden></span></span></a></li>
+<li data-type="definition" data-search="lax68.stars stars definition"><a class="entry-link" href="../lax-68/Lax68.Stars.html" data-full-title="Stars"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Stars</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-68/Lax68.Stars.html" hidden></span></span></a></li>
+<li data-type="theorem" data-search="lax68.startree stars are trees theorem"><a class="entry-link" href="../lax-68/Lax68.StarTree.html" data-full-title="Stars are trees"><span class="entry-label"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><span class="entry-label-text">Stars are trees</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-68/Lax68.StarTree.html" hidden></span></span></a></li>
+<li data-type="definition" data-search="lax68.straightlinedrawings straight-line graph drawings definition"><a class="entry-link" href="../lax-68/Lax68.StraightLineDrawings.html" data-full-title="Straight-line graph drawings"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Straight-line graph drawings</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-68/Lax68.StraightLineDrawings.html" hidden></span></span></a></li>
+<li data-type="definition" data-search="lax68.threefans three-fans definition"><a class="entry-link" href="../lax-68/Lax68.ThreeFans.html" data-full-title="Three-fans"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Three-fans</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-68/Lax68.ThreeFans.html" hidden></span></span></a></li>
+<li data-type="theorem" data-search="lax68.topologicalminorisminor every topological minor is a minor theorem"><a class="entry-link" href="../lax-68/Lax68.TopologicalMinorIsMinor.html" data-full-title="Every topological minor is a minor"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Every topological minor is a minor</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-68/Lax68.TopologicalMinorIsMinor.html" hidden></span></span></a></li>
+<li data-type="theorem" data-search="lax68.treefourterminaldichotomy four terminals in a tree theorem"><a class="entry-link" href="../lax-68/Lax68.TreeFourTerminalDichotomy.html" data-full-title="Four terminals in a tree"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Four terminals in a tree</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-68/Lax68.TreeFourTerminalDichotomy.html" hidden></span></span></a></li>
+<li data-type="theorem" data-search="lax68.treeouterplanar trees are outerplanar theorem"><a class="entry-link" href="../lax-68/Lax68.TreeOuterplanar.html" data-full-title="Trees are outerplanar"><span class="entry-label"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><span class="entry-label-text">Trees are outerplanar</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-68/Lax68.TreeOuterplanar.html" hidden></span></span></a></li>
+<li data-type="theorem" data-search="lax68.treeplanar trees are planar theorem"><a class="entry-link" href="../lax-68/Lax68.TreePlanar.html" data-full-title="Trees are planar"><span class="entry-label"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><span class="entry-label-text">Trees are planar</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-68/Lax68.TreePlanar.html" hidden></span></span></a></li>
+<li data-type="definition" data-search="lax68.trees trees definition"><a class="entry-link" href="../lax-68/Lax68.Trees.html" data-full-title="Trees"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Trees</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-68/Lax68.Trees.html" hidden></span></span></a></li>
+<li data-type="theorem" data-search="lax68.treethreefan three vertices in a tree have a three-fan theorem"><a class="entry-link" href="../lax-68/Lax68.TreeThreeFan.html" data-full-title="Three vertices in a tree have a three-fan"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Three vertices in a tree have a three-fan</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-68/Lax68.TreeThreeFan.html" hidden></span></span></a></li>
+<li data-type="theorem" data-search="lax68.trianglemaximalouterplanar triangles are maximal outerplanar theorem"><a class="entry-link" href="../lax-68/Lax68.TriangleMaximalOuterplanar.html" data-full-title="Triangles are maximal outerplanar"><span class="entry-label"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><span class="entry-label-text">Triangles are maximal outerplanar</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-68/Lax68.TriangleMaximalOuterplanar.html" hidden></span></span></a></li>
+<li data-type="theorem" data-search="lax68.triangleouterplanar triangles are outerplanar theorem"><a class="entry-link" href="../lax-68/Lax68.TriangleOuterplanar.html" data-full-title="Triangles are outerplanar"><span class="entry-label"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><span class="entry-label-text">Triangles are outerplanar</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-68/Lax68.TriangleOuterplanar.html" hidden></span></span></a></li>
+<li data-type="theorem" data-search="lax68.triangleplanar triangles are planar theorem"><a class="entry-link" href="../lax-68/Lax68.TrianglePlanar.html" data-full-title="Triangles are planar"><span class="entry-label"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><span class="entry-label-text">Triangles are planar</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-68/Lax68.TrianglePlanar.html" hidden></span></span></a></li>
+<li data-type="definition" data-search="lax68.triangles triangles definition"><a class="entry-link" href="../lax-68/Lax68.Triangles.html" data-full-title="Triangles"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Triangles</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-68/Lax68.Triangles.html" hidden></span></span></a></li>
+<li data-type="theorem" data-search="lax68.triangulationplanar triangulations of planar graphs are planar theorem"><a class="entry-link" href="../lax-68/Lax68.TriangulationPlanar.html" data-full-title="Triangulations of planar graphs are planar"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Triangulations of planar graphs are planar</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-68/Lax68.TriangulationPlanar.html" hidden></span></span></a></li>
+<li data-type="definition" data-search="lax68.triangulations triangulations definition"><a class="entry-link" href="../lax-68/Lax68.Triangulations.html" data-full-title="Triangulations"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Triangulations</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-68/Lax68.Triangulations.html" hidden></span></span></a></li>
+<li data-type="theorem" data-search="lax68.wagnerobstructionbridge the kuratowski-wagner obstruction bridge theorem"><a class="entry-link" href="../lax-68/Lax68.WagnerObstructionBridge.html" data-full-title="The Kuratowski-Wagner obstruction bridge"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">The Kuratowski-Wagner obstruction bridge</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-68/Lax68.WagnerObstructionBridge.html" hidden></span></span></a></li>
+<li data-type="theorem" data-search="lax68.wallplanar walls are planar theorem"><a class="entry-link" href="../lax-68/Lax68.WallPlanar.html" data-full-title="Walls are planar"><span class="entry-label"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><span class="entry-label-text">Walls are planar</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-68/Lax68.WallPlanar.html" hidden></span></span></a></li>
+<li data-type="theorem" data-search="lax68.wheelhalin wheels are halin graphs theorem"><a class="entry-link" href="../lax-68/Lax68.WheelHalin.html" data-full-title="Wheels are Halin graphs"><span class="entry-label"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><span class="entry-label-text">Wheels are Halin graphs</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-68/Lax68.WheelHalin.html" hidden></span></span></a></li>
+<li data-type="theorem" data-search="lax68.wheelplanar wheels are planar theorem"><a class="entry-link" href="../lax-68/Lax68.WheelPlanar.html" data-full-title="Wheels are planar"><span class="entry-label"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><span class="entry-label-text">Wheels are planar</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-68/Lax68.WheelPlanar.html" hidden></span></span></a></li>
+<li data-type="definition" data-search="lax68.wheels wheels definition"><a class="entry-link" href="../lax-68/Lax68.Wheels.html" data-full-title="Wheels"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Wheels</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-68/Lax68.Wheels.html" hidden></span></span></a></li>
+<li class="entry-heading" aria-hidden="true">Proofs</li>
+<li data-type="proof" data-search="lax68proofs.connectedfourterminaldichotomy.exists_fourfan_or_split proof"><a class="entry-link" href="../lax-68/Lax68Proofs.ConnectedFourTerminalDichotomy.exists_fourFan_or_split.html" data-full-title="Lax68Proofs.ConnectedFourTerminalDichotomy.exists_fourFan_or_split"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax68Proofs.ConnectedFourTerminalDichotomy.exists_fourFan_or_split</span></span></a></li>
+<li data-type="proof" data-search="lax68proofs.connectedthreefan.exists_threefan proof"><a class="entry-link" href="../lax-68/Lax68Proofs.ConnectedThreeFan.exists_threeFan.html" data-full-title="Lax68Proofs.ConnectedThreeFan.exists_threeFan"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax68Proofs.ConnectedThreeFan.exists_threeFan</span></span></a></li>
+<li data-type="proof" data-search="lax68proofs.excludedminors_kuratowskifree proof"><a class="entry-link" href="../lax-68/Lax68Proofs.excludedMinors_kuratowskiFree.html" data-full-title="Lax68Proofs.excludedMinors_kuratowskiFree"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax68Proofs.excludedMinors_kuratowskiFree</span></span></a></li>
+<li data-type="proof" data-search="lax68proofs.halin_planar proof"><a class="entry-link" href="../lax-68/Lax68Proofs.halin_planar.html" data-full-title="Lax68Proofs.halin_planar"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax68Proofs.halin_planar</span></span></a></li>
+<li data-type="proof" data-search="lax68proofs.k33minortopologicalobstruction.k33minor_topologicalminor proof"><a class="entry-link" href="../lax-68/Lax68Proofs.K33MinorTopologicalObstruction.k33Minor_topologicalMinor.html" data-full-title="Lax68Proofs.K33MinorTopologicalObstruction.k33Minor_topologicalMinor"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax68Proofs.K33MinorTopologicalObstruction.k33Minor_topologicalMinor</span></span></a></li>
+<li data-type="proof" data-search="lax68proofs.k5minortopologicalobstruction.k5minor_topologicalobstruction proof"><a class="entry-link" href="../lax-68/Lax68Proofs.K5MinorTopologicalObstruction.k5Minor_topologicalObstruction.html" data-full-title="Lax68Proofs.K5MinorTopologicalObstruction.k5Minor_topologicalObstruction"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax68Proofs.K5MinorTopologicalObstruction.k5Minor_topologicalObstruction</span></span></a></li>
+<li data-type="proof" data-search="lax68proofs.kuratowskifree_excludedminors proof"><a class="entry-link" href="../lax-68/Lax68Proofs.kuratowskiFree_excludedMinors.html" data-full-title="Lax68Proofs.kuratowskiFree_excludedMinors"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax68Proofs.kuratowskiFree_excludedMinors</span></span></a></li>
+<li data-type="proof" data-search="lax68proofs.kuratowskifree_iff_excludedminors proof"><a class="entry-link" href="../lax-68/Lax68Proofs.kuratowskiFree_iff_excludedMinors.html" data-full-title="Lax68Proofs.kuratowskiFree_iff_excludedMinors"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax68Proofs.kuratowskiFree_iff_excludedMinors</span></span></a></li>
+<li data-type="proof" data-search="lax68proofs.ladder_grid proof"><a class="entry-link" href="../lax-68/Lax68Proofs.ladder_grid.html" data-full-title="Lax68Proofs.ladder_grid"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax68Proofs.ladder_grid</span></span></a></li>
+<li data-type="proof" data-search="lax68proofs.ladder_planar proof"><a class="entry-link" href="../lax-68/Lax68Proofs.ladder_planar.html" data-full-title="Lax68Proofs.ladder_planar"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax68Proofs.ladder_planar</span></span></a></li>
+<li data-type="proof" data-search="lax68proofs.maximalouterplanar_outerplanar proof"><a class="entry-link" href="../lax-68/Lax68Proofs.maximalOuterplanar_outerplanar.html" data-full-title="Lax68Proofs.maximalOuterplanar_outerplanar"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax68Proofs.maximalOuterplanar_outerplanar</span></span></a></li>
+<li data-type="proof" data-search="lax68proofs.maximalouterplanar_planar proof"><a class="entry-link" href="../lax-68/Lax68Proofs.maximalOuterplanar_planar.html" data-full-title="Lax68Proofs.maximalOuterplanar_planar"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax68Proofs.maximalOuterplanar_planar</span></span></a></li>
+<li data-type="proof" data-search="lax68proofs.outerplanar_planar proof"><a class="entry-link" href="../lax-68/Lax68Proofs.outerplanar_planar.html" data-full-title="Lax68Proofs.outerplanar_planar"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax68Proofs.outerplanar_planar</span></span></a></li>
+<li data-type="proof" data-search="lax68proofs.path_outerplanar proof"><a class="entry-link" href="../lax-68/Lax68Proofs.path_outerplanar.html" data-full-title="Lax68Proofs.path_outerplanar"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax68Proofs.path_outerplanar</span></span></a></li>
+<li data-type="proof" data-search="lax68proofs.path_planar proof"><a class="entry-link" href="../lax-68/Lax68Proofs.path_planar.html" data-full-title="Lax68Proofs.path_planar"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax68Proofs.path_planar</span></span></a></li>
+<li data-type="proof" data-search="lax68proofs.planar_iff_excludedminors proof"><a class="entry-link" href="../lax-68/Lax68Proofs.planar_iff_excludedMinors.html" data-full-title="Lax68Proofs.planar_iff_excludedMinors"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax68Proofs.planar_iff_excludedMinors</span></span></a></li>
+<li data-type="proof" data-search="lax68proofs.star_outerplanar proof"><a class="entry-link" href="../lax-68/Lax68Proofs.star_outerplanar.html" data-full-title="Lax68Proofs.star_outerplanar"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax68Proofs.star_outerplanar</span></span></a></li>
+<li data-type="proof" data-search="lax68proofs.star_planar proof"><a class="entry-link" href="../lax-68/Lax68Proofs.star_planar.html" data-full-title="Lax68Proofs.star_planar"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax68Proofs.star_planar</span></span></a></li>
+<li data-type="proof" data-search="lax68proofs.topologicalminortominor.isminor_of_istopologicalminor proof"><a class="entry-link" href="../lax-68/Lax68Proofs.TopologicalMinorToMinor.isMinor_of_isTopologicalMinor.html" data-full-title="Lax68Proofs.TopologicalMinorToMinor.isMinor_of_isTopologicalMinor"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax68Proofs.TopologicalMinorToMinor.isMinor_of_isTopologicalMinor</span></span></a></li>
+<li data-type="proof" data-search="lax68proofs.tree_exists_threefan proof"><a class="entry-link" href="../lax-68/Lax68Proofs.tree_exists_threeFan.html" data-full-title="Lax68Proofs.tree_exists_threeFan"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax68Proofs.tree_exists_threeFan</span></span></a></li>
+<li data-type="proof" data-search="lax68proofs.tree_planar proof"><a class="entry-link" href="../lax-68/Lax68Proofs.tree_planar.html" data-full-title="Lax68Proofs.tree_planar"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax68Proofs.tree_planar</span></span></a></li>
+<li data-type="proof" data-search="lax68proofs.treefourterminaldichotomy.exists_fourfan_or_split proof"><a class="entry-link" href="../lax-68/Lax68Proofs.TreeFourTerminalDichotomy.exists_fourFan_or_split.html" data-full-title="Lax68Proofs.TreeFourTerminalDichotomy.exists_fourFan_or_split"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax68Proofs.TreeFourTerminalDichotomy.exists_fourFan_or_split</span></span></a></li>
+<li data-type="proof" data-search="lax68proofs.triangle_outerplanar proof"><a class="entry-link" href="../lax-68/Lax68Proofs.triangle_outerplanar.html" data-full-title="Lax68Proofs.triangle_outerplanar"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax68Proofs.triangle_outerplanar</span></span></a></li>
+<li data-type="proof" data-search="lax68proofs.triangle_planar proof"><a class="entry-link" href="../lax-68/Lax68Proofs.triangle_planar.html" data-full-title="Lax68Proofs.triangle_planar"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax68Proofs.triangle_planar</span></span></a></li>
+<li data-type="proof" data-search="lax68proofs.triangulationof_planar proof"><a class="entry-link" href="../lax-68/Lax68Proofs.triangulationOf_planar.html" data-full-title="Lax68Proofs.triangulationOf_planar"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax68Proofs.triangulationOf_planar</span></span></a></li>
+<li data-type="proof" data-search="lax68proofs.wheel_planar proof"><a class="entry-link" href="../lax-68/Lax68Proofs.wheel_planar.html" data-full-title="Lax68Proofs.wheel_planar"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax68Proofs.wheel_planar</span></span></a></li>
+<li id="entry-list-empty" hidden>No entries match.</li>
+</ul>
+</aside>
+<div id="sidebar-resizer" class="sidebar-resizer" role="separator" aria-label="Resize sidebar" aria-controls="sidebar" aria-orientation="vertical" aria-valuemin="220" aria-valuemax="520" aria-valuenow="285" tabindex="0" title="Drag to resize sidebar"></div>
+<section id="main"><div id="detail" class="detail-manuscript">
+<p class="draft-banner"><strong>Draft</strong> — mutable and not usable as a dependency; its citation marks the draft state.</p>
+<div class="manuscript" data-pdf="paper.pdf" data-pdfjs="../assets/pdfjs/pdf.min.mjs?v=2221020ea508" data-pdfjs-worker="../assets/pdfjs/pdf.worker.min.mjs?v=51a2fd1ea47f">
+<div class="detail-heading concept-heading manuscript-heading">
+<div><p class="concept-id">Paper</p>
+<h1 class="concept-title">Planar Graph Classes</h1>
+<p class="concept-microline">3 pages · 13 marked passages · pdflatex · <a href="paper.pdf">download PDF</a> · <a href="index.html">lax-68</a></p></div>
+</div>
+<div class="manuscript-view-switch" role="group" aria-label="Paper view">
+<a class="manuscript-view-link" href="paper.html">Reflowed</a>
+<a class="manuscript-view-link" href="paper-pdf.html" aria-current="page">As printed</a>
+</div>
+<div class="manuscript-body">
+<div class="manuscript-pages" id="manuscript-pages">
+<div class="manuscript-page" data-page="1" style="aspect-ratio: 595.28 / 841.89"></div>
+<div class="manuscript-page" data-page="2" style="aspect-ratio: 595.28 / 841.89"></div>
+<div class="manuscript-page" data-page="3" style="aspect-ratio: 595.28 / 841.89"></div>
+</div>
+<ol class="manuscript-rail" id="manuscript-rail">
+<li class="manuscript-card kind-concept" id="m1" data-mark="1">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><span class="type-badge" title="definition">def</span><a href="../lax-68/Lax68.Planar.html"><code>Lax68.Planar</code></a></span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m1-body" aria-label="Show details of Lax68.Planar"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m1-body" hidden>
+<p class="manuscript-card-title">Planar graphs</p>
+<div class="latex-content"><p>A graph is planar when it can be drawn in the plane without crossings.
+For finite graphs, this is equivalent to containing neither the complete graph
+<em>K₅</em> nor the complete bipartite graph <em>K₃,₃</em> as a minor. The drawing certificate
+and graph-minor relation are supplied by separate concepts.</p>
+</div>
+<div class="manuscript-card-source"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<tr class=""><td class="line-num">1</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-68/Lax68.StraightLineDrawings.html"><span style="color:#24292E">Lax68.StraightLineDrawings</span></a></td></tr>
+<tr class=""><td class="line-num">2</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-68/Lax68.GraphMinors.html"><span style="color:#24292E">Lax68.GraphMinors</span></a></td></tr>
+<tr class=""><td class="line-num">3</td><td class="line-code"> </td></tr>
+<tr class="line-elided"><td class="line-num"></td><td class="line-code">… module docstring, 10 lines</td></tr>
+<tr class=""><td class="line-num">14</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">15</td><td class="line-code"><span style="color:#D73A49">set_option</span><span style="color:#24292E"> autoImplicit </span><span style="color:#005CC5">false</span></td></tr>
+<tr class=""><td class="line-num">16</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">17</td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax68.Planar</span></td></tr>
+<tr class=""><td class="line-num">18</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">19</td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-68/Lax68.GraphMinors.html"><span style="color:#24292E">GraphMinors</span></a></td></tr>
+<tr class=""><td class="line-num">20</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">21</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> IsPlanar</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">*} (G : SimpleGraph V) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr class=""><td class="line-num">22</td><td class="line-code"><span style="color:#24292E">  </span><a class="lean-identifier-link" href="../lax-68/Lax68.StraightLineDrawings.html#L40"><span style="color:#24292E">StraightLineDrawings.HasStraightLineDrawing</span></a><span style="color:#24292E"> G</span></td></tr>
+<tr class=""><td class="line-num">23</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">24</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> IsPlanarByExcludedMinors</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">*} (G : SimpleGraph V) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr class=""><td class="line-num">25</td><td class="line-code"><span style="color:#24292E">  ¬</span><a class="lean-identifier-link" href="../lax-68/Lax68.GraphMinors.html#L28"><span style="color:#24292E">IsMinor</span></a><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-68/Lax68.GraphMinors.html#L32"><span style="color:#24292E">K5</span></a><span style="color:#24292E"> G ∧</span></td></tr>
+<tr class=""><td class="line-num">26</td><td class="line-code"><span style="color:#24292E">  ¬</span><a class="lean-identifier-link" href="../lax-68/Lax68.GraphMinors.html#L28"><span style="color:#24292E">IsMinor</span></a><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-68/Lax68.GraphMinors.html#L35"><span style="color:#24292E">K33</span></a><span style="color:#24292E"> G</span></td></tr>
+<tr class=""><td class="line-num">27</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">28</td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax68.Planar</span></td></tr>
+<tr class=""><td class="line-num">29</td><td class="line-code"> </td></tr>
+</table></div></div>
+</div>
+</li>
+<li class="manuscript-card kind-concept" id="m2" data-mark="2">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><span class="type-badge" title="definition">def</span><a href="../lax-68/Lax68.Outerplanar.html"><code>Lax68.Outerplanar</code></a></span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m2-body" aria-label="Show details of Lax68.Outerplanar"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m2-body" hidden>
+<p class="manuscript-card-title">Outerplanar graphs</p>
+<div class="latex-content"><p>A graph is outerplanar here when it has a crossing-free straight-line drawing
+with every vertex on one circle, a compact certificate for having every
+vertex on the boundary of the outer face.</p>
+</div>
+<div class="manuscript-card-source"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<tr class=""><td class="line-num">1</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-68/Lax68.StraightLineDrawings.html"><span style="color:#24292E">Lax68.StraightLineDrawings</span></a></td></tr>
+<tr class=""><td class="line-num">2</td><td class="line-code"> </td></tr>
+<tr class="line-elided"><td class="line-num"></td><td class="line-code">… module docstring, 9 lines</td></tr>
+<tr class=""><td class="line-num">12</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">13</td><td class="line-code"><span style="color:#D73A49">set_option</span><span style="color:#24292E"> autoImplicit </span><span style="color:#005CC5">false</span></td></tr>
+<tr class=""><td class="line-num">14</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">15</td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax68.Outerplanar</span></td></tr>
+<tr class=""><td class="line-num">16</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">17</td><td class="line-code"><span style="color:#D73A49">structure</span><span style="color:#6F42C1"> OuterplaneDrawing</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">*} (G : SimpleGraph V)</span></td></tr>
+<tr class=""><td class="line-num">18</td><td class="line-code"><span style="color:#D73A49">    extends</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-68/Lax68.StraightLineDrawings.html#L22"><span style="color:#24292E">StraightLineDrawings.StraightLineDrawing</span></a><span style="color:#24292E"> G </span><span style="color:#D73A49">where</span></td></tr>
+<tr class=""><td class="line-num">19</td><td class="line-code"><span style="color:#24292E">  radius : ℝ</span></td></tr>
+<tr class=""><td class="line-num">20</td><td class="line-code"><span style="color:#24292E">  radius_pos : </span><span style="color:#005CC5">0</span><span style="color:#24292E"> &lt; radius</span></td></tr>
+<tr class=""><td class="line-num">21</td><td class="line-code"><span style="color:#24292E">  onBoundary :</span></td></tr>
+<tr class=""><td class="line-num">22</td><td class="line-code"><span style="color:#24292E">    ∀ v : V,</span></td></tr>
+<tr class=""><td class="line-num">23</td><td class="line-code"><span style="color:#D73A49">      let</span><span style="color:#24292E"> p := toStraightLineDrawing.</span><a class="lean-identifier-link" href="../lax-68/Lax68.StraightLineDrawings.html#L23"><span style="color:#24292E">point</span></a><span style="color:#24292E"> v</span></td></tr>
+<tr class=""><td class="line-num">24</td><td class="line-code"><span style="color:#24292E">      p.</span><span style="color:#005CC5">1</span><span style="color:#24292E"> ^ </span><span style="color:#005CC5">2</span><span style="color:#24292E"> + p.</span><span style="color:#005CC5">2</span><span style="color:#24292E"> ^ </span><span style="color:#005CC5">2</span><span style="color:#24292E"> = radius ^ </span><span style="color:#005CC5">2</span></td></tr>
+<tr class=""><td class="line-num">25</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">26</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> IsOuterplanar</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">*} (G : SimpleGraph V) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr class=""><td class="line-num">27</td><td class="line-code"><span style="color:#24292E">  Nonempty (</span><a class="lean-identifier-link" href="../lax-68/Lax68.Outerplanar.html#L17"><span style="color:#24292E">OuterplaneDrawing</span></a><span style="color:#24292E"> G)</span></td></tr>
+<tr class=""><td class="line-num">28</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">29</td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax68.Outerplanar</span></td></tr>
+<tr class=""><td class="line-num">30</td><td class="line-code"> </td></tr>
+</table></div></div>
+</div>
+</li>
+<li class="manuscript-card kind-concept" id="m3" data-mark="3">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><span class="type-badge" title="definition">def</span><a href="../lax-68/Lax68.MaximalOuterplanar.html"><code>Lax68.MaximalOuterplanar</code></a></span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m3-body" aria-label="Show details of Lax68.MaximalOuterplanar"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m3-body" hidden>
+<p class="manuscript-card-title">Maximal outerplanar graphs</p>
+<div class="latex-content"><p>An outerplanar graph is maximal outerplanar when no edge can be added between
+its existing vertices while preserving outerplanarity.</p>
+</div>
+<div class="manuscript-card-source"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<tr class=""><td class="line-num">1</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-68/Lax68.Outerplanar.html"><span style="color:#24292E">Lax68.Outerplanar</span></a></td></tr>
+<tr class=""><td class="line-num">2</td><td class="line-code"> </td></tr>
+<tr class="line-elided"><td class="line-num"></td><td class="line-code">… module docstring, 8 lines</td></tr>
+<tr class=""><td class="line-num">11</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">12</td><td class="line-code"><span style="color:#D73A49">set_option</span><span style="color:#24292E"> autoImplicit </span><span style="color:#005CC5">false</span></td></tr>
+<tr class=""><td class="line-num">13</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">14</td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax68.MaximalOuterplanar</span></td></tr>
+<tr class=""><td class="line-num">15</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">16</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> IsMaximalOuterplanar</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">*}</span></td></tr>
+<tr class=""><td class="line-num">17</td><td class="line-code"><span style="color:#24292E">    (G : SimpleGraph V) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr class=""><td class="line-num">18</td><td class="line-code"><span style="color:#24292E">  </span><a class="lean-identifier-link" href="../lax-68/Lax68.Outerplanar.html#L26"><span style="color:#24292E">Outerplanar.IsOuterplanar</span></a><span style="color:#24292E"> G ∧</span></td></tr>
+<tr class=""><td class="line-num">19</td><td class="line-code"><span style="color:#24292E">    ∀ H : SimpleGraph V,</span></td></tr>
+<tr class=""><td class="line-num">20</td><td class="line-code"><span style="color:#24292E">      G &lt; H →</span></td></tr>
+<tr class=""><td class="line-num">21</td><td class="line-code"><span style="color:#24292E">      ¬ </span><a class="lean-identifier-link" href="../lax-68/Lax68.Outerplanar.html#L26"><span style="color:#24292E">Outerplanar.IsOuterplanar</span></a><span style="color:#24292E"> H</span></td></tr>
+<tr class=""><td class="line-num">22</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">23</td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax68.MaximalOuterplanar</span></td></tr>
+<tr class=""><td class="line-num">24</td><td class="line-code"> </td></tr>
+</table></div></div>
+</div>
+</li>
+<li class="manuscript-card kind-concept" id="m4" data-mark="4">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><span class="type-badge" title="definition">def</span><a href="../lax-68/Lax68.GridsAndWalls.html"><code>Lax68.GridsAndWalls</code></a></span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m4-body" aria-label="Show details of Lax68.GridsAndWalls"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m4-body" hidden>
+<p class="manuscript-card-title">Grids and walls</p>
+<div class="latex-content"><p>A nonempty rectangular grid has vertices in rows and columns, with edges
+between orthogonally consecutive positions. A wall is the brick-wall subgraph
+obtained by retaining alternating vertical grid edges.</p>
+</div>
+<div class="manuscript-card-source"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<tr class=""><td class="line-num">1</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Combinatorics.SimpleGraph.Hasse</span></td></tr>
+<tr class=""><td class="line-num">2</td><td class="line-code"> </td></tr>
+<tr class="line-elided"><td class="line-num"></td><td class="line-code">… module docstring, 9 lines</td></tr>
+<tr class=""><td class="line-num">12</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">13</td><td class="line-code"><span style="color:#D73A49">set_option</span><span style="color:#24292E"> autoImplicit </span><span style="color:#005CC5">false</span></td></tr>
+<tr class=""><td class="line-num">14</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">15</td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax68.GridsAndWalls</span></td></tr>
+<tr class=""><td class="line-num">16</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">17</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> consecutive</span><span style="color:#24292E"> (a b : ℕ) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr class=""><td class="line-num">18</td><td class="line-code"><span style="color:#24292E">  a + </span><span style="color:#005CC5">1</span><span style="color:#24292E"> = b ∨ b + </span><span style="color:#005CC5">1</span><span style="color:#24292E"> = a</span></td></tr>
+<tr class=""><td class="line-num">19</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">20</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> WallAdjacent</span><span style="color:#24292E"> {m n : ℕ} (u v : Fin m × Fin n) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr class=""><td class="line-num">21</td><td class="line-code"><span style="color:#24292E">  (u.</span><span style="color:#005CC5">1</span><span style="color:#24292E"> = v.</span><span style="color:#005CC5">1</span><span style="color:#24292E"> ∧ </span><a class="lean-identifier-link" href="../lax-68/Lax68.GridsAndWalls.html#L17"><span style="color:#24292E">consecutive</span></a><span style="color:#24292E"> u.</span><span style="color:#005CC5">2</span><span style="color:#24292E">.val v.</span><span style="color:#005CC5">2</span><span style="color:#24292E">.val) ∨</span></td></tr>
+<tr class=""><td class="line-num">22</td><td class="line-code"><span style="color:#24292E">  (u.</span><span style="color:#005CC5">2</span><span style="color:#24292E"> = v.</span><span style="color:#005CC5">2</span><span style="color:#24292E"> ∧</span></td></tr>
+<tr class=""><td class="line-num">23</td><td class="line-code"><span style="color:#24292E">    </span><a class="lean-identifier-link" href="../lax-68/Lax68.GridsAndWalls.html#L17"><span style="color:#24292E">consecutive</span></a><span style="color:#24292E"> u.</span><span style="color:#005CC5">1</span><span style="color:#24292E">.val v.</span><span style="color:#005CC5">1</span><span style="color:#24292E">.val ∧</span></td></tr>
+<tr class=""><td class="line-num">24</td><td class="line-code"><span style="color:#24292E">    (Nat.min u.</span><span style="color:#005CC5">1</span><span style="color:#24292E">.val v.</span><span style="color:#005CC5">1</span><span style="color:#24292E">.val + u.</span><span style="color:#005CC5">2</span><span style="color:#24292E">.val) % </span><span style="color:#005CC5">2</span><span style="color:#24292E"> = </span><span style="color:#005CC5">0</span><span style="color:#24292E">)</span></td></tr>
+<tr class=""><td class="line-num">25</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">26</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> HasGridShape</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">*} (G : SimpleGraph V) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr class=""><td class="line-num">27</td><td class="line-code"><span style="color:#24292E">  ∃ m n : ℕ,</span></td></tr>
+<tr class=""><td class="line-num">28</td><td class="line-code"><span style="color:#005CC5">    0</span><span style="color:#24292E"> &lt; m ∧</span></td></tr>
+<tr class=""><td class="line-num">29</td><td class="line-code"><span style="color:#005CC5">    0</span><span style="color:#24292E"> &lt; n ∧</span></td></tr>
+<tr class=""><td class="line-num">30</td><td class="line-code"><span style="color:#24292E">    Nonempty</span></td></tr>
+<tr class=""><td class="line-num">31</td><td class="line-code"><span style="color:#24292E">      (G ≃g (SimpleGraph.pathGraph m □ SimpleGraph.pathGraph n))</span></td></tr>
+<tr class=""><td class="line-num">32</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">33</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> HasWallShape</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">*} (G : SimpleGraph V) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr class=""><td class="line-num">34</td><td class="line-code"><span style="color:#24292E">  ∃ m n : ℕ,</span></td></tr>
+<tr class=""><td class="line-num">35</td><td class="line-code"><span style="color:#005CC5">    0</span><span style="color:#24292E"> &lt; m ∧</span></td></tr>
+<tr class=""><td class="line-num">36</td><td class="line-code"><span style="color:#005CC5">    0</span><span style="color:#24292E"> &lt; n ∧</span></td></tr>
+<tr class=""><td class="line-num">37</td><td class="line-code"><span style="color:#24292E">    ∃ e : Fin m × Fin n ≃ V,</span></td></tr>
+<tr class=""><td class="line-num">38</td><td class="line-code"><span style="color:#24292E">      ∀ u v,</span></td></tr>
+<tr class=""><td class="line-num">39</td><td class="line-code"><span style="color:#24292E">        G.Adj (e u) (e v) ↔ </span><a class="lean-identifier-link" href="../lax-68/Lax68.GridsAndWalls.html#L20"><span style="color:#24292E">WallAdjacent</span></a><span style="color:#24292E"> u v</span></td></tr>
+<tr class=""><td class="line-num">40</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">41</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> IsGrid</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">*} (G : SimpleGraph V) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr class=""><td class="line-num">42</td><td class="line-code"><span style="color:#24292E">  </span><a class="lean-identifier-link" href="../lax-68/Lax68.GridsAndWalls.html#L26"><span style="color:#24292E">HasGridShape</span></a><span style="color:#24292E"> G</span></td></tr>
+<tr class=""><td class="line-num">43</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">44</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> IsWall</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">*} (G : SimpleGraph V) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr class=""><td class="line-num">45</td><td class="line-code"><span style="color:#24292E">  </span><a class="lean-identifier-link" href="../lax-68/Lax68.GridsAndWalls.html#L33"><span style="color:#24292E">HasWallShape</span></a><span style="color:#24292E"> G</span></td></tr>
+<tr class=""><td class="line-num">46</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">47</td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax68.GridsAndWalls</span></td></tr>
+<tr class=""><td class="line-num">48</td><td class="line-code"> </td></tr>
+</table></div></div>
+</div>
+</li>
+<li class="manuscript-card kind-concept" id="m5" data-mark="5">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><span class="type-badge" title="definition">def</span><a href="../lax-68/Lax68.Triangles.html"><code>Lax68.Triangles</code></a></span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m5-body" aria-label="Show details of Lax68.Triangles"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m5-body" hidden>
+<p class="manuscript-card-title">Triangles</p>
+<div class="latex-content"><p>A triangle is a finite complete graph on exactly three vertices.</p>
+</div>
+<div class="manuscript-card-source"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<tr class=""><td class="line-num">1</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Combinatorics.SimpleGraph.Maps</span></td></tr>
+<tr class=""><td class="line-num">2</td><td class="line-code"> </td></tr>
+<tr class="line-elided"><td class="line-num"></td><td class="line-code">… module docstring, 7 lines</td></tr>
+<tr class=""><td class="line-num">10</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">11</td><td class="line-code"><span style="color:#D73A49">set_option</span><span style="color:#24292E"> autoImplicit </span><span style="color:#005CC5">false</span></td></tr>
+<tr class=""><td class="line-num">12</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">13</td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax68.Triangles</span></td></tr>
+<tr class=""><td class="line-num">14</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">15</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> IsTriangle</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">*} (G : SimpleGraph V) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr class=""><td class="line-num">16</td><td class="line-code"><span style="color:#24292E">  Nonempty (G ≃g SimpleGraph.completeGraph (Fin </span><span style="color:#005CC5">3</span><span style="color:#24292E">))</span></td></tr>
+<tr class=""><td class="line-num">17</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">18</td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax68.Triangles</span></td></tr>
+<tr class=""><td class="line-num">19</td><td class="line-code"> </td></tr>
+</table></div></div>
+</div>
+</li>
+<li class="manuscript-card kind-concept" id="m6" data-mark="6">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><span class="type-badge" title="definition">def</span><a href="../lax-68/Lax68.Stars.html"><code>Lax68.Stars</code></a></span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m6-body" aria-label="Show details of Lax68.Stars"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m6-body" hidden>
+<p class="manuscript-card-title">Stars</p>
+<div class="latex-content"><p>A star has a centre adjacent to every other vertex and has no edges between
+two non-central vertices.</p>
+</div>
+<div class="manuscript-card-source"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<tr class=""><td class="line-num">1</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Combinatorics.SimpleGraph.UniversalVerts</span></td></tr>
+<tr class=""><td class="line-num">2</td><td class="line-code"> </td></tr>
+<tr class="line-elided"><td class="line-num"></td><td class="line-code">… module docstring, 8 lines</td></tr>
+<tr class=""><td class="line-num">11</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">12</td><td class="line-code"><span style="color:#D73A49">set_option</span><span style="color:#24292E"> autoImplicit </span><span style="color:#005CC5">false</span></td></tr>
+<tr class=""><td class="line-num">13</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">14</td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax68.Stars</span></td></tr>
+<tr class=""><td class="line-num">15</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">16</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> HasStarShape</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">*} (G : SimpleGraph V) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr class=""><td class="line-num">17</td><td class="line-code"><span style="color:#24292E">  ∃ centre : V,</span></td></tr>
+<tr class=""><td class="line-num">18</td><td class="line-code"><span style="color:#24292E">    centre ∈ G.universalVerts ∧</span></td></tr>
+<tr class=""><td class="line-num">19</td><td class="line-code"><span style="color:#24292E">    ∀ ⦃u v⦄, G.Adj u v → u = centre ∨ v = centre</span></td></tr>
+<tr class=""><td class="line-num">20</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">21</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> IsStar</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">*} (G : SimpleGraph V) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr class=""><td class="line-num">22</td><td class="line-code"><span style="color:#24292E">  </span><a class="lean-identifier-link" href="../lax-68/Lax68.Stars.html#L16"><span style="color:#24292E">HasStarShape</span></a><span style="color:#24292E"> G</span></td></tr>
+<tr class=""><td class="line-num">23</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">24</td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax68.Stars</span></td></tr>
+<tr class=""><td class="line-num">25</td><td class="line-code"> </td></tr>
+</table></div></div>
+</div>
+</li>
+<li class="manuscript-card kind-concept" id="m7" data-mark="7">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><span class="type-badge" title="definition">def</span><a href="../lax-68/Lax68.Ladders.html"><code>Lax68.Ladders</code></a></span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m7-body" aria-label="Show details of Lax68.Ladders"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m7-body" hidden>
+<p class="manuscript-card-title">Ladders</p>
+<div class="latex-content"><p>A finite ladder is a nonempty two-row grid: two paths joined by corresponding
+rungs.</p>
+</div>
+<div class="manuscript-card-source"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<tr class=""><td class="line-num">1</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Combinatorics.SimpleGraph.Hasse</span></td></tr>
+<tr class=""><td class="line-num">2</td><td class="line-code"> </td></tr>
+<tr class="line-elided"><td class="line-num"></td><td class="line-code">… module docstring, 8 lines</td></tr>
+<tr class=""><td class="line-num">11</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">12</td><td class="line-code"><span style="color:#D73A49">set_option</span><span style="color:#24292E"> autoImplicit </span><span style="color:#005CC5">false</span></td></tr>
+<tr class=""><td class="line-num">13</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">14</td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax68.Ladders</span></td></tr>
+<tr class=""><td class="line-num">15</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">16</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> HasLadderShape</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">*} (G : SimpleGraph V) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr class=""><td class="line-num">17</td><td class="line-code"><span style="color:#24292E">  ∃ n : ℕ,</span></td></tr>
+<tr class=""><td class="line-num">18</td><td class="line-code"><span style="color:#005CC5">    0</span><span style="color:#24292E"> &lt; n ∧</span></td></tr>
+<tr class=""><td class="line-num">19</td><td class="line-code"><span style="color:#24292E">    Nonempty</span></td></tr>
+<tr class=""><td class="line-num">20</td><td class="line-code"><span style="color:#24292E">      (G ≃g (SimpleGraph.pathGraph n □ SimpleGraph.pathGraph </span><span style="color:#005CC5">2</span><span style="color:#24292E">))</span></td></tr>
+<tr class=""><td class="line-num">21</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">22</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> IsLadder</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">*} (G : SimpleGraph V) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr class=""><td class="line-num">23</td><td class="line-code"><span style="color:#24292E">  </span><a class="lean-identifier-link" href="../lax-68/Lax68.Ladders.html#L16"><span style="color:#24292E">HasLadderShape</span></a><span style="color:#24292E"> G</span></td></tr>
+<tr class=""><td class="line-num">24</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">25</td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax68.Ladders</span></td></tr>
+<tr class=""><td class="line-num">26</td><td class="line-code"> </td></tr>
+</table></div></div>
+</div>
+</li>
+<li class="manuscript-card kind-concept" id="m8" data-mark="8">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><span class="type-badge" title="definition">def</span><a href="../lax-68/Lax68.HalinGraphs.html"><code>Lax68.HalinGraphs</code></a></span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m8-body" aria-label="Show details of Lax68.HalinGraphs"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m8-body" hidden>
+<p class="manuscript-card-title">Halin graphs</p>
+<div class="latex-content"><p>A Halin graph is obtained from a plane tree with no vertex of degree two by
+joining its leaves in their cyclic order. The construction
+contains the chosen crossing-free embedding because the word &quot;plane&quot; is part
+of the defining data, rather than attaching a separate planarity proposition.</p>
+</div>
+<div class="manuscript-card-source"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<tr class=""><td class="line-num">1</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Combinatorics.SimpleGraph.Acyclic</span></td></tr>
+<tr class=""><td class="line-num">2</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Combinatorics.SimpleGraph.Finite</span></td></tr>
+<tr class=""><td class="line-num">3</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-68/Lax68.StraightLineDrawings.html"><span style="color:#24292E">Lax68.StraightLineDrawings</span></a></td></tr>
+<tr class=""><td class="line-num">4</td><td class="line-code"> </td></tr>
+<tr class="line-elided"><td class="line-num"></td><td class="line-code">… module docstring, 10 lines</td></tr>
+<tr class=""><td class="line-num">15</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">16</td><td class="line-code"><span style="color:#D73A49">set_option</span><span style="color:#24292E"> autoImplicit </span><span style="color:#005CC5">false</span></td></tr>
+<tr class=""><td class="line-num">17</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">18</td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax68.HalinGraphs</span></td></tr>
+<tr class=""><td class="line-num">19</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">20</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> IsLeaf</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">*} (T : SimpleGraph V) (v : V) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr class=""><td class="line-num">21</td><td class="line-code"><span style="color:#24292E">  (T.neighborSet v).ncard = </span><span style="color:#005CC5">1</span></td></tr>
+<tr class=""><td class="line-num">22</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">23</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> CycleAdjacent</span><span style="color:#24292E"> {n : ℕ} (i j : Fin n) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr class=""><td class="line-num">24</td><td class="line-code"><span style="color:#24292E">  i.val + </span><span style="color:#005CC5">1</span><span style="color:#24292E"> = j.val ∨</span></td></tr>
+<tr class=""><td class="line-num">25</td><td class="line-code"><span style="color:#24292E">  j.val + </span><span style="color:#005CC5">1</span><span style="color:#24292E"> = i.val ∨</span></td></tr>
+<tr class=""><td class="line-num">26</td><td class="line-code"><span style="color:#24292E">  (i.val = </span><span style="color:#005CC5">0</span><span style="color:#24292E"> ∧ j.val + </span><span style="color:#005CC5">1</span><span style="color:#24292E"> = n) ∨</span></td></tr>
+<tr class=""><td class="line-num">27</td><td class="line-code"><span style="color:#24292E">  (j.val = </span><span style="color:#005CC5">0</span><span style="color:#24292E"> ∧ i.val + </span><span style="color:#005CC5">1</span><span style="color:#24292E"> = n)</span></td></tr>
+<tr class=""><td class="line-num">28</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">29</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> IsCycleOn</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">*}</span></td></tr>
+<tr class=""><td class="line-num">30</td><td class="line-code"><span style="color:#24292E">    (R : SimpleGraph V) (S : Set V) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr class=""><td class="line-num">31</td><td class="line-code"><span style="color:#24292E">  (∀ ⦃u v⦄, R.Adj u v → u ∈ S ∧ v ∈ S) ∧</span></td></tr>
+<tr class=""><td class="line-num">32</td><td class="line-code"><span style="color:#24292E">    ∃ n : ℕ,</span></td></tr>
+<tr class=""><td class="line-num">33</td><td class="line-code"><span style="color:#005CC5">      3</span><span style="color:#24292E"> ≤ n ∧</span></td></tr>
+<tr class=""><td class="line-num">34</td><td class="line-code"><span style="color:#24292E">      ∃ e : Fin n ≃ {v : V // v ∈ S},</span></td></tr>
+<tr class=""><td class="line-num">35</td><td class="line-code"><span style="color:#24292E">        ∀ i j,</span></td></tr>
+<tr class=""><td class="line-num">36</td><td class="line-code"><span style="color:#24292E">          R.Adj (e i).</span><span style="color:#005CC5">1</span><span style="color:#24292E"> (e j).</span><span style="color:#005CC5">1</span><span style="color:#24292E"> ↔ </span><a class="lean-identifier-link" href="../lax-68/Lax68.HalinGraphs.html#L23"><span style="color:#24292E">CycleAdjacent</span></a><span style="color:#24292E"> i j</span></td></tr>
+<tr class=""><td class="line-num">37</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">38</td><td class="line-code"><span style="color:#D73A49">structure</span><span style="color:#6F42C1"> Construction</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">*} (G : SimpleGraph V) </span><span style="color:#D73A49">where</span></td></tr>
+<tr class=""><td class="line-num">39</td><td class="line-code"><span style="color:#24292E">  tree : SimpleGraph V</span></td></tr>
+<tr class=""><td class="line-num">40</td><td class="line-code"><span style="color:#24292E">  rim : SimpleGraph V</span></td></tr>
+<tr class=""><td class="line-num">41</td><td class="line-code"><span style="color:#24292E">  tree_isTree : tree.IsTree</span></td></tr>
+<tr class=""><td class="line-num">42</td><td class="line-code"><span style="color:#24292E">  noDegreeTwo : ∀ v, (tree.neighborSet v).ncard ≠ </span><span style="color:#005CC5">2</span></td></tr>
+<tr class=""><td class="line-num">43</td><td class="line-code"><span style="color:#24292E">  rimCycle : </span><a class="lean-identifier-link" href="../lax-68/Lax68.HalinGraphs.html#L29"><span style="color:#24292E">IsCycleOn</span></a><span style="color:#24292E"> rim {v | </span><a class="lean-identifier-link" href="../lax-68/Lax68.HalinGraphs.html#L20"><span style="color:#24292E">IsLeaf</span></a><span style="color:#24292E"> tree v}</span></td></tr>
+<tr class=""><td class="line-num">44</td><td class="line-code"><span style="color:#24292E">  graph_eq : G = tree ⊔ rim</span></td></tr>
+<tr class=""><td class="line-num">45</td><td class="line-code"><span style="color:#24292E">  drawing : </span><a class="lean-identifier-link" href="../lax-68/Lax68.StraightLineDrawings.html#L22"><span style="color:#24292E">StraightLineDrawings.StraightLineDrawing</span></a><span style="color:#24292E"> G</span></td></tr>
+<tr class=""><td class="line-num">46</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">47</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> IsHalin</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">*} (G : SimpleGraph V) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr class=""><td class="line-num">48</td><td class="line-code"><span style="color:#24292E">  Nonempty (</span><a class="lean-identifier-link" href="../lax-68/Lax68.HalinGraphs.html#L38"><span style="color:#24292E">Construction</span></a><span style="color:#24292E"> G)</span></td></tr>
+<tr class=""><td class="line-num">49</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">50</td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax68.HalinGraphs</span></td></tr>
+<tr class=""><td class="line-num">51</td><td class="line-code"> </td></tr>
+</table></div></div>
+</div>
+</li>
+<li class="manuscript-card kind-concept" id="m9" data-mark="9">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><span class="type-badge" title="definition">def</span><a href="../lax-68/Lax68.Wheels.html"><code>Lax68.Wheels</code></a></span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m9-body" aria-label="Show details of Lax68.Wheels"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m9-body" hidden>
+<p class="manuscript-card-title">Wheels</p>
+<div class="latex-content"><p>A finite wheel consists of a cycle of at least three rim vertices together
+with one hub adjacent to every rim vertex, and has no other edges.</p>
+</div>
+<div class="manuscript-card-source"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<tr class=""><td class="line-num">1</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Combinatorics.SimpleGraph.UniversalVerts</span></td></tr>
+<tr class=""><td class="line-num">2</td><td class="line-code"> </td></tr>
+<tr class="line-elided"><td class="line-num"></td><td class="line-code">… module docstring, 8 lines</td></tr>
+<tr class=""><td class="line-num">11</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">12</td><td class="line-code"><span style="color:#D73A49">set_option</span><span style="color:#24292E"> autoImplicit </span><span style="color:#005CC5">false</span></td></tr>
+<tr class=""><td class="line-num">13</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">14</td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax68.Wheels</span></td></tr>
+<tr class=""><td class="line-num">15</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">16</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> CycleAdjacent</span><span style="color:#24292E"> {n : ℕ} (i j : Fin n) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr class=""><td class="line-num">17</td><td class="line-code"><span style="color:#24292E">  i.val + </span><span style="color:#005CC5">1</span><span style="color:#24292E"> = j.val ∨</span></td></tr>
+<tr class=""><td class="line-num">18</td><td class="line-code"><span style="color:#24292E">  j.val + </span><span style="color:#005CC5">1</span><span style="color:#24292E"> = i.val ∨</span></td></tr>
+<tr class=""><td class="line-num">19</td><td class="line-code"><span style="color:#24292E">  (i.val = </span><span style="color:#005CC5">0</span><span style="color:#24292E"> ∧ j.val + </span><span style="color:#005CC5">1</span><span style="color:#24292E"> = n) ∨</span></td></tr>
+<tr class=""><td class="line-num">20</td><td class="line-code"><span style="color:#24292E">  (j.val = </span><span style="color:#005CC5">0</span><span style="color:#24292E"> ∧ i.val + </span><span style="color:#005CC5">1</span><span style="color:#24292E"> = n)</span></td></tr>
+<tr class=""><td class="line-num">21</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">22</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> IsCycleOn</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">*}</span></td></tr>
+<tr class=""><td class="line-num">23</td><td class="line-code"><span style="color:#24292E">    (R : SimpleGraph V) (S : Set V) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr class=""><td class="line-num">24</td><td class="line-code"><span style="color:#24292E">  (∀ ⦃u v⦄, R.Adj u v → u ∈ S ∧ v ∈ S) ∧</span></td></tr>
+<tr class=""><td class="line-num">25</td><td class="line-code"><span style="color:#24292E">    ∃ n : ℕ,</span></td></tr>
+<tr class=""><td class="line-num">26</td><td class="line-code"><span style="color:#005CC5">      3</span><span style="color:#24292E"> ≤ n ∧</span></td></tr>
+<tr class=""><td class="line-num">27</td><td class="line-code"><span style="color:#24292E">      ∃ e : Fin n ≃ {v : V // v ∈ S},</span></td></tr>
+<tr class=""><td class="line-num">28</td><td class="line-code"><span style="color:#24292E">        ∀ i j,</span></td></tr>
+<tr class=""><td class="line-num">29</td><td class="line-code"><span style="color:#24292E">          R.Adj (e i).</span><span style="color:#005CC5">1</span><span style="color:#24292E"> (e j).</span><span style="color:#005CC5">1</span><span style="color:#24292E"> ↔ </span><a class="lean-identifier-link" href="../lax-68/Lax68.Wheels.html#L16"><span style="color:#24292E">CycleAdjacent</span></a><span style="color:#24292E"> i j</span></td></tr>
+<tr class=""><td class="line-num">30</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">31</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> HasWheelShape</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">*} (G : SimpleGraph V) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr class=""><td class="line-num">32</td><td class="line-code"><span style="color:#24292E">  ∃ hub : V,</span></td></tr>
+<tr class=""><td class="line-num">33</td><td class="line-code"><span style="color:#24292E">    hub ∈ G.universalVerts ∧</span></td></tr>
+<tr class=""><td class="line-num">34</td><td class="line-code"><span style="color:#24292E">    ∃ rim : SimpleGraph V,</span></td></tr>
+<tr class=""><td class="line-num">35</td><td class="line-code"><span style="color:#24292E">      </span><a class="lean-identifier-link" href="../lax-68/Lax68.Wheels.html#L22"><span style="color:#24292E">IsCycleOn</span></a><span style="color:#24292E"> rim {v | v ≠ hub} ∧</span></td></tr>
+<tr class=""><td class="line-num">36</td><td class="line-code"><span style="color:#24292E">      ∀ ⦃u v⦄,</span></td></tr>
+<tr class=""><td class="line-num">37</td><td class="line-code"><span style="color:#24292E">        u ≠ hub →</span></td></tr>
+<tr class=""><td class="line-num">38</td><td class="line-code"><span style="color:#24292E">        v ≠ hub →</span></td></tr>
+<tr class=""><td class="line-num">39</td><td class="line-code"><span style="color:#24292E">        (G.Adj u v ↔ rim.Adj u v)</span></td></tr>
+<tr class=""><td class="line-num">40</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">41</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> IsWheel</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">*} (G : SimpleGraph V) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr class=""><td class="line-num">42</td><td class="line-code"><span style="color:#24292E">  </span><a class="lean-identifier-link" href="../lax-68/Lax68.Wheels.html#L31"><span style="color:#24292E">HasWheelShape</span></a><span style="color:#24292E"> G</span></td></tr>
+<tr class=""><td class="line-num">43</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">44</td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax68.Wheels</span></td></tr>
+<tr class=""><td class="line-num">45</td><td class="line-code"> </td></tr>
+</table></div></div>
+</div>
+</li>
+<li class="manuscript-card kind-concept" id="m10" data-mark="10">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><span class="type-badge" title="definition">def</span><a href="../lax-68/Lax68.SeriesParallel.html"><code>Lax68.SeriesParallel</code></a></span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m10-body" aria-label="Show details of Lax68.SeriesParallel"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m10-body" hidden>
+<p class="manuscript-card-title">Series-parallel graphs</p>
+<div class="latex-content"><p>A finite two-terminal series-parallel graph is built from a single terminal
+edge by series and parallel composition. The side conditions say that the
+composed graphs meet only at the intended terminals, and the final support
+condition excludes unused isolated vertices.</p>
+</div>
+<div class="manuscript-card-source"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<tr class=""><td class="line-num">1</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Combinatorics.SimpleGraph.Basic</span></td></tr>
+<tr class=""><td class="line-num">2</td><td class="line-code"> </td></tr>
+<tr class="line-elided"><td class="line-num"></td><td class="line-code">… module docstring, 10 lines</td></tr>
+<tr class=""><td class="line-num">13</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">14</td><td class="line-code"><span style="color:#D73A49">set_option</span><span style="color:#24292E"> autoImplicit </span><span style="color:#005CC5">false</span></td></tr>
+<tr class=""><td class="line-num">15</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">16</td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax68.SeriesParallel</span></td></tr>
+<tr class=""><td class="line-num">17</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">18</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> edgeGraph</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">*} (s t : V) : SimpleGraph V :=</span></td></tr>
+<tr class=""><td class="line-num">19</td><td class="line-code"><span style="color:#24292E">  SimpleGraph.fromRel </span><span style="color:#D73A49">fun</span><span style="color:#24292E"> u v =&gt;</span></td></tr>
+<tr class=""><td class="line-num">20</td><td class="line-code"><span style="color:#24292E">    (u = s ∧ v = t) ∨</span></td></tr>
+<tr class=""><td class="line-num">21</td><td class="line-code"><span style="color:#24292E">    (u = t ∧ v = s)</span></td></tr>
+<tr class=""><td class="line-num">22</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">23</td><td class="line-code"><span style="color:#D73A49">inductive</span><span style="color:#6F42C1"> TwoTerminal</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">*} : SimpleGraph V → V → V → </span><span style="color:#D73A49">Prop</span></td></tr>
+<tr class=""><td class="line-num">24</td><td class="line-code"><span style="color:#24292E">  | edge (s t : V) (hne : s ≠ t) :</span></td></tr>
+<tr class=""><td class="line-num">25</td><td class="line-code"><span style="color:#24292E">      </span><a class="lean-identifier-link" href="../lax-68/Lax68.SeriesParallel.html#L23"><span style="color:#24292E">TwoTerminal</span></a><span style="color:#24292E"> (</span><a class="lean-identifier-link" href="../lax-68/Lax68.SeriesParallel.html#L18"><span style="color:#24292E">edgeGraph</span></a><span style="color:#24292E"> s t) s t</span></td></tr>
+<tr class=""><td class="line-num">26</td><td class="line-code"><span style="color:#24292E">  | series</span></td></tr>
+<tr class=""><td class="line-num">27</td><td class="line-code"><span style="color:#24292E">      {G H : SimpleGraph V}</span></td></tr>
+<tr class=""><td class="line-num">28</td><td class="line-code"><span style="color:#24292E">      {s m t : V}</span></td></tr>
+<tr class=""><td class="line-num">29</td><td class="line-code"><span style="color:#24292E">      (left : </span><a class="lean-identifier-link" href="../lax-68/Lax68.SeriesParallel.html#L23"><span style="color:#24292E">TwoTerminal</span></a><span style="color:#24292E"> G s m)</span></td></tr>
+<tr class=""><td class="line-num">30</td><td class="line-code"><span style="color:#24292E">      (right : </span><a class="lean-identifier-link" href="../lax-68/Lax68.SeriesParallel.html#L23"><span style="color:#24292E">TwoTerminal</span></a><span style="color:#24292E"> H m t)</span></td></tr>
+<tr class=""><td class="line-num">31</td><td class="line-code"><span style="color:#24292E">      (meet :</span></td></tr>
+<tr class=""><td class="line-num">32</td><td class="line-code"><span style="color:#24292E">        ∀ v,</span></td></tr>
+<tr class=""><td class="line-num">33</td><td class="line-code"><span style="color:#24292E">          v ∈ G.support →</span></td></tr>
+<tr class=""><td class="line-num">34</td><td class="line-code"><span style="color:#24292E">          v ∈ H.support →</span></td></tr>
+<tr class=""><td class="line-num">35</td><td class="line-code"><span style="color:#24292E">          v = m) :</span></td></tr>
+<tr class=""><td class="line-num">36</td><td class="line-code"><span style="color:#24292E">      </span><a class="lean-identifier-link" href="../lax-68/Lax68.SeriesParallel.html#L23"><span style="color:#24292E">TwoTerminal</span></a><span style="color:#24292E"> (G ⊔ H) s t</span></td></tr>
+<tr class=""><td class="line-num">37</td><td class="line-code"><span style="color:#24292E">  | parallel</span></td></tr>
+<tr class=""><td class="line-num">38</td><td class="line-code"><span style="color:#24292E">      {G H : SimpleGraph V}</span></td></tr>
+<tr class=""><td class="line-num">39</td><td class="line-code"><span style="color:#24292E">      {s t : V}</span></td></tr>
+<tr class=""><td class="line-num">40</td><td class="line-code"><span style="color:#24292E">      (left : </span><a class="lean-identifier-link" href="../lax-68/Lax68.SeriesParallel.html#L23"><span style="color:#24292E">TwoTerminal</span></a><span style="color:#24292E"> G s t)</span></td></tr>
+<tr class=""><td class="line-num">41</td><td class="line-code"><span style="color:#24292E">      (right : </span><a class="lean-identifier-link" href="../lax-68/Lax68.SeriesParallel.html#L23"><span style="color:#24292E">TwoTerminal</span></a><span style="color:#24292E"> H s t)</span></td></tr>
+<tr class=""><td class="line-num">42</td><td class="line-code"><span style="color:#24292E">      (meet :</span></td></tr>
+<tr class=""><td class="line-num">43</td><td class="line-code"><span style="color:#24292E">        ∀ v,</span></td></tr>
+<tr class=""><td class="line-num">44</td><td class="line-code"><span style="color:#24292E">          v ∈ G.support →</span></td></tr>
+<tr class=""><td class="line-num">45</td><td class="line-code"><span style="color:#24292E">          v ∈ H.support →</span></td></tr>
+<tr class=""><td class="line-num">46</td><td class="line-code"><span style="color:#24292E">          v = s ∨ v = t) :</span></td></tr>
+<tr class=""><td class="line-num">47</td><td class="line-code"><span style="color:#24292E">      </span><a class="lean-identifier-link" href="../lax-68/Lax68.SeriesParallel.html#L23"><span style="color:#24292E">TwoTerminal</span></a><span style="color:#24292E"> (G ⊔ H) s t</span></td></tr>
+<tr class=""><td class="line-num">48</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">49</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> IsSeriesParallel</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">*} (G : SimpleGraph V) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr class=""><td class="line-num">50</td><td class="line-code"><span style="color:#24292E">  ∃ s t,</span></td></tr>
+<tr class=""><td class="line-num">51</td><td class="line-code"><span style="color:#24292E">    </span><a class="lean-identifier-link" href="../lax-68/Lax68.SeriesParallel.html#L23"><span style="color:#24292E">TwoTerminal</span></a><span style="color:#24292E"> G s t ∧</span></td></tr>
+<tr class=""><td class="line-num">52</td><td class="line-code"><span style="color:#24292E">    G.support = Set.univ</span></td></tr>
+<tr class=""><td class="line-num">53</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">54</td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax68.SeriesParallel</span></td></tr>
+<tr class=""><td class="line-num">55</td><td class="line-code"> </td></tr>
+</table></div></div>
+</div>
+</li>
+<li class="manuscript-card kind-concept" id="m11" data-mark="11">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><span class="type-badge" title="definition">def</span><a href="../lax-68/Lax68.Trees.html"><code>Lax68.Trees</code></a></span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m11-body" aria-label="Show details of Lax68.Trees"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m11-body" hidden>
+<p class="manuscript-card-title">Trees</p>
+<div class="latex-content"><p>A tree is a connected acyclic simple graph, using mathlib's native
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mi>i</mi><mi>m</mi><mi>p</mi><mi>l</mi><mi>e</mi><mi>G</mi><mi>r</mi><mi>a</mi><mi>p</mi><mi>h</mi><mi mathvariant="normal">.</mi><mi>I</mi><mi>s</mi><mi>T</mi><mi>r</mi><mi>e</mi><mi>e</mi></mrow><annotation encoding="application/x-tex">SimpleGraph.IsTree</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.0576em;">S</span><span class="mord mathnormal">im</span><span class="mord mathnormal" style="margin-right:0.0197em;">pl</span><span class="mord mathnormal">e</span><span class="mord mathnormal">G</span><span class="mord mathnormal" style="margin-right:0.0278em;">r</span><span class="mord mathnormal">a</span><span class="mord mathnormal">p</span><span class="mord mathnormal">h</span><span class="mord">.</span><span class="mord mathnormal" style="margin-right:0.0785em;">I</span><span class="mord mathnormal">s</span><span class="mord mathnormal" style="margin-right:0.1389em;">T</span><span class="mord mathnormal" style="margin-right:0.0278em;">r</span><span class="mord mathnormal">ee</span></span></span></span> predicate.</p>
+</div>
+<div class="manuscript-card-source"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<tr class=""><td class="line-num">1</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Combinatorics.SimpleGraph.Acyclic</span></td></tr>
+<tr class=""><td class="line-num">2</td><td class="line-code"> </td></tr>
+<tr class="line-elided"><td class="line-num"></td><td class="line-code">… module docstring, 8 lines</td></tr>
+<tr class=""><td class="line-num">11</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">12</td><td class="line-code"><span style="color:#D73A49">set_option</span><span style="color:#24292E"> autoImplicit </span><span style="color:#005CC5">false</span></td></tr>
+<tr class=""><td class="line-num">13</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">14</td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax68.Trees</span></td></tr>
+<tr class=""><td class="line-num">15</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">16</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> IsTree</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">*} (G : SimpleGraph V) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr class=""><td class="line-num">17</td><td class="line-code"><span style="color:#24292E">  G.IsTree</span></td></tr>
+<tr class=""><td class="line-num">18</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">19</td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax68.Trees</span></td></tr>
+<tr class=""><td class="line-num">20</td><td class="line-code"> </td></tr>
+</table></div></div>
+</div>
+</li>
+<li class="manuscript-card kind-concept" id="m12" data-mark="12">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><span class="type-badge" title="definition">def</span><a href="../lax-68/Lax68.Paths.html"><code>Lax68.Paths</code></a></span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m12-body" aria-label="Show details of Lax68.Paths"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m12-body" hidden>
+<p class="manuscript-card-title">Paths</p>
+<div class="latex-content"><p>A finite path graph is a graph isomorphic to the standard path graph on a
+positive number of vertices.</p>
+</div>
+<div class="manuscript-card-source"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<tr class=""><td class="line-num">1</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Combinatorics.SimpleGraph.Hasse</span></td></tr>
+<tr class=""><td class="line-num">2</td><td class="line-code"> </td></tr>
+<tr class="line-elided"><td class="line-num"></td><td class="line-code">… module docstring, 8 lines</td></tr>
+<tr class=""><td class="line-num">11</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">12</td><td class="line-code"><span style="color:#D73A49">set_option</span><span style="color:#24292E"> autoImplicit </span><span style="color:#005CC5">false</span></td></tr>
+<tr class=""><td class="line-num">13</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">14</td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax68.Paths</span></td></tr>
+<tr class=""><td class="line-num">15</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">16</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> HasPathShape</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">*} (G : SimpleGraph V) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr class=""><td class="line-num">17</td><td class="line-code"><span style="color:#24292E">  ∃ n : ℕ,</span></td></tr>
+<tr class=""><td class="line-num">18</td><td class="line-code"><span style="color:#005CC5">    0</span><span style="color:#24292E"> &lt; n ∧</span></td></tr>
+<tr class=""><td class="line-num">19</td><td class="line-code"><span style="color:#24292E">    Nonempty (G ≃g SimpleGraph.pathGraph n)</span></td></tr>
+<tr class=""><td class="line-num">20</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">21</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> IsPath</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">*} (G : SimpleGraph V) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr class=""><td class="line-num">22</td><td class="line-code"><span style="color:#24292E">  </span><a class="lean-identifier-link" href="../lax-68/Lax68.Paths.html#L16"><span style="color:#24292E">HasPathShape</span></a><span style="color:#24292E"> G</span></td></tr>
+<tr class=""><td class="line-num">23</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">24</td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax68.Paths</span></td></tr>
+<tr class=""><td class="line-num">25</td><td class="line-code"> </td></tr>
+</table></div></div>
+</div>
+</li>
+<li class="manuscript-card kind-concept" id="m13" data-mark="13">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><span class="type-badge" title="definition">def</span><a href="../lax-68/Lax68.Triangulations.html"><code>Lax68.Triangulations</code></a></span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m13-body" aria-label="Show details of Lax68.Triangulations"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m13-body" hidden>
+<p class="manuscript-card-title">Triangulations</p>
+<div class="latex-content"><p>A triangulation of a graph G is a planar supergraph T on the same vertex set,
+with at least three vertices, to which no edge can be added while preserving
+planarity. For a plane embedding this is equivalent to every face of T being
+bounded by a triangle.</p>
+</div>
+<div class="manuscript-card-source"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<tr class=""><td class="line-num">1</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-68/Lax68.Planar.html"><span style="color:#24292E">Lax68.Planar</span></a></td></tr>
+<tr class=""><td class="line-num">2</td><td class="line-code"> </td></tr>
+<tr class="line-elided"><td class="line-num"></td><td class="line-code">… module docstring, 10 lines</td></tr>
+<tr class=""><td class="line-num">13</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">14</td><td class="line-code"><span style="color:#D73A49">set_option</span><span style="color:#24292E"> autoImplicit </span><span style="color:#005CC5">false</span></td></tr>
+<tr class=""><td class="line-num">15</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">16</td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax68.Triangulations</span></td></tr>
+<tr class=""><td class="line-num">17</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">18</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> IsTriangulationOf</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">*}</span></td></tr>
+<tr class=""><td class="line-num">19</td><td class="line-code"><span style="color:#24292E">    (G T : SimpleGraph V) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr class=""><td class="line-num">20</td><td class="line-code"><span style="color:#24292E">  (∃ a b c : V, a ≠ b ∧ a ≠ c ∧ b ≠ c) ∧</span></td></tr>
+<tr class=""><td class="line-num">21</td><td class="line-code"><span style="color:#24292E">    G ≤ T ∧</span></td></tr>
+<tr class=""><td class="line-num">22</td><td class="line-code"><span style="color:#24292E">    </span><a class="lean-identifier-link" href="../lax-68/Lax68.Planar.html#L21"><span style="color:#24292E">Planar.IsPlanar</span></a><span style="color:#24292E"> T ∧</span></td></tr>
+<tr class=""><td class="line-num">23</td><td class="line-code"><span style="color:#24292E">    ∀ H : SimpleGraph V,</span></td></tr>
+<tr class=""><td class="line-num">24</td><td class="line-code"><span style="color:#24292E">      T &lt; H →</span></td></tr>
+<tr class=""><td class="line-num">25</td><td class="line-code"><span style="color:#24292E">      ¬ </span><a class="lean-identifier-link" href="../lax-68/Lax68.Planar.html#L21"><span style="color:#24292E">Planar.IsPlanar</span></a><span style="color:#24292E"> H</span></td></tr>
+<tr class=""><td class="line-num">26</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">27</td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax68.Triangulations</span></td></tr>
+<tr class=""><td class="line-num">28</td><td class="line-code"> </td></tr>
+</table></div></div>
+</div>
+</li>
+</ol>
+<svg class="manuscript-links" id="manuscript-links" aria-hidden="true"></svg>
+</div>
+<p class="manuscript-status" id="manuscript-status" role="status">Loading the paper…</p>
+<noscript><p class="empty-note">Enable JavaScript to read the paper here, or <a href="paper.pdf">download the PDF</a>.</p></noscript>
+<script type="application/json" id="manuscript-data">{"pageSizes":[[595.28,841.89],[595.28,841.89],[595.28,841.89]],"marks":[{"n":1,"id":"Lax68.Planar","kind":"concept","begin":{"page":1,"x":62.36,"y":636.98,"mode":"v"},"end":{"page":1,"x":62.36,"y":474.58,"mode":"v"}},{"n":2,"id":"Lax68.Outerplanar","kind":"concept","begin":{"page":1,"x":62.36,"y":474.58,"mode":"v"},"end":{"page":1,"x":62.36,"y":301,"mode":"v"}},{"n":3,"id":"Lax68.MaximalOuterplanar","kind":"concept","begin":{"page":1,"x":62.36,"y":301,"mode":"v"},"end":{"page":1,"x":62.36,"y":127.42,"mode":"v"}},{"n":4,"id":"Lax68.GridsAndWalls","kind":"concept","begin":{"page":2,"x":62.36,"y":779.53,"mode":"v"},"end":{"page":2,"x":62.36,"y":629.28,"mode":"v"}},{"n":5,"id":"Lax68.Triangles","kind":"concept","begin":{"page":2,"x":62.36,"y":629.28,"mode":"v"},"end":{"page":2,"x":62.36,"y":495.13,"mode":"v"}},{"n":6,"id":"Lax68.Stars","kind":"concept","begin":{"page":2,"x":62.36,"y":495.13,"mode":"v"},"end":{"page":2,"x":62.36,"y":340.92,"mode":"v"}},{"n":7,"id":"Lax68.Ladders","kind":"concept","begin":{"page":2,"x":62.36,"y":340.92,"mode":"v"},"end":{"page":2,"x":62.36,"y":243.12,"mode":"v"}},{"n":8,"id":"Lax68.HalinGraphs","kind":"concept","begin":{"page":2,"x":62.36,"y":243.12,"mode":"v"},"end":{"page":2,"x":62.36,"y":62.36,"mode":"v"}},{"n":9,"id":"Lax68.Wheels","kind":"concept","begin":{"page":3,"x":62.36,"y":779.53,"mode":"v"},"end":{"page":3,"x":62.36,"y":617.1,"mode":"v"}},{"n":10,"id":"Lax68.SeriesParallel","kind":"concept","begin":{"page":3,"x":62.36,"y":617.1,"mode":"v"},"end":{"page":3,"x":62.36,"y":470.23,"mode":"v"}},{"n":11,"id":"Lax68.Trees","kind":"concept","begin":{"page":3,"x":62.36,"y":470.23,"mode":"v"},"end":{"page":3,"x":62.36,"y":329.67,"mode":"v"}},{"n":12,"id":"Lax68.Paths","kind":"concept","begin":{"page":3,"x":62.36,"y":329.67,"mode":"v"},"end":{"page":3,"x":62.36,"y":235.62,"mode":"v"}},{"n":13,"id":"Lax68.Triangulations","kind":"concept","begin":{"page":3,"x":62.36,"y":235.62,"mode":"v"},"end":{"page":3,"x":62.36,"y":62.36,"mode":"v"}}]}</script>
+</div>
+</div>
+<footer class="site-footer">
+  <nav class="site-footer-nav" aria-label="Legal">
+    <a class="site-footer-link" href="../impressum.html">Imprint</a>
+    <a class="site-footer-link" href="../privacy.html">Privacy</a>
+  </nav>
+</footer>
+</section>
+</main>
+<dialog class="account-dialog" id="account-dialog" aria-labelledby="account-dialog-title">
+<div class="account-dialog-inner">
+<header class="account-dialog-header">
+<div><p class="account-dialog-eyebrow">ORCID account</p><h2 id="account-dialog-title">Settings</h2></div>
+<button class="account-dialog-close" data-account-close type="button" aria-label="Close account settings">×</button>
+</header>
+<div class="account-dialog-body">
+<p class="account-status" data-account-status role="status">Checking your ORCID session…</p>
+<section data-account-content hidden>
+<div class="account-identity">
+<span class="account-avatar" data-account-avatar aria-hidden="true">iD</span>
+<div><a class="account-name" data-account-name target="_blank" rel="noopener noreferrer"></a><p class="account-id" data-account-id></p></div>
+</div>
+<p class="account-name-note">Your public name comes from ORCID. ORCID names are self-asserted and may change.</p>
+<div class="account-actions">
+<a data-account-refresh href="https://comments.laxarchive.org/auth/orcid/login?from=https%3A%2F%2Flaxarchive.org&amp;site=remark">Refresh from ORCID</a>
+<button data-account-logout type="button">Sign out</button>
+</div>
+<div class="account-comments-heading"><h3>Your comments</h3><span data-account-comment-count></span></div>
+<ol class="account-comments" data-account-comments></ol>
+<p class="account-comments-status" data-account-comments-status role="status"></p>
+</section>
+</div>
+</div>
+</dialog>
+<script src="../assets/sidebar.js?v=0db6145b12ac"></script>
+<script src="../assets/account.js?v=e3db2efa7b34"></script>
+<script src="../assets/version-history.js?v=a36e868140dd"></script>
+<script src="../assets/manuscript-place.js?v=c5fd627c3da9"></script>
+<script src="../assets/manuscript.js?v=ff0a96db36bf"></script>
+</body></html>

@@ -1,20 +1,26 @@
 <!doctype html>
 <html lang="en"><head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://comments.laxarchive.org; style-src 'self' 'unsafe-inline'; img-src https: data:; font-src 'self'; frame-src https://comments.laxarchive.org; connect-src https://comments.laxarchive.org">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://comments.laxarchive.org; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self'; frame-src https://comments.laxarchive.org; connect-src https://comments.laxarchive.org">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Lax — an archive of formalized mathematical concepts and their proofs">
 <title>Large Finite Point Sets Have 4 Collinear Points or a 6-Clique — lax-56</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=681ec98ec3d0">
+<link rel="stylesheet" href="../assets/style.css?v=dac430f58d9e">
 </head><body>
-<header class="site-header">
-  <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
+<header class="site-header with-sidebar">
+  <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="true" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
+  <div class="site-brand">
   <h1 class="site-title"><a href="../index.html">Lax <span class="site-title-quiet">Lean Archive</span></a></h1>
+  <nav class="site-nav" aria-label="Site">
+    <a class="site-nav-link" href="../lax-242665/paper.html">Introduction</a>
+    <a class="site-nav-link" href="../about.html">About</a>
+  </nav>
+  </div>
   <nav class="header-actions" aria-label="Account">
     <div class="account-header" data-account-root data-remark42-host="https://comments.laxarchive.org" data-remark42-site="remark" data-identity-url="https://comments.laxarchive.org/reactions/v1/identity">
-  <a class="account-control" data-account-login href="https://comments.laxarchive.org/auth/orcid/login?from=https%3A%2F%2Flaxarchive.org&amp;site=remark"><span class="orcid-mark" aria-hidden="true">iD</span><span>Sign in with ORCID</span></a>
+  <a class="account-control" data-account-login href="https://comments.laxarchive.org/auth/orcid/login?from=https%3A%2F%2Flaxarchive.org&amp;site=remark"><span class="orcid-mark" aria-hidden="true">iD</span><span>Sign in<span class="account-login-long"> with ORCID</span></span></a>
   <button class="account-control" data-account-settings type="button" aria-haspopup="dialog" aria-controls="account-dialog" hidden><span class="orcid-mark" aria-hidden="true">iD</span><span>Settings</span></button>
 </div>
   </nav>
@@ -233,10 +239,9 @@ point of the ambient finite set.</p>
 <script type="application/json" id="graph-data">{"concepts":{"nodes":[{"id":"Lax56.ConvexLayers","href":"../lax-56/Lax56.ConvexLayers.html","title":"Convex layers and minimal polygons","owner":"lax-56","status":"none","ext":false,"dir":"core"},{"id":"Lax56.Geometry","href":"../lax-56/Lax56.Geometry.html","title":"Point visibility in the real plane","owner":"lax-56","status":"none","ext":false,"dir":"core"},{"id":"Lax56.HujterKisfaludiBak","href":"../lax-56/Lax56.HujterKisfaludiBak.html","title":"The unoptimized empty-hexagon bound","owner":"lax-56","status":"proven","ext":false,"dir":"core"},{"id":"Lax56.MainTheorem","href":"../lax-56/Lax56.MainTheorem.html","title":"Large finite point sets have four collinear points or a visible six-clique","owner":"lax-56","status":"proven","ext":false,"dir":"core"},{"id":"Lax56.ValtrFourLayer","href":"../lax-56/Lax56.ValtrFourLayer.html","title":"Valtr's four-layer lemma","owner":"lax-56","status":"proven","ext":false,"dir":"core"},{"id":"Lax56.VertexRemovalStability","href":"../lax-56/Lax56.VertexRemovalStability.html","title":"Quantitative vertex-removal Erdős–Simonovits stability for K₆","owner":"lax-56","status":"proven","ext":false,"dir":"core"}],"edges":[{"from":"Lax56.Geometry","to":"Lax56.ConvexLayers"},{"from":"Lax56.Geometry","to":"Lax56.HujterKisfaludiBak"},{"from":"Lax56.Geometry","to":"Lax56.MainTheorem"},{"from":"Lax56.ConvexLayers","to":"Lax56.ValtrFourLayer"}],"home":"lax-56"},"proofs":{"statements":[{"id":"Lax56.HujterKisfaludiBak.exists_emptyConvexHexagon","label":"Lax56.HujterKisfaludiBak","title":"The unoptimized empty-hexagon bound","owner":"lax-56","concept":"Lax56.HujterKisfaludiBak","index":1,"count":1,"href":"../lax-56/Lax56.HujterKisfaludiBak.html#s-Lax56.HujterKisfaludiBak.exists_emptyConvexHexagon","proven":true,"ext":false},{"id":"Lax56.MainTheorem.large_point_set_four_collinear_or_visible_six","label":"Lax56.MainTheorem","title":"Large finite point sets have four collinear points or a visible six-clique","owner":"lax-56","concept":"Lax56.MainTheorem","index":1,"count":1,"href":"../lax-56/Lax56.MainTheorem.html#s-Lax56.MainTheorem.large_point_set_four_collinear_or_visible_six","proven":true,"ext":false},{"id":"Lax56.ValtrFourLayer.exists_emptyHexagon_of_four_layers","label":"Lax56.ValtrFourLayer","title":"Valtr's four-layer lemma","owner":"lax-56","concept":"Lax56.ValtrFourLayer","index":1,"count":1,"href":"../lax-56/Lax56.ValtrFourLayer.html#s-Lax56.ValtrFourLayer.exists_emptyHexagon_of_four_layers","proven":true,"ext":false},{"id":"Lax56.VertexRemovalStability.exists_fiveColorable_delete","label":"Lax56.VertexRemovalStability","title":"Quantitative vertex-removal Erdős--Simonovits stability for K₆","owner":"lax-56","concept":"Lax56.VertexRemovalStability","index":1,"count":1,"href":"../lax-56/Lax56.VertexRemovalStability.html#s-Lax56.VertexRemovalStability.exists_fiveColorable_delete","proven":true,"ext":false}],"proofs":[{"id":"Lax56Proofs.EmptyHexagon.exists_emptyConvexHexagon","assumptions":["Lax56.ValtrFourLayer.exists_emptyHexagon_of_four_layers"],"conclusion":"Lax56.HujterKisfaludiBak.exists_emptyConvexHexagon","description":"The unoptimized Valtr argument, using the four-layer theorem interface so\nLax records its dependency on the proof in `Lax56Proofs.ValtrFourLayer`. The\nminimum-polygon argument, consecutive-layer inequality, Erdős--Szekeres\nbound, shear, and cyclic-order\nbridge are all proved; no SAT solver or native decision axiom is used.","owner":"lax-56","ext":false,"href":"../lax-56/Lax56Proofs.EmptyHexagon.exists_emptyConvexHexagon.html","assumptionsProven":true,"outstanding":0},{"id":"Lax56Proofs.MainTheorem.large_point_set_four_collinear_or_visible_six","assumptions":["Lax56.HujterKisfaludiBak.exists_emptyConvexHexagon","Lax56.VertexRemovalStability.exists_fiveColorable_delete"],"conclusion":"Lax56.MainTheorem.large_point_set_four_collinear_or_visible_six","description":"Every finite set of at least $10^{2^{450}}$ points in the real plane has\nfour distinct collinear points or six points which are pairwise visible with\nrespect to the entire set. The visibility-colouring and vertex-removal\nstability inputs are proved in this package. The empty-convex-hexagon bound\n$h(6) \\le 2^{428}+1$ is derived from the fully proved four-layer lemma.\nThe empty-hexagon and stability inputs are used through their theorem\ninterfaces so Lax records the proof tree. Both have proofs in this package;\ncomposing the tree leaves only Lean's standard logical axioms.","owner":"lax-56","ext":false,"href":"../lax-56/Lax56Proofs.MainTheorem.large_point_set_four_collinear_or_visible_six.html","assumptionsProven":true,"outstanding":0},{"id":"Lax56Proofs.ValtrFourLayer.exists_emptyHexagon_of_four_layers","assumptions":[],"conclusion":"Lax56.ValtrFourLayer.exists_emptyHexagon_of_four_layers","description":"Valtr's four-layer implication with the deliberately unoptimized\nouter threshold sixteen. The convex endpoint case is proved by edge caps\nand backward projective propagation, not assumed.","owner":"lax-56","ext":false,"href":"../lax-56/Lax56Proofs.ValtrFourLayer.exists_emptyHexagon_of_four_layers.html","assumptionsProven":true,"outstanding":0},{"id":"Lax56Proofs.VertexRemovalStability.exists_fiveColorable_delete","assumptions":[],"conclusion":"Lax56.VertexRemovalStability.exists_fiveColorable_delete","description":"The quantitative vertex-removal stability theorem used in the paper.","owner":"lax-56","ext":false,"href":"../lax-56/Lax56Proofs.VertexRemovalStability.exists_fiveColorable_delete.html","assumptionsProven":true,"outstanding":0}],"home":"lax-56"},"submissions":{"nodes":[{"id":"lax-56","href":"../lax-56/index.html","title":"Large Finite Point Sets Have 4 Collinear Points or a 6-Clique","state":"draft","concepts":6,"proofs":4,"dir":"core","ext":false}],"edges":[]}}</script>
 </div>
 <footer class="site-footer">
-  <nav class="site-footer-nav" aria-label="Legal and about">
+  <nav class="site-footer-nav" aria-label="Legal">
     <a class="site-footer-link" href="../impressum.html">Imprint</a>
     <a class="site-footer-link" href="../privacy.html">Privacy</a>
-    <a class="site-footer-link" href="../assets/lax-white-paper.pdf">About</a>
   </nav>
 </footer>
 </section>
@@ -266,10 +271,10 @@ point of the ambient finite set.</p>
 </div>
 </div>
 </dialog>
-<script src="../assets/sidebar.js?v=b1e289522120"></script>
+<script src="../assets/sidebar.js?v=0db6145b12ac"></script>
 <script src="../assets/account.js?v=e3db2efa7b34"></script>
 <script src="../assets/layout.js?v=41e28199b546"></script>
-<script src="../assets/dag.js?v=30b3351be153"></script>
+<script src="../assets/dag.js?v=96ff87e994df"></script>
 <script src="../assets/citation.js?v=dd5ce19082ad"></script>
 <script src="../assets/version-history.js?v=a36e868140dd"></script>
 <script src="../assets/comments.js?v=936ec0d73bed"></script>

@@ -1,20 +1,26 @@
 <!doctype html>
 <html lang="en"><head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://comments.laxarchive.org; style-src 'self' 'unsafe-inline'; img-src https: data:; font-src 'self'; frame-src https://comments.laxarchive.org; connect-src https://comments.laxarchive.org">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://comments.laxarchive.org; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self'; frame-src https://comments.laxarchive.org; connect-src https://comments.laxarchive.org">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Lax — an archive of formalized mathematical concepts and their proofs">
 <title>The prime rational functions</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=681ec98ec3d0">
+<link rel="stylesheet" href="../assets/style.css?v=dac430f58d9e">
 </head><body>
-<header class="site-header">
-  <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
+<header class="site-header with-sidebar">
+  <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="true" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
+  <div class="site-brand">
   <h1 class="site-title"><a href="../index.html">Lax <span class="site-title-quiet">Lean Archive</span></a></h1>
+  <nav class="site-nav" aria-label="Site">
+    <a class="site-nav-link" href="../lax-242665/paper.html">Introduction</a>
+    <a class="site-nav-link" href="../about.html">About</a>
+  </nav>
+  </div>
   <nav class="header-actions" aria-label="Account">
     <div class="account-header" data-account-root data-remark42-host="https://comments.laxarchive.org" data-remark42-site="remark" data-identity-url="https://comments.laxarchive.org/reactions/v1/identity">
-  <a class="account-control" data-account-login href="https://comments.laxarchive.org/auth/orcid/login?from=https%3A%2F%2Flaxarchive.org&amp;site=remark"><span class="orcid-mark" aria-hidden="true">iD</span><span>Sign in with ORCID</span></a>
+  <a class="account-control" data-account-login href="https://comments.laxarchive.org/auth/orcid/login?from=https%3A%2F%2Flaxarchive.org&amp;site=remark"><span class="orcid-mark" aria-hidden="true">iD</span><span>Sign in<span class="account-login-long"> with ORCID</span></span></a>
   <button class="account-control" data-account-settings type="button" aria-haspopup="dialog" aria-controls="account-dialog" hidden><span class="orcid-mark" aria-hidden="true">iD</span><span>Settings</span></button>
 </div>
   </nav>
@@ -268,10 +274,9 @@ rational functions&quot; is its composition closure.</p>
 <script type="application/json" id="graph-data">{"concepts":{"nodes":[{"id":"Lax132576.PrimeRationalFunctions","href":"../lax-132576/Lax132576.PrimeRationalFunctions.html","title":"The prime rational functions","owner":"lax-132576","status":"none","ext":false,"dir":"core"},{"id":"Lax132576.PrimesOfRational","href":"../lax-132576/Lax132576.PrimesOfRational.html","title":"Rational functions decompose into prime rational functions","owner":"lax-132576","status":"proven","ext":true,"dir":"down"},{"id":"Lax132576.RationalOfPrimes","href":"../lax-132576/Lax132576.RationalOfPrimes.html","title":"Compositions of prime rational functions are rational","owner":"lax-132576","status":"proven","ext":true,"dir":"down"},{"id":"Lax132576.RationalPrimes","href":"../lax-132576/Lax132576.RationalPrimes.html","title":"The rational functions are the compositions of prime rational functions","owner":"lax-132576","status":"proven","ext":true,"dir":"down"},{"id":"Lax132576.StringHomomorphisms","href":"../lax-132576/Lax132576.StringHomomorphisms.html","title":"String homomorphisms","owner":"lax-132576","status":"none","ext":true,"dir":"up"},{"id":"Lax765601.CompositionClosure","href":"../lax-765601/Lax765601.CompositionClosure.html","title":"Closure of a family of functions under composition","owner":"lax-765601","status":"none","ext":true,"dir":"up"},{"id":"Lax765601.MealyMachine","href":"../lax-765601/Lax765601.MealyMachine.html","title":"Mealy machines","owner":"lax-765601","status":"none","ext":true,"dir":"up"},{"id":"Lax765601.PrimeMealyMachines","href":"../lax-765601/Lax765601.PrimeMealyMachines.html","title":"Prime Mealy machines: reversible and flip-flop","owner":"lax-765601","status":"none","ext":true,"dir":"up"}],"edges":[{"from":"Lax132576.StringHomomorphisms","to":"Lax132576.PrimeRationalFunctions"},{"from":"Lax765601.PrimeMealyMachines","to":"Lax132576.PrimeRationalFunctions"},{"from":"Lax132576.PrimeRationalFunctions","to":"Lax132576.PrimesOfRational"},{"from":"Lax132576.PrimeRationalFunctions","to":"Lax132576.RationalOfPrimes"},{"from":"Lax132576.PrimeRationalFunctions","to":"Lax132576.RationalPrimes"},{"from":"Lax765601.CompositionClosure","to":"Lax765601.PrimeMealyMachines"},{"from":"Lax765601.MealyMachine","to":"Lax765601.PrimeMealyMachines"}],"home":"lax-132576"},"proofs":{"statements":[],"proofs":[]}}</script>
 </div>
 <footer class="site-footer">
-  <nav class="site-footer-nav" aria-label="Legal and about">
+  <nav class="site-footer-nav" aria-label="Legal">
     <a class="site-footer-link" href="../impressum.html">Imprint</a>
     <a class="site-footer-link" href="../privacy.html">Privacy</a>
-    <a class="site-footer-link" href="../assets/lax-white-paper.pdf">About</a>
   </nav>
 </footer>
 </section>
@@ -301,10 +306,10 @@ rational functions&quot; is its composition closure.</p>
 </div>
 </div>
 </dialog>
-<script src="../assets/sidebar.js?v=b1e289522120"></script>
+<script src="../assets/sidebar.js?v=0db6145b12ac"></script>
 <script src="../assets/account.js?v=e3db2efa7b34"></script>
 <script src="../assets/layout.js?v=41e28199b546"></script>
-<script src="../assets/dag.js?v=30b3351be153"></script>
+<script src="../assets/dag.js?v=96ff87e994df"></script>
 <script src="../assets/source-proof.js?v=b4c48aaad400"></script>
 <script src="../assets/version-history.js?v=a36e868140dd"></script>
 <script src="../assets/comments.js?v=936ec0d73bed"></script>
