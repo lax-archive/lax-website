@@ -871,6 +871,10 @@ body.sidebar-resizing #content-shell{ transition: none; }
 
 .paper-meta a{ color: var(--link); text-decoration: none; }
 .paper-meta a:hover{ text-decoration: underline; }
+a.submission-meta-id,
+.paper-meta a.submission-meta-id{ color: var(--accent); text-decoration: none; }
+a.submission-meta-id:is(:hover, :focus-visible),
+.paper-meta a.submission-meta-id:is(:hover, :focus-visible){ font-weight: 700; text-decoration: none; }
 .paper-meta code{ font-family: var(--mono); font-size: 0.9em; }
 .paper-meta .status-pill{ vertical-align: middle; }
 .paper-version-button{
@@ -1295,7 +1299,19 @@ body.sidebar-resizing #content-shell{ transition: none; }
 
 .inline-contract-table .line-num a{ color: inherit; text-decoration: none; }
 
-.inline-contract-table .line-code{ padding-right: 1rem; }
+.inline-contract-table .line-code{ position: relative; padding-right: 1rem; }
+
+/* Native fragment navigation starts the source row below the sticky header. */
+.inline-contract-table tr[id],
+.statement-anchor{ scroll-margin-top: var(--header-height); }
+
+/* Short pages need room after the footer to bring a late source target to
+   the top. Only source-fragment visits get this space; no script is needed. */
+#main:has(.inline-contract-table :target)::after{
+  content: '';
+  flex: none;
+  height: max(0px, calc(100vh - var(--header-height)));
+}
 
 .inline-contract-table .lean-identifier-link{
   color: inherit;
@@ -1305,6 +1321,7 @@ body.sidebar-resizing #content-shell{ transition: none; }
 .inline-contract-table .lean-identifier-link:hover,
 .inline-contract-table .lean-identifier-link:focus-visible{
   color: var(--link);
+  font-weight: 700;
 }
 
 .inline-contract-table .lean-identifier-link:focus-visible{
@@ -1346,7 +1363,12 @@ body.sidebar-resizing #content-shell{ transition: none; }
   background: var(--surface);
   box-shadow: 0 3px 10px rgba(43, 43, 43, 0.16);
   transform: translateY(-50%);
+  /* Rail padding must not capture clicks on the adjacent source row. */
+  pointer-events: none;
 }
+
+.source-proof-rail > a,
+.source-review-rail > button{ pointer-events: auto; }
 
 .source-proof-rail.outside,
 .source-review-rail.outside{
@@ -1407,9 +1429,12 @@ body.sidebar-resizing #content-shell{ transition: none; }
 }
 
 .statement-anchor{
-  display: inline-block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
   width: 0;
-  scroll-margin-top: 4rem;
+  height: 0;
 }
 
 .inline-contract-table tr.line-proven td{ background: var(--proven-bg); }
@@ -1526,7 +1551,15 @@ body.sidebar-resizing #content-shell{ transition: none; }
 
 .deps-list li{ margin-bottom: 0.3rem; }
 
-.deps-list a{ color: var(--link); text-decoration: none; overflow-wrap: anywhere; }
+.deps-list a,
+.deps-list li > code{
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.deps-list a{ color: var(--link); text-decoration: none; }
 .deps-list a:hover{ text-decoration: underline; }
 /* Concept identifiers, not code: text face, like concept-list/claim-entry.
    Mathlib entries in the same columns inherit this deliberately. */
@@ -1746,8 +1779,11 @@ body.sidebar-resizing #content-shell{ transition: none; }
 .landing-carousel-slide-off{ position: absolute; top: 0; left: 0; right: 0; visibility: hidden; pointer-events: none; }
 
 .landing-paper-frame{
+  --frame-pad-top: 1.15rem;
+  --frame-pad-right: 1.5rem;
+  --frame-pad-left: 1.7rem;
   position: relative;
-  padding: 1.15rem 1.5rem 1.25rem 1.7rem;
+  padding: var(--frame-pad-top) var(--frame-pad-right) 1.25rem var(--frame-pad-left);
 }
 
 .landing-paper-frame::before{
@@ -1789,7 +1825,7 @@ body.sidebar-resizing #content-shell{ transition: none; }
   grid-template-columns: minmax(0, 1fr) auto;
   column-gap: 1.5rem;
   align-items: start;
-  margin: calc(1px - 1.15rem) calc(1px - 1.5rem) 1.15rem calc(1px - 1.7rem);
+  margin: calc(1px - var(--frame-pad-top)) calc(1px - var(--frame-pad-right)) 1.15rem calc(1px - var(--frame-pad-left));
   padding: 1rem 1.5rem 1rem 1.7rem;
   border-bottom: 1px solid var(--border-light);
   border-radius: calc(var(--radius-card) - 1px) calc(var(--radius-card) - 1px) 0 0;
@@ -3758,6 +3794,7 @@ body.graph-window-open::after{
   /* Where the sign-in button would meet a centred name: the name starts
      at the left with the nav beside it, and the button says "Sign in". */
   .site-brand{ display: flex; gap: 1rem; margin-left: 1rem; }
+  .site-header.with-sidebar .site-brand{ margin-left: 3.1rem; }
   .site-nav{ margin-left: 0; }
   .account-login-long{ display: none; }
 
@@ -3856,7 +3893,7 @@ body.graph-window-open::after{
   .landing-hero{ margin-bottom: 2.2rem; }
   .landing-section, .landing-paper{ margin-bottom: 2.2rem; }
   .landing-manifesto, .landing-section-copy{ font-size: 0.98rem; }
-  .landing-paper-frame{ padding: 1.1rem 0.9rem 1rem 1rem; }
+  .landing-paper-frame{ --frame-pad-top: 1.1rem; --frame-pad-right: 0.9rem; --frame-pad-left: 1rem; padding-bottom: 1rem; }
   .landing-paper-grid{ grid-template-columns: 1fr; row-gap: 0.9rem; }
   .landing-paper-rail-live > .manuscript-card{ position: static; margin: 0 0 0.5rem; }
   .landing-paper-prose, .landing-passage{ text-align: left; }

@@ -4,12 +4,13 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://comments.laxarchive.org; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self'; frame-src https://comments.laxarchive.org; connect-src https://comments.laxarchive.org">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Lax — an archive of formalized mathematical concepts and their proofs">
-<title>Ramsey's theorem for tuples — Lax14.TupleRamsey</title>
+<title>Ramsey's theorem for tuples</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=81654fbf0be7">
+<link rel="stylesheet" href="../assets/style.css?v=dac430f58d9e">
 </head><body>
-<header class="site-header sidebar-hidden">
+<header class="site-header with-sidebar">
+  <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="true" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
   <div class="site-brand">
   <h1 class="site-title"><a href="../index.html">Lax <span class="site-title-quiet">Lean Archive</span></a></h1>
   <nav class="site-nav" aria-label="Site">
@@ -24,7 +25,7 @@
 </div>
   </nav>
 </header>
-<main id="content-shell" class="sidebar-hidden">
+<main id="content-shell">
 <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
 <aside id="sidebar">
 <a class="sidebar-back" href="../lax-14/index.html"><span class="sidebar-back-arrow" aria-hidden="true">←</span>lax-14</a>
@@ -43,10 +44,10 @@
 </div></div>
 <ul id="entry-list">
 <li class="entry-heading" aria-hidden="true">Concepts</li>
-<li data-type="theorem" data-search="lax14.multicolorramsey ramsey's theorem for colourings of pairs theorem"><a class="entry-link" href="../lax-14/Lax14.MulticolorRamsey.html" data-full-title="Ramsey's theorem for colourings of pairs"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax14.MulticolorRamsey</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-14/Lax14.MulticolorRamsey.html" hidden></span></span></a></li>
-<li data-type="definition" data-search="lax14.ordertypes order type of a tuple definition"><a class="entry-link" href="../lax-14/Lax14.OrderTypes.html" data-full-title="Order type of a tuple"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax14.OrderTypes</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-14/Lax14.OrderTypes.html" hidden></span></span></a></li>
-<li data-type="theorem" data-search="lax14.ramsey ramsey's theorem theorem"><a class="entry-link" href="../lax-14/Lax14.Ramsey.html" data-full-title="Ramsey's theorem"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax14.Ramsey</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-14/Lax14.Ramsey.html" hidden></span></span></a></li>
-<li class="active" data-type="theorem" data-search="lax14.tupleramsey ramsey's theorem for tuples theorem"><a class="entry-link" href="../lax-14/Lax14.TupleRamsey.html" data-full-title="Ramsey's theorem for tuples"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax14.TupleRamsey</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-14/Lax14.TupleRamsey.html" hidden></span></span></a></li>
+<li data-type="theorem" data-search="lax14.multicolorramsey ramsey's theorem for colourings of pairs theorem"><a class="entry-link" href="../lax-14/Lax14.MulticolorRamsey.html" data-full-title="Ramsey's theorem for colourings of pairs"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Ramsey's theorem for colourings of pairs</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-14/Lax14.MulticolorRamsey.html" hidden></span></span></a></li>
+<li data-type="definition" data-search="lax14.ordertypes order type of a tuple definition"><a class="entry-link" href="../lax-14/Lax14.OrderTypes.html" data-full-title="Order type of a tuple"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Order type of a tuple</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-14/Lax14.OrderTypes.html" hidden></span></span></a></li>
+<li data-type="theorem" data-search="lax14.ramsey ramsey's theorem theorem"><a class="entry-link" href="../lax-14/Lax14.Ramsey.html" data-full-title="Ramsey's theorem"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Ramsey's theorem</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-14/Lax14.Ramsey.html" hidden></span></span></a></li>
+<li class="active" data-type="theorem" data-search="lax14.tupleramsey ramsey's theorem for tuples theorem"><a class="entry-link" href="../lax-14/Lax14.TupleRamsey.html" data-full-title="Ramsey's theorem for tuples"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Ramsey's theorem for tuples</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-14/Lax14.TupleRamsey.html" hidden></span></span></a></li>
 <li class="entry-heading" aria-hidden="true">Proofs</li>
 <li data-type="proof" data-search="lax14proofs.multicolorramsey.exists_monochromatic_set proof"><a class="entry-link" href="../lax-14/Lax14Proofs.MulticolorRamsey.exists_monochromatic_set.html" data-full-title="Lax14Proofs.MulticolorRamsey.exists_monochromatic_set"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax14Proofs.MulticolorRamsey.exists_monochromatic_set</span></span></a></li>
 <li data-type="proof" data-search="lax14proofs.ramsey.exists_clique_or_indepset proof"><a class="entry-link" href="../lax-14/Lax14Proofs.Ramsey.exists_clique_or_indepSet.html" data-full-title="Lax14Proofs.Ramsey.exists_clique_or_indepSet"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax14Proofs.Ramsey.exists_clique_or_indepSet</span></span></a></li>
@@ -58,8 +59,7 @@
 <section id="main"><div id="detail">
 
 <div class="detail-heading concept-heading">
-<div><p class="concept-id"><code>Lax14.TupleRamsey</code></p>
-<h1 class="concept-title">Ramsey's theorem for tuples</h1>
+<div><h1 class="concept-title">Ramsey's theorem for tuples</h1>
 <p class="concept-microline"><code>concepts/Lax14/TupleRamsey.lean</code> · <a href="index.html">lax-14</a></p></div>
 <span class="status-pills"><span class="status-pill pill-proven" title="Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">proven</span></span>
 </div>
@@ -133,7 +133,7 @@ Erdős and Rado, in the order-type form used in model theory.</p>
 </div></div>
 <div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/38629a61cfd78788647930098a68bb6f14ecc387/finite-ramsey/concepts/Lax14/TupleRamsey.lean">view on GitHub</a></h3>
 <div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
-<tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-14/Lax14.OrderTypes.html">Lax14.OrderTypes</a></span></td></tr>
+<tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-14/Lax14.OrderTypes.html"><span style="color:#24292E">Lax14.OrderTypes</span></a></td></tr>
 <tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Data.Set.Card</span></td></tr>
 <tr id="L3" class=""><td class="line-num"><a href="#L3">3</a></td><td class="line-code"> </td></tr>
 <tr id="L4" class=""><td class="line-num"><a href="#L4">4</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
@@ -171,20 +171,20 @@ Erdős and Rado, in the order-type form used in model theory.</p>
 <tr id="L36" class=""><td class="line-num"><a href="#L36">36</a></td><td class="line-code"><span style="color:#6A737D">colours: with `k = 0` there is no colouring at all.</span></td></tr>
 <tr id="L37" class=""><td class="line-num"><a href="#L37">37</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
 <tr id="L38" class=""><td class="line-num"><a href="#L38">38</a></td><td class="line-code"> </td></tr>
-<tr id="L39" class=""><td class="line-num"><a href="#L39">39</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-14/Lax14.TupleRamsey.html">Lax14.TupleRamsey</a></span></td></tr>
+<tr id="L39" class=""><td class="line-num"><a href="#L39">39</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax14.TupleRamsey</span></td></tr>
 <tr id="L40" class=""><td class="line-num"><a href="#L40">40</a></td><td class="line-code"> </td></tr>
-<tr id="L41" class=""><td class="line-num"><a href="#L41">41</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-14/Lax14.OrderTypes.html">Lax14.OrderTypes</a></span></td></tr>
+<tr id="L41" class=""><td class="line-num"><a href="#L41">41</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-14/Lax14.OrderTypes.html"><span style="color:#24292E">Lax14.OrderTypes</span></a></td></tr>
 <tr id="L42" class=""><td class="line-num"><a href="#L42">42</a></td><td class="line-code"> </td></tr>
 <tr id="L43" class="statement-line line-proven"><td class="line-num"><a href="#L43">43</a></td><td class="line-code"><span class="statement-anchor" id="s-Lax14.TupleRamsey.exists_orderType_homogeneous"></span><span style="color:#6A737D">/-- Ramsey's theorem for tuples: every `k`-colouring of the `ℓ`-tuples</span></td></tr>
 <tr id="L44" class="statement-line line-proven"><td class="line-num"><a href="#L44">44</a></td><td class="line-code"><span style="color:#6A737D">over a large enough linearly ordered finite set has a subset of size `s`</span></td></tr>
 <tr id="L45" class="statement-line line-proven"><td class="line-num"><a href="#L45">45</a></td><td class="line-code"><span style="color:#6A737D">on which the colour of a tuple depends only on its order type. -/</span></td></tr>
-<tr id="L46" class="statement-line line-proven"><td class="line-num"><a href="#L46">46</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> <a class="lean-identifier-link" href="../lax-14/Lax14.TupleRamsey.html#s-Lax14.TupleRamsey.exists_orderType_homogeneous">exists_orderType_homogeneous</a></span><span style="color:#24292E"> (k ℓ s : ℕ) :</span></td></tr>
+<tr id="L46" class="statement-line line-proven"><td class="line-num"><a href="#L46">46</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> exists_orderType_homogeneous</span><span style="color:#24292E"> (k ℓ s : ℕ) :</span></td></tr>
 <tr id="L47" class="statement-line line-proven"><td class="line-num"><a href="#L47">47</a></td><td class="line-code"><span style="color:#24292E">    ∃ N : ℕ, ∀ (n : ℕ) (c : (Fin ℓ → Fin n) → Fin k), N ≤ n →</span></td></tr>
 <tr id="L48" class="statement-line line-proven"><td class="line-num"><a href="#L48">48</a></td><td class="line-code"><span style="color:#24292E">      ∃ I : Set (Fin n), s ≤ I.ncard ∧</span></td></tr>
 <tr id="L49" class="statement-line line-proven"><td class="line-num"><a href="#L49">49</a></td><td class="line-code"><span style="color:#24292E">        ∀ a b : Fin ℓ → Fin n, (∀ i, a i ∈ I) → (∀ i, b i ∈ I) →</span></td></tr>
-<tr id="L50" class="statement-line line-proven"><td class="line-num"><a href="#L50">50</a></td><td class="line-code"><span style="color:#24292E">          <a class="lean-identifier-link" href="../lax-14/Lax14.OrderTypes.html">orderType</a> a = <a class="lean-identifier-link" href="../lax-14/Lax14.OrderTypes.html">orderType</a> b → c a = c b</span></td></tr>
+<tr id="L50" class="statement-line line-proven"><td class="line-num"><a href="#L50">50</a></td><td class="line-code"><span style="color:#24292E">          </span><a class="lean-identifier-link" href="../lax-14/Lax14.OrderTypes.html#L32"><span style="color:#24292E">orderType</span></a><span style="color:#24292E"> a = </span><a class="lean-identifier-link" href="../lax-14/Lax14.OrderTypes.html#L32"><span style="color:#24292E">orderType</span></a><span style="color:#24292E"> b → c a = c b</span></td></tr>
 <tr id="L51" class=""><td class="line-num"><a href="#L51">51</a></td><td class="line-code"> </td></tr>
-<tr id="L52" class=""><td class="line-num"><a href="#L52">52</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-14/Lax14.TupleRamsey.html">Lax14.TupleRamsey</a></span></td></tr>
+<tr id="L52" class=""><td class="line-num"><a href="#L52">52</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax14.TupleRamsey</span></td></tr>
 <tr id="L53" class=""><td class="line-num"><a href="#L53">53</a></td><td class="line-code"> </td></tr>
 </table></div><span class="source-proof-rail" data-source-line="L46" aria-label="Proof links"><a class="statement-proof-button" href="https://github.com/lax-archive/lax-submissions/blob/38629a61cfd78788647930098a68bb6f14ecc387/finite-ramsey/proofs/Lax14Proofs/TupleRamsey.lean" aria-label="View proof Lax14Proofs.TupleRamsey.exists_orderType_homogeneous on GitHub" title="Lax14Proofs.TupleRamsey.exists_orderType_homogeneous"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">Show Proof</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a></span><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
 <div class="block"><h3>Formalization notes</h3><div class="latex-content"><p>Tuples are arbitrary functions <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mi>i</mi><mi>n</mi><mi mathvariant="normal">ℓ</mi><mo>→</mo><mi>F</mi><mi>i</mi><mi>n</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">Fin ℓ → Fin n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.1389em;">F</span><span class="mord mathnormal">in</span><span class="mord">ℓ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.1389em;">F</span><span class="mord mathnormal">inn</span></span></span></span>, so repeated entries and
@@ -205,9 +205,9 @@ As in the other statements, no hypothesis is placed on the number of
 colours: with <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">k = 0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.0315em;">k</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span> there is no colouring at all.</p>
 </div></div>
 <div class="block"><div class="deps-columns">
-<div class="deps-col"><h3>Builds on</h3><ul class="deps-list"><li><a href="../lax-14/Lax14.OrderTypes.html"><code>Lax14.OrderTypes</code></a></li></ul></div>
+<div class="deps-col"><h3>Builds on</h3><ul class="deps-list"><li title="Lax14.OrderTypes"><a href="../lax-14/Lax14.OrderTypes.html"><code>Lax14.OrderTypes</code></a></li></ul></div>
 <div class="deps-col"><h3>Used by</h3><p class="empty-note">none</p></div>
-<div class="deps-col"><h3>From Mathlib</h3><ul class="deps-list"><li><a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/Set/Card.html"><code>Mathlib.Data.Set.Card</code></a></li></ul></div>
+<div class="deps-col"><h3>From Mathlib</h3><ul class="deps-list"><li title="Mathlib.Data.Set.Card"><a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/Set/Card.html"><code>Mathlib.Data.Set.Card</code></a></li></ul></div>
 </div></div>
 <section class="page-section discussion-section" aria-labelledby="discussion-title">
 <div class="discussion-heading">
@@ -262,7 +262,7 @@ colours: with <span class="katex"><span class="katex-mathml"><math xmlns="http:/
 <script src="../assets/sidebar.js?v=0db6145b12ac"></script>
 <script src="../assets/account.js?v=e3db2efa7b34"></script>
 <script src="../assets/layout.js?v=41e28199b546"></script>
-<script src="../assets/dag.js?v=f55d556fb43c"></script>
+<script src="../assets/dag.js?v=96ff87e994df"></script>
 <script src="../assets/source-proof.js?v=b4c48aaad400"></script>
 <script src="../assets/version-history.js?v=a36e868140dd"></script>
 <script src="../assets/comments.js?v=936ec0d73bed"></script>

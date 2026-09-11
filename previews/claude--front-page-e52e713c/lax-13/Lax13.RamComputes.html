@@ -4,12 +4,13 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://comments.laxarchive.org; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self'; frame-src https://comments.laxarchive.org; connect-src https://comments.laxarchive.org">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Lax — an archive of formalized mathematical concepts and their proofs">
-<title>Computing a function within a time bound — Lax13.RamComputes</title>
+<title>Computing a function within a time bound</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=81654fbf0be7">
+<link rel="stylesheet" href="../assets/style.css?v=dac430f58d9e">
 </head><body>
-<header class="site-header sidebar-hidden">
+<header class="site-header with-sidebar">
+  <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="true" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
   <div class="site-brand">
   <h1 class="site-title"><a href="../index.html">Lax <span class="site-title-quiet">Lean Archive</span></a></h1>
   <nav class="site-nav" aria-label="Site">
@@ -24,7 +25,7 @@
 </div>
   </nav>
 </header>
-<main id="content-shell" class="sidebar-hidden">
+<main id="content-shell">
 <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
 <aside id="sidebar">
 <a class="sidebar-back" href="../lax-13/index.html"><span class="sidebar-back-arrow" aria-hidden="true">←</span>lax-13</a>
@@ -40,8 +41,8 @@
 </select>
 </div></div>
 <ul id="entry-list">
-<li data-type="definition" data-search="lax13.ram the word ram definition"><a class="entry-link" href="../lax-13/Lax13.Ram.html" data-full-title="The word RAM"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax13.Ram</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-13/Lax13.Ram.html" hidden></span></span></a></li>
-<li class="active" data-type="definition" data-search="lax13.ramcomputes computing a function within a time bound definition"><a class="entry-link" href="../lax-13/Lax13.RamComputes.html" data-full-title="Computing a function within a time bound"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax13.RamComputes</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-13/Lax13.RamComputes.html" hidden></span></span></a></li>
+<li data-type="definition" data-search="lax13.ram the word ram definition"><a class="entry-link" href="../lax-13/Lax13.Ram.html" data-full-title="The word RAM"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">The word RAM</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-13/Lax13.Ram.html" hidden></span></span></a></li>
+<li class="active" data-type="definition" data-search="lax13.ramcomputes computing a function within a time bound definition"><a class="entry-link" href="../lax-13/Lax13.RamComputes.html" data-full-title="Computing a function within a time bound"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Computing a function within a time bound</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-13/Lax13.RamComputes.html" hidden></span></span></a></li>
 <li id="entry-list-empty" hidden>No entries match.</li>
 </ul>
 </aside>
@@ -70,8 +71,7 @@
 </ol>
 </dialog>
 <div class="detail-heading concept-heading">
-<div><p class="concept-id"><code>Lax13.RamComputes</code></p>
-<h1 class="concept-title">Computing a function within a time bound</h1>
+<div><h1 class="concept-title">Computing a function within a time bound</h1>
 <p class="concept-microline"><code>concepts/Lax13/RamComputes.lean</code> · <a href="index.html">lax-13</a></p></div>
 <span class="status-pills"><span class="status-pill pill-none">definition</span></span>
 </div>
@@ -129,7 +129,7 @@ are stated by instantiating <em>T</em>.</p>
 </div></div>
 <div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/92ae2d6275d09b856c02d6f851755590fdcb30ed/word-ram/concepts/Lax13/RamComputes.lean">view on GitHub</a></h3>
 <div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
-<tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-13/Lax13.Ram.html">Lax13.Ram</a></span></td></tr>
+<tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-13/Lax13.Ram.html"><span style="color:#24292E">Lax13.Ram</span></a></td></tr>
 <tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Data.Set.Basic</span></td></tr>
 <tr id="L3" class=""><td class="line-num"><a href="#L3">3</a></td><td class="line-code"> </td></tr>
 <tr id="L4" class=""><td class="line-num"><a href="#L4">4</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
@@ -186,17 +186,17 @@ are stated by instantiating <em>T</em>.</p>
 <tr id="L55" class=""><td class="line-num"><a href="#L55">55</a></td><td class="line-code"><span style="color:#6A737D">`T` is unconstrained.</span></td></tr>
 <tr id="L56" class=""><td class="line-num"><a href="#L56">56</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
 <tr id="L57" class=""><td class="line-num"><a href="#L57">57</a></td><td class="line-code"> </td></tr>
-<tr id="L58" class=""><td class="line-num"><a href="#L58">58</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-13/Lax13.RamComputes.html">Lax13.RamComputes</a></span></td></tr>
+<tr id="L58" class=""><td class="line-num"><a href="#L58">58</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax13.RamComputes</span></td></tr>
 <tr id="L59" class=""><td class="line-num"><a href="#L59">59</a></td><td class="line-code"> </td></tr>
-<tr id="L60" class=""><td class="line-num"><a href="#L60">60</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-13/Lax13.Ram.html">Lax13.Ram</a></span></td></tr>
+<tr id="L60" class=""><td class="line-num"><a href="#L60">60</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-13/Lax13.Ram.html"><span style="color:#24292E">Lax13.Ram</span></a></td></tr>
 <tr id="L61" class=""><td class="line-num"><a href="#L61">61</a></td><td class="line-code"> </td></tr>
 <tr id="L62" class=""><td class="line-num"><a href="#L62">62</a></td><td class="line-code"><span style="color:#6A737D">/-- At word length `w`, on every admissible input `x`, the program halts</span></td></tr>
 <tr id="L63" class=""><td class="line-num"><a href="#L63">63</a></td><td class="line-code"><span style="color:#6A737D">within `T x` steps with output `f x`. -/</span></td></tr>
-<tr id="L64" class=""><td class="line-num"><a href="#L64">64</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> ComputesInTime</span><span style="color:#24292E"> (w : ℕ) (p : <a class="lean-identifier-link" href="../lax-13/Lax13.Ram.html">Program</a>) (D : Set (List ℕ))</span></td></tr>
+<tr id="L64" class=""><td class="line-num"><a href="#L64">64</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> ComputesInTime</span><span style="color:#24292E"> (w : ℕ) (p : </span><a class="lean-identifier-link" href="../lax-13/Lax13.Ram.html#L181"><span style="color:#24292E">Program</span></a><span style="color:#24292E">) (D : Set (List ℕ))</span></td></tr>
 <tr id="L65" class=""><td class="line-num"><a href="#L65">65</a></td><td class="line-code"><span style="color:#24292E">    (f : List ℕ → List ℕ) (T : List ℕ → ℕ) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
-<tr id="L66" class=""><td class="line-num"><a href="#L66">66</a></td><td class="line-code"><span style="color:#24292E">  ∀ x ∈ D, ∃ t ≤ T x, <a class="lean-identifier-link" href="../lax-13/Lax13.Ram.html">RunsTo</a> w p x (f x) t</span></td></tr>
+<tr id="L66" class=""><td class="line-num"><a href="#L66">66</a></td><td class="line-code"><span style="color:#24292E">  ∀ x ∈ D, ∃ t ≤ T x, </span><a class="lean-identifier-link" href="../lax-13/Lax13.Ram.html#L284"><span style="color:#24292E">RunsTo</span></a><span style="color:#24292E"> w p x (f x) t</span></td></tr>
 <tr id="L67" class=""><td class="line-num"><a href="#L67">67</a></td><td class="line-code"> </td></tr>
-<tr id="L68" class=""><td class="line-num"><a href="#L68">68</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-13/Lax13.RamComputes.html">Lax13.RamComputes</a></span></td></tr>
+<tr id="L68" class=""><td class="line-num"><a href="#L68">68</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax13.RamComputes</span></td></tr>
 <tr id="L69" class=""><td class="line-num"><a href="#L69">69</a></td><td class="line-code"> </td></tr>
 </table></div><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
 <div class="block"><h3>Formalization notes</h3><div class="latex-content"><p>The number of steps is the machine's own step count, so a time bound is
@@ -235,9 +235,9 @@ carries a bound, and plain computability is the special case in which
 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi></mrow><annotation encoding="application/x-tex">T</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.1389em;">T</span></span></span></span> is unconstrained.</p>
 </div></div>
 <div class="block"><div class="deps-columns">
-<div class="deps-col"><h3>Builds on</h3><ul class="deps-list"><li><a href="../lax-13/Lax13.Ram.html"><code>Lax13.Ram</code></a></li></ul></div>
-<div class="deps-col"><h3>Used by</h3><ul class="deps-list"><li><a href="../lax-58/Lax58.RamComplexity.html"><code>Lax58.RamComplexity</code></a></li></ul></div>
-<div class="deps-col"><h3>From Mathlib</h3><ul class="deps-list"><li><a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/Set/Basic.html"><code>Mathlib.Data.Set.Basic</code></a></li></ul></div>
+<div class="deps-col"><h3>Builds on</h3><ul class="deps-list"><li title="Lax13.Ram"><a href="../lax-13/Lax13.Ram.html"><code>Lax13.Ram</code></a></li></ul></div>
+<div class="deps-col"><h3>Used by</h3><ul class="deps-list"><li title="Lax58.RamComplexity"><a href="../lax-58/Lax58.RamComplexity.html"><code>Lax58.RamComplexity</code></a></li></ul></div>
+<div class="deps-col"><h3>From Mathlib</h3><ul class="deps-list"><li title="Mathlib.Data.Set.Basic"><a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/Set/Basic.html"><code>Mathlib.Data.Set.Basic</code></a></li></ul></div>
 </div></div>
 <section class="page-section discussion-section" aria-labelledby="discussion-title">
 <div class="discussion-heading">
@@ -292,7 +292,7 @@ carries a bound, and plain computability is the special case in which
 <script src="../assets/sidebar.js?v=0db6145b12ac"></script>
 <script src="../assets/account.js?v=e3db2efa7b34"></script>
 <script src="../assets/layout.js?v=41e28199b546"></script>
-<script src="../assets/dag.js?v=f55d556fb43c"></script>
+<script src="../assets/dag.js?v=96ff87e994df"></script>
 <script src="../assets/source-proof.js?v=b4c48aaad400"></script>
 <script src="../assets/version-history.js?v=a36e868140dd"></script>
 <script src="../assets/comments.js?v=936ec0d73bed"></script>

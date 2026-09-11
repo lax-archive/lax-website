@@ -4,12 +4,13 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://comments.laxarchive.org; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self'; frame-src https://comments.laxarchive.org; connect-src https://comments.laxarchive.org">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Lax — an archive of formalized mathematical concepts and their proofs">
-<title>Twin-width can be exponential in treewidth — Lax48.ExponentialSeparation</title>
+<title>Twin-width can be exponential in treewidth</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=81654fbf0be7">
+<link rel="stylesheet" href="../assets/style.css?v=dac430f58d9e">
 </head><body>
-<header class="site-header sidebar-hidden">
+<header class="site-header with-sidebar">
+  <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="true" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
   <div class="site-brand">
   <h1 class="site-title"><a href="../index.html">Lax <span class="site-title-quiet">Lean Archive</span></a></h1>
   <nav class="site-nav" aria-label="Site">
@@ -24,7 +25,7 @@
 </div>
   </nav>
 </header>
-<main id="content-shell" class="sidebar-hidden">
+<main id="content-shell">
 <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
 <aside id="sidebar">
 <a class="sidebar-back" href="../lax-48/index.html"><span class="sidebar-back-arrow" aria-hidden="true">←</span>lax-48</a>
@@ -43,9 +44,9 @@
 </div></div>
 <ul id="entry-list">
 <li class="entry-heading" aria-hidden="true">Concepts</li>
-<li class="active" data-type="theorem" data-search="lax48.exponentialseparation twin-width can be exponential in treewidth theorem"><a class="entry-link" href="../lax-48/Lax48.ExponentialSeparation.html" data-full-title="Twin-width can be exponential in treewidth"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Lax48.ExponentialSeparation</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-48/Lax48.ExponentialSeparation.html" hidden></span></span></a></li>
-<li data-type="definition" data-search="lax48.treewidth treewidth definition"><a class="entry-link" href="../lax-48/Lax48.Treewidth.html" data-full-title="Treewidth"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax48.Treewidth</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-48/Lax48.Treewidth.html" hidden></span></span></a></li>
-<li data-type="definition" data-search="lax48.twinwidth twin-width definition"><a class="entry-link" href="../lax-48/Lax48.TwinWidth.html" data-full-title="Twin-width"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Lax48.TwinWidth</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-48/Lax48.TwinWidth.html" hidden></span></span></a></li>
+<li class="active" data-type="theorem" data-search="lax48.exponentialseparation twin-width can be exponential in treewidth theorem"><a class="entry-link" href="../lax-48/Lax48.ExponentialSeparation.html" data-full-title="Twin-width can be exponential in treewidth"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Twin-width can be exponential in treewidth</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-48/Lax48.ExponentialSeparation.html" hidden></span></span></a></li>
+<li data-type="definition" data-search="lax48.treewidth treewidth definition"><a class="entry-link" href="../lax-48/Lax48.Treewidth.html" data-full-title="Treewidth"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Treewidth</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-48/Lax48.Treewidth.html" hidden></span></span></a></li>
+<li data-type="definition" data-search="lax48.twinwidth twin-width definition"><a class="entry-link" href="../lax-48/Lax48.TwinWidth.html" data-full-title="Twin-width"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Twin-width</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-48/Lax48.TwinWidth.html" hidden></span></span></a></li>
 <li class="entry-heading" aria-hidden="true">Proofs</li>
 <li data-type="proof" data-search="lax48proofs.main.exists_treewidth_le_and_two_pow_lt_twinwidth proof"><a class="entry-link" href="../lax-48/Lax48Proofs.Main.exists_treewidth_le_and_two_pow_lt_twinWidth.html" data-full-title="Lax48Proofs.Main.exists_treewidth_le_and_two_pow_lt_twinWidth"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax48Proofs.Main.exists_treewidth_le_and_two_pow_lt_twinWidth</span></span></a></li>
 <li id="entry-list-empty" hidden>No entries match.</li>
@@ -55,8 +56,7 @@
 <section id="main"><div id="detail">
 
 <div class="detail-heading concept-heading">
-<div><p class="concept-id"><code>Lax48.ExponentialSeparation</code></p>
-<h1 class="concept-title">Twin-width can be exponential in treewidth</h1>
+<div><h1 class="concept-title">Twin-width can be exponential in treewidth</h1>
 <p class="concept-microline"><code>concepts/Lax48/ExponentialSeparation.lean</code> · <a href="index.html">lax-48</a></p></div>
 <span class="status-pills"><span class="status-pill pill-proven" title="Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">proven</span></span>
 </div>
@@ -131,8 +131,8 @@ twin-width are the parameters defined in the two prerequisite concepts.</p>
 </div></div>
 <div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/b999c28492338182ea9d8dfa16e850e011dd16da/twin-width-treewidth-separation/concepts/Lax48/ExponentialSeparation.lean">view on GitHub</a></h3>
 <div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
-<tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-48/Lax48.Treewidth.html">Lax48.Treewidth</a></span></td></tr>
-<tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-48/Lax48.TwinWidth.html">Lax48.TwinWidth</a></span></td></tr>
+<tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-48/Lax48.Treewidth.html"><span style="color:#24292E">Lax48.Treewidth</span></a></td></tr>
+<tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-48/Lax48.TwinWidth.html"><span style="color:#24292E">Lax48.TwinWidth</span></a></td></tr>
 <tr id="L3" class=""><td class="line-num"><a href="#L3">3</a></td><td class="line-code"> </td></tr>
 <tr id="L4" class=""><td class="line-num"><a href="#L4">4</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
 <tr id="L5" class=""><td class="line-num"><a href="#L5">5</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
@@ -150,16 +150,16 @@ twin-width are the parameters defined in the two prerequisite concepts.</p>
 <tr id="L17" class=""><td class="line-num"><a href="#L17">17</a></td><td class="line-code"><span style="color:#6A737D">graph on some `Fin n`.</span></td></tr>
 <tr id="L18" class=""><td class="line-num"><a href="#L18">18</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
 <tr id="L19" class=""><td class="line-num"><a href="#L19">19</a></td><td class="line-code"> </td></tr>
-<tr id="L20" class=""><td class="line-num"><a href="#L20">20</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-48/Lax48.ExponentialSeparation.html">Lax48.ExponentialSeparation</a></span></td></tr>
+<tr id="L20" class=""><td class="line-num"><a href="#L20">20</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax48.ExponentialSeparation</span></td></tr>
 <tr id="L21" class=""><td class="line-num"><a href="#L21">21</a></td><td class="line-code"> </td></tr>
 <tr id="L22" class="statement-line line-proven"><td class="line-num"><a href="#L22">22</a></td><td class="line-code"><span class="statement-anchor" id="s-Lax48.ExponentialSeparation.exists_treewidth_le_and_two_pow_lt_twinWidth"></span><span style="color:#6A737D">/-- For every `k`, some finite graph has treewidth at most `2 * k + 4` and</span></td></tr>
 <tr id="L23" class="statement-line line-proven"><td class="line-num"><a href="#L23">23</a></td><td class="line-code"><span style="color:#6A737D">twin-width greater than `2 ^ k`. -/</span></td></tr>
-<tr id="L24" class="statement-line line-proven"><td class="line-num"><a href="#L24">24</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> <a class="lean-identifier-link" href="../lax-48/Lax48.ExponentialSeparation.html#s-Lax48.ExponentialSeparation.exists_treewidth_le_and_two_pow_lt_twinWidth">exists_treewidth_le_and_two_pow_lt_twinWidth</a></span><span style="color:#24292E"> (k : ℕ) :</span></td></tr>
+<tr id="L24" class="statement-line line-proven"><td class="line-num"><a href="#L24">24</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> exists_treewidth_le_and_two_pow_lt_twinWidth</span><span style="color:#24292E"> (k : ℕ) :</span></td></tr>
 <tr id="L25" class="statement-line line-proven"><td class="line-num"><a href="#L25">25</a></td><td class="line-code"><span style="color:#24292E">    ∃ n : ℕ, ∃ G : SimpleGraph (Fin n),</span></td></tr>
-<tr id="L26" class="statement-line line-proven"><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span style="color:#24292E">      Lax48.Treewidth.treewidth G ≤ </span><span style="color:#005CC5">2</span><span style="color:#24292E"> * k + </span><span style="color:#005CC5">4</span><span style="color:#24292E"> ∧</span></td></tr>
-<tr id="L27" class="statement-line line-proven"><td class="line-num"><a href="#L27">27</a></td><td class="line-code"><span style="color:#005CC5">        2</span><span style="color:#24292E"> ^ k &lt; Lax48.TwinWidth.twinWidth G</span></td></tr>
+<tr id="L26" class="statement-line line-proven"><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span style="color:#24292E">      </span><a class="lean-identifier-link" href="../lax-48/Lax48.Treewidth.html#L57"><span style="color:#24292E">Lax48.Treewidth.treewidth</span></a><span style="color:#24292E"> G ≤ </span><span style="color:#005CC5">2</span><span style="color:#24292E"> * k + </span><span style="color:#005CC5">4</span><span style="color:#24292E"> ∧</span></td></tr>
+<tr id="L27" class="statement-line line-proven"><td class="line-num"><a href="#L27">27</a></td><td class="line-code"><span style="color:#005CC5">        2</span><span style="color:#24292E"> ^ k &lt; </span><a class="lean-identifier-link" href="../lax-48/Lax48.TwinWidth.html#L79"><span style="color:#24292E">Lax48.TwinWidth.twinWidth</span></a><span style="color:#24292E"> G</span></td></tr>
 <tr id="L28" class=""><td class="line-num"><a href="#L28">28</a></td><td class="line-code"> </td></tr>
-<tr id="L29" class=""><td class="line-num"><a href="#L29">29</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> <a class="lean-identifier-link" href="../lax-48/Lax48.ExponentialSeparation.html">Lax48.ExponentialSeparation</a></span></td></tr>
+<tr id="L29" class=""><td class="line-num"><a href="#L29">29</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax48.ExponentialSeparation</span></td></tr>
 <tr id="L30" class=""><td class="line-num"><a href="#L30">30</a></td><td class="line-code"> </td></tr>
 </table></div><span class="source-proof-rail" data-source-line="L24" aria-label="Proof links"><a class="statement-proof-button" href="https://github.com/lax-archive/lax-submissions/blob/b999c28492338182ea9d8dfa16e850e011dd16da/twin-width-treewidth-separation/proofs/Lax48Proofs/Main.lean" aria-label="View proof Lax48Proofs.Main.exists_treewidth_le_and_two_pow_lt_twinWidth on GitHub" title="Lax48Proofs.Main.exists_treewidth_le_and_two_pow_lt_twinWidth"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">Show Proof</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a></span><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
 <div class="block"><h3>Formalization notes</h3><div class="latex-content"><p>The graph is quantified over the canonical finite vertex types <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mi>i</mi><mi>n</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">Fin n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.1389em;">F</span><span class="mord mathnormal">inn</span></span></span></span>,
@@ -167,7 +167,7 @@ which loses no generality: every finite simple graph is isomorphic to a
 graph on some <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mi>i</mi><mi>n</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">Fin n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.1389em;">F</span><span class="mord mathnormal">inn</span></span></span></span>.</p>
 </div></div>
 <div class="block"><div class="deps-columns">
-<div class="deps-col"><h3>Builds on</h3><ul class="deps-list"><li><a href="../lax-48/Lax48.Treewidth.html"><code>Lax48.Treewidth</code></a></li><li><a href="../lax-48/Lax48.TwinWidth.html"><code>Lax48.TwinWidth</code></a></li></ul></div>
+<div class="deps-col"><h3>Builds on</h3><ul class="deps-list"><li title="Lax48.Treewidth"><a href="../lax-48/Lax48.Treewidth.html"><code>Lax48.Treewidth</code></a></li><li title="Lax48.TwinWidth"><a href="../lax-48/Lax48.TwinWidth.html"><code>Lax48.TwinWidth</code></a></li></ul></div>
 <div class="deps-col"><h3>Used by</h3><p class="empty-note">none</p></div>
 <div class="deps-col"><h3>From Mathlib</h3><p class="empty-note">none</p></div>
 </div></div>
@@ -224,7 +224,7 @@ graph on some <span class="katex"><span class="katex-mathml"><math xmlns="http:/
 <script src="../assets/sidebar.js?v=0db6145b12ac"></script>
 <script src="../assets/account.js?v=e3db2efa7b34"></script>
 <script src="../assets/layout.js?v=41e28199b546"></script>
-<script src="../assets/dag.js?v=f55d556fb43c"></script>
+<script src="../assets/dag.js?v=96ff87e994df"></script>
 <script src="../assets/source-proof.js?v=b4c48aaad400"></script>
 <script src="../assets/version-history.js?v=a36e868140dd"></script>
 <script src="../assets/comments.js?v=936ec0d73bed"></script>
