@@ -198,8 +198,8 @@ function landingArchive(): SiteSubmission[] {
     ], [
       { id: "Lax17Proofs.Final.polynomial_grid_minor", path: "proofs/Lax17Proofs/Final.lean", conclusion: "Lax17.PolynomialGridMinor.polynomial_grid_minor", assumptions: [], description: "The main proof." },
     ]),
-    make("lax-48", [{ conceptId: "Lax48.TwinWidth", title: "Twin-width" }]),
-    make("lax-49", [{ conceptId: "Lax49.FunctionalEquivalence", title: "Functional equivalence", imports: ["Lax48.TwinWidth"] }]),
+    make("lax-434930", [{ conceptId: "Lax434930.NondeterministicPolynomialTime", title: "The complexity class NP" }]),
+    make("lax-68", [{ conceptId: "Lax68.Planar", title: "Planar graphs" }]),
   ];
 }
 
@@ -882,8 +882,9 @@ After the formula.`, "");
     expect(index).toContain('<section class="landing-section landing-foundations"');
     expect(index).toContain('<h2 class="landing-section-title" id="landing-foundations-heading">Build foundations together</h2>\n<div class="landing-section-box">');
     expect(index).toContain('<li><a class="landing-foundation" href="lax-67/Lax67.Ram.html" title="Lax67.Ram">\n<span class="type-badge" title="definition">def</span><span class="landing-foundation-title">The word RAM</span>\n<span class="landing-foundation-meta"><span class="submission-meta-id">lax-67</span><span class="landing-foundation-uses">built on in 1 further submission</span></span>\n</a></li>');
-    expect(index).toContain('href="lax-48/Lax48.TwinWidth.html" title="Lax48.TwinWidth"');
-    expect(index).toContain('<span class="submission-meta-id">lax-48</span><span class="landing-foundation-uses">built on in 1 further submission</span>');
+    expect(index).toContain('href="lax-434930/Lax434930.NondeterministicPolynomialTime.html" title="Lax434930.NondeterministicPolynomialTime"');
+    expect(index).toContain('href="lax-68/Lax68.Planar.html" title="Lax68.Planar"');
+    expect(index).not.toContain("Lax48.TwinWidth");
     expect(index).not.toContain("Lax48.Treewidth");
     expect(index).not.toContain("Lax12.NowhereDenseClasses");
     // Examples, network, in that order, before the button; getting started
