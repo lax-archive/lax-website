@@ -1,5 +1,5 @@
 import { DEFAULT_SITE_URL } from "../../config.js";
-import type { BuildOutput, ConceptEntry, ProofEntry } from "../../types.js";
+import type { AnnotationSection, BuildOutput, ConceptEntry, ProofEntry } from "../../types.js";
 import type { ConceptGraphData, SubmissionGraphData } from "../graphs.js";
 import { attr, code, esc, formatDate, proofBadge, statePill, typeBadge } from "../html.js";
 import { plainAuthorTitle, type MarkdownRenderer } from "../markdown.js";
@@ -7,6 +7,17 @@ import { compareIds, type LocatedProof, type SiteModel, type SiteSubmission } fr
 import { conceptReviewBadge } from "./discussion.js";
 
 export interface PageContext { model: SiteModel; markdown: MarkdownRenderer }
+
+/** Author sections share their rendering across concept and proof pages. */
+export function annotationSections(ctx: PageContext, sections: AnnotationSection[] | undefined, rootRel: string): string {
+  return (sections ?? []).map((section) => {
+    const title = ctx.markdown.renderAuthorInline(section.title, rootRel);
+    const body = `<div class="latex-content">${ctx.markdown.renderAuthorProse(section.markdown, rootRel)}</div>`;
+    return section.title.trim().toLowerCase() === "formalization notes"
+      ? `<details class="block block-details"><summary>${title}</summary>${body}</details>`
+      : `<div class="block"><h3>${title}</h3>${body}</div>`;
+  }).join("\n");
+}
 
 // ---- display names ----
 
@@ -214,18 +225,6 @@ export function figureTitle(title: string, source?: string): string {
   return `<h4 class="figure-title">${esc(title)}${source ? sourceLink(source) : ""}</h4>`;
 }
 
-/** The concept-list legend: what the badge letters, marks, and tints mean.
- * Sample badges are the real component, so the legend cannot drift. */
-export function conceptBadgeLegend(statuses: Iterable<ClaimStatus>): string {
-  const present = new Set(statuses);
-  const items = [
-    present.has("proven") ? `<span>${typeBadge("theorem", true)}proven claim</span>` : "",
-    present.has("open") ? `<span>${typeBadge("theorem", false)}open claim</span>` : "",
-    present.has("none") ? `<span>${typeBadge("definition")}definition</span>` : "",
-  ];
-  return `<div class="badge-legend" aria-label="Concept badge legend">${items.join("")}</div>`;
-}
-
 export function conceptMapLegend(data: ConceptGraphData, ownLabel: string, extLabel: string): string {
   const items = [
     claimFillLegend(data.nodes.map((node) => node.status), true),
@@ -255,15 +254,20 @@ export function submissionMapLegend(data: SubmissionGraphData): string {
 export function proofNetworkLegend(data: ProofNetworkLegendData): string {
   const statuses = data.statements.map((statement) => statement.proven ? "proven" as const : "open" as const);
   const nodes = [...data.statements, ...data.proofs];
+  // Every flow arrow is the same small shape; the extra assumptions only
+  // rotate and translate it toward the turnstile.
+  const arrow = "M1 0h10m-3-3 3 3-3 3";
+  const incoming = `<svg class="legend-assumptions" viewBox="0 0 14 24" aria-hidden="true" focusable="false"><path d="${arrow}" transform="translate(0 12)"/><path d="${arrow}" transform="translate(0 3) rotate(15)"/><path d="${arrow}" transform="translate(0 21) rotate(-15)"/></svg>`;
+  const outgoing = `<svg class="legend-arrow legend-flow-arrow" viewBox="0 -4 12 8" aria-hidden="true" focusable="false"><path d="${arrow}"/></svg>`;
   const items = [
-    data.proofs.length ? `<span class="proof-flow">assumptions <i class="legend-arrow" aria-hidden="true">→</i><i class="legend-proof-chip" aria-hidden="true">⊢</i><i class="legend-arrow" aria-hidden="true">→</i> conclusion</span>` : "",
+    data.proofs.length ? `<span class="proof-flow">assumptions ${incoming}<i class="legend-proof-chip" aria-hidden="true">⊢</i>${outgoing} conclusion</span>` : "",
     claimFillLegend(statuses),
     data.statements.some((statement) => (statement.count ?? 1) > 1)
       ? `<span><i class="legend-dock" aria-hidden="true">1</i>Statement 1, 2, … of a claim with several statements</span>`
       : "",
     nodes.some((node) => !node.ext) ? `<span><i class="legend-node stroke-own"></i>This submission</span>` : "",
     nodes.some((node) => node.ext) ? `<span><i class="legend-node stroke-ext"></i>From another submission</span>` : "",
-    data.proofs.length ? `<span><i class="legend-proof-chip" aria-hidden="true">⊢</i>Proof — click to open</span>` : "",
+    data.proofs.length ? `<span><i class="legend-proof-chip" aria-hidden="true">⊢</i>Proof</span>` : "",
     proofNetworkHasCycle(data) ? `<span><i class="legend-cycle"></i>Cycle — claims proving each other</span>` : "",
   ];
   return `<figcaption class="graph-legend" aria-label="Proof network legend">${items.join("")}</figcaption>`;

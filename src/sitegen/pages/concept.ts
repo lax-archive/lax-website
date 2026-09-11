@@ -6,11 +6,11 @@ import type { LocatedConcept } from "../model.js";
 import { discussion, pageReactions } from "./discussion.js";
 import { inPaperBlock } from "./paper.js";
 import {
+  annotationSections,
   conceptLink,
   conceptMapLegend,
   draftBanner,
   environmentNotice,
-  figureTitle,
   ordinal,
   shortId,
   versionHistoryPanel,
@@ -87,9 +87,7 @@ export async function conceptPage(ctx: PageContext, located: LocatedConcept): Pr
   const type = concept.type!.trim();
   const typeHeading = type.charAt(0).toUpperCase() + type.slice(1);
 
-  const sections = (concept.sections ?? [])
-    .map((s) => `<div class="block"><h3>${ctx.markdown.renderAuthorInline(s.title, "../")}</h3><div class="latex-content">${ctx.markdown.renderAuthorProse(s.markdown, "../")}</div></div>`)
-    .join("\n");
+  const sections = annotationSections(ctx, concept.sections, "../");
 
   const importRows = concept.imports.map((id) =>
     `<li title="${attr(id)}">${conceptLink(ctx.model, id, "../", output.id)}</li>`);
@@ -98,7 +96,7 @@ export async function conceptPage(ctx: PageContext, located: LocatedConcept): Pr
   const usedByRows = (ctx.model.importers.get(concept.id) ?? []).map((item) =>
     `<li title="${attr(item.concept.id)}">${conceptLink(ctx.model, item.concept.id, "../", output.id)}</li>`);
   const depsCol = (heading: string, rows: string[]) =>
-    `<div class="deps-col"><h3>${esc(heading)}</h3>${rows.length ? `<ul class="deps-list">${rows.join("")}</ul>` : `<p class="empty-note">none</p>`}</div>`;
+    `<details class="deps-col block-details"><summary>${esc(heading)}</summary>${rows.length ? `<ul class="deps-list">${rows.join("")}</ul>` : `<p class="empty-note">none</p>`}</details>`;
 
   // One rail per statement that has proofs, anchored at that statement's own
   // declaration row; source-proof.js groups rails by row, so several of them
@@ -129,7 +127,8 @@ export async function conceptPage(ctx: PageContext, located: LocatedConcept): Pr
 <span class="status-pills">${countsPill(provenCount, concept.statements.length)}</span>
 </div>
 ${pageReactions(`${submission.record.id}/${concept.id}.html`, { kind: "concept", sourceLines: concept.sourceText.split("\n").length })}
-${figureTitle("Concept map")}
+<details class="figure-details">
+<summary>Concept map</summary>
 <figure class="graph-figure concept-root-graph">
 ${graphExpandButton("concept map")}
 <div class="graph-toolbar"><button type="button" id="concept-expand" aria-controls="concept-dag" aria-pressed="true">Hide ancestors</button><button type="button" id="concept-descend" aria-controls="concept-dag" aria-pressed="false">Show descendants</button><output id="concept-graph-status" aria-live="polite"></output></div>
@@ -137,6 +136,7 @@ ${graphExpandButton("concept map")}
 ${graphTooltip()}
 ${conceptMapLegend(graph, "This concept", "Related concept")}
 </figure>
+</details>
 ${evidence(ctx, located)}
 ${inPaperBlock(ctx, concept.id, output.id, "../")}
 <div class="block block-statement"><h3>${esc(typeHeading)}</h3><div class="latex-content">${ctx.markdown.renderAuthorProse(concept.description, "../")}</div></div>

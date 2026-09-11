@@ -6,7 +6,6 @@ import { conceptReviewBadge, conceptReviewProgress, discussion, pageReactions } 
 import { inPaperBlock } from "./paper.js";
 import {
   bibtex,
-  conceptBadgeLegend,
   conceptMapLegend,
   draftBanner,
   environmentNotice,
@@ -53,17 +52,32 @@ function countsTowardReviewProgress({ concept }: LocatedConcept): boolean {
   return concept.type?.trim().toLowerCase() !== "lemma";
 }
 
+/** Statements and definitions occupy separate rows of the concept grid. */
+function conceptLists(ctx: PageContext, concepts: LocatedConcept[], home?: string): string {
+  const list = (label: string, group: LocatedConcept[]) => group.length
+    ? `<ul class="concept-list" aria-label="${attr(label)}">
+${group.map(({ concept, submission }) => {
+      const provenCount = concept.statements.filter((statement) => ctx.model.network.proven.has(statement.id)).length;
+      const status = concept.statements.length ? provenCount === concept.statements.length : undefined;
+      const pathname = `${submission.record.id}/${concept.id}.html`;
+      const href = home ? `${concept.id}.html` : `../${pathname}`;
+      const name = home ? shortId(concept.id, home) : concept.id;
+      return `<li>${typeBadge(concept.type, status)}<a href="${attr(href)}" title="${attr(concept.id)}"><code>${esc(name)}</code></a>${conceptReviewBadge(pathname)}</li>`;
+    }).join("\n")}
+</ul>`
+    : "";
+  return [
+    list("Statements", concepts.filter(({ concept }) => concept.statements.length > 0)),
+    list("Definitions", concepts.filter(({ concept }) => concept.statements.length === 0)),
+  ].filter(Boolean).join("\n");
+}
+
 function usedConceptRows(ctx: PageContext, concepts: LocatedConcept[]): string {
   if (!concepts.length) return "";
   return `<button class="concept-used-toggle" type="button" data-used-concepts-toggle aria-controls="used-concepts-list" aria-expanded="false">Show referenced concepts</button>
-<ul class="concept-list concept-used-list" id="used-concepts-list" aria-label="Concepts used from other submissions" hidden>
-${concepts.map(({ concept, submission }) => {
-    const provenCount = concept.statements.filter((statement) => ctx.model.network.proven.has(statement.id)).length;
-    const status = concept.statements.length ? provenCount === concept.statements.length : undefined;
-    const pathname = `${submission.record.id}/${concept.id}.html`;
-    return `<li>${typeBadge(concept.type, status)}<a href="${attr(`../${pathname}`)}" title="${attr(concept.id)}"><code>${esc(concept.id)}</code></a>${conceptReviewBadge(pathname)}</li>`;
-  }).join("\n")}
-</ul>`;
+<div class="concept-used-list" id="used-concepts-list" role="group" aria-label="Concepts used from other submissions" hidden>
+${conceptLists(ctx, concepts)}
+</div>`;
 }
 
 /** The submission page: abstract first, sleek meta, concepts with their DAG,
@@ -87,7 +101,6 @@ ${discussion(`${record.id}/`)}`;
     });
   }
 
-  const proven = ctx.model.network.proven;
   // Build each figure's data once so its legend and embedded JSON describe
   // exactly the same nodes and edges.
   const related = submissionGraph(ctx.model, output.id);
@@ -95,18 +108,11 @@ ${discussion(`${record.id}/`)}`;
   const reviewedConcepts = submissionReviewConcepts(ctx, submission);
   const usedConcepts = reviewedConcepts.filter((located) => located.output.id !== output.id);
   const reviewedConceptPaths = reviewedConcepts.map(conceptPath);
-  const listedConcepts: LocatedConcept[] = [
-    ...output.concepts.map((concept) => ({ submission, output, concept })),
-    ...usedConcepts,
-  ];
+  const ownConcepts = output.concepts.map((concept) => ({ submission, output, concept }));
+  const listedConcepts: LocatedConcept[] = [...ownConcepts, ...usedConcepts];
   const progressConceptPaths = listedConcepts.filter(countsTowardReviewProgress).map(conceptPath);
   const externalConcepts = usedConceptRows(ctx, usedConcepts);
-  const conceptRows = output.concepts.map((concept) => {
-    const provenCount = concept.statements.filter((s) => proven.has(s.id)).length;
-    const status = concept.statements.length ? provenCount === concept.statements.length : undefined;
-    const name = shortId(concept.id, output.id);
-    return `<li>${typeBadge(concept.type, status)}<a href="${attr(`${concept.id}.html`)}" title="${attr(concept.id)}"><code>${esc(name)}</code></a>${conceptReviewBadge(`${record.id}/${concept.id}.html`)}</li>`;
-  });
+  const concepts = conceptLists(ctx, ownConcepts, output.id);
   const proofsHref = proofsSource(submission);
   const proofRows = output.proofs.map((proof) =>
     proofItem(ctx.model, { submission, output, proof }, "../", { anchorId: `p-${proof.id}`, home: output.id }));
@@ -132,20 +138,19 @@ ${paperSection(ctx, submission)}
 <section class="page-section"><h3 class="section-title">Concepts</h3>
 ${output.concepts.length || usedConcepts.length ? `<div class="concept-list-box">
 ${conceptReviewProgress(progressConceptPaths)}
-${output.concepts.length ? `<ul class="concept-list">
-${conceptRows.join("\n")}
-</ul>` : ""}
+${concepts}
 ${externalConcepts}
-${conceptBadgeLegend(graphs.concepts.nodes.filter((node) => !node.ext).map((node) => node.status))}
 </div>` : `<p class="empty-note">No concepts in this submission.</p>`}
-${output.concepts.length ? `${figureTitle("Concept map")}
+${output.concepts.length ? `<details class="figure-details">
+<summary>Concept map</summary>
 <figure class="graph-figure">
 ${graphExpandButton("concept map")}
 <div class="graph-toolbar"><button type="button" id="concept-expand" aria-controls="concept-dag" aria-pressed="true">Hide ancestors</button><button type="button" id="concept-descend" aria-controls="concept-dag" aria-pressed="false">Show descendants</button><output id="concept-graph-status" aria-live="polite"></output></div>
 <div id="concept-dag" class="figure-container" data-graph="concepts" data-ancestry="true"></div>
 ${graphTooltip()}
 ${conceptMapLegend(graphs.concepts, "This submission", "Other submission")}
-</figure>` : ""}
+</figure>
+</details>` : ""}
 </section>
 <section class="page-section"><h3 class="section-title">Proofs</h3>
 ${output.proofs.length ? `${figureTitle("Proof network", proofsHref)}
@@ -155,12 +160,15 @@ ${graphExpandButton("proof network")}
 ${graphTooltip()}
 ${proofNetworkLegend(graphs.proofs)}
 </figure>
+<details class="figure-details">
+<summary>Proof list</summary>
 <div class="proof-list-box">
 <ul class="proof-list">
 ${proofRows.join("\n")}
 </ul>
 ${proofsHref ? `<p class="proof-list-source">Lean sources for these proofs: ${sourceLink(proofsHref, `proofs/ on ${sourceProviderName(proofsHref)}`)}</p>` : ""}
-</div>` : `<p class="empty-note">No proofs in this submission.</p>`}
+</div>
+</details>` : `<p class="empty-note">No proofs in this submission.</p>`}
 <p class="honesty-note">Proof code is not displayed; the archive records each proof's checked relationship between claims.</p>
 </section>
 <section class="page-section"><h3 class="section-title">Related submissions</h3>
@@ -272,12 +280,12 @@ export function proofNetworkData(ctx: PageContext, submission: SiteSubmission, r
     const index = siblings.findIndex((statement) => statement.id === id) + 1;
     return {
       id,
-      // A claim displays as its home concept; the raw statement id stays
-      // available for the tooltip. `index`/`count` place the statement inside
+      // A claim displays as its home concept. `index`/`count` place it inside
       // a multi-statement concept, which the figure draws as one box with a
       // numbered dock per statement.
       label: home?.concept.id,
       title: home?.concept.title,
+      tooltipHtml: ctx.markdown.renderAuthorTooltip(home?.concept.title ?? "", rootRel),
       owner: home?.output.id,
       concept: home?.concept.id,
       index: index || undefined,
@@ -293,6 +301,7 @@ export function proofNetworkData(ctx: PageContext, submission: SiteSubmission, r
       const outstanding = proof.assumptions.filter((id) => !model.network.proven.has(id));
       return {
         ...proof,
+        tooltipHtml: ctx.markdown.renderAuthorTooltip(proof.description, rootRel),
         href: model.proofHome.has(proof.id)
           ? `${rootRel}${model.proofHome.get(proof.id)!.output.id}/${proof.id}.html`
           : undefined,

@@ -517,6 +517,33 @@ After the formula.`, "");
     }
   });
 
+  it("renders proof-network tooltip math at build time while keeping author HTML inert", async () => {
+    const authored = submissions();
+    const output = authored[0]!.output!;
+    output.concepts[0]!.title = String.raw`A **sharp** $x^2$ bound with $$x \le y$$.`;
+    output.proofs[0]!.description = String.raw`Use $y_i$ and $$\sum_{i=1}^n i = \frac{n(n+1)}{2}$$.
+\[\frac{a}{b}\]
+</script><img src=x onerror="alert(1)"> [link](javascript:alert(1)) $\badcommand$`;
+
+    const root = tmpDir("lax-site-tooltip-math-");
+    await generateSite(authored, root);
+    const html = fs.readFileSync(path.join(root, "Lax2", "index.html"), "utf8");
+    const graph = JSON.parse(/<script type="application\/json" id="graph-data">(.*?)<\/script>/s.exec(html)![1]!);
+    const title = graph.proofs.statements[0].tooltipHtml;
+    const description = graph.proofs.proofs[0].tooltipHtml;
+    expect(title).toContain("<strong>sharp</strong>");
+    expect(title.match(/class="katex"/g)).toHaveLength(2);
+    expect(title.match(/class="katex-display"/g)).toHaveLength(1);
+    expect(description.match(/class="katex"/g)).toHaveLength(3);
+    expect(description.match(/class="katex-display"/g)).toHaveLength(2);
+    expect(description).toContain('class="math-error"');
+    expect(description).toContain("&lt;/script&gt;&lt;img");
+    expect(description).not.toMatch(/<script|<img|<a\b/);
+    expect(html).not.toContain('</script><img src=x');
+    expect(graph.proofs.statements[0].title).toBe(output.concepts[0]!.title);
+    expect(graph.proofs.proofs[0].description).toBe(output.proofs[0]!.description);
+  });
+
   it("escapes crossref labels, preserves escaped syntax, and survives invalid TeX", () => {
     const markdown = new MarkdownRenderer(new SiteModel(submissions()));
     const html = markdown.render(String.raw`[[Lax2.C|<img src=x>]] \[[Lax2.C]] $\badcommand$`, "");
@@ -1024,9 +1051,9 @@ After the formula.`, "");
     expect(html).not.toContain('class="status-mark');
     expect(html).toContain('<a href="Lax2.C.html" title="Lax2.C"><code>C</code></a>');
     expect(html.indexOf('class="concept-list"')).toBeLessThan(html.indexOf('id="concept-dag"'));
-    // the concept box explains its own badges, real components as samples
-    expect(html).toContain('class="badge-legend"');
-    expect(html.indexOf('class="concept-list"')).toBeLessThan(html.indexOf('class="badge-legend"'));
+    // Statements and definitions form separate grids, with no badge legend.
+    expect(html).toMatch(/<ul class="concept-list" aria-label="Statements">\s*<li>[^]*?Lax2\.C\.html[^]*?<\/ul>\s*<ul class="concept-list" aria-label="Definitions">\s*<li>[^]*?Lax2\.D\.html[^]*?<\/ul>/);
+    expect(html).not.toContain('class="badge-legend"');
     expect(html).not.toContain("letters abbreviate the concept's type");
     // judgment-card proof entry: head links to the proof page, the conclusion
     // is rendered as its claim-concept, annotation sections stay off this page
@@ -1051,6 +1078,7 @@ After the formula.`, "");
     expect(html).toContain('title="Lax2Proofs.truth"><code>truth</code>');
     expect(html).not.toContain("Strategy");
     expect(html.indexOf('id="proof-network"')).toBeLessThan(html.indexOf('class="proof-list"'));
+    expect(html).toMatch(/<details class="figure-details">\s*<summary>Proof list<\/summary>\s*<div class="proof-list-box">/);
     // both proof surfaces link out to the proof package — a tree link, since
     // `proofs/` is a directory, not the file the `path` argument means
     const proofsTree = `https://github.com/example/math/tree/${"a".repeat(40)}/proofs`;
@@ -1093,7 +1121,7 @@ After the formula.`, "");
     expect(html).toContain('data-remark42-url="https://laxarchive.org/Lax2/"');
     expect(html).toContain('class="remark42__counter" data-url="https://laxarchive.org/Lax2/"');
     expect(html).toMatch(/<p class="discussion-loading" id="remark42-status"[^>]*>[^]*?<\/p>\s*<div id="remark42"[^>]*><\/div>/);
-    expect(html).toContain("your ORCID profile must share a public name.");
+    expect(html).not.toContain("your ORCID profile must share a public name.");
     expect(html).toMatch(/<script src="\.\.\/assets\/comments\.js\?v=[0-9a-f]{12}"><\/script>/);
     expect(html).toContain("script-src 'self' https://comments.laxarchive.org");
     expect(html).toContain("frame-src https://comments.laxarchive.org");
@@ -1130,7 +1158,8 @@ After the formula.`, "");
     expect(html).toContain('data-graph-label="concept map" aria-expanded="false"');
     expect(html).toContain('data-graph-label="proof network" aria-expanded="false"');
     expect(html).toContain('<figure class="graph-figure proof-network-figure">');
-    expect(html).toContain('<span class="proof-flow">assumptions <i class="legend-arrow" aria-hidden="true">→</i><i class="legend-proof-chip" aria-hidden="true">⊢</i><i class="legend-arrow" aria-hidden="true">→</i> conclusion</span>');
+    expect(html).toMatch(/<span class="proof-flow">assumptions <svg class="legend-assumptions"[^>]*>(<path[^>]*\/>){3}<\/svg><i class="legend-proof-chip" aria-hidden="true">⊢<\/i><svg class="legend-arrow legend-flow-arrow"[^>]*><path[^>]*\/><\/svg> conclusion<\/span>/);
+    expect(html).not.toContain("click to open");
     expect(html).not.toContain('class="legend-note">assumptions');
   });
 
@@ -1151,13 +1180,6 @@ After the formula.`, "");
     // Lax2 has a proven claim and a definition, but no open or external
     // concepts. Its one proof is grounded, local, and acyclic.
     const grounded = fs.readFileSync(path.join(root, "Lax2", "index.html"), "utf8");
-    const badges = legend(grounded, "Concept badge legend", "div");
-    expect(badges).toContain("proven claim");
-    expect(badges).not.toContain("open claim");
-    expect(badges).toContain("definition");
-    expect(badges).not.toContain("letters abbreviate");
-    inOrder(badges, ["proven claim", "definition"]);
-
     const groundedConcepts = legend(grounded, "Concept map legend", "figcaption");
     expect(groundedConcepts).toContain("fill-proven");
     expect(groundedConcepts).not.toContain("fill-open");
@@ -1172,16 +1194,11 @@ After the formula.`, "");
     expect(groundedProofs).toContain("stroke-own");
     expect(groundedProofs).not.toContain("stroke-ext");
     expect(groundedProofs).not.toContain("legend-cycle");
-    inOrder(groundedProofs, ["proof-flow", "fill-proven", "stroke-own", "Proof — click to open"]);
+    inOrder(groundedProofs, ["proof-flow", "fill-proven", "stroke-own", "⊢</i>Proof</span>"]);
 
     // Lax4's claims are open, its concept ancestry contains definitions from
     // other submissions, and its two proofs form a cycle.
     const cyclic = fs.readFileSync(path.join(root, "Lax4", "index.html"), "utf8");
-    const cyclicBadges = legend(cyclic, "Concept badge legend", "div");
-    expect(cyclicBadges).not.toContain("proven claim");
-    expect(cyclicBadges).toContain("open claim");
-    expect(cyclicBadges).not.toContain("definition");
-
     const cyclicConcepts = legend(cyclic, "Concept map legend", "figcaption");
     expect(cyclicConcepts).not.toContain("fill-proven");
     inOrder(cyclicConcepts, ["fill-open", "fill-none", "stroke-own", "stroke-ext", "legend-arrow"]);
@@ -1189,7 +1206,7 @@ After the formula.`, "");
     const cyclicProofs = legend(cyclic, "Proof network legend", "figcaption");
     expect(cyclicProofs).not.toContain("fill-proven");
     expect(cyclicProofs).not.toContain("stroke-ext");
-    inOrder(cyclicProofs, ["proof-flow", "fill-open", "stroke-own", "Proof — click to open", "legend-cycle"]);
+    inOrder(cyclicProofs, ["proof-flow", "fill-open", "stroke-own", "⊢</i>Proof</span>", "legend-cycle"]);
   });
 
   it("emits expandable concept closures and proof readiness metadata for deterministic DAGs", async () => {
@@ -1205,8 +1222,8 @@ After the formula.`, "");
     expect(html).toContain('id="concept-descend"');
     expect(html).toContain("Show descendants");
     expect(html).not.toContain('aria-controls="concept-dag" aria-pressed="false">Hide');
-    // figure titles sit in the flow above the boxes, not inside the chrome
-    expect(html).toContain('<h4 class="figure-title">Concept map</h4>');
+    // The concept map starts collapsed; the proof network remains visible.
+    expect(html).toMatch(/<details class="figure-details">\s*<summary>Concept map<\/summary>\s*<figure class="graph-figure">/);
     expect(html).toContain('<h4 class="figure-title">Proof network</h4>');
     expect(html).not.toContain("graph-toolbar-title");
     expect(html).toContain("B builds on A");
@@ -1233,6 +1250,7 @@ After the formula.`, "");
     ]));
 
     const conceptHtml = fs.readFileSync(path.join(root, "Lax4", "Lax4.Top.html"), "utf8");
+    expect(conceptHtml).toMatch(/<details class="figure-details">\s*<summary>Concept map<\/summary>\s*<figure class="graph-figure concept-root-graph">/);
     expect(conceptHtml).toContain("This concept");
     expect(conceptHtml).toContain("Hide ancestors");
     expect(conceptHtml).toContain('data-graph="concepts" data-ancestry="true"');
@@ -1294,9 +1312,9 @@ After the formula.`, "");
     const root = tmpDir("lax-site-used-concepts-");
     await generateSite(archive, root);
     const html = fs.readFileSync(path.join(root, "Lax4", "index.html"), "utf8");
-    const ownStart = html.indexOf('<ul class="concept-list">');
-    const usedStart = html.indexOf('<ul class="concept-list concept-used-list"');
-    const used = html.slice(usedStart, html.indexOf("</ul>", usedStart));
+    const ownStart = html.indexOf('<ul class="concept-list"');
+    const usedStart = html.indexOf('<div class="concept-used-list"');
+    const used = html.slice(usedStart, html.indexOf("</div>", usedStart));
 
     expect(usedStart).toBeGreaterThan(ownStart);
     expect(html).toContain('data-used-concepts-toggle aria-controls="used-concepts-list"');
@@ -1446,9 +1464,9 @@ After the formula.`, "");
     expect(html).not.toContain('block-statements');
     expect(html).toContain("mathlib4_docs/Mathlib/Data/Nat/Basic.html");
     expect(html).toContain(">proven</span>");
-    expect(html).toContain("<h3>Builds on</h3>");
-    expect(html).toContain("<h3>Used by</h3>");
-    expect(html).toContain("<h3>From Mathlib</h3>");
+    expect(html).toContain('<details class="deps-col block-details"><summary>Builds on</summary>');
+    expect(html).toContain('<details class="deps-col block-details"><summary>Used by</summary>');
+    expect(html).toContain('<details class="deps-col block-details"><summary>From Mathlib</summary>');
     expect(html).not.toContain("<h3>Imported</h3>");
     expect(html).not.toContain("Mathlib imports");
     // the claim's evidence block lists the archived proof, linking to its page
