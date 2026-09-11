@@ -958,6 +958,7 @@ After the formula.`, "");
     const draft = archive.find(({ record }) => record.id === "Lax3")!;
     draft.record.state = "draft";
     draft.output!.concepts[0]!.type = "open question";
+    draft.output!.concepts[0]!.title = "Draft open question heading";
     draft.output!.concepts[0]!.statements = [{ id: "Lax3.Middle.open", signature: "open : True" }];
     // Unproven theorems from drafts are listed too.
     draft.output!.concepts.push({
@@ -971,21 +972,25 @@ After the formula.`, "");
     await generateSite(archive, root);
     const html = fs.readFileSync(path.join(root, "open-proof-obligations.html"), "utf8");
 
-    expect(html).toContain("5 proof obligations · 5 open statements · 3 submissions");
+    expect(html).toContain("4 proof obligations · 4 open statements · 3 submissions");
     expect(html).toContain('placeholder="Search proof obligations"');
     expect(html).toContain('id="open-problems-list"');
     expect(html).toContain('data-type="open question"');
     expect(html).toContain('data-type="theorem"');
     expect(html).toContain('data-type="lemma"');
     expect(html).toContain('href="Lax4/Lax4.Top.html"');
-    expect(html).toContain("Lax4.Top.a");
+    expect(html).toContain("lax4.top.a");
     expect(html).toContain('href="Lax4/Lax4.Aux.html"');
-    expect(html).toContain("Lax4.Aux.b");
-    expect(html).toContain("Lax3.Middle.open");
-    expect(html).toContain("Lax3.DraftTheorem.fact");
+    expect(html).toContain("lax4.aux.b");
+    expect(html).toContain("lax3.middle.open");
+    expect(html).toContain('<h2><a href="Lax3/Lax3.Middle.html">Draft open question heading</a></h2>');
+    expect(html).not.toContain('class="open-statement-name"');
+    expect(html).not.toContain("Lax3.DraftTheorem.fact");
+    expect(html).toContain("Take a look at the concept");
+    expect(html).not.toContain("Read the full concept");
     expect(html).not.toContain('href="Lax2/Lax2.C.html"');
     const list = html.slice(html.indexOf('<ul class="open-problems-list"'), html.indexOf('id="open-problems-list-empty"'));
-    const ordered = ["Lax1.Base.open", "Lax3.Middle.open", "Lax4.Top.a", "Lax4.Aux.b", "Lax3.DraftTheorem.fact"];
+    const ordered = ["Lax1/Lax1.Base.html", "Lax3/Lax3.Middle.html", "Lax4/Lax4.Top.html", "Lax4/Lax4.Aux.html"];
     for (let index = 1; index < ordered.length; index += 1)
       expect(list.indexOf(ordered[index - 1]!)).toBeLessThan(list.indexOf(ordered[index]!));
   });
