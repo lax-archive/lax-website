@@ -10,6 +10,20 @@
   const url = container.dataset.remark42Url || `${window.location.origin}${window.location.pathname}`;
   if (!host.startsWith("https://")) return;
 
+  const discussionCount = document.querySelector(".discussion-count");
+  const commentCounter = discussionCount?.querySelector(".remark42__counter");
+  if (commentCounter) {
+    const updateCountVisibility = () => {
+      const count = Number(commentCounter.textContent);
+      discussionCount.hidden = !Number.isInteger(count) || count < 2;
+    };
+    // Remark42 fills the counter asynchronously and may update it later.
+    new MutationObserver(updateCountVisibility).observe(commentCounter, {
+      childList: true, characterData: true, subtree: true,
+    });
+    updateCountVisibility();
+  }
+
   const reactions = document.querySelector("[data-reactions-host]");
   const reactionStatus = reactions?.querySelector("[data-reactions-status]");
   const reactionButtons = reactions ? [...reactions.querySelectorAll("[data-reaction]")] : [];
@@ -153,6 +167,13 @@
     const list = popover?.querySelector("ul");
     const empty = popover?.querySelector("[data-reaction-empty]");
     if (!popover || !list) return;
+    if (reactions?.dataset.anonymousReview === "true") {
+      // Counts remain useful review evidence, but anonymous submissions must
+      // never put the returned ORCID identities into the document.
+      list.replaceChildren();
+      if (empty) empty.hidden = true;
+      return;
+    }
     const identities = voters.flatMap((voter) => {
       const orcid = validOrcidId(voter.orcid);
       const name = typeof voter.name === "string" ? voter.name.trim() : "";

@@ -7,7 +7,7 @@
 <title>Cographs</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=dac430f58d9e">
+<link rel="stylesheet" href="../assets/style.css?v=e3e7650126df">
 </head><body>
 <header class="site-header with-sidebar">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="true" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -61,13 +61,13 @@
 <p class="concept-microline"><code>concepts/Lax214022/Cographs.lean</code> · <a href="index.html">lax-214022</a></p></div>
 <span class="status-pills"><span class="status-pill pill-none">definition</span></span>
 </div>
-<section class="page-reactions" aria-label="Community review" data-reactions-host="https://comments.laxarchive.org" data-reactions-url="https://laxarchive.org/lax-214022/Lax214022.Cographs.html" data-review-kind="concept" data-source-lines="32">
+<section class="page-reactions" aria-label="Community review" data-reactions-host="https://comments.laxarchive.org" data-reactions-url="https://laxarchive.org/lax-214022/Lax214022.Cographs.html" data-review-kind="concept" data-source-lines="32" data-anonymous-review="true">
 <div class="page-reactions-line">
 <div class="page-reactions-actions">
 <div class="page-reaction-control">
 <button class="page-reaction-button" type="button" data-reaction="endorse" aria-pressed="false" title="Say that this concept is correct"><span class="page-reaction-icon" aria-hidden="true">🥳</span><span>Endorse</span></button>
-<button class="page-reaction-voters" type="button" data-reaction-voters="endorse" aria-expanded="false" aria-controls="page-reaction-voters-endorse"><strong data-reaction-count="endorse">0</strong><span class="visually-hidden">Show people who endorse this concept</span></button>
-<div class="page-reaction-voters-popover" id="page-reaction-voters-endorse" data-reaction-voters-popover="endorse" hidden><p data-reaction-empty>No public endorsements yet.</p><ul></ul></div>
+<button class="page-reaction-voters" type="button" data-reaction-voters="endorse" aria-expanded="false" aria-controls="page-reaction-voters-endorse"><strong data-reaction-count="endorse">0</strong><span class="visually-hidden">Show endorsement details for this concept</span></button>
+<div class="page-reaction-voters-popover" id="page-reaction-voters-endorse" data-reaction-voters-popover="endorse" hidden><p data-reaction-identities-hidden>Endorser identities are withheld during anonymous review.</p><ul></ul></div>
 </div>
 <div class="page-reaction-control page-flag-control">
 <button class="page-reaction-button" type="button" data-reaction="flag" aria-pressed="false" aria-haspopup="dialog" title="Explain why this concept may be false"><span class="page-reaction-icon" aria-hidden="true">🚩</span><span>Flag</span></button>
@@ -96,7 +96,8 @@
 </dialog>
 <noscript><p class="page-reactions-noscript"><a href="https://comments.laxarchive.org/auth/orcid/login?site=remark&amp;from=https%3A%2F%2Flaxarchive.org%2Flax-214022%2FLax214022.Cographs.html">Sign in with ORCID</a> to review this page.</p></noscript>
 </section>
-<h4 class="figure-title">Concept map</h4>
+<details class="figure-details">
+<summary>Concept map</summary>
 <figure class="graph-figure concept-root-graph">
 <button class="graph-expand" type="button" data-graph-expand data-graph-label="concept map" aria-expanded="false" aria-label="Open concept map in a large window" title="Open in large window"><svg class="graph-expand-open" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M2.5 6V2.5H6M10 2.5h3.5V6M13.5 10v3.5H10M6 13.5H2.5V10"/></svg><span class="graph-expand-close" aria-hidden="true">×</span></button>
 <div class="graph-toolbar"><button type="button" id="concept-expand" aria-controls="concept-dag" aria-pressed="true">Hide ancestors</button><button type="button" id="concept-descend" aria-controls="concept-dag" aria-pressed="false">Show descendants</button><output id="concept-graph-status" aria-live="polite"></output></div>
@@ -104,13 +105,14 @@
 <div class="graph-tooltip" role="tooltip" hidden></div>
 <figcaption class="graph-legend" aria-label="Concept map legend"><span><i class="legend-node fill-proven"></i>Proven claim</span><span><i class="legend-node fill-none"></i>Definition</span><span><i class="legend-node stroke-own"></i>This concept</span><span><i class="legend-node stroke-ext"></i>Related concept</span><span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B builds on A</span></figcaption>
 </figure>
+</details>
 
 
 <div class="block block-statement"><h3>Definition</h3><div class="latex-content"><p>A finite graph is a cograph if it has twin-width zero.  Equivalently, it can
 be reduced to one vertex by repeatedly contracting a pair of twins, without
 ever creating a red edge.</p>
 </div></div>
-<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/c1fdbe3c1eb2414f0fa9b430c413645cb16b7577/cograph-welzl-orders/concepts/Lax214022/Cographs.lean">view on GitHub</a></h3>
+<div class="block block-lean"><h3 class="section-heading">Lean source<span class="source-link source-link-withheld" aria-disabled="true" title="Unavailable during anonymous review"><span class="anonymity-lock" aria-hidden="true">🔒</span><span>source link withheld</span></span></h3>
 <div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
 <tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-48/Lax48.TwinWidth.html"><span style="color:#24292E">Lax48.TwinWidth</span></a></td></tr>
 <tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"> </td></tr>
@@ -145,25 +147,24 @@ ever creating a red edge.</p>
 <tr id="L31" class=""><td class="line-num"><a href="#L31">31</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax214022.Cographs</span></td></tr>
 <tr id="L32" class=""><td class="line-num"><a href="#L32">32</a></td><td class="line-code"> </td></tr>
 </table></div><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
-<div class="block"><h3>Formalization notes</h3><div class="latex-content"><p>The definition uses <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>H</mi><mi>a</mi><mi>s</mi><mi>T</mi><mi>w</mi><mi>i</mi><mi>n</mi><mi>W</mi><mi>i</mi><mi>d</mi><mi>t</mi><mi>h</mi><mi>A</mi><mi>t</mi><mi>M</mi><mi>o</mi><mi>s</mi><mi>t</mi><mi>G</mi><mn>0</mn></mrow><annotation encoding="application/x-tex">HasTwinWidthAtMost G 0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.0813em;">H</span><span class="mord mathnormal">a</span><span class="mord mathnormal">s</span><span class="mord mathnormal" style="margin-right:0.1389em;">T</span><span class="mord mathnormal" style="margin-right:0.0269em;">w</span><span class="mord mathnormal" style="margin-right:0.1389em;">inW</span><span class="mord mathnormal">i</span><span class="mord mathnormal">d</span><span class="mord mathnormal">t</span><span class="mord mathnormal">h</span><span class="mord mathnormal">A</span><span class="mord mathnormal" style="margin-right:0.109em;">tM</span><span class="mord mathnormal">os</span><span class="mord mathnormal">tG</span><span class="mord">0</span></span></span></span> rather than the numerical
+<details class="block block-details"><summary>Formalization notes</summary><div class="latex-content"><p>The definition uses <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>H</mi><mi>a</mi><mi>s</mi><mi>T</mi><mi>w</mi><mi>i</mi><mi>n</mi><mi>W</mi><mi>i</mi><mi>d</mi><mi>t</mi><mi>h</mi><mi>A</mi><mi>t</mi><mi>M</mi><mi>o</mi><mi>s</mi><mi>t</mi><mi>G</mi><mn>0</mn></mrow><annotation encoding="application/x-tex">HasTwinWidthAtMost G 0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.0813em;">H</span><span class="mord mathnormal">a</span><span class="mord mathnormal">s</span><span class="mord mathnormal" style="margin-right:0.1389em;">T</span><span class="mord mathnormal" style="margin-right:0.0269em;">w</span><span class="mord mathnormal" style="margin-right:0.1389em;">inW</span><span class="mord mathnormal">i</span><span class="mord mathnormal">d</span><span class="mord mathnormal">t</span><span class="mord mathnormal">h</span><span class="mord mathnormal">A</span><span class="mord mathnormal" style="margin-right:0.109em;">tM</span><span class="mord mathnormal">os</span><span class="mord mathnormal">tG</span><span class="mord">0</span></span></span></span> rather than the numerical
 equality <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mi>w</mi><mi>i</mi><mi>n</mi><mi>W</mi><mi>i</mi><mi>d</mi><mi>t</mi><mi>h</mi><mi>G</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">twinWidth G = 0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.0269em;">tw</span><span class="mord mathnormal" style="margin-right:0.1389em;">inW</span><span class="mord mathnormal">i</span><span class="mord mathnormal">d</span><span class="mord mathnormal">t</span><span class="mord mathnormal">h</span><span class="mord mathnormal">G</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span>.  For finite graphs these are equivalent, while the
 bounded predicate exposes the width-zero contraction sequence that witnesses
 the property.  The bound really is zero, not one: the width convention counts
 the maximum red degree and a cograph contraction creates no red adjacency.</p>
-</div></div>
+</div></details>
 <div class="block"><div class="deps-columns">
-<div class="deps-col"><h3>Builds on</h3><ul class="deps-list"><li title="Lax48.TwinWidth"><a href="../lax-48/Lax48.TwinWidth.html"><code>Lax48.TwinWidth</code></a></li></ul></div>
-<div class="deps-col"><h3>Used by</h3><ul class="deps-list"><li title="Lax214022.CographWelzlLowerBound"><a href="../lax-214022/Lax214022.CographWelzlLowerBound.html"><code>Lax214022.CographWelzlLowerBound</code></a></li><li title="Lax214022.CographWelzlUpperBound"><a href="../lax-214022/Lax214022.CographWelzlUpperBound.html"><code>Lax214022.CographWelzlUpperBound</code></a></li><li title="Lax485480.CographWelzlTreeLowerBound"><a href="../lax-485480/Lax485480.CographWelzlTreeLowerBound.html"><code>Lax485480.CographWelzlTreeLowerBound</code></a></li><li title="Lax485480.CographWelzlTreeUpperBound"><a href="../lax-485480/Lax485480.CographWelzlTreeUpperBound.html"><code>Lax485480.CographWelzlTreeUpperBound</code></a></li></ul></div>
-<div class="deps-col"><h3>From Mathlib</h3><p class="empty-note">none</p></div>
+<details class="deps-col block-details"><summary>Builds on</summary><ul class="deps-list"><li title="Lax48.TwinWidth"><a href="../lax-48/Lax48.TwinWidth.html"><code>Lax48.TwinWidth</code></a></li></ul></details>
+<details class="deps-col block-details"><summary>Used by</summary><ul class="deps-list"><li title="Lax214022.CographWelzlLowerBound"><a href="../lax-214022/Lax214022.CographWelzlLowerBound.html"><code>Lax214022.CographWelzlLowerBound</code></a></li><li title="Lax214022.CographWelzlUpperBound"><a href="../lax-214022/Lax214022.CographWelzlUpperBound.html"><code>Lax214022.CographWelzlUpperBound</code></a></li></ul></details>
+<details class="deps-col block-details"><summary>From Mathlib</summary><p class="empty-note">none</p></details>
 </div></div>
 <section class="page-section discussion-section" aria-labelledby="discussion-title">
 <div class="discussion-heading">
 <div class="discussion-heading-copy">
-<p class="discussion-eyebrow">Community review</p>
 <h3 class="section-title" id="discussion-title">Discussion</h3>
-<p>Ask a question or add context. Endorsements and structured flags are kept in the review panel above; your ORCID profile must share a public name.</p>
+<p>Ask a question or add context. Endorsements and structured flags are kept in the review panel above.</p>
 </div>
-<p class="discussion-count"><span class="remark42__counter" data-url="https://laxarchive.org/lax-214022/Lax214022.Cographs.html">0</span> <span>comments</span></p>
+<p class="discussion-count" hidden><span class="remark42__counter" data-url="https://laxarchive.org/lax-214022/Lax214022.Cographs.html">0</span> <span>comments</span></p>
 </div>
 <div class="discussion-embed-shell">
 <p class="discussion-loading" id="remark42-status" role="status"><span class="discussion-loading-mark" aria-hidden="true"></span>Loading discussion…</p>
@@ -171,7 +172,7 @@ the maximum red degree and a cograph contraction creates no red adjacency.</p>
 </div>
 <noscript><p class="discussion-unavailable">Enable JavaScript to read or join the discussion.</p></noscript>
 </section>
-<script type="application/json" id="graph-data">{"concepts":{"nodes":[{"id":"Lax214022.CographWelzlLowerBound","href":"../lax-214022/Lax214022.CographWelzlLowerBound.html","title":"Cographs can require logarithmic Welzl orders","owner":"lax-214022","status":"proven","ext":true,"dir":"down"},{"id":"Lax214022.CographWelzlUpperBound","href":"../lax-214022/Lax214022.CographWelzlUpperBound.html","title":"Cographs have logarithmic Welzl orders","owner":"lax-214022","status":"proven","ext":true,"dir":"down"},{"id":"Lax214022.Cographs","href":"../lax-214022/Lax214022.Cographs.html","title":"Cographs","owner":"lax-214022","status":"none","ext":false,"dir":"core"},{"id":"Lax48.TwinWidth","href":"../lax-48/Lax48.TwinWidth.html","title":"Twin-width","owner":"lax-48","status":"none","ext":true,"dir":"up"},{"id":"Lax485480.CographWelzlTreeLowerBound","href":"../lax-485480/Lax485480.CographWelzlTreeLowerBound.html","title":"Cographs can require logarithmic Welzl trees","owner":"lax-485480","status":"proven","ext":true,"dir":"down"},{"id":"Lax485480.CographWelzlTreeUpperBound","href":"../lax-485480/Lax485480.CographWelzlTreeUpperBound.html","title":"Cographs have logarithmic Welzl trees","owner":"lax-485480","status":"proven","ext":true,"dir":"down"}],"edges":[{"from":"Lax214022.Cographs","to":"Lax214022.CographWelzlLowerBound"},{"from":"Lax214022.Cographs","to":"Lax214022.CographWelzlUpperBound"},{"from":"Lax48.TwinWidth","to":"Lax214022.Cographs"},{"from":"Lax214022.Cographs","to":"Lax485480.CographWelzlTreeLowerBound"},{"from":"Lax214022.Cographs","to":"Lax485480.CographWelzlTreeUpperBound"}],"home":"lax-214022"},"proofs":{"statements":[],"proofs":[]}}</script>
+<script type="application/json" id="graph-data">{"concepts":{"nodes":[{"id":"Lax214022.CographWelzlLowerBound","href":"../lax-214022/Lax214022.CographWelzlLowerBound.html","title":"Cographs can require logarithmic Welzl orders","owner":"lax-214022","status":"proven","ext":true,"dir":"down"},{"id":"Lax214022.CographWelzlUpperBound","href":"../lax-214022/Lax214022.CographWelzlUpperBound.html","title":"Cographs have logarithmic Welzl orders","owner":"lax-214022","status":"proven","ext":true,"dir":"down"},{"id":"Lax214022.Cographs","href":"../lax-214022/Lax214022.Cographs.html","title":"Cographs","owner":"lax-214022","status":"none","ext":false,"dir":"core"},{"id":"Lax48.TwinWidth","href":"../lax-48/Lax48.TwinWidth.html","title":"Twin-width","owner":"lax-48","status":"none","ext":true,"dir":"up"}],"edges":[{"from":"Lax214022.Cographs","to":"Lax214022.CographWelzlLowerBound"},{"from":"Lax214022.Cographs","to":"Lax214022.CographWelzlUpperBound"},{"from":"Lax48.TwinWidth","to":"Lax214022.Cographs"}],"home":"lax-214022"},"proofs":{"statements":[],"proofs":[]}}</script>
 </div>
 <footer class="site-footer">
   <nav class="site-footer-nav" aria-label="Legal">
@@ -206,11 +207,11 @@ the maximum red degree and a cograph contraction creates no red adjacency.</p>
 </div>
 </div>
 </dialog>
-<script src="../assets/sidebar.js?v=0db6145b12ac"></script>
+<script src="../assets/sidebar.js?v=e4e626f46671"></script>
 <script src="../assets/account.js?v=e3db2efa7b34"></script>
 <script src="../assets/layout.js?v=41e28199b546"></script>
-<script src="../assets/dag.js?v=96ff87e994df"></script>
+<script src="../assets/dag.js?v=ac501d9a56ee"></script>
 <script src="../assets/source-proof.js?v=b4c48aaad400"></script>
 <script src="../assets/version-history.js?v=a36e868140dd"></script>
-<script src="../assets/comments.js?v=936ec0d73bed"></script>
+<script src="../assets/comments.js?v=32f8665770fa"></script>
 </body></html>
