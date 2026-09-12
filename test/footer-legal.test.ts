@@ -29,10 +29,8 @@ describe("footer and legal pages", () => {
     expect(impressum).toContain('<h1 class="paper-title">Imprint</h1>');
     const about = fs.readFileSync(path.join(root, "about.html"), "utf8");
     expect(about).toContain('<h1 class="paper-title">About Lax</h1>');
-    expect(about).toContain("<h2>Lax Submission</h2>");
-    expect(about).toContain('<figure class="content-figure"><img src="assets/concept-proof.svg"');
-    expect(about).toContain("<figcaption>Left: a concept file");
-    expect(about).not.toContain("Placeholder");
+    expect(about).toContain("Under construction.");
+    expect(about).not.toContain("<h2>Lax Submission</h2>");
     // no sidebar on a page that is not about a submission, and no toggle to summon one
     expect(about).toContain('<header class="site-header sidebar-hidden">');
     expect(about).not.toContain('id="sidebar-toggle"');
