@@ -1814,6 +1814,17 @@ a.submission-meta-id:is(:hover, :focus-visible),
   .landing-carousel-arrow-prev{ left: -3.2rem; }
   .landing-carousel-arrow-next{ right: -3rem; }
 }
+/* Where the page's own gutter (#detail's 1rem of padding below 900px) is
+   narrower than the half of an arrow that stands outside the box, the
+   arrows sit with their outer edge on the screen's edge: an arrow past
+   it widens the page, and the page then wiggles sideways. The distance
+   counts from the box's content edge, so the frame's padding is added
+   back, and the arrow is small enough to leave the text under it alone. */
+@media (max-width: 900px){
+  .landing-carousel-arrow{ width: 2.6rem; height: 2.6rem; font-size: 1.9rem; }
+  .landing-carousel-arrow-prev{ left: calc(-1 * var(--frame-pad-left) - 1rem); }
+  .landing-carousel-arrow-next{ right: calc(-1 * var(--frame-pad-right) - 1rem); }
+}
 .landing-carousel-arrow:hover{ border-color: var(--accent); background: var(--accent-light); box-shadow: 0 6px 16px rgba(44, 95, 138, 0.18); }
 .landing-carousel-arrow:focus-visible{ outline: 2px solid var(--accent); outline-offset: 2px; }
 
@@ -4012,20 +4023,8 @@ body.graph-window-open::after{
   .inline-contract-table{ font-size: 0.72rem; line-height: 1.55; }
   .inline-contract-table .line-num{ width: 3rem; padding-right: 0.7rem; }
 
-  /* The reflowed paper in one column: the text at the screen's width, the
-     rail and the gutter bands gone, the cards opening in the text under
-     their passages. The passages' shadows still run their margin beyond
-     the column, into the page's own padding. */
-  .manuscript-reflow-body{
-    display: block;
-    overflow: visible;
-    padding: 0.25rem 0.8rem 0.6rem;
-    margin: -0.25rem -0.8rem 0;
-  }
-  .manuscript-reflow-body .manuscript-rail,
-  .manuscript-reflow-body .manuscript-links{ display: none; }
-  .manuscript-card-inline{ font-size: 0.86rem; }
-  .manuscript-card-inline .manuscript-card-body .latex-content{ font-size: 0.84rem; }
+  /* The reflowed paper's phone layout is with the paper page's rules
+     below, after the rules it overrides. */
 }
 
 @media (max-width: 640px){
@@ -4059,9 +4058,9 @@ body.graph-window-open::after{
   .landing-carousel-dots{ position: absolute; top: -1.15rem; right: 0.5rem; padding: 0; }
   .landing-card-inline:not(.manuscript-card-expanded){ display: none; }
   .landing-hero-actions{ display: grid; grid-template-columns: 1fr; }
-  .landing-carousel-arrow{ width: 2.2rem; height: 2.2rem; font-size: 1.6rem; }
-  .landing-carousel-arrow-prev{ left: -1.6rem; }
-  .landing-carousel-arrow-next{ right: -1.5rem; }
+  /* The arrows keep their place from the 900px rule: outer edge on the
+     screen's edge, and at this size clear of the text inside the frame. */
+  .landing-carousel-arrow{ width: 2rem; height: 2rem; font-size: 1.5rem; }
   /* The page scrolls through the network; the graph only sideways. */
   .landing-network-figure:not(.graph-expanded) .landing-network-viewport > .figure-container{ height: auto !important; max-height: none; overflow-y: hidden; }
   .landing-columns{ grid-template-columns: 1fr; gap: 1.4rem; }
@@ -4085,9 +4084,22 @@ body.graph-window-open::after{
   .version-open-link{ flex: 1 1 100%; margin-left: 0; }
 }
 
+/* The name, the nav and the sign-in button share one line; the button is
+   absolute at the right, so on the narrowest phones the nav would run
+   under it. The nav tightens in two steps, and at the last the button
+   loses its padding too. Sized so that on a page with the drawer's toggle
+   (the name starts 3.1rem in) "About" still ends short of the button. */
+@media (max-width: 400px){
+  .site-nav{ gap: 0.5rem; }
+  .site-nav-link{ font-size: 0.78rem; }
+}
+
 @media (max-width: 340px){
-  .site-header.landing-header .site-nav{ gap: 0.45rem; }
-  .site-header.landing-header .site-nav-link{ font-size: 0.68rem; }
+  .site-brand{ gap: 0.6rem; }
+  .site-header.with-sidebar .site-brand{ margin-left: 2.9rem; }
+  .site-nav{ gap: 0.45rem; }
+  .site-nav-link{ font-size: 0.68rem; }
+  .account-control{ padding: 0.34rem 0.5rem 0.34rem 0.4rem; font-size: 0.72rem; }
 }
 
 @media (hover: none){
@@ -4445,6 +4457,28 @@ body.graph-window-open::after{
   opacity: 0.75;
 }
 .manuscript-reflow-notice a{ color: inherit; }
+
+/* Below the site's mobile breakpoint the reflowed paper is one column:
+   the text at the screen's width, the rail and the gutter bands gone, the
+   cards opening in the text under their passages (manuscript-reflow.js).
+   The passages' shadows still run their margin beyond the column, into
+   the page's own padding. This block stands after `.manuscript-body` and
+   `.manuscript-reflow-body` above on purpose: it overrides them at equal
+   specificity, so it must come later in the sheet — in the mobile drawer
+   block further up it would lose, and the phone would get the two-column
+   grid with an empty rail column, scrolling sideways. */
+@media (max-width: 900px){
+  .manuscript-reflow-body{
+    display: block;
+    overflow: visible;
+    padding: 0.25rem 0.8rem 0.6rem;
+    margin: -0.25rem -0.8rem 0;
+  }
+  .manuscript-reflow-body .manuscript-rail,
+  .manuscript-reflow-body .manuscript-links{ display: none; }
+  .manuscript-card-inline{ font-size: 0.86rem; }
+  .manuscript-card-inline .manuscript-card-body .latex-content{ font-size: 0.84rem; }
+}
 
 /* The submission page's way into the annotated paper: one centered button,
    the counts in grey under it. */
