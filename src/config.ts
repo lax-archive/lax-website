@@ -33,4 +33,4 @@ export const PROOF_SUFFIX = "Proofs";
  * `lax serve` shows the epoch the *installed CLI's* table names rather than
  * whatever this file said when the renderer was released.
  */
-export const EPOCH = "v4.30.0";
+export const EPOCH = "v4.33.0";

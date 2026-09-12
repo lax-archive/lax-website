@@ -175,7 +175,7 @@ bytes therefore differ from production's, deterministically per flag set).
 ## Environments and the epoch
 
 A record is built in one *environment* — a Lean toolchain and the mathlib
-release it pins, named by the Lean version string (`v4.30.0`) that the
+release it pins, named by the Lean version string (`v4.33.0`) that the
 record's `manifest.leanVersion` carries. One of them is the archive's
 *epoch*, the environment this year's submissions are recommended to use;
 only submissions in the same environment can cite each other. The site's copy
