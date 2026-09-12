@@ -139,6 +139,7 @@ describe("archive environments on the site", () => {
   });
 
   it("takes the epoch as the third argument and falls back to the config", async () => {
+    expect(EPOCH).toBe("v4.33.0");
     const submissions = [make("lax-1", "v4.30.0"), make("lax-2", "v4.33.0")];
 
     const moved = tmpDir("lax-site-env-arg-");
