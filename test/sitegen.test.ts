@@ -937,12 +937,12 @@ After the formula.`, "");
     // Captions sit inside the boxes.
     expect(index).toContain('<div class="landing-box-caption latex-content">');
     expect(index).toContain("<strong>The paper stays the paper.</strong>");
-    expect(index).toContain("<strong>Proof network.</strong> Explore how proofs compose");
+    expect(index).toContain("<em>Proofs compose.</em> Explore which claims are proven, relative to which others.");
     expect(index).not.toContain("<strong>Proofs compose.</strong>");
     // The network: the network submission\'s figure and data, rooted at the site.
     expect(index).toContain('<figure class="landing-box graph-figure proof-network-figure landing-network-figure" aria-label="The proof network of lax-17">');
     expect(index).not.toContain("landing-network-source");
-    expect(index).toContain('<a href="open-proof-obligations.html">open obligation</a>, and every result');
+    expect(index).toContain('Later submissions can discharge an <a href="open-proof-obligations.html">open obligation</a>.');
     expect(index).toContain('<div class="landing-network-viewport">\n<div id="proof-network" class="figure-container" data-graph="proofs"></div>\n</div>');
     const data = JSON.parse(index.match(/<script type="application\/json" id="graph-data">(.*?)<\/script>/)![1]!);
     expect(Object.keys(data)).toEqual(["proofs"]);

@@ -19,10 +19,8 @@ concept from others. Freely composable across papers.
 
 ## Proof network
 
-**Proof network.** Explore how proofs compose, which claims are proven,
-and which not yet. Any later submission can discharge an
-[open obligation](open-proof-obligations.html), and every result that
-rested on it is proven from that moment on.
+*Proofs compose.* Explore which claims are proven, relative to which others.
+Later submissions can discharge an [open obligation](open-proof-obligations.html).
 
 ## Get started right away
 

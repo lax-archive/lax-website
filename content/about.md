@@ -1,16 +1,10 @@
 # Lax
 
-A new result passes through several stages before it becomes part of mathematics. It is
+As AI accelerates the production of proofs, mathematicians need practical ways to assess what has been established and decide where to invest their attention. We therefore believe that formal verification should become a routine part of mathematical publishing.
 
-- *proven:* a rigorous argument is found and checked;
-- *explained:* written up so that others can follow why it holds;
-- *accepted:* read, questioned, and vouched for by the community;
-- *absorbed:* restated in its natural generality, connected to its neighbours, and built upon.
+Lax is an open archive for mathematics formalized in Lean. It presents definitions and statements for human review, records the checked proofs and assumptions behind them, and lets later submissions import and build on them. Each submission remains an independent, citable contribution.
 
-AI systems and formal proofs now handle the first stage at scale.
-Lax is built for the stages that come after.
-It aligns formal proofs with natural-language arguments, lemma by lemma, so that the paper remains the place where a result is explained, and every step of that explanation is certified.
-It lets mathematicians review and endorse what is stated, and it lets later work import those statements, so that results grow into a connected body of theory.
+We believe the paper should remain the primary means of explaining mathematical results and communicating their ideas. Lax augments that exposition with links to formal statements and checked proofs, lemma by lemma. These annotations give readers more freedom in how they follow the argument: they can skip a verified technical lemma to focus on the main idea, or study its proof because it contains a technique they need.
 
 ## Lax Submission
 
