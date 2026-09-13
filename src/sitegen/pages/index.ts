@@ -86,12 +86,6 @@ interface Example {
 
 const lean = (lines: string[]): string => `${lines.join("\n")}\n`;
 
-/** The prose around the passages: filler, so that nothing competes with
- * the definitions and claims for attention. Two lines fade in from the
- * top of the crop; a few fade out at its bottom. */
-const BEFORE_PASSAGES = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.`;
-const AFTER_PASSAGES = `Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`;
-
 const PRIMES_EXAMPLE: Example = {
   key: "primes",
   subject: "a paper on prime numbers",
@@ -339,7 +333,7 @@ function landingFoundations(ctx: PageContext, heading: string, section: string):
     if (!located) return [];
     const dependents = new Set(model.downstreamClosure(id).map((c) => c.output.id));
     dependents.delete(located.output.id);
-    const uses = dependents.size ? `<span class="landing-foundation-uses">built on in ${plural(dependents.size, "further submission")}</span>` : "";
+    const uses = dependents.size ? `<span class="landing-foundation-uses">used by ${plural(dependents.size, "submission")}</span>` : "";
     return [`<li><a class="landing-foundation" href="${attr(`${located.output.id}/${located.concept.id}.html`)}" title="${attr(located.concept.id)}">
 ${typeBadge(located.concept.type)}<span class="landing-foundation-title">${markdown.renderAuthorInline(located.concept.title, "")}</span>
 <span class="landing-foundation-meta"><span class="submission-meta-id">${esc(located.output.id)}</span>${uses}</span>
@@ -485,8 +479,8 @@ ${body}
 </li>`;
 }
 
-/** One example as a slide: the prose around the passages in the text
- * column, each passage highlighted as on the paper page, and its card,
+/** One tightly cropped mathematical excerpt per slide, with each passage
+ * highlighted as on the paper page, and its card,
  * closed, in the rail beside it, with a hint under the cards saying what
  * to do (it goes with the first hover or tap). landing.js sets each card
  * beside its passage and draws the band between them in the SVG overlay,
@@ -518,13 +512,7 @@ ${markdown.render(passage.text, "")}
   return `<div class="landing-carousel-slide${selected ? "" : " landing-carousel-slide-off"}" role="tabpanel" id="${attr(`landing-example-${example.key}`)}" aria-labelledby="${attr(`landing-tab-${example.key}`)}"${selected ? "" : ` aria-hidden="true" inert`} data-card-box data-paper-excerpt>
 <div class="landing-paper-grid">
 <div class="landing-paper-doc">
-<div class="landing-paper-prose landing-paper-before latex-content">
-${markdown.render(BEFORE_PASSAGES, "")}
-</div>
 ${passages.join("\n")}
-<div class="landing-paper-prose landing-paper-after latex-content">
-${markdown.render(AFTER_PASSAGES, "")}
-</div>
 </div>
 <ol class="manuscript-rail landing-paper-rail" aria-label="Cards">
 ${cards.join("\n")}
@@ -631,11 +619,8 @@ ${authors ? `<span class="submissions-list-meta"><span class="formalized-label">
 
   const chip = (key: string, label: string, count: number, extraClass = ""): string =>
     `<button class="tag-chip${extraClass}" type="button" data-tag-filter="${attr(key)}" aria-pressed="false" aria-label="${attr(`${label}, ${plural(count, "submission")}`)}"><span>${esc(label)}</span><b aria-hidden="true">${count}</b></button>`;
-  // The environment is one more chip in the same strip: the browser filters
-  // on `data-tags`, which carries it, so a flat facet needs no second control.
-  // It appears only once the archive holds work in more than one environment —
-  // before that the single chip would name the only thing there is. The chips
-  // lead the strip because the strip is clipped to three rows.
+  // Retain existing filter keys and deep links, while keeping archive
+  // environments separate from inferred topics in the presentation.
   const environmentButtons = model.environments.length > 1
     ? model.environments.map((environment) => chip(
         environment,
@@ -645,16 +630,16 @@ ${authors ? `<span class="submissions-list-meta"><span class="formalized-label">
       ))
     : [];
   const tagButtons = tagIndex.tags.map((tag) => chip(tag.key, tag.label, tag.submissionIds.length));
-  const facetButtons = [...environmentButtons, ...tagButtons];
-  const facetSummary = environmentButtons.length
-    ? "Environments first, then topics suggested from submission and concept titles."
-    : "Suggested from submission and concept titles.";
-  const tagBrowser = facetButtons.length ? `<section class="tag-browser" aria-labelledby="tag-browser-heading">
-<div class="tag-browser-heading"><h4 id="tag-browser-heading">Browse by topic</h4><p>${esc(facetSummary)}</p></div>
-<div class="tag-chip-list" role="group" aria-label="Filter submissions by topic">
-<button class="tag-chip" type="button" data-tag-filter="" aria-pressed="true" aria-label="All, ${plural(listed.length, "submission")}"><span>All</span><b aria-hidden="true">${listed.length}</b></button>
-${facetButtons.join("\n")}
-</div>
+  const tagBrowser = environmentButtons.length || tagButtons.length ? `<section class="tag-browser" aria-labelledby="tag-browser-heading">
+<div class="tag-browser-heading"><h4 id="tag-browser-heading">Filter submissions</h4>
+<button class="tag-chip" type="button" data-tag-filter="" aria-pressed="true" aria-label="All submissions, ${plural(listed.length, "submission")}"><span>All submissions</span><b aria-hidden="true">${listed.length}</b></button></div>
+${environmentButtons.length ? `<div class="tag-filter-row"><h5 id="environment-filter-heading">Environment</h5>
+<div class="environment-chip-list" role="group" aria-labelledby="environment-filter-heading">${environmentButtons.join("\n")}</div></div>` : ""}
+${tagButtons.length ? `<div class="tag-filter-row"><h5 id="topic-filter-heading">Topics</h5>
+<div class="topic-filter-controls"><div class="tag-chip-list" id="topic-chip-list" role="group" aria-labelledby="topic-filter-heading" aria-describedby="topic-filter-description">
+${tagButtons.join("\n")}</div>
+<button class="tag-topics-toggle" id="tag-topics-toggle" type="button" aria-expanded="false" aria-controls="topic-chip-list" hidden>More topics</button>
+<p class="tag-filter-description" id="topic-filter-description">Suggested from submission and concept titles.</p></div></div>` : ""}
 <p class="tag-results-status" id="tag-results-status" aria-live="polite">Showing all ${plural(listed.length, "submission")}.</p>
 </section>` : "";
   const library = `<section class="landing-action-panel submissions-library" id="landing-panel-read" aria-labelledby="landing-library-heading">

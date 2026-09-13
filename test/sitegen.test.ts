@@ -399,7 +399,7 @@ describe("site generator", () => {
     const root = tmpDir("lax-site-tags-");
     await generateSite(archive, root);
     const html = fs.readFileSync(path.join(root, "index.html"), "utf8");
-    expect(html).toContain('<h4 id="tag-browser-heading">Browse by topic</h4>');
+    expect(html).toContain('<h4 id="tag-browser-heading">Filter submissions</h4>');
     expect(html).toContain("Suggested from submission and concept titles.");
     expect(html).toContain('data-tag-filter="" aria-pressed="true"');
     expect(html).toContain('id="tag-results-status" aria-live="polite"');
@@ -969,7 +969,7 @@ After the formula.`, "");
     expect(index).toContain('<div class="landing-carousel-slide landing-carousel-slide-off" role="tabpanel" id="landing-example-ramsey" aria-labelledby="landing-tab-ramsey" aria-hidden="true" inert data-card-box data-paper-excerpt>');
     // The primes example: definition, lemma, its proof, theorem, its proof
     // (which rests on the lemma); the first card open, not pinned.
-    expect(index).toContain("Lorem ipsum dolor sit amet");
+    expect(index).not.toMatch(/Lorem ipsum|Duis aute irure|landing-paper-before|landing-paper-after/);
     expect(index).toContain('<div class="landing-passage landing-passage-1 kind-concept" role="button" tabindex="0" aria-pressed="false" aria-controls="landing-primes-1" aria-label="Definition 1, prime numbers: show the concept card" data-excerpt-card="landing-primes-1" data-kind="concept">');
     expect(index).toContain("<strong>Definition 1.</strong> A natural number greater than 1 is <em>prime</em>");
     expect(index).toContain('<div class="landing-passage landing-passage-3 kind-proof" role="button" tabindex="0" aria-pressed="false" aria-controls="landing-primes-3" aria-label="Proof of Lemma A: show the proof card" data-excerpt-card="landing-primes-3" data-kind="proof">');
@@ -1043,7 +1043,7 @@ After the formula.`, "");
     expect(index).toContain('<h2 class="landing-section-title" id="landing-foundations-heading">Build foundations together</h2>');
     expect(index).toContain('<section class="landing-section landing-foundations"');
     expect(index).toContain('<h2 class="landing-section-title" id="landing-foundations-heading">Build foundations together</h2>\n<div class="landing-section-box">');
-    expect(index).toContain('<li><a class="landing-foundation" href="lax-67/Lax67.Ram.html" title="Lax67.Ram">\n<span class="type-badge" title="definition">def</span><span class="landing-foundation-title">The word RAM</span>\n<span class="landing-foundation-meta"><span class="submission-meta-id">lax-67</span><span class="landing-foundation-uses">built on in 1 further submission</span></span>\n</a></li>');
+    expect(index).toContain('<li><a class="landing-foundation" href="lax-67/Lax67.Ram.html" title="Lax67.Ram">\n<span class="type-badge" title="definition">def</span><span class="landing-foundation-title">The word RAM</span>\n<span class="landing-foundation-meta"><span class="submission-meta-id">lax-67</span><span class="landing-foundation-uses">used by 1 submission</span></span>\n</a></li>');
     expect(index).toContain('href="lax-434930/Lax434930.NondeterministicPolynomialTime.html" title="Lax434930.NondeterministicPolynomialTime"');
     expect(index).toContain('href="lax-48/Lax48.TwinWidth.html" title="Lax48.TwinWidth"');
     expect(index).toContain('href="lax-132576/Lax132576.RationalFunctions.html" title="Lax132576.RationalFunctions"');

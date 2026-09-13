@@ -510,7 +510,7 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
         const container = page.locator(`#${id}`), figure = container.locator("xpath=..");
         expect(await figure.locator(":scope > .graph-controls").count()).toBe(1);
         expect(await figure.locator(".graph-toolbar").count()).toBe(0);
-        expect(await figure.locator(".graph-controls").evaluate((el) => getComputedStyle(el).backgroundColor)).toBe("rgb(250, 249, 247)");
+        expect(await figure.locator(".graph-controls").evaluate((el) => getComputedStyle(el).backgroundColor)).toBe("rgb(242, 239, 233)");
         await figure.locator("[data-graph-expand]").click(); await animationFrame(page);
         const svg = container.locator("svg.prepared-graph"), node = svg.locator("[data-node-id]").first();
         for (const [dx, dy] of directions) {

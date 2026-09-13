@@ -210,15 +210,23 @@
     const buttons = [...document.querySelectorAll('[data-tag-filter]')];
     if (!buttons.length) return;
     const list = document.querySelector('.tag-chip-list');
+    const topicButtons = list ? [...list.querySelectorAll('[data-tag-filter]')] : [];
+    const more = document.getElementById('tag-topics-toggle');
+    let expanded = false;
     const keys = new Set(buttons.map((button) => button.dataset.tagFilter));
 
     function fitTagRows() {
       if (!list) return;
-      buttons.forEach((button) => { button.hidden = false; });
-      const tops = buttons.map((button) => button.offsetTop);
+      topicButtons.forEach((button) => { button.hidden = false; });
+      const tops = topicButtons.map((button) => button.offsetTop);
       const rows = [...new Set(tops)].sort((a, b) => a - b);
-      const lastVisibleTop = rows[2] ?? Number.POSITIVE_INFINITY;
-      buttons.forEach((button, index) => { button.hidden = tops[index] > lastVisibleTop; });
+      const lastVisibleTop = rows[1] ?? Number.POSITIVE_INFINITY;
+      topicButtons.forEach((button, index) => { button.hidden = !expanded && tops[index] > lastVisibleTop; });
+      if (more) {
+        more.hidden = rows.length <= 2;
+        more.setAttribute('aria-expanded', String(expanded));
+        more.textContent = expanded ? 'Fewer topics' : 'More topics';
+      }
     }
 
     let resizeFrame;
@@ -247,6 +255,8 @@
       });
       if (updateHistory) updateUrl(selectedTag);
       applySubmissionFilters();
+      if (topicButtons.some((button) => button.hidden && button.dataset.tagFilter === selectedTag)) expanded = true;
+      fitTagRows();
     }
 
     buttons.forEach((button) => {
@@ -255,12 +265,16 @@
         selectTag(tag === selectedTag ? '' : tag, true);
       });
     });
+    more?.addEventListener('click', () => { expanded = !expanded; fitTagRows(); });
     window.addEventListener('popstate', () => selectTag(urlTag(), false));
     selectedTag = urlTag();
     buttons.forEach((button) => {
       button.setAttribute('aria-pressed', button.dataset.tagFilter === selectedTag ? 'true' : 'false');
     });
     fitTagRows();
+    if (topicButtons.some((button) => button.hidden && button.dataset.tagFilter === selectedTag)) {
+      expanded = true; fitTagRows();
+    }
     window.addEventListener('resize', queueTagFit);
     document.fonts?.ready.then(queueTagFit);
   }
