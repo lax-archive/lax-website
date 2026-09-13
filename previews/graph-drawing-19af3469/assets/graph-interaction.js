@@ -27,6 +27,11 @@
     const centerX = (anchor.left + anchor.right) / 2;
     const centerY = (anchor.top + anchor.bottom) / 2;
     const place = (left, top, placement) => {
+      // Zoom changes the SVG anchor, not the HTML inspector's scale. Keep
+      // its text on the same device-pixel grid as the anchor moves.
+      const pixels = window.devicePixelRatio || 1;
+      left = Math.round(left * pixels) / pixels;
+      top = Math.round(top * pixels) / pixels;
       tooltip.dataset.placement = placement;
       tooltip.style.left = (expanded ? left - figureBox.left - figure.clientLeft : left) + 'px';
       tooltip.style.top = (expanded ? top - figureBox.top - figure.clientTop : top) + 'px';
@@ -167,9 +172,13 @@
 
   function attachTooltip(el, container, content, renderedHtml) {
     el.addEventListener('mouseenter', () => showTooltip(container, el, content, renderedHtml));
-    el.addEventListener('mouseleave', () => hideTooltip(container));
+    el.addEventListener('mouseleave', () => {
+      if (!el.contains(document.activeElement)) hideTooltip(container);
+    });
     el.addEventListener('focus', () => showTooltip(container, el, content, renderedHtml));
-    el.addEventListener('blur', () => hideTooltip(container));
+    el.addEventListener('blur', () => {
+      if (!el.matches(':hover')) hideTooltip(container);
+    });
   }
 
   const controllers = new Map();
