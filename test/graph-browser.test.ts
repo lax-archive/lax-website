@@ -503,7 +503,7 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
           left: box.left, top: box.top,
           mathWeight: getComputedStyle(element.querySelector(".katex")!).fontWeight };
       });
-      expect(normal).toMatchObject({ fontWeight: "400", mathWeight: "400", opacity: "1", background: "rgb(255, 255, 255)", outside: true });
+      expect(normal).toMatchObject({ fontWeight: "700", mathWeight: "700", opacity: "1", background: "rgb(255, 255, 255)", outside: true });
       expect(["left", "right"]).toContain(normal.placement);
       const anchor = await node.boundingBox();
       expect(Math.abs(normal.centerY - (anchor!.y + anchor!.height / 2))).toBeLessThanOrEqual(1);

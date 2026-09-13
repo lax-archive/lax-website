@@ -82,7 +82,8 @@ All engines run the same nine cases:
    proof descriptions/title math, concept/status/submission fields, or
    submission/content/state/relation fields. Normal inspectors sit outside
    the graph at the node's vertical center; expanded views use an opaque
-   white panel nearby. Only field names are bold. SVG accessibility names do
+   white panel nearby. Proof inspectors use larger, bold text (0.9rem);
+   concept/submission inspectors bold only their field names. SVG accessibility names do
    not trigger native tooltips. Every graph has one matching control banner
    above its viewport, including ancestry controls where applicable. Panning
    clips at the window rather than at the original SVG drawing bounds.

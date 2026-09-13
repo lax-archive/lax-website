@@ -3842,6 +3842,8 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
 
 .graph-tooltip[hidden]{ display: none; }
 
+.proof-network-figure .graph-tooltip{ font-size: 0.9rem; font-weight: 700; }
+
 .graph-figure:not(.graph-expanded) .graph-tooltip{
   position: fixed;
   z-index: 200;
