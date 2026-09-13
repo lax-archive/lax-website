@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://comments.laxarchive.org; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self'; frame-src https://comments.laxarchive.org; connect-src https://comments.laxarchive.org">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Lax — an archive of formalized mathematical concepts and their proofs">
+<title>Transducers, Part C: Regular Functions in Terms of Combinators — lax-709149</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
+<link rel="stylesheet" href="../assets/style.css?v=8c92e1da8e68">
+</head><body>
+<header class="site-header with-sidebar">
+  <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="true" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
+  <div class="site-brand">
+  <h1 class="site-title"><a href="../index.html">Lax <span class="site-title-quiet">Lean Archive</span></a></h1>
+  <nav class="site-nav" aria-label="Site">
+    <a class="site-nav-link" href="../lax-242665/paper.html">Introduction</a>
+    <a class="site-nav-link" href="../about.html">About</a>
+  </nav>
+  </div>
+  <nav class="header-actions" aria-label="Account">
+    <div class="account-header" data-account-root data-remark42-host="https://comments.laxarchive.org" data-remark42-site="remark" data-identity-url="https://comments.laxarchive.org/reactions/v1/identity">
+  <a class="account-control" data-account-login href="https://comments.laxarchive.org/auth/orcid/login?from=https%3A%2F%2Flaxarchive.org&amp;site=remark"><span class="orcid-mark" aria-hidden="true">iD</span><span>Sign in<span class="account-login-long"> with ORCID</span></span></a>
+  <button class="account-control" data-account-settings type="button" aria-haspopup="dialog" aria-controls="account-dialog" hidden><span class="orcid-mark" aria-hidden="true">iD</span><span>Settings</span></button>
+</div>
+  </nav>
+</header>
+<main id="content-shell">
+<div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+<aside id="sidebar">
+<a class="sidebar-back" href="../index.html"><span class="sidebar-back-arrow" aria-hidden="true">←</span>All submissions</a>
+<div class="sidebar-filters"><div class="filter-group">
+<label for="filter-search">Search</label>
+<input id="filter-search" class="filter-input" type="search" placeholder="Filter entries" aria-controls="entry-list">
+</div>
+<div class="filter-group">
+<label for="filter-type">Type</label>
+<select id="filter-type" class="filter-select">
+<option value="all">All types</option>
+<option value="definition">definition</option>
+<option value="theorem">theorem</option>
+<option value="proof">proof</option>
+</select>
+</div></div>
+<ul id="entry-list">
+<li class="entry-heading" aria-hidden="true">Concepts</li>
+<li data-type="theorem" data-search="lax709149.regularofterm regular terms define regular functions theorem"><a class="entry-link" href="../lax-709149/Lax709149.RegularOfTerm.html" data-full-title="Regular terms define regular functions"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Regular terms define regular functions</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-709149/Lax709149.RegularOfTerm.html" hidden></span></span></a></li>
+<li data-type="definition" data-search="lax709149.regularterms regular terms definition"><a class="entry-link" href="../lax-709149/Lax709149.RegularTerms.html" data-full-title="Regular terms"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Regular terms</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-709149/Lax709149.RegularTerms.html" hidden></span></span></a></li>
+<li data-type="definition" data-search="lax709149.regularunderrepresentation regular functions on types under string representation definition"><a class="entry-link" href="../lax-709149/Lax709149.RegularUnderRepresentation.html" data-full-title="Regular functions on types under string representation"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Regular functions on types under string representation</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-709149/Lax709149.RegularUnderRepresentation.html" hidden></span></span></a></li>
+<li data-type="definition" data-search="lax709149.types types and their string representation definition"><a class="entry-link" href="../lax-709149/Lax709149.Types.html" data-full-title="Types and their string representation"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Types and their string representation</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-709149/Lax709149.Types.html" hidden></span></span></a></li>
+<li class="entry-heading" aria-hidden="true">Proofs</li>
+<li data-type="proof" data-search="lax709149proofs.results.isregularunderrepr_of_isregulartermfun proof"><a class="entry-link" href="../lax-709149/Lax709149Proofs.Results.isRegularUnderRepr_of_isRegularTermFun.html" data-full-title="Lax709149Proofs.Results.isRegularUnderRepr_of_isRegularTermFun"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax709149Proofs.Results.isRegularUnderRepr_of_isRegularTermFun</span></span></a></li>
+<li id="entry-list-empty" hidden>No entries match.</li>
+</ul>
+</aside>
+<div id="sidebar-resizer" class="sidebar-resizer" role="separator" aria-label="Resize sidebar" aria-controls="sidebar" aria-orientation="vertical" aria-valuemin="220" aria-valuemax="520" aria-valuenow="285" tabindex="0" title="Drag to resize sidebar"></div>
+<section id="main"><div id="detail">
+<p class="draft-banner"><strong>Draft</strong> — mutable and not usable as a dependency; its citation marks the draft state.</p><p class="environment-notice">Environment <code>v4.30.0</code>. The archive's epoch is <code>v4.33.0</code>; only submissions in <code>v4.30.0</code> can cite this work.</p>
+<header class="paper-head">
+<h1 class="paper-title">Transducers, Part C: Regular Functions in Terms of Combinators</h1>
+<p class="paper-meta"><span class="submission-meta-id">lax-709149</span><span class="meta-sep">·</span><span class="formalized-label">formalized by</span> <span class="paper-author">Mikołaj Bojańczyk</span><span class="author-sep">·</span><span class="paper-author">Aristotle (Harmonic)</span><span class="meta-sep">·</span>created 2026-09-07<span class="meta-sep">·</span><a href="https://github.com/bojanczyk/transducer-book/tree/86f2df5c5c7a60b2f19cd47442310ab27cd92811/lax/regular-combinators" title="https://github.com/bojanczyk/transducer-book/tree/86f2df5c5c7a60b2f19cd47442310ab27cd92811/lax/regular-combinators"><code>GitHub @86f2df5</code></a><span class="meta-sep">·</span>Lean <code>v4.30.0</code> · mathlib <code>c5ea00351c28</code></p>
+</header>
+<section class="page-reactions" aria-label="Community review" data-reactions-host="https://comments.laxarchive.org" data-reactions-url="https://laxarchive.org/lax-709149/" data-review-kind="submission" data-source-lines="0" data-submission-concept-urls="[&quot;https://laxarchive.org/lax-132576/Lax132576.LabelledAutomata.html&quot;,&quot;https://laxarchive.org/lax-132576/Lax132576.RationalFunctions.html&quot;,&quot;https://laxarchive.org/lax-132576/Lax132576.RationalRelations.html&quot;,&quot;https://laxarchive.org/lax-709149/Lax709149.RegularOfTerm.html&quot;,&quot;https://laxarchive.org/lax-709149/Lax709149.RegularTerms.html&quot;,&quot;https://laxarchive.org/lax-709149/Lax709149.RegularUnderRepresentation.html&quot;,&quot;https://laxarchive.org/lax-709149/Lax709149.Types.html&quot;,&quot;https://laxarchive.org/lax-765601/Lax765601.CompositionClosure.html&quot;,&quot;https://laxarchive.org/lax-765601/Lax765601.MapLifting.html&quot;,&quot;https://laxarchive.org/lax-916827/Lax916827.RegularFunctions.html&quot;]">
+<div class="page-reactions-line">
+<div class="page-reactions-actions">
+<div class="page-reaction-control">
+<button class="page-reaction-button" type="button" data-reaction="endorse" aria-pressed="false" title="Say that this submission is correct"><span class="page-reaction-icon" aria-hidden="true">🥳</span><span>Endorse</span></button>
+<button class="page-reaction-voters" type="button" data-reaction-voters="endorse" aria-expanded="false" aria-controls="page-reaction-voters-endorse"><strong data-reaction-count="endorse">0</strong><span class="visually-hidden">Show people who endorse this submission</span></button>
+<div class="page-reaction-voters-popover" id="page-reaction-voters-endorse" data-reaction-voters-popover="endorse" hidden><p data-reaction-empty>No public endorsements yet.</p><ul></ul></div>
+</div>
+<div class="page-reaction-control page-flag-control">
+<button class="page-reaction-button" type="button" data-reaction="flag" aria-pressed="false" aria-haspopup="dialog" title="Explain why this submission may be false"><span class="page-reaction-icon" aria-hidden="true">🚩</span><span>Flag</span></button>
+<button class="page-reaction-voters" type="button" data-flag-list-open aria-haspopup="dialog" aria-controls="page-flag-list"><strong data-reaction-count="flag">0</strong><span class="visually-hidden">Show flags for this submission</span></button>
+</div>
+</div>
+<p class="submission-flagged-note" data-submission-flagged-note hidden><span aria-hidden="true">⚑</span><span data-submission-flagged-note-text></span></p>
+</div>
+<p class="page-reactions-status" data-reactions-status role="status">Loading review…</p>
+<a class="visually-hidden" data-reactions-login href="https://comments.laxarchive.org/auth/orcid/login?site=remark&amp;from=https%3A%2F%2Flaxarchive.org%2Flax-709149%2F">Sign in with ORCID</a>
+<dialog class="review-dialog flag-list-dialog" id="page-flag-list" data-flag-list-dialog aria-labelledby="page-flag-list-title">
+<div class="review-dialog-header"><div><p class="discussion-eyebrow">Community review</p><h2 id="page-flag-list-title">Flags</h2></div><button class="review-dialog-close" type="button" data-flag-list-close aria-label="Close flags">×</button></div>
+<p class="review-dialog-intro">Each flag is tied to a public ORCID identity and explains why this submission may be incorrect.</p>
+<p data-flag-list-empty>No flags have been submitted.</p><ol class="flag-list" data-flag-list></ol>
+</dialog>
+<dialog class="review-dialog flag-editor-dialog" id="page-flag-editor" data-flag-editor aria-labelledby="page-flag-editor-title">
+<form data-flag-form>
+<div class="review-dialog-header"><div><p class="discussion-eyebrow">Community review</p><h2 id="page-flag-editor-title">Flag this submission</h2></div><button class="review-dialog-close" type="button" data-flag-cancel aria-label="Close flag form">×</button></div>
+<p class="review-dialog-intro">State precisely what appears incorrect. This explanation will be public under your ORCID name.</p>
+<label class="flag-message-label" for="page-flag-message">What is wrong?</label>
+<textarea id="page-flag-message" data-flag-message rows="6" maxlength="2000" required placeholder="Describe the incorrect claim, missing assumption, or counterexample."></textarea>
+
+<p class="flag-form-status" data-flag-form-status role="status"></p>
+<div class="review-dialog-actions"><button class="danger-button" type="button" data-flag-remove hidden>Remove my flag</button><span></span><button class="secondary-button" type="button" data-flag-cancel>Cancel</button><button class="primary-button" type="submit">Publish flag</button></div>
+</form>
+</dialog>
+<noscript><p class="page-reactions-noscript"><a href="https://comments.laxarchive.org/auth/orcid/login?site=remark&amp;from=https%3A%2F%2Flaxarchive.org%2Flax-709149%2F">Sign in with ORCID</a> to review this page.</p></noscript>
+</section>
+<section class="paper-abstract">
+<h2 class="abstract-heading">Abstract</h2>
+<div class="latex-content"><p>Section 5 of Part C of the book <em>Transducers</em> (M. Bojańczyk) as concepts and
+a proof: the combinator description of the regular functions. The Lean
+development is Aristotle's formalisation of the book, re-presented in the
+archive's form; it requires the submissions for Parts B and C §1–3.</p>
+<p>The definition-concepts are the types built from the unit type by product,
+co-product and list, with the string representation of their elements over
+an eight-letter alphabet (C.5.1), regularity of a type-to-type function
+under string representation (C.5.2), and the regular terms with their
+semantics (C.5.3). The theorem-concept is the implication of Theorem C.5.4
+that every function defined by a regular term is regular under string
+representation, proved by induction on the term with a bracket-counter
+parser of the representations. The converse implication, expressive
+completeness of the terms, is not formalised and no statement here asserts
+it; the auxiliary lemmas and claims of the section are its steps and do not
+appear.</p>
+</div>
+</section>
+
+<section class="page-section"><h3 class="section-title">Concepts</h3>
+<div class="concept-list-box">
+<div class="concept-review-progress" data-concept-review-progress data-concept-review-urls="[&quot;https://laxarchive.org/lax-709149/Lax709149.RegularOfTerm.html&quot;,&quot;https://laxarchive.org/lax-709149/Lax709149.RegularTerms.html&quot;,&quot;https://laxarchive.org/lax-709149/Lax709149.RegularUnderRepresentation.html&quot;,&quot;https://laxarchive.org/lax-709149/Lax709149.Types.html&quot;,&quot;https://laxarchive.org/lax-132576/Lax132576.LabelledAutomata.html&quot;,&quot;https://laxarchive.org/lax-132576/Lax132576.RationalFunctions.html&quot;,&quot;https://laxarchive.org/lax-132576/Lax132576.RationalRelations.html&quot;,&quot;https://laxarchive.org/lax-765601/Lax765601.CompositionClosure.html&quot;,&quot;https://laxarchive.org/lax-765601/Lax765601.MapLifting.html&quot;,&quot;https://laxarchive.org/lax-916827/Lax916827.RegularFunctions.html&quot;]" hidden>
+<div class="concept-review-progress-heading"><span>Review progress</span><span data-concept-review-progress-label></span></div>
+<div class="concept-review-progress-track" data-concept-review-progress-track role="img"></div>
+</div>
+<ul class="concept-list" aria-label="Statements">
+<li><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="Lax709149.RegularOfTerm.html" title="Lax709149.RegularOfTerm"><code>Lax709149.RegularOfTerm</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-709149/Lax709149.RegularOfTerm.html" hidden></span></li>
+</ul>
+<ul class="concept-list" aria-label="Definitions">
+<li><span class="type-badge" title="definition">def</span><a href="Lax709149.RegularTerms.html" title="Lax709149.RegularTerms"><code>Lax709149.RegularTerms</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-709149/Lax709149.RegularTerms.html" hidden></span></li>
+<li><span class="type-badge" title="definition">def</span><a href="Lax709149.RegularUnderRepresentation.html" title="Lax709149.RegularUnderRepresentation"><code>Lax709149.RegularUnderRepresentation</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-709149/Lax709149.RegularUnderRepresentation.html" hidden></span></li>
+<li><span class="type-badge" title="definition">def</span><a href="Lax709149.Types.html" title="Lax709149.Types"><code>Lax709149.Types</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-709149/Lax709149.Types.html" hidden></span></li>
+</ul>
+<button class="concept-used-toggle" type="button" data-used-concepts-toggle aria-controls="used-concepts-list" aria-expanded="false">Show referenced concepts</button>
+<div class="concept-used-list" id="used-concepts-list" role="group" aria-label="Concepts used from other submissions" hidden>
+<ul class="concept-list" aria-label="Definitions">
+<li><span class="type-badge" title="definition">def</span><a href="../lax-132576/Lax132576.LabelledAutomata.html" title="Lax132576.LabelledAutomata"><code>Lax132576.LabelledAutomata</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-132576/Lax132576.LabelledAutomata.html" hidden></span></li>
+<li><span class="type-badge" title="definition">def</span><a href="../lax-132576/Lax132576.RationalFunctions.html" title="Lax132576.RationalFunctions"><code>Lax132576.RationalFunctions</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-132576/Lax132576.RationalFunctions.html" hidden></span></li>
+<li><span class="type-badge" title="definition">def</span><a href="../lax-132576/Lax132576.RationalRelations.html" title="Lax132576.RationalRelations"><code>Lax132576.RationalRelations</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-132576/Lax132576.RationalRelations.html" hidden></span></li>
+<li><span class="type-badge" title="definition">def</span><a href="../lax-765601/Lax765601.CompositionClosure.html" title="Lax765601.CompositionClosure"><code>Lax765601.CompositionClosure</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-765601/Lax765601.CompositionClosure.html" hidden></span></li>
+<li><span class="type-badge" title="definition">def</span><a href="../lax-765601/Lax765601.MapLifting.html" title="Lax765601.MapLifting"><code>Lax765601.MapLifting</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-765601/Lax765601.MapLifting.html" hidden></span></li>
+<li><span class="type-badge" title="definition">def</span><a href="../lax-916827/Lax916827.RegularFunctions.html" title="Lax916827.RegularFunctions"><code>Lax916827.RegularFunctions</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-916827/Lax916827.RegularFunctions.html" hidden></span></li>
+</ul>
+</div>
+</div>
+<details class="figure-details">
+<summary>Concept map</summary>
+<figure class="graph-figure">
+<button class="graph-expand" type="button" data-graph-expand data-graph-label="concept map" aria-expanded="false" aria-label="Open concept map in a large window" title="Open in large window"><svg class="graph-expand-open" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M2.5 6V2.5H6M10 2.5h3.5V6M13.5 10v3.5H10M6 13.5H2.5V10"/></svg><span class="graph-expand-close" aria-hidden="true">×</span></button>
+<div class="graph-toolbar"><button type="button" id="concept-expand" aria-controls="concept-dag" aria-pressed="true">Hide ancestors</button><button type="button" id="concept-descend" aria-controls="concept-dag" aria-pressed="false">Show descendants</button><output id="concept-graph-status" aria-live="polite"></output></div>
+<div id="concept-dag" class="figure-container" data-graph="concepts" data-ancestry="true"></div>
+<div class="graph-tooltip" role="tooltip" hidden></div>
+<figcaption class="graph-legend" aria-label="Concept map legend"><span><i class="legend-node fill-proven"></i>Proven claim</span><span><i class="legend-node fill-none"></i>Definition</span><span><i class="legend-node stroke-own"></i>This submission</span><span><i class="legend-node stroke-ext"></i>Other submission</span><span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B builds on A</span></figcaption>
+</figure>
+</details>
+</section>
+<section class="page-section"><h3 class="section-title">Proofs</h3>
+<h4 class="figure-title">Proof network<a class="source-link" href="https://github.com/bojanczyk/transducer-book/tree/86f2df5c5c7a60b2f19cd47442310ab27cd92811/lax/regular-combinators/proofs">view on GitHub</a></h4>
+<figure class="graph-figure proof-network-figure">
+<button class="graph-expand" type="button" data-graph-expand data-graph-label="proof network" aria-expanded="false" aria-label="Open proof network in a large window" title="Open in large window"><svg class="graph-expand-open" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M2.5 6V2.5H6M10 2.5h3.5V6M13.5 10v3.5H10M6 13.5H2.5V10"/></svg><span class="graph-expand-close" aria-hidden="true">×</span></button>
+<div id="proof-network" class="figure-container" data-graph="proofs"></div>
+<div class="graph-tooltip" role="tooltip" hidden></div>
+<figcaption class="graph-legend" aria-label="Proof network legend"><span class="proof-flow">assumptions <svg class="legend-assumptions" viewBox="0 0 14 24" aria-hidden="true" focusable="false"><path d="M1 0h10m-3-3 3 3-3 3" transform="translate(0 12)"/><path d="M1 0h10m-3-3 3 3-3 3" transform="translate(0 3) rotate(15)"/><path d="M1 0h10m-3-3 3 3-3 3" transform="translate(0 21) rotate(-15)"/></svg><i class="legend-proof-chip" aria-hidden="true">⊢</i><svg class="legend-arrow legend-flow-arrow" viewBox="0 -4 12 8" aria-hidden="true" focusable="false"><path d="M1 0h10m-3-3 3 3-3 3"/></svg> conclusion</span><span><i class="legend-node fill-proven"></i>Proven claim</span><span><i class="legend-node stroke-own"></i>This submission</span><span><i class="legend-proof-chip" aria-hidden="true">⊢</i>Proof</span></figcaption>
+</figure>
+<details class="figure-details">
+<summary>Proof list</summary>
+<div class="proof-list-box">
+<ul class="proof-list">
+<li class="proof-item" id="p-Lax709149Proofs.Results.isRegularUnderRepr_of_isRegularTermFun">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-709149/Lax709149Proofs.Results.isRegularUnderRepr_of_isRegularTermFun.html" aria-label="Open proof Lax709149Proofs.Results.isRegularUnderRepr_of_isRegularTermFun"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><p class="judgment-unconditional">no assumptions</p></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="../lax-709149/Lax709149.RegularOfTerm.html" title="Lax709149.RegularOfTerm.isRegularUnderRepr_of_isRegularTermFun"><code>Lax709149.RegularOfTerm</code></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-709149/Lax709149Proofs.Results.isRegularUnderRepr_of_isRegularTermFun.html"><code>Lax709149Proofs.Results.isRegularUnderRepr_of_isRegularTermFun</code></a></p>
+</li>
+</ul>
+<p class="proof-list-source">Lean sources for these proofs: <a class="source-link" href="https://github.com/bojanczyk/transducer-book/tree/86f2df5c5c7a60b2f19cd47442310ab27cd92811/lax/regular-combinators/proofs">proofs/ on GitHub</a></p>
+</div>
+</details>
+<p class="honesty-note">Proof code is not displayed; the archive records each proof's checked relationship between claims.</p>
+</section>
+<section class="page-section"><h3 class="section-title">Related submissions</h3>
+<h4 class="figure-title">Submission map</h4>
+<figure class="graph-figure">
+<div id="submission-dag" class="figure-container" data-graph="submissions"></div>
+<div class="graph-tooltip" role="tooltip" hidden></div>
+<figcaption class="graph-legend" aria-label="Submission map legend"><span><i class="legend-node stroke-own"></i>This submission</span><span><i class="legend-node stroke-ext"></i>Other submission</span><span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B's concepts build on A</span><span><i class="legend-arrow proof-dep" aria-hidden="true">→</i>A → B: only B's proofs build on A</span></figcaption>
+</figure>
+</section>
+<section class="page-section"><h3 class="section-title" id="citation">Cite this</h3>
+<div class="citation-box">
+<pre class="citation" id="submission-citation">@misc{lax-709149,
+  author = {Mikołaj Bojańczyk and Aristotle (Harmonic)},
+  title = {Transducers, Part C: Regular Functions in Terms of Combinators},
+  year = {2026},
+  howpublished = {Lax Archive, lax-709149},
+  url = {https://laxarchive.org/lax-709149/},
+  note = {draft},
+}</pre>
+<button class="citation-copy" type="button" data-copy-citation aria-controls="submission-citation" aria-label="Copy BibTeX to clipboard" title="Copy BibTeX"><span class="citation-copy-icon" aria-hidden="true"></span></button>
+<output class="citation-copy-status" aria-live="polite"></output>
+</div>
+</section>
+<section class="page-section"><h3 class="section-title">References</h3>
+<ol class="reference-list">
+<li id="ref-BojanczykDaviaudKrishna2018">Mikołaj Bojańczyk, Laure Daviaud and Shankara Narayanan Krishna. <span class="reference-title">Regular and First-Order List Functions</span>. In Proceedings of the 33rd Annual ACM/IEEE Symposium on Logic in Computer Science (LICS 2018) 125–134, 2018. <a href="https://doi.org/10.1145/3209108.3209163">doi:10.1145/3209108.3209163</a></li>
+<li id="ref-Bojanczyk-transducers">Mikołaj Bojańczyk. <span class="reference-title">Transducers</span>. 2026. Book in preparation; sources at r̆lhttps://github.com/bojanczyk/transducer-book.</li>
+</ol>
+</section>
+<section class="page-section discussion-section" aria-labelledby="discussion-title">
+<div class="discussion-heading">
+<div class="discussion-heading-copy">
+<h3 class="section-title" id="discussion-title">Discussion</h3>
+<p>Ask a question or add context. Endorsements and structured flags are kept in the review panel above.</p>
+</div>
+<p class="discussion-count" hidden><span class="remark42__counter" data-url="https://laxarchive.org/lax-709149/">0</span> <span>comments</span></p>
+</div>
+<div class="discussion-embed-shell">
+<p class="discussion-loading" id="remark42-status" role="status"><span class="discussion-loading-mark" aria-hidden="true"></span>Loading discussion…</p>
+<div id="remark42" data-remark42-host="https://comments.laxarchive.org" data-remark42-site="remark" data-remark42-url="https://laxarchive.org/lax-709149/"></div>
+</div>
+<noscript><p class="discussion-unavailable">Enable JavaScript to read or join the discussion.</p></noscript>
+</section>
+<script type="application/json" id="graph-data">{"concepts":{"nodes":[{"id":"Lax132576.LabelledAutomata","href":"../lax-132576/Lax132576.LabelledAutomata.html","title":"Automata with labelled transitions","owner":"lax-132576","status":"none","ext":true,"dir":"up"},{"id":"Lax132576.RationalFunctions","href":"../lax-132576/Lax132576.RationalFunctions.html","title":"Rational functions","owner":"lax-132576","status":"none","ext":true,"dir":"up"},{"id":"Lax132576.RationalRelations","href":"../lax-132576/Lax132576.RationalRelations.html","title":"Nondeterministic automata with output and rational relations","owner":"lax-132576","status":"none","ext":true,"dir":"up"},{"id":"Lax709149.RegularOfTerm","href":"../lax-709149/Lax709149.RegularOfTerm.html","title":"Regular terms define regular functions","owner":"lax-709149","status":"proven","ext":false,"dir":"core"},{"id":"Lax709149.RegularTerms","href":"../lax-709149/Lax709149.RegularTerms.html","title":"Regular terms","owner":"lax-709149","status":"none","ext":false,"dir":"core"},{"id":"Lax709149.RegularUnderRepresentation","href":"../lax-709149/Lax709149.RegularUnderRepresentation.html","title":"Regular functions on types under string representation","owner":"lax-709149","status":"none","ext":false,"dir":"core"},{"id":"Lax709149.Types","href":"../lax-709149/Lax709149.Types.html","title":"Types and their string representation","owner":"lax-709149","status":"none","ext":false,"dir":"core"},{"id":"Lax765601.CompositionClosure","href":"../lax-765601/Lax765601.CompositionClosure.html","title":"Closure of a family of functions under composition","owner":"lax-765601","status":"none","ext":true,"dir":"up"},{"id":"Lax765601.MapLifting","href":"../lax-765601/Lax765601.MapLifting.html","title":"Map lifting","owner":"lax-765601","status":"none","ext":true,"dir":"up"},{"id":"Lax916827.RegularFunctions","href":"../lax-916827/Lax916827.RegularFunctions.html","title":"Regular functions","owner":"lax-916827","status":"none","ext":true,"dir":"up"}],"edges":[{"from":"Lax132576.RationalRelations","to":"Lax132576.RationalFunctions"},{"from":"Lax132576.LabelledAutomata","to":"Lax132576.RationalRelations"},{"from":"Lax709149.RegularTerms","to":"Lax709149.RegularOfTerm"},{"from":"Lax709149.RegularUnderRepresentation","to":"Lax709149.RegularOfTerm"},{"from":"Lax709149.Types","to":"Lax709149.RegularTerms"},{"from":"Lax132576.RationalFunctions","to":"Lax709149.RegularUnderRepresentation"},{"from":"Lax709149.Types","to":"Lax709149.RegularUnderRepresentation"},{"from":"Lax916827.RegularFunctions","to":"Lax709149.RegularUnderRepresentation"},{"from":"Lax132576.RationalFunctions","to":"Lax916827.RegularFunctions"},{"from":"Lax765601.CompositionClosure","to":"Lax916827.RegularFunctions"},{"from":"Lax765601.MapLifting","to":"Lax916827.RegularFunctions"}],"home":"lax-709149"},"proofs":{"statements":[{"id":"Lax709149.RegularOfTerm.isRegularUnderRepr_of_isRegularTermFun","label":"Lax709149.RegularOfTerm","title":"Regular terms define regular functions","tooltipHtml":"Regular terms define regular functions","owner":"lax-709149","concept":"Lax709149.RegularOfTerm","index":1,"count":1,"href":"../lax-709149/Lax709149.RegularOfTerm.html#s-Lax709149.RegularOfTerm.isRegularUnderRepr_of_isRegularTermFun","proven":true,"ext":false}],"proofs":[{"id":"Lax709149Proofs.Results.isRegularUnderRepr_of_isRegularTermFun","assumptions":[],"conclusion":"Lax709149.RegularOfTerm.isRegularUnderRepr_of_isRegularTermFun","description":"Every function defined by a regular term is regular under string representation\n(Theorem C.5.4, the implication from terms to regular functions): induction on\nthe term, every atomic term being computed on representations by a rational or\nregular function that parses the representation with a capped bracket counter,\nand the combinators preserving regularity under representation\n(`Transducers.regularTerm_isRegular`).","owner":"lax-709149","ext":false,"tooltipHtml":"Every function defined by a regular term is regular under string representation\n(Theorem C.5.4, the implication from terms to regular functions): induction on\nthe term, every atomic term being computed on representations by a rational or\nregular function that parses the representation with a capped bracket counter,\nand the combinators preserving regularity under representation\n(\u003cspan class=\"katex\">\u003cspan class=\"katex-mathml\">\u003cmath xmlns=\"http://www.w3.org/1998/Math/MathML\">\u003csemantics>\u003cmrow>\u003cmi>T\u003c/mi>\u003cmi>r\u003c/mi>\u003cmi>a\u003c/mi>\u003cmi>n\u003c/mi>\u003cmi>s\u003c/mi>\u003cmi>d\u003c/mi>\u003cmi>u\u003c/mi>\u003cmi>c\u003c/mi>\u003cmi>e\u003c/mi>\u003cmi>r\u003c/mi>\u003cmi>s\u003c/mi>\u003cmi mathvariant=\"normal\">.\u003c/mi>\u003cmi>r\u003c/mi>\u003cmi>e\u003c/mi>\u003cmi>g\u003c/mi>\u003cmi>u\u003c/mi>\u003cmi>l\u003c/mi>\u003cmi>a\u003c/mi>\u003cmi>r\u003c/mi>\u003cmi>T\u003c/mi>\u003cmi>e\u003c/mi>\u003cmi>r\u003c/mi>\u003cmsub>\u003cmi>m\u003c/mi>\u003cmi>i\u003c/mi>\u003c/msub>\u003cmi>s\u003c/mi>\u003cmi>R\u003c/mi>\u003cmi>e\u003c/mi>\u003cmi>g\u003c/mi>\u003cmi>u\u003c/mi>\u003cmi>l\u003c/mi>\u003cmi>a\u003c/mi>\u003cmi>r\u003c/mi>\u003c/mrow>\u003cannotation encoding=\"application/x-tex\">Transducers.regularTerm_isRegular\u003c/annotation>\u003c/semantics>\u003c/math>\u003c/span>\u003cspan class=\"katex-html\" aria-hidden=\"true\">\u003cspan class=\"katex-base\">\u003cspan class=\"katex-strut\" style=\"height:0.8889em;vertical-align:-0.1944em;\">\u003c/span>\u003cspan class=\"mord mathnormal\" style=\"margin-right:0.1389em;\">T\u003c/span>\u003cspan class=\"mord mathnormal\" style=\"margin-right:0.0278em;\">r\u003c/span>\u003cspan class=\"mord mathnormal\">an\u003c/span>\u003cspan class=\"mord mathnormal\">s\u003c/span>\u003cspan class=\"mord mathnormal\">d\u003c/span>\u003cspan class=\"mord mathnormal\">u\u003c/span>\u003cspan class=\"mord mathnormal\" style=\"margin-right:0.0278em;\">cer\u003c/span>\u003cspan class=\"mord mathnormal\">s\u003c/span>\u003cspan class=\"mord\">.\u003c/span>\u003cspan class=\"mord mathnormal\" style=\"margin-right:0.0278em;\">r\u003c/span>\u003cspan class=\"mord mathnormal\">e\u003c/span>\u003cspan class=\"mord mathnormal\" style=\"margin-right:0.0359em;\">g\u003c/span>\u003cspan class=\"mord mathnormal\">u\u003c/span>\u003cspan class=\"mord mathnormal\" style=\"margin-right:0.0197em;\">l\u003c/span>\u003cspan class=\"mord mathnormal\">a\u003c/span>\u003cspan class=\"mord mathnormal\" style=\"margin-right:0.0278em;\">r\u003c/span>\u003cspan class=\"mord mathnormal\" style=\"margin-right:0.1389em;\">T\u003c/span>\u003cspan class=\"mord mathnormal\" style=\"margin-right:0.0278em;\">er\u003c/span>\u003cspan class=\"mord\">\u003cspan class=\"mord mathnormal\">m\u003c/span>\u003cspan class=\"msupsub\">\u003cspan class=\"vlist-t vlist-t2\">\u003cspan class=\"vlist-r\">\u003cspan class=\"vlist\" style=\"height:0.3117em;\">\u003cspan style=\"top:-2.55em;margin-left:0em;margin-right:0.05em;\">\u003cspan class=\"pstrut\" style=\"height:2.7em;\">\u003c/span>\u003cspan class=\"katex-sizing reset-size6 size3 mtight\">\u003cspan class=\"mord mathnormal mtight\">i\u003c/span>\u003c/span>\u003c/span>\u003c/span>\u003cspan class=\"vlist-s\">​\u003c/span>\u003c/span>\u003cspan class=\"vlist-r\">\u003cspan class=\"vlist\" style=\"height:0.15em;\">\u003cspan>\u003c/span>\u003c/span>\u003c/span>\u003c/span>\u003c/span>\u003c/span>\u003cspan class=\"mord mathnormal\">s\u003c/span>\u003cspan class=\"mord mathnormal\" style=\"margin-right:0.0077em;\">R\u003c/span>\u003cspan class=\"mord mathnormal\">e\u003c/span>\u003cspan class=\"mord mathnormal\" style=\"margin-right:0.0359em;\">g\u003c/span>\u003cspan class=\"mord mathnormal\">u\u003c/span>\u003cspan class=\"mord mathnormal\" style=\"margin-right:0.0197em;\">l\u003c/span>\u003cspan class=\"mord mathnormal\">a\u003c/span>\u003cspan class=\"mord mathnormal\" style=\"margin-right:0.0278em;\">r\u003c/span>\u003c/span>\u003c/span>\u003c/span>).","href":"../lax-709149/Lax709149Proofs.Results.isRegularUnderRepr_of_isRegularTermFun.html","assumptionsProven":true,"outstanding":0}],"home":"lax-709149"},"submissions":{"nodes":[{"id":"lax-132576","href":"../lax-132576/index.html","title":"Transducers, Part B: Rational Functions","state":"draft","concepts":42,"proofs":29,"dir":"up","ext":true},{"id":"lax-157538","href":"../lax-157538/index.html","title":"Transducers","state":"draft","concepts":0,"proofs":0,"dir":"down","ext":true},{"id":"lax-251941","href":"../lax-251941/index.html","title":"Undecidability of the Post Correspondence Problem","state":"draft","concepts":9,"proofs":6,"dir":"up","ext":true},{"id":"lax-709149","href":"../lax-709149/index.html","title":"Transducers, Part C: Regular Functions in Terms of Combinators","state":"draft","concepts":4,"proofs":1,"dir":"core","ext":false},{"id":"lax-765601","href":"../lax-765601/index.html","title":"Transducers, Part A: Mealy Machines","state":"draft","concepts":22,"proofs":13,"dir":"up","ext":true},{"id":"lax-916827","href":"../lax-916827/index.html","title":"Transducers, Part C: Regular Functions, Two-Way Transducers and Streaming String Transducers","state":"draft","concepts":29,"proofs":23,"dir":"up","ext":true}],"edges":[{"from":"lax-251941","to":"lax-132576","kind":"proofs"},{"from":"lax-765601","to":"lax-132576","kind":"concepts"},{"from":"lax-132576","to":"lax-157538","kind":"concepts"},{"from":"lax-251941","to":"lax-157538","kind":"concepts"},{"from":"lax-709149","to":"lax-157538","kind":"concepts"},{"from":"lax-765601","to":"lax-157538","kind":"concepts"},{"from":"lax-916827","to":"lax-157538","kind":"concepts"},{"from":"lax-132576","to":"lax-709149","kind":"concepts"},{"from":"lax-765601","to":"lax-709149","kind":"proofs"},{"from":"lax-916827","to":"lax-709149","kind":"concepts"},{"from":"lax-132576","to":"lax-916827","kind":"concepts"},{"from":"lax-765601","to":"lax-916827","kind":"concepts"}]}}</script>
+</div>
+<footer class="site-footer">
+  <nav class="site-footer-nav" aria-label="Legal">
+    <a class="site-footer-link" href="../impressum.html">Imprint</a>
+    <a class="site-footer-link" href="../privacy.html">Privacy</a>
+  </nav>
+</footer>
+</section>
+</main>
+<dialog class="account-dialog" id="account-dialog" aria-labelledby="account-dialog-title">
+<div class="account-dialog-inner">
+<header class="account-dialog-header">
+<div><p class="account-dialog-eyebrow">ORCID account</p><h2 id="account-dialog-title">Settings</h2></div>
+<button class="account-dialog-close" data-account-close type="button" aria-label="Close account settings">×</button>
+</header>
+<div class="account-dialog-body">
+<p class="account-status" data-account-status role="status">Checking your ORCID session…</p>
+<section data-account-content hidden>
+<div class="account-identity">
+<span class="account-avatar" data-account-avatar aria-hidden="true">iD</span>
+<div><a class="account-name" data-account-name target="_blank" rel="noopener noreferrer"></a><p class="account-id" data-account-id></p></div>
+</div>
+<p class="account-name-note">Your public name comes from ORCID. ORCID names are self-asserted and may change.</p>
+<div class="account-actions">
+<a data-account-refresh href="https://comments.laxarchive.org/auth/orcid/login?from=https%3A%2F%2Flaxarchive.org&amp;site=remark">Refresh from ORCID</a>
+<button data-account-logout type="button">Sign out</button>
+</div>
+<div class="account-comments-heading"><h3>Your comments</h3><span data-account-comment-count></span></div>
+<ol class="account-comments" data-account-comments></ol>
+<p class="account-comments-status" data-account-comments-status role="status"></p>
+</section>
+</div>
+</div>
+</dialog>
+<script src="../assets/sidebar.js?v=e4e626f46671"></script>
+<script src="../assets/account.js?v=e3db2efa7b34"></script>
+<script src="../assets/layout.js?v=41e28199b546"></script>
+<script src="../assets/dag.js?v=ac501d9a56ee"></script>
+<script src="../assets/citation.js?v=dd5ce19082ad"></script>
+<script src="../assets/version-history.js?v=a36e868140dd"></script>
+<script src="../assets/comments.js?v=32f8665770fa"></script>
+</body></html>
