@@ -3706,11 +3706,11 @@ body.graph-window-open::after{
   text-rendering: geometricPrecision;
 }
 .prepared-graph .graph-dock-capsule{ stroke: var(--accent); stroke-width: 1.2; fill: var(--none-bg); }
-.prepared-graph .net-dock.proven rect{ fill: var(--proven-bg); }
-.prepared-graph .net-dock.open rect{ fill: var(--partial-bg); }
-.prepared-graph .net-dock.ext rect{ stroke: var(--none-border); }
-.prepared-graph .net-dock:focus-visible rect,
-.prepared-graph .net-dock:hover rect{ stroke: var(--link); stroke-width: 2.4; }
+.prepared-graph .net-dock.proven circle{ fill: var(--proven-bg); }
+.prepared-graph .net-dock.open circle{ fill: var(--partial-bg); }
+.prepared-graph .net-dock.ext circle{ stroke: var(--none-border); }
+.prepared-graph .net-dock:focus-visible circle,
+.prepared-graph .net-dock:hover circle{ stroke: var(--link); stroke-width: 2.4; }
 .graph-turnstile, .graph-port-rail{ fill: none; stroke: var(--text-dim); stroke-width: 1.3; }
 .graph-controls{
   display: flex; flex: 0 0 auto; flex-wrap: wrap; justify-content: flex-end; align-items: center;
