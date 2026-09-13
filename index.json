@@ -2416,6 +2416,40 @@
       ]
     },
     {
+      "id": "lax-345067",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Finite Ramsey Theorems for Pairs and Tuples",
+      "supersedes": "lax-14",
+      "concepts": [
+        {
+          "id": "Lax345067.MulticolorRamsey",
+          "title": "Ramsey's theorem for colourings of pairs",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax345067.OrderTypes",
+          "title": "Order type of a tuple",
+          "type": "definition"
+        },
+        {
+          "id": "Lax345067.Ramsey",
+          "title": "Ramsey's theorem",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax345067.TupleRamsey",
+          "title": "Ramsey's theorem for tuples",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax345067Proofs.MulticolorRamsey.exists_monochromatic_set",
+        "Lax345067Proofs.Ramsey.exists_clique_or_indepSet",
+        "Lax345067Proofs.TupleRamsey.exists_orderType_homogeneous"
+      ]
+    },
+    {
       "id": "lax-429075",
       "state": "draft",
       "environment": "v4.30.0",
