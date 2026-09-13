@@ -522,9 +522,9 @@ ${markdown.render(passage.text, "")}
 <div class="landing-paper-grid">
 <div class="landing-paper-hint" aria-hidden="true"><span class="landing-paper-hint-hover">Hover over a highlight to expand</span><span class="landing-paper-hint-touch">Tap a highlight to expand</span></div>
 <div class="landing-paper-doc">
-<div class="landing-paper-prose latex-content">${markdown.render(example.before, "")}</div>
+<div class="landing-paper-prose landing-paper-before latex-content">${markdown.render(example.before, "")}</div>
 ${passages.join("\n")}
-<div class="landing-paper-prose latex-content">${markdown.render(example.after, "")}</div>
+<div class="landing-paper-prose landing-paper-after latex-content">${markdown.render(example.after, "")}</div>
 </div>
 <ol class="manuscript-rail landing-paper-rail" aria-label="Cards">
 ${cards.join("\n")}

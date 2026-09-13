@@ -969,7 +969,7 @@ After the formula.`, "");
     expect(index).toContain('<div class="landing-carousel-slide landing-carousel-slide-off" role="tabpanel" id="landing-example-ramsey" aria-labelledby="landing-tab-ramsey" aria-hidden="true" inert data-card-box data-paper-excerpt>');
     // The primes example: definition, lemma, its proof, theorem, its proof
     // (which rests on the lemma); the first card open, not pinned.
-    expect(index).not.toMatch(/Lorem ipsum|Duis aute irure|landing-paper-before|landing-paper-after/);
+    expect(index).not.toMatch(/Lorem ipsum|Duis aute irure/);
     expect(index).toContain('<div class="landing-passage landing-passage-1 kind-concept" role="button" tabindex="0" aria-pressed="false" aria-controls="landing-primes-1" aria-label="Definition 1, prime numbers: show the concept card" data-excerpt-card="landing-primes-1" data-kind="concept">');
     expect(index).toContain("<strong>Definition 1.</strong> A natural number greater than 1 is <em>prime</em>");
     expect(index).toContain('<div class="landing-passage landing-passage-3 kind-proof" role="button" tabindex="0" aria-pressed="false" aria-controls="landing-primes-3" aria-label="Proof of Lemma A: show the proof card" data-excerpt-card="landing-primes-3" data-kind="proof">');
