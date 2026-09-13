@@ -88,6 +88,13 @@ All engines run the same nine cases:
    clips at the window rather than at the original SVG drawing bounds.
    Scrollbars are selected independently for each axis from the current zoom
    and window size, rather than the SVG's unchanged intrinsic dimensions.
+   Inline boxes include native horizontal-scrollbar height so a graph that
+   fits vertically does not acquire an unnecessary vertical scrollbar. The
+   Chromium checks keep native scrollbars enabled to cover this case.
+   Inline proof networks are capped at 480px; expanded windows use their full
+   available height.
+   Inspector text keeps its own fixed size while graph zoom changes; inspector
+   positions snap to device pixels to avoid shifting text rasterization.
 5. Delayed font requests do not change reserved graph dimensions or geometry.
    Once fonts load, independently read SVG text bounds fit their containing
    node bodies and numbered docks. The visible labels remain 12px in the

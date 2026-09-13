@@ -1740,11 +1740,6 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
   transition: scrollbar-color 220ms ease;
 }
 
-/* The box fits a screen with its caption and legend: on a desktop the
-   graph is scaled down to this height (landing.js) and scrolls sideways;
-   on a phone it is as tall as the graph. */
-.landing-network-figure:not(.graph-expanded) .landing-network-viewport > .figure-container{ max-height: 30rem; }
-
 .landing-network-figure:hover .landing-network-viewport > .figure-container,
 .landing-network-figure:focus-within .landing-network-viewport > .figure-container,
 .graph-expanded .landing-network-viewport > .figure-container{ scrollbar-color: var(--border) transparent; }
@@ -3687,9 +3682,16 @@ body.graph-window-open::after{
 
 .figure-container{
   height: 320px;
+  max-height: 720px;
   background: var(--surface);
   overflow: auto;
 }
+
+/* Natural inline height includes a horizontal scrollbar when needed, so it
+   cannot steal space from the graph and force a second, vertical scrollbar. */
+.graph-figure:not(.graph-expanded) .figure-container:has(> .prepared-graph){ height: auto !important; min-height: 48px; }
+.graph-figure.proof-network-figure:not(.graph-expanded) .figure-container[data-graph="proofs"]{ max-height: 480px; }
+.graph-expanded .figure-container{ max-height: none; }
 
 .figure-container svg{ display: block; max-width: none; margin: 0 auto; }
 /* Clip at the graph window, not the SVG's original drawing bounds: panning
@@ -4090,8 +4092,6 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
   /* The arrows keep their place from the 900px rule: outer edge on the
      screen's edge, and at this size clear of the text inside the frame. */
   .landing-carousel-arrow{ width: 2rem; height: 2rem; font-size: 1.5rem; }
-  /* The page scrolls through the network; the graph only sideways. */
-  .landing-network-figure:not(.graph-expanded) .landing-network-viewport > .figure-container{ height: auto !important; max-height: none; overflow-y: hidden; }
   .landing-columns{ grid-template-columns: 1fr; gap: 1.4rem; }
   .landing-foundation{ width: 100%; }
   .landing-hero-button{ width: 100%; }

@@ -130,7 +130,7 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       selfContained: true, alternateInlineLimit: 0, measurement: { hostBrowser: false } } });
     browser = await runtimeBrowser.launch({ headless: true,
       executablePath: process.env.GRAPH_BROWSER_EXECUTABLE ?? (browserName === "chromium" ? executable : undefined),
-      ...(browserName === "chromium" ? { args: ["--no-sandbox", "--font-render-hinting=none"] } : {}) });
+      ...(browserName === "chromium" ? { args: ["--no-sandbox", "--font-render-hinting=none"], ignoreDefaultArgs: ["--hide-scrollbars"] } : {}) });
     expect(browser.version()).toBe(runtimeVersion);
     server = http.createServer((request, response) => {
       serverRequests.push(origin + request.url);
@@ -403,6 +403,28 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
     });
   }, 30_000);
 
+  it("gives inline graphs only the scrollbars they need, including native scrollbar space", async () => {
+    await visit(url("Lax701/index.html"), async (page) => {
+      const container = page.locator("#submission-dag");
+      const dimensions = () => container.evaluate((el) => ({
+        x: getComputedStyle(el).overflowX, y: getComputedStyle(el).overflowY,
+        width: el.clientWidth, height: el.clientHeight, scrollWidth: el.scrollWidth, scrollHeight: el.scrollHeight,
+        horizontalBar: (el as HTMLElement).offsetHeight - el.clientHeight,
+      }));
+      expect(await dimensions()).toMatchObject({ x: "hidden", y: "hidden" });
+      const drawingWidth = await container.locator("svg").evaluate((el) => el.getBoundingClientRect().width);
+      await page.setViewportSize({ width: Math.floor(drawingWidth), height: 850 }); await animationFrame(page);
+      const narrow = await dimensions();
+      expect(narrow.scrollWidth).toBeGreaterThan(narrow.width);
+      expect(narrow.x).toBe("auto");
+      expect(narrow.y).toBe("hidden");
+      expect(narrow.scrollHeight).toBeLessThanOrEqual(narrow.height + 1);
+      if (browserName === "chromium") expect(narrow.horizontalBar).toBeGreaterThan(0);
+      await page.setViewportSize({ width: 1920, height: 1200 }); await animationFrame(page);
+      expect(await dimensions()).toMatchObject({ x: "hidden", y: "hidden" });
+    });
+  }, 30_000);
+
   it("centers readable expanded graphs, caps enlargement, and preserves manual zoom until reset", async () => {
     await visit(url("Lax701/index.html"), async (page) => {
       await openConcepts(page);
@@ -505,6 +527,22 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       expect(await tooltip.isVisible()).toBe(true);
       expect(await page.locator('.prepared-graph title, .prepared-graph [title]').count()).toBe(0);
       expect(await tooltip.evaluate((element) => getComputedStyle(element).backgroundColor)).toBe("rgb(255, 255, 255)");
+      const appearance = () => tooltip.evaluate((element) => {
+        const box = element.getBoundingClientRect(), style = getComputedStyle(element), pixels = window.devicePixelRatio;
+        return { size: style.fontSize, width: box.width, height: box.height,
+          x: box.left * pixels, y: box.top * pixels };
+      });
+      const originalPanel = await appearance();
+      await node.focus();
+      for (const key of ["-", "+"]) {
+        await page.keyboard.press(key); await animationFrame(page);
+        const panel = await appearance();
+        expect(panel.size).toBe(originalPanel.size);
+        expect(panel.width).toBeCloseTo(originalPanel.width, 1);
+        expect(panel.height).toBeCloseTo(originalPanel.height, 1);
+        expect(Math.abs(panel.x - Math.round(panel.x))).toBeLessThan(0.02);
+        expect(Math.abs(panel.y - Math.round(panel.y))).toBeLessThan(0.02);
+      }
       await expectNoPublicLayout(page, audit);
       await expectLabelContainment(page);
     });
