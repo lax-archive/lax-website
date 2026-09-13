@@ -188,3 +188,31 @@ limitations without introducing either library into production.
 
 No performance or visual acceptance target is claimed by this document.
 Measured run reports and browser evidence own those conclusions.
+
+## Browser timing and equal-scale screenshots
+
+After a complete geometry run, capture the declared interaction tier:
+
+```sh
+GRAPH_CHROME=/path/to/pinned/chrome node scripts/graph-browser-benchmark.mjs \
+  --benchmark /tmp/lax-graph-evidence/final-quality-docks \
+  --before /tmp/lax-graph-evidence/before \
+  --out /tmp/lax-graph-evidence/final-browser --interaction-tier
+```
+
+The tier includes every proof network, every synthetic fixture, and the largest
+SVG by element count of each graph kind, selected before measuring performance.
+The report states both the prepared corpus size and captured subset. Complete
+per-view SVGs, inputs, geometry and regressions remain in the full geometry
+report. Omitting `--interaction-tier` captures every valid view; interaction
+timing still uses the declared tier. `--screenshots-only` omits timing.
+
+Before/after screenshots use the same 100% scale, font stack, and 720px graph
+viewport. Narrow screenshots use 390×844 with four-times CPU throttling; this
+is an explicitly simulated condition, not physical mobile hardware. The report
+records handler times, double-animation-frame next-paint proxies, pan/zoom frame
+intervals, layout shifts, resource requests and the gzip size of the public
+interaction script. Run timing separately from builds and other benchmarks.
+The [implementation report](report.md) records the final measurements and
+limitations; the [browser integration tests](browser.md) cover the other view
+states and JavaScript-disabled output.

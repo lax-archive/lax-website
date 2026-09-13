@@ -84,6 +84,10 @@ try {
     }).observe({ type: 'layout-shift', buffered: true });
   });
   page.on('pageerror', (error) => errors.push({ id: current?.row.id, variant: current?.variant, message: error.message }));
+  page.on('request', (request) => {
+    if (request.isNavigationRequest() && new URL(request.url()).pathname !== '/fixture.html')
+      errors.push({ id: current?.row.id, variant: current?.variant, message: 'Unexpected navigation during the browser trial', url: request.url() });
+  });
   for (const row of selected) {
     const result = { id: row.id, kind: row.kind, cohort: row.cohort, split: row.split, svgElements: row.after.svgElements, screens: [] };
     for (const variant of ['before', 'after']) {
@@ -127,6 +131,9 @@ try {
           if (previous !== undefined) frames.push(now - previous); previous = now;
         }
         document.querySelector('[data-graph-zoom="reset"]').click();
+        // Reset paints in rAF. The next trial must choose its background
+        // point from the reset camera, before a subsequent pointer press.
+        await new Promise(requestAnimationFrame);
         return { nodes: all.length, visibleNodes: visible.length, handlers, nextPaint, frames,
           cameraOnly: svg === document.querySelector('.prepared-graph') && camera === svg.querySelector('[data-graph-camera]') };
       });
@@ -158,7 +165,10 @@ try {
           return { frames, active: svg.classList.contains('graph-dragging') };
         }, point);
         await page.mouse.up();
-        await page.locator('[data-graph-zoom="reset"]').click();
+        await page.evaluate(async () => {
+          document.querySelector('[data-graph-zoom="reset"]').click();
+          await new Promise(requestAnimationFrame);
+        });
         return result;
       };
       // All diagrams get screenshots; the complete declared tier (largest
@@ -210,4 +220,8 @@ try {
   fs.writeFileSync(path.join(out, 'report.json'), JSON.stringify(report, null, 2) + '\n');
   fs.writeFileSync(path.join(out, 'index.html'), `<!doctype html><meta charset="utf-8"><title>Graph comparison gallery</title><style>body{font-family:serif;max-width:1300px;margin:auto}img{max-width:100%;height:auto}summary{cursor:pointer}figure{margin:0}button{font:inherit}</style><h1>Equal-scale graph comparisons</h1><p>100% zoom; 12px body labels; 1280×900 viewport. Old dock numerals retain their original 7.5px monospace style; new measured numerals use 12px regular text. Complete before/after SVGs and per-graph geometry metrics accompany this gallery. The viewport is centered at the top of each graph.</p><p><a href="report.json">Measured browser report</a></p>${results.map((r) => `<details><summary>${escape(r.kind)} ${escape(r.split)} ${escape(r.id)}</summary>${r.screens.map((file) => `<figure><figcaption>${file.endsWith('-before.png') ? 'Before' : file.endsWith('-narrow.png') ? 'After, narrow viewport' : 'After'}</figcaption><img loading="lazy" src="${file}" width="${file.endsWith('-narrow.png') ? '390' : '1280'}" height="${file.endsWith('-narrow.png') ? '844' : '900'}"></figure>`).join('')}</details>`).join('')}`);
   console.log(JSON.stringify(report, null, 2));
+} catch (error) {
+  fs.writeFileSync(path.join(out, 'failure.json'), JSON.stringify({ id: current?.row.id,
+    variant: current?.variant, errors, message: error.message }, null, 2) + '\n');
+  throw error;
 } finally { await browser.close(); }

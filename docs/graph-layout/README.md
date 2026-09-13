@@ -4,7 +4,8 @@ Implementation branch: `graph-drawing`, starting at
 `c7e3781cb5bc1b630b9c63f4d468bed3a344f48b`.
 The specification supplied on 12 September 2026 is the acceptance contract.
 This document records implementation decisions and evidence, not unmeasured
-quality claims. Nothing on this branch authorizes deployment.
+quality claims. Delivery is the `graph-drawing` branch preview, listed at
+[`laxarchive.org/previews/`](https://laxarchive.org/previews/).
 
 The public path is permission-filtered presentation data → measured semantic
 ports and nodes → bounded deterministic search → independent quantized geometry
@@ -111,8 +112,8 @@ No ordinary public page contains `laxLayout`, a browser layout library, a solver
 or the custom search engine. The exact legacy implementation from the base
 commit is retained only in `scripts/graph-legacy/` for development comparison.
 The rollout is a source change on `graph-drawing`; reverting the migration
-commits and rebuilding restores the previous renderer. The branch is not a
-deployment authorization.
+commits and rebuilding restores the previous renderer. The requested preview destination is
+[`previews/graph-drawing-19af3469/`](https://laxarchive.org/previews/graph-drawing-19af3469/).
 
 ## Reproduction and metrics
 
@@ -133,6 +134,9 @@ Performance targets are evaluated on a declared reference host and fixture
 tier. Per-graph regressions, cold/warm measurements, comparison limitations and
 browser timing distributions belong to the run report. A passing unit suite
 does not establish corpus quality or a universal resource bound.
+
+The [implementation report](report.md) records the frozen-corpus comparison,
+per-graph regressions, measured resources, browser evidence and final checks.
 
 ## Methods
 
