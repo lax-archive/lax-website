@@ -2027,6 +2027,99 @@
       "proofs": []
     },
     {
+      "id": "lax-199508",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Sparsity Lectures: Nowhere Denseness, Quasi-Wideness, and Generalized Coloring Numbers",
+      "supersedes": "lax-12",
+      "concepts": [
+        {
+          "id": "Lax199508.Admissibility",
+          "title": "Admissibility",
+          "type": "definition"
+        },
+        {
+          "id": "Lax199508.AdmissibilityBound",
+          "title": "Admissibility is bounded by topological shallow-minor density",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax199508.ColoringNumbers",
+          "title": "Generalized coloring numbers",
+          "type": "definition"
+        },
+        {
+          "id": "Lax199508.GraphClasses",
+          "title": "Graph classes",
+          "type": "definition"
+        },
+        {
+          "id": "Lax199508.NeighborhoodComplexity",
+          "title": "Neighborhood complexity",
+          "type": "definition"
+        },
+        {
+          "id": "Lax199508.NowhereDenseClasses",
+          "title": "Nowhere dense graph classes",
+          "type": "definition"
+        },
+        {
+          "id": "Lax199508.NowhereDenseDensity",
+          "title": "Nowhere dense classes have subpolynomial shallow-minor density",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax199508.NowhereDenseNC",
+          "title": "Nowhere dense classes have almost linear neighborhood complexity",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax199508.NowhereDenseUQW",
+          "title": "Nowhere dense classes are uniformly quasi-wide",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax199508.NowhereDenseWcol",
+          "title": "Nowhere dense classes have subpolynomial weak coloring numbers",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax199508.ShallowMinorDensity",
+          "title": "Edge density of shallow minors",
+          "type": "definition"
+        },
+        {
+          "id": "Lax199508.ShallowTopologicalMinors",
+          "title": "Shallow topological minors",
+          "type": "definition"
+        },
+        {
+          "id": "Lax199508.StrongColoringBound",
+          "title": "Strong coloring numbers are bounded by admissibility",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax199508.UniformQuasiWideness",
+          "title": "Uniform quasi-wideness",
+          "type": "definition"
+        },
+        {
+          "id": "Lax199508.WeakColoringBound",
+          "title": "Weak coloring numbers are bounded by strong coloring numbers",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax199508Proofs.AdmissibilityBound.adm_le_of_hasTopologicalDensityAtMost",
+        "Lax199508Proofs.NowhereDenseDensity.hasSubpolynomialDensity_of_nowhereDense",
+        "Lax199508Proofs.NowhereDenseNC.hasAlmostLinearNC_of_nowhereDense",
+        "Lax199508Proofs.NowhereDenseUQW.uniformlyQuasiWide_of_nowhereDense",
+        "Lax199508Proofs.NowhereDenseWcol.hasSubpolynomialWcol_of_nowhereDense",
+        "Lax199508Proofs.StrongColoringBound.scol_le_of_adm",
+        "Lax199508Proofs.WeakColoringBound.wcol_le_of_scol"
+      ]
+    },
+    {
       "id": "lax-214022",
       "state": "draft",
       "environment": "v4.30.0",
