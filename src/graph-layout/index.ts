@@ -1,5 +1,5 @@
 import { indexedGraph, stronglyConnectedComponents, weakComponents } from "./components.js";
-import { quantizeGeometry } from "./geometry.js";
+import { quantize, quantizeGeometry } from "./geometry.js";
 import { layoutGroups } from "./groups.js";
 import { canonicalJson, compareText, deepFreeze, normalizeGraph } from "./normalize.js";
 import { emptyStatistics, layoutDag, type CandidateReport, type LayoutOptions, type LayoutResult, type LayoutStatistics } from "./portfolio.js";
@@ -66,8 +66,14 @@ export function layoutGraph(input: MeasuredGraph, options: LayoutOptions): Layou
     placed.push(translateGeometry(part, x - part.bounds.x, y - part.bounds.y));
     rowHeight = Math.max(rowHeight, part.bounds.height); width = Math.max(width, x + part.bounds.width); x += part.bounds.width + gap;
   }
+  // Whole-unit outer extents make a 100% SVG viewport match its viewBox
+  // exactly. Fractional CSS viewport rounding otherwise perturbs glyph
+  // metrics even though the published text coordinates have not changed.
+  // Only empty space at the right/bottom grows; all interior geometry keeps
+  // its 0.001-unit precision and every component's original translation.
   return quantizeGeometry({ schemaVersion: GEOMETRY_SCHEMA_VERSION, engineVersion: ENGINE_VERSION,
-    profileId: profile.id, inputDigest: options.inputDigest, bounds: { x: 0, y: 0, width, height: y + rowHeight },
+    profileId: profile.id, inputDigest: options.inputDigest,
+    bounds: { x: 0, y: 0, width: Math.ceil(quantize(width)), height: Math.ceil(quantize(y + rowHeight)) },
     nodes: placed.flatMap((p) => p.nodes).sort((a, b) => compareText(a.id, b.id)),
     ports: placed.flatMap((p) => p.ports).sort((a, b) => compareText(a.id, b.id)),
     edges: placed.flatMap((p) => p.edges).sort((a, b) => compareText(a.id, b.id)),

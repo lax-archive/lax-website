@@ -571,7 +571,7 @@ ${slides.join("\n")}
 </section>`;
 }
 
-/** A submission's proof network, drawn by dag.js from the same data the
+/** A submission's proof network, drawn by graph-interaction.js from the same data the
  * submission page embeds, with links from the site root. The container
  * is centred and faded at its sides by landing.js and the stylesheet. */
 function proofNetworkFigure(ctx: PageContext, submission: SiteSubmission, caption: string): string {
@@ -697,6 +697,6 @@ ${faq}
     content,
     detailClass: "detail-landing",
     landingHeader: true,
-    scripts: network ? ["assets/layout.js", "assets/dag.js", "assets/landing.js"] : ["assets/landing.js"],
+    scripts: network ? ["assets/graph-interaction.js", "assets/landing.js"] : ["assets/landing.js"],
   });
 }

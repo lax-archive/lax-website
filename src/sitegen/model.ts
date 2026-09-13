@@ -308,9 +308,11 @@ export class SiteModel {
         for (const imported of concept.imports)
           add(this.conceptHome.get(imported)?.output.id, "concepts");
       for (const pkg of output.requiredByConcepts) add(required(pkg), "concepts");
-      for (const proof of output.proofs)
-        for (const statement of [proof.conclusion, ...proof.assumptions])
-          add(this.statementHome.get(statement)?.output.id, "proofs");
+      for (const proof of output.proofs) {
+        add(this.statementHome.get(proof.conclusion)?.output.id, "proofs");
+        for (const assumption of proof.assumptions)
+          add((this.statementHome.get(assumption) ?? this.conceptHome.get(assumption))?.output.id, "proofs");
+      }
       for (const pkg of output.requiredByProofs) add(required(pkg), "proofs");
     }
     for (const [id, uses] of this.submissionUses)

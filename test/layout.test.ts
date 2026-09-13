@@ -17,7 +17,7 @@ type Layout = {
 
 const context: Record<string, unknown> = {};
 vm.createContext(context);
-vm.runInContext(fs.readFileSync("assets/site/layout.js", "utf8"), context);
+vm.runInContext(fs.readFileSync("scripts/graph-legacy/layout.js", "utf8"), context);
 const layoutDag = (context.laxLayout as { layoutDag(input: {
   nodes: Node[];
   edges: Edge[];

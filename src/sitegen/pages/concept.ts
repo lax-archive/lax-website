@@ -172,6 +172,6 @@ ${graphDataScript({
     sidebar: submissionSidebar(ctx.model, submission, "../", { activeId: concept.id }),
     sidebarState: "open",
     content,
-    scripts: ["assets/layout.js", "assets/dag.js", "assets/source-proof.js", "assets/version-history.js", "assets/comments.js"],
+    scripts: ["assets/graph-interaction.js", "assets/source-proof.js", "assets/version-history.js", "assets/comments.js"],
   });
 }

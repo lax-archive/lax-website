@@ -75,13 +75,12 @@ export function statementOrdinal(model: SiteModel, statementId: string): Stateme
   return { index, count, label: `${ordinal(index)} statement` };
 }
 
-/** A statement rendered as its home claim-concept: type badge with the proven
- * mark, linked to the concept page. A concept declaring several statements is
- * still one entry; only a *conclusion* names which of them is meant, by its
- * anonymous position — an assumption never says which statement was used, so
- * it carries the concept's aggregate status and the concept's own id.
- * Every statement a proof names must resolve — a missing home means a corrupt
- * or incomplete database, not something to render around. */
+/** A compact judgment entry linked to the home concept. This textual summary
+ * groups assumptions by concept and shows its aggregate status; conclusions
+ * show the statement ordinal. The proof graph separately preserves every
+ * precise statement incidence supplied by the input.
+ * A whole-concept assumption has no statement ordinal. Every named endpoint
+ * must resolve; conclusions must still identify an actual statement. */
 export function claimEntry(
   model: SiteModel,
   statementId: string,
@@ -89,11 +88,16 @@ export function claimEntry(
   pageHome?: string,
   opts: { role?: "conclusion" | "assumption" } = {},
 ): string {
-  const home = model.statementHome.get(statementId);
+  const statement = model.statementHome.get(statementId);
+  const home = statement ?? (opts.role === "assumption" ? model.conceptHome.get(statementId) : undefined);
   if (!home) throw new Error(`statement ${statementId} has no home concept in the archive`);
   const page = `${rootRel}${home.output.id}/${home.concept.id}.html`;
   const position = statementOrdinal(model, statementId);
   const label = code(shortId(home.concept.id, pageHome));
+  if (!statement) {
+    const proven = home.concept.statements.length ? home.concept.statements.every((s) => model.network.proven.has(s.id)) : undefined;
+    return `<span class="claim-entry">${typeBadge(home.concept.type, proven)}<a href="${attr(page)}" title="${attr(home.concept.id)}">${label}</a></span>`;
+  }
   if (!position) {
     const proven = model.network.proven.has(statementId);
     return `<span class="claim-entry">${typeBadge(home.concept.type, proven)}<a href="${attr(page)}" title="${attr(statementId)}">${label}</a></span>`;
@@ -114,7 +118,7 @@ export function claimEntry(
 export function proofJudgment(model: SiteModel, proof: ProofEntry, rootRel: string, pageHome?: string): string {
   const seen = new Set<string>();
   const assumed = proof.assumptions.filter((id) => {
-    const home = model.statementHome.get(id);
+    const home = model.statementHome.get(id) ?? model.conceptHome.get(id);
     if (!home || home.concept.statements.length < 2) return true;
     if (seen.has(home.concept.id)) return false;
     seen.add(home.concept.id);
@@ -211,15 +215,15 @@ function proofNetworkHasCycle(data: ProofNetworkLegendData): boolean {
   return [...statementIds].some(visit);
 }
 
-/** The floating tooltip that dag.js positions inside a graph figure. */
+/** Floating inspector positioned by the graph interaction script. */
 export function graphTooltip(): string {
   return `<div class="graph-tooltip" role="tooltip" hidden></div>`;
 }
 
-/** Top-right control that lets dag.js present a graph as a large modal-like
+/** Top-right controls that present a graph as a large modal-like
  * window without duplicating its SVG or weakening the page CSP. */
 export function graphExpandButton(label: string): string {
-  return `<button class="graph-expand" type="button" data-graph-expand data-graph-label="${attr(label)}" aria-expanded="false" aria-label="${attr(`Open ${label} in a large window`)}" title="Open in large window"><svg class="graph-expand-open" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M2.5 6V2.5H6M10 2.5h3.5V6M13.5 10v3.5H10M6 13.5H2.5V10"/></svg><span class="graph-expand-close" aria-hidden="true">×</span></button>`;
+  return `<div class="graph-zoom-controls" aria-label="Graph zoom"><button type="button" data-graph-zoom="out" aria-label="Zoom out" disabled>−</button><output data-graph-zoom-status aria-label="Zoom">100%</output><button type="button" data-graph-zoom="in" aria-label="Zoom in" disabled>+</button><button type="button" data-graph-zoom="reset" disabled>Reset</button></div><button class="graph-expand" type="button" data-graph-expand data-graph-label="${attr(label)}" aria-expanded="false" aria-label="${attr(`Open ${label} in a large window`)}" title="Open in large window"><svg class="graph-expand-open" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M2.5 6V2.5H6M10 2.5h3.5V6M13.5 10v3.5H10M6 13.5H2.5V10"/></svg><span class="graph-expand-close" aria-hidden="true">×</span></button>`;
 }
 
 /** A figure's heading, in the text flow above the box like every other

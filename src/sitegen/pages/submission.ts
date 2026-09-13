@@ -205,7 +205,7 @@ ${graphDataScript(graphs)}`;
     sidebar,
     sidebarState: "open",
     content,
-    scripts: ["assets/layout.js", "assets/dag.js", ...(anonymous ? [] : ["assets/citation.js"]), "assets/version-history.js", "assets/comments.js"],
+    scripts: ["assets/graph-interaction.js", ...(anonymous ? [] : ["assets/citation.js"]), "assets/version-history.js", "assets/comments.js"],
   });
 }
 
@@ -224,7 +224,7 @@ function paperSection(ctx: PageContext, submission: SiteSubmission): string {
 ${mentions}`;
 }
 
-/** Graph data for dag.js, embedded as inert JSON (CSP-safe). Concept data
+/** Graph data for graph-interaction.js, embedded as inert JSON (CSP-safe). Concept data
  * contains the page's own concepts plus both closures behind the toggles;
  * proof data is the submission's upstream statement/proof closure;
  * submission data is the same dependency question one level up. */
@@ -232,7 +232,8 @@ function pageGraphData(ctx: PageContext, submission: SiteSubmission, related: Su
   const output = submission.output!;
   const own = new Set(output.concepts.map((c) => c.id));
   const concepts = conceptGraph(ctx.model, own);
-  // `home` lets dag.js shorten the page's own concept ids to bare names.
+  // Keep the page home in the permitted presentation payload; node labels
+  // are prepared from their titles before browser interaction runs.
   return {
     concepts: { ...concepts, home: output.id },
     proofs: proofNetworkData(ctx, submission, "../"),
@@ -287,14 +288,20 @@ export function proofNetworkData(ctx: PageContext, submission: SiteSubmission, r
   }
   // Every sibling statement of a displayed concept comes along, so the figure
   // can draw one dock per statement — each with its own status — even where no
-  // displayed proof touches it.
+  // displayed proof touches it. A whole-concept assumption stays one coarse
+  // incidence; bringing its statements along never expands that assumption.
   for (const id of [...statementIds])
-    for (const sibling of model.statementHome.get(id)?.concept.statements ?? [])
+    for (const sibling of (model.statementHome.get(id) ?? model.conceptHome.get(id))?.concept.statements ?? [])
       statementIds.add(sibling.id);
   const statementNodes = [...statementIds].sort().map((id) => {
-    const home = model.statementHome.get(id);
+    const statementHome = model.statementHome.get(id);
+    const home = statementHome ?? model.conceptHome.get(id);
+    const conceptEndpoint = !statementHome && home !== undefined;
     const siblings = home?.concept.statements ?? [];
     const index = siblings.findIndex((statement) => statement.id === id) + 1;
+    const proven = conceptEndpoint
+      ? siblings.length > 0 && siblings.every((statement) => model.network.proven.has(statement.id))
+      : model.network.proven.has(id);
     return {
       id,
       // A claim displays as its home concept. `index`/`count` place it inside
@@ -305,11 +312,12 @@ export function proofNetworkData(ctx: PageContext, submission: SiteSubmission, r
       tooltipHtml: ctx.markdown.renderAuthorTooltip(home?.concept.title ?? "", rootRel),
       owner: home?.output.id,
       concept: home?.concept.id,
+      ...(conceptEndpoint ? { endpointKind: "concept" as const, status: siblings.length ? proven ? "proven" as const : "open" as const : "none" as const } : {}),
       index: index || undefined,
       count: home ? siblings.length : undefined,
-      href: home ? `${rootRel}${home.output.id}/${home.concept.id}.html#s-${id}` : undefined,
-      proven: model.network.proven.has(id),
-      ext: !ownStatements.has(id),
+      href: home ? `${rootRel}${home.output.id}/${home.concept.id}.html${statementHome ? `#s-${id}` : ""}` : undefined,
+      proven,
+      ext: home ? home.output.id !== output.id : !ownStatements.has(id),
     };
   });
   const proofNodes = [...proofs.values()]

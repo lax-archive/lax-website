@@ -11,11 +11,13 @@ import { referenceSubmission } from "./lean-reference-fixture.js";
 
 // The real end-check: the fixture bundle rendered by the vendored viewer in
 // headless Chromium, over HTTP so the page's own CSP governs every fetch.
-// It needs a Playwright-provisioned Chromium and skips (loudly) without one
+// It uses the graph build's pinned Chrome or a Playwright-provisioned Chromium
+// and skips (loudly) without one
 // — plain `npm test` on a machine without browsers stays green.
 import { attachFixturePaper } from "./paper-web-archive.js";
 
 function chromiumExecutable(): string | undefined {
+  if (process.env.GRAPH_CHROME && fs.existsSync(process.env.GRAPH_CHROME)) return process.env.GRAPH_CHROME;
   const roots = [process.env.PLAYWRIGHT_BROWSERS_PATH, "/opt/pw-browsers"].filter((root): root is string => Boolean(root));
   for (const root of roots) {
     if (!fs.existsSync(root)) continue;

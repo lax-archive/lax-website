@@ -142,7 +142,7 @@ export function inertJsonScript(id: string, data: unknown): string {
   return `<script type="application/json" id="${id}">${JSON.stringify(data).replace(/</g, "\\u003c")}</script>`;
 }
 
-/** The graph payload consumed by assets/dag.js. */
+/** Permission-filtered graph input and prepared interaction data, inert under CSP. */
 export function graphDataScript(data: unknown): string {
   return inertJsonScript("graph-data", data);
 }

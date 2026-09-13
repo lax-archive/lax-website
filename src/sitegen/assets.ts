@@ -52,10 +52,28 @@ export function siteAssetVersion(relative: string): string {
   return createHash("sha256").update(fs.readFileSync(file)).digest("hex").slice(0, 12);
 }
 
-export function copyAssets(outDir: string): void {
+export function copyAssets(outDir: string, options: { localGraphs?: boolean } = {}): void {
   const target = path.join(outDir, "assets");
   fs.mkdirSync(target, { recursive: true });
-  fs.cpSync(SITE_ASSET_DIR, target, { recursive: true });
+  const developmentOnly = new Set(["layout.js", "dag.js", "graph-fonts.json"]);
+  const localOnly = new Set(["graph-measure-local.js", "graph-local.js"]);
+  fs.cpSync(SITE_ASSET_DIR, target, { recursive: true, filter: (source) => {
+    const relative = path.relative(SITE_ASSET_DIR, source);
+    return !developmentOnly.has(relative) && (options.localGraphs || !localOnly.has(relative));
+  } });
+  if (options.localGraphs) {
+    // Both source execution and the packed renderer resolve the same dist
+    // tree. Installing the package never downloads a browser or layout engine.
+    const dist = fileURLToPath(new URL("../../dist/", import.meta.url));
+    const coreTarget = path.join(target, "graph-local", "graph-layout");
+    fs.mkdirSync(coreTarget, { recursive: true });
+    for (const file of fs.readdirSync(path.join(dist, "graph-layout")).filter((name) => name.endsWith(".js")))
+      fs.copyFileSync(path.join(dist, "graph-layout", file), path.join(coreTarget, file));
+    const hostTarget = path.join(target, "graph-local", "sitegen");
+    fs.mkdirSync(hostTarget, { recursive: true });
+    for (const file of ["graph-local-worker.js", "graph-node-size.js", "graph-svg.js", "graph-escape.js"])
+      fs.copyFileSync(path.join(dist, "sitegen", file), path.join(hostTarget, file));
+  }
 
   for (const relative of Object.keys(PACKAGED_ASSETS)) {
     const destination = path.join(target, relative);
