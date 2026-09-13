@@ -65,7 +65,8 @@ function fixture(): SiteSubmission[] {
       proof("Lax702Proofs.Middle", "Lax702.Middle.s1", premises.map((c) => `${c.id}.s1`)),
       proof("Lax702Proofs.Main", "Lax702.Main.s1", ["Lax702.Middle.s1"],
         "The $x^2$ bound follows.\n\n$$\\sum_{i=1}^n i = n(n+1)/2.$$"),
-      proof("Lax702Proofs.Alternative", "Lax702.Main.s1", ["Lax702.Premise1.s1"], "A distinct alternative proof."),
+      proof("Lax702Proofs.Alternative", "Lax702.Main.s1", ["Lax702.Premise1.s1"],
+        "There are positive integers $K$ and $b$ such that every finite simple graph of treewidth at least\n\n$$K g^8 (\\log_2 g)^b$$\n\ncontains the $g \\times g$ square grid as a minor."),
     ]),
     submission("Lax703", [concept("Lax703.Application", "A downstream application", ["Lax702.Main", "Lax701.Base"])], [
       proof("Lax703Proofs.Application", "Lax703.Application.s1", ["Lax702.Main.s1"]),
@@ -598,6 +599,43 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       }
       await expectNoPublicLayout(page, audit);
       await expectLabelContainment(page);
+    });
+  }, 30_000);
+
+  it("keeps display-math inspectors beside the node when the formula fits a narrow page margin", async () => {
+    await visit(url(), async (page) => {
+      await page.setViewportSize({ width: 1440, height: 1200 });
+      // Reproduce the landing page's wide figure and 177px usable margins;
+      // submission pages otherwise have a much wider sidebar on the left.
+      await page.locator('.proof-network-figure').evaluate((element) => {
+        const figure = element as HTMLElement, left = figure.getBoundingClientRect().left;
+        figure.style.position = 'relative'; figure.style.left = `${193 - left}px`;
+        figure.style.width = `${window.innerWidth - 386}px`; figure.style.maxWidth = 'none';
+      });
+      await animationFrame(page);
+      const node = page.locator('#proof-network [data-node-id="p:Lax702Proofs.Alternative"]');
+      await node.scrollIntoViewIfNeeded();
+      await node.evaluate((element) => {
+        const box = element.getBoundingClientRect();
+        window.scrollBy(0, box.top + box.height / 2 - window.innerHeight / 2);
+      });
+      await node.hover(); await animationFrame(page);
+      const tooltip = page.locator('.proof-network-figure .graph-tooltip');
+      const position = await tooltip.evaluate((element) => {
+        const tip = element.getBoundingClientRect(), figure = element.closest('.graph-figure')!.getBoundingClientRect();
+        const math = element.querySelector('.katex-display .katex-html')!;
+        const contents = document.createRange(); contents.selectNodeContents(math);
+        return { placement: (element as HTMLElement).dataset.placement, centerY: (tip.top + tip.bottom) / 2,
+          outside: tip.right <= figure.left || tip.left >= figure.right,
+          formulaFits: contents.getBoundingClientRect().width <= math.getBoundingClientRect().width,
+          width: tip.width };
+      });
+      expect(["left", "right"]).toContain(position.placement);
+      expect(position.outside).toBe(true);
+      expect(position.formulaFits).toBe(true);
+      expect(position.width).toBeLessThan(390);
+      const anchor = (await node.boundingBox())!;
+      expect(Math.abs(position.centerY - anchor.y - anchor.height / 2)).toBeLessThanOrEqual(1);
     });
   }, 30_000);
 
