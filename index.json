@@ -3250,6 +3250,50 @@
       "proofs": []
     },
     {
+      "id": "lax-888664",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Polynomial Time and Closure under Complement",
+      "concepts": [
+        {
+          "id": "Lax888664.ComplementClosure",
+          "title": "P is closed under complement",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax888664.FiniteStackEquivalence",
+          "title": "Finite stack alphabets suffice",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax888664.MachineModels",
+          "title": "Finite-stack and elementary single-tape definitions of P",
+          "type": "definition"
+        },
+        {
+          "id": "Lax888664.ModelEquivalence",
+          "title": "Single-tape characterization of P",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax888664.PolynomialTime",
+          "title": "The complexity class P",
+          "type": "definition"
+        },
+        {
+          "id": "Lax888664.SingleTapeComplement",
+          "title": "Single-tape P is closed under complement",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax888664Proofs.closed_under_complement",
+        "Lax888664Proofs.ModelEquivalence.finiteStackP_eq_P",
+        "Lax888664Proofs.ModelEquivalence.singleTape_closed_under_complement",
+        "Lax888664Proofs.ModelEquivalence.singleTapeP_eq_P"
+      ]
+    },
+    {
       "id": "lax-916827",
       "state": "draft",
       "environment": "v4.30.0",
