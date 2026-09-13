@@ -150,9 +150,7 @@ describe("archive environments on the site", () => {
     expect(html).toContain('data-tag-filter="v4.30.0"');
     expect(html).toContain("<span>v4.30.0 · epoch</span>");
     expect(html).toContain('data-tag-filter="v4.33.0"');
-    expect(html).toContain('aria-labelledby="environment-filter-heading"');
-    expect(html).toContain('<h5 id="environment-filter-heading">Environment</h5>');
-    expect(html).toContain('<h5 id="topic-filter-heading">Topics</h5>');
+    expect(html).toContain("Environments first, then topics");
 
     // one environment, no chips: the only chip there could be names the only
     // thing there is

@@ -197,10 +197,8 @@ Three surfaces follow from it:
   warning mark, because the record is neither wrong nor at risk. Records in
   the epoch get an `epoch` label beside the masthead's `Lean` pin instead.
 - **The environment facet**, `data-env` on every listing row and the
-  environment folded into the row's `data-tags`. Environment chips have their
-  own labeled row above the inferred topics; the existing filter links still
-  work. Topics initially show two rows, with a “More topics” control.
-  Environment chips appear only
+  environment folded into the row's `data-tags`, so environments are chips in
+  the existing topic strip rather than a second control. The chips appear only
   once the archive holds work in more than one environment. Listings put the
   epoch's submissions first and the other environments newest first, inside
   the existing registered/work-in-progress groups.

@@ -399,7 +399,7 @@ describe("site generator", () => {
     const root = tmpDir("lax-site-tags-");
     await generateSite(archive, root);
     const html = fs.readFileSync(path.join(root, "index.html"), "utf8");
-    expect(html).toContain('<h4 id="tag-browser-heading">Filter submissions</h4>');
+    expect(html).toContain('<h4 id="tag-browser-heading">Browse by topic</h4>');
     expect(html).toContain("Suggested from submission and concept titles.");
     expect(html).toContain('data-tag-filter="" aria-pressed="true"');
     expect(html).toContain('id="tag-results-status" aria-live="polite"');
