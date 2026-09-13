@@ -224,7 +224,12 @@ export function graphTooltip(): string {
  * window without duplicating its SVG or weakening the page CSP. */
 export function graphExpandButton(label: string, ancestry = false): string {
   const ancestryControls = ancestry ? `<div class="graph-ancestry-controls"><button type="button" id="concept-expand" aria-controls="concept-dag" aria-pressed="true">Hide ancestors</button><button type="button" id="concept-descend" aria-controls="concept-dag" aria-pressed="false">Show descendants</button><output id="concept-graph-status" aria-live="polite"></output></div>` : "";
-  return `<div class="graph-controls">${ancestryControls}<div class="graph-zoom-controls" aria-label="Graph zoom"><button type="button" data-graph-zoom="out" aria-label="Zoom out" disabled>−</button><output data-graph-zoom-status aria-label="Zoom">100%</output><button type="button" data-graph-zoom="in" aria-label="Zoom in" disabled>+</button><button type="button" data-graph-zoom="reset" disabled>Reset</button></div><button class="graph-expand" type="button" data-graph-expand data-graph-label="${attr(label)}" aria-expanded="false" aria-label="${attr(`Open ${label} in a large window`)}"><svg class="graph-expand-open" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M2.5 6V2.5H6M10 2.5h3.5V6M13.5 10v3.5H10M6 13.5H2.5V10"/></svg><span class="graph-expand-close" aria-hidden="true">×</span></button></div>`;
+  return `<div class="graph-controls">${ancestryControls}<div class="graph-zoom-controls" aria-label="Graph zoom"><button type="button" data-graph-zoom="out" aria-label="Zoom out" disabled>−</button><output data-graph-zoom-status aria-label="Zoom">100%</output><button type="button" data-graph-zoom="in" aria-label="Zoom in" disabled>+</button><button type="button" data-graph-zoom="reset" disabled>Reset</button></div>${graphWindowButton(label)}</div>`;
+}
+
+/** Expand control for an existing caption or toolbar. */
+export function graphWindowButton(label: string): string {
+  return `<button class="graph-expand" type="button" data-graph-expand data-graph-label="${attr(label)}" aria-expanded="false" aria-label="${attr(`Open ${label} in a large window`)}"><svg class="graph-expand-open" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M2.5 6V2.5H6M10 2.5h3.5V6M13.5 10v3.5H10M6 13.5H2.5V10"/></svg><span class="graph-expand-close" aria-hidden="true">×</span></button>`;
 }
 
 /** A figure's heading, in the text flow above the box like every other

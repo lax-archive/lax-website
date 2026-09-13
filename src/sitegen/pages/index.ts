@@ -8,7 +8,7 @@ import type { PaperMark, StatementEntry } from "../../types.js";
 import {
   anonymityPlaceholder,
   currentSubmissions,
-  graphExpandButton,
+  graphWindowButton,
   graphTooltip,
   indexSidebar,
   INTRO_SUBMISSION_ID,
@@ -579,9 +579,9 @@ function proofNetworkFigure(ctx: PageContext, submission: SiteSubmission, captio
   const id = submission.record.id;
   return `<figure class="landing-box graph-figure proof-network-figure landing-network-figure" aria-label="${attr(`The proof network of ${id}`)}">
 <div class="landing-box-caption latex-content">
-${ctx.markdown.render(caption, "")}
+<div class="landing-network-caption">${ctx.markdown.render(caption, "")}</div>
+${graphWindowButton("proof network")}
 </div>
-${graphExpandButton("proof network")}
 <div class="landing-network-viewport">
 <div id="proof-network" class="figure-container" data-graph="proofs"></div>
 </div>
