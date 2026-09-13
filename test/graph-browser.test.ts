@@ -425,6 +425,47 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
     });
   }, 30_000);
 
+  it("keeps vertically fitting graphs clear of both banners during dragging, zoom and resize", async () => {
+    await visit(url("Lax701/index.html"), async (page) => {
+      await openConcepts(page);
+      for (const id of ["concept-dag", "submission-dag", "proof-network"]) {
+        const container = page.locator(`#${id}`), figure = container.locator("xpath=..");
+        const original = await fingerprint(page, id);
+        const contained = async () => {
+          const result = await container.evaluate((el) => {
+            const box = el.getBoundingClientRect(), top = box.top + el.clientTop, bottom = top + el.clientHeight;
+            return { overflow: getComputedStyle(el).overflowY, scroll: el.scrollTop,
+              inside: [...el.querySelectorAll('[data-node-id]')].every((node) => {
+                const rect = node.getBoundingClientRect();
+                return rect.top >= top - 1 && rect.bottom <= bottom + 1;
+              }) };
+          });
+          expect(result).toEqual({ overflow: "hidden", scroll: 0, inside: true });
+        };
+        for (const expanded of [false, true]) {
+          if (expanded) await figure.locator('[data-graph-expand]').click();
+          for (let i = 0; i < 4; i++) await figure.locator('[data-graph-zoom="out"]').click();
+          await container.scrollIntoViewIfNeeded(); await animationFrame(page);
+          await contained();
+          for (const dy of [-1500, 1500]) {
+            const plot = (await container.boundingBox())!, svg = (await container.locator('svg').boundingBox())!;
+            const x = Math.max(plot.x, svg.x) + 2, y = Math.max(plot.y, svg.y) + 2;
+            await page.mouse.move(x, y); await page.mouse.down();
+            await page.mouse.move(x, y + dy, { steps: 4 }); await page.mouse.up();
+            await animationFrame(page); await contained();
+          }
+          // Native focus/scroll offsets must not conceal an otherwise fitting drawing.
+          await container.evaluate((el) => { el.scrollTop = 100; });
+          await animationFrame(page); await contained();
+          await page.setViewportSize({ width: 1600, height: 900 }); await animationFrame(page);
+          await contained();
+          if (expanded) { await page.keyboard.press('Escape'); await animationFrame(page); }
+        }
+        expect(await fingerprint(page, id)).toEqual(original);
+      }
+    });
+  }, 30_000);
+
   it("centers readable expanded graphs, caps enlargement, and preserves manual zoom until reset", async () => {
     await visit(url("Lax701/index.html"), async (page) => {
       await openConcepts(page);

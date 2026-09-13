@@ -214,11 +214,29 @@
     };
     let frame;
     let paintedScale;
+    const constrainVertical = () => {
+      if (!container.clientHeight || getComputedStyle(container).overflowY !== 'hidden') return;
+      // Hidden overflow can retain a native scroll offset after zoom/focus.
+      // When the drawing fits, its full published bounds (including margins)
+      // must remain between the controls and legend, even while dragging.
+      container.scrollTop = 0;
+      const matrix = svg.getScreenCTM();
+      if (!matrix || matrix.d <= 0) return;
+      const bounds = svg.viewBox.baseVal, camera = controller.camera;
+      const height = bounds.height * camera.scale;
+      const available = container.clientHeight / matrix.d;
+      if (height > available + 1 / matrix.d) return;
+      const top = (container.getBoundingClientRect().top + container.clientTop - matrix.f) / matrix.d;
+      const minimum = top - bounds.y * camera.scale;
+      const maximum = minimum + Math.max(0, available - height);
+      camera.y = Math.max(minimum, Math.min(maximum, camera.y));
+    };
     const paint = () => {
       frame = null;
+      if (controller.camera.scale !== paintedScale) { controller.fitScrollbars(); paintedScale = controller.camera.scale; }
+      constrainVertical();
       const { x, y, scale } = controller.camera;
       cameraGroup.setAttribute('transform', `translate(${x},${y}) scale(${scale})`);
-      if (scale !== paintedScale) { controller.fitScrollbars(); paintedScale = scale; }
       const output = container.closest('.graph-figure').querySelector('[data-graph-zoom-status]');
       if (output) output.value = `${Math.round(scale * 100)}%`;
       refreshGraphTooltip();
@@ -414,8 +432,11 @@
     bindView(container, controller, data.views[data.initial].interaction);
     new ResizeObserver(() => {
       if (controller.autoFrame && figure.classList.contains('graph-expanded')) controller.frameExpanded();
-      else controller.fitScrollbars();
+      else { controller.fitScrollbars(); controller.paint(); }
     }).observe(container);
+    container.addEventListener('scroll', () => {
+      if (container.scrollTop && getComputedStyle(container).overflowY === 'hidden') controller.paint();
+    }, { passive: true });
     updateControls(container, controller);
     for (const button of figure.querySelectorAll('[data-graph-zoom]')) {
       button.disabled = false;
