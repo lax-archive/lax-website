@@ -1842,6 +1842,7 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
 .landing-carousel-slide-off{ position: absolute; top: 0; left: 0; right: 0; visibility: hidden; pointer-events: none; }
 
 .landing-paper-frame{
+  --frame-border: 2px;
   --frame-pad-top: 1.5rem;
   --frame-pad-right: 1.5rem;
   --frame-pad-left: 1.5rem;
@@ -1854,7 +1855,7 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
   position: absolute;
   inset: 0;
   background: var(--surface);
-  border: 1px solid var(--border);
+  border: var(--frame-border) solid var(--border);
   border-radius: var(--radius-card);
 }
 
@@ -1887,10 +1888,10 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
   grid-template-columns: minmax(0, 1fr) auto;
   column-gap: 1.5rem;
   align-items: start;
-  margin: calc(1px - var(--frame-pad-top)) calc(1px - var(--frame-pad-right)) 1.15rem calc(1px - var(--frame-pad-left));
+  margin: calc(var(--frame-border) - var(--frame-pad-top)) calc(var(--frame-border) - var(--frame-pad-right)) 1.15rem calc(var(--frame-border) - var(--frame-pad-left));
   padding: 1rem 1.5rem 1rem 1.5rem;
   border-bottom: 1px solid var(--border-light);
-  border-radius: calc(var(--radius-card) - 1px) calc(var(--radius-card) - 1px) 0 0;
+  border-radius: calc(var(--radius-card) - var(--frame-border)) calc(var(--radius-card) - var(--frame-border)) 0 0;
 }
 
 .landing-box-head > .landing-box-caption{ margin-bottom: 0; font-size: 0.98rem; }
@@ -1995,9 +1996,12 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
    in the accent that no one can miss. The touch wording where there is
    no pointer to hover with. */
 .landing-paper-hint{
+  position: relative;
+  z-index: 5;
+  grid-column: 1 / -1;
   display: flex;
   justify-content: center;
-  margin: 0;
+  margin: 0 0 0.75rem;
   padding: 0.2rem 0;
   transition: opacity 260ms ease;
 }
@@ -2019,19 +2023,6 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
 @keyframes landing-hint-bob{
   0%, 100%{ transform: translateY(0); }
   50%{ transform: translateY(-4px); }
-}
-.landing-paper-rail-live > .landing-paper-hint{ position: absolute; left: 0; right: 0; }
-/* On a phone the hint lies over the first lines of the text (landing.js
-   moves it there), taking no room of its own, so nothing moves when it
-   goes. */
-.landing-paper-doc > .landing-paper-hint{
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 8;
-  margin: 0;
-  pointer-events: none;
 }
 .landing-paper-hint > .landing-paper-hint-touch{ display: none; }
 @media (hover: none), (pointer: coarse){

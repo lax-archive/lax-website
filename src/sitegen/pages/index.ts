@@ -81,6 +81,9 @@ interface Example {
   subject: string;
   /** the submission the example leads to, when the archive lists it */
   home?: string;
+  /** Unhighlighted mathematical context around the excerpt, in Markdown. */
+  before: string;
+  after: string;
   passages: ExamplePassage[];
 }
 
@@ -90,6 +93,8 @@ const PRIMES_EXAMPLE: Example = {
   key: "primes",
   subject: "a paper on prime numbers",
   home: INTRO_SUBMISSION_ID,
+  before: "We study the divisibility of natural numbers. The key step is to find a prime divisor of an arbitrary number greater than one.",
+  after: "Thus no finite list can contain all the primes: a prime larger than every entry must still exist.",
   passages: [
     {
       label: "Definition 1, prime numbers",
@@ -170,6 +175,8 @@ const RAMSEY_EXAMPLE: Example = {
   key: "ramsey",
   subject: "a paper on Ramsey's theorem",
   home: "lax-14",
+  before: "Throughout this section, graphs are finite and simple. We seek sets of vertices whose pairs are either all edges or all non-edges.",
+  after: "Taking $a=b$ gives the symmetric form: every sufficiently large graph contains a clique or an independent set of the prescribed size.",
   passages: [
     {
       label: "Definition 1, cliques and independent sets",
@@ -227,6 +234,8 @@ const RAM_EXAMPLE: Example = {
   key: "ram",
   subject: "a paper on algorithms on a random access machine",
   home: "lax-11",
+  before: "To state a precise running-time bound, we must fix both the machine model and the representation of its input. We use adjacency lists stored in consecutive memory cells.",
+  after: "Choosing the least vertex as a component label makes the output independent of the order in which neighbours are explored.",
   passages: [
     {
       label: "Definition 1, the word RAM",
@@ -479,9 +488,9 @@ ${body}
 </li>`;
 }
 
-/** One tightly cropped mathematical excerpt per slide, with each passage
+/** One mathematical excerpt per slide, with each passage
  * highlighted as on the paper page, and its card,
- * closed, in the rail beside it, with a hint under the cards saying what
+ * closed, in the rail beside it, with a hint above the excerpt saying what
  * to do (it goes with the first hover or tap). landing.js sets each card
  * beside its passage and draws the band between them in the SVG overlay,
  * the way the paper page does — on a phone it sets each card under its
@@ -511,12 +520,14 @@ ${markdown.render(passage.text, "")}
   const foot = more ? `<div class="landing-paper-foot">${more}</div>` : "";
   return `<div class="landing-carousel-slide${selected ? "" : " landing-carousel-slide-off"}" role="tabpanel" id="${attr(`landing-example-${example.key}`)}" aria-labelledby="${attr(`landing-tab-${example.key}`)}"${selected ? "" : ` aria-hidden="true" inert`} data-card-box data-paper-excerpt>
 <div class="landing-paper-grid">
+<div class="landing-paper-hint" aria-hidden="true"><span class="landing-paper-hint-hover">Hover over a highlight to expand</span><span class="landing-paper-hint-touch">Tap a highlight to expand</span></div>
 <div class="landing-paper-doc">
+<div class="landing-paper-prose latex-content">${markdown.render(example.before, "")}</div>
 ${passages.join("\n")}
+<div class="landing-paper-prose latex-content">${markdown.render(example.after, "")}</div>
 </div>
 <ol class="manuscript-rail landing-paper-rail" aria-label="Cards">
 ${cards.join("\n")}
-<li class="landing-paper-hint" aria-hidden="true"><span class="landing-paper-hint-hover">Hover over a highlight to expand</span><span class="landing-paper-hint-touch">Tap a highlight to expand</span></li>
 </ol>
 <svg class="manuscript-links landing-paper-links" aria-hidden="true"></svg>
 ${foot}

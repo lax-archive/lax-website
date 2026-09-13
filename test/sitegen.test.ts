@@ -974,13 +974,13 @@ After the formula.`, "");
     expect(index).toContain("<strong>Definition 1.</strong> A natural number greater than 1 is <em>prime</em>");
     expect(index).toContain('<div class="landing-passage landing-passage-3 kind-proof" role="button" tabindex="0" aria-pressed="false" aria-controls="landing-primes-3" aria-label="Proof of Lemma A: show the proof card" data-excerpt-card="landing-primes-3" data-kind="proof">');
     expect(index).toContain('aria-label="Theorem B, Euclid\'s theorem: show the concept card"');
-    // Every card closed, a hint under them.
+    // Every card closed, a hint above the excerpt.
     expect(index).toContain('<li class="manuscript-card kind-concept line-proven" id="landing-primes-1">');
     expect(index).toContain('<li class="manuscript-card kind-concept line-proven" id="landing-primes-2">');
     expect(index).toContain('<li class="manuscript-card kind-proof line-proven" id="landing-primes-5">');
     expect(index).not.toContain("manuscript-card-expanded");
     expect(index).toContain('<div class="manuscript-card-body" id="landing-primes-1-body" hidden>');
-    expect(index).toContain('<li class="landing-paper-hint" aria-hidden="true"><span class="landing-paper-hint-hover">Hover over a highlight to expand</span>');
+    expect(index).toContain('<div class="landing-paper-hint" aria-hidden="true"><span class="landing-paper-hint-hover">Hover over a highlight to expand</span>');
     expect(index).not.toContain("manuscript-card-pinned");
     expect(index).toContain('<span class="manuscript-card-name"><span class="type-badge" title="definition">def</span><code>Primes</code></span>');
     expect(index).toContain('<p class="manuscript-card-title">Prime numbers</p>');

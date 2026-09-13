@@ -89,7 +89,7 @@
   // cards in a rail beside it, bands between them) or the inference (cards
   // alone). Hover opens a card, a click pins it; a card that opened with
   // the page stays open only until the reader's first hover anywhere in
-  // the box, then every card follows the usual rule. Under the cards a
+  // the box, then every card follows the usual rule. Above the excerpt a
   // hint says what to do, until the first hover or tap. On a phone there
   // is no rail: each card sits in the text under its passage.
   function setupCardBox(box) {
@@ -97,7 +97,6 @@
     const doc = box.querySelector('.landing-paper-doc');
     const rail = box.querySelector('.landing-paper-rail');
     const links = box.querySelector('.landing-paper-links');
-    const hint = box.querySelector('.landing-paper-hint');
     const canHover = window.matchMedia('(hover: hover)');
     const narrow = window.matchMedia('(max-width: 640px)');
     const pairs = [];
@@ -116,9 +115,6 @@
         rail.classList.remove('landing-paper-rail-live');
         rail.classList.add('landing-paper-rail-inline');
         rail.style.minHeight = '';
-        // The hint lies over the text's first lines, in no room of
-        // its own, so nothing shifts when it goes.
-        if (hint && doc.firstElementChild !== hint) { hint.style.top = ''; doc.prepend(hint); }
         for (const { passage, card } of placed) {
           card.style.top = '';
           card.classList.add('landing-card-inline');
@@ -132,29 +128,16 @@
           card.classList.remove('landing-card-inline');
           rail.append(card);
         }
-        if (hint) rail.append(hint);
       }
       rail.classList.add('landing-paper-rail-live');
       const docTop = doc.getBoundingClientRect().top;
       let bottom = 0;
-      let first = Infinity;
       for (const pair of placed) {
         const { passage, card } = pair;
         const wanted = passage.getBoundingClientRect().top - docTop;
         const y = Math.max(wanted, bottom);
         card.style.top = `${y}px`;
-        first = Math.min(first, y);
         bottom = y + (pair.opening || pair.pinned ? card.offsetHeight : closedHeight(card)) + CARD_GAP;
-      }
-      // The hint in the room above the first card — the rail's top, where
-      // the paper's prose runs before its first passage — or, where there
-      // is none, under the last card.
-      if (hint) {
-        if (first >= hint.offsetHeight + CARD_GAP) hint.style.top = '0px';
-        else {
-          hint.style.top = `${bottom}px`;
-          bottom += hint.offsetHeight + CARD_GAP;
-        }
       }
       rail.style.minHeight = `${Math.max(0, bottom - CARD_GAP)}px`;
     }
