@@ -71,7 +71,7 @@ export function copyAssets(outDir: string, options: { localGraphs?: boolean } = 
       fs.copyFileSync(path.join(dist, "graph-layout", file), path.join(coreTarget, file));
     const hostTarget = path.join(target, "graph-local", "sitegen");
     fs.mkdirSync(hostTarget, { recursive: true });
-    for (const file of ["graph-local-worker.js", "graph-node-size.js", "graph-svg.js", "graph-escape.js", "graph-arrow.js"])
+    for (const file of ["graph-local-worker.js", "graph-node-size.js", "graph-svg.js", "graph-escape.js"])
       fs.copyFileSync(path.join(dist, "sitegen", file), path.join(hostTarget, file));
   }
 
