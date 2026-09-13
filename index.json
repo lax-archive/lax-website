@@ -1085,18 +1085,18 @@
     {
       "id": "lax-57",
       "state": "draft",
-      "environment": "v4.30.0",
+      "environment": "v4.33.0",
       "title": "Erdős–Hajnal for the five-vertex path",
       "concepts": [
         {
           "id": "Lax57.AnticomponentBlockade",
           "title": "Anticomponent or complete blockade",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax57.BlockadeThinning",
           "title": "Simultaneous thinning of a semisparse blockade",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax57.ErdosHajnalP5",
@@ -1111,32 +1111,32 @@
         {
           "id": "Lax57.HouseDichotomy",
           "title": "Restricted set or uniform blockade in a house-free graph",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax57.PreparedHouseBlockade",
           "title": "Prepared sparse-or-complete house blockades",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax57.SemisparseBlockade",
           "title": "Polynomial semisparse blockades for the house",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax57.SparseHouseAcceleration",
           "title": "Sparse-house acceleration",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax57.SparseHouseTools",
           "title": "Anticomplete pairs in sparse $P_5$-free graphs",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax57.SparseHouseTrichotomy",
           "title": "The sparse-house trichotomy",
-          "type": "theorem"
+          "type": "lemma"
         }
       ],
       "proofs": [
