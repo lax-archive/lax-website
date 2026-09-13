@@ -21,9 +21,9 @@ export function placeCorridors(graph: ProperGraph, layers: readonly (readonly nu
   assertSeparation(graph, layers, x, profile);
   const offsets = options.offsets ?? portOffsets(graph.source, order, profile.portSeparation);
   const terminal = Math.max(12, profile.clearance + 2);
-  // More ranks use tighter bands. Keep terminal stubs and an obstacle-clear
-  // transition band intact instead of scaling nodes, text, or arrowheads.
-  const density = Math.sqrt(2 / Math.max(2, layers.length));
+  // Trim discretionary row spacing by a quarter; deeper graphs tighten
+  // further. Keep terminal stubs and the minimum transition band intact.
+  const density = 0.75 * Math.sqrt(2 / Math.max(2, layers.length));
   const heights = layers.map((layer) => layer.reduce((height, vertex) => Math.max(height, graph.vertices[vertex]!.height), 0));
   const rows: RankEnvelope[] = new Array(layers.length), bands: RankBand[] = new Array(Math.max(0, layers.length - 1));
   let y = profile.margin;

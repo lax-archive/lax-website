@@ -79,7 +79,7 @@ export type LayoutProfile = Readonly<{
   exactLayerLimit: number; dpStates: number; expandedVertices: number;
   routingExpansions: number; candidates: number;
 }>;
-export const ENGINE_VERSION = "lax-layout-1.0.8";
+export const ENGINE_VERSION = "lax-layout-1.0.9";
 export const GEOMETRY_SCHEMA_VERSION = 1;
 export const QUANTUM = 0.001;
 /** Work budgets, not original-node cutoffs. Corpus evidence may version them. */

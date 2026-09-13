@@ -108,6 +108,7 @@ describe("the complete deterministic layout portfolio", () => {
     });
     for (let i = 1; i < gaps.length; i++) expect(gaps[i]).toBeLessThan(gaps[i - 1]!);
     expect(Math.min(...gaps)).toBeGreaterThanOrEqual(32);
+    expect(Math.max(...gaps)).toBeLessThanOrEqual(44);
   });
 
   it.each([diamond, skips, displayCycle])("publishes identical bytes after independent input array permutations (%#)", (make) => {
