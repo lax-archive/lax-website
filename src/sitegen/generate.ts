@@ -15,6 +15,8 @@ import { paperPage, paperPdfPage } from "./pages/paper.js";
 import { proofPage } from "./pages/proof.js";
 import { INTRO_SUBMISSION_ID } from "./pages/shared.js";
 import { submissionPage } from "./pages/submission.js";
+import { prepareGraphs, type GraphPreparationOptions, type GraphPreparationResult } from "./graph-prepare.js";
+import { compareText } from "../graph-layout/normalize.js";
 
 export type { SiteSubmission } from "./model.js";
 
@@ -29,6 +31,11 @@ export interface GenerateOptions {
    * pinned renderer's config is as old as the release that carried it.
    */
   epoch?: string;
+  /** Public CLI builds explicitly select archive mode. Older packaged local
+   * callers keep browser-free installation and the isolated local worker. */
+  graphs?: GraphPreparationOptions;
+  /** Build diagnostics/performance stay outside deterministic published data. */
+  graphReport?: (report: GraphPreparationResult) => void;
 }
 
 /**
@@ -105,16 +112,37 @@ export async function generateSite(
     }
   }
   const outputRoot = path.resolve(outDir);
-  const renderedFiles = [...files]
-    .sort(([a], [b]) => a.localeCompare(b))
-    .map(([relative, content]) => [siteOutputPath(outputRoot, relative), content] as const);
-  // Build all content before replacing the old site, minimizing partial output.
-  fs.rmSync(outputRoot, { recursive: true, force: true });
-  fs.mkdirSync(outputRoot, { recursive: true });
-  copyAssets(outputRoot);
-  for (const [file, content] of renderedFiles) {
-    fs.mkdirSync(path.dirname(file), { recursive: true });
-    fs.writeFileSync(file, content);
+  const graphMode = settings.graphs?.mode ?? "local";
+  const prepared = await prepareGraphs(files, {
+    mode: graphMode, cacheDir: path.resolve(".lax-graph-cache"), ...settings.graphs,
+    measurement: { ...(graphMode === "local" && !process.env.GRAPH_CHROME && !settings.graphs?.measurement?.executablePath
+      ? { hostBrowser: false } : {}), ...settings.graphs?.measurement },
+  });
+  settings.graphReport?.(prepared);
+  const renderedFiles = [...files].sort(([a], [b]) => compareText(a, b));
+  for (const [relative] of renderedFiles) siteOutputPath(outputRoot, relative);
+  // Finish writes and asset packaging alongside the old output. A failed
+  // measurement, validator, missing asset or full disk keeps the old site.
+  fs.mkdirSync(path.dirname(outputRoot), { recursive: true });
+  const staged = fs.mkdtempSync(path.join(path.dirname(outputRoot), `.${path.basename(outputRoot)}-build-`));
+  const previous = `${staged}-previous`;
+  let movedPrevious = false, installed = false;
+  try {
+    copyAssets(staged, { localGraphs: prepared.localFallback });
+    for (const [relative, content] of renderedFiles) {
+      const file = siteOutputPath(staged, relative);
+      fs.mkdirSync(path.dirname(file), { recursive: true });
+      fs.writeFileSync(file, content);
+    }
+    if (fs.existsSync(outputRoot)) { fs.renameSync(outputRoot, previous); movedPrevious = true; }
+    try { fs.renameSync(staged, outputRoot); installed = true; }
+    catch (error) {
+      if (movedPrevious) { fs.renameSync(previous, outputRoot); movedPrevious = false; }
+      throw error;
+    }
+  } finally {
+    if (!installed) fs.rmSync(staged, { recursive: true, force: true });
+    if (installed && movedPrevious) fs.rmSync(previous, { recursive: true, force: true });
   }
 }
 

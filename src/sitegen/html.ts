@@ -1,7 +1,7 @@
 // The page shell and small html helpers, following the reference design:
 // sticky header (hamburger + centered title), collapsible sidebar with
-// search/filters, and a single content pane. Only sidebar.js, layout.js and
-// dag.js run in the browser; everything else is rendered at build time.
+// search/filters, and a single content pane. Graph geometry and mathematical
+// text are rendered at build time; browser scripts add interaction.
 
 import { siteAssetVersion } from "./assets.js";
 import {
@@ -64,8 +64,12 @@ const REFLOW_CSP =
 function contentSecurityPolicy(scripts: string[]): string {
   if (scripts.includes("assets/manuscript.js")) return PAPER_CSP;
   if (scripts.includes("assets/manuscript-reflow.js")) return REFLOW_CSP;
-  if (!scripts.includes("assets/comments.js")) return BASE_CSP;
-  return `default-src 'none'; script-src 'self' ${REMARK42_ORIGIN}; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self'; frame-src ${REMARK42_ORIGIN}; connect-src ${ACCOUNT_CONNECT_ORIGINS}`;
+  const policy = scripts.includes("assets/comments.js")
+    ? `default-src 'none'; script-src 'self' ${REMARK42_ORIGIN}; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self'; frame-src ${REMARK42_ORIGIN}; connect-src ${ACCOUNT_CONNECT_ORIGINS}`
+    : BASE_CSP;
+  // Alternate graph views are immutable same-origin files. Public graph
+  // interaction runs no worker and needs neither inline scripts nor eval.
+  return scripts.includes("assets/graph-interaction.js") ? policy.replace("connect-src ", "connect-src 'self' ") : policy;
 }
 
 function accountLoginHref(): string {

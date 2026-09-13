@@ -1,0 +1,2450 @@
+{
+  "source": "Lax17 concept map, state 00; public display graph with exact cached label metrics",
+  "databaseRevision": "b1fca499b62be57f5d63df5a77fd72276e0e9fe3",
+  "baselineEngine": "lax-layout-1.0.5",
+  "baselineCrossings": 74,
+  "graph": {
+    "nodes": [
+      {
+        "id": "c:Lax17.Crossbar",
+        "kind": "concept",
+        "width": 164.045,
+        "height": 30,
+        "labelBoxes": [
+          {
+            "x": 10.000008544921869,
+            "y": 9,
+            "width": 144.04498291015625,
+            "height": 12
+          }
+        ],
+        "ports": [
+          {
+            "id": "e:Lax17.Crossbar->Lax17.CrossbarOrPseudoGrid:import:0:source",
+            "nodeId": "c:Lax17.Crossbar",
+            "semanticEndpointId": "Lax17.Crossbar",
+            "side": "north",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.Crossbar->Lax17.ExponentTenCrossbarDichotomy:import:0:source",
+            "nodeId": "c:Lax17.Crossbar",
+            "semanticEndpointId": "Lax17.Crossbar",
+            "side": "north",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.Minor->Lax17.Crossbar:import:0:target",
+            "nodeId": "c:Lax17.Crossbar",
+            "semanticEndpointId": "Lax17.Crossbar",
+            "side": "south",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.PathOfSets->Lax17.Crossbar:import:0:target",
+            "nodeId": "c:Lax17.Crossbar",
+            "semanticEndpointId": "Lax17.Crossbar",
+            "side": "south",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.Paths->Lax17.Crossbar:import:0:target",
+            "nodeId": "c:Lax17.Crossbar",
+            "semanticEndpointId": "Lax17.Crossbar",
+            "side": "south",
+            "mode": "free-on-side"
+          }
+        ],
+        "footprints": [
+          {
+            "id": "c:Lax17.Crossbar:body",
+            "kind": "body",
+            "bounds": {
+              "x": 0,
+              "y": 0,
+              "width": 164.045,
+              "height": 30
+            }
+          }
+        ]
+      },
+      {
+        "id": "c:Lax17.CrossbarOrPseudoGrid",
+        "kind": "concept",
+        "width": 204.674,
+        "height": 30,
+        "labelBoxes": [
+          {
+            "x": 10.000360595703128,
+            "y": 9,
+            "width": 184.67327880859375,
+            "height": 12
+          }
+        ],
+        "ports": [
+          {
+            "id": "e:Lax17.Crossbar->Lax17.CrossbarOrPseudoGrid:import:0:target",
+            "nodeId": "c:Lax17.CrossbarOrPseudoGrid",
+            "semanticEndpointId": "Lax17.CrossbarOrPseudoGrid",
+            "side": "south",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.Degree->Lax17.CrossbarOrPseudoGrid:import:0:target",
+            "nodeId": "c:Lax17.CrossbarOrPseudoGrid",
+            "semanticEndpointId": "Lax17.CrossbarOrPseudoGrid",
+            "side": "south",
+            "mode": "free-on-side"
+          }
+        ],
+        "footprints": [
+          {
+            "id": "c:Lax17.CrossbarOrPseudoGrid:body",
+            "kind": "body",
+            "bounds": {
+              "x": 0,
+              "y": 0,
+              "width": 204.674,
+              "height": 30
+            }
+          }
+        ]
+      },
+      {
+        "id": "c:Lax17.CrossbarStitching",
+        "kind": "concept",
+        "width": 115.282,
+        "height": 30,
+        "labelBoxes": [
+          {
+            "x": 10.000374999999998,
+            "y": 9,
+            "width": 95.28125,
+            "height": 12
+          }
+        ],
+        "ports": [
+          {
+            "id": "e:Lax17.PathOfSets->Lax17.CrossbarStitching:import:0:target",
+            "nodeId": "c:Lax17.CrossbarStitching",
+            "semanticEndpointId": "Lax17.CrossbarStitching",
+            "side": "south",
+            "mode": "free-on-side"
+          }
+        ],
+        "footprints": [
+          {
+            "id": "c:Lax17.CrossbarStitching:body",
+            "kind": "body",
+            "bounds": {
+              "x": 0,
+              "y": 0,
+              "width": 115.282,
+              "height": 30
+            }
+          }
+        ]
+      },
+      {
+        "id": "c:Lax17.CutMatchingTheorem",
+        "kind": "concept",
+        "width": 194.782,
+        "height": 30,
+        "labelBoxes": [
+          {
+            "x": 10.000375000000005,
+            "y": 9,
+            "width": 174.78125,
+            "height": 12
+          }
+        ],
+        "ports": [
+          {
+            "id": "e:Lax17.Expansion->Lax17.CutMatchingTheorem:import:0:target",
+            "nodeId": "c:Lax17.CutMatchingTheorem",
+            "semanticEndpointId": "Lax17.CutMatchingTheorem",
+            "side": "south",
+            "mode": "free-on-side"
+          }
+        ],
+        "footprints": [
+          {
+            "id": "c:Lax17.CutMatchingTheorem:body",
+            "kind": "body",
+            "bounds": {
+              "x": 0,
+              "y": 0,
+              "width": 194.782,
+              "height": 30
+            }
+          }
+        ]
+      },
+      {
+        "id": "c:Lax17.Degree",
+        "kind": "concept",
+        "width": 104,
+        "height": 30,
+        "labelBoxes": [
+          {
+            "x": 13.061752319335938,
+            "y": 9,
+            "width": 77.87649536132812,
+            "height": 12
+          }
+        ],
+        "ports": [
+          {
+            "id": "e:Lax17.Degree->Lax17.CrossbarOrPseudoGrid:import:0:source",
+            "nodeId": "c:Lax17.Degree",
+            "semanticEndpointId": "Lax17.Degree",
+            "side": "north",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.Degree->Lax17.ExpanderGrid:import:0:source",
+            "nodeId": "c:Lax17.Degree",
+            "semanticEndpointId": "Lax17.Degree",
+            "side": "north",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.Degree->Lax17.Expansion:import:0:source",
+            "nodeId": "c:Lax17.Degree",
+            "semanticEndpointId": "Lax17.Degree",
+            "side": "north",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.Degree->Lax17.ExponentTenCrossbarDichotomy:import:0:source",
+            "nodeId": "c:Lax17.Degree",
+            "semanticEndpointId": "Lax17.Degree",
+            "side": "north",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.Degree->Lax17.HairyPathOfSetsFromTreewidth:import:0:source",
+            "nodeId": "c:Lax17.Degree",
+            "semanticEndpointId": "Lax17.Degree",
+            "side": "north",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.Degree->Lax17.LowDegreeWellLinkedCore:import:0:source",
+            "nodeId": "c:Lax17.Degree",
+            "semanticEndpointId": "Lax17.Degree",
+            "side": "north",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.Degree->Lax17.ParallelClusterSplitting:import:0:source",
+            "nodeId": "c:Lax17.Degree",
+            "semanticEndpointId": "Lax17.Degree",
+            "side": "north",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.Degree->Lax17.SinghLau:import:0:source",
+            "nodeId": "c:Lax17.Degree",
+            "semanticEndpointId": "Lax17.Degree",
+            "side": "north",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.Degree->Lax17.SpanningTreeRounding:import:0:source",
+            "nodeId": "c:Lax17.Degree",
+            "semanticEndpointId": "Lax17.Degree",
+            "side": "north",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.Degree->Lax17.TreeOfSets:import:0:source",
+            "nodeId": "c:Lax17.Degree",
+            "semanticEndpointId": "Lax17.Degree",
+            "side": "north",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.Degree->Lax17.TreewidthSparsifier:import:0:source",
+            "nodeId": "c:Lax17.Degree",
+            "semanticEndpointId": "Lax17.Degree",
+            "side": "north",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.Degree->Lax17.WellLinkednessBoosting:import:0:source",
+            "nodeId": "c:Lax17.Degree",
+            "semanticEndpointId": "Lax17.Degree",
+            "side": "north",
+            "mode": "free-on-side"
+          }
+        ],
+        "footprints": [
+          {
+            "id": "c:Lax17.Degree:body",
+            "kind": "body",
+            "bounds": {
+              "x": 0,
+              "y": 0,
+              "width": 104,
+              "height": 30
+            }
+          }
+        ]
+      },
+      {
+        "id": "c:Lax17.EdgeMenger",
+        "kind": "concept",
+        "width": 135.907,
+        "height": 30,
+        "labelBoxes": [
+          {
+            "x": 10.000375000000005,
+            "y": 9,
+            "width": 115.90625,
+            "height": 12
+          }
+        ],
+        "ports": [
+          {
+            "id": "e:Lax17.Paths->Lax17.EdgeMenger:import:0:target",
+            "nodeId": "c:Lax17.EdgeMenger",
+            "semanticEndpointId": "Lax17.EdgeMenger",
+            "side": "south",
+            "mode": "free-on-side"
+          }
+        ],
+        "footprints": [
+          {
+            "id": "c:Lax17.EdgeMenger:body",
+            "kind": "body",
+            "bounds": {
+              "x": 0,
+              "y": 0,
+              "width": 135.907,
+              "height": 30
+            }
+          }
+        ]
+      },
+      {
+        "id": "c:Lax17.ExpanderGrid",
+        "kind": "concept",
+        "width": 220.802,
+        "height": 30,
+        "labelBoxes": [
+          {
+            "x": 10.000304199218746,
+            "y": 9,
+            "width": 200.8013916015625,
+            "height": 12
+          }
+        ],
+        "ports": [
+          {
+            "id": "e:Lax17.Degree->Lax17.ExpanderGrid:import:0:target",
+            "nodeId": "c:Lax17.ExpanderGrid",
+            "semanticEndpointId": "Lax17.ExpanderGrid",
+            "side": "south",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.Expansion->Lax17.ExpanderGrid:import:0:target",
+            "nodeId": "c:Lax17.ExpanderGrid",
+            "semanticEndpointId": "Lax17.ExpanderGrid",
+            "side": "south",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.GridMinor->Lax17.ExpanderGrid:import:0:target",
+            "nodeId": "c:Lax17.ExpanderGrid",
+            "semanticEndpointId": "Lax17.ExpanderGrid",
+            "side": "south",
+            "mode": "free-on-side"
+          }
+        ],
+        "footprints": [
+          {
+            "id": "c:Lax17.ExpanderGrid:body",
+            "kind": "body",
+            "bounds": {
+              "x": 0,
+              "y": 0,
+              "width": 220.802,
+              "height": 30
+            }
+          }
+        ]
+      },
+      {
+        "id": "c:Lax17.Expansion",
+        "kind": "concept",
+        "width": 258.726,
+        "height": 30,
+        "labelBoxes": [
+          {
+            "x": 10.000184143066406,
+            "y": 9,
+            "width": 238.7256317138672,
+            "height": 12
+          }
+        ],
+        "ports": [
+          {
+            "id": "e:Lax17.Degree->Lax17.Expansion:import:0:target",
+            "nodeId": "c:Lax17.Expansion",
+            "semanticEndpointId": "Lax17.Expansion",
+            "side": "south",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.Expansion->Lax17.CutMatchingTheorem:import:0:source",
+            "nodeId": "c:Lax17.Expansion",
+            "semanticEndpointId": "Lax17.Expansion",
+            "side": "north",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.Expansion->Lax17.ExpanderGrid:import:0:source",
+            "nodeId": "c:Lax17.Expansion",
+            "semanticEndpointId": "Lax17.Expansion",
+            "side": "north",
+            "mode": "free-on-side"
+          }
+        ],
+        "footprints": [
+          {
+            "id": "c:Lax17.Expansion:body",
+            "kind": "body",
+            "bounds": {
+              "x": 0,
+              "y": 0,
+              "width": 258.726,
+              "height": 30
+            }
+          }
+        ]
+      },
+      {
+        "id": "c:Lax17.ExponentTenCrossbarDichotomy",
+        "kind": "concept",
+        "width": 197.042,
+        "height": 30,
+        "labelBoxes": [
+          {
+            "x": 10.000408264160157,
+            "y": 9,
+            "width": 177.0411834716797,
+            "height": 12
+          }
+        ],
+        "ports": [
+          {
+            "id": "e:Lax17.Crossbar->Lax17.ExponentTenCrossbarDichotomy:import:0:target",
+            "nodeId": "c:Lax17.ExponentTenCrossbarDichotomy",
+            "semanticEndpointId": "Lax17.ExponentTenCrossbarDichotomy",
+            "side": "south",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.Degree->Lax17.ExponentTenCrossbarDichotomy:import:0:target",
+            "nodeId": "c:Lax17.ExponentTenCrossbarDichotomy",
+            "semanticEndpointId": "Lax17.ExponentTenCrossbarDichotomy",
+            "side": "south",
+            "mode": "free-on-side"
+          }
+        ],
+        "footprints": [
+          {
+            "id": "c:Lax17.ExponentTenCrossbarDichotomy:body",
+            "kind": "body",
+            "bounds": {
+              "x": 0,
+              "y": 0,
+              "width": 197.042,
+              "height": 30
+            }
+          }
+        ]
+      },
+      {
+        "id": "c:Lax17.Grid",
+        "kind": "concept",
+        "width": 119.465,
+        "height": 30,
+        "labelBoxes": [
+          {
+            "x": 10.000154418945314,
+            "y": 9,
+            "width": 99.46469116210938,
+            "height": 12
+          }
+        ],
+        "ports": [
+          {
+            "id": "e:Lax17.Grid->Lax17.GridMinor:import:0:source",
+            "nodeId": "c:Lax17.Grid",
+            "semanticEndpointId": "Lax17.Grid",
+            "side": "north",
+            "mode": "free-on-side"
+          }
+        ],
+        "footprints": [
+          {
+            "id": "c:Lax17.Grid:body",
+            "kind": "body",
+            "bounds": {
+              "x": 0,
+              "y": 0,
+              "width": 119.465,
+              "height": 30
+            }
+          }
+        ]
+      },
+      {
+        "id": "c:Lax17.GridMinor",
+        "kind": "concept",
+        "width": 120.125,
+        "height": 30,
+        "labelBoxes": [
+          {
+            "x": 10.000152587890625,
+            "y": 9,
+            "width": 100.12469482421875,
+            "height": 12
+          }
+        ],
+        "ports": [
+          {
+            "id": "e:Lax17.Grid->Lax17.GridMinor:import:0:target",
+            "nodeId": "c:Lax17.GridMinor",
+            "semanticEndpointId": "Lax17.GridMinor",
+            "side": "south",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.GridMinor->Lax17.ExpanderGrid:import:0:source",
+            "nodeId": "c:Lax17.GridMinor",
+            "semanticEndpointId": "Lax17.GridMinor",
+            "side": "north",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.GridMinor->Lax17.LocalRoutingOrGrid:import:0:source",
+            "nodeId": "c:Lax17.GridMinor",
+            "semanticEndpointId": "Lax17.GridMinor",
+            "side": "north",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.GridMinor->Lax17.PolynomialGridMinor:import:0:source",
+            "nodeId": "c:Lax17.GridMinor",
+            "semanticEndpointId": "Lax17.GridMinor",
+            "side": "north",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.GridMinor->Lax17.StrongPathOfSetsContainsGrid:import:0:source",
+            "nodeId": "c:Lax17.GridMinor",
+            "semanticEndpointId": "Lax17.GridMinor",
+            "side": "north",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.Minor->Lax17.GridMinor:import:0:target",
+            "nodeId": "c:Lax17.GridMinor",
+            "semanticEndpointId": "Lax17.GridMinor",
+            "side": "south",
+            "mode": "free-on-side"
+          }
+        ],
+        "footprints": [
+          {
+            "id": "c:Lax17.GridMinor:body",
+            "kind": "body",
+            "bounds": {
+              "x": 0,
+              "y": 0,
+              "width": 120.125,
+              "height": 30
+            }
+          }
+        ]
+      },
+      {
+        "id": "c:Lax17.HairyPathOfSetsFromTreewidth",
+        "kind": "concept",
+        "width": 247.682,
+        "height": 30,
+        "labelBoxes": [
+          {
+            "x": 10.000225463867181,
+            "y": 9,
+            "width": 227.68154907226562,
+            "height": 12
+          }
+        ],
+        "ports": [
+          {
+            "id": "e:Lax17.Degree->Lax17.HairyPathOfSetsFromTreewidth:import:0:target",
+            "nodeId": "c:Lax17.HairyPathOfSetsFromTreewidth",
+            "semanticEndpointId": "Lax17.HairyPathOfSetsFromTreewidth",
+            "side": "south",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.PathOfSets->Lax17.HairyPathOfSetsFromTreewidth:import:0:target",
+            "nodeId": "c:Lax17.HairyPathOfSetsFromTreewidth",
+            "semanticEndpointId": "Lax17.HairyPathOfSetsFromTreewidth",
+            "side": "south",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.Treewidth->Lax17.HairyPathOfSetsFromTreewidth:import:0:target",
+            "nodeId": "c:Lax17.HairyPathOfSetsFromTreewidth",
+            "semanticEndpointId": "Lax17.HairyPathOfSetsFromTreewidth",
+            "side": "south",
+            "mode": "free-on-side"
+          }
+        ],
+        "footprints": [
+          {
+            "id": "c:Lax17.HairyPathOfSetsFromTreewidth:body",
+            "kind": "body",
+            "bounds": {
+              "x": 0,
+              "y": 0,
+              "width": 247.682,
+              "height": 30
+            }
+          }
+        ]
+      },
+      {
+        "id": "c:Lax17.HindOellermann",
+        "kind": "concept",
+        "width": 223.094,
+        "height": 46,
+        "labelBoxes": [
+          {
+            "x": 10.000308105468747,
+            "y": 9,
+            "width": 203.0933837890625,
+            "height": 12
+          },
+          {
+            "x": 10.000308105468747,
+            "y": 25,
+            "width": 42.703125,
+            "height": 12
+          }
+        ],
+        "ports": [
+          {
+            "id": "e:Lax17.TerminalConnectivity->Lax17.HindOellermann:import:0:target",
+            "nodeId": "c:Lax17.HindOellermann",
+            "semanticEndpointId": "Lax17.HindOellermann",
+            "side": "south",
+            "mode": "free-on-side"
+          }
+        ],
+        "footprints": [
+          {
+            "id": "c:Lax17.HindOellermann:body",
+            "kind": "body",
+            "bounds": {
+              "x": 0,
+              "y": 0,
+              "width": 223.094,
+              "height": 46
+            }
+          }
+        ]
+      },
+      {
+        "id": "c:Lax17.Linkedness",
+        "kind": "concept",
+        "width": 127.265,
+        "height": 30,
+        "labelBoxes": [
+          {
+            "x": 10.000145263671875,
+            "y": 9,
+            "width": 107.26470947265625,
+            "height": 12
+          }
+        ],
+        "ports": [
+          {
+            "id": "e:Lax17.Linkedness->Lax17.LowDegreeWellLinkedCore:import:0:source",
+            "nodeId": "c:Lax17.Linkedness",
+            "semanticEndpointId": "Lax17.Linkedness",
+            "side": "north",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.Linkedness->Lax17.NodeWellLinkedSetFromTreewidth:import:0:source",
+            "nodeId": "c:Lax17.Linkedness",
+            "semanticEndpointId": "Lax17.Linkedness",
+            "side": "north",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.Linkedness->Lax17.PathOfSets:import:0:source",
+            "nodeId": "c:Lax17.Linkedness",
+            "semanticEndpointId": "Lax17.Linkedness",
+            "side": "north",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.Linkedness->Lax17.SmallLinkedSubsets:import:0:source",
+            "nodeId": "c:Lax17.Linkedness",
+            "semanticEndpointId": "Lax17.Linkedness",
+            "side": "north",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.Linkedness->Lax17.WellLinkednessBoosting:import:0:source",
+            "nodeId": "c:Lax17.Linkedness",
+            "semanticEndpointId": "Lax17.Linkedness",
+            "side": "north",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.Paths->Lax17.Linkedness:import:0:target",
+            "nodeId": "c:Lax17.Linkedness",
+            "semanticEndpointId": "Lax17.Linkedness",
+            "side": "south",
+            "mode": "free-on-side"
+          }
+        ],
+        "footprints": [
+          {
+            "id": "c:Lax17.Linkedness:body",
+            "kind": "body",
+            "bounds": {
+              "x": 0,
+              "y": 0,
+              "width": 127.265,
+              "height": 30
+            }
+          }
+        ]
+      },
+      {
+        "id": "c:Lax17.LocalRoutingOrGrid",
+        "kind": "concept",
+        "width": 190,
+        "height": 30,
+        "labelBoxes": [
+          {
+            "x": 10,
+            "y": 9,
+            "width": 170,
+            "height": 12
+          }
+        ],
+        "ports": [
+          {
+            "id": "e:Lax17.GridMinor->Lax17.LocalRoutingOrGrid:import:0:target",
+            "nodeId": "c:Lax17.LocalRoutingOrGrid",
+            "semanticEndpointId": "Lax17.LocalRoutingOrGrid",
+            "side": "south",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.PathOfSets->Lax17.LocalRoutingOrGrid:import:0:target",
+            "nodeId": "c:Lax17.LocalRoutingOrGrid",
+            "semanticEndpointId": "Lax17.LocalRoutingOrGrid",
+            "side": "south",
+            "mode": "free-on-side"
+          }
+        ],
+        "footprints": [
+          {
+            "id": "c:Lax17.LocalRoutingOrGrid:body",
+            "kind": "body",
+            "bounds": {
+              "x": 0,
+              "y": 0,
+              "width": 190,
+              "height": 30
+            }
+          }
+        ]
+      },
+      {
+        "id": "c:Lax17.LowDegreeWellLinkedCore",
+        "kind": "concept",
+        "width": 173.047,
+        "height": 30,
+        "labelBoxes": [
+          {
+            "x": 10.000062499999999,
+            "y": 9,
+            "width": 153.046875,
+            "height": 12
+          }
+        ],
+        "ports": [
+          {
+            "id": "e:Lax17.Degree->Lax17.LowDegreeWellLinkedCore:import:0:target",
+            "nodeId": "c:Lax17.LowDegreeWellLinkedCore",
+            "semanticEndpointId": "Lax17.LowDegreeWellLinkedCore",
+            "side": "south",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.Linkedness->Lax17.LowDegreeWellLinkedCore:import:0:target",
+            "nodeId": "c:Lax17.LowDegreeWellLinkedCore",
+            "semanticEndpointId": "Lax17.LowDegreeWellLinkedCore",
+            "side": "south",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.PathOfSets->Lax17.LowDegreeWellLinkedCore:import:0:target",
+            "nodeId": "c:Lax17.LowDegreeWellLinkedCore",
+            "semanticEndpointId": "Lax17.LowDegreeWellLinkedCore",
+            "side": "south",
+            "mode": "free-on-side"
+          }
+        ],
+        "footprints": [
+          {
+            "id": "c:Lax17.LowDegreeWellLinkedCore:body",
+            "kind": "body",
+            "bounds": {
+              "x": 0,
+              "y": 0,
+              "width": 173.047,
+              "height": 30
+            }
+          }
+        ]
+      },
+      {
+        "id": "c:Lax17.Mader",
+        "kind": "concept",
+        "width": 210.329,
+        "height": 30,
+        "labelBoxes": [
+          {
+            "x": 10.000437500000004,
+            "y": 9,
+            "width": 190.328125,
+            "height": 12
+          }
+        ],
+        "ports": [
+          {
+            "id": "e:Lax17.TerminalConnectivity->Lax17.Mader:import:0:target",
+            "nodeId": "c:Lax17.Mader",
+            "semanticEndpointId": "Lax17.Mader",
+            "side": "south",
+            "mode": "free-on-side"
+          }
+        ],
+        "footprints": [
+          {
+            "id": "c:Lax17.Mader:body",
+            "kind": "body",
+            "bounds": {
+              "x": 0,
+              "y": 0,
+              "width": 210.329,
+              "height": 30
+            }
+          }
+        ]
+      },
+      {
+        "id": "c:Lax17.Minor",
+        "kind": "concept",
+        "width": 93.173,
+        "height": 30,
+        "labelBoxes": [
+          {
+            "x": 10.000257324218751,
+            "y": 9,
+            "width": 73.1724853515625,
+            "height": 12
+          }
+        ],
+        "ports": [
+          {
+            "id": "e:Lax17.Minor->Lax17.Crossbar:import:0:source",
+            "nodeId": "c:Lax17.Minor",
+            "semanticEndpointId": "Lax17.Minor",
+            "side": "north",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.Minor->Lax17.GridMinor:import:0:source",
+            "nodeId": "c:Lax17.Minor",
+            "semanticEndpointId": "Lax17.Minor",
+            "side": "north",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.Minor->Lax17.TreewidthMinorMonotonicity:import:0:source",
+            "nodeId": "c:Lax17.Minor",
+            "semanticEndpointId": "Lax17.Minor",
+            "side": "north",
+            "mode": "free-on-side"
+          }
+        ],
+        "footprints": [
+          {
+            "id": "c:Lax17.Minor:body",
+            "kind": "body",
+            "bounds": {
+              "x": 0,
+              "y": 0,
+              "width": 93.173,
+              "height": 30
+            }
+          }
+        ]
+      },
+      {
+        "id": "c:Lax17.NodeWellLinkedSetFromTreewidth",
+        "kind": "concept",
+        "width": 190.118,
+        "height": 30,
+        "labelBoxes": [
+          {
+            "x": 10.000413879394529,
+            "y": 9,
+            "width": 170.11717224121094,
+            "height": 12
+          }
+        ],
+        "ports": [
+          {
+            "id": "e:Lax17.Linkedness->Lax17.NodeWellLinkedSetFromTreewidth:import:0:target",
+            "nodeId": "c:Lax17.NodeWellLinkedSetFromTreewidth",
+            "semanticEndpointId": "Lax17.NodeWellLinkedSetFromTreewidth",
+            "side": "south",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.Treewidth->Lax17.NodeWellLinkedSetFromTreewidth:import:0:target",
+            "nodeId": "c:Lax17.NodeWellLinkedSetFromTreewidth",
+            "semanticEndpointId": "Lax17.NodeWellLinkedSetFromTreewidth",
+            "side": "south",
+            "mode": "free-on-side"
+          }
+        ],
+        "footprints": [
+          {
+            "id": "c:Lax17.NodeWellLinkedSetFromTreewidth:body",
+            "kind": "body",
+            "bounds": {
+              "x": 0,
+              "y": 0,
+              "width": 190.118,
+              "height": 30
+            }
+          }
+        ]
+      },
+      {
+        "id": "c:Lax17.ParallelClusterSplitting",
+        "kind": "concept",
+        "width": 146.063,
+        "height": 30,
+        "labelBoxes": [
+          {
+            "x": 10.000249999999994,
+            "y": 9,
+            "width": 126.0625,
+            "height": 12
+          }
+        ],
+        "ports": [
+          {
+            "id": "e:Lax17.Degree->Lax17.ParallelClusterSplitting:import:0:target",
+            "nodeId": "c:Lax17.ParallelClusterSplitting",
+            "semanticEndpointId": "Lax17.ParallelClusterSplitting",
+            "side": "south",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.PathOfSets->Lax17.ParallelClusterSplitting:import:0:target",
+            "nodeId": "c:Lax17.ParallelClusterSplitting",
+            "semanticEndpointId": "Lax17.ParallelClusterSplitting",
+            "side": "south",
+            "mode": "free-on-side"
+          }
+        ],
+        "footprints": [
+          {
+            "id": "c:Lax17.ParallelClusterSplitting:body",
+            "kind": "body",
+            "bounds": {
+              "x": 0,
+              "y": 0,
+              "width": 146.063,
+              "height": 30
+            }
+          }
+        ]
+      },
+      {
+        "id": "c:Lax17.PathOfSets",
+        "kind": "concept",
+        "width": 219.006,
+        "height": 30,
+        "labelBoxes": [
+          {
+            "x": 10.000322082519531,
+            "y": 9,
+            "width": 199.00535583496094,
+            "height": 12
+          }
+        ],
+        "ports": [
+          {
+            "id": "e:Lax17.Linkedness->Lax17.PathOfSets:import:0:target",
+            "nodeId": "c:Lax17.PathOfSets",
+            "semanticEndpointId": "Lax17.PathOfSets",
+            "side": "south",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.PathOfSets->Lax17.Crossbar:import:0:source",
+            "nodeId": "c:Lax17.PathOfSets",
+            "semanticEndpointId": "Lax17.PathOfSets",
+            "side": "north",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.PathOfSets->Lax17.CrossbarStitching:import:0:source",
+            "nodeId": "c:Lax17.PathOfSets",
+            "semanticEndpointId": "Lax17.PathOfSets",
+            "side": "north",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.PathOfSets->Lax17.HairyPathOfSetsFromTreewidth:import:0:source",
+            "nodeId": "c:Lax17.PathOfSets",
+            "semanticEndpointId": "Lax17.PathOfSets",
+            "side": "north",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.PathOfSets->Lax17.LocalRoutingOrGrid:import:0:source",
+            "nodeId": "c:Lax17.PathOfSets",
+            "semanticEndpointId": "Lax17.PathOfSets",
+            "side": "north",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.PathOfSets->Lax17.LowDegreeWellLinkedCore:import:0:source",
+            "nodeId": "c:Lax17.PathOfSets",
+            "semanticEndpointId": "Lax17.PathOfSets",
+            "side": "north",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.PathOfSets->Lax17.ParallelClusterSplitting:import:0:source",
+            "nodeId": "c:Lax17.PathOfSets",
+            "semanticEndpointId": "Lax17.PathOfSets",
+            "side": "north",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.PathOfSets->Lax17.StrongPathExtraction:import:0:source",
+            "nodeId": "c:Lax17.PathOfSets",
+            "semanticEndpointId": "Lax17.PathOfSets",
+            "side": "north",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.PathOfSets->Lax17.StrongPathOfSetsContainsGrid:import:0:source",
+            "nodeId": "c:Lax17.PathOfSets",
+            "semanticEndpointId": "Lax17.PathOfSets",
+            "side": "north",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.PathOfSets->Lax17.StrongPathOfSetsFromTreewidth:import:0:source",
+            "nodeId": "c:Lax17.PathOfSets",
+            "semanticEndpointId": "Lax17.PathOfSets",
+            "side": "north",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.PathOfSets->Lax17.TreeOfSets:import:0:source",
+            "nodeId": "c:Lax17.PathOfSets",
+            "semanticEndpointId": "Lax17.PathOfSets",
+            "side": "north",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.PathOfSets->Lax17.WellLinkednessBoosting:import:0:source",
+            "nodeId": "c:Lax17.PathOfSets",
+            "semanticEndpointId": "Lax17.PathOfSets",
+            "side": "north",
+            "mode": "free-on-side"
+          }
+        ],
+        "footprints": [
+          {
+            "id": "c:Lax17.PathOfSets:body",
+            "kind": "body",
+            "bounds": {
+              "x": 0,
+              "y": 0,
+              "width": 219.006,
+              "height": 30
+            }
+          }
+        ]
+      },
+      {
+        "id": "c:Lax17.Paths",
+        "kind": "concept",
+        "width": 183.45,
+        "height": 30,
+        "labelBoxes": [
+          {
+            "x": 10.00042877197265,
+            "y": 9,
+            "width": 163.4491424560547,
+            "height": 12
+          }
+        ],
+        "ports": [
+          {
+            "id": "e:Lax17.Paths->Lax17.Crossbar:import:0:source",
+            "nodeId": "c:Lax17.Paths",
+            "semanticEndpointId": "Lax17.Paths",
+            "side": "north",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.Paths->Lax17.EdgeMenger:import:0:source",
+            "nodeId": "c:Lax17.Paths",
+            "semanticEndpointId": "Lax17.Paths",
+            "side": "north",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.Paths->Lax17.Linkedness:import:0:source",
+            "nodeId": "c:Lax17.Paths",
+            "semanticEndpointId": "Lax17.Paths",
+            "side": "north",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.Paths->Lax17.VertexMenger:import:0:source",
+            "nodeId": "c:Lax17.Paths",
+            "semanticEndpointId": "Lax17.Paths",
+            "side": "north",
+            "mode": "free-on-side"
+          }
+        ],
+        "footprints": [
+          {
+            "id": "c:Lax17.Paths:body",
+            "kind": "body",
+            "bounds": {
+              "x": 0,
+              "y": 0,
+              "width": 183.45,
+              "height": 30
+            }
+          }
+        ]
+      },
+      {
+        "id": "c:Lax17.PolynomialGridMinor",
+        "kind": "concept",
+        "width": 258.282,
+        "height": 46,
+        "labelBoxes": [
+          {
+            "x": 10.000374999999991,
+            "y": 9,
+            "width": 238.28125,
+            "height": 12
+          },
+          {
+            "x": 10.000374999999991,
+            "y": 25,
+            "width": 110.546875,
+            "height": 12
+          }
+        ],
+        "ports": [
+          {
+            "id": "e:Lax17.GridMinor->Lax17.PolynomialGridMinor:import:0:target",
+            "nodeId": "c:Lax17.PolynomialGridMinor",
+            "semanticEndpointId": "Lax17.PolynomialGridMinor",
+            "side": "south",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.Treewidth->Lax17.PolynomialGridMinor:import:0:target",
+            "nodeId": "c:Lax17.PolynomialGridMinor",
+            "semanticEndpointId": "Lax17.PolynomialGridMinor",
+            "side": "south",
+            "mode": "free-on-side"
+          }
+        ],
+        "footprints": [
+          {
+            "id": "c:Lax17.PolynomialGridMinor:body",
+            "kind": "body",
+            "bounds": {
+              "x": 0,
+              "y": 0,
+              "width": 258.282,
+              "height": 46
+            }
+          }
+        ]
+      },
+      {
+        "id": "c:Lax17.SinghLau",
+        "kind": "concept",
+        "width": 236.688,
+        "height": 46,
+        "labelBoxes": [
+          {
+            "x": 10.000249999999994,
+            "y": 9,
+            "width": 216.6875,
+            "height": 12
+          },
+          {
+            "x": 10.000249999999994,
+            "y": 25,
+            "width": 42.703125,
+            "height": 12
+          }
+        ],
+        "ports": [
+          {
+            "id": "e:Lax17.Degree->Lax17.SinghLau:import:0:target",
+            "nodeId": "c:Lax17.SinghLau",
+            "semanticEndpointId": "Lax17.SinghLau",
+            "side": "south",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.SpanningTreeRounding->Lax17.SinghLau:import:0:target",
+            "nodeId": "c:Lax17.SinghLau",
+            "semanticEndpointId": "Lax17.SinghLau",
+            "side": "south",
+            "mode": "free-on-side"
+          }
+        ],
+        "footprints": [
+          {
+            "id": "c:Lax17.SinghLau:body",
+            "kind": "body",
+            "bounds": {
+              "x": 0,
+              "y": 0,
+              "width": 236.688,
+              "height": 46
+            }
+          }
+        ]
+      },
+      {
+        "id": "c:Lax17.SmallLinkedSubsets",
+        "kind": "concept",
+        "width": 181.074,
+        "height": 30,
+        "labelBoxes": [
+          {
+            "x": 10.000455200195319,
+            "y": 9,
+            "width": 161.07308959960938,
+            "height": 12
+          }
+        ],
+        "ports": [
+          {
+            "id": "e:Lax17.Linkedness->Lax17.SmallLinkedSubsets:import:0:target",
+            "nodeId": "c:Lax17.SmallLinkedSubsets",
+            "semanticEndpointId": "Lax17.SmallLinkedSubsets",
+            "side": "south",
+            "mode": "free-on-side"
+          }
+        ],
+        "footprints": [
+          {
+            "id": "c:Lax17.SmallLinkedSubsets:body",
+            "kind": "body",
+            "bounds": {
+              "x": 0,
+              "y": 0,
+              "width": 181.074,
+              "height": 30
+            }
+          }
+        ]
+      },
+      {
+        "id": "c:Lax17.SpanningTreeRounding",
+        "kind": "concept",
+        "width": 235.346,
+        "height": 30,
+        "labelBoxes": [
+          {
+            "x": 10.00026287841797,
+            "y": 9,
+            "width": 215.34547424316406,
+            "height": 12
+          }
+        ],
+        "ports": [
+          {
+            "id": "e:Lax17.Degree->Lax17.SpanningTreeRounding:import:0:target",
+            "nodeId": "c:Lax17.SpanningTreeRounding",
+            "semanticEndpointId": "Lax17.SpanningTreeRounding",
+            "side": "south",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.SpanningTreeRounding->Lax17.SinghLau:import:0:source",
+            "nodeId": "c:Lax17.SpanningTreeRounding",
+            "semanticEndpointId": "Lax17.SpanningTreeRounding",
+            "side": "north",
+            "mode": "free-on-side"
+          }
+        ],
+        "footprints": [
+          {
+            "id": "c:Lax17.SpanningTreeRounding:body",
+            "kind": "body",
+            "bounds": {
+              "x": 0,
+              "y": 0,
+              "width": 235.346,
+              "height": 30
+            }
+          }
+        ]
+      },
+      {
+        "id": "c:Lax17.StrongPathExtraction",
+        "kind": "concept",
+        "width": 140.089,
+        "height": 30,
+        "labelBoxes": [
+          {
+            "x": 10.000096923828124,
+            "y": 9,
+            "width": 120.08880615234375,
+            "height": 12
+          }
+        ],
+        "ports": [
+          {
+            "id": "e:Lax17.PathOfSets->Lax17.StrongPathExtraction:import:0:target",
+            "nodeId": "c:Lax17.StrongPathExtraction",
+            "semanticEndpointId": "Lax17.StrongPathExtraction",
+            "side": "south",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.TreeOfSets->Lax17.StrongPathExtraction:import:0:target",
+            "nodeId": "c:Lax17.StrongPathExtraction",
+            "semanticEndpointId": "Lax17.StrongPathExtraction",
+            "side": "south",
+            "mode": "free-on-side"
+          }
+        ],
+        "footprints": [
+          {
+            "id": "c:Lax17.StrongPathExtraction:body",
+            "kind": "body",
+            "bounds": {
+              "x": 0,
+              "y": 0,
+              "width": 140.089,
+              "height": 30
+            }
+          }
+        ]
+      },
+      {
+        "id": "c:Lax17.StrongPathOfSetsContainsGrid",
+        "kind": "concept",
+        "width": 228.942,
+        "height": 46,
+        "labelBoxes": [
+          {
+            "x": 10.000258728027347,
+            "y": 9,
+            "width": 208.9414825439453,
+            "height": 12
+          },
+          {
+            "x": 10.000258728027347,
+            "y": 25,
+            "width": 35.796875,
+            "height": 12
+          }
+        ],
+        "ports": [
+          {
+            "id": "e:Lax17.GridMinor->Lax17.StrongPathOfSetsContainsGrid:import:0:target",
+            "nodeId": "c:Lax17.StrongPathOfSetsContainsGrid",
+            "semanticEndpointId": "Lax17.StrongPathOfSetsContainsGrid",
+            "side": "south",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.PathOfSets->Lax17.StrongPathOfSetsContainsGrid:import:0:target",
+            "nodeId": "c:Lax17.StrongPathOfSetsContainsGrid",
+            "semanticEndpointId": "Lax17.StrongPathOfSetsContainsGrid",
+            "side": "south",
+            "mode": "free-on-side"
+          }
+        ],
+        "footprints": [
+          {
+            "id": "c:Lax17.StrongPathOfSetsContainsGrid:body",
+            "kind": "body",
+            "bounds": {
+              "x": 0,
+              "y": 0,
+              "width": 228.942,
+              "height": 46
+            }
+          }
+        ]
+      },
+      {
+        "id": "c:Lax17.StrongPathOfSetsFromTreewidth",
+        "kind": "concept",
+        "width": 253.406,
+        "height": 30,
+        "labelBoxes": [
+          {
+            "x": 10.000210693359378,
+            "y": 9,
+            "width": 233.40557861328125,
+            "height": 12
+          }
+        ],
+        "ports": [
+          {
+            "id": "e:Lax17.PathOfSets->Lax17.StrongPathOfSetsFromTreewidth:import:0:target",
+            "nodeId": "c:Lax17.StrongPathOfSetsFromTreewidth",
+            "semanticEndpointId": "Lax17.StrongPathOfSetsFromTreewidth",
+            "side": "south",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.Treewidth->Lax17.StrongPathOfSetsFromTreewidth:import:0:target",
+            "nodeId": "c:Lax17.StrongPathOfSetsFromTreewidth",
+            "semanticEndpointId": "Lax17.StrongPathOfSetsFromTreewidth",
+            "side": "south",
+            "mode": "free-on-side"
+          }
+        ],
+        "footprints": [
+          {
+            "id": "c:Lax17.StrongPathOfSetsFromTreewidth:body",
+            "kind": "body",
+            "bounds": {
+              "x": 0,
+              "y": 0,
+              "width": 253.406,
+              "height": 30
+            }
+          }
+        ]
+      },
+      {
+        "id": "c:Lax17.StrongTreeOfSetsConstruction",
+        "kind": "concept",
+        "width": 184.958,
+        "height": 30,
+        "labelBoxes": [
+          {
+            "x": 10.000446228027343,
+            "y": 9,
+            "width": 164.9571075439453,
+            "height": 12
+          }
+        ],
+        "ports": [
+          {
+            "id": "e:Lax17.TreeOfSets->Lax17.StrongTreeOfSetsConstruction:import:0:target",
+            "nodeId": "c:Lax17.StrongTreeOfSetsConstruction",
+            "semanticEndpointId": "Lax17.StrongTreeOfSetsConstruction",
+            "side": "south",
+            "mode": "free-on-side"
+          }
+        ],
+        "footprints": [
+          {
+            "id": "c:Lax17.StrongTreeOfSetsConstruction:body",
+            "kind": "body",
+            "bounds": {
+              "x": 0,
+              "y": 0,
+              "width": 184.958,
+              "height": 30
+            }
+          }
+        ]
+      },
+      {
+        "id": "c:Lax17.TerminalConnectivity",
+        "kind": "concept",
+        "width": 247.098,
+        "height": 46,
+        "labelBoxes": [
+          {
+            "x": 10.000225280761725,
+            "y": 9,
+            "width": 227.09754943847656,
+            "height": 12
+          },
+          {
+            "x": 10.000225280761725,
+            "y": 25,
+            "width": 54.71635437011719,
+            "height": 12
+          }
+        ],
+        "ports": [
+          {
+            "id": "e:Lax17.TerminalConnectivity->Lax17.HindOellermann:import:0:source",
+            "nodeId": "c:Lax17.TerminalConnectivity",
+            "semanticEndpointId": "Lax17.TerminalConnectivity",
+            "side": "north",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.TerminalConnectivity->Lax17.Mader:import:0:source",
+            "nodeId": "c:Lax17.TerminalConnectivity",
+            "semanticEndpointId": "Lax17.TerminalConnectivity",
+            "side": "north",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.TerminalConnectivity->Lax17.TerminalElementMenger:import:0:source",
+            "nodeId": "c:Lax17.TerminalConnectivity",
+            "semanticEndpointId": "Lax17.TerminalConnectivity",
+            "side": "north",
+            "mode": "free-on-side"
+          }
+        ],
+        "footprints": [
+          {
+            "id": "c:Lax17.TerminalConnectivity:body",
+            "kind": "body",
+            "bounds": {
+              "x": 0,
+              "y": 0,
+              "width": 247.098,
+              "height": 46
+            }
+          }
+        ]
+      },
+      {
+        "id": "c:Lax17.TerminalElementMenger",
+        "kind": "concept",
+        "width": 201.094,
+        "height": 30,
+        "labelBoxes": [
+          {
+            "x": 10.000124999999997,
+            "y": 9,
+            "width": 181.09375,
+            "height": 12
+          }
+        ],
+        "ports": [
+          {
+            "id": "e:Lax17.TerminalConnectivity->Lax17.TerminalElementMenger:import:0:target",
+            "nodeId": "c:Lax17.TerminalElementMenger",
+            "semanticEndpointId": "Lax17.TerminalElementMenger",
+            "side": "south",
+            "mode": "free-on-side"
+          }
+        ],
+        "footprints": [
+          {
+            "id": "c:Lax17.TerminalElementMenger:body",
+            "kind": "body",
+            "bounds": {
+              "x": 0,
+              "y": 0,
+              "width": 201.094,
+              "height": 30
+            }
+          }
+        ]
+      },
+      {
+        "id": "c:Lax17.TreeOfSets",
+        "kind": "concept",
+        "width": 160.637,
+        "height": 30,
+        "labelBoxes": [
+          {
+            "x": 10.000033813476563,
+            "y": 9,
+            "width": 140.63693237304688,
+            "height": 12
+          }
+        ],
+        "ports": [
+          {
+            "id": "e:Lax17.Degree->Lax17.TreeOfSets:import:0:target",
+            "nodeId": "c:Lax17.TreeOfSets",
+            "semanticEndpointId": "Lax17.TreeOfSets",
+            "side": "south",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.PathOfSets->Lax17.TreeOfSets:import:0:target",
+            "nodeId": "c:Lax17.TreeOfSets",
+            "semanticEndpointId": "Lax17.TreeOfSets",
+            "side": "south",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.TreeOfSets->Lax17.StrongPathExtraction:import:0:source",
+            "nodeId": "c:Lax17.TreeOfSets",
+            "semanticEndpointId": "Lax17.TreeOfSets",
+            "side": "north",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.TreeOfSets->Lax17.StrongTreeOfSetsConstruction:import:0:source",
+            "nodeId": "c:Lax17.TreeOfSets",
+            "semanticEndpointId": "Lax17.TreeOfSets",
+            "side": "north",
+            "mode": "free-on-side"
+          }
+        ],
+        "footprints": [
+          {
+            "id": "c:Lax17.TreeOfSets:body",
+            "kind": "body",
+            "bounds": {
+              "x": 0,
+              "y": 0,
+              "width": 160.637,
+              "height": 30
+            }
+          }
+        ]
+      },
+      {
+        "id": "c:Lax17.Treewidth",
+        "kind": "concept",
+        "width": 73.369,
+        "height": 30,
+        "labelBoxes": [
+          {
+            "x": 10.000334045410156,
+            "y": 9,
+            "width": 53.36833190917969,
+            "height": 12
+          }
+        ],
+        "ports": [
+          {
+            "id": "e:Lax17.Treewidth->Lax17.HairyPathOfSetsFromTreewidth:import:0:source",
+            "nodeId": "c:Lax17.Treewidth",
+            "semanticEndpointId": "Lax17.Treewidth",
+            "side": "north",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.Treewidth->Lax17.NodeWellLinkedSetFromTreewidth:import:0:source",
+            "nodeId": "c:Lax17.Treewidth",
+            "semanticEndpointId": "Lax17.Treewidth",
+            "side": "north",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.Treewidth->Lax17.PolynomialGridMinor:import:0:source",
+            "nodeId": "c:Lax17.Treewidth",
+            "semanticEndpointId": "Lax17.Treewidth",
+            "side": "north",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.Treewidth->Lax17.StrongPathOfSetsFromTreewidth:import:0:source",
+            "nodeId": "c:Lax17.Treewidth",
+            "semanticEndpointId": "Lax17.Treewidth",
+            "side": "north",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.Treewidth->Lax17.TreewidthMinorMonotonicity:import:0:source",
+            "nodeId": "c:Lax17.Treewidth",
+            "semanticEndpointId": "Lax17.Treewidth",
+            "side": "north",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.Treewidth->Lax17.TreewidthSparsifier:import:0:source",
+            "nodeId": "c:Lax17.Treewidth",
+            "semanticEndpointId": "Lax17.Treewidth",
+            "side": "north",
+            "mode": "free-on-side"
+          }
+        ],
+        "footprints": [
+          {
+            "id": "c:Lax17.Treewidth:body",
+            "kind": "body",
+            "bounds": {
+              "x": 0,
+              "y": 0,
+              "width": 73.369,
+              "height": 30
+            }
+          }
+        ]
+      },
+      {
+        "id": "c:Lax17.TreewidthMinorMonotonicity",
+        "kind": "concept",
+        "width": 253.506,
+        "height": 30,
+        "labelBoxes": [
+          {
+            "x": 10.000184753417969,
+            "y": 9,
+            "width": 233.50563049316406,
+            "height": 12
+          }
+        ],
+        "ports": [
+          {
+            "id": "e:Lax17.Minor->Lax17.TreewidthMinorMonotonicity:import:0:target",
+            "nodeId": "c:Lax17.TreewidthMinorMonotonicity",
+            "semanticEndpointId": "Lax17.TreewidthMinorMonotonicity",
+            "side": "south",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.Treewidth->Lax17.TreewidthMinorMonotonicity:import:0:target",
+            "nodeId": "c:Lax17.TreewidthMinorMonotonicity",
+            "semanticEndpointId": "Lax17.TreewidthMinorMonotonicity",
+            "side": "south",
+            "mode": "free-on-side"
+          }
+        ],
+        "footprints": [
+          {
+            "id": "c:Lax17.TreewidthMinorMonotonicity:body",
+            "kind": "body",
+            "bounds": {
+              "x": 0,
+              "y": 0,
+              "width": 253.506,
+              "height": 30
+            }
+          }
+        ]
+      },
+      {
+        "id": "c:Lax17.TreewidthSparsifier",
+        "kind": "concept",
+        "width": 191.754,
+        "height": 30,
+        "labelBoxes": [
+          {
+            "x": 10.000420715332027,
+            "y": 9,
+            "width": 171.75315856933594,
+            "height": 12
+          }
+        ],
+        "ports": [
+          {
+            "id": "e:Lax17.Degree->Lax17.TreewidthSparsifier:import:0:target",
+            "nodeId": "c:Lax17.TreewidthSparsifier",
+            "semanticEndpointId": "Lax17.TreewidthSparsifier",
+            "side": "south",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.Treewidth->Lax17.TreewidthSparsifier:import:0:target",
+            "nodeId": "c:Lax17.TreewidthSparsifier",
+            "semanticEndpointId": "Lax17.TreewidthSparsifier",
+            "side": "south",
+            "mode": "free-on-side"
+          }
+        ],
+        "footprints": [
+          {
+            "id": "c:Lax17.TreewidthSparsifier:body",
+            "kind": "body",
+            "bounds": {
+              "x": 0,
+              "y": 0,
+              "width": 191.754,
+              "height": 30
+            }
+          }
+        ]
+      },
+      {
+        "id": "c:Lax17.VertexMenger",
+        "kind": "concept",
+        "width": 144.097,
+        "height": 30,
+        "labelBoxes": [
+          {
+            "x": 10.000099121093754,
+            "y": 9,
+            "width": 124.0968017578125,
+            "height": 12
+          }
+        ],
+        "ports": [
+          {
+            "id": "e:Lax17.Paths->Lax17.VertexMenger:import:0:target",
+            "nodeId": "c:Lax17.VertexMenger",
+            "semanticEndpointId": "Lax17.VertexMenger",
+            "side": "south",
+            "mode": "free-on-side"
+          }
+        ],
+        "footprints": [
+          {
+            "id": "c:Lax17.VertexMenger:body",
+            "kind": "body",
+            "bounds": {
+              "x": 0,
+              "y": 0,
+              "width": 144.097,
+              "height": 30
+            }
+          }
+        ]
+      },
+      {
+        "id": "c:Lax17.WellLinkednessBoosting",
+        "kind": "concept",
+        "width": 148.891,
+        "height": 30,
+        "labelBoxes": [
+          {
+            "x": 10.000187499999996,
+            "y": 9,
+            "width": 128.890625,
+            "height": 12
+          }
+        ],
+        "ports": [
+          {
+            "id": "e:Lax17.Degree->Lax17.WellLinkednessBoosting:import:0:target",
+            "nodeId": "c:Lax17.WellLinkednessBoosting",
+            "semanticEndpointId": "Lax17.WellLinkednessBoosting",
+            "side": "south",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.Linkedness->Lax17.WellLinkednessBoosting:import:0:target",
+            "nodeId": "c:Lax17.WellLinkednessBoosting",
+            "semanticEndpointId": "Lax17.WellLinkednessBoosting",
+            "side": "south",
+            "mode": "free-on-side"
+          },
+          {
+            "id": "e:Lax17.PathOfSets->Lax17.WellLinkednessBoosting:import:0:target",
+            "nodeId": "c:Lax17.WellLinkednessBoosting",
+            "semanticEndpointId": "Lax17.WellLinkednessBoosting",
+            "side": "south",
+            "mode": "free-on-side"
+          }
+        ],
+        "footprints": [
+          {
+            "id": "c:Lax17.WellLinkednessBoosting:body",
+            "kind": "body",
+            "bounds": {
+              "x": 0,
+              "y": 0,
+              "width": 148.891,
+              "height": 30
+            }
+          }
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "id": "e:Lax17.Crossbar->Lax17.CrossbarOrPseudoGrid:import:0",
+        "sourcePortId": "e:Lax17.Crossbar->Lax17.CrossbarOrPseudoGrid:import:0:source",
+        "targetPortId": "e:Lax17.Crossbar->Lax17.CrossbarOrPseudoGrid:import:0:target",
+        "kind": "import",
+        "minRankSpan": 1,
+        "semanticIds": [
+          "Lax17.Crossbar->Lax17.CrossbarOrPseudoGrid:import"
+        ]
+      },
+      {
+        "id": "e:Lax17.Crossbar->Lax17.ExponentTenCrossbarDichotomy:import:0",
+        "sourcePortId": "e:Lax17.Crossbar->Lax17.ExponentTenCrossbarDichotomy:import:0:source",
+        "targetPortId": "e:Lax17.Crossbar->Lax17.ExponentTenCrossbarDichotomy:import:0:target",
+        "kind": "import",
+        "minRankSpan": 1,
+        "semanticIds": [
+          "Lax17.Crossbar->Lax17.ExponentTenCrossbarDichotomy:import"
+        ]
+      },
+      {
+        "id": "e:Lax17.Degree->Lax17.CrossbarOrPseudoGrid:import:0",
+        "sourcePortId": "e:Lax17.Degree->Lax17.CrossbarOrPseudoGrid:import:0:source",
+        "targetPortId": "e:Lax17.Degree->Lax17.CrossbarOrPseudoGrid:import:0:target",
+        "kind": "import",
+        "minRankSpan": 1,
+        "semanticIds": [
+          "Lax17.Degree->Lax17.CrossbarOrPseudoGrid:import"
+        ]
+      },
+      {
+        "id": "e:Lax17.Degree->Lax17.ExpanderGrid:import:0",
+        "sourcePortId": "e:Lax17.Degree->Lax17.ExpanderGrid:import:0:source",
+        "targetPortId": "e:Lax17.Degree->Lax17.ExpanderGrid:import:0:target",
+        "kind": "import",
+        "minRankSpan": 1,
+        "semanticIds": [
+          "Lax17.Degree->Lax17.ExpanderGrid:import"
+        ]
+      },
+      {
+        "id": "e:Lax17.Degree->Lax17.Expansion:import:0",
+        "sourcePortId": "e:Lax17.Degree->Lax17.Expansion:import:0:source",
+        "targetPortId": "e:Lax17.Degree->Lax17.Expansion:import:0:target",
+        "kind": "import",
+        "minRankSpan": 1,
+        "semanticIds": [
+          "Lax17.Degree->Lax17.Expansion:import"
+        ]
+      },
+      {
+        "id": "e:Lax17.Degree->Lax17.ExponentTenCrossbarDichotomy:import:0",
+        "sourcePortId": "e:Lax17.Degree->Lax17.ExponentTenCrossbarDichotomy:import:0:source",
+        "targetPortId": "e:Lax17.Degree->Lax17.ExponentTenCrossbarDichotomy:import:0:target",
+        "kind": "import",
+        "minRankSpan": 1,
+        "semanticIds": [
+          "Lax17.Degree->Lax17.ExponentTenCrossbarDichotomy:import"
+        ]
+      },
+      {
+        "id": "e:Lax17.Degree->Lax17.HairyPathOfSetsFromTreewidth:import:0",
+        "sourcePortId": "e:Lax17.Degree->Lax17.HairyPathOfSetsFromTreewidth:import:0:source",
+        "targetPortId": "e:Lax17.Degree->Lax17.HairyPathOfSetsFromTreewidth:import:0:target",
+        "kind": "import",
+        "minRankSpan": 1,
+        "semanticIds": [
+          "Lax17.Degree->Lax17.HairyPathOfSetsFromTreewidth:import"
+        ]
+      },
+      {
+        "id": "e:Lax17.Degree->Lax17.LowDegreeWellLinkedCore:import:0",
+        "sourcePortId": "e:Lax17.Degree->Lax17.LowDegreeWellLinkedCore:import:0:source",
+        "targetPortId": "e:Lax17.Degree->Lax17.LowDegreeWellLinkedCore:import:0:target",
+        "kind": "import",
+        "minRankSpan": 1,
+        "semanticIds": [
+          "Lax17.Degree->Lax17.LowDegreeWellLinkedCore:import"
+        ]
+      },
+      {
+        "id": "e:Lax17.Degree->Lax17.ParallelClusterSplitting:import:0",
+        "sourcePortId": "e:Lax17.Degree->Lax17.ParallelClusterSplitting:import:0:source",
+        "targetPortId": "e:Lax17.Degree->Lax17.ParallelClusterSplitting:import:0:target",
+        "kind": "import",
+        "minRankSpan": 1,
+        "semanticIds": [
+          "Lax17.Degree->Lax17.ParallelClusterSplitting:import"
+        ]
+      },
+      {
+        "id": "e:Lax17.Degree->Lax17.SinghLau:import:0",
+        "sourcePortId": "e:Lax17.Degree->Lax17.SinghLau:import:0:source",
+        "targetPortId": "e:Lax17.Degree->Lax17.SinghLau:import:0:target",
+        "kind": "import",
+        "minRankSpan": 1,
+        "semanticIds": [
+          "Lax17.Degree->Lax17.SinghLau:import"
+        ]
+      },
+      {
+        "id": "e:Lax17.Degree->Lax17.SpanningTreeRounding:import:0",
+        "sourcePortId": "e:Lax17.Degree->Lax17.SpanningTreeRounding:import:0:source",
+        "targetPortId": "e:Lax17.Degree->Lax17.SpanningTreeRounding:import:0:target",
+        "kind": "import",
+        "minRankSpan": 1,
+        "semanticIds": [
+          "Lax17.Degree->Lax17.SpanningTreeRounding:import"
+        ]
+      },
+      {
+        "id": "e:Lax17.Degree->Lax17.TreeOfSets:import:0",
+        "sourcePortId": "e:Lax17.Degree->Lax17.TreeOfSets:import:0:source",
+        "targetPortId": "e:Lax17.Degree->Lax17.TreeOfSets:import:0:target",
+        "kind": "import",
+        "minRankSpan": 1,
+        "semanticIds": [
+          "Lax17.Degree->Lax17.TreeOfSets:import"
+        ]
+      },
+      {
+        "id": "e:Lax17.Degree->Lax17.TreewidthSparsifier:import:0",
+        "sourcePortId": "e:Lax17.Degree->Lax17.TreewidthSparsifier:import:0:source",
+        "targetPortId": "e:Lax17.Degree->Lax17.TreewidthSparsifier:import:0:target",
+        "kind": "import",
+        "minRankSpan": 1,
+        "semanticIds": [
+          "Lax17.Degree->Lax17.TreewidthSparsifier:import"
+        ]
+      },
+      {
+        "id": "e:Lax17.Degree->Lax17.WellLinkednessBoosting:import:0",
+        "sourcePortId": "e:Lax17.Degree->Lax17.WellLinkednessBoosting:import:0:source",
+        "targetPortId": "e:Lax17.Degree->Lax17.WellLinkednessBoosting:import:0:target",
+        "kind": "import",
+        "minRankSpan": 1,
+        "semanticIds": [
+          "Lax17.Degree->Lax17.WellLinkednessBoosting:import"
+        ]
+      },
+      {
+        "id": "e:Lax17.Expansion->Lax17.CutMatchingTheorem:import:0",
+        "sourcePortId": "e:Lax17.Expansion->Lax17.CutMatchingTheorem:import:0:source",
+        "targetPortId": "e:Lax17.Expansion->Lax17.CutMatchingTheorem:import:0:target",
+        "kind": "import",
+        "minRankSpan": 1,
+        "semanticIds": [
+          "Lax17.Expansion->Lax17.CutMatchingTheorem:import"
+        ]
+      },
+      {
+        "id": "e:Lax17.Expansion->Lax17.ExpanderGrid:import:0",
+        "sourcePortId": "e:Lax17.Expansion->Lax17.ExpanderGrid:import:0:source",
+        "targetPortId": "e:Lax17.Expansion->Lax17.ExpanderGrid:import:0:target",
+        "kind": "import",
+        "minRankSpan": 1,
+        "semanticIds": [
+          "Lax17.Expansion->Lax17.ExpanderGrid:import"
+        ]
+      },
+      {
+        "id": "e:Lax17.Grid->Lax17.GridMinor:import:0",
+        "sourcePortId": "e:Lax17.Grid->Lax17.GridMinor:import:0:source",
+        "targetPortId": "e:Lax17.Grid->Lax17.GridMinor:import:0:target",
+        "kind": "import",
+        "minRankSpan": 1,
+        "semanticIds": [
+          "Lax17.Grid->Lax17.GridMinor:import"
+        ]
+      },
+      {
+        "id": "e:Lax17.GridMinor->Lax17.ExpanderGrid:import:0",
+        "sourcePortId": "e:Lax17.GridMinor->Lax17.ExpanderGrid:import:0:source",
+        "targetPortId": "e:Lax17.GridMinor->Lax17.ExpanderGrid:import:0:target",
+        "kind": "import",
+        "minRankSpan": 1,
+        "semanticIds": [
+          "Lax17.GridMinor->Lax17.ExpanderGrid:import"
+        ]
+      },
+      {
+        "id": "e:Lax17.GridMinor->Lax17.LocalRoutingOrGrid:import:0",
+        "sourcePortId": "e:Lax17.GridMinor->Lax17.LocalRoutingOrGrid:import:0:source",
+        "targetPortId": "e:Lax17.GridMinor->Lax17.LocalRoutingOrGrid:import:0:target",
+        "kind": "import",
+        "minRankSpan": 1,
+        "semanticIds": [
+          "Lax17.GridMinor->Lax17.LocalRoutingOrGrid:import"
+        ]
+      },
+      {
+        "id": "e:Lax17.GridMinor->Lax17.PolynomialGridMinor:import:0",
+        "sourcePortId": "e:Lax17.GridMinor->Lax17.PolynomialGridMinor:import:0:source",
+        "targetPortId": "e:Lax17.GridMinor->Lax17.PolynomialGridMinor:import:0:target",
+        "kind": "import",
+        "minRankSpan": 1,
+        "semanticIds": [
+          "Lax17.GridMinor->Lax17.PolynomialGridMinor:import"
+        ]
+      },
+      {
+        "id": "e:Lax17.GridMinor->Lax17.StrongPathOfSetsContainsGrid:import:0",
+        "sourcePortId": "e:Lax17.GridMinor->Lax17.StrongPathOfSetsContainsGrid:import:0:source",
+        "targetPortId": "e:Lax17.GridMinor->Lax17.StrongPathOfSetsContainsGrid:import:0:target",
+        "kind": "import",
+        "minRankSpan": 1,
+        "semanticIds": [
+          "Lax17.GridMinor->Lax17.StrongPathOfSetsContainsGrid:import"
+        ]
+      },
+      {
+        "id": "e:Lax17.Linkedness->Lax17.LowDegreeWellLinkedCore:import:0",
+        "sourcePortId": "e:Lax17.Linkedness->Lax17.LowDegreeWellLinkedCore:import:0:source",
+        "targetPortId": "e:Lax17.Linkedness->Lax17.LowDegreeWellLinkedCore:import:0:target",
+        "kind": "import",
+        "minRankSpan": 1,
+        "semanticIds": [
+          "Lax17.Linkedness->Lax17.LowDegreeWellLinkedCore:import"
+        ]
+      },
+      {
+        "id": "e:Lax17.Linkedness->Lax17.NodeWellLinkedSetFromTreewidth:import:0",
+        "sourcePortId": "e:Lax17.Linkedness->Lax17.NodeWellLinkedSetFromTreewidth:import:0:source",
+        "targetPortId": "e:Lax17.Linkedness->Lax17.NodeWellLinkedSetFromTreewidth:import:0:target",
+        "kind": "import",
+        "minRankSpan": 1,
+        "semanticIds": [
+          "Lax17.Linkedness->Lax17.NodeWellLinkedSetFromTreewidth:import"
+        ]
+      },
+      {
+        "id": "e:Lax17.Linkedness->Lax17.PathOfSets:import:0",
+        "sourcePortId": "e:Lax17.Linkedness->Lax17.PathOfSets:import:0:source",
+        "targetPortId": "e:Lax17.Linkedness->Lax17.PathOfSets:import:0:target",
+        "kind": "import",
+        "minRankSpan": 1,
+        "semanticIds": [
+          "Lax17.Linkedness->Lax17.PathOfSets:import"
+        ]
+      },
+      {
+        "id": "e:Lax17.Linkedness->Lax17.SmallLinkedSubsets:import:0",
+        "sourcePortId": "e:Lax17.Linkedness->Lax17.SmallLinkedSubsets:import:0:source",
+        "targetPortId": "e:Lax17.Linkedness->Lax17.SmallLinkedSubsets:import:0:target",
+        "kind": "import",
+        "minRankSpan": 1,
+        "semanticIds": [
+          "Lax17.Linkedness->Lax17.SmallLinkedSubsets:import"
+        ]
+      },
+      {
+        "id": "e:Lax17.Linkedness->Lax17.WellLinkednessBoosting:import:0",
+        "sourcePortId": "e:Lax17.Linkedness->Lax17.WellLinkednessBoosting:import:0:source",
+        "targetPortId": "e:Lax17.Linkedness->Lax17.WellLinkednessBoosting:import:0:target",
+        "kind": "import",
+        "minRankSpan": 1,
+        "semanticIds": [
+          "Lax17.Linkedness->Lax17.WellLinkednessBoosting:import"
+        ]
+      },
+      {
+        "id": "e:Lax17.Minor->Lax17.Crossbar:import:0",
+        "sourcePortId": "e:Lax17.Minor->Lax17.Crossbar:import:0:source",
+        "targetPortId": "e:Lax17.Minor->Lax17.Crossbar:import:0:target",
+        "kind": "import",
+        "minRankSpan": 1,
+        "semanticIds": [
+          "Lax17.Minor->Lax17.Crossbar:import"
+        ]
+      },
+      {
+        "id": "e:Lax17.Minor->Lax17.GridMinor:import:0",
+        "sourcePortId": "e:Lax17.Minor->Lax17.GridMinor:import:0:source",
+        "targetPortId": "e:Lax17.Minor->Lax17.GridMinor:import:0:target",
+        "kind": "import",
+        "minRankSpan": 1,
+        "semanticIds": [
+          "Lax17.Minor->Lax17.GridMinor:import"
+        ]
+      },
+      {
+        "id": "e:Lax17.Minor->Lax17.TreewidthMinorMonotonicity:import:0",
+        "sourcePortId": "e:Lax17.Minor->Lax17.TreewidthMinorMonotonicity:import:0:source",
+        "targetPortId": "e:Lax17.Minor->Lax17.TreewidthMinorMonotonicity:import:0:target",
+        "kind": "import",
+        "minRankSpan": 1,
+        "semanticIds": [
+          "Lax17.Minor->Lax17.TreewidthMinorMonotonicity:import"
+        ]
+      },
+      {
+        "id": "e:Lax17.PathOfSets->Lax17.Crossbar:import:0",
+        "sourcePortId": "e:Lax17.PathOfSets->Lax17.Crossbar:import:0:source",
+        "targetPortId": "e:Lax17.PathOfSets->Lax17.Crossbar:import:0:target",
+        "kind": "import",
+        "minRankSpan": 1,
+        "semanticIds": [
+          "Lax17.PathOfSets->Lax17.Crossbar:import"
+        ]
+      },
+      {
+        "id": "e:Lax17.PathOfSets->Lax17.CrossbarStitching:import:0",
+        "sourcePortId": "e:Lax17.PathOfSets->Lax17.CrossbarStitching:import:0:source",
+        "targetPortId": "e:Lax17.PathOfSets->Lax17.CrossbarStitching:import:0:target",
+        "kind": "import",
+        "minRankSpan": 1,
+        "semanticIds": [
+          "Lax17.PathOfSets->Lax17.CrossbarStitching:import"
+        ]
+      },
+      {
+        "id": "e:Lax17.PathOfSets->Lax17.HairyPathOfSetsFromTreewidth:import:0",
+        "sourcePortId": "e:Lax17.PathOfSets->Lax17.HairyPathOfSetsFromTreewidth:import:0:source",
+        "targetPortId": "e:Lax17.PathOfSets->Lax17.HairyPathOfSetsFromTreewidth:import:0:target",
+        "kind": "import",
+        "minRankSpan": 1,
+        "semanticIds": [
+          "Lax17.PathOfSets->Lax17.HairyPathOfSetsFromTreewidth:import"
+        ]
+      },
+      {
+        "id": "e:Lax17.PathOfSets->Lax17.LocalRoutingOrGrid:import:0",
+        "sourcePortId": "e:Lax17.PathOfSets->Lax17.LocalRoutingOrGrid:import:0:source",
+        "targetPortId": "e:Lax17.PathOfSets->Lax17.LocalRoutingOrGrid:import:0:target",
+        "kind": "import",
+        "minRankSpan": 1,
+        "semanticIds": [
+          "Lax17.PathOfSets->Lax17.LocalRoutingOrGrid:import"
+        ]
+      },
+      {
+        "id": "e:Lax17.PathOfSets->Lax17.LowDegreeWellLinkedCore:import:0",
+        "sourcePortId": "e:Lax17.PathOfSets->Lax17.LowDegreeWellLinkedCore:import:0:source",
+        "targetPortId": "e:Lax17.PathOfSets->Lax17.LowDegreeWellLinkedCore:import:0:target",
+        "kind": "import",
+        "minRankSpan": 1,
+        "semanticIds": [
+          "Lax17.PathOfSets->Lax17.LowDegreeWellLinkedCore:import"
+        ]
+      },
+      {
+        "id": "e:Lax17.PathOfSets->Lax17.ParallelClusterSplitting:import:0",
+        "sourcePortId": "e:Lax17.PathOfSets->Lax17.ParallelClusterSplitting:import:0:source",
+        "targetPortId": "e:Lax17.PathOfSets->Lax17.ParallelClusterSplitting:import:0:target",
+        "kind": "import",
+        "minRankSpan": 1,
+        "semanticIds": [
+          "Lax17.PathOfSets->Lax17.ParallelClusterSplitting:import"
+        ]
+      },
+      {
+        "id": "e:Lax17.PathOfSets->Lax17.StrongPathExtraction:import:0",
+        "sourcePortId": "e:Lax17.PathOfSets->Lax17.StrongPathExtraction:import:0:source",
+        "targetPortId": "e:Lax17.PathOfSets->Lax17.StrongPathExtraction:import:0:target",
+        "kind": "import",
+        "minRankSpan": 1,
+        "semanticIds": [
+          "Lax17.PathOfSets->Lax17.StrongPathExtraction:import"
+        ]
+      },
+      {
+        "id": "e:Lax17.PathOfSets->Lax17.StrongPathOfSetsContainsGrid:import:0",
+        "sourcePortId": "e:Lax17.PathOfSets->Lax17.StrongPathOfSetsContainsGrid:import:0:source",
+        "targetPortId": "e:Lax17.PathOfSets->Lax17.StrongPathOfSetsContainsGrid:import:0:target",
+        "kind": "import",
+        "minRankSpan": 1,
+        "semanticIds": [
+          "Lax17.PathOfSets->Lax17.StrongPathOfSetsContainsGrid:import"
+        ]
+      },
+      {
+        "id": "e:Lax17.PathOfSets->Lax17.StrongPathOfSetsFromTreewidth:import:0",
+        "sourcePortId": "e:Lax17.PathOfSets->Lax17.StrongPathOfSetsFromTreewidth:import:0:source",
+        "targetPortId": "e:Lax17.PathOfSets->Lax17.StrongPathOfSetsFromTreewidth:import:0:target",
+        "kind": "import",
+        "minRankSpan": 1,
+        "semanticIds": [
+          "Lax17.PathOfSets->Lax17.StrongPathOfSetsFromTreewidth:import"
+        ]
+      },
+      {
+        "id": "e:Lax17.PathOfSets->Lax17.TreeOfSets:import:0",
+        "sourcePortId": "e:Lax17.PathOfSets->Lax17.TreeOfSets:import:0:source",
+        "targetPortId": "e:Lax17.PathOfSets->Lax17.TreeOfSets:import:0:target",
+        "kind": "import",
+        "minRankSpan": 1,
+        "semanticIds": [
+          "Lax17.PathOfSets->Lax17.TreeOfSets:import"
+        ]
+      },
+      {
+        "id": "e:Lax17.PathOfSets->Lax17.WellLinkednessBoosting:import:0",
+        "sourcePortId": "e:Lax17.PathOfSets->Lax17.WellLinkednessBoosting:import:0:source",
+        "targetPortId": "e:Lax17.PathOfSets->Lax17.WellLinkednessBoosting:import:0:target",
+        "kind": "import",
+        "minRankSpan": 1,
+        "semanticIds": [
+          "Lax17.PathOfSets->Lax17.WellLinkednessBoosting:import"
+        ]
+      },
+      {
+        "id": "e:Lax17.Paths->Lax17.Crossbar:import:0",
+        "sourcePortId": "e:Lax17.Paths->Lax17.Crossbar:import:0:source",
+        "targetPortId": "e:Lax17.Paths->Lax17.Crossbar:import:0:target",
+        "kind": "import",
+        "minRankSpan": 1,
+        "semanticIds": [
+          "Lax17.Paths->Lax17.Crossbar:import"
+        ]
+      },
+      {
+        "id": "e:Lax17.Paths->Lax17.EdgeMenger:import:0",
+        "sourcePortId": "e:Lax17.Paths->Lax17.EdgeMenger:import:0:source",
+        "targetPortId": "e:Lax17.Paths->Lax17.EdgeMenger:import:0:target",
+        "kind": "import",
+        "minRankSpan": 1,
+        "semanticIds": [
+          "Lax17.Paths->Lax17.EdgeMenger:import"
+        ]
+      },
+      {
+        "id": "e:Lax17.Paths->Lax17.Linkedness:import:0",
+        "sourcePortId": "e:Lax17.Paths->Lax17.Linkedness:import:0:source",
+        "targetPortId": "e:Lax17.Paths->Lax17.Linkedness:import:0:target",
+        "kind": "import",
+        "minRankSpan": 1,
+        "semanticIds": [
+          "Lax17.Paths->Lax17.Linkedness:import"
+        ]
+      },
+      {
+        "id": "e:Lax17.Paths->Lax17.VertexMenger:import:0",
+        "sourcePortId": "e:Lax17.Paths->Lax17.VertexMenger:import:0:source",
+        "targetPortId": "e:Lax17.Paths->Lax17.VertexMenger:import:0:target",
+        "kind": "import",
+        "minRankSpan": 1,
+        "semanticIds": [
+          "Lax17.Paths->Lax17.VertexMenger:import"
+        ]
+      },
+      {
+        "id": "e:Lax17.SpanningTreeRounding->Lax17.SinghLau:import:0",
+        "sourcePortId": "e:Lax17.SpanningTreeRounding->Lax17.SinghLau:import:0:source",
+        "targetPortId": "e:Lax17.SpanningTreeRounding->Lax17.SinghLau:import:0:target",
+        "kind": "import",
+        "minRankSpan": 1,
+        "semanticIds": [
+          "Lax17.SpanningTreeRounding->Lax17.SinghLau:import"
+        ]
+      },
+      {
+        "id": "e:Lax17.TerminalConnectivity->Lax17.HindOellermann:import:0",
+        "sourcePortId": "e:Lax17.TerminalConnectivity->Lax17.HindOellermann:import:0:source",
+        "targetPortId": "e:Lax17.TerminalConnectivity->Lax17.HindOellermann:import:0:target",
+        "kind": "import",
+        "minRankSpan": 1,
+        "semanticIds": [
+          "Lax17.TerminalConnectivity->Lax17.HindOellermann:import"
+        ]
+      },
+      {
+        "id": "e:Lax17.TerminalConnectivity->Lax17.Mader:import:0",
+        "sourcePortId": "e:Lax17.TerminalConnectivity->Lax17.Mader:import:0:source",
+        "targetPortId": "e:Lax17.TerminalConnectivity->Lax17.Mader:import:0:target",
+        "kind": "import",
+        "minRankSpan": 1,
+        "semanticIds": [
+          "Lax17.TerminalConnectivity->Lax17.Mader:import"
+        ]
+      },
+      {
+        "id": "e:Lax17.TerminalConnectivity->Lax17.TerminalElementMenger:import:0",
+        "sourcePortId": "e:Lax17.TerminalConnectivity->Lax17.TerminalElementMenger:import:0:source",
+        "targetPortId": "e:Lax17.TerminalConnectivity->Lax17.TerminalElementMenger:import:0:target",
+        "kind": "import",
+        "minRankSpan": 1,
+        "semanticIds": [
+          "Lax17.TerminalConnectivity->Lax17.TerminalElementMenger:import"
+        ]
+      },
+      {
+        "id": "e:Lax17.TreeOfSets->Lax17.StrongPathExtraction:import:0",
+        "sourcePortId": "e:Lax17.TreeOfSets->Lax17.StrongPathExtraction:import:0:source",
+        "targetPortId": "e:Lax17.TreeOfSets->Lax17.StrongPathExtraction:import:0:target",
+        "kind": "import",
+        "minRankSpan": 1,
+        "semanticIds": [
+          "Lax17.TreeOfSets->Lax17.StrongPathExtraction:import"
+        ]
+      },
+      {
+        "id": "e:Lax17.TreeOfSets->Lax17.StrongTreeOfSetsConstruction:import:0",
+        "sourcePortId": "e:Lax17.TreeOfSets->Lax17.StrongTreeOfSetsConstruction:import:0:source",
+        "targetPortId": "e:Lax17.TreeOfSets->Lax17.StrongTreeOfSetsConstruction:import:0:target",
+        "kind": "import",
+        "minRankSpan": 1,
+        "semanticIds": [
+          "Lax17.TreeOfSets->Lax17.StrongTreeOfSetsConstruction:import"
+        ]
+      },
+      {
+        "id": "e:Lax17.Treewidth->Lax17.HairyPathOfSetsFromTreewidth:import:0",
+        "sourcePortId": "e:Lax17.Treewidth->Lax17.HairyPathOfSetsFromTreewidth:import:0:source",
+        "targetPortId": "e:Lax17.Treewidth->Lax17.HairyPathOfSetsFromTreewidth:import:0:target",
+        "kind": "import",
+        "minRankSpan": 1,
+        "semanticIds": [
+          "Lax17.Treewidth->Lax17.HairyPathOfSetsFromTreewidth:import"
+        ]
+      },
+      {
+        "id": "e:Lax17.Treewidth->Lax17.NodeWellLinkedSetFromTreewidth:import:0",
+        "sourcePortId": "e:Lax17.Treewidth->Lax17.NodeWellLinkedSetFromTreewidth:import:0:source",
+        "targetPortId": "e:Lax17.Treewidth->Lax17.NodeWellLinkedSetFromTreewidth:import:0:target",
+        "kind": "import",
+        "minRankSpan": 1,
+        "semanticIds": [
+          "Lax17.Treewidth->Lax17.NodeWellLinkedSetFromTreewidth:import"
+        ]
+      },
+      {
+        "id": "e:Lax17.Treewidth->Lax17.PolynomialGridMinor:import:0",
+        "sourcePortId": "e:Lax17.Treewidth->Lax17.PolynomialGridMinor:import:0:source",
+        "targetPortId": "e:Lax17.Treewidth->Lax17.PolynomialGridMinor:import:0:target",
+        "kind": "import",
+        "minRankSpan": 1,
+        "semanticIds": [
+          "Lax17.Treewidth->Lax17.PolynomialGridMinor:import"
+        ]
+      },
+      {
+        "id": "e:Lax17.Treewidth->Lax17.StrongPathOfSetsFromTreewidth:import:0",
+        "sourcePortId": "e:Lax17.Treewidth->Lax17.StrongPathOfSetsFromTreewidth:import:0:source",
+        "targetPortId": "e:Lax17.Treewidth->Lax17.StrongPathOfSetsFromTreewidth:import:0:target",
+        "kind": "import",
+        "minRankSpan": 1,
+        "semanticIds": [
+          "Lax17.Treewidth->Lax17.StrongPathOfSetsFromTreewidth:import"
+        ]
+      },
+      {
+        "id": "e:Lax17.Treewidth->Lax17.TreewidthMinorMonotonicity:import:0",
+        "sourcePortId": "e:Lax17.Treewidth->Lax17.TreewidthMinorMonotonicity:import:0:source",
+        "targetPortId": "e:Lax17.Treewidth->Lax17.TreewidthMinorMonotonicity:import:0:target",
+        "kind": "import",
+        "minRankSpan": 1,
+        "semanticIds": [
+          "Lax17.Treewidth->Lax17.TreewidthMinorMonotonicity:import"
+        ]
+      },
+      {
+        "id": "e:Lax17.Treewidth->Lax17.TreewidthSparsifier:import:0",
+        "sourcePortId": "e:Lax17.Treewidth->Lax17.TreewidthSparsifier:import:0:source",
+        "targetPortId": "e:Lax17.Treewidth->Lax17.TreewidthSparsifier:import:0:target",
+        "kind": "import",
+        "minRankSpan": 1,
+        "semanticIds": [
+          "Lax17.Treewidth->Lax17.TreewidthSparsifier:import"
+        ]
+      }
+    ]
+  }
+}

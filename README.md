@@ -22,6 +22,9 @@ repository and never modifies it.
 - Node.js 20 or newer
 - npm
 - a local checkout of `lax-archive/lax-database`
+- for archive graph measurement: pinned Chrome for Testing `150.0.7871.124`,
+  or a complete exact-metrics cache. Set `GRAPH_CHROME` to that executable.
+  CI provisions it; installing the packaged local renderer does not.
 
 ## Local setup
 
@@ -209,6 +212,63 @@ Three surfaces follow from it:
 The generated HTML is deterministic. Math is rendered at build time with
 KaTeX, highlighting with Shiki, all runtime assets are local, and the page
 shell applies a strict Content Security Policy.
+
+## Graph drawing
+
+Archive builds prepare concept, submission and proof graphs before writing
+pages. A first-party core assigns ranks and semantic ports, orders layers,
+places measured boxes, and searches bounded routing candidates. An independent
+validator checks complete quantized geometry and serialized curves. Public
+pages contain linked, accessible SVGs that work without JavaScript. The browser
+adds inspectors, highlighting, pan/zoom, fullscreen and prepared view switches;
+it downloads no graph-layout engine and performs no layout search.
+
+The archive measurement host uses the site's bundled fonts and exact SVG ink
+bounds, including wrapped lines. Obtain the pinned executable from
+[Chrome for Testing](https://googlechromelabs.github.io/chrome-for-testing/)
+and point `GRAPH_CHROME` at it. An unexpected browser version, unsupported
+glyph, lost edge, invalid attachment or geometry collision stops an archive
+build. The previous output is retained while preparation and staged writes run.
+
+```sh
+GRAPH_CHROME=/path/to/chrome npm run site:build
+GRAPH_CHROME=/path/to/chrome npm run check
+```
+
+The default `.lax-graph-cache/` stores exact label metrics, content-addressed
+geometry and separate algorithm diagnostics. Cache keys include font and style
+signatures, semantic port constraints, the display projection, engine version
+and selection profile. Corrupt entries are rebuilt. Cache hits and misses
+produce the same published bytes; elapsed times and host information appear
+only in an optional build report:
+
+```sh
+npm run site:build -- --graph-cache /tmp/lax-graphs \
+  --graph-report /tmp/lax-graph-build.json
+```
+
+Concept ancestry and descendant controls select at most four precomputed
+states. Larger alternate SVG payloads are same-origin static files, loaded
+only when selected. `--self-contained-graphs` embeds every supported state for
+`file:` exports. These exports still use the site's accompanying local assets.
+
+`npm run site:serve` and packaged `generateSite()` callers default to local
+mode. If exact cached metrics are unavailable, a separately packaged helper
+measures new labels in the user's browser and runs the same core in a worker.
+This path requires the local HTTP preview; it does not install a browser,
+fetch a layout library, or appear in archive assets. Hosts can explicitly use
+`{ graphs: { mode: "archive", measurement: { provider, providerId } } }` to
+supply their own exact measurement service. An epoch string remains supported
+as `generateSite()`'s third argument for existing `lax serve` callers.
+
+Algorithm methods, fixture provenance, supported work budgets and comparison
+commands are in [docs/graph-layout](docs/graph-layout/README.md). The frozen
+archive corpus is separate from synthetic diagnostic graphs. Optional Graphviz
+and ELK comparison scripts are development tools; neither is a dependency of
+the normal build or visitors' assets.
+
+Test-created temporary sites are removed after each suite. Set
+`LAX_KEEP_TEST_OUTPUT=1` when deliberately keeping them for debugging.
 
 Historical website-only plans and migration notes from the original monorepo
 are preserved under `old-logic/`. They are archival and are never rendered or

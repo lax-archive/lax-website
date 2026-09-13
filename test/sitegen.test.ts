@@ -3,12 +3,38 @@ import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { SITE_MIME, siteAssetPath } from "../src/sitegen/assets.js";
 import { generateSite, type SiteSubmission } from "../src/sitegen/generate.js";
+import { graphMeasurementKey, type MeasureLabelsProvider } from "../src/sitegen/graph-measure.js";
+import type { GraphPreparationOptions } from "../src/sitegen/graph-prepare.js";
+import { projectGraph, type ProofGraphData } from "../src/sitegen/graph-project.js";
 import { countsPill, statePill, typeBadge, typeBadgeText } from "../src/sitegen/html.js";
 import { compareIds, SiteModel } from "../src/sitegen/model.js";
 import { MarkdownRenderer } from "../src/sitegen/markdown.js";
 import { ordinal, repositorySource, sourceProviderName, statementOrdinal } from "../src/sitegen/pages/shared.js";
 import { submissionTagIndex } from "../src/sitegen/tags.js";
 import { tmpDir } from "./helpers.js";
+
+// Literal metrics exercise the injected host contract without requiring a
+// browser binary in page tests. Unknown labels fail; this is not a text-size
+// estimator. Exact font measurement has its own browser integration tests.
+const fixtureLabels = new Map([
+  ["1", 6], ["2", 6], // Literal 12px Latin Modern digit advance; no width estimate.
+  ["Two", 23.5], ["Truth", 29.5], ["Definition helper", 89.5],
+  ["Lax1", 25.5], ["Lax3", 25.5], ["Lax4", 25.5], ["Lax10", 31.5],
+  ["Lax1.Base", 53.5], ["Lax3.Middle", 68.5], ["Lax4.Top", 48.5], ["Lax4.Aux", 51.5],
+  ["Lax2.C", 38.5], ["Lax1.Main", 55.5], ["Lax4.Main", 55.5],
+  ["Foundational submission", 128.5],
+]);
+const fixtureMeasurement: MeasureLabelsProvider = async (requests, environment) => requests.map((request) => {
+  const width = fixtureLabels.get(request.text);
+  if (width === undefined) throw new Error(`No literal graph metrics for ${JSON.stringify(request.text)}`);
+  return { text: request.text, width, height: 16,
+    signature: graphMeasurementKey(request, environment.signature),
+    lines: [{ text: request.text, x: 0, y: 12, ink: { x: 0, y: 2, width, height: 12 } }] };
+});
+const archiveGraphs = (cacheDir = tmpDir("lax-site-graph-cache-")): GraphPreparationOptions => ({
+  mode: "archive", cacheDir, selfContained: true,
+  measurement: { hostBrowser: false, provider: fixtureMeasurement, providerId: "sitegen-literal-metrics-v1" },
+});
 
 const submissions = (): SiteSubmission[] => [{
   record: {
@@ -589,32 +615,45 @@ After the formula.`, "");
   });
 
   it("emits complete deterministic static output with known MIME types", async () => {
-    expect(siteAssetPath("layout.js")).toContain(path.join("assets", "site", "layout.js"));
+    expect(siteAssetPath("graph-interaction.js")).toContain(path.join("assets", "site", "graph-interaction.js"));
     expect(() => siteAssetPath("../package.json")).toThrow("escapes");
     const one = tmpDir("lax-site-one-");
     const two = tmpDir("lax-site-two-");
-    await generateSite(submissions(), one);
-    await generateSite(submissions(), two);
+    const graphs = archiveGraphs();
+    await generateSite(submissions(), one, { graphs });
+    await generateSite(submissions(), two, { graphs });
     const first = snapshot(one); const second = snapshot(two);
     expect([...first.keys()]).toEqual([...second.keys()]);
     for (const [name, bytes] of first) {
       expect(bytes.equals(second.get(name)!)).toBe(true);
       expect(SITE_MIME[path.extname(name)], `missing MIME for ${name}`).toBeDefined();
     }
-    for (const asset of ["style.css", "sidebar.js", "landing.js", "layout.js", "dag.js", "source-proof.js", "citation.js", "version-history.js", "comments.js", "katex.css", "lax-white-paper.pdf", path.join("fonts", "LM-regular.woff2")])
+    for (const asset of ["style.css", "sidebar.js", "landing.js", "graph-interaction.js", "source-proof.js", "citation.js", "version-history.js", "comments.js", "katex.css", "lax-white-paper.pdf", path.join("fonts", "LM-regular.woff2")])
       expect(fs.existsSync(path.join(one, "assets", asset)), asset).toBe(true);
+    for (const asset of ["layout.js", "dag.js", "graph-local.js", "graph-measure-local.js", "graph-local"])
+      expect(fs.existsSync(path.join(one, "assets", asset)), `archive must not ship ${asset}`).toBe(false);
+    const graphPage = fs.readFileSync(path.join(one, "Lax2", "index.html"), "utf8");
+    const visible = graphPage.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gu, "");
+    expect(visible).toMatch(/data-prepared="true" style="height:[\d.]+px"><svg[^>]+class="prepared-graph"[^>]+width="[\d.]+" height="[\d.]+"/u);
+    expect(visible).toContain('aria-label="Proof dependency graph"');
+    expect(visible).toContain('data-node-id="p:Lax2Proofs.truth" aria-label="Proof Lax2Proofs.truth" href="../Lax2/Lax2Proofs.truth.html" role="link"');
+    expect(visible).toContain('class="net-edge conclusion"');
+    expect(visible).toContain('markerUnits="userSpaceOnUse" orient="auto"');
+    expect(visible).not.toContain('data-graph-local="true"');
+    expect(graphPage).toMatch(/<script src="\.\.\/assets\/graph-interaction\.js\?v=[0-9a-f]{12}"><\/script>/u);
+    expect(graphPage).not.toMatch(/assets\/(?:layout|dag|graph-local|graph-measure-local)\.js/u);
     const emptySubmission = fs.readFileSync(path.join(one, "Lax10", "index.html"), "utf8");
     expect(emptySubmission).toContain('data-remark42-url="https://laxarchive.org/Lax10/"');
     expect(emptySubmission).toMatch(/<script src="\.\.\/assets\/comments\.js\?v=[0-9a-f]{12}"><\/script>/);
     expect(fs.readFileSync(path.join(one, "assets", "lax-white-paper.pdf")).subarray(0, 4).toString()).toBe("%PDF");
-    // Graph containers must be measurable before dag.js appends their SVG.
+    // Static graph dimensions reserve space before interaction starts.
     const css = fs.readFileSync(path.join(one, "assets", "style.css"), "utf8");
     expect(css).not.toContain(".figure-container:empty");
     expect(css).toContain(".graph-figure.graph-expanded");
-    expect(css).toContain(".proof-network-figure > .graph-expand{ right: 1rem; }");
+    expect(css).toContain(".graph-controls{");
     expect(css).toContain(".graph-edge-casing{");
     expect(css).toContain("fill: context-stroke");
-    expect(css).toContain("background: rgba(248, 250, 252, 0.98)");
+    expect(css).toContain("background: rgb(255, 255, 255)");
     expect(css).toContain('.status-pill[data-tooltip]:hover::after');
     expect(css).not.toContain(".landing-demo-");
     expect(css).not.toContain(".landing-action-card");
@@ -911,7 +950,9 @@ After the formula.`, "");
 
   it("shows the examples, the network and the foundations from the archive", async () => {
     const root = tmpDir("lax-site-intro-");
-    await generateSite([...submissions(), introSubmission(), ...landingArchive()], root);
+    await generateSite([...submissions(), introSubmission(), ...landingArchive()], root, {
+      graphs: { mode: "local", cacheDir: tmpDir("lax-site-landing-metrics-"), measurement: { hostBrowser: false } },
+    });
     const index = fs.readFileSync(path.join(root, "index.html"), "utf8");
 
     // The examples box: a dot per example, an arrow either side, three
@@ -939,7 +980,7 @@ After the formula.`, "");
     expect(index).toContain('<li class="manuscript-card kind-proof line-proven" id="landing-primes-5">');
     expect(index).not.toContain("manuscript-card-expanded");
     expect(index).toContain('<div class="manuscript-card-body" id="landing-primes-1-body" hidden>');
-    expect(index).toContain('<li class="landing-paper-hint" aria-hidden="true"><span class="landing-paper-hint-hover">Hover a highlight to expand</span>');
+    expect(index).toContain('<li class="landing-paper-hint" aria-hidden="true"><span class="landing-paper-hint-hover">Hover over a highlight to expand</span>');
     expect(index).not.toContain("manuscript-card-pinned");
     expect(index).toContain('<span class="manuscript-card-name"><span class="type-badge" title="definition">def</span><code>Primes</code></span>');
     expect(index).toContain('<p class="manuscript-card-title">Prime numbers</p>');
@@ -976,15 +1017,21 @@ After the formula.`, "");
     expect(index).toContain('<figure class="landing-box graph-figure proof-network-figure landing-network-figure" aria-label="The proof network of lax-17">');
     expect(index).not.toContain("landing-network-source");
     expect(index).toContain('<a href="open-proof-obligations.html">open obligation</a>, and every result');
-    expect(index).toContain('<div class="landing-network-viewport">\n<div id="proof-network" class="figure-container" data-graph="proofs"></div>\n</div>');
+    expect(index).toContain('<div class="landing-network-viewport">\n<div id="proof-network" class="figure-container" data-graph="proofs" data-graph-local="true">');
+    expect(index).toContain('<noscript>Enable JavaScript to prepare newly authored local labels, or use a host with exact graph measurement.</noscript>');
     const data = JSON.parse(index.match(/<script type="application\/json" id="graph-data">(.*?)<\/script>/)![1]!);
-    expect(Object.keys(data)).toEqual(["proofs"]);
+    expect(Object.keys(data)).toEqual(["proofs", "local"]);
+    expect(data.local.containers["proof-network"]).toMatchObject({ kind: "proofs", initial: "default" });
     expect(data.proofs.home).toBe("lax-17");
     expect(data.proofs.statements.map((s: { id: string; href: string; proven: boolean }) => [s.id, s.href, s.proven])).toEqual([
       ["Lax17.PolynomialGridMinor.polynomial_grid_minor", "lax-17/Lax17.PolynomialGridMinor.html#s-Lax17.PolynomialGridMinor.polynomial_grid_minor", true],
     ]);
     expect(data.proofs.proofs[0].href).toBe("lax-17/Lax17Proofs.Final.polynomial_grid_minor.html");
-    expect(index).toMatch(/<script src="assets\/layout\.js\?v=[0-9a-f]{12}"><\/script>\n<script src="assets\/dag\.js\?v=[0-9a-f]{12}"><\/script>\n<script src="assets\/landing\.js\?v=[0-9a-f]{12}"><\/script>/);
+    for (const script of ["graph-interaction", "landing", "graph-measure-local", "graph-local"])
+      expect(index).toMatch(new RegExp(`<script src="assets/${script}\\.js\\?v=[0-9a-f]{12}"><\\/script>`));
+    expect(index).not.toMatch(/assets\/(?:layout|dag)\.js/u);
+    expect(fs.existsSync(path.join(root, "assets", "graph-local", "sitegen", "graph-local-worker.js"))).toBe(true);
+    expect(fs.existsSync(path.join(root, "assets", "graph-local", "graph-layout", "index.js"))).toBe(true);
     // The one way in: the annotated paper.
     expect(index).toContain('<a class="site-nav-link" href="lax-242665/paper.html">Introduction</a>');
     expect(index).toContain('<a class="site-nav-link" href="about.html">About</a>');
@@ -1197,6 +1244,7 @@ After the formula.`, "");
     expect(html).not.toContain("Strategy");
     expect(html.indexOf('id="proof-network"')).toBeLessThan(html.indexOf('class="proof-list"'));
     expect(html).toMatch(/<details class="figure-details">\s*<summary>Proof list<\/summary>\s*<div class="proof-list-box">/);
+    expect(html).toMatch(/Proof code is not displayed;[^<]*<\/p>\s*<\/details>/);
     // both proof surfaces link out to the proof package — a tree link, since
     // `proofs/` is a directory, not the file the `path` argument means
     const proofsTree = `https://github.com/example/math/tree/${"a".repeat(40)}/proofs`;
@@ -1205,6 +1253,7 @@ After the formula.`, "");
     // citation for a registered submission has no draft note
     expect(html).toContain("@misc{Lax2");
     expect(html).toContain('<section class="page-section"><h3 class="section-title" id="citation">Cite this</h3>');
+    expect(html).toContain("This is only the formalizers. The authors of the formalized results may be different (see References).");
     expect(html).toContain('<pre class="citation" id="submission-citation">');
     expect(html).toContain('data-copy-citation aria-controls="submission-citation" aria-label="Copy BibTeX to clipboard"');
     expect(html).toContain('<output class="citation-copy-status" aria-live="polite"></output>');
@@ -1270,8 +1319,7 @@ After the formula.`, "");
     expect(html).toContain('<i class="legend-node fill-none"></i>Definition</span>');
     expect(html).not.toMatch(/nothing\s+to\s+prove/);
     expect((html.match(/class="graph-tooltip"/g) ?? []).length).toBe(2);
-    // Only concept/proof figures get a large-window control; the submission
-    // map deliberately remains an inline overview.
+    // This isolated submission has only concept/proof figures.
     expect((html.match(/data-graph-expand/g) ?? []).length).toBe(2);
     expect(html).toContain('data-graph-label="concept map" aria-expanded="false"');
     expect(html).toContain('data-graph-label="proof network" aria-expanded="false"');
@@ -1329,7 +1377,7 @@ After the formula.`, "");
 
   it("emits expandable concept closures and proof readiness metadata for deterministic DAGs", async () => {
     const root = tmpDir("lax-site-graphs-");
-    await generateSite([...submissions(), ...graphSubmissions()], root);
+    await generateSite([...submissions(), ...graphSubmissions()], root, { graphs: archiveGraphs() });
     const html = fs.readFileSync(path.join(root, "Lax4", "index.html"), "utf8");
     expect(html).toContain('data-concept-review-url="https://laxarchive.org/Lax4/Lax4.Top.html" hidden');
     // ancestors are on by default, descendants off — both closures run over
@@ -1338,7 +1386,7 @@ After the formula.`, "");
     expect(html).toContain("Hide ancestors");
     expect(html).toContain('data-graph="concepts" data-ancestry="true"');
     expect(html).toContain('id="concept-descend"');
-    expect(html).toContain("Show descendants");
+    expect(html).toMatch(/<button[^>]*id="concept-descend"[^>]*disabled[^>]*aria-pressed="false">No descendants<\/button>/u);
     expect(html).not.toContain('aria-controls="concept-dag" aria-pressed="false">Hide');
     // The concept map starts collapsed; the proof network remains visible.
     expect(html).toMatch(/<details class="figure-details">\s*<summary>Concept map<\/summary>\s*<figure class="graph-figure">/);
@@ -1373,8 +1421,8 @@ After the formula.`, "");
     expect(conceptHtml).toContain("Hide ancestors");
     expect(conceptHtml).toContain('data-graph="concepts" data-ancestry="true"');
     expect(conceptHtml.indexOf('id="concept-dag"')).toBeLessThan(conceptHtml.indexOf('class="block block-statement"'));
-    expect(conceptHtml).toMatch(/<script src="\.\.\/assets\/layout\.js\?v=[0-9a-f]{12}"><\/script>/);
-    expect(conceptHtml).toMatch(/<script src="\.\.\/assets\/dag\.js\?v=[0-9a-f]{12}"><\/script>/);
+    expect(conceptHtml).toMatch(/<script src="\.\.\/assets\/graph-interaction\.js\?v=[0-9a-f]{12}"><\/script>/);
+    expect(conceptHtml).not.toMatch(/assets\/(?:layout|dag|graph-local)\.js/u);
     expect((conceptHtml.match(/data-graph-expand/g) ?? []).length).toBe(1);
     const conceptMatch = /<script type="application\/json" id="graph-data">(.*?)<\/script>/s.exec(conceptHtml)!;
     const conceptData = JSON.parse(conceptMatch[1]!);
@@ -1400,29 +1448,30 @@ After the formula.`, "");
       ["Lax4.Top", "down"],
     ]);
 
-    const script = fs.readFileSync(path.join(root, "assets", "dag.js"), "utf8");
-    expect(script).toContain("stronglyConnectedComponents");
-    expect(script).not.toContain("forceSimulation");
-    expect(script).not.toContain("svgEl(g, 'title')");
-    expect(script).not.toContain("addEventListener('mousemove'");
-    expect(script).toContain("markerUnits: 'userSpaceOnUse'");
-    expect(script).toContain("orient: 'auto'");
-    expect(script).toContain("protectedRankRoute");
-    expect(script).toContain("routeDagEdge");
-    expect(script).toContain("segmentIsClear");
-    expect(script).toContain("MIN_ARC_SEPARATION");
-    expect(script).toContain("sources.length === 1");
-    expect(script).toContain("EDGE_BEND_RADIUS");
-    expect(script).toContain(" Q${corner.x},${corner.y}");
-    expect(script).toContain("graph-edge-casing");
-    const layoutScript = fs.readFileSync(path.join(root, "assets", "layout.js"), "utf8");
-    expect(layoutScript).toContain("optimizeOrdering");
-    expect(layoutScript).toContain("removeRepeatedCrossings");
-    expect(layoutScript).toContain("straightenDummyChains");
-    expect(layoutScript).toContain("alignEdgeChains");
-    expect(layoutScript).toContain("rankRoutes");
-    expect(script).toContain("requestAnimationFrame(render)");
-    expect(script).toContain("event.key !== 'Escape'");
+    // Each ancestry/descendant combination already has its own complete
+    // drawing and incident-edge map. The selected SVG is in the HTML itself.
+    const descriptor = middleData.prepared["concept-dag"];
+    expect(descriptor).toMatchObject({ initial: "10", ancestors: 1, descendants: 1 });
+    expect(Object.keys(descriptor.views).sort()).toEqual(["00", "01", "10", "11"]);
+    for (const [state, ids] of Object.entries({
+      "00": ["c:Lax3.Middle"],
+      "01": ["c:Lax3.Middle", "c:Lax4.Top"],
+      "10": ["c:Lax1.Base", "c:Lax3.Middle"],
+      "11": ["c:Lax1.Base", "c:Lax3.Middle", "c:Lax4.Top"],
+    })) {
+      const view = descriptor.views[state];
+      expect(Object.keys(view.interaction.nodes)).toEqual(ids);
+      expect(view.height).toBeGreaterThan(0);
+      if (state === descriptor.initial) expect(view.svg).toBeUndefined();
+      else expect(view.svg).toContain('class="prepared-graph"');
+    }
+    expect(html).toContain('class="graph-scc"');
+    expect(html).toContain('aria-label="Display cycle"');
+    const proofNodes = data.prepared["proof-network"].views.default.interaction.nodes;
+    for (const proof of data.proofs.proofs) {
+      expect(proofNodes[`p:${proof.id}`].incident).toHaveLength(2);
+      expect(html).toContain(`data-node-id="p:${proof.id}"`);
+    }
   });
 
   it("includes the complete upstream proof closure across submissions", async () => {
@@ -1493,11 +1542,12 @@ After the formula.`, "");
     const root = tmpDir("lax-site-submap-");
     const archive = graphSubmissions();
     archive[0]!.output!.manifest.title = "Foundational submission";
-    await generateSite([...submissions(), ...archive], root);
+    await generateSite([...submissions(), ...archive], root, { graphs: archiveGraphs() });
     const mapOf = (id: string) => {
       const html = fs.readFileSync(path.join(root, id, "index.html"), "utf8");
       const match = /<script type="application\/json" id="graph-data">(.*?)<\/script>/s.exec(html)!;
-      return { html, data: JSON.parse(match[1]!).submissions };
+      const graphData = JSON.parse(match[1]!);
+      return { html, data: graphData.submissions, prepared: graphData.prepared["submission-dag"] };
     };
 
     // The chain Lax1 → Lax3 → Lax4 is read off the concepts' imports; every
@@ -1525,10 +1575,10 @@ After the formula.`, "");
     expect(top.html).not.toContain("only B's proofs build on A");
     expect(top.data.nodes[0]).toMatchObject({ href: "../Lax1/index.html", title: "Foundational submission", state: "registered", concepts: 1, proofs: 0, ext: true });
 
-    const dagScript = fs.readFileSync(path.join(root, "assets", "dag.js"), "utf8");
-    expect(dagScript).toContain("labelOf: (node) => node.title");
-    expect(dagScript).toContain("labelOf: (node) => node.title || 'Untitled concept'");
-    expect(dagScript).not.toContain("['Concept', node.id]");
+    expect(top.prepared.views.default.interaction.nodes["s:Lax1"].label).toBe("Foundational submission");
+    const staticMap = top.html.match(/<svg\b[^>]*aria-label="Submission dependency graph"[^>]*>[\s\S]*?<\/svg>/u)![0];
+    expect(staticMap).toContain('aria-label="Foundational submission (Lax1)" href="../Lax1/index.html" role="link"');
+    expect(staticMap).toMatch(/<text class="graph-label" xml:space="preserve"><tspan x="[^"]+" y="[^"]+">Foundational submission<\/tspan><\/text>/u);
 
     const base = mapOf("Lax1");
     expect(base.data.nodes.map((n: { id: string; dir: string }) => [n.id, n.dir]))
@@ -1585,15 +1635,15 @@ After the formula.`, "");
     const root = tmpDir("lax-site-proofdep-");
     const all = [...submissions(), ...graphSubmissions()];
     all[0]!.output!.requiredByProofs = ["Lax1Proofs"];
-    await generateSite(all, root);
+    await generateSite(all, root, { graphs: archiveGraphs() });
     const html = fs.readFileSync(path.join(root, "Lax2", "index.html"), "utf8");
     const data = JSON.parse(
       /<script type="application\/json" id="graph-data">(.*?)<\/script>/s.exec(html)![1]!,
     ).submissions;
     expect(data.edges).toContainEqual({ from: "Lax1", to: "Lax2", kind: "proofs" });
     expect(html).toContain("only B's proofs build on A");
-    const script = fs.readFileSync(path.join(root, "assets", "dag.js"), "utf8");
-    expect(script).toContain("edge.kind === 'proofs' ? ' proof-dep' : ''");
+    const staticMap = html.match(/<svg\b[^>]*aria-label="Submission dependency graph"[^>]*>[\s\S]*?<\/svg>/u)![0];
+    expect(staticMap).toMatch(/<path class="dag-edge proof-dep" data-edge-id="[^"]+" d="[^"]+" marker-end="url\(#[^)]+\)"\/>/u);
     const css = fs.readFileSync(path.join(root, "assets", "style.css"), "utf8");
     expect(css).toContain(".dag-edge.proof-dep{ stroke: var(--proof-dep)");
   });
@@ -2234,5 +2284,65 @@ describe("multi-statement concepts", () => {
       .toEqual([["Lax5.Graph", "none"], ["Lax5.Menger", "open"]]);
     // the legend gains the dock swatch exactly here
     expect(html).toContain('<i class="legend-dock" aria-hidden="true">1</i>Statement 1, 2, … of a claim with several statements');
+  });
+
+  it.each([
+    { external: false, count: 2 },
+    { external: true, count: 2 },
+    { external: true, count: 1 },
+    { external: true, count: 0 },
+  ])("preserves a whole-concept assumption with $count statements (external: $external)", async ({ external, count }) => {
+    const base = graphSubmissions()[0]!, concept = base.output!.concepts[0]!;
+    concept.statements = Array.from({ length: count }, (_, index) => ({ id: `Lax1.Base.s${index + 1}`, signature: `s${index + 1} : True` }));
+    concept.type = count ? "theorem" : "definition";
+    const owner = external ? "Lax4" : "Lax1", conclusion = `${owner}.Main.result`;
+    const main = { ...concept, id: `${owner}.Main`, title: "Truth", type: "theorem",
+      statements: [{ id: conclusion, signature: "result : True" }] };
+    const proof = { id: `${owner}Proofs.coarse`, path: `proofs/${owner}Proofs/Coarse.lean`,
+      assumptions: [concept.id], conclusion, description: "Uses the whole concept." };
+    const dependent: SiteSubmission = external ? {
+      record: { ...base.record, id: owner },
+      output: { ...base.output!, id: owner, manifest: { ...base.output!.manifest, id: owner, title: owner }, concepts: [main], proofs: [proof] },
+    } : base;
+    if (!external) { base.output!.concepts.push(main); base.output!.proofs.push(proof); }
+    const root = tmpDir("lax-site-concept-assumption-");
+    await generateSite(external ? [base, dependent] : [base], root, { graphs: archiveGraphs() });
+    const html = fs.readFileSync(path.join(root, owner, "index.html"), "utf8");
+    const data = JSON.parse(/<script type="application\/json" id="graph-data">(.*?)<\/script>/s.exec(html)![1]!);
+    const input = data.proofs as ProofGraphData;
+    const coarse = input.statements.find((statement) => statement.id === concept.id)!;
+    expect(coarse).toMatchObject({ endpointKind: "concept", concept: concept.id, label: concept.id, title: concept.title,
+      owner: "Lax1", count, ext: external, href: "../Lax1/Lax1.Base.html", status: count ? "open" : "none" });
+    expect(coarse.index).toBeUndefined();
+    expect(coarse.tooltipHtml).toContain(concept.title);
+    expect(input.proofs[0]!.assumptions).toEqual([concept.id]);
+    const assumptions = /<div class="judgment-assumptions">(.*?)<\/div>/s.exec(html)![1]!;
+    expect(assumptions).toContain('href="../Lax1/Lax1.Base.html" title="Lax1.Base"');
+    expect(assumptions).not.toMatch(/claim-ordinal|#s-/u);
+    if (external) expect(data.submissions.edges).toContainEqual({ from: "Lax1", to: owner, kind: "proofs" });
+    expect(input.statements.filter((statement) => statement.endpointKind !== "concept" && statement.concept === concept.id)
+      .map((statement) => [statement.id, statement.index, statement.count])).toEqual(
+        concept.statements.map((statement, index) => [statement.id, index + 1, count]));
+
+    const display = projectGraph("proofs", input), node = display.nodes.find((entry) => entry.ports.some((port) => port.semanticEndpointId === concept.id))!;
+    expect(node.status).toBe(count ? "open" : "none");
+    expect(node.ext).toBe(external);
+    expect(node.ports).toHaveLength(1);
+    expect(node.ports[0]).toMatchObject({ semanticEndpointId: concept.id, mode: "free-on-side", side: "north" });
+    expect(node.ports[0]!.order).toBeUndefined();
+    expect(node.docks.map((dock) => dock.statementId)).toEqual(count > 1 ? concept.statements.map((statement) => statement.id) : []);
+    expect(display.edges).toHaveLength(2);
+    expect(html).toContain(`data-node-id="${node.id}"`);
+    expect(data.prepared["proof-network"].views.default.interaction.nodes[node.id].incident).toHaveLength(1);
+    for (const dock of node.docks) expect(data.prepared["proof-network"].views.default.interaction.nodes[dock.id].incident).toEqual([]);
+    expect(html).not.toContain('data-graph-local="true"');
+
+    if (count) {
+      const preciseId = concept.statements.at(-1)!.id;
+      const precise = projectGraph("proofs", { ...input, proofs: [{ ...input.proofs[0]!, assumptions: [preciseId] }] });
+      const attachment = precise.nodes.flatMap((entry) => entry.ports).find((port) => port.semanticEndpointId === preciseId)!;
+      expect(attachment).toMatchObject({ semanticEndpointId: preciseId, mode: count > 1 ? "fixed-order" : "free-on-side" });
+      if (count > 1) expect(attachment.order).toBe(count);
+    }
   });
 });

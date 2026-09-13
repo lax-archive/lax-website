@@ -1,0 +1,3112 @@
+{
+  "source": "Frozen tuning corpus; exact measured inputs from the first graph benchmark",
+  "fixtures": [
+    {
+      "id": "df1a5f140c07b819c18fcc1b8ee8a9d834751aaca1a1ba7056fb796b0c5d6c60",
+      "minimumCrossings": 1,
+      "graph": {
+        "edges": [
+          {
+            "id": "e:Lax12.Admissibility->Lax12.AdmissibilityBound:import:0",
+            "kind": "import",
+            "minRankSpan": 1,
+            "semanticIds": [
+              "Lax12.Admissibility->Lax12.AdmissibilityBound:import"
+            ],
+            "sourcePortId": "e:Lax12.Admissibility->Lax12.AdmissibilityBound:import:0:source",
+            "targetPortId": "e:Lax12.Admissibility->Lax12.AdmissibilityBound:import:0:target"
+          },
+          {
+            "id": "e:Lax12.Admissibility->Lax12.StrongColoringBound:import:0",
+            "kind": "import",
+            "minRankSpan": 1,
+            "semanticIds": [
+              "Lax12.Admissibility->Lax12.StrongColoringBound:import"
+            ],
+            "sourcePortId": "e:Lax12.Admissibility->Lax12.StrongColoringBound:import:0:source",
+            "targetPortId": "e:Lax12.Admissibility->Lax12.StrongColoringBound:import:0:target"
+          },
+          {
+            "id": "e:Lax12.ColoringNumbers->Lax12.NowhereDenseWcol:import:0",
+            "kind": "import",
+            "minRankSpan": 1,
+            "semanticIds": [
+              "Lax12.ColoringNumbers->Lax12.NowhereDenseWcol:import"
+            ],
+            "sourcePortId": "e:Lax12.ColoringNumbers->Lax12.NowhereDenseWcol:import:0:source",
+            "targetPortId": "e:Lax12.ColoringNumbers->Lax12.NowhereDenseWcol:import:0:target"
+          },
+          {
+            "id": "e:Lax12.ColoringNumbers->Lax12.StrongColoringBound:import:0",
+            "kind": "import",
+            "minRankSpan": 1,
+            "semanticIds": [
+              "Lax12.ColoringNumbers->Lax12.StrongColoringBound:import"
+            ],
+            "sourcePortId": "e:Lax12.ColoringNumbers->Lax12.StrongColoringBound:import:0:source",
+            "targetPortId": "e:Lax12.ColoringNumbers->Lax12.StrongColoringBound:import:0:target"
+          },
+          {
+            "id": "e:Lax12.ColoringNumbers->Lax12.WeakColoringBound:import:0",
+            "kind": "import",
+            "minRankSpan": 1,
+            "semanticIds": [
+              "Lax12.ColoringNumbers->Lax12.WeakColoringBound:import"
+            ],
+            "sourcePortId": "e:Lax12.ColoringNumbers->Lax12.WeakColoringBound:import:0:source",
+            "targetPortId": "e:Lax12.ColoringNumbers->Lax12.WeakColoringBound:import:0:target"
+          },
+          {
+            "id": "e:Lax12.GraphClasses->Lax12.Admissibility:import:0",
+            "kind": "import",
+            "minRankSpan": 1,
+            "semanticIds": [
+              "Lax12.GraphClasses->Lax12.Admissibility:import"
+            ],
+            "sourcePortId": "e:Lax12.GraphClasses->Lax12.Admissibility:import:0:source",
+            "targetPortId": "e:Lax12.GraphClasses->Lax12.Admissibility:import:0:target"
+          },
+          {
+            "id": "e:Lax12.GraphClasses->Lax12.ColoringNumbers:import:0",
+            "kind": "import",
+            "minRankSpan": 1,
+            "semanticIds": [
+              "Lax12.GraphClasses->Lax12.ColoringNumbers:import"
+            ],
+            "sourcePortId": "e:Lax12.GraphClasses->Lax12.ColoringNumbers:import:0:source",
+            "targetPortId": "e:Lax12.GraphClasses->Lax12.ColoringNumbers:import:0:target"
+          },
+          {
+            "id": "e:Lax12.GraphClasses->Lax12.NeighborhoodComplexity:import:0",
+            "kind": "import",
+            "minRankSpan": 1,
+            "semanticIds": [
+              "Lax12.GraphClasses->Lax12.NeighborhoodComplexity:import"
+            ],
+            "sourcePortId": "e:Lax12.GraphClasses->Lax12.NeighborhoodComplexity:import:0:source",
+            "targetPortId": "e:Lax12.GraphClasses->Lax12.NeighborhoodComplexity:import:0:target"
+          },
+          {
+            "id": "e:Lax12.GraphClasses->Lax12.NowhereDenseClasses:import:0",
+            "kind": "import",
+            "minRankSpan": 1,
+            "semanticIds": [
+              "Lax12.GraphClasses->Lax12.NowhereDenseClasses:import"
+            ],
+            "sourcePortId": "e:Lax12.GraphClasses->Lax12.NowhereDenseClasses:import:0:source",
+            "targetPortId": "e:Lax12.GraphClasses->Lax12.NowhereDenseClasses:import:0:target"
+          },
+          {
+            "id": "e:Lax12.GraphClasses->Lax12.UniformQuasiWideness:import:0",
+            "kind": "import",
+            "minRankSpan": 1,
+            "semanticIds": [
+              "Lax12.GraphClasses->Lax12.UniformQuasiWideness:import"
+            ],
+            "sourcePortId": "e:Lax12.GraphClasses->Lax12.UniformQuasiWideness:import:0:source",
+            "targetPortId": "e:Lax12.GraphClasses->Lax12.UniformQuasiWideness:import:0:target"
+          },
+          {
+            "id": "e:Lax12.NeighborhoodComplexity->Lax12.NowhereDenseNC:import:0",
+            "kind": "import",
+            "minRankSpan": 1,
+            "semanticIds": [
+              "Lax12.NeighborhoodComplexity->Lax12.NowhereDenseNC:import"
+            ],
+            "sourcePortId": "e:Lax12.NeighborhoodComplexity->Lax12.NowhereDenseNC:import:0:source",
+            "targetPortId": "e:Lax12.NeighborhoodComplexity->Lax12.NowhereDenseNC:import:0:target"
+          },
+          {
+            "id": "e:Lax12.NowhereDenseClasses->Lax12.NowhereDenseDensity:import:0",
+            "kind": "import",
+            "minRankSpan": 1,
+            "semanticIds": [
+              "Lax12.NowhereDenseClasses->Lax12.NowhereDenseDensity:import"
+            ],
+            "sourcePortId": "e:Lax12.NowhereDenseClasses->Lax12.NowhereDenseDensity:import:0:source",
+            "targetPortId": "e:Lax12.NowhereDenseClasses->Lax12.NowhereDenseDensity:import:0:target"
+          },
+          {
+            "id": "e:Lax12.NowhereDenseClasses->Lax12.NowhereDenseNC:import:0",
+            "kind": "import",
+            "minRankSpan": 1,
+            "semanticIds": [
+              "Lax12.NowhereDenseClasses->Lax12.NowhereDenseNC:import"
+            ],
+            "sourcePortId": "e:Lax12.NowhereDenseClasses->Lax12.NowhereDenseNC:import:0:source",
+            "targetPortId": "e:Lax12.NowhereDenseClasses->Lax12.NowhereDenseNC:import:0:target"
+          },
+          {
+            "id": "e:Lax12.NowhereDenseClasses->Lax12.NowhereDenseUQW:import:0",
+            "kind": "import",
+            "minRankSpan": 1,
+            "semanticIds": [
+              "Lax12.NowhereDenseClasses->Lax12.NowhereDenseUQW:import"
+            ],
+            "sourcePortId": "e:Lax12.NowhereDenseClasses->Lax12.NowhereDenseUQW:import:0:source",
+            "targetPortId": "e:Lax12.NowhereDenseClasses->Lax12.NowhereDenseUQW:import:0:target"
+          },
+          {
+            "id": "e:Lax12.NowhereDenseClasses->Lax12.NowhereDenseWcol:import:0",
+            "kind": "import",
+            "minRankSpan": 1,
+            "semanticIds": [
+              "Lax12.NowhereDenseClasses->Lax12.NowhereDenseWcol:import"
+            ],
+            "sourcePortId": "e:Lax12.NowhereDenseClasses->Lax12.NowhereDenseWcol:import:0:source",
+            "targetPortId": "e:Lax12.NowhereDenseClasses->Lax12.NowhereDenseWcol:import:0:target"
+          },
+          {
+            "id": "e:Lax12.NowhereDenseClasses->Lax12.ShallowMinorDensity:import:0",
+            "kind": "import",
+            "minRankSpan": 1,
+            "semanticIds": [
+              "Lax12.NowhereDenseClasses->Lax12.ShallowMinorDensity:import"
+            ],
+            "sourcePortId": "e:Lax12.NowhereDenseClasses->Lax12.ShallowMinorDensity:import:0:source",
+            "targetPortId": "e:Lax12.NowhereDenseClasses->Lax12.ShallowMinorDensity:import:0:target"
+          },
+          {
+            "id": "e:Lax12.ShallowMinorDensity->Lax12.NowhereDenseDensity:import:0",
+            "kind": "import",
+            "minRankSpan": 1,
+            "semanticIds": [
+              "Lax12.ShallowMinorDensity->Lax12.NowhereDenseDensity:import"
+            ],
+            "sourcePortId": "e:Lax12.ShallowMinorDensity->Lax12.NowhereDenseDensity:import:0:source",
+            "targetPortId": "e:Lax12.ShallowMinorDensity->Lax12.NowhereDenseDensity:import:0:target"
+          },
+          {
+            "id": "e:Lax12.ShallowTopologicalMinors->Lax12.AdmissibilityBound:import:0",
+            "kind": "import",
+            "minRankSpan": 1,
+            "semanticIds": [
+              "Lax12.ShallowTopologicalMinors->Lax12.AdmissibilityBound:import"
+            ],
+            "sourcePortId": "e:Lax12.ShallowTopologicalMinors->Lax12.AdmissibilityBound:import:0:source",
+            "targetPortId": "e:Lax12.ShallowTopologicalMinors->Lax12.AdmissibilityBound:import:0:target"
+          },
+          {
+            "id": "e:Lax12.UniformQuasiWideness->Lax12.NowhereDenseUQW:import:0",
+            "kind": "import",
+            "minRankSpan": 1,
+            "semanticIds": [
+              "Lax12.UniformQuasiWideness->Lax12.NowhereDenseUQW:import"
+            ],
+            "sourcePortId": "e:Lax12.UniformQuasiWideness->Lax12.NowhereDenseUQW:import:0:source",
+            "targetPortId": "e:Lax12.UniformQuasiWideness->Lax12.NowhereDenseUQW:import:0:target"
+          }
+        ],
+        "nodes": [
+          {
+            "footprints": [
+              {
+                "bounds": {
+                  "height": 30,
+                  "width": 88.813,
+                  "x": 0,
+                  "y": 0
+                },
+                "id": "c:Lax12.Admissibility:body",
+                "kind": "body"
+              }
+            ],
+            "height": 30,
+            "id": "c:Lax12.Admissibility",
+            "kind": "concept",
+            "labelBoxes": [
+              {
+                "height": 12,
+                "width": 68.8125,
+                "x": 10.000250000000001,
+                "y": 9
+              }
+            ],
+            "ports": [
+              {
+                "id": "e:Lax12.Admissibility->Lax12.AdmissibilityBound:import:0:source",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax12.Admissibility",
+                "semanticEndpointId": "Lax12.Admissibility",
+                "side": "north"
+              },
+              {
+                "id": "e:Lax12.Admissibility->Lax12.StrongColoringBound:import:0:source",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax12.Admissibility",
+                "semanticEndpointId": "Lax12.Admissibility",
+                "side": "north"
+              },
+              {
+                "id": "e:Lax12.GraphClasses->Lax12.Admissibility:import:0:target",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax12.Admissibility",
+                "semanticEndpointId": "Lax12.Admissibility",
+                "side": "south"
+              }
+            ],
+            "width": 88.813
+          },
+          {
+            "footprints": [
+              {
+                "bounds": {
+                  "height": 46,
+                  "width": 227.579,
+                  "x": 0,
+                  "y": 0
+                },
+                "id": "c:Lax12.AdmissibilityBound:body",
+                "kind": "body"
+              }
+            ],
+            "height": 46,
+            "id": "c:Lax12.AdmissibilityBound",
+            "kind": "concept",
+            "labelBoxes": [
+              {
+                "height": 12,
+                "width": 207.578125,
+                "x": 10.000437500000004,
+                "y": 9
+              },
+              {
+                "height": 12,
+                "width": 114.515625,
+                "x": 10.000437500000004,
+                "y": 25
+              }
+            ],
+            "ports": [
+              {
+                "id": "e:Lax12.Admissibility->Lax12.AdmissibilityBound:import:0:target",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax12.AdmissibilityBound",
+                "semanticEndpointId": "Lax12.AdmissibilityBound",
+                "side": "south"
+              },
+              {
+                "id": "e:Lax12.ShallowTopologicalMinors->Lax12.AdmissibilityBound:import:0:target",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax12.AdmissibilityBound",
+                "semanticEndpointId": "Lax12.AdmissibilityBound",
+                "side": "south"
+              }
+            ],
+            "width": 227.579
+          },
+          {
+            "footprints": [
+              {
+                "bounds": {
+                  "height": 30,
+                  "width": 175.266,
+                  "x": 0,
+                  "y": 0
+                },
+                "id": "c:Lax12.ColoringNumbers:body",
+                "kind": "body"
+              }
+            ],
+            "height": 30,
+            "id": "c:Lax12.ColoringNumbers",
+            "kind": "concept",
+            "labelBoxes": [
+              {
+                "height": 12,
+                "width": 155.265625,
+                "x": 10.000187499999996,
+                "y": 9
+              }
+            ],
+            "ports": [
+              {
+                "id": "e:Lax12.ColoringNumbers->Lax12.NowhereDenseWcol:import:0:source",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax12.ColoringNumbers",
+                "semanticEndpointId": "Lax12.ColoringNumbers",
+                "side": "north"
+              },
+              {
+                "id": "e:Lax12.ColoringNumbers->Lax12.StrongColoringBound:import:0:source",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax12.ColoringNumbers",
+                "semanticEndpointId": "Lax12.ColoringNumbers",
+                "side": "north"
+              },
+              {
+                "id": "e:Lax12.ColoringNumbers->Lax12.WeakColoringBound:import:0:source",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax12.ColoringNumbers",
+                "semanticEndpointId": "Lax12.ColoringNumbers",
+                "side": "north"
+              },
+              {
+                "id": "e:Lax12.GraphClasses->Lax12.ColoringNumbers:import:0:target",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax12.ColoringNumbers",
+                "semanticEndpointId": "Lax12.ColoringNumbers",
+                "side": "south"
+              }
+            ],
+            "width": 175.266
+          },
+          {
+            "footprints": [
+              {
+                "bounds": {
+                  "height": 30,
+                  "width": 91.641,
+                  "x": 0,
+                  "y": 0
+                },
+                "id": "c:Lax12.GraphClasses:body",
+                "kind": "body"
+              }
+            ],
+            "height": 30,
+            "id": "c:Lax12.GraphClasses",
+            "kind": "concept",
+            "labelBoxes": [
+              {
+                "height": 12,
+                "width": 71.640625,
+                "x": 10.000187500000003,
+                "y": 9
+              }
+            ],
+            "ports": [
+              {
+                "id": "e:Lax12.GraphClasses->Lax12.Admissibility:import:0:source",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax12.GraphClasses",
+                "semanticEndpointId": "Lax12.GraphClasses",
+                "side": "north"
+              },
+              {
+                "id": "e:Lax12.GraphClasses->Lax12.ColoringNumbers:import:0:source",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax12.GraphClasses",
+                "semanticEndpointId": "Lax12.GraphClasses",
+                "side": "north"
+              },
+              {
+                "id": "e:Lax12.GraphClasses->Lax12.NeighborhoodComplexity:import:0:source",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax12.GraphClasses",
+                "semanticEndpointId": "Lax12.GraphClasses",
+                "side": "north"
+              },
+              {
+                "id": "e:Lax12.GraphClasses->Lax12.NowhereDenseClasses:import:0:source",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax12.GraphClasses",
+                "semanticEndpointId": "Lax12.GraphClasses",
+                "side": "north"
+              },
+              {
+                "id": "e:Lax12.GraphClasses->Lax12.UniformQuasiWideness:import:0:source",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax12.GraphClasses",
+                "semanticEndpointId": "Lax12.GraphClasses",
+                "side": "north"
+              }
+            ],
+            "width": 91.641
+          },
+          {
+            "footprints": [
+              {
+                "bounds": {
+                  "height": 30,
+                  "width": 155.389,
+                  "x": 0,
+                  "y": 0
+                },
+                "id": "c:Lax12.NeighborhoodComplexity:body",
+                "kind": "body"
+              }
+            ],
+            "height": 30,
+            "id": "c:Lax12.NeighborhoodComplexity",
+            "kind": "concept",
+            "labelBoxes": [
+              {
+                "height": 13,
+                "width": 135.38890075683594,
+                "x": 10.000049621582036,
+                "y": 8.5
+              }
+            ],
+            "ports": [
+              {
+                "id": "e:Lax12.GraphClasses->Lax12.NeighborhoodComplexity:import:0:target",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax12.NeighborhoodComplexity",
+                "semanticEndpointId": "Lax12.NeighborhoodComplexity",
+                "side": "south"
+              },
+              {
+                "id": "e:Lax12.NeighborhoodComplexity->Lax12.NowhereDenseNC:import:0:source",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax12.NeighborhoodComplexity",
+                "semanticEndpointId": "Lax12.NeighborhoodComplexity",
+                "side": "north"
+              }
+            ],
+            "width": 155.389
+          },
+          {
+            "footprints": [
+              {
+                "bounds": {
+                  "height": 30,
+                  "width": 170.574,
+                  "x": 0,
+                  "y": 0
+                },
+                "id": "c:Lax12.NowhereDenseClasses:body",
+                "kind": "body"
+              }
+            ],
+            "height": 30,
+            "id": "c:Lax12.NowhereDenseClasses",
+            "kind": "concept",
+            "labelBoxes": [
+              {
+                "height": 13,
+                "width": 150.57301330566406,
+                "x": 10.000493347167975,
+                "y": 8.5
+              }
+            ],
+            "ports": [
+              {
+                "id": "e:Lax12.GraphClasses->Lax12.NowhereDenseClasses:import:0:target",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax12.NowhereDenseClasses",
+                "semanticEndpointId": "Lax12.NowhereDenseClasses",
+                "side": "south"
+              },
+              {
+                "id": "e:Lax12.NowhereDenseClasses->Lax12.NowhereDenseDensity:import:0:source",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax12.NowhereDenseClasses",
+                "semanticEndpointId": "Lax12.NowhereDenseClasses",
+                "side": "north"
+              },
+              {
+                "id": "e:Lax12.NowhereDenseClasses->Lax12.NowhereDenseNC:import:0:source",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax12.NowhereDenseClasses",
+                "semanticEndpointId": "Lax12.NowhereDenseClasses",
+                "side": "north"
+              },
+              {
+                "id": "e:Lax12.NowhereDenseClasses->Lax12.NowhereDenseUQW:import:0:source",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax12.NowhereDenseClasses",
+                "semanticEndpointId": "Lax12.NowhereDenseClasses",
+                "side": "north"
+              },
+              {
+                "id": "e:Lax12.NowhereDenseClasses->Lax12.NowhereDenseWcol:import:0:source",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax12.NowhereDenseClasses",
+                "semanticEndpointId": "Lax12.NowhereDenseClasses",
+                "side": "north"
+              },
+              {
+                "id": "e:Lax12.NowhereDenseClasses->Lax12.ShallowMinorDensity:import:0:source",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax12.NowhereDenseClasses",
+                "semanticEndpointId": "Lax12.NowhereDenseClasses",
+                "side": "north"
+              }
+            ],
+            "width": 170.574
+          },
+          {
+            "footprints": [
+              {
+                "bounds": {
+                  "height": 46,
+                  "width": 244.67,
+                  "x": 0,
+                  "y": 0
+                },
+                "id": "c:Lax12.NowhereDenseDensity:body",
+                "kind": "body"
+              }
+            ],
+            "height": 46,
+            "id": "c:Lax12.NowhereDenseDensity",
+            "kind": "concept",
+            "labelBoxes": [
+              {
+                "height": 13,
+                "width": 224.66952514648438,
+                "x": 10.000237426757806,
+                "y": 8.5
+              },
+              {
+                "height": 13,
+                "width": 115.16877746582031,
+                "x": 10.000237426757806,
+                "y": 24.5
+              }
+            ],
+            "ports": [
+              {
+                "id": "e:Lax12.NowhereDenseClasses->Lax12.NowhereDenseDensity:import:0:target",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax12.NowhereDenseDensity",
+                "semanticEndpointId": "Lax12.NowhereDenseDensity",
+                "side": "south"
+              },
+              {
+                "id": "e:Lax12.ShallowMinorDensity->Lax12.NowhereDenseDensity:import:0:target",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax12.NowhereDenseDensity",
+                "semanticEndpointId": "Lax12.NowhereDenseDensity",
+                "side": "south"
+              }
+            ],
+            "width": 244.67
+          },
+          {
+            "footprints": [
+              {
+                "bounds": {
+                  "height": 46,
+                  "width": 236.31,
+                  "x": 0,
+                  "y": 0
+                },
+                "id": "c:Lax12.NowhereDenseNC:body",
+                "kind": "body"
+              }
+            ],
+            "height": 46,
+            "id": "c:Lax12.NowhereDenseNC",
+            "kind": "concept",
+            "labelBoxes": [
+              {
+                "height": 12,
+                "width": 216.30947875976562,
+                "x": 10.000260620117189,
+                "y": 8.5
+              },
+              {
+                "height": 13,
+                "width": 133.06088256835938,
+                "x": 10.000260620117189,
+                "y": 24.5
+              }
+            ],
+            "ports": [
+              {
+                "id": "e:Lax12.NeighborhoodComplexity->Lax12.NowhereDenseNC:import:0:target",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax12.NowhereDenseNC",
+                "semanticEndpointId": "Lax12.NowhereDenseNC",
+                "side": "south"
+              },
+              {
+                "id": "e:Lax12.NowhereDenseClasses->Lax12.NowhereDenseNC:import:0:target",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax12.NowhereDenseNC",
+                "semanticEndpointId": "Lax12.NowhereDenseNC",
+                "side": "south"
+              }
+            ],
+            "width": 236.31
+          },
+          {
+            "footprints": [
+              {
+                "bounds": {
+                  "height": 46,
+                  "width": 211.67,
+                  "x": 0,
+                  "y": 0
+                },
+                "id": "c:Lax12.NowhereDenseUQW:body",
+                "kind": "body"
+              }
+            ],
+            "height": 46,
+            "id": "c:Lax12.NowhereDenseUQW",
+            "kind": "concept",
+            "labelBoxes": [
+              {
+                "height": 13,
+                "width": 191.66929626464844,
+                "x": 10.000351867675775,
+                "y": 8.5
+              },
+              {
+                "height": 13,
+                "width": 55.078125,
+                "x": 10.000351867675775,
+                "y": 24.5
+              }
+            ],
+            "ports": [
+              {
+                "id": "e:Lax12.NowhereDenseClasses->Lax12.NowhereDenseUQW:import:0:target",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax12.NowhereDenseUQW",
+                "semanticEndpointId": "Lax12.NowhereDenseUQW",
+                "side": "south"
+              },
+              {
+                "id": "e:Lax12.UniformQuasiWideness->Lax12.NowhereDenseUQW:import:0:target",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax12.NowhereDenseUQW",
+                "semanticEndpointId": "Lax12.NowhereDenseUQW",
+                "side": "south"
+              }
+            ],
+            "width": 211.67
+          },
+          {
+            "footprints": [
+              {
+                "bounds": {
+                  "height": 46,
+                  "width": 244.67,
+                  "x": 0,
+                  "y": 0
+                },
+                "id": "c:Lax12.NowhereDenseWcol:body",
+                "kind": "body"
+              }
+            ],
+            "height": 46,
+            "id": "c:Lax12.NowhereDenseWcol",
+            "kind": "concept",
+            "labelBoxes": [
+              {
+                "height": 13,
+                "width": 224.66952514648438,
+                "x": 10.000237426757806,
+                "y": 8.5
+              },
+              {
+                "height": 13,
+                "width": 120.06883239746094,
+                "x": 10.000237426757806,
+                "y": 24.5
+              }
+            ],
+            "ports": [
+              {
+                "id": "e:Lax12.ColoringNumbers->Lax12.NowhereDenseWcol:import:0:target",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax12.NowhereDenseWcol",
+                "semanticEndpointId": "Lax12.NowhereDenseWcol",
+                "side": "south"
+              },
+              {
+                "id": "e:Lax12.NowhereDenseClasses->Lax12.NowhereDenseWcol:import:0:target",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax12.NowhereDenseWcol",
+                "semanticEndpointId": "Lax12.NowhereDenseWcol",
+                "side": "south"
+              }
+            ],
+            "width": 244.67
+          },
+          {
+            "footprints": [
+              {
+                "bounds": {
+                  "height": 30,
+                  "width": 183.079,
+                  "x": 0,
+                  "y": 0
+                },
+                "id": "c:Lax12.ShallowMinorDensity:body",
+                "kind": "body"
+              }
+            ],
+            "height": 30,
+            "id": "c:Lax12.ShallowMinorDensity",
+            "kind": "concept",
+            "labelBoxes": [
+              {
+                "height": 12,
+                "width": 163.078125,
+                "x": 10.000437500000004,
+                "y": 9
+              }
+            ],
+            "ports": [
+              {
+                "id": "e:Lax12.NowhereDenseClasses->Lax12.ShallowMinorDensity:import:0:target",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax12.ShallowMinorDensity",
+                "semanticEndpointId": "Lax12.ShallowMinorDensity",
+                "side": "south"
+              },
+              {
+                "id": "e:Lax12.ShallowMinorDensity->Lax12.NowhereDenseDensity:import:0:source",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax12.ShallowMinorDensity",
+                "semanticEndpointId": "Lax12.ShallowMinorDensity",
+                "side": "north"
+              }
+            ],
+            "width": 183.079
+          },
+          {
+            "footprints": [
+              {
+                "bounds": {
+                  "height": 30,
+                  "width": 160.797,
+                  "x": 0,
+                  "y": 0
+                },
+                "id": "c:Lax12.ShallowTopologicalMinors:body",
+                "kind": "body"
+              }
+            ],
+            "height": 30,
+            "id": "c:Lax12.ShallowTopologicalMinors",
+            "kind": "concept",
+            "labelBoxes": [
+              {
+                "height": 12,
+                "width": 140.796875,
+                "x": 10.000062499999999,
+                "y": 9
+              }
+            ],
+            "ports": [
+              {
+                "id": "e:Lax12.ShallowTopologicalMinors->Lax12.AdmissibilityBound:import:0:source",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax12.ShallowTopologicalMinors",
+                "semanticEndpointId": "Lax12.ShallowTopologicalMinors",
+                "side": "north"
+              }
+            ],
+            "width": 160.797
+          },
+          {
+            "footprints": [
+              {
+                "bounds": {
+                  "height": 46,
+                  "width": 234.25,
+                  "x": 0,
+                  "y": 0
+                },
+                "id": "c:Lax12.StrongColoringBound:body",
+                "kind": "body"
+              }
+            ],
+            "height": 46,
+            "id": "c:Lax12.StrongColoringBound",
+            "kind": "concept",
+            "labelBoxes": [
+              {
+                "height": 12,
+                "width": 214.25,
+                "x": 10,
+                "y": 9
+              },
+              {
+                "height": 12,
+                "width": 66.15625,
+                "x": 10,
+                "y": 25
+              }
+            ],
+            "ports": [
+              {
+                "id": "e:Lax12.Admissibility->Lax12.StrongColoringBound:import:0:target",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax12.StrongColoringBound",
+                "semanticEndpointId": "Lax12.StrongColoringBound",
+                "side": "south"
+              },
+              {
+                "id": "e:Lax12.ColoringNumbers->Lax12.StrongColoringBound:import:0:target",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax12.StrongColoringBound",
+                "semanticEndpointId": "Lax12.StrongColoringBound",
+                "side": "south"
+              }
+            ],
+            "width": 234.25
+          },
+          {
+            "footprints": [
+              {
+                "bounds": {
+                  "height": 30,
+                  "width": 144.173,
+                  "x": 0,
+                  "y": 0
+                },
+                "id": "c:Lax12.UniformQuasiWideness:body",
+                "kind": "body"
+              }
+            ],
+            "height": 30,
+            "id": "c:Lax12.UniformQuasiWideness",
+            "kind": "concept",
+            "labelBoxes": [
+              {
+                "height": 13,
+                "width": 124.17283630371094,
+                "x": 10.000081848144532,
+                "y": 8.5
+              }
+            ],
+            "ports": [
+              {
+                "id": "e:Lax12.GraphClasses->Lax12.UniformQuasiWideness:import:0:target",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax12.UniformQuasiWideness",
+                "semanticEndpointId": "Lax12.UniformQuasiWideness",
+                "side": "south"
+              },
+              {
+                "id": "e:Lax12.UniformQuasiWideness->Lax12.NowhereDenseUQW:import:0:source",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax12.UniformQuasiWideness",
+                "semanticEndpointId": "Lax12.UniformQuasiWideness",
+                "side": "north"
+              }
+            ],
+            "width": 144.173
+          },
+          {
+            "footprints": [
+              {
+                "bounds": {
+                  "height": 46,
+                  "width": 229.19,
+                  "x": 0,
+                  "y": 0
+                },
+                "id": "c:Lax12.WeakColoringBound:body",
+                "kind": "body"
+              }
+            ],
+            "height": 46,
+            "id": "c:Lax12.WeakColoringBound",
+            "kind": "concept",
+            "labelBoxes": [
+              {
+                "height": 13,
+                "width": 209.18943786621094,
+                "x": 10.00028106689453,
+                "y": 8.5
+              },
+              {
+                "height": 13,
+                "width": 126.848876953125,
+                "x": 10.00028106689453,
+                "y": 24.5
+              }
+            ],
+            "ports": [
+              {
+                "id": "e:Lax12.ColoringNumbers->Lax12.WeakColoringBound:import:0:target",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax12.WeakColoringBound",
+                "semanticEndpointId": "Lax12.WeakColoringBound",
+                "side": "south"
+              }
+            ],
+            "width": 229.19
+          }
+        ]
+      }
+    },
+    {
+      "id": "7624897c29721975b3a047ae02e564cc23568a9aa20afe7c1d94c584198ede48",
+      "minimumCrossings": 9,
+      "graph": {
+        "edges": [
+          {
+            "id": "e:Lax194892.PolyregularFunctions->Lax194892.ForIffPolyregular:import:0",
+            "kind": "import",
+            "minRankSpan": 1,
+            "semanticIds": [
+              "Lax194892.PolyregularFunctions->Lax194892.ForIffPolyregular:import"
+            ],
+            "sourcePortId": "e:Lax194892.PolyregularFunctions->Lax194892.ForIffPolyregular:import:0:source",
+            "targetPortId": "e:Lax194892.PolyregularFunctions->Lax194892.ForIffPolyregular:import:0:target"
+          },
+          {
+            "id": "e:Lax194892.PolyregularFunctions->Lax194892.ForOfPolyregular:import:0",
+            "kind": "import",
+            "minRankSpan": 1,
+            "semanticIds": [
+              "Lax194892.PolyregularFunctions->Lax194892.ForOfPolyregular:import"
+            ],
+            "sourcePortId": "e:Lax194892.PolyregularFunctions->Lax194892.ForOfPolyregular:import:0:source",
+            "targetPortId": "e:Lax194892.PolyregularFunctions->Lax194892.ForOfPolyregular:import:0:target"
+          },
+          {
+            "id": "e:Lax194892.PolyregularFunctions->Lax194892.PolyregularContinuity:import:0",
+            "kind": "import",
+            "minRankSpan": 1,
+            "semanticIds": [
+              "Lax194892.PolyregularFunctions->Lax194892.PolyregularContinuity:import"
+            ],
+            "sourcePortId": "e:Lax194892.PolyregularFunctions->Lax194892.PolyregularContinuity:import:0:source",
+            "targetPortId": "e:Lax194892.PolyregularFunctions->Lax194892.PolyregularContinuity:import:0:target"
+          },
+          {
+            "id": "e:Lax194892.PolyregularFunctions->Lax194892.PolyregularOfFor:import:0",
+            "kind": "import",
+            "minRankSpan": 1,
+            "semanticIds": [
+              "Lax194892.PolyregularFunctions->Lax194892.PolyregularOfFor:import"
+            ],
+            "sourcePortId": "e:Lax194892.PolyregularFunctions->Lax194892.PolyregularOfFor:import:0:source",
+            "targetPortId": "e:Lax194892.PolyregularFunctions->Lax194892.PolyregularOfFor:import:0:target"
+          },
+          {
+            "id": "e:Lax709149.RegularUnderRepresentation->Lax709149.RegularOfTerm:import:0",
+            "kind": "import",
+            "minRankSpan": 1,
+            "semanticIds": [
+              "Lax709149.RegularUnderRepresentation->Lax709149.RegularOfTerm:import"
+            ],
+            "sourcePortId": "e:Lax709149.RegularUnderRepresentation->Lax709149.RegularOfTerm:import:0:source",
+            "targetPortId": "e:Lax709149.RegularUnderRepresentation->Lax709149.RegularOfTerm:import:0:target"
+          },
+          {
+            "id": "e:Lax916827.ConfigurationGraphs->Lax916827.ConfigurationGraphOutput:import:0",
+            "kind": "import",
+            "minRankSpan": 1,
+            "semanticIds": [
+              "Lax916827.ConfigurationGraphs->Lax916827.ConfigurationGraphOutput:import"
+            ],
+            "sourcePortId": "e:Lax916827.ConfigurationGraphs->Lax916827.ConfigurationGraphOutput:import:0:source",
+            "targetPortId": "e:Lax916827.ConfigurationGraphs->Lax916827.ConfigurationGraphOutput:import:0:target"
+          },
+          {
+            "id": "e:Lax916827.ConfigurationGraphs->Lax916827.ConfigurationGraphRational:import:0",
+            "kind": "import",
+            "minRankSpan": 1,
+            "semanticIds": [
+              "Lax916827.ConfigurationGraphs->Lax916827.ConfigurationGraphRational:import"
+            ],
+            "sourcePortId": "e:Lax916827.ConfigurationGraphs->Lax916827.ConfigurationGraphRational:import:0:source",
+            "targetPortId": "e:Lax916827.ConfigurationGraphs->Lax916827.ConfigurationGraphRational:import:0:target"
+          },
+          {
+            "id": "e:Lax916827.RegularFunctions->Lax194892.PolyregularFunctions:import:0",
+            "kind": "import",
+            "minRankSpan": 1,
+            "semanticIds": [
+              "Lax916827.RegularFunctions->Lax194892.PolyregularFunctions:import"
+            ],
+            "sourcePortId": "e:Lax916827.RegularFunctions->Lax194892.PolyregularFunctions:import:0:source",
+            "targetPortId": "e:Lax916827.RegularFunctions->Lax194892.PolyregularFunctions:import:0:target"
+          },
+          {
+            "id": "e:Lax916827.RegularFunctions->Lax314295.MSOTransductionIffRegular:import:0",
+            "kind": "import",
+            "minRankSpan": 1,
+            "semanticIds": [
+              "Lax916827.RegularFunctions->Lax314295.MSOTransductionIffRegular:import"
+            ],
+            "sourcePortId": "e:Lax916827.RegularFunctions->Lax314295.MSOTransductionIffRegular:import:0:source",
+            "targetPortId": "e:Lax916827.RegularFunctions->Lax314295.MSOTransductionIffRegular:import:0:target"
+          },
+          {
+            "id": "e:Lax916827.RegularFunctions->Lax314295.MSOTransductionOfRegular:import:0",
+            "kind": "import",
+            "minRankSpan": 1,
+            "semanticIds": [
+              "Lax916827.RegularFunctions->Lax314295.MSOTransductionOfRegular:import"
+            ],
+            "sourcePortId": "e:Lax916827.RegularFunctions->Lax314295.MSOTransductionOfRegular:import:0:source",
+            "targetPortId": "e:Lax916827.RegularFunctions->Lax314295.MSOTransductionOfRegular:import:0:target"
+          },
+          {
+            "id": "e:Lax916827.RegularFunctions->Lax314295.RegularOfMSOTransduction:import:0",
+            "kind": "import",
+            "minRankSpan": 1,
+            "semanticIds": [
+              "Lax916827.RegularFunctions->Lax314295.RegularOfMSOTransduction:import"
+            ],
+            "sourcePortId": "e:Lax916827.RegularFunctions->Lax314295.RegularOfMSOTransduction:import:0:source",
+            "targetPortId": "e:Lax916827.RegularFunctions->Lax314295.RegularOfMSOTransduction:import:0:target"
+          },
+          {
+            "id": "e:Lax916827.RegularFunctions->Lax709149.RegularUnderRepresentation:import:0",
+            "kind": "import",
+            "minRankSpan": 1,
+            "semanticIds": [
+              "Lax916827.RegularFunctions->Lax709149.RegularUnderRepresentation:import"
+            ],
+            "sourcePortId": "e:Lax916827.RegularFunctions->Lax709149.RegularUnderRepresentation:import:0:source",
+            "targetPortId": "e:Lax916827.RegularFunctions->Lax709149.RegularUnderRepresentation:import:0:target"
+          },
+          {
+            "id": "e:Lax916827.RegularFunctions->Lax916827.RegularComposition:import:0",
+            "kind": "import",
+            "minRankSpan": 1,
+            "semanticIds": [
+              "Lax916827.RegularFunctions->Lax916827.RegularComposition:import"
+            ],
+            "sourcePortId": "e:Lax916827.RegularFunctions->Lax916827.RegularComposition:import:0:source",
+            "targetPortId": "e:Lax916827.RegularFunctions->Lax916827.RegularComposition:import:0:target"
+          },
+          {
+            "id": "e:Lax916827.RegularFunctions->Lax916827.RegularConcatenation:import:0",
+            "kind": "import",
+            "minRankSpan": 1,
+            "semanticIds": [
+              "Lax916827.RegularFunctions->Lax916827.RegularConcatenation:import"
+            ],
+            "sourcePortId": "e:Lax916827.RegularFunctions->Lax916827.RegularConcatenation:import:0:source",
+            "targetPortId": "e:Lax916827.RegularFunctions->Lax916827.RegularConcatenation:import:0:target"
+          },
+          {
+            "id": "e:Lax916827.RegularFunctions->Lax916827.RegularConditional:import:0",
+            "kind": "import",
+            "minRankSpan": 1,
+            "semanticIds": [
+              "Lax916827.RegularFunctions->Lax916827.RegularConditional:import"
+            ],
+            "sourcePortId": "e:Lax916827.RegularFunctions->Lax916827.RegularConditional:import:0:source",
+            "targetPortId": "e:Lax916827.RegularFunctions->Lax916827.RegularConditional:import:0:target"
+          },
+          {
+            "id": "e:Lax916827.RegularFunctions->Lax916827.RegularContinuity:import:0",
+            "kind": "import",
+            "minRankSpan": 1,
+            "semanticIds": [
+              "Lax916827.RegularFunctions->Lax916827.RegularContinuity:import"
+            ],
+            "sourcePortId": "e:Lax916827.RegularFunctions->Lax916827.RegularContinuity:import:0:source",
+            "targetPortId": "e:Lax916827.RegularFunctions->Lax916827.RegularContinuity:import:0:target"
+          },
+          {
+            "id": "e:Lax916827.RegularFunctions->Lax916827.RegularMapLifting:import:0",
+            "kind": "import",
+            "minRankSpan": 1,
+            "semanticIds": [
+              "Lax916827.RegularFunctions->Lax916827.RegularMapLifting:import"
+            ],
+            "sourcePortId": "e:Lax916827.RegularFunctions->Lax916827.RegularMapLifting:import:0:source",
+            "targetPortId": "e:Lax916827.RegularFunctions->Lax916827.RegularMapLifting:import:0:target"
+          },
+          {
+            "id": "e:Lax916827.RegularFunctions->Lax916827.RegularOfSST:import:0",
+            "kind": "import",
+            "minRankSpan": 1,
+            "semanticIds": [
+              "Lax916827.RegularFunctions->Lax916827.RegularOfSST:import"
+            ],
+            "sourcePortId": "e:Lax916827.RegularFunctions->Lax916827.RegularOfSST:import:0:source",
+            "targetPortId": "e:Lax916827.RegularFunctions->Lax916827.RegularOfSST:import:0:target"
+          },
+          {
+            "id": "e:Lax916827.RegularFunctions->Lax916827.RegularOfTwoWay:import:0",
+            "kind": "import",
+            "minRankSpan": 1,
+            "semanticIds": [
+              "Lax916827.RegularFunctions->Lax916827.RegularOfTwoWay:import"
+            ],
+            "sourcePortId": "e:Lax916827.RegularFunctions->Lax916827.RegularOfTwoWay:import:0:source",
+            "targetPortId": "e:Lax916827.RegularFunctions->Lax916827.RegularOfTwoWay:import:0:target"
+          },
+          {
+            "id": "e:Lax916827.RegularFunctions->Lax916827.RegularSum:import:0",
+            "kind": "import",
+            "minRankSpan": 1,
+            "semanticIds": [
+              "Lax916827.RegularFunctions->Lax916827.RegularSum:import"
+            ],
+            "sourcePortId": "e:Lax916827.RegularFunctions->Lax916827.RegularSum:import:0:source",
+            "targetPortId": "e:Lax916827.RegularFunctions->Lax916827.RegularSum:import:0:target"
+          },
+          {
+            "id": "e:Lax916827.RegularFunctions->Lax916827.SSTIffRegular:import:0",
+            "kind": "import",
+            "minRankSpan": 1,
+            "semanticIds": [
+              "Lax916827.RegularFunctions->Lax916827.SSTIffRegular:import"
+            ],
+            "sourcePortId": "e:Lax916827.RegularFunctions->Lax916827.SSTIffRegular:import:0:source",
+            "targetPortId": "e:Lax916827.RegularFunctions->Lax916827.SSTIffRegular:import:0:target"
+          },
+          {
+            "id": "e:Lax916827.RegularFunctions->Lax916827.SSTOfRegular:import:0",
+            "kind": "import",
+            "minRankSpan": 1,
+            "semanticIds": [
+              "Lax916827.RegularFunctions->Lax916827.SSTOfRegular:import"
+            ],
+            "sourcePortId": "e:Lax916827.RegularFunctions->Lax916827.SSTOfRegular:import:0:source",
+            "targetPortId": "e:Lax916827.RegularFunctions->Lax916827.SSTOfRegular:import:0:target"
+          },
+          {
+            "id": "e:Lax916827.RegularFunctions->Lax916827.SnakeLemma:import:0",
+            "kind": "import",
+            "minRankSpan": 1,
+            "semanticIds": [
+              "Lax916827.RegularFunctions->Lax916827.SnakeLemma:import"
+            ],
+            "sourcePortId": "e:Lax916827.RegularFunctions->Lax916827.SnakeLemma:import:0:source",
+            "targetPortId": "e:Lax916827.RegularFunctions->Lax916827.SnakeLemma:import:0:target"
+          },
+          {
+            "id": "e:Lax916827.RegularFunctions->Lax916827.TwoWayIffRegular:import:0",
+            "kind": "import",
+            "minRankSpan": 1,
+            "semanticIds": [
+              "Lax916827.RegularFunctions->Lax916827.TwoWayIffRegular:import"
+            ],
+            "sourcePortId": "e:Lax916827.RegularFunctions->Lax916827.TwoWayIffRegular:import:0:source",
+            "targetPortId": "e:Lax916827.RegularFunctions->Lax916827.TwoWayIffRegular:import:0:target"
+          },
+          {
+            "id": "e:Lax916827.RegularFunctions->Lax916827.TwoWayOfRegular:import:0",
+            "kind": "import",
+            "minRankSpan": 1,
+            "semanticIds": [
+              "Lax916827.RegularFunctions->Lax916827.TwoWayOfRegular:import"
+            ],
+            "sourcePortId": "e:Lax916827.RegularFunctions->Lax916827.TwoWayOfRegular:import:0:source",
+            "targetPortId": "e:Lax916827.RegularFunctions->Lax916827.TwoWayOfRegular:import:0:target"
+          },
+          {
+            "id": "e:Lax916827.SnakeGraphs->Lax916827.SnakeLemma:import:0",
+            "kind": "import",
+            "minRankSpan": 1,
+            "semanticIds": [
+              "Lax916827.SnakeGraphs->Lax916827.SnakeLemma:import"
+            ],
+            "sourcePortId": "e:Lax916827.SnakeGraphs->Lax916827.SnakeLemma:import:0:source",
+            "targetPortId": "e:Lax916827.SnakeGraphs->Lax916827.SnakeLemma:import:0:target"
+          },
+          {
+            "id": "e:Lax916827.StreamingStringTransducers->Lax916827.RegularOfSST:import:0",
+            "kind": "import",
+            "minRankSpan": 1,
+            "semanticIds": [
+              "Lax916827.StreamingStringTransducers->Lax916827.RegularOfSST:import"
+            ],
+            "sourcePortId": "e:Lax916827.StreamingStringTransducers->Lax916827.RegularOfSST:import:0:source",
+            "targetPortId": "e:Lax916827.StreamingStringTransducers->Lax916827.RegularOfSST:import:0:target"
+          },
+          {
+            "id": "e:Lax916827.StreamingStringTransducers->Lax916827.SSTIffRegular:import:0",
+            "kind": "import",
+            "minRankSpan": 1,
+            "semanticIds": [
+              "Lax916827.StreamingStringTransducers->Lax916827.SSTIffRegular:import"
+            ],
+            "sourcePortId": "e:Lax916827.StreamingStringTransducers->Lax916827.SSTIffRegular:import:0:source",
+            "targetPortId": "e:Lax916827.StreamingStringTransducers->Lax916827.SSTIffRegular:import:0:target"
+          },
+          {
+            "id": "e:Lax916827.StreamingStringTransducers->Lax916827.SSTOfRegular:import:0",
+            "kind": "import",
+            "minRankSpan": 1,
+            "semanticIds": [
+              "Lax916827.StreamingStringTransducers->Lax916827.SSTOfRegular:import"
+            ],
+            "sourcePortId": "e:Lax916827.StreamingStringTransducers->Lax916827.SSTOfRegular:import:0:source",
+            "targetPortId": "e:Lax916827.StreamingStringTransducers->Lax916827.SSTOfRegular:import:0:target"
+          },
+          {
+            "id": "e:Lax916827.TwoWayCodes->Lax916827.RegularEquivalenceDecidable:import:0",
+            "kind": "import",
+            "minRankSpan": 1,
+            "semanticIds": [
+              "Lax916827.TwoWayCodes->Lax916827.RegularEquivalenceDecidable:import"
+            ],
+            "sourcePortId": "e:Lax916827.TwoWayCodes->Lax916827.RegularEquivalenceDecidable:import:0:source",
+            "targetPortId": "e:Lax916827.TwoWayCodes->Lax916827.RegularEquivalenceDecidable:import:0:target"
+          },
+          {
+            "id": "e:Lax916827.TwoWayTransducers->Lax916827.ConfigurationGraphs:import:0",
+            "kind": "import",
+            "minRankSpan": 1,
+            "semanticIds": [
+              "Lax916827.TwoWayTransducers->Lax916827.ConfigurationGraphs:import"
+            ],
+            "sourcePortId": "e:Lax916827.TwoWayTransducers->Lax916827.ConfigurationGraphs:import:0:source",
+            "targetPortId": "e:Lax916827.TwoWayTransducers->Lax916827.ConfigurationGraphs:import:0:target"
+          },
+          {
+            "id": "e:Lax916827.TwoWayTransducers->Lax916827.RegularOfTwoWay:import:0",
+            "kind": "import",
+            "minRankSpan": 1,
+            "semanticIds": [
+              "Lax916827.TwoWayTransducers->Lax916827.RegularOfTwoWay:import"
+            ],
+            "sourcePortId": "e:Lax916827.TwoWayTransducers->Lax916827.RegularOfTwoWay:import:0:source",
+            "targetPortId": "e:Lax916827.TwoWayTransducers->Lax916827.RegularOfTwoWay:import:0:target"
+          },
+          {
+            "id": "e:Lax916827.TwoWayTransducers->Lax916827.TwoWayCodes:import:0",
+            "kind": "import",
+            "minRankSpan": 1,
+            "semanticIds": [
+              "Lax916827.TwoWayTransducers->Lax916827.TwoWayCodes:import"
+            ],
+            "sourcePortId": "e:Lax916827.TwoWayTransducers->Lax916827.TwoWayCodes:import:0:source",
+            "targetPortId": "e:Lax916827.TwoWayTransducers->Lax916827.TwoWayCodes:import:0:target"
+          },
+          {
+            "id": "e:Lax916827.TwoWayTransducers->Lax916827.TwoWayComposition:import:0",
+            "kind": "import",
+            "minRankSpan": 1,
+            "semanticIds": [
+              "Lax916827.TwoWayTransducers->Lax916827.TwoWayComposition:import"
+            ],
+            "sourcePortId": "e:Lax916827.TwoWayTransducers->Lax916827.TwoWayComposition:import:0:source",
+            "targetPortId": "e:Lax916827.TwoWayTransducers->Lax916827.TwoWayComposition:import:0:target"
+          },
+          {
+            "id": "e:Lax916827.TwoWayTransducers->Lax916827.TwoWayContinuity:import:0",
+            "kind": "import",
+            "minRankSpan": 1,
+            "semanticIds": [
+              "Lax916827.TwoWayTransducers->Lax916827.TwoWayContinuity:import"
+            ],
+            "sourcePortId": "e:Lax916827.TwoWayTransducers->Lax916827.TwoWayContinuity:import:0:source",
+            "targetPortId": "e:Lax916827.TwoWayTransducers->Lax916827.TwoWayContinuity:import:0:target"
+          },
+          {
+            "id": "e:Lax916827.TwoWayTransducers->Lax916827.TwoWayIffRegular:import:0",
+            "kind": "import",
+            "minRankSpan": 1,
+            "semanticIds": [
+              "Lax916827.TwoWayTransducers->Lax916827.TwoWayIffRegular:import"
+            ],
+            "sourcePortId": "e:Lax916827.TwoWayTransducers->Lax916827.TwoWayIffRegular:import:0:source",
+            "targetPortId": "e:Lax916827.TwoWayTransducers->Lax916827.TwoWayIffRegular:import:0:target"
+          },
+          {
+            "id": "e:Lax916827.TwoWayTransducers->Lax916827.TwoWayMealyPrecomposition:import:0",
+            "kind": "import",
+            "minRankSpan": 1,
+            "semanticIds": [
+              "Lax916827.TwoWayTransducers->Lax916827.TwoWayMealyPrecomposition:import"
+            ],
+            "sourcePortId": "e:Lax916827.TwoWayTransducers->Lax916827.TwoWayMealyPrecomposition:import:0:source",
+            "targetPortId": "e:Lax916827.TwoWayTransducers->Lax916827.TwoWayMealyPrecomposition:import:0:target"
+          },
+          {
+            "id": "e:Lax916827.TwoWayTransducers->Lax916827.TwoWayOfRegular:import:0",
+            "kind": "import",
+            "minRankSpan": 1,
+            "semanticIds": [
+              "Lax916827.TwoWayTransducers->Lax916827.TwoWayOfRegular:import"
+            ],
+            "sourcePortId": "e:Lax916827.TwoWayTransducers->Lax916827.TwoWayOfRegular:import:0:source",
+            "targetPortId": "e:Lax916827.TwoWayTransducers->Lax916827.TwoWayOfRegular:import:0:target"
+          },
+          {
+            "id": "e:Lax916827.TwoWayTransducers->Lax916827.TwoWayRationalPrecomposition:import:0",
+            "kind": "import",
+            "minRankSpan": 1,
+            "semanticIds": [
+              "Lax916827.TwoWayTransducers->Lax916827.TwoWayRationalPrecomposition:import"
+            ],
+            "sourcePortId": "e:Lax916827.TwoWayTransducers->Lax916827.TwoWayRationalPrecomposition:import:0:source",
+            "targetPortId": "e:Lax916827.TwoWayTransducers->Lax916827.TwoWayRationalPrecomposition:import:0:target"
+          }
+        ],
+        "nodes": [
+          {
+            "footprints": [
+              {
+                "bounds": {
+                  "height": 46,
+                  "width": 212.407,
+                  "x": 0,
+                  "y": 0
+                },
+                "id": "c:Lax194892.ForIffPolyregular:body",
+                "kind": "body"
+              }
+            ],
+            "height": 46,
+            "id": "c:Lax194892.ForIffPolyregular",
+            "kind": "concept",
+            "labelBoxes": [
+              {
+                "height": 12,
+                "width": 192.40625,
+                "x": 10.000375000000005,
+                "y": 9
+              },
+              {
+                "height": 12,
+                "width": 111.171875,
+                "x": 10.000375000000005,
+                "y": 25
+              }
+            ],
+            "ports": [
+              {
+                "id": "e:Lax194892.PolyregularFunctions->Lax194892.ForIffPolyregular:import:0:target",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax194892.ForIffPolyregular",
+                "semanticEndpointId": "Lax194892.ForIffPolyregular",
+                "side": "south"
+              }
+            ],
+            "width": 212.407
+          },
+          {
+            "footprints": [
+              {
+                "bounds": {
+                  "height": 46,
+                  "width": 224.69,
+                  "x": 0,
+                  "y": 0
+                },
+                "id": "c:Lax194892.ForOfPolyregular:body",
+                "kind": "body"
+              }
+            ],
+            "height": 46,
+            "id": "c:Lax194892.ForOfPolyregular",
+            "kind": "concept",
+            "labelBoxes": [
+              {
+                "height": 13,
+                "width": 204.6894073486328,
+                "x": 10.000296325683593,
+                "y": 8.5
+              },
+              {
+                "height": 12,
+                "width": 78.84852600097656,
+                "x": 10.000296325683593,
+                "y": 24.5
+              }
+            ],
+            "ports": [
+              {
+                "id": "e:Lax194892.PolyregularFunctions->Lax194892.ForOfPolyregular:import:0:target",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax194892.ForOfPolyregular",
+                "semanticEndpointId": "Lax194892.ForOfPolyregular",
+                "side": "south"
+              }
+            ],
+            "width": 224.69
+          },
+          {
+            "footprints": [
+              {
+                "bounds": {
+                  "height": 30,
+                  "width": 212.37,
+                  "x": 0,
+                  "y": 0
+                },
+                "id": "c:Lax194892.PolyregularContinuity:body",
+                "kind": "body"
+              }
+            ],
+            "height": 30,
+            "id": "c:Lax194892.PolyregularContinuity",
+            "kind": "concept",
+            "labelBoxes": [
+              {
+                "height": 13,
+                "width": 192.36935424804688,
+                "x": 10.000322875976565,
+                "y": 8.5
+              }
+            ],
+            "ports": [
+              {
+                "id": "e:Lax194892.PolyregularFunctions->Lax194892.PolyregularContinuity:import:0:target",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax194892.PolyregularContinuity",
+                "semanticEndpointId": "Lax194892.PolyregularContinuity",
+                "side": "south"
+              }
+            ],
+            "width": 212.37
+          },
+          {
+            "footprints": [
+              {
+                "bounds": {
+                  "height": 30,
+                  "width": 132.269,
+                  "x": 0,
+                  "y": 0
+                },
+                "id": "c:Lax194892.PolyregularFunctions:body",
+                "kind": "body"
+              }
+            ],
+            "height": 30,
+            "id": "c:Lax194892.PolyregularFunctions",
+            "kind": "concept",
+            "labelBoxes": [
+              {
+                "height": 13,
+                "width": 112.26878356933594,
+                "x": 10.000108215332034,
+                "y": 8.5
+              }
+            ],
+            "ports": [
+              {
+                "id": "e:Lax194892.PolyregularFunctions->Lax194892.ForIffPolyregular:import:0:source",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax194892.PolyregularFunctions",
+                "semanticEndpointId": "Lax194892.PolyregularFunctions",
+                "side": "north"
+              },
+              {
+                "id": "e:Lax194892.PolyregularFunctions->Lax194892.ForOfPolyregular:import:0:source",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax194892.PolyregularFunctions",
+                "semanticEndpointId": "Lax194892.PolyregularFunctions",
+                "side": "north"
+              },
+              {
+                "id": "e:Lax194892.PolyregularFunctions->Lax194892.PolyregularContinuity:import:0:source",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax194892.PolyregularFunctions",
+                "semanticEndpointId": "Lax194892.PolyregularFunctions",
+                "side": "north"
+              },
+              {
+                "id": "e:Lax194892.PolyregularFunctions->Lax194892.PolyregularOfFor:import:0:source",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax194892.PolyregularFunctions",
+                "semanticEndpointId": "Lax194892.PolyregularFunctions",
+                "side": "north"
+              },
+              {
+                "id": "e:Lax916827.RegularFunctions->Lax194892.PolyregularFunctions:import:0:target",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax194892.PolyregularFunctions",
+                "semanticEndpointId": "Lax194892.PolyregularFunctions",
+                "side": "south"
+              }
+            ],
+            "width": 132.269
+          },
+          {
+            "footprints": [
+              {
+                "bounds": {
+                  "height": 46,
+                  "width": 213.829,
+                  "x": 0,
+                  "y": 0
+                },
+                "id": "c:Lax194892.PolyregularOfFor:body",
+                "kind": "body"
+              }
+            ],
+            "height": 46,
+            "id": "c:Lax194892.PolyregularOfFor",
+            "kind": "concept",
+            "labelBoxes": [
+              {
+                "height": 12,
+                "width": 193.828125,
+                "x": 10.000437500000004,
+                "y": 9
+              },
+              {
+                "height": 12,
+                "width": 47.75,
+                "x": 10.000437500000004,
+                "y": 25
+              }
+            ],
+            "ports": [
+              {
+                "id": "e:Lax194892.PolyregularFunctions->Lax194892.PolyregularOfFor:import:0:target",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax194892.PolyregularOfFor",
+                "semanticEndpointId": "Lax194892.PolyregularOfFor",
+                "side": "south"
+              }
+            ],
+            "width": 213.829
+          },
+          {
+            "footprints": [
+              {
+                "bounds": {
+                  "height": 46,
+                  "width": 259.554,
+                  "x": 0,
+                  "y": 0
+                },
+                "id": "c:Lax314295.MSOTransductionIffRegular:body",
+                "kind": "body"
+              }
+            ],
+            "height": 46,
+            "id": "c:Lax314295.MSOTransductionIffRegular",
+            "kind": "concept",
+            "labelBoxes": [
+              {
+                "height": 13,
+                "width": 239.55361938476562,
+                "x": 10.000190307617174,
+                "y": 8.5
+              },
+              {
+                "height": 12,
+                "width": 48.020294189453125,
+                "x": 10.000190307617174,
+                "y": 24.5
+              }
+            ],
+            "ports": [
+              {
+                "id": "e:Lax916827.RegularFunctions->Lax314295.MSOTransductionIffRegular:import:0:target",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax314295.MSOTransductionIffRegular",
+                "semanticEndpointId": "Lax314295.MSOTransductionIffRegular",
+                "side": "south"
+              }
+            ],
+            "width": 259.554
+          },
+          {
+            "footprints": [
+              {
+                "bounds": {
+                  "height": 30,
+                  "width": 238.5,
+                  "x": 0,
+                  "y": 0
+                },
+                "id": "c:Lax314295.MSOTransductionOfRegular:body",
+                "kind": "body"
+              }
+            ],
+            "height": 30,
+            "id": "c:Lax314295.MSOTransductionOfRegular",
+            "kind": "concept",
+            "labelBoxes": [
+              {
+                "height": 12,
+                "width": 218.5,
+                "x": 10,
+                "y": 9
+              }
+            ],
+            "ports": [
+              {
+                "id": "e:Lax916827.RegularFunctions->Lax314295.MSOTransductionOfRegular:import:0:target",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax314295.MSOTransductionOfRegular",
+                "semanticEndpointId": "Lax314295.MSOTransductionOfRegular",
+                "side": "south"
+              }
+            ],
+            "width": 238.5
+          },
+          {
+            "footprints": [
+              {
+                "bounds": {
+                  "height": 30,
+                  "width": 249.282,
+                  "x": 0,
+                  "y": 0
+                },
+                "id": "c:Lax314295.RegularOfMSOTransduction:body",
+                "kind": "body"
+              }
+            ],
+            "height": 30,
+            "id": "c:Lax314295.RegularOfMSOTransduction",
+            "kind": "concept",
+            "labelBoxes": [
+              {
+                "height": 13,
+                "width": 229.28155517578125,
+                "x": 10.00022241210938,
+                "y": 8.5
+              }
+            ],
+            "ports": [
+              {
+                "id": "e:Lax916827.RegularFunctions->Lax314295.RegularOfMSOTransduction:import:0:target",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax314295.RegularOfMSOTransduction",
+                "semanticEndpointId": "Lax314295.RegularOfMSOTransduction",
+                "side": "south"
+              }
+            ],
+            "width": 249.282
+          },
+          {
+            "footprints": [
+              {
+                "bounds": {
+                  "height": 30,
+                  "width": 221.454,
+                  "x": 0,
+                  "y": 0
+                },
+                "id": "c:Lax709149.RegularOfTerm:body",
+                "kind": "body"
+              }
+            ],
+            "height": 30,
+            "id": "c:Lax709149.RegularOfTerm",
+            "kind": "concept",
+            "labelBoxes": [
+              {
+                "height": 12,
+                "width": 201.453125,
+                "x": 10.000437500000004,
+                "y": 9
+              }
+            ],
+            "ports": [
+              {
+                "id": "e:Lax709149.RegularUnderRepresentation->Lax709149.RegularOfTerm:import:0:target",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax709149.RegularOfTerm",
+                "semanticEndpointId": "Lax709149.RegularOfTerm",
+                "side": "south"
+              }
+            ],
+            "width": 221.454
+          },
+          {
+            "footprints": [
+              {
+                "bounds": {
+                  "height": 46,
+                  "width": 229.172,
+                  "x": 0,
+                  "y": 0
+                },
+                "id": "c:Lax709149.RegularUnderRepresentation:body",
+                "kind": "body"
+              }
+            ],
+            "height": 46,
+            "id": "c:Lax709149.RegularUnderRepresentation",
+            "kind": "concept",
+            "labelBoxes": [
+              {
+                "height": 12,
+                "width": 209.171875,
+                "x": 10.000062499999999,
+                "y": 9
+              },
+              {
+                "height": 12,
+                "width": 74.484375,
+                "x": 10.000062499999999,
+                "y": 25
+              }
+            ],
+            "ports": [
+              {
+                "id": "e:Lax709149.RegularUnderRepresentation->Lax709149.RegularOfTerm:import:0:source",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax709149.RegularUnderRepresentation",
+                "semanticEndpointId": "Lax709149.RegularUnderRepresentation",
+                "side": "north"
+              },
+              {
+                "id": "e:Lax916827.RegularFunctions->Lax709149.RegularUnderRepresentation:import:0:target",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax709149.RegularUnderRepresentation",
+                "semanticEndpointId": "Lax709149.RegularUnderRepresentation",
+                "side": "south"
+              }
+            ],
+            "width": 229.172
+          },
+          {
+            "footprints": [
+              {
+                "bounds": {
+                  "height": 46,
+                  "width": 258.454,
+                  "x": 0,
+                  "y": 0
+                },
+                "id": "c:Lax916827.ConfigurationGraphOutput:body",
+                "kind": "body"
+              }
+            ],
+            "height": 46,
+            "id": "c:Lax916827.ConfigurationGraphOutput",
+            "kind": "concept",
+            "labelBoxes": [
+              {
+                "height": 12,
+                "width": 238.453125,
+                "x": 10.000437500000004,
+                "y": 9
+              },
+              {
+                "height": 12,
+                "width": 138.15625,
+                "x": 10.000437500000004,
+                "y": 25
+              }
+            ],
+            "ports": [
+              {
+                "id": "e:Lax916827.ConfigurationGraphs->Lax916827.ConfigurationGraphOutput:import:0:target",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax916827.ConfigurationGraphOutput",
+                "semanticEndpointId": "Lax916827.ConfigurationGraphOutput",
+                "side": "south"
+              }
+            ],
+            "width": 258.454
+          },
+          {
+            "footprints": [
+              {
+                "bounds": {
+                  "height": 46,
+                  "width": 259.141,
+                  "x": 0,
+                  "y": 0
+                },
+                "id": "c:Lax916827.ConfigurationGraphRational:body",
+                "kind": "body"
+              }
+            ],
+            "height": 46,
+            "id": "c:Lax916827.ConfigurationGraphRational",
+            "kind": "concept",
+            "labelBoxes": [
+              {
+                "height": 12,
+                "width": 239.140625,
+                "x": 10.00018750000001,
+                "y": 9
+              },
+              {
+                "height": 12,
+                "width": 52.78125,
+                "x": 10.00018750000001,
+                "y": 25
+              }
+            ],
+            "ports": [
+              {
+                "id": "e:Lax916827.ConfigurationGraphs->Lax916827.ConfigurationGraphRational:import:0:target",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax916827.ConfigurationGraphRational",
+                "semanticEndpointId": "Lax916827.ConfigurationGraphRational",
+                "side": "south"
+              }
+            ],
+            "width": 259.141
+          },
+          {
+            "footprints": [
+              {
+                "bounds": {
+                  "height": 46,
+                  "width": 240.61,
+                  "x": 0,
+                  "y": 0
+                },
+                "id": "c:Lax916827.ConfigurationGraphs:body",
+                "kind": "body"
+              }
+            ],
+            "height": 46,
+            "id": "c:Lax916827.ConfigurationGraphs",
+            "kind": "concept",
+            "labelBoxes": [
+              {
+                "height": 13,
+                "width": 220.609375,
+                "x": 10.000312500000007,
+                "y": 8.5
+              },
+              {
+                "height": 13,
+                "width": 103.09669494628906,
+                "x": 10.000312500000007,
+                "y": 24.5
+              }
+            ],
+            "ports": [
+              {
+                "id": "e:Lax916827.ConfigurationGraphs->Lax916827.ConfigurationGraphOutput:import:0:source",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax916827.ConfigurationGraphs",
+                "semanticEndpointId": "Lax916827.ConfigurationGraphs",
+                "side": "north"
+              },
+              {
+                "id": "e:Lax916827.ConfigurationGraphs->Lax916827.ConfigurationGraphRational:import:0:source",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax916827.ConfigurationGraphs",
+                "semanticEndpointId": "Lax916827.ConfigurationGraphs",
+                "side": "north"
+              },
+              {
+                "id": "e:Lax916827.TwoWayTransducers->Lax916827.ConfigurationGraphs:import:0:target",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax916827.ConfigurationGraphs",
+                "semanticEndpointId": "Lax916827.ConfigurationGraphs",
+                "side": "south"
+              }
+            ],
+            "width": 240.61
+          },
+          {
+            "footprints": [
+              {
+                "bounds": {
+                  "height": 30,
+                  "width": 186.875,
+                  "x": 0,
+                  "y": 0
+                },
+                "id": "c:Lax916827.DuplicationContinuous:body",
+                "kind": "body"
+              }
+            ],
+            "height": 30,
+            "id": "c:Lax916827.DuplicationContinuous",
+            "kind": "concept",
+            "labelBoxes": [
+              {
+                "height": 12,
+                "width": 166.875,
+                "x": 10,
+                "y": 9
+              }
+            ],
+            "ports": [],
+            "width": 186.875
+          },
+          {
+            "footprints": [
+              {
+                "bounds": {
+                  "height": 46,
+                  "width": 245.172,
+                  "x": 0,
+                  "y": 0
+                },
+                "id": "c:Lax916827.MapLiftingContinuity:body",
+                "kind": "body"
+              }
+            ],
+            "height": 46,
+            "id": "c:Lax916827.MapLiftingContinuity",
+            "kind": "concept",
+            "labelBoxes": [
+              {
+                "height": 12,
+                "width": 225.171875,
+                "x": 10.000062499999999,
+                "y": 9
+              },
+              {
+                "height": 12,
+                "width": 56.078125,
+                "x": 10.000062499999999,
+                "y": 25
+              }
+            ],
+            "ports": [],
+            "width": 245.172
+          },
+          {
+            "footprints": [
+              {
+                "bounds": {
+                  "height": 46,
+                  "width": 202.079,
+                  "x": 0,
+                  "y": 0
+                },
+                "id": "c:Lax916827.RegularComposition:body",
+                "kind": "body"
+              }
+            ],
+            "height": 46,
+            "id": "c:Lax916827.RegularComposition",
+            "kind": "concept",
+            "labelBoxes": [
+              {
+                "height": 12,
+                "width": 182.078125,
+                "x": 10.000437500000004,
+                "y": 9
+              },
+              {
+                "height": 12,
+                "width": 63.078125,
+                "x": 10.000437500000004,
+                "y": 25
+              }
+            ],
+            "ports": [
+              {
+                "id": "e:Lax916827.RegularFunctions->Lax916827.RegularComposition:import:0:target",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax916827.RegularComposition",
+                "semanticEndpointId": "Lax916827.RegularComposition",
+                "side": "south"
+              }
+            ],
+            "width": 202.079
+          },
+          {
+            "footprints": [
+              {
+                "bounds": {
+                  "height": 46,
+                  "width": 202.079,
+                  "x": 0,
+                  "y": 0
+                },
+                "id": "c:Lax916827.RegularConcatenation:body",
+                "kind": "body"
+              }
+            ],
+            "height": 46,
+            "id": "c:Lax916827.RegularConcatenation",
+            "kind": "concept",
+            "labelBoxes": [
+              {
+                "height": 12,
+                "width": 182.078125,
+                "x": 10.000437500000004,
+                "y": 9
+              },
+              {
+                "height": 12,
+                "width": 72.6875,
+                "x": 10.000437500000004,
+                "y": 25
+              }
+            ],
+            "ports": [
+              {
+                "id": "e:Lax916827.RegularFunctions->Lax916827.RegularConcatenation:import:0:target",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax916827.RegularConcatenation",
+                "semanticEndpointId": "Lax916827.RegularConcatenation",
+                "side": "south"
+              }
+            ],
+            "width": 202.079
+          },
+          {
+            "footprints": [
+              {
+                "bounds": {
+                  "height": 46,
+                  "width": 203.922,
+                  "x": 0,
+                  "y": 0
+                },
+                "id": "c:Lax916827.RegularConditional:body",
+                "kind": "body"
+              }
+            ],
+            "height": 46,
+            "id": "c:Lax916827.RegularConditional",
+            "kind": "concept",
+            "labelBoxes": [
+              {
+                "height": 12,
+                "width": 182.078125,
+                "x": 10.000062499999999,
+                "y": 9
+              },
+              {
+                "height": 12,
+                "width": 183.921875,
+                "x": 10.000062499999999,
+                "y": 25
+              }
+            ],
+            "ports": [
+              {
+                "id": "e:Lax916827.RegularFunctions->Lax916827.RegularConditional:import:0:target",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax916827.RegularConditional",
+                "semanticEndpointId": "Lax916827.RegularConditional",
+                "side": "south"
+              }
+            ],
+            "width": 203.922
+          },
+          {
+            "footprints": [
+              {
+                "bounds": {
+                  "height": 30,
+                  "width": 192.719,
+                  "x": 0,
+                  "y": 0
+                },
+                "id": "c:Lax916827.RegularContinuity:body",
+                "kind": "body"
+              }
+            ],
+            "height": 30,
+            "id": "c:Lax916827.RegularContinuity",
+            "kind": "concept",
+            "labelBoxes": [
+              {
+                "height": 12,
+                "width": 172.71875,
+                "x": 10.000124999999997,
+                "y": 9
+              }
+            ],
+            "ports": [
+              {
+                "id": "e:Lax916827.RegularFunctions->Lax916827.RegularContinuity:import:0:target",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax916827.RegularContinuity",
+                "semanticEndpointId": "Lax916827.RegularContinuity",
+                "side": "south"
+              }
+            ],
+            "width": 192.719
+          },
+          {
+            "footprints": [
+              {
+                "bounds": {
+                  "height": 30,
+                  "width": 240.657,
+                  "x": 0,
+                  "y": 0
+                },
+                "id": "c:Lax916827.RegularEquivalenceDecidable:body",
+                "kind": "body"
+              }
+            ],
+            "height": 30,
+            "id": "c:Lax916827.RegularEquivalenceDecidable",
+            "kind": "concept",
+            "labelBoxes": [
+              {
+                "height": 12,
+                "width": 220.65625,
+                "x": 10.000375000000005,
+                "y": 9
+              }
+            ],
+            "ports": [
+              {
+                "id": "e:Lax916827.TwoWayCodes->Lax916827.RegularEquivalenceDecidable:import:0:target",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax916827.RegularEquivalenceDecidable",
+                "semanticEndpointId": "Lax916827.RegularEquivalenceDecidable",
+                "side": "south"
+              }
+            ],
+            "width": 240.657
+          },
+          {
+            "footprints": [
+              {
+                "bounds": {
+                  "height": 30,
+                  "width": 152,
+                  "x": 0,
+                  "y": 0
+                },
+                "id": "c:Lax916827.RegularFunctions:body",
+                "kind": "body"
+              }
+            ],
+            "height": 30,
+            "id": "c:Lax916827.RegularFunctions",
+            "kind": "concept",
+            "labelBoxes": [
+              {
+                "height": 12,
+                "width": 92.625,
+                "x": 29.6875,
+                "y": 9
+              }
+            ],
+            "ports": [
+              {
+                "id": "e:Lax916827.RegularFunctions->Lax194892.PolyregularFunctions:import:0:source",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax916827.RegularFunctions",
+                "semanticEndpointId": "Lax916827.RegularFunctions",
+                "side": "north"
+              },
+              {
+                "id": "e:Lax916827.RegularFunctions->Lax314295.MSOTransductionIffRegular:import:0:source",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax916827.RegularFunctions",
+                "semanticEndpointId": "Lax916827.RegularFunctions",
+                "side": "north"
+              },
+              {
+                "id": "e:Lax916827.RegularFunctions->Lax314295.MSOTransductionOfRegular:import:0:source",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax916827.RegularFunctions",
+                "semanticEndpointId": "Lax916827.RegularFunctions",
+                "side": "north"
+              },
+              {
+                "id": "e:Lax916827.RegularFunctions->Lax314295.RegularOfMSOTransduction:import:0:source",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax916827.RegularFunctions",
+                "semanticEndpointId": "Lax916827.RegularFunctions",
+                "side": "north"
+              },
+              {
+                "id": "e:Lax916827.RegularFunctions->Lax709149.RegularUnderRepresentation:import:0:source",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax916827.RegularFunctions",
+                "semanticEndpointId": "Lax916827.RegularFunctions",
+                "side": "north"
+              },
+              {
+                "id": "e:Lax916827.RegularFunctions->Lax916827.RegularComposition:import:0:source",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax916827.RegularFunctions",
+                "semanticEndpointId": "Lax916827.RegularFunctions",
+                "side": "north"
+              },
+              {
+                "id": "e:Lax916827.RegularFunctions->Lax916827.RegularConcatenation:import:0:source",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax916827.RegularFunctions",
+                "semanticEndpointId": "Lax916827.RegularFunctions",
+                "side": "north"
+              },
+              {
+                "id": "e:Lax916827.RegularFunctions->Lax916827.RegularConditional:import:0:source",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax916827.RegularFunctions",
+                "semanticEndpointId": "Lax916827.RegularFunctions",
+                "side": "north"
+              },
+              {
+                "id": "e:Lax916827.RegularFunctions->Lax916827.RegularContinuity:import:0:source",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax916827.RegularFunctions",
+                "semanticEndpointId": "Lax916827.RegularFunctions",
+                "side": "north"
+              },
+              {
+                "id": "e:Lax916827.RegularFunctions->Lax916827.RegularMapLifting:import:0:source",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax916827.RegularFunctions",
+                "semanticEndpointId": "Lax916827.RegularFunctions",
+                "side": "north"
+              },
+              {
+                "id": "e:Lax916827.RegularFunctions->Lax916827.RegularOfSST:import:0:source",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax916827.RegularFunctions",
+                "semanticEndpointId": "Lax916827.RegularFunctions",
+                "side": "north"
+              },
+              {
+                "id": "e:Lax916827.RegularFunctions->Lax916827.RegularOfTwoWay:import:0:source",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax916827.RegularFunctions",
+                "semanticEndpointId": "Lax916827.RegularFunctions",
+                "side": "north"
+              },
+              {
+                "id": "e:Lax916827.RegularFunctions->Lax916827.RegularSum:import:0:source",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax916827.RegularFunctions",
+                "semanticEndpointId": "Lax916827.RegularFunctions",
+                "side": "north"
+              },
+              {
+                "id": "e:Lax916827.RegularFunctions->Lax916827.SSTIffRegular:import:0:source",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax916827.RegularFunctions",
+                "semanticEndpointId": "Lax916827.RegularFunctions",
+                "side": "north"
+              },
+              {
+                "id": "e:Lax916827.RegularFunctions->Lax916827.SSTOfRegular:import:0:source",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax916827.RegularFunctions",
+                "semanticEndpointId": "Lax916827.RegularFunctions",
+                "side": "north"
+              },
+              {
+                "id": "e:Lax916827.RegularFunctions->Lax916827.SnakeLemma:import:0:source",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax916827.RegularFunctions",
+                "semanticEndpointId": "Lax916827.RegularFunctions",
+                "side": "north"
+              },
+              {
+                "id": "e:Lax916827.RegularFunctions->Lax916827.TwoWayIffRegular:import:0:source",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax916827.RegularFunctions",
+                "semanticEndpointId": "Lax916827.RegularFunctions",
+                "side": "north"
+              },
+              {
+                "id": "e:Lax916827.RegularFunctions->Lax916827.TwoWayOfRegular:import:0:source",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax916827.RegularFunctions",
+                "semanticEndpointId": "Lax916827.RegularFunctions",
+                "side": "north"
+              }
+            ],
+            "width": 152
+          },
+          {
+            "footprints": [
+              {
+                "bounds": {
+                  "height": 46,
+                  "width": 228.75,
+                  "x": 0,
+                  "y": 0
+                },
+                "id": "c:Lax916827.RegularMapLifting:body",
+                "kind": "body"
+              }
+            ],
+            "height": 46,
+            "id": "c:Lax916827.RegularMapLifting",
+            "kind": "concept",
+            "labelBoxes": [
+              {
+                "height": 12,
+                "width": 208.75,
+                "x": 10,
+                "y": 9
+              },
+              {
+                "height": 12,
+                "width": 31.03125,
+                "x": 10,
+                "y": 25
+              }
+            ],
+            "ports": [
+              {
+                "id": "e:Lax916827.RegularFunctions->Lax916827.RegularMapLifting:import:0:target",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax916827.RegularMapLifting",
+                "semanticEndpointId": "Lax916827.RegularMapLifting",
+                "side": "south"
+              }
+            ],
+            "width": 228.75
+          },
+          {
+            "footprints": [
+              {
+                "bounds": {
+                  "height": 46,
+                  "width": 252.938,
+                  "x": 0,
+                  "y": 0
+                },
+                "id": "c:Lax916827.RegularOfSST:body",
+                "kind": "body"
+              }
+            ],
+            "height": 46,
+            "id": "c:Lax916827.RegularOfSST",
+            "kind": "concept",
+            "labelBoxes": [
+              {
+                "height": 12,
+                "width": 232.9375,
+                "x": 10.000249999999994,
+                "y": 9
+              },
+              {
+                "height": 12,
+                "width": 93.765625,
+                "x": 10.000249999999994,
+                "y": 25
+              }
+            ],
+            "ports": [
+              {
+                "id": "e:Lax916827.RegularFunctions->Lax916827.RegularOfSST:import:0:target",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax916827.RegularOfSST",
+                "semanticEndpointId": "Lax916827.RegularOfSST",
+                "side": "south"
+              },
+              {
+                "id": "e:Lax916827.StreamingStringTransducers->Lax916827.RegularOfSST:import:0:target",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax916827.RegularOfSST",
+                "semanticEndpointId": "Lax916827.RegularOfSST",
+                "side": "south"
+              }
+            ],
+            "width": 252.938
+          },
+          {
+            "footprints": [
+              {
+                "bounds": {
+                  "height": 46,
+                  "width": 220.391,
+                  "x": 0,
+                  "y": 0
+                },
+                "id": "c:Lax916827.RegularOfTwoWay:body",
+                "kind": "body"
+              }
+            ],
+            "height": 46,
+            "id": "c:Lax916827.RegularOfTwoWay",
+            "kind": "concept",
+            "labelBoxes": [
+              {
+                "height": 12,
+                "width": 200.390625,
+                "x": 10.000187499999996,
+                "y": 9
+              },
+              {
+                "height": 12,
+                "width": 83.765625,
+                "x": 10.000187499999996,
+                "y": 25
+              }
+            ],
+            "ports": [
+              {
+                "id": "e:Lax916827.RegularFunctions->Lax916827.RegularOfTwoWay:import:0:target",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax916827.RegularOfTwoWay",
+                "semanticEndpointId": "Lax916827.RegularOfTwoWay",
+                "side": "south"
+              },
+              {
+                "id": "e:Lax916827.TwoWayTransducers->Lax916827.RegularOfTwoWay:import:0:target",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax916827.RegularOfTwoWay",
+                "semanticEndpointId": "Lax916827.RegularOfTwoWay",
+                "side": "south"
+              }
+            ],
+            "width": 220.391
+          },
+          {
+            "footprints": [
+              {
+                "bounds": {
+                  "height": 46,
+                  "width": 254.282,
+                  "x": 0,
+                  "y": 0
+                },
+                "id": "c:Lax916827.RegularSum:body",
+                "kind": "body"
+              }
+            ],
+            "height": 46,
+            "id": "c:Lax916827.RegularSum",
+            "kind": "concept",
+            "labelBoxes": [
+              {
+                "height": 13,
+                "width": 234.28125,
+                "x": 10.000375000000005,
+                "y": 8.5
+              },
+              {
+                "height": 13,
+                "width": 50.68431091308594,
+                "x": 10.000375000000005,
+                "y": 24.5
+              }
+            ],
+            "ports": [
+              {
+                "id": "e:Lax916827.RegularFunctions->Lax916827.RegularSum:import:0:target",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax916827.RegularSum",
+                "semanticEndpointId": "Lax916827.RegularSum",
+                "side": "south"
+              }
+            ],
+            "width": 254.282
+          },
+          {
+            "footprints": [
+              {
+                "bounds": {
+                  "height": 30,
+                  "width": 168.313,
+                  "x": 0,
+                  "y": 0
+                },
+                "id": "c:Lax916827.ReversalContinuous:body",
+                "kind": "body"
+              }
+            ],
+            "height": 30,
+            "id": "c:Lax916827.ReversalContinuous",
+            "kind": "concept",
+            "labelBoxes": [
+              {
+                "height": 12,
+                "width": 148.3125,
+                "x": 10.000249999999994,
+                "y": 9
+              }
+            ],
+            "ports": [],
+            "width": 168.313
+          },
+          {
+            "footprints": [
+              {
+                "bounds": {
+                  "height": 46,
+                  "width": 220.344,
+                  "x": 0,
+                  "y": 0
+                },
+                "id": "c:Lax916827.SSTIffRegular:body",
+                "kind": "body"
+              }
+            ],
+            "height": 46,
+            "id": "c:Lax916827.SSTIffRegular",
+            "kind": "concept",
+            "labelBoxes": [
+              {
+                "height": 12,
+                "width": 200.34375,
+                "x": 10.000124999999997,
+                "y": 9
+              },
+              {
+                "height": 12,
+                "width": 150.484375,
+                "x": 10.000124999999997,
+                "y": 25
+              }
+            ],
+            "ports": [
+              {
+                "id": "e:Lax916827.RegularFunctions->Lax916827.SSTIffRegular:import:0:target",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax916827.SSTIffRegular",
+                "semanticEndpointId": "Lax916827.SSTIffRegular",
+                "side": "south"
+              },
+              {
+                "id": "e:Lax916827.StreamingStringTransducers->Lax916827.SSTIffRegular:import:0:target",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax916827.SSTIffRegular",
+                "semanticEndpointId": "Lax916827.SSTIffRegular",
+                "side": "south"
+              }
+            ],
+            "width": 220.344
+          },
+          {
+            "footprints": [
+              {
+                "bounds": {
+                  "height": 46,
+                  "width": 232.36,
+                  "x": 0,
+                  "y": 0
+                },
+                "id": "c:Lax916827.SSTOfRegular:body",
+                "kind": "body"
+              }
+            ],
+            "height": 46,
+            "id": "c:Lax916827.SSTOfRegular",
+            "kind": "concept",
+            "labelBoxes": [
+              {
+                "height": 12,
+                "width": 212.359375,
+                "x": 10.000312500000007,
+                "y": 9
+              },
+              {
+                "height": 12,
+                "width": 145.015625,
+                "x": 10.000312500000007,
+                "y": 25
+              }
+            ],
+            "ports": [
+              {
+                "id": "e:Lax916827.RegularFunctions->Lax916827.SSTOfRegular:import:0:target",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax916827.SSTOfRegular",
+                "semanticEndpointId": "Lax916827.SSTOfRegular",
+                "side": "south"
+              },
+              {
+                "id": "e:Lax916827.StreamingStringTransducers->Lax916827.SSTOfRegular:import:0:target",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax916827.SSTOfRegular",
+                "semanticEndpointId": "Lax916827.SSTOfRegular",
+                "side": "south"
+              }
+            ],
+            "width": 232.36
+          },
+          {
+            "footprints": [
+              {
+                "bounds": {
+                  "height": 30,
+                  "width": 185.579,
+                  "x": 0,
+                  "y": 0
+                },
+                "id": "c:Lax916827.SnakeGraphs:body",
+                "kind": "body"
+              }
+            ],
+            "height": 30,
+            "id": "c:Lax916827.SnakeGraphs",
+            "kind": "concept",
+            "labelBoxes": [
+              {
+                "height": 12,
+                "width": 165.578125,
+                "x": 10.000437500000004,
+                "y": 9
+              }
+            ],
+            "ports": [
+              {
+                "id": "e:Lax916827.SnakeGraphs->Lax916827.SnakeLemma:import:0:source",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax916827.SnakeGraphs",
+                "semanticEndpointId": "Lax916827.SnakeGraphs",
+                "side": "north"
+              }
+            ],
+            "width": 185.579
+          },
+          {
+            "footprints": [
+              {
+                "bounds": {
+                  "height": 46,
+                  "width": 231.782,
+                  "x": 0,
+                  "y": 0
+                },
+                "id": "c:Lax916827.SnakeLemma:body",
+                "kind": "body"
+              }
+            ],
+            "height": 46,
+            "id": "c:Lax916827.SnakeLemma",
+            "kind": "concept",
+            "labelBoxes": [
+              {
+                "height": 12,
+                "width": 211.78125,
+                "x": 10.000375000000005,
+                "y": 9
+              },
+              {
+                "height": 12,
+                "width": 139.875,
+                "x": 10.000375000000005,
+                "y": 25
+              }
+            ],
+            "ports": [
+              {
+                "id": "e:Lax916827.RegularFunctions->Lax916827.SnakeLemma:import:0:target",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax916827.SnakeLemma",
+                "semanticEndpointId": "Lax916827.SnakeLemma",
+                "side": "south"
+              },
+              {
+                "id": "e:Lax916827.SnakeGraphs->Lax916827.SnakeLemma:import:0:target",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax916827.SnakeLemma",
+                "semanticEndpointId": "Lax916827.SnakeLemma",
+                "side": "south"
+              }
+            ],
+            "width": 231.782
+          },
+          {
+            "footprints": [
+              {
+                "bounds": {
+                  "height": 30,
+                  "width": 171.688,
+                  "x": 0,
+                  "y": 0
+                },
+                "id": "c:Lax916827.StreamingStringTransducers:body",
+                "kind": "body"
+              }
+            ],
+            "height": 30,
+            "id": "c:Lax916827.StreamingStringTransducers",
+            "kind": "concept",
+            "labelBoxes": [
+              {
+                "height": 12,
+                "width": 151.6875,
+                "x": 10.000249999999994,
+                "y": 9
+              }
+            ],
+            "ports": [
+              {
+                "id": "e:Lax916827.StreamingStringTransducers->Lax916827.RegularOfSST:import:0:source",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax916827.StreamingStringTransducers",
+                "semanticEndpointId": "Lax916827.StreamingStringTransducers",
+                "side": "north"
+              },
+              {
+                "id": "e:Lax916827.StreamingStringTransducers->Lax916827.SSTIffRegular:import:0:source",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax916827.StreamingStringTransducers",
+                "semanticEndpointId": "Lax916827.StreamingStringTransducers",
+                "side": "north"
+              },
+              {
+                "id": "e:Lax916827.StreamingStringTransducers->Lax916827.SSTOfRegular:import:0:source",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax916827.StreamingStringTransducers",
+                "semanticEndpointId": "Lax916827.StreamingStringTransducers",
+                "side": "north"
+              }
+            ],
+            "width": 171.688
+          },
+          {
+            "footprints": [
+              {
+                "bounds": {
+                  "height": 30,
+                  "width": 176.579,
+                  "x": 0,
+                  "y": 0
+                },
+                "id": "c:Lax916827.TwoWayCodes:body",
+                "kind": "body"
+              }
+            ],
+            "height": 30,
+            "id": "c:Lax916827.TwoWayCodes",
+            "kind": "concept",
+            "labelBoxes": [
+              {
+                "height": 12,
+                "width": 156.578125,
+                "x": 10.000437500000004,
+                "y": 9
+              }
+            ],
+            "ports": [
+              {
+                "id": "e:Lax916827.TwoWayCodes->Lax916827.RegularEquivalenceDecidable:import:0:source",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax916827.TwoWayCodes",
+                "semanticEndpointId": "Lax916827.TwoWayCodes",
+                "side": "north"
+              },
+              {
+                "id": "e:Lax916827.TwoWayTransducers->Lax916827.TwoWayCodes:import:0:target",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax916827.TwoWayCodes",
+                "semanticEndpointId": "Lax916827.TwoWayCodes",
+                "side": "south"
+              }
+            ],
+            "width": 176.579
+          },
+          {
+            "footprints": [
+              {
+                "bounds": {
+                  "height": 46,
+                  "width": 220.278,
+                  "x": 0,
+                  "y": 0
+                },
+                "id": "c:Lax916827.TwoWayComposition:body",
+                "kind": "body"
+              }
+            ],
+            "height": 46,
+            "id": "c:Lax916827.TwoWayComposition",
+            "kind": "concept",
+            "labelBoxes": [
+              {
+                "height": 13,
+                "width": 200.2773895263672,
+                "x": 10.000305236816402,
+                "y": 8.5
+              },
+              {
+                "height": 13,
+                "width": 63.400390625,
+                "x": 10.000305236816402,
+                "y": 24.5
+              }
+            ],
+            "ports": [
+              {
+                "id": "e:Lax916827.TwoWayTransducers->Lax916827.TwoWayComposition:import:0:target",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax916827.TwoWayComposition",
+                "semanticEndpointId": "Lax916827.TwoWayComposition",
+                "side": "south"
+              }
+            ],
+            "width": 220.278
+          },
+          {
+            "footprints": [
+              {
+                "bounds": {
+                  "height": 30,
+                  "width": 210.894,
+                  "x": 0,
+                  "y": 0
+                },
+                "id": "c:Lax916827.TwoWayContinuity:body",
+                "kind": "body"
+              }
+            ],
+            "height": 30,
+            "id": "c:Lax916827.TwoWayContinuity",
+            "kind": "concept",
+            "labelBoxes": [
+              {
+                "height": 13,
+                "width": 190.89334106445312,
+                "x": 10.00032946777344,
+                "y": 8.5
+              }
+            ],
+            "ports": [
+              {
+                "id": "e:Lax916827.TwoWayTransducers->Lax916827.TwoWayContinuity:import:0:target",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax916827.TwoWayContinuity",
+                "semanticEndpointId": "Lax916827.TwoWayContinuity",
+                "side": "south"
+              }
+            ],
+            "width": 210.894
+          },
+          {
+            "footprints": [
+              {
+                "bounds": {
+                  "height": 46,
+                  "width": 241.188,
+                  "x": 0,
+                  "y": 0
+                },
+                "id": "c:Lax916827.TwoWayIffRegular:body",
+                "kind": "body"
+              }
+            ],
+            "height": 46,
+            "id": "c:Lax916827.TwoWayIffRegular",
+            "kind": "concept",
+            "labelBoxes": [
+              {
+                "height": 13,
+                "width": 221.1875,
+                "x": 10.000249999999994,
+                "y": 8.5
+              },
+              {
+                "height": 13,
+                "width": 88.76060485839844,
+                "x": 10.000249999999994,
+                "y": 24.5
+              }
+            ],
+            "ports": [
+              {
+                "id": "e:Lax916827.RegularFunctions->Lax916827.TwoWayIffRegular:import:0:target",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax916827.TwoWayIffRegular",
+                "semanticEndpointId": "Lax916827.TwoWayIffRegular",
+                "side": "south"
+              },
+              {
+                "id": "e:Lax916827.TwoWayTransducers->Lax916827.TwoWayIffRegular:import:0:target",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax916827.TwoWayIffRegular",
+                "semanticEndpointId": "Lax916827.TwoWayIffRegular",
+                "side": "south"
+              }
+            ],
+            "width": 241.188
+          },
+          {
+            "footprints": [
+              {
+                "bounds": {
+                  "height": 46,
+                  "width": 220.278,
+                  "x": 0,
+                  "y": 0
+                },
+                "id": "c:Lax916827.TwoWayMealyPrecomposition:body",
+                "kind": "body"
+              }
+            ],
+            "height": 46,
+            "id": "c:Lax916827.TwoWayMealyPrecomposition",
+            "kind": "concept",
+            "labelBoxes": [
+              {
+                "height": 13,
+                "width": 200.2773895263672,
+                "x": 10.000305236816402,
+                "y": 8.5
+              },
+              {
+                "height": 13,
+                "width": 199.1013641357422,
+                "x": 10.000305236816402,
+                "y": 24.5
+              }
+            ],
+            "ports": [
+              {
+                "id": "e:Lax916827.TwoWayTransducers->Lax916827.TwoWayMealyPrecomposition:import:0:target",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax916827.TwoWayMealyPrecomposition",
+                "semanticEndpointId": "Lax916827.TwoWayMealyPrecomposition",
+                "side": "south"
+              }
+            ],
+            "width": 220.278
+          },
+          {
+            "footprints": [
+              {
+                "bounds": {
+                  "height": 46,
+                  "width": 232.36,
+                  "x": 0,
+                  "y": 0
+                },
+                "id": "c:Lax916827.TwoWayOfRegular:body",
+                "kind": "body"
+              }
+            ],
+            "height": 46,
+            "id": "c:Lax916827.TwoWayOfRegular",
+            "kind": "concept",
+            "labelBoxes": [
+              {
+                "height": 12,
+                "width": 212.359375,
+                "x": 10.000312500000007,
+                "y": 9
+              },
+              {
+                "height": 12,
+                "width": 102.46875,
+                "x": 10.000312500000007,
+                "y": 25
+              }
+            ],
+            "ports": [
+              {
+                "id": "e:Lax916827.RegularFunctions->Lax916827.TwoWayOfRegular:import:0:target",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax916827.TwoWayOfRegular",
+                "semanticEndpointId": "Lax916827.TwoWayOfRegular",
+                "side": "south"
+              },
+              {
+                "id": "e:Lax916827.TwoWayTransducers->Lax916827.TwoWayOfRegular:import:0:target",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax916827.TwoWayOfRegular",
+                "semanticEndpointId": "Lax916827.TwoWayOfRegular",
+                "side": "south"
+              }
+            ],
+            "width": 232.36
+          },
+          {
+            "footprints": [
+              {
+                "bounds": {
+                  "height": 46,
+                  "width": 227.838,
+                  "x": 0,
+                  "y": 0
+                },
+                "id": "c:Lax916827.TwoWayRationalPrecomposition:body",
+                "kind": "body"
+              }
+            ],
+            "height": 46,
+            "id": "c:Lax916827.TwoWayRationalPrecomposition",
+            "kind": "concept",
+            "labelBoxes": [
+              {
+                "height": 13,
+                "width": 200.2773895263672,
+                "x": 10.000275939941403,
+                "y": 8.5
+              },
+              {
+                "height": 13,
+                "width": 207.8374481201172,
+                "x": 10.000275939941403,
+                "y": 24.5
+              }
+            ],
+            "ports": [
+              {
+                "id": "e:Lax916827.TwoWayTransducers->Lax916827.TwoWayRationalPrecomposition:import:0:target",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax916827.TwoWayRationalPrecomposition",
+                "semanticEndpointId": "Lax916827.TwoWayRationalPrecomposition",
+                "side": "south"
+              }
+            ],
+            "width": 227.838
+          },
+          {
+            "footprints": [
+              {
+                "bounds": {
+                  "height": 30,
+                  "width": 130.793,
+                  "x": 0,
+                  "y": 0
+                },
+                "id": "c:Lax916827.TwoWayTransducers:body",
+                "kind": "body"
+              }
+            ],
+            "height": 30,
+            "id": "c:Lax916827.TwoWayTransducers",
+            "kind": "concept",
+            "labelBoxes": [
+              {
+                "height": 13,
+                "width": 110.79277038574219,
+                "x": 10.00011480712891,
+                "y": 8.5
+              }
+            ],
+            "ports": [
+              {
+                "id": "e:Lax916827.TwoWayTransducers->Lax916827.ConfigurationGraphs:import:0:source",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax916827.TwoWayTransducers",
+                "semanticEndpointId": "Lax916827.TwoWayTransducers",
+                "side": "north"
+              },
+              {
+                "id": "e:Lax916827.TwoWayTransducers->Lax916827.RegularOfTwoWay:import:0:source",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax916827.TwoWayTransducers",
+                "semanticEndpointId": "Lax916827.TwoWayTransducers",
+                "side": "north"
+              },
+              {
+                "id": "e:Lax916827.TwoWayTransducers->Lax916827.TwoWayCodes:import:0:source",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax916827.TwoWayTransducers",
+                "semanticEndpointId": "Lax916827.TwoWayTransducers",
+                "side": "north"
+              },
+              {
+                "id": "e:Lax916827.TwoWayTransducers->Lax916827.TwoWayComposition:import:0:source",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax916827.TwoWayTransducers",
+                "semanticEndpointId": "Lax916827.TwoWayTransducers",
+                "side": "north"
+              },
+              {
+                "id": "e:Lax916827.TwoWayTransducers->Lax916827.TwoWayContinuity:import:0:source",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax916827.TwoWayTransducers",
+                "semanticEndpointId": "Lax916827.TwoWayTransducers",
+                "side": "north"
+              },
+              {
+                "id": "e:Lax916827.TwoWayTransducers->Lax916827.TwoWayIffRegular:import:0:source",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax916827.TwoWayTransducers",
+                "semanticEndpointId": "Lax916827.TwoWayTransducers",
+                "side": "north"
+              },
+              {
+                "id": "e:Lax916827.TwoWayTransducers->Lax916827.TwoWayMealyPrecomposition:import:0:source",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax916827.TwoWayTransducers",
+                "semanticEndpointId": "Lax916827.TwoWayTransducers",
+                "side": "north"
+              },
+              {
+                "id": "e:Lax916827.TwoWayTransducers->Lax916827.TwoWayOfRegular:import:0:source",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax916827.TwoWayTransducers",
+                "semanticEndpointId": "Lax916827.TwoWayTransducers",
+                "side": "north"
+              },
+              {
+                "id": "e:Lax916827.TwoWayTransducers->Lax916827.TwoWayRationalPrecomposition:import:0:source",
+                "mode": "free-on-side",
+                "nodeId": "c:Lax916827.TwoWayTransducers",
+                "semanticEndpointId": "Lax916827.TwoWayTransducers",
+                "side": "north"
+              }
+            ],
+            "width": 130.793
+          }
+        ]
+      }
+    }
+  ]
+}

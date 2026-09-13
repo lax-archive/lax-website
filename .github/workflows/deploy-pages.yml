@@ -47,6 +47,22 @@ jobs:
       - if: github.event_name != 'delete'
         run: npm ci
 
+      - uses: browser-actions/setup-chrome@48483d551c22a1fe6154c6a195ccc6d5773dc8c4 # v2
+        if: github.event_name != 'delete'
+        id: graph-chrome
+        with:
+          chrome-version: 150.0.7871.124
+
+      - if: github.event_name != 'delete'
+        run: echo "GRAPH_CHROME=${{ steps.graph-chrome.outputs.chrome-path }}" >> "$GITHUB_ENV"
+
+      - uses: actions/cache@v4
+        if: github.event_name != 'delete'
+        with:
+          path: .lax-graph-cache
+          key: graph-v1-${{ hashFiles('src/graph-layout/**', 'src/sitegen/graph-*.ts', 'assets/site/graph-*', 'assets/site/fonts/*') }}-${{ hashFiles('data/lax-db/*/build-output.json') }}
+          restore-keys: graph-v1-
+
       - if: github.event_name != 'delete'
         run: npm run check
 

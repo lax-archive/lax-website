@@ -129,6 +129,7 @@ ${discussion(`${record.id}/`)}`;
   const relatedFigure = related.nodes.length > 1
     ? `${figureTitle("Submission map")}
 <figure class="graph-figure">
+${graphExpandButton("submission map")}
 <div id="submission-dag" class="figure-container" data-graph="submissions"></div>
 ${graphTooltip()}
 ${submissionMapLegend(related)}
@@ -149,8 +150,7 @@ ${externalConcepts}
 ${output.concepts.length ? `<details class="figure-details">
 <summary>Concept map</summary>
 <figure class="graph-figure">
-${graphExpandButton("concept map")}
-<div class="graph-toolbar"><button type="button" id="concept-expand" aria-controls="concept-dag" aria-pressed="true">Hide ancestors</button><button type="button" id="concept-descend" aria-controls="concept-dag" aria-pressed="false">Show descendants</button><output id="concept-graph-status" aria-live="polite"></output></div>
+${graphExpandButton("concept map", true)}
 <div id="concept-dag" class="figure-container" data-graph="concepts" data-ancestry="true"></div>
 ${graphTooltip()}
 ${conceptMapLegend(graphs.concepts, "This submission", "Other submission")}
@@ -177,13 +177,14 @@ ${proofsHref
       ? `<p class="proof-list-source">Lean sources for these proofs: ${withheldSourceLink("withheld during anonymous review")}</p>`
       : ""}
 </div>
-</details>` : `<p class="empty-note">No proofs in this submission.</p>`}
 <p class="honesty-note">Proof code is not displayed; the archive records each proof's checked relationship between claims.</p>
+</details>` : `<p class="empty-note">No proofs in this submission.</p>`}
 </section>
 <section class="page-section"><h3 class="section-title">Related submissions</h3>
 ${relatedFigure}
 </section>
 <section class="page-section"><h3 class="section-title" id="citation">Cite this</h3>
+<p class="honesty-note">This is only the formalizers. The authors of the formalized results may be different (see References).</p>
 ${anonymous
     ? anonymityNotice("Citation withheld", "A citation exists for this submission, but it is unavailable during anonymous review.")
     : `<div class="citation-box">
@@ -205,7 +206,7 @@ ${graphDataScript(graphs)}`;
     sidebar,
     sidebarState: "open",
     content,
-    scripts: ["assets/layout.js", "assets/dag.js", ...(anonymous ? [] : ["assets/citation.js"]), "assets/version-history.js", "assets/comments.js"],
+    scripts: ["assets/graph-interaction.js", ...(anonymous ? [] : ["assets/citation.js"]), "assets/version-history.js", "assets/comments.js"],
   });
 }
 
@@ -224,7 +225,7 @@ function paperSection(ctx: PageContext, submission: SiteSubmission): string {
 ${mentions}`;
 }
 
-/** Graph data for dag.js, embedded as inert JSON (CSP-safe). Concept data
+/** Graph data for graph-interaction.js, embedded as inert JSON (CSP-safe). Concept data
  * contains the page's own concepts plus both closures behind the toggles;
  * proof data is the submission's upstream statement/proof closure;
  * submission data is the same dependency question one level up. */
@@ -232,7 +233,8 @@ function pageGraphData(ctx: PageContext, submission: SiteSubmission, related: Su
   const output = submission.output!;
   const own = new Set(output.concepts.map((c) => c.id));
   const concepts = conceptGraph(ctx.model, own);
-  // `home` lets dag.js shorten the page's own concept ids to bare names.
+  // Keep the page home in the permitted presentation payload; node labels
+  // are prepared from their titles before browser interaction runs.
   return {
     concepts: { ...concepts, home: output.id },
     proofs: proofNetworkData(ctx, submission, "../"),
@@ -287,14 +289,20 @@ export function proofNetworkData(ctx: PageContext, submission: SiteSubmission, r
   }
   // Every sibling statement of a displayed concept comes along, so the figure
   // can draw one dock per statement — each with its own status — even where no
-  // displayed proof touches it.
+  // displayed proof touches it. A whole-concept assumption stays one coarse
+  // incidence; bringing its statements along never expands that assumption.
   for (const id of [...statementIds])
-    for (const sibling of model.statementHome.get(id)?.concept.statements ?? [])
+    for (const sibling of (model.statementHome.get(id) ?? model.conceptHome.get(id))?.concept.statements ?? [])
       statementIds.add(sibling.id);
   const statementNodes = [...statementIds].sort().map((id) => {
-    const home = model.statementHome.get(id);
+    const statementHome = model.statementHome.get(id);
+    const home = statementHome ?? model.conceptHome.get(id);
+    const conceptEndpoint = !statementHome && home !== undefined;
     const siblings = home?.concept.statements ?? [];
     const index = siblings.findIndex((statement) => statement.id === id) + 1;
+    const proven = conceptEndpoint
+      ? siblings.length > 0 && siblings.every((statement) => model.network.proven.has(statement.id))
+      : model.network.proven.has(id);
     return {
       id,
       // A claim displays as its home concept. `index`/`count` place it inside
@@ -305,11 +313,12 @@ export function proofNetworkData(ctx: PageContext, submission: SiteSubmission, r
       tooltipHtml: ctx.markdown.renderAuthorTooltip(home?.concept.title ?? "", rootRel),
       owner: home?.output.id,
       concept: home?.concept.id,
+      ...(conceptEndpoint ? { endpointKind: "concept" as const, status: siblings.length ? proven ? "proven" as const : "open" as const : "none" as const } : {}),
       index: index || undefined,
       count: home ? siblings.length : undefined,
-      href: home ? `${rootRel}${home.output.id}/${home.concept.id}.html#s-${id}` : undefined,
-      proven: model.network.proven.has(id),
-      ext: !ownStatements.has(id),
+      href: home ? `${rootRel}${home.output.id}/${home.concept.id}.html${statementHome ? `#s-${id}` : ""}` : undefined,
+      proven,
+      ext: home ? home.output.id !== output.id : !ownStatements.has(id),
     };
   });
   const proofNodes = [...proofs.values()]

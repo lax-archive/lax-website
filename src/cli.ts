@@ -52,7 +52,17 @@ async function build(): Promise<void> {
     if (missing.length)
       throw new Error(`papers cache lacks the PDF or web bundle of ${missing.map((s) => s.record.id).join(", ")}; run \`npm run papers:fetch\` or build with --no-papers`);
   }
-  await generateSite(submissions, outDir, { log: (line) => console.warn(line) });
+  await generateSite(submissions, outDir, { log: (line) => console.warn(line),
+    graphs: { mode: command === "serve" ? "local" : "archive", selfContained: flag("--self-contained-graphs"),
+      cacheDir: path.resolve(option("--graph-cache", path.join(root, ".lax-graph-cache"))), log: (line) => console.log(line) },
+    graphReport: (report) => {
+      const reportFile = option("--graph-report", "");
+      if (reportFile) {
+        fs.mkdirSync(path.dirname(path.resolve(reportFile)), { recursive: true });
+        fs.writeFileSync(reportFile, JSON.stringify(report, null, 2) + "\n");
+      }
+    },
+  });
   console.log(`generated ${submissions.length} archive records in ${outDir}`);
 }
 

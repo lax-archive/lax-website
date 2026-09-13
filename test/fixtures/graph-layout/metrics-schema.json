@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://lax-archive.github.io/graph-layout/metrics-schema-v1.json",
+  "title": "Lax final-geometry-v1 benchmark row",
+  "description": "One frozen view or separately tagged synthetic example. Timing and machine data are stored in performance.json, never in canonical geometry or this row.",
+  "type": "object",
+  "required": ["schemaVersion", "metricsVersion", "id", "kind", "cohort", "split", "status", "diagnostics"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "metricsVersion": {"const": "final-geometry-v1"},
+    "id": {"type": "string", "minLength": 1},
+    "kind": {"enum": ["concepts", "submissions", "proofs"]},
+    "cohort": {"enum": ["archive", "test-example"]},
+    "split": {"enum": ["tuning", "held-out", "diagnostic"]},
+    "status": {"enum": ["valid", "failed"]},
+    "diagnostics": {"type": "array", "items": {"$ref": "#/$defs/diagnostic"}},
+    "inputDigest": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "statistics": {"type": "object", "required": ["semantic", "display", "labels"]},
+    "after": {
+      "type": "object",
+      "required": ["metrics", "geometryDigest", "geometryBytes", "geometryGzipBytes", "search", "candidates", "validator"],
+      "properties": {
+        "metrics": {"$ref": "#/$defs/geometryMetrics"},
+        "geometryDigest": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "geometryBytes": {"type": "integer", "minimum": 0},
+        "geometryGzipBytes": {"type": "integer", "minimum": 0},
+        "validator": {"type": "object", "required": ["valid", "coordinateQuantum", "curveMaximumDeviation"], "properties": {"valid": {"const": true}, "coordinateQuantum": {"const": 0.001}, "curveMaximumDeviation": {"const": 0.01}}}
+      }
+    },
+    "comparison": {"type": "object", "required": ["comparable", "deltas", "regressions"], "properties": {"comparable": {"type": "boolean"}, "regressions": {"type": "array", "items": {"type": "string"}}}}
+  },
+  "allOf": [
+    {"if": {"properties": {"status": {"const": "valid"}}}, "then": {"required": ["statistics", "after", "inputDigest", "comparison"]}},
+    {"if": {"properties": {"cohort": {"const": "test-example"}}}, "then": {"properties": {"split": {"const": "diagnostic"}}}},
+    {"if": {"properties": {"cohort": {"const": "archive"}}}, "then": {"properties": {"split": {"enum": ["tuning", "held-out"]}}}}
+  ],
+  "$defs": {
+    "diagnostic": {"type": "object", "required": ["code", "message"], "properties": {"code": {"type": "string"}, "message": {"type": "string"}, "ids": {"type": "array", "items": {"type": "string"}}}},
+    "count": {"type": "integer", "minimum": 0},
+    "geometryMetrics": {
+      "type": "object",
+      "required": ["crossings", "repeatedCrossingPairs", "endpointTouches", "tangencies", "multiwayCrossings", "overlaps", "bends", "length", "width", "height", "minimumCrossingAngle"],
+      "properties": {
+        "crossings": {"$ref": "#/$defs/count"}, "repeatedCrossingPairs": {"$ref": "#/$defs/count"},
+        "endpointTouches": {"$ref": "#/$defs/count"}, "tangencies": {"$ref": "#/$defs/count"},
+        "multiwayCrossings": {"$ref": "#/$defs/count"}, "overlaps": {"$ref": "#/$defs/count"},
+        "bends": {"$ref": "#/$defs/count"},
+        "length": {"type": "number", "minimum": 0}, "width": {"type": "number", "minimum": 0}, "height": {"type": "number", "minimum": 0},
+        "minimumCrossingAngle": {"type": ["number", "null"], "minimum": 0, "maximum": 90}
+      }
+    }
+  }
+}

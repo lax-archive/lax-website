@@ -8,7 +8,7 @@ import type { PaperMark, StatementEntry } from "../../types.js";
 import {
   anonymityPlaceholder,
   currentSubmissions,
-  graphExpandButton,
+  graphWindowButton,
   graphTooltip,
   indexSidebar,
   INTRO_SUBMISSION_ID,
@@ -528,7 +528,7 @@ ${markdown.render(AFTER_PASSAGES, "")}
 </div>
 <ol class="manuscript-rail landing-paper-rail" aria-label="Cards">
 ${cards.join("\n")}
-<li class="landing-paper-hint" aria-hidden="true"><span class="landing-paper-hint-hover">Hover a highlight to expand</span><span class="landing-paper-hint-touch">Tap a highlight to expand</span></li>
+<li class="landing-paper-hint" aria-hidden="true"><span class="landing-paper-hint-hover">Hover over a highlight to expand</span><span class="landing-paper-hint-touch">Tap a highlight to expand</span></li>
 </ol>
 <svg class="manuscript-links landing-paper-links" aria-hidden="true"></svg>
 ${foot}
@@ -571,7 +571,7 @@ ${slides.join("\n")}
 </section>`;
 }
 
-/** A submission's proof network, drawn by dag.js from the same data the
+/** A submission's proof network, drawn by graph-interaction.js from the same data the
  * submission page embeds, with links from the site root. The container
  * is centred and faded at its sides by landing.js and the stylesheet. */
 function proofNetworkFigure(ctx: PageContext, submission: SiteSubmission, caption: string): string {
@@ -579,9 +579,9 @@ function proofNetworkFigure(ctx: PageContext, submission: SiteSubmission, captio
   const id = submission.record.id;
   return `<figure class="landing-box graph-figure proof-network-figure landing-network-figure" aria-label="${attr(`The proof network of ${id}`)}">
 <div class="landing-box-caption latex-content">
-${ctx.markdown.render(caption, "")}
+<div class="landing-network-caption">${ctx.markdown.render(caption, "")}</div>
+${graphWindowButton("proof network")}
 </div>
-${graphExpandButton("proof network")}
 <div class="landing-network-viewport">
 <div id="proof-network" class="figure-container" data-graph="proofs"></div>
 </div>
@@ -700,6 +700,6 @@ ${faq}
     content,
     detailClass: "detail-landing",
     landingHeader: true,
-    scripts: network ? ["assets/layout.js", "assets/dag.js", "assets/landing.js"] : ["assets/landing.js"],
+    scripts: network ? ["assets/graph-interaction.js", "assets/landing.js"] : ["assets/landing.js"],
   });
 }

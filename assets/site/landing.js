@@ -369,37 +369,13 @@
     for (const root of document.querySelectorAll('[data-carousel]')) setupCarousel(root);
   }
 
-  // The proof network is wider than its box, and may be taller. On a
-  // desktop it is scaled down to the box's height, so the whole of it is
-  // in view top to bottom and only scrolls sideways, centred (the large
-  // window shows it at full size); on a phone it keeps its size, centred,
-  // as the box is as tall as the graph there. Again whenever dag.js draws
-  // it (on load, after a resize, on opening or closing the large window).
+  // The static graph retains its measured font size. Interaction centers the
+  // viewport without resizing nodes or recomputing the layout.
   function setupNetwork() {
     const container = document.getElementById('proof-network');
     if (!container) return;
-    const figure = container.closest('.graph-figure');
-    const narrow = window.matchMedia('(max-width: 640px)');
-    function fit() {
-      const svg = container.querySelector('svg');
-      if (!svg) return;
-      const natural = Number(svg.getAttribute('height')) || svg.getBoundingClientRect().height;
-      const cap = parseFloat(getComputedStyle(container).maxHeight);
-      const fitted = !narrow.matches && !(figure && figure.classList.contains('graph-expanded')) && Number.isFinite(cap) && cap < natural;
-      if (fitted) {
-        svg.style.height = `${cap}px`;
-        svg.style.width = 'auto';
-        container.style.height = `${cap}px`;
-      } else {
-        svg.style.height = '';
-        svg.style.width = '';
-        container.style.height = `${natural}px`;
-      }
-      container.scrollLeft = Math.max(0, (container.scrollWidth - container.clientWidth) / 2);
-    }
-    if (typeof MutationObserver === 'function') new MutationObserver(fit).observe(container, { childList: true });
-    narrow.addEventListener('change', fit);
-    fit();
+    container.scrollTop = 0;
+    container.scrollLeft = Math.max(0, (container.scrollWidth - container.clientWidth) / 2);
   }
 
   function setupLanding() {

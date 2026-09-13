@@ -26,7 +26,29 @@ jobs:
           cache: npm
 
       - run: npm ci
+      # Measurement is build tooling only; the packaged local renderer has
+      # a separate first-party browser/worker path and installs no browser.
+      - uses: browser-actions/setup-chrome@48483d551c22a1fe6154c6a195ccc6d5773dc8c4 # v2
+        id: graph-chrome
+        with:
+          chrome-version: 150.0.7871.124
+      - run: echo "GRAPH_CHROME=${{ steps.graph-chrome.outputs.chrome-path }}" >> "$GITHUB_ENV"
+      - uses: actions/cache@v4
+        with:
+          path: .lax-graph-cache
+          key: graph-v1-${{ hashFiles('src/graph-layout/**', 'src/sitegen/graph-*.ts', 'assets/site/graph-*', 'assets/site/fonts/*') }}-${{ hashFiles('data/lax-db/*/build-output.json') }}
+          restore-keys: graph-v1-
       - run: npm run check
+
+      # Runtime SVG/interaction compatibility; these development browsers
+      # never enter the archive assets or the packaged local renderer.
+      - run: node node_modules/playwright-core/cli.js install --with-deps firefox webkit
+      - run: npm run check -- graph-browser
+        env:
+          GRAPH_BROWSER: firefox
+      - run: npm run check -- graph-browser
+        env:
+          GRAPH_BROWSER: webkit
 
       # Compiled papers and reflow bundles come from the archive's capture
       # registry, one file per digest; the cache spares the corpus a
