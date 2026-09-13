@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://comments.laxarchive.org; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self'; frame-src https://comments.laxarchive.org; connect-src 'self' https://comments.laxarchive.org">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Lax — an archive of formalized mathematical concepts and their proofs">
+<title>Transducers — lax-157538</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
+<link rel="stylesheet" href="../assets/style.css?v=aa6e6bd67cae">
+</head><body>
+<header class="site-header with-sidebar">
+  <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="true" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
+  <div class="site-brand">
+  <h1 class="site-title"><a href="../index.html">Lax <span class="site-title-quiet">Lean Archive</span></a></h1>
+  <nav class="site-nav" aria-label="Site">
+    <a class="site-nav-link" href="../lax-242665/paper.html">Introduction</a>
+    <a class="site-nav-link" href="../about.html">About</a>
+  </nav>
+  </div>
+  <nav class="header-actions" aria-label="Account">
+    <div class="account-header" data-account-root data-remark42-host="https://comments.laxarchive.org" data-remark42-site="remark" data-identity-url="https://comments.laxarchive.org/reactions/v1/identity">
+  <a class="account-control" data-account-login href="https://comments.laxarchive.org/auth/orcid/login?from=https%3A%2F%2Flaxarchive.org&amp;site=remark"><span class="orcid-mark" aria-hidden="true">iD</span><span>Sign in<span class="account-login-long"> with ORCID</span></span></a>
+  <button class="account-control" data-account-settings type="button" aria-haspopup="dialog" aria-controls="account-dialog" hidden><span class="orcid-mark" aria-hidden="true">iD</span><span>Settings</span></button>
+</div>
+  </nav>
+</header>
+<main id="content-shell">
+<div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+<aside id="sidebar">
+<a class="sidebar-back" href="../index.html"><span class="sidebar-back-arrow" aria-hidden="true">←</span>All submissions</a>
+<div class="sidebar-filters"><div class="filter-group">
+<label for="filter-search">Search</label>
+<input id="filter-search" class="filter-input" type="search" placeholder="Filter entries" aria-controls="entry-list">
+</div>
+<div class="filter-group">
+<label for="filter-type">Type</label>
+<select id="filter-type" class="filter-select">
+<option value="all">All types</option>
+
+</select>
+</div></div>
+<ul id="entry-list">
+
+<li id="entry-list-empty" hidden>No entries match.</li>
+</ul>
+</aside>
+<div id="sidebar-resizer" class="sidebar-resizer" role="separator" aria-label="Resize sidebar" aria-controls="sidebar" aria-orientation="vertical" aria-valuemin="220" aria-valuemax="520" aria-valuenow="285" tabindex="0" title="Drag to resize sidebar"></div>
+<section id="main"><div id="detail">
+<p class="draft-banner"><strong>Draft</strong> — mutable and not usable as a dependency; its citation marks the draft state.</p>
+<header class="paper-head">
+<h1 class="paper-title">Transducers</h1>
+<p class="paper-meta"><span class="submission-meta-id">lax-157538</span><span class="meta-sep">·</span><span class="formalized-label">formalized by</span> <span class="paper-author">Mikołaj Bojańczyk</span><span class="author-sep">·</span><span class="paper-author">Aristotle (Harmonic)</span><span class="meta-sep">·</span>created 2026-09-07<span class="meta-sep">·</span><a href="https://github.com/bojanczyk/transducer-book/tree/7a3dd7625bf1138cb44d337e9160ff3fab670c36/lax/transducers-book" title="https://github.com/bojanczyk/transducer-book/tree/7a3dd7625bf1138cb44d337e9160ff3fab670c36/lax/transducers-book"><code>GitHub @7a3dd76</code></a><span class="meta-sep">·</span>Lean <code>v4.30.0</code> <span class="meta-epoch" title="the environment the archive recommends this year">epoch</span> · mathlib <code>c5ea00351c28</code></p>
+</header>
+<section class="page-reactions" aria-label="Community review" data-reactions-host="https://comments.laxarchive.org" data-reactions-url="https://laxarchive.org/lax-157538/" data-review-kind="submission" data-source-lines="0">
+<div class="page-reactions-line">
+<div class="page-reactions-actions">
+<div class="page-reaction-control">
+<button class="page-reaction-button" type="button" data-reaction="endorse" aria-pressed="false" title="Say that this submission is correct"><span class="page-reaction-icon" aria-hidden="true">🥳</span><span>Endorse</span></button>
+<button class="page-reaction-voters" type="button" data-reaction-voters="endorse" aria-expanded="false" aria-controls="page-reaction-voters-endorse"><strong data-reaction-count="endorse">0</strong><span class="visually-hidden">Show people who endorse this submission</span></button>
+<div class="page-reaction-voters-popover" id="page-reaction-voters-endorse" data-reaction-voters-popover="endorse" hidden><p data-reaction-empty>No public endorsements yet.</p><ul></ul></div>
+</div>
+<div class="page-reaction-control page-flag-control">
+<button class="page-reaction-button" type="button" data-reaction="flag" aria-pressed="false" aria-haspopup="dialog" title="Explain why this submission may be false"><span class="page-reaction-icon" aria-hidden="true">🚩</span><span>Flag</span></button>
+<button class="page-reaction-voters" type="button" data-flag-list-open aria-haspopup="dialog" aria-controls="page-flag-list"><strong data-reaction-count="flag">0</strong><span class="visually-hidden">Show flags for this submission</span></button>
+</div>
+</div>
+
+</div>
+<p class="page-reactions-status" data-reactions-status role="status">Loading review…</p>
+<a class="visually-hidden" data-reactions-login href="https://comments.laxarchive.org/auth/orcid/login?site=remark&amp;from=https%3A%2F%2Flaxarchive.org%2Flax-157538%2F">Sign in with ORCID</a>
+<dialog class="review-dialog flag-list-dialog" id="page-flag-list" data-flag-list-dialog aria-labelledby="page-flag-list-title">
+<div class="review-dialog-header"><div><p class="discussion-eyebrow">Community review</p><h2 id="page-flag-list-title">Flags</h2></div><button class="review-dialog-close" type="button" data-flag-list-close aria-label="Close flags">×</button></div>
+<p class="review-dialog-intro">Each flag is tied to a public ORCID identity and explains why this submission may be incorrect.</p>
+<p data-flag-list-empty>No flags have been submitted.</p><ol class="flag-list" data-flag-list></ol>
+</dialog>
+<dialog class="review-dialog flag-editor-dialog" id="page-flag-editor" data-flag-editor aria-labelledby="page-flag-editor-title">
+<form data-flag-form>
+<div class="review-dialog-header"><div><p class="discussion-eyebrow">Community review</p><h2 id="page-flag-editor-title">Flag this submission</h2></div><button class="review-dialog-close" type="button" data-flag-cancel aria-label="Close flag form">×</button></div>
+<p class="review-dialog-intro">State precisely what appears incorrect. This explanation will be public under your ORCID name.</p>
+<label class="flag-message-label" for="page-flag-message">What is wrong?</label>
+<textarea id="page-flag-message" data-flag-message rows="6" maxlength="2000" required placeholder="Describe the incorrect claim, missing assumption, or counterexample."></textarea>
+
+<p class="flag-form-status" data-flag-form-status role="status"></p>
+<div class="review-dialog-actions"><button class="danger-button" type="button" data-flag-remove hidden>Remove my flag</button><span></span><button class="secondary-button" type="button" data-flag-cancel>Cancel</button><button class="primary-button" type="submit">Publish flag</button></div>
+</form>
+</dialog>
+<noscript><p class="page-reactions-noscript"><a href="https://comments.laxarchive.org/auth/orcid/login?site=remark&amp;from=https%3A%2F%2Flaxarchive.org%2Flax-157538%2F">Sign in with ORCID</a> to review this page.</p></noscript>
+</section>
+<section class="paper-abstract">
+<h2 class="abstract-heading">Abstract</h2>
+<div class="latex-content"><p>The book <em>Transducers</em> by Mikołaj Bojańczyk, as the paper layer over its formalisation: this submission carries the full text of the book with cards for every definition and theorem formalised in the seven submissions it requires (the undecidability of the Post correspondence problem, and Parts A–D).</p>
+</div>
+</section>
+<section class="page-section paper-cta">
+<a class="source-button paper-cta-button" href="paper.html"><span>View annotated paper</span></a>
+<p class="paper-cta-facts">179 pages · 210 marked passages</p>
+</section>
+
+<section class="page-section"><h3 class="section-title">Concepts</h3>
+<p class="empty-note">No concepts in this submission.</p>
+
+</section>
+<section class="page-section"><h3 class="section-title">Proofs</h3>
+<p class="empty-note">No proofs in this submission.</p>
+<p class="honesty-note">Proof code is not displayed; the archive records each proof's checked relationship between claims.</p>
+</section>
+<section class="page-section"><h3 class="section-title">Related submissions</h3>
+<h4 class="figure-title">Submission map</h4>
+<figure class="graph-figure">
+<div id="submission-dag" class="figure-container" data-graph="submissions" data-prepared="true" style="height:720px"><svg xmlns="http://www.w3.org/2000/svg" class="prepared-graph" width="974" height="844" viewBox="0 0 974 844" aria-label="Submission dependency graph" data-layout-digest="f342d6d3ffccafaf713b130ddc23f1f6ee1d457f8f53186a9033fae269c57268"><defs><marker id="graph-arrow-submission-dag-f342d6d3ffccafaf-default" viewBox="0 -5 10 10" refX="9" refY="0" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto" overflow="visible"><path d="M1,-4.25 L9,0 L1,4.25 Q3,0 1,-4.25 Z"/></marker></defs><g data-graph-camera><path class="dag-edge" data-edge-id="e:lax-132576-&gt;lax-157538:concepts:0" d="M745.045,648 L745.045,638 Q745.045,636 746.228,634.387 L813.099,543.225 Q815.465,540 815.465,536 L815.465,134 Q815.465,130 811.564,129.117 L534.606,66.441 Q532.655,66 532.655,64 L532.655,54" marker-end="url(#graph-arrow-submission-dag-f342d6d3ffccafaf-default)"/><path class="dag-edge proof-dep" data-edge-id="e:lax-132576-&gt;lax-194892:proofs:0" d="M737.045,648 L737.045,638 Q737.045,636 737.211,634.007 L744.713,543.986 Q745.045,540 745.045,536 L745.045,276 Q745.045,272 741.446,270.253 L565.543,184.873 Q563.744,184 563.744,182 L563.744,172" marker-end="url(#graph-arrow-submission-dag-f342d6d3ffccafaf-default)"/><path class="dag-edge" data-edge-id="e:lax-132576-&gt;lax-314295:concepts:0" d="M729.045,648 L729.045,458 Q729.045,454 725.383,452.39 L476.15,342.805 Q474.319,342 474.319,340 L474.319,330" marker-end="url(#graph-arrow-submission-dag-f342d6d3ffccafaf-default)"/><path class="dag-edge" data-edge-id="e:lax-132576-&gt;lax-709149:concepts:0" d="M721.045,648 L721.045,638 Q721.045,636 720.032,634.276 L666.672,543.449 Q664.646,540 664.646,536 L664.646,458 Q664.646,454 660.758,453.059 L203.871,342.471 Q201.927,342 201.927,340 L201.927,330" marker-end="url(#graph-arrow-submission-dag-f342d6d3ffccafaf-default)"/><path class="dag-edge" data-edge-id="e:lax-132576-&gt;lax-916827:concepts:0" d="M713.045,648 L713.045,638 Q713.045,636 711.097,635.548 L301.46,540.452 Q299.512,540 299.512,538 L299.512,528" marker-end="url(#graph-arrow-submission-dag-f342d6d3ffccafaf-default)"/><path class="dag-edge" data-edge-id="e:lax-194892-&gt;lax-157538:concepts:0" d="M551.744,142 L551.744,132 Q551.744,130 550.964,128.158 L525.435,67.842 Q524.655,66 524.655,64 L524.655,54" marker-end="url(#graph-arrow-submission-dag-f342d6d3ffccafaf-default)"/><path class="dag-edge proof-dep" data-edge-id="e:lax-251941-&gt;lax-132576:proofs:0" d="M810.599,774 L810.599,764 Q810.599,762 809.133,760.639 L734.511,691.361 Q733.045,690 733.045,688 L733.045,678" marker-end="url(#graph-arrow-submission-dag-f342d6d3ffccafaf-default)"/><path class="dag-edge" data-edge-id="e:lax-251941-&gt;lax-157538:concepts:0" d="M818.599,774 L818.599,764 Q818.599,762 819.844,760.435 L873.374,693.131 Q875.864,690 875.864,686 L875.864,134 Q875.864,130 871.935,129.25 L542.62,66.375 Q540.655,66 540.655,64 L540.655,54" marker-end="url(#graph-arrow-submission-dag-f342d6d3ffccafaf-default)"/><path class="dag-edge" data-edge-id="e:lax-314295-&gt;lax-157538:concepts:0" d="M462.319,284 L462.319,274 Q462.319,272 460.734,270.78 L351.132,186.439 Q347.962,184 347.962,180 L347.962,134 Q347.962,130 351.702,128.581 L514.785,66.709 Q516.655,66 516.655,64 L516.655,54" marker-end="url(#graph-arrow-submission-dag-f342d6d3ffccafaf-default)"/><path class="dag-edge proof-dep" data-edge-id="e:lax-314295-&gt;lax-194892:proofs:0" d="M470.319,284 L470.319,274 Q470.319,272 471.64,270.498 L546.423,185.502 Q547.744,184 547.744,182 L547.744,172" marker-end="url(#graph-arrow-submission-dag-f342d6d3ffccafaf-default)"/><path class="dag-edge" data-edge-id="e:lax-709149-&gt;lax-157538:concepts:0" d="M193.927,284 L193.927,134 Q193.927,130 197.847,129.203 L506.695,66.399 Q508.655,66 508.655,64 L508.655,54" marker-end="url(#graph-arrow-submission-dag-f342d6d3ffccafaf-default)"/><path class="dag-edge" data-edge-id="e:lax-765601-&gt;lax-132576:concepts:0" d="M414.995,782 L414.995,766 Q414.995,762 418.891,761.095 L723.097,690.452 Q725.045,690 725.045,688 L725.045,678" marker-end="url(#graph-arrow-submission-dag-f342d6d3ffccafaf-default)"/><path class="dag-edge" data-edge-id="e:lax-765601-&gt;lax-157538:concepts:0" d="M374.995,782 L374.995,766 Q374.995,762 371.084,761.159 L43.911,690.841 Q40,690 40,686 L40,134 Q40,130 43.961,129.44 L490.675,66.28 Q492.655,66 492.655,64 L492.655,54" marker-end="url(#graph-arrow-submission-dag-f342d6d3ffccafaf-default)"/><path class="dag-edge" data-edge-id="e:lax-765601-&gt;lax-194892:concepts:0" d="M406.995,782 L406.995,766 Q406.995,762 410.743,760.603 L596.498,691.397 Q600.246,690 600.246,686 L600.246,276 Q600.246,272 598.441,268.43 L556.647,185.785 Q555.744,184 555.744,182 L555.744,172" marker-end="url(#graph-arrow-submission-dag-f342d6d3ffccafaf-default)"/><path class="dag-edge" data-edge-id="e:lax-765601-&gt;lax-314295:concepts:0" d="M398.995,782 L398.995,766 Q398.995,762 401.727,759.078 L463.587,692.922 Q466.319,690 466.319,686 L466.319,330" marker-end="url(#graph-arrow-submission-dag-f342d6d3ffccafaf-default)"/><path class="dag-edge proof-dep" data-edge-id="e:lax-765601-&gt;lax-709149:proofs:0" d="M382.995,782 L382.995,766 Q382.995,762 379.184,760.786 L160.675,691.214 Q156.864,690 156.864,686 L156.864,458 Q156.864,454 157.869,450.128 L185.425,343.936 Q185.927,342 185.927,340 L185.927,330" marker-end="url(#graph-arrow-submission-dag-f342d6d3ffccafaf-default)"/><path class="dag-edge" data-edge-id="e:lax-765601-&gt;lax-916827:concepts:0" d="M390.995,782 L390.995,766 Q390.995,762 387.755,759.655 L294.752,692.345 Q291.512,690 291.512,686 L291.512,528" marker-end="url(#graph-arrow-submission-dag-f342d6d3ffccafaf-default)"/><path class="dag-edge" data-edge-id="e:lax-916827-&gt;lax-157538:concepts:0" d="M283.512,466 L283.512,456 Q283.512,454 281.724,453.104 L63.576,343.792 Q60,342 60,338 L60,134 Q60,130 63.958,129.425 L498.676,66.287 Q500.655,66 500.655,64 L500.655,54" marker-end="url(#graph-arrow-submission-dag-f342d6d3ffccafaf-default)"/><path class="dag-edge" data-edge-id="e:lax-916827-&gt;lax-194892:concepts:0" d="M299.512,466 L299.512,456 Q299.512,454 300.064,452.078 L330.567,345.845 Q331.671,342 331.671,338 L331.671,276 Q331.671,272 335.355,270.442 L537.902,184.779 Q539.744,184 539.744,182 L539.744,172" marker-end="url(#graph-arrow-submission-dag-f342d6d3ffccafaf-default)"/><path class="dag-edge" data-edge-id="e:lax-916827-&gt;lax-314295:concepts:0" d="M307.512,466 L307.512,456 Q307.512,454 309.118,452.808 L456.713,343.192 Q458.319,342 458.319,340 L458.319,330" marker-end="url(#graph-arrow-submission-dag-f342d6d3ffccafaf-default)"/><path class="dag-edge" data-edge-id="e:lax-916827-&gt;lax-709149:concepts:0" d="M291.512,466 L291.512,456 Q291.512,454 290.198,452.492 L195.241,343.508 Q193.927,342 193.927,340 L193.927,330" marker-end="url(#graph-arrow-submission-dag-f342d6d3ffccafaf-default)"/><g transform="translate(612.246,648)"><a class="dag-node submission none ext" data-node-id="s:lax-132576" aria-label="Transducers, Part B: Rational Functions (lax-132576)" href="../lax-132576/index.html" role="link"><title>Transducers, Part B: Rational Functions (lax-132576)</title><rect x="0" y="0" width="233.598" height="30" rx="4"/><text class="graph-label" xml:space="preserve"><tspan x="10.000240539550788" y="18">Transducers, Part B: Rational Functions</tspan></text></a></g><g transform="translate(474.91700000000003,24)"><a class="dag-node submission none" data-node-id="s:lax-157538" aria-label="Transducers (lax-157538)" href="../lax-157538/index.html" role="link"><title>Transducers (lax-157538)</title><rect x="0" y="0" width="83.477" height="30" rx="4"/><text class="graph-label" xml:space="preserve"><tspan x="10.000295043945314" y="18">Transducers</tspan></text></a></g><g transform="translate(426.90500000000003,142)"><a class="dag-node submission none ext" data-node-id="s:lax-194892" aria-label="Transducers, Part D: Polyregular Functions (lax-194892)" href="../lax-194892/index.html" role="link"><title>Transducers, Part D: Polyregular Functions (lax-194892)</title><rect x="0" y="0" width="249.678" height="30" rx="4"/><text class="graph-label" xml:space="preserve"><tspan x="10.000178588867186" y="18">Transducers, Part D: Polyregular Functions</tspan></text></a></g><g transform="translate(692.067,774)"><a class="dag-node submission none ext" data-node-id="s:lax-251941" aria-label="Undecidability of the Post Correspondence Problem (lax-251941)" href="../lax-251941/index.html" role="link"><title>Undecidability of the Post Correspondence Problem (lax-251941)</title><rect x="0" y="0" width="245.063" height="46" rx="4"/><text class="graph-label" xml:space="preserve"><tspan x="10.000249999999994" y="18">Undecidability of the Post Correspondence</tspan><tspan x="10.000249999999994" y="34">Problem</tspan></text></a></g><g transform="translate(344.392,284)"><a class="dag-node submission none ext" data-node-id="s:lax-314295" aria-label="Transducers, Part C: Regular Functions in Terms of Logic (lax-314295)" href="../lax-314295/index.html" role="link"><title>Transducers, Part C: Regular Functions in Terms of Logic (lax-314295)</title><rect x="0" y="0" width="243.854" height="46" rx="4"/><text class="graph-label" xml:space="preserve"><tspan x="10.000211669921882" y="18">Transducers, Part C: Regular Functions in</tspan><tspan x="10.000211669921882" y="34">Terms of Logic</tspan></text></a></g><g transform="translate(72,284)"><a class="dag-node submission none ext" data-node-id="s:lax-709149" aria-label="Transducers, Part C: Regular Functions in Terms of Combinators (lax-709149)" href="../lax-709149/index.html" role="link"><title>Transducers, Part C: Regular Functions in Terms of Combinators (lax-709149)</title><rect x="0" y="0" width="243.854" height="46" rx="4"/><text class="graph-label" xml:space="preserve"><tspan x="10.000211669921882" y="18">Transducers, Part C: Regular Functions in</tspan><tspan x="10.000211669921882" y="34">Terms of Combinators</tspan></text></a></g><g transform="translate(285.456,782)"><a class="dag-node submission none ext" data-node-id="s:lax-765601" aria-label="Transducers, Part A: Mealy Machines (lax-765601)" href="../lax-765601/index.html" role="link"><title>Transducers, Part A: Mealy Machines (lax-765601)</title><rect x="0" y="0" width="219.078" height="30" rx="4"/><text class="graph-label" xml:space="preserve"><tspan x="10.000303710937501" y="18">Transducers, Part A: Mealy Machines</tspan></text></a></g><g transform="translate(168.864,466)"><a class="dag-node submission none ext" data-node-id="s:lax-916827" aria-label="Transducers, Part C: Regular Functions, Two-Way Transducers and Streaming String Transducers (lax-916827)" href="../lax-916827/index.html" role="link"><title>Transducers, Part C: Regular Functions, Two-Way Transducers and Streaming String Transducers (lax-916827)</title><rect x="0" y="0" width="253.297" height="62" rx="4"/><text class="graph-label" xml:space="preserve"><tspan x="10.000062499999999" y="18">Transducers, Part C: Regular Functions,</tspan><tspan x="10.000062499999999" y="34">Two-Way Transducers and Streaming String</tspan><tspan x="10.000062499999999" y="50">Transducers</tspan></text></a></g></g></svg></div>
+<div class="graph-tooltip" role="tooltip" hidden></div>
+<figcaption class="graph-legend" aria-label="Submission map legend"><span><i class="legend-node stroke-own"></i>This submission</span><span><i class="legend-node stroke-ext"></i>Other submission</span><span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B's concepts build on A</span><span><i class="legend-arrow proof-dep" aria-hidden="true">→</i>A → B: only B's proofs build on A</span></figcaption>
+</figure>
+</section>
+<section class="page-section"><h3 class="section-title" id="citation">Cite this</h3>
+<div class="citation-box">
+<pre class="citation" id="submission-citation">@misc{lax-157538,
+  author = {Mikołaj Bojańczyk and Aristotle (Harmonic)},
+  title = {Transducers},
+  year = {2026},
+  howpublished = {Lax Archive, lax-157538},
+  url = {https://laxarchive.org/lax-157538/},
+  note = {draft},
+}</pre>
+<button class="citation-copy" type="button" data-copy-citation aria-controls="submission-citation" aria-label="Copy BibTeX to clipboard" title="Copy BibTeX"><span class="citation-copy-icon" aria-hidden="true"></span></button>
+<output class="citation-copy-status" aria-live="polite"></output>
+</div>
+</section>
+
+<section class="page-section discussion-section" aria-labelledby="discussion-title">
+<div class="discussion-heading">
+<div class="discussion-heading-copy">
+<h3 class="section-title" id="discussion-title">Discussion</h3>
+<p>Ask a question or add context. Endorsements and structured flags are kept in the review panel above.</p>
+</div>
+<p class="discussion-count" hidden><span class="remark42__counter" data-url="https://laxarchive.org/lax-157538/">0</span> <span>comments</span></p>
+</div>
+<div class="discussion-embed-shell">
+<p class="discussion-loading" id="remark42-status" role="status"><span class="discussion-loading-mark" aria-hidden="true"></span>Loading discussion…</p>
+<div id="remark42" data-remark42-host="https://comments.laxarchive.org" data-remark42-site="remark" data-remark42-url="https://laxarchive.org/lax-157538/"></div>
+</div>
+<noscript><p class="discussion-unavailable">Enable JavaScript to read or join the discussion.</p></noscript>
+</section>
+<script type="application/json" id="graph-data">{"concepts":{"home":"lax-157538","nodes":[],"edges":[]},"proofs":{"home":"lax-157538","statements":[],"proofs":[]},"submissions":{"nodes":[{"id":"lax-132576","title":"Transducers, Part B: Rational Functions","href":"../lax-132576/index.html","dir":"up","state":"draft","ext":true,"concepts":42,"proofs":29},{"id":"lax-157538","title":"Transducers","href":"../lax-157538/index.html","dir":"core","state":"draft","ext":false,"concepts":0,"proofs":0},{"id":"lax-194892","title":"Transducers, Part D: Polyregular Functions","href":"../lax-194892/index.html","dir":"up","state":"draft","ext":true,"concepts":21,"proofs":15},{"id":"lax-251941","title":"Undecidability of the Post Correspondence Problem","href":"../lax-251941/index.html","dir":"up","state":"draft","ext":true,"concepts":9,"proofs":6},{"id":"lax-314295","title":"Transducers, Part C: Regular Functions in Terms of Logic","href":"../lax-314295/index.html","dir":"up","state":"draft","ext":true,"concepts":26,"proofs":22},{"id":"lax-709149","title":"Transducers, Part C: Regular Functions in Terms of Combinators","href":"../lax-709149/index.html","dir":"up","state":"draft","ext":true,"concepts":4,"proofs":1},{"id":"lax-765601","title":"Transducers, Part A: Mealy Machines","href":"../lax-765601/index.html","dir":"up","state":"draft","ext":true,"concepts":22,"proofs":13},{"id":"lax-916827","title":"Transducers, Part C: Regular Functions, Two-Way Transducers and Streaming String Transducers","href":"../lax-916827/index.html","dir":"up","state":"draft","ext":true,"concepts":29,"proofs":23}],"edges":[{"from":"lax-132576","to":"lax-157538","kind":"concepts"},{"from":"lax-132576","to":"lax-314295","kind":"concepts"},{"from":"lax-132576","to":"lax-709149","kind":"concepts"},{"from":"lax-132576","to":"lax-916827","kind":"concepts"},{"from":"lax-132576","to":"lax-194892","kind":"proofs"},{"from":"lax-194892","to":"lax-157538","kind":"concepts"},{"from":"lax-251941","to":"lax-157538","kind":"concepts"},{"from":"lax-251941","to":"lax-132576","kind":"proofs"},{"from":"lax-314295","to":"lax-157538","kind":"concepts"},{"from":"lax-314295","to":"lax-194892","kind":"proofs"},{"from":"lax-709149","to":"lax-157538","kind":"concepts"},{"from":"lax-765601","to":"lax-132576","kind":"concepts"},{"from":"lax-765601","to":"lax-157538","kind":"concepts"},{"from":"lax-765601","to":"lax-194892","kind":"concepts"},{"from":"lax-765601","to":"lax-314295","kind":"concepts"},{"from":"lax-765601","to":"lax-916827","kind":"concepts"},{"from":"lax-765601","to":"lax-709149","kind":"proofs"},{"from":"lax-916827","to":"lax-157538","kind":"concepts"},{"from":"lax-916827","to":"lax-194892","kind":"concepts"},{"from":"lax-916827","to":"lax-314295","kind":"concepts"},{"from":"lax-916827","to":"lax-709149","kind":"concepts"}]},"prepared":{"submission-dag":{"initial":"default","ancestors":0,"descendants":0,"views":{"default":{"interaction":{"nodes":{"s:lax-132576":{"label":"Transducers, Part B: Rational Functions","incident":["e:lax-132576->lax-157538:concepts:0","e:lax-132576->lax-194892:proofs:0","e:lax-132576->lax-314295:concepts:0","e:lax-132576->lax-709149:concepts:0","e:lax-132576->lax-916827:concepts:0","e:lax-251941->lax-132576:proofs:0","e:lax-765601->lax-132576:concepts:0"]},"s:lax-157538":{"label":"Transducers","incident":["e:lax-132576->lax-157538:concepts:0","e:lax-194892->lax-157538:concepts:0","e:lax-251941->lax-157538:concepts:0","e:lax-314295->lax-157538:concepts:0","e:lax-709149->lax-157538:concepts:0","e:lax-765601->lax-157538:concepts:0","e:lax-916827->lax-157538:concepts:0"]},"s:lax-194892":{"label":"Transducers, Part D: Polyregular Functions","incident":["e:lax-132576->lax-194892:proofs:0","e:lax-194892->lax-157538:concepts:0","e:lax-314295->lax-194892:proofs:0","e:lax-765601->lax-194892:concepts:0","e:lax-916827->lax-194892:concepts:0"]},"s:lax-251941":{"label":"Undecidability of the Post Correspondence Problem","incident":["e:lax-251941->lax-132576:proofs:0","e:lax-251941->lax-157538:concepts:0"]},"s:lax-314295":{"label":"Transducers, Part C: Regular Functions in Terms of Logic","incident":["e:lax-132576->lax-314295:concepts:0","e:lax-314295->lax-157538:concepts:0","e:lax-314295->lax-194892:proofs:0","e:lax-765601->lax-314295:concepts:0","e:lax-916827->lax-314295:concepts:0"]},"s:lax-709149":{"label":"Transducers, Part C: Regular Functions in Terms of Combinators","incident":["e:lax-132576->lax-709149:concepts:0","e:lax-709149->lax-157538:concepts:0","e:lax-765601->lax-709149:proofs:0","e:lax-916827->lax-709149:concepts:0"]},"s:lax-765601":{"label":"Transducers, Part A: Mealy Machines","incident":["e:lax-765601->lax-132576:concepts:0","e:lax-765601->lax-157538:concepts:0","e:lax-765601->lax-194892:concepts:0","e:lax-765601->lax-314295:concepts:0","e:lax-765601->lax-709149:proofs:0","e:lax-765601->lax-916827:concepts:0"]},"s:lax-916827":{"label":"Transducers, Part C: Regular Functions, Two-Way Transducers and Streaming String Transducers","incident":["e:lax-132576->lax-916827:concepts:0","e:lax-765601->lax-916827:concepts:0","e:lax-916827->lax-157538:concepts:0","e:lax-916827->lax-194892:concepts:0","e:lax-916827->lax-314295:concepts:0","e:lax-916827->lax-709149:concepts:0"]}}},"height":844,"status":"8 submissions"}}}}}</script>
+</div>
+<footer class="site-footer">
+  <nav class="site-footer-nav" aria-label="Legal">
+    <a class="site-footer-link" href="../impressum.html">Imprint</a>
+    <a class="site-footer-link" href="../privacy.html">Privacy</a>
+  </nav>
+</footer>
+</section>
+</main>
+<dialog class="account-dialog" id="account-dialog" aria-labelledby="account-dialog-title">
+<div class="account-dialog-inner">
+<header class="account-dialog-header">
+<div><p class="account-dialog-eyebrow">ORCID account</p><h2 id="account-dialog-title">Settings</h2></div>
+<button class="account-dialog-close" data-account-close type="button" aria-label="Close account settings">×</button>
+</header>
+<div class="account-dialog-body">
+<p class="account-status" data-account-status role="status">Checking your ORCID session…</p>
+<section data-account-content hidden>
+<div class="account-identity">
+<span class="account-avatar" data-account-avatar aria-hidden="true">iD</span>
+<div><a class="account-name" data-account-name target="_blank" rel="noopener noreferrer"></a><p class="account-id" data-account-id></p></div>
+</div>
+<p class="account-name-note">Your public name comes from ORCID. ORCID names are self-asserted and may change.</p>
+<div class="account-actions">
+<a data-account-refresh href="https://comments.laxarchive.org/auth/orcid/login?from=https%3A%2F%2Flaxarchive.org&amp;site=remark">Refresh from ORCID</a>
+<button data-account-logout type="button">Sign out</button>
+</div>
+<div class="account-comments-heading"><h3>Your comments</h3><span data-account-comment-count></span></div>
+<ol class="account-comments" data-account-comments></ol>
+<p class="account-comments-status" data-account-comments-status role="status"></p>
+</section>
+</div>
+</div>
+</dialog>
+<script src="../assets/sidebar.js?v=e4e626f46671"></script>
+<script src="../assets/account.js?v=e3db2efa7b34"></script>
+<script src="../assets/graph-interaction.js?v=81459ad4ec9e"></script>
+<script src="../assets/citation.js?v=dd5ce19082ad"></script>
+<script src="../assets/version-history.js?v=a36e868140dd"></script>
+<script src="../assets/comments.js?v=32f8665770fa"></script>
+</body></html>
