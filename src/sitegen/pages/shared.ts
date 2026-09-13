@@ -422,11 +422,15 @@ function submissionStateRank(state: string): number {
 /** Registered submissions lead drafts both before and during search. Within a
  * state, the epoch's island comes first and the other environments follow
  * newest first — an off-epoch submission is not lesser work, but it is the
- * work most readers cannot cite. Archive ids break ties so the generated
- * order is stable and unsurprising. */
+ * work most readers cannot cite. Within an environment the newest submission
+ * leads: archive ids are drawn at random and order nothing, so the date the
+ * record was created — the one the library row shows — is what a reader can
+ * read an order off. Ids still break a tie between records created in the
+ * same instant, so the generated order stays stable. */
 export function compareSearchSubmissions(model: SiteModel, a: SiteSubmission, b: SiteSubmission): number {
   return submissionStateRank(a.record.state) - submissionStateRank(b.record.state)
     || model.environmentRank(a.record.id) - model.environmentRank(b.record.id)
+    || model.createdMillis(b.record.id) - model.createdMillis(a.record.id)
     || compareIds(a.record.id, b.record.id);
 }
 

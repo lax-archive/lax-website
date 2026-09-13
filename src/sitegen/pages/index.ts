@@ -607,7 +607,10 @@ export async function indexPage(ctx: PageContext): Promise<string> {
   const tagIndex = submissionTagIndex(listed);
   const rows = listed.map((submission, order) => {
     const { record, output } = submission;
-    const date = formatDate(record.registeredAt ?? record.createdAt);
+    // The creation date, which is what the list is ordered by: a row whose
+    // date disagreed with its place in the list would read as a fault. The
+    // submission page carries both dates, registration included.
+    const date = formatDate(record.createdAt);
     const authors = output!.manifest.anonymous === true && output!.manifest.authors.length
       ? anonymityPlaceholder("withheld during anonymous review", "anonymity-placeholder-inline")
       : output!.manifest.authors.map((a) => esc(a.name)).join(", ");

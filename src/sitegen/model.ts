@@ -102,6 +102,8 @@ export class SiteModel {
   /** Where each concept, proof, or submission id is marked in a paper: by
    * submission, mark order within each paper. */
   readonly paperMentions = new Map<string, PaperMention[]>();
+  /** Each submission's creation instant, parsed once from the record. */
+  private readonly createdAt = new Map<string, number>();
 
   constructor(submissions: SiteSubmission[], epoch: string = EPOCH) {
     this.epoch = epoch;
@@ -116,6 +118,8 @@ export class SiteModel {
     this.network = computeNetwork(this.outputs);
     for (const submission of this.submissions) {
       this.submissionById.set(submission.record.id, submission);
+      const created = Date.parse(submission.record.createdAt);
+      if (!Number.isNaN(created)) this.createdAt.set(submission.record.id, created);
       const output = submission.output;
       if (!output) continue;
       this.environmentOf.set(submission.record.id, output.manifest.leanVersion);
@@ -161,6 +165,15 @@ export class SiteModel {
     if (environment === undefined) return this.environments.length;
     const rank = this.environments.indexOf(environment);
     return rank < 0 ? this.environments.length : rank;
+  }
+
+  /** When a submission was created, in milliseconds since the epoch — the
+   * only date every record carries, and the one the listings both order and
+   * show. A timestamp that does not parse counts as the oldest, so it sorts
+   * last in a newest-first listing instead of displacing the records that do
+   * parse. */
+  createdMillis(id: string): number {
+    return this.createdAt.get(id) ?? Number.MIN_SAFE_INTEGER;
   }
 
   private linkPapers(): void {

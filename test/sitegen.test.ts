@@ -294,7 +294,7 @@ describe("site generator", () => {
       .toEqual(["lax-3", "draft-a", "draft-b"]);
   });
 
-  it("lists the archive in numeric order for hyphenated database ids", async () => {
+  it("holds the archive in numeric order for hyphenated database ids", async () => {
     const all = graphSubmissions();
     // The spelling the live database uses, at numbers where text order and
     // numeric order disagree.
@@ -305,12 +305,39 @@ describe("site generator", () => {
     expect(new SiteModel(all).submissions.map((s) => s.record.id))
       .toEqual(["lax-3", "lax-10", "lax-62"]);
 
+    // These records share a creation instant, so the listing falls back to
+    // the same numeric id order.
     const root = tmpDir("lax-site-idorder-");
     await generateSite(all, root);
     const html = fs.readFileSync(path.join(root, "index.html"), "utf8");
     const listed = [...html.matchAll(/class="submissions-list-link" href="(lax-\d+)\//g)]
       .map((match) => match[1]);
     expect(listed).toEqual(["lax-3", "lax-10", "lax-62"]);
+  });
+
+  it("lists submissions newest first by creation date, not by archive id", async () => {
+    const all = graphSubmissions();
+    // Archive ids are drawn at random: the id order and the order the work
+    // was created in have nothing to do with each other.
+    const created = ["2026-09-02T11:47:12Z", "2026-08-02T18:01:37Z", "2026-09-10T13:50:56Z"];
+    for (const [index, id] of ["lax-429075", "lax-13", "lax-762056"].entries()) {
+      all[index]!.record.id = id;
+      all[index]!.record.createdAt = created[index]!;
+      all[index]!.output!.id = id;
+    }
+    const root = tmpDir("lax-site-dateorder-");
+    await generateSite(all, root);
+    const html = fs.readFileSync(path.join(root, "index.html"), "utf8");
+    const listed = [...html.matchAll(/class="submissions-list-link" href="(lax-\d+)\//g)]
+      .map((match) => match[1]);
+    expect(listed).toEqual(["lax-762056", "lax-429075", "lax-13"]);
+    // The sidebar is generated from the same order.
+    const sidebar = html.slice(0, html.indexOf('<ul class="submissions-list"'));
+    expect([...sidebar.matchAll(/<li data-search-title="([a-z0-9-]+) /g)].map((match) => match[1]))
+      .toEqual(["lax-762056", "lax-429075", "lax-13"]);
+    // Each row shows the date it is ordered by, so the dates read downwards.
+    expect(html).toContain('<span class="submissions-list-date">(2026-09-10)</span>');
+    expect(html).toContain('<span class="submissions-list-date">(2026-08-02)</span>');
   });
 
   it("derives complete topic phrases from submission and concept titles", async () => {
@@ -787,7 +814,8 @@ After the formula.`, "");
     expect(index).not.toContain("&lt;!--");
     expect(index).toContain("Lax2/index.html");
     expect(index).toContain('class="submissions-list-link');
-    expect(index).toContain('<span class="submissions-list-title">Two<span class="submissions-list-date">(2026-01-02)</span>');
+    // The creation date the list is ordered by, not the registration date.
+    expect(index).toContain('<span class="submissions-list-title">Two<span class="submissions-list-date">(2026-01-01)</span>');
     const submissionsList = index.slice(index.indexOf('<ul class="submissions-list"'), index.indexOf("</ul>", index.indexOf('<ul class="submissions-list"')));
     expect(submissionsList).not.toContain('class="submission-title-id"');
     expect(submissionsList).not.toContain('class="submission-title-inline-separator"');
