@@ -614,7 +614,7 @@
     {
       "id": "lax-18",
       "state": "draft",
-      "environment": "v4.30.0",
+      "environment": "v4.33.0",
       "title": "Szemerédi's Regularity Lemma",
       "concepts": [
         {
@@ -1292,7 +1292,7 @@
     {
       "id": "lax-68",
       "state": "draft",
-      "environment": "v4.30.0",
+      "environment": "v4.33.0",
       "title": "Planar Graph Classes",
       "concepts": [
         {
