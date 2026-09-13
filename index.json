@@ -357,6 +357,7 @@
       "state": "registered",
       "environment": "v4.30.0",
       "title": "Finite Ramsey Theorems for Pairs and Tuples",
+      "supersededBy": "lax-345067",
       "concepts": [
         {
           "id": "Lax14.MulticolorRamsey",
@@ -2417,7 +2418,7 @@
     },
     {
       "id": "lax-345067",
-      "state": "draft",
+      "state": "registered",
       "environment": "v4.33.0",
       "title": "Finite Ramsey Theorems for Pairs and Tuples",
       "supersedes": "lax-14",
