@@ -465,9 +465,7 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       expect(await page.locator("#proof-network").isVisible()).toBe(true);
       const node = page.locator(`#proof-network [data-node-id="${proofId}"]`);
       await node.focus(); await animationFrame(page);
-      const tooltip = await figure.locator(".graph-tooltip").boundingBox();
-      expect(tooltip!.x).toBeGreaterThanOrEqual(0);
-      expect(tooltip!.x + tooltip!.width).toBeLessThanOrEqual(390);
+      expect(await figure.locator(".graph-tooltip").isVisible()).toBe(false);
       await capture(page, "narrow-reduced-motion");
       await page.keyboard.press("Escape"); await animationFrame(page);
       expect(await fingerprint(page)).toEqual(original);
