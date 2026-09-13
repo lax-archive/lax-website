@@ -4,8 +4,8 @@
 
 Contributing is a two-step process. Set up once per machine with
 `npm install -g lax-archive` followed by `lax doctor`, then hand your coding
-agent a prompt such as "Run `lax print instructions` and follow the guide it
-prints to formalize *my result*". Prefer to work hands-on, or want to know
+agent a prompt such as "Run `lax print instructions` and follow the guide
+to formalize *my result*". Prefer to work hands-on, or want to know
 what happens at each step? See [Getting started](contributing.html).
 
 ## How does Lax relate to projects such as Merely True and Tau Ceti?

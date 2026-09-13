@@ -20,7 +20,7 @@ concept from others. Freely composable across papers.
 ## Proof network
 
 **Proof network.** Explore how proofs compose, which claims are proven,
-and which not yet. Any later submission can discharge an
+and which are not yet. Any later submission can discharge an
 [open obligation](open-proof-obligations.html), and every result that
 rested on it is proven from that moment on.
 
@@ -37,8 +37,7 @@ npm install -g lax-archive && lax doctor
 Hand your coding agent a prompt like:
 
 ```
-Run `lax print instructions` and follow the guide it prints
-to formalize <my result>.
+Run `lax print instructions` and follow the guide to formalize <my result>.
 ```
 
 Then your agent takes over and guides you through the process.
@@ -64,8 +63,7 @@ lax doctor
 Hand your coding agent a prompt like:
 
 ```
-Run `lax print instructions` and follow the guide it prints
-to formalize <my result>.
+Run `lax print instructions` and follow the guide to formalize <my result>.
 ```
 
 Then your agent takes over and guides you through the process.
