@@ -36,7 +36,7 @@ function nodeSvg(node: DisplayNode, drawing: NodeDrawing): string {
   const docks = drawing.docks.map((dock) => {
     return anchor(dock.href, `net-dock ${dock.status}${node.ext ? " ext" : ""}`, dock.id,
       `${node.label}, statement ${dock.ordinal} (${dock.statementId})`,
-      rect(dock.bounds, "graph-dock-capsule") + labelSvg(dock.lines, "graph-dock-number"));
+      `<circle class="graph-dock-capsule" cx="${dock.bounds.x + dock.bounds.width / 2}" cy="${dock.bounds.y + dock.bounds.height / 2}" r="${dock.bounds.width / 2}"/>` + labelSvg(dock.lines, "graph-dock-number"));
   }).join("");
   return box + docks;
 }

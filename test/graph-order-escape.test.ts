@@ -5,12 +5,14 @@ import { orderGraph } from "../src/graph-layout/order-heuristic.js";
 import { portOffsets } from "../src/graph-layout/ports.js";
 import { makeProperGraph, type ProperGraph } from "../src/graph-layout/proper-graph.js";
 import { rankGraph } from "../src/graph-layout/rank-simplex.js";
-import { type MeasuredGraph } from "../src/graph-layout/types.js";
+import { DEFAULT_PROFILE, type MeasuredGraph } from "../src/graph-layout/types.js";
 import { validateGeometry } from "../src/graph-layout/validate.js";
 
 const fixtures = (JSON.parse(fs.readFileSync(new URL("./fixtures/graph-layout/tuning-order-regressions.json", import.meta.url), "utf8")) as {
   fixtures: { id: string; graph: MeasuredGraph; minimumCrossings: number }[];
 }).fixtures;
+// The fixed measured oracle fixtures predate the wider production spacing.
+const profile = { ...DEFAULT_PROFILE, id: "readable-v1", portSeparation: 8, dummyGap: 8, nodeGap: 28 };
 function proper(graph: MeasuredGraph): ProperGraph {
   const connected = { ...graph, nodes: graph.nodes.filter((node) => node.ports.length) };
   return makeProperGraph(connected, rankGraph(connected).ranks);
@@ -96,7 +98,7 @@ describe("bounded escape from alternating node/port local minima", () => {
   it("matches the independent 6! × subset oracle on the complete Lax12 tuning topology", () => {
     const fixture = fixtures[0]!, graph = proper(fixture.graph);
     expect(twoMiddleLayerOracle(graph)).toEqual({ minimum: 1, permutationsTried: 720, states: 183600 });
-    const result = layoutGraph(fixture.graph, { inputDigest: fixture.id });
+    const result = layoutGraph(fixture.graph, { inputDigest: fixture.id, profile });
     expect(result.metrics.crossings).toBe(fixture.minimumCrossings);
     expect(validateGeometry(fixture.graph, result.geometry).diagnostics).toEqual([]);
     expect(result.geometry.edges).toHaveLength(19);
@@ -105,7 +107,7 @@ describe("bounded escape from alternating node/port local minima", () => {
   it("matches the independent twin-block bound with all 39 Lax916827 incidences retained", () => {
     const fixture = fixtures[1]!, graph = proper(fixture.graph);
     expect(twinBlockOracle(graph)).toEqual({ minimum: 9, permutationsTried: 2880 });
-    const result = layoutGraph(fixture.graph, { inputDigest: fixture.id });
+    const result = layoutGraph(fixture.graph, { inputDigest: fixture.id, profile });
     expect(result.metrics.crossings).toBe(fixture.minimumCrossings);
     expect(validateGeometry(fixture.graph, result.geometry).diagnostics).toEqual([]);
     expect(result.geometry.nodes).toHaveLength(39);

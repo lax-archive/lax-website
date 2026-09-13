@@ -76,13 +76,13 @@ export type LayoutProfile = Readonly<{
   exactLayerLimit: number; dpStates: number; expandedVertices: number;
   routingExpansions: number; candidates: number;
 }>;
-export const ENGINE_VERSION = "lax-layout-1.0.6";
+export const ENGINE_VERSION = "lax-layout-1.0.7";
 export const GEOMETRY_SCHEMA_VERSION = 1;
 export const QUANTUM = 0.001;
 /** Work budgets, not original-node cutoffs. Corpus evidence may version them. */
 export const DEFAULT_PROFILE: LayoutProfile = Object.freeze({
-  id: "readable-v1", nodeGap: 28, dummyGap: 8, rankGap: 32,
-  clearance: 8, portSeparation: 8, margin: 24, cornerRadius: 4,
+  id: "readable-v2", nodeGap: 32, dummyGap: 12, rankGap: 32,
+  clearance: 8, portSeparation: 12, margin: 24, cornerRadius: 4,
   rankPivots: 4096, sweeps: 8, siftingMoves: 4000,
   exactLayerLimit: 16, dpStates: 2_000_000, expandedVertices: 500_000,
   routingExpansions: 100_000, candidates: 12,

@@ -39,15 +39,19 @@ describe("semantic display projection", () => {
     labels.set("9876543210", { width: 60, height: 16, lines: [{ text: "9876543210", x: 0, y: 12, ink: { x: 0.5, y: 2, width: 59, height: 12 } }] });
     const measured = measureDisplayGraph(display, labels), node = measured.graph.nodes.find((n) => n.id === "c:Claims")!;
     const drawing = measured.drawings.get(node.id)!;
-    expect(drawing.docks.map((dock) => dock.bounds.width)).toEqual([18, 72]);
+    expect(drawing.docks[0]!.bounds.width).toBeGreaterThanOrEqual(20);
+    expect(drawing.docks[1]!.bounds.width).toBeGreaterThan(60);
     expect(node.labelBoxes).toHaveLength(drawing.lines.length + 2);
     for (const dock of drawing.docks) {
       const port = node.ports.find((p) => p.semanticEndpointId === dock.statementId)!;
       expect(port.mode).toBe("fixed-position");
-      expect(port.offset!.x).toBe(dock.bounds.x + dock.bounds.width / 2);
+      expect(port.offset!.x).toBeCloseTo(dock.bounds.x + dock.bounds.width / 2, 2);
       expect(node.labelBoxes).toContainEqual(dock.lines[0]!.ink);
       expect(dock.lines[0]!.text).toBe(String(dock.ordinal));
-      expect(dock.lines[0]!.y).toBe((node.height - 16) / 2 + 12);
+      expect(dock.bounds.y).toBeGreaterThan(drawing.body.y + drawing.body.height);
+      expect(dock.bounds.height).toBe(dock.bounds.width);
+      expect(port.offset!.y).toBe(dock.bounds.y);
+      expect(dock.lines[0]!.y).toBeCloseTo(dock.bounds.y + (dock.bounds.height - 16) / 2 + 12);
     }
     expect(displayLabelRequests([display, display])).toEqual(displayLabelRequests([{ ...display, nodes: [...display.nodes].reverse() }]));
     expect(displayLabelRequests([display]).map((request) => request.text)).not.toContain("⊢");

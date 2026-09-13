@@ -1,8 +1,8 @@
 import { coordinateExtent, assertSeparation } from "./coordinates-bk.js";
-import { placePorts, portNormal, portOffsets, type PortOffsets } from "./ports.js";
+import { belowBodyEscape, placePorts, portNormal, portOffsets, type PortOffsets } from "./ports.js";
 import { simplifyCollinear, quantizeGeometry, quantizePoint } from "./geometry.js";
 import type { PortOrder, ProperGraph } from "./proper-graph.js";
-import { DEFAULT_PROFILE, ENGINE_VERSION, GEOMETRY_SCHEMA_VERSION, GraphDiagnosticError, type GraphGeometry, type LayoutProfile, type PlacedNode, type PlacedPort, type Point, type Rect, type RouteSection } from "./types.js";
+import { DEFAULT_PROFILE, ENGINE_VERSION, GEOMETRY_SCHEMA_VERSION, GraphDiagnosticError, type GraphGeometry, type LayoutProfile, type MeasuredNode, type PlacedNode, type PlacedPort, type Point, type Rect, type RouteSection } from "./types.js";
 
 export type RankEnvelope = Readonly<{ rank: number; top: number; bottom: number; center: number }>;
 export type RankBand = Readonly<{ rank: number; top: number; bottom: number; channels: number }>;
@@ -55,7 +55,9 @@ export function placeCorridors(graph: ProperGraph, layers: readonly (readonly nu
 
 /** Standard north/south ports need no adapter. Other fixed directions escape
  * around their measured owner within the documented 24px neighbourhood. */
-function terminalAdapter(node: PlacedNode, port: PlacedPort, side: "north" | "south" | "east" | "west", source: boolean, escape: number): Point[] {
+function terminalAdapter(node: PlacedNode, port: PlacedPort, side: "north" | "south" | "east" | "west", source: boolean, escape: number, measured: MeasuredNode, separation: number): Point[] {
+  const interior = source && side === "north" ? belowBodyEscape(measured, node, port, separation, escape) : undefined;
+  if (interior) return interior.map(quantizePoint);
   if ((source && side === "north") || (!source && side === "south")) return [{ x: port.x, y: port.y }];
   const normal = portNormal(side), end = { x: port.x + normal.x * escape, y: port.y + normal.y * escape };
   const east = side === "east" || (side !== "west" && port.x >= node.x + node.width / 2);
@@ -74,7 +76,8 @@ export function protectedEdgeSections(graph: ProperGraph, placement: CorridorPla
   const targetSpec = graph.source.nodes[chain.at(-1)!]!.ports.find((p) => p.id === target.id)!;
   const escape = Math.max(12, profile.clearance + 2);
   if (escape > 24) throw new GraphDiagnosticError([{ code: "terminal-envelope", message: "This profile exceeds the documented terminal-adapter envelope", ids: [edge.id] }]);
-  const startAdapter = terminalAdapter(sourceNode, source, sourceSpec.side, true, escape), endAdapter = terminalAdapter(targetNode, target, targetSpec.side, false, escape);
+  const startAdapter = terminalAdapter(sourceNode, source, sourceSpec.side, true, escape, graph.source.nodes[chain[0]!]!, profile.portSeparation),
+    endAdapter = terminalAdapter(targetNode, target, targetSpec.side, false, escape, graph.source.nodes[chain.at(-1)!]!, profile.portSeparation);
   const start = startAdapter.at(-1)!, end = endAdapter[0]!, points: Point[] = [start];
   for (let i = 0; i + 1 < chain.length; i++) {
     const u = chain[i]!, v = chain[i + 1]!, rank = graph.vertices[u]!.rank;

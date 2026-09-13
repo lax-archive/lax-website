@@ -5,7 +5,7 @@
 import { condensation, indexedGraph } from "./components.js";
 import { pathData, polylineCommands, quantizeGeometry, simplifyCollinear } from "./geometry.js";
 import { compareText, normalizeGraph } from "./normalize.js";
-import { placePorts, portOffsets } from "./ports.js";
+import { belowBodyEscape, placePorts, portOffsets } from "./ports.js";
 import { DEFAULT_PROFILE, ENGINE_VERSION, GEOMETRY_SCHEMA_VERSION, GraphDiagnosticError,
   type GraphGeometry, type LayoutProfile, type MeasuredGraph, type MeasuredNode,
   type PlacedGroup, type PlacedNode, type PlacedPort, type Point,
@@ -65,6 +65,10 @@ function interiorFor(graph: MeasuredGraph, members: readonly number[], id: strin
   // including on east/west fixed docks, and keeps the true normal direction.
   const stem = (portId: string, y: number): Point[] => {
     const p = portById.get(portId)!, spec = specById.get(portId)!;
+    if (spec.side === "north") {
+      const escape = belowBodyEscape(measured.nodes.find((n) => n.id === spec.nodeId)!, nodes.find((n) => n.id === spec.nodeId)!, p, profile.portSeparation);
+      if (escape) return [...escape, { x: escape.at(-1)!.x, y }];
+    }
     return spec.side === "east" || spec.side === "west"
       ? [p, { x: access.get(portId)!, y: p.y }, { x: access.get(portId)!, y }]
       : [p, { x: p.x, y }];

@@ -3,6 +3,20 @@ import type { PortOrder } from "./proper-graph.js";
 import { GraphDiagnosticError, type MeasuredGraph, type MeasuredNode, type PlacedNode, type PlacedPort, type Point, type PortSpec } from "./types.js";
 
 export type PortOffsets = Readonly<Record<string, Point>>;
+
+/** Statement circles below a concept use reserved internal lanes to reach
+ * the top boundary without passing through the concept label. Each incidence
+ * has its own lane and column; the full route remains independently checked. */
+export function belowBodyEscape(measured: MeasuredNode, node: PlacedNode, port: PlacedPort, separation: number, escape = 12): Point[] | undefined {
+  const body = measured.footprints?.find((f) => f.kind === "body")?.bounds;
+  if (!body || port.y <= node.y + body.y + body.height) return undefined;
+  const peers = measured.ports.filter((p) => p.side === "north" && p.offset && p.offset.y > body.y + body.height);
+  const lane = peers.findIndex((p) => p.id === port.id);
+  if (lane < 0) return undefined;
+  const y = node.y + body.y + body.height + escape + lane * separation;
+  const x = node.x + body.x - escape - lane * separation;
+  return [port, { x: port.x, y }, { x, y }, { x, y: node.y - escape }];
+}
 const horizontal = (side: PortSpec["side"]) => side === "north" || side === "south";
 
 /** Finalize attachment geometry BEFORE coordinates and routing. Fixed positions

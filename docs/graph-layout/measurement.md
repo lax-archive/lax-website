@@ -18,12 +18,21 @@ projection: label dimensions are not complete node dimensions.
 for preparation and benchmarks. It includes every visible numbered dock as a
 decimal string in the same 12px regular style. Local descriptors carry that
 same request list to the browser helper. The node-size pass reserves the
-larger of an 18px minimum, exact numeral width plus 6px padding on each side,
+larger of a 20px minimum, exact numeral ink diagonal plus 8px padding,
 and attachment capacity. Numeral ink is included in node-local `labelBoxes`,
 and dock text uses the measured line baseline. Missing numeral metrics or a
 wrapped/changed ordinal is a diagnostic; no central-baseline guess or silent
 renumbering is used. Ordinary labels and dock numbers both serialize one
 `text` element with positioned `tspan` lines, matching measurement.
+
+Numbered statement docks are circles in a row below the concept box. Proof
+conclusions terminate on the corresponding circle. Statement-level outgoing
+incidences retain their exact identities and use separate lanes around the
+left side of the body; those lanes are included in the measured envelope and
+validated in ordinary routes and expanded display cycles. The readable-v2
+profile reserves 12px between attachment positions and dummy tracks, with
+32px between neighboring boxes. This widens routing channels without changing
+the text size or dropping edges.
 
 ## Browser and font contract
 
@@ -192,7 +201,7 @@ Actual tspan boxes are checked independently in a second page, and system-font
 fallback is rejected via Chromium font provenance. The browser test reports a
 skip when no executable is installed; archive integration must provision the
 pin and run these cases. `graph-browser.test.ts` also checks the actual emitted
-SVG for a multiline label and a ten-digit dock ordinal: ink fits the capsule,
+SVG for a multiline label and a ten-digit dock ordinal: ink fits the circle,
 the measured baseline is preserved, and numbered statement attachments and
 links remain distinct. This document makes no corpus-wide time or transfer
 claim; build and browser benchmark reports own those measured results.

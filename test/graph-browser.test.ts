@@ -100,9 +100,12 @@ async function expectLabelContainment(page: Page): Promise<void> {
   await page.evaluate(() => document.fonts.ready);
   const labels = await page.locator("svg.prepared-graph .graph-label, svg.prepared-graph .graph-dock-number").evaluateAll((elements) => elements.map((text) => {
     const ink = (text as SVGGraphicsElement).getBBox();
-    const box = text.parentElement!.querySelector("rect")!;
-    const x = Number(box.getAttribute("x")), y = Number(box.getAttribute("y"));
-    const width = Number(box.getAttribute("width")), height = Number(box.getAttribute("height"));
+    const box = text.parentElement!.querySelector("rect, circle")!;
+    const circle = box.tagName === "circle", radius = Number(box.getAttribute("r"));
+    const x = circle ? Number(box.getAttribute("cx")) - radius : Number(box.getAttribute("x"));
+    const y = circle ? Number(box.getAttribute("cy")) - radius : Number(box.getAttribute("y"));
+    const width = circle ? 2 * radius : Number(box.getAttribute("width"));
+    const height = circle ? 2 * radius : Number(box.getAttribute("height"));
     const style = getComputedStyle(text);
     return { text: text.textContent, contained: ink.x >= x - 0.02 && ink.y >= y - 0.02 && ink.x + ink.width <= x + width + 0.02 && ink.y + ink.height <= y + height + 0.02,
       nonempty: ink.width > 0 && ink.height > 0, family: style.fontFamily, size: style.fontSize };
@@ -257,11 +260,12 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       const actual = await page.locator("svg [data-node-id]").evaluateAll((elements) => elements.flatMap((node) => {
         const text = node.querySelector(".graph-label, .graph-dock-number");
         if (!text) return [];
-        const ink = (text as SVGGraphicsElement).getBBox(), rectangle = node.querySelector("rect")!;
-        const x = Number(rectangle.getAttribute("x")), y = Number(rectangle.getAttribute("y"));
-        const width = Number(rectangle.getAttribute("width")), height = Number(rectangle.getAttribute("height"));
+        const ink = (text as SVGGraphicsElement).getBBox(), shape = node.querySelector("rect, circle") as SVGGraphicsElement;
+        const { x, y, width, height } = shape.getBBox();
+        const circle = shape.tagName === "circle", radius = width / 2;
         return [{ id: node.getAttribute("data-node-id"), label: text.textContent, href: node.getAttribute("href"), width,
-          contained: ink.x >= x && ink.y >= y && ink.x + ink.width <= x + width && ink.y + ink.height <= y + height,
+          contained: ink.x >= x && ink.y >= y && ink.x + ink.width <= x + width && ink.y + ink.height <= y + height &&
+            (!circle || [ink.x, ink.x + ink.width].every((a) => [ink.y, ink.y + ink.height].every((b) => Math.hypot(a - x - radius, b - y - radius) <= radius))),
           inkWidth: ink.width, lines: [...text.querySelectorAll("tspan")].map((span) => {
             const ink = (span as SVGGraphicsElement).getBBox();
             return { text: span.textContent, x: Number(span.getAttribute("x")), y: Number(span.getAttribute("y")),
@@ -288,15 +292,17 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       expect(large).toMatchObject({ label: "9876543210", href: "claims.html#last" });
       expect(large.inkWidth).toBeGreaterThan(18);
       const numeral = metrics[requests.findIndex((request) => request.text === "9876543210")]!;
-      expect(large.width).toBeGreaterThanOrEqual(numeral.width + 12);
+      expect(large.width).toBeGreaterThanOrEqual(numeral.width + 8);
       const first = actual.find((entry) => entry.id === "dock:Claims.first")!;
       const firstNumeral = metrics[requests.findIndex((request) => request.text === "1")]!;
       expect(first.width).toBeGreaterThanOrEqual(18);
-      expect(first.width).toBeGreaterThanOrEqual(firstNumeral.width + 12);
+      expect(first.width).toBeGreaterThanOrEqual(firstNumeral.width + 8);
       const source = measured.graph.nodes.find((node) => node.id === "c:Claims")!;
       for (const dock of measured.drawings.get(source.id)!.docks) {
         const port = source.ports.find((value) => value.semanticEndpointId === dock.statementId)!;
-        expect(port).toMatchObject({ mode: "fixed-position", offset: { x: dock.bounds.x + dock.bounds.width / 2, y: 0 } });
+        expect(port.mode).toBe("fixed-position");
+        expect(port.offset!.x).toBeCloseTo(dock.bounds.x + dock.bounds.width / 2, 2);
+        expect(port.offset!.y).toBeCloseTo(dock.bounds.y, 2);
         expect(source.labelBoxes).toContainEqual(dock.lines[0]!.ink);
       }
     } finally { await context.close(); }
@@ -316,7 +322,7 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       }
       expect(await page.locator("#proof-network .net-proof").count()).toBe(9);
       expect(await page.locator("#proof-network .net-dock").count()).toBe(2);
-      expect(await page.locator("#proof-network [data-edge-id]").count()).toBe(21);
+      expect(await page.locator("#proof-network [data-edge-id]").evaluateAll((edges) => new Set(edges.map((e) => e.getAttribute("data-edge-id"))).size)).toBe(21);
       expect(await page.locator(".proof-network-figure [data-graph-expand]").isVisible()).toBe(false);
       await capture(page, "no-javascript", ".proof-network-figure");
       const href = await page.locator('#proof-network [data-node-id="dock:Lax701.Base.s2"]').getAttribute("href");
@@ -679,7 +685,7 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       await page.waitForFunction(() => document.querySelectorAll(".figure-container svg.prepared-graph").length === 3, undefined, { timeout: 45_000 });
       expect(await page.locator("#proof-network .net-proof").count()).toBe(9);
       expect(await page.locator("#proof-network .net-dock").count()).toBe(2);
-      expect(await page.locator("#proof-network [data-edge-id]").count()).toBe(21);
+      expect(await page.locator("#proof-network [data-edge-id]").evaluateAll((edges) => new Set(edges.map((e) => e.getAttribute("data-edge-id"))).size)).toBe(21);
       await openConcepts(page);
       await page.locator("#concept-descend").click();
       await page.waitForFunction(() => document.querySelector("#concept-descend")?.getAttribute("aria-pressed") === "true");

@@ -1,14 +1,16 @@
 import fs from "node:fs";
 import { expect, it } from "vitest";
 import { layoutGraph } from "../src/graph-layout/index.js";
-import type { MeasuredGraph } from "../src/graph-layout/types.js";
+import { DEFAULT_PROFILE, type MeasuredGraph } from "../src/graph-layout/types.js";
 import { flattenCommands, segmentIntersection, validateGeometry } from "../src/graph-layout/validate.js";
 
 it("removes the reported Treewidth crossing from the complete measured Lax17 map", () => {
   const fixture = JSON.parse(fs.readFileSync(new URL("./fixtures/graph-layout/lax17-joint-swaps.json", import.meta.url), "utf8")) as {
     graph: MeasuredGraph; baselineCrossings: number;
   };
-  const result = layoutGraph(fixture.graph, { inputDigest: "lax17-joint-swaps" });
+  // Frozen measured boxes reserve the original 8px attachment spacing.
+  const result = layoutGraph(fixture.graph, { inputDigest: "lax17-joint-swaps",
+    profile: { ...DEFAULT_PROFILE, id: "readable-v1", portSeparation: 8, dummyGap: 8, nodeGap: 28 } });
   expect(result.geometry.nodes).toHaveLength(38);
   expect(result.geometry.edges).toHaveLength(56);
   expect(result.metrics.crossings).toBeLessThan(fixture.baselineCrossings);
