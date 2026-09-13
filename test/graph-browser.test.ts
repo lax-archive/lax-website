@@ -375,12 +375,14 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       await figure.locator("[data-graph-expand]").click(); await animationFrame(page);
       expect(await figure.getAttribute("role")).toBe("dialog");
       expect(await figure.getAttribute("aria-modal")).toBe("true");
-      await capture(page, "fullscreen-zoom-120");
+      await capture(page, "fullscreen-auto-fit");
       await page.setViewportSize({ width: 1100, height: 850 }); await animationFrame(page);
       expect(await fingerprint(page)).toEqual(original);
       expect(await container.evaluate((element) => element.querySelector("svg") === (window as any).__initialGraphSvg)).toBe(true);
       await capture(page, "fullscreen-resized");
       await page.keyboard.press("Escape");
+      await animationFrame(page);
+      expect(await figure.locator("[data-graph-zoom-status]").textContent()).toBe("120%");
       expect(await figure.getAttribute("aria-modal")).toBeNull();
       expect(await figure.locator("[data-graph-expand]").evaluate((element) => document.activeElement === element)).toBe(true);
       await figure.locator('[data-graph-zoom="reset"]').click(); await animationFrame(page);
@@ -398,6 +400,34 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       expect(await figure.locator("[data-graph-zoom-status]").textContent()).toBe("100%");
       expect(await fingerprint(page)).toEqual(original);
       await expectNoPublicLayout(page, audit);
+    });
+  }, 30_000);
+
+  it("centers readable expanded graphs, caps enlargement, and preserves manual zoom until reset", async () => {
+    await visit(url("Lax701/index.html"), async (page) => {
+      await openConcepts(page);
+      for (const id of ["concept-dag", "submission-dag", "proof-network"]) {
+        const container = page.locator(`#${id}`), figure = container.locator("xpath=..");
+        await figure.locator("[data-graph-expand]").click(); await animationFrame(page);
+        const framed = await container.evaluate((el) => {
+          const svg = el.querySelector("svg")!, camera = svg.querySelector("[data-graph-camera]") as SVGGraphicsElement;
+          const bounds = svg.viewBox.baseVal, matrix = camera.getScreenCTM()!, box = el.getBoundingClientRect();
+          const origin = new DOMPoint(bounds.x, bounds.y).matrixTransform(matrix);
+          return { scale: matrix.a, desired: Math.max(1, Math.min(1.5, (el.clientWidth - 32) / bounds.width, (el.clientHeight - 32) / bounds.height)),
+            dx: origin.x + bounds.width * matrix.a / 2 - box.left - el.clientLeft - el.clientWidth / 2,
+            dy: origin.y + bounds.height * matrix.d / 2 - box.top - el.clientTop - el.clientHeight / 2 };
+        });
+        expect(framed.scale).toBeCloseTo(framed.desired, 6);
+        expect(Math.abs(framed.dx)).toBeLessThan(1);
+        expect(Math.abs(framed.dy)).toBeLessThan(1);
+        await figure.locator('[data-graph-zoom="in"]').click(); await animationFrame(page);
+        const manual = await figure.locator("[data-graph-zoom-status]").textContent();
+        await page.setViewportSize({ width: 1700, height: 1100 }); await animationFrame(page);
+        expect(await figure.locator("[data-graph-zoom-status]").textContent()).toBe(manual);
+        await figure.locator('[data-graph-zoom="reset"]').click(); await animationFrame(page);
+        expect(Number((await figure.locator("[data-graph-zoom-status]").textContent())!.replace("%", ""))).toBeLessThanOrEqual(150);
+        await page.keyboard.press("Escape"); await animationFrame(page);
+      }
     });
   }, 30_000);
 

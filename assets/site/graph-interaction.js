@@ -215,7 +215,43 @@
       refreshGraphTooltip();
     };
     controller.paint = () => { if (!frame) frame = requestAnimationFrame(paint); };
+    controller.restoreInline = (view) => {
+      controller.autoFrame = false;
+      controller.camera = { ...view.camera };
+      paint();
+      container.scrollLeft = view.left;
+      container.scrollTop = view.top;
+    };
+    controller.frameExpanded = () => {
+      if (!container.clientWidth || !container.clientHeight) return;
+      const bounds = svg.viewBox.baseVal;
+      if (!bounds.width || !bounds.height) return;
+      const inset = 16;
+      // Published labels are 12px. Automatic framing keeps them at 12–18px:
+      // fill the available space where possible, without inflating tiny graphs
+      // or shrinking a large graph into an unreadable overview.
+      container.style.overflowX = 'hidden';
+      container.style.overflowY = 'hidden';
+      const fit = Math.min((container.clientWidth - 2 * inset) / bounds.width,
+        (container.clientHeight - 2 * inset) / bounds.height);
+      const scale = Math.max(1, Math.min(1.5, fit)) / svg.getScreenCTM().a;
+      controller.camera = { x: 0, y: 0, scale };
+      cameraGroup.setAttribute('transform', `scale(${scale})`);
+      controller.fitScrollbars();
+      container.scrollTop = 0;
+      container.scrollLeft = Math.max(0, (container.scrollWidth - container.clientWidth) / 2);
+      const matrix = svg.getScreenCTM(), box = container.getBoundingClientRect();
+      const width = bounds.width * scale * matrix.a, height = bounds.height * scale * matrix.d;
+      const target = new DOMPoint(box.left + container.clientLeft + (container.clientWidth - width) / 2,
+        box.top + container.clientTop + (height <= container.clientHeight ? (container.clientHeight - height) / 2 : inset))
+        .matrixTransform(matrix.inverse());
+      controller.camera.x = target.x - bounds.x * scale;
+      controller.camera.y = target.y - bounds.y * scale;
+      controller.autoFrame = true;
+      paint();
+    };
     controller.zoom = (factor, clientPoint) => {
+      controller.autoFrame = false;
       const camera = controller.camera;
       const scale = Math.max(0.2, Math.min(4, camera.scale * factor));
       const ratio = scale / camera.scale;
@@ -227,6 +263,11 @@
       camera.scale = scale; controller.paint();
     };
     controller.reset = () => {
+      if (container.closest('.graph-figure').classList.contains('graph-expanded')) {
+        controller.frameExpanded();
+        return;
+      }
+      controller.autoFrame = false;
       controller.camera = { x: 0, y: 0, scale: 1 }; controller.paint();
       container.scrollTop = 0;
       container.scrollLeft = Math.max(0, (container.scrollWidth - container.clientWidth) / 2);
@@ -247,6 +288,7 @@
     svg.addEventListener('pointerdown', (event) => {
       // Native one-finger page/viewport scrolling remains available on touch.
       if (event.pointerType === 'touch' || event.button !== 0 || event.target.closest('a')) return;
+      controller.autoFrame = false;
       const matrix = svg.getScreenCTM();
       drag = { id: event.pointerId, x: event.clientX, y: event.clientY, scale: matrix.a };
       svg.setPointerCapture(event.pointerId); svg.classList.add('graph-dragging');
@@ -293,7 +335,7 @@
       controller.state = state;
       bindView(container, controller, ready.interaction);
       updateControls(container, controller);
-      if (anchor && controller.anchorId) {
+      if (anchor && controller.anchorId && !controller.autoFrame) {
         const selected = [...container.querySelectorAll('[data-node-id]')].find((node) => node.dataset.nodeId === controller.anchorId);
         if (selected) {
           const now = selected.getBoundingClientRect(), scale = controller.svg.getScreenCTM().a;
@@ -327,8 +369,11 @@
 
   function setExpanded(button, expanded) {
     const figure = button.closest('.graph-figure');
+    const container = figure.querySelector('.figure-container'), controller = controllers.get(container.id);
     if (expanded && expandedFigure && expandedFigure !== figure) setExpanded(expandedFigure.querySelector('[data-graph-expand]'), false);
     if (expanded) {
+      if (controller) controller.inlineView = { state: controller.state, camera: { ...controller.camera },
+        left: container.scrollLeft, top: container.scrollTop };
       previousAttributes.set(figure, ['role', 'aria-modal', 'aria-label'].map((name) => [name, figure.getAttribute(name)]));
       figure.setAttribute('role', 'dialog'); figure.setAttribute('aria-modal', 'true');
       figure.setAttribute('aria-label', `${button.dataset.graphLabel || 'Graph'} large view`);
@@ -340,11 +385,15 @@
     button.setAttribute('aria-label', `${expanded ? 'Close' : 'Open'} ${button.dataset.graphLabel || 'graph'} large window`);
     expandedFigure = expanded ? figure : null;
     document.body.classList.toggle('graph-window-open', Boolean(expandedFigure));
-    const container = figure.querySelector('.figure-container'); hideTooltip(container);
-    // Fullscreen only changes the viewport. Keep the exact SVG and geometry.
+    hideTooltip(container);
+    // Frame the same complete geometry in the new viewport. Closing restores
+    // the inline camera instead of carrying the large-window zoom into the page.
     requestAnimationFrame(() => {
-      container.scrollTop = 0;
-      container.scrollLeft = Math.max(0, (container.scrollWidth - container.clientWidth) / 2);
+      if (!controller || figure.classList.contains('graph-expanded') !== expanded) return;
+      if (expanded) controller.frameExpanded();
+      else if (controller.inlineView?.state === controller.state) {
+        controller.restoreInline(controller.inlineView);
+      } else controller.reset();
     });
   }
 
@@ -354,7 +403,10 @@
     const controller = { data, state: data.initial, request: 0 };
     controllers.set(container.id, controller);
     bindView(container, controller, data.views[data.initial].interaction);
-    new ResizeObserver(() => controller.fitScrollbars()).observe(container);
+    new ResizeObserver(() => {
+      if (controller.autoFrame && figure.classList.contains('graph-expanded')) controller.frameExpanded();
+      else controller.fitScrollbars();
+    }).observe(container);
     updateControls(container, controller);
     for (const button of figure.querySelectorAll('[data-graph-zoom]')) {
       button.disabled = false;

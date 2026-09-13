@@ -72,8 +72,12 @@ All engines run the same nine cases:
    lazily fetched alternate views and a direct skip import. Relative links
    and static geometry URLs remain within a nested preview prefix.
 3. Fullscreen, resize, zoom and keyboard controls preserve the SVG element,
-   node positions, edge paths, attachments and layout digest. The initial
-   viewport is at the top and horizontally centered.
+   node positions, edge paths, attachments and layout digest. Opening a large
+   window fits and centers the graph with automatic label sizes of 12–18px.
+   Graphs too large to fit at readable size remain horizontally centered at
+   the top. Reset restores this framing; manual zoom/pan stays in effect on
+   resize. Closing restores the inline camera and scroll position. The initial
+   inline viewport is at the top and horizontally centered.
 4. Hover and focus highlight incident edges and show the white inspector:
    proof descriptions/title math, concept/status/submission fields, or
    submission/content/state/relation fields. Normal inspectors sit outside
