@@ -8,6 +8,7 @@ export type GraphKind = "concepts" | "submissions" | "proofs";
 export interface GraphNodeInput {
   id: string; title?: string; href?: string; dir?: "core" | "up" | "down";
   status?: "proven" | "open" | "none"; ext?: boolean; owner?: string;
+  state?: string; concepts?: number; proofs?: number;
 }
 export interface StatementGraphInput extends GraphNodeInput {
   label?: string; concept?: string; index?: number; count?: number;
@@ -33,6 +34,7 @@ export interface DisplayDock {
 export interface DisplayNode {
   id: string; semanticId: string; kind: MeasuredNode["kind"];
   label: string; href?: string; tooltipHtml?: string;
+  tooltipText?: string; tooltipRows?: readonly (readonly [string, string])[];
   status: "proven" | "open" | "none"; ext: boolean;
   docks: readonly DisplayDock[]; ports: readonly PortSpec[];
 }
@@ -88,8 +90,16 @@ export function projectGraph(kind: GraphKind, input: FlatGraphInput | ProofGraph
     for (const raw of [...data.nodes].sort((a, b) => compareText(a.id, b.id))) {
       const id = `${kind === "concepts" ? "c" : "s"}:${raw.id}`;
       const nodeKind = kind === "concepts" ? "concept" : "submission";
+      const count = (n: number, noun: string) => `${n} ${noun}${n === 1 ? "" : "s"}`;
+      const relations = { core: "this submission", up: "this submission builds on it", down: "it builds on this submission" };
+      const tooltipRows: [string, string][] = kind === "concepts"
+        ? [["Concept", title(raw.title, "Untitled concept")], ["Status", raw.status === "none" ? "definition" : raw.status ?? "unknown"],
+          ...(raw.owner ? [["Submission", raw.owner] as [string, string]] : [])]
+        : [["Submission", raw.id],
+          ["Contents", `${count(raw.concepts ?? 0, "concept")}, ${count(raw.proofs ?? 0, "proof")}`],
+          ["State", raw.state ?? "unknown"], ["Relation", raw.dir ? relations[raw.dir] : "unknown"]];
       addNode({ id, semanticId: raw.id, kind: nodeKind, label: title(raw.title, raw.id), href: link(raw.href),
-        status: raw.status ?? "none", ext: Boolean(raw.ext), docks: [], ports: [] });
+        tooltipRows, status: raw.status ?? "none", ext: Boolean(raw.ext), docks: [], ports: [] });
       endpoints.set(raw.id, { nodeId: id, semanticId: raw.id });
       mapping.push({ semanticId: raw.id, kind: nodeKind, nodeId: id });
     }
@@ -124,7 +134,8 @@ export function projectGraph(kind: GraphKind, input: FlatGraphInput | ProofGraph
         }
       }
       addNode({ id, semanticId: multiple ? concept : sample.id, kind: multiple || sample.endpointKind === "concept" ? "concept" : "statement",
-        label: title(sample.title, sample.label ?? concept), href: link(multiple ? sample.href?.split("#")[0] : sample.href),
+        label: sample.label || sample.concept || sample.id, tooltipText: title(sample.title, ""),
+        href: link(multiple ? sample.href?.split("#")[0] : sample.href),
         tooltipHtml: sample.tooltipHtml, status: statementMembers.length
           ? statementMembers.every((m) => m.proven) ? "proven" : "open"
           : sample.status ?? (sample.proven ? "proven" : "open"),
@@ -141,7 +152,7 @@ export function projectGraph(kind: GraphKind, input: FlatGraphInput | ProofGraph
     for (const proof of [...data.proofs].sort((a, b) => compareText(a.id, b.id))) {
       const id = `p:${proof.id}`;
       addNode({ id, semanticId: proof.id, kind: "proof", label: "⊢", href: link(proof.href), tooltipHtml: proof.tooltipHtml,
-        status: "none", ext: Boolean(proof.ext), docks: [], ports: [] });
+        tooltipText: proof.description ?? "", status: "none", ext: Boolean(proof.ext), docks: [], ports: [] });
       endpoints.set(proof.id, { nodeId: id, semanticId: proof.id });
       mapping.push({ semanticId: proof.id, kind: "proof", nodeId: id });
     }

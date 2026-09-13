@@ -411,7 +411,7 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
           left: box.left, top: box.top,
           mathWeight: getComputedStyle(element.querySelector(".katex")!).fontWeight };
       });
-      expect(normal).toMatchObject({ fontWeight: "700", mathWeight: "700", opacity: "1", background: "rgb(248, 250, 252)", outside: true });
+      expect(normal).toMatchObject({ fontWeight: "700", mathWeight: "700", opacity: "1", background: "rgb(255, 255, 255)", outside: true });
       expect(["left", "right"]).toContain(normal.placement);
       const anchor = await node.boundingBox();
       expect(Math.abs(normal.centerY - (anchor!.y + anchor!.height / 2))).toBeLessThanOrEqual(1);
@@ -432,7 +432,9 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       await page.setViewportSize({ width: 1920, height: 1200 }); await animationFrame(page);
       await figure.locator("[data-graph-expand]").click(); await animationFrame(page);
       await node.hover(); await animationFrame(page);
-      expect(await tooltip.isVisible()).toBe(false);
+      expect(await tooltip.isVisible()).toBe(true);
+      expect(await page.locator('.prepared-graph title, .prepared-graph [title]').count()).toBe(0);
+      expect(await tooltip.evaluate((element) => getComputedStyle(element).backgroundColor)).toBe("rgba(255, 255, 255, 0.7)");
       await expectNoPublicLayout(page, audit);
       await expectLabelContainment(page);
     });
@@ -465,7 +467,9 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       expect(await page.locator("#proof-network").isVisible()).toBe(true);
       const node = page.locator(`#proof-network [data-node-id="${proofId}"]`);
       await node.focus(); await animationFrame(page);
-      expect(await figure.locator(".graph-tooltip").isVisible()).toBe(false);
+      const tooltip = await figure.locator(".graph-tooltip").boundingBox();
+      expect(tooltip!.x).toBeGreaterThanOrEqual(0);
+      expect(tooltip!.x + tooltip!.width).toBeLessThanOrEqual(390);
       await capture(page, "narrow-reduced-motion");
       await page.keyboard.press("Escape"); await animationFrame(page);
       expect(await fingerprint(page)).toEqual(original);

@@ -24,8 +24,8 @@ describe("semantic display projection", () => {
     expect(projected.nodes.filter((n) => n.kind === "proof")).toHaveLength(2);
     expect(projected.edges).toHaveLength(5);
     const concept = projected.nodes.find((n) => n.id === "c:c")!;
-    expect(concept.label).toBe("The concept");
-    expect(projected.nodes.find((n) => n.id === "s:d.s")!.label).toBe("The conclusion");
+    expect(concept.label).toBe("c");
+    expect(projected.nodes.find((n) => n.id === "s:d.s")!.label).toBe("d");
     expect(concept.docks.map((d) => [d.statementId, d.ordinal])).toEqual([["c.s1", 1], ["c.s2", 2]]);
     expect(concept.ports.map((p) => p.semanticEndpointId).sort()).toEqual(["c", "c.s1", "c.s2"]);
     const measured = measureDisplayGraph(projected, fixtureLabels(projected));

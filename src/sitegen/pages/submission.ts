@@ -129,6 +129,7 @@ ${discussion(`${record.id}/`)}`;
   const relatedFigure = related.nodes.length > 1
     ? `${figureTitle("Submission map")}
 <figure class="graph-figure">
+${graphExpandButton("submission map")}
 <div id="submission-dag" class="figure-container" data-graph="submissions"></div>
 ${graphTooltip()}
 ${submissionMapLegend(related)}

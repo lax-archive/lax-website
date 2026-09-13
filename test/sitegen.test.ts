@@ -21,6 +21,7 @@ const fixtureLabels = new Map([
   ["Two", 23.5], ["Truth", 29.5], ["Definition helper", 89.5],
   ["Lax1", 25.5], ["Lax3", 25.5], ["Lax4", 25.5], ["Lax10", 31.5],
   ["Lax1.Base", 53.5], ["Lax3.Middle", 68.5], ["Lax4.Top", 48.5], ["Lax4.Aux", 51.5],
+  ["Lax2.C", 38.5], ["Lax1.Main", 55.5], ["Lax4.Main", 55.5],
   ["Foundational submission", 128.5],
 ]);
 const fixtureMeasurement: MeasureLabelsProvider = async (requests, environment) => requests.map((request) => {
@@ -617,10 +618,10 @@ After the formula.`, "");
     const css = fs.readFileSync(path.join(one, "assets", "style.css"), "utf8");
     expect(css).not.toContain(".figure-container:empty");
     expect(css).toContain(".graph-figure.graph-expanded");
-    expect(css).toContain(".proof-network-figure > .graph-expand{ right: 1rem; }");
+    expect(css).toContain(".graph-controls{");
     expect(css).toContain(".graph-edge-casing{");
     expect(css).toContain("fill: context-stroke");
-    expect(css).toContain("background: rgba(248, 250, 252, 0.98)");
+    expect(css).toContain("background: rgb(255, 255, 255)");
     expect(css).toContain('.status-pill[data-tooltip]:hover::after');
     expect(css).not.toContain(".landing-demo-");
     expect(css).not.toContain(".landing-action-card");
@@ -1283,8 +1284,7 @@ After the formula.`, "");
     expect(html).toContain('<i class="legend-node fill-none"></i>Definition</span>');
     expect(html).not.toMatch(/nothing\s+to\s+prove/);
     expect((html.match(/class="graph-tooltip"/g) ?? []).length).toBe(2);
-    // Only concept/proof figures get a large-window control; the submission
-    // map deliberately remains an inline overview.
+    // This isolated submission has only concept/proof figures.
     expect((html.match(/data-graph-expand/g) ?? []).length).toBe(2);
     expect(html).toContain('data-graph-label="concept map" aria-expanded="false"');
     expect(html).toContain('data-graph-label="proof network" aria-expanded="false"');

@@ -11,7 +11,7 @@ import { prepareGraphs, publicGraphPayload } from "../src/sitegen/graph-prepare.
 const provider: MeasureLabelsProvider = async (requests, env) => requests.map((request) => {
   // Explicit geometry for these test labels only. No estimating provider is
   // accepted by the archive path; real browser measurement has separate tests.
-  const widths = new Map([["Alpha", 31.734375], ["Beta", 24.953125], ["Gamma", 37.859375]]);
+  const widths = new Map([["Alpha", 31.734375], ["Beta", 24.953125], ["Gamma", 37.859375], ["A.s", 18], ["B.s", 18]]);
   const width = widths.get(request.text);
   if (width === undefined) throw new Error(`Unexpected fixture label ${request.text}`);
   return { text: request.text, width, height: 16, signature: graphMeasurementKey(request, env.signature),
@@ -62,7 +62,7 @@ describe("prepared static graphs", () => {
     expect(report.localFallback).toBe(false);
     expect(report.statistics.containers).toBe(3);
     expect(report.statistics.views).toBe(6);
-    expect(report.statistics.measurement?.uniqueLabels).toBe(3);
+    expect(report.statistics.measurement?.uniqueLabels).toBe(5);
     expect(html.match(/<svg\b/gu)).toHaveLength(3);
     expect(html).toContain('class="prepared-graph"');
     expect(html).toContain('href="P.html"');

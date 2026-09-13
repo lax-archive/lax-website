@@ -5,15 +5,16 @@ import { attr, esc } from "./graph-escape.js";
 import type { DisplayNode, MeasuredDisplayGraph, NodeDrawing } from "./graph-project.js";
 
 export interface GraphInteractionPayload {
-  nodes: Record<string, { label: string; tooltipHtml?: string; incident: string[] }>;
+  nodes: Record<string, { label: string; tooltipHtml?: string; tooltipRows?: DisplayNode["tooltipRows"]; incident: string[] }>;
 }
 function rect(box: Rect, className = ""): string {
   return `<rect${className ? ` class="${attr(className)}"` : ""} x="${box.x}" y="${box.y}" width="${box.width}" height="${box.height}" rx="4"/>`;
 }
 function anchor(href: string | undefined, className: string, id: string, label: string, contents: string): string {
   const attributes = `class="${attr(className)}" data-node-id="${attr(id)}" aria-label="${attr(label)}"`;
-  return href ? `<a ${attributes} href="${attr(href)}" role="link"><title>${esc(label)}</title>${contents}</a>`
-    : `<g ${attributes} tabindex="0"><title>${esc(label)}</title>${contents}</g>`;
+  // aria-label preserves the accessible name without a native hover rectangle.
+  return href ? `<a ${attributes} href="${attr(href)}" role="link">${contents}</a>`
+    : `<g ${attributes} tabindex="0">${contents}</g>`;
 }
 /** Matches the host's single text element with independently positioned
  * tspans; baselines and ink extents were measured before node placement. */
@@ -45,8 +46,9 @@ export function graphInteractionPayload(measured: MeasuredDisplayGraph): GraphIn
   const ports = new Map(graph.nodes.flatMap((node) => node.ports.map((port) => [port.id, port] as const)));
   const nodes: GraphInteractionPayload["nodes"] = Object.create(null) as GraphInteractionPayload["nodes"];
   for (const node of measured.display.nodes) {
-    nodes[node.id] = { label: node.label, ...(node.tooltipHtml ? { tooltipHtml: node.tooltipHtml } : {}), incident: [] };
-    for (const dock of node.docks) nodes[dock.id] = { label: `${node.label}, statement ${dock.ordinal}`,
+    nodes[node.id] = { label: node.tooltipText ?? node.label, ...(node.tooltipHtml ? { tooltipHtml: node.tooltipHtml } : {}),
+      ...(node.tooltipRows ? { tooltipRows: node.tooltipRows } : {}), incident: [] };
+    for (const dock of node.docks) nodes[dock.id] = { label: node.tooltipText ?? node.label,
       ...(dock.tooltipHtml ? { tooltipHtml: dock.tooltipHtml } : {}), incident: [] };
   }
   for (const edge of graph.edges) for (const portId of [edge.sourcePortId, edge.targetPortId]) {
@@ -70,7 +72,7 @@ export function graphSvg(measured: MeasuredDisplayGraph, geometry: GraphGeometry
   const checked = validateGeometry(measured.graph, serialized);
   if (!checked.valid) throw new GraphDiagnosticError(checked.diagnostics);
   const marker = `graph-arrow-${markerPrefix}`;
-  const groups = (geometry.groups ?? []).map((group) => `<g class="graph-scc" data-group-id="${attr(group.id)}" aria-label="Display cycle"><title>Display cycle</title>${rect(group, "cycle-component")}</g>`).join("");
+  const groups = (geometry.groups ?? []).map((group) => `<g class="graph-scc" data-group-id="${attr(group.id)}" aria-label="Display cycle">${rect(group, "cycle-component")}</g>`).join("");
   const edges = serialized.edges.map((edge) => {
     const spec = measured.graph.edges.find((e) => e.id === edge.id)!;
     const className = measured.display.kind === "proofs" ? `net-edge ${spec.kind}` : `dag-edge${spec.kind === "proofs" ? " proof-dep" : ""}`;
