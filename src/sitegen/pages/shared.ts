@@ -1,6 +1,7 @@
 import { DEFAULT_SITE_URL } from "../../config.js";
 import type { AnnotationSection, BuildOutput, ConceptEntry, ProofEntry } from "../../types.js";
 import type { ConceptGraphData, SubmissionGraphData } from "../graphs.js";
+import { graphArrowMarker } from "../graph-arrow.js";
 import { attr, code, esc, formatDate, proofBadge, statePill, typeBadge } from "../html.js";
 import { plainAuthorTitle, type MarkdownRenderer } from "../markdown.js";
 import { compareIds, type LocatedProof, type SiteModel, type SiteSubmission } from "../model.js";
@@ -238,12 +239,16 @@ export function figureTitle(title: string, source?: string, sourceWithheld = fal
   return `<h4 class="figure-title">${esc(title)}${source ? sourceLink(source) : sourceWithheld ? withheldSourceLink() : ""}</h4>`;
 }
 
+function legendArrow(id: string, className = ""): string {
+  return `<svg class="legend-arrow legend-flow-arrow${className ? " " + className : ""}" viewBox="0 -4 12 8" aria-hidden="true" focusable="false"><defs>${graphArrowMarker(id)}</defs><path d="M1 0h10" marker-end="url(#${id})"/></svg>`;
+}
+
 export function conceptMapLegend(data: ConceptGraphData, ownLabel: string, extLabel: string): string {
   const items = [
     claimFillLegend(data.nodes.map((node) => node.status), true),
     data.nodes.some((node) => !node.ext) ? `<span><i class="legend-node stroke-own"></i>${esc(ownLabel)}</span>` : "",
     data.nodes.some((node) => node.ext) ? `<span><i class="legend-node stroke-ext"></i>${esc(extLabel)}</span>` : "",
-    data.edges.length ? `<span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B builds on A</span>` : "",
+    data.edges.length ? `<span>${legendArrow("concept-legend-arrow")}A → B: B builds on A</span>` : "",
   ];
   return `<figcaption class="graph-legend" aria-label="Concept map legend">${items.join("")}</figcaption>`;
 }
@@ -258,8 +263,8 @@ export function submissionMapLegend(data: SubmissionGraphData): string {
   const items = [
     `<span><i class="legend-node stroke-own"></i>This submission</span>`,
     `<span><i class="legend-node stroke-ext"></i>Other submission</span>`,
-    kinds.has("concepts") ? `<span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B's concepts build on A</span>` : "",
-    kinds.has("proofs") ? `<span><i class="legend-arrow proof-dep" aria-hidden="true">→</i>A → B: only B's proofs build on A</span>` : "",
+    kinds.has("concepts") ? `<span>${legendArrow("submission-concepts-legend-arrow")}A → B: B's concepts build on A</span>` : "",
+    kinds.has("proofs") ? `<span>${legendArrow("submission-proofs-legend-arrow", "proof-dep")}A → B: only B's proofs build on A</span>` : "",
   ];
   return `<figcaption class="graph-legend" aria-label="Submission map legend">${items.join("")}</figcaption>`;
 }
@@ -269,9 +274,9 @@ export function proofNetworkLegend(data: ProofNetworkLegendData): string {
   const nodes = [...data.statements, ...data.proofs];
   // Every flow arrow is the same small shape; the extra assumptions only
   // rotate and translate it toward the turnstile.
-  const arrow = "M1 0h10m-3-3 3 3-3 3";
-  const incoming = `<svg class="legend-assumptions" viewBox="0 0 14 24" aria-hidden="true" focusable="false"><path d="${arrow}" transform="translate(0 12)"/><path d="${arrow}" transform="translate(0 3) rotate(15)"/><path d="${arrow}" transform="translate(0 21) rotate(-15)"/></svg>`;
-  const outgoing = `<svg class="legend-arrow legend-flow-arrow" viewBox="0 -4 12 8" aria-hidden="true" focusable="false"><path d="${arrow}"/></svg>`;
+  const arrow = 'd="M1 0h10" marker-end="url(#proof-assumptions-legend-arrow)"';
+  const incoming = `<svg class="legend-assumptions" viewBox="0 0 14 24" aria-hidden="true" focusable="false"><defs>${graphArrowMarker("proof-assumptions-legend-arrow")}</defs><path ${arrow} transform="translate(0 12)"/><path ${arrow} transform="translate(0 3) rotate(15)"/><path ${arrow} transform="translate(0 21) rotate(-15)"/></svg>`;
+  const outgoing = legendArrow("proof-conclusion-legend-arrow");
   const items = [
     data.proofs.length ? `<span class="proof-flow">assumptions ${incoming}<i class="legend-proof-chip" aria-hidden="true">⊢</i>${outgoing} conclusion</span>` : "",
     claimFillLegend(statuses),

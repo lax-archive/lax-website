@@ -3,6 +3,7 @@ import { attachmentPositions, countBoundaryCrossings, countCrossings, layerPairC
 import { normalizeGraph } from "../src/graph-layout/normalize.js";
 import { exactLayerOrder, subsetOrder, type OrderConstraint } from "../src/graph-layout/order-exact.js";
 import { orderGraph, proposePortOrder } from "../src/graph-layout/order-heuristic.js";
+import { polishJointSwaps } from "../src/graph-layout/order-joint.js";
 import { portOffsets } from "../src/graph-layout/ports.js";
 import { makeProperGraph, type Ordering, type ProperGraph } from "../src/graph-layout/proper-graph.js";
 import { rankGraph } from "../src/graph-layout/rank-simplex.js";
@@ -40,6 +41,67 @@ function permutations(values: readonly number[]): number[][] {
   if (values.length < 2) return [[...values]];
   return values.flatMap((v, i) => permutations(values.filter((_, j) => i !== j)).map((tail) => [v, ...tail]));
 }
+
+describe("joint node and free-attachment swaps", () => {
+  const run = (graph: ProperGraph, input: Ordering, trials = 256, constraints: readonly OrderConstraint[] = []) =>
+    polishJointSwaps(graph, input, { trials, constraints, portSeparation: 8,
+      proposePorts: (layers, ports, affected) => proposePortOrder(graph, layers, ports, 8, affected) });
+  function fan(mode: PortSpec["mode"] = "free-on-side") {
+    const graph = fixture([0, 2, 2, 2], [[0, 1], [0, 2], [0, 3]], mode);
+    const layers = graph.layers.map((r) => [...r]); layers[2]!.reverse();
+    return { graph, input: { layers, portOrder: { s0: 0, s1: 1, s2: 2 }, crossings: 3 },
+      constraints: [[3, 2], [2, 1]] as const };
+  }
+  it("uncrosses a fan by moving its dummy tracks and source attachments together, revisiting earlier pairs", () => {
+    const { graph, input, constraints } = fan();
+    const before = JSON.stringify(input);
+    const swapped = input.layers.map((r) => [...r]); swapped[1]!.reverse();
+    // Moving tracks alone just transfers the three crossings to rank zero.
+    expect(countCrossings(graph, swapped, input.portOrder)).toBe(3);
+    const result = run(graph, input, 256, constraints);
+    expect(result.ordering.crossings).toBe(0);
+    expect(result.accepted).toBe(3);
+    expect(result.exhausted).toBe(false);
+    expect(result.ordering.layers[2]).toEqual(input.layers[2]);
+    expect(result.ordering.portOrder.s2).toBeLessThan(result.ordering.portOrder.s1!);
+    expect(result.ordering.portOrder.s1).toBeLessThan(result.ordering.portOrder.s0!);
+    expect(JSON.stringify(input)).toBe(before);
+    expect(run(graph, input, 256, constraints)).toEqual(result);
+  });
+  it.each(["fixed-order", "fixed-position"] as const)("preserves %s docks even when their crossings cannot be removed", (mode) => {
+    const { graph, input, constraints } = fan(mode);
+    const result = run(graph, input, 256, constraints);
+    expect(result.accepted).toBe(0);
+    expect(result.ordering.crossings).toBe(3);
+    expect(portOffsets(graph.source, result.ordering.portOrder)).toEqual(portOffsets(graph.source, input.portOrder));
+  });
+  it("reports exhaustion and retains the last improvement under a strict trial budget", () => {
+    const { graph, input, constraints } = fan();
+    const zero = run(graph, input, 0, constraints);
+    expect(zero).toMatchObject({ trials: 0, accepted: 0, exhausted: true });
+    expect(zero.ordering).toEqual(input);
+    const one = run(graph, input, 1, constraints);
+    expect(one).toMatchObject({ trials: 1, accepted: 1, exhausted: true });
+    expect(one.ordering.crossings).toBe(2);
+  });
+  it("agrees with the quadratic oracle and leaves no improving permitted adjacent joint move when completed", () => {
+    const random = randomSource(874);
+    for (let sample = 0; sample < 30; sample++) {
+      const pairs: Pair[] = [];
+      for (let u = 0; u < 6; u++) for (let v = u < 2 ? 2 : 6; v < (u < 2 ? 6 : 8); v++)
+        if (random() < .6) pairs.push([u, v]);
+      const graph = fixture([0, 0, 1, 1, 1, 1, 2, 2], pairs, "free-on-side");
+      const input = { layers: graph.layers, portOrder: {}, crossings: countCrossings(graph, graph.layers) };
+      const result = run(graph, input, 256);
+      expect(result.exhausted).toBe(false);
+      expect(result.ordering.crossings).toBeLessThanOrEqual(input.crossings);
+      const positions = attachmentPositions(graph, result.ordering.layers, result.ordering.portOrder);
+      const oracle = graph.segmentsByRank.reduce((total, segments) => total + quadratic(segments.map((s) => ({ source: positions.source[s]!, target: positions.target[s]! }))), 0);
+      expect(result.ordering.crossings).toBe(oracle);
+      expect(run(graph, result.ordering, 256).accepted).toBe(0);
+    }
+  });
+});
 function enumerateCosts(costs: readonly (readonly number[])[], constraints: readonly OrderConstraint[] = []): number {
   let optimum = Infinity;
   for (const p of permutations(costs.map((_, i) => i))) {

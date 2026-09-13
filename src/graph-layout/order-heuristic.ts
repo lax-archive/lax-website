@@ -5,6 +5,7 @@ import { escapeNarrowLayers } from "./order-escape.js";
 import type { Ordering, PortOrder, ProperGraph } from "./proper-graph.js";
 import { GraphDiagnosticError } from "./types.js";
 import { polishChains } from "./order-chain.js";
+import { polishJointSwaps } from "./order-joint.js";
 
 export type OrderOptions = Readonly<{
   sweeps?: number; siftingMoves?: number; exactLayerLimit?: number; dpStates?: number;
@@ -13,7 +14,8 @@ export type OrderOptions = Readonly<{
   seeds?: readonly number[];
 }>;
 export type OrderStats = { sweeps: number; siftingMoves: number; pairEvaluations: number;
-  dpStates: number; dpTransitions: number; portTrials: number; seedCount: number; chainMoves: number; permutationTrials: number };
+  dpStates: number; dpTransitions: number; portTrials: number; seedCount: number; chainMoves: number; permutationTrials: number;
+  jointSwapTrials: number; jointSwapsAccepted: number; jointSwapBudgetExhausted: number };
 export type OrderSearch = Readonly<{ orderings: readonly Ordering[]; stats: Readonly<OrderStats> }>;
 const copyLayers = (layers: readonly (readonly number[])[]) => layers.map((row) => [...row]);
 const median = (values: readonly number[]) => { const sorted = [...values].sort((a, b) => a - b), mid = sorted.length >> 1; return sorted.length % 2 ? sorted[mid]! : (sorted[mid - 1]! + sorted[mid]!) / 2; };
@@ -35,12 +37,13 @@ function initialPortOrder(graph: ProperGraph): Record<string, number> {
  * fixed-order ports form an immutable subsequence; fixed positions are absent
  * from the permutation altogether. The WHOLE changed geometry topology is
  * rescored by the caller, never silently reordered in the renderer. */
-export function proposePortOrder(graph: ProperGraph, layers: readonly (readonly number[])[], portOrder: PortOrder, portSeparation = 8): PortOrder {
+export function proposePortOrder(graph: ProperGraph, layers: readonly (readonly number[])[], portOrder: PortOrder, portSeparation = 8, affectedNodes?: ReadonlySet<number>): PortOrder {
   const positions = attachmentPositions(graph, layers, portOrder, portSeparation), opposite = new Map<string, number[]>();
   const append = (id: string | undefined, value: number) => { if (id) { const values = opposite.get(id) ?? []; values.push(value); opposite.set(id, values); } };
   graph.segments.forEach((segment, index) => { append(segment.sourcePortId, positions.target[index]!); append(segment.targetPortId, positions.source[index]!); });
   const result: Record<string, number> = { ...portOrder };
-  for (const node of graph.source.nodes) for (const side of ["north", "south", "east", "west"]) {
+  for (const [nodeIndex, node] of graph.source.nodes.entries()) for (const side of ["north", "south", "east", "west"]) {
+    if (affectedNodes && !affectedNodes.has(nodeIndex)) continue;
     const ports = node.ports.filter((port) => port.side === side && port.mode !== "fixed-position");
     if (!ports.some((port) => port.mode === "free-on-side") || ports.length < 2) continue;
     const indexes = ports.map((_, i) => i), fixed = indexes.filter((i) => ports[i]!.mode === "fixed-order")
@@ -84,7 +87,8 @@ export function orderGraph(graph: ProperGraph, options: OrderOptions = {}): Orde
   }
   const seeds = options.seeds ?? [0, -1, 0x12345, 0x7654321];
   if (!seeds.length) throw new GraphDiagnosticError([{ code: "ordering-budget", message: "At least one deterministic ordering seed is required" }]);
-  const stats: OrderStats = { sweeps: 0, siftingMoves: 0, pairEvaluations: 0, dpStates: 0, dpTransitions: 0, portTrials: 0, seedCount: 0, chainMoves: 0, permutationTrials: 0 };
+  const stats: OrderStats = { sweeps: 0, siftingMoves: 0, pairEvaluations: 0, dpStates: 0, dpTransitions: 0, portTrials: 0, seedCount: 0, chainMoves: 0, permutationTrials: 0,
+    jointSwapTrials: 0, jointSwapsAccepted: 0, jointSwapBudgetExhausted: 0 };
   type Scored = { ordering: Ordering; span: number; key: string };
   const beam: Scored[] = [];
   const score = (layers: readonly (readonly number[])[], portOrder: PortOrder): Scored => {
@@ -210,6 +214,17 @@ export function orderGraph(graph: ProperGraph, options: OrderOptions = {}): Orde
       remember: (ordering) => remember(score(ordering.layers, ordering.portOrder)) });
     stats.permutationTrials += escaped.trials; stats.dpStates += escaped.states;
     stats.dpTransitions += escaped.transitions; stats.portTrials += escaped.portTrials; stats.pairEvaluations += escaped.pairEvaluations;
+  }
+  // Polish a frozen snapshot of the retained beam, not every restart or DP
+  // state. At most 256 complete joint trials per candidate; report exhaustion.
+  for (const candidate of [...beam]) {
+    const joint = polishJointSwaps(graph, candidate.ordering, {
+      trials: Math.min(256, moveBudget), portSeparation: separation, constraints: options.constraints ?? [],
+      proposePorts: (layers, ports, affected) => proposePortOrder(graph, layers, ports, separation, affected),
+    });
+    stats.jointSwapTrials += joint.trials; stats.jointSwapsAccepted += joint.accepted;
+    stats.jointSwapBudgetExhausted += Number(joint.exhausted);
+    remember(score(joint.ordering.layers, joint.ordering.portOrder));
   }
   return { orderings: beam.map((candidate) => candidate.ordering), stats };
 }

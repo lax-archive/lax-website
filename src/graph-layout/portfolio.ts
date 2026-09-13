@@ -26,6 +26,7 @@ export interface LayoutStatistics {
   rankPivots: number; rankBudgetExhausted: number; coordinatePivots: number;
   sweeps: number; siftingMoves: number; dpStates: number; routingExpansions: number;
   visibilityVertices: number; candidates: number; chainMoves: number; dummyGaps: number; permutationTrials: number;
+  jointSwapTrials: number; jointSwapsAccepted: number; jointSwapBudgetExhausted: number;
 }
 export interface LayoutResult {
   geometry: GraphGeometry; diagnostics: readonly Diagnostic[]; metrics: GeometryMetrics;
@@ -35,7 +36,8 @@ export interface LayoutResult {
 export function emptyStatistics(): LayoutStatistics {
   return { components: 0, ranks: 0, maximumRankWidth: 0, dummyVertices: 0, rankPivots: 0,
     rankBudgetExhausted: 0, coordinatePivots: 0, sweeps: 0, siftingMoves: 0, dpStates: 0,
-    routingExpansions: 0, visibilityVertices: 0, candidates: 0, chainMoves: 0, dummyGaps: 0, permutationTrials: 0 };
+    routingExpansions: 0, visibilityVertices: 0, candidates: 0, chainMoves: 0, dummyGaps: 0, permutationTrials: 0,
+    jointSwapTrials: 0, jointSwapsAccepted: 0, jointSwapBudgetExhausted: 0 };
 }
 type Complete = { id: string; geometry: GraphGeometry; metrics: GeometryMetrics; proper: ProperGraph; placement: CorridorPlacement };
 
@@ -65,6 +67,9 @@ export function layoutDag(graph: MeasuredGraph, options: LayoutOptions): LayoutR
     stats.sweeps += ordering.stats.sweeps; stats.siftingMoves += ordering.stats.siftingMoves; stats.dpStates += ordering.stats.dpStates;
     stats.chainMoves += ordering.stats.chainMoves;
     stats.permutationTrials += ordering.stats.permutationTrials;
+    stats.jointSwapTrials += ordering.stats.jointSwapTrials;
+    stats.jointSwapsAccepted += ordering.stats.jointSwapsAccepted;
+    stats.jointSwapBudgetExhausted += ordering.stats.jointSwapBudgetExhausted;
     ordering.orderings.forEach((order, i) => structures.push({ id: `${ranks.id}:order-${i}`, proper, ordering: order }));
   }
   // Reserve representation of both rank assignments before crossing-score

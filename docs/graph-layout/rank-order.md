@@ -152,6 +152,24 @@ improvement in these unit-test results.
 
 ## Independent checks
 
+Engine 1.0.6 adds a final joint adjacent-swap pass on the retained ordering
+beam. Each trial swaps two neighboring real/dummy vertices and reorders free
+attachments only on affected nodes, then counts the complete layered graph.
+Fixed dock positions, the fixed-order subsequence, and hard node orders remain
+constraints. Only strictly fewer crossings are accepted; subsequent sweeps
+revisit earlier pairs. The cap is 256 trials per retained candidate (or the
+smaller configured sifting budget). Diagnostics count trials, accepted moves,
+and exhausted candidates separately. An unchanged complete sweep establishes
+only a local optimum for this move family. The final geometry validator and
+extent-based selection still decide which complete drawing can be published.
+
+The reported Lax17 concept-map regression is retained with its exact measured
+boxes in `test/fixtures/graph-layout/lax17-joint-swaps.json`. On that unchanged
+38-node, 56-edge input, final crossings fall from 74 (1.0.5) to 71 (1.0.6);
+extent changes from 3169 × 794 to 3176 × 794. The regression checks the complete
+geometry and separately checks that the two reported Treewidth routes no
+longer intersect. This is targeted evidence, not a new held-out corpus claim.
+
 `test/graph-rank.test.ts` includes all 1,024 five-node DAGs under one fixed
 topological labeling, compared with exhaustive unit-span rank assignments;
 150 mixed-span/weight fixtures; 100 signed-bound auxiliary fixtures; and 300

@@ -3781,7 +3781,7 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
   flex: 0 0 auto;
 }
 .legend-flow-arrow{ width: 12px; height: 8px; flex: 0 0 auto; }
-.proof-flow svg{
+.graph-legend svg{
   fill: none;
   stroke: currentColor;
   stroke-width: 1;
