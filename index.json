@@ -3194,6 +3194,26 @@
       ]
     },
     {
+      "id": "lax-865980",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "The Word RAM",
+      "supersedes": "lax-13",
+      "concepts": [
+        {
+          "id": "Lax865980.Ram",
+          "title": "The word RAM",
+          "type": "definition"
+        },
+        {
+          "id": "Lax865980.RamComputes",
+          "title": "Computing a function within a time bound",
+          "type": "definition"
+        }
+      ],
+      "proofs": []
+    },
+    {
       "id": "lax-916827",
       "state": "draft",
       "environment": "v4.30.0",
