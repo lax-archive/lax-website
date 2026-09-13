@@ -236,10 +236,17 @@ export function statePill(state: string): string {
 
 export function code(value: string): string { return `<code>${esc(value)}</code>`; }
 
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+/** Every date the site shows a reader: `6 Jul 2026`. Read in UTC and spelled
+ * out here rather than through `toLocaleDateString`, because the generated
+ * HTML must not depend on the build machine's locale or time zone. The
+ * machine-readable form stays in the `datetime` attribute beside it. */
 export function formatDate(value?: string): string {
   if (!value) return "—";
   const date = new Date(value);
-  return Number.isNaN(date.valueOf()) ? esc(value) : date.toISOString().slice(0, 10);
+  if (Number.isNaN(date.valueOf())) return esc(value);
+  return `${date.getUTCDate()} ${MONTHS[date.getUTCMonth()]} ${date.getUTCFullYear()}`;
 }
 
 export function plural(n: number, one: string, many = `${one}s`): string {

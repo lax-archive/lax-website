@@ -9,6 +9,10 @@
   const site = root.dataset.remark42Site || "remark";
   if (!host.startsWith("https://")) return;
 
+  // The site's date form, `6 Jul 2026`, in the reader's own time zone.
+  const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  const formatDay = (date) => `${date.getDate()} ${MONTHS[date.getMonth()]} ${date.getFullYear()}`;
+
   const authReturnParameter = "lax_auth_complete";
   const authPopupName = "lax-orcid-login";
   const authMessage = "lax-orcid-auth-complete";
@@ -569,7 +573,7 @@
     const date = new Date(comment.time);
     if (!Number.isNaN(date.valueOf())) {
       time.dateTime = date.toISOString();
-      time.textContent = date.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
+      time.textContent = formatDay(date);
       meta.appendChild(time);
     }
     const url = commentUrl(comment);

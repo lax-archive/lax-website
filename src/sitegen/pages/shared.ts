@@ -419,18 +419,19 @@ function submissionStateRank(state: string): number {
   return 2;
 }
 
-/** Registered submissions lead drafts both before and during search. Within a
- * state, the epoch's island comes first and the other environments follow
- * newest first — an off-epoch submission is not lesser work, but it is the
- * work most readers cannot cite. Within an environment the newest submission
- * leads: archive ids are drawn at random and order nothing, so the date the
- * record was created — the one the library row shows — is what a reader can
- * read an order off. Ids still break a tie between records created in the
- * same instant, so the generated order stays stable. */
+/** Registered submissions lead drafts both before and during search — the two
+ * are labelled groups, not a ranking. Inside a group the newest submission
+ * leads and the dates then run strictly downwards: archive ids are drawn at
+ * random and order nothing, so the creation date the row shows is the only
+ * thing a reader can read an order off, and an ordering it interrupts reads
+ * as a fault. That is why the environment no longer groups the listings —
+ * readers filter by it with the chips instead; it only breaks a tie between
+ * records created in the same instant, and archive ids break what is left,
+ * so the generated order stays stable. */
 export function compareSearchSubmissions(model: SiteModel, a: SiteSubmission, b: SiteSubmission): number {
   return submissionStateRank(a.record.state) - submissionStateRank(b.record.state)
-    || model.environmentRank(a.record.id) - model.environmentRank(b.record.id)
     || model.createdMillis(b.record.id) - model.createdMillis(a.record.id)
+    || model.environmentRank(a.record.id) - model.environmentRank(b.record.id)
     || compareIds(a.record.id, b.record.id);
 }
 
@@ -770,9 +771,12 @@ function metaBits(model: SiteModel, submission: SiteSubmission, metaAction: stri
   const authorBit = authors
     ? `<span class="formalized-label">formalized by</span> ${authors}`
     : "";
+  // Spelled for a reader, with the machine-readable instant in the attribute:
+  // the meta line is the only place these dates appear on a submission page.
+  const day = (value: string) => `<time datetime="${attr(value)}">${formatDate(value)}</time>`;
   const dates = [
-    `created ${formatDay(record.createdAt)}`,
-    ...(record.registeredAt ? [`registered ${formatDay(record.registeredAt)}`] : []),
+    `created ${day(record.createdAt)}`,
+    ...(record.registeredAt ? [`registered ${day(record.registeredAt)}`] : []),
   ].join(" · ");
   // The pins *are* the environment; the label says only that this one is the
   // environment the archive currently recommends, which no version string can.
@@ -788,11 +792,6 @@ function metaBits(model: SiteModel, submission: SiteSubmission, metaAction: stri
   const id = output ? `<span class="submission-meta-id">${esc(record.id)}</span>` : "";
   const parts = [id, authorBit, state, dates, sourceBit, pins, metaAction].filter(Boolean);
   return parts.join('<span class="meta-sep">·</span>');
-}
-
-function formatDay(value: string): string {
-  const date = new Date(value);
-  return Number.isNaN(date.valueOf()) ? esc(value) : date.toISOString().slice(0, 10);
 }
 
 /** The copyable citation: all states are citable, drafts marked as such and

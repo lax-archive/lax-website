@@ -106,14 +106,38 @@ describe("archive environments on the site", () => {
     await generateSite(archive(), root, "v4.30.0");
     const html = fs.readFileSync(path.join(root, "index.html"), "utf8");
 
-    // registered before drafts; inside each, the epoch first and the other
-    // environments newest first (v4.33.0 before v4.31.0), archive ids last.
+    // registered before drafts; these records share a creation instant, so
+    // the environment breaks the tie — the epoch first, the others newest
+    // first (v4.33.0 before v4.31.0) — and archive ids break what is left.
     // lax-1 is superseded by its port and drops out of the listing entirely.
     expect(listed(html)).toEqual(["lax-2", "lax-5", "lax-3", "lax-4"]);
     // the sidebar is generated from the same order
     const sidebar = html.slice(0, html.indexOf('<ul class="submissions-list"'));
     expect([...sidebar.matchAll(/<li data-search-title="([a-z0-9-]+) /g)].map((m) => m[1]!))
       .toEqual(["lax-2", "lax-5", "lax-3", "lax-4"]);
+  });
+
+  it("lets the creation date outrank the environment, so listed dates only fall", async () => {
+    // The same archive with real creation dates: the environment no longer
+    // groups the listing, so an off-epoch record newer than an epoch one
+    // leads it and a reader never meets a date that climbs again.
+    const dated = archive();
+    const days = new Map([
+      ["lax-2", "2026-08-04"], ["lax-3", "2026-09-11"], ["lax-4", "2026-08-09"], ["lax-5", "2026-09-02"],
+    ]);
+    for (const submission of dated) {
+      const day = days.get(submission.record.id);
+      if (day) submission.record.createdAt = `${day}T09:00:00Z`;
+    }
+    const root = tmpDir("lax-site-env-dates-");
+    await generateSite(dated, root, "v4.30.0");
+    const html = fs.readFileSync(path.join(root, "index.html"), "utf8");
+
+    // registered: v4.31.0 lax-3 (11 Sep) leads the epoch's own lax-2 (4 Aug);
+    // the single draft follows its group.
+    expect(listed(html)).toEqual(["lax-3", "lax-5", "lax-2", "lax-4"]);
+    const dates = [...html.matchAll(/class="submissions-list-date">\((.*?)\)/g)].map((m) => m[1]!);
+    expect(dates).toEqual(["11 Sep 2026", "2 Sep 2026", "4 Aug 2026", "9 Aug 2026"]);
   });
 
   it("carries the environment as a row attribute and a chip filter key", async () => {

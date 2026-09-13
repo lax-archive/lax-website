@@ -336,8 +336,13 @@ describe("site generator", () => {
     expect([...sidebar.matchAll(/<li data-search-title="([a-z0-9-]+) /g)].map((match) => match[1]))
       .toEqual(["lax-762056", "lax-429075", "lax-13"]);
     // Each row shows the date it is ordered by, so the dates read downwards.
-    expect(html).toContain('<span class="submissions-list-date">(2026-09-10)</span>');
-    expect(html).toContain('<span class="submissions-list-date">(2026-08-02)</span>');
+    expect(html).toContain('<span class="submissions-list-date">(10 Sep 2026)</span>');
+    expect(html).toContain('<span class="submissions-list-date">(2 Aug 2026)</span>');
+    // The submission page spells the same date the same way, and keeps the
+    // machine-readable form in the attribute beside it.
+    const submission = fs.readFileSync(path.join(root, "lax-762056", "index.html"), "utf8");
+    expect(submission).toContain('created <time datetime="2026-09-10T13:50:56Z">10 Sep 2026</time>');
+    expect(submission).toContain('datetime="2026-09-10T13:50:56Z"');
   });
 
   it("derives complete topic phrases from submission and concept titles", async () => {
@@ -815,7 +820,7 @@ After the formula.`, "");
     expect(index).toContain("Lax2/index.html");
     expect(index).toContain('class="submissions-list-link');
     // The creation date the list is ordered by, not the registration date.
-    expect(index).toContain('<span class="submissions-list-title">Two<span class="submissions-list-date">(2026-01-01)</span>');
+    expect(index).toContain('<span class="submissions-list-title">Two<span class="submissions-list-date">(1 Jan 2026)</span>');
     const submissionsList = index.slice(index.indexOf('<ul class="submissions-list"'), index.indexOf("</ul>", index.indexOf('<ul class="submissions-list"')));
     expect(submissionsList).not.toContain('class="submission-title-id"');
     expect(submissionsList).not.toContain('class="submission-title-inline-separator"');

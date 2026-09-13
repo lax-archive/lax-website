@@ -15,6 +15,12 @@
   let comments = [];
   let shown = 0;
 
+  // The site's date form, `6 Jul 2026`, in the reader's own time zone.
+  const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  const formatDay = (date) => `${date.getDate()} ${MONTHS[date.getMonth()]} ${date.getFullYear()}`;
+  const formatMoment = (date) =>
+    `${formatDay(date)}, ${date.toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit" })}`;
+
   const validOrcidId = (value) => {
     const id = typeof value === "string" ? value.trim().toUpperCase() : "";
     if (!/^\d{4}-\d{4}-\d{4}-\d{3}[\dX]$/.test(id)) return "";
@@ -105,7 +111,7 @@
     if (!Number.isNaN(date.valueOf())) {
       const time = document.createElement("time");
       time.dateTime = date.toISOString();
-      time.textContent = date.toLocaleString(undefined, { dateStyle: "medium", timeStyle: "short" });
+      time.textContent = formatMoment(date);
       header.appendChild(time);
     }
     const body = document.createElement("p");

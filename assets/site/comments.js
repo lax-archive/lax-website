@@ -5,6 +5,12 @@
   if (!container) return;
   const status = document.getElementById("remark42-status");
 
+  // The site's date form, `6 Jul 2026`, in the reader's own time zone.
+  const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  const formatMoment = (date) =>
+    `${date.getDate()} ${MONTHS[date.getMonth()]} ${date.getFullYear()}, `
+    + date.toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit" });
+
   const host = (container.dataset.remark42Host || "").replace(/\/+$/, "");
   const siteId = container.dataset.remark42Site || "remark";
   const url = container.dataset.remark42Url || `${window.location.origin}${window.location.pathname}`;
@@ -282,7 +288,7 @@
       if (!Number.isNaN(date.valueOf())) {
         const time = document.createElement("time");
         time.dateTime = date.toISOString();
-        time.textContent = date.toLocaleString();
+        time.textContent = formatMoment(date);
         heading.appendChild(time);
       }
       const message = document.createElement("p");
