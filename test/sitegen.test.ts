@@ -21,9 +21,6 @@ const fixtureLabels = new Map([
   ["Two", 23.5], ["Truth", 29.5], ["Definition helper", 89.5],
   ["Lax1", 25.5], ["Lax3", 25.5], ["Lax4", 25.5], ["Lax10", 31.5],
   ["Lax1.Base", 53.5], ["Lax3.Middle", 68.5], ["Lax4.Top", 48.5], ["Lax4.Aux", 51.5],
-  // Proof-network nodes retain the former short identifier labels, rather
-  // than measuring their human titles.
-  ["C", 6], ["Aux", 18], ["Base", 24], ["Main", 24], ["Top", 18],
   ["Foundational submission", 128.5],
 ]);
 const fixtureMeasurement: MeasureLabelsProvider = async (requests, environment) => requests.map((request) => {
@@ -623,7 +620,7 @@ After the formula.`, "");
     expect(css).toContain(".proof-network-figure > .graph-expand{ right: 1rem; }");
     expect(css).toContain(".graph-edge-casing{");
     expect(css).toContain("fill: context-stroke");
-    expect(css).toContain("background: rgb(15, 23, 42)");
+    expect(css).toContain("background: rgba(248, 250, 252, 0.98)");
     expect(css).toContain('.status-pill[data-tooltip]:hover::after');
     expect(css).not.toContain(".landing-demo-");
     expect(css).not.toContain(".landing-action-card");

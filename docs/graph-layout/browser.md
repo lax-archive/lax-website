@@ -75,9 +75,8 @@ All engines run the same nine cases:
    node positions, edge paths, attachments and layout digest. The initial
    viewport is at the top and horizontally centered.
 4. Hover and focus highlight incident edges and show math typeset by KaTeX.
-   Normal proof tooltips are opaque black and outside the graph at the node's
-   vertical center; expanded tooltips use a 0.82-alpha black background and
-   fully opaque bold text.
+   Normal proof tooltips are opaque white and outside the graph at the node's
+   vertical center. Maximized proof networks do not open a hover rectangle.
 5. Delayed font requests do not change reserved graph dimensions or geometry.
    Once fonts load, independently read SVG text bounds fit their containing
    node bodies and numbered docks. The visible labels remain 12px in the

@@ -24,7 +24,7 @@ export interface FlatGraphInput {
   edges: readonly { from: string; to: string; kind?: string; id?: string }[];
 }
 export interface ProofGraphData {
-  statements: readonly StatementGraphInput[]; proofs: readonly ProofGraphInput[]; home?: string;
+  statements: readonly StatementGraphInput[]; proofs: readonly ProofGraphInput[];
 }
 export interface DisplayDock {
   id: string; statementId: string; ordinal: number; href?: string;
@@ -72,15 +72,6 @@ function link(href: string | undefined): string | undefined {
   if (/^(?:[a-z][a-z0-9+.-]*:|\/\/)/i.test(href) || /[\u0000-\u001f]/.test(href))
     diagnostic("graph-link", "Graph navigation must be a relative public page URL");
   return href;
-}
-
-/** Keep proof-network labels consistent with the former renderer: identifiers
- * are concise in the drawing, while the human title remains in its hover
- * panel. The full identifier is still present in the SVG accessibility name. */
-function proofLabel(statement: StatementGraphInput, home: string | undefined): string {
-  const full = statement.label || statement.id;
-  const local = home && full.startsWith(`${home}.`) ? full.slice(home.length + 1) : full;
-  return local.length > 28 ? `${local.slice(0, 27)}…` : local;
 }
 
 export function projectGraph(kind: GraphKind, input: FlatGraphInput | ProofGraphData): DisplayGraph {
@@ -133,7 +124,7 @@ export function projectGraph(kind: GraphKind, input: FlatGraphInput | ProofGraph
         }
       }
       addNode({ id, semanticId: multiple ? concept : sample.id, kind: multiple || sample.endpointKind === "concept" ? "concept" : "statement",
-        label: proofLabel(sample, data.home), href: link(multiple ? sample.href?.split("#")[0] : sample.href),
+        label: title(sample.title, sample.label ?? concept), href: link(multiple ? sample.href?.split("#")[0] : sample.href),
         tooltipHtml: sample.tooltipHtml, status: statementMembers.length
           ? statementMembers.every((m) => m.proven) ? "proven" : "open"
           : sample.status ?? (sample.proven ? "proven" : "open"),

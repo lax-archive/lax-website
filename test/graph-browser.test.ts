@@ -406,12 +406,12 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       expect(await page.locator("#proof-network .hot").count()).toBe(2);
       const normal = await tooltip.evaluate((element) => {
         const style = getComputedStyle(element), box = element.getBoundingClientRect(), figure = element.closest("figure")!.getBoundingClientRect();
-        return { fontWeight: style.fontWeight, background: style.backgroundColor, color: style.color, opacity: style.opacity, placement: (element as HTMLElement).dataset.placement,
+        return { fontWeight: style.fontWeight, background: style.backgroundColor, opacity: style.opacity, placement: (element as HTMLElement).dataset.placement,
           outside: box.right <= figure.left || box.left >= figure.right, centerY: (box.top + box.bottom) / 2,
           left: box.left, top: box.top,
           mathWeight: getComputedStyle(element.querySelector(".katex")!).fontWeight };
       });
-      expect(normal).toMatchObject({ fontWeight: "700", mathWeight: "700", opacity: "1", background: "rgb(15, 23, 42)", color: "rgb(248, 250, 252)", outside: true });
+      expect(normal).toMatchObject({ fontWeight: "700", mathWeight: "700", opacity: "1", background: "rgb(248, 250, 252)", outside: true });
       expect(["left", "right"]).toContain(normal.placement);
       const anchor = await node.boundingBox();
       expect(Math.abs(normal.centerY - (anchor!.y + anchor!.height / 2))).toBeLessThanOrEqual(1);
@@ -432,11 +432,7 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       await page.setViewportSize({ width: 1920, height: 1200 }); await animationFrame(page);
       await figure.locator("[data-graph-expand]").click(); await animationFrame(page);
       await node.hover(); await animationFrame(page);
-      expect(await tooltip.isVisible()).toBe(true);
-      expect(await tooltip.evaluate((element) => ({ background: getComputedStyle(element).backgroundColor, opacity: getComputedStyle(element).opacity,
-        fontWeight: getComputedStyle(element).fontWeight, placement: (element as HTMLElement).dataset.placement })))
-        .toEqual({ background: "rgba(15, 23, 42, 0.82)", opacity: "1", fontWeight: "700", placement: "near" });
-      await capture(page, "math-tooltip-expanded");
+      expect(await tooltip.isVisible()).toBe(false);
       await expectNoPublicLayout(page, audit);
       await expectLabelContainment(page);
     });
