@@ -177,13 +177,14 @@ ${proofsHref
       ? `<p class="proof-list-source">Lean sources for these proofs: ${withheldSourceLink("withheld during anonymous review")}</p>`
       : ""}
 </div>
-</details>` : `<p class="empty-note">No proofs in this submission.</p>`}
 <p class="honesty-note">Proof code is not displayed; the archive records each proof's checked relationship between claims.</p>
+</details>` : `<p class="empty-note">No proofs in this submission.</p>`}
 </section>
 <section class="page-section"><h3 class="section-title">Related submissions</h3>
 ${relatedFigure}
 </section>
 <section class="page-section"><h3 class="section-title" id="citation">Cite this</h3>
+<p class="honesty-note">This is only the formalizers. The authors of the formalized results may be different (see References).</p>
 ${anonymous
     ? anonymityNotice("Citation withheld", "A citation exists for this submission, but it is unavailable during anonymous review.")
     : `<div class="citation-box">

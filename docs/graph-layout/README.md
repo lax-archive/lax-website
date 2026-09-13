@@ -40,6 +40,14 @@ the SVG viewport equal to its viewBox at 100% scale: fractional CSS viewport
 rounding otherwise changes the browser's glyph metrics despite unchanged text
 positions. The actual serialized-SVG measurement regression checks this case.
 
+Engine 1.0.5 places weak components side by side without wrapping. For a
+component with R ranks, the transition-band space above the terminal-clearance
+minimum is multiplied by sqrt(2 / max(2, R)). Thus taller components use
+progressively smaller gaps while preserving node sizes and terminal stubs.
+Orthogonal candidates require enough space for distinct 8px channels;
+compressed bands use validated protected polylines instead. These presentation
+changes postdate the frozen evaluation below; its measurements remain historical.
+
 Proof incidences retain the AND/OR structure and separate alternative proofs.
 Numbered statements retain their fixed dock identities. The projection can
 also represent a coarse concept assumption without inventing a statement.

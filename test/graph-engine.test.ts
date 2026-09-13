@@ -86,6 +86,30 @@ describe("the complete deterministic layout portfolio", () => {
     expect(new Set(parallelResult.geometry.edges.map((edge) => canonicalJson(edge.sections[0]!.points))).size).toBe(3);
   });
 
+  it("packs independent components in one horizontal row even beyond the preferred width", () => {
+    const graph: MeasuredGraph = { nodes: Array.from({ length: 4 }, (_, i) => ({
+      id: `wide-${i}`, kind: "concept", width: 700, height: 32, labelBoxes: [], ports: [],
+    })), edges: [] };
+    const result = draw(graph);
+    assertComplete(graph, result.geometry);
+    const nodes = [...result.geometry.nodes].sort((a, b) => a.x - b.x);
+    expect(new Set(nodes.map((n) => n.y)).size).toBe(1);
+    for (let i = 1; i < nodes.length; i++) expect(nodes[i]!.x).toBeGreaterThan(nodes[i - 1]!.x + nodes[i - 1]!.width);
+  });
+
+  it("reduces row gaps as a chain gains ranks without shrinking its nodes", () => {
+    const gaps = [2, 4, 8, 16].map((count) => {
+      const graph = fixture(count, Array.from({ length: count - 1 }, (_, i) => [i, i + 1] as const));
+      const result = draw(graph);
+      assertComplete(graph, result.geometry);
+      const nodes = [...result.geometry.nodes].sort((a, b) => a.y - b.y);
+      expect(nodes.map((n) => n.height).sort()).toEqual(graph.nodes.map((n) => n.height).sort());
+      return nodes[1]!.y - nodes[0]!.y - nodes[0]!.height;
+    });
+    for (let i = 1; i < gaps.length; i++) expect(gaps[i]).toBeLessThan(gaps[i - 1]!);
+    expect(Math.min(...gaps)).toBeGreaterThanOrEqual(32);
+  });
+
   it.each([diamond, skips, displayCycle])("publishes identical bytes after independent input array permutations (%#)", (make) => {
     const graph = make(), first = draw(graph);
     for (let rotation = 0; rotation < 3; rotation++) {

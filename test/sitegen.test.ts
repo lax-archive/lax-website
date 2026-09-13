@@ -1211,6 +1211,7 @@ After the formula.`, "");
     expect(html).not.toContain("Strategy");
     expect(html.indexOf('id="proof-network"')).toBeLessThan(html.indexOf('class="proof-list"'));
     expect(html).toMatch(/<details class="figure-details">\s*<summary>Proof list<\/summary>\s*<div class="proof-list-box">/);
+    expect(html).toMatch(/Proof code is not displayed;[^<]*<\/p>\s*<\/details>/);
     // both proof surfaces link out to the proof package — a tree link, since
     // `proofs/` is a directory, not the file the `path` argument means
     const proofsTree = `https://github.com/example/math/tree/${"a".repeat(40)}/proofs`;
@@ -1219,6 +1220,7 @@ After the formula.`, "");
     // citation for a registered submission has no draft note
     expect(html).toContain("@misc{Lax2");
     expect(html).toContain('<section class="page-section"><h3 class="section-title" id="citation">Cite this</h3>');
+    expect(html).toContain("This is only the formalizers. The authors of the formalized results may be different (see References).");
     expect(html).toContain('<pre class="citation" id="submission-citation">');
     expect(html).toContain('data-copy-citation aria-controls="submission-citation" aria-label="Copy BibTeX to clipboard"');
     expect(html).toContain('<output class="citation-copy-status" aria-live="polite"></output>');

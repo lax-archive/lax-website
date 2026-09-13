@@ -21,6 +21,9 @@ export function placeCorridors(graph: ProperGraph, layers: readonly (readonly nu
   assertSeparation(graph, layers, x, profile);
   const offsets = options.offsets ?? portOffsets(graph.source, order, profile.portSeparation);
   const terminal = Math.max(12, profile.clearance + 2);
+  // More ranks use tighter bands. Keep terminal stubs and an obstacle-clear
+  // transition band intact instead of scaling nodes, text, or arrowheads.
+  const density = Math.sqrt(2 / Math.max(2, layers.length));
   const heights = layers.map((layer) => layer.reduce((height, vertex) => Math.max(height, graph.vertices[vertex]!.height), 0));
   const rows: RankEnvelope[] = new Array(layers.length), bands: RankBand[] = new Array(Math.max(0, layers.length - 1));
   let y = profile.margin;
@@ -29,11 +32,13 @@ export function placeCorridors(graph: ProperGraph, layers: readonly (readonly nu
     rows[rank] = { rank, top: y, bottom: y + height, center: y + height / 2 };
     y += height;
     if (rank) {
-      // One horizontal channel per incidence is a safe capacity upper bound
-      // for the orthogonal alternative. The polyline reuses these dimensions
-      // so changes of route style never rely on compressed unreadable ranks.
+      // Polyline transitions do not need a horizontal lane per incidence.
+      // Orthogonal candidates separately check whether these bands have
+      // enough room for their distinct, spaced horizontal channels.
       const channels = graph.segmentsByRank[rank - 1]!.length;
-      const gap = Math.max(profile.rankGap, terminal * 2 + 8 + channels * profile.portSeparation) * (options.bandExpansion ?? 1);
+      const preferred = Math.max(profile.rankGap, terminal * 2 + 8 + channels * profile.portSeparation);
+      const minimum = terminal * 2 + profile.clearance;
+      const gap = (minimum + Math.max(0, preferred - minimum) * density) * (options.bandExpansion ?? 1);
       bands[rank - 1] = { rank: rank - 1, top: y + terminal, bottom: y + gap - terminal, channels };
       y += gap;
     }

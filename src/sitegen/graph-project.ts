@@ -96,7 +96,7 @@ export function projectGraph(kind: GraphKind, input: FlatGraphInput | ProofGraph
         ? [["Concept", title(raw.title, "Untitled concept")], ["Status", raw.status === "none" ? "definition" : raw.status ?? "unknown"],
           ...(raw.owner ? [["Submission", raw.owner] as [string, string]] : [])]
         : [["Submission", raw.id],
-          ["Contents", `${count(raw.concepts ?? 0, "concept")}, ${count(raw.proofs ?? 0, "proof")}`],
+          ["Content", `${count(raw.concepts ?? 0, "concept")}, ${count(raw.proofs ?? 0, "proof")}`],
           ["State", raw.state ?? "unknown"], ["Relation", raw.dir ? relations[raw.dir] : "unknown"]];
       addNode({ id, semanticId: raw.id, kind: nodeKind, label: title(raw.title, raw.id), href: link(raw.href),
         tooltipRows, status: raw.status ?? "none", ext: Boolean(raw.ext), docks: [], ports: [] });

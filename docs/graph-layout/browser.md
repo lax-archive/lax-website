@@ -76,12 +76,14 @@ All engines run the same nine cases:
    viewport is at the top and horizontally centered.
 4. Hover and focus highlight incident edges and show the white inspector:
    proof descriptions/title math, concept/status/submission fields, or
-   submission/contents/state/relation fields. Normal inspectors sit outside
+   submission/content/state/relation fields. Normal inspectors sit outside
    the graph at the node's vertical center; expanded views use an opaque
    white panel nearby. Only field names are bold. SVG accessibility names do
    not trigger native tooltips. Every graph has one matching control banner
    above its viewport, including ancestry controls where applicable. Panning
    clips at the window rather than at the original SVG drawing bounds.
+   Scrollbars are selected independently for each axis from the current zoom
+   and window size, rather than the SVG's unchanged intrinsic dimensions.
 5. Delayed font requests do not change reserved graph dimensions or geometry.
    Once fonts load, independently read SVG text bounds fit their containing
    node bodies and numbered docks. The visible labels remain 12px in the

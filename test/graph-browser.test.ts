@@ -384,6 +384,13 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       expect(await figure.getAttribute("aria-modal")).toBeNull();
       expect(await figure.locator("[data-graph-expand]").evaluate((element) => document.activeElement === element)).toBe(true);
       await figure.locator('[data-graph-zoom="reset"]').click(); await animationFrame(page);
+      // Zooming out must not retain scrollbars merely because the root SVG
+      // still has its original, larger dimensions.
+      for (let i = 0; i < 9; i++) await figure.locator('[data-graph-zoom="out"]').click();
+      await animationFrame(page);
+      expect(await container.evaluate((el) => ({ x: getComputedStyle(el).overflowX, y: getComputedStyle(el).overflowY })))
+        .toEqual({ x: "hidden", y: "hidden" });
+      await figure.locator('[data-graph-zoom="reset"]').click(); await animationFrame(page);
       const node = page.locator(`#proof-network [data-node-id="${proofId}"]`);
       await node.focus(); await page.keyboard.press("+"); await animationFrame(page);
       expect(await figure.locator("[data-graph-zoom-status]").textContent()).toBe("120%");

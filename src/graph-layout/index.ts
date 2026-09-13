@@ -55,16 +55,14 @@ export function layoutGraph(input: MeasuredGraph, options: LayoutOptions): Layou
         id: `${nodes[0]!.id}:${candidate.id}`, geometry: candidate.geometry });
     }
   }
-  // Stable shelf packing uses measured extents. Its width target affects only
-  // translation of components, never their internal ranks/order/attachments.
+  // Put independent components beside one another, with their main results
+  // aligned at the top. Never wrap components into additional graph rows.
   const pack = (parts: readonly GraphGeometry[]): GraphGeometry => {
-  const gap = profile.nodeGap, area = parts.reduce((sum, p) => sum + p.bounds.width * p.bounds.height, 0);
-  const target = Math.max(960, Math.sqrt(area) * 1.5, ...parts.map((p) => p.bounds.width));
-  const placed: GraphGeometry[] = []; let x = 0, y = 0, rowHeight = 0, width = 0;
+  const gap = profile.nodeGap;
+  const placed: GraphGeometry[] = []; let x = 0, height = 0, width = 0;
   for (const part of parts) {
-    if (x && x + part.bounds.width > target) { x = 0; y += rowHeight + gap; rowHeight = 0; }
-    placed.push(translateGeometry(part, x - part.bounds.x, y - part.bounds.y));
-    rowHeight = Math.max(rowHeight, part.bounds.height); width = Math.max(width, x + part.bounds.width); x += part.bounds.width + gap;
+    placed.push(translateGeometry(part, x - part.bounds.x, -part.bounds.y));
+    height = Math.max(height, part.bounds.height); width = x + part.bounds.width; x += part.bounds.width + gap;
   }
   // Whole-unit outer extents make a 100% SVG viewport match its viewBox
   // exactly. Fractional CSS viewport rounding otherwise perturbs glyph
@@ -73,7 +71,7 @@ export function layoutGraph(input: MeasuredGraph, options: LayoutOptions): Layou
   // its 0.001-unit precision and every component's original translation.
   return quantizeGeometry({ schemaVersion: GEOMETRY_SCHEMA_VERSION, engineVersion: ENGINE_VERSION,
     profileId: profile.id, inputDigest: options.inputDigest,
-    bounds: { x: 0, y: 0, width: Math.ceil(quantize(width)), height: Math.ceil(quantize(y + rowHeight)) },
+    bounds: { x: 0, y: 0, width: Math.ceil(quantize(width)), height: Math.ceil(quantize(height)) },
     nodes: placed.flatMap((p) => p.nodes).sort((a, b) => compareText(a.id, b.id)),
     ports: placed.flatMap((p) => p.ports).sort((a, b) => compareText(a.id, b.id)),
     edges: placed.flatMap((p) => p.edges).sort((a, b) => compareText(a.id, b.id)),

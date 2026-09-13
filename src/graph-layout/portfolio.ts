@@ -108,7 +108,9 @@ export function layoutDag(graph: MeasuredGraph, options: LayoutOptions): LayoutR
   // Orthogonal refinement has its own operation cap and competes on COMPLETE
   // geometry. If no polyline survives, it may still provide a safe candidate.
   const basis = complete.length ? selectCandidate(complete) : attempted[0];
-  if (basis && graph.edges.length && stats.candidates < profile.candidates - 1) {
+  const orthogonalCapacity = basis?.placement.bands.every((band) =>
+    band.bottom - band.top >= (band.channels + 1) * profile.portSeparation);
+  if (basis && orthogonalCapacity && graph.edges.length && stats.candidates < profile.candidates - 1) {
     const routed = phase("route-orthogonal-inclusive-validation", () => routeOrthogonalCandidates(basis.proper, basis.placement, basis.geometry, profile, { orders: Math.min(2, profile.candidates - stats.candidates - 1) }));
     stats.routingExpansions += routed.expansions; stats.visibilityVertices += routed.visibilityVertices; diagnostics.push(...routed.diagnostics);
     routed.candidates.forEach((geometry, i) => remember(`${basis.id}:orthogonal-${i}`, { ...geometry, profileId: profile.id }, basis.proper, basis.placement));

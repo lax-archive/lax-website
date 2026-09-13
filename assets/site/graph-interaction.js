@@ -187,11 +187,29 @@
     }
     controller.svg = svg;
     controller.camera = { x: 0, y: 0, scale: 1 };
+    controller.fitScrollbars = () => {
+      if (!container.clientWidth || !container.clientHeight) return;
+      const matrix = svg.getScreenCTM();
+      if (!matrix) return;
+      const width = svg.viewBox.baseVal.width * matrix.a * controller.camera.scale;
+      const height = svg.viewBox.baseVal.height * matrix.d * controller.camera.scale;
+      // The SVG keeps its original dimensions for stable coordinates. After
+      // zooming out those dimensions must not force unused scrollbars. Solve
+      // each axis, including space consumed by a scrollbar on the other axis.
+      container.style.overflowX = 'hidden';
+      container.style.overflowY = 'hidden';
+      for (let pass = 0; pass < 2; pass++) {
+        container.style.overflowX = width > container.clientWidth + 1 ? 'auto' : 'hidden';
+        container.style.overflowY = height > container.clientHeight + 1 ? 'auto' : 'hidden';
+      }
+    };
     let frame;
+    let paintedScale;
     const paint = () => {
       frame = null;
       const { x, y, scale } = controller.camera;
       cameraGroup.setAttribute('transform', `translate(${x},${y}) scale(${scale})`);
+      if (scale !== paintedScale) { controller.fitScrollbars(); paintedScale = scale; }
       const output = container.closest('.graph-figure').querySelector('[data-graph-zoom-status]');
       if (output) output.value = `${Math.round(scale * 100)}%`;
       refreshGraphTooltip();
@@ -336,6 +354,7 @@
     const controller = { data, state: data.initial, request: 0 };
     controllers.set(container.id, controller);
     bindView(container, controller, data.views[data.initial].interaction);
+    new ResizeObserver(() => controller.fitScrollbars()).observe(container);
     updateControls(container, controller);
     for (const button of figure.querySelectorAll('[data-graph-zoom]')) {
       button.disabled = false;
