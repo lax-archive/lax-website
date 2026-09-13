@@ -2003,8 +2003,9 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
 .landing-paper-rail > .manuscript-card{ margin: 0 0 0.5rem; }
 /* Above the next box, for a card hanging out below this one. */
 .landing-paper-rail-live > .manuscript-card{ position: absolute; left: 0; right: 0; margin: 0; z-index: 6; }
-.landing-paper-rail-live > .manuscript-card-hover,
 .landing-paper-rail-live > .manuscript-card-expanded{ z-index: 7; }
+.landing-paper-rail-live > .manuscript-card:focus-within{ z-index: 8; }
+.landing-paper-rail-live > .manuscript-card-hover{ z-index: 9; }
 /* Above the cards, until the first hover or tap: what to do, as a pill
    in the accent that no one can miss. The touch wording where there is
    no pointer to hover with. */
@@ -4284,9 +4285,10 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
 .manuscript-rail-live .manuscript-card{ position: absolute; left: 0; right: 0; margin: 0; }
 /* A card open under the pointer takes no room in the rail: it lies over
    the cards below it. A pinned card takes its room. */
-.manuscript-rail-live .manuscript-card-hover,
 .manuscript-rail-live .manuscript-card-expanded{ z-index: 2; }
 .manuscript-rail-live .manuscript-card-pinned{ z-index: 1; }
+.manuscript-rail-live .manuscript-card:focus-within{ z-index: 3; }
+.manuscript-rail-live .manuscript-card-hover{ z-index: 4; }
 .manuscript-rail-static{ max-width: 34rem; }
 
 .manuscript-card{
