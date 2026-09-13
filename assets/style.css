@@ -23,6 +23,10 @@
   src: url('fonts/LM-bold.woff2') format('woff2'); }
 @font-face{ font-family: 'Latin Modern'; font-weight: bold; font-style: italic;
   src: url('fonts/LM-bold-italic.woff2') format('woff2'); }
+@font-face{ font-family: 'Latin Modern Math'; font-weight: 400; font-style: normal;
+  src: url('fonts/LM-math.woff2') format('woff2'); }
+@font-face{ font-family: 'Lax Graph Fallback'; font-weight: 400; font-style: normal;
+  src: url('fonts/Graph-Fallback.woff2') format('woff2'); }
 
 :root{
   --bg: #f8f6f3;
@@ -52,7 +56,7 @@
   --code-bg: #f6f8fb;
   --panel-bg: #faf9f7;
   --neutral-stroke: #9aa3ad;
-  --proof-dep: #8a5aa8;
+  --proof-dep: #d55e00;
   --radius-chip: 2px;
   --radius-control: 4px;
   --radius-card: 7px;
@@ -1690,10 +1694,17 @@ a.submission-meta-id:is(:hover, :focus-visible),
 /* .graph-figure sets its own margin later in the sheet; the box's wins. */
 .landing-how > .landing-network-figure{ margin: 1.4rem auto 2.4rem; }
 .landing-network-figure > .landing-box-caption{
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 1rem;
   margin: 0 0 0.9rem;
-  padding: 1rem 3.4rem 1rem 1.7rem;
+  padding: 1rem 1.7rem;
   border-radius: calc(var(--radius-card) - 1px) calc(var(--radius-card) - 1px) 0 0;
 }
+.landing-network-caption{ flex: 1; min-width: 0; }
+.landing-network-figure .graph-expand{ flex: 0 0 auto; }
+html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility: hidden; }
 
 /* The network is wider than the box: it is centred by landing.js and
    fades out at the sides until the pointer is over it, when the fades
@@ -1728,11 +1739,6 @@ a.submission-meta-id:is(:hover, :focus-visible),
   scrollbar-color: transparent transparent;
   transition: scrollbar-color 220ms ease;
 }
-
-/* The box fits a screen with its caption and legend: on a desktop the
-   graph is scaled down to this height (landing.js) and scrolls sideways;
-   on a phone it is as tall as the graph. */
-.landing-network-figure:not(.graph-expanded) .landing-network-viewport > .figure-container{ max-height: 30rem; }
 
 .landing-network-figure:hover .landing-network-viewport > .figure-container,
 .landing-network-figure:focus-within .landing-network-viewport > .figure-container,
@@ -3585,13 +3591,9 @@ a.submission-meta-id:is(:hover, :focus-visible),
   margin: 0 0 1rem;
 }
 
-/* Expandable concept/proof figures become a large, modal-like window while
+/* Expandable graph figures become a large, modal-like window while
    retaining their original DOM, controls, SVG, and keyboard interaction. */
 .graph-expand{
-  position: absolute;
-  z-index: 30;
-  top: 0.42rem;
-  right: 0.52rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -3609,10 +3611,6 @@ a.submission-meta-id:is(:hover, :focus-visible),
 .graph-expand:focus-visible{ outline: 2px solid rgba(59, 107, 154, 0.35); outline-offset: 2px; }
 .graph-expand svg{ fill: none; stroke: currentColor; stroke-width: 1.35; stroke-linecap: round; stroke-linejoin: round; }
 .graph-expand-close{ display: none; font-family: sans-serif; font-size: 1.25rem; font-weight: 300; line-height: 1; }
-.graph-figure:has(> .graph-expand) > .graph-toolbar{ padding-right: 3rem; }
-/* The proof graph scrolls immediately below the button (there is no toolbar),
-   so leave a little room for its vertical scrollbar. */
-.proof-network-figure > .graph-expand{ right: 1rem; }
 
 body.graph-window-open{ overflow: hidden; }
 body.graph-window-open::after{
@@ -3637,19 +3635,16 @@ body.graph-window-open::after{
 }
 
 .graph-expanded > .figure-container{ flex: 1 1 auto; min-height: 0; height: auto !important; }
-.graph-expanded > .graph-toolbar,
 .graph-expanded > .graph-legend{ flex: 0 0 auto; }
 .graph-expanded .graph-expand-open{ display: none; }
 .graph-expanded .graph-expand-close{ display: block; }
 
-.graph-toolbar{
+.graph-ancestry-controls{
   display: flex;
+  flex: 1 1 auto;
+  flex-wrap: wrap;
   align-items: center;
   gap: 0.7rem;
-  padding: 0.4rem 0.65rem;
-  border-bottom: 1px solid var(--border-light);
-  background: var(--panel-bg);
-  border-radius: var(--radius-card) var(--radius-card) 0 0;
   color: var(--text-dim);
   font-size: 0.76rem;
 }
@@ -3671,7 +3666,7 @@ body.graph-window-open::after{
 .figure-details > summary:hover{ color: var(--link); }
 .figure-details > summary:focus-visible{ outline: 2px solid rgba(59, 107, 154, 0.35); outline-offset: 3px; }
 
-.graph-toolbar button{
+.graph-ancestry-controls button{
   border: 1px solid var(--border);
   border-radius: var(--radius-control);
   background: var(--surface);
@@ -3681,17 +3676,63 @@ body.graph-window-open::after{
   cursor: pointer;
 }
 
-.graph-toolbar button:hover:not(:disabled){ border-color: var(--accent); background: var(--accent-light); }
-.graph-toolbar button:disabled{ color: var(--text-dim); cursor: default; opacity: 0.75; }
-.graph-toolbar output{ margin-left: auto; white-space: nowrap; }
+.graph-ancestry-controls button:hover:not(:disabled){ border-color: var(--accent); background: var(--accent-light); }
+.graph-ancestry-controls button:disabled{ color: var(--text-dim); cursor: default; opacity: 0.75; }
+.graph-ancestry-controls output{ margin-left: auto; }
 
 .figure-container{
   height: 320px;
+  max-height: 720px;
   background: var(--surface);
   overflow: auto;
 }
 
+/* Natural inline height includes a horizontal scrollbar when needed, so it
+   cannot steal space from the graph and force a second, vertical scrollbar. */
+.graph-figure:not(.graph-expanded) .figure-container:has(> .prepared-graph){ height: auto !important; min-height: 48px; }
+.graph-figure:not(.graph-expanded) .figure-container{ max-height: 480px; }
+.graph-expanded .figure-container{ max-height: none; }
+
 .figure-container svg{ display: block; max-width: none; margin: 0 auto; }
+/* Clip at the graph window, not the SVG's original drawing bounds: panning
+   a small graph must be able to use the empty space around its SVG. */
+.figure-container .prepared-graph{ overflow: visible; flex: none; }
+.prepared-graph .graph-label,
+.prepared-graph .graph-dock-number{
+  font-family: 'Latin Modern', 'Latin Modern Math', 'Lax Graph Fallback';
+  font-size: 12px; font-weight: 400; font-style: normal; font-synthesis: none;
+  letter-spacing: 0; line-height: 16px; text-anchor: start;
+  dominant-baseline: auto; font-kerning: normal; white-space: pre;
+  text-rendering: geometricPrecision;
+}
+.prepared-graph .graph-dock-capsule{ stroke: var(--accent); stroke-width: 1.2; fill: var(--none-bg); }
+.prepared-graph .net-dock.proven circle{ fill: var(--proven-bg); }
+.prepared-graph .net-dock.open circle{ fill: var(--partial-bg); }
+.prepared-graph .net-dock.ext circle{ stroke: var(--none-border); }
+.prepared-graph .net-dock:focus-visible circle,
+.prepared-graph .net-dock:hover circle{ stroke: var(--link); stroke-width: 2.4; }
+.graph-turnstile, .graph-port-rail{ fill: none; stroke: var(--text-dim); stroke-width: 1.3; }
+.graph-controls{
+  display: flex; flex: 0 0 auto; flex-wrap: wrap; justify-content: flex-end; align-items: center;
+  gap: 0.6rem; padding: 0.42rem 0.65rem;
+  border-bottom: 1px solid var(--border-light);
+  background: var(--panel-bg);
+  border-radius: var(--radius-card) var(--radius-card) 0 0;
+}
+.graph-zoom-controls{
+  display: flex; align-items: center; gap: 0.2rem;
+  color: var(--text-dim); background: var(--surface); border-radius: var(--radius-control);
+  font-size: 0.72rem;
+}
+.graph-zoom-controls button{
+  height: 1.65rem; min-width: 1.65rem; padding: 0 0.3rem;
+  color: var(--link); background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-control); cursor: pointer; font: inherit;
+}
+.graph-zoom-controls output{ min-width: 2.3rem; text-align: center; }
+html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
+.prepared-graph.graph-dragging{ cursor: grabbing; user-select: none; }
+.graph-local-status{ padding: 1rem; font-size: 0.85rem; }
 .figure-container marker path{
   fill: var(--text-dim);
   fill: context-stroke;
@@ -3740,6 +3781,7 @@ body.graph-window-open::after{
   flex: 0 0 auto;
 }
 .legend-flow-arrow{ width: 12px; height: 8px; flex: 0 0 auto; }
+.proof-flow .legend-flow-arrow{ color: var(--accent); }
 .proof-flow svg{
   fill: none;
   stroke: currentColor;
@@ -3787,11 +3829,13 @@ body.graph-window-open::after{
   padding: 0.55rem 0.65rem;
   border: 1px solid var(--border);
   border-radius: var(--radius-control);
-  background: rgba(248, 250, 252, 0.98);
+  background: rgb(255, 255, 255);
   box-shadow: 0 5px 18px rgba(30, 36, 44, 0.16);
-  color: var(--text);
-  font-family: var(--mono);
-  font-size: 0.68rem;
+  color: #000;
+  width: max-content;
+  font-family: 'Latin Modern', Georgia, serif;
+  font-size: 0.82rem;
+  font-weight: 400;
   line-height: 1.45;
   overflow-wrap: anywhere;
   pointer-events: none;
@@ -3799,26 +3843,16 @@ body.graph-window-open::after{
 
 .graph-tooltip[hidden]{ display: none; }
 
-.proof-network-figure .graph-tooltip{
-  width: max-content;
-  background: rgb(248, 250, 252);
-  font-family: 'Latin Modern', Georgia, serif;
-  font-size: 0.82rem;
-  font-weight: 700;
-}
+.proof-network-figure .graph-tooltip{ font-size: 0.9rem; font-weight: 700; }
 
-.proof-network-figure.graph-expanded .graph-tooltip{
-  background: rgba(248, 250, 252, 0.7);
-}
-
-.proof-network-figure:not(.graph-expanded) .graph-tooltip{
+.graph-figure:not(.graph-expanded) .graph-tooltip{
   position: fixed;
   z-index: 200;
 }
 
-.proof-network-figure .graph-tooltip .katex{ font-weight: inherit; }
+.graph-tooltip .katex{ font-weight: inherit; }
 
-.proof-network-figure .graph-tooltip .katex-display{
+.graph-tooltip .katex-display{
   margin: 0.45rem 0;
 }
 
@@ -3921,9 +3955,9 @@ body.graph-window-open::after{
    The dependent's statements stand on their own and just its proofs reach
    across, so the edge is a distinct hue rather than a status colour — a
    submission map has no proven/open axis to confuse it with. */
-.dag-edge.proof-dep{ stroke: var(--proof-dep); stroke-opacity: 0.75; }
+.dag-edge.proof-dep{ stroke: var(--proof-dep); stroke-opacity: 1; }
 
-/* Hovering or focusing a node lights up its incident edges (dag.js). */
+/* Hover/focus changes only incident-edge classes in graph-interaction.js. */
 .dag-edge.hot,
 .net-edge.hot{
   stroke: var(--link);
@@ -4061,8 +4095,6 @@ body.graph-window-open::after{
   /* The arrows keep their place from the 900px rule: outer edge on the
      screen's edge, and at this size clear of the text inside the frame. */
   .landing-carousel-arrow{ width: 2rem; height: 2rem; font-size: 1.5rem; }
-  /* The page scrolls through the network; the graph only sideways. */
-  .landing-network-figure:not(.graph-expanded) .landing-network-viewport > .figure-container{ height: auto !important; max-height: none; overflow-y: hidden; }
   .landing-columns{ grid-template-columns: 1fr; gap: 1.4rem; }
   .landing-foundation{ width: 100%; }
   .landing-hero-button{ width: 100%; }
