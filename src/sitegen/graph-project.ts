@@ -24,7 +24,7 @@ export interface FlatGraphInput {
   edges: readonly { from: string; to: string; kind?: string; id?: string }[];
 }
 export interface ProofGraphData {
-  statements: readonly StatementGraphInput[]; proofs: readonly ProofGraphInput[];
+  statements: readonly StatementGraphInput[]; proofs: readonly ProofGraphInput[]; home?: string;
 }
 export interface DisplayDock {
   id: string; statementId: string; ordinal: number; href?: string;
@@ -72,6 +72,15 @@ function link(href: string | undefined): string | undefined {
   if (/^(?:[a-z][a-z0-9+.-]*:|\/\/)/i.test(href) || /[\u0000-\u001f]/.test(href))
     diagnostic("graph-link", "Graph navigation must be a relative public page URL");
   return href;
+}
+
+/** Keep proof-network labels consistent with the former renderer: identifiers
+ * are concise in the drawing, while the human title remains in its hover
+ * panel. The full identifier is still present in the SVG accessibility name. */
+function proofLabel(statement: StatementGraphInput, home: string | undefined): string {
+  const full = statement.label || statement.id;
+  const local = home && full.startsWith(`${home}.`) ? full.slice(home.length + 1) : full;
+  return local.length > 28 ? `${local.slice(0, 27)}…` : local;
 }
 
 export function projectGraph(kind: GraphKind, input: FlatGraphInput | ProofGraphData): DisplayGraph {
@@ -124,7 +133,7 @@ export function projectGraph(kind: GraphKind, input: FlatGraphInput | ProofGraph
         }
       }
       addNode({ id, semanticId: multiple ? concept : sample.id, kind: multiple || sample.endpointKind === "concept" ? "concept" : "statement",
-        label: title(sample.title, sample.label ?? concept), href: link(multiple ? sample.href?.split("#")[0] : sample.href),
+        label: proofLabel(sample, data.home), href: link(multiple ? sample.href?.split("#")[0] : sample.href),
         tooltipHtml: sample.tooltipHtml, status: statementMembers.length
           ? statementMembers.every((m) => m.proven) ? "proven" : "open"
           : sample.status ?? (sample.proven ? "proven" : "open"),
@@ -170,9 +179,6 @@ export function projectGraph(kind: GraphKind, input: FlatGraphInput | ProofGraph
     for (const edge of [...(input as FlatGraphInput).edges].sort((a, b) => compareText(`${a.from}\0${a.to}\0${a.kind ?? ""}\0${a.id ?? ""}`, `${b.from}\0${b.to}\0${b.kind ?? ""}\0${b.id ?? ""}`)))
       addEdge(edge.from, edge.to, edge.kind ?? "import", edge.id ?? `${edge.from}->${edge.to}:${edge.kind ?? "import"}`);
   }
-  const labelCounts = new Map<string, number>();
-  for (const node of nodes) if (node.kind !== "proof") labelCounts.set(node.label, (labelCounts.get(node.label) ?? 0) + 1);
-  for (const node of nodes) if (node.kind !== "proof" && labelCounts.get(node.label)! > 1) node.label += `\n${node.semanticId}`;
   return deepFreeze({ kind, nodes: nodes.sort((a, b) => compareText(a.id, b.id)), edges: edges.sort((a, b) => compareText(a.id, b.id)), mapping });
 }
 

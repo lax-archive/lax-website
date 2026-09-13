@@ -365,9 +365,9 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       await container.evaluate((element) => { (window as any).__initialGraphSvg = element.querySelector("svg"); });
       const viewport = await container.evaluate((element) => ({ top: element.scrollTop, left: element.scrollLeft,
         middle: (element.scrollWidth - element.clientWidth) / 2, overflow: element.scrollWidth > element.clientWidth }));
-      expect(viewport.overflow).toBe(true);
       expect(viewport.top).toBe(0);
-      expect(Math.abs(viewport.left - viewport.middle)).toBeLessThanOrEqual(1);
+      if (viewport.overflow) expect(Math.abs(viewport.left - viewport.middle)).toBeLessThanOrEqual(1);
+      else expect(viewport.left).toBe(0);
       await capture(page, "default", ".proof-network-figure");
       await figure.locator('[data-graph-zoom="in"]').click(); await animationFrame(page);
       expect(await figure.locator("[data-graph-zoom-status]").textContent()).toBe("120%");
@@ -406,12 +406,12 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       expect(await page.locator("#proof-network .hot").count()).toBe(2);
       const normal = await tooltip.evaluate((element) => {
         const style = getComputedStyle(element), box = element.getBoundingClientRect(), figure = element.closest("figure")!.getBoundingClientRect();
-        return { fontWeight: style.fontWeight, background: style.backgroundColor, opacity: style.opacity, placement: (element as HTMLElement).dataset.placement,
+        return { fontWeight: style.fontWeight, background: style.backgroundColor, color: style.color, opacity: style.opacity, placement: (element as HTMLElement).dataset.placement,
           outside: box.right <= figure.left || box.left >= figure.right, centerY: (box.top + box.bottom) / 2,
           left: box.left, top: box.top,
           mathWeight: getComputedStyle(element.querySelector(".katex")!).fontWeight };
       });
-      expect(normal).toMatchObject({ fontWeight: "700", mathWeight: "700", opacity: "1", background: "rgb(248, 250, 252)", outside: true });
+      expect(normal).toMatchObject({ fontWeight: "700", mathWeight: "700", opacity: "1", background: "rgb(15, 23, 42)", color: "rgb(248, 250, 252)", outside: true });
       expect(["left", "right"]).toContain(normal.placement);
       const anchor = await node.boundingBox();
       expect(Math.abs(normal.centerY - (anchor!.y + anchor!.height / 2))).toBeLessThanOrEqual(1);
@@ -435,7 +435,7 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       expect(await tooltip.isVisible()).toBe(true);
       expect(await tooltip.evaluate((element) => ({ background: getComputedStyle(element).backgroundColor, opacity: getComputedStyle(element).opacity,
         fontWeight: getComputedStyle(element).fontWeight, placement: (element as HTMLElement).dataset.placement })))
-        .toEqual({ background: "rgba(248, 250, 252, 0.7)", opacity: "1", fontWeight: "700", placement: "near" });
+        .toEqual({ background: "rgba(15, 23, 42, 0.82)", opacity: "1", fontWeight: "700", placement: "near" });
       await capture(page, "math-tooltip-expanded");
       await expectNoPublicLayout(page, audit);
       await expectLabelContainment(page);

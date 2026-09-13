@@ -24,12 +24,20 @@ describe("semantic display projection", () => {
     expect(projected.nodes.filter((n) => n.kind === "proof")).toHaveLength(2);
     expect(projected.edges).toHaveLength(5);
     const concept = projected.nodes.find((n) => n.id === "c:c")!;
+    expect(concept.label).toBe("c.s1");
+    expect(projected.nodes.find((n) => n.id === "s:d.s")!.label).toBe("d.s");
     expect(concept.docks.map((d) => [d.statementId, d.ordinal])).toEqual([["c.s1", 1], ["c.s2", 2]]);
     expect(concept.ports.map((p) => p.semanticEndpointId).sort()).toEqual(["c", "c.s1", "c.s2"]);
     const measured = measureDisplayGraph(projected, fixtureLabels(projected));
     const docks = measured.graph.nodes.find((n) => n.id === concept.id)!.ports;
     expect(docks.every((p) => p.mode === "fixed-position")).toBe(true);
     expect(new Set(docks.map((p) => p.offset!.x)).size).toBe(3);
+  });
+  it("uses shortened, bounded identifiers for proof-node labels", () => {
+    const display = projectGraph("proofs", { home: "lax-1", statements: [
+      { id: "lax-1.a", label: "lax-1.A descriptive proof-network identifier", title: "Human title" },
+    ], proofs: [] });
+    expect(display.nodes[0]!.label).toBe("A descriptive proof-network…");
   });
   it("measures dock ink, preserves fixed statement attachments, and diagnoses absent ordinal metrics", () => {
     const display = dockInkFixture(), labels = fixtureLabels(display);
