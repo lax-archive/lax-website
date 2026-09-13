@@ -990,17 +990,17 @@
         {
           "id": "Lax54.AveragingLemma",
           "title": "Sparse graph thinning lemma",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax54.BipartiteCombLemma",
           "title": "Bipartite comb lemma",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax54.CriticalCombInput",
           "title": "Quantitative critical-comb consequence",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax54.ErdosHajnalC5",
@@ -1015,17 +1015,17 @@
         {
           "id": "Lax54.KeyCombLemma",
           "title": "Stable hubbed comb in a critical graph",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax54.MaximumDegreeReduction",
           "title": "Maximum-degree form of Rödl's theorem",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax54.RodlTheorem",
           "title": "Rödl's theorem for induced-subgraph-free graphs",
-          "type": "theorem"
+          "type": "lemma"
         }
       ],
       "proofs": [
