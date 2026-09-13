@@ -127,7 +127,7 @@
     {
       "id": "lax-9",
       "state": "draft",
-      "environment": "v4.30.0",
+      "environment": "v4.33.0",
       "title": "χ-Boundedness and Neighbourhood Complexity of Bounded Merge-Width Graphs",
       "concepts": [
         {
@@ -164,7 +164,7 @@
     {
       "id": "lax-10",
       "state": "draft",
-      "environment": "v4.30.0",
+      "environment": "v4.33.0",
       "title": "Graphs without a 3-Connected Subgraph are 4-Colourable",
       "concepts": [
         {
