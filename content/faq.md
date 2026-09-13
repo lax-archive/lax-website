@@ -13,7 +13,7 @@ what happens at each step? See [Getting started](contributing.html).
 In Merely True and Tau Ceti, individual contributions blend into a shared
 library. Lax keeps each submission as a distinct, citable unit. This is closer
 to academic publishing culture: a submission can be cited directly or attached
-— anonymously, if needed — to a conference or journal submission for review.
+to a conference or journal submission for review, anonymously if needed.
 
 Like Lean Pool and the [Palomar Registry](https://palomar-registry.org/), Lax
 archives individual submissions. The important difference is that Lax

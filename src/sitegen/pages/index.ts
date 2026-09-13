@@ -385,8 +385,8 @@ function landingFaqCopy(source: string): {
 
 function landingFaq(source: string, markdown: PageContext["markdown"]): string {
   const faq = landingFaqCopy(source);
-  const items = faq.items.map(({ question, answer }, index) => `<li class="landing-faq-list-item"><details class="landing-faq-item">
-<summary><span class="landing-faq-question"><span class="landing-faq-number" aria-hidden="true">${String(index + 1).padStart(2, "0")}</span><span>${esc(question)}</span></span><span class="landing-faq-toggle" aria-hidden="true"></span></summary>
+  const items = faq.items.map(({ question, answer }) => `<li class="landing-faq-list-item"><details class="landing-faq-item">
+<summary><span class="landing-faq-question">${esc(question)}</span><span class="landing-faq-toggle" aria-hidden="true"></span></summary>
 <div class="landing-faq-answer latex-content">
 ${markdown.render(answer, "")}
 </div>
