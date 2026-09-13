@@ -47,7 +47,14 @@
       const style = getComputedStyle(tooltip);
       const padding = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight) + 2;
       const mathWidth = Math.max(0, ...[...tooltip.querySelectorAll('.katex-html')]
-        .map((math) => math.getBoundingClientRect().width));
+        .map((math) => {
+          // Display math's block fills the panel, even for a short formula.
+          // Measure its contents so that this stretched wrapper does not
+          // incorrectly rule out a side margin beside the hovered node.
+          const contents = document.createRange();
+          contents.selectNodeContents(math);
+          return contents.getBoundingClientRect().width;
+        }));
       const minWidth = Math.min(tooltip.offsetWidth, Math.max(140, mathWidth + padding));
       for (const side of sides) {
         if (side.space < minWidth) continue;
