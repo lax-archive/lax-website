@@ -1690,9 +1690,10 @@ a.submission-meta-id:is(:hover, :focus-visible),
 .landing-box{ width: min(100%, 60em); margin: 1.5rem auto 2rem; }
 /* In the large window the network's box fills the screen like any graph's. */
 .landing-box.graph-expanded{ width: auto; }
-.landing-how > .landing-paper{ margin: 1.5rem auto 3rem; }
+.landing-how > .landing-paper{ margin: 0 auto 3rem; }
 /* .graph-figure sets its own margin later in the sheet; the box's wins. */
 .landing-how > .landing-network-figure{ margin: 1.5rem auto 2rem; }
+.landing-network-figure{ box-shadow: 0 10px 28px rgba(43, 43, 43, 0.06); }
 .landing-network-figure > .landing-box-caption{
   display: flex;
   flex: 0 0 auto;
@@ -1857,6 +1858,7 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
   background: var(--surface);
   border: var(--frame-border) solid var(--border);
   border-radius: var(--radius-card);
+  box-shadow: 0 10px 28px rgba(43, 43, 43, 0.06);
 }
 
 /* The way in, centred under both columns, below the rail's closed
@@ -1918,10 +1920,21 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
    the paper; the panel keeps the boxes' shared width and place. */
 @media (min-width: 1200px){
   .landing-paper-grid{ grid-template-columns: minmax(0, 1fr) minmax(21rem, 44%); }
+  .landing-paper-rail > .manuscript-card{ box-shadow: 0 6px 18px rgba(43, 43, 43, 0.12); }
   .landing-paper-rail .manuscript-card-expanded{ box-shadow: 0 10px 26px rgba(43, 43, 43, 0.16); }
 }
 
-.landing-paper-doc{ position: relative; min-width: 0; }
+/* The context fades at the crop's edges, as if the paper continued. */
+.landing-paper-before{
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 3rem);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 3rem);
+}
+.landing-paper-after{
+  -webkit-mask-image: linear-gradient(to top, transparent 0, #000 5.6rem);
+  mask-image: linear-gradient(to top, transparent 0, #000 5.6rem);
+}
+
+.landing-paper-doc{ position: relative; min-width: 0; grid-column: 1; grid-row: 1; }
 
 .landing-paper-prose{
   font-size: 0.94rem;
@@ -1977,6 +1990,7 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
   font-weight: 700;
   line-height: 1.2;
   text-decoration: none;
+  box-shadow: 0 4px 12px rgba(44, 95, 138, 0.12);
   transition: background 120ms ease, transform 140ms ease;
 }
 
@@ -1985,7 +1999,8 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
 .landing-paper-more:focus-visible{ background: var(--accent-light); transform: translateY(-2px); outline: none; }
 .landing-paper-more:focus-visible{ box-shadow: 0 0 0 3px rgba(59, 107, 154, 0.18), 0 4px 12px rgba(44, 95, 138, 0.12); }
 
-.landing-paper-rail{ position: relative; min-width: 0; }
+.landing-paper-rail{ position: relative; min-width: 0; grid-column: 2; grid-row: 1; }
+.landing-paper-rail:not(.landing-paper-rail-live){ padding-top: 3.5rem; }
 .landing-paper-rail > .manuscript-card{ margin: 0 0 0.5rem; }
 /* Above the next box, for a card hanging out below this one. */
 .landing-paper-rail-live > .manuscript-card{ position: absolute; left: 0; right: 0; margin: 0; z-index: 6; }
@@ -1998,10 +2013,11 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
 .landing-paper-hint{
   position: relative;
   z-index: 5;
-  grid-column: 1 / -1;
+  grid-column: 2;
+  grid-row: 1;
   display: flex;
   justify-content: center;
-  margin: 0 0 0.75rem;
+  margin: 0;
   padding: 0.2rem 0;
   transition: opacity 260ms ease;
 }
@@ -2050,6 +2066,7 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
   background: var(--panel-bg);
   border: 1px solid var(--border);
   border-radius: var(--radius-card);
+  box-shadow: 0 6px 18px rgba(43, 43, 43, 0.05);
 }
 
 .landing-section-box > .landing-section-copy{
@@ -2094,6 +2111,7 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
 .landing-setup-tab[aria-selected="true"]{
   background: var(--surface);
   color: var(--accent);
+  box-shadow: 0 1px 4px rgba(43, 43, 43, 0.14);
 }
 
 .landing-setup-tab:hover{ color: var(--accent); }
@@ -2239,12 +2257,10 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
 
 .landing-action-panels{
   display: grid;
-  gap: 1rem;
+  gap: 0;
   margin-top: 3rem;
   min-width: 0;
 }
-
-.landing-action-panels > .landing-section-title{ margin-bottom: 0; }
 
 .landing-action-panel{
   scroll-margin-top: calc(var(--header-height) + 1rem);
@@ -2290,7 +2306,7 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
 /* The FAQ is intentionally a native disclosure list: it works without
    JavaScript and exposes its expanded state to assistive technology. */
 /* The FAQ's title stands above its panel like every section's. */
-#detail .landing-action-panels > .landing-faq-title{ margin-top: 2rem; }
+#detail .landing-action-panels > .landing-faq-title{ margin-top: 3rem; }
 
 .landing-faq{
   overflow: hidden;
@@ -2300,6 +2316,7 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-card);
+  box-shadow: 0 10px 28px rgba(43, 43, 43, 0.06);
   scroll-margin-top: calc(var(--header-height) + 1rem);
 }
 
@@ -4063,6 +4080,10 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
   .landing-manifesto, .landing-section-copy{ font-size: 0.98rem; }
   .landing-paper-frame{ --frame-pad-top: 1rem; --frame-pad-right: 1rem; --frame-pad-left: 1rem; padding-bottom: 1rem; }
   .landing-paper-grid{ grid-template-columns: 1fr; row-gap: 0.9rem; }
+  .landing-paper-hint{ grid-column: 1; grid-row: 1; justify-content: flex-end; }
+  .landing-paper-doc{ grid-column: 1; grid-row: 2; }
+  .landing-paper-rail{ grid-column: 1; grid-row: 3; }
+  .landing-paper-rail:not(.landing-paper-rail-live){ padding-top: 0; }
   .landing-paper-rail-live > .manuscript-card{ position: static; margin: 0 0 0.5rem; }
   .landing-paper-prose, .landing-passage{ text-align: left; }
   /* The caption takes the box's width; the dots sit at the top right,
@@ -4276,6 +4297,7 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
   background: var(--surface);
   border: 1px solid var(--border-light);
   border-radius: var(--radius-control);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
   font-size: 0.82rem;
   line-height: 1.45;
   cursor: pointer;
