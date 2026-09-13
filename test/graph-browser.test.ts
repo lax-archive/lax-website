@@ -394,7 +394,40 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
     });
   }, 30_000);
 
-  it("keeps math tooltips bold, legible and outside the normal proof window on hover and keyboard focus", async () => {
+  it("keeps panned maps visible beyond their original SVG bounds and uses one shared banner", async () => {
+    await visit(url("Lax701/index.html"), async (page) => {
+      await openConcepts(page);
+      for (const [id, directions] of [["concept-dag", [[0, 180]]], ["submission-dag", [[250, 0], [-250, 0]]]] as const) {
+        const container = page.locator(`#${id}`), figure = container.locator("xpath=..");
+        expect(await figure.locator(":scope > .graph-controls").count()).toBe(1);
+        expect(await figure.locator(".graph-toolbar").count()).toBe(0);
+        expect(await figure.locator(".graph-controls").evaluate((el) => getComputedStyle(el).backgroundColor)).toBe("rgb(250, 249, 247)");
+        await figure.locator("[data-graph-expand]").click(); await animationFrame(page);
+        const svg = container.locator("svg.prepared-graph"), node = svg.locator("[data-node-id]").first();
+        for (const [dx, dy] of directions) {
+          await figure.locator('[data-graph-zoom="reset"]').click(); await animationFrame(page);
+          const box = (await svg.boundingBox())!;
+          await page.mouse.move(box.x + 2, box.y + 2);
+          await page.mouse.down();
+          await page.mouse.move(box.x + 2 + dx, box.y + 2 + dy, { steps: 4 });
+          await page.mouse.up(); await animationFrame(page);
+          const visible = await node.evaluate((el) => {
+            const box = el.getBoundingClientRect();
+            return el.contains(document.elementFromPoint(box.left + box.width / 2, box.top + box.height / 2));
+          });
+          expect(visible).toBe(true);
+        }
+        await node.focus(); await animationFrame(page);
+        const tooltip = figure.locator(".graph-tooltip");
+        expect(await tooltip.evaluate((el) => getComputedStyle(el).fontWeight)).toBe("400");
+        expect(await tooltip.locator("strong").first().evaluate((el) => getComputedStyle(el).fontWeight)).toBe("700");
+        expect(await tooltip.evaluate((el) => getComputedStyle(el).backgroundColor)).toBe("rgb(255, 255, 255)");
+        await page.keyboard.press("Escape"); await animationFrame(page);
+      }
+    });
+  }, 30_000);
+
+  it("keeps math tooltips legible and outside the normal proof window on hover and keyboard focus", async () => {
     await visit(url(), async (page, audit) => {
       const figure = page.locator(".proof-network-figure"), tooltip = figure.locator(".graph-tooltip");
       const node = page.locator(`#proof-network [data-node-id="${proofId}"]`);
@@ -411,7 +444,7 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
           left: box.left, top: box.top,
           mathWeight: getComputedStyle(element.querySelector(".katex")!).fontWeight };
       });
-      expect(normal).toMatchObject({ fontWeight: "700", mathWeight: "700", opacity: "1", background: "rgb(255, 255, 255)", outside: true });
+      expect(normal).toMatchObject({ fontWeight: "400", mathWeight: "400", opacity: "1", background: "rgb(255, 255, 255)", outside: true });
       expect(["left", "right"]).toContain(normal.placement);
       const anchor = await node.boundingBox();
       expect(Math.abs(normal.centerY - (anchor!.y + anchor!.height / 2))).toBeLessThanOrEqual(1);
@@ -434,7 +467,7 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       await node.hover(); await animationFrame(page);
       expect(await tooltip.isVisible()).toBe(true);
       expect(await page.locator('.prepared-graph title, .prepared-graph [title]').count()).toBe(0);
-      expect(await tooltip.evaluate((element) => getComputedStyle(element).backgroundColor)).toBe("rgba(255, 255, 255, 0.7)");
+      expect(await tooltip.evaluate((element) => getComputedStyle(element).backgroundColor)).toBe("rgb(255, 255, 255)");
       await expectNoPublicLayout(page, audit);
       await expectLabelContainment(page);
     });

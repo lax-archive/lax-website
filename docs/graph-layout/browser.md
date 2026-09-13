@@ -77,9 +77,11 @@ All engines run the same nine cases:
 4. Hover and focus highlight incident edges and show the white inspector:
    proof descriptions/title math, concept/status/submission fields, or
    submission/contents/state/relation fields. Normal inspectors sit outside
-   the graph at the node's vertical center; expanded views use a translucent
-   white panel nearby. SVG accessibility names do not trigger native tooltips.
-   Every graph has a separate zoom/expand control row above its viewport.
+   the graph at the node's vertical center; expanded views use an opaque
+   white panel nearby. Only field names are bold. SVG accessibility names do
+   not trigger native tooltips. Every graph has one matching control banner
+   above its viewport, including ancestry controls where applicable. Panning
+   clips at the window rather than at the original SVG drawing bounds.
 5. Delayed font requests do not change reserved graph dimensions or geometry.
    Once fonts load, independently read SVG text bounds fit their containing
    node bodies and numbered docks. The visible labels remain 12px in the

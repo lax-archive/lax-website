@@ -150,8 +150,7 @@ ${externalConcepts}
 ${output.concepts.length ? `<details class="figure-details">
 <summary>Concept map</summary>
 <figure class="graph-figure">
-${graphExpandButton("concept map")}
-<div class="graph-toolbar"><button type="button" id="concept-expand" aria-controls="concept-dag" aria-pressed="true">Hide ancestors</button><button type="button" id="concept-descend" aria-controls="concept-dag" aria-pressed="false">Show descendants</button><output id="concept-graph-status" aria-live="polite"></output></div>
+${graphExpandButton("concept map", true)}
 <div id="concept-dag" class="figure-container" data-graph="concepts" data-ancestry="true"></div>
 ${graphTooltip()}
 ${conceptMapLegend(graphs.concepts, "This submission", "Other submission")}
