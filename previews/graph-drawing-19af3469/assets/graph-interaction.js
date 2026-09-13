@@ -2,24 +2,25 @@
 // run before publication. No graph library or custom search engine is loaded.
 (() => {
   'use strict';
-  let activeProofTooltip = null;
-  let proofTooltipFrame;
+  let activeGraphTooltip = null;
+  let graphTooltipFrame;
 
   function figureTooltip(container) {
     const figure = container.closest('.graph-figure');
     return figure ? figure.querySelector('.graph-tooltip') : null;
   }
 
-  function positionProofTooltip(element, tooltip, figure) {
+  function positionGraphTooltip(element, tooltip, figure) {
     const gap = 8;
     const inset = 8;
     const figureBox = figure.getBoundingClientRect();
     const expanded = figure.classList.contains('graph-expanded');
+    const plotBox = figure.querySelector('.figure-container').getBoundingClientRect();
     const frame = {
       left: expanded ? Math.max(inset, figureBox.left + inset) : inset,
       right: Math.min(window.innerWidth - inset, expanded ? figureBox.right - inset : Infinity),
-      top: Math.max(inset, (expanded ? figureBox.top : document.querySelector('.site-header')?.getBoundingClientRect().bottom || 0) + inset),
-      bottom: Math.min(window.innerHeight - inset, expanded ? figureBox.bottom - inset : Infinity),
+      top: Math.max(inset, (expanded ? plotBox.top : document.querySelector('.site-header')?.getBoundingClientRect().bottom || 0) + inset),
+      bottom: Math.min(window.innerHeight - inset, expanded ? plotBox.bottom - inset : Infinity),
     };
     tooltip.style.maxWidth = Math.min(390, frame.right - frame.left) + 'px';
     const anchor = element.getBoundingClientRect();
@@ -136,74 +137,23 @@
       hideTooltip(container);
       return;
     }
-    if (container.dataset.graph === 'proofs') {
-      // The inline proof-network inspector belongs outside the graph. A
-      // maximized window leaves its nodes unobstructed rather than opening a
-      // second rectangle beside the hovered node.
-      if (figure.classList.contains('graph-expanded')) {
-        hideTooltip(container);
-        return;
-      }
-      positionProofTooltip(element, tooltip, figure);
-      activeProofTooltip = { container, element, tooltip, figure };
-      document.fonts?.ready.then(refreshProofTooltip);
-      return;
-    }
-    const figureBox = figure.getBoundingClientRect();
-    const elementBox = element.getBoundingClientRect();
-
-    // Anchor the panel to the node rather than to the pointer. Prefer above,
-    // then below, then either side; every placement keeps a gap around the
-    // node, including the fallback when the panel cannot fit inside the
-    // figure. This also keeps the panel still while the pointer crosses the
-    // node's text and rectangle.
-    const inset = 8;
-    const gap = 10;
-    const elementLeft = elementBox.left - figureBox.left;
-    const elementRight = elementBox.right - figureBox.left;
-    const elementTop = elementBox.top - figureBox.top;
-    const elementBottom = elementBox.bottom - figureBox.top;
-    const maxLeft = Math.max(inset, figureBox.width - tooltip.offsetWidth - inset);
-    let left = Math.max(inset, Math.min(
-      (elementLeft + elementRight - tooltip.offsetWidth) / 2,
-      maxLeft,
-    ));
-    const above = elementTop - tooltip.offsetHeight - gap;
-    const below = elementBottom + gap;
-    let top;
-
-    if (above >= inset) {
-      top = above;
-    } else if (below + tooltip.offsetHeight <= figureBox.height - inset) {
-      top = below;
-    } else {
-      const maxTop = Math.max(inset, figureBox.height - tooltip.offsetHeight - inset);
-      top = Math.max(inset, Math.min(
-        (elementTop + elementBottom - tooltip.offsetHeight) / 2,
-        maxTop,
-      ));
-      const right = elementRight + gap;
-      const leftOfNode = elementLeft - tooltip.offsetWidth - gap;
-      if (right + tooltip.offsetWidth <= figureBox.width - inset) left = right;
-      else if (leftOfNode >= inset) left = leftOfNode;
-      else top = elementTop < figureBox.height / 2 ? below : above;
-    }
-    tooltip.style.left = left + 'px';
-    tooltip.style.top = top + 'px';
+    positionGraphTooltip(element, tooltip, figure);
+    activeGraphTooltip = { container, element, tooltip, figure };
+    document.fonts?.ready.then(refreshGraphTooltip);
   }
 
   function hideTooltip(container) {
     const tooltip = figureTooltip(container);
     if (tooltip) tooltip.hidden = true;
-    if (activeProofTooltip?.container === container) activeProofTooltip = null;
+    if (activeGraphTooltip?.container === container) activeGraphTooltip = null;
   }
 
-  function refreshProofTooltip() {
-    if (!activeProofTooltip) return;
-    cancelAnimationFrame(proofTooltipFrame);
-    proofTooltipFrame = requestAnimationFrame(() => {
-      if (!activeProofTooltip) return;
-      const { container, element, tooltip, figure } = activeProofTooltip;
+  function refreshGraphTooltip() {
+    if (!activeGraphTooltip) return;
+    cancelAnimationFrame(graphTooltipFrame);
+    graphTooltipFrame = requestAnimationFrame(() => {
+      if (!activeGraphTooltip) return;
+      const { container, element, tooltip, figure } = activeGraphTooltip;
       const node = element.getBoundingClientRect();
       const plot = container.getBoundingClientRect();
       if (node.right <= Math.max(0, plot.left) || node.left >= Math.min(window.innerWidth, plot.right) ||
@@ -211,7 +161,7 @@
         hideTooltip(container);
         return;
       }
-      positionProofTooltip(element, tooltip, figure);
+      positionGraphTooltip(element, tooltip, figure);
     });
   }
 
@@ -244,7 +194,7 @@
       cameraGroup.setAttribute('transform', `translate(${x},${y}) scale(${scale})`);
       const output = container.closest('.graph-figure').querySelector('[data-graph-zoom-status]');
       if (output) output.value = `${Math.round(scale * 100)}%`;
-      refreshProofTooltip();
+      refreshGraphTooltip();
     };
     controller.paint = () => { if (!frame) frame = requestAnimationFrame(paint); };
     controller.zoom = (factor, clientPoint) => {
@@ -273,7 +223,7 @@
       element.addEventListener('mouseleave', cold);
       element.addEventListener('focus', hot);
       element.addEventListener('blur', cold);
-      attachTooltip(element, container, info.label, info.tooltipHtml);
+      attachTooltip(element, container, info.tooltipRows ?? info.label, info.tooltipHtml);
     }
     let drag = null;
     svg.addEventListener('pointerdown', (event) => {
@@ -428,8 +378,8 @@
         if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
       }
     });
-    window.addEventListener('scroll', refreshProofTooltip, { capture: true, passive: true });
-    window.addEventListener('resize', refreshProofTooltip, { passive: true });
+    window.addEventListener('scroll', refreshGraphTooltip, { capture: true, passive: true });
+    window.addEventListener('resize', refreshGraphTooltip, { passive: true });
     document.documentElement.classList.add('graphs-interactive');
   }
   // Local preparation dispatches the same interaction install after its worker
