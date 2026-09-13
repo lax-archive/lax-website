@@ -1693,7 +1693,7 @@ a.submission-meta-id:is(:hover, :focus-visible),
 .landing-how > .landing-paper{ margin: 0 auto 3rem; }
 /* .graph-figure sets its own margin later in the sheet; the box's wins. */
 .landing-how > .landing-network-figure{ margin: 1.5rem auto 2rem; }
-.landing-network-figure{ box-shadow: 0 10px 28px rgba(43, 43, 43, 0.06); }
+.graph-figure.landing-network-figure{ border-width: 2px; box-shadow: 0 10px 28px rgba(43, 43, 43, 0.06); }
 .landing-network-figure > .landing-box-caption{
   display: flex;
   flex: 0 0 auto;
@@ -1701,7 +1701,7 @@ a.submission-meta-id:is(:hover, :focus-visible),
   gap: 1rem;
   margin: 0 0 1rem;
   padding: 1rem 1.5rem;
-  border-radius: calc(var(--radius-card) - 1px) calc(var(--radius-card) - 1px) 0 0;
+  border-radius: calc(var(--radius-card) - 2px) calc(var(--radius-card) - 2px) 0 0;
 }
 .landing-network-caption{ flex: 1; min-width: 0; }
 .landing-network-figure .graph-expand{ flex: 0 0 auto; }
@@ -2064,7 +2064,7 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
   width: 100%;
   padding: 1.5rem clamp(1rem, 3vw, 2rem) 1.5rem;
   background: var(--surface);
-  border: 1px solid var(--border);
+  border: 2px solid var(--border);
   border-radius: var(--radius-card);
   box-shadow: 0 6px 18px rgba(43, 43, 43, 0.05);
 }
@@ -2267,7 +2267,7 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
   min-width: 0;
   padding: 1.35rem 1.45rem 1.5rem;
   background: var(--surface);
-  border: 1px solid var(--border);
+  border: 2px solid var(--border);
   border-radius: var(--radius-card);
   box-shadow: 0 10px 28px rgba(43, 43, 43, 0.06);
 }
@@ -2314,7 +2314,7 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
   width: 100%;
   margin: 0;
   background: var(--surface);
-  border: 1px solid var(--border);
+  border: 2px solid var(--border);
   border-radius: var(--radius-card);
   box-shadow: 0 10px 28px rgba(43, 43, 43, 0.06);
   scroll-margin-top: calc(var(--header-height) + 1rem);
