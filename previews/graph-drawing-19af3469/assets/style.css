@@ -3821,11 +3821,11 @@ html:not(.graphs-interactive) .graph-expand{ display: none; }
   z-index: 20;
   max-width: min(390px, calc(100% - 16px));
   padding: 0.55rem 0.65rem;
-  border: 1px solid rgb(15, 23, 42);
+  border: 1px solid var(--border);
   border-radius: var(--radius-control);
-  background: rgb(15, 23, 42);
-  box-shadow: 0 5px 18px rgba(15, 23, 42, 0.32);
-  color: rgb(248, 250, 252);
+  background: rgba(248, 250, 252, 0.98);
+  box-shadow: 0 5px 18px rgba(30, 36, 44, 0.16);
+  color: var(--text);
   font-family: var(--mono);
   font-size: 0.68rem;
   line-height: 1.45;
@@ -3837,13 +3837,10 @@ html:not(.graphs-interactive) .graph-expand{ display: none; }
 
 .proof-network-figure .graph-tooltip{
   width: max-content;
+  background: rgb(248, 250, 252);
   font-family: 'Latin Modern', Georgia, serif;
   font-size: 0.82rem;
   font-weight: 700;
-}
-
-.proof-network-figure.graph-expanded .graph-tooltip{
-  background: rgba(15, 23, 42, 0.82);
 }
 
 .proof-network-figure:not(.graph-expanded) .graph-tooltip{

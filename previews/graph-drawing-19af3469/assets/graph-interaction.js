@@ -137,6 +137,13 @@
       return;
     }
     if (container.dataset.graph === 'proofs') {
+      // The inline proof-network inspector belongs outside the graph. A
+      // maximized window leaves its nodes unobstructed rather than opening a
+      // second rectangle beside the hovered node.
+      if (figure.classList.contains('graph-expanded')) {
+        hideTooltip(container);
+        return;
+      }
       positionProofTooltip(element, tooltip, figure);
       activeProofTooltip = { container, element, tooltip, figure };
       document.fonts?.ready.then(refreshProofTooltip);
