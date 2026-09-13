@@ -278,6 +278,8 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
         const reference = expected.find((value) => value.id === entry.id)!;
         expect(entry.lines).toHaveLength(reference.lines.length);
         entry.lines.forEach((line, i) => {
+          if (!entry.id!.startsWith("dock:"))
+            expect(line.ink.x + line.ink.width / 2).toBeCloseTo(reference.bounds.x + reference.bounds.width / 2, 1);
           expect(line.text).toBe(reference.lines[i]!.text);
           expect(line.x).toBe(reference.lines[i]!.x); expect(line.y).toBe(reference.lines[i]!.y);
           // Only the pinned measurement engine promises identical glyph boxes.
@@ -536,6 +538,10 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
   it("keeps math tooltips legible and outside the normal proof window on hover and keyboard focus", async () => {
     await visit(url(), async (page, audit) => {
       const figure = page.locator(".proof-network-figure"), tooltip = figure.locator(".graph-tooltip");
+      const dock = page.locator('#proof-network [data-node-id="dock:Lax701.Base.s2"]');
+      await dock.scrollIntoViewIfNeeded(); await dock.focus(); await animationFrame(page);
+      expect(await tooltip.textContent()).toBe("Lax701.Base.s2");
+      expect(await dock.locator("title").count()).toBe(0);
       const node = page.locator(`#proof-network [data-node-id="${proofId}"]`);
       await node.scrollIntoViewIfNeeded(); await node.focus(); await animationFrame(page);
       expect(await tooltip.isVisible()).toBe(true);

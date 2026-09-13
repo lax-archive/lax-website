@@ -5,6 +5,9 @@ import { indexedGraph, stronglyConnectedComponents } from "../src/graph-layout/c
 import { measureDisplayGraph, projectGraph, type DisplayGraph, type GraphKind, type ProofGraphData } from "../src/sitegen/graph-project.js";
 import { displayLabelRequests } from "../src/sitegen/graph-node-size.js";
 import { dockInkFixture } from "./fixtures/graph-layout/dock-ink.js";
+import { graphInteractionPayload } from "../src/sitegen/graph-svg.js";
+import { layoutGraph } from "../src/graph-layout/index.js";
+import { validateGeometry } from "../src/graph-layout/validate.js";
 
 const proofInput = (): ProofGraphData => ({ statements: [
   { id: "c.s1", concept: "c", index: 1, count: 2, title: "The concept", href: "c.html#s-1", proven: true },
@@ -39,16 +42,20 @@ describe("semantic display projection", () => {
     labels.set("9876543210", { width: 60, height: 16, lines: [{ text: "9876543210", x: 0, y: 12, ink: { x: 0.5, y: 2, width: 59, height: 12 } }] });
     const measured = measureDisplayGraph(display, labels), node = measured.graph.nodes.find((n) => n.id === "c:Claims")!;
     const drawing = measured.drawings.get(node.id)!;
+    const inspector = graphInteractionPayload(measured);
     expect(drawing.docks[0]!.bounds.width).toBeGreaterThanOrEqual(20);
     expect(drawing.docks[1]!.bounds.width).toBeGreaterThan(60);
     expect(node.labelBoxes).toHaveLength(drawing.lines.length + 2);
     for (const dock of drawing.docks) {
+      expect(inspector.nodes[dock.id]!.label).toBe(dock.statementId);
+      expect(inspector.nodes[dock.id]!.tooltipHtml).toBeUndefined();
       const port = node.ports.find((p) => p.semanticEndpointId === dock.statementId)!;
       expect(port.mode).toBe("fixed-position");
       expect(port.offset!.x).toBeCloseTo(dock.bounds.x + dock.bounds.width / 2, 2);
       expect(node.labelBoxes).toContainEqual(dock.lines[0]!.ink);
       expect(dock.lines[0]!.text).toBe(String(dock.ordinal));
-      expect(dock.bounds.y).toBeGreaterThan(drawing.body.y + drawing.body.height);
+      expect(dock.bounds.y).toBeLessThan(drawing.body.y + drawing.body.height);
+      expect(dock.bounds.y + dock.bounds.height).toBeGreaterThan(drawing.body.y + drawing.body.height);
       expect(dock.bounds.height).toBe(dock.bounds.width);
       expect(port.offset!.y).toBe(dock.bounds.y);
       expect(dock.lines[0]!.y).toBeCloseTo(dock.bounds.y + (dock.bounds.height - 16) / 2 + 12);
@@ -62,6 +69,22 @@ describe("semantic display projection", () => {
     const input = proofInput();
     expect(() => projectGraph("proofs", { ...input, statements: input.statements.slice(1) })).toThrow(/incomplete-docks/);
     expect(() => projectGraph("proofs", { ...input, proofs: [{ id: "p", assumptions: ["absent"], conclusion: "d.s" }] })).toThrow(/missing-semantic-endpoint/);
+  });
+  it("allows dock adapters inside their attachment area while still protecting labels and unrelated incidences", () => {
+    const display = dockInkFixture();
+    const measured = measureDisplayGraph(display, fixtureLabels(display));
+    const { geometry } = layoutGraph(measured.graph, { inputDigest: "dock-attachment-area" });
+    expect(validateGeometry(measured.graph, geometry).valid).toBe(true);
+    const foreignDocks = { ...measured.graph, nodes: measured.graph.nodes.map((node) => ({ ...node,
+      footprints: node.footprints?.map((f) => f.kind === "dock" ? { ...f, semanticEndpointId: "unrelated" } : f),
+    })) };
+    expect(validateGeometry(foreignDocks, geometry).diagnostics.some((d) =>
+      d.code === "obstacle-collision" && d.message.includes("attachment-area"))).toBe(true);
+    const obstructed = { ...measured.graph, nodes: measured.graph.nodes.map((node) => ({ ...node,
+      labelBoxes: [...node.labelBoxes, ...(node.footprints ?? []).filter((f) => f.kind === "attachment-area").map((f) => f.bounds)],
+    })) };
+    expect(validateGeometry(obstructed, geometry).diagnostics.some((d) =>
+      d.code === "obstacle-collision" && d.message.includes("label"))).toBe(true);
   });
   it("preserves parallel direct import edges and ignores source array order", () => {
     const input = { nodes: [{ id: "a", title: "A" }, { id: "b", title: "B" }], edges: [{ from: "a", to: "b" }, { from: "a", to: "b" }] };

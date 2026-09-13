@@ -488,6 +488,8 @@ function validateSurface(graph: MeasuredGraph, geometry: GraphGeometry, surface:
     }
     for (let i = 1; i < points.length; i++) for (const obstacle of obstacles) {
       const incidentNode = obstacle.owner === source.nodeId || obstacle.owner === target.nodeId;
+      if (obstacle.kind === "attachment-area" && obstacle.owner === source.nodeId && source.side === "north" &&
+        obstacles.some((f) => f.owner === source.nodeId && f.kind === "dock" && f.semantic === source.semanticEndpointId)) continue;
       if (obstacle.kind === "body" && incidentNode && ((obstacle.owner === source.nodeId && i === 1) || (obstacle.owner === target.nodeId && i === points.length - 1))) continue;
       if (obstacle.kind === "dock" && ((obstacle.owner === source.nodeId && obstacle.semantic === source.semanticEndpointId) || (obstacle.owner === target.nodeId && obstacle.semantic === target.semanticEndpointId))) continue;
       if (obstacle.kind === "rail" && incidentNode && ((obstacle.owner === source.nodeId && i === 1) || (obstacle.owner === target.nodeId && i === points.length - 1))) continue;

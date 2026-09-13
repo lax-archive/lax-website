@@ -34,12 +34,13 @@ export function measureDisplayGraph(display: DisplayGraph, labels: ReadonlyMap<s
         diagnostic("dock-label-metrics", "A fixed dock ordinal must remain one complete measured number", dock.id);
       return number;
     });
-    const bodyHeight = node.kind === "proof" ? 28 : ceil(Math.max(28, label!.height + 14));
+    const bodyHeight = node.kind === "proof" ? 28 : ceil(Math.max(28, label!.height + (node.docks.length ? 22 : 14)));
     const outgoingDocks = node.ports.filter((p) => p.side === "north" && node.docks.some((d) => d.statementId === p.semanticEndpointId));
-    // Below-box statement circles retain their identities. Reserve an internal
-    // left escape strip and separate horizontal lanes for statement-level uses.
+    // Statement circles overlap the box border. Statement-level uses have
+    // separate lanes in a label-free attachment area at the bottom of the box.
     const escapeWidth = outgoingDocks.length ? 12 + outgoingDocks.length * portSeparation : 0;
-    const dockGap = outgoingDocks.length ? 24 + outgoingDocks.length * portSeparation : 8;
+    const dockGap = outgoingDocks.length ? 24 + outgoingDocks.length * portSeparation : -8;
+    const attachmentHeight = outgoingDocks.length ? dockGap + 8 : 0;
     const diameters = node.docks.map((dock, i) => ceil(Math.max(20,
       Math.hypot(dockLabels[i]!.width, ...dockLabels[i]!.lines.map((line) => line.ink.height)) + 8,
       (capacity(node.ports.filter((p) => p.semanticEndpointId === dock.statementId)) + 1) * portSeparation)));
@@ -58,7 +59,13 @@ export function measureDisplayGraph(display: DisplayGraph, labels: ReadonlyMap<s
       dockX += diameter + portSeparation;
       return { ...dock, bounds, lines: translateLines(number, bounds.x + (diameter - number.width) / 2, bounds.y + (diameter - number.height) / 2) };
     });
-    const lines = node.kind === "proof" ? [] : translateLines(label!, escapeWidth + (contentWidth - label!.width) / 2, (bodyHeight - label!.height) / 2);
+    const lines = node.kind === "proof" ? [] : label!.lines.map((line) => {
+      // Center each line's measured ink, including shorter wrapped lines.
+      const dx = escapeWidth + (contentWidth - line.ink.width) / 2 - line.ink.x;
+      const dy = (bodyHeight - label!.height) / 2;
+      return { ...line, x: line.x + dx, y: line.y + dy,
+        ink: { ...line.ink, x: line.ink.x + dx, y: line.ink.y + dy } };
+    });
     const body: Rect = node.kind === "proof" ? { x: (bodyWidth - 28) / 2, y: 0, width: 28, height: 28 }
       : { x: escapeWidth, y: 0, width: contentWidth, height: bodyHeight };
     const ports = node.ports.map((port): PortSpec => {
@@ -80,9 +87,11 @@ export function measureDisplayGraph(display: DisplayGraph, labels: ReadonlyMap<s
       ...dockBoxes.map((dock) => ({ id: dock.id, kind: "dock" as const, bounds: dock.bounds, semanticEndpointId: dock.statementId })),
     ];
     if (proofRail) footprints.push({ id: `${node.id}:assumption-rail`, kind: "rail", bounds: { x: 0, y: 28, width, height: height - 28 } });
+    if (attachmentHeight) footprints.push({ id: `${node.id}:attachment-area`, kind: "attachment-area",
+      bounds: { x: body.x, y: bodyHeight, width: body.width, height: attachmentHeight } });
     measured.push({ id: node.id, kind: node.kind, width, height,
       labelBoxes: [...lines, ...dockBoxes.flatMap((dock) => dock.lines)].map((line) => line.ink), ports, footprints });
-    drawings.set(node.id, { body, lines, docks: dockBoxes, proofRail });
+    drawings.set(node.id, { body: { ...body, height: body.height + attachmentHeight }, lines, docks: dockBoxes, proofRail });
   }
   return { display, graph: normalizeGraph({ nodes: measured, edges: display.edges }), drawings };
 }

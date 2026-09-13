@@ -48,8 +48,7 @@ export function graphInteractionPayload(measured: MeasuredDisplayGraph): GraphIn
   for (const node of measured.display.nodes) {
     nodes[node.id] = { label: node.tooltipText ?? node.label, ...(node.tooltipHtml ? { tooltipHtml: node.tooltipHtml } : {}),
       ...(node.tooltipRows ? { tooltipRows: node.tooltipRows } : {}), incident: [] };
-    for (const dock of node.docks) nodes[dock.id] = { label: node.tooltipText ?? node.label,
-      ...(dock.tooltipHtml ? { tooltipHtml: dock.tooltipHtml } : {}), incident: [] };
+    for (const dock of node.docks) nodes[dock.id] = { label: dock.statementId, incident: [] };
   }
   for (const edge of graph.edges) for (const portId of [edge.sourcePortId, edge.targetPortId]) {
     const port = ports.get(portId)!;
@@ -80,7 +79,9 @@ export function graphSvg(measured: MeasuredDisplayGraph, geometry: GraphGeometry
   }).join("");
   const nodeMap = new Map(measured.display.nodes.map((node) => [node.id, node]));
   const nodes = geometry.nodes.map((node) => `<g transform="translate(${node.x},${node.y})">${nodeSvg(nodeMap.get(node.id)!, measured.drawings.get(node.id)!)}</g>`).join("");
+  // Paint routes over box fills so the label-free attachment areas retain
+  // visible statement adapters. The validator still excludes all label ink.
   const { x, y, width, height } = geometry.bounds;
   const label = { concepts: "Concept dependency graph", submissions: "Submission dependency graph", proofs: "Proof dependency graph" }[measured.display.kind];
-  return `<svg xmlns="http://www.w3.org/2000/svg" class="prepared-graph" width="${width}" height="${height}" viewBox="${x} ${y} ${width} ${height}" aria-label="${label}" data-layout-digest="${attr(geometry.inputDigest)}"><defs><marker id="${marker}" viewBox="0 -5 10 10" refX="9" refY="0" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto" overflow="visible"><path d="M1,-4.25 L9,0 L1,4.25 Q3,0 1,-4.25 Z"/></marker></defs><g data-graph-camera>${groups}${edges}${nodes}</g></svg>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" class="prepared-graph" width="${width}" height="${height}" viewBox="${x} ${y} ${width} ${height}" aria-label="${label}" data-layout-digest="${attr(geometry.inputDigest)}"><defs><marker id="${marker}" viewBox="0 -5 10 10" refX="9" refY="0" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto" overflow="visible"><path d="M1,-4.25 L9,0 L1,4.25 Q3,0 1,-4.25 Z"/></marker></defs><g data-graph-camera>${groups}${nodes}${edges}</g></svg>`;
 }
