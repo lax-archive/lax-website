@@ -7,7 +7,7 @@
 <title>Lax Lean Archive</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="assets/style.css?v=b9c2183a495c">
+<link rel="stylesheet" href="assets/style.css?v=ae3f2039cf79">
 </head><body>
 <header class="site-header sidebar-hidden landing-header">
   <div class="site-brand">
@@ -878,13 +878,11 @@ submissions already build on.</p>
 <input id="submissions-search" class="filter-input submissions-library-search" type="search" placeholder="Search titles and concepts" aria-label="Search submissions" aria-controls="submissions-list">
 </div>
 <section class="tag-browser" aria-labelledby="tag-browser-heading">
-<div class="tag-browser-heading"><h4 id="tag-browser-heading">Filter submissions</h4>
-<button class="tag-chip" type="button" data-tag-filter="" aria-pressed="true" aria-label="All submissions, 46 submissions"><span>All submissions</span><b aria-hidden="true">46</b></button></div>
-<div class="tag-filter-row"><h5 id="environment-filter-heading">Environment</h5>
-<div class="environment-chip-list" role="group" aria-labelledby="environment-filter-heading"><button class="tag-chip environment-chip" type="button" data-tag-filter="v4.33.0" aria-pressed="false" aria-label="v4.33.0 · epoch, 8 submissions"><span>v4.33.0 · epoch</span><b aria-hidden="true">8</b></button>
-<button class="tag-chip environment-chip" type="button" data-tag-filter="v4.30.0" aria-pressed="false" aria-label="v4.30.0, 38 submissions"><span>v4.30.0</span><b aria-hidden="true">38</b></button></div></div>
-<div class="tag-filter-row"><h5 id="topic-filter-heading">Topics</h5>
-<div class="topic-filter-controls"><div class="tag-chip-list" id="topic-chip-list" role="group" aria-labelledby="topic-filter-heading" aria-describedby="topic-filter-description">
+<div class="tag-browser-heading"><h4 id="tag-browser-heading">Browse by topic</h4><p>Environments first, then topics suggested from submission and concept titles.</p></div>
+<div class="tag-chip-list" role="group" aria-label="Filter submissions by topic">
+<button class="tag-chip" type="button" data-tag-filter="" aria-pressed="true" aria-label="All, 46 submissions"><span>All</span><b aria-hidden="true">46</b></button>
+<button class="tag-chip environment-chip" type="button" data-tag-filter="v4.33.0" aria-pressed="false" aria-label="v4.33.0 · epoch, 8 submissions"><span>v4.33.0 · epoch</span><b aria-hidden="true">8</b></button>
+<button class="tag-chip environment-chip" type="button" data-tag-filter="v4.30.0" aria-pressed="false" aria-label="v4.30.0, 38 submissions"><span>v4.30.0</span><b aria-hidden="true">38</b></button>
 <button class="tag-chip" type="button" data-tag-filter="word ram" aria-pressed="false" aria-label="Word RAM, 9 submissions"><span>Word RAM</span><b aria-hidden="true">9</b></button>
 <button class="tag-chip" type="button" data-tag-filter="polynomial time" aria-pressed="false" aria-label="Polynomial time, 7 submissions"><span>Polynomial time</span><b aria-hidden="true">7</b></button>
 <button class="tag-chip" type="button" data-tag-filter="transducers" aria-pressed="false" aria-label="Transducers, 7 submissions"><span>Transducers</span><b aria-hidden="true">7</b></button>
@@ -926,9 +924,8 @@ submissions already build on.</p>
 <button class="tag-chip" type="button" data-tag-filter="tree automata" aria-pressed="false" aria-label="Tree automata, 1 submission"><span>Tree automata</span><b aria-hidden="true">1</b></button>
 <button class="tag-chip" type="button" data-tag-filter="triangle free" aria-pressed="false" aria-label="Triangle Free, 1 submission"><span>Triangle Free</span><b aria-hidden="true">1</b></button>
 <button class="tag-chip" type="button" data-tag-filter="weighted apsp" aria-pressed="false" aria-label="Weighted APSP, 1 submission"><span>Weighted APSP</span><b aria-hidden="true">1</b></button>
-<button class="tag-chip" type="button" data-tag-filter="word rams" aria-pressed="false" aria-label="Word RAMs, 1 submission"><span>Word RAMs</span><b aria-hidden="true">1</b></button></div>
-<button class="tag-topics-toggle" id="tag-topics-toggle" type="button" aria-expanded="false" aria-controls="topic-chip-list" hidden>More topics</button>
-<p class="tag-filter-description" id="topic-filter-description">Suggested from submission and concept titles.</p></div></div>
+<button class="tag-chip" type="button" data-tag-filter="word rams" aria-pressed="false" aria-label="Word RAMs, 1 submission"><span>Word RAMs</span><b aria-hidden="true">1</b></button>
+</div>
 <p class="tag-results-status" id="tag-results-status" aria-live="polite">Showing all 46 submissions.</p>
 </section>
 <ul class="submissions-list" id="submissions-list">
@@ -1292,7 +1289,7 @@ help bump it. Epoch length will follow how the archive and its community evolve.
 </div>
 </div>
 </dialog>
-<script src="assets/sidebar.js?v=e8a785405cd6"></script>
+<script src="assets/sidebar.js?v=e4e626f46671"></script>
 <script src="assets/account.js?v=449b15dc8a12"></script>
 <script src="assets/graph-interaction.js?v=bd640661a052"></script>
 <script src="assets/landing.js?v=81a7f5a2fd29"></script>
