@@ -3690,7 +3690,7 @@ body.graph-window-open::after{
 /* Natural inline height includes a horizontal scrollbar when needed, so it
    cannot steal space from the graph and force a second, vertical scrollbar. */
 .graph-figure:not(.graph-expanded) .figure-container:has(> .prepared-graph){ height: auto !important; min-height: 48px; }
-.graph-figure.proof-network-figure:not(.graph-expanded) .figure-container[data-graph="proofs"]{ max-height: 480px; }
+.graph-figure:not(.graph-expanded) .figure-container{ max-height: 480px; }
 .graph-expanded .figure-container{ max-height: none; }
 
 .figure-container svg{ display: block; max-width: none; margin: 0 auto; }
@@ -3781,7 +3781,7 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
   flex: 0 0 auto;
 }
 .legend-flow-arrow{ width: 12px; height: 8px; flex: 0 0 auto; }
-.graph-legend svg{
+.proof-flow svg{
   fill: none;
   stroke: currentColor;
   stroke-width: 1;
