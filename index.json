@@ -3390,7 +3390,7 @@
     {
       "id": "lax-916827",
       "state": "draft",
-      "environment": "v4.30.0",
+      "environment": "v4.33.0",
       "title": "Transducers, Part C: Regular Functions, Two-Way Transducers and Streaming String Transducers",
       "concepts": [
         {
