@@ -373,24 +373,37 @@
     });
   }
 
-  function appendClaimLink(parent, claim, prefix = '') {
+  function appendClaimLink(parent, claim) {
     const row = document.createElement('li');
-    if (prefix) row.append(document.createTextNode(prefix));
+    const name = document.createElement('span');
+    name.className = 'graph-detail-claim-name';
     if (claim.href) {
       const link = document.createElement('a');
       link.href = claim.href;
       if (claim.nameHtml) link.innerHTML = claim.nameHtml;
       else link.textContent = claim.name;
-      row.append(link);
+      name.append(link);
     } else if (claim.nameHtml) {
-      const name = document.createElement('span');
       name.innerHTML = claim.nameHtml;
-      row.append(name);
-    } else row.append(document.createTextNode(claim.name));
+    } else name.append(document.createTextNode(claim.name));
     if (claim.statement)
-      row.append(document.createTextNode(` (statement ${claim.statement} of ${claim.statementCount})`));
-    row.append(document.createTextNode(claim.proven ? ' — proven' : ' — open'));
+      name.append(document.createTextNode(` (statement ${claim.statement} of ${claim.statementCount})`));
+    const status = appendText(row, 'span', `graph-detail-claim-status ${claim.proven ? 'proven' : 'open'}`,
+      claim.proven ? 'Proven statement' : 'Open statement');
+    status.setAttribute('aria-label', `Status: ${status.textContent}`);
+    row.prepend(name);
     parent.append(row);
+  }
+
+  function appendClaimGroup(parent, heading, claims) {
+    const group = document.createElement('div');
+    group.className = 'graph-detail-claim-group';
+    appendText(group, 'h5', '', heading);
+    const list = document.createElement('ul');
+    list.className = 'graph-detail-claim-list';
+    for (const claim of claims) appendClaimLink(list, claim);
+    group.append(list);
+    parent.append(group);
   }
 
   function renderConceptDetails(parent, detail, focusStatement) {
@@ -435,14 +448,28 @@
       parent.append(description);
     }
     const section = document.createElement('section');
-    appendText(section, 'h4', '', 'Checked relationship');
-    const list = document.createElement('ul');
-    list.className = 'graph-detail-claims';
+    appendText(section, 'h4', '', 'Proof relationship');
+    appendText(section, 'p', 'graph-detail-relationship-intro', detail.assumptions?.length
+      ? 'The Lean proof checks that the conclusion follows from the assumptions listed here.'
+      : 'The Lean proof checks the conclusion without relying on other archive statements.');
+    const claims = document.createElement('div');
+    claims.className = 'graph-detail-claims';
     if (detail.assumptions?.length) {
-      for (const claim of detail.assumptions) appendClaimLink(list, claim, 'Assumes ');
-    } else appendText(list, 'li', '', 'No assumptions');
-    if (detail.conclusion) appendClaimLink(list, detail.conclusion, 'Concludes ');
-    section.append(list);
+      appendClaimGroup(claims, 'Assumptions used', detail.assumptions);
+    }
+    if (detail.conclusion) appendClaimGroup(claims, 'Conclusion', [detail.conclusion]);
+    section.append(claims);
+    const open = detail.assumptions?.filter((claim) => !claim.proven).length || 0;
+    if (open) {
+      const conclusion = detail.conclusion?.proven
+        ? ' The conclusion is proven elsewhere in the archive.'
+        : ' The conclusion therefore remains open in the archive.';
+      appendText(section, 'p', 'graph-detail-relationship-note',
+        `This proof is conditional because ${open} assumption${open === 1 ? '' : 's'} ${open === 1 ? 'is' : 'are'} still open.${conclusion}`);
+    } else if (detail.assumptions?.length) {
+      appendText(section, 'p', 'graph-detail-relationship-note complete',
+        'All assumptions used by this proof are proven.');
+    }
     parent.append(section);
     if (detail.leanPath) {
       const source = document.createElement('section');
