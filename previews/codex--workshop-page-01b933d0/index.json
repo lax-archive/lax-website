@@ -750,6 +750,7 @@
       "state": "registered",
       "environment": "v4.30.0",
       "title": "Twin-Width Can Be Exponential in Treewidth",
+      "supersededBy": "lax-228581",
       "concepts": [
         {
           "id": "Lax48.ExponentialSeparation",
@@ -1297,6 +1298,11 @@
       "title": "Planar Graph Classes",
       "concepts": [
         {
+          "id": "Lax68.AcyclicMinors",
+          "title": "Minors of acyclic graphs are acyclic",
+          "type": "theorem"
+        },
+        {
           "id": "Lax68.GraphMinors",
           "title": "Graph minors",
           "type": "definition"
@@ -1518,6 +1524,7 @@
         }
       ],
       "proofs": [
+        "Lax68Proofs.acyclic_minor",
         "Lax68Proofs.halin_planar",
         "Lax68Proofs.ladder_grid",
         "Lax68Proofs.ladder_planar",
@@ -1532,7 +1539,9 @@
         "Lax68Proofs.star_outerplanar",
         "Lax68Proofs.star_planar",
         "Lax68Proofs.star_tree",
+        "Lax68Proofs.tree_outerplanar",
         "Lax68Proofs.tree_planar",
+        "Lax68Proofs.triangle_maximalOuterplanar",
         "Lax68Proofs.triangle_outerplanar",
         "Lax68Proofs.triangle_planar",
         "Lax68Proofs.triangulationOf_planar",
@@ -2136,6 +2145,33 @@
       ]
     },
     {
+      "id": "lax-228581",
+      "state": "registered",
+      "environment": "v4.33.0",
+      "title": "Twin-width can be exponential in treewidth",
+      "supersedes": "lax-48",
+      "concepts": [
+        {
+          "id": "Lax228581.ExponentialSeparation",
+          "title": "Twin-width can be exponential in treewidth",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax228581.Treewidth",
+          "title": "Treewidth",
+          "type": "definition"
+        },
+        {
+          "id": "Lax228581.TwinWidth",
+          "title": "Twin-width",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax228581Proofs.Main.exists_treewidth_le_and_two_pow_lt_twinWidth"
+      ]
+    },
+    {
       "id": "lax-242665",
       "state": "draft",
       "environment": "v4.30.0",
@@ -2711,8 +2747,8 @@
         },
         {
           "id": "Lax434930.PolynomialSpaceEquality",
-          "title": "Deterministic and nondeterministic polynomial space coincide",
-          "type": "lemma"
+          "title": "Savitch's theorem",
+          "type": "theorem"
         },
         {
           "id": "Lax434930.PolynomialTime",
