@@ -841,7 +841,7 @@ After the formula.`, "");
     expect(index).toContain("Which operating systems does Lax support?");
     expect(index).toContain('href="https://palomar-registry.org/"');
     expect(index.indexOf('id="landing-panel-read"')).toBeLessThan(index.indexOf('id="faq"'));
-    expect(index).toContain('<aside class="landing-workshop-banner" aria-label="Workshop announcement">');
+    expect(index).toContain('<aside class="landing-workshop-banner" aria-label="Workshop announcement" hidden>');
     expect(index).toContain("An introduction to Lean, formalization with AI agents, and sharing mathematics through Lax.");
     expect(index).toContain('href="workshop/"');
     expect(index).toContain("Meeting details");

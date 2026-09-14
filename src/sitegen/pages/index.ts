@@ -692,7 +692,7 @@ ${landingFoundations(ctx, "Build foundations together", landing.sections.get("Bu
 ${library}
 ${faq}
 </div>
-<aside class="landing-workshop-banner" aria-label="Workshop announcement">
+<aside class="landing-workshop-banner" aria-label="Workshop announcement" hidden>
 <div class="landing-workshop-heading">
 <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M20 11.5a8 8 0 0 1-8 8 9 9 0 0 1-3.5-.7L4 20l1.2-4.5a9 9 0 0 1-.7-3.5 8 8 0 0 1 8-8H13a8 8 0 0 1 7 7.5Z"/></svg>
 <span>Lax Online Workshop</span>
