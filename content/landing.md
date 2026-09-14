@@ -19,10 +19,10 @@ reused across submissions.
 
 ## Proof network
 
-**Proof network.** Explore how proofs compose, which claims are proven,
-and which are not yet. Any later submission can discharge an
+**Proof network.** Explore how proofs compose and which claims are proven.
+Any later submission can discharge an
 [open obligation](open-proof-obligations.html), and every result that
-rested on it is proven from that moment on.
+rested on it is henceforth proven.
 
 ## Get started right away
 
