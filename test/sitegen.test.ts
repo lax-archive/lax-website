@@ -1288,7 +1288,7 @@ After the formula.`, "");
     });
     expect(data.proofs.details["concept:Lax2.C"]).toMatchObject({
       kind: "concept", name: "Truth", type: "theorem", status: "proven", anonymousReview: false,
-      openAssumptions: 0,
+      openAssumptions: 0, openAssumptionIds: [],
       submission: { id: "Lax2", name: "Two", nameHtml: "Two", state: "registered" },
       statements: [{ id: "Lax2.C.truth", signature: "truth : True", proven: true,
         href: "../Lax2/Lax2.C.html#s-Lax2.C.truth" }],

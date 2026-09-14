@@ -394,7 +394,7 @@ export function proofNetworkData(ctx: PageContext, submission: SiteSubmission, r
         }
       }
     }
-    return open.size;
+    return [...open].sort(compareIds);
   };
   const details: Record<string, unknown> = {};
   for (const id of [...statementIds].sort()) {
@@ -402,6 +402,7 @@ export function proofNetworkData(ctx: PageContext, submission: SiteSubmission, r
     if (!home || details[`concept:${home.concept.id}`]) continue;
     const { concept, output: conceptOutput, submission: conceptSubmission } = home;
     const provenCount = concept.statements.filter((statement) => model.network.proven.has(statement.id)).length;
+    const openAssumptionIds = openAssumptionsInTree(concept.statements.map((statement) => statement.id));
     details[`concept:${concept.id}`] = {
       kind: "concept",
       name: concept.title,
@@ -411,7 +412,8 @@ export function proofNetworkData(ctx: PageContext, submission: SiteSubmission, r
         : provenCount === concept.statements.length ? "proven" : "open",
       statusDetail: concept.statements.length === 0 ? "Definition"
         : `${provenCount} of ${concept.statements.length} statement${concept.statements.length === 1 ? "" : "s"} proven`,
-      openAssumptions: openAssumptionsInTree(concept.statements.map((statement) => statement.id)),
+      openAssumptions: openAssumptionIds.length,
+      openAssumptionIds,
       submission: submissionDetails(conceptSubmission),
       anonymousReview: conceptSubmission.output?.manifest.anonymous === true,
       descriptionHtml: ctx.markdown.renderAuthorProse(concept.description, rootRel),

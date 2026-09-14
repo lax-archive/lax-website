@@ -728,6 +728,30 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       expect(formalizationWidth.whiteSpace).toBe("pre-wrap");
       await capture(page, "proof-detail-concept");
 
+      const singleOpenConcept = container.locator('[data-node-id="s:Lax702.Premise2.s1"]');
+      await singleOpenConcept.evaluate((element) =>
+        element.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true })));
+      await animationFrame(page);
+      const openAssumptionBadge = panel.locator(".graph-detail-open-assumptions");
+      const openAssumptionTooltip = panel.locator(".graph-detail-open-assumption-tooltip");
+      expect(await openAssumptionBadge.textContent()).toBe("1 open assumption used");
+      expect(await openAssumptionTooltip.isHidden()).toBe(true);
+      await openAssumptionBadge.hover(); await animationFrame(page);
+      expect(await openAssumptionTooltip.isVisible()).toBe(true);
+      expect(await openAssumptionTooltip.locator(".graph-detail-open-assumption-name").textContent())
+        .toContain("Two foundational statements");
+      expect(await openAssumptionTooltip.locator(".graph-detail-open-assumption-statement").textContent())
+        .toBe("Statement 2 of 2");
+      expect(await openAssumptionTooltip.locator("code").textContent()).toBe("s2 : True");
+      await capture(page, "proof-detail-open-assumption-tooltip");
+      await panel.locator("h3").hover(); await animationFrame(page);
+      expect(await openAssumptionTooltip.isHidden()).toBe(true);
+      await openAssumptionBadge.click(); await animationFrame(page);
+      expect(await openAssumptionTooltip.isVisible()).toBe(true);
+      await panel.locator("h3").click(); await animationFrame(page);
+      expect(await openAssumptionTooltip.isHidden()).toBe(true);
+      expect(await panel.isVisible()).toBe(true);
+
       const openConcept = container.locator('[data-node-id="s:Lax702.Middle.s1"]');
       await openConcept.evaluate((element) => element.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true })));
       await animationFrame(page);

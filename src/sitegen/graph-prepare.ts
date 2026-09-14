@@ -157,6 +157,10 @@ function safeGraphDetails(value: unknown): RawRecord {
     const detail: RawRecord = { kind, name: requiredString(source.name, "Proof graph detail name") };
     copyFields(source, detail, ["nameHtml", "type", "status", "statusDetail", "descriptionHtml", "reviewLabel", "leanPath"], "string");
     copyFields(source, detail, ["openAssumptions"], "number");
+    if (source.openAssumptionIds !== undefined) {
+      detail.openAssumptionIds = list(source.openAssumptionIds, "Proof graph open assumptions")
+        .map((id) => requiredString(id, "Open-assumption identity")).sort(compareText);
+    }
     if (source.anonymousReview !== undefined) {
       if (typeof source.anonymousReview !== "boolean") fail("graph-detail", "Proof graph anonymous-review state must be boolean");
       detail.anonymousReview = source.anonymousReview;
