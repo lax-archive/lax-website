@@ -606,6 +606,7 @@ After the formula.`, "");
     expect(visible).toContain('aria-label="Proof dependency graph"');
     expect(visible).toContain('data-node-id="p:Lax2Proofs.truth" aria-label="Proof Lax2Proofs.truth" href="../Lax2/Lax2Proofs.truth.html" role="link"');
     expect(visible).toContain('class="net-edge conclusion"');
+    expect(visible).toContain('class="graph-edge-hit" data-edge-hit="');
     expect(visible).toContain('markerUnits="userSpaceOnUse" orient="auto"');
     expect(visible).not.toContain('data-graph-local="true"');
     expect(graphPage).toMatch(/<script src="\.\.\/assets\/graph-interaction\.js\?v=[0-9a-f]{12}"><\/script>/u);
@@ -620,6 +621,9 @@ After the formula.`, "");
     expect(css).toContain(".graph-figure.graph-expanded");
     expect(css).toContain(".graph-controls{");
     expect(css).toContain(".graph-edge-casing{");
+    expect(css).toContain(".graph-detail-panel{");
+    expect(css).toContain(".graph-detail-formalization{ width: 100%; min-width: 0; }");
+    expect(css).toContain(".graph-expanded.proof-network-figure [data-node-id].graph-dimmed");
     expect(css).toContain("fill: context-stroke");
     expect(css).toContain("background: rgb(255, 255, 255)");
     expect(css).toContain('.status-pill[data-tooltip]:hover::after');
@@ -649,6 +653,11 @@ After the formula.`, "");
     expect(css).toContain(".submissions-load-more[hidden]{ display: none; }");
     expect(css).toContain(".landing-faq-item summary::-webkit-details-marker{ display: none; }");
     expect(css).toContain(".landing-faq-item[open] .landing-faq-toggle::after");
+    const interaction = fs.readFileSync(path.join(one, "assets", "graph-interaction.js"), "utf8");
+    expect(interaction).toContain("const PROOF_FOCUS_DURATION = 900;");
+    expect(interaction).toContain("installProofSelection");
+    expect(interaction).toContain("graphClosure");
+    expect(interaction).toContain("focusProofSelection");
     const faqPanel = css.match(/\n\.landing-faq\{([^}]*)\}/)?.[1] ?? "";
     expect(faqPanel).toContain("border: 1px solid var(--border)");
     expect(faqPanel).toContain("margin: 0");
@@ -1208,7 +1217,8 @@ After the formula.`, "");
     // judgment claims and the proof-id subline drop the page's own prefixes
     expect(html).toMatch(/judgment-conclusion[^]*?Lax2\.C\.html[^]*?<code>C<\/code>/);
     expect(html).toContain('title="Lax2Proofs.truth"><code>truth</code>');
-    expect(html).not.toContain("Strategy");
+    const visibleProofList = html.slice(html.indexOf('class="proof-list-box"'), html.indexOf('class="honesty-note"'));
+    expect(visibleProofList).not.toContain("Strategy");
     expect(html.indexOf('id="proof-network"')).toBeLessThan(html.indexOf('class="proof-list"'));
     expect(html).toMatch(/<details class="figure-details">\s*<summary>Proof list<\/summary>\s*<div class="proof-list-box">/);
     expect(html).toMatch(/Proof code is not displayed;[^<]*<\/p>\s*<\/details>/);
@@ -1273,8 +1283,21 @@ After the formula.`, "");
     expect(data.concepts.nodes.map((n: { id: string; status: string }) => [n.id, n.status]))
       .toEqual([["Lax2.C", "proven"], ["Lax2.D", "none"]]);
     expect(data.proofs.statements[0]).toMatchObject({
-      id: "Lax2.C.truth", label: "Lax2.C", owner: "Lax2", proven: true, ext: false,
+      id: "Lax2.C.truth", label: "Truth", owner: "Lax2", proven: true, ext: false,
       concept: "Lax2.C", index: 1, count: 1,
+    });
+    expect(data.proofs.details["concept:Lax2.C"]).toMatchObject({
+      kind: "concept", name: "Truth", type: "theorem", status: "proven",
+      submission: { id: "Lax2", name: "Two", state: "registered" },
+      statements: [{ id: "Lax2.C.truth", signature: "truth : True", proven: true }],
+      href: "../Lax2/Lax2.C.html",
+      reviewUrl: "https://laxarchive.org/Lax2/Lax2.C.html",
+    });
+    expect(data.proofs.details["proof:Lax2Proofs.truth"]).toMatchObject({
+      kind: "proof", name: "Proof of Truth", status: "grounded",
+      submission: { id: "Lax2", name: "Two", state: "registered" },
+      leanPath: "proofs/Lax2Proofs/Basic.lean",
+      href: "../Lax2/Lax2Proofs.truth.html",
     });
     // a single-statement archive shows no ordinals and no dock furniture
     expect(html).not.toContain("claim-ordinal");
@@ -1327,7 +1350,7 @@ After the formula.`, "");
     expect(groundedProofs).toContain("stroke-own");
     expect(groundedProofs).not.toContain("stroke-ext");
     expect(groundedProofs).not.toContain("legend-cycle");
-    inOrder(groundedProofs, ["proof-flow", "fill-proven", "stroke-own", "⊢</i>Proof</span>"]);
+    inOrder(groundedProofs, ["proof-flow", "fill-proven", "stroke-own", "Proof — open large view for details"]);
 
     // Lax4's claims are open, its concept ancestry contains definitions from
     // other submissions, and its two proofs form a cycle.
@@ -1339,7 +1362,7 @@ After the formula.`, "");
     const cyclicProofs = legend(cyclic, "Proof network legend", "figcaption");
     expect(cyclicProofs).not.toContain("fill-proven");
     expect(cyclicProofs).not.toContain("stroke-ext");
-    inOrder(cyclicProofs, ["proof-flow", "fill-open", "stroke-own", "⊢</i>Proof</span>", "legend-cycle"]);
+    inOrder(cyclicProofs, ["proof-flow", "fill-open", "stroke-own", "Proof — open large view for details", "legend-cycle"]);
   });
 
   it("emits expandable concept closures and proof readiness metadata for deterministic DAGs", async () => {
@@ -2278,7 +2301,7 @@ describe("multi-statement concepts", () => {
     const data = JSON.parse(/<script type="application\/json" id="graph-data">(.*?)<\/script>/s.exec(html)![1]!);
     const input = data.proofs as ProofGraphData;
     const coarse = input.statements.find((statement) => statement.id === concept.id)!;
-    expect(coarse).toMatchObject({ endpointKind: "concept", concept: concept.id, label: concept.id, title: concept.title,
+    expect(coarse).toMatchObject({ endpointKind: "concept", concept: concept.id, label: concept.title, title: concept.title,
       owner: "Lax1", count, ext: external, href: "../Lax1/Lax1.Base.html", status: count ? "open" : "none" });
     expect(coarse.index).toBeUndefined();
     expect(coarse.tooltipHtml).toContain(concept.title);

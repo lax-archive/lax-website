@@ -1,4 +1,5 @@
 import { attr, esc, page, plural, typeBadge } from "../html.js";
+import { DEFAULT_SITE_URL } from "../../config.js";
 import { renderBibEntry } from "../bibtex.js";
 import { conceptGraph, graphDataScript, submissionGraph, type SubmissionGraphData } from "../graphs.js";
 import { compareIds, type LocatedConcept, type SiteSubmission } from "../model.js";
@@ -21,6 +22,7 @@ import {
   proofItem,
   proofNetworkLegend,
   proofsSource,
+  repositorySource,
   shortId,
   sourceLink,
   sourceProviderName,
@@ -305,10 +307,10 @@ export function proofNetworkData(ctx: PageContext, submission: SiteSubmission, r
       : model.network.proven.has(id);
     return {
       id,
-      // A claim displays as its home concept. `index`/`count` place it inside
-      // a multi-statement concept, which the figure draws as one box with a
-      // numbered dock per statement.
-      label: home?.concept.id,
+      // The proof network is an editorial surface: show the concept's human
+      // name while retaining the stable statement and concept ids as data.
+      // `index`/`count` place a statement inside a multi-statement concept.
+      label: home?.concept.title,
       title: home?.concept.title,
       tooltipHtml: ctx.markdown.renderAuthorTooltip(home?.concept.title ?? "", rootRel),
       owner: home?.output.id,
@@ -336,5 +338,101 @@ export function proofNetworkData(ctx: PageContext, submission: SiteSubmission, r
       };
     });
 
-  return { statements: statementNodes, proofs: proofNodes, home: output.id };
+  const canonicalPageUrl = (pathname: string) =>
+    new URL(pathname.replace(/^\/+/, ""), `${DEFAULT_SITE_URL.replace(/\/+$/, "")}/`).toString();
+  const submissionDetails = (home: SiteSubmission) => ({
+    id: home.record.id,
+    name: home.output?.manifest.title ?? home.record.id,
+    state: home.record.state,
+  });
+  const authorSections = (sections: { title: string; markdown: string }[] | undefined) =>
+    (sections ?? []).map((section) => ({
+      titleHtml: ctx.markdown.renderAuthorInline(section.title, rootRel),
+      bodyHtml: ctx.markdown.renderAuthorProse(section.markdown, rootRel),
+    }));
+  const claimSummary = (id: string) => {
+    const home = model.statementHome.get(id);
+    const conceptHome = home ?? model.conceptHome.get(id);
+    if (!home && conceptHome) {
+      const statements = conceptHome.concept.statements;
+      return {
+        id,
+        name: conceptHome.concept.title,
+        href: `${rootRel}${conceptHome.output.id}/${conceptHome.concept.id}.html`,
+        proven: statements.length === 0 || statements.every((statement) => model.network.proven.has(statement.id)),
+      };
+    }
+    if (!home) return { id, name: id, proven: false };
+    const index = home.concept.statements.findIndex((statement) => statement.id === id) + 1;
+    return {
+      id,
+      name: home.concept.title,
+      href: `${rootRel}${home.output.id}/${home.concept.id}.html#s-${id}`,
+      proven: model.network.proven.has(id),
+      statement: home.concept.statements.length > 1 ? index : undefined,
+      statementCount: home.concept.statements.length,
+    };
+  };
+  const details: Record<string, unknown> = {};
+  for (const id of [...statementIds].sort()) {
+    const home = model.statementHome.get(id) ?? model.conceptHome.get(id);
+    if (!home || details[`concept:${home.concept.id}`]) continue;
+    const { concept, output: conceptOutput, submission: conceptSubmission } = home;
+    const provenCount = concept.statements.filter((statement) => model.network.proven.has(statement.id)).length;
+    details[`concept:${concept.id}`] = {
+      kind: "concept",
+      name: concept.title,
+      nameHtml: ctx.markdown.renderAuthorInline(concept.title, rootRel),
+      type: concept.type,
+      status: concept.statements.length === 0 ? "none"
+        : provenCount === concept.statements.length ? "proven" : "open",
+      statusDetail: concept.statements.length === 0 ? "Definition"
+        : `${provenCount} of ${concept.statements.length} statement${concept.statements.length === 1 ? "" : "s"} proven`,
+      submission: submissionDetails(conceptSubmission),
+      descriptionHtml: ctx.markdown.renderAuthorProse(concept.description, rootRel),
+      statements: concept.statements.map((statement, index) => ({
+        id: statement.id,
+        name: concept.statements.length > 1 ? `${index + 1} of ${concept.statements.length}` : "Lean statement",
+        signature: statement.signature,
+        proven: model.network.proven.has(statement.id),
+      })),
+      sections: authorSections(concept.sections),
+      href: `${rootRel}${conceptOutput.id}/${concept.id}.html`,
+      reviewUrl: canonicalPageUrl(`${conceptSubmission.record.id}/${concept.id}.html`),
+      reviewLabel: "Theorem review",
+    };
+  }
+  for (const proof of proofNodes) {
+    const home = model.proofHome.get(proof.id);
+    const proofSubmission = home?.submission ?? submission;
+    const conclusion = claimSummary(proof.conclusion);
+    const anonymous = proofSubmission.output?.manifest.anonymous === true;
+    const source = anonymous ? undefined : proofSubmission.record.source;
+    const sourceHref = source && home
+      ? repositorySource(source.repository, source.commit, source.folder, home.proof.path)
+      : undefined;
+    details[`proof:${proof.id}`] = {
+      kind: "proof",
+      name: `Proof of ${conclusion.name}`,
+      nameHtml: `Proof of ${ctx.markdown.renderAuthorInline(conclusion.name, rootRel)}`,
+      status: proof.assumptionsProven ? "grounded" : "conditional",
+      statusDetail: proof.assumptionsProven
+        ? "All assumptions are proven"
+        : `${proof.outstanding} open assumption${proof.outstanding === 1 ? "" : "s"}`,
+      submission: submissionDetails(proofSubmission),
+      descriptionHtml: ctx.markdown.renderAuthorProse(proof.description, rootRel),
+      sections: authorSections(home?.proof.sections),
+      conclusion,
+      assumptions: proof.assumptions.map(claimSummary),
+      leanPath: anonymous ? undefined : home?.proof.path,
+      sourceHref,
+      href: proof.href,
+      reviewUrl: model.statementHome.has(proof.conclusion)
+        ? canonicalPageUrl(`${model.statementHome.get(proof.conclusion)!.submission.record.id}/${model.statementHome.get(proof.conclusion)!.concept.id}.html`)
+        : undefined,
+      reviewLabel: "Conclusion review",
+    };
+  }
+
+  return { statements: statementNodes, proofs: proofNodes, details, home: output.id };
 }

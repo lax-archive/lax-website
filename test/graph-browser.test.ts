@@ -601,6 +601,63 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
     });
   }, 30_000);
 
+  it("inspects proof nodes and links only in the large view, then clears the focused chain", async () => {
+    await visit(url(), async (page, audit) => {
+      const figure = page.locator(".proof-network-figure"), container = page.locator("#proof-network");
+      const proof = container.locator(`[data-node-id="${proofId}"]`);
+      expect(await figure.locator(".graph-detail-panel").count()).toBe(0);
+      expect(await proof.getAttribute("href")).toBeTruthy();
+
+      await figure.locator("[data-graph-expand]").click(); await animationFrame(page);
+      const initialScale = Number((await figure.locator("[data-graph-zoom-status]").textContent())!.replace("%", ""));
+      await proof.click();
+      const panel = figure.locator(".graph-detail-panel");
+      expect(await panel.isVisible()).toBe(true);
+      expect(await panel.locator("h3").first().textContent()).toBe("Proof of Main χ result");
+      expect(await panel.textContent()).toContain("1 open assumption");
+      expect(await panel.textContent()).toContain("Checked relationship");
+      expect(await panel.locator(".graph-detail-action").getAttribute("href")).toBeTruthy();
+      const placement = await panel.evaluate((element) => {
+        const panel = element.getBoundingClientRect(), figure = element.parentElement!.getBoundingClientRect();
+        return { rightGap: figure.right - panel.right, onRight: panel.left > (figure.left + figure.right) / 2,
+          overflow: getComputedStyle(element.querySelector(".graph-detail-scroll")!).overflowY };
+      });
+      expect(placement.rightGap).toBeLessThan(10);
+      expect(placement.onRight).toBe(true);
+      expect(placement.overflow).toBe("auto");
+      expect(await container.locator(".graph-selected").count()).toBe(1);
+      expect(await container.locator(".graph-related").count()).toBeGreaterThan(0);
+      expect(await container.locator(".graph-dimmed").count()).toBeGreaterThan(0);
+      await page.waitForTimeout(1_000); await animationFrame(page);
+      const focusedScale = Number((await figure.locator("[data-graph-zoom-status]").textContent())!.replace("%", ""));
+      expect(focusedScale).toBeGreaterThan(initialScale);
+      await capture(page, "proof-detail-proof");
+
+      const concept = container.locator('[data-node-id="s:Lax702.Main.s1"]');
+      await concept.click(); await page.waitForTimeout(1_000); await animationFrame(page);
+      expect(await panel.locator("h3").first().textContent()).toBe("Main χ result");
+      expect(await panel.textContent()).toContain("Natural-language statement");
+      expect(await panel.textContent()).toContain("Lean formalization");
+      expect(await panel.locator("pre code").textContent()).toContain("s1 : True");
+      const formalizationWidth = await panel.locator(".graph-detail-formalization").evaluate((element) => ({
+        own: element.getBoundingClientRect().width,
+        parent: element.parentElement!.getBoundingClientRect().width,
+      }));
+      expect(formalizationWidth.own / formalizationWidth.parent).toBeGreaterThan(0.98);
+      await capture(page, "proof-detail-concept");
+
+      const edge = container.locator('[data-edge-hit][aria-label*="Main χ result"]').first();
+      await edge.click({ force: true });
+      expect(await panel.textContent()).toMatch(/(?:used as an assumption|establishes)/u);
+      expect(await container.locator("[data-edge-id].graph-selected").count()).toBeGreaterThan(0);
+      await container.evaluate((element) => element.dispatchEvent(new MouseEvent("click", { bubbles: true })));
+      await animationFrame(page);
+      expect(await panel.isHidden()).toBe(true);
+      expect(await container.locator(".graph-selected, .graph-related, .graph-dimmed").count()).toBe(0);
+      await expectNoPublicLayout(page, audit);
+    });
+  }, 45_000);
+
   it("reserves graph dimensions while fonts are delayed without running browser layout", async () => {
     await visit(url(), async (page, audit) => {
       expect(await page.evaluate(() => document.fonts.status)).toBe("loading");
@@ -655,6 +712,9 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
     await visit(url("Lax704/index.html"), async (page, audit) => {
       const raw = await page.locator("#graph-data").textContent();
       expect(raw).not.toMatch(/withheld-browser-source|Withheld Browser Author|withheld-browser-author/u);
+      const details = JSON.parse(raw!).proofs.details["proof:Lax704Proofs.Anonymous"];
+      expect(details).not.toHaveProperty("leanPath");
+      expect(details).not.toHaveProperty("sourceHref");
       expect(await page.locator("#proof-network .net-proof").count()).toBe(1);
       await page.locator("#proof-network .net-proof").focus();
       expect(await page.locator(".proof-network-figure .graph-tooltip").textContent()).not.toMatch(/withheld-browser/u);

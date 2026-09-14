@@ -26,6 +26,8 @@ export interface FlatGraphInput {
 }
 export interface ProofGraphData {
   statements: readonly StatementGraphInput[]; proofs: readonly ProofGraphInput[];
+  /** Sanitized, presentation-only inspector content. It never enters layout. */
+  details?: Readonly<Record<string, unknown>>;
 }
 export interface DisplayDock {
   id: string; statementId: string; ordinal: number; href?: string;
