@@ -3984,16 +3984,39 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
   color: var(--text-dim);
   font: 0.66rem/1.3 var(--mono);
 }
-.graph-detail-formalization pre{
+.graph-detail-formalization-preview{
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  color: inherit;
+  text-decoration: none;
+}
+.graph-detail-formalization-preview:is(:hover, :focus-visible){
+  border-color: var(--link);
+  box-shadow: 0 0 0 2px rgba(59, 107, 154, 0.14);
+}
+.graph-detail-formalization-preview:focus-visible{ outline: 2px solid var(--link); outline-offset: 2px; }
+.graph-detail-formalization-preview pre{
   width: 100%;
   max-width: none;
   margin: 0;
   padding: 0.55rem 0.65rem;
-  overflow: auto;
-  border: 1px solid var(--border-light);
-  border-radius: var(--radius-control);
-  background: var(--code-bg);
-  font: 0.7rem/1.5 var(--mono);
+  max-height: 4.65rem;
+  overflow: hidden;
+  border: 0;
+  background: transparent;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font: 0.72rem/1.5 var(--mono);
+}
+.graph-detail-formalization-open{
+  display: block;
+  padding: 0.34rem 0.65rem;
+  border-top: 1px solid var(--border-light);
+  background: var(--surface);
+  color: var(--link);
+  text-align: right;
+  font: 700 0.67rem/1.3 var(--mono);
 }
 .graph-detail-claims{ margin: 0; padding-left: 1.15rem; font-size: 0.8rem; }
 .graph-detail-claims li + li{ margin-top: 0.28rem; }
