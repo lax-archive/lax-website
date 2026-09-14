@@ -2271,23 +2271,12 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
   text-wrap: balance;
 }
 
-.workshop-lede{
-  max-width: 36em;
-  margin: 1.35rem auto 0;
-  color: var(--text-dim);
-  font-size: clamp(1.05rem, 2vw, 1.25rem);
-  line-height: 1.55;
-  text-wrap: balance;
-}
-
-.workshop-lede p{ margin: 0; text-align: center; }
-
 .workshop-highlights{
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 0.5rem;
-  margin: 1.45rem 0 0;
+  margin: 1.5rem 0 0;
   padding: 0;
   list-style: none;
 }
