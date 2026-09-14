@@ -56,7 +56,6 @@
   --warn-border: #b85c4a;
   --code-bg: #f6f8fb;
   --neutral-stroke: #9aa3ad;
-  --proof-dep: #d55e00;
   --radius-chip: 2px;
   --radius-control: 4px;
   --radius-card: 7px;
@@ -3760,7 +3759,17 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
 .legend-node.stroke-own{ border-color: var(--accent); background: var(--surface); }
 .legend-node.stroke-ext{ border-color: var(--none-border); background: var(--surface); }
 .legend-arrow{ color: var(--text-dim); font-family: var(--mono); font-size: 0.9rem; font-style: normal; line-height: 1; }
-.legend-arrow.proof-dep{ color: var(--proof-dep); }
+.legend-dependency-arrow{
+  width: 18px;
+  height: 8px;
+  flex: 0 0 auto;
+  fill: none;
+  stroke: var(--text-dim);
+  stroke-width: 1.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.legend-dependency-arrow.proof-dep .legend-edge-line{ stroke-dasharray: 6 4; }
 .legend-assumptions{
   width: 14px;
   height: 24px;
@@ -3939,9 +3948,13 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
 
 /* Submission map only: a dependency that only the proof package declares.
    The dependent's statements stand on their own and just its proofs reach
-   across, so the edge is a distinct hue rather than a status colour — a
-   submission map has no proven/open axis to confuse it with. */
-.dag-edge.proof-dep{ stroke: var(--proof-dep); stroke-opacity: 1; }
+   across. A neutral dashed route keeps that distinction visible through line
+   style without giving this secondary relationship an alert-like colour. */
+.dag-edge.proof-dep{
+  stroke: var(--text-dim);
+  stroke-opacity: 0.55;
+  stroke-dasharray: 6 4;
+}
 
 /* Hover/focus changes only incident-edge classes in graph-interaction.js. */
 .dag-edge.hot,
@@ -3951,7 +3964,6 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
   stroke-width: 1.9;
 }
 .net-edge.conclusion.hot{ stroke: var(--accent); }
-.dag-edge.proof-dep.hot{ stroke: var(--proof-dep); stroke-opacity: 1; }
 
 .cycle-component{
   fill: var(--code-bg);
