@@ -1297,26 +1297,6 @@
       "title": "Planar Graph Classes",
       "concepts": [
         {
-          "id": "Lax68.ConnectedFourTerminalDichotomy",
-          "title": "Four terminals in a connected graph",
-          "type": "theorem"
-        },
-        {
-          "id": "Lax68.ConnectedThreeFan",
-          "title": "Three vertices in a connected graph have a three-fan",
-          "type": "theorem"
-        },
-        {
-          "id": "Lax68.ExcludedMinorsKuratowskiFree",
-          "title": "Excluding the two minors excludes their subdivisions",
-          "type": "theorem"
-        },
-        {
-          "id": "Lax68.FourTerminalFans",
-          "title": "Four-terminal fans",
-          "type": "definition"
-        },
-        {
           "id": "Lax68.GraphMinors",
           "title": "Graph minors",
           "type": "definition"
@@ -1325,11 +1305,6 @@
           "id": "Lax68.GraphTopologicalMinors",
           "title": "Topological graph minors",
           "type": "definition"
-        },
-        {
-          "id": "Lax68.GridPlanar",
-          "title": "Grids are planar",
-          "type": "theorem"
         },
         {
           "id": "Lax68.GridsAndWalls",
@@ -1342,43 +1317,8 @@
           "type": "definition"
         },
         {
-          "id": "Lax68.HalinPlanar",
-          "title": "Halin graphs are planar",
-          "type": "theorem"
-        },
-        {
-          "id": "Lax68.K33MinorTopologicalObstruction",
-          "title": "A K₃,₃ minor yields a K₃,₃ subdivision",
-          "type": "theorem"
-        },
-        {
-          "id": "Lax68.K5MinorTopologicalObstruction",
-          "title": "A K₅ minor yields a Kuratowski subdivision",
-          "type": "theorem"
-        },
-        {
-          "id": "Lax68.KuratowskiFreeExcludedMinors",
-          "title": "The two minor obstructions yield a Kuratowski subdivision",
-          "type": "theorem"
-        },
-        {
           "id": "Lax68.KuratowskiPlanarity",
           "title": "Kuratowski's theorem in straight-line form",
-          "type": "theorem"
-        },
-        {
-          "id": "Lax68.LadderGrid",
-          "title": "Ladders are grids",
-          "type": "theorem"
-        },
-        {
-          "id": "Lax68.LadderOuterplanar",
-          "title": "Ladders are outerplanar",
-          "type": "theorem"
-        },
-        {
-          "id": "Lax68.LadderPlanar",
-          "title": "Ladders are planar",
           "type": "theorem"
         },
         {
@@ -1387,24 +1327,9 @@
           "type": "definition"
         },
         {
-          "id": "Lax68.LadderSeriesParallel",
-          "title": "Ladders are series-parallel",
-          "type": "theorem"
-        },
-        {
           "id": "Lax68.MaximalOuterplanar",
           "title": "Maximal outerplanar graphs",
           "type": "definition"
-        },
-        {
-          "id": "Lax68.MaximalOuterplanarOuterplanar",
-          "title": "Maximal outerplanar graphs are outerplanar",
-          "type": "theorem"
-        },
-        {
-          "id": "Lax68.MaximalOuterplanarPlanar",
-          "title": "Maximal outerplanar graphs are planar",
-          "type": "theorem"
         },
         {
           "id": "Lax68.Outerplanar",
@@ -1412,29 +1337,9 @@
           "type": "definition"
         },
         {
-          "id": "Lax68.OuterplanarPlanar",
-          "title": "Outerplanar graphs are planar",
-          "type": "theorem"
-        },
-        {
-          "id": "Lax68.PathOuterplanar",
-          "title": "Paths are outerplanar",
-          "type": "theorem"
-        },
-        {
-          "id": "Lax68.PathPlanar",
-          "title": "Paths are planar",
-          "type": "theorem"
-        },
-        {
           "id": "Lax68.Paths",
           "title": "Paths",
           "type": "definition"
-        },
-        {
-          "id": "Lax68.PathTree",
-          "title": "Paths are trees",
-          "type": "theorem"
         },
         {
           "id": "Lax68.Planar",
@@ -1452,29 +1357,9 @@
           "type": "definition"
         },
         {
-          "id": "Lax68.SeriesParallelPlanar",
-          "title": "Series-parallel graphs are planar",
-          "type": "theorem"
-        },
-        {
-          "id": "Lax68.StarOuterplanar",
-          "title": "Stars are outerplanar",
-          "type": "theorem"
-        },
-        {
-          "id": "Lax68.StarPlanar",
-          "title": "Stars are planar",
-          "type": "theorem"
-        },
-        {
           "id": "Lax68.Stars",
           "title": "Stars",
           "type": "definition"
-        },
-        {
-          "id": "Lax68.StarTree",
-          "title": "Stars are trees",
-          "type": "theorem"
         },
         {
           "id": "Lax68.StraightLineDrawings",
@@ -1482,54 +1367,9 @@
           "type": "definition"
         },
         {
-          "id": "Lax68.ThreeFans",
-          "title": "Three-fans",
-          "type": "definition"
-        },
-        {
-          "id": "Lax68.TopologicalMinorIsMinor",
-          "title": "Every topological minor is a minor",
-          "type": "theorem"
-        },
-        {
-          "id": "Lax68.TreeFourTerminalDichotomy",
-          "title": "Four terminals in a tree",
-          "type": "theorem"
-        },
-        {
-          "id": "Lax68.TreeOuterplanar",
-          "title": "Trees are outerplanar",
-          "type": "theorem"
-        },
-        {
-          "id": "Lax68.TreePlanar",
-          "title": "Trees are planar",
-          "type": "theorem"
-        },
-        {
           "id": "Lax68.Trees",
           "title": "Trees",
           "type": "definition"
-        },
-        {
-          "id": "Lax68.TreeThreeFan",
-          "title": "Three vertices in a tree have a three-fan",
-          "type": "theorem"
-        },
-        {
-          "id": "Lax68.TriangleMaximalOuterplanar",
-          "title": "Triangles are maximal outerplanar",
-          "type": "theorem"
-        },
-        {
-          "id": "Lax68.TriangleOuterplanar",
-          "title": "Triangles are outerplanar",
-          "type": "theorem"
-        },
-        {
-          "id": "Lax68.TrianglePlanar",
-          "title": "Triangles are planar",
-          "type": "theorem"
         },
         {
           "id": "Lax68.Triangles",
@@ -1537,34 +1377,9 @@
           "type": "definition"
         },
         {
-          "id": "Lax68.TriangulationPlanar",
-          "title": "Triangulations of planar graphs are planar",
-          "type": "theorem"
-        },
-        {
           "id": "Lax68.Triangulations",
           "title": "Triangulations",
           "type": "definition"
-        },
-        {
-          "id": "Lax68.WagnerObstructionBridge",
-          "title": "The Kuratowski-Wagner obstruction bridge",
-          "type": "theorem"
-        },
-        {
-          "id": "Lax68.WallPlanar",
-          "title": "Walls are planar",
-          "type": "theorem"
-        },
-        {
-          "id": "Lax68.WheelHalin",
-          "title": "Wheels are Halin graphs",
-          "type": "theorem"
-        },
-        {
-          "id": "Lax68.WheelPlanar",
-          "title": "Wheels are planar",
-          "type": "theorem"
         },
         {
           "id": "Lax68.Wheels",
@@ -1573,14 +1388,7 @@
         }
       ],
       "proofs": [
-        "Lax68Proofs.ConnectedFourTerminalDichotomy.exists_fourFan_or_split",
-        "Lax68Proofs.ConnectedThreeFan.exists_threeFan",
-        "Lax68Proofs.excludedMinors_kuratowskiFree",
         "Lax68Proofs.halin_planar",
-        "Lax68Proofs.K33MinorTopologicalObstruction.k33Minor_topologicalMinor",
-        "Lax68Proofs.K5MinorTopologicalObstruction.k5Minor_topologicalObstruction",
-        "Lax68Proofs.kuratowskiFree_excludedMinors",
-        "Lax68Proofs.kuratowskiFree_iff_excludedMinors",
         "Lax68Proofs.ladder_grid",
         "Lax68Proofs.ladder_planar",
         "Lax68Proofs.maximalOuterplanar_outerplanar",
@@ -1588,13 +1396,11 @@
         "Lax68Proofs.outerplanar_planar",
         "Lax68Proofs.path_outerplanar",
         "Lax68Proofs.path_planar",
-        "Lax68Proofs.planar_iff_excludedMinors",
+        "Lax68Proofs.path_tree",
         "Lax68Proofs.star_outerplanar",
         "Lax68Proofs.star_planar",
-        "Lax68Proofs.TopologicalMinorToMinor.isMinor_of_isTopologicalMinor",
-        "Lax68Proofs.tree_exists_threeFan",
+        "Lax68Proofs.star_tree",
         "Lax68Proofs.tree_planar",
-        "Lax68Proofs.TreeFourTerminalDichotomy.exists_fourFan_or_split",
         "Lax68Proofs.triangle_outerplanar",
         "Lax68Proofs.triangle_planar",
         "Lax68Proofs.triangulationOf_planar",
