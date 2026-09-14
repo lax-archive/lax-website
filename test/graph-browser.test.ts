@@ -578,8 +578,10 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       await page.setViewportSize({ width: 1920, height: 1200 }); await animationFrame(page);
       await figure.locator("[data-graph-expand]").click(); await animationFrame(page);
       await node.hover(); await animationFrame(page);
-      expect(await tooltip.isVisible()).toBe(true);
+      expect(await tooltip.isHidden()).toBe(true);
       expect(await page.locator('.prepared-graph title, .prepared-graph [title]').count()).toBe(0);
+      await node.focus(); await animationFrame(page);
+      expect(await tooltip.isVisible()).toBe(true);
       expect(await tooltip.evaluate((element) => getComputedStyle(element).backgroundColor)).toBe("rgb(255, 255, 255)");
       const appearance = () => tooltip.evaluate((element) => {
         const box = element.getBoundingClientRect(), style = getComputedStyle(element), pixels = window.devicePixelRatio;
@@ -587,7 +589,6 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
           x: box.left * pixels, y: box.top * pixels };
       });
       const originalPanel = await appearance();
-      await node.focus();
       for (const key of ["-", "+"]) {
         await page.keyboard.press(key); await animationFrame(page);
         const panel = await appearance();
