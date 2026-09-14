@@ -67,19 +67,15 @@ ${markdown.render(section("Workshop details"), "../")}
 </div>
 </section>
 </div>
-<section class="workshop-registration" aria-labelledby="workshop-registration-heading">
+<section class="workshop-registration" aria-label="Workshop registration">
 <header class="workshop-registration-head">
-<div>
-<p class="workshop-section-number" aria-hidden="true">03</p>
-<h2 id="workshop-registration-heading">Preregistration</h2>
-</div>
 <div class="workshop-registration-copy latex-content">
 ${markdown.render(section("Preregistration"), "../")}
 <a class="workshop-form-link" href="${attr(FORM_URL)}" target="_blank" rel="noopener noreferrer">Open preregistration form <span aria-hidden="true">↗</span></a>
 </div>
 </header>
 <div class="workshop-form-frame">
-<iframe src="${attr(FORM_URL)}" width="100%" height="1100" frameborder="0" title="Lean and Lax workshop preregistration form">Loading…</iframe>
+<iframe src="${attr(FORM_URL)}" width="100%" height="1400" frameborder="0" title="Lean and Lax workshop preregistration form">Loading…</iframe>
 </div>
 </section>
 </article>`;

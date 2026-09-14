@@ -2338,8 +2338,7 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
   letter-spacing: 0.1em;
 }
 
-#detail .workshop-panel h2,
-#detail .workshop-registration h2{
+#detail .workshop-panel h2{
   margin: 0;
   font-size: 1.25rem;
   font-variant: normal;
@@ -2408,10 +2407,6 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
 .workshop-registration{ overflow: hidden; }
 
 .workshop-registration-head{
-  display: grid;
-  grid-template-columns: minmax(12rem, 0.55fr) minmax(0, 1fr);
-  gap: 2rem;
-  align-items: start;
   padding: clamp(1.35rem, 3vw, 2rem);
   background: linear-gradient(105deg, var(--surface) 0%, var(--panel-bg) 100%);
   border-bottom: 1px solid var(--border-light);
@@ -2457,7 +2452,7 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
 .workshop-form-frame iframe{
   display: block;
   width: 100%;
-  min-height: 1100px;
+  min-height: 1400px;
   border: 0;
   border-radius: var(--radius-control);
   background: var(--surface);
@@ -2465,9 +2460,7 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
 
 @media (max-width: 760px){
   .workshop-hero::before{ inset-inline: 0; }
-  .workshop-summary,
-  .workshop-registration-head{ grid-template-columns: 1fr; }
-  .workshop-registration-head{ gap: 0.8rem; }
+  .workshop-summary{ grid-template-columns: 1fr; }
 }
 
 @media (max-width: 480px){
