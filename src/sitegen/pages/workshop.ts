@@ -65,7 +65,7 @@ ${markdown.render(section("Workshop details"), "../")}
 </div>
 <section class="workshop-registration" aria-label="Workshop registration">
 <div class="workshop-form-frame">
-<iframe src="${attr(FORM_URL)}" width="640" height="779" frameborder="0" marginheight="0" marginwidth="0" title="Lean and Lax workshop preregistration form">Loading…</iframe>
+<iframe src="${attr(FORM_URL)}" width="640" height="840" frameborder="0" marginheight="0" marginwidth="0" title="Lax Online Workshop preregistration form">Loading…</iframe>
 </div>
 </section>
 </article>`;

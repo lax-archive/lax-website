@@ -1,4 +1,4 @@
-# Lean and Lax online workshop
+# Lax Online Workshop
 
 ## We offer a free online workshop that teaches:
 

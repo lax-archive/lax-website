@@ -11,7 +11,7 @@ describe("workshop page", () => {
     await generateSite([], root);
     const html = fs.readFileSync(path.join(root, "workshop", "index.html"), "utf8");
 
-    expect(html).toContain("Lean and Lax online workshop");
+    expect(html).toContain("Lax Online Workshop");
     expect(html).not.toContain("laxarchive.org/workshop");
     expect(html).toContain('<h2 id="workshop-outcomes-heading">We offer a free online workshop that teaches:</h2>');
     expect(html).not.toContain("What you will learn");
@@ -28,8 +28,8 @@ describe("workshop page", () => {
     expect(html).not.toContain("workshop-registration-head");
     expect(html).not.toContain("workshop-registration-heading");
     expect(html).toContain('<section class="workshop-registration" aria-label="Workshop registration">');
-    expect(html).toContain('<iframe src="https://docs.google.com/forms/d/e/1FAIpQLScCkCORYWuaP9SvNeySxIsa_zEuqTz8q_d9b8-3SOxS1L_xIg/viewform?embedded=true" width="640" height="779" frameborder="0" marginheight="0" marginwidth="0"');
-    expect(html).toContain('title="Lean and Lax workshop preregistration form"');
+    expect(html).toContain('<iframe src="https://docs.google.com/forms/d/e/1FAIpQLScCkCORYWuaP9SvNeySxIsa_zEuqTz8q_d9b8-3SOxS1L_xIg/viewform?embedded=true" width="640" height="840" frameborder="0" marginheight="0" marginwidth="0"');
+    expect(html).toContain('title="Lax Online Workshop preregistration form"');
     expect(html).not.toContain("Open preregistration form");
     expect(html).toContain("frame-src https://comments.laxarchive.org https://accounts.google.com https://docs.google.com");
     expect(html).toContain('href="../assets/style.css');
