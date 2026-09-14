@@ -1,12 +1,12 @@
 # Lean and Lax online workshop
 
-Join us for a free online workshop about moving from mathematical ideas to formalized, shareable results.
+Join a free, hands-on workshop on the full path from a mathematical idea to a formalized, shareable result.
 
 ## What you will learn
 
-- How to get started with Lean.
-- How to formalize your results with AI coding agents such as Claude Code or OpenAI Codex.
-- How to share those results with the community using Lax.
+- Set up your first Lean project and learn the core workflow.
+- Use AI coding agents such as Claude Code or OpenAI Codex to help formalize your own results.
+- Publish and share your formalized results with the community through Lax.
 
 ## Workshop details
 
@@ -16,4 +16,4 @@ Join us for a free online workshop about moving from mathematical ideas to forma
 
 ## Preregistration
 
-We kindly ask all participants to fill in the preregistration form below. The form asks for your name, email address, and prior Lean knowledge (none, some, or expert).
+We kindly ask you to preregister below. The form asks for your name, email address, and prior Lean knowledge (none, some, or expert).

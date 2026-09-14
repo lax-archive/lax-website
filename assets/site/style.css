@@ -2247,9 +2247,19 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
 .workshop-page{ max-width: 60em; margin: 0 auto; }
 
 .workshop-hero{
+  position: relative;
   max-width: 48em;
   margin: 0 auto clamp(2.25rem, 5vw, 4.25rem);
   text-align: center;
+}
+
+.workshop-hero::before{
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: -1.5rem -5rem -2.5rem;
+  background: radial-gradient(ellipse at center, rgba(59, 107, 154, 0.07), transparent 68%);
+  pointer-events: none;
 }
 
 .workshop-kicker{
@@ -2282,6 +2292,33 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
 
 .workshop-lede p{ margin: 0; text-align: center; }
 
+.workshop-highlights{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: 1.45rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.workshop-highlights li{
+  display: inline-flex;
+  align-items: center;
+  gap: 0.38rem;
+  padding: 0.32rem 0.58rem;
+  color: var(--text-dim);
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid var(--border-light);
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.workshop-highlights li span{ color: var(--accent); font-family: system-ui, sans-serif; }
+
 .workshop-summary{
   display: grid;
   grid-template-columns: minmax(0, 1.45fr) minmax(16rem, 0.8fr);
@@ -2299,6 +2336,8 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
 }
 
 .workshop-panel{ padding: clamp(1.35rem, 3vw, 2rem); }
+.workshop-outcomes{ border-top: 3px solid var(--accent); }
+.workshop-details{ border-top: 3px solid var(--border); }
 
 .workshop-section-number{
   margin-bottom: 0.35rem;
@@ -2331,6 +2370,7 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
   min-height: 2.8rem;
   padding: 0.72rem 0 0.72rem 2.15rem;
   line-height: 1.45;
+  hyphens: none;
   text-align: left;
 }
 
@@ -2383,6 +2423,7 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
   gap: 2rem;
   align-items: start;
   padding: clamp(1.35rem, 3vw, 2rem);
+  background: linear-gradient(105deg, var(--surface) 0%, var(--panel-bg) 100%);
   border-bottom: 1px solid var(--border-light);
 }
 
@@ -2391,17 +2432,17 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
   line-height: 1.55;
 }
 
-.workshop-registration-copy p{ margin: 0; text-align: left; }
+.workshop-registration-copy p{ margin: 0; hyphens: none; text-align: left; }
 
-.workshop-form-link{
+.workshop-registration-copy .workshop-form-link{
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
   margin-top: 0.9rem;
   padding: 0.48rem 0.72rem;
-  color: var(--link);
-  background: var(--accent-light);
-  border: 1px solid rgba(59, 107, 154, 0.25);
+  color: var(--surface);
+  background: var(--accent);
+  border: 1px solid var(--accent);
   border-radius: var(--radius-control);
   font-size: 0.88rem;
   font-weight: 700;
@@ -2410,7 +2451,13 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
 }
 
 .workshop-form-link:hover,
-.workshop-form-link:focus-visible{ border-color: var(--accent); outline: none; }
+.workshop-form-link:focus-visible{
+  color: var(--surface);
+  background: #315f8a;
+  border-color: #315f8a;
+  box-shadow: 0 0 0 3px rgba(59, 107, 154, 0.16);
+  outline: none;
+}
 
 .workshop-form-frame{
   padding: clamp(0.45rem, 1.5vw, 1rem);
@@ -2427,6 +2474,7 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
 }
 
 @media (max-width: 760px){
+  .workshop-hero::before{ inset-inline: 0; }
   .workshop-summary,
   .workshop-registration-head{ grid-template-columns: 1fr; }
   .workshop-registration-head{ gap: 0.8rem; }
@@ -2435,6 +2483,8 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
 @media (max-width: 480px){
   .workshop-kicker span{ display: none; }
   .workshop-kicker{ display: grid; gap: 0.2rem; }
+  .workshop-highlights{ gap: 0.38rem; }
+  .workshop-highlights li{ font-size: 0.62rem; }
   .workshop-form-frame{ margin-inline: -1px; padding-inline: 0; }
   .workshop-form-frame iframe{ border-radius: 0; }
 }

@@ -45,6 +45,12 @@ export function workshopPage({ markdown }: PageContext): string {
 <div class="workshop-lede latex-content">
 ${markdown.render(copy.introduction, "../")}
 </div>
+<ul class="workshop-highlights" aria-label="Workshop at a glance">
+<li><span aria-hidden="true">✓</span> Free</li>
+<li><span aria-hidden="true">◷</span> Two hours</li>
+<li><span aria-hidden="true">◎</span> Live online</li>
+<li><span aria-hidden="true">◇</span> All Lean levels</li>
+</ul>
 </header>
 <div class="workshop-summary">
 <section class="workshop-panel workshop-outcomes" aria-labelledby="workshop-outcomes-heading">
@@ -70,7 +76,7 @@ ${markdown.render(section("Workshop details"), "../")}
 </div>
 <div class="workshop-registration-copy latex-content">
 ${markdown.render(section("Preregistration"), "../")}
-<a class="workshop-form-link" href="${attr(FORM_URL)}" target="_blank" rel="noopener noreferrer">Open the form in a new tab <span aria-hidden="true">↗</span></a>
+<a class="workshop-form-link" href="${attr(FORM_URL)}" target="_blank" rel="noopener noreferrer">Open preregistration form <span aria-hidden="true">↗</span></a>
 </div>
 </header>
 <div class="workshop-form-frame">
