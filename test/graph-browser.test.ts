@@ -708,6 +708,10 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       const concept = container.locator('[data-node-id="s:Lax702.Main.s1"]');
       await concept.click(); await page.waitForTimeout(1_000); await animationFrame(page);
       expect(await panel.locator("h3").first().textContent()).toBe("Main χ result");
+      const conceptPageAction = panel.locator(".graph-detail-action");
+      expect(await conceptPageAction.textContent()).toBe("Open concept page");
+      expect(await conceptPageAction.getAttribute("href")).toContain("Lax702.Main.html");
+      expect(await conceptPageAction.getAttribute("href")).not.toContain("#");
       expect(await panel.locator(".graph-detail-status").textContent()).toBe("Proven Statement");
       expect(await panel.locator(".graph-detail-open-assumptions").textContent()).toBe("4 open assumptions used");
       expect(await panel.textContent()).toContain("Natural-language statement");

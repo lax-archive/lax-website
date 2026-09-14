@@ -832,7 +832,8 @@
           selectProofItem(controller, { type: 'node', id: element.dataset.nodeId }, trigger, {
             detail, eyebrow,
             focusStatement: ['statement', 'dock'].includes(info.kind) ? info.semanticId : undefined,
-            href: info.href || detail.href,
+            href: info.kind === 'proof' ? (info.href || detail.href) :
+              (detail.href || info.href?.split('#')[0]),
             actionLabel: info.kind === 'proof' ? 'Open proof page' : 'Open concept page',
           });
         });
