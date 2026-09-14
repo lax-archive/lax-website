@@ -1646,7 +1646,7 @@ After the formula.`, "");
     expect(staticMap).toMatch(/<path class="dag-edge proof-dep" data-edge-id="[^"]+" d="[^"]+" marker-end="url\(#[^)]+\)"\/>/u);
     const css = fs.readFileSync(path.join(root, "assets", "style.css"), "utf8");
     expect(html).toContain('<svg class="legend-dependency-arrow proof-dep"');
-    expect(css).toMatch(/\.dag-edge\.proof-dep\{[\s\S]*?stroke: var\(--text-dim\);[\s\S]*?stroke-dasharray: 4 3;/u);
+    expect(css).toMatch(/\.dag-edge\.proof-dep\{[\s\S]*?stroke: var\(--text-dim\);[\s\S]*?stroke-dasharray: 6 4;/u);
   });
 
   it("renders the concept page: type heading, tinted source, sections, deps", async () => {

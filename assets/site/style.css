@@ -3769,7 +3769,7 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
   stroke-linecap: round;
   stroke-linejoin: round;
 }
-.legend-dependency-arrow.proof-dep .legend-edge-line{ stroke-dasharray: 4 3; }
+.legend-dependency-arrow.proof-dep .legend-edge-line{ stroke-dasharray: 6 4; }
 .legend-assumptions{
   width: 14px;
   height: 24px;
@@ -3952,8 +3952,8 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
    style without giving this secondary relationship an alert-like colour. */
 .dag-edge.proof-dep{
   stroke: var(--text-dim);
-  stroke-opacity: 0.65;
-  stroke-dasharray: 4 3;
+  stroke-opacity: 0.55;
+  stroke-dasharray: 6 4;
 }
 
 /* Hover/focus changes only incident-edge classes in graph-interaction.js. */
