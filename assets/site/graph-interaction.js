@@ -903,9 +903,9 @@
     };
     controller.reset = () => {
       stopCameraAnimation(controller);
+      clearProofSelection(controller, false);
       if (container.closest('.graph-figure').classList.contains('graph-expanded')) {
         controller.frameExpanded();
-        if (controller.selection) controller.selectionBaseScale = controller.camera.scale;
         return;
       }
       controller.autoFrame = false;
@@ -940,8 +940,16 @@
     });
     svg.addEventListener('pointermove', (event) => {
       if (!drag || event.pointerId !== drag.id) return;
-      controller.camera.x += (event.clientX - drag.x) / drag.scale;
-      controller.camera.y += (event.clientY - drag.y) / drag.scale;
+      const dx = event.clientX - drag.x, dy = event.clientY - drag.y;
+      const style = getComputedStyle(container);
+      const left = container.scrollLeft, top = container.scrollTop;
+      if (style.overflowX !== 'hidden') container.scrollLeft = left - dx;
+      if (style.overflowY !== 'hidden') container.scrollTop = top - dy;
+      // Native scrollbars and grab-to-pan now move the same viewport. Camera
+      // translation handles only the portion beyond a scrollbar's limits, or
+      // an axis whose drawing already fits and therefore has no scrollbar.
+      controller.camera.x += (dx + container.scrollLeft - left) / drag.scale;
+      controller.camera.y += (dy + container.scrollTop - top) / drag.scale;
       drag.x = event.clientX; drag.y = event.clientY; controller.paint();
     });
     const release = () => { drag = null; svg.classList.remove('graph-dragging'); };

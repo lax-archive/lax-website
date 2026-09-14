@@ -422,13 +422,38 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       }));
       expect(await dimensions()).toMatchObject({ x: "hidden", y: "hidden" });
       const drawingWidth = await container.locator("svg").evaluate((el) => el.getBoundingClientRect().width);
-      await page.setViewportSize({ width: Math.floor(drawingWidth), height: 850 }); await animationFrame(page);
+      await page.setViewportSize({ width: Math.floor(drawingWidth), height: 850 });
+      await container.scrollIntoViewIfNeeded(); await animationFrame(page);
       const narrow = await dimensions();
       expect(narrow.scrollWidth).toBeGreaterThan(narrow.width);
       expect(narrow.x).toBe("auto");
       expect(narrow.y).toBe("hidden");
       expect(narrow.scrollHeight).toBeLessThanOrEqual(narrow.height + 1);
       if (browserName === "chromium") expect(narrow.horizontalBar).toBeGreaterThan(0);
+      const tracked = container.locator("[data-node-id]").first();
+      const beforePan = await container.evaluate((element) => ({ left: element.scrollLeft,
+        camera: element.querySelector("[data-graph-camera]")!.getAttribute("transform") }));
+      const beforeNodeLeft = (await tracked.boundingBox())!.x;
+      const blank = await container.evaluate((element) => {
+        const box = element.getBoundingClientRect();
+        for (let y = box.top + 4; y < box.bottom - 4; y += 8) {
+          for (let x = box.left + box.width / 3; x < box.right - 32; x += 8) {
+            const target = document.elementFromPoint(x, y);
+            if (target && element.contains(target) && !target.closest("a, [data-edge-hit]")) return { x, y };
+          }
+        }
+        return null;
+      });
+      expect(blank).toBeTruthy();
+      const { x, y } = blank!;
+      await page.mouse.move(x, y); await page.mouse.down();
+      await page.mouse.move(x - 24, y, { steps: 4 }); await page.mouse.up(); await animationFrame(page);
+      const afterPan = await container.evaluate((element) => ({ left: element.scrollLeft,
+        camera: element.querySelector("[data-graph-camera]")!.getAttribute("transform") }));
+      const afterNodeLeft = (await tracked.boundingBox())!.x;
+      expect(afterPan.left - beforePan.left).toBeCloseTo(24, 0);
+      expect(afterNodeLeft - beforeNodeLeft).toBeCloseTo(-24, 0);
+      expect(afterPan.camera).toBe(beforePan.camera);
       await page.setViewportSize({ width: 1920, height: 1200 }); await animationFrame(page);
       expect(await dimensions()).toMatchObject({ x: "hidden", y: "hidden" });
     });
@@ -730,6 +755,10 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       expect(edgeZoomedOutScale).toBe(20);
       expect(await panel.isVisible()).toBe(true);
       expect(await container.locator("[data-edge-id].graph-selected").count()).toBeGreaterThan(0);
+      await figure.locator('[data-graph-zoom="reset"]').click(); await animationFrame(page);
+      expect(await panel.isHidden()).toBe(true);
+      expect(await container.locator(".graph-selected, .graph-related, .graph-dimmed").count()).toBe(0);
+      expect(Number((await figure.locator("[data-graph-zoom-status]").textContent())!.replace("%", ""))).toBeGreaterThan(20);
       await expectNoPublicLayout(page, audit);
 
       await concept.click(); await animationFrame(page);
