@@ -2653,12 +2653,12 @@
     {
       "id": "lax-434930",
       "state": "draft",
-      "environment": "v4.30.0",
+      "environment": "v4.33.0",
       "title": "Classical Complexity Classes",
       "concepts": [
         {
           "id": "Lax434930.BasicProperties",
-          "title": "Elementary properties of the complexity classes",
+          "title": "The inclusion chain of complexity classes",
           "type": "theorem"
         },
         {
@@ -2672,14 +2672,34 @@
           "type": "definition"
         },
         {
+          "id": "Lax434930.ComplementClosure",
+          "title": "P is closed under complement",
+          "type": "lemma"
+        },
+        {
           "id": "Lax434930.ExponentialTime",
           "title": "The complexity class EXPTIME",
           "type": "definition"
         },
         {
+          "id": "Lax434930.FiniteStackEquivalence",
+          "title": "Finite stack alphabets suffice",
+          "type": "lemma"
+        },
+        {
           "id": "Lax434930.LogarithmicSpace",
           "title": "The complexity class L",
           "type": "definition"
+        },
+        {
+          "id": "Lax434930.MachineModels",
+          "title": "Finite-stack and elementary single-tape definitions of P",
+          "type": "definition"
+        },
+        {
+          "id": "Lax434930.ModelEquivalence",
+          "title": "Single-tape characterization of P",
+          "type": "lemma"
         },
         {
           "id": "Lax434930.NondeterministicLogarithmicSpace",
@@ -2702,6 +2722,11 @@
           "type": "definition"
         },
         {
+          "id": "Lax434930.PolynomialSpaceEquality",
+          "title": "Deterministic and nondeterministic polynomial space coincide",
+          "type": "lemma"
+        },
+        {
           "id": "Lax434930.PolynomialTime",
           "title": "The complexity class P",
           "type": "definition"
@@ -2710,6 +2735,11 @@
           "id": "Lax434930.PVersusNP",
           "title": "P versus NP",
           "type": "open question"
+        },
+        {
+          "id": "Lax434930.SingleTapeComplement",
+          "title": "Single-tape P is closed under complement",
+          "type": "lemma"
         },
         {
           "id": "Lax434930.SpaceBounds",
@@ -2723,16 +2753,19 @@
         }
       ],
       "proofs": [
-        "Lax434930Proofs.BasicProperties.co_co",
         "Lax434930Proofs.BasicProperties.L_subset_NL",
-        "Lax434930Proofs.BasicProperties.L_subset_PSPACE",
-        "Lax434930Proofs.BasicProperties.mem_coNP_iff",
-        "Lax434930Proofs.BasicProperties.NL_subset_NPSPACE",
-        "Lax434930Proofs.BasicProperties.P_subset_EXPTIME",
-        "Lax434930Proofs.BasicProperties.PSPACE_subset_NPSPACE",
         "Lax434930Proofs.Certificates.pair_injective",
         "Lax434930Proofs.Certificates.pair_length",
-        "Lax434930Proofs.Certificates.unpair_pair"
+        "Lax434930Proofs.Certificates.unpair_pair",
+        "Lax434930Proofs.closed_under_complement",
+        "Lax434930Proofs.ModelEquivalence.finiteStackP_eq_P",
+        "Lax434930Proofs.ModelEquivalence.singleTape_closed_under_complement",
+        "Lax434930Proofs.ModelEquivalence.singleTapeP_eq_P",
+        "Lax434930Proofs.NL_subset_P",
+        "Lax434930Proofs.NP_subset_PSPACE",
+        "Lax434930Proofs.NPSPACE_subset_EXPTIME",
+        "Lax434930Proofs.P_subset_NP",
+        "Lax434930Proofs.PSPACE_eq_NPSPACE"
       ]
     },
     {
