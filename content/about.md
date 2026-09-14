@@ -65,4 +65,4 @@ HPI Potsdam), and Clemens Kuske (TU Wien and HPI Potsdam).
 
 ## Acknowledgments
 
-We thank Szymon Toruńczyk for his several early submissions and suggestions, Mikolaj Bojańczyk and Fatemeh Ghasemi for their submissions, and Holger Dell for detailed feedback. We also thank Marcin Pilipczuk, Nikolas Mählmann, and Lance Fortnow for pointers, comments, and encouragement.
+We thank Szymon Toruńczyk for his several submissions and suggestions, Mikolaj Bojańczyk and Fatemeh Ghasemi for early tests, and Holger Dell for detailed feedback. We also thank Marcin Pilipczuk, Nikolas Mählmann, and Lance Fortnow for pointers, comments, and encouragement.
