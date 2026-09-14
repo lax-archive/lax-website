@@ -71,6 +71,9 @@ ${landingDemoFace("concept", "concepts/ErdosHajnal/C5.lean", concept)}
 ${landingDemoFace("proof", "proofs/ErdosHajnalProofs/C5.lean", proof)}
 </span>
 </button>
-<figcaption>Hover over the concept file, or tap or press Enter, to turn it over and see a proof excerpt.</figcaption>
+<figcaption>
+<span data-proof-flip-concept-caption>Concepts to review and endorse on the website</span>
+<span data-proof-flip-proof-caption hidden>Proofs available in the submitter's git repository</span>
+</figcaption>
 </figure>`;
 }

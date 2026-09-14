@@ -31,7 +31,8 @@ describe("footer and legal pages", () => {
     expect(about).toContain('<h1 class="paper-title">About Lax</h1>');
     expect(about).toContain("<h2>Lax Submission</h2>");
     expect(about).toContain('<figure class="proof-flip-figure">');
-    expect(about).toContain("<figcaption>Hover over the concept file");
+    expect(about).toContain('<span data-proof-flip-concept-caption>Concepts to review and endorse on the website</span>');
+    expect(about).toContain("<span data-proof-flip-proof-caption hidden>Proofs available in the submitter's git repository</span>");
     expect(about).not.toContain("Under construction.");
     // no sidebar on a page that is not about a submission, and no toggle to summon one
     expect(about).toContain('<header class="site-header sidebar-hidden">');
