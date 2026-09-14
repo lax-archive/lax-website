@@ -14,4 +14,4 @@
 
 ## Preregistration
 
-We kindly ask participants to fill in the preregistration form below. The form asks for your name, email address, and prior Lean knowledge (none, some, or expert).
+We kindly ask participants to fill in the preregistration form below.
