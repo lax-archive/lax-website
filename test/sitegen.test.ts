@@ -782,7 +782,7 @@ After the formula.`, "");
     expect(index).not.toContain('<h1 class="paper-title">Lax <span class="site-title-quiet">Lean Archive</span></h1>');
     expect(index).toContain(`<h1 class="landing-title" id="landing-title">Let's stay in control of mathematics</h1>`);
     expect(index).toContain('<div class="landing-manifesto latex-content">');
-    expect(index).toMatch(/AI is about to massively accelerate mathematical research/);
+    expect(index).toContain("Mathematical research is about to be drastically accelerated.");
     expect(index).not.toContain("<strong>Correctness</strong>");
     expect(index).not.toContain("<strong>Understanding</strong>");
     expect(index).toContain('<section class="landing-section landing-how" aria-labelledby="landing-how-heading">');

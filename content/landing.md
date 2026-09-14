@@ -1,7 +1,7 @@
 # Let's stay in control of mathematics
 
-AI is about to massively accelerate mathematical research. This will push the
-classical system of peer review and publishing beyond its limits. We need new,
+Mathematical research is about to be drastically accelerated. This will push
+the classical system of peer review and publishing beyond its limits. We need new,
 scalable mechanisms for digesting mathematics, or we risk losing control of
 our own field.
 
