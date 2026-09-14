@@ -1323,11 +1323,11 @@ a.submission-meta-id:is(:hover, :focus-visible),
 .inline-contract-table tr[id],
 .statement-anchor{ scroll-margin-top: var(--header-height); }
 
-/* Short pages need room after the footer to bring a late source target to
-   the top. Only source-fragment visits get this space; no script is needed. */
-#main:has(.inline-contract-table :target)::after{
+/* Short pages need room after a late source target to bring it to the top.
+   Keep the spacer inside the detail so the footer remains the page's end. */
+#detail:has(.inline-contract-table :target)::after{
   content: '';
-  flex: none;
+  display: block;
   height: max(0px, calc(100vh - var(--header-height)));
 }
 
