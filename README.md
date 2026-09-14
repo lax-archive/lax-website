@@ -120,6 +120,8 @@ bytes therefore differ from production's, deterministically per flag set).
 - `content/landing.md` supplies the landing-page introduction.
 - `content/contributing.md` generates `/contributing.html`.
 - `content/about.md` generates `/about.html`, linked from the header.
+  Its `{{concept-proof-flip}}` marker inserts the concept/proof flip card
+  from `src/sitegen/pages/proof-flip.ts`, with hover, touch and keyboard controls.
 - Submission, concept, and proof pages come from `record.json` and
   `build-output.json` in `lax-db`.
 - Submission/concept titles and annotation headings accept inline Markdown and

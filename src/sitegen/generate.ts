@@ -76,10 +76,10 @@ export async function generateSite(
   files.set("index.json", `${JSON.stringify(recordIndex(model), null, 2)}\n`);
   files.set("environments.json", `${JSON.stringify(environmentIndex(model), null, 2)}\n`);
   files.set(path.join("all-comments", "index.html"), allCommentsPage(context));
-  files.set("about.html", contentPage(context, "about", "About Lax"));
-  files.set("contributing.html", contentPage(context, "contributing", "Getting started"));
-  files.set("impressum.html", contentPage(context, "impressum", "Imprint"));
-  files.set("privacy.html", contentPage(context, "privacy", "Privacy Notice"));
+  files.set("about.html", await contentPage(context, "about", "About Lax"));
+  files.set("contributing.html", await contentPage(context, "contributing", "Getting started"));
+  files.set("impressum.html", await contentPage(context, "impressum", "Imprint"));
+  files.set("privacy.html", await contentPage(context, "privacy", "Privacy Notice"));
   const proofObligations = openProblemsPage(context);
   files.set("open-proof-obligations.html", proofObligations);
   // Preserve shared preview and production links published under the old name.

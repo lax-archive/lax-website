@@ -30,8 +30,8 @@ describe("footer and legal pages", () => {
     const about = fs.readFileSync(path.join(root, "about.html"), "utf8");
     expect(about).toContain('<h1 class="paper-title">About Lax</h1>');
     expect(about).toContain("<h2>Lax Submission</h2>");
-    expect(about).toContain('<figure class="content-figure"><img src="assets/concept-proof.svg"');
-    expect(about).toContain("<figcaption>Left: a concept file");
+    expect(about).toContain('<figure class="proof-flip-figure">');
+    expect(about).toContain("<figcaption>Hover over the concept file");
     expect(about).not.toContain("Under construction.");
     // no sidebar on a page that is not about a submission, and no toggle to summon one
     expect(about).toContain('<header class="site-header sidebar-hidden">');

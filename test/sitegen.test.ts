@@ -655,7 +655,15 @@ After the formula.`, "");
     expect(css).toContain("fill: context-stroke");
     expect(css).toContain("background: rgb(255, 255, 255)");
     expect(css).toContain('.status-pill[data-tooltip]:hover::after');
-    expect(css).not.toContain(".landing-demo-");
+    // The former landing demo now illustrates About; its script stays local to that page.
+    const about = fs.readFileSync(path.join(one, "about.html"), "utf8");
+    expect(about).toContain('data-proof-flip aria-pressed="false"');
+    expect(about).toContain('class="landing-demo-face landing-demo-proof"');
+    expect(about).not.toContain("{{concept-proof-flip}}");
+    expect(about).not.toContain('src="assets/concept-proof.svg"');
+    expect(about).toMatch(/<script src="assets\/proof-flip\.js\?v=[0-9a-f]{12}"><\/script>/);
+    expect(fs.readFileSync(path.join(one, "index.html"), "utf8")).not.toContain("proof-flip.js");
+    expect(css).toContain(".landing-demo-card.is-flipped .landing-demo-inner");
     expect(css).not.toContain(".landing-action-card");
     expect(css).not.toContain(".landing-review-start");
     expect(css).toContain("#detail .landing-title{");
