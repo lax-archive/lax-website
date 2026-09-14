@@ -5,7 +5,7 @@ import type { PageContext } from "./shared.js";
 const FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLScCkCORYWuaP9SvNeySxIsa_zEuqTz8q_d9b8-3SOxS1L_xIg/viewform?embedded=true";
 const FORM_FRAME_ORIGINS = [new URL(FORM_URL).origin, "https://accounts.google.com"];
 const OUTCOMES_HEADING = "We offer a free online workshop that teaches:";
-const SECTION_HEADINGS = [OUTCOMES_HEADING, "Workshop details", "Preregistration"] as const;
+const SECTION_HEADINGS = [OUTCOMES_HEADING, "Workshop details"] as const;
 
 interface WorkshopCopy {
   title: string;
@@ -64,11 +64,6 @@ ${markdown.render(section("Workshop details"), "../")}
 </section>
 </div>
 <section class="workshop-registration" aria-label="Workshop registration">
-<header class="workshop-registration-head">
-<div class="workshop-registration-copy latex-content">
-${markdown.render(section("Preregistration"), "../")}
-</div>
-</header>
 <div class="workshop-form-frame">
 <iframe src="${attr(FORM_URL)}" width="100%" height="1400" frameborder="0" title="Lean and Lax workshop preregistration form">Loading…</iframe>
 </div>

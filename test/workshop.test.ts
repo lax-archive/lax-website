@@ -24,6 +24,8 @@ describe("workshop page", () => {
     expect(html).toContain("10:00–12:00 CET");
     expect(html).toContain("xxxx.zoom");
     expect(html).not.toContain("name, email address, and prior Lean knowledge");
+    expect(html).not.toContain("fill in the preregistration form below");
+    expect(html).not.toContain("workshop-registration-head");
     expect(html).not.toContain("workshop-registration-heading");
     expect(html).toContain('<section class="workshop-registration" aria-label="Workshop registration">');
     expect(html).toContain('<iframe src="https://docs.google.com/forms/d/e/1FAIpQLScCkCORYWuaP9SvNeySxIsa_zEuqTz8q_d9b8-3SOxS1L_xIg/viewform?embedded=true" width="100%" height="1400" frameborder="0"');

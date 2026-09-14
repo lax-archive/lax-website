@@ -11,7 +11,3 @@
 - **Date:** xx.xx.xxxx
 - **Time:** 10:00–12:00 CET
 - **Zoom link:** xxxx.zoom
-
-## Preregistration
-
-We kindly ask participants to fill in the preregistration form below.
