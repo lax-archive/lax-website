@@ -694,8 +694,8 @@ ${faq}
 </div>
 <aside class="landing-workshop-banner" aria-label="Workshop announcement">
 <a href="workshop/">
-<span>We offer a free online workshop on Lean, AI-assisted formalization, and sharing results through Lax.</span>
-<strong>Workshop details <b aria-hidden="true">→</b></strong>
+<span>An introduction to Lean, formalization with AI agents, and sharing mathematics through Lax.</span>
+<strong>Meeting details <b aria-hidden="true">→</b></strong>
 </a>
 </aside>`;
   return page({

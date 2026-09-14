@@ -4,7 +4,7 @@ import type { PageContext } from "./shared.js";
 
 const FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLScCkCORYWuaP9SvNeySxIsa_zEuqTz8q_d9b8-3SOxS1L_xIg/viewform?embedded=true";
 const FORM_FRAME_ORIGINS = [new URL(FORM_URL).origin, "https://accounts.google.com"];
-const OUTCOMES_HEADING = "We offer a free online workshop that teaches:";
+const OUTCOMES_HEADING = "We invite you to an online meeting where we will discuss:";
 const SECTION_HEADINGS = [OUTCOMES_HEADING, "Workshop details"] as const;
 
 interface WorkshopCopy {
@@ -41,7 +41,6 @@ export function workshopPage({ markdown }: PageContext): string {
 <header class="workshop-hero">
 <h1>${esc(copy.title)}</h1>
 <ul class="workshop-highlights" aria-label="Workshop at a glance">
-<li><span aria-hidden="true">✓</span> Free</li>
 <li><span aria-hidden="true">◷</span> Two hours</li>
 <li><span aria-hidden="true">◎</span> Live online</li>
 <li><span aria-hidden="true">◇</span> No Lean knowledge needed</li>

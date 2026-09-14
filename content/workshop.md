@@ -1,10 +1,10 @@
 # Lax Online Workshop
 
-## We offer a free online workshop that teaches:
+## We invite you to an online meeting where we will discuss:
 
-- How to get started with Lean.
-- How to formalize your results using AI agents such as Claude Code or OpenAI Codex.
-- How to share these results with the community using Lax.
+- the very basics of Lean;
+- how AI agents such as Claude Code or OpenAI Codex can help formalize mathematical results;
+- how to share these results with the community through Lax.
 
 ## Workshop details
 
