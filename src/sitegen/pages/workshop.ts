@@ -40,7 +40,6 @@ export function workshopPage({ markdown }: PageContext): string {
   const section = (heading: typeof SECTION_HEADINGS[number]) => copy.sections.get(heading)!;
   const content = `<article class="workshop-page">
 <header class="workshop-hero">
-<p class="workshop-kicker">Free online workshop <span aria-hidden="true">·</span> laxarchive.org/workshop</p>
 <h1>${esc(copy.title)}</h1>
 <div class="workshop-lede latex-content">
 ${markdown.render(copy.introduction, "../")}

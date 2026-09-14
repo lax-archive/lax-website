@@ -12,9 +12,11 @@ describe("workshop page", () => {
     const html = fs.readFileSync(path.join(root, "workshop", "index.html"), "utf8");
 
     expect(html).toContain("Lean and Lax online workshop");
-    expect(html).toContain("Set up your first Lean project and learn the core workflow.");
+    expect(html).not.toContain("laxarchive.org/workshop");
+    expect(html).toContain("We offer a free online workshop that teaches:");
+    expect(html).toContain("How to get started with Lean.");
     expect(html).toContain("Claude Code or OpenAI Codex");
-    expect(html).toContain("share your formalized results with the community through Lax");
+    expect(html).toContain("share these results with the community using Lax");
     expect(html).toContain('<ul class="workshop-highlights" aria-label="Workshop at a glance">');
     expect(html).toContain("All Lean levels");
     expect(html).toContain("xx.xx.xxxx");
