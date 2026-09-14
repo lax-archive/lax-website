@@ -259,7 +259,7 @@ export function submissionMapLegend(data: SubmissionGraphData): string {
     `<span><i class="legend-node stroke-own"></i>This submission</span>`,
     `<span><i class="legend-node stroke-ext"></i>Other submission</span>`,
     kinds.has("concepts") ? `<span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B's concepts build on A</span>` : "",
-    kinds.has("proofs") ? `<span><i class="legend-arrow proof-dep" aria-hidden="true">→</i>A → B: only B's proofs build on A</span>` : "",
+    kinds.has("proofs") ? `<span><svg class="legend-dependency-arrow proof-dep" viewBox="0 -4 18 8" aria-hidden="true" focusable="false"><path class="legend-edge-line" d="M1 0h14"/><path d="m12-3 3 3-3 3"/></svg>A → B: only B's proofs build on A</span>` : "",
   ];
   return `<figcaption class="graph-legend" aria-label="Submission map legend">${items.join("")}</figcaption>`;
 }
