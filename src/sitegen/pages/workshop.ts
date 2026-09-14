@@ -71,7 +71,6 @@ ${markdown.render(section("Workshop details"), "../")}
 <header class="workshop-registration-head">
 <div class="workshop-registration-copy latex-content">
 ${markdown.render(section("Preregistration"), "../")}
-<a class="workshop-form-link" href="${attr(FORM_URL)}" target="_blank" rel="noopener noreferrer">Open preregistration form <span aria-hidden="true">↗</span></a>
 </div>
 </header>
 <div class="workshop-form-frame">

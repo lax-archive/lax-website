@@ -27,7 +27,7 @@ describe("workshop page", () => {
     expect(html).toContain('<section class="workshop-registration" aria-label="Workshop registration">');
     expect(html).toContain('<iframe src="https://docs.google.com/forms/d/e/1FAIpQLScCkCORYWuaP9SvNeySxIsa_zEuqTz8q_d9b8-3SOxS1L_xIg/viewform?embedded=true" width="100%" height="1400" frameborder="0"');
     expect(html).toContain('title="Lean and Lax workshop preregistration form"');
-    expect(html).toContain('class="workshop-form-link"');
+    expect(html).not.toContain("Open preregistration form");
     expect(html).toContain("frame-src https://comments.laxarchive.org https://accounts.google.com https://docs.google.com");
     expect(html).toContain('href="../assets/style.css');
     expect(html).toContain('href="../index.html"');
