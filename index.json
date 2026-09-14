@@ -3193,7 +3193,7 @@
     {
       "id": "lax-765601",
       "state": "draft",
-      "environment": "v4.30.0",
+      "environment": "v4.33.0",
       "title": "Transducers, Part A: Mealy Machines",
       "concepts": [
         {
