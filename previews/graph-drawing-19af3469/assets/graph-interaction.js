@@ -947,7 +947,8 @@
     const release = () => { drag = null; svg.classList.remove('graph-dragging'); };
     svg.addEventListener('pointerup', release); svg.addEventListener('pointercancel', release);
     svg.addEventListener('wheel', (event) => {
-      if (!event.ctrlKey && !event.metaKey) return;
+      const expanded = container.closest('.graph-figure')?.classList.contains('graph-expanded');
+      if (!expanded && !event.ctrlKey && !event.metaKey) return;
       event.preventDefault();
       controller.zoom(Math.exp(-Math.max(-120, Math.min(120, event.deltaY)) / 250), { x: event.clientX, y: event.clientY });
     }, { passive: false });
