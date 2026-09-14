@@ -574,7 +574,7 @@ ${slides.join("\n")}
  * submission page embeds, with links from the site root. The container
  * is centred and faded at its sides by landing.js and the stylesheet. */
 function proofNetworkFigure(ctx: PageContext, submission: SiteSubmission, caption: string): string {
-  const data = proofNetworkData(ctx, submission, "");
+  const data = { ...proofNetworkData(ctx, submission, ""), nodeScale: 1.25 };
   const id = submission.record.id;
   return `<figure class="landing-box graph-figure proof-network-figure landing-network-figure" aria-label="${attr(`The proof network of ${id}`)}">
 <div class="landing-box-caption latex-content">

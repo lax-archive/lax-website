@@ -198,7 +198,7 @@
     const cameraGroup = svg.querySelector('[data-graph-camera]');
     // The landing box starts with a wider overview. Shrink around the
     // horizontal center and top edge so its native scrolling stays aligned.
-    const inlineScale = container.closest('.landing-network-figure') ? 0.7 : 1;
+    const inlineScale = container.closest('.landing-network-figure') ? 0.6 : 1;
     const inlineCamera = () => {
       const bounds = svg.viewBox.baseVal;
       return { x: (bounds.x + bounds.width / 2) * (1 - inlineScale),
@@ -269,7 +269,7 @@
       const bounds = svg.viewBox.baseVal;
       if (!bounds.width || !bounds.height) return;
       const inset = 16;
-      // Published labels are 12px. Automatic framing keeps them at 12–18px:
+      // Automatic framing keeps labels at 100–150% of their published size:
       // fill the available space where possible, without inflating tiny graphs
       // or shrinking a large graph into an unreadable overview.
       container.style.overflowX = 'hidden';

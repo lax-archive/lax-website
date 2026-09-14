@@ -78,7 +78,8 @@ export function graphSvg(measured: MeasuredDisplayGraph, geometry: GraphGeometry
     return edge.sections.map((section) => `<path class="${attr(className)}" data-edge-id="${attr(edge.id)}" d="${pathData(section.commands!)}"${section.terminalTargetPortId ? ` marker-end="url(#${marker})"` : ""}/>`).join("");
   }).join("");
   const nodeMap = new Map(measured.display.nodes.map((node) => [node.id, node]));
-  const nodes = geometry.nodes.map((node) => `<g transform="translate(${node.x},${node.y})">${nodeSvg(nodeMap.get(node.id)!, measured.drawings.get(node.id)!)}</g>`).join("");
+  const nodeScale = measured.display.nodeScale ? ` scale(${measured.display.nodeScale})` : "";
+  const nodes = geometry.nodes.map((node) => `<g transform="translate(${node.x},${node.y})${nodeScale}">${nodeSvg(nodeMap.get(node.id)!, measured.drawings.get(node.id)!)}</g>`).join("");
   // Paint routes over box fills so the label-free attachment areas retain
   // visible statement adapters. The validator still excludes all label ink.
   const { x, y, width, height } = geometry.bounds;

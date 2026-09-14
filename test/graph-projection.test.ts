@@ -5,7 +5,7 @@ import { indexedGraph, stronglyConnectedComponents } from "../src/graph-layout/c
 import { measureDisplayGraph, projectGraph, type DisplayGraph, type GraphKind, type ProofGraphData } from "../src/sitegen/graph-project.js";
 import { displayLabelRequests } from "../src/sitegen/graph-node-size.js";
 import { dockInkFixture } from "./fixtures/graph-layout/dock-ink.js";
-import { graphInteractionPayload } from "../src/sitegen/graph-svg.js";
+import { graphInteractionPayload, graphSvg } from "../src/sitegen/graph-svg.js";
 import { layoutGraph } from "../src/graph-layout/index.js";
 import { validateGeometry } from "../src/graph-layout/validate.js";
 
@@ -35,6 +35,35 @@ describe("semantic display projection", () => {
     const docks = measured.graph.nodes.find((n) => n.id === concept.id)!.ports;
     expect(docks.every((p) => p.mode === "fixed-position")).toBe(true);
     expect(new Set(docks.map((p) => p.offset!.x)).size).toBe(3);
+  });
+  it("scales node envelopes, ink, docks and attachments together without changing graph semantics", () => {
+    const original = projectGraph("proofs", proofInput());
+    const display = projectGraph("proofs", { ...proofInput(), nodeScale: 1.25 });
+    const labels = fixtureLabels(original);
+    const baseline = measureDisplayGraph(original, labels), enlarged = measureDisplayGraph(display, labels);
+    expect(projectGraph("proofs", { ...proofInput(), nodeScale: 1 })).toEqual(original);
+    expect(displayLabelRequests([display])).toEqual(displayLabelRequests([original]));
+    expect(enlarged.drawings).toEqual(baseline.drawings);
+    expect(enlarged.graph.edges).toEqual(baseline.graph.edges);
+    expect(graphInteractionPayload(enlarged)).toEqual(graphInteractionPayload(baseline));
+    const scaleRect = (box: { x: number; y: number; width: number; height: number }) => ({
+      x: box.x * 1.25, y: box.y * 1.25, width: box.width * 1.25, height: box.height * 1.25,
+    });
+    for (const [index, node] of enlarged.graph.nodes.entries()) {
+      const before = baseline.graph.nodes[index]!;
+      expect(node.width).toBe(before.width * 1.25);
+      expect(node.height).toBe(before.height * 1.25);
+      expect(node.labelBoxes).toEqual(before.labelBoxes.map(scaleRect));
+      expect(node.footprints).toEqual(before.footprints!.map((footprint) => ({ ...footprint, bounds: scaleRect(footprint.bounds) })));
+      expect(node.ports).toEqual(before.ports.map((port) => port.offset ? { ...port,
+        offset: { x: port.offset.x * 1.25, y: port.offset.y * 1.25 } } : port));
+    }
+    const { geometry } = layoutGraph(enlarged.graph, { inputDigest: "scaled-node-fixture" });
+    expect(validateGeometry(enlarged.graph, geometry).valid).toBe(true);
+    expect(graphSvg(enlarged, geometry, "scaled").match(/ scale\(1\.25\)/g)).toHaveLength(display.nodes.length);
+  });
+  it.each([0, 0.5, 5, NaN, Infinity])("rejects an invalid node scale (%s)", (nodeScale) => {
+    expect(() => projectGraph("proofs", { ...proofInput(), nodeScale })).toThrow(/graph-node-scale/);
   });
   it("measures dock ink, preserves fixed statement attachments, and diagnoses absent ordinal metrics", () => {
     const display = dockInkFixture(), labels = fixtureLabels(display);

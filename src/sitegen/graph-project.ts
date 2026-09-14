@@ -26,6 +26,8 @@ export interface FlatGraphInput {
 }
 export interface ProofGraphData {
   statements: readonly StatementGraphInput[]; proofs: readonly ProofGraphInput[];
+  /** Optional presentation scale for nodes, independent of inter-node spacing. */
+  nodeScale?: number;
 }
 export interface DisplayDock {
   id: string; statementId: string; ordinal: number; href?: string;
@@ -45,6 +47,7 @@ export interface EntityMapping {
 export interface DisplayGraph {
   kind: GraphKind; nodes: readonly DisplayNode[]; edges: readonly LayoutEdge[];
   mapping: readonly EntityMapping[];
+  nodeScale?: number;
 }
 /** Exact host-measured label data needed by node sizing/serialization. */
 export interface GraphLabel {
@@ -77,6 +80,9 @@ function link(href: string | undefined): string | undefined {
 }
 
 export function projectGraph(kind: GraphKind, input: FlatGraphInput | ProofGraphData): DisplayGraph {
+  const nodeScale = kind === "proofs" ? (input as ProofGraphData).nodeScale ?? 1 : 1;
+  if (!Number.isFinite(nodeScale) || nodeScale < 1 || nodeScale > 4)
+    diagnostic("graph-node-scale", "Node scale must be between 1 and 4");
   const nodes: (DisplayNode & { ports: PortSpec[] })[] = [];
   const edges: LayoutEdge[] = [], mapping: EntityMapping[] = [];
   const byId = new Map<string, typeof nodes[number]>();
@@ -181,7 +187,8 @@ export function projectGraph(kind: GraphKind, input: FlatGraphInput | ProofGraph
     for (const edge of [...(input as FlatGraphInput).edges].sort((a, b) => compareText(`${a.from}\0${a.to}\0${a.kind ?? ""}\0${a.id ?? ""}`, `${b.from}\0${b.to}\0${b.kind ?? ""}\0${b.id ?? ""}`)))
       addEdge(edge.from, edge.to, edge.kind ?? "import", edge.id ?? `${edge.from}->${edge.to}:${edge.kind ?? "import"}`);
   }
-  return deepFreeze({ kind, nodes: nodes.sort((a, b) => compareText(a.id, b.id)), edges: edges.sort((a, b) => compareText(a.id, b.id)), mapping });
+  return deepFreeze({ kind, nodes: nodes.sort((a, b) => compareText(a.id, b.id)), edges: edges.sort((a, b) => compareText(a.id, b.id)), mapping,
+    ...(nodeScale !== 1 ? { nodeScale } : {}) });
 }
 
 export { measureDisplayGraph } from "./graph-node-size.js";

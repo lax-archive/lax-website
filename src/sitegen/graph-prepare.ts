@@ -128,6 +128,7 @@ export function publicGraphPayload(input: unknown): Partial<PublicGraphData> {
     const data = record(raw[kind], `${kind} data`), safe: RawRecord = {};
     copyFields(data, safe, ["home"], "string");
     if (kind === "proofs") {
+      copyFields(data, safe, ["nodeScale"], "number");
       safe.statements = list(data.statements, "Proof statements").map((node) => safeNode(node, true))
         .sort((a, b) => compareText(String(a.id), String(b.id)));
       safe.proofs = list(data.proofs, "Proof incidences").map((value) => {

@@ -1034,6 +1034,8 @@ After the formula.`, "");
     expect(Object.keys(data)).toEqual(["proofs", "local"]);
     expect(data.local.containers["proof-network"]).toMatchObject({ kind: "proofs", initial: "default" });
     expect(data.proofs.home).toBe("lax-17");
+    expect(data.proofs.nodeScale).toBe(1.25);
+    expect(data.local.containers["proof-network"].views.default.display.nodeScale).toBe(1.25);
     expect(data.proofs.statements[0].label).toBe("PolynomialGridMinor");
     expect(data.local.containers["proof-network"].views.default.display.nodes.find((node: { kind: string }) => node.kind === "statement").label)
       .toBe("PolynomialGridMinor");
@@ -1314,6 +1316,7 @@ After the formula.`, "");
     expect(data.concepts.nodes.map((n: { id: string }) => n.id)).toEqual(["Lax2.C", "Lax2.D"]);
     expect(data.concepts.edges).toEqual([{ from: "Lax2.C", to: "Lax2.D" }]);
     expect(data.proofs.proofs[0]).toMatchObject({ id: "Lax2Proofs.truth", conclusion: "Lax2.C.truth", ext: false });
+    expect(data.proofs.nodeScale).toBeUndefined();
     // fill = status: concept nodes carry it; statement nodes display their
     // home concept, with the raw id kept for tooltips and the statement's
     // position inside that concept for the figure's docks

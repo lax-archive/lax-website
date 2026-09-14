@@ -85,6 +85,23 @@ describe("prepared static graphs", () => {
     expect(graph.submissions.nodes[0]).toMatchObject({ state: "registered", concepts: 1, proofs: 1 });
   });
 
+  it("keeps an enlarged landing network separate from the same submission's standard drawing", async () => {
+    const standard = { proofs: data().proofs }, enlarged = { proofs: { ...data().proofs, nodeScale: 1.25 } };
+    const files = new Map<string, string | Buffer>([
+      ["index.html", page(enlarged, ["proofs"])], ["lax-1/index.html", page(standard, ["proofs"])],
+    ]);
+    const report = await prepareGraphs(files, { measurement });
+    const landing = String(files.get("index.html")), submission = String(files.get("lax-1/index.html"));
+    expect(report.statistics.uniqueLayouts).toBe(2);
+    expect(payload(landing).proofs.nodeScale).toBe(1.25);
+    expect(payload(submission).proofs.nodeScale).toBeUndefined();
+    expect(landing.match(/ scale\(1\.25\)/g)).toHaveLength(3);
+    expect(submission).not.toContain("scale(1.25)");
+    const alone = new Map<string, string | Buffer>([["lax-1/index.html", page(standard, ["proofs"])]]);
+    await prepareGraphs(alone, { measurement });
+    expect(submission).toBe(alone.get("lax-1/index.html"));
+  });
+
   it("keeps cached geometry, alternates and hidden payloads free of source/private fields", async () => {
     const input = data() as ReturnType<typeof data> & Record<string, unknown>;
     input.privateSource = { author: "secret@example.test" };

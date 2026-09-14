@@ -93,5 +93,18 @@ export function measureDisplayGraph(display: DisplayGraph, labels: ReadonlyMap<s
       labelBoxes: [...lines, ...dockBoxes.flatMap((dock) => dock.lines)].map((line) => line.ink), ports, footprints });
     drawings.set(node.id, { body: { ...body, height: body.height + attachmentHeight }, lines, docks: dockBoxes, proofRail });
   }
-  return { display, graph: normalizeGraph({ nodes: measured, edges: display.edges }), drawings };
+  // Enlarge the measured obstacles and attachment points before layout. The
+  // serializer applies the same scale to the original node drawing, keeping
+  // font ink, numbered docks, proof rails and edge endpoints in agreement.
+  const scale = display.nodeScale ?? 1;
+  const scaleRect = (box: Rect): Rect => ({ x: box.x * scale, y: box.y * scale,
+    width: box.width * scale, height: box.height * scale });
+  const nodes = scale === 1 ? measured : measured.map((node) => ({ ...node,
+    width: node.width * scale, height: node.height * scale,
+    labelBoxes: node.labelBoxes.map(scaleRect),
+    ports: node.ports.map((port) => port.offset ? { ...port,
+      offset: { x: port.offset.x * scale, y: port.offset.y * scale } } : port),
+    footprints: node.footprints?.map((footprint) => ({ ...footprint, bounds: scaleRect(footprint.bounds) })),
+  }));
+  return { display, graph: normalizeGraph({ nodes, edges: display.edges }), drawings };
 }
