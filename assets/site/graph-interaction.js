@@ -177,17 +177,40 @@
     });
   }
 
+  const GRAPH_HOVER_DELAY = 250;
+
+  function attachDelayedHover(element, enter, leave) {
+    let timer = null;
+    let active = false;
+    element.addEventListener('mouseenter', () => {
+      if (timer !== null) clearTimeout(timer);
+      timer = setTimeout(() => {
+        timer = null;
+        active = true;
+        enter();
+      }, GRAPH_HOVER_DELAY);
+    });
+    element.addEventListener('mouseleave', () => {
+      if (timer !== null) {
+        clearTimeout(timer);
+        timer = null;
+      }
+      if (!active) return;
+      active = false;
+      leave();
+    });
+  }
+
   function attachTooltip(el, container, content, renderedHtml) {
     let pointerFocus = false;
-    el.addEventListener('mouseenter', () => {
+    attachDelayedHover(el, () => {
       const figure = container.closest('.graph-figure');
       if (figure?.classList.contains('graph-expanded')) {
         if (!el.contains(document.activeElement)) hideTooltip(container);
         return;
       }
       showTooltip(container, el, content, renderedHtml);
-    });
-    el.addEventListener('mouseleave', () => {
+    }, () => {
       if (!el.contains(document.activeElement)) hideTooltip(container);
     });
     el.addEventListener('pointerdown', () => {
@@ -839,9 +862,8 @@
         });
       };
       element.addEventListener('click', activate);
-      element.addEventListener('mouseenter', () => setProofHover(controller,
-        { type: 'node', id: element.dataset.nodeId }));
-      element.addEventListener('mouseleave', () => clearProofHover(controller));
+      attachDelayedHover(element, () => setProofHover(controller,
+        { type: 'node', id: element.dataset.nodeId }), () => clearProofHover(controller));
       if (!element.matches('a')) element.addEventListener('keydown', (event) => {
         if (event.key === 'Enter' || event.key === ' ') activate(event);
       });
@@ -892,8 +914,7 @@
           for (const path of controller.edgePaths.get(edgeId) || []) path.classList.remove('hot');
           clearProofHover(controller);
         };
-        hit.addEventListener('mouseenter', hot);
-        hit.addEventListener('mouseleave', cold);
+        attachDelayedHover(hit, hot, cold);
         hit.addEventListener('focus', hot);
         hit.addEventListener('blur', cold);
         if (index === 0) hit.addEventListener('keydown', (event) => {
@@ -1053,8 +1074,7 @@
       const incident = info.incident.flatMap((id) => edges.get(id) || []);
       const hot = () => { controller.anchorId = element.dataset.nodeId; for (const edge of incident) edge.classList.add('hot'); };
       const cold = () => { for (const edge of incident) edge.classList.remove('hot'); };
-      element.addEventListener('mouseenter', hot);
-      element.addEventListener('mouseleave', cold);
+      attachDelayedHover(element, hot, cold);
       element.addEventListener('focus', hot);
       element.addEventListener('blur', cold);
       attachTooltip(element, container, info.tooltipRows ?? info.label, info.tooltipHtml);

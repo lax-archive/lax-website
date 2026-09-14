@@ -569,7 +569,24 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       expect(await tooltip.textContent()).toBe("Lax701.Base.s2");
       expect(await dock.locator("title").count()).toBe(0);
       const node = page.locator(`#proof-network [data-node-id="${proofId}"]`);
-      await node.scrollIntoViewIfNeeded(); await node.focus(); await animationFrame(page);
+      await node.scrollIntoViewIfNeeded(); await dock.blur(); await animationFrame(page);
+      expect(await tooltip.isHidden()).toBe(true);
+      await node.dispatchEvent("mouseenter");
+      await page.waitForTimeout(100); await animationFrame(page);
+      expect(await tooltip.isHidden()).toBe(true);
+      expect(await page.locator("#proof-network .hot").count()).toBe(0);
+      await node.dispatchEvent("mouseleave");
+      await page.waitForTimeout(300); await animationFrame(page);
+      expect(await tooltip.isHidden()).toBe(true);
+      expect(await page.locator("#proof-network .hot").count()).toBe(0);
+      await node.dispatchEvent("mouseenter");
+      await page.waitForTimeout(300); await animationFrame(page);
+      expect(await tooltip.isVisible()).toBe(true);
+      expect(await page.locator("#proof-network .hot").count()).toBe(2);
+      await node.dispatchEvent("mouseleave"); await animationFrame(page);
+      expect(await tooltip.isHidden()).toBe(true);
+      expect(await page.locator("#proof-network .hot").count()).toBe(0);
+      await node.focus(); await animationFrame(page);
       expect(await tooltip.isVisible()).toBe(true);
       expect(await tooltip.locator(".katex").count()).toBe(2);
       expect(await tooltip.locator(".katex-display").count()).toBe(1);
@@ -694,7 +711,16 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       const alternativeProof = container.locator('[data-node-id="p:Lax702Proofs.Alternative"]');
       const middleProof = container.locator('[data-node-id="p:Lax702Proofs.Middle"]');
       expect(await alternativeProof.getAttribute("class")).toContain("graph-dimmed");
-      await alternativeProof.dispatchEvent("mouseenter"); await animationFrame(page);
+      await alternativeProof.dispatchEvent("mouseenter");
+      await page.waitForTimeout(100); await animationFrame(page);
+      expect(await container.locator(".graph-selected").count()).toBe(1);
+      expect(await alternativeProof.getAttribute("class")).toContain("graph-dimmed");
+      await alternativeProof.dispatchEvent("mouseleave");
+      await page.waitForTimeout(300); await animationFrame(page);
+      expect(await container.locator(".graph-selected").count()).toBe(1);
+      expect(await alternativeProof.getAttribute("class")).toContain("graph-dimmed");
+      await alternativeProof.dispatchEvent("mouseenter");
+      await page.waitForTimeout(300); await animationFrame(page);
       expect(await proof.getAttribute("class")).toContain("graph-selected");
       expect(await alternativeProof.getAttribute("class")).toContain("graph-selected");
       expect(await middleProof.getAttribute("class")).toContain("graph-related");
@@ -790,7 +816,7 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
         camera: element.querySelector("[data-graph-camera]")!.getAttribute("transform"),
       }))).toEqual(beforeDismiss);
 
-      await concept.hover(); await animationFrame(page);
+      await concept.hover(); await page.waitForTimeout(300); await animationFrame(page);
       expect(await panel.isHidden()).toBe(true);
       expect(await figure.locator(".graph-tooltip").isHidden()).toBe(true);
       expect(await concept.getAttribute("class")).toContain("graph-selected");
