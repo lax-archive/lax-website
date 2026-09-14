@@ -362,6 +362,8 @@
   }
 
   function setupLanding() {
+    const workshop = document.querySelector('.landing-workshop-banner');
+    workshop?.querySelector('.landing-workshop-close')?.addEventListener('click', () => workshop.remove());
     setupSetupTabs();
     setupLandingActions();
     setupCardBoxes();
