@@ -1541,6 +1541,7 @@
         "Lax68Proofs.star_tree",
         "Lax68Proofs.tree_outerplanar",
         "Lax68Proofs.tree_planar",
+        "Lax68Proofs.triangle_maximalOuterplanar",
         "Lax68Proofs.triangle_outerplanar",
         "Lax68Proofs.triangle_planar",
         "Lax68Proofs.triangulationOf_planar",
