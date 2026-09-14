@@ -1288,7 +1288,7 @@ After the formula.`, "");
     });
     expect(data.proofs.details["concept:Lax2.C"]).toMatchObject({
       kind: "concept", name: "Truth", type: "theorem", status: "proven",
-      submission: { id: "Lax2", name: "Two", state: "registered" },
+      submission: { id: "Lax2", name: "Two", nameHtml: "Two", state: "registered" },
       statements: [{ id: "Lax2.C.truth", signature: "truth : True", proven: true,
         href: "../Lax2/Lax2.C.html#s-Lax2.C.truth" }],
       href: "../Lax2/Lax2.C.html",
@@ -1296,7 +1296,7 @@ After the formula.`, "");
     });
     expect(data.proofs.details["proof:Lax2Proofs.truth"]).toMatchObject({
       kind: "proof", name: "Proof of Truth", status: "grounded",
-      submission: { id: "Lax2", name: "Two", state: "registered" },
+      submission: { id: "Lax2", name: "Two", nameHtml: "Two", state: "registered" },
       leanPath: "proofs/Lax2Proofs/Basic.lean",
       href: "../Lax2/Lax2Proofs.truth.html",
     });

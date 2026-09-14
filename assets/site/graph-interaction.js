@@ -245,14 +245,15 @@
   function detailFacts(parent, detail) {
     const facts = [];
     if (detail.type) facts.push(['Type', detail.type]);
-    if (detail.submission?.name) facts.push(['Submission', detail.submission.name]);
+    if (detail.submission?.name) facts.push(['Submission', detail.submission.name, detail.submission.nameHtml]);
     if (detail.submission?.state) facts.push(['Submission state', detail.submission.state]);
     if (!facts.length) return;
     const list = document.createElement('dl');
     list.className = 'graph-detail-facts';
-    for (const [term, value] of facts) {
+    for (const [term, value, valueHtml] of facts) {
       appendText(list, 'dt', '', term);
-      appendText(list, 'dd', '', value);
+      const description = appendText(list, 'dd', '', value);
+      if (valueHtml) description.innerHTML = valueHtml;
     }
     parent.append(list);
   }

@@ -160,11 +160,13 @@ function safeGraphDetails(value: unknown): RawRecord {
     if (source.sourceHref !== undefined) detail.sourceHref = safeDetailHref(source.sourceHref, "Proof graph source link", true);
     if (source.submission !== undefined) {
       const submission = record(source.submission, "Proof graph detail submission");
-      detail.submission = {
+      const safeSubmission: RawRecord = {
         id: requiredString(submission.id, "Proof graph detail submission identity"),
         name: requiredString(submission.name, "Proof graph detail submission name"),
         state: requiredString(submission.state, "Proof graph detail submission state"),
       };
+      copyFields(submission, safeSubmission, ["nameHtml"], "string");
+      detail.submission = safeSubmission;
     }
     if (source.statements !== undefined) detail.statements = list(source.statements, "Proof graph detail statements").map((value) => {
       const statement = record(value, "Proof graph detail statement"), out: RawRecord = {

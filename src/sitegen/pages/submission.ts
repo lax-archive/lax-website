@@ -340,11 +340,15 @@ export function proofNetworkData(ctx: PageContext, submission: SiteSubmission, r
 
   const canonicalPageUrl = (pathname: string) =>
     new URL(pathname.replace(/^\/+/, ""), `${DEFAULT_SITE_URL.replace(/\/+$/, "")}/`).toString();
-  const submissionDetails = (home: SiteSubmission) => ({
-    id: home.record.id,
-    name: home.output?.manifest.title ?? home.record.id,
-    state: home.record.state,
-  });
+  const submissionDetails = (home: SiteSubmission) => {
+    const name = home.output?.manifest.title ?? home.record.id;
+    return {
+      id: home.record.id,
+      name,
+      nameHtml: ctx.markdown.renderAuthorInline(name, rootRel),
+      state: home.record.state,
+    };
+  };
   const authorSections = (sections: { title: string; markdown: string }[] | undefined) =>
     (sections ?? []).map((section) => ({
       titleHtml: ctx.markdown.renderAuthorInline(section.title, rootRel),

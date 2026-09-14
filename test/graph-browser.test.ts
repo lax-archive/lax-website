@@ -47,7 +47,8 @@ function fixture(): SiteSubmission[] {
   const submission = (id: string, concepts: Concept[], proofs: Proof[], anonymous = false): SiteSubmission => ({
     record: { specVersion: "1", id, state: "registered", createdAt: "2026-01-01T00:00:00Z",
       source: { repository: `https://github.com/withheld-browser-source/${id}`, commit: "a".repeat(40), folder: "." } },
-    output: { specVersion: "1", id, manifest: { specVersion: "1", id, title: `Graph fixture ${id}`,
+    output: { specVersion: "1", id, manifest: { specVersion: "1", id,
+      title: id === "Lax702" ? `Graph fixture ${id} with $x^2$` : `Graph fixture ${id}`,
       leanVersion: "v4.30.0", mathlibVersion: "abc", anonymous, authors: [{ name: "Withheld Browser Author", github: "withheld-browser-author" }], bibEntries: [] },
     abstract: "A small deterministic integration fixture, not archive benchmark data.", requiredByConcepts: [], requiredByProofs: [], concepts, proofs },
   });
@@ -618,6 +619,9 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       expect(await panel.locator("h3").first().textContent()).toBe("Proof of Main χ result");
       expect(await panel.textContent()).toContain("1 open assumption");
       expect(await panel.textContent()).toContain("Checked relationship");
+      const submissionName = panel.locator(".graph-detail-facts dd").first();
+      expect(await submissionName.locator(".katex").count()).toBe(1);
+      expect(await submissionName.textContent()).not.toContain("$");
       expect(await panel.locator(".graph-detail-action").getAttribute("href")).toBeTruthy();
       const placement = await panel.evaluate((element) => {
         const panel = element.getBoundingClientRect(), figure = element.parentElement!.getBoundingClientRect();
@@ -682,6 +686,11 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
         page.waitForURL(/Lax702\.Main\.html#s-Lax702\.Main\.s1$/u),
         fullSource.click(),
       ]);
+      const sourcePosition = await page.locator('[id="s-Lax702.Main.s1"]').evaluate((anchor) => ({
+        top: anchor.getBoundingClientRect().top,
+        middle: window.innerHeight / 2,
+      }));
+      expect(sourcePosition.top).toBeCloseTo(sourcePosition.middle, 0);
     });
   }, 45_000);
 
