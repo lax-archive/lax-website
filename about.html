@@ -7,7 +7,7 @@
 <title>About Lax — Lax Lean Archive</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="assets/style.css?v=f22d07d92fb3">
+<link rel="stylesheet" href="assets/style.css?v=3816b6b5675d">
 </head><body>
 <header class="site-header sidebar-hidden">
   <div class="site-brand">
@@ -38,62 +38,112 @@
 <h1 class="paper-title">About Lax</h1>
 </header>
 <article class="content-page latex-content">
-<p>As AI accelerates the production of proofs, mathematicians need practical ways to assess what has been established and decide where to invest their attention. We therefore believe that formal verification should become a routine part of mathematical publishing.</p>
-<p>Lax is an open archive for mathematics formalized in Lean. It presents definitions and statements for human review, records the checked proofs and assumptions behind them, and lets later submissions import and build on them. Each submission remains an independent, citable contribution.</p>
-<p>We believe the paper should remain the primary means of explaining mathematical results and communicating their ideas. Lax augments that exposition with links to formal statements and checked proofs, lemma by lemma. These annotations give readers more freedom in how they follow the argument: they can skip a verified technical lemma to focus on the main idea, or study its proof because it contains a technique they need.</p>
+<p>As the production of proofs accelerates, mathematicians need effective ways to assess what has been established and decide where to invest their time and attention. If the peer-review process is not supported and reshaped, it is at risk of quickly deteriorating. Formal verification can help with these upcoming issues. Fortunately, autoformalization is also improving at a fast pace. It should therefore become a routine part of mathematical publishing.</p>
+<p>Lax is an open archive for mathematics formalized in Lean. It presents the appropriate surface of definitions and statements for review, and records the checked proofs and assumptions behind them.
+Each submission is an independent contribution, on which later Lax entries can build.</p>
+<p>We believe the paper should remain the primary source both in explaining mathematical results and in communicating the underlying ideas. Lax augments that exposition with links to formal statements and checked proofs. These annotations give readers more freedom in how they follow the argument: they can skip a verified technical lemma to focus on the main idea, or study its proof because it contains a technique they need. Of course, from the point of view of authors or submitters, the benefits come from the peace of mind that a given result is correct (should the faithfulness of the formalization be confirmed).</p>
 <h2>Lax Submission</h2>
 <p>A Lax submission is a commit in a public git repository. It holds</p>
 <ul>
-<li><strong>concepts</strong>: small Lean files, one per mathematical definition or claim.
-A concept pairs a natural-language statement, as it would appear in a paper,
-with a faithful Lean encoding. Claims are stated as Lean <code>axiom</code>s, without
-proof. Concepts depend only on other concepts and on mathlib, and they are
-written in plain, tactic-free Lean that a reader without a proof-assistant
-background can follow. They are the part of a submission a mathematician can
-check for meaning, and the part that later submissions build on;</li>
-<li><strong>proofs</strong>: a separate Lean package that restates each claim as a <code>theorem</code>
-and proves it. Each proof records which
-concepts it rests on and which one it concludes. Proofs may be long and involved, Lean's kernel certifies that they
-prove exactly the published claim, and that is the only judgement the archive
-passes on them. Explaining the argument is the paper's job;</li>
-<li>a <strong>paper</strong>: a LaTeX document whose passages are annotated with the concepts
-and proofs they correspond to, for the headline result and for the lemmas
-along the way. The same source can go to arXiv and to Lax; the website
-renders it reflowed for the screen, beside the as-printed PDF, with the Lean
-beside each marked passage.</li>
+<li><strong>concepts</strong>: small Lean files presenting a definition, a claim, or a coherent set of definitions and claims.
+A concept pairs a natural-language statement with a (hopefully) faithful Lean encoding. Claims are stated as Lean <code>axiom</code>s, without
+proof. Concepts depend only on other Lax concepts and on mathlib.
+They are written in plain, tactic-free Lean that a reader without a proof-assistant background can follow.
+Concepts are the exposed surface on the website, which one can conveniently review;</li>
+<li><strong>proofs</strong>: a separate Lean package that restates each claim as a <code>theorem</code> and proves it.
+Proofs are not required to be well-written. Lean's kernel certifies that they prove exactly the matching concepts.
+Providing a human-friendly proof remains the paper's job;</li>
+<li>a <strong>paper</strong>: an optional LaTeX document whose passages are annotated with the concepts and proofs they correspond to.
+The same source can go to arXiv and to Lax. The website renders it reflowed, with the Lean beside each marked passage.</li>
 </ul>
-<p>The concepts are the surface of the archive: they are what the website shows,
-what readers review and endorse, and what later submissions import. The proofs
-are the evidence behind that surface. The paper is where the result is
-explained, with every marked step of the explanation backed by a proof.</p>
-<figure class="content-figure"><img src="assets/concept-proof.svg" alt="A concept file beside the proof file that proves its claim."><figcaption>Left: a concept file, as displayed on the website. Right: the matching proof file, as found in the submitter's repository.</figcaption></figure>
-<p>Together, the proofs of a submission form its <em>proof network</em>: which claims
-are proven outright, which are proven relative to others, and which
-<a href="open-proof-obligations.html">proof obligations</a> remain open. Any later
-submission can discharge an open obligation, and every result that rested on
-it is proven from that moment on. Stating a claim and proving it can thus be
-separate contributions by separate people. As submissions import each
-other's concepts, the archive grows into one connected body of results.</p>
+<p>To summarize:</p>
+<ul>
+<li>The concepts are the surface: what the website shows, and readers review and endorse (or flag).</li>
+<li>The proofs are the evidence supporting the surface.</li>
+</ul>
+<p>The archive is fully compositional. New submissions can reuse existing concepts and proofs.</p>
+<figure class="proof-flip-figure">
+<button class="landing-demo-card" type="button" data-proof-flip aria-pressed="false" aria-label="Concept file: Erdős–Hajnal for the five-cycle. Hover or activate to see a proof excerpt.">
+<span class="landing-demo-inner">
+<span class="landing-demo-face landing-demo-concept" aria-hidden="true">
+<span class="landing-demo-filebar">
+<span class="landing-demo-file-heading"><strong>Concept file</strong></span>
+<span class="landing-demo-file-path">concepts/ErdosHajnal/C5.lean</span>
+</span>
+<span class="landing-demo-code"><code><span class="landing-demo-code-line" data-line="1"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Combinatorics.SimpleGraph.Clique</span></span>
+<span class="landing-demo-code-line" data-line="2"> </span>
+<span class="landing-demo-code-line" data-line="3"><span style="color:#D73A49">open</span><span style="color:#24292E"> Filter Real SimpleGraph</span></span>
+<span class="landing-demo-code-line" data-line="4"> </span>
+<span class="landing-demo-code-line" data-line="5"><span style="color:#D73A49">abbrev</span><span style="color:#6F42C1"> C₅</span><span style="color:#24292E"> : SimpleGraph (Fin </span><span style="color:#005CC5">5</span><span style="color:#24292E">) := cycleGraph </span><span style="color:#005CC5">5</span></span>
+<span class="landing-demo-code-line" data-line="6"> </span>
+<span class="landing-demo-code-line" data-line="7"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> C₅Free</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">*} [Fintype V] (G : SimpleGraph V) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></span>
+<span class="landing-demo-code-line" data-line="8"><span style="color:#24292E">  ¬ ∃ f : Fin </span><span style="color:#005CC5">5</span><span style="color:#24292E"> ↪ V, C₅ = G.comap f</span></span>
+<span class="landing-demo-code-line" data-line="9"> </span>
+<span class="landing-demo-code-line" data-line="10"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> HasLargeHomogeneousSet</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">*} [Fintype V]</span></span>
+<span class="landing-demo-code-line" data-line="11"><span style="color:#24292E">    (G : SimpleGraph V) (r : ℝ) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></span>
+<span class="landing-demo-code-line" data-line="12"><span style="color:#24292E">  G.indepNum ≥ r ∨ G.cliqueNum ≥ r</span></span>
+<span class="landing-demo-code-line" data-line="13"> </span>
+<span class="landing-demo-code-line landing-demo-code-line-accent" data-line="14"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> erdosHajnal_C₅</span><span style="color:#24292E"> :</span></span>
+<span class="landing-demo-code-line landing-demo-code-line-accent" data-line="15"><span style="color:#24292E">  ∃ c &gt; </span><span style="color:#005CC5">0</span><span style="color:#24292E">, ∀ᶠ n </span><span style="color:#D73A49">in</span><span style="color:#24292E"> atTop, ∀ G : SimpleGraph (Fin n),</span></span>
+<span class="landing-demo-code-line landing-demo-code-line-accent" data-line="16"><span style="color:#24292E">    C₅Free G → HasLargeHomogeneousSet G ((n : ℝ) ^ c)</span></span></code></span>
+<span class="landing-demo-trust">
+<span class="landing-demo-trust-copy"><strong>Meaning</strong><small>read by people</small></span>
+<span class="landing-demo-turn"><span>See the proof</span><b>↻</b></span>
+</span>
+</span>
+<span class="landing-demo-face landing-demo-proof" aria-hidden="true">
+<span class="landing-demo-filebar">
+<span class="landing-demo-file-heading"><strong>Proof file</strong><span class="landing-demo-file-note">excerpt</span></span>
+<span class="landing-demo-file-path">proofs/ErdosHajnalProofs/C5.lean</span>
+</span>
+<span class="landing-demo-code landing-demo-code-excerpt">
+<span class="landing-demo-continuation" aria-hidden="true"><i></i><b>⋮</b><i></i></span>
+<code><span class="landing-demo-code-line" data-line="417"><span style="color:#D73A49">theorem</span><span style="color:#6F42C1"> erdosHajnal_C₅</span><span style="color:#24292E"> :</span></span>
+<span class="landing-demo-code-line" data-line="418"><span style="color:#24292E">    ∃ c &gt; </span><span style="color:#005CC5">0</span><span style="color:#24292E">,</span></span>
+<span class="landing-demo-code-line" data-line="419"><span style="color:#24292E">      ∀ᶠ n </span><span style="color:#D73A49">in</span><span style="color:#24292E"> atTop,</span></span>
+<span class="landing-demo-code-line" data-line="420"><span style="color:#24292E">        ∀ G : SimpleGraph (Fin n),</span></span>
+<span class="landing-demo-code-line" data-line="421"><span style="color:#24292E">          C₅Free G →</span></span>
+<span class="landing-demo-code-line" data-line="422"><span style="color:#24292E">            HasLargeHomogeneousSet G ((n : ℝ) ^ c) := </span><span style="color:#D73A49">by</span></span>
+<span class="landing-demo-code-line" data-line="423"><span style="color:#24292E">  obtain ⟨c, hc, hmain⟩ :=</span></span>
+<span class="landing-demo-code-line" data-line="424"><span style="color:#24292E">    polynomial_homogeneous_set_for_five_hole</span></span>
+<span class="landing-demo-code-line" data-line="425"><span style="color:#24292E">  refine ⟨c, hc, ?_⟩</span></span>
+<span class="landing-demo-code-line" data-line="426"><span style="color:#24292E">  filter_upwards [hmain] </span><span style="color:#D73A49">with</span><span style="color:#24292E"> n hn</span></span>
+<span class="landing-demo-code-line" data-line="427"><span style="color:#24292E">  intro G hG</span></span>
+<span class="landing-demo-code-line" data-line="428"><span style="color:#24292E">  exact hn G (</span><span style="color:#D73A49">by</span></span>
+<span class="landing-demo-code-line" data-line="429"><span style="color:#24292E">    simpa [C₅Free] </span><span style="color:#D73A49">using</span><span style="color:#24292E"> hG)</span></span></code>
+<span class="landing-demo-continuation" aria-hidden="true"><i></i><b>⋮</b><i></i></span>
+</span>
+<span class="landing-demo-trust">
+<span class="landing-demo-trust-copy"><strong>Evidence</strong><small>checked by Lean</small></span>
+
+</span>
+</span>
+</span>
+</button>
+<figcaption>Hover over the concept file, or tap or press Enter, to turn it over and see a proof excerpt.</figcaption>
+</figure><p>The proofs of a submission form its <em>proof network</em>. This simply illustrates the proof dependencies.
+A <a href="open-proof-obligations.html">proof obligation</a> is a statement that remains unproven.
+A later submission can discharge an open obligation.
+This results in every statement that rested on it to henceforth be proven.</p>
 <h2>How Lax is built</h2>
 <p>Lax consists of three parts, all of them open source:</p>
 <ul>
-<li>the <strong>command-line tool</strong>, <code>lax</code>, published on npm. It creates the layout
-of a submission, builds and previews it, and finally submits it. Its built-in guide
-(<code>lax print instructions</code>) is written for coding agents, so that an agent
-can carry a formalization from the first concept to the finished proofs;</li>
+<li>the <strong>command-line tool</strong>, <code>lax</code>, published on npm. It creates the layout of a submission.
+Then it builds and previews it, and finally submits it.
+Its built-in guide (<code>lax print instructions</code>) is written for coding agents, so that an agent
+can autonomously carry a formalization from start to finish;</li>
 <li>the <strong>submission pipeline</strong>, which runs as a GitHub Actions workflow. A
-submission is a pointer to a commit in a public git repository; the pipeline
-fetches it, builds it, verifies the proofs against the concepts, and records
-the result in the archive's metadata repository;</li>
+submission, we recall, is a pointer to a commit in a public git repository.
+The pipeline fetches it, builds it, verifies the proofs against the concepts, and records the result in the archive's metadata repository;</li>
 <li>the <strong>website</strong>, a static site generated from that metadata and the built
-submissions, and served from GitHub Pages. Readers sign in with their ORCID
-iD to comment on and endorse concepts.</li>
+submissions. It is served from GitHub Pages. Lax can also serve your local version.
+You sign in with your ORCID iD to endorse/flag concepts or comment.</li>
 </ul>
 <p>The archive's code, metadata, the submissions, and the generated artifacts are all public.</p>
 <h2>Where to go next</h2>
 <ul>
 <li><a href="lax-242665/paper.html">An Introduction to Lax</a>, itself a Lax submission.</li>
-<li>The <a href="index.html#faq">FAQ</a> answers the questions we are asked most.</li>
+<li>The <a href="index.html#faq">FAQ</a> may answer some of your questions.</li>
 </ul>
 <h2>Who we are</h2>
 <p>Lax is a project by Édouard Bonnet (CNRS, ENS Lyon, LIP), Jan Dreier (TU Wien and
@@ -136,4 +186,5 @@ HPI Potsdam), and Clemens Kuske (TU Wien and HPI Potsdam).</p>
 </dialog>
 <script src="assets/sidebar.js?v=e4e626f46671"></script>
 <script src="assets/account.js?v=449b15dc8a12"></script>
+<script src="assets/proof-flip.js?v=e787e0a48cde"></script>
 </body></html>
