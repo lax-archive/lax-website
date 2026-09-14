@@ -4576,3 +4576,18 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
   user-select: none;
 }
 .textLayer.selecting .endOfContent{ top: 0; }
+
+/* A single connected class hierarchy; proof edges stay in their own figure. */
+.planar-overview { max-width: 64rem; }
+.class-tree-root, .class-tree-node { border: 1px solid #b4c5bc; border-radius: .4rem; padding: .65rem 1rem; background: #f4f8f5; }
+.class-tree-root > a, .class-tree-node > a { font-weight: 600; }
+.class-tree-foundations, .class-tree-relation { font-size: .88rem; line-height: 1.6; }
+.class-tree-foundations { margin-top: .4rem; }
+.class-tree, .class-tree ul { list-style: none; margin: 0 0 0 1.25rem; padding: 0 0 0 1.5rem; border-left: 1px solid #809b8b; }
+.class-tree li { position: relative; padding-top: .8rem; }
+.class-tree li::before { content: ""; position: absolute; left: -1.5rem; top: 2.1rem; width: 1.5rem; border-top: 1px solid #809b8b; }
+.class-tree-relation { display: block; }
+.class-tree-status { display: inline-block; margin-left: .4rem; font-size: .8rem; }
+.class-tree-status.proved { color: #276044; }
+.class-tree-status.open { color: #88551c; }
+@media (max-width: 600px) { .class-tree, .class-tree ul { margin-left: .5rem; padding-left: .8rem; } .class-tree li::before { left: -.8rem; width: .8rem; } }
