@@ -1352,7 +1352,7 @@ After the formula.`, "");
     expect(groundedConcepts).toContain("fill-none");
     expect(groundedConcepts).toContain("stroke-own");
     expect(groundedConcepts).not.toContain("stroke-ext");
-    inOrder(groundedConcepts, ["fill-proven", "fill-none", "stroke-own", "legend-arrow"]);
+    inOrder(groundedConcepts, ["fill-proven", "fill-none", "stroke-own", "legend-dependency-arrow"]);
 
     const groundedProofs = legend(grounded, "Proof network legend", "figcaption");
     expect(groundedProofs).toContain("fill-proven");
@@ -1367,7 +1367,7 @@ After the formula.`, "");
     const cyclic = fs.readFileSync(path.join(root, "Lax4", "index.html"), "utf8");
     const cyclicConcepts = legend(cyclic, "Concept map legend", "figcaption");
     expect(cyclicConcepts).not.toContain("fill-proven");
-    inOrder(cyclicConcepts, ["fill-open", "fill-none", "stroke-own", "stroke-ext", "legend-arrow"]);
+    inOrder(cyclicConcepts, ["fill-open", "fill-none", "stroke-own", "stroke-ext", "legend-dependency-arrow"]);
 
     const cyclicProofs = legend(cyclic, "Proof network legend", "figcaption");
     expect(cyclicProofs).not.toContain("fill-proven");
@@ -1646,6 +1646,8 @@ After the formula.`, "");
     expect(staticMap).toMatch(/<path class="dag-edge proof-dep" data-edge-id="[^"]+" d="[^"]+" marker-end="url\(#[^)]+\)"\/>/u);
     const css = fs.readFileSync(path.join(root, "assets", "style.css"), "utf8");
     expect(html).toContain('<svg class="legend-dependency-arrow proof-dep"');
+    expect(html).toContain('viewBox="0 -4 26 8"');
+    expect(css).toContain(".legend-dependency-arrow{\n  width: 26px;");
     expect(css).toMatch(/\.dag-edge\.proof-dep\{[\s\S]*?stroke: var\(--text-dim\);[\s\S]*?stroke-dasharray: 6 4;/u);
   });
 

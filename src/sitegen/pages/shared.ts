@@ -243,7 +243,7 @@ export function conceptMapLegend(data: ConceptGraphData, ownLabel: string, extLa
     claimFillLegend(data.nodes.map((node) => node.status), true),
     data.nodes.some((node) => !node.ext) ? `<span><i class="legend-node stroke-own"></i>${esc(ownLabel)}</span>` : "",
     data.nodes.some((node) => node.ext) ? `<span><i class="legend-node stroke-ext"></i>${esc(extLabel)}</span>` : "",
-    data.edges.length ? `<span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B builds on A</span>` : "",
+    data.edges.length ? `<span><svg class="legend-dependency-arrow" viewBox="0 -4 26 8" aria-hidden="true" focusable="false"><path class="legend-edge-line" d="M1 0h22"/><path d="m20-3 3 3-3 3"/></svg>A → B: B builds on A</span>` : "",
   ];
   return `<figcaption class="graph-legend" aria-label="Concept map legend">${items.join("")}</figcaption>`;
 }
@@ -258,8 +258,8 @@ export function submissionMapLegend(data: SubmissionGraphData): string {
   const items = [
     `<span><i class="legend-node stroke-own"></i>This submission</span>`,
     `<span><i class="legend-node stroke-ext"></i>Other submission</span>`,
-    kinds.has("concepts") ? `<span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B's concepts build on A</span>` : "",
-    kinds.has("proofs") ? `<span><svg class="legend-dependency-arrow proof-dep" viewBox="0 -4 18 8" aria-hidden="true" focusable="false"><path class="legend-edge-line" d="M1 0h14"/><path d="m12-3 3 3-3 3"/></svg>A → B: only B's proofs build on A</span>` : "",
+    kinds.has("concepts") ? `<span><svg class="legend-dependency-arrow" viewBox="0 -4 26 8" aria-hidden="true" focusable="false"><path class="legend-edge-line" d="M1 0h22"/><path d="m20-3 3 3-3 3"/></svg>A → B: B's concepts build on A</span>` : "",
+    kinds.has("proofs") ? `<span><svg class="legend-dependency-arrow proof-dep" viewBox="0 -4 26 8" aria-hidden="true" focusable="false"><path class="legend-edge-line" d="M1 0h22"/><path d="m20-3 3 3-3 3"/></svg>A → B: only B's proofs build on A</span>` : "",
   ];
   return `<figcaption class="graph-legend" aria-label="Submission map legend">${items.join("")}</figcaption>`;
 }

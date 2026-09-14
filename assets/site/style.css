@@ -3760,7 +3760,7 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
 .legend-node.stroke-ext{ border-color: var(--none-border); background: var(--surface); }
 .legend-arrow{ color: var(--text-dim); font-family: var(--mono); font-size: 0.9rem; font-style: normal; line-height: 1; }
 .legend-dependency-arrow{
-  width: 18px;
+  width: 26px;
   height: 8px;
   flex: 0 0 auto;
   fill: none;
