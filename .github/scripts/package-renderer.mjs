@@ -12,6 +12,7 @@ const REQUIRED_FILES = [
   "assets/site/",
   "content/landing.md",
   "content/contributing.md",
+  "content/workshop.md",
 ];
 
 function archiveFiles(archive) {

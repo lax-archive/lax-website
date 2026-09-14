@@ -2237,6 +2237,208 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
    the landing page's promotional card treatment for heading-adjacent lists. */
 .content-page{ max-width: 42em; margin: 0 auto 2rem; }
 
+/* ── Workshop ── */
+
+#detail.detail-workshop{
+  width: min(100%, 68em);
+  padding-top: clamp(2rem, 5vw, 4.5rem);
+}
+
+.workshop-page{ max-width: 60em; margin: 0 auto; }
+
+.workshop-hero{
+  max-width: 48em;
+  margin: 0 auto clamp(2.25rem, 5vw, 4.25rem);
+  text-align: center;
+}
+
+.workshop-kicker{
+  margin-bottom: 1rem;
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+#detail .workshop-hero h1{
+  margin: 0;
+  font-size: clamp(2rem, 5.5vw, 3.6rem);
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+
+.workshop-lede{
+  max-width: 36em;
+  margin: 1.35rem auto 0;
+  color: var(--text-dim);
+  font-size: clamp(1.05rem, 2vw, 1.25rem);
+  line-height: 1.55;
+  text-wrap: balance;
+}
+
+.workshop-lede p{ margin: 0; text-align: center; }
+
+.workshop-summary{
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(16rem, 0.8fr);
+  gap: 1rem;
+  align-items: stretch;
+  margin-bottom: 1rem;
+}
+
+.workshop-panel,
+.workshop-registration{
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  box-shadow: 0 10px 30px rgba(43, 43, 43, 0.05);
+}
+
+.workshop-panel{ padding: clamp(1.35rem, 3vw, 2rem); }
+
+.workshop-section-number{
+  margin-bottom: 0.35rem;
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+#detail .workshop-panel h2,
+#detail .workshop-registration h2{
+  margin: 0;
+  font-size: 1.25rem;
+  font-variant: normal;
+  letter-spacing: 0;
+}
+
+.workshop-outcomes ul,
+.workshop-details ul{
+  display: grid;
+  gap: 0;
+  margin: 1.1rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.workshop-outcomes li{
+  position: relative;
+  min-height: 2.8rem;
+  padding: 0.72rem 0 0.72rem 2.15rem;
+  line-height: 1.45;
+  text-align: left;
+}
+
+.workshop-outcomes li + li,
+.workshop-details li + li{ border-top: 1px solid var(--border-light); }
+
+.workshop-outcomes li::before{
+  content: '✓';
+  position: absolute;
+  top: 0.78rem;
+  left: 0;
+  display: grid;
+  width: 1.35rem;
+  height: 1.35rem;
+  place-items: center;
+  color: var(--accent);
+  background: var(--accent-light);
+  border-radius: 50%;
+  font-family: system-ui, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.workshop-details{
+  background: linear-gradient(145deg, var(--surface) 0%, var(--panel-bg) 100%);
+}
+
+.workshop-details li{
+  display: grid;
+  gap: 0.08rem;
+  padding: 0.65rem 0;
+  line-height: 1.4;
+}
+
+.workshop-details li:first-child{ padding-top: 0.75rem; }
+.workshop-details li:last-child{ padding-bottom: 0; }
+.workshop-details strong{
+  color: var(--text-dim);
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.workshop-registration{ overflow: hidden; }
+
+.workshop-registration-head{
+  display: grid;
+  grid-template-columns: minmax(12rem, 0.55fr) minmax(0, 1fr);
+  gap: 2rem;
+  align-items: start;
+  padding: clamp(1.35rem, 3vw, 2rem);
+  border-bottom: 1px solid var(--border-light);
+}
+
+.workshop-registration-copy{
+  color: var(--text-dim);
+  line-height: 1.55;
+}
+
+.workshop-registration-copy p{ margin: 0; text-align: left; }
+
+.workshop-form-link{
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.9rem;
+  padding: 0.48rem 0.72rem;
+  color: var(--link);
+  background: var(--accent-light);
+  border: 1px solid rgba(59, 107, 154, 0.25);
+  border-radius: var(--radius-control);
+  font-size: 0.88rem;
+  font-weight: 700;
+  line-height: 1.2;
+  text-decoration: none;
+}
+
+.workshop-form-link:hover,
+.workshop-form-link:focus-visible{ border-color: var(--accent); outline: none; }
+
+.workshop-form-frame{
+  padding: clamp(0.45rem, 1.5vw, 1rem);
+  background: var(--panel-bg);
+}
+
+.workshop-form-frame iframe{
+  display: block;
+  width: 100%;
+  min-height: 1100px;
+  border: 0;
+  border-radius: var(--radius-control);
+  background: var(--surface);
+}
+
+@media (max-width: 760px){
+  .workshop-summary,
+  .workshop-registration-head{ grid-template-columns: 1fr; }
+  .workshop-registration-head{ gap: 0.8rem; }
+}
+
+@media (max-width: 480px){
+  .workshop-kicker span{ display: none; }
+  .workshop-kicker{ display: grid; gap: 0.2rem; }
+  .workshop-form-frame{ margin-inline: -1px; padding-inline: 0; }
+  .workshop-form-frame iframe{ border-radius: 0; }
+}
+
 /* A captioned figure in an editorial page, from a Markdown paragraph that
    holds only a titled image. */
 .content-figure{ margin: 2rem 0 2rem; }

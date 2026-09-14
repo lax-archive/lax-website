@@ -49,6 +49,7 @@ function rendererFixture(): string {
     "assets/site/style.css": "body {}\n",
     "content/contributing.md": "Contributing\n",
     "content/landing.md": "Landing\n",
+    "content/workshop.md": "Workshop\n",
     "dist/sitegen/assets.js": "export const SITE_MIME = {};\n",
     "dist/sitegen/generate.js": "export async function generateSite() {}\n",
     "dist/sitegen/machine-index.js": "export function machineIndex() {}\n",

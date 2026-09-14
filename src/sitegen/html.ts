@@ -39,6 +39,8 @@ export interface PageShell {
    * the toggle brings it back. Pages about a submission set it; the front
    * page and the editorial pages ship the sidebar hidden, with no toggle. */
   sidebarState?: "open" | "collapsed";
+  /** Additional HTTPS origins allowed to embed frames on this page only. */
+  frameOrigins?: string[];
 }
 
 const REMARK42_ORIGIN = new URL(REMARK42_URL).origin;
@@ -61,12 +63,22 @@ const PAPER_CSP =
 const REFLOW_CSP =
   `default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self'; frame-src ${REMARK42_ORIGIN}; connect-src 'self' ${ACCOUNT_CONNECT_ORIGINS}`;
 
-function contentSecurityPolicy(scripts: string[]): string {
-  if (scripts.includes("assets/manuscript.js")) return PAPER_CSP;
-  if (scripts.includes("assets/manuscript-reflow.js")) return REFLOW_CSP;
-  const policy = scripts.includes("assets/comments.js")
-    ? `default-src 'none'; script-src 'self' ${REMARK42_ORIGIN}; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self'; frame-src ${REMARK42_ORIGIN}; connect-src ${ACCOUNT_CONNECT_ORIGINS}`
-    : BASE_CSP;
+function contentSecurityPolicy(scripts: string[], frameOrigins: string[]): string {
+  let policy = scripts.includes("assets/manuscript.js")
+    ? PAPER_CSP
+    : scripts.includes("assets/manuscript-reflow.js")
+      ? REFLOW_CSP
+      : scripts.includes("assets/comments.js")
+        ? `default-src 'none'; script-src 'self' ${REMARK42_ORIGIN}; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self'; frame-src ${REMARK42_ORIGIN}; connect-src ${ACCOUNT_CONNECT_ORIGINS}`
+        : BASE_CSP;
+  const extraFrames = [...new Set(frameOrigins)].sort();
+  for (const origin of extraFrames) {
+    const url = new URL(origin);
+    if (url.protocol !== "https:" || url.origin !== origin)
+      throw new Error(`frame origin must be an exact HTTPS origin: ${origin}`);
+  }
+  if (extraFrames.length)
+    policy = policy.replace(`frame-src ${REMARK42_ORIGIN}`, `frame-src ${REMARK42_ORIGIN} ${extraFrames.join(" ")}`);
   // Alternate graph views are immutable same-origin files. Public graph
   // interaction runs no worker and needs neither inline scripts nor eval.
   return scripts.includes("assets/graph-interaction.js") ? policy.replace("connect-src ", "connect-src 'self' ") : policy;
@@ -139,7 +151,7 @@ function siteNavLinks(root: string): string {
 
 export function page(shell: PageShell): string {
   const root = shell.rootRel;
-  const csp = contentSecurityPolicy(shell.scripts ?? []);
+  const csp = contentSecurityPolicy(shell.scripts ?? [], shell.frameOrigins ?? []);
   const scripts = ["assets/sidebar.js", "assets/account.js", ...(shell.scripts ?? [])]
     .map((src) => `<script src="${attr(root + src)}?v=${siteAssetVersion(src.replace(/^assets\//, ""))}"></script>`)
     .join("\n");

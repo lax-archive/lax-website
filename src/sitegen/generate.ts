@@ -15,6 +15,7 @@ import { paperPage, paperPdfPage } from "./pages/paper.js";
 import { proofPage } from "./pages/proof.js";
 import { INTRO_SUBMISSION_ID } from "./pages/shared.js";
 import { submissionPage } from "./pages/submission.js";
+import { workshopPage } from "./pages/workshop.js";
 import { prepareGraphs, type GraphPreparationOptions, type GraphPreparationResult } from "./graph-prepare.js";
 import { compareText } from "../graph-layout/normalize.js";
 
@@ -80,6 +81,7 @@ export async function generateSite(
   files.set("contributing.html", contentPage(context, "contributing", "Getting started"));
   files.set("impressum.html", contentPage(context, "impressum", "Imprint"));
   files.set("privacy.html", contentPage(context, "privacy", "Privacy Notice"));
+  files.set(path.join("workshop", "index.html"), workshopPage(context));
   const proofObligations = openProblemsPage(context);
   files.set("open-proof-obligations.html", proofObligations);
   // Preserve shared preview and production links published under the old name.

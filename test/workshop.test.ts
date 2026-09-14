@@ -1,0 +1,44 @@
+import fs from "node:fs";
+import path from "node:path";
+import { describe, expect, it } from "vitest";
+import { generateSite } from "../src/sitegen/generate.js";
+import { page } from "../src/sitegen/html.js";
+import { tmpDir } from "./helpers.js";
+
+describe("workshop page", () => {
+  it("generates the invitation and Google Forms preregistration at /workshop", async () => {
+    const root = tmpDir("lax-site-workshop-");
+    await generateSite([], root);
+    const html = fs.readFileSync(path.join(root, "workshop", "index.html"), "utf8");
+
+    expect(html).toContain("Lean and Lax online workshop");
+    expect(html).toContain("How to get started with Lean.");
+    expect(html).toContain("Claude Code or OpenAI Codex");
+    expect(html).toContain("share those results with the community using Lax");
+    expect(html).toContain("xx.xx.xxxx");
+    expect(html).toContain("10:00–12:00 CET");
+    expect(html).toContain("xxxx.zoom");
+    expect(html).toContain("name, email address, and prior Lean knowledge");
+    expect(html).toContain('<iframe src="https://docs.google.com/forms/d/e/1FAIpQLScCkCORYWuaP9SvNeySxIsa_zEuqTz8q_d9b8-3SOxS1L_xIg/viewform?embedded=true" width="100%" height="1100" frameborder="0"');
+    expect(html).toContain('title="Lean and Lax workshop preregistration form"');
+    expect(html).toContain('class="workshop-form-link"');
+    expect(html).toContain("frame-src https://comments.laxarchive.org https://accounts.google.com https://docs.google.com");
+    expect(html).toContain('href="../assets/style.css');
+    expect(html).toContain('href="../index.html"');
+  });
+
+  it("keeps the Google Forms frame permission off other pages", () => {
+    const html = page({ title: "Ordinary", rootRel: "", sidebar: "", content: "" });
+    expect(html).not.toContain("docs.google.com");
+  });
+
+  it("rejects non-origin or non-HTTPS frame permissions", () => {
+    expect(() => page({
+      title: "Unsafe",
+      rootRel: "",
+      sidebar: "",
+      content: "",
+      frameOrigins: ["https://example.com/path"],
+    })).toThrow("frame origin must be an exact HTTPS origin");
+  });
+});
