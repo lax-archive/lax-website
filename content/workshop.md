@@ -1,8 +1,6 @@
 # Lean and Lax online workshop
 
-We offer a free online workshop that teaches:
-
-## What you will learn
+## We offer a free online workshop that teaches:
 
 - How to get started with Lean.
 - How to formalize your results using AI agents such as Claude Code or OpenAI Codex.

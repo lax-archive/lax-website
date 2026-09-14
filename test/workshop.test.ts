@@ -13,7 +13,8 @@ describe("workshop page", () => {
 
     expect(html).toContain("Lean and Lax online workshop");
     expect(html).not.toContain("laxarchive.org/workshop");
-    expect(html).toContain("We offer a free online workshop that teaches:");
+    expect(html).toContain('<h2 id="workshop-outcomes-heading">We offer a free online workshop that teaches:</h2>');
+    expect(html).not.toContain("What you will learn");
     expect(html).toContain("How to get started with Lean.");
     expect(html).toContain("Claude Code or OpenAI Codex");
     expect(html).toContain("share these results with the community using Lax");
