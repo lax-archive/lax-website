@@ -2045,6 +2045,7 @@ describe("supersedes version chains", () => {
     expect(oldPage).toContain('href="../lax-3/index.html?version=lax-3"');
     expect(oldPage).toContain('data-version-dialog');
     expect(oldPage).toContain('data-version-dialog-open');
+    expect(oldPage).not.toContain('class="version-dialog-intro"');
     expect(oldPage).not.toContain('class="paper-version-button"');
     expect(oldPage).toContain('href="../lax-2/index.html?version=lax-2"');
     expect(oldPage).toContain("current version");

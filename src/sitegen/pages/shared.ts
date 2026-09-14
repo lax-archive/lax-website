@@ -706,7 +706,6 @@ ${title ? `<p class="version-item-title">${ctx.markdown.renderAuthorInline(title
   return `${notice}
 <dialog class="version-history-dialog" id="version-history-dialog" data-version-dialog aria-labelledby="version-history-title">
 <div class="version-dialog-header"><div><p class="version-dialog-eyebrow">Version history</p><h2 id="version-history-title">Submission versions</h2></div><button class="version-dialog-close" type="button" data-version-dialog-close aria-label="Close version history">×</button></div>
-<p class="version-dialog-intro">Newest first. “Current version” is the latest registered successor; drafts are identified separately.</p>
 <ol class="version-list">
 ${rows.join("\n")}
 </ol>
