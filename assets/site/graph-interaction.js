@@ -4,7 +4,7 @@
   'use strict';
   let activeGraphTooltip = null;
   let graphTooltipFrame;
-  const PROOF_SELECTION_SCALE = 1.28;
+  const PROOF_SELECTION_SCALE = 1.2;
   const PROOF_FOCUS_DURATION = 900;
   const reviewCache = new Map();
   let reviewSequence = 0;
@@ -430,7 +430,8 @@
     }
     panel.hidden = false;
     const controls = panel.parentElement.querySelector('.graph-controls');
-    panel.style.top = `${(controls?.offsetHeight || 0) + 6}px`;
+    panel.style.removeProperty('top');
+    panel.style.setProperty('--graph-detail-top', `${(controls?.offsetHeight || 0) + 6}px`);
     scroll.scrollTop = 0;
     return panel;
   }

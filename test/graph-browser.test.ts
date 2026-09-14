@@ -622,10 +622,12 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       const placement = await panel.evaluate((element) => {
         const panel = element.getBoundingClientRect(), figure = element.parentElement!.getBoundingClientRect();
         return { rightGap: figure.right - panel.right, onRight: panel.left > (figure.left + figure.right) / 2,
+          heightRatio: panel.height / figure.height,
           overflow: getComputedStyle(element.querySelector(".graph-detail-scroll")!).overflowY };
       });
       expect(placement.rightGap).toBeLessThan(10);
       expect(placement.onRight).toBe(true);
+      expect(placement.heightRatio).toBeLessThanOrEqual(0.83);
       expect(placement.overflow).toBe("auto");
       expect(await container.locator(".graph-selected").count()).toBe(1);
       expect(await container.locator(".graph-related").count()).toBeGreaterThan(0);
@@ -660,6 +662,9 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       await animationFrame(page);
       expect(await panel.isHidden()).toBe(true);
       expect(await container.locator(".graph-selected, .graph-related, .graph-dimmed").count()).toBe(0);
+      const restoredScale = Number((await figure.locator("[data-graph-zoom-status]").textContent())!.replace("%", ""));
+      expect(focusedScale / restoredScale).toBeGreaterThanOrEqual(1.19);
+      expect(focusedScale / restoredScale).toBeLessThanOrEqual(1.21);
 
       await figure.locator("[data-graph-expand]").click(); await animationFrame(page);
       const edge = container.locator('[data-edge-hit][aria-label*="Main χ result"]').first();
