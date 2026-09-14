@@ -1516,6 +1516,8 @@
         "Lax68Proofs.halin_planar",
         "Lax68Proofs.ladder_grid",
         "Lax68Proofs.ladder_planar",
+        "Lax68Proofs.ladder_planar_of_outerplanar",
+        "Lax68Proofs.ladder_planar_of_seriesParallel",
         "Lax68Proofs.maximalOuterplanar_outerplanar",
         "Lax68Proofs.maximalOuterplanar_planar",
         "Lax68Proofs.outerplanar_planar",
@@ -1529,6 +1531,7 @@
         "Lax68Proofs.triangle_outerplanar",
         "Lax68Proofs.triangle_planar",
         "Lax68Proofs.triangulationOf_planar",
+        "Lax68Proofs.wall_planar",
         "Lax68Proofs.wheel_planar"
       ]
     },
@@ -1779,6 +1782,55 @@
         "Lax132576Proofs.Results.not_computablePred_codeRel_eq",
         "Lax132576Proofs.Results.relContinuous_of_isRationalRel",
         "Lax132576Proofs.Results.tfae_rational_unambiguous_bimachine"
+      ]
+    },
+    {
+      "id": "lax-146103",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "MSO-automata",
+      "concepts": [
+        {
+          "id": "Lax146103.MSOAutomataEquivalence",
+          "title": "Büchi-Elgot-Trakhtenbrot theorem for finite words",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax146103.MSOSemantics",
+          "title": "Semantics of monadic second-order logic",
+          "type": "definition"
+        },
+        {
+          "id": "Lax146103.MSOSyntax",
+          "title": "Monadic second-order syntax",
+          "type": "definition"
+        },
+        {
+          "id": "Lax146103.MSOToNFA",
+          "title": "MSO-definable word languages are NFA-recognizable",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax146103.NFARecognizable",
+          "title": "Recognition by a finite nondeterministic automaton",
+          "type": "definition"
+        },
+        {
+          "id": "Lax146103.NFAToMSO",
+          "title": "Finite automata are MSO-definable",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax146103.WordStructure",
+          "title": "Words as finite relational structures",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax146103Proofs.existsUnique_wordStructure_proof",
+        "Lax146103Proofs.mso_definable_is_nfaRecognizable_proof",
+        "Lax146103Proofs.nfa_definable_by_mso_proof",
+        "Lax146103Proofs.nfaRecognizable_iff_msoDefinable_proof"
       ]
     },
     {
