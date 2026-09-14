@@ -742,7 +742,9 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
         .toContain("Two foundational statements");
       expect(await openAssumptionTooltip.locator(".graph-detail-open-assumption-statement").textContent())
         .toBe("Statement 2 of 2");
-      expect(await openAssumptionTooltip.locator("code").textContent()).toBe("s2 : True");
+      expect(await openAssumptionTooltip.locator(".graph-detail-open-assumption-prose").textContent())
+        .toContain("A graph browser fixture.");
+      expect(await openAssumptionTooltip.locator("code").count()).toBe(0);
       await capture(page, "proof-detail-open-assumption-tooltip");
       await panel.locator("h3").hover(); await animationFrame(page);
       expect(await openAssumptionTooltip.isHidden()).toBe(true);

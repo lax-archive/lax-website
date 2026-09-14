@@ -240,11 +240,11 @@
         nameHtml: candidate.nameHtml,
         statementLabel: candidate.statements.length > 1
           ? `Statement ${index + 1} of ${candidate.statements.length}` : 'Statement',
-        signature: statement.signature,
+        descriptionHtml: candidate.descriptionHtml,
       }));
     }
     return (detail.openAssumptionIds || []).map((id) => statements.get(id) || {
-      id, name: id, statementLabel: 'Statement', signature: id,
+      id, name: id, statementLabel: 'Statement', descriptionHtml: '',
     });
   }
 
@@ -270,7 +270,9 @@
         if (entry.nameHtml) name.innerHTML = entry.nameHtml;
         else name.textContent = entry.name;
         appendText(row, 'span', 'graph-detail-open-assumption-statement', entry.statementLabel);
-        appendText(row, 'code', '', entry.signature);
+        if (!appendRendered(row, 'graph-detail-open-assumption-prose latex-content', entry.descriptionHtml))
+          appendText(row, 'span', 'graph-detail-open-assumption-prose',
+            'Natural-language statement unavailable.');
         row.prepend(name);
         list.append(row);
       }
