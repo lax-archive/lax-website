@@ -67,7 +67,8 @@ jobs:
           key: references-v1-${{ hashFiles('data/lax-db/*/build-output.json') }}
           restore-keys: references-v1-
       - run: npm run references:fetch -- --database data/lax-db --references data/references
-      - run: npm run site:build -- --database data/lax-db --papers data/papers --bundles data/bundles --out _site
+      - uses: ./.github/actions/lean-code
+      - run: npm run site:build -- --database data/lax-db --papers data/papers --bundles data/bundles --require-lean-code --out _site
 
       - name: Verify deployable output
         run: |

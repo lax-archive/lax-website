@@ -4,6 +4,7 @@ import { attr, esc } from "./html.js";
 import { renderDisplayMath, renderInlineMath } from "./math.js";
 import { leanDeclarations, nameKey, nameParts, scanLeanSource, type SourceRange } from "./lean-source.js";
 import type { SourceLink } from "./source-links.js";
+import type { SourceHover } from "./lean-code.js";
 
 let highlighterPromise: Promise<Highlighter> | undefined;
 
@@ -13,7 +14,7 @@ function highlighter(): Promise<Highlighter> {
 
 interface HastNode { type: string; value?: string; tagName?: string; properties?: Record<string, unknown>; children?: HastNode[] }
 
-interface Decoration extends SourceRange { href?: string; html?: string; contentLine?: number }
+interface Decoration extends SourceRange { href?: string; hover?: string; html?: string; contentLine?: number }
 
 function escapedAt(source: string, index: number): boolean {
   let slashes = 0;
@@ -60,15 +61,23 @@ function commentMath(source: string, comments: SourceRange[]): Decoration[] {
 // supplied as part of a name. The resolver URL-encodes path/fragment components.
 const ARCHIVE_HREF = /^(?:\.\.?\/)*[a-zA-Z0-9_%.'-]+\/[a-zA-Z0-9_%.'-]+\.html(?:#[a-zA-Z0-9_%.'-]+)?$/u;
 
-function decorationsByLine(source: string, links: readonly SourceLink[], comments: SourceRange[]): Decoration[][] {
+function decorationsByLine(source: string, links: readonly SourceLink[], comments: SourceRange[], hovers: readonly SourceHover[]): Decoration[][] {
   const lines = source.split("\n");
   const offsets = [0];
   for (const line of lines) offsets.push(offsets.at(-1)! + line.length + 1);
   const result: Decoration[][] = lines.map(() => []);
-  const decorations: Decoration[] = [...commentMath(source, comments), ...links.filter((link) =>
+  const identifiers: Decoration[] = links.filter((link) =>
     Number.isInteger(link.start) && Number.isInteger(link.end) && link.start >= 0 &&
     link.end > link.start && link.end <= source.length && ARCHIVE_HREF.test(link.href),
-  )].sort((a, b) => a.start - b.start);
+  ).map(link => ({ ...link }));
+  for (const hover of hovers) {
+    if (!Number.isInteger(hover.start) || !Number.isInteger(hover.end) || hover.start < 0 || hover.end <= hover.start ||
+        hover.end > source.length || typeof hover.text !== "string") continue;
+    const linked = identifiers.find(link => link.start === hover.start && link.end === hover.end);
+    if (linked) linked.hover = hover.text;
+    else identifiers.push({ start: hover.start, end: hover.end, hover: hover.text });
+  }
+  const decorations: Decoration[] = [...commentMath(source, comments), ...identifiers].sort((a, b) => a.start - b.start);
   let line = 0;
   let previousEnd = 0;
   for (const decoration of decorations) {
@@ -81,6 +90,7 @@ function decorationsByLine(source: string, links: readonly SourceLink[], comment
         start: Math.max(0, decoration.start - offsets[row]!),
         end: Math.min(lines[row]!.length, decoration.end - offsets[row]!),
         href: decoration.href,
+        hover: decoration.hover,
         html: row === contentLine ? decoration.html : "",
       });
     }
@@ -129,8 +139,10 @@ function renderDecoratedLine(nodes: HastNode[], decorations: Decoration[]): stri
   for (const decoration of decorations) {
     html.push(take(decoration.start));
     const content = take(decoration.end);
+    const hover = decoration.hover ? ` data-lean-type="${attr(decoration.hover)}"` : "";
     html.push(decoration.href
-      ? `<a class="lean-identifier-link" href="${attr(decoration.href)}">${content}</a>`
+      ? `<a class="lean-identifier-link" href="${attr(decoration.href)}"${hover}>${content}</a>`
+      : decoration.hover ? `<span class="lean-typed-identifier" tabindex="0"${hover}>${content}</span>`
       : decoration.html ?? "");
   }
   html.push(take(Infinity));
@@ -207,6 +219,7 @@ export interface SourceOptions {
   anchors?: boolean;
   /** Verified archive destinations at offsets in the original source. */
   links?: readonly SourceLink[];
+  hovers?: readonly SourceHover[];
 }
 
 /** The 1-based line range of the module docstring — the first `/-!` block
@@ -234,7 +247,7 @@ export async function highlightSource(
   const anchors = options.anchors ?? true;
   const elided = options.omitModuleDoc ? moduleDocRange(source) : undefined;
   const parsed = scanLeanSource(source);
-  const decorations = decorationsByLine(source, options.links ?? [], parsed.comments);
+  const decorations = decorationsByLine(source, options.links ?? [], parsed.comments, options.hovers ?? []);
   // Keep stable statement IDs, but place them at their complete comment
   // preamble. Archive ranges may begin after leading ordinary line comments.
   const starts = anchors && statements.length

@@ -133,7 +133,8 @@ describe("paper pages", () => {
     expect(html).toContain('<svg class="manuscript-links" id="manuscript-links" aria-hidden="true"></svg>');
     // a concept card carries the Lean source, module docstring elided, without the concept page's row anchors
     const card = html.slice(html.indexOf('id="m1"'), html.indexOf('id="m2"'));
-    expect(card).toContain('<div class="manuscript-card-source"><div class="inline-contract-wrap"><table class="inline-contract-table">');
+    expect(card).toContain('<div class="manuscript-card-source"><a class="source-link lean-live-link"');
+    expect(card).toContain('Open in live Lean</a><div class="inline-contract-wrap"><table class="inline-contract-table">');
     expect(card).toContain('<tr class="line-elided"><td class="line-num"></td><td class="line-code">… module docstring, 6 lines</td></tr>');
     expect(card).not.toContain("title: Treewidth");
     expect(card).toContain("own docstring stays.");

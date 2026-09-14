@@ -53,6 +53,7 @@ async function build(): Promise<void> {
       throw new Error(`papers cache lacks the PDF or web bundle of ${missing.map((s) => s.record.id).join(", ")}; run \`npm run papers:fetch\` or build with --no-papers`);
   }
   await generateSite(submissions, outDir, { log: (line) => console.warn(line),
+    leanCode: { cacheDir: path.resolve(option("--lean-code", path.join(root, "data", "lean-code"))), required: flag("--require-lean-code") },
     graphs: { mode: command === "serve" ? "local" : "archive", selfContained: flag("--self-contained-graphs"),
       cacheDir: path.resolve(option("--graph-cache", path.join(root, ".lax-graph-cache"))), log: (line) => console.log(line) },
     graphReport: (report) => {

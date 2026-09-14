@@ -1495,6 +1495,27 @@ a.submission-meta-id:is(:hover, :focus-visible),
 
 .source-link:hover{ text-decoration: underline; }
 
+.lean-typed-identifier{ cursor: help; }
+.lean-typed-identifier:focus-visible{ outline: 2px solid var(--link); outline-offset: 2px; }
+.lean-type-tooltip{
+  position: fixed;
+  z-index: 100000;
+  box-sizing: border-box;
+  max-width: min(42rem, calc(100vw - 16px));
+  max-height: min(24rem, calc(100vh - 16px));
+  overflow: auto;
+  padding: .65rem .85rem;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  background: #fff;
+  color: #202020;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, .16);
+  font: 13px/1.5 monospace;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.manuscript-card-source > .lean-live-link{ display: inline-block; margin: 0 0 .5rem; }
+
 .source-link-withheld{
   display: inline-flex;
   align-items: center;

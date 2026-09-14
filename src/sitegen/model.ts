@@ -2,6 +2,7 @@ import { EPOCH, PROOF_SUFFIX } from "../config.js";
 import type { LeanReferences } from "../lean-references.js";
 import type { BuildOutput, ConceptEntry, DbRecord, ProofEntry, StatementEntry } from "../types.js";
 import { computeNetwork, type ProofNetwork } from "./network.js";
+import type { LeanCodeData } from "./lean-code.js";
 
 export interface SiteSubmission {
   record: DbRecord;
@@ -68,6 +69,7 @@ export function compareEnvironments(a: string, b: string): number {
 }
 
 export class SiteModel {
+  readonly leanCode = new Map<string, LeanCodeData>();
   readonly submissions: SiteSubmission[];
   readonly outputs: BuildOutput[];
   /** The environment the archive recommends this year. Every other admitted

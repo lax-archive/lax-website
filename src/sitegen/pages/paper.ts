@@ -21,6 +21,7 @@ import { siteAssetVersion } from "../assets.js";
 import { attr, code, esc, page, plural, proofBadge, typeBadge } from "../html.js";
 import { inertJsonScript } from "../graphs.js";
 import { highlightSource } from "../highlight.js";
+import { liveLeanLink } from "../lean-code.js";
 import { sourceLinks } from "../source-links.js";
 import { compareIds, type SiteModel, type SiteSubmission } from "../model.js";
 import type { PaperWebPage } from "../paper-web.js";
@@ -122,10 +123,11 @@ async function markBody(ctx: PageContext, mark: PaperMark, home: string, rootRel
     const rows = concept.sourceText.trim()
       ? await highlightSource(concept.sourceText, concept.statements, proven, {
         omitModuleDoc: true, anchors: false, links: sourceLinks(model, concept.id, rootRel),
+        hovers: model.leanCode.get(concept.id)?.hovers,
       })
       : "";
     const source = rows
-      ? `<div class="manuscript-card-source"><div class="inline-contract-wrap"><table class="inline-contract-table">
+      ? `<div class="manuscript-card-source">${liveLeanLink(model, concept.id)}<div class="inline-contract-wrap"><table class="inline-contract-table">
 ${rows}
 </table></div></div>`
       : "";
@@ -343,7 +345,7 @@ ${body}
     sidebarState: "collapsed",
     content,
     detailClass: "detail-manuscript",
-    scripts,
+    scripts: [...scripts, "assets/lean-code.js"],
   });
 }
 

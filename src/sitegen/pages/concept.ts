@@ -2,6 +2,7 @@ import { attr, code, countsPill, esc, page } from "../html.js";
 import { conceptGraph, graphDataScript } from "../graphs.js";
 import { highlightSource } from "../highlight.js";
 import { sourceLinks } from "../source-links.js";
+import { liveLeanLink } from "../lean-code.js";
 import type { LocatedConcept } from "../model.js";
 import { discussion, pageReactions } from "./discussion.js";
 import { inPaperBlock } from "./paper.js";
@@ -128,6 +129,7 @@ export async function conceptPage(ctx: PageContext, located: LocatedConcept): Pr
   }).join("");
   const sourceRows = await highlightSource(concept.sourceText, concept.statements, proven, {
     links: sourceLinks(ctx.model, concept.id, "../"),
+    hovers: ctx.model.leanCode.get(concept.id)?.hovers,
   });
 
   const content = `${versionHistoryPanel(ctx, submission.record.id, "../")}${draftBanner(submission.record.state)}${environmentNotice(ctx.model, submission)}
@@ -149,7 +151,7 @@ ${conceptMapLegend(graph, "This concept", "Related concept")}
 ${evidence(ctx, located)}
 ${inPaperBlock(ctx, concept.id, output.id, "../")}
 <div class="block block-statement"><h3>${esc(typeHeading)}</h3><div class="latex-content">${ctx.markdown.renderAuthorProse(concept.description, "../")}</div></div>
-<div class="block block-lean"><h3 class="section-heading">Lean source${sourceFile ? ` <a class="source-link" href="${attr(sourceFile)}">view on ${esc(sourceProviderName(sourceFile))}</a>` : sourceWithheld ? withheldSourceLink() : ""}</h3>
+<div class="block block-lean"><h3 class="section-heading">Lean source${sourceFile ? ` <a class="source-link" href="${attr(sourceFile)}">view on ${esc(sourceProviderName(sourceFile))}</a>` : sourceWithheld ? withheldSourceLink() : ""} ${liveLeanLink(ctx.model, concept.id)}</h3>
 <div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
 ${sourceRows}
 </table></div>${proofActions}<span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
@@ -171,6 +173,6 @@ ${graphDataScript({
     sidebar: submissionSidebar(ctx.model, submission, "../", { activeId: concept.id }),
     sidebarState: "open",
     content,
-    scripts: ["assets/graph-interaction.js", "assets/source-proof.js", "assets/version-history.js", "assets/comments.js"],
+    scripts: ["assets/graph-interaction.js", "assets/source-proof.js", "assets/lean-code.js", "assets/version-history.js", "assets/comments.js"],
   });
 }

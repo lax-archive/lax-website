@@ -9,7 +9,7 @@ import { conceptPage } from "./pages/concept.js";
 import { allCommentsPage } from "./pages/all-comments.js";
 import { contentPage } from "./pages/content.js";
 import { configureSiteNav } from "./html.js";
-import { indexPage } from "./pages/index.js";
+import { indexPage, landingLeanModel } from "./pages/index.js";
 import { openProblemsPage } from "./pages/open-problems.js";
 import { paperPage, paperPdfPage } from "./pages/paper.js";
 import { proofPage } from "./pages/proof.js";
@@ -17,10 +17,13 @@ import { INTRO_SUBMISSION_ID } from "./pages/shared.js";
 import { submissionPage } from "./pages/submission.js";
 import { prepareGraphs, type GraphPreparationOptions, type GraphPreparationResult } from "./graph-prepare.js";
 import { compareText } from "../graph-layout/normalize.js";
+import { loadLeanCode } from "./lean-code.js";
 
 export type { SiteSubmission } from "./model.js";
 
 export interface GenerateOptions {
+  /** Prepared compiler information; no Lean process runs in the renderer. */
+  leanCode?: { cacheDir: string; required?: boolean };
   /** Where schema-gate drops (a paper page falling back to PDF-only) are
    * reported. Defaults to console.warn so production builds always say so. */
   log?: (line: string) => void;
@@ -54,6 +57,12 @@ export async function generateSite(
   const settings = typeof options === "string" ? { epoch: options } : options;
   const log = settings.log ?? ((line: string) => console.warn(line));
   const model = new SiteModel(submissions, settings.epoch);
+  if (settings.leanCode) {
+    loadLeanCode(model, settings.leanCode.cacheDir, settings.leanCode.required);
+    const examples = landingLeanModel();
+    loadLeanCode(examples, settings.leanCode.cacheDir, settings.leanCode.required);
+    for (const [id, data] of examples.leanCode) model.leanCode.set(`example:${id}`, data);
+  }
   const context = { model, markdown: new MarkdownRenderer(model) };
   // The header's "Introduction" leads into the introduction's paper, once
   // the archive holds it.

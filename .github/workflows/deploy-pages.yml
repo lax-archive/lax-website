@@ -119,9 +119,12 @@ jobs:
         if: github.event_name != 'delete'
         run: npm run references:fetch -- --database data/lax-db --references data/references
 
+      - uses: ./.github/actions/lean-code
+        if: github.event_name != 'delete'
+
       - name: Build the current branch
         if: github.event_name != 'delete'
-        run: npm run site:build -- --database data/lax-db --papers data/papers --bundles data/bundles --out _site
+        run: npm run site:build -- --database data/lax-db --papers data/papers --bundles data/bundles --require-lean-code --out _site
 
       - name: Restore the published Pages tree
         run: |

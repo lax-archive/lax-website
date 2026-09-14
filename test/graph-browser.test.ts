@@ -268,7 +268,14 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
           contained: ink.x >= x && ink.y >= y && ink.x + ink.width <= x + width && ink.y + ink.height <= y + height &&
             (!circle || [ink.x, ink.x + ink.width].every((a) => [ink.y, ink.y + ink.height].every((b) => Math.hypot(a - x - radius, b - y - radius) <= radius))),
           inkWidth: ink.width, lines: [...text.querySelectorAll("tspan")].map((span) => {
-            const ink = (span as SVGGraphicsElement).getBBox();
+            // Gecko can report an empty box for a later tspan in multiline
+            // SVG text. Measure each line as an equivalent standalone text
+            // element, with the same class, attributes, parent and baseline.
+            const line = text.cloneNode(false) as SVGGraphicsElement;
+            line.append(span.cloneNode(true));
+            text.parentNode!.appendChild(line);
+            const ink = line.getBBox();
+            line.remove();
             return { text: span.textContent, x: Number(span.getAttribute("x")), y: Number(span.getAttribute("y")),
               ink: { x: ink.x, y: ink.y, width: ink.width, height: ink.height } };
           }) }];
@@ -279,8 +286,17 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
         const reference = expected.find((value) => value.id === entry.id)!;
         expect(entry.lines).toHaveLength(reference.lines.length);
         entry.lines.forEach((line, i) => {
-          if (!entry.id!.startsWith("dock:"))
-            expect(line.ink.x + line.ink.width / 2).toBeCloseTo(reference.bounds.x + reference.bounds.width / 2, 1);
+          if (!entry.id!.startsWith("dock:")) {
+            const center = reference.bounds.x + reference.bounds.width / 2;
+            const inkCenter = line.ink.x + line.ink.width / 2;
+            // Published positions use pinned Chromium metrics. Firefox and
+            // WebKit can report slightly different glyph bounds at those same
+            // positions; allow at most half a CSS pixel of visual asymmetry.
+            // Baselines below remain exact and actual ink must still fit.
+            if (browserName === "chromium") expect(inkCenter).toBeCloseTo(center, 1);
+            else expect(Math.abs(inkCenter - center), `${entry.id}, line ${i}: ink centering in ${browserName}`)
+              .toBeLessThanOrEqual(0.5);
+          }
           expect(line.text).toBe(reference.lines[i]!.text);
           expect(line.x).toBe(reference.lines[i]!.x); expect(line.y).toBe(reference.lines[i]!.y);
           // Only the pinned measurement engine promises identical glyph boxes.

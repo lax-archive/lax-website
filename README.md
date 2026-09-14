@@ -39,6 +39,7 @@ Build the complete static website into `_site/`:
 ```sh
 npm run papers:fetch   # once per database change; see "Papers" below
 npm run references:fetch
+npm run lean:prepare
 npm run site:build
 ```
 
@@ -159,6 +160,31 @@ bytes therefore differ from production's, deterministically per flag set).
   builds, retain conservative lexical navigation. That fallback does not
   promise complete coverage: fields, aliases and potentially shadowed names
   need compiler metadata. Normal archive and preview builds use the metadata.
+- Lean identifiers also show compiler-derived types on hover and keyboard
+  focus. `npm run lean:prepare` elaborates concept modules and the landing
+  examples with their pinned Lean and Mathlib environments, caching UTF-16
+  ranges and plain type text in `data/lean-code/`. It omits documentation from
+  compiler hovers. Source and transitive dependency changes invalidate this
+  cache; corrupt entries are rebuilt. Public deployment requires complete
+  metadata with `--require-lean-code`; local rendering can proceed without it.
+  Browsers receive static type text and a small local interaction script,
+  with no Lean server, runtime downloads, or CSP changes.
+- Type preparation needs `elan` when the pinned toolchains are not installed.
+  It reuses matching local `~/.lax/warm` packages when available, otherwise
+  downloads pinned Mathlib sources and compiled caches into a temporary
+  directory. Two compiler workers run by default (`--jobs 1` through `4`).
+  CI prepares environments sequentially and removes temporary compiler
+  inputs; subsequent builds with unchanged sources need only the type cache.
+- "Open in live Lean" includes the concept's archive dependencies, in import
+  order, with module-local commands scoped separately. Annotations and comments
+  are omitted from that exported document. Modules using private definitions or
+  initialization/module commands have no portable editor link. Core-only code
+  selects its original Lean version; Mathlib code selects the live editor's
+  `mathlib-stable` project (Lean 4.33, verified September 2026). Links from older
+  Mathlib submissions explicitly say "Mathlib 4.33": that external editor does
+  not host every archive environment, and older code may require adaptation.
+  The site's type hovers always use the original archive environment. The
+  external editor opens only when a reader follows the link.
 - Source links are static relative URLs to generated pages. They preserve
   syntax colours, source text and line anchors, work in branch previews, and
   require no browser scripts, external requests or CSP changes. Each build

@@ -3,7 +3,8 @@ import { contentMarkdown } from "../content.js";
 import { graphDataScript } from "../graphs.js";
 import { highlightSource } from "../highlight.js";
 import { submissionTagIndex } from "../tags.js";
-import type { SiteModel, SiteSubmission } from "../model.js";
+import { SiteModel, type SiteSubmission } from "../model.js";
+import { liveLeanLink } from "../lean-code.js";
 import type { PaperMark, StatementEntry } from "../../types.js";
 import {
   anonymityPlaceholder,
@@ -262,6 +263,22 @@ const RAM_EXAMPLE: Example = {
 
 const EXAMPLES: Example[] = [PRIMES_EXAMPLE, RAMSEY_EXAMPLE, RAM_EXAMPLE];
 
+/** Compile the illustrative source too, without adding it to archive indexes. */
+export function landingLeanModel(): SiteModel {
+  const cards = EXAMPLES.flatMap(example => example.passages.flatMap(({card}) => card.kind === "concept" ? [card] : []));
+  const names = new Set(cards.map(card => card.name));
+  return new SiteModel([{ record: { specVersion: "1", id: "example", state: "registered", createdAt: "2026-09-14" },
+    output: { specVersion: "1", id: "example", abstract: "", requiredByConcepts: [], requiredByProofs: [], proofs: [],
+      manifest: { specVersion: "1", id: "example", title: "Examples", authors: [], bibEntries: [], leanVersion: "v4.33.0",
+        mathlibVersion: "db584cd6d46c92f209a44c0f1c829460d327499d" },
+      concepts: cards.map(card => {
+        const imports = [...card.lean.matchAll(/^import\s+(\S+)/gm)].map(match => match[1]!);
+        return { id: card.name, path: `${card.name}.lean`, title: card.title, type: card.type, description: card.description,
+          sourceText: card.lean, statements: [], imports: imports.filter(name => names.has(name)), mathlibImports: imports.filter(name => !names.has(name)) };
+      }),
+    } }]);
+}
+
 interface LandingCopy {
   title: string;
   /** the manifesto under the title, Markdown */
@@ -455,10 +472,12 @@ async function exampleCard(ctx: PageContext, example: Example, passage: ExampleP
       ? [{ id: `${card.name}.statement`, signature: "", startLine: range[0], endLine: range[1] }]
       : [];
     badge = typeBadge(card.type, statements.length ? true : undefined);
-    const rows = await highlightSource(card.lean, statements, new Set(statements.map((s) => s.id)), { anchors: false });
+    const rows = await highlightSource(card.lean, statements, new Set(statements.map((s) => s.id)), {
+      anchors: false, hovers: ctx.model.leanCode.get(`example:${card.name}`)?.hovers,
+    });
     body = `<p class="manuscript-card-title">${markdown.renderAuthorInline(card.title, "")}</p>
 <div class="latex-content">${markdown.renderAuthorProse(card.description, "")}</div>
-<div class="manuscript-card-source"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<div class="manuscript-card-source">${liveLeanLink(landingLeanModel(), card.name)}<div class="inline-contract-wrap"><table class="inline-contract-table">
 ${rows}
 </table></div></div>`;
   } else {
@@ -699,6 +718,6 @@ ${faq}
     content,
     detailClass: "detail-landing",
     landingHeader: true,
-    scripts: network ? ["assets/graph-interaction.js", "assets/landing.js"] : ["assets/landing.js"],
+    scripts: [...(network ? ["assets/graph-interaction.js"] : []), "assets/landing.js", "assets/lean-code.js"],
   });
 }
