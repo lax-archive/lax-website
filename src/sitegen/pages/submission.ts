@@ -362,6 +362,7 @@ export function proofNetworkData(ctx: PageContext, submission: SiteSubmission, r
       return {
         id,
         name: conceptHome.concept.title,
+        nameHtml: ctx.markdown.renderAuthorInline(conceptHome.concept.title, rootRel),
         href: `${rootRel}${conceptHome.output.id}/${conceptHome.concept.id}.html`,
         proven: statements.length === 0 || statements.every((statement) => model.network.proven.has(statement.id)),
       };
@@ -371,6 +372,7 @@ export function proofNetworkData(ctx: PageContext, submission: SiteSubmission, r
     return {
       id,
       name: home.concept.title,
+      nameHtml: ctx.markdown.renderAuthorInline(home.concept.title, rootRel),
       href: `${rootRel}${home.output.id}/${home.concept.id}.html#s-${id}`,
       proven: model.network.proven.has(id),
       statement: home.concept.statements.length > 1 ? index : undefined,

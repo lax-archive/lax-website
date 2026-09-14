@@ -1297,6 +1297,7 @@ After the formula.`, "");
     expect(data.proofs.details["proof:Lax2Proofs.truth"]).toMatchObject({
       kind: "proof", name: "Proof of Truth", status: "grounded",
       submission: { id: "Lax2", name: "Two", nameHtml: "Two", state: "registered" },
+      conclusion: { id: "Lax2.C.truth", name: "Truth", nameHtml: "Truth", proven: true },
       leanPath: "proofs/Lax2Proofs/Basic.lean",
       href: "../Lax2/Lax2Proofs.truth.html",
     });

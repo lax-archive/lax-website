@@ -142,6 +142,7 @@ function safeDetailClaim(value: unknown): RawRecord {
   if (typeof raw.proven !== "boolean") fail("graph-detail", "Graph detail claim status must be boolean");
   claim.proven = raw.proven;
   if (raw.href !== undefined) claim.href = safeDetailHref(raw.href, "Graph detail claim link");
+  copyFields(raw, claim, ["nameHtml"], "string");
   copyFields(raw, claim, ["statement", "statementCount"], "number");
   return claim;
 }

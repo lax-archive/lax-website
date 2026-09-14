@@ -59,7 +59,7 @@ function fixture(): SiteSubmission[] {
       proof("Lax701Proofs.Base", "Lax701.Base.s1", []),
     ]),
     submission("Lax702", [...premises,
-      concept("Lax702.Middle", "Intermediate conclusion", premises.map((c) => c.id)),
+      concept("Lax702.Middle", "Intermediate $x^2$ conclusion", premises.map((c) => c.id)),
       concept("Lax702.Main", "Main χ result", ["Lax702.Middle", "Lax701.Base"]),
     ], [
       ...premises.map((c, i) => proof(`Lax702Proofs.Premise${i + 1}`, `${c.id}.s1`, [`Lax701.Base.s${i % 2 + 1}`])),
@@ -622,6 +622,9 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       const submissionName = panel.locator(".graph-detail-facts dd").first();
       expect(await submissionName.locator(".katex").count()).toBe(1);
       expect(await submissionName.textContent()).not.toContain("$");
+      const relationship = panel.locator(".graph-detail-claims");
+      expect(await relationship.locator(".katex").count()).toBe(1);
+      expect(await relationship.innerText()).not.toContain("$");
       expect(await panel.locator(".graph-detail-action").getAttribute("href")).toBeTruthy();
       const placement = await panel.evaluate((element) => {
         const panel = element.getBoundingClientRect(), figure = element.parentElement!.getBoundingClientRect();
