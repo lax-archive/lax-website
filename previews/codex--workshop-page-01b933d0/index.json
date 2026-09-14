@@ -3698,6 +3698,40 @@
         "Lax979537Proofs.StructureEncoding.encodeInjective",
         "Lax979537Proofs.StructureEncoding.encodeLength"
       ]
+    },
+    {
+      "id": "lax-988886",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Fagin’s theorem",
+      "concepts": [
+        {
+          "id": "Lax988886.ExistentialSecondOrder",
+          "title": "Existential second-order logic",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax988886.Fagin",
+          "title": "Fagin’s theorem",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax988886.FiniteStructures",
+          "title": "Finite relational structures and their properties",
+          "type": "definition"
+        },
+        {
+          "id": "Lax988886.NondeterministicPolynomialTime",
+          "title": "NP through polynomially bounded certificates",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax988886Proofs.Fagin.capturesNP",
+        "Lax988886Proofs.Fagin.definableInNP",
+        "Lax988886Proofs.Fagin.npDefinable",
+        "Lax988886Proofs.Isomorphism.satisfiesInvariant"
+      ]
     }
   ]
 }
