@@ -44,7 +44,7 @@ export function workshopPage({ markdown }: PageContext): string {
 <li><span aria-hidden="true">✓</span> Free</li>
 <li><span aria-hidden="true">◷</span> Two hours</li>
 <li><span aria-hidden="true">◎</span> Live online</li>
-<li><span aria-hidden="true">◇</span> All Lean levels</li>
+<li><span aria-hidden="true">◇</span> No Lean knowledge needed</li>
 </ul>
 </header>
 <div class="workshop-summary">

@@ -19,7 +19,7 @@ describe("workshop page", () => {
     expect(html).toContain("Claude Code or OpenAI Codex");
     expect(html).toContain("share these results with the community using Lax");
     expect(html).toContain('<ul class="workshop-highlights" aria-label="Workshop at a glance">');
-    expect(html).toContain("All Lean levels");
+    expect(html).toContain("No Lean knowledge needed");
     expect(html).toContain("xx.xx.xxxx");
     expect(html).toContain("10:00–12:00 CET");
     expect(html).toContain("xxxx.zoom");
