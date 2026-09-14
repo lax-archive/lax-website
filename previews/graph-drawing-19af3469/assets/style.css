@@ -1322,9 +1322,11 @@ a.submission-meta-id:is(:hover, :focus-visible),
 
 .inline-contract-table .line-code{ position: relative; padding-right: 1rem; }
 
-/* Native fragment navigation starts the source row below the sticky header. */
-.inline-contract-table tr[id],
-.statement-anchor{ scroll-margin-top: var(--header-height); }
+/* Native line fragments start below the sticky header. Statement fragments,
+   including the graph inspector's full-source links, settle in the middle of
+   the viewport so the surrounding Lean context remains visible. */
+.inline-contract-table tr[id]{ scroll-margin-top: var(--header-height); }
+.statement-anchor{ scroll-margin-top: 50vh; }
 
 /* Short pages need room after the footer to bring a late source target to
    the top. Only source-fragment visits get this space; no script is needed. */
