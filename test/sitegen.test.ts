@@ -690,7 +690,7 @@ After the formula.`, "");
     expect(css).toContain(".landing-faq-item summary::-webkit-details-marker{ display: none; }");
     expect(css).toContain(".landing-faq-item[open] .landing-faq-toggle::after");
     const faqPanel = css.match(/\n\.landing-faq\{([^}]*)\}/)?.[1] ?? "";
-    expect(faqPanel).toContain("border: 2px solid var(--border)");
+    expect(faqPanel).toContain("border: 1px solid var(--border)");
     expect(faqPanel).toContain("margin: 0");
     const faqList = css.match(/\.landing-faq-list\{([^}]*)\}/)?.[1] ?? "";
     expect(faqList).toContain("border: 0");
