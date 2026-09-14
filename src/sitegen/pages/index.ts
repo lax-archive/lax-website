@@ -691,7 +691,18 @@ ${landingFoundations(ctx, "Build foundations together", landing.sections.get("Bu
 <h2 class="landing-section-title" id="landing-library-heading">Submissions</h2>
 ${library}
 ${faq}
-</div>`;
+</div>
+<section class="landing-workshop-banner" aria-labelledby="landing-workshop-banner-title">
+<div class="landing-workshop-banner-copy">
+<p class="landing-workshop-banner-eyebrow">Free · Live online · Two hours</p>
+<h2 id="landing-workshop-banner-title">Lean and Lax online workshop</h2>
+<p>Get started with Lean, formalize your results using AI agents, and share them with the community using Lax.</p>
+</div>
+<div class="landing-workshop-banner-actions">
+<span class="landing-workshop-banner-badge">No Lean knowledge needed</span>
+<a class="landing-hero-button primary landing-workshop-banner-link" href="workshop/">View workshop <b aria-hidden="true">→</b></a>
+</div>
+</section>`;
   return page({
     title: "Lax Lean Archive",
     rootRel: "",
