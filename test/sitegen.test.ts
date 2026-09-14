@@ -22,6 +22,9 @@ const fixtureLabels = new Map([
   ["Lax1", 25.5], ["Lax3", 25.5], ["Lax4", 25.5], ["Lax10", 31.5],
   ["Lax1.Base", 53.5], ["Lax3.Middle", 68.5], ["Lax4.Top", 48.5], ["Lax4.Aux", 51.5],
   ["Lax2.C", 38.5], ["Lax1.Main", 55.5], ["Lax4.Main", 55.5],
+  // Shortened proof labels, measured with the pinned Chrome / Latin Modern.
+  ["C", 8.671875], ["Aux", 22.336105346679688], ["Top", 20.668106079101562],
+  ["Base", 24.5625], ["Main", 27.34014892578125],
   ["Foundational submission", 128.5],
 ]);
 const fixtureMeasurement: MeasureLabelsProvider = async (requests, environment) => requests.map((request) => {
@@ -1031,6 +1034,9 @@ After the formula.`, "");
     expect(Object.keys(data)).toEqual(["proofs", "local"]);
     expect(data.local.containers["proof-network"]).toMatchObject({ kind: "proofs", initial: "default" });
     expect(data.proofs.home).toBe("lax-17");
+    expect(data.proofs.statements[0].label).toBe("PolynomialGridMinor");
+    expect(data.local.containers["proof-network"].views.default.display.nodes.find((node: { kind: string }) => node.kind === "statement").label)
+      .toBe("PolynomialGridMinor");
     expect(data.proofs.statements.map((s: { id: string; href: string; proven: boolean }) => [s.id, s.href, s.proven])).toEqual([
       ["Lax17.PolynomialGridMinor.polynomial_grid_minor", "lax-17/Lax17.PolynomialGridMinor.html#s-Lax17.PolynomialGridMinor.polynomial_grid_minor", true],
     ]);
@@ -1314,7 +1320,7 @@ After the formula.`, "");
     expect(data.concepts.nodes.map((n: { id: string; status: string }) => [n.id, n.status]))
       .toEqual([["Lax2.C", "proven"], ["Lax2.D", "none"]]);
     expect(data.proofs.statements[0]).toMatchObject({
-      id: "Lax2.C.truth", label: "Lax2.C", owner: "Lax2", proven: true, ext: false,
+      id: "Lax2.C.truth", label: "C", owner: "Lax2", proven: true, ext: false,
       concept: "Lax2.C", index: 1, count: 1,
     });
     // a single-statement archive shows no ordinals and no dock furniture
@@ -1482,9 +1488,10 @@ After the formula.`, "");
     }
   });
 
-  it("includes the complete upstream proof closure across submissions", async () => {
-    const chain = ["Lax20", "Lax21", "Lax22"].map((id, index): SiteSubmission => {
-      const statement = `${id}.Claim.statement`;
+  it.each(["legacy", "archive"])("includes the complete upstream proof closure and shortens only local labels (%s IDs)", async (spelling) => {
+    const chain = ["Lax20", "Lax21", "Lax22"].map((namespace, index): SiteSubmission => {
+      const id = spelling === "archive" ? namespace.replace(/^Lax/, "lax-") : namespace;
+      const statement = `${namespace}.Claim.statement`;
       const assumptions = index === 0 ? [] : [`Lax${19 + index}.Claim.statement`];
       return {
         record: { specVersion: "1", id, state: "registered", createdAt: "2026-01-01T00:00:00Z" },
@@ -1496,12 +1503,12 @@ After the formula.`, "");
           },
           abstract: "", requiredByConcepts: [], requiredByProofs: [],
           concepts: [{
-            id: `${id}.Claim`, path: `concepts/${id}/Claim.lean`, title: `${id} claim`,
+            id: `${namespace}.Claim`, path: `concepts/${namespace}/Claim.lean`, title: `${id} claim`,
             type: "theorem", description: "", imports: [], mathlibImports: [], sourceText: "",
             statements: [{ id: statement, signature: "statement : True" }],
           }],
           proofs: [{
-            id: `${id}Proofs.claim`, path: `proofs/${id}Proofs/Claim.lean`,
+            id: `${namespace}Proofs.claim`, path: `proofs/${namespace}Proofs/Claim.lean`,
             conclusion: statement, assumptions, description: "",
           }],
         },
@@ -1509,7 +1516,7 @@ After the formula.`, "");
     });
     const root = tmpDir("lax-site-proof-closure-");
     await generateSite(chain, root);
-    const html = fs.readFileSync(path.join(root, "Lax22", "index.html"), "utf8");
+    const html = fs.readFileSync(path.join(root, chain[2]!.record.id, "index.html"), "utf8");
     const data = JSON.parse(
       /<script type="application\/json" id="graph-data">(.*?)<\/script>/s.exec(html)![1]!,
     ).proofs;
@@ -1517,6 +1524,11 @@ After the formula.`, "");
     expect(data.statements.map((statement: { id: string }) => statement.id)).toEqual([
       "Lax20.Claim.statement", "Lax21.Claim.statement", "Lax22.Claim.statement",
     ]);
+    expect(data.statements.map((statement: { label: string }) => statement.label)).toEqual([
+      "Lax20.Claim", "Lax21.Claim", "Claim",
+    ]);
+    expect(projectGraph("proofs", data).nodes.filter((node) => node.kind === "statement").map((node) => node.label))
+      .toEqual(["Lax20.Claim", "Lax21.Claim", "Claim"]);
     // The closure includes each adjacent proof edge exactly as archived; it
     // does not invent shortcut assumptions from a conclusion to every older
     // ancestor in the chain.
@@ -2286,7 +2298,7 @@ describe("multi-statement concepts", () => {
       "Lax5.Menger.edgeVersion", "Lax5.Menger.globalVersion", "Lax5.Menger.vertexVersion",
     ]);
     for (const statement of data.proofs.statements)
-      expect(statement).toMatchObject({ concept: "Lax5.Menger", count: 3, ext: false });
+      expect(statement).toMatchObject({ concept: "Lax5.Menger", label: "Menger", count: 3, ext: false });
     expect(data.proofs.statements.map((s: { index: number }) => s.index)).toEqual([2, 3, 1]);
     // globalVersion rests on the still-open edgeVersion, so only the first
     // statement is proven
@@ -2323,7 +2335,7 @@ describe("multi-statement concepts", () => {
     const data = JSON.parse(/<script type="application\/json" id="graph-data">(.*?)<\/script>/s.exec(html)![1]!);
     const input = data.proofs as ProofGraphData;
     const coarse = input.statements.find((statement) => statement.id === concept.id)!;
-    expect(coarse).toMatchObject({ endpointKind: "concept", concept: concept.id, label: concept.id, title: concept.title,
+    expect(coarse).toMatchObject({ endpointKind: "concept", concept: concept.id, label: external ? concept.id : "Base", title: concept.title,
       owner: "Lax1", count, ext: external, href: "../Lax1/Lax1.Base.html", status: count ? "open" : "none" });
     expect(coarse.index).toBeUndefined();
     expect(coarse.tooltipHtml).toContain(concept.title);

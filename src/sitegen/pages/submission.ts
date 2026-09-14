@@ -249,6 +249,7 @@ function pageGraphData(ctx: PageContext, submission: SiteSubmission, related: Su
 export function proofNetworkData(ctx: PageContext, submission: SiteSubmission, rootRel: string) {
   const output = submission.output!;
   const model = ctx.model;
+  const namespace = output.id.replace(/^lax-(\d+)$/, "Lax$1");
   const ownStatements = new Set(output.concepts.flatMap((c) => c.statements.map((s) => s.id)));
   const statementIds = new Set<string>();
   const pendingStatements: string[] = [];
@@ -308,7 +309,9 @@ export function proofNetworkData(ctx: PageContext, submission: SiteSubmission, r
       // A claim displays as its home concept. `index`/`count` place it inside
       // a multi-statement concept, which the figure draws as one box with a
       // numbered dock per statement.
-      label: home?.concept.id,
+      // Shorten only this submission's visible labels; semantic IDs and
+      // references to other submissions keep their full namespaces.
+      label: home?.output.id === output.id ? shortId(home.concept.id, namespace) : home?.concept.id,
       title: home?.concept.title,
       tooltipHtml: ctx.markdown.renderAuthorTooltip(home?.concept.title ?? "", rootRel),
       owner: home?.output.id,
