@@ -6,6 +6,13 @@ import { page } from "../src/sitegen/html.js";
 import { tmpDir } from "./helpers.js";
 
 describe("footer and legal pages", () => {
+  it("places source-target scroll room before the footer", () => {
+    const css = fs.readFileSync("assets/site/style.css", "utf8");
+
+    expect(css).toContain("#detail:has(.inline-contract-table :target)::after{");
+    expect(css).not.toContain("#main:has(.inline-contract-table :target)::after{");
+  });
+
   it("links the legal pages from root and nested pages, and the about page from the header", () => {
     const rootPage = page({ title: "Root", rootRel: "", sidebar: "", content: "" });
     const nestedPage = page({ title: "Nested", rootRel: "../", sidebar: "", content: "" });
