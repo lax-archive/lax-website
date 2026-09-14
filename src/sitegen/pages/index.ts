@@ -693,10 +693,17 @@ ${library}
 ${faq}
 </div>
 <aside class="landing-workshop-banner" aria-label="Workshop announcement">
+<details open>
+<summary>
+<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M20 11.5a8 8 0 0 1-8 8 9 9 0 0 1-3.5-.7L4 20l1.2-4.5a9 9 0 0 1-.7-3.5 8 8 0 0 1 8-8H13a8 8 0 0 1 7 7.5Z"/></svg>
+<span>Lax Online Workshop</span>
+<span class="landing-workshop-toggle" aria-hidden="true"></span>
+</summary>
 <a href="workshop/">
 <span>An introduction to Lean, formalization with AI agents, and sharing mathematics through Lax.</span>
 <strong>Meeting details <b aria-hidden="true">→</b></strong>
 </a>
+</details>
 </aside>`;
   return page({
     title: "Lax Lean Archive",
