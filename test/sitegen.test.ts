@@ -1021,7 +1021,7 @@ After the formula.`, "");
     expect(index).toContain('<svg class="manuscript-links landing-paper-links" aria-hidden="true"></svg>');
     // Captions sit inside the boxes.
     expect(index).toContain('<div class="landing-box-caption latex-content">');
-    expect(index).toContain("<strong>The paper stays the paper.</strong>");
+    expect(index).toContain("<strong>Concepts and proofs.</strong>");
     expect(index).toContain("<strong>Proof network.</strong> Explore how proofs compose");
     expect(index).not.toContain("<strong>Proofs compose.</strong>");
     // The network: the network submission\'s figure and data, rooted at the site.

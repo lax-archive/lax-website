@@ -11,11 +11,11 @@ too, by organizing results and making them easy to review and reuse.
 
 ## How it works
 
-**The paper stays the paper.** Lax annotates natural-language mathematics
-with Lean. Each definition or claim, where it stands in the paper, is tied
-to a *concept*: a reusable block that pairs a mathematical statement with a
-faithful Lean encoding. Each proof is tied to Lean code that derives one
-concept from others. Freely composable across papers.
+**Concepts and proofs.** Lax annotates natural-language mathematics with Lean.
+Each definition or claim is tied to a *concept*: a reusable block that pairs a
+mathematical statement with a faithful Lean encoding. Each proof is tied to
+Lean code that derives one concept from others. Concepts and proofs can be
+reused across submissions.
 
 ## Proof network
 
