@@ -312,8 +312,13 @@
     if (claim.href) {
       const link = document.createElement('a');
       link.href = claim.href;
-      link.textContent = claim.name;
+      if (claim.nameHtml) link.innerHTML = claim.nameHtml;
+      else link.textContent = claim.name;
       row.append(link);
+    } else if (claim.nameHtml) {
+      const name = document.createElement('span');
+      name.innerHTML = claim.nameHtml;
+      row.append(name);
     } else row.append(document.createTextNode(claim.name));
     if (claim.statement)
       row.append(document.createTextNode(` (statement ${claim.statement} of ${claim.statementCount})`));
