@@ -719,6 +719,17 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       expect(await figure.getAttribute("class")).toContain("graph-expanded");
       expect(await panel.textContent()).toMatch(/(?:used as an assumption|establishes)/u);
       expect(await container.locator("[data-edge-id].graph-selected").count()).toBeGreaterThan(0);
+      const edgeFocusedScale = Number((await figure.locator("[data-graph-zoom-status]").textContent())!.replace("%", ""));
+      const graphBox = await container.boundingBox();
+      expect(graphBox).toBeTruthy();
+      await page.mouse.move(graphBox!.x + graphBox!.width / 4, graphBox!.y + graphBox!.height / 2);
+      for (let step = 0; step < 8; step += 1) await page.mouse.wheel(0, 120);
+      await animationFrame(page);
+      const edgeZoomedOutScale = Number((await figure.locator("[data-graph-zoom-status]").textContent())!.replace("%", ""));
+      expect(edgeZoomedOutScale).toBeLessThan(edgeFocusedScale);
+      expect(edgeZoomedOutScale).toBe(20);
+      expect(await panel.isVisible()).toBe(true);
+      expect(await container.locator("[data-edge-id].graph-selected").count()).toBeGreaterThan(0);
       await expectNoPublicLayout(page, audit);
 
       await concept.click(); await animationFrame(page);
