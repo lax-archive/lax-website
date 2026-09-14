@@ -196,13 +196,21 @@
     const svg = container.querySelector('svg');
     if (!svg) return;
     const cameraGroup = svg.querySelector('[data-graph-camera]');
+    // The landing box starts with a wider overview. Shrink around the
+    // horizontal center and top edge so its native scrolling stays aligned.
+    const inlineScale = container.closest('.landing-network-figure') ? 0.7 : 1;
+    const inlineCamera = () => {
+      const bounds = svg.viewBox.baseVal;
+      return { x: (bounds.x + bounds.width / 2) * (1 - inlineScale),
+        y: bounds.y * (1 - inlineScale), scale: inlineScale };
+    };
     const edges = new Map();
     for (const path of svg.querySelectorAll('[data-edge-id]')) {
       const paths = edges.get(path.dataset.edgeId) || [];
       paths.push(path); edges.set(path.dataset.edgeId, paths);
     }
     controller.svg = svg;
-    controller.camera = { x: 0, y: 0, scale: 1 };
+    controller.camera = inlineCamera();
     controller.fitScrollbars = () => {
       if (!container.clientWidth || !container.clientHeight) return;
       const matrix = svg.getScreenCTM();
@@ -302,7 +310,7 @@
         return;
       }
       controller.autoFrame = false;
-      controller.camera = { x: 0, y: 0, scale: 1 }; controller.paint();
+      controller.camera = inlineCamera(); controller.paint();
       container.scrollTop = 0;
       container.scrollLeft = Math.max(0, (container.scrollWidth - container.clientWidth) / 2);
     };

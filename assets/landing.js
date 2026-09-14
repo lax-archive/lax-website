@@ -352,8 +352,8 @@
     for (const root of document.querySelectorAll('[data-carousel]')) setupCarousel(root);
   }
 
-  // The static graph retains its measured font size. Interaction centers the
-  // viewport without resizing nodes or recomputing the layout.
+  // Center native scrolling to match the overview camera in graph-interaction.js.
+  // The published layout stays fixed; the camera controls its initial zoom.
   function setupNetwork() {
     const container = document.getElementById('proof-network');
     if (!container) return;
