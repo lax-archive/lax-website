@@ -5,7 +5,7 @@ import type { PageContext } from "./shared.js";
 const FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLScCkCORYWuaP9SvNeySxIsa_zEuqTz8q_d9b8-3SOxS1L_xIg/viewform?embedded=true";
 const FORM_FRAME_ORIGINS = [new URL(FORM_URL).origin, "https://accounts.google.com"];
 const OUTCOMES_HEADING = "We invite you to an online meeting";
-const SECTION_HEADINGS = [OUTCOMES_HEADING, "Workshop details"] as const;
+const SECTION_HEADINGS = [OUTCOMES_HEADING, "Meeting details"] as const;
 
 interface WorkshopCopy {
   title: string;
@@ -40,7 +40,7 @@ export function workshopPage({ markdown }: PageContext): string {
   const content = `<article class="workshop-page">
 <header class="workshop-hero">
 <h1>${esc(copy.title)}</h1>
-<ul class="workshop-highlights" aria-label="Workshop at a glance">
+<ul class="workshop-highlights" aria-label="Meeting at a glance">
 <li><span aria-hidden="true">◷</span> Two hours</li>
 <li><span aria-hidden="true">◎</span> Live online</li>
 <li><span aria-hidden="true">◇</span> No Lean knowledge needed</li>
@@ -56,15 +56,15 @@ ${markdown.render(section(OUTCOMES_HEADING), "../")}
 </section>
 <section class="workshop-panel workshop-details" aria-labelledby="workshop-details-heading">
 <p class="workshop-section-number" aria-hidden="true">02</p>
-<h2 id="workshop-details-heading">Workshop details</h2>
+<h2 id="workshop-details-heading">Meeting details</h2>
 <div class="latex-content">
-${markdown.render(section("Workshop details"), "../")}
+${markdown.render(section("Meeting details"), "../")}
 </div>
 </section>
 </div>
-<section class="workshop-registration" aria-label="Workshop registration">
+<section class="workshop-registration" aria-label="Meeting registration">
 <div class="workshop-form-frame">
-<iframe src="${attr(FORM_URL)}" width="640" height="840" frameborder="0" marginheight="0" marginwidth="0" title="Lax Online Workshop preregistration form">Loading…</iframe>
+<iframe src="${attr(FORM_URL)}" width="640" height="840" frameborder="0" marginheight="0" marginwidth="0" title="Lax Online Meeting preregistration form">Loading…</iframe>
 </div>
 </section>
 </article>`;

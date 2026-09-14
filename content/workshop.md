@@ -1,4 +1,4 @@
-# Lax Online Workshop
+# Lax Online Meeting
 
 ## We invite you to an online meeting
 
@@ -6,7 +6,7 @@
 - how AI agents such as Claude Code or OpenAI Codex can help formalize mathematical results;
 - how to share these results with the community through Lax.
 
-## Workshop details
+## Meeting details
 
 - **Date:** xx.xx.xxxx
 - **Time:** 10:00–12:00 CET

@@ -11,14 +11,14 @@ describe("workshop page", () => {
     await generateSite([], root);
     const html = fs.readFileSync(path.join(root, "workshop", "index.html"), "utf8");
 
-    expect(html).toContain("Lax Online Workshop");
+    expect(html).toContain("Lax Online Meeting");
     expect(html).not.toContain("laxarchive.org/workshop");
     expect(html).toContain('<h2 id="workshop-outcomes-heading">We invite you to an online meeting</h2>');
     expect(html).not.toContain("What you will learn");
     expect(html).toContain("We will discuss the very basics of Lean;");
     expect(html).toContain("Claude Code or OpenAI Codex");
     expect(html).toContain("share these results with the community through Lax");
-    expect(html).toContain('<ul class="workshop-highlights" aria-label="Workshop at a glance">');
+    expect(html).toContain('<ul class="workshop-highlights" aria-label="Meeting at a glance">');
     expect(html).toContain("No Lean knowledge needed");
     expect(html).toContain("xx.xx.xxxx");
     expect(html).toContain("10:00–12:00 CET");
@@ -27,9 +27,9 @@ describe("workshop page", () => {
     expect(html).not.toContain("fill in the preregistration form below");
     expect(html).not.toContain("workshop-registration-head");
     expect(html).not.toContain("workshop-registration-heading");
-    expect(html).toContain('<section class="workshop-registration" aria-label="Workshop registration">');
+    expect(html).toContain('<section class="workshop-registration" aria-label="Meeting registration">');
     expect(html).toContain('<iframe src="https://docs.google.com/forms/d/e/1FAIpQLScCkCORYWuaP9SvNeySxIsa_zEuqTz8q_d9b8-3SOxS1L_xIg/viewform?embedded=true" width="640" height="840" frameborder="0" marginheight="0" marginwidth="0"');
-    expect(html).toContain('title="Lax Online Workshop preregistration form"');
+    expect(html).toContain('title="Lax Online Meeting preregistration form"');
     expect(html).not.toContain("Open preregistration form");
     expect(html).toContain("frame-src https://comments.laxarchive.org https://accounts.google.com https://docs.google.com");
     expect(html).toContain('href="../assets/style.css');
