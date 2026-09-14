@@ -1377,6 +1377,11 @@
           "type": "definition"
         },
         {
+          "id": "Lax68.OuterplanarExcludedMinors",
+          "title": "The excluded-minor characterization of outerplanarity",
+          "type": "theorem"
+        },
+        {
           "id": "Lax68.OuterplanarPlanar",
           "title": "Outerplanar graphs are planar",
           "type": "theorem"
