@@ -2590,6 +2590,7 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
   right: max(1rem, env(safe-area-inset-right));
   bottom: max(1rem, env(safe-area-inset-bottom));
   z-index: 30;
+  width: 19rem;
   max-width: calc(100vw - 2rem);
   color: var(--text);
   background: var(--surface);
@@ -2598,23 +2599,31 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
   box-shadow: 0 4px 18px rgba(43, 43, 43, 0.1);
 }
 
-.landing-workshop-banner details{ width: 19rem; max-width: 100%; }
-.landing-workshop-banner details:not([open]){ width: auto; }
-.landing-workshop-banner summary{
+.landing-workshop-heading{
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  padding: 0.85rem 1rem;
+  padding: 0.45rem 0.55rem 0.45rem 1rem;
   font-size: 0.88rem;
   font-weight: 600;
-  list-style: none;
+}
+.landing-workshop-heading svg{ flex-shrink: 0; color: var(--accent); }
+.landing-workshop-close{
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+  margin-left: auto;
+  padding: 0;
+  border: 0;
+  border-radius: 0.5rem;
+  background: transparent;
+  color: var(--text-dim);
+  font: 1.25rem/1 system-ui, sans-serif;
   cursor: pointer;
 }
-.landing-workshop-banner summary::-webkit-details-marker{ display: none; }
-.landing-workshop-banner summary svg{ flex-shrink: 0; color: var(--accent); }
-.landing-workshop-toggle{ margin-left: auto; color: var(--text-dim); }
-.landing-workshop-toggle::before{ content: '+'; }
-.landing-workshop-banner details[open] .landing-workshop-toggle::before{ content: '−'; }
+.landing-workshop-close:hover{ background: var(--panel-bg); color: var(--text); }
 .landing-workshop-banner a{
   display: grid;
   gap: 0.65rem;
@@ -2627,7 +2636,7 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
 
 .landing-workshop-banner a:hover strong{ text-decoration: underline; }
 .landing-workshop-banner a:focus-visible,
-.landing-workshop-banner summary:focus-visible{
+.landing-workshop-close:focus-visible{
   outline: 2px solid var(--accent);
   outline-offset: 3px;
   border-radius: 0.5rem;
