@@ -24,7 +24,7 @@ A Lax submission is a commit in a public Git repository. It holds
 
 To summarize:
 
-- The concepts are the surface: what the website shows and what readers review and endorse (or flag).
+- The concepts are the surface: what readers review and endorse.
 - The proofs are the evidence supporting the surface.
 
 The archive is fully compositional. New submissions can reuse existing concepts and proofs.
