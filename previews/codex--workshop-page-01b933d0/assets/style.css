@@ -2303,7 +2303,7 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
   grid-template-columns: minmax(0, 1.45fr) minmax(16rem, 0.8fr);
   gap: 1rem;
   align-items: stretch;
-  margin-bottom: 1rem;
+  margin-bottom: clamp(2.25rem, 5vw, 4.25rem);
 }
 
 .workshop-panel{
