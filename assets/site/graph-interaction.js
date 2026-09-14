@@ -337,9 +337,18 @@
       if (detail.statements.length > 1)
         appendText(block, 'p', 'graph-detail-formalization-label',
           `${statement.name} · ${statement.proven ? 'proven' : 'open'}`);
+      const href = statement.href || detail.href;
+      const preview = document.createElement(href ? 'a' : 'div');
+      preview.className = 'graph-detail-formalization-preview inline-contract-shell';
+      if (href) {
+        preview.href = href;
+        preview.setAttribute('aria-label', `Open the full Lean source for ${detail.name}`);
+      }
       const pre = document.createElement('pre');
       appendText(pre, 'code', '', statement.signature);
-      block.append(pre);
+      preview.append(pre);
+      if (href) appendText(preview, 'span', 'graph-detail-formalization-open', 'Open full Lean source →');
+      block.append(preview);
       section.append(block);
     }
     parent.append(section);

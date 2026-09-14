@@ -640,12 +640,20 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       expect(await panel.locator("h3").first().textContent()).toBe("Main χ result");
       expect(await panel.textContent()).toContain("Natural-language statement");
       expect(await panel.textContent()).toContain("Lean formalization");
-      expect(await panel.locator("pre code").textContent()).toContain("s1 : True");
-      const formalizationWidth = await panel.locator(".graph-detail-formalization").evaluate((element) => ({
+      const leanPreview = panel.locator(".graph-detail-formalization-preview");
+      expect(await leanPreview.locator("pre code").textContent()).toContain("s1 : True");
+      expect(await leanPreview.getAttribute("href")).toContain("Lax702.Main.html#s-Lax702.Main.s1");
+      const formalizationWidth = await leanPreview.evaluate((element) => ({
         own: element.getBoundingClientRect().width,
         parent: element.parentElement!.getBoundingClientRect().width,
+        overflow: getComputedStyle(element).overflow,
+        preOverflow: getComputedStyle(element.querySelector("pre")!).overflow,
+        whiteSpace: getComputedStyle(element.querySelector("pre")!).whiteSpace,
       }));
-      expect(formalizationWidth.own / formalizationWidth.parent).toBeGreaterThan(0.98);
+      expect(formalizationWidth.own / formalizationWidth.parent).toBeGreaterThan(0.95);
+      expect(formalizationWidth.overflow).toBe("hidden");
+      expect(formalizationWidth.preOverflow).toBe("hidden");
+      expect(formalizationWidth.whiteSpace).toBe("pre-wrap");
       await capture(page, "proof-detail-concept");
 
       await container.evaluate((element) => element.dispatchEvent(new MouseEvent("click", { bubbles: true })));
@@ -662,6 +670,13 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       expect(await panel.textContent()).toMatch(/(?:used as an assumption|establishes)/u);
       expect(await container.locator("[data-edge-id].graph-selected").count()).toBeGreaterThan(0);
       await expectNoPublicLayout(page, audit);
+
+      await concept.click(); await animationFrame(page);
+      const fullSource = panel.locator(".graph-detail-formalization-preview");
+      await Promise.all([
+        page.waitForURL(/Lax702\.Main\.html#s-Lax702\.Main\.s1$/u),
+        fullSource.click(),
+      ]);
     });
   }, 45_000);
 

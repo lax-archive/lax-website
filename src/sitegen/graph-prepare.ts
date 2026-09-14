@@ -174,6 +174,7 @@ function safeGraphDetails(value: unknown): RawRecord {
       };
       if (typeof statement.proven !== "boolean") fail("graph-detail", "Proof graph detail statement status must be boolean");
       out.proven = statement.proven;
+      if (statement.href !== undefined) out.href = safeDetailHref(statement.href, "Proof graph detail statement link");
       return out;
     });
     if (source.sections !== undefined) detail.sections = list(source.sections, "Proof graph detail sections").map((value) => {

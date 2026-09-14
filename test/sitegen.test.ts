@@ -1289,7 +1289,8 @@ After the formula.`, "");
     expect(data.proofs.details["concept:Lax2.C"]).toMatchObject({
       kind: "concept", name: "Truth", type: "theorem", status: "proven",
       submission: { id: "Lax2", name: "Two", state: "registered" },
-      statements: [{ id: "Lax2.C.truth", signature: "truth : True", proven: true }],
+      statements: [{ id: "Lax2.C.truth", signature: "truth : True", proven: true,
+        href: "../Lax2/Lax2.C.html#s-Lax2.C.truth" }],
       href: "../Lax2/Lax2.C.html",
       reviewUrl: "https://laxarchive.org/Lax2/Lax2.C.html",
     });

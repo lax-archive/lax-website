@@ -395,6 +395,7 @@ export function proofNetworkData(ctx: PageContext, submission: SiteSubmission, r
         name: concept.statements.length > 1 ? `${index + 1} of ${concept.statements.length}` : "Lean statement",
         signature: statement.signature,
         proven: model.network.proven.has(statement.id),
+        href: `${rootRel}${conceptOutput.id}/${concept.id}.html#s-${statement.id}`,
       })),
       sections: authorSections(concept.sections),
       href: `${rootRel}${conceptOutput.id}/${concept.id}.html`,
