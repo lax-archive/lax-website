@@ -4,7 +4,7 @@ import type { PageContext } from "./shared.js";
 
 const FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLScCkCORYWuaP9SvNeySxIsa_zEuqTz8q_d9b8-3SOxS1L_xIg/viewform?embedded=true";
 const FORM_FRAME_ORIGINS = [new URL(FORM_URL).origin, "https://accounts.google.com"];
-const OUTCOMES_HEADING = "We invite you to an online meeting where we will discuss:";
+const OUTCOMES_HEADING = "We invite you to an online meeting";
 const SECTION_HEADINGS = [OUTCOMES_HEADING, "Workshop details"] as const;
 
 interface WorkshopCopy {

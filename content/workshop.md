@@ -1,8 +1,8 @@
 # Lax Online Workshop
 
-## We invite you to an online meeting where we will discuss:
+## We invite you to an online meeting
 
-- the very basics of Lean;
+- We will discuss the very basics of Lean;
 - how AI agents such as Claude Code or OpenAI Codex can help formalize mathematical results;
 - how to share these results with the community through Lax.
 
