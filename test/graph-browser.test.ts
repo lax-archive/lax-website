@@ -625,12 +625,15 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       expect(await panel.locator(".graph-detail-action").getAttribute("href")).toBeTruthy();
       const placement = await panel.evaluate((element) => {
         const panel = element.getBoundingClientRect(), figure = element.parentElement!.getBoundingClientRect();
+        const controls = element.parentElement!.querySelector(".graph-controls")!.getBoundingClientRect();
         return { rightGap: figure.right - panel.right, onRight: panel.left > (figure.left + figure.right) / 2,
-          heightRatio: panel.height / figure.height,
+          topGap: panel.top - controls.bottom, heightRatio: panel.height / figure.height,
           overflow: getComputedStyle(element.querySelector(".graph-detail-scroll")!).overflowY };
       });
       expect(placement.rightGap).toBeLessThan(10);
       expect(placement.onRight).toBe(true);
+      expect(placement.topGap).toBeGreaterThanOrEqual(4);
+      expect(placement.topGap).toBeLessThanOrEqual(8);
       expect(placement.heightRatio).toBeLessThanOrEqual(0.83);
       expect(placement.overflow).toBe("auto");
       expect(await container.locator(".graph-selected").count()).toBe(1);

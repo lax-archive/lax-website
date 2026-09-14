@@ -3859,13 +3859,13 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
 }
 
 /* Focused proof selection keeps the graph camera independent from this
-   content-sized inspector on the right. Long details stop short of filling
-   the graph window and scroll within the capped panel. */
+   content-sized inspector on the right. It starts below the graph controls;
+   long details stop short of filling the window and scroll within the cap. */
 .graph-detail-panel{
   position: absolute;
   z-index: 35;
+  top: var(--graph-detail-top, 3rem);
   right: 0.4rem;
-  bottom: 0.4rem;
   width: min(29rem, 42vw);
   max-height: min(42rem, 82%, calc(100% - var(--graph-detail-top, 3rem) - 0.8rem));
   display: flex;
