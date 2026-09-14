@@ -2586,26 +2586,53 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
 .landing-faq-answer a{ color: var(--link); text-underline-offset: 0.16em; }
 
 .landing-workshop-banner{
-  width: 100%;
-  max-width: 60em;
-  margin: 3rem auto 0;
-  border-block: 1px solid var(--border);
+  position: fixed;
+  right: max(1rem, env(safe-area-inset-right));
+  bottom: max(1rem, env(safe-area-inset-bottom));
+  z-index: 30;
+  max-width: calc(100vw - 2rem);
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 1rem 1rem 0.25rem 1rem;
+  box-shadow: 0 4px 18px rgba(43, 43, 43, 0.1);
 }
 
-.landing-workshop-banner > a{
+.landing-workshop-banner details{ width: 19rem; max-width: 100%; }
+.landing-workshop-banner details:not([open]){ width: auto; }
+.landing-workshop-banner summary{
   display: flex;
-  gap: 1rem;
-  align-items: baseline;
-  justify-content: space-between;
-  padding: 0.9rem 0;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.85rem 1rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  list-style: none;
+  cursor: pointer;
+}
+.landing-workshop-banner summary::-webkit-details-marker{ display: none; }
+.landing-workshop-banner summary svg{ flex-shrink: 0; color: var(--accent); }
+.landing-workshop-toggle{ margin-left: auto; color: var(--text-dim); }
+.landing-workshop-toggle::before{ content: '+'; }
+.landing-workshop-banner details[open] .landing-workshop-toggle::before{ content: '−'; }
+.landing-workshop-banner a{
+  display: grid;
+  gap: 0.65rem;
+  padding: 0 1rem 1rem;
   color: var(--text);
+  font-size: 0.85rem;
   line-height: 1.5;
   text-decoration: none;
 }
 
-.landing-workshop-banner > a:hover span{ color: var(--link); }
+.landing-workshop-banner a:hover strong{ text-decoration: underline; }
+.landing-workshop-banner a:focus-visible,
+.landing-workshop-banner summary:focus-visible{
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 0.5rem;
+}
 .landing-workshop-banner strong{
-  flex: 0 0 auto;
   color: var(--link);
   font-size: 0.82rem;
   font-weight: 600;
@@ -4321,7 +4348,6 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
   .landing-faq-item summary{ min-height: 3.1rem; padding: 0.5rem 0.65rem; }
   .landing-faq-question{ font-size: 0.88rem; }
   .landing-faq-answer{ padding: 0 2.75rem 0.8rem 0.65rem; font-size: 0.9rem; }
-  .landing-workshop-banner > a{ align-items: flex-start; }
   .tag-browser-heading{ display: block; }
   .tag-browser-heading p{ margin-top: 0.18rem; text-align: left; }
   .open-problem-card{ padding: 0.9rem; }
