@@ -5,7 +5,7 @@ classical system of peer review and publishing beyond its limits. We need new,
 scalable mechanisms for digesting mathematics, or we risk losing control of
 our own field.
 
-Proof systems like Lean provide a scalable way of ensuring *correctness*.
+Proof assistants like Lean provide a scalable way of ensuring *correctness*.\
 Lax builds on this foundation to make formal mathematics scalable for humans
 too, by organizing results and making them easy to review and reuse.
 
