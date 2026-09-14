@@ -2262,16 +2262,6 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
   pointer-events: none;
 }
 
-.workshop-kicker{
-  margin-bottom: 1rem;
-  color: var(--accent);
-  font-family: var(--mono);
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
 #detail .workshop-hero h1{
   margin: 0;
   font-size: clamp(2rem, 5.5vw, 3.6rem);
@@ -2481,8 +2471,6 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
 }
 
 @media (max-width: 480px){
-  .workshop-kicker span{ display: none; }
-  .workshop-kicker{ display: grid; gap: 0.2rem; }
   .workshop-highlights{ gap: 0.38rem; }
   .workshop-highlights li{ font-size: 0.62rem; }
   .workshop-form-frame{ margin-inline: -1px; padding-inline: 0; }
