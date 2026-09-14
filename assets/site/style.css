@@ -56,7 +56,7 @@
   --warn-border: #b85c4a;
   --code-bg: #f6f8fb;
   --neutral-stroke: #9aa3ad;
-  --proof-dep: #d55e00;
+  --proof-dep: #746b83;
   --radius-chip: 2px;
   --radius-control: 4px;
   --radius-card: 7px;
@@ -3939,9 +3939,9 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
 
 /* Submission map only: a dependency that only the proof package declares.
    The dependent's statements stand on their own and just its proofs reach
-   across, so the edge is a distinct hue rather than a status colour — a
-   submission map has no proven/open axis to confuse it with. */
-.dag-edge.proof-dep{ stroke: var(--proof-dep); stroke-opacity: 1; }
+   across. A muted violet keeps the distinction visible without giving this
+   secondary relationship the urgency of a warning or failure state. */
+.dag-edge.proof-dep{ stroke: var(--proof-dep); stroke-opacity: 0.72; }
 
 /* Hover/focus changes only incident-edge classes in graph-interaction.js. */
 .dag-edge.hot,
@@ -3951,7 +3951,7 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
   stroke-width: 1.9;
 }
 .net-edge.conclusion.hot{ stroke: var(--accent); }
-.dag-edge.proof-dep.hot{ stroke: var(--proof-dep); stroke-opacity: 1; }
+.dag-edge.proof-dep.hot{ stroke: var(--proof-dep); stroke-opacity: 0.95; }
 
 .cycle-component{
   fill: var(--code-bg);
