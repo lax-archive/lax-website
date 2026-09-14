@@ -2745,8 +2745,8 @@
         },
         {
           "id": "Lax434930.PolynomialSpaceEquality",
-          "title": "Deterministic and nondeterministic polynomial space coincide",
-          "type": "lemma"
+          "title": "Savitch's theorem",
+          "type": "theorem"
         },
         {
           "id": "Lax434930.PolynomialTime",
