@@ -3114,6 +3114,65 @@
       ]
     },
     {
+      "id": "lax-751879",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "The Immerman–Vardi theorem",
+      "concepts": [
+        {
+          "id": "Lax751879.FixedPointEvaluation",
+          "title": "Polynomial-time evaluation of fixed-point queries",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax751879.FixedPointSemantics",
+          "title": "Semantics and definability in FO(LFP)",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax751879.FixedPointSyntax",
+          "title": "First-order logic with least fixed points",
+          "type": "definition"
+        },
+        {
+          "id": "Lax751879.ImmermanVardi",
+          "title": "The Immerman–Vardi theorem",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax751879.LeastFixedPoints",
+          "title": "Least fixed points on finite relations",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax751879.OrderedStructures",
+          "title": "Finite ordered relational structures and queries",
+          "type": "definition"
+        },
+        {
+          "id": "Lax751879.PolynomialTime",
+          "title": "Polynomial-time queries on ordered structures",
+          "type": "definition"
+        },
+        {
+          "id": "Lax751879.StructureEncoding",
+          "title": "Binary encodings of ordered structures and tuples",
+          "type": "definition and theorem"
+        }
+      ],
+      "proofs": [
+        "Lax751879Proofs.FixedPointEvaluation.evaluationInP",
+        "Lax751879Proofs.ImmermanVardi.capturesPtime",
+        "Lax751879Proofs.ImmermanVardi.ptimeDefinable",
+        "Lax751879Proofs.LeastFixedPoints.finiteConvergence",
+        "Lax751879Proofs.LeastFixedPoints.fixedPoint",
+        "Lax751879Proofs.LeastFixedPoints.least",
+        "Lax751879Proofs.Positivity.positiveBodyMonotone",
+        "Lax751879Proofs.StructureEncoding.encodeInjective",
+        "Lax751879Proofs.StructureEncoding.encodeLength"
+      ]
+    },
+    {
       "id": "lax-762056",
       "state": "draft",
       "environment": "v4.30.0",
