@@ -630,31 +630,54 @@
     });
   }
 
-  function setProofSelectionClasses(controller, descriptor) {
+  function proofHighlightClosure(controller, descriptor) {
+    const edge = descriptor.type === 'edge' ? controller.interaction.edges[descriptor.id] : null;
+    const info = descriptor.type === 'node' ? controller.interaction.nodes[descriptor.id] : null;
+    return graphClosure(controller.interaction,
+      edge ? [edge.source, edge.target] : [info.nodeId]);
+  }
+
+  function setProofHighlightClasses(controller, descriptor, related) {
     for (const element of controller.container.querySelectorAll('[data-node-id]')) {
       const info = controller.interaction.nodes[element.dataset.nodeId];
       const selected = descriptor.type === 'node' && descriptor.id === element.dataset.nodeId;
-      const related = controller.related.has(info?.nodeId);
+      const isRelated = related.has(info?.nodeId);
       element.classList.toggle('graph-selected', selected);
-      element.classList.toggle('graph-related', related && !selected);
-      element.classList.toggle('graph-dimmed', !related);
+      element.classList.toggle('graph-related', isRelated && !selected);
+      element.classList.toggle('graph-dimmed', !isRelated);
     }
     for (const path of controller.container.querySelectorAll('[data-edge-id]')) {
       const edge = controller.interaction.edges?.[path.dataset.edgeId];
       const selected = descriptor.type === 'edge' && descriptor.id === path.dataset.edgeId;
-      const related = edge && controller.related.has(edge.source) && controller.related.has(edge.target);
+      const isRelated = edge && related.has(edge.source) && related.has(edge.target);
       path.classList.toggle('graph-selected', selected);
-      path.classList.toggle('graph-related', related && !selected);
-      path.classList.toggle('graph-dimmed', !related);
+      path.classList.toggle('graph-related', isRelated && !selected);
+      path.classList.toggle('graph-dimmed', !isRelated);
     }
+  }
+
+  function clearProofHighlightClasses(controller) {
+    for (const element of controller.container.querySelectorAll(
+      '[data-node-id], [data-edge-id]',
+    )) element.classList.remove('graph-selected', 'graph-related', 'graph-dimmed');
+  }
+
+  function setProofHover(controller, descriptor) {
+    if (!controller.container.closest('.graph-figure').classList.contains('graph-expanded')) return;
+    controller.hover = descriptor;
+    setProofHighlightClasses(controller, descriptor, proofHighlightClosure(controller, descriptor));
+  }
+
+  function clearProofHover(controller) {
+    controller.hover = null;
+    if (controller.selection) setProofHighlightClasses(controller, controller.selection, controller.related);
+    else clearProofHighlightClasses(controller);
   }
 
   function clearProofSelection(controller, restoreScale = true) {
     if (!controller?.selection) return;
     stopCameraAnimation(controller);
-    for (const element of controller.container.querySelectorAll(
-      '[data-node-id], [data-edge-id]',
-    )) element.classList.remove('graph-selected', 'graph-related', 'graph-dimmed');
+    clearProofHighlightClasses(controller);
     const baseScale = controller.selectionBaseScale;
     controller.selection = null;
     controller.related = null;
@@ -688,11 +711,8 @@
     controller.autoFrame = false;
     controller.selection = descriptor;
     controller.selectionTrigger = trigger;
-    const edge = descriptor.type === 'edge' ? controller.interaction.edges[descriptor.id] : null;
-    const info = descriptor.type === 'node' ? controller.interaction.nodes[descriptor.id] : null;
-    controller.related = graphClosure(controller.interaction,
-      edge ? [edge.source, edge.target] : [info.nodeId]);
-    setProofSelectionClasses(controller, descriptor);
+    controller.related = proofHighlightClosure(controller, descriptor);
+    setProofHighlightClasses(controller, descriptor, controller.related);
     controller.panel = renderDetailPanel(controller, view);
     hideTooltip(controller.container);
     requestAnimationFrame(() => focusProofSelection(controller));
@@ -737,6 +757,9 @@
         });
       };
       element.addEventListener('click', activate);
+      element.addEventListener('mouseenter', () => setProofHover(controller,
+        { type: 'node', id: element.dataset.nodeId }));
+      element.addEventListener('mouseleave', () => clearProofHover(controller));
       if (!element.matches('a')) element.addEventListener('keydown', (event) => {
         if (event.key === 'Enter' || event.key === ' ') activate(event);
       });
@@ -781,9 +804,11 @@
         hit.addEventListener('click', activate);
         const hot = () => {
           for (const path of controller.edgePaths.get(edgeId) || []) path.classList.add('hot');
+          setProofHover(controller, { type: 'edge', id: edgeId });
         };
         const cold = () => {
           for (const path of controller.edgePaths.get(edgeId) || []) path.classList.remove('hot');
+          clearProofHover(controller);
         };
         hit.addEventListener('mouseenter', hot);
         hit.addEventListener('mouseleave', cold);
@@ -1152,7 +1177,7 @@
       if (!controller?.selection || !(event.target instanceof Element)) return;
       if (controller.panel?.contains(event.target) ||
           event.target.closest('[data-node-id], [data-edge-hit], .graph-zoom-controls')) return;
-      clearProofSelection(controller);
+      clearProofSelection(controller, false);
     });
     document.documentElement.classList.add('graphs-interactive');
   }
