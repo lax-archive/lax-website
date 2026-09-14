@@ -177,6 +177,7 @@
   }
 
   function attachTooltip(el, container, content, renderedHtml) {
+    let pointerFocus = false;
     el.addEventListener('mouseenter', () => {
       const figure = container.closest('.graph-figure');
       if (figure?.classList.contains('graph-expanded')) {
@@ -188,7 +189,20 @@
     el.addEventListener('mouseleave', () => {
       if (!el.contains(document.activeElement)) hideTooltip(container);
     });
-    el.addEventListener('focus', () => showTooltip(container, el, content, renderedHtml));
+    el.addEventListener('pointerdown', () => {
+      pointerFocus = true;
+      hideTooltip(container);
+    });
+    el.addEventListener('pointerup', () => { pointerFocus = false; });
+    el.addEventListener('pointercancel', () => { pointerFocus = false; });
+    el.addEventListener('focus', () => {
+      if (pointerFocus) {
+        pointerFocus = false;
+        hideTooltip(container);
+        return;
+      }
+      showTooltip(container, el, content, renderedHtml);
+    });
     el.addEventListener('blur', () => {
       if (!el.matches(':hover')) hideTooltip(container);
     });
@@ -637,10 +651,12 @@
       edge ? [edge.source, edge.target] : [info.nodeId]);
   }
 
-  function setProofHighlightClasses(controller, descriptor, related) {
+  function setProofHighlightClasses(controller, descriptors, related) {
+    const selectedDescriptors = Array.isArray(descriptors) ? descriptors : [descriptors];
     for (const element of controller.container.querySelectorAll('[data-node-id]')) {
       const info = controller.interaction.nodes[element.dataset.nodeId];
-      const selected = descriptor.type === 'node' && descriptor.id === element.dataset.nodeId;
+      const selected = selectedDescriptors.some((descriptor) =>
+        descriptor?.type === 'node' && descriptor.id === element.dataset.nodeId);
       const isRelated = related.has(info?.nodeId);
       element.classList.toggle('graph-selected', selected);
       element.classList.toggle('graph-related', isRelated && !selected);
@@ -648,7 +664,8 @@
     }
     for (const path of controller.container.querySelectorAll('[data-edge-id]')) {
       const edge = controller.interaction.edges?.[path.dataset.edgeId];
-      const selected = descriptor.type === 'edge' && descriptor.id === path.dataset.edgeId;
+      const selected = selectedDescriptors.some((descriptor) =>
+        descriptor?.type === 'edge' && descriptor.id === path.dataset.edgeId);
       const isRelated = edge && related.has(edge.source) && related.has(edge.target);
       path.classList.toggle('graph-selected', selected);
       path.classList.toggle('graph-related', isRelated && !selected);
@@ -665,7 +682,9 @@
   function setProofHover(controller, descriptor) {
     if (!controller.container.closest('.graph-figure').classList.contains('graph-expanded')) return;
     controller.hover = descriptor;
-    setProofHighlightClasses(controller, descriptor, proofHighlightClosure(controller, descriptor));
+    const related = proofHighlightClosure(controller, descriptor);
+    for (const nodeId of controller.related || []) related.add(nodeId);
+    setProofHighlightClasses(controller, [controller.selection, descriptor], related);
   }
 
   function clearProofHover(controller) {
@@ -722,6 +741,7 @@
     const figure = controller.container.closest('.graph-figure');
     event.preventDefault();
     event.stopPropagation();
+    hideTooltip(controller.container);
     if (figure.classList.contains('graph-expanded')) {
       select();
       return;

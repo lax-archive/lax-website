@@ -686,9 +686,23 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       expect(await container.locator(".graph-selected").count()).toBe(1);
       expect(await container.locator(".graph-related").count()).toBeGreaterThan(0);
       expect(await container.locator(".graph-dimmed").count()).toBeGreaterThan(0);
+      expect(await figure.locator(".graph-tooltip").isHidden()).toBe(true);
       await page.waitForTimeout(1_000); await animationFrame(page);
       const focusedScale = Number((await figure.locator("[data-graph-zoom-status]").textContent())!.replace("%", ""));
       expect(focusedScale).toBeGreaterThan(initialScale);
+
+      const alternativeProof = container.locator('[data-node-id="p:Lax702Proofs.Alternative"]');
+      const middleProof = container.locator('[data-node-id="p:Lax702Proofs.Middle"]');
+      expect(await alternativeProof.getAttribute("class")).toContain("graph-dimmed");
+      await alternativeProof.dispatchEvent("mouseenter"); await animationFrame(page);
+      expect(await proof.getAttribute("class")).toContain("graph-selected");
+      expect(await alternativeProof.getAttribute("class")).toContain("graph-selected");
+      expect(await middleProof.getAttribute("class")).toContain("graph-related");
+      expect(await container.locator(".graph-selected").count()).toBe(2);
+      expect(await figure.locator(".graph-tooltip").isHidden()).toBe(true);
+      await alternativeProof.dispatchEvent("mouseleave"); await animationFrame(page);
+      expect(await container.locator(".graph-selected").count()).toBe(1);
+      expect(await alternativeProof.getAttribute("class")).toContain("graph-dimmed");
       await capture(page, "proof-detail-proof");
 
       const concept = container.locator('[data-node-id="s:Lax702.Main.s1"]');
