@@ -1861,7 +1861,7 @@
     {
       "id": "lax-194892",
       "state": "draft",
-      "environment": "v4.30.0",
+      "environment": "v4.33.0",
       "title": "Transducers, Part D: Polyregular Functions",
       "concepts": [
         {
