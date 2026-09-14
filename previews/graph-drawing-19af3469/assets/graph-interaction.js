@@ -177,7 +177,14 @@
   }
 
   function attachTooltip(el, container, content, renderedHtml) {
-    el.addEventListener('mouseenter', () => showTooltip(container, el, content, renderedHtml));
+    el.addEventListener('mouseenter', () => {
+      const figure = container.closest('.graph-figure');
+      if (figure?.classList.contains('graph-expanded')) {
+        if (!el.contains(document.activeElement)) hideTooltip(container);
+        return;
+      }
+      showTooltip(container, el, content, renderedHtml);
+    });
     el.addEventListener('mouseleave', () => {
       if (!el.contains(document.activeElement)) hideTooltip(container);
     });
