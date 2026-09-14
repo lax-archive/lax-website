@@ -8,6 +8,7 @@
   const PROOF_FOCUS_DURATION = 900;
   const reviewCache = new Map();
   let reviewSequence = 0;
+  let detailTooltipSequence = 0;
   let activeProofController = null;
   let pageProofDetails = {};
 
@@ -229,6 +230,65 @@
     return element;
   }
 
+  function openAssumptionEntries(controller, detail) {
+    const statements = new Map();
+    for (const candidate of Object.values(controller.details)) {
+      if (candidate.kind !== 'concept' || !Array.isArray(candidate.statements)) continue;
+      candidate.statements.forEach((statement, index) => statements.set(statement.id, {
+        id: statement.id,
+        name: candidate.name,
+        nameHtml: candidate.nameHtml,
+        statementLabel: candidate.statements.length > 1
+          ? `Statement ${index + 1} of ${candidate.statements.length}` : 'Statement',
+        signature: statement.signature,
+      }));
+    }
+    return (detail.openAssumptionIds || []).map((id) => statements.get(id) || {
+      id, name: id, statementLabel: 'Statement', signature: id,
+    });
+  }
+
+  function appendOpenAssumptionStatus(parent, controller, detail, count) {
+    const item = document.createElement('span');
+    item.className = 'graph-detail-open-assumption-item';
+    const badge = appendText(item, 'button', 'graph-detail-open-assumptions',
+      `${count} open assumption${count === 1 ? '' : 's'} used`);
+    badge.type = 'button';
+    const tooltip = document.createElement('span');
+    tooltip.id = `graph-detail-open-assumptions-${String(detailTooltipSequence += 1)}`;
+    tooltip.className = 'graph-detail-open-assumption-tooltip';
+    tooltip.setAttribute('role', 'tooltip');
+    badge.setAttribute('aria-describedby', tooltip.id);
+    appendText(tooltip, 'strong', '', 'Open assumptions in this tree');
+    const entries = openAssumptionEntries(controller, detail);
+    if (entries.length) {
+      const list = document.createElement('ul');
+      for (const entry of entries) {
+        const row = document.createElement('li');
+        const name = document.createElement('span');
+        name.className = 'graph-detail-open-assumption-name';
+        if (entry.nameHtml) name.innerHTML = entry.nameHtml;
+        else name.textContent = entry.name;
+        appendText(row, 'span', 'graph-detail-open-assumption-statement', entry.statementLabel);
+        appendText(row, 'code', '', entry.signature);
+        row.prepend(name);
+        list.append(row);
+      }
+      tooltip.append(list);
+    } else {
+      appendText(tooltip, 'span', '', 'Open-assumption details are unavailable.');
+    }
+    badge.addEventListener('click', () => {
+      const open = !item.classList.contains('is-open');
+      for (const other of document.querySelectorAll('.graph-detail-open-assumption-item.is-open'))
+        other.classList.remove('is-open');
+      item.classList.toggle('is-open', open);
+      if (!open) badge.blur();
+    });
+    item.append(tooltip);
+    parent.append(item);
+  }
+
   function ensureDetailPanel(controller) {
     const figure = controller.container.closest('.graph-figure');
     let panel = figure.querySelector('.graph-detail-panel');
@@ -250,7 +310,7 @@
     return panel;
   }
 
-  function detailHeading(parent, detail, eyebrow, name) {
+  function detailHeading(parent, controller, detail, eyebrow, name) {
     appendText(parent, 'p', 'graph-detail-eyebrow', eyebrow);
     const heading = document.createElement('h3');
     if (!name && detail.nameHtml) heading.innerHTML = detail.nameHtml;
@@ -267,8 +327,7 @@
       status.setAttribute('aria-label', `Status: ${status.textContent}`);
       if (detail.kind === 'concept' && Number.isInteger(detail.openAssumptions) && detail.openAssumptions > 0) {
         const count = detail.openAssumptions;
-        appendText(statuses, 'p', 'graph-detail-open-assumptions',
-          `${count} open assumption${count === 1 ? '' : 's'} used`);
+        appendOpenAssumptionStatus(statuses, controller, detail, count);
       }
       parent.append(statuses);
     }
@@ -507,7 +566,7 @@
     scroll.replaceChildren();
     const body = document.createElement('div');
     body.className = 'graph-detail-body';
-    detailHeading(body, view.detail, view.eyebrow, view.name);
+    detailHeading(body, controller, view.detail, view.eyebrow, view.name);
     if (view.relation) appendText(body, 'p', 'graph-detail-relation', view.relation);
     detailFacts(body, view.detail);
     renderReviewSummary(body, view.detail, panel);
@@ -1192,6 +1251,15 @@
     });
     window.addEventListener('scroll', refreshGraphTooltip, { capture: true, passive: true });
     window.addEventListener('resize', refreshGraphTooltip, { passive: true });
+    window.addEventListener('pointerdown', (event) => {
+      if (!(event.target instanceof Node)) return;
+      for (const item of document.querySelectorAll('.graph-detail-open-assumption-item.is-open')) {
+        if (item.contains(event.target)) continue;
+        item.classList.remove('is-open');
+        if (item.contains(document.activeElement) && document.activeElement instanceof HTMLElement)
+          document.activeElement.blur();
+      }
+    });
     window.addEventListener('click', (event) => {
       const controller = activeProofController;
       if (!controller?.selection || !(event.target instanceof Element)) return;

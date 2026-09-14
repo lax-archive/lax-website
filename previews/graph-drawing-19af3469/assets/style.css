@@ -3954,9 +3954,75 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
   color: var(--partial-fg);
 }
 .graph-detail-open-assumptions{
+  appearance: none;
   border-color: var(--partial-border);
   background: var(--partial-bg);
   color: var(--partial-fg);
+  cursor: help;
+  text-align: left;
+}
+.graph-detail-open-assumptions:focus-visible{ outline: 2px solid var(--link); outline-offset: 2px; }
+.graph-detail-open-assumption-item{ position: relative; display: inline-flex; }
+.graph-detail-open-assumption-tooltip{
+  position: absolute;
+  z-index: 6;
+  top: calc(100% + 0.35rem);
+  right: 0;
+  width: 18rem;
+  max-width: calc(100vw - 2rem);
+  padding: 0.55rem 0.65rem;
+  visibility: hidden;
+  opacity: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-control);
+  background: var(--surface);
+  box-shadow: 0 6px 20px rgba(43, 43, 43, 0.14);
+  color: var(--text);
+  overflow-wrap: anywhere;
+  pointer-events: none;
+  font-size: 0.7rem;
+  line-height: 1.4;
+}
+.graph-detail-open-assumption-item:hover .graph-detail-open-assumption-tooltip,
+.graph-detail-open-assumption-item:focus-within .graph-detail-open-assumption-tooltip,
+.graph-detail-open-assumption-item.is-open .graph-detail-open-assumption-tooltip{
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+}
+.graph-detail-open-assumption-tooltip > strong{
+  display: block;
+  margin-bottom: 0.4rem;
+  font-family: var(--mono);
+  font-size: 0.66rem;
+}
+.graph-detail-open-assumption-tooltip ul{
+  display: grid;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.graph-detail-open-assumption-tooltip li + li{
+  padding-top: 0.4rem;
+  border-top: 1px solid var(--border-light);
+}
+.graph-detail-open-assumption-name{ display: block; font-weight: 700; }
+.graph-detail-open-assumption-statement{
+  display: block;
+  margin-top: 0.08rem;
+  color: var(--text-dim);
+  font: 0.62rem/1.35 var(--mono);
+}
+.graph-detail-open-assumption-tooltip code{
+  display: block;
+  margin-top: 0.18rem;
+  color: var(--text);
+  white-space: pre-wrap;
+  font: 0.64rem/1.4 var(--mono);
+}
+@media (max-width: 520px){
+  .graph-detail-open-assumption-tooltip{ right: auto; left: 0; }
 }
 .graph-detail-facts{
   display: grid;
