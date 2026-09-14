@@ -4014,13 +4014,14 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
   color: var(--text-dim);
   font: 0.62rem/1.35 var(--mono);
 }
-.graph-detail-open-assumption-tooltip code{
-  display: block;
+.graph-detail-open-assumption-prose{
   margin-top: 0.18rem;
   color: var(--text);
-  white-space: pre-wrap;
-  font: 0.64rem/1.4 var(--mono);
+  font-size: 0.68rem;
+  line-height: 1.45;
 }
+.graph-detail-open-assumption-prose > :first-child{ margin-top: 0; }
+.graph-detail-open-assumption-prose > :last-child{ margin-bottom: 0; }
 @media (max-width: 520px){
   .graph-detail-open-assumption-tooltip{ right: auto; left: 0; }
 }
