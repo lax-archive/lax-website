@@ -637,7 +637,7 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
 
       const pageUrl = page.url();
       const initialScale = Number((await figure.locator("[data-graph-zoom-status]").textContent())!.replace("%", ""));
-      await proof.click();
+      await proof.click(); await animationFrame(page);
       expect(await figure.getAttribute("class")).toContain("graph-expanded");
       expect(page.url()).toBe(pageUrl);
       const panel = figure.locator(".graph-detail-panel");
@@ -731,15 +731,29 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       await capture(page, "proof-detail-external");
 
       await concept.evaluate((element) => element.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true })));
-      await animationFrame(page);
+      await page.waitForTimeout(1_000); await animationFrame(page);
+      const beforeDismiss = await container.evaluate((element) => ({
+        scale: element.closest(".graph-figure")!.querySelector<HTMLOutputElement>("[data-graph-zoom-status]")!.value,
+        camera: element.querySelector("[data-graph-camera]")!.getAttribute("transform"),
+      }));
 
       await container.evaluate((element) => element.dispatchEvent(new MouseEvent("click", { bubbles: true })));
       await animationFrame(page);
       expect(await panel.isHidden()).toBe(true);
       expect(await container.locator(".graph-selected, .graph-related, .graph-dimmed").count()).toBe(0);
-      const restoredScale = Number((await figure.locator("[data-graph-zoom-status]").textContent())!.replace("%", ""));
-      expect(focusedScale / restoredScale).toBeGreaterThanOrEqual(1.19);
-      expect(focusedScale / restoredScale).toBeLessThanOrEqual(1.21);
+      expect(await container.evaluate((element) => ({
+        scale: element.closest(".graph-figure")!.querySelector<HTMLOutputElement>("[data-graph-zoom-status]")!.value,
+        camera: element.querySelector("[data-graph-camera]")!.getAttribute("transform"),
+      }))).toEqual(beforeDismiss);
+
+      await concept.hover(); await animationFrame(page);
+      expect(await panel.isHidden()).toBe(true);
+      expect(await figure.locator(".graph-tooltip").isHidden()).toBe(true);
+      expect(await concept.getAttribute("class")).toContain("graph-selected");
+      expect(await container.locator(".graph-related").count()).toBeGreaterThan(0);
+      expect(await figure.locator("[data-graph-zoom-status]").textContent()).toBe(beforeDismiss.scale);
+      await figure.locator('[data-graph-zoom="reset"]').hover(); await animationFrame(page);
+      expect(await container.locator(".graph-selected, .graph-related, .graph-dimmed").count()).toBe(0);
 
       await figure.locator("[data-graph-expand]").click(); await animationFrame(page);
       const edge = container.locator('[data-edge-hit][aria-label*="Main χ result"]').first();

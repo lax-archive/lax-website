@@ -4280,7 +4280,8 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
    submission map has no proven/open axis to confuse it with. */
 .dag-edge.proof-dep{ stroke: var(--proof-dep); stroke-opacity: 1; }
 
-/* Hover/focus changes only incident-edge classes in graph-interaction.js. */
+/* Ordinary graph hover/focus emphasizes incident routes. The expanded proof
+   network additionally applies the complete-chain classes below. */
 .dag-edge.hot,
 .net-edge.hot{
   stroke: var(--link);
