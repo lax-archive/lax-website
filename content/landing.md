@@ -3,7 +3,7 @@
 Mathematical research is about to be drastically accelerated. This will push
 the classical system of peer review and publishing beyond its limits. We need new,
 scalable mechanisms for digesting mathematics, or we risk losing control of
-our own field.
+our field.
 
 Proof assistants like Lean provide a scalable way of ensuring *correctness*.\
 Lax builds on this foundation to make formal mathematics scalable for humans
@@ -12,8 +12,8 @@ too, by organizing results and making them easy to review and reuse.
 ## How it works
 
 **Concepts and proofs.** Lax annotates natural-language mathematics with Lean.
-Each definition or claim is tied to a *concept*: a reusable block that pairs a
-mathematical statement with a faithful Lean encoding. Each proof is tied to
+Each definition or claim is tied to a *concept*: a pair formed by a
+mathematical statement and a faithful Lean encoding. Each proof is tied to
 Lean code that derives one concept from others. Concepts and proofs can be
 reused across submissions.
 
@@ -22,7 +22,7 @@ reused across submissions.
 **Proof network.** Explore how proofs compose and which claims are proven.
 Any later submission can discharge an
 [open obligation](open-proof-obligations.html), and every result that
-rested on it is henceforth proven.
+rested on it is then proven.
 
 ## Get started right away
 
