@@ -2306,8 +2306,7 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
   margin-bottom: 1rem;
 }
 
-.workshop-panel,
-.workshop-registration{
+.workshop-panel{
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-card);
@@ -2393,24 +2392,14 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
   text-transform: uppercase;
 }
 
-.workshop-registration{ overflow: hidden; }
-
-.workshop-registration-head{
-  padding: clamp(1.35rem, 3vw, 2rem);
-  background: linear-gradient(105deg, var(--surface) 0%, var(--panel-bg) 100%);
-  border-bottom: 1px solid var(--border-light);
+.workshop-registration{
+  width: 100%;
+  max-width: 48em;
+  margin-inline: auto;
 }
-
-.workshop-registration-copy{
-  color: var(--text-dim);
-  line-height: 1.55;
-}
-
-.workshop-registration-copy p{ margin: 0; hyphens: none; text-align: left; }
 
 .workshop-form-frame{
-  padding: clamp(0.45rem, 1.5vw, 1rem);
-  background: var(--panel-bg);
+  width: 100%;
 }
 
 .workshop-form-frame iframe{
@@ -2418,8 +2407,7 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
   width: 100%;
   min-height: 1400px;
   border: 0;
-  border-radius: var(--radius-control);
-  background: var(--surface);
+  background: transparent;
 }
 
 @media (max-width: 760px){
@@ -2430,8 +2418,6 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
 @media (max-width: 480px){
   .workshop-highlights{ gap: 0.38rem; }
   .workshop-highlights li{ font-size: 0.62rem; }
-  .workshop-form-frame{ margin-inline: -1px; padding-inline: 0; }
-  .workshop-form-frame iframe{ border-radius: 0; }
 }
 
 /* A captioned figure in an editorial page, from a Markdown paragraph that

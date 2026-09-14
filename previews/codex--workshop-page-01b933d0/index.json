@@ -1516,6 +1516,8 @@
         "Lax68Proofs.halin_planar",
         "Lax68Proofs.ladder_grid",
         "Lax68Proofs.ladder_planar",
+        "Lax68Proofs.ladder_planar_of_outerplanar",
+        "Lax68Proofs.ladder_planar_of_seriesParallel",
         "Lax68Proofs.maximalOuterplanar_outerplanar",
         "Lax68Proofs.maximalOuterplanar_planar",
         "Lax68Proofs.outerplanar_planar",
@@ -1529,6 +1531,7 @@
         "Lax68Proofs.triangle_outerplanar",
         "Lax68Proofs.triangle_planar",
         "Lax68Proofs.triangulationOf_planar",
+        "Lax68Proofs.wall_planar",
         "Lax68Proofs.wheel_planar"
       ]
     },
@@ -1779,6 +1782,55 @@
         "Lax132576Proofs.Results.not_computablePred_codeRel_eq",
         "Lax132576Proofs.Results.relContinuous_of_isRationalRel",
         "Lax132576Proofs.Results.tfae_rational_unambiguous_bimachine"
+      ]
+    },
+    {
+      "id": "lax-146103",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "MSO-automata",
+      "concepts": [
+        {
+          "id": "Lax146103.MSOAutomataEquivalence",
+          "title": "Büchi-Elgot-Trakhtenbrot theorem for finite words",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax146103.MSOSemantics",
+          "title": "Semantics of monadic second-order logic",
+          "type": "definition"
+        },
+        {
+          "id": "Lax146103.MSOSyntax",
+          "title": "Monadic second-order syntax",
+          "type": "definition"
+        },
+        {
+          "id": "Lax146103.MSOToNFA",
+          "title": "MSO-definable word languages are NFA-recognizable",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax146103.NFARecognizable",
+          "title": "Recognition by a finite nondeterministic automaton",
+          "type": "definition"
+        },
+        {
+          "id": "Lax146103.NFAToMSO",
+          "title": "Finite automata are MSO-definable",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax146103.WordStructure",
+          "title": "Words as finite relational structures",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax146103Proofs.existsUnique_wordStructure_proof",
+        "Lax146103Proofs.mso_definable_is_nfaRecognizable_proof",
+        "Lax146103Proofs.nfa_definable_by_mso_proof",
+        "Lax146103Proofs.nfaRecognizable_iff_msoDefinable_proof"
       ]
     },
     {
@@ -3059,6 +3111,65 @@
         "Lax733996Proofs.immerman_szelepcsenyi",
         "Lax733996Proofs.nonreachability",
         "Lax733996Proofs.successor_layer"
+      ]
+    },
+    {
+      "id": "lax-751879",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "The Immerman–Vardi theorem",
+      "concepts": [
+        {
+          "id": "Lax751879.FixedPointEvaluation",
+          "title": "Polynomial-time evaluation of fixed-point queries",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax751879.FixedPointSemantics",
+          "title": "Semantics and definability in FO(LFP)",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax751879.FixedPointSyntax",
+          "title": "First-order logic with least fixed points",
+          "type": "definition"
+        },
+        {
+          "id": "Lax751879.ImmermanVardi",
+          "title": "The Immerman–Vardi theorem",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax751879.LeastFixedPoints",
+          "title": "Least fixed points on finite relations",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax751879.OrderedStructures",
+          "title": "Finite ordered relational structures and queries",
+          "type": "definition"
+        },
+        {
+          "id": "Lax751879.PolynomialTime",
+          "title": "Polynomial-time queries on ordered structures",
+          "type": "definition"
+        },
+        {
+          "id": "Lax751879.StructureEncoding",
+          "title": "Binary encodings of ordered structures and tuples",
+          "type": "definition and theorem"
+        }
+      ],
+      "proofs": [
+        "Lax751879Proofs.FixedPointEvaluation.evaluationInP",
+        "Lax751879Proofs.ImmermanVardi.capturesPtime",
+        "Lax751879Proofs.ImmermanVardi.ptimeDefinable",
+        "Lax751879Proofs.LeastFixedPoints.finiteConvergence",
+        "Lax751879Proofs.LeastFixedPoints.fixedPoint",
+        "Lax751879Proofs.LeastFixedPoints.least",
+        "Lax751879Proofs.Positivity.positiveBodyMonotone",
+        "Lax751879Proofs.StructureEncoding.encodeInjective",
+        "Lax751879Proofs.StructureEncoding.encodeLength"
       ]
     },
     {
