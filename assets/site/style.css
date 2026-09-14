@@ -4139,7 +4139,7 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
   pointer-events: none;
   vector-effect: non-scaling-stroke;
 }
-.graph-expanded.proof-network-figure .graph-edge-hit{ pointer-events: stroke; cursor: pointer; }
+.proof-network-figure .graph-edge-hit{ pointer-events: stroke; cursor: pointer; }
 .proof-network-figure .net-edge{ pointer-events: none; }
 .graph-edge-hit:focus{ outline: none; }
 

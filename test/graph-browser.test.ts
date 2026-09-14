@@ -601,16 +601,18 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
     });
   }, 30_000);
 
-  it("inspects proof nodes and links only in the large view, then clears the focused chain", async () => {
+  it("opens the large proof view from nodes and links, then clears the focused chain", async () => {
     await visit(url(), async (page, audit) => {
       const figure = page.locator(".proof-network-figure"), container = page.locator("#proof-network");
       const proof = container.locator(`[data-node-id="${proofId}"]`);
       expect(await figure.locator(".graph-detail-panel").count()).toBe(0);
       expect(await proof.getAttribute("href")).toBeTruthy();
 
-      await figure.locator("[data-graph-expand]").click(); await animationFrame(page);
+      const pageUrl = page.url();
       const initialScale = Number((await figure.locator("[data-graph-zoom-status]").textContent())!.replace("%", ""));
       await proof.click();
+      expect(await figure.getAttribute("class")).toContain("graph-expanded");
+      expect(page.url()).toBe(pageUrl);
       const panel = figure.locator(".graph-detail-panel");
       expect(await panel.isVisible()).toBe(true);
       expect(await panel.locator("h3").first().textContent()).toBe("Proof of Main χ result");
@@ -646,14 +648,19 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       expect(formalizationWidth.own / formalizationWidth.parent).toBeGreaterThan(0.98);
       await capture(page, "proof-detail-concept");
 
-      const edge = container.locator('[data-edge-hit][aria-label*="Main χ result"]').first();
-      await edge.click({ force: true });
-      expect(await panel.textContent()).toMatch(/(?:used as an assumption|establishes)/u);
-      expect(await container.locator("[data-edge-id].graph-selected").count()).toBeGreaterThan(0);
       await container.evaluate((element) => element.dispatchEvent(new MouseEvent("click", { bubbles: true })));
       await animationFrame(page);
       expect(await panel.isHidden()).toBe(true);
       expect(await container.locator(".graph-selected, .graph-related, .graph-dimmed").count()).toBe(0);
+
+      await figure.locator("[data-graph-expand]").click(); await animationFrame(page);
+      const edge = container.locator('[data-edge-hit][aria-label*="Main χ result"]').first();
+      expect(await edge.evaluate((element) => getComputedStyle(element).pointerEvents)).toBe("stroke");
+      await edge.click({ force: true });
+      await animationFrame(page);
+      expect(await figure.getAttribute("class")).toContain("graph-expanded");
+      expect(await panel.textContent()).toMatch(/(?:used as an assumption|establishes)/u);
+      expect(await container.locator("[data-edge-id].graph-selected").count()).toBeGreaterThan(0);
       await expectNoPublicLayout(page, audit);
     });
   }, 45_000);

@@ -588,6 +588,24 @@
     requestAnimationFrame(() => focusProofSelection(controller));
   }
 
+  function activateProofItem(controller, event, select) {
+    const figure = controller.container.closest('.graph-figure');
+    event.preventDefault();
+    event.stopPropagation();
+    if (figure.classList.contains('graph-expanded')) {
+      select();
+      return;
+    }
+    const button = figure.querySelector('[data-graph-expand]');
+    if (!button) return;
+    setExpanded(button, true);
+    // setExpanded frames the drawing on its next animation frame. Select
+    // afterwards so the focus zoom starts from that large-window framing.
+    requestAnimationFrame(() => {
+      if (figure.classList.contains('graph-expanded')) select();
+    });
+  }
+
   function installProofSelection(container, controller, interaction) {
     if (container.id !== 'proof-network' || !Object.keys(controller.details).length) return;
     controller.interaction = interaction;
@@ -596,15 +614,16 @@
       const detail = detailForInfo(controller, info);
       if (!detail) continue;
       const activate = (event) => {
-        if (!container.closest('.graph-figure').classList.contains('graph-expanded')) return;
-        event.preventDefault(); event.stopPropagation();
+        const trigger = event.currentTarget;
         const eyebrow = info.kind === 'proof' ? 'Proof'
           : detail.type ? detail.type.charAt(0).toUpperCase() + detail.type.slice(1) : 'Claim';
-        selectProofItem(controller, { type: 'node', id: element.dataset.nodeId }, element, {
-          detail, eyebrow,
-          focusStatement: ['statement', 'dock'].includes(info.kind) ? info.semanticId : undefined,
-          href: info.href || detail.href,
-          actionLabel: info.kind === 'proof' ? 'Open proof page' : 'Open concept page',
+        activateProofItem(controller, event, () => {
+          selectProofItem(controller, { type: 'node', id: element.dataset.nodeId }, trigger, {
+            detail, eyebrow,
+            focusStatement: ['statement', 'dock'].includes(info.kind) ? info.semanticId : undefined,
+            href: info.href || detail.href,
+            actionLabel: info.kind === 'proof' ? 'Open proof page' : 'Open concept page',
+          });
         });
       };
       element.addEventListener('click', activate);
@@ -631,19 +650,20 @@
         ? `${claimDetail.name}, assumption of ${proofDetail.name}`
         : `${proofDetail.name}, conclusion ${claimDetail.name}`;
       const activate = (event) => {
-        if (!container.closest('.graph-figure').classList.contains('graph-expanded')) return;
-        event.preventDefault(); event.stopPropagation();
-        selectProofItem(controller, { type: 'edge', id: edgeId }, event.currentTarget, {
-          detail: claimDetail,
-          eyebrow: assumption ? 'Assumption link' : 'Conclusion link',
-          name: claimDetail.name,
-          relation: assumption
-            ? `${claimDetail.name} is used as an assumption of ${proofDetail.name}.`
-            : `${proofDetail.name} establishes ${claimDetail.name}.`,
-          proofDetail,
-          focusStatement: assumption ? edge.sourceSemanticId : edge.targetSemanticId,
-          href: proofDetail.href,
-          actionLabel: 'Open proof page',
+        const trigger = event.currentTarget;
+        activateProofItem(controller, event, () => {
+          selectProofItem(controller, { type: 'edge', id: edgeId }, trigger, {
+            detail: claimDetail,
+            eyebrow: assumption ? 'Assumption link' : 'Conclusion link',
+            name: claimDetail.name,
+            relation: assumption
+              ? `${claimDetail.name} is used as an assumption of ${proofDetail.name}.`
+              : `${proofDetail.name} establishes ${claimDetail.name}.`,
+            proofDetail,
+            focusStatement: assumption ? edge.sourceSemanticId : edge.targetSemanticId,
+            href: proofDetail.href,
+            actionLabel: 'Open proof page',
+          });
         });
       };
       elements.forEach((hit, index) => {
@@ -664,15 +684,14 @@
         });
       });
     }
-    setProofInteractionEnabled(controller,
-      container.closest('.graph-figure').classList.contains('graph-expanded'));
+    enableProofInteraction(controller);
   }
 
-  function setProofInteractionEnabled(controller, enabled) {
+  function enableProofInteraction(controller) {
     if (controller.container.id !== 'proof-network') return;
     const seen = new Set();
     for (const hit of controller.container.querySelectorAll('[data-edge-hit]')) {
-      if (enabled && !seen.has(hit.dataset.edgeHit)) {
+      if (!seen.has(hit.dataset.edgeHit)) {
         hit.setAttribute('tabindex', '0');
         hit.setAttribute('role', 'button');
         seen.add(hit.dataset.edgeHit);
@@ -930,7 +949,6 @@
     expandedFigure = expanded ? figure : null;
     document.body.classList.toggle('graph-window-open', Boolean(expandedFigure));
     hideTooltip(container);
-    if (controller) setProofInteractionEnabled(controller, expanded);
     // Frame the same complete geometry in the new viewport. Closing restores
     // the inline camera instead of carrying the large-window zoom into the page.
     requestAnimationFrame(() => {
