@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://comments.laxarchive.org; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self'; frame-src https://comments.laxarchive.org; connect-src 'self' https://comments.laxarchive.org">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Lax — an archive of formalized mathematical concepts and their proofs">
+<title>χ-Boundedness and Neighbourhood Complexity of Bounded Merge-Width Graphs — lax-9</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
+<link rel="stylesheet" href="../assets/style.css?v=a84f022d8220">
+</head><body>
+<header class="site-header with-sidebar">
+  <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="true" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
+  <div class="site-brand">
+  <h1 class="site-title"><a href="../index.html">Lax <span class="site-title-quiet">Lean Archive</span></a></h1>
+  <nav class="site-nav" aria-label="Site">
+    <a class="site-nav-link" href="../lax-242665/paper.html">Introduction</a>
+    <a class="site-nav-link" href="../about.html">About</a>
+  </nav>
+  </div>
+  <nav class="header-actions" aria-label="Account">
+    <div class="account-header" data-account-root data-remark42-host="https://comments.laxarchive.org" data-remark42-site="remark" data-identity-url="https://comments.laxarchive.org/reactions/v1/identity">
+  <a class="account-control" data-account-login href="https://comments.laxarchive.org/auth/orcid/login?from=https%3A%2F%2Flaxarchive.org&amp;site=remark"><span class="orcid-mark" aria-hidden="true">iD</span><span>Sign in<span class="account-login-long"> with ORCID</span></span></a>
+  <button class="account-control" data-account-settings type="button" aria-haspopup="dialog" aria-controls="account-dialog" hidden><span class="orcid-mark" aria-hidden="true">iD</span><span>Settings</span></button>
+</div>
+  </nav>
+</header>
+<main id="content-shell">
+<div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+<aside id="sidebar">
+<a class="sidebar-back" href="../index.html"><span class="sidebar-back-arrow" aria-hidden="true">←</span>All submissions</a>
+<div class="sidebar-filters"><div class="filter-group">
+<label for="filter-search">Search</label>
+<input id="filter-search" class="filter-input" type="search" placeholder="Filter entries" aria-controls="entry-list">
+</div>
+<div class="filter-group">
+<label for="filter-type">Type</label>
+<select id="filter-type" class="filter-select">
+<option value="all">All types</option>
+<option value="definition">definition</option>
+<option value="theorem">theorem</option>
+<option value="proof">proof</option>
+</select>
+</div></div>
+<ul id="entry-list">
+<li class="entry-heading" aria-hidden="true">Concepts</li>
+<li data-type="theorem" data-search="lax9.boundedmergewidthchibounded χ-boundedness of bounded merge-width classes theorem"><a class="entry-link" href="../lax-9/Lax9.BoundedMergeWidthChiBounded.html" data-full-title="χ-Boundedness of Bounded Merge-Width Classes"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">χ-Boundedness of Bounded Merge-Width Classes</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-9/Lax9.BoundedMergeWidthChiBounded.html" hidden></span></span></a></li>
+<li data-type="theorem" data-search="lax9.boundedmergewidthlinearneighborhoodcomplexity linear neighbourhood complexity of bounded merge-width classes theorem"><a class="entry-link" href="../lax-9/Lax9.BoundedMergeWidthLinearNeighborhoodComplexity.html" data-full-title="Linear Neighbourhood Complexity of Bounded Merge-Width Classes"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Linear Neighbourhood Complexity of Bounded Merge-Width Classes</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-9/Lax9.BoundedMergeWidthLinearNeighborhoodComplexity.html" hidden></span></span></a></li>
+<li data-type="definition" data-search="lax9.chiboundedness χ-boundedness definition"><a class="entry-link" href="../lax-9/Lax9.ChiBoundedness.html" data-full-title="χ-Boundedness"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">χ-Boundedness</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-9/Lax9.ChiBoundedness.html" hidden></span></span></a></li>
+<li data-type="definition" data-search="lax9.mergewidth merge-width definition"><a class="entry-link" href="../lax-9/Lax9.MergeWidth.html" data-full-title="Merge-Width"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Merge-Width</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-9/Lax9.MergeWidth.html" hidden></span></span></a></li>
+<li data-type="definition" data-search="lax9.neighborhoodcomplexity linear neighbourhood complexity definition"><a class="entry-link" href="../lax-9/Lax9.NeighborhoodComplexity.html" data-full-title="Linear Neighbourhood Complexity"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Linear Neighbourhood Complexity</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-9/Lax9.NeighborhoodComplexity.html" hidden></span></span></a></li>
+<li class="entry-heading" aria-hidden="true">Proofs</li>
+<li data-type="proof" data-search="lax9proofs.chibounded_of_boundedmergewidth proof"><a class="entry-link" href="../lax-9/Lax9Proofs.chiBounded_of_boundedMergeWidth.html" data-full-title="Lax9Proofs.chiBounded_of_boundedMergeWidth"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax9Proofs.chiBounded_of_boundedMergeWidth</span></span></a></li>
+<li data-type="proof" data-search="lax9proofs.linearneighborhoodcomplexity_of_boundedmergewidth proof"><a class="entry-link" href="../lax-9/Lax9Proofs.linearNeighborhoodComplexity_of_boundedMergeWidth.html" data-full-title="Lax9Proofs.linearNeighborhoodComplexity_of_boundedMergeWidth"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax9Proofs.linearNeighborhoodComplexity_of_boundedMergeWidth</span></span></a></li>
+<li id="entry-list-empty" hidden>No entries match.</li>
+</ul>
+</aside>
+<div id="sidebar-resizer" class="sidebar-resizer" role="separator" aria-label="Resize sidebar" aria-controls="sidebar" aria-orientation="vertical" aria-valuemin="220" aria-valuemax="520" aria-valuenow="285" tabindex="0" title="Drag to resize sidebar"></div>
+<section id="main"><div id="detail">
+<p class="draft-banner"><strong>Draft</strong> — mutable and not usable as a dependency; its citation marks the draft state.</p>
+<header class="paper-head">
+<h1 class="paper-title">χ-Boundedness and Neighbourhood Complexity of Bounded Merge-Width Graphs</h1>
+<p class="paper-meta"><span class="submission-meta-id">lax-9</span><span class="meta-sep">·</span><span class="formalized-label">formalized by</span> <span class="paper-author">Édouard Bonnet</span><span class="meta-sep">·</span>created <time datetime="2026-08-02T17:58:06Z">2 Aug 2026</time><span class="meta-sep">·</span><a href="https://github.com/lax-archive/lax-submissions/tree/516940643590249b6bec961242467c201bdfb98b/merge-width-v4-33" title="https://github.com/lax-archive/lax-submissions/tree/516940643590249b6bec961242467c201bdfb98b/merge-width-v4-33"><code>GitHub @5169406</code></a><span class="meta-sep">·</span>Lean <code>v4.33.0</code> <span class="meta-epoch" title="the environment the archive recommends this year">epoch</span> · mathlib <code>db584cd6d46c</code></p>
+</header>
+<section class="page-reactions" aria-label="Community review" data-reactions-host="https://comments.laxarchive.org" data-reactions-url="https://laxarchive.org/lax-9/" data-review-kind="submission" data-source-lines="0" data-submission-concept-urls="[&quot;https://laxarchive.org/lax-9/Lax9.BoundedMergeWidthChiBounded.html&quot;,&quot;https://laxarchive.org/lax-9/Lax9.BoundedMergeWidthLinearNeighborhoodComplexity.html&quot;,&quot;https://laxarchive.org/lax-9/Lax9.ChiBoundedness.html&quot;,&quot;https://laxarchive.org/lax-9/Lax9.MergeWidth.html&quot;,&quot;https://laxarchive.org/lax-9/Lax9.NeighborhoodComplexity.html&quot;]">
+<div class="page-reactions-line">
+<div class="page-reactions-actions">
+<div class="page-reaction-control">
+<button class="page-reaction-button" type="button" data-reaction="endorse" aria-pressed="false" title="Say that this submission is correct"><span class="page-reaction-icon" aria-hidden="true">🥳</span><span>Endorse</span></button>
+<button class="page-reaction-voters" type="button" data-reaction-voters="endorse" aria-expanded="false" aria-controls="page-reaction-voters-endorse"><strong data-reaction-count="endorse">0</strong><span class="visually-hidden">Show people who endorse this submission</span></button>
+<div class="page-reaction-voters-popover" id="page-reaction-voters-endorse" data-reaction-voters-popover="endorse" hidden><p data-reaction-empty>No public endorsements yet.</p><ul></ul></div>
+</div>
+<div class="page-reaction-control page-flag-control">
+<button class="page-reaction-button" type="button" data-reaction="flag" aria-pressed="false" aria-haspopup="dialog" title="Explain why this submission may be false"><span class="page-reaction-icon" aria-hidden="true">🚩</span><span>Flag</span></button>
+<button class="page-reaction-voters" type="button" data-flag-list-open aria-haspopup="dialog" aria-controls="page-flag-list"><strong data-reaction-count="flag">0</strong><span class="visually-hidden">Show flags for this submission</span></button>
+</div>
+</div>
+<p class="submission-flagged-note" data-submission-flagged-note hidden><span aria-hidden="true">⚑</span><span data-submission-flagged-note-text></span></p>
+</div>
+<p class="page-reactions-status" data-reactions-status role="status">Loading review…</p>
+<a class="visually-hidden" data-reactions-login href="https://comments.laxarchive.org/auth/orcid/login?site=remark&amp;from=https%3A%2F%2Flaxarchive.org%2Flax-9%2F">Sign in with ORCID</a>
+<dialog class="review-dialog flag-list-dialog" id="page-flag-list" data-flag-list-dialog aria-labelledby="page-flag-list-title">
+<div class="review-dialog-header"><div><p class="discussion-eyebrow">Community review</p><h2 id="page-flag-list-title">Flags</h2></div><button class="review-dialog-close" type="button" data-flag-list-close aria-label="Close flags">×</button></div>
+<p class="review-dialog-intro">Each flag is tied to a public ORCID identity and explains why this submission may be incorrect.</p>
+<p data-flag-list-empty>No flags have been submitted.</p><ol class="flag-list" data-flag-list></ol>
+</dialog>
+<dialog class="review-dialog flag-editor-dialog" id="page-flag-editor" data-flag-editor aria-labelledby="page-flag-editor-title">
+<form data-flag-form>
+<div class="review-dialog-header"><div><p class="discussion-eyebrow">Community review</p><h2 id="page-flag-editor-title">Flag this submission</h2></div><button class="review-dialog-close" type="button" data-flag-cancel aria-label="Close flag form">×</button></div>
+<p class="review-dialog-intro">State precisely what appears incorrect. This explanation will be public under your ORCID name.</p>
+<label class="flag-message-label" for="page-flag-message">What is wrong?</label>
+<textarea id="page-flag-message" data-flag-message rows="6" maxlength="2000" required placeholder="Describe the incorrect claim, missing assumption, or counterexample."></textarea>
+
+<p class="flag-form-status" data-flag-form-status role="status"></p>
+<div class="review-dialog-actions"><button class="danger-button" type="button" data-flag-remove hidden>Remove my flag</button><span></span><button class="secondary-button" type="button" data-flag-cancel>Cancel</button><button class="primary-button" type="submit">Publish flag</button></div>
+</form>
+</dialog>
+<noscript><p class="page-reactions-noscript"><a href="https://comments.laxarchive.org/auth/orcid/login?site=remark&amp;from=https%3A%2F%2Flaxarchive.org%2Flax-9%2F">Sign in with ORCID</a> to review this page.</p></noscript>
+</section>
+<section class="paper-abstract">
+<h2 class="abstract-heading">Abstract</h2>
+<div class="latex-content"><p>This submission formalizes two results of Marthe Bonamy and Colin Geniet:
+every graph class of bounded merge-width is χ-bounded, and every such class
+has linear neighbourhood complexity, Theorems 1.2 and
+1.5 of <em>χ-Boundedness and Neighbourhood Complexity of Bounded Merge-Width
+Graphs</em> (<a href="https://arxiv.org/abs/2504.08266">https://arxiv.org/abs/2504.08266</a>). In particular, merge sequences, radius-<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi></mrow><annotation encoding="application/x-tex">r</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">r</span></span></span></span> merge-width,
+χ-boundedness, and neighbourhood complexity are defined in Lean.</p>
+</div>
+</section>
+
+<section class="page-section"><h3 class="section-title">Concepts</h3>
+<div class="concept-list-box">
+<div class="concept-review-progress" data-concept-review-progress data-concept-review-urls="[&quot;https://laxarchive.org/lax-9/Lax9.BoundedMergeWidthChiBounded.html&quot;,&quot;https://laxarchive.org/lax-9/Lax9.BoundedMergeWidthLinearNeighborhoodComplexity.html&quot;,&quot;https://laxarchive.org/lax-9/Lax9.ChiBoundedness.html&quot;,&quot;https://laxarchive.org/lax-9/Lax9.MergeWidth.html&quot;,&quot;https://laxarchive.org/lax-9/Lax9.NeighborhoodComplexity.html&quot;]" hidden>
+<div class="concept-review-progress-heading"><span>Review progress</span><span data-concept-review-progress-label></span></div>
+<div class="concept-review-progress-track" data-concept-review-progress-track role="img"></div>
+</div>
+<ul class="concept-list" aria-label="Statements">
+<li><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="Lax9.BoundedMergeWidthChiBounded.html" title="Lax9.BoundedMergeWidthChiBounded"><code>Lax9.BoundedMergeWidthChiBounded</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-9/Lax9.BoundedMergeWidthChiBounded.html" hidden></span></li>
+<li><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="Lax9.BoundedMergeWidthLinearNeighborhoodComplexity.html" title="Lax9.BoundedMergeWidthLinearNeighborhoodComplexity"><code>Lax9.BoundedMergeWidthLinearNeighborhoodComplexity</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-9/Lax9.BoundedMergeWidthLinearNeighborhoodComplexity.html" hidden></span></li>
+</ul>
+<ul class="concept-list" aria-label="Definitions">
+<li><span class="type-badge" title="definition">def</span><a href="Lax9.ChiBoundedness.html" title="Lax9.ChiBoundedness"><code>Lax9.ChiBoundedness</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-9/Lax9.ChiBoundedness.html" hidden></span></li>
+<li><span class="type-badge" title="definition">def</span><a href="Lax9.MergeWidth.html" title="Lax9.MergeWidth"><code>Lax9.MergeWidth</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-9/Lax9.MergeWidth.html" hidden></span></li>
+<li><span class="type-badge" title="definition">def</span><a href="Lax9.NeighborhoodComplexity.html" title="Lax9.NeighborhoodComplexity"><code>Lax9.NeighborhoodComplexity</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-9/Lax9.NeighborhoodComplexity.html" hidden></span></li>
+</ul>
+
+</div>
+<details class="figure-details">
+<summary>Concept map</summary>
+<figure class="graph-figure">
+<div class="graph-controls"><div class="graph-ancestry-controls"><button type="button" id="concept-expand" aria-controls="concept-dag" disabled aria-pressed="false">No ancestors</button><button type="button" id="concept-descend" aria-controls="concept-dag" disabled aria-pressed="false">No descendants</button><output id="concept-graph-status" aria-live="polite">5 concepts</output></div><div class="graph-zoom-controls" aria-label="Graph zoom"><button type="button" data-graph-zoom="out" aria-label="Zoom out" disabled>−</button><output data-graph-zoom-status aria-label="Zoom">100%</output><button type="button" data-graph-zoom="in" aria-label="Zoom in" disabled>+</button><button type="button" data-graph-zoom="reset" disabled>Reset</button></div><button class="graph-expand" type="button" data-graph-expand data-graph-label="concept map" aria-expanded="false" aria-label="Open concept map in a large window"><svg class="graph-expand-open" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M2.5 6V2.5H6M10 2.5h3.5V6M13.5 10v3.5H10M6 13.5H2.5V10"/></svg><span class="graph-expand-close" aria-hidden="true">×</span></button></div>
+<div id="concept-dag" class="figure-container" data-graph="concepts" data-ancestry="true" data-prepared="true" style="height:297px"><svg xmlns="http://www.w3.org/2000/svg" class="prepared-graph" width="568" height="297" viewBox="0 0 568 297" aria-label="Concept dependency graph" data-layout-digest="bd390c6de0471ee2cb2f50ef5d52e6e61fbd6c4faf5d9f998960af163e0257dc"><defs><marker id="graph-arrow-concept-dag-bd390c6de0471ee2-00" viewBox="0 -5 10 10" refX="9" refY="0" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto" overflow="visible"><path d="M1,-4.25 L9,0 L1,4.25 Q3,0 1,-4.25 Z"/></marker></defs><g data-graph-camera><g transform="translate(36,24)"><a class="net-node proven" data-node-id="c:Lax9.BoundedMergeWidthChiBounded" aria-label="χ-Boundedness of Bounded Merge-Width Classes (Lax9.BoundedMergeWidthChiBounded)" href="../lax-9/Lax9.BoundedMergeWidthChiBounded.html" role="link"><rect x="0" y="0" width="238.202" height="46" rx="4"/><text class="graph-label" xml:space="preserve"><tspan x="10.000269104003905" y="18">χ-Boundedness of Bounded Merge-Width</tspan><tspan x="100.2088872680664" y="34">Classes</tspan></text></a></g><g transform="translate(314.202,24)"><a class="net-node proven" data-node-id="c:Lax9.BoundedMergeWidthLinearNeighborhoodComplexity" aria-label="Linear Neighbourhood Complexity of Bounded Merge-Width Classes (Lax9.BoundedMergeWidthLinearNeighborhoodComplexity)" href="../lax-9/Lax9.BoundedMergeWidthLinearNeighborhoodComplexity.html" role="link"><rect x="0" y="0" width="217.266" height="46" rx="4"/><text class="graph-label" xml:space="preserve"><tspan x="10.000317199707027" y="18">Linear Neighbourhood Complexity of</tspan><tspan x="27.466450317382808" y="34">Bounded Merge-Width Classes</tspan></text></a></g><g transform="translate(171.102,141.192)"><a class="net-node none" data-node-id="c:Lax9.ChiBoundedness" aria-label="χ-Boundedness (Lax9.ChiBoundedness)" href="../lax-9/Lax9.ChiBoundedness.html" role="link"><rect x="0" y="0" width="99.929" height="30" rx="4"/><text class="graph-label" xml:space="preserve"><tspan x="10.000251342773439" y="18">χ-Boundedness</tspan></text></a></g><g transform="translate(183.88,242.38400000000001)"><a class="net-node none" data-node-id="c:Lax9.MergeWidth" aria-label="Merge-Width (Lax9.MergeWidth)" href="../lax-9/Lax9.MergeWidth.html" role="link"><rect x="0" y="0" width="90.373" height="30" rx="4"/><text class="graph-label" xml:space="preserve"><tspan x="10.000274108886721" y="18">Merge-Width</tspan></text></a></g><g transform="translate(319.031,141.192)"><a class="net-node none" data-node-id="c:Lax9.NeighborhoodComplexity" aria-label="Linear Neighbourhood Complexity (Lax9.NeighborhoodComplexity)" href="../lax-9/Lax9.NeighborhoodComplexity.html" role="link"><rect x="0" y="0" width="202.934" height="30" rx="4"/><text class="graph-label" xml:space="preserve"><tspan x="10.000378601074217" y="18">Linear Neighbourhood Complexity</tspan></text></a></g><path class="dag-edge" data-edge-id="e:Lax9.ChiBoundedness-&gt;Lax9.BoundedMergeWidthChiBounded:import:0" d="M221.066,141.192 L221.066,131.192 Q221.066,129.192 219.515,127.929 L164.652,83.263 Q163.101,82 163.101,80 L163.101,70" marker-end="url(#graph-arrow-concept-dag-bd390c6de0471ee2-00)"/><path class="dag-edge" data-edge-id="e:Lax9.MergeWidth-&gt;Lax9.BoundedMergeWidthChiBounded:import:0" d="M205.066,242.384 L205.066,232.384 Q205.066,230.384 203.515,229.121 L150.203,185.717 Q147.101,183.192 147.101,179.192 L147.101,70" marker-end="url(#graph-arrow-concept-dag-bd390c6de0471ee2-00)"/><path class="dag-edge" data-edge-id="e:Lax9.MergeWidth-&gt;Lax9.BoundedMergeWidthLinearNeighborhoodComplexity:import:0" d="M237.066,242.384 L237.066,232.384 Q237.066,230.384 238.617,229.121 L291.929,185.717 Q295.031,183.192 295.031,179.192 L295.031,133.192 Q295.031,129.192 298.753,127.726 L412.974,82.733 Q414.835,82 414.835,80 L414.835,70" marker-end="url(#graph-arrow-concept-dag-bd390c6de0471ee2-00)"/><path class="dag-edge" data-edge-id="e:Lax9.MergeWidth-&gt;Lax9.ChiBoundedness:import:0" d="M221.066,242.384 L221.066,171.192" marker-end="url(#graph-arrow-concept-dag-bd390c6de0471ee2-00)"/><path class="dag-edge" data-edge-id="e:Lax9.MergeWidth-&gt;Lax9.NeighborhoodComplexity:import:0" d="M253.066,242.384 L253.066,232.384 Q253.066,230.384 254.991,229.841 L418.573,183.735 Q420.498,183.192 420.498,181.192 L420.498,171.192" marker-end="url(#graph-arrow-concept-dag-bd390c6de0471ee2-00)"/><path class="dag-edge" data-edge-id="e:Lax9.NeighborhoodComplexity-&gt;Lax9.BoundedMergeWidthLinearNeighborhoodComplexity:import:0" d="M420.498,141.192 L420.498,131.192 Q420.498,129.192 420.926,127.238 L430.407,83.954 Q430.835,82 430.835,80 L430.835,70" marker-end="url(#graph-arrow-concept-dag-bd390c6de0471ee2-00)"/></g></svg></div>
+<div class="graph-tooltip" role="tooltip" hidden></div>
+<figcaption class="graph-legend" aria-label="Concept map legend"><span><i class="legend-node fill-proven"></i>Proven claim</span><span><i class="legend-node fill-none"></i>Definition</span><span><i class="legend-node stroke-own"></i>This submission</span><span><svg class="legend-dependency-arrow" viewBox="0 -4 26 8" aria-hidden="true" focusable="false"><path class="legend-edge-line" d="M1 0h22"/><path d="m20-3 3 3-3 3"/></svg>A → B: B builds on A</span></figcaption>
+</figure>
+</details>
+</section>
+<section class="page-section"><h3 class="section-title">Proofs</h3>
+<h4 class="figure-title">Proof network<a class="source-link" href="https://github.com/lax-archive/lax-submissions/tree/516940643590249b6bec961242467c201bdfb98b/merge-width-v4-33/proofs">view on GitHub</a></h4>
+<figure class="graph-figure proof-network-figure">
+<div class="graph-controls"><div class="graph-zoom-controls" aria-label="Graph zoom"><button type="button" data-graph-zoom="out" aria-label="Zoom out" disabled>−</button><output data-graph-zoom-status aria-label="Zoom">100%</output><button type="button" data-graph-zoom="in" aria-label="Zoom in" disabled>+</button><button type="button" data-graph-zoom="reset" disabled>Reset</button></div><button class="graph-expand" type="button" data-graph-expand data-graph-label="proof network" aria-expanded="false" aria-label="Open proof network in a large window"><svg class="graph-expand-open" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M2.5 6V2.5H6M10 2.5h3.5V6M13.5 10v3.5H10M6 13.5H2.5V10"/></svg><span class="graph-expand-close" aria-hidden="true">×</span></button></div>
+<div id="proof-network" class="figure-container" data-graph="proofs" data-prepared="true" style="height:166px"><svg xmlns="http://www.w3.org/2000/svg" class="prepared-graph" width="667" height="166" viewBox="0 0 667 166" aria-label="Proof dependency graph" data-layout-digest="343a97e3c880b6626f24ac0237d38c3763499fe746a008f6783bb516c2fd9d39"><defs><marker id="graph-arrow-proof-network-343a97e3c880b662-default" viewBox="0 -5 10 10" refX="9" refY="0" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto" overflow="visible"><path d="M1,-4.25 L9,0 L1,4.25 Q3,0 1,-4.25 Z"/></marker></defs><g data-graph-camera><g transform="translate(133.623,98)"><a class="net-proof" data-node-id="p:Lax9Proofs.chiBounded_of_boundedMergeWidth" aria-label="Proof Lax9Proofs.chiBounded_of_boundedMergeWidth" href="../lax-9/Lax9Proofs.chiBounded_of_boundedMergeWidth.html" role="link"><rect x="2" y="0" width="28" height="28" rx="4"/><path class="graph-turnstile" d="M11,8 V20 M11,14 H22"/></a></g><g transform="translate(487.082,114)"><a class="net-proof" data-node-id="p:Lax9Proofs.linearNeighborhoodComplexity_of_boundedMergeWidth" aria-label="Proof Lax9Proofs.linearNeighborhoodComplexity_of_boundedMergeWidth" href="../lax-9/Lax9Proofs.linearNeighborhoodComplexity_of_boundedMergeWidth.html" role="link"><rect x="2" y="0" width="28" height="28" rx="4"/><path class="graph-turnstile" d="M11,8 V20 M11,14 H22"/></a></g><g transform="translate(36,24)"><a class="net-node proven" data-node-id="s:Lax9.BoundedMergeWidthChiBounded.bounded_mergeWidth_chiBounded" aria-label="Lax9.BoundedMergeWidthChiBounded (Lax9.BoundedMergeWidthChiBounded.bounded_mergeWidth_chiBounded)" href="../lax-9/Lax9.BoundedMergeWidthChiBounded.html#s-Lax9.BoundedMergeWidthChiBounded.bounded_mergeWidth_chiBounded" role="link"><rect x="0" y="0" width="227.246" height="30" rx="4"/><text class="graph-label" xml:space="preserve"><tspan x="10.000304077148442" y="18">Lax9.BoundedMergeWidthChiBounded</tspan></text></a></g><g transform="translate(375.246,24)"><a class="net-node proven" data-node-id="s:Lax9.BoundedMergeWidthLinearNeighborhoodComplexity.bounded_mergeWidth_linearNeighborhoodComplexity" aria-label="Lax9.BoundedMergeWidthLinearNeighborhoodComplexity (Lax9.BoundedMergeWidthLinearNeighborhoodComplexity.bounded_mergeWidth_linearNeighborhoodComplexity)" href="../lax-9/Lax9.BoundedMergeWidthLinearNeighborhoodComplexity.html#s-Lax9.BoundedMergeWidthLinearNeighborhoodComplexity.bounded_mergeWidth_linearNeighborhoodComplexity" role="link"><rect x="0" y="0" width="255.672" height="46" rx="4"/><text class="graph-label" xml:space="preserve"><tspan x="10.000062499999999" y="18">Lax9.BoundedMergeWidthLinearNeighborho</tspan><tspan x="90.83176568603515" y="34">odComplexity</tspan></text></a></g><path class="net-edge conclusion" data-edge-id="e:Lax9Proofs.chiBounded_of_boundedMergeWidth:conclusion:Lax9.BoundedMergeWidthChiBounded.bounded_mergeWidth_chiBounded:0" d="M149.623,98 L149.623,54" marker-end="url(#graph-arrow-proof-network-343a97e3c880b662-default)"/><path class="net-edge conclusion" data-edge-id="e:Lax9Proofs.linearNeighborhoodComplexity_of_boundedMergeWidth:conclusion:Lax9.BoundedMergeWidthLinearNeighborhoodComplexity.bounded_mergeWidth_linearNeighborhoodComplexity:0" d="M503.082,114 L503.082,70" marker-end="url(#graph-arrow-proof-network-343a97e3c880b662-default)"/></g></svg></div>
+<div class="graph-tooltip" role="tooltip" hidden></div>
+<figcaption class="graph-legend" aria-label="Proof network legend"><span class="proof-flow">assumptions <svg class="legend-assumptions" viewBox="0 0 14 24" aria-hidden="true" focusable="false"><path d="M1 0h10m-3-3 3 3-3 3" transform="translate(0 12)"/><path d="M1 0h10m-3-3 3 3-3 3" transform="translate(0 3) rotate(15)"/><path d="M1 0h10m-3-3 3 3-3 3" transform="translate(0 21) rotate(-15)"/></svg><i class="legend-proof-chip" aria-hidden="true">⊢</i><svg class="legend-arrow legend-flow-arrow" viewBox="0 -4 12 8" aria-hidden="true" focusable="false"><path d="M1 0h10m-3-3 3 3-3 3"/></svg> conclusion</span><span><i class="legend-node fill-proven"></i>Proven claim</span><span><i class="legend-node stroke-own"></i>This submission</span><span><i class="legend-proof-chip" aria-hidden="true">⊢</i>Proof</span></figcaption>
+</figure>
+<details class="figure-details">
+<summary>Proof list</summary>
+<div class="proof-list-box">
+<ul class="proof-list">
+<li class="proof-item" id="p-Lax9Proofs.chiBounded_of_boundedMergeWidth">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-9/Lax9Proofs.chiBounded_of_boundedMergeWidth.html" aria-label="Open proof Lax9Proofs.chiBounded_of_boundedMergeWidth"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><p class="judgment-unconditional">no assumptions</p></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="../lax-9/Lax9.BoundedMergeWidthChiBounded.html" title="Lax9.BoundedMergeWidthChiBounded.bounded_mergeWidth_chiBounded"><code>Lax9.BoundedMergeWidthChiBounded</code></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-9/Lax9Proofs.chiBounded_of_boundedMergeWidth.html"><code>Lax9Proofs.chiBounded_of_boundedMergeWidth</code></a></p>
+</li>
+<li class="proof-item" id="p-Lax9Proofs.linearNeighborhoodComplexity_of_boundedMergeWidth">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-9/Lax9Proofs.linearNeighborhoodComplexity_of_boundedMergeWidth.html" aria-label="Open proof Lax9Proofs.linearNeighborhoodComplexity_of_boundedMergeWidth"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><p class="judgment-unconditional">no assumptions</p></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><a href="../lax-9/Lax9.BoundedMergeWidthLinearNeighborhoodComplexity.html" title="Lax9.BoundedMergeWidthLinearNeighborhoodComplexity.bounded_mergeWidth_linearNeighborhoodComplexity"><code>Lax9.BoundedMergeWidthLinearNeighborhoodComplexity</code></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-9/Lax9Proofs.linearNeighborhoodComplexity_of_boundedMergeWidth.html"><code>Lax9Proofs.linearNeighborhoodComplexity_of_boundedMergeWidth</code></a></p>
+</li>
+</ul>
+<p class="proof-list-source">Lean sources for these proofs: <a class="source-link" href="https://github.com/lax-archive/lax-submissions/tree/516940643590249b6bec961242467c201bdfb98b/merge-width-v4-33/proofs">proofs/ on GitHub</a></p>
+</div>
+<p class="honesty-note">Proof code is not displayed; the archive records each proof's checked relationship between claims.</p>
+</details>
+</section>
+<section class="page-section"><h3 class="section-title">Related submissions</h3>
+<p class="empty-note">No other submission in the archive builds on this one, and this one builds on none.</p>
+</section>
+<section class="page-section"><h3 class="section-title" id="citation">Cite this</h3>
+<p class="honesty-note">This is only the formalizers. The authors of the formalized results may be different (see References).</p>
+<div class="citation-box">
+<pre class="citation" id="submission-citation">@misc{lax-9,
+  author = {Édouard Bonnet},
+  title = {χ-Boundedness and Neighbourhood Complexity of Bounded Merge-Width Graphs},
+  year = {2026},
+  howpublished = {Lax Archive, lax-9},
+  url = {https://laxarchive.org/lax-9/},
+  note = {draft},
+}</pre>
+<button class="citation-copy" type="button" data-copy-citation aria-controls="submission-citation" aria-label="Copy BibTeX to clipboard" title="Copy BibTeX"><span class="citation-copy-icon" aria-hidden="true"></span></button>
+<output class="citation-copy-status" aria-live="polite"></output>
+</div>
+</section>
+<section class="page-section"><h3 class="section-title">References</h3>
+<ol class="reference-list">
+<li id="ref-bonamy2025chiboundedness">Marthe Bonamy and Colin Geniet. <span class="reference-title">χ-Boundedness and Neighbourhood Complexity of Bounded Merge-Width Graphs</span>. 2025. <a href="https://doi.org/10.48550/arXiv.2504.08266">doi:10.48550/arXiv.2504.08266</a> · <a href="https://arxiv.org/abs/2504.08266">arXiv:2504.08266</a></li>
+</ol>
+</section>
+<section class="page-section discussion-section" aria-labelledby="discussion-title">
+<div class="discussion-heading">
+<div class="discussion-heading-copy">
+<h3 class="section-title" id="discussion-title">Discussion</h3>
+<p>Ask a question or add context. Endorsements and structured flags are kept in the review panel above.</p>
+</div>
+<p class="discussion-count" hidden><span class="remark42__counter" data-url="https://laxarchive.org/lax-9/">0</span> <span>comments</span></p>
+</div>
+<div class="discussion-embed-shell">
+<p class="discussion-loading" id="remark42-status" role="status"><span class="discussion-loading-mark" aria-hidden="true"></span>Loading discussion…</p>
+<div id="remark42" data-remark42-host="https://comments.laxarchive.org" data-remark42-site="remark" data-remark42-url="https://laxarchive.org/lax-9/"></div>
+</div>
+<noscript><p class="discussion-unavailable">Enable JavaScript to read or join the discussion.</p></noscript>
+</section>
+<script type="application/json" id="graph-data">{"concepts":{"home":"lax-9","nodes":[{"id":"Lax9.BoundedMergeWidthChiBounded","title":"χ-Boundedness of Bounded Merge-Width Classes","href":"../lax-9/Lax9.BoundedMergeWidthChiBounded.html","dir":"core","status":"proven","owner":"lax-9","ext":false},{"id":"Lax9.BoundedMergeWidthLinearNeighborhoodComplexity","title":"Linear Neighbourhood Complexity of Bounded Merge-Width Classes","href":"../lax-9/Lax9.BoundedMergeWidthLinearNeighborhoodComplexity.html","dir":"core","status":"proven","owner":"lax-9","ext":false},{"id":"Lax9.ChiBoundedness","title":"χ-Boundedness","href":"../lax-9/Lax9.ChiBoundedness.html","dir":"core","status":"none","owner":"lax-9","ext":false},{"id":"Lax9.MergeWidth","title":"Merge-Width","href":"../lax-9/Lax9.MergeWidth.html","dir":"core","status":"none","owner":"lax-9","ext":false},{"id":"Lax9.NeighborhoodComplexity","title":"Linear Neighbourhood Complexity","href":"../lax-9/Lax9.NeighborhoodComplexity.html","dir":"core","status":"none","owner":"lax-9","ext":false}],"edges":[{"from":"Lax9.ChiBoundedness","to":"Lax9.BoundedMergeWidthChiBounded"},{"from":"Lax9.MergeWidth","to":"Lax9.BoundedMergeWidthChiBounded"},{"from":"Lax9.MergeWidth","to":"Lax9.BoundedMergeWidthLinearNeighborhoodComplexity"},{"from":"Lax9.MergeWidth","to":"Lax9.ChiBoundedness"},{"from":"Lax9.MergeWidth","to":"Lax9.NeighborhoodComplexity"},{"from":"Lax9.NeighborhoodComplexity","to":"Lax9.BoundedMergeWidthLinearNeighborhoodComplexity"}]},"proofs":{"home":"lax-9","statements":[{"id":"Lax9.BoundedMergeWidthChiBounded.bounded_mergeWidth_chiBounded","title":"χ-Boundedness of Bounded Merge-Width Classes","href":"../lax-9/Lax9.BoundedMergeWidthChiBounded.html#s-Lax9.BoundedMergeWidthChiBounded.bounded_mergeWidth_chiBounded","owner":"lax-9","ext":false,"label":"Lax9.BoundedMergeWidthChiBounded","concept":"Lax9.BoundedMergeWidthChiBounded","tooltipHtml":"χ-Boundedness of Bounded Merge-Width Classes","index":1,"count":1,"proven":true},{"id":"Lax9.BoundedMergeWidthLinearNeighborhoodComplexity.bounded_mergeWidth_linearNeighborhoodComplexity","title":"Linear Neighbourhood Complexity of Bounded Merge-Width Classes","href":"../lax-9/Lax9.BoundedMergeWidthLinearNeighborhoodComplexity.html#s-Lax9.BoundedMergeWidthLinearNeighborhoodComplexity.bounded_mergeWidth_linearNeighborhoodComplexity","owner":"lax-9","ext":false,"label":"Lax9.BoundedMergeWidthLinearNeighborhoodComplexity","concept":"Lax9.BoundedMergeWidthLinearNeighborhoodComplexity","tooltipHtml":"Linear Neighbourhood Complexity of Bounded Merge-Width Classes","index":1,"count":1,"proven":true}],"proofs":[{"id":"Lax9Proofs.chiBounded_of_boundedMergeWidth","conclusion":"Lax9.BoundedMergeWidthChiBounded.bounded_mergeWidth_chiBounded","assumptions":[],"description":"Theorem 1.2 of Bonamy–Geniet: every graph class of bounded merge-width is\nχ-bounded.","tooltipHtml":"Theorem 1.2 of Bonamy–Geniet: every graph class of bounded merge-width is\nχ-bounded.","href":"../lax-9/Lax9Proofs.chiBounded_of_boundedMergeWidth.html","owner":"lax-9","ext":false,"assumptionsProven":true,"outstanding":0},{"id":"Lax9Proofs.linearNeighborhoodComplexity_of_boundedMergeWidth","conclusion":"Lax9.BoundedMergeWidthLinearNeighborhoodComplexity.bounded_mergeWidth_linearNeighborhoodComplexity","assumptions":[],"description":"Theorem 1.5 of Bonamy–Geniet: every graph class of bounded merge-width has\nlinear neighbourhood complexity.","tooltipHtml":"Theorem 1.5 of Bonamy–Geniet: every graph class of bounded merge-width has\nlinear neighbourhood complexity.","href":"../lax-9/Lax9Proofs.linearNeighborhoodComplexity_of_boundedMergeWidth.html","owner":"lax-9","ext":false,"assumptionsProven":true,"outstanding":0}]},"submissions":{"nodes":[{"id":"lax-9","title":"χ-Boundedness and Neighbourhood Complexity of Bounded Merge-Width Graphs","href":"../lax-9/index.html","dir":"core","state":"draft","ext":false,"concepts":5,"proofs":2}],"edges":[]},"prepared":{"concept-dag":{"initial":"00","ancestors":0,"descendants":0,"views":{"00":{"interaction":{"nodes":{"c:Lax9.BoundedMergeWidthChiBounded":{"label":"χ-Boundedness of Bounded Merge-Width Classes","tooltipRows":[["Concept","χ-Boundedness of Bounded Merge-Width Classes"],["Status","proven"],["Submission","lax-9"]],"incident":["e:Lax9.ChiBoundedness->Lax9.BoundedMergeWidthChiBounded:import:0","e:Lax9.MergeWidth->Lax9.BoundedMergeWidthChiBounded:import:0"]},"c:Lax9.BoundedMergeWidthLinearNeighborhoodComplexity":{"label":"Linear Neighbourhood Complexity of Bounded Merge-Width Classes","tooltipRows":[["Concept","Linear Neighbourhood Complexity of Bounded Merge-Width Classes"],["Status","proven"],["Submission","lax-9"]],"incident":["e:Lax9.MergeWidth->Lax9.BoundedMergeWidthLinearNeighborhoodComplexity:import:0","e:Lax9.NeighborhoodComplexity->Lax9.BoundedMergeWidthLinearNeighborhoodComplexity:import:0"]},"c:Lax9.ChiBoundedness":{"label":"χ-Boundedness","tooltipRows":[["Concept","χ-Boundedness"],["Status","definition"],["Submission","lax-9"]],"incident":["e:Lax9.ChiBoundedness->Lax9.BoundedMergeWidthChiBounded:import:0","e:Lax9.MergeWidth->Lax9.ChiBoundedness:import:0"]},"c:Lax9.MergeWidth":{"label":"Merge-Width","tooltipRows":[["Concept","Merge-Width"],["Status","definition"],["Submission","lax-9"]],"incident":["e:Lax9.MergeWidth->Lax9.BoundedMergeWidthChiBounded:import:0","e:Lax9.MergeWidth->Lax9.BoundedMergeWidthLinearNeighborhoodComplexity:import:0","e:Lax9.MergeWidth->Lax9.ChiBoundedness:import:0","e:Lax9.MergeWidth->Lax9.NeighborhoodComplexity:import:0"]},"c:Lax9.NeighborhoodComplexity":{"label":"Linear Neighbourhood Complexity","tooltipRows":[["Concept","Linear Neighbourhood Complexity"],["Status","definition"],["Submission","lax-9"]],"incident":["e:Lax9.MergeWidth->Lax9.NeighborhoodComplexity:import:0","e:Lax9.NeighborhoodComplexity->Lax9.BoundedMergeWidthLinearNeighborhoodComplexity:import:0"]}}},"height":297,"status":"5 concepts"}}},"proof-network":{"initial":"default","ancestors":0,"descendants":0,"views":{"default":{"interaction":{"nodes":{"p:Lax9Proofs.chiBounded_of_boundedMergeWidth":{"label":"Theorem 1.2 of Bonamy–Geniet: every graph class of bounded merge-width is\nχ-bounded.","tooltipHtml":"Theorem 1.2 of Bonamy–Geniet: every graph class of bounded merge-width is\nχ-bounded.","incident":["e:Lax9Proofs.chiBounded_of_boundedMergeWidth:conclusion:Lax9.BoundedMergeWidthChiBounded.bounded_mergeWidth_chiBounded:0"]},"p:Lax9Proofs.linearNeighborhoodComplexity_of_boundedMergeWidth":{"label":"Theorem 1.5 of Bonamy–Geniet: every graph class of bounded merge-width has\nlinear neighbourhood complexity.","tooltipHtml":"Theorem 1.5 of Bonamy–Geniet: every graph class of bounded merge-width has\nlinear neighbourhood complexity.","incident":["e:Lax9Proofs.linearNeighborhoodComplexity_of_boundedMergeWidth:conclusion:Lax9.BoundedMergeWidthLinearNeighborhoodComplexity.bounded_mergeWidth_linearNeighborhoodComplexity:0"]},"s:Lax9.BoundedMergeWidthChiBounded.bounded_mergeWidth_chiBounded":{"label":"χ-Boundedness of Bounded Merge-Width Classes","tooltipHtml":"χ-Boundedness of Bounded Merge-Width Classes","incident":["e:Lax9Proofs.chiBounded_of_boundedMergeWidth:conclusion:Lax9.BoundedMergeWidthChiBounded.bounded_mergeWidth_chiBounded:0"]},"s:Lax9.BoundedMergeWidthLinearNeighborhoodComplexity.bounded_mergeWidth_linearNeighborhoodComplexity":{"label":"Linear Neighbourhood Complexity of Bounded Merge-Width Classes","tooltipHtml":"Linear Neighbourhood Complexity of Bounded Merge-Width Classes","incident":["e:Lax9Proofs.linearNeighborhoodComplexity_of_boundedMergeWidth:conclusion:Lax9.BoundedMergeWidthLinearNeighborhoodComplexity.bounded_mergeWidth_linearNeighborhoodComplexity:0"]}}},"height":166,"status":"2 statements; 2 proofs"}}}}}</script>
+</div>
+<footer class="site-footer">
+  <nav class="site-footer-nav" aria-label="Legal">
+    <a class="site-footer-link" href="../impressum.html">Imprint</a>
+    <a class="site-footer-link" href="../privacy.html">Privacy</a>
+  </nav>
+</footer>
+</section>
+</main>
+<dialog class="account-dialog" id="account-dialog" aria-labelledby="account-dialog-title">
+<div class="account-dialog-inner">
+<header class="account-dialog-header">
+<div><p class="account-dialog-eyebrow">ORCID account</p><h2 id="account-dialog-title">Settings</h2></div>
+<button class="account-dialog-close" data-account-close type="button" aria-label="Close account settings">×</button>
+</header>
+<div class="account-dialog-body">
+<p class="account-status" data-account-status role="status">Checking your ORCID session…</p>
+<section data-account-content hidden>
+<div class="account-identity">
+<span class="account-avatar" data-account-avatar aria-hidden="true">iD</span>
+<div><a class="account-name" data-account-name target="_blank" rel="noopener noreferrer"></a><p class="account-id" data-account-id></p></div>
+</div>
+<p class="account-name-note">Your public name comes from ORCID. ORCID names are self-asserted and may change.</p>
+<div class="account-actions">
+<a data-account-refresh href="https://comments.laxarchive.org/auth/orcid/login?from=https%3A%2F%2Flaxarchive.org&amp;site=remark">Refresh from ORCID</a>
+<button data-account-logout type="button">Sign out</button>
+</div>
+<div class="account-comments-heading"><h3>Your comments</h3><span data-account-comment-count></span></div>
+<ol class="account-comments" data-account-comments></ol>
+<p class="account-comments-status" data-account-comments-status role="status"></p>
+</section>
+</div>
+</div>
+</dialog>
+<script src="../assets/sidebar.js?v=e4e626f46671"></script>
+<script src="../assets/account.js?v=449b15dc8a12"></script>
+<script src="../assets/graph-interaction.js?v=bd640661a052"></script>
+<script src="../assets/citation.js?v=dd5ce19082ad"></script>
+<script src="../assets/version-history.js?v=a36e868140dd"></script>
+<script src="../assets/comments.js?v=dabbfeb11bca"></script>
+</body></html>
