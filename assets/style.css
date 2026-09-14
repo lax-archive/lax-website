@@ -39,7 +39,8 @@
   --accent-light: #e9f0f7;
   /* The band across a landing box's top: the page's own warm ground, a
      shade darker. Not the accent — that blue is the proof marks'. */
-  --box-head: #f2efe9;
+  --surface-muted: #f2efe9;
+  --panel-bg: #faf9f7;
   --link: #2c5f8a;
   --proven-bg: #e8f5e8;
   --proven-fg: #2d6a2d;
@@ -54,7 +55,6 @@
   --warn-fg: #934737;
   --warn-border: #b85c4a;
   --code-bg: #f6f8fb;
-  --panel-bg: #faf9f7;
   --neutral-stroke: #9aa3ad;
   --proof-dep: #d55e00;
   --radius-chip: 2px;
@@ -249,7 +249,7 @@ body{
   font: 400 1.5rem/1 sans-serif;
   cursor: pointer;
 }
-.account-dialog-close:hover{ border-color: var(--border); background: var(--panel-bg); color: var(--text); }
+.account-dialog-close:hover{ border-color: var(--border); background: var(--surface); color: var(--text); }
 .account-dialog-close:focus-visible{ outline: 2px solid rgba(59, 107, 154, 0.38); outline-offset: 2px; }
 .account-dialog-body{ flex: 1; overflow-y: auto; padding: 1.4rem 1.2rem 2rem; }
 .account-status,
@@ -424,7 +424,7 @@ body.sidebar-resizing #content-shell{ transition: none; }
   flex: 0 0 auto;
   padding: 0.55rem 0.75rem 0.7rem;
   border-top: 1px solid var(--border-light);
-  background: var(--panel-bg);
+  background: var(--surface);
 }
 
 .site-footer-nav{
@@ -550,7 +550,7 @@ body.sidebar-resizing #content-shell{ transition: none; }
   width: 100%;
   border: 1px solid var(--border);
   border-radius: var(--radius-control);
-  background: var(--bg);
+  background: var(--surface);
   color: var(--text);
   font: inherit;
   font-size: 0.78rem;
@@ -945,7 +945,7 @@ a.submission-meta-id:is(:hover, :focus-visible),
    muted: the environment is a fact about which work can cite this one, not a
    defect in it, so it takes the neutral palette and no warning mark. */
 .environment-notice{
-  background: var(--panel-bg);
+  background: var(--surface);
   border: 1px solid var(--border-light);
   border-radius: var(--radius-control);
   color: var(--text-dim);
@@ -991,7 +991,7 @@ a.submission-meta-id:is(:hover, :focus-visible),
 .version-notice-pending{
   padding: 0.7rem 0.85rem;
   border: 1px dashed var(--border);
-  background: var(--panel-bg);
+  background: var(--surface);
   color: var(--text-dim);
   box-shadow: none;
 }
@@ -1087,7 +1087,7 @@ a.submission-meta-id:is(:hover, :focus-visible),
 .version-dialog-close:hover,
 .version-dialog-close:focus-visible{
   border-color: var(--border);
-  background: var(--panel-bg);
+  background: var(--surface);
   color: var(--text);
   outline: none;
 }
@@ -1526,13 +1526,13 @@ a.submission-meta-id:is(:hover, :focus-visible),
 
 .source-button-withheld{
   border-style: dashed;
-  background: var(--panel-bg);
+  background: var(--surface);
   color: var(--text-dim);
   cursor: not-allowed;
   font-style: italic;
 }
 
-.source-button-withheld:hover{ border-color: var(--border); background: var(--panel-bg); }
+.source-button-withheld:hover{ border-color: var(--border); background: var(--surface); }
 
 .proof-list-source{
   border-top: 1px solid var(--border-light);
@@ -1630,11 +1630,11 @@ a.submission-meta-id:is(:hover, :focus-visible),
 
 .landing-hero{
   max-width: 40em;
-  margin: 0.4rem auto 2.7rem;
+  margin: 0.5rem auto 3rem;
 }
 
 #detail .landing-title{
-  margin: 0 0 1.35rem;
+  margin: 0 0 1.5rem;
   font-size: clamp(1.7rem, 3.4vw, 2.35rem);
   font-weight: 600;
   line-height: 1.2;
@@ -1655,25 +1655,25 @@ a.submission-meta-id:is(:hover, :focus-visible),
 .landing-manifesto{ text-align: center; }
 
 .landing-manifesto p + p,
-.landing-section-copy p + p{ margin-top: 0.85rem; }
-.landing-manifesto ul{ margin: 0.7rem 0 0.85rem 1.25rem; }
-.landing-manifesto li + li{ margin-top: 0.4rem; }
+.landing-section-copy p + p{ margin-top: 0.75rem; }
+.landing-manifesto ul{ margin: 0.75rem 0 0.75rem 1rem; }
+.landing-manifesto li + li{ margin-top: 0.5rem; }
 .landing-manifesto strong{ color: var(--text); }
 .landing-section-copy a{ color: var(--link); }
 
 .landing-section{
   max-width: 40em;
-  margin: 0 auto 2.7rem;
+  margin: 0 auto 3rem;
 }
 
 #detail.detail-landing{ width: min(100%, 72em); }
 .detail-landing .landing-action-panels{ max-width: 60em; margin-inline: auto; }
-.detail-landing .landing-faq{ max-width: 52em; margin-inline: auto; }
+.detail-landing .landing-faq{ max-width: 60em; margin-inline: auto; }
 
 #detail .landing-section-title{
-  margin: 0 0 0.8rem;
+  margin: 0 0 0.75rem;
   font-size: 1.45rem;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.01em;
   text-align: center;
 }
 
@@ -1687,20 +1687,21 @@ a.submission-meta-id:is(:hover, :focus-visible),
    under the text. An open card may hang out past the examples box's
    right edge and below its bottom edge, into the whitespace before the
    next paragraph; the box itself never grows for it. */
-.landing-box{ width: min(100%, 62em); margin: 1.4rem auto 2.4rem; }
+.landing-box{ width: min(100%, 60em); margin: 1.5rem auto 2rem; }
 /* In the large window the network's box fills the screen like any graph's. */
 .landing-box.graph-expanded{ width: auto; }
-.landing-how > .landing-paper{ margin: 1.4rem auto 4.5rem; }
+.landing-how > .landing-paper{ margin: 0 auto 3rem; }
 /* .graph-figure sets its own margin later in the sheet; the box's wins. */
-.landing-how > .landing-network-figure{ margin: 1.4rem auto 2.4rem; }
+.landing-how > .landing-network-figure{ margin: 1.5rem auto 2rem; }
+.graph-figure.landing-network-figure{ border-width: 2px; box-shadow: 0 10px 28px rgba(43, 43, 43, 0.06); }
 .landing-network-figure > .landing-box-caption{
   display: flex;
   flex: 0 0 auto;
   align-items: center;
   gap: 1rem;
-  margin: 0 0 0.9rem;
-  padding: 1rem 1.7rem;
-  border-radius: calc(var(--radius-card) - 1px) calc(var(--radius-card) - 1px) 0 0;
+  margin: 0 0 1rem;
+  padding: 1rem 1.5rem;
+  border-radius: calc(var(--radius-card) - 2px) calc(var(--radius-card) - 2px) 0 0;
 }
 .landing-network-caption{ flex: 1; min-width: 0; }
 .landing-network-figure .graph-expand{ flex: 0 0 auto; }
@@ -1761,7 +1762,7 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
 .landing-carousel-dots{
   display: flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.5rem;
   padding-top: 0.5rem;
 }
 
@@ -1842,9 +1843,10 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
 .landing-carousel-slide-off{ position: absolute; top: 0; left: 0; right: 0; visibility: hidden; pointer-events: none; }
 
 .landing-paper-frame{
-  --frame-pad-top: 1.15rem;
+  --frame-border: 2px;
+  --frame-pad-top: 1.5rem;
   --frame-pad-right: 1.5rem;
-  --frame-pad-left: 1.7rem;
+  --frame-pad-left: 1.5rem;
   position: relative;
   padding: var(--frame-pad-top) var(--frame-pad-right) 1.25rem var(--frame-pad-left);
 }
@@ -1854,21 +1856,21 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
   position: absolute;
   inset: 0;
   background: var(--surface);
-  border: 1px solid var(--border);
+  border: var(--frame-border) solid var(--border);
   border-radius: var(--radius-card);
   box-shadow: 0 10px 28px rgba(43, 43, 43, 0.06);
 }
 
 /* The way in, centred under both columns, below the rail's closed
    height (so never under a card at rest). */
-.landing-paper-foot{ position: relative; z-index: 5; grid-column: 1 / -1; display: flex; justify-content: center; margin-top: 0.4rem; }
+.landing-paper-foot{ position: relative; z-index: 5; grid-column: 1 / -1; display: flex; justify-content: center; margin-top: 0.5rem; }
 
 /* Each box says what it shows in a tinted band across its top, inside
    the frame's border: the first sentence bold, the rest a shade lighter. */
 .landing-box-caption{
   position: relative;
   z-index: 5;
-  margin: 0 0 1.15rem;
+  margin: 0 0 1rem;
   color: var(--text);
   font-size: 1.02rem;
   font-weight: 500;
@@ -1888,15 +1890,15 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
   grid-template-columns: minmax(0, 1fr) auto;
   column-gap: 1.5rem;
   align-items: start;
-  margin: calc(1px - var(--frame-pad-top)) calc(1px - var(--frame-pad-right)) 1.15rem calc(1px - var(--frame-pad-left));
-  padding: 1rem 1.5rem 1rem 1.7rem;
+  margin: calc(var(--frame-border) - var(--frame-pad-top)) calc(var(--frame-border) - var(--frame-pad-right)) 1.15rem calc(var(--frame-border) - var(--frame-pad-left));
+  padding: 1rem 1.5rem 1rem 1.5rem;
   border-bottom: 1px solid var(--border-light);
-  border-radius: calc(var(--radius-card) - 1px) calc(var(--radius-card) - 1px) 0 0;
+  border-radius: calc(var(--radius-card) - var(--frame-border)) calc(var(--radius-card) - var(--frame-border)) 0 0;
 }
 
-.landing-box-head > .landing-box-caption{ margin-bottom: 0; }
+.landing-box-head > .landing-box-caption{ margin-bottom: 0; font-size: 0.98rem; }
 .landing-box-head,
-.landing-network-figure > .landing-box-caption{ background: var(--box-head); }
+.landing-network-figure > .landing-box-caption{ background: var(--surface-muted); }
 .landing-network-figure > .landing-box-caption{ border-bottom: 1px solid var(--border-light); }
 
 .landing-box-caption p{ margin: 0; }
@@ -1909,7 +1911,7 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
   position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(20rem, 46%);
-  column-gap: 1.9rem;
+  column-gap: 2rem;
   align-items: start;
 }
 
@@ -1922,19 +1924,17 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
   .landing-paper-rail .manuscript-card-expanded{ box-shadow: 0 10px 26px rgba(43, 43, 43, 0.16); }
 }
 
-/* The crop: the paper continues above and below, so the prose around the
-   two marked passages fades in at the top and out at the bottom. */
+/* The context fades at the crop's edges, as if the paper continued. */
 .landing-paper-before{
   -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 3rem);
   mask-image: linear-gradient(to bottom, transparent 0, #000 3rem);
 }
-
 .landing-paper-after{
   -webkit-mask-image: linear-gradient(to top, transparent 0, #000 5.6rem);
   mask-image: linear-gradient(to top, transparent 0, #000 5.6rem);
 }
 
-.landing-paper-doc{ position: relative; min-width: 0; }
+.landing-paper-doc{ position: relative; min-width: 0; grid-column: 1; grid-row: 1; }
 
 .landing-paper-prose{
   font-size: 0.94rem;
@@ -1943,14 +1943,14 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
 }
 
 .landing-paper-prose h3{
-  margin: 0.2rem 0 0.6rem;
+  margin: 0.2rem 0 0.5rem;
   font-size: 1.15rem;
   line-height: 1.3;
 }
 
-.landing-paper-prose + .landing-passage{ margin-top: 0.55rem; }
-.landing-passage + .landing-passage{ margin-top: 0.4rem; }
-.landing-passage + .landing-paper-prose{ margin-top: 0.7rem; }
+.landing-paper-prose + .landing-passage{ margin-top: 0.5rem; }
+.landing-passage + .landing-passage{ margin-top: 0.5rem; }
+.landing-passage + .landing-paper-prose{ margin-top: 0.75rem; }
 
 .landing-passage{
   position: relative;
@@ -1975,13 +1975,13 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
 .landing-passage.kind-proof.manuscript-hl-active{ background: var(--mark-proof-ink-hot); }
 .landing-passage:focus-visible{ outline: 2px solid var(--accent); outline-offset: 2px; }
 
-/* The way into the whole paper, at the foot of the crop, above the fade. */
+/* The way into the whole paper, beneath the excerpt. */
 .landing-paper-more{
   display: flex;
   align-items: center;
-  gap: 0.45rem;
-  margin-top: 1.1rem;
-  padding: 0.45rem 0.9rem;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
   border: 1px solid var(--accent);
   border-radius: var(--radius-control);
   background: var(--surface);
@@ -1999,7 +1999,8 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
 .landing-paper-more:focus-visible{ background: var(--accent-light); transform: translateY(-2px); outline: none; }
 .landing-paper-more:focus-visible{ box-shadow: 0 0 0 3px rgba(59, 107, 154, 0.18), 0 4px 12px rgba(44, 95, 138, 0.12); }
 
-.landing-paper-rail{ position: relative; min-width: 0; }
+.landing-paper-rail{ position: relative; min-width: 0; grid-column: 2; grid-row: 1; }
+.landing-paper-rail:not(.landing-paper-rail-live){ padding-top: 3.5rem; }
 .landing-paper-rail > .manuscript-card{ margin: 0 0 0.5rem; }
 /* Above the next box, for a card hanging out below this one. */
 .landing-paper-rail-live > .manuscript-card{ position: absolute; left: 0; right: 0; margin: 0; z-index: 6; }
@@ -2010,6 +2011,10 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
    in the accent that no one can miss. The touch wording where there is
    no pointer to hover with. */
 .landing-paper-hint{
+  position: relative;
+  z-index: 5;
+  grid-column: 2;
+  grid-row: 1;
   display: flex;
   justify-content: center;
   margin: 0;
@@ -2019,8 +2024,8 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
 .landing-paper-hint > span{
   display: inline-flex;
   align-items: center;
-  gap: 0.45rem;
-  padding: 0.5rem 1.1rem;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
   border-radius: 999px;
   background: var(--accent);
   color: #fff;
@@ -2035,19 +2040,6 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
   0%, 100%{ transform: translateY(0); }
   50%{ transform: translateY(-4px); }
 }
-.landing-paper-rail-live > .landing-paper-hint{ position: absolute; left: 0; right: 0; }
-/* On a phone the hint lies over the first lines of the text (landing.js
-   moves it there), taking no room of its own, so nothing moves when it
-   goes. */
-.landing-paper-doc > .landing-paper-hint{
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 8;
-  margin: 0;
-  pointer-events: none;
-}
 .landing-paper-hint > .landing-paper-hint-touch{ display: none; }
 @media (hover: none), (pointer: coarse){
   .landing-paper-hint > .landing-paper-hint-hover{ display: none; }
@@ -2057,9 +2049,9 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
 /* On a phone the cards leave the rail for the text (landing.js), each
    under its passage. */
 .landing-paper-rail-inline{ display: none; }
-.landing-card-inline{ position: relative; z-index: 3; list-style: none; margin: 0.5rem 0 0.9rem; }
+.landing-card-inline{ position: relative; z-index: 3; list-style: none; margin: 0.5rem 0 1rem; }
 .landing-card-inline + .landing-passage,
-.landing-card-inline + .landing-paper-prose{ margin-top: 0.7rem; }
+.landing-card-inline + .landing-paper-prose{ margin-top: 0.75rem; }
 /* An open card scrolls past a screen's worth, one scrollbar for the
    whole body, so it hangs into the whitespace under the box and no
    further. */
@@ -2070,9 +2062,9 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
    headings in the page flow above the boxes like the earlier sections. */
 .landing-section-box{
   width: 100%;
-  padding: 1.55rem clamp(1.15rem, 3vw, 2rem) 1.7rem;
+  padding: 1.5rem clamp(1rem, 3vw, 2rem) 1.5rem;
   background: var(--surface);
-  border: 1px solid var(--border);
+  border: 2px solid var(--border);
   border-radius: var(--radius-card);
   box-shadow: 0 6px 18px rgba(43, 43, 43, 0.05);
 }
@@ -2083,7 +2075,9 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
 }
 
 .landing-plain-section{ max-width: 60em; margin: 3rem auto 0; }
-.landing-plain-section pre{ margin: 0.6rem 0 1rem; }
+.landing-setup pre{ background: var(--panel-bg); }
+.landing-foundations .landing-section-copy{ max-width: none; }
+.landing-plain-section pre{ margin: 0.5rem 0 1rem; }
 
 .landing-setup-tabs,
 .landing-setup-panel{
@@ -2094,16 +2088,16 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
 .landing-setup-tab-list{
   display: flex;
   width: fit-content;
-  margin: 0 auto 1.15rem;
+  margin: 0 auto 1rem;
   padding: 0.18rem;
   border: 1px solid var(--border);
   border-radius: var(--radius-control);
-  background: var(--panel-bg);
+  background: var(--surface-muted);
 }
 
 .landing-setup-tab{
   min-height: 2.15rem;
-  padding: 0.42rem 0.78rem;
+  padding: 0.5rem 0.75rem;
   border: 0;
   border-radius: calc(var(--radius-control) - 1px);
   background: transparent;
@@ -2130,14 +2124,14 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
 .landing-columns{
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 2.2rem;
+  gap: 2rem;
   width: min(100%, 60em);
   margin: 0 auto;
 }
 
 .landing-column h3{
   margin: 0 0 0.5rem;
-  padding-bottom: 0.35rem;
+  padding-bottom: 0.5rem;
   border-bottom: 1px solid var(--border-light);
   color: var(--text-dim);
   font-size: 0.85rem;
@@ -2156,7 +2150,7 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
 }
 
 .landing-column-copy p{ margin: 0; }
-.landing-column-copy p + p{ margin-top: 0.6rem; }
+.landing-column-copy p + p{ margin-top: 0.5rem; }
 
 /* The foundations: a paragraph, then the definitions as links, each with
    its type badge, its submission, and how many further submissions build
@@ -2164,25 +2158,25 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
 .landing-foundations{ max-width: 60em; margin: 3rem auto 0; }
 
 .landing-foundation-list{
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.6rem;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
   width: min(100%, 60em);
-  margin: 1.3rem auto 0;
+  margin: 1.5rem auto 0;
   padding: 0;
   list-style: none;
 }
 
 .landing-foundation{
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  column-gap: 0.55rem;
+  height: 100%;
+  grid-template-columns: 2rem minmax(0, 1fr);
+  column-gap: 0.5rem;
   align-items: center;
-  padding: 0.55rem 0.9rem 0.55rem 0.7rem;
+  padding: 0.5rem 1rem 0.5rem 0.75rem;
   border: 1px solid var(--border);
-  border-radius: var(--radius-card);
-  background: var(--surface);
+  border-radius: var(--radius-control);
+  background: var(--panel-bg);
   color: var(--text);
   text-decoration: none;
   transition: border-color 120ms ease, box-shadow 120ms ease;
@@ -2190,16 +2184,18 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
 
 .landing-foundation:hover,
 .landing-foundation:focus-visible{ border-color: var(--accent); box-shadow: 0 4px 12px rgba(44, 95, 138, 0.12); outline: none; }
-.landing-foundation > .type-badge{ margin: 0; }
-.landing-foundation-title{ font-weight: 600; font-size: 0.95rem; line-height: 1.3; }
-.landing-foundation-meta{ grid-column: 2; display: flex; flex-wrap: wrap; gap: 0.15rem 0.6rem; color: var(--text-dim); font-size: 0.78rem; line-height: 1.3; }
+.landing-foundation-list > li{ min-width: 0; }
+.landing-foundation > .type-badge{ margin: 0; justify-self: start; }
+.landing-foundation-title{ overflow-wrap: anywhere; font-weight: 600; font-size: 0.95rem; line-height: 1.3; }
+.landing-foundation-uses::before{ content: "· "; }
+.landing-foundation-meta{ grid-column: 2; display: flex; flex-wrap: wrap; gap: 0.15rem 0.5rem; color: var(--text-dim); font-size: 0.78rem; line-height: 1.3; }
 .landing-foundation-meta .submission-meta-id{ font-size: 0.78rem; }
 
 .landing-hero-actions{
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 0.65rem;
+  gap: 0.75rem;
   margin-top: 0;
 }
 
@@ -2207,9 +2203,9 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.55rem;
+  gap: 0.5rem;
   min-height: 2.7rem;
-  padding: 0.62rem 0.9rem;
+  padding: 0.5rem 1rem;
   border: 1px solid var(--accent);
   border-radius: var(--radius-control);
   font-family: inherit;
@@ -2222,7 +2218,7 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
 }
 
 .landing-hero-button.primary{ color: #fff; background: var(--accent); }
-.landing-hero-button.secondary{ color: var(--link); background: rgba(255, 255, 255, 0.72); }
+.landing-hero-button.secondary{ color: var(--link); background: var(--surface); }
 .landing-hero-button b{ font-size: 1rem; line-height: 1; }
 
 .landing-hero-button:hover,
@@ -2240,11 +2236,11 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
 
 /* Standalone editorial pages share the readable measure without inheriting
    the landing page's promotional card treatment for heading-adjacent lists. */
-.content-page{ max-width: 42em; margin: 0 auto 2.2rem; }
+.content-page{ max-width: 42em; margin: 0 auto 2rem; }
 
 /* A captioned figure in an editorial page, from a Markdown paragraph that
    holds only a titled image. */
-.content-figure{ margin: 1.8rem 0 2rem; }
+.content-figure{ margin: 2rem 0 2rem; }
 .content-figure img{ display: block; width: 100%; height: auto; }
 /* On a phone the figure keeps a readable size and scrolls sideways. */
 @media (max-width: 640px){
@@ -2252,7 +2248,7 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
   .content-figure img{ min-width: 38rem; }
 }
 .content-figure figcaption{
-  margin-top: 0.7rem;
+  margin-top: 0.75rem;
   color: var(--text-dim);
   font-size: 0.92rem;
   line-height: 1.5;
@@ -2261,19 +2257,17 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
 
 .landing-action-panels{
   display: grid;
-  gap: 1rem;
-  margin-top: 2.8rem;
+  gap: 0;
+  margin-top: 3rem;
   min-width: 0;
 }
-
-.landing-action-panels > .landing-section-title{ margin-bottom: 0; }
 
 .landing-action-panel{
   scroll-margin-top: calc(var(--header-height) + 1rem);
   min-width: 0;
   padding: 1.35rem 1.45rem 1.5rem;
-  background: var(--panel-bg);
-  border: 1px solid var(--border);
+  background: var(--surface);
+  border: 2px solid var(--border);
   border-radius: var(--radius-card);
   box-shadow: 0 10px 28px rgba(43, 43, 43, 0.06);
 }
@@ -2291,6 +2285,7 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
 .submissions-library-search{
   flex: 0 1 15rem;
   width: min(100%, 15rem);
+  background: var(--bg);
 }
 
 .landing-action-eyebrow{
@@ -2305,21 +2300,21 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
 .landing-action-panel h3{
   font-size: 1.3rem;
   line-height: 1.3;
-  margin-bottom: 0.45rem;
+  margin-bottom: 0.5rem;
 }
 
 /* The FAQ is intentionally a native disclosure list: it works without
    JavaScript and exposes its expanded state to assistive technology. */
 /* The FAQ's title stands above its panel like every section's. */
-.landing-action-panels > .landing-faq-title{ margin-top: 2.4rem; }
+#detail .landing-action-panels > .landing-faq-title{ margin-top: 3rem; }
 
 .landing-faq{
   overflow: hidden;
   max-width: 52em;
   width: 100%;
   margin: 0;
-  background: var(--panel-bg);
-  border: 1px solid var(--border);
+  background: var(--surface);
+  border: 2px solid var(--border);
   border-radius: var(--radius-card);
   box-shadow: 0 10px 28px rgba(43, 43, 43, 0.06);
   scroll-margin-top: calc(var(--header-height) + 1rem);
@@ -2344,7 +2339,7 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
   justify-content: space-between;
   gap: 1rem;
   min-height: 3.35rem;
-  padding: 0.55rem 0.85rem;
+  padding: 0.5rem 0.75rem;
   list-style: none;
   color: var(--text);
   cursor: pointer;
@@ -2356,27 +2351,17 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
 .landing-faq-item summary:hover,
 .landing-faq-item summary:focus-visible{
   color: var(--accent);
-  background: linear-gradient(90deg, var(--surface), var(--accent-light));
+  background: var(--surface-muted);
   outline: none;
 }
 
 .landing-faq-item summary:focus-visible{ box-shadow: inset 3px 0 var(--accent); }
 
 .landing-faq-question{
-  display: grid;
-  grid-template-columns: 1.35rem minmax(0, 1fr);
-  align-items: baseline;
-  gap: 0.35rem;
   min-width: 0;
   font-size: 0.9rem;
   font-weight: 600;
   line-height: 1.35;
-}
-
-.landing-faq-number{
-  color: var(--text-dim);
-  font: 600 0.56rem/1 var(--mono);
-  letter-spacing: 0.06em;
 }
 
 .landing-faq-toggle{
@@ -2386,7 +2371,7 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
   flex: 0 0 1.2rem;
   border: 1px solid var(--border);
   border-radius: 50%;
-  background: var(--panel-bg);
+  background: var(--surface-muted);
 }
 
 .landing-faq-toggle::before,
@@ -2405,13 +2390,13 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
 .landing-faq-item[open] .landing-faq-toggle::after{ transform: translate(-50%, -50%) rotate(0); }
 
 .landing-faq-answer{
-  padding: 0 3.45rem 0.9rem 2.55rem;
+  padding: 0 3rem 1rem 0.75rem;
   color: #4f5966;
   font-size: 0.94rem;
   line-height: 1.62;
 }
 
-.landing-faq-answer p{ margin-bottom: 0.72rem; }
+.landing-faq-answer p{ margin-bottom: 0.75rem; }
 .landing-faq-answer a{ color: var(--link); text-underline-offset: 0.16em; }
 
 .stats-line{
@@ -2465,7 +2450,7 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
   min-height: 1.8rem;
   padding: 0.22rem 0.35rem 0.22rem 0.62rem;
   color: var(--link);
-  background: var(--surface);
+  background: var(--panel-bg);
   border: 1px solid var(--border);
   border-radius: 999px;
   font: inherit;
@@ -2488,7 +2473,7 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
   height: 1.18rem;
   padding: 0 0.24rem;
   color: var(--text-dim);
-  background: var(--panel-bg);
+  background: var(--surface);
   border-radius: 999px;
   font-size: 0.65rem;
   font-weight: 700;
@@ -2538,7 +2523,7 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
   right: -2px;
   bottom: 0;
   height: 9rem;
-  background: linear-gradient(to bottom, rgba(250, 249, 247, 0) 0%, rgba(250, 249, 247, 0.55) 40%, var(--panel-bg) 100%);
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.55) 40%, var(--surface) 100%);
   pointer-events: none;
 }
 
@@ -2552,7 +2537,7 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
   padding: 0.85rem 1rem;
   border: 1px solid var(--border);
   border-radius: var(--radius-card);
-  background: var(--surface);
+  background: var(--panel-bg);
   text-decoration: none;
   color: var(--text);
   transition: border-color 120ms ease, background 120ms ease;
@@ -2705,7 +2690,7 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
 
 .open-statement-list > li{
   padding: 0.72rem 0.8rem;
-  background: var(--panel-bg);
+  background: var(--surface);
   border: 1px solid var(--border-light);
   border-radius: var(--radius-control);
 }
@@ -2722,7 +2707,7 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
 .open-problems-empty{
   padding: 1rem;
   color: var(--text-dim);
-  background: var(--panel-bg);
+  background: var(--surface);
   border: 1px solid var(--border-light);
   border-radius: var(--radius-card);
   text-align: center;
@@ -2740,7 +2725,7 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
 .concept-review-progress{
   padding: 0.52rem 0.68rem 0.58rem;
   border-bottom: 1px solid var(--border-light);
-  background: var(--panel-bg);
+  background: var(--surface);
 }
 .concept-review-progress[hidden]{ display: none; }
 .concept-review-progress-heading{
@@ -2942,7 +2927,7 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
 }
 
 .judgment-assumptions{
-  background: var(--panel-bg);
+  background: var(--surface);
   border: 1px solid var(--border-light);
   border-radius: var(--radius-card);
   padding: 0.5rem 0.75rem;
@@ -3051,7 +3036,7 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
   padding: 0.8rem 0.95rem;
   border: 1px dashed var(--border);
   border-radius: var(--radius-card);
-  background: var(--panel-bg);
+  background: var(--surface);
   color: var(--text-dim);
 }
 
@@ -3306,7 +3291,7 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
 }
 .page-reaction-voters:hover,
 .page-reaction-voters:focus-visible,
-.page-reaction-voters[aria-expanded="true"]{ background: var(--panel-bg); color: var(--link); outline: none; }
+.page-reaction-voters[aria-expanded="true"]{ background: var(--surface); color: var(--link); outline: none; }
 .page-reaction-voters-popover{
   position: absolute;
   z-index: 40;
@@ -3376,7 +3361,7 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
   cursor: pointer;
 }
 .review-dialog-close:hover,
-.review-dialog-close:focus-visible{ border-color: var(--border); background: var(--panel-bg); color: var(--text); outline: none; }
+.review-dialog-close:focus-visible{ border-color: var(--border); background: var(--surface); color: var(--text); outline: none; }
 .review-dialog-intro{ margin-bottom: 1rem; color: var(--text-dim); font-size: 0.88rem; line-height: 1.5; }
 .flag-list{ display: grid; gap: 0.7rem; padding: 0; list-style: none; }
 .flag-list-item{
@@ -3441,7 +3426,7 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
 .review-dialog-actions .primary-button{ border-color: var(--accent); background: var(--accent); color: #fff; }
 .review-dialog-actions .danger-button{ border-color: #b94a48; color: #8e2927; }
 .review-dialog-actions button:hover,
-.flag-line-fields button:hover{ background: var(--panel-bg); }
+.flag-line-fields button:hover{ background: var(--surface); }
 .review-dialog-actions .primary-button:hover{ background: var(--link); }
 
 .page-reactions-noscript{ margin-top: 0.35rem; color: var(--text-dim); font-size: 0.72rem; }
@@ -3490,7 +3475,7 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
   padding: 0.34rem 0.62rem;
   border: 1px solid var(--border-light);
   border-radius: 999px;
-  background: var(--panel-bg);
+  background: var(--surface);
   color: var(--text-dim);
   font-size: 0.72rem;
   white-space: nowrap;
@@ -3603,7 +3588,7 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
   padding: 0;
   border: 1px solid var(--border);
   border-radius: var(--radius-control);
-  background: rgba(255, 255, 255, 0.94);
+  background: var(--surface);
   color: var(--link);
   cursor: pointer;
 }
@@ -3717,7 +3702,7 @@ body.graph-window-open::after{
   display: flex; flex: 0 0 auto; flex-wrap: wrap; justify-content: flex-end; align-items: center;
   gap: 0.6rem; padding: 0.42rem 0.65rem;
   border-bottom: 1px solid var(--border-light);
-  background: var(--panel-bg);
+  background: var(--surface-muted);
   border-radius: var(--radius-card) var(--radius-card) 0 0;
 }
 .graph-zoom-controls{
@@ -4079,12 +4064,16 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
   .page-reactions{ margin-top: 0.42rem; }
   .discussion-heading{ flex-direction: column; gap: 0.7rem; }
   .discussion-embed-shell{ margin-inline: -0.25rem; padding-inline: 0.45rem; }
-  .landing-hero{ margin-bottom: 2.2rem; }
-  .landing-section, .landing-paper{ margin-bottom: 2.2rem; }
-  .landing-section-box{ padding: 1.15rem 1rem 1.25rem; }
+  .landing-hero{ margin-bottom: 2rem; }
+  .landing-section, .landing-paper{ margin-bottom: 2rem; }
+  .landing-section-box{ padding: 1rem; }
   .landing-manifesto, .landing-section-copy{ font-size: 0.98rem; }
-  .landing-paper-frame{ --frame-pad-top: 1.1rem; --frame-pad-right: 0.9rem; --frame-pad-left: 1rem; padding-bottom: 1rem; }
+  .landing-paper-frame{ --frame-pad-top: 1rem; --frame-pad-right: 1rem; --frame-pad-left: 1rem; padding-bottom: 1rem; }
   .landing-paper-grid{ grid-template-columns: 1fr; row-gap: 0.9rem; }
+  .landing-paper-hint{ grid-column: 1; grid-row: 1; justify-content: flex-end; }
+  .landing-paper-doc{ grid-column: 1; grid-row: 2; }
+  .landing-paper-rail{ grid-column: 1; grid-row: 3; }
+  .landing-paper-rail:not(.landing-paper-rail-live){ padding-top: 0; }
   .landing-paper-rail-live > .manuscript-card{ position: static; margin: 0 0 0.5rem; }
   .landing-paper-prose, .landing-passage{ text-align: left; }
   /* The caption takes the box's width; the dots sit at the top right,
@@ -4097,14 +4086,15 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
      screen's edge, and at this size clear of the text inside the frame. */
   .landing-carousel-arrow{ width: 2rem; height: 2rem; font-size: 1.5rem; }
   .landing-columns{ grid-template-columns: 1fr; gap: 1.4rem; }
+  .landing-foundation-list{ grid-template-columns: 1fr; }
   .landing-foundation{ width: 100%; }
   .landing-hero-button{ width: 100%; }
   .landing-action-panel{ padding: 1rem; }
   .landing-action-panel-heading{ display: grid; align-items: stretch; }
   .submissions-library-search{ width: 100%; }
   .landing-faq-item summary{ min-height: 3.1rem; padding: 0.5rem 0.65rem; }
-  .landing-faq-question{ grid-template-columns: 1.15rem minmax(0, 1fr); gap: 0.2rem; font-size: 0.88rem; }
-  .landing-faq-answer{ padding: 0 2.75rem 0.8rem 2rem; font-size: 0.9rem; }
+  .landing-faq-question{ font-size: 0.88rem; }
+  .landing-faq-answer{ padding: 0 2.75rem 0.8rem 0.65rem; font-size: 0.9rem; }
   .tag-browser-heading{ display: block; }
   .tag-browser-heading p{ margin-top: 0.18rem; text-align: left; }
   .open-problem-card{ padding: 0.9rem; }
