@@ -1,4 +1,3 @@
-import { planarClassOverview } from "./planar-overview.js";
 import { attr, esc, page, plural, typeBadge } from "../html.js";
 import { renderBibEntry } from "../bibtex.js";
 import { conceptGraph, graphDataScript, submissionGraph, type SubmissionGraphData } from "../graphs.js";
@@ -117,9 +116,6 @@ ${discussion(`${record.id}/`)}`;
   const progressConceptPaths = listedConcepts.filter(countsTowardReviewProgress).map(conceptPath);
   const externalConcepts = usedConceptRows(ctx, usedConcepts);
   const concepts = conceptLists(ctx, ownConcepts, output.id);
-  const classOverview = output.id === "lax-68"
-    ? planarClassOverview(new Set(output.concepts.map((c) => c.id)), ctx.model.network.proven)
-    : "";
   const proofsHref = proofsSource(submission);
   const proofsSourceWithheld = anonymous && Boolean(record.source);
   const proofRows = output.proofs.map((proof) =>
@@ -145,7 +141,6 @@ ${paperHeader(ctx, submission, "../", versionHistoryMetaButton(ctx, record.id))}
 ${pageReactions(`${record.id}/`, { kind: "submission", conceptPaths: reviewedConceptPaths, anonymous })}
 ${output.abstract.trim() ? paperAbstract(ctx.markdown.renderAuthorProse(output.abstract, "../")) : ""}
 ${paperSection(ctx, submission)}
-${classOverview}
 <section class="page-section"><h3 class="section-title">Concepts</h3>
 ${output.concepts.length || usedConcepts.length ? `<div class="concept-list-box">
 ${conceptReviewProgress(progressConceptPaths)}
@@ -163,14 +158,13 @@ ${conceptMapLegend(graphs.concepts, "This submission", "Other submission")}
 </details>` : ""}
 </section>
 <section class="page-section"><h3 class="section-title">Proofs</h3>
-${output.proofs.length ? `${classOverview ? '<details class="figure-details"><summary>Detailed proof network</summary>' : ""}${figureTitle("Proof network", proofsHref, proofsSourceWithheld)}
+${output.proofs.length ? `${figureTitle("Proof network", proofsHref, proofsSourceWithheld)}
 <figure class="graph-figure proof-network-figure">
 ${graphExpandButton("proof network")}
 <div id="proof-network" class="figure-container" data-graph="proofs"></div>
 ${graphTooltip()}
 ${proofNetworkLegend(graphs.proofs)}
 </figure>
-${classOverview ? "</details>" : ""}
 <details class="figure-details">
 <summary>Proof list</summary>
 <div class="proof-list-box">
