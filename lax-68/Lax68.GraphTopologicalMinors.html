@@ -119,7 +119,7 @@
 <p class="concept-microline"><code>concepts/Lax68/GraphTopologicalMinors.lean</code> · <a href="index.html">lax-68</a></p></div>
 <span class="status-pills"><span class="status-pill pill-none">definition</span></span>
 </div>
-<section class="page-reactions" aria-label="Community review" data-reactions-host="https://comments.laxarchive.org" data-reactions-url="https://laxarchive.org/lax-68/Lax68.GraphTopologicalMinors.html" data-review-kind="concept" data-source-lines="52">
+<section class="page-reactions" aria-label="Community review" data-reactions-host="https://comments.laxarchive.org" data-reactions-url="https://laxarchive.org/lax-68/Lax68.GraphTopologicalMinors.html" data-review-kind="concept" data-source-lines="55">
 <div class="page-reactions-line">
 <div class="page-reactions-actions">
 <div class="page-reaction-control">
@@ -165,12 +165,13 @@
 </details>
 
 
-<div class="block block-statement"><h3>Definition</h3><div class="latex-content"><p>A graph <em>H</em> is a topological minor of <em>G</em> when the vertices of <em>H</em> are
+<div class="block block-statement"><h3>Definition</h3><div class="latex-content"><figure class="content-figure"><img src="https://placehold.co/760x220?text=Topological+Minor" alt="Topological minor illustration"><figcaption>Topological minor illustration</figcaption></figure>
+<p>A graph <em>H</em> is a topological minor of <em>G</em> when the vertices of <em>H</em> are
 represented by distinct branch vertices of <em>G</em> and its edges by paths whose
 interiors contain no branch vertex and are pairwise disjoint. Equivalently,
 <em>G</em> contains a subdivision of <em>H</em> as a subgraph.</p>
 </div></div>
-<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/11fbfc166ed4426409ea5d09b9cfcbf2b4d7da32/planar-graph-classes-v4-33/concepts/Lax68/GraphTopologicalMinors.lean">view on GitHub</a></h3>
+<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/49721bdc28a1ca1c6cb4e3b3e628f36491f98cdb/planar-graph-classes-v4-33/concepts/Lax68/GraphTopologicalMinors.lean">view on GitHub</a></h3>
 <div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
 <tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Combinatorics.SimpleGraph.Paths</span></td></tr>
 <tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-68/Lax68.GraphMinors.html"><span style="color:#24292E">Lax68.GraphMinors</span></a></td></tr>
@@ -180,50 +181,53 @@ interiors contain no branch vertex and are pairwise disjoint. Equivalently,
 <tr id="L6" class=""><td class="line-num"><a href="#L6">6</a></td><td class="line-code"><span style="color:#6A737D">title: Topological graph minors</span></td></tr>
 <tr id="L7" class=""><td class="line-num"><a href="#L7">7</a></td><td class="line-code"><span style="color:#6A737D">type: definition</span></td></tr>
 <tr id="L8" class=""><td class="line-num"><a href="#L8">8</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
-<tr id="L9" class=""><td class="line-num"><a href="#L9">9</a></td><td class="line-code"><span style="color:#6A737D">A graph *H* is a topological minor of *G* when the vertices of *H* are</span></td></tr>
-<tr id="L10" class=""><td class="line-num"><a href="#L10">10</a></td><td class="line-code"><span style="color:#6A737D">represented by distinct branch vertices of *G* and its edges by paths whose</span></td></tr>
-<tr id="L11" class=""><td class="line-num"><a href="#L11">11</a></td><td class="line-code"><span style="color:#6A737D">interiors contain no branch vertex and are pairwise disjoint. Equivalently,</span></td></tr>
-<tr id="L12" class=""><td class="line-num"><a href="#L12">12</a></td><td class="line-code"><span style="color:#6A737D">*G* contains a subdivision of *H* as a subgraph.</span></td></tr>
-<tr id="L13" class=""><td class="line-num"><a href="#L13">13</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
-<tr id="L14" class=""><td class="line-num"><a href="#L14">14</a></td><td class="line-code"> </td></tr>
-<tr id="L15" class=""><td class="line-num"><a href="#L15">15</a></td><td class="line-code"><span style="color:#D73A49">set_option</span><span style="color:#24292E"> autoImplicit </span><span style="color:#005CC5">false</span></td></tr>
-<tr id="L16" class=""><td class="line-num"><a href="#L16">16</a></td><td class="line-code"> </td></tr>
-<tr id="L17" class=""><td class="line-num"><a href="#L17">17</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax68.GraphTopologicalMinors</span></td></tr>
-<tr id="L18" class=""><td class="line-num"><a href="#L18">18</a></td><td class="line-code"> </td></tr>
-<tr id="L19" class=""><td class="line-num"><a href="#L19">19</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> walkInterior</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">*} {G : SimpleGraph V} {a b : V}</span></td></tr>
-<tr id="L20" class=""><td class="line-num"><a href="#L20">20</a></td><td class="line-code"><span style="color:#24292E">    (P : G.Walk a b) : Set V :=</span></td></tr>
-<tr id="L21" class=""><td class="line-num"><a href="#L21">21</a></td><td class="line-code"><span style="color:#24292E">  {x | x ∈ P.support ∧ x ≠ a ∧ x ≠ b}</span></td></tr>
-<tr id="L22" class=""><td class="line-num"><a href="#L22">22</a></td><td class="line-code"> </td></tr>
-<tr id="L23" class=""><td class="line-num"><a href="#L23">23</a></td><td class="line-code"><span style="color:#D73A49">structure</span><span style="color:#6F42C1"> TopologicalMinorModel</span><span style="color:#24292E"> {W V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">*}</span></td></tr>
-<tr id="L24" class=""><td class="line-num"><a href="#L24">24</a></td><td class="line-code"><span style="color:#24292E">    (H : SimpleGraph W) (G : SimpleGraph V) </span><span style="color:#D73A49">where</span></td></tr>
-<tr id="L25" class=""><td class="line-num"><a href="#L25">25</a></td><td class="line-code"><span style="color:#24292E">  branch : W ↪ V</span></td></tr>
-<tr id="L26" class=""><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span style="color:#24292E">  route :</span></td></tr>
-<tr id="L27" class=""><td class="line-num"><a href="#L27">27</a></td><td class="line-code"><span style="color:#24292E">    ∀ {a b : W}, H.Adj a b →</span></td></tr>
-<tr id="L28" class=""><td class="line-num"><a href="#L28">28</a></td><td class="line-code"><span style="color:#24292E">      G.Walk (branch a) (branch b)</span></td></tr>
-<tr id="L29" class=""><td class="line-num"><a href="#L29">29</a></td><td class="line-code"><span style="color:#24292E">  route_isPath :</span></td></tr>
-<tr id="L30" class=""><td class="line-num"><a href="#L30">30</a></td><td class="line-code"><span style="color:#24292E">    ∀ {a b : W} (h : H.Adj a b),</span></td></tr>
-<tr id="L31" class=""><td class="line-num"><a href="#L31">31</a></td><td class="line-code"><span style="color:#24292E">      (route h).IsPath</span></td></tr>
-<tr id="L32" class=""><td class="line-num"><a href="#L32">32</a></td><td class="line-code"><span style="color:#24292E">  branch_avoids_interiors :</span></td></tr>
-<tr id="L33" class=""><td class="line-num"><a href="#L33">33</a></td><td class="line-code"><span style="color:#24292E">    ∀ {a b : W} (h : H.Adj a b) (w : W),</span></td></tr>
-<tr id="L34" class=""><td class="line-num"><a href="#L34">34</a></td><td class="line-code"><span style="color:#24292E">      branch w ∉ </span><a class="lean-identifier-link" href="../lax-68/Lax68.GraphTopologicalMinors.html#L19"><span style="color:#24292E">walkInterior</span></a><span style="color:#24292E"> (route h)</span></td></tr>
-<tr id="L35" class=""><td class="line-num"><a href="#L35">35</a></td><td class="line-code"><span style="color:#24292E">  route_interiors_disjoint :</span></td></tr>
-<tr id="L36" class=""><td class="line-num"><a href="#L36">36</a></td><td class="line-code"><span style="color:#24292E">    ∀ {a b c d : W}</span></td></tr>
-<tr id="L37" class=""><td class="line-num"><a href="#L37">37</a></td><td class="line-code"><span style="color:#24292E">        (hab : H.Adj a b) (hcd : H.Adj c d),</span></td></tr>
-<tr id="L38" class=""><td class="line-num"><a href="#L38">38</a></td><td class="line-code"><span style="color:#24292E">      ¬ ((a = c ∧ b = d) ∨ (a = d ∧ b = c)) →</span></td></tr>
-<tr id="L39" class=""><td class="line-num"><a href="#L39">39</a></td><td class="line-code"><span style="color:#24292E">        Disjoint</span></td></tr>
-<tr id="L40" class=""><td class="line-num"><a href="#L40">40</a></td><td class="line-code"><span style="color:#24292E">          (</span><a class="lean-identifier-link" href="../lax-68/Lax68.GraphTopologicalMinors.html#L19"><span style="color:#24292E">walkInterior</span></a><span style="color:#24292E"> (route hab))</span></td></tr>
-<tr id="L41" class=""><td class="line-num"><a href="#L41">41</a></td><td class="line-code"><span style="color:#24292E">          (</span><a class="lean-identifier-link" href="../lax-68/Lax68.GraphTopologicalMinors.html#L19"><span style="color:#24292E">walkInterior</span></a><span style="color:#24292E"> (route hcd))</span></td></tr>
-<tr id="L42" class=""><td class="line-num"><a href="#L42">42</a></td><td class="line-code"> </td></tr>
-<tr id="L43" class=""><td class="line-num"><a href="#L43">43</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> IsTopologicalMinor</span><span style="color:#24292E"> {W V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">*}</span></td></tr>
-<tr id="L44" class=""><td class="line-num"><a href="#L44">44</a></td><td class="line-code"><span style="color:#24292E">    (H : SimpleGraph W) (G : SimpleGraph V) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
-<tr id="L45" class=""><td class="line-num"><a href="#L45">45</a></td><td class="line-code"><span style="color:#24292E">  Nonempty (</span><a class="lean-identifier-link" href="../lax-68/Lax68.GraphTopologicalMinors.html#L23"><span style="color:#24292E">TopologicalMinorModel</span></a><span style="color:#24292E"> H G)</span></td></tr>
-<tr id="L46" class=""><td class="line-num"><a href="#L46">46</a></td><td class="line-code"> </td></tr>
-<tr id="L47" class=""><td class="line-num"><a href="#L47">47</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> IsKuratowskiFree</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">*} (G : SimpleGraph V) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
-<tr id="L48" class=""><td class="line-num"><a href="#L48">48</a></td><td class="line-code"><span style="color:#24292E">  ¬</span><a class="lean-identifier-link" href="../lax-68/Lax68.GraphTopologicalMinors.html#L43"><span style="color:#24292E">IsTopologicalMinor</span></a><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-68/Lax68.GraphMinors.html#L32"><span style="color:#24292E">Lax68.GraphMinors.K5</span></a><span style="color:#24292E"> G ∧</span></td></tr>
-<tr id="L49" class=""><td class="line-num"><a href="#L49">49</a></td><td class="line-code"><span style="color:#24292E">  ¬</span><a class="lean-identifier-link" href="../lax-68/Lax68.GraphTopologicalMinors.html#L43"><span style="color:#24292E">IsTopologicalMinor</span></a><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-68/Lax68.GraphMinors.html#L35"><span style="color:#24292E">Lax68.GraphMinors.K33</span></a><span style="color:#24292E"> G</span></td></tr>
-<tr id="L50" class=""><td class="line-num"><a href="#L50">50</a></td><td class="line-code"> </td></tr>
-<tr id="L51" class=""><td class="line-num"><a href="#L51">51</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax68.GraphTopologicalMinors</span></td></tr>
-<tr id="L52" class=""><td class="line-num"><a href="#L52">52</a></td><td class="line-code"> </td></tr>
+<tr id="L9" class=""><td class="line-num"><a href="#L9">9</a></td><td class="line-code"> </td></tr>
+<tr id="L10" class=""><td class="line-num"><a href="#L10">10</a></td><td class="line-code"><span style="color:#6A737D">![Topological minor illustration](https://placehold.co/760x220?text=Topological+Minor &quot;Topological minor illustration&quot;)</span></td></tr>
+<tr id="L11" class=""><td class="line-num"><a href="#L11">11</a></td><td class="line-code"> </td></tr>
+<tr id="L12" class=""><td class="line-num"><a href="#L12">12</a></td><td class="line-code"><span style="color:#6A737D">A graph *H* is a topological minor of *G* when the vertices of *H* are</span></td></tr>
+<tr id="L13" class=""><td class="line-num"><a href="#L13">13</a></td><td class="line-code"><span style="color:#6A737D">represented by distinct branch vertices of *G* and its edges by paths whose</span></td></tr>
+<tr id="L14" class=""><td class="line-num"><a href="#L14">14</a></td><td class="line-code"><span style="color:#6A737D">interiors contain no branch vertex and are pairwise disjoint. Equivalently,</span></td></tr>
+<tr id="L15" class=""><td class="line-num"><a href="#L15">15</a></td><td class="line-code"><span style="color:#6A737D">*G* contains a subdivision of *H* as a subgraph.</span></td></tr>
+<tr id="L16" class=""><td class="line-num"><a href="#L16">16</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
+<tr id="L17" class=""><td class="line-num"><a href="#L17">17</a></td><td class="line-code"> </td></tr>
+<tr id="L18" class=""><td class="line-num"><a href="#L18">18</a></td><td class="line-code"><span style="color:#D73A49">set_option</span><span style="color:#24292E"> autoImplicit </span><span style="color:#005CC5">false</span></td></tr>
+<tr id="L19" class=""><td class="line-num"><a href="#L19">19</a></td><td class="line-code"> </td></tr>
+<tr id="L20" class=""><td class="line-num"><a href="#L20">20</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax68.GraphTopologicalMinors</span></td></tr>
+<tr id="L21" class=""><td class="line-num"><a href="#L21">21</a></td><td class="line-code"> </td></tr>
+<tr id="L22" class=""><td class="line-num"><a href="#L22">22</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> walkInterior</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">*} {G : SimpleGraph V} {a b : V}</span></td></tr>
+<tr id="L23" class=""><td class="line-num"><a href="#L23">23</a></td><td class="line-code"><span style="color:#24292E">    (P : G.Walk a b) : Set V :=</span></td></tr>
+<tr id="L24" class=""><td class="line-num"><a href="#L24">24</a></td><td class="line-code"><span style="color:#24292E">  {x | x ∈ P.support ∧ x ≠ a ∧ x ≠ b}</span></td></tr>
+<tr id="L25" class=""><td class="line-num"><a href="#L25">25</a></td><td class="line-code"> </td></tr>
+<tr id="L26" class=""><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span style="color:#D73A49">structure</span><span style="color:#6F42C1"> TopologicalMinorModel</span><span style="color:#24292E"> {W V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">*}</span></td></tr>
+<tr id="L27" class=""><td class="line-num"><a href="#L27">27</a></td><td class="line-code"><span style="color:#24292E">    (H : SimpleGraph W) (G : SimpleGraph V) </span><span style="color:#D73A49">where</span></td></tr>
+<tr id="L28" class=""><td class="line-num"><a href="#L28">28</a></td><td class="line-code"><span style="color:#24292E">  branch : W ↪ V</span></td></tr>
+<tr id="L29" class=""><td class="line-num"><a href="#L29">29</a></td><td class="line-code"><span style="color:#24292E">  route :</span></td></tr>
+<tr id="L30" class=""><td class="line-num"><a href="#L30">30</a></td><td class="line-code"><span style="color:#24292E">    ∀ {a b : W}, H.Adj a b →</span></td></tr>
+<tr id="L31" class=""><td class="line-num"><a href="#L31">31</a></td><td class="line-code"><span style="color:#24292E">      G.Walk (branch a) (branch b)</span></td></tr>
+<tr id="L32" class=""><td class="line-num"><a href="#L32">32</a></td><td class="line-code"><span style="color:#24292E">  route_isPath :</span></td></tr>
+<tr id="L33" class=""><td class="line-num"><a href="#L33">33</a></td><td class="line-code"><span style="color:#24292E">    ∀ {a b : W} (h : H.Adj a b),</span></td></tr>
+<tr id="L34" class=""><td class="line-num"><a href="#L34">34</a></td><td class="line-code"><span style="color:#24292E">      (route h).IsPath</span></td></tr>
+<tr id="L35" class=""><td class="line-num"><a href="#L35">35</a></td><td class="line-code"><span style="color:#24292E">  branch_avoids_interiors :</span></td></tr>
+<tr id="L36" class=""><td class="line-num"><a href="#L36">36</a></td><td class="line-code"><span style="color:#24292E">    ∀ {a b : W} (h : H.Adj a b) (w : W),</span></td></tr>
+<tr id="L37" class=""><td class="line-num"><a href="#L37">37</a></td><td class="line-code"><span style="color:#24292E">      branch w ∉ </span><a class="lean-identifier-link" href="../lax-68/Lax68.GraphTopologicalMinors.html#L22"><span style="color:#24292E">walkInterior</span></a><span style="color:#24292E"> (route h)</span></td></tr>
+<tr id="L38" class=""><td class="line-num"><a href="#L38">38</a></td><td class="line-code"><span style="color:#24292E">  route_interiors_disjoint :</span></td></tr>
+<tr id="L39" class=""><td class="line-num"><a href="#L39">39</a></td><td class="line-code"><span style="color:#24292E">    ∀ {a b c d : W}</span></td></tr>
+<tr id="L40" class=""><td class="line-num"><a href="#L40">40</a></td><td class="line-code"><span style="color:#24292E">        (hab : H.Adj a b) (hcd : H.Adj c d),</span></td></tr>
+<tr id="L41" class=""><td class="line-num"><a href="#L41">41</a></td><td class="line-code"><span style="color:#24292E">      ¬ ((a = c ∧ b = d) ∨ (a = d ∧ b = c)) →</span></td></tr>
+<tr id="L42" class=""><td class="line-num"><a href="#L42">42</a></td><td class="line-code"><span style="color:#24292E">        Disjoint</span></td></tr>
+<tr id="L43" class=""><td class="line-num"><a href="#L43">43</a></td><td class="line-code"><span style="color:#24292E">          (</span><a class="lean-identifier-link" href="../lax-68/Lax68.GraphTopologicalMinors.html#L22"><span style="color:#24292E">walkInterior</span></a><span style="color:#24292E"> (route hab))</span></td></tr>
+<tr id="L44" class=""><td class="line-num"><a href="#L44">44</a></td><td class="line-code"><span style="color:#24292E">          (</span><a class="lean-identifier-link" href="../lax-68/Lax68.GraphTopologicalMinors.html#L22"><span style="color:#24292E">walkInterior</span></a><span style="color:#24292E"> (route hcd))</span></td></tr>
+<tr id="L45" class=""><td class="line-num"><a href="#L45">45</a></td><td class="line-code"> </td></tr>
+<tr id="L46" class=""><td class="line-num"><a href="#L46">46</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> IsTopologicalMinor</span><span style="color:#24292E"> {W V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">*}</span></td></tr>
+<tr id="L47" class=""><td class="line-num"><a href="#L47">47</a></td><td class="line-code"><span style="color:#24292E">    (H : SimpleGraph W) (G : SimpleGraph V) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr id="L48" class=""><td class="line-num"><a href="#L48">48</a></td><td class="line-code"><span style="color:#24292E">  Nonempty (</span><a class="lean-identifier-link" href="../lax-68/Lax68.GraphTopologicalMinors.html#L26"><span style="color:#24292E">TopologicalMinorModel</span></a><span style="color:#24292E"> H G)</span></td></tr>
+<tr id="L49" class=""><td class="line-num"><a href="#L49">49</a></td><td class="line-code"> </td></tr>
+<tr id="L50" class=""><td class="line-num"><a href="#L50">50</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> IsKuratowskiFree</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">*} (G : SimpleGraph V) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr id="L51" class=""><td class="line-num"><a href="#L51">51</a></td><td class="line-code"><span style="color:#24292E">  ¬</span><a class="lean-identifier-link" href="../lax-68/Lax68.GraphTopologicalMinors.html#L46"><span style="color:#24292E">IsTopologicalMinor</span></a><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-68/Lax68.GraphMinors.html#L35"><span style="color:#24292E">Lax68.GraphMinors.K5</span></a><span style="color:#24292E"> G ∧</span></td></tr>
+<tr id="L52" class=""><td class="line-num"><a href="#L52">52</a></td><td class="line-code"><span style="color:#24292E">  ¬</span><a class="lean-identifier-link" href="../lax-68/Lax68.GraphTopologicalMinors.html#L46"><span style="color:#24292E">IsTopologicalMinor</span></a><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-68/Lax68.GraphMinors.html#L38"><span style="color:#24292E">Lax68.GraphMinors.K33</span></a><span style="color:#24292E"> G</span></td></tr>
+<tr id="L53" class=""><td class="line-num"><a href="#L53">53</a></td><td class="line-code"> </td></tr>
+<tr id="L54" class=""><td class="line-num"><a href="#L54">54</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax68.GraphTopologicalMinors</span></td></tr>
+<tr id="L55" class=""><td class="line-num"><a href="#L55">55</a></td><td class="line-code"> </td></tr>
 </table></div><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
 
 <div class="block"><div class="deps-columns">
