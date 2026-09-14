@@ -156,6 +156,11 @@ function safeGraphDetails(value: unknown): RawRecord {
       fail("graph-detail", "Proof graph detail kind does not match its key", key);
     const detail: RawRecord = { kind, name: requiredString(source.name, "Proof graph detail name") };
     copyFields(source, detail, ["nameHtml", "type", "status", "statusDetail", "descriptionHtml", "reviewLabel", "leanPath"], "string");
+    copyFields(source, detail, ["openAssumptions"], "number");
+    if (source.anonymousReview !== undefined) {
+      if (typeof source.anonymousReview !== "boolean") fail("graph-detail", "Proof graph anonymous-review state must be boolean");
+      detail.anonymousReview = source.anonymousReview;
+    }
     if (source.href !== undefined) detail.href = safeDetailHref(source.href, "Proof graph detail page link");
     if (source.reviewUrl !== undefined) detail.reviewUrl = safeDetailHref(source.reviewUrl, "Proof graph review link", true);
     if (source.sourceHref !== undefined) detail.sourceHref = safeDetailHref(source.sourceHref, "Proof graph source link", true);
@@ -167,6 +172,7 @@ function safeGraphDetails(value: unknown): RawRecord {
         state: requiredString(submission.state, "Proof graph detail submission state"),
       };
       copyFields(submission, safeSubmission, ["nameHtml"], "string");
+      if (submission.href !== undefined) safeSubmission.href = safeDetailHref(submission.href, "Proof graph submission page link");
       detail.submission = safeSubmission;
     }
     if (source.statements !== undefined) detail.statements = list(source.statements, "Proof graph detail statements").map((value) => {

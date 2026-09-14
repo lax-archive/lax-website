@@ -243,26 +243,88 @@
     else heading.textContent = name || detail.name || 'Details';
     parent.append(heading);
     if (detail.status) {
-      const status = appendText(parent, 'p', `graph-detail-status ${detail.status}`,
-        detail.status + (detail.statusDetail ? ` — ${detail.statusDetail}` : ''));
+      const statuses = document.createElement('div');
+      statuses.className = 'graph-detail-statuses';
+      const singleStatement = detail.kind === 'concept' && detail.statements?.length === 1;
+      const label = singleStatement && ['proven', 'open'].includes(detail.status)
+        ? `${detail.status === 'proven' ? 'Proven' : 'Open'} Statement`
+        : detail.status + (detail.statusDetail ? ` — ${detail.statusDetail}` : '');
+      const status = appendText(statuses, 'p', `graph-detail-status ${detail.status}`, label);
       status.setAttribute('aria-label', `Status: ${status.textContent}`);
+      if (detail.kind === 'concept' && Number.isInteger(detail.openAssumptions) && detail.openAssumptions > 0) {
+        const count = detail.openAssumptions;
+        appendText(statuses, 'p', 'graph-detail-open-assumptions',
+          `${count} open assumption${count === 1 ? '' : 's'} used`);
+      }
+      parent.append(statuses);
     }
   }
 
   function detailFacts(parent, detail) {
     const facts = [];
     if (detail.type) facts.push(['Type', detail.type]);
-    if (detail.submission?.name) facts.push(['Submission', detail.submission.name, detail.submission.nameHtml]);
+    if (detail.submission?.name) facts.push(['Submission', detail.submission.name,
+      detail.submission.nameHtml, detail.submission.href]);
     if (detail.submission?.state) facts.push(['Submission state', detail.submission.state]);
     if (!facts.length) return;
     const list = document.createElement('dl');
     list.className = 'graph-detail-facts';
-    for (const [term, value, valueHtml] of facts) {
+    for (const [term, value, valueHtml, href] of facts) {
       appendText(list, 'dt', '', term);
       const description = appendText(list, 'dd', '', value);
-      if (valueHtml) description.innerHTML = valueHtml;
+      if (href) {
+        description.replaceChildren();
+        const link = document.createElement('a');
+        link.className = 'graph-detail-submission-link';
+        link.href = href;
+        if (valueHtml) link.innerHTML = valueHtml;
+        else link.textContent = value;
+        description.append(link);
+      } else if (valueHtml) description.innerHTML = valueHtml;
     }
     parent.append(list);
+  }
+
+  function publicReviewerNames(data, kind) {
+    const voters = Array.isArray(data.voters?.[kind]) ? data.voters[kind] : [];
+    const flagAuthors = kind === 'flag' && Array.isArray(data.flags)
+      ? data.flags.map((flag) => flag?.author) : [];
+    const seen = new Set();
+    return [...voters, ...flagAuthors].flatMap((reviewer) => {
+      const name = typeof reviewer?.name === 'string' ? reviewer.name.trim() : '';
+      if (!name || seen.has(name)) return [];
+      seen.add(name);
+      return [name];
+    });
+  }
+
+  function appendReviewCount(parent, detail, data, token, kind, count) {
+    const noun = kind === 'endorse' ? 'endorsement' : 'flag';
+    const item = document.createElement('span');
+    item.className = 'graph-detail-review-item';
+    const badge = appendText(item, 'span', `graph-detail-review-count ${kind}`,
+      `${kind === 'endorse' ? '🥳' : '🚩'} ${count} ${noun}${count === 1 ? '' : 's'}`);
+    badge.tabIndex = 0;
+    const popover = document.createElement('span');
+    popover.id = `graph-detail-review-${token}-${kind}`;
+    popover.className = 'graph-detail-review-people';
+    popover.setAttribute('role', 'tooltip');
+    badge.setAttribute('aria-describedby', popover.id);
+    if (detail.anonymousReview) {
+      appendText(popover, 'span', '', 'Reviewer identities are withheld during anonymous review.');
+    } else {
+      const names = publicReviewerNames(data, kind);
+      if (!names.length) {
+        appendText(popover, 'span', '', count ? 'Reviewer identities unavailable.' : `No ${noun}s yet.`);
+      } else {
+        appendText(popover, 'strong', '', kind === 'endorse' ? 'Endorsed by' : 'Flagged by');
+        const list = document.createElement('ul');
+        for (const name of names) appendText(list, 'li', '', name);
+        popover.append(list);
+      }
+    }
+    item.append(popover);
+    parent.append(item);
   }
 
   function renderReviewSummary(parent, detail, panel) {
@@ -302,10 +364,8 @@
       values.replaceChildren();
       const endorsements = Number(data.counts?.endorse) || 0;
       const flags = Number(data.counts?.flag) || 0;
-      appendText(values, 'span', 'graph-detail-review-count endorse',
-        `🥳 ${endorsements} endorsement${endorsements === 1 ? '' : 's'}`);
-      appendText(values, 'span', 'graph-detail-review-count flag',
-        `🚩 ${flags} flag${flags === 1 ? '' : 's'}`);
+      appendReviewCount(values, detail, data, token, 'endorse', endorsements);
+      appendReviewCount(values, detail, data, token, 'flag', flags);
     }).catch(() => {
       if (panel.dataset.reviewToken !== token) return;
       values.replaceChildren();

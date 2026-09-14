@@ -341,12 +341,14 @@ export function proofNetworkData(ctx: PageContext, submission: SiteSubmission, r
   const canonicalPageUrl = (pathname: string) =>
     new URL(pathname.replace(/^\/+/, ""), `${DEFAULT_SITE_URL.replace(/\/+$/, "")}/`).toString();
   const submissionDetails = (home: SiteSubmission) => {
+    const id = home.output?.id ?? home.record.id;
     const name = home.output?.manifest.title ?? home.record.id;
     return {
       id: home.record.id,
       name,
       nameHtml: ctx.markdown.renderAuthorInline(name, rootRel),
       state: home.record.state,
+      ...(id !== output.id ? { href: `${rootRel}${id}/index.html` } : {}),
     };
   };
   const authorSections = (sections: { title: string; markdown: string }[] | undefined) =>
@@ -379,6 +381,21 @@ export function proofNetworkData(ctx: PageContext, submission: SiteSubmission, r
       statementCount: home.concept.statements.length,
     };
   };
+  const openAssumptionsInTree = (roots: readonly string[]) => {
+    const open = new Set<string>(), seen = new Set<string>(), pending = [...roots];
+    while (pending.length) {
+      const id = pending.pop()!;
+      if (seen.has(id)) continue;
+      seen.add(id);
+      for (const { proof } of model.statementProofs.get(id) ?? []) {
+        for (const assumption of proof.assumptions) {
+          if (!model.network.proven.has(assumption)) open.add(assumption);
+          pending.push(assumption);
+        }
+      }
+    }
+    return open.size;
+  };
   const details: Record<string, unknown> = {};
   for (const id of [...statementIds].sort()) {
     const home = model.statementHome.get(id) ?? model.conceptHome.get(id);
@@ -394,7 +411,9 @@ export function proofNetworkData(ctx: PageContext, submission: SiteSubmission, r
         : provenCount === concept.statements.length ? "proven" : "open",
       statusDetail: concept.statements.length === 0 ? "Definition"
         : `${provenCount} of ${concept.statements.length} statement${concept.statements.length === 1 ? "" : "s"} proven`,
+      openAssumptions: openAssumptionsInTree(concept.statements.map((statement) => statement.id)),
       submission: submissionDetails(conceptSubmission),
+      anonymousReview: conceptSubmission.output?.manifest.anonymous === true,
       descriptionHtml: ctx.markdown.renderAuthorProse(concept.description, rootRel),
       statements: concept.statements.map((statement, index) => ({
         id: statement.id,
@@ -413,6 +432,7 @@ export function proofNetworkData(ctx: PageContext, submission: SiteSubmission, r
     const home = model.proofHome.get(proof.id);
     const proofSubmission = home?.submission ?? submission;
     const conclusion = claimSummary(proof.conclusion);
+    const conclusionHome = model.statementHome.get(proof.conclusion);
     const anonymous = proofSubmission.output?.manifest.anonymous === true;
     const source = anonymous ? undefined : proofSubmission.record.source;
     const sourceHref = source && home
@@ -427,6 +447,7 @@ export function proofNetworkData(ctx: PageContext, submission: SiteSubmission, r
         ? "All assumptions are proven"
         : `${proof.outstanding} open assumption${proof.outstanding === 1 ? "" : "s"}`,
       submission: submissionDetails(proofSubmission),
+      anonymousReview: conclusionHome?.submission.output?.manifest.anonymous === true,
       descriptionHtml: ctx.markdown.renderAuthorProse(proof.description, rootRel),
       sections: authorSections(home?.proof.sections),
       conclusion,
@@ -434,8 +455,8 @@ export function proofNetworkData(ctx: PageContext, submission: SiteSubmission, r
       leanPath: anonymous ? undefined : home?.proof.path,
       sourceHref,
       href: proof.href,
-      reviewUrl: model.statementHome.has(proof.conclusion)
-        ? canonicalPageUrl(`${model.statementHome.get(proof.conclusion)!.submission.record.id}/${model.statementHome.get(proof.conclusion)!.concept.id}.html`)
+      reviewUrl: conclusionHome
+        ? canonicalPageUrl(`${conclusionHome.submission.record.id}/${conclusionHome.concept.id}.html`)
         : undefined,
       reviewLabel: "Conclusion review",
     };

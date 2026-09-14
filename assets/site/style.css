@@ -3923,9 +3923,17 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
   font-size: 1.28rem;
   line-height: 1.2;
 }
-.graph-detail-status{
-  display: inline-block;
+.graph-detail-statuses{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
   margin: 0 0 0.75rem;
+}
+.graph-detail-status,
+.graph-detail-open-assumptions{
+  display: inline-block;
+  margin: 0;
   padding: 0.16rem 0.48rem;
   border: 1px solid var(--none-border);
   border-radius: var(--radius-chip);
@@ -3945,6 +3953,11 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
   background: var(--partial-bg);
   color: var(--partial-fg);
 }
+.graph-detail-open-assumptions{
+  border-color: var(--partial-border);
+  background: var(--partial-bg);
+  color: var(--partial-fg);
+}
 .graph-detail-facts{
   display: grid;
   grid-template-columns: max-content 1fr;
@@ -3954,6 +3967,17 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
 }
 .graph-detail-facts dt{ color: var(--text-dim); }
 .graph-detail-facts dd{ margin: 0; overflow-wrap: anywhere; }
+.graph-detail-submission-link{
+  color: var(--link);
+  text-decoration-line: underline;
+  text-decoration-color: rgba(44, 95, 138, 0.62);
+  text-decoration-thickness: 0.075em;
+  text-underline-offset: 0.16em;
+}
+.graph-detail-submission-link:is(:hover, :focus-visible){
+  text-decoration-color: currentColor;
+  text-decoration-thickness: 0.11em;
+}
 .graph-detail-body section{
   margin-top: 0.9rem;
   padding-top: 0.8rem;
@@ -4037,6 +4061,7 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
 .graph-detail-source-link{ font-size: 0.78rem; }
 .graph-detail-secondary{ margin: 0.3rem 0 0; color: var(--text-dim); font-size: 0.75rem; }
 .graph-detail-review-values{ display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.graph-detail-review-item{ position: relative; display: inline-flex; }
 .graph-detail-review-count,
 .graph-detail-review-loading,
 .graph-detail-review-unavailable{
@@ -4049,6 +4074,37 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
 }
 .graph-detail-review-count.endorse{ border-color: var(--proven-border); background: var(--proven-bg); color: var(--proven-fg); }
 .graph-detail-review-count.flag{ border-color: var(--partial-border); background: var(--partial-bg); color: var(--partial-fg); }
+.graph-detail-review-count{ cursor: help; }
+.graph-detail-review-count:focus-visible{ outline: 2px solid var(--link); outline-offset: 2px; }
+.graph-detail-review-people{
+  position: absolute;
+  z-index: 5;
+  top: calc(100% + 0.35rem);
+  left: 0;
+  width: max-content;
+  max-width: min(17rem, calc(100vw - 2rem));
+  padding: 0.5rem 0.6rem;
+  visibility: hidden;
+  opacity: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-control);
+  background: var(--surface);
+  box-shadow: 0 6px 20px rgba(43, 43, 43, 0.14);
+  color: var(--text);
+  overflow-wrap: anywhere;
+  pointer-events: none;
+  font-size: 0.7rem;
+  line-height: 1.4;
+}
+.graph-detail-review-item:last-child .graph-detail-review-people{ right: 0; left: auto; }
+.graph-detail-review-item:hover .graph-detail-review-people,
+.graph-detail-review-item:focus-within .graph-detail-review-people{
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+}
+.graph-detail-review-people strong{ display: block; margin-bottom: 0.2rem; font-family: var(--mono); font-size: 0.66rem; }
+.graph-detail-review-people ul{ margin: 0; padding-left: 1rem; }
 .graph-detail-action{
   position: sticky;
   bottom: -0.85rem;

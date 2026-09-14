@@ -173,8 +173,8 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       graphs.map((graph) => graph.getAttribute("data-layout-digest")!).sort()) });
   }
 
-  async function visit(url: string, action: (page: Page, audit: Audit) => Promise<void>, options: BrowserContextOptions & { local?: boolean; deferFonts?: boolean } = {}): Promise<void> {
-    const { local, deferFonts, ...browserOptions } = options;
+  async function visit(url: string, action: (page: Page, audit: Audit) => Promise<void>, options: BrowserContextOptions & { local?: boolean; deferFonts?: boolean; reviewData?: unknown } = {}): Promise<void> {
+    const { local, deferFonts, reviewData, ...browserOptions } = options;
     const context = await browser.newContext({ viewport: { width: 1920, height: 1200 }, locale: "en-US", timezoneId: "UTC", ...browserOptions });
     contexts.add(context);
     let releaseFonts = () => {};
@@ -191,7 +191,7 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
         const headers = { "Access-Control-Allow-Origin": request.headers().origin ?? origin,
           "Access-Control-Allow-Credentials": "true", "Access-Control-Allow-Headers": "*" };
         await route.fulfill({ status: 200, headers, contentType: request.resourceType() === "script" ? "text/javascript" : "application/json",
-          body: request.resourceType() === "script" ? "" : "{}" });
+          body: request.resourceType() === "script" ? "" : JSON.stringify(reviewData ?? {}) });
       } else {
         if (target.pathname.endsWith(".woff2")) await fontsReleased;
         await route.continue();
@@ -619,6 +619,7 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       expect(await panel.isVisible()).toBe(true);
       expect(await panel.locator("h3").first().textContent()).toBe("Proof of Main χ result");
       expect(await panel.textContent()).toContain("1 open assumption");
+      expect(await panel.locator(".graph-detail-open-assumptions").count()).toBe(0);
       expect(await panel.textContent()).toContain("Checked relationship");
       const submissionName = panel.locator(".graph-detail-facts dd").first();
       expect(await submissionName.locator(".katex").count()).toBe(1);
@@ -626,6 +627,18 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       const relationship = panel.locator(".graph-detail-claims");
       expect(await relationship.locator(".katex").count()).toBe(1);
       expect(await relationship.innerText()).not.toContain("$");
+      const endorsement = panel.locator(".graph-detail-review-count.endorse");
+      expect(await endorsement.textContent()).toBe("🥳 2 endorsements");
+      await endorsement.hover();
+      const endorsers = panel.locator(".graph-detail-review-item").first().locator(".graph-detail-review-people");
+      expect(await endorsers.isVisible()).toBe(true);
+      expect(await endorsers.textContent()).toContain("Endorsed byAda LovelaceGrace Hopper");
+      const flag = panel.locator(".graph-detail-review-count.flag");
+      await flag.hover();
+      const flaggers = panel.locator(".graph-detail-review-item").last().locator(".graph-detail-review-people");
+      expect(await flaggers.isVisible()).toBe(true);
+      expect(await flaggers.textContent()).toContain("Flagged byBarbara Liskov");
+      expect(await panel.locator(".graph-detail-submission-link").count()).toBe(0);
       expect(await panel.locator(".graph-detail-action").getAttribute("href")).toBeTruthy();
       const placement = await panel.evaluate((element) => {
         const panel = element.getBoundingClientRect(), figure = element.parentElement!.getBoundingClientRect();
@@ -651,6 +664,8 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       const concept = container.locator('[data-node-id="s:Lax702.Main.s1"]');
       await concept.click(); await page.waitForTimeout(1_000); await animationFrame(page);
       expect(await panel.locator("h3").first().textContent()).toBe("Main χ result");
+      expect(await panel.locator(".graph-detail-status").textContent()).toBe("Proven Statement");
+      expect(await panel.locator(".graph-detail-open-assumptions").textContent()).toBe("4 open assumptions used");
       expect(await panel.textContent()).toContain("Natural-language statement");
       expect(await panel.textContent()).toContain("Lean formalization");
       const leanPreview = panel.locator(".graph-detail-formalization-preview");
@@ -668,6 +683,25 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       expect(formalizationWidth.preOverflow).toBe("hidden");
       expect(formalizationWidth.whiteSpace).toBe("pre-wrap");
       await capture(page, "proof-detail-concept");
+
+      const openConcept = container.locator('[data-node-id="s:Lax702.Middle.s1"]');
+      await openConcept.evaluate((element) => element.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true })));
+      await animationFrame(page);
+      expect(await panel.locator(".graph-detail-status").textContent()).toBe("Open Statement");
+      expect(await panel.locator(".graph-detail-open-assumptions").textContent()).toBe("3 open assumptions used");
+
+      const externalConcept = container.locator('[data-node-id="c:Lax701.Base"]');
+      await externalConcept.evaluate((element) => element.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true })));
+      await animationFrame(page);
+      expect(await panel.locator(".graph-detail-status").textContent()).toBe("open — 1 of 2 statements proven");
+      const submissionLink = panel.locator(".graph-detail-submission-link");
+      expect(await submissionLink.textContent()).toBe("Graph fixture Lax701");
+      expect(await submissionLink.getAttribute("href")).toBe("../Lax701/index.html");
+      expect(await submissionLink.evaluate((element) => getComputedStyle(element).textDecorationLine)).toContain("underline");
+      await capture(page, "proof-detail-external");
+
+      await concept.evaluate((element) => element.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true })));
+      await animationFrame(page);
 
       await container.evaluate((element) => element.dispatchEvent(new MouseEvent("click", { bubbles: true })));
       await animationFrame(page);
@@ -698,7 +732,14 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
         middle: window.innerHeight / 2,
       }));
       expect(sourcePosition.top).toBeCloseTo(sourcePosition.middle, 0);
-    });
+    }, { reviewData: {
+      counts: { endorse: 2, flag: 1 },
+      voters: {
+        endorse: [{ name: "Ada Lovelace" }, { name: "Grace Hopper" }],
+        flag: [{ name: "Barbara Liskov" }],
+      },
+      flags: [{ author: { name: "Barbara Liskov" } }],
+    } });
   }, 45_000);
 
   it("reserves graph dimensions while fonts are delayed without running browser layout", async () => {
@@ -756,13 +797,26 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       const raw = await page.locator("#graph-data").textContent();
       expect(raw).not.toMatch(/withheld-browser-source|Withheld Browser Author|withheld-browser-author/u);
       const details = JSON.parse(raw!).proofs.details["proof:Lax704Proofs.Anonymous"];
+      expect(details.anonymousReview).toBe(true);
       expect(details).not.toHaveProperty("leanPath");
       expect(details).not.toHaveProperty("sourceHref");
       expect(await page.locator("#proof-network .net-proof").count()).toBe(1);
-      await page.locator("#proof-network .net-proof").focus();
+      const anonymousProof = page.locator("#proof-network .net-proof");
+      await anonymousProof.focus();
       expect(await page.locator(".proof-network-figure .graph-tooltip").textContent()).not.toMatch(/withheld-browser/u);
+      await anonymousProof.click();
+      const panel = page.locator(".proof-network-figure .graph-detail-panel");
+      const endorsement = panel.locator(".graph-detail-review-count.endorse");
+      await endorsement.hover();
+      expect(await panel.locator(".graph-detail-review-people").first().textContent())
+        .toBe("Reviewer identities are withheld during anonymous review.");
+      expect(await panel.textContent()).not.toContain("Visible Reviewer");
       await expectNoPublicLayout(page, audit);
-    });
+    }, { reviewData: {
+      counts: { endorse: 1, flag: 1 },
+      voters: { endorse: [{ name: "Visible Reviewer" }], flag: [{ name: "Visible Reviewer" }] },
+      flags: [{ author: { name: "Visible Reviewer" } }],
+    } });
   }, 30_000);
 
   it("runs the same validated layout in the extracted renderer's local worker without a host Playwright installation", async () => {
