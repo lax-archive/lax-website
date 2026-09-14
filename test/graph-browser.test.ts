@@ -645,13 +645,18 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       expect(await panel.locator("h3").first().textContent()).toBe("Proof of Main χ result");
       expect(await panel.textContent()).toContain("1 open assumption");
       expect(await panel.locator(".graph-detail-open-assumptions").count()).toBe(0);
-      expect(await panel.textContent()).toContain("Checked relationship");
+      expect(await panel.textContent()).toContain("Proof relationship");
       const submissionName = panel.locator(".graph-detail-facts dd").first();
       expect(await submissionName.locator(".katex").count()).toBe(1);
       expect(await submissionName.textContent()).not.toContain("$");
       const relationship = panel.locator(".graph-detail-claims");
       expect(await relationship.locator(".katex").count()).toBe(1);
       expect(await relationship.innerText()).not.toContain("$");
+      expect(await relationship.locator("h5").allTextContents()).toEqual(["Assumptions used", "Conclusion"]);
+      expect(await relationship.locator(".graph-detail-claim-status").allTextContents())
+        .toEqual(["Open statement", "Proven statement"]);
+      expect(await panel.locator(".graph-detail-relationship-note").textContent())
+        .toBe("This proof is conditional because 1 assumption is still open. The conclusion is proven elsewhere in the archive.");
       const endorsement = panel.locator(".graph-detail-review-count.endorse");
       expect(await endorsement.textContent()).toBe("🥳 2 endorsements");
       await endorsement.hover();
