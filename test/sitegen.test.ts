@@ -1821,8 +1821,10 @@ After the formula.`, "");
     expect(html).toContain('<details class="deps-col block-details"><summary>From Mathlib</summary>');
     expect(html).not.toContain("<h3>Imported</h3>");
     expect(html).not.toContain("Mathlib imports");
-    // Evidence is disabled by default; a single statement needs no navigation.
-    expect(html).not.toContain("<h3>Evidence</h3>");
+    // Evidence starts collapsed, like the concept map, but keeps its proofs.
+    expect(html).toMatch(/<details class="figure-details evidence-details">\s*<summary>Evidence<\/summary>/);
+    expect(html).toContain('href="../Lax2/Lax2Proofs.truth.html"');
+    // A single statement needs no numbered navigation.
     expect(html).not.toContain('class="statement-nav"');
     expect(html).toContain('data-remark42-url="https://laxarchive.org/Lax2/Lax2.C.html"');
     expect(html).toContain('data-reactions-url="https://laxarchive.org/Lax2/Lax2.C.html"');
@@ -1850,7 +1852,7 @@ After the formula.`, "");
     expect(untyped).not.toMatch(/nothing\s+to\s+prove/);
     expect(untyped).toContain("Used by");
     // a definition-concept claims nothing, so it carries no evidence block
-    expect(untyped).not.toContain("<h3>Evidence</h3>");
+    expect(untyped).not.toContain("<summary>Evidence</summary>");
   });
 
   it("renders inline and display math inside Lean source comments only", async () => {
@@ -2359,12 +2361,14 @@ describe("multi-statement concepts", () => {
     expect(statementOrdinal(new SiteModel(submissions()), "Lax2.C.truth")).toBeUndefined();
   });
 
-  it("links numbered statements to source and keeps proof rails with evidence disabled", async () => {
+  it("links numbered statements to source and keeps evidence collapsed by default", async () => {
     const root = tmpDir("lax-site-multi-concept-");
     await generateSite(multiStatement(), root);
     const html = fs.readFileSync(path.join(root, "Lax5", "Lax5.Menger.html"), "utf8");
 
-    expect(html).not.toContain('class="block block-evidence"');
+    expect(html).toMatch(/<details class="figure-details evidence-details">\s*<summary>Evidence<\/summary>/);
+    expect((html.match(/class="evidence-statement"/g) ?? [])).toHaveLength(3);
+    expect((html.match(/this statement is open/g) ?? [])).toHaveLength(1);
     const navigation = html.match(/<nav class="statement-nav"[^]*?<\/nav>/)?.[0] ?? "";
     for (const [index, name] of ["vertexVersion", "edgeVersion", "globalVersion"].entries()) {
       expect(navigation).toContain(`href="#s-Lax5.Menger.${name}"`);
@@ -2397,7 +2401,8 @@ describe("multi-statement concepts", () => {
     const html = fs.readFileSync(path.join(root, "Lax5", "Lax5.Menger.html"), "utf8");
     const sourceURL = "https://github.com/example/menger/blob/" + "b".repeat(40) + `/${proofPath}`;
 
-    expect(html).not.toContain('class="block block-evidence"');
+    expect((html.match(/class="evidence-statement"/g) ?? [])).toHaveLength(3);
+    expect((html.match(/class="proof-item"/g) ?? [])).toHaveLength(3);
     expect((html.match(/class="source-proof-rail"/g) ?? [])).toHaveLength(3);
     expect(html.split(`href="${sourceURL}"`)).toHaveLength(4);
     for (let index = 1; index <= 3; index += 1) {

@@ -25,8 +25,6 @@ import {
 } from "./shared.js";
 
 const MATHLIB_DOCS = "https://leanprover-community.github.io/mathlib4_docs/";
-// Keep the evidence renderer available, but omit the section from concept pages.
-const SHOW_EVIDENCE = false;
 
 type ProofSourceAction = { id: string; withheld: true }
   | { id: string; withheld: false; href: string; provider: string };
@@ -56,10 +54,13 @@ function evidence(ctx: PageContext, located: LocatedConcept): string {
   const list = (items: string[], empty: string) => items.length
     ? `<ul class="proof-list">\n${items.join("\n")}\n</ul>`
     : `<p class="empty-note">${empty}</p>`;
-  const block = (intro: string, body: string) => `<div class="block block-evidence"><h3>Evidence</h3>
+  const block = (intro: string, body: string) => `<details class="figure-details evidence-details">
+<summary>Evidence</summary>
+<div class="block block-evidence">
 <p class="evidence-intro">${intro}</p>
 ${body}
-</div>`;
+</div>
+</details>`;
   if (concept.statements.length === 1)
     return block(
       "Each proof establishes this claim relative to its assumptions.",
@@ -154,7 +155,7 @@ ${graphTooltip()}
 ${conceptMapLegend(graph, "This concept", "Related concept")}
 </figure>
 </details>
-${SHOW_EVIDENCE ? evidence(ctx, located) : ""}
+${evidence(ctx, located)}
 ${inPaperBlock(ctx, concept.id, output.id, "../")}
 <div class="block block-statement"><h3>${esc(typeHeading)}</h3><div class="latex-content">${ctx.markdown.renderAuthorProse(concept.description, "../")}</div></div>
 <div class="block block-lean"><h3 class="section-heading">Lean source${sourceFile ? ` <a class="source-link" href="${attr(sourceFile)}">view on ${esc(sourceProviderName(sourceFile))}</a>` : sourceWithheld ? withheldSourceLink() : ""}</h3>
