@@ -4415,6 +4415,7 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
 }
 .graph-detail-facts dt{ color: var(--text-dim); }
 .graph-detail-facts dd{ margin: 0; overflow-wrap: anywhere; }
+.graph-detail-namespace{ font-size: 0.72rem; }
 .graph-detail-submission-link{
   color: var(--link);
   text-decoration-line: underline;
