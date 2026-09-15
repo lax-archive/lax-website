@@ -9,7 +9,7 @@
 <link rel="canonical" href="https://laxarchive.org/lax-17/Lax17.Paths.html">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=e1fc104ec6cc">
+<link rel="stylesheet" href="../assets/style.css?v=5624644d5b74">
 </head><body>
 <header class="site-header with-sidebar">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="true" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -187,31 +187,31 @@ path between the terminal sets.</p>
 corresponding unoriented formulation.</p>
 </div></div>
 <div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/EdouardBonnet/polynomial-grid-minor-theorem/blob/fe2848173913a00d85c64d2a17af63f2cf0d4fbf/concepts/Lax17/Paths.lean">view on GitHub</a></h3>
-<div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<div class="inline-contract-shell"><button class="comment-toggle" type="button" aria-pressed="false" aria-label="Hide comments">Hide comments</button><div class="inline-contract-wrap"><table class="inline-contract-table">
 <tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Combinatorics.SimpleGraph.Paths</span></td></tr>
 <tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Combinatorics.SimpleGraph.Finite</span></td></tr>
 <tr id="L3" class=""><td class="line-num"><a href="#L3">3</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Data.Finset.Sym</span></td></tr>
 <tr id="L4" class=""><td class="line-num"><a href="#L4">4</a></td><td class="line-code"> </td></tr>
-<tr id="L5" class=""><td class="line-num"><a href="#L5">5</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
-<tr id="L6" class=""><td class="line-num"><a href="#L6">6</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
-<tr id="L7" class=""><td class="line-num"><a href="#L7">7</a></td><td class="line-code"><span style="color:#6A737D">title: Paths, linkages, and separators</span></td></tr>
-<tr id="L8" class=""><td class="line-num"><a href="#L8">8</a></td><td class="line-code"><span style="color:#6A737D">type: definition</span></td></tr>
-<tr id="L9" class=""><td class="line-num"><a href="#L9">9</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
-<tr id="L10" class=""><td class="line-num"><a href="#L10">10</a></td><td class="line-code"><span style="color:#6A737D">A path is a simple finite walk with named endpoints.  A vertex linkage is an</span></td></tr>
-<tr id="L11" class=""><td class="line-num"><a href="#L11">11</a></td><td class="line-code"><span style="color:#6A737D">indexed family of paths joining two terminal sets whose vertex sets are</span></td></tr>
-<tr id="L12" class=""><td class="line-num"><a href="#L12">12</a></td><td class="line-code"><span style="color:#6A737D">pairwise disjoint; an edge linkage asks instead that their edge sets be</span></td></tr>
-<tr id="L13" class=""><td class="line-num"><a href="#L13">13</a></td><td class="line-code"><span style="color:#6A737D">pairwise disjoint.  Vertex and edge separators are finite sets meeting every</span></td></tr>
-<tr id="L14" class=""><td class="line-num"><a href="#L14">14</a></td><td class="line-code"><span style="color:#6A737D">path between the terminal sets.</span></td></tr>
-<tr id="L15" class=""><td class="line-num"><a href="#L15">15</a></td><td class="line-code"> </td></tr>
-<tr id="L16" class=""><td class="line-num"><a href="#L16">16</a></td><td class="line-code"><span style="color:#6A737D">All endpoint conventions are oriented.  Reversing every path gives the</span></td></tr>
-<tr id="L17" class=""><td class="line-num"><a href="#L17">17</a></td><td class="line-code"><span style="color:#6A737D">corresponding unoriented formulation.</span></td></tr>
-<tr id="L18" class=""><td class="line-num"><a href="#L18">18</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
+<tr id="L5" class="line-comment"><td class="line-num"><a href="#L5">5</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
+<tr id="L6" class="line-comment"><td class="line-num"><a href="#L6">6</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
+<tr id="L7" class="line-comment"><td class="line-num"><a href="#L7">7</a></td><td class="line-code"><span style="color:#6A737D">title: Paths, linkages, and separators</span></td></tr>
+<tr id="L8" class="line-comment"><td class="line-num"><a href="#L8">8</a></td><td class="line-code"><span style="color:#6A737D">type: definition</span></td></tr>
+<tr id="L9" class="line-comment"><td class="line-num"><a href="#L9">9</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
+<tr id="L10" class="line-comment"><td class="line-num"><a href="#L10">10</a></td><td class="line-code"><span style="color:#6A737D">A path is a simple finite walk with named endpoints.  A vertex linkage is an</span></td></tr>
+<tr id="L11" class="line-comment"><td class="line-num"><a href="#L11">11</a></td><td class="line-code"><span style="color:#6A737D">indexed family of paths joining two terminal sets whose vertex sets are</span></td></tr>
+<tr id="L12" class="line-comment"><td class="line-num"><a href="#L12">12</a></td><td class="line-code"><span style="color:#6A737D">pairwise disjoint; an edge linkage asks instead that their edge sets be</span></td></tr>
+<tr id="L13" class="line-comment"><td class="line-num"><a href="#L13">13</a></td><td class="line-code"><span style="color:#6A737D">pairwise disjoint.  Vertex and edge separators are finite sets meeting every</span></td></tr>
+<tr id="L14" class="line-comment"><td class="line-num"><a href="#L14">14</a></td><td class="line-code"><span style="color:#6A737D">path between the terminal sets.</span></td></tr>
+<tr id="L15" class="line-comment"><td class="line-num"><a href="#L15">15</a></td><td class="line-code"> </td></tr>
+<tr id="L16" class="line-comment"><td class="line-num"><a href="#L16">16</a></td><td class="line-code"><span style="color:#6A737D">All endpoint conventions are oriented.  Reversing every path gives the</span></td></tr>
+<tr id="L17" class="line-comment"><td class="line-num"><a href="#L17">17</a></td><td class="line-code"><span style="color:#6A737D">corresponding unoriented formulation.</span></td></tr>
+<tr id="L18" class="line-comment"><td class="line-num"><a href="#L18">18</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
 <tr id="L19" class=""><td class="line-num"><a href="#L19">19</a></td><td class="line-code"> </td></tr>
 <tr id="L20" class=""><td class="line-num"><a href="#L20">20</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax17.Paths</span></td></tr>
 <tr id="L21" class=""><td class="line-num"><a href="#L21">21</a></td><td class="line-code"> </td></tr>
 <tr id="L22" class=""><td class="line-num"><a href="#L22">22</a></td><td class="line-code"><span style="color:#D73A49">universe</span><span style="color:#24292E"> u</span></td></tr>
 <tr id="L23" class=""><td class="line-num"><a href="#L23">23</a></td><td class="line-code"> </td></tr>
-<tr id="L24" class=""><td class="line-num"><a href="#L24">24</a></td><td class="line-code"><span style="color:#6A737D">/-- A simple finite path in `G`, with its orientation recorded. -/</span></td></tr>
+<tr id="L24" class="line-comment"><td class="line-num"><a href="#L24">24</a></td><td class="line-code"><span style="color:#6A737D">/-- A simple finite path in `G`, with its orientation recorded. -/</span></td></tr>
 <tr id="L25" class=""><td class="line-num"><a href="#L25">25</a></td><td class="line-code"><span style="color:#D73A49">structure</span><span style="color:#6F42C1"> Path</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E"> u} (G : SimpleGraph V) </span><span style="color:#D73A49">where</span></td></tr>
 <tr id="L26" class=""><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span style="color:#24292E">  source : V</span></td></tr>
 <tr id="L27" class=""><td class="line-num"><a href="#L27">27</a></td><td class="line-code"><span style="color:#24292E">  target : V</span></td></tr>
@@ -220,34 +220,34 @@ corresponding unoriented formulation.</p>
 <tr id="L30" class=""><td class="line-num"><a href="#L30">30</a></td><td class="line-code"> </td></tr>
 <tr id="L31" class=""><td class="line-num"><a href="#L31">31</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Path</span></td></tr>
 <tr id="L32" class=""><td class="line-num"><a href="#L32">32</a></td><td class="line-code"> </td></tr>
-<tr id="L33" class=""><td class="line-num"><a href="#L33">33</a></td><td class="line-code"><span style="color:#6A737D">/-- The finite set of vertices used by a path. -/</span></td></tr>
+<tr id="L33" class="line-comment"><td class="line-num"><a href="#L33">33</a></td><td class="line-code"><span style="color:#6A737D">/-- The finite set of vertices used by a path. -/</span></td></tr>
 <tr id="L34" class=""><td class="line-num"><a href="#L34">34</a></td><td class="line-code"><span style="color:#D73A49">noncomputable</span><span style="color:#D73A49"> def</span><span style="color:#6F42C1"> vertices</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E"> u} [DecidableEq V] {G : SimpleGraph V}</span></td></tr>
 <tr id="L35" class=""><td class="line-num"><a href="#L35">35</a></td><td class="line-code"><span style="color:#24292E">    (P : </span><a class="lean-identifier-link" href="../lax-17/Lax17.Paths.html#L24"><span style="color:#24292E">Path</span></a><span style="color:#24292E"> G) : Finset V :=</span></td></tr>
 <tr id="L36" class=""><td class="line-num"><a href="#L36">36</a></td><td class="line-code"><span style="color:#24292E">  P.</span><a class="lean-identifier-link" href="../lax-17/Lax17.Paths.html#L28"><span style="color:#24292E">walk</span></a><span style="color:#24292E">.support.toFinset</span></td></tr>
 <tr id="L37" class=""><td class="line-num"><a href="#L37">37</a></td><td class="line-code"> </td></tr>
-<tr id="L38" class=""><td class="line-num"><a href="#L38">38</a></td><td class="line-code"><span style="color:#6A737D">/-- The finite set of edges used by a path. -/</span></td></tr>
+<tr id="L38" class="line-comment"><td class="line-num"><a href="#L38">38</a></td><td class="line-code"><span style="color:#6A737D">/-- The finite set of edges used by a path. -/</span></td></tr>
 <tr id="L39" class=""><td class="line-num"><a href="#L39">39</a></td><td class="line-code"><span style="color:#D73A49">noncomputable</span><span style="color:#D73A49"> def</span><span style="color:#6F42C1"> edges</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E"> u} [DecidableEq V] {G : SimpleGraph V}</span></td></tr>
 <tr id="L40" class=""><td class="line-num"><a href="#L40">40</a></td><td class="line-code"><span style="color:#24292E">    (P : </span><a class="lean-identifier-link" href="../lax-17/Lax17.Paths.html#L24"><span style="color:#24292E">Path</span></a><span style="color:#24292E"> G) : Finset (Sym2 V) :=</span></td></tr>
 <tr id="L41" class=""><td class="line-num"><a href="#L41">41</a></td><td class="line-code"><span style="color:#24292E">  P.</span><a class="lean-identifier-link" href="../lax-17/Lax17.Paths.html#L28"><span style="color:#24292E">walk</span></a><span style="color:#24292E">.edges.toFinset</span></td></tr>
 <tr id="L42" class=""><td class="line-num"><a href="#L42">42</a></td><td class="line-code"> </td></tr>
-<tr id="L43" class=""><td class="line-num"><a href="#L43">43</a></td><td class="line-code"><span style="color:#6A737D">/-- `P` is oriented from `A` to `B`. -/</span></td></tr>
+<tr id="L43" class="line-comment"><td class="line-num"><a href="#L43">43</a></td><td class="line-code"><span style="color:#6A737D">/-- `P` is oriented from `A` to `B`. -/</span></td></tr>
 <tr id="L44" class=""><td class="line-num"><a href="#L44">44</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> Connects</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E"> u} [DecidableEq V] {G : SimpleGraph V}</span></td></tr>
 <tr id="L45" class=""><td class="line-num"><a href="#L45">45</a></td><td class="line-code"><span style="color:#24292E">    (P : </span><a class="lean-identifier-link" href="../lax-17/Lax17.Paths.html#L24"><span style="color:#24292E">Path</span></a><span style="color:#24292E"> G) (A B : Finset V) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
 <tr id="L46" class=""><td class="line-num"><a href="#L46">46</a></td><td class="line-code"><span style="color:#24292E">  P.</span><a class="lean-identifier-link" href="../lax-17/Lax17.Paths.html#L26"><span style="color:#24292E">source</span></a><span style="color:#24292E"> ∈ A ∧ P.</span><a class="lean-identifier-link" href="../lax-17/Lax17.Paths.html#L27"><span style="color:#24292E">target</span></a><span style="color:#24292E"> ∈ B</span></td></tr>
 <tr id="L47" class=""><td class="line-num"><a href="#L47">47</a></td><td class="line-code"> </td></tr>
-<tr id="L48" class=""><td class="line-num"><a href="#L48">48</a></td><td class="line-code"><span style="color:#6A737D">/-- Every vertex of `P` lies in `C`. -/</span></td></tr>
+<tr id="L48" class="line-comment"><td class="line-num"><a href="#L48">48</a></td><td class="line-code"><span style="color:#6A737D">/-- Every vertex of `P` lies in `C`. -/</span></td></tr>
 <tr id="L49" class=""><td class="line-num"><a href="#L49">49</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> StaysIn</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E"> u} [DecidableEq V] {G : SimpleGraph V}</span></td></tr>
 <tr id="L50" class=""><td class="line-num"><a href="#L50">50</a></td><td class="line-code"><span style="color:#24292E">    (P : </span><a class="lean-identifier-link" href="../lax-17/Lax17.Paths.html#L24"><span style="color:#24292E">Path</span></a><span style="color:#24292E"> G) (C : Finset V) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
 <tr id="L51" class=""><td class="line-num"><a href="#L51">51</a></td><td class="line-code"><span style="color:#24292E">  P.</span><a class="lean-identifier-link" href="../lax-17/Lax17.Paths.html#L33"><span style="color:#24292E">vertices</span></a><span style="color:#24292E"> ⊆ C</span></td></tr>
 <tr id="L52" class=""><td class="line-num"><a href="#L52">52</a></td><td class="line-code"> </td></tr>
-<tr id="L53" class=""><td class="line-num"><a href="#L53">53</a></td><td class="line-code"><span style="color:#6A737D">/-- The internal vertices of `P` avoid `X`. -/</span></td></tr>
+<tr id="L53" class="line-comment"><td class="line-num"><a href="#L53">53</a></td><td class="line-code"><span style="color:#6A737D">/-- The internal vertices of `P` avoid `X`. -/</span></td></tr>
 <tr id="L54" class=""><td class="line-num"><a href="#L54">54</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> InternallyAvoids</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E"> u} [DecidableEq V] {G : SimpleGraph V}</span></td></tr>
 <tr id="L55" class=""><td class="line-num"><a href="#L55">55</a></td><td class="line-code"><span style="color:#24292E">    (P : </span><a class="lean-identifier-link" href="../lax-17/Lax17.Paths.html#L24"><span style="color:#24292E">Path</span></a><span style="color:#24292E"> G) (X : Finset V) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
 <tr id="L56" class=""><td class="line-num"><a href="#L56">56</a></td><td class="line-code"><span style="color:#24292E">  ∀ v ∈ P.</span><a class="lean-identifier-link" href="../lax-17/Lax17.Paths.html#L33"><span style="color:#24292E">vertices</span></a><span style="color:#24292E">, v ∈ X → v = P.</span><a class="lean-identifier-link" href="../lax-17/Lax17.Paths.html#L26"><span style="color:#24292E">source</span></a><span style="color:#24292E"> ∨ v = P.</span><a class="lean-identifier-link" href="../lax-17/Lax17.Paths.html#L27"><span style="color:#24292E">target</span></a></td></tr>
 <tr id="L57" class=""><td class="line-num"><a href="#L57">57</a></td><td class="line-code"> </td></tr>
 <tr id="L58" class=""><td class="line-num"><a href="#L58">58</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Path</span></td></tr>
 <tr id="L59" class=""><td class="line-num"><a href="#L59">59</a></td><td class="line-code"> </td></tr>
-<tr id="L60" class=""><td class="line-num"><a href="#L60">60</a></td><td class="line-code"><span style="color:#6A737D">/-- Exactly `k` pairwise vertex-disjoint paths oriented from `A` to `B`. -/</span></td></tr>
+<tr id="L60" class="line-comment"><td class="line-num"><a href="#L60">60</a></td><td class="line-code"><span style="color:#6A737D">/-- Exactly `k` pairwise vertex-disjoint paths oriented from `A` to `B`. -/</span></td></tr>
 <tr id="L61" class=""><td class="line-num"><a href="#L61">61</a></td><td class="line-code"><span style="color:#D73A49">structure</span><span style="color:#6F42C1"> VertexLinkage</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E"> u} [DecidableEq V]</span></td></tr>
 <tr id="L62" class=""><td class="line-num"><a href="#L62">62</a></td><td class="line-code"><span style="color:#24292E">    (G : SimpleGraph V) (A B : Finset V) (k : ℕ) </span><span style="color:#D73A49">where</span></td></tr>
 <tr id="L63" class=""><td class="line-num"><a href="#L63">63</a></td><td class="line-code"><span style="color:#24292E">  path : Fin k → </span><a class="lean-identifier-link" href="../lax-17/Lax17.Paths.html#L24"><span style="color:#24292E">Path</span></a><span style="color:#24292E"> G</span></td></tr>
@@ -255,7 +255,7 @@ corresponding unoriented formulation.</p>
 <tr id="L65" class=""><td class="line-num"><a href="#L65">65</a></td><td class="line-code"><span style="color:#24292E">  vertex_disjoint :</span></td></tr>
 <tr id="L66" class=""><td class="line-num"><a href="#L66">66</a></td><td class="line-code"><span style="color:#24292E">    Pairwise </span><span style="color:#D73A49">fun</span><span style="color:#24292E"> i j =&gt; Disjoint (path i).</span><a class="lean-identifier-link" href="../lax-17/Lax17.Paths.html#L33"><span style="color:#24292E">vertices</span></a><span style="color:#24292E"> (path j).</span><a class="lean-identifier-link" href="../lax-17/Lax17.Paths.html#L33"><span style="color:#24292E">vertices</span></a></td></tr>
 <tr id="L67" class=""><td class="line-num"><a href="#L67">67</a></td><td class="line-code"> </td></tr>
-<tr id="L68" class=""><td class="line-num"><a href="#L68">68</a></td><td class="line-code"><span style="color:#6A737D">/-- Exactly `k` pairwise edge-disjoint paths oriented from `A` to `B`. -/</span></td></tr>
+<tr id="L68" class="line-comment"><td class="line-num"><a href="#L68">68</a></td><td class="line-code"><span style="color:#6A737D">/-- Exactly `k` pairwise edge-disjoint paths oriented from `A` to `B`. -/</span></td></tr>
 <tr id="L69" class=""><td class="line-num"><a href="#L69">69</a></td><td class="line-code"><span style="color:#D73A49">structure</span><span style="color:#6F42C1"> EdgeLinkage</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E"> u} [DecidableEq V]</span></td></tr>
 <tr id="L70" class=""><td class="line-num"><a href="#L70">70</a></td><td class="line-code"><span style="color:#24292E">    (G : SimpleGraph V) (A B : Finset V) (k : ℕ) </span><span style="color:#D73A49">where</span></td></tr>
 <tr id="L71" class=""><td class="line-num"><a href="#L71">71</a></td><td class="line-code"><span style="color:#24292E">  path : Fin k → </span><a class="lean-identifier-link" href="../lax-17/Lax17.Paths.html#L24"><span style="color:#24292E">Path</span></a><span style="color:#24292E"> G</span></td></tr>
@@ -263,8 +263,8 @@ corresponding unoriented formulation.</p>
 <tr id="L73" class=""><td class="line-num"><a href="#L73">73</a></td><td class="line-code"><span style="color:#24292E">  edge_disjoint :</span></td></tr>
 <tr id="L74" class=""><td class="line-num"><a href="#L74">74</a></td><td class="line-code"><span style="color:#24292E">    Pairwise </span><span style="color:#D73A49">fun</span><span style="color:#24292E"> i j =&gt; Disjoint (path i).</span><a class="lean-identifier-link" href="../lax-17/Lax17.Paths.html#L38"><span style="color:#24292E">edges</span></a><span style="color:#24292E"> (path j).</span><a class="lean-identifier-link" href="../lax-17/Lax17.Paths.html#L38"><span style="color:#24292E">edges</span></a></td></tr>
 <tr id="L75" class=""><td class="line-num"><a href="#L75">75</a></td><td class="line-code"> </td></tr>
-<tr id="L76" class=""><td class="line-num"><a href="#L76">76</a></td><td class="line-code"><span style="color:#6A737D">/-- A path joining two members of a linkage whose internal vertices avoid</span></td></tr>
-<tr id="L77" class=""><td class="line-num"><a href="#L77">77</a></td><td class="line-code"><span style="color:#6A737D">every path of that linkage. -/</span></td></tr>
+<tr id="L76" class="line-comment"><td class="line-num"><a href="#L76">76</a></td><td class="line-code"><span style="color:#6A737D">/-- A path joining two members of a linkage whose internal vertices avoid</span></td></tr>
+<tr id="L77" class="line-comment"><td class="line-num"><a href="#L77">77</a></td><td class="line-code"><span style="color:#6A737D">every path of that linkage. -/</span></td></tr>
 <tr id="L78" class=""><td class="line-num"><a href="#L78">78</a></td><td class="line-code"><span style="color:#D73A49">structure</span><span style="color:#6F42C1"> VertexLinkage.BridgeBetween</span></td></tr>
 <tr id="L79" class=""><td class="line-num"><a href="#L79">79</a></td><td class="line-code"><span style="color:#24292E">    {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E"> u} [DecidableEq V]</span></td></tr>
 <tr id="L80" class=""><td class="line-num"><a href="#L80">80</a></td><td class="line-code"><span style="color:#24292E">    {G : SimpleGraph V} {A B : Finset V} {k : ℕ}</span></td></tr>
@@ -275,7 +275,7 @@ corresponding unoriented formulation.</p>
 <tr id="L85" class=""><td class="line-num"><a href="#L85">85</a></td><td class="line-code"><span style="color:#24292E">  internally_avoids_rows :</span></td></tr>
 <tr id="L86" class=""><td class="line-num"><a href="#L86">86</a></td><td class="line-code"><span style="color:#24292E">    ∀ r : Fin k, path.</span><a class="lean-identifier-link" href="../lax-17/Lax17.Paths.html#L53"><span style="color:#24292E">InternallyAvoids</span></a><span style="color:#24292E"> (P.</span><a class="lean-identifier-link" href="../lax-17/Lax17.Paths.html#L63"><span style="color:#24292E">path</span></a><span style="color:#24292E"> r).</span><a class="lean-identifier-link" href="../lax-17/Lax17.Paths.html#L33"><span style="color:#24292E">vertices</span></a></td></tr>
 <tr id="L87" class=""><td class="line-num"><a href="#L87">87</a></td><td class="line-code"> </td></tr>
-<tr id="L88" class=""><td class="line-num"><a href="#L88">88</a></td><td class="line-code"><span style="color:#6A737D">/-- Every two distinct paths of the linkage have a bridge contained in `C`. -/</span></td></tr>
+<tr id="L88" class="line-comment"><td class="line-num"><a href="#L88">88</a></td><td class="line-code"><span style="color:#6A737D">/-- Every two distinct paths of the linkage have a bridge contained in `C`. -/</span></td></tr>
 <tr id="L89" class=""><td class="line-num"><a href="#L89">89</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> VertexLinkage.HasPairwiseBridgesIn</span></td></tr>
 <tr id="L90" class=""><td class="line-num"><a href="#L90">90</a></td><td class="line-code"><span style="color:#24292E">    {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E"> u} [DecidableEq V]</span></td></tr>
 <tr id="L91" class=""><td class="line-num"><a href="#L91">91</a></td><td class="line-code"><span style="color:#24292E">    {G : SimpleGraph V} {A B : Finset V} {k : ℕ}</span></td></tr>
@@ -283,7 +283,7 @@ corresponding unoriented formulation.</p>
 <tr id="L93" class=""><td class="line-num"><a href="#L93">93</a></td><td class="line-code"><span style="color:#24292E">  ∀ ⦃i j : Fin k⦄, i ≠ j →</span></td></tr>
 <tr id="L94" class=""><td class="line-num"><a href="#L94">94</a></td><td class="line-code"><span style="color:#24292E">    ∃ bridge : P.</span><a class="lean-identifier-link" href="../lax-17/Lax17.Paths.html#L76"><span style="color:#24292E">BridgeBetween</span></a><span style="color:#24292E"> i j, bridge.</span><a class="lean-identifier-link" href="../lax-17/Lax17.Paths.html#L82"><span style="color:#24292E">path</span></a><span style="color:#24292E">.</span><a class="lean-identifier-link" href="../lax-17/Lax17.Paths.html#L48"><span style="color:#24292E">StaysIn</span></a><span style="color:#24292E"> C</span></td></tr>
 <tr id="L95" class=""><td class="line-num"><a href="#L95">95</a></td><td class="line-code"> </td></tr>
-<tr id="L96" class=""><td class="line-num"><a href="#L96">96</a></td><td class="line-code"><span style="color:#6A737D">/-- Edges of `G` with one endpoint in `X` and the other in `Y`. -/</span></td></tr>
+<tr id="L96" class="line-comment"><td class="line-num"><a href="#L96">96</a></td><td class="line-code"><span style="color:#6A737D">/-- Edges of `G` with one endpoint in `X` and the other in `Y`. -/</span></td></tr>
 <tr id="L97" class=""><td class="line-num"><a href="#L97">97</a></td><td class="line-code"><span style="color:#D73A49">noncomputable</span><span style="color:#D73A49"> def</span><span style="color:#6F42C1"> edgeBoundary</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E"> u} [Fintype V] [DecidableEq V]</span></td></tr>
 <tr id="L98" class=""><td class="line-num"><a href="#L98">98</a></td><td class="line-code"><span style="color:#24292E">    (G : SimpleGraph V) (X Y : Finset V) : Finset (Sym2 V) :=</span></td></tr>
 <tr id="L99" class=""><td class="line-num"><a href="#L99">99</a></td><td class="line-code"><span style="color:#24292E">  @Finset.filter (Sym2 V)</span></td></tr>
@@ -292,7 +292,7 @@ corresponding unoriented formulation.</p>
 <tr id="L102" class=""><td class="line-num"><a href="#L102">102</a></td><td class="line-code"><span style="color:#24292E">      e ∈ G.edgeSet ∧ ∃ x ∈ X, ∃ y ∈ Y, e = s(x, y))</span></td></tr>
 <tr id="L103" class=""><td class="line-num"><a href="#L103">103</a></td><td class="line-code"><span style="color:#24292E">    Finset.univ</span></td></tr>
 <tr id="L104" class=""><td class="line-num"><a href="#L104">104</a></td><td class="line-code"> </td></tr>
-<tr id="L105" class=""><td class="line-num"><a href="#L105">105</a></td><td class="line-code"><span style="color:#6A737D">/-- A partition of `C` separating `A` from `B` by fewer than `k` edges. -/</span></td></tr>
+<tr id="L105" class="line-comment"><td class="line-num"><a href="#L105">105</a></td><td class="line-code"><span style="color:#6A737D">/-- A partition of `C` separating `A` from `B` by fewer than `k` edges. -/</span></td></tr>
 <tr id="L106" class=""><td class="line-num"><a href="#L106">106</a></td><td class="line-code"><span style="color:#D73A49">structure</span><span style="color:#6F42C1"> EdgeCutPartition</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E"> u} [Fintype V] [DecidableEq V]</span></td></tr>
 <tr id="L107" class=""><td class="line-num"><a href="#L107">107</a></td><td class="line-code"><span style="color:#24292E">    (G : SimpleGraph V) (C A B : Finset V) (k : ℕ) </span><span style="color:#D73A49">where</span></td></tr>
 <tr id="L108" class=""><td class="line-num"><a href="#L108">108</a></td><td class="line-code"><span style="color:#24292E">  left : Finset V</span></td></tr>
@@ -303,13 +303,13 @@ corresponding unoriented formulation.</p>
 <tr id="L113" class=""><td class="line-num"><a href="#L113">113</a></td><td class="line-code"><span style="color:#24292E">  right_terminals : B ⊆ right</span></td></tr>
 <tr id="L114" class=""><td class="line-num"><a href="#L114">114</a></td><td class="line-code"><span style="color:#24292E">  boundary_small : (</span><a class="lean-identifier-link" href="../lax-17/Lax17.Paths.html#L96"><span style="color:#24292E">edgeBoundary</span></a><span style="color:#24292E"> G left right).card &lt; k</span></td></tr>
 <tr id="L115" class=""><td class="line-num"><a href="#L115">115</a></td><td class="line-code"> </td></tr>
-<tr id="L116" class=""><td class="line-num"><a href="#L116">116</a></td><td class="line-code"><span style="color:#6A737D">/-- A vertex set meeting every oriented `A`-to-`B` path. -/</span></td></tr>
+<tr id="L116" class="line-comment"><td class="line-num"><a href="#L116">116</a></td><td class="line-code"><span style="color:#6A737D">/-- A vertex set meeting every oriented `A`-to-`B` path. -/</span></td></tr>
 <tr id="L117" class=""><td class="line-num"><a href="#L117">117</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> IsVertexSeparator</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E"> u} [DecidableEq V]</span></td></tr>
 <tr id="L118" class=""><td class="line-num"><a href="#L118">118</a></td><td class="line-code"><span style="color:#24292E">    (G : SimpleGraph V) (A B X : Finset V) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
 <tr id="L119" class=""><td class="line-num"><a href="#L119">119</a></td><td class="line-code"><span style="color:#24292E">  ∀ P : </span><a class="lean-identifier-link" href="../lax-17/Lax17.Paths.html#L24"><span style="color:#24292E">Path</span></a><span style="color:#24292E"> G, P.</span><a class="lean-identifier-link" href="../lax-17/Lax17.Paths.html#L43"><span style="color:#24292E">Connects</span></a><span style="color:#24292E"> A B →</span></td></tr>
 <tr id="L120" class=""><td class="line-num"><a href="#L120">120</a></td><td class="line-code"><span style="color:#24292E">    ∃ v ∈ P.</span><a class="lean-identifier-link" href="../lax-17/Lax17.Paths.html#L33"><span style="color:#24292E">vertices</span></a><span style="color:#24292E">, v ∈ X</span></td></tr>
 <tr id="L121" class=""><td class="line-num"><a href="#L121">121</a></td><td class="line-code"> </td></tr>
-<tr id="L122" class=""><td class="line-num"><a href="#L122">122</a></td><td class="line-code"><span style="color:#6A737D">/-- An edge set meeting every oriented `A`-to-`B` path. -/</span></td></tr>
+<tr id="L122" class="line-comment"><td class="line-num"><a href="#L122">122</a></td><td class="line-code"><span style="color:#6A737D">/-- An edge set meeting every oriented `A`-to-`B` path. -/</span></td></tr>
 <tr id="L123" class=""><td class="line-num"><a href="#L123">123</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> IsEdgeSeparator</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E"> u} [DecidableEq V]</span></td></tr>
 <tr id="L124" class=""><td class="line-num"><a href="#L124">124</a></td><td class="line-code"><span style="color:#24292E">    (G : SimpleGraph V) (A B : Finset V) (F : Finset (Sym2 V)) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
 <tr id="L125" class=""><td class="line-num"><a href="#L125">125</a></td><td class="line-code"><span style="color:#24292E">  ∀ P : </span><a class="lean-identifier-link" href="../lax-17/Lax17.Paths.html#L24"><span style="color:#24292E">Path</span></a><span style="color:#24292E"> G, P.</span><a class="lean-identifier-link" href="../lax-17/Lax17.Paths.html#L43"><span style="color:#24292E">Connects</span></a><span style="color:#24292E"> A B →</span></td></tr>
@@ -376,7 +376,7 @@ corresponding unoriented formulation.</p>
 <script src="../assets/sidebar.js?v=14479c59f650"></script>
 <script src="../assets/account.js?v=6a0844f8bd00"></script>
 <script src="../assets/graph-interaction.js?v=2f9fd490c8bd"></script>
-<script src="../assets/source-proof.js?v=b4c48aaad400"></script>
+<script src="../assets/source-proof.js?v=c61006f1e018"></script>
 <script src="../assets/draft-reminder.js?v=877ea355ae46"></script>
 <script src="../assets/version-history.js?v=a36e868140dd"></script>
 <script src="../assets/comments.js?v=40723213c083"></script>

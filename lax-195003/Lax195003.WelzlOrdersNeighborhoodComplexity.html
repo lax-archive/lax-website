@@ -9,7 +9,7 @@
 <link rel="canonical" href="https://laxarchive.org/lax-195003/Lax195003.WelzlOrdersNeighborhoodComplexity.html">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=e1fc104ec6cc">
+<link rel="stylesheet" href="../assets/style.css?v=5624644d5b74">
 </head><body>
 <header class="site-header with-sidebar">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="true" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -115,67 +115,67 @@ neighborhood complexity if one constant <em>c</em> ≥ 1 works uniformly for eve
 graph in the class.</p>
 </div></div>
 <div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/63ac657db4dd622a1a74f5adfb0f56b2193b3007/welzl-orders/concepts/Lax195003/WelzlOrdersNeighborhoodComplexity.lean">view on GitHub</a></h3>
-<div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<div class="inline-contract-shell"><button class="comment-toggle" type="button" aria-pressed="false" aria-label="Hide comments">Hide comments</button><div class="inline-contract-wrap"><table class="inline-contract-table">
 <tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Combinatorics.SimpleGraph.Basic</span></td></tr>
 <tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Data.Nat.Lattice</span></td></tr>
 <tr id="L3" class=""><td class="line-num"><a href="#L3">3</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Data.Set.Card</span></td></tr>
 <tr id="L4" class=""><td class="line-num"><a href="#L4">4</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-199508/Lax199508.GraphClasses.html"><span style="color:#24292E">Lax199508.GraphClasses</span></a></td></tr>
 <tr id="L5" class=""><td class="line-num"><a href="#L5">5</a></td><td class="line-code"> </td></tr>
-<tr id="L6" class=""><td class="line-num"><a href="#L6">6</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
-<tr id="L7" class=""><td class="line-num"><a href="#L7">7</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
-<tr id="L8" class=""><td class="line-num"><a href="#L8">8</a></td><td class="line-code"><span style="color:#6A737D">title: Neighborhood complexity</span></td></tr>
-<tr id="L9" class=""><td class="line-num"><a href="#L9">9</a></td><td class="line-code"><span style="color:#6A737D">type: definition</span></td></tr>
-<tr id="L10" class=""><td class="line-num"><a href="#L10">10</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
-<tr id="L11" class=""><td class="line-num"><a href="#L11">11</a></td><td class="line-code"><span style="color:#6A737D">The neighborhood complexity `π_G(k)` of a finite graph *G* is the largest</span></td></tr>
-<tr id="L12" class=""><td class="line-num"><a href="#L12">12</a></td><td class="line-code"><span style="color:#6A737D">number of distinct traces `N(v) ∩ A` left by vertex neighborhoods on a set</span></td></tr>
-<tr id="L13" class=""><td class="line-num"><a href="#L13">13</a></td><td class="line-code"><span style="color:#6A737D">*A* of at most *k* vertices. A graph satisfies the linear bound with constant</span></td></tr>
-<tr id="L14" class=""><td class="line-num"><a href="#L14">14</a></td><td class="line-code"><span style="color:#6A737D">*c* if `π_G(k) ≤ c · k` for every positive *k*. A graph class has linear</span></td></tr>
-<tr id="L15" class=""><td class="line-num"><a href="#L15">15</a></td><td class="line-code"><span style="color:#6A737D">neighborhood complexity if one constant *c* ≥ 1 works uniformly for every</span></td></tr>
-<tr id="L16" class=""><td class="line-num"><a href="#L16">16</a></td><td class="line-code"><span style="color:#6A737D">graph in the class.</span></td></tr>
-<tr id="L17" class=""><td class="line-num"><a href="#L17">17</a></td><td class="line-code"> </td></tr>
-<tr id="L18" class=""><td class="line-num"><a href="#L18">18</a></td><td class="line-code"><span style="color:#6A737D"># Formalization notes</span></td></tr>
-<tr id="L19" class=""><td class="line-num"><a href="#L19">19</a></td><td class="line-code"> </td></tr>
-<tr id="L20" class=""><td class="line-num"><a href="#L20">20</a></td><td class="line-code"><span style="color:#6A737D">The trace count is defined directly as the natural cardinality of the set of</span></td></tr>
-<tr id="L21" class=""><td class="line-num"><a href="#L21">21</a></td><td class="line-code"><span style="color:#6A737D">traces. On the finite carrier `Fin n` this is the exact number of distinct</span></td></tr>
-<tr id="L22" class=""><td class="line-num"><a href="#L22">22</a></td><td class="line-code"><span style="color:#6A737D">sets `N(v) ∩ A`. Working with `Set` keeps the trace literal and requires no</span></td></tr>
-<tr id="L23" class=""><td class="line-num"><a href="#L23">23</a></td><td class="line-code"><span style="color:#6A737D">decidability instances.</span></td></tr>
-<tr id="L24" class=""><td class="line-num"><a href="#L24">24</a></td><td class="line-code"> </td></tr>
-<tr id="L25" class=""><td class="line-num"><a href="#L25">25</a></td><td class="line-code"><span style="color:#6A737D">Graph classes use the registered `Lax12.GraphClasses.GraphClass`</span></td></tr>
-<tr id="L26" class=""><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span style="color:#6A737D">representation. The neighborhood trace count itself remains defined locally</span></td></tr>
-<tr id="L27" class=""><td class="line-num"><a href="#L27">27</a></td><td class="line-code"><span style="color:#6A737D">below.</span></td></tr>
-<tr id="L28" class=""><td class="line-num"><a href="#L28">28</a></td><td class="line-code"> </td></tr>
-<tr id="L29" class=""><td class="line-num"><a href="#L29">29</a></td><td class="line-code"><span style="color:#6A737D">The paper defines the maximum over sets of size at most `k`. On the finite</span></td></tr>
-<tr id="L30" class=""><td class="line-num"><a href="#L30">30</a></td><td class="line-code"><span style="color:#6A737D">carrier `Fin n`, the natural supremum below is that maximum. The bound is</span></td></tr>
-<tr id="L31" class=""><td class="line-num"><a href="#L31">31</a></td><td class="line-code"><span style="color:#6A737D">required only for positive `k`: at `k = 0`, the empty vertex set has the one</span></td></tr>
-<tr id="L32" class=""><td class="line-num"><a href="#L32">32</a></td><td class="line-code"><span style="color:#6A737D">trace `∅`, so the literal inequality `π_G(0) ≤ c · 0` would be false.</span></td></tr>
-<tr id="L33" class=""><td class="line-num"><a href="#L33">33</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
+<tr id="L6" class="line-comment"><td class="line-num"><a href="#L6">6</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
+<tr id="L7" class="line-comment"><td class="line-num"><a href="#L7">7</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
+<tr id="L8" class="line-comment"><td class="line-num"><a href="#L8">8</a></td><td class="line-code"><span style="color:#6A737D">title: Neighborhood complexity</span></td></tr>
+<tr id="L9" class="line-comment"><td class="line-num"><a href="#L9">9</a></td><td class="line-code"><span style="color:#6A737D">type: definition</span></td></tr>
+<tr id="L10" class="line-comment"><td class="line-num"><a href="#L10">10</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
+<tr id="L11" class="line-comment"><td class="line-num"><a href="#L11">11</a></td><td class="line-code"><span style="color:#6A737D">The neighborhood complexity `π_G(k)` of a finite graph *G* is the largest</span></td></tr>
+<tr id="L12" class="line-comment"><td class="line-num"><a href="#L12">12</a></td><td class="line-code"><span style="color:#6A737D">number of distinct traces `N(v) ∩ A` left by vertex neighborhoods on a set</span></td></tr>
+<tr id="L13" class="line-comment"><td class="line-num"><a href="#L13">13</a></td><td class="line-code"><span style="color:#6A737D">*A* of at most *k* vertices. A graph satisfies the linear bound with constant</span></td></tr>
+<tr id="L14" class="line-comment"><td class="line-num"><a href="#L14">14</a></td><td class="line-code"><span style="color:#6A737D">*c* if `π_G(k) ≤ c · k` for every positive *k*. A graph class has linear</span></td></tr>
+<tr id="L15" class="line-comment"><td class="line-num"><a href="#L15">15</a></td><td class="line-code"><span style="color:#6A737D">neighborhood complexity if one constant *c* ≥ 1 works uniformly for every</span></td></tr>
+<tr id="L16" class="line-comment"><td class="line-num"><a href="#L16">16</a></td><td class="line-code"><span style="color:#6A737D">graph in the class.</span></td></tr>
+<tr id="L17" class="line-comment"><td class="line-num"><a href="#L17">17</a></td><td class="line-code"> </td></tr>
+<tr id="L18" class="line-comment"><td class="line-num"><a href="#L18">18</a></td><td class="line-code"><span style="color:#6A737D"># Formalization notes</span></td></tr>
+<tr id="L19" class="line-comment"><td class="line-num"><a href="#L19">19</a></td><td class="line-code"> </td></tr>
+<tr id="L20" class="line-comment"><td class="line-num"><a href="#L20">20</a></td><td class="line-code"><span style="color:#6A737D">The trace count is defined directly as the natural cardinality of the set of</span></td></tr>
+<tr id="L21" class="line-comment"><td class="line-num"><a href="#L21">21</a></td><td class="line-code"><span style="color:#6A737D">traces. On the finite carrier `Fin n` this is the exact number of distinct</span></td></tr>
+<tr id="L22" class="line-comment"><td class="line-num"><a href="#L22">22</a></td><td class="line-code"><span style="color:#6A737D">sets `N(v) ∩ A`. Working with `Set` keeps the trace literal and requires no</span></td></tr>
+<tr id="L23" class="line-comment"><td class="line-num"><a href="#L23">23</a></td><td class="line-code"><span style="color:#6A737D">decidability instances.</span></td></tr>
+<tr id="L24" class="line-comment"><td class="line-num"><a href="#L24">24</a></td><td class="line-code"> </td></tr>
+<tr id="L25" class="line-comment"><td class="line-num"><a href="#L25">25</a></td><td class="line-code"><span style="color:#6A737D">Graph classes use the registered `Lax12.GraphClasses.GraphClass`</span></td></tr>
+<tr id="L26" class="line-comment"><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span style="color:#6A737D">representation. The neighborhood trace count itself remains defined locally</span></td></tr>
+<tr id="L27" class="line-comment"><td class="line-num"><a href="#L27">27</a></td><td class="line-code"><span style="color:#6A737D">below.</span></td></tr>
+<tr id="L28" class="line-comment"><td class="line-num"><a href="#L28">28</a></td><td class="line-code"> </td></tr>
+<tr id="L29" class="line-comment"><td class="line-num"><a href="#L29">29</a></td><td class="line-code"><span style="color:#6A737D">The paper defines the maximum over sets of size at most `k`. On the finite</span></td></tr>
+<tr id="L30" class="line-comment"><td class="line-num"><a href="#L30">30</a></td><td class="line-code"><span style="color:#6A737D">carrier `Fin n`, the natural supremum below is that maximum. The bound is</span></td></tr>
+<tr id="L31" class="line-comment"><td class="line-num"><a href="#L31">31</a></td><td class="line-code"><span style="color:#6A737D">required only for positive `k`: at `k = 0`, the empty vertex set has the one</span></td></tr>
+<tr id="L32" class="line-comment"><td class="line-num"><a href="#L32">32</a></td><td class="line-code"><span style="color:#6A737D">trace `∅`, so the literal inequality `π_G(0) ≤ c · 0` would be false.</span></td></tr>
+<tr id="L33" class="line-comment"><td class="line-num"><a href="#L33">33</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
 <tr id="L34" class=""><td class="line-num"><a href="#L34">34</a></td><td class="line-code"> </td></tr>
 <tr id="L35" class=""><td class="line-num"><a href="#L35">35</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax195003.WelzlOrdersNeighborhoodComplexity</span></td></tr>
 <tr id="L36" class=""><td class="line-num"><a href="#L36">36</a></td><td class="line-code"> </td></tr>
 <tr id="L37" class=""><td class="line-num"><a href="#L37">37</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-199508/Lax199508.GraphClasses.html"><span style="color:#24292E">Lax199508.GraphClasses</span></a></td></tr>
 <tr id="L38" class=""><td class="line-num"><a href="#L38">38</a></td><td class="line-code"> </td></tr>
-<tr id="L39" class=""><td class="line-num"><a href="#L39">39</a></td><td class="line-code"><span style="color:#6A737D">/-- The number of distinct traces `N(v) ∩ A` that vertex neighborhoods leave</span></td></tr>
-<tr id="L40" class=""><td class="line-num"><a href="#L40">40</a></td><td class="line-code"><span style="color:#6A737D">on the vertex set `A`. -/</span></td></tr>
+<tr id="L39" class="line-comment"><td class="line-num"><a href="#L39">39</a></td><td class="line-code"><span style="color:#6A737D">/-- The number of distinct traces `N(v) ∩ A` that vertex neighborhoods leave</span></td></tr>
+<tr id="L40" class="line-comment"><td class="line-num"><a href="#L40">40</a></td><td class="line-code"><span style="color:#6A737D">on the vertex set `A`. -/</span></td></tr>
 <tr id="L41" class=""><td class="line-num"><a href="#L41">41</a></td><td class="line-code"><span style="color:#D73A49">noncomputable</span><span style="color:#D73A49"> def</span><span style="color:#6F42C1"> traceCount</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">*} (G : SimpleGraph V)</span></td></tr>
 <tr id="L42" class=""><td class="line-num"><a href="#L42">42</a></td><td class="line-code"><span style="color:#24292E">    (A : Set V) : ℕ :=</span></td></tr>
 <tr id="L43" class=""><td class="line-num"><a href="#L43">43</a></td><td class="line-code"><span style="color:#24292E">  {S : Set V | ∃ v : V, S = G.neighborSet v ∩ A}.ncard</span></td></tr>
 <tr id="L44" class=""><td class="line-num"><a href="#L44">44</a></td><td class="line-code"> </td></tr>
-<tr id="L45" class=""><td class="line-num"><a href="#L45">45</a></td><td class="line-code"><span style="color:#6A737D">/-- The maximum number of distinct neighborhood traces on a vertex set of</span></td></tr>
-<tr id="L46" class=""><td class="line-num"><a href="#L46">46</a></td><td class="line-code"><span style="color:#6A737D">cardinality at most `k`. -/</span></td></tr>
+<tr id="L45" class="line-comment"><td class="line-num"><a href="#L45">45</a></td><td class="line-code"><span style="color:#6A737D">/-- The maximum number of distinct neighborhood traces on a vertex set of</span></td></tr>
+<tr id="L46" class="line-comment"><td class="line-num"><a href="#L46">46</a></td><td class="line-code"><span style="color:#6A737D">cardinality at most `k`. -/</span></td></tr>
 <tr id="L47" class=""><td class="line-num"><a href="#L47">47</a></td><td class="line-code"><span style="color:#D73A49">noncomputable</span><span style="color:#D73A49"> def</span><span style="color:#6F42C1"> neighborhoodComplexity</span><span style="color:#24292E"> {n : ℕ}</span></td></tr>
 <tr id="L48" class=""><td class="line-num"><a href="#L48">48</a></td><td class="line-code"><span style="color:#24292E">    (G : SimpleGraph (Fin n)) (k : ℕ) : ℕ :=</span></td></tr>
 <tr id="L49" class=""><td class="line-num"><a href="#L49">49</a></td><td class="line-code"><span style="color:#24292E">  sSup {q : ℕ | ∃ A : Set (Fin n),</span></td></tr>
 <tr id="L50" class=""><td class="line-num"><a href="#L50">50</a></td><td class="line-code"><span style="color:#24292E">    A.ncard ≤ k ∧ q = </span><a class="lean-identifier-link" href="../lax-195003/Lax195003.WelzlOrdersNeighborhoodComplexity.html#L39"><span style="color:#24292E">traceCount</span></a><span style="color:#24292E"> G A}</span></td></tr>
 <tr id="L51" class=""><td class="line-num"><a href="#L51">51</a></td><td class="line-code"> </td></tr>
-<tr id="L52" class=""><td class="line-num"><a href="#L52">52</a></td><td class="line-code"><span style="color:#6A737D">/-- The graph `G` has neighborhood complexity at most `c · k` for every</span></td></tr>
-<tr id="L53" class=""><td class="line-num"><a href="#L53">53</a></td><td class="line-code"><span style="color:#6A737D">positive `k`. -/</span></td></tr>
+<tr id="L52" class="line-comment"><td class="line-num"><a href="#L52">52</a></td><td class="line-code"><span style="color:#6A737D">/-- The graph `G` has neighborhood complexity at most `c · k` for every</span></td></tr>
+<tr id="L53" class="line-comment"><td class="line-num"><a href="#L53">53</a></td><td class="line-code"><span style="color:#6A737D">positive `k`. -/</span></td></tr>
 <tr id="L54" class=""><td class="line-num"><a href="#L54">54</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> HasLinearNeighborhoodComplexityWithConstant</span><span style="color:#24292E"> {n : ℕ}</span></td></tr>
 <tr id="L55" class=""><td class="line-num"><a href="#L55">55</a></td><td class="line-code"><span style="color:#24292E">    (G : SimpleGraph (Fin n)) (c : ℕ) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
 <tr id="L56" class=""><td class="line-num"><a href="#L56">56</a></td><td class="line-code"><span style="color:#24292E">  ∀ k : ℕ, </span><span style="color:#005CC5">1</span><span style="color:#24292E"> ≤ k → </span><a class="lean-identifier-link" href="../lax-195003/Lax195003.WelzlOrdersNeighborhoodComplexity.html#L45"><span style="color:#24292E">neighborhoodComplexity</span></a><span style="color:#24292E"> G k ≤ c * k</span></td></tr>
 <tr id="L57" class=""><td class="line-num"><a href="#L57">57</a></td><td class="line-code"> </td></tr>
-<tr id="L58" class=""><td class="line-num"><a href="#L58">58</a></td><td class="line-code"><span style="color:#6A737D">/-- One natural constant `c ≥ 1` bounds the neighborhood complexity of every</span></td></tr>
-<tr id="L59" class=""><td class="line-num"><a href="#L59">59</a></td><td class="line-code"><span style="color:#6A737D">graph satisfying the class predicate `C` by `c · k`: the class has linear</span></td></tr>
-<tr id="L60" class=""><td class="line-num"><a href="#L60">60</a></td><td class="line-code"><span style="color:#6A737D">neighborhood complexity. -/</span></td></tr>
+<tr id="L58" class="line-comment"><td class="line-num"><a href="#L58">58</a></td><td class="line-code"><span style="color:#6A737D">/-- One natural constant `c ≥ 1` bounds the neighborhood complexity of every</span></td></tr>
+<tr id="L59" class="line-comment"><td class="line-num"><a href="#L59">59</a></td><td class="line-code"><span style="color:#6A737D">graph satisfying the class predicate `C` by `c · k`: the class has linear</span></td></tr>
+<tr id="L60" class="line-comment"><td class="line-num"><a href="#L60">60</a></td><td class="line-code"><span style="color:#6A737D">neighborhood complexity. -/</span></td></tr>
 <tr id="L61" class=""><td class="line-num"><a href="#L61">61</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> HasLinearNeighborhoodComplexity</span><span style="color:#24292E"> (C : </span><a class="lean-identifier-link" href="../lax-199508/Lax199508.GraphClasses.html#L25"><span style="color:#24292E">GraphClass</span></a><span style="color:#24292E">) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
 <tr id="L62" class=""><td class="line-num"><a href="#L62">62</a></td><td class="line-code"><span style="color:#24292E">  ∃ c : ℕ, </span><span style="color:#005CC5">1</span><span style="color:#24292E"> ≤ c ∧</span></td></tr>
 <tr id="L63" class=""><td class="line-num"><a href="#L63">63</a></td><td class="line-code"><span style="color:#24292E">    ∀ (n : ℕ) (G : SimpleGraph (Fin n)), C n G →</span></td></tr>
@@ -253,7 +253,7 @@ trace <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.
 <script src="../assets/sidebar.js?v=14479c59f650"></script>
 <script src="../assets/account.js?v=6a0844f8bd00"></script>
 <script src="../assets/graph-interaction.js?v=2f9fd490c8bd"></script>
-<script src="../assets/source-proof.js?v=b4c48aaad400"></script>
+<script src="../assets/source-proof.js?v=c61006f1e018"></script>
 <script src="../assets/version-history.js?v=a36e868140dd"></script>
 <script src="../assets/comments.js?v=40723213c083"></script>
 </body></html>

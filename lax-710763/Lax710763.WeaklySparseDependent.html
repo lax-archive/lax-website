@@ -9,7 +9,7 @@
 <link rel="canonical" href="https://laxarchive.org/lax-710763/Lax710763.WeaklySparseDependent.html">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=e1fc104ec6cc">
+<link rel="stylesheet" href="../assets/style.css?v=5624644d5b74">
 </head><body>
 <header class="site-header with-sidebar">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="true" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -136,39 +136,39 @@ dependent, this carries the classical equivalence: on weakly sparse
 classes, monadic dependence and nowhere denseness coincide.</p>
 </div></div>
 <div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/5e97e29d5a0c37894d1d49488a9ff5b560c3a5a6/monadic-dependence-neighborhood-complexity-v4-33/concepts/Lax710763/WeaklySparseDependent.lean">view on GitHub</a></h3>
-<div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<div class="inline-contract-shell"><button class="comment-toggle" type="button" aria-pressed="false" aria-label="Hide comments">Hide comments</button><div class="inline-contract-wrap"><table class="inline-contract-table">
 <tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-710763/Lax710763.GraphClasses.html"><span style="color:#24292E">Lax710763.GraphClasses</span></a></td></tr>
 <tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-710763/Lax710763.MonadicDependence.html"><span style="color:#24292E">Lax710763.MonadicDependence</span></a></td></tr>
 <tr id="L3" class=""><td class="line-num"><a href="#L3">3</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-199508/Lax199508.NowhereDenseClasses.html"><span style="color:#24292E">Lax199508.NowhereDenseClasses</span></a></td></tr>
 <tr id="L4" class=""><td class="line-num"><a href="#L4">4</a></td><td class="line-code"> </td></tr>
-<tr id="L5" class=""><td class="line-num"><a href="#L5">5</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
-<tr id="L6" class=""><td class="line-num"><a href="#L6">6</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
-<tr id="L7" class=""><td class="line-num"><a href="#L7">7</a></td><td class="line-code"><span style="color:#6A737D">title: Weakly sparse monadically dependent classes are nowhere dense</span></td></tr>
-<tr id="L8" class=""><td class="line-num"><a href="#L8">8</a></td><td class="line-code"><span style="color:#6A737D">type: theorem</span></td></tr>
-<tr id="L9" class=""><td class="line-num"><a href="#L9">9</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
-<tr id="L10" class=""><td class="line-num"><a href="#L10">10</a></td><td class="line-code"><span style="color:#6A737D">Every weakly sparse monadically dependent graph class is nowhere dense.</span></td></tr>
-<tr id="L11" class=""><td class="line-num"><a href="#L11">11</a></td><td class="line-code"><span style="color:#6A737D">Together with the statement that nowhere dense classes are monadically</span></td></tr>
-<tr id="L12" class=""><td class="line-num"><a href="#L12">12</a></td><td class="line-code"><span style="color:#6A737D">dependent, this carries the classical equivalence: on weakly sparse</span></td></tr>
-<tr id="L13" class=""><td class="line-num"><a href="#L13">13</a></td><td class="line-code"><span style="color:#6A737D">classes, monadic dependence and nowhere denseness coincide.</span></td></tr>
-<tr id="L14" class=""><td class="line-num"><a href="#L14">14</a></td><td class="line-code"> </td></tr>
-<tr id="L15" class=""><td class="line-num"><a href="#L15">15</a></td><td class="line-code"><span style="color:#6A737D"># Formalization notes</span></td></tr>
-<tr id="L16" class=""><td class="line-num"><a href="#L16">16</a></td><td class="line-code"> </td></tr>
-<tr id="L17" class=""><td class="line-num"><a href="#L17">17</a></td><td class="line-code"><span style="color:#6A737D">The hypotheses are the weak sparseness predicate of the graph classes</span></td></tr>
-<tr id="L18" class=""><td class="line-num"><a href="#L18">18</a></td><td class="line-code"><span style="color:#6A737D">concept of this submission and the transduction-based definition of</span></td></tr>
-<tr id="L19" class=""><td class="line-num"><a href="#L19">19</a></td><td class="line-code"><span style="color:#6A737D">monadic dependence; the conclusion is `NowhereDense`, the shallow-minor</span></td></tr>
-<tr id="L20" class=""><td class="line-num"><a href="#L20">20</a></td><td class="line-code"><span style="color:#6A737D">definition of the *Sparsity Lectures* submission (Lax199508), where nowhere</span></td></tr>
-<tr id="L21" class=""><td class="line-num"><a href="#L21">21</a></td><td class="line-code"><span style="color:#6A737D">denseness is defined and endorsed. Stating the conclusion over that</span></td></tr>
-<tr id="L22" class=""><td class="line-num"><a href="#L22">22</a></td><td class="line-code"><span style="color:#6A737D">definition is what lets this statement compose directly with the</span></td></tr>
-<tr id="L23" class=""><td class="line-num"><a href="#L23">23</a></td><td class="line-code"><span style="color:#6A737D">sparsity theory built on it.</span></td></tr>
-<tr id="L24" class=""><td class="line-num"><a href="#L24">24</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
+<tr id="L5" class="line-comment"><td class="line-num"><a href="#L5">5</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
+<tr id="L6" class="line-comment"><td class="line-num"><a href="#L6">6</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
+<tr id="L7" class="line-comment"><td class="line-num"><a href="#L7">7</a></td><td class="line-code"><span style="color:#6A737D">title: Weakly sparse monadically dependent classes are nowhere dense</span></td></tr>
+<tr id="L8" class="line-comment"><td class="line-num"><a href="#L8">8</a></td><td class="line-code"><span style="color:#6A737D">type: theorem</span></td></tr>
+<tr id="L9" class="line-comment"><td class="line-num"><a href="#L9">9</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
+<tr id="L10" class="line-comment"><td class="line-num"><a href="#L10">10</a></td><td class="line-code"><span style="color:#6A737D">Every weakly sparse monadically dependent graph class is nowhere dense.</span></td></tr>
+<tr id="L11" class="line-comment"><td class="line-num"><a href="#L11">11</a></td><td class="line-code"><span style="color:#6A737D">Together with the statement that nowhere dense classes are monadically</span></td></tr>
+<tr id="L12" class="line-comment"><td class="line-num"><a href="#L12">12</a></td><td class="line-code"><span style="color:#6A737D">dependent, this carries the classical equivalence: on weakly sparse</span></td></tr>
+<tr id="L13" class="line-comment"><td class="line-num"><a href="#L13">13</a></td><td class="line-code"><span style="color:#6A737D">classes, monadic dependence and nowhere denseness coincide.</span></td></tr>
+<tr id="L14" class="line-comment"><td class="line-num"><a href="#L14">14</a></td><td class="line-code"> </td></tr>
+<tr id="L15" class="line-comment"><td class="line-num"><a href="#L15">15</a></td><td class="line-code"><span style="color:#6A737D"># Formalization notes</span></td></tr>
+<tr id="L16" class="line-comment"><td class="line-num"><a href="#L16">16</a></td><td class="line-code"> </td></tr>
+<tr id="L17" class="line-comment"><td class="line-num"><a href="#L17">17</a></td><td class="line-code"><span style="color:#6A737D">The hypotheses are the weak sparseness predicate of the graph classes</span></td></tr>
+<tr id="L18" class="line-comment"><td class="line-num"><a href="#L18">18</a></td><td class="line-code"><span style="color:#6A737D">concept of this submission and the transduction-based definition of</span></td></tr>
+<tr id="L19" class="line-comment"><td class="line-num"><a href="#L19">19</a></td><td class="line-code"><span style="color:#6A737D">monadic dependence; the conclusion is `NowhereDense`, the shallow-minor</span></td></tr>
+<tr id="L20" class="line-comment"><td class="line-num"><a href="#L20">20</a></td><td class="line-code"><span style="color:#6A737D">definition of the *Sparsity Lectures* submission (Lax199508), where nowhere</span></td></tr>
+<tr id="L21" class="line-comment"><td class="line-num"><a href="#L21">21</a></td><td class="line-code"><span style="color:#6A737D">denseness is defined and endorsed. Stating the conclusion over that</span></td></tr>
+<tr id="L22" class="line-comment"><td class="line-num"><a href="#L22">22</a></td><td class="line-code"><span style="color:#6A737D">definition is what lets this statement compose directly with the</span></td></tr>
+<tr id="L23" class="line-comment"><td class="line-num"><a href="#L23">23</a></td><td class="line-code"><span style="color:#6A737D">sparsity theory built on it.</span></td></tr>
+<tr id="L24" class="line-comment"><td class="line-num"><a href="#L24">24</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
 <tr id="L25" class=""><td class="line-num"><a href="#L25">25</a></td><td class="line-code"> </td></tr>
 <tr id="L26" class=""><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax710763.WeaklySparseDependent</span></td></tr>
 <tr id="L27" class=""><td class="line-num"><a href="#L27">27</a></td><td class="line-code"> </td></tr>
 <tr id="L28" class=""><td class="line-num"><a href="#L28">28</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-199508/Lax199508.GraphClasses.html"><span style="color:#24292E">Lax199508.GraphClasses</span></a><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-199508/Lax199508.NowhereDenseClasses.html"><span style="color:#24292E">Lax199508.NowhereDenseClasses</span></a></td></tr>
 <tr id="L29" class=""><td class="line-num"><a href="#L29">29</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-710763/Lax710763.GraphClasses.html"><span style="color:#24292E">Lax710763.GraphClasses</span></a><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-710763/Lax710763.MonadicDependence.html"><span style="color:#24292E">Lax710763.MonadicDependence</span></a></td></tr>
 <tr id="L30" class=""><td class="line-num"><a href="#L30">30</a></td><td class="line-code"> </td></tr>
-<tr id="L31" class="statement-line line-proven"><td class="line-num"><a href="#L31">31</a></td><td class="line-code"><span class="statement-anchor" id="s-Lax710763.WeaklySparseDependent.nowhereDense_of_weaklySparse_of_monadicallyDependent"></span><span style="color:#6A737D">/-- Every weakly sparse monadically dependent graph class is nowhere</span></td></tr>
-<tr id="L32" class="statement-line line-proven"><td class="line-num"><a href="#L32">32</a></td><td class="line-code"><span style="color:#6A737D">dense. -/</span></td></tr>
+<tr id="L31" class="statement-line line-proven line-comment"><td class="line-num"><a href="#L31">31</a></td><td class="line-code"><span class="statement-anchor" id="s-Lax710763.WeaklySparseDependent.nowhereDense_of_weaklySparse_of_monadicallyDependent"></span><span style="color:#6A737D">/-- Every weakly sparse monadically dependent graph class is nowhere</span></td></tr>
+<tr id="L32" class="statement-line line-proven line-comment"><td class="line-num"><a href="#L32">32</a></td><td class="line-code"><span style="color:#6A737D">dense. -/</span></td></tr>
 <tr id="L33" class="statement-line line-proven"><td class="line-num"><a href="#L33">33</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> nowhereDense_of_weaklySparse_of_monadicallyDependent</span></td></tr>
 <tr id="L34" class="statement-line line-proven"><td class="line-num"><a href="#L34">34</a></td><td class="line-code"><span style="color:#24292E">    (C : </span><a class="lean-identifier-link" href="../lax-199508/Lax199508.GraphClasses.html#L25"><span style="color:#24292E">GraphClass</span></a><span style="color:#24292E">) (hs : </span><a class="lean-identifier-link" href="../lax-710763/Lax710763.GraphClasses.html#L39"><span style="color:#24292E">WeaklySparse</span></a><span style="color:#24292E"> C) (hd : </span><a class="lean-identifier-link" href="../lax-710763/Lax710763.MonadicDependence.html#L23"><span style="color:#24292E">MonadicallyDependent</span></a><span style="color:#24292E"> C) :</span></td></tr>
 <tr id="L35" class="statement-line line-proven"><td class="line-num"><a href="#L35">35</a></td><td class="line-code"><span style="color:#24292E">    </span><a class="lean-identifier-link" href="../lax-199508/Lax199508.NowhereDenseClasses.html#L64"><span style="color:#24292E">NowhereDense</span></a><span style="color:#24292E"> C</span></td></tr>
@@ -241,7 +241,7 @@ sparsity theory built on it.</p>
 <script src="../assets/sidebar.js?v=14479c59f650"></script>
 <script src="../assets/account.js?v=6a0844f8bd00"></script>
 <script src="../assets/graph-interaction.js?v=2f9fd490c8bd"></script>
-<script src="../assets/source-proof.js?v=b4c48aaad400"></script>
+<script src="../assets/source-proof.js?v=c61006f1e018"></script>
 <script src="../assets/version-history.js?v=a36e868140dd"></script>
 <script src="../assets/comments.js?v=40723213c083"></script>
 </body></html>

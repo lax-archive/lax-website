@@ -9,7 +9,7 @@
 <link rel="canonical" href="https://laxarchive.org/lax-12/Lax12.ShallowTopologicalMinors.html">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=e1fc104ec6cc">
+<link rel="stylesheet" href="../assets/style.css?v=5624644d5b74">
 </head><body>
 <header class="site-header with-sidebar">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="true" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -164,108 +164,108 @@ the density predicate here says ∇̃_<em>r</em>(<em>G</em>) ≤ <em>d</em>. The
 topological minor is in particular a depth-<em>r</em> minor.</p>
 </div></div>
 <div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/25a164f8439311426b1033ba7ea21947d829ff88/sparsity-lectures/concepts/Lax12/ShallowTopologicalMinors.lean">view on GitHub</a></h3>
-<div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<div class="inline-contract-shell"><button class="comment-toggle" type="button" aria-pressed="false" aria-label="Hide comments">Hide comments</button><div class="inline-contract-wrap"><table class="inline-contract-table">
 <tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Combinatorics.SimpleGraph.Walk.Basic</span></td></tr>
 <tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Data.Set.Card</span></td></tr>
 <tr id="L3" class=""><td class="line-num"><a href="#L3">3</a></td><td class="line-code"> </td></tr>
-<tr id="L4" class=""><td class="line-num"><a href="#L4">4</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
-<tr id="L5" class=""><td class="line-num"><a href="#L5">5</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
-<tr id="L6" class=""><td class="line-num"><a href="#L6">6</a></td><td class="line-code"><span style="color:#6A737D">title: Shallow topological minors</span></td></tr>
-<tr id="L7" class=""><td class="line-num"><a href="#L7">7</a></td><td class="line-code"><span style="color:#6A737D">type: definition</span></td></tr>
-<tr id="L8" class=""><td class="line-num"><a href="#L8">8</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
-<tr id="L9" class=""><td class="line-num"><a href="#L9">9</a></td><td class="line-code"><span style="color:#6A737D">A graph *H* is a depth-*r* topological minor of a graph *G* if the graph</span></td></tr>
-<tr id="L10" class=""><td class="line-num"><a href="#L10">10</a></td><td class="line-code"><span style="color:#6A737D">obtained from *H* by subdividing every edge at most 2*r* times is a</span></td></tr>
-<tr id="L11" class=""><td class="line-num"><a href="#L11">11</a></td><td class="line-code"><span style="color:#6A737D">subgraph of *G*: the vertices of *H* are realized by distinct principal</span></td></tr>
-<tr id="L12" class=""><td class="line-num"><a href="#L12">12</a></td><td class="line-code"><span style="color:#6A737D">vertices of *G*, and every edge of *H* by a path of length at most</span></td></tr>
-<tr id="L13" class=""><td class="line-num"><a href="#L13">13</a></td><td class="line-code"><span style="color:#6A737D">2*r*+1 between the principal vertices of its endpoints, these paths</span></td></tr>
-<tr id="L14" class=""><td class="line-num"><a href="#L14">14</a></td><td class="line-code"><span style="color:#6A737D">being internally disjoint from each other and from all principal</span></td></tr>
-<tr id="L15" class=""><td class="line-num"><a href="#L15">15</a></td><td class="line-code"><span style="color:#6A737D">vertices. A graph *G* has depth-*r* topological density at most *d* if</span></td></tr>
-<tr id="L16" class=""><td class="line-num"><a href="#L16">16</a></td><td class="line-code"><span style="color:#6A737D">every depth-*r* topological minor *H* of *G* has at most *d* · |V(H)|</span></td></tr>
-<tr id="L17" class=""><td class="line-num"><a href="#L17">17</a></td><td class="line-code"><span style="color:#6A737D">edges.</span></td></tr>
-<tr id="L18" class=""><td class="line-num"><a href="#L18">18</a></td><td class="line-code"> </td></tr>
-<tr id="L19" class=""><td class="line-num"><a href="#L19">19</a></td><td class="line-code"><span style="color:#6A737D">In the source lecture notes these are Definitions 2.15 and 2.16 of</span></td></tr>
-<tr id="L20" class=""><td class="line-num"><a href="#L20">20</a></td><td class="line-code"><span style="color:#6A737D">Chapter 1 (2019/20 edition): the topological minor relation is written</span></td></tr>
-<tr id="L21" class=""><td class="line-num"><a href="#L21">21</a></td><td class="line-code"><span style="color:#6A737D">*H* ⪯^top_*r* *G*, and the topological grad ∇̃_*r*(*G*) is the supremum</span></td></tr>
-<tr id="L22" class=""><td class="line-num"><a href="#L22">22</a></td><td class="line-code"><span style="color:#6A737D">of |E(H)|/|V(H)| over the depth-*r* topological minors *H* of *G*, so</span></td></tr>
-<tr id="L23" class=""><td class="line-num"><a href="#L23">23</a></td><td class="line-code"><span style="color:#6A737D">the density predicate here says ∇̃_*r*(*G*) ≤ *d*. The length bound</span></td></tr>
-<tr id="L24" class=""><td class="line-num"><a href="#L24">24</a></td><td class="line-code"><span style="color:#6A737D">2*r*+1 is the notes' own convention, chosen so that a depth-*r*</span></td></tr>
-<tr id="L25" class=""><td class="line-num"><a href="#L25">25</a></td><td class="line-code"><span style="color:#6A737D">topological minor is in particular a depth-*r* minor.</span></td></tr>
-<tr id="L26" class=""><td class="line-num"><a href="#L26">26</a></td><td class="line-code"> </td></tr>
-<tr id="L27" class=""><td class="line-num"><a href="#L27">27</a></td><td class="line-code"><span style="color:#6A737D"># Formalization notes</span></td></tr>
-<tr id="L28" class=""><td class="line-num"><a href="#L28">28</a></td><td class="line-code"> </td></tr>
-<tr id="L29" class=""><td class="line-num"><a href="#L29">29</a></td><td class="line-code"><span style="color:#6A737D">The subdivision reading and the model stated here are the same notion:</span></td></tr>
-<tr id="L30" class=""><td class="line-num"><a href="#L30">30</a></td><td class="line-code"><span style="color:#6A737D">subdividing an edge *k* times replaces it by a path of length *k*+1, so</span></td></tr>
-<tr id="L31" class=""><td class="line-num"><a href="#L31">31</a></td><td class="line-code"><span style="color:#6A737D">a subdivision of *H* with at most 2*r* subdivisions per edge embeds into</span></td></tr>
-<tr id="L32" class=""><td class="line-num"><a href="#L32">32</a></td><td class="line-code"><span style="color:#6A737D">*G* exactly when the vertices of *H* can be sent injectively to</span></td></tr>
-<tr id="L33" class=""><td class="line-num"><a href="#L33">33</a></td><td class="line-code"><span style="color:#6A737D">principal vertices of *G* and the edges to connecting paths of length at</span></td></tr>
-<tr id="L34" class=""><td class="line-num"><a href="#L34">34</a></td><td class="line-code"><span style="color:#6A737D">most 2*r*+1 that are pairwise internally disjoint and avoid all</span></td></tr>
-<tr id="L35" class=""><td class="line-num"><a href="#L35">35</a></td><td class="line-code"><span style="color:#6A737D">principal vertices internally. The model carries that data directly.</span></td></tr>
-<tr id="L36" class=""><td class="line-num"><a href="#L36">36</a></td><td class="line-code"> </td></tr>
-<tr id="L37" class=""><td class="line-num"><a href="#L37">37</a></td><td class="line-code"><span style="color:#6A737D">Connecting walks are indexed by *adjacent pairs* of vertices of `H`</span></td></tr>
-<tr id="L38" class=""><td class="line-num"><a href="#L38">38</a></td><td class="line-code"><span style="color:#6A737D">rather than by the edge set, which keeps `Sym2` and its membership</span></td></tr>
-<tr id="L39" class=""><td class="line-num"><a href="#L39">39</a></td><td class="line-code"><span style="color:#6A737D">plumbing off the surface. The two orientations of one edge therefore</span></td></tr>
-<tr id="L40" class=""><td class="line-num"><a href="#L40">40</a></td><td class="line-code"><span style="color:#6A737D">each carry a walk, and the two are deliberately not required to be</span></td></tr>
-<tr id="L41" class=""><td class="line-num"><a href="#L41">41</a></td><td class="line-code"><span style="color:#6A737D">reverses of each other: the `disjoint` field concludes that the two</span></td></tr>
-<tr id="L42" class=""><td class="line-num"><a href="#L42">42</a></td><td class="line-code"><span style="color:#6A737D">edges agree, so it never fires on the two orientations of a single edge</span></td></tr>
-<tr id="L43" class=""><td class="line-num"><a href="#L43">43</a></td><td class="line-code"><span style="color:#6A737D">and forces nothing between them. Either orientation's walk witnesses</span></td></tr>
-<tr id="L44" class=""><td class="line-num"><a href="#L44">44</a></td><td class="line-code"><span style="color:#6A737D">that edge of the subdivision, and a model in the usual edge-indexed form</span></td></tr>
-<tr id="L45" class=""><td class="line-num"><a href="#L45">45</a></td><td class="line-code"><span style="color:#6A737D">gives one here by sending the reversed orientation to the reversed walk.</span></td></tr>
-<tr id="L46" class=""><td class="line-num"><a href="#L46">46</a></td><td class="line-code"> </td></tr>
-<tr id="L47" class=""><td class="line-num"><a href="#L47">47</a></td><td class="line-code"><span style="color:#6A737D">Walks rather than paths, as everywhere in this submission: bypassing a</span></td></tr>
-<tr id="L48" class=""><td class="line-num"><a href="#L48">48</a></td><td class="line-code"><span style="color:#6A737D">walk to a path shortens it and shrinks its support, so it preserves both</span></td></tr>
-<tr id="L49" class=""><td class="line-num"><a href="#L49">49</a></td><td class="line-code"><span style="color:#6A737D">the length bound and the disjointness conditions, and the two readings</span></td></tr>
-<tr id="L50" class=""><td class="line-num"><a href="#L50">50</a></td><td class="line-code"><span style="color:#6A737D">define the same relation. `principal_inj` is not derivable from the</span></td></tr>
-<tr id="L51" class=""><td class="line-num"><a href="#L51">51</a></td><td class="line-code"><span style="color:#6A737D">other fields — nothing constrains vertices of `H` that share no edge —</span></td></tr>
-<tr id="L52" class=""><td class="line-num"><a href="#L52">52</a></td><td class="line-code"><span style="color:#6A737D">and it is exactly the notes' requirement that principal vertices be</span></td></tr>
-<tr id="L53" class=""><td class="line-num"><a href="#L53">53</a></td><td class="line-code"><span style="color:#6A737D">distinct.</span></td></tr>
-<tr id="L54" class=""><td class="line-num"><a href="#L54">54</a></td><td class="line-code"> </td></tr>
-<tr id="L55" class=""><td class="line-num"><a href="#L55">55</a></td><td class="line-code"><span style="color:#6A737D">No numeric topological grad is introduced, for the reason the</span></td></tr>
-<tr id="L56" class=""><td class="line-num"><a href="#L56">56</a></td><td class="line-code"><span style="color:#6A737D">ordinary-minor density concept gives: every statement of this submission</span></td></tr>
-<tr id="L57" class=""><td class="line-num"><a href="#L57">57</a></td><td class="line-code"><span style="color:#6A737D">supplies a concrete bound *d* rather than consuming a number, so a</span></td></tr>
-<tr id="L58" class=""><td class="line-num"><a href="#L58">58</a></td><td class="line-code"><span style="color:#6A737D">`sInf`-defined ∇̃ would be review surface that no claim uses. Edges are</span></td></tr>
-<tr id="L59" class=""><td class="line-num"><a href="#L59">59</a></td><td class="line-code"><span style="color:#6A737D">counted as the natural cardinality (`Set.ncard`) of `edgeSet`, and</span></td></tr>
-<tr id="L60" class=""><td class="line-num"><a href="#L60">60</a></td><td class="line-code"><span style="color:#6A737D">minors range over the canonical carriers `Fin m`, as in the</span></td></tr>
-<tr id="L61" class=""><td class="line-num"><a href="#L61">61</a></td><td class="line-code"><span style="color:#6A737D">ordinary-minor concepts.</span></td></tr>
-<tr id="L62" class=""><td class="line-num"><a href="#L62">62</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
+<tr id="L4" class="line-comment"><td class="line-num"><a href="#L4">4</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
+<tr id="L5" class="line-comment"><td class="line-num"><a href="#L5">5</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
+<tr id="L6" class="line-comment"><td class="line-num"><a href="#L6">6</a></td><td class="line-code"><span style="color:#6A737D">title: Shallow topological minors</span></td></tr>
+<tr id="L7" class="line-comment"><td class="line-num"><a href="#L7">7</a></td><td class="line-code"><span style="color:#6A737D">type: definition</span></td></tr>
+<tr id="L8" class="line-comment"><td class="line-num"><a href="#L8">8</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
+<tr id="L9" class="line-comment"><td class="line-num"><a href="#L9">9</a></td><td class="line-code"><span style="color:#6A737D">A graph *H* is a depth-*r* topological minor of a graph *G* if the graph</span></td></tr>
+<tr id="L10" class="line-comment"><td class="line-num"><a href="#L10">10</a></td><td class="line-code"><span style="color:#6A737D">obtained from *H* by subdividing every edge at most 2*r* times is a</span></td></tr>
+<tr id="L11" class="line-comment"><td class="line-num"><a href="#L11">11</a></td><td class="line-code"><span style="color:#6A737D">subgraph of *G*: the vertices of *H* are realized by distinct principal</span></td></tr>
+<tr id="L12" class="line-comment"><td class="line-num"><a href="#L12">12</a></td><td class="line-code"><span style="color:#6A737D">vertices of *G*, and every edge of *H* by a path of length at most</span></td></tr>
+<tr id="L13" class="line-comment"><td class="line-num"><a href="#L13">13</a></td><td class="line-code"><span style="color:#6A737D">2*r*+1 between the principal vertices of its endpoints, these paths</span></td></tr>
+<tr id="L14" class="line-comment"><td class="line-num"><a href="#L14">14</a></td><td class="line-code"><span style="color:#6A737D">being internally disjoint from each other and from all principal</span></td></tr>
+<tr id="L15" class="line-comment"><td class="line-num"><a href="#L15">15</a></td><td class="line-code"><span style="color:#6A737D">vertices. A graph *G* has depth-*r* topological density at most *d* if</span></td></tr>
+<tr id="L16" class="line-comment"><td class="line-num"><a href="#L16">16</a></td><td class="line-code"><span style="color:#6A737D">every depth-*r* topological minor *H* of *G* has at most *d* · |V(H)|</span></td></tr>
+<tr id="L17" class="line-comment"><td class="line-num"><a href="#L17">17</a></td><td class="line-code"><span style="color:#6A737D">edges.</span></td></tr>
+<tr id="L18" class="line-comment"><td class="line-num"><a href="#L18">18</a></td><td class="line-code"> </td></tr>
+<tr id="L19" class="line-comment"><td class="line-num"><a href="#L19">19</a></td><td class="line-code"><span style="color:#6A737D">In the source lecture notes these are Definitions 2.15 and 2.16 of</span></td></tr>
+<tr id="L20" class="line-comment"><td class="line-num"><a href="#L20">20</a></td><td class="line-code"><span style="color:#6A737D">Chapter 1 (2019/20 edition): the topological minor relation is written</span></td></tr>
+<tr id="L21" class="line-comment"><td class="line-num"><a href="#L21">21</a></td><td class="line-code"><span style="color:#6A737D">*H* ⪯^top_*r* *G*, and the topological grad ∇̃_*r*(*G*) is the supremum</span></td></tr>
+<tr id="L22" class="line-comment"><td class="line-num"><a href="#L22">22</a></td><td class="line-code"><span style="color:#6A737D">of |E(H)|/|V(H)| over the depth-*r* topological minors *H* of *G*, so</span></td></tr>
+<tr id="L23" class="line-comment"><td class="line-num"><a href="#L23">23</a></td><td class="line-code"><span style="color:#6A737D">the density predicate here says ∇̃_*r*(*G*) ≤ *d*. The length bound</span></td></tr>
+<tr id="L24" class="line-comment"><td class="line-num"><a href="#L24">24</a></td><td class="line-code"><span style="color:#6A737D">2*r*+1 is the notes' own convention, chosen so that a depth-*r*</span></td></tr>
+<tr id="L25" class="line-comment"><td class="line-num"><a href="#L25">25</a></td><td class="line-code"><span style="color:#6A737D">topological minor is in particular a depth-*r* minor.</span></td></tr>
+<tr id="L26" class="line-comment"><td class="line-num"><a href="#L26">26</a></td><td class="line-code"> </td></tr>
+<tr id="L27" class="line-comment"><td class="line-num"><a href="#L27">27</a></td><td class="line-code"><span style="color:#6A737D"># Formalization notes</span></td></tr>
+<tr id="L28" class="line-comment"><td class="line-num"><a href="#L28">28</a></td><td class="line-code"> </td></tr>
+<tr id="L29" class="line-comment"><td class="line-num"><a href="#L29">29</a></td><td class="line-code"><span style="color:#6A737D">The subdivision reading and the model stated here are the same notion:</span></td></tr>
+<tr id="L30" class="line-comment"><td class="line-num"><a href="#L30">30</a></td><td class="line-code"><span style="color:#6A737D">subdividing an edge *k* times replaces it by a path of length *k*+1, so</span></td></tr>
+<tr id="L31" class="line-comment"><td class="line-num"><a href="#L31">31</a></td><td class="line-code"><span style="color:#6A737D">a subdivision of *H* with at most 2*r* subdivisions per edge embeds into</span></td></tr>
+<tr id="L32" class="line-comment"><td class="line-num"><a href="#L32">32</a></td><td class="line-code"><span style="color:#6A737D">*G* exactly when the vertices of *H* can be sent injectively to</span></td></tr>
+<tr id="L33" class="line-comment"><td class="line-num"><a href="#L33">33</a></td><td class="line-code"><span style="color:#6A737D">principal vertices of *G* and the edges to connecting paths of length at</span></td></tr>
+<tr id="L34" class="line-comment"><td class="line-num"><a href="#L34">34</a></td><td class="line-code"><span style="color:#6A737D">most 2*r*+1 that are pairwise internally disjoint and avoid all</span></td></tr>
+<tr id="L35" class="line-comment"><td class="line-num"><a href="#L35">35</a></td><td class="line-code"><span style="color:#6A737D">principal vertices internally. The model carries that data directly.</span></td></tr>
+<tr id="L36" class="line-comment"><td class="line-num"><a href="#L36">36</a></td><td class="line-code"> </td></tr>
+<tr id="L37" class="line-comment"><td class="line-num"><a href="#L37">37</a></td><td class="line-code"><span style="color:#6A737D">Connecting walks are indexed by *adjacent pairs* of vertices of `H`</span></td></tr>
+<tr id="L38" class="line-comment"><td class="line-num"><a href="#L38">38</a></td><td class="line-code"><span style="color:#6A737D">rather than by the edge set, which keeps `Sym2` and its membership</span></td></tr>
+<tr id="L39" class="line-comment"><td class="line-num"><a href="#L39">39</a></td><td class="line-code"><span style="color:#6A737D">plumbing off the surface. The two orientations of one edge therefore</span></td></tr>
+<tr id="L40" class="line-comment"><td class="line-num"><a href="#L40">40</a></td><td class="line-code"><span style="color:#6A737D">each carry a walk, and the two are deliberately not required to be</span></td></tr>
+<tr id="L41" class="line-comment"><td class="line-num"><a href="#L41">41</a></td><td class="line-code"><span style="color:#6A737D">reverses of each other: the `disjoint` field concludes that the two</span></td></tr>
+<tr id="L42" class="line-comment"><td class="line-num"><a href="#L42">42</a></td><td class="line-code"><span style="color:#6A737D">edges agree, so it never fires on the two orientations of a single edge</span></td></tr>
+<tr id="L43" class="line-comment"><td class="line-num"><a href="#L43">43</a></td><td class="line-code"><span style="color:#6A737D">and forces nothing between them. Either orientation's walk witnesses</span></td></tr>
+<tr id="L44" class="line-comment"><td class="line-num"><a href="#L44">44</a></td><td class="line-code"><span style="color:#6A737D">that edge of the subdivision, and a model in the usual edge-indexed form</span></td></tr>
+<tr id="L45" class="line-comment"><td class="line-num"><a href="#L45">45</a></td><td class="line-code"><span style="color:#6A737D">gives one here by sending the reversed orientation to the reversed walk.</span></td></tr>
+<tr id="L46" class="line-comment"><td class="line-num"><a href="#L46">46</a></td><td class="line-code"> </td></tr>
+<tr id="L47" class="line-comment"><td class="line-num"><a href="#L47">47</a></td><td class="line-code"><span style="color:#6A737D">Walks rather than paths, as everywhere in this submission: bypassing a</span></td></tr>
+<tr id="L48" class="line-comment"><td class="line-num"><a href="#L48">48</a></td><td class="line-code"><span style="color:#6A737D">walk to a path shortens it and shrinks its support, so it preserves both</span></td></tr>
+<tr id="L49" class="line-comment"><td class="line-num"><a href="#L49">49</a></td><td class="line-code"><span style="color:#6A737D">the length bound and the disjointness conditions, and the two readings</span></td></tr>
+<tr id="L50" class="line-comment"><td class="line-num"><a href="#L50">50</a></td><td class="line-code"><span style="color:#6A737D">define the same relation. `principal_inj` is not derivable from the</span></td></tr>
+<tr id="L51" class="line-comment"><td class="line-num"><a href="#L51">51</a></td><td class="line-code"><span style="color:#6A737D">other fields — nothing constrains vertices of `H` that share no edge —</span></td></tr>
+<tr id="L52" class="line-comment"><td class="line-num"><a href="#L52">52</a></td><td class="line-code"><span style="color:#6A737D">and it is exactly the notes' requirement that principal vertices be</span></td></tr>
+<tr id="L53" class="line-comment"><td class="line-num"><a href="#L53">53</a></td><td class="line-code"><span style="color:#6A737D">distinct.</span></td></tr>
+<tr id="L54" class="line-comment"><td class="line-num"><a href="#L54">54</a></td><td class="line-code"> </td></tr>
+<tr id="L55" class="line-comment"><td class="line-num"><a href="#L55">55</a></td><td class="line-code"><span style="color:#6A737D">No numeric topological grad is introduced, for the reason the</span></td></tr>
+<tr id="L56" class="line-comment"><td class="line-num"><a href="#L56">56</a></td><td class="line-code"><span style="color:#6A737D">ordinary-minor density concept gives: every statement of this submission</span></td></tr>
+<tr id="L57" class="line-comment"><td class="line-num"><a href="#L57">57</a></td><td class="line-code"><span style="color:#6A737D">supplies a concrete bound *d* rather than consuming a number, so a</span></td></tr>
+<tr id="L58" class="line-comment"><td class="line-num"><a href="#L58">58</a></td><td class="line-code"><span style="color:#6A737D">`sInf`-defined ∇̃ would be review surface that no claim uses. Edges are</span></td></tr>
+<tr id="L59" class="line-comment"><td class="line-num"><a href="#L59">59</a></td><td class="line-code"><span style="color:#6A737D">counted as the natural cardinality (`Set.ncard`) of `edgeSet`, and</span></td></tr>
+<tr id="L60" class="line-comment"><td class="line-num"><a href="#L60">60</a></td><td class="line-code"><span style="color:#6A737D">minors range over the canonical carriers `Fin m`, as in the</span></td></tr>
+<tr id="L61" class="line-comment"><td class="line-num"><a href="#L61">61</a></td><td class="line-code"><span style="color:#6A737D">ordinary-minor concepts.</span></td></tr>
+<tr id="L62" class="line-comment"><td class="line-num"><a href="#L62">62</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
 <tr id="L63" class=""><td class="line-num"><a href="#L63">63</a></td><td class="line-code"> </td></tr>
 <tr id="L64" class=""><td class="line-num"><a href="#L64">64</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax12.ShallowTopologicalMinors</span></td></tr>
 <tr id="L65" class=""><td class="line-num"><a href="#L65">65</a></td><td class="line-code"> </td></tr>
-<tr id="L66" class=""><td class="line-num"><a href="#L66">66</a></td><td class="line-code"><span style="color:#6A737D">/-- A model of `H` as a depth-`r` topological minor of `G`: an injective</span></td></tr>
-<tr id="L67" class=""><td class="line-num"><a href="#L67">67</a></td><td class="line-code"><span style="color:#6A737D">choice of a principal vertex of `G` for each vertex of `H`, together</span></td></tr>
-<tr id="L68" class=""><td class="line-num"><a href="#L68">68</a></td><td class="line-code"><span style="color:#6A737D">with a connecting walk of length at most `2 * r + 1` for each edge of</span></td></tr>
-<tr id="L69" class=""><td class="line-num"><a href="#L69">69</a></td><td class="line-code"><span style="color:#6A737D">`H`, where the walks pass through no principal vertex other than those</span></td></tr>
-<tr id="L70" class=""><td class="line-num"><a href="#L70">70</a></td><td class="line-code"><span style="color:#6A737D">of their own two endpoints and meet each other only in principal</span></td></tr>
-<tr id="L71" class=""><td class="line-num"><a href="#L71">71</a></td><td class="line-code"><span style="color:#6A737D">vertices. -/</span></td></tr>
+<tr id="L66" class="line-comment"><td class="line-num"><a href="#L66">66</a></td><td class="line-code"><span style="color:#6A737D">/-- A model of `H` as a depth-`r` topological minor of `G`: an injective</span></td></tr>
+<tr id="L67" class="line-comment"><td class="line-num"><a href="#L67">67</a></td><td class="line-code"><span style="color:#6A737D">choice of a principal vertex of `G` for each vertex of `H`, together</span></td></tr>
+<tr id="L68" class="line-comment"><td class="line-num"><a href="#L68">68</a></td><td class="line-code"><span style="color:#6A737D">with a connecting walk of length at most `2 * r + 1` for each edge of</span></td></tr>
+<tr id="L69" class="line-comment"><td class="line-num"><a href="#L69">69</a></td><td class="line-code"><span style="color:#6A737D">`H`, where the walks pass through no principal vertex other than those</span></td></tr>
+<tr id="L70" class="line-comment"><td class="line-num"><a href="#L70">70</a></td><td class="line-code"><span style="color:#6A737D">of their own two endpoints and meet each other only in principal</span></td></tr>
+<tr id="L71" class="line-comment"><td class="line-num"><a href="#L71">71</a></td><td class="line-code"><span style="color:#6A737D">vertices. -/</span></td></tr>
 <tr id="L72" class=""><td class="line-num"><a href="#L72">72</a></td><td class="line-code"><span style="color:#D73A49">structure</span><span style="color:#6F42C1"> ShallowTopologicalMinorModel</span><span style="color:#24292E"> {V W : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">*} (r : ℕ) (H : SimpleGraph W)</span></td></tr>
 <tr id="L73" class=""><td class="line-num"><a href="#L73">73</a></td><td class="line-code"><span style="color:#24292E">    (G : SimpleGraph V) </span><span style="color:#D73A49">where</span></td></tr>
-<tr id="L74" class=""><td class="line-num"><a href="#L74">74</a></td><td class="line-code"><span style="color:#6A737D">  /-- The principal vertex of `G` realizing each vertex of `H`. -/</span></td></tr>
+<tr id="L74" class="line-comment"><td class="line-num"><a href="#L74">74</a></td><td class="line-code"><span style="color:#6A737D">  /-- The principal vertex of `G` realizing each vertex of `H`. -/</span></td></tr>
 <tr id="L75" class=""><td class="line-num"><a href="#L75">75</a></td><td class="line-code"><span style="color:#24292E">  principal : W → V</span></td></tr>
-<tr id="L76" class=""><td class="line-num"><a href="#L76">76</a></td><td class="line-code"><span style="color:#6A737D">  /-- Distinct vertices of `H` have distinct principal vertices. -/</span></td></tr>
+<tr id="L76" class="line-comment"><td class="line-num"><a href="#L76">76</a></td><td class="line-code"><span style="color:#6A737D">  /-- Distinct vertices of `H` have distinct principal vertices. -/</span></td></tr>
 <tr id="L77" class=""><td class="line-num"><a href="#L77">77</a></td><td class="line-code"><span style="color:#24292E">  principal_inj : Function.Injective principal</span></td></tr>
-<tr id="L78" class=""><td class="line-num"><a href="#L78">78</a></td><td class="line-code"><span style="color:#6A737D">  /-- The walk of `G` connecting the principal vertices of an edge of</span></td></tr>
-<tr id="L79" class=""><td class="line-num"><a href="#L79">79</a></td><td class="line-code"><span style="color:#6A737D">  `H`. -/</span></td></tr>
+<tr id="L78" class="line-comment"><td class="line-num"><a href="#L78">78</a></td><td class="line-code"><span style="color:#6A737D">  /-- The walk of `G` connecting the principal vertices of an edge of</span></td></tr>
+<tr id="L79" class="line-comment"><td class="line-num"><a href="#L79">79</a></td><td class="line-code"><span style="color:#6A737D">  `H`. -/</span></td></tr>
 <tr id="L80" class=""><td class="line-num"><a href="#L80">80</a></td><td class="line-code"><span style="color:#24292E">  walk : ∀ (u v : W), H.Adj u v → G.Walk (principal u) (principal v)</span></td></tr>
-<tr id="L81" class=""><td class="line-num"><a href="#L81">81</a></td><td class="line-code"><span style="color:#6A737D">  /-- Connecting walks have length at most `2 * r + 1`: they subdivide</span></td></tr>
-<tr id="L82" class=""><td class="line-num"><a href="#L82">82</a></td><td class="line-code"><span style="color:#6A737D">  the edge at most `2 * r` times. -/</span></td></tr>
+<tr id="L81" class="line-comment"><td class="line-num"><a href="#L81">81</a></td><td class="line-code"><span style="color:#6A737D">  /-- Connecting walks have length at most `2 * r + 1`: they subdivide</span></td></tr>
+<tr id="L82" class="line-comment"><td class="line-num"><a href="#L82">82</a></td><td class="line-code"><span style="color:#6A737D">  the edge at most `2 * r` times. -/</span></td></tr>
 <tr id="L83" class=""><td class="line-num"><a href="#L83">83</a></td><td class="line-code"><span style="color:#24292E">  length_le : ∀ (u v : W) (h : H.Adj u v), (walk u v h).length ≤ </span><span style="color:#005CC5">2</span><span style="color:#24292E"> * r + </span><span style="color:#005CC5">1</span></td></tr>
-<tr id="L84" class=""><td class="line-num"><a href="#L84">84</a></td><td class="line-code"><span style="color:#6A737D">  /-- A principal vertex lying on a connecting walk is one of the two</span></td></tr>
-<tr id="L85" class=""><td class="line-num"><a href="#L85">85</a></td><td class="line-code"><span style="color:#6A737D">  endpoints of that edge. -/</span></td></tr>
+<tr id="L84" class="line-comment"><td class="line-num"><a href="#L84">84</a></td><td class="line-code"><span style="color:#6A737D">  /-- A principal vertex lying on a connecting walk is one of the two</span></td></tr>
+<tr id="L85" class="line-comment"><td class="line-num"><a href="#L85">85</a></td><td class="line-code"><span style="color:#6A737D">  endpoints of that edge. -/</span></td></tr>
 <tr id="L86" class=""><td class="line-num"><a href="#L86">86</a></td><td class="line-code"><span style="color:#24292E">  principal_eq : ∀ (u v : W) (h : H.Adj u v) (w : W),</span></td></tr>
 <tr id="L87" class=""><td class="line-num"><a href="#L87">87</a></td><td class="line-code"><span style="color:#24292E">    principal w ∈ (walk u v h).support → w = u ∨ w = v</span></td></tr>
-<tr id="L88" class=""><td class="line-num"><a href="#L88">88</a></td><td class="line-code"><span style="color:#6A737D">  /-- Connecting walks meet only in principal vertices: a vertex lying</span></td></tr>
-<tr id="L89" class=""><td class="line-num"><a href="#L89">89</a></td><td class="line-code"><span style="color:#6A737D">  on two connecting walks and on none of the principal vertices forces</span></td></tr>
-<tr id="L90" class=""><td class="line-num"><a href="#L90">90</a></td><td class="line-code"><span style="color:#6A737D">  the two edges to agree. -/</span></td></tr>
+<tr id="L88" class="line-comment"><td class="line-num"><a href="#L88">88</a></td><td class="line-code"><span style="color:#6A737D">  /-- Connecting walks meet only in principal vertices: a vertex lying</span></td></tr>
+<tr id="L89" class="line-comment"><td class="line-num"><a href="#L89">89</a></td><td class="line-code"><span style="color:#6A737D">  on two connecting walks and on none of the principal vertices forces</span></td></tr>
+<tr id="L90" class="line-comment"><td class="line-num"><a href="#L90">90</a></td><td class="line-code"><span style="color:#6A737D">  the two edges to agree. -/</span></td></tr>
 <tr id="L91" class=""><td class="line-num"><a href="#L91">91</a></td><td class="line-code"><span style="color:#24292E">  disjoint : ∀ (u v : W) (h : H.Adj u v) (u' v' : W) (h' : H.Adj u' v') (x : V),</span></td></tr>
 <tr id="L92" class=""><td class="line-num"><a href="#L92">92</a></td><td class="line-code"><span style="color:#24292E">    x ∈ (walk u v h).support → x ∈ (walk u' v' h').support →</span></td></tr>
 <tr id="L93" class=""><td class="line-num"><a href="#L93">93</a></td><td class="line-code"><span style="color:#24292E">      x ∉ Set.range principal → (u = u' ∧ v = v') ∨ (u = v' ∧ v = u')</span></td></tr>
 <tr id="L94" class=""><td class="line-num"><a href="#L94">94</a></td><td class="line-code"> </td></tr>
-<tr id="L95" class=""><td class="line-num"><a href="#L95">95</a></td><td class="line-code"><span style="color:#6A737D">/-- `H` is a topological minor of `G` at depth `r`. -/</span></td></tr>
+<tr id="L95" class="line-comment"><td class="line-num"><a href="#L95">95</a></td><td class="line-code"><span style="color:#6A737D">/-- `H` is a topological minor of `G` at depth `r`. -/</span></td></tr>
 <tr id="L96" class=""><td class="line-num"><a href="#L96">96</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> HasShallowTopologicalMinor</span><span style="color:#24292E"> {V W : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">*} (G : SimpleGraph V) (r : ℕ)</span></td></tr>
 <tr id="L97" class=""><td class="line-num"><a href="#L97">97</a></td><td class="line-code"><span style="color:#24292E">    (H : SimpleGraph W) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
 <tr id="L98" class=""><td class="line-num"><a href="#L98">98</a></td><td class="line-code"><span style="color:#24292E">  Nonempty (</span><a class="lean-identifier-link" href="../lax-12/Lax12.ShallowTopologicalMinors.html#L66"><span style="color:#24292E">ShallowTopologicalMinorModel</span></a><span style="color:#24292E"> r H G)</span></td></tr>
 <tr id="L99" class=""><td class="line-num"><a href="#L99">99</a></td><td class="line-code"> </td></tr>
-<tr id="L100" class=""><td class="line-num"><a href="#L100">100</a></td><td class="line-code"><span style="color:#6A737D">/-- Every depth-`r` topological minor of `G`, on `m` vertices, has at</span></td></tr>
-<tr id="L101" class=""><td class="line-num"><a href="#L101">101</a></td><td class="line-code"><span style="color:#6A737D">most `d · m` edges. -/</span></td></tr>
+<tr id="L100" class="line-comment"><td class="line-num"><a href="#L100">100</a></td><td class="line-code"><span style="color:#6A737D">/-- Every depth-`r` topological minor of `G`, on `m` vertices, has at</span></td></tr>
+<tr id="L101" class="line-comment"><td class="line-num"><a href="#L101">101</a></td><td class="line-code"><span style="color:#6A737D">most `d · m` edges. -/</span></td></tr>
 <tr id="L102" class=""><td class="line-num"><a href="#L102">102</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> HasTopologicalDensityAtMost</span><span style="color:#24292E"> {n : ℕ} (G : SimpleGraph (Fin n)) (r d : ℕ) :</span></td></tr>
 <tr id="L103" class=""><td class="line-num"><a href="#L103">103</a></td><td class="line-code"><span style="color:#D73A49">    Prop</span><span style="color:#24292E"> :=</span></td></tr>
 <tr id="L104" class=""><td class="line-num"><a href="#L104">104</a></td><td class="line-code"><span style="color:#24292E">  ∀ (m : ℕ) (H : SimpleGraph (Fin m)), </span><a class="lean-identifier-link" href="../lax-12/Lax12.ShallowTopologicalMinors.html#L95"><span style="color:#24292E">HasShallowTopologicalMinor</span></a><span style="color:#24292E"> G r H →</span></td></tr>
@@ -362,7 +362,7 @@ ordinary-minor concepts.</p>
 <script src="../assets/sidebar.js?v=14479c59f650"></script>
 <script src="../assets/account.js?v=6a0844f8bd00"></script>
 <script src="../assets/graph-interaction.js?v=2f9fd490c8bd"></script>
-<script src="../assets/source-proof.js?v=b4c48aaad400"></script>
+<script src="../assets/source-proof.js?v=c61006f1e018"></script>
 <script src="../assets/version-history.js?v=a36e868140dd"></script>
 <script src="../assets/comments.js?v=40723213c083"></script>
 </body></html>

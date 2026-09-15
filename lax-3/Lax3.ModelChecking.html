@@ -9,7 +9,7 @@
 <link rel="canonical" href="https://laxarchive.org/lax-3/Lax3.ModelChecking.html">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=e1fc104ec6cc">
+<link rel="stylesheet" href="../assets/style.css?v=5624644d5b74">
 </head><body>
 <header class="site-header with-sidebar">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="true" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -158,104 +158,104 @@ splitter moves, distance profiles — is computed from the input. That
 computation is the main algorithmic weight of the theorem.</p>
 </div></div>
 <div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/0edafc2f901b154e5af13e5a27c2655d45733f36/nowhere-dense-model-checking/concepts/Lax3/ModelChecking.lean">view on GitHub</a></h3>
-<div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<div class="inline-contract-shell"><button class="comment-toggle" type="button" aria-pressed="false" aria-label="Hide comments">Hide comments</button><div class="inline-contract-wrap"><table class="inline-contract-table">
 <tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-3/Lax3.FirstOrder.html"><span style="color:#24292E">Lax3.FirstOrder</span></a></td></tr>
 <tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-199508/Lax199508.NowhereDenseClasses.html"><span style="color:#24292E">Lax199508.NowhereDenseClasses</span></a></td></tr>
 <tr id="L3" class=""><td class="line-num"><a href="#L3">3</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-808846/Lax808846.RamComputes.html"><span style="color:#24292E">Lax808846.RamComputes</span></a></td></tr>
 <tr id="L4" class=""><td class="line-num"><a href="#L4">4</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-271696/Lax271696.GraphEncoding.html"><span style="color:#24292E">Lax271696.GraphEncoding</span></a></td></tr>
 <tr id="L5" class=""><td class="line-num"><a href="#L5">5</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Analysis.SpecialFunctions.Pow.Real</span></td></tr>
 <tr id="L6" class=""><td class="line-num"><a href="#L6">6</a></td><td class="line-code"> </td></tr>
-<tr id="L7" class=""><td class="line-num"><a href="#L7">7</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
-<tr id="L8" class=""><td class="line-num"><a href="#L8">8</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
-<tr id="L9" class=""><td class="line-num"><a href="#L9">9</a></td><td class="line-code"><span style="color:#6A737D">title: First-order model checking on nowhere dense classes in almost linear time</span></td></tr>
-<tr id="L10" class=""><td class="line-num"><a href="#L10">10</a></td><td class="line-code"><span style="color:#6A737D">type: theorem</span></td></tr>
-<tr id="L11" class=""><td class="line-num"><a href="#L11">11</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
-<tr id="L12" class=""><td class="line-num"><a href="#L12">12</a></td><td class="line-code"><span style="color:#6A737D">Deciding a first-order sentence is fixed-parameter tractable on every</span></td></tr>
-<tr id="L13" class=""><td class="line-num"><a href="#L13">13</a></td><td class="line-code"><span style="color:#6A737D">nowhere dense class of graphs, in almost linear time on a word random</span></td></tr>
-<tr id="L14" class=""><td class="line-num"><a href="#L14">14</a></td><td class="line-code"><span style="color:#6A737D">access machine: for every nowhere dense class, every sentence φ and</span></td></tr>
-<tr id="L15" class=""><td class="line-num"><a href="#L15">15</a></td><td class="line-code"><span style="color:#6A737D">every ε &gt; 0 there are one program, one constant *c* and one time bound</span></td></tr>
-<tr id="L16" class=""><td class="line-num"><a href="#L16">16</a></td><td class="line-code"><span style="color:#6A737D">*T* with *T*(x) ≤ *c* · (|x| + 1)^(1+ε), such that at every word</span></td></tr>
-<tr id="L17" class=""><td class="line-num"><a href="#L17">17</a></td><td class="line-code"><span style="color:#6A737D">length *w*, on every member of the class given in compressed sparse</span></td></tr>
-<tr id="L18" class=""><td class="line-num"><a href="#L18">18</a></td><td class="line-code"><span style="color:#6A737D">row form as a word *x* each of whose entries *v* satisfies</span></td></tr>
-<tr id="L19" class=""><td class="line-num"><a href="#L19">19</a></td><td class="line-code"><span style="color:#6A737D">*c*(|x| + *v* + 1)² ≤ 2^*w*, the program halts within *T*(x) steps and</span></td></tr>
-<tr id="L20" class=""><td class="line-num"><a href="#L20">20</a></td><td class="line-code"><span style="color:#6A737D">writes `1` if φ holds in the graph and `0` if it does not.</span></td></tr>
-<tr id="L21" class=""><td class="line-num"><a href="#L21">21</a></td><td class="line-code"> </td></tr>
-<tr id="L22" class=""><td class="line-num"><a href="#L22">22</a></td><td class="line-code"><span style="color:#6A737D">This is the theorem of Grohe, Kreutzer and Siebertz (JACM 2017), with</span></td></tr>
-<tr id="L23" class=""><td class="line-num"><a href="#L23">23</a></td><td class="line-code"><span style="color:#6A737D">the algorithm realized on the word RAM of Lax808846. Nowhere denseness is</span></td></tr>
-<tr id="L24" class=""><td class="line-num"><a href="#L24">24</a></td><td class="line-code"><span style="color:#6A737D">the exact limit of this kind of tractability on monotone classes, and</span></td></tr>
-<tr id="L25" class=""><td class="line-num"><a href="#L25">25</a></td><td class="line-code"><span style="color:#6A737D">the input is the graph *alone*: unlike the Courcelle theorem of Lax271696,</span></td></tr>
-<tr id="L26" class=""><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span style="color:#6A737D">which is handed a k-expression alongside the graph, every auxiliary</span></td></tr>
-<tr id="L27" class=""><td class="line-num"><a href="#L27">27</a></td><td class="line-code"><span style="color:#6A737D">object the algorithm consumes — orderings, neighborhood covers,</span></td></tr>
-<tr id="L28" class=""><td class="line-num"><a href="#L28">28</a></td><td class="line-code"><span style="color:#6A737D">splitter moves, distance profiles — is computed from the input. That</span></td></tr>
-<tr id="L29" class=""><td class="line-num"><a href="#L29">29</a></td><td class="line-code"><span style="color:#6A737D">computation is the main algorithmic weight of the theorem.</span></td></tr>
-<tr id="L30" class=""><td class="line-num"><a href="#L30">30</a></td><td class="line-code"> </td></tr>
-<tr id="L31" class=""><td class="line-num"><a href="#L31">31</a></td><td class="line-code"><span style="color:#6A737D"># Formalization notes</span></td></tr>
-<tr id="L32" class=""><td class="line-num"><a href="#L32">32</a></td><td class="line-code"> </td></tr>
-<tr id="L33" class=""><td class="line-num"><a href="#L33">33</a></td><td class="line-code"><span style="color:#6A737D">The statement follows the house pattern of Lax271696's Courcelle axiom:</span></td></tr>
-<tr id="L34" class=""><td class="line-num"><a href="#L34">34</a></td><td class="line-code"><span style="color:#6A737D">program and constant after the class data, the sentence and ε; before</span></td></tr>
-<tr id="L35" class=""><td class="line-num"><a href="#L35">35</a></td><td class="line-code"><span style="color:#6A737D">the graph and the word length; inputs restricted to encodings whose</span></td></tr>
-<tr id="L36" class=""><td class="line-num"><a href="#L36">36</a></td><td class="line-code"><span style="color:#6A737D">entries fit the word length; output by a classical `if` on</span></td></tr>
-<tr id="L37" class=""><td class="line-num"><a href="#L37">37</a></td><td class="line-code"><span style="color:#6A737D">satisfaction. The differences are the ones the theorem is about — and</span></td></tr>
-<tr id="L38" class=""><td class="line-num"><a href="#L38">38</a></td><td class="line-code"><span style="color:#6A737D">one of them is that side condition, which is *squared* here; see the</span></td></tr>
-<tr id="L39" class=""><td class="line-num"><a href="#L39">39</a></td><td class="line-code"><span style="color:#6A737D">deviation recorded below. The hypothesis is</span></td></tr>
-<tr id="L40" class=""><td class="line-num"><a href="#L40">40</a></td><td class="line-code"><span style="color:#6A737D">`Lax199508.NowhereDense` verbatim — the endorsed shallow-minor form, not a</span></td></tr>
-<tr id="L41" class=""><td class="line-num"><a href="#L41">41</a></td><td class="line-code"><span style="color:#6A737D">restatement. The input predicate is `Lax271696.EncodesGraph` alone: no</span></td></tr>
-<tr id="L42" class=""><td class="line-num"><a href="#L42">42</a></td><td class="line-code"><span style="color:#6A737D">expression, no ordering, no promise beyond membership in the class.</span></td></tr>
-<tr id="L43" class=""><td class="line-num"><a href="#L43">43</a></td><td class="line-code"><span style="color:#6A737D">The time bound cannot be the Courcelle form `c * (x.length + 1)`,</span></td></tr>
-<tr id="L44" class=""><td class="line-num"><a href="#L44">44</a></td><td class="line-code"><span style="color:#6A737D">since `n^(1+ε)` has no elementary spelling over ℕ: the bound function</span></td></tr>
-<tr id="L45" class=""><td class="line-num"><a href="#L45">45</a></td><td class="line-code"><span style="color:#6A737D">`T : List ℕ → ℕ` is existentially quantified and pinned by the</span></td></tr>
-<tr id="L46" class=""><td class="line-num"><a href="#L46">46</a></td><td class="line-code"><span style="color:#6A737D">real-valued side condition `(T x : ℝ) ≤ c * ((x.length : ℝ) + 1) ^</span></td></tr>
-<tr id="L47" class=""><td class="line-num"><a href="#L47">47</a></td><td class="line-code"><span style="color:#6A737D">(1 + ε)` — the same real-exponent idiom as Lax199508's subpolynomial</span></td></tr>
-<tr id="L48" class=""><td class="line-num"><a href="#L48">48</a></td><td class="line-code"><span style="color:#6A737D">bounds, whose `^` is `Real.rpow`.</span></td></tr>
-<tr id="L49" class=""><td class="line-num"><a href="#L49">49</a></td><td class="line-code"> </td></tr>
-<tr id="L50" class=""><td class="line-num"><a href="#L50">50</a></td><td class="line-code"><span style="color:#6A737D">The sentence ranges over plain first-order logic on graphs, `FO 0` of</span></td></tr>
-<tr id="L51" class=""><td class="line-num"><a href="#L51">51</a></td><td class="line-code"><span style="color:#6A737D">this submission — adjacency and equality, no colors: colors and</span></td></tr>
-<tr id="L52" class=""><td class="line-num"><a href="#L52">52</a></td><td class="line-code"><span style="color:#6A737D">distance atoms are working machinery of the proof, and surfacing them</span></td></tr>
-<tr id="L53" class=""><td class="line-num"><a href="#L53">53</a></td><td class="line-code"><span style="color:#6A737D">in the headline would weaken it (a statement over colored graphs</span></td></tr>
-<tr id="L54" class=""><td class="line-num"><a href="#L54">54</a></td><td class="line-code"><span style="color:#6A737D">follows by the standard encoding of colors as input, and the distance</span></td></tr>
-<tr id="L55" class=""><td class="line-num"><a href="#L55">55</a></td><td class="line-code"><span style="color:#6A737D">logic's headline role is played by the locality theorem concept). The</span></td></tr>
-<tr id="L56" class=""><td class="line-num"><a href="#L56">56</a></td><td class="line-code"><span style="color:#6A737D">parameter dependence f(φ, ε, C) of the fixed-parameter claim lives in</span></td></tr>
-<tr id="L57" class=""><td class="line-num"><a href="#L57">57</a></td><td class="line-code"><span style="color:#6A737D">the existential `c` and `T`, as in the source; the class enters</span></td></tr>
-<tr id="L58" class=""><td class="line-num"><a href="#L58">58</a></td><td class="line-code"><span style="color:#6A737D">through the choice of `c` and `T` only, the program depending on</span></td></tr>
-<tr id="L59" class=""><td class="line-num"><a href="#L59">59</a></td><td class="line-code"><span style="color:#6A737D">finitely many of its excluded-minor thresholds.</span></td></tr>
-<tr id="L60" class=""><td class="line-num"><a href="#L60">60</a></td><td class="line-code"> </td></tr>
-<tr id="L61" class=""><td class="line-num"><a href="#L61">61</a></td><td class="line-code"><span style="color:#6A737D">**Deviation, deliberate: the word-length side condition is squared.**</span></td></tr>
-<tr id="L62" class=""><td class="line-num"><a href="#L62">62</a></td><td class="line-code"><span style="color:#6A737D">Lax271696's Courcelle axiom admits an encoding `x` at word length `w` when</span></td></tr>
-<tr id="L63" class=""><td class="line-num"><a href="#L63">63</a></td><td class="line-code"><span style="color:#6A737D">`c * (x.length + v + 1) ≤ 2 ^ w`; here the requirement is</span></td></tr>
-<tr id="L64" class=""><td class="line-num"><a href="#L64">64</a></td><td class="line-code"><span style="color:#6A737D">`c * (x.length + v + 1) ^ 2 ≤ 2 ^ w`. Since the statement quantifies</span></td></tr>
-<tr id="L65" class=""><td class="line-num"><a href="#L65">65</a></td><td class="line-code"><span style="color:#6A737D">over *every* `w`, the smallest admissible one is in scope, and under</span></td></tr>
-<tr id="L66" class=""><td class="line-num"><a href="#L66">66</a></td><td class="line-code"><span style="color:#6A737D">the Courcelle form that is `2 ^ w &lt; 2 * c * (|x| + max x + 1)` — a</span></td></tr>
-<tr id="L67" class=""><td class="line-num"><a href="#L67">67</a></td><td class="line-code"><span style="color:#6A737D">machine that can address only linearly many of its own cells, because</span></td></tr>
-<tr id="L68" class=""><td class="line-num"><a href="#L68">68</a></td><td class="line-code"><span style="color:#6A737D">Lax808846's RAM has `2 ^ w` cells and reduces every address modulo `2 ^ w`.</span></td></tr>
-<tr id="L69" class=""><td class="line-num"><a href="#L69">69</a></td><td class="line-code"><span style="color:#6A737D">Squaring moves the smallest admissible word length from</span></td></tr>
-<tr id="L70" class=""><td class="line-num"><a href="#L70">70</a></td><td class="line-code"><span style="color:#6A737D">`log |x| + O(1)` to `2 * log |x| + O(1)`: a constant factor in `w`, and</span></td></tr>
-<tr id="L71" class=""><td class="line-num"><a href="#L71">71</a></td><td class="line-code"><span style="color:#6A737D">a quadratic factor in addressable memory.</span></td></tr>
-<tr id="L72" class=""><td class="line-num"><a href="#L72">72</a></td><td class="line-code"> </td></tr>
-<tr id="L73" class=""><td class="line-num"><a href="#L73">73</a></td><td class="line-code"><span style="color:#6A737D">This is a genuine weakening — the program is excused from the narrowest</span></td></tr>
-<tr id="L74" class=""><td class="line-num"><a href="#L74">74</a></td><td class="line-code"><span style="color:#6A737D">word lengths — and it is recorded rather than hidden for that reason.</span></td></tr>
-<tr id="L75" class=""><td class="line-num"><a href="#L75">75</a></td><td class="line-code"><span style="color:#6A737D">It is made because the algorithm this submission formalizes computes,</span></td></tr>
-<tr id="L76" class=""><td class="line-num"><a href="#L76">76</a></td><td class="line-code"><span style="color:#6A737D">at every node of its recursion, a sparse neighborhood cover whose</span></td></tr>
-<tr id="L77" class=""><td class="line-num"><a href="#L77">77</a></td><td class="line-code"><span style="color:#6A737D">cluster family has `n^(1+δ)` total size, and the augmentation chain</span></td></tr>
-<tr id="L78" class=""><td class="line-num"><a href="#L78">78</a></td><td class="line-code"><span style="color:#6A737D">behind that cover's degree bound is superlinear in the same way. Under</span></td></tr>
-<tr id="L79" class=""><td class="line-num"><a href="#L79">79</a></td><td class="line-code"><span style="color:#6A737D">the linear form no such algorithm can be written down at all, whatever</span></td></tr>
-<tr id="L80" class=""><td class="line-num"><a href="#L80">80</a></td><td class="line-code"><span style="color:#6A737D">its running time, so the side condition would be deciding a question</span></td></tr>
-<tr id="L81" class=""><td class="line-num"><a href="#L81">81</a></td><td class="line-code"><span style="color:#6A737D">about machines that the theorem is not about.</span></td></tr>
-<tr id="L82" class=""><td class="line-num"><a href="#L82">82</a></td><td class="line-code"> </td></tr>
-<tr id="L83" class=""><td class="line-num"><a href="#L83">83</a></td><td class="line-code"><span style="color:#6A737D">Two things the deviation does *not* do. It does not change the time</span></td></tr>
-<tr id="L84" class=""><td class="line-num"><a href="#L84">84</a></td><td class="line-code"><span style="color:#6A737D">bound, which is still `n^(1+ε)` for every ε &gt; 0; and it does not touch</span></td></tr>
-<tr id="L85" class=""><td class="line-num"><a href="#L85">85</a></td><td class="line-code"><span style="color:#6A737D">Lax271696, whose axiom keeps the linear form — the Courcelle algorithm runs</span></td></tr>
-<tr id="L86" class=""><td class="line-num"><a href="#L86">86</a></td><td class="line-code"><span style="color:#6A737D">in linear space and has no need of this. If a later revision makes the</span></td></tr>
-<tr id="L87" class=""><td class="line-num"><a href="#L87">87</a></td><td class="line-code"><span style="color:#6A737D">cover streaming rather than materialized, so that the whole algorithm</span></td></tr>
-<tr id="L88" class=""><td class="line-num"><a href="#L88">88</a></td><td class="line-code"><span style="color:#6A737D">runs in linear space, the linear side condition can be restored and the</span></td></tr>
-<tr id="L89" class=""><td class="line-num"><a href="#L89">89</a></td><td class="line-code"><span style="color:#6A737D">statement strengthened; that possibility is why `^ 2` is written out</span></td></tr>
-<tr id="L90" class=""><td class="line-num"><a href="#L90">90</a></td><td class="line-code"><span style="color:#6A737D">rather than folded into `c`.</span></td></tr>
-<tr id="L91" class=""><td class="line-num"><a href="#L91">91</a></td><td class="line-code"> </td></tr>
-<tr id="L92" class=""><td class="line-num"><a href="#L92">92</a></td><td class="line-code"><span style="color:#6A737D">The exponent is `2` and not `1 + δ` because δ = ε/(ℓ+1) depends on the</span></td></tr>
-<tr id="L93" class=""><td class="line-num"><a href="#L93">93</a></td><td class="line-code"><span style="color:#6A737D">class and on ε, and a side condition that varied with them would make</span></td></tr>
-<tr id="L94" class=""><td class="line-num"><a href="#L94">94</a></td><td class="line-code"><span style="color:#6A737D">the admissible input set vary with the parameter — the fixed exponent</span></td></tr>
-<tr id="L95" class=""><td class="line-num"><a href="#L95">95</a></td><td class="line-code"><span style="color:#6A737D">covers every δ ≤ 1 uniformly and keeps the input predicate a property</span></td></tr>
-<tr id="L96" class=""><td class="line-num"><a href="#L96">96</a></td><td class="line-code"><span style="color:#6A737D">of the encoding alone.</span></td></tr>
-<tr id="L97" class=""><td class="line-num"><a href="#L97">97</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
+<tr id="L7" class="line-comment"><td class="line-num"><a href="#L7">7</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
+<tr id="L8" class="line-comment"><td class="line-num"><a href="#L8">8</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
+<tr id="L9" class="line-comment"><td class="line-num"><a href="#L9">9</a></td><td class="line-code"><span style="color:#6A737D">title: First-order model checking on nowhere dense classes in almost linear time</span></td></tr>
+<tr id="L10" class="line-comment"><td class="line-num"><a href="#L10">10</a></td><td class="line-code"><span style="color:#6A737D">type: theorem</span></td></tr>
+<tr id="L11" class="line-comment"><td class="line-num"><a href="#L11">11</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
+<tr id="L12" class="line-comment"><td class="line-num"><a href="#L12">12</a></td><td class="line-code"><span style="color:#6A737D">Deciding a first-order sentence is fixed-parameter tractable on every</span></td></tr>
+<tr id="L13" class="line-comment"><td class="line-num"><a href="#L13">13</a></td><td class="line-code"><span style="color:#6A737D">nowhere dense class of graphs, in almost linear time on a word random</span></td></tr>
+<tr id="L14" class="line-comment"><td class="line-num"><a href="#L14">14</a></td><td class="line-code"><span style="color:#6A737D">access machine: for every nowhere dense class, every sentence φ and</span></td></tr>
+<tr id="L15" class="line-comment"><td class="line-num"><a href="#L15">15</a></td><td class="line-code"><span style="color:#6A737D">every ε &gt; 0 there are one program, one constant *c* and one time bound</span></td></tr>
+<tr id="L16" class="line-comment"><td class="line-num"><a href="#L16">16</a></td><td class="line-code"><span style="color:#6A737D">*T* with *T*(x) ≤ *c* · (|x| + 1)^(1+ε), such that at every word</span></td></tr>
+<tr id="L17" class="line-comment"><td class="line-num"><a href="#L17">17</a></td><td class="line-code"><span style="color:#6A737D">length *w*, on every member of the class given in compressed sparse</span></td></tr>
+<tr id="L18" class="line-comment"><td class="line-num"><a href="#L18">18</a></td><td class="line-code"><span style="color:#6A737D">row form as a word *x* each of whose entries *v* satisfies</span></td></tr>
+<tr id="L19" class="line-comment"><td class="line-num"><a href="#L19">19</a></td><td class="line-code"><span style="color:#6A737D">*c*(|x| + *v* + 1)² ≤ 2^*w*, the program halts within *T*(x) steps and</span></td></tr>
+<tr id="L20" class="line-comment"><td class="line-num"><a href="#L20">20</a></td><td class="line-code"><span style="color:#6A737D">writes `1` if φ holds in the graph and `0` if it does not.</span></td></tr>
+<tr id="L21" class="line-comment"><td class="line-num"><a href="#L21">21</a></td><td class="line-code"> </td></tr>
+<tr id="L22" class="line-comment"><td class="line-num"><a href="#L22">22</a></td><td class="line-code"><span style="color:#6A737D">This is the theorem of Grohe, Kreutzer and Siebertz (JACM 2017), with</span></td></tr>
+<tr id="L23" class="line-comment"><td class="line-num"><a href="#L23">23</a></td><td class="line-code"><span style="color:#6A737D">the algorithm realized on the word RAM of Lax808846. Nowhere denseness is</span></td></tr>
+<tr id="L24" class="line-comment"><td class="line-num"><a href="#L24">24</a></td><td class="line-code"><span style="color:#6A737D">the exact limit of this kind of tractability on monotone classes, and</span></td></tr>
+<tr id="L25" class="line-comment"><td class="line-num"><a href="#L25">25</a></td><td class="line-code"><span style="color:#6A737D">the input is the graph *alone*: unlike the Courcelle theorem of Lax271696,</span></td></tr>
+<tr id="L26" class="line-comment"><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span style="color:#6A737D">which is handed a k-expression alongside the graph, every auxiliary</span></td></tr>
+<tr id="L27" class="line-comment"><td class="line-num"><a href="#L27">27</a></td><td class="line-code"><span style="color:#6A737D">object the algorithm consumes — orderings, neighborhood covers,</span></td></tr>
+<tr id="L28" class="line-comment"><td class="line-num"><a href="#L28">28</a></td><td class="line-code"><span style="color:#6A737D">splitter moves, distance profiles — is computed from the input. That</span></td></tr>
+<tr id="L29" class="line-comment"><td class="line-num"><a href="#L29">29</a></td><td class="line-code"><span style="color:#6A737D">computation is the main algorithmic weight of the theorem.</span></td></tr>
+<tr id="L30" class="line-comment"><td class="line-num"><a href="#L30">30</a></td><td class="line-code"> </td></tr>
+<tr id="L31" class="line-comment"><td class="line-num"><a href="#L31">31</a></td><td class="line-code"><span style="color:#6A737D"># Formalization notes</span></td></tr>
+<tr id="L32" class="line-comment"><td class="line-num"><a href="#L32">32</a></td><td class="line-code"> </td></tr>
+<tr id="L33" class="line-comment"><td class="line-num"><a href="#L33">33</a></td><td class="line-code"><span style="color:#6A737D">The statement follows the house pattern of Lax271696's Courcelle axiom:</span></td></tr>
+<tr id="L34" class="line-comment"><td class="line-num"><a href="#L34">34</a></td><td class="line-code"><span style="color:#6A737D">program and constant after the class data, the sentence and ε; before</span></td></tr>
+<tr id="L35" class="line-comment"><td class="line-num"><a href="#L35">35</a></td><td class="line-code"><span style="color:#6A737D">the graph and the word length; inputs restricted to encodings whose</span></td></tr>
+<tr id="L36" class="line-comment"><td class="line-num"><a href="#L36">36</a></td><td class="line-code"><span style="color:#6A737D">entries fit the word length; output by a classical `if` on</span></td></tr>
+<tr id="L37" class="line-comment"><td class="line-num"><a href="#L37">37</a></td><td class="line-code"><span style="color:#6A737D">satisfaction. The differences are the ones the theorem is about — and</span></td></tr>
+<tr id="L38" class="line-comment"><td class="line-num"><a href="#L38">38</a></td><td class="line-code"><span style="color:#6A737D">one of them is that side condition, which is *squared* here; see the</span></td></tr>
+<tr id="L39" class="line-comment"><td class="line-num"><a href="#L39">39</a></td><td class="line-code"><span style="color:#6A737D">deviation recorded below. The hypothesis is</span></td></tr>
+<tr id="L40" class="line-comment"><td class="line-num"><a href="#L40">40</a></td><td class="line-code"><span style="color:#6A737D">`Lax199508.NowhereDense` verbatim — the endorsed shallow-minor form, not a</span></td></tr>
+<tr id="L41" class="line-comment"><td class="line-num"><a href="#L41">41</a></td><td class="line-code"><span style="color:#6A737D">restatement. The input predicate is `Lax271696.EncodesGraph` alone: no</span></td></tr>
+<tr id="L42" class="line-comment"><td class="line-num"><a href="#L42">42</a></td><td class="line-code"><span style="color:#6A737D">expression, no ordering, no promise beyond membership in the class.</span></td></tr>
+<tr id="L43" class="line-comment"><td class="line-num"><a href="#L43">43</a></td><td class="line-code"><span style="color:#6A737D">The time bound cannot be the Courcelle form `c * (x.length + 1)`,</span></td></tr>
+<tr id="L44" class="line-comment"><td class="line-num"><a href="#L44">44</a></td><td class="line-code"><span style="color:#6A737D">since `n^(1+ε)` has no elementary spelling over ℕ: the bound function</span></td></tr>
+<tr id="L45" class="line-comment"><td class="line-num"><a href="#L45">45</a></td><td class="line-code"><span style="color:#6A737D">`T : List ℕ → ℕ` is existentially quantified and pinned by the</span></td></tr>
+<tr id="L46" class="line-comment"><td class="line-num"><a href="#L46">46</a></td><td class="line-code"><span style="color:#6A737D">real-valued side condition `(T x : ℝ) ≤ c * ((x.length : ℝ) + 1) ^</span></td></tr>
+<tr id="L47" class="line-comment"><td class="line-num"><a href="#L47">47</a></td><td class="line-code"><span style="color:#6A737D">(1 + ε)` — the same real-exponent idiom as Lax199508's subpolynomial</span></td></tr>
+<tr id="L48" class="line-comment"><td class="line-num"><a href="#L48">48</a></td><td class="line-code"><span style="color:#6A737D">bounds, whose `^` is `Real.rpow`.</span></td></tr>
+<tr id="L49" class="line-comment"><td class="line-num"><a href="#L49">49</a></td><td class="line-code"> </td></tr>
+<tr id="L50" class="line-comment"><td class="line-num"><a href="#L50">50</a></td><td class="line-code"><span style="color:#6A737D">The sentence ranges over plain first-order logic on graphs, `FO 0` of</span></td></tr>
+<tr id="L51" class="line-comment"><td class="line-num"><a href="#L51">51</a></td><td class="line-code"><span style="color:#6A737D">this submission — adjacency and equality, no colors: colors and</span></td></tr>
+<tr id="L52" class="line-comment"><td class="line-num"><a href="#L52">52</a></td><td class="line-code"><span style="color:#6A737D">distance atoms are working machinery of the proof, and surfacing them</span></td></tr>
+<tr id="L53" class="line-comment"><td class="line-num"><a href="#L53">53</a></td><td class="line-code"><span style="color:#6A737D">in the headline would weaken it (a statement over colored graphs</span></td></tr>
+<tr id="L54" class="line-comment"><td class="line-num"><a href="#L54">54</a></td><td class="line-code"><span style="color:#6A737D">follows by the standard encoding of colors as input, and the distance</span></td></tr>
+<tr id="L55" class="line-comment"><td class="line-num"><a href="#L55">55</a></td><td class="line-code"><span style="color:#6A737D">logic's headline role is played by the locality theorem concept). The</span></td></tr>
+<tr id="L56" class="line-comment"><td class="line-num"><a href="#L56">56</a></td><td class="line-code"><span style="color:#6A737D">parameter dependence f(φ, ε, C) of the fixed-parameter claim lives in</span></td></tr>
+<tr id="L57" class="line-comment"><td class="line-num"><a href="#L57">57</a></td><td class="line-code"><span style="color:#6A737D">the existential `c` and `T`, as in the source; the class enters</span></td></tr>
+<tr id="L58" class="line-comment"><td class="line-num"><a href="#L58">58</a></td><td class="line-code"><span style="color:#6A737D">through the choice of `c` and `T` only, the program depending on</span></td></tr>
+<tr id="L59" class="line-comment"><td class="line-num"><a href="#L59">59</a></td><td class="line-code"><span style="color:#6A737D">finitely many of its excluded-minor thresholds.</span></td></tr>
+<tr id="L60" class="line-comment"><td class="line-num"><a href="#L60">60</a></td><td class="line-code"> </td></tr>
+<tr id="L61" class="line-comment"><td class="line-num"><a href="#L61">61</a></td><td class="line-code"><span style="color:#6A737D">**Deviation, deliberate: the word-length side condition is squared.**</span></td></tr>
+<tr id="L62" class="line-comment"><td class="line-num"><a href="#L62">62</a></td><td class="line-code"><span style="color:#6A737D">Lax271696's Courcelle axiom admits an encoding `x` at word length `w` when</span></td></tr>
+<tr id="L63" class="line-comment"><td class="line-num"><a href="#L63">63</a></td><td class="line-code"><span style="color:#6A737D">`c * (x.length + v + 1) ≤ 2 ^ w`; here the requirement is</span></td></tr>
+<tr id="L64" class="line-comment"><td class="line-num"><a href="#L64">64</a></td><td class="line-code"><span style="color:#6A737D">`c * (x.length + v + 1) ^ 2 ≤ 2 ^ w`. Since the statement quantifies</span></td></tr>
+<tr id="L65" class="line-comment"><td class="line-num"><a href="#L65">65</a></td><td class="line-code"><span style="color:#6A737D">over *every* `w`, the smallest admissible one is in scope, and under</span></td></tr>
+<tr id="L66" class="line-comment"><td class="line-num"><a href="#L66">66</a></td><td class="line-code"><span style="color:#6A737D">the Courcelle form that is `2 ^ w &lt; 2 * c * (|x| + max x + 1)` — a</span></td></tr>
+<tr id="L67" class="line-comment"><td class="line-num"><a href="#L67">67</a></td><td class="line-code"><span style="color:#6A737D">machine that can address only linearly many of its own cells, because</span></td></tr>
+<tr id="L68" class="line-comment"><td class="line-num"><a href="#L68">68</a></td><td class="line-code"><span style="color:#6A737D">Lax808846's RAM has `2 ^ w` cells and reduces every address modulo `2 ^ w`.</span></td></tr>
+<tr id="L69" class="line-comment"><td class="line-num"><a href="#L69">69</a></td><td class="line-code"><span style="color:#6A737D">Squaring moves the smallest admissible word length from</span></td></tr>
+<tr id="L70" class="line-comment"><td class="line-num"><a href="#L70">70</a></td><td class="line-code"><span style="color:#6A737D">`log |x| + O(1)` to `2 * log |x| + O(1)`: a constant factor in `w`, and</span></td></tr>
+<tr id="L71" class="line-comment"><td class="line-num"><a href="#L71">71</a></td><td class="line-code"><span style="color:#6A737D">a quadratic factor in addressable memory.</span></td></tr>
+<tr id="L72" class="line-comment"><td class="line-num"><a href="#L72">72</a></td><td class="line-code"> </td></tr>
+<tr id="L73" class="line-comment"><td class="line-num"><a href="#L73">73</a></td><td class="line-code"><span style="color:#6A737D">This is a genuine weakening — the program is excused from the narrowest</span></td></tr>
+<tr id="L74" class="line-comment"><td class="line-num"><a href="#L74">74</a></td><td class="line-code"><span style="color:#6A737D">word lengths — and it is recorded rather than hidden for that reason.</span></td></tr>
+<tr id="L75" class="line-comment"><td class="line-num"><a href="#L75">75</a></td><td class="line-code"><span style="color:#6A737D">It is made because the algorithm this submission formalizes computes,</span></td></tr>
+<tr id="L76" class="line-comment"><td class="line-num"><a href="#L76">76</a></td><td class="line-code"><span style="color:#6A737D">at every node of its recursion, a sparse neighborhood cover whose</span></td></tr>
+<tr id="L77" class="line-comment"><td class="line-num"><a href="#L77">77</a></td><td class="line-code"><span style="color:#6A737D">cluster family has `n^(1+δ)` total size, and the augmentation chain</span></td></tr>
+<tr id="L78" class="line-comment"><td class="line-num"><a href="#L78">78</a></td><td class="line-code"><span style="color:#6A737D">behind that cover's degree bound is superlinear in the same way. Under</span></td></tr>
+<tr id="L79" class="line-comment"><td class="line-num"><a href="#L79">79</a></td><td class="line-code"><span style="color:#6A737D">the linear form no such algorithm can be written down at all, whatever</span></td></tr>
+<tr id="L80" class="line-comment"><td class="line-num"><a href="#L80">80</a></td><td class="line-code"><span style="color:#6A737D">its running time, so the side condition would be deciding a question</span></td></tr>
+<tr id="L81" class="line-comment"><td class="line-num"><a href="#L81">81</a></td><td class="line-code"><span style="color:#6A737D">about machines that the theorem is not about.</span></td></tr>
+<tr id="L82" class="line-comment"><td class="line-num"><a href="#L82">82</a></td><td class="line-code"> </td></tr>
+<tr id="L83" class="line-comment"><td class="line-num"><a href="#L83">83</a></td><td class="line-code"><span style="color:#6A737D">Two things the deviation does *not* do. It does not change the time</span></td></tr>
+<tr id="L84" class="line-comment"><td class="line-num"><a href="#L84">84</a></td><td class="line-code"><span style="color:#6A737D">bound, which is still `n^(1+ε)` for every ε &gt; 0; and it does not touch</span></td></tr>
+<tr id="L85" class="line-comment"><td class="line-num"><a href="#L85">85</a></td><td class="line-code"><span style="color:#6A737D">Lax271696, whose axiom keeps the linear form — the Courcelle algorithm runs</span></td></tr>
+<tr id="L86" class="line-comment"><td class="line-num"><a href="#L86">86</a></td><td class="line-code"><span style="color:#6A737D">in linear space and has no need of this. If a later revision makes the</span></td></tr>
+<tr id="L87" class="line-comment"><td class="line-num"><a href="#L87">87</a></td><td class="line-code"><span style="color:#6A737D">cover streaming rather than materialized, so that the whole algorithm</span></td></tr>
+<tr id="L88" class="line-comment"><td class="line-num"><a href="#L88">88</a></td><td class="line-code"><span style="color:#6A737D">runs in linear space, the linear side condition can be restored and the</span></td></tr>
+<tr id="L89" class="line-comment"><td class="line-num"><a href="#L89">89</a></td><td class="line-code"><span style="color:#6A737D">statement strengthened; that possibility is why `^ 2` is written out</span></td></tr>
+<tr id="L90" class="line-comment"><td class="line-num"><a href="#L90">90</a></td><td class="line-code"><span style="color:#6A737D">rather than folded into `c`.</span></td></tr>
+<tr id="L91" class="line-comment"><td class="line-num"><a href="#L91">91</a></td><td class="line-code"> </td></tr>
+<tr id="L92" class="line-comment"><td class="line-num"><a href="#L92">92</a></td><td class="line-code"><span style="color:#6A737D">The exponent is `2` and not `1 + δ` because δ = ε/(ℓ+1) depends on the</span></td></tr>
+<tr id="L93" class="line-comment"><td class="line-num"><a href="#L93">93</a></td><td class="line-code"><span style="color:#6A737D">class and on ε, and a side condition that varied with them would make</span></td></tr>
+<tr id="L94" class="line-comment"><td class="line-num"><a href="#L94">94</a></td><td class="line-code"><span style="color:#6A737D">the admissible input set vary with the parameter — the fixed exponent</span></td></tr>
+<tr id="L95" class="line-comment"><td class="line-num"><a href="#L95">95</a></td><td class="line-code"><span style="color:#6A737D">covers every δ ≤ 1 uniformly and keeps the input predicate a property</span></td></tr>
+<tr id="L96" class="line-comment"><td class="line-num"><a href="#L96">96</a></td><td class="line-code"><span style="color:#6A737D">of the encoding alone.</span></td></tr>
+<tr id="L97" class="line-comment"><td class="line-num"><a href="#L97">97</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
 <tr id="L98" class=""><td class="line-num"><a href="#L98">98</a></td><td class="line-code"> </td></tr>
 <tr id="L99" class=""><td class="line-num"><a href="#L99">99</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax3.ModelChecking</span></td></tr>
 <tr id="L100" class=""><td class="line-num"><a href="#L100">100</a></td><td class="line-code"> </td></tr>
@@ -265,14 +265,14 @@ computation is the main algorithmic weight of the theorem.</p>
 <tr id="L104" class=""><td class="line-num"><a href="#L104">104</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-271696/Lax271696.GraphEncoding.html"><span style="color:#24292E">Lax271696.GraphEncoding</span></a></td></tr>
 <tr id="L105" class=""><td class="line-num"><a href="#L105">105</a></td><td class="line-code"> </td></tr>
 <tr id="L106" class=""><td class="line-num"><a href="#L106">106</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Classical </span><span style="color:#D73A49">in</span></td></tr>
-<tr id="L107" class="statement-line line-proven"><td class="line-num"><a href="#L107">107</a></td><td class="line-code"><span class="statement-anchor" id="s-Lax3.ModelChecking.exists_almostLinearTime_program_modelChecking"></span><span style="color:#6A737D">/-- **First-order model checking on nowhere dense classes** (Grohe–</span></td></tr>
-<tr id="L108" class="statement-line line-proven"><td class="line-num"><a href="#L108">108</a></td><td class="line-code"><span style="color:#6A737D">Kreutzer–Siebertz): for every nowhere dense class, sentence and</span></td></tr>
-<tr id="L109" class="statement-line line-proven"><td class="line-num"><a href="#L109">109</a></td><td class="line-code"><span style="color:#6A737D">ε &gt; 0, there are a program, a constant `c` and a time bound `T` with</span></td></tr>
-<tr id="L110" class="statement-line line-proven"><td class="line-num"><a href="#L110">110</a></td><td class="line-code"><span style="color:#6A737D">`T x ≤ c * (|x| + 1) ^ (1 + ε)`, such that at every word length `w`,</span></td></tr>
-<tr id="L111" class="statement-line line-proven"><td class="line-num"><a href="#L111">111</a></td><td class="line-code"><span style="color:#6A737D">on every member of the class in compressed sparse row form as a word</span></td></tr>
-<tr id="L112" class="statement-line line-proven"><td class="line-num"><a href="#L112">112</a></td><td class="line-code"><span style="color:#6A737D">`x` each of whose entries `v` satisfies `c * (x.length + v + 1) ^ 2 ≤</span></td></tr>
-<tr id="L113" class="statement-line line-proven"><td class="line-num"><a href="#L113">113</a></td><td class="line-code"><span style="color:#6A737D">2 ^ w`, the program halts within `T x` steps, having written `1` if</span></td></tr>
-<tr id="L114" class="statement-line line-proven"><td class="line-num"><a href="#L114">114</a></td><td class="line-code"><span style="color:#6A737D">the sentence holds in the graph and `0` otherwise. -/</span></td></tr>
+<tr id="L107" class="statement-line line-proven line-comment"><td class="line-num"><a href="#L107">107</a></td><td class="line-code"><span class="statement-anchor" id="s-Lax3.ModelChecking.exists_almostLinearTime_program_modelChecking"></span><span style="color:#6A737D">/-- **First-order model checking on nowhere dense classes** (Grohe–</span></td></tr>
+<tr id="L108" class="statement-line line-proven line-comment"><td class="line-num"><a href="#L108">108</a></td><td class="line-code"><span style="color:#6A737D">Kreutzer–Siebertz): for every nowhere dense class, sentence and</span></td></tr>
+<tr id="L109" class="statement-line line-proven line-comment"><td class="line-num"><a href="#L109">109</a></td><td class="line-code"><span style="color:#6A737D">ε &gt; 0, there are a program, a constant `c` and a time bound `T` with</span></td></tr>
+<tr id="L110" class="statement-line line-proven line-comment"><td class="line-num"><a href="#L110">110</a></td><td class="line-code"><span style="color:#6A737D">`T x ≤ c * (|x| + 1) ^ (1 + ε)`, such that at every word length `w`,</span></td></tr>
+<tr id="L111" class="statement-line line-proven line-comment"><td class="line-num"><a href="#L111">111</a></td><td class="line-code"><span style="color:#6A737D">on every member of the class in compressed sparse row form as a word</span></td></tr>
+<tr id="L112" class="statement-line line-proven line-comment"><td class="line-num"><a href="#L112">112</a></td><td class="line-code"><span style="color:#6A737D">`x` each of whose entries `v` satisfies `c * (x.length + v + 1) ^ 2 ≤</span></td></tr>
+<tr id="L113" class="statement-line line-proven line-comment"><td class="line-num"><a href="#L113">113</a></td><td class="line-code"><span style="color:#6A737D">2 ^ w`, the program halts within `T x` steps, having written `1` if</span></td></tr>
+<tr id="L114" class="statement-line line-proven line-comment"><td class="line-num"><a href="#L114">114</a></td><td class="line-code"><span style="color:#6A737D">the sentence holds in the graph and `0` otherwise. -/</span></td></tr>
 <tr id="L115" class="statement-line line-proven"><td class="line-num"><a href="#L115">115</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> exists_almostLinearTime_program_modelChecking</span><span style="color:#24292E"> :</span></td></tr>
 <tr id="L116" class="statement-line line-proven"><td class="line-num"><a href="#L116">116</a></td><td class="line-code"><span style="color:#24292E">    ∀ (C : </span><a class="lean-identifier-link" href="../lax-199508/Lax199508.GraphClasses.html#L25"><span style="color:#24292E">GraphClass</span></a><span style="color:#24292E">), </span><a class="lean-identifier-link" href="../lax-199508/Lax199508.NowhereDenseClasses.html#L64"><span style="color:#24292E">NowhereDense</span></a><span style="color:#24292E"> C →</span></td></tr>
 <tr id="L117" class="statement-line line-proven"><td class="line-num"><a href="#L117">117</a></td><td class="line-code"><span style="color:#24292E">    ∀ (φ : </span><a class="lean-identifier-link" href="../lax-3/Lax3.FirstOrder.html#L63"><span style="color:#24292E">FO</span></a><span style="color:#24292E"> </span><span style="color:#005CC5">0</span><span style="color:#24292E">) (ε : ℝ), </span><span style="color:#005CC5">0</span><span style="color:#24292E"> &lt; ε →</span></td></tr>
@@ -403,7 +403,7 @@ of the encoding alone.</p>
 <script src="../assets/sidebar.js?v=14479c59f650"></script>
 <script src="../assets/account.js?v=6a0844f8bd00"></script>
 <script src="../assets/graph-interaction.js?v=2f9fd490c8bd"></script>
-<script src="../assets/source-proof.js?v=b4c48aaad400"></script>
+<script src="../assets/source-proof.js?v=c61006f1e018"></script>
 <script src="../assets/version-history.js?v=a36e868140dd"></script>
 <script src="../assets/comments.js?v=40723213c083"></script>
 </body></html>
