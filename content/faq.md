@@ -81,3 +81,10 @@ dependency versions. Lax therefore plans to use long epochs that freeze those
 versions across the archive. When a new epoch is needed, the community can
 carry useful submissions forward based on demand. Epoch length will follow how
 the archive and its community evolve.
+
+## Won't publishing formalizations accelerate loss of control of mathematics?
+
+Published formalizations can be used to autonomously prove new theorems.
+However, we believe the benefits of maintaining these formalizations within
+our community, and using them to understand new mathematics, outweigh the
+risks.

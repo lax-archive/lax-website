@@ -880,7 +880,7 @@ After the formula.`, "");
     expect(index).toContain('<h2 class="landing-section-title landing-faq-title" id="landing-faq-heading">FAQ</h2>');
     expect(index).toContain('<ol class="landing-faq-list">');
     expect(index).toContain('<li class="landing-faq-list-item"><details class="landing-faq-item">');
-    expect(index.match(/<details class="landing-faq-item">/g)).toHaveLength(10);
+    expect(index.match(/<details class="landing-faq-item">/g)).toHaveLength(11);
     expect(index).toContain("How do I create my own submission?");
     expect(index).toContain("How does Lax relate to Merely True, Tau Ceti, Lean Pool, and the Palomar Registry?");
     expect(index).toContain("Can I use Lax for anonymous peer review?");
