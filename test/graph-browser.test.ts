@@ -337,13 +337,14 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
         const starts = assumptions.map(([id]) => container.querySelector<SVGPathElement>(`[data-edge-id="${CSS.escape(id)}"]`)!
           .getAttribute("d")!.split(/[LQ]/u)[0]);
         return { count: assumptions.length, starts, semanticIds: assumptions.flatMap(([, edge]: [string, any]) => edge.semanticIds),
-          dockIncidences: ["dock:Lax701.Base.s1", "dock:Lax701.Base.s2"].map((id) => data.nodes[id].incident) };
+          dockAssumptions: ["dock:Lax701.Base.s1", "dock:Lax701.Base.s2"].map((id) =>
+            data.nodes[id].incident.filter((edgeId: string) => data.edges[edgeId]?.kind === "assumption")) };
       });
       expect(sharedOutput.count).toBe(5);
       expect(new Set(sharedOutput.starts).size).toBe(1);
       expect(sharedOutput.semanticIds).toContain("Lax702Proofs.Premise1:assumption:Lax701.Base.s1");
       expect(sharedOutput.semanticIds).toContain("Lax702Proofs.Premise2:assumption:Lax701.Base.s2");
-      expect(sharedOutput.dockIncidences).toEqual([[], []]);
+      expect(sharedOutput.dockAssumptions).toEqual([[], []]);
       expect(await page.locator(".proof-network-figure [data-graph-expand]").isVisible()).toBe(false);
       await capture(page, "no-javascript", ".proof-network-figure");
       const href = await page.locator('#proof-network [data-node-id="dock:Lax701.Base.s2"]').getAttribute("href");
@@ -789,6 +790,7 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       const alternativeProof = container.locator('[data-node-id="p:Lax702Proofs.Alternative"]');
       const middleProof = container.locator('[data-node-id="p:Lax702Proofs.Middle"]');
       expect(await alternativeProof.getAttribute("class")).toContain("graph-dimmed");
+      expect(await alternativeProof.evaluate((element) => Number(getComputedStyle(element).opacity))).toBe(0.32);
       await alternativeProof.dispatchEvent("mouseenter");
       await page.waitForTimeout(100); await animationFrame(page);
       expect(await container.locator(".graph-selected").count()).toBe(1);
@@ -900,8 +902,6 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       expect(await figure.locator(".graph-tooltip").isHidden()).toBe(true);
       expect(await concept.getAttribute("class")).toContain("graph-selected");
       expect(await container.locator(".graph-related").count()).toBeGreaterThan(0);
-      expect(await container.locator(".graph-dimmed").first().evaluate((element) =>
-        Number(getComputedStyle(element).opacity))).toBe(0.32);
       expect(await figure.locator("[data-graph-zoom-status]").textContent()).toBe(beforeDismiss.scale);
       await figure.locator('[data-graph-zoom="reset"]').hover(); await animationFrame(page);
       expect(await container.locator(".graph-selected, .graph-related, .graph-dimmed").count()).toBe(0);
