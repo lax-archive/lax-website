@@ -5,7 +5,14 @@ import { attr, esc } from "./graph-escape.js";
 import type { DisplayNode, MeasuredDisplayGraph, NodeDrawing } from "./graph-project.js";
 
 export interface GraphInteractionPayload {
-  nodes: Record<string, { label: string; tooltipHtml?: string; tooltipRows?: DisplayNode["tooltipRows"]; incident: string[] }>;
+  nodes: Record<string, {
+    label: string; tooltipHtml?: string; tooltipRows?: DisplayNode["tooltipRows"]; incident: string[];
+    kind: DisplayNode["kind"] | "dock"; semanticId: string; nodeId: string; href?: string;
+  }>;
+  edges: Record<string, {
+    source: string; target: string; sourceSemanticId: string; targetSemanticId: string;
+    kind: string; semanticIds: readonly string[];
+  }>;
 }
 function rect(box: Rect, className = ""): string {
   return `<rect${className ? ` class="${attr(className)}"` : ""} x="${box.x}" y="${box.y}" width="${box.width}" height="${box.height}" rx="4"/>`;
@@ -47,17 +54,26 @@ export function graphInteractionPayload(measured: MeasuredDisplayGraph): GraphIn
   const nodes: GraphInteractionPayload["nodes"] = Object.create(null) as GraphInteractionPayload["nodes"];
   for (const node of measured.display.nodes) {
     nodes[node.id] = { label: node.tooltipText ?? node.label, ...(node.tooltipHtml ? { tooltipHtml: node.tooltipHtml } : {}),
-      ...(node.tooltipRows ? { tooltipRows: node.tooltipRows } : {}), incident: [] };
-    for (const dock of node.docks) nodes[dock.id] = { label: dock.statementId, incident: [] };
+      ...(node.tooltipRows ? { tooltipRows: node.tooltipRows } : {}), incident: [], kind: node.kind,
+      semanticId: node.semanticId, nodeId: node.id, ...(node.href ? { href: node.href } : {}) };
+    for (const dock of node.docks) nodes[dock.id] = { label: dock.statementId, incident: [], kind: "dock",
+      semanticId: dock.statementId, nodeId: node.id, ...(dock.href ? { href: dock.href } : {}) };
   }
+  const edges: GraphInteractionPayload["edges"] = Object.create(null) as GraphInteractionPayload["edges"];
   for (const edge of graph.edges) for (const portId of [edge.sourcePortId, edge.targetPortId]) {
     const port = ports.get(portId)!;
     nodes[port.nodeId]!.incident.push(edge.id);
     const dock = nodes[`dock:${port.semanticEndpointId}`];
     if (dock) dock.incident.push(edge.id);
   }
+  for (const edge of graph.edges) {
+    const source = ports.get(edge.sourcePortId)!, target = ports.get(edge.targetPortId)!;
+    edges[edge.id] = { source: source.nodeId, target: target.nodeId,
+      sourceSemanticId: source.semanticEndpointId, targetSemanticId: target.semanticEndpointId,
+      kind: edge.kind, semanticIds: edge.semanticIds ?? [] };
+  }
   for (const node of Object.values(nodes)) node.incident = [...new Set(node.incident)].sort();
-  return { nodes };
+  return { nodes, edges };
 }
 
 /** SVG is the final checked representation. Serialization is read back using
@@ -77,12 +93,19 @@ export function graphSvg(measured: MeasuredDisplayGraph, geometry: GraphGeometry
     const className = measured.display.kind === "proofs" ? `net-edge ${spec.kind}` : `dag-edge${spec.kind === "proofs" ? " proof-dep" : ""}`;
     return edge.sections.map((section) => `<path class="${attr(className)}" data-edge-id="${attr(edge.id)}" d="${pathData(section.commands!)}"${section.terminalTargetPortId ? ` marker-end="url(#${marker})"` : ""}/>`).join("");
   }).join("");
+  const edgeHits = measured.display.kind === "proofs" ? serialized.edges.map((edge) => edge.sections
+    .map((section) => `<path class="graph-edge-hit" data-edge-hit="${attr(edge.id)}" d="${pathData(section.commands!)}"/>`).join(""))
+    .join("") : "";
   const nodeMap = new Map(measured.display.nodes.map((node) => [node.id, node]));
   const nodeScale = measured.display.nodeScale ? ` scale(${measured.display.nodeScale})` : "";
   const nodes = geometry.nodes.map((node) => `<g transform="translate(${node.x},${node.y})${nodeScale}">${nodeSvg(nodeMap.get(node.id)!, measured.drawings.get(node.id)!)}</g>`).join("");
   // Paint routes over box fills so the label-free attachment areas retain
   // visible statement adapters. The validator still excludes all label ink.
-  const { x, y, width, height } = geometry.bounds;
+  const { x: drawingX, y, width: drawingWidth, height } = geometry.bounds;
+  // Keep a sparse proof network visually balanced without changing any node
+  // or route coordinate. The extra view-box space is presentation padding.
+  const width = measured.display.kind === "proofs" ? Math.max(720, drawingWidth) : drawingWidth;
+  const x = drawingX - (width - drawingWidth) / 2;
   const label = { concepts: "Concept dependency graph", submissions: "Submission dependency graph", proofs: "Proof dependency graph" }[measured.display.kind];
-  return `<svg xmlns="http://www.w3.org/2000/svg" class="prepared-graph" width="${width}" height="${height}" viewBox="${x} ${y} ${width} ${height}" aria-label="${label}" data-layout-digest="${attr(geometry.inputDigest)}"><defs><marker id="${marker}" viewBox="0 -5 10 10" refX="9" refY="0" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto" overflow="visible"><path d="M1,-4.25 L9,0 L1,4.25 Q3,0 1,-4.25 Z"/></marker></defs><g data-graph-camera>${groups}${nodes}${edges}</g></svg>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" class="prepared-graph" width="${width}" height="${height}" viewBox="${x} ${y} ${width} ${height}" aria-label="${label}" data-layout-digest="${attr(geometry.inputDigest)}"><defs><marker id="${marker}" viewBox="0 -5 10 10" refX="9" refY="0" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto" overflow="visible"><path d="M1,-4.25 L9,0 L1,4.25 Q3,0 1,-4.25 Z"/></marker></defs><g data-graph-camera>${groups}${edgeHits}${nodes}${edges}</g></svg>`;
 }

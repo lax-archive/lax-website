@@ -280,7 +280,7 @@ export function proofNetworkLegend(data: ProofNetworkLegendData): string {
       : "",
     nodes.some((node) => !node.ext) ? `<span><i class="legend-node stroke-own"></i>This submission</span>` : "",
     nodes.some((node) => node.ext) ? `<span><i class="legend-node stroke-ext"></i>From another submission</span>` : "",
-    data.proofs.length ? `<span><i class="legend-proof-chip" aria-hidden="true">⊢</i>Proof</span>` : "",
+    data.proofs.length ? `<span><i class="legend-proof-chip" aria-hidden="true">⊢</i>Proof — open large view for details</span>` : "",
     proofNetworkHasCycle(data) ? `<span><i class="legend-cycle"></i>Cycle — claims proving each other</span>` : "",
   ];
   return `<figcaption class="graph-legend" aria-label="Proof network legend">${items.join("")}</figcaption>`;

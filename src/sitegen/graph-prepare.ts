@@ -120,6 +120,88 @@ function safeNode(value: unknown, statement: boolean): RawRecord {
   return node;
 }
 
+function safeDetailHref(value: unknown, description: string, external = false): string {
+  const href = requiredString(value, description);
+  if (/[\u0000-\u001f]/u.test(href)) fail("graph-detail-link", `${description} contains control characters`);
+  if (!external) {
+    if (/^(?:[a-z][a-z0-9+.-]*:|\/\/)/iu.test(href))
+      fail("graph-detail-link", `${description} must be a relative public page URL`);
+    return href;
+  }
+  try {
+    if (new URL(href).protocol !== "https:") throw new Error("not HTTPS");
+  } catch { fail("graph-detail-link", `${description} must be an HTTPS URL`); }
+  return href;
+}
+
+function safeDetailClaim(value: unknown): RawRecord {
+  const raw = record(value, "Graph detail claim"), claim: RawRecord = {
+    id: requiredString(raw.id, "Graph detail claim identity"),
+    name: requiredString(raw.name, "Graph detail claim name"),
+  };
+  if (typeof raw.proven !== "boolean") fail("graph-detail", "Graph detail claim status must be boolean");
+  claim.proven = raw.proven;
+  if (raw.href !== undefined) claim.href = safeDetailHref(raw.href, "Graph detail claim link");
+  copyFields(raw, claim, ["nameHtml"], "string");
+  copyFields(raw, claim, ["statement", "statementCount"], "number");
+  return claim;
+}
+
+function safeGraphDetails(value: unknown): RawRecord {
+  const raw = record(value, "Proof graph details"), details: RawRecord = Object.create(null) as RawRecord;
+  for (const [key, value] of Object.entries(raw).sort(([a], [b]) => compareText(a, b))) {
+    const source = record(value, "Proof graph detail");
+    const kind = requiredString(source.kind, "Proof graph detail kind");
+    if (!["concept", "proof"].includes(kind) || !key.startsWith(`${kind}:`))
+      fail("graph-detail", "Proof graph detail kind does not match its key", key);
+    const detail: RawRecord = { kind, name: requiredString(source.name, "Proof graph detail name") };
+    copyFields(source, detail, ["nameHtml", "type", "status", "statusDetail", "descriptionHtml", "reviewLabel", "leanPath"], "string");
+    copyFields(source, detail, ["openAssumptions"], "number");
+    if (source.openAssumptionIds !== undefined) {
+      detail.openAssumptionIds = list(source.openAssumptionIds, "Proof graph open assumptions")
+        .map((id) => requiredString(id, "Open-assumption identity")).sort(compareText);
+    }
+    if (source.anonymousReview !== undefined) {
+      if (typeof source.anonymousReview !== "boolean") fail("graph-detail", "Proof graph anonymous-review state must be boolean");
+      detail.anonymousReview = source.anonymousReview;
+    }
+    if (source.href !== undefined) detail.href = safeDetailHref(source.href, "Proof graph detail page link");
+    if (source.reviewUrl !== undefined) detail.reviewUrl = safeDetailHref(source.reviewUrl, "Proof graph review link", true);
+    if (source.sourceHref !== undefined) detail.sourceHref = safeDetailHref(source.sourceHref, "Proof graph source link", true);
+    if (source.submission !== undefined) {
+      const submission = record(source.submission, "Proof graph detail submission");
+      const safeSubmission: RawRecord = {
+        id: requiredString(submission.id, "Proof graph detail submission identity"),
+        name: requiredString(submission.name, "Proof graph detail submission name"),
+        state: requiredString(submission.state, "Proof graph detail submission state"),
+      };
+      copyFields(submission, safeSubmission, ["nameHtml"], "string");
+      if (submission.href !== undefined) safeSubmission.href = safeDetailHref(submission.href, "Proof graph submission page link");
+      detail.submission = safeSubmission;
+    }
+    if (source.statements !== undefined) detail.statements = list(source.statements, "Proof graph detail statements").map((value) => {
+      const statement = record(value, "Proof graph detail statement"), out: RawRecord = {
+        id: requiredString(statement.id, "Proof graph detail statement identity"),
+        name: requiredString(statement.name, "Proof graph detail statement name"),
+        signature: requiredString(statement.signature, "Proof graph detail Lean signature"),
+      };
+      if (typeof statement.proven !== "boolean") fail("graph-detail", "Proof graph detail statement status must be boolean");
+      out.proven = statement.proven;
+      if (statement.href !== undefined) out.href = safeDetailHref(statement.href, "Proof graph detail statement link");
+      return out;
+    });
+    if (source.sections !== undefined) detail.sections = list(source.sections, "Proof graph detail sections").map((value) => {
+      const section = record(value, "Proof graph detail section"), out: RawRecord = {};
+      copyFields(section, out, ["titleHtml", "bodyHtml"], "string");
+      return out;
+    });
+    if (source.conclusion !== undefined) detail.conclusion = safeDetailClaim(source.conclusion);
+    if (source.assumptions !== undefined) detail.assumptions = list(source.assumptions, "Proof graph detail assumptions").map(safeDetailClaim);
+    details[key] = detail;
+  }
+  return details;
+}
+
 /** No object spread of unknown input. The old raw semantic payload remains
  * available to readers/tests, but source/author/private extras are excluded. */
 export function publicGraphPayload(input: unknown): Partial<PublicGraphData> {
@@ -141,6 +223,7 @@ export function publicGraphPayload(input: unknown): Partial<PublicGraphData> {
         copyFields(proof, out, ["outstanding"], "number");
         return out;
       }).sort((a, b) => compareText(String(a.id), String(b.id)));
+      if (data.details !== undefined) safe.details = safeGraphDetails(data.details);
     } else {
       safe.nodes = list(data.nodes, "Graph nodes").map((node) => safeNode(node, false))
         .sort((a, b) => compareText(String(a.id), String(b.id)));
@@ -433,7 +516,7 @@ export async function prepareGraphs(files: Map<string, string | Buffer>, options
                 statistics.alternateFiles++; statistics.alternateBytes += Buffer.byteLength(bytes);
                 pendingFiles.set(file, bytes + "\n");
               }
-              descriptor.views[view.state] = { interaction: { nodes: {} }, height: complete.height, status: complete.status,
+              descriptor.views[view.state] = { interaction: { nodes: {}, edges: {} }, height: complete.height, status: complete.status,
                 src: pagePrefix(page.file) + file };
             }
           }

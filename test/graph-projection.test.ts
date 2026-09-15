@@ -33,6 +33,13 @@ describe("semantic display projection", () => {
     expect(concept.ports.map((p) => p.semanticEndpointId).sort()).toEqual(["c", "c.s1", "c.s2"]);
     const measured = measureDisplayGraph(projected, fixtureLabels(projected));
     const docks = measured.graph.nodes.find((n) => n.id === concept.id)!.ports;
+    const interaction = graphInteractionPayload(measured);
+    expect(Object.keys(interaction.edges)).toHaveLength(5);
+    expect(interaction.nodes["c:c"]).toMatchObject({ kind: "concept", semanticId: "c", nodeId: "c:c" });
+    expect(interaction.nodes["dock:c.s1"]).toMatchObject({ kind: "dock", semanticId: "c.s1", nodeId: "c:c" });
+    expect(interaction.edges["e:p1:assumption:c.s1:0"]).toMatchObject({
+      source: "c:c", target: "p:p1", sourceSemanticId: "c.s1", targetSemanticId: "p1", kind: "assumption",
+    });
     expect(docks.every((p) => p.mode === "fixed-position")).toBe(true);
     expect(new Set(docks.map((p) => p.offset!.x)).size).toBe(3);
   });

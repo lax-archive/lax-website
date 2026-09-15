@@ -28,6 +28,8 @@ export interface ProofGraphData {
   statements: readonly StatementGraphInput[]; proofs: readonly ProofGraphInput[];
   /** Optional presentation scale for nodes, independent of inter-node spacing. */
   nodeScale?: number;
+  /** Sanitized, presentation-only inspector content. It never enters layout. */
+  details?: Readonly<Record<string, unknown>>;
 }
 export interface DisplayDock {
   id: string; statementId: string; ordinal: number; href?: string;
