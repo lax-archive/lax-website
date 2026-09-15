@@ -1,0 +1,15 @@
+{
+  "epoch": "v4.33.0",
+  "environments": [
+    {
+      "id": "v4.33.0",
+      "registered": 32,
+      "drafts": 12
+    },
+    {
+      "id": "v4.30.0",
+      "registered": 8,
+      "drafts": 10
+    }
+  ]
+}

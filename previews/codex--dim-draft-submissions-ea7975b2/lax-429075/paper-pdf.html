@@ -1,0 +1,906 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; worker-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self'; frame-src https://comments.laxarchive.org; connect-src 'self' https://comments.laxarchive.org">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Lax — an archive of formalized mathematical concepts and their proofs">
+
+<title>Paper as printed — lax-429075</title>
+<link rel="canonical" href="https://laxarchive.org/lax-429075/paper-pdf.html">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
+<link rel="stylesheet" href="../assets/style.css?v=d67481e25bca">
+</head><body>
+<header class="site-header with-sidebar sidebar-hidden">
+  <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
+  <div class="site-brand">
+  <h1 class="site-title"><a href="../index.html">Lax <span class="site-title-quiet">Lean Archive</span></a></h1>
+  <nav class="site-nav" aria-label="Site">
+    <a class="site-nav-link" href="../lax-242665/paper.html">Introduction</a>
+    <a class="site-nav-link" href="../about.html">About</a>
+  </nav>
+  </div>
+  <nav class="header-actions" aria-label="Account">
+    <div class="account-header" data-account-root data-remark42-host="https://comments.laxarchive.org" data-remark42-site="remark" data-identity-url="https://comments.laxarchive.org/reactions/v1/identity">
+  <a class="account-control" data-account-login href="https://comments.laxarchive.org/auth/orcid/login?from=https%3A%2F%2Flaxarchive.org&amp;site=remark"><span class="orcid-mark" aria-hidden="true">iD</span><span>Sign in<span class="account-login-long"> with ORCID</span></span></a>
+  <button class="account-control" data-account-settings type="button" aria-haspopup="dialog" aria-controls="account-dialog" hidden><span class="orcid-mark" aria-hidden="true">iD</span><span>Settings</span></button>
+</div>
+  </nav>
+</header>
+<main id="content-shell" class="sidebar-hidden">
+<div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+<aside id="sidebar">
+<a class="sidebar-back" href="../lax-429075/index.html"><span class="sidebar-back-arrow" aria-hidden="true">←</span>lax-429075</a>
+<div class="sidebar-filters"><div class="filter-group">
+<label for="filter-search">Search</label>
+<input id="filter-search" class="filter-input" type="search" placeholder="Filter entries" aria-controls="entry-list">
+</div>
+<div class="filter-group">
+<label for="filter-type">Type</label>
+<select id="filter-type" class="filter-select">
+<option value="all">All types</option>
+<option value="definition">definition</option>
+<option value="lemma">lemma</option>
+<option value="theorem">theorem</option>
+<option value="proof">proof</option>
+</select>
+</div></div>
+<ul id="entry-list">
+<li class="entry-heading" aria-hidden="true">Concepts</li>
+<li data-type="lemma" data-search="lax429075.circuitmachine polynomial circuit simulation of a verifier lemma"><a class="entry-link" href="../lax-429075/Lax429075.CircuitMachine.html" data-full-title="Polynomial circuit simulation of a verifier"><span class="entry-label"><span class="type-badge proven">lem✓</span><span class="entry-label-text">Polynomial circuit simulation of a verifier</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-429075/Lax429075.CircuitMachine.html" hidden></span></span></a></li>
+<li data-type="definition" data-search="lax429075.circuits boolean circuits definition"><a class="entry-link" href="../lax-429075/Lax429075.Circuits.html" data-full-title="Boolean circuits"><span class="entry-label"><span class="type-badge">def</span><span class="entry-label-text">Boolean circuits</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-429075/Lax429075.Circuits.html" hidden></span></span></a></li>
+<li data-type="definition" data-search="lax429075.cnf conjunctive normal form definition"><a class="entry-link" href="../lax-429075/Lax429075.CNF.html" data-full-title="Conjunctive normal form"><span class="entry-label"><span class="type-badge">def</span><span class="entry-label-text">Conjunctive normal form</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-429075/Lax429075.CNF.html" hidden></span></span></a></li>
+<li data-type="theorem" data-search="lax429075.cooklevin the cook–levin theorem theorem"><a class="entry-link" href="../lax-429075/Lax429075.CookLevin.html" data-full-title="The Cook–Levin theorem"><span class="entry-label"><span class="type-badge proven">thm✓</span><span class="entry-label-text">The Cook–Levin theorem</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-429075/Lax429075.CookLevin.html" hidden></span></span></a></li>
+<li data-type="definition" data-search="lax429075.encoding binary encoding of cnf formulas definition"><a class="entry-link" href="../lax-429075/Lax429075.Encoding.html" data-full-title="Binary encoding of CNF formulas"><span class="entry-label"><span class="type-badge">def</span><span class="entry-label-text">Binary encoding of CNF formulas</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-429075/Lax429075.Encoding.html" hidden></span></span></a></li>
+<li data-type="lemma" data-search="lax429075.encodingcorrect decoding an encoded formula lemma"><a class="entry-link" href="../lax-429075/Lax429075.EncodingCorrect.html" data-full-title="Decoding an encoded formula"><span class="entry-label"><span class="type-badge proven">lem✓</span><span class="entry-label-text">Decoding an encoded formula</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-429075/Lax429075.EncodingCorrect.html" hidden></span></span></a></li>
+<li data-type="lemma" data-search="lax429075.finitewitness a bounded satisfying assignment lemma"><a class="entry-link" href="../lax-429075/Lax429075.FiniteWitness.html" data-full-title="A bounded satisfying assignment"><span class="entry-label"><span class="type-badge proven">lem✓</span><span class="entry-label-text">A bounded satisfying assignment</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-429075/Lax429075.FiniteWitness.html" hidden></span></span></a></li>
+<li data-type="lemma" data-search="lax429075.gatecorrect correctness of gate clauses lemma"><a class="entry-link" href="../lax-429075/Lax429075.GateCorrect.html" data-full-title="Correctness of gate clauses"><span class="entry-label"><span class="type-badge proven">lem✓</span><span class="entry-label-text">Correctness of gate clauses</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-429075/Lax429075.GateCorrect.html" hidden></span></span></a></li>
+<li data-type="definition" data-search="lax429075.reductions polynomial many-one reductions and np-completeness definition"><a class="entry-link" href="../lax-429075/Lax429075.Reductions.html" data-full-title="Polynomial many-one reductions and NP-completeness"><span class="entry-label"><span class="type-badge">def</span><span class="entry-label-text">Polynomial many-one reductions and NP-completeness</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-429075/Lax429075.Reductions.html" hidden></span></span></a></li>
+<li data-type="lemma" data-search="lax429075.satencoding satisfiability and binary encodings lemma"><a class="entry-link" href="../lax-429075/Lax429075.SATEncoding.html" data-full-title="Satisfiability and binary encodings"><span class="entry-label"><span class="type-badge proven">lem✓</span><span class="entry-label-text">Satisfiability and binary encodings</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-429075/Lax429075.SATEncoding.html" hidden></span></span></a></li>
+<li data-type="lemma" data-search="lax429075.sathard np-hardness of sat lemma"><a class="entry-link" href="../lax-429075/Lax429075.SATHard.html" data-full-title="NP-hardness of SAT"><span class="entry-label"><span class="type-badge proven">lem✓</span><span class="entry-label-text">NP-hardness of SAT</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-429075/Lax429075.SATHard.html" hidden></span></span></a></li>
+<li data-type="lemma" data-search="lax429075.satinnp sat belongs to np lemma"><a class="entry-link" href="../lax-429075/Lax429075.SATinNP.html" data-full-title="SAT belongs to NP"><span class="entry-label"><span class="type-badge proven">lem✓</span><span class="entry-label-text">SAT belongs to NP</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-429075/Lax429075.SATinNP.html" hidden></span></span></a></li>
+<li data-type="definition" data-search="lax429075.satisfiability the satisfiability language and verifier definition"><a class="entry-link" href="../lax-429075/Lax429075.Satisfiability.html" data-full-title="The satisfiability language and verifier"><span class="entry-label"><span class="type-badge">def</span><span class="entry-label-text">The satisfiability language and verifier</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-429075/Lax429075.Satisfiability.html" hidden></span></span></a></li>
+<li data-type="definition" data-search="lax429075.tseitin gate clauses definition"><a class="entry-link" href="../lax-429075/Lax429075.Tseitin.html" data-full-title="Gate clauses"><span class="entry-label"><span class="type-badge">def</span><span class="entry-label-text">Gate clauses</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-429075/Lax429075.Tseitin.html" hidden></span></span></a></li>
+<li data-type="lemma" data-search="lax429075.tseitincorrect correctness of the circuit encoding lemma"><a class="entry-link" href="../lax-429075/Lax429075.TseitinCorrect.html" data-full-title="Correctness of the circuit encoding"><span class="entry-label"><span class="type-badge proven">lem✓</span><span class="entry-label-text">Correctness of the circuit encoding</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-429075/Lax429075.TseitinCorrect.html" hidden></span></span></a></li>
+<li data-type="lemma" data-search="lax429075.verifiercorrect correctness of the sat verifier lemma"><a class="entry-link" href="../lax-429075/Lax429075.VerifierCorrect.html" data-full-title="Correctness of the SAT verifier"><span class="entry-label"><span class="type-badge proven">lem✓</span><span class="entry-label-text">Correctness of the SAT verifier</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-429075/Lax429075.VerifierCorrect.html" hidden></span></span></a></li>
+<li data-type="lemma" data-search="lax429075.verifiertime polynomial time for cnf verification lemma"><a class="entry-link" href="../lax-429075/Lax429075.VerifierTime.html" data-full-title="Polynomial time for CNF verification"><span class="entry-label"><span class="type-badge proven">lem✓</span><span class="entry-label-text">Polynomial time for CNF verification</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-429075/Lax429075.VerifierTime.html" hidden></span></span></a></li>
+<li class="entry-heading" aria-hidden="true">Proofs</li>
+<li data-type="proof" data-search="lax429075proofs.cook_levin proof"><a class="entry-link" href="../lax-429075/Lax429075Proofs.cook_levin.html" data-full-title="Lax429075Proofs.cook_levin"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax429075Proofs.cook_levin</span></span></a></li>
+<li data-type="proof" data-search="lax429075proofs.encoding_roundtrip proof"><a class="entry-link" href="../lax-429075/Lax429075Proofs.encoding_roundtrip.html" data-full-title="Lax429075Proofs.encoding_roundtrip"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax429075Proofs.encoding_roundtrip</span></span></a></li>
+<li data-type="proof" data-search="lax429075proofs.finite_witness proof"><a class="entry-link" href="../lax-429075/Lax429075Proofs.finite_witness.html" data-full-title="Lax429075Proofs.finite_witness"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax429075Proofs.finite_witness</span></span></a></li>
+<li data-type="proof" data-search="lax429075proofs.gate_correct proof"><a class="entry-link" href="../lax-429075/Lax429075Proofs.gate_correct.html" data-full-title="Lax429075Proofs.gate_correct"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax429075Proofs.gate_correct</span></span></a></li>
+<li data-type="proof" data-search="lax429075proofs.sat_encoding proof"><a class="entry-link" href="../lax-429075/Lax429075Proofs.sat_encoding.html" data-full-title="Lax429075Proofs.sat_encoding"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax429075Proofs.sat_encoding</span></span></a></li>
+<li data-type="proof" data-search="lax429075proofs.sat_hard proof"><a class="entry-link" href="../lax-429075/Lax429075Proofs.sat_hard.html" data-full-title="Lax429075Proofs.sat_hard"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax429075Proofs.sat_hard</span></span></a></li>
+<li data-type="proof" data-search="lax429075proofs.sat_in_np proof"><a class="entry-link" href="../lax-429075/Lax429075Proofs.sat_in_np.html" data-full-title="Lax429075Proofs.sat_in_np"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax429075Proofs.sat_in_np</span></span></a></li>
+<li data-type="proof" data-search="lax429075proofs.streaming.circuit_machine proof"><a class="entry-link" href="../lax-429075/Lax429075Proofs.Streaming.circuit_machine.html" data-full-title="Lax429075Proofs.Streaming.circuit_machine"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax429075Proofs.Streaming.circuit_machine</span></span></a></li>
+<li data-type="proof" data-search="lax429075proofs.tseitin_correct proof"><a class="entry-link" href="../lax-429075/Lax429075Proofs.tseitin_correct.html" data-full-title="Lax429075Proofs.tseitin_correct"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax429075Proofs.tseitin_correct</span></span></a></li>
+<li data-type="proof" data-search="lax429075proofs.verifier_correct proof"><a class="entry-link" href="../lax-429075/Lax429075Proofs.verifier_correct.html" data-full-title="Lax429075Proofs.verifier_correct"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax429075Proofs.verifier_correct</span></span></a></li>
+<li data-type="proof" data-search="lax429075proofs.verifier_polynomial proof"><a class="entry-link" href="../lax-429075/Lax429075Proofs.verifier_polynomial.html" data-full-title="Lax429075Proofs.verifier_polynomial"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax429075Proofs.verifier_polynomial</span></span></a></li>
+<li id="entry-list-empty" hidden>No entries match.</li>
+</ul>
+</aside>
+<div id="sidebar-resizer" class="sidebar-resizer" role="separator" aria-label="Resize sidebar" aria-controls="sidebar" aria-orientation="vertical" aria-valuemin="220" aria-valuemax="520" aria-valuenow="285" tabindex="0" title="Drag to resize sidebar"></div>
+<section id="main"><div id="detail" class="detail-manuscript">
+
+<div class="manuscript" data-pdf="paper.pdf" data-pdfjs="../assets/pdfjs/pdf.min.mjs?v=2221020ea508" data-pdfjs-worker="../assets/pdfjs/pdf.worker.min.mjs?v=51a2fd1ea47f">
+<div class="detail-heading concept-heading manuscript-heading">
+<div><p class="concept-id">Paper</p>
+<h1 class="concept-title">The Cook–Levin Theorem</h1>
+<p class="concept-microline">3 pages · 28 marked passages · pdflatex · <a href="paper.pdf">download PDF</a> · <a href="index.html">lax-429075</a></p></div>
+</div>
+<div class="manuscript-view-switch" role="group" aria-label="Paper view">
+<a class="manuscript-view-link" href="paper.html">Reflowed</a>
+<a class="manuscript-view-link" href="paper-pdf.html" aria-current="page">As printed</a>
+</div>
+<div class="manuscript-body">
+<div class="manuscript-pages" id="manuscript-pages">
+<div class="manuscript-page" data-page="1" style="aspect-ratio: 612 / 792"></div>
+<div class="manuscript-page" data-page="2" style="aspect-ratio: 612 / 792"></div>
+<div class="manuscript-page" data-page="3" style="aspect-ratio: 612 / 792"></div>
+</div>
+<ol class="manuscript-rail" id="manuscript-rail">
+<li class="manuscript-card kind-concept" id="m1" data-mark="1">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><span class="type-badge">def</span><a href="../lax-429075/Lax429075.CNF.html"><code>Lax429075.CNF</code></a></span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m1-body" aria-label="Show details of Lax429075.CNF"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m1-body" hidden>
+<p class="manuscript-card-title">Conjunctive normal form</p>
+<div class="latex-content"><p>A literal names a natural-number variable and its sign. A CNF formula is a
+list of clauses, each a list of literals. Empty clauses are false and the
+empty conjunction is true. Satisfiability quantifies over Boolean assignments.</p>
+</div>
+<div class="manuscript-card-source"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<tr class=""><td class="line-num">1</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-434930/Lax434930.PolynomialTime.html"><span style="color:#24292E">Lax434930.PolynomialTime</span></a></td></tr>
+<tr class=""><td class="line-num">2</td><td class="line-code"> </td></tr>
+<tr class="line-elided"><td class="line-num"></td><td class="line-code">… module docstring, 9 lines</td></tr>
+<tr class=""><td class="line-num">12</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">13</td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax429075.CNF</span></td></tr>
+<tr class=""><td class="line-num">14</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">15</td><td class="line-code"><span style="color:#D73A49">structure</span><span style="color:#6F42C1"> Literal</span><span style="color:#D73A49"> where</span></td></tr>
+<tr class=""><td class="line-num">16</td><td class="line-code"><span style="color:#24292E">  index : ℕ</span></td></tr>
+<tr class=""><td class="line-num">17</td><td class="line-code"><span style="color:#24292E">  positive : Bool</span></td></tr>
+<tr class=""><td class="line-num">18</td><td class="line-code"><span style="color:#D73A49">  deriving</span><span style="color:#24292E"> DecidableEq</span></td></tr>
+<tr class=""><td class="line-num">19</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">20</td><td class="line-code"><span style="color:#D73A49">abbrev</span><span style="color:#6F42C1"> Clause</span><span style="color:#24292E"> := List </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.CNF.html#L15"><span style="color:#24292E">Literal</span></a></td></tr>
+<tr class=""><td class="line-num">21</td><td class="line-code"><span style="color:#D73A49">abbrev</span><span style="color:#6F42C1"> Formula</span><span style="color:#24292E"> := List </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.CNF.html#L20"><span style="color:#24292E">Clause</span></a></td></tr>
+<tr class=""><td class="line-num">22</td><td class="line-code"><span style="color:#D73A49">abbrev</span><span style="color:#6F42C1"> Assignment</span><span style="color:#24292E"> := ℕ → Bool</span></td></tr>
+<tr class=""><td class="line-num">23</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">24</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> Literal.eval</span><span style="color:#24292E"> (l : </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.CNF.html#L15"><span style="color:#24292E">Literal</span></a><span style="color:#24292E">) (ρ : </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.CNF.html#L22"><span style="color:#24292E">Assignment</span></a><span style="color:#24292E">) : Bool :=</span></td></tr>
+<tr class=""><td class="line-num">25</td><td class="line-code"><span style="color:#D73A49">  if</span><span style="color:#24292E"> l.</span><a class="lean-identifier-link" href="../lax-429075/Lax429075.CNF.html#L17"><span style="color:#24292E">positive</span></a><span style="color:#24292E"> </span><span style="color:#D73A49">then</span><span style="color:#24292E"> ρ l.</span><a class="lean-identifier-link" href="../lax-429075/Lax429075.CNF.html#L16"><span style="color:#24292E">index</span></a><span style="color:#24292E"> </span><span style="color:#D73A49">else</span><span style="color:#24292E"> !(ρ l.</span><a class="lean-identifier-link" href="../lax-429075/Lax429075.CNF.html#L16"><span style="color:#24292E">index</span></a><span style="color:#24292E">)</span></td></tr>
+<tr class=""><td class="line-num">26</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">27</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> eval</span><span style="color:#24292E"> (F : </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.CNF.html#L21"><span style="color:#24292E">Formula</span></a><span style="color:#24292E">) (ρ : </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.CNF.html#L22"><span style="color:#24292E">Assignment</span></a><span style="color:#24292E">) : Bool :=</span></td></tr>
+<tr class=""><td class="line-num">28</td><td class="line-code"><span style="color:#24292E">  F.all </span><span style="color:#D73A49">fun</span><span style="color:#24292E"> C =&gt; C.any </span><span style="color:#D73A49">fun</span><span style="color:#24292E"> l =&gt; l.</span><a class="lean-identifier-link" href="../lax-429075/Lax429075.CNF.html#L24"><span style="color:#24292E">eval</span></a><span style="color:#24292E"> ρ</span></td></tr>
+<tr class=""><td class="line-num">29</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">30</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> Satisfiable</span><span style="color:#24292E"> (F : </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.CNF.html#L21"><span style="color:#24292E">Formula</span></a><span style="color:#24292E">) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> := ∃ ρ, </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.CNF.html#L27"><span style="color:#24292E">eval</span></a><span style="color:#24292E"> F ρ = </span><span style="color:#005CC5">true</span></td></tr>
+<tr class=""><td class="line-num">31</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">32</td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax429075.CNF</span></td></tr>
+<tr class=""><td class="line-num">33</td><td class="line-code"> </td></tr>
+</table></div></div>
+</div>
+</li>
+<li class="manuscript-card kind-concept" id="m2" data-mark="2">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><span class="type-badge">def</span><a href="../lax-429075/Lax429075.Encoding.html"><code>Lax429075.Encoding</code></a></span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m2-body" aria-label="Show details of Lax429075.Encoding"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m2-body" hidden>
+<p class="manuscript-card-title">Binary encoding of CNF formulas</p>
+<div class="latex-content"><p>Lists use a one-bit continuation marker and a zero-bit terminator.
+A literal consists of its variable index in unary, a zero terminator, and
+its sign. This encoding gives every formula a unique binary word and bounds
+each variable index by the word length.</p>
+</div>
+<div class="manuscript-card-source"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<tr class=""><td class="line-num">1</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.CNF.html"><span style="color:#24292E">Lax429075.CNF</span></a></td></tr>
+<tr class=""><td class="line-num">2</td><td class="line-code"> </td></tr>
+<tr class="line-elided"><td class="line-num"></td><td class="line-code">… module docstring, 10 lines</td></tr>
+<tr class=""><td class="line-num">13</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">14</td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax429075.Encoding</span></td></tr>
+<tr class=""><td class="line-num">15</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">16</td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.CNF.html"><span style="color:#24292E">CNF</span></a><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-434930/Lax434930.PolynomialTime.html"><span style="color:#24292E">Lax434930.PolynomialTime</span></a></td></tr>
+<tr class=""><td class="line-num">17</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">18</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> encodeList</span><span style="color:#24292E"> {α : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">} (encode : α → </span><a class="lean-identifier-link" href="../lax-434930/Lax434930.PolynomialTime.html#L22"><span style="color:#24292E">Word</span></a><span style="color:#24292E">) : List α → </span><a class="lean-identifier-link" href="../lax-434930/Lax434930.PolynomialTime.html#L22"><span style="color:#24292E">Word</span></a></td></tr>
+<tr class=""><td class="line-num">19</td><td class="line-code"><span style="color:#24292E">  | [] =&gt; [</span><span style="color:#005CC5">false</span><span style="color:#24292E">]</span></td></tr>
+<tr class=""><td class="line-num">20</td><td class="line-code"><span style="color:#24292E">  | a :: as =&gt; </span><span style="color:#005CC5">true</span><span style="color:#24292E"> :: (encode a ++ </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Encoding.html#L18"><span style="color:#24292E">encodeList</span></a><span style="color:#24292E"> encode as)</span></td></tr>
+<tr class=""><td class="line-num">21</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">22</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> encodeNat</span><span style="color:#24292E"> (n : ℕ) : </span><a class="lean-identifier-link" href="../lax-434930/Lax434930.PolynomialTime.html#L22"><span style="color:#24292E">Word</span></a><span style="color:#24292E"> := List.replicate n </span><span style="color:#005CC5">true</span><span style="color:#24292E"> ++ [</span><span style="color:#005CC5">false</span><span style="color:#24292E">]</span></td></tr>
+<tr class=""><td class="line-num">23</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">24</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> encodeLiteral</span><span style="color:#24292E"> (l : </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.CNF.html#L15"><span style="color:#24292E">Literal</span></a><span style="color:#24292E">) : </span><a class="lean-identifier-link" href="../lax-434930/Lax434930.PolynomialTime.html#L22"><span style="color:#24292E">Word</span></a><span style="color:#24292E"> := </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Encoding.html#L22"><span style="color:#24292E">encodeNat</span></a><span style="color:#24292E"> l.</span><a class="lean-identifier-link" href="../lax-429075/Lax429075.CNF.html#L16"><span style="color:#24292E">index</span></a><span style="color:#24292E"> ++ [l.</span><a class="lean-identifier-link" href="../lax-429075/Lax429075.CNF.html#L17"><span style="color:#24292E">positive</span></a><span style="color:#24292E">]</span></td></tr>
+<tr class=""><td class="line-num">25</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">26</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> encodeClause</span><span style="color:#24292E"> : </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.CNF.html#L20"><span style="color:#24292E">Clause</span></a><span style="color:#24292E"> → </span><a class="lean-identifier-link" href="../lax-434930/Lax434930.PolynomialTime.html#L22"><span style="color:#24292E">Word</span></a><span style="color:#24292E"> := </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Encoding.html#L18"><span style="color:#24292E">encodeList</span></a><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Encoding.html#L24"><span style="color:#24292E">encodeLiteral</span></a></td></tr>
+<tr class=""><td class="line-num">27</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">28</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> encodeCNF</span><span style="color:#24292E"> : </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.CNF.html#L21"><span style="color:#24292E">Formula</span></a><span style="color:#24292E"> → </span><a class="lean-identifier-link" href="../lax-434930/Lax434930.PolynomialTime.html#L22"><span style="color:#24292E">Word</span></a><span style="color:#24292E"> := </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Encoding.html#L18"><span style="color:#24292E">encodeList</span></a><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Encoding.html#L26"><span style="color:#24292E">encodeClause</span></a></td></tr>
+<tr class=""><td class="line-num">29</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">30</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> parseNat</span><span style="color:#24292E"> : </span><a class="lean-identifier-link" href="../lax-434930/Lax434930.PolynomialTime.html#L22"><span style="color:#24292E">Word</span></a><span style="color:#24292E"> → Option (ℕ × </span><a class="lean-identifier-link" href="../lax-434930/Lax434930.PolynomialTime.html#L22"><span style="color:#24292E">Word</span></a><span style="color:#24292E">)</span></td></tr>
+<tr class=""><td class="line-num">31</td><td class="line-code"><span style="color:#24292E">  | [] =&gt; none</span></td></tr>
+<tr class=""><td class="line-num">32</td><td class="line-code"><span style="color:#24292E">  | </span><span style="color:#005CC5">false</span><span style="color:#24292E"> :: w =&gt; some (</span><span style="color:#005CC5">0</span><span style="color:#24292E">, w)</span></td></tr>
+<tr class=""><td class="line-num">33</td><td class="line-code"><span style="color:#24292E">  | </span><span style="color:#005CC5">true</span><span style="color:#24292E"> :: w =&gt; </span><span style="color:#D73A49">do</span></td></tr>
+<tr class=""><td class="line-num">34</td><td class="line-code"><span style="color:#D73A49">    let</span><span style="color:#24292E"> (n, rest) ← </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Encoding.html#L30"><span style="color:#24292E">parseNat</span></a><span style="color:#24292E"> w</span></td></tr>
+<tr class=""><td class="line-num">35</td><td class="line-code"><span style="color:#24292E">    pure (n + </span><span style="color:#005CC5">1</span><span style="color:#24292E">, rest)</span></td></tr>
+<tr class=""><td class="line-num">36</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">37</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> parseLiteral</span><span style="color:#24292E"> (w : </span><a class="lean-identifier-link" href="../lax-434930/Lax434930.PolynomialTime.html#L22"><span style="color:#24292E">Word</span></a><span style="color:#24292E">) : Option (</span><a class="lean-identifier-link" href="../lax-429075/Lax429075.CNF.html#L15"><span style="color:#24292E">Literal</span></a><span style="color:#24292E"> × </span><a class="lean-identifier-link" href="../lax-434930/Lax434930.PolynomialTime.html#L22"><span style="color:#24292E">Word</span></a><span style="color:#24292E">) := </span><span style="color:#D73A49">do</span></td></tr>
+<tr class=""><td class="line-num">38</td><td class="line-code"><span style="color:#D73A49">  let</span><span style="color:#24292E"> (n, rest) ← </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Encoding.html#L30"><span style="color:#24292E">parseNat</span></a><span style="color:#24292E"> w</span></td></tr>
+<tr class=""><td class="line-num">39</td><td class="line-code"><span style="color:#D73A49">  match</span><span style="color:#24292E"> rest </span><span style="color:#D73A49">with</span></td></tr>
+<tr class=""><td class="line-num">40</td><td class="line-code"><span style="color:#24292E">  | [] =&gt; none</span></td></tr>
+<tr class=""><td class="line-num">41</td><td class="line-code"><span style="color:#24292E">  | sign :: tail =&gt; pure (⟨n, sign⟩, tail)</span></td></tr>
+<tr class=""><td class="line-num">42</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">43</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> parseList</span><span style="color:#24292E"> {α : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">} (parse : </span><a class="lean-identifier-link" href="../lax-434930/Lax434930.PolynomialTime.html#L22"><span style="color:#24292E">Word</span></a><span style="color:#24292E"> → Option (α × </span><a class="lean-identifier-link" href="../lax-434930/Lax434930.PolynomialTime.html#L22"><span style="color:#24292E">Word</span></a><span style="color:#24292E">)) :</span></td></tr>
+<tr class=""><td class="line-num">44</td><td class="line-code"><span style="color:#24292E">    ℕ → </span><a class="lean-identifier-link" href="../lax-434930/Lax434930.PolynomialTime.html#L22"><span style="color:#24292E">Word</span></a><span style="color:#24292E"> → Option (List α × </span><a class="lean-identifier-link" href="../lax-434930/Lax434930.PolynomialTime.html#L22"><span style="color:#24292E">Word</span></a><span style="color:#24292E">)</span></td></tr>
+<tr class=""><td class="line-num">45</td><td class="line-code"><span style="color:#24292E">  | </span><span style="color:#005CC5">0</span><span style="color:#24292E">, _ =&gt; none</span></td></tr>
+<tr class=""><td class="line-num">46</td><td class="line-code"><span style="color:#24292E">  | _ + </span><span style="color:#005CC5">1</span><span style="color:#24292E">, [] =&gt; none</span></td></tr>
+<tr class=""><td class="line-num">47</td><td class="line-code"><span style="color:#24292E">  | _ + </span><span style="color:#005CC5">1</span><span style="color:#24292E">, </span><span style="color:#005CC5">false</span><span style="color:#24292E"> :: w =&gt; some ([], w)</span></td></tr>
+<tr class=""><td class="line-num">48</td><td class="line-code"><span style="color:#24292E">  | fuel + </span><span style="color:#005CC5">1</span><span style="color:#24292E">, </span><span style="color:#005CC5">true</span><span style="color:#24292E"> :: w =&gt; </span><span style="color:#D73A49">do</span></td></tr>
+<tr class=""><td class="line-num">49</td><td class="line-code"><span style="color:#D73A49">    let</span><span style="color:#24292E"> (a, rest) ← parse w</span></td></tr>
+<tr class=""><td class="line-num">50</td><td class="line-code"><span style="color:#D73A49">    let</span><span style="color:#24292E"> (as, tail) ← </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Encoding.html#L43"><span style="color:#24292E">parseList</span></a><span style="color:#24292E"> parse fuel rest</span></td></tr>
+<tr class=""><td class="line-num">51</td><td class="line-code"><span style="color:#24292E">    pure (a :: as, tail)</span></td></tr>
+<tr class=""><td class="line-num">52</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">53</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> parseClause</span><span style="color:#24292E"> (w : </span><a class="lean-identifier-link" href="../lax-434930/Lax434930.PolynomialTime.html#L22"><span style="color:#24292E">Word</span></a><span style="color:#24292E">) : Option (</span><a class="lean-identifier-link" href="../lax-429075/Lax429075.CNF.html#L20"><span style="color:#24292E">Clause</span></a><span style="color:#24292E"> × </span><a class="lean-identifier-link" href="../lax-434930/Lax434930.PolynomialTime.html#L22"><span style="color:#24292E">Word</span></a><span style="color:#24292E">) := </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Encoding.html#L43"><span style="color:#24292E">parseList</span></a><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Encoding.html#L37"><span style="color:#24292E">parseLiteral</span></a><span style="color:#24292E"> w.length w</span></td></tr>
+<tr class=""><td class="line-num">54</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">55</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> decodeCNF</span><span style="color:#24292E"> (w : </span><a class="lean-identifier-link" href="../lax-434930/Lax434930.PolynomialTime.html#L22"><span style="color:#24292E">Word</span></a><span style="color:#24292E">) : Option </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.CNF.html#L21"><span style="color:#24292E">Formula</span></a><span style="color:#24292E"> := </span><span style="color:#D73A49">do</span></td></tr>
+<tr class=""><td class="line-num">56</td><td class="line-code"><span style="color:#D73A49">  let</span><span style="color:#24292E"> (F, rest) ← </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Encoding.html#L43"><span style="color:#24292E">parseList</span></a><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Encoding.html#L53"><span style="color:#24292E">parseClause</span></a><span style="color:#24292E"> w.length w</span></td></tr>
+<tr class=""><td class="line-num">57</td><td class="line-code"><span style="color:#D73A49">  if</span><span style="color:#24292E"> rest = [] </span><span style="color:#D73A49">then</span><span style="color:#24292E"> pure F </span><span style="color:#D73A49">else</span><span style="color:#24292E"> none</span></td></tr>
+<tr class=""><td class="line-num">58</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">59</td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax429075.Encoding</span></td></tr>
+<tr class=""><td class="line-num">60</td><td class="line-code"> </td></tr>
+</table></div></div>
+</div>
+</li>
+<li class="manuscript-card kind-concept line-proven" id="m3" data-mark="3">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><span class="type-badge proven">lem✓</span><a href="../lax-429075/Lax429075.EncodingCorrect.html"><code>Lax429075.EncodingCorrect</code></a></span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m3-body" aria-label="Show details of Lax429075.EncodingCorrect"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m3-body" hidden>
+<p class="manuscript-card-title">Decoding an encoded formula</p>
+<div class="latex-content"><p>The binary decoder recovers every encoded CNF formula.</p>
+</div>
+<div class="manuscript-card-source"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<tr class=""><td class="line-num">1</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Encoding.html"><span style="color:#24292E">Lax429075.Encoding</span></a></td></tr>
+<tr class=""><td class="line-num">2</td><td class="line-code"> </td></tr>
+<tr class="line-elided"><td class="line-num"></td><td class="line-code">… module docstring, 7 lines</td></tr>
+<tr class=""><td class="line-num">10</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">11</td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax429075.EncodingCorrect</span></td></tr>
+<tr class=""><td class="line-num">12</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">13</td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.CNF.html"><span style="color:#24292E">CNF</span></a><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Encoding.html"><span style="color:#24292E">Encoding</span></a></td></tr>
+<tr class=""><td class="line-num">14</td><td class="line-code"> </td></tr>
+<tr class="statement-line line-proven"><td class="line-num">15</td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> roundtrip</span><span style="color:#24292E"> (F : </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.CNF.html#L21"><span style="color:#24292E">Formula</span></a><span style="color:#24292E">) : </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Encoding.html#L55"><span style="color:#24292E">decodeCNF</span></a><span style="color:#24292E"> (</span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Encoding.html#L28"><span style="color:#24292E">encodeCNF</span></a><span style="color:#24292E"> F) = some F</span></td></tr>
+<tr class=""><td class="line-num">16</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">17</td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax429075.EncodingCorrect</span></td></tr>
+<tr class=""><td class="line-num">18</td><td class="line-code"> </td></tr>
+</table></div></div>
+</div>
+</li>
+<li class="manuscript-card kind-proof line-proven" id="m4" data-mark="4">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a href="../lax-429075/Lax429075Proofs.encoding_roundtrip.html"><code>Lax429075Proofs.encoding_roundtrip</code></a></span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m4-body" aria-label="Show details of Lax429075Proofs.encoding_roundtrip"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m4-body" hidden>
+<div class="judgment">
+<div class="judgment-assumptions"><p class="judgment-unconditional">no assumptions</p></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven">lem✓</span><a href="../lax-429075/Lax429075.EncodingCorrect.html" title="Lax429075.EncodingCorrect.roundtrip"><code>Lax429075.EncodingCorrect</code></a></span></div>
+</div><div class="latex-content"><p>Decode unary indices, then literals, clauses, and the outer list.</p>
+</div>
+</div>
+</li>
+<li class="manuscript-card kind-concept" id="m5" data-mark="5">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><span class="type-badge">def</span><a href="../lax-429075/Lax429075.Satisfiability.html"><code>Lax429075.Satisfiability</code></a></span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m5-body" aria-label="Show details of Lax429075.Satisfiability"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m5-body" hidden>
+<p class="manuscript-card-title">The satisfiability language and verifier</p>
+<div class="latex-content"><p>SAT contains precisely the encodings of satisfiable CNF formulas.
+A certificate is a finite list of truth values, extended by false outside
+its length. The verifier accepts a paired formula encoding and certificate
+when every clause is satisfied. Malformed encodings are outside the language.</p>
+</div>
+<div class="manuscript-card-source"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<tr class=""><td class="line-num">1</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Encoding.html"><span style="color:#24292E">Lax429075.Encoding</span></a></td></tr>
+<tr class=""><td class="line-num">2</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-434930/Lax434930.Certificates.html"><span style="color:#24292E">Lax434930.Certificates</span></a></td></tr>
+<tr class=""><td class="line-num">3</td><td class="line-code"> </td></tr>
+<tr class="line-elided"><td class="line-num"></td><td class="line-code">… module docstring, 10 lines</td></tr>
+<tr class=""><td class="line-num">14</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">15</td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax429075.Satisfiability</span></td></tr>
+<tr class=""><td class="line-num">16</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">17</td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.CNF.html"><span style="color:#24292E">CNF</span></a><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Encoding.html"><span style="color:#24292E">Encoding</span></a><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-434930/Lax434930.PolynomialTime.html"><span style="color:#24292E">Lax434930.PolynomialTime</span></a><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-434930/Lax434930.Certificates.html"><span style="color:#24292E">Lax434930.Certificates</span></a></td></tr>
+<tr class=""><td class="line-num">18</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">19</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> assignment</span><span style="color:#24292E"> (y : </span><a class="lean-identifier-link" href="../lax-434930/Lax434930.PolynomialTime.html#L22"><span style="color:#24292E">Word</span></a><span style="color:#24292E">) : </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.CNF.html#L22"><span style="color:#24292E">Assignment</span></a><span style="color:#24292E"> := </span><span style="color:#D73A49">fun</span><span style="color:#24292E"> i =&gt; (y[i]?).getD </span><span style="color:#005CC5">false</span></td></tr>
+<tr class=""><td class="line-num">20</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">21</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> SAT</span><span style="color:#24292E"> : </span><a class="lean-identifier-link" href="../lax-434930/Lax434930.PolynomialTime.html#L25"><span style="color:#24292E">Language</span></a><span style="color:#24292E"> := {w | ∃ F, </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Encoding.html#L28"><span style="color:#24292E">encodeCNF</span></a><span style="color:#24292E"> F = w ∧ </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.CNF.html#L30"><span style="color:#24292E">Satisfiable</span></a><span style="color:#24292E"> F}</span></td></tr>
+<tr class=""><td class="line-num">22</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">23</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> Verifier</span><span style="color:#24292E"> : </span><a class="lean-identifier-link" href="../lax-434930/Lax434930.PolynomialTime.html#L25"><span style="color:#24292E">Language</span></a><span style="color:#24292E"> :=</span></td></tr>
+<tr class=""><td class="line-num">24</td><td class="line-code"><span style="color:#24292E">  {z | ∃ (F : </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.CNF.html#L21"><span style="color:#24292E">Formula</span></a><span style="color:#24292E">) (y : </span><a class="lean-identifier-link" href="../lax-434930/Lax434930.PolynomialTime.html#L22"><span style="color:#24292E">Word</span></a><span style="color:#24292E">), z = </span><a class="lean-identifier-link" href="../lax-434930/Lax434930.Certificates.html#L19"><span style="color:#24292E">pair</span></a><span style="color:#24292E"> (</span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Encoding.html#L28"><span style="color:#24292E">encodeCNF</span></a><span style="color:#24292E"> F) y ∧ </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.CNF.html#L27"><span style="color:#24292E">eval</span></a><span style="color:#24292E"> F (</span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Satisfiability.html#L19"><span style="color:#24292E">assignment</span></a><span style="color:#24292E"> y) = </span><span style="color:#005CC5">true</span><span style="color:#24292E">}</span></td></tr>
+<tr class=""><td class="line-num">25</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">26</td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax429075.Satisfiability</span></td></tr>
+<tr class=""><td class="line-num">27</td><td class="line-code"> </td></tr>
+</table></div></div>
+</div>
+</li>
+<li class="manuscript-card kind-concept line-proven" id="m6" data-mark="6">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><span class="type-badge proven">lem✓</span><a href="../lax-429075/Lax429075.SATEncoding.html"><code>Lax429075.SATEncoding</code></a></span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m6-body" aria-label="Show details of Lax429075.SATEncoding"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m6-body" hidden>
+<p class="manuscript-card-title">Satisfiability and binary encodings</p>
+<div class="latex-content"><p>An encoded formula belongs to the SAT language exactly when the formula is satisfiable.</p>
+</div>
+<div class="manuscript-card-source"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<tr class=""><td class="line-num">1</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Satisfiability.html"><span style="color:#24292E">Lax429075.Satisfiability</span></a></td></tr>
+<tr class=""><td class="line-num">2</td><td class="line-code"> </td></tr>
+<tr class="line-elided"><td class="line-num"></td><td class="line-code">… module docstring, 7 lines</td></tr>
+<tr class=""><td class="line-num">10</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">11</td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax429075.SATEncoding</span></td></tr>
+<tr class=""><td class="line-num">12</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">13</td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.CNF.html"><span style="color:#24292E">CNF</span></a><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Encoding.html"><span style="color:#24292E">Encoding</span></a><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Satisfiability.html"><span style="color:#24292E">Satisfiability</span></a></td></tr>
+<tr class=""><td class="line-num">14</td><td class="line-code"> </td></tr>
+<tr class="statement-line line-proven"><td class="line-num">15</td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> correct</span><span style="color:#24292E"> (F : </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.CNF.html#L21"><span style="color:#24292E">Formula</span></a><span style="color:#24292E">) : </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Encoding.html#L28"><span style="color:#24292E">encodeCNF</span></a><span style="color:#24292E"> F ∈ </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Satisfiability.html#L21"><span style="color:#24292E">SAT</span></a><span style="color:#24292E"> ↔ </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.CNF.html#L30"><span style="color:#24292E">Satisfiable</span></a><span style="color:#24292E"> F</span></td></tr>
+<tr class=""><td class="line-num">16</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">17</td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax429075.SATEncoding</span></td></tr>
+<tr class=""><td class="line-num">18</td><td class="line-code"> </td></tr>
+</table></div></div>
+</div>
+</li>
+<li class="manuscript-card kind-proof line-proven" id="m7" data-mark="7">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a href="../lax-429075/Lax429075Proofs.sat_encoding.html"><code>Lax429075Proofs.sat_encoding</code></a></span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m7-body" aria-label="Show details of Lax429075Proofs.sat_encoding"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m7-body" hidden>
+<div class="judgment">
+<div class="judgment-assumptions"><ul><li><span class="claim-entry"><span class="type-badge proven">lem✓</span><a href="../lax-429075/Lax429075.EncodingCorrect.html" title="Lax429075.EncodingCorrect.roundtrip"><code>Lax429075.EncodingCorrect</code></a></span></li></ul></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven">lem✓</span><a href="../lax-429075/Lax429075.SATEncoding.html" title="Lax429075.SATEncoding.correct"><code>Lax429075.SATEncoding</code></a></span></div>
+</div><div class="latex-content"><p>The decoder's left-inverse property makes the binary encoding injective.</p>
+</div>
+</div>
+</li>
+<li class="manuscript-card kind-concept line-proven" id="m8" data-mark="8">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><span class="type-badge proven">lem✓</span><a href="../lax-429075/Lax429075.FiniteWitness.html"><code>Lax429075.FiniteWitness</code></a></span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m8-body" aria-label="Show details of Lax429075.FiniteWitness"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m8-body" hidden>
+<p class="manuscript-card-title">A bounded satisfying assignment</p>
+<div class="latex-content"><p>A satisfiable formula has a certificate whose length is at most the length
+of its binary encoding. Only variables occurring in the formula matter.</p>
+</div>
+<div class="manuscript-card-source"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<tr class=""><td class="line-num">1</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Satisfiability.html"><span style="color:#24292E">Lax429075.Satisfiability</span></a></td></tr>
+<tr class=""><td class="line-num">2</td><td class="line-code"> </td></tr>
+<tr class="line-elided"><td class="line-num"></td><td class="line-code">… module docstring, 8 lines</td></tr>
+<tr class=""><td class="line-num">11</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">12</td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax429075.FiniteWitness</span></td></tr>
+<tr class=""><td class="line-num">13</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">14</td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.CNF.html"><span style="color:#24292E">CNF</span></a><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Encoding.html"><span style="color:#24292E">Encoding</span></a><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Satisfiability.html"><span style="color:#24292E">Satisfiability</span></a><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-434930/Lax434930.PolynomialTime.html"><span style="color:#24292E">Lax434930.PolynomialTime</span></a></td></tr>
+<tr class=""><td class="line-num">15</td><td class="line-code"> </td></tr>
+<tr class="statement-line line-proven"><td class="line-num">16</td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> bounded</span><span style="color:#24292E"> (F : </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.CNF.html#L21"><span style="color:#24292E">Formula</span></a><span style="color:#24292E">) :</span></td></tr>
+<tr class="statement-line line-proven"><td class="line-num">17</td><td class="line-code"><span style="color:#24292E">  </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.CNF.html#L30"><span style="color:#24292E">Satisfiable</span></a><span style="color:#24292E"> F ↔ ∃ y : </span><a class="lean-identifier-link" href="../lax-434930/Lax434930.PolynomialTime.html#L22"><span style="color:#24292E">Word</span></a><span style="color:#24292E">, y.length ≤ (</span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Encoding.html#L28"><span style="color:#24292E">encodeCNF</span></a><span style="color:#24292E"> F).length ∧ </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.CNF.html#L27"><span style="color:#24292E">eval</span></a><span style="color:#24292E"> F (</span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Satisfiability.html#L19"><span style="color:#24292E">assignment</span></a><span style="color:#24292E"> y) = </span><span style="color:#005CC5">true</span></td></tr>
+<tr class=""><td class="line-num">18</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">19</td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax429075.FiniteWitness</span></td></tr>
+<tr class=""><td class="line-num">20</td><td class="line-code"> </td></tr>
+</table></div></div>
+</div>
+</li>
+<li class="manuscript-card kind-proof line-proven" id="m9" data-mark="9">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a href="../lax-429075/Lax429075Proofs.finite_witness.html"><code>Lax429075Proofs.finite_witness</code></a></span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m9-body" aria-label="Show details of Lax429075Proofs.finite_witness"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m9-body" hidden>
+<div class="judgment">
+<div class="judgment-assumptions"><p class="judgment-unconditional">no assumptions</p></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven">lem✓</span><a href="../lax-429075/Lax429075.FiniteWitness.html" title="Lax429075.FiniteWitness.bounded"><code>Lax429075.FiniteWitness</code></a></span></div>
+</div><div class="latex-content"><p>Restrict a satisfying assignment to the input-length prefix containing every variable.</p>
+</div>
+</div>
+</li>
+<li class="manuscript-card kind-concept line-proven" id="m10" data-mark="10">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><span class="type-badge proven">lem✓</span><a href="../lax-429075/Lax429075.VerifierCorrect.html"><code>Lax429075.VerifierCorrect</code></a></span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m10-body" aria-label="Show details of Lax429075.VerifierCorrect"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m10-body" hidden>
+<p class="manuscript-card-title">Correctness of the SAT verifier</p>
+<div class="latex-content"><p>Membership in SAT is equivalent to the existence of an accepted certificate
+of length at most the input length.</p>
+</div>
+<div class="manuscript-card-source"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<tr class=""><td class="line-num">1</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Satisfiability.html"><span style="color:#24292E">Lax429075.Satisfiability</span></a></td></tr>
+<tr class=""><td class="line-num">2</td><td class="line-code"> </td></tr>
+<tr class="line-elided"><td class="line-num"></td><td class="line-code">… module docstring, 8 lines</td></tr>
+<tr class=""><td class="line-num">11</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">12</td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax429075.VerifierCorrect</span></td></tr>
+<tr class=""><td class="line-num">13</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">14</td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Satisfiability.html"><span style="color:#24292E">Satisfiability</span></a><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-434930/Lax434930.PolynomialTime.html"><span style="color:#24292E">Lax434930.PolynomialTime</span></a><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-434930/Lax434930.Certificates.html"><span style="color:#24292E">Lax434930.Certificates</span></a></td></tr>
+<tr class=""><td class="line-num">15</td><td class="line-code"> </td></tr>
+<tr class="statement-line line-proven"><td class="line-num">16</td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> correct</span><span style="color:#24292E"> (w : </span><a class="lean-identifier-link" href="../lax-434930/Lax434930.PolynomialTime.html#L22"><span style="color:#24292E">Word</span></a><span style="color:#24292E">) :</span></td></tr>
+<tr class="statement-line line-proven"><td class="line-num">17</td><td class="line-code"><span style="color:#24292E">  w ∈ </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Satisfiability.html#L21"><span style="color:#24292E">SAT</span></a><span style="color:#24292E"> ↔ ∃ y : </span><a class="lean-identifier-link" href="../lax-434930/Lax434930.PolynomialTime.html#L22"><span style="color:#24292E">Word</span></a><span style="color:#24292E">, y.length ≤ w.length ∧ </span><a class="lean-identifier-link" href="../lax-434930/Lax434930.Certificates.html#L19"><span style="color:#24292E">pair</span></a><span style="color:#24292E"> w y ∈ </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Satisfiability.html#L23"><span style="color:#24292E">Verifier</span></a></td></tr>
+<tr class=""><td class="line-num">18</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">19</td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax429075.VerifierCorrect</span></td></tr>
+<tr class=""><td class="line-num">20</td><td class="line-code"> </td></tr>
+</table></div></div>
+</div>
+</li>
+<li class="manuscript-card kind-proof line-proven" id="m11" data-mark="11">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a href="../lax-429075/Lax429075Proofs.verifier_correct.html"><code>Lax429075Proofs.verifier_correct</code></a></span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m11-body" aria-label="Show details of Lax429075Proofs.verifier_correct"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m11-body" hidden>
+<div class="judgment">
+<div class="judgment-assumptions"><ul><li><span class="claim-entry"><span class="type-badge proven">lem✓</span><a href="../lax-429075/Lax429075.FiniteWitness.html" title="Lax429075.FiniteWitness.bounded"><code>Lax429075.FiniteWitness</code></a></span></li>
+<li><span class="claim-entry"><span class="type-badge proven">def✓</span><a href="../lax-434930/Lax434930.Certificates.html" title="Lax434930.Certificates"><code>Lax434930.Certificates</code></a></span></li></ul></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven">lem✓</span><a href="../lax-429075/Lax429075.VerifierCorrect.html" title="Lax429075.VerifierCorrect.correct"><code>Lax429075.VerifierCorrect</code></a></span></div>
+</div><div class="latex-content"><p>Use the bounded assignment and the injective encoding of input-certificate pairs.</p>
+</div>
+</div>
+</li>
+<li class="manuscript-card kind-concept line-proven" id="m12" data-mark="12">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><span class="type-badge proven">lem✓</span><a href="../lax-429075/Lax429075.VerifierTime.html"><code>Lax429075.VerifierTime</code></a></span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m12-body" aria-label="Show details of Lax429075.VerifierTime"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m12-body" hidden>
+<p class="manuscript-card-title">Polynomial time for CNF verification</p>
+<div class="latex-content"><p>A finite stack machine decodes the paired input and checks the supplied
+assignment. Its running time is polynomial in the input length, including
+on malformed encodings, using the machine model of
+<a href="https://laxarchive.org/lax-434930/">lax-434930</a>.</p>
+</div>
+<div class="manuscript-card-source"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<tr class=""><td class="line-num">1</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Satisfiability.html"><span style="color:#24292E">Lax429075.Satisfiability</span></a></td></tr>
+<tr class=""><td class="line-num">2</td><td class="line-code"> </td></tr>
+<tr class="line-elided"><td class="line-num"></td><td class="line-code">… module docstring, 10 lines</td></tr>
+<tr class=""><td class="line-num">13</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">14</td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax429075.VerifierTime</span></td></tr>
+<tr class=""><td class="line-num">15</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">16</td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Satisfiability.html"><span style="color:#24292E">Satisfiability</span></a><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-434930/Lax434930.PolynomialTime.html"><span style="color:#24292E">Lax434930.PolynomialTime</span></a></td></tr>
+<tr class=""><td class="line-num">17</td><td class="line-code"> </td></tr>
+<tr class="statement-line line-proven"><td class="line-num">18</td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> polynomial</span><span style="color:#24292E"> : </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Satisfiability.html#L23"><span style="color:#24292E">Verifier</span></a><span style="color:#24292E"> ∈ </span><a class="lean-identifier-link" href="../lax-434930/Lax434930.PolynomialTime.html#L28"><span style="color:#24292E">P</span></a></td></tr>
+<tr class=""><td class="line-num">19</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">20</td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax429075.VerifierTime</span></td></tr>
+<tr class=""><td class="line-num">21</td><td class="line-code"> </td></tr>
+</table></div></div>
+</div>
+</li>
+<li class="manuscript-card kind-proof line-proven" id="m13" data-mark="13">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a href="../lax-429075/Lax429075Proofs.verifier_polynomial.html"><code>Lax429075Proofs.verifier_polynomial</code></a></span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m13-body" aria-label="Show details of Lax429075Proofs.verifier_polynomial"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m13-body" hidden>
+<div class="judgment">
+<div class="judgment-assumptions"><p class="judgment-unconditional">no assumptions</p></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven">lem✓</span><a href="../lax-429075/Lax429075.VerifierTime.html" title="Lax429075.VerifierTime.polynomial"><code>Lax429075.VerifierTime</code></a></span></div>
+</div><div class="latex-content"><p>Decode the pair, evaluate the formula against the certificate, and clear the
+work stacks. The finite stack program takes at most <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>100</mn><mo stretchy="false">(</mo><mi>n</mi><mo>+</mo><mn>1</mn><msup><mo stretchy="false">)</mo><mn>4</mn></msup></mrow><annotation encoding="application/x-tex">100(n+1)^4</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">100</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1.0641em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight">4</span></span></span></span></span></span></span></span></span></span></span> steps on
+every input, including malformed encodings.</p>
+</div>
+</div>
+</li>
+<li class="manuscript-card kind-concept line-proven" id="m14" data-mark="14">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><span class="type-badge proven">lem✓</span><a href="../lax-429075/Lax429075.SATinNP.html"><code>Lax429075.SATinNP</code></a></span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m14-body" aria-label="Show details of Lax429075.SATinNP"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m14-body" hidden>
+<p class="manuscript-card-title">SAT belongs to NP</p>
+<div class="latex-content"><p>A polynomial time verifier checks a satisfying assignment of polynomial length.</p>
+</div>
+<div class="manuscript-card-source"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<tr class=""><td class="line-num">1</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Satisfiability.html"><span style="color:#24292E">Lax429075.Satisfiability</span></a></td></tr>
+<tr class=""><td class="line-num">2</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-434930/Lax434930.NondeterministicPolynomialTime.html"><span style="color:#24292E">Lax434930.NondeterministicPolynomialTime</span></a></td></tr>
+<tr class=""><td class="line-num">3</td><td class="line-code"> </td></tr>
+<tr class="line-elided"><td class="line-num"></td><td class="line-code">… module docstring, 7 lines</td></tr>
+<tr class=""><td class="line-num">11</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">12</td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax429075.SATinNP</span></td></tr>
+<tr class=""><td class="line-num">13</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">14</td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Satisfiability.html"><span style="color:#24292E">Satisfiability</span></a><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-434930/Lax434930.NondeterministicPolynomialTime.html"><span style="color:#24292E">Lax434930.NondeterministicPolynomialTime</span></a></td></tr>
+<tr class=""><td class="line-num">15</td><td class="line-code"> </td></tr>
+<tr class="statement-line line-proven"><td class="line-num">16</td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> membership</span><span style="color:#24292E"> : </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Satisfiability.html#L21"><span style="color:#24292E">SAT</span></a><span style="color:#24292E"> ∈ </span><a class="lean-identifier-link" href="../lax-434930/Lax434930.NondeterministicPolynomialTime.html#L22"><span style="color:#24292E">NP</span></a></td></tr>
+<tr class=""><td class="line-num">17</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">18</td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax429075.SATinNP</span></td></tr>
+<tr class=""><td class="line-num">19</td><td class="line-code"> </td></tr>
+</table></div></div>
+</div>
+</li>
+<li class="manuscript-card kind-proof line-proven" id="m15" data-mark="15">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a href="../lax-429075/Lax429075Proofs.sat_in_np.html"><code>Lax429075Proofs.sat_in_np</code></a></span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m15-body" aria-label="Show details of Lax429075Proofs.sat_in_np"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m15-body" hidden>
+<div class="judgment">
+<div class="judgment-assumptions"><ul><li><span class="claim-entry"><span class="type-badge proven">lem✓</span><a href="../lax-429075/Lax429075.VerifierCorrect.html" title="Lax429075.VerifierCorrect.correct"><code>Lax429075.VerifierCorrect</code></a></span></li>
+<li><span class="claim-entry"><span class="type-badge proven">lem✓</span><a href="../lax-429075/Lax429075.VerifierTime.html" title="Lax429075.VerifierTime.polynomial"><code>Lax429075.VerifierTime</code></a></span></li></ul></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven">lem✓</span><a href="../lax-429075/Lax429075.SATinNP.html" title="Lax429075.SATinNP.membership"><code>Lax429075.SATinNP</code></a></span></div>
+</div><div class="latex-content"><p>Use the identity polynomial as the certificate-length bound.</p>
+</div>
+</div>
+</li>
+<li class="manuscript-card kind-concept" id="m16" data-mark="16">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><span class="type-badge">def</span><a href="../lax-429075/Lax429075.Circuits.html"><code>Lax429075.Circuits</code></a></span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m16-body" aria-label="Show details of Lax429075.Circuits"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m16-body" hidden>
+<p class="manuscript-card-title">Boolean circuits</p>
+<div class="latex-content"><p>A circuit is a finite sequence of input, constant, negation, conjunction,
+and disjunction gates. Every wire refers to an earlier gate, and the output
+is a gate of the circuit. A satisfying wire assignment respects every gate
+and makes the output true.</p>
+</div>
+<div class="manuscript-card-source"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<tr class=""><td class="line-num">1</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.CNF.html"><span style="color:#24292E">Lax429075.CNF</span></a></td></tr>
+<tr class=""><td class="line-num">2</td><td class="line-code"> </td></tr>
+<tr class="line-elided"><td class="line-num"></td><td class="line-code">… module docstring, 10 lines</td></tr>
+<tr class=""><td class="line-num">13</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">14</td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax429075.Circuits</span></td></tr>
+<tr class=""><td class="line-num">15</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">16</td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.CNF.html"><span style="color:#24292E">CNF</span></a></td></tr>
+<tr class=""><td class="line-num">17</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">18</td><td class="line-code"><span style="color:#D73A49">inductive</span><span style="color:#6F42C1"> Gate</span></td></tr>
+<tr class=""><td class="line-num">19</td><td class="line-code"><span style="color:#24292E">  | input</span></td></tr>
+<tr class=""><td class="line-num">20</td><td class="line-code"><span style="color:#24292E">  | constant (value : Bool)</span></td></tr>
+<tr class=""><td class="line-num">21</td><td class="line-code"><span style="color:#24292E">  | neg (a : ℕ)</span></td></tr>
+<tr class=""><td class="line-num">22</td><td class="line-code"><span style="color:#24292E">  | conj (a b : ℕ)</span></td></tr>
+<tr class=""><td class="line-num">23</td><td class="line-code"><span style="color:#24292E">  | disj (a b : ℕ)</span></td></tr>
+<tr class=""><td class="line-num">24</td><td class="line-code"><span style="color:#D73A49">  deriving</span><span style="color:#24292E"> DecidableEq</span></td></tr>
+<tr class=""><td class="line-num">25</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">26</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> Gate.inputs</span><span style="color:#24292E"> : </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Circuits.html#L18"><span style="color:#24292E">Gate</span></a><span style="color:#24292E"> → List ℕ</span></td></tr>
+<tr class=""><td class="line-num">27</td><td class="line-code"><span style="color:#24292E">  | </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Circuits.html#L19"><span style="color:#24292E">.input</span></a><span style="color:#24292E"> | </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Circuits.html#L20"><span style="color:#24292E">.constant</span></a><span style="color:#24292E"> _ =&gt; []</span></td></tr>
+<tr class=""><td class="line-num">28</td><td class="line-code"><span style="color:#24292E">  | </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Circuits.html#L21"><span style="color:#24292E">.neg</span></a><span style="color:#24292E"> a =&gt; [a]</span></td></tr>
+<tr class=""><td class="line-num">29</td><td class="line-code"><span style="color:#24292E">  | </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Circuits.html#L22"><span style="color:#24292E">.conj</span></a><span style="color:#24292E"> a b | </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Circuits.html#L23"><span style="color:#24292E">.disj</span></a><span style="color:#24292E"> a b =&gt; [a, b]</span></td></tr>
+<tr class=""><td class="line-num">30</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">31</td><td class="line-code"><span style="color:#D73A49">structure</span><span style="color:#6F42C1"> Circuit</span><span style="color:#D73A49"> where</span></td></tr>
+<tr class=""><td class="line-num">32</td><td class="line-code"><span style="color:#24292E">  gates : List </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Circuits.html#L18"><span style="color:#24292E">Gate</span></a></td></tr>
+<tr class=""><td class="line-num">33</td><td class="line-code"><span style="color:#24292E">  output : Fin gates.length</span></td></tr>
+<tr class=""><td class="line-num">34</td><td class="line-code"><span style="color:#24292E">  ordered : ∀ g i, (g, i) ∈ gates.zipIdx → ∀ j ∈ g.</span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Circuits.html#L26"><span style="color:#24292E">inputs</span></a><span style="color:#24292E">, j &lt; i</span></td></tr>
+<tr class=""><td class="line-num">35</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">36</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> Gate.check</span><span style="color:#24292E"> (ρ : </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.CNF.html#L22"><span style="color:#24292E">Assignment</span></a><span style="color:#24292E">) (i : ℕ) : </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Circuits.html#L18"><span style="color:#24292E">Gate</span></a><span style="color:#24292E"> → Bool</span></td></tr>
+<tr class=""><td class="line-num">37</td><td class="line-code"><span style="color:#24292E">  | </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Circuits.html#L19"><span style="color:#24292E">.input</span></a><span style="color:#24292E"> =&gt; </span><span style="color:#005CC5">true</span></td></tr>
+<tr class=""><td class="line-num">38</td><td class="line-code"><span style="color:#24292E">  | </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Circuits.html#L20"><span style="color:#24292E">.constant</span></a><span style="color:#24292E"> b =&gt; ρ i == b</span></td></tr>
+<tr class=""><td class="line-num">39</td><td class="line-code"><span style="color:#24292E">  | </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Circuits.html#L21"><span style="color:#24292E">.neg</span></a><span style="color:#24292E"> a =&gt; ρ i == !(ρ a)</span></td></tr>
+<tr class=""><td class="line-num">40</td><td class="line-code"><span style="color:#24292E">  | </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Circuits.html#L22"><span style="color:#24292E">.conj</span></a><span style="color:#24292E"> a b =&gt; ρ i == (ρ a &amp;&amp; ρ b)</span></td></tr>
+<tr class=""><td class="line-num">41</td><td class="line-code"><span style="color:#24292E">  | </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Circuits.html#L23"><span style="color:#24292E">.disj</span></a><span style="color:#24292E"> a b =&gt; ρ i == (ρ a || ρ b)</span></td></tr>
+<tr class=""><td class="line-num">42</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">43</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> check</span><span style="color:#24292E"> (C : </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Circuits.html#L31"><span style="color:#24292E">Circuit</span></a><span style="color:#24292E">) (ρ : </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.CNF.html#L22"><span style="color:#24292E">Assignment</span></a><span style="color:#24292E">) : Bool :=</span></td></tr>
+<tr class=""><td class="line-num">44</td><td class="line-code"><span style="color:#24292E">  ρ C.</span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Circuits.html#L33"><span style="color:#24292E">output</span></a><span style="color:#24292E"> &amp;&amp; C.</span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Circuits.html#L32"><span style="color:#24292E">gates</span></a><span style="color:#24292E">.zipIdx.all (</span><span style="color:#D73A49">fun</span><span style="color:#24292E"> gi =&gt; gi.</span><span style="color:#005CC5">1</span><span style="color:#24292E">.</span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Circuits.html#L36"><span style="color:#24292E">check</span></a><span style="color:#24292E"> ρ gi.</span><span style="color:#005CC5">2</span><span style="color:#24292E">)</span></td></tr>
+<tr class=""><td class="line-num">45</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">46</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> Satisfiable</span><span style="color:#24292E"> (C : </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Circuits.html#L31"><span style="color:#24292E">Circuit</span></a><span style="color:#24292E">) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> := ∃ ρ, </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Circuits.html#L43"><span style="color:#24292E">check</span></a><span style="color:#24292E"> C ρ = </span><span style="color:#005CC5">true</span></td></tr>
+<tr class=""><td class="line-num">47</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">48</td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax429075.Circuits</span></td></tr>
+<tr class=""><td class="line-num">49</td><td class="line-code"> </td></tr>
+</table></div></div>
+</div>
+</li>
+<li class="manuscript-card kind-concept" id="m17" data-mark="17">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><span class="type-badge">def</span><a href="../lax-429075/Lax429075.Tseitin.html"><code>Lax429075.Tseitin</code></a></span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m17-body" aria-label="Show details of Lax429075.Tseitin"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m17-body" hidden>
+<p class="manuscript-card-title">Gate clauses</p>
+<div class="latex-content"><p>The Tseitin encoding assigns one variable to each gate. At most three
+clauses enforce a gate's truth table, and a unit clause requires a true
+output. Input gates have no constraints.</p>
+</div>
+<div class="manuscript-card-source"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<tr class=""><td class="line-num">1</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Circuits.html"><span style="color:#24292E">Lax429075.Circuits</span></a></td></tr>
+<tr class=""><td class="line-num">2</td><td class="line-code"> </td></tr>
+<tr class="line-elided"><td class="line-num"></td><td class="line-code">… module docstring, 9 lines</td></tr>
+<tr class=""><td class="line-num">12</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">13</td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax429075.Tseitin</span></td></tr>
+<tr class=""><td class="line-num">14</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">15</td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.CNF.html"><span style="color:#24292E">CNF</span></a><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Circuits.html"><span style="color:#24292E">Circuits</span></a></td></tr>
+<tr class=""><td class="line-num">16</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">17</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> positive</span><span style="color:#24292E"> (i : ℕ) : </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.CNF.html#L15"><span style="color:#24292E">Literal</span></a><span style="color:#24292E"> := ⟨i, </span><span style="color:#005CC5">true</span><span style="color:#24292E">⟩</span></td></tr>
+<tr class=""><td class="line-num">18</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> negative</span><span style="color:#24292E"> (i : ℕ) : </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.CNF.html#L15"><span style="color:#24292E">Literal</span></a><span style="color:#24292E"> := ⟨i, </span><span style="color:#005CC5">false</span><span style="color:#24292E">⟩</span></td></tr>
+<tr class=""><td class="line-num">19</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">20</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> gateClauses</span><span style="color:#24292E"> (i : ℕ) : </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Circuits.html#L18"><span style="color:#24292E">Gate</span></a><span style="color:#24292E"> → </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.CNF.html#L21"><span style="color:#24292E">Formula</span></a></td></tr>
+<tr class=""><td class="line-num">21</td><td class="line-code"><span style="color:#24292E">  | </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Circuits.html#L19"><span style="color:#24292E">.input</span></a><span style="color:#24292E"> =&gt; []</span></td></tr>
+<tr class=""><td class="line-num">22</td><td class="line-code"><span style="color:#24292E">  | </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Circuits.html#L20"><span style="color:#24292E">.constant</span></a><span style="color:#24292E"> b =&gt; [[⟨i, b⟩]]</span></td></tr>
+<tr class=""><td class="line-num">23</td><td class="line-code"><span style="color:#24292E">  | </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Circuits.html#L21"><span style="color:#24292E">.neg</span></a><span style="color:#24292E"> a =&gt; [[</span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Tseitin.html#L17"><span style="color:#24292E">positive</span></a><span style="color:#24292E"> i, </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Tseitin.html#L17"><span style="color:#24292E">positive</span></a><span style="color:#24292E"> a], [</span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Tseitin.html#L18"><span style="color:#24292E">negative</span></a><span style="color:#24292E"> i, </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Tseitin.html#L18"><span style="color:#24292E">negative</span></a><span style="color:#24292E"> a]]</span></td></tr>
+<tr class=""><td class="line-num">24</td><td class="line-code"><span style="color:#24292E">  | </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Circuits.html#L22"><span style="color:#24292E">.conj</span></a><span style="color:#24292E"> a b =&gt; [[</span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Tseitin.html#L18"><span style="color:#24292E">negative</span></a><span style="color:#24292E"> i, </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Tseitin.html#L17"><span style="color:#24292E">positive</span></a><span style="color:#24292E"> a], [</span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Tseitin.html#L18"><span style="color:#24292E">negative</span></a><span style="color:#24292E"> i, </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Tseitin.html#L17"><span style="color:#24292E">positive</span></a><span style="color:#24292E"> b],</span></td></tr>
+<tr class=""><td class="line-num">25</td><td class="line-code"><span style="color:#24292E">      [</span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Tseitin.html#L17"><span style="color:#24292E">positive</span></a><span style="color:#24292E"> i, </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Tseitin.html#L18"><span style="color:#24292E">negative</span></a><span style="color:#24292E"> a, </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Tseitin.html#L18"><span style="color:#24292E">negative</span></a><span style="color:#24292E"> b]]</span></td></tr>
+<tr class=""><td class="line-num">26</td><td class="line-code"><span style="color:#24292E">  | </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Circuits.html#L23"><span style="color:#24292E">.disj</span></a><span style="color:#24292E"> a b =&gt; [[</span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Tseitin.html#L17"><span style="color:#24292E">positive</span></a><span style="color:#24292E"> i, </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Tseitin.html#L18"><span style="color:#24292E">negative</span></a><span style="color:#24292E"> a], [</span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Tseitin.html#L17"><span style="color:#24292E">positive</span></a><span style="color:#24292E"> i, </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Tseitin.html#L18"><span style="color:#24292E">negative</span></a><span style="color:#24292E"> b],</span></td></tr>
+<tr class=""><td class="line-num">27</td><td class="line-code"><span style="color:#24292E">      [</span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Tseitin.html#L18"><span style="color:#24292E">negative</span></a><span style="color:#24292E"> i, </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Tseitin.html#L17"><span style="color:#24292E">positive</span></a><span style="color:#24292E"> a, </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Tseitin.html#L17"><span style="color:#24292E">positive</span></a><span style="color:#24292E"> b]]</span></td></tr>
+<tr class=""><td class="line-num">28</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">29</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> encode</span><span style="color:#24292E"> (C : </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Circuits.html#L31"><span style="color:#24292E">Circuit</span></a><span style="color:#24292E">) : </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.CNF.html#L21"><span style="color:#24292E">Formula</span></a><span style="color:#24292E"> :=</span></td></tr>
+<tr class=""><td class="line-num">30</td><td class="line-code"><span style="color:#24292E">  [[</span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Tseitin.html#L17"><span style="color:#24292E">positive</span></a><span style="color:#24292E"> C.</span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Circuits.html#L33"><span style="color:#24292E">output</span></a><span style="color:#24292E">]] ++ C.</span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Circuits.html#L32"><span style="color:#24292E">gates</span></a><span style="color:#24292E">.zipIdx.flatMap (</span><span style="color:#D73A49">fun</span><span style="color:#24292E"> gi =&gt; </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Tseitin.html#L20"><span style="color:#24292E">gateClauses</span></a><span style="color:#24292E"> gi.</span><span style="color:#005CC5">2</span><span style="color:#24292E"> gi.</span><span style="color:#005CC5">1</span><span style="color:#24292E">)</span></td></tr>
+<tr class=""><td class="line-num">31</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">32</td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax429075.Tseitin</span></td></tr>
+<tr class=""><td class="line-num">33</td><td class="line-code"> </td></tr>
+</table></div></div>
+</div>
+</li>
+<li class="manuscript-card kind-concept line-proven" id="m18" data-mark="18">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><span class="type-badge proven">lem✓</span><a href="../lax-429075/Lax429075.GateCorrect.html"><code>Lax429075.GateCorrect</code></a></span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m18-body" aria-label="Show details of Lax429075.GateCorrect"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m18-body" hidden>
+<p class="manuscript-card-title">Correctness of gate clauses</p>
+<div class="latex-content"><p>The clauses for one gate hold exactly when its output agrees with its
+Boolean operation.</p>
+</div>
+<div class="manuscript-card-source"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<tr class=""><td class="line-num">1</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Tseitin.html"><span style="color:#24292E">Lax429075.Tseitin</span></a></td></tr>
+<tr class=""><td class="line-num">2</td><td class="line-code"> </td></tr>
+<tr class="line-elided"><td class="line-num"></td><td class="line-code">… module docstring, 8 lines</td></tr>
+<tr class=""><td class="line-num">11</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">12</td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax429075.GateCorrect</span></td></tr>
+<tr class=""><td class="line-num">13</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">14</td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.CNF.html"><span style="color:#24292E">CNF</span></a><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Circuits.html"><span style="color:#24292E">Circuits</span></a><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Tseitin.html"><span style="color:#24292E">Tseitin</span></a></td></tr>
+<tr class=""><td class="line-num">15</td><td class="line-code"> </td></tr>
+<tr class="statement-line line-proven"><td class="line-num">16</td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> correct</span><span style="color:#24292E"> (i : ℕ) (g : </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Circuits.html#L18"><span style="color:#24292E">Gate</span></a><span style="color:#24292E">) (ρ : </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.CNF.html#L22"><span style="color:#24292E">Assignment</span></a><span style="color:#24292E">) :</span></td></tr>
+<tr class="statement-line line-proven"><td class="line-num">17</td><td class="line-code"><span style="color:#24292E">  </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.CNF.html#L27"><span style="color:#24292E">eval</span></a><span style="color:#24292E"> (</span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Tseitin.html#L20"><span style="color:#24292E">gateClauses</span></a><span style="color:#24292E"> i g) ρ = g.</span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Circuits.html#L36"><span style="color:#24292E">check</span></a><span style="color:#24292E"> ρ i</span></td></tr>
+<tr class=""><td class="line-num">18</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">19</td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax429075.GateCorrect</span></td></tr>
+<tr class=""><td class="line-num">20</td><td class="line-code"> </td></tr>
+</table></div></div>
+</div>
+</li>
+<li class="manuscript-card kind-proof line-proven" id="m19" data-mark="19">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a href="../lax-429075/Lax429075Proofs.gate_correct.html"><code>Lax429075Proofs.gate_correct</code></a></span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m19-body" aria-label="Show details of Lax429075Proofs.gate_correct"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m19-body" hidden>
+<div class="judgment">
+<div class="judgment-assumptions"><p class="judgment-unconditional">no assumptions</p></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven">lem✓</span><a href="../lax-429075/Lax429075.GateCorrect.html" title="Lax429075.GateCorrect.correct"><code>Lax429075.GateCorrect</code></a></span></div>
+</div><div class="latex-content"><p>Check the finite truth tables of the five gate forms.</p>
+</div>
+</div>
+</li>
+<li class="manuscript-card kind-concept line-proven" id="m20" data-mark="20">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><span class="type-badge proven">lem✓</span><a href="../lax-429075/Lax429075.TseitinCorrect.html"><code>Lax429075.TseitinCorrect</code></a></span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m20-body" aria-label="Show details of Lax429075.TseitinCorrect"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m20-body" hidden>
+<p class="manuscript-card-title">Correctness of the circuit encoding</p>
+<div class="latex-content"><p>The gate clauses and output clause are satisfiable exactly when the circuit is satisfiable.</p>
+</div>
+<div class="manuscript-card-source"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<tr class=""><td class="line-num">1</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Tseitin.html"><span style="color:#24292E">Lax429075.Tseitin</span></a></td></tr>
+<tr class=""><td class="line-num">2</td><td class="line-code"> </td></tr>
+<tr class="line-elided"><td class="line-num"></td><td class="line-code">… module docstring, 7 lines</td></tr>
+<tr class=""><td class="line-num">10</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">11</td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax429075.TseitinCorrect</span></td></tr>
+<tr class=""><td class="line-num">12</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">13</td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Circuits.html"><span style="color:#24292E">Circuits</span></a></td></tr>
+<tr class=""><td class="line-num">14</td><td class="line-code"> </td></tr>
+<tr class="statement-line line-proven"><td class="line-num">15</td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> correct</span><span style="color:#24292E"> (C : </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Circuits.html#L31"><span style="color:#24292E">Circuit</span></a><span style="color:#24292E">) : </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.CNF.html#L30"><span style="color:#24292E">CNF.Satisfiable</span></a><span style="color:#24292E"> (</span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Tseitin.html#L29"><span style="color:#24292E">Tseitin.encode</span></a><span style="color:#24292E"> C) ↔ </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Circuits.html#L46"><span style="color:#24292E">Satisfiable</span></a><span style="color:#24292E"> C</span></td></tr>
+<tr class=""><td class="line-num">16</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">17</td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax429075.TseitinCorrect</span></td></tr>
+<tr class=""><td class="line-num">18</td><td class="line-code"> </td></tr>
+</table></div></div>
+</div>
+</li>
+<li class="manuscript-card kind-proof line-proven" id="m21" data-mark="21">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a href="../lax-429075/Lax429075Proofs.tseitin_correct.html"><code>Lax429075Proofs.tseitin_correct</code></a></span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m21-body" aria-label="Show details of Lax429075Proofs.tseitin_correct"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m21-body" hidden>
+<div class="judgment">
+<div class="judgment-assumptions"><ul><li><span class="claim-entry"><span class="type-badge proven">lem✓</span><a href="../lax-429075/Lax429075.GateCorrect.html" title="Lax429075.GateCorrect.correct"><code>Lax429075.GateCorrect</code></a></span></li></ul></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven">lem✓</span><a href="../lax-429075/Lax429075.TseitinCorrect.html" title="Lax429075.TseitinCorrect.correct"><code>Lax429075.TseitinCorrect</code></a></span></div>
+</div><div class="latex-content"><p>Conjoin the gate equivalences with the unit output clause.</p>
+</div>
+</div>
+</li>
+<li class="manuscript-card kind-concept" id="m22" data-mark="22">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><span class="type-badge">def</span><a href="../lax-429075/Lax429075.Reductions.html"><code>Lax429075.Reductions</code></a></span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m22-body" aria-label="Show details of Lax429075.Reductions"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m22-body" hidden>
+<p class="manuscript-card-title">Polynomial many-one reductions and NP-completeness</p>
+<div class="latex-content"><p>A polynomial many-one reduction is one polynomial time computable function
+on binary words that preserves membership. A language is NP-complete if it
+belongs to NP and every language in NP reduces to it.</p>
+</div>
+<div class="manuscript-card-source"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<tr class=""><td class="line-num">1</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-434930/Lax434930.NondeterministicPolynomialTime.html"><span style="color:#24292E">Lax434930.NondeterministicPolynomialTime</span></a></td></tr>
+<tr class=""><td class="line-num">2</td><td class="line-code"> </td></tr>
+<tr class="line-elided"><td class="line-num"></td><td class="line-code">… module docstring, 9 lines</td></tr>
+<tr class=""><td class="line-num">12</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">13</td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax429075.Reductions</span></td></tr>
+<tr class=""><td class="line-num">14</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">15</td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-434930/Lax434930.PolynomialTime.html"><span style="color:#24292E">Lax434930.PolynomialTime</span></a><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-434930/Lax434930.NondeterministicPolynomialTime.html"><span style="color:#24292E">Lax434930.NondeterministicPolynomialTime</span></a></td></tr>
+<tr class=""><td class="line-num">16</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">17</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> ManyOne</span><span style="color:#24292E"> (A B : </span><a class="lean-identifier-link" href="../lax-434930/Lax434930.PolynomialTime.html#L25"><span style="color:#24292E">Language</span></a><span style="color:#24292E">) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr class=""><td class="line-num">18</td><td class="line-code"><span style="color:#24292E">  ∃ f : </span><a class="lean-identifier-link" href="../lax-434930/Lax434930.PolynomialTime.html#L22"><span style="color:#24292E">Word</span></a><span style="color:#24292E"> → </span><a class="lean-identifier-link" href="../lax-434930/Lax434930.PolynomialTime.html#L22"><span style="color:#24292E">Word</span></a><span style="color:#24292E">, Nonempty (Turing.TM2ComputableInPolyTime id id f) ∧</span></td></tr>
+<tr class=""><td class="line-num">19</td><td class="line-code"><span style="color:#24292E">    ∀ x, x ∈ A ↔ f x ∈ B</span></td></tr>
+<tr class=""><td class="line-num">20</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">21</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> NPComplete</span><span style="color:#24292E"> (B : </span><a class="lean-identifier-link" href="../lax-434930/Lax434930.PolynomialTime.html#L25"><span style="color:#24292E">Language</span></a><span style="color:#24292E">) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> := B ∈ </span><a class="lean-identifier-link" href="../lax-434930/Lax434930.NondeterministicPolynomialTime.html#L22"><span style="color:#24292E">NP</span></a><span style="color:#24292E"> ∧ ∀ A : </span><a class="lean-identifier-link" href="../lax-434930/Lax434930.PolynomialTime.html#L25"><span style="color:#24292E">Language</span></a><span style="color:#24292E">, A ∈ </span><a class="lean-identifier-link" href="../lax-434930/Lax434930.NondeterministicPolynomialTime.html#L22"><span style="color:#24292E">NP</span></a><span style="color:#24292E"> → </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Reductions.html#L17"><span style="color:#24292E">ManyOne</span></a><span style="color:#24292E"> A B</span></td></tr>
+<tr class=""><td class="line-num">22</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">23</td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax429075.Reductions</span></td></tr>
+<tr class=""><td class="line-num">24</td><td class="line-code"> </td></tr>
+</table></div></div>
+</div>
+</li>
+<li class="manuscript-card kind-concept line-proven" id="m23" data-mark="23">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><span class="type-badge proven">lem✓</span><a href="../lax-429075/Lax429075.CircuitMachine.html"><code>Lax429075.CircuitMachine</code></a></span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m23-body" aria-label="Show details of Lax429075.CircuitMachine"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m23-body" hidden>
+<p class="manuscript-card-title">Polynomial circuit simulation of a verifier</p>
+<div class="latex-content"><p>For a fixed polynomial time verifier and polynomial certificate bound,
+construct a circuit whose free inputs represent the certificate. The circuit
+is satisfiable exactly when some bounded certificate is accepted. Its encoded
+gate clauses are produced in polynomial time. The machine simulation and
+time bound follow from a finite stack program that emits the initial layer,
+the transition layers, and the final acceptance constraint.</p>
+</div>
+<div class="manuscript-card-source"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<tr class=""><td class="line-num">1</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Tseitin.html"><span style="color:#24292E">Lax429075.Tseitin</span></a></td></tr>
+<tr class=""><td class="line-num">2</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Encoding.html"><span style="color:#24292E">Lax429075.Encoding</span></a></td></tr>
+<tr class=""><td class="line-num">3</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-434930/Lax434930.NondeterministicPolynomialTime.html"><span style="color:#24292E">Lax434930.NondeterministicPolynomialTime</span></a></td></tr>
+<tr class=""><td class="line-num">4</td><td class="line-code"> </td></tr>
+<tr class="line-elided"><td class="line-num"></td><td class="line-code">… module docstring, 12 lines</td></tr>
+<tr class=""><td class="line-num">17</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">18</td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax429075.CircuitMachine</span></td></tr>
+<tr class=""><td class="line-num">19</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">20</td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-434930/Lax434930.PolynomialTime.html"><span style="color:#24292E">Lax434930.PolynomialTime</span></a><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-434930/Lax434930.Certificates.html"><span style="color:#24292E">Lax434930.Certificates</span></a><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Circuits.html"><span style="color:#24292E">Circuits</span></a><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Encoding.html"><span style="color:#24292E">Encoding</span></a></td></tr>
+<tr class=""><td class="line-num">21</td><td class="line-code"> </td></tr>
+<tr class="statement-line line-proven"><td class="line-num">22</td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> compile</span><span style="color:#24292E"> (V : </span><a class="lean-identifier-link" href="../lax-434930/Lax434930.PolynomialTime.html#L25"><span style="color:#24292E">Language</span></a><span style="color:#24292E">) (hV : V ∈ </span><a class="lean-identifier-link" href="../lax-434930/Lax434930.PolynomialTime.html#L28"><span style="color:#24292E">P</span></a><span style="color:#24292E">) (p : Polynomial ℕ) :</span></td></tr>
+<tr class="statement-line line-proven"><td class="line-num">23</td><td class="line-code"><span style="color:#24292E">  ∃ circuits : </span><a class="lean-identifier-link" href="../lax-434930/Lax434930.PolynomialTime.html#L22"><span style="color:#24292E">Word</span></a><span style="color:#24292E"> → </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Circuits.html#L31"><span style="color:#24292E">Circuit</span></a><span style="color:#24292E">,</span></td></tr>
+<tr class="statement-line line-proven"><td class="line-num">24</td><td class="line-code"><span style="color:#24292E">    Nonempty (Turing.TM2ComputableInPolyTime id id</span></td></tr>
+<tr class="statement-line line-proven"><td class="line-num">25</td><td class="line-code"><span style="color:#24292E">      (</span><span style="color:#D73A49">fun</span><span style="color:#24292E"> x =&gt; </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Encoding.html#L28"><span style="color:#24292E">encodeCNF</span></a><span style="color:#24292E"> (</span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Tseitin.html#L29"><span style="color:#24292E">Tseitin.encode</span></a><span style="color:#24292E"> (circuits x)))) ∧</span></td></tr>
+<tr class="statement-line line-proven"><td class="line-num">26</td><td class="line-code"><span style="color:#24292E">    ∀ x, </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Circuits.html#L46"><span style="color:#24292E">Satisfiable</span></a><span style="color:#24292E"> (circuits x) ↔</span></td></tr>
+<tr class="statement-line line-proven"><td class="line-num">27</td><td class="line-code"><span style="color:#24292E">      ∃ y : </span><a class="lean-identifier-link" href="../lax-434930/Lax434930.PolynomialTime.html#L22"><span style="color:#24292E">Word</span></a><span style="color:#24292E">, y.length ≤ p.eval x.length ∧ </span><a class="lean-identifier-link" href="../lax-434930/Lax434930.Certificates.html#L19"><span style="color:#24292E">pair</span></a><span style="color:#24292E"> x y ∈ V</span></td></tr>
+<tr class=""><td class="line-num">28</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">29</td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax429075.CircuitMachine</span></td></tr>
+<tr class=""><td class="line-num">30</td><td class="line-code"> </td></tr>
+</table></div></div>
+</div>
+</li>
+<li class="manuscript-card kind-proof line-proven" id="m24" data-mark="24">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a href="../lax-429075/Lax429075Proofs.Streaming.circuit_machine.html"><code>Lax429075Proofs.Streaming.circuit_machine</code></a></span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m24-body" aria-label="Show details of Lax429075Proofs.Streaming.circuit_machine"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m24-body" hidden>
+<div class="judgment">
+<div class="judgment-assumptions"><ul><li><span class="claim-entry"><span class="type-badge proven">def✓</span><a href="../lax-434930/Lax434930.Certificates.html" title="Lax434930.Certificates"><code>Lax434930.Certificates</code></a></span></li>
+<li><span class="claim-entry"><span class="type-badge proven">lem✓</span><a href="../lax-434930/Lax434930.ModelEquivalence.html" title="Lax434930.ModelEquivalence.singleTapeP_eq_P"><code>Lax434930.ModelEquivalence</code></a></span></li></ul></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven">lem✓</span><a href="../lax-429075/Lax429075.CircuitMachine.html" title="Lax429075.CircuitMachine.compile"><code>Lax429075.CircuitMachine</code></a></span></div>
+</div><div class="latex-content"><p>Unroll the bounded verifier and emit its gate clauses with polynomially bounded loops.</p>
+</div>
+</div>
+</li>
+<li class="manuscript-card kind-concept line-proven" id="m25" data-mark="25">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><span class="type-badge proven">lem✓</span><a href="../lax-429075/Lax429075.SATHard.html"><code>Lax429075.SATHard</code></a></span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m25-body" aria-label="Show details of Lax429075.SATHard"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m25-body" hidden>
+<p class="manuscript-card-title">NP-hardness of SAT</p>
+<div class="latex-content"><p>Every language in NP has a polynomial many-one reduction to the binary
+language of satisfiable CNF formulas.</p>
+</div>
+<div class="manuscript-card-source"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<tr class=""><td class="line-num">1</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Satisfiability.html"><span style="color:#24292E">Lax429075.Satisfiability</span></a></td></tr>
+<tr class=""><td class="line-num">2</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Reductions.html"><span style="color:#24292E">Lax429075.Reductions</span></a></td></tr>
+<tr class=""><td class="line-num">3</td><td class="line-code"> </td></tr>
+<tr class="line-elided"><td class="line-num"></td><td class="line-code">… module docstring, 8 lines</td></tr>
+<tr class=""><td class="line-num">12</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">13</td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax429075.SATHard</span></td></tr>
+<tr class=""><td class="line-num">14</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">15</td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Satisfiability.html"><span style="color:#24292E">Satisfiability</span></a><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Reductions.html"><span style="color:#24292E">Reductions</span></a><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-434930/Lax434930.PolynomialTime.html"><span style="color:#24292E">Lax434930.PolynomialTime</span></a><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-434930/Lax434930.NondeterministicPolynomialTime.html"><span style="color:#24292E">Lax434930.NondeterministicPolynomialTime</span></a></td></tr>
+<tr class=""><td class="line-num">16</td><td class="line-code"> </td></tr>
+<tr class="statement-line line-proven"><td class="line-num">17</td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> hardness</span><span style="color:#24292E"> (A : </span><a class="lean-identifier-link" href="../lax-434930/Lax434930.PolynomialTime.html#L25"><span style="color:#24292E">Language</span></a><span style="color:#24292E">) : A ∈ </span><a class="lean-identifier-link" href="../lax-434930/Lax434930.NondeterministicPolynomialTime.html#L22"><span style="color:#24292E">NP</span></a><span style="color:#24292E"> → </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Reductions.html#L17"><span style="color:#24292E">ManyOne</span></a><span style="color:#24292E"> A </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Satisfiability.html#L21"><span style="color:#24292E">SAT</span></a></td></tr>
+<tr class=""><td class="line-num">18</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">19</td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax429075.SATHard</span></td></tr>
+<tr class=""><td class="line-num">20</td><td class="line-code"> </td></tr>
+</table></div></div>
+</div>
+</li>
+<li class="manuscript-card kind-proof line-proven" id="m26" data-mark="26">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a href="../lax-429075/Lax429075Proofs.sat_hard.html"><code>Lax429075Proofs.sat_hard</code></a></span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m26-body" aria-label="Show details of Lax429075Proofs.sat_hard"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m26-body" hidden>
+<div class="judgment">
+<div class="judgment-assumptions"><ul><li><span class="claim-entry"><span class="type-badge proven">lem✓</span><a href="../lax-429075/Lax429075.CircuitMachine.html" title="Lax429075.CircuitMachine.compile"><code>Lax429075.CircuitMachine</code></a></span></li>
+<li><span class="claim-entry"><span class="type-badge proven">lem✓</span><a href="../lax-429075/Lax429075.SATEncoding.html" title="Lax429075.SATEncoding.correct"><code>Lax429075.SATEncoding</code></a></span></li>
+<li><span class="claim-entry"><span class="type-badge proven">lem✓</span><a href="../lax-429075/Lax429075.TseitinCorrect.html" title="Lax429075.TseitinCorrect.correct"><code>Lax429075.TseitinCorrect</code></a></span></li></ul></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven">lem✓</span><a href="../lax-429075/Lax429075.SATHard.html" title="Lax429075.SATHard.hardness"><code>Lax429075.SATHard</code></a></span></div>
+</div><div class="latex-content"><p>Compile the verifier, impose the gate clauses, and encode the resulting formula.</p>
+</div>
+</div>
+</li>
+<li class="manuscript-card kind-concept line-proven" id="m27" data-mark="27">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><span class="type-badge proven">thm✓</span><a href="../lax-429075/Lax429075.CookLevin.html"><code>Lax429075.CookLevin</code></a></span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m27-body" aria-label="Show details of Lax429075.CookLevin"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m27-body" hidden>
+<p class="manuscript-card-title">The Cook–Levin theorem</p>
+<div class="latex-content"><p>Satisfiability of CNF formulas is NP-complete under polynomial many-one reductions.</p>
+</div>
+<div class="manuscript-card-source"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<tr class=""><td class="line-num">1</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Satisfiability.html"><span style="color:#24292E">Lax429075.Satisfiability</span></a></td></tr>
+<tr class=""><td class="line-num">2</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Reductions.html"><span style="color:#24292E">Lax429075.Reductions</span></a></td></tr>
+<tr class=""><td class="line-num">3</td><td class="line-code"> </td></tr>
+<tr class="line-elided"><td class="line-num"></td><td class="line-code">… module docstring, 7 lines</td></tr>
+<tr class=""><td class="line-num">11</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">12</td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax429075.CookLevin</span></td></tr>
+<tr class=""><td class="line-num">13</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">14</td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Satisfiability.html"><span style="color:#24292E">Satisfiability</span></a><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Reductions.html"><span style="color:#24292E">Reductions</span></a></td></tr>
+<tr class=""><td class="line-num">15</td><td class="line-code"> </td></tr>
+<tr class="statement-line line-proven"><td class="line-num">16</td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> np_complete</span><span style="color:#24292E"> : </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Reductions.html#L21"><span style="color:#24292E">NPComplete</span></a><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-429075/Lax429075.Satisfiability.html#L21"><span style="color:#24292E">SAT</span></a></td></tr>
+<tr class=""><td class="line-num">17</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">18</td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax429075.CookLevin</span></td></tr>
+<tr class=""><td class="line-num">19</td><td class="line-code"> </td></tr>
+</table></div></div>
+</div>
+</li>
+<li class="manuscript-card kind-proof line-proven" id="m28" data-mark="28">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a href="../lax-429075/Lax429075Proofs.cook_levin.html"><code>Lax429075Proofs.cook_levin</code></a></span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m28-body" aria-label="Show details of Lax429075Proofs.cook_levin"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m28-body" hidden>
+<div class="judgment">
+<div class="judgment-assumptions"><ul><li><span class="claim-entry"><span class="type-badge proven">lem✓</span><a href="../lax-429075/Lax429075.SATHard.html" title="Lax429075.SATHard.hardness"><code>Lax429075.SATHard</code></a></span></li>
+<li><span class="claim-entry"><span class="type-badge proven">lem✓</span><a href="../lax-429075/Lax429075.SATinNP.html" title="Lax429075.SATinNP.membership"><code>Lax429075.SATinNP</code></a></span></li></ul></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven">thm✓</span><a href="../lax-429075/Lax429075.CookLevin.html" title="Lax429075.CookLevin.np_complete"><code>Lax429075.CookLevin</code></a></span></div>
+</div><div class="latex-content"><p>Combine membership in NP with polynomial many-one hardness.</p>
+</div>
+</div>
+</li>
+</ol>
+<svg class="manuscript-links" id="manuscript-links" aria-hidden="true"></svg>
+</div>
+<p class="manuscript-status" id="manuscript-status" role="status">Loading the paper…</p>
+<noscript><p class="empty-note">Enable JavaScript to read the paper here, or <a href="paper.pdf">download the PDF</a>.</p></noscript>
+<script type="application/json" id="manuscript-data">{"pageSizes":[[612,792],[612,792],[612,792]],"marks":[{"n":1,"id":"Lax429075.CNF","kind":"concept","begin":{"page":1,"x":289.41,"y":424.97,"mode":"h"},"end":{"page":1,"x":79.37,"y":395.75,"mode":"v"}},{"n":2,"id":"Lax429075.Encoding","kind":"concept","begin":{"page":1,"x":325.25,"y":375.35,"mode":"h"},"end":{"page":1,"x":79.37,"y":332.58,"mode":"v"}},{"n":3,"id":"Lax429075.EncodingCorrect","kind":"concept","begin":{"page":1,"x":298.89,"y":312.19,"mode":"h"},"end":{"page":1,"x":430.29,"y":298.64,"mode":"h"}},{"n":4,"id":"Lax429075Proofs.encoding_roundtrip","kind":"proof","begin":{"page":1,"x":113.55,"y":276.12,"mode":"h"},"end":{"page":1,"x":532.63,"y":249.02,"mode":"h"}},{"n":5,"id":"Lax429075.Satisfiability","kind":"concept","begin":{"page":1,"x":345.15,"y":226.51,"mode":"h"},"end":{"page":1,"x":79.37,"y":183.74,"mode":"v"}},{"n":6,"id":"Lax429075.SATEncoding","kind":"concept","begin":{"page":1,"x":319.23,"y":163.35,"mode":"h"},"end":{"page":1,"x":133.73,"y":136.25,"mode":"h"}},{"n":7,"id":"Lax429075Proofs.sat_encoding","kind":"proof","begin":{"page":1,"x":113.55,"y":113.73,"mode":"h"},"end":{"page":1,"x":532.63,"y":100.18,"mode":"h"}},{"n":8,"id":"Lax429075.FiniteWitness","kind":"concept","begin":{"page":2,"x":316.47,"y":701.67,"mode":"h"},"end":{"page":2,"x":299.82,"y":674.57,"mode":"h"}},{"n":9,"id":"Lax429075Proofs.finite_witness","kind":"proof","begin":{"page":2,"x":113.55,"y":652.06,"mode":"h"},"end":{"page":2,"x":532.63,"y":611.41,"mode":"h"}},{"n":10,"id":"Lax429075.VerifierCorrect","kind":"concept","begin":{"page":2,"x":298.45,"y":588.89,"mode":"h"},"end":{"page":2,"x":355.33,"y":561.79,"mode":"h"}},{"n":11,"id":"Lax429075Proofs.verifier_correct","kind":"proof","begin":{"page":2,"x":113.55,"y":539.28,"mode":"h"},"end":{"page":2,"x":532.63,"y":512.18,"mode":"h"}},{"n":12,"id":"Lax429075.VerifierTime","kind":"concept","begin":{"page":2,"x":333.63,"y":489.67,"mode":"h"},"end":{"page":2,"x":143.1,"y":449.02,"mode":"h"}},{"n":13,"id":"Lax429075Proofs.verifier_polynomial","kind":"proof","begin":{"page":2,"x":113.55,"y":426.5,"mode":"h"},"end":{"page":2,"x":532.63,"y":345.21,"mode":"h"}},{"n":14,"id":"Lax429075.SATinNP","kind":"concept","begin":{"page":2,"x":245.26,"y":322.69,"mode":"h"},"end":{"page":2,"x":261.97,"y":309.14,"mode":"h"}},{"n":15,"id":"Lax429075Proofs.sat_in_np","kind":"proof","begin":{"page":2,"x":113.55,"y":286.63,"mode":"h"},"end":{"page":2,"x":532.63,"y":273.08,"mode":"h"}},{"n":16,"id":"Lax429075.Circuits","kind":"concept","begin":{"page":2,"x":251.22,"y":214.35,"mode":"h"},"end":{"page":2,"x":79.37,"y":185.14,"mode":"v"}},{"n":17,"id":"Lax429075.Tseitin","kind":"concept","begin":{"page":2,"x":229.73,"y":164.74,"mode":"h"},"end":{"page":2,"x":79.37,"y":137.64,"mode":"v"}},{"n":18,"id":"Lax429075.GateCorrect","kind":"concept","begin":{"page":2,"x":282.84,"y":115.13,"mode":"h"},"end":{"page":2,"x":79.37,"y":99.46,"mode":"v"}},{"n":19,"id":"Lax429075Proofs.gate_correct","kind":"proof","begin":{"page":3,"x":113.55,"y":701.67,"mode":"h"},"end":{"page":3,"x":532.63,"y":674.57,"mode":"h"}},{"n":20,"id":"Lax429075.TseitinCorrect","kind":"concept","begin":{"page":3,"x":325.15,"y":652.75,"mode":"h"},"end":{"page":3,"x":79.37,"y":637.08,"mode":"v"}},{"n":21,"id":"Lax429075Proofs.tseitin_correct","kind":"proof","begin":{"page":3,"x":113.55,"y":620.13,"mode":"h"},"end":{"page":3,"x":532.63,"y":593.03,"mode":"h"}},{"n":22,"id":"Lax429075.Reductions","kind":"concept","begin":{"page":3,"x":434.52,"y":534.96,"mode":"h"},"end":{"page":3,"x":79.37,"y":494.31,"mode":"v"}},{"n":23,"id":"Lax429075.CircuitMachine","kind":"concept","begin":{"page":3,"x":361.26,"y":475.24,"mode":"h"},"end":{"page":3,"x":442.13,"y":366.76,"mode":"h"}},{"n":24,"id":"Lax429075Proofs.Streaming.circuit_machine","kind":"proof","begin":{"page":3,"x":113.55,"y":347.69,"mode":"h"},"end":{"page":3,"x":532.63,"y":252.85,"mode":"h"}},{"n":25,"id":"Lax429075.SATHard","kind":"concept","begin":{"page":3,"x":251.57,"y":231.02,"mode":"h"},"end":{"page":3,"x":79.37,"y":215.35,"mode":"v"}},{"n":26,"id":"Lax429075Proofs.sat_hard","kind":"proof","begin":{"page":3,"x":113.55,"y":198.41,"mode":"h"},"end":{"page":3,"x":532.63,"y":157.76,"mode":"h"}},{"n":27,"id":"Lax429075.CookLevin","kind":"concept","begin":{"page":3,"x":285.38,"y":135.93,"mode":"h"},"end":{"page":3,"x":79.37,"y":120.26,"mode":"v"}},{"n":28,"id":"Lax429075Proofs.cook_levin","kind":"proof","begin":{"page":3,"x":113.55,"y":103.32,"mode":"h"},"end":{"page":3,"x":532.63,"y":89.77,"mode":"h"}}]}</script>
+</div>
+</div>
+<footer class="site-footer">
+  <nav class="site-footer-nav" aria-label="Legal">
+    <a class="site-footer-link" href="../impressum.html">Imprint</a>
+    <a class="site-footer-link" href="../privacy.html">Privacy</a>
+  </nav>
+</footer>
+</section>
+</main>
+<dialog class="account-dialog" id="account-dialog" aria-labelledby="account-dialog-title">
+<div class="account-dialog-inner">
+<header class="account-dialog-header">
+<div><p class="account-dialog-eyebrow">ORCID account</p><h2 id="account-dialog-title">Settings</h2></div>
+<button class="account-dialog-close" data-account-close type="button" aria-label="Close account settings">×</button>
+</header>
+<div class="account-dialog-body">
+<p class="account-status" data-account-status role="status">Checking your ORCID session…</p>
+<section data-account-content hidden>
+<div class="account-identity">
+<span class="account-avatar" data-account-avatar aria-hidden="true">iD</span>
+<div><a class="account-name" data-account-name target="_blank" rel="noopener noreferrer"></a><p class="account-id" data-account-id></p></div>
+</div>
+<p class="account-name-note">Your public name comes from ORCID. ORCID names are self-asserted and may change.</p>
+<div class="account-actions">
+<a data-account-refresh href="https://comments.laxarchive.org/auth/orcid/login?from=https%3A%2F%2Flaxarchive.org&amp;site=remark">Refresh from ORCID</a>
+<button data-account-logout type="button">Sign out</button>
+</div>
+<div class="account-comments-heading"><h3>Your comments</h3><span data-account-comment-count></span></div>
+<ol class="account-comments" data-account-comments></ol>
+<p class="account-comments-status" data-account-comments-status role="status"></p>
+</section>
+</div>
+</div>
+</dialog>
+<script src="../assets/sidebar.js?v=14479c59f650"></script>
+<script src="../assets/account.js?v=6a0844f8bd00"></script>
+<script src="../assets/version-history.js?v=a36e868140dd"></script>
+<script src="../assets/manuscript-place.js?v=c5fd627c3da9"></script>
+<script src="../assets/manuscript.js?v=ff0a96db36bf"></script>
+</body></html>

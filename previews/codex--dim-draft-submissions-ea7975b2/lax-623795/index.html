@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://comments.laxarchive.org; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self'; frame-src https://comments.laxarchive.org; connect-src 'self' https://comments.laxarchive.org">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Lax — an archive of formalized mathematical concepts and their proofs">
+
+<title>temporal-graphs — lax-623795</title>
+<link rel="canonical" href="https://laxarchive.org/lax-623795/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
+<link rel="stylesheet" href="../assets/style.css?v=d67481e25bca">
+</head><body>
+<header class="site-header with-sidebar">
+  <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="true" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
+  <div class="site-brand">
+  <h1 class="site-title"><a href="../index.html">Lax <span class="site-title-quiet">Lean Archive</span></a></h1>
+  <nav class="site-nav" aria-label="Site">
+    <a class="site-nav-link" href="../lax-242665/paper.html">Introduction</a>
+    <a class="site-nav-link" href="../about.html">About</a>
+  </nav>
+  </div>
+  <nav class="header-actions" aria-label="Account">
+    <div class="account-header" data-account-root data-remark42-host="https://comments.laxarchive.org" data-remark42-site="remark" data-identity-url="https://comments.laxarchive.org/reactions/v1/identity">
+  <a class="account-control" data-account-login href="https://comments.laxarchive.org/auth/orcid/login?from=https%3A%2F%2Flaxarchive.org&amp;site=remark"><span class="orcid-mark" aria-hidden="true">iD</span><span>Sign in<span class="account-login-long"> with ORCID</span></span></a>
+  <button class="account-control" data-account-settings type="button" aria-haspopup="dialog" aria-controls="account-dialog" hidden><span class="orcid-mark" aria-hidden="true">iD</span><span>Settings</span></button>
+</div>
+  </nav>
+</header>
+<main id="content-shell">
+<div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+<aside id="sidebar">
+<a class="sidebar-back" href="../index.html"><span class="sidebar-back-arrow" aria-hidden="true">←</span>All submissions</a>
+<div class="sidebar-filters"><div class="filter-group">
+<label for="filter-search">Search</label>
+<input id="filter-search" class="filter-input" type="search" placeholder="Filter entries" aria-controls="entry-list">
+</div>
+<div class="filter-group">
+<label for="filter-type">Type</label>
+<select id="filter-type" class="filter-select">
+<option value="all">All types</option>
+<option value="definition">definition</option>
+<option value="lemma">lemma</option>
+<option value="proof">proof</option>
+</select>
+</div></div>
+<ul id="entry-list">
+<li class="entry-heading" aria-hidden="true">Concepts</li>
+<li data-type="lemma" data-search="lax623795.temporalexploration growth of temporal reachability lemma"><a class="entry-link" href="../lax-623795/Lax623795.TemporalExploration.html" data-full-title="Growth of Temporal Reachability"><span class="entry-label"><span class="type-badge proven">lem✓</span><span class="entry-label-text">Growth of Temporal Reachability</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-623795/Lax623795.TemporalExploration.html" hidden></span></span></a></li>
+<li data-type="definition" data-search="lax623795.temporalgraphs temporal graphs definition"><a class="entry-link" href="../lax-623795/Lax623795.TemporalGraphs.html" data-full-title="Temporal Graphs"><span class="entry-label"><span class="type-badge">def</span><span class="entry-label-text">Temporal Graphs</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-623795/Lax623795.TemporalGraphs.html" hidden></span></span></a></li>
+<li class="entry-heading" aria-hidden="true">Proofs</li>
+<li data-type="proof" data-search="lax623795proofs.reachablevertexset_ssubset_next proof"><a class="entry-link" href="../lax-623795/Lax623795Proofs.reachableVertexSet_ssubset_next.html" data-full-title="Lax623795Proofs.reachableVertexSet_ssubset_next"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax623795Proofs.reachableVertexSet_ssubset_next</span></span></a></li>
+<li id="entry-list-empty" hidden>No entries match.</li>
+</ul>
+</aside>
+<div id="sidebar-resizer" class="sidebar-resizer" role="separator" aria-label="Resize sidebar" aria-controls="sidebar" aria-orientation="vertical" aria-valuemin="220" aria-valuemax="520" aria-valuenow="285" tabindex="0" title="Drag to resize sidebar"></div>
+<section id="main"><div id="detail">
+<p class="draft-banner"><strong>Temporary draft</strong><span>Other submissions cannot depend on this work while it remains editable. Authors are advised to register it as soon as it is complete.</span></p>
+<dialog class="draft-reminder-dialog" data-draft-reminder data-submission-id="lax-623795" data-created-at="2026-09-15T15:32:39Z" aria-labelledby="draft-reminder-title" aria-describedby="draft-reminder-description">
+<div class="draft-reminder-inner">
+<p class="draft-reminder-eyebrow">Draft best practice</p>
+<h2 id="draft-reminder-title">Drafts should be temporary</h2>
+<div id="draft-reminder-description" class="draft-reminder-copy">
+<p>This draft has been open for at least seven days. While it remains editable, other submissions cannot depend on it.</p>
+<p><strong>Best practice:</strong> Register completed work promptly. Prefer smaller, focused submissions and leave large proof obligations open rather than keeping an entire submission in draft.</p>
+</div>
+<button class="draft-reminder-close" type="button" data-draft-reminder-close>I understand</button>
+</div>
+</dialog>
+<header class="paper-head">
+<h1 class="paper-title">temporal-graphs</h1>
+<p class="paper-meta"><span class="submission-meta-id">lax-623795</span><span class="meta-sep">·</span><span class="formalized-label">formalized by</span> <span class="paper-author">Johannes Meintrup</span><span class="author-sep">·</span><span class="paper-author">Codex 5.6 and 6 (OpenAI)</span><span class="meta-sep">·</span>created <time datetime="2026-09-15T15:32:39Z">15 Sep 2026</time><span class="meta-sep">·</span><a href="https://github.com/jmeintrup/lean-temporal-graphs/tree/be2b03288b97c0f05c67adc1bc1f520984dc1329/temporal-graphs" title="https://github.com/jmeintrup/lean-temporal-graphs/tree/be2b03288b97c0f05c67adc1bc1f520984dc1329/temporal-graphs"><code>GitHub @be2b032</code></a><span class="meta-sep">·</span>Lean <code>v4.33.0</code> <span class="meta-epoch" title="the environment the archive recommends this year">epoch</span> · mathlib <code>db584cd6d46c</code></p>
+</header>
+<section class="page-reactions" aria-label="Community review" data-reactions-host="https://comments.laxarchive.org" data-reactions-url="https://laxarchive.org/lax-623795/" data-review-kind="submission" data-source-lines="0" data-submission-concept-urls="[&quot;https://laxarchive.org/lax-623795/Lax623795.TemporalExploration.html&quot;,&quot;https://laxarchive.org/lax-623795/Lax623795.TemporalGraphs.html&quot;]">
+<div class="page-reactions-line">
+<div class="page-reactions-actions">
+<div class="page-reaction-control">
+<button class="page-reaction-button" type="button" data-reaction="endorse" aria-pressed="false" title="Say that this submission is correct"><span class="page-reaction-icon" aria-hidden="true">🥳</span><span>Endorse</span></button>
+<button class="page-reaction-voters" type="button" data-reaction-voters="endorse" aria-expanded="false" aria-controls="page-reaction-voters-endorse"><strong data-reaction-count="endorse">0</strong><span class="visually-hidden">Show people who endorse this submission</span></button>
+<div class="page-reaction-voters-popover" id="page-reaction-voters-endorse" data-reaction-voters-popover="endorse" hidden><p data-reaction-empty>No public endorsements yet.</p><ul></ul></div>
+</div>
+<div class="page-reaction-control page-flag-control">
+<button class="page-reaction-button" type="button" data-reaction="flag" aria-pressed="false" aria-haspopup="dialog" title="Explain why this submission may be false"><span class="page-reaction-icon" aria-hidden="true">🚩</span><span>Flag</span></button>
+<button class="page-reaction-voters" type="button" data-flag-list-open aria-haspopup="dialog" aria-controls="page-flag-list"><strong data-reaction-count="flag">0</strong><span class="visually-hidden">Show flags for this submission</span></button>
+</div>
+</div>
+<p class="submission-flagged-note" data-submission-flagged-note hidden><span aria-hidden="true">⚑</span><span data-submission-flagged-note-text></span></p>
+</div>
+<p class="page-reactions-status" data-reactions-status role="status">Loading review…</p>
+<a class="visually-hidden" data-reactions-login href="https://comments.laxarchive.org/auth/orcid/login?site=remark&amp;from=https%3A%2F%2Flaxarchive.org%2Flax-623795%2F">Sign in with ORCID</a>
+<dialog class="review-dialog flag-list-dialog" id="page-flag-list" data-flag-list-dialog aria-labelledby="page-flag-list-title">
+<div class="review-dialog-header"><div><p class="discussion-eyebrow">Community review</p><h2 id="page-flag-list-title">Flags</h2></div><button class="review-dialog-close" type="button" data-flag-list-close aria-label="Close flags">×</button></div>
+<p class="review-dialog-intro">Each flag is tied to a public ORCID identity and explains why this submission may be incorrect.</p>
+<p data-flag-list-empty>No flags have been submitted.</p><ol class="flag-list" data-flag-list></ol>
+</dialog>
+<dialog class="review-dialog flag-editor-dialog" id="page-flag-editor" data-flag-editor aria-labelledby="page-flag-editor-title">
+<form data-flag-form>
+<div class="review-dialog-header"><div><p class="discussion-eyebrow">Community review</p><h2 id="page-flag-editor-title">Flag this submission</h2></div><button class="review-dialog-close" type="button" data-flag-cancel aria-label="Close flag form">×</button></div>
+<p class="review-dialog-intro">State precisely what appears incorrect. This explanation will be public under your ORCID name.</p>
+<label class="flag-message-label" for="page-flag-message">What is wrong?</label>
+<textarea id="page-flag-message" data-flag-message rows="6" maxlength="2000" required placeholder="Describe the incorrect claim, missing assumption, or counterexample."></textarea>
+
+<p class="flag-form-status" data-flag-form-status role="status"></p>
+<div class="review-dialog-actions"><button class="danger-button" type="button" data-flag-remove hidden>Remove my flag</button><span></span><button class="secondary-button" type="button" data-flag-cancel>Cancel</button><button class="primary-button" type="submit">Publish flag</button></div>
+</form>
+</dialog>
+<noscript><p class="page-reactions-noscript"><a href="https://comments.laxarchive.org/auth/orcid/login?site=remark&amp;from=https%3A%2F%2Flaxarchive.org%2Flax-623795%2F">Sign in with ORCID</a> to review this page.</p></noscript>
+</section>
+<section class="paper-abstract">
+<h2 class="abstract-heading">Abstract</h2>
+<div class="latex-content"><p>This submission formalizes basic notions for finite-lifetime temporal graphs,
+including timed vertex visits, strict temporal walks, concatenation, and
+time-bounded reachability. It also proves that, while the current reachable set
+is proper, extending a reachability interval by one connected snapshot reaches
+at least one additional vertex.</p>
+<p>The Lean formalization and proof development were carried out with substantial
+assistance from OpenAI GPT-5.6 through Codex.</p>
+</div>
+</section>
+
+<section class="page-section"><h3 class="section-title">Concepts</h3>
+<div class="concept-list-box">
+<div class="concept-review-progress" data-concept-review-progress data-concept-review-urls="[&quot;https://laxarchive.org/lax-623795/Lax623795.TemporalGraphs.html&quot;]" hidden>
+<div class="concept-review-progress-heading"><span>Review progress</span><span data-concept-review-progress-label></span></div>
+<div class="concept-review-progress-track" data-concept-review-progress-track role="img"></div>
+</div>
+<ul class="concept-list" aria-label="Statements">
+<li><span class="type-badge proven">lem✓</span><a href="Lax623795.TemporalExploration.html" title="Lax623795.TemporalExploration"><code>TemporalExploration</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-623795/Lax623795.TemporalExploration.html" hidden></span></li>
+</ul>
+<ul class="concept-list" aria-label="Definitions">
+<li><span class="type-badge">def</span><a href="Lax623795.TemporalGraphs.html" title="Lax623795.TemporalGraphs"><code>TemporalGraphs</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-623795/Lax623795.TemporalGraphs.html" hidden></span></li>
+</ul>
+
+</div>
+<details class="figure-details">
+<summary>Concept map</summary>
+<figure class="graph-figure">
+<div class="graph-controls"><div class="graph-ancestry-controls"><button type="button" id="concept-expand" aria-controls="concept-dag" disabled aria-pressed="false">No ancestors</button><button type="button" id="concept-descend" aria-controls="concept-dag" disabled aria-pressed="false">No descendants</button><output id="concept-graph-status" aria-live="polite">2 concepts</output></div><div class="graph-zoom-controls" aria-label="Graph zoom"><button type="button" data-graph-zoom="out" aria-label="Zoom out" disabled>−</button><output data-graph-zoom-status aria-label="Zoom">100%</output><button type="button" data-graph-zoom="in" aria-label="Zoom in" disabled>+</button><button type="button" data-graph-zoom="reset" disabled>Reset</button></div><button class="graph-expand" type="button" data-graph-expand data-graph-label="concept map" aria-expanded="false" aria-label="Open concept map in a large window"><svg class="graph-expand-open" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M2.5 6V2.5H6M10 2.5h3.5V6M13.5 10v3.5H10M6 13.5H2.5V10"/></svg><span class="graph-expand-close" aria-hidden="true">×</span></button></div>
+<div id="concept-dag" class="figure-container" data-graph="concepts" data-ancestry="true" data-prepared="true" style="height:152px"><svg xmlns="http://www.w3.org/2000/svg" class="prepared-graph" width="270" height="152" viewBox="0 0 270 152" aria-label="Concept dependency graph" data-layout-digest="cd334a5b9a8222d71ec1a3b40f46ca54cbf1ca658f9cbac11daedd97bd466f39"><defs><marker id="graph-arrow-concept-dag-cd334a5b9a8222d7-00" viewBox="0 -5 10 10" refX="9" refY="0" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto" overflow="visible"><path d="M1,-4.25 L9,0 L1,4.25 Q3,0 1,-4.25 Z"/></marker></defs><g data-graph-camera><g transform="translate(36,24)"><a class="net-node proven" data-node-id="c:Lax623795.TemporalExploration" aria-label="Growth of Temporal Reachability (Lax623795.TemporalExploration)" href="../lax-623795/Lax623795.TemporalExploration.html" role="link"><rect x="0" y="0" width="197.33" height="30" rx="4"/><text class="graph-label" xml:space="preserve"><tspan x="10.000380554199225" y="18">Growth of Temporal Reachability</tspan></text></a></g><g transform="translate(78.413,98)"><a class="net-node none" data-node-id="c:Lax623795.TemporalGraphs" aria-label="Temporal Graphs (Lax623795.TemporalGraphs)" href="../lax-623795/Lax623795.TemporalGraphs.html" role="link"><rect x="0" y="0" width="112.505" height="30" rx="4"/><text class="graph-label" xml:space="preserve"><tspan x="10.000188293457029" y="18">Temporal Graphs</tspan></text></a></g><path class="dag-edge" data-edge-id="e:Lax623795.TemporalGraphs-&gt;Lax623795.TemporalExploration:import:0" d="M134.665,98 L134.665,54" marker-end="url(#graph-arrow-concept-dag-cd334a5b9a8222d7-00)"/></g></svg></div>
+<div class="graph-tooltip" role="tooltip" hidden></div>
+<figcaption class="graph-legend" aria-label="Concept map legend"><span><i class="legend-node fill-proven"></i>Proven claim</span><span><i class="legend-node fill-none"></i>Definition</span><span><i class="legend-node stroke-own"></i>This submission</span><span><svg class="legend-dependency-arrow" viewBox="0 -4 26 8" aria-hidden="true" focusable="false"><path class="legend-edge-line" d="M1 0h22"/><path d="m20-3 3 3-3 3"/></svg>A → B: B builds on A</span></figcaption>
+</figure>
+</details>
+</section>
+<section class="page-section"><h3 class="section-title">Proofs</h3>
+<h4 class="figure-title">Proof network<a class="source-link" href="https://github.com/jmeintrup/lean-temporal-graphs/tree/be2b03288b97c0f05c67adc1bc1f520984dc1329/temporal-graphs/proofs">view on GitHub</a></h4>
+<figure class="graph-figure proof-network-figure">
+<div class="graph-controls"><div class="graph-zoom-controls" aria-label="Graph zoom"><button type="button" data-graph-zoom="out" aria-label="Zoom out" disabled>−</button><output data-graph-zoom-status aria-label="Zoom">100%</output><button type="button" data-graph-zoom="in" aria-label="Zoom in" disabled>+</button><button type="button" data-graph-zoom="reset" disabled>Reset</button></div><button class="graph-expand" type="button" data-graph-expand data-graph-label="proof network" aria-expanded="false" aria-label="Open proof network in a large window"><svg class="graph-expand-open" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M2.5 6V2.5H6M10 2.5h3.5V6M13.5 10v3.5H10M6 13.5H2.5V10"/></svg><span class="graph-expand-close" aria-hidden="true">×</span></button></div>
+<div id="proof-network" class="figure-container" data-graph="proofs" data-prepared="true" style="height:150px"><svg xmlns="http://www.w3.org/2000/svg" class="prepared-graph" width="720" height="150" viewBox="-257.5 0 720 150" aria-label="Proof dependency graph" data-layout-digest="322ec03c0ede9f5b678d02c4a34ddda47825ff9f8a793eb15bf307b6073d2462"><defs><marker id="graph-arrow-proof-network-322ec03c0ede9f5b-default" viewBox="0 -5 10 10" refX="9" refY="0" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto" overflow="visible"><path d="M1,-4.25 L9,0 L1,4.25 Q3,0 1,-4.25 Z"/></marker></defs><g data-graph-camera><path class="graph-edge-hit" data-edge-hit="e:Lax623795Proofs.reachableVertexSet_ssubset_next:conclusion:Lax623795.TemporalExploration.reachableVertexSet_ssubset_next:0" d="M102.133,98 L102.133,54"/><g transform="translate(86.133,98)"><a class="net-proof" data-node-id="p:Lax623795Proofs.reachableVertexSet_ssubset_next" aria-label="Proof Lax623795Proofs.reachableVertexSet_ssubset_next" href="../lax-623795/Lax623795Proofs.reachableVertexSet_ssubset_next.html" role="link"><rect x="2" y="0" width="28" height="28" rx="4"/><path class="graph-turnstile" d="M11,8 V20 M11,14 H22"/></a></g><g transform="translate(36,24)"><a class="net-node proven" data-node-id="s:Lax623795.TemporalExploration.reachableVertexSet_ssubset_next" aria-label="TemporalExploration (Lax623795.TemporalExploration.reachableVertexSet_ssubset_next)" href="../lax-623795/Lax623795.TemporalExploration.html#s-Lax623795.TemporalExploration.reachableVertexSet_ssubset_next" role="link"><rect x="0" y="0" width="132.265" height="30" rx="4"/><text class="graph-label" xml:space="preserve"><tspan x="10.000114746093743" y="18">TemporalExploration</tspan></text></a></g><path class="net-edge conclusion" data-edge-id="e:Lax623795Proofs.reachableVertexSet_ssubset_next:conclusion:Lax623795.TemporalExploration.reachableVertexSet_ssubset_next:0" d="M102.133,98 L102.133,54" marker-end="url(#graph-arrow-proof-network-322ec03c0ede9f5b-default)"/></g></svg></div>
+<div class="graph-tooltip" role="tooltip" hidden></div>
+<figcaption class="graph-legend" aria-label="Proof network legend"><span class="proof-flow">assumptions <svg class="legend-assumptions" viewBox="0 0 14 24" aria-hidden="true" focusable="false"><path d="M1 0h10m-3-3 3 3-3 3" transform="translate(0 12)"/><path d="M1 0h10m-3-3 3 3-3 3" transform="translate(0 3) rotate(15)"/><path d="M1 0h10m-3-3 3 3-3 3" transform="translate(0 21) rotate(-15)"/></svg><i class="legend-proof-chip" aria-hidden="true">⊢</i><svg class="legend-arrow legend-flow-arrow" viewBox="0 -4 12 8" aria-hidden="true" focusable="false"><path d="M1 0h10m-3-3 3 3-3 3"/></svg> conclusion</span><span><i class="legend-node fill-proven"></i>Proven claim</span><span><i class="legend-node stroke-own"></i>This submission</span><span><i class="legend-proof-chip" aria-hidden="true">⊢</i>Proof — open large view for details</span></figcaption>
+</figure>
+<details class="figure-details">
+<summary>Proof list</summary>
+<div class="proof-list-box">
+<ul class="proof-list">
+<li class="proof-item" id="p-Lax623795Proofs.reachableVertexSet_ssubset_next">
+<div class="judgment-frame">
+<a class="judgment-overlay" href="../lax-623795/Lax623795Proofs.reachableVertexSet_ssubset_next.html" aria-label="Open proof Lax623795Proofs.reachableVertexSet_ssubset_next"></a>
+<div class="judgment">
+<div class="judgment-assumptions"><p class="judgment-unconditional">no assumptions</p></div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven">lem✓</span><a href="../lax-623795/Lax623795.TemporalExploration.html" title="Lax623795.TemporalExploration.reachableVertexSet_ssubset_next"><code>Lax623795.TemporalExploration</code></a></span></div>
+</div>
+</div>
+<p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-623795/Lax623795Proofs.reachableVertexSet_ssubset_next.html"><code>Lax623795Proofs.reachableVertexSet_ssubset_next</code></a></p>
+</li>
+</ul>
+<p class="proof-list-source">Lean sources for these proofs: <a class="source-link" href="https://github.com/jmeintrup/lean-temporal-graphs/tree/be2b03288b97c0f05c67adc1bc1f520984dc1329/temporal-graphs/proofs">proofs/ on GitHub</a></p>
+</div>
+<p class="honesty-note">Proof code is not displayed; the archive records each proof's checked relationship between claims.</p>
+</details>
+</section>
+<section class="page-section"><h3 class="section-title">Related submissions</h3>
+<p class="empty-note">No other submission in the archive builds on this one, and this one builds on none.</p>
+</section>
+<section class="page-section"><h3 class="section-title" id="citation">Cite this</h3>
+<p class="honesty-note">This is only the formalizers. The authors of the formalized results may be different (see References).</p>
+<div class="citation-box">
+<pre class="citation" id="submission-citation">@misc{lax-623795,
+  author = {Johannes Meintrup and Codex 5.6 and 6 (OpenAI)},
+  title = {temporal-graphs},
+  year = {2026},
+  howpublished = {Lax Archive, lax-623795},
+  url = {https://laxarchive.org/lax-623795/},
+  note = {draft},
+}</pre>
+<button class="citation-copy" type="button" data-copy-citation aria-controls="submission-citation" aria-label="Copy BibTeX to clipboard" title="Copy BibTeX"><span class="citation-copy-icon" aria-hidden="true"></span></button>
+<output class="citation-copy-status" aria-live="polite"></output>
+</div>
+</section>
+<section class="page-section"><h3 class="section-title">References</h3>
+<ol class="reference-list">
+<li id="ref-ErlebachHK21">Thomas Erlebach, Michael Hoffmann and Frank Kammer. <span class="reference-title">On temporal graph exploration</span>. Journal of Computer and System Sciences 119:1–18, 2021. <a href="https://doi.org/10.1016/j.jcss.2021.01.005">doi:10.1016/j.jcss.2021.01.005</a></li>
+</ol>
+</section>
+<section class="page-section discussion-section" aria-labelledby="discussion-title">
+<div class="discussion-heading">
+<div class="discussion-heading-copy">
+<h3 class="section-title" id="discussion-title">Discussion</h3>
+<p>Ask a question or add context. Endorsements and structured flags are kept in the review panel above.</p>
+</div>
+<p class="discussion-count" hidden><span class="remark42__counter" data-url="https://laxarchive.org/lax-623795/">0</span> <span>comments</span></p>
+</div>
+<div class="discussion-embed-shell">
+<p class="discussion-loading" id="remark42-status" role="status"><span class="discussion-loading-mark" aria-hidden="true"></span>Loading discussion…</p>
+<div id="remark42" data-remark42-host="https://comments.laxarchive.org" data-remark42-site="remark" data-remark42-url="https://laxarchive.org/lax-623795/"></div>
+</div>
+<noscript><p class="discussion-unavailable">Enable JavaScript to read or join the discussion.</p></noscript>
+</section>
+<script type="application/json" id="graph-data">{"concepts":{"home":"lax-623795","nodes":[{"id":"Lax623795.TemporalExploration","title":"Growth of Temporal Reachability","href":"../lax-623795/Lax623795.TemporalExploration.html","dir":"core","status":"proven","owner":"lax-623795","ext":false},{"id":"Lax623795.TemporalGraphs","title":"Temporal Graphs","href":"../lax-623795/Lax623795.TemporalGraphs.html","dir":"core","status":"none","owner":"lax-623795","ext":false}],"edges":[{"from":"Lax623795.TemporalGraphs","to":"Lax623795.TemporalExploration"}]},"proofs":{"home":"lax-623795","statements":[{"id":"Lax623795.TemporalExploration.reachableVertexSet_ssubset_next","title":"Growth of Temporal Reachability","href":"../lax-623795/Lax623795.TemporalExploration.html#s-Lax623795.TemporalExploration.reachableVertexSet_ssubset_next","owner":"lax-623795","ext":false,"label":"TemporalExploration","concept":"Lax623795.TemporalExploration","tooltipHtml":"Growth of Temporal Reachability","index":1,"count":1,"proven":true}],"proofs":[{"id":"Lax623795Proofs.reachableVertexSet_ssubset_next","conclusion":"Lax623795.TemporalExploration.reachableVertexSet_ssubset_next","assumptions":[],"description":"","tooltipHtml":"","href":"../lax-623795/Lax623795Proofs.reachableVertexSet_ssubset_next.html","owner":"lax-623795","ext":false,"assumptionsProven":true,"outstanding":0}],"details":{"concept:Lax623795.TemporalExploration":{"kind":"concept","name":"Growth of Temporal Reachability","nameHtml":"Growth of Temporal Reachability","namespace":"Lax623795.TemporalExploration","type":"lemma","status":"proven","statusDetail":"1 of 1 statement proven","descriptionHtml":"\u003cp>Let \u003cspan class=\"katex\">\u003cspan class=\"katex-mathml\">\u003cmath xmlns=\"http://www.w3.org/1998/Math/MathML\">\u003csemantics>\u003cmrow>\u003cmi>X\u003c/mi>\u003c/mrow>\u003cannotation encoding=\"application/x-tex\">X\u003c/annotation>\u003c/semantics>\u003c/math>\u003c/span>\u003cspan class=\"katex-html\" aria-hidden=\"true\">\u003cspan class=\"katex-base\">\u003cspan class=\"katex-strut\" style=\"height:0.6833em;\">\u003c/span>\u003cspan class=\"mord mathnormal\" style=\"margin-right:0.0785em;\">X\u003c/span>\u003c/span>\u003c/span>\u003c/span> be a nonempty proper set of vertices in an always-connected temporal\ngraph. Fix a nonempty time interval ending at \u003cspan class=\"katex\">\u003cspan class=\"katex-mathml\">\u003cmath xmlns=\"http://www.w3.org/1998/Math/MathML\">\u003csemantics>\u003cmrow>\u003cmi>e\u003c/mi>\u003cmi>n\u003c/mi>\u003cmi>d\u003c/mi>\u003cmi>T\u003c/mi>\u003cmi>i\u003c/mi>\u003cmi>m\u003c/mi>\u003cmi>e\u003c/mi>\u003c/mrow>\u003cannotation encoding=\"application/x-tex\">endTime\u003c/annotation>\u003c/semantics>\u003c/math>\u003c/span>\u003cspan class=\"katex-html\" aria-hidden=\"true\">\u003cspan class=\"katex-base\">\u003cspan class=\"katex-strut\" style=\"height:0.6944em;\">\u003c/span>\u003cspan class=\"mord mathnormal\">e\u003c/span>\u003cspan class=\"mord mathnormal\">n\u003c/span>\u003cspan class=\"mord mathnormal\">d\u003c/span>\u003cspan class=\"mord mathnormal\" style=\"margin-right:0.1389em;\">T\u003c/span>\u003cspan class=\"mord mathnormal\">im\u003c/span>\u003cspan class=\"mord mathnormal\">e\u003c/span>\u003c/span>\u003c/span>\u003c/span>. If the vertices reachable\nfrom \u003cspan class=\"katex\">\u003cspan class=\"katex-mathml\">\u003cmath xmlns=\"http://www.w3.org/1998/Math/MathML\">\u003csemantics>\u003cmrow>\u003cmi>X\u003c/mi>\u003c/mrow>\u003cannotation encoding=\"application/x-tex\">X\u003c/annotation>\u003c/semantics>\u003c/math>\u003c/span>\u003cspan class=\"katex-html\" aria-hidden=\"true\">\u003cspan class=\"katex-base\">\u003cspan class=\"katex-strut\" style=\"height:0.6833em;\">\u003c/span>\u003cspan class=\"mord mathnormal\" style=\"margin-right:0.0785em;\">X\u003c/span>\u003c/span>\u003c/span>\u003c/span> during this interval do not yet comprise the whole vertex set, extending\nthe interval by one valid time step strictly enlarges the reachable vertex set.\u003c/p>\n","reviewLabel":"Theorem review","openAssumptions":0,"openAssumptionIds":[],"anonymousReview":false,"href":"../lax-623795/Lax623795.TemporalExploration.html","reviewUrl":"https://laxarchive.org/lax-623795/Lax623795.TemporalExploration.html","submission":{"id":"lax-623795","name":"temporal-graphs","state":"draft","nameHtml":"temporal-graphs"},"statements":[{"id":"Lax623795.TemporalExploration.reachableVertexSet_ssubset_next","name":"Lean statement","signature":"reachableVertexSet_ssubset_next : ∀ {V : Type u} (G : Lax623795.TemporalGraphs.TemporalGraph V) (X : Set V) (startTime endTime nextTime : G.Timestep),\n  G.AlwaysConnected →\n    X.Nonempty →\n      Ne X Set.univ →\n        instLENat.le startTime.val.val endTime.val.val →\n          Eq nextTime.val.val (instHAdd.hAdd endTime.val.val 1) →\n            Ne (G.reachableVertexSet X startTime endTime) Set.univ →\n              Set.instCompleteAtomicBooleanAlgebra.toCompleteSemilatticeInf.lt\n                (G.reachableVertexSet X startTime endTime) (G.reachableVertexSet X startTime nextTime)","proven":true,"href":"../lax-623795/Lax623795.TemporalExploration.html#s-Lax623795.TemporalExploration.reachableVertexSet_ssubset_next"}],"sections":[]},"proof:Lax623795Proofs.reachableVertexSet_ssubset_next":{"kind":"proof","name":"Proof of Growth of Temporal Reachability","nameHtml":"Proof of Growth of Temporal Reachability","status":"grounded","statusDetail":"All assumptions are proven","descriptionHtml":"","reviewLabel":"Conclusion review","leanPath":"proofs/Lax623795Proofs/Reachability.lean","anonymousReview":false,"href":"../lax-623795/Lax623795Proofs.reachableVertexSet_ssubset_next.html","reviewUrl":"https://laxarchive.org/lax-623795/Lax623795.TemporalExploration.html","sourceHref":"https://github.com/jmeintrup/lean-temporal-graphs/blob/be2b03288b97c0f05c67adc1bc1f520984dc1329/temporal-graphs/proofs/Lax623795Proofs/Reachability.lean","submission":{"id":"lax-623795","name":"temporal-graphs","state":"draft","nameHtml":"temporal-graphs"},"sections":[],"conclusion":{"id":"Lax623795.TemporalExploration.reachableVertexSet_ssubset_next","name":"Growth of Temporal Reachability","proven":true,"href":"../lax-623795/Lax623795.TemporalExploration.html#s-Lax623795.TemporalExploration.reachableVertexSet_ssubset_next","nameHtml":"Growth of Temporal Reachability","statementCount":1},"assumptions":[]}}},"submissions":{"nodes":[{"id":"lax-623795","title":"temporal-graphs","href":"../lax-623795/index.html","dir":"core","state":"draft","ext":false,"concepts":2,"proofs":1}],"edges":[]},"prepared":{"concept-dag":{"initial":"00","ancestors":0,"descendants":0,"views":{"00":{"interaction":{"nodes":{"c:Lax623795.TemporalExploration":{"label":"Growth of Temporal Reachability","tooltipRows":[["Concept","Growth of Temporal Reachability"],["Status","proven"],["Submission","lax-623795"]],"incident":["e:Lax623795.TemporalGraphs->Lax623795.TemporalExploration:import:0"],"kind":"concept","semanticId":"Lax623795.TemporalExploration","nodeId":"c:Lax623795.TemporalExploration","href":"../lax-623795/Lax623795.TemporalExploration.html"},"c:Lax623795.TemporalGraphs":{"label":"Temporal Graphs","tooltipRows":[["Concept","Temporal Graphs"],["Status","definition"],["Submission","lax-623795"]],"incident":["e:Lax623795.TemporalGraphs->Lax623795.TemporalExploration:import:0"],"kind":"concept","semanticId":"Lax623795.TemporalGraphs","nodeId":"c:Lax623795.TemporalGraphs","href":"../lax-623795/Lax623795.TemporalGraphs.html"}},"edges":{"e:Lax623795.TemporalGraphs->Lax623795.TemporalExploration:import:0":{"source":"c:Lax623795.TemporalGraphs","target":"c:Lax623795.TemporalExploration","sourceSemanticId":"Lax623795.TemporalGraphs","targetSemanticId":"Lax623795.TemporalExploration","kind":"import","semanticIds":["Lax623795.TemporalGraphs->Lax623795.TemporalExploration:import"]}}},"height":152,"status":"2 concepts"}}},"proof-network":{"initial":"default","ancestors":0,"descendants":0,"views":{"default":{"interaction":{"nodes":{"p:Lax623795Proofs.reachableVertexSet_ssubset_next":{"label":"","incident":["e:Lax623795Proofs.reachableVertexSet_ssubset_next:conclusion:Lax623795.TemporalExploration.reachableVertexSet_ssubset_next:0"],"kind":"proof","semanticId":"Lax623795Proofs.reachableVertexSet_ssubset_next","nodeId":"p:Lax623795Proofs.reachableVertexSet_ssubset_next","href":"../lax-623795/Lax623795Proofs.reachableVertexSet_ssubset_next.html"},"s:Lax623795.TemporalExploration.reachableVertexSet_ssubset_next":{"label":"Growth of Temporal Reachability","tooltipHtml":"Growth of Temporal Reachability","incident":["e:Lax623795Proofs.reachableVertexSet_ssubset_next:conclusion:Lax623795.TemporalExploration.reachableVertexSet_ssubset_next:0"],"kind":"statement","semanticId":"Lax623795.TemporalExploration.reachableVertexSet_ssubset_next","nodeId":"s:Lax623795.TemporalExploration.reachableVertexSet_ssubset_next","href":"../lax-623795/Lax623795.TemporalExploration.html#s-Lax623795.TemporalExploration.reachableVertexSet_ssubset_next"}},"edges":{"e:Lax623795Proofs.reachableVertexSet_ssubset_next:conclusion:Lax623795.TemporalExploration.reachableVertexSet_ssubset_next:0":{"source":"p:Lax623795Proofs.reachableVertexSet_ssubset_next","target":"s:Lax623795.TemporalExploration.reachableVertexSet_ssubset_next","sourceSemanticId":"Lax623795Proofs.reachableVertexSet_ssubset_next","targetSemanticId":"Lax623795.TemporalExploration.reachableVertexSet_ssubset_next","kind":"conclusion","semanticIds":["Lax623795Proofs.reachableVertexSet_ssubset_next:conclusion:Lax623795.TemporalExploration.reachableVertexSet_ssubset_next"]}}},"height":150,"status":"1 statement; 1 proof"}}}}}</script>
+</div>
+<footer class="site-footer">
+  <nav class="site-footer-nav" aria-label="Legal">
+    <a class="site-footer-link" href="../impressum.html">Imprint</a>
+    <a class="site-footer-link" href="../privacy.html">Privacy</a>
+  </nav>
+</footer>
+</section>
+</main>
+<dialog class="account-dialog" id="account-dialog" aria-labelledby="account-dialog-title">
+<div class="account-dialog-inner">
+<header class="account-dialog-header">
+<div><p class="account-dialog-eyebrow">ORCID account</p><h2 id="account-dialog-title">Settings</h2></div>
+<button class="account-dialog-close" data-account-close type="button" aria-label="Close account settings">×</button>
+</header>
+<div class="account-dialog-body">
+<p class="account-status" data-account-status role="status">Checking your ORCID session…</p>
+<section data-account-content hidden>
+<div class="account-identity">
+<span class="account-avatar" data-account-avatar aria-hidden="true">iD</span>
+<div><a class="account-name" data-account-name target="_blank" rel="noopener noreferrer"></a><p class="account-id" data-account-id></p></div>
+</div>
+<p class="account-name-note">Your public name comes from ORCID. ORCID names are self-asserted and may change.</p>
+<div class="account-actions">
+<a data-account-refresh href="https://comments.laxarchive.org/auth/orcid/login?from=https%3A%2F%2Flaxarchive.org&amp;site=remark">Refresh from ORCID</a>
+<button data-account-logout type="button">Sign out</button>
+</div>
+<div class="account-comments-heading"><h3>Your comments</h3><span data-account-comment-count></span></div>
+<ol class="account-comments" data-account-comments></ol>
+<p class="account-comments-status" data-account-comments-status role="status"></p>
+</section>
+</div>
+</div>
+</dialog>
+<script src="../assets/sidebar.js?v=14479c59f650"></script>
+<script src="../assets/account.js?v=6a0844f8bd00"></script>
+<script src="../assets/graph-interaction.js?v=2f9fd490c8bd"></script>
+<script src="../assets/citation.js?v=dd5ce19082ad"></script>
+<script src="../assets/draft-reminder.js?v=8a8d509f5145"></script>
+<script src="../assets/version-history.js?v=a36e868140dd"></script>
+<script src="../assets/comments.js?v=40723213c083"></script>
+</body></html>
