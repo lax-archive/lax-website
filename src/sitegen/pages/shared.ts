@@ -596,7 +596,7 @@ export function draftBanner(submission: SiteSubmission): string {
   const { record } = submission;
   if (record.state !== "draft") return "";
   return `<p class="draft-banner"><strong>Temporary draft</strong><span>Other submissions cannot depend on this work while it remains editable. Authors are advised to register it as soon as it is complete.</span></p>
-<dialog class="draft-reminder-dialog" data-draft-reminder data-submission-id="${attr(record.id)}" data-created-at="${attr(record.createdAt)}" aria-labelledby="draft-reminder-title" aria-describedby="draft-reminder-description">
+<dialog class="draft-reminder-dialog" data-draft-reminder data-created-at="${attr(record.createdAt)}" aria-labelledby="draft-reminder-title" aria-describedby="draft-reminder-description">
 <div class="draft-reminder-inner">
 <p class="draft-reminder-eyebrow">Draft best practice</p>
 <h2 id="draft-reminder-title">Drafts should be temporary</h2>

@@ -2086,7 +2086,7 @@ end Lax2.C`;
     expect(html).toContain("Other submissions cannot depend on this work while it remains editable.");
     expect(html).toContain("Authors are advised to register it as soon as it is complete.");
     expect(html).not.toContain("its citation marks the draft state");
-    expect(html).toContain('data-draft-reminder data-submission-id="Lax2" data-created-at="2026-01-01T00:00:00Z"');
+    expect(html).toContain('data-draft-reminder data-created-at="2026-01-01T00:00:00Z"');
     expect(html).toContain("Drafts should be temporary");
     expect(html).toContain("This draft has been open for at least seven days.");
     expect(html).toContain("it is important that finished submissions do not remain in draft");
