@@ -1278,6 +1278,7 @@
       "environment": "v4.30.0",
       "title": "The Word RAM",
       "supersedes": "lax-13",
+      "supersededBy": "lax-808846",
       "concepts": [
         {
           "id": "Lax67.Ram",
@@ -3629,7 +3630,7 @@
     },
     {
       "id": "lax-808846",
-      "state": "draft",
+      "state": "registered",
       "environment": "v4.33.0",
       "title": "The Word RAM",
       "supersedes": "lax-67",
@@ -3731,7 +3732,7 @@
         {
           "id": "Lax881656.BarnetteConjecture",
           "title": "Barnette's conjecture",
-          "type": "theorem"
+          "type": "opn"
         },
         {
           "id": "Lax881656.Bipartite",

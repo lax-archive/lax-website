@@ -38,11 +38,11 @@
 <select id="filter-type" class="filter-select">
 <option value="all">All types</option>
 <option value="definition">definition</option>
-<option value="theorem">theorem</option>
+<option value="opn">opn</option>
 </select>
 </div></div>
 <ul id="entry-list">
-<li class="active" data-type="theorem" data-search="lax881656.barnetteconjecture barnette's conjecture theorem"><a class="entry-link" href="../lax-881656/Lax881656.BarnetteConjecture.html" data-full-title="Barnette's conjecture"><span class="entry-label"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><span class="entry-label-text">Barnette's conjecture</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-881656/Lax881656.BarnetteConjecture.html" hidden></span></span></a></li>
+<li class="active" data-type="opn" data-search="lax881656.barnetteconjecture barnette's conjecture opn"><a class="entry-link" href="../lax-881656/Lax881656.BarnetteConjecture.html" data-full-title="Barnette's conjecture"><span class="entry-label"><span class="type-badge open" title="opn — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">opn×</span><span class="entry-label-text">Barnette's conjecture</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-881656/Lax881656.BarnetteConjecture.html" hidden></span></span></a></li>
 <li data-type="definition" data-search="lax881656.bipartite bipartite graphs definition"><a class="entry-link" href="../lax-881656/Lax881656.Bipartite.html" data-full-title="Bipartite graphs"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Bipartite graphs</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-881656/Lax881656.Bipartite.html" hidden></span></span></a></li>
 <li data-type="definition" data-search="lax881656.cubic cubic graphs definition"><a class="entry-link" href="../lax-881656/Lax881656.Cubic.html" data-full-title="Cubic graphs"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Cubic graphs</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-881656/Lax881656.Cubic.html" hidden></span></span></a></li>
 <li data-type="definition" data-search="lax881656.hamiltoniancycle hamiltonian cycles definition"><a class="entry-link" href="../lax-881656/Lax881656.HamiltonianCycle.html" data-full-title="Hamiltonian cycles"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Hamiltonian cycles</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-881656/Lax881656.HamiltonianCycle.html" hidden></span></span></a></li>
@@ -107,12 +107,12 @@
 <p class="empty-note">No proof in the archive yet — this claim is open.</p>
 </div>
 
-<div class="block block-statement"><h3>Theorem</h3><div class="latex-content"><p>Every finite, simple, 3-connected, cubic, bipartite planar graph has a
+<div class="block block-statement"><h3>Opn</h3><div class="latex-content"><p>Every finite, simple, 3-connected, cubic, bipartite planar graph has a
 Hamiltonian cycle.</p>
 <p>This is an open problem. The conjecture is known when every face has size at
 most 8; maximum face size 10 is the next natural restricted case.</p>
 </div></div>
-<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/dc34c155bb97284ae7d1f56b007d2be7f6315544/barnette-conjecture/concepts/Lax881656/BarnetteConjecture.lean">view on GitHub</a></h3>
+<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/2ba354873ab92c78dff8913392f9482d344b7e7f/barnette-conjecture/concepts/Lax881656/BarnetteConjecture.lean">view on GitHub</a></h3>
 <div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
 <tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-68/Lax68.Planar.html"><span style="color:#24292E">Lax68.Planar</span></a></td></tr>
 <tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-881656/Lax881656.ThreeConnected.html"><span style="color:#24292E">Lax881656.ThreeConnected</span></a></td></tr>
@@ -123,7 +123,7 @@ most 8; maximum face size 10 is the next natural restricted case.</p>
 <tr id="L7" class=""><td class="line-num"><a href="#L7">7</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
 <tr id="L8" class=""><td class="line-num"><a href="#L8">8</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
 <tr id="L9" class=""><td class="line-num"><a href="#L9">9</a></td><td class="line-code"><span style="color:#6A737D">title: Barnette's conjecture</span></td></tr>
-<tr id="L10" class=""><td class="line-num"><a href="#L10">10</a></td><td class="line-code"><span style="color:#6A737D">type: theorem</span></td></tr>
+<tr id="L10" class=""><td class="line-num"><a href="#L10">10</a></td><td class="line-code"><span style="color:#6A737D">type: opn</span></td></tr>
 <tr id="L11" class=""><td class="line-num"><a href="#L11">11</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
 <tr id="L12" class=""><td class="line-num"><a href="#L12">12</a></td><td class="line-code"><span style="color:#6A737D">Every finite, simple, 3-connected, cubic, bipartite planar graph has a</span></td></tr>
 <tr id="L13" class=""><td class="line-num"><a href="#L13">13</a></td><td class="line-code"><span style="color:#6A737D">Hamiltonian cycle.</span></td></tr>
