@@ -1273,26 +1273,6 @@
       "proofs": []
     },
     {
-      "id": "lax-67",
-      "state": "draft",
-      "environment": "v4.30.0",
-      "title": "The Word RAM",
-      "supersedes": "lax-13",
-      "concepts": [
-        {
-          "id": "Lax67.Ram",
-          "title": "The word RAM",
-          "type": "definition"
-        },
-        {
-          "id": "Lax67.RamComputes",
-          "title": "Computing a function within a time bound",
-          "type": "definition"
-        }
-      ],
-      "proofs": []
-    },
-    {
       "id": "lax-68",
       "state": "draft",
       "environment": "v4.33.0",
