@@ -1325,28 +1325,13 @@
           "type": "definition"
         },
         {
-          "id": "Lax68.HalinGraphs",
-          "title": "Halin graphs",
-          "type": "definition"
-        },
-        {
-          "id": "Lax68.HalinPlanar",
-          "title": "Halin graphs are planar",
-          "type": "theorem"
-        },
-        {
           "id": "Lax68.KuratowskiPlanarity",
           "title": "Kuratowski's theorem in straight-line form",
-          "type": "theorem"
+          "type": "opn"
         },
         {
           "id": "Lax68.LadderGrid",
           "title": "Ladders are grids",
-          "type": "theorem"
-        },
-        {
-          "id": "Lax68.LadderOuterplanar",
-          "title": "Ladders are outerplanar",
           "type": "theorem"
         },
         {
@@ -1358,11 +1343,6 @@
           "id": "Lax68.Ladders",
           "title": "Ladders",
           "type": "definition"
-        },
-        {
-          "id": "Lax68.LadderSeriesParallel",
-          "title": "Ladders are series-parallel",
-          "type": "theorem"
         },
         {
           "id": "Lax68.MaximalOuterplanar",
@@ -1387,7 +1367,7 @@
         {
           "id": "Lax68.OuterplanarExcludedMinors",
           "title": "The excluded-minor characterization of outerplanarity",
-          "type": "theorem"
+          "type": "opn"
         },
         {
           "id": "Lax68.OuterplanarPlanar",
@@ -1422,7 +1402,7 @@
         {
           "id": "Lax68.PlanarExcludedMinors",
           "title": "Wagner's theorem",
-          "type": "theorem"
+          "type": "opn"
         },
         {
           "id": "Lax68.SeriesParallel",
@@ -1432,7 +1412,7 @@
         {
           "id": "Lax68.SeriesParallelPlanar",
           "title": "Series-parallel graphs are planar",
-          "type": "theorem"
+          "type": "opn"
         },
         {
           "id": "Lax68.StarOuterplanar",
@@ -1508,30 +1488,13 @@
           "id": "Lax68.WallPlanar",
           "title": "Walls are planar",
           "type": "theorem"
-        },
-        {
-          "id": "Lax68.WheelHalin",
-          "title": "Wheels are Halin graphs",
-          "type": "theorem"
-        },
-        {
-          "id": "Lax68.WheelPlanar",
-          "title": "Wheels are planar",
-          "type": "theorem"
-        },
-        {
-          "id": "Lax68.Wheels",
-          "title": "Wheels",
-          "type": "definition"
         }
       ],
       "proofs": [
         "Lax68Proofs.acyclic_minor",
-        "Lax68Proofs.halin_planar",
+        "Lax68Proofs.grid_planar",
         "Lax68Proofs.ladder_grid",
         "Lax68Proofs.ladder_planar",
-        "Lax68Proofs.ladder_planar_of_outerplanar",
-        "Lax68Proofs.ladder_planar_of_seriesParallel",
         "Lax68Proofs.maximalOuterplanar_outerplanar",
         "Lax68Proofs.maximalOuterplanar_planar",
         "Lax68Proofs.outerplanar_planar",
@@ -1547,8 +1510,7 @@
         "Lax68Proofs.triangle_outerplanar",
         "Lax68Proofs.triangle_planar",
         "Lax68Proofs.triangulationOf_planar",
-        "Lax68Proofs.wall_planar",
-        "Lax68Proofs.wheel_planar"
+        "Lax68Proofs.wall_planar"
       ]
     },
     {
