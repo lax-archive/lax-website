@@ -428,6 +428,7 @@ describe("site generator", () => {
     expect(typeBadge("theorem", true)).toContain('class="type-badge proven"');
     expect(typeBadge("theorem", false)).toContain('class="type-badge open"');
     expect(typeBadge("theorem")).toContain('class="type-badge"');
+    expect(typeBadge("theorem", false)).not.toContain("title=");
   });
 
   it("resolves crossrefs, renders math, and marks bad references", () => {
@@ -1063,7 +1064,7 @@ After the formula.`, "");
     expect(index).toContain('<div class="manuscript-card-body" id="landing-primes-1-body" hidden>');
     expect(index).toContain('<div class="landing-paper-hint" aria-hidden="true"><span class="landing-paper-hint-hover">Hover over a highlight to expand</span>');
     expect(index).not.toContain("manuscript-card-pinned");
-    expect(index).toContain('<span class="manuscript-card-name"><span class="type-badge" title="definition">def</span><code>Primes</code></span>');
+    expect(index).toContain('<span class="manuscript-card-name"><span class="type-badge">def</span><code>Primes</code></span>');
     expect(index).toContain('<p class="manuscript-card-title">Prime numbers</p>');
     // One claim per concept, named in the head: no claims list, no page.
     expect(index).not.toContain('<ul class="manuscript-card-claims">');
@@ -1139,7 +1140,7 @@ After the formula.`, "");
     expect(index).toContain('<h2 class="landing-section-title" id="landing-foundations-heading">Build foundations together</h2>');
     expect(index).toContain('<section class="landing-section landing-foundations"');
     expect(index).toContain('<h2 class="landing-section-title" id="landing-foundations-heading">Build foundations together</h2>\n<div class="landing-section-box">');
-    expect(index).toContain('<li><a class="landing-foundation" href="lax-67/Lax67.Ram.html" title="Lax67.Ram">\n<span class="type-badge" title="definition">def</span><span class="landing-foundation-title">The word RAM</span>\n<span class="landing-foundation-meta"><span class="submission-meta-id">lax-67</span><span class="landing-foundation-uses">used by 1 submission</span></span>\n</a></li>');
+    expect(index).toContain('<li><a class="landing-foundation" href="lax-67/Lax67.Ram.html" title="Lax67.Ram">\n<span class="type-badge">def</span><span class="landing-foundation-title">The word RAM</span>\n<span class="landing-foundation-meta"><span class="submission-meta-id">lax-67</span><span class="landing-foundation-uses">used by 1 submission</span></span>\n</a></li>');
     expect(index).toContain('href="lax-434930/Lax434930.NondeterministicPolynomialTime.html" title="Lax434930.NondeterministicPolynomialTime"');
     expect(index).toContain('href="lax-48/Lax48.TwinWidth.html" title="Lax48.TwinWidth"');
     expect(index).toContain('href="lax-132576/Lax132576.RationalFunctions.html" title="Lax132576.RationalFunctions"');

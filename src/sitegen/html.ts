@@ -221,9 +221,8 @@ export function typeBadgeText(type?: string): string {
 
 export function typeBadge(type?: string, proven?: boolean): string {
   const status = proven === undefined ? "" : proven ? "proven" : "open";
-  const title = [type, status ? `${status}. ${HONESTY_TOOLTIP}` : ""].filter(Boolean).join(" — ");
   const cls = `type-badge${status ? ` ${status}` : ""}`;
-  return `<span class="${cls}"${title ? ` title="${attr(title)}"` : ""}>${esc(typeBadgeText(type))}${proven === undefined ? "" : proven ? "✓" : "×"}</span>`;
+  return `<span class="${cls}">${esc(typeBadgeText(type))}${proven === undefined ? "" : proven ? "✓" : "×"}</span>`;
 }
 
 /** The proof marker: the turnstile boxed as a chip, visually parallel to the
