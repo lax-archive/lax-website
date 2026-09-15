@@ -10,6 +10,7 @@ import {
   bibtex,
   conceptMapLegend,
   draftBanner,
+  draftPageScripts,
   environmentNotice,
   versionHistoryMetaButton,
   versionHistoryPanel,
@@ -94,7 +95,7 @@ export function submissionPage(ctx: PageContext, submission: SiteSubmission): st
   const { record, output } = submission;
   const sidebar = submissionSidebar(ctx.model, submission, "../");
   if (!output) {
-    const content = `${draftBanner(record.state)}${environmentNotice(ctx.model, submission)}${versionHistoryPanel(ctx, record.id, "../", true)}
+    const content = `${draftBanner(submission)}${environmentNotice(ctx.model, submission)}${versionHistoryPanel(ctx, record.id, "../", true)}
 ${paperHeader(ctx, submission, "../", versionHistoryMetaButton(ctx, record.id))}
 ${pageReactions(`${record.id}/`, { kind: "submission" })}
 <p class="empty-note">No content uploaded yet. Run <code>lax build</code> and submit a draft.</p>
@@ -106,7 +107,7 @@ ${discussion(`${record.id}/`)}`;
       sidebar,
       sidebarState: "open",
       content,
-      scripts: ["assets/version-history.js", "assets/comments.js"],
+      scripts: [...draftPageScripts(record.state), "assets/version-history.js", "assets/comments.js"],
     });
   }
 
@@ -143,7 +144,7 @@ ${submissionMapLegend(related)}
 </figure>`
     : `<p class="empty-note">No other submission in the archive builds on this one, and this one builds on none.</p>`;
 
-  const content = `${draftBanner(record.state)}${environmentNotice(ctx.model, submission)}${versionHistoryPanel(ctx, record.id, "../", true)}
+  const content = `${draftBanner(submission)}${environmentNotice(ctx.model, submission)}${versionHistoryPanel(ctx, record.id, "../", true)}
 ${paperHeader(ctx, submission, "../", versionHistoryMetaButton(ctx, record.id))}
 ${pageReactions(`${record.id}/`, { kind: "submission", conceptPaths: reviewedConceptPaths, anonymous })}
 ${output.abstract.trim() ? paperAbstract(ctx.markdown.renderAuthorProse(output.abstract, "../")) : ""}
@@ -215,7 +216,7 @@ ${graphDataScript(graphs)}`;
     sidebarState: "open",
     content,
     noIndex: output.manifest.unlisted === true,
-    scripts: ["assets/graph-interaction.js", ...(anonymous ? [] : ["assets/citation.js"]), "assets/version-history.js", "assets/comments.js"],
+    scripts: ["assets/graph-interaction.js", ...(anonymous ? [] : ["assets/citation.js"]), ...draftPageScripts(record.state), "assets/version-history.js", "assets/comments.js"],
   });
 }
 

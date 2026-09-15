@@ -30,6 +30,7 @@ import {
   claimEntry,
   conceptShortName,
   draftBanner,
+  draftPageScripts,
   environmentNotice,
   type PageContext,
   proofJudgment,
@@ -326,7 +327,9 @@ ${cards.join("\n")}
     scripts = ["assets/version-history.js"];
   }
 
-  const content = `${draftBanner(record.state)}${environmentNotice(ctx.model, submission)}${versionHistoryPanel(ctx, home, "../")}
+  scripts = [...draftPageScripts(record.state), ...scripts];
+
+  const content = `${draftBanner(submission)}${environmentNotice(ctx.model, submission)}${versionHistoryPanel(ctx, home, "../")}
 <div class="manuscript"${rootAttributes}>
 <div class="detail-heading concept-heading manuscript-heading">
 <div><p class="concept-id">Paper</p>

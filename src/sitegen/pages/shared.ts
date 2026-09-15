@@ -592,10 +592,27 @@ ${EMPTY_ROW}
 
 // ---- shared fragments ----
 
-export function draftBanner(state: string): string {
-  return state === "draft"
-    ? `<p class="draft-banner"><strong>Draft</strong> — mutable and not usable as a dependency; its citation marks the draft state.</p>`
-    : "";
+export function draftBanner(submission: SiteSubmission): string {
+  const { record } = submission;
+  if (record.state !== "draft") return "";
+  return `<p class="draft-banner"><strong>Temporary draft</strong><span>Other submissions cannot depend on this work while it remains editable. Authors are advised to register it as soon as it is complete.</span></p>
+<dialog class="draft-reminder-dialog" data-draft-reminder data-submission-id="${attr(record.id)}" data-created-at="${attr(record.createdAt)}" aria-labelledby="draft-reminder-title" aria-describedby="draft-reminder-description">
+<div class="draft-reminder-inner">
+<p class="draft-reminder-eyebrow">Draft best practice</p>
+<h2 id="draft-reminder-title">Drafts should be temporary</h2>
+<div id="draft-reminder-description" class="draft-reminder-copy">
+<p>This draft has been open for at least seven days. While it remains editable, other submissions cannot depend on it.</p>
+<p><strong>Best practice:</strong> Register completed work promptly. Prefer smaller, focused submissions and leave large proof obligations open rather than keeping an entire submission in draft.</p>
+</div>
+<button class="draft-reminder-close" type="button" data-draft-reminder-close>I understand</button>
+</div>
+</dialog>`;
+}
+
+/** The age check is browser-side so identical database inputs always produce
+ * identical site output, regardless of the date on which the site is built. */
+export function draftPageScripts(state: string): string[] {
+  return state === "draft" ? ["assets/draft-reminder.js"] : [];
 }
 
 /**

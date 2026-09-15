@@ -930,14 +930,74 @@ a.submission-meta-id:is(:hover, :focus-visible),
 .paper-abstract .latex-content{ font-size: 0.95rem; }
 
 .draft-banner{
-  background: var(--partial-bg);
-  border: 1px solid var(--partial-border);
+  background: var(--warn-bg);
+  border: 2px solid var(--warn-border);
   border-radius: var(--radius-control);
-  color: var(--partial-fg);
-  font-size: 0.88rem;
-  text-align: center;
-  padding: 0.55rem 0.9rem;
-  margin: 0.9rem 0;
+  color: var(--warn-fg);
+  font-size: 0.95rem;
+  line-height: 1.4;
+  padding: 0.8rem 1rem;
+  margin: 1rem 0 1.2rem;
+}
+
+.draft-banner strong{
+  display: block;
+  font-size: 1.08rem;
+  margin-bottom: 0.12rem;
+}
+
+.draft-banner span{ color: var(--text); }
+
+.draft-reminder-dialog{
+  width: min(35rem, calc(100vw - 2rem));
+  margin: auto;
+  padding: 0;
+  border: 2px solid var(--warn-border);
+  border-radius: var(--radius-card);
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: 0 20px 65px rgba(25, 31, 35, 0.3);
+}
+
+.draft-reminder-dialog::backdrop{ background: rgba(25, 31, 35, 0.56); }
+
+.draft-reminder-inner{ padding: 1.35rem 1.4rem 1.25rem; }
+
+.draft-reminder-eyebrow{
+  margin-bottom: 0.18rem;
+  color: var(--warn-fg);
+  font: 700 0.65rem/1.2 var(--mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.draft-reminder-dialog h2{ font-size: 1.45rem; }
+
+.draft-reminder-copy{
+  margin-top: 0.85rem;
+  font-size: 0.96rem;
+  line-height: 1.5;
+}
+
+.draft-reminder-copy p + p{ margin-top: 0.75rem; }
+
+.draft-reminder-close{
+  display: block;
+  margin: 1.15rem 0 0 auto;
+  padding: 0.55rem 0.85rem;
+  border: 1px solid var(--warn-border);
+  border-radius: var(--radius-control);
+  background: var(--warn-fg);
+  color: var(--surface);
+  font: 700 0.76rem/1.2 var(--mono);
+  cursor: pointer;
+}
+
+.draft-reminder-close:hover,
+.draft-reminder-close:focus-visible{
+  border-color: var(--text);
+  background: var(--text);
+  outline: none;
 }
 
 /* A record outside the archive's epoch says so in the draft banner's box,
@@ -2883,6 +2943,35 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
 }
 
 .submissions-list-link:hover{ border-color: var(--accent); background: var(--accent-light); }
+
+.submissions-list > li[data-state="draft"] .submissions-list-link{
+  border-color: var(--none-border);
+  background: var(--none-bg);
+  color: var(--none-fg);
+}
+
+.submissions-list > li[data-state="draft"] :is(
+  .submissions-list-title,
+  .submissions-list-date,
+  .submissions-list-counts
+){
+  color: var(--none-fg);
+}
+
+.submissions-list > li[data-state="draft"] .submissions-list-title{
+  font-weight: 500;
+}
+
+.submissions-list > li[data-state="draft"] .state-draft{
+  background: var(--surface);
+  color: var(--none-fg);
+  border-color: var(--none-border);
+}
+
+.submissions-list > li[data-state="draft"] .submissions-list-link:hover{
+  border-color: var(--neutral-stroke);
+  background: var(--panel-bg);
+}
 
 .submissions-list-link.outputless{ opacity: 0.6; }
 

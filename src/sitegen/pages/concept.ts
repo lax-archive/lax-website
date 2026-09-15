@@ -10,6 +10,7 @@ import {
   conceptLink,
   conceptMapLegend,
   draftBanner,
+  draftPageScripts,
   environmentNotice,
   ordinal,
   shortId,
@@ -130,7 +131,7 @@ export async function conceptPage(ctx: PageContext, located: LocatedConcept): Pr
     links: sourceLinks(ctx.model, concept.id, "../"),
   });
 
-  const content = `${versionHistoryPanel(ctx, submission.record.id, "../")}${draftBanner(submission.record.state)}${environmentNotice(ctx.model, submission)}
+  const content = `${versionHistoryPanel(ctx, submission.record.id, "../")}${draftBanner(submission)}${environmentNotice(ctx.model, submission)}
 <div class="detail-heading concept-heading">
 <div><h1 class="concept-title">${ctx.markdown.renderAuthorInline(concept.title, "../")}</h1>
 <p class="concept-microline"><code class="concept-namespace">${esc(concept.id)}</code> · <code>${esc(concept.path)}</code> · <a href="index.html">${esc(output.id)}</a></p></div>
@@ -173,6 +174,6 @@ ${graphDataScript({
     sidebarState: "open",
     content,
     noIndex: output.manifest.unlisted === true,
-    scripts: ["assets/graph-interaction.js", "assets/source-proof.js", "assets/version-history.js", "assets/comments.js"],
+    scripts: ["assets/graph-interaction.js", "assets/source-proof.js", ...draftPageScripts(submission.record.state), "assets/version-history.js", "assets/comments.js"],
   });
 }
