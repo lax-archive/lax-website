@@ -52,9 +52,13 @@ function fixture(
   deferConceptReviews = false,
   localStorage = new FakeStorage(),
   navigationType = "navigate",
+  initiallyDeferAccountChecks = false,
 ) {
   let authenticated = initiallyAuthenticated;
   let logoutStatus = 200;
+  let deferAccountChecks = initiallyDeferAccountChecks;
+  let accelerateBridgeTimeouts = false;
+  const droppedBridgeActions = new Set<string>();
   const root = new FakeElement();
   root.dataset = {
     remark42Host: "https://remark42.example.test",
@@ -141,6 +145,8 @@ function fixture(
     constructor(_name: string) { authChannel = this; }
     postMessage() {}
   }
+  const bridgeTimeout = (callback: () => void, delay: number) =>
+    setTimeout(callback, accelerateBridgeTimeouts && delay >= 5000 ? 0 : delay);
   const window = {
     location: { href: "https://laxarchive.org/Lax2/?view=test&host=old#discussion", origin: "https://laxarchive.org", assign() {} },
     name: "",
@@ -152,13 +158,15 @@ function fixture(
     close() {},
     dispatchEvent: (event: FakeCustomEvent) => { events.push({ type: event.type, detail: event.detail }); },
     addEventListener: (name: string, listener: (event: Record<string, unknown>) => void) => { listeners[name] = listener; },
-    setTimeout,
+    setTimeout: bridgeTimeout,
     clearTimeout,
   };
   const bridgeMessages: Array<Record<string, unknown>> = [];
   let pendingConceptResponse: (() => void) | null = null;
+  let pendingAccountResponses: Array<() => void> = [];
   const respondToBridge = (source: Record<string, unknown>, message: Record<string, unknown>, origin: string) => {
     bridgeMessages.push(message);
+    if (droppedBridgeActions.has(String(message.action || ""))) return;
     if (message.action === "logout" && logoutStatus === 200) authenticated = false;
     const responseStatus = message.action === "logout" ? logoutStatus : 200;
     const requestedConceptURLs = Array.isArray(message.urls) ? new Set(message.urls) : null;
@@ -192,7 +200,8 @@ function fixture(
           } : {},
       },
     });
-    if (message.action === "concepts" && deferConceptReviews) pendingConceptResponse = sendResponse;
+    if (message.action === "me" && deferAccountChecks) pendingAccountResponses.push(sendResponse);
+    else if (message.action === "concepts" && deferConceptReviews) pendingConceptResponse = sendResponse;
     else queueMicrotask(sendResponse);
   };
   const bridgeWindow = {
@@ -215,7 +224,27 @@ function fixture(
     body: new FakeElement(),
     head: new FakeElement(),
   };
-  return { root, dialog, login, loginLabel, settings, settingsLabel, elements, conceptBadges, progress, progressTrack, progressLabel, submissionReview, flaggedNote, flaggedNoteText, requests, events, fetch, window, document, FakeCustomEvent, listeners, bridgeWindow, remarkBridgeWindow, bridgeMessages, localStorage, get authChannel() { return authChannel; }, setAuthenticated(value: boolean) { authenticated = value; }, setLogoutStatus(value: number) { logoutStatus = value; }, releaseConceptReviews() { const response = pendingConceptResponse; pendingConceptResponse = null; if (response) queueMicrotask(response); } };
+  return {
+    root, dialog, login, loginLabel, settings, settingsLabel, elements, conceptBadges, progress, progressTrack,
+    progressLabel, submissionReview, flaggedNote, flaggedNoteText, requests, events, fetch, window, document,
+    FakeCustomEvent, listeners, bridgeWindow, remarkBridgeWindow, bridgeMessages, localStorage,
+    get authChannel() { return authChannel; },
+    setAuthenticated(value: boolean) { authenticated = value; },
+    setLogoutStatus(value: number) { logoutStatus = value; },
+    setDeferAccountChecks(value: boolean) { deferAccountChecks = value; },
+    setAccelerateBridgeTimeouts(value: boolean) { accelerateBridgeTimeouts = value; },
+    dropBridgeAction(action: string) { droppedBridgeActions.add(action); },
+    releaseAccountChecks() {
+      const responses = pendingAccountResponses;
+      pendingAccountResponses = [];
+      responses.forEach((response) => queueMicrotask(response));
+    },
+    releaseConceptReviews() {
+      const response = pendingConceptResponse;
+      pendingConceptResponse = null;
+      if (response) queueMicrotask(response);
+    },
+  };
 }
 
 describe("ORCID account header", () => {
@@ -377,6 +406,58 @@ describe("ORCID account header", () => {
     fx.listeners.message!({ origin: "https://remark42.example.test", source: fx.bridgeWindow, data: { source: "lax-reactions", type: "session-change" } });
     await settle();
     expect(fx.conceptBadges.every((badge) => badge.hidden)).toBe(true);
+  });
+
+  it("coalesces in-flight account checks and concept-review loads", async () => {
+    const concept = "https://laxarchive.org/Lax2/Lax2.C.html";
+    const fx = fixture(
+      { id: `orcid_${"7".repeat(40)}`, name: "Ada Lovelace" },
+      true,
+      [{ url: concept, reaction: "endorse" }],
+      true,
+      new FakeStorage(),
+      "navigate",
+      true,
+    );
+    const context = { document: fx.document, window: fx.window, fetch: fx.fetch, URL, CustomEvent: fx.FakeCustomEvent, Date, setTimeout };
+    vm.createContext(context);
+    vm.runInContext(fs.readFileSync("assets/site/account.js", "utf8"), context);
+    fx.listeners.message!({ origin: "https://remark42.example.test", source: fx.bridgeWindow, data: { source: "lax-reactions", type: "ready" } });
+    await settle();
+
+    for (let index = 0; index < 4; index += 1) fx.listeners.focus!({});
+    await settle();
+    expect(fx.bridgeMessages.filter((message) => message.action === "me")).toHaveLength(1);
+
+    fx.setDeferAccountChecks(false);
+    fx.releaseAccountChecks();
+    await settle();
+    expect(fx.bridgeMessages.filter((message) => message.action === "concepts")).toHaveLength(1);
+
+    for (let index = 0; index < 4; index += 1) {
+      fx.listeners.message!({ origin: "https://remark42.example.test", source: fx.bridgeWindow, data: { source: "lax-reactions", type: "session-change" } });
+    }
+    await settle();
+    expect(fx.bridgeMessages.filter((message) => message.action === "concepts")).toHaveLength(1);
+
+    fx.releaseConceptReviews();
+    await settle();
+    expect(fx.conceptBadges[0]!.className).toBe("concept-review-badge endorsed");
+  });
+
+  it("does not retry directly after an account bridge request was dispatched", async () => {
+    const fx = fixture({ id: `orcid_${"6".repeat(40)}`, name: "Ada Lovelace" });
+    const context = { document: fx.document, window: fx.window, fetch: fx.fetch, URL, CustomEvent: fx.FakeCustomEvent, Date, setTimeout };
+    vm.createContext(context);
+    vm.runInContext(fs.readFileSync("assets/site/account.js", "utf8"), context);
+    fx.listeners.message!({ origin: "https://remark42.example.test", source: fx.bridgeWindow, data: { source: "lax-reactions", type: "ready" } });
+    fx.dropBridgeAction("me");
+    fx.setAccelerateBridgeTimeouts(true);
+    await settle();
+    await settle();
+
+    expect(fx.bridgeMessages.filter((message) => message.action === "me")).toHaveLength(1);
+    expect(fx.requests.some((request) => request.includes("/reactions/v1/me"))).toBe(false);
   });
 
   it("loads more than 50 concept reviews in backward-compatible batches", async () => {

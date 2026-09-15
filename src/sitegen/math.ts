@@ -17,7 +17,7 @@ function firstMathDelimiter(src: string): number | undefined {
   return indexes.length ? Math.min(...indexes) : undefined;
 }
 
-function render(text: string, displayMode: boolean, raw: string): string {
+function render(text: string, displayMode: boolean, raw: string, errorFallback?: () => string): string {
   try {
     return katex.renderToString(text, {
       displayMode,
@@ -29,6 +29,7 @@ function render(text: string, displayMode: boolean, raw: string): string {
       strict: (errorCode) => errorCode === "unknownSymbol" ? "ignore" : "error",
     });
   } catch (error) {
+    if (errorFallback) return errorFallback();
     return `<span class="math-error" title="${esc((error as Error).message)}">${esc(raw)}</span>`;
   }
 }
@@ -37,6 +38,12 @@ function render(text: string, displayMode: boolean, raw: string): string {
  * only for the readable fallback when KaTeX rejects the expression. */
 export function renderInlineMath(text: string, raw = `$${text}$`): string {
   return render(text, false, raw);
+}
+
+/** Backticks are optional math shorthand in authored prose. If their content
+ * is not valid TeX, retain the ordinary inline-code meaning of Markdown. */
+export function renderBacktickMath(text: string, raw: string): string {
+  return render(text, false, raw, () => `<code>${esc(text)}</code>`);
 }
 
 /** Render display math outside Markdown while retaining the same safe,

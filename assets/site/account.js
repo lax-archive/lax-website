@@ -52,6 +52,8 @@
   let commentsLoadedFor = "";
   let conceptReviewState = new Map();
   let conceptReviewSequence = 0;
+  let conceptReviewLoad = null;
+  let accountCheckPromise = null;
   let conceptReviewReloadRefreshStarted = false;
   let loginWatchTimer = null;
   let loginWatchUntil = 0;
@@ -99,19 +101,25 @@
     pending.resolve(message);
   });
 
+  function bridgeError(message, dispatched) {
+    const error = new Error(message);
+    error.bridgeRequestDispatched = dispatched;
+    return error;
+  }
+
   async function bridgeRequest(action, payload = {}) {
     await Promise.race([
       bridgeReady,
-      new Promise((_, reject) => window.setTimeout(() => reject(new Error("account bridge timed out")), 5000)),
+      new Promise((_, reject) => window.setTimeout(() => reject(bridgeError("account bridge timed out", false)), 5000)),
     ]);
     const target = activeBridgeWindow || bridge.contentWindow;
-    if (!target) throw new Error("account bridge is unavailable");
+    if (!target) throw bridgeError("account bridge is unavailable", false);
     const id = `lax-account-${Date.now()}-${bridgeSequence += 1}`;
     const response = new Promise((resolve, reject) => {
       const responseTimeout = action === "concepts" ? 12000 : 5000;
       const timeout = window.setTimeout(() => {
         bridgeRequests.delete(id);
-        reject(new Error("account bridge timed out"));
+        reject(bridgeError("account bridge timed out", true));
       }, responseTimeout);
       bridgeRequests.set(id, {
         source: target,
@@ -247,7 +255,8 @@
   async function accountRequest(action, payload = {}) {
     try {
       return await bridgeRequest(action, payload);
-    } catch {
+    } catch (error) {
+      if (error?.bridgeRequestDispatched) throw error;
       return directRequest(action, payload);
     }
   }
@@ -407,6 +416,7 @@
 
   function clearConceptReviewBadges() {
     conceptReviewSequence += 1;
+    conceptReviewLoad = null;
     conceptReviewState = new Map();
     conceptReviewBadges.forEach((badge) => renderConceptReviewBadge(badge, ""));
     renderConceptReviewSummaries();
@@ -417,8 +427,9 @@
       clearConceptReviewBadges();
       return;
     }
-    const sequence = conceptReviewSequence += 1;
     const viewerId = currentUser.id;
+    if (conceptReviewLoad?.viewerId === viewerId) return conceptReviewLoad.promise;
+    const sequence = conceptReviewSequence += 1;
     const viewerORCID = currentIdentity?.orcidId || "";
     const urls = conceptReviewURLs;
     const cached = readConceptReviewCache(viewerORCID);
@@ -429,31 +440,38 @@
       renderLoadedConceptReviews(new Map(urls.map((url) => [url, cached.get(url).reaction])));
       return;
     }
-    renderConceptReviewLoading();
-    try {
-      const reviews = [];
-      // Keep requests compatible with the previously deployed bridge while
-      // the backend rolls forward. The new service caches the complete viewer
-      // index, so later batches do not repeat its Remark42 lookup.
-      for (let start = 0; start < missingURLs.length; start += 50) {
-        const response = await accountRequest("concepts", { urls: missingURLs.slice(start, start + 50) });
-        if (!response.ok) throw new Error(String(response.status));
-        if (Array.isArray(response.data?.concepts)) reviews.push(...response.data.concepts);
+    const load = { viewerId, promise: null };
+    load.promise = (async () => {
+      renderConceptReviewLoading();
+      try {
+        const reviews = [];
+        // Keep requests compatible with the previously deployed bridge while
+        // the backend rolls forward. The new service caches the complete viewer
+        // index, so later batches do not repeat its Remark42 lookup.
+        for (let start = 0; start < missingURLs.length; start += 50) {
+          const response = await accountRequest("concepts", { urls: missingURLs.slice(start, start + 50) });
+          if (!response.ok) throw new Error(String(response.status));
+          if (Array.isArray(response.data?.concepts)) reviews.push(...response.data.concepts);
+        }
+        if (sequence !== conceptReviewSequence || currentUser?.id !== viewerId) return;
+        const byURL = new Map(urls.map((url) => [url, cached.get(url)?.reaction || ""]));
+        reviews.forEach((review) => {
+          if (typeof review?.url !== "string" || !byURL.has(review.url)) return;
+          byURL.set(review.url, review.viewer_reaction === "endorse" || review.viewer_reaction === "flag" ? review.viewer_reaction : "");
+        });
+        cacheConceptReviews(viewerORCID, reviews);
+        renderLoadedConceptReviews(byURL);
+      } catch {
+        if (sequence !== conceptReviewSequence || currentUser?.id !== viewerId) return;
+        conceptReviewState = new Map();
+        conceptReviewBadges.forEach((badge) => renderConceptReviewBadge(badge, ""));
+        renderConceptReviewSummaries();
       }
-      if (sequence !== conceptReviewSequence || currentUser?.id !== viewerId) return;
-      const byURL = new Map(urls.map((url) => [url, cached.get(url)?.reaction || ""]));
-      reviews.forEach((review) => {
-        if (typeof review?.url !== "string" || !byURL.has(review.url)) return;
-        byURL.set(review.url, review.viewer_reaction === "endorse" || review.viewer_reaction === "flag" ? review.viewer_reaction : "");
-      });
-      cacheConceptReviews(viewerORCID, reviews);
-      renderLoadedConceptReviews(byURL);
-    } catch {
-      if (sequence !== conceptReviewSequence || currentUser?.id !== viewerId) return;
-      conceptReviewState = new Map();
-      conceptReviewBadges.forEach((badge) => renderConceptReviewBadge(badge, ""));
-      renderConceptReviewSummaries();
-    }
+    })();
+    conceptReviewLoad = load;
+    return load.promise.finally(() => {
+      if (conceptReviewLoad === load) conceptReviewLoad = null;
+    });
   }
 
   function initials(name) {
@@ -496,50 +514,57 @@
     }
   });
 
-  async function checkAccount() {
-    try {
-      const response = await accountRequest("me");
-      if (!response.ok) throw new Error(String(response.status));
-      if (!response.data?.authenticated || !response.data?.eligible) {
-        const message = response.data?.reauthenticate
-          ? "Your session expired. Sign in with ORCID again."
-          : "Sign in with ORCID to view your settings and comments.";
-        setLoggedOut(message);
+  function checkAccount() {
+    if (accountCheckPromise) return accountCheckPromise;
+    const check = (async () => {
+      try {
+        const response = await accountRequest("me");
+        if (!response.ok) throw new Error(String(response.status));
+        if (!response.data?.authenticated || !response.data?.eligible) {
+          const message = response.data?.reauthenticate
+            ? "Your session expired. Sign in with ORCID again."
+            : "Sign in with ORCID to view your settings and comments.";
+          setLoggedOut(message);
+          accountEvent();
+          return false;
+        }
+        const viewer = response.data.viewer || {};
+        const remarkId = typeof viewer.remark42_id === "string" ? viewer.remark42_id : "";
+        const orcidId = validOrcidId(viewer.orcid_id);
+        const displayName = validName(viewer.name);
+        if (!/^orcid_[a-f0-9]{40}$/.test(remarkId) || !orcidId || !displayName) {
+          setLoggedOut("A public name shared by ORCID is required before this account can comment or use settings.");
+          accountEvent();
+          return false;
+        }
+        currentUser = { id: remarkId, name: displayName };
+        currentIdentity = { orcidId, name: displayName };
+        login.hidden = true;
+        settings.hidden = false;
+        if (settingsLabel) settingsLabel.textContent = displayName;
+        settings.title = `Account settings for ${displayName}`;
+        content.hidden = false;
+        status.hidden = true;
+        nameLink.textContent = displayName;
+        avatar.textContent = initials(displayName);
+        nameLink.href = `https://orcid.org/${currentIdentity.orcidId}`;
+        nameLink.title = `${displayName} — ORCID iD ${currentIdentity.orcidId}`;
+        nameLink.setAttribute("aria-label", `${displayName}, ORCID iD ${currentIdentity.orcidId}`);
+        nameLink.removeAttribute("aria-disabled");
+        idLabel.textContent = `ORCID iD ${currentIdentity.orcidId}`;
+        stopLoginWatch();
+        accountEvent();
+        return true;
+      } catch {
+        setLoggedOut();
         accountEvent();
         return false;
       }
-      const viewer = response.data.viewer || {};
-      const remarkId = typeof viewer.remark42_id === "string" ? viewer.remark42_id : "";
-      const orcidId = validOrcidId(viewer.orcid_id);
-      const displayName = validName(viewer.name);
-      if (!/^orcid_[a-f0-9]{40}$/.test(remarkId) || !orcidId || !displayName) {
-        setLoggedOut("A public name shared by ORCID is required before this account can comment or use settings.");
-        accountEvent();
-        return false;
-      }
-      currentUser = { id: remarkId, name: displayName };
-      currentIdentity = { orcidId, name: displayName };
-      login.hidden = true;
-      settings.hidden = false;
-      if (settingsLabel) settingsLabel.textContent = displayName;
-      settings.title = `Account settings for ${displayName}`;
-      content.hidden = false;
-      status.hidden = true;
-      nameLink.textContent = displayName;
-      avatar.textContent = initials(displayName);
-      nameLink.href = `https://orcid.org/${currentIdentity.orcidId}`;
-      nameLink.title = `${displayName} — ORCID iD ${currentIdentity.orcidId}`;
-      nameLink.setAttribute("aria-label", `${displayName}, ORCID iD ${currentIdentity.orcidId}`);
-      nameLink.removeAttribute("aria-disabled");
-      idLabel.textContent = `ORCID iD ${currentIdentity.orcidId}`;
-      stopLoginWatch();
-      accountEvent();
-      return true;
-    } catch {
-      setLoggedOut();
-      accountEvent();
-      return false;
-    }
+    })();
+    accountCheckPromise = check;
+    return check.finally(() => {
+      if (accountCheckPromise === check) accountCheckPromise = null;
+    });
   }
 
   function plainExcerpt(comment) {

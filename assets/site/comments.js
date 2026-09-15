@@ -100,18 +100,24 @@
     pending.resolve(message);
   });
 
+  function bridgeError(message, dispatched) {
+    const error = new Error(message);
+    error.bridgeRequestDispatched = dispatched;
+    return error;
+  }
+
   async function bridgeRequest(action, payload = {}) {
     await Promise.race([
       bridgeReady,
-      new Promise((_, reject) => window.setTimeout(() => reject(new Error("reaction bridge timed out")), 5000)),
+      new Promise((_, reject) => window.setTimeout(() => reject(bridgeError("reaction bridge timed out", false)), 5000)),
     ]);
     const target = activeBridgeWindow || bridge.contentWindow;
-    if (!target) throw new Error("reaction bridge is unavailable");
+    if (!target) throw bridgeError("reaction bridge is unavailable", false);
     const id = `lax-${Date.now()}-${bridgeSequence += 1}`;
     const response = new Promise((resolve, reject) => {
       const timeout = window.setTimeout(() => {
         bridgeRequests.delete(id);
-        reject(new Error("reaction bridge timed out"));
+        reject(bridgeError("reaction bridge timed out", true));
       }, 5000);
       bridgeRequests.set(id, {
         source: target,
@@ -145,7 +151,8 @@
   async function reactionRequest(action, payload) {
     try {
       return await bridgeRequest(action, payload);
-    } catch {
+    } catch (error) {
+      if (error?.bridgeRequestDispatched) throw error;
       // Older deployments do not expose the same-origin bridge. The direct
       // request remains a compatibility path for browsers without partitioning.
       return directRequest(action, payload);

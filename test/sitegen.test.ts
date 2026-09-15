@@ -9,7 +9,7 @@ import { projectGraph, type ProofGraphData } from "../src/sitegen/graph-project.
 import { countsPill, statePill, typeBadge, typeBadgeText } from "../src/sitegen/html.js";
 import { compareIds, SiteModel } from "../src/sitegen/model.js";
 import { MarkdownRenderer } from "../src/sitegen/markdown.js";
-import { ordinal, repositorySource, sourceProviderName, statementOrdinal } from "../src/sitegen/pages/shared.js";
+import { bibtex, ordinal, repositorySource, sourceProviderName, statementOrdinal } from "../src/sitegen/pages/shared.js";
 import { submissionTagIndex } from "../src/sitegen/tags.js";
 import { tmpDir } from "./helpers.js";
 
@@ -457,6 +457,12 @@ describe("site generator", () => {
     const ordinary = markdown.render("Run `lax build` to continue.", "");
     expect(ordinary).toContain("<code>lax build</code>");
     expect(ordinary).not.toContain('class="katex"');
+
+    const leanCode = markdown.renderAuthorProse("Run `#eval`, check `#guard`, and use `^`.", "");
+    expect(leanCode).toContain("<code>#eval</code>");
+    expect(leanCode).toContain("<code>#guard</code>");
+    expect(leanCode).toContain("<code>^</code>");
+    expect(leanCode).not.toContain('class="math-error"');
   });
 
   it("renders standard TeX delimiters alongside Markdown in author prose", () => {
@@ -529,6 +535,22 @@ After the formula.`, "");
     expect(html).not.toContain("<img src=x>");
   });
 
+  it("preserves TeX in generated BibTeX while producing safe plain title text", () => {
+    const authored = submissions();
+    const manifest = authored[0]!.output!.manifest;
+    manifest.title = String.raw`A **sharp** ($\times$ Polylogarithmic) [bound](https://example.com) </title><script>alert(1)</script>`;
+    manifest.authors = [{ name: String.raw`S{\v{c}}epan Author` }];
+    const model = new SiteModel(authored);
+    const citation = bibtex(model, authored[0]!);
+
+    expect(new MarkdownRenderer(model).plainAuthorTitle(manifest.title)).toBe("A sharp (× Polylogarithmic) bound alert(1)");
+    expect(citation).toContain(String.raw`author = {S{\v{c}}epan Author}`);
+    expect(citation).toContain(String.raw`title = {A sharp ($\times$ Polylogarithmic) bound alert(1)}`);
+    expect(citation).not.toContain("**");
+    expect(citation).not.toContain("https://example.com");
+    expect(citation).not.toContain("<script>");
+  });
+
   it("renders authored submission, concept, and annotation titles", async () => {
     const authored = submissions();
     const output = authored[0]!.output!;
@@ -548,7 +570,7 @@ After the formula.`, "");
       expect(html).toContain("<strong>sharp</strong>");
       expect(html).toContain('class="katex"');
     }
-    expect(submission.match(/<title>(.*?)<\/title>/s)?.[1]).toContain("**sharp**");
+    expect(submission).toContain("<title>A sharp x^2 bound — Lax2</title>");
     expect(concept).toContain("<title>The small y_i lemma</title>");
     expect(concept).toContain('<span class="entry-label-text">The small y_i lemma</span>');
     expect(concept).toMatch(/<h1 class="concept-title">The <em>small<\/em> <span class="katex"/);

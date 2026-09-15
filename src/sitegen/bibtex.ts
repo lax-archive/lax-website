@@ -79,6 +79,13 @@ const LIGATURES: Record<string, string> = {
   o: "ø", O: "Ø", l: "ł", L: "Ł",
 };
 
+const MATH_SYMBOLS: Record<string, string> = {
+  times: "×", cdot: "·", pm: "±", le: "≤", leq: "≤", ge: "≥", geq: "≥",
+  ne: "≠", neq: "≠", to: "→", rightarrow: "→", mapsto: "↦", infty: "∞",
+  alpha: "α", beta: "β", gamma: "γ", delta: "δ", epsilon: "ε", theta: "θ",
+  lambda: "λ", mu: "μ", pi: "π", rho: "ρ", sigma: "σ", phi: "φ", omega: "ω",
+};
+
 /** Strip TeX markup down to plain text: accents become their Unicode
  * letters, braces and unknown commands vanish. Deliberately lossy beyond
  * that — bibliographies survive it fine. */
@@ -87,6 +94,8 @@ function detexFragment(value: string): string {
     .replace(/\\(['"`^~=.uvHcdb])\s*\{?([A-Za-z])\}?/g,
       (_, cmd: string, ch: string) => (ch + COMBINING[cmd]!).normalize("NFC"))
     .replace(/\\(ss|ae|AE|oe|OE|aa|AA|o|O|l|L)(?![A-Za-z])\s*/g, (_, cmd: string) => LIGATURES[cmd]!)
+    .replace(/\\([A-Za-z]+)(?![A-Za-z])/g,
+      (raw: string, command: string) => MATH_SYMBOLS[command] ?? raw)
     .replace(/\\([&%$#_])/g, "$1")
     .replace(/\\[A-Za-z]+\s*/g, "")
     .replace(/[{}]/g, "")

@@ -2,7 +2,7 @@ import { DEFAULT_SITE_URL } from "../../config.js";
 import type { AnnotationSection, BuildOutput, ConceptEntry, ProofEntry } from "../../types.js";
 import type { ConceptGraphData, SubmissionGraphData } from "../graphs.js";
 import { attr, code, esc, formatDate, proofBadge, statePill, typeBadge } from "../html.js";
-import { plainAuthorTitle, type MarkdownRenderer } from "../markdown.js";
+import { bibtexAuthorTitle, plainAuthorTitle, type MarkdownRenderer } from "../markdown.js";
 import { compareIds, isDiscoverableSubmission, type LocatedProof, type SiteModel, type SiteSubmission } from "../model.js";
 import { conceptReviewBadge } from "./discussion.js";
 
@@ -809,14 +809,14 @@ export function bibtex(model: SiteModel, submission: SiteSubmission): string {
   const { record, output } = submission;
   const manifest = output!.manifest;
   if (manifest.anonymous === true) return "";
-  const clean = (s: string) => s.replace(/[{}\\]/g, "");
+  const field = (s: string) => s.replace(/\s+/gu, " ").trim();
   const year = new Date(record.registeredAt ?? record.createdAt).getUTCFullYear();
-  const author = manifest.authors.map((a) => clean(a.name)).join(" and ");
+  const author = manifest.authors.map((a) => field(bibtexAuthorTitle(a.name))).join(" and ");
   const successor = model.isSuperseded(record.id) ? model.latestVersion(record.id) : undefined;
   const lines = [
     `@misc{${record.id},`,
     ...(author ? [`  author = {${author}},`] : []),
-    `  title = {${clean(manifest.title)}},`,
+    `  title = {${field(bibtexAuthorTitle(manifest.title))}},`,
     `  year = {${year}},`,
     `  howpublished = {Lax Archive, ${record.id}},`,
     `  url = {${DEFAULT_SITE_URL.replace(/\/+$/, "")}/${record.id}/},`,

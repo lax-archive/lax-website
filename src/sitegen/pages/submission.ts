@@ -208,7 +208,7 @@ ${hasReferences
 ${discussion(`${record.id}/`)}
 ${graphDataScript(graphs)}`;
   return page({
-    title: `${output.manifest.title} — ${record.id}`,
+    title: `${ctx.markdown.plainAuthorTitle(output.manifest.title)} — ${record.id}`,
     rootRel: "../",
     canonicalPath: `${record.id}/`,
     sidebar,

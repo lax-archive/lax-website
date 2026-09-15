@@ -2,7 +2,7 @@ import { Marked, type MarkedExtension, type Tokens } from "marked";
 import { detex } from "./bibtex.js";
 import { crossrefExtension } from "./crossref.js";
 import { attr, esc } from "./html.js";
-import { inlineDisplayMathExtension, mathExtension, renderInlineMath } from "./math.js";
+import { inlineDisplayMathExtension, mathExtension, renderBacktickMath } from "./math.js";
 import type { SiteModel } from "./model.js";
 
 function safeUrl(href: string): boolean {
@@ -24,32 +24,45 @@ interface TextToken {
   items?: TextToken[];
 }
 
-function titleTokenText(token: TextToken): string {
+type AuthorTitleMode = "plain" | "bibtex";
+
+function titleTokenText(token: TextToken, mode: AuthorTitleMode): string {
   if (token.type === "html") return " ";
-  if (token.type === "math" || token.type === "mathBlock") return detex(token.text ?? "");
+  if (token.type === "math" || token.type === "mathBlock")
+    return mode === "bibtex" ? token.raw ?? token.text ?? "" : detex(token.text ?? "");
   if (token.type === "image") return token.text ?? "";
   if (token.type === "br" || token.type === "space" || token.type === "hr") return " ";
-  if (token.tokens) return token.tokens.map(titleTokenText).join("");
-  if (token.items) return token.items.map(titleTokenText).join(" ");
+  if (token.tokens) return token.tokens.map((child) => titleTokenText(child, mode)).join("");
+  if (token.items) return token.items.map((child) => titleTokenText(child, mode)).join(" ");
   return token.text ?? "";
 }
 
-/** Safe, markup-free text for browser titles and plain-text labels. */
-export function plainAuthorTitle(value: string): string {
+function authorTitleText(value: string, mode: AuthorTitleMode): string {
   const source = value.replace(
     /\[\[([A-Za-z0-9_.\-']+)(?:\|([^\]\n]+))?\]\]/g,
     (_raw, target: string, label: string | undefined) => label ?? target,
   );
   const parser = new Marked();
   parser.use(mathExtension);
-  return (parser.lexer(source) as unknown as TextToken[])
-    .map(titleTokenText)
+  const text = (parser.lexer(source) as unknown as TextToken[])
+    .map((token) => titleTokenText(token, mode))
     .join(" ")
     .replace(/[\p{Cc}\p{Cf}]/gu, " ")
     .replace(/\s+/gu, " ")
-    .trim()
+    .trim();
+  return mode === "plain" ? text
     .replace(/---/g, "—")
-    .replace(/--/g, "–");
+    .replace(/--/g, "–") : text;
+}
+
+/** Safe, markup-free text for browser titles and plain-text labels. */
+export function plainAuthorTitle(value: string): string {
+  return authorTitleText(value, "plain");
+}
+
+/** Safe, markup-free title text that retains TeX for generated BibTeX. */
+export function bibtexAuthorTitle(value: string): string {
+  return authorTitleText(value, "bibtex");
 }
 
 /** One isolated parser per generated site; author HTML is always text. */
@@ -114,7 +127,7 @@ export class MarkdownRenderer {
         },
         codespan(token: Tokens.Codespan): string | false {
           return backtickMath
-            ? renderInlineMath(token.text, token.raw)
+            ? renderBacktickMath(token.text, token.raw)
             : false;
         },
       },
