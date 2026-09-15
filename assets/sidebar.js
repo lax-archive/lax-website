@@ -1,9 +1,7 @@
 // Sidebar behavior: mobile drawer toggle and entry filtering. All data is in
 // the DOM (data-search / data-type attributes); nothing is fetched.
 (() => {
-  // The front page's library shows a few rows under a fade; one click
-  // shows every matching submission.
-  const SUBMISSION_PREVIEW_SIZE = 3;
+  const SUBMISSION_PAGE_SIZE = 10;
   const SIDEBAR_DEFAULT_WIDTH = 285;
   const SIDEBAR_MIN_WIDTH = 220;
   const SIDEBAR_MAX_WIDTH = 520;
@@ -11,7 +9,7 @@
   let searchHasSelectedRead = false;
   let selectedTag = '';
   let submissionFilterKey;
-  let submissionVisibleLimit = SUBMISSION_PREVIEW_SIZE;
+  let submissionVisibleLimit = SUBMISSION_PAGE_SIZE;
 
   function isMobile() {
     return window.matchMedia('(max-width: 900px)').matches;
@@ -44,8 +42,9 @@
         const concepts = words(li.dataset.searchConcepts || '');
         titleHits.set(li, query.filter((word) => containsWord(title, word)).length);
         if (query.some((word) => !containsWord(title, word) && !containsWord(concepts, word))) hidden = true;
-      } else if (search && !li.dataset.search.includes(search)) {
-        hidden = true;
+      } else if (search) {
+        const haystack = words(li.dataset.search ?? '');
+        if (query.some((word) => !containsWord(haystack, word))) hidden = true;
       }
       if (!hidden && type !== 'all' && li.dataset.type !== type) hidden = true;
       if (!hidden && tag && li.dataset.tags !== undefined && !li.dataset.tags.includes(`|${tag}|`)) hidden = true;
@@ -91,6 +90,23 @@
       : `Showing ${count} ${total === 1 ? 'submission' : 'submissions'}${suffix}.`;
   }
 
+  function updateTagCounts(list, search) {
+    const query = words(search);
+    const rows = [...list.querySelectorAll('li[data-search-title]')].filter((row) => {
+      const title = words(row.dataset.searchTitle);
+      const concepts = words(row.dataset.searchConcepts || '');
+      return !query.some((word) => !containsWord(title, word) && !containsWord(concepts, word));
+    });
+    document.querySelectorAll('[data-tag-filter]').forEach((button) => {
+      const tag = button.dataset.tagFilter;
+      const count = rows.filter((row) => !tag || row.dataset.tags?.includes(`|${tag}|`)).length;
+      const label = button.querySelector('span')?.textContent ?? tag;
+      const badge = button.querySelector('b');
+      if (badge) badge.textContent = String(count);
+      button.setAttribute('aria-label', `${label}, ${count} ${count === 1 ? 'submission' : 'submissions'}`);
+    });
+  }
+
   function applySubmissionPagination(list, total) {
     const rows = [...list.querySelectorAll('li[data-search-title]')].filter((row) => !row.hidden);
     rows.forEach((row, index) => {
@@ -103,12 +119,12 @@
     });
 
     const shown = Math.min(submissionVisibleLimit, total);
-    const clipped = shown < total;
-    if (list.classList) list.classList.toggle('submissions-list-clipped', clipped);
     const button = document.getElementById('submissions-load-more');
     if (button) {
-      button.hidden = !clipped;
-      const label = `Show all ${total} ${total === 1 ? 'submission' : 'submissions'}`;
+      const remaining = Math.max(0, total - shown);
+      button.hidden = remaining === 0;
+      const next = Math.min(SUBMISSION_PAGE_SIZE, remaining);
+      const label = `Load ${next} more ${next === 1 ? 'submission' : 'submissions'}`;
       button.setAttribute('aria-label', label);
       if (button.firstChild && button.firstChild.nodeType === 3) button.firstChild.textContent = `${label} `;
     }
@@ -149,10 +165,11 @@
     const filterKey = `${search}\u0000${selectedTag}`;
     if (filterKey !== submissionFilterKey) {
       submissionFilterKey = filterKey;
-      submissionVisibleLimit = SUBMISSION_PREVIEW_SIZE;
+      submissionVisibleLimit = SUBMISSION_PAGE_SIZE;
     }
     const randomSubmission = document.querySelector('.random-submission');
     if (randomSubmission) randomSubmission.hidden = Boolean(searchEl?.value.length);
+    updateTagCounts(submissions, search);
     const total = filterList(submissions, search, 'all', 'submissions-list-empty', selectedTag);
     const shown = applySubmissionPagination(submissions, total);
     updateTagStatus(total, shown);
@@ -201,8 +218,34 @@
     const button = document.getElementById('submissions-load-more');
     if (!button) return;
     button.addEventListener('click', () => {
-      submissionVisibleLimit = Infinity;
+      submissionVisibleLimit += SUBMISSION_PAGE_SIZE;
       applySubmissionFilters();
+    });
+  }
+
+  // Submission ids stay out of the visible library titles, but find-in-page
+  // can reveal a hidden="until-found" alias. Turn that reveal into a
+  // short-lived mark on the title the visitor actually wants to see.
+  function setupNativeSubmissionFind() {
+    const markers = [...document.querySelectorAll('[data-submission-find-alias]')];
+    if (!markers.length) return;
+    let resetTimer;
+
+    markers.forEach((marker) => {
+      marker.addEventListener('beforematch', () => {
+        const link = marker.closest('.submissions-list-link');
+        if (!link) return;
+        clearTimeout(resetTimer);
+        document.querySelectorAll('.submissions-list-link.native-find-match')
+          .forEach((previous) => previous.classList.remove('native-find-match'));
+        link.classList.add('native-find-match');
+        link.scrollIntoView({ block: 'center' });
+        resetTimer = setTimeout(() => link.classList.remove('native-find-match'), 8000);
+
+        // The browser removes hidden after beforematch. Restore it on the
+        // next task so the same id can be found again without reloading.
+        setTimeout(() => marker.setAttribute('hidden', 'until-found'), 0);
+      });
     });
   }
 
@@ -443,6 +486,7 @@
     setupSubmissionPagination();
     setupFilters();
     setupTagFilters();
+    setupNativeSubmissionFind();
     applyFilters();
     setupEntryTooltips();
     setupSidebarResize();

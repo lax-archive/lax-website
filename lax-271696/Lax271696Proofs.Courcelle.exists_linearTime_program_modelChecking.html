@@ -4,10 +4,12 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self'; frame-src https://comments.laxarchive.org; connect-src https://comments.laxarchive.org">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Lax — an archive of formalized mathematical concepts and their proofs">
+
 <title>Lax271696Proofs.Courcelle.exists_linearTime_program_modelChecking — lax-271696</title>
+<link rel="canonical" href="https://laxarchive.org/lax-271696/Lax271696Proofs.Courcelle.exists_linearTime_program_modelChecking.html">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=fa6052de0f13">
+<link rel="stylesheet" href="../assets/style.css?v=386dcd398f27">
 </head><body>
 <header class="site-header with-sidebar">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="true" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -73,10 +75,10 @@
 <div class="version-item-actions"><a class="version-source-link" href="https://github.com/lax-archive/lax-submissions/tree/956e1cfb10dbdfea05f3eff4eb73735cba610b76/ram-linear-time"><svg class="source-mark" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true" focusable="false"><path fill="currentColor" d="M5.22 3.22a.75.75 0 0 1 1.06 1.06L2.56 8l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06Zm5.56 0 4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 1 1-1.06-1.06L13.44 8 9.72 4.28a.75.75 0 1 1 1.06-1.06Z"/></svg><span>GitHub source</span></a><span class="version-viewing-label">Shown on this page</span></div>
 </li>
 <li class="version-item version-latest">
-<div class="version-item-heading"><span class="version-item-id">lax-11</span><span class="version-item-marks"><span class="version-mark version-mark-latest">current version</span><span class="version-mark version-mark-draft">draft</span></span></div>
+<div class="version-item-heading"><span class="version-item-id">lax-11</span><span class="version-item-marks"><span class="version-mark version-mark-latest">current version</span></span></div>
 <p class="version-item-title">Algorithmic Experiments on a Random Access Machine</p>
 <div class="version-metadata"><span><b>Created</b> <time datetime="2026-08-02T18:01:37Z">2 Aug 2026</time></span><span><b>Lean</b> <code>v4.33.0</code></span><span><b>mathlib</b> <code>db584cd6d46c92f209a44c0f1c829460d327499d</code></span></div>
-<div class="version-item-actions"><a class="version-source-link" href="https://github.com/lax-archive/lax-submissions/tree/f867352dc480fc41b774e573d40d658ba95d1738/ram-linear-time"><svg class="source-mark" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true" focusable="false"><path fill="currentColor" d="M5.22 3.22a.75.75 0 0 1 1.06 1.06L2.56 8l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06Zm5.56 0 4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 1 1-1.06-1.06L13.44 8 9.72 4.28a.75.75 0 1 1 1.06-1.06Z"/></svg><span>GitHub source</span></a><a class="version-open-link" href="../lax-11/index.html?version=lax-11">Open version <span aria-hidden="true">→</span></a></div>
+<div class="version-item-actions"><a class="version-source-link" href="https://github.com/lax-archive/lax-submissions/tree/1ec4e4ddb612005237178975bbee285dfb403bb3/ram-linear-time"><svg class="source-mark" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true" focusable="false"><path fill="currentColor" d="M5.22 3.22a.75.75 0 0 1 1.06 1.06L2.56 8l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06Zm5.56 0 4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 1 1-1.06-1.06L13.44 8 9.72 4.28a.75.75 0 1 1 1.06-1.06Z"/></svg><span>GitHub source</span></a><a class="version-open-link" href="../lax-11/index.html?version=lax-11">Open version <span aria-hidden="true">→</span></a></div>
 </li>
 </ol>
 </dialog><p class="draft-banner"><strong>Draft</strong> — mutable and not usable as a dependency; its citation marks the draft state.</p>
@@ -340,7 +342,7 @@ program is the textbook bottom-up fold.</p>
 </div>
 </div>
 </dialog>
-<script src="../assets/sidebar.js?v=e4e626f46671"></script>
-<script src="../assets/account.js?v=449b15dc8a12"></script>
+<script src="../assets/sidebar.js?v=14479c59f650"></script>
+<script src="../assets/account.js?v=4ea6206fc4fb"></script>
 <script src="../assets/version-history.js?v=a36e868140dd"></script>
 </body></html>

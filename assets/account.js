@@ -236,7 +236,7 @@
         credentials: "include",
         cache: "no-store",
         headers: { Accept: "application/json", "Content-Type": "application/json" },
-        body: JSON.stringify({ urls: payload.urls, viewer_orcid: payload.viewer_orcid }),
+        body: JSON.stringify({ urls: payload.urls }),
       });
       return { ok: response.ok, status: response.status, data: await response.json() };
     }
@@ -431,15 +431,9 @@
     }
     renderConceptReviewLoading();
     try {
-      const reviews = [];
-      for (let start = 0; start < missingURLs.length; start += 50) {
-        const response = await accountRequest("concepts", {
-          urls: missingURLs.slice(start, start + 50),
-          viewer_orcid: viewerORCID,
-        });
-        if (!response.ok) throw new Error(String(response.status));
-        if (Array.isArray(response.data?.concepts)) reviews.push(...response.data.concepts);
-      }
+      const response = await accountRequest("concepts", { urls: missingURLs });
+      if (!response.ok) throw new Error(String(response.status));
+      const reviews = Array.isArray(response.data?.concepts) ? response.data.concepts : [];
       if (sequence !== conceptReviewSequence || currentUser?.id !== viewerId) return;
       const byURL = new Map(urls.map((url) => [url, cached.get(url)?.reaction || ""]));
       reviews.forEach((review) => {
