@@ -1793,6 +1793,7 @@ After the formula.`, "");
     const root = tmpDir("lax-site-concept-");
     await generateSite(submissions(), root);
     const html = fs.readFileSync(path.join(root, "Lax2", "Lax2.C.html"), "utf8");
+    expect(html).toContain('<button class="comment-toggle" type="button" aria-pressed="false" aria-label="Hide comments">Hide comments</button>');
     expect(html).toContain('<p class="concept-microline"><code class="concept-namespace">Lax2.C</code> · <code>concepts/Lax2/C.lean</code> · <a href="index.html">Lax2</a></p>');
     // NL block headed by the capitalized type
     expect(html).toContain("<h3>Theorem</h3>");

@@ -1356,6 +1356,11 @@ a.submission-meta-id:is(:hover, :focus-visible),
   overflow: visible;
 }
 
+.comment-toggle{ position: absolute; z-index: 3; top: 0.45rem; left: 0.55rem; padding: 0.2rem 0.45rem; border: 1px solid var(--border); border-radius: var(--radius-control); background: var(--surface); color: var(--text-dim); font: 400 0.68rem/1.2 var(--mono); cursor: pointer; }
+.comment-toggle:hover,.comment-toggle:focus-visible{ color: var(--link); border-color: var(--accent); outline: none; }
+.inline-contract-shell:has(.comment-toggle) .inline-contract-wrap{ padding-top: 2.1rem; }
+.inline-contract-shell.comments-hidden .line-comment{ display: none; }
+
 .inline-contract-wrap{ overflow-x: auto; overflow-y: hidden; border-radius: inherit; }
 
 .inline-contract-table{

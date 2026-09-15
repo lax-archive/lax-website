@@ -151,7 +151,7 @@ ${evidence(ctx, located)}
 ${inPaperBlock(ctx, concept.id, output.id, "../")}
 <div class="block block-statement"><h3>${esc(typeHeading)}</h3><div class="latex-content">${ctx.markdown.renderAuthorProse(concept.description, "../")}</div></div>
 <div class="block block-lean"><h3 class="section-heading">Lean source${sourceFile ? ` <a class="source-link" href="${attr(sourceFile)}">view on ${esc(sourceProviderName(sourceFile))}</a>` : sourceWithheld ? withheldSourceLink() : ""}</h3>
-<div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<div class="inline-contract-shell"><button class="comment-toggle" type="button" aria-pressed="false" aria-label="Hide comments">Hide comments</button><div class="inline-contract-wrap"><table class="inline-contract-table">
 ${sourceRows}
 </table></div>${proofActions}<span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
 ${sections}
