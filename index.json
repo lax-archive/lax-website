@@ -3077,9 +3077,14 @@
     {
       "id": "lax-733996",
       "state": "draft",
-      "environment": "v4.30.0",
+      "environment": "v4.33.0",
       "title": "The Immerman–Szelepcsényi Theorem",
       "concepts": [
+        {
+          "id": "Lax733996.BoundedConfigurations",
+          "title": "Bounded machine configurations",
+          "type": "definition"
+        },
         {
           "id": "Lax733996.Classification",
           "title": "Correctness of vertex classification",
@@ -3093,6 +3098,11 @@
         {
           "id": "Lax733996.ConfigurationCounting",
           "title": "Counting on the configuration graph",
+          "type": "definition"
+        },
+        {
+          "id": "Lax733996.ConfigurationGraph",
+          "title": "The bounded configuration graph",
           "type": "definition"
         },
         {
@@ -3129,6 +3139,11 @@
           "id": "Lax733996.Nonreachability",
           "title": "Correctness of nonreachability certificates",
           "type": "lemma"
+        },
+        {
+          "id": "Lax733996.Reachability",
+          "title": "Bounded reachability",
+          "type": "definition"
         },
         {
           "id": "Lax733996.Rejection",
