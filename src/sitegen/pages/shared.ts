@@ -602,7 +602,7 @@ export function draftBanner(submission: SiteSubmission): string {
 <h2 id="draft-reminder-title">Drafts should be temporary</h2>
 <div id="draft-reminder-description" class="draft-reminder-copy">
 <p>This draft has been open for at least seven days. While it remains editable, other submissions cannot depend on it.</p>
-<p><strong>Best practice:</strong> Register completed work promptly. Prefer smaller, focused submissions and leave large proof obligations open rather than keeping an entire submission in draft.</p>
+<p><strong>Best practice:</strong> Register completed work promptly—it is important that finished submissions do not remain in draft. Prefer smaller, focused submissions and leave large proof obligations open rather than keeping an entire submission in draft.</p>
 </div>
 <button class="draft-reminder-close" type="button" data-draft-reminder-close>I understand</button>
 </div>

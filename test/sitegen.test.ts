@@ -2089,6 +2089,7 @@ end Lax2.C`;
     expect(html).toContain('data-draft-reminder data-submission-id="Lax2" data-created-at="2026-01-01T00:00:00Z"');
     expect(html).toContain("Drafts should be temporary");
     expect(html).toContain("This draft has been open for at least seven days.");
+    expect(html).toContain("it is important that finished submissions do not remain in draft");
     expect(html).toContain("Prefer smaller, focused submissions and leave large proof obligations open");
     expect(html).toMatch(/<script src="\.\.\/assets\/draft-reminder\.js\?v=[0-9a-f]{12}"><\/script>/);
     expect(html.indexOf("draft-banner")).toBeLessThan(html.indexOf("paper-head"));
