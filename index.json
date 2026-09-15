@@ -3231,7 +3231,7 @@
     {
       "id": "lax-762056",
       "state": "draft",
-      "environment": "v4.30.0",
+      "environment": "v4.33.0",
       "title": "Max Independent Set Remains NP-hard when Excluding a Planar Induced Minor",
       "concepts": [
         {
