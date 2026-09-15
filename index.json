@@ -2351,7 +2351,7 @@
     },
     {
       "id": "lax-314295",
-      "state": "draft",
+      "state": "registered",
       "environment": "v4.33.0",
       "title": "Transducers, Part C: Regular Functions in Terms of Logic",
       "concepts": [
@@ -3177,7 +3177,7 @@
     },
     {
       "id": "lax-709149",
-      "state": "draft",
+      "state": "registered",
       "environment": "v4.33.0",
       "title": "Transducers, Part C: Regular Functions in Terms of Combinators",
       "concepts": [
@@ -3859,7 +3859,7 @@
     },
     {
       "id": "lax-916827",
-      "state": "draft",
+      "state": "registered",
       "environment": "v4.33.0",
       "title": "Transducers, Part C: Regular Functions, Two-Way Transducers and Streaming String Transducers",
       "concepts": [
