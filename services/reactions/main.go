@@ -29,17 +29,18 @@ var (
 )
 
 type config struct {
-	address       string
-	databasePath  string
-	backupDir     string
-	remarkUserURL string
-	remarkFindURL string
-	remarkPostURL string
-	orcidInfoURL  string
-	provider      string
-	allowed       map[string]struct{}
-	bridgeParents map[string]struct{}
-	publicOrigin  string
+	address           string
+	databasePath      string
+	backupDir         string
+	remarkUserURL     string
+	remarkFindURL     string
+	remarkCommentsURL string
+	remarkPostURL     string
+	orcidInfoURL      string
+	provider          string
+	allowed           map[string]struct{}
+	bridgeParents     map[string]struct{}
+	publicOrigin      string
 }
 
 type remarkUser struct {
@@ -86,12 +87,11 @@ type publicIdentity struct {
 }
 
 type app struct {
-	config         config
-	store          *store
-	client         *http.Client
-	limits         *rateLimits
-	remarkFindMu   sync.Mutex
-	remarkFindNext time.Time
+	config config
+	store  *store
+	client *http.Client
+	limits *rateLimits
+	cache  reactionCache
 }
 
 func env(key, fallback string) string {
@@ -115,17 +115,18 @@ func loadConfig() config {
 		}
 	}
 	return config{
-		address:       env("LISTEN_ADDR", ":8081"),
-		databasePath:  env("DATABASE_PATH", "/var/lib/reactions/reactions.db"),
-		backupDir:     env("BACKUP_DIR", "/var/lib/reactions/backups"),
-		remarkUserURL: env("REMARK_USER_URL", "http://remark42:8080/api/v1/user?site=remark"),
-		remarkFindURL: env("REMARK_FIND_URL", "http://remark42:8080/api/v1/find"),
-		remarkPostURL: env("REMARK_POST_URL", "http://remark42:8080/api/v1/comment?site=remark"),
-		orcidInfoURL:  env("ORCID_USERINFO_URL", "https://orcid.org/oauth/userinfo"),
-		provider:      env("AUTH_PROVIDER", "orcid"),
-		allowed:       allowed,
-		bridgeParents: bridgeParents,
-		publicOrigin:  strings.TrimSuffix(env("PUBLIC_ORIGIN", "https://comments.laxarchive.org"), "/"),
+		address:           env("LISTEN_ADDR", ":8081"),
+		databasePath:      env("DATABASE_PATH", "/var/lib/reactions/reactions.db"),
+		backupDir:         env("BACKUP_DIR", "/var/lib/reactions/backups"),
+		remarkUserURL:     env("REMARK_USER_URL", "http://remark42:8080/api/v1/user?site=remark"),
+		remarkFindURL:     env("REMARK_FIND_URL", "http://remark42:8080/api/v1/find"),
+		remarkCommentsURL: env("REMARK_COMMENTS_URL", "http://remark42:8080/api/v1/comments"),
+		remarkPostURL:     env("REMARK_POST_URL", "http://remark42:8080/api/v1/comment?site=remark"),
+		orcidInfoURL:      env("ORCID_USERINFO_URL", "https://orcid.org/oauth/userinfo"),
+		provider:          env("AUTH_PROVIDER", "orcid"),
+		allowed:           allowed,
+		bridgeParents:     bridgeParents,
+		publicOrigin:      strings.TrimSuffix(env("PUBLIC_ORIGIN", "https://comments.laxarchive.org"), "/"),
 	}
 }
 
@@ -356,7 +357,7 @@ const session=async()=>{
 const page=async(raw)=>{
   const url=canonicalPage(raw);
   const [pageResponse,viewerSession]=await Promise.all([
-    fetch("/reactions/v1/page?url="+encodeURIComponent(url),{cache:"no-store",headers:{Accept:"application/json"}}),
+    fetch("/reactions/v1/page?public=1&url="+encodeURIComponent(url),{headers:{Accept:"application/json"}}),
     session()
   ]);
   const data=await readJSON(pageResponse);
@@ -375,7 +376,7 @@ const page=async(raw)=>{
   return data;
 };
 const concepts=async(raw)=>{
-  if(!Array.isArray(raw)||raw.length<1||raw.length>50)throw fail("Provide between 1 and 50 concept URLs.",400);
+  if(!Array.isArray(raw)||raw.length<1)throw fail("Provide at least one concept URL.",400);
   const seen=new Set();
   const urls=[];
   for(const item of raw){
@@ -384,16 +385,13 @@ const concepts=async(raw)=>{
     if(new URL(canonical).pathname.endsWith("/"))throw fail("Only concept URLs are accepted.",400);
     if(!seen.has(canonical)){seen.add(canonical);urls.push(canonical)}
   }
-  const viewerSession=await session();
-  const viewerORCID=viewerSession.eligible&&viewerSession.viewer?viewerSession.viewer.orcid_id:"";
   const response=await fetch("/reactions/v1/concepts",{
     method:"POST",credentials:"include",cache:"no-store",
     headers:authHeaders({Accept:"application/json","Content-Type":"application/json"}),
-    body:JSON.stringify({urls,viewer_orcid:viewerORCID})
+    body:JSON.stringify({urls})
   });
   const data=await readJSON(response);
   if(!response.ok)throw fail(data.error||"concept reviews are temporarily unavailable",response.status);
-  Object.assign(data,viewerSession);
   return data;
 };
 const cookie=(name)=>{
@@ -425,18 +423,16 @@ const saveReaction=async(raw,reaction,message="",lineStart=0,lineEnd=0)=>{
   const xsrf=activeXSRF||cookie("XSRF-TOKEN");
   if(!xsrf)throw fail("Your comment session is not ready. Refresh the page and try again.",401);
   if(new URL(current.url).pathname.endsWith("/")&&(lineStart||lineEnd))throw fail("Submission flags cannot reference concept source lines.",400);
-  const hidden=new URL(current.url);
-  hidden.pathname="/_reactions"+hidden.pathname;
   const next=reaction==="endorse"&&current.viewer_reaction==="endorse"?"clear":reaction;
-  const marker=reviewMarker(next,message,lineStart,lineEnd);
-  const response=await fetch("/api/v1/comment?site=remark",{
-    method:"POST",credentials:"include",
-    headers:authHeaders({Accept:"application/json","Content-Type":"application/json","X-XSRF-TOKEN":xsrf}),
-    body:JSON.stringify({text:marker,title:"Lax Archive review",locator:{site:"remark",url:hidden.toString()}})
+  reviewMarker(next,message,lineStart,lineEnd);
+  const response=await fetch("/reactions/v1/reaction",{
+    method:"PUT",credentials:"include",cache:"no-store",
+    headers:authHeaders({Accept:"application/json","Content-Type":"application/json","X-Lax-CSRF":"1","X-XSRF-TOKEN":xsrf}),
+    body:JSON.stringify({url:current.url,reaction:next,message,line_start:lineStart,line_end:lineEnd})
   });
   const result=await readJSON(response);
   if(!response.ok)throw fail(result.error||"unable to save your response",response.status);
-  return page(current.url);
+  return result;
 };
 window.addEventListener("message",async(event)=>{
   if(!allowed.has(event.origin)||!event.data||event.data.source!=="lax-reactions"||typeof event.data.id!=="string")return;
@@ -635,6 +631,17 @@ func (a *app) getPage(w http.ResponseWriter, r *http.Request) {
 		writeError(w, http.StatusBadRequest, err.Error())
 		return
 	}
+	if r.URL.Query().Get("public") == "1" {
+		result, loadErr := a.reactionPage(r.Context(), pageURL)
+		if loadErr != nil {
+			log.Printf("public page response failed: %v", loadErr)
+			writeError(w, http.StatusServiceUnavailable, "page responses are temporarily unavailable")
+			return
+		}
+		w.Header().Set("Cache-Control", "public, max-age=5, stale-while-revalidate=25")
+		writePublicJSON(w, http.StatusOK, response{reactionPageResult: result})
+		return
+	}
 	answer, err := a.pageResponse(r, pageURL)
 	if err != nil {
 		log.Printf("page response failed: %v", err)
@@ -655,10 +662,9 @@ func (a *app) postConcepts(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	var input struct {
-		URLs        []string `json:"urls"`
-		ViewerORCID string   `json:"viewer_orcid,omitempty"`
+		URLs []string `json:"urls"`
 	}
-	decoder := json.NewDecoder(http.MaxBytesReader(w, r.Body, 64<<10))
+	decoder := json.NewDecoder(http.MaxBytesReader(w, r.Body, maximumConceptRequestBytes))
 	decoder.DisallowUnknownFields()
 	if err := decoder.Decode(&input); err != nil {
 		writeError(w, http.StatusBadRequest, "request body must contain a list of concept URLs")
@@ -669,22 +675,7 @@ func (a *app) postConcepts(w http.ResponseWriter, r *http.Request) {
 		writeError(w, http.StatusBadRequest, err.Error())
 		return
 	}
-	viewerORCID := strings.ToUpper(strings.TrimSpace(input.ViewerORCID))
-	if viewerORCID != "" && !validORCID(viewerORCID) {
-		writeError(w, http.StatusBadRequest, "viewer_orcid must be a valid ORCID iD")
-		return
-	}
 	answer := conceptReviewsResponse{Concepts: emptyConceptReviews(urls)}
-	if viewerORCID != "" {
-		answer.Concepts, err = a.viewerConceptReviews(r.Context(), urls, viewerORCID)
-		if err != nil {
-			log.Printf("concept review batch failed: %v", err)
-			writeError(w, http.StatusServiceUnavailable, "concept reviews are temporarily unavailable")
-			return
-		}
-		writeJSON(w, http.StatusOK, answer)
-		return
-	}
 	user, err := a.currentUser(r)
 	if err != nil {
 		log.Printf("concept review session failed: %v", err)
@@ -709,7 +700,7 @@ func (a *app) postConcepts(w http.ResponseWriter, r *http.Request) {
 	answer.Eligible = true
 	viewer := toPublicIdentity(person)
 	answer.Viewer = &viewer
-	answer.Concepts, err = a.viewerConceptReviews(r.Context(), urls, person.ORCID)
+	answer.Concepts, err = a.viewerConceptReviews(r.Context(), urls, user.ID)
 	if err != nil {
 		log.Printf("concept review batch failed: %v", err)
 		writeError(w, http.StatusServiceUnavailable, "concept reviews are temporarily unavailable")
@@ -859,6 +850,7 @@ func (a *app) putReaction(w http.ResponseWriter, r *http.Request) {
 		writeError(w, http.StatusServiceUnavailable, "unable to save your response")
 		return
 	}
+	a.cache.invalidate(pageURL, user.ID)
 	answer, err := a.pageResponse(r, pageURL)
 	if err != nil {
 		writeError(w, http.StatusServiceUnavailable, "response saved, but totals could not be refreshed")

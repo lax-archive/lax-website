@@ -4,11 +4,11 @@ import (
 	"crypto/sha1"
 	"encoding/hex"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"path/filepath"
 	"strings"
-	"sync"
 	"sync/atomic"
 	"testing"
 	"time"
@@ -85,7 +85,6 @@ func TestCanonicalConceptURLsAllowsMixedSubmissionsAndCollapsesDuplicates(t *tes
 		{},
 		{"https://laxarchive.org/Lax2/"},
 		{"https://evil.test/Lax2/Lax2.C.html"},
-		make([]string, maximumConceptBatch+1),
 	} {
 		if _, err := canonicalConceptURLs(invalid); err == nil {
 			t.Fatalf("invalid concept list was accepted: %+v", invalid)
@@ -101,7 +100,9 @@ func TestReviewAggregationUsesLatestValidNamedEvent(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
+	var findRequests atomic.Int32
 	remark := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		findRequests.Add(1)
 		if r.URL.Query().Get("url") != "https://laxarchive.org/_reactions/Lax2/" || r.URL.Query().Get("site") != "remark" || r.URL.Query().Get("format") != "plain" {
 			t.Errorf("unsafe find request: %s", r.URL.String())
 		}
@@ -140,6 +141,51 @@ func TestReviewAggregationUsesLatestValidNamedEvent(t *testing.T) {
 	if len(result.Flags) != 1 || result.Flags[0].Message != "The implication does not follow." || result.Flags[0].LineStart != 7 || result.Flags[0].LineEnd != 7 {
 		t.Fatalf("flag detail was not preserved: %+v", result.Flags)
 	}
+	if _, err = a.reactionPage(t.Context(), pageURL); err != nil {
+		t.Fatal(err)
+	}
+	if findRequests.Load() != 1 {
+		t.Fatalf("cached page aggregation made %d find requests; want one", findRequests.Load())
+	}
+	a.cache.invalidate(pageURL, "")
+	if _, err = a.reactionPage(t.Context(), pageURL); err != nil {
+		t.Fatal(err)
+	}
+	if findRequests.Load() != 2 {
+		t.Fatalf("invalidated page aggregation made %d find requests; want two", findRequests.Load())
+	}
+}
+
+func TestPublicPageResponseSkipsSessionLookupAndIsBrieflyCacheable(t *testing.T) {
+	var userRequests atomic.Int32
+	remark := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.URL.Path == "/user" {
+			userRequests.Add(1)
+			_ = json.NewEncoder(w).Encode(remarkUser{ID: "orcid_" + strings.Repeat("a", 40), Name: "Alice Example"})
+			return
+		}
+		_ = json.NewEncoder(w).Encode(remarkFindResponse{Comments: []remarkReactionComment{}})
+	}))
+	defer remark.Close()
+	a := &app{
+		config: config{remarkFindURL: remark.URL + "/find", remarkUserURL: remark.URL + "/user"},
+		store:  testStore(t),
+		client: remark.Client(),
+		limits: newRateLimits(),
+	}
+	request := httptest.NewRequest(http.MethodGet, "/reactions/v1/page?public=1&url=https%3A%2F%2Flaxarchive.org%2FLax2%2F", nil)
+	request.AddCookie(&http.Cookie{Name: "JWT", Value: "session"})
+	recorder := httptest.NewRecorder()
+	a.getPage(recorder, request)
+	if recorder.Code != http.StatusOK {
+		t.Fatalf("unexpected public page response: %d %s", recorder.Code, recorder.Body.String())
+	}
+	if userRequests.Load() != 0 {
+		t.Fatalf("public page response made %d session lookups; want none", userRequests.Load())
+	}
+	if recorder.Header().Get("Cache-Control") != "public, max-age=5, stale-while-revalidate=25" {
+		t.Fatalf("unexpected public cache policy: %q", recorder.Header().Get("Cache-Control"))
+	}
 }
 
 func TestAppendReviewConstructsReservedRemark42Comment(t *testing.T) {
@@ -147,7 +193,7 @@ func TestAppendReviewConstructsReservedRemark42Comment(t *testing.T) {
 		if r.Method != http.MethodPost || r.URL.Query().Get("site") != "remark" {
 			t.Errorf("unexpected request: %s %s", r.Method, r.URL.String())
 		}
-		if r.Header.Get("Cookie") == "" || r.Header.Get("X-XSRF-TOKEN") != "xsrf-value" {
+		if r.Header.Get("X-JWT") != "iframe-session" || r.Header.Get("X-XSRF-TOKEN") != "xsrf-value" {
 			t.Errorf("Remark42 session/XSRF was not forwarded")
 		}
 		var body struct {
@@ -169,8 +215,8 @@ func TestAppendReviewConstructsReservedRemark42Comment(t *testing.T) {
 	defer remark.Close()
 	a := &app{config: config{remarkPostURL: remark.URL + "?site=remark"}, client: remark.Client()}
 	request := httptest.NewRequest(http.MethodPut, "/reactions/v1/reaction", nil)
-	request.AddCookie(&http.Cookie{Name: "JWT", Value: "session"})
-	request.AddCookie(&http.Cookie{Name: "XSRF-TOKEN", Value: "xsrf-value"})
+	request.Header.Set("X-JWT", "iframe-session")
+	request.Header.Set("X-XSRF-TOKEN", "xsrf-value")
 	event := reviewEvent{Kind: reviewFlag, Message: "Counterexample on this line.", LineStart: 4, LineEnd: 4}
 	if err := a.appendReview(request, "https://laxarchive.org/Lax2/", event); err == nil {
 		t.Fatal("submission source line reached Remark42")
@@ -392,11 +438,12 @@ func TestConceptBatchReturnsViewerReviewsAcrossSubmissions(t *testing.T) {
 	const remarkID = "orcid_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 	first := "https://laxarchive.org/Lax2/Lax2.C.html"
 	second := "https://laxarchive.org/Lax9/Lax9.Other.html"
+	cleared := "https://laxarchive.org/Lax4/Lax4.Cleared.html"
 	flag, err := reviewMarker(reviewEvent{Kind: reviewFlag, Message: "A missing case."})
 	if err != nil {
 		t.Fatal(err)
 	}
-	var findRequests atomic.Int32
+	var commentRequests atomic.Int32
 	remark := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case "/user":
@@ -404,19 +451,24 @@ func TestConceptBatchReturnsViewerReviewsAcrossSubmissions(t *testing.T) {
 				t.Errorf("iframe JWT was not forwarded to Remark42")
 			}
 			_ = json.NewEncoder(w).Encode(remarkUser{ID: remarkID, Name: "Alice Example"})
-		case "/find":
-			findRequests.Add(1)
-			marker := endorseMarker
-			switch r.URL.Query().Get("url") {
-			case "https://laxarchive.org/_reactions/Lax2/Lax2.C.html":
-			case "https://laxarchive.org/_reactions/Lax9/Lax9.Other.html":
-				marker = flag
-			default:
-				t.Errorf("unexpected concept lookup: %s", r.URL.String())
+		case "/comments":
+			commentRequests.Add(1)
+			if r.URL.Query().Get("site") != "remark" || r.URL.Query().Get("user") != remarkID || r.URL.Query().Get("limit") != "500" || r.URL.Query().Get("skip") != "0" {
+				t.Errorf("unexpected user comment lookup: %s", r.URL.String())
 			}
-			comment := remarkReactionComment{ID: "review", Orig: marker, Time: time.Now().UTC()}
-			comment.User.ID = remarkID
-			_ = json.NewEncoder(w).Encode(remarkFindResponse{Comments: []remarkReactionComment{comment}})
+			comments := []remarkReactionComment{
+				{ID: "endorsement", Orig: endorseMarker, Time: time.Now().UTC().Add(-time.Minute)},
+				{ID: "flag", Orig: flag, Time: time.Now().UTC()},
+				{ID: "old-endorsement", Orig: endorseMarker, Time: time.Now().UTC().Add(-2 * time.Minute)},
+				{ID: "clear", Orig: clearMarker, Time: time.Now().UTC()},
+				{ID: "unrelated", Orig: endorseMarker, Time: time.Now().UTC()},
+			}
+			comments[0].User.ID, comments[0].Locator.URL = remarkID, "https://laxarchive.org/_reactions/Lax2/Lax2.C.html"
+			comments[1].User.ID, comments[1].Locator.URL = remarkID, "https://laxarchive.org/_reactions/Lax9/Lax9.Other.html"
+			comments[2].User.ID, comments[2].Locator.URL = remarkID, "https://laxarchive.org/_reactions/Lax4/Lax4.Cleared.html"
+			comments[3].User.ID, comments[3].Locator.URL = remarkID, "https://laxarchive.org/_reactions/Lax4/Lax4.Cleared.html"
+			comments[4].User.ID, comments[4].Locator.URL = remarkID, "https://laxarchive.org/_reactions/Lax7/Lax7.Unrelated.html"
+			_ = json.NewEncoder(w).Encode(remarkUserCommentsResponse{Comments: comments, Count: len(comments)})
 		default:
 			http.NotFound(w, r)
 		}
@@ -427,12 +479,21 @@ func TestConceptBatchReturnsViewerReviewsAcrossSubmissions(t *testing.T) {
 		t.Fatal(err)
 	}
 	a := &app{
-		config: config{remarkUserURL: remark.URL + "/user", remarkFindURL: remark.URL + "/find"},
+		config: config{remarkUserURL: remark.URL + "/user", remarkCommentsURL: remark.URL + "/comments"},
 		store:  db,
 		client: remark.Client(),
 		limits: newRateLimits(),
 	}
-	request := httptest.NewRequest(http.MethodPost, "/reactions/v1/concepts", strings.NewReader(`{"urls":["`+first+`","`+second+`","`+first+`"]}`))
+	const largeConceptBatchSize = 200
+	urls := []string{first, second, cleared}
+	for index := len(urls); index < largeConceptBatchSize; index++ {
+		urls = append(urls, fmt.Sprintf("https://laxarchive.org/LaxMany/LaxMany.C%d.html", index))
+	}
+	body, err := json.Marshal(map[string][]string{"urls": urls})
+	if err != nil {
+		t.Fatal(err)
+	}
+	request := httptest.NewRequest(http.MethodPost, "/reactions/v1/concepts", strings.NewReader(string(body)))
 	request.Header.Set("Content-Type", "application/json")
 	request.Header.Set("X-JWT", "iframe-session")
 	recorder := httptest.NewRecorder()
@@ -447,119 +508,58 @@ func TestConceptBatchReturnsViewerReviewsAcrossSubmissions(t *testing.T) {
 	if !got.Authenticated || !got.Eligible || got.Viewer == nil || got.Viewer.RemarkID != remarkID {
 		t.Fatalf("unexpected concept review session: %+v", got)
 	}
-	if len(got.Concepts) != 2 || got.Concepts[0].URL != first || got.Concepts[0].ViewerReaction != reviewEndorse || got.Concepts[1].URL != second || got.Concepts[1].ViewerReaction != reviewFlag {
+	if len(got.Concepts) != largeConceptBatchSize || got.Concepts[0].URL != first || got.Concepts[0].ViewerReaction != reviewEndorse || got.Concepts[1].URL != second || got.Concepts[1].ViewerReaction != reviewFlag || got.Concepts[2].URL != cleared || got.Concepts[2].ViewerReaction != "" {
 		t.Fatalf("unexpected concept reviews: %+v", got.Concepts)
 	}
-	if findRequests.Load() != 2 {
-		t.Fatalf("duplicate concepts caused extra lookups: %d", findRequests.Load())
+	if commentRequests.Load() != 1 {
+		t.Fatalf("concept batch caused %d user-comment lookups; want one", commentRequests.Load())
 	}
-}
-
-func TestConceptBatchUsesBridgeViewerORCIDWithoutEndpointCookie(t *testing.T) {
-	const remarkID = "orcid_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-	const orcid = "0000-0002-1825-0097"
-	conceptURL := "https://laxarchive.org/Lax2/Lax2.C.html"
-	remark := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if r.URL.Path != "/find" {
-			t.Fatalf("unexpected authenticated lookup: %s", r.URL.Path)
-		}
-		comment := remarkReactionComment{ID: "review", Orig: endorseMarker, Time: time.Now().UTC()}
-		comment.User.ID = remarkID
-		_ = json.NewEncoder(w).Encode(remarkFindResponse{Comments: []remarkReactionComment{comment}})
-	}))
-	defer remark.Close()
-	db := testStore(t)
-	if err := db.putIdentity(identity{RemarkID: remarkID, ORCID: orcid, Name: "Alice Example"}); err != nil {
-		t.Fatal(err)
-	}
-	a := &app{
-		config: config{remarkFindURL: remark.URL + "/find"},
-		store:  db,
-		client: remark.Client(),
-		limits: newRateLimits(),
-	}
-	request := httptest.NewRequest(http.MethodPost, "/reactions/v1/concepts", strings.NewReader(`{"urls":["`+conceptURL+`"],"viewer_orcid":"`+orcid+`"}`))
-	request.Header.Set("Content-Type", "application/json")
-	recorder := httptest.NewRecorder()
-	a.postConcepts(recorder, request)
-	if recorder.Code != http.StatusOK {
-		t.Fatalf("unexpected concept response: %d %s", recorder.Code, recorder.Body.String())
-	}
-	var got conceptReviewsResponse
-	if err := json.Unmarshal(recorder.Body.Bytes(), &got); err != nil {
-		t.Fatal(err)
-	}
-	if len(got.Concepts) != 1 || got.Concepts[0].ViewerReaction != reviewEndorse {
-		t.Fatalf("bridge ORCID did not recover the public review: %+v", got.Concepts)
-	}
-}
-
-func TestConceptBatchStaysWithinRemarkFindRateLimit(t *testing.T) {
-	const remarkID = "orcid_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-	const orcid = "0000-0002-1825-0097"
-	var requestMu sync.Mutex
-	requestTimes := []time.Time{}
-	remark := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
-		now := time.Now()
-		requestMu.Lock()
-		active := requestTimes[:0]
-		for _, requestedAt := range requestTimes {
-			if now.Sub(requestedAt) < time.Second {
-				active = append(active, requestedAt)
-			}
-		}
-		requestTimes = active
-		if len(requestTimes) >= 10 {
-			requestMu.Unlock()
-			http.Error(w, "rate limited", http.StatusTooManyRequests)
-			return
-		}
-		requestTimes = append(requestTimes, now)
-		requestMu.Unlock()
-		comment := remarkReactionComment{ID: "review", Orig: endorseMarker, Time: now.UTC()}
-		comment.User.ID = remarkID
-		_ = json.NewEncoder(w).Encode(remarkFindResponse{Comments: []remarkReactionComment{comment}})
-	}))
-	defer remark.Close()
-	db := testStore(t)
-	if err := db.putIdentity(identity{RemarkID: remarkID, ORCID: orcid, Name: "Alice Example"}); err != nil {
-		t.Fatal(err)
-	}
-	a := &app{
-		config: config{remarkFindURL: remark.URL},
-		store:  db,
-		client: remark.Client(),
-		limits: newRateLimits(),
-	}
-	urls := make([]string, 12)
-	for index := range urls {
-		urls[index] = "https://laxarchive.org/Lax2/Lax2.C" + string(rune('A'+index)) + ".html"
-	}
-	body, err := json.Marshal(struct {
-		URLs        []string `json:"urls"`
-		ViewerORCID string   `json:"viewer_orcid"`
-	}{URLs: urls, ViewerORCID: orcid})
+	cached, err := a.viewerConceptReviews(t.Context(), []string{"https://laxarchive.org/Lax7/Lax7.Unrelated.html"}, remarkID)
 	if err != nil {
 		t.Fatal(err)
 	}
-	request := httptest.NewRequest(http.MethodPost, "/reactions/v1/concepts", strings.NewReader(string(body)))
-	request.Header.Set("Content-Type", "application/json")
-	recorder := httptest.NewRecorder()
-	a.postConcepts(recorder, request)
-	if recorder.Code != http.StatusOK {
-		t.Fatalf("paced concept batch failed: %d %s", recorder.Code, recorder.Body.String())
+	if len(cached) != 1 || cached[0].ViewerReaction != reviewEndorse || commentRequests.Load() != 1 {
+		t.Fatalf("viewer review index was not reused across concept sets: %+v (%d requests)", cached, commentRequests.Load())
 	}
-	var got conceptReviewsResponse
-	if err = json.Unmarshal(recorder.Body.Bytes(), &got); err != nil {
+	a.cache.invalidate("", remarkID)
+	if _, err = a.viewerConceptReviews(t.Context(), []string{first}, remarkID); err != nil {
 		t.Fatal(err)
 	}
-	if len(got.Concepts) != len(urls) {
-		t.Fatalf("unexpected paced concept count: %d", len(got.Concepts))
+	if commentRequests.Load() != 2 {
+		t.Fatalf("invalidated viewer review index made %d comment requests; want two", commentRequests.Load())
 	}
-	for _, concept := range got.Concepts {
-		if concept.ViewerReaction != reviewEndorse {
-			t.Fatalf("paced concept lost review state: %+v", concept)
+}
+
+func TestViewerConceptReviewsPaginatesRemarkUserIndex(t *testing.T) {
+	const remarkID = "orcid_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+	const conceptURL = "https://laxarchive.org/Lax2/Lax2.C.html"
+	var commentRequests atomic.Int32
+	remark := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		request := commentRequests.Add(1)
+		if got := r.URL.Query().Get("skip"); got != fmt.Sprint((request-1)*remarkUserPageSize) {
+			t.Errorf("unexpected pagination offset: %s", got)
 		}
+		comments := []remarkReactionComment{}
+		if request == 2 {
+			comment := remarkReactionComment{ID: "endorsement", Orig: endorseMarker, Time: time.Now().UTC()}
+			comment.User.ID = remarkID
+			comment.Locator.URL = "https://laxarchive.org/_reactions/Lax2/Lax2.C.html"
+			comments = append(comments, comment)
+		}
+		_ = json.NewEncoder(w).Encode(remarkUserCommentsResponse{Comments: comments, Count: remarkUserPageSize + 1})
+	}))
+	defer remark.Close()
+
+	a := &app{config: config{remarkCommentsURL: remark.URL}, client: remark.Client()}
+	got, err := a.viewerConceptReviews(t.Context(), []string{conceptURL}, remarkID)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(got) != 1 || got[0].URL != conceptURL || got[0].ViewerReaction != reviewEndorse {
+		t.Fatalf("unexpected paginated concept reviews: %+v", got)
+	}
+	if commentRequests.Load() != 2 {
+		t.Fatalf("user comment history used %d pages; want two", commentRequests.Load())
 	}
 }
 
@@ -569,8 +569,8 @@ func TestConceptBatchRejectsInvalidInputBeforeAuthentication(t *testing.T) {
 		"empty":          `{"urls":[]}`,
 		"submission":     `{"urls":["https://laxarchive.org/Lax2/"]}`,
 		"foreign origin": `{"urls":["https://evil.test/Lax2/Lax2.C.html"]}`,
-		"invalid ORCID":  `{"urls":["https://laxarchive.org/Lax2/Lax2.C.html"],"viewer_orcid":"0000-0000-0000-0000"}`,
 		"unknown field":  `{"urls":["https://laxarchive.org/Lax2/Lax2.C.html"],"extra":true}`,
+		"oversized body": `{"urls":["https://laxarchive.org/Lax2/` + strings.Repeat("x", maximumConceptRequestBytes) + `.html"]}`,
 	} {
 		t.Run(name, func(t *testing.T) {
 			request := httptest.NewRequest(http.MethodPost, "/reactions/v1/concepts", strings.NewReader(body))
@@ -627,7 +627,7 @@ func TestBridgeIsRestrictedToConfiguredParents(t *testing.T) {
 	if scriptRecorder.Code != http.StatusOK || !strings.Contains(script, `new Set(["https://laxarchive.org"])`) || strings.Contains(script, `postMessage(value,"*")`) || !strings.Contains(script, `request.action==="concepts"`) || !strings.Contains(script, `request.action==="comments"`) || !strings.Contains(script, `request.action==="logout"`) {
 		t.Fatalf("bridge script does not enforce exact parent origins: %s", scriptRecorder.Body.String())
 	}
-	for _, expected := range []string{`/api/v1/user?site=remark`, `/api/v1/comment?site=remark`, `/reactions/v1/concepts`, `viewer_orcid:viewerORCID`, `X-XSRF-TOKEN`, `X-JWT`, `response.headers`, `pathname==="/auth/logout"`, `fetch("/auth/logout",{credentials:"include",cache:"no-store",headers:authHeaders({Accept:"application/json"})})`, `type:"session-change"`, `lax-review:v2:flag:`, `A flag explanation is required`, `Choose one valid source line`, `Submission flags cannot reference concept source lines`, `sessionCache&&Date.now()-sessionCacheAt<2000`, `if(sessionPromise)return sessionPromise`, `clearSessionCache();notifySessionChange()`} {
+	for _, expected := range []string{`/api/v1/user?site=remark`, `/reactions/v1/reaction`, `/reactions/v1/page?public=1`, `/reactions/v1/concepts`, `X-Lax-CSRF`, `X-XSRF-TOKEN`, `X-JWT`, `response.headers`, `pathname==="/auth/logout"`, `fetch("/auth/logout",{credentials:"include",cache:"no-store",headers:authHeaders({Accept:"application/json"})})`, `type:"session-change"`, `lax-review:v2:flag:`, `A flag explanation is required`, `Choose one valid source line`, `Submission flags cannot reference concept source lines`, `sessionCache&&Date.now()-sessionCacheAt<2000`, `if(sessionPromise)return sessionPromise`, `clearSessionCache();notifySessionChange()`} {
 		if !strings.Contains(script, expected) {
 			t.Fatalf("bridge script does not use the authenticated Remark42 iframe session, missing %q", expected)
 		}

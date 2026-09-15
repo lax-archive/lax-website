@@ -344,7 +344,7 @@ describe("ORCID account header", () => {
 
     const request = fx.bridgeMessages.find((message) => message.action === "concepts");
     expect(request?.urls).toEqual([endorsed, flagged, pending]);
-    expect(request?.viewer_orcid).toBe("0000-0002-1825-0097");
+    expect(request).not.toHaveProperty("viewer_orcid");
     expect(fx.conceptBadges.map((badge) => ({ hidden: badge.hidden, className: badge.className, text: badge.textContent }))).toEqual([
       { hidden: false, className: "concept-review-badge endorsed", text: "🥳" },
       { hidden: false, className: "concept-review-badge endorsed", text: "🥳" },
@@ -377,6 +377,23 @@ describe("ORCID account header", () => {
     fx.listeners.message!({ origin: "https://remark42.example.test", source: fx.bridgeWindow, data: { source: "lax-reactions", type: "session-change" } });
     await settle();
     expect(fx.conceptBadges.every((badge) => badge.hidden)).toBe(true);
+  });
+
+  it("loads more than 50 concept reviews in one request", async () => {
+    const conceptReviews = Array.from({ length: 75 }, (_, index) => ({
+      url: `https://laxarchive.org/lax-many/LaxMany.C${index}.html`,
+      reaction: "",
+    }));
+    const fx = fixture({ id: `orcid_${"8".repeat(40)}`, name: "Ada Lovelace" }, true, conceptReviews);
+    const context = { document: fx.document, window: fx.window, fetch: fx.fetch, URL, CustomEvent: fx.FakeCustomEvent, Date, setTimeout };
+    vm.createContext(context);
+    vm.runInContext(fs.readFileSync("assets/site/account.js", "utf8"), context);
+    fx.listeners.message!({ origin: "https://remark42.example.test", source: fx.bridgeWindow, data: { source: "lax-reactions", type: "ready" } });
+    await settle();
+
+    const requests = fx.bridgeMessages.filter((message) => message.action === "concepts");
+    expect(requests).toHaveLength(1);
+    expect(requests[0]?.urls).toEqual(conceptReviews.map(({ url }) => url));
   });
 
   it("shows an authenticated loading bar, then hides review UI when every concept is unevaluated", async () => {

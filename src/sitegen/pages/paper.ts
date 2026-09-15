@@ -339,9 +339,11 @@ ${body}
   return page({
     title: `${options.printed ? "Paper as printed" : "Paper"} — ${home}`,
     rootRel: "../",
+    canonicalPath: `${home}/${options.printed ? "paper-pdf.html" : "paper.html"}`,
     sidebar: submissionSidebar(ctx.model, submission, "../", { backToSubmission: true }),
     sidebarState: "collapsed",
     content,
+    noIndex: output!.manifest.unlisted === true,
     detailClass: "detail-manuscript",
     scripts,
   });

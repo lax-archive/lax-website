@@ -25,10 +25,14 @@ export interface PageShell {
   title: string;
   /** relative prefix to the site root: "" or "../" */
   rootRel: string;
+  /** Site-relative public URL, using a trailing slash for index pages. */
+  canonicalPath: string;
   /** inner html of the <aside id="sidebar"> */
   sidebar: string;
   /** inner html of the content pane */
   content: string;
+  /** Ask external search engines not to include this directly addressable page. */
+  noIndex?: boolean;
   /** additional scripts (site-relative paths) loaded after sidebar.js */
   scripts?: string[];
   /** extra class on the content pane, for pages that need another measure */
@@ -139,6 +143,7 @@ function siteNavLinks(root: string): string {
 
 export function page(shell: PageShell): string {
   const root = shell.rootRel;
+  const canonical = new URL(shell.canonicalPath, `${DEFAULT_SITE_URL.replace(/\/+$/, "")}/`).toString();
   const csp = contentSecurityPolicy(shell.scripts ?? []);
   const scripts = ["assets/sidebar.js", "assets/account.js", ...(shell.scripts ?? [])]
     .map((src) => `<script src="${attr(root + src)}?v=${siteAssetVersion(src.replace(/^assets\//, ""))}"></script>`)
@@ -157,7 +162,9 @@ export function page(shell: PageShell): string {
 <meta http-equiv="Content-Security-Policy" content="${csp}">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Lax — an archive of formalized mathematical concepts and their proofs">
+${shell.noIndex ? '<meta name="robots" content="noindex">' : ""}
 <title>${esc(shell.title)}</title>
+<link rel="canonical" href="${attr(canonical)}">
 <link rel="icon" href="${FAVICON}" type="image/svg+xml">
 <link rel="stylesheet" href="${stylesheet("katex.css")}">
 <link rel="stylesheet" href="${stylesheet("style.css")}">

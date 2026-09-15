@@ -31,13 +31,21 @@ describe("Pages renderer package", () => {
     expect(fs.readdirSync(output).sort()).toEqual([`${commit}.tgz`, "latest.json"]);
   });
 
-  it("rejects a package that omits a required renderer file", () => {
+  it.each([
+    "dist/sitegen/assets.js",
+    "content/about.md",
+    "content/contributing.md",
+    "content/faq.md",
+    "content/impressum.md",
+    "content/landing.md",
+    "content/privacy.md",
+  ])("rejects a package that omits required renderer file %s", (required) => {
     const repository = rendererFixture();
-    fs.rmSync(path.join(repository, "dist", "sitegen", "assets.js"));
+    fs.rmSync(path.join(repository, required));
     const output = tmpDir("lax-renderer-output-");
 
     expect(() => packageRenderer(commit, output, repository)).toThrow(
-      "renderer archive is missing dist/sitegen/assets.js",
+      `renderer archive is missing ${required}`,
     );
     expect(fs.existsSync(path.join(output, `${commit}.tgz`))).toBe(false);
   });
@@ -47,8 +55,12 @@ function rendererFixture(): string {
   const root = tmpDir("lax-renderer-fixture-");
   const files: Record<string, string> = {
     "assets/site/style.css": "body {}\n",
+    "content/about.md": "About\n",
     "content/contributing.md": "Contributing\n",
+    "content/faq.md": "FAQ\n",
+    "content/impressum.md": "Imprint\n",
     "content/landing.md": "Landing\n",
+    "content/privacy.md": "Privacy\n",
     "dist/sitegen/assets.js": "export const SITE_MIME = {};\n",
     "dist/sitegen/generate.js": "export async function generateSite() {}\n",
     "dist/sitegen/machine-index.js": "export function machineIndex() {}\n",

@@ -1,4 +1,4 @@
-import { compareEnvironments, type SiteModel } from "./model.js";
+import { compareEnvironments, isDiscoverableSubmission, type SiteModel } from "./model.js";
 
 /**
  * The site's machine-readable surface: `index.json` and `environments.json`
@@ -55,6 +55,7 @@ export interface EnvironmentIndex {
  * as they are left out of every listing. */
 export function recordIndex(model: SiteModel): RecordIndex {
   const records = model.submissions.flatMap((submission): IndexedRecord[] => {
+    if (!isDiscoverableSubmission(submission)) return [];
     const output = submission.output;
     if (!output) return [];
     const id = submission.record.id;
@@ -86,6 +87,7 @@ export function environmentIndex(model: SiteModel): EnvironmentIndex {
     [model.epoch, { id: model.epoch, registered: 0, drafts: 0 }],
   ]);
   for (const submission of model.submissions) {
+    if (!isDiscoverableSubmission(submission)) continue;
     const environment = model.environmentOf.get(submission.record.id);
     if (environment === undefined) continue;
     const entry = counted.get(environment)

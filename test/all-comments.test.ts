@@ -35,6 +35,7 @@ describe("public all-comments activity", () => {
       remark42Host: "https://remark42.example.test",
       remark42Site: "remark",
       identityUrl: "https://remark42.example.test/reactions/v1/identity",
+      unlistedSubmissions: '["lax9"]',
     };
     const list = new FakeElement();
     const status = new FakeElement();
@@ -66,6 +67,11 @@ describe("public all-comments activity", () => {
               id: "hidden-review", orig: "🚩 Incorrect claim\n\nlax-review:v2:flag:0:0", text: "<p>🚩 Incorrect claim</p>", score: 0,
               time: "2026-08-15T10:00:00Z", title: "Lax Archive review",
               locator: { url: "https://laxarchive.org/_reactions/Lax2/" }, user: { id: newId, name: "Old stored name" },
+            },
+            {
+              id: "unlisted-submission", orig: "Unlisted discussion", text: "<p>Unlisted discussion</p>", score: 1,
+              time: "2026-08-16T10:00:00Z", title: "Lax9",
+              locator: { url: "https://laxarchive.org/Lax9/" }, user: { id: newId, name: "Old stored name" },
             },
           ],
         };

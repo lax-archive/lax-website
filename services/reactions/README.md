@@ -36,21 +36,22 @@ Remark42. Mutations require an allowed `Origin`, JSON content type, and the
 `X-Lax-CSRF: 1` header. The service validates the Remark42 session server-side,
 rate-limits reads and writes, and accepts only canonical production URLs.
 
-Clients can request review state for an arbitrary set of concepts, including
-concepts owned by other submissions. The service-owned bridge adds the ORCID
-iD from its verified session as `viewer_orcid`; this matches the same public
-voter data used on individual concept pages even when a partitioned browser
-does not send its Remark42 cookie to the API route. The selector grants no
-write access and reveals no data beyond the already-public voter lists. The
-input is limited to 50 canonical concept URLs, preserves first-seen order, and
-collapses duplicates. Every requested concept is returned;
-`viewer_reaction` is empty when the selected viewer has not reviewed it.
+Authenticated clients can request their current review state for an arbitrary
+set of concepts, including concepts owned by other submissions. The request
+body is limited to 1 MiB, preserves first-seen order, and collapses duplicate
+URLs. Every requested concept is returned; `viewer_reaction` is empty when the
+viewer has not reviewed it. The service reads Remark42's indexed per-user
+comment stream once per 500 comments and filters all requested hidden threads
+in memory, so the upstream request count is independent of the number of
+concepts in a submission. The complete per-user review index is cached for 30
+seconds and concurrent cold reads are coalesced. A successful review write
+invalidates that user's cached index immediately.
 
 ```text
 POST /reactions/v1/concepts
 Content-Type: application/json
 
-{"urls":["https://laxarchive.org/Lax2/Lax2.C.html","https://laxarchive.org/Lax9/Lax9.Other.html"],"viewer_orcid":"0000-0002-1825-0097"}
+{"urls":["https://laxarchive.org/Lax2/Lax2.C.html","https://laxarchive.org/Lax9/Lax9.Other.html"]}
 ```
 
 Persistent data and 14 daily online backups live below `/var/lib/reactions`.
@@ -74,6 +75,12 @@ sides require exact origins, the bridge is frame-restricted by CSP, and the
 HttpOnly session remains confined to the comments origin. `GET
 /reactions/v1/me` remains the direct-client compatibility path and reports
 `reauthenticate:true` for a stale Remark42 cookie.
+
+Public page aggregates are cached in the service for 30 seconds, and
+concurrent cold reads share one Remark42 lookup. Bridge review writes go
+through the validated service endpoint and invalidate the affected page and
+viewer immediately; the bridge combines the cached public result with its
+shared session lookup rather than authenticating twice.
 
 The bridge also emits a credential-free session-change signal when Remark42
 logs in, logs out, or rejects an expired token. The parent immediately
@@ -104,6 +111,7 @@ docker build -t lax-reactions .
 docker run --rm -p 8081:8081 \
   -e REMARK_USER_URL=http://remark42:8080/api/v1/user?site=remark \
   -e REMARK_FIND_URL=http://remark42:8080/api/v1/find \
+  -e REMARK_COMMENTS_URL=http://remark42:8080/api/v1/comments \
   -e 'REMARK_POST_URL=http://remark42:8080/api/v1/comment?site=remark' \
   -v /var/lib/reactions:/var/lib/reactions lax-reactions
 ```

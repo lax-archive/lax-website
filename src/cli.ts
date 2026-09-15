@@ -6,6 +6,7 @@ import { fetchBundles } from "./bundles.js";
 import { loadSubmissions, submissionsMissingPapers } from "./database.js";
 import { fetchPapers } from "./papers.js";
 import { fetchReferences } from "./references.js";
+import { previewRequestPath } from "./preview.js";
 import { SITE_MIME } from "./sitegen/assets.js";
 import { generateSite } from "./sitegen/generate.js";
 
@@ -113,9 +114,12 @@ if (command === "fetch-references") {
   fs.watch(path.join(root, "assets"), { recursive: true }, schedule);
 
   http.createServer((request, response) => {
-    const url = new URL(request.url ?? "/", "http://localhost");
-    let relative = decodeURIComponent(url.pathname).replace(/^\/+/, "");
-    if (relative === "" || relative.endsWith("/")) relative += "index.html";
+    const relative = previewRequestPath(request.url);
+    if (relative === undefined) {
+      response.writeHead(400, { "content-type": "text/plain; charset=utf-8" });
+      response.end("bad request");
+      return;
+    }
     const file = path.resolve(outDir, relative);
     const inside = file === outDir || file.startsWith(`${outDir}${path.sep}`);
     if (!inside || !fs.existsSync(file) || fs.statSync(file).isDirectory()) {

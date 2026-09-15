@@ -6,6 +6,12 @@
   const host = (root.dataset.remark42Host || "").replace(/\/+$/, "");
   const site = root.dataset.remark42Site || "remark";
   const identityUrl = root.dataset.identityUrl || "";
+  const unlistedValues = JSON.parse(root.dataset.unlistedSubmissions || "[]");
+  const unlistedSubmissions = new Set(
+    (Array.isArray(unlistedValues) ? unlistedValues : [])
+      .filter((value) => typeof value === "string")
+      .map((value) => value.toLowerCase()),
+  );
   const list = root.querySelector("[data-activity-list]");
   const status = root.querySelector("[data-activity-status]");
   const more = root.querySelector("[data-activity-more]");
@@ -80,6 +86,8 @@
       const url = new URL(comment.locator?.url || "");
       if (url.origin !== "https://laxarchive.org") return "";
       if (url.pathname.startsWith("/_reactions/")) return "";
+      const submission = decodeURIComponent(url.pathname.split("/").filter(Boolean)[0] || "").toLowerCase();
+      if (unlistedSubmissions.has(submission)) return "";
       url.hash = `remark42__comment-${comment.id}`;
       return url.toString();
     } catch {

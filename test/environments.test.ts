@@ -254,4 +254,16 @@ describe("archive environments on the site", () => {
       { id: "v4.33.0", registered: 1, drafts: 0 },
     ]);
   });
+
+  it("keeps unlisted records out of both machine-readable indexes", () => {
+    const listed = make("lax-1", "v4.33.0");
+    const unlisted = make("lax-2", "v4.32.0");
+    unlisted.output!.manifest.unlisted = true;
+    const model = new SiteModel([listed, unlisted], "v4.33.0");
+
+    expect(recordIndex(model).records.map((record) => record.id)).toEqual(["lax-1"]);
+    expect(environmentIndex(model).environments).toEqual([
+      { id: "v4.33.0", registered: 1, drafts: 0 },
+    ]);
+  });
 });

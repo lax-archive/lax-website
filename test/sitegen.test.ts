@@ -683,7 +683,8 @@ After the formula.`, "");
     expect(css).toContain(".submissions-library-search{");
     expect(css).not.toContain("landing-carousel-count");
     expect(css).not.toContain(".landing-tile");
-    expect(css).toContain(".submissions-list-clipped::after{");
+    expect(css).not.toContain(".submissions-list-clipped::after{");
+    expect(css).toContain(".submission-find-alias{");
     expect(css).toContain(".landing-paper-rail-live > .manuscript-card{ position: absolute; left: 0; right: 0; margin: 0; z-index: 6; }");
     expect(css).toContain(".landing-paper-rail-live > .manuscript-card{ position: static; margin: 0 0 0.5rem; }");
     expect(css).toContain(".landing-paper-grid{ grid-template-columns: 1fr; row-gap: 0.9rem; }");
@@ -749,10 +750,11 @@ After the formula.`, "");
     expect(sidebarScript).toContain("function setupRandomSubmission()");
     expect(sidebarScript).toContain("Math.floor(Math.random() * candidates.length)");
     expect(sidebarScript).toContain("randomSubmission.hidden = Boolean(searchEl?.value.length)");
-    expect(sidebarScript).toContain("const SUBMISSION_PREVIEW_SIZE = 3");
+    expect(sidebarScript).toContain("const SUBMISSION_PAGE_SIZE = 10");
     expect(sidebarScript).toContain("function applySubmissionPagination(list, total)");
-    expect(sidebarScript).toContain("submissionVisibleLimit = Infinity");
-    expect(sidebarScript).toContain("list.classList.toggle('submissions-list-clipped', clipped)");
+    expect(sidebarScript).toContain("submissionVisibleLimit += SUBMISSION_PAGE_SIZE");
+    expect(sidebarScript).toContain("function updateTagCounts(list, search)");
+    expect(sidebarScript).toContain("function setupNativeSubmissionFind()");
     expect(sidebarScript).toContain("function setupSidebarResize()");
   });
 
@@ -870,7 +872,7 @@ After the formula.`, "");
     expect(index).toContain("Lax2/index.html");
     expect(index).toContain('class="submissions-list-link');
     // The creation date the list is ordered by, not the registration date.
-    expect(index).toContain('<span class="submissions-list-title">Two<span class="submissions-list-date">(1 Jan 2026)</span>');
+    expect(index).toContain('<span class="submission-find-alias" hidden="until-found" aria-hidden="true" data-submission-find-alias>Lax2</span>Two<span class="submissions-list-date">(1 Jan 2026)</span>');
     const submissionsList = index.slice(index.indexOf('<ul class="submissions-list"'), index.indexOf("</ul>", index.indexOf('<ul class="submissions-list"')));
     expect(submissionsList).not.toContain('class="submission-title-id"');
     expect(submissionsList).not.toContain('class="submission-title-inline-separator"');
@@ -893,7 +895,8 @@ After the formula.`, "");
     expect(index.indexOf('class="random-submission"')).toBeLessThan(index.indexOf('<ul id="entry-list">'));
     expect(index).toContain('id="submissions-list"');
     expect(index).toContain('id="submissions-list-empty"');
-    expect(index).toContain('<button class="submissions-load-more" id="submissions-load-more" type="button" aria-controls="submissions-list" hidden>Show all 1 submission <b aria-hidden="true">↓</b></button>');
+    expect(index).toContain('<button class="submissions-load-more" id="submissions-load-more" type="button" aria-controls="submissions-list" hidden>Load more <b aria-hidden="true">↓</b></button>');
+    expect(index).toContain('class="submission-find-alias" hidden="until-found" aria-hidden="true" data-submission-find-alias>Lax2</span>');
     // sidebar rows share the flat entry grammar and use titles alone
     expect(index).not.toContain("sidebar-submission");
     expect(index).toContain('data-entry-group="registered">Registered</li>');
@@ -913,6 +916,37 @@ After the formula.`, "");
     expect(proofObligations).toContain("<title>Open Proof Obligations — Lax Lean Archive</title>");
     expect(proofObligations).toContain("There are currently no open proof obligations");
     expect(fs.readFileSync(path.join(root, "open-problems.html"), "utf8")).toBe(proofObligations);
+  });
+
+  it("keeps unlisted submissions addressable but out of discovery surfaces", async () => {
+    const archive = graphSubmissions();
+    const unlisted = archive.find(({ record }) => record.id === "Lax4")!;
+    unlisted.output!.manifest.unlisted = true;
+    unlisted.output!.manifest.title = "Unlisted Preview Topic";
+
+    const root = tmpDir("lax-site-unlisted-");
+    await generateSite(archive, root);
+    const index = fs.readFileSync(path.join(root, "index.html"), "utf8");
+    const comments = fs.readFileSync(path.join(root, "all-comments", "index.html"), "utf8");
+    const obligations = fs.readFileSync(path.join(root, "open-proof-obligations.html"), "utf8");
+
+    expect(index).toContain("Lax1/index.html");
+    expect(index).toContain("Lax3/index.html");
+    expect(index).not.toContain("Lax4");
+    expect(index).not.toContain("Unlisted Preview Topic");
+    expect(index).toContain("2 submissions · 2 concepts · 0 statements, 0 proven");
+    expect(submissionTagIndex(archive).bySubmission.has("Lax4")).toBe(false);
+    expect(comments).toContain('data-unlisted-submissions="[&quot;lax4&quot;]"');
+    expect(obligations).not.toContain("Lax4");
+
+    for (const directPage of [
+      path.join("Lax4", "index.html"),
+      path.join("Lax4", "Lax4.Top.html"),
+      path.join("Lax4", "Lax4Proofs.a.html"),
+    ]) {
+      const html = fs.readFileSync(path.join(root, directPage), "utf8");
+      expect(html).toContain('<meta name="robots" content="noindex">');
+    }
   });
 
   it("renders anonymous submissions without exposing identities or source repositories", async () => {
@@ -1213,6 +1247,19 @@ After the formula.`, "");
     expect(entryList).toContain('<span class="entry-label"><span class="entry-label-text">Another draft</span></span>');
     expect(entryList).not.toContain('<span class="entry-id">');
     expect(index).not.toContain('class="draft-badge"');
+  });
+
+  it("emits one canonical URL for every generated page shape", async () => {
+    const root = tmpDir("lax-site-canonical-");
+    await generateSite(submissions(), root);
+    const read = (...parts: string[]) => fs.readFileSync(path.join(root, ...parts), "utf8");
+
+    expect(read("index.html")).toContain('<link rel="canonical" href="https://laxarchive.org/">');
+    expect(read("Lax2", "index.html")).toContain('<link rel="canonical" href="https://laxarchive.org/Lax2/">');
+    expect(read("Lax10", "index.html")).toContain('<link rel="canonical" href="https://laxarchive.org/Lax10/">');
+    expect(read("Lax2", "Lax2.C.html")).toContain('<link rel="canonical" href="https://laxarchive.org/Lax2/Lax2.C.html">');
+    expect(read("Lax2", "Lax2Proofs.truth.html")).toContain('<link rel="canonical" href="https://laxarchive.org/Lax2/Lax2Proofs.truth.html">');
+    expect(read("open-problems.html")).toContain('<link rel="canonical" href="https://laxarchive.org/open-proof-obligations.html">');
   });
 
   it("renders the submission page: paper masthead, compact grids, citation, graph data", async () => {
@@ -2278,6 +2325,32 @@ describe("multi-statement concepts", () => {
     expect(rails).toEqual(["L2", "L4"]);
     // the concept as a whole is open while one statement is unproven
     expect(html).toContain('<span class="status-pill pill-partial"');
+  });
+
+  it("keeps proofs in one Lean file distinct for a multi-statement concept", async () => {
+    const input = multiStatement();
+    const output = input[0]!.output!;
+    const proofPath = "proofs/Lax5Proofs/Menger.lean";
+    output.proofs = output.concepts[0]!.statements.map((statement, index) => ({
+      id: `Lax5Proofs.Menger.proof${index + 1}`,
+      path: proofPath,
+      conclusion: statement.id,
+      assumptions: [],
+      description: `Proof ${index + 1}.`,
+    }));
+
+    const root = tmpDir("lax-site-shared-proof-file-");
+    await generateSite(input, root);
+    const html = fs.readFileSync(path.join(root, "Lax5", "Lax5.Menger.html"), "utf8");
+    const sourceURL = "https://github.com/example/menger/blob/" + "b".repeat(40) + `/${proofPath}`;
+
+    expect((html.match(/class="evidence-statement"/g) ?? [])).toHaveLength(3);
+    expect((html.match(/class="proof-item"/g) ?? [])).toHaveLength(3);
+    expect((html.match(/class="source-proof-rail"/g) ?? [])).toHaveLength(3);
+    expect(html.split(`href="${sourceURL}"`)).toHaveLength(4);
+    for (let index = 1; index <= 3; index += 1) {
+      expect(html).toContain(`Lax5Proofs.Menger.proof${index}`);
+    }
   });
 
   it("shows which statement a proof concludes and never which one it assumes", async () => {

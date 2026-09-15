@@ -3,7 +3,7 @@ import type { AnnotationSection, BuildOutput, ConceptEntry, ProofEntry } from ".
 import type { ConceptGraphData, SubmissionGraphData } from "../graphs.js";
 import { attr, code, esc, formatDate, proofBadge, statePill, typeBadge } from "../html.js";
 import { plainAuthorTitle, type MarkdownRenderer } from "../markdown.js";
-import { compareIds, type LocatedProof, type SiteModel, type SiteSubmission } from "../model.js";
+import { compareIds, isDiscoverableSubmission, type LocatedProof, type SiteModel, type SiteSubmission } from "../model.js";
 import { conceptReviewBadge } from "./discussion.js";
 
 export interface PageContext { model: SiteModel; markdown: MarkdownRenderer }
@@ -527,7 +527,7 @@ ${EMPTY_ROW}
  * versions are intentionally discoverable only through their version chain. */
 export function currentSubmissions(model: SiteModel): SiteSubmission[] {
   return model.submissions
-    .filter((submission) => submission.output && !model.isSuperseded(submission.record.id))
+    .filter((submission) => isDiscoverableSubmission(submission) && !model.isSuperseded(submission.record.id))
     .sort((a, b) => compareSearchSubmissions(model, a, b));
 }
 

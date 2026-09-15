@@ -1,4 +1,4 @@
-import type { SiteSubmission } from "./model.js";
+import { isDiscoverableSubmission, type SiteSubmission } from "./model.js";
 
 export interface SubmissionTag {
   key: string;
@@ -138,7 +138,7 @@ function displayLabel(candidate: Candidate): string {
  */
 export function submissionTagIndex(submissions: SiteSubmission[]): SubmissionTagIndex {
   const candidates = new Map<string, Candidate>();
-  const listed = submissions.filter((submission) => submission.output);
+  const listed = submissions.filter(isDiscoverableSubmission);
 
   for (const submission of listed) {
     const output = submission.output!;

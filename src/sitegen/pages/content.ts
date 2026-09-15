@@ -25,6 +25,6 @@ export async function contentPage(
 <article class="content-page latex-content">
 ${body}
 </article>`;
-  return page({ title: `${title} — Lax Lean Archive`, rootRel: "", sidebar, content,
+  return page({ title: `${title} — Lax Lean Archive`, rootRel: "", canonicalPath: `${name}.html`, sidebar, content,
     scripts: hasProofFlip ? ["assets/proof-flip.js"] : [] });
 }

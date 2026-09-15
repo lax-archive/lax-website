@@ -168,9 +168,11 @@ ${graphDataScript({
   return page({
     title: ctx.markdown.plainAuthorTitle(concept.title),
     rootRel: "../",
+    canonicalPath: `${submission.record.id}/${concept.id}.html`,
     sidebar: submissionSidebar(ctx.model, submission, "../", { activeId: concept.id }),
     sidebarState: "open",
     content,
+    noIndex: output.manifest.unlisted === true,
     scripts: ["assets/graph-interaction.js", "assets/source-proof.js", "assets/version-history.js", "assets/comments.js"],
   });
 }

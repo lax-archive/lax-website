@@ -14,6 +14,11 @@ export interface SiteSubmission {
   sourceReferences?: Map<string, LeanReferences>;
 }
 
+/** Whether a submission belongs in archive-wide browse and search surfaces. */
+export function isDiscoverableSubmission(submission: SiteSubmission): boolean {
+  return submission.output !== undefined && submission.output.manifest.unlisted !== true;
+}
+
 /** One passage of a paper that marks a concept, proof, or submission. */
 export interface PaperMention {
   /** The submission whose paper carries the mark. */

@@ -163,4 +163,14 @@ describe("sidebar grouping during search", () => {
     expect(fixture.draft.hidden).toBe(false);
     expect(fixture.draftHeading.hidden).toBe(false);
   });
+
+  it("normalizes accents in sidebar and proof-obligation search text", () => {
+    const fixture = harness();
+    fixture.registered.dataset.searchTitle = undefined;
+    fixture.registered.dataset.search = "Édouard Lucas";
+    fixture.search("edouard");
+    expect(fixture.registered.hidden).toBe(false);
+    fixture.search("lucás");
+    expect(fixture.registered.hidden).toBe(false);
+  });
 });

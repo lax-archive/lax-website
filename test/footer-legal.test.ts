@@ -14,8 +14,8 @@ describe("footer and legal pages", () => {
   });
 
   it("links the legal pages from root and nested pages, and the about page from the header", () => {
-    const rootPage = page({ title: "Root", rootRel: "", sidebar: "", content: "" });
-    const nestedPage = page({ title: "Nested", rootRel: "../", sidebar: "", content: "" });
+    const rootPage = page({ title: "Root", rootRel: "", canonicalPath: "", sidebar: "", content: "" });
+    const nestedPage = page({ title: "Nested", rootRel: "../", canonicalPath: "nested/", sidebar: "", content: "" });
 
     for (const [html, prefix] of [[rootPage, ""], [nestedPage, "../"]] as const) {
       expect(html).toContain('<footer class="site-footer">');

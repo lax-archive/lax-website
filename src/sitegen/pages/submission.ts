@@ -100,6 +100,7 @@ ${discussion(`${record.id}/`)}`;
     return page({
       title: `${record.id} — Lax`,
       rootRel: "../",
+      canonicalPath: `${record.id}/`,
       sidebar,
       sidebarState: "open",
       content,
@@ -207,9 +208,11 @@ ${graphDataScript(graphs)}`;
   return page({
     title: `${output.manifest.title} — ${record.id}`,
     rootRel: "../",
+    canonicalPath: `${record.id}/`,
     sidebar,
     sidebarState: "open",
     content,
+    noIndex: output.manifest.unlisted === true,
     scripts: ["assets/graph-interaction.js", ...(anonymous ? [] : ["assets/citation.js"]), "assets/version-history.js", "assets/comments.js"],
   });
 }

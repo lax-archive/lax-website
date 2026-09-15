@@ -67,9 +67,11 @@ ${sections}`;
   return page({
     title: `${proof.id} — ${output.id}`,
     rootRel: "../",
+    canonicalPath: `${submission.record.id}/${proof.id}.html`,
     sidebar: submissionSidebar(ctx.model, submission, "../", { activeId: proof.id }),
     sidebarState: "open",
     content,
+    noIndex: output.manifest.unlisted === true,
     scripts: ["assets/version-history.js"],
   });
 }

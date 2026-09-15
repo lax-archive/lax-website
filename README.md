@@ -17,6 +17,13 @@ Archive submissions are data, not website source. The generator reads the
 public [`lax-archive/lax-database`](https://github.com/lax-archive/lax-database)
 repository and never modifies it.
 
+A manifest with `unlisted: true` keeps its submission, concept, proof, and
+paper pages available by direct URL, but omits the record from archive-wide
+browse, search, topic, review, comment-activity, proof-obligation, and
+machine-readable index surfaces. Those direct pages also ask search engines
+not to index them. A manifest with `anonymous: true` remains discoverable but
+withholds authorship, citation, and source-repository details.
+
 ## Requirements
 
 - Node.js 20 or newer

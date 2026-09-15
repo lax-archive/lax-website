@@ -615,7 +615,7 @@ export async function indexPage(ctx: PageContext): Promise<string> {
       : output!.manifest.authors.map((a) => esc(a.name)).join(", ");
     const counts = `${plural(output!.concepts.length, "concept")}, ${plural(output!.proofs.length, "proof")}`;
     return `<li ${submissionSearchAttributes(submission, order, tagIndex.bySubmission.get(record.id))}><a class="submissions-list-link" href="${attr(record.id)}/index.html">
-<span class="submissions-list-title">${markdown.renderAuthorInline(output!.manifest.title, "")}<span class="submissions-list-date">(${date})</span></span>
+<span class="submissions-list-title"><span class="submission-find-alias" hidden="until-found" aria-hidden="true" data-submission-find-alias>${esc(record.id)}</span>${markdown.renderAuthorInline(output!.manifest.title, "")}<span class="submissions-list-date">(${date})</span></span>
 ${authors ? `<span class="submissions-list-meta"><span class="formalized-label">formalized by</span> ${authors}</span>` : ""}
 <span class="submissions-list-counts">${counts} ${statePill(record.state)}</span>
 </a></li>`;
@@ -666,7 +666,7 @@ ${tagBrowser}
 ${rows.join("\n")}
 <li id="submissions-list-empty" class="submissions-list-empty" hidden>No submissions match.</li>
 </ul>
-<button class="submissions-load-more" id="submissions-load-more" type="button" aria-controls="submissions-list" hidden>Show all ${plural(listed.length, "submission")} <b aria-hidden="true">↓</b></button>
+<button class="submissions-load-more" id="submissions-load-more" type="button" aria-controls="submissions-list" hidden>Load more <b aria-hidden="true">↓</b></button>
 </section>`;
   const content = `<section class="landing-hero" aria-labelledby="landing-title">
 <h1 class="landing-title" id="landing-title">${esc(landing.title)}</h1>
@@ -695,6 +695,7 @@ ${faq}
   return page({
     title: "Lax Lean Archive",
     rootRel: "",
+    canonicalPath: "",
     sidebar: indexSidebar(model, markdown, tagIndex.bySubmission),
     content,
     detailClass: "detail-landing",
