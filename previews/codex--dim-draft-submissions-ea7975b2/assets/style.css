@@ -950,8 +950,10 @@ a.submission-meta-id:is(:hover, :focus-visible),
 
 .draft-reminder-dialog{
   width: min(35rem, calc(100vw - 2rem));
+  max-height: calc(100dvh - 2rem);
   margin: auto;
   padding: 0;
+  overflow: auto;
   border: 2px solid var(--warn-border);
   border-radius: var(--radius-card);
   background: var(--surface);
