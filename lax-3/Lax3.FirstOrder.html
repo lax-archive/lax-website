@@ -68,7 +68,7 @@
 </aside>
 <div id="sidebar-resizer" class="sidebar-resizer" role="separator" aria-label="Resize sidebar" aria-controls="sidebar" aria-orientation="vertical" aria-valuemin="220" aria-valuemax="520" aria-valuenow="285" tabindex="0" title="Drag to resize sidebar"></div>
 <section id="main"><div id="detail">
-<p class="draft-banner"><strong>Draft</strong> — mutable and not usable as a dependency; its citation marks the draft state.</p><p class="environment-notice">Environment <code>v4.30.0</code>. The archive's epoch is <code>v4.33.0</code>; only submissions in <code>v4.30.0</code> can cite this work.</p>
+<p class="draft-banner"><strong>Draft</strong> — mutable and not usable as a dependency; its citation marks the draft state.</p>
 <div class="detail-heading concept-heading">
 <div><h1 class="concept-title">First-order logic on graphs</h1>
 <p class="concept-microline"><code>concepts/Lax3/FirstOrder.lean</code> · <a href="index.html">lax-3</a></p></div>
@@ -136,7 +136,7 @@ because it admits a finer rank measure. Keeping the two apart is the
 point: a theorem stated for <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mi>O</mi></mrow><annotation encoding="application/x-tex">FO</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.1389em;">F</span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span></span></span></span> cannot be weakened by any convenience
 built into <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>D</mi><mi>i</mi><mi>s</mi><mi>t</mi><mi>F</mi><mi>O</mi></mrow><annotation encoding="application/x-tex">DistFO</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">D</span><span class="mord mathnormal">i</span><span class="mord mathnormal">s</span><span class="mord mathnormal" style="margin-right:0.1389em;">tF</span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span></span></span></span>.</p>
 </div></div>
-<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/3dc030d77f97405fec41e13b2f3fc7bd179dba70/nowhere-dense-model-checking/concepts/Lax3/FirstOrder.lean">view on GitHub</a></h3>
+<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/c474df4662b8a44926414141adce7920f6b2e243/nowhere-dense-model-checking/concepts/Lax3/FirstOrder.lean">view on GitHub</a></h3>
 <div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
 <tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Combinatorics.SimpleGraph.Basic</span></td></tr>
 <tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Data.Fin.Tuple.Basic</span></td></tr>
@@ -177,7 +177,7 @@ built into <span class="katex"><span class="katex-mathml"><math xmlns="http://ww
 <tr id="L37" class=""><td class="line-num"><a href="#L37">37</a></td><td class="line-code"><span style="color:#6A737D">names; the alternative, named variables, needs capture-avoiding</span></td></tr>
 <tr id="L38" class=""><td class="line-num"><a href="#L38">38</a></td><td class="line-code"><span style="color:#6A737D">substitution *inside the trusted definition*, which is a considerably</span></td></tr>
 <tr id="L39" class=""><td class="line-num"><a href="#L39">39</a></td><td class="line-code"><span style="color:#6A737D">worse object to audit than an index. This is the pattern of submission</span></td></tr>
-<tr id="L40" class=""><td class="line-num"><a href="#L40">40</a></td><td class="line-code"><span style="color:#6A737D">Lax11's MSO concept, minus the set variables.</span></td></tr>
+<tr id="L40" class=""><td class="line-num"><a href="#L40">40</a></td><td class="line-code"><span style="color:#6A737D">Lax271696's MSO concept, minus the set variables.</span></td></tr>
 <tr id="L41" class=""><td class="line-num"><a href="#L41">41</a></td><td class="line-code"> </td></tr>
 <tr id="L42" class=""><td class="line-num"><a href="#L42">42</a></td><td class="line-code"><span style="color:#6A737D">Variables are levels, not indices: the quantifier extends the</span></td></tr>
 <tr id="L43" class=""><td class="line-num"><a href="#L43">43</a></td><td class="line-code"><span style="color:#6A737D">environment at its *last* position (`Fin.snoc`), so the outermost bound</span></td></tr>
@@ -249,7 +249,7 @@ check. The price is that variables are de Bruijn positions rather than
 names; the alternative, named variables, needs capture-avoiding
 substitution <em>inside the trusted definition</em>, which is a considerably
 worse object to audit than an index. This is the pattern of submission
-Lax11's MSO concept, minus the set variables.</p>
+Lax271696's MSO concept, minus the set variables.</p>
 <p>Variables are levels, not indices: the quantifier extends the
 environment at its <em>last</em> position (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mi>i</mi><mi>n</mi><mi mathvariant="normal">.</mi><mi>s</mi><mi>n</mi><mi>o</mi><mi>c</mi></mrow><annotation encoding="application/x-tex">Fin.snoc</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.1389em;">F</span><span class="mord mathnormal">in</span><span class="mord">.</span><span class="mord mathnormal">s</span><span class="mord mathnormal">n</span><span class="mord mathnormal">oc</span></span></span></span>), so the outermost bound
 variable of a formula is <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn></mrow><annotation encoding="application/x-tex">0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span> and the innermost is the last. Nothing in
