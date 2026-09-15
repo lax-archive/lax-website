@@ -2159,35 +2159,29 @@
       "title": "An Introduction to Lax",
       "concepts": [
         {
-          "id": "Lax242665.BertrandPostulate",
-          "title": "Bertrand's postulate",
-          "type": "lemma"
-        },
-        {
           "id": "Lax242665.InfinitelyManyPrimes",
           "title": "There are infinitely many primes",
           "type": "theorem"
         },
         {
-          "id": "Lax242665.OddPrimeBetween",
-          "title": "An odd prime between n and 2n",
-          "type": "theorem"
-        },
-        {
-          "id": "Lax242665.OddPrimes",
-          "title": "Every prime other than 2 is odd",
+          "id": "Lax242665.PrimeDivisor",
+          "title": "Every number greater than 1 has a prime divisor",
           "type": "lemma"
         },
         {
           "id": "Lax242665.Primes",
           "title": "Prime numbers",
           "type": "definition"
+        },
+        {
+          "id": "Lax242665.TwinPrimes",
+          "title": "The twin prime conjecture",
+          "type": "conjecture"
         }
       ],
       "proofs": [
         "Lax242665Proofs.InfinitelyManyPrimes.exists_prime_gt",
-        "Lax242665Proofs.OddPrimeBetween.exists_odd_prime_between",
-        "Lax242665Proofs.OddPrimes.odd_of_prime"
+        "Lax242665Proofs.PrimeDivisor.exists_prime_dvd"
       ]
     },
     {
