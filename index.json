@@ -3632,6 +3632,7 @@
       "state": "draft",
       "environment": "v4.33.0",
       "title": "The Word RAM",
+      "supersedes": "lax-67",
       "concepts": [
         {
           "id": "Lax808846.Ram",
