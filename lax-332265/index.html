@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://comments.laxarchive.org; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self'; frame-src https://comments.laxarchive.org; connect-src 'self' https://comments.laxarchive.org">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Lax — an archive of formalized mathematical concepts and their proofs">
+<title>Hadwiger's Conjecture for t = 7 — lax-332265</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
+<link rel="stylesheet" href="../assets/style.css?v=fa6052de0f13">
+</head><body>
+<header class="site-header with-sidebar">
+  <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="true" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
+  <div class="site-brand">
+  <h1 class="site-title"><a href="../index.html">Lax <span class="site-title-quiet">Lean Archive</span></a></h1>
+  <nav class="site-nav" aria-label="Site">
+    <a class="site-nav-link" href="../lax-242665/paper.html">Introduction</a>
+    <a class="site-nav-link" href="../about.html">About</a>
+  </nav>
+  </div>
+  <nav class="header-actions" aria-label="Account">
+    <div class="account-header" data-account-root data-remark42-host="https://comments.laxarchive.org" data-remark42-site="remark" data-identity-url="https://comments.laxarchive.org/reactions/v1/identity">
+  <a class="account-control" data-account-login href="https://comments.laxarchive.org/auth/orcid/login?from=https%3A%2F%2Flaxarchive.org&amp;site=remark"><span class="orcid-mark" aria-hidden="true">iD</span><span>Sign in<span class="account-login-long"> with ORCID</span></span></a>
+  <button class="account-control" data-account-settings type="button" aria-haspopup="dialog" aria-controls="account-dialog" hidden><span class="orcid-mark" aria-hidden="true">iD</span><span>Settings</span></button>
+</div>
+  </nav>
+</header>
+<main id="content-shell">
+<div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+<aside id="sidebar">
+<a class="sidebar-back" href="../index.html"><span class="sidebar-back-arrow" aria-hidden="true">←</span>All submissions</a>
+<div class="sidebar-filters"><div class="filter-group">
+<label for="filter-search">Search</label>
+<input id="filter-search" class="filter-input" type="search" placeholder="Filter entries" aria-controls="entry-list">
+</div>
+<div class="filter-group">
+<label for="filter-type">Type</label>
+<select id="filter-type" class="filter-select">
+<option value="all">All types</option>
+<option value="definition">definition</option>
+<option value="theorem">theorem</option>
+</select>
+</div></div>
+<ul id="entry-list">
+<li data-type="theorem" data-search="lax332265.hadwigert7 hadwiger's conjecture for t = 7 theorem"><a class="entry-link" href="../lax-332265/Lax332265.HadwigerT7.html" data-full-title="Hadwiger's conjecture for t = 7"><span class="entry-label"><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><span class="entry-label-text">Hadwiger's conjecture for t = 7</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-332265/Lax332265.HadwigerT7.html" hidden></span></span></a></li>
+<li data-type="definition" data-search="lax332265.sixcolorable 6-colourability definition"><a class="entry-link" href="../lax-332265/Lax332265.SixColorable.html" data-full-title="6-colourability"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">6-colourability</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-332265/Lax332265.SixColorable.html" hidden></span></span></a></li>
+<li id="entry-list-empty" hidden>No entries match.</li>
+</ul>
+</aside>
+<div id="sidebar-resizer" class="sidebar-resizer" role="separator" aria-label="Resize sidebar" aria-controls="sidebar" aria-orientation="vertical" aria-valuemin="220" aria-valuemax="520" aria-valuenow="285" tabindex="0" title="Drag to resize sidebar"></div>
+<section id="main"><div id="detail">
+<p class="draft-banner"><strong>Draft</strong> — mutable and not usable as a dependency; its citation marks the draft state.</p>
+<header class="paper-head">
+<h1 class="paper-title">Hadwiger's Conjecture for t = 7</h1>
+<p class="paper-meta"><span class="submission-meta-id">lax-332265</span><span class="meta-sep">·</span><span class="formalized-label">formalized by</span> <span class="paper-author">Clemens Kuske <span class="author-links"><a href="https://github.com/clemenskuske">@clemenskuske</a></span></span><span class="author-sep">·</span><span class="paper-author">Codex (OpenAI)</span><span class="meta-sep">·</span>created <time datetime="2026-09-15T13:49:17Z">15 Sep 2026</time><span class="meta-sep">·</span><a href="https://github.com/lax-archive/lax-submissions/tree/170291b06a6b6f247368247d67d57c22c1be334c/hadwiger-conjecture-t7" title="https://github.com/lax-archive/lax-submissions/tree/170291b06a6b6f247368247d67d57c22c1be334c/hadwiger-conjecture-t7"><code>GitHub @170291b</code></a><span class="meta-sep">·</span>Lean <code>v4.33.0</code> <span class="meta-epoch" title="the environment the archive recommends this year">epoch</span> · mathlib <code>db584cd6d46c</code></p>
+</header>
+<section class="page-reactions" aria-label="Community review" data-reactions-host="https://comments.laxarchive.org" data-reactions-url="https://laxarchive.org/lax-332265/" data-review-kind="submission" data-source-lines="0" data-submission-concept-urls="[&quot;https://laxarchive.org/lax-68/Lax68.GraphMinors.html&quot;,&quot;https://laxarchive.org/lax-332265/Lax332265.HadwigerT7.html&quot;,&quot;https://laxarchive.org/lax-332265/Lax332265.SixColorable.html&quot;]">
+<div class="page-reactions-line">
+<div class="page-reactions-actions">
+<div class="page-reaction-control">
+<button class="page-reaction-button" type="button" data-reaction="endorse" aria-pressed="false" title="Say that this submission is correct"><span class="page-reaction-icon" aria-hidden="true">🥳</span><span>Endorse</span></button>
+<button class="page-reaction-voters" type="button" data-reaction-voters="endorse" aria-expanded="false" aria-controls="page-reaction-voters-endorse"><strong data-reaction-count="endorse">0</strong><span class="visually-hidden">Show people who endorse this submission</span></button>
+<div class="page-reaction-voters-popover" id="page-reaction-voters-endorse" data-reaction-voters-popover="endorse" hidden><p data-reaction-empty>No public endorsements yet.</p><ul></ul></div>
+</div>
+<div class="page-reaction-control page-flag-control">
+<button class="page-reaction-button" type="button" data-reaction="flag" aria-pressed="false" aria-haspopup="dialog" title="Explain why this submission may be false"><span class="page-reaction-icon" aria-hidden="true">🚩</span><span>Flag</span></button>
+<button class="page-reaction-voters" type="button" data-flag-list-open aria-haspopup="dialog" aria-controls="page-flag-list"><strong data-reaction-count="flag">0</strong><span class="visually-hidden">Show flags for this submission</span></button>
+</div>
+</div>
+<p class="submission-flagged-note" data-submission-flagged-note hidden><span aria-hidden="true">⚑</span><span data-submission-flagged-note-text></span></p>
+</div>
+<p class="page-reactions-status" data-reactions-status role="status">Loading review…</p>
+<a class="visually-hidden" data-reactions-login href="https://comments.laxarchive.org/auth/orcid/login?site=remark&amp;from=https%3A%2F%2Flaxarchive.org%2Flax-332265%2F">Sign in with ORCID</a>
+<dialog class="review-dialog flag-list-dialog" id="page-flag-list" data-flag-list-dialog aria-labelledby="page-flag-list-title">
+<div class="review-dialog-header"><div><p class="discussion-eyebrow">Community review</p><h2 id="page-flag-list-title">Flags</h2></div><button class="review-dialog-close" type="button" data-flag-list-close aria-label="Close flags">×</button></div>
+<p class="review-dialog-intro">Each flag is tied to a public ORCID identity and explains why this submission may be incorrect.</p>
+<p data-flag-list-empty>No flags have been submitted.</p><ol class="flag-list" data-flag-list></ol>
+</dialog>
+<dialog class="review-dialog flag-editor-dialog" id="page-flag-editor" data-flag-editor aria-labelledby="page-flag-editor-title">
+<form data-flag-form>
+<div class="review-dialog-header"><div><p class="discussion-eyebrow">Community review</p><h2 id="page-flag-editor-title">Flag this submission</h2></div><button class="review-dialog-close" type="button" data-flag-cancel aria-label="Close flag form">×</button></div>
+<p class="review-dialog-intro">State precisely what appears incorrect. This explanation will be public under your ORCID name.</p>
+<label class="flag-message-label" for="page-flag-message">What is wrong?</label>
+<textarea id="page-flag-message" data-flag-message rows="6" maxlength="2000" required placeholder="Describe the incorrect claim, missing assumption, or counterexample."></textarea>
+
+<p class="flag-form-status" data-flag-form-status role="status"></p>
+<div class="review-dialog-actions"><button class="danger-button" type="button" data-flag-remove hidden>Remove my flag</button><span></span><button class="secondary-button" type="button" data-flag-cancel>Cancel</button><button class="primary-button" type="submit">Publish flag</button></div>
+</form>
+</dialog>
+<noscript><p class="page-reactions-noscript"><a href="https://comments.laxarchive.org/auth/orcid/login?site=remark&amp;from=https%3A%2F%2Flaxarchive.org%2Flax-332265%2F">Sign in with ORCID</a> to review this page.</p></noscript>
+</section>
+<section class="paper-abstract">
+<h2 class="abstract-heading">Abstract</h2>
+<div class="latex-content"><p>TODO: describe this submission.
+Hadwiger's conjecture at <em>t</em> = 7 asserts that every finite graph with no
+<em>K</em>₇ minor is 6-colourable. This is the first unresolved case of the
+conjecture: the cases through <em>t</em> = 6 are known.</p>
+<p>The submission introduces 6-colourability as the existence of a proper
+vertex colouring by <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mi>i</mi><mi>n</mi><mn>6</mn></mrow><annotation encoding="application/x-tex">Fin 6</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.1389em;">F</span><span class="mord mathnormal">in</span><span class="mord">6</span></span></span></span>. It reuses, without alteration, the connected
+branch-set definition of a graph minor from the Planar Graph Classes
+submission (Lax68). Its sole theorem concept states the conjecture for graphs
+on the canonical finite carriers <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mi>i</mi><mi>n</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">Fin n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.1389em;">F</span><span class="mord mathnormal">inn</span></span></span></span> and deliberately has no proof, so it
+is presented by the archive as an open problem.</p>
+<p>Promising intermediate directions include imposing a bound on the
+independence number, forbidding additional induced subgraphs, or requiring a
+special decomposition. Recent general structural bounds improve the best
+known colouring bound for graphs with no <em>K</em>ₜ minor to
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>t</mi><mi>l</mi><mi>o</mi><mi>g</mi><mi>l</mi><mi>o</mi><mi>g</mi><mi>l</mi><mi>o</mi><mi>g</mi><mi>t</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(t log log log t)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.0197em;">tl</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.0359em;">g</span><span class="mord mathnormal" style="margin-right:0.0197em;">l</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.0359em;">g</span><span class="mord mathnormal" style="margin-right:0.0197em;">l</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.0359em;">g</span><span class="mord mathnormal">t</span><span class="mclose">)</span></span></span></span>, but they do not settle the six-colour bound at <em>t</em> = 7.</p>
+</div>
+</section>
+
+<section class="page-section"><h3 class="section-title">Concepts</h3>
+<div class="concept-list-box">
+<div class="concept-review-progress" data-concept-review-progress data-concept-review-urls="[&quot;https://laxarchive.org/lax-332265/Lax332265.HadwigerT7.html&quot;,&quot;https://laxarchive.org/lax-332265/Lax332265.SixColorable.html&quot;,&quot;https://laxarchive.org/lax-68/Lax68.GraphMinors.html&quot;]" hidden>
+<div class="concept-review-progress-heading"><span>Review progress</span><span data-concept-review-progress-label></span></div>
+<div class="concept-review-progress-track" data-concept-review-progress-track role="img"></div>
+</div>
+<ul class="concept-list" aria-label="Statements">
+<li><span class="type-badge open" title="theorem — open. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm×</span><a href="Lax332265.HadwigerT7.html" title="Lax332265.HadwigerT7"><code>HadwigerT7</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-332265/Lax332265.HadwigerT7.html" hidden></span></li>
+</ul>
+<ul class="concept-list" aria-label="Definitions">
+<li><span class="type-badge" title="definition">def</span><a href="Lax332265.SixColorable.html" title="Lax332265.SixColorable"><code>SixColorable</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-332265/Lax332265.SixColorable.html" hidden></span></li>
+</ul>
+<button class="concept-used-toggle" type="button" data-used-concepts-toggle aria-controls="used-concepts-list" aria-expanded="false">Show referenced concepts</button>
+<div class="concept-used-list" id="used-concepts-list" role="group" aria-label="Concepts used from other submissions" hidden>
+<ul class="concept-list" aria-label="Definitions">
+<li><span class="type-badge" title="definition">def</span><a href="../lax-68/Lax68.GraphMinors.html" title="Lax68.GraphMinors"><code>Lax68.GraphMinors</code></a><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-68/Lax68.GraphMinors.html" hidden></span></li>
+</ul>
+</div>
+</div>
+<details class="figure-details">
+<summary>Concept map</summary>
+<figure class="graph-figure">
+<div class="graph-controls"><div class="graph-ancestry-controls"><button type="button" id="concept-expand" aria-controls="concept-dag" disabled aria-pressed="true">Hide ancestors</button><button type="button" id="concept-descend" aria-controls="concept-dag" disabled aria-pressed="false">No descendants</button><output id="concept-graph-status" aria-live="polite">3 concepts</output></div><div class="graph-zoom-controls" aria-label="Graph zoom"><button type="button" data-graph-zoom="out" aria-label="Zoom out" disabled>−</button><output data-graph-zoom-status aria-label="Zoom">100%</output><button type="button" data-graph-zoom="in" aria-label="Zoom in" disabled>+</button><button type="button" data-graph-zoom="reset" disabled>Reset</button></div><button class="graph-expand" type="button" data-graph-expand data-graph-label="concept map" aria-expanded="false" aria-label="Open concept map in a large window"><svg class="graph-expand-open" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M2.5 6V2.5H6M10 2.5h3.5V6M13.5 10v3.5H10M6 13.5H2.5V10"/></svg><span class="graph-expand-close" aria-hidden="true">×</span></button></div>
+<div id="concept-dag" class="figure-container" data-graph="concepts" data-ancestry="true" data-prepared="true" style="height:164px"><svg xmlns="http://www.w3.org/2000/svg" class="prepared-graph" width="302" height="164" viewBox="0 0 302 164" aria-label="Concept dependency graph" data-layout-digest="de659a44d88f519dcda410274b745f5ff274d2d8549f2f9994135bbe7fc1c007"><defs><marker id="graph-arrow-concept-dag-de659a44d88f519d-10" viewBox="0 -5 10 10" refX="9" refY="0" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto" overflow="visible"><path d="M1,-4.25 L9,0 L1,4.25 Q3,0 1,-4.25 Z"/></marker></defs><g data-graph-camera><g transform="translate(58.408,24)"><a class="net-node open" data-node-id="c:Lax332265.HadwigerT7" aria-label="Hadwiger&#39;s conjecture for t = 7 (Lax332265.HadwigerT7)" href="../lax-332265/Lax332265.HadwigerT7.html" role="link"><rect x="0" y="0" width="185.844" height="30" rx="4"/><text class="graph-label" xml:space="preserve"><tspan x="10.000124999999997" y="18">Hadwiger&#39;s conjecture for t = 7</tspan></text></a></g><g transform="translate(36,110)"><a class="net-node none" data-node-id="c:Lax332265.SixColorable" aria-label="6-colourability (Lax332265.SixColorable)" href="../lax-332265/Lax332265.SixColorable.html" role="link"><rect x="0" y="0" width="96.049" height="30" rx="4"/><text class="graph-label" xml:space="preserve"><tspan x="10.000238525390628" y="18">6-colourability</tspan></text></a></g><g transform="translate(172.049,110)"><a class="net-node none ext" data-node-id="c:Lax68.GraphMinors" aria-label="Graph minors (Lax68.GraphMinors)" href="../lax-68/Lax68.GraphMinors.html" role="link"><rect x="0" y="0" width="93.173" height="30" rx="4"/><text class="graph-label" xml:space="preserve"><tspan x="10.000257324218751" y="18">Graph minors</tspan></text></a></g><path class="dag-edge" data-edge-id="e:Lax332265.SixColorable-&gt;Lax332265.HadwigerT7:import:0" d="M84.025,110 L84.025,100 Q84.025,98 85.785,97.05 L141.57,66.95 Q143.33,66 143.33,64 L143.33,54" marker-end="url(#graph-arrow-concept-dag-de659a44d88f519d-10)"/><path class="dag-edge" data-edge-id="e:Lax68.GraphMinors-&gt;Lax332265.HadwigerT7:import:0" d="M218.636,110 L218.636,100 Q218.636,98 216.876,97.05 L161.09,66.95 Q159.33,66 159.33,64 L159.33,54" marker-end="url(#graph-arrow-concept-dag-de659a44d88f519d-10)"/></g></svg></div>
+<div class="graph-tooltip" role="tooltip" hidden></div>
+<figcaption class="graph-legend" aria-label="Concept map legend"><span><i class="legend-node fill-open"></i>Open claim</span><span><i class="legend-node fill-none"></i>Definition</span><span><i class="legend-node stroke-own"></i>This submission</span><span><i class="legend-node stroke-ext"></i>Other submission</span><span><svg class="legend-dependency-arrow" viewBox="0 -4 26 8" aria-hidden="true" focusable="false"><path class="legend-edge-line" d="M1 0h22"/><path d="m20-3 3 3-3 3"/></svg>A → B: B builds on A</span></figcaption>
+</figure>
+</details>
+</section>
+<section class="page-section"><h3 class="section-title">Proofs</h3>
+<p class="empty-note">No proofs in this submission.</p>
+</section>
+<section class="page-section"><h3 class="section-title">Related submissions</h3>
+<h4 class="figure-title">Submission map</h4>
+<figure class="graph-figure">
+<div class="graph-controls"><div class="graph-zoom-controls" aria-label="Graph zoom"><button type="button" data-graph-zoom="out" aria-label="Zoom out" disabled>−</button><output data-graph-zoom-status aria-label="Zoom">100%</output><button type="button" data-graph-zoom="in" aria-label="Zoom in" disabled>+</button><button type="button" data-graph-zoom="reset" disabled>Reset</button></div><button class="graph-expand" type="button" data-graph-expand data-graph-label="submission map" aria-expanded="false" aria-label="Open submission map in a large window"><svg class="graph-expand-open" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M2.5 6V2.5H6M10 2.5h3.5V6M13.5 10v3.5H10M6 13.5H2.5V10"/></svg><span class="graph-expand-close" aria-hidden="true">×</span></button></div>
+<div id="submission-dag" class="figure-container" data-graph="submissions" data-prepared="true" style="height:152px"><svg xmlns="http://www.w3.org/2000/svg" class="prepared-graph" width="262" height="152" viewBox="0 0 262 152" aria-label="Submission dependency graph" data-layout-digest="0f180cbadd5bd35c63f82208062e2b4aa1232c9172d2781379bd30443ce3aef9"><defs><marker id="graph-arrow-submission-dag-0f180cbadd5bd35c-default" viewBox="0 -5 10 10" refX="9" refY="0" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto" overflow="visible"><path d="M1,-4.25 L9,0 L1,4.25 Q3,0 1,-4.25 Z"/></marker></defs><g data-graph-camera><g transform="translate(36,24)"><a class="dag-node submission none" data-node-id="s:lax-332265" aria-label="Hadwiger&#39;s Conjecture for t = 7 (lax-332265)" href="../lax-332265/index.html" role="link"><rect x="0" y="0" width="189.172" height="30" rx="4"/><text class="graph-label" xml:space="preserve"><tspan x="10.000062499999999" y="18">Hadwiger&#39;s Conjecture for t = 7</tspan></text></a></g><g transform="translate(63.522,98)"><a class="dag-node submission none ext" data-node-id="s:lax-68" aria-label="Planar Graph Classes (lax-68)" href="../lax-68/index.html" role="link"><rect x="0" y="0" width="134.129" height="30" rx="4"/><text class="graph-label" xml:space="preserve"><tspan x="10.000107910156245" y="18">Planar Graph Classes</tspan></text></a></g><path class="dag-edge" data-edge-id="e:lax-68-&gt;lax-332265:concepts:0" d="M130.586,98 L130.586,54" marker-end="url(#graph-arrow-submission-dag-0f180cbadd5bd35c-default)"/></g></svg></div>
+<div class="graph-tooltip" role="tooltip" hidden></div>
+<figcaption class="graph-legend" aria-label="Submission map legend"><span><i class="legend-node stroke-own"></i>This submission</span><span><i class="legend-node stroke-ext"></i>Other submission</span><span><svg class="legend-dependency-arrow" viewBox="0 -4 26 8" aria-hidden="true" focusable="false"><path class="legend-edge-line" d="M1 0h22"/><path d="m20-3 3 3-3 3"/></svg>A → B: B's concepts build on A</span></figcaption>
+</figure>
+</section>
+<section class="page-section"><h3 class="section-title" id="citation">Cite this</h3>
+<p class="honesty-note">This is only the formalizers. The authors of the formalized results may be different (see References).</p>
+<div class="citation-box">
+<pre class="citation" id="submission-citation">@misc{lax-332265,
+  author = {Clemens Kuske and Codex (OpenAI)},
+  title = {Hadwiger's Conjecture for t = 7},
+  year = {2026},
+  howpublished = {Lax Archive, lax-332265},
+  url = {https://laxarchive.org/lax-332265/},
+  note = {draft},
+}</pre>
+<button class="citation-copy" type="button" data-copy-citation aria-controls="submission-citation" aria-label="Copy BibTeX to clipboard" title="Copy BibTeX"><span class="citation-copy-icon" aria-hidden="true"></span></button>
+<output class="citation-copy-status" aria-live="polite"></output>
+</div>
+</section>
+<section class="page-section"><h3 class="section-title">References</h3>
+<ol class="reference-list">
+<li id="ref-Hadwiger1943">Hugo Hadwiger. <span class="reference-title">Über eine Klassifikation der Streckenkomplexe</span>. Vierteljahrsschrift der Naturforschenden Gesellschaft in Zürich 88:133–142, 1943.</li>
+<li id="ref-LiuLuo2026">Chun-Hung Liu and Jason Luo. <span class="reference-title">Beyond Halfway to Hadwiger's Conjecture</span>. 2026. <a href="https://doi.org/10.48550/arXiv.2609.06867">doi:10.48550/arXiv.2609.06867</a> · <a href="https://arxiv.org/abs/2609.06867">arXiv:2609.06867</a></li>
+</ol>
+</section>
+<section class="page-section discussion-section" aria-labelledby="discussion-title">
+<div class="discussion-heading">
+<div class="discussion-heading-copy">
+<h3 class="section-title" id="discussion-title">Discussion</h3>
+<p>Ask a question or add context. Endorsements and structured flags are kept in the review panel above.</p>
+</div>
+<p class="discussion-count" hidden><span class="remark42__counter" data-url="https://laxarchive.org/lax-332265/">0</span> <span>comments</span></p>
+</div>
+<div class="discussion-embed-shell">
+<p class="discussion-loading" id="remark42-status" role="status"><span class="discussion-loading-mark" aria-hidden="true"></span>Loading discussion…</p>
+<div id="remark42" data-remark42-host="https://comments.laxarchive.org" data-remark42-site="remark" data-remark42-url="https://laxarchive.org/lax-332265/"></div>
+</div>
+<noscript><p class="discussion-unavailable">Enable JavaScript to read or join the discussion.</p></noscript>
+</section>
+<script type="application/json" id="graph-data">{"concepts":{"home":"lax-332265","nodes":[{"id":"Lax332265.HadwigerT7","title":"Hadwiger's conjecture for t = 7","href":"../lax-332265/Lax332265.HadwigerT7.html","dir":"core","status":"open","owner":"lax-332265","ext":false},{"id":"Lax332265.SixColorable","title":"6-colourability","href":"../lax-332265/Lax332265.SixColorable.html","dir":"core","status":"none","owner":"lax-332265","ext":false},{"id":"Lax68.GraphMinors","title":"Graph minors","href":"../lax-68/Lax68.GraphMinors.html","dir":"up","status":"none","owner":"lax-68","ext":true}],"edges":[{"from":"Lax332265.SixColorable","to":"Lax332265.HadwigerT7"},{"from":"Lax68.GraphMinors","to":"Lax332265.HadwigerT7"}]},"proofs":{"home":"lax-332265","statements":[{"id":"Lax332265.HadwigerT7.sixColorable_of_no_K7_minor","title":"Hadwiger's conjecture for t = 7","href":"../lax-332265/Lax332265.HadwigerT7.html#s-Lax332265.HadwigerT7.sixColorable_of_no_K7_minor","owner":"lax-332265","ext":false,"label":"HadwigerT7","concept":"Lax332265.HadwigerT7","tooltipHtml":"Hadwiger's conjecture for t = 7","index":1,"count":1,"proven":false}],"proofs":[]},"submissions":{"nodes":[{"id":"lax-332265","title":"Hadwiger's Conjecture for t = 7","href":"../lax-332265/index.html","dir":"core","state":"draft","ext":false,"concepts":2,"proofs":0},{"id":"lax-68","title":"Planar Graph Classes","href":"../lax-68/index.html","dir":"up","state":"draft","ext":true,"concepts":45,"proofs":23}],"edges":[{"from":"lax-68","to":"lax-332265","kind":"concepts"}]},"prepared":{"concept-dag":{"initial":"10","ancestors":1,"descendants":0,"views":{"10":{"interaction":{"nodes":{"c:Lax332265.HadwigerT7":{"label":"Hadwiger's conjecture for t = 7","tooltipRows":[["Concept","Hadwiger's conjecture for t = 7"],["Status","open"],["Submission","lax-332265"]],"incident":["e:Lax332265.SixColorable->Lax332265.HadwigerT7:import:0","e:Lax68.GraphMinors->Lax332265.HadwigerT7:import:0"]},"c:Lax332265.SixColorable":{"label":"6-colourability","tooltipRows":[["Concept","6-colourability"],["Status","definition"],["Submission","lax-332265"]],"incident":["e:Lax332265.SixColorable->Lax332265.HadwigerT7:import:0"]},"c:Lax68.GraphMinors":{"label":"Graph minors","tooltipRows":[["Concept","Graph minors"],["Status","definition"],["Submission","lax-68"]],"incident":["e:Lax68.GraphMinors->Lax332265.HadwigerT7:import:0"]}}},"height":164,"status":"3 concepts"},"00":{"svg":"\u003csvg xmlns=\"http://www.w3.org/2000/svg\" class=\"prepared-graph\" width=\"258\" height=\"152\" viewBox=\"0 0 258 152\" aria-label=\"Concept dependency graph\" data-layout-digest=\"ebc1638349dc71c877f5d8161c2ad4a44352167504e4e008f95d637a10d53dd2\">\u003cdefs>\u003cmarker id=\"graph-arrow-concept-dag-ebc1638349dc71c8-00\" viewBox=\"0 -5 10 10\" refX=\"9\" refY=\"0\" markerWidth=\"7\" markerHeight=\"7\" markerUnits=\"userSpaceOnUse\" orient=\"auto\" overflow=\"visible\">\u003cpath d=\"M1,-4.25 L9,0 L1,4.25 Q3,0 1,-4.25 Z\"/>\u003c/marker>\u003c/defs>\u003cg data-graph-camera>\u003cg transform=\"translate(36,24)\">\u003ca class=\"net-node open\" data-node-id=\"c:Lax332265.HadwigerT7\" aria-label=\"Hadwiger&#39;s conjecture for t = 7 (Lax332265.HadwigerT7)\" href=\"../lax-332265/Lax332265.HadwigerT7.html\" role=\"link\">\u003crect x=\"0\" y=\"0\" width=\"185.844\" height=\"30\" rx=\"4\"/>\u003ctext class=\"graph-label\" xml:space=\"preserve\">\u003ctspan x=\"10.000124999999997\" y=\"18\">Hadwiger&#39;s conjecture for t = 7\u003c/tspan>\u003c/text>\u003c/a>\u003c/g>\u003cg transform=\"translate(80.898,98)\">\u003ca class=\"net-node none\" data-node-id=\"c:Lax332265.SixColorable\" aria-label=\"6-colourability (Lax332265.SixColorable)\" href=\"../lax-332265/Lax332265.SixColorable.html\" role=\"link\">\u003crect x=\"0\" y=\"0\" width=\"96.049\" height=\"30\" rx=\"4\"/>\u003ctext class=\"graph-label\" xml:space=\"preserve\">\u003ctspan x=\"10.000238525390628\" y=\"18\">6-colourability\u003c/tspan>\u003c/text>\u003c/a>\u003c/g>\u003cpath class=\"dag-edge\" data-edge-id=\"e:Lax332265.SixColorable-&gt;Lax332265.HadwigerT7:import:0\" d=\"M128.922,98 L128.922,54\" marker-end=\"url(#graph-arrow-concept-dag-ebc1638349dc71c8-00)\"/>\u003c/g>\u003c/svg>","interaction":{"nodes":{"c:Lax332265.HadwigerT7":{"label":"Hadwiger's conjecture for t = 7","tooltipRows":[["Concept","Hadwiger's conjecture for t = 7"],["Status","open"],["Submission","lax-332265"]],"incident":["e:Lax332265.SixColorable->Lax332265.HadwigerT7:import:0"]},"c:Lax332265.SixColorable":{"label":"6-colourability","tooltipRows":[["Concept","6-colourability"],["Status","definition"],["Submission","lax-332265"]],"incident":["e:Lax332265.SixColorable->Lax332265.HadwigerT7:import:0"]}}},"height":152,"status":"2 concepts; 1 ancestor hidden"}}},"submission-dag":{"initial":"default","ancestors":0,"descendants":0,"views":{"default":{"interaction":{"nodes":{"s:lax-332265":{"label":"Hadwiger's Conjecture for t = 7","tooltipRows":[["Submission","lax-332265"],["Content","2 concepts, 0 proofs"],["State","draft"],["Relation","this submission"]],"incident":["e:lax-68->lax-332265:concepts:0"]},"s:lax-68":{"label":"Planar Graph Classes","tooltipRows":[["Submission","lax-68"],["Content","45 concepts, 23 proofs"],["State","draft"],["Relation","this submission builds on it"]],"incident":["e:lax-68->lax-332265:concepts:0"]}}},"height":152,"status":"2 submissions"}}}}}</script>
+</div>
+<footer class="site-footer">
+  <nav class="site-footer-nav" aria-label="Legal">
+    <a class="site-footer-link" href="../impressum.html">Imprint</a>
+    <a class="site-footer-link" href="../privacy.html">Privacy</a>
+  </nav>
+</footer>
+</section>
+</main>
+<dialog class="account-dialog" id="account-dialog" aria-labelledby="account-dialog-title">
+<div class="account-dialog-inner">
+<header class="account-dialog-header">
+<div><p class="account-dialog-eyebrow">ORCID account</p><h2 id="account-dialog-title">Settings</h2></div>
+<button class="account-dialog-close" data-account-close type="button" aria-label="Close account settings">×</button>
+</header>
+<div class="account-dialog-body">
+<p class="account-status" data-account-status role="status">Checking your ORCID session…</p>
+<section data-account-content hidden>
+<div class="account-identity">
+<span class="account-avatar" data-account-avatar aria-hidden="true">iD</span>
+<div><a class="account-name" data-account-name target="_blank" rel="noopener noreferrer"></a><p class="account-id" data-account-id></p></div>
+</div>
+<p class="account-name-note">Your public name comes from ORCID. ORCID names are self-asserted and may change.</p>
+<div class="account-actions">
+<a data-account-refresh href="https://comments.laxarchive.org/auth/orcid/login?from=https%3A%2F%2Flaxarchive.org&amp;site=remark">Refresh from ORCID</a>
+<button data-account-logout type="button">Sign out</button>
+</div>
+<div class="account-comments-heading"><h3>Your comments</h3><span data-account-comment-count></span></div>
+<ol class="account-comments" data-account-comments></ol>
+<p class="account-comments-status" data-account-comments-status role="status"></p>
+</section>
+</div>
+</div>
+</dialog>
+<script src="../assets/sidebar.js?v=e4e626f46671"></script>
+<script src="../assets/account.js?v=449b15dc8a12"></script>
+<script src="../assets/graph-interaction.js?v=db834c0ada93"></script>
+<script src="../assets/citation.js?v=dd5ce19082ad"></script>
+<script src="../assets/version-history.js?v=a36e868140dd"></script>
+<script src="../assets/comments.js?v=dabbfeb11bca"></script>
+</body></html>
