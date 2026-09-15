@@ -1286,38 +1286,6 @@ a.submission-meta-id:is(:hover, :focus-visible),
 
 /* ── Lean source table ── */
 
-.statement-nav{
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.4rem;
-  margin: 0 0 0.7rem;
-  color: var(--text-dim);
-  font: 400 0.74rem/1 var(--mono);
-}
-.statement-nav > span{ margin-right: 0.2rem; }
-.statement-nav a{
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 1.75rem;
-  height: 1.75rem;
-  padding: 0 0.3rem;
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  color: inherit;
-  background: var(--surface);
-  text-decoration: none;
-}
-.statement-nav a:hover,
-.statement-nav a:focus-visible{
-  color: var(--accent);
-  border-color: var(--accent);
-  background: var(--accent-light);
-  text-decoration: none;
-}
-.statement-nav a:focus-visible{ outline: 2px solid var(--accent); outline-offset: 2px; }
-
 .inline-contract-shell{
   position: relative;
   border: 1px solid var(--border-light);
@@ -3387,6 +3355,28 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
   font-weight: 600;
 }
 .evidence-statement h4 code{ font-family: var(--mono); font-size: 0.78rem; font-weight: 400; }
+.evidence-statement-link{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.75rem;
+  height: 1.75rem;
+  padding: 0 0.3rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--text-dim);
+  background: var(--surface);
+  font: 400 0.74rem/1 var(--mono);
+  text-decoration: none;
+}
+.evidence-statement-link:hover,
+.evidence-statement-link:focus-visible{
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--accent-light);
+  text-decoration: none;
+}
+.evidence-statement-link:focus-visible{ outline: 2px solid var(--accent); outline-offset: 2px; }
 
 .honesty-note,
 .empty-note{

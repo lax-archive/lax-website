@@ -11,7 +11,6 @@ import {
   conceptMapLegend,
   draftBanner,
   environmentNotice,
-  ordinal,
   shortId,
   versionHistoryPanel,
   repositorySource,
@@ -68,7 +67,8 @@ ${body}
     );
   const proven = ctx.model.network.proven;
   const blocks = concept.statements.map((statement, index) => {
-    const heading = `<a href="#s-${attr(statement.id)}">${esc(ordinal(index + 1))} statement</a> ${code(shortId(statement.id, concept.id))} ${countsPill(proven.has(statement.id) ? 1 : 0, 1)}`;
+    const name = shortId(statement.id, concept.id);
+    const heading = `<a class="evidence-statement-link" href="#s-${attr(statement.id)}" aria-label="${attr(`Statement ${index + 1}: ${name}`)}" title="${attr(`Jump to statement ${index + 1} in the Lean source`)}">${index + 1}</a> ${code(name)} ${countsPill(proven.has(statement.id) ? 1 : 0, 1)}`;
     return `<div class="evidence-statement"><h4>${heading}</h4>
 ${list(proofsOf(statement.id), "No proof in the archive yet — this statement is open.")}
 </div>`;
@@ -132,12 +132,6 @@ export async function conceptPage(ctx: PageContext, located: LocatedConcept): Pr
   const sourceRows = await highlightSource(concept.sourceText, concept.statements, proven, {
     links: sourceLinks(ctx.model, concept.id, "../"),
   });
-  const statementNavigation = concept.statements.length > 1
-    ? `<nav class="statement-nav" aria-label="Statements in this concept"><span>Statements</span>${concept.statements.map((statement, index) => {
-      const name = shortId(statement.id, concept.id);
-      return `<a href="#s-${attr(statement.id)}" aria-label="${attr(`Statement ${index + 1} of ${concept.statements.length}: ${name}`)}" title="${attr(name)}">${index + 1}</a>`;
-    }).join("")}</nav>`
-    : "";
 
   const content = `${versionHistoryPanel(ctx, submission.record.id, "../")}${draftBanner(submission.record.state)}${environmentNotice(ctx.model, submission)}
 <div class="detail-heading concept-heading">
@@ -159,7 +153,6 @@ ${evidence(ctx, located)}
 ${inPaperBlock(ctx, concept.id, output.id, "../")}
 <div class="block block-statement"><h3>${esc(typeHeading)}</h3><div class="latex-content">${ctx.markdown.renderAuthorProse(concept.description, "../")}</div></div>
 <div class="block block-lean"><h3 class="section-heading">Lean source${sourceFile ? ` <a class="source-link" href="${attr(sourceFile)}">view on ${esc(sourceProviderName(sourceFile))}</a>` : sourceWithheld ? withheldSourceLink() : ""}</h3>
-${statementNavigation}
 <div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
 ${sourceRows}
 </table></div>${proofActions}<span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>

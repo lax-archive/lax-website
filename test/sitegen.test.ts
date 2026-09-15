@@ -1824,7 +1824,7 @@ After the formula.`, "");
     // Evidence starts collapsed, like the concept map, but keeps its proofs.
     expect(html).toMatch(/<details class="figure-details evidence-details">\s*<summary>Evidence<\/summary>/);
     expect(html).toContain('href="../Lax2/Lax2Proofs.truth.html"');
-    // A single statement needs no numbered navigation.
+    // No separate navigation row is added above the source.
     expect(html).not.toContain('class="statement-nav"');
     expect(html).toContain('data-remark42-url="https://laxarchive.org/Lax2/Lax2.C.html"');
     expect(html).toContain('data-reactions-url="https://laxarchive.org/Lax2/Lax2.C.html"');
@@ -2361,7 +2361,7 @@ describe("multi-statement concepts", () => {
     expect(statementOrdinal(new SiteModel(submissions()), "Lax2.C.truth")).toBeUndefined();
   });
 
-  it("links numbered statements to source and keeps evidence collapsed by default", async () => {
+  it("links numbered statements within evidence and keeps it collapsed by default", async () => {
     const root = tmpDir("lax-site-multi-concept-");
     await generateSite(multiStatement(), root);
     const html = fs.readFileSync(path.join(root, "Lax5", "Lax5.Menger.html"), "utf8");
@@ -2369,11 +2369,12 @@ describe("multi-statement concepts", () => {
     expect(html).toMatch(/<details class="figure-details evidence-details">\s*<summary>Evidence<\/summary>/);
     expect((html.match(/class="evidence-statement"/g) ?? [])).toHaveLength(3);
     expect((html.match(/this statement is open/g) ?? [])).toHaveLength(1);
-    const navigation = html.match(/<nav class="statement-nav"[^]*?<\/nav>/)?.[0] ?? "";
+    expect(html).not.toContain('class="statement-nav"');
+    const evidence = html.match(/<details class="figure-details evidence-details">[^]*?<\/details>/)?.[0] ?? "";
     for (const [index, name] of ["vertexVersion", "edgeVersion", "globalVersion"].entries()) {
-      expect(navigation).toContain(`href="#s-Lax5.Menger.${name}"`);
-      expect(navigation).toContain(`aria-label="Statement ${index + 1} of 3: ${name}"`);
-      expect(navigation).toContain(`>${index + 1}</a>`);
+      expect(evidence).toContain(`class="evidence-statement-link" href="#s-Lax5.Menger.${name}"`);
+      expect(evidence).toContain(`aria-label="Statement ${index + 1}: ${name}"`);
+      expect(evidence).toContain(`>${index + 1}</a>`);
       expect(html).toContain(`id="s-Lax5.Menger.${name}"`);
     }
     // one rail per statement that has proofs, each on its own declaration row
