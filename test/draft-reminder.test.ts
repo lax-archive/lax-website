@@ -40,24 +40,24 @@ function loadDraftReminder(options: {
 }
 
 describe("old draft reminder", () => {
-  it("does not open before the draft is seven days old", () => {
-    const ui = loadDraftReminder({ ageDays: 6.99 });
+  it("does not open before the draft is fourteen days old", () => {
+    const ui = loadDraftReminder({ ageDays: 13.99 });
     expect(ui.showModal).not.toHaveBeenCalled();
   });
 
-  it("opens directly on every visit once the draft is seven days old", () => {
-    const firstVisit = loadDraftReminder({ ageDays: 7 });
+  it("opens directly on every visit once the draft is fourteen days old", () => {
+    const firstVisit = loadDraftReminder({ ageDays: 14 });
     const nextVisit = loadDraftReminder({ ageDays: 30 });
     expect(firstVisit.showModal).toHaveBeenCalledOnce();
     expect(nextVisit.showModal).toHaveBeenCalledOnce();
   });
 
   it("closes from the button or backdrop and supports non-dialog browsers", () => {
-    const native = loadDraftReminder({ ageDays: 8 });
+    const native = loadDraftReminder({ ageDays: 15 });
     native.closeListeners.click!({});
     expect(native.close).toHaveBeenCalledOnce();
 
-    const fallback = loadDraftReminder({ ageDays: 8, nativeDialog: false });
+    const fallback = loadDraftReminder({ ageDays: 15, nativeDialog: false });
     expect(fallback.attributes.has("open")).toBe(true);
     fallback.dialogListeners.click!({ target: fallback.dialog });
     expect(fallback.attributes.has("open")).toBe(false);
