@@ -4219,14 +4219,14 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
 
 /* Focused proof selection keeps the graph camera independent from this
    content-sized inspector on the right. It starts below the graph controls;
-   long details stop short of filling the window and scroll within the cap. */
+   details grow naturally until they reach the legend, then scroll. */
 .graph-detail-panel{
   position: absolute;
   z-index: 35;
   top: var(--graph-detail-top, 3rem);
   right: calc(var(--graph-scrollbar-width, 16px) + 0.5rem);
   width: min(29rem, 42vw);
-  max-height: min(42rem, 82%, calc(100% - var(--graph-detail-top, 3rem) - 0.8rem));
+  max-height: var(--graph-detail-max-height, calc(100% - var(--graph-detail-top, 3rem) - 0.8rem));
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -4240,7 +4240,7 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
   position: absolute;
   z-index: 1;
   top: 0.55rem;
-  right: 0.55rem;
+  right: calc(var(--graph-detail-scrollbar-width, 16px) + 0.55rem);
   width: 1.9rem;
   height: 1.9rem;
   padding: 0;

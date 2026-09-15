@@ -597,6 +597,20 @@
     }
   }
 
+  function fitDetailPanel(controller) {
+    const figure = controller.container.closest('.graph-figure');
+    const panel = figure.querySelector('.graph-detail-panel');
+    if (!panel || panel.hidden) return;
+    const top = (figure.querySelector('.graph-controls')?.offsetHeight || 0) + 6;
+    const bottom = figure.querySelector('.graph-legend')?.offsetTop ?? figure.clientHeight;
+    panel.style.setProperty('--graph-detail-top', `${top}px`);
+    panel.style.setProperty('--graph-detail-max-height', `${Math.max(0, bottom - top - 6)}px`);
+    const scroll = panel.querySelector('.graph-detail-scroll');
+    // Overlay scrollbars do not reserve layout space, but still need clearance.
+    const scrollbarWidth = Math.max(scroll.offsetWidth - scroll.clientWidth, 16);
+    panel.style.setProperty('--graph-detail-scrollbar-width', `${scrollbarWidth}px`);
+  }
+
   function renderDetailPanel(controller, view) {
     const panel = ensureDetailPanel(controller);
     const scroll = panel.querySelector('.graph-detail-scroll');
@@ -640,9 +654,7 @@
       panel.append(action);
     }
     panel.hidden = false;
-    const controls = panel.parentElement.querySelector('.graph-controls');
-    panel.style.removeProperty('top');
-    panel.style.setProperty('--graph-detail-top', `${(controls?.offsetHeight || 0) + 6}px`);
+    fitDetailPanel(controller);
     scroll.scrollTop = 0;
     return panel;
   }
@@ -1241,6 +1253,7 @@
     new ResizeObserver(() => {
       if (controller.autoFrame && figure.classList.contains('graph-expanded')) controller.frameExpanded();
       else { controller.fitScrollbars(); controller.paint(); }
+      fitDetailPanel(controller);
     }).observe(container);
     container.addEventListener('scroll', () => {
       if (container.scrollTop && getComputedStyle(container).overflowY === 'hidden') controller.paint();

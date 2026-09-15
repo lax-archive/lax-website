@@ -771,11 +771,15 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
         const controls = element.parentElement!.querySelector(".graph-controls")!.getBoundingClientRect();
         const plot = element.parentElement!.querySelector<HTMLElement>(".figure-container")!;
         const footer = element.querySelector(".graph-detail-action")!.getBoundingClientRect();
+        const legend = element.parentElement!.querySelector(".graph-legend")!.getBoundingClientRect();
+        const scroll = element.querySelector<HTMLElement>(".graph-detail-scroll")!;
+        const close = element.querySelector(".graph-detail-close")!.getBoundingClientRect();
         return { scrollbarGap: plot.getBoundingClientRect().left + plot.clientLeft + plot.clientWidth - panel.right,
           footerRightGap: panel.right - footer.right, footerLeftGap: footer.left - panel.left,
           footerBottomGap: panel.bottom - footer.bottom, onRight: panel.left > (figure.left + figure.right) / 2,
-          topGap: panel.top - controls.bottom, heightRatio: panel.height / figure.height,
-          overflow: getComputedStyle(element.querySelector(".graph-detail-scroll")!).overflowY };
+          topGap: panel.top - controls.bottom, legendGap: legend.top - panel.bottom,
+          closeScrollbarGap: scroll.getBoundingClientRect().left + scroll.clientWidth - close.right,
+          scrolling: scroll.scrollHeight > scroll.clientHeight, overflow: getComputedStyle(scroll).overflowY };
       });
       expect(placement.scrollbarGap).toBeGreaterThanOrEqual(5);
       expect(placement.footerRightGap).toBeCloseTo(1, 1);
@@ -784,7 +788,9 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       expect(placement.onRight).toBe(true);
       expect(placement.topGap).toBeGreaterThanOrEqual(4);
       expect(placement.topGap).toBeLessThanOrEqual(8);
-      expect(placement.heightRatio).toBeLessThanOrEqual(0.83);
+      expect(placement.legendGap).toBeGreaterThanOrEqual(5);
+      if (placement.scrolling) expect(placement.legendGap).toBeLessThanOrEqual(7);
+      expect(placement.closeScrollbarGap).toBeGreaterThanOrEqual(5);
       expect(placement.overflow).toBe("auto");
       expect(await container.locator(".graph-selected").count()).toBe(1);
       expect(await container.locator(".graph-related").count()).toBeGreaterThan(0);
