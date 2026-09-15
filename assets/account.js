@@ -431,9 +431,15 @@
     }
     renderConceptReviewLoading();
     try {
-      const response = await accountRequest("concepts", { urls: missingURLs });
-      if (!response.ok) throw new Error(String(response.status));
-      const reviews = Array.isArray(response.data?.concepts) ? response.data.concepts : [];
+      const reviews = [];
+      // Keep requests compatible with the previously deployed bridge while
+      // the backend rolls forward. The new service caches the complete viewer
+      // index, so later batches do not repeat its Remark42 lookup.
+      for (let start = 0; start < missingURLs.length; start += 50) {
+        const response = await accountRequest("concepts", { urls: missingURLs.slice(start, start + 50) });
+        if (!response.ok) throw new Error(String(response.status));
+        if (Array.isArray(response.data?.concepts)) reviews.push(...response.data.concepts);
+      }
       if (sequence !== conceptReviewSequence || currentUser?.id !== viewerId) return;
       const byURL = new Map(urls.map((url) => [url, cached.get(url)?.reaction || ""]));
       reviews.forEach((review) => {
