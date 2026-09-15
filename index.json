@@ -3111,6 +3111,88 @@
       ]
     },
     {
+      "id": "lax-683916",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Graph Representations",
+      "concepts": [
+        {
+          "id": "Lax683916.DigraphRepresentation",
+          "title": "Digraph representation of simple graphs",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax683916.HypergraphRepresentation",
+          "title": "Hypergraph representation of simple graphs",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax683916.MultigraphIsomorphism",
+          "title": "Isomorphism from a multigraph to a simple graph",
+          "type": "definition"
+        },
+        {
+          "id": "Lax683916.MultigraphRepresentation",
+          "title": "Simple-graph representation of a simple multigraph",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax683916.NeighborhoodSetSystemRepresentation",
+          "title": "Neighborhood-set-system representation of simple graphs",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax683916.NeighborhoodSetSystems",
+          "title": "Neighborhood set system",
+          "type": "definition"
+        },
+        {
+          "id": "Lax683916.QuiverRepresentation",
+          "title": "Quiver representation of simple graphs",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax683916.SetSystemRepresentation",
+          "title": "Set-system representation of simple graphs",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax683916.SimpleGraphMultigraphRepresentation",
+          "title": "Multigraph representation of a simple graph",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax683916.SpanningTwoUniformHypergraphs",
+          "title": "Spanning 2-uniform hypergraph",
+          "type": "definition"
+        },
+        {
+          "id": "Lax683916.SymmetricLooplessDigraphs",
+          "title": "Symmetric loopless digraph",
+          "type": "definition"
+        },
+        {
+          "id": "Lax683916.ThinSymmetricLooplessQuivers",
+          "title": "Thin symmetric loopless quiver",
+          "type": "definition"
+        },
+        {
+          "id": "Lax683916.TwoUniformSetSystems",
+          "title": "2-uniform set system",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax683916Proofs.DigraphRepresentation.simpleGraphEquiv",
+        "Lax683916Proofs.HypergraphRepresentation.simpleGraphEquiv",
+        "Lax683916Proofs.MultigraphRepresentation.exists_simpleGraph_representation",
+        "Lax683916Proofs.NeighborhoodSetSystemRepresentation.simpleGraphEquiv",
+        "Lax683916Proofs.QuiverRepresentation.exists_simpleGraph_representation",
+        "Lax683916Proofs.SetSystemRepresentation.simpleGraphEquiv",
+        "Lax683916Proofs.SimpleGraphMultigraphRepresentation.exists_multigraph_representation"
+      ]
+    },
+    {
       "id": "lax-709149",
       "state": "draft",
       "environment": "v4.33.0",
