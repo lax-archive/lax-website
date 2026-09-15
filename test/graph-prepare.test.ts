@@ -33,7 +33,7 @@ function data() {
       { id: "A.s", label: "A.s", concept: "A", title: "Alpha", index: 1, count: 1, proven: true, href: "A.html#s-A.s" },
       { id: "B.s", label: "B.s", concept: "B", title: "Beta", index: 1, count: 1, proven: true, href: "B.html#s-B.s" },
     ], proofs: [{ id: "P", assumptions: ["B.s"], conclusion: "A.s", href: "P.html", description: "A permitted proof description", tooltipHtml: "A <em>permitted</em> proof description", owner: "lax-1", assumptionsProven: true, outstanding: 0 }],
-    details: { "concept:A": { kind: "concept", name: "Alpha", status: "proven", href: "A.html",
+    details: { "concept:A": { kind: "concept", name: "Alpha", namespace: "Lax1.Alpha", status: "proven", href: "A.html",
       reviewUrl: "https://laxarchive.org/lax-1/A.html", statements: [{ id: "A.s", name: "Lean statement", signature: "A.s : True", proven: true }] } } },
   };
 }
@@ -86,7 +86,7 @@ describe("prepared static graphs", () => {
     expect(graph.prepared["concept-dag"].views["10"].status).toBe("2 concepts; 1 descendant hidden");
     expect(graph.prepared["concept-dag"].views["11"].svg).toContain("e:B-&gt;C:import:0");
     expect(graph.proofs.proofs[0]).toMatchObject({ id: "P", assumptions: ["B.s"], conclusion: "A.s", assumptionsProven: true, outstanding: 0 });
-    expect(graph.proofs.details["concept:A"]).toMatchObject({ name: "Alpha", href: "A.html",
+    expect(graph.proofs.details["concept:A"]).toMatchObject({ name: "Alpha", namespace: "Lax1.Alpha", href: "A.html",
       statements: [{ id: "A.s", signature: "A.s : True", proven: true }] });
     expect(graph.prepared["proof-network"].views.default.interaction.edges["e:P:conclusion:A.s:0"])
       .toMatchObject({ source: "p:P", target: "s:A.s", kind: "conclusion" });

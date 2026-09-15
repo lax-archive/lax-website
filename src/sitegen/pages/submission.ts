@@ -417,6 +417,7 @@ export function proofNetworkData(ctx: PageContext, submission: SiteSubmission, r
       kind: "concept",
       name: concept.title,
       nameHtml: ctx.markdown.renderAuthorInline(concept.title, rootRel),
+      namespace: concept.id,
       type: concept.type,
       status: concept.statements.length === 0 ? "none"
         : provenCount === concept.statements.length ? "proven" : "open",

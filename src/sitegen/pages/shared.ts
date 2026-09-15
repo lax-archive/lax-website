@@ -250,9 +250,9 @@ export function conceptMapLegend(data: ConceptGraphData, ownLabel: string, extLa
 
 /** The submission map's legend. Same grammar one level up: stroke = origin,
  * arrow = direction of dependency. Submissions carry no proven/open status of
- * their own, so the fill axis stays out of it, and the freed colour axis goes
- * to the arrow instead: which half of the dependent submission reaches
- * across. Each arrow entry appears only when the map actually draws one. */
+ * their own, so the fill axis stays out of it. A dashed arrow distinguishes a
+ * dependency declared only by proofs. Each arrow entry appears only when the
+ * map actually draws one. */
 export function submissionMapLegend(data: SubmissionGraphData): string {
   const kinds = new Set(data.edges.map((edge) => edge.kind));
   const items = [

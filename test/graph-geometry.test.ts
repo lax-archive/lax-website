@@ -186,6 +186,8 @@ describe("intersection and curve oracles", () => {
     expect(segmentIntersection({ x: 0, y: 0 }, { x: 10, y: 0 }, { x: 2, y: 0 }, { x: 8, y: 0 })?.kind).toBe("overlap");
     expect(routeMetrics([route("a", [{ x: 0, y: 0 }, { x: 10, y: 10 }]), route("b", [{ x: 0, y: 10 }, { x: 10, y: 0 }])], bounds)).toMatchObject({ crossings: 1, tangencies: 0 });
     expect(routeMetrics([route("a", [{ x: 0, y: 0 }, { x: 10, y: 0 }], "shared"), route("b", [{ x: 0, y: 0 }, { x: 10, y: 10 }], "shared")], bounds)).toMatchObject({ crossings: 0, endpointTouches: 0 });
+    expect(routeMetrics([route("a", [{ x: 0, y: 0 }, { x: 5, y: 0 }, { x: 10, y: 5 }], "shared"), route("b", [{ x: 0, y: 0 }, { x: 5, y: 0 }, { x: 10, y: -5 }], "shared")], bounds).overlaps).toBe(0);
+    expect(routeMetrics([route("a", [{ x: 0, y: 0 }, { x: 5, y: 0 }], "a", "shared-target"), route("b", [{ x: 0, y: 0 }, { x: 5, y: 0 }], "b", "shared-target")], bounds).overlaps).toBe(1);
     expect(routeMetrics([route("a", [{ x: 0, y: 0 }, { x: 10, y: 0 }]), route("b", [{ x: 0, y: 5 }, { x: 5, y: 0 }, { x: 10, y: 5 }])], bounds)).toMatchObject({ crossings: 0, tangencies: 1 });
   });
   it("does not exempt incident edge pairs that cross again away from their endpoint", () => {

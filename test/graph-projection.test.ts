@@ -1,8 +1,8 @@
 import fs from "node:fs";
 import { describe, expect, it } from "vitest";
-import { canonicalJson } from "../src/graph-layout/normalize.js";
+import { canonicalJson, compareText } from "../src/graph-layout/normalize.js";
 import { indexedGraph, stronglyConnectedComponents } from "../src/graph-layout/components.js";
-import { measureDisplayGraph, projectGraph, type DisplayGraph, type GraphKind, type ProofGraphData } from "../src/sitegen/graph-project.js";
+import { measureDisplayGraph, projectGraph, type DisplayGraph, type GraphKind, type ProofGraphData, type StatementGraphInput } from "../src/sitegen/graph-project.js";
 import { displayLabelRequests } from "../src/sitegen/graph-node-size.js";
 import { dockInkFixture } from "./fixtures/graph-layout/dock-ink.js";
 import { graphInteractionPayload, graphSvg } from "../src/sitegen/graph-svg.js";
@@ -22,26 +22,34 @@ const fixtureLabels = (display: DisplayGraph) => new Map(displayLabelRequests([d
   { ...exactFixtureMetrics, lines: exactFixtureMetrics.lines.map((line) => ({ ...line, text })) }]));
 
 describe("semantic display projection", () => {
-  it("preserves proof AND/OR incidence, exact statements, coarse assumptions, and fixed numbered docks", () => {
+  it("coarsens multi-statement assumptions to one concept edge and shared outgoing port", () => {
     const projected = projectGraph("proofs", proofInput());
     expect(projected.nodes.filter((n) => n.kind === "proof")).toHaveLength(2);
-    expect(projected.edges).toHaveLength(5);
+    expect(projected.edges).toHaveLength(4);
     const concept = projected.nodes.find((n) => n.id === "c:c")!;
     expect(concept.label).toBe("c");
     expect(projected.nodes.find((n) => n.id === "s:d.s")!.label).toBe("d");
     expect(concept.docks.map((d) => [d.statementId, d.ordinal])).toEqual([["c.s1", 1], ["c.s2", 2]]);
-    expect(concept.ports.map((p) => p.semanticEndpointId).sort()).toEqual(["c", "c.s1", "c.s2"]);
+    expect(concept.ports.map((p) => p.semanticEndpointId)).toEqual(["c"]);
     const measured = measureDisplayGraph(projected, fixtureLabels(projected));
     const docks = measured.graph.nodes.find((n) => n.id === concept.id)!.ports;
     const interaction = graphInteractionPayload(measured);
-    expect(Object.keys(interaction.edges)).toHaveLength(5);
+    expect(Object.keys(interaction.edges)).toHaveLength(4);
     expect(interaction.nodes["c:c"]).toMatchObject({ kind: "concept", semanticId: "c", nodeId: "c:c" });
     expect(interaction.nodes["dock:c.s1"]).toMatchObject({ kind: "dock", semanticId: "c.s1", nodeId: "c:c" });
-    expect(interaction.edges["e:p1:assumption:c.s1:0"]).toMatchObject({
-      source: "c:c", target: "p:p1", sourceSemanticId: "c.s1", targetSemanticId: "p1", kind: "assumption",
+    expect(interaction.edges["e:p1:assumption:c:0"]).toMatchObject({
+      source: "c:c", target: "p:p1", sourceSemanticId: "c", targetSemanticId: "p1", kind: "assumption",
+      semanticIds: ["p1:assumption:c.s1", "p1:assumption:c.s2"],
     });
+    expect(projected.edges.filter((edge) => edge.kind === "assumption").map((edge) => edge.sourcePortId))
+      .toEqual(["c:c:assumption-source", "c:c:assumption-source"]);
+    expect(projected.mapping.find((entry) => entry.semanticId === "p1:assumption:c.s2")?.edgeIds)
+      .toEqual(["e:p1:assumption:c:0"]);
     expect(docks.every((p) => p.mode === "fixed-position")).toBe(true);
-    expect(new Set(docks.map((p) => p.offset!.x)).size).toBe(3);
+    expect(new Set(docks.map((p) => p.offset!.x)).size).toBe(1);
+    const { geometry } = layoutGraph(measured.graph, { inputDigest: "shared-concept-output" });
+    expect(validateGeometry(measured.graph, geometry)).toMatchObject({ valid: true });
+    expect(geometry.ports.filter((port) => port.id === "c:c:assumption-source")).toHaveLength(1);
   });
   it("scales node envelopes, ink, docks and attachments together without changing graph semantics", () => {
     const original = projectGraph("proofs", proofInput());
@@ -146,14 +154,28 @@ describe("semantic display projection", () => {
     const graph = indexedGraph(measured.graph);
     expect(stronglyConnectedComponents(graph.nodeCount, graph.edges).some((members) => members.length === 2)).toBe(true);
     expect(measured.graph.edges).toHaveLength(2);
+    const concept = measured.graph.nodes.find((node) => node.id === "c:c")!;
+    expect(concept.ports.find((port) => port.side === "north")?.semanticEndpointId).toBe("c");
+    expect(concept.ports.find((port) => port.side === "south")?.semanticEndpointId).toBe("c.b");
   });
-  it("round-trips every incidence in the frozen real corpus", () => {
+  it("retains every semantic incidence while coarsening visual concept uses in the frozen real corpus", () => {
     const corpus = JSON.parse(fs.readFileSync("test/fixtures/graph-layout/corpus.json", "utf8"));
     let graphs = 0;
     for (const fixture of corpus.graphs) {
       const display = projectGraph(fixture.kind as GraphKind, fixture.data);
-      const expected = fixture.kind === "proofs" ? fixture.data.proofs.reduce((sum: number, proof: { assumptions: string[] }) => sum + proof.assumptions.length + 1, 0) : fixture.data.edges.length;
-      expect(display.edges.length).toBe(expected);
+      if (fixture.kind === "proofs") {
+        const assumptionSource = new Map<string, string>(fixture.data.statements
+          .filter((statement: StatementGraphInput) => (statement.count ?? 1) > 1)
+          .map((statement: StatementGraphInput) => [statement.id, statement.concept!]));
+        const visualEdges = fixture.data.proofs.reduce((sum: number, proof: { assumptions: string[] }) =>
+          sum + new Set(proof.assumptions.map((assumption) => assumptionSource.get(assumption) ?? assumption)).size + 1, 0);
+        expect(display.edges.length).toBe(visualEdges);
+        const exactIncidences = fixture.data.proofs.flatMap((proof: { id: string; assumptions: string[]; conclusion: string }) => [
+          ...proof.assumptions.map((assumption) => `${proof.id}:assumption:${assumption}`),
+          `${proof.id}:conclusion:${proof.conclusion}`,
+        ]).sort(compareText);
+        expect(display.edges.flatMap((edge) => edge.semanticIds ?? []).sort(compareText)).toEqual(exactIncidences);
+      } else expect(display.edges.length).toBe(fixture.data.edges.length);
       const measured = measureDisplayGraph(display, fixtureLabels(display));
       expect(measured.graph.nodes.length).toBe(display.nodes.length);
       graphs++;

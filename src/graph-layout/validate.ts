@@ -240,7 +240,14 @@ export function routeMetrics(routes: readonly Polyline[], bounds: Rect) {
       const intersection = segmentIntersection(a.a, a.b, b.a, b.b);
       if (!intersection) continue;
       const left = Math.min(a.route, b.route), right = Math.max(a.route, b.route), key = `${left}:${right}`;
-      if (intersection.kind === "overlap") { overlapPairs.add(key); continue; }
+      // Several visual dependencies may deliberately leave one declared
+      // source port as a common trunk before branching. Only that explicit
+      // source-port junction exempts their coincident run; shared targets and
+      // unrelated ports remain hard overlap defects.
+      if (intersection.kind === "overlap") {
+        if (routes[left]!.sourcePort !== routes[right]!.sourcePort) overlapPairs.add(key);
+        continue;
+      }
       const ra = routes[a.route]!, rb = routes[b.route]!, p = intersection.p;
       // Only an ACTUAL shared semantic port is exempted, at that point.
       const endsA = [[ra.sourcePort, ra.points[0]!], [ra.targetPort, ra.points.at(-1)!]] as const;

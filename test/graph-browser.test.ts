@@ -330,6 +330,20 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       expect(await page.locator("#proof-network .net-proof").count()).toBe(9);
       expect(await page.locator("#proof-network .net-dock").count()).toBe(2);
       expect(await page.locator("#proof-network [data-edge-id]").evaluateAll((edges) => new Set(edges.map((e) => e.getAttribute("data-edge-id"))).size)).toBe(21);
+      const sharedOutput = await page.locator("#proof-network").evaluate((container) => {
+        const data = JSON.parse(document.querySelector("#graph-data")!.textContent!).prepared["proof-network"].views.default.interaction;
+        const assumptions = Object.entries(data.edges).filter(([, edge]: [string, any]) =>
+          edge.kind === "assumption" && edge.sourceSemanticId === "Lax701.Base");
+        const starts = assumptions.map(([id]) => container.querySelector<SVGPathElement>(`[data-edge-id="${CSS.escape(id)}"]`)!
+          .getAttribute("d")!.split(/[LQ]/u)[0]);
+        return { count: assumptions.length, starts, semanticIds: assumptions.flatMap(([, edge]: [string, any]) => edge.semanticIds),
+          dockIncidences: ["dock:Lax701.Base.s1", "dock:Lax701.Base.s2"].map((id) => data.nodes[id].incident) };
+      });
+      expect(sharedOutput.count).toBe(5);
+      expect(new Set(sharedOutput.starts).size).toBe(1);
+      expect(sharedOutput.semanticIds).toContain("Lax702Proofs.Premise1:assumption:Lax701.Base.s1");
+      expect(sharedOutput.semanticIds).toContain("Lax702Proofs.Premise2:assumption:Lax701.Base.s2");
+      expect(sharedOutput.dockIncidences).toEqual([[], []]);
       expect(await page.locator(".proof-network-figure [data-graph-expand]").isVisible()).toBe(false);
       await capture(page, "no-javascript", ".proof-network-figure");
       const href = await page.locator('#proof-network [data-node-id="dock:Lax701.Base.s2"]').getAttribute("href");
@@ -802,6 +816,7 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       expect(await conceptPageAction.textContent()).toBe("Open concept page");
       expect(await conceptPageAction.getAttribute("href")).toContain("Lax702.Main.html");
       expect(await conceptPageAction.getAttribute("href")).not.toContain("#");
+      expect(await panel.locator(".graph-detail-namespace").textContent()).toBe("Lax702.Main");
       expect(await panel.locator(".graph-detail-status").textContent()).toBe("Proven Statement");
       expect(await panel.locator(".graph-detail-open-assumptions").textContent()).toBe("4 open assumptions used");
       expect(await panel.textContent()).toContain("Natural-language statement");
@@ -885,6 +900,8 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       expect(await figure.locator(".graph-tooltip").isHidden()).toBe(true);
       expect(await concept.getAttribute("class")).toContain("graph-selected");
       expect(await container.locator(".graph-related").count()).toBeGreaterThan(0);
+      expect(await container.locator(".graph-dimmed").first().evaluate((element) =>
+        Number(getComputedStyle(element).opacity))).toBe(0.32);
       expect(await figure.locator("[data-graph-zoom-status]").textContent()).toBe(beforeDismiss.scale);
       await figure.locator('[data-graph-zoom="reset"]').hover(); await animationFrame(page);
       expect(await container.locator(".graph-selected, .graph-related, .graph-dimmed").count()).toBe(0);

@@ -368,16 +368,21 @@
   function detailFacts(parent, detail) {
     const facts = [];
     if (detail.type) facts.push(['Type', detail.type]);
+    if (detail.kind === 'concept' && detail.namespace)
+      facts.push(['Namespace', detail.namespace, undefined, undefined, true]);
     if (detail.submission?.name) facts.push(['Submission', detail.submission.name,
       detail.submission.nameHtml, detail.submission.href]);
     if (detail.submission?.state) facts.push(['Submission state', detail.submission.state]);
     if (!facts.length) return;
     const list = document.createElement('dl');
     list.className = 'graph-detail-facts';
-    for (const [term, value, valueHtml, href] of facts) {
+    for (const [term, value, valueHtml, href, isCode] of facts) {
       appendText(list, 'dt', '', term);
       const description = appendText(list, 'dd', '', value);
-      if (href) {
+      if (isCode) {
+        const code = appendText(description, 'code', 'graph-detail-namespace', value);
+        description.replaceChildren(code);
+      } else if (href) {
         description.replaceChildren();
         const link = document.createElement('a');
         link.className = 'graph-detail-submission-link';

@@ -155,7 +155,7 @@ function safeGraphDetails(value: unknown): RawRecord {
     if (!["concept", "proof"].includes(kind) || !key.startsWith(`${kind}:`))
       fail("graph-detail", "Proof graph detail kind does not match its key", key);
     const detail: RawRecord = { kind, name: requiredString(source.name, "Proof graph detail name") };
-    copyFields(source, detail, ["nameHtml", "type", "status", "statusDetail", "descriptionHtml", "reviewLabel", "leanPath"], "string");
+    copyFields(source, detail, ["nameHtml", "namespace", "type", "status", "statusDetail", "descriptionHtml", "reviewLabel", "leanPath"], "string");
     copyFields(source, detail, ["openAssumptions"], "number");
     if (source.openAssumptionIds !== undefined) {
       detail.openAssumptionIds = list(source.openAssumptionIds, "Proof graph open assumptions")

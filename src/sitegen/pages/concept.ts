@@ -133,7 +133,7 @@ export async function conceptPage(ctx: PageContext, located: LocatedConcept): Pr
   const content = `${versionHistoryPanel(ctx, submission.record.id, "../")}${draftBanner(submission.record.state)}${environmentNotice(ctx.model, submission)}
 <div class="detail-heading concept-heading">
 <div><h1 class="concept-title">${ctx.markdown.renderAuthorInline(concept.title, "../")}</h1>
-<p class="concept-microline"><code>${esc(concept.path)}</code> · <a href="index.html">${esc(output.id)}</a></p></div>
+<p class="concept-microline"><code class="concept-namespace">${esc(concept.id)}</code> · <code>${esc(concept.path)}</code> · <a href="index.html">${esc(output.id)}</a></p></div>
 <span class="status-pills">${countsPill(provenCount, concept.statements.length)}</span>
 </div>
 ${pageReactions(`${submission.record.id}/${concept.id}.html`, { kind: "concept", sourceLines: concept.sourceText.split("\n").length, anonymous })}

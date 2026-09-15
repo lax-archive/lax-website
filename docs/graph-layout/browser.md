@@ -67,7 +67,9 @@ replacing it.
 All engines run the same nine cases:
 
 1. JavaScript-disabled graphs contain visible SVG and real navigable anchors,
-   including distinct proof incidences and numbered statement docks.
+   including numbered statement docks and concept-level proof dependencies.
+   Multi-statement assumptions share one outgoing attachment while their exact
+   represented incidence IDs remain in the prepared interaction payload.
 2. All four ancestry/descendant states switch correctly, including three
    lazily fetched alternate views and a direct skip import. Relative links
    and static geometry URLs remain within a nested preview prefix.

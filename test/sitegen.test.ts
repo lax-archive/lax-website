@@ -659,6 +659,8 @@ After the formula.`, "");
     expect(css).toContain(".graph-detail-panel{");
     expect(css).toContain(".graph-detail-formalization{ width: 100%; min-width: 0; }");
     expect(css).toContain(".graph-expanded.proof-network-figure [data-node-id].graph-dimmed");
+    expect(css).toContain("[data-edge-id].graph-dimmed{ opacity: 0.32; }");
+    expect(css).not.toContain("graph-dimmed{ opacity: 0.14; }");
     expect(css).toContain("fill: context-stroke");
     expect(css).toContain("background: rgb(255, 255, 255)");
     expect(css).toContain('.status-pill[data-tooltip]:hover::after');
@@ -1397,7 +1399,7 @@ After the formula.`, "");
       concept: "Lax2.C", index: 1, count: 1,
     });
     expect(data.proofs.details["concept:Lax2.C"]).toMatchObject({
-      kind: "concept", name: "Truth", type: "theorem", status: "proven", anonymousReview: false,
+      kind: "concept", name: "Truth", namespace: "Lax2.C", type: "theorem", status: "proven", anonymousReview: false,
       openAssumptions: 0, openAssumptionIds: [],
       submission: { id: "Lax2", name: "Two", nameHtml: "Two", state: "registered" },
       statements: [{ id: "Lax2.C.truth", signature: "truth : True", proven: true,
@@ -1764,6 +1766,7 @@ After the formula.`, "");
     const root = tmpDir("lax-site-concept-");
     await generateSite(submissions(), root);
     const html = fs.readFileSync(path.join(root, "Lax2", "Lax2.C.html"), "utf8");
+    expect(html).toContain('<p class="concept-microline"><code class="concept-namespace">Lax2.C</code> · <code>concepts/Lax2/C.lean</code> · <a href="index.html">Lax2</a></p>');
     // NL block headed by the capitalized type
     expect(html).toContain("<h3>Theorem</h3>");
     // line-numbered source with the proven statement lines tinted
@@ -2479,9 +2482,14 @@ describe("multi-statement concepts", () => {
     if (count) {
       const preciseId = concept.statements.at(-1)!.id;
       const precise = projectGraph("proofs", { ...input, proofs: [{ ...input.proofs[0]!, assumptions: [preciseId] }] });
-      const attachment = precise.nodes.flatMap((entry) => entry.ports).find((port) => port.semanticEndpointId === preciseId)!;
-      expect(attachment).toMatchObject({ semanticEndpointId: preciseId, mode: count > 1 ? "fixed-order" : "free-on-side" });
-      if (count > 1) expect(attachment.order).toBe(count);
+      const attachment = precise.nodes.flatMap((entry) => entry.ports)
+        .find((port) => port.semanticEndpointId === (count > 1 ? concept.id : preciseId))!;
+      expect(attachment).toMatchObject({
+        semanticEndpointId: count > 1 ? concept.id : preciseId,
+        mode: "free-on-side",
+        side: "north",
+      });
+      expect(attachment.order).toBeUndefined();
     }
   });
 });

@@ -4723,7 +4723,7 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
 /* Keep the selected proof step and its complete upstream/downstream chain
    legible while quieting unrelated nodes and routes. */
 .graph-expanded.proof-network-figure [data-node-id].graph-dimmed,
-.graph-expanded.proof-network-figure [data-edge-id].graph-dimmed{ opacity: 0.14; }
+.graph-expanded.proof-network-figure [data-edge-id].graph-dimmed{ opacity: 0.32; }
 .graph-expanded.proof-network-figure [data-node-id].graph-related{ opacity: 1; }
 .graph-expanded.proof-network-figure :is(.net-node, .net-proof).graph-related rect,
 .graph-expanded.proof-network-figure .net-dock.graph-related circle{ stroke-width: 1.9; }

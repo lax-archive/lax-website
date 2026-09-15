@@ -13,7 +13,9 @@ export interface GraphNodeInput {
 export interface StatementGraphInput extends GraphNodeInput {
   label?: string; concept?: string; index?: number; count?: number;
   proven?: boolean; tooltipHtml?: string;
-  /** Whole-concept assumptions must remain distinct from statement endpoints. */
+  /** Whole-concept assumptions remain distinct in the source payload. The
+   * proof-network projection deliberately coarsens outgoing uses of numbered
+   * statements to their concept. */
   endpointKind?: "concept" | "statement";
 }
 export interface ProofGraphInput {
@@ -89,6 +91,7 @@ export function projectGraph(kind: GraphKind, input: FlatGraphInput | ProofGraph
   const edges: LayoutEdge[] = [], mapping: EntityMapping[] = [];
   const byId = new Map<string, typeof nodes[number]>();
   const endpoints = new Map<string, { nodeId: string; semanticId: string; dock?: number }>();
+  const assumptionSources = new Map<string, string>();
   const addNode = (node: typeof nodes[number]) => {
     if (byId.has(node.id)) diagnostic("duplicate-display-node", "Duplicate projected identity", node.id);
     byId.set(node.id, node); nodes.push(node);
@@ -150,9 +153,11 @@ export function projectGraph(kind: GraphKind, input: FlatGraphInput | ProofGraph
         ext: members.every((m) => m.ext), docks, ports: [] });
       // A concept-only endpoint is kept coarse even when siblings are known.
       endpoints.set(concept, { nodeId: id, semanticId: concept });
+      if (multiple) assumptionSources.set(concept, concept);
       mapping.push({ semanticId: concept, kind: "concept", nodeId: id });
       for (const statement of members) {
         endpoints.set(statement.id, { nodeId: id, semanticId: statement.id, ...(multiple && statement.endpointKind !== "concept" ? { dock: statement.index } : {}) });
+        if (multiple) assumptionSources.set(statement.id, concept);
         mapping.push({ semanticId: statement.id, kind: statement.endpointKind === "concept" ? "concept" : "statement", nodeId: id });
       }
       for (const dock of docks) mapping.push({ semanticId: dock.id, kind: "dock", nodeId: id });
@@ -166,23 +171,38 @@ export function projectGraph(kind: GraphKind, input: FlatGraphInput | ProofGraph
     }
   }
   const edgeMultiplicity = new Map<string, number>();
-  const addEdge = (sourceId: string, targetId: string, edgeKind: string, semanticId: string) => {
+  const sharedSourcePorts = new Map<string, string>();
+  const addEdge = (sourceId: string, targetId: string, edgeKind: string, displaySemanticId: string,
+    semanticIds: readonly string[] = [displaySemanticId], shareSource = false) => {
     const source = endpoints.get(sourceId), target = endpoints.get(targetId);
-    if (!source || !target) diagnostic("missing-semantic-endpoint", "Display edge has no declared endpoint", semanticId, ...(!source ? [sourceId] : []), ...(!target ? [targetId] : []));
-    const occurrence = edgeMultiplicity.get(semanticId) ?? 0; edgeMultiplicity.set(semanticId, occurrence + 1);
-    const id = `e:${semanticId}:${occurrence}`;
-    const sourcePortId = `${id}:source`, targetPortId = `${id}:target`;
-    for (const [endpoint, portId, side] of [[source, sourcePortId, "north"], [target, targetPortId, "south"]] as const) {
-      byId.get(endpoint.nodeId)!.ports.push({ id: portId, nodeId: endpoint.nodeId, semanticEndpointId: endpoint.semanticId,
-        side, mode: endpoint.dock ? "fixed-order" : "free-on-side", ...(endpoint.dock ? { order: endpoint.dock } : {}) });
+    if (!source || !target) diagnostic("missing-semantic-endpoint", "Display edge has no declared endpoint", displaySemanticId, ...(!source ? [sourceId] : []), ...(!target ? [targetId] : []));
+    const occurrence = edgeMultiplicity.get(displaySemanticId) ?? 0; edgeMultiplicity.set(displaySemanticId, occurrence + 1);
+    const id = `e:${displaySemanticId}:${occurrence}`;
+    const sourceKey = `${source.nodeId}\0${source.semanticId}\0north`;
+    const sourcePortId = shareSource ? sharedSourcePorts.get(sourceKey) ?? `${source.nodeId}:assumption-source` : `${id}:source`;
+    const targetPortId = `${id}:target`;
+    if (!shareSource || !sharedSourcePorts.has(sourceKey)) {
+      byId.get(source.nodeId)!.ports.push({ id: sourcePortId, nodeId: source.nodeId, semanticEndpointId: source.semanticId,
+        side: "north", mode: source.dock ? "fixed-order" : "free-on-side", ...(source.dock ? { order: source.dock } : {}) });
+      if (shareSource) sharedSourcePorts.set(sourceKey, sourcePortId);
     }
-    edges.push({ id, sourcePortId, targetPortId, kind: edgeKind, minRankSpan: 1, semanticIds: [semanticId] });
-    mapping.push({ semanticId, kind: "edge", edgeIds: [id], portIds: [sourcePortId, targetPortId] });
+    byId.get(target.nodeId)!.ports.push({ id: targetPortId, nodeId: target.nodeId, semanticEndpointId: target.semanticId,
+      side: "south", mode: target.dock ? "fixed-order" : "free-on-side", ...(target.dock ? { order: target.dock } : {}) });
+    edges.push({ id, sourcePortId, targetPortId, kind: edgeKind, minRankSpan: 1, semanticIds });
+    for (const semanticId of semanticIds)
+      mapping.push({ semanticId, kind: "edge", edgeIds: [id], portIds: [sourcePortId, targetPortId] });
   };
   if (kind === "proofs") {
     for (const proof of [...(input as ProofGraphData).proofs].sort((a, b) => compareText(a.id, b.id))) {
-      for (const assumption of [...proof.assumptions].sort(compareText))
-        addEdge(assumption, proof.id, "assumption", `${proof.id}:assumption:${assumption}`);
+      const assumptionGroups = new Map<string, string[]>();
+      for (const assumption of [...proof.assumptions].sort(compareText)) {
+        const source = assumptionSources.get(assumption) ?? assumption;
+        const incidences = assumptionGroups.get(source) ?? [];
+        incidences.push(`${proof.id}:assumption:${assumption}`);
+        assumptionGroups.set(source, incidences);
+      }
+      for (const [source, semanticIds] of [...assumptionGroups].sort(([a], [b]) => compareText(a, b)))
+        addEdge(source, proof.id, "assumption", `${proof.id}:assumption:${source}`, semanticIds, assumptionSources.has(source));
       addEdge(proof.id, proof.conclusion, "conclusion", `${proof.id}:conclusion:${proof.conclusion}`);
     }
   } else {
