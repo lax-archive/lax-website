@@ -35,7 +35,7 @@ describe("public all-comments activity", () => {
       remark42Host: "https://remark42.example.test",
       remark42Site: "remark",
       identityUrl: "https://remark42.example.test/reactions/v1/identity",
-      unlistedSubmissions: '["lax9"]',
+      listedSubmissions: '["lax2","lax7"]',
     };
     const list = new FakeElement();
     const status = new FakeElement();

@@ -936,7 +936,9 @@ After the formula.`, "");
     expect(index).not.toContain("Unlisted Preview Topic");
     expect(index).toContain("2 submissions · 2 concepts · 0 statements, 0 proven");
     expect(submissionTagIndex(archive).bySubmission.has("Lax4")).toBe(false);
-    expect(comments).toContain('data-unlisted-submissions="[&quot;lax4&quot;]"');
+    expect(comments).toContain('data-listed-submissions="[&quot;lax1&quot;,&quot;lax3&quot;]"');
+    expect(comments).not.toContain("Lax4");
+    expect(comments).not.toContain("lax4");
     expect(obligations).not.toContain("Lax4");
 
     for (const directPage of [

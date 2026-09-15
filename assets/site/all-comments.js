@@ -6,9 +6,14 @@
   const host = (root.dataset.remark42Host || "").replace(/\/+$/, "");
   const site = root.dataset.remark42Site || "remark";
   const identityUrl = root.dataset.identityUrl || "";
-  const unlistedValues = JSON.parse(root.dataset.unlistedSubmissions || "[]");
-  const unlistedSubmissions = new Set(
-    (Array.isArray(unlistedValues) ? unlistedValues : [])
+  let listedValues = [];
+  try {
+    listedValues = JSON.parse(root.dataset.listedSubmissions || "[]");
+  } catch {
+    // A malformed page attribute must fail closed instead of exposing unknown URLs.
+  }
+  const listedSubmissions = new Set(
+    (Array.isArray(listedValues) ? listedValues : [])
       .filter((value) => typeof value === "string")
       .map((value) => value.toLowerCase()),
   );
@@ -87,7 +92,7 @@
       if (url.origin !== "https://laxarchive.org") return "";
       if (url.pathname.startsWith("/_reactions/")) return "";
       const submission = decodeURIComponent(url.pathname.split("/").filter(Boolean)[0] || "").toLowerCase();
-      if (unlistedSubmissions.has(submission)) return "";
+      if (!listedSubmissions.has(submission)) return "";
       url.hash = `remark42__comment-${comment.id}`;
       return url.toString();
     } catch {
