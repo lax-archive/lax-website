@@ -339,6 +339,7 @@
       "state": "registered",
       "environment": "v4.30.0",
       "title": "The Word RAM",
+      "supersededBy": "lax-67",
       "concepts": [
         {
           "id": "Lax13.Ram",
@@ -1269,6 +1270,26 @@
       "environment": "v4.33.0",
       "title": "A Refinement Framework for the Word RAM",
       "concepts": [],
+      "proofs": []
+    },
+    {
+      "id": "lax-67",
+      "state": "registered",
+      "environment": "v4.30.0",
+      "title": "The Word RAM",
+      "supersedes": "lax-13",
+      "concepts": [
+        {
+          "id": "Lax67.Ram",
+          "title": "The word RAM",
+          "type": "definition"
+        },
+        {
+          "id": "Lax67.RamComputes",
+          "title": "Computing a function within a time bound",
+          "type": "definition"
+        }
+      ],
       "proofs": []
     },
     {
