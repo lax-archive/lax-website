@@ -601,6 +601,7 @@
     const panel = ensureDetailPanel(controller);
     const scroll = panel.querySelector('.graph-detail-scroll');
     scroll.replaceChildren();
+    panel.querySelector('.graph-detail-action')?.remove();
     const body = document.createElement('div');
     body.className = 'graph-detail-body';
     detailHeading(body, controller, view.detail, view.eyebrow, view.name);
@@ -636,7 +637,7 @@
       action.className = 'graph-detail-action';
       action.href = view.href;
       action.textContent = view.actionLabel || 'Open page';
-      scroll.append(action);
+      panel.append(action);
     }
     panel.hidden = false;
     const controls = panel.parentElement.querySelector('.graph-controls');
@@ -993,6 +994,11 @@
         container.style.overflowX = width > container.clientWidth + 1 ? 'auto' : 'hidden';
         container.style.overflowY = height > container.clientHeight + 1 ? 'auto' : 'hidden';
       }
+      // Keep the details card inside the plot's usable width, including on
+      // systems where an overlay scrollbar does not reduce clientWidth.
+      const scrollbarWidth = Math.max(container.offsetWidth - container.clientWidth,
+        container.style.overflowY === 'auto' ? 16 : 0);
+      container.closest('.graph-figure').style.setProperty('--graph-scrollbar-width', `${scrollbarWidth}px`);
     };
     let frame;
     let paintedScale;

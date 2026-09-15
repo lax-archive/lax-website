@@ -769,11 +769,18 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       const placement = await panel.evaluate((element) => {
         const panel = element.getBoundingClientRect(), figure = element.parentElement!.getBoundingClientRect();
         const controls = element.parentElement!.querySelector(".graph-controls")!.getBoundingClientRect();
-        return { rightGap: figure.right - panel.right, onRight: panel.left > (figure.left + figure.right) / 2,
+        const plot = element.parentElement!.querySelector<HTMLElement>(".figure-container")!;
+        const footer = element.querySelector(".graph-detail-action")!.getBoundingClientRect();
+        return { scrollbarGap: plot.getBoundingClientRect().left + plot.clientLeft + plot.clientWidth - panel.right,
+          footerRightGap: panel.right - footer.right, footerLeftGap: footer.left - panel.left,
+          footerBottomGap: panel.bottom - footer.bottom, onRight: panel.left > (figure.left + figure.right) / 2,
           topGap: panel.top - controls.bottom, heightRatio: panel.height / figure.height,
           overflow: getComputedStyle(element.querySelector(".graph-detail-scroll")!).overflowY };
       });
-      expect(placement.rightGap).toBeLessThan(10);
+      expect(placement.scrollbarGap).toBeGreaterThanOrEqual(5);
+      expect(placement.footerRightGap).toBeCloseTo(1, 1);
+      expect(placement.footerLeftGap).toBeCloseTo(1, 1);
+      expect(placement.footerBottomGap).toBeCloseTo(1, 1);
       expect(placement.onRight).toBe(true);
       expect(placement.topGap).toBeGreaterThanOrEqual(4);
       expect(placement.topGap).toBeLessThanOrEqual(8);

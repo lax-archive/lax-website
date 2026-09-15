@@ -4224,7 +4224,7 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
   position: absolute;
   z-index: 35;
   top: var(--graph-detail-top, 3rem);
-  right: 0.4rem;
+  right: calc(var(--graph-scrollbar-width, 16px) + 0.5rem);
   width: min(29rem, 42vw);
   max-height: min(42rem, 82%, calc(100% - var(--graph-detail-top, 3rem) - 0.8rem));
   display: flex;
@@ -4578,10 +4578,9 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
 .graph-detail-review-people strong{ display: block; margin-bottom: 0.2rem; font-family: var(--mono); font-size: 0.66rem; }
 .graph-detail-review-people ul{ margin: 0; padding-left: 1rem; }
 .graph-detail-action{
-  position: sticky;
-  bottom: -0.85rem;
+  flex: 0 0 auto;
   display: block;
-  margin: auto -1rem -0.85rem;
+  margin: 0;
   padding: 0.72rem 1rem;
   border-top: 1px solid var(--border);
   background: var(--link);
@@ -4724,6 +4723,23 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
    legible while quieting unrelated nodes and routes. */
 .graph-expanded.proof-network-figure [data-node-id].graph-dimmed,
 .graph-expanded.proof-network-figure [data-edge-id].graph-dimmed{ opacity: 0.32; }
+/* Circles overlap their concept's border. Fade their colours toward the
+   white graph surface while keeping the fill opaque enough to cover it. */
+.graph-expanded.proof-network-figure .net-dock.graph-dimmed{ opacity: 1; }
+.graph-expanded.proof-network-figure .net-dock.graph-dimmed circle{
+  fill: color-mix(in srgb, var(--none-bg) 32%, var(--surface));
+  stroke: color-mix(in srgb, var(--accent) 32%, var(--surface));
+}
+.graph-expanded.proof-network-figure .net-dock.graph-dimmed.proven circle{
+  fill: color-mix(in srgb, var(--proven-bg) 32%, var(--surface));
+}
+.graph-expanded.proof-network-figure .net-dock.graph-dimmed.open circle{
+  fill: color-mix(in srgb, var(--partial-bg) 32%, var(--surface));
+}
+.graph-expanded.proof-network-figure .net-dock.graph-dimmed.ext circle{
+  stroke: color-mix(in srgb, var(--none-border) 32%, var(--surface));
+}
+.graph-expanded.proof-network-figure .net-dock.graph-dimmed text{ opacity: 0.32; }
 .graph-expanded.proof-network-figure [data-node-id].graph-related{ opacity: 1; }
 .graph-expanded.proof-network-figure :is(.net-node, .net-proof).graph-related rect,
 .graph-expanded.proof-network-figure .net-dock.graph-related circle{ stroke-width: 1.9; }
@@ -4759,7 +4775,6 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
 @media (max-width: 700px){
   .graph-detail-panel{
     left: 0.35rem;
-    right: 0.35rem;
     width: auto;
   }
 }
