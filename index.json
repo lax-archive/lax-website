@@ -1516,7 +1516,7 @@
     },
     {
       "id": "lax-132576",
-      "state": "draft",
+      "state": "registered",
       "environment": "v4.33.0",
       "title": "Transducers, Part B: Rational Functions",
       "concepts": [
@@ -3553,7 +3553,7 @@
     },
     {
       "id": "lax-765601",
-      "state": "draft",
+      "state": "registered",
       "environment": "v4.33.0",
       "title": "Transducers, Part A: Mealy Machines",
       "concepts": [
