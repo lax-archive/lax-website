@@ -3229,6 +3229,55 @@
       ]
     },
     {
+      "id": "lax-759944",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Computability and polynomial-time equivalence of Turing machines and word RAMs",
+      "concepts": [
+        {
+          "id": "Lax759944.BinaryWordEncoding",
+          "title": "Binary encoding of finite words",
+          "type": "definition"
+        },
+        {
+          "id": "Lax759944.RamPolytime",
+          "title": "Polynomial-time computation by a word RAM",
+          "type": "definition"
+        },
+        {
+          "id": "Lax759944.RamToTuringGenericTime",
+          "title": "Generic-time simulation of word RAMs by Turing machines",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax759944.TuringPolytime",
+          "title": "Polynomial-time computation by a Turing machine",
+          "type": "definition"
+        },
+        {
+          "id": "Lax759944.TuringRamEquivalence",
+          "title": "Equivalence of Turing machines and word RAMs",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax759944.TuringRamPolytimeEquivalence",
+          "title": "Polynomial-time equivalence of Turing machines and word RAMs",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax759944.TuringToRamGenericTime",
+          "title": "Generic-time simulation of Turing machines by word RAMs",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax759944Proofs.GenericTimeSimulation.ramInTime_to_turingInPolynomialOverhead",
+        "Lax759944Proofs.GenericTimeSimulation.turingWithInputTime_to_ramInPolynomialOverhead",
+        "Lax759944Proofs.TuringRamEquivalence.ramComputable_iff_computable",
+        "Lax759944Proofs.TuringRamPolytimeEquivalence.ramPolytime_iff_turingPolytime"
+      ]
+    },
+    {
       "id": "lax-762056",
       "state": "draft",
       "environment": "v4.33.0",

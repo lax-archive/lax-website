@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://comments.laxarchive.org; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self'; frame-src https://comments.laxarchive.org; connect-src 'self' https://comments.laxarchive.org">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Lax — an archive of formalized mathematical concepts and their proofs">
+<title>Polynomial-time computation by a Turing machine</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
+<link rel="stylesheet" href="../assets/style.css?v=fa6052de0f13">
+</head><body>
+<header class="site-header with-sidebar">
+  <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="true" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
+  <div class="site-brand">
+  <h1 class="site-title"><a href="../index.html">Lax <span class="site-title-quiet">Lean Archive</span></a></h1>
+  <nav class="site-nav" aria-label="Site">
+    <a class="site-nav-link" href="../lax-242665/paper.html">Introduction</a>
+    <a class="site-nav-link" href="../about.html">About</a>
+  </nav>
+  </div>
+  <nav class="header-actions" aria-label="Account">
+    <div class="account-header" data-account-root data-remark42-host="https://comments.laxarchive.org" data-remark42-site="remark" data-identity-url="https://comments.laxarchive.org/reactions/v1/identity">
+  <a class="account-control" data-account-login href="https://comments.laxarchive.org/auth/orcid/login?from=https%3A%2F%2Flaxarchive.org&amp;site=remark"><span class="orcid-mark" aria-hidden="true">iD</span><span>Sign in<span class="account-login-long"> with ORCID</span></span></a>
+  <button class="account-control" data-account-settings type="button" aria-haspopup="dialog" aria-controls="account-dialog" hidden><span class="orcid-mark" aria-hidden="true">iD</span><span>Settings</span></button>
+</div>
+  </nav>
+</header>
+<main id="content-shell">
+<div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+<aside id="sidebar">
+<a class="sidebar-back" href="../lax-759944/index.html"><span class="sidebar-back-arrow" aria-hidden="true">←</span>lax-759944</a>
+<div class="sidebar-filters"><div class="filter-group">
+<label for="filter-search">Search</label>
+<input id="filter-search" class="filter-input" type="search" placeholder="Filter entries" aria-controls="entry-list">
+</div>
+<div class="filter-group">
+<label for="filter-type">Type</label>
+<select id="filter-type" class="filter-select">
+<option value="all">All types</option>
+<option value="definition">definition</option>
+<option value="theorem">theorem</option>
+<option value="proof">proof</option>
+</select>
+</div></div>
+<ul id="entry-list">
+<li class="entry-heading" aria-hidden="true">Concepts</li>
+<li data-type="definition" data-search="lax759944.binarywordencoding binary encoding of finite words definition"><a class="entry-link" href="../lax-759944/Lax759944.BinaryWordEncoding.html" data-full-title="Binary encoding of finite words"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Binary encoding of finite words</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-759944/Lax759944.BinaryWordEncoding.html" hidden></span></span></a></li>
+<li data-type="definition" data-search="lax759944.rampolytime polynomial-time computation by a word ram definition"><a class="entry-link" href="../lax-759944/Lax759944.RamPolytime.html" data-full-title="Polynomial-time computation by a word RAM"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Polynomial-time computation by a word RAM</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-759944/Lax759944.RamPolytime.html" hidden></span></span></a></li>
+<li data-type="theorem" data-search="lax759944.ramtoturinggenerictime generic-time simulation of word rams by turing machines theorem"><a class="entry-link" href="../lax-759944/Lax759944.RamToTuringGenericTime.html" data-full-title="Generic-time simulation of word RAMs by Turing machines"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Generic-time simulation of word RAMs by Turing machines</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-759944/Lax759944.RamToTuringGenericTime.html" hidden></span></span></a></li>
+<li class="active" data-type="definition" data-search="lax759944.turingpolytime polynomial-time computation by a turing machine definition"><a class="entry-link" href="../lax-759944/Lax759944.TuringPolytime.html" data-full-title="Polynomial-time computation by a Turing machine"><span class="entry-label"><span class="type-badge" title="definition">def</span><span class="entry-label-text">Polynomial-time computation by a Turing machine</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-759944/Lax759944.TuringPolytime.html" hidden></span></span></a></li>
+<li data-type="theorem" data-search="lax759944.turingramequivalence equivalence of turing machines and word rams theorem"><a class="entry-link" href="../lax-759944/Lax759944.TuringRamEquivalence.html" data-full-title="Equivalence of Turing machines and word RAMs"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Equivalence of Turing machines and word RAMs</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-759944/Lax759944.TuringRamEquivalence.html" hidden></span></span></a></li>
+<li data-type="theorem" data-search="lax759944.turingrampolytimeequivalence polynomial-time equivalence of turing machines and word rams theorem"><a class="entry-link" href="../lax-759944/Lax759944.TuringRamPolytimeEquivalence.html" data-full-title="Polynomial-time equivalence of Turing machines and word RAMs"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Polynomial-time equivalence of Turing machines and word RAMs</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-759944/Lax759944.TuringRamPolytimeEquivalence.html" hidden></span></span></a></li>
+<li data-type="theorem" data-search="lax759944.turingtoramgenerictime generic-time simulation of turing machines by word rams theorem"><a class="entry-link" href="../lax-759944/Lax759944.TuringToRamGenericTime.html" data-full-title="Generic-time simulation of Turing machines by word RAMs"><span class="entry-label"><span class="type-badge proven" title="theorem — proven. Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">thm✓</span><span class="entry-label-text">Generic-time simulation of Turing machines by word RAMs</span><span class="concept-review-badge" data-concept-review-url="https://laxarchive.org/lax-759944/Lax759944.TuringToRamGenericTime.html" hidden></span></span></a></li>
+<li class="entry-heading" aria-hidden="true">Proofs</li>
+<li data-type="proof" data-search="lax759944proofs.generictimesimulation.ramintime_to_turinginpolynomialoverhead proof"><a class="entry-link" href="../lax-759944/Lax759944Proofs.GenericTimeSimulation.ramInTime_to_turingInPolynomialOverhead.html" data-full-title="Lax759944Proofs.GenericTimeSimulation.ramInTime_to_turingInPolynomialOverhead"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax759944Proofs.GenericTimeSimulation.ramInTime_to_turingInPolynomialOverhead</span></span></a></li>
+<li data-type="proof" data-search="lax759944proofs.generictimesimulation.turingwithinputtime_to_raminpolynomialoverhead proof"><a class="entry-link" href="../lax-759944/Lax759944Proofs.GenericTimeSimulation.turingWithInputTime_to_ramInPolynomialOverhead.html" data-full-title="Lax759944Proofs.GenericTimeSimulation.turingWithInputTime_to_ramInPolynomialOverhead"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax759944Proofs.GenericTimeSimulation.turingWithInputTime_to_ramInPolynomialOverhead</span></span></a></li>
+<li data-type="proof" data-search="lax759944proofs.turingramequivalence.ramcomputable_iff_computable proof"><a class="entry-link" href="../lax-759944/Lax759944Proofs.TuringRamEquivalence.ramComputable_iff_computable.html" data-full-title="Lax759944Proofs.TuringRamEquivalence.ramComputable_iff_computable"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax759944Proofs.TuringRamEquivalence.ramComputable_iff_computable</span></span></a></li>
+<li data-type="proof" data-search="lax759944proofs.turingrampolytimeequivalence.rampolytime_iff_turingpolytime proof"><a class="entry-link" href="../lax-759944/Lax759944Proofs.TuringRamPolytimeEquivalence.ramPolytime_iff_turingPolytime.html" data-full-title="Lax759944Proofs.TuringRamPolytimeEquivalence.ramPolytime_iff_turingPolytime"><span class="entry-label"><span class="proof-badge" role="img" aria-label="proof">⊢</span><span class="entry-label-text">Lax759944Proofs.TuringRamPolytimeEquivalence.ramPolytime_iff_turingPolytime</span></span></a></li>
+<li id="entry-list-empty" hidden>No entries match.</li>
+</ul>
+</aside>
+<div id="sidebar-resizer" class="sidebar-resizer" role="separator" aria-label="Resize sidebar" aria-controls="sidebar" aria-orientation="vertical" aria-valuemin="220" aria-valuemax="520" aria-valuenow="285" tabindex="0" title="Drag to resize sidebar"></div>
+<section id="main"><div id="detail">
+<p class="draft-banner"><strong>Draft</strong> — mutable and not usable as a dependency; its citation marks the draft state.</p>
+<div class="detail-heading concept-heading">
+<div><h1 class="concept-title">Polynomial-time computation by a Turing machine</h1>
+<p class="concept-microline"><code>concepts/Lax759944/TuringPolytime.lean</code> · <a href="index.html">lax-759944</a></p></div>
+<span class="status-pills"><span class="status-pill pill-none">definition</span></span>
+</div>
+<section class="page-reactions" aria-label="Community review" data-reactions-host="https://comments.laxarchive.org" data-reactions-url="https://laxarchive.org/lax-759944/Lax759944.TuringPolytime.html" data-review-kind="concept" data-source-lines="32">
+<div class="page-reactions-line">
+<div class="page-reactions-actions">
+<div class="page-reaction-control">
+<button class="page-reaction-button" type="button" data-reaction="endorse" aria-pressed="false" title="Say that this concept is correct"><span class="page-reaction-icon" aria-hidden="true">🥳</span><span>Endorse</span></button>
+<button class="page-reaction-voters" type="button" data-reaction-voters="endorse" aria-expanded="false" aria-controls="page-reaction-voters-endorse"><strong data-reaction-count="endorse">0</strong><span class="visually-hidden">Show people who endorse this concept</span></button>
+<div class="page-reaction-voters-popover" id="page-reaction-voters-endorse" data-reaction-voters-popover="endorse" hidden><p data-reaction-empty>No public endorsements yet.</p><ul></ul></div>
+</div>
+<div class="page-reaction-control page-flag-control">
+<button class="page-reaction-button" type="button" data-reaction="flag" aria-pressed="false" aria-haspopup="dialog" title="Explain why this concept may be false"><span class="page-reaction-icon" aria-hidden="true">🚩</span><span>Flag</span></button>
+<button class="page-reaction-voters" type="button" data-flag-list-open aria-haspopup="dialog" aria-controls="page-flag-list"><strong data-reaction-count="flag">0</strong><span class="visually-hidden">Show flags for this concept</span></button>
+</div>
+</div>
+
+</div>
+<p class="page-reactions-status" data-reactions-status role="status">Loading review…</p>
+<a class="visually-hidden" data-reactions-login href="https://comments.laxarchive.org/auth/orcid/login?site=remark&amp;from=https%3A%2F%2Flaxarchive.org%2Flax-759944%2FLax759944.TuringPolytime.html">Sign in with ORCID</a>
+<dialog class="review-dialog flag-list-dialog" id="page-flag-list" data-flag-list-dialog aria-labelledby="page-flag-list-title">
+<div class="review-dialog-header"><div><p class="discussion-eyebrow">Community review</p><h2 id="page-flag-list-title">Flags</h2></div><button class="review-dialog-close" type="button" data-flag-list-close aria-label="Close flags">×</button></div>
+<p class="review-dialog-intro">Each flag is tied to a public ORCID identity and explains why this concept may be incorrect.</p>
+<p data-flag-list-empty>No flags have been submitted.</p><ol class="flag-list" data-flag-list></ol>
+</dialog>
+<dialog class="review-dialog flag-editor-dialog" id="page-flag-editor" data-flag-editor aria-labelledby="page-flag-editor-title">
+<form data-flag-form>
+<div class="review-dialog-header"><div><p class="discussion-eyebrow">Community review</p><h2 id="page-flag-editor-title">Flag this concept</h2></div><button class="review-dialog-close" type="button" data-flag-cancel aria-label="Close flag form">×</button></div>
+<p class="review-dialog-intro">State precisely what appears incorrect. This explanation will be public under your ORCID name.</p>
+<label class="flag-message-label" for="page-flag-message">What is wrong?</label>
+<textarea id="page-flag-message" data-flag-message rows="6" maxlength="2000" required placeholder="Describe the incorrect claim, missing assumption, or counterexample."></textarea>
+<div class="flag-line-fields"><input type="hidden" data-flag-line><button class="secondary-button" type="button" data-flag-line-picker>Choose from source</button><p class="flag-line-selection" data-flag-line-selection aria-live="polite">No source line selected.</p></div>
+<p class="flag-form-status" data-flag-form-status role="status"></p>
+<div class="review-dialog-actions"><button class="danger-button" type="button" data-flag-remove hidden>Remove my flag</button><span></span><button class="secondary-button" type="button" data-flag-cancel>Cancel</button><button class="primary-button" type="submit">Publish flag</button></div>
+</form>
+</dialog>
+<noscript><p class="page-reactions-noscript"><a href="https://comments.laxarchive.org/auth/orcid/login?site=remark&amp;from=https%3A%2F%2Flaxarchive.org%2Flax-759944%2FLax759944.TuringPolytime.html">Sign in with ORCID</a> to review this page.</p></noscript>
+</section>
+<details class="figure-details">
+<summary>Concept map</summary>
+<figure class="graph-figure concept-root-graph">
+<div class="graph-controls"><div class="graph-ancestry-controls"><button type="button" id="concept-expand" aria-controls="concept-dag" disabled aria-pressed="true">Hide ancestors</button><button type="button" id="concept-descend" aria-controls="concept-dag" disabled aria-pressed="false">Show descendants</button><output id="concept-graph-status" aria-live="polite">2 concepts; 1 descendant hidden</output></div><div class="graph-zoom-controls" aria-label="Graph zoom"><button type="button" data-graph-zoom="out" aria-label="Zoom out" disabled>−</button><output data-graph-zoom-status aria-label="Zoom">100%</output><button type="button" data-graph-zoom="in" aria-label="Zoom in" disabled>+</button><button type="button" data-graph-zoom="reset" disabled>Reset</button></div><button class="graph-expand" type="button" data-graph-expand data-graph-label="concept map" aria-expanded="false" aria-label="Open concept map in a large window"><svg class="graph-expand-open" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M2.5 6V2.5H6M10 2.5h3.5V6M13.5 10v3.5H10M6 13.5H2.5V10"/></svg><span class="graph-expand-close" aria-hidden="true">×</span></button></div>
+<div id="concept-dag" class="figure-container" data-graph="concepts" data-ancestry="true" data-prepared="true" style="height:168px"><svg xmlns="http://www.w3.org/2000/svg" class="prepared-graph" width="314" height="168" viewBox="0 0 314 168" aria-label="Concept dependency graph" data-layout-digest="198e9ab485e13a5331047649587b80d1a7533b15a576f7b00c97ebd250fcd0eb"><defs><marker id="graph-arrow-concept-dag-198e9ab485e13a53-10" viewBox="0 -5 10 10" refX="9" refY="0" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto" overflow="visible"><path d="M1,-4.25 L9,0 L1,4.25 Q3,0 1,-4.25 Z"/></marker></defs><g data-graph-camera><g transform="translate(64.491,114)"><a class="net-node none ext" data-node-id="c:Lax759944.BinaryWordEncoding" aria-label="Binary encoding of finite words (Lax759944.BinaryWordEncoding)" href="../lax-759944/Lax759944.BinaryWordEncoding.html" role="link"><rect x="0" y="0" width="184.926" height="30" rx="4"/><text class="graph-label" xml:space="preserve"><tspan x="10.000422180175775" y="18">Binary encoding of finite words</tspan></text></a></g><g transform="translate(36,24)"><a class="net-node none" data-node-id="c:Lax759944.TuringPolytime" aria-label="Polynomial-time computation by a Turing machine (Lax759944.TuringPolytime)" href="../lax-759944/Lax759944.TuringPolytime.html" role="link"><rect x="0" y="0" width="241.907" height="46" rx="4"/><text class="graph-label" xml:space="preserve"><tspan x="10.000375000000005" y="18">Polynomial-time computation by a Turing</tspan><tspan x="99.4535" y="34">machine</tspan></text></a></g><path class="dag-edge" data-edge-id="e:Lax759944.BinaryWordEncoding-&gt;Lax759944.TuringPolytime:import:0" d="M156.954,114 L156.954,70" marker-end="url(#graph-arrow-concept-dag-198e9ab485e13a53-10)"/></g></svg></div>
+<div class="graph-tooltip" role="tooltip" hidden></div>
+<figcaption class="graph-legend" aria-label="Concept map legend"><span><i class="legend-node fill-proven"></i>Proven claim</span><span><i class="legend-node fill-none"></i>Definition</span><span><i class="legend-node stroke-own"></i>This concept</span><span><i class="legend-node stroke-ext"></i>Related concept</span><span><svg class="legend-dependency-arrow" viewBox="0 -4 26 8" aria-hidden="true" focusable="false"><path class="legend-edge-line" d="M1 0h22"/><path d="m20-3 3 3-3 3"/></svg>A → B: B builds on A</span></figcaption>
+</figure>
+</details>
+
+
+<div class="block block-statement"><h3>Definition</h3><div class="latex-content"><p>A total function from finite lists of natural numbers to finite lists of
+natural numbers is Turing-computable in polynomial time when a finite
+multi-tape Turing machine transforms the canonical binary encoding of every
+input into the canonical binary encoding of its value within a polynomial
+number of steps in the encoded input length.</p>
+<p>The underlying machine and time bound are mathlib's
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mi>u</mi><mi>r</mi><mi>i</mi><mi>n</mi><mi>g</mi><mi mathvariant="normal">.</mi><mi>T</mi><mi>M</mi><mn>2</mn><mi>C</mi><mi>o</mi><mi>m</mi><mi>p</mi><mi>u</mi><mi>t</mi><mi>a</mi><mi>b</mi><mi>l</mi><mi>e</mi><mi>I</mi><mi>n</mi><mi>P</mi><mi>o</mi><mi>l</mi><mi>y</mi><mi>T</mi><mi>i</mi><mi>m</mi><mi>e</mi></mrow><annotation encoding="application/x-tex">Turing.TM2ComputableInPolyTime</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.1389em;">T</span><span class="mord mathnormal">u</span><span class="mord mathnormal" style="margin-right:0.0278em;">r</span><span class="mord mathnormal">in</span><span class="mord mathnormal" style="margin-right:0.0359em;">g</span><span class="mord">.</span><span class="mord mathnormal" style="margin-right:0.1389em;">T</span><span class="mord mathnormal" style="margin-right:0.109em;">M</span><span class="mord">2</span><span class="mord mathnormal" style="margin-right:0.0715em;">C</span><span class="mord mathnormal">o</span><span class="mord mathnormal">m</span><span class="mord mathnormal">p</span><span class="mord mathnormal">u</span><span class="mord mathnormal">t</span><span class="mord mathnormal">ab</span><span class="mord mathnormal" style="margin-right:0.0197em;">l</span><span class="mord mathnormal">e</span><span class="mord mathnormal" style="margin-right:0.0785em;">I</span><span class="mord mathnormal">n</span><span class="mord mathnormal" style="margin-right:0.1389em;">P</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.0197em;">l</span><span class="mord mathnormal" style="margin-right:0.0359em;">y</span><span class="mord mathnormal" style="margin-right:0.1389em;">T</span><span class="mord mathnormal">im</span><span class="mord mathnormal">e</span></span></span></span>: a bundled finite multi-stack Turing machine
+and a polynomial over the natural numbers. Taking <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mi>o</mi><mi>n</mi><mi>e</mi><mi>m</mi><mi>p</mi><mi>t</mi><mi>y</mi></mrow><annotation encoding="application/x-tex">Nonempty</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8778em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.109em;">N</span><span class="mord mathnormal">o</span><span class="mord mathnormal">n</span><span class="mord mathnormal">e</span><span class="mord mathnormal">m</span><span class="mord mathnormal">pt</span><span class="mord mathnormal" style="margin-right:0.0359em;">y</span></span></span></span> forgets the
+computational content of the bundle and retains the proposition that such a
+machine exists.</p>
+</div></div>
+<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/szymtor/RAM-TM/blob/13530db8ae9e82025c8874656ae54ccfcecba566/concepts/Lax759944/TuringPolytime.lean">view on GitHub</a></h3>
+<div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-759944/Lax759944.BinaryWordEncoding.html"><span style="color:#24292E">Lax759944.BinaryWordEncoding</span></a></td></tr>
+<tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Computability.TuringMachine.Computable</span></td></tr>
+<tr id="L3" class=""><td class="line-num"><a href="#L3">3</a></td><td class="line-code"> </td></tr>
+<tr id="L4" class=""><td class="line-num"><a href="#L4">4</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
+<tr id="L5" class=""><td class="line-num"><a href="#L5">5</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
+<tr id="L6" class=""><td class="line-num"><a href="#L6">6</a></td><td class="line-code"><span style="color:#6A737D">title: Polynomial-time computation by a Turing machine</span></td></tr>
+<tr id="L7" class=""><td class="line-num"><a href="#L7">7</a></td><td class="line-code"><span style="color:#6A737D">type: definition</span></td></tr>
+<tr id="L8" class=""><td class="line-num"><a href="#L8">8</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
+<tr id="L9" class=""><td class="line-num"><a href="#L9">9</a></td><td class="line-code"><span style="color:#6A737D">A total function from finite lists of natural numbers to finite lists of</span></td></tr>
+<tr id="L10" class=""><td class="line-num"><a href="#L10">10</a></td><td class="line-code"><span style="color:#6A737D">natural numbers is Turing-computable in polynomial time when a finite</span></td></tr>
+<tr id="L11" class=""><td class="line-num"><a href="#L11">11</a></td><td class="line-code"><span style="color:#6A737D">multi-tape Turing machine transforms the canonical binary encoding of every</span></td></tr>
+<tr id="L12" class=""><td class="line-num"><a href="#L12">12</a></td><td class="line-code"><span style="color:#6A737D">input into the canonical binary encoding of its value within a polynomial</span></td></tr>
+<tr id="L13" class=""><td class="line-num"><a href="#L13">13</a></td><td class="line-code"><span style="color:#6A737D">number of steps in the encoded input length.</span></td></tr>
+<tr id="L14" class=""><td class="line-num"><a href="#L14">14</a></td><td class="line-code"> </td></tr>
+<tr id="L15" class=""><td class="line-num"><a href="#L15">15</a></td><td class="line-code"><span style="color:#6A737D">The underlying machine and time bound are mathlib's</span></td></tr>
+<tr id="L16" class=""><td class="line-num"><a href="#L16">16</a></td><td class="line-code"><span style="color:#6A737D">`Turing.TM2ComputableInPolyTime`: a bundled finite multi-stack Turing machine</span></td></tr>
+<tr id="L17" class=""><td class="line-num"><a href="#L17">17</a></td><td class="line-code"><span style="color:#6A737D">and a polynomial over the natural numbers. Taking `Nonempty` forgets the</span></td></tr>
+<tr id="L18" class=""><td class="line-num"><a href="#L18">18</a></td><td class="line-code"><span style="color:#6A737D">computational content of the bundle and retains the proposition that such a</span></td></tr>
+<tr id="L19" class=""><td class="line-num"><a href="#L19">19</a></td><td class="line-code"><span style="color:#6A737D">machine exists.</span></td></tr>
+<tr id="L20" class=""><td class="line-num"><a href="#L20">20</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
+<tr id="L21" class=""><td class="line-num"><a href="#L21">21</a></td><td class="line-code"> </td></tr>
+<tr id="L22" class=""><td class="line-num"><a href="#L22">22</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax759944.TuringPolytime</span></td></tr>
+<tr id="L23" class=""><td class="line-num"><a href="#L23">23</a></td><td class="line-code"> </td></tr>
+<tr id="L24" class=""><td class="line-num"><a href="#L24">24</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-759944/Lax759944.BinaryWordEncoding.html"><span style="color:#24292E">Lax759944.BinaryWordEncoding</span></a></td></tr>
+<tr id="L25" class=""><td class="line-num"><a href="#L25">25</a></td><td class="line-code"> </td></tr>
+<tr id="L26" class=""><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span style="color:#6A737D">/-- Polynomial-time computation, on the canonical binary word encoding, by</span></td></tr>
+<tr id="L27" class=""><td class="line-num"><a href="#L27">27</a></td><td class="line-code"><span style="color:#6A737D">a finite multi-tape Turing machine. -/</span></td></tr>
+<tr id="L28" class=""><td class="line-num"><a href="#L28">28</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> TuringPolytime</span><span style="color:#24292E"> (f : List ℕ → List ℕ) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr id="L29" class=""><td class="line-num"><a href="#L29">29</a></td><td class="line-code"><span style="color:#24292E">  Nonempty (Turing.TM2ComputableInPolyTime </span><a class="lean-identifier-link" href="../lax-759944/Lax759944.BinaryWordEncoding.html#L38"><span style="color:#24292E">encode</span></a><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-759944/Lax759944.BinaryWordEncoding.html#L38"><span style="color:#24292E">encode</span></a><span style="color:#24292E"> f)</span></td></tr>
+<tr id="L30" class=""><td class="line-num"><a href="#L30">30</a></td><td class="line-code"> </td></tr>
+<tr id="L31" class=""><td class="line-num"><a href="#L31">31</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax759944.TuringPolytime</span></td></tr>
+<tr id="L32" class=""><td class="line-num"><a href="#L32">32</a></td><td class="line-code"> </td></tr>
+</table></div><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
+
+<div class="block"><div class="deps-columns">
+<details class="deps-col block-details"><summary>Builds on</summary><ul class="deps-list"><li title="Lax759944.BinaryWordEncoding"><a href="../lax-759944/Lax759944.BinaryWordEncoding.html"><code>Lax759944.BinaryWordEncoding</code></a></li></ul></details>
+<details class="deps-col block-details"><summary>Used by</summary><ul class="deps-list"><li title="Lax759944.TuringRamPolytimeEquivalence"><a href="../lax-759944/Lax759944.TuringRamPolytimeEquivalence.html"><code>Lax759944.TuringRamPolytimeEquivalence</code></a></li></ul></details>
+<details class="deps-col block-details"><summary>From Mathlib</summary><ul class="deps-list"><li title="Mathlib.Computability.TuringMachine.Computable"><a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Computability/TuringMachine/Computable.html"><code>Mathlib.Computability.TuringMachine.Computable</code></a></li></ul></details>
+</div></div>
+<section class="page-section discussion-section" aria-labelledby="discussion-title">
+<div class="discussion-heading">
+<div class="discussion-heading-copy">
+<h3 class="section-title" id="discussion-title">Discussion</h3>
+<p>Ask a question or add context. Endorsements and structured flags are kept in the review panel above.</p>
+</div>
+<p class="discussion-count" hidden><span class="remark42__counter" data-url="https://laxarchive.org/lax-759944/Lax759944.TuringPolytime.html">0</span> <span>comments</span></p>
+</div>
+<div class="discussion-embed-shell">
+<p class="discussion-loading" id="remark42-status" role="status"><span class="discussion-loading-mark" aria-hidden="true"></span>Loading discussion…</p>
+<div id="remark42" data-remark42-host="https://comments.laxarchive.org" data-remark42-site="remark" data-remark42-url="https://laxarchive.org/lax-759944/Lax759944.TuringPolytime.html"></div>
+</div>
+<noscript><p class="discussion-unavailable">Enable JavaScript to read or join the discussion.</p></noscript>
+</section>
+<script type="application/json" id="graph-data">{"concepts":{"home":"lax-759944","nodes":[{"id":"Lax759944.BinaryWordEncoding","title":"Binary encoding of finite words","href":"../lax-759944/Lax759944.BinaryWordEncoding.html","dir":"up","status":"none","owner":"lax-759944","ext":true},{"id":"Lax759944.TuringPolytime","title":"Polynomial-time computation by a Turing machine","href":"../lax-759944/Lax759944.TuringPolytime.html","dir":"core","status":"none","owner":"lax-759944","ext":false},{"id":"Lax759944.TuringRamPolytimeEquivalence","title":"Polynomial-time equivalence of Turing machines and word RAMs","href":"../lax-759944/Lax759944.TuringRamPolytimeEquivalence.html","dir":"down","status":"proven","owner":"lax-759944","ext":true}],"edges":[{"from":"Lax759944.BinaryWordEncoding","to":"Lax759944.TuringPolytime"},{"from":"Lax759944.TuringPolytime","to":"Lax759944.TuringRamPolytimeEquivalence"}]},"proofs":{"statements":[],"proofs":[]},"prepared":{"concept-dag":{"initial":"10","ancestors":1,"descendants":1,"views":{"10":{"interaction":{"nodes":{"c:Lax759944.BinaryWordEncoding":{"label":"Binary encoding of finite words","tooltipRows":[["Concept","Binary encoding of finite words"],["Status","definition"],["Submission","lax-759944"]],"incident":["e:Lax759944.BinaryWordEncoding->Lax759944.TuringPolytime:import:0"]},"c:Lax759944.TuringPolytime":{"label":"Polynomial-time computation by a Turing machine","tooltipRows":[["Concept","Polynomial-time computation by a Turing machine"],["Status","definition"],["Submission","lax-759944"]],"incident":["e:Lax759944.BinaryWordEncoding->Lax759944.TuringPolytime:import:0"]}}},"height":168,"status":"2 concepts; 1 descendant hidden"},"11":{"svg":"\u003csvg xmlns=\"http://www.w3.org/2000/svg\" class=\"prepared-graph\" width=\"314\" height=\"254\" viewBox=\"0 0 314 254\" aria-label=\"Concept dependency graph\" data-layout-digest=\"79d5cafc23d17475fd79f6a2d8514b0278003866431432f0b609508b70ed1696\">\u003cdefs>\u003cmarker id=\"graph-arrow-concept-dag-79d5cafc23d17475-11\" viewBox=\"0 -5 10 10\" refX=\"9\" refY=\"0\" markerWidth=\"7\" markerHeight=\"7\" markerUnits=\"userSpaceOnUse\" orient=\"auto\" overflow=\"visible\">\u003cpath d=\"M1,-4.25 L9,0 L1,4.25 Q3,0 1,-4.25 Z\"/>\u003c/marker>\u003c/defs>\u003cg data-graph-camera>\u003cg transform=\"translate(64.491,199.596)\">\u003ca class=\"net-node none ext\" data-node-id=\"c:Lax759944.BinaryWordEncoding\" aria-label=\"Binary encoding of finite words (Lax759944.BinaryWordEncoding)\" href=\"../lax-759944/Lax759944.BinaryWordEncoding.html\" role=\"link\">\u003crect x=\"0\" y=\"0\" width=\"184.926\" height=\"30\" rx=\"4\"/>\u003ctext class=\"graph-label\" xml:space=\"preserve\">\u003ctspan x=\"10.000422180175775\" y=\"18\">Binary encoding of finite words\u003c/tspan>\u003c/text>\u003c/a>\u003c/g>\u003cg transform=\"translate(36,111.798)\">\u003ca class=\"net-node none\" data-node-id=\"c:Lax759944.TuringPolytime\" aria-label=\"Polynomial-time computation by a Turing machine (Lax759944.TuringPolytime)\" href=\"../lax-759944/Lax759944.TuringPolytime.html\" role=\"link\">\u003crect x=\"0\" y=\"0\" width=\"241.907\" height=\"46\" rx=\"4\"/>\u003ctext class=\"graph-label\" xml:space=\"preserve\">\u003ctspan x=\"10.000375000000005\" y=\"18\">Polynomial-time computation by a Turing\u003c/tspan>\u003ctspan x=\"99.4535\" y=\"34\">machine\u003c/tspan>\u003c/text>\u003c/a>\u003c/g>\u003cg transform=\"translate(45.844,24)\">\u003ca class=\"net-node proven ext\" data-node-id=\"c:Lax759944.TuringRamPolytimeEquivalence\" aria-label=\"Polynomial-time equivalence of Turing machines and word RAMs (Lax759944.TuringRamPolytimeEquivalence)\" href=\"../lax-759944/Lax759944.TuringRamPolytimeEquivalence.html\" role=\"link\">\u003crect x=\"0\" y=\"0\" width=\"222.219\" height=\"46\" rx=\"4\"/>\u003ctext class=\"graph-label\" xml:space=\"preserve\">\u003ctspan x=\"10.000124999999997\" y=\"18\">Polynomial-time equivalence of Turing\u003c/tspan>\u003ctspan x=\"41.811030456542966\" y=\"34\">machines and word RAMs\u003c/tspan>\u003c/text>\u003c/a>\u003c/g>\u003cpath class=\"dag-edge\" data-edge-id=\"e:Lax759944.BinaryWordEncoding-&gt;Lax759944.TuringPolytime:import:0\" d=\"M156.954,199.596 L156.954,157.798\" marker-end=\"url(#graph-arrow-concept-dag-79d5cafc23d17475-11)\"/>\u003cpath class=\"dag-edge\" data-edge-id=\"e:Lax759944.TuringPolytime-&gt;Lax759944.TuringRamPolytimeEquivalence:import:0\" d=\"M156.954,111.798 L156.954,70\" marker-end=\"url(#graph-arrow-concept-dag-79d5cafc23d17475-11)\"/>\u003c/g>\u003c/svg>","interaction":{"nodes":{"c:Lax759944.BinaryWordEncoding":{"label":"Binary encoding of finite words","tooltipRows":[["Concept","Binary encoding of finite words"],["Status","definition"],["Submission","lax-759944"]],"incident":["e:Lax759944.BinaryWordEncoding->Lax759944.TuringPolytime:import:0"]},"c:Lax759944.TuringPolytime":{"label":"Polynomial-time computation by a Turing machine","tooltipRows":[["Concept","Polynomial-time computation by a Turing machine"],["Status","definition"],["Submission","lax-759944"]],"incident":["e:Lax759944.BinaryWordEncoding->Lax759944.TuringPolytime:import:0","e:Lax759944.TuringPolytime->Lax759944.TuringRamPolytimeEquivalence:import:0"]},"c:Lax759944.TuringRamPolytimeEquivalence":{"label":"Polynomial-time equivalence of Turing machines and word RAMs","tooltipRows":[["Concept","Polynomial-time equivalence of Turing machines and word RAMs"],["Status","proven"],["Submission","lax-759944"]],"incident":["e:Lax759944.TuringPolytime->Lax759944.TuringRamPolytimeEquivalence:import:0"]}}},"height":254,"status":"3 concepts"},"00":{"svg":"\u003csvg xmlns=\"http://www.w3.org/2000/svg\" class=\"prepared-graph\" width=\"314\" height=\"94\" viewBox=\"0 0 314 94\" aria-label=\"Concept dependency graph\" data-layout-digest=\"147411d591f64972b69c2496ff561238b2ec2c8ea1ed525c5cd8f9e7c436de5d\">\u003cdefs>\u003cmarker id=\"graph-arrow-concept-dag-147411d591f64972-00\" viewBox=\"0 -5 10 10\" refX=\"9\" refY=\"0\" markerWidth=\"7\" markerHeight=\"7\" markerUnits=\"userSpaceOnUse\" orient=\"auto\" overflow=\"visible\">\u003cpath d=\"M1,-4.25 L9,0 L1,4.25 Q3,0 1,-4.25 Z\"/>\u003c/marker>\u003c/defs>\u003cg data-graph-camera>\u003cg transform=\"translate(36,24)\">\u003ca class=\"net-node none\" data-node-id=\"c:Lax759944.TuringPolytime\" aria-label=\"Polynomial-time computation by a Turing machine (Lax759944.TuringPolytime)\" href=\"../lax-759944/Lax759944.TuringPolytime.html\" role=\"link\">\u003crect x=\"0\" y=\"0\" width=\"241.907\" height=\"46\" rx=\"4\"/>\u003ctext class=\"graph-label\" xml:space=\"preserve\">\u003ctspan x=\"10.000375000000005\" y=\"18\">Polynomial-time computation by a Turing\u003c/tspan>\u003ctspan x=\"99.4535\" y=\"34\">machine\u003c/tspan>\u003c/text>\u003c/a>\u003c/g>\u003c/g>\u003c/svg>","interaction":{"nodes":{"c:Lax759944.TuringPolytime":{"label":"Polynomial-time computation by a Turing machine","tooltipRows":[["Concept","Polynomial-time computation by a Turing machine"],["Status","definition"],["Submission","lax-759944"]],"incident":[]}}},"height":94,"status":"1 concept; 1 ancestor hidden; 1 descendant hidden"},"01":{"svg":"\u003csvg xmlns=\"http://www.w3.org/2000/svg\" class=\"prepared-graph\" width=\"314\" height=\"184\" viewBox=\"0 0 314 184\" aria-label=\"Concept dependency graph\" data-layout-digest=\"022c71c2fe3258e9695d57b46ce6c2d0350256da4f4110b5f38636b991407ffa\">\u003cdefs>\u003cmarker id=\"graph-arrow-concept-dag-022c71c2fe3258e9-01\" viewBox=\"0 -5 10 10\" refX=\"9\" refY=\"0\" markerWidth=\"7\" markerHeight=\"7\" markerUnits=\"userSpaceOnUse\" orient=\"auto\" overflow=\"visible\">\u003cpath d=\"M1,-4.25 L9,0 L1,4.25 Q3,0 1,-4.25 Z\"/>\u003c/marker>\u003c/defs>\u003cg data-graph-camera>\u003cg transform=\"translate(36,114)\">\u003ca class=\"net-node none\" data-node-id=\"c:Lax759944.TuringPolytime\" aria-label=\"Polynomial-time computation by a Turing machine (Lax759944.TuringPolytime)\" href=\"../lax-759944/Lax759944.TuringPolytime.html\" role=\"link\">\u003crect x=\"0\" y=\"0\" width=\"241.907\" height=\"46\" rx=\"4\"/>\u003ctext class=\"graph-label\" xml:space=\"preserve\">\u003ctspan x=\"10.000375000000005\" y=\"18\">Polynomial-time computation by a Turing\u003c/tspan>\u003ctspan x=\"99.4535\" y=\"34\">machine\u003c/tspan>\u003c/text>\u003c/a>\u003c/g>\u003cg transform=\"translate(45.844,24)\">\u003ca class=\"net-node proven ext\" data-node-id=\"c:Lax759944.TuringRamPolytimeEquivalence\" aria-label=\"Polynomial-time equivalence of Turing machines and word RAMs (Lax759944.TuringRamPolytimeEquivalence)\" href=\"../lax-759944/Lax759944.TuringRamPolytimeEquivalence.html\" role=\"link\">\u003crect x=\"0\" y=\"0\" width=\"222.219\" height=\"46\" rx=\"4\"/>\u003ctext class=\"graph-label\" xml:space=\"preserve\">\u003ctspan x=\"10.000124999999997\" y=\"18\">Polynomial-time equivalence of Turing\u003c/tspan>\u003ctspan x=\"41.811030456542966\" y=\"34\">machines and word RAMs\u003c/tspan>\u003c/text>\u003c/a>\u003c/g>\u003cpath class=\"dag-edge\" data-edge-id=\"e:Lax759944.TuringPolytime-&gt;Lax759944.TuringRamPolytimeEquivalence:import:0\" d=\"M156.954,114 L156.954,70\" marker-end=\"url(#graph-arrow-concept-dag-022c71c2fe3258e9-01)\"/>\u003c/g>\u003c/svg>","interaction":{"nodes":{"c:Lax759944.TuringPolytime":{"label":"Polynomial-time computation by a Turing machine","tooltipRows":[["Concept","Polynomial-time computation by a Turing machine"],["Status","definition"],["Submission","lax-759944"]],"incident":["e:Lax759944.TuringPolytime->Lax759944.TuringRamPolytimeEquivalence:import:0"]},"c:Lax759944.TuringRamPolytimeEquivalence":{"label":"Polynomial-time equivalence of Turing machines and word RAMs","tooltipRows":[["Concept","Polynomial-time equivalence of Turing machines and word RAMs"],["Status","proven"],["Submission","lax-759944"]],"incident":["e:Lax759944.TuringPolytime->Lax759944.TuringRamPolytimeEquivalence:import:0"]}}},"height":184,"status":"2 concepts; 1 ancestor hidden"}}}}}</script>
+</div>
+<footer class="site-footer">
+  <nav class="site-footer-nav" aria-label="Legal">
+    <a class="site-footer-link" href="../impressum.html">Imprint</a>
+    <a class="site-footer-link" href="../privacy.html">Privacy</a>
+  </nav>
+</footer>
+</section>
+</main>
+<dialog class="account-dialog" id="account-dialog" aria-labelledby="account-dialog-title">
+<div class="account-dialog-inner">
+<header class="account-dialog-header">
+<div><p class="account-dialog-eyebrow">ORCID account</p><h2 id="account-dialog-title">Settings</h2></div>
+<button class="account-dialog-close" data-account-close type="button" aria-label="Close account settings">×</button>
+</header>
+<div class="account-dialog-body">
+<p class="account-status" data-account-status role="status">Checking your ORCID session…</p>
+<section data-account-content hidden>
+<div class="account-identity">
+<span class="account-avatar" data-account-avatar aria-hidden="true">iD</span>
+<div><a class="account-name" data-account-name target="_blank" rel="noopener noreferrer"></a><p class="account-id" data-account-id></p></div>
+</div>
+<p class="account-name-note">Your public name comes from ORCID. ORCID names are self-asserted and may change.</p>
+<div class="account-actions">
+<a data-account-refresh href="https://comments.laxarchive.org/auth/orcid/login?from=https%3A%2F%2Flaxarchive.org&amp;site=remark">Refresh from ORCID</a>
+<button data-account-logout type="button">Sign out</button>
+</div>
+<div class="account-comments-heading"><h3>Your comments</h3><span data-account-comment-count></span></div>
+<ol class="account-comments" data-account-comments></ol>
+<p class="account-comments-status" data-account-comments-status role="status"></p>
+</section>
+</div>
+</div>
+</dialog>
+<script src="../assets/sidebar.js?v=e4e626f46671"></script>
+<script src="../assets/account.js?v=449b15dc8a12"></script>
+<script src="../assets/graph-interaction.js?v=db834c0ada93"></script>
+<script src="../assets/source-proof.js?v=b4c48aaad400"></script>
+<script src="../assets/version-history.js?v=a36e868140dd"></script>
+<script src="../assets/comments.js?v=dabbfeb11bca"></script>
+</body></html>
