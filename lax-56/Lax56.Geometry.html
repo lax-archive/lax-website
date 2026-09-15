@@ -62,7 +62,7 @@
 </aside>
 <div id="sidebar-resizer" class="sidebar-resizer" role="separator" aria-label="Resize sidebar" aria-controls="sidebar" aria-orientation="vertical" aria-valuemin="220" aria-valuemax="520" aria-valuenow="285" tabindex="0" title="Drag to resize sidebar"></div>
 <section id="main"><div id="detail">
-<p class="draft-banner"><strong>Draft</strong> — mutable and not usable as a dependency; its citation marks the draft state.</p><p class="environment-notice">Environment <code>v4.30.0</code>. The archive's epoch is <code>v4.33.0</code>; only submissions in <code>v4.30.0</code> can cite this work.</p>
+<p class="draft-banner"><strong>Draft</strong> — mutable and not usable as a dependency; its citation marks the draft state.</p>
 <div class="detail-heading concept-heading">
 <div><h1 class="concept-title">Point visibility in the real plane</h1>
 <p class="concept-microline"><code>concepts/Lax56/Geometry.lean</code> · <a href="index.html">lax-56</a></p></div>
@@ -119,7 +119,7 @@ open segment joining it contains no point of the ambient set.  This module
 also defines the visibility graph and the two geometric alternatives used in
 the headline theorem.</p>
 </div></div>
-<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/EdouardBonnet/big-line-big-clique/blob/813f2644f1fed120595da57e9cbcc4694b8e4ac7/concepts/Lax56/Geometry.lean">view on GitHub</a></h3>
+<div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/EdouardBonnet/big-line-big-clique/blob/b8369d8d24b5855aef603d90f4843fcaa09c824d/concepts/Lax56/Geometry.lean">view on GitHub</a></h3>
 <div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
 <tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Analysis.Convex.Segment</span></td></tr>
 <tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Combinatorics.SimpleGraph.Basic</span></td></tr>
@@ -153,10 +153,10 @@ the headline theorem.</p>
 <tr id="L30" class=""><td class="line-num"><a href="#L30">30</a></td><td class="line-code"><span style="color:#6A737D">/-- The point-visibility graph of `P`; its vertices retain their membership proofs. -/</span></td></tr>
 <tr id="L31" class=""><td class="line-num"><a href="#L31">31</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> visibilityGraph</span><span style="color:#24292E"> (P : Finset </span><a class="lean-identifier-link" href="../lax-56/Lax56.Geometry.html#L19"><span style="color:#24292E">Point</span></a><span style="color:#24292E">) : SimpleGraph P </span><span style="color:#D73A49">where</span></td></tr>
 <tr id="L32" class=""><td class="line-num"><a href="#L32">32</a></td><td class="line-code"><span style="color:#24292E">  Adj p q := </span><a class="lean-identifier-link" href="../lax-56/Lax56.Geometry.html#L26"><span style="color:#24292E">Visible</span></a><span style="color:#24292E"> P p q</span></td></tr>
-<tr id="L33" class=""><td class="line-num"><a href="#L33">33</a></td><td class="line-code"><span style="color:#24292E">  symm := </span><span style="color:#D73A49">by</span></td></tr>
+<tr id="L33" class=""><td class="line-num"><a href="#L33">33</a></td><td class="line-code"><span style="color:#24292E">  symm := ⟨</span><span style="color:#D73A49">by</span></td></tr>
 <tr id="L34" class=""><td class="line-num"><a href="#L34">34</a></td><td class="line-code"><span style="color:#24292E">    intro p q hpq</span></td></tr>
 <tr id="L35" class=""><td class="line-num"><a href="#L35">35</a></td><td class="line-code"><span style="color:#24292E">    refine ⟨hpq.</span><span style="color:#005CC5">1</span><span style="color:#24292E">.symm, ?_⟩</span></td></tr>
-<tr id="L36" class=""><td class="line-num"><a href="#L36">36</a></td><td class="line-code"><span style="color:#24292E">    simpa only [openSegment_symm] </span><span style="color:#D73A49">using</span><span style="color:#24292E"> hpq.</span><span style="color:#005CC5">2</span></td></tr>
+<tr id="L36" class=""><td class="line-num"><a href="#L36">36</a></td><td class="line-code"><span style="color:#24292E">    simpa only [openSegment_symm] </span><span style="color:#D73A49">using</span><span style="color:#24292E"> hpq.</span><span style="color:#005CC5">2</span><span style="color:#24292E">⟩</span></td></tr>
 <tr id="L37" class=""><td class="line-num"><a href="#L37">37</a></td><td class="line-code"><span style="color:#24292E">  loopless := ⟨</span><span style="color:#D73A49">fun</span><span style="color:#24292E"> p hp =&gt; hp.</span><span style="color:#005CC5">1</span><span style="color:#24292E"> rfl⟩</span></td></tr>
 <tr id="L38" class=""><td class="line-num"><a href="#L38">38</a></td><td class="line-code"> </td></tr>
 <tr id="L39" class=""><td class="line-num"><a href="#L39">39</a></td><td class="line-code"><span style="color:#6A737D">/-- The finite point set contains four distinct collinear points. -/</span></td></tr>

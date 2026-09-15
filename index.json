@@ -1044,7 +1044,7 @@
     {
       "id": "lax-56",
       "state": "draft",
-      "environment": "v4.30.0",
+      "environment": "v4.33.0",
       "title": "Large Finite Point Sets Have 4 Collinear Points or a 6-Clique",
       "concepts": [
         {
@@ -2175,7 +2175,7 @@
     },
     {
       "id": "lax-242665",
-      "state": "draft",
+      "state": "registered",
       "environment": "v4.33.0",
       "title": "An Introduction to Lax",
       "concepts": [
@@ -2312,6 +2312,39 @@
       "proofs": [
         "Lax271696Proofs.CCMain.exists_linearTime_program_ccLabels",
         "Lax271696Proofs.Courcelle.exists_linearTime_program_modelChecking"
+      ]
+    },
+    {
+      "id": "lax-296731",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Constructive Lovász Local Lemma",
+      "supersedes": "lax-41",
+      "concepts": [
+        {
+          "id": "Lax296731.HaeuplerSahaSrinivasanDefinitions",
+          "title": "Definitions for the Haeupler–Saha–Srinivasan distributional theorem",
+          "type": "definition"
+        },
+        {
+          "id": "Lax296731.HaeuplerSahaSrinivasanTheorem22",
+          "title": "Haeupler–Saha–Srinivasan Theorem 2.2",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax296731.MoserTardos",
+          "title": "The Moser–Tardos theorem",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax296731.MoserTardosDefinitions",
+          "title": "Definitions for the Moser–Tardos resampling algorithm",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax296731Proofs.moser_tardos",
+        "Lax296731Proofs.theorem_2_2"
       ]
     },
     {
