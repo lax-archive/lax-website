@@ -1813,6 +1813,45 @@
       ]
     },
     {
+      "id": "lax-153141",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Functional Equivalence of Twin-Width and Mixed Minor Number",
+      "supersedes": "lax-49",
+      "concepts": [
+        {
+          "id": "Lax153141.FunctionalEquivalence",
+          "title": "Twin-width and mixed minor number are functionally equivalent",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax153141.GraphParameters",
+          "title": "Graph parameters and functional equivalence",
+          "type": "definition"
+        },
+        {
+          "id": "Lax153141.MixedMinorNumber",
+          "title": "Mixed minor number",
+          "type": "definition"
+        },
+        {
+          "id": "Lax153141.MixedMinorNumberFromTwinWidth",
+          "title": "Mixed minor number is bounded by a function of twin-width",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax153141.TwinWidthFromMixedMinorNumber",
+          "title": "Twin-width is bounded by a function of mixed minor number",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax153141Proofs.Main.twin_width_functionally_equivalent_mixed_minor_number",
+        "Lax153141Proofs.MixedMinorNumberFromTwinWidth.exists_mixedMinorNumber_bound_of_twinWidth",
+        "Lax153141Proofs.TwinWidthFromMixedMinorNumber.exists_twinWidth_bound_of_mixedMinorNumber"
+      ]
+    },
+    {
       "id": "lax-157538",
       "state": "draft",
       "environment": "v4.33.0",
