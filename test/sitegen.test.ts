@@ -1821,9 +1821,9 @@ After the formula.`, "");
     expect(html).toContain('<details class="deps-col block-details"><summary>From Mathlib</summary>');
     expect(html).not.toContain("<h3>Imported</h3>");
     expect(html).not.toContain("Mathlib imports");
-    // the claim's evidence block lists the archived proof, linking to its page
-    expect(html).toContain("<h3>Evidence</h3>");
-    expect(html).toContain('href="../Lax2/Lax2Proofs.truth.html"');
+    // Evidence is disabled by default; a single statement needs no navigation.
+    expect(html).not.toContain("<h3>Evidence</h3>");
+    expect(html).not.toContain('class="statement-nav"');
     expect(html).toContain('data-remark42-url="https://laxarchive.org/Lax2/Lax2.C.html"');
     expect(html).toContain('data-reactions-url="https://laxarchive.org/Lax2/Lax2.C.html"');
     expect(html).toContain('data-review-kind="concept" data-source-lines="4"');
@@ -2359,20 +2359,19 @@ describe("multi-statement concepts", () => {
     expect(statementOrdinal(new SiteModel(submissions()), "Lax2.C.truth")).toBeUndefined();
   });
 
-  it("gives every statement its own evidence block and proof rail", async () => {
+  it("links numbered statements to source and keeps proof rails with evidence disabled", async () => {
     const root = tmpDir("lax-site-multi-concept-");
     await generateSite(multiStatement(), root);
     const html = fs.readFileSync(path.join(root, "Lax5", "Lax5.Menger.html"), "utf8");
 
-    expect(html).toContain("This concept declares 3 statements. Each proof establishes one of them relative to its assumptions.");
-    expect((html.match(/class="evidence-statement"/g) ?? []).length).toBe(3);
-    expect(html).toContain('<h4><a href="#s-Lax5.Menger.vertexVersion">1st statement</a> <code>vertexVersion</code>');
-    expect(html).toContain('<h4><a href="#s-Lax5.Menger.edgeVersion">2nd statement</a> <code>edgeVersion</code>');
-    expect(html).toContain('<h4><a href="#s-Lax5.Menger.globalVersion">3rd statement</a> <code>globalVersion</code>');
-    // the open second statement says so, and only it
-    expect((html.match(/this statement is open/g) ?? []).length).toBe(1);
-    const openBlock = html.slice(html.indexOf("#s-Lax5.Menger.edgeVersion"), html.indexOf("#s-Lax5.Menger.globalVersion"));
-    expect(openBlock).toContain("this statement is open");
+    expect(html).not.toContain('class="block block-evidence"');
+    const navigation = html.match(/<nav class="statement-nav"[^]*?<\/nav>/)?.[0] ?? "";
+    for (const [index, name] of ["vertexVersion", "edgeVersion", "globalVersion"].entries()) {
+      expect(navigation).toContain(`href="#s-Lax5.Menger.${name}"`);
+      expect(navigation).toContain(`aria-label="Statement ${index + 1} of 3: ${name}"`);
+      expect(navigation).toContain(`>${index + 1}</a>`);
+      expect(html).toContain(`id="s-Lax5.Menger.${name}"`);
+    }
     // one rail per statement that has proofs, each on its own declaration row
     const rails = [...html.matchAll(/<span class="source-proof-rail" data-source-line="(L\d+)"/g)]
       .map((match) => match[1]);
@@ -2398,8 +2397,7 @@ describe("multi-statement concepts", () => {
     const html = fs.readFileSync(path.join(root, "Lax5", "Lax5.Menger.html"), "utf8");
     const sourceURL = "https://github.com/example/menger/blob/" + "b".repeat(40) + `/${proofPath}`;
 
-    expect((html.match(/class="evidence-statement"/g) ?? [])).toHaveLength(3);
-    expect((html.match(/class="proof-item"/g) ?? [])).toHaveLength(3);
+    expect(html).not.toContain('class="block block-evidence"');
     expect((html.match(/class="source-proof-rail"/g) ?? [])).toHaveLength(3);
     expect(html.split(`href="${sourceURL}"`)).toHaveLength(4);
     for (let index = 1; index <= 3; index += 1) {

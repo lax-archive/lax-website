@@ -25,6 +25,8 @@ import {
 } from "./shared.js";
 
 const MATHLIB_DOCS = "https://leanprover-community.github.io/mathlib4_docs/";
+// Keep the evidence renderer available, but omit the section from concept pages.
+const SHOW_EVIDENCE = false;
 
 type ProofSourceAction = { id: string; withheld: true }
   | { id: string; withheld: false; href: string; provider: string };
@@ -129,6 +131,12 @@ export async function conceptPage(ctx: PageContext, located: LocatedConcept): Pr
   const sourceRows = await highlightSource(concept.sourceText, concept.statements, proven, {
     links: sourceLinks(ctx.model, concept.id, "../"),
   });
+  const statementNavigation = concept.statements.length > 1
+    ? `<nav class="statement-nav" aria-label="Statements in this concept"><span>Statements</span>${concept.statements.map((statement, index) => {
+      const name = shortId(statement.id, concept.id);
+      return `<a href="#s-${attr(statement.id)}" aria-label="${attr(`Statement ${index + 1} of ${concept.statements.length}: ${name}`)}" title="${attr(name)}">${index + 1}</a>`;
+    }).join("")}</nav>`
+    : "";
 
   const content = `${versionHistoryPanel(ctx, submission.record.id, "../")}${draftBanner(submission.record.state)}${environmentNotice(ctx.model, submission)}
 <div class="detail-heading concept-heading">
@@ -146,10 +154,11 @@ ${graphTooltip()}
 ${conceptMapLegend(graph, "This concept", "Related concept")}
 </figure>
 </details>
-${evidence(ctx, located)}
+${SHOW_EVIDENCE ? evidence(ctx, located) : ""}
 ${inPaperBlock(ctx, concept.id, output.id, "../")}
 <div class="block block-statement"><h3>${esc(typeHeading)}</h3><div class="latex-content">${ctx.markdown.renderAuthorProse(concept.description, "../")}</div></div>
 <div class="block block-lean"><h3 class="section-heading">Lean source${sourceFile ? ` <a class="source-link" href="${attr(sourceFile)}">view on ${esc(sourceProviderName(sourceFile))}</a>` : sourceWithheld ? withheldSourceLink() : ""}</h3>
+${statementNavigation}
 <div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
 ${sourceRows}
 </table></div>${proofActions}<span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
