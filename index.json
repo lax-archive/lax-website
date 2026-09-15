@@ -2,7 +2,7 @@
   "records": [
     {
       "id": "lax-3",
-      "state": "draft",
+      "state": "registered",
       "environment": "v4.33.0",
       "title": "First-Order Model Checking on Nowhere Dense Graph Classes in Almost Linear Time",
       "concepts": [
@@ -199,6 +199,7 @@
       "state": "registered",
       "environment": "v4.33.0",
       "title": "Algorithmic Experiments on a Random Access Machine",
+      "supersededBy": "lax-271696",
       "concepts": [
         {
           "id": "Lax11.CliqueExpr",
@@ -2230,7 +2231,7 @@
     },
     {
       "id": "lax-271696",
-      "state": "draft",
+      "state": "registered",
       "environment": "v4.33.0",
       "title": "Algorithmic Experiments on a Random Access Machine",
       "supersedes": "lax-11",
@@ -3010,6 +3011,27 @@
       ]
     },
     {
+      "id": "lax-623795",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "temporal-graphs",
+      "concepts": [
+        {
+          "id": "Lax623795.TemporalExploration",
+          "title": "Growth of Temporal Reachability",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax623795.TemporalGraphs",
+          "title": "Temporal Graphs",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax623795Proofs.reachableVertexSet_ssubset_next"
+      ]
+    },
+    {
       "id": "lax-678846",
       "state": "draft",
       "environment": "v4.30.0",
@@ -3045,7 +3067,7 @@
     },
     {
       "id": "lax-683916",
-      "state": "draft",
+      "state": "registered",
       "environment": "v4.33.0",
       "title": "Graph Representations",
       "concepts": [
