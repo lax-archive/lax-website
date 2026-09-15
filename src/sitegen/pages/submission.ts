@@ -63,7 +63,11 @@ ${group.map(({ concept, submission }) => {
       const status = concept.statements.length ? provenCount === concept.statements.length : undefined;
       const pathname = `${submission.record.id}/${concept.id}.html`;
       const href = home ? `${concept.id}.html` : `../${pathname}`;
-      const name = home ? shortId(concept.id, home) : concept.id;
+      // Archive ids use `lax-N`, while Lean namespaces use `LaxN`.
+      // Normalize only the owning submission's display prefix; imported
+      // concepts in the expandable list retain their full identifiers.
+      const namespace = home?.replace(/^lax-(\d+)$/, "Lax$1");
+      const name = home ? shortId(concept.id, namespace) : concept.id;
       return `<li>${typeBadge(concept.type, status)}<a href="${attr(href)}" title="${attr(concept.id)}"><code>${esc(name)}</code></a>${conceptReviewBadge(pathname)}</li>`;
     }).join("\n")}
 </ul>`

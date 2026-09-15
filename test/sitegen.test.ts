@@ -1019,6 +1019,16 @@ After the formula.`, "");
     expect(index).not.toContain('href="../lax-11/');
     expect(index).toContain('<ol class="manuscript-rail landing-paper-rail" aria-label="Cards">');
     expect(index).toContain('<svg class="manuscript-links landing-paper-links" aria-hidden="true"></svg>');
+    // A submission id is stored as lax-17 while its Lean namespace is Lax17.
+    // Its own concept list drops that repeated namespace, but linked
+    // submissions retain their identifiers as context.
+    const treewidthSubmission = fs.readFileSync(path.join(root, "lax-17", "index.html"), "utf8");
+    const ownConcepts = treewidthSubmission.slice(
+      treewidthSubmission.indexOf('<section class="page-section"><h3 class="section-title">Concepts</h3>'),
+      treewidthSubmission.indexOf('<details class="figure-details">'),
+    );
+    expect(ownConcepts).toContain('<a href="Lax17.Treewidth.html" title="Lax17.Treewidth"><code>Treewidth</code></a>');
+    expect(ownConcepts).not.toContain('<code>Lax17.Treewidth</code>');
     // Captions sit inside the boxes.
     expect(index).toContain('<div class="landing-box-caption latex-content">');
     expect(index).toContain("<strong>Concepts and proofs.</strong>");

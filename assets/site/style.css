@@ -4066,6 +4066,12 @@ body.graph-window-open::after{
   border-radius: var(--radius-control); cursor: pointer; font: inherit;
 }
 .graph-zoom-controls output{ min-width: 2.3rem; text-align: center; }
+/* Archive graph windows use a very pale band, distinct from both the page
+   ground and the white buttons. The landing network has its own caption bar. */
+.graph-figure:not(.landing-network-figure) > .graph-controls{ background: var(--panel-bg); }
+.graph-figure:not(.landing-network-figure) .graph-zoom-controls{ background: transparent; }
+.graph-figure:not(.landing-network-figure) [data-graph-zoom-status]{ background: var(--panel-bg); }
+.graph-figure:not(.landing-network-figure) [data-graph-zoom="reset"]{ margin-left: 0.15rem; }
 html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
 .prepared-graph.graph-dragging{ cursor: grabbing; user-select: none; }
 .graph-local-status{ padding: 1rem; font-size: 0.85rem; }
