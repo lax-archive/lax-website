@@ -2246,6 +2246,54 @@
       ]
     },
     {
+      "id": "lax-271696",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Algorithmic Experiments on a Random Access Machine",
+      "supersedes": "lax-11",
+      "concepts": [
+        {
+          "id": "Lax271696.CliqueExpr",
+          "title": "k-expressions, and the graphs of cliquewidth at most k",
+          "type": "definition"
+        },
+        {
+          "id": "Lax271696.ConnectedComponents",
+          "title": "Connected components in linear time",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax271696.Courcelle",
+          "title": "Courcelle's theorem on a word RAM",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax271696.GraphEncoding",
+          "title": "Compressed sparse row encoding of a graph",
+          "type": "definition"
+        },
+        {
+          "id": "Lax271696.InstanceEncoding",
+          "title": "Encoding a graph together with a k-expression",
+          "type": "definition"
+        },
+        {
+          "id": "Lax271696.Mso",
+          "title": "Monadic second-order logic on graphs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax271696.VertexCover",
+          "title": "A graph with a parameter appended",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax271696Proofs.CCMain.exists_linearTime_program_ccLabels",
+        "Lax271696Proofs.Courcelle.exists_linearTime_program_modelChecking"
+      ]
+    },
+    {
       "id": "lax-307052",
       "state": "draft",
       "environment": "v4.30.0",
