@@ -9,7 +9,7 @@
 <link rel="canonical" href="https://laxarchive.org/lax-751879/Lax751879.ImmermanVardi.html">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=4d3912ca072f">
+<link rel="stylesheet" href="../assets/style.css?v=e1fc104ec6cc">
 </head><body>
 <header class="site-header with-sidebar">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="true" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -70,7 +70,18 @@
 </aside>
 <div id="sidebar-resizer" class="sidebar-resizer" role="separator" aria-label="Resize sidebar" aria-controls="sidebar" aria-orientation="vertical" aria-valuemin="220" aria-valuemax="520" aria-valuenow="285" tabindex="0" title="Drag to resize sidebar"></div>
 <section id="main"><div id="detail">
-<p class="draft-banner"><strong>Draft</strong> — mutable and not usable as a dependency; its citation marks the draft state.</p>
+<p class="draft-banner"><strong>Temporary draft</strong><span>Other submissions cannot depend on this work while it remains editable. Authors are advised to register it as soon as it is complete.</span></p>
+<dialog class="draft-reminder-dialog" data-draft-reminder data-created-at="2026-09-14T20:25:57Z" aria-labelledby="draft-reminder-title" aria-describedby="draft-reminder-description">
+<div class="draft-reminder-inner">
+<p class="draft-reminder-eyebrow">Draft best practice</p>
+<h2 id="draft-reminder-title">Drafts should be temporary</h2>
+<div id="draft-reminder-description" class="draft-reminder-copy">
+<p>This draft has been open for at least two weeks. While it remains editable, other submissions cannot depend on it.</p>
+<p><strong>Best practice:</strong> Register completed work promptly—it is important that finished submissions do not remain in draft. Prefer smaller, focused submissions and leave large proof obligations open rather than keeping an entire submission in draft.</p>
+</div>
+<button class="draft-reminder-close" type="button" data-draft-reminder-close>I understand</button>
+</div>
+</dialog>
 <div class="detail-heading concept-heading">
 <div><h1 class="concept-title">The Immerman–Vardi theorem</h1>
 <p class="concept-microline"><code class="concept-namespace">Lax751879.ImmermanVardi</code> · <code>concepts/Lax751879/ImmermanVardi.lean</code> · <a href="index.html">lax-751879</a></p></div>
@@ -120,11 +131,9 @@
 <figcaption class="graph-legend" aria-label="Concept map legend"><span><i class="legend-node fill-proven"></i>Proven claim</span><span><i class="legend-node fill-none"></i>Definition</span><span><i class="legend-node stroke-own"></i>This concept</span><span><i class="legend-node stroke-ext"></i>Related concept</span><span><svg class="legend-dependency-arrow" viewBox="0 -4 26 8" aria-hidden="true" focusable="false"><path class="legend-edge-line" d="M1 0h22"/><path d="m20-3 3 3-3 3"/></svg>A → B: B builds on A</span></figcaption>
 </figure>
 </details>
-<details class="figure-details evidence-details">
-<summary>Evidence</summary>
-<div class="block block-evidence">
+<div class="block block-evidence"><h3>Evidence</h3>
 <p class="evidence-intro">This concept declares 2 statements. Each proof establishes one of them relative to its assumptions.</p>
-<div class="evidence-statement"><h4><a class="evidence-statement-link" href="#s-Lax751879.ImmermanVardi.capturesPtime" aria-label="Statement 1: capturesPtime" title="Jump to statement 1 in the Lean source">1</a> <code>capturesPtime</code> <span class="status-pill pill-proven" title="Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">proven</span></h4>
+<div class="evidence-statement"><h4><a href="#s-Lax751879.ImmermanVardi.capturesPtime">1st statement</a> <code>capturesPtime</code> <span class="status-pill pill-proven" title="Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">proven</span></h4>
 <ul class="proof-list">
 <li class="proof-item">
 <div class="judgment-frame">
@@ -139,7 +148,7 @@
 </li>
 </ul>
 </div>
-<div class="evidence-statement"><h4><a class="evidence-statement-link" href="#s-Lax751879.ImmermanVardi.ptimeDefinable" aria-label="Statement 2: ptimeDefinable" title="Jump to statement 2 in the Lean source">2</a> <code>ptimeDefinable</code> <span class="status-pill pill-proven" title="Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">proven</span></h4>
+<div class="evidence-statement"><h4><a href="#s-Lax751879.ImmermanVardi.ptimeDefinable">2nd statement</a> <code>ptimeDefinable</code> <span class="status-pill pill-proven" title="Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">proven</span></h4>
 <ul class="proof-list">
 <li class="proof-item">
 <div class="judgment-frame">
@@ -155,7 +164,6 @@
 </ul>
 </div>
 </div>
-</details>
 
 <div class="block block-statement"><h3>Theorem</h3><div class="latex-content"><p>On finite linearly ordered relational structures, a query is definable in
 first-order logic with least fixed points if and only if it is decidable
@@ -273,8 +281,9 @@ proof package, with no simulation premise added to the theorem.</p>
 </dialog>
 <script src="../assets/sidebar.js?v=14479c59f650"></script>
 <script src="../assets/account.js?v=6a0844f8bd00"></script>
-<script src="../assets/graph-interaction.js?v=4f12c6eaf4ff"></script>
+<script src="../assets/graph-interaction.js?v=2f9fd490c8bd"></script>
 <script src="../assets/source-proof.js?v=b4c48aaad400"></script>
+<script src="../assets/draft-reminder.js?v=877ea355ae46"></script>
 <script src="../assets/version-history.js?v=a36e868140dd"></script>
 <script src="../assets/comments.js?v=40723213c083"></script>
 </body></html>
