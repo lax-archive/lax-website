@@ -5,8 +5,8 @@
   if (!dialog) return;
 
   const createdAt = Date.parse(dialog.dataset.createdAt || "");
-  const sevenDays = 7 * 24 * 60 * 60 * 1000;
-  if (!Number.isFinite(createdAt) || Date.now() - createdAt < sevenDays) return;
+  const fourteenDays = 14 * 24 * 60 * 60 * 1000;
+  if (!Number.isFinite(createdAt) || Date.now() - createdAt < fourteenDays) return;
 
   const close = dialog.querySelector("[data-draft-reminder-close]");
   const closeDialog = () => {
