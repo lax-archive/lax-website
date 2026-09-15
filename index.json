@@ -779,6 +779,7 @@
       "state": "registered",
       "environment": "v4.30.0",
       "title": "Functional Equivalence of Twin-Width and Mixed Minor Number",
+      "supersededBy": "lax-153141",
       "concepts": [
         {
           "id": "Lax49.FunctionalEquivalence",
@@ -1814,7 +1815,7 @@
     },
     {
       "id": "lax-153141",
-      "state": "draft",
+      "state": "registered",
       "environment": "v4.33.0",
       "title": "Functional Equivalence of Twin-Width and Mixed Minor Number",
       "supersedes": "lax-49",
