@@ -1853,7 +1853,7 @@
     },
     {
       "id": "lax-157538",
-      "state": "draft",
+      "state": "registered",
       "environment": "v4.33.0",
       "title": "Transducers",
       "concepts": [],
@@ -1861,7 +1861,7 @@
     },
     {
       "id": "lax-194892",
-      "state": "draft",
+      "state": "registered",
       "environment": "v4.33.0",
       "title": "Transducers, Part D: Polyregular Functions",
       "concepts": [
