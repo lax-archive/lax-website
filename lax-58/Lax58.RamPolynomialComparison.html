@@ -9,7 +9,7 @@
 <link rel="canonical" href="https://laxarchive.org/lax-58/Lax58.RamPolynomialComparison.html">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=d69698a468ec">
+<link rel="stylesheet" href="../assets/style.css?v=4d3912ca072f">
 </head><body>
 <header class="site-header with-sidebar">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="true" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -138,7 +138,7 @@
 <summary>Evidence</summary>
 <div class="block block-evidence">
 <p class="evidence-intro">This concept declares 3 statements. Each proof establishes one of them relative to its assumptions.</p>
-<div class="evidence-statement"><h4><a href="#s-Lax58.RamPolynomialComparison.bitPolynomialTime_iff_ramPolytime">1st statement</a> <code>bitPolynomialTime_iff_ramPolytime</code> <span class="status-pill pill-proven" title="Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">proven</span></h4>
+<div class="evidence-statement"><h4><a class="evidence-statement-link" href="#s-Lax58.RamPolynomialComparison.bitPolynomialTime_iff_ramPolytime" aria-label="Statement 1: bitPolynomialTime_iff_ramPolytime" title="Jump to statement 1 in the Lean source">1</a> <code>bitPolynomialTime_iff_ramPolytime</code> <span class="status-pill pill-proven" title="Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">proven</span></h4>
 <ul class="proof-list">
 <li class="proof-item">
 <div class="judgment-frame">
@@ -153,7 +153,7 @@
 </li>
 </ul>
 </div>
-<div class="evidence-statement"><h4><a href="#s-Lax58.RamPolynomialComparison.exponentialLength_bitPolynomialTime">2nd statement</a> <code>exponentialLength_bitPolynomialTime</code> <span class="status-pill pill-proven" title="Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">proven</span></h4>
+<div class="evidence-statement"><h4><a class="evidence-statement-link" href="#s-Lax58.RamPolynomialComparison.exponentialLength_bitPolynomialTime" aria-label="Statement 2: exponentialLength_bitPolynomialTime" title="Jump to statement 2 in the Lean source">2</a> <code>exponentialLength_bitPolynomialTime</code> <span class="status-pill pill-proven" title="Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">proven</span></h4>
 <ul class="proof-list">
 <li class="proof-item">
 <div class="judgment-frame">
@@ -168,7 +168,7 @@
 </li>
 </ul>
 </div>
-<div class="evidence-statement"><h4><a href="#s-Lax58.RamPolynomialComparison.exponentialLength_not_polynomialTime">3rd statement</a> <code>exponentialLength_not_polynomialTime</code> <span class="status-pill pill-proven" title="Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">proven</span></h4>
+<div class="evidence-statement"><h4><a class="evidence-statement-link" href="#s-Lax58.RamPolynomialComparison.exponentialLength_not_polynomialTime" aria-label="Statement 3: exponentialLength_not_polynomialTime" title="Jump to statement 3 in the Lean source">3</a> <code>exponentialLength_not_polynomialTime</code> <span class="status-pill pill-proven" title="Proven by the pipeline's least fixed point; until proof security v0.3, this also rests on submitter honesty.">proven</span></h4>
 <ul class="proof-list">
 <li class="proof-item">
 <div class="judgment-frame">
@@ -213,7 +213,6 @@ example below satisfies the bit-polynomial convention but not the
 length-polynomial, linear-capacity convention.</p>
 </div></div>
 <div class="block block-lean"><h3 class="section-heading">Lean source <a class="source-link" href="https://github.com/szymtor/lax58/blob/83d795f06ae20b48ceed34a9f1284975d305b9c4/concepts/Lax58/RamPolynomialComparison.lean">view on GitHub</a></h3>
-<nav class="statement-nav" aria-label="Statements in this concept"><span>Statements</span><a href="#s-Lax58.RamPolynomialComparison.bitPolynomialTime_iff_ramPolytime" aria-label="Statement 1 of 3: bitPolynomialTime_iff_ramPolytime" title="bitPolynomialTime_iff_ramPolytime">1</a><a href="#s-Lax58.RamPolynomialComparison.exponentialLength_bitPolynomialTime" aria-label="Statement 2 of 3: exponentialLength_bitPolynomialTime" title="exponentialLength_bitPolynomialTime">2</a><a href="#s-Lax58.RamPolynomialComparison.exponentialLength_not_polynomialTime" aria-label="Statement 3 of 3: exponentialLength_not_polynomialTime" title="exponentialLength_not_polynomialTime">3</a></nav>
 <div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
 <tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-58/Lax58.BitPolynomialTime.html"><span style="color:#24292E">Lax58.BitPolynomialTime</span></a></td></tr>
 <tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-58/Lax58.RamComplexityExample.html"><span style="color:#24292E">Lax58.RamComplexityExample</span></a></td></tr>
