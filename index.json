@@ -3805,6 +3805,40 @@
       "proofs": []
     },
     {
+      "id": "lax-881656",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Barnette's Conjecture",
+      "concepts": [
+        {
+          "id": "Lax881656.BarnetteConjecture",
+          "title": "Barnette's conjecture",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax881656.Bipartite",
+          "title": "Bipartite graphs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax881656.Cubic",
+          "title": "Cubic graphs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax881656.HamiltonianCycle",
+          "title": "Hamiltonian cycles",
+          "type": "definition"
+        },
+        {
+          "id": "Lax881656.ThreeConnected",
+          "title": "3-connected graphs",
+          "type": "definition"
+        }
+      ],
+      "proofs": []
+    },
+    {
       "id": "lax-888664",
       "state": "draft",
       "environment": "v4.33.0",
