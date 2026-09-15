@@ -339,7 +339,6 @@
       "state": "registered",
       "environment": "v4.30.0",
       "title": "The Word RAM",
-      "supersededBy": "lax-865980",
       "concepts": [
         {
           "id": "Lax13.Ram",
@@ -3700,26 +3699,6 @@
         "Lax842588Proofs.TreeModelCheckingEncoding.automatonInput_length_proof",
         "Lax842588Proofs.ValueTranslations.language_equivalence_proof"
       ]
-    },
-    {
-      "id": "lax-865980",
-      "state": "registered",
-      "environment": "v4.33.0",
-      "title": "The Word RAM",
-      "supersedes": "lax-13",
-      "concepts": [
-        {
-          "id": "Lax865980.Ram",
-          "title": "The word RAM",
-          "type": "definition"
-        },
-        {
-          "id": "Lax865980.RamComputes",
-          "title": "Computing a function within a time bound",
-          "type": "definition"
-        }
-      ],
-      "proofs": []
     },
     {
       "id": "lax-881656",
