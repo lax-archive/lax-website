@@ -3147,11 +3147,6 @@
           "type": "definition"
         },
         {
-          "id": "Lax683916.QuiverRepresentation",
-          "title": "Quiver representation of simple graphs",
-          "type": "theorem"
-        },
-        {
           "id": "Lax683916.SetSystemRepresentation",
           "title": "Set-system representation of simple graphs",
           "type": "theorem"
@@ -3172,11 +3167,6 @@
           "type": "definition"
         },
         {
-          "id": "Lax683916.ThinSymmetricLooplessQuivers",
-          "title": "Thin symmetric loopless quiver",
-          "type": "definition"
-        },
-        {
           "id": "Lax683916.TwoUniformSetSystems",
           "title": "2-uniform set system",
           "type": "definition"
@@ -3187,7 +3177,6 @@
         "Lax683916Proofs.HypergraphRepresentation.simpleGraphEquiv",
         "Lax683916Proofs.MultigraphRepresentation.exists_simpleGraph_representation",
         "Lax683916Proofs.NeighborhoodSetSystemRepresentation.simpleGraphEquiv",
-        "Lax683916Proofs.QuiverRepresentation.exists_simpleGraph_representation",
         "Lax683916Proofs.SetSystemRepresentation.simpleGraphEquiv",
         "Lax683916Proofs.SimpleGraphMultigraphRepresentation.exists_multigraph_representation"
       ]
