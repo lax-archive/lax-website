@@ -379,7 +379,7 @@ describe("ORCID account header", () => {
     expect(fx.conceptBadges.every((badge) => badge.hidden)).toBe(true);
   });
 
-  it("loads more than 50 concept reviews in one request", async () => {
+  it("loads more than 50 concept reviews in backward-compatible batches", async () => {
     const conceptReviews = Array.from({ length: 75 }, (_, index) => ({
       url: `https://laxarchive.org/lax-many/LaxMany.C${index}.html`,
       reaction: "",
@@ -392,8 +392,10 @@ describe("ORCID account header", () => {
     await settle();
 
     const requests = fx.bridgeMessages.filter((message) => message.action === "concepts");
-    expect(requests).toHaveLength(1);
-    expect(requests[0]?.urls).toEqual(conceptReviews.map(({ url }) => url));
+    expect(requests).toHaveLength(2);
+    expect(requests.flatMap((request) => request.urls)).toEqual(conceptReviews.map(({ url }) => url));
+    expect(requests.every((request) => request.urls.length <= 50)).toBe(true);
+    expect(requests.every((request) => !("viewer_orcid" in request))).toBe(true);
   });
 
   it("shows an authenticated loading bar, then hides review UI when every concept is unevaluated", async () => {
