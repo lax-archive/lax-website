@@ -11,6 +11,7 @@ import {
   conceptMapLegend,
   draftBanner,
   environmentNotice,
+  ordinal,
   shortId,
   versionHistoryPanel,
   repositorySource,
@@ -53,13 +54,10 @@ function evidence(ctx: PageContext, located: LocatedConcept): string {
   const list = (items: string[], empty: string) => items.length
     ? `<ul class="proof-list">\n${items.join("\n")}\n</ul>`
     : `<p class="empty-note">${empty}</p>`;
-  const block = (intro: string, body: string) => `<details class="figure-details evidence-details">
-<summary>Evidence</summary>
-<div class="block block-evidence">
+  const block = (intro: string, body: string) => `<div class="block block-evidence"><h3>Evidence</h3>
 <p class="evidence-intro">${intro}</p>
 ${body}
-</div>
-</details>`;
+</div>`;
   if (concept.statements.length === 1)
     return block(
       "Each proof establishes this claim relative to its assumptions.",
@@ -67,8 +65,7 @@ ${body}
     );
   const proven = ctx.model.network.proven;
   const blocks = concept.statements.map((statement, index) => {
-    const name = shortId(statement.id, concept.id);
-    const heading = `<a class="evidence-statement-link" href="#s-${attr(statement.id)}" aria-label="${attr(`Statement ${index + 1}: ${name}`)}" title="${attr(`Jump to statement ${index + 1} in the Lean source`)}">${index + 1}</a> ${code(name)} ${countsPill(proven.has(statement.id) ? 1 : 0, 1)}`;
+    const heading = `<a href="#s-${attr(statement.id)}">${esc(ordinal(index + 1))} statement</a> ${code(shortId(statement.id, concept.id))} ${countsPill(proven.has(statement.id) ? 1 : 0, 1)}`;
     return `<div class="evidence-statement"><h4>${heading}</h4>
 ${list(proofsOf(statement.id), "No proof in the archive yet — this statement is open.")}
 </div>`;

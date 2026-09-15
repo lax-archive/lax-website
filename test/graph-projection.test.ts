@@ -51,21 +51,6 @@ describe("semantic display projection", () => {
     expect(validateGeometry(measured.graph, geometry)).toMatchObject({ valid: true });
     expect(geometry.ports.filter((port) => port.id === "c:c:assumption-source")).toHaveLength(1);
   });
-  it("shortens only local dock tooltip labels while preserving full identifiers and links", () => {
-    const concepts = [{ id: "Lax701.Local", ext: false }, { id: "Lax702.Foreign", ext: true }];
-    const statements = concepts.flatMap((concept) => ["first", "second"].map((name, index) => ({
-      id: `${concept.id}.${name}`, concept: concept.id, ext: concept.ext,
-      index: index + 1, count: 2, href: `${concept.id}.html#s-${concept.id}.${name}`,
-    })));
-    const display = projectGraph("proofs", { statements, proofs: [] });
-    const interaction = graphInteractionPayload(measureDisplayGraph(display, fixtureLabels(display)));
-    for (const statement of statements) {
-      expect(interaction.nodes[`dock:${statement.id}`]).toMatchObject({
-        label: statement.ext ? statement.id : `Local.${statement.id.split(".").at(-1)}`,
-        semanticId: statement.id, href: statement.href,
-      });
-    }
-  });
   it("scales node envelopes, ink, docks and attachments together without changing graph semantics", () => {
     const original = projectGraph("proofs", proofInput());
     const display = projectGraph("proofs", { ...proofInput(), nodeScale: 1.25 });

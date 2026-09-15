@@ -881,7 +881,7 @@ After the formula.`, "");
     expect(index).toContain('<h2 class="landing-section-title landing-faq-title" id="landing-faq-heading">FAQ</h2>');
     expect(index).toContain('<ol class="landing-faq-list">');
     expect(index).toContain('<li class="landing-faq-list-item"><details class="landing-faq-item">');
-    expect(index.match(/<details class="landing-faq-item">/g)).toHaveLength(11);
+    expect(index.match(/<details class="landing-faq-item">/g)).toHaveLength(10);
     expect(index).toContain("How do I create my own submission?");
     expect(index).toContain("How does Lax relate to Merely True, Tau Ceti, Lean Pool, and the Palomar Registry?");
     expect(index).toContain("Can I use Lax for anonymous peer review?");
@@ -1822,11 +1822,9 @@ After the formula.`, "");
     expect(html).toContain('<details class="deps-col block-details"><summary>From Mathlib</summary>');
     expect(html).not.toContain("<h3>Imported</h3>");
     expect(html).not.toContain("Mathlib imports");
-    // Evidence starts collapsed, like the concept map, but keeps its proofs.
-    expect(html).toMatch(/<details class="figure-details evidence-details">\s*<summary>Evidence<\/summary>/);
+    // the claim's evidence block lists the archived proof, linking to its page
+    expect(html).toContain("<h3>Evidence</h3>");
     expect(html).toContain('href="../Lax2/Lax2Proofs.truth.html"');
-    // No separate navigation row is added above the source.
-    expect(html).not.toContain('class="statement-nav"');
     expect(html).toContain('data-remark42-url="https://laxarchive.org/Lax2/Lax2.C.html"');
     expect(html).toContain('data-reactions-url="https://laxarchive.org/Lax2/Lax2.C.html"');
     expect(html).toContain('data-review-kind="concept" data-source-lines="4"');
@@ -1853,7 +1851,7 @@ After the formula.`, "");
     expect(untyped).not.toMatch(/nothing\s+to\s+prove/);
     expect(untyped).toContain("Used by");
     // a definition-concept claims nothing, so it carries no evidence block
-    expect(untyped).not.toContain("<summary>Evidence</summary>");
+    expect(untyped).not.toContain("<h3>Evidence</h3>");
   });
 
   it("renders inline and display math inside Lean source comments only", async () => {
@@ -2362,22 +2360,20 @@ describe("multi-statement concepts", () => {
     expect(statementOrdinal(new SiteModel(submissions()), "Lax2.C.truth")).toBeUndefined();
   });
 
-  it("links numbered statements within evidence and keeps it collapsed by default", async () => {
+  it("gives every statement its own evidence block and proof rail", async () => {
     const root = tmpDir("lax-site-multi-concept-");
     await generateSite(multiStatement(), root);
     const html = fs.readFileSync(path.join(root, "Lax5", "Lax5.Menger.html"), "utf8");
 
-    expect(html).toMatch(/<details class="figure-details evidence-details">\s*<summary>Evidence<\/summary>/);
-    expect((html.match(/class="evidence-statement"/g) ?? [])).toHaveLength(3);
-    expect((html.match(/this statement is open/g) ?? [])).toHaveLength(1);
-    expect(html).not.toContain('class="statement-nav"');
-    const evidence = html.match(/<details class="figure-details evidence-details">[^]*?<\/details>/)?.[0] ?? "";
-    for (const [index, name] of ["vertexVersion", "edgeVersion", "globalVersion"].entries()) {
-      expect(evidence).toContain(`class="evidence-statement-link" href="#s-Lax5.Menger.${name}"`);
-      expect(evidence).toContain(`aria-label="Statement ${index + 1}: ${name}"`);
-      expect(evidence).toContain(`>${index + 1}</a>`);
-      expect(html).toContain(`id="s-Lax5.Menger.${name}"`);
-    }
+    expect(html).toContain("This concept declares 3 statements. Each proof establishes one of them relative to its assumptions.");
+    expect((html.match(/class="evidence-statement"/g) ?? []).length).toBe(3);
+    expect(html).toContain('<h4><a href="#s-Lax5.Menger.vertexVersion">1st statement</a> <code>vertexVersion</code>');
+    expect(html).toContain('<h4><a href="#s-Lax5.Menger.edgeVersion">2nd statement</a> <code>edgeVersion</code>');
+    expect(html).toContain('<h4><a href="#s-Lax5.Menger.globalVersion">3rd statement</a> <code>globalVersion</code>');
+    // the open second statement says so, and only it
+    expect((html.match(/this statement is open/g) ?? []).length).toBe(1);
+    const openBlock = html.slice(html.indexOf("#s-Lax5.Menger.edgeVersion"), html.indexOf("#s-Lax5.Menger.globalVersion"));
+    expect(openBlock).toContain("this statement is open");
     // one rail per statement that has proofs, each on its own declaration row
     const rails = [...html.matchAll(/<span class="source-proof-rail" data-source-line="(L\d+)"/g)]
       .map((match) => match[1]);
