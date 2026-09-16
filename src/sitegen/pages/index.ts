@@ -644,6 +644,7 @@ ${faq}
     content,
     detailClass: "detail-landing",
     landingHeader: true,
+    gettingStartedNav: true,
     scripts: network ? ["assets/graph-interaction.js", "assets/landing.js"] : ["assets/landing.js"],
   });
 }

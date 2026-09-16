@@ -130,6 +130,14 @@ body{
 .site-nav-link:hover,
 .site-nav-link:focus-visible{ color: var(--accent); outline: none; }
 
+/* The front-page guide has a long label. Keep the centred brand and account
+   controls clear, and add it only once the fourth navigation link fits. */
+.site-nav-getting-started{ display: none; }
+
+@media (min-width: 1600px){
+  .site-nav-getting-started{ display: inline; }
+}
+
 .site-title{
   font-size: 1.45rem;
   line-height: 1.2;

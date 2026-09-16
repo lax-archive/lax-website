@@ -39,6 +39,9 @@ export interface PageShell {
   detailClass?: string;
   /** Mark the front-page header for its narrowest responsive adjustment. */
   landingHeader?: boolean;
+  /** Offer the getting-started guide beside the front-page navigation when
+   * the viewport has enough room for another full label. */
+  gettingStartedNav?: boolean;
   /** Show the sidebar and its toggle: open on desktop, or collapsed until
    * the toggle brings it back. Pages about a submission set it; the front
    * page and the editorial pages ship the sidebar hidden, with no toggle. */
@@ -131,9 +134,10 @@ export function configureSiteNav(nav: { introduction?: string }): void {
   siteNav = { ...nav };
 }
 
-function siteNavLinks(root: string): string {
+function siteNavLinks(root: string, gettingStarted: boolean): string {
   const links = [
     siteNav.introduction ? `<a class="site-nav-link site-nav-introduction" href="${attr(root + siteNav.introduction)}">Introduction</a>` : "",
+    gettingStarted ? `<a class="site-nav-link site-nav-getting-started" href="${attr(`${root}contributing.html`)}">Getting Started</a>` : "",
     `<a class="site-nav-link" href="${attr(`${root}submissions/`)}">Submissions</a>`,
     `<a class="site-nav-link" href="${attr(`${root}about.html`)}">About</a>`,
   ].filter(Boolean);
@@ -173,7 +177,7 @@ ${shell.noIndex ? '<meta name="robots" content="noindex">' : ""}
 <header class="site-header${withSidebar}${hidden}${landingHeader}">
   ${toggle}<div class="site-brand">
   <h1 class="site-title"><a href="${root}index.html">Lax <span class="site-title-quiet">Lean Archive</span></a></h1>
-  ${siteNavLinks(root)}
+  ${siteNavLinks(root, shell.gettingStartedNav === true)}
   </div>
   <nav class="header-actions" aria-label="Account">
     ${accountUi()}
