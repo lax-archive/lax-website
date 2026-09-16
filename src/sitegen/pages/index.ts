@@ -338,12 +338,22 @@ function landingFoundations(ctx: PageContext, heading: string, section: string):
   const items = ids.flatMap((id) => {
     const located = model.conceptHome.get(id);
     if (!located) return [];
-    const dependents = new Set(model.downstreamClosure(id).map((c) => c.output.id));
-    dependents.delete(located.output.id);
+    const latest = model.submissionById.get(model.currentVersion(located.output.id))?.output;
+    // A registered successor normally keeps a concept's namespace suffix
+    // (for example, Lax67.Ram becomes Lax808846.Ram). Match its title too,
+    // so a version that moves a concept to a different suffix still leads to
+    // its current page. If neither holds, retain the known concept page.
+    const suffix = id.slice(id.indexOf("."));
+    const current = latest?.concepts.find((concept) => concept.id.endsWith(suffix))
+      ?? latest?.concepts.find((concept) => concept.title === located.concept.title)
+      ?? located.concept;
+    const targetId = current === located.concept ? located.output.id : latest!.id;
+    const dependents = new Set(model.downstreamClosure(current.id).map((concept) => concept.output.id));
+    dependents.delete(targetId);
     const uses = dependents.size ? `<span class="landing-foundation-uses">used by ${plural(dependents.size, "submission")}</span>` : "";
-    return [`<li><a class="landing-foundation" href="${attr(`${located.output.id}/${located.concept.id}.html`)}" title="${attr(located.concept.id)}">
-${typeBadge(located.concept.type)}<span class="landing-foundation-title">${markdown.renderAuthorInline(located.concept.title, "")}</span>
-<span class="landing-foundation-meta"><span class="submission-meta-id">${esc(located.output.id)}</span>${uses}</span>
+    return [`<li><a class="landing-foundation" href="${attr(`${targetId}/${current.id}.html`)}" title="${attr(current.id)}">
+${typeBadge(current.type)}<span class="landing-foundation-title">${markdown.renderAuthorInline(current.title, "")}</span>
+<span class="landing-foundation-meta"><span class="submission-meta-id">${esc(targetId)}</span>${uses}</span>
 </a></li>`];
   });
   if (!items.length) return "";

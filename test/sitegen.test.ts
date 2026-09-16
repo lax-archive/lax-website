@@ -197,11 +197,12 @@ function landingArchive(): SiteSubmission[] {
     id: string,
     concepts: { conceptId: string; title: string; imports?: string[]; statements?: { id: string; signature: string }[] }[],
     proofs: NonNullable<SiteSubmission["output"]>["proofs"] = [],
+    supersedes?: string,
   ): SiteSubmission => ({
     record: { specVersion: "1", id, state: "registered", createdAt: "2026-02-01T00:00:00Z" },
     output: {
       specVersion: "1", id,
-      manifest: { specVersion: "1", id, leanVersion: "v4.30.0", mathlibVersion: "abc", title: `Title of ${id}`, authors: [], bibEntries: [] },
+      manifest: { specVersion: "1", id, leanVersion: "v4.30.0", mathlibVersion: "abc", title: `Title of ${id}`, authors: [], bibEntries: [], ...(supersedes ? { supersedes } : {}) },
       abstract: "", requiredByConcepts: [], requiredByProofs: [],
       concepts: concepts.map(({ conceptId, title, imports, statements }) => ({
         id: conceptId, path: `concepts/${conceptId.replaceAll(".", "/")}.lean`, title,
@@ -215,6 +216,7 @@ function landingArchive(): SiteSubmission[] {
   });
   return [
     make("lax-67", [{ conceptId: "Lax67.Ram", title: "The word RAM" }]),
+    make("lax-68", [{ conceptId: "Lax68.Ram", title: "The word RAM" }], [], "lax-67"),
     make("lax-11", [
       { conceptId: "Lax11.GraphEncoding", title: "Compressed sparse row encoding of a graph", imports: ["Lax67.Ram"] },
       { conceptId: "Lax11.ConnectedComponents", title: "Connected components in linear time", imports: ["Lax11.GraphEncoding"], statements: [{ id: "Lax11.ConnectedComponents.exists_linearTime_program_ccLabels", signature: "exists_linearTime_program_ccLabels : True" }] },
@@ -693,7 +695,7 @@ After the formula.`, "");
     expect(about).not.toContain("{{concept-proof-flip}}");
     expect(about).not.toContain('src="assets/concept-proof.svg"');
     expect(about).toMatch(/<script src="assets\/proof-flip\.js\?v=[0-9a-f]{12}"><\/script>/);
-    expect(about).toContain('<a href="https://discord.gg/8GRt8GsxAd">Lax Discord</a>');
+    expect(about).toContain('<a href="https://discord.gg/hgWMN5ztca">Lax Discord</a>');
     expect(about).toContain('<a href="mailto:lax.lean.archive@gmail.com">lax.lean.archive@gmail.com</a>');
     expect(fs.readFileSync(path.join(one, "index.html"), "utf8")).not.toContain("proof-flip.js");
     expect(css).toContain(".landing-demo-card.is-flipped .landing-demo-inner");
@@ -1194,7 +1196,7 @@ After the formula.`, "");
     // bordered section treatment.
     expect(index).toContain('<h2 class="landing-section-title" id="landing-community-heading">Community and Feedback</h2>');
     expect(index).toContain('<h3>Join the conversation</h3>');
-    expect(index).toContain('<a href="https://discord.gg/8GRt8GsxAd">Join the Lax\nDiscord</a>');
+    expect(index).toContain('<a href="https://discord.gg/hgWMN5ztca">Join the Lax\nDiscord</a>');
     expect(index).toContain('<a href="mailto:lax.lean.archive@gmail.com">lax.lean.archive@gmail.com</a>');
     expect(index).toContain('<a href="workshop/">Lax Online Meeting</a>');
     expect(index.indexOf('id="landing-community-heading"')).toBeLessThan(index.indexOf('id="landing-foundations-heading"'));
@@ -1203,7 +1205,7 @@ After the formula.`, "");
     expect(index).toContain('<h2 class="landing-section-title" id="landing-foundations-heading">Build foundations together</h2>');
     expect(index).toContain('<section class="landing-section landing-foundations"');
     expect(index).toContain('<h2 class="landing-section-title" id="landing-foundations-heading">Build foundations together</h2>\n<div class="landing-section-box">');
-    expect(index).toContain('<li><a class="landing-foundation" href="lax-67/Lax67.Ram.html" title="Lax67.Ram">\n<span class="type-badge">def</span><span class="landing-foundation-title">The word RAM</span>\n<span class="landing-foundation-meta"><span class="submission-meta-id">lax-67</span><span class="landing-foundation-uses">used by 1 submission</span></span>\n</a></li>');
+    expect(index).toContain('<li><a class="landing-foundation" href="lax-68/Lax68.Ram.html" title="Lax68.Ram">\n<span class="type-badge">def</span><span class="landing-foundation-title">The word RAM</span>\n<span class="landing-foundation-meta"><span class="submission-meta-id">lax-68</span></span>\n</a></li>');
     expect(index).toContain('href="lax-434930/Lax434930.NondeterministicPolynomialTime.html" title="Lax434930.NondeterministicPolynomialTime"');
     expect(index).toContain('href="lax-48/Lax48.TwinWidth.html" title="Lax48.TwinWidth"');
     expect(index).toContain('href="lax-132576/Lax132576.RationalFunctions.html" title="Lax132576.RationalFunctions"');
@@ -2176,9 +2178,9 @@ end Lax2.C`;
     await generateSite(draft, root);
     const html = fs.readFileSync(path.join(root, "Lax2", "index.html"), "utf8");
     expect(html).toContain("draft-banner");
-    expect(html).toContain("<strong>Temporary draft</strong>");
-    expect(html).toContain("Other submissions cannot depend on this work while it remains editable.");
-    expect(html).toContain("Authors are advised to register it as soon as it is complete.");
+    expect(html).toContain("While this submission is a draft, it cannot be used by other submissions.");
+    expect(html).not.toContain("Temporary draft");
+    expect(html).not.toContain("Authors are advised to register it as soon as it is complete.");
     expect(html).not.toContain("its citation marks the draft state");
     expect(html).not.toContain("draft-reminder");
     expect(html.indexOf("draft-banner")).toBeLessThan(html.indexOf("paper-head"));

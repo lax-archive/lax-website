@@ -651,7 +651,7 @@ ${rows.join("\n")}
 export function draftBanner(submission: SiteSubmission): string {
   const { record } = submission;
   if (record.state !== "draft") return "";
-  return `<p class="draft-banner"><strong>Temporary draft</strong><span>Other submissions cannot depend on this work while it remains editable. Authors are advised to register it as soon as it is complete.</span></p>`;
+  return `<p class="draft-banner">While this submission is a draft, it cannot be used by other submissions.</p>`;
 }
 
 /**
