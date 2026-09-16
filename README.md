@@ -304,7 +304,13 @@ PDFs like production, and the shareable preview directory is available at
 `/previews/`. Pushing a branch updates only
 its preview; deleting the branch removes it. The workflow retains the complete
 published tree on the generated `gh-pages` branch so one branch cannot overwrite
-another branch's preview.
+another branch's preview. Every deployment (including the hourly fallback)
+reconciles previews with live source branches, expires previews after 14 days,
+and retains at most the five most recently updated previews. A new push
+recreates an expired preview. Cleanup removes only published preview files;
+it does not delete source branches, production content, or renderer archives.
+A failed or empty remote branch listing stops cleanup rather than deleting
+previews from an incomplete snapshot.
 
 To trigger an immediate rebuild from an authorized external workflow:
 
@@ -315,6 +321,26 @@ gh api --method POST repos/lax-archive/lax-website/dispatches \
 
 The scheduled build makes deployment correct even before the archive server
 or database mirror sends that event.
+
+### When a rebuild goes wrong
+
+One malformed record must not stall every later rebuild. The loader and the
+generator treat each record as its own boundary: a record whose files do not
+parse, or whose pages cannot be rendered, is left out with its reason named,
+and the site is built from the rest. `site:build --build-report FILE` writes
+the list of skipped records; the deploy workflow turns it into run
+annotations and, for production, an issue titled "Website build skipped
+records" (`.github/scripts/rebuild-alert.mjs`). A production rebuild that
+fails outright opens "Website rebuild failed" the same way. Either title is
+opened once and stays the alarm until a maintainer closes it, however often
+the hourly schedule fires; a later failure opens a new issue only while none
+with that title is open.
+
+The build also writes `404.html` (served by Pages for any missing address —
+a deleted record has no page and lands there), `robots.txt` (crawl
+everything except `/previews/`, which would otherwise be indexed as a
+duplicate of the site per retained branch), and `sitemap.xml` (every page of
+every listed record).
 
 ## Deployment boundary
 

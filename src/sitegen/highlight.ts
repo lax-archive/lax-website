@@ -244,6 +244,12 @@ export async function highlightSource(
     ...statement,
     startLine: starts.get(nameKey(nameParts(statement.id))) ?? statement.startLine,
   }));
+  const commentLines = new Set<number>();
+  for (const comment of parsed.comments) {
+    const first = source.slice(0, comment.start).split("\n").length;
+    const last = source.slice(0, comment.end).split("\n").length;
+    for (let line = first; line <= last; line++) commentLines.add(line);
+  }
   const row = (n: number, highlighted: string) => {
     if (elided && n >= elided[0] && n <= elided[1]) {
       return n === elided[0]
@@ -253,7 +259,8 @@ export async function highlightSource(
     const id = anchors ? ` id="L${n}"` : "";
     const num = anchors ? `<a href="#L${n}">${n}</a>` : String(n);
     const anchorSpans = anchors ? statementAnchors(n, anchorStatements) : "";
-    return `<tr${id} class="${lineStatus(n, statements, proven).trim()}"><td class="line-num">${num}</td><td class="line-code">${anchorSpans}${highlighted || " "}</td></tr>`;
+    const classes = [lineStatus(n, statements, proven).trim(), anchors && commentLines.has(n) ? "line-comment" : ""].filter(Boolean).join(" ");
+    return `<tr${id} class="${classes}"><td class="line-num">${num}</td><td class="line-code">${anchorSpans}${highlighted || " "}</td></tr>`;
   };
   let rows: string[];
   try {

@@ -3,7 +3,7 @@ import path from "node:path";
 import { bundleCachePath } from "./bundles.js";
 import { paperCachePath } from "./papers.js";
 import { loadReferences } from "./references.js";
-import type { BuildOutput, DbRecord, PaperEntry, PaperMark, PaperMarkPoint, PaperWebEntry } from "./types.js";
+import type { BuildOutput, DbRecord, PaperEntry, PaperMark, PaperMarkPoint, PaperWebEntry, SkippedRecord } from "./types.js";
 import type { SiteSubmission } from "./sitegen/model.js";
 
 function readJson<T>(file: string): T | undefined {
@@ -169,45 +169,72 @@ export interface LoadOptions {
    * shape — one flag governs both caches.
    */
   bundlesDir?: string;
+  /**
+   * Where a record the loader leaves out is reported: one that does not
+   * parse, or whose build output fails the shape checks above. Defaults to
+   * a console warning, so no caller can skip a record silently.
+   */
+  onSkip?: (skipped: SkippedRecord) => void;
 }
 
 /**
  * Read the checked-out public archive database. The website never mutates
  * this input and deliberately needs no access to server operational state.
+ *
+ * Each record is a boundary of its own: a malformed one is skipped and
+ * reported through `onSkip`, and the rest of the archive still builds. The
+ * archive validated every record fail-closed before publishing, so a skip
+ * here is corruption to be fixed in the database, never something to hide —
+ * but also never a reason to stop publishing every other record.
  */
 export function loadSubmissions(databaseDir: string, options: LoadOptions = {}): SiteSubmission[] {
   const root = path.resolve(databaseDir);
   if (!fs.existsSync(root) || !fs.statSync(root).isDirectory())
     throw new Error(`database directory does not exist: ${root}`);
+  const skip = options.onSkip ?? ((skipped: SkippedRecord) => console.warn(`skipping ${skipped.id}: ${skipped.reason}`));
 
   return fs.readdirSync(root)
     .filter((id) => fs.existsSync(path.join(root, id, "record.json")))
     .sort()
     .flatMap((id) => {
-      const record = readJson<DbRecord>(path.join(root, id, "record.json"));
-      if (!record) throw new Error(`missing record for ${id}`);
-
-      // Initialization reserves an archive id and stores only a provenance
-      // stub in build-output.json. It is not a website submission yet: do not
-      // parse the stub or generate any page for it.
-      if (record.state === "init") return [];
-
-      const outputFile = path.join(root, id, "build-output.json");
-      const rawOutput = readJson<unknown>(outputFile);
-      const output = rawOutput === undefined ? undefined : rendererOutput(rawOutput, outputFile);
-      const submission: SiteSubmission = { record, output };
-      if (options.referencesDir !== undefined)
-        submission.sourceReferences = loadReferences(submission, options.referencesDir);
-      if (output?.paper && options.papersDir !== undefined) {
-        const file = paperCachePath(options.papersDir, output.paper.pdf.digest);
-        if (fs.existsSync(file)) submission.paperFile = file;
+      try {
+        return loadSubmission(root, id, options);
+      } catch (error) {
+        skip({ id, reason: error instanceof Error ? error.message : String(error) });
+        return [];
       }
-      if (output?.paper?.web && options.bundlesDir !== undefined) {
-        const file = bundleCachePath(options.bundlesDir, output.paper.web.bundle.digest);
-        if (fs.existsSync(file)) submission.bundleFile = file;
-      }
-      return [submission];
     });
+}
+
+function loadSubmission(root: string, id: string, options: LoadOptions): SiteSubmission[] {
+  const recordFile = path.join(root, id, "record.json");
+  const record = readJson<unknown>(recordFile);
+  if (!isObject(record)) throw new Error(`${recordFile} must contain a JSON object`);
+  if (record.id !== id) throw new Error(`${recordFile} names ${JSON.stringify(record.id)}, not ${id}`);
+  if (!["init", "draft", "registered", "deleted"].includes(record.state as string))
+    throw new Error(`${recordFile} has an unknown state ${JSON.stringify(record.state)}`);
+  if (typeof record.createdAt !== "string") throw new Error(`${recordFile} createdAt must be a string`);
+
+  // Initialization reserves an archive id and stores only a provenance
+  // stub in build-output.json. It is not a website submission yet: do not
+  // parse the stub or generate any page for it.
+  if (record.state === "init") return [];
+
+  const outputFile = path.join(root, id, "build-output.json");
+  const rawOutput = readJson<unknown>(outputFile);
+  const output = rawOutput === undefined ? undefined : rendererOutput(rawOutput, outputFile);
+  const submission: SiteSubmission = { record: record as unknown as DbRecord, output };
+  if (options.referencesDir !== undefined)
+    submission.sourceReferences = loadReferences(submission, options.referencesDir);
+  if (output?.paper && options.papersDir !== undefined) {
+    const file = paperCachePath(options.papersDir, output.paper.pdf.digest);
+    if (fs.existsSync(file)) submission.paperFile = file;
+  }
+  if (output?.paper?.web && options.bundlesDir !== undefined) {
+    const file = bundleCachePath(options.bundlesDir, output.paper.web.bundle.digest);
+    if (fs.existsSync(file)) submission.bundleFile = file;
+  }
+  return [submission];
 }
 
 /** Paper-bearing submissions whose PDF — or whose declared reflow bundle —

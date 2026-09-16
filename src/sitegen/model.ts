@@ -14,6 +14,18 @@ export interface SiteSubmission {
   sourceReferences?: Map<string, LeanReferences>;
 }
 
+/**
+ * A failure the generator can pin on one record. `generateSite` skips that
+ * record and renders again without it; any other error still fails the
+ * build, because nothing says which record — if any — it belongs to.
+ */
+export class RecordError extends Error {
+  constructor(readonly recordId: string, message: string, options?: { cause?: unknown }) {
+    super(message, options);
+    this.name = "RecordError";
+  }
+}
+
 /** Whether a submission belongs in archive-wide browse and search surfaces. */
 export function isDiscoverableSubmission(submission: SiteSubmission): boolean {
   return submission.output !== undefined && submission.output.manifest.unlisted !== true;
@@ -133,7 +145,7 @@ export class SiteModel {
         // without one is pre-gate data the archive must surface, not render
         // around with an "untyped" fallback.
         if (!concept.type?.trim())
-          throw new Error(`concept ${concept.id} declares no type; every concept annotation carries one`);
+          throw new RecordError(submission.record.id, `concept ${concept.id} declares no type; every concept annotation carries one`);
         const located = { submission, output, concept };
         this.conceptHome.set(concept.id, located);
         for (const statement of concept.statements)

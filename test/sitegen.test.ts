@@ -1874,6 +1874,7 @@ After the formula.`, "");
     const root = tmpDir("lax-site-concept-");
     await generateSite(submissions(), root);
     const html = fs.readFileSync(path.join(root, "Lax2", "Lax2.C.html"), "utf8");
+    expect(html).toContain('<button class="comment-toggle" type="button" aria-pressed="false" aria-label="Hide comments">Hide comments</button>');
     expect(html).toContain('<p class="concept-microline"><code class="concept-namespace">Lax2.C</code> · <code>concepts/Lax2/C.lean</code> · <a href="index.html">Lax2</a></p>');
     // NL block headed by the capitalized type
     expect(html).toContain("<h3>Theorem</h3>");
@@ -2157,17 +2158,20 @@ end Lax2.C`;
     expect(html).toContain('<pre class="bib-entry">@book{x}</pre>');
   });
 
-  it("fails fast on statements without a home and on typeless concepts", async () => {
+  it("refuses statements without a home and typeless concepts, record by record", async () => {
+    // Both are pre-gate data the archive must surface. Each is pinned on
+    // its record, which is skipped and reported; the build itself goes on
+    // (see "the per-record boundary" below).
     const broken = submissions();
     broken[0]!.output!.proofs[0]!.assumptions = ["Nobody.here"];
-    await expect(generateSite(broken, tmpDir("lax-site-nohome-"))).rejects.toThrow(
-      "statement Nobody.here has no home concept",
-    );
+    const skippedHomeless: string[] = [];
+    await generateSite(broken, tmpDir("lax-site-nohome-"), { onSkip: (skip) => skippedHomeless.push(`${skip.id}: ${skip.reason}`) });
+    expect(skippedHomeless).toEqual([expect.stringMatching(/^Lax2: .*statement Nobody.here has no home concept/u)]);
     const typeless = submissions();
     delete typeless[0]!.output!.concepts[1]!.type;
-    await expect(generateSite(typeless, tmpDir("lax-site-typeless-"))).rejects.toThrow(
-      "concept Lax2.D declares no type",
-    );
+    const skippedTypeless: string[] = [];
+    await generateSite(typeless, tmpDir("lax-site-typeless-"), { onSkip: (skip) => skippedTypeless.push(`${skip.id}: ${skip.reason}`) });
+    expect(skippedTypeless).toEqual(["Lax2: concept Lax2.D declares no type; every concept annotation carries one"]);
   });
 
   it("keeps outputless records and drafts citable and grouped as work in progress", async () => {
@@ -2562,6 +2566,39 @@ describe("multi-statement concepts", () => {
     expect(html).toContain('<i class="legend-dock" aria-hidden="true">1</i>Statement 1, 2, … of a claim with several statements');
   });
 
+  it("draws a foreign concept whole: every sibling's proof, not only the used statement's", async () => {
+    // Lax6 rests on the edge version alone; the figure must still carry the
+    // vertex and global proofs, because the concept is indivisible and its
+    // statements are anonymous.
+    const downstream: SiteSubmission = {
+      record: { specVersion: "1", id: "Lax6", state: "registered", createdAt: "2026-01-03T00:00:00Z" },
+      output: {
+        specVersion: "1", id: "Lax6",
+        manifest: { specVersion: "1", id: "Lax6", leanVersion: "v4.30.0", mathlibVersion: "abc", title: "Lax6", authors: [], bibEntries: [] },
+        abstract: "", requiredByConcepts: [], requiredByProofs: [],
+        concepts: [{
+          id: "Lax6.Cut", path: "concepts/Lax6/Cut.lean", title: "Cuts", type: "theorem", description: "",
+          imports: ["Lax5.Menger"], mathlibImports: [], sourceText: "",
+          statements: [{ id: "Lax6.Cut.min", signature: "min : True" }],
+        }],
+        proofs: [{
+          id: "Lax6Proofs.min", path: "proofs/Lax6Proofs/Min.lean",
+          conclusion: "Lax6.Cut.min", assumptions: ["Lax5.Menger.edgeVersion"], description: "From the edge version.",
+        }],
+      },
+    };
+    const root = tmpDir("lax-site-whole-concept-");
+    await generateSite([...multiStatement(), downstream], root);
+    const html = fs.readFileSync(path.join(root, "Lax6", "index.html"), "utf8");
+    const data = JSON.parse(/<script type="application\/json" id="graph-data">(.*?)<\/script>/s.exec(html)![1]!);
+    expect(data.proofs.statements.map((s: { id: string }) => s.id)).toEqual([
+      "Lax5.Menger.edgeVersion", "Lax5.Menger.globalVersion", "Lax5.Menger.vertexVersion", "Lax6.Cut.min",
+    ]);
+    expect(data.proofs.proofs.map((p: { id: string; ext: boolean }) => [p.id, p.ext])).toEqual([
+      ["Lax5Proofs.global", true], ["Lax5Proofs.vertex", true], ["Lax6Proofs.min", false],
+    ]);
+  });
+
   it.each([
     { external: false, count: 2 },
     { external: true, count: 2 },
@@ -2625,5 +2662,105 @@ describe("multi-statement concepts", () => {
       });
       expect(attachment.order).toBeUndefined();
     }
+  });
+});
+
+describe("the per-record boundary", () => {
+  const typeless = (): SiteSubmission => ({
+    record: { specVersion: "1", id: "Lax7", state: "registered", createdAt: "2026-01-05T00:00:00Z" },
+    output: {
+      specVersion: "1", id: "Lax7",
+      manifest: { specVersion: "1", id: "Lax7", leanVersion: "v4.30.0", mathlibVersion: "abc", title: "Seven", authors: [], bibEntries: [] },
+      abstract: "Pre-gate data.", requiredByConcepts: [], requiredByProofs: [],
+      concepts: [{ id: "Lax7.Old", path: "concepts/Lax7/Old.lean", title: "Old", description: "No type.", imports: [], mathlibImports: [], sourceText: "", statements: [] }],
+      proofs: [],
+    },
+  });
+
+  it("skips a record the site model refuses and renders the rest", async () => {
+    // A typeless concept is pre-gate data the model refuses. Before, that
+    // refusal failed the whole build — hour after hour, with the site
+    // staying up but stale. Now the record is named, left out, and the
+    // other records are rendered.
+    const site = tmpDir("lax-site-skip-");
+    const skipped: Array<{ id: string; reason: string }> = [];
+
+    await generateSite([...submissions(), typeless()], site, { graphs: archiveGraphs(), onSkip: (skip) => skipped.push(skip) });
+
+    expect(skipped).toEqual([{ id: "Lax7", reason: expect.stringContaining("concept Lax7.Old declares no type") }]);
+    expect(fs.existsSync(path.join(site, "Lax2", "index.html"))).toBe(true);
+    expect(fs.existsSync(path.join(site, "Lax7"))).toBe(false);
+    expect(fs.readFileSync(path.join(site, "index.html"), "utf8")).not.toContain("Seven");
+  });
+
+  it("reports a skip through the log when no callback is given", async () => {
+    const site = tmpDir("lax-site-skip-log-");
+    const lines: string[] = [];
+
+    await generateSite([...submissions(), typeless()], site, { graphs: archiveGraphs(), log: (line) => lines.push(line) });
+
+    expect(lines.some((line) => line.startsWith("skipping Lax7: concept Lax7.Old declares no type"))).toBe(true);
+  });
+
+  it("pins a page renderer's failure on its record and skips that record", async () => {
+    // A record whose own pages throw is attributed by the loop that renders
+    // them; nothing about the other records changes.
+    const broken = submissions()[0]!;
+    const site = tmpDir("lax-site-skip-page-");
+    const skipped: Array<{ id: string; reason: string }> = [];
+    const poisoned: SiteSubmission = {
+      ...broken,
+      record: { ...broken.record, id: "Lax3" },
+      output: { ...broken.output!, id: "Lax3", manifest: { ...broken.output!.manifest, id: "Lax3" },
+        concepts: [{ ...broken.output!.concepts[0]!, id: "Lax3.C", statements: [], sections: [{ title: "x", markdown: 7 as unknown as string }] }],
+        proofs: [] },
+    };
+
+    await generateSite([...submissions(), poisoned], site, { graphs: archiveGraphs(), onSkip: (skip) => skipped.push(skip) });
+
+    expect(skipped.map((skip) => skip.id)).toEqual(["Lax3"]);
+    expect(fs.existsSync(path.join(site, "Lax2", "index.html"))).toBe(true);
+    expect(fs.existsSync(path.join(site, "Lax3"))).toBe(false);
+  });
+
+  it("still fails on an error no record can be blamed for", async () => {
+    const site = tmpDir("lax-site-skip-unattributed-");
+    await expect(generateSite(submissions(), site, { graphs: archiveGraphs(), epoch: undefined,
+      graphReport: () => { throw new Error("unattributed"); } })).rejects.toThrow("unattributed");
+  });
+});
+
+describe("what crawlers are told", () => {
+  it("writes a 404 page, robots.txt, and a sitemap of the listed pages", async () => {
+    const site = tmpDir("lax-site-crawlers-");
+    const unlisted = submissions()[0]!;
+    const hidden: SiteSubmission = {
+      ...unlisted,
+      record: { ...unlisted.record, id: "Lax4" },
+      output: { ...unlisted.output!, id: "Lax4", manifest: { ...unlisted.output!.manifest, id: "Lax4", unlisted: true },
+        concepts: [{ ...unlisted.output!.concepts[0]!, id: "Lax4.C", statements: [] }], proofs: [] },
+    };
+
+    await generateSite([...submissions(), hidden], site, { graphs: archiveGraphs() });
+
+    // Served at any depth, so its links are absolute; never indexed.
+    const notFound = fs.readFileSync(path.join(site, "404.html"), "utf8");
+    expect(notFound).toContain('href="/assets/style.css');
+    expect(notFound).toContain('href="/index.html"');
+    expect(notFound).toContain('<meta name="robots" content="noindex">');
+    expect(notFound).toContain("may have been deleted");
+    expect(fs.readFileSync(path.join(site, "robots.txt"), "utf8"))
+      .toBe("User-agent: *\nDisallow: /previews/\n\nSitemap: https://laxarchive.org/sitemap.xml\n");
+    const sitemap = fs.readFileSync(path.join(site, "sitemap.xml"), "utf8");
+    const locations = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/gu)].map((match) => match[1]);
+    expect(locations).toContain("https://laxarchive.org/");
+    expect(locations).toContain("https://laxarchive.org/about.html");
+    expect(locations).toContain("https://laxarchive.org/Lax2/");
+    expect(locations).toContain("https://laxarchive.org/Lax2/Lax2.C.html");
+    expect(locations).toContain("https://laxarchive.org/Lax2/Lax2Proofs.truth.html");
+    expect(locations).not.toContain("https://laxarchive.org/404.html");
+    expect(locations).not.toContain("https://laxarchive.org/open-problems.html");
+    expect(locations.some((location) => location.includes("/Lax4/"))).toBe(false);
+    expect(locations).toEqual([...locations].sort());
   });
 });
