@@ -54,10 +54,13 @@ function evidence(ctx: PageContext, located: LocatedConcept): string {
   const list = (items: string[], empty: string) => items.length
     ? `<ul class="proof-list">\n${items.join("\n")}\n</ul>`
     : `<p class="empty-note">${empty}</p>`;
-  const block = (intro: string, body: string) => `<div class="block block-evidence"><h3>Evidence</h3>
+  const block = (intro: string, body: string) => `<details class="figure-details evidence-details">
+<summary>Evidence</summary>
+<div class="block block-evidence">
 <p class="evidence-intro">${intro}</p>
 ${body}
-</div>`;
+</div>
+</details>`;
   if (concept.statements.length === 1)
     return block(
       "Each proof establishes this claim relative to its assumptions.",
@@ -137,7 +140,8 @@ export async function conceptPage(ctx: PageContext, located: LocatedConcept): Pr
 <span class="status-pills">${countsPill(provenCount, concept.statements.length)}</span>
 </div>
 ${pageReactions(`${submission.record.id}/${concept.id}.html`, { kind: "concept", sourceLines: concept.sourceText.split("\n").length, anonymous })}
-<details class="figure-details">
+<div class="block block-statement"><h3>${esc(typeHeading)}</h3><div class="latex-content">${ctx.markdown.renderAuthorProse(concept.description, "../")}</div></div>
+<details class="figure-details" open>
 <summary>Concept map</summary>
 <figure class="graph-figure concept-root-graph">
 ${graphExpandButton("concept map", true)}
@@ -148,7 +152,6 @@ ${conceptMapLegend(graph, "This concept", "Related concept")}
 </details>
 ${evidence(ctx, located)}
 ${inPaperBlock(ctx, concept.id, output.id, "../")}
-<div class="block block-statement"><h3>${esc(typeHeading)}</h3><div class="latex-content">${ctx.markdown.renderAuthorProse(concept.description, "../")}</div></div>
 <div class="block block-lean"><h3 class="section-heading">Lean source${sourceFile ? ` <a class="source-link" href="${attr(sourceFile)}">view on ${esc(sourceProviderName(sourceFile))}</a>` : sourceWithheld ? withheldSourceLink() : ""}</h3>
 <div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
 ${sourceRows}

@@ -1548,11 +1548,11 @@ After the formula.`, "");
     ]));
 
     const conceptHtml = fs.readFileSync(path.join(root, "Lax4", "Lax4.Top.html"), "utf8");
-    expect(conceptHtml).toMatch(/<details class="figure-details">\s*<summary>Concept map<\/summary>\s*<figure class="graph-figure concept-root-graph">/);
+    expect(conceptHtml).toMatch(/<details class="figure-details" open>\s*<summary>Concept map<\/summary>\s*<figure class="graph-figure concept-root-graph">/);
     expect(conceptHtml).toContain("This concept");
     expect(conceptHtml).toContain("Hide ancestors");
     expect(conceptHtml).toContain('data-graph="concepts" data-ancestry="true"');
-    expect(conceptHtml.indexOf('id="concept-dag"')).toBeLessThan(conceptHtml.indexOf('class="block block-statement"'));
+    expect(conceptHtml.indexOf('class="block block-statement"')).toBeLessThan(conceptHtml.indexOf('id="concept-dag"'));
     expect(conceptHtml).toMatch(/<script src="\.\.\/assets\/graph-interaction\.js\?v=[0-9a-f]{12}"><\/script>/);
     expect(conceptHtml).not.toMatch(/assets\/(?:layout|dag|graph-local)\.js/u);
     expect((conceptHtml.match(/data-graph-expand/g) ?? []).length).toBe(1);
@@ -1826,8 +1826,11 @@ After the formula.`, "");
     expect(html).toContain('<details class="deps-col block-details"><summary>From Mathlib</summary>');
     expect(html).not.toContain("<h3>Imported</h3>");
     expect(html).not.toContain("Mathlib imports");
-    // the claim's evidence block lists the archived proof, linking to its page
-    expect(html).toContain("<h3>Evidence</h3>");
+    // The natural-language statement leads into the open concept map. Evidence
+    // keeps its proof links, but starts collapsed until the reader opens it.
+    expect(html.indexOf('class="block block-statement"')).toBeLessThan(html.indexOf('id="concept-dag"'));
+    expect(html).toMatch(/<details class="figure-details" open>\s*<summary>Concept map<\/summary>/);
+    expect(html).toMatch(/<details class="figure-details evidence-details">\s*<summary>Evidence<\/summary>/);
     expect(html).toContain('href="../Lax2/Lax2Proofs.truth.html"');
     expect(html).toContain('data-remark42-url="https://laxarchive.org/Lax2/Lax2.C.html"');
     expect(html).toContain('data-reactions-url="https://laxarchive.org/Lax2/Lax2.C.html"');
@@ -1855,7 +1858,7 @@ After the formula.`, "");
     expect(untyped).not.toMatch(/nothing\s+to\s+prove/);
     expect(untyped).toContain("Used by");
     // a definition-concept claims nothing, so it carries no evidence block
-    expect(untyped).not.toContain("<h3>Evidence</h3>");
+    expect(untyped).not.toContain("<summary>Evidence</summary>");
   });
 
   it("renders inline and display math inside Lean source comments only", async () => {
@@ -2375,6 +2378,7 @@ describe("multi-statement concepts", () => {
     await generateSite(multiStatement(), root);
     const html = fs.readFileSync(path.join(root, "Lax5", "Lax5.Menger.html"), "utf8");
 
+    expect(html).toMatch(/<details class="figure-details evidence-details">\s*<summary>Evidence<\/summary>/);
     expect(html).toContain("This concept declares 3 statements. Each proof establishes one of them relative to its assumptions.");
     expect((html.match(/class="evidence-statement"/g) ?? []).length).toBe(3);
     expect(html).toContain('<h4><a href="#s-Lax5.Menger.vertexVersion">1st statement</a> <code>vertexVersion</code>');
