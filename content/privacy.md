@@ -50,6 +50,6 @@ You may request deletion at any time by emailing [lax.lean.archive@gmail.com](ma
 
 ## 7. Your rights
 
-Subject to the conditions of the GDPR, you have rights including access, rectification, erasure, restriction of processing, data portability, and objection to processing based on legitimate interests. To exercise these rights, contact us at the email address above. You also have the right to lodge a complaint with a data protection supervisory authority, for example the [State Commissioner for Data Protection and Access to Information of Brandenburg](https://www.lda.brandenburg.de/lda/en/).
+Subject to the conditions of the GDPR, you have rights including access, rectification, erasure, restriction of processing, data portability, and objection to processing based on legitimate interests. To exercise these rights, contact us at the email address above. You also have the right to lodge a complaint with a data protection supervisory authority, for example the [State Commissioner for Data Protection and Access to Information of Brandenburg](https://www.lda.brandenburg.de/).
 
 We do not carry out automated decision-making or profiling.
