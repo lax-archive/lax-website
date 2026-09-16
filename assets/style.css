@@ -105,8 +105,7 @@ body{
 
 .site-header.sidebar-hidden{ --sidebar-column: 0px; }
 
-/* The name, centred on the page, and to its right the way into the
-   introduction and the about page. */
+/* The name, centred on the page, and the primary site navigation beside it. */
 .site-brand{
   grid-column: 2;
   position: relative;
@@ -526,6 +525,13 @@ body.sidebar-resizing #content-shell{ transition: none; }
 .sidebar-back:hover{ border-color: var(--accent); text-decoration: underline; }
 .sidebar-back-arrow{ font-size: 0.95rem; line-height: 1; }
 
+.sidebar-section-title{
+  margin: 0 0 0.65rem;
+  color: var(--text);
+  font-size: 0.95rem;
+  line-height: 1.25;
+}
+
 .sidebar-filters{
   display: grid;
   gap: 0.55rem;
@@ -930,76 +936,14 @@ a.submission-meta-id:is(:hover, :focus-visible),
 .paper-abstract .latex-content{ font-size: 0.95rem; }
 
 .draft-banner{
-  background: var(--warn-bg);
-  border: 2px solid var(--warn-border);
+  background: #fbe1dc;
+  border: 1px solid #b84d3d;
   border-radius: var(--radius-control);
-  color: var(--warn-fg);
-  font-size: 0.95rem;
-  line-height: 1.4;
-  padding: 0.8rem 1rem;
-  margin: 1rem 0 1.2rem;
-}
-
-.draft-banner strong{
-  display: block;
-  font-size: 1.08rem;
-  margin-bottom: 0.12rem;
-}
-
-.draft-banner span{ color: var(--text); }
-
-.draft-reminder-dialog{
-  width: min(35rem, calc(100vw - 2rem));
-  max-height: calc(100dvh - 2rem);
-  margin: auto;
-  padding: 0;
-  overflow: auto;
-  border: 2px solid var(--warn-border);
-  border-radius: var(--radius-card);
-  background: var(--surface);
-  color: var(--text);
-  box-shadow: 0 20px 65px rgba(25, 31, 35, 0.3);
-}
-
-.draft-reminder-dialog::backdrop{ background: rgba(25, 31, 35, 0.56); }
-
-.draft-reminder-inner{ padding: 1.35rem 1.4rem 1.25rem; }
-
-.draft-reminder-eyebrow{
-  margin-bottom: 0.18rem;
-  color: var(--warn-fg);
-  font: 700 0.65rem/1.2 var(--mono);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.draft-reminder-dialog h2{ font-size: 1.45rem; }
-
-.draft-reminder-copy{
-  margin-top: 0.85rem;
-  font-size: 0.96rem;
-  line-height: 1.5;
-}
-
-.draft-reminder-copy p + p{ margin-top: 0.75rem; }
-
-.draft-reminder-close{
-  display: block;
-  margin: 1.15rem 0 0 auto;
-  padding: 0.55rem 0.85rem;
-  border: 1px solid var(--warn-border);
-  border-radius: var(--radius-control);
-  background: var(--warn-fg);
-  color: var(--surface);
-  font: 700 0.76rem/1.2 var(--mono);
-  cursor: pointer;
-}
-
-.draft-reminder-close:hover,
-.draft-reminder-close:focus-visible{
-  border-color: var(--text);
-  background: var(--text);
-  outline: none;
+  color: #842d21;
+  font-size: 0.88rem;
+  text-align: center;
+  padding: 0.55rem 0.9rem;
+  margin: 0.9rem 0;
 }
 
 /* A record outside the archive's epoch says so in the draft banner's box,
@@ -1736,6 +1680,56 @@ a.submission-meta-id:is(:hover, :focus-visible),
 .detail-landing .landing-action-panels{ max-width: 60em; margin-inline: auto; }
 .detail-landing .landing-faq{ max-width: 60em; margin-inline: auto; }
 
+#detail.detail-submissions{ width: min(100%, 64em); }
+
+.submissions-page-head{
+  max-width: 42em;
+  margin: 0.25rem auto 1.6rem;
+  text-align: center;
+}
+
+.submissions-page-eyebrow{
+  margin-bottom: 0.2rem;
+  color: var(--accent);
+  font: 700 0.68rem/1.2 var(--mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+#detail .submissions-page-title{
+  margin: 0;
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  line-height: 1.2;
+}
+
+.submissions-page-intro{
+  margin-top: 0.55rem;
+  color: var(--text-dim);
+  font-size: 1rem;
+}
+
+.submissions-page-library .submissions-library-search{
+  flex-basis: 20rem;
+  width: min(100%, 20rem);
+}
+
+@media (min-width: 641px){
+  .submissions-page-library .submissions-list-link{
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: 1.5rem;
+    align-items: center;
+  }
+  .submissions-page-library .submissions-list-title,
+  .submissions-page-library .submissions-list-meta{ grid-column: 1; }
+  .submissions-page-library .submissions-list-counts{
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    margin-top: 0;
+    text-align: right;
+  }
+}
+
 #detail .landing-section-title{
   margin: 0 0 0.75rem;
   font-size: 1.45rem;
@@ -2183,6 +2177,7 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
 .landing-setup-tab:hover{ color: var(--accent); }
 .landing-setup-tab:focus-visible{ outline: 2px solid rgba(59, 107, 154, 0.38); outline-offset: 1px; }
 .landing-setup-panel[hidden]{ display: none; }
+.landing-setup-common{ margin-top: 1.25rem; }
 
 /* Three columns of plain text. Text, not tiles. */
 .landing-columns-section{ max-width: none; margin: 3rem auto 0; }
@@ -2303,6 +2298,208 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
 /* Standalone editorial pages share the readable measure without inheriting
    the landing page's promotional card treatment for heading-adjacent lists. */
 .content-page{ max-width: 42em; margin: 0 auto 2rem; }
+
+/* On the full guide, the shared setup selector belongs to the editorial
+   column rather than the landing page card. */
+.content-setup{
+  max-width: none;
+  margin: 1.25rem 0 1.5rem;
+  padding: 1rem clamp(0.85rem, 2.5vw, 1.3rem) 1.2rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  background: var(--surface);
+  box-shadow: 0 4px 14px rgba(43, 43, 43, 0.05);
+}
+.content-setup .landing-setup-tab-list{ margin-inline: 0; }
+.content-setup .landing-setup-panel{ max-width: none; margin-inline: 0; }
+.content-setup pre{ margin: 0.5rem 0 1rem; }
+
+/* ── Workshop ── */
+
+#detail.detail-workshop{
+  width: min(100%, 68em);
+  padding-top: clamp(2rem, 5vw, 4.5rem);
+}
+
+.workshop-page{ max-width: 60em; margin: 0 auto; }
+
+.workshop-hero{
+  position: relative;
+  max-width: 48em;
+  margin: 0 auto clamp(2.25rem, 5vw, 4.25rem);
+  text-align: center;
+}
+
+.workshop-hero::before{
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: -1.5rem -5rem -2.5rem;
+  background: radial-gradient(ellipse at center, rgba(59, 107, 154, 0.07), transparent 68%);
+  pointer-events: none;
+}
+
+#detail .workshop-hero h1{
+  margin: 0;
+  font-size: clamp(2rem, 5.5vw, 3.6rem);
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+
+.workshop-highlights{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: 1.5rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.workshop-highlights li{
+  display: inline-flex;
+  align-items: center;
+  gap: 0.38rem;
+  padding: 0.32rem 0.58rem;
+  color: var(--text-dim);
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid var(--border-light);
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.workshop-highlights li span{ color: var(--accent); font-family: system-ui, sans-serif; }
+
+.workshop-summary{
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(16rem, 0.8fr);
+  gap: 1rem;
+  align-items: stretch;
+  margin-bottom: clamp(2.25rem, 5vw, 4.25rem);
+}
+
+.workshop-panel{
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  box-shadow: 0 10px 30px rgba(43, 43, 43, 0.05);
+}
+
+.workshop-panel{ padding: clamp(1.35rem, 3vw, 2rem); }
+.workshop-outcomes{ border-top: 3px solid var(--accent); }
+.workshop-details{ border-top: 3px solid var(--border); }
+
+.workshop-section-number{
+  margin-bottom: 0.35rem;
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+#detail .workshop-panel h2{
+  margin: 0;
+  font-size: 1.25rem;
+  font-variant: normal;
+  letter-spacing: 0;
+}
+
+.workshop-outcomes ul,
+.workshop-details ul{
+  display: grid;
+  gap: 0;
+  margin: 1.1rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.workshop-outcomes li{
+  position: relative;
+  min-height: 2.8rem;
+  padding: 0.72rem 0 0.72rem 2.15rem;
+  line-height: 1.45;
+  hyphens: none;
+  text-align: left;
+}
+
+.workshop-outcomes li + li,
+.workshop-details li + li{ border-top: 1px solid var(--border-light); }
+
+.workshop-outcomes li::before{
+  content: '✓';
+  position: absolute;
+  top: 0.78rem;
+  left: 0;
+  display: grid;
+  width: 1.35rem;
+  height: 1.35rem;
+  place-items: center;
+  color: var(--accent);
+  background: var(--accent-light);
+  border-radius: 50%;
+  font-family: system-ui, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.workshop-details{
+  background: linear-gradient(145deg, var(--surface) 0%, var(--panel-bg) 100%);
+}
+
+.workshop-details li{
+  display: grid;
+  gap: 0.08rem;
+  padding: 0.65rem 0;
+  line-height: 1.4;
+}
+
+.workshop-details li:first-child{ padding-top: 0.75rem; }
+.workshop-details li:last-child{ padding-bottom: 0; }
+.workshop-details strong{
+  color: var(--text-dim);
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.workshop-registration{
+  width: 100%;
+  max-width: 640px;
+  margin-inline: auto;
+}
+
+.workshop-form-frame{
+  width: 100%;
+}
+
+.workshop-form-frame iframe{
+  display: block;
+  width: 100%;
+  /* Google Forms does not expose cross-origin automatic sizing. Allow room
+     for its full content and footer, including wrapping on smaller screens. */
+  height: 840px;
+  border: 0;
+  background: transparent;
+}
+
+@media (max-width: 760px){
+  .workshop-hero::before{ inset-inline: 0; }
+  .workshop-summary{ grid-template-columns: 1fr; }
+  .workshop-form-frame iframe{ height: 920px; }
+}
+
+@media (max-width: 480px){
+  .workshop-highlights{ gap: 0.38rem; }
+  .workshop-highlights li{ font-size: 0.62rem; }
+  .workshop-form-frame iframe{ height: 1020px; }
+}
 
 /* A captioned figure in an editorial page, from a Markdown paragraph that
    holds only a titled image. */
@@ -2817,6 +3014,69 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
 
 .landing-faq-answer p{ margin-bottom: 0.75rem; }
 .landing-faq-answer a{ color: var(--link); text-underline-offset: 0.16em; }
+
+.landing-workshop-banner{
+  position: fixed;
+  right: max(1rem, env(safe-area-inset-right));
+  bottom: max(1rem, env(safe-area-inset-bottom));
+  z-index: 30;
+  width: 19rem;
+  max-width: calc(100vw - 2rem);
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 1rem 1rem 0.25rem 1rem;
+  box-shadow: 0 4px 18px rgba(43, 43, 43, 0.1);
+}
+
+.landing-workshop-heading{
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.45rem 0.55rem 0.45rem 1rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+.landing-workshop-heading svg{ flex-shrink: 0; color: var(--accent); }
+.landing-workshop-close{
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+  margin-left: auto;
+  padding: 0;
+  border: 0;
+  border-radius: 0.5rem;
+  background: transparent;
+  color: var(--text-dim);
+  font: 1.25rem/1 system-ui, sans-serif;
+  cursor: pointer;
+}
+.landing-workshop-close:hover{ background: var(--panel-bg); color: var(--text); }
+.landing-workshop-banner a{
+  display: grid;
+  gap: 0.65rem;
+  padding: 0 1rem 1rem;
+  color: var(--text);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  text-decoration: none;
+}
+
+.landing-workshop-banner a:hover strong{ text-decoration: underline; }
+.landing-workshop-banner a:focus-visible,
+.landing-workshop-close:focus-visible{
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 0.5rem;
+}
+.landing-workshop-banner strong{
+  color: var(--link);
+  font-size: 0.82rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
 
 .stats-line{
   font-variant: small-caps;
@@ -3451,6 +3711,28 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
   font-weight: 600;
 }
 .evidence-statement h4 code{ font-family: var(--mono); font-size: 0.78rem; font-weight: 400; }
+.evidence-statement-link{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.75rem;
+  height: 1.75rem;
+  padding: 0 0.3rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--text-dim);
+  background: var(--surface);
+  font: 400 0.74rem/1 var(--mono);
+  text-decoration: none;
+}
+.evidence-statement-link:hover,
+.evidence-statement-link:focus-visible{
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--accent-light);
+  text-decoration: none;
+}
+.evidence-statement-link:focus-visible{ outline: 2px solid var(--accent); outline-offset: 2px; }
 
 .honesty-note,
 .empty-note{
@@ -4203,6 +4485,9 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
 .graph-legend > span{ display: inline-flex; align-items: center; gap: 0.3rem; }
 .graph-legend .legend-note{ font-style: italic; }
 .graph-legend .proof-flow{ font-style: normal; }
+.graph-legend > .legend-origin{ flex-wrap: wrap; justify-content: center; row-gap: 0.15rem; }
+.legend-origin-swatches{ display: inline-flex; align-items: center; gap: 0.22rem; flex: 0 0 auto; }
+.legend-origin-separator{ color: var(--text-dim); line-height: 1; }
 
 .legend-node{
   display: inline-block;
@@ -4315,14 +4600,14 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
 
 /* Focused proof selection keeps the graph camera independent from this
    content-sized inspector on the right. It starts below the graph controls;
-   long details stop short of filling the window and scroll within the cap. */
+   details grow naturally until they reach the legend, then scroll. */
 .graph-detail-panel{
   position: absolute;
   z-index: 35;
   top: var(--graph-detail-top, 3rem);
-  right: 0.4rem;
+  right: calc(var(--graph-scrollbar-width, 16px) + 0.5rem);
   width: min(29rem, 42vw);
-  max-height: min(42rem, 82%, calc(100% - var(--graph-detail-top, 3rem) - 0.8rem));
+  max-height: var(--graph-detail-max-height, calc(100% - var(--graph-detail-top, 3rem) - 0.8rem));
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -4336,7 +4621,7 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
   position: absolute;
   z-index: 1;
   top: 0.55rem;
-  right: 0.55rem;
+  right: calc(var(--graph-detail-scrollbar-width, 16px) + 0.55rem);
   width: 1.9rem;
   height: 1.9rem;
   padding: 0;
@@ -4489,6 +4774,7 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
 }
 .graph-detail-facts dt{ color: var(--text-dim); }
 .graph-detail-facts dd{ margin: 0; overflow-wrap: anywhere; }
+.graph-detail-namespace{ font-size: 0.72rem; }
 .graph-detail-submission-link{
   color: var(--link);
   text-decoration-line: underline;
@@ -4674,10 +4960,9 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
 .graph-detail-review-people strong{ display: block; margin-bottom: 0.2rem; font-family: var(--mono); font-size: 0.66rem; }
 .graph-detail-review-people ul{ margin: 0; padding-left: 1rem; }
 .graph-detail-action{
-  position: sticky;
-  bottom: -0.85rem;
+  flex: 0 0 auto;
   display: block;
-  margin: auto -1rem -0.85rem;
+  margin: 0;
   padding: 0.72rem 1rem;
   border-top: 1px solid var(--border);
   background: var(--link);
@@ -4820,6 +5105,23 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
    legible while quieting unrelated nodes and routes. */
 .graph-expanded.proof-network-figure [data-node-id].graph-dimmed,
 .graph-expanded.proof-network-figure [data-edge-id].graph-dimmed{ opacity: 0.32; }
+/* Circles overlap their concept's border. Fade their colours toward the
+   white graph surface while keeping the fill opaque enough to cover it. */
+.graph-expanded.proof-network-figure .net-dock.graph-dimmed{ opacity: 1; }
+.graph-expanded.proof-network-figure .net-dock.graph-dimmed circle{
+  fill: color-mix(in srgb, var(--none-bg) 32%, var(--surface));
+  stroke: color-mix(in srgb, var(--accent) 32%, var(--surface));
+}
+.graph-expanded.proof-network-figure .net-dock.graph-dimmed.proven circle{
+  fill: color-mix(in srgb, var(--proven-bg) 32%, var(--surface));
+}
+.graph-expanded.proof-network-figure .net-dock.graph-dimmed.open circle{
+  fill: color-mix(in srgb, var(--partial-bg) 32%, var(--surface));
+}
+.graph-expanded.proof-network-figure .net-dock.graph-dimmed.ext circle{
+  stroke: color-mix(in srgb, var(--none-border) 32%, var(--surface));
+}
+.graph-expanded.proof-network-figure .net-dock.graph-dimmed text{ opacity: 0.32; }
 .graph-expanded.proof-network-figure [data-node-id].graph-related{ opacity: 1; }
 .graph-expanded.proof-network-figure :is(.net-node, .net-proof).graph-related rect,
 .graph-expanded.proof-network-figure .net-dock.graph-related circle{ stroke-width: 1.9; }
@@ -4855,7 +5157,6 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
 @media (max-width: 700px){
   .graph-detail-panel{
     left: 0.35rem;
-    right: 0.35rem;
     width: auto;
   }
 }
@@ -4866,6 +5167,18 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
 
 @media (min-width: 901px){
   #content-shell.sidebar-hidden #sidebar{ display: none; }
+}
+
+/* Between the mobile and wide layouts, lead from the content edge instead of
+   centring a title whose navigation would collide with the account control. */
+@media (min-width: 901px) and (max-width: 1680px){
+  .site-brand{ display: flex; gap: 1rem; margin-left: 1rem; }
+  .site-nav{ gap: 1rem; margin-left: 0; }
+  .account-login-long{ display: none; }
+}
+
+@media (min-width: 901px) and (max-width: 980px){
+  .site-header.with-sidebar .site-nav-introduction{ display: none; }
 }
 
 @media (max-width: 900px){
@@ -5001,11 +5314,13 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
   .version-open-link{ flex: 1 1 100%; margin-left: 0; }
 }
 
-/* The name, the nav and the sign-in button share one line; the button is
-   absolute at the right, so on the narrowest phones the nav would run
-   under it. The nav tightens in two steps, and at the last the button
-   loses its padding too. Sized so that on a page with the drawer's toggle
-   (the name starts 3.1rem in) "About" still ends short of the button. */
+/* The name, the nav and the sign-in button share one line. On narrow phones
+   the introduction remains reachable from the home page while its direct
+   link yields enough room for the archive and account controls. */
+@media (max-width: 450px){
+  .site-nav-introduction{ display: none; }
+}
+
 @media (max-width: 400px){
   .site-nav{ gap: 0.5rem; }
   .site-nav-link{ font-size: 0.78rem; }

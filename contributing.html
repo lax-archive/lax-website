@@ -9,13 +9,14 @@
 <link rel="canonical" href="https://laxarchive.org/contributing.html">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="assets/style.css?v=5624644d5b74">
+<link rel="stylesheet" href="assets/style.css?v=7519c5df2cf1">
 </head><body>
 <header class="site-header sidebar-hidden">
   <div class="site-brand">
   <h1 class="site-title"><a href="index.html">Lax <span class="site-title-quiet">Lean Archive</span></a></h1>
   <nav class="site-nav" aria-label="Site">
-    <a class="site-nav-link" href="lax-242665/paper.html">Introduction</a>
+    <a class="site-nav-link site-nav-introduction" href="lax-242665/paper.html">Introduction</a>
+    <a class="site-nav-link site-nav-getting-started" href="contributing.html">Getting Started</a>
     <a class="site-nav-link" href="about.html">About</a>
   </nav>
   </div>
@@ -47,12 +48,34 @@ clones your pushed commit and validates it again on trusted infrastructure
 before anything is published. Your code stays in your repository; the
 archive links to it rather than hosting a copy.</p>
 <h2>Setup</h2>
-<p>You need <strong>Linux or macOS</strong> with ~10 GB free disk, <strong>Node.js ≥ 20</strong>, <strong>git</strong>,
-and a <strong>GitHub account</strong> — submissions are authenticated with your GitHub
-identity. Then:</p>
-<pre><code class="language-sh">npm install -g lax-archive
-lax doctor    # checks your setup and installs whatever is missing
+<p>Choose your operating system below. You need ~10 GB free disk,
+<strong>Node.js ≥ 20</strong>, <strong>git</strong>, and a <strong>GitHub account</strong> — submissions are
+authenticated with your GitHub identity.</p>
+
+<div class="landing-setup-tabs content-setup" data-setup-tabs>
+<div class="landing-setup-tab-list" role="tablist" aria-label="Choose your operating system">
+<button class="landing-setup-tab" type="button" role="tab" id="getting-started-setup-unix-tab" aria-selected="true" aria-controls="getting-started-setup-unix-panel" tabindex="0">Linux / macOS</button>
+<button class="landing-setup-tab" type="button" role="tab" id="getting-started-setup-windows-tab" aria-selected="false" aria-controls="getting-started-setup-windows-panel" tabindex="-1">Windows</button>
+</div>
+<div class="landing-setup-panel landing-section-copy latex-content" id="getting-started-setup-unix-panel" role="tabpanel" aria-labelledby="getting-started-setup-unix-tab">
+<p>Set up, once per machine:</p>
+<pre><code>npm install -g lax-archive &amp;&amp; lax doctor
 </code></pre>
+
+</div>
+<div class="landing-setup-panel landing-section-copy latex-content" id="getting-started-setup-windows-panel" role="tabpanel" aria-labelledby="getting-started-setup-windows-tab" hidden>
+<p>First, open PowerShell as administrator and install a
+<a href="https://learn.microsoft.com/en-us/windows/wsl/install">Linux terminal with WSL</a>:</p>
+<pre><code>wsl --install
+</code></pre>
+<p>After restarting, open Ubuntu.</p>
+<p>Set up, once per machine:</p>
+<pre><code>npm install -g lax-archive
+lax doctor
+</code></pre>
+
+</div>
+</div>
 <p><code>lax doctor</code> installs everything building requires: the Lean toolchain and
 prebuilt mathlib (a large download, once per machine), plus a local copy of
 the archive database.</p>
@@ -141,6 +164,7 @@ byte-for-byte reproducible.</p>
 </div>
 </div>
 </dialog>
-<script src="assets/sidebar.js?v=14479c59f650"></script>
+<script src="assets/sidebar.js?v=0d92141eab56"></script>
 <script src="assets/account.js?v=6a0844f8bd00"></script>
+<script src="assets/setup-tabs.js?v=099c5b21a767"></script>
 </body></html>

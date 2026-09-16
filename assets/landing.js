@@ -4,37 +4,6 @@
 // opens the card, a click pins it open; the tabs above the examples switch
 // between them; the proof network is centred in its box.
 (() => {
-  function setupSetupTabs() {
-    for (const root of document.querySelectorAll('[data-setup-tabs]')) {
-      const tabs = [...root.querySelectorAll('[role="tab"]')];
-      const panels = tabs.map((tab) => document.getElementById(tab.getAttribute('aria-controls')));
-
-      function select(index, focus) {
-        tabs.forEach((tab, tabIndex) => {
-          const selected = tabIndex === index;
-          tab.setAttribute('aria-selected', String(selected));
-          tab.tabIndex = selected ? 0 : -1;
-          if (panels[tabIndex]) panels[tabIndex].hidden = !selected;
-        });
-        if (focus) tabs[index].focus();
-      }
-
-      tabs.forEach((tab, index) => {
-        tab.addEventListener('click', () => select(index, false));
-        tab.addEventListener('keydown', (event) => {
-          let next;
-          if (event.key === 'ArrowRight') next = (index + 1) % tabs.length;
-          else if (event.key === 'ArrowLeft') next = (index - 1 + tabs.length) % tabs.length;
-          else if (event.key === 'Home') next = 0;
-          else if (event.key === 'End') next = tabs.length - 1;
-          else return;
-          event.preventDefault();
-          select(next, true);
-        });
-      });
-    }
-  }
-
   function setupLandingActions() {
     const buttons = [...document.querySelectorAll('[data-landing-action]')];
     if (!buttons.length) return;
@@ -361,8 +330,27 @@
     container.scrollLeft = Math.max(0, (container.scrollWidth - container.clientWidth) / 2);
   }
 
+  function setupWorkshopAnnouncement() {
+    const workshop = document.querySelector('.landing-workshop-banner');
+    const network = document.querySelector('.landing-network-figure');
+    if (!workshop || !network) return;
+
+    // Reveal at the start of the proof network, and hide again above it.
+    function updateVisibility() {
+      workshop.hidden = window.scrollY <= 0 || network.getBoundingClientRect().top >= window.innerHeight;
+    }
+    window.addEventListener('scroll', updateVisibility, { passive: true });
+    window.addEventListener('resize', updateVisibility);
+    workshop.querySelector('.landing-workshop-close')?.addEventListener('click', () => {
+      window.removeEventListener('scroll', updateVisibility);
+      window.removeEventListener('resize', updateVisibility);
+      workshop.remove();
+    });
+    updateVisibility();
+  }
+
   function setupLanding() {
-    setupSetupTabs();
+    setupWorkshopAnnouncement();
     setupLandingActions();
     setupCardBoxes();
     setupCarousels();
