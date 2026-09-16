@@ -267,6 +267,19 @@ export function submissionMapLegend(data: SubmissionGraphData): string {
 export function proofNetworkLegend(data: ProofNetworkLegendData): string {
   const statuses = data.statements.map((statement) => statement.proven ? "proven" as const : "open" as const);
   const nodes = [...data.statements, ...data.proofs];
+  const hasOwn = nodes.some((node) => !node.ext);
+  const hasExternal = nodes.some((node) => node.ext);
+  const originSwatches = [
+    hasOwn ? `<i class="legend-node stroke-own"></i>` : "",
+    hasOwn && hasExternal ? `<span class="legend-origin-separator">/</span>` : "",
+    hasExternal ? `<i class="legend-node stroke-ext"></i>` : "",
+  ].join("");
+  const originLabel = hasOwn && hasExternal
+    ? "Claim from this submission / another submission"
+    : hasOwn ? "Claim from this submission" : hasExternal ? "Claim from another submission" : "";
+  const origin = originLabel
+    ? `<span class="legend-origin"><span class="legend-origin-swatches" aria-hidden="true">${originSwatches}</span><span>${originLabel}</span></span>`
+    : "";
   // Every flow arrow is the same small shape; the extra assumptions only
   // rotate and translate it toward the turnstile.
   const arrow = "M1 0h10m-3-3 3 3-3 3";
@@ -278,8 +291,7 @@ export function proofNetworkLegend(data: ProofNetworkLegendData): string {
     data.statements.some((statement) => (statement.count ?? 1) > 1)
       ? `<span><i class="legend-dock" aria-hidden="true">1</i>Statement 1, 2, … of a claim with several statements</span>`
       : "",
-    nodes.some((node) => !node.ext) ? `<span><i class="legend-node stroke-own"></i>This submission</span>` : "",
-    nodes.some((node) => node.ext) ? `<span><i class="legend-node stroke-ext"></i>From another submission</span>` : "",
+    origin,
     data.proofs.length ? `<span><i class="legend-proof-chip" aria-hidden="true">⊢</i>Proof — open large view for details</span>` : "",
     proofNetworkHasCycle(data) ? `<span><i class="legend-cycle"></i>Cycle — claims proving each other</span>` : "",
   ];

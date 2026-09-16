@@ -4488,6 +4488,9 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
 .graph-legend > span{ display: inline-flex; align-items: center; gap: 0.3rem; }
 .graph-legend .legend-note{ font-style: italic; }
 .graph-legend .proof-flow{ font-style: normal; }
+.graph-legend > .legend-origin{ flex-wrap: wrap; justify-content: center; row-gap: 0.15rem; }
+.legend-origin-swatches{ display: inline-flex; align-items: center; gap: 0.22rem; flex: 0 0 auto; }
+.legend-origin-separator{ color: var(--text-dim); line-height: 1; }
 
 .legend-node{
   display: inline-block;

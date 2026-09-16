@@ -9,7 +9,7 @@ import { projectGraph, type ProofGraphData } from "../src/sitegen/graph-project.
 import { countsPill, statePill, typeBadge, typeBadgeText } from "../src/sitegen/html.js";
 import { compareIds, SiteModel } from "../src/sitegen/model.js";
 import { MarkdownRenderer } from "../src/sitegen/markdown.js";
-import { bibtex, ordinal, repositorySource, sourceProviderName, statementOrdinal } from "../src/sitegen/pages/shared.js";
+import { bibtex, ordinal, proofNetworkLegend, repositorySource, sourceProviderName, statementOrdinal } from "../src/sitegen/pages/shared.js";
 import { submissionTagIndex } from "../src/sitegen/tags.js";
 import { tmpDir } from "./helpers.js";
 
@@ -1565,6 +1565,25 @@ After the formula.`, "");
     expect(cyclicProofs).not.toContain("fill-proven");
     expect(cyclicProofs).not.toContain("stroke-ext");
     inOrder(cyclicProofs, ["proof-flow", "fill-open", "stroke-own", "Proof — open large view for details", "legend-cycle"]);
+  });
+
+  it("groups local and external claim origins into one proof-network legend item", () => {
+    const combined = proofNetworkLegend({
+      statements: [
+        { id: "Lax1.Local.a", proven: true, ext: false },
+        { id: "Lax2.External.b", proven: false, ext: true },
+      ],
+      proofs: [],
+    });
+    expect(combined).toContain('<span class="legend-origin"><span class="legend-origin-swatches" aria-hidden="true"><i class="legend-node stroke-own"></i><span class="legend-origin-separator">/</span><i class="legend-node stroke-ext"></i></span><span>Claim from this submission / another submission</span></span>');
+    expect(combined).not.toContain(">This submission</span>");
+    expect(combined).not.toContain(">From another submission</span>");
+
+    const local = proofNetworkLegend({
+      statements: [{ id: "Lax1.Local.a", proven: true, ext: false }], proofs: [],
+    });
+    expect(local).toContain('<span class="legend-origin-swatches" aria-hidden="true"><i class="legend-node stroke-own"></i></span><span>Claim from this submission</span>');
+    expect(local).not.toContain("stroke-ext");
   });
 
   it("emits expandable concept closures and proof readiness metadata for deterministic DAGs", async () => {
