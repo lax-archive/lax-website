@@ -936,23 +936,15 @@ a.submission-meta-id:is(:hover, :focus-visible),
 .paper-abstract .latex-content{ font-size: 0.95rem; }
 
 .draft-banner{
-  background: var(--warn-bg);
-  border: 2px solid var(--warn-border);
+  background: #fbe1dc;
+  border: 1px solid #b84d3d;
   border-radius: var(--radius-control);
-  color: var(--warn-fg);
-  font-size: 0.95rem;
-  line-height: 1.4;
-  padding: 0.8rem 1rem;
-  margin: 1rem 0 1.2rem;
+  color: #842d21;
+  font-size: 0.88rem;
+  text-align: center;
+  padding: 0.55rem 0.9rem;
+  margin: 0.9rem 0;
 }
-
-.draft-banner strong{
-  display: block;
-  font-size: 1.08rem;
-  margin-bottom: 0.12rem;
-}
-
-.draft-banner span{ color: var(--text); }
 
 /* A record outside the archive's epoch says so in the draft banner's box,
    muted: the environment is a fact about which work can cite this one, not a
