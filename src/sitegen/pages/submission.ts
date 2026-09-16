@@ -272,10 +272,20 @@ export function proofNetworkData(ctx: PageContext, submission: SiteSubmission, r
     ext: boolean;
   }>();
 
+  // A concept is an indivisible unit of the figure: naming any one of its
+  // statements (or the whole concept) brings every sibling statement along,
+  // and each sibling joins the closure like any other statement, so all of
+  // the concept's proofs are drawn — not only those a local proof happens to
+  // use. Statements are anonymous inside their concept; a figure that showed
+  // a subset would leave the reader unable to tell which ones were meant. A
+  // whole-concept assumption stays one coarse incidence; bringing its
+  // statements along never expands that assumption.
   const addStatement = (id: string) => {
     if (statementIds.has(id)) return;
     statementIds.add(id);
     pendingStatements.push(id);
+    for (const sibling of (model.statementHome.get(id) ?? model.conceptHome.get(id))?.concept.statements ?? [])
+      addStatement(sibling.id);
   };
   const addProof = (proof: typeof output.proofs[number], owner: string) => {
     if (proofs.has(proof.id)) return;
@@ -298,13 +308,6 @@ export function proofNetworkData(ctx: PageContext, submission: SiteSubmission, r
       addProof(proof, home.id);
     }
   }
-  // Every sibling statement of a displayed concept comes along, so the figure
-  // can draw one dock per statement — each with its own status — even where no
-  // displayed proof touches it. A whole-concept assumption stays one coarse
-  // incidence; bringing its statements along never expands that assumption.
-  for (const id of [...statementIds])
-    for (const sibling of (model.statementHome.get(id) ?? model.conceptHome.get(id))?.concept.statements ?? [])
-      statementIds.add(sibling.id);
   const statementNodes = [...statementIds].sort().map((id) => {
     const statementHome = model.statementHome.get(id);
     const home = statementHome ?? model.conceptHome.get(id);

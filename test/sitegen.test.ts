@@ -2467,6 +2467,39 @@ describe("multi-statement concepts", () => {
     expect(html).toContain('<i class="legend-dock" aria-hidden="true">1</i>Statement 1, 2, … of a claim with several statements');
   });
 
+  it("draws a foreign concept whole: every sibling's proof, not only the used statement's", async () => {
+    // Lax6 rests on the edge version alone; the figure must still carry the
+    // vertex and global proofs, because the concept is indivisible and its
+    // statements are anonymous.
+    const downstream: SiteSubmission = {
+      record: { specVersion: "1", id: "Lax6", state: "registered", createdAt: "2026-01-03T00:00:00Z" },
+      output: {
+        specVersion: "1", id: "Lax6",
+        manifest: { specVersion: "1", id: "Lax6", leanVersion: "v4.30.0", mathlibVersion: "abc", title: "Lax6", authors: [], bibEntries: [] },
+        abstract: "", requiredByConcepts: [], requiredByProofs: [],
+        concepts: [{
+          id: "Lax6.Cut", path: "concepts/Lax6/Cut.lean", title: "Cuts", type: "theorem", description: "",
+          imports: ["Lax5.Menger"], mathlibImports: [], sourceText: "",
+          statements: [{ id: "Lax6.Cut.min", signature: "min : True" }],
+        }],
+        proofs: [{
+          id: "Lax6Proofs.min", path: "proofs/Lax6Proofs/Min.lean",
+          conclusion: "Lax6.Cut.min", assumptions: ["Lax5.Menger.edgeVersion"], description: "From the edge version.",
+        }],
+      },
+    };
+    const root = tmpDir("lax-site-whole-concept-");
+    await generateSite([...multiStatement(), downstream], root);
+    const html = fs.readFileSync(path.join(root, "Lax6", "index.html"), "utf8");
+    const data = JSON.parse(/<script type="application\/json" id="graph-data">(.*?)<\/script>/s.exec(html)![1]!);
+    expect(data.proofs.statements.map((s: { id: string }) => s.id)).toEqual([
+      "Lax5.Menger.edgeVersion", "Lax5.Menger.globalVersion", "Lax5.Menger.vertexVersion", "Lax6.Cut.min",
+    ]);
+    expect(data.proofs.proofs.map((p: { id: string; ext: boolean }) => [p.id, p.ext])).toEqual([
+      ["Lax5Proofs.global", true], ["Lax5Proofs.vertex", true], ["Lax6Proofs.min", false],
+    ]);
+  });
+
   it.each([
     { external: false, count: 2 },
     { external: true, count: 2 },
