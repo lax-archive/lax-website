@@ -220,14 +220,21 @@ describe("paper pages", () => {
     expect(loaded.find((s) => s.record.id === "lax-7")?.paperFile).toBe(paperCachePath(papers, digest));
     expect(loaded.find((s) => s.record.id === "lax-7")?.output?.paper?.marks).toHaveLength(4);
 
-    // a corrupt paper block fails the load with the record named
+    // a corrupt paper block skips the record, with the record and the
+    // defect named; the other records still load
+    const skips = (): string[] => {
+      const skipped: string[] = [];
+      const kept = loadSubmissions(database, { onSkip: (skip) => skipped.push(`${skip.id}: ${skip.reason}`) });
+      expect(kept.map((s) => s.record.id)).not.toContain("lax-7");
+      return skipped;
+    };
     const broken = JSON.parse(fs.readFileSync(path.join(database, "lax-7", "build-output.json"), "utf8"));
     broken.paper.marks[0].begin.page = 3;
     fs.writeFileSync(path.join(database, "lax-7", "build-output.json"), JSON.stringify(broken));
-    expect(() => loadSubmissions(database)).toThrow(/lax-7.*paper mark 1 begin page is beyond the last page/);
+    expect(skips()).toEqual([expect.stringMatching(/^lax-7: .*lax-7.*paper mark 1 begin page is beyond the last page/)]);
     broken.paper.marks[0].begin.page = 1;
     broken.paper.pageSizes.pop();
     fs.writeFileSync(path.join(database, "lax-7", "build-output.json"), JSON.stringify(broken));
-    expect(() => loadSubmissions(database)).toThrow("pageSizes must list one [width, height] pair per page");
+    expect(skips()).toEqual([expect.stringContaining("pageSizes must list one [width, height] pair per page")]);
   });
 });

@@ -15,6 +15,9 @@ permissions:
   contents: write
   pages: write
   id-token: write
+  # The alarm: a failed production rebuild, or a record the build skipped,
+  # opens an issue here (.github/scripts/rebuild-alert.mjs).
+  issues: write
 
 # Every deployment contains production plus all retained branch previews, so
 # publishing jobs must update the shared Pages tree one at a time.
@@ -118,9 +121,26 @@ jobs:
         if: github.event_name != 'delete'
         run: npm run references:fetch -- --database data/lax-db --references data/references
 
+      # A malformed record is skipped and named in the build report rather
+      # than failing the build: one bad record must not keep every other
+      # record's page stale, hour after hour. The report becomes annotations
+      # and, in production, an issue.
       - name: Build the current branch
         if: github.event_name != 'delete'
-        run: npm run site:build -- --database data/lax-db --papers data/papers --bundles data/bundles --out _site
+        run: npm run site:build -- --database data/lax-db --papers data/papers --bundles data/bundles --out _site --build-report "$RUNNER_TEMP/build-report.json"
+
+      - name: Report skipped records
+        if: github.event_name != 'delete'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MODE: ${{ steps.target.outputs.mode }}
+        run: |
+          set -euo pipefail
+          issue=()
+          if [[ "$MODE" == "production" ]]; then issue=(--issue); fi
+          node .github/scripts/rebuild-alert.mjs skipped \
+            "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}" \
+            "$RUNNER_TEMP/build-report.json" "${issue[@]}"
 
       - name: Restore the published Pages tree
         run: |
@@ -269,3 +289,17 @@ jobs:
         env:
           SLUG: ${{ steps.target.outputs.slug }}
         run: echo "### Preview URL"$'\n\n'"https://laxarchive.org/previews/$SLUG/" >> "$GITHUB_STEP_SUMMARY"
+
+      # A failed production rebuild used to be silent: the site stayed up,
+      # stale, and the hourly fallback failed the same way. Now it is an
+      # issue — one, however often the schedule fires, until it is closed.
+      - name: Report the failed rebuild
+        if: >-
+          failure() && github.event_name != 'delete' &&
+          (github.event_name == 'schedule' || github.event_name == 'repository_dispatch' ||
+           github.ref_name == github.event.repository.default_branch)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: >-
+          node .github/scripts/rebuild-alert.mjs failure
+          "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}" --issue

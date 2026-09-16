@@ -320,6 +320,26 @@ gh api --method POST repos/lax-archive/lax-website/dispatches \
 The scheduled build makes deployment correct even before the archive server
 or database mirror sends that event.
 
+### When a rebuild goes wrong
+
+One malformed record must not stall every later rebuild. The loader and the
+generator treat each record as its own boundary: a record whose files do not
+parse, or whose pages cannot be rendered, is left out with its reason named,
+and the site is built from the rest. `site:build --build-report FILE` writes
+the list of skipped records; the deploy workflow turns it into run
+annotations and, for production, an issue titled "Website build skipped
+records" (`.github/scripts/rebuild-alert.mjs`). A production rebuild that
+fails outright opens "Website rebuild failed" the same way. Either title is
+opened once and stays the alarm until a maintainer closes it, however often
+the hourly schedule fires; a later failure opens a new issue only while none
+with that title is open.
+
+The build also writes `404.html` (served by Pages for any missing address —
+a deleted record has no page and lands there), `robots.txt` (crawl
+everything except `/previews/`, which would otherwise be indexed as a
+duplicate of the site per retained branch), and `sitemap.xml` (every page of
+every listed record).
+
 ## Deployment boundary
 
 The workflow deploys to GitHub Pages. Pointing `laxarchive.org` at that

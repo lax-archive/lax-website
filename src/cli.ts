@@ -9,6 +9,7 @@ import { fetchReferences } from "./references.js";
 import { previewRequestPath } from "./preview.js";
 import { SITE_MIME } from "./sitegen/assets.js";
 import { generateSite } from "./sitegen/generate.js";
+import type { SkippedRecord } from "./types.js";
 
 type Command = "build" | "serve" | "fetch-papers" | "fetch-references";
 
@@ -34,7 +35,7 @@ function numberOption(name: string, fallback: number): number {
 
 const command = (process.argv[2] ?? "build") as Command;
 if (!["build", "serve", "fetch-papers", "fetch-references"].includes(command))
-  throw new Error("usage: npm run site:build|site:serve|papers:fetch|references:fetch -- [--database DIR] [--references DIR] [--no-references] [--papers DIR] [--bundles DIR] [--no-papers] [--out DIR] [--port N]");
+  throw new Error("usage: npm run site:build|site:serve|papers:fetch|references:fetch -- [--database DIR] [--references DIR] [--no-references] [--papers DIR] [--bundles DIR] [--no-papers] [--out DIR] [--build-report FILE] [--port N]");
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const databaseDir = path.resolve(option("--database", path.join(root, "data", "lax-db")));
@@ -47,13 +48,19 @@ const withPapers = !flag("--no-papers");
 const outDir = path.resolve(option("--out", path.join(root, "_site")));
 
 async function build(): Promise<void> {
-  const submissions = loadSubmissions(databaseDir, { referencesDir, ...(withPapers ? { papersDir, bundlesDir } : {}) });
+  // A malformed record is skipped, named on stderr, and listed in the build
+  // report (`--build-report FILE`), which the deploy workflow turns into
+  // annotations and an issue. The build itself goes on: one bad record
+  // must not keep every other record's page stale.
+  const skipped: SkippedRecord[] = [];
+  const onSkip = (skip: SkippedRecord) => { skipped.push(skip); console.warn(`skipping ${skip.id}: ${skip.reason}`); };
+  const submissions = loadSubmissions(databaseDir, { referencesDir, ...(withPapers ? { papersDir, bundlesDir } : {}), onSkip });
   if (withPapers) {
     const missing = submissionsMissingPapers(submissions);
     if (missing.length)
       throw new Error(`papers cache lacks the PDF or web bundle of ${missing.map((s) => s.record.id).join(", ")}; run \`npm run papers:fetch\` or build with --no-papers`);
   }
-  await generateSite(submissions, outDir, { log: (line) => console.warn(line),
+  await generateSite(submissions, outDir, { log: (line) => console.warn(line), onSkip,
     graphs: { mode: command === "serve" ? "local" : "archive", selfContained: flag("--self-contained-graphs"),
       cacheDir: path.resolve(option("--graph-cache", path.join(root, ".lax-graph-cache"))), log: (line) => console.log(line) },
     graphReport: (report) => {
@@ -64,7 +71,15 @@ async function build(): Promise<void> {
       }
     },
   });
-  console.log(`generated ${submissions.length} archive records in ${outDir}`);
+  const skippedIds = new Set(skipped.map((skip) => skip.id));
+  const records = submissions.filter((submission) => !skippedIds.has(submission.record.id)).length;
+  const reportFile = option("--build-report", "");
+  if (reportFile) {
+    fs.mkdirSync(path.dirname(path.resolve(reportFile)), { recursive: true });
+    fs.writeFileSync(reportFile, JSON.stringify({ records, skipped }, null, 2) + "\n");
+  }
+  console.log(`generated ${records} archive records in ${outDir}`
+    + (skipped.length ? `; skipped ${skipped.length}: ${skipped.map((skip) => skip.id).join(", ")}` : ""));
 }
 
 if (command === "fetch-references") {
