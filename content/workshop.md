@@ -10,4 +10,6 @@
 
 - **Date:** 30 September 2026
 - **Time:** 10:00–11:30 CEST
-- **Zoom link:** To be announced
+- **Zoom:** [Join the meeting](https://tuwien.zoom.us/j/67821353815?pwd=raNkw7i2jbOsg7X3KGMaN20uaIx1QX.1)
+- **Meeting ID:** `678 2135 3815`
+- **Password:** `9qMtgVc3`
