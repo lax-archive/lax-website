@@ -9,5 +9,5 @@
 ## Meeting details
 
 - **Date:** 30 September 2026
-- **Time:** 10:00–12:00 CEST
+- **Time:** 10:00–11:30 CEST
 - **Zoom link:** To be announced

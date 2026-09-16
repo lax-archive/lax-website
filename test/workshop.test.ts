@@ -21,7 +21,9 @@ describe("workshop page", () => {
     expect(html).toContain('<ul class="workshop-highlights" aria-label="Meeting at a glance">');
     expect(html).toContain("No Lean knowledge needed");
     expect(html).toContain("30 September 2026");
-    expect(html).toContain("10:00–12:00 CEST");
+    expect(html).toContain("10:00–11:30 CEST");
+    expect(html).toContain("90 minutes");
+    expect(html).not.toContain("Two hours");
     expect(html).toContain("To be announced");
     expect(html).not.toContain("xxxx.zoom");
     expect(html).not.toContain("name, email address, and prior Lean knowledge");

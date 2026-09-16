@@ -630,7 +630,7 @@ ${faq}
 <button class="landing-workshop-close" type="button" aria-label="Close meeting announcement"><span aria-hidden="true">×</span></button>
 </div>
 <a href="workshop/">
-<span>30 September 2026 at 10:00 CEST — an introduction to Lean, formalization with AI agents, and sharing mathematics through Lax.</span>
+<span>30 September 2026, 10:00–11:30 CEST — an introduction to Lean, formalization with AI agents, and sharing mathematics through Lax.</span>
 <strong>Meeting details <b aria-hidden="true">→</b></strong>
 </a>
 </aside>`;
@@ -642,7 +642,6 @@ ${faq}
     content,
     detailClass: "detail-landing",
     landingHeader: true,
-    gettingStartedNav: true,
     scripts: network
       ? ["assets/graph-interaction.js", "assets/setup-tabs.js", "assets/landing.js"]
       : ["assets/setup-tabs.js", "assets/landing.js"],

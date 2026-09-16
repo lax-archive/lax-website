@@ -22,7 +22,8 @@ describe("footer and legal pages", () => {
       expect(html).toContain(`href="${prefix}impressum.html">Imprint</a>`);
       expect(html).toContain(`href="${prefix}privacy.html">Privacy</a>`);
       expect(html).not.toContain("lax-white-paper.pdf");
-      expect(html).toContain(`<a class="site-nav-link" href="${prefix}submissions/">Submissions</a>`);
+      expect(html).toContain(`<a class="site-nav-link site-nav-getting-started" href="${prefix}contributing.html">Getting Started</a>`);
+      expect(html).not.toContain(`href="${prefix}submissions/">Submissions</a>`);
       expect(html).toContain(`<a class="site-nav-link" href="${prefix}about.html">About</a>`);
     }
   });

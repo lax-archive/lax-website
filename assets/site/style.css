@@ -130,14 +130,6 @@ body{
 .site-nav-link:hover,
 .site-nav-link:focus-visible{ color: var(--accent); outline: none; }
 
-/* The front-page guide has a long label. Keep the centred brand and account
-   controls clear, and add it only once the fourth navigation link fits. */
-.site-nav-getting-started{ display: none; }
-
-@media (min-width: 1600px){
-  .site-nav-getting-started{ display: inline; }
-}
-
 .site-title{
   font-size: 1.45rem;
   line-height: 1.2;
@@ -2314,7 +2306,12 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
    column rather than the landing page card. */
 .content-setup{
   max-width: none;
-  margin: 1rem 0 1.25rem;
+  margin: 1.25rem 0 1.5rem;
+  padding: 1rem clamp(0.85rem, 2.5vw, 1.3rem) 1.2rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  background: var(--surface);
+  box-shadow: 0 4px 14px rgba(43, 43, 43, 0.05);
 }
 .content-setup .landing-setup-tab-list{ margin-inline: 0; }
 .content-setup .landing-setup-panel{ max-width: none; margin-inline: 0; }
@@ -5154,6 +5151,18 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
 
 @media (min-width: 901px){
   #content-shell.sidebar-hidden #sidebar{ display: none; }
+}
+
+/* Between the mobile and wide layouts, lead from the content edge instead of
+   centring a title whose navigation would collide with the account control. */
+@media (min-width: 901px) and (max-width: 1680px){
+  .site-brand{ display: flex; gap: 1rem; margin-left: 1rem; }
+  .site-nav{ gap: 1rem; margin-left: 0; }
+  .account-login-long{ display: none; }
+}
+
+@media (min-width: 901px) and (max-width: 980px){
+  .site-header.with-sidebar .site-nav-introduction{ display: none; }
 }
 
 @media (max-width: 900px){

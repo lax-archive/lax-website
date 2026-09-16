@@ -41,7 +41,7 @@ export function workshopPage({ markdown }: PageContext): string {
 <header class="workshop-hero">
 <h1>${esc(copy.title)}</h1>
 <ul class="workshop-highlights" aria-label="Meeting at a glance">
-<li><span aria-hidden="true">◷</span> Two hours</li>
+<li><span aria-hidden="true">◷</span> 90 minutes</li>
 <li><span aria-hidden="true">◎</span> Live online</li>
 <li><span aria-hidden="true">◇</span> No Lean knowledge needed</li>
 </ul>

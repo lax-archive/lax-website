@@ -590,9 +590,9 @@ ${EMPTY_ROW}
 }
 
 /** Sidebar of submission, concept, proof, and paper pages: keep the local
- * back-link, then discover other current submissions by title, concept, and
- * Lean environment. The epoch is the deliberate initial environment even
- * when the page being read belongs to an older one. */
+ * back-link, then discover other registered submissions by title, concept,
+ * and Lean environment. The epoch is the deliberate initial environment
+ * even when the page being read belongs to an older one. */
 export function submissionSidebar(
   model: SiteModel,
   submission: SiteSubmission,
@@ -602,18 +602,13 @@ export function submissionSidebar(
   /* To restore the previous concept/proof sidebar, replace this renderer with:
    * return legacySubmissionSidebar(model, submission, rootRel, opts);
    */
-  const listed = currentSubmissions(model).filter((candidate) => candidate.record.id !== submission.record.id);
+  const listed = currentSubmissions(model).filter((candidate) =>
+    candidate.record.state === "registered" && candidate.record.id !== submission.record.id);
   const rows = listed.map((candidate, order) => {
     const id = candidate.record.id;
     const title = plainAuthorTitle(candidate.output!.manifest.title);
     return `<li ${submissionSearchAttributes(candidate, order)}><a class="entry-link" href="${attr(`${rootRel}${id}/index.html`)}" data-full-title="${attr(title)}"><span class="entry-label"><span class="entry-label-text">${esc(title)}</span></span></a></li>`;
   });
-  const draftStart = listed.findIndex((candidate) => candidate.record.state === "draft");
-  if (draftStart >= 0)
-    rows.splice(draftStart, 0, '<li class="entry-heading" data-entry-group="draft">Work in Progress</li>');
-  if (listed.some((candidate) => candidate.record.state === "registered"))
-    rows.unshift('<li class="entry-heading" data-entry-group="registered">Registered</li>');
-
   const environments = [model.epoch, ...model.environments.filter((environment) => environment !== model.epoch)];
   const environmentOptions = environments.map((environment) => {
     const epoch = environment === model.epoch;
