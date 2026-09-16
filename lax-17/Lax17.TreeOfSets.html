@@ -93,7 +93,7 @@
 </aside>
 <div id="sidebar-resizer" class="sidebar-resizer" role="separator" aria-label="Resize sidebar" aria-controls="sidebar" aria-orientation="vertical" aria-valuemin="220" aria-valuemax="520" aria-valuenow="285" tabindex="0" title="Drag to resize sidebar"></div>
 <section id="main"><div id="detail">
-<p class="draft-banner">While this submission is a draft, it cannot be used by other submissions.</p><p class="environment-notice">Environment <code>v4.30.0</code>. The archive's epoch is <code>v4.33.0</code>; only submissions in <code>v4.30.0</code> can cite this work.</p>
+<p class="draft-banner">While this submission is a draft, it cannot be used by other submissions.</p>
 <div class="detail-heading concept-heading">
 <div><h1 class="concept-title">Strong tree-of-sets systems</h1>
 <p class="concept-microline"><code class="concept-namespace">Lax17.TreeOfSets</code> · <code>concepts/Lax17/TreeOfSets.lean</code> · <a href="index.html">lax-17</a></p></div>
@@ -152,7 +152,7 @@ interfaces incident with one cluster mutually linked inside that cluster.</p>
 </details>
 
 
-<h3 class="figure-title">Lean source <a class="source-link" href="https://github.com/EdouardBonnet/polynomial-grid-minor-theorem/blob/6b25ab51dbdad590f6012a5e0d529adef445c212/concepts/Lax17/TreeOfSets.lean">view on GitHub</a></h3>
+<h3 class="figure-title">Lean source <a class="source-link" href="https://github.com/EdouardBonnet/polynomial-grid-minor-theorem/blob/d6aba3d41450ceca314d60f389d3e7eb7920ae89/concepts/Lax17/TreeOfSets.lean">view on GitHub</a></h3>
 <div class="block block-lean">
 <div class="inline-contract-shell"><button class="comment-toggle" type="button" aria-pressed="false" aria-label="Hide comments">Hide comments</button><div class="inline-contract-wrap"><table class="inline-contract-table">
 <tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Combinatorics.SimpleGraph.Acyclic</span></td></tr>
@@ -207,7 +207,7 @@ interfaces incident with one cluster mutually linked inside that cluster.</p>
 <tr id="L50" class=""><td class="line-num"><a href="#L50">50</a></td><td class="line-code"><span style="color:#24292E">  connector :</span></td></tr>
 <tr id="L51" class=""><td class="line-num"><a href="#L51">51</a></td><td class="line-code"><span style="color:#24292E">    ∀ (i j : Fin m) (hij : metaTree.Adj i j),</span></td></tr>
 <tr id="L52" class=""><td class="line-num"><a href="#L52">52</a></td><td class="line-code"><span style="color:#24292E">      </span><a class="lean-identifier-link" href="../lax-17/Lax17.Paths.html#L60"><span style="color:#24292E">VertexLinkage</span></a><span style="color:#24292E"> G (interface i j hij)</span></td></tr>
-<tr id="L53" class=""><td class="line-num"><a href="#L53">53</a></td><td class="line-code"><span style="color:#24292E">        (interface j i (metaTree.symm hij)) w</span></td></tr>
+<tr id="L53" class=""><td class="line-num"><a href="#L53">53</a></td><td class="line-code"><span style="color:#24292E">        (interface j i (metaTree.symm.symm i j hij)) w</span></td></tr>
 <tr id="L54" class=""><td class="line-num"><a href="#L54">54</a></td><td class="line-code"><span style="color:#24292E">  connector_avoids_clusters :</span></td></tr>
 <tr id="L55" class=""><td class="line-num"><a href="#L55">55</a></td><td class="line-code"><span style="color:#24292E">    ∀ (i j : Fin m) (hij : metaTree.Adj i j)</span></td></tr>
 <tr id="L56" class=""><td class="line-num"><a href="#L56">56</a></td><td class="line-code"><span style="color:#24292E">      (r : Fin m) (a : Fin w),</span></td></tr>

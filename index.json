@@ -392,8 +392,8 @@
     {
       "id": "lax-17",
       "state": "draft",
-      "environment": "v4.30.0",
-      "title": "Exponent 8 ($\\times$ Polylogarithmic) Bound for the Grid-Minor Theorem",
+      "environment": "v4.33.0",
+      "title": "An Exponent $8$ Polylogarithmic Bound for the Grid-Minor Theorem",
       "concepts": [
         {
           "id": "Lax17.Crossbar",
@@ -438,6 +438,11 @@
         {
           "id": "Lax17.ExponentTenCrossbarDichotomy",
           "title": "Exponent-ten crossbar dichotomy",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax17.FixedRoundGridMinor",
+          "title": "'Exact fixed-round grid-minor theorem'",
           "type": "theorem"
         },
         {
@@ -507,8 +512,13 @@
         },
         {
           "id": "Lax17.PolynomialGridMinor",
-          "title": "Exponent 8 ($\\times$ Polylogarithmic) Bound for the Grid-Minor Theorem",
+          "title": "'Polynomial grid-minor theorem with exponent $8$ up to polylogarithmic factors'",
           "type": "theorem"
+        },
+        {
+          "id": "Lax17.PowerRoot",
+          "title": "'Integral ceiling power roots'",
+          "type": "definition"
         },
         {
           "id": "Lax17.SinghLau",
@@ -611,7 +621,9 @@
         "Lax17Proofs.Exposed.treewidth_mono_minor",
         "Lax17Proofs.Exposed.vertexMenger",
         "Lax17Proofs.Exposed.wellLinkednessBoosting",
-        "Lax17Proofs.Final.polynomial_grid_minor_eight_polylog"
+        "Lax17Proofs.Final.polynomial_grid_minor_eight_add_epsilon",
+        "Lax17Proofs.Final.polynomial_grid_minor_eight_polylog",
+        "Lax17Proofs.Final.polynomial_grid_minor_fixed_t"
       ]
     },
     {

@@ -162,6 +162,7 @@
   <url><loc>https://laxarchive.org/lax-17/Lax17.ExpanderGrid.html</loc></url>
   <url><loc>https://laxarchive.org/lax-17/Lax17.Expansion.html</loc></url>
   <url><loc>https://laxarchive.org/lax-17/Lax17.ExponentTenCrossbarDichotomy.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-17/Lax17.FixedRoundGridMinor.html</loc></url>
   <url><loc>https://laxarchive.org/lax-17/Lax17.Grid.html</loc></url>
   <url><loc>https://laxarchive.org/lax-17/Lax17.GridMinor.html</loc></url>
   <url><loc>https://laxarchive.org/lax-17/Lax17.HairyPathOfSetsFromTreewidth.html</loc></url>
@@ -176,6 +177,7 @@
   <url><loc>https://laxarchive.org/lax-17/Lax17.PathOfSets.html</loc></url>
   <url><loc>https://laxarchive.org/lax-17/Lax17.Paths.html</loc></url>
   <url><loc>https://laxarchive.org/lax-17/Lax17.PolynomialGridMinor.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-17/Lax17.PowerRoot.html</loc></url>
   <url><loc>https://laxarchive.org/lax-17/Lax17.SinghLau.html</loc></url>
   <url><loc>https://laxarchive.org/lax-17/Lax17.SmallLinkedSubsets.html</loc></url>
   <url><loc>https://laxarchive.org/lax-17/Lax17.SpanningTreeRounding.html</loc></url>
@@ -215,7 +217,9 @@
   <url><loc>https://laxarchive.org/lax-17/Lax17Proofs.Exposed.treewidth_mono_minor.html</loc></url>
   <url><loc>https://laxarchive.org/lax-17/Lax17Proofs.Exposed.vertexMenger.html</loc></url>
   <url><loc>https://laxarchive.org/lax-17/Lax17Proofs.Exposed.wellLinkednessBoosting.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-17/Lax17Proofs.Final.polynomial_grid_minor_eight_add_epsilon.html</loc></url>
   <url><loc>https://laxarchive.org/lax-17/Lax17Proofs.Final.polynomial_grid_minor_eight_polylog.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-17/Lax17Proofs.Final.polynomial_grid_minor_fixed_t.html</loc></url>
   <url><loc>https://laxarchive.org/lax-18/</loc></url>
   <url><loc>https://laxarchive.org/lax-18/Lax18.EdgeDensity.html</loc></url>
   <url><loc>https://laxarchive.org/lax-18/Lax18.EnergyIncrement.html</loc></url>
