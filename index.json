@@ -3749,7 +3749,7 @@
         {
           "id": "Lax842588.TreeModelCheckingEncoding",
           "title": "Distinguished structural inputs for tree-automaton evaluation",
-          "type": "definition and theorem"
+          "type": "definition"
         },
         {
           "id": "Lax842588.TreeStructure",
@@ -3763,20 +3763,14 @@
         }
       ],
       "proofs": [
-        "Lax842588Proofs.AutomatonLinearTime.exists_fixed_automatonAcceptance_proof",
         "Lax842588Proofs.AutomatonLinearTime.exists_uniform_automatonAcceptance_proof",
         "Lax842588Proofs.Determinization.exists_deterministic_equivalent_proof",
-        "Lax842588Proofs.FixedSentenceModelChecking.exists_fixed_sentence_modelChecking_proof",
         "Lax842588Proofs.IntrinsicUniformModelChecking.exists_uniform_msoModelChecking_proof",
-        "Lax842588Proofs.MSOLinearTime.modelCheckingInput_length_proof",
         "Lax842588Proofs.MSOToTreeAutomata.mso_definable_is_recognizable_proof",
         "Lax842588Proofs.MSOTreeAutomataEquivalence.recognizable_iff_msoDefinable_proof",
-        "Lax842588Proofs.StructuralRepresentations.formula_structural_proof",
         "Lax842588Proofs.StructuralRepresentations.sentence_lawful_proof",
         "Lax842588Proofs.StructuralRepresentations.tree_lawful_proof",
-        "Lax842588Proofs.StructuralRepresentations.tree_structural_proof",
         "Lax842588Proofs.TreeAutomataToMSO.automaton_definable_by_mso_proof",
-        "Lax842588Proofs.TreeModelCheckingEncoding.automatonInput_length_proof",
         "Lax842588Proofs.ValueTranslations.language_equivalence_proof"
       ]
     },
