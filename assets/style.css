@@ -3078,6 +3078,11 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
   white-space: nowrap;
 }
 
+/* On a phone the fixed banner covers too much of the page to be worth it. */
+@media (max-width: 900px){
+  .landing-workshop-banner{ display: none; }
+}
+
 .stats-line{
   font-variant: small-caps;
   letter-spacing: 0.04em;
