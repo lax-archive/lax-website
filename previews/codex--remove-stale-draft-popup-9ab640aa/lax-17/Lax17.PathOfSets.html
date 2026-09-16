@@ -9,7 +9,7 @@
 <link rel="canonical" href="https://laxarchive.org/lax-17/Lax17.PathOfSets.html">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=4d6294d8f522">
+<link rel="stylesheet" href="../assets/style.css?v=7519c5df2cf1">
 </head><body>
 <header class="site-header with-sidebar">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="true" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -155,25 +155,25 @@ hair-side endpoints are well-linked in the hair cluster.</p>
 
 <h3 class="figure-title">Lean source <a class="source-link" href="https://github.com/EdouardBonnet/polynomial-grid-minor-theorem/blob/fe2848173913a00d85c64d2a17af63f2cf0d4fbf/concepts/Lax17/PathOfSets.lean">view on GitHub</a></h3>
 <div class="block block-lean">
-<div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<div class="inline-contract-shell"><button class="comment-toggle" type="button" aria-pressed="false" aria-label="Hide comments">Hide comments</button><div class="inline-contract-wrap"><table class="inline-contract-table">
 <tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Combinatorics.SimpleGraph.Connectivity.Connected</span></td></tr>
 <tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-17/Lax17.Linkedness.html"><span style="color:#24292E">Lax17.Linkedness</span></a></td></tr>
 <tr id="L3" class=""><td class="line-num"><a href="#L3">3</a></td><td class="line-code"> </td></tr>
-<tr id="L4" class=""><td class="line-num"><a href="#L4">4</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
-<tr id="L5" class=""><td class="line-num"><a href="#L5">5</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
-<tr id="L6" class=""><td class="line-num"><a href="#L6">6</a></td><td class="line-code"><span style="color:#6A737D">title: Strong and hairy path-of-sets systems</span></td></tr>
-<tr id="L7" class=""><td class="line-num"><a href="#L7">7</a></td><td class="line-code"><span style="color:#6A737D">type: definition</span></td></tr>
-<tr id="L8" class=""><td class="line-num"><a href="#L8">8</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
-<tr id="L9" class=""><td class="line-num"><a href="#L9">9</a></td><td class="line-code"><span style="color:#6A737D">A path-of-sets system is an ordered sequence of pairwise disjoint connected</span></td></tr>
-<tr id="L10" class=""><td class="line-num"><a href="#L10">10</a></td><td class="line-code"><span style="color:#6A737D">clusters.  Each cluster has equally large, disjoint left and right interfaces,</span></td></tr>
-<tr id="L11" class=""><td class="line-num"><a href="#L11">11</a></td><td class="line-code"><span style="color:#6A737D">and consecutive interfaces are joined by disjoint path families that otherwise</span></td></tr>
-<tr id="L12" class=""><td class="line-num"><a href="#L12">12</a></td><td class="line-code"><span style="color:#6A737D">avoid every cluster.  It is strong when the two interfaces are well-linked and</span></td></tr>
-<tr id="L13" class=""><td class="line-num"><a href="#L13">13</a></td><td class="line-code"><span style="color:#6A737D">mutually linked inside each cluster.</span></td></tr>
-<tr id="L14" class=""><td class="line-num"><a href="#L14">14</a></td><td class="line-code"> </td></tr>
-<tr id="L15" class=""><td class="line-num"><a href="#L15">15</a></td><td class="line-code"><span style="color:#6A737D">A hairy path-of-sets system adds one disjoint connected hair cluster at every</span></td></tr>
-<tr id="L16" class=""><td class="line-num"><a href="#L16">16</a></td><td class="line-code"><span style="color:#6A737D">position and a disjoint linkage from the base cluster to that hair.  Its</span></td></tr>
-<tr id="L17" class=""><td class="line-num"><a href="#L17">17</a></td><td class="line-code"><span style="color:#6A737D">hair-side endpoints are well-linked in the hair cluster.</span></td></tr>
-<tr id="L18" class=""><td class="line-num"><a href="#L18">18</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
+<tr id="L4" class="line-comment"><td class="line-num"><a href="#L4">4</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
+<tr id="L5" class="line-comment"><td class="line-num"><a href="#L5">5</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
+<tr id="L6" class="line-comment"><td class="line-num"><a href="#L6">6</a></td><td class="line-code"><span style="color:#6A737D">title: Strong and hairy path-of-sets systems</span></td></tr>
+<tr id="L7" class="line-comment"><td class="line-num"><a href="#L7">7</a></td><td class="line-code"><span style="color:#6A737D">type: definition</span></td></tr>
+<tr id="L8" class="line-comment"><td class="line-num"><a href="#L8">8</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
+<tr id="L9" class="line-comment"><td class="line-num"><a href="#L9">9</a></td><td class="line-code"><span style="color:#6A737D">A path-of-sets system is an ordered sequence of pairwise disjoint connected</span></td></tr>
+<tr id="L10" class="line-comment"><td class="line-num"><a href="#L10">10</a></td><td class="line-code"><span style="color:#6A737D">clusters.  Each cluster has equally large, disjoint left and right interfaces,</span></td></tr>
+<tr id="L11" class="line-comment"><td class="line-num"><a href="#L11">11</a></td><td class="line-code"><span style="color:#6A737D">and consecutive interfaces are joined by disjoint path families that otherwise</span></td></tr>
+<tr id="L12" class="line-comment"><td class="line-num"><a href="#L12">12</a></td><td class="line-code"><span style="color:#6A737D">avoid every cluster.  It is strong when the two interfaces are well-linked and</span></td></tr>
+<tr id="L13" class="line-comment"><td class="line-num"><a href="#L13">13</a></td><td class="line-code"><span style="color:#6A737D">mutually linked inside each cluster.</span></td></tr>
+<tr id="L14" class="line-comment"><td class="line-num"><a href="#L14">14</a></td><td class="line-code"> </td></tr>
+<tr id="L15" class="line-comment"><td class="line-num"><a href="#L15">15</a></td><td class="line-code"><span style="color:#6A737D">A hairy path-of-sets system adds one disjoint connected hair cluster at every</span></td></tr>
+<tr id="L16" class="line-comment"><td class="line-num"><a href="#L16">16</a></td><td class="line-code"><span style="color:#6A737D">position and a disjoint linkage from the base cluster to that hair.  Its</span></td></tr>
+<tr id="L17" class="line-comment"><td class="line-num"><a href="#L17">17</a></td><td class="line-code"><span style="color:#6A737D">hair-side endpoints are well-linked in the hair cluster.</span></td></tr>
+<tr id="L18" class="line-comment"><td class="line-num"><a href="#L18">18</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
 <tr id="L19" class=""><td class="line-num"><a href="#L19">19</a></td><td class="line-code"> </td></tr>
 <tr id="L20" class=""><td class="line-num"><a href="#L20">20</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax17.PathOfSets</span></td></tr>
 <tr id="L21" class=""><td class="line-num"><a href="#L21">21</a></td><td class="line-code"> </td></tr>
@@ -182,12 +182,12 @@ hair-side endpoints are well-linked in the hair cluster.</p>
 <tr id="L24" class=""><td class="line-num"><a href="#L24">24</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-17/Lax17.Linkedness.html"><span style="color:#24292E">Lax17.Linkedness</span></a></td></tr>
 <tr id="L25" class=""><td class="line-num"><a href="#L25">25</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-17/Lax17.Paths.html"><span style="color:#24292E">Lax17.Paths</span></a></td></tr>
 <tr id="L26" class=""><td class="line-num"><a href="#L26">26</a></td><td class="line-code"> </td></tr>
-<tr id="L27" class=""><td class="line-num"><a href="#L27">27</a></td><td class="line-code"><span style="color:#6A737D">/-- A finite vertex set inducing a connected graph. -/</span></td></tr>
+<tr id="L27" class="line-comment"><td class="line-num"><a href="#L27">27</a></td><td class="line-code"><span style="color:#6A737D">/-- A finite vertex set inducing a connected graph. -/</span></td></tr>
 <tr id="L28" class=""><td class="line-num"><a href="#L28">28</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> IsCluster</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E"> u} [DecidableEq V]</span></td></tr>
 <tr id="L29" class=""><td class="line-num"><a href="#L29">29</a></td><td class="line-code"><span style="color:#24292E">    (G : SimpleGraph V) (C : Finset V) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
 <tr id="L30" class=""><td class="line-num"><a href="#L30">30</a></td><td class="line-code"><span style="color:#24292E">  (G.induce {v : V | v ∈ C}).Connected</span></td></tr>
 <tr id="L31" class=""><td class="line-num"><a href="#L31">31</a></td><td class="line-code"> </td></tr>
-<tr id="L32" class=""><td class="line-num"><a href="#L32">32</a></td><td class="line-code"><span style="color:#6A737D">/-- A path-of-sets system of length `ℓ` and width `w`. -/</span></td></tr>
+<tr id="L32" class="line-comment"><td class="line-num"><a href="#L32">32</a></td><td class="line-code"><span style="color:#6A737D">/-- A path-of-sets system of length `ℓ` and width `w`. -/</span></td></tr>
 <tr id="L33" class=""><td class="line-num"><a href="#L33">33</a></td><td class="line-code"><span style="color:#D73A49">structure</span><span style="color:#6F42C1"> System</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E"> u} [DecidableEq V]</span></td></tr>
 <tr id="L34" class=""><td class="line-num"><a href="#L34">34</a></td><td class="line-code"><span style="color:#24292E">    (G : SimpleGraph V) (ℓ w : ℕ) </span><span style="color:#D73A49">where</span></td></tr>
 <tr id="L35" class=""><td class="line-num"><a href="#L35">35</a></td><td class="line-code"><span style="color:#24292E">  length_pos : </span><span style="color:#005CC5">0</span><span style="color:#24292E"> &lt; ℓ</span></td></tr>
@@ -218,13 +218,13 @@ hair-side endpoints are well-linked in the hair cluster.</p>
 <tr id="L60" class=""><td class="line-num"><a href="#L60">60</a></td><td class="line-code"> </td></tr>
 <tr id="L61" class=""><td class="line-num"><a href="#L61">61</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> System</span></td></tr>
 <tr id="L62" class=""><td class="line-num"><a href="#L62">62</a></td><td class="line-code"> </td></tr>
-<tr id="L63" class=""><td class="line-num"><a href="#L63">63</a></td><td class="line-code"><span style="color:#6A737D">/-- The first cluster index. -/</span></td></tr>
+<tr id="L63" class="line-comment"><td class="line-num"><a href="#L63">63</a></td><td class="line-code"><span style="color:#6A737D">/-- The first cluster index. -/</span></td></tr>
 <tr id="L64" class=""><td class="line-num"><a href="#L64">64</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> firstIndex</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E"> u} [DecidableEq V]</span></td></tr>
 <tr id="L65" class=""><td class="line-num"><a href="#L65">65</a></td><td class="line-code"><span style="color:#24292E">    {G : SimpleGraph V} {ℓ w : ℕ}</span></td></tr>
 <tr id="L66" class=""><td class="line-num"><a href="#L66">66</a></td><td class="line-code"><span style="color:#24292E">    (P : </span><a class="lean-identifier-link" href="../lax-17/Lax17.PathOfSets.html#L32"><span style="color:#24292E">System</span></a><span style="color:#24292E"> G ℓ w) : Fin ℓ :=</span></td></tr>
 <tr id="L67" class=""><td class="line-num"><a href="#L67">67</a></td><td class="line-code"><span style="color:#24292E">  ⟨</span><span style="color:#005CC5">0</span><span style="color:#24292E">, P.</span><a class="lean-identifier-link" href="../lax-17/Lax17.PathOfSets.html#L35"><span style="color:#24292E">length_pos</span></a><span style="color:#24292E">⟩</span></td></tr>
 <tr id="L68" class=""><td class="line-num"><a href="#L68">68</a></td><td class="line-code"> </td></tr>
-<tr id="L69" class=""><td class="line-num"><a href="#L69">69</a></td><td class="line-code"><span style="color:#6A737D">/-- The last cluster index. -/</span></td></tr>
+<tr id="L69" class="line-comment"><td class="line-num"><a href="#L69">69</a></td><td class="line-code"><span style="color:#6A737D">/-- The last cluster index. -/</span></td></tr>
 <tr id="L70" class=""><td class="line-num"><a href="#L70">70</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> lastIndex</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E"> u} [DecidableEq V]</span></td></tr>
 <tr id="L71" class=""><td class="line-num"><a href="#L71">71</a></td><td class="line-code"><span style="color:#24292E">    {G : SimpleGraph V} {ℓ w : ℕ}</span></td></tr>
 <tr id="L72" class=""><td class="line-num"><a href="#L72">72</a></td><td class="line-code"><span style="color:#24292E">    (P : </span><a class="lean-identifier-link" href="../lax-17/Lax17.PathOfSets.html#L32"><span style="color:#24292E">System</span></a><span style="color:#24292E"> G ℓ w) : Fin ℓ :=</span></td></tr>
@@ -232,7 +232,7 @@ hair-side endpoints are well-linked in the hair cluster.</p>
 <tr id="L74" class=""><td class="line-num"><a href="#L74">74</a></td><td class="line-code"> </td></tr>
 <tr id="L75" class=""><td class="line-num"><a href="#L75">75</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> System</span></td></tr>
 <tr id="L76" class=""><td class="line-num"><a href="#L76">76</a></td><td class="line-code"> </td></tr>
-<tr id="L77" class=""><td class="line-num"><a href="#L77">77</a></td><td class="line-code"><span style="color:#6A737D">/-- A strong path-of-sets system. -/</span></td></tr>
+<tr id="L77" class="line-comment"><td class="line-num"><a href="#L77">77</a></td><td class="line-code"><span style="color:#6A737D">/-- A strong path-of-sets system. -/</span></td></tr>
 <tr id="L78" class=""><td class="line-num"><a href="#L78">78</a></td><td class="line-code"><span style="color:#D73A49">structure</span><span style="color:#6F42C1"> StrongSystem</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E"> u} [DecidableEq V]</span></td></tr>
 <tr id="L79" class=""><td class="line-num"><a href="#L79">79</a></td><td class="line-code"><span style="color:#24292E">    (G : SimpleGraph V) (ℓ w : ℕ) </span><span style="color:#D73A49">extends</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-17/Lax17.PathOfSets.html#L32"><span style="color:#24292E">System</span></a><span style="color:#24292E"> G ℓ w </span><span style="color:#D73A49">where</span></td></tr>
 <tr id="L80" class=""><td class="line-num"><a href="#L80">80</a></td><td class="line-code"><span style="color:#24292E">  left_well_linked :</span></td></tr>
@@ -242,7 +242,7 @@ hair-side endpoints are well-linked in the hair cluster.</p>
 <tr id="L84" class=""><td class="line-num"><a href="#L84">84</a></td><td class="line-code"><span style="color:#24292E">  interfaces_linked :</span></td></tr>
 <tr id="L85" class=""><td class="line-num"><a href="#L85">85</a></td><td class="line-code"><span style="color:#24292E">    ∀ i : Fin ℓ, </span><a class="lean-identifier-link" href="../lax-17/Lax17.Linkedness.html#L21"><span style="color:#24292E">NodeLinkedIn</span></a><span style="color:#24292E"> G (cluster i) (left i) (right i)</span></td></tr>
 <tr id="L86" class=""><td class="line-num"><a href="#L86">86</a></td><td class="line-code"> </td></tr>
-<tr id="L87" class=""><td class="line-num"><a href="#L87">87</a></td><td class="line-code"><span style="color:#6A737D">/-- A hairy path-of-sets system. -/</span></td></tr>
+<tr id="L87" class="line-comment"><td class="line-num"><a href="#L87">87</a></td><td class="line-code"><span style="color:#6A737D">/-- A hairy path-of-sets system. -/</span></td></tr>
 <tr id="L88" class=""><td class="line-num"><a href="#L88">88</a></td><td class="line-code"><span style="color:#D73A49">structure</span><span style="color:#6F42C1"> HairySystem</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E"> u} [DecidableEq V]</span></td></tr>
 <tr id="L89" class=""><td class="line-num"><a href="#L89">89</a></td><td class="line-code"><span style="color:#24292E">    (G : SimpleGraph V) (ℓ w : ℕ) </span><span style="color:#D73A49">where</span></td></tr>
 <tr id="L90" class=""><td class="line-num"><a href="#L90">90</a></td><td class="line-code"><span style="color:#24292E">  base : </span><a class="lean-identifier-link" href="../lax-17/Lax17.PathOfSets.html#L77"><span style="color:#24292E">StrongSystem</span></a><span style="color:#24292E"> G ℓ w</span></td></tr>
@@ -290,8 +290,8 @@ hair-side endpoints are well-linked in the hair cluster.</p>
 <tr id="L132" class=""><td class="line-num"><a href="#L132">132</a></td><td class="line-code"><span style="color:#24292E">    ∀ i j : Fin ℓ, ∀ a : Fin w,</span></td></tr>
 <tr id="L133" class=""><td class="line-num"><a href="#L133">133</a></td><td class="line-code"><span style="color:#24292E">      ((hairLinkage i).</span><a class="lean-identifier-link" href="../lax-17/Lax17.Paths.html#L63"><span style="color:#24292E">path</span></a><span style="color:#24292E"> a).</span><a class="lean-identifier-link" href="../lax-17/Lax17.Paths.html#L53"><span style="color:#24292E">InternallyAvoids</span></a><span style="color:#24292E"> (hairCluster j)</span></td></tr>
 <tr id="L134" class=""><td class="line-num"><a href="#L134">134</a></td><td class="line-code"> </td></tr>
-<tr id="L135" class=""><td class="line-num"><a href="#L135">135</a></td><td class="line-code"><span style="color:#6A737D">/-- The output of splitting one connected cluster into three disjoint</span></td></tr>
-<tr id="L136" class=""><td class="line-num"><a href="#L136">136</a></td><td class="line-code"><span style="color:#6A737D">connected subclusters while retaining prescribed terminal subsets. -/</span></td></tr>
+<tr id="L135" class="line-comment"><td class="line-num"><a href="#L135">135</a></td><td class="line-code"><span style="color:#6A737D">/-- The output of splitting one connected cluster into three disjoint</span></td></tr>
+<tr id="L136" class="line-comment"><td class="line-num"><a href="#L136">136</a></td><td class="line-code"><span style="color:#6A737D">connected subclusters while retaining prescribed terminal subsets. -/</span></td></tr>
 <tr id="L137" class=""><td class="line-num"><a href="#L137">137</a></td><td class="line-code"><span style="color:#D73A49">structure</span><span style="color:#6F42C1"> ThreeWayClusterSplit</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E"> u} [DecidableEq V]</span></td></tr>
 <tr id="L138" class=""><td class="line-num"><a href="#L138">138</a></td><td class="line-code"><span style="color:#24292E">    (G : SimpleGraph V) (C A B X : Finset V) (q : ℕ) </span><span style="color:#D73A49">where</span></td></tr>
 <tr id="L139" class=""><td class="line-num"><a href="#L139">139</a></td><td class="line-code"><span style="color:#24292E">  firstCluster : Finset V</span></td></tr>
@@ -325,9 +325,9 @@ hair-side endpoints are well-linked in the hair cluster.</p>
 <tr id="L167" class=""><td class="line-num"><a href="#L167">167</a></td><td class="line-code"><span style="color:#24292E">  third_well_linked :</span></td></tr>
 <tr id="L168" class=""><td class="line-num"><a href="#L168">168</a></td><td class="line-code"><span style="color:#24292E">    </span><a class="lean-identifier-link" href="../lax-17/Lax17.Linkedness.html#L30"><span style="color:#24292E">NodeWellLinkedIn</span></a><span style="color:#24292E"> G thirdCluster thirdTerminals</span></td></tr>
 <tr id="L169" class=""><td class="line-num"><a href="#L169">169</a></td><td class="line-code"> </td></tr>
-<tr id="L170" class=""><td class="line-num"><a href="#L170">170</a></td><td class="line-code"><span style="color:#6A737D">/-- The Appendix A.3 split of one cluster into a new base cluster and a</span></td></tr>
-<tr id="L171" class=""><td class="line-num"><a href="#L171">171</a></td><td class="line-code"><span style="color:#6A737D">disjoint hair cluster, together with the retained interfaces and hair</span></td></tr>
-<tr id="L172" class=""><td class="line-num"><a href="#L172">172</a></td><td class="line-code"><span style="color:#6A737D">linkage. -/</span></td></tr>
+<tr id="L170" class="line-comment"><td class="line-num"><a href="#L170">170</a></td><td class="line-code"><span style="color:#6A737D">/-- The Appendix A.3 split of one cluster into a new base cluster and a</span></td></tr>
+<tr id="L171" class="line-comment"><td class="line-num"><a href="#L171">171</a></td><td class="line-code"><span style="color:#6A737D">disjoint hair cluster, together with the retained interfaces and hair</span></td></tr>
+<tr id="L172" class="line-comment"><td class="line-num"><a href="#L172">172</a></td><td class="line-code"><span style="color:#6A737D">linkage. -/</span></td></tr>
 <tr id="L173" class=""><td class="line-num"><a href="#L173">173</a></td><td class="line-code"><span style="color:#D73A49">structure</span><span style="color:#6F42C1"> HairyClusterSplit</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E"> u} [DecidableEq V]</span></td></tr>
 <tr id="L174" class=""><td class="line-num"><a href="#L174">174</a></td><td class="line-code"><span style="color:#24292E">    (G : SimpleGraph V) (C A B : Finset V) (w : ℕ) </span><span style="color:#D73A49">where</span></td></tr>
 <tr id="L175" class=""><td class="line-num"><a href="#L175">175</a></td><td class="line-code"><span style="color:#24292E">  baseCluster : Finset V</span></td></tr>
@@ -431,7 +431,7 @@ hair-side endpoints are well-linked in the hair cluster.</p>
 <script src="../assets/sidebar.js?v=0d92141eab56"></script>
 <script src="../assets/account.js?v=6a0844f8bd00"></script>
 <script src="../assets/graph-interaction.js?v=4f12c6eaf4ff"></script>
-<script src="../assets/source-proof.js?v=b4c48aaad400"></script>
+<script src="../assets/source-proof.js?v=c61006f1e018"></script>
 <script src="../assets/version-history.js?v=a36e868140dd"></script>
 <script src="../assets/comments.js?v=40723213c083"></script>
 </body></html>

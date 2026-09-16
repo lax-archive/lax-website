@@ -9,7 +9,7 @@
 <link rel="canonical" href="https://laxarchive.org/lax-51/Lax51.RamToTuringGenericTime.html">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=4d6294d8f522">
+<link rel="stylesheet" href="../assets/style.css?v=7519c5df2cf1">
 </head><body>
 <header class="site-header with-sidebar">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="true" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -173,25 +173,25 @@ the bits of every RAM word.</p>
 
 <h3 class="figure-title">Lean source <a class="source-link" href="https://github.com/szymtor/RAM-TM/blob/6fe5a3d94f6c2da46cc2c5ab98cd36997b130737/concepts/Lax51/RamToTuringGenericTime.lean">view on GitHub</a></h3>
 <div class="block block-lean">
-<div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<div class="inline-contract-shell"><button class="comment-toggle" type="button" aria-pressed="false" aria-label="Hide comments">Hide comments</button><div class="inline-contract-wrap"><table class="inline-contract-table">
 <tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-51/Lax51.RamPolytime.html"><span style="color:#24292E">Lax51.RamPolytime</span></a></td></tr>
 <tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Computability.TuringMachine.Computable</span></td></tr>
 <tr id="L3" class=""><td class="line-num"><a href="#L3">3</a></td><td class="line-code"> </td></tr>
-<tr id="L4" class=""><td class="line-num"><a href="#L4">4</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
-<tr id="L5" class=""><td class="line-num"><a href="#L5">5</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
-<tr id="L6" class=""><td class="line-num"><a href="#L6">6</a></td><td class="line-code"><span style="color:#6A737D">title: Generic-time simulation of word RAMs by Turing machines</span></td></tr>
-<tr id="L7" class=""><td class="line-num"><a href="#L7">7</a></td><td class="line-code"><span style="color:#6A737D">type: theorem</span></td></tr>
-<tr id="L8" class=""><td class="line-num"><a href="#L8">8</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
-<tr id="L9" class=""><td class="line-num"><a href="#L9">9</a></td><td class="line-code"><span style="color:#6A737D">An arbitrary finite execution of a fixed word-RAM program, using a word</span></td></tr>
-<tr id="L10" class=""><td class="line-num"><a href="#L10">10</a></td><td class="line-code"><span style="color:#6A737D">length polynomially bounded in the encoded input size, can be simulated by</span></td></tr>
-<tr id="L11" class=""><td class="line-num"><a href="#L11">11</a></td><td class="line-code"><span style="color:#6A737D">one finite multi-tape Turing machine.  The Turing running time has fixed</span></td></tr>
-<tr id="L12" class=""><td class="line-num"><a href="#L12">12</a></td><td class="line-code"><span style="color:#6A737D">polynomial overhead in the encoded input size plus the number of executed</span></td></tr>
-<tr id="L13" class=""><td class="line-num"><a href="#L13">13</a></td><td class="line-code"><span style="color:#6A737D">RAM instructions.</span></td></tr>
-<tr id="L14" class=""><td class="line-num"><a href="#L14">14</a></td><td class="line-code"> </td></tr>
-<tr id="L15" class=""><td class="line-num"><a href="#L15">15</a></td><td class="line-code"><span style="color:#6A737D">No regularity assumption is made on the RAM running time.  A polynomial word</span></td></tr>
-<tr id="L16" class=""><td class="line-num"><a href="#L16">16</a></td><td class="line-code"><span style="color:#6A737D">length bound is retained because a Turing machine must explicitly process</span></td></tr>
-<tr id="L17" class=""><td class="line-num"><a href="#L17">17</a></td><td class="line-code"><span style="color:#6A737D">the bits of every RAM word.</span></td></tr>
-<tr id="L18" class=""><td class="line-num"><a href="#L18">18</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
+<tr id="L4" class="line-comment"><td class="line-num"><a href="#L4">4</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
+<tr id="L5" class="line-comment"><td class="line-num"><a href="#L5">5</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
+<tr id="L6" class="line-comment"><td class="line-num"><a href="#L6">6</a></td><td class="line-code"><span style="color:#6A737D">title: Generic-time simulation of word RAMs by Turing machines</span></td></tr>
+<tr id="L7" class="line-comment"><td class="line-num"><a href="#L7">7</a></td><td class="line-code"><span style="color:#6A737D">type: theorem</span></td></tr>
+<tr id="L8" class="line-comment"><td class="line-num"><a href="#L8">8</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
+<tr id="L9" class="line-comment"><td class="line-num"><a href="#L9">9</a></td><td class="line-code"><span style="color:#6A737D">An arbitrary finite execution of a fixed word-RAM program, using a word</span></td></tr>
+<tr id="L10" class="line-comment"><td class="line-num"><a href="#L10">10</a></td><td class="line-code"><span style="color:#6A737D">length polynomially bounded in the encoded input size, can be simulated by</span></td></tr>
+<tr id="L11" class="line-comment"><td class="line-num"><a href="#L11">11</a></td><td class="line-code"><span style="color:#6A737D">one finite multi-tape Turing machine.  The Turing running time has fixed</span></td></tr>
+<tr id="L12" class="line-comment"><td class="line-num"><a href="#L12">12</a></td><td class="line-code"><span style="color:#6A737D">polynomial overhead in the encoded input size plus the number of executed</span></td></tr>
+<tr id="L13" class="line-comment"><td class="line-num"><a href="#L13">13</a></td><td class="line-code"><span style="color:#6A737D">RAM instructions.</span></td></tr>
+<tr id="L14" class="line-comment"><td class="line-num"><a href="#L14">14</a></td><td class="line-code"> </td></tr>
+<tr id="L15" class="line-comment"><td class="line-num"><a href="#L15">15</a></td><td class="line-code"><span style="color:#6A737D">No regularity assumption is made on the RAM running time.  A polynomial word</span></td></tr>
+<tr id="L16" class="line-comment"><td class="line-num"><a href="#L16">16</a></td><td class="line-code"><span style="color:#6A737D">length bound is retained because a Turing machine must explicitly process</span></td></tr>
+<tr id="L17" class="line-comment"><td class="line-num"><a href="#L17">17</a></td><td class="line-code"><span style="color:#6A737D">the bits of every RAM word.</span></td></tr>
+<tr id="L18" class="line-comment"><td class="line-num"><a href="#L18">18</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
 <tr id="L19" class=""><td class="line-num"><a href="#L19">19</a></td><td class="line-code"> </td></tr>
 <tr id="L20" class=""><td class="line-num"><a href="#L20">20</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax51.RamToTuringGenericTime</span></td></tr>
 <tr id="L21" class=""><td class="line-num"><a href="#L21">21</a></td><td class="line-code"> </td></tr>
@@ -199,9 +199,9 @@ the bits of every RAM word.</p>
 <tr id="L23" class=""><td class="line-num"><a href="#L23">23</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-51/Lax51.BinaryWordEncoding.html"><span style="color:#24292E">Lax51.BinaryWordEncoding</span></a><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-51/Lax51.RamPolytime.html"><span style="color:#24292E">Lax51.RamPolytime</span></a></td></tr>
 <tr id="L24" class=""><td class="line-num"><a href="#L24">24</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> Polynomial Turing</span></td></tr>
 <tr id="L25" class=""><td class="line-num"><a href="#L25">25</a></td><td class="line-code"> </td></tr>
-<tr id="L26" class="statement-line line-proven"><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span class="statement-anchor" id="s-Lax51.RamToTuringGenericTime.ramInTime_to_turingInPolynomialOverhead"></span><span style="color:#6A737D">/-- At a polynomially bounded selected word length, every `t`-step execution</span></td></tr>
-<tr id="L27" class="statement-line line-proven"><td class="line-num"><a href="#L27">27</a></td><td class="line-code"><span style="color:#6A737D">of a fixed word-RAM program is simulated by one finite Turing machine in a</span></td></tr>
-<tr id="L28" class="statement-line line-proven"><td class="line-num"><a href="#L28">28</a></td><td class="line-code"><span style="color:#6A737D">fixed polynomial of the input bit-size plus `t`. -/</span></td></tr>
+<tr id="L26" class="statement-line line-proven line-comment"><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span class="statement-anchor" id="s-Lax51.RamToTuringGenericTime.ramInTime_to_turingInPolynomialOverhead"></span><span style="color:#6A737D">/-- At a polynomially bounded selected word length, every `t`-step execution</span></td></tr>
+<tr id="L27" class="statement-line line-proven line-comment"><td class="line-num"><a href="#L27">27</a></td><td class="line-code"><span style="color:#6A737D">of a fixed word-RAM program is simulated by one finite Turing machine in a</span></td></tr>
+<tr id="L28" class="statement-line line-proven line-comment"><td class="line-num"><a href="#L28">28</a></td><td class="line-code"><span style="color:#6A737D">fixed polynomial of the input bit-size plus `t`. -/</span></td></tr>
 <tr id="L29" class="statement-line line-proven"><td class="line-num"><a href="#L29">29</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> ramInTime_to_turingInPolynomialOverhead</span></td></tr>
 <tr id="L30" class="statement-line line-proven"><td class="line-num"><a href="#L30">30</a></td><td class="line-code"><span style="color:#24292E">    (p : </span><a class="lean-identifier-link" href="../lax-13/Lax13.Ram.html#L181"><span style="color:#24292E">Program</span></a><span style="color:#24292E">) (wordBound : Polynomial ℕ) :</span></td></tr>
 <tr id="L31" class="statement-line line-proven"><td class="line-num"><a href="#L31">31</a></td><td class="line-code"><span style="color:#24292E">    ∃ (H : TM2ComputableAux </span><a class="lean-identifier-link" href="../lax-51/Lax51.BinaryWordEncoding.html#L24"><span style="color:#24292E">Symbol</span></a><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-51/Lax51.BinaryWordEncoding.html#L24"><span style="color:#24292E">Symbol</span></a><span style="color:#24292E">)</span></td></tr>
@@ -278,7 +278,7 @@ the bits of every RAM word.</p>
 <script src="../assets/sidebar.js?v=0d92141eab56"></script>
 <script src="../assets/account.js?v=6a0844f8bd00"></script>
 <script src="../assets/graph-interaction.js?v=4f12c6eaf4ff"></script>
-<script src="../assets/source-proof.js?v=b4c48aaad400"></script>
+<script src="../assets/source-proof.js?v=c61006f1e018"></script>
 <script src="../assets/version-history.js?v=a36e868140dd"></script>
 <script src="../assets/comments.js?v=40723213c083"></script>
 </body></html>

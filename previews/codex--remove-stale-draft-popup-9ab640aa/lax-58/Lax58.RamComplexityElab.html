@@ -9,7 +9,7 @@
 <link rel="canonical" href="https://laxarchive.org/lax-58/Lax58.RamComplexityElab.html">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=4d6294d8f522">
+<link rel="stylesheet" href="../assets/style.css?v=7519c5df2cf1">
 </head><body>
 <header class="site-header with-sidebar">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="true" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -156,27 +156,27 @@ uses exactly the same input resolver as <span class="katex"><span class="katex-m
 
 <h3 class="figure-title">Lean source <a class="source-link" href="https://github.com/szymtor/lax58/blob/83d795f06ae20b48ceed34a9f1284975d305b9c4/concepts/Lax58/RamComplexityElab.lean">view on GitHub</a></h3>
 <div class="block block-lean">
-<div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<div class="inline-contract-shell"><button class="comment-toggle" type="button" aria-pressed="false" aria-label="Hide comments">Hide comments</button><div class="inline-contract-wrap"><table class="inline-contract-table">
 <tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-58/Lax58.CertifiedDerivationElab.html"><span style="color:#24292E">Lax58.CertifiedDerivationElab</span></a></td></tr>
 <tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-58/Lax58.RamComplexity.html"><span style="color:#24292E">Lax58.RamComplexity</span></a></td></tr>
 <tr id="L3" class=""><td class="line-num"><a href="#L3">3</a></td><td class="line-code"> </td></tr>
-<tr id="L4" class=""><td class="line-num"><a href="#L4">4</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
-<tr id="L5" class=""><td class="line-num"><a href="#L5">5</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
-<tr id="L6" class=""><td class="line-num"><a href="#L6">6</a></td><td class="line-code"><span style="color:#6A737D">title: Automatic RAM encoding selection (elaboration infrastructure)</span></td></tr>
-<tr id="L7" class=""><td class="line-num"><a href="#L7">7</a></td><td class="line-code"><span style="color:#6A737D">type: elaboration infrastructure</span></td></tr>
-<tr id="L8" class=""><td class="line-num"><a href="#L8">8</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
-<tr id="L9" class=""><td class="line-num"><a href="#L9">9</a></td><td class="line-code"> </td></tr>
-<tr id="L10" class=""><td class="line-num"><a href="#L10">10</a></td><td class="line-code"><span style="color:#6A737D">This thin frontend expands a mathematical function and two resource bounds</span></td></tr>
-<tr id="L11" class=""><td class="line-num"><a href="#L11">11</a></td><td class="line-code"><span style="color:#6A737D">into the encoding-explicit RAM predicate. It reuses the closed constructor</span></td></tr>
-<tr id="L12" class=""><td class="line-num"><a href="#L12">12</a></td><td class="line-code"><span style="color:#6A737D">registry, adding only the fixed list and product presentation combinators.</span></td></tr>
-<tr id="L13" class=""><td class="line-num"><a href="#L13">13</a></td><td class="line-code"><span style="color:#6A737D">Subtypes erase proofs and finite families keep their intrinsic order.</span></td></tr>
-<tr id="L14" class=""><td class="line-num"><a href="#L14">14</a></td><td class="line-code"><span style="color:#6A737D">No presentation instances, arbitrary field encoders, or caller-supplied</span></td></tr>
-<tr id="L15" class=""><td class="line-num"><a href="#L15">15</a></td><td class="line-code"><span style="color:#6A737D">agreement witnesses participate in resolution.</span></td></tr>
-<tr id="L16" class=""><td class="line-num"><a href="#L16">16</a></td><td class="line-code"> </td></tr>
-<tr id="L17" class=""><td class="line-num"><a href="#L17">17</a></td><td class="line-code"><span style="color:#6A737D">Natural and Boolean outputs have fixed one-word conventions. All other</span></td></tr>
-<tr id="L18" class=""><td class="line-num"><a href="#L18">18</a></td><td class="line-code"><span style="color:#6A737D">supported outputs use the selected structural arena. `inputMagnitude x`</span></td></tr>
-<tr id="L19" class=""><td class="line-num"><a href="#L19">19</a></td><td class="line-code"><span style="color:#6A737D">uses exactly the same input resolver as `RamComputableWithin`.</span></td></tr>
-<tr id="L20" class=""><td class="line-num"><a href="#L20">20</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
+<tr id="L4" class="line-comment"><td class="line-num"><a href="#L4">4</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
+<tr id="L5" class="line-comment"><td class="line-num"><a href="#L5">5</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
+<tr id="L6" class="line-comment"><td class="line-num"><a href="#L6">6</a></td><td class="line-code"><span style="color:#6A737D">title: Automatic RAM encoding selection (elaboration infrastructure)</span></td></tr>
+<tr id="L7" class="line-comment"><td class="line-num"><a href="#L7">7</a></td><td class="line-code"><span style="color:#6A737D">type: elaboration infrastructure</span></td></tr>
+<tr id="L8" class="line-comment"><td class="line-num"><a href="#L8">8</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
+<tr id="L9" class="line-comment"><td class="line-num"><a href="#L9">9</a></td><td class="line-code"> </td></tr>
+<tr id="L10" class="line-comment"><td class="line-num"><a href="#L10">10</a></td><td class="line-code"><span style="color:#6A737D">This thin frontend expands a mathematical function and two resource bounds</span></td></tr>
+<tr id="L11" class="line-comment"><td class="line-num"><a href="#L11">11</a></td><td class="line-code"><span style="color:#6A737D">into the encoding-explicit RAM predicate. It reuses the closed constructor</span></td></tr>
+<tr id="L12" class="line-comment"><td class="line-num"><a href="#L12">12</a></td><td class="line-code"><span style="color:#6A737D">registry, adding only the fixed list and product presentation combinators.</span></td></tr>
+<tr id="L13" class="line-comment"><td class="line-num"><a href="#L13">13</a></td><td class="line-code"><span style="color:#6A737D">Subtypes erase proofs and finite families keep their intrinsic order.</span></td></tr>
+<tr id="L14" class="line-comment"><td class="line-num"><a href="#L14">14</a></td><td class="line-code"><span style="color:#6A737D">No presentation instances, arbitrary field encoders, or caller-supplied</span></td></tr>
+<tr id="L15" class="line-comment"><td class="line-num"><a href="#L15">15</a></td><td class="line-code"><span style="color:#6A737D">agreement witnesses participate in resolution.</span></td></tr>
+<tr id="L16" class="line-comment"><td class="line-num"><a href="#L16">16</a></td><td class="line-code"> </td></tr>
+<tr id="L17" class="line-comment"><td class="line-num"><a href="#L17">17</a></td><td class="line-code"><span style="color:#6A737D">Natural and Boolean outputs have fixed one-word conventions. All other</span></td></tr>
+<tr id="L18" class="line-comment"><td class="line-num"><a href="#L18">18</a></td><td class="line-code"><span style="color:#6A737D">supported outputs use the selected structural arena. `inputMagnitude x`</span></td></tr>
+<tr id="L19" class="line-comment"><td class="line-num"><a href="#L19">19</a></td><td class="line-code"><span style="color:#6A737D">uses exactly the same input resolver as `RamComputableWithin`.</span></td></tr>
+<tr id="L20" class="line-comment"><td class="line-num"><a href="#L20">20</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
 <tr id="L21" class=""><td class="line-num"><a href="#L21">21</a></td><td class="line-code"> </td></tr>
 <tr id="L22" class=""><td class="line-num"><a href="#L22">22</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax58.RamComplexityElab</span></td></tr>
 <tr id="L23" class=""><td class="line-num"><a href="#L23">23</a></td><td class="line-code"> </td></tr>
@@ -194,13 +194,13 @@ uses exactly the same input resolver as <span class="katex"><span class="katex-m
 <tr id="L35" class=""><td class="line-num"><a href="#L35">35</a></td><td class="line-code"><span style="color:#24292E">    (raw : (i : Fin n) → α i → </span><a class="lean-identifier-link" href="../lax-58/Lax58.StructuralPresentation.html#L27"><span style="color:#24292E">Raw</span></a><span style="color:#24292E">) (x : (i : Fin n) → α i) : </span><a class="lean-identifier-link" href="../lax-58/Lax58.StructuralPresentation.html#L27"><span style="color:#24292E">Raw</span></a><span style="color:#24292E"> :=</span></td></tr>
 <tr id="L36" class=""><td class="line-num"><a href="#L36">36</a></td><td class="line-code"><span style="color:#24292E">  </span><a class="lean-identifier-link" href="../lax-58/Lax58.StructuralCombinators.html#L41"><span style="color:#24292E">Raw.fields</span></a><span style="color:#24292E"> (List.ofFn </span><span style="color:#D73A49">fun</span><span style="color:#24292E"> i =&gt; raw i (x i))</span></td></tr>
 <tr id="L37" class=""><td class="line-num"><a href="#L37">37</a></td><td class="line-code"> </td></tr>
-<tr id="L38" class=""><td class="line-num"><a href="#L38">38</a></td><td class="line-code"><span style="color:#6A737D">/-- Resolve expressions, never pretty-printed syntax or typeclass instances. -/</span></td></tr>
+<tr id="L38" class="line-comment"><td class="line-num"><a href="#L38">38</a></td><td class="line-code"><span style="color:#6A737D">/-- Resolve expressions, never pretty-printed syntax or typeclass instances. -/</span></td></tr>
 <tr id="L39" class=""><td class="line-num"><a href="#L39">39</a></td><td class="line-code"><span style="color:#D73A49">private</span><span style="color:#D73A49"> partial</span><span style="color:#D73A49"> def</span><span style="color:#6F42C1"> resolveInput</span><span style="color:#24292E"> (type : Expr) : TermElabM Expr := </span><span style="color:#D73A49">do</span></td></tr>
 <tr id="L40" class=""><td class="line-num"><a href="#L40">40</a></td><td class="line-code"><span style="color:#D73A49">  let</span><span style="color:#24292E"> type ← instantiateMVars type</span></td></tr>
 <tr id="L41" class=""><td class="line-num"><a href="#L41">41</a></td><td class="line-code"><span style="color:#D73A49">  let</span><span style="color:#24292E"> type ← instantiateMVars (← whnf type)</span></td></tr>
 <tr id="L42" class=""><td class="line-num"><a href="#L42">42</a></td><td class="line-code"><span style="color:#D73A49">  if</span><span style="color:#24292E"> type.hasExprMVar </span><span style="color:#D73A49">then</span></td></tr>
-<tr id="L43" class=""><td class="line-num"><a href="#L43">43</a></td><td class="line-code"><span style="color:#24292E">    -- Binder-</span><span style="color:#D73A49">local</span><span style="color:#24292E"> numeral/typeclass constraints may be solved only after</span></td></tr>
-<tr id="L44" class=""><td class="line-num"><a href="#L44">44</a></td><td class="line-code"><span style="color:#24292E">    -- the surrounding declaration has finished elaborating its signature.</span></td></tr>
+<tr id="L43" class="line-comment"><td class="line-num"><a href="#L43">43</a></td><td class="line-code"><span style="color:#24292E">    -- Binder-</span><span style="color:#D73A49">local</span><span style="color:#24292E"> numeral/typeclass constraints may be solved only after</span></td></tr>
+<tr id="L44" class="line-comment"><td class="line-num"><a href="#L44">44</a></td><td class="line-code"><span style="color:#24292E">    -- the surrounding declaration has finished elaborating its signature.</span></td></tr>
 <tr id="L45" class=""><td class="line-num"><a href="#L45">45</a></td><td class="line-code"><span style="color:#24292E">    tryPostpone</span></td></tr>
 <tr id="L46" class=""><td class="line-num"><a href="#L46">46</a></td><td class="line-code"><span style="color:#D73A49">    throwError</span><span style="color:#032F62"> &quot;RAM encoding selection needs a fully determined input/output type, got {type}&quot;</span></td></tr>
 <tr id="L47" class=""><td class="line-num"><a href="#L47">47</a></td><td class="line-code"><span style="color:#D73A49">  if</span><span style="color:#24292E"> type.isConstOf ``Nat </span><span style="color:#D73A49">then</span></td></tr>
@@ -317,7 +317,7 @@ uses exactly the same input resolver as <span class="katex"><span class="katex-m
 <script src="../assets/sidebar.js?v=0d92141eab56"></script>
 <script src="../assets/account.js?v=6a0844f8bd00"></script>
 <script src="../assets/graph-interaction.js?v=4f12c6eaf4ff"></script>
-<script src="../assets/source-proof.js?v=b4c48aaad400"></script>
+<script src="../assets/source-proof.js?v=c61006f1e018"></script>
 <script src="../assets/version-history.js?v=a36e868140dd"></script>
 <script src="../assets/comments.js?v=40723213c083"></script>
 </body></html>

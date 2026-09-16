@@ -9,7 +9,7 @@
 <link rel="canonical" href="https://laxarchive.org/lax-560851/Lax560851.CertifiedDerivationElab.html">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=4d6294d8f522">
+<link rel="stylesheet" href="../assets/style.css?v=7519c5df2cf1">
 </head><body>
 <header class="site-header with-sidebar">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="true" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -163,37 +163,37 @@ not hide the implementation or introduce a new archive module category.</p>
 
 <h3 class="figure-title">Lean source <a class="source-link" href="https://github.com/szymtor/lax58/blob/2748fdc0afc0b4f729b7775ca6475ba08129418a/concepts/Lax560851/CertifiedDerivationElab.lean">view on GitHub</a></h3>
 <div class="block block-lean">
-<div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<div class="inline-contract-shell"><button class="comment-toggle" type="button" aria-pressed="false" aria-label="Hide comments">Hide comments</button><div class="inline-contract-wrap"><table class="inline-contract-table">
 <tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Lean</span></td></tr>
 <tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-560851/Lax560851.CertifiedDerivation.html"><span style="color:#24292E">Lax560851.CertifiedDerivation</span></a></td></tr>
 <tr id="L3" class=""><td class="line-num"><a href="#L3">3</a></td><td class="line-code"> </td></tr>
-<tr id="L4" class=""><td class="line-num"><a href="#L4">4</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
-<tr id="L5" class=""><td class="line-num"><a href="#L5">5</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
-<tr id="L6" class=""><td class="line-num"><a href="#L6">6</a></td><td class="line-code"><span style="color:#6A737D">title: Certified encoding derivation (elaboration infrastructure)</span></td></tr>
-<tr id="L7" class=""><td class="line-num"><a href="#L7">7</a></td><td class="line-code"><span style="color:#6A737D">type: elaboration infrastructure</span></td></tr>
-<tr id="L8" class=""><td class="line-num"><a href="#L8">8</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
-<tr id="L9" class=""><td class="line-num"><a href="#L9">9</a></td><td class="line-code"> </td></tr>
-<tr id="L10" class=""><td class="line-num"><a href="#L10">10</a></td><td class="line-code"><span style="color:#6A737D">This module implements `derive_certified_encoding`; it is tooling, not a</span></td></tr>
-<tr id="L11" class=""><td class="line-num"><a href="#L11">11</a></td><td class="line-code"><span style="color:#6A737D">mathematical definition of advice-freedom. The mathematical vocabulary is in</span></td></tr>
-<tr id="L12" class=""><td class="line-num"><a href="#L12">12</a></td><td class="line-code"><span style="color:#6A737D">`StructuralPresentation` and `StructuralCombinators`. The small agreement</span></td></tr>
-<tr id="L13" class=""><td class="line-num"><a href="#L13">13</a></td><td class="line-code"><span style="color:#6A737D">record and its field operations are in `CertifiedDerivation`.</span></td></tr>
-<tr id="L14" class=""><td class="line-num"><a href="#L14">14</a></td><td class="line-code"> </td></tr>
-<tr id="L15" class=""><td class="line-num"><a href="#L15">15</a></td><td class="line-code"><span style="color:#6A737D">The command inspects the actual constructors and generates an encoder, its</span></td></tr>
-<tr id="L16" class=""><td class="line-num"><a href="#L16">16</a></td><td class="line-code"><span style="color:#6A737D">complete `.Laws`, and its checked `.certified` witness together. Field</span></td></tr>
-<tr id="L17" class=""><td class="line-num"><a href="#L17">17</a></td><td class="line-code"><span style="color:#6A737D">resolution is closed: Nat, Fin, proof-erased subtypes, finite families, direct</span></td></tr>
-<tr id="L18" class=""><td class="line-num"><a href="#L18">18</a></td><td class="line-code"><span style="color:#6A737D">recursive children, and earlier successful constructor derivations only.</span></td></tr>
-<tr id="L19" class=""><td class="line-num"><a href="#L19">19</a></td><td class="line-code"><span style="color:#6A737D">Unsupported fields fail, and a failed command rolls back its declarations.</span></td></tr>
-<tr id="L20" class=""><td class="line-num"><a href="#L20">20</a></td><td class="line-code"> </td></tr>
-<tr id="L21" class=""><td class="line-num"><a href="#L21">21</a></td><td class="line-code"><span style="color:#6A737D">The private registry records successful command outputs; it never consumes</span></td></tr>
-<tr id="L22" class=""><td class="line-num"><a href="#L22">22</a></td><td class="line-code"><span style="color:#6A737D">arbitrary agreement values or `FieldEncoding` instances. The generator</span></td></tr>
-<tr id="L23" class=""><td class="line-num"><a href="#L23">23</a></td><td class="line-code"><span style="color:#6A737D">establishes correspondence with the source declaration, while Lean's kernel</span></td></tr>
-<tr id="L24" class=""><td class="line-num"><a href="#L24">24</a></td><td class="line-code"><span style="color:#6A737D">checks the expanded equations and proofs. Importing this tooling does not</span></td></tr>
-<tr id="L25" class=""><td class="line-num"><a href="#L25">25</a></td><td class="line-code"><span style="color:#6A737D">make arbitrary encoders certified.</span></td></tr>
-<tr id="L26" class=""><td class="line-num"><a href="#L26">26</a></td><td class="line-code"> </td></tr>
-<tr id="L27" class=""><td class="line-num"><a href="#L27">27</a></td><td class="line-code"><span style="color:#6A737D">Lax currently classifies every non-root concept-package module as a concept.</span></td></tr>
-<tr id="L28" class=""><td class="line-num"><a href="#L28">28</a></td><td class="line-code"><span style="color:#6A737D">The infrastructure label makes this packaging constraint explicit; it does</span></td></tr>
-<tr id="L29" class=""><td class="line-num"><a href="#L29">29</a></td><td class="line-code"><span style="color:#6A737D">not hide the implementation or introduce a new archive module category.</span></td></tr>
-<tr id="L30" class=""><td class="line-num"><a href="#L30">30</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
+<tr id="L4" class="line-comment"><td class="line-num"><a href="#L4">4</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
+<tr id="L5" class="line-comment"><td class="line-num"><a href="#L5">5</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
+<tr id="L6" class="line-comment"><td class="line-num"><a href="#L6">6</a></td><td class="line-code"><span style="color:#6A737D">title: Certified encoding derivation (elaboration infrastructure)</span></td></tr>
+<tr id="L7" class="line-comment"><td class="line-num"><a href="#L7">7</a></td><td class="line-code"><span style="color:#6A737D">type: elaboration infrastructure</span></td></tr>
+<tr id="L8" class="line-comment"><td class="line-num"><a href="#L8">8</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
+<tr id="L9" class="line-comment"><td class="line-num"><a href="#L9">9</a></td><td class="line-code"> </td></tr>
+<tr id="L10" class="line-comment"><td class="line-num"><a href="#L10">10</a></td><td class="line-code"><span style="color:#6A737D">This module implements `derive_certified_encoding`; it is tooling, not a</span></td></tr>
+<tr id="L11" class="line-comment"><td class="line-num"><a href="#L11">11</a></td><td class="line-code"><span style="color:#6A737D">mathematical definition of advice-freedom. The mathematical vocabulary is in</span></td></tr>
+<tr id="L12" class="line-comment"><td class="line-num"><a href="#L12">12</a></td><td class="line-code"><span style="color:#6A737D">`StructuralPresentation` and `StructuralCombinators`. The small agreement</span></td></tr>
+<tr id="L13" class="line-comment"><td class="line-num"><a href="#L13">13</a></td><td class="line-code"><span style="color:#6A737D">record and its field operations are in `CertifiedDerivation`.</span></td></tr>
+<tr id="L14" class="line-comment"><td class="line-num"><a href="#L14">14</a></td><td class="line-code"> </td></tr>
+<tr id="L15" class="line-comment"><td class="line-num"><a href="#L15">15</a></td><td class="line-code"><span style="color:#6A737D">The command inspects the actual constructors and generates an encoder, its</span></td></tr>
+<tr id="L16" class="line-comment"><td class="line-num"><a href="#L16">16</a></td><td class="line-code"><span style="color:#6A737D">complete `.Laws`, and its checked `.certified` witness together. Field</span></td></tr>
+<tr id="L17" class="line-comment"><td class="line-num"><a href="#L17">17</a></td><td class="line-code"><span style="color:#6A737D">resolution is closed: Nat, Fin, proof-erased subtypes, finite families, direct</span></td></tr>
+<tr id="L18" class="line-comment"><td class="line-num"><a href="#L18">18</a></td><td class="line-code"><span style="color:#6A737D">recursive children, and earlier successful constructor derivations only.</span></td></tr>
+<tr id="L19" class="line-comment"><td class="line-num"><a href="#L19">19</a></td><td class="line-code"><span style="color:#6A737D">Unsupported fields fail, and a failed command rolls back its declarations.</span></td></tr>
+<tr id="L20" class="line-comment"><td class="line-num"><a href="#L20">20</a></td><td class="line-code"> </td></tr>
+<tr id="L21" class="line-comment"><td class="line-num"><a href="#L21">21</a></td><td class="line-code"><span style="color:#6A737D">The private registry records successful command outputs; it never consumes</span></td></tr>
+<tr id="L22" class="line-comment"><td class="line-num"><a href="#L22">22</a></td><td class="line-code"><span style="color:#6A737D">arbitrary agreement values or `FieldEncoding` instances. The generator</span></td></tr>
+<tr id="L23" class="line-comment"><td class="line-num"><a href="#L23">23</a></td><td class="line-code"><span style="color:#6A737D">establishes correspondence with the source declaration, while Lean's kernel</span></td></tr>
+<tr id="L24" class="line-comment"><td class="line-num"><a href="#L24">24</a></td><td class="line-code"><span style="color:#6A737D">checks the expanded equations and proofs. Importing this tooling does not</span></td></tr>
+<tr id="L25" class="line-comment"><td class="line-num"><a href="#L25">25</a></td><td class="line-code"><span style="color:#6A737D">make arbitrary encoders certified.</span></td></tr>
+<tr id="L26" class="line-comment"><td class="line-num"><a href="#L26">26</a></td><td class="line-code"> </td></tr>
+<tr id="L27" class="line-comment"><td class="line-num"><a href="#L27">27</a></td><td class="line-code"><span style="color:#6A737D">Lax currently classifies every non-root concept-package module as a concept.</span></td></tr>
+<tr id="L28" class="line-comment"><td class="line-num"><a href="#L28">28</a></td><td class="line-code"><span style="color:#6A737D">The infrastructure label makes this packaging constraint explicit; it does</span></td></tr>
+<tr id="L29" class="line-comment"><td class="line-num"><a href="#L29">29</a></td><td class="line-code"><span style="color:#6A737D">not hide the implementation or introduce a new archive module category.</span></td></tr>
+<tr id="L30" class="line-comment"><td class="line-num"><a href="#L30">30</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
 <tr id="L31" class=""><td class="line-num"><a href="#L31">31</a></td><td class="line-code"> </td></tr>
 <tr id="L32" class=""><td class="line-num"><a href="#L32">32</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax560851.CertifiedDerivationElab</span></td></tr>
 <tr id="L33" class=""><td class="line-num"><a href="#L33">33</a></td><td class="line-code"> </td></tr>
@@ -208,8 +208,8 @@ not hide the implementation or introduce a new archive module category.</p>
 <tr id="L42" class=""><td class="line-num"><a href="#L42">42</a></td><td class="line-code"><span style="color:#24292E">    addEntryFn := Array.push</span></td></tr>
 <tr id="L43" class=""><td class="line-num"><a href="#L43">43</a></td><td class="line-code"><span style="color:#24292E">    addImportedFn := </span><span style="color:#D73A49">fun</span><span style="color:#24292E"> entries =&gt; entries.foldl (· ++ ·) #[] }</span></td></tr>
 <tr id="L44" class=""><td class="line-num"><a href="#L44">44</a></td><td class="line-code"> </td></tr>
-<tr id="L45" class=""><td class="line-num"><a href="#L45">45</a></td><td class="line-code"><span style="color:#6A737D">/-- Resolve only fixed primitives or a witness generated by this module's</span></td></tr>
-<tr id="L46" class=""><td class="line-num"><a href="#L46">46</a></td><td class="line-code"><span style="color:#6A737D">command. In particular, neither `FieldEncoding` nor user instances are read. -/</span></td></tr>
+<tr id="L45" class="line-comment"><td class="line-num"><a href="#L45">45</a></td><td class="line-code"><span style="color:#6A737D">/-- Resolve only fixed primitives or a witness generated by this module's</span></td></tr>
+<tr id="L46" class="line-comment"><td class="line-num"><a href="#L46">46</a></td><td class="line-code"><span style="color:#6A737D">command. In particular, neither `FieldEncoding` nor user instances are read. -/</span></td></tr>
 <tr id="L47" class=""><td class="line-num"><a href="#L47">47</a></td><td class="line-code"><span style="color:#D73A49">private</span><span style="color:#D73A49"> partial</span><span style="color:#D73A49"> def</span><span style="color:#6F42C1"> certifiedField</span><span style="color:#24292E"> (type : Expr) : TermElabM Expr := </span><span style="color:#D73A49">do</span></td></tr>
 <tr id="L48" class=""><td class="line-num"><a href="#L48">48</a></td><td class="line-code"><span style="color:#D73A49">  let</span><span style="color:#24292E"> type ← whnf type</span></td></tr>
 <tr id="L49" class=""><td class="line-num"><a href="#L49">49</a></td><td class="line-code"><span style="color:#D73A49">  if</span><span style="color:#24292E"> type.isConstOf ``Nat </span><span style="color:#D73A49">then</span></td></tr>
@@ -238,8 +238,8 @@ not hide the implementation or introduce a new archive module category.</p>
 <tr id="L72" class=""><td class="line-num"><a href="#L72">72</a></td><td class="line-code"><span style="color:#24292E">    saved.restore</span></td></tr>
 <tr id="L73" class=""><td class="line-num"><a href="#L73">73</a></td><td class="line-code"><span style="color:#D73A49">  throwError</span><span style="color:#032F62"> &quot;unsupported certified field type {type}; expected Nat, Fin, a proof-erased subtype, a finite family, or an earlier constructor-certified datatype&quot;</span></td></tr>
 <tr id="L74" class=""><td class="line-num"><a href="#L74">74</a></td><td class="line-code"> </td></tr>
-<tr id="L75" class=""><td class="line-num"><a href="#L75">75</a></td><td class="line-code"><span style="color:#6A737D">/-- Read-only access to the closed field resolver for other elaborators.</span></td></tr>
-<tr id="L76" class=""><td class="line-num"><a href="#L76">76</a></td><td class="line-code"><span style="color:#6A737D">This does not register encoders or consume caller-supplied agreement values. -/</span></td></tr>
+<tr id="L75" class="line-comment"><td class="line-num"><a href="#L75">75</a></td><td class="line-code"><span style="color:#6A737D">/-- Read-only access to the closed field resolver for other elaborators.</span></td></tr>
+<tr id="L76" class="line-comment"><td class="line-num"><a href="#L76">76</a></td><td class="line-code"><span style="color:#6A737D">This does not register encoders or consume caller-supplied agreement values. -/</span></td></tr>
 <tr id="L77" class=""><td class="line-num"><a href="#L77">77</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> resolveCertifiedField</span><span style="color:#24292E"> (type : Expr) : TermElabM Expr :=</span></td></tr>
 <tr id="L78" class=""><td class="line-num"><a href="#L78">78</a></td><td class="line-code"><span style="color:#24292E">  </span><a class="lean-identifier-link" href="../lax-560851/Lax560851.CertifiedDerivationElab.html#L45"><span style="color:#24292E">certifiedField</span></a><span style="color:#24292E"> type</span></td></tr>
 <tr id="L79" class=""><td class="line-num"><a href="#L79">79</a></td><td class="line-code"> </td></tr>
@@ -270,8 +270,8 @@ not hide the implementation or introduce a new archive module category.</p>
 <tr id="L104" class=""><td class="line-num"><a href="#L104">104</a></td><td class="line-code"><span style="color:#D73A49">        let</span><span style="color:#24292E"> name := mkIdent decl.userName</span></td></tr>
 <tr id="L105" class=""><td class="line-num"><a href="#L105">105</a></td><td class="line-code"><span style="color:#24292E">        patterns := patterns.push name</span></td></tr>
 <tr id="L106" class=""><td class="line-num"><a href="#L106">106</a></td><td class="line-code"><span style="color:#24292E">        fields := fields.push (name, decl.type, decl.binderInfo)</span></td></tr>
-<tr id="L107" class=""><td class="line-num"><a href="#L107">107</a></td><td class="line-code"><span style="color:#24292E">      -- An actually empty field eliminates its whole constructor. This handles</span></td></tr>
-<tr id="L108" class=""><td class="line-num"><a href="#L108">108</a></td><td class="line-code"><span style="color:#24292E">      -- function-free first-order languages without accepting a user IsEmpty.</span></td></tr>
+<tr id="L107" class="line-comment"><td class="line-num"><a href="#L107">107</a></td><td class="line-code"><span style="color:#24292E">      -- An actually empty field eliminates its whole constructor. This handles</span></td></tr>
+<tr id="L108" class="line-comment"><td class="line-num"><a href="#L108">108</a></td><td class="line-code"><span style="color:#24292E">      -- function-free first-order languages without accepting a user IsEmpty.</span></td></tr>
 <tr id="L109" class=""><td class="line-num"><a href="#L109">109</a></td><td class="line-code"><span style="color:#D73A49">      for</span><span style="color:#24292E"> (name, type, _) </span><span style="color:#D73A49">in</span><span style="color:#24292E"> fields </span><span style="color:#D73A49">do</span></td></tr>
 <tr id="L110" class=""><td class="line-num"><a href="#L110">110</a></td><td class="line-code"><span style="color:#D73A49">        let</span><span style="color:#24292E"> type ← whnf type</span></td></tr>
 <tr id="L111" class=""><td class="line-num"><a href="#L111">111</a></td><td class="line-code"><span style="color:#D73A49">        if</span><span style="color:#D73A49"> let</span><span style="color:#24292E"> .const emptyName _ := type.getAppFn </span><span style="color:#D73A49">then</span></td></tr>
@@ -282,8 +282,8 @@ not hide the implementation or introduce a new archive module category.</p>
 <tr id="L116" class=""><td class="line-num"><a href="#L116">116</a></td><td class="line-code"><span style="color:#D73A49">      let</span><span style="color:#D73A49"> mut</span><span style="color:#24292E"> encoded : TSyntax `term ← `([])</span></td></tr>
 <tr id="L117" class=""><td class="line-num"><a href="#L117">117</a></td><td class="line-code"><span style="color:#D73A49">      for</span><span style="color:#24292E"> (name, type, bi) </span><span style="color:#D73A49">in</span><span style="color:#24292E"> fields.reverse </span><span style="color:#D73A49">do</span></td></tr>
 <tr id="L118" class=""><td class="line-num"><a href="#L118">118</a></td><td class="line-code"><span style="color:#D73A49">        if</span><span style="color:#24292E"> ← isProp type </span><span style="color:#D73A49">then</span><span style="color:#D73A49"> continue</span></td></tr>
-<tr id="L119" class=""><td class="line-num"><a href="#L119">119</a></td><td class="line-code"><span style="color:#24292E">        -- Implicit fields must still pass validation. Only intrinsic indices</span></td></tr>
-<tr id="L120" class=""><td class="line-num"><a href="#L120">120</a></td><td class="line-code"><span style="color:#24292E">        -- (Nat/Fin </span><span style="color:#D73A49">in</span><span style="color:#24292E"> the present supported </span><span style="color:#D73A49">syntax</span><span style="color:#24292E">) are erased.</span></td></tr>
+<tr id="L119" class="line-comment"><td class="line-num"><a href="#L119">119</a></td><td class="line-code"><span style="color:#24292E">        -- Implicit fields must still pass validation. Only intrinsic indices</span></td></tr>
+<tr id="L120" class="line-comment"><td class="line-num"><a href="#L120">120</a></td><td class="line-code"><span style="color:#24292E">        -- (Nat/Fin </span><span style="color:#D73A49">in</span><span style="color:#24292E"> the present supported </span><span style="color:#D73A49">syntax</span><span style="color:#24292E">) are erased.</span></td></tr>
 <tr id="L121" class=""><td class="line-num"><a href="#L121">121</a></td><td class="line-code"><span style="color:#D73A49">        if</span><span style="color:#24292E"> !bi.isExplicit </span><span style="color:#D73A49">then</span></td></tr>
 <tr id="L122" class=""><td class="line-num"><a href="#L122">122</a></td><td class="line-code"><span style="color:#D73A49">          let</span><span style="color:#24292E"> normalized ← whnf type</span></td></tr>
 <tr id="L123" class=""><td class="line-num"><a href="#L123">123</a></td><td class="line-code"><span style="color:#D73A49">          unless</span><span style="color:#24292E"> normalized.isConstOf ``Nat || normalized.isAppOfArity ``Fin </span><span style="color:#005CC5">1</span><span style="color:#D73A49"> do</span></td></tr>
@@ -305,9 +305,9 @@ not hide the implementation or introduce a new archive module category.</p>
 <tr id="L139" class=""><td class="line-num"><a href="#L139">139</a></td><td class="line-code"><span style="color:#D73A49">              continue</span></td></tr>
 <tr id="L140" class=""><td class="line-num"><a href="#L140">140</a></td><td class="line-code"><span style="color:#D73A49">          let</span><span style="color:#24292E"> witness ← </span><span style="color:#D73A49">try</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-560851/Lax560851.CertifiedDerivationElab.html#L45"><span style="color:#24292E">certifiedField</span></a><span style="color:#24292E"> type </span><span style="color:#D73A49">catch</span><span style="color:#24292E"> ex =&gt;</span></td></tr>
 <tr id="L141" class=""><td class="line-num"><a href="#L141">141</a></td><td class="line-code"><span style="color:#D73A49">            throwError</span><span style="color:#032F62"> &quot;{constructorName}, field {name}: {ex.toMessageData}&quot;</span></td></tr>
-<tr id="L142" class=""><td class="line-num"><a href="#L142">142</a></td><td class="line-code"><span style="color:#24292E">          -- Embed the checked expression itself, abstracting constructor locals</span></td></tr>
-<tr id="L143" class=""><td class="line-num"><a href="#L143">143</a></td><td class="line-code"><span style="color:#24292E">          -- before leaving their telescope. Pretty-printer round trips would</span></td></tr>
-<tr id="L144" class=""><td class="line-num"><a href="#L144">144</a></td><td class="line-code"><span style="color:#24292E">          -- </span><span style="color:#D73A49">let</span><span style="color:#24292E"> downstream delaborators change the selected witness.</span></td></tr>
+<tr id="L142" class="line-comment"><td class="line-num"><a href="#L142">142</a></td><td class="line-code"><span style="color:#24292E">          -- Embed the checked expression itself, abstracting constructor locals</span></td></tr>
+<tr id="L143" class="line-comment"><td class="line-num"><a href="#L143">143</a></td><td class="line-code"><span style="color:#24292E">          -- before leaving their telescope. Pretty-printer round trips would</span></td></tr>
+<tr id="L144" class="line-comment"><td class="line-num"><a href="#L144">144</a></td><td class="line-code"><span style="color:#24292E">          -- </span><span style="color:#D73A49">let</span><span style="color:#24292E"> downstream delaborators change the selected witness.</span></td></tr>
 <tr id="L145" class=""><td class="line-num"><a href="#L145">145</a></td><td class="line-code"><span style="color:#D73A49">          let</span><span style="color:#24292E"> witnessFunction ← exprToSyntax (</span><a class="lean-identifier-link" href="../lax-560851/Lax560851.CertifiedDerivationElab.html#L83"><span style="color:#24292E">explicitBinders</span></a><span style="color:#24292E"> (← mkLambdaFVars arguments witness))</span></td></tr>
 <tr id="L146" class=""><td class="line-num"><a href="#L146">146</a></td><td class="line-code"><span style="color:#D73A49">          let</span><span style="color:#24292E"> fieldNames : Array (TSyntax `term) := fields.map </span><span style="color:#D73A49">fun</span><span style="color:#24292E"> (id, _, _) =&gt; ⟨id.raw⟩</span></td></tr>
 <tr id="L147" class=""><td class="line-num"><a href="#L147">147</a></td><td class="line-code"><span style="color:#24292E">          encoded ← `((CertifiedFieldEncoding.toRaw</span></td></tr>
@@ -339,10 +339,10 @@ not hide the implementation or introduce a new archive module category.</p>
 <tr id="L173" class=""><td class="line-num"><a href="#L173">173</a></td><td class="line-code"><span style="color:#D73A49">  let</span><span style="color:#24292E"> alts ← alternativesFor (← inferType expr) recursiveCall</span></td></tr>
 <tr id="L174" class=""><td class="line-num"><a href="#L174">174</a></td><td class="line-code"><span style="color:#24292E">  elabTerm (← `(</span><span style="color:#D73A49">match</span><span style="color:#24292E"> $value:term </span><span style="color:#D73A49">with</span><span style="color:#24292E"> $alts:matchAlt*)) (some (mkConst ``Raw))</span></td></tr>
 <tr id="L175" class=""><td class="line-num"><a href="#L175">175</a></td><td class="line-code"> </td></tr>
-<tr id="L176" class=""><td class="line-num"><a href="#L176">176</a></td><td class="line-code"><span style="color:#6A737D">/-- Generate the encoder, `.Laws`, and `.certified`. Ordinary binders are</span></td></tr>
-<tr id="L177" class=""><td class="line-num"><a href="#L177">177</a></td><td class="line-code"><span style="color:#6A737D">fixed parameters; binders following `indexed` are intrinsic indices that</span></td></tr>
-<tr id="L178" class=""><td class="line-num"><a href="#L178">178</a></td><td class="line-code"><span style="color:#6A737D">recursive constructors may change. All generated names belong to the encoder.</span></td></tr>
-<tr id="L179" class=""><td class="line-num"><a href="#L179">179</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
+<tr id="L176" class="line-comment"><td class="line-num"><a href="#L176">176</a></td><td class="line-code"><span style="color:#6A737D">/-- Generate the encoder, `.Laws`, and `.certified`. Ordinary binders are</span></td></tr>
+<tr id="L177" class="line-comment"><td class="line-num"><a href="#L177">177</a></td><td class="line-code"><span style="color:#6A737D">fixed parameters; binders following `indexed` are intrinsic indices that</span></td></tr>
+<tr id="L178" class="line-comment"><td class="line-num"><a href="#L178">178</a></td><td class="line-code"><span style="color:#6A737D">recursive constructors may change. All generated names belong to the encoder.</span></td></tr>
+<tr id="L179" class="line-comment"><td class="line-num"><a href="#L179">179</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
 <tr id="L180" class=""><td class="line-num"><a href="#L180">180</a></td><td class="line-code"><span style="color:#D73A49">syntax</span><span style="color:#24292E"> (name := deriveCertifiedEncoding)</span></td></tr>
 <tr id="L181" class=""><td class="line-num"><a href="#L181">181</a></td><td class="line-code"><span style="color:#24292E">  (docComment)? </span><span style="color:#032F62">&quot;derive_certified_encoding &quot;</span><span style="color:#24292E"> ident bracketedBinder* </span><span style="color:#032F62">&quot; indexed &quot;</span><span style="color:#24292E"> bracketedBinder*</span></td></tr>
 <tr id="L182" class=""><td class="line-num"><a href="#L182">182</a></td><td class="line-code"><span style="color:#032F62">  &quot; : &quot;</span><span style="color:#24292E"> term : command</span></td></tr>
@@ -447,7 +447,7 @@ not hide the implementation or introduce a new archive module category.</p>
 <script src="../assets/sidebar.js?v=0d92141eab56"></script>
 <script src="../assets/account.js?v=6a0844f8bd00"></script>
 <script src="../assets/graph-interaction.js?v=4f12c6eaf4ff"></script>
-<script src="../assets/source-proof.js?v=b4c48aaad400"></script>
+<script src="../assets/source-proof.js?v=c61006f1e018"></script>
 <script src="../assets/version-history.js?v=a36e868140dd"></script>
 <script src="../assets/comments.js?v=40723213c083"></script>
 </body></html>

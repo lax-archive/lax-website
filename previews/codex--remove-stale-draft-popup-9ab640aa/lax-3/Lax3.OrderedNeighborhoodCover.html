@@ -9,7 +9,7 @@
 <link rel="canonical" href="https://laxarchive.org/lax-3/Lax3.OrderedNeighborhoodCover.html">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=4d6294d8f522">
+<link rel="stylesheet" href="../assets/style.css?v=7519c5df2cf1">
 </head><body>
 <header class="site-header with-sidebar">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="true" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -174,55 +174,55 @@ itself as the degree bound.</p>
 
 <h3 class="figure-title">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/0edafc2f901b154e5af13e5a27c2655d45733f36/nowhere-dense-model-checking/concepts/Lax3/OrderedNeighborhoodCover.lean">view on GitHub</a></h3>
 <div class="block block-lean">
-<div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<div class="inline-contract-shell"><button class="comment-toggle" type="button" aria-pressed="false" aria-label="Hide comments">Hide comments</button><div class="inline-contract-wrap"><table class="inline-contract-table">
 <tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-3/Lax3.NeighborhoodCovers.html"><span style="color:#24292E">Lax3.NeighborhoodCovers</span></a></td></tr>
 <tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-199508/Lax199508.ColoringNumbers.html"><span style="color:#24292E">Lax199508.ColoringNumbers</span></a></td></tr>
 <tr id="L3" class=""><td class="line-num"><a href="#L3">3</a></td><td class="line-code"> </td></tr>
-<tr id="L4" class=""><td class="line-num"><a href="#L4">4</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
-<tr id="L5" class=""><td class="line-num"><a href="#L5">5</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
-<tr id="L6" class=""><td class="line-num"><a href="#L6">6</a></td><td class="line-code"><span style="color:#6A737D">title: Neighborhood covers from vertex orderings</span></td></tr>
-<tr id="L7" class=""><td class="line-num"><a href="#L7">7</a></td><td class="line-code"><span style="color:#6A737D">type: theorem</span></td></tr>
-<tr id="L8" class=""><td class="line-num"><a href="#L8">8</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
-<tr id="L9" class=""><td class="line-num"><a href="#L9">9</a></td><td class="line-code"><span style="color:#6A737D">Any vertex ordering whose weak 2*r*-reachability sets have size at most</span></td></tr>
-<tr id="L10" class=""><td class="line-num"><a href="#L10">10</a></td><td class="line-code"><span style="color:#6A737D">*k* gives an *r*-neighborhood cover of radius 2*r* and degree at most</span></td></tr>
-<tr id="L11" class=""><td class="line-num"><a href="#L11">11</a></td><td class="line-code"><span style="color:#6A737D">*k*. The cluster of a vertex *u* consists of the vertices from which</span></td></tr>
-<tr id="L12" class=""><td class="line-num"><a href="#L12">12</a></td><td class="line-code"><span style="color:#6A737D">*u* is weakly 2*r*-reachable.</span></td></tr>
-<tr id="L13" class=""><td class="line-num"><a href="#L13">13</a></td><td class="line-code"> </td></tr>
-<tr id="L14" class=""><td class="line-num"><a href="#L14">14</a></td><td class="line-code"><span style="color:#6A737D">This is the arbitrary-order construction of Lemma 6.9 of</span></td></tr>
-<tr id="L15" class=""><td class="line-num"><a href="#L15">15</a></td><td class="line-code"><span style="color:#6A737D">Grohe–Kreutzer–Siebertz. The model-checking algorithm uses it for the</span></td></tr>
-<tr id="L16" class=""><td class="line-num"><a href="#L16">16</a></td><td class="line-code"><span style="color:#6A737D">ordering it computes. The companion theorem</span></td></tr>
-<tr id="L17" class=""><td class="line-num"><a href="#L17">17</a></td><td class="line-code"><span style="color:#6A737D">`Lax3.NeighborhoodCoverBound.exists_neighborhoodCover_degree_wcol`</span></td></tr>
-<tr id="L18" class=""><td class="line-num"><a href="#L18">18</a></td><td class="line-code"><span style="color:#6A737D">uses it for an optimal ordering, obtaining the weak coloring number</span></td></tr>
-<tr id="L19" class=""><td class="line-num"><a href="#L19">19</a></td><td class="line-code"><span style="color:#6A737D">itself as the degree bound.</span></td></tr>
-<tr id="L20" class=""><td class="line-num"><a href="#L20">20</a></td><td class="line-code"> </td></tr>
-<tr id="L21" class=""><td class="line-num"><a href="#L21">21</a></td><td class="line-code"><span style="color:#6A737D"># Formalization notes</span></td></tr>
-<tr id="L22" class=""><td class="line-num"><a href="#L22">22</a></td><td class="line-code"> </td></tr>
-<tr id="L23" class=""><td class="line-num"><a href="#L23">23</a></td><td class="line-code"><span style="color:#6A737D">The statement is per-graph and class-free, with the ordering `π` and</span></td></tr>
-<tr id="L24" class=""><td class="line-num"><a href="#L24">24</a></td><td class="line-code"><span style="color:#6A737D">bound `k` supplied explicitly. The cluster of `u` is</span></td></tr>
-<tr id="L25" class=""><td class="line-num"><a href="#L25">25</a></td><td class="line-code"><span style="color:#6A737D">`{w | u ∈ wreach G π (2r) w}`, using Lax199508's weak reachability sets.</span></td></tr>
-<tr id="L26" class=""><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span style="color:#6A737D">The hypothesis directly bounds the number of clusters containing a</span></td></tr>
-<tr id="L27" class=""><td class="line-num"><a href="#L27">27</a></td><td class="line-code"><span style="color:#6A737D">given vertex. The radius condition follows from reversing a weak</span></td></tr>
-<tr id="L28" class=""><td class="line-num"><a href="#L28">28</a></td><td class="line-code"><span style="color:#6A737D">reachability walk. For covering, choose a `π`-minimal vertex of an</span></td></tr>
-<tr id="L29" class=""><td class="line-num"><a href="#L29">29</a></td><td class="line-code"><span style="color:#6A737D">`r`-ball; every other vertex of the ball reaches it along a walk of</span></td></tr>
-<tr id="L30" class=""><td class="line-num"><a href="#L30">30</a></td><td class="line-code"><span style="color:#6A737D">length at most `2r` whose support remains in the ball.</span></td></tr>
-<tr id="L31" class=""><td class="line-num"><a href="#L31">31</a></td><td class="line-code"> </td></tr>
-<tr id="L32" class=""><td class="line-num"><a href="#L32">32</a></td><td class="line-code"><span style="color:#6A737D">The claim is discharged by</span></td></tr>
-<tr id="L33" class=""><td class="line-num"><a href="#L33">33</a></td><td class="line-code"><span style="color:#6A737D">`Lax3Proofs.CoverConstruction.isNeighborhoodCover_wreach`. Both the</span></td></tr>
-<tr id="L34" class=""><td class="line-num"><a href="#L34">34</a></td><td class="line-code"><span style="color:#6A737D">existential cover theorem and the algorithm consume this interface,</span></td></tr>
-<tr id="L35" class=""><td class="line-num"><a href="#L35">35</a></td><td class="line-code"><span style="color:#6A737D">sharing the same proved construction.</span></td></tr>
-<tr id="L36" class=""><td class="line-num"><a href="#L36">36</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
+<tr id="L4" class="line-comment"><td class="line-num"><a href="#L4">4</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
+<tr id="L5" class="line-comment"><td class="line-num"><a href="#L5">5</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
+<tr id="L6" class="line-comment"><td class="line-num"><a href="#L6">6</a></td><td class="line-code"><span style="color:#6A737D">title: Neighborhood covers from vertex orderings</span></td></tr>
+<tr id="L7" class="line-comment"><td class="line-num"><a href="#L7">7</a></td><td class="line-code"><span style="color:#6A737D">type: theorem</span></td></tr>
+<tr id="L8" class="line-comment"><td class="line-num"><a href="#L8">8</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
+<tr id="L9" class="line-comment"><td class="line-num"><a href="#L9">9</a></td><td class="line-code"><span style="color:#6A737D">Any vertex ordering whose weak 2*r*-reachability sets have size at most</span></td></tr>
+<tr id="L10" class="line-comment"><td class="line-num"><a href="#L10">10</a></td><td class="line-code"><span style="color:#6A737D">*k* gives an *r*-neighborhood cover of radius 2*r* and degree at most</span></td></tr>
+<tr id="L11" class="line-comment"><td class="line-num"><a href="#L11">11</a></td><td class="line-code"><span style="color:#6A737D">*k*. The cluster of a vertex *u* consists of the vertices from which</span></td></tr>
+<tr id="L12" class="line-comment"><td class="line-num"><a href="#L12">12</a></td><td class="line-code"><span style="color:#6A737D">*u* is weakly 2*r*-reachable.</span></td></tr>
+<tr id="L13" class="line-comment"><td class="line-num"><a href="#L13">13</a></td><td class="line-code"> </td></tr>
+<tr id="L14" class="line-comment"><td class="line-num"><a href="#L14">14</a></td><td class="line-code"><span style="color:#6A737D">This is the arbitrary-order construction of Lemma 6.9 of</span></td></tr>
+<tr id="L15" class="line-comment"><td class="line-num"><a href="#L15">15</a></td><td class="line-code"><span style="color:#6A737D">Grohe–Kreutzer–Siebertz. The model-checking algorithm uses it for the</span></td></tr>
+<tr id="L16" class="line-comment"><td class="line-num"><a href="#L16">16</a></td><td class="line-code"><span style="color:#6A737D">ordering it computes. The companion theorem</span></td></tr>
+<tr id="L17" class="line-comment"><td class="line-num"><a href="#L17">17</a></td><td class="line-code"><span style="color:#6A737D">`Lax3.NeighborhoodCoverBound.exists_neighborhoodCover_degree_wcol`</span></td></tr>
+<tr id="L18" class="line-comment"><td class="line-num"><a href="#L18">18</a></td><td class="line-code"><span style="color:#6A737D">uses it for an optimal ordering, obtaining the weak coloring number</span></td></tr>
+<tr id="L19" class="line-comment"><td class="line-num"><a href="#L19">19</a></td><td class="line-code"><span style="color:#6A737D">itself as the degree bound.</span></td></tr>
+<tr id="L20" class="line-comment"><td class="line-num"><a href="#L20">20</a></td><td class="line-code"> </td></tr>
+<tr id="L21" class="line-comment"><td class="line-num"><a href="#L21">21</a></td><td class="line-code"><span style="color:#6A737D"># Formalization notes</span></td></tr>
+<tr id="L22" class="line-comment"><td class="line-num"><a href="#L22">22</a></td><td class="line-code"> </td></tr>
+<tr id="L23" class="line-comment"><td class="line-num"><a href="#L23">23</a></td><td class="line-code"><span style="color:#6A737D">The statement is per-graph and class-free, with the ordering `π` and</span></td></tr>
+<tr id="L24" class="line-comment"><td class="line-num"><a href="#L24">24</a></td><td class="line-code"><span style="color:#6A737D">bound `k` supplied explicitly. The cluster of `u` is</span></td></tr>
+<tr id="L25" class="line-comment"><td class="line-num"><a href="#L25">25</a></td><td class="line-code"><span style="color:#6A737D">`{w | u ∈ wreach G π (2r) w}`, using Lax199508's weak reachability sets.</span></td></tr>
+<tr id="L26" class="line-comment"><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span style="color:#6A737D">The hypothesis directly bounds the number of clusters containing a</span></td></tr>
+<tr id="L27" class="line-comment"><td class="line-num"><a href="#L27">27</a></td><td class="line-code"><span style="color:#6A737D">given vertex. The radius condition follows from reversing a weak</span></td></tr>
+<tr id="L28" class="line-comment"><td class="line-num"><a href="#L28">28</a></td><td class="line-code"><span style="color:#6A737D">reachability walk. For covering, choose a `π`-minimal vertex of an</span></td></tr>
+<tr id="L29" class="line-comment"><td class="line-num"><a href="#L29">29</a></td><td class="line-code"><span style="color:#6A737D">`r`-ball; every other vertex of the ball reaches it along a walk of</span></td></tr>
+<tr id="L30" class="line-comment"><td class="line-num"><a href="#L30">30</a></td><td class="line-code"><span style="color:#6A737D">length at most `2r` whose support remains in the ball.</span></td></tr>
+<tr id="L31" class="line-comment"><td class="line-num"><a href="#L31">31</a></td><td class="line-code"> </td></tr>
+<tr id="L32" class="line-comment"><td class="line-num"><a href="#L32">32</a></td><td class="line-code"><span style="color:#6A737D">The claim is discharged by</span></td></tr>
+<tr id="L33" class="line-comment"><td class="line-num"><a href="#L33">33</a></td><td class="line-code"><span style="color:#6A737D">`Lax3Proofs.CoverConstruction.isNeighborhoodCover_wreach`. Both the</span></td></tr>
+<tr id="L34" class="line-comment"><td class="line-num"><a href="#L34">34</a></td><td class="line-code"><span style="color:#6A737D">existential cover theorem and the algorithm consume this interface,</span></td></tr>
+<tr id="L35" class="line-comment"><td class="line-num"><a href="#L35">35</a></td><td class="line-code"><span style="color:#6A737D">sharing the same proved construction.</span></td></tr>
+<tr id="L36" class="line-comment"><td class="line-num"><a href="#L36">36</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
 <tr id="L37" class=""><td class="line-num"><a href="#L37">37</a></td><td class="line-code"> </td></tr>
 <tr id="L38" class=""><td class="line-num"><a href="#L38">38</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax3.OrderedNeighborhoodCover</span></td></tr>
 <tr id="L39" class=""><td class="line-num"><a href="#L39">39</a></td><td class="line-code"> </td></tr>
 <tr id="L40" class=""><td class="line-num"><a href="#L40">40</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-3/Lax3.NeighborhoodCovers.html"><span style="color:#24292E">Lax3.NeighborhoodCovers</span></a></td></tr>
 <tr id="L41" class=""><td class="line-num"><a href="#L41">41</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-199508/Lax199508.ColoringNumbers.html"><span style="color:#24292E">Lax199508.ColoringNumbers</span></a></td></tr>
 <tr id="L42" class=""><td class="line-num"><a href="#L42">42</a></td><td class="line-code"> </td></tr>
-<tr id="L43" class="statement-line line-proven"><td class="line-num"><a href="#L43">43</a></td><td class="line-code"><span class="statement-anchor" id="s-Lax3.OrderedNeighborhoodCover.isNeighborhoodCover_wreach"></span><span style="color:#6A737D">/-- The fibers of weak `2r`-reachability under any ordering `π` form</span></td></tr>
-<tr id="L44" class="statement-line line-proven"><td class="line-num"><a href="#L44">44</a></td><td class="line-code"><span style="color:#6A737D">an `r`-neighborhood cover of radius `2r` and degree at most `k`,</span></td></tr>
-<tr id="L45" class="statement-line line-proven"><td class="line-num"><a href="#L45">45</a></td><td class="line-code"><span style="color:#6A737D">provided every weak `2r`-reachability set has size at most `k`.</span></td></tr>
-<tr id="L46" class="statement-line line-proven"><td class="line-num"><a href="#L46">46</a></td><td class="line-code"><span style="color:#6A737D">This is the arbitrary-order construction of Lemma 6.9 of</span></td></tr>
-<tr id="L47" class="statement-line line-proven"><td class="line-num"><a href="#L47">47</a></td><td class="line-code"><span style="color:#6A737D">Grohe–Kreutzer–Siebertz, used both by the algorithm with its computed</span></td></tr>
-<tr id="L48" class="statement-line line-proven"><td class="line-num"><a href="#L48">48</a></td><td class="line-code"><span style="color:#6A737D">ordering and by the existential cover theorem with an optimal one. -/</span></td></tr>
+<tr id="L43" class="statement-line line-proven line-comment"><td class="line-num"><a href="#L43">43</a></td><td class="line-code"><span class="statement-anchor" id="s-Lax3.OrderedNeighborhoodCover.isNeighborhoodCover_wreach"></span><span style="color:#6A737D">/-- The fibers of weak `2r`-reachability under any ordering `π` form</span></td></tr>
+<tr id="L44" class="statement-line line-proven line-comment"><td class="line-num"><a href="#L44">44</a></td><td class="line-code"><span style="color:#6A737D">an `r`-neighborhood cover of radius `2r` and degree at most `k`,</span></td></tr>
+<tr id="L45" class="statement-line line-proven line-comment"><td class="line-num"><a href="#L45">45</a></td><td class="line-code"><span style="color:#6A737D">provided every weak `2r`-reachability set has size at most `k`.</span></td></tr>
+<tr id="L46" class="statement-line line-proven line-comment"><td class="line-num"><a href="#L46">46</a></td><td class="line-code"><span style="color:#6A737D">This is the arbitrary-order construction of Lemma 6.9 of</span></td></tr>
+<tr id="L47" class="statement-line line-proven line-comment"><td class="line-num"><a href="#L47">47</a></td><td class="line-code"><span style="color:#6A737D">Grohe–Kreutzer–Siebertz, used both by the algorithm with its computed</span></td></tr>
+<tr id="L48" class="statement-line line-proven line-comment"><td class="line-num"><a href="#L48">48</a></td><td class="line-code"><span style="color:#6A737D">ordering and by the existential cover theorem with an optimal one. -/</span></td></tr>
 <tr id="L49" class="statement-line line-proven"><td class="line-num"><a href="#L49">49</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> isNeighborhoodCover_wreach</span><span style="color:#24292E"> {n : ℕ} (G : SimpleGraph (Fin n)) (r k : ℕ)</span></td></tr>
 <tr id="L50" class="statement-line line-proven"><td class="line-num"><a href="#L50">50</a></td><td class="line-code"><span style="color:#24292E">    (π : Equiv.Perm (Fin n)) (hk : ∀ v, (</span><a class="lean-identifier-link" href="../lax-199508/Lax199508.ColoringNumbers.html#L61"><span style="color:#24292E">wreach</span></a><span style="color:#24292E"> G π (</span><span style="color:#005CC5">2</span><span style="color:#24292E"> * r) v).ncard ≤ k) :</span></td></tr>
 <tr id="L51" class="statement-line line-proven"><td class="line-num"><a href="#L51">51</a></td><td class="line-code"><span style="color:#24292E">    </span><a class="lean-identifier-link" href="../lax-3/Lax3.NeighborhoodCovers.html#L47"><span style="color:#24292E">IsNeighborhoodCover</span></a><span style="color:#24292E"> G r (</span><span style="color:#D73A49">fun</span><span style="color:#24292E"> u =&gt; {w | u ∈ </span><a class="lean-identifier-link" href="../lax-199508/Lax199508.ColoringNumbers.html#L61"><span style="color:#24292E">wreach</span></a><span style="color:#24292E"> G π (</span><span style="color:#005CC5">2</span><span style="color:#24292E"> * r) w}) k</span></td></tr>
@@ -300,7 +300,7 @@ sharing the same proved construction.</p>
 <script src="../assets/sidebar.js?v=0d92141eab56"></script>
 <script src="../assets/account.js?v=6a0844f8bd00"></script>
 <script src="../assets/graph-interaction.js?v=4f12c6eaf4ff"></script>
-<script src="../assets/source-proof.js?v=b4c48aaad400"></script>
+<script src="../assets/source-proof.js?v=c61006f1e018"></script>
 <script src="../assets/version-history.js?v=a36e868140dd"></script>
 <script src="../assets/comments.js?v=40723213c083"></script>
 </body></html>

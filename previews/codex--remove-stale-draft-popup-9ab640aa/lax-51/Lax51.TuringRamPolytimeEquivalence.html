@@ -9,7 +9,7 @@
 <link rel="canonical" href="https://laxarchive.org/lax-51/Lax51.TuringRamPolytimeEquivalence.html">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=4d6294d8f522">
+<link rel="stylesheet" href="../assets/style.css?v=7519c5df2cf1">
 </head><body>
 <header class="site-header with-sidebar">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="true" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -182,44 +182,44 @@ of polynomial-time computable functions.</p>
 
 <h3 class="figure-title">Lean source <a class="source-link" href="https://github.com/szymtor/RAM-TM/blob/6fe5a3d94f6c2da46cc2c5ab98cd36997b130737/concepts/Lax51/TuringRamPolytimeEquivalence.lean">view on GitHub</a></h3>
 <div class="block block-lean">
-<div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<div class="inline-contract-shell"><button class="comment-toggle" type="button" aria-pressed="false" aria-label="Hide comments">Hide comments</button><div class="inline-contract-wrap"><table class="inline-contract-table">
 <tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-51/Lax51.RamPolytime.html"><span style="color:#24292E">Lax51.RamPolytime</span></a></td></tr>
 <tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-51/Lax51.TuringPolytime.html"><span style="color:#24292E">Lax51.TuringPolytime</span></a></td></tr>
 <tr id="L3" class=""><td class="line-num"><a href="#L3">3</a></td><td class="line-code"> </td></tr>
-<tr id="L4" class=""><td class="line-num"><a href="#L4">4</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
-<tr id="L5" class=""><td class="line-num"><a href="#L5">5</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
-<tr id="L6" class=""><td class="line-num"><a href="#L6">6</a></td><td class="line-code"><span style="color:#6A737D">title: Polynomial-time equivalence of Turing machines and word RAMs</span></td></tr>
-<tr id="L7" class=""><td class="line-num"><a href="#L7">7</a></td><td class="line-code"><span style="color:#6A737D">type: theorem</span></td></tr>
-<tr id="L8" class=""><td class="line-num"><a href="#L8">8</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
-<tr id="L9" class=""><td class="line-num"><a href="#L9">9</a></td><td class="line-code"><span style="color:#6A737D">Finite multi-tape Turing machines and uniform word random access machines</span></td></tr>
-<tr id="L10" class=""><td class="line-num"><a href="#L10">10</a></td><td class="line-code"><span style="color:#6A737D">compute exactly the same total functions in polynomial time, when both use</span></td></tr>
-<tr id="L11" class=""><td class="line-num"><a href="#L11">11</a></td><td class="line-code"><span style="color:#6A737D">the length of the canonical binary encoding as input size and the word RAM</span></td></tr>
-<tr id="L12" class=""><td class="line-num"><a href="#L12">12</a></td><td class="line-code"><span style="color:#6A737D">is required to have a polynomially bounded sufficient word length.</span></td></tr>
-<tr id="L13" class=""><td class="line-num"><a href="#L13">13</a></td><td class="line-code"> </td></tr>
-<tr id="L14" class=""><td class="line-num"><a href="#L14">14</a></td><td class="line-code"><span style="color:#6A737D">Concretely, a Turing machine must transform the binary encoding of an input</span></td></tr>
-<tr id="L15" class=""><td class="line-num"><a href="#L15">15</a></td><td class="line-code"><span style="color:#6A737D">word into the binary encoding of its output in polynomially many Turing</span></td></tr>
-<tr id="L16" class=""><td class="line-num"><a href="#L16">16</a></td><td class="line-code"><span style="color:#6A737D">steps. A word RAM receives the same semantic input as a native list of</span></td></tr>
-<tr id="L17" class=""><td class="line-num"><a href="#L17">17</a></td><td class="line-code"><span style="color:#6A737D">numbers, physically prefixed by its length so that the input tape is</span></td></tr>
-<tr id="L18" class=""><td class="line-num"><a href="#L18">18</a></td><td class="line-code"><span style="color:#6A737D">self-delimiting; one program must return the exact output in polynomially</span></td></tr>
-<tr id="L19" class=""><td class="line-num"><a href="#L19">19</a></td><td class="line-code"><span style="color:#6A737D">many RAM instructions at every sufficiently large word length, and a</span></td></tr>
-<tr id="L20" class=""><td class="line-num"><a href="#L20">20</a></td><td class="line-code"><span style="color:#6A737D">polynomial in the encoded input length must suffice to represent the length</span></td></tr>
-<tr id="L21" class=""><td class="line-num"><a href="#L21">21</a></td><td class="line-code"><span style="color:#6A737D">prefix, all input and output entries, and to make the computation correct.</span></td></tr>
-<tr id="L22" class=""><td class="line-num"><a href="#L22">22</a></td><td class="line-code"> </td></tr>
-<tr id="L23" class=""><td class="line-num"><a href="#L23">23</a></td><td class="line-code"><span style="color:#6A737D">The claim concerns polynomial-time function computation, commonly called</span></td></tr>
-<tr id="L24" class=""><td class="line-num"><a href="#L24">24</a></td><td class="line-code"><span style="color:#6A737D">`FP`. The usual machine-independence statement for the decision class `P`</span></td></tr>
-<tr id="L25" class=""><td class="line-num"><a href="#L25">25</a></td><td class="line-code"><span style="color:#6A737D">is its specialization to functions with Boolean-valued output. No fixed</span></td></tr>
-<tr id="L26" class=""><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span style="color:#6A737D">polynomial simulation overhead is claimed, only preservation of the class</span></td></tr>
-<tr id="L27" class=""><td class="line-num"><a href="#L27">27</a></td><td class="line-code"><span style="color:#6A737D">of polynomial-time computable functions.</span></td></tr>
-<tr id="L28" class=""><td class="line-num"><a href="#L28">28</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
+<tr id="L4" class="line-comment"><td class="line-num"><a href="#L4">4</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
+<tr id="L5" class="line-comment"><td class="line-num"><a href="#L5">5</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
+<tr id="L6" class="line-comment"><td class="line-num"><a href="#L6">6</a></td><td class="line-code"><span style="color:#6A737D">title: Polynomial-time equivalence of Turing machines and word RAMs</span></td></tr>
+<tr id="L7" class="line-comment"><td class="line-num"><a href="#L7">7</a></td><td class="line-code"><span style="color:#6A737D">type: theorem</span></td></tr>
+<tr id="L8" class="line-comment"><td class="line-num"><a href="#L8">8</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
+<tr id="L9" class="line-comment"><td class="line-num"><a href="#L9">9</a></td><td class="line-code"><span style="color:#6A737D">Finite multi-tape Turing machines and uniform word random access machines</span></td></tr>
+<tr id="L10" class="line-comment"><td class="line-num"><a href="#L10">10</a></td><td class="line-code"><span style="color:#6A737D">compute exactly the same total functions in polynomial time, when both use</span></td></tr>
+<tr id="L11" class="line-comment"><td class="line-num"><a href="#L11">11</a></td><td class="line-code"><span style="color:#6A737D">the length of the canonical binary encoding as input size and the word RAM</span></td></tr>
+<tr id="L12" class="line-comment"><td class="line-num"><a href="#L12">12</a></td><td class="line-code"><span style="color:#6A737D">is required to have a polynomially bounded sufficient word length.</span></td></tr>
+<tr id="L13" class="line-comment"><td class="line-num"><a href="#L13">13</a></td><td class="line-code"> </td></tr>
+<tr id="L14" class="line-comment"><td class="line-num"><a href="#L14">14</a></td><td class="line-code"><span style="color:#6A737D">Concretely, a Turing machine must transform the binary encoding of an input</span></td></tr>
+<tr id="L15" class="line-comment"><td class="line-num"><a href="#L15">15</a></td><td class="line-code"><span style="color:#6A737D">word into the binary encoding of its output in polynomially many Turing</span></td></tr>
+<tr id="L16" class="line-comment"><td class="line-num"><a href="#L16">16</a></td><td class="line-code"><span style="color:#6A737D">steps. A word RAM receives the same semantic input as a native list of</span></td></tr>
+<tr id="L17" class="line-comment"><td class="line-num"><a href="#L17">17</a></td><td class="line-code"><span style="color:#6A737D">numbers, physically prefixed by its length so that the input tape is</span></td></tr>
+<tr id="L18" class="line-comment"><td class="line-num"><a href="#L18">18</a></td><td class="line-code"><span style="color:#6A737D">self-delimiting; one program must return the exact output in polynomially</span></td></tr>
+<tr id="L19" class="line-comment"><td class="line-num"><a href="#L19">19</a></td><td class="line-code"><span style="color:#6A737D">many RAM instructions at every sufficiently large word length, and a</span></td></tr>
+<tr id="L20" class="line-comment"><td class="line-num"><a href="#L20">20</a></td><td class="line-code"><span style="color:#6A737D">polynomial in the encoded input length must suffice to represent the length</span></td></tr>
+<tr id="L21" class="line-comment"><td class="line-num"><a href="#L21">21</a></td><td class="line-code"><span style="color:#6A737D">prefix, all input and output entries, and to make the computation correct.</span></td></tr>
+<tr id="L22" class="line-comment"><td class="line-num"><a href="#L22">22</a></td><td class="line-code"> </td></tr>
+<tr id="L23" class="line-comment"><td class="line-num"><a href="#L23">23</a></td><td class="line-code"><span style="color:#6A737D">The claim concerns polynomial-time function computation, commonly called</span></td></tr>
+<tr id="L24" class="line-comment"><td class="line-num"><a href="#L24">24</a></td><td class="line-code"><span style="color:#6A737D">`FP`. The usual machine-independence statement for the decision class `P`</span></td></tr>
+<tr id="L25" class="line-comment"><td class="line-num"><a href="#L25">25</a></td><td class="line-code"><span style="color:#6A737D">is its specialization to functions with Boolean-valued output. No fixed</span></td></tr>
+<tr id="L26" class="line-comment"><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span style="color:#6A737D">polynomial simulation overhead is claimed, only preservation of the class</span></td></tr>
+<tr id="L27" class="line-comment"><td class="line-num"><a href="#L27">27</a></td><td class="line-code"><span style="color:#6A737D">of polynomial-time computable functions.</span></td></tr>
+<tr id="L28" class="line-comment"><td class="line-num"><a href="#L28">28</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
 <tr id="L29" class=""><td class="line-num"><a href="#L29">29</a></td><td class="line-code"> </td></tr>
 <tr id="L30" class=""><td class="line-num"><a href="#L30">30</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax51.TuringRamPolytimeEquivalence</span></td></tr>
 <tr id="L31" class=""><td class="line-num"><a href="#L31">31</a></td><td class="line-code"> </td></tr>
 <tr id="L32" class=""><td class="line-num"><a href="#L32">32</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-51/Lax51.RamPolytime.html"><span style="color:#24292E">Lax51.RamPolytime</span></a><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-51/Lax51.TuringPolytime.html"><span style="color:#24292E">Lax51.TuringPolytime</span></a></td></tr>
 <tr id="L33" class=""><td class="line-num"><a href="#L33">33</a></td><td class="line-code"> </td></tr>
-<tr id="L34" class="statement-line line-proven"><td class="line-num"><a href="#L34">34</a></td><td class="line-code"><span class="statement-anchor" id="s-Lax51.TuringRamPolytimeEquivalence.ramPolytime_iff_turingPolytime"></span><span style="color:#6A737D">/-- **Polynomial-time machine invariance.** A total function on finite words</span></td></tr>
-<tr id="L35" class="statement-line line-proven"><td class="line-num"><a href="#L35">35</a></td><td class="line-code"><span style="color:#6A737D">is computable in polynomial time by a uniform word RAM with a polynomially</span></td></tr>
-<tr id="L36" class="statement-line line-proven"><td class="line-num"><a href="#L36">36</a></td><td class="line-code"><span style="color:#6A737D">bounded sufficient word length if and only if it is computable in polynomial</span></td></tr>
-<tr id="L37" class="statement-line line-proven"><td class="line-num"><a href="#L37">37</a></td><td class="line-code"><span style="color:#6A737D">time by a finite multi-tape Turing machine. -/</span></td></tr>
+<tr id="L34" class="statement-line line-proven line-comment"><td class="line-num"><a href="#L34">34</a></td><td class="line-code"><span class="statement-anchor" id="s-Lax51.TuringRamPolytimeEquivalence.ramPolytime_iff_turingPolytime"></span><span style="color:#6A737D">/-- **Polynomial-time machine invariance.** A total function on finite words</span></td></tr>
+<tr id="L35" class="statement-line line-proven line-comment"><td class="line-num"><a href="#L35">35</a></td><td class="line-code"><span style="color:#6A737D">is computable in polynomial time by a uniform word RAM with a polynomially</span></td></tr>
+<tr id="L36" class="statement-line line-proven line-comment"><td class="line-num"><a href="#L36">36</a></td><td class="line-code"><span style="color:#6A737D">bounded sufficient word length if and only if it is computable in polynomial</span></td></tr>
+<tr id="L37" class="statement-line line-proven line-comment"><td class="line-num"><a href="#L37">37</a></td><td class="line-code"><span style="color:#6A737D">time by a finite multi-tape Turing machine. -/</span></td></tr>
 <tr id="L38" class="statement-line line-proven"><td class="line-num"><a href="#L38">38</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> ramPolytime_iff_turingPolytime</span><span style="color:#24292E"> (f : List ℕ → List ℕ) :</span></td></tr>
 <tr id="L39" class="statement-line line-proven"><td class="line-num"><a href="#L39">39</a></td><td class="line-code"><span style="color:#24292E">  </span><a class="lean-identifier-link" href="../lax-51/Lax51.RamPolytime.html#L40"><span style="color:#24292E">RamPolytime</span></a><span style="color:#24292E"> f ↔ </span><a class="lean-identifier-link" href="../lax-51/Lax51.TuringPolytime.html#L26"><span style="color:#24292E">TuringPolytime</span></a><span style="color:#24292E"> f</span></td></tr>
 <tr id="L40" class=""><td class="line-num"><a href="#L40">40</a></td><td class="line-code"> </td></tr>
@@ -284,7 +284,7 @@ of polynomial-time computable functions.</p>
 <script src="../assets/sidebar.js?v=0d92141eab56"></script>
 <script src="../assets/account.js?v=6a0844f8bd00"></script>
 <script src="../assets/graph-interaction.js?v=4f12c6eaf4ff"></script>
-<script src="../assets/source-proof.js?v=b4c48aaad400"></script>
+<script src="../assets/source-proof.js?v=c61006f1e018"></script>
 <script src="../assets/version-history.js?v=a36e868140dd"></script>
 <script src="../assets/comments.js?v=40723213c083"></script>
 </body></html>

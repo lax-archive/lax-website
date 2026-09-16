@@ -9,7 +9,7 @@
 <link rel="canonical" href="https://laxarchive.org/lax-560851/Lax560851.RamPolynomialComparison.html">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=4d6294d8f522">
+<link rel="stylesheet" href="../assets/style.css?v=7519c5df2cf1">
 </head><body>
 <header class="site-header with-sidebar">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="true" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -218,60 +218,60 @@ length-polynomial, linear-capacity convention.</p>
 
 <h3 class="figure-title">Lean source <a class="source-link" href="https://github.com/szymtor/lax58/blob/2748fdc0afc0b4f729b7775ca6475ba08129418a/concepts/Lax560851/RamPolynomialComparison.lean">view on GitHub</a></h3>
 <div class="block block-lean">
-<div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<div class="inline-contract-shell"><button class="comment-toggle" type="button" aria-pressed="false" aria-label="Hide comments">Hide comments</button><div class="inline-contract-wrap"><table class="inline-contract-table">
 <tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-560851/Lax560851.BitPolynomialTime.html"><span style="color:#24292E">Lax560851.BitPolynomialTime</span></a></td></tr>
 <tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-560851/Lax560851.RamComplexityExample.html"><span style="color:#24292E">Lax560851.RamComplexityExample</span></a></td></tr>
 <tr id="L3" class=""><td class="line-num"><a href="#L3">3</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-759944/Lax759944.RamPolytime.html"><span style="color:#24292E">Lax759944.RamPolytime</span></a></td></tr>
 <tr id="L4" class=""><td class="line-num"><a href="#L4">4</a></td><td class="line-code"> </td></tr>
-<tr id="L5" class=""><td class="line-num"><a href="#L5">5</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
-<tr id="L6" class=""><td class="line-num"><a href="#L6">6</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
-<tr id="L7" class=""><td class="line-num"><a href="#L7">7</a></td><td class="line-code"><span style="color:#6A737D">title: Two polynomial-time conventions, and their separation</span></td></tr>
-<tr id="L8" class=""><td class="line-num"><a href="#L8">8</a></td><td class="line-code"><span style="color:#6A737D">type: definition and theorem</span></td></tr>
-<tr id="L9" class=""><td class="line-num"><a href="#L9">9</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
-<tr id="L10" class=""><td class="line-num"><a href="#L10">10</a></td><td class="line-code"> </td></tr>
-<tr id="L11" class=""><td class="line-num"><a href="#L11">11</a></td><td class="line-code"><span style="color:#6A737D">For a sequence `xs`, let `n = xs.length`, let `m` be its largest entry</span></td></tr>
-<tr id="L12" class=""><td class="line-num"><a href="#L12">12</a></td><td class="line-code"><span style="color:#6A737D">(zero for the empty sequence), and let `B` be its binary size: one separator</span></td></tr>
-<tr id="L13" class=""><td class="line-num"><a href="#L13">13</a></td><td class="line-code"><span style="color:#6A737D">per entry plus the number of bits of each entry. The distinguished arena</span></td></tr>
-<tr id="L14" class=""><td class="line-num"><a href="#L14">14</a></td><td class="line-code"><span style="color:#6A737D">has `2*n+1` structural nodes, and input magnitude is `2*n+m+2`.</span></td></tr>
-<tr id="L15" class=""><td class="line-num"><a href="#L15">15</a></td><td class="line-code"> </td></tr>
-<tr id="L16" class=""><td class="line-num"><a href="#L16">16</a></td><td class="line-code"><span style="color:#6A737D">`BitPolynomialTime` permits polynomial instruction count and polynomial</span></td></tr>
-<tr id="L17" class=""><td class="line-num"><a href="#L17">17</a></td><td class="line-code"><span style="color:#6A737D">sufficient word length in `B`. It keeps arena input and one-word natural</span></td></tr>
-<tr id="L18" class=""><td class="line-num"><a href="#L18">18</a></td><td class="line-code"><span style="color:#6A737D">output. It agrees with Lax759944's convention, whose input is instead the native</span></td></tr>
-<tr id="L19" class=""><td class="line-num"><a href="#L19">19</a></td><td class="line-code"><span style="color:#6A737D">length-prefixed sequence. The agreement requires explicit efficient encoding</span></td></tr>
-<tr id="L20" class=""><td class="line-num"><a href="#L20">20</a></td><td class="line-code"><span style="color:#6A737D">conversions; it is not a definitional identification of the two input tapes.</span></td></tr>
-<tr id="L21" class=""><td class="line-num"><a href="#L21">21</a></td><td class="line-code"> </td></tr>
-<tr id="L22" class=""><td class="line-num"><a href="#L22">22</a></td><td class="line-code"><span style="color:#6A737D">The input conversions must preserve both indexed access to the original</span></td></tr>
-<tr id="L23" class=""><td class="line-num"><a href="#L23">23</a></td><td class="line-code"><span style="color:#6A737D">input and sequential reads, including EOF. Buffering an input can contribute</span></td></tr>
-<tr id="L24" class=""><td class="line-num"><a href="#L24">24</a></td><td class="line-code"><span style="color:#6A737D">linear startup time in either direction. The theorem asserts equivalence of</span></td></tr>
-<tr id="L25" class=""><td class="line-num"><a href="#L25">25</a></td><td class="line-code"><span style="color:#6A737D">the existential polynomial-time classes only: it does not require the two</span></td></tr>
-<tr id="L26" class=""><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span style="color:#6A737D">time witnesses, or their degrees, to match. Terminal instructions are charged</span></td></tr>
-<tr id="L27" class=""><td class="line-num"><a href="#L27">27</a></td><td class="line-code"><span style="color:#6A737D">according to the Lax808846 machine semantics.</span></td></tr>
-<tr id="L28" class=""><td class="line-num"><a href="#L28">28</a></td><td class="line-code"> </td></tr>
-<tr id="L29" class=""><td class="line-num"><a href="#L29">29</a></td><td class="line-code"><span style="color:#6A737D">`RamComplexityExample.PolynomialTime` instead bounds time polynomially in</span></td></tr>
-<tr id="L30" class=""><td class="line-num"><a href="#L30">30</a></td><td class="line-code"><span style="color:#6A737D">`n` and requires correctness whenever capacity exceeds a constant times</span></td></tr>
-<tr id="L31" class=""><td class="line-num"><a href="#L31">31</a></td><td class="line-code"><span style="color:#6A737D">input magnitude (and the arena fits). The difference in capacity matters</span></td></tr>
-<tr id="L32" class=""><td class="line-num"><a href="#L32">32</a></td><td class="line-code"><span style="color:#6A737D">even on all-zero inputs, where `B=n`: the exact result `2^n` fits in `n+1`</span></td></tr>
-<tr id="L33" class=""><td class="line-num"><a href="#L33">33</a></td><td class="line-code"><span style="color:#6A737D">bits but cannot fit at all admissible logarithmic word widths. Thus the</span></td></tr>
-<tr id="L34" class=""><td class="line-num"><a href="#L34">34</a></td><td class="line-code"><span style="color:#6A737D">example below satisfies the bit-polynomial convention but not the</span></td></tr>
-<tr id="L35" class=""><td class="line-num"><a href="#L35">35</a></td><td class="line-code"><span style="color:#6A737D">length-polynomial, linear-capacity convention.</span></td></tr>
-<tr id="L36" class=""><td class="line-num"><a href="#L36">36</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
+<tr id="L5" class="line-comment"><td class="line-num"><a href="#L5">5</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
+<tr id="L6" class="line-comment"><td class="line-num"><a href="#L6">6</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
+<tr id="L7" class="line-comment"><td class="line-num"><a href="#L7">7</a></td><td class="line-code"><span style="color:#6A737D">title: Two polynomial-time conventions, and their separation</span></td></tr>
+<tr id="L8" class="line-comment"><td class="line-num"><a href="#L8">8</a></td><td class="line-code"><span style="color:#6A737D">type: definition and theorem</span></td></tr>
+<tr id="L9" class="line-comment"><td class="line-num"><a href="#L9">9</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
+<tr id="L10" class="line-comment"><td class="line-num"><a href="#L10">10</a></td><td class="line-code"> </td></tr>
+<tr id="L11" class="line-comment"><td class="line-num"><a href="#L11">11</a></td><td class="line-code"><span style="color:#6A737D">For a sequence `xs`, let `n = xs.length`, let `m` be its largest entry</span></td></tr>
+<tr id="L12" class="line-comment"><td class="line-num"><a href="#L12">12</a></td><td class="line-code"><span style="color:#6A737D">(zero for the empty sequence), and let `B` be its binary size: one separator</span></td></tr>
+<tr id="L13" class="line-comment"><td class="line-num"><a href="#L13">13</a></td><td class="line-code"><span style="color:#6A737D">per entry plus the number of bits of each entry. The distinguished arena</span></td></tr>
+<tr id="L14" class="line-comment"><td class="line-num"><a href="#L14">14</a></td><td class="line-code"><span style="color:#6A737D">has `2*n+1` structural nodes, and input magnitude is `2*n+m+2`.</span></td></tr>
+<tr id="L15" class="line-comment"><td class="line-num"><a href="#L15">15</a></td><td class="line-code"> </td></tr>
+<tr id="L16" class="line-comment"><td class="line-num"><a href="#L16">16</a></td><td class="line-code"><span style="color:#6A737D">`BitPolynomialTime` permits polynomial instruction count and polynomial</span></td></tr>
+<tr id="L17" class="line-comment"><td class="line-num"><a href="#L17">17</a></td><td class="line-code"><span style="color:#6A737D">sufficient word length in `B`. It keeps arena input and one-word natural</span></td></tr>
+<tr id="L18" class="line-comment"><td class="line-num"><a href="#L18">18</a></td><td class="line-code"><span style="color:#6A737D">output. It agrees with Lax759944's convention, whose input is instead the native</span></td></tr>
+<tr id="L19" class="line-comment"><td class="line-num"><a href="#L19">19</a></td><td class="line-code"><span style="color:#6A737D">length-prefixed sequence. The agreement requires explicit efficient encoding</span></td></tr>
+<tr id="L20" class="line-comment"><td class="line-num"><a href="#L20">20</a></td><td class="line-code"><span style="color:#6A737D">conversions; it is not a definitional identification of the two input tapes.</span></td></tr>
+<tr id="L21" class="line-comment"><td class="line-num"><a href="#L21">21</a></td><td class="line-code"> </td></tr>
+<tr id="L22" class="line-comment"><td class="line-num"><a href="#L22">22</a></td><td class="line-code"><span style="color:#6A737D">The input conversions must preserve both indexed access to the original</span></td></tr>
+<tr id="L23" class="line-comment"><td class="line-num"><a href="#L23">23</a></td><td class="line-code"><span style="color:#6A737D">input and sequential reads, including EOF. Buffering an input can contribute</span></td></tr>
+<tr id="L24" class="line-comment"><td class="line-num"><a href="#L24">24</a></td><td class="line-code"><span style="color:#6A737D">linear startup time in either direction. The theorem asserts equivalence of</span></td></tr>
+<tr id="L25" class="line-comment"><td class="line-num"><a href="#L25">25</a></td><td class="line-code"><span style="color:#6A737D">the existential polynomial-time classes only: it does not require the two</span></td></tr>
+<tr id="L26" class="line-comment"><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span style="color:#6A737D">time witnesses, or their degrees, to match. Terminal instructions are charged</span></td></tr>
+<tr id="L27" class="line-comment"><td class="line-num"><a href="#L27">27</a></td><td class="line-code"><span style="color:#6A737D">according to the Lax808846 machine semantics.</span></td></tr>
+<tr id="L28" class="line-comment"><td class="line-num"><a href="#L28">28</a></td><td class="line-code"> </td></tr>
+<tr id="L29" class="line-comment"><td class="line-num"><a href="#L29">29</a></td><td class="line-code"><span style="color:#6A737D">`RamComplexityExample.PolynomialTime` instead bounds time polynomially in</span></td></tr>
+<tr id="L30" class="line-comment"><td class="line-num"><a href="#L30">30</a></td><td class="line-code"><span style="color:#6A737D">`n` and requires correctness whenever capacity exceeds a constant times</span></td></tr>
+<tr id="L31" class="line-comment"><td class="line-num"><a href="#L31">31</a></td><td class="line-code"><span style="color:#6A737D">input magnitude (and the arena fits). The difference in capacity matters</span></td></tr>
+<tr id="L32" class="line-comment"><td class="line-num"><a href="#L32">32</a></td><td class="line-code"><span style="color:#6A737D">even on all-zero inputs, where `B=n`: the exact result `2^n` fits in `n+1`</span></td></tr>
+<tr id="L33" class="line-comment"><td class="line-num"><a href="#L33">33</a></td><td class="line-code"><span style="color:#6A737D">bits but cannot fit at all admissible logarithmic word widths. Thus the</span></td></tr>
+<tr id="L34" class="line-comment"><td class="line-num"><a href="#L34">34</a></td><td class="line-code"><span style="color:#6A737D">example below satisfies the bit-polynomial convention but not the</span></td></tr>
+<tr id="L35" class="line-comment"><td class="line-num"><a href="#L35">35</a></td><td class="line-code"><span style="color:#6A737D">length-polynomial, linear-capacity convention.</span></td></tr>
+<tr id="L36" class="line-comment"><td class="line-num"><a href="#L36">36</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
 <tr id="L37" class=""><td class="line-num"><a href="#L37">37</a></td><td class="line-code"> </td></tr>
 <tr id="L38" class=""><td class="line-num"><a href="#L38">38</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax560851.RamPolynomialComparison</span></td></tr>
 <tr id="L39" class=""><td class="line-num"><a href="#L39">39</a></td><td class="line-code"> </td></tr>
 <tr id="L40" class=""><td class="line-num"><a href="#L40">40</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-560851/Lax560851.StructuralCombinators.html"><span style="color:#24292E">Lax560851.StructuralCombinators</span></a><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-560851/Lax560851.RamComplexity.html"><span style="color:#24292E">Lax560851.RamComplexity</span></a></td></tr>
 <tr id="L41" class=""><td class="line-num"><a href="#L41">41</a></td><td class="line-code"> </td></tr>
-<tr id="L42" class=""><td class="line-num"><a href="#L42">42</a></td><td class="line-code"><span style="color:#6A737D">/-- Polynomial time and sufficient word length in the binary size of a</span></td></tr>
-<tr id="L43" class=""><td class="line-num"><a href="#L43">43</a></td><td class="line-code"><span style="color:#6A737D">natural-number sequence; input uses its distinguished structural arena. -/</span></td></tr>
+<tr id="L42" class="line-comment"><td class="line-num"><a href="#L42">42</a></td><td class="line-code"><span style="color:#6A737D">/-- Polynomial time and sufficient word length in the binary size of a</span></td></tr>
+<tr id="L43" class="line-comment"><td class="line-num"><a href="#L43">43</a></td><td class="line-code"><span style="color:#6A737D">natural-number sequence; input uses its distinguished structural arena. -/</span></td></tr>
 <tr id="L44" class=""><td class="line-num"><a href="#L44">44</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> BitPolynomialTime</span><span style="color:#24292E"> (f : List Nat → Nat) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
 <tr id="L45" class=""><td class="line-num"><a href="#L45">45</a></td><td class="line-code"><span style="color:#24292E">  </span><a class="lean-identifier-link" href="../lax-560851/Lax560851.BitPolynomialTime.html#L32"><span style="color:#24292E">Lax560851.BitPolynomialTime.BitPolynomialTimeUsing</span></a><span style="color:#24292E"> (</span><a class="lean-identifier-link" href="../lax-560851/Lax560851.StructuralCombinators.html#L93"><span style="color:#24292E">list</span></a><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-560851/Lax560851.StructuralCombinators.html#L58"><span style="color:#24292E">nat</span></a><span style="color:#24292E">) </span><a class="lean-identifier-link" href="../lax-560851/Lax560851.RamComplexity.html#L36"><span style="color:#24292E">natOutput</span></a></td></tr>
 <tr id="L46" class=""><td class="line-num"><a href="#L46">46</a></td><td class="line-code"><span style="color:#24292E">    </span><a class="lean-identifier-link" href="../lax-759944/Lax759944.BinaryWordEncoding.html#L42"><span style="color:#24292E">Lax759944.BinaryWordEncoding.bitSize</span></a><span style="color:#24292E"> f</span></td></tr>
 <tr id="L47" class=""><td class="line-num"><a href="#L47">47</a></td><td class="line-code"> </td></tr>
-<tr id="L48" class=""><td class="line-num"><a href="#L48">48</a></td><td class="line-code"><span style="color:#6A737D">/-- A small exact-output example, independent of all input payloads. -/</span></td></tr>
+<tr id="L48" class="line-comment"><td class="line-num"><a href="#L48">48</a></td><td class="line-code"><span style="color:#6A737D">/-- A small exact-output example, independent of all input payloads. -/</span></td></tr>
 <tr id="L49" class=""><td class="line-num"><a href="#L49">49</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> exponentialLength</span><span style="color:#24292E"> (xs : List Nat) : Nat := </span><span style="color:#005CC5">2</span><span style="color:#24292E"> ^ xs.length</span></td></tr>
 <tr id="L50" class=""><td class="line-num"><a href="#L50">50</a></td><td class="line-code"> </td></tr>
-<tr id="L51" class="statement-line line-proven"><td class="line-num"><a href="#L51">51</a></td><td class="line-code"><span class="statement-anchor" id="s-Lax560851.RamPolynomialComparison.bitPolynomialTime_iff_ramPolytime"></span><span style="color:#6A737D">/-- Arena input and native length-prefixed input yield the same</span></td></tr>
-<tr id="L52" class="statement-line line-proven"><td class="line-num"><a href="#L52">52</a></td><td class="line-code"><span style="color:#6A737D">bit-polynomial computability class for natural-number outputs. This is a class</span></td></tr>
-<tr id="L53" class="statement-line line-proven"><td class="line-num"><a href="#L53">53</a></td><td class="line-code"><span style="color:#6A737D">equivalence, not a same-degree equivalence. -/</span></td></tr>
+<tr id="L51" class="statement-line line-proven line-comment"><td class="line-num"><a href="#L51">51</a></td><td class="line-code"><span class="statement-anchor" id="s-Lax560851.RamPolynomialComparison.bitPolynomialTime_iff_ramPolytime"></span><span style="color:#6A737D">/-- Arena input and native length-prefixed input yield the same</span></td></tr>
+<tr id="L52" class="statement-line line-proven line-comment"><td class="line-num"><a href="#L52">52</a></td><td class="line-code"><span style="color:#6A737D">bit-polynomial computability class for natural-number outputs. This is a class</span></td></tr>
+<tr id="L53" class="statement-line line-proven line-comment"><td class="line-num"><a href="#L53">53</a></td><td class="line-code"><span style="color:#6A737D">equivalence, not a same-degree equivalence. -/</span></td></tr>
 <tr id="L54" class="statement-line line-proven"><td class="line-num"><a href="#L54">54</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> bitPolynomialTime_iff_ramPolytime</span><span style="color:#24292E"> (f : List Nat → Nat) :</span></td></tr>
 <tr id="L55" class="statement-line line-proven"><td class="line-num"><a href="#L55">55</a></td><td class="line-code"><span style="color:#24292E">  </span><a class="lean-identifier-link" href="../lax-560851/Lax560851.RamPolynomialComparison.html#L42"><span style="color:#24292E">BitPolynomialTime</span></a><span style="color:#24292E"> f ↔ </span><a class="lean-identifier-link" href="../lax-759944/Lax759944.RamPolytime.html#L46"><span style="color:#24292E">Lax759944.RamPolytime.RamPolytime</span></a><span style="color:#24292E"> (</span><span style="color:#D73A49">fun</span><span style="color:#24292E"> xs =&gt; [f xs])</span></td></tr>
 <tr id="L56" class=""><td class="line-num"><a href="#L56">56</a></td><td class="line-code"> </td></tr>
@@ -341,7 +341,7 @@ length-polynomial, linear-capacity convention.</p>
 <script src="../assets/sidebar.js?v=0d92141eab56"></script>
 <script src="../assets/account.js?v=6a0844f8bd00"></script>
 <script src="../assets/graph-interaction.js?v=4f12c6eaf4ff"></script>
-<script src="../assets/source-proof.js?v=b4c48aaad400"></script>
+<script src="../assets/source-proof.js?v=c61006f1e018"></script>
 <script src="../assets/version-history.js?v=a36e868140dd"></script>
 <script src="../assets/comments.js?v=40723213c083"></script>
 </body></html>

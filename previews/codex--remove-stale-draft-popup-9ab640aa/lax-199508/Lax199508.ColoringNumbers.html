@@ -9,7 +9,7 @@
 <link rel="canonical" href="https://laxarchive.org/lax-199508/Lax199508.ColoringNumbers.html">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=4d6294d8f522">
+<link rel="stylesheet" href="../assets/style.css?v=7519c5df2cf1">
 </head><body>
 <header class="site-header with-sidebar">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="true" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -162,7 +162,7 @@ Theorem 3.4 of that chapter.</p>
 
 <h3 class="figure-title">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/e9845c204d14a5678f9d64c0e6f4ca757d9dc9d0/sparsity-lectures-v4-33/concepts/Lax199508/ColoringNumbers.lean">view on GitHub</a></h3>
 <div class="block block-lean">
-<div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<div class="inline-contract-shell"><button class="comment-toggle" type="button" aria-pressed="false" aria-label="Hide comments">Hide comments</button><div class="inline-contract-wrap"><table class="inline-contract-table">
 <tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-199508/Lax199508.GraphClasses.html"><span style="color:#24292E">Lax199508.GraphClasses</span></a></td></tr>
 <tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Combinatorics.SimpleGraph.Copy</span></td></tr>
 <tr id="L3" class=""><td class="line-num"><a href="#L3">3</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Combinatorics.SimpleGraph.Walk.Basic</span></td></tr>
@@ -170,91 +170,91 @@ Theorem 3.4 of that chapter.</p>
 <tr id="L5" class=""><td class="line-num"><a href="#L5">5</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Data.Nat.Lattice</span></td></tr>
 <tr id="L6" class=""><td class="line-num"><a href="#L6">6</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Analysis.SpecialFunctions.Pow.Real</span></td></tr>
 <tr id="L7" class=""><td class="line-num"><a href="#L7">7</a></td><td class="line-code"> </td></tr>
-<tr id="L8" class=""><td class="line-num"><a href="#L8">8</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
-<tr id="L9" class=""><td class="line-num"><a href="#L9">9</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
-<tr id="L10" class=""><td class="line-num"><a href="#L10">10</a></td><td class="line-code"><span style="color:#6A737D">title: Generalized coloring numbers</span></td></tr>
-<tr id="L11" class=""><td class="line-num"><a href="#L11">11</a></td><td class="line-code"><span style="color:#6A737D">type: definition</span></td></tr>
-<tr id="L12" class=""><td class="line-num"><a href="#L12">12</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
-<tr id="L13" class=""><td class="line-num"><a href="#L13">13</a></td><td class="line-code"><span style="color:#6A737D">Fix a linear ordering of the vertices of a graph *G*. A vertex *u* is</span></td></tr>
-<tr id="L14" class=""><td class="line-num"><a href="#L14">14</a></td><td class="line-code"><span style="color:#6A737D">weakly *r*-reachable from *v* if some path from *v* to *u* of length at</span></td></tr>
-<tr id="L15" class=""><td class="line-num"><a href="#L15">15</a></td><td class="line-code"><span style="color:#6A737D">most *r* has *u* as its smallest vertex, and strongly *r*-reachable from</span></td></tr>
-<tr id="L16" class=""><td class="line-num"><a href="#L16">16</a></td><td class="line-code"><span style="color:#6A737D">*v* if some path from *v* to *u* of length at most *r* has *v* as its</span></td></tr>
-<tr id="L17" class=""><td class="line-num"><a href="#L17">17</a></td><td class="line-code"><span style="color:#6A737D">smallest vertex apart from *u* itself. The weak *r*-coloring number</span></td></tr>
-<tr id="L18" class=""><td class="line-num"><a href="#L18">18</a></td><td class="line-code"><span style="color:#6A737D">wcol_r(*G*) and the strong *r*-coloring number scol_r(*G*) are the</span></td></tr>
-<tr id="L19" class=""><td class="line-num"><a href="#L19">19</a></td><td class="line-code"><span style="color:#6A737D">minima, over all orderings, of the largest number of vertices weakly</span></td></tr>
-<tr id="L20" class=""><td class="line-num"><a href="#L20">20</a></td><td class="line-code"><span style="color:#6A737D">respectively strongly *r*-reachable from a single vertex. A graph class</span></td></tr>
-<tr id="L21" class=""><td class="line-num"><a href="#L21">21</a></td><td class="line-code"><span style="color:#6A737D">has subpolynomial weak coloring numbers if for every radius *r* and</span></td></tr>
-<tr id="L22" class=""><td class="line-num"><a href="#L22">22</a></td><td class="line-code"><span style="color:#6A737D">every ε &gt; 0 there is a constant *c* such that every subgraph *H* of a</span></td></tr>
-<tr id="L23" class=""><td class="line-num"><a href="#L23">23</a></td><td class="line-code"><span style="color:#6A737D">member, on *m* vertices, satisfies wcol_r(*H*) ≤ *c* · *m*^ε.</span></td></tr>
-<tr id="L24" class=""><td class="line-num"><a href="#L24">24</a></td><td class="line-code"> </td></tr>
-<tr id="L25" class=""><td class="line-num"><a href="#L25">25</a></td><td class="line-code"><span style="color:#6A737D">Weak and strong reachability are Definition 2.1, and the two coloring</span></td></tr>
-<tr id="L26" class=""><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span style="color:#6A737D">numbers Definition 2.3, of Chapter 2 of the source lecture notes</span></td></tr>
-<tr id="L27" class=""><td class="line-num"><a href="#L27">27</a></td><td class="line-code"><span style="color:#6A737D">(2019/20 edition), which write scol_*r* where the earlier 2017/18</span></td></tr>
-<tr id="L28" class=""><td class="line-num"><a href="#L28">28</a></td><td class="line-code"><span style="color:#6A737D">edition writes col_*r*. The subpolynomial bound is the conclusion of</span></td></tr>
-<tr id="L29" class=""><td class="line-num"><a href="#L29">29</a></td><td class="line-code"><span style="color:#6A737D">Theorem 3.4 of that chapter.</span></td></tr>
-<tr id="L30" class=""><td class="line-num"><a href="#L30">30</a></td><td class="line-code"> </td></tr>
-<tr id="L31" class=""><td class="line-num"><a href="#L31">31</a></td><td class="line-code"><span style="color:#6A737D"># Formalization notes</span></td></tr>
-<tr id="L32" class=""><td class="line-num"><a href="#L32">32</a></td><td class="line-code"> </td></tr>
-<tr id="L33" class=""><td class="line-num"><a href="#L33">33</a></td><td class="line-code"><span style="color:#6A737D">An ordering of the vertices is a permutation `π` of `Fin m` assigning</span></td></tr>
-<tr id="L34" class=""><td class="line-num"><a href="#L34">34</a></td><td class="line-code"><span style="color:#6A737D">each vertex its position. Both reachability sets are stated with walks,</span></td></tr>
-<tr id="L35" class=""><td class="line-num"><a href="#L35">35</a></td><td class="line-code"><span style="color:#6A737D">as in the nowhere dense concept: shortcutting a walk to a path only</span></td></tr>
-<tr id="L36" class=""><td class="line-num"><a href="#L36">36</a></td><td class="line-code"><span style="color:#6A737D">shrinks its support, so walks of length at most `r` reach exactly the</span></td></tr>
-<tr id="L37" class=""><td class="line-num"><a href="#L37">37</a></td><td class="line-code"><span style="color:#6A737D">vertices that such paths do. In `wreach` the `π`-minimality of `u` on</span></td></tr>
-<tr id="L38" class=""><td class="line-num"><a href="#L38">38</a></td><td class="line-code"><span style="color:#6A737D">the whole support already forces `π u ≤ π v`; in `sreach` only the</span></td></tr>
-<tr id="L39" class=""><td class="line-num"><a href="#L39">39</a></td><td class="line-code"><span style="color:#6A737D">interior of the walk is constrained, so `π u ≤ π v` is a separate</span></td></tr>
-<tr id="L40" class=""><td class="line-num"><a href="#L40">40</a></td><td class="line-code"><span style="color:#6A737D">conjunct. Both sets contain `v`.</span></td></tr>
-<tr id="L41" class=""><td class="line-num"><a href="#L41">41</a></td><td class="line-code"> </td></tr>
-<tr id="L42" class=""><td class="line-num"><a href="#L42">42</a></td><td class="line-code"><span style="color:#6A737D">`wcol` and `scol` are the least achievable bounds `k`, `Nat.sInf`s over</span></td></tr>
-<tr id="L43" class=""><td class="line-num"><a href="#L43">43</a></td><td class="line-code"><span style="color:#6A737D">nonempty sets — `k = m` works for any ordering — so the convention</span></td></tr>
-<tr id="L44" class=""><td class="line-num"><a href="#L44">44</a></td><td class="line-code"><span style="color:#6A737D">`Nat.sInf ∅ = 0` is never exercised; the counts are `Set.ncard`. Weak</span></td></tr>
-<tr id="L45" class=""><td class="line-num"><a href="#L45">45</a></td><td class="line-code"><span style="color:#6A737D">and strong coloring numbers are one review unit because they are the</span></td></tr>
-<tr id="L46" class=""><td class="line-num"><a href="#L46">46</a></td><td class="line-code"><span style="color:#6A737D">same construction differing in a single clause, and every relation</span></td></tr>
-<tr id="L47" class=""><td class="line-num"><a href="#L47">47</a></td><td class="line-code"><span style="color:#6A737D">between them is read off that contrast.</span></td></tr>
-<tr id="L48" class=""><td class="line-num"><a href="#L48">48</a></td><td class="line-code"> </td></tr>
-<tr id="L49" class=""><td class="line-num"><a href="#L49">49</a></td><td class="line-code"><span style="color:#6A737D">The class-level bound is uniform over subgraph copies (`⊑`) of members,</span></td></tr>
-<tr id="L50" class=""><td class="line-num"><a href="#L50">50</a></td><td class="line-code"><span style="color:#6A737D">each measured by its own vertex count `m`; this is the literature form</span></td></tr>
-<tr id="L51" class=""><td class="line-num"><a href="#L51">51</a></td><td class="line-code"><span style="color:#6A737D">for subgraph-closed classes, and the uniformity is what localization</span></td></tr>
-<tr id="L52" class=""><td class="line-num"><a href="#L52">52</a></td><td class="line-code"><span style="color:#6A737D">arguments downstream consume. At `m = 0` both sides vanish, so no</span></td></tr>
-<tr id="L53" class=""><td class="line-num"><a href="#L53">53</a></td><td class="line-code"><span style="color:#6A737D">nonemptiness hypothesis is needed.</span></td></tr>
-<tr id="L54" class=""><td class="line-num"><a href="#L54">54</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
+<tr id="L8" class="line-comment"><td class="line-num"><a href="#L8">8</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
+<tr id="L9" class="line-comment"><td class="line-num"><a href="#L9">9</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
+<tr id="L10" class="line-comment"><td class="line-num"><a href="#L10">10</a></td><td class="line-code"><span style="color:#6A737D">title: Generalized coloring numbers</span></td></tr>
+<tr id="L11" class="line-comment"><td class="line-num"><a href="#L11">11</a></td><td class="line-code"><span style="color:#6A737D">type: definition</span></td></tr>
+<tr id="L12" class="line-comment"><td class="line-num"><a href="#L12">12</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
+<tr id="L13" class="line-comment"><td class="line-num"><a href="#L13">13</a></td><td class="line-code"><span style="color:#6A737D">Fix a linear ordering of the vertices of a graph *G*. A vertex *u* is</span></td></tr>
+<tr id="L14" class="line-comment"><td class="line-num"><a href="#L14">14</a></td><td class="line-code"><span style="color:#6A737D">weakly *r*-reachable from *v* if some path from *v* to *u* of length at</span></td></tr>
+<tr id="L15" class="line-comment"><td class="line-num"><a href="#L15">15</a></td><td class="line-code"><span style="color:#6A737D">most *r* has *u* as its smallest vertex, and strongly *r*-reachable from</span></td></tr>
+<tr id="L16" class="line-comment"><td class="line-num"><a href="#L16">16</a></td><td class="line-code"><span style="color:#6A737D">*v* if some path from *v* to *u* of length at most *r* has *v* as its</span></td></tr>
+<tr id="L17" class="line-comment"><td class="line-num"><a href="#L17">17</a></td><td class="line-code"><span style="color:#6A737D">smallest vertex apart from *u* itself. The weak *r*-coloring number</span></td></tr>
+<tr id="L18" class="line-comment"><td class="line-num"><a href="#L18">18</a></td><td class="line-code"><span style="color:#6A737D">wcol_r(*G*) and the strong *r*-coloring number scol_r(*G*) are the</span></td></tr>
+<tr id="L19" class="line-comment"><td class="line-num"><a href="#L19">19</a></td><td class="line-code"><span style="color:#6A737D">minima, over all orderings, of the largest number of vertices weakly</span></td></tr>
+<tr id="L20" class="line-comment"><td class="line-num"><a href="#L20">20</a></td><td class="line-code"><span style="color:#6A737D">respectively strongly *r*-reachable from a single vertex. A graph class</span></td></tr>
+<tr id="L21" class="line-comment"><td class="line-num"><a href="#L21">21</a></td><td class="line-code"><span style="color:#6A737D">has subpolynomial weak coloring numbers if for every radius *r* and</span></td></tr>
+<tr id="L22" class="line-comment"><td class="line-num"><a href="#L22">22</a></td><td class="line-code"><span style="color:#6A737D">every ε &gt; 0 there is a constant *c* such that every subgraph *H* of a</span></td></tr>
+<tr id="L23" class="line-comment"><td class="line-num"><a href="#L23">23</a></td><td class="line-code"><span style="color:#6A737D">member, on *m* vertices, satisfies wcol_r(*H*) ≤ *c* · *m*^ε.</span></td></tr>
+<tr id="L24" class="line-comment"><td class="line-num"><a href="#L24">24</a></td><td class="line-code"> </td></tr>
+<tr id="L25" class="line-comment"><td class="line-num"><a href="#L25">25</a></td><td class="line-code"><span style="color:#6A737D">Weak and strong reachability are Definition 2.1, and the two coloring</span></td></tr>
+<tr id="L26" class="line-comment"><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span style="color:#6A737D">numbers Definition 2.3, of Chapter 2 of the source lecture notes</span></td></tr>
+<tr id="L27" class="line-comment"><td class="line-num"><a href="#L27">27</a></td><td class="line-code"><span style="color:#6A737D">(2019/20 edition), which write scol_*r* where the earlier 2017/18</span></td></tr>
+<tr id="L28" class="line-comment"><td class="line-num"><a href="#L28">28</a></td><td class="line-code"><span style="color:#6A737D">edition writes col_*r*. The subpolynomial bound is the conclusion of</span></td></tr>
+<tr id="L29" class="line-comment"><td class="line-num"><a href="#L29">29</a></td><td class="line-code"><span style="color:#6A737D">Theorem 3.4 of that chapter.</span></td></tr>
+<tr id="L30" class="line-comment"><td class="line-num"><a href="#L30">30</a></td><td class="line-code"> </td></tr>
+<tr id="L31" class="line-comment"><td class="line-num"><a href="#L31">31</a></td><td class="line-code"><span style="color:#6A737D"># Formalization notes</span></td></tr>
+<tr id="L32" class="line-comment"><td class="line-num"><a href="#L32">32</a></td><td class="line-code"> </td></tr>
+<tr id="L33" class="line-comment"><td class="line-num"><a href="#L33">33</a></td><td class="line-code"><span style="color:#6A737D">An ordering of the vertices is a permutation `π` of `Fin m` assigning</span></td></tr>
+<tr id="L34" class="line-comment"><td class="line-num"><a href="#L34">34</a></td><td class="line-code"><span style="color:#6A737D">each vertex its position. Both reachability sets are stated with walks,</span></td></tr>
+<tr id="L35" class="line-comment"><td class="line-num"><a href="#L35">35</a></td><td class="line-code"><span style="color:#6A737D">as in the nowhere dense concept: shortcutting a walk to a path only</span></td></tr>
+<tr id="L36" class="line-comment"><td class="line-num"><a href="#L36">36</a></td><td class="line-code"><span style="color:#6A737D">shrinks its support, so walks of length at most `r` reach exactly the</span></td></tr>
+<tr id="L37" class="line-comment"><td class="line-num"><a href="#L37">37</a></td><td class="line-code"><span style="color:#6A737D">vertices that such paths do. In `wreach` the `π`-minimality of `u` on</span></td></tr>
+<tr id="L38" class="line-comment"><td class="line-num"><a href="#L38">38</a></td><td class="line-code"><span style="color:#6A737D">the whole support already forces `π u ≤ π v`; in `sreach` only the</span></td></tr>
+<tr id="L39" class="line-comment"><td class="line-num"><a href="#L39">39</a></td><td class="line-code"><span style="color:#6A737D">interior of the walk is constrained, so `π u ≤ π v` is a separate</span></td></tr>
+<tr id="L40" class="line-comment"><td class="line-num"><a href="#L40">40</a></td><td class="line-code"><span style="color:#6A737D">conjunct. Both sets contain `v`.</span></td></tr>
+<tr id="L41" class="line-comment"><td class="line-num"><a href="#L41">41</a></td><td class="line-code"> </td></tr>
+<tr id="L42" class="line-comment"><td class="line-num"><a href="#L42">42</a></td><td class="line-code"><span style="color:#6A737D">`wcol` and `scol` are the least achievable bounds `k`, `Nat.sInf`s over</span></td></tr>
+<tr id="L43" class="line-comment"><td class="line-num"><a href="#L43">43</a></td><td class="line-code"><span style="color:#6A737D">nonempty sets — `k = m` works for any ordering — so the convention</span></td></tr>
+<tr id="L44" class="line-comment"><td class="line-num"><a href="#L44">44</a></td><td class="line-code"><span style="color:#6A737D">`Nat.sInf ∅ = 0` is never exercised; the counts are `Set.ncard`. Weak</span></td></tr>
+<tr id="L45" class="line-comment"><td class="line-num"><a href="#L45">45</a></td><td class="line-code"><span style="color:#6A737D">and strong coloring numbers are one review unit because they are the</span></td></tr>
+<tr id="L46" class="line-comment"><td class="line-num"><a href="#L46">46</a></td><td class="line-code"><span style="color:#6A737D">same construction differing in a single clause, and every relation</span></td></tr>
+<tr id="L47" class="line-comment"><td class="line-num"><a href="#L47">47</a></td><td class="line-code"><span style="color:#6A737D">between them is read off that contrast.</span></td></tr>
+<tr id="L48" class="line-comment"><td class="line-num"><a href="#L48">48</a></td><td class="line-code"> </td></tr>
+<tr id="L49" class="line-comment"><td class="line-num"><a href="#L49">49</a></td><td class="line-code"><span style="color:#6A737D">The class-level bound is uniform over subgraph copies (`⊑`) of members,</span></td></tr>
+<tr id="L50" class="line-comment"><td class="line-num"><a href="#L50">50</a></td><td class="line-code"><span style="color:#6A737D">each measured by its own vertex count `m`; this is the literature form</span></td></tr>
+<tr id="L51" class="line-comment"><td class="line-num"><a href="#L51">51</a></td><td class="line-code"><span style="color:#6A737D">for subgraph-closed classes, and the uniformity is what localization</span></td></tr>
+<tr id="L52" class="line-comment"><td class="line-num"><a href="#L52">52</a></td><td class="line-code"><span style="color:#6A737D">arguments downstream consume. At `m = 0` both sides vanish, so no</span></td></tr>
+<tr id="L53" class="line-comment"><td class="line-num"><a href="#L53">53</a></td><td class="line-code"><span style="color:#6A737D">nonemptiness hypothesis is needed.</span></td></tr>
+<tr id="L54" class="line-comment"><td class="line-num"><a href="#L54">54</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
 <tr id="L55" class=""><td class="line-num"><a href="#L55">55</a></td><td class="line-code"> </td></tr>
 <tr id="L56" class=""><td class="line-num"><a href="#L56">56</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax199508.ColoringNumbers</span></td></tr>
 <tr id="L57" class=""><td class="line-num"><a href="#L57">57</a></td><td class="line-code"> </td></tr>
 <tr id="L58" class=""><td class="line-num"><a href="#L58">58</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#D73A49"> scoped</span><span style="color:#24292E"> SimpleGraph</span></td></tr>
 <tr id="L59" class=""><td class="line-num"><a href="#L59">59</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-199508/Lax199508.GraphClasses.html"><span style="color:#24292E">Lax199508.GraphClasses</span></a></td></tr>
 <tr id="L60" class=""><td class="line-num"><a href="#L60">60</a></td><td class="line-code"> </td></tr>
-<tr id="L61" class=""><td class="line-num"><a href="#L61">61</a></td><td class="line-code"><span style="color:#6A737D">/-- The set of vertices weakly `r`-reachable from `v` in `G` under the</span></td></tr>
-<tr id="L62" class=""><td class="line-num"><a href="#L62">62</a></td><td class="line-code"><span style="color:#6A737D">vertex ordering `π` (vertex `u` sits at position `π u`): the endpoints</span></td></tr>
-<tr id="L63" class=""><td class="line-num"><a href="#L63">63</a></td><td class="line-code"><span style="color:#6A737D">`u` of walks from `v` of length at most `r` on whose support `u` is</span></td></tr>
-<tr id="L64" class=""><td class="line-num"><a href="#L64">64</a></td><td class="line-code"><span style="color:#6A737D">`π`-minimal. Contains `v` itself. -/</span></td></tr>
+<tr id="L61" class="line-comment"><td class="line-num"><a href="#L61">61</a></td><td class="line-code"><span style="color:#6A737D">/-- The set of vertices weakly `r`-reachable from `v` in `G` under the</span></td></tr>
+<tr id="L62" class="line-comment"><td class="line-num"><a href="#L62">62</a></td><td class="line-code"><span style="color:#6A737D">vertex ordering `π` (vertex `u` sits at position `π u`): the endpoints</span></td></tr>
+<tr id="L63" class="line-comment"><td class="line-num"><a href="#L63">63</a></td><td class="line-code"><span style="color:#6A737D">`u` of walks from `v` of length at most `r` on whose support `u` is</span></td></tr>
+<tr id="L64" class="line-comment"><td class="line-num"><a href="#L64">64</a></td><td class="line-code"><span style="color:#6A737D">`π`-minimal. Contains `v` itself. -/</span></td></tr>
 <tr id="L65" class=""><td class="line-num"><a href="#L65">65</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> wreach</span><span style="color:#24292E"> {n : ℕ} (G : SimpleGraph (Fin n)) (π : Equiv.Perm (Fin n))</span></td></tr>
 <tr id="L66" class=""><td class="line-num"><a href="#L66">66</a></td><td class="line-code"><span style="color:#24292E">    (r : ℕ) (v : Fin n) : Set (Fin n) :=</span></td></tr>
 <tr id="L67" class=""><td class="line-num"><a href="#L67">67</a></td><td class="line-code"><span style="color:#24292E">  {u | ∃ w : G.Walk v u, w.length ≤ r ∧ ∀ y ∈ w.support, π u ≤ π y}</span></td></tr>
 <tr id="L68" class=""><td class="line-num"><a href="#L68">68</a></td><td class="line-code"> </td></tr>
-<tr id="L69" class=""><td class="line-num"><a href="#L69">69</a></td><td class="line-code"><span style="color:#6A737D">/-- The set of vertices strongly `r`-reachable from `v` in `G` under the</span></td></tr>
-<tr id="L70" class=""><td class="line-num"><a href="#L70">70</a></td><td class="line-code"><span style="color:#6A737D">vertex ordering `π`: the vertices `u` at or before `v` that are the</span></td></tr>
-<tr id="L71" class=""><td class="line-num"><a href="#L71">71</a></td><td class="line-code"><span style="color:#6A737D">endpoint of a walk from `v` of length at most `r` all of whose other</span></td></tr>
-<tr id="L72" class=""><td class="line-num"><a href="#L72">72</a></td><td class="line-code"><span style="color:#6A737D">vertices come strictly after `v`. Contains `v` itself. -/</span></td></tr>
+<tr id="L69" class="line-comment"><td class="line-num"><a href="#L69">69</a></td><td class="line-code"><span style="color:#6A737D">/-- The set of vertices strongly `r`-reachable from `v` in `G` under the</span></td></tr>
+<tr id="L70" class="line-comment"><td class="line-num"><a href="#L70">70</a></td><td class="line-code"><span style="color:#6A737D">vertex ordering `π`: the vertices `u` at or before `v` that are the</span></td></tr>
+<tr id="L71" class="line-comment"><td class="line-num"><a href="#L71">71</a></td><td class="line-code"><span style="color:#6A737D">endpoint of a walk from `v` of length at most `r` all of whose other</span></td></tr>
+<tr id="L72" class="line-comment"><td class="line-num"><a href="#L72">72</a></td><td class="line-code"><span style="color:#6A737D">vertices come strictly after `v`. Contains `v` itself. -/</span></td></tr>
 <tr id="L73" class=""><td class="line-num"><a href="#L73">73</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> sreach</span><span style="color:#24292E"> {n : ℕ} (G : SimpleGraph (Fin n)) (π : Equiv.Perm (Fin n))</span></td></tr>
 <tr id="L74" class=""><td class="line-num"><a href="#L74">74</a></td><td class="line-code"><span style="color:#24292E">    (r : ℕ) (v : Fin n) : Set (Fin n) :=</span></td></tr>
 <tr id="L75" class=""><td class="line-num"><a href="#L75">75</a></td><td class="line-code"><span style="color:#24292E">  {u | π u ≤ π v ∧ ∃ w : G.Walk v u, w.length ≤ r ∧</span></td></tr>
 <tr id="L76" class=""><td class="line-num"><a href="#L76">76</a></td><td class="line-code"><span style="color:#24292E">    ∀ y ∈ w.support, y ≠ v → y ≠ u → π v &lt; π y}</span></td></tr>
 <tr id="L77" class=""><td class="line-num"><a href="#L77">77</a></td><td class="line-code"> </td></tr>
-<tr id="L78" class=""><td class="line-num"><a href="#L78">78</a></td><td class="line-code"><span style="color:#6A737D">/-- The weak `r`-coloring number of `G`: the least `k` such that under</span></td></tr>
-<tr id="L79" class=""><td class="line-num"><a href="#L79">79</a></td><td class="line-code"><span style="color:#6A737D">some vertex ordering every vertex weakly `r`-reaches at most `k`</span></td></tr>
-<tr id="L80" class=""><td class="line-num"><a href="#L80">80</a></td><td class="line-code"><span style="color:#6A737D">vertices. -/</span></td></tr>
+<tr id="L78" class="line-comment"><td class="line-num"><a href="#L78">78</a></td><td class="line-code"><span style="color:#6A737D">/-- The weak `r`-coloring number of `G`: the least `k` such that under</span></td></tr>
+<tr id="L79" class="line-comment"><td class="line-num"><a href="#L79">79</a></td><td class="line-code"><span style="color:#6A737D">some vertex ordering every vertex weakly `r`-reaches at most `k`</span></td></tr>
+<tr id="L80" class="line-comment"><td class="line-num"><a href="#L80">80</a></td><td class="line-code"><span style="color:#6A737D">vertices. -/</span></td></tr>
 <tr id="L81" class=""><td class="line-num"><a href="#L81">81</a></td><td class="line-code"><span style="color:#D73A49">noncomputable</span><span style="color:#D73A49"> def</span><span style="color:#6F42C1"> wcol</span><span style="color:#24292E"> {n : ℕ} (G : SimpleGraph (Fin n)) (r : ℕ) : ℕ :=</span></td></tr>
 <tr id="L82" class=""><td class="line-num"><a href="#L82">82</a></td><td class="line-code"><span style="color:#24292E">  sInf {k | ∃ π : Equiv.Perm (Fin n), ∀ v, (</span><a class="lean-identifier-link" href="../lax-199508/Lax199508.ColoringNumbers.html#L61"><span style="color:#24292E">wreach</span></a><span style="color:#24292E"> G π r v).ncard ≤ k}</span></td></tr>
 <tr id="L83" class=""><td class="line-num"><a href="#L83">83</a></td><td class="line-code"> </td></tr>
-<tr id="L84" class=""><td class="line-num"><a href="#L84">84</a></td><td class="line-code"><span style="color:#6A737D">/-- The strong `r`-coloring number of `G`: the least `k` such that under</span></td></tr>
-<tr id="L85" class=""><td class="line-num"><a href="#L85">85</a></td><td class="line-code"><span style="color:#6A737D">some vertex ordering every vertex strongly `r`-reaches at most `k`</span></td></tr>
-<tr id="L86" class=""><td class="line-num"><a href="#L86">86</a></td><td class="line-code"><span style="color:#6A737D">vertices. -/</span></td></tr>
+<tr id="L84" class="line-comment"><td class="line-num"><a href="#L84">84</a></td><td class="line-code"><span style="color:#6A737D">/-- The strong `r`-coloring number of `G`: the least `k` such that under</span></td></tr>
+<tr id="L85" class="line-comment"><td class="line-num"><a href="#L85">85</a></td><td class="line-code"><span style="color:#6A737D">some vertex ordering every vertex strongly `r`-reaches at most `k`</span></td></tr>
+<tr id="L86" class="line-comment"><td class="line-num"><a href="#L86">86</a></td><td class="line-code"><span style="color:#6A737D">vertices. -/</span></td></tr>
 <tr id="L87" class=""><td class="line-num"><a href="#L87">87</a></td><td class="line-code"><span style="color:#D73A49">noncomputable</span><span style="color:#D73A49"> def</span><span style="color:#6F42C1"> scol</span><span style="color:#24292E"> {n : ℕ} (G : SimpleGraph (Fin n)) (r : ℕ) : ℕ :=</span></td></tr>
 <tr id="L88" class=""><td class="line-num"><a href="#L88">88</a></td><td class="line-code"><span style="color:#24292E">  sInf {k | ∃ π : Equiv.Perm (Fin n), ∀ v, (</span><a class="lean-identifier-link" href="../lax-199508/Lax199508.ColoringNumbers.html#L69"><span style="color:#24292E">sreach</span></a><span style="color:#24292E"> G π r v).ncard ≤ k}</span></td></tr>
 <tr id="L89" class=""><td class="line-num"><a href="#L89">89</a></td><td class="line-code"> </td></tr>
-<tr id="L90" class=""><td class="line-num"><a href="#L90">90</a></td><td class="line-code"><span style="color:#6A737D">/-- Every subgraph of every member of the class, on `m` vertices, has</span></td></tr>
-<tr id="L91" class=""><td class="line-num"><a href="#L91">91</a></td><td class="line-code"><span style="color:#6A737D">weak `r`-coloring number at most `c · m^ε`, where `c` depends only on</span></td></tr>
-<tr id="L92" class=""><td class="line-num"><a href="#L92">92</a></td><td class="line-code"><span style="color:#6A737D">the radius `r` and on `ε &gt; 0`: weak coloring numbers `m^{o(1)}`. -/</span></td></tr>
+<tr id="L90" class="line-comment"><td class="line-num"><a href="#L90">90</a></td><td class="line-code"><span style="color:#6A737D">/-- Every subgraph of every member of the class, on `m` vertices, has</span></td></tr>
+<tr id="L91" class="line-comment"><td class="line-num"><a href="#L91">91</a></td><td class="line-code"><span style="color:#6A737D">weak `r`-coloring number at most `c · m^ε`, where `c` depends only on</span></td></tr>
+<tr id="L92" class="line-comment"><td class="line-num"><a href="#L92">92</a></td><td class="line-code"><span style="color:#6A737D">the radius `r` and on `ε &gt; 0`: weak coloring numbers `m^{o(1)}`. -/</span></td></tr>
 <tr id="L93" class=""><td class="line-num"><a href="#L93">93</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> HasSubpolynomialWcol</span><span style="color:#24292E"> (C : </span><a class="lean-identifier-link" href="../lax-199508/Lax199508.GraphClasses.html#L25"><span style="color:#24292E">GraphClass</span></a><span style="color:#24292E">) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
 <tr id="L94" class=""><td class="line-num"><a href="#L94">94</a></td><td class="line-code"><span style="color:#24292E">  ∀ (r : ℕ) (ε : ℝ), </span><span style="color:#005CC5">0</span><span style="color:#24292E"> &lt; ε → ∃ c : ℝ,</span></td></tr>
 <tr id="L95" class=""><td class="line-num"><a href="#L95">95</a></td><td class="line-code"><span style="color:#24292E">    ∀ (n : ℕ) (G : SimpleGraph (Fin n)), C n G →</span></td></tr>
@@ -341,7 +341,7 @@ nonemptiness hypothesis is needed.</p>
 <script src="../assets/sidebar.js?v=0d92141eab56"></script>
 <script src="../assets/account.js?v=6a0844f8bd00"></script>
 <script src="../assets/graph-interaction.js?v=4f12c6eaf4ff"></script>
-<script src="../assets/source-proof.js?v=b4c48aaad400"></script>
+<script src="../assets/source-proof.js?v=c61006f1e018"></script>
 <script src="../assets/version-history.js?v=a36e868140dd"></script>
 <script src="../assets/comments.js?v=40723213c083"></script>
 </body></html>

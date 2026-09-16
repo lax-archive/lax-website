@@ -9,7 +9,7 @@
 <link rel="canonical" href="https://laxarchive.org/lax-195003/Lax195003.WelzlOrdersInGraphs.html">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=4d6294d8f522">
+<link rel="stylesheet" href="../assets/style.css?v=7519c5df2cf1">
 </head><body>
 <header class="site-header with-sidebar">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="true" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -149,39 +149,39 @@ therefore crossed at most <em>ℓ</em> times by every open <em>k</em>-neighborho
 
 <h3 class="figure-title">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/63ac657db4dd622a1a74f5adfb0f56b2193b3007/welzl-orders/concepts/Lax195003/WelzlOrdersInGraphs.lean">view on GitHub</a></h3>
 <div class="block block-lean">
-<div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<div class="inline-contract-shell"><button class="comment-toggle" type="button" aria-pressed="false" aria-label="Hide comments">Hide comments</button><div class="inline-contract-wrap"><table class="inline-contract-table">
 <tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-195003/Lax195003.WelzlOrdersNeighborhoodSetSystem.html"><span style="color:#24292E">Lax195003.WelzlOrdersNeighborhoodSetSystem</span></a></td></tr>
 <tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"> </td></tr>
-<tr id="L3" class=""><td class="line-num"><a href="#L3">3</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
-<tr id="L4" class=""><td class="line-num"><a href="#L4">4</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
-<tr id="L5" class=""><td class="line-num"><a href="#L5">5</a></td><td class="line-code"><span style="color:#6A737D">title: Welzl orders in graphs</span></td></tr>
-<tr id="L6" class=""><td class="line-num"><a href="#L6">6</a></td><td class="line-code"><span style="color:#6A737D">type: definition</span></td></tr>
-<tr id="L7" class=""><td class="line-num"><a href="#L7">7</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
-<tr id="L8" class=""><td class="line-num"><a href="#L8">8</a></td><td class="line-code"><span style="color:#6A737D">For a graph and a radius *k*, a graph Welzl order of crossing number at most</span></td></tr>
-<tr id="L9" class=""><td class="line-num"><a href="#L9">9</a></td><td class="line-code"><span style="color:#6A737D">*ℓ* is a Welzl order for the graph's open *k*-neighborhood set system. It is</span></td></tr>
-<tr id="L10" class=""><td class="line-num"><a href="#L10">10</a></td><td class="line-code"><span style="color:#6A737D">therefore crossed at most *ℓ* times by every open *k*-neighborhood.</span></td></tr>
-<tr id="L11" class=""><td class="line-num"><a href="#L11">11</a></td><td class="line-code"> </td></tr>
-<tr id="L12" class=""><td class="line-num"><a href="#L12">12</a></td><td class="line-code"><span style="color:#6A737D"># Formalization notes</span></td></tr>
-<tr id="L13" class=""><td class="line-num"><a href="#L13">13</a></td><td class="line-code"> </td></tr>
-<tr id="L14" class=""><td class="line-num"><a href="#L14">14</a></td><td class="line-code"><span style="color:#6A737D">The neighborhood set system and its bounded-walk definition are provided by</span></td></tr>
-<tr id="L15" class=""><td class="line-num"><a href="#L15">15</a></td><td class="line-code"><span style="color:#6A737D">the separate `Lax195003.WelzlOrdersNeighborhoodSetSystem` concept. Its</span></td></tr>
-<tr id="L16" class=""><td class="line-num"><a href="#L16">16</a></td><td class="line-code"><span style="color:#6A737D">radius-one instance is the ordinary open neighborhood system used by the graph</span></td></tr>
-<tr id="L17" class=""><td class="line-num"><a href="#L17">17</a></td><td class="line-code"><span style="color:#6A737D">theorem.</span></td></tr>
-<tr id="L18" class=""><td class="line-num"><a href="#L18">18</a></td><td class="line-code"> </td></tr>
-<tr id="L19" class=""><td class="line-num"><a href="#L19">19</a></td><td class="line-code"><span style="color:#6A737D">An algorithmic output is a list of vertices in increasing order. Rather than</span></td></tr>
-<tr id="L20" class=""><td class="line-num"><a href="#L20">20</a></td><td class="line-code"><span style="color:#6A737D">introducing a separate generic encoding predicate, `EncodesGraphWelzlOrder`</span></td></tr>
-<tr id="L21" class=""><td class="line-num"><a href="#L21">21</a></td><td class="line-code"><span style="color:#6A737D">states directly that the list represents some permutation which is a Welzl</span></td></tr>
-<tr id="L22" class=""><td class="line-num"><a href="#L22">22</a></td><td class="line-code"><span style="color:#6A737D">order for the graph's `radius`-neighborhood system. It does not prescribe</span></td></tr>
-<tr id="L23" class=""><td class="line-num"><a href="#L23">23</a></td><td class="line-code"><span style="color:#6A737D">which of the potentially many good orders an algorithm must choose.</span></td></tr>
-<tr id="L24" class=""><td class="line-num"><a href="#L24">24</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
+<tr id="L3" class="line-comment"><td class="line-num"><a href="#L3">3</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
+<tr id="L4" class="line-comment"><td class="line-num"><a href="#L4">4</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
+<tr id="L5" class="line-comment"><td class="line-num"><a href="#L5">5</a></td><td class="line-code"><span style="color:#6A737D">title: Welzl orders in graphs</span></td></tr>
+<tr id="L6" class="line-comment"><td class="line-num"><a href="#L6">6</a></td><td class="line-code"><span style="color:#6A737D">type: definition</span></td></tr>
+<tr id="L7" class="line-comment"><td class="line-num"><a href="#L7">7</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
+<tr id="L8" class="line-comment"><td class="line-num"><a href="#L8">8</a></td><td class="line-code"><span style="color:#6A737D">For a graph and a radius *k*, a graph Welzl order of crossing number at most</span></td></tr>
+<tr id="L9" class="line-comment"><td class="line-num"><a href="#L9">9</a></td><td class="line-code"><span style="color:#6A737D">*ℓ* is a Welzl order for the graph's open *k*-neighborhood set system. It is</span></td></tr>
+<tr id="L10" class="line-comment"><td class="line-num"><a href="#L10">10</a></td><td class="line-code"><span style="color:#6A737D">therefore crossed at most *ℓ* times by every open *k*-neighborhood.</span></td></tr>
+<tr id="L11" class="line-comment"><td class="line-num"><a href="#L11">11</a></td><td class="line-code"> </td></tr>
+<tr id="L12" class="line-comment"><td class="line-num"><a href="#L12">12</a></td><td class="line-code"><span style="color:#6A737D"># Formalization notes</span></td></tr>
+<tr id="L13" class="line-comment"><td class="line-num"><a href="#L13">13</a></td><td class="line-code"> </td></tr>
+<tr id="L14" class="line-comment"><td class="line-num"><a href="#L14">14</a></td><td class="line-code"><span style="color:#6A737D">The neighborhood set system and its bounded-walk definition are provided by</span></td></tr>
+<tr id="L15" class="line-comment"><td class="line-num"><a href="#L15">15</a></td><td class="line-code"><span style="color:#6A737D">the separate `Lax195003.WelzlOrdersNeighborhoodSetSystem` concept. Its</span></td></tr>
+<tr id="L16" class="line-comment"><td class="line-num"><a href="#L16">16</a></td><td class="line-code"><span style="color:#6A737D">radius-one instance is the ordinary open neighborhood system used by the graph</span></td></tr>
+<tr id="L17" class="line-comment"><td class="line-num"><a href="#L17">17</a></td><td class="line-code"><span style="color:#6A737D">theorem.</span></td></tr>
+<tr id="L18" class="line-comment"><td class="line-num"><a href="#L18">18</a></td><td class="line-code"> </td></tr>
+<tr id="L19" class="line-comment"><td class="line-num"><a href="#L19">19</a></td><td class="line-code"><span style="color:#6A737D">An algorithmic output is a list of vertices in increasing order. Rather than</span></td></tr>
+<tr id="L20" class="line-comment"><td class="line-num"><a href="#L20">20</a></td><td class="line-code"><span style="color:#6A737D">introducing a separate generic encoding predicate, `EncodesGraphWelzlOrder`</span></td></tr>
+<tr id="L21" class="line-comment"><td class="line-num"><a href="#L21">21</a></td><td class="line-code"><span style="color:#6A737D">states directly that the list represents some permutation which is a Welzl</span></td></tr>
+<tr id="L22" class="line-comment"><td class="line-num"><a href="#L22">22</a></td><td class="line-code"><span style="color:#6A737D">order for the graph's `radius`-neighborhood system. It does not prescribe</span></td></tr>
+<tr id="L23" class="line-comment"><td class="line-num"><a href="#L23">23</a></td><td class="line-code"><span style="color:#6A737D">which of the potentially many good orders an algorithm must choose.</span></td></tr>
+<tr id="L24" class="line-comment"><td class="line-num"><a href="#L24">24</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
 <tr id="L25" class=""><td class="line-num"><a href="#L25">25</a></td><td class="line-code"> </td></tr>
 <tr id="L26" class=""><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax195003.WelzlOrdersInGraphs</span></td></tr>
 <tr id="L27" class=""><td class="line-num"><a href="#L27">27</a></td><td class="line-code"> </td></tr>
 <tr id="L28" class=""><td class="line-num"><a href="#L28">28</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-195003/Lax195003.WelzlOrders.html"><span style="color:#24292E">Lax195003.WelzlOrders</span></a></td></tr>
 <tr id="L29" class=""><td class="line-num"><a href="#L29">29</a></td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-195003/Lax195003.WelzlOrdersNeighborhoodSetSystem.html"><span style="color:#24292E">Lax195003.WelzlOrdersNeighborhoodSetSystem</span></a></td></tr>
 <tr id="L30" class=""><td class="line-num"><a href="#L30">30</a></td><td class="line-code"> </td></tr>
-<tr id="L31" class=""><td class="line-num"><a href="#L31">31</a></td><td class="line-code"><span style="color:#6A737D">/-- The word `y` encodes a Welzl order of crossing number at most</span></td></tr>
-<tr id="L32" class=""><td class="line-num"><a href="#L32">32</a></td><td class="line-code"><span style="color:#6A737D">`crossingBound` for the `radius`-neighborhood set system of `G`. -/</span></td></tr>
+<tr id="L31" class="line-comment"><td class="line-num"><a href="#L31">31</a></td><td class="line-code"><span style="color:#6A737D">/-- The word `y` encodes a Welzl order of crossing number at most</span></td></tr>
+<tr id="L32" class="line-comment"><td class="line-num"><a href="#L32">32</a></td><td class="line-code"><span style="color:#6A737D">`crossingBound` for the `radius`-neighborhood set system of `G`. -/</span></td></tr>
 <tr id="L33" class=""><td class="line-num"><a href="#L33">33</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> EncodesGraphWelzlOrder</span><span style="color:#24292E"> {n : ℕ} (G : SimpleGraph (Fin n))</span></td></tr>
 <tr id="L34" class=""><td class="line-num"><a href="#L34">34</a></td><td class="line-code"><span style="color:#24292E">    (radius crossingBound : ℕ) (y : List ℕ) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
 <tr id="L35" class=""><td class="line-num"><a href="#L35">35</a></td><td class="line-code"><span style="color:#24292E">  ∃ π : Equiv.Perm (Fin n),</span></td></tr>
@@ -258,7 +258,7 @@ which of the potentially many good orders an algorithm must choose.</p>
 <script src="../assets/sidebar.js?v=0d92141eab56"></script>
 <script src="../assets/account.js?v=6a0844f8bd00"></script>
 <script src="../assets/graph-interaction.js?v=4f12c6eaf4ff"></script>
-<script src="../assets/source-proof.js?v=b4c48aaad400"></script>
+<script src="../assets/source-proof.js?v=c61006f1e018"></script>
 <script src="../assets/version-history.js?v=a36e868140dd"></script>
 <script src="../assets/comments.js?v=40723213c083"></script>
 </body></html>

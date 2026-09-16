@@ -9,7 +9,7 @@
 <link rel="canonical" href="https://laxarchive.org/lax-5/Lax5.Transductions.html">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=4d6294d8f522">
+<link rel="stylesheet" href="../assets/style.css?v=7519c5df2cf1">
 </head><body>
 <header class="site-header with-sidebar">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="true" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -178,48 +178,48 @@ colored member of <em>C</em>.</p>
 
 <h3 class="figure-title">Lean source <a class="source-link" href="https://github.com/lax-archive/lax-submissions/blob/688029c9426eccb2fc339e3a1f2179cb97116edc/monadic-dependence-neighborhood-complexity/concepts/Lax5/Transductions.lean">view on GitHub</a></h3>
 <div class="block block-lean">
-<div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<div class="inline-contract-shell"><button class="comment-toggle" type="button" aria-pressed="false" aria-label="Hide comments">Hide comments</button><div class="inline-contract-wrap"><table class="inline-contract-table">
 <tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.ModelTheory.Semantics</span></td></tr>
 <tr id="L2" class=""><td class="line-num"><a href="#L2">2</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Logic.Embedding.Basic</span></td></tr>
 <tr id="L3" class=""><td class="line-num"><a href="#L3">3</a></td><td class="line-code"> </td></tr>
-<tr id="L4" class=""><td class="line-num"><a href="#L4">4</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
-<tr id="L5" class=""><td class="line-num"><a href="#L5">5</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
-<tr id="L6" class=""><td class="line-num"><a href="#L6">6</a></td><td class="line-code"><span style="color:#6A737D">title: First-order transductions</span></td></tr>
-<tr id="L7" class=""><td class="line-num"><a href="#L7">7</a></td><td class="line-code"><span style="color:#6A737D">type: definition</span></td></tr>
-<tr id="L8" class=""><td class="line-num"><a href="#L8">8</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
-<tr id="L9" class=""><td class="line-num"><a href="#L9">9</a></td><td class="line-code"><span style="color:#6A737D">A (non-copying) first-order transduction from structures of a language</span></td></tr>
-<tr id="L10" class=""><td class="line-num"><a href="#L10">10</a></td><td class="line-code"><span style="color:#6A737D">*L* to structures of a relational language *L'* consists of a number *k*</span></td></tr>
-<tr id="L11" class=""><td class="line-num"><a href="#L11">11</a></td><td class="line-code"><span style="color:#6A737D">of unary *color* predicates, a *domain* formula, and one formula per</span></td></tr>
-<tr id="L12" class=""><td class="line-num"><a href="#L12">12</a></td><td class="line-code"><span style="color:#6A737D">relation symbol of *L'*, all over *L* expanded by the colors. Applied to</span></td></tr>
-<tr id="L13" class=""><td class="line-num"><a href="#L13">13</a></td><td class="line-code"><span style="color:#6A737D">an *L*-structure together with an arbitrary coloring of its elements,</span></td></tr>
-<tr id="L14" class=""><td class="line-num"><a href="#L14">14</a></td><td class="line-code"><span style="color:#6A737D">the transduction outputs the *L'*-structure whose universe is the set of</span></td></tr>
-<tr id="L15" class=""><td class="line-num"><a href="#L15">15</a></td><td class="line-code"><span style="color:#6A737D">elements satisfying the domain formula and whose relations are defined</span></td></tr>
-<tr id="L16" class=""><td class="line-num"><a href="#L16">16</a></td><td class="line-code"><span style="color:#6A737D">by the interpreting formulas.</span></td></tr>
-<tr id="L17" class=""><td class="line-num"><a href="#L17">17</a></td><td class="line-code"> </td></tr>
-<tr id="L18" class=""><td class="line-num"><a href="#L18">18</a></td><td class="line-code"><span style="color:#6A737D">A class *C* of structures transduces a class *D* if a single</span></td></tr>
-<tr id="L19" class=""><td class="line-num"><a href="#L19">19</a></td><td class="line-code"><span style="color:#6A737D">transduction produces every member of *D*, up to isomorphism, from some</span></td></tr>
-<tr id="L20" class=""><td class="line-num"><a href="#L20">20</a></td><td class="line-code"><span style="color:#6A737D">colored member of *C*.</span></td></tr>
-<tr id="L21" class=""><td class="line-num"><a href="#L21">21</a></td><td class="line-code"> </td></tr>
-<tr id="L22" class=""><td class="line-num"><a href="#L22">22</a></td><td class="line-code"><span style="color:#6A737D"># Formalization notes</span></td></tr>
-<tr id="L23" class=""><td class="line-num"><a href="#L23">23</a></td><td class="line-code"> </td></tr>
-<tr id="L24" class=""><td class="line-num"><a href="#L24">24</a></td><td class="line-code"><span style="color:#6A737D">Languages, formulas and semantics are mathlib's: a formula with `r` free</span></td></tr>
-<tr id="L25" class=""><td class="line-num"><a href="#L25">25</a></td><td class="line-code"><span style="color:#6A737D">variables is a `Formula (Fin r)`, realized via `Formula.Realize`. The</span></td></tr>
-<tr id="L26" class=""><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span style="color:#6A737D">color expansion is the sum of `L` with a language of `k` unary relation</span></td></tr>
-<tr id="L27" class=""><td class="line-num"><a href="#L27">27</a></td><td class="line-code"><span style="color:#6A737D">symbols; `RealizeIn` confines the instance plumbing (mathlib treats</span></td></tr>
-<tr id="L28" class=""><td class="line-num"><a href="#L28">28</a></td><td class="line-code"><span style="color:#6A737D">structures as instances, this submission treats them as data) to a</span></td></tr>
-<tr id="L29" class=""><td class="line-num"><a href="#L29">29</a></td><td class="line-code"><span style="color:#6A737D">single definition.</span></td></tr>
-<tr id="L30" class=""><td class="line-num"><a href="#L30">30</a></td><td class="line-code"> </td></tr>
-<tr id="L31" class=""><td class="line-num"><a href="#L31">31</a></td><td class="line-code"><span style="color:#6A737D">In `Transduces`, the embedding `f` carries the isomorphism: its range</span></td></tr>
-<tr id="L32" class=""><td class="line-num"><a href="#L32">32</a></td><td class="line-code"><span style="color:#6A737D">must be exactly the set defined by the domain formula, and each target</span></td></tr>
-<tr id="L33" class=""><td class="line-num"><a href="#L33">33</a></td><td class="line-code"><span style="color:#6A737D">relation must be defined by its interpreting formula. The target</span></td></tr>
-<tr id="L34" class=""><td class="line-num"><a href="#L34">34</a></td><td class="line-code"><span style="color:#6A737D">language is required to be relational because a transduction interprets</span></td></tr>
-<tr id="L35" class=""><td class="line-num"><a href="#L35">35</a></td><td class="line-code"><span style="color:#6A737D">relations only; function symbols on the target side would be silently</span></td></tr>
-<tr id="L36" class=""><td class="line-num"><a href="#L36">36</a></td><td class="line-code"><span style="color:#6A737D">unconstrained. Since colorings are existentially quantified, taking an</span></td></tr>
-<tr id="L37" class=""><td class="line-num"><a href="#L37">37</a></td><td class="line-code"><span style="color:#6A737D">*arbitrary* induced substructure instead of a definable one yields the</span></td></tr>
-<tr id="L38" class=""><td class="line-num"><a href="#L38">38</a></td><td class="line-code"><span style="color:#6A737D">same transduces relation — a fresh color can serve as the domain</span></td></tr>
-<tr id="L39" class=""><td class="line-num"><a href="#L39">39</a></td><td class="line-code"><span style="color:#6A737D">formula. Only non-copying transductions are defined; the results of this</span></td></tr>
-<tr id="L40" class=""><td class="line-num"><a href="#L40">40</a></td><td class="line-code"><span style="color:#6A737D">submission need nothing more.</span></td></tr>
-<tr id="L41" class=""><td class="line-num"><a href="#L41">41</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
+<tr id="L4" class="line-comment"><td class="line-num"><a href="#L4">4</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
+<tr id="L5" class="line-comment"><td class="line-num"><a href="#L5">5</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
+<tr id="L6" class="line-comment"><td class="line-num"><a href="#L6">6</a></td><td class="line-code"><span style="color:#6A737D">title: First-order transductions</span></td></tr>
+<tr id="L7" class="line-comment"><td class="line-num"><a href="#L7">7</a></td><td class="line-code"><span style="color:#6A737D">type: definition</span></td></tr>
+<tr id="L8" class="line-comment"><td class="line-num"><a href="#L8">8</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
+<tr id="L9" class="line-comment"><td class="line-num"><a href="#L9">9</a></td><td class="line-code"><span style="color:#6A737D">A (non-copying) first-order transduction from structures of a language</span></td></tr>
+<tr id="L10" class="line-comment"><td class="line-num"><a href="#L10">10</a></td><td class="line-code"><span style="color:#6A737D">*L* to structures of a relational language *L'* consists of a number *k*</span></td></tr>
+<tr id="L11" class="line-comment"><td class="line-num"><a href="#L11">11</a></td><td class="line-code"><span style="color:#6A737D">of unary *color* predicates, a *domain* formula, and one formula per</span></td></tr>
+<tr id="L12" class="line-comment"><td class="line-num"><a href="#L12">12</a></td><td class="line-code"><span style="color:#6A737D">relation symbol of *L'*, all over *L* expanded by the colors. Applied to</span></td></tr>
+<tr id="L13" class="line-comment"><td class="line-num"><a href="#L13">13</a></td><td class="line-code"><span style="color:#6A737D">an *L*-structure together with an arbitrary coloring of its elements,</span></td></tr>
+<tr id="L14" class="line-comment"><td class="line-num"><a href="#L14">14</a></td><td class="line-code"><span style="color:#6A737D">the transduction outputs the *L'*-structure whose universe is the set of</span></td></tr>
+<tr id="L15" class="line-comment"><td class="line-num"><a href="#L15">15</a></td><td class="line-code"><span style="color:#6A737D">elements satisfying the domain formula and whose relations are defined</span></td></tr>
+<tr id="L16" class="line-comment"><td class="line-num"><a href="#L16">16</a></td><td class="line-code"><span style="color:#6A737D">by the interpreting formulas.</span></td></tr>
+<tr id="L17" class="line-comment"><td class="line-num"><a href="#L17">17</a></td><td class="line-code"> </td></tr>
+<tr id="L18" class="line-comment"><td class="line-num"><a href="#L18">18</a></td><td class="line-code"><span style="color:#6A737D">A class *C* of structures transduces a class *D* if a single</span></td></tr>
+<tr id="L19" class="line-comment"><td class="line-num"><a href="#L19">19</a></td><td class="line-code"><span style="color:#6A737D">transduction produces every member of *D*, up to isomorphism, from some</span></td></tr>
+<tr id="L20" class="line-comment"><td class="line-num"><a href="#L20">20</a></td><td class="line-code"><span style="color:#6A737D">colored member of *C*.</span></td></tr>
+<tr id="L21" class="line-comment"><td class="line-num"><a href="#L21">21</a></td><td class="line-code"> </td></tr>
+<tr id="L22" class="line-comment"><td class="line-num"><a href="#L22">22</a></td><td class="line-code"><span style="color:#6A737D"># Formalization notes</span></td></tr>
+<tr id="L23" class="line-comment"><td class="line-num"><a href="#L23">23</a></td><td class="line-code"> </td></tr>
+<tr id="L24" class="line-comment"><td class="line-num"><a href="#L24">24</a></td><td class="line-code"><span style="color:#6A737D">Languages, formulas and semantics are mathlib's: a formula with `r` free</span></td></tr>
+<tr id="L25" class="line-comment"><td class="line-num"><a href="#L25">25</a></td><td class="line-code"><span style="color:#6A737D">variables is a `Formula (Fin r)`, realized via `Formula.Realize`. The</span></td></tr>
+<tr id="L26" class="line-comment"><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span style="color:#6A737D">color expansion is the sum of `L` with a language of `k` unary relation</span></td></tr>
+<tr id="L27" class="line-comment"><td class="line-num"><a href="#L27">27</a></td><td class="line-code"><span style="color:#6A737D">symbols; `RealizeIn` confines the instance plumbing (mathlib treats</span></td></tr>
+<tr id="L28" class="line-comment"><td class="line-num"><a href="#L28">28</a></td><td class="line-code"><span style="color:#6A737D">structures as instances, this submission treats them as data) to a</span></td></tr>
+<tr id="L29" class="line-comment"><td class="line-num"><a href="#L29">29</a></td><td class="line-code"><span style="color:#6A737D">single definition.</span></td></tr>
+<tr id="L30" class="line-comment"><td class="line-num"><a href="#L30">30</a></td><td class="line-code"> </td></tr>
+<tr id="L31" class="line-comment"><td class="line-num"><a href="#L31">31</a></td><td class="line-code"><span style="color:#6A737D">In `Transduces`, the embedding `f` carries the isomorphism: its range</span></td></tr>
+<tr id="L32" class="line-comment"><td class="line-num"><a href="#L32">32</a></td><td class="line-code"><span style="color:#6A737D">must be exactly the set defined by the domain formula, and each target</span></td></tr>
+<tr id="L33" class="line-comment"><td class="line-num"><a href="#L33">33</a></td><td class="line-code"><span style="color:#6A737D">relation must be defined by its interpreting formula. The target</span></td></tr>
+<tr id="L34" class="line-comment"><td class="line-num"><a href="#L34">34</a></td><td class="line-code"><span style="color:#6A737D">language is required to be relational because a transduction interprets</span></td></tr>
+<tr id="L35" class="line-comment"><td class="line-num"><a href="#L35">35</a></td><td class="line-code"><span style="color:#6A737D">relations only; function symbols on the target side would be silently</span></td></tr>
+<tr id="L36" class="line-comment"><td class="line-num"><a href="#L36">36</a></td><td class="line-code"><span style="color:#6A737D">unconstrained. Since colorings are existentially quantified, taking an</span></td></tr>
+<tr id="L37" class="line-comment"><td class="line-num"><a href="#L37">37</a></td><td class="line-code"><span style="color:#6A737D">*arbitrary* induced substructure instead of a definable one yields the</span></td></tr>
+<tr id="L38" class="line-comment"><td class="line-num"><a href="#L38">38</a></td><td class="line-code"><span style="color:#6A737D">same transduces relation — a fresh color can serve as the domain</span></td></tr>
+<tr id="L39" class="line-comment"><td class="line-num"><a href="#L39">39</a></td><td class="line-code"><span style="color:#6A737D">formula. Only non-copying transductions are defined; the results of this</span></td></tr>
+<tr id="L40" class="line-comment"><td class="line-num"><a href="#L40">40</a></td><td class="line-code"><span style="color:#6A737D">submission need nothing more.</span></td></tr>
+<tr id="L41" class="line-comment"><td class="line-num"><a href="#L41">41</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
 <tr id="L42" class=""><td class="line-num"><a href="#L42">42</a></td><td class="line-code"> </td></tr>
 <tr id="L43" class=""><td class="line-num"><a href="#L43">43</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax5.Transductions</span></td></tr>
 <tr id="L44" class=""><td class="line-num"><a href="#L44">44</a></td><td class="line-code"> </td></tr>
@@ -227,34 +227,34 @@ colored member of <em>C</em>.</p>
 <tr id="L46" class=""><td class="line-num"><a href="#L46">46</a></td><td class="line-code"> </td></tr>
 <tr id="L47" class=""><td class="line-num"><a href="#L47">47</a></td><td class="line-code"><span style="color:#D73A49">universe</span><span style="color:#24292E"> u v u' v'</span></td></tr>
 <tr id="L48" class=""><td class="line-num"><a href="#L48">48</a></td><td class="line-code"> </td></tr>
-<tr id="L49" class=""><td class="line-num"><a href="#L49">49</a></td><td class="line-code"><span style="color:#6A737D">/-- A class of finite structures of the language `L`: for each `n`, a</span></td></tr>
-<tr id="L50" class=""><td class="line-num"><a href="#L50">50</a></td><td class="line-code"><span style="color:#6A737D">predicate on the `L`-structures over the canonical `n`-element type. -/</span></td></tr>
+<tr id="L49" class="line-comment"><td class="line-num"><a href="#L49">49</a></td><td class="line-code"><span style="color:#6A737D">/-- A class of finite structures of the language `L`: for each `n`, a</span></td></tr>
+<tr id="L50" class="line-comment"><td class="line-num"><a href="#L50">50</a></td><td class="line-code"><span style="color:#6A737D">predicate on the `L`-structures over the canonical `n`-element type. -/</span></td></tr>
 <tr id="L51" class=""><td class="line-num"><a href="#L51">51</a></td><td class="line-code"><span style="color:#D73A49">abbrev</span><span style="color:#6F42C1"> StructureClass</span><span style="color:#24292E"> (L : Language.{u, v}) : </span><span style="color:#D73A49">Type</span><span style="color:#24292E"> (max u v) :=</span></td></tr>
 <tr id="L52" class=""><td class="line-num"><a href="#L52">52</a></td><td class="line-code"><span style="color:#24292E">  ∀ n : ℕ, L.Structure (Fin n) → </span><span style="color:#D73A49">Prop</span></td></tr>
 <tr id="L53" class=""><td class="line-num"><a href="#L53">53</a></td><td class="line-code"> </td></tr>
-<tr id="L54" class=""><td class="line-num"><a href="#L54">54</a></td><td class="line-code"><span style="color:#6A737D">/-- The relation symbols of the color language: `k` unary predicates. -/</span></td></tr>
+<tr id="L54" class="line-comment"><td class="line-num"><a href="#L54">54</a></td><td class="line-code"><span style="color:#6A737D">/-- The relation symbols of the color language: `k` unary predicates. -/</span></td></tr>
 <tr id="L55" class=""><td class="line-num"><a href="#L55">55</a></td><td class="line-code"><span style="color:#D73A49">inductive</span><span style="color:#6F42C1"> ColorRel</span><span style="color:#24292E"> (k : ℕ) : ℕ → </span><span style="color:#D73A49">Type</span></td></tr>
 <tr id="L56" class=""><td class="line-num"><a href="#L56">56</a></td><td class="line-code"><span style="color:#24292E">  | color (i : Fin k) : </span><a class="lean-identifier-link" href="../lax-5/Lax5.Transductions.html#L54"><span style="color:#24292E">ColorRel</span></a><span style="color:#24292E"> k </span><span style="color:#005CC5">1</span></td></tr>
 <tr id="L57" class=""><td class="line-num"><a href="#L57">57</a></td><td class="line-code"> </td></tr>
-<tr id="L58" class=""><td class="line-num"><a href="#L58">58</a></td><td class="line-code"><span style="color:#6A737D">/-- The language consisting of `k` unary color predicates and nothing</span></td></tr>
-<tr id="L59" class=""><td class="line-num"><a href="#L59">59</a></td><td class="line-code"><span style="color:#6A737D">else. -/</span></td></tr>
+<tr id="L58" class="line-comment"><td class="line-num"><a href="#L58">58</a></td><td class="line-code"><span style="color:#6A737D">/-- The language consisting of `k` unary color predicates and nothing</span></td></tr>
+<tr id="L59" class="line-comment"><td class="line-num"><a href="#L59">59</a></td><td class="line-code"><span style="color:#6A737D">else. -/</span></td></tr>
 <tr id="L60" class=""><td class="line-num"><a href="#L60">60</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> colorLanguage</span><span style="color:#24292E"> (k : ℕ) : Language :=</span></td></tr>
 <tr id="L61" class=""><td class="line-num"><a href="#L61">61</a></td><td class="line-code"><span style="color:#24292E">  ⟨</span><span style="color:#D73A49">fun</span><span style="color:#24292E"> _ =&gt; Empty, </span><a class="lean-identifier-link" href="../lax-5/Lax5.Transductions.html#L54"><span style="color:#24292E">ColorRel</span></a><span style="color:#24292E"> k⟩</span></td></tr>
 <tr id="L62" class=""><td class="line-num"><a href="#L62">62</a></td><td class="line-code"><span style="color:#D73A49">  deriving</span><span style="color:#24292E"> Language.IsRelational</span></td></tr>
 <tr id="L63" class=""><td class="line-num"><a href="#L63">63</a></td><td class="line-code"> </td></tr>
-<tr id="L64" class=""><td class="line-num"><a href="#L64">64</a></td><td class="line-code"><span style="color:#6A737D">/-- The language `L` expanded by `k` unary color predicates. -/</span></td></tr>
+<tr id="L64" class="line-comment"><td class="line-num"><a href="#L64">64</a></td><td class="line-code"><span style="color:#6A737D">/-- The language `L` expanded by `k` unary color predicates. -/</span></td></tr>
 <tr id="L65" class=""><td class="line-num"><a href="#L65">65</a></td><td class="line-code"><span style="color:#D73A49">abbrev</span><span style="color:#6F42C1"> withColors</span><span style="color:#24292E"> (L : Language.{u, v}) (k : ℕ) : Language :=</span></td></tr>
 <tr id="L66" class=""><td class="line-num"><a href="#L66">66</a></td><td class="line-code"><span style="color:#24292E">  L.sum (</span><a class="lean-identifier-link" href="../lax-5/Lax5.Transductions.html#L58"><span style="color:#24292E">colorLanguage</span></a><span style="color:#24292E"> k)</span></td></tr>
 <tr id="L67" class=""><td class="line-num"><a href="#L67">67</a></td><td class="line-code"> </td></tr>
-<tr id="L68" class=""><td class="line-num"><a href="#L68">68</a></td><td class="line-code"><span style="color:#6A737D">/-- The color sets `colors` as a structure of the color language:</span></td></tr>
-<tr id="L69" class=""><td class="line-num"><a href="#L69">69</a></td><td class="line-code"><span style="color:#6A737D">`.color i` holds of the elements of `colors i`. -/</span></td></tr>
+<tr id="L68" class="line-comment"><td class="line-num"><a href="#L68">68</a></td><td class="line-code"><span style="color:#6A737D">/-- The color sets `colors` as a structure of the color language:</span></td></tr>
+<tr id="L69" class="line-comment"><td class="line-num"><a href="#L69">69</a></td><td class="line-code"><span style="color:#6A737D">`.color i` holds of the elements of `colors i`. -/</span></td></tr>
 <tr id="L70" class=""><td class="line-num"><a href="#L70">70</a></td><td class="line-code"><span style="color:#D73A49">@[implicit_reducible]</span></td></tr>
 <tr id="L71" class=""><td class="line-num"><a href="#L71">71</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> colorStructure</span><span style="color:#24292E"> {M : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">*} {k : ℕ} (colors : Fin k → Set M) :</span></td></tr>
 <tr id="L72" class=""><td class="line-num"><a href="#L72">72</a></td><td class="line-code"><span style="color:#24292E">    (</span><a class="lean-identifier-link" href="../lax-5/Lax5.Transductions.html#L58"><span style="color:#24292E">colorLanguage</span></a><span style="color:#24292E"> k).Structure M </span><span style="color:#D73A49">where</span></td></tr>
 <tr id="L73" class=""><td class="line-num"><a href="#L73">73</a></td><td class="line-code"><span style="color:#24292E">  RelMap | </span><a class="lean-identifier-link" href="../lax-5/Lax5.Transductions.html#L56"><span style="color:#24292E">.color</span></a><span style="color:#24292E"> i =&gt; </span><span style="color:#D73A49">fun</span><span style="color:#24292E"> x =&gt; x </span><span style="color:#005CC5">0</span><span style="color:#24292E"> ∈ colors i</span></td></tr>
 <tr id="L74" class=""><td class="line-num"><a href="#L74">74</a></td><td class="line-code"> </td></tr>
-<tr id="L75" class=""><td class="line-num"><a href="#L75">75</a></td><td class="line-code"><span style="color:#6A737D">/-- The formula `φ` of the colored language holds of the tuple `v` in</span></td></tr>
-<tr id="L76" class=""><td class="line-num"><a href="#L76">76</a></td><td class="line-code"><span style="color:#6A737D">the `L`-structure `M` expanded by the color sets `colors`. -/</span></td></tr>
+<tr id="L75" class="line-comment"><td class="line-num"><a href="#L75">75</a></td><td class="line-code"><span style="color:#6A737D">/-- The formula `φ` of the colored language holds of the tuple `v` in</span></td></tr>
+<tr id="L76" class="line-comment"><td class="line-num"><a href="#L76">76</a></td><td class="line-code"><span style="color:#6A737D">the `L`-structure `M` expanded by the color sets `colors`. -/</span></td></tr>
 <tr id="L77" class=""><td class="line-num"><a href="#L77">77</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> RealizeIn</span><span style="color:#24292E"> {L : Language.{u, v}} {n k : ℕ} (M : L.Structure (Fin n))</span></td></tr>
 <tr id="L78" class=""><td class="line-num"><a href="#L78">78</a></td><td class="line-code"><span style="color:#24292E">    (colors : Fin k → Set (Fin n)) {α : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">*}</span></td></tr>
 <tr id="L79" class=""><td class="line-num"><a href="#L79">79</a></td><td class="line-code"><span style="color:#24292E">    (φ : (</span><a class="lean-identifier-link" href="../lax-5/Lax5.Transductions.html#L64"><span style="color:#24292E">withColors</span></a><span style="color:#24292E"> L k).Formula α) (v : α → Fin n) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
@@ -262,21 +262,21 @@ colored member of <em>C</em>.</p>
 <tr id="L81" class=""><td class="line-num"><a href="#L81">81</a></td><td class="line-code"><span style="color:#D73A49">  letI</span><span style="color:#24292E"> := </span><a class="lean-identifier-link" href="../lax-5/Lax5.Transductions.html#L68"><span style="color:#24292E">colorStructure</span></a><span style="color:#24292E"> colors</span></td></tr>
 <tr id="L82" class=""><td class="line-num"><a href="#L82">82</a></td><td class="line-code"><span style="color:#24292E">  φ.Realize v</span></td></tr>
 <tr id="L83" class=""><td class="line-num"><a href="#L83">83</a></td><td class="line-code"> </td></tr>
-<tr id="L84" class=""><td class="line-num"><a href="#L84">84</a></td><td class="line-code"><span style="color:#6A737D">/-- A non-copying transduction from `L`-structures to `L'`-structures:</span></td></tr>
-<tr id="L85" class=""><td class="line-num"><a href="#L85">85</a></td><td class="line-code"><span style="color:#6A737D">finitely many unary colors, a domain formula selecting the output</span></td></tr>
-<tr id="L86" class=""><td class="line-num"><a href="#L86">86</a></td><td class="line-code"><span style="color:#6A737D">universe, and one formula per relation symbol of the target language. -/</span></td></tr>
+<tr id="L84" class="line-comment"><td class="line-num"><a href="#L84">84</a></td><td class="line-code"><span style="color:#6A737D">/-- A non-copying transduction from `L`-structures to `L'`-structures:</span></td></tr>
+<tr id="L85" class="line-comment"><td class="line-num"><a href="#L85">85</a></td><td class="line-code"><span style="color:#6A737D">finitely many unary colors, a domain formula selecting the output</span></td></tr>
+<tr id="L86" class="line-comment"><td class="line-num"><a href="#L86">86</a></td><td class="line-code"><span style="color:#6A737D">universe, and one formula per relation symbol of the target language. -/</span></td></tr>
 <tr id="L87" class=""><td class="line-num"><a href="#L87">87</a></td><td class="line-code"><span style="color:#D73A49">structure</span><span style="color:#6F42C1"> Transduction</span><span style="color:#24292E"> (L : Language.{u, v}) (L' : Language.{u', v'}) </span><span style="color:#D73A49">where</span></td></tr>
-<tr id="L88" class=""><td class="line-num"><a href="#L88">88</a></td><td class="line-code"><span style="color:#6A737D">  /-- The number of unary color predicates. -/</span></td></tr>
+<tr id="L88" class="line-comment"><td class="line-num"><a href="#L88">88</a></td><td class="line-code"><span style="color:#6A737D">  /-- The number of unary color predicates. -/</span></td></tr>
 <tr id="L89" class=""><td class="line-num"><a href="#L89">89</a></td><td class="line-code"><span style="color:#24292E">  colors : ℕ</span></td></tr>
-<tr id="L90" class=""><td class="line-num"><a href="#L90">90</a></td><td class="line-code"><span style="color:#6A737D">  /-- The formula selecting the elements of the output structure. -/</span></td></tr>
+<tr id="L90" class="line-comment"><td class="line-num"><a href="#L90">90</a></td><td class="line-code"><span style="color:#6A737D">  /-- The formula selecting the elements of the output structure. -/</span></td></tr>
 <tr id="L91" class=""><td class="line-num"><a href="#L91">91</a></td><td class="line-code"><span style="color:#24292E">  domain : (</span><a class="lean-identifier-link" href="../lax-5/Lax5.Transductions.html#L64"><span style="color:#24292E">withColors</span></a><span style="color:#24292E"> L colors).Formula (Fin </span><span style="color:#005CC5">1</span><span style="color:#24292E">)</span></td></tr>
-<tr id="L92" class=""><td class="line-num"><a href="#L92">92</a></td><td class="line-code"><span style="color:#6A737D">  /-- The formula interpreting each relation symbol of the target. -/</span></td></tr>
+<tr id="L92" class="line-comment"><td class="line-num"><a href="#L92">92</a></td><td class="line-code"><span style="color:#6A737D">  /-- The formula interpreting each relation symbol of the target. -/</span></td></tr>
 <tr id="L93" class=""><td class="line-num"><a href="#L93">93</a></td><td class="line-code"><span style="color:#24292E">  rel : ∀ {r : ℕ}, L'.Relations r → (</span><a class="lean-identifier-link" href="../lax-5/Lax5.Transductions.html#L64"><span style="color:#24292E">withColors</span></a><span style="color:#24292E"> L colors).Formula (Fin r)</span></td></tr>
 <tr id="L94" class=""><td class="line-num"><a href="#L94">94</a></td><td class="line-code"> </td></tr>
-<tr id="L95" class=""><td class="line-num"><a href="#L95">95</a></td><td class="line-code"><span style="color:#6A737D">/-- `C` transduces `D`: a single transduction produces every member of</span></td></tr>
-<tr id="L96" class=""><td class="line-num"><a href="#L96">96</a></td><td class="line-code"><span style="color:#6A737D">`D` from some colored member of `C`, up to isomorphism — the embedding</span></td></tr>
-<tr id="L97" class=""><td class="line-num"><a href="#L97">97</a></td><td class="line-code"><span style="color:#6A737D">`f` identifies the output structure with the substructure of elements</span></td></tr>
-<tr id="L98" class=""><td class="line-num"><a href="#L98">98</a></td><td class="line-code"><span style="color:#6A737D">selected by the domain formula. -/</span></td></tr>
+<tr id="L95" class="line-comment"><td class="line-num"><a href="#L95">95</a></td><td class="line-code"><span style="color:#6A737D">/-- `C` transduces `D`: a single transduction produces every member of</span></td></tr>
+<tr id="L96" class="line-comment"><td class="line-num"><a href="#L96">96</a></td><td class="line-code"><span style="color:#6A737D">`D` from some colored member of `C`, up to isomorphism — the embedding</span></td></tr>
+<tr id="L97" class="line-comment"><td class="line-num"><a href="#L97">97</a></td><td class="line-code"><span style="color:#6A737D">`f` identifies the output structure with the substructure of elements</span></td></tr>
+<tr id="L98" class="line-comment"><td class="line-num"><a href="#L98">98</a></td><td class="line-code"><span style="color:#6A737D">selected by the domain formula. -/</span></td></tr>
 <tr id="L99" class=""><td class="line-num"><a href="#L99">99</a></td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> Transduces</span><span style="color:#24292E"> {L : Language.{u, v}} {L' : Language.{u', v'}}</span></td></tr>
 <tr id="L100" class=""><td class="line-num"><a href="#L100">100</a></td><td class="line-code"><span style="color:#24292E">    [L'.IsRelational] (C : </span><a class="lean-identifier-link" href="../lax-5/Lax5.Transductions.html#L49"><span style="color:#24292E">StructureClass</span></a><span style="color:#24292E"> L) (D : </span><a class="lean-identifier-link" href="../lax-5/Lax5.Transductions.html#L49"><span style="color:#24292E">StructureClass</span></a><span style="color:#24292E"> L') :</span></td></tr>
 <tr id="L101" class=""><td class="line-num"><a href="#L101">101</a></td><td class="line-code"><span style="color:#D73A49">    Prop</span><span style="color:#24292E"> :=</span></td></tr>
@@ -366,7 +366,7 @@ submission need nothing more.</p>
 <script src="../assets/sidebar.js?v=0d92141eab56"></script>
 <script src="../assets/account.js?v=6a0844f8bd00"></script>
 <script src="../assets/graph-interaction.js?v=4f12c6eaf4ff"></script>
-<script src="../assets/source-proof.js?v=b4c48aaad400"></script>
+<script src="../assets/source-proof.js?v=c61006f1e018"></script>
 <script src="../assets/version-history.js?v=a36e868140dd"></script>
 <script src="../assets/comments.js?v=40723213c083"></script>
 </body></html>
