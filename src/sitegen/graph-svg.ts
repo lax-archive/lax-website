@@ -56,7 +56,9 @@ export function graphInteractionPayload(measured: MeasuredDisplayGraph): GraphIn
     nodes[node.id] = { label: node.tooltipText ?? node.label, ...(node.tooltipHtml ? { tooltipHtml: node.tooltipHtml } : {}),
       ...(node.tooltipRows ? { tooltipRows: node.tooltipRows } : {}), incident: [], kind: node.kind,
       semanticId: node.semanticId, nodeId: node.id, ...(node.href ? { href: node.href } : {}) };
-    for (const dock of node.docks) nodes[dock.id] = { label: dock.statementId, incident: [], kind: "dock",
+    // Shorten only local display text; semantic IDs and links stay qualified.
+    for (const dock of node.docks) nodes[dock.id] = {
+      label: node.ext ? dock.statementId : dock.statementId.replace(/^Lax\d+\./u, ""), incident: [], kind: "dock",
       semanticId: dock.statementId, nodeId: node.id, ...(dock.href ? { href: dock.href } : {}) };
   }
   const edges: GraphInteractionPayload["edges"] = Object.create(null) as GraphInteractionPayload["edges"];
