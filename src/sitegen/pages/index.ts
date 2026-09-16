@@ -17,6 +17,7 @@ import {
 import { markCard } from "./paper.js";
 import { proofNetworkData } from "./submission.js";
 import { submissionLibrary } from "./submission-library.js";
+import { setupTabs } from "./setup-tabs.js";
 
 interface LandingFaq { question: string; answer: string }
 
@@ -298,31 +299,17 @@ function splitCaption(section: string): { body: string; caption: string } {
 
 /** Getting started: one compact, accessible tab per supported host system. */
 function landingSetupSection(heading: string, section: string, markdown: PageContext["markdown"]): string {
-  const ids = new Map([["Linux / macOS", "unix"], ["Windows", "windows"]]);
-  const tabs = section.trim().split(/\n(?=### )/).map((chunk) => {
-    const match = /^### ([^\n]+)\n+([\s\S]+)$/u.exec(chunk.trim());
-    if (!match) throw new Error(`invalid getting-started tab: ${chunk}`);
-    const label = match[1]!.trim();
-    const id = ids.get(label);
-    if (!id) throw new Error(`unsupported getting-started tab: ${label}`);
-    return { id, label, body: match[2]!.trim() };
-  });
-  for (const label of ids.keys())
-    if (!tabs.some((tab) => tab.label === label)) throw new Error(`landing.md is missing the ${label} getting-started tab`);
-  const controls = tabs.map(({ id, label }, index) =>
-    `<button class="landing-setup-tab" type="button" role="tab" id="landing-setup-${id}-tab" aria-selected="${index === 0}" aria-controls="landing-setup-${id}-panel" tabindex="${index === 0 ? 0 : -1}">${esc(label)}</button>`);
-  const panels = tabs.map(({ id, body }, index) => `<div class="landing-setup-panel landing-section-copy latex-content" id="landing-setup-${id}-panel" role="tabpanel" aria-labelledby="landing-setup-${id}-tab"${index === 0 ? "" : " hidden"}>
-${markdown.render(body, "")}
-</div>`);
+  const pieces = section.split(/^\{\{setup-tabs\}\}$/m);
+  if (pieces.length !== 2) throw new Error("landing.md must contain one {{setup-tabs}} marker");
+  const sharedTabs = setupTabs(contentMarkdown("setup.md"), markdown, "", { idPrefix: "landing-setup" });
+  const common = pieces.filter((piece) => piece.trim()).map((piece) => `<div class="landing-section-copy landing-setup-common latex-content">
+${markdown.render(piece.trim(), "")}
+</div>`).join("\n");
   return `<section class="landing-section landing-plain-section landing-setup" aria-labelledby="landing-start-heading">
 <h2 class="landing-section-title" id="landing-start-heading">${esc(heading)}</h2>
 <div class="landing-section-box">
-<div class="landing-setup-tabs" data-setup-tabs>
-<div class="landing-setup-tab-list" role="tablist" aria-label="Choose your operating system">
-${controls.join("\n")}
-</div>
-${panels.join("\n")}
-</div>
+${sharedTabs}
+${common}
 </div>
 </section>`;
 }
@@ -645,6 +632,8 @@ ${faq}
     detailClass: "detail-landing",
     landingHeader: true,
     gettingStartedNav: true,
-    scripts: network ? ["assets/graph-interaction.js", "assets/landing.js"] : ["assets/landing.js"],
+    scripts: network
+      ? ["assets/graph-interaction.js", "assets/setup-tabs.js", "assets/landing.js"]
+      : ["assets/setup-tabs.js", "assets/landing.js"],
   });
 }

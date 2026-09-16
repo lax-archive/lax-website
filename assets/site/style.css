@@ -2188,6 +2188,7 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
 .landing-setup-tab:hover{ color: var(--accent); }
 .landing-setup-tab:focus-visible{ outline: 2px solid rgba(59, 107, 154, 0.38); outline-offset: 1px; }
 .landing-setup-panel[hidden]{ display: none; }
+.landing-setup-common{ margin-top: 1.25rem; }
 
 /* Three columns of plain text. Text, not tiles. */
 .landing-columns-section{ max-width: none; margin: 3rem auto 0; }
@@ -2308,6 +2309,16 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
 /* Standalone editorial pages share the readable measure without inheriting
    the landing page's promotional card treatment for heading-adjacent lists. */
 .content-page{ max-width: 42em; margin: 0 auto 2rem; }
+
+/* On the full guide, the shared setup selector belongs to the editorial
+   column rather than the landing page card. */
+.content-setup{
+  max-width: none;
+  margin: 1rem 0 1.25rem;
+}
+.content-setup .landing-setup-tab-list{ margin-inline: 0; }
+.content-setup .landing-setup-panel{ max-width: none; margin-inline: 0; }
+.content-setup pre{ margin: 0.5rem 0 1rem; }
 
 /* A captioned figure in an editorial page, from a Markdown paragraph that
    holds only a titled image. */
