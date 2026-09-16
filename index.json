@@ -1766,7 +1766,7 @@
     },
     {
       "id": "lax-146103",
-      "state": "draft",
+      "state": "registered",
       "environment": "v4.33.0",
       "title": "MSO-automata",
       "concepts": [
@@ -3353,7 +3353,7 @@
     },
     {
       "id": "lax-751879",
-      "state": "draft",
+      "state": "registered",
       "environment": "v4.33.0",
       "title": "The Immerman–Vardi theorem",
       "concepts": [
