@@ -693,6 +693,8 @@ After the formula.`, "");
     expect(about).not.toContain("{{concept-proof-flip}}");
     expect(about).not.toContain('src="assets/concept-proof.svg"');
     expect(about).toMatch(/<script src="assets\/proof-flip\.js\?v=[0-9a-f]{12}"><\/script>/);
+    expect(about).toContain('<a href="https://discord.gg/8GRt8GsxAd">Lax Discord</a>');
+    expect(about).toContain('<a href="mailto:lax.lean.archive@gmail.com">lax.lean.archive@gmail.com</a>');
     expect(fs.readFileSync(path.join(one, "index.html"), "utf8")).not.toContain("proof-flip.js");
     expect(css).toContain(".landing-demo-card.is-flipped .landing-demo-inner");
     expect(css).not.toContain(".landing-action-card");
@@ -1188,6 +1190,14 @@ After the formula.`, "");
     expect(index).toContain('<header class="site-header sidebar-hidden landing-header">');
     expect(index).not.toContain("landing-cta");
     expect(index).not.toContain("lax-white-paper.pdf\" download");
+    // Community contacts lead into the foundations section and use the same
+    // bordered section treatment.
+    expect(index).toContain('<h2 class="landing-section-title" id="landing-community-heading">Community and Feedback</h2>');
+    expect(index).toContain('<h3>Join the conversation</h3>');
+    expect(index).toContain('<a href="https://discord.gg/8GRt8GsxAd">Join the Lax\nDiscord</a>');
+    expect(index).toContain('<a href="mailto:lax.lean.archive@gmail.com">lax.lean.archive@gmail.com</a>');
+    expect(index).toContain('<a href="workshop/">Lax Online Meeting</a>');
+    expect(index.indexOf('id="landing-community-heading"')).toBeLessThan(index.indexOf('id="landing-foundations-heading"'));
     // The foundations: the listed definitions the archive holds, with how
     // many further submissions build on them.
     expect(index).toContain('<h2 class="landing-section-title" id="landing-foundations-heading">Build foundations together</h2>');

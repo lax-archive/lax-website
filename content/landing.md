@@ -36,6 +36,16 @@ Run `lax print instructions` and follow the guide to formalize <my result>.
 
 Then your agent takes over and guides you through the process.
 
+## Community and Feedback
+
+### Join the conversation
+
+Lax is shaped by the people who use and review it. [Join the Lax
+Discord](https://discord.gg/8GRt8GsxAd) to ask questions, exchange ideas, and
+share feedback, or email us at
+[lax.lean.archive@gmail.com](mailto:lax.lean.archive@gmail.com). You can also
+meet the community at the [Lax Online Meeting](workshop/).
+
 ## Build foundations together
 
 Concepts are shared across submissions. Below are some definitions other

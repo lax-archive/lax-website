@@ -270,7 +270,7 @@ interface LandingCopy {
   sections: Map<string, string>;
 }
 
-const LANDING_SECTIONS = ["How it works", "Proof network", "Get started right away", "Build foundations together"];
+const LANDING_SECTIONS = ["How it works", "Proof network", "Get started right away", "Community and Feedback", "Build foundations together"];
 
 function landingCopy(source: string): LandingCopy {
   const chunks = source.trim().split(/\n(?=## )/);
@@ -310,6 +310,18 @@ ${markdown.render(piece.trim(), "")}
 <div class="landing-section-box">
 ${sharedTabs}
 ${common}
+</div>
+</section>`;
+}
+
+/** A prose section in the same bordered unit as setup and foundations. */
+function landingTextSection(heading: string, section: string, markdown: PageContext["markdown"]): string {
+  return `<section class="landing-section landing-plain-section landing-community" aria-labelledby="landing-community-heading">
+<h2 class="landing-section-title" id="landing-community-heading">${esc(heading)}</h2>
+<div class="landing-section-box">
+<div class="landing-section-copy latex-content">
+${markdown.render(section, "")}
+</div>
 </div>
 </section>`;
 }
@@ -617,6 +629,7 @@ ${markdown.render(networkCopy.body, "")}
 ${network}
 </section>
 ${landingSetupSection("Get started right away", landing.sections.get("Get started right away")!, markdown)}
+${landingTextSection("Community and Feedback", landing.sections.get("Community and Feedback")!, markdown)}
 ${landingFoundations(ctx, "Build foundations together", landing.sections.get("Build foundations together")!)}
 <div class="landing-action-panels">
 <h2 class="landing-section-title" id="landing-library-heading">Submissions</h2>
