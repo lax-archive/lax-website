@@ -795,10 +795,17 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       expect(await container.locator(".graph-selected").count()).toBe(1);
       expect(await container.locator(".graph-related").count()).toBeGreaterThan(0);
       expect(await container.locator(".graph-dimmed").count()).toBeGreaterThan(0);
-      const dimmedDock = container.locator(".net-dock.graph-dimmed").first();
-      expect(await dimmedDock.evaluate((element) => Number(getComputedStyle(element).opacity))).toBe(1);
-      expect(await dimmedDock.locator("circle").evaluate((element) => getComputedStyle(element).fill))
-        .toMatch(/^color\(srgb |^rgb\(/);
+      // This fixture's selected proof happens to relate every statement dock.
+      // Apply the same class the interaction uses so the opaque dock rule is
+      // still covered without pretending the fixture has an unrelated dock.
+      const dimmedDock = container.locator(".net-dock").first();
+      const dimmedDockStyle = await dimmedDock.evaluate((element) => {
+        element.classList.add("graph-dimmed");
+        return { opacity: Number(getComputedStyle(element).opacity),
+          fill: getComputedStyle(element.querySelector("circle")!).fill };
+      });
+      expect(dimmedDockStyle.opacity).toBe(1);
+      expect(dimmedDockStyle.fill).toMatch(/^color\(srgb |^rgb\(/);
       expect(await figure.locator(".graph-tooltip").isHidden()).toBe(true);
       await page.waitForTimeout(1_000); await animationFrame(page);
       const focusedScale = Number((await figure.locator("[data-graph-zoom-status]").textContent())!.replace("%", ""));
