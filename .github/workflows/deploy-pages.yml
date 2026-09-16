@@ -90,9 +90,8 @@ jobs:
           echo "slug=$(node .github/scripts/pages-previews.mjs slug "$branch")" >> "$GITHUB_OUTPUT"
 
       # Production and previews alike carry the papers' PDFs, so a preview
-      # shows the viewer as it will ship. (The gh-pages branch keeps every
-      # deployment's full tree; the corpus is small for now, and a preview
-      # is removed with its branch.)
+      # shows the viewer as it will ship. The shared gh-pages tree retains
+      # only recent previews; retention runs before persisting each update.
       - name: Restore the papers cache
         if: github.event_name != 'delete'
         uses: actions/cache@v4
@@ -190,6 +189,9 @@ jobs:
           fi
           touch _pages/.nojekyll
           printf 'laxarchive.org' > _pages/CNAME
+          # Fail before cleanup if the live branch list cannot be fetched.
+          git ls-remote --heads origin > "$RUNNER_TEMP/pages-remote-heads"
+          node .github/scripts/pages-previews.mjs prune _pages "$RUNNER_TEMP/pages-remote-heads"
           node .github/scripts/pages-previews.mjs index _pages
 
       - name: Persist the complete Pages tree

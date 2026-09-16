@@ -302,7 +302,13 @@ PDFs like production, and the shareable preview directory is available at
 `/previews/`. Pushing a branch updates only
 its preview; deleting the branch removes it. The workflow retains the complete
 published tree on the generated `gh-pages` branch so one branch cannot overwrite
-another branch's preview.
+another branch's preview. Every deployment (including the hourly fallback)
+reconciles previews with live source branches, expires previews after 14 days,
+and retains at most the five most recently updated previews. A new push
+recreates an expired preview. Cleanup removes only published preview files;
+it does not delete source branches, production content, or renderer archives.
+A failed or empty remote branch listing stops cleanup rather than deleting
+previews from an incomplete snapshot.
 
 To trigger an immediate rebuild from an authorized external workflow:
 
