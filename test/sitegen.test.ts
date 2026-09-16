@@ -2373,7 +2373,7 @@ describe("multi-statement concepts", () => {
     expect(statementOrdinal(new SiteModel(submissions()), "Lax2.C.truth")).toBeUndefined();
   });
 
-  it("gives every statement its own evidence block and proof rail", async () => {
+  it("uses compact numbered source links for each evidence block", async () => {
     const root = tmpDir("lax-site-multi-concept-");
     await generateSite(multiStatement(), root);
     const html = fs.readFileSync(path.join(root, "Lax5", "Lax5.Menger.html"), "utf8");
@@ -2381,9 +2381,13 @@ describe("multi-statement concepts", () => {
     expect(html).toMatch(/<details class="figure-details evidence-details">\s*<summary>Evidence<\/summary>/);
     expect(html).toContain("This concept declares 3 statements. Each proof establishes one of them relative to its assumptions.");
     expect((html.match(/class="evidence-statement"/g) ?? []).length).toBe(3);
-    expect(html).toContain('<h4><a href="#s-Lax5.Menger.vertexVersion">1st statement</a> <code>vertexVersion</code>');
-    expect(html).toContain('<h4><a href="#s-Lax5.Menger.edgeVersion">2nd statement</a> <code>edgeVersion</code>');
-    expect(html).toContain('<h4><a href="#s-Lax5.Menger.globalVersion">3rd statement</a> <code>globalVersion</code>');
+    const evidence = html.match(/<details class="figure-details evidence-details">[^]*?<\/details>/)?.[0] ?? "";
+    for (const [index, name] of ["vertexVersion", "edgeVersion", "globalVersion"].entries()) {
+      expect(evidence).toContain(`class="evidence-statement-link" href="#s-Lax5.Menger.${name}"`);
+      expect(evidence).toContain(`aria-label="Statement ${index + 1}: ${name}"`);
+      expect(evidence).toContain(`title="Jump to statement ${index + 1} in the Lean source">${index + 1}</a>`);
+      expect(html).toContain(`id="s-Lax5.Menger.${name}"`);
+    }
     // the open second statement says so, and only it
     expect((html.match(/this statement is open/g) ?? []).length).toBe(1);
     const openBlock = html.slice(html.indexOf("#s-Lax5.Menger.edgeVersion"), html.indexOf("#s-Lax5.Menger.globalVersion"));

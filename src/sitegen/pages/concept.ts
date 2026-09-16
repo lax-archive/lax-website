@@ -11,7 +11,6 @@ import {
   conceptMapLegend,
   draftBanner,
   environmentNotice,
-  ordinal,
   shortId,
   versionHistoryPanel,
   repositorySource,
@@ -68,7 +67,8 @@ ${body}
     );
   const proven = ctx.model.network.proven;
   const blocks = concept.statements.map((statement, index) => {
-    const heading = `<a href="#s-${attr(statement.id)}">${esc(ordinal(index + 1))} statement</a> ${code(shortId(statement.id, concept.id))} ${countsPill(proven.has(statement.id) ? 1 : 0, 1)}`;
+    const name = shortId(statement.id, concept.id);
+    const heading = `<a class="evidence-statement-link" href="#s-${attr(statement.id)}" aria-label="${attr(`Statement ${index + 1}: ${name}`)}" title="${attr(`Jump to statement ${index + 1} in the Lean source`)}">${index + 1}</a> ${code(name)} ${countsPill(proven.has(statement.id) ? 1 : 0, 1)}`;
     return `<div class="evidence-statement"><h4>${heading}</h4>
 ${list(proofsOf(statement.id), "No proof in the archive yet — this statement is open.")}
 </div>`;
