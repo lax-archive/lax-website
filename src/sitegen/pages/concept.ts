@@ -10,7 +10,6 @@ import {
   conceptLink,
   conceptMapLegend,
   draftBanner,
-  draftPageScripts,
   environmentNotice,
   ordinal,
   shortId,
@@ -174,6 +173,6 @@ ${graphDataScript({
     sidebarState: "open",
     content,
     noIndex: output.manifest.unlisted === true,
-    scripts: ["assets/graph-interaction.js", "assets/source-proof.js", ...draftPageScripts(submission.record.state), "assets/version-history.js", "assets/comments.js"],
+    scripts: ["assets/graph-interaction.js", "assets/source-proof.js", "assets/version-history.js", "assets/comments.js"],
   });
 }

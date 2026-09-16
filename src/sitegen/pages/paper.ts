@@ -30,7 +30,6 @@ import {
   claimEntry,
   conceptShortName,
   draftBanner,
-  draftPageScripts,
   environmentNotice,
   type PageContext,
   proofJudgment,
@@ -326,8 +325,6 @@ ${cards.join("\n")}
 </ol>`;
     scripts = ["assets/version-history.js"];
   }
-
-  scripts = [...draftPageScripts(record.state), ...scripts];
 
   const content = `${draftBanner(submission)}${environmentNotice(ctx.model, submission)}${versionHistoryPanel(ctx, home, "../")}
 <div class="manuscript"${rootAttributes}>

@@ -4,7 +4,6 @@ import { inPaperBlock } from "./paper.js";
 import {
   annotationSections,
   draftBanner,
-  draftPageScripts,
   environmentNotice,
   versionHistoryPanel,
   repositorySource,
@@ -73,6 +72,6 @@ ${sections}`;
     sidebarState: "open",
     content,
     noIndex: output.manifest.unlisted === true,
-    scripts: [...draftPageScripts(submission.record.state), "assets/version-history.js"],
+    scripts: ["assets/version-history.js"],
   });
 }
