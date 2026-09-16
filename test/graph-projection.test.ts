@@ -109,6 +109,36 @@ describe("semantic display projection", () => {
     labels.delete("9876543210");
     expect(() => measureDisplayGraph(display, labels)).toThrow(/missing-dock-metrics/);
   });
+  it.each([
+    { name: "boundary sum", labelHeight: 6.0151, dockDiagonal: 72, dockInkHeight: 57.6, expectedHeight: 100.016 },
+    { name: "fractional dock", labelHeight: 6, dockDiagonal: 36.0001, dockInkHeight: 12, expectedHeight: 64.001 },
+  ])("keeps rounded conclusion ports inside their node for $name measurements", ({ labelHeight, dockDiagonal, dockInkHeight, expectedHeight }) => {
+    const display: DisplayGraph = { kind: "proofs", mapping: [], nodes: [
+      { id: "p:proof", semanticId: "proof", kind: "proof", label: "⊢", status: "none", ext: false, docks: [], ports: [
+        { id: "proof:out", nodeId: "p:proof", semanticEndpointId: "proof", side: "north", mode: "free-on-side" },
+      ] },
+      { id: "c:conclusion", semanticId: "conclusion", kind: "concept", label: "Conclusion", status: "open", ext: false,
+        docks: [{ id: "dock:conclusion", statementId: "conclusion.statement", ordinal: 1, status: "open" }], ports: [
+          { id: "conclusion:in", nodeId: "c:conclusion", semanticEndpointId: "conclusion.statement", side: "south", mode: "free-on-side" },
+        ] },
+    ], edges: [
+      { id: "conclusion", sourcePortId: "proof:out", targetPortId: "conclusion:in", kind: "conclusion", minRankSpan: 1 },
+    ] };
+    const dockLabelHeight = Math.max(14, dockInkHeight);
+    const labels = new Map<string, GraphLabel>([
+      ["Conclusion", { width: 20, height: labelHeight,
+        lines: [{ text: "Conclusion", x: 0, y: labelHeight, ink: { x: 0, y: 0, width: 20, height: labelHeight } }] }],
+      ["1", { width: Math.sqrt(dockDiagonal ** 2 - dockInkHeight ** 2), height: dockLabelHeight,
+        lines: [{ text: "1", x: 0, y: dockLabelHeight, ink: { x: 0, y: 0, width: 6, height: dockInkHeight } }] }],
+    ]);
+
+    const measured = measureDisplayGraph(display, labels);
+    const conclusion = measured.graph.nodes.find((node) => node.id === "c:conclusion")!;
+    const port = conclusion.ports.find((candidate) => candidate.id === "conclusion:in")!;
+    expect(conclusion.height).toBe(expectedHeight);
+    expect(port.offset!.y).toBe(conclusion.height);
+    expect(validateGeometry(measured.graph, layoutGraph(measured.graph, { inputDigest: "rounded-conclusion-port" }).geometry).valid).toBe(true);
+  });
   it("never renumbers missing docks or silently deletes missing endpoints", () => {
     const input = proofInput();
     expect(() => projectGraph("proofs", { ...input, statements: input.statements.slice(1) })).toThrow(/incomplete-docks/);
