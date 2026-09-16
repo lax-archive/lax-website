@@ -1,4 +1,4 @@
-import { attr, code, esc, formatDate, page, plural, proofBadge, statePill, typeBadge } from "../html.js";
+import { attr, code, esc, page, plural, proofBadge, typeBadge } from "../html.js";
 import { contentMarkdown } from "../content.js";
 import { graphDataScript } from "../graphs.js";
 import { highlightSource } from "../highlight.js";
@@ -6,18 +6,17 @@ import { submissionTagIndex } from "../tags.js";
 import type { SiteModel, SiteSubmission } from "../model.js";
 import type { PaperMark, StatementEntry } from "../../types.js";
 import {
-  anonymityPlaceholder,
   currentSubmissions,
   graphWindowButton,
   graphTooltip,
   indexSidebar,
   INTRO_SUBMISSION_ID,
   proofNetworkLegend,
-  submissionSearchAttributes,
   type PageContext,
 } from "./shared.js";
 import { markCard } from "./paper.js";
 import { proofNetworkData } from "./submission.js";
+import { submissionLibrary } from "./submission-library.js";
 
 interface LandingFaq { question: string; answer: string }
 
@@ -600,26 +599,7 @@ ${graphDataScript({ proofs: data })}`;
 export async function indexPage(ctx: PageContext): Promise<string> {
   const { model, markdown } = ctx;
   const listed = currentSubmissions(model);
-  const concepts = listed.flatMap((submission) => submission.output!.concepts);
-  const statements = concepts.flatMap((c) => c.statements);
-  const provenStatements = statements.filter((statement) => model.network.proven.has(statement.id)).length;
   const tagIndex = submissionTagIndex(listed);
-  const rows = listed.map((submission, order) => {
-    const { record, output } = submission;
-    // The creation date, which is what the list is ordered by: a row whose
-    // date disagreed with its place in the list would read as a fault. The
-    // submission page carries both dates, registration included.
-    const date = formatDate(record.createdAt);
-    const authors = output!.manifest.anonymous === true && output!.manifest.authors.length
-      ? anonymityPlaceholder("withheld during anonymous review", "anonymity-placeholder-inline")
-      : output!.manifest.authors.map((a) => esc(a.name)).join(", ");
-    const counts = `${plural(output!.concepts.length, "concept")}, ${plural(output!.proofs.length, "proof")}`;
-    return `<li ${submissionSearchAttributes(submission, order, tagIndex.bySubmission.get(record.id))}><a class="submissions-list-link" href="${attr(record.id)}/index.html">
-<span class="submissions-list-title"><span class="submission-find-alias" hidden="until-found" aria-hidden="true" data-submission-find-alias>${esc(record.id)}</span>${markdown.renderAuthorInline(output!.manifest.title, "")}<span class="submissions-list-date">(${date})</span></span>
-${authors ? `<span class="submissions-list-meta"><span class="formalized-label">formalized by</span> ${authors}</span>` : ""}
-<span class="submissions-list-counts">${counts} ${statePill(record.state)}</span>
-</a></li>`;
-  });
   const landing = landingCopy(contentMarkdown("landing.md"));
   const faq = landingFaq(contentMarkdown("faq.md"), markdown);
   const networkSubmission = listed.find((submission) => submission.record.id === NETWORK_SUBMISSION_ID && submission.output?.proofs.length);
@@ -627,47 +607,11 @@ ${authors ? `<span class="submissions-list-meta"><span class="formalized-label">
   const networkCopy = splitCaption(landing.sections.get("Proof network")!);
   const examples = await examplesBox(ctx, listed, how.caption);
   const network = networkSubmission ? proofNetworkFigure(ctx, networkSubmission, networkCopy.caption) : "";
-
-  const chip = (key: string, label: string, count: number, extraClass = ""): string =>
-    `<button class="tag-chip${extraClass}" type="button" data-tag-filter="${attr(key)}" aria-pressed="false" aria-label="${attr(`${label}, ${plural(count, "submission")}`)}"><span>${esc(label)}</span><b aria-hidden="true">${count}</b></button>`;
-  // The environment is one more chip in the same strip: the browser filters
-  // on `data-tags`, which carries it, so a flat facet needs no second control.
-  // It appears only once the archive holds work in more than one environment —
-  // before that the single chip would name the only thing there is. The chips
-  // lead the strip because the strip is clipped to three rows.
-  const environmentButtons = model.environments.length > 1
-    ? model.environments.map((environment) => chip(
-        environment,
-        environment === model.epoch ? `${environment} · epoch` : environment,
-        listed.filter((submission) => model.environmentOf.get(submission.record.id) === environment).length,
-        " environment-chip",
-      ))
-    : [];
-  const tagButtons = tagIndex.tags.map((tag) => chip(tag.key, tag.label, tag.submissionIds.length));
-  const facetButtons = [...environmentButtons, ...tagButtons];
-  const facetSummary = environmentButtons.length
-    ? "Environments first, then topics suggested from submission and concept titles."
-    : "Suggested from submission and concept titles.";
-  const tagBrowser = facetButtons.length ? `<section class="tag-browser" aria-labelledby="tag-browser-heading">
-<div class="tag-browser-heading"><h4 id="tag-browser-heading">Browse by topic</h4><p>${esc(facetSummary)}</p></div>
-<div class="tag-chip-list" role="group" aria-label="Filter submissions by topic">
-<button class="tag-chip" type="button" data-tag-filter="" aria-pressed="true" aria-label="All, ${plural(listed.length, "submission")}"><span>All</span><b aria-hidden="true">${listed.length}</b></button>
-${facetButtons.join("\n")}
-</div>
-<p class="tag-results-status" id="tag-results-status" aria-live="polite">Showing all ${plural(listed.length, "submission")}.</p>
-</section>` : "";
-  const library = `<section class="landing-action-panel submissions-library" id="landing-panel-read" aria-labelledby="landing-library-heading">
-<div class="landing-action-panel-heading">
-<p class="stats-line">${plural(listed.length, "submission")} · ${plural(concepts.length, "concept")} · ${plural(statements.length, "statement")}, ${provenStatements} proven</p>
-<input id="submissions-search" class="filter-input submissions-library-search" type="search" placeholder="Search titles and concepts" aria-label="Search submissions" aria-controls="submissions-list">
-</div>
-${tagBrowser}
-<ul class="submissions-list" id="submissions-list">
-${rows.join("\n")}
-<li id="submissions-list-empty" class="submissions-list-empty" hidden>No submissions match.</li>
-</ul>
-<button class="submissions-load-more" id="submissions-load-more" type="button" aria-controls="submissions-list" hidden>Load more <b aria-hidden="true">↓</b></button>
-</section>`;
+  const library = submissionLibrary(ctx, {
+    rootRel: "",
+    labelledBy: "landing-library-heading",
+    id: "landing-panel-read",
+  });
   const content = `<section class="landing-hero" aria-labelledby="landing-title">
 <h1 class="landing-title" id="landing-title">${esc(landing.title)}</h1>
 <div class="landing-manifesto latex-content">

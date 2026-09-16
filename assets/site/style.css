@@ -105,8 +105,7 @@ body{
 
 .site-header.sidebar-hidden{ --sidebar-column: 0px; }
 
-/* The name, centred on the page, and to its right the way into the
-   introduction and the about page. */
+/* The name, centred on the page, and the primary site navigation beside it. */
 .site-brand{
   grid-column: 2;
   position: relative;
@@ -1676,6 +1675,56 @@ a.submission-meta-id:is(:hover, :focus-visible),
 #detail.detail-landing{ width: min(100%, 72em); }
 .detail-landing .landing-action-panels{ max-width: 60em; margin-inline: auto; }
 .detail-landing .landing-faq{ max-width: 60em; margin-inline: auto; }
+
+#detail.detail-submissions{ width: min(100%, 64em); }
+
+.submissions-page-head{
+  max-width: 42em;
+  margin: 0.25rem auto 1.6rem;
+  text-align: center;
+}
+
+.submissions-page-eyebrow{
+  margin-bottom: 0.2rem;
+  color: var(--accent);
+  font: 700 0.68rem/1.2 var(--mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+#detail .submissions-page-title{
+  margin: 0;
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  line-height: 1.2;
+}
+
+.submissions-page-intro{
+  margin-top: 0.55rem;
+  color: var(--text-dim);
+  font-size: 1rem;
+}
+
+.submissions-page-library .submissions-library-search{
+  flex-basis: 20rem;
+  width: min(100%, 20rem);
+}
+
+@media (min-width: 641px){
+  .submissions-page-library .submissions-list-link{
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: 1.5rem;
+    align-items: center;
+  }
+  .submissions-page-library .submissions-list-title,
+  .submissions-page-library .submissions-list-meta{ grid-column: 1; }
+  .submissions-page-library .submissions-list-counts{
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    margin-top: 0;
+    text-align: right;
+  }
+}
 
 #detail .landing-section-title{
   margin: 0 0 0.75rem;
@@ -4964,11 +5013,13 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
   .version-open-link{ flex: 1 1 100%; margin-left: 0; }
 }
 
-/* The name, the nav and the sign-in button share one line; the button is
-   absolute at the right, so on the narrowest phones the nav would run
-   under it. The nav tightens in two steps, and at the last the button
-   loses its padding too. Sized so that on a page with the drawer's toggle
-   (the name starts 3.1rem in) "About" still ends short of the button. */
+/* The name, the nav and the sign-in button share one line. On narrow phones
+   the introduction remains reachable from the home page while its direct
+   link yields enough room for the archive and account controls. */
+@media (max-width: 450px){
+  .site-nav-introduction{ display: none; }
+}
+
 @media (max-width: 400px){
   .site-nav{ gap: 0.5rem; }
   .site-nav-link{ font-size: 0.78rem; }

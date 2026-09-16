@@ -82,7 +82,7 @@
     if (!status) return;
     const active = document.querySelector(`[data-tag-filter="${CSS.escape(selectedTag)}"]`);
     const label = active?.querySelector('span')?.textContent ?? selectedTag;
-    const search = document.getElementById('filter-search')?.value.trim();
+    const search = (document.getElementById('filter-search') || document.getElementById('submissions-search'))?.value.trim();
     const suffix = search ? ' matching your search' : '';
     const count = total === shown ? `${total}` : `${shown} of ${total}`;
     status.textContent = selectedTag
@@ -160,7 +160,7 @@
   function applySubmissionFilters() {
     const submissions = document.getElementById('submissions-list');
     if (!submissions) return;
-    const searchEl = document.getElementById('filter-search');
+    const searchEl = document.getElementById('filter-search') || document.getElementById('submissions-search');
     const search = searchEl?.value.trim().toLowerCase() ?? '';
     const filterKey = `${search}\u0000${selectedTag}`;
     if (filterKey !== submissionFilterKey) {
@@ -279,7 +279,8 @@
       const url = new URL(window.location.href);
       if (tag) url.searchParams.set('tag', tag);
       else url.searchParams.delete('tag');
-      url.searchParams.set('view', 'read');
+      if (document.getElementById('landing-panel-read')) url.searchParams.set('view', 'read');
+      else url.searchParams.delete('view');
       window.history.pushState(null, '', `${url.pathname}${url.search}${url.hash}`);
     }
 

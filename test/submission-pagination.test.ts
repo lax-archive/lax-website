@@ -2,8 +2,8 @@ import fs from "node:fs";
 import vm from "node:vm";
 import { describe, expect, it } from "vitest";
 
-describe("front-page submission pagination", () => {
-  it("shows ten rows at a time and updates topic counts when the search changes", () => {
+describe("submission library pagination", () => {
+  it("uses the standalone search to show ten rows at a time and update topic counts", () => {
     const rows = Array.from({ length: 25 }, (_, index) => ({
       dataset: {
         searchTitle: `submission needle${index}`,
@@ -71,7 +71,7 @@ describe("front-page submission pagination", () => {
       ["submissions-list-empty", empty],
       ["submissions-load-more", button],
       ["tag-results-status", status],
-      ["filter-search", search],
+      ["submissions-search", search],
     ]);
     const document = {
       readyState: "complete",

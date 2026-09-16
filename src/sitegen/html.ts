@@ -133,7 +133,8 @@ export function configureSiteNav(nav: { introduction?: string }): void {
 
 function siteNavLinks(root: string): string {
   const links = [
-    siteNav.introduction ? `<a class="site-nav-link" href="${attr(root + siteNav.introduction)}">Introduction</a>` : "",
+    siteNav.introduction ? `<a class="site-nav-link site-nav-introduction" href="${attr(root + siteNav.introduction)}">Introduction</a>` : "",
+    `<a class="site-nav-link" href="${attr(`${root}submissions/`)}">Submissions</a>`,
     `<a class="site-nav-link" href="${attr(`${root}about.html`)}">About</a>`,
   ].filter(Boolean);
   return `<nav class="site-nav" aria-label="Site">
