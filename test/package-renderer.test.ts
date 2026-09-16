@@ -61,6 +61,7 @@ function rendererFixture(): string {
     "content/impressum.md": "Imprint\n",
     "content/landing.md": "Landing\n",
     "content/privacy.md": "Privacy\n",
+    "content/workshop.md": "Workshop\n",
     "dist/sitegen/assets.js": "export const SITE_MIME = {};\n",
     "dist/sitegen/generate.js": "export async function generateSite() {}\n",
     "dist/sitegen/machine-index.js": "export function machineIndex() {}\n",

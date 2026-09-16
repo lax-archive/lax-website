@@ -129,6 +129,8 @@ bytes therefore differ from production's, deterministically per flag set).
 - `content/about.md` generates `/about.html`, linked from the header.
   Its `{{concept-proof-flip}}` marker inserts the concept/proof flip card
   from `src/sitegen/pages/proof-flip.ts`, with hover, touch and keyboard controls.
+- `content/workshop.md` generates `/workshop/` and embeds the workshop
+  preregistration form.
 - Submission, concept, and proof pages come from `record.json` and
   `build-output.json` in `lax-db`.
 - Submission/concept titles and annotation headings accept inline Markdown and

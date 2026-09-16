@@ -16,6 +16,7 @@ const REQUIRED_FILES = [
   "content/faq.md",
   "content/impressum.md",
   "content/privacy.md",
+  "content/workshop.md",
 ];
 
 function archiveFiles(archive) {

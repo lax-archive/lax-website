@@ -330,7 +330,27 @@
     container.scrollLeft = Math.max(0, (container.scrollWidth - container.clientWidth) / 2);
   }
 
+  function setupWorkshopAnnouncement() {
+    const workshop = document.querySelector('.landing-workshop-banner');
+    const network = document.querySelector('.landing-network-figure');
+    if (!workshop || !network) return;
+
+    // Reveal at the start of the proof network, and hide again above it.
+    function updateVisibility() {
+      workshop.hidden = window.scrollY <= 0 || network.getBoundingClientRect().top >= window.innerHeight;
+    }
+    window.addEventListener('scroll', updateVisibility, { passive: true });
+    window.addEventListener('resize', updateVisibility);
+    workshop.querySelector('.landing-workshop-close')?.addEventListener('click', () => {
+      window.removeEventListener('scroll', updateVisibility);
+      window.removeEventListener('resize', updateVisibility);
+      workshop.remove();
+    });
+    updateVisibility();
+  }
+
   function setupLanding() {
+    setupWorkshopAnnouncement();
     setupLandingActions();
     setupCardBoxes();
     setupCarousels();
