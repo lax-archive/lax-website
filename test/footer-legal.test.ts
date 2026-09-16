@@ -13,7 +13,7 @@ describe("footer and legal pages", () => {
     expect(css).not.toContain("#main:has(.inline-contract-table :target)::after{");
   });
 
-  it("links the legal pages from root and nested pages, and the about page from the header", () => {
+  it("links the legal pages from root and nested pages, and the archive pages from the header", () => {
     const rootPage = page({ title: "Root", rootRel: "", canonicalPath: "", sidebar: "", content: "" });
     const nestedPage = page({ title: "Nested", rootRel: "../", canonicalPath: "nested/", sidebar: "", content: "" });
 
@@ -22,6 +22,8 @@ describe("footer and legal pages", () => {
       expect(html).toContain(`href="${prefix}impressum.html">Imprint</a>`);
       expect(html).toContain(`href="${prefix}privacy.html">Privacy</a>`);
       expect(html).not.toContain("lax-white-paper.pdf");
+      expect(html).toContain(`<a class="site-nav-link site-nav-getting-started" href="${prefix}contributing.html">Getting Started</a>`);
+      expect(html).not.toContain(`href="${prefix}submissions/">Submissions</a>`);
       expect(html).toContain(`<a class="site-nav-link" href="${prefix}about.html">About</a>`);
     }
   });
@@ -44,7 +46,7 @@ describe("footer and legal pages", () => {
     // no sidebar on a page that is not about a submission, and no toggle to summon one
     expect(about).toContain('<header class="site-header sidebar-hidden">');
     expect(about).not.toContain('id="sidebar-toggle"');
-    // Without the introduction in the archive the header names only the about page.
+    // Without the introduction in the archive, its conditional link stays absent.
     expect(about).not.toContain('>Introduction</a>');
     expect(impressum).toContain("Service providers");
     expect(impressum).not.toContain("Anbieter und Verantwortlicher");

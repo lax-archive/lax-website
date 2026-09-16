@@ -152,6 +152,15 @@ describe("archive environments on the site", () => {
     expect(html).toContain('data-tag-filter="v4.33.0"');
     expect(html).toContain("Environments first, then topics");
 
+    const submission = fs.readFileSync(path.join(root, "lax-2", "index.html"), "utf8");
+    const sidebar = submission.slice(submission.indexOf('<aside id="sidebar">'), submission.indexOf("</aside>"));
+    expect(sidebar).toContain('<option value="v4.30.0" selected>v4.30.0 · current epoch</option>');
+    expect(sidebar).toContain('<option value="v4.33.0">v4.33.0</option>');
+    expect(sidebar).toContain('<option value="v4.31.0">v4.31.0</option>');
+    expect(sidebar).not.toContain('data-search-title="lax-2 result lax-2"');
+    expect(sidebar).toContain('data-search-title="lax-5 result lax-5"');
+    expect(sidebar).toContain('data-search-concepts="lax5.c a concept definition"');
+
     // one environment, no chips: the only chip there could be names the only
     // thing there is
     const single = tmpDir("lax-site-env-single-");

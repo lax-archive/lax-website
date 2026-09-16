@@ -597,10 +597,25 @@
     }
   }
 
+  function fitDetailPanel(controller) {
+    const figure = controller.container.closest('.graph-figure');
+    const panel = figure.querySelector('.graph-detail-panel');
+    if (!panel || panel.hidden) return;
+    const top = (figure.querySelector('.graph-controls')?.offsetHeight || 0) + 6;
+    const bottom = figure.querySelector('.graph-legend')?.offsetTop ?? figure.clientHeight;
+    panel.style.setProperty('--graph-detail-top', `${top}px`);
+    panel.style.setProperty('--graph-detail-max-height', `${Math.max(0, bottom - top - 6)}px`);
+    const scroll = panel.querySelector('.graph-detail-scroll');
+    // Overlay scrollbars do not reserve layout space, but still need clearance.
+    const scrollbarWidth = Math.max(scroll.offsetWidth - scroll.clientWidth, 16);
+    panel.style.setProperty('--graph-detail-scrollbar-width', `${scrollbarWidth}px`);
+  }
+
   function renderDetailPanel(controller, view) {
     const panel = ensureDetailPanel(controller);
     const scroll = panel.querySelector('.graph-detail-scroll');
     scroll.replaceChildren();
+    panel.querySelector('.graph-detail-action')?.remove();
     const body = document.createElement('div');
     body.className = 'graph-detail-body';
     detailHeading(body, controller, view.detail, view.eyebrow, view.name);
@@ -636,12 +651,10 @@
       action.className = 'graph-detail-action';
       action.href = view.href;
       action.textContent = view.actionLabel || 'Open page';
-      scroll.append(action);
+      panel.append(action);
     }
     panel.hidden = false;
-    const controls = panel.parentElement.querySelector('.graph-controls');
-    panel.style.removeProperty('top');
-    panel.style.setProperty('--graph-detail-top', `${(controls?.offsetHeight || 0) + 6}px`);
+    fitDetailPanel(controller);
     scroll.scrollTop = 0;
     return panel;
   }
@@ -993,6 +1006,11 @@
         container.style.overflowX = width > container.clientWidth + 1 ? 'auto' : 'hidden';
         container.style.overflowY = height > container.clientHeight + 1 ? 'auto' : 'hidden';
       }
+      // Keep the details card inside the plot's usable width, including on
+      // systems where an overlay scrollbar does not reduce clientWidth.
+      const scrollbarWidth = Math.max(container.offsetWidth - container.clientWidth,
+        container.style.overflowY === 'auto' ? 16 : 0);
+      container.closest('.graph-figure').style.setProperty('--graph-scrollbar-width', `${scrollbarWidth}px`);
     };
     let frame;
     let paintedScale;
@@ -1235,6 +1253,7 @@
     new ResizeObserver(() => {
       if (controller.autoFrame && figure.classList.contains('graph-expanded')) controller.frameExpanded();
       else { controller.fitScrollbars(); controller.paint(); }
+      fitDetailPanel(controller);
     }).observe(container);
     container.addEventListener('scroll', () => {
       if (container.scrollTop && getComputedStyle(container).overflowY === 'hidden') controller.paint();

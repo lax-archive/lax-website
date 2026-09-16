@@ -19,7 +19,11 @@ export function displayLabelRequests(displays: readonly DisplayGraph[]): readonl
 
 export function measureDisplayGraph(display: DisplayGraph, labels: ReadonlyMap<string, GraphLabel>, portSeparation = DEFAULT_PROFILE.portSeparation): MeasuredDisplayGraph {
   const measured: MeasuredNode[] = [], drawings = new Map<string, NodeDrawing>();
-  const ceil = (n: number) => Math.ceil(n * 1000) / 1000;
+  const ceil = (n: number) => {
+    const scaled = n * 1000, nearest = Math.round(scaled);
+    const integral = Math.abs(scaled - nearest) <= 2 * Number.EPSILON * Math.max(1, Math.abs(scaled));
+    return (integral ? nearest : Math.ceil(scaled)) / 1000;
+  };
   for (const node of display.nodes) {
     const label = labels.get(node.label);
     if (!label && node.kind !== "proof") diagnostic("missing-label-metrics", "Layout requires exact host label metrics", node.id);
@@ -46,10 +50,13 @@ export function measureDisplayGraph(display: DisplayGraph, labels: ReadonlyMap<s
       (capacity(node.ports.filter((p) => p.semanticEndpointId === dock.statementId)) + 1) * portSeparation)));
     const rowWidth = diameters.reduce((sum, d) => sum + d, 0) + Math.max(0, diameters.length - 1) * portSeparation;
     const contentWidth = Math.max(bodyWidth, rowWidth);
-    const width = contentWidth + escapeWidth;
+    // Ports and their enclosing envelope use the same upward quantization.
+    // This keeps a boundary port inside even when addition leaves the envelope
+    // infinitesimally below its exact 0.001px value.
+    const width = ceil(contentWidth + escapeWidth);
     const proofRail = node.kind === "proof" && bodyWidth > 36;
-    const height = node.docks.length ? bodyHeight + dockGap + Math.max(...diameters)
-      : node.kind === "proof" ? (proofRail ? 40 : 28) : bodyHeight;
+    const height = ceil(node.docks.length ? bodyHeight + dockGap + Math.max(...diameters)
+      : node.kind === "proof" ? (proofRail ? 40 : 28) : bodyHeight);
     const translateLines = (metric: GraphLabel, x: number, y: number) => metric.lines.map((line) => ({ ...line,
       x: line.x + x, y: line.y + y, ink: { ...line.ink, x: line.ink.x + x, y: line.ink.y + y } }));
     let dockX = escapeWidth + (contentWidth - rowWidth) / 2;

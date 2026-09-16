@@ -1,4 +1,4 @@
-import { attr, code, esc, formatDate, page, plural, proofBadge, statePill, typeBadge } from "../html.js";
+import { attr, code, esc, page, plural, proofBadge, typeBadge } from "../html.js";
 import { contentMarkdown } from "../content.js";
 import { graphDataScript } from "../graphs.js";
 import { highlightSource } from "../highlight.js";
@@ -6,18 +6,18 @@ import { submissionTagIndex } from "../tags.js";
 import type { SiteModel, SiteSubmission } from "../model.js";
 import type { PaperMark, StatementEntry } from "../../types.js";
 import {
-  anonymityPlaceholder,
   currentSubmissions,
   graphWindowButton,
   graphTooltip,
   indexSidebar,
   INTRO_SUBMISSION_ID,
   proofNetworkLegend,
-  submissionSearchAttributes,
   type PageContext,
 } from "./shared.js";
 import { markCard } from "./paper.js";
 import { proofNetworkData } from "./submission.js";
+import { submissionLibrary } from "./submission-library.js";
+import { setupTabs } from "./setup-tabs.js";
 
 interface LandingFaq { question: string; answer: string }
 
@@ -270,7 +270,7 @@ interface LandingCopy {
   sections: Map<string, string>;
 }
 
-const LANDING_SECTIONS = ["How it works", "Proof network", "Get started right away", "Build foundations together"];
+const LANDING_SECTIONS = ["How it works", "Proof network", "Get started right away", "Community and Feedback", "Build foundations together"];
 
 function landingCopy(source: string): LandingCopy {
   const chunks = source.trim().split(/\n(?=## )/);
@@ -299,30 +299,28 @@ function splitCaption(section: string): { body: string; caption: string } {
 
 /** Getting started: one compact, accessible tab per supported host system. */
 function landingSetupSection(heading: string, section: string, markdown: PageContext["markdown"]): string {
-  const ids = new Map([["Linux / macOS", "unix"], ["Windows", "windows"]]);
-  const tabs = section.trim().split(/\n(?=### )/).map((chunk) => {
-    const match = /^### ([^\n]+)\n+([\s\S]+)$/u.exec(chunk.trim());
-    if (!match) throw new Error(`invalid getting-started tab: ${chunk}`);
-    const label = match[1]!.trim();
-    const id = ids.get(label);
-    if (!id) throw new Error(`unsupported getting-started tab: ${label}`);
-    return { id, label, body: match[2]!.trim() };
-  });
-  for (const label of ids.keys())
-    if (!tabs.some((tab) => tab.label === label)) throw new Error(`landing.md is missing the ${label} getting-started tab`);
-  const controls = tabs.map(({ id, label }, index) =>
-    `<button class="landing-setup-tab" type="button" role="tab" id="landing-setup-${id}-tab" aria-selected="${index === 0}" aria-controls="landing-setup-${id}-panel" tabindex="${index === 0 ? 0 : -1}">${esc(label)}</button>`);
-  const panels = tabs.map(({ id, body }, index) => `<div class="landing-setup-panel landing-section-copy latex-content" id="landing-setup-${id}-panel" role="tabpanel" aria-labelledby="landing-setup-${id}-tab"${index === 0 ? "" : " hidden"}>
-${markdown.render(body, "")}
-</div>`);
+  const pieces = section.split(/^\{\{setup-tabs\}\}$/m);
+  if (pieces.length !== 2) throw new Error("landing.md must contain one {{setup-tabs}} marker");
+  const sharedTabs = setupTabs(contentMarkdown("setup.md"), markdown, "", { idPrefix: "landing-setup" });
+  const common = pieces.filter((piece) => piece.trim()).map((piece) => `<div class="landing-section-copy landing-setup-common latex-content">
+${markdown.render(piece.trim(), "")}
+</div>`).join("\n");
   return `<section class="landing-section landing-plain-section landing-setup" aria-labelledby="landing-start-heading">
 <h2 class="landing-section-title" id="landing-start-heading">${esc(heading)}</h2>
 <div class="landing-section-box">
-<div class="landing-setup-tabs" data-setup-tabs>
-<div class="landing-setup-tab-list" role="tablist" aria-label="Choose your operating system">
-${controls.join("\n")}
+${sharedTabs}
+${common}
 </div>
-${panels.join("\n")}
+</section>`;
+}
+
+/** A prose section in the same bordered unit as setup and foundations. */
+function landingTextSection(heading: string, section: string, markdown: PageContext["markdown"]): string {
+  return `<section class="landing-section landing-plain-section landing-community" aria-labelledby="landing-community-heading">
+<h2 class="landing-section-title" id="landing-community-heading">${esc(heading)}</h2>
+<div class="landing-section-box">
+<div class="landing-section-copy latex-content">
+${markdown.render(section, "")}
 </div>
 </div>
 </section>`;
@@ -340,12 +338,22 @@ function landingFoundations(ctx: PageContext, heading: string, section: string):
   const items = ids.flatMap((id) => {
     const located = model.conceptHome.get(id);
     if (!located) return [];
-    const dependents = new Set(model.downstreamClosure(id).map((c) => c.output.id));
-    dependents.delete(located.output.id);
+    const latest = model.submissionById.get(model.currentVersion(located.output.id))?.output;
+    // A registered successor normally keeps a concept's namespace suffix
+    // (for example, Lax67.Ram becomes Lax808846.Ram). Match its title too,
+    // so a version that moves a concept to a different suffix still leads to
+    // its current page. If neither holds, retain the known concept page.
+    const suffix = id.slice(id.indexOf("."));
+    const current = latest?.concepts.find((concept) => concept.id.endsWith(suffix))
+      ?? latest?.concepts.find((concept) => concept.title === located.concept.title)
+      ?? located.concept;
+    const targetId = current === located.concept ? located.output.id : latest!.id;
+    const dependents = new Set(model.downstreamClosure(current.id).map((concept) => concept.output.id));
+    dependents.delete(targetId);
     const uses = dependents.size ? `<span class="landing-foundation-uses">used by ${plural(dependents.size, "submission")}</span>` : "";
-    return [`<li><a class="landing-foundation" href="${attr(`${located.output.id}/${located.concept.id}.html`)}" title="${attr(located.concept.id)}">
-${typeBadge(located.concept.type)}<span class="landing-foundation-title">${markdown.renderAuthorInline(located.concept.title, "")}</span>
-<span class="landing-foundation-meta"><span class="submission-meta-id">${esc(located.output.id)}</span>${uses}</span>
+    return [`<li><a class="landing-foundation" href="${attr(`${targetId}/${current.id}.html`)}" title="${attr(current.id)}">
+${typeBadge(current.type)}<span class="landing-foundation-title">${markdown.renderAuthorInline(current.title, "")}</span>
+<span class="landing-foundation-meta"><span class="submission-meta-id">${esc(targetId)}</span>${uses}</span>
 </a></li>`];
   });
   if (!items.length) return "";
@@ -600,26 +608,7 @@ ${graphDataScript({ proofs: data })}`;
 export async function indexPage(ctx: PageContext): Promise<string> {
   const { model, markdown } = ctx;
   const listed = currentSubmissions(model);
-  const concepts = listed.flatMap((submission) => submission.output!.concepts);
-  const statements = concepts.flatMap((c) => c.statements);
-  const provenStatements = statements.filter((statement) => model.network.proven.has(statement.id)).length;
   const tagIndex = submissionTagIndex(listed);
-  const rows = listed.map((submission, order) => {
-    const { record, output } = submission;
-    // The creation date, which is what the list is ordered by: a row whose
-    // date disagreed with its place in the list would read as a fault. The
-    // submission page carries both dates, registration included.
-    const date = formatDate(record.createdAt);
-    const authors = output!.manifest.anonymous === true && output!.manifest.authors.length
-      ? anonymityPlaceholder("withheld during anonymous review", "anonymity-placeholder-inline")
-      : output!.manifest.authors.map((a) => esc(a.name)).join(", ");
-    const counts = `${plural(output!.concepts.length, "concept")}, ${plural(output!.proofs.length, "proof")}`;
-    return `<li ${submissionSearchAttributes(submission, order, tagIndex.bySubmission.get(record.id))}><a class="submissions-list-link" href="${attr(record.id)}/index.html">
-<span class="submissions-list-title"><span class="submission-find-alias" hidden="until-found" aria-hidden="true" data-submission-find-alias>${esc(record.id)}</span>${markdown.renderAuthorInline(output!.manifest.title, "")}<span class="submissions-list-date">(${date})</span></span>
-${authors ? `<span class="submissions-list-meta"><span class="formalized-label">formalized by</span> ${authors}</span>` : ""}
-<span class="submissions-list-counts">${counts} ${statePill(record.state)}</span>
-</a></li>`;
-  });
   const landing = landingCopy(contentMarkdown("landing.md"));
   const faq = landingFaq(contentMarkdown("faq.md"), markdown);
   const networkSubmission = listed.find((submission) => submission.record.id === NETWORK_SUBMISSION_ID && submission.output?.proofs.length);
@@ -627,47 +616,11 @@ ${authors ? `<span class="submissions-list-meta"><span class="formalized-label">
   const networkCopy = splitCaption(landing.sections.get("Proof network")!);
   const examples = await examplesBox(ctx, listed, how.caption);
   const network = networkSubmission ? proofNetworkFigure(ctx, networkSubmission, networkCopy.caption) : "";
-
-  const chip = (key: string, label: string, count: number, extraClass = ""): string =>
-    `<button class="tag-chip${extraClass}" type="button" data-tag-filter="${attr(key)}" aria-pressed="false" aria-label="${attr(`${label}, ${plural(count, "submission")}`)}"><span>${esc(label)}</span><b aria-hidden="true">${count}</b></button>`;
-  // The environment is one more chip in the same strip: the browser filters
-  // on `data-tags`, which carries it, so a flat facet needs no second control.
-  // It appears only once the archive holds work in more than one environment —
-  // before that the single chip would name the only thing there is. The chips
-  // lead the strip because the strip is clipped to three rows.
-  const environmentButtons = model.environments.length > 1
-    ? model.environments.map((environment) => chip(
-        environment,
-        environment === model.epoch ? `${environment} · epoch` : environment,
-        listed.filter((submission) => model.environmentOf.get(submission.record.id) === environment).length,
-        " environment-chip",
-      ))
-    : [];
-  const tagButtons = tagIndex.tags.map((tag) => chip(tag.key, tag.label, tag.submissionIds.length));
-  const facetButtons = [...environmentButtons, ...tagButtons];
-  const facetSummary = environmentButtons.length
-    ? "Environments first, then topics suggested from submission and concept titles."
-    : "Suggested from submission and concept titles.";
-  const tagBrowser = facetButtons.length ? `<section class="tag-browser" aria-labelledby="tag-browser-heading">
-<div class="tag-browser-heading"><h4 id="tag-browser-heading">Browse by topic</h4><p>${esc(facetSummary)}</p></div>
-<div class="tag-chip-list" role="group" aria-label="Filter submissions by topic">
-<button class="tag-chip" type="button" data-tag-filter="" aria-pressed="true" aria-label="All, ${plural(listed.length, "submission")}"><span>All</span><b aria-hidden="true">${listed.length}</b></button>
-${facetButtons.join("\n")}
-</div>
-<p class="tag-results-status" id="tag-results-status" aria-live="polite">Showing all ${plural(listed.length, "submission")}.</p>
-</section>` : "";
-  const library = `<section class="landing-action-panel submissions-library" id="landing-panel-read" aria-labelledby="landing-library-heading">
-<div class="landing-action-panel-heading">
-<p class="stats-line">${plural(listed.length, "submission")} · ${plural(concepts.length, "concept")} · ${plural(statements.length, "statement")}, ${provenStatements} proven</p>
-<input id="submissions-search" class="filter-input submissions-library-search" type="search" placeholder="Search titles and concepts" aria-label="Search submissions" aria-controls="submissions-list">
-</div>
-${tagBrowser}
-<ul class="submissions-list" id="submissions-list">
-${rows.join("\n")}
-<li id="submissions-list-empty" class="submissions-list-empty" hidden>No submissions match.</li>
-</ul>
-<button class="submissions-load-more" id="submissions-load-more" type="button" aria-controls="submissions-list" hidden>Load more <b aria-hidden="true">↓</b></button>
-</section>`;
+  const library = submissionLibrary(ctx, {
+    rootRel: "",
+    labelledBy: "landing-library-heading",
+    id: "landing-panel-read",
+  });
   const content = `<section class="landing-hero" aria-labelledby="landing-title">
 <h1 class="landing-title" id="landing-title">${esc(landing.title)}</h1>
 <div class="landing-manifesto latex-content">
@@ -686,12 +639,24 @@ ${markdown.render(networkCopy.body, "")}
 ${network}
 </section>
 ${landingSetupSection("Get started right away", landing.sections.get("Get started right away")!, markdown)}
+${landingTextSection("Community and Feedback", landing.sections.get("Community and Feedback")!, markdown)}
 ${landingFoundations(ctx, "Build foundations together", landing.sections.get("Build foundations together")!)}
 <div class="landing-action-panels">
 <h2 class="landing-section-title" id="landing-library-heading">Submissions</h2>
 ${library}
 ${faq}
-</div>`;
+</div>
+<aside class="landing-workshop-banner" aria-label="Meeting announcement" hidden>
+<div class="landing-workshop-heading">
+<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M20 11.5a8 8 0 0 1-8 8 9 9 0 0 1-3.5-.7L4 20l1.2-4.5a9 9 0 0 1-.7-3.5 8 8 0 0 1 8-8H13a8 8 0 0 1 7 7.5Z"/></svg>
+<span>Lax Online Meeting</span>
+<button class="landing-workshop-close" type="button" aria-label="Close meeting announcement"><span aria-hidden="true">×</span></button>
+</div>
+<a href="workshop/">
+<span>30 September 2026, 10:00–11:30 CEST — an introduction to Lean, formalization with AI agents, and sharing mathematics through Lax.</span>
+<strong>Meeting details <b aria-hidden="true">→</b></strong>
+</a>
+</aside>`;
   return page({
     title: "Lax Lean Archive",
     rootRel: "",
@@ -700,6 +665,8 @@ ${faq}
     content,
     detailClass: "detail-landing",
     landingHeader: true,
-    scripts: network ? ["assets/graph-interaction.js", "assets/landing.js"] : ["assets/landing.js"],
+    scripts: network
+      ? ["assets/graph-interaction.js", "assets/setup-tabs.js", "assets/landing.js"]
+      : ["assets/setup-tabs.js", "assets/landing.js"],
   });
 }

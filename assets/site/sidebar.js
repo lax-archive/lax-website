@@ -1,5 +1,5 @@
 // Sidebar behavior: mobile drawer toggle and entry filtering. All data is in
-// the DOM (data-search / data-type attributes); nothing is fetched.
+// the DOM (data-search / data-type / data-env attributes); nothing is fetched.
 (() => {
   const SUBMISSION_PAGE_SIZE = 10;
   const SIDEBAR_DEFAULT_WIDTH = 285;
@@ -30,7 +30,7 @@
     return 2;
   }
 
-  function filterList(list, search, type, emptyId, tag = '') {
+  function filterList(list, search, type, emptyId, tag = '', environment = '') {
     const query = words(search);
     const rows = [...list.querySelectorAll('li[data-search], li[data-search-title]')];
     const titleHits = new Map();
@@ -48,6 +48,7 @@
       }
       if (!hidden && type !== 'all' && li.dataset.type !== type) hidden = true;
       if (!hidden && tag && li.dataset.tags !== undefined && !li.dataset.tags.includes(`|${tag}|`)) hidden = true;
+      if (!hidden && environment && li.dataset.env !== environment) hidden = true;
       li.hidden = hidden;
       if (!hidden) visible += 1;
     });
@@ -82,7 +83,7 @@
     if (!status) return;
     const active = document.querySelector(`[data-tag-filter="${CSS.escape(selectedTag)}"]`);
     const label = active?.querySelector('span')?.textContent ?? selectedTag;
-    const search = document.getElementById('filter-search')?.value.trim();
+    const search = (document.getElementById('filter-search') || document.getElementById('submissions-search'))?.value.trim();
     const suffix = search ? ' matching your search' : '';
     const count = total === shown ? `${total}` : `${shown} of ${total}`;
     status.textContent = selectedTag
@@ -136,9 +137,11 @@
     if (!list) return;
     const searchEl = document.getElementById('filter-search');
     const typeEl = document.getElementById('filter-type');
+    const environmentEl = document.getElementById('filter-environment');
     const search = searchEl ? searchEl.value.trim().toLowerCase() : '';
     const type = typeEl ? typeEl.value : 'all';
-    filterList(list, search, type, 'entry-list-empty');
+    const environment = environmentEl ? environmentEl.value : '';
+    filterList(list, search, type, 'entry-list-empty', '', environment);
     const openProblems = document.getElementById('open-problems-list');
     if (openProblems) {
       filterList(openProblems, search, type, 'open-problems-list-empty');
@@ -160,7 +163,7 @@
   function applySubmissionFilters() {
     const submissions = document.getElementById('submissions-list');
     if (!submissions) return;
-    const searchEl = document.getElementById('filter-search');
+    const searchEl = document.getElementById('filter-search') || document.getElementById('submissions-search');
     const search = searchEl?.value.trim().toLowerCase() ?? '';
     const filterKey = `${search}\u0000${selectedTag}`;
     if (filterKey !== submissionFilterKey) {
@@ -193,6 +196,7 @@
     const search = document.getElementById('filter-search');
     const submissionsSearch = document.getElementById('submissions-search');
     const type = document.getElementById('filter-type');
+    const environment = document.getElementById('filter-environment');
     function connectSearch(source, mirror) {
       if (!source) return;
       source.addEventListener('input', () => {
@@ -203,6 +207,7 @@
     connectSearch(search, submissionsSearch);
     connectSearch(submissionsSearch, search);
     if (type) type.addEventListener('change', applyFilters);
+    if (environment) environment.addEventListener('change', applyFilters);
   }
 
   function setupRandomSubmission() {
@@ -279,7 +284,8 @@
       const url = new URL(window.location.href);
       if (tag) url.searchParams.set('tag', tag);
       else url.searchParams.delete('tag');
-      url.searchParams.set('view', 'read');
+      if (document.getElementById('landing-panel-read')) url.searchParams.set('view', 'read');
+      else url.searchParams.delete('view');
       window.history.pushState(null, '', `${url.pathname}${url.search}${url.hash}`);
     }
 

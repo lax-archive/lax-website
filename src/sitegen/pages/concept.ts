@@ -10,9 +10,7 @@ import {
   conceptLink,
   conceptMapLegend,
   draftBanner,
-  draftPageScripts,
   environmentNotice,
-  ordinal,
   shortId,
   versionHistoryPanel,
   repositorySource,
@@ -55,10 +53,13 @@ function evidence(ctx: PageContext, located: LocatedConcept): string {
   const list = (items: string[], empty: string) => items.length
     ? `<ul class="proof-list">\n${items.join("\n")}\n</ul>`
     : `<p class="empty-note">${empty}</p>`;
-  const block = (intro: string, body: string) => `<div class="block block-evidence"><h3>Evidence</h3>
+  const block = (intro: string, body: string) => `<details class="figure-details evidence-details">
+<summary>Evidence</summary>
+<div class="block block-evidence">
 <p class="evidence-intro">${intro}</p>
 ${body}
-</div>`;
+</div>
+</details>`;
   if (concept.statements.length === 1)
     return block(
       "Each proof establishes this claim relative to its assumptions.",
@@ -66,7 +67,8 @@ ${body}
     );
   const proven = ctx.model.network.proven;
   const blocks = concept.statements.map((statement, index) => {
-    const heading = `<a href="#s-${attr(statement.id)}">${esc(ordinal(index + 1))} statement</a> ${code(shortId(statement.id, concept.id))} ${countsPill(proven.has(statement.id) ? 1 : 0, 1)}`;
+    const name = shortId(statement.id, concept.id);
+    const heading = `<a class="evidence-statement-link" href="#s-${attr(statement.id)}" aria-label="${attr(`Statement ${index + 1}: ${name}`)}" title="${attr(`Jump to statement ${index + 1} in the Lean source`)}">${index + 1}</a> ${code(name)} ${countsPill(proven.has(statement.id) ? 1 : 0, 1)}`;
     return `<div class="evidence-statement"><h4>${heading}</h4>
 ${list(proofsOf(statement.id), "No proof in the archive yet — this statement is open.")}
 </div>`;
@@ -138,7 +140,9 @@ export async function conceptPage(ctx: PageContext, located: LocatedConcept): Pr
 <span class="status-pills">${countsPill(provenCount, concept.statements.length)}</span>
 </div>
 ${pageReactions(`${submission.record.id}/${concept.id}.html`, { kind: "concept", sourceLines: concept.sourceText.split("\n").length, anonymous })}
-<details class="figure-details">
+<h3 class="figure-title">Natural Language Statement</h3>
+<div class="block block-statement"><h3>${esc(typeHeading)}</h3><div class="latex-content">${ctx.markdown.renderAuthorProse(concept.description, "../")}</div></div>
+<details class="figure-details" open>
 <summary>Concept map</summary>
 <figure class="graph-figure concept-root-graph">
 ${graphExpandButton("concept map", true)}
@@ -149,8 +153,8 @@ ${conceptMapLegend(graph, "This concept", "Related concept")}
 </details>
 ${evidence(ctx, located)}
 ${inPaperBlock(ctx, concept.id, output.id, "../")}
-<div class="block block-statement"><h3>${esc(typeHeading)}</h3><div class="latex-content">${ctx.markdown.renderAuthorProse(concept.description, "../")}</div></div>
-<div class="block block-lean"><h3 class="section-heading">Lean source${sourceFile ? ` <a class="source-link" href="${attr(sourceFile)}">view on ${esc(sourceProviderName(sourceFile))}</a>` : sourceWithheld ? withheldSourceLink() : ""}</h3>
+<h3 class="figure-title">Lean source${sourceFile ? ` <a class="source-link" href="${attr(sourceFile)}">view on ${esc(sourceProviderName(sourceFile))}</a>` : sourceWithheld ? withheldSourceLink() : ""}</h3>
+<div class="block block-lean">
 <div class="inline-contract-shell"><button class="comment-toggle" type="button" aria-pressed="false" aria-label="Hide comments">Hide comments</button><div class="inline-contract-wrap"><table class="inline-contract-table">
 ${sourceRows}
 </table></div>${proofActions}<span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
@@ -174,6 +178,6 @@ ${graphDataScript({
     sidebarState: "open",
     content,
     noIndex: output.manifest.unlisted === true,
-    scripts: ["assets/graph-interaction.js", "assets/source-proof.js", ...draftPageScripts(submission.record.state), "assets/version-history.js", "assets/comments.js"],
+    scripts: ["assets/graph-interaction.js", "assets/source-proof.js", "assets/version-history.js", "assets/comments.js"],
   });
 }

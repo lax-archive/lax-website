@@ -10,7 +10,6 @@ import {
   bibtex,
   conceptMapLegend,
   draftBanner,
-  draftPageScripts,
   environmentNotice,
   versionHistoryMetaButton,
   versionHistoryPanel,
@@ -107,7 +106,7 @@ ${discussion(`${record.id}/`)}`;
       sidebar,
       sidebarState: "open",
       content,
-      scripts: [...draftPageScripts(record.state), "assets/version-history.js", "assets/comments.js"],
+      scripts: ["assets/version-history.js", "assets/comments.js"],
     });
   }
 
@@ -216,7 +215,7 @@ ${graphDataScript(graphs)}`;
     sidebarState: "open",
     content,
     noIndex: output.manifest.unlisted === true,
-    scripts: ["assets/graph-interaction.js", ...(anonymous ? [] : ["assets/citation.js"]), ...draftPageScripts(record.state), "assets/version-history.js", "assets/comments.js"],
+    scripts: ["assets/graph-interaction.js", ...(anonymous ? [] : ["assets/citation.js"]), "assets/version-history.js", "assets/comments.js"],
   });
 }
 

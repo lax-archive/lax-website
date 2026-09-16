@@ -26,13 +26,7 @@ rested on it is then proven.
 
 ## Get started right away
 
-### Linux / macOS
-
-Set up, once per machine:
-
-```
-npm install -g lax-archive && lax doctor
-```
+{{setup-tabs}}
 
 Hand your coding agent a prompt like:
 
@@ -42,31 +36,15 @@ Run `lax print instructions` and follow the guide to formalize <my result>.
 
 Then your agent takes over and guides you through the process.
 
-### Windows
+## Community and Feedback
 
-First, open PowerShell as administrator and install a
-[Linux terminal with WSL](https://learn.microsoft.com/en-us/windows/wsl/install):
+### Join the conversation
 
-```
-wsl --install
-```
-
-After restarting, open Ubuntu.
-
-Set up, once per machine:
-
-```
-npm install -g lax-archive
-lax doctor
-```
-
-Hand your coding agent a prompt like:
-
-```
-Run `lax print instructions` and follow the guide to formalize <my result>.
-```
-
-Then your agent takes over and guides you through the process.
+Lax is shaped by the people who use and review it. [Join the Lax
+Discord](https://discord.gg/hgWMN5ztca) to ask questions, exchange ideas, and
+share feedback, or email us at
+[lax.lean.archive@gmail.com](mailto:lax.lean.archive@gmail.com). You can also
+meet the community at the [Lax Online Meeting](workshop/).
 
 ## Build foundations together
 

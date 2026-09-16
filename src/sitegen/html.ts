@@ -43,6 +43,8 @@ export interface PageShell {
    * the toggle brings it back. Pages about a submission set it; the front
    * page and the editorial pages ship the sidebar hidden, with no toggle. */
   sidebarState?: "open" | "collapsed";
+  /** Additional HTTPS origins allowed to embed frames on this page only. */
+  frameOrigins?: string[];
 }
 
 const REMARK42_ORIGIN = new URL(REMARK42_URL).origin;
@@ -65,12 +67,22 @@ const PAPER_CSP =
 const REFLOW_CSP =
   `default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self'; frame-src ${REMARK42_ORIGIN}; connect-src 'self' ${ACCOUNT_CONNECT_ORIGINS}`;
 
-function contentSecurityPolicy(scripts: string[]): string {
-  if (scripts.includes("assets/manuscript.js")) return PAPER_CSP;
-  if (scripts.includes("assets/manuscript-reflow.js")) return REFLOW_CSP;
-  const policy = scripts.includes("assets/comments.js")
-    ? `default-src 'none'; script-src 'self' ${REMARK42_ORIGIN}; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self'; frame-src ${REMARK42_ORIGIN}; connect-src ${ACCOUNT_CONNECT_ORIGINS}`
-    : BASE_CSP;
+function contentSecurityPolicy(scripts: string[], frameOrigins: string[]): string {
+  let policy = scripts.includes("assets/manuscript.js")
+    ? PAPER_CSP
+    : scripts.includes("assets/manuscript-reflow.js")
+      ? REFLOW_CSP
+      : scripts.includes("assets/comments.js")
+        ? `default-src 'none'; script-src 'self' ${REMARK42_ORIGIN}; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self'; frame-src ${REMARK42_ORIGIN}; connect-src ${ACCOUNT_CONNECT_ORIGINS}`
+        : BASE_CSP;
+  const extraFrames = [...new Set(frameOrigins)].sort();
+  for (const origin of extraFrames) {
+    const url = new URL(origin);
+    if (url.protocol !== "https:" || url.origin !== origin)
+      throw new Error(`frame origin must be an exact HTTPS origin: ${origin}`);
+  }
+  if (extraFrames.length)
+    policy = policy.replace(`frame-src ${REMARK42_ORIGIN}`, `frame-src ${REMARK42_ORIGIN} ${extraFrames.join(" ")}`);
   // Alternate graph views are immutable same-origin files. Public graph
   // interaction runs no worker and needs neither inline scripts nor eval.
   return scripts.includes("assets/graph-interaction.js") ? policy.replace("connect-src ", "connect-src 'self' ") : policy;
@@ -122,9 +134,8 @@ function accountDialog(): string {
 // plain-http `lax serve`, where an assets/ file would violate `img-src`.
 const FAVICON = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E";
 
-/** The links beside the site's name, on every page: the introduction to
- * Lax (its own submission's paper, when the archive holds it) and the
- * about page. generate.ts sets the introduction once per build. */
+/** The links beside the site's name, on every page. The introduction is
+ * conditional on its submission being present; the guide and About are not. */
 let siteNav: { introduction?: string } = {};
 
 export function configureSiteNav(nav: { introduction?: string }): void {
@@ -133,7 +144,8 @@ export function configureSiteNav(nav: { introduction?: string }): void {
 
 function siteNavLinks(root: string): string {
   const links = [
-    siteNav.introduction ? `<a class="site-nav-link" href="${attr(root + siteNav.introduction)}">Introduction</a>` : "",
+    siteNav.introduction ? `<a class="site-nav-link site-nav-introduction" href="${attr(root + siteNav.introduction)}">Introduction</a>` : "",
+    `<a class="site-nav-link site-nav-getting-started" href="${attr(`${root}contributing.html`)}">Getting Started</a>`,
     `<a class="site-nav-link" href="${attr(`${root}about.html`)}">About</a>`,
   ].filter(Boolean);
   return `<nav class="site-nav" aria-label="Site">
@@ -144,7 +156,7 @@ function siteNavLinks(root: string): string {
 export function page(shell: PageShell): string {
   const root = shell.rootRel;
   const canonical = new URL(shell.canonicalPath, `${DEFAULT_SITE_URL.replace(/\/+$/, "")}/`).toString();
-  const csp = contentSecurityPolicy(shell.scripts ?? []);
+  const csp = contentSecurityPolicy(shell.scripts ?? [], shell.frameOrigins ?? []);
   const scripts = ["assets/sidebar.js", "assets/account.js", ...(shell.scripts ?? [])]
     .map((src) => `<script src="${attr(root + src)}?v=${siteAssetVersion(src.replace(/^assets\//, ""))}"></script>`)
     .join("\n");

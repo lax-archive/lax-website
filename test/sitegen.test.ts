@@ -9,7 +9,7 @@ import { projectGraph, type ProofGraphData } from "../src/sitegen/graph-project.
 import { countsPill, statePill, typeBadge, typeBadgeText } from "../src/sitegen/html.js";
 import { compareIds, SiteModel } from "../src/sitegen/model.js";
 import { MarkdownRenderer } from "../src/sitegen/markdown.js";
-import { bibtex, ordinal, repositorySource, sourceProviderName, statementOrdinal } from "../src/sitegen/pages/shared.js";
+import { bibtex, ordinal, proofNetworkLegend, repositorySource, sourceProviderName, statementOrdinal } from "../src/sitegen/pages/shared.js";
 import { submissionTagIndex } from "../src/sitegen/tags.js";
 import { tmpDir } from "./helpers.js";
 
@@ -197,11 +197,12 @@ function landingArchive(): SiteSubmission[] {
     id: string,
     concepts: { conceptId: string; title: string; imports?: string[]; statements?: { id: string; signature: string }[] }[],
     proofs: NonNullable<SiteSubmission["output"]>["proofs"] = [],
+    supersedes?: string,
   ): SiteSubmission => ({
     record: { specVersion: "1", id, state: "registered", createdAt: "2026-02-01T00:00:00Z" },
     output: {
       specVersion: "1", id,
-      manifest: { specVersion: "1", id, leanVersion: "v4.30.0", mathlibVersion: "abc", title: `Title of ${id}`, authors: [], bibEntries: [] },
+      manifest: { specVersion: "1", id, leanVersion: "v4.30.0", mathlibVersion: "abc", title: `Title of ${id}`, authors: [], bibEntries: [], ...(supersedes ? { supersedes } : {}) },
       abstract: "", requiredByConcepts: [], requiredByProofs: [],
       concepts: concepts.map(({ conceptId, title, imports, statements }) => ({
         id: conceptId, path: `concepts/${conceptId.replaceAll(".", "/")}.lean`, title,
@@ -215,6 +216,7 @@ function landingArchive(): SiteSubmission[] {
   });
   return [
     make("lax-67", [{ conceptId: "Lax67.Ram", title: "The word RAM" }]),
+    make("lax-68", [{ conceptId: "Lax68.Ram", title: "The word RAM" }], [], "lax-67"),
     make("lax-11", [
       { conceptId: "Lax11.GraphEncoding", title: "Compressed sparse row encoding of a graph", imports: ["Lax67.Ram"] },
       { conceptId: "Lax11.ConnectedComponents", title: "Connected components in linear time", imports: ["Lax11.GraphEncoding"], statements: [{ id: "Lax11.ConnectedComponents.exists_linearTime_program_ccLabels", signature: "exists_linearTime_program_ccLabels : True" }] },
@@ -573,7 +575,6 @@ After the formula.`, "");
     }
     expect(submission).toContain("<title>A sharp x^2 bound — Lax2</title>");
     expect(concept).toContain("<title>The small y_i lemma</title>");
-    expect(concept).toContain('<span class="entry-label-text">The small y_i lemma</span>');
     expect(concept).toMatch(/<h1 class="concept-title">The <em>small<\/em> <span class="katex"/);
     expect(concept).toMatch(/<h3>Case <span class="katex"/);
     expect(proof).toMatch(/<h3>Step <span class="katex"/);
@@ -654,7 +655,7 @@ After the formula.`, "");
       expect(bytes.equals(second.get(name)!)).toBe(true);
       expect(SITE_MIME[path.extname(name)], `missing MIME for ${name}`).toBeDefined();
     }
-    for (const asset of ["style.css", "sidebar.js", "landing.js", "graph-interaction.js", "source-proof.js", "citation.js", "version-history.js", "comments.js", "katex.css", "lax-white-paper.pdf", path.join("fonts", "LM-regular.woff2")])
+    for (const asset of ["style.css", "sidebar.js", "landing.js", "setup-tabs.js", "graph-interaction.js", "source-proof.js", "citation.js", "version-history.js", "comments.js", "katex.css", "lax-white-paper.pdf", path.join("fonts", "LM-regular.woff2")])
       expect(fs.existsSync(path.join(one, "assets", asset)), asset).toBe(true);
     for (const asset of ["layout.js", "dag.js", "graph-local.js", "graph-measure-local.js", "graph-local"])
       expect(fs.existsSync(path.join(one, "assets", asset)), `archive must not ship ${asset}`).toBe(false);
@@ -694,11 +695,15 @@ After the formula.`, "");
     expect(about).not.toContain("{{concept-proof-flip}}");
     expect(about).not.toContain('src="assets/concept-proof.svg"');
     expect(about).toMatch(/<script src="assets\/proof-flip\.js\?v=[0-9a-f]{12}"><\/script>/);
+    expect(about).toContain('<a href="https://discord.gg/hgWMN5ztca">Lax Discord</a>');
+    expect(about).toContain('<a href="mailto:lax.lean.archive@gmail.com">lax.lean.archive@gmail.com</a>');
     expect(fs.readFileSync(path.join(one, "index.html"), "utf8")).not.toContain("proof-flip.js");
     expect(css).toContain(".landing-demo-card.is-flipped .landing-demo-inner");
     expect(css).not.toContain(".landing-action-card");
     expect(css).not.toContain(".landing-review-start");
     expect(css).toContain("#detail .landing-title{");
+    expect(css).toContain("@media (min-width: 901px) and (max-width: 1680px){");
+    expect(css).toContain(".site-header.with-sidebar .site-nav-introduction{ display: none; }");
     expect(css).toContain(".landing-passage.manuscript-hl-hover,");
     expect(css).not.toContain(".landing-passage::after");
     expect(css).toContain(".landing-paper-grid{\n  position: relative;");
@@ -707,6 +712,8 @@ After the formula.`, "");
     expect(css).toContain(".landing-carousel-arrow{");
     expect(css).toContain(".landing-network-viewport::before,");
     expect(css).toContain(".landing-plain-section{");
+    expect(css).toContain(".content-setup{");
+    expect(css).toContain(".content-setup .landing-setup-tab-list{ margin-inline: 0; }");
     expect(css).toContain(".landing-foundation{");
     expect(css).toContain(".detail-landing .landing-action-panels{ max-width: 60em;");
     expect(css).toContain(".submissions-library-search{");
@@ -737,7 +744,13 @@ After the formula.`, "");
     expect(faqList).toContain("border: 0");
     expect(faqList).toContain("border-top: 1px solid var(--border-light)");
     const landingScript = fs.readFileSync(path.join(one, "assets", "landing.js"), "utf8");
+    const setupScript = fs.readFileSync(path.join(one, "assets", "setup-tabs.js"), "utf8");
     const sidebarScript = fs.readFileSync(path.join(one, "assets", "sidebar.js"), "utf8");
+    expect(setupScript).toContain("function setupTabs()");
+    expect(setupScript).toContain("document.querySelectorAll('[data-setup-tabs]')");
+    expect(setupScript).toContain("event.key === 'ArrowRight'");
+    expect(setupScript).toContain("event.key === 'Home'");
+    expect(landingScript).not.toContain("setupSetupTabs");
     expect(landingScript).toContain("target.scrollIntoView({ behavior, block: 'start' })");
     expect(landingScript).toContain("url.searchParams.set('view', id)");
     expect(landingScript).toContain("window.addEventListener('popstate'");
@@ -782,7 +795,8 @@ After the formula.`, "");
     expect(sidebarScript).toContain("function applySubmissionFilters()");
     expect(sidebarScript).toContain("const submissionsSearch = document.getElementById('submissions-search');");
     expect(sidebarScript).toContain("connectSearch(submissionsSearch, search);");
-    expect(sidebarScript).toContain("filterList(list, search, type, 'entry-list-empty');");
+    expect(sidebarScript).toContain("const environment = document.getElementById('filter-environment');");
+    expect(sidebarScript).toContain("filterList(list, search, type, 'entry-list-empty', '', environment);");
     expect(sidebarScript).not.toContain("filterList(list, search, type, 'entry-list-empty', selectedTag)");
     expect(sidebarScript).toContain("function setupRandomSubmission()");
     expect(sidebarScript).toContain("Math.floor(Math.random() * candidates.length)");
@@ -814,6 +828,7 @@ After the formula.`, "");
     const root = tmpDir("lax-site-index-");
     await generateSite(submissions(), root);
     const index = fs.readFileSync(path.join(root, "index.html"), "utf8");
+    const submissionsIndex = fs.readFileSync(path.join(root, "submissions", "index.html"), "utf8");
     // Editorial text comes from content/ and the contributing page is live.
     expect(index).toContain("<title>Lax Lean Archive</title>");
     expect(index).toContain('Lax <span class="site-title-quiet">Lean Archive</span>');
@@ -843,7 +858,7 @@ After the formula.`, "");
     expect(index).toContain('href="https://learn.microsoft.com/en-us/windows/wsl/install"');
     expect(index.match(/npm install -g lax-archive &amp;&amp; lax doctor/g)).toHaveLength(1);
     expect(index).toContain("npm install -g lax-archive\nlax doctor");
-    expect(index.match(/Run `lax print instructions` and follow the guide to formalize &lt;my result&gt;./g)).toHaveLength(2);
+    expect(index.match(/Run `lax print instructions` and follow the guide to formalize &lt;my result&gt;./g)).toHaveLength(1);
     expect(index).toContain("Run `lax print instructions` and follow the guide to formalize &lt;my result&gt;.");
     expect(index).not.toContain("landing-tile");
     expect(index).not.toContain("landing-column");
@@ -884,14 +899,22 @@ After the formula.`, "");
     expect(index).toContain('<h2 class="landing-section-title landing-faq-title" id="landing-faq-heading">FAQ</h2>');
     expect(index).toContain('<ol class="landing-faq-list">');
     expect(index).toContain('<li class="landing-faq-list-item"><details class="landing-faq-item">');
-    expect(index.match(/<details class="landing-faq-item">/g)).toHaveLength(10);
+    expect(index.match(/<details class="landing-faq-item">/g)).toHaveLength(11);
     expect(index).toContain("How do I create my own submission?");
     expect(index).toContain("How does Lax relate to Merely True, Tau Ceti, Lean Pool, and the Palomar Registry?");
+    expect(index).toContain("Won't publishing formalizations accelerate loss of control of mathematics?");
     expect(index).toContain("Can I use Lax for anonymous peer review?");
     expect(index).toContain("Why are files, not declarations, the basic unit of Lax?");
     expect(index).toContain("Which operating systems does Lax support?");
     expect(index).not.toContain('href="https://palomar-registry.org/"');
     expect(index.indexOf('id="landing-panel-read"')).toBeLessThan(index.indexOf('id="faq"'));
+    expect(index).toContain('<aside class="landing-workshop-banner" aria-label="Meeting announcement" hidden>');
+    expect(index).toContain("30 September 2026, 10:00–11:30 CEST");
+    expect(index).toContain('Lax Online Meeting');
+    expect(index).toContain("an introduction to Lean, formalization with AI agents, and sharing mathematics through Lax.");
+    expect(index).toContain('href="workshop/"');
+    expect(index).toContain("Meeting details");
+    expect(index.indexOf('id="faq"')).toBeLessThan(index.indexOf('class="landing-workshop-banner"'));
     expect(index).not.toMatch(/id="landing-panel-read"[^>]* hidden/);
     expect(index).toContain("contributing.html");
     expect(index).toMatch(/<script src="assets\/landing\.js\?v=[0-9a-f]{12}"><\/script>/);
@@ -946,8 +969,37 @@ After the formula.`, "");
     expect(index).not.toContain("Lax10");
     expect(index).not.toContain("no content uploaded yet");
     expect(index).toContain("1 submission ·");
+    // The same live archive library also has a focused, standalone route.
+    expect(submissionsIndex).toContain("<title>Submissions — Lax Lean Archive</title>");
+    expect(submissionsIndex).toContain('<link rel="canonical" href="https://laxarchive.org/submissions/">');
+    expect(submissionsIndex).toContain('<div id="detail" class="detail-submissions">');
+    expect(submissionsIndex).toContain('<h1 class="submissions-page-title" id="submissions-page-heading">Submissions</h1>');
+    expect(submissionsIndex).toContain('<section class="landing-action-panel submissions-library submissions-page-library" id="submissions-library" aria-labelledby="submissions-page-heading">');
+    expect(submissionsIndex).toContain('<input id="submissions-search" class="filter-input submissions-library-search"');
+    expect(submissionsIndex).toContain('id="submissions-list"');
+    expect(submissionsIndex).toContain('id="submissions-load-more"');
+    expect(submissionsIndex).toContain('href="../Lax2/index.html"');
+    expect(submissionsIndex).toContain('<a class="site-nav-link site-nav-getting-started" href="../contributing.html">Getting Started</a>');
+    expect(submissionsIndex).not.toContain('href="../submissions/">Submissions</a>');
+    expect(submissionsIndex).toMatch(/<link rel="stylesheet" href="\.\.\/assets\/style\.css\?v=[0-9a-f]{12}">/);
+    expect(submissionsIndex).toMatch(/<script src="\.\.\/assets\/sidebar\.js\?v=[0-9a-f]{12}"><\/script>/);
+    expect(submissionsIndex).not.toContain("landing-hero");
+    expect(submissionsIndex).not.toContain("landing-how");
+    expect(submissionsIndex).not.toContain("landing-setup");
+    expect(submissionsIndex).not.toContain("proof-network");
+    expect(submissionsIndex).not.toContain("landing-foundations");
+    expect(submissionsIndex).not.toContain('id="faq"');
     const contributing = fs.readFileSync(path.join(root, "contributing.html"), "utf8");
     expect(contributing).toContain('<h1 class="paper-title">Getting started</h1>');
+    expect(contributing).toContain('<div class="landing-setup-tabs content-setup" data-setup-tabs>');
+    expect(contributing).toContain('<a class="site-nav-link site-nav-getting-started" href="contributing.html">Getting Started</a>');
+    expect(contributing).toContain('role="tab" id="getting-started-setup-unix-tab" aria-selected="true" aria-controls="getting-started-setup-unix-panel" tabindex="0">Linux / macOS</button>');
+    expect(contributing).toContain('role="tab" id="getting-started-setup-windows-tab" aria-selected="false" aria-controls="getting-started-setup-windows-panel" tabindex="-1">Windows</button>');
+    expect(contributing).toContain('id="getting-started-setup-windows-panel" role="tabpanel" aria-labelledby="getting-started-setup-windows-tab" hidden>');
+    expect(contributing).toContain("wsl --install");
+    expect(contributing).toContain('href="https://learn.microsoft.com/en-us/windows/wsl/install"');
+    expect(contributing).toMatch(/<script src="assets\/setup-tabs\.js\?v=[0-9a-f]{12}"><\/script>/);
+    expect(contributing).not.toContain("{{setup-tabs}}");
     expect(contributing).toContain("The workflow");
     expect(contributing).not.toContain('class="random-submission"');
     const proofObligations = fs.readFileSync(path.join(root, "open-proof-obligations.html"), "utf8");
@@ -1133,17 +1185,27 @@ After the formula.`, "");
     expect(fs.existsSync(path.join(root, "assets", "graph-local", "sitegen", "graph-local-worker.js"))).toBe(true);
     expect(fs.existsSync(path.join(root, "assets", "graph-local", "graph-layout", "index.js"))).toBe(true);
     // The one way in: the annotated paper.
-    expect(index).toContain('<a class="site-nav-link" href="lax-242665/paper.html">Introduction</a>');
+    expect(index).toContain('<a class="site-nav-link site-nav-introduction" href="lax-242665/paper.html">Introduction</a>');
+    expect(index).toContain('<a class="site-nav-link site-nav-getting-started" href="contributing.html">Getting Started</a>');
+    expect(index).not.toContain('<a class="site-nav-link" href="submissions/">Submissions</a>');
     expect(index).toContain('<a class="site-nav-link" href="about.html">About</a>');
     expect(index).toContain('<header class="site-header sidebar-hidden landing-header">');
     expect(index).not.toContain("landing-cta");
     expect(index).not.toContain("lax-white-paper.pdf\" download");
+    // Community contacts lead into the foundations section and use the same
+    // bordered section treatment.
+    expect(index).toContain('<h2 class="landing-section-title" id="landing-community-heading">Community and Feedback</h2>');
+    expect(index).toContain('<h3>Join the conversation</h3>');
+    expect(index).toContain('<a href="https://discord.gg/hgWMN5ztca">Join the Lax\nDiscord</a>');
+    expect(index).toContain('<a href="mailto:lax.lean.archive@gmail.com">lax.lean.archive@gmail.com</a>');
+    expect(index).toContain('<a href="workshop/">Lax Online Meeting</a>');
+    expect(index.indexOf('id="landing-community-heading"')).toBeLessThan(index.indexOf('id="landing-foundations-heading"'));
     // The foundations: the listed definitions the archive holds, with how
     // many further submissions build on them.
     expect(index).toContain('<h2 class="landing-section-title" id="landing-foundations-heading">Build foundations together</h2>');
     expect(index).toContain('<section class="landing-section landing-foundations"');
     expect(index).toContain('<h2 class="landing-section-title" id="landing-foundations-heading">Build foundations together</h2>\n<div class="landing-section-box">');
-    expect(index).toContain('<li><a class="landing-foundation" href="lax-67/Lax67.Ram.html" title="Lax67.Ram">\n<span class="type-badge">def</span><span class="landing-foundation-title">The word RAM</span>\n<span class="landing-foundation-meta"><span class="submission-meta-id">lax-67</span><span class="landing-foundation-uses">used by 1 submission</span></span>\n</a></li>');
+    expect(index).toContain('<li><a class="landing-foundation" href="lax-68/Lax68.Ram.html" title="Lax68.Ram">\n<span class="type-badge">def</span><span class="landing-foundation-title">The word RAM</span>\n<span class="landing-foundation-meta"><span class="submission-meta-id">lax-68</span></span>\n</a></li>');
     expect(index).toContain('href="lax-434930/Lax434930.NondeterministicPolynomialTime.html" title="Lax434930.NondeterministicPolynomialTime"');
     expect(index).toContain('href="lax-48/Lax48.TwinWidth.html" title="Lax48.TwinWidth"');
     expect(index).toContain('href="lax-132576/Lax132576.RationalFunctions.html" title="Lax132576.RationalFunctions"');
@@ -1507,6 +1569,25 @@ After the formula.`, "");
     inOrder(cyclicProofs, ["proof-flow", "fill-open", "stroke-own", "Proof — open large view for details", "legend-cycle"]);
   });
 
+  it("groups local and external claim origins into one proof-network legend item", () => {
+    const combined = proofNetworkLegend({
+      statements: [
+        { id: "Lax1.Local.a", proven: true, ext: false },
+        { id: "Lax2.External.b", proven: false, ext: true },
+      ],
+      proofs: [],
+    });
+    expect(combined).toContain('<span class="legend-origin"><span class="legend-origin-swatches" aria-hidden="true"><i class="legend-node stroke-own"></i><span class="legend-origin-separator">/</span><i class="legend-node stroke-ext"></i></span><span>Claim from this submission / another submission</span></span>');
+    expect(combined).not.toContain(">This submission</span>");
+    expect(combined).not.toContain(">From another submission</span>");
+
+    const local = proofNetworkLegend({
+      statements: [{ id: "Lax1.Local.a", proven: true, ext: false }], proofs: [],
+    });
+    expect(local).toContain('<span class="legend-origin-swatches" aria-hidden="true"><i class="legend-node stroke-own"></i></span><span>Claim from this submission</span>');
+    expect(local).not.toContain("stroke-ext");
+  });
+
   it("emits expandable concept closures and proof readiness metadata for deterministic DAGs", async () => {
     const root = tmpDir("lax-site-graphs-");
     await generateSite([...submissions(), ...graphSubmissions()], root, { graphs: archiveGraphs() });
@@ -1548,11 +1629,11 @@ After the formula.`, "");
     ]));
 
     const conceptHtml = fs.readFileSync(path.join(root, "Lax4", "Lax4.Top.html"), "utf8");
-    expect(conceptHtml).toMatch(/<details class="figure-details">\s*<summary>Concept map<\/summary>\s*<figure class="graph-figure concept-root-graph">/);
+    expect(conceptHtml).toMatch(/<details class="figure-details" open>\s*<summary>Concept map<\/summary>\s*<figure class="graph-figure concept-root-graph">/);
     expect(conceptHtml).toContain("This concept");
     expect(conceptHtml).toContain("Hide ancestors");
     expect(conceptHtml).toContain('data-graph="concepts" data-ancestry="true"');
-    expect(conceptHtml.indexOf('id="concept-dag"')).toBeLessThan(conceptHtml.indexOf('class="block block-statement"'));
+    expect(conceptHtml.indexOf('class="block block-statement"')).toBeLessThan(conceptHtml.indexOf('id="concept-dag"'));
     expect(conceptHtml).toMatch(/<script src="\.\.\/assets\/graph-interaction\.js\?v=[0-9a-f]{12}"><\/script>/);
     expect(conceptHtml).not.toMatch(/assets\/(?:layout|dag|graph-local)\.js/u);
     expect((conceptHtml.match(/data-graph-expand/g) ?? []).length).toBe(1);
@@ -1827,8 +1908,15 @@ After the formula.`, "");
     expect(html).toContain('<details class="deps-col block-details"><summary>From Mathlib</summary>');
     expect(html).not.toContain("<h3>Imported</h3>");
     expect(html).not.toContain("Mathlib imports");
-    // the claim's evidence block lists the archived proof, linking to its page
-    expect(html).toContain("<h3>Evidence</h3>");
+    // The natural-language statement leads into the open concept map. Evidence
+    // keeps its proof links, but starts collapsed until the reader opens it.
+    expect(html).toContain('<h3 class="figure-title">Natural Language Statement</h3>');
+    expect(html.indexOf('class="block block-statement"')).toBeLessThan(html.indexOf('id="concept-dag"'));
+    expect(html).toMatch(/<details class="figure-details" open>\s*<summary>Concept map<\/summary>/);
+    expect(html).toMatch(/<details class="figure-details evidence-details">\s*<summary>Evidence<\/summary>/);
+    expect(html).toMatch(/<h3 class="figure-title">Lean source(?:.|\n)*?<\/h3>\s*<div class="block block-lean">/);
+    expect(html).not.toContain('<summary>Natural Language Statement</summary>');
+    expect(html).not.toContain('<summary>Lean source');
     expect(html).toContain('href="../Lax2/Lax2Proofs.truth.html"');
     expect(html).toContain('data-remark42-url="https://laxarchive.org/Lax2/Lax2.C.html"');
     expect(html).toContain('data-reactions-url="https://laxarchive.org/Lax2/Lax2.C.html"');
@@ -1848,15 +1936,17 @@ After the formula.`, "");
       .toEqual([["Lax2.C", "core"], ["Lax2.D", "down"]]);
     expect(html).not.toContain('class="concept-id"');
     expect(html).toContain('<a class="sidebar-back" href="../Lax2/index.html"');
-    // sidebar highlights the active concept; the NL heading is the type
-    expect(html).toContain('class="active"');
+    const sidebar = html.slice(html.indexOf('<aside id="sidebar">'), html.indexOf("</aside>"));
+    expect(sidebar).toContain("Other submissions");
+    expect(sidebar).not.toContain("Lax2.C.html");
+    expect(sidebar).not.toContain("Lax2.D.html");
     const untyped = fs.readFileSync(path.join(root, "Lax2", "Lax2.D.html"), "utf8");
     expect(untyped).toContain("<h3>Definition</h3>");
     expect(untyped).toContain('class="status-pill pill-none">definition</span>');
     expect(untyped).not.toMatch(/nothing\s+to\s+prove/);
     expect(untyped).toContain("Used by");
     // a definition-concept claims nothing, so it carries no evidence block
-    expect(untyped).not.toContain("<h3>Evidence</h3>");
+    expect(untyped).not.toContain("<summary>Evidence</summary>");
   });
 
   it("renders inline and display math inside Lean source comments only", async () => {
@@ -1975,26 +2065,32 @@ end Lax2.C`;
     const cyclic = fs.readFileSync(path.join(root, "Lax4", "Lax4Proofs.a.html"), "utf8");
     expect(cyclic).toContain("conditional — 1 open assumption");
     expect(cyclic).toMatch(/judgment-assumptions[^]*?Lax4\.Aux\.html[^]*?<code>Aux<\/code>/);
-    // the sidebar marks the proof itself active
-    expect(cyclic).toMatch(/<li class="active" data-type="proof"[^]*?Lax4Proofs\.a\.html/);
+    const cyclicSidebar = cyclic.slice(cyclic.indexOf('<aside id="sidebar">'), cyclic.indexOf("</aside>"));
+    expect(cyclicSidebar).not.toContain("Lax4Proofs.a.html");
+    expect(cyclicSidebar).toContain('href="../Lax1/index.html"');
   });
 
-  it("gives the sidebar status badges and a proofs group below the concepts", async () => {
+  it("finds other submissions by title or concept in the selected Lean version", async () => {
     const root = tmpDir("lax-site-sidebar-");
-    await generateSite(submissions(), root);
+    const others = graphSubmissions();
+    others[1]!.record.state = "draft";
+    await generateSite([...submissions(), ...others], root, "v4.30.0");
     const html = fs.readFileSync(path.join(root, "Lax2", "index.html"), "utf8");
     const sidebar = html.slice(html.indexOf('<aside id="sidebar">'), html.indexOf("</aside>"));
-    // concepts carry the same status marks as the concept list: proven ✓ for
-    // the theorem and the definition with their corresponding badge styles
-    expect(sidebar).toMatch(/data-type="theorem"[^]*?type-badge proven[^]*?thm✓/);
-    expect(sidebar).toMatch(/data-type="definition"[^]*?<span class="type-badge"[^]*?def</);
-    expect(sidebar).toContain('<span class="entry-label-text">Truth</span>');
-    expect(sidebar).toContain('<span class="entry-label-text">Definition helper</span>');
-    // the proofs group follows the concepts, ⊢-chipped, prefix-pruned,
-    // filterable as its own type
-    expect(sidebar.indexOf(">Concepts</li>")).toBeLessThan(sidebar.indexOf(">Proofs</li>"));
-    expect(sidebar).toMatch(/data-type="proof"[^]*?proof-badge[^]*?>truth</);
-    expect(sidebar).toContain('<option value="proof">proof</option>');
+    expect(sidebar).toContain('<h2 class="sidebar-section-title">Other submissions</h2>');
+    expect(sidebar).toContain('placeholder="Search titles and concepts"');
+    expect(sidebar).toContain('<label for="filter-environment">Lean version</label>');
+    expect(sidebar).toContain('<option value="v4.30.0" selected>v4.30.0 · current epoch</option>');
+    expect(sidebar).not.toContain('id="filter-type"');
+    expect(sidebar).not.toContain('data-search-title="lax2 two"');
+    expect(sidebar).not.toContain("Lax2.C.html");
+    expect(sidebar).toContain('data-search-title="lax1 lax1"');
+    expect(sidebar).toContain('data-search-concepts="lax1.base lax1.base definition"');
+    expect(sidebar).toContain('href="../Lax1/index.html"');
+    expect(sidebar).not.toContain('data-search-title="lax3 lax3"');
+    expect(sidebar).not.toContain('data-entry-group="registered"');
+    expect(sidebar).not.toContain('data-entry-group="draft"');
+    expect(sidebar).toContain('id="entry-list-empty" hidden>No other submissions match.</li>');
   });
 
   it("keeps lemma review badges but excludes local and referenced lemmas from progress", async () => {
@@ -2086,23 +2182,18 @@ end Lax2.C`;
     await generateSite(draft, root);
     const html = fs.readFileSync(path.join(root, "Lax2", "index.html"), "utf8");
     expect(html).toContain("draft-banner");
-    expect(html).toContain("<strong>Temporary draft</strong>");
-    expect(html).toContain("Other submissions cannot depend on this work while it remains editable.");
-    expect(html).toContain("Authors are advised to register it as soon as it is complete.");
+    expect(html).toContain("While this submission is a draft, it cannot be used by other submissions.");
+    expect(html).not.toContain("Temporary draft");
+    expect(html).not.toContain("Authors are advised to register it as soon as it is complete.");
     expect(html).not.toContain("its citation marks the draft state");
-    expect(html).toContain('data-draft-reminder data-created-at="2026-01-01T00:00:00Z"');
-    expect(html).toContain("Drafts should be temporary");
-    expect(html).toContain("This draft has been open for at least two weeks.");
-    expect(html).toContain("it is important that finished submissions do not remain in draft");
-    expect(html).toContain("Prefer smaller, focused submissions and leave large proof obligations open");
-    expect(html).toMatch(/<script src="\.\.\/assets\/draft-reminder\.js\?v=[0-9a-f]{12}"><\/script>/);
+    expect(html).not.toContain("draft-reminder");
     expect(html.indexOf("draft-banner")).toBeLessThan(html.indexOf("paper-head"));
     expect(html).not.toContain("state-draft");
     expect(html).toContain("@misc{Lax2");
     expect(html).toContain("note = {draft}");
     const concept = fs.readFileSync(path.join(root, "Lax2", "Lax2.C.html"), "utf8");
     expect(concept.indexOf("draft-banner")).toBeLessThan(concept.indexOf("concept-heading"));
-    expect(concept).toContain("assets/draft-reminder.js");
+    expect(concept).not.toContain("draft-reminder");
     const index = fs.readFileSync(path.join(root, "index.html"), "utf8");
     const entryList = index.slice(index.indexOf('<ul id="entry-list">'), index.indexOf("</ul>"));
     expect(index).toContain('data-entry-group="draft">Work in Progress</li>');
@@ -2379,16 +2470,21 @@ describe("multi-statement concepts", () => {
     expect(statementOrdinal(new SiteModel(submissions()), "Lax2.C.truth")).toBeUndefined();
   });
 
-  it("gives every statement its own evidence block and proof rail", async () => {
+  it("uses compact numbered source links for each evidence block", async () => {
     const root = tmpDir("lax-site-multi-concept-");
     await generateSite(multiStatement(), root);
     const html = fs.readFileSync(path.join(root, "Lax5", "Lax5.Menger.html"), "utf8");
 
+    expect(html).toMatch(/<details class="figure-details evidence-details">\s*<summary>Evidence<\/summary>/);
     expect(html).toContain("This concept declares 3 statements. Each proof establishes one of them relative to its assumptions.");
     expect((html.match(/class="evidence-statement"/g) ?? []).length).toBe(3);
-    expect(html).toContain('<h4><a href="#s-Lax5.Menger.vertexVersion">1st statement</a> <code>vertexVersion</code>');
-    expect(html).toContain('<h4><a href="#s-Lax5.Menger.edgeVersion">2nd statement</a> <code>edgeVersion</code>');
-    expect(html).toContain('<h4><a href="#s-Lax5.Menger.globalVersion">3rd statement</a> <code>globalVersion</code>');
+    const evidence = html.match(/<details class="figure-details evidence-details">[^]*?<\/details>/)?.[0] ?? "";
+    for (const [index, name] of ["vertexVersion", "edgeVersion", "globalVersion"].entries()) {
+      expect(evidence).toContain(`class="evidence-statement-link" href="#s-Lax5.Menger.${name}"`);
+      expect(evidence).toContain(`aria-label="Statement ${index + 1}: ${name}"`);
+      expect(evidence).toContain(`title="Jump to statement ${index + 1} in the Lean source">${index + 1}</a>`);
+      expect(html).toContain(`id="s-Lax5.Menger.${name}"`);
+    }
     // the open second statement says so, and only it
     expect((html.match(/this statement is open/g) ?? []).length).toBe(1);
     const openBlock = html.slice(html.indexOf("#s-Lax5.Menger.edgeVersion"), html.indexOf("#s-Lax5.Menger.globalVersion"));

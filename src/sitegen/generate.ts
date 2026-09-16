@@ -17,6 +17,8 @@ import { paperPage, paperPdfPage } from "./pages/paper.js";
 import { proofPage } from "./pages/proof.js";
 import { INTRO_SUBMISSION_ID } from "./pages/shared.js";
 import { submissionPage } from "./pages/submission.js";
+import { submissionsPage } from "./pages/submissions.js";
+import { workshopPage } from "./pages/workshop.js";
 import { prepareGraphs, type GraphPreparationOptions, type GraphPreparationResult } from "./graph-prepare.js";
 import { compareText } from "../graph-layout/normalize.js";
 import type { SkippedRecord } from "../types.js";
@@ -142,6 +144,7 @@ async function renderPages(
     files.set(relative, content);
   };
   files.set("index.html", await indexPage(context));
+  files.set(path.join("submissions", "index.html"), submissionsPage(context));
   // The machine-readable pair, documented in content/contributing.md. Two
   // spaces and a trailing newline: these are files people read as well.
   files.set("index.json", `${JSON.stringify(recordIndex(model), null, 2)}\n`);
@@ -151,6 +154,7 @@ async function renderPages(
   files.set("contributing.html", await contentPage(context, "contributing", "Getting started"));
   files.set("impressum.html", await contentPage(context, "impressum", "Imprint"));
   files.set("privacy.html", await contentPage(context, "privacy", "Privacy Notice"));
+  files.set(path.join("workshop", "index.html"), workshopPage(context));
   const proofObligations = openProblemsPage(context);
   files.set("open-proof-obligations.html", proofObligations);
   // Preserve shared preview and production links published under the old name.
