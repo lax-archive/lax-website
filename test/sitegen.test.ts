@@ -573,7 +573,6 @@ After the formula.`, "");
     }
     expect(submission).toContain("<title>A sharp x^2 bound — Lax2</title>");
     expect(concept).toContain("<title>The small y_i lemma</title>");
-    expect(concept).toContain('<span class="entry-label-text">The small y_i lemma</span>');
     expect(concept).toMatch(/<h1 class="concept-title">The <em>small<\/em> <span class="katex"/);
     expect(concept).toMatch(/<h3>Case <span class="katex"/);
     expect(proof).toMatch(/<h3>Step <span class="katex"/);
@@ -782,7 +781,8 @@ After the formula.`, "");
     expect(sidebarScript).toContain("function applySubmissionFilters()");
     expect(sidebarScript).toContain("const submissionsSearch = document.getElementById('submissions-search');");
     expect(sidebarScript).toContain("connectSearch(submissionsSearch, search);");
-    expect(sidebarScript).toContain("filterList(list, search, type, 'entry-list-empty');");
+    expect(sidebarScript).toContain("const environment = document.getElementById('filter-environment');");
+    expect(sidebarScript).toContain("filterList(list, search, type, 'entry-list-empty', '', environment);");
     expect(sidebarScript).not.toContain("filterList(list, search, type, 'entry-list-empty', selectedTag)");
     expect(sidebarScript).toContain("function setupRandomSubmission()");
     expect(sidebarScript).toContain("Math.floor(Math.random() * candidates.length)");
@@ -1871,8 +1871,10 @@ After the formula.`, "");
       .toEqual([["Lax2.C", "core"], ["Lax2.D", "down"]]);
     expect(html).not.toContain('class="concept-id"');
     expect(html).toContain('<a class="sidebar-back" href="../Lax2/index.html"');
-    // sidebar highlights the active concept; the NL heading is the type
-    expect(html).toContain('class="active"');
+    const sidebar = html.slice(html.indexOf('<aside id="sidebar">'), html.indexOf("</aside>"));
+    expect(sidebar).toContain("Other submissions");
+    expect(sidebar).not.toContain("Lax2.C.html");
+    expect(sidebar).not.toContain("Lax2.D.html");
     const untyped = fs.readFileSync(path.join(root, "Lax2", "Lax2.D.html"), "utf8");
     expect(untyped).toContain("<h3>Definition</h3>");
     expect(untyped).toContain('class="status-pill pill-none">definition</span>');
@@ -1998,26 +2000,27 @@ end Lax2.C`;
     const cyclic = fs.readFileSync(path.join(root, "Lax4", "Lax4Proofs.a.html"), "utf8");
     expect(cyclic).toContain("conditional — 1 open assumption");
     expect(cyclic).toMatch(/judgment-assumptions[^]*?Lax4\.Aux\.html[^]*?<code>Aux<\/code>/);
-    // the sidebar marks the proof itself active
-    expect(cyclic).toMatch(/<li class="active" data-type="proof"[^]*?Lax4Proofs\.a\.html/);
+    const cyclicSidebar = cyclic.slice(cyclic.indexOf('<aside id="sidebar">'), cyclic.indexOf("</aside>"));
+    expect(cyclicSidebar).not.toContain("Lax4Proofs.a.html");
+    expect(cyclicSidebar).toContain('href="../Lax1/index.html"');
   });
 
-  it("gives the sidebar status badges and a proofs group below the concepts", async () => {
+  it("finds other submissions by title or concept in the selected Lean version", async () => {
     const root = tmpDir("lax-site-sidebar-");
-    await generateSite(submissions(), root);
+    await generateSite([...submissions(), ...graphSubmissions()], root, "v4.30.0");
     const html = fs.readFileSync(path.join(root, "Lax2", "index.html"), "utf8");
     const sidebar = html.slice(html.indexOf('<aside id="sidebar">'), html.indexOf("</aside>"));
-    // concepts carry the same status marks as the concept list: proven ✓ for
-    // the theorem and the definition with their corresponding badge styles
-    expect(sidebar).toMatch(/data-type="theorem"[^]*?type-badge proven[^]*?thm✓/);
-    expect(sidebar).toMatch(/data-type="definition"[^]*?<span class="type-badge"[^]*?def</);
-    expect(sidebar).toContain('<span class="entry-label-text">Truth</span>');
-    expect(sidebar).toContain('<span class="entry-label-text">Definition helper</span>');
-    // the proofs group follows the concepts, ⊢-chipped, prefix-pruned,
-    // filterable as its own type
-    expect(sidebar.indexOf(">Concepts</li>")).toBeLessThan(sidebar.indexOf(">Proofs</li>"));
-    expect(sidebar).toMatch(/data-type="proof"[^]*?proof-badge[^]*?>truth</);
-    expect(sidebar).toContain('<option value="proof">proof</option>');
+    expect(sidebar).toContain('<h2 class="sidebar-section-title">Other submissions</h2>');
+    expect(sidebar).toContain('placeholder="Search titles and concepts"');
+    expect(sidebar).toContain('<label for="filter-environment">Lean version</label>');
+    expect(sidebar).toContain('<option value="v4.30.0" selected>v4.30.0 · current epoch</option>');
+    expect(sidebar).not.toContain('id="filter-type"');
+    expect(sidebar).not.toContain('data-search-title="lax2 two"');
+    expect(sidebar).not.toContain("Lax2.C.html");
+    expect(sidebar).toContain('data-search-title="lax1 lax1"');
+    expect(sidebar).toContain('data-search-concepts="lax1.base lax1.base definition"');
+    expect(sidebar).toContain('href="../Lax1/index.html"');
+    expect(sidebar).toContain('id="entry-list-empty" hidden>No other submissions match.</li>');
   });
 
   it("keeps lemma review badges but excludes local and referenced lemmas from progress", async () => {

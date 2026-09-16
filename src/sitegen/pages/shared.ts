@@ -531,10 +531,9 @@ export function currentSubmissions(model: SiteModel): SiteSubmission[] {
     .sort((a, b) => compareSearchSubmissions(model, a, b));
 }
 
-/** Sidebar of submission, concept, and proof pages: back-link, search, type
- * filter, the submission's concepts (with the same status badges as the
- * concept list on the submission page), and its proofs below them. */
-export function submissionSidebar(
+/** Previous sidebar of submission, concept, proof, and paper pages. It stays
+ * available while the archive-wide submission finder is being evaluated. */
+export function legacySubmissionSidebar(
   model: SiteModel,
   submission: SiteSubmission,
   rootRel: string,
@@ -587,6 +586,56 @@ ${typeFilter}</div>
 <ul id="entry-list">
 ${rows.join("\n")}
 ${EMPTY_ROW}
+</ul>`;
+}
+
+/** Sidebar of submission, concept, proof, and paper pages: keep the local
+ * back-link, then discover other current submissions by title, concept, and
+ * Lean environment. The epoch is the deliberate initial environment even
+ * when the page being read belongs to an older one. */
+export function submissionSidebar(
+  model: SiteModel,
+  submission: SiteSubmission,
+  rootRel: string,
+  opts: { activeId?: string; backToSubmission?: boolean } = {},
+): string {
+  /* To restore the previous concept/proof sidebar, replace this renderer with:
+   * return legacySubmissionSidebar(model, submission, rootRel, opts);
+   */
+  const listed = currentSubmissions(model).filter((candidate) => candidate.record.id !== submission.record.id);
+  const rows = listed.map((candidate, order) => {
+    const id = candidate.record.id;
+    const title = plainAuthorTitle(candidate.output!.manifest.title);
+    return `<li ${submissionSearchAttributes(candidate, order)}><a class="entry-link" href="${attr(`${rootRel}${id}/index.html`)}" data-full-title="${attr(title)}"><span class="entry-label"><span class="entry-label-text">${esc(title)}</span></span></a></li>`;
+  });
+  const draftStart = listed.findIndex((candidate) => candidate.record.state === "draft");
+  if (draftStart >= 0)
+    rows.splice(draftStart, 0, '<li class="entry-heading" data-entry-group="draft">Work in Progress</li>');
+  if (listed.some((candidate) => candidate.record.state === "registered"))
+    rows.unshift('<li class="entry-heading" data-entry-group="registered">Registered</li>');
+
+  const environments = [model.epoch, ...model.environments.filter((environment) => environment !== model.epoch)];
+  const environmentOptions = environments.map((environment) => {
+    const epoch = environment === model.epoch;
+    return `<option value="${attr(environment)}"${epoch ? " selected" : ""}>${esc(environment)}${epoch ? " · current epoch" : ""}</option>`;
+  }).join("\n");
+  const environmentFilter = `<div class="filter-group">
+<label for="filter-environment">Lean version</label>
+<select id="filter-environment" class="filter-select" aria-controls="entry-list">
+${environmentOptions}
+</select>
+</div>`;
+
+  const onSubPage = Boolean(opts.activeId) || Boolean(opts.backToSubmission);
+  const backHref = onSubPage ? `${rootRel}${submission.record.id}/index.html` : `${rootRel}submissions/`;
+  const backLabel = onSubPage ? submission.record.id : "All submissions";
+  return `<a class="sidebar-back" href="${attr(backHref)}"><span class="sidebar-back-arrow" aria-hidden="true">←</span>${esc(backLabel)}</a>
+<h2 class="sidebar-section-title">Other submissions</h2>
+<div class="sidebar-filters">${searchGroup("Search titles and concepts")}
+${environmentFilter}</div>
+<ul id="entry-list">
+${rows.join("\n")}
+<li id="entry-list-empty" hidden>No other submissions match.</li>
 </ul>`;
 }
 

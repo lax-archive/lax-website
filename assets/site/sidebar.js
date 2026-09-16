@@ -1,5 +1,5 @@
 // Sidebar behavior: mobile drawer toggle and entry filtering. All data is in
-// the DOM (data-search / data-type attributes); nothing is fetched.
+// the DOM (data-search / data-type / data-env attributes); nothing is fetched.
 (() => {
   const SUBMISSION_PAGE_SIZE = 10;
   const SIDEBAR_DEFAULT_WIDTH = 285;
@@ -30,7 +30,7 @@
     return 2;
   }
 
-  function filterList(list, search, type, emptyId, tag = '') {
+  function filterList(list, search, type, emptyId, tag = '', environment = '') {
     const query = words(search);
     const rows = [...list.querySelectorAll('li[data-search], li[data-search-title]')];
     const titleHits = new Map();
@@ -48,6 +48,7 @@
       }
       if (!hidden && type !== 'all' && li.dataset.type !== type) hidden = true;
       if (!hidden && tag && li.dataset.tags !== undefined && !li.dataset.tags.includes(`|${tag}|`)) hidden = true;
+      if (!hidden && environment && li.dataset.env !== environment) hidden = true;
       li.hidden = hidden;
       if (!hidden) visible += 1;
     });
@@ -136,9 +137,11 @@
     if (!list) return;
     const searchEl = document.getElementById('filter-search');
     const typeEl = document.getElementById('filter-type');
+    const environmentEl = document.getElementById('filter-environment');
     const search = searchEl ? searchEl.value.trim().toLowerCase() : '';
     const type = typeEl ? typeEl.value : 'all';
-    filterList(list, search, type, 'entry-list-empty');
+    const environment = environmentEl ? environmentEl.value : '';
+    filterList(list, search, type, 'entry-list-empty', '', environment);
     const openProblems = document.getElementById('open-problems-list');
     if (openProblems) {
       filterList(openProblems, search, type, 'open-problems-list-empty');
@@ -193,6 +196,7 @@
     const search = document.getElementById('filter-search');
     const submissionsSearch = document.getElementById('submissions-search');
     const type = document.getElementById('filter-type');
+    const environment = document.getElementById('filter-environment');
     function connectSearch(source, mirror) {
       if (!source) return;
       source.addEventListener('input', () => {
@@ -203,6 +207,7 @@
     connectSearch(search, submissionsSearch);
     connectSearch(submissionsSearch, search);
     if (type) type.addEventListener('change', applyFilters);
+    if (environment) environment.addEventListener('change', applyFilters);
   }
 
   function setupRandomSubmission() {

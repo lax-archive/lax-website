@@ -70,13 +70,14 @@ function element(props: { id?: string; className?: string; dataset?: Record<stri
   return node;
 }
 
-function row(id: string, title: string, state: string, order: number): FakeElement {
+function row(id: string, title: string, state: string, order: number, environment: string): FakeElement {
   return element({
     dataset: {
       searchTitle: `${id} ${title}`.toLowerCase(),
       searchConcepts: "",
       state,
       searchOrder: String(order),
+      env: environment,
     },
   });
 }
@@ -86,13 +87,13 @@ function heading(group: string): FakeElement {
 }
 
 describe("sidebar grouping during search", () => {
-  function harness() {
+  function harness(initialEnvironment?: string) {
     const list = element({ id: "entry-list" });
     const empty = element({ id: "entry-list-empty" });
     const registeredHeading = heading("registered");
     const draftHeading = heading("draft");
-    const registered = row("lax-2", "new result", "registered", 0);
-    const draft = row("lax-3", "newer still", "draft", 1);
+    const registered = row("lax-2", "new result", "registered", 0, "v4.33.0");
+    const draft = row("lax-3", "newer still", "draft", 1, "v4.30.0");
     for (const child of [registeredHeading, registered, draftHeading, draft, empty]) {
       list.appendChild(child);
     }
@@ -107,6 +108,12 @@ describe("sidebar grouping during search", () => {
       ["entry-list-empty", empty],
       ["filter-search", searchInput],
     ]);
+    const environmentListeners: Record<string, () => void> = {};
+    const environmentSelect = {
+      value: initialEnvironment ?? "",
+      addEventListener: (name: string, listener: () => void) => { environmentListeners[name] = listener; },
+    };
+    if (initialEnvironment !== undefined) byId.set("filter-environment", environmentSelect);
     const context = {
       document: {
         readyState: "complete",
@@ -136,7 +143,11 @@ describe("sidebar grouping during search", () => {
             ? "#empty"
             : child.dataset.searchTitle!.split(" ")[0]!,
       );
-    return { search, order, draftHeading, registeredHeading, registered, draft };
+    const environment = (value: string) => {
+      environmentSelect.value = value;
+      environmentListeners.change!();
+    };
+    return { search, environment, order, draftHeading, registeredHeading, registered, draft };
   }
 
   it("keeps every row under its own heading while filtering", () => {
@@ -172,5 +183,19 @@ describe("sidebar grouping during search", () => {
     expect(fixture.registered.hidden).toBe(false);
     fixture.search("lucás");
     expect(fixture.registered.hidden).toBe(false);
+  });
+
+  it("filters submission rows by the selected Lean version", () => {
+    const fixture = harness("v4.33.0");
+    expect(fixture.registered.hidden).toBe(false);
+    expect(fixture.draft.hidden).toBe(true);
+    expect(fixture.registeredHeading.hidden).toBe(false);
+    expect(fixture.draftHeading.hidden).toBe(true);
+
+    fixture.environment("v4.30.0");
+    expect(fixture.registered.hidden).toBe(true);
+    expect(fixture.draft.hidden).toBe(false);
+    expect(fixture.registeredHeading.hidden).toBe(true);
+    expect(fixture.draftHeading.hidden).toBe(false);
   });
 });

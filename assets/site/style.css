@@ -525,6 +525,13 @@ body.sidebar-resizing #content-shell{ transition: none; }
 .sidebar-back:hover{ border-color: var(--accent); text-decoration: underline; }
 .sidebar-back-arrow{ font-size: 0.95rem; line-height: 1; }
 
+.sidebar-section-title{
+  margin: 0 0 0.65rem;
+  color: var(--text);
+  font-size: 0.95rem;
+  line-height: 1.25;
+}
+
 .sidebar-filters{
   display: grid;
   gap: 0.55rem;
