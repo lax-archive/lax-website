@@ -4,6 +4,15 @@ import { esc } from "./html.js";
 
 interface MathToken { type: "math" | "mathBlock"; raw: string; text: string }
 
+/** KaTeX accepts these Unicode symbols but has no metrics for their direct
+ * glyphs, leaving zero-height output and logging a warning. Use equivalent
+ * supported commands while leaving the authored source and fallback intact. */
+function supportedMathSource(text: string): string {
+  return text
+    .replaceAll("𝓕", "\\mathcal{F}")
+    .replaceAll("◇", "\\Diamond");
+}
+
 /** Let a display delimiter on its own source line interrupt the surrounding
  * Markdown paragraph. Authors should not need blank lines around a displayed
  * formula just to make `$$...$$` or `\[...\]` work. */
@@ -19,7 +28,7 @@ function firstMathDelimiter(src: string): number | undefined {
 
 function render(text: string, displayMode: boolean, raw: string, errorFallback?: () => string): string {
   try {
-    return katex.renderToString(text, {
+    return katex.renderToString(supportedMathSource(text), {
       displayMode,
       output: "htmlAndMathml",
       throwOnError: true,
