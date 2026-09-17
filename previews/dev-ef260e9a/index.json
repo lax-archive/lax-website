@@ -3699,6 +3699,223 @@
       ]
     },
     {
+      "id": "lax-771644",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Proof network stress test",
+      "concepts": [
+        {
+          "id": "Lax771644.AVeryLongConceptNameForTestingLabelWrappingInTheProofNetworkFigure",
+          "title": "A deliberately overlong concept title that exists only to see how the proof network figure wraps, truncates or overflows a label nobody would ever write in a real submission",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax771644.Chain01",
+          "title": "Deep chain, link 1 of 9",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax771644.Chain02",
+          "title": "Deep chain, link 2 of 9",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax771644.Chain03",
+          "title": "Deep chain, link 3 of 9",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax771644.Chain04",
+          "title": "Deep chain, link 4 of 9",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax771644.Chain05",
+          "title": "Deep chain, link 5 of 9",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax771644.Chain06",
+          "title": "Deep chain, link 6 of 9",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax771644.Chain07",
+          "title": "Deep chain, link 7 of 9",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax771644.Chain08",
+          "title": "Deep chain, link 8 of 9",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax771644.Chain09",
+          "title": "Deep chain, link 9 of 9",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax771644.CycleAlpha",
+          "title": "Cycle, first half",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax771644.CycleBeta",
+          "title": "Cycle, second half",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax771644.ExternalPrimes",
+          "title": "Primality claims restated from lax-242665",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax771644.Foundations",
+          "title": "The benchmark ladder",
+          "type": "definition"
+        },
+        {
+          "id": "Lax771644.IsolatedIsland",
+          "title": "Isolated island (no statements, no uses)",
+          "type": "definition"
+        },
+        {
+          "id": "Lax771644.ManyForeignAssumptions",
+          "title": "One proof assuming eight other concepts",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax771644.MixedSiblingAndForeign",
+          "title": "Mixed proof: one sibling and one foreign assumption",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax771644.OpenLeaf",
+          "title": "End of an open chain",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax771644.OpenMiddle",
+          "title": "Middle of an open chain",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax771644.OpenRoot",
+          "title": "An open statement nothing proves",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax771644.SelfReferentialProof",
+          "title": "A statement proved from itself",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax771644.SiblingChain",
+          "title": "Two sibling proofs forming a chain",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax771644.SiblingConclusionLeft",
+          "title": "Sibling proof with the conclusion on the left",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax771644.SiblingConclusionMiddle",
+          "title": "Sibling proof with the conclusion in the middle",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax771644.SiblingConclusionRight",
+          "title": "Sibling proof with the conclusion on the right",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax771644.ThreeProofsOneStatement",
+          "title": "One statement with three proofs",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax771644.TwoProofsOneStatement",
+          "title": "Two sibling proofs of the same statement",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax771644.UnicodeNames",
+          "title": "Ünïcode: $\\mu$-descent and $\\varepsilon$–$\\delta$ weakening (ℵ₀ rungs, ∀∃, 中文)",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax771644.WholeConceptAssumption",
+          "title": "A statement whose name is its concept's name",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax771644.WideDockRow",
+          "title": "A very wide dock row with a wide assumption rail",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax771644Proofs.AVeryLongConceptNameForTestingLabelWrappingInTheProofNetworkFigure.first",
+        "Lax771644Proofs.AVeryLongConceptNameForTestingLabelWrappingInTheProofNetworkFigure.second",
+        "Lax771644Proofs.Chain01.rung",
+        "Lax771644Proofs.Chain02.rung",
+        "Lax771644Proofs.Chain03.rung",
+        "Lax771644Proofs.Chain04.rung",
+        "Lax771644Proofs.Chain05.rung",
+        "Lax771644Proofs.Chain06.rung",
+        "Lax771644Proofs.Chain07.rung",
+        "Lax771644Proofs.Chain08.rung",
+        "Lax771644Proofs.Chain09.rung",
+        "Lax771644Proofs.CycleAlpha.alpha",
+        "Lax771644Proofs.CycleBeta.beta",
+        "Lax771644Proofs.ExternalPrimes.e1_has_prime_divisor",
+        "Lax771644Proofs.ExternalPrimes.e2_has_larger_prime",
+        "Lax771644Proofs.ManyForeignAssumptions.descends_far",
+        "Lax771644Proofs.MixedSiblingAndForeign.s1",
+        "Lax771644Proofs.MixedSiblingAndForeign.s2",
+        "Lax771644Proofs.OpenLeaf.leafRung",
+        "Lax771644Proofs.OpenMiddle.middleRung",
+        "Lax771644Proofs.SelfReferentialProof.selfRung",
+        "Lax771644Proofs.SiblingChain.s1",
+        "Lax771644Proofs.SiblingChain.s2",
+        "Lax771644Proofs.SiblingChain.s3",
+        "Lax771644Proofs.SiblingConclusionLeft.s1",
+        "Lax771644Proofs.SiblingConclusionLeft.s2",
+        "Lax771644Proofs.SiblingConclusionLeft.s3",
+        "Lax771644Proofs.SiblingConclusionMiddle.s1",
+        "Lax771644Proofs.SiblingConclusionMiddle.s2",
+        "Lax771644Proofs.SiblingConclusionMiddle.s3",
+        "Lax771644Proofs.SiblingConclusionRight.s1",
+        "Lax771644Proofs.SiblingConclusionRight.s2",
+        "Lax771644Proofs.SiblingConclusionRight.s3",
+        "Lax771644Proofs.ThreeProofsOneStatement.s1",
+        "Lax771644Proofs.ThreeProofsOneStatement.s2_via_middle",
+        "Lax771644Proofs.ThreeProofsOneStatement.s2_via_sibling",
+        "Lax771644Proofs.ThreeProofsOneStatement.s2_via_sibling_chain",
+        "Lax771644Proofs.TwoProofsOneStatement.s1",
+        "Lax771644Proofs.TwoProofsOneStatement.s2",
+        "Lax771644Proofs.TwoProofsOneStatement.s3_via_s1",
+        "Lax771644Proofs.TwoProofsOneStatement.s3_via_s2",
+        "Lax771644Proofs.UnicodeNames.epsilonDelta",
+        "Lax771644Proofs.UnicodeNames.mu",
+        "Lax771644Proofs.WholeConceptAssumption.bare",
+        "Lax771644Proofs.WholeConceptAssumption.s2",
+        "Lax771644Proofs.WideDockRow.s01",
+        "Lax771644Proofs.WideDockRow.s02",
+        "Lax771644Proofs.WideDockRow.s03",
+        "Lax771644Proofs.WideDockRow.s04",
+        "Lax771644Proofs.WideDockRow.s05",
+        "Lax771644Proofs.WideDockRow.s06",
+        "Lax771644Proofs.WideDockRow.s07",
+        "Lax771644Proofs.WideDockRow.s08",
+        "Lax771644Proofs.WideDockRow.s09",
+        "Lax771644Proofs.WideDockRow.s10",
+        "Lax771644Proofs.WideDockRow.s11",
+        "Lax771644Proofs.WideDockRow.s12"
+      ]
+    },
+    {
       "id": "lax-808846",
       "state": "registered",
       "environment": "v4.33.0",
