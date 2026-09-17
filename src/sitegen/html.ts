@@ -97,7 +97,7 @@ function accountLoginHref(): string {
 
 function accountUi(): string {
   return `<div class="account-header" data-account-root data-remark42-host="${attr(REMARK42_URL)}" data-remark42-site="${attr(REMARK42_SITE_ID)}" data-identity-url="${attr(REMARK42_IDENTITY_URL)}">
-  <a class="account-control" data-account-login href="${attr(accountLoginHref())}"><span class="orcid-mark" aria-hidden="true">iD</span><span>Sign in<span class="account-login-long"> with ORCID</span></span></a>
+  <a class="account-control" data-account-login href="${attr(accountLoginHref())}"><span class="orcid-mark" aria-hidden="true">iD</span><span><span class="account-login-long">ORCID </span>Sign in</span></a>
   <button class="account-control" data-account-settings type="button" aria-haspopup="dialog" aria-controls="account-dialog" hidden><span class="orcid-mark" aria-hidden="true">iD</span><span>Settings</span></button>
 </div>`;
 }
@@ -145,8 +145,8 @@ export function configureSiteNav(nav: { introduction?: string }): void {
 function siteNavLinks(root: string): string {
   const links = [
     siteNav.introduction ? `<a class="site-nav-link site-nav-introduction" href="${attr(root + siteNav.introduction)}">Introduction</a>` : "",
-    `<a class="site-nav-link site-nav-getting-started" href="${attr(`${root}contributing.html`)}">Getting Started</a>`,
     `<a class="site-nav-link" href="${attr(`${root}about.html`)}">About</a>`,
+    `<a class="site-nav-link site-nav-getting-started" href="${attr(`${root}contributing.html`)}">Getting Started</a>`,
   ].filter(Boolean);
   return `<nav class="site-nav" aria-label="Site">
     ${links.join("\n    ")}

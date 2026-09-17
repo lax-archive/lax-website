@@ -925,7 +925,7 @@ After the formula.`, "");
     expect(index).toContain('<nav class="header-actions" aria-label="Account">');
     expect(index).toContain('id="sidebar-resizer" class="sidebar-resizer" role="separator" aria-label="Resize sidebar"');
     expect(index).not.toContain('class="header-submit"');
-    expect(index).toContain('<span>Sign in<span class="account-login-long"> with ORCID</span></span>');
+    expect(index).toContain('<span><span class="account-login-long">ORCID </span>Sign in</span>');
     expect(index).toContain('id="account-dialog"');
     expect(index).not.toContain('href="all-comments/');
     expect(index).toMatch(/<link rel="stylesheet" href="assets\/style\.css\?v=[0-9a-f]{12}">/);
