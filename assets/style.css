@@ -870,7 +870,7 @@ body.sidebar-resizing #content-shell{ transition: none; }
 .paper-author a:hover{ color: var(--accent); }
 .author-links{ font-size: 0.72em; color: var(--text-dim); white-space: nowrap; }
 .author-links a{ color: var(--link); }
-.author-sep{ margin: 0 0.55rem; color: var(--text-dim); }
+.author-sep{ margin: 0 0.3rem; color: var(--text-dim); }
 
 .anonymity-placeholder{
   display: inline-flex;
@@ -1244,6 +1244,7 @@ a.submission-meta-id:is(:hover, :focus-visible),
   border-radius: var(--radius-chip);
   padding: 0.09rem 0.28rem;
   color: #23415f;
+  hyphens: none;
 }
 
 .latex-content pre{
@@ -5178,6 +5179,8 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
    centring a title whose navigation would collide with the account control. */
 @media (min-width: 901px) and (max-width: 1680px){
   .site-brand{ display: flex; gap: 1rem; margin-left: 1rem; }
+  /* With the sidebar collapsed, its toggle sits over the content edge. */
+  .site-header.with-sidebar.sidebar-hidden .site-brand{ margin-left: 3.1rem; }
   .site-nav{ gap: 1rem; margin-left: 0; }
   .account-login-long{ display: none; }
 }
