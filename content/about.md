@@ -57,10 +57,8 @@ The archive's code, metadata, the submissions, and the generated artifacts are a
 
 - [An Introduction to Lax](lax-242665/paper.html), itself a Lax submission.
 - The [FAQ](index.html#faq) may answer some of your questions.
-- Join the [Lax Discord](https://discord.gg/hgWMN5ztca) to ask questions,
-  compare formalization experiences, and share feedback with the community.
-- For direct feedback or questions you would rather send privately, email
-  [lax.lean.archive@gmail.com](mailto:lax.lean.archive@gmail.com).
+- Join the [Lax Discord](https://discord.gg/hgWMN5ztca).
+- Or reach out via [lax.lean.archive@gmail.com](mailto:lax.lean.archive@gmail.com).
 
 ## Who we are
 
