@@ -82,8 +82,11 @@ const LIGATURES: Record<string, string> = {
 const MATH_SYMBOLS: Record<string, string> = {
   times: "×", cdot: "·", pm: "±", le: "≤", leq: "≤", ge: "≥", geq: "≥",
   ne: "≠", neq: "≠", to: "→", rightarrow: "→", mapsto: "↦", infty: "∞",
-  alpha: "α", beta: "β", gamma: "γ", delta: "δ", epsilon: "ε", theta: "θ",
-  lambda: "λ", mu: "μ", pi: "π", rho: "ρ", sigma: "σ", phi: "φ", omega: "ω",
+  alpha: "α", beta: "β", gamma: "γ", delta: "δ", epsilon: "ε", varepsilon: "ε", zeta: "ζ", eta: "η",
+  theta: "θ", vartheta: "ϑ", iota: "ι", kappa: "κ", lambda: "λ", mu: "μ", nu: "ν", xi: "ξ", pi: "π",
+  rho: "ρ", sigma: "σ", tau: "τ", upsilon: "υ", phi: "φ", varphi: "φ", chi: "χ", psi: "ψ", omega: "ω",
+  Gamma: "Γ", Delta: "Δ", Theta: "Θ", Lambda: "Λ", Xi: "Ξ", Pi: "Π", Sigma: "Σ", Phi: "Φ", Psi: "Ψ", Omega: "Ω",
+  aleph: "ℵ", forall: "∀", exists: "∃", in: "∈", subseteq: "⊆", cup: "∪", cap: "∩", ell: "ℓ",
 };
 
 /** Strip TeX markup down to plain text: accents become their Unicode
@@ -91,7 +94,11 @@ const MATH_SYMBOLS: Record<string, string> = {
  * that — bibliographies survive it fine. */
 function detexFragment(value: string): string {
   return value
-    .replace(/\\(['"`^~=.uvHcdb])\s*\{?([A-Za-z])\}?/g,
+    // Control symbols take their letter directly (\'e); the alphabetic accent
+    // commands need a space or braces first, or \varepsilon becomes ǎ.
+    .replace(/\\(['"`^~=.])\s*\{?([A-Za-z])\}?/g,
+      (_, cmd: string, ch: string) => (ch + COMBINING[cmd]!).normalize("NFC"))
+    .replace(/\\([uvHcdb])(?:\s+\{?|\s*\{)([A-Za-z])\}?/g,
       (_, cmd: string, ch: string) => (ch + COMBINING[cmd]!).normalize("NFC"))
     .replace(/\\(ss|ae|AE|oe|OE|aa|AA|o|O|l|L)(?![A-Za-z])\s*/g, (_, cmd: string) => LIGATURES[cmd]!)
     .replace(/\\([A-Za-z]+)(?![A-Za-z])/g,
