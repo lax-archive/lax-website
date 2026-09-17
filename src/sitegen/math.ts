@@ -26,12 +26,22 @@ function firstMathDelimiter(src: string): number | undefined {
   return indexes.length ? Math.min(...indexes) : undefined;
 }
 
+/** amsmath's robust, capitalised accent aliases, which KaTeX lacks. Authors
+ * write `\Tilde{A}` in titles because the lowercase forms are fragile in
+ * moving arguments; both spellings should render the same accent. */
+const AMSMATH_ACCENT_ALIASES: Record<string, string> = {
+  "\\Acute": "\\acute", "\\Bar": "\\bar", "\\Breve": "\\breve", "\\Check": "\\check",
+  "\\Ddot": "\\ddot", "\\Dot": "\\dot", "\\Grave": "\\grave", "\\Hat": "\\hat",
+  "\\Tilde": "\\tilde", "\\Vec": "\\vec",
+};
+
 function render(text: string, displayMode: boolean, raw: string, errorFallback?: () => string): string {
   try {
     return katex.renderToString(supportedMathSource(text), {
       displayMode,
       output: "htmlAndMathml",
       throwOnError: true,
+      macros: { ...AMSMATH_ACCENT_ALIASES },
       // Lean prose naturally uses Unicode mathematical glyphs such as ⊥ and
       // ⊤. KaTeX can render them safely; only their lack of a LaTeX spelling
       // raises `unknownSymbol`. Keep every actual parse/strict error fatal.

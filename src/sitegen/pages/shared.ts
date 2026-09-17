@@ -813,7 +813,8 @@ function authorByline(submission: SiteSubmission): string {
     ].filter(Boolean).join(" ");
     return `<span class="paper-author">${name}${links ? ` <span class="author-links">${links}</span>` : ""}</span>`;
   });
-  return authors.join('<span class="author-sep">·</span>');
+  // The spaces let the byline wrap between authors; each name itself stays whole.
+  return authors.join(' <span class="author-sep">·</span> ');
 }
 
 /** The dim technical line under the title: id, authors, state, dates, source, pins. */
