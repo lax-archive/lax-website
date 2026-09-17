@@ -190,18 +190,28 @@ describe("semantic display projection", () => {
     expect(canonicalJson(measured.graph)).not.toMatch(/Public label|href|secret-repository/);
     expect(() => projectGraph("concepts", { nodes: [{ id: "x", href: "https://private.example/repo" }], edges: [] })).toThrow(/graph-link/);
   });
-  it("retains a display-only cycle created by grouping an acyclic statement graph", () => {
+  it("keeps a sibling proof at statement resolution and draws it locally without a cycle envelope", () => {
     const input: ProofGraphData = { statements: [
-      { id: "c.a", concept: "c", index: 1, count: 2 }, { id: "c.b", concept: "c", index: 2, count: 2 },
-    ], proofs: [{ id: "p", assumptions: ["c.a"], conclusion: "c.b" }] };
+      { id: "c.a", concept: "c", index: 1, count: 3 }, { id: "c.b", concept: "c", index: 2, count: 3 }, { id: "c.c", concept: "c", index: 3, count: 3 },
+      { id: "d.s", concept: "d", index: 1, count: 1 },
+    ], proofs: [{ id: "p", assumptions: ["c.a", "c.b"], conclusion: "c.c" }, { id: "q", assumptions: ["d.s"], conclusion: "c.b" }] };
     const display = projectGraph("proofs", input);
     const measured = measureDisplayGraph(display, fixtureLabels(display));
     const graph = indexedGraph(measured.graph);
     expect(stronglyConnectedComponents(graph.nodeCount, graph.edges).some((members) => members.length === 2)).toBe(true);
-    expect(measured.graph.edges).toHaveLength(2);
     const concept = measured.graph.nodes.find((node) => node.id === "c:c")!;
-    expect(concept.ports.find((port) => port.side === "north")?.semanticEndpointId).toBe("c");
-    expect(concept.ports.find((port) => port.side === "south")?.semanticEndpointId).toBe("c.b");
+    // Sibling assumptions leave their own docks downward instead of the shared concept port.
+    expect(concept.ports.filter((port) => port.side === "north")).toHaveLength(0);
+    expect(concept.ports.map((port) => port.semanticEndpointId).sort()).toEqual(["c.a", "c.b", "c.b", "c.c"]);
+    const { geometry } = layoutGraph(measured.graph, { inputDigest: "sibling-proof" });
+    expect(validateGeometry(measured.graph, geometry).valid).toBe(true);
+    expect(geometry.groups).toHaveLength(1);
+    expect(geometry.groups![0]!.kind).toBe("sibling-proofs");
+    const conceptBox = geometry.nodes.find((node) => node.id === "c:c")!, proofBox = geometry.nodes.find((node) => node.id === "p:p")!;
+    expect(proofBox.y).toBeGreaterThan(conceptBox.y + conceptBox.height);
+    expect(proofBox.x).toBeGreaterThan(conceptBox.x); expect(proofBox.x + proofBox.width).toBeLessThan(conceptBox.x + conceptBox.width + 1);
+    expect(graphSvg(measured, geometry, "t")).not.toContain("cycle-component");
+    expect(canonicalJson(projectGraph("proofs", { ...input, proofs: [...input.proofs].reverse() }))).toBe(canonicalJson(display));
   });
   it("retains every semantic incidence while coarsening visual concept uses in the frozen real corpus", () => {
     const corpus = JSON.parse(fs.readFileSync("test/fixtures/graph-layout/corpus.json", "utf8"));

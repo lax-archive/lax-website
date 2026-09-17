@@ -89,7 +89,10 @@ export function graphSvg(measured: MeasuredDisplayGraph, geometry: GraphGeometry
   const checked = validateGeometry(measured.graph, serialized);
   if (!checked.valid) throw new GraphDiagnosticError(checked.diagnostics);
   const marker = `graph-arrow-${markerPrefix}`;
-  const groups = (geometry.groups ?? []).map((group) => `<g class="graph-scc" data-group-id="${attr(group.id)}" aria-label="Display cycle">${rect(group, "cycle-component")}</g>`).join("");
+  // Sibling proofs inside one concept are acyclic at statement level and
+  // are drawn as ordinary nodes and edges without a cycle envelope.
+  const groups = (geometry.groups ?? []).filter((group) => group.kind !== "sibling-proofs")
+    .map((group) => `<g class="graph-scc" data-group-id="${attr(group.id)}" aria-label="Display cycle">${rect(group, "cycle-component")}</g>`).join("");
   const edges = serialized.edges.map((edge) => {
     const spec = measured.graph.edges.find((e) => e.id === edge.id)!;
     const className = measured.display.kind === "proofs" ? `net-edge ${spec.kind}` : `dag-edge${spec.kind === "proofs" ? " proof-dep" : ""}`;

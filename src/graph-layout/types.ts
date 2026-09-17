@@ -52,6 +52,9 @@ export type PlacedGroup = Rect & Readonly<{
   /** One explicit boundary attachment for each external incidence. Gates are
    * layout-only objects, not additional semantic ports or mathematical nodes. */
   gates?: readonly Readonly<{ id: Id; edgeId: Id; side: PortSpec["side"]; point: Point }>[];
+  /** A "sibling-proofs" group is a concept whose statements prove one another;
+   * it is acyclic at statement level and is drawn without a cycle envelope. */
+  kind?: "cycle" | "sibling-proofs";
 }>;
 export type GraphGeometry = Readonly<{
   schemaVersion: number; engineVersion: string; profileId: string; inputDigest: string;
@@ -79,7 +82,7 @@ export type LayoutProfile = Readonly<{
   exactLayerLimit: number; dpStates: number; expandedVertices: number;
   routingExpansions: number; candidates: number;
 }>;
-export const ENGINE_VERSION = "lax-layout-1.0.9";
+export const ENGINE_VERSION = "lax-layout-1.1.0";
 export const GEOMETRY_SCHEMA_VERSION = 1;
 export const QUANTUM = 0.001;
 /** Work budgets, not original-node cutoffs. Corpus evidence may version them. */

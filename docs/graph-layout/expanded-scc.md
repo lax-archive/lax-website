@@ -40,6 +40,25 @@ the supernode with its actual members and records the containing envelope in
 `geometry.ports` list. Complete route-section chains preserve each original
 edge, and only the final section carries the original target's arrow marker.
 
+## Sibling proofs inside one concept
+
+A proof whose assumptions and conclusion are numbered statements of the same
+concept forms an SCC only because every statement shares one concept box; at
+statement level the incidences are acyclic. The projection keeps such
+assumptions at statement resolution instead of coarsening them to the concept
+port, and `sibling-groups.ts` draws the group locally: every proof node sits
+directly below the dock it proves, each sibling assumption leaves its own
+dock downward (on the slot facing away from the proof) into a rail below the
+proof, and the conclusion rises straight back into its dock. External
+incidences keep boundary gates as in the generic interior. The group is
+recorded with `kind: "sibling-proofs"` and receives no cycle envelope in the
+rendered SVG. The pattern is exact: one non-proof member, every internal edge
+between that member's docks and the proofs, no east/west or dock-level north
+ports. Anything else, or a placement that fails the independent validator,
+falls back to the generic interior below. A crossing between a sibling rail
+and an external conclusion arriving at an intermediate dock is topologically
+forced and retained.
+
 The full graph is rebuilt at envelope scales 1, 2 and 3 if validation fails.
 This is a fixed operation schedule. Members are never moved after routes have
 been selected, and failed attempts never publish a collapsed or partial

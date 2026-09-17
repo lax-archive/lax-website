@@ -47,7 +47,8 @@ export function measureDisplayGraph(display: DisplayGraph, labels: ReadonlyMap<s
     const attachmentHeight = outgoingDocks.length ? dockGap + 8 : 0;
     const diameters = node.docks.map((dock, i) => ceil(Math.max(20,
       Math.hypot(dockLabels[i]!.width, ...dockLabels[i]!.lines.map((line) => line.ink.height)) + 8,
-      (capacity(node.ports.filter((p) => p.semanticEndpointId === dock.statementId)) + 1) * portSeparation)));
+      // Two attachments fit a 32px dock at ±8; more grow it by one lane each.
+      Math.max(2, capacity(node.ports.filter((p) => p.semanticEndpointId === dock.statementId))) * portSeparation)));
     const rowWidth = diameters.reduce((sum, d) => sum + d, 0) + Math.max(0, diameters.length - 1) * portSeparation;
     const contentWidth = Math.max(bodyWidth, rowWidth);
     // Ports and their enclosing envelope use the same upward quantization.
@@ -79,7 +80,10 @@ export function measureDisplayGraph(display: DisplayGraph, labels: ReadonlyMap<s
       const dock = dockBoxes.find((d) => d.statementId === port.semanticEndpointId);
       if (!node.docks.length) return { ...port };
       const region = dock?.bounds ?? body;
-      const peers = node.ports.filter((p) => p.side === port.side && (dock ? p.semanticEndpointId === dock.statementId : !node.docks.some((d) => d.statementId === p.semanticEndpointId))).sort((a, b) => compareText(a.id, b.id));
+      // Ordered attachments (sibling stems and conclusions) take their
+      // declared slot; otherwise equal-order peers keep identity order.
+      const peers = node.ports.filter((p) => p.side === port.side && (dock ? p.semanticEndpointId === dock.statementId : !node.docks.some((d) => d.statementId === p.semanticEndpointId)))
+        .sort((a, b) => (a.order ?? 0) - (b.order ?? 0) || compareText(a.id, b.id));
       const slot = peers.findIndex((p) => p.id === port.id);
       const dx = (slot - (peers.length - 1) / 2) * portSeparation;
       const radius = region.width / 2;

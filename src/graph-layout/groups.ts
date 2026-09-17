@@ -6,19 +6,13 @@ import { condensation, indexedGraph } from "./components.js";
 import { pathData, polylineCommands, quantizeGeometry, simplifyCollinear } from "./geometry.js";
 import { compareText, normalizeGraph } from "./normalize.js";
 import { belowBodyEscape, placePorts, portOffsets } from "./ports.js";
+import { siblingInteriorFor, type Gate, type Interior } from "./sibling-groups.js";
 import { DEFAULT_PROFILE, ENGINE_VERSION, GEOMETRY_SCHEMA_VERSION, GraphDiagnosticError,
   type GraphGeometry, type LayoutProfile, type MeasuredGraph, type MeasuredNode,
   type PlacedGroup, type PlacedNode, type PlacedPort, type Point,
   type PortSpec, type RouteSection } from "./types.js";
 import { parsePathData, validateGeometry } from "./validate.js";
 
-type Gate = NonNullable<PlacedGroup["gates"]>[number];
-type Interior = {
-  id: string; width: number; height: number; members: readonly number[];
-  nodes: PlacedNode[]; ports: PlacedPort[]; gates: Gate[];
-  routes: Map<string, { role: "feedback" | "group-adapter"; points: Point[] }>;
-  supernode: MeasuredNode;
-};
 const unique = (preferred: string, occupied: Set<string>) => { let id = preferred; while (occupied.has(id)) id = ":" + id; occupied.add(id); return id; };
 const move = (p: Point, shift: Point): Point => ({ x: p.x + shift.x, y: p.y + shift.y });
 
@@ -96,7 +90,7 @@ function interiorFor(graph: MeasuredGraph, members: readonly number[], id: strin
       routes.set(edge.id, { role: "group-adapter", points: sourceInside ? out : out.reverse() });
     }
   });
-  return { id, width, height, members, nodes, ports, gates, routes,
+  return { id, kind: "cycle", width, height, members, nodes, ports, gates, routes,
     supernode: { id, kind: "scc", width, height, labelBoxes: [], ports: outerPorts } };
 }
 
@@ -128,12 +122,16 @@ export function layoutGroups(graph: MeasuredGraph, layoutDag: (outer: MeasuredGr
   });
   const groupOfPort = (portId: string) => groupIds.get(condensed.componentOf[nodeIndex.get(sourcePorts.get(portId)!.nodeId)!]!);
   let lastError: GraphDiagnosticError | undefined;
-  for (const scale of [1, 2, 3]) {
+  // The local sibling-proof drawing is tried first; the generic envelope
+  // schedule follows for every group it does not fit.
+  for (const { sibling, scale } of [{ sibling: true, scale: 1 }, { sibling: false, scale: 1 }, { sibling: false, scale: 2 }, { sibling: false, scale: 3 }]) {
     try {
       const occupiedPorts = new Set(sourcePorts.keys()), interiors = new Map<string, Interior>();
       condensed.components.forEach((members, component) => {
-        const id = groupIds.get(component); if (id) interiors.set(id, interiorFor(graph, members, id, profile, scale, occupiedPorts));
+        const id = groupIds.get(component);
+        if (id) interiors.set(id, (sibling ? siblingInteriorFor(graph, members, id, profile, scale, occupiedPorts) : undefined) ?? interiorFor(graph, members, id, profile, scale, occupiedPorts));
       });
+      if (sibling && ![...interiors.values()].some((interior) => interior.kind === "sibling-proofs")) continue;
       const gates = new Map<string, Gate>();
       for (const interior of interiors.values()) for (const gate of interior.gates) gates.set(JSON.stringify([interior.id, gate.edgeId]), gate);
       const outer = normalizeGraph({
@@ -152,7 +150,7 @@ export function layoutGroups(graph: MeasuredGraph, layoutDag: (outer: MeasuredGr
       const interiorSections = new Map<string, Map<string, RouteSection>>();
       for (const interior of interiors.values()) {
         const position = outerNodes.get(interior.id)!;
-        placedGroups.push({ id: interior.id, x: position.x, y: position.y, width: interior.width, height: interior.height,
+        placedGroups.push({ id: interior.id, kind: interior.kind, x: position.x, y: position.y, width: interior.width, height: interior.height,
           memberIds: interior.members.map((i) => graph.nodes[i]!.id), labelBoxes: [],
           gates: interior.gates.map((gate) => ({ ...gate, point: move(gate.point, position) })) });
         nodes.push(...interior.nodes.map((node) => ({ ...node, ...move(node, position), ...(position.rank === undefined ? {} : { rank: position.rank }) })));

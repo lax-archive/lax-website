@@ -172,8 +172,12 @@ export function projectGraph(kind: GraphKind, input: FlatGraphInput | ProofGraph
   }
   const edgeMultiplicity = new Map<string, number>();
   const sharedSourcePorts = new Map<string, string>();
+  /** Sibling incidences stay inside one concept box: a statement-level
+   * assumption leaves its own dock downward and a sibling-proved conclusion
+   * takes the left slot of its dock so the proof can sit right below it. */
   const addEdge = (sourceId: string, targetId: string, edgeKind: string, displaySemanticId: string,
-    semanticIds: readonly string[] = [displaySemanticId], shareSource = false) => {
+    semanticIds: readonly string[] = [displaySemanticId], shareSource = false,
+    sibling?: { sourceOrder?: number; targetOrder?: number }) => {
     const source = endpoints.get(sourceId), target = endpoints.get(targetId);
     if (!source || !target) diagnostic("missing-semantic-endpoint", "Display edge has no declared endpoint", displaySemanticId, ...(!source ? [sourceId] : []), ...(!target ? [targetId] : []));
     const occurrence = edgeMultiplicity.get(displaySemanticId) ?? 0; edgeMultiplicity.set(displaySemanticId, occurrence + 1);
@@ -183,19 +187,30 @@ export function projectGraph(kind: GraphKind, input: FlatGraphInput | ProofGraph
     const targetPortId = `${id}:target`;
     if (!shareSource || !sharedSourcePorts.has(sourceKey)) {
       byId.get(source.nodeId)!.ports.push({ id: sourcePortId, nodeId: source.nodeId, semanticEndpointId: source.semanticId,
-        side: "north", mode: source.dock ? "fixed-order" : "free-on-side", ...(source.dock ? { order: source.dock } : {}) });
+        side: sibling?.sourceOrder !== undefined ? "south" : "north", mode: source.dock ? "fixed-order" : "free-on-side",
+        ...(source.dock ? { order: sibling?.sourceOrder ?? source.dock } : {}) });
       if (shareSource) sharedSourcePorts.set(sourceKey, sourcePortId);
     }
     byId.get(target.nodeId)!.ports.push({ id: targetPortId, nodeId: target.nodeId, semanticEndpointId: target.semanticId,
-      side: "south", mode: target.dock ? "fixed-order" : "free-on-side", ...(target.dock ? { order: target.dock } : {}) });
+      side: "south", mode: target.dock ? "fixed-order" : "free-on-side", ...(target.dock ? { order: sibling?.targetOrder ?? target.dock } : {}) });
     edges.push({ id, sourcePortId, targetPortId, kind: edgeKind, minRankSpan: 1, semanticIds });
     for (const semanticId of semanticIds)
       mapping.push({ semanticId, kind: "edge", edgeIds: [id], portIds: [sourcePortId, targetPortId] });
   };
   if (kind === "proofs") {
     for (const proof of [...(input as ProofGraphData).proofs].sort((a, b) => compareText(a.id, b.id))) {
-      const assumptionGroups = new Map<string, string[]>();
+      const assumptionGroups = new Map<string, string[]>(), conclusion = endpoints.get(proof.conclusion);
+      let siblings = 0;
       for (const assumption of [...proof.assumptions].sort(compareText)) {
+        const endpoint = endpoints.get(assumption);
+        // A proof from sibling statements of its own concept keeps statement
+        // resolution: coarsening it to the concept would fake a cycle.
+        if (conclusion?.dock && endpoint?.dock && endpoint.nodeId === conclusion.nodeId) {
+          siblings += 1;
+          addEdge(assumption, proof.id, "assumption", `${proof.id}:assumption:${assumption}`, undefined, false,
+            { sourceOrder: endpoint.dock + (conclusion.dock > endpoint.dock ? -0.25 : 0.25) });
+          continue;
+        }
         const source = assumptionSources.get(assumption) ?? assumption;
         const incidences = assumptionGroups.get(source) ?? [];
         incidences.push(`${proof.id}:assumption:${assumption}`);
@@ -203,7 +218,8 @@ export function projectGraph(kind: GraphKind, input: FlatGraphInput | ProofGraph
       }
       for (const [source, semanticIds] of [...assumptionGroups].sort(([a], [b]) => compareText(a, b)))
         addEdge(source, proof.id, "assumption", `${proof.id}:assumption:${source}`, semanticIds, assumptionSources.has(source));
-      addEdge(proof.id, proof.conclusion, "conclusion", `${proof.id}:conclusion:${proof.conclusion}`);
+      addEdge(proof.id, proof.conclusion, "conclusion", `${proof.id}:conclusion:${proof.conclusion}`, undefined, false,
+        siblings && conclusion?.dock ? { targetOrder: conclusion.dock - 0.25 } : undefined);
     }
   } else {
     for (const edge of [...(input as FlatGraphInput).edges].sort((a, b) => compareText(`${a.from}\0${a.to}\0${a.kind ?? ""}\0${a.id ?? ""}`, `${b.from}\0${b.to}\0${b.kind ?? ""}\0${b.id ?? ""}`)))

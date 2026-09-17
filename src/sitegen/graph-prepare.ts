@@ -352,7 +352,7 @@ function geometryFields(geometry: GraphGeometry): boolean {
       onlyKeys(section, ["id", "points", "nextSectionIds", "terminalTargetPortId", "role", "commands"]) && section.points.every(point) &&
       (!section.commands || section.commands.every((command) => onlyKeys(command, command.kind === "Q" ? ["kind", "p", "control"] : ["kind", "p"]) &&
         point(command.p) && (command.kind !== "Q" || point(command.control)))))) &&
-    (!geometry.groups || geometry.groups.every((group) => onlyKeys(group, ["id", "x", "y", "width", "height", "memberIds", "labelBoxes", "gates"]) && group.labelBoxes.every(rect) &&
+    (!geometry.groups || geometry.groups.every((group) => onlyKeys(group, ["id", "kind", "x", "y", "width", "height", "memberIds", "labelBoxes", "gates"]) && group.labelBoxes.every(rect) &&
       (!group.gates || group.gates.every((gate) => onlyKeys(gate, ["id", "edgeId", "side", "point"]) && point(gate.point)))));
 }
 function writeAtomic(file: string, value: unknown): void {
