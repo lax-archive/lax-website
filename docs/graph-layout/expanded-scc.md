@@ -50,7 +50,10 @@ port, and `sibling-groups.ts` draws the group locally: every proof node sits
 directly below the dock it proves, each sibling assumption leaves its own
 dock downward (on the slot facing away from the proof) into a rail below the
 proof, and the conclusion rises straight back into its dock. External
-incidences keep boundary gates as in the generic interior. The group is
+incidences keep boundary gates as in the generic interior; the dependents that
+leave the concept's one shared assumption-source port keep one gate each but
+share a single port on the condensation supernode, so their common trunk is a
+declared junction in the outer layout rather than a coincident run. The group is
 recorded with `kind: "sibling-proofs"` and receives no cycle envelope in the
 rendered SVG. The pattern is exact: one non-proof member, every internal edge
 between that member's docks and the proofs, no east/west or dock-level north

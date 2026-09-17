@@ -132,14 +132,17 @@ export function layoutGroups(graph: MeasuredGraph, layoutDag: (outer: MeasuredGr
         if (id) interiors.set(id, (sibling ? siblingInteriorFor(graph, members, id, profile, scale, occupiedPorts) : undefined) ?? interiorFor(graph, members, id, profile, scale, occupiedPorts));
       });
       if (sibling && ![...interiors.values()].some((interior) => interior.kind === "sibling-proofs")) continue;
-      const gates = new Map<string, Gate>();
-      for (const interior of interiors.values()) for (const gate of interior.gates) gates.set(JSON.stringify([interior.id, gate.edgeId]), gate);
+      const gates = new Map<string, Gate>(), outerPortIds = new Map<string, string>();
+      for (const interior of interiors.values()) for (const gate of interior.gates) {
+        gates.set(JSON.stringify([interior.id, gate.edgeId]), gate);
+        outerPortIds.set(JSON.stringify([interior.id, gate.edgeId]), interior.outerPortIds?.get(gate.edgeId) ?? gate.id);
+      }
       const outer = normalizeGraph({
         nodes: [...graph.nodes.filter((_, index) => !groupIds.has(condensed.componentOf[index]!)), ...[...interiors.values()].map((group) => group.supernode)],
         edges: graph.edges.filter((edge) => !groupOfPort(edge.sourcePortId) || groupOfPort(edge.sourcePortId) !== groupOfPort(edge.targetPortId)).map((edge) => {
           const sourceGroup = groupOfPort(edge.sourcePortId), targetGroup = groupOfPort(edge.targetPortId);
-          return { ...edge, sourcePortId: sourceGroup ? gates.get(JSON.stringify([sourceGroup, edge.id]))!.id : edge.sourcePortId,
-            targetPortId: targetGroup ? gates.get(JSON.stringify([targetGroup, edge.id]))!.id : edge.targetPortId };
+          return { ...edge, sourcePortId: sourceGroup ? outerPortIds.get(JSON.stringify([sourceGroup, edge.id]))! : edge.sourcePortId,
+            targetPortId: targetGroup ? outerPortIds.get(JSON.stringify([targetGroup, edge.id]))! : edge.targetPortId };
         }),
       });
       const outerGeometry = finalGeometry(outer, layoutDag(outer));

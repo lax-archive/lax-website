@@ -16,6 +16,9 @@ export type Interior = {
   id: string; kind: NonNullable<PlacedGroup["kind"]>; width: number; height: number; members: readonly number[];
   nodes: PlacedNode[]; ports: PlacedPort[]; gates: Gate[];
   routes: Map<string, { role: "feedback" | "group-adapter"; points: Point[] }>;
+  /** Outer condensation port per external edge when it differs from the
+   * edge's own gate: edges leaving one shared source port share one. */
+  outerPortIds?: Map<string, string>;
   supernode: MeasuredNode;
 };
 type Incidence = { edge: LayoutEdge; source: PortSpec; target: PortSpec };
@@ -133,15 +136,24 @@ export function siblingInteriorFor(graph: MeasuredGraph, members: readonly numbe
   const measured: MeasuredGraph = { nodes: [concept, ...proofs], edges: [] };
   const ports = placePorts(measured, nodes, offsets as PortOffsets), portById = new Map(ports.map((p) => [p.id, p]));
   for (const [edgeId, route] of routes) routes.set(edgeId, { ...route, points: route.points.map(move) });
-  const gates: Gate[] = [], outerPorts: PortSpec[] = [];
+  const gates: Gate[] = [], outerPorts: PortSpec[] = [], outerPortIds = new Map<string, string>(), sharedOuter = new Map<string, string>();
   for (const external of externals) {
     const port = portById.get(external.inside.id)!;
     const gateId = unique(`layout:gate:${JSON.stringify([id, external.edge.id, external.side])}`, occupiedPorts);
     const point = { x: port.x, y: external.side === "north" ? 0 : height };
     gates.push({ id: gateId, edgeId: external.edge.id, side: external.side, point });
-    outerPorts.push({ id: gateId, nodeId: id, semanticEndpointId: external.inside.semanticEndpointId, side: external.side, mode: "fixed-position", offset: point });
+    // Several dependents may leave the concept's one shared assumption-source
+    // port. Each keeps its own gate, but the condensation sees a single outer
+    // port for them, so their common trunk is a declared junction there, not
+    // a coincident run between distinct ports at one point.
+    const key = `${external.inside.id}\0${external.side}`, outerId = sharedOuter.get(key) ?? gateId;
+    if (!sharedOuter.has(key)) {
+      sharedOuter.set(key, outerId);
+      outerPorts.push({ id: outerId, nodeId: id, semanticEndpointId: external.inside.semanticEndpointId, side: external.side, mode: "fixed-position", offset: point });
+    }
+    outerPortIds.set(external.edge.id, outerId);
     routes.set(external.edge.id, { role: "group-adapter", points: external.side === "north" ? [{ x: port.x, y: port.y }, point] : [point, { x: port.x, y: port.y }] });
   }
-  return { id, kind: "sibling-proofs", width, height, members, nodes, ports, gates, routes,
+  return { id, kind: "sibling-proofs", width, height, members, nodes, ports, gates, routes, outerPortIds,
     supernode: { id, kind: "scc", width, height, labelBoxes: [], ports: outerPorts } };
 }
