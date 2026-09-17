@@ -11,7 +11,7 @@ import { DEFAULT_PROFILE, ENGINE_VERSION, GEOMETRY_SCHEMA_VERSION, GraphDiagnost
 import { validateGeometry } from "../graph-layout/validate.js";
 import { siteAssetVersion } from "./assets.js";
 import { attr, esc } from "./graph-escape.js";
-import { createGraphMeasurer, GraphMeasurementUnavailableError,
+import { createGraphMeasurer, GraphMeasurementUnavailableError, substituteUnsupportedGlyphs,
   type GraphMeasurerOptions, type GraphMeasurementEnvironment, type GraphMeasurementStatistics } from "./graph-measure.js";
 import { measureDisplayGraph, projectGraph, type DisplayGraph, type FlatGraphInput,
   type GraphKind, type GraphLabel, type MeasuredDisplayGraph, type ProofGraphData } from "./graph-project.js";
@@ -253,8 +253,28 @@ function conceptStatus(state: string, count: number, up: number, down: number): 
   return parts.join("; ");
 }
 
-function scanPages(files: ReadonlyMap<string, string | Buffer>): PageGraphs[] {
-  const pages: PageGraphs[] = [];
+function scanPages(files: ReadonlyMap<string, string | Buffer>, diagnostics: GraphPreparationDiagnostic[],
+    environment: GraphMeasurementEnvironment): PageGraphs[] {
+  const pages: PageGraphs[] = [], reported = new Set<string>();
+  /** A label the bundled fonts cannot draw in full is drawn with tofu boxes
+   * rather than failing every page's build; the page itself keeps the text.
+   * One diagnostic names each affected container, not each of its views. */
+  const project = (kind: GraphKind, input: FlatGraphInput | ProofGraphData, file: string, container: string): DisplayGraph => {
+    const display = projectGraph(kind, input), missing = new Set<number>();
+    const nodes = display.nodes.map((node) => {
+      if (node.kind === "proof") return node;
+      const substituted = substituteUnsupportedGlyphs({ text: node.label, maxWidth: 240 }, environment);
+      substituted.missing.forEach((code) => missing.add(code));
+      return substituted.missing.length ? { ...node, label: substituted.text } : node;
+    });
+    if (!missing.size) return display;
+    if (reported.has(`${file}#${container}`)) return { ...display, nodes };
+    reported.add(`${file}#${container}`);
+    const codes = [...missing].sort((a, b) => a - b).map((code) => `U+${code.toString(16).toUpperCase().padStart(4, "0")}`);
+    diagnostics.push({ code: "graph-label-glyph-substituted", page: file, container,
+      message: `Bundled graph fonts lack ${codes.join(", ")}; the affected labels are drawn with the missing-glyph box` });
+    return { ...display, nodes };
+  };
   for (const [file, content] of [...files].sort(([a], [b]) => compareText(a, b))) {
     if (!file.endsWith(".html")) continue;
     const html = typeof content === "string" ? content : content.toString("utf8");
@@ -289,11 +309,11 @@ function scanPages(files: ReadonlyMap<string, string | Buffer>): PageGraphs[] {
             (node.dir === "up" ? up === "1" : down === "1"));
           const visible = new Set(nodes.map((node) => node.id));
           const filtered = { nodes, edges: flat.edges.filter((edge) => visible.has(edge.from) && visible.has(edge.to)) };
-          views.push({ state, status: conceptStatus(state, nodes.length, ancestors, descendants), display: projectGraph(kind, filtered) });
+          views.push({ state, status: conceptStatus(state, nodes.length, ancestors, descendants), display: project(kind, filtered, file, id) });
         }
       } else views.push({ state: initial, status: kind === "proofs"
         ? `${plural((data as ProofGraphData).statements.length, "statement")}; ${plural((data as ProofGraphData).proofs.length, "proof")}`
-        : plural((data as FlatGraphInput).nodes.length, "submission"), display: projectGraph(kind, data) });
+        : plural((data as FlatGraphInput).nodes.length, "submission"), display: project(kind, data, file, id) });
       containers.push({ id, kind, initial, ancestors, descendants, attributes, original: match[0], views });
     }
     pages.push({ file, html, rawScript: script[0], payload, containers });
@@ -393,7 +413,9 @@ export function graphGeometryDigest(measured: MeasuredDisplayGraph, labelSignatu
  * A hard error leaves the existing page map untouched for atomic publication. */
 export async function prepareGraphs(files: Map<string, string | Buffer>, options: GraphPreparationOptions = {}): Promise<GraphPreparationResult> {
   const started = performance.now(), projectionStarted = performance.now();
-  const pages = scanPages(files), diagnostics: GraphPreparationDiagnostic[] = [];
+  const measurer = createGraphMeasurer({ ...(options.cacheDir ? { cacheDir: path.join(options.cacheDir, "labels") } : {}), ...options.measurement });
+  const diagnostics: GraphPreparationDiagnostic[] = [];
+  const pages = scanPages(files, diagnostics, measurer.environment);
   const statistics: GraphPreparationStatistics = {
     pages: pages.length, containers: pages.reduce((sum, page) => sum + page.containers.length, 0),
     views: pages.reduce((sum, page) => sum + page.containers.reduce((n, container) => n + container.views.length, 0), 0),
@@ -405,7 +427,6 @@ export async function prepareGraphs(files: Map<string, string | Buffer>, options
   const pendingFiles = new Map<string, string | Buffer>(), profile = options.profile ?? DEFAULT_PROFILE;
   const inlineLimit = options.alternateInlineLimit ?? 32 * 1024;
   if (!Number.isSafeInteger(inlineLimit) || inlineLimit < 0) fail("graph-alternate-threshold", "Alternate transfer threshold must be a nonnegative integer");
-  const measurer = createGraphMeasurer({ ...(options.cacheDir ? { cacheDir: path.join(options.cacheDir, "labels") } : {}), ...options.measurement });
   const requests = displayLabelRequests(pages.flatMap((page) => page.containers.flatMap((container) => container.views.map((view) => view.display))));
   const labelTexts = requests.map((request) => request.text);
   try {
