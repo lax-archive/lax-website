@@ -321,8 +321,9 @@
     for (const root of document.querySelectorAll('[data-carousel]')) setupCarousel(root);
   }
 
-  // Center native scrolling to match the overview camera in graph-interaction.js.
-  // The published layout stays fixed; the camera controls its initial zoom.
+  // Center native scrolling over the overview graph-interaction.js sizes.
+  // The published layout stays fixed; the SVG element carries the overview
+  // scale, so the box scrolls the drawing and nothing beyond it.
   function setupNetwork() {
     const container = document.getElementById('proof-network');
     if (!container) return;

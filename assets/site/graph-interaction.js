@@ -973,13 +973,20 @@
     const svg = container.querySelector('svg');
     if (!svg) return;
     const cameraGroup = svg.querySelector('[data-graph-camera]');
-    // The landing box starts with a wider overview. Shrink around the
-    // horizontal center and top edge so its native scrolling stays aligned.
+    // The landing box starts with a wider overview: the drawing at 60% of
+    // its published size. The SVG element carries that scale, not the
+    // camera, so the element stays exactly as large as the drawing inside
+    // it and the box's native scrolling ends at the outermost nodes
+    // instead of running on into the empty space of a larger element. The
+    // large window shows the same drawing at its published size, framed by
+    // the camera, so it takes the scale off again.
     const inlineScale = container.closest('.landing-network-figure') ? 0.6 : 1;
-    const inlineCamera = () => {
+    const fitElement = () => {
+      const scale = container.closest('.graph-figure').classList.contains('graph-expanded') ? 1 : inlineScale;
       const bounds = svg.viewBox.baseVal;
-      return { x: (bounds.x + bounds.width / 2) * (1 - inlineScale),
-        y: bounds.y * (1 - inlineScale), scale: inlineScale };
+      svg.style.width = scale === 1 ? '' : `${bounds.width * scale}px`;
+      svg.style.height = scale === 1 ? '' : `${bounds.height * scale}px`;
+      controller.elementScale = scale;
     };
     const edges = new Map();
     for (const path of svg.querySelectorAll('[data-edge-id]')) {
@@ -990,7 +997,8 @@
     controller.svg = svg;
     controller.cameraElement = cameraGroup;
     controller.edgePaths = edges;
-    controller.camera = inlineCamera();
+    fitElement();
+    controller.camera = { x: 0, y: 0, scale: 1 };
     controller.fitScrollbars = () => {
       if (!container.clientWidth || !container.clientHeight) return;
       const matrix = svg.getScreenCTM();
@@ -1038,13 +1046,16 @@
       const { x, y, scale } = controller.camera;
       cameraGroup.setAttribute('transform', `translate(${x},${y}) scale(${scale})`);
       const output = container.closest('.graph-figure').querySelector('[data-graph-zoom-status]');
-      if (output) output.value = `${Math.round(scale * 100)}%`;
+      // The reading is the drawing's size on screen against its published
+      // size, whether the element or the camera carries the scale.
+      if (output) output.value = `${Math.round(scale * controller.elementScale * 100)}%`;
       refreshGraphTooltip();
     };
     controller.paint = () => { if (!frame) frame = requestAnimationFrame(paint); };
     controller.restoreInline = (view) => {
       stopCameraAnimation(controller);
       controller.autoFrame = false;
+      fitElement();
       controller.camera = { ...view.camera };
       paint();
       container.scrollLeft = view.left;
@@ -1052,6 +1063,7 @@
     };
     controller.frameExpanded = () => {
       stopCameraAnimation(controller);
+      fitElement();
       if (!container.clientWidth || !container.clientHeight) return;
       const bounds = svg.viewBox.baseVal;
       if (!bounds.width || !bounds.height) return;
@@ -1102,7 +1114,8 @@
         return;
       }
       controller.autoFrame = false;
-      controller.camera = inlineCamera(); controller.paint();
+      fitElement();
+      controller.camera = { x: 0, y: 0, scale: 1 }; controller.paint();
       container.scrollTop = 0;
       container.scrollLeft = Math.max(0, (container.scrollWidth - container.clientWidth) / 2);
     };
