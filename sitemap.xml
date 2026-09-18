@@ -1109,6 +1109,60 @@
   <url><loc>https://laxarchive.org/lax-842588/Lax842588Proofs.StructuralRepresentations.tree_lawful_proof.html</loc></url>
   <url><loc>https://laxarchive.org/lax-842588/Lax842588Proofs.TreeAutomataToMSO.automaton_definable_by_mso_proof.html</loc></url>
   <url><loc>https://laxarchive.org/lax-842588/Lax842588Proofs.ValueTranslations.language_equivalence_proof.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-871432/</loc></url>
+  <url><loc>https://laxarchive.org/lax-871432/Lax871432.CategoricalProductCounts.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-871432/Lax871432.ClosureProperties.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-871432/Lax871432.ComplementCounts.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-871432/Lax871432.ConnectedPartitions.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-871432/Lax871432.Contractions.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-871432/Lax871432.CoproductCounts.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-871432/Lax871432.DisjointUnionCounts.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-871432/Lax871432.DistinguishingClosure.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-871432/Lax871432.DistinguishingClosureOperator.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-871432/Lax871432.EdgeContractions.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-871432/Lax871432.FullComplementCounts.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-871432/Lax871432.GraphClasses.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-871432/Lax871432.GraphFamilies.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-871432/Lax871432.GraphProducts.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-871432/Lax871432.HomomorphismCounts.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-871432/Lax871432.HomomorphismIndistinguishability.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-871432/Lax871432.InducedSubgraphs.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-871432/Lax871432.IntersectionsUnions.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-871432/Lax871432.IsomorphismRelaxations.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-871432/Lax871432.LexicographicProductCounts.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-871432/Lax871432.LinearCombinationLemma.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-871432/Lax871432.LoopGraphs.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-871432/Lax871432.LoopedGraphCounts.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-871432/Lax871432.LovaszTheorem.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-871432/Lax871432.MinorsComplements.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-871432/Lax871432.PreservationProperties.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-871432/Lax871432.ProductPreservation.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-871432/Lax871432.RobersonConjecture.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-871432/Lax871432.TakingSummands.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-871432/Lax871432Proofs.cl_iInf_le_iInf_cl.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-871432/Lax871432Proofs.determines_of_determines_sum.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-871432/Lax871432Proofs.homCount_catProd_right.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-871432/Lax871432Proofs.homCount_compl.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-871432/Lax871432Proofs.homCount_fullCompl.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-871432/Lax871432Proofs.homCount_lexProd.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-871432/Lax871432Proofs.homCount_looped.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-871432/Lax871432Proofs.homCount_sum_left.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-871432/Lax871432Proofs.homCount_sum_right.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-871432/Lax871432Proofs.homMatrix_isUnit.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-871432/Lax871432Proofs.iSup_cl_le_cl_iSup.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-871432/Lax871432Proofs.isClosureOperator.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-871432/Lax871432Proofs.lovasz.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-871432/Lax871432Proofs.preservedUnderCatProd.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-871432/Lax871432Proofs.preservedUnderCompl_iff_cl_isMinorClosed.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-871432/Lax871432Proofs.preservedUnderCompl_of_isMinorClosed.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-871432/Lax871432Proofs.preservedUnderDisjointUnion_iff_cl_isSummandClosed.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-871432/Lax871432Proofs.preservedUnderDisjointUnion_of_isSummandClosed.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-871432/Lax871432Proofs.preservedUnderLeftLexProd_iff_cl_isInducedSubgraphClosed.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-871432/Lax871432Proofs.preservedUnderLeftLexProd_of_isInducedSubgraphClosed.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-871432/Lax871432Proofs.preservedUnderRightLexProd_iff_cl_isContractionClosed.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-871432/Lax871432Proofs.preservedUnderRightLexProd_of_isContractionClosed.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-871432/paper-pdf.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-871432/paper.html</loc></url>
   <url><loc>https://laxarchive.org/lax-881656/</loc></url>
   <url><loc>https://laxarchive.org/lax-881656/Lax881656.BarnetteConjecture.html</loc></url>
   <url><loc>https://laxarchive.org/lax-881656/Lax881656.Bipartite.html</loc></url>

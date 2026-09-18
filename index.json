@@ -4005,6 +4005,183 @@
       ]
     },
     {
+      "id": "lax-871432",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Logical Equivalences, Homomorphism Indistinguishability, and Forbidden Minors",
+      "concepts": [
+        {
+          "id": "Lax871432.CategoricalProductCounts",
+          "title": "Homomorphism counts into a categorical product",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax871432.ClosureProperties",
+          "title": "Closure properties of graph classes",
+          "type": "definition"
+        },
+        {
+          "id": "Lax871432.ComplementCounts",
+          "title": "Homomorphism counts into a complement",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax871432.ConnectedPartitions",
+          "title": "Partitions into connected parts",
+          "type": "definition"
+        },
+        {
+          "id": "Lax871432.Contractions",
+          "title": "Contracting edges",
+          "type": "definition"
+        },
+        {
+          "id": "Lax871432.CoproductCounts",
+          "title": "Homomorphism counts from a disjoint union",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax871432.DisjointUnionCounts",
+          "title": "Homomorphism counts into a disjoint union",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax871432.DistinguishingClosure",
+          "title": "The homomorphism distinguishing closure",
+          "type": "definition"
+        },
+        {
+          "id": "Lax871432.DistinguishingClosureOperator",
+          "title": "The homomorphism distinguishing closure is a closure operator",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax871432.EdgeContractions",
+          "title": "Contracting edges and right lexicographic products",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax871432.FullComplementCounts",
+          "title": "Homomorphism counts into a full complement",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax871432.GraphClasses",
+          "title": "Graph classes",
+          "type": "definition"
+        },
+        {
+          "id": "Lax871432.GraphFamilies",
+          "title": "Graph families",
+          "type": "definition"
+        },
+        {
+          "id": "Lax871432.GraphProducts",
+          "title": "Products of graphs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax871432.HomomorphismCounts",
+          "title": "Homomorphism counts",
+          "type": "definition"
+        },
+        {
+          "id": "Lax871432.HomomorphismIndistinguishability",
+          "title": "Homomorphism indistinguishability",
+          "type": "definition"
+        },
+        {
+          "id": "Lax871432.InducedSubgraphs",
+          "title": "Taking induced subgraphs and left lexicographic products",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax871432.IntersectionsUnions",
+          "title": "The closure of intersections and unions",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax871432.IsomorphismRelaxations",
+          "title": "Graph isomorphism relaxations",
+          "type": "definition"
+        },
+        {
+          "id": "Lax871432.LexicographicProductCounts",
+          "title": "Homomorphism counts into a lexicographic product",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax871432.LinearCombinationLemma",
+          "title": "A determined linear combination determines its constituents",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax871432.LoopedGraphCounts",
+          "title": "Homomorphism counts into a looped graph",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax871432.LoopGraphs",
+          "title": "Graphs with loops",
+          "type": "definition"
+        },
+        {
+          "id": "Lax871432.LovaszTheorem",
+          "title": "Lovász's theorem",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax871432.MinorsComplements",
+          "title": "Taking minors and preservation under complements",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax871432.PreservationProperties",
+          "title": "Preservation properties of a graph isomorphism relaxation",
+          "type": "definition"
+        },
+        {
+          "id": "Lax871432.ProductPreservation",
+          "title": "Homomorphism indistinguishability is preserved under categorical products",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax871432.RobersonConjecture",
+          "title": "Roberson's conjecture",
+          "type": "conjecture"
+        },
+        {
+          "id": "Lax871432.TakingSummands",
+          "title": "Taking summands and preservation under disjoint unions",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax871432Proofs.cl_iInf_le_iInf_cl",
+        "Lax871432Proofs.determines_of_determines_sum",
+        "Lax871432Proofs.homCount_catProd_right",
+        "Lax871432Proofs.homCount_compl",
+        "Lax871432Proofs.homCount_fullCompl",
+        "Lax871432Proofs.homCount_lexProd",
+        "Lax871432Proofs.homCount_looped",
+        "Lax871432Proofs.homCount_sum_left",
+        "Lax871432Proofs.homCount_sum_right",
+        "Lax871432Proofs.homMatrix_isUnit",
+        "Lax871432Proofs.isClosureOperator",
+        "Lax871432Proofs.iSup_cl_le_cl_iSup",
+        "Lax871432Proofs.lovasz",
+        "Lax871432Proofs.preservedUnderCatProd",
+        "Lax871432Proofs.preservedUnderCompl_iff_cl_isMinorClosed",
+        "Lax871432Proofs.preservedUnderCompl_of_isMinorClosed",
+        "Lax871432Proofs.preservedUnderDisjointUnion_iff_cl_isSummandClosed",
+        "Lax871432Proofs.preservedUnderDisjointUnion_of_isSummandClosed",
+        "Lax871432Proofs.preservedUnderLeftLexProd_iff_cl_isInducedSubgraphClosed",
+        "Lax871432Proofs.preservedUnderLeftLexProd_of_isInducedSubgraphClosed",
+        "Lax871432Proofs.preservedUnderRightLexProd_iff_cl_isContractionClosed",
+        "Lax871432Proofs.preservedUnderRightLexProd_of_isContractionClosed"
+      ]
+    },
+    {
       "id": "lax-881656",
       "state": "registered",
       "environment": "v4.33.0",
