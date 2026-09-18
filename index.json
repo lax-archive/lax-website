@@ -3337,6 +3337,34 @@
       ]
     },
     {
+      "id": "lax-712553",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Congruent number curves: the quadratic twist formula for a_p and the parity of Tunnell's representation counts",
+      "concepts": [
+        {
+          "id": "Lax712553.Involution",
+          "title": "A finite set with a fixed-point-free involution has even cardinality",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax712553.QuadraticTwist",
+          "title": "The congruent number curves are quadratic twists of y² = x³ − x",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax712553.TunnellParity",
+          "title": "Tunnell's representation counts are even",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax712553Proofs.Involution.even_card_of_fixedPointFree_involution",
+        "Lax712553Proofs.QuadraticTwist.a_p_twist",
+        "Lax712553Proofs.TunnellParity.even_card_solutions"
+      ]
+    },
+    {
       "id": "lax-733996",
       "state": "registered",
       "environment": "v4.33.0",
