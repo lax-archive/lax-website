@@ -4283,6 +4283,55 @@
       "proofs": []
     },
     {
+      "id": "lax-894236",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Smooth hypersurfaces: the Euler characteristic as a binomial tail, its parity, the Kodaira trichotomy, and the Noether–Lefschetz window as the sequence A005581",
+      "concepts": [
+        {
+          "id": "Lax894236.EulerCharacteristic",
+          "title": "The Euler characteristic of a smooth hypersurface as a binomial tail",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax894236.GeometricGenus",
+          "title": "The Kodaira trichotomy of a hypersurface as a statement about binomial coefficients",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax894236.LinearSubspaceClass",
+          "title": "The arithmetic obstruction to a linear subspace class being a multiple of the hyperplane power",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax894236.NoetherLefschetzWindow",
+          "title": "The Noether–Lefschetz window of a surface in ℙ³ and the sequence A005581",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax894236.Parity",
+          "title": "Parity of the Euler characteristic in odd dimension, and integrality for surfaces",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax894236Proofs.EulerCharacteristic.chiPoly_eq_binomial_tail",
+        "Lax894236Proofs.GeometricGenus.genus_degree",
+        "Lax894236Proofs.GeometricGenus.pg_eq_one_iff",
+        "Lax894236Proofs.GeometricGenus.pg_eq_zero_iff",
+        "Lax894236Proofs.GeometricGenus.two_le_pg",
+        "Lax894236Proofs.LinearSubspaceClass.no_rational_multiple",
+        "Lax894236Proofs.NoetherLefschetzWindow.bound_eq_pg_iff",
+        "Lax894236Proofs.NoetherLefschetzWindow.bound_le_pg",
+        "Lax894236Proofs.NoetherLefschetzWindow.bound_lt_pg",
+        "Lax894236Proofs.NoetherLefschetzWindow.window_eq_A005581",
+        "Lax894236Proofs.Parity.betti_relation",
+        "Lax894236Proofs.Parity.three_dvd_h11Num",
+        "Lax894236Proofs.Parity.two_dvd_b3",
+        "Lax894236Proofs.Parity.two_dvd_chiBinom_of_odd"
+      ]
+    },
+    {
       "id": "lax-916827",
       "state": "registered",
       "environment": "v4.33.0",
