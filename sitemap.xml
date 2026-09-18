@@ -377,6 +377,36 @@
   <url><loc>https://laxarchive.org/lax-3/Lax3Proofs.CoverConstruction.isNeighborhoodCover_wreach.html</loc></url>
   <url><loc>https://laxarchive.org/lax-3/Lax3Proofs.ModelChecking.exists_almostLinearTime_program_modelChecking.html</loc></url>
   <url><loc>https://laxarchive.org/lax-3/Lax3Proofs.SplitterWin.splitterWins_of_nowhereDense.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-303562/</loc></url>
+  <url><loc>https://laxarchive.org/lax-303562/Lax303562.AnnotatorCeiling.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-303562/Lax303562.Candidate.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-303562/Lax303562.Duplication.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-303562/Lax303562.Matching.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-303562/Lax303562.PanopticQuality.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-303562/Lax303562.Removal.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-303562/Lax303562.WeightedFamily.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-303562/Lax303562Proofs.AnnotatorCeiling.ceiling_two_annotators.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-303562/Lax303562Proofs.AnnotatorCeiling.pq_lt_one_of_disagreement.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-303562/Lax303562Proofs.Candidate.candidate_iff.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-303562/Lax303562Proofs.Candidate.equilibrium.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-303562/Lax303562Proofs.Candidate.le_of_below.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-303562/Lax303562Proofs.Candidate.lt_of_above.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-303562/Lax303562Proofs.Duplication.dup_iff.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-303562/Lax303562Proofs.Duplication.falsePositive_lt.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-303562/Lax303562Proofs.Duplication.opposite_directions.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-303562/Lax303562Proofs.Matching.matches_at_most_one.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-303562/Lax303562Proofs.Matching.threshold_sharp.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-303562/Lax303562Proofs.Matching.ties_at_half.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-303562/Lax303562Proofs.Removal.le_of_above.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-303562/Lax303562Proofs.Removal.lt_of_below.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-303562/Lax303562Proofs.Removal.removal_iff.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-303562/Lax303562Proofs.Removal.removal_inverts_inclusion.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-303562/Lax303562Proofs.WeightedFamily.dup_iff.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-303562/Lax303562Proofs.WeightedFamily.falsePositive_eq_of_zero_weight.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-303562/Lax303562Proofs.WeightedFamily.falsePositive_lt.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-303562/Lax303562Proofs.WeightedFamily.no_weights_remove_incentive.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-303562/Lax303562Proofs.WeightedFamily.opposite_directions.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-303562/Lax303562Proofs.WeightedFamily.pq_eq_wm_half.html</loc></url>
   <url><loc>https://laxarchive.org/lax-314295/</loc></url>
   <url><loc>https://laxarchive.org/lax-314295/Lax314295.AperiodicBimachineOfFORelabelling.html</loc></url>
   <url><loc>https://laxarchive.org/lax-314295/Lax314295.AperiodicOfFO.html</loc></url>

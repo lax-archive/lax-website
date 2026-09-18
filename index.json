@@ -2364,6 +2364,73 @@
       ]
     },
     {
+      "id": "lax-303562",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Panoptic Quality: exact rules for inclusion, removal and duplication, the sharpness of the matching threshold, and the annotator ceiling",
+      "concepts": [
+        {
+          "id": "Lax303562.AnnotatorCeiling",
+          "title": "The ceiling imposed by two disagreeing annotators",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax303562.Candidate",
+          "title": "The inclusion rule for a candidate prediction",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax303562.Duplication",
+          "title": "Duplicating a matched prediction under all-pairs accumulation",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax303562.Matching",
+          "title": "Matching by intersection over union and the sharpness of the threshold ½",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax303562.PanopticQuality",
+          "title": "Panoptic Quality as a function of its four counts",
+          "type": "definition"
+        },
+        {
+          "id": "Lax303562.Removal",
+          "title": "The removal rule for a prediction already in the list",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax303562.WeightedFamily",
+          "title": "The duplication incentive survives every choice of error weights",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax303562Proofs.AnnotatorCeiling.ceiling_two_annotators",
+        "Lax303562Proofs.AnnotatorCeiling.pq_lt_one_of_disagreement",
+        "Lax303562Proofs.Candidate.candidate_iff",
+        "Lax303562Proofs.Candidate.equilibrium",
+        "Lax303562Proofs.Candidate.le_of_below",
+        "Lax303562Proofs.Candidate.lt_of_above",
+        "Lax303562Proofs.Duplication.dup_iff",
+        "Lax303562Proofs.Duplication.falsePositive_lt",
+        "Lax303562Proofs.Duplication.opposite_directions",
+        "Lax303562Proofs.Matching.matches_at_most_one",
+        "Lax303562Proofs.Matching.threshold_sharp",
+        "Lax303562Proofs.Matching.ties_at_half",
+        "Lax303562Proofs.Removal.le_of_above",
+        "Lax303562Proofs.Removal.lt_of_below",
+        "Lax303562Proofs.Removal.removal_iff",
+        "Lax303562Proofs.Removal.removal_inverts_inclusion",
+        "Lax303562Proofs.WeightedFamily.dup_iff",
+        "Lax303562Proofs.WeightedFamily.falsePositive_eq_of_zero_weight",
+        "Lax303562Proofs.WeightedFamily.falsePositive_lt",
+        "Lax303562Proofs.WeightedFamily.no_weights_remove_incentive",
+        "Lax303562Proofs.WeightedFamily.opposite_directions",
+        "Lax303562Proofs.WeightedFamily.pq_eq_wm_half"
+      ]
+    },
+    {
       "id": "lax-314295",
       "state": "registered",
       "environment": "v4.33.0",
