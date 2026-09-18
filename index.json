@@ -2646,6 +2646,24 @@
       ]
     },
     {
+      "id": "lax-426240",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "The determinant of the least-common-multiple matrix",
+      "concepts": [
+        {
+          "id": "Lax426240.LcmDeterminant",
+          "title": "The determinant of the least-common-multiple matrix",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax426240Proofs.LcmDeterminant.det_lcmMatrix",
+        "Lax426240Proofs.LcmDeterminant.det_lcmMatrix_closed",
+        "Lax426240Proofs.LcmDeterminant.g_eq"
+      ]
+    },
+    {
       "id": "lax-429075",
       "state": "registered",
       "environment": "v4.33.0",
