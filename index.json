@@ -2365,7 +2365,7 @@
     },
     {
       "id": "lax-303562",
-      "state": "draft",
+      "state": "registered",
       "environment": "v4.33.0",
       "title": "Panoptic Quality: exact rules for inclusion, removal and duplication, the sharpness of the matching threshold, and the annotator ceiling",
       "concepts": [
