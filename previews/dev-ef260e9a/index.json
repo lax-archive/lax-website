@@ -2163,6 +2163,46 @@
       ]
     },
     {
+      "id": "lax-218471",
+      "state": "registered",
+      "environment": "v4.33.0",
+      "title": "Compositional polynomial-time computation with black-box subroutines",
+      "concepts": [
+        {
+          "id": "Lax218471.Combinators",
+          "title": "Composition of polynomial-time algorithms",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax218471.PolynomialTime",
+          "title": "Polynomial-time implementations of encoded functions and contracts",
+          "type": "definition"
+        },
+        {
+          "id": "Lax218471.Programs",
+          "title": "Structured stack programs with black-box calls",
+          "type": "definition"
+        },
+        {
+          "id": "Lax218471.Subroutine",
+          "title": "Finite stack subroutines and their interfaces",
+          "type": "definition"
+        },
+        {
+          "id": "Lax218471.Substitution",
+          "title": "Polynomial-time substitution of black-box subroutines",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax218471Proofs.Combinators.comp",
+        "Lax218471Proofs.Combinators.graph_realizable",
+        "Lax218471Proofs.Combinators.output_size",
+        "Lax218471Proofs.Substitution.compile",
+        "Lax218471Proofs.Substitution.polytime"
+      ]
+    },
+    {
       "id": "lax-228581",
       "state": "registered",
       "environment": "v4.33.0",
@@ -2361,6 +2401,73 @@
       "proofs": [
         "Lax296731Proofs.moser_tardos",
         "Lax296731Proofs.theorem_2_2"
+      ]
+    },
+    {
+      "id": "lax-303562",
+      "state": "registered",
+      "environment": "v4.33.0",
+      "title": "Panoptic Quality: exact rules for inclusion, removal and duplication, the sharpness of the matching threshold, and the annotator ceiling",
+      "concepts": [
+        {
+          "id": "Lax303562.AnnotatorCeiling",
+          "title": "The ceiling imposed by two disagreeing annotators",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax303562.Candidate",
+          "title": "The inclusion rule for a candidate prediction",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax303562.Duplication",
+          "title": "Duplicating a matched prediction under all-pairs accumulation",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax303562.Matching",
+          "title": "Matching by intersection over union and the sharpness of the threshold ½",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax303562.PanopticQuality",
+          "title": "Panoptic Quality as a function of its four counts",
+          "type": "definition"
+        },
+        {
+          "id": "Lax303562.Removal",
+          "title": "The removal rule for a prediction already in the list",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax303562.WeightedFamily",
+          "title": "The duplication incentive survives every choice of error weights",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax303562Proofs.AnnotatorCeiling.ceiling_two_annotators",
+        "Lax303562Proofs.AnnotatorCeiling.pq_lt_one_of_disagreement",
+        "Lax303562Proofs.Candidate.candidate_iff",
+        "Lax303562Proofs.Candidate.equilibrium",
+        "Lax303562Proofs.Candidate.le_of_below",
+        "Lax303562Proofs.Candidate.lt_of_above",
+        "Lax303562Proofs.Duplication.dup_iff",
+        "Lax303562Proofs.Duplication.falsePositive_lt",
+        "Lax303562Proofs.Duplication.opposite_directions",
+        "Lax303562Proofs.Matching.matches_at_most_one",
+        "Lax303562Proofs.Matching.threshold_sharp",
+        "Lax303562Proofs.Matching.ties_at_half",
+        "Lax303562Proofs.Removal.le_of_above",
+        "Lax303562Proofs.Removal.lt_of_below",
+        "Lax303562Proofs.Removal.removal_iff",
+        "Lax303562Proofs.Removal.removal_inverts_inclusion",
+        "Lax303562Proofs.WeightedFamily.dup_iff",
+        "Lax303562Proofs.WeightedFamily.falsePositive_eq_of_zero_weight",
+        "Lax303562Proofs.WeightedFamily.falsePositive_lt",
+        "Lax303562Proofs.WeightedFamily.no_weights_remove_incentive",
+        "Lax303562Proofs.WeightedFamily.opposite_directions",
+        "Lax303562Proofs.WeightedFamily.pq_eq_wm_half"
       ]
     },
     {
@@ -2576,6 +2683,24 @@
         "Lax345067Proofs.MulticolorRamsey.exists_monochromatic_set",
         "Lax345067Proofs.Ramsey.exists_clique_or_indepSet",
         "Lax345067Proofs.TupleRamsey.exists_orderType_homogeneous"
+      ]
+    },
+    {
+      "id": "lax-426240",
+      "state": "registered",
+      "environment": "v4.33.0",
+      "title": "The determinant of the least-common-multiple matrix",
+      "concepts": [
+        {
+          "id": "Lax426240.LcmDeterminant",
+          "title": "The determinant of the least-common-multiple matrix",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax426240Proofs.LcmDeterminant.det_lcmMatrix",
+        "Lax426240Proofs.LcmDeterminant.det_lcmMatrix_closed",
+        "Lax426240Proofs.LcmDeterminant.g_eq"
       ]
     },
     {
@@ -3267,6 +3392,34 @@
         "Lax710763Proofs.AdlerAdler.monadicallyDependent_of_nowhereDense",
         "Lax710763Proofs.Corollary6a.nowhereDense_of_weaklySparse_of_monadicallyDependent",
         "Lax710763Proofs.Theorem2.hasAlmostLinearNC_of_monadicallyDependent"
+      ]
+    },
+    {
+      "id": "lax-712553",
+      "state": "registered",
+      "environment": "v4.33.0",
+      "title": "Congruent number curves: the quadratic twist formula for a_p and the parity of Tunnell's representation counts",
+      "concepts": [
+        {
+          "id": "Lax712553.Involution",
+          "title": "A finite set with a fixed-point-free involution has even cardinality",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax712553.QuadraticTwist",
+          "title": "The congruent number curves are quadratic twists of y² = x³ − x",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax712553.TunnellParity",
+          "title": "Tunnell's representation counts are even",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax712553Proofs.Involution.even_card_of_fixedPointFree_involution",
+        "Lax712553Proofs.QuadraticTwist.a_p_twist",
+        "Lax712553Proofs.TunnellParity.even_card_solutions"
       ]
     },
     {
@@ -4005,6 +4158,183 @@
       ]
     },
     {
+      "id": "lax-871432",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Logical Equivalences, Homomorphism Indistinguishability, and Forbidden Minors",
+      "concepts": [
+        {
+          "id": "Lax871432.CategoricalProductCounts",
+          "title": "Homomorphism counts into a categorical product",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax871432.ClosureProperties",
+          "title": "Closure properties of graph classes",
+          "type": "definition"
+        },
+        {
+          "id": "Lax871432.ComplementCounts",
+          "title": "Homomorphism counts into a complement",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax871432.ConnectedPartitions",
+          "title": "Partitions into connected parts",
+          "type": "definition"
+        },
+        {
+          "id": "Lax871432.Contractions",
+          "title": "Contracting edges",
+          "type": "definition"
+        },
+        {
+          "id": "Lax871432.CoproductCounts",
+          "title": "Homomorphism counts from a disjoint union",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax871432.DisjointUnionCounts",
+          "title": "Homomorphism counts into a disjoint union",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax871432.DistinguishingClosure",
+          "title": "The homomorphism distinguishing closure",
+          "type": "definition"
+        },
+        {
+          "id": "Lax871432.DistinguishingClosureOperator",
+          "title": "The homomorphism distinguishing closure is a closure operator",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax871432.EdgeContractions",
+          "title": "Contracting edges and right lexicographic products",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax871432.FullComplementCounts",
+          "title": "Homomorphism counts into a full complement",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax871432.GraphClasses",
+          "title": "Graph classes",
+          "type": "definition"
+        },
+        {
+          "id": "Lax871432.GraphFamilies",
+          "title": "Graph families",
+          "type": "definition"
+        },
+        {
+          "id": "Lax871432.GraphProducts",
+          "title": "Products of graphs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax871432.HomomorphismCounts",
+          "title": "Homomorphism counts",
+          "type": "definition"
+        },
+        {
+          "id": "Lax871432.HomomorphismIndistinguishability",
+          "title": "Homomorphism indistinguishability",
+          "type": "definition"
+        },
+        {
+          "id": "Lax871432.InducedSubgraphs",
+          "title": "Taking induced subgraphs and left lexicographic products",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax871432.IntersectionsUnions",
+          "title": "The closure of intersections and unions",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax871432.IsomorphismRelaxations",
+          "title": "Graph isomorphism relaxations",
+          "type": "definition"
+        },
+        {
+          "id": "Lax871432.LexicographicProductCounts",
+          "title": "Homomorphism counts into a lexicographic product",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax871432.LinearCombinationLemma",
+          "title": "A determined linear combination determines its constituents",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax871432.LoopedGraphCounts",
+          "title": "Homomorphism counts into a looped graph",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax871432.LoopGraphs",
+          "title": "Graphs with loops",
+          "type": "definition"
+        },
+        {
+          "id": "Lax871432.LovaszTheorem",
+          "title": "Lovász's theorem",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax871432.MinorsComplements",
+          "title": "Taking minors and preservation under complements",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax871432.PreservationProperties",
+          "title": "Preservation properties of a graph isomorphism relaxation",
+          "type": "definition"
+        },
+        {
+          "id": "Lax871432.ProductPreservation",
+          "title": "Homomorphism indistinguishability is preserved under categorical products",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax871432.RobersonConjecture",
+          "title": "Roberson's conjecture",
+          "type": "conjecture"
+        },
+        {
+          "id": "Lax871432.TakingSummands",
+          "title": "Taking summands and preservation under disjoint unions",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax871432Proofs.cl_iInf_le_iInf_cl",
+        "Lax871432Proofs.determines_of_determines_sum",
+        "Lax871432Proofs.homCount_catProd_right",
+        "Lax871432Proofs.homCount_compl",
+        "Lax871432Proofs.homCount_fullCompl",
+        "Lax871432Proofs.homCount_lexProd",
+        "Lax871432Proofs.homCount_looped",
+        "Lax871432Proofs.homCount_sum_left",
+        "Lax871432Proofs.homCount_sum_right",
+        "Lax871432Proofs.homMatrix_isUnit",
+        "Lax871432Proofs.isClosureOperator",
+        "Lax871432Proofs.iSup_cl_le_cl_iSup",
+        "Lax871432Proofs.lovasz",
+        "Lax871432Proofs.preservedUnderCatProd",
+        "Lax871432Proofs.preservedUnderCompl_iff_cl_isMinorClosed",
+        "Lax871432Proofs.preservedUnderCompl_of_isMinorClosed",
+        "Lax871432Proofs.preservedUnderDisjointUnion_iff_cl_isSummandClosed",
+        "Lax871432Proofs.preservedUnderDisjointUnion_of_isSummandClosed",
+        "Lax871432Proofs.preservedUnderLeftLexProd_iff_cl_isInducedSubgraphClosed",
+        "Lax871432Proofs.preservedUnderLeftLexProd_of_isInducedSubgraphClosed",
+        "Lax871432Proofs.preservedUnderRightLexProd_iff_cl_isContractionClosed",
+        "Lax871432Proofs.preservedUnderRightLexProd_of_isContractionClosed"
+      ]
+    },
+    {
       "id": "lax-881656",
       "state": "registered",
       "environment": "v4.33.0",
@@ -4037,6 +4367,55 @@
         }
       ],
       "proofs": []
+    },
+    {
+      "id": "lax-894236",
+      "state": "registered",
+      "environment": "v4.33.0",
+      "title": "Smooth hypersurfaces: the Euler characteristic as a binomial tail, its parity, the Kodaira trichotomy, and the Noether–Lefschetz window as the sequence A005581",
+      "concepts": [
+        {
+          "id": "Lax894236.EulerCharacteristic",
+          "title": "The Euler characteristic of a smooth hypersurface as a binomial tail",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax894236.GeometricGenus",
+          "title": "The Kodaira trichotomy of a hypersurface as a statement about binomial coefficients",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax894236.LinearSubspaceClass",
+          "title": "The arithmetic obstruction to a linear subspace class being a multiple of the hyperplane power",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax894236.NoetherLefschetzWindow",
+          "title": "The Noether–Lefschetz window of a surface in ℙ³ and the sequence A005581",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax894236.Parity",
+          "title": "Parity of the Euler characteristic in odd dimension, and integrality for surfaces",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax894236Proofs.EulerCharacteristic.chiPoly_eq_binomial_tail",
+        "Lax894236Proofs.GeometricGenus.genus_degree",
+        "Lax894236Proofs.GeometricGenus.pg_eq_one_iff",
+        "Lax894236Proofs.GeometricGenus.pg_eq_zero_iff",
+        "Lax894236Proofs.GeometricGenus.two_le_pg",
+        "Lax894236Proofs.LinearSubspaceClass.no_rational_multiple",
+        "Lax894236Proofs.NoetherLefschetzWindow.bound_eq_pg_iff",
+        "Lax894236Proofs.NoetherLefschetzWindow.bound_le_pg",
+        "Lax894236Proofs.NoetherLefschetzWindow.bound_lt_pg",
+        "Lax894236Proofs.NoetherLefschetzWindow.window_eq_A005581",
+        "Lax894236Proofs.Parity.betti_relation",
+        "Lax894236Proofs.Parity.three_dvd_h11Num",
+        "Lax894236Proofs.Parity.two_dvd_b3",
+        "Lax894236Proofs.Parity.two_dvd_chiBinom_of_odd"
+      ]
     },
     {
       "id": "lax-916827",
