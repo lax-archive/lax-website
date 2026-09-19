@@ -2163,6 +2163,46 @@
       ]
     },
     {
+      "id": "lax-218471",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Compositional polynomial-time computation with black-box subroutines",
+      "concepts": [
+        {
+          "id": "Lax218471.Combinators",
+          "title": "Composition of polynomial-time algorithms",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax218471.PolynomialTime",
+          "title": "Polynomial-time implementations of encoded functions and contracts",
+          "type": "definition"
+        },
+        {
+          "id": "Lax218471.Programs",
+          "title": "Structured stack programs with black-box calls",
+          "type": "definition"
+        },
+        {
+          "id": "Lax218471.Subroutine",
+          "title": "Finite stack subroutines and their interfaces",
+          "type": "definition"
+        },
+        {
+          "id": "Lax218471.Substitution",
+          "title": "Polynomial-time substitution of black-box subroutines",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax218471Proofs.Combinators.comp",
+        "Lax218471Proofs.Combinators.graph_realizable",
+        "Lax218471Proofs.Combinators.output_size",
+        "Lax218471Proofs.Substitution.compile",
+        "Lax218471Proofs.Substitution.polytime"
+      ]
+    },
+    {
       "id": "lax-228581",
       "state": "registered",
       "environment": "v4.33.0",
