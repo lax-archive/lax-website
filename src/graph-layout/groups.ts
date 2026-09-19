@@ -6,6 +6,7 @@ import { condensation, indexedGraph } from "./components.js";
 import { pathData, polylineCommands, quantizeGeometry, simplifyCollinear } from "./geometry.js";
 import { compareText, normalizeGraph } from "./normalize.js";
 import { belowBodyEscape, placePorts, portOffsets } from "./ports.js";
+import { chainInteriorFor } from "./chain-groups.js";
 import { siblingInteriorFor, type Gate, type Interior } from "./sibling-groups.js";
 import { DEFAULT_PROFILE, ENGINE_VERSION, GEOMETRY_SCHEMA_VERSION, GraphDiagnosticError,
   type GraphGeometry, type LayoutProfile, type MeasuredGraph, type MeasuredNode,
@@ -122,16 +123,21 @@ export function layoutGroups(graph: MeasuredGraph, layoutDag: (outer: MeasuredGr
   });
   const groupOfPort = (portId: string) => groupIds.get(condensed.componentOf[nodeIndex.get(sourcePorts.get(portId)!.nodeId)!]!);
   let lastError: GraphDiagnosticError | undefined;
-  // The local sibling-proof drawing is tried first; the generic envelope
-  // schedule follows for every group it does not fit.
-  for (const { sibling, scale } of [{ sibling: true, scale: 1 }, { sibling: false, scale: 1 }, { sibling: false, scale: 2 }, { sibling: false, scale: 3 }]) {
+  // The local drawings (sibling proofs inside one concept, then the chain
+  // with a minimal feedback set) are tried first; the generic envelope
+  // schedule follows for every group they do not fit.
+  for (const { local, scale } of [{ local: true, scale: 1 }, { local: false, scale: 1 }, { local: false, scale: 2 }, { local: false, scale: 3 }]) {
     try {
       const occupiedPorts = new Set(sourcePorts.keys()), interiors = new Map<string, Interior>();
+      let localCount = 0;
       condensed.components.forEach((members, component) => {
         const id = groupIds.get(component);
-        if (id) interiors.set(id, (sibling ? siblingInteriorFor(graph, members, id, profile, scale, occupiedPorts) : undefined) ?? interiorFor(graph, members, id, profile, scale, occupiedPorts));
+        if (!id) return;
+        const interior = local ? siblingInteriorFor(graph, members, id, profile, scale, occupiedPorts) ?? chainInteriorFor(graph, members, id, profile, scale, occupiedPorts) : undefined;
+        if (interior) localCount++;
+        interiors.set(id, interior ?? interiorFor(graph, members, id, profile, scale, occupiedPorts));
       });
-      if (sibling && ![...interiors.values()].some((interior) => interior.kind === "sibling-proofs")) continue;
+      if (local && !localCount) continue;
       const gates = new Map<string, Gate>(), outerPortIds = new Map<string, string>();
       for (const interior of interiors.values()) for (const gate of interior.gates) {
         gates.set(JSON.stringify([interior.id, gate.edgeId]), gate);

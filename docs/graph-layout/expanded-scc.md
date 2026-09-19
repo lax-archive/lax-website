@@ -62,8 +62,27 @@ falls back to the generic interior below. A crossing between a sibling rail
 and an external conclusion arriving at an intermediate dock is topologically
 forced and retained.
 
-The full graph is rebuilt at envelope scales 1, 2 and 3 if validation fails.
-This is a fixed operation schedule. Members are never moved after routes have
+## Chains with a minimal feedback set
+
+Any other display SCC whose attachments are all north (outgoing) or south
+(incoming) is tried next as a chain, in `chain-groups.ts`. A small feedback
+set is cut, one edge per simple cycle, preferring an assumption edge (one that
+leaves a non-proof) so that every conclusion still rises into the statement it
+proves; the members are ranked by longest upward path over the remaining
+edges and placed in rows, centred in one column. A run between adjacent rows
+is drawn directly, with a jog in its own lane when the two attachments do not
+align. Every other run leaves through a reserved column: the cut edges loop
+down the left side, longer upward runs and the routes of external incidences
+that do not sit on the top or bottom row use the right side. Lanes and columns
+belong to exactly one route, so the only contacts are crossings. The group
+keeps `kind: "cycle"` and its envelope; what changes is that a simple cycle
+shows one loop instead of one per member. East/west attachments, or a member
+whose internal edges do not all leave a north side for a south side, return
+undefined and keep the generic interior below.
+
+The local drawings are one attempt: if the outer layout or the validator
+rejects the graph with them, the full graph is rebuilt with the generic
+interior at envelope scales 1, 2 and 3. This is a fixed operation schedule. Members are never moved after routes have
 been selected, and failed attempts never publish a collapsed or partial
 replacement. Persistent failures produce `scc-layout-invalid` with the final
 independent diagnostics. Every returned candidate has been quantized,
