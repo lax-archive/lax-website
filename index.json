@@ -2686,6 +2686,80 @@
       ]
     },
     {
+      "id": "lax-391470",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Scheduling with two non-unit job lengths is NP-complete",
+      "concepts": [
+        {
+          "id": "Lax391470.AuxiliaryProblem",
+          "title": "The auxiliary problem AUX(p, q)",
+          "type": "definition"
+        },
+        {
+          "id": "Lax391470.BinaryEncoding",
+          "title": "Binary encodings and the two languages",
+          "type": "definition"
+        },
+        {
+          "id": "Lax391470.IntegralStartTimes",
+          "title": "Integral start times suffice",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax391470.Lemma1",
+          "title": "The auxiliary problem reduces to scheduling on two job lengths",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax391470.Lemma2",
+          "title": "The auxiliary problem is NP-complete",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax391470.SatConstruction",
+          "title": "The instance of AUX(p, q) built from a formula",
+          "type": "definition"
+        },
+        {
+          "id": "Lax391470.Scheduling",
+          "title": "Single machine scheduling with release times and deadlines",
+          "type": "definition"
+        },
+        {
+          "id": "Lax391470.StackedConstruction",
+          "title": "The stacked scheduling instance",
+          "type": "definition"
+        },
+        {
+          "id": "Lax391470.Theorem1",
+          "title": "Scheduling with two non-unit job lengths is NP-complete",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax391470Proofs.Hardness.aux_manyOne_twoLengths",
+        "Lax391470Proofs.Hardness.aux_npComplete",
+        "Lax391470Proofs.Hardness.aux_npHard",
+        "Lax391470Proofs.Hardness.twoLengths_npComplete",
+        "Lax391470Proofs.Hardness.twoLengths_npHard",
+        "Lax391470Proofs.IntegralStartTimes.realSchedulable_iff",
+        "Lax391470Proofs.L1Final.reduce_polyTime",
+        "Lax391470Proofs.L2Final.reduce_polyTime",
+        "Lax391470Proofs.Reduce.lemma1_reduce_correct",
+        "Lax391470Proofs.Reduce.lemma2_reduce_correct",
+        "Lax391470Proofs.SatNumbering.ordered",
+        "Lax391470Proofs.SatNumbering.satisfiable_of_solvable",
+        "Lax391470Proofs.SatNumbering.solvable_of_satisfiable",
+        "Lax391470Proofs.SatTimes.times_le",
+        "Lax391470Proofs.StackedNumbering.correct",
+        "Lax391470Proofs.StackedNumbering.lengthsIn",
+        "Lax391470Proofs.StackedNumbering.times_le",
+        "Lax391470Proofs.V1Final.twoLengths_mem_NP",
+        "Lax391470Proofs.V2Final.aux_mem_NP"
+      ]
+    },
+    {
       "id": "lax-426240",
       "state": "registered",
       "environment": "v4.33.0",
