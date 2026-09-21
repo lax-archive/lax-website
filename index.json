@@ -4159,7 +4159,7 @@
     },
     {
       "id": "lax-871432",
-      "state": "draft",
+      "state": "registered",
       "environment": "v4.33.0",
       "title": "Logical Equivalences, Homomorphism Indistinguishability, and Forbidden Minors",
       "concepts": [
