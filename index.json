@@ -2686,6 +2686,30 @@
       ]
     },
     {
+      "id": "lax-345332",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "A Simplified NP-Complete Satisfiability Problem",
+      "concepts": [
+        {
+          "id": "Lax345332.Construction",
+          "title": "The reduction from satisfiability to (3,4)-satisfiability",
+          "type": "definition"
+        },
+        {
+          "id": "Lax345332.ThreeFourSat",
+          "title": "(3,4)-satisfiability is NP-hard",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax345332Proofs.Reduction.npHard",
+        "Lax345332Proofs.Reduction.reduce_correct",
+        "Lax345332Proofs.Transform.transform_isThreeFour",
+        "Lax345332Proofs.Transform.transform_sat"
+      ]
+    },
+    {
       "id": "lax-391470",
       "state": "draft",
       "environment": "v4.33.0",
