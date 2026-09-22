@@ -3026,6 +3026,127 @@
       ]
     },
     {
+      "id": "lax-470956",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Interval Scheduling with Eligible Machine Sets",
+      "concepts": [
+        {
+          "id": "Lax470956.BinaryEncoding",
+          "title": "Binary encoding of a scheduling instance",
+          "type": "definition"
+        },
+        {
+          "id": "Lax470956.Construction1",
+          "title": "Construction 1",
+          "type": "definition"
+        },
+        {
+          "id": "Lax470956.Construction2",
+          "title": "Construction 2",
+          "type": "definition"
+        },
+        {
+          "id": "Lax470956.DynamicProgram",
+          "title": "The dynamic program for interval scheduling, and its state space",
+          "type": "definition"
+        },
+        {
+          "id": "Lax470956.Exact34Encoding",
+          "title": "Word encoding of a (3,4) formula",
+          "type": "definition"
+        },
+        {
+          "id": "Lax470956.InstanceEncoding",
+          "title": "Word encoding of a scheduling instance",
+          "type": "definition"
+        },
+        {
+          "id": "Lax470956.MulticolouredClique",
+          "title": "Multicoloured Clique",
+          "type": "definition"
+        },
+        {
+          "id": "Lax470956.NPHardness",
+          "title": "NP-hardness of a scheduling problem, and on a class of instances",
+          "type": "definition"
+        },
+        {
+          "id": "Lax470956.ParameterizedComplexity",
+          "title": "Parameterized problems and fpt-reductions on a word RAM",
+          "type": "definition"
+        },
+        {
+          "id": "Lax470956.PolynomialReduction",
+          "title": "Polynomial-time many-one reductions on the word RAM",
+          "type": "definition"
+        },
+        {
+          "id": "Lax470956.Preprocessing",
+          "title": "Preprocessing an interval scheduling instance down to a bounded number of live jobs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax470956.SatVariant",
+          "title": "(3,4)-satisfiability",
+          "type": "definition"
+        },
+        {
+          "id": "Lax470956.Scheduling",
+          "title": "Interval scheduling with eligible machine sets",
+          "type": "definition"
+        },
+        {
+          "id": "Lax470956.SchedulingProblems",
+          "title": "The scheduling problems, parameterized",
+          "type": "definition"
+        },
+        {
+          "id": "Lax470956.Theorem1",
+          "title": "Interval scheduling is W[1]-hard for the number of machines",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax470956.Theorem2",
+          "title": "Scheduling every job is hard for constant processing times and unit weights",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax470956.Theorem3",
+          "title": "Interval scheduling is fixed-parameter tractable for the machines and the largest processing time",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax470956Proofs.Checker.reduce_ramPolytime",
+        "Lax470956Proofs.Checker.sat34_polyReducesOn_allSchedulable",
+        "Lax470956Proofs.Construction1Emit.emit_encodes",
+        "Lax470956Proofs.Construction1Index.machines_eq",
+        "Lax470956Proofs.Construction1Main.mcc_fptReduces_byMachines",
+        "Lax470956Proofs.Construction1Reduce.reduce_correct",
+        "Lax470956Proofs.Construction1Reduce.reduce_maps",
+        "Lax470956Proofs.Construction1Reduce.reduce_param",
+        "Lax470956Proofs.Construction1Renum.correct",
+        "Lax470956Proofs.Construction2.correct",
+        "Lax470956Proofs.Construction2.pmax_le",
+        "Lax470956Proofs.Construction2.weights_one",
+        "Lax470956Proofs.DynamicProgram.card_validState_le",
+        "Lax470956Proofs.DynamicProgram.dp_eq_optAt",
+        "Lax470956Proofs.DynamicProgram.solve_eq_optimum",
+        "Lax470956Proofs.Emit.emit_encodes",
+        "Lax470956Proofs.EmitProg.emit_computesInTime",
+        "Lax470956Proofs.Pmax.pmaxOf_computesInTime",
+        "Lax470956Proofs.Preprocessing.card_keep_alive_le",
+        "Lax470956Proofs.Preprocessing.optimumOn_keep",
+        "Lax470956Proofs.Reduce.reduce_correct",
+        "Lax470956Proofs.Reduce.reduce_slice",
+        "Lax470956Proofs.Theorem2.npHard_allSchedulable",
+        "Lax470956Proofs.Theorem2.npHardOn_allSchedulable_pmax_le",
+        "Lax470956Proofs.Theorem3.fptTime_byMachinesAndPmax",
+        "Lax470956Proofs.Theorem3Fpt.fpt_byMachinesAndPmax"
+      ]
+    },
+    {
       "id": "lax-489179",
       "state": "registered",
       "environment": "v4.33.0",

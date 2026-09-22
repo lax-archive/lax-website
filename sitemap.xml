@@ -599,6 +599,50 @@
   <url><loc>https://laxarchive.org/lax-47/Lax47.Machine.html</loc></url>
   <url><loc>https://laxarchive.org/lax-47/Lax47.Theorem12.html</loc></url>
   <url><loc>https://laxarchive.org/lax-47/Lax47Proofs.theorem_1_2.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-470956/</loc></url>
+  <url><loc>https://laxarchive.org/lax-470956/Lax470956.BinaryEncoding.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-470956/Lax470956.Construction1.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-470956/Lax470956.Construction2.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-470956/Lax470956.DynamicProgram.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-470956/Lax470956.Exact34Encoding.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-470956/Lax470956.InstanceEncoding.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-470956/Lax470956.MulticolouredClique.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-470956/Lax470956.NPHardness.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-470956/Lax470956.ParameterizedComplexity.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-470956/Lax470956.PolynomialReduction.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-470956/Lax470956.Preprocessing.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-470956/Lax470956.SatVariant.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-470956/Lax470956.Scheduling.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-470956/Lax470956.SchedulingProblems.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-470956/Lax470956.Theorem1.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-470956/Lax470956.Theorem2.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-470956/Lax470956.Theorem3.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-470956/Lax470956Proofs.Checker.reduce_ramPolytime.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-470956/Lax470956Proofs.Checker.sat34_polyReducesOn_allSchedulable.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-470956/Lax470956Proofs.Construction1Emit.emit_encodes.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-470956/Lax470956Proofs.Construction1Index.machines_eq.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-470956/Lax470956Proofs.Construction1Main.mcc_fptReduces_byMachines.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-470956/Lax470956Proofs.Construction1Reduce.reduce_correct.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-470956/Lax470956Proofs.Construction1Reduce.reduce_maps.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-470956/Lax470956Proofs.Construction1Reduce.reduce_param.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-470956/Lax470956Proofs.Construction1Renum.correct.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-470956/Lax470956Proofs.Construction2.correct.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-470956/Lax470956Proofs.Construction2.pmax_le.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-470956/Lax470956Proofs.Construction2.weights_one.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-470956/Lax470956Proofs.DynamicProgram.card_validState_le.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-470956/Lax470956Proofs.DynamicProgram.dp_eq_optAt.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-470956/Lax470956Proofs.DynamicProgram.solve_eq_optimum.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-470956/Lax470956Proofs.Emit.emit_encodes.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-470956/Lax470956Proofs.EmitProg.emit_computesInTime.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-470956/Lax470956Proofs.Pmax.pmaxOf_computesInTime.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-470956/Lax470956Proofs.Preprocessing.card_keep_alive_le.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-470956/Lax470956Proofs.Preprocessing.optimumOn_keep.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-470956/Lax470956Proofs.Reduce.reduce_correct.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-470956/Lax470956Proofs.Reduce.reduce_slice.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-470956/Lax470956Proofs.Theorem2.npHardOn_allSchedulable_pmax_le.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-470956/Lax470956Proofs.Theorem2.npHard_allSchedulable.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-470956/Lax470956Proofs.Theorem3.fptTime_byMachinesAndPmax.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-470956/Lax470956Proofs.Theorem3Fpt.fpt_byMachinesAndPmax.html</loc></url>
   <url><loc>https://laxarchive.org/lax-48/</loc></url>
   <url><loc>https://laxarchive.org/lax-48/Lax48.ExponentialSeparation.html</loc></url>
   <url><loc>https://laxarchive.org/lax-48/Lax48.Treewidth.html</loc></url>
