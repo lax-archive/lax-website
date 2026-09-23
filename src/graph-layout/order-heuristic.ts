@@ -45,7 +45,7 @@ export function proposePortOrder(graph: ProperGraph, layers: readonly (readonly 
   for (const [nodeIndex, node] of graph.source.nodes.entries()) for (const side of ["north", "south", "east", "west"]) {
     if (affectedNodes && !affectedNodes.has(nodeIndex)) continue;
     const ports = node.ports.filter((port) => port.side === side && port.mode !== "fixed-position");
-    if (!ports.some((port) => port.mode === "free-on-side") || ports.length < 2) continue;
+    if (!ports.some((port) => port.mode === "free-on-side" || port.mode === "free-in-slots") || ports.length < 2) continue;
     const indexes = ports.map((_, i) => i), fixed = indexes.filter((i) => ports[i]!.mode === "fixed-order")
       .sort((a, b) => ports[a]!.order! - ports[b]!.order! || compareText(ports[a]!.id, ports[b]!.id));
     const constraints: OrderConstraint[] = fixed.slice(1).map((v, i) => [fixed[i]!, v]);

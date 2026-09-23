@@ -28,7 +28,14 @@ export function portOffsets(graph: MeasuredGraph, order: PortOrder = {}, separat
     const extent = horizontal(side) ? node.width : node.height;
     const fixed = ports.filter((port) => port.mode === "fixed-position");
     for (const port of fixed) result[port.id] = { ...port.offset! };
-    const movable = ports.filter((port) => port.mode !== "fixed-position");
+    // Keep the measured attachment area, but assign its slots in the order
+    // chosen against opposite incidences instead of freezing identity order.
+    const slotted = ports.filter((port) => port.mode === "free-in-slots");
+    const along = (point: Point) => horizontal(side) ? point.x : point.y;
+    const slots = slotted.map((port) => port.offset!).sort((a, b) => along(a) - along(b));
+    slotted.sort((a, b) => (order[a.id] ?? 0) - (order[b.id] ?? 0) || compareText(a.id, b.id))
+      .forEach((port, index) => { result[port.id] = { ...slots[index]! }; });
+    const movable = ports.filter((port) => port.mode !== "fixed-position" && port.mode !== "free-in-slots");
     if (!movable.length) continue;
     // Stable topological selection lets free-order preferences interleave with
     // an immutable fixed-order subsequence, without conflating their meanings.
@@ -41,7 +48,7 @@ export function portOffsets(graph: MeasuredGraph, order: PortOrder = {}, separat
       sequence.push(eligible[0]!); pending.delete(eligible[0]!);
     }
     const padding = Math.min(endPadding, extent / 2), low = padding, high = extent - padding;
-    const occupied = fixed.map((p) => horizontal(side) ? p.offset!.x : p.offset!.y).sort((a, b) => a - b);
+    const occupied = [...fixed, ...slotted].map((p) => along(p.offset!)).sort((a, b) => a - b);
     // Choose equally separated available slots. Fixed glyphs split a side into
     // intervals; no adjustable attachment is moved onto a numbered dock.
     const intervals: [number, number][] = [];

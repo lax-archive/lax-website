@@ -91,7 +91,9 @@ export function measureDisplayGraph(display: DisplayGraph, labels: ReadonlyMap<s
       const slot = peers.findIndex((p) => p.id === port.id);
       const dx = (slot - (peers.length - 1) / 2) * portSeparation;
       const radius = region.width / 2;
-      return { ...port, mode: "fixed-position", offset: {
+      // Dock identities fix their attachments. Concept-level uses share a
+      // measured slot pool whose edge assignments follow the layout order.
+      return { ...port, mode: !dock && port.side === "north" ? "free-in-slots" : "fixed-position", offset: {
         x: ceil(region.x + radius + dx),
         y: ceil(dock ? region.y + radius + (port.side === "north" ? -1 : 1) * Math.sqrt(radius * radius - dx * dx)
           : port.side === "north" ? region.y : region.y + region.height),

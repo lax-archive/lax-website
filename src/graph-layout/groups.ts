@@ -116,6 +116,7 @@ export function layoutGroups(graph: MeasuredGraph, layoutDag: (outer: MeasuredGr
   const cyclic = condensed.components.map((members, component) => members.length > 1 || condensed.internalEdges[component]!.length > 0);
   if (!cyclic.some(Boolean)) return finalGeometry(graph, { ...layoutDag(graph), inputDigest });
   const sourcePorts = new Map(graph.nodes.flatMap((node) => node.ports.map((port) => [port.id, port] as const)));
+  const sourceEdges = new Map(graph.edges.map((edge) => [edge.id, edge]));
   const nodeIndex = new Map(graph.nodes.map((node, i) => [node.id, i]));
   const groupIds = new Map<number, string>(), occupiedNodes = new Set(graph.nodes.map((n) => n.id));
   condensed.components.forEach((members, component) => {
@@ -154,18 +155,32 @@ export function layoutGroups(graph: MeasuredGraph, layoutDag: (outer: MeasuredGr
       const outerGeometry = finalGeometry(outer, layoutDag(outer));
       if (outerGeometry.groups?.length) throw new GraphDiagnosticError([{ code: "nested-scc-layout", message: "The condensation layout unexpectedly returned compound groups" }]);
       const outerNodes = new Map(outerGeometry.nodes.map((node) => [node.id, node]));
+      const outerPorts = new Map(outerGeometry.ports.map((port) => [port.id, port]));
       const placedGroups: PlacedGroup[] = [], nodes: PlacedNode[] = outerGeometry.nodes.filter((n) => !interiors.has(n.id));
       const ports: PlacedPort[] = outerGeometry.ports.filter((p) => !interiors.has(p.nodeId));
       const interiorSections = new Map<string, Map<string, RouteSection>>();
       for (const interior of interiors.values()) {
         const position = outerNodes.get(interior.id)!;
+        // The condensation orders the concept's outgoing slots against its
+        // actual neighbors. Carry that same permutation through the straight
+        // adapters to the concept boundary; never leave the inner stems in
+        // their initial identity order while reordering only the outer gates.
+        const sourceX = new Map<string, number>(), gateX = new Map<string, number>();
+        if (interior.kind === "sibling-proofs") for (const gate of interior.gates) {
+          const source = sourcePorts.get(sourceEdges.get(gate.edgeId)!.sourcePortId)!;
+          if (gate.side !== "north" || source.mode !== "free-in-slots") continue;
+          const outerId = outerPortIds.get(JSON.stringify([interior.id, gate.edgeId]))!;
+          const x = outerPorts.get(outerId)!.x - position.x;
+          sourceX.set(source.id, x); gateX.set(gate.edgeId, x);
+        }
         placedGroups.push({ id: interior.id, kind: interior.kind, x: position.x, y: position.y, width: interior.width, height: interior.height,
           memberIds: interior.members.map((i) => graph.nodes[i]!.id), labelBoxes: [],
-          gates: interior.gates.map((gate) => ({ ...gate, point: move(gate.point, position) })) });
+          gates: interior.gates.map((gate) => ({ ...gate, point: move({ x: gateX.get(gate.edgeId) ?? gate.point.x, y: gate.point.y }, position) })) });
         nodes.push(...interior.nodes.map((node) => ({ ...node, ...move(node, position), ...(position.rank === undefined ? {} : { rank: position.rank }) })));
-        ports.push(...interior.ports.map((port) => ({ ...port, ...move(port, position) })));
+        ports.push(...interior.ports.map((port) => ({ ...port, ...move({ x: sourceX.get(port.id) ?? port.x, y: port.y }, position) })));
         const sections = new Map<string, RouteSection>();
-        for (const [edgeId, route] of interior.routes) sections.set(edgeId, { id: "pending", role: route.role, points: route.points.map((p) => move(p, position)), nextSectionIds: [] });
+        for (const [edgeId, route] of interior.routes) sections.set(edgeId, { id: "pending", role: route.role,
+          points: route.points.map((p) => move({ x: gateX.get(edgeId) ?? p.x, y: p.y }, position)), nextSectionIds: [] });
         interiorSections.set(interior.id, sections);
       }
       const outerEdges = new Map(outerGeometry.edges.map((edge) => [edge.id, edge]));

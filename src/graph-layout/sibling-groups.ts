@@ -52,7 +52,8 @@ export function siblingInteriorFor(graph: MeasuredGraph, members: readonly numbe
   const body = concept.footprints?.find((f) => f.kind === "body")?.bounds;
   const docks = (concept.footprints ?? []).filter((f) => f.kind === "dock" && f.semanticEndpointId);
   if (!body || !docks.length) return undefined;
-  if (concept.ports.some((p) => p.mode !== "fixed-position" || !p.offset)) return undefined;
+  if (concept.ports.some((p) => !p.offset || (p.mode !== "fixed-position" &&
+    !(p.mode === "free-in-slots" && p.side === "north" && p.offset.y === 0)))) return undefined;
   if (concept.ports.some((p) => p.side === "north" && p.offset!.y > body.y + body.height)) return undefined;
   const specById = new Map(graph.nodes.flatMap((node) => node.ports.map((port) => [port.id, port] as const)));
   const dockOf = (spec: PortSpec) => spec.nodeId === concept.id ? docks.find((d) => d.semanticEndpointId === spec.semanticEndpointId) : undefined;
@@ -150,7 +151,8 @@ export function siblingInteriorFor(graph: MeasuredGraph, members: readonly numbe
     const key = `${external.inside.id}\0${external.side}`, outerId = sharedOuter.get(key) ?? gateId;
     if (!sharedOuter.has(key)) {
       sharedOuter.set(key, outerId);
-      outerPorts.push({ id: outerId, nodeId: id, semanticEndpointId: external.inside.semanticEndpointId, side: external.side, mode: "fixed-position", offset: point });
+      outerPorts.push({ id: outerId, nodeId: id, semanticEndpointId: external.inside.semanticEndpointId, side: external.side,
+        mode: external.side === "north" && external.inside.mode === "free-in-slots" ? "free-in-slots" : "fixed-position", offset: point });
     }
     outerPortIds.set(external.edge.id, outerId);
     routes.set(external.edge.id, { role: "group-adapter", points: external.side === "north" ? [{ x: port.x, y: port.y }, point] : [point, { x: port.x, y: port.y }] });

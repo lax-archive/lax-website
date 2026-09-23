@@ -306,6 +306,9 @@ function validateSurface(graph: MeasuredGraph, geometry: GraphGeometry, surface:
       } else {
         const side = spec.side === "north" ? port.y - position.y : spec.side === "south" ? port.y - position.y - position.height : spec.side === "west" ? port.x - position.x : port.x - position.x - position.width;
         if (Math.abs(side) > 0.002 || !inRect(port, position, 0.002)) fail("port-side", "Attachment does not lie on its declared side", spec.id);
+        if (spec.mode === "free-in-slots" && !node.ports.some((slot) => slot.mode === "free-in-slots" && slot.side === spec.side && slot.offset &&
+          equal(port, { x: position.x + slot.offset.x, y: position.y + slot.offset.y }, 0.002)))
+          fail("port-slot", "Attachment left its measured slot pool", spec.id);
       }
     }
     for (const side of ["north", "south", "east", "west"]) {

@@ -45,7 +45,7 @@ describe("semantic display projection", () => {
       .toEqual(["e:p1:assumption:c:0:source", "e:p2:assumption:c:0:source"]);
     expect(projected.mapping.find((entry) => entry.semanticId === "p1:assumption:c.s2")?.edgeIds)
       .toEqual(["e:p1:assumption:c:0"]);
-    expect(docks.every((p) => p.mode === "fixed-position")).toBe(true);
+    expect(docks.every((p) => p.mode === "free-in-slots")).toBe(true);
     expect(new Set(docks.map((p) => p.offset!.x)).size).toBe(2);
     const { geometry } = layoutGraph(measured.graph, { inputDigest: "distinct-concept-outputs" });
     expect(validateGeometry(measured.graph, geometry)).toMatchObject({ valid: true });
