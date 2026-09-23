@@ -2710,6 +2710,32 @@
       ]
     },
     {
+      "id": "lax-379983",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Feedback vertex and edge numbers",
+      "concepts": [
+        {
+          "id": "Lax379983.FeedbackEdgeNumber",
+          "title": "Feedback edge number",
+          "type": "definition"
+        },
+        {
+          "id": "Lax379983.FeedbackNumberComparison",
+          "title": "Feedback vertex number is at most feedback edge number",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax379983.FeedbackVertexNumber",
+          "title": "Feedback vertex number",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax379983Proofs.feedbackVertexNumber_le_feedbackEdgeNumber"
+      ]
+    },
+    {
       "id": "lax-391470",
       "state": "draft",
       "environment": "v4.33.0",
