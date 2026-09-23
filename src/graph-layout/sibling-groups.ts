@@ -98,7 +98,8 @@ export function siblingInteriorFor(graph: MeasuredGraph, members: readonly numbe
     const forbidden = blocked.map((b) => ({ lo: b.lo - w, hi: b.hi }));
     let x: number;
     try { x = nearestFree(cx - w / 2, forbidden, { lo: cx - (w - 4), hi: cx - 4 }); } catch { return undefined; }
-    const portX = Math.min(Math.max(cx - x, 4), w - 4);
+    const portX = conclusion.source.mode === "fixed-position" ? conclusion.source.offset!.x
+      : Math.min(Math.max(cx - x, 4), w - 4);
     placedProofs.set(proof.id, { x, y: rowY, width: w, height: h, portX });
     offsets[conclusion.source.id] = { x: portX, y: 0 };
     blocked.push({ lo: x - margin, hi: x + w + margin });

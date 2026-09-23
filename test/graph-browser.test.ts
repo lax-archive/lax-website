@@ -330,7 +330,7 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       expect(await page.locator("#proof-network .net-proof").count()).toBe(9);
       expect(await page.locator("#proof-network .net-dock").count()).toBe(2);
       expect(await page.locator("#proof-network [data-edge-id]").evaluateAll((edges) => new Set(edges.map((e) => e.getAttribute("data-edge-id"))).size)).toBe(21);
-      const sharedOutput = await page.locator("#proof-network").evaluate((container) => {
+      const conceptOutputs = await page.locator("#proof-network").evaluate((container) => {
         const data = JSON.parse(document.querySelector("#graph-data")!.textContent!).prepared["proof-network"].views.default.interaction;
         const assumptions = Object.entries(data.edges).filter(([, edge]: [string, any]) =>
           edge.kind === "assumption" && edge.sourceSemanticId === "Lax701.Base");
@@ -340,11 +340,11 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
           dockAssumptions: ["dock:Lax701.Base.s1", "dock:Lax701.Base.s2"].map((id) =>
             data.nodes[id].incident.filter((edgeId: string) => data.edges[edgeId]?.kind === "assumption")) };
       });
-      expect(sharedOutput.count).toBe(5);
-      expect(new Set(sharedOutput.starts).size).toBe(1);
-      expect(sharedOutput.semanticIds).toContain("Lax702Proofs.Premise1:assumption:Lax701.Base.s1");
-      expect(sharedOutput.semanticIds).toContain("Lax702Proofs.Premise2:assumption:Lax701.Base.s2");
-      expect(sharedOutput.dockAssumptions).toEqual([[], []]);
+      expect(conceptOutputs.count).toBe(5);
+      expect(new Set(conceptOutputs.starts).size).toBe(5);
+      expect(conceptOutputs.semanticIds).toContain("Lax702Proofs.Premise1:assumption:Lax701.Base.s1");
+      expect(conceptOutputs.semanticIds).toContain("Lax702Proofs.Premise2:assumption:Lax701.Base.s2");
+      expect(conceptOutputs.dockAssumptions).toEqual([[], []]);
       expect(await page.locator(".proof-network-figure [data-graph-expand]").isVisible()).toBe(false);
       await capture(page, "no-javascript", ".proof-network-figure");
       const href = await page.locator('#proof-network [data-node-id="dock:Lax701.Base.s2"]').getAttribute("href");

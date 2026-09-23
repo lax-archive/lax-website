@@ -78,6 +78,10 @@ export function measureDisplayGraph(display: DisplayGraph, labels: ReadonlyMap<s
       : { x: escapeWidth, y: 0, width: contentWidth, height: bodyHeight };
     const ports = node.ports.map((port): PortSpec => {
       const dock = dockBoxes.find((d) => d.statementId === port.semanticEndpointId);
+      // A proof's wide envelope reserves space for its assumption rail; its
+      // conclusion must leave the compact visible box, not that envelope.
+      if (node.kind === "proof" && port.side === "north") return { ...port, mode: "fixed-position",
+        offset: { x: ceil(body.x + body.width / 2), y: body.y } };
       if (!node.docks.length) return { ...port };
       const region = dock?.bounds ?? body;
       // Ordered attachments (sibling stems and conclusions) take their

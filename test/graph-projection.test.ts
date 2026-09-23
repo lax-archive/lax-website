@@ -22,7 +22,7 @@ const fixtureLabels = (display: DisplayGraph) => new Map(displayLabelRequests([d
   { ...exactFixtureMetrics, lines: exactFixtureMetrics.lines.map((line) => ({ ...line, text })) }]));
 
 describe("semantic display projection", () => {
-  it("coarsens multi-statement assumptions to one concept edge and shared outgoing port", () => {
+  it("coarsens multi-statement assumptions per proof while keeping distinct outgoing ports", () => {
     const projected = projectGraph("proofs", proofInput());
     expect(projected.nodes.filter((n) => n.kind === "proof")).toHaveLength(2);
     expect(projected.edges).toHaveLength(4);
@@ -30,7 +30,7 @@ describe("semantic display projection", () => {
     expect(concept.label).toBe("c");
     expect(projected.nodes.find((n) => n.id === "s:d.s")!.label).toBe("d");
     expect(concept.docks.map((d) => [d.statementId, d.ordinal])).toEqual([["c.s1", 1], ["c.s2", 2]]);
-    expect(concept.ports.map((p) => p.semanticEndpointId)).toEqual(["c"]);
+    expect(concept.ports.map((p) => p.semanticEndpointId)).toEqual(["c", "c"]);
     const measured = measureDisplayGraph(projected, fixtureLabels(projected));
     const docks = measured.graph.nodes.find((n) => n.id === concept.id)!.ports;
     const interaction = graphInteractionPayload(measured);
@@ -42,14 +42,14 @@ describe("semantic display projection", () => {
       semanticIds: ["p1:assumption:c.s1", "p1:assumption:c.s2"],
     });
     expect(projected.edges.filter((edge) => edge.kind === "assumption").map((edge) => edge.sourcePortId))
-      .toEqual(["c:c:assumption-source", "c:c:assumption-source"]);
+      .toEqual(["e:p1:assumption:c:0:source", "e:p2:assumption:c:0:source"]);
     expect(projected.mapping.find((entry) => entry.semanticId === "p1:assumption:c.s2")?.edgeIds)
       .toEqual(["e:p1:assumption:c:0"]);
     expect(docks.every((p) => p.mode === "fixed-position")).toBe(true);
-    expect(new Set(docks.map((p) => p.offset!.x)).size).toBe(1);
-    const { geometry } = layoutGraph(measured.graph, { inputDigest: "shared-concept-output" });
+    expect(new Set(docks.map((p) => p.offset!.x)).size).toBe(2);
+    const { geometry } = layoutGraph(measured.graph, { inputDigest: "distinct-concept-outputs" });
     expect(validateGeometry(measured.graph, geometry)).toMatchObject({ valid: true });
-    expect(geometry.ports.filter((port) => port.id === "c:c:assumption-source")).toHaveLength(1);
+    expect(geometry.ports.filter((port) => port.nodeId === concept.id)).toHaveLength(2);
   });
   it("shortens only local dock tooltip labels while preserving full identifiers and links", () => {
     const concepts = [{ id: "Lax701.Local", ext: false }, { id: "Lax702.Foreign", ext: true }];
@@ -200,7 +200,7 @@ describe("semantic display projection", () => {
     const graph = indexedGraph(measured.graph);
     expect(stronglyConnectedComponents(graph.nodeCount, graph.edges).some((members) => members.length === 2)).toBe(true);
     const concept = measured.graph.nodes.find((node) => node.id === "c:c")!;
-    // Sibling assumptions leave their own docks downward instead of the shared concept port.
+    // Sibling assumptions leave their own docks downward instead of the concept body.
     expect(concept.ports.filter((port) => port.side === "north")).toHaveLength(0);
     expect(concept.ports.map((port) => port.semanticEndpointId).sort()).toEqual(["c.a", "c.b", "c.b", "c.c"]);
     const { geometry } = layoutGraph(measured.graph, { inputDigest: "sibling-proof" });

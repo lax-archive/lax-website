@@ -171,26 +171,23 @@ export function projectGraph(kind: GraphKind, input: FlatGraphInput | ProofGraph
     }
   }
   const edgeMultiplicity = new Map<string, number>();
-  const sharedSourcePorts = new Map<string, string>();
   /** Sibling incidences stay inside one concept box: a statement-level
    * assumption leaves its own dock downward and a sibling-proved conclusion
    * takes the left slot of its dock so the proof can sit right below it. */
   const addEdge = (sourceId: string, targetId: string, edgeKind: string, displaySemanticId: string,
-    semanticIds: readonly string[] = [displaySemanticId], shareSource = false,
+    semanticIds: readonly string[] = [displaySemanticId],
     sibling?: { sourceOrder?: number; targetOrder?: number }) => {
     const source = endpoints.get(sourceId), target = endpoints.get(targetId);
     if (!source || !target) diagnostic("missing-semantic-endpoint", "Display edge has no declared endpoint", displaySemanticId, ...(!source ? [sourceId] : []), ...(!target ? [targetId] : []));
     const occurrence = edgeMultiplicity.get(displaySemanticId) ?? 0; edgeMultiplicity.set(displaySemanticId, occurrence + 1);
     const id = `e:${displaySemanticId}:${occurrence}`;
-    const sourceKey = `${source.nodeId}\0${source.semanticId}\0north`;
-    const sourcePortId = shareSource ? sharedSourcePorts.get(sourceKey) ?? `${source.nodeId}:assumption-source` : `${id}:source`;
+    const sourcePortId = `${id}:source`;
     const targetPortId = `${id}:target`;
-    if (!shareSource || !sharedSourcePorts.has(sourceKey)) {
-      byId.get(source.nodeId)!.ports.push({ id: sourcePortId, nodeId: source.nodeId, semanticEndpointId: source.semanticId,
-        side: sibling?.sourceOrder !== undefined ? "south" : "north", mode: source.dock ? "fixed-order" : "free-on-side",
-        ...(source.dock ? { order: sibling?.sourceOrder ?? source.dock } : {}) });
-      if (shareSource) sharedSourcePorts.set(sourceKey, sourcePortId);
-    }
+    // Coarsen statement semantics per proof, but give each dependent its own
+    // attachment so outgoing routes cannot hide one another's prefixes.
+    byId.get(source.nodeId)!.ports.push({ id: sourcePortId, nodeId: source.nodeId, semanticEndpointId: source.semanticId,
+      side: sibling?.sourceOrder !== undefined ? "south" : "north", mode: source.dock ? "fixed-order" : "free-on-side",
+      ...(source.dock ? { order: sibling?.sourceOrder ?? source.dock } : {}) });
     byId.get(target.nodeId)!.ports.push({ id: targetPortId, nodeId: target.nodeId, semanticEndpointId: target.semanticId,
       side: "south", mode: target.dock ? "fixed-order" : "free-on-side", ...(target.dock ? { order: sibling?.targetOrder ?? target.dock } : {}) });
     edges.push({ id, sourcePortId, targetPortId, kind: edgeKind, minRankSpan: 1, semanticIds });
@@ -207,7 +204,7 @@ export function projectGraph(kind: GraphKind, input: FlatGraphInput | ProofGraph
         // resolution: coarsening it to the concept would fake a cycle.
         if (conclusion?.dock && endpoint?.dock && endpoint.nodeId === conclusion.nodeId) {
           siblings += 1;
-          addEdge(assumption, proof.id, "assumption", `${proof.id}:assumption:${assumption}`, undefined, false,
+          addEdge(assumption, proof.id, "assumption", `${proof.id}:assumption:${assumption}`, undefined,
             { sourceOrder: endpoint.dock + (conclusion.dock > endpoint.dock ? -0.25 : 0.25) });
           continue;
         }
@@ -217,8 +214,8 @@ export function projectGraph(kind: GraphKind, input: FlatGraphInput | ProofGraph
         assumptionGroups.set(source, incidences);
       }
       for (const [source, semanticIds] of [...assumptionGroups].sort(([a], [b]) => compareText(a, b)))
-        addEdge(source, proof.id, "assumption", `${proof.id}:assumption:${source}`, semanticIds, assumptionSources.has(source));
-      addEdge(proof.id, proof.conclusion, "conclusion", `${proof.id}:conclusion:${proof.conclusion}`, undefined, false,
+        addEdge(source, proof.id, "assumption", `${proof.id}:assumption:${source}`, semanticIds);
+      addEdge(proof.id, proof.conclusion, "conclusion", `${proof.id}:conclusion:${proof.conclusion}`, undefined,
         siblings && conclusion?.dock ? { targetOrder: conclusion.dock - 0.25 } : undefined);
     }
   } else {
