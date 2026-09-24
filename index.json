@@ -2729,10 +2729,16 @@
           "id": "Lax379983.FeedbackVertexNumber",
           "title": "Feedback vertex number",
           "type": "definition"
+        },
+        {
+          "id": "Lax379983.TreewidthBound",
+          "title": "Treewidth is at most feedback vertex number plus one",
+          "type": "theorem"
         }
       ],
       "proofs": [
-        "Lax379983Proofs.feedbackVertexNumber_le_feedbackEdgeNumber"
+        "Lax379983Proofs.feedbackVertexNumber_le_feedbackEdgeNumber",
+        "Lax379983Proofs.treewidth_le_feedbackVertexNumber_add_one"
       ]
     },
     {
