@@ -2230,6 +2230,94 @@
       ]
     },
     {
+      "id": "lax-235315",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Constructing Welzl Orders: Algorithm and Correctness",
+      "concepts": [
+        {
+          "id": "Lax235315.ConstructionContracts",
+          "title": "Separate guarantees for the construction program",
+          "type": "definition"
+        },
+        {
+          "id": "Lax235315.ConstructionCorrectness",
+          "title": "Correct outputs of the construction program",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax235315.ConstructionProbability",
+          "title": "Success probability of the construction program",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax235315.ConstructionProgram",
+          "title": "The Welzl-order construction program",
+          "type": "definition"
+        },
+        {
+          "id": "Lax235315.ConstructionRuntime",
+          "title": "Worst-case running time of the construction program",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax235315.ContractionRecurrence",
+          "title": "Geometric contraction with an additive rounding error",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax235315.NearTwinReplacement",
+          "title": "Replacing near twins in a set system",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax235315.NearTwinStability",
+          "title": "Crossing counts are stable under membership changes",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax235315.RandomKeyCollisions",
+          "title": "Collision bound for finite random keys",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax235315.ReconstructionCorrectness",
+          "title": "Reconstruction yields a graph Welzl order",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax235315.SequenceCrossings",
+          "title": "Crossings along a finite membership sequence",
+          "type": "definition"
+        },
+        {
+          "id": "Lax235315.TwinInsertion",
+          "title": "Inserting a twin preserves crossings",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax235315.TwinReconstruction",
+          "title": "Checked twin-contraction reconstruction",
+          "type": "definition"
+        },
+        {
+          "id": "Lax235315.UniformSampleAvoidance",
+          "title": "A uniform sample is unlikely to miss a large set",
+          "type": "lemma"
+        }
+      ],
+      "proofs": [
+        "Lax235315Proofs.Assembly.exists_nearLinearTime_randomized_welzlOrder_program",
+        "Lax235315Proofs.ComponentProofs.nearTwinReplacement",
+        "Lax235315Proofs.ComponentProofs.randomKeyCollisions",
+        "Lax235315Proofs.ComponentProofs.uniformSampleAvoidance",
+        "Lax235315Proofs.Crossings.crossings_duplicate",
+        "Lax235315Proofs.Crossings.crossings_le_add_twice_hamming",
+        "Lax235315Proofs.ReconstructionBridge.encodesGraphWelzlOrder",
+        "Lax235315Proofs.size_after_rounds"
+      ]
+    },
+    {
       "id": "lax-242665",
       "state": "registered",
       "environment": "v4.33.0",
