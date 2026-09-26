@@ -727,7 +727,7 @@
     {
       "id": "lax-47",
       "state": "draft",
-      "environment": "v4.30.0",
+      "environment": "v4.33.0",
       "title": "Tight Inapproximability of Max Independent Set in Triangle-Free Graphs",
       "concepts": [
         {
@@ -743,16 +743,16 @@
         {
           "id": "Lax47.Hastad",
           "title": "Håstad's inapproximability of Max Independent Set",
-          "type": "definition"
+          "type": "theorem"
         },
         {
           "id": "Lax47.Machine",
-          "title": "Polynomial-time computation on the Lax51 finite-Turing model",
+          "title": "Polynomial-time computation on the Lax759944 finite-Turing model",
           "type": "definition"
         },
         {
           "id": "Lax47.Theorem12",
-          "title": "Håstad hardness implies tight inapproximability in triangle-free graphs",
+          "title": "Tight inapproximability of Max Independent Set in triangle-free graphs",
           "type": "theorem"
         }
       ],
