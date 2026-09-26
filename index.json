@@ -3549,6 +3549,65 @@
       ]
     },
     {
+      "id": "lax-666725",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Randomized Complexity Classes",
+      "concepts": [
+        {
+          "id": "Lax666725.BPPSubsetPP",
+          "title": "BPP is contained in PP",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax666725.OneSidedError",
+          "title": "The complexity classes RP and coRP",
+          "type": "definition"
+        },
+        {
+          "id": "Lax666725.OneSidedSubsetBPP",
+          "title": "RP and coRP are contained in BPP",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax666725.ProbabilisticMachines",
+          "title": "Polynomial-time probabilistic Turing machines",
+          "type": "definition"
+        },
+        {
+          "id": "Lax666725.RandomizedPolynomialTime",
+          "title": "The complexity class BPP",
+          "type": "definition"
+        },
+        {
+          "id": "Lax666725.UnboundedError",
+          "title": "The complexity class PP",
+          "type": "definition"
+        },
+        {
+          "id": "Lax666725.ZeroError",
+          "title": "The complexity class ZPP",
+          "type": "definition"
+        },
+        {
+          "id": "Lax666725.ZPPSubsetBPP",
+          "title": "ZPP is contained in BPP",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax666725.ZPPSubsetOneSided",
+          "title": "ZPP is contained in RP and coRP",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax666725Proofs.BPP_subset_PP",
+        "Lax666725Proofs.RP_union_coRP_subset_BPP",
+        "Lax666725Proofs.ZPP_subset_BPP",
+        "Lax666725Proofs.ZPP_subset_RP_inter_coRP"
+      ]
+    },
+    {
       "id": "lax-678846",
       "state": "draft",
       "environment": "v4.30.0",
