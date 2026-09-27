@@ -2411,6 +2411,497 @@
       ]
     },
     {
+      "id": "lax-253009",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Håstad’s inapproximability of Max-Clique",
+      "concepts": [
+        {
+          "id": "Lax253009.Amplification",
+          "title": "Arbitrarily small projection-game soundness with polynomial size",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax253009.Approximation",
+          "title": "Polynomial-time approximation of the clique number",
+          "type": "definition"
+        },
+        {
+          "id": "Lax253009.BalancedCancellation",
+          "title": "Cancellation on a small set of distinct balanced-predicate inputs",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax253009.BalancedPredicates",
+          "title": "Counting and concentration of uniformly balanced predicates",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax253009.BernoulliSampling",
+          "title": "Multiplicative soundness bounds for sampled tests",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax253009.BooleanFourier",
+          "title": "Fourier analysis on a finite Boolean cube",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax253009.BPPConsequence",
+          "title": "Clique inapproximability under NP not contained in BPP",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax253009.CenteredProjection",
+          "title": "Soundness amplification for centered projection games",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax253009.CliqueCorrespondence",
+          "title": "Clique number equals the maximum number of accepting random choices",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax253009.CliqueHardness",
+          "title": "Håstad's clique inapproximability theorem",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax253009.CNAPointSoundness",
+          "title": "Quantitative soundness at a fixed evaluation point",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax253009.CNAQuantitativeSoundness",
+          "title": "Finite quantitative soundness of the CNA test with side conditions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax253009.CNASoundness",
+          "title": "Soundness of the complete nonadaptive long-code test",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax253009.ConsistencyGraph",
+          "title": "The consistency graph of accepting local views",
+          "type": "definition"
+        },
+        {
+          "id": "Lax253009.DecodedStrategies",
+          "title": "Extracting prover strategies from decoded sets",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax253009.DoubleCoverBounds",
+          "title": "Dimension-independent bounds for weighted double covers",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax253009.EncodedReduction",
+          "title": "The consistency graph as an approximation input",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax253009.EvenCovers",
+          "title": "Even-cover expansion of a Boolean polynomial moment",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax253009.ExponentialBounds",
+          "title": "Exponential concentration on finite product spaces",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax253009.FAFComposition",
+          "title": "Soundness of the finite FAF composition",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax253009.FAFLocalTests",
+          "title": "The FAF verifier as a finite local-test system",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax253009.FAFPatterns",
+          "title": "Free bits of the FAF test",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax253009.FAFStrategyExtraction",
+          "title": "From FAF acceptance to two-prover success",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax253009.FAFTest",
+          "title": "The finite few-amortized-free-bits test",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax253009.FiniteProbability",
+          "title": "Uniform finite probability and even-moment tail bounds",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax253009.FortifiedSquaring",
+          "title": "Repeated squaring of fortified projection tests",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax253009.FourierDecoding",
+          "title": "A small Fourier decoding set independent of side conditions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax253009.FourierIdentities",
+          "title": "Fourier shifts, odd tables and disagreement indicators",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax253009.FourierProjection",
+          "title": "Averaging outside a set of coordinates",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax253009.FreshBitSampling",
+          "title": "Sampling finite choices with a fixed supply of fair bits",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax253009.GameToClique",
+          "title": "The complete finite game-to-clique construction",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax253009.GapSatisfiability",
+          "title": "A fixed-alphabet regular gap reduction for 3-SAT",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax253009.GraphEncoding",
+          "title": "Numbering finite graphs and the size of their encoding",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax253009.Graphs",
+          "title": "Finite graphs and their binary encoding",
+          "type": "definition"
+        },
+        {
+          "id": "Lax253009.HighDegreeSoundness",
+          "title": "Second moment and tail bound for the high-degree CNA term",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax253009.HigherMoments",
+          "title": "Cancellation outside double covers in higher moments",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax253009.Hypercontractivity",
+          "title": "Dimension-independent moments of low-degree Boolean polynomials",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax253009.LargeCoefficientSoundness",
+          "title": "Deterministic bound for the large-coefficient CNA term",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax253009.LocalTests",
+          "title": "Accepting local views of a proof",
+          "type": "definition"
+        },
+        {
+          "id": "Lax253009.LongCode",
+          "title": "Long codes and the complete nonadaptive test",
+          "type": "definition"
+        },
+        {
+          "id": "Lax253009.LongCodeCorrectness",
+          "title": "Perfect completeness and local decoding of the long-code test",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax253009.LongCodePatterns",
+          "title": "Free bits of the complete nonadaptive test",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax253009.ManyTableConsistency",
+          "title": "Agreement among many decoded tables",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax253009.MixedPredicateMoments",
+          "title": "Mixed moments of independently sampled balanced predicates",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax253009.OddNormalization",
+          "title": "Normalizing a long-code table to an odd table",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax253009.ProductMoments",
+          "title": "Mixed moments of balanced predicates on independent coordinates",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax253009.ProjectionEncoding",
+          "title": "Encoding finite projection-game answers as binary words",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax253009.ProjectionGames",
+          "title": "Projection games from regular constraint systems",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax253009.RandomFibers",
+          "title": "Lower concentration of the fibers of a uniform random map",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax253009.RandomizedContainments",
+          "title": "Randomized computations as NP certificates",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax253009.RandomizedReduction",
+          "title": "The finite randomized PCP-to-clique transfer",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax253009.SamplingParameters",
+          "title": "Polynomial size and approximation gap after sampling",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax253009.SideConditionAveraging",
+          "title": "The averaged table preserves the answers of an accepting side-condition test",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax253009.SmallCoefficientSoundness",
+          "title": "Higher-moment bound for the small-coefficient CNA term",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax253009.SmallSupport",
+          "title": "The size of the decoding set from large coefficients",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax253009.SmallUnionDoubleCovers",
+          "title": "Small-union weighted double-cover estimate",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax253009.SmallValueNP",
+          "title": "Small-value projection games for every registered NP language",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax253009.SmallValueSatisfiability",
+          "title": "A polynomial-size 3-SAT reduction to arbitrarily small projection-game value",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax253009.TestRepetition",
+          "title": "Repetition of local proof tests",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax253009.TestSampling",
+          "title": "Random sparsification of a consistency graph",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax253009.TupleAveraging",
+          "title": "Dimension-independent bounds for tuple averaging",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax253009.TupleFortification",
+          "title": "Fortification by uniformly sampled tuples",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax253009.TupleSampler",
+          "title": "A tuple sampler with alphabet-independent mixing",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax253009Proofs.Amplification.exists_small_value_scheme",
+        "Lax253009Proofs.Amplification.Scheme.card_centers",
+        "Lax253009Proofs.Amplification.Scheme.card_extensions",
+        "Lax253009Proofs.Amplification.Scheme.card_questions",
+        "Lax253009Proofs.Amplification.Scheme.size_polynomial",
+        "Lax253009Proofs.Amplification.Scheme.transform_complete",
+        "Lax253009Proofs.Amplification.Scheme.transform_uniform",
+        "Lax253009Proofs.balanced_bounded_support_correlation",
+        "Lax253009Proofs.balanced_correlation_tail",
+        "Lax253009Proofs.balanced_high_degree_bound",
+        "Lax253009Proofs.balanced_mixed_moment",
+        "Lax253009Proofs.balanced_predicate_count",
+        "Lax253009Proofs.balanced_predicate_mass",
+        "Lax253009Proofs.balanced_second_moment",
+        "Lax253009Proofs.balanced_small_support_correlation",
+        "Lax253009Proofs.bernoulli_sampling_tail",
+        "Lax253009Proofs.bernoulli_sampling_uniform",
+        "Lax253009Proofs.CenteredProjection.center_sound_of_sym",
+        "Lax253009Proofs.CenteredProjection.fortify_complete",
+        "Lax253009Proofs.CenteredProjection.fortify_square_sound",
+        "Lax253009Proofs.CenteredProjection.fortify_uniform",
+        "Lax253009Proofs.CenteredProjection.from_constraints_complete",
+        "Lax253009Proofs.CenteredProjection.from_constraints_sound",
+        "Lax253009Proofs.CenteredProjection.from_constraints_uniform",
+        "Lax253009Proofs.CenteredProjection.symmetrize_sound",
+        "Lax253009Proofs.CenteredProjection.tensor_complete",
+        "Lax253009Proofs.CenteredProjection.tensor_uniform",
+        "Lax253009Proofs.clique_approximation_implies_np_eq_zpp",
+        "Lax253009Proofs.clique_approximation_implies_np_subset_bpp",
+        "Lax253009Proofs.clique_not_approximable_of_np_ne_zpp",
+        "Lax253009Proofs.clique_not_approximable_of_np_not_subset_bpp",
+        "Lax253009Proofs.cna_decoding_card",
+        "Lax253009Proofs.cna_point_soundness",
+        "Lax253009Proofs.cna_quantitative_soundness",
+        "Lax253009Proofs.cna_soundness_from_side_conditions",
+        "Lax253009Proofs.cna_soundness_with_side_conditions",
+        "Lax253009Proofs.consistency_cliqueNumber",
+        "Lax253009Proofs.consistency_completeness",
+        "Lax253009Proofs.consistency_perfect_completeness",
+        "Lax253009Proofs.consistency_soundness",
+        "Lax253009Proofs.consistency_soundness_bound",
+        "Lax253009Proofs.consistency_vertex_bound",
+        "Lax253009Proofs.consistency_vertex_count",
+        "Lax253009Proofs.decoded_prover_strategies",
+        "Lax253009Proofs.double_cover_card_bound",
+        "Lax253009Proofs.double_cover_subcover",
+        "Lax253009Proofs.double_cover_weight_bound",
+        "Lax253009Proofs.even_cover_character_moment",
+        "Lax253009Proofs.even_cover_is_double",
+        "Lax253009Proofs.even_cover_polynomial_moment",
+        "Lax253009Proofs.faf_acceptance_bound",
+        "Lax253009Proofs.faf_composition_soundness",
+        "Lax253009Proofs.faf_free_bits",
+        "Lax253009Proofs.faf_game_threshold_pos",
+        "Lax253009Proofs.faf_local_free_bits",
+        "Lax253009Proofs.faf_local_passes",
+        "Lax253009Proofs.faf_local_perfect_completeness",
+        "Lax253009Proofs.faf_local_probability",
+        "Lax253009Proofs.faf_local_proof_length",
+        "Lax253009Proofs.faf_local_random_choices",
+        "Lax253009Proofs.faf_local_soundness",
+        "Lax253009Proofs.faf_perfect_completeness",
+        "Lax253009Proofs.faf_strategy_extraction",
+        "Lax253009Proofs.faf_transcript_mem",
+        "Lax253009Proofs.faf_uniform_strategy_extraction",
+        "Lax253009Proofs.finite_bounded_mgf",
+        "Lax253009Proofs.finite_bounded_power_mean",
+        "Lax253009Proofs.finite_even_moment_bound",
+        "Lax253009Proofs.finite_exponential_markov",
+        "Lax253009Proofs.finite_probability_finite_union",
+        "Lax253009Proofs.finite_probability_mono",
+        "Lax253009Proofs.finite_probability_restriction",
+        "Lax253009Proofs.finite_probability_union",
+        "Lax253009Proofs.finite_rademacher_abs_tail",
+        "Lax253009Proofs.finite_rademacher_mgf",
+        "Lax253009Proofs.finite_rademacher_upper_tail",
+        "Lax253009Proofs.fortified_squaring_sound",
+        "Lax253009Proofs.fourier_boolean_energy",
+        "Lax253009Proofs.fourier_bounded_energy",
+        "Lax253009Proofs.fourier_bounded_moment",
+        "Lax253009Proofs.fourier_character_shift",
+        "Lax253009Proofs.fourier_decoding_bound",
+        "Lax253009Proofs.fourier_decoding_projection",
+        "Lax253009Proofs.fourier_disagreement",
+        "Lax253009Proofs.fourier_disagreement_indicator",
+        "Lax253009Proofs.fourier_dyadic_moment",
+        "Lax253009Proofs.fourier_inversion",
+        "Lax253009Proofs.fourier_low_degree_fourth_moment",
+        "Lax253009Proofs.fourier_odd_even",
+        "Lax253009Proofs.fourier_orthogonality",
+        "Lax253009Proofs.fourier_parseval",
+        "Lax253009Proofs.fourier_product_degree",
+        "Lax253009Proofs.fourier_projection",
+        "Lax253009Proofs.fourier_projection_bounded",
+        "Lax253009Proofs.fourier_projection_constant",
+        "Lax253009Proofs.fresh_flat_one_third_error",
+        "Lax253009Proofs.fresh_modulo_error",
+        "Lax253009Proofs.fresh_one_third_error",
+        "Lax253009Proofs.fresh_repeated_seed_bit_bound",
+        "Lax253009Proofs.fresh_sampling_error",
+        "Lax253009Proofs.game_to_clique_reduction",
+        "Lax253009Proofs.graph_encoding_length",
+        "Lax253009Proofs.high_degree_second_moment",
+        "Lax253009Proofs.high_degree_tail",
+        "Lax253009Proofs.higher_moment_factorization",
+        "Lax253009Proofs.higher_moment_singleton",
+        "Lax253009Proofs.independent_bounded_upper_tail",
+        "Lax253009Proofs.large_coefficient_bound",
+        "Lax253009Proofs.longCode_completeness",
+        "Lax253009Proofs.longCode_free_bits",
+        "Lax253009Proofs.longCode_local_decoding",
+        "Lax253009Proofs.longCode_side_completeness",
+        "Lax253009Proofs.longCode_side_decoding",
+        "Lax253009Proofs.longCode_side_free_bits",
+        "Lax253009Proofs.low_degree_fourth_moment",
+        "Lax253009Proofs.many_tables_agreement",
+        "Lax253009Proofs.many_tables_low_diversity",
+        "Lax253009Proofs.mixed_predicate_moment_bound",
+        "Lax253009Proofs.normalized_acceptance",
+        "Lax253009Proofs.normalized_same_queries",
+        "Lax253009Proofs.normalized_side_acceptance",
+        "Lax253009Proofs.normalized_table_odd",
+        "Lax253009Proofs.numbered_cliqueNumber",
+        "Lax253009Proofs.projection_encoding_complete",
+        "Lax253009Proofs.projection_encoding_exists",
+        "Lax253009Proofs.projection_encoding_sound",
+        "Lax253009Proofs.projection_game_complete",
+        "Lax253009Proofs.projection_game_sound",
+        "Lax253009Proofs.random_any_small_fiber",
+        "Lax253009Proofs.random_small_fiber",
+        "Lax253009Proofs.randomized_approximation_decision",
+        "Lax253009Proofs.randomized_soundness",
+        "Lax253009Proofs.randomized_vertex_bound",
+        "Lax253009Proofs.reduction_cliqueNumber",
+        "Lax253009Proofs.reduction_separates",
+        "Lax253009Proofs.regular_gap_satisfiability",
+        "Lax253009Proofs.repeated_free_bits",
+        "Lax253009Proofs.repeated_passes",
+        "Lax253009Proofs.repeated_perfect_completeness",
+        "Lax253009Proofs.repeated_probability",
+        "Lax253009Proofs.repeated_soundness",
+        "Lax253009Proofs.rp_subset_np",
+        "Lax253009Proofs.sampled_perfect_completeness",
+        "Lax253009Proofs.sampled_soundness",
+        "Lax253009Proofs.sampled_vertex_bound",
+        "Lax253009Proofs.sampling_approximation_gap",
+        "Lax253009Proofs.sampling_choose_multiplier",
+        "Lax253009Proofs.sampling_polynomial_bound",
+        "Lax253009Proofs.side_query_projection",
+        "Lax253009Proofs.small_coefficient_moment_bound",
+        "Lax253009Proofs.small_coefficient_tail",
+        "Lax253009Proofs.small_support_bound",
+        "Lax253009Proofs.small_union_double_cover_bound",
+        "Lax253009Proofs.small_value_np",
+        "Lax253009Proofs.small_value_satisfiability",
+        "Lax253009Proofs.tuple_restriction_correlation",
+        "Lax253009Proofs.tuple_sampler_bounds",
+        "Lax253009Proofs.tuple_sampler_mean",
+        "Lax253009Proofs.tuple_sampler_mixing",
+        "Lax253009Proofs.tuple_variance_bound",
+        "Lax253009Proofs.TupleLift.lift_complete",
+        "Lax253009Proofs.TupleLift.lift_fortified",
+        "Lax253009Proofs.TupleLift.lift_soundness",
+        "Lax253009Proofs.TupleLift.lift_uniform_left",
+        "Lax253009Proofs.TupleLift.lift_uniform_right",
+        "Lax253009Proofs.zpp_subset_np"
+      ]
+    },
+    {
       "id": "lax-271696",
       "state": "registered",
       "environment": "v4.33.0",
