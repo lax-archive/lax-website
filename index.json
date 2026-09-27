@@ -2602,6 +2602,16 @@
           "type": "theorem"
         },
         {
+          "id": "Lax253009.IndependentSetGap",
+          "title": "Randomized promise-gap algorithms for Max Independent Set",
+          "type": "definition"
+        },
+        {
+          "id": "Lax253009.IndependentSetGapHardness",
+          "title": "Randomized promise-gap hardness of Max Independent Set",
+          "type": "theorem"
+        },
+        {
           "id": "Lax253009.LargeCoefficientSoundness",
           "title": "Deterministic bound for the large-coefficient CNA term",
           "type": "theorem"
