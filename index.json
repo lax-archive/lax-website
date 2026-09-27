@@ -741,8 +741,8 @@
           "type": "definition"
         },
         {
-          "id": "Lax47.Hastad",
-          "title": "Håstad's inapproximability of Max Independent Set",
+          "id": "Lax47.IndependentSetGapHardness",
+          "title": "Promise-gap hardness of Max Independent Set",
           "type": "theorem"
         },
         {
@@ -751,13 +751,13 @@
           "type": "definition"
         },
         {
-          "id": "Lax47.Theorem12",
+          "id": "Lax47.TriangleFreeIndependentSetHardness",
           "title": "Tight inapproximability of Max Independent Set in triangle-free graphs",
           "type": "theorem"
         }
       ],
       "proofs": [
-        "Lax47Proofs.theorem_1_2"
+        "Lax47Proofs.triangleFreeMIS_not_approximable"
       ]
     },
     {
