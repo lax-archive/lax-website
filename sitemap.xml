@@ -413,13 +413,12 @@
   <url><loc>https://laxarchive.org/lax-253009/Lax253009.HighDegreeSoundness.html</loc></url>
   <url><loc>https://laxarchive.org/lax-253009/Lax253009.HigherMoments.html</loc></url>
   <url><loc>https://laxarchive.org/lax-253009/Lax253009.Hypercontractivity.html</loc></url>
-  <url><loc>https://laxarchive.org/lax-253009/Lax253009.IndependentSetGap.html</loc></url>
-  <url><loc>https://laxarchive.org/lax-253009/Lax253009.IndependentSetGapHardness.html</loc></url>
   <url><loc>https://laxarchive.org/lax-253009/Lax253009.LargeCoefficientSoundness.html</loc></url>
   <url><loc>https://laxarchive.org/lax-253009/Lax253009.LocalTests.html</loc></url>
   <url><loc>https://laxarchive.org/lax-253009/Lax253009.LongCode.html</loc></url>
   <url><loc>https://laxarchive.org/lax-253009/Lax253009.LongCodeCorrectness.html</loc></url>
   <url><loc>https://laxarchive.org/lax-253009/Lax253009.LongCodePatterns.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-253009/Lax253009.MajorityAmplification.html</loc></url>
   <url><loc>https://laxarchive.org/lax-253009/Lax253009.ManyTableConsistency.html</loc></url>
   <url><loc>https://laxarchive.org/lax-253009/Lax253009.MixedPredicateMoments.html</loc></url>
   <url><loc>https://laxarchive.org/lax-253009/Lax253009.OddNormalization.html</loc></url>
@@ -427,6 +426,8 @@
   <url><loc>https://laxarchive.org/lax-253009/Lax253009.ProjectionEncoding.html</loc></url>
   <url><loc>https://laxarchive.org/lax-253009/Lax253009.ProjectionGames.html</loc></url>
   <url><loc>https://laxarchive.org/lax-253009/Lax253009.RandomFibers.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-253009/Lax253009.RandomizedApproximation.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-253009/Lax253009.RandomizedCliqueHardness.html</loc></url>
   <url><loc>https://laxarchive.org/lax-253009/Lax253009.RandomizedContainments.html</loc></url>
   <url><loc>https://laxarchive.org/lax-253009/Lax253009.RandomizedReduction.html</loc></url>
   <url><loc>https://laxarchive.org/lax-253009/Lax253009.SamplingParameters.html</loc></url>
@@ -561,6 +562,8 @@
   <url><loc>https://laxarchive.org/lax-253009/Lax253009Proofs.longCode_side_decoding.html</loc></url>
   <url><loc>https://laxarchive.org/lax-253009/Lax253009Proofs.longCode_side_free_bits.html</loc></url>
   <url><loc>https://laxarchive.org/lax-253009/Lax253009Proofs.low_degree_fourth_moment.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-253009/Lax253009Proofs.majority_error_formula.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-253009/Lax253009Proofs.majority_three_rounds.html</loc></url>
   <url><loc>https://laxarchive.org/lax-253009/Lax253009Proofs.many_tables_agreement.html</loc></url>
   <url><loc>https://laxarchive.org/lax-253009/Lax253009Proofs.many_tables_low_diversity.html</loc></url>
   <url><loc>https://laxarchive.org/lax-253009/Lax253009Proofs.mixed_predicate_moment_bound.html</loc></url>
@@ -577,6 +580,8 @@
   <url><loc>https://laxarchive.org/lax-253009/Lax253009Proofs.random_any_small_fiber.html</loc></url>
   <url><loc>https://laxarchive.org/lax-253009/Lax253009Proofs.random_small_fiber.html</loc></url>
   <url><loc>https://laxarchive.org/lax-253009/Lax253009Proofs.randomized_approximation_decision.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-253009/Lax253009Proofs.randomized_clique_approximation_implies_np_subset_bpp.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-253009/Lax253009Proofs.randomized_clique_not_approximable_of_np_not_subset_bpp.html</loc></url>
   <url><loc>https://laxarchive.org/lax-253009/Lax253009Proofs.randomized_soundness.html</loc></url>
   <url><loc>https://laxarchive.org/lax-253009/Lax253009Proofs.randomized_vertex_bound.html</loc></url>
   <url><loc>https://laxarchive.org/lax-253009/Lax253009Proofs.reduction_cliqueNumber.html</loc></url>

@@ -2602,16 +2602,6 @@
           "type": "theorem"
         },
         {
-          "id": "Lax253009.IndependentSetGap",
-          "title": "Randomized promise-gap algorithms for Max Independent Set",
-          "type": "definition"
-        },
-        {
-          "id": "Lax253009.IndependentSetGapHardness",
-          "title": "Randomized promise-gap hardness of Max Independent Set",
-          "type": "theorem"
-        },
-        {
           "id": "Lax253009.LargeCoefficientSoundness",
           "title": "Deterministic bound for the large-coefficient CNA term",
           "type": "theorem"
@@ -2634,6 +2624,11 @@
         {
           "id": "Lax253009.LongCodePatterns",
           "title": "Free bits of the complete nonadaptive test",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax253009.MajorityAmplification",
+          "title": "Independent majority repetition reduces bounded error",
           "type": "theorem"
         },
         {
@@ -2669,6 +2664,16 @@
         {
           "id": "Lax253009.RandomFibers",
           "title": "Lower concentration of the fibers of a uniform random map",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax253009.RandomizedApproximation",
+          "title": "Bounded-error randomized approximation of the clique number",
+          "type": "definition"
+        },
+        {
+          "id": "Lax253009.RandomizedCliqueHardness",
+          "title": "Håstad inapproximability for bounded-error randomized algorithms",
           "type": "theorem"
         },
         {
@@ -2858,6 +2863,8 @@
         "Lax253009Proofs.longCode_side_decoding",
         "Lax253009Proofs.longCode_side_free_bits",
         "Lax253009Proofs.low_degree_fourth_moment",
+        "Lax253009Proofs.majority_error_formula",
+        "Lax253009Proofs.majority_three_rounds",
         "Lax253009Proofs.many_tables_agreement",
         "Lax253009Proofs.many_tables_low_diversity",
         "Lax253009Proofs.mixed_predicate_moment_bound",
@@ -2874,6 +2881,8 @@
         "Lax253009Proofs.random_any_small_fiber",
         "Lax253009Proofs.random_small_fiber",
         "Lax253009Proofs.randomized_approximation_decision",
+        "Lax253009Proofs.randomized_clique_approximation_implies_np_subset_bpp",
+        "Lax253009Proofs.randomized_clique_not_approximable_of_np_not_subset_bpp",
         "Lax253009Proofs.randomized_soundness",
         "Lax253009Proofs.randomized_vertex_bound",
         "Lax253009Proofs.reduction_cliqueNumber",
