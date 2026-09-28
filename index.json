@@ -2415,9 +2415,9 @@
     },
     {
       "id": "lax-253009",
-      "state": "draft",
+      "state": "registered",
       "environment": "v4.33.0",
-      "title": "Håstad’s inapproximability of Max-Clique",
+      "title": "Håstad’s inapproximability of Max Clique",
       "concepts": [
         {
           "id": "Lax253009.Amplification",
