@@ -106,24 +106,22 @@
 <p class="draft-banner">While this submission is a draft, it cannot be used by other submissions.</p>
 <div class="detail-heading concept-heading proof-heading">
 <div class="proof-heading-content"><h1 class="concept-title">Proof of <span class="proof-concept-title">`Near-linear-time computation of Welzl orders`</span></h1>
-<p class="concept-microline proof-microline"><span class="status-pills"><span class="status-pill pill-partial" title="The relationship is checked, but 3 assumptions are still open.">conditional — 3 open assumptions</span></span><span><a href="https://github.com/lax-archive/lax-submissions/blob/aab4f9000eebf9b3f35285ad5c8346449dd815a8/welzl-order-construction/proofs/Lax235315Proofs/Assembly.lean"><code>proofs/Lax235315Proofs/Assembly.lean</code></a> · <a href="index.html">lax-235315</a></span></p></div>
+<p class="concept-microline proof-microline"><span class="status-pills"><span class="status-pill pill-partial" title="The relationship is checked, but 1 assumption is still open.">conditional — 1 open assumption</span></span><span><a href="https://github.com/lax-archive/lax-submissions/blob/e00c38460c3cd242c773d03d76bee98a50260a75/welzl-order-construction/proofs/Lax235315Proofs/Assembly.lean"><code>proofs/Lax235315Proofs/Assembly.lean</code></a> · <a href="index.html">lax-235315</a></span></p></div>
 </div>
 <div class="block block-evidence"><h3>What this proof establishes</h3>
 <div class="judgment">
-<div class="judgment-assumptions"><ul><li><span class="claim-entry"><span class="type-badge open">thm×</span><a href="../lax-235315/Lax235315.ConstructionCorrectness.html" title="Lax235315.ConstructionCorrectness.eventually_hasCorrectOutput"><code>Lax235315.ConstructionCorrectness</code></a></span></li>
-<li><span class="claim-entry"><span class="type-badge open">thm×</span><a href="../lax-235315/Lax235315.ConstructionProbability.html" title="Lax235315.ConstructionProbability.eventually_hasSuccessProbability"><code>Lax235315.ConstructionProbability</code></a></span></li>
-<li><span class="claim-entry"><span class="type-badge open">thm×</span><a href="../lax-235315/Lax235315.ConstructionRuntime.html" title="Lax235315.ConstructionRuntime.eventually_hasRunningTimeBound"><code>Lax235315.ConstructionRuntime</code></a></span></li></ul></div>
+<div class="judgment-assumptions"><ul><li><span class="claim-entry"><span class="type-badge open">thm×</span><a href="../lax-235315/Lax235315.ConstructionProbability.html" title="Lax235315.ConstructionProbability.eventually_hasSuccessProbability"><code>Lax235315.ConstructionProbability</code></a></span></li></ul></div>
 <span class="judgment-arrow" aria-hidden="true">→</span>
 <div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge open">thm×</span><a href="../lax-195003/Lax195003.WelzlOrdersComputation.html" title="Lax195003.WelzlOrdersComputation.exists_nearLinearTime_randomized_welzlOrder_program"><code>Lax195003.WelzlOrdersComputation</code></a></span></div>
 </div>
 <p class="honesty-note">Assuming the claims on the left, the claim on the right holds — checked by the archive's pipeline. Proof code is not displayed here.</p>
-<p class="source-action"><a class="source-button" href="https://github.com/lax-archive/lax-submissions/blob/aab4f9000eebf9b3f35285ad5c8346449dd815a8/welzl-order-construction/proofs/Lax235315Proofs/Assembly.lean"><svg class="source-mark" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true" focusable="false"><path fill="currentColor" d="M5.22 3.22a.75.75 0 0 1 1.06 1.06L2.56 8l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06Zm5.56 0 4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 1 1-1.06-1.06L13.44 8 9.72 4.28a.75.75 0 1 1 1.06-1.06Z"/></svg><span>Read the Lean proof on GitHub</span></a></p>
+<p class="source-action"><a class="source-button" href="https://github.com/lax-archive/lax-submissions/blob/e00c38460c3cd242c773d03d76bee98a50260a75/welzl-order-construction/proofs/Lax235315Proofs/Assembly.lean"><svg class="source-mark" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true" focusable="false"><path fill="currentColor" d="M5.22 3.22a.75.75 0 0 1 1.06 1.06L2.56 8l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06Zm5.56 0 4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 1 1-1.06-1.06L13.44 8 9.72 4.28a.75.75 0 1 1 1.06-1.06Z"/></svg><span>Read the Lean proof on GitHub</span></a></p>
 </div>
 
 <div class="block block-statement"><h3>Description</h3><div class="latex-content"><p><strong>Conditional assembly for the near-linear Welzl-order algorithm.</strong> This proof
 assembles the construction's three independent contracts. It is
-conditional on their runtime, output-correctness, and finite-tape probability
-claims; it does not discharge those claims.</p>
+conditional only on the finite-tape probability claim. The runtime and
+output-correctness contracts are supplied by proved source-program lemmas.</p>
 </div></div>
 <div class="block"><h3>Proof strategy</h3><div class="latex-content"><p>Take the sum of the three eventual resource thresholds. The runtime contract
 gives total halting on every tape. Every tape in the successful-final-state
@@ -131,8 +129,8 @@ set yields a <span class="katex"><span class="katex-mathml"><math xmlns="http://
 acceptable. Monotonicity of finite cardinality transfers the probability
 lower bound from successful tapes to accepted tapes.</p>
 </div></div>
-<div class="block"><h3>Attribution</h3><div class="latex-content"><p>The conditional contracts are the three separate theorem concepts in this
-submission. The assembled target is the registered claim of Lax195003;
+<div class="block"><h3>Attribution</h3><div class="latex-content"><p>The contracts are the three separate theorem concepts in this submission.
+The assembled target is the registered claim of Lax195003;
 the graph result is Theorem 1.4 in the supplied arXiv v1 PDF.</p>
 </div></div>
 </div>

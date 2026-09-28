@@ -2313,6 +2313,8 @@
         "Lax235315Proofs.ComponentProofs.uniformSampleAvoidance",
         "Lax235315Proofs.Crossings.crossings_duplicate",
         "Lax235315Proofs.Crossings.crossings_le_add_twice_hamming",
+        "Lax235315Proofs.ProgramContracts.eventually_hasCorrectOutput",
+        "Lax235315Proofs.ProgramContracts.eventually_hasRunningTimeBound",
         "Lax235315Proofs.ReconstructionBridge.encodesGraphWelzlOrder",
         "Lax235315Proofs.size_after_rounds"
       ]
