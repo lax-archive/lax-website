@@ -2993,6 +2993,16 @@
       ]
     },
     {
+      "id": "lax-303502",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Direct proofs for planar graph classes",
+      "concepts": [],
+      "proofs": [
+        "Lax303502Proofs.star_outerplanar"
+      ]
+    },
+    {
       "id": "lax-303562",
       "state": "registered",
       "environment": "v4.33.0",
