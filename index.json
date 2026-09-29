@@ -757,6 +757,7 @@
         }
       ],
       "proofs": [
+        "Lax47Proofs.IndependentSetGapHardness.gapSolver_implies_np_subset_bpp",
         "Lax47Proofs.triangleFreeMIS_not_approximable"
       ]
     },
