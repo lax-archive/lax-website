@@ -908,13 +908,7 @@ After the formula.`, "");
     expect(index).toContain("Which operating systems does Lax support?");
     expect(index).not.toContain('href="https://palomar-registry.org/"');
     expect(index.indexOf('id="landing-panel-read"')).toBeLessThan(index.indexOf('id="faq"'));
-    expect(index).toContain('<aside class="landing-workshop-banner" aria-label="Meeting announcement" hidden>');
-    expect(index).toContain("30 September 2026, 10:00–11:30 CEST");
-    expect(index).toContain('Lax Online Meeting');
-    expect(index).toContain("an introduction to Lean, formalization with AI agents, and sharing mathematics through Lax.");
     expect(index).toContain('href="workshop/"');
-    expect(index).toContain("Meeting details");
-    expect(index.indexOf('id="faq"')).toBeLessThan(index.indexOf('class="landing-workshop-banner"'));
     expect(index).not.toMatch(/id="landing-panel-read"[^>]* hidden/);
     expect(index).toContain("contributing.html");
     expect(index).toMatch(/<script src="assets\/landing\.js\?v=[0-9a-f]{12}"><\/script>/);
@@ -1198,7 +1192,7 @@ After the formula.`, "");
     expect(index).toContain('<h3>Join the conversation</h3>');
     expect(index).toContain('<a href="https://discord.gg/hgWMN5ztca">Join the Lax\nDiscord</a>');
     expect(index).toContain('<a href="mailto:lax.lean.archive@gmail.com">lax.lean.archive@gmail.com</a>');
-    expect(index).toContain('<a href="workshop/">Lax Online Meeting</a>');
+    expect(index).toContain('<a href="workshop/">2nd Lax Online Meeting</a>');
     expect(index.indexOf('id="landing-community-heading"')).toBeLessThan(index.indexOf('id="landing-foundations-heading"'));
     // The foundations: the listed definitions the archive holds, with how
     // many further submissions build on them.

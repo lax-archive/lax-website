@@ -3,9 +3,12 @@ import { attr, esc, page } from "../html.js";
 import type { PageContext } from "./shared.js";
 
 const FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLScCkCORYWuaP9SvNeySxIsa_zEuqTz8q_d9b8-3SOxS1L_xIg/viewform?embedded=true";
-const FORM_FRAME_ORIGINS = [new URL(FORM_URL).origin, "https://accounts.google.com"];
+const VIDEO_URL = "https://www.youtube-nocookie.com/embed/vx1IRXcA2bg";
+const FORM_FRAME_ORIGINS = [new URL(FORM_URL).origin, "https://accounts.google.com", new URL(VIDEO_URL).origin];
+const SLIDES_FILE = "lax-online-meeting-2026-09-30.pdf";
 const OUTCOMES_HEADING = "We invite you to an online meeting";
-const SECTION_HEADINGS = [OUTCOMES_HEADING, "Meeting details"] as const;
+const MATERIAL_HEADING = "Material from the 1st Lax Online Meeting";
+const SECTION_HEADINGS = [OUTCOMES_HEADING, "Meeting details", MATERIAL_HEADING] as const;
 
 interface WorkshopCopy {
   title: string;
@@ -41,7 +44,9 @@ export function workshopPage({ markdown }: PageContext): string {
 <header class="workshop-hero">
 <h1>${esc(copy.title)}</h1>
 <ul class="workshop-highlights" aria-label="Meeting at a glance">
-<li><span aria-hidden="true">◷</span> 90 minutes</li>
+<li><span aria-hidden="true">▣</span> Wed, 7 Oct 2026</li>
+<li><span aria-hidden="true">◷</span> 1 pm ET · 10 am PT</li>
+<li><span aria-hidden="true">◴</span> 90 minutes</li>
 <li><span aria-hidden="true">◎</span> Live online</li>
 <li><span aria-hidden="true">◇</span> No Lean knowledge needed</li>
 </ul>
@@ -66,6 +71,17 @@ ${markdown.render(section("Meeting details"), "../")}
 <div class="workshop-form-frame">
 <iframe src="${attr(FORM_URL)}" width="640" height="840" frameborder="0" marginheight="0" marginwidth="0" title="Lax Online Meeting preregistration form">Loading…</iframe>
 </div>
+</section>
+<section class="workshop-panel workshop-material" aria-labelledby="workshop-material-heading">
+<p class="workshop-section-number" aria-hidden="true">03</p>
+<h2 id="workshop-material-heading">${esc(MATERIAL_HEADING)}</h2>
+<div class="latex-content">
+${markdown.render(section(MATERIAL_HEADING), "../")}
+</div>
+<div class="workshop-video">
+<iframe src="${attr(VIDEO_URL)}" title="Recording of the 1st Lax Online Meeting" loading="lazy" allow="encrypted-media; picture-in-picture; fullscreen" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</div>
+<p class="workshop-material-links"><a href="../assets/${SLIDES_FILE}" download="${SLIDES_FILE}">Download the slides (PDF)</a> · <a href="https://www.youtube.com/watch?v=vx1IRXcA2bg">Watch on YouTube</a></p>
 </section>
 </article>`;
   return page({
