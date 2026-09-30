@@ -43,7 +43,7 @@ Then your agent takes over and guides you through the process.
 Lax is shaped by the people who use and review it. [Join the Lax
 Discord](https://discord.gg/hgWMN5ztca) to ask questions, exchange ideas, and
 share feedback, or email us at
-[lax.lean.archive@gmail.com](mailto:lax.lean.archive@gmail.com). You can also
+[mail@laxarchive.org](mailto:mail@laxarchive.org). You can also
 meet the community at the [2nd Lax Online Meeting](workshop/).
 
 ## Build foundations together
