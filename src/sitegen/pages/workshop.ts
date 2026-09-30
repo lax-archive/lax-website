@@ -53,14 +53,12 @@ export function workshopPage({ markdown }: PageContext): string {
 </header>
 <div class="workshop-summary">
 <section class="workshop-panel workshop-outcomes" aria-labelledby="workshop-outcomes-heading">
-<p class="workshop-section-number" aria-hidden="true">01</p>
 <h2 id="workshop-outcomes-heading">${esc(OUTCOMES_HEADING)}</h2>
 <div class="latex-content">
 ${markdown.render(section(OUTCOMES_HEADING), "../")}
 </div>
 </section>
 <section class="workshop-panel workshop-details" aria-labelledby="workshop-details-heading">
-<p class="workshop-section-number" aria-hidden="true">02</p>
 <h2 id="workshop-details-heading">Meeting details</h2>
 <div class="latex-content">
 ${markdown.render(section("Meeting details"), "../")}
@@ -72,8 +70,7 @@ ${markdown.render(section("Meeting details"), "../")}
 <iframe src="${attr(FORM_URL)}" width="640" height="840" frameborder="0" marginheight="0" marginwidth="0" title="Lax Online Meeting preregistration form">Loading…</iframe>
 </div>
 </section>
-<section class="workshop-panel workshop-material" aria-labelledby="workshop-material-heading">
-<p class="workshop-section-number" aria-hidden="true">03</p>
+<section class="workshop-panel workshop-material" id="material" aria-labelledby="workshop-material-heading">
 <h2 id="workshop-material-heading">${esc(MATERIAL_HEADING)}</h2>
 <div class="latex-content">
 ${markdown.render(section(MATERIAL_HEADING), "../")}
