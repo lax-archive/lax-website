@@ -8,7 +8,7 @@ both the downloaded input's SHA-256 and the vendored file's SHA-256.
 
 This snapshot was retrieved on 2026-09-30. Its destinations point to the
 current public documentation, not to a submission's historical Mathlib
-version. Link titles say so. Unknown names use verified source-module links
+version. Links use the compact hover label “mathlib ↗”. Unknown names use verified source-module links
 at the submission's full Mathlib commit, or remain plain if unavailable.
 
 To intentionally refresh the snapshot, download the `source` URL recorded in

@@ -34,10 +34,10 @@ export function mathlibLinkTitle(href: string): string | undefined {
   if (url.protocol !== "https:" || url.username || url.password || url.port || url.search) return undefined;
   if (url.origin === "https://leanprover-community.github.io" &&
     /^\/mathlib4_docs\/Mathlib\/(?:[A-Za-z0-9_]+\/)*[A-Za-z0-9_]+\.html$/u.test(url.pathname) && url.hash)
-    return "Mathlib documentation (current version; may differ from this submission)";
+    return "mathlib ↗";
   if (url.origin === "https://github.com" && !url.hash &&
     /^\/leanprover-community\/mathlib4\/blob\/[0-9a-f]{40}\/Mathlib\/(?:[A-Za-z0-9_]+\/)*[A-Za-z0-9_]+\.lean$/u.test(url.pathname))
-    return "Mathlib source at this submission’s pinned version (defining module)";
+    return "mathlib ↗";
   return undefined;
 }
 

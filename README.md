@@ -147,8 +147,9 @@ bytes therefore differ from production's, deterministically per flag set).
   Mathlib constants link to their exact declarations in the public Mathlib
   documentation. The compressed, checksummed index in `assets/mathlib-docs/`
   is a fixed build input, loaded once and never sent to browsers; its refresh
-  procedure is documented there. Link titles identify the documentation as
-  the current version, which may differ from the submission's Mathlib pin.
+  procedure is documented there. The documentation describes the current
+  version, which may differ from the submission's Mathlib pin. Links use
+  the compact hover label “mathlib ↗”.
   For declarations absent from the index, `references:fetch` verifies the
   defining module at the submission's full Mathlib commit and caches whether
   it exists; a verified module gets a pinned GitHub source link. Missing
