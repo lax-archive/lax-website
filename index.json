@@ -5442,40 +5442,6 @@
       ]
     },
     {
-      "id": "lax-909950",
-      "state": "draft",
-      "environment": "v4.33.0",
-      "title": "Planar Graphs Are 6-Colorable",
-      "concepts": [
-        {
-          "id": "Lax909950.EdgeDensity",
-          "title": "Planar graphs have at most 3v − 6 edges",
-          "type": "theorem"
-        },
-        {
-          "id": "Lax909950.EulerFormula",
-          "title": "Euler's formula",
-          "type": "theorem"
-        },
-        {
-          "id": "Lax909950.LowDegree",
-          "title": "Planar graphs have a vertex of degree at most 5",
-          "type": "theorem"
-        },
-        {
-          "id": "Lax909950.SixColoring",
-          "title": "Six color theorem",
-          "type": "theorem"
-        }
-      ],
-      "proofs": [
-        "Lax909950Proofs.edge_density",
-        "Lax909950Proofs.euler_formula",
-        "Lax909950Proofs.exists_degree_le_five",
-        "Lax909950Proofs.six_colorable"
-      ]
-    },
-    {
       "id": "lax-916827",
       "state": "registered",
       "environment": "v4.33.0",
