@@ -144,8 +144,16 @@ bytes therefore differ from production's, deterministically per flag set).
   references from the submission's sealed `.ilean` files. This covers archive
   declarations, structure keys and projections, aliases, private globals and
   constructors, with type and scope information from the validated build.
-  Local variables, external library names (including Mathlib), and names at
-  their own definition sites stay plain. Imported archive module names link
+  Mathlib constants link to their exact declarations in the public Mathlib
+  documentation. The compressed, checksummed index in `assets/mathlib-docs/`
+  is a fixed build input, loaded once and never sent to browsers; its refresh
+  procedure is documented there. Link titles identify the documentation as
+  the current version, which may differ from the submission's Mathlib pin.
+  For declarations absent from the index, `references:fetch` verifies the
+  defining module at the submission's full Mathlib commit and caches whether
+  it exists; a verified module gets a pinned GitHub source link. Missing
+  modules remain plain. Local variables, other external libraries, and names
+  at their own definition sites stay plain. Imported archive module names link
   to their concept pages. Archive namespaces in `open` commands link to their
   owning concept or declaration; standalone submission namespaces such as
   `Lax17` link to the submission page, as do displayed `lax-17` metadata labels
@@ -162,16 +170,20 @@ bytes therefore differ from production's, deterministically per flag set).
   existing public captures. It uses bounded HTTP ranges, checks each tar
   header and member digest, and verifies the displayed source against the
   capture manifest. It neither extracts tar paths nor compiles submissions.
-  Builds reverify cached bytes and validate Lean's version-5 JSON and UTF-16
-  ranges. Missing, stale or unsupported metadata fails a normal archive build
+  It also checks any needed Mathlib source fallbacks, storing the results
+  under `data/references/mathlib-sources/`. Builds reverify cached bytes and
+  validate Lean's version-5 JSON and UTF-16 ranges. Missing, stale or
+  unsupported metadata fails a normal archive build
   with an explanatory error. `--references DIR` moves the cache. Both CI and
   branch deployments fetch it before building.
 - Local `lax` callers without sealed captures, and explicit `--no-references`
   builds, retain conservative lexical navigation. That fallback does not
   promise complete coverage: fields, aliases and potentially shadowed names
   need compiler metadata. Normal archive and preview builds use the metadata.
-- Source links are static relative URLs to generated pages. They preserve
-  syntax colours, source text and line anchors, work in branch previews, and
+- Archive source links are static relative URLs; Mathlib links are restricted
+  to the public documentation and pinned `leanprover-community/mathlib4`
+  source paths. They preserve syntax colours, source text and line anchors,
+  work in branch previews, and
   require no browser scripts, external requests or CSP changes. Each build
   scans each concept once for its declaration inventory and caches resolved
   links; rendering walks highlighted fragments without repeated whole-source
