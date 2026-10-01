@@ -3704,6 +3704,7 @@
       "state": "registered",
       "environment": "v4.33.0",
       "title": "Interval Scheduling with Eligible Machine Sets",
+      "supersededBy": "lax-888481",
       "concepts": [
         {
           "id": "Lax470956.BinaryEncoding",
@@ -5419,7 +5420,7 @@
     },
     {
       "id": "lax-888481",
-      "state": "draft",
+      "state": "registered",
       "environment": "v4.33.0",
       "title": "Interval Scheduling with Eligible Machine Sets",
       "supersedes": "lax-470956",
