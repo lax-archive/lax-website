@@ -3250,6 +3250,14 @@
       ]
     },
     {
+      "id": "lax-326031",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Graph Classes and Width Parameters",
+      "concepts": [],
+      "proofs": []
+    },
+    {
       "id": "lax-332265",
       "state": "registered",
       "environment": "v4.33.0",
