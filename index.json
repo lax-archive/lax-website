@@ -3370,51 +3370,51 @@
       "id": "lax-391470",
       "state": "draft",
       "environment": "v4.33.0",
-      "title": "Scheduling with two non-unit job lengths is NP-complete",
+      "title": "Scheduling with Two Non-Unit Job Lengths Is NP-Complete",
       "concepts": [
         {
           "id": "Lax391470.AuxiliaryProblem",
-          "title": "The auxiliary problem AUX(p, q)",
+          "title": "The Auxiliary Problem AUX(p, q)",
           "type": "definition"
         },
         {
           "id": "Lax391470.BinaryEncoding",
-          "title": "Binary encodings and the two languages",
+          "title": "Binary Encodings and the Two Languages",
           "type": "definition"
         },
         {
           "id": "Lax391470.IntegralStartTimes",
-          "title": "Integral start times suffice",
+          "title": "Integral Start Times Suffice",
           "type": "theorem"
         },
         {
           "id": "Lax391470.Lemma1",
-          "title": "The auxiliary problem reduces to scheduling on two job lengths",
+          "title": "The Auxiliary Problem Reduces to Scheduling on Two Job Lengths",
           "type": "theorem"
         },
         {
           "id": "Lax391470.Lemma2",
-          "title": "The auxiliary problem is NP-complete",
+          "title": "The Auxiliary Problem Is NP-Complete",
           "type": "theorem"
         },
         {
           "id": "Lax391470.SatConstruction",
-          "title": "The instance of AUX(p, q) built from a formula",
+          "title": "The Instance of AUX(p, q) Built from a Formula",
           "type": "definition"
         },
         {
           "id": "Lax391470.Scheduling",
-          "title": "Single machine scheduling with release times and deadlines",
+          "title": "Single Machine Scheduling with Release Times and Deadlines",
           "type": "definition"
         },
         {
           "id": "Lax391470.StackedConstruction",
-          "title": "The stacked scheduling instance",
+          "title": "The Stacked Scheduling Instance",
           "type": "definition"
         },
         {
           "id": "Lax391470.Theorem1",
-          "title": "Scheduling with two non-unit job lengths is NP-complete",
+          "title": "Scheduling with Two Non-Unit Job Lengths Is NP-Complete",
           "type": "theorem"
         }
       ],
