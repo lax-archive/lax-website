@@ -143,7 +143,9 @@ describe.skipIf(!executable)("the reflow surface, rendered", () => {
         await page.goto(fieldsPage, { waitUntil: "load" });
         const link = page.locator(`#L${row} .lean-identifier-link`).filter({ hasText: new RegExp(`^${name}$`, "u") });
         expect(await link.count()).toBe(1);
-        expect(await page.locator("#L7 .lean-identifier-link, #L9 .lean-identifier-link, #L12 .lean-identifier-link, #L29 .lean-identifier-link").count()).toBe(0);
+        expect(await page.locator("#L7 .lean-identifier-link, #L9 .lean-identifier-link, #L12 .lean-identifier-link, #L29 .lean-identifier-link")
+          .evaluateAll((links) => links.map((link) => [link.textContent, link.getAttribute("href")]))).toEqual(
+          ["Nat", "Bool", "Nat", "Nat"].map((name) => [name, `https://leanprover-community.github.io/mathlib4_docs/Init/Prelude.html#${name}`]));
         await link.click();
         await page.waitForURL(`${fieldsPage}#L${target}`);
         await page.evaluate(() => document.fonts.ready);
