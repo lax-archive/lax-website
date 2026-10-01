@@ -114,8 +114,10 @@ jobs:
         uses: actions/cache@v4
         with:
           path: data/references
-          key: references-v1-${{ hashFiles('data/lax-db/*/build-output.json') }}
-          restore-keys: references-v1-
+          key: references-v2-${{ hashFiles('assets/mathlib-docs/snapshot.json') }}-${{ hashFiles('data/lax-db/*/build-output.json') }}
+          restore-keys: |
+            references-v2-
+            references-v1-
 
       - name: Fetch Lean references
         if: github.event_name != 'delete'

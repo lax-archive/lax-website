@@ -12,6 +12,8 @@ export interface SiteSubmission {
   bundleFile?: string;
   /** Verified compiler references, indexed by concept module. */
   sourceReferences?: Map<string, LeanReferences>;
+  /** Verified immutable source URLs for Mathlib modules absent from docs. */
+  mathlibSources?: ReadonlyMap<string, string>;
 }
 
 /**
