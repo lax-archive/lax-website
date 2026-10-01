@@ -110,7 +110,7 @@
 <div class="detail-heading concept-heading manuscript-heading">
 <div><p class="concept-id">Paper</p>
 <h1 class="concept-title">Graph Classes and Width Parameters</h1>
-<p class="concept-microline">5 pages · 47 marked passages · pdflatex · <a href="paper.pdf">download PDF</a> · <a href="index.html">lax-326031</a></p></div>
+<p class="concept-microline">5 pages · 49 marked passages · pdflatex · <a href="paper.pdf">download PDF</a> · <a href="index.html">lax-326031</a></p></div>
 </div>
 <div class="manuscript-view-switch" role="group" aria-label="Paper view">
 <a class="manuscript-view-link" href="paper.html">Reflowed</a>
@@ -851,10 +851,96 @@ G-F\text{ is acyclic}\}.</annotation></semantics></math></span><span class="kate
 <li class="manuscript-card kind-concept" id="m19" data-mark="19">
 <div class="manuscript-card-head">
 <span class="manuscript-card-swatch" aria-hidden="true"></span>
-<span class="manuscript-card-name"><span class="type-badge">def</span><a href="../lax-199508/Lax199508.Admissibility.html"><code>Lax199508.Admissibility</code></a></span>
-<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m19-body" aria-label="Show details of Lax199508.Admissibility"><span aria-hidden="true">▸</span></button>
+<span class="manuscript-card-name"><span class="type-badge">def</span><a href="../lax-195003/Lax195003.WelzlOrders.html"><code>Lax195003.WelzlOrders</code></a></span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m19-body" aria-label="Show details of Lax195003.WelzlOrders"><span aria-hidden="true">▸</span></button>
 </div>
 <div class="manuscript-card-body" id="m19-body" hidden>
+<p class="manuscript-card-title">Welzl orders</p>
+<div class="latex-content"><p>Let <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="script">F</mi></mrow><annotation encoding="application/x-tex">\mathcal{F}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathcal" style="margin-right:0.0993em;">F</span></span></span></span> be a set system on a finite ground set. A set <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>X</mi><mo>∈</mo><mi mathvariant="script">F</mi></mrow><annotation encoding="application/x-tex">X ∈ \mathcal{F}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.7224em;vertical-align:-0.0391em;"></span><span class="mord mathnormal" style="margin-right:0.0785em;">X</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathcal" style="margin-right:0.0993em;">F</span></span></span></span> crosses
+a total order whenever two consecutive elements lie on opposite sides of
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>X</mi></mrow><annotation encoding="application/x-tex">X</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.0785em;">X</span></span></span></span>. Its crossing count is the number of such consecutive pairs, and the
+crossing number of the order is the largest crossing count over all sets in
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="script">F</mi></mrow><annotation encoding="application/x-tex">\mathcal{F}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathcal" style="margin-right:0.0993em;">F</span></span></span></span>. A Welzl order of crossing number at most <em>k</em> is a total order whose
+crossing number is at most <em>k</em>.</p>
+</div>
+<div class="manuscript-card-source"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<tr class=""><td class="line-num">1</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Data.Fin.Basic</span></td></tr>
+<tr class=""><td class="line-num">2</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Data.Nat.Lattice</span></td></tr>
+<tr class=""><td class="line-num">3</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Data.Set.Card</span></td></tr>
+<tr class=""><td class="line-num">4</td><td class="line-code"> </td></tr>
+<tr class="line-elided"><td class="line-num"></td><td class="line-code">… module docstring, 28 lines</td></tr>
+<tr class=""><td class="line-num">33</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">34</td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax195003.WelzlOrders</span></td></tr>
+<tr class=""><td class="line-num">35</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">36</td><td class="line-code"><span style="color:#6A737D">/-- A set system on `α`: a family of subsets of the ground set `α`. -/</span></td></tr>
+<tr class=""><td class="line-num">37</td><td class="line-code"><span style="color:#D73A49">abbrev</span><span style="color:#6F42C1"> SetSystem</span><span style="color:#24292E"> (α : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">*) := </span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/Set/Defs.html#Set" title="mathlib ↗"><span style="color:#24292E">Set</span></a><span style="color:#24292E"> (</span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/Set/Defs.html#Set" title="mathlib ↗"><span style="color:#24292E">Set</span></a><span style="color:#24292E"> α)</span></td></tr>
+<tr class=""><td class="line-num">38</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">39</td><td class="line-code"><span style="color:#6A737D">/-- The number of consecutive pairs in the order `π` with exactly one</span></td></tr>
+<tr class=""><td class="line-num">40</td><td class="line-code"><span style="color:#6A737D">endpoint in `X`. -/</span></td></tr>
+<tr class=""><td class="line-num">41</td><td class="line-code"><span style="color:#D73A49">noncomputable</span><span style="color:#D73A49"> def</span><span style="color:#6F42C1"> crossingCount</span><span style="color:#24292E"> {n : ℕ} (π : </span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Logic/Equiv/Defs.html#Equiv.Perm" title="mathlib ↗"><span style="color:#24292E">Equiv.Perm</span></a><span style="color:#24292E"> (Fin n))</span></td></tr>
+<tr class=""><td class="line-num">42</td><td class="line-code"><span style="color:#24292E">    (X : </span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/Set/Defs.html#Set" title="mathlib ↗"><span style="color:#24292E">Set</span></a><span style="color:#24292E"> (Fin n)) : ℕ :=</span></td></tr>
+<tr class=""><td class="line-num">43</td><td class="line-code"><span style="color:#24292E">  {u : Fin n | ∃ v : Fin n,</span></td></tr>
+<tr class=""><td class="line-num">44</td><td class="line-code"><span style="color:#24292E">    (π v).val = (π u).val + </span><span style="color:#005CC5">1</span><span style="color:#24292E"> ∧ (u ∈ X ↔ v ∉ X)}.</span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/Set/Card.html#Set.ncard" title="mathlib ↗"><span style="color:#24292E">ncard</span></a></td></tr>
+<tr class=""><td class="line-num">45</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">46</td><td class="line-code"><span style="color:#6A737D">/-- The crossing number of `π` with respect to `𝓕`: the largest crossing</span></td></tr>
+<tr class=""><td class="line-num">47</td><td class="line-code"><span style="color:#6A737D">count of a member of the set system. -/</span></td></tr>
+<tr class=""><td class="line-num">48</td><td class="line-code"><span style="color:#D73A49">noncomputable</span><span style="color:#D73A49"> def</span><span style="color:#6F42C1"> crossingNumber</span><span style="color:#24292E"> {n : ℕ} (𝓕 : </span><a class="lean-identifier-link" href="../lax-195003/Lax195003.WelzlOrders.html#L36"><span style="color:#24292E">SetSystem</span></a><span style="color:#24292E"> (Fin n))</span></td></tr>
+<tr class=""><td class="line-num">49</td><td class="line-code"><span style="color:#24292E">    (π : </span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Logic/Equiv/Defs.html#Equiv.Perm" title="mathlib ↗"><span style="color:#24292E">Equiv.Perm</span></a><span style="color:#24292E"> (Fin n)) : ℕ :=</span></td></tr>
+<tr class=""><td class="line-num">50</td><td class="line-code"><span style="color:#24292E">  </span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Order/Bounds/Defs.html#SupSet.sSup" title="mathlib ↗"><span style="color:#24292E">sSup</span></a><span style="color:#24292E"> {k : ℕ | ∃ X ∈ 𝓕, k = </span><a class="lean-identifier-link" href="../lax-195003/Lax195003.WelzlOrders.html#L39"><span style="color:#24292E">crossingCount</span></a><span style="color:#24292E"> π X}</span></td></tr>
+<tr class=""><td class="line-num">51</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">52</td><td class="line-code"><span style="color:#6A737D">/-- The order `π` is a Welzl order of crossing number at most `k` for the</span></td></tr>
+<tr class=""><td class="line-num">53</td><td class="line-code"><span style="color:#6A737D">set system `𝓕`. -/</span></td></tr>
+<tr class=""><td class="line-num">54</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> IsWelzlOrder</span><span style="color:#24292E"> {n : ℕ} (𝓕 : </span><a class="lean-identifier-link" href="../lax-195003/Lax195003.WelzlOrders.html#L36"><span style="color:#24292E">SetSystem</span></a><span style="color:#24292E"> (Fin n))</span></td></tr>
+<tr class=""><td class="line-num">55</td><td class="line-code"><span style="color:#24292E">    (π : </span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Logic/Equiv/Defs.html#Equiv.Perm" title="mathlib ↗"><span style="color:#24292E">Equiv.Perm</span></a><span style="color:#24292E"> (Fin n)) (k : ℕ) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr class=""><td class="line-num">56</td><td class="line-code"><span style="color:#24292E">  </span><a class="lean-identifier-link" href="../lax-195003/Lax195003.WelzlOrders.html#L46"><span style="color:#24292E">crossingNumber</span></a><span style="color:#24292E"> 𝓕 π ≤ k</span></td></tr>
+<tr class=""><td class="line-num">57</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">58</td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax195003.WelzlOrders</span></td></tr>
+<tr class=""><td class="line-num">59</td><td class="line-code"> </td></tr>
+</table></div></div>
+</div>
+</li>
+<li class="manuscript-card kind-concept" id="m20" data-mark="20">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><span class="type-badge">def</span><a href="../lax-195003/Lax195003.WelzlOrdersInGraphs.html"><code>Lax195003.WelzlOrdersInGraphs</code></a></span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m20-body" aria-label="Show details of Lax195003.WelzlOrdersInGraphs"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m20-body" hidden>
+<p class="manuscript-card-title">Welzl orders in graphs</p>
+<div class="latex-content"><p>For a graph and a radius <em>k</em>, a graph Welzl order of crossing number at most
+<em>ℓ</em> is a Welzl order for the graph's open <em>k</em>-neighborhood set system. It is
+therefore crossed at most <em>ℓ</em> times by every open <em>k</em>-neighborhood.</p>
+</div>
+<div class="manuscript-card-source"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<tr class=""><td class="line-num">1</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-195003/Lax195003.WelzlOrdersNeighborhoodSetSystem.html"><span style="color:#24292E">Lax195003.WelzlOrdersNeighborhoodSetSystem</span></a></td></tr>
+<tr class=""><td class="line-num">2</td><td class="line-code"> </td></tr>
+<tr class="line-elided"><td class="line-num"></td><td class="line-code">… module docstring, 22 lines</td></tr>
+<tr class=""><td class="line-num">25</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">26</td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax195003.WelzlOrdersInGraphs</span></td></tr>
+<tr class=""><td class="line-num">27</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">28</td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-195003/Lax195003.WelzlOrders.html"><span style="color:#24292E">Lax195003.WelzlOrders</span></a></td></tr>
+<tr class=""><td class="line-num">29</td><td class="line-code"><span style="color:#D73A49">open</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-195003/Lax195003.WelzlOrdersNeighborhoodSetSystem.html"><span style="color:#24292E">Lax195003.WelzlOrdersNeighborhoodSetSystem</span></a></td></tr>
+<tr class=""><td class="line-num">30</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">31</td><td class="line-code"><span style="color:#6A737D">/-- The word `y` encodes a Welzl order of crossing number at most</span></td></tr>
+<tr class=""><td class="line-num">32</td><td class="line-code"><span style="color:#6A737D">`crossingBound` for the `radius`-neighborhood set system of `G`. -/</span></td></tr>
+<tr class=""><td class="line-num">33</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> EncodesGraphWelzlOrder</span><span style="color:#24292E"> {n : ℕ} (G : </span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Basic.html#SimpleGraph" title="mathlib ↗"><span style="color:#24292E">SimpleGraph</span></a><span style="color:#24292E"> (Fin n))</span></td></tr>
+<tr class=""><td class="line-num">34</td><td class="line-code"><span style="color:#24292E">    (radius crossingBound : ℕ) (y : List ℕ) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr class=""><td class="line-num">35</td><td class="line-code"><span style="color:#24292E">  ∃ π : </span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Logic/Equiv/Defs.html#Equiv.Perm" title="mathlib ↗"><span style="color:#24292E">Equiv.Perm</span></a><span style="color:#24292E"> (Fin n),</span></td></tr>
+<tr class=""><td class="line-num">36</td><td class="line-code"><span style="color:#24292E">    y = List.ofFn (</span><span style="color:#D73A49">fun</span><span style="color:#24292E"> i : Fin n =&gt; (π.</span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Logic/Equiv/Defs.html#Equiv.symm" title="mathlib ↗"><span style="color:#24292E">symm</span></a><span style="color:#24292E"> i).val) ∧</span></td></tr>
+<tr class=""><td class="line-num">37</td><td class="line-code"><span style="color:#24292E">      </span><a class="lean-identifier-link" href="../lax-195003/Lax195003.WelzlOrders.html#L52"><span style="color:#24292E">IsWelzlOrder</span></a><span style="color:#24292E"> (</span><a class="lean-identifier-link" href="../lax-195003/Lax195003.WelzlOrdersNeighborhoodSetSystem.html#L24"><span style="color:#24292E">neighborhoodSetSystem</span></a><span style="color:#24292E"> G radius) π crossingBound</span></td></tr>
+<tr class=""><td class="line-num">38</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">39</td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax195003.WelzlOrdersInGraphs</span></td></tr>
+<tr class=""><td class="line-num">40</td><td class="line-code"> </td></tr>
+</table></div></div>
+</div>
+</li>
+<li class="manuscript-card kind-concept" id="m21" data-mark="21">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><span class="type-badge">def</span><a href="../lax-199508/Lax199508.Admissibility.html"><code>Lax199508.Admissibility</code></a></span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m21-body" aria-label="Show details of Lax199508.Admissibility"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m21-body" hidden>
 <p class="manuscript-card-title">Admissibility</p>
 <div class="latex-content"><p>Fix a linear ordering of the vertices of a graph <em>G</em>. An admissible
 family of size <em>k</em> at a vertex <em>v</em> consists of <em>k</em> paths of length at
@@ -913,13 +999,13 @@ the reachability sets, which contain the vertex itself.</p>
 </table></div></div>
 </div>
 </li>
-<li class="manuscript-card kind-concept" id="m20" data-mark="20">
+<li class="manuscript-card kind-concept" id="m22" data-mark="22">
 <div class="manuscript-card-head">
 <span class="manuscript-card-swatch" aria-hidden="true"></span>
 <span class="manuscript-card-name"><span class="type-badge">def</span><a href="../lax-199508/Lax199508.ColoringNumbers.html"><code>Lax199508.ColoringNumbers</code></a></span>
-<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m20-body" aria-label="Show details of Lax199508.ColoringNumbers"><span aria-hidden="true">▸</span></button>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m22-body" aria-label="Show details of Lax199508.ColoringNumbers"><span aria-hidden="true">▸</span></button>
 </div>
-<div class="manuscript-card-body" id="m20-body" hidden>
+<div class="manuscript-card-body" id="m22-body" hidden>
 <p class="manuscript-card-title">Generalized coloring numbers</p>
 <div class="latex-content"><p>Fix a linear ordering of the vertices of a graph <em>G</em>. A vertex <em>u</em> is
 weakly <em>r</em>-reachable from <em>v</em> if some path from <em>v</em> to <em>u</em> of length at
@@ -996,13 +1082,13 @@ Theorem 3.4 of that chapter.</p>
 </table></div></div>
 </div>
 </li>
-<li class="manuscript-card kind-concept" id="m21" data-mark="21">
+<li class="manuscript-card kind-concept" id="m23" data-mark="23">
 <div class="manuscript-card-head">
 <span class="manuscript-card-swatch" aria-hidden="true"></span>
 <span class="manuscript-card-name"><span class="type-badge">def</span><a href="../lax-199508/Lax199508.NeighborhoodComplexity.html"><code>Lax199508.NeighborhoodComplexity</code></a></span>
-<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m21-body" aria-label="Show details of Lax199508.NeighborhoodComplexity"><span aria-hidden="true">▸</span></button>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m23-body" aria-label="Show details of Lax199508.NeighborhoodComplexity"><span aria-hidden="true">▸</span></button>
 </div>
-<div class="manuscript-card-body" id="m21-body" hidden>
+<div class="manuscript-card-body" id="m23-body" hidden>
 <p class="manuscript-card-title">Neighborhood complexity</p>
 <div class="latex-content"><p>The neighborhood complexity of a graph <em>G</em> on a vertex set <em>A</em> counts
 the distinct traces of vertex neighborhoods on <em>A</em>, that is, the sets
@@ -1043,13 +1129,13 @@ constant <em>c</em> such that every member <em>G</em> and every nonempty vertex 
 </table></div></div>
 </div>
 </li>
-<li class="manuscript-card kind-concept" id="m22" data-mark="22">
+<li class="manuscript-card kind-concept" id="m24" data-mark="24">
 <div class="manuscript-card-head">
 <span class="manuscript-card-swatch" aria-hidden="true"></span>
 <span class="manuscript-card-name"><span class="type-badge">def</span><a href="../lax-9/Lax9.NeighborhoodComplexity.html"><code>Lax9.NeighborhoodComplexity</code></a></span>
-<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m22-body" aria-label="Show details of Lax9.NeighborhoodComplexity"><span aria-hidden="true">▸</span></button>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m24-body" aria-label="Show details of Lax9.NeighborhoodComplexity"><span aria-hidden="true">▸</span></button>
 </div>
-<div class="manuscript-card-body" id="m22-body" hidden>
+<div class="manuscript-card-body" id="m24-body" hidden>
 <p class="manuscript-card-title">Linear Neighbourhood Complexity</p>
 <div class="latex-content"><p>For a finite simple graph <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi></mrow><annotation encoding="application/x-tex">G</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal">G</span></span></span></span> and a natural number <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi></mrow><annotation encoding="application/x-tex">p</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">p</span></span></span></span>, the neighbourhood
 complexity <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>π</mi><mi>G</mi></msub><mo stretchy="false">(</mo><mi>p</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">π_G(p)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0359em;">π</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">G</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathnormal">p</span><span class="mclose">)</span></span></span></span> is the maximum, over sets <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>X</mi></mrow><annotation encoding="application/x-tex">X</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.0785em;">X</span></span></span></span> of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi></mrow><annotation encoding="application/x-tex">p</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">p</span></span></span></span> vertices, of the number
@@ -1087,13 +1173,13 @@ constant multiple of <span class="katex"><span class="katex-mathml"><math xmlns=
 </table></div></div>
 </div>
 </li>
-<li class="manuscript-card kind-concept" id="m23" data-mark="23">
+<li class="manuscript-card kind-concept" id="m25" data-mark="25">
 <div class="manuscript-card-head">
 <span class="manuscript-card-swatch" aria-hidden="true"></span>
 <span class="manuscript-card-name"><span class="type-badge">def</span><a href="../lax-214022/Lax214022.Cographs.html"><code>Lax214022.Cographs</code></a></span>
-<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m23-body" aria-label="Show details of Lax214022.Cographs"><span aria-hidden="true">▸</span></button>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m25-body" aria-label="Show details of Lax214022.Cographs"><span aria-hidden="true">▸</span></button>
 </div>
-<div class="manuscript-card-body" id="m23-body" hidden>
+<div class="manuscript-card-body" id="m25-body" hidden>
 <p class="manuscript-card-title">Cographs</p>
 <div class="latex-content"><p>A finite graph is a cograph if it has twin-width zero.  Equivalently, it can
 be reduced to one vertex by repeatedly contracting a pair of twins, without
@@ -1119,13 +1205,13 @@ ever creating a red edge.</p>
 </table></div></div>
 </div>
 </li>
-<li class="manuscript-card kind-concept" id="m24" data-mark="24">
+<li class="manuscript-card kind-concept" id="m26" data-mark="26">
 <div class="manuscript-card-head">
 <span class="manuscript-card-swatch" aria-hidden="true"></span>
 <span class="manuscript-card-name"><span class="type-badge">def</span><a href="../lax-762056/Lax762056.InducedMinors.html"><code>Lax762056.InducedMinors</code></a></span>
-<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m24-body" aria-label="Show details of Lax762056.InducedMinors"><span aria-hidden="true">▸</span></button>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m26-body" aria-label="Show details of Lax762056.InducedMinors"><span aria-hidden="true">▸</span></button>
 </div>
-<div class="manuscript-card-body" id="m24-body" hidden>
+<div class="manuscript-card-body" id="m26-body" hidden>
 <p class="manuscript-card-title">Induced minors</p>
 <div class="latex-content"><p>A graph <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>H</mi></mrow><annotation encoding="application/x-tex">H</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.0813em;">H</span></span></span></span> is an induced minor of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi></mrow><annotation encoding="application/x-tex">G</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal">G</span></span></span></span> if its vertices have pairwise disjoint,
 nonempty connected branch sets in <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi></mrow><annotation encoding="application/x-tex">G</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal">G</span></span></span></span>, and two distinct branch sets are joined
@@ -1158,13 +1244,13 @@ definition by vertex deletions and edge contractions.</p>
 </table></div></div>
 </div>
 </li>
-<li class="manuscript-card kind-concept" id="m25" data-mark="25">
+<li class="manuscript-card kind-concept" id="m27" data-mark="27">
 <div class="manuscript-card-head">
 <span class="manuscript-card-swatch" aria-hidden="true"></span>
 <span class="manuscript-card-name"><span class="type-badge">def</span><a href="../lax-762056/Lax762056.Grid.html"><code>Lax762056.Grid</code></a></span>
-<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m25-body" aria-label="Show details of Lax762056.Grid"><span aria-hidden="true">▸</span></button>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m27-body" aria-label="Show details of Lax762056.Grid"><span aria-hidden="true">▸</span></button>
 </div>
-<div class="manuscript-card-body" id="m25-body" hidden>
+<div class="manuscript-card-body" id="m27-body" hidden>
 <p class="manuscript-card-title">Excluded induced grid minors</p>
 <div class="latex-content"><p>The <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>×</mo><mi>k</mi></mrow><annotation encoding="application/x-tex">k\times k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.7778em;vertical-align:-0.0833em;"></span><span class="mord mathnormal" style="margin-right:0.0315em;">k</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.0315em;">k</span></span></span></span> square grid is the Cartesian product of two <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.0315em;">k</span></span></span></span>-vertex paths.
 A graph excludes the induced grid of size <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.0315em;">k</span></span></span></span> if this square grid is not
@@ -1191,13 +1277,13 @@ an induced minor of the graph.</p>
 </table></div></div>
 </div>
 </li>
-<li class="manuscript-card kind-concept" id="m26" data-mark="26">
+<li class="manuscript-card kind-concept" id="m28" data-mark="28">
 <div class="manuscript-card-head">
 <span class="manuscript-card-swatch" aria-hidden="true"></span>
 <span class="manuscript-card-name"><span class="type-badge">def</span><a href="../lax-710763/Lax710763.GraphClasses.html"><code>Lax710763.GraphClasses</code></a></span>
-<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m26-body" aria-label="Show details of Lax710763.GraphClasses"><span aria-hidden="true">▸</span></button>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m28-body" aria-label="Show details of Lax710763.GraphClasses"><span aria-hidden="true">▸</span></button>
 </div>
-<div class="manuscript-card-body" id="m26-body" hidden>
+<div class="manuscript-card-body" id="m28-body" hidden>
 <p class="manuscript-card-title">Weakly sparse graph classes</p>
 <div class="latex-content"><p>A graph class is a set of finite simple graphs: for each number of
 vertices <em>n</em>, some of the simple graphs on the canonical <em>n</em>-element
@@ -1229,13 +1315,13 @@ graph <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.
 </table></div></div>
 </div>
 </li>
-<li class="manuscript-card kind-concept" id="m27" data-mark="27">
+<li class="manuscript-card kind-concept" id="m29" data-mark="29">
 <div class="manuscript-card-head">
 <span class="manuscript-card-swatch" aria-hidden="true"></span>
 <span class="manuscript-card-name"><span class="type-badge">def</span><a href="../lax-68/Lax68.GraphMinors.html"><code>Lax68.GraphMinors</code></a></span>
-<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m27-body" aria-label="Show details of Lax68.GraphMinors"><span aria-hidden="true">▸</span></button>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m29-body" aria-label="Show details of Lax68.GraphMinors"><span aria-hidden="true">▸</span></button>
 </div>
-<div class="manuscript-card-body" id="m27-body" hidden>
+<div class="manuscript-card-body" id="m29-body" hidden>
 <p class="manuscript-card-title">Graph minors</p>
 <div class="latex-content"><figure class="content-figure"><img src="https://raw.githubusercontent.com/lax-archive/lax-submissions/4dd917c8b9a1e181ec951b7f6fa384262af31fa9/planar-graph-classes-v4-33/assets/graph-minor.svg" alt="Graph minor illustration"><figcaption>Graph minor illustration</figcaption></figure>
 <p>A graph <em>H</em> is a minor of a graph <em>G</em> when the vertices of <em>H</em> can be
@@ -1283,13 +1369,13 @@ joining the corresponding branch sets for every edge of <em>H</em>.</p>
 </table></div></div>
 </div>
 </li>
-<li class="manuscript-card kind-concept" id="m28" data-mark="28">
+<li class="manuscript-card kind-concept" id="m30" data-mark="30">
 <div class="manuscript-card-head">
 <span class="manuscript-card-swatch" aria-hidden="true"></span>
 <span class="manuscript-card-name"><span class="type-badge">def</span><a href="../lax-68/Lax68.GraphTopologicalMinors.html"><code>Lax68.GraphTopologicalMinors</code></a></span>
-<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m28-body" aria-label="Show details of Lax68.GraphTopologicalMinors"><span aria-hidden="true">▸</span></button>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m30-body" aria-label="Show details of Lax68.GraphTopologicalMinors"><span aria-hidden="true">▸</span></button>
 </div>
-<div class="manuscript-card-body" id="m28-body" hidden>
+<div class="manuscript-card-body" id="m30-body" hidden>
 <p class="manuscript-card-title">Topological graph minors</p>
 <div class="latex-content"><figure class="content-figure"><img src="https://raw.githubusercontent.com/lax-archive/lax-submissions/4dd917c8b9a1e181ec951b7f6fa384262af31fa9/planar-graph-classes-v4-33/assets/topological-minor.svg" alt="Topological minor illustration"><figcaption>Topological minor illustration</figcaption></figure>
 <p>A graph <em>H</em> is a topological minor of <em>G</em> when the vertices of <em>H</em> are
@@ -1344,13 +1430,13 @@ interiors contain no branch vertex and are pairwise disjoint. Equivalently,
 </table></div></div>
 </div>
 </li>
-<li class="manuscript-card kind-concept" id="m29" data-mark="29">
+<li class="manuscript-card kind-concept" id="m31" data-mark="31">
 <div class="manuscript-card-head">
 <span class="manuscript-card-swatch" aria-hidden="true"></span>
 <span class="manuscript-card-name"><span class="type-badge">def</span><a href="../lax-68/Lax68.GridsAndWalls.html"><code>Lax68.GridsAndWalls</code></a></span>
-<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m29-body" aria-label="Show details of Lax68.GridsAndWalls"><span aria-hidden="true">▸</span></button>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m31-body" aria-label="Show details of Lax68.GridsAndWalls"><span aria-hidden="true">▸</span></button>
 </div>
-<div class="manuscript-card-body" id="m29-body" hidden>
+<div class="manuscript-card-body" id="m31-body" hidden>
 <p class="manuscript-card-title">Grids and walls</p>
 <div class="latex-content"><figure class="content-figure"><img src="https://raw.githubusercontent.com/lax-archive/lax-submissions/d0f2a7021b6428f55a4524763f47a4312c74348f/planar-graph-classes-v4-33/assets/grid-wall.svg" alt="Grid and wall illustration"><figcaption>Grid and wall illustration</figcaption></figure>
 <p>A nonempty rectangular grid has vertices in rows and columns, with edges
@@ -1401,13 +1487,13 @@ obtained by retaining alternating vertical grid edges.</p>
 </table></div></div>
 </div>
 </li>
-<li class="manuscript-card kind-concept" id="m30" data-mark="30">
+<li class="manuscript-card kind-concept" id="m32" data-mark="32">
 <div class="manuscript-card-head">
 <span class="manuscript-card-swatch" aria-hidden="true"></span>
 <span class="manuscript-card-name"><span class="type-badge">def</span><a href="../lax-68/Lax68.Outerplanar.html"><code>Lax68.Outerplanar</code></a></span>
-<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m30-body" aria-label="Show details of Lax68.Outerplanar"><span aria-hidden="true">▸</span></button>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m32-body" aria-label="Show details of Lax68.Outerplanar"><span aria-hidden="true">▸</span></button>
 </div>
-<div class="manuscript-card-body" id="m30-body" hidden>
+<div class="manuscript-card-body" id="m32-body" hidden>
 <p class="manuscript-card-title">Outerplanar graphs</p>
 <div class="latex-content"><figure class="content-figure"><img src="https://raw.githubusercontent.com/lax-archive/lax-submissions/d475531e6ec14f564ed7488033e83d43ae8bd5e6/planar-graph-classes-v4-33/assets/outerplanar.svg" alt="Outerplanar graph illustration"><figcaption>Outerplanar graph illustration</figcaption></figure>
 <p>A graph is outerplanar here when it has a crossing-free straight-line drawing
@@ -1446,13 +1532,13 @@ vertex on the boundary of the outer face.</p>
 </table></div></div>
 </div>
 </li>
-<li class="manuscript-card kind-concept" id="m31" data-mark="31">
+<li class="manuscript-card kind-concept" id="m33" data-mark="33">
 <div class="manuscript-card-head">
 <span class="manuscript-card-swatch" aria-hidden="true"></span>
 <span class="manuscript-card-name"><span class="type-badge">def</span><a href="../lax-68/Lax68.Planar.html"><code>Lax68.Planar</code></a></span>
-<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m31-body" aria-label="Show details of Lax68.Planar"><span aria-hidden="true">▸</span></button>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m33-body" aria-label="Show details of Lax68.Planar"><span aria-hidden="true">▸</span></button>
 </div>
-<div class="manuscript-card-body" id="m31-body" hidden>
+<div class="manuscript-card-body" id="m33-body" hidden>
 <p class="manuscript-card-title">Planar graphs</p>
 <div class="latex-content"><figure class="content-figure"><img src="https://raw.githubusercontent.com/lax-archive/lax-submissions/1d7f2bc99763b554a5d59824c6c0d682f8241254/planar-graph-classes-v4-33/assets/planar.svg" alt="Planar graph illustration"><figcaption>Planar graph illustration</figcaption></figure>
 <p>A graph is planar here when it has a crossing-free straight-line drawing in
@@ -1482,13 +1568,13 @@ of planarity. The drawing certificate is supplied by a separate concept.</p>
 </table></div></div>
 </div>
 </li>
-<li class="manuscript-card kind-concept" id="m32" data-mark="32">
+<li class="manuscript-card kind-concept" id="m34" data-mark="34">
 <div class="manuscript-card-head">
 <span class="manuscript-card-swatch" aria-hidden="true"></span>
 <span class="manuscript-card-name"><span class="type-badge">def</span><a href="../lax-68/Lax68.Triangulations.html"><code>Lax68.Triangulations</code></a></span>
-<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m32-body" aria-label="Show details of Lax68.Triangulations"><span aria-hidden="true">▸</span></button>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m34-body" aria-label="Show details of Lax68.Triangulations"><span aria-hidden="true">▸</span></button>
 </div>
-<div class="manuscript-card-body" id="m32-body" hidden>
+<div class="manuscript-card-body" id="m34-body" hidden>
 <p class="manuscript-card-title">Triangulations</p>
 <div class="latex-content"><figure class="content-figure"><img src="https://raw.githubusercontent.com/lax-archive/lax-submissions/6a23e9f09597af8e83514df2442e5a47ed6ab095/planar-graph-classes-v4-33/assets/triangulation.svg" alt="Triangulation illustration"><figcaption>Triangulation illustration</figcaption></figure>
 <p>A triangulation of a graph G is a planar supergraph T on the same vertex set,
@@ -1519,13 +1605,13 @@ bounded by a triangle.</p>
 </table></div></div>
 </div>
 </li>
-<li class="manuscript-card kind-concept" id="m33" data-mark="33">
+<li class="manuscript-card kind-concept" id="m35" data-mark="35">
 <div class="manuscript-card-head">
 <span class="manuscript-card-swatch" aria-hidden="true"></span>
 <span class="manuscript-card-name"><span class="type-badge">def</span><a href="../lax-153141/Lax153141.MixedMinorNumber.html"><code>Lax153141.MixedMinorNumber</code></a></span>
-<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m33-body" aria-label="Show details of Lax153141.MixedMinorNumber"><span aria-hidden="true">▸</span></button>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m35-body" aria-label="Show details of Lax153141.MixedMinorNumber"><span aria-hidden="true">▸</span></button>
 </div>
-<div class="manuscript-card-body" id="m33-body" hidden>
+<div class="manuscript-card-body" id="m35-body" hidden>
 <p class="manuscript-card-title">Mixed minor number</p>
 <div class="latex-content"><p>A <em>k</em>-division of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mi>i</mi><mi>n</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">Fin n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.1389em;">F</span><span class="mord mathnormal">inn</span></span></span></span> partitions it into <em>k</em> nonempty
 consecutive intervals in increasing order. A row division and a column
@@ -1608,13 +1694,13 @@ number of this matrix over all vertex orderings.</p>
 </table></div></div>
 </div>
 </li>
-<li class="manuscript-card kind-concept" id="m34" data-mark="34">
+<li class="manuscript-card kind-concept" id="m36" data-mark="36">
 <div class="manuscript-card-head">
 <span class="manuscript-card-swatch" aria-hidden="true"></span>
 <span class="manuscript-card-name"><span class="type-badge">def</span><a href="../lax-199508/Lax199508.UniformQuasiWideness.html"><code>Lax199508.UniformQuasiWideness</code></a></span>
-<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m34-body" aria-label="Show details of Lax199508.UniformQuasiWideness"><span aria-hidden="true">▸</span></button>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m36-body" aria-label="Show details of Lax199508.UniformQuasiWideness"><span aria-hidden="true">▸</span></button>
 </div>
-<div class="manuscript-card-body" id="m34-body" hidden>
+<div class="manuscript-card-body" id="m36-body" hidden>
 <p class="manuscript-card-title">Uniform quasi-wideness</p>
 <div class="latex-content"><p>A set <em>A</em> of vertices is distance-<em>r</em> independent in <em>G</em> if any two
 distinct vertices of <em>A</em> are at distance more than <em>r</em>. A graph class is
@@ -1670,13 +1756,13 @@ functions <em>N</em> the wideness functions.</p>
 </table></div></div>
 </div>
 </li>
-<li class="manuscript-card kind-concept" id="m35" data-mark="35">
+<li class="manuscript-card kind-concept" id="m37" data-mark="37">
 <div class="manuscript-card-head">
 <span class="manuscript-card-swatch" aria-hidden="true"></span>
 <span class="manuscript-card-name"><span class="type-badge">def</span><a href="../lax-199508/Lax199508.ShallowMinorDensity.html"><code>Lax199508.ShallowMinorDensity</code></a></span>
-<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m35-body" aria-label="Show details of Lax199508.ShallowMinorDensity"><span aria-hidden="true">▸</span></button>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m37-body" aria-label="Show details of Lax199508.ShallowMinorDensity"><span aria-hidden="true">▸</span></button>
 </div>
-<div class="manuscript-card-body" id="m35-body" hidden>
+<div class="manuscript-card-body" id="m37-body" hidden>
 <p class="manuscript-card-title">Edge density of shallow minors</p>
 <div class="latex-content"><p>A graph <em>G</em> has depth-<em>r</em> density at most <em>d</em> if every depth-<em>r</em> minor
 <em>H</em> of <em>G</em> has at most <em>d</em> · |V(H)| edges — the standard &quot;grad&quot; bound on
@@ -1721,13 +1807,13 @@ says ∇</em><em>r</em>(<em>G</em>) ≤ <em>d</em>.</p>
 </table></div></div>
 </div>
 </li>
-<li class="manuscript-card kind-concept" id="m36" data-mark="36">
+<li class="manuscript-card kind-concept" id="m38" data-mark="38">
 <div class="manuscript-card-head">
 <span class="manuscript-card-swatch" aria-hidden="true"></span>
 <span class="manuscript-card-name"><span class="type-badge">def</span><a href="../lax-199508/Lax199508.ShallowTopologicalMinors.html"><code>Lax199508.ShallowTopologicalMinors</code></a></span>
-<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m36-body" aria-label="Show details of Lax199508.ShallowTopologicalMinors"><span aria-hidden="true">▸</span></button>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m38-body" aria-label="Show details of Lax199508.ShallowTopologicalMinors"><span aria-hidden="true">▸</span></button>
 </div>
-<div class="manuscript-card-body" id="m36-body" hidden>
+<div class="manuscript-card-body" id="m38-body" hidden>
 <p class="manuscript-card-title">Shallow topological minors</p>
 <div class="latex-content"><p>A graph <em>H</em> is a depth-<em>r</em> topological minor of a graph <em>G</em> if the graph
 obtained from <em>H</em> by subdividing every edge at most 2<em>r</em> times is a
@@ -1800,13 +1886,13 @@ topological minor is in particular a depth-<em>r</em> minor.</p>
 </table></div></div>
 </div>
 </li>
-<li class="manuscript-card kind-concept" id="m37" data-mark="37">
+<li class="manuscript-card kind-concept" id="m39" data-mark="39">
 <div class="manuscript-card-head">
 <span class="manuscript-card-swatch" aria-hidden="true"></span>
 <span class="manuscript-card-name"><span class="type-badge">def</span><a href="../lax-199508/Lax199508.NowhereDenseClasses.html"><code>Lax199508.NowhereDenseClasses</code></a></span>
-<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m37-body" aria-label="Show details of Lax199508.NowhereDenseClasses"><span aria-hidden="true">▸</span></button>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m39-body" aria-label="Show details of Lax199508.NowhereDenseClasses"><span aria-hidden="true">▸</span></button>
 </div>
-<div class="manuscript-card-body" id="m37-body" hidden>
+<div class="manuscript-card-body" id="m39-body" hidden>
 <p class="manuscript-card-title">Nowhere dense graph classes</p>
 <div class="latex-content"><p>A graph <em>H</em> is a depth-<em>r</em> minor of a graph <em>G</em> if <em>H</em> can be obtained
 from <em>G</em> by deleting vertices and edges and contracting pairwise
@@ -1866,13 +1952,13 @@ immediately after as an equivalent.</p>
 </table></div></div>
 </div>
 </li>
-<li class="manuscript-card kind-concept" id="m38" data-mark="38">
+<li class="manuscript-card kind-concept" id="m40" data-mark="40">
 <div class="manuscript-card-head">
 <span class="manuscript-card-swatch" aria-hidden="true"></span>
 <span class="manuscript-card-name"><span class="type-badge">def</span><a href="../lax-710763/Lax710763.MonadicDependence.html"><code>Lax710763.MonadicDependence</code></a></span>
-<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m38-body" aria-label="Show details of Lax710763.MonadicDependence"><span aria-hidden="true">▸</span></button>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m40-body" aria-label="Show details of Lax710763.MonadicDependence"><span aria-hidden="true">▸</span></button>
 </div>
-<div class="manuscript-card-body" id="m38-body" hidden>
+<div class="manuscript-card-body" id="m40-body" hidden>
 <p class="manuscript-card-title">Monadic dependence</p>
 <div class="latex-content"><p>A graph class is monadically dependent (also called monadically NIP) if
 it does not transduce the class of all graphs.</p>
@@ -1897,13 +1983,13 @@ it does not transduce the class of all graphs.</p>
 </table></div></div>
 </div>
 </li>
-<li class="manuscript-card kind-concept" id="m39" data-mark="39">
+<li class="manuscript-card kind-concept" id="m41" data-mark="41">
 <div class="manuscript-card-head">
 <span class="manuscript-card-swatch" aria-hidden="true"></span>
 <span class="manuscript-card-name"><span class="type-badge">def</span><a href="../lax-68/Lax68.Trees.html"><code>Lax68.Trees</code></a></span>
-<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m39-body" aria-label="Show details of Lax68.Trees"><span aria-hidden="true">▸</span></button>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m41-body" aria-label="Show details of Lax68.Trees"><span aria-hidden="true">▸</span></button>
 </div>
-<div class="manuscript-card-body" id="m39-body" hidden>
+<div class="manuscript-card-body" id="m41-body" hidden>
 <p class="manuscript-card-title">Trees</p>
 <div class="latex-content"><figure class="content-figure"><img src="https://raw.githubusercontent.com/lax-archive/lax-submissions/4dd917c8b9a1e181ec951b7f6fa384262af31fa9/planar-graph-classes-v4-33/assets/tree.svg" alt="Tree illustration"><figcaption>Tree illustration</figcaption></figure>
 <p>A tree is a connected acyclic simple graph, using mathlib's native
@@ -1926,13 +2012,13 @@ it does not transduce the class of all graphs.</p>
 </table></div></div>
 </div>
 </li>
-<li class="manuscript-card kind-concept" id="m40" data-mark="40">
+<li class="manuscript-card kind-concept" id="m42" data-mark="42">
 <div class="manuscript-card-head">
 <span class="manuscript-card-swatch" aria-hidden="true"></span>
 <span class="manuscript-card-name"><span class="type-badge">def</span><a href="../lax-228581/Lax228581.Treewidth.html"><code>Lax228581.Treewidth</code></a></span>
-<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m40-body" aria-label="Show details of Lax228581.Treewidth"><span aria-hidden="true">▸</span></button>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m42-body" aria-label="Show details of Lax228581.Treewidth"><span aria-hidden="true">▸</span></button>
 </div>
-<div class="manuscript-card-body" id="m40-body" hidden>
+<div class="manuscript-card-body" id="m42-body" hidden>
 <p class="manuscript-card-title">Treewidth</p>
 <div class="latex-content"><p>A tree decomposition of a finite simple graph <em>G</em> consists of a finite tree
 <em>T</em> and a bag of graph vertices at each node such that every graph
@@ -1990,13 +2076,13 @@ decomposition with every bag of size at most <em>w</em> + 1.</p>
 </table></div></div>
 </div>
 </li>
-<li class="manuscript-card kind-concept" id="m41" data-mark="41">
+<li class="manuscript-card kind-concept" id="m43" data-mark="43">
 <div class="manuscript-card-head">
 <span class="manuscript-card-swatch" aria-hidden="true"></span>
 <span class="manuscript-card-name"><span class="type-badge">def</span><a href="../lax-68/Lax68.SeriesParallel.html"><code>Lax68.SeriesParallel</code></a></span>
-<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m41-body" aria-label="Show details of Lax68.SeriesParallel"><span aria-hidden="true">▸</span></button>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m43-body" aria-label="Show details of Lax68.SeriesParallel"><span aria-hidden="true">▸</span></button>
 </div>
-<div class="manuscript-card-body" id="m41-body" hidden>
+<div class="manuscript-card-body" id="m43-body" hidden>
 <p class="manuscript-card-title">Series-parallel graphs</p>
 <div class="latex-content"><figure class="content-figure"><img src="https://raw.githubusercontent.com/lax-archive/lax-submissions/4dd917c8b9a1e181ec951b7f6fa384262af31fa9/planar-graph-classes-v4-33/assets/series-parallel.svg" alt="Series-parallel graph illustration"><figcaption>Series-parallel graph illustration</figcaption></figure>
 <p>A finite two-terminal series-parallel graph is built from a single terminal
@@ -2054,13 +2140,13 @@ condition excludes unused isolated vertices.</p>
 </table></div></div>
 </div>
 </li>
-<li class="manuscript-card kind-concept" id="m42" data-mark="42">
+<li class="manuscript-card kind-concept" id="m44" data-mark="44">
 <div class="manuscript-card-head">
 <span class="manuscript-card-swatch" aria-hidden="true"></span>
 <span class="manuscript-card-name"><span class="type-badge">def</span><a href="../lax-214022/Lax214022.Cographs.html"><code>Lax214022.Cographs</code></a></span>
-<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m42-body" aria-label="Show details of Lax214022.Cographs"><span aria-hidden="true">▸</span></button>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m44-body" aria-label="Show details of Lax214022.Cographs"><span aria-hidden="true">▸</span></button>
 </div>
-<div class="manuscript-card-body" id="m42-body" hidden>
+<div class="manuscript-card-body" id="m44-body" hidden>
 <p class="manuscript-card-title">Cographs</p>
 <div class="latex-content"><p>A finite graph is a cograph if it has twin-width zero.  Equivalently, it can
 be reduced to one vertex by repeatedly contracting a pair of twins, without
@@ -2086,13 +2172,13 @@ ever creating a red edge.</p>
 </table></div></div>
 </div>
 </li>
-<li class="manuscript-card kind-concept" id="m43" data-mark="43">
+<li class="manuscript-card kind-concept" id="m45" data-mark="45">
 <div class="manuscript-card-head">
 <span class="manuscript-card-swatch" aria-hidden="true"></span>
 <span class="manuscript-card-name"><span class="type-badge">def</span><a href="../lax-271696/Lax271696.CliqueExpr.html"><code>Lax271696.CliqueExpr</code></a></span>
-<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m43-body" aria-label="Show details of Lax271696.CliqueExpr"><span aria-hidden="true">▸</span></button>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m45-body" aria-label="Show details of Lax271696.CliqueExpr"><span aria-hidden="true">▸</span></button>
 </div>
-<div class="manuscript-card-body" id="m43-body" hidden>
+<div class="manuscript-card-body" id="m45-body" hidden>
 <p class="manuscript-card-title">k-expressions, and the graphs of cliquewidth at most k</p>
 <div class="latex-content"><p>A <em>k-expression</em> builds a graph from single vertices, each created with
 one of <em>k</em> labels, by three operations: disjoint union of two
@@ -2232,13 +2318,13 @@ each, in which a pair of labels is read in base <span class="katex"><span class=
 </table></div></div>
 </div>
 </li>
-<li class="manuscript-card kind-concept" id="m44" data-mark="44">
+<li class="manuscript-card kind-concept" id="m46" data-mark="46">
 <div class="manuscript-card-head">
 <span class="manuscript-card-swatch" aria-hidden="true"></span>
 <span class="manuscript-card-name"><span class="type-badge">def</span><a href="../lax-9/Lax9.MergeWidth.html"><code>Lax9.MergeWidth</code></a></span>
-<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m44-body" aria-label="Show details of Lax9.MergeWidth"><span aria-hidden="true">▸</span></button>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m46-body" aria-label="Show details of Lax9.MergeWidth"><span aria-hidden="true">▸</span></button>
 </div>
-<div class="manuscript-card-body" id="m44-body" hidden>
+<div class="manuscript-card-body" id="m46-body" hidden>
 <p class="manuscript-card-title">Merge-Width</p>
 <div class="latex-content"><p>A merge sequence of a finite simple graph consists of a coarsening sequence of
 partitions and a monotone sequence of graphs of resolved pairs. At each step,
@@ -2343,155 +2429,6 @@ bounded by a function of <span class="katex"><span class="katex-mathml"><math xm
 </table></div></div>
 </div>
 </li>
-<li class="manuscript-card kind-concept" id="m45" data-mark="45">
-<div class="manuscript-card-head">
-<span class="manuscript-card-swatch" aria-hidden="true"></span>
-<span class="manuscript-card-name"><span class="type-badge">def</span><a href="../lax-228581/Lax228581.TwinWidth.html"><code>Lax228581.TwinWidth</code></a></span>
-<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m45-body" aria-label="Show details of Lax228581.TwinWidth"><span aria-hidden="true">▸</span></button>
-</div>
-<div class="manuscript-card-body" id="m45-body" hidden>
-<p class="manuscript-card-title">Twin-width</p>
-<div class="latex-content"><p>A partition sequence of a finite simple graph <em>G</em> is a sequence of partitions
-of its vertex set that starts at the partition into singletons, merges two
-parts into one at every step, and ends at the partition with a single part.
-Two parts of a same partition are homogeneous if either every pair of
-vertices across them is adjacent or none is; two non-homogeneous parts are
-red-adjacent. The red degree of a part is the number of other parts of its
-partition that are red-adjacent to it.</p>
-<p>The twin-width of <em>G</em> is the least <em>d</em> such that <em>G</em> has a partition sequence
-in which every part of every partition has red degree at most <em>d</em>.</p>
-</div>
-<div class="manuscript-card-source"><div class="inline-contract-wrap"><table class="inline-contract-table">
-<tr class=""><td class="line-num">1</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Combinatorics.SimpleGraph.Basic</span></td></tr>
-<tr class=""><td class="line-num">2</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Data.Set.Card</span></td></tr>
-<tr class=""><td class="line-num">3</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Data.Nat.Lattice</span></td></tr>
-<tr class=""><td class="line-num">4</td><td class="line-code"> </td></tr>
-<tr class="line-elided"><td class="line-num"></td><td class="line-code">… module docstring, 25 lines</td></tr>
-<tr class=""><td class="line-num">30</td><td class="line-code"> </td></tr>
-<tr class=""><td class="line-num">31</td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax228581.TwinWidth</span></td></tr>
-<tr class=""><td class="line-num">32</td><td class="line-code"> </td></tr>
-<tr class=""><td class="line-num">33</td><td class="line-code"><span style="color:#6A737D">/-- Two vertex sets are homogeneous in `G`: either every pair of vertices</span></td></tr>
-<tr class=""><td class="line-num">34</td><td class="line-code"><span style="color:#6A737D">across them is adjacent, or none is. -/</span></td></tr>
-<tr class=""><td class="line-num">35</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> Homogeneous</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">} (G : </span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Basic.html#SimpleGraph" title="mathlib ↗"><span style="color:#24292E">SimpleGraph</span></a><span style="color:#24292E"> V) (A B : </span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/Finset/Defs.html#Finset" title="mathlib ↗"><span style="color:#24292E">Finset</span></a><span style="color:#24292E"> V) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
-<tr class=""><td class="line-num">36</td><td class="line-code"><span style="color:#24292E">  (∀ a ∈ A, ∀ b ∈ B, G.</span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Basic.html#SimpleGraph.Adj" title="mathlib ↗"><span style="color:#24292E">Adj</span></a><span style="color:#24292E"> a b) ∨ (∀ a ∈ A, ∀ b ∈ B, ¬ G.</span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Basic.html#SimpleGraph.Adj" title="mathlib ↗"><span style="color:#24292E">Adj</span></a><span style="color:#24292E"> a b)</span></td></tr>
-<tr class=""><td class="line-num">37</td><td class="line-code"> </td></tr>
-<tr class=""><td class="line-num">38</td><td class="line-code"><span style="color:#6A737D">/-- The red degree of a part `A` in a family of parts `P`: the number of</span></td></tr>
-<tr class=""><td class="line-num">39</td><td class="line-code"><span style="color:#6A737D">other parts of `P` that are not homogeneous with `A`. -/</span></td></tr>
-<tr class=""><td class="line-num">40</td><td class="line-code"><span style="color:#D73A49">noncomputable</span><span style="color:#D73A49"> def</span><span style="color:#6F42C1"> redDegree</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">} (G : </span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Basic.html#SimpleGraph" title="mathlib ↗"><span style="color:#24292E">SimpleGraph</span></a><span style="color:#24292E"> V)</span></td></tr>
-<tr class=""><td class="line-num">41</td><td class="line-code"><span style="color:#24292E">    (P : </span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/Finset/Defs.html#Finset" title="mathlib ↗"><span style="color:#24292E">Finset</span></a><span style="color:#24292E"> (</span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/Finset/Defs.html#Finset" title="mathlib ↗"><span style="color:#24292E">Finset</span></a><span style="color:#24292E"> V)) (A : </span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/Finset/Defs.html#Finset" title="mathlib ↗"><span style="color:#24292E">Finset</span></a><span style="color:#24292E"> V) : ℕ :=</span></td></tr>
-<tr class=""><td class="line-num">42</td><td class="line-code"><span style="color:#24292E">  {B | B ∈ P ∧ B ≠ A ∧ ¬ </span><a class="lean-identifier-link" href="../lax-228581/Lax228581.TwinWidth.html#L33"><span style="color:#24292E">Homogeneous</span></a><span style="color:#24292E"> G A B}.</span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/Set/Card.html#Set.ncard" title="mathlib ↗"><span style="color:#24292E">ncard</span></a></td></tr>
-<tr class=""><td class="line-num">43</td><td class="line-code"> </td></tr>
-<tr class=""><td class="line-num">44</td><td class="line-code"><span style="color:#6A737D">/-- The partition of a finite vertex type into singletons. -/</span></td></tr>
-<tr class=""><td class="line-num">45</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> singletonPartition</span><span style="color:#24292E"> (V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">) [</span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/Fintype/Defs.html#Fintype" title="mathlib ↗"><span style="color:#24292E">Fintype</span></a><span style="color:#24292E"> V] [DecidableEq V] :</span></td></tr>
-<tr class=""><td class="line-num">46</td><td class="line-code"><span style="color:#24292E">    </span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/Finset/Defs.html#Finset" title="mathlib ↗"><span style="color:#24292E">Finset</span></a><span style="color:#24292E"> (</span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/Finset/Defs.html#Finset" title="mathlib ↗"><span style="color:#24292E">Finset</span></a><span style="color:#24292E"> V) :=</span></td></tr>
-<tr class=""><td class="line-num">47</td><td class="line-code"><span style="color:#24292E">  </span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/Fintype/Defs.html#Finset.univ" title="mathlib ↗"><span style="color:#24292E">Finset.univ</span></a><span style="color:#24292E">.</span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/Finset/Image.html#Finset.image" title="mathlib ↗"><span style="color:#24292E">image</span></a><span style="color:#24292E"> </span><span style="color:#D73A49">fun</span><span style="color:#24292E"> v : V =&gt; ({v} : </span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/Finset/Defs.html#Finset" title="mathlib ↗"><span style="color:#24292E">Finset</span></a><span style="color:#24292E"> V)</span></td></tr>
-<tr class=""><td class="line-num">48</td><td class="line-code"> </td></tr>
-<tr class=""><td class="line-num">49</td><td class="line-code"><span style="color:#6A737D">/-- A partition sequence of `G` in which every part has red degree at most</span></td></tr>
-<tr class=""><td class="line-num">50</td><td class="line-code"><span style="color:#6A737D">`d`: starting from the singleton partition, each step merges two parts into</span></td></tr>
-<tr class=""><td class="line-num">51</td><td class="line-code"><span style="color:#6A737D">one, until a single part remains. -/</span></td></tr>
-<tr class=""><td class="line-num">52</td><td class="line-code"><span style="color:#D73A49">structure</span><span style="color:#6F42C1"> PartitionSequence</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">} [</span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/Fintype/Defs.html#Fintype" title="mathlib ↗"><span style="color:#24292E">Fintype</span></a><span style="color:#24292E"> V] [DecidableEq V]</span></td></tr>
-<tr class=""><td class="line-num">53</td><td class="line-code"><span style="color:#24292E">    (G : </span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Basic.html#SimpleGraph" title="mathlib ↗"><span style="color:#24292E">SimpleGraph</span></a><span style="color:#24292E"> V) (d : ℕ) </span><span style="color:#D73A49">where</span></td></tr>
-<tr class=""><td class="line-num">54</td><td class="line-code"><span style="color:#6A737D">  /-- The number of merge steps. -/</span></td></tr>
-<tr class=""><td class="line-num">55</td><td class="line-code"><span style="color:#24292E">  stepCount : ℕ</span></td></tr>
-<tr class=""><td class="line-num">56</td><td class="line-code"><span style="color:#6A737D">  /-- The partition after each number of merge steps. -/</span></td></tr>
-<tr class=""><td class="line-num">57</td><td class="line-code"><span style="color:#24292E">  partition : ℕ → </span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/Finset/Defs.html#Finset" title="mathlib ↗"><span style="color:#24292E">Finset</span></a><span style="color:#24292E"> (</span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/Finset/Defs.html#Finset" title="mathlib ↗"><span style="color:#24292E">Finset</span></a><span style="color:#24292E"> V)</span></td></tr>
-<tr class=""><td class="line-num">58</td><td class="line-code"><span style="color:#6A737D">  /-- The sequence starts at the singleton partition. -/</span></td></tr>
-<tr class=""><td class="line-num">59</td><td class="line-code"><span style="color:#24292E">  starts : partition </span><span style="color:#005CC5">0</span><span style="color:#24292E"> = </span><a class="lean-identifier-link" href="../lax-228581/Lax228581.TwinWidth.html#L44"><span style="color:#24292E">singletonPartition</span></a><span style="color:#24292E"> V</span></td></tr>
-<tr class=""><td class="line-num">60</td><td class="line-code"><span style="color:#6A737D">  /-- The sequence ends with a single part. -/</span></td></tr>
-<tr class=""><td class="line-num">61</td><td class="line-code"><span style="color:#24292E">  ends : (partition stepCount).</span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/Finset/Card.html#Finset.card" title="mathlib ↗"><span style="color:#24292E">card</span></a><span style="color:#24292E"> ≤ </span><span style="color:#005CC5">1</span></td></tr>
-<tr class=""><td class="line-num">62</td><td class="line-code"><span style="color:#6A737D">  /-- Each step merges two distinct parts into one and keeps all other</span></td></tr>
-<tr class=""><td class="line-num">63</td><td class="line-code"><span style="color:#6A737D">  parts. -/</span></td></tr>
-<tr class=""><td class="line-num">64</td><td class="line-code"><span style="color:#24292E">  step_merges :</span></td></tr>
-<tr class=""><td class="line-num">65</td><td class="line-code"><span style="color:#24292E">    ∀ i, i &lt; stepCount → ∃ A ∈ partition i, ∃ B ∈ partition i, A ≠ B ∧</span></td></tr>
-<tr class=""><td class="line-num">66</td><td class="line-code"><span style="color:#24292E">      partition (i + </span><span style="color:#005CC5">1</span><span style="color:#24292E">) = insert (A ∪ B) (((partition i).</span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/Finset/Erase.html#Finset.erase" title="mathlib ↗"><span style="color:#24292E">erase</span></a><span style="color:#24292E"> A).</span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/Finset/Erase.html#Finset.erase" title="mathlib ↗"><span style="color:#24292E">erase</span></a><span style="color:#24292E"> B)</span></td></tr>
-<tr class=""><td class="line-num">67</td><td class="line-code"><span style="color:#6A737D">  /-- Every part of every partition in the sequence has red degree at most</span></td></tr>
-<tr class=""><td class="line-num">68</td><td class="line-code"><span style="color:#6A737D">  `d`. -/</span></td></tr>
-<tr class=""><td class="line-num">69</td><td class="line-code"><span style="color:#24292E">  redDegree_le :</span></td></tr>
-<tr class=""><td class="line-num">70</td><td class="line-code"><span style="color:#24292E">    ∀ i, i ≤ stepCount → ∀ ⦃A⦄, A ∈ partition i →</span></td></tr>
-<tr class=""><td class="line-num">71</td><td class="line-code"><span style="color:#24292E">      </span><a class="lean-identifier-link" href="../lax-228581/Lax228581.TwinWidth.html#L38"><span style="color:#24292E">redDegree</span></a><span style="color:#24292E"> G (partition i) A ≤ d</span></td></tr>
-<tr class=""><td class="line-num">72</td><td class="line-code"> </td></tr>
-<tr class=""><td class="line-num">73</td><td class="line-code"><span style="color:#6A737D">/-- `G` has a partition sequence in which every part has red degree at most</span></td></tr>
-<tr class=""><td class="line-num">74</td><td class="line-code"><span style="color:#6A737D">`d`. -/</span></td></tr>
-<tr class=""><td class="line-num">75</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> HasTwinWidthAtMost</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">} [</span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/Fintype/Defs.html#Fintype" title="mathlib ↗"><span style="color:#24292E">Fintype</span></a><span style="color:#24292E"> V] [DecidableEq V]</span></td></tr>
-<tr class=""><td class="line-num">76</td><td class="line-code"><span style="color:#24292E">    (G : </span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Basic.html#SimpleGraph" title="mathlib ↗"><span style="color:#24292E">SimpleGraph</span></a><span style="color:#24292E"> V) (d : ℕ) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
-<tr class=""><td class="line-num">77</td><td class="line-code"><span style="color:#24292E">  Nonempty (</span><a class="lean-identifier-link" href="../lax-228581/Lax228581.TwinWidth.html#L49"><span style="color:#24292E">PartitionSequence</span></a><span style="color:#24292E"> G d)</span></td></tr>
-<tr class=""><td class="line-num">78</td><td class="line-code"> </td></tr>
-<tr class=""><td class="line-num">79</td><td class="line-code"><span style="color:#6A737D">/-- The twin-width of a finite simple graph: the least `d` such that the</span></td></tr>
-<tr class=""><td class="line-num">80</td><td class="line-code"><span style="color:#6A737D">graph has a partition sequence in which every part has red degree at most</span></td></tr>
-<tr class=""><td class="line-num">81</td><td class="line-code"><span style="color:#6A737D">`d`. -/</span></td></tr>
-<tr class=""><td class="line-num">82</td><td class="line-code"><span style="color:#D73A49">noncomputable</span><span style="color:#D73A49"> def</span><span style="color:#6F42C1"> twinWidth</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">} [</span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/Fintype/Defs.html#Fintype" title="mathlib ↗"><span style="color:#24292E">Fintype</span></a><span style="color:#24292E"> V] [DecidableEq V]</span></td></tr>
-<tr class=""><td class="line-num">83</td><td class="line-code"><span style="color:#24292E">    (G : </span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Basic.html#SimpleGraph" title="mathlib ↗"><span style="color:#24292E">SimpleGraph</span></a><span style="color:#24292E"> V) : ℕ :=</span></td></tr>
-<tr class=""><td class="line-num">84</td><td class="line-code"><span style="color:#24292E">  </span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Order/Bounds/Defs.html#InfSet.sInf" title="mathlib ↗"><span style="color:#24292E">sInf</span></a><span style="color:#24292E"> {d | </span><a class="lean-identifier-link" href="../lax-228581/Lax228581.TwinWidth.html#L73"><span style="color:#24292E">HasTwinWidthAtMost</span></a><span style="color:#24292E"> G d}</span></td></tr>
-<tr class=""><td class="line-num">85</td><td class="line-code"> </td></tr>
-<tr class=""><td class="line-num">86</td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax228581.TwinWidth</span></td></tr>
-<tr class=""><td class="line-num">87</td><td class="line-code"> </td></tr>
-</table></div></div>
-</div>
-</li>
-<li class="manuscript-card kind-concept" id="m46" data-mark="46">
-<div class="manuscript-card-head">
-<span class="manuscript-card-swatch" aria-hidden="true"></span>
-<span class="manuscript-card-name"><span class="type-badge">def</span><a href="../lax-228581/Lax228581.Treewidth.html"><code>Lax228581.Treewidth</code></a></span>
-<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m46-body" aria-label="Show details of Lax228581.Treewidth"><span aria-hidden="true">▸</span></button>
-</div>
-<div class="manuscript-card-body" id="m46-body" hidden>
-<p class="manuscript-card-title">Treewidth</p>
-<div class="latex-content"><p>A tree decomposition of a finite simple graph <em>G</em> consists of a finite tree
-<em>T</em> and a bag of graph vertices at each node such that every graph
-vertex occurs in a bag, the endpoints of every graph edge occur together in a
-bag, and the nodes whose bags contain any fixed vertex induce a connected
-subgraph of <em>T</em>.</p>
-<p>The treewidth of <em>G</em> is the least <em>w</em> such that <em>G</em> has a tree
-decomposition with every bag of size at most <em>w</em> + 1.</p>
-</div>
-<div class="manuscript-card-source"><div class="inline-contract-wrap"><table class="inline-contract-table">
-<tr class=""><td class="line-num">1</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Combinatorics.SimpleGraph.Acyclic</span></td></tr>
-<tr class=""><td class="line-num">2</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Data.Nat.Lattice</span></td></tr>
-<tr class=""><td class="line-num">3</td><td class="line-code"> </td></tr>
-<tr class="line-elided"><td class="line-num"></td><td class="line-code">… module docstring, 21 lines</td></tr>
-<tr class=""><td class="line-num">25</td><td class="line-code"> </td></tr>
-<tr class=""><td class="line-num">26</td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax228581.Treewidth</span></td></tr>
-<tr class=""><td class="line-num">27</td><td class="line-code"> </td></tr>
-<tr class=""><td class="line-num">28</td><td class="line-code"><span style="color:#6A737D">/-- A tree decomposition of a simple graph: a finite tree of nodes with a bag</span></td></tr>
-<tr class=""><td class="line-num">29</td><td class="line-code"><span style="color:#6A737D">of graph vertices at each node, such that the bags cover every vertex and</span></td></tr>
-<tr class=""><td class="line-num">30</td><td class="line-code"><span style="color:#6A737D">every edge, and the nodes whose bags contain any fixed vertex induce a</span></td></tr>
-<tr class=""><td class="line-num">31</td><td class="line-code"><span style="color:#6A737D">connected subgraph of the tree. -/</span></td></tr>
-<tr class=""><td class="line-num">32</td><td class="line-code"><span style="color:#D73A49">structure</span><span style="color:#6F42C1"> TreeDecomposition</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">} (G : </span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Basic.html#SimpleGraph" title="mathlib ↗"><span style="color:#24292E">SimpleGraph</span></a><span style="color:#24292E"> V) </span><span style="color:#D73A49">where</span></td></tr>
-<tr class=""><td class="line-num">33</td><td class="line-code"><span style="color:#6A737D">  /-- The node type of the decomposition tree. -/</span></td></tr>
-<tr class=""><td class="line-num">34</td><td class="line-code"><span style="color:#24292E">  Node : </span><span style="color:#D73A49">Type</span></td></tr>
-<tr class=""><td class="line-num">35</td><td class="line-code"><span style="color:#6A737D">  /-- The decomposition tree is finite. -/</span></td></tr>
-<tr class=""><td class="line-num">36</td><td class="line-code"><span style="color:#24292E">  [nodeFintype : </span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/Fintype/Defs.html#Fintype" title="mathlib ↗"><span style="color:#24292E">Fintype</span></a><span style="color:#24292E"> Node]</span></td></tr>
-<tr class=""><td class="line-num">37</td><td class="line-code"><span style="color:#6A737D">  /-- The graph on the decomposition nodes. -/</span></td></tr>
-<tr class=""><td class="line-num">38</td><td class="line-code"><span style="color:#24292E">  tree : </span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Basic.html#SimpleGraph" title="mathlib ↗"><span style="color:#24292E">SimpleGraph</span></a><span style="color:#24292E"> Node</span></td></tr>
-<tr class=""><td class="line-num">39</td><td class="line-code"><span style="color:#6A737D">  /-- The node graph is a tree. -/</span></td></tr>
-<tr class=""><td class="line-num">40</td><td class="line-code"><span style="color:#24292E">  isTree : tree.</span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Acyclic.html#SimpleGraph.IsTree" title="mathlib ↗"><span style="color:#24292E">IsTree</span></a></td></tr>
-<tr class=""><td class="line-num">41</td><td class="line-code"><span style="color:#6A737D">  /-- The bag assigned to each decomposition node. -/</span></td></tr>
-<tr class=""><td class="line-num">42</td><td class="line-code"><span style="color:#24292E">  bag : Node → </span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/Finset/Defs.html#Finset" title="mathlib ↗"><span style="color:#24292E">Finset</span></a><span style="color:#24292E"> V</span></td></tr>
-<tr class=""><td class="line-num">43</td><td class="line-code"><span style="color:#6A737D">  /-- Every graph vertex appears in at least one bag. -/</span></td></tr>
-<tr class=""><td class="line-num">44</td><td class="line-code"><span style="color:#24292E">  vertex_mem_bag : ∀ v : V, ∃ i : Node, v ∈ bag i</span></td></tr>
-<tr class=""><td class="line-num">45</td><td class="line-code"><span style="color:#6A737D">  /-- Every graph edge has both endpoints together in at least one bag. -/</span></td></tr>
-<tr class=""><td class="line-num">46</td><td class="line-code"><span style="color:#24292E">  edge_mem_bag : ∀ ⦃u v : V⦄, G.</span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Basic.html#SimpleGraph.Adj" title="mathlib ↗"><span style="color:#24292E">Adj</span></a><span style="color:#24292E"> u v → ∃ i : Node, u ∈ bag i ∧ v ∈ bag i</span></td></tr>
-<tr class=""><td class="line-num">47</td><td class="line-code"><span style="color:#6A737D">  /-- For each graph vertex, the nodes whose bags contain it induce a</span></td></tr>
-<tr class=""><td class="line-num">48</td><td class="line-code"><span style="color:#6A737D">  connected subgraph of the tree. -/</span></td></tr>
-<tr class=""><td class="line-num">49</td><td class="line-code"><span style="color:#24292E">  bag_indices_connected :</span></td></tr>
-<tr class=""><td class="line-num">50</td><td class="line-code"><span style="color:#24292E">    ∀ v : V, (tree.</span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Maps.html#SimpleGraph.induce" title="mathlib ↗"><span style="color:#24292E">induce</span></a><span style="color:#24292E"> {i : Node | v ∈ bag i}).</span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Connectivity/Connected.html#SimpleGraph.Connected" title="mathlib ↗"><span style="color:#24292E">Connected</span></a></td></tr>
-<tr class=""><td class="line-num">51</td><td class="line-code"> </td></tr>
-<tr class=""><td class="line-num">52</td><td class="line-code"><span style="color:#6A737D">/-- `G` has a tree decomposition all of whose bags have at most `w + 1`</span></td></tr>
-<tr class=""><td class="line-num">53</td><td class="line-code"><span style="color:#6A737D">vertices. -/</span></td></tr>
-<tr class=""><td class="line-num">54</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> HasTreewidthAtMost</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">} (G : </span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Basic.html#SimpleGraph" title="mathlib ↗"><span style="color:#24292E">SimpleGraph</span></a><span style="color:#24292E"> V) (w : ℕ) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
-<tr class=""><td class="line-num">55</td><td class="line-code"><span style="color:#24292E">  ∃ D : </span><a class="lean-identifier-link" href="../lax-228581/Lax228581.Treewidth.html#L28"><span style="color:#24292E">TreeDecomposition</span></a><span style="color:#24292E"> G, ∀ i, (D.</span><a class="lean-identifier-link" href="../lax-228581/Lax228581.Treewidth.html#L41"><span style="color:#24292E">bag</span></a><span style="color:#24292E"> i).</span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/Finset/Card.html#Finset.card" title="mathlib ↗"><span style="color:#24292E">card</span></a><span style="color:#24292E"> ≤ w + </span><span style="color:#005CC5">1</span></td></tr>
-<tr class=""><td class="line-num">56</td><td class="line-code"> </td></tr>
-<tr class=""><td class="line-num">57</td><td class="line-code"><span style="color:#6A737D">/-- The treewidth of a finite simple graph: the least `w` such that the</span></td></tr>
-<tr class=""><td class="line-num">58</td><td class="line-code"><span style="color:#6A737D">graph has a tree decomposition with bags of at most `w + 1` vertices. -/</span></td></tr>
-<tr class=""><td class="line-num">59</td><td class="line-code"><span style="color:#D73A49">noncomputable</span><span style="color:#D73A49"> def</span><span style="color:#6F42C1"> treewidth</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">} [</span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/Fintype/Defs.html#Fintype" title="mathlib ↗"><span style="color:#24292E">Fintype</span></a><span style="color:#24292E"> V] [DecidableEq V]</span></td></tr>
-<tr class=""><td class="line-num">60</td><td class="line-code"><span style="color:#24292E">    (G : </span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Basic.html#SimpleGraph" title="mathlib ↗"><span style="color:#24292E">SimpleGraph</span></a><span style="color:#24292E"> V) : ℕ :=</span></td></tr>
-<tr class=""><td class="line-num">61</td><td class="line-code"><span style="color:#24292E">  </span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Order/Bounds/Defs.html#InfSet.sInf" title="mathlib ↗"><span style="color:#24292E">sInf</span></a><span style="color:#24292E"> {w | </span><a class="lean-identifier-link" href="../lax-228581/Lax228581.Treewidth.html#L52"><span style="color:#24292E">HasTreewidthAtMost</span></a><span style="color:#24292E"> G w}</span></td></tr>
-<tr class=""><td class="line-num">62</td><td class="line-code"> </td></tr>
-<tr class=""><td class="line-num">63</td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax228581.Treewidth</span></td></tr>
-<tr class=""><td class="line-num">64</td><td class="line-code"> </td></tr>
-</table></div></div>
-</div>
-</li>
 <li class="manuscript-card kind-concept" id="m47" data-mark="47">
 <div class="manuscript-card-head">
 <span class="manuscript-card-swatch" aria-hidden="true"></span>
@@ -2577,12 +2514,161 @@ in which every part of every partition has red degree at most <em>d</em>.</p>
 </table></div></div>
 </div>
 </li>
+<li class="manuscript-card kind-concept" id="m48" data-mark="48">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><span class="type-badge">def</span><a href="../lax-228581/Lax228581.Treewidth.html"><code>Lax228581.Treewidth</code></a></span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m48-body" aria-label="Show details of Lax228581.Treewidth"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m48-body" hidden>
+<p class="manuscript-card-title">Treewidth</p>
+<div class="latex-content"><p>A tree decomposition of a finite simple graph <em>G</em> consists of a finite tree
+<em>T</em> and a bag of graph vertices at each node such that every graph
+vertex occurs in a bag, the endpoints of every graph edge occur together in a
+bag, and the nodes whose bags contain any fixed vertex induce a connected
+subgraph of <em>T</em>.</p>
+<p>The treewidth of <em>G</em> is the least <em>w</em> such that <em>G</em> has a tree
+decomposition with every bag of size at most <em>w</em> + 1.</p>
+</div>
+<div class="manuscript-card-source"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<tr class=""><td class="line-num">1</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Combinatorics.SimpleGraph.Acyclic</span></td></tr>
+<tr class=""><td class="line-num">2</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Data.Nat.Lattice</span></td></tr>
+<tr class=""><td class="line-num">3</td><td class="line-code"> </td></tr>
+<tr class="line-elided"><td class="line-num"></td><td class="line-code">… module docstring, 21 lines</td></tr>
+<tr class=""><td class="line-num">25</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">26</td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax228581.Treewidth</span></td></tr>
+<tr class=""><td class="line-num">27</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">28</td><td class="line-code"><span style="color:#6A737D">/-- A tree decomposition of a simple graph: a finite tree of nodes with a bag</span></td></tr>
+<tr class=""><td class="line-num">29</td><td class="line-code"><span style="color:#6A737D">of graph vertices at each node, such that the bags cover every vertex and</span></td></tr>
+<tr class=""><td class="line-num">30</td><td class="line-code"><span style="color:#6A737D">every edge, and the nodes whose bags contain any fixed vertex induce a</span></td></tr>
+<tr class=""><td class="line-num">31</td><td class="line-code"><span style="color:#6A737D">connected subgraph of the tree. -/</span></td></tr>
+<tr class=""><td class="line-num">32</td><td class="line-code"><span style="color:#D73A49">structure</span><span style="color:#6F42C1"> TreeDecomposition</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">} (G : </span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Basic.html#SimpleGraph" title="mathlib ↗"><span style="color:#24292E">SimpleGraph</span></a><span style="color:#24292E"> V) </span><span style="color:#D73A49">where</span></td></tr>
+<tr class=""><td class="line-num">33</td><td class="line-code"><span style="color:#6A737D">  /-- The node type of the decomposition tree. -/</span></td></tr>
+<tr class=""><td class="line-num">34</td><td class="line-code"><span style="color:#24292E">  Node : </span><span style="color:#D73A49">Type</span></td></tr>
+<tr class=""><td class="line-num">35</td><td class="line-code"><span style="color:#6A737D">  /-- The decomposition tree is finite. -/</span></td></tr>
+<tr class=""><td class="line-num">36</td><td class="line-code"><span style="color:#24292E">  [nodeFintype : </span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/Fintype/Defs.html#Fintype" title="mathlib ↗"><span style="color:#24292E">Fintype</span></a><span style="color:#24292E"> Node]</span></td></tr>
+<tr class=""><td class="line-num">37</td><td class="line-code"><span style="color:#6A737D">  /-- The graph on the decomposition nodes. -/</span></td></tr>
+<tr class=""><td class="line-num">38</td><td class="line-code"><span style="color:#24292E">  tree : </span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Basic.html#SimpleGraph" title="mathlib ↗"><span style="color:#24292E">SimpleGraph</span></a><span style="color:#24292E"> Node</span></td></tr>
+<tr class=""><td class="line-num">39</td><td class="line-code"><span style="color:#6A737D">  /-- The node graph is a tree. -/</span></td></tr>
+<tr class=""><td class="line-num">40</td><td class="line-code"><span style="color:#24292E">  isTree : tree.</span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Acyclic.html#SimpleGraph.IsTree" title="mathlib ↗"><span style="color:#24292E">IsTree</span></a></td></tr>
+<tr class=""><td class="line-num">41</td><td class="line-code"><span style="color:#6A737D">  /-- The bag assigned to each decomposition node. -/</span></td></tr>
+<tr class=""><td class="line-num">42</td><td class="line-code"><span style="color:#24292E">  bag : Node → </span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/Finset/Defs.html#Finset" title="mathlib ↗"><span style="color:#24292E">Finset</span></a><span style="color:#24292E"> V</span></td></tr>
+<tr class=""><td class="line-num">43</td><td class="line-code"><span style="color:#6A737D">  /-- Every graph vertex appears in at least one bag. -/</span></td></tr>
+<tr class=""><td class="line-num">44</td><td class="line-code"><span style="color:#24292E">  vertex_mem_bag : ∀ v : V, ∃ i : Node, v ∈ bag i</span></td></tr>
+<tr class=""><td class="line-num">45</td><td class="line-code"><span style="color:#6A737D">  /-- Every graph edge has both endpoints together in at least one bag. -/</span></td></tr>
+<tr class=""><td class="line-num">46</td><td class="line-code"><span style="color:#24292E">  edge_mem_bag : ∀ ⦃u v : V⦄, G.</span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Basic.html#SimpleGraph.Adj" title="mathlib ↗"><span style="color:#24292E">Adj</span></a><span style="color:#24292E"> u v → ∃ i : Node, u ∈ bag i ∧ v ∈ bag i</span></td></tr>
+<tr class=""><td class="line-num">47</td><td class="line-code"><span style="color:#6A737D">  /-- For each graph vertex, the nodes whose bags contain it induce a</span></td></tr>
+<tr class=""><td class="line-num">48</td><td class="line-code"><span style="color:#6A737D">  connected subgraph of the tree. -/</span></td></tr>
+<tr class=""><td class="line-num">49</td><td class="line-code"><span style="color:#24292E">  bag_indices_connected :</span></td></tr>
+<tr class=""><td class="line-num">50</td><td class="line-code"><span style="color:#24292E">    ∀ v : V, (tree.</span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Maps.html#SimpleGraph.induce" title="mathlib ↗"><span style="color:#24292E">induce</span></a><span style="color:#24292E"> {i : Node | v ∈ bag i}).</span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Connectivity/Connected.html#SimpleGraph.Connected" title="mathlib ↗"><span style="color:#24292E">Connected</span></a></td></tr>
+<tr class=""><td class="line-num">51</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">52</td><td class="line-code"><span style="color:#6A737D">/-- `G` has a tree decomposition all of whose bags have at most `w + 1`</span></td></tr>
+<tr class=""><td class="line-num">53</td><td class="line-code"><span style="color:#6A737D">vertices. -/</span></td></tr>
+<tr class=""><td class="line-num">54</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> HasTreewidthAtMost</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">} (G : </span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Basic.html#SimpleGraph" title="mathlib ↗"><span style="color:#24292E">SimpleGraph</span></a><span style="color:#24292E"> V) (w : ℕ) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr class=""><td class="line-num">55</td><td class="line-code"><span style="color:#24292E">  ∃ D : </span><a class="lean-identifier-link" href="../lax-228581/Lax228581.Treewidth.html#L28"><span style="color:#24292E">TreeDecomposition</span></a><span style="color:#24292E"> G, ∀ i, (D.</span><a class="lean-identifier-link" href="../lax-228581/Lax228581.Treewidth.html#L41"><span style="color:#24292E">bag</span></a><span style="color:#24292E"> i).</span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/Finset/Card.html#Finset.card" title="mathlib ↗"><span style="color:#24292E">card</span></a><span style="color:#24292E"> ≤ w + </span><span style="color:#005CC5">1</span></td></tr>
+<tr class=""><td class="line-num">56</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">57</td><td class="line-code"><span style="color:#6A737D">/-- The treewidth of a finite simple graph: the least `w` such that the</span></td></tr>
+<tr class=""><td class="line-num">58</td><td class="line-code"><span style="color:#6A737D">graph has a tree decomposition with bags of at most `w + 1` vertices. -/</span></td></tr>
+<tr class=""><td class="line-num">59</td><td class="line-code"><span style="color:#D73A49">noncomputable</span><span style="color:#D73A49"> def</span><span style="color:#6F42C1"> treewidth</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">} [</span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/Fintype/Defs.html#Fintype" title="mathlib ↗"><span style="color:#24292E">Fintype</span></a><span style="color:#24292E"> V] [DecidableEq V]</span></td></tr>
+<tr class=""><td class="line-num">60</td><td class="line-code"><span style="color:#24292E">    (G : </span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Basic.html#SimpleGraph" title="mathlib ↗"><span style="color:#24292E">SimpleGraph</span></a><span style="color:#24292E"> V) : ℕ :=</span></td></tr>
+<tr class=""><td class="line-num">61</td><td class="line-code"><span style="color:#24292E">  </span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Order/Bounds/Defs.html#InfSet.sInf" title="mathlib ↗"><span style="color:#24292E">sInf</span></a><span style="color:#24292E"> {w | </span><a class="lean-identifier-link" href="../lax-228581/Lax228581.Treewidth.html#L52"><span style="color:#24292E">HasTreewidthAtMost</span></a><span style="color:#24292E"> G w}</span></td></tr>
+<tr class=""><td class="line-num">62</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">63</td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax228581.Treewidth</span></td></tr>
+<tr class=""><td class="line-num">64</td><td class="line-code"> </td></tr>
+</table></div></div>
+</div>
+</li>
+<li class="manuscript-card kind-concept" id="m49" data-mark="49">
+<div class="manuscript-card-head">
+<span class="manuscript-card-swatch" aria-hidden="true"></span>
+<span class="manuscript-card-name"><span class="type-badge">def</span><a href="../lax-228581/Lax228581.TwinWidth.html"><code>Lax228581.TwinWidth</code></a></span>
+<button class="manuscript-card-toggle" type="button" aria-expanded="false" aria-controls="m49-body" aria-label="Show details of Lax228581.TwinWidth"><span aria-hidden="true">▸</span></button>
+</div>
+<div class="manuscript-card-body" id="m49-body" hidden>
+<p class="manuscript-card-title">Twin-width</p>
+<div class="latex-content"><p>A partition sequence of a finite simple graph <em>G</em> is a sequence of partitions
+of its vertex set that starts at the partition into singletons, merges two
+parts into one at every step, and ends at the partition with a single part.
+Two parts of a same partition are homogeneous if either every pair of
+vertices across them is adjacent or none is; two non-homogeneous parts are
+red-adjacent. The red degree of a part is the number of other parts of its
+partition that are red-adjacent to it.</p>
+<p>The twin-width of <em>G</em> is the least <em>d</em> such that <em>G</em> has a partition sequence
+in which every part of every partition has red degree at most <em>d</em>.</p>
+</div>
+<div class="manuscript-card-source"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<tr class=""><td class="line-num">1</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Combinatorics.SimpleGraph.Basic</span></td></tr>
+<tr class=""><td class="line-num">2</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Data.Set.Card</span></td></tr>
+<tr class=""><td class="line-num">3</td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> Mathlib.Data.Nat.Lattice</span></td></tr>
+<tr class=""><td class="line-num">4</td><td class="line-code"> </td></tr>
+<tr class="line-elided"><td class="line-num"></td><td class="line-code">… module docstring, 25 lines</td></tr>
+<tr class=""><td class="line-num">30</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">31</td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax228581.TwinWidth</span></td></tr>
+<tr class=""><td class="line-num">32</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">33</td><td class="line-code"><span style="color:#6A737D">/-- Two vertex sets are homogeneous in `G`: either every pair of vertices</span></td></tr>
+<tr class=""><td class="line-num">34</td><td class="line-code"><span style="color:#6A737D">across them is adjacent, or none is. -/</span></td></tr>
+<tr class=""><td class="line-num">35</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> Homogeneous</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">} (G : </span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Basic.html#SimpleGraph" title="mathlib ↗"><span style="color:#24292E">SimpleGraph</span></a><span style="color:#24292E"> V) (A B : </span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/Finset/Defs.html#Finset" title="mathlib ↗"><span style="color:#24292E">Finset</span></a><span style="color:#24292E"> V) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr class=""><td class="line-num">36</td><td class="line-code"><span style="color:#24292E">  (∀ a ∈ A, ∀ b ∈ B, G.</span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Basic.html#SimpleGraph.Adj" title="mathlib ↗"><span style="color:#24292E">Adj</span></a><span style="color:#24292E"> a b) ∨ (∀ a ∈ A, ∀ b ∈ B, ¬ G.</span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Basic.html#SimpleGraph.Adj" title="mathlib ↗"><span style="color:#24292E">Adj</span></a><span style="color:#24292E"> a b)</span></td></tr>
+<tr class=""><td class="line-num">37</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">38</td><td class="line-code"><span style="color:#6A737D">/-- The red degree of a part `A` in a family of parts `P`: the number of</span></td></tr>
+<tr class=""><td class="line-num">39</td><td class="line-code"><span style="color:#6A737D">other parts of `P` that are not homogeneous with `A`. -/</span></td></tr>
+<tr class=""><td class="line-num">40</td><td class="line-code"><span style="color:#D73A49">noncomputable</span><span style="color:#D73A49"> def</span><span style="color:#6F42C1"> redDegree</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">} (G : </span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Basic.html#SimpleGraph" title="mathlib ↗"><span style="color:#24292E">SimpleGraph</span></a><span style="color:#24292E"> V)</span></td></tr>
+<tr class=""><td class="line-num">41</td><td class="line-code"><span style="color:#24292E">    (P : </span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/Finset/Defs.html#Finset" title="mathlib ↗"><span style="color:#24292E">Finset</span></a><span style="color:#24292E"> (</span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/Finset/Defs.html#Finset" title="mathlib ↗"><span style="color:#24292E">Finset</span></a><span style="color:#24292E"> V)) (A : </span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/Finset/Defs.html#Finset" title="mathlib ↗"><span style="color:#24292E">Finset</span></a><span style="color:#24292E"> V) : ℕ :=</span></td></tr>
+<tr class=""><td class="line-num">42</td><td class="line-code"><span style="color:#24292E">  {B | B ∈ P ∧ B ≠ A ∧ ¬ </span><a class="lean-identifier-link" href="../lax-228581/Lax228581.TwinWidth.html#L33"><span style="color:#24292E">Homogeneous</span></a><span style="color:#24292E"> G A B}.</span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/Set/Card.html#Set.ncard" title="mathlib ↗"><span style="color:#24292E">ncard</span></a></td></tr>
+<tr class=""><td class="line-num">43</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">44</td><td class="line-code"><span style="color:#6A737D">/-- The partition of a finite vertex type into singletons. -/</span></td></tr>
+<tr class=""><td class="line-num">45</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> singletonPartition</span><span style="color:#24292E"> (V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">) [</span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/Fintype/Defs.html#Fintype" title="mathlib ↗"><span style="color:#24292E">Fintype</span></a><span style="color:#24292E"> V] [DecidableEq V] :</span></td></tr>
+<tr class=""><td class="line-num">46</td><td class="line-code"><span style="color:#24292E">    </span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/Finset/Defs.html#Finset" title="mathlib ↗"><span style="color:#24292E">Finset</span></a><span style="color:#24292E"> (</span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/Finset/Defs.html#Finset" title="mathlib ↗"><span style="color:#24292E">Finset</span></a><span style="color:#24292E"> V) :=</span></td></tr>
+<tr class=""><td class="line-num">47</td><td class="line-code"><span style="color:#24292E">  </span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/Fintype/Defs.html#Finset.univ" title="mathlib ↗"><span style="color:#24292E">Finset.univ</span></a><span style="color:#24292E">.</span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/Finset/Image.html#Finset.image" title="mathlib ↗"><span style="color:#24292E">image</span></a><span style="color:#24292E"> </span><span style="color:#D73A49">fun</span><span style="color:#24292E"> v : V =&gt; ({v} : </span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/Finset/Defs.html#Finset" title="mathlib ↗"><span style="color:#24292E">Finset</span></a><span style="color:#24292E"> V)</span></td></tr>
+<tr class=""><td class="line-num">48</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">49</td><td class="line-code"><span style="color:#6A737D">/-- A partition sequence of `G` in which every part has red degree at most</span></td></tr>
+<tr class=""><td class="line-num">50</td><td class="line-code"><span style="color:#6A737D">`d`: starting from the singleton partition, each step merges two parts into</span></td></tr>
+<tr class=""><td class="line-num">51</td><td class="line-code"><span style="color:#6A737D">one, until a single part remains. -/</span></td></tr>
+<tr class=""><td class="line-num">52</td><td class="line-code"><span style="color:#D73A49">structure</span><span style="color:#6F42C1"> PartitionSequence</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">} [</span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/Fintype/Defs.html#Fintype" title="mathlib ↗"><span style="color:#24292E">Fintype</span></a><span style="color:#24292E"> V] [DecidableEq V]</span></td></tr>
+<tr class=""><td class="line-num">53</td><td class="line-code"><span style="color:#24292E">    (G : </span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Basic.html#SimpleGraph" title="mathlib ↗"><span style="color:#24292E">SimpleGraph</span></a><span style="color:#24292E"> V) (d : ℕ) </span><span style="color:#D73A49">where</span></td></tr>
+<tr class=""><td class="line-num">54</td><td class="line-code"><span style="color:#6A737D">  /-- The number of merge steps. -/</span></td></tr>
+<tr class=""><td class="line-num">55</td><td class="line-code"><span style="color:#24292E">  stepCount : ℕ</span></td></tr>
+<tr class=""><td class="line-num">56</td><td class="line-code"><span style="color:#6A737D">  /-- The partition after each number of merge steps. -/</span></td></tr>
+<tr class=""><td class="line-num">57</td><td class="line-code"><span style="color:#24292E">  partition : ℕ → </span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/Finset/Defs.html#Finset" title="mathlib ↗"><span style="color:#24292E">Finset</span></a><span style="color:#24292E"> (</span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/Finset/Defs.html#Finset" title="mathlib ↗"><span style="color:#24292E">Finset</span></a><span style="color:#24292E"> V)</span></td></tr>
+<tr class=""><td class="line-num">58</td><td class="line-code"><span style="color:#6A737D">  /-- The sequence starts at the singleton partition. -/</span></td></tr>
+<tr class=""><td class="line-num">59</td><td class="line-code"><span style="color:#24292E">  starts : partition </span><span style="color:#005CC5">0</span><span style="color:#24292E"> = </span><a class="lean-identifier-link" href="../lax-228581/Lax228581.TwinWidth.html#L44"><span style="color:#24292E">singletonPartition</span></a><span style="color:#24292E"> V</span></td></tr>
+<tr class=""><td class="line-num">60</td><td class="line-code"><span style="color:#6A737D">  /-- The sequence ends with a single part. -/</span></td></tr>
+<tr class=""><td class="line-num">61</td><td class="line-code"><span style="color:#24292E">  ends : (partition stepCount).</span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/Finset/Card.html#Finset.card" title="mathlib ↗"><span style="color:#24292E">card</span></a><span style="color:#24292E"> ≤ </span><span style="color:#005CC5">1</span></td></tr>
+<tr class=""><td class="line-num">62</td><td class="line-code"><span style="color:#6A737D">  /-- Each step merges two distinct parts into one and keeps all other</span></td></tr>
+<tr class=""><td class="line-num">63</td><td class="line-code"><span style="color:#6A737D">  parts. -/</span></td></tr>
+<tr class=""><td class="line-num">64</td><td class="line-code"><span style="color:#24292E">  step_merges :</span></td></tr>
+<tr class=""><td class="line-num">65</td><td class="line-code"><span style="color:#24292E">    ∀ i, i &lt; stepCount → ∃ A ∈ partition i, ∃ B ∈ partition i, A ≠ B ∧</span></td></tr>
+<tr class=""><td class="line-num">66</td><td class="line-code"><span style="color:#24292E">      partition (i + </span><span style="color:#005CC5">1</span><span style="color:#24292E">) = insert (A ∪ B) (((partition i).</span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/Finset/Erase.html#Finset.erase" title="mathlib ↗"><span style="color:#24292E">erase</span></a><span style="color:#24292E"> A).</span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/Finset/Erase.html#Finset.erase" title="mathlib ↗"><span style="color:#24292E">erase</span></a><span style="color:#24292E"> B)</span></td></tr>
+<tr class=""><td class="line-num">67</td><td class="line-code"><span style="color:#6A737D">  /-- Every part of every partition in the sequence has red degree at most</span></td></tr>
+<tr class=""><td class="line-num">68</td><td class="line-code"><span style="color:#6A737D">  `d`. -/</span></td></tr>
+<tr class=""><td class="line-num">69</td><td class="line-code"><span style="color:#24292E">  redDegree_le :</span></td></tr>
+<tr class=""><td class="line-num">70</td><td class="line-code"><span style="color:#24292E">    ∀ i, i ≤ stepCount → ∀ ⦃A⦄, A ∈ partition i →</span></td></tr>
+<tr class=""><td class="line-num">71</td><td class="line-code"><span style="color:#24292E">      </span><a class="lean-identifier-link" href="../lax-228581/Lax228581.TwinWidth.html#L38"><span style="color:#24292E">redDegree</span></a><span style="color:#24292E"> G (partition i) A ≤ d</span></td></tr>
+<tr class=""><td class="line-num">72</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">73</td><td class="line-code"><span style="color:#6A737D">/-- `G` has a partition sequence in which every part has red degree at most</span></td></tr>
+<tr class=""><td class="line-num">74</td><td class="line-code"><span style="color:#6A737D">`d`. -/</span></td></tr>
+<tr class=""><td class="line-num">75</td><td class="line-code"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> HasTwinWidthAtMost</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">} [</span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/Fintype/Defs.html#Fintype" title="mathlib ↗"><span style="color:#24292E">Fintype</span></a><span style="color:#24292E"> V] [DecidableEq V]</span></td></tr>
+<tr class=""><td class="line-num">76</td><td class="line-code"><span style="color:#24292E">    (G : </span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Basic.html#SimpleGraph" title="mathlib ↗"><span style="color:#24292E">SimpleGraph</span></a><span style="color:#24292E"> V) (d : ℕ) : </span><span style="color:#D73A49">Prop</span><span style="color:#24292E"> :=</span></td></tr>
+<tr class=""><td class="line-num">77</td><td class="line-code"><span style="color:#24292E">  Nonempty (</span><a class="lean-identifier-link" href="../lax-228581/Lax228581.TwinWidth.html#L49"><span style="color:#24292E">PartitionSequence</span></a><span style="color:#24292E"> G d)</span></td></tr>
+<tr class=""><td class="line-num">78</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">79</td><td class="line-code"><span style="color:#6A737D">/-- The twin-width of a finite simple graph: the least `d` such that the</span></td></tr>
+<tr class=""><td class="line-num">80</td><td class="line-code"><span style="color:#6A737D">graph has a partition sequence in which every part has red degree at most</span></td></tr>
+<tr class=""><td class="line-num">81</td><td class="line-code"><span style="color:#6A737D">`d`. -/</span></td></tr>
+<tr class=""><td class="line-num">82</td><td class="line-code"><span style="color:#D73A49">noncomputable</span><span style="color:#D73A49"> def</span><span style="color:#6F42C1"> twinWidth</span><span style="color:#24292E"> {V : </span><span style="color:#D73A49">Type</span><span style="color:#24292E">} [</span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/Fintype/Defs.html#Fintype" title="mathlib ↗"><span style="color:#24292E">Fintype</span></a><span style="color:#24292E"> V] [DecidableEq V]</span></td></tr>
+<tr class=""><td class="line-num">83</td><td class="line-code"><span style="color:#24292E">    (G : </span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Basic.html#SimpleGraph" title="mathlib ↗"><span style="color:#24292E">SimpleGraph</span></a><span style="color:#24292E"> V) : ℕ :=</span></td></tr>
+<tr class=""><td class="line-num">84</td><td class="line-code"><span style="color:#24292E">  </span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Order/Bounds/Defs.html#InfSet.sInf" title="mathlib ↗"><span style="color:#24292E">sInf</span></a><span style="color:#24292E"> {d | </span><a class="lean-identifier-link" href="../lax-228581/Lax228581.TwinWidth.html#L73"><span style="color:#24292E">HasTwinWidthAtMost</span></a><span style="color:#24292E"> G d}</span></td></tr>
+<tr class=""><td class="line-num">85</td><td class="line-code"> </td></tr>
+<tr class=""><td class="line-num">86</td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax228581.TwinWidth</span></td></tr>
+<tr class=""><td class="line-num">87</td><td class="line-code"> </td></tr>
+</table></div></div>
+</div>
+</li>
 </ol>
 <svg class="manuscript-links" id="manuscript-links" aria-hidden="true"></svg>
 </div>
 <p class="manuscript-status" id="manuscript-status" role="status">Loading the paper…</p>
 <noscript><p class="empty-note">Enable JavaScript to read the paper here, or <a href="paper.pdf">download the PDF</a>.</p></noscript>
-<script type="application/json" id="manuscript-data">{"pageSizes":[[595.28,841.89],[595.28,841.89],[595.28,841.89],[595.28,841.89],[595.28,841.89]],"marks":[{"n":1,"id":"Lax199508.GraphClasses","kind":"concept","begin":{"page":1,"x":56.69,"y":116.74,"mode":"v"},"end":{"page":1,"x":56.69,"y":85.66,"mode":"v"}},{"n":2,"id":"Lax871432.GraphClasses","kind":"concept","begin":{"page":1,"x":56.69,"y":85.66,"mode":"v"},"end":{"page":1,"x":56.69,"y":54.57,"mode":"v"}},{"n":3,"id":"Lax871432.ClosureProperties","kind":"concept","begin":{"page":1,"x":56.69,"y":54.57,"mode":"v"},"end":{"page":2,"x":56.69,"y":745.02,"mode":"v"}},{"n":4,"id":"Lax153141.GraphParameters","kind":"concept","begin":{"page":2,"x":56.69,"y":745.02,"mode":"v"},"end":{"page":2,"x":56.69,"y":713.94,"mode":"v"}},{"n":5,"id":"Lax68.Paths","kind":"concept","begin":{"page":2,"x":56.69,"y":713.94,"mode":"v"},"end":{"page":2,"x":56.69,"y":684.97,"mode":"v"}},{"n":6,"id":"Lax68.Stars","kind":"concept","begin":{"page":2,"x":56.69,"y":684.97,"mode":"v"},"end":{"page":2,"x":56.69,"y":653.89,"mode":"v"}},{"n":7,"id":"Lax68.Trees","kind":"concept","begin":{"page":2,"x":56.69,"y":653.89,"mode":"v"},"end":{"page":2,"x":56.69,"y":622.81,"mode":"v"}},{"n":8,"id":"Lax68.Ladders","kind":"concept","begin":{"page":2,"x":56.69,"y":622.81,"mode":"v"},"end":{"page":2,"x":56.69,"y":603.15,"mode":"v"}},{"n":9,"id":"Lax68.Triangles","kind":"concept","begin":{"page":2,"x":56.69,"y":518.28,"mode":"v"},"end":{"page":2,"x":56.69,"y":489.31,"mode":"v"}},{"n":10,"id":"Lax68.MaximalOuterplanar","kind":"concept","begin":{"page":2,"x":56.69,"y":489.31,"mode":"v"},"end":{"page":2,"x":56.69,"y":456.11,"mode":"v"}},{"n":11,"id":"Lax68.Outerplanar","kind":"concept","begin":{"page":2,"x":56.69,"y":456.11,"mode":"v"},"end":{"page":2,"x":56.69,"y":425.02,"mode":"v"}},{"n":12,"id":"Lax68.SeriesParallel","kind":"concept","begin":{"page":2,"x":56.69,"y":425.02,"mode":"v"},"end":{"page":2,"x":56.69,"y":396.06,"mode":"v"}},{"n":13,"id":"Lax68.Triangulations","kind":"concept","begin":{"page":2,"x":56.69,"y":396.06,"mode":"v"},"end":{"page":2,"x":56.69,"y":362.86,"mode":"v"}},{"n":14,"id":"Lax68.GridsAndWalls","kind":"concept","begin":{"page":2,"x":56.69,"y":362.86,"mode":"v"},"end":{"page":2,"x":56.69,"y":331.77,"mode":"v"}},{"n":15,"id":"Lax68.Planar","kind":"concept","begin":{"page":2,"x":56.69,"y":331.77,"mode":"v"},"end":{"page":2,"x":56.69,"y":300.69,"mode":"v"}},{"n":16,"id":"Lax9.ChiBoundedness","kind":"concept","begin":{"page":2,"x":56.69,"y":233.4,"mode":"v"},"end":{"page":2,"x":56.69,"y":195.47,"mode":"v"}},{"n":17,"id":"Lax379983.FeedbackVertexNumber","kind":"concept","begin":{"page":2,"x":56.69,"y":103.8,"mode":"v"},"end":{"page":2,"x":56.69,"y":72.71,"mode":"v"}},{"n":18,"id":"Lax379983.FeedbackEdgeNumber","kind":"concept","begin":{"page":2,"x":56.69,"y":72.71,"mode":"v"},"end":{"page":3,"x":56.69,"y":758.57,"mode":"v"}},{"n":19,"id":"Lax199508.Admissibility","kind":"concept","begin":{"page":3,"x":56.69,"y":653.35,"mode":"v"},"end":{"page":3,"x":56.69,"y":622.26,"mode":"v"}},{"n":20,"id":"Lax199508.ColoringNumbers","kind":"concept","begin":{"page":3,"x":56.69,"y":622.26,"mode":"v"},"end":{"page":3,"x":56.69,"y":591.18,"mode":"v"}},{"n":21,"id":"Lax199508.NeighborhoodComplexity","kind":"concept","begin":{"page":3,"x":56.69,"y":591.18,"mode":"v"},"end":{"page":3,"x":56.69,"y":560.1,"mode":"v"}},{"n":22,"id":"Lax9.NeighborhoodComplexity","kind":"concept","begin":{"page":3,"x":56.69,"y":560.1,"mode":"v"},"end":{"page":3,"x":56.69,"y":529.01,"mode":"v"}},{"n":23,"id":"Lax214022.Cographs","kind":"concept","begin":{"page":3,"x":56.69,"y":461.72,"mode":"v"},"end":{"page":3,"x":56.69,"y":423.79,"mode":"v"}},{"n":24,"id":"Lax762056.InducedMinors","kind":"concept","begin":{"page":3,"x":56.69,"y":423.79,"mode":"v"},"end":{"page":3,"x":56.69,"y":394.83,"mode":"v"}},{"n":25,"id":"Lax762056.Grid","kind":"concept","begin":{"page":3,"x":56.69,"y":394.83,"mode":"v"},"end":{"page":3,"x":56.69,"y":361.62,"mode":"v"}},{"n":26,"id":"Lax710763.GraphClasses","kind":"concept","begin":{"page":3,"x":56.69,"y":361.62,"mode":"v"},"end":{"page":3,"x":56.69,"y":330.54,"mode":"v"}},{"n":27,"id":"Lax68.GraphMinors","kind":"concept","begin":{"page":3,"x":56.69,"y":299.46,"mode":"v"},"end":{"page":3,"x":56.69,"y":261.33,"mode":"v"}},{"n":28,"id":"Lax68.GraphTopologicalMinors","kind":"concept","begin":{"page":3,"x":56.69,"y":261.33,"mode":"v"},"end":{"page":3,"x":56.69,"y":230.25,"mode":"v"}},{"n":29,"id":"Lax68.GridsAndWalls","kind":"concept","begin":{"page":3,"x":56.69,"y":230.25,"mode":"v"},"end":{"page":3,"x":56.69,"y":199.17,"mode":"v"}},{"n":30,"id":"Lax68.Outerplanar","kind":"concept","begin":{"page":3,"x":56.69,"y":199.17,"mode":"v"},"end":{"page":3,"x":56.69,"y":168.09,"mode":"v"}},{"n":31,"id":"Lax68.Planar","kind":"concept","begin":{"page":3,"x":56.69,"y":168.09,"mode":"v"},"end":{"page":3,"x":56.69,"y":148.43,"mode":"v"}},{"n":32,"id":"Lax68.Triangulations","kind":"concept","begin":{"page":3,"x":56.69,"y":148.43,"mode":"v"},"end":{"page":3,"x":56.69,"y":119.47,"mode":"v"}},{"n":33,"id":"Lax153141.MixedMinorNumber","kind":"concept","begin":{"page":4,"x":56.69,"y":743.18,"mode":"v"},"end":{"page":4,"x":56.69,"y":705.25,"mode":"v"}},{"n":34,"id":"Lax199508.UniformQuasiWideness","kind":"concept","begin":{"page":4,"x":56.69,"y":613.58,"mode":"v"},"end":{"page":4,"x":56.69,"y":582.5,"mode":"v"}},{"n":35,"id":"Lax199508.ShallowMinorDensity","kind":"concept","begin":{"page":4,"x":56.69,"y":582.5,"mode":"v"},"end":{"page":4,"x":56.69,"y":553.54,"mode":"v"}},{"n":36,"id":"Lax199508.ShallowTopologicalMinors","kind":"concept","begin":{"page":4,"x":56.69,"y":553.54,"mode":"v"},"end":{"page":4,"x":56.69,"y":520.33,"mode":"v"}},{"n":37,"id":"Lax199508.NowhereDenseClasses","kind":"concept","begin":{"page":4,"x":56.69,"y":520.33,"mode":"v"},"end":{"page":4,"x":56.69,"y":489.25,"mode":"v"}},{"n":38,"id":"Lax710763.MonadicDependence","kind":"concept","begin":{"page":4,"x":56.69,"y":489.25,"mode":"v"},"end":{"page":4,"x":56.69,"y":458.16,"mode":"v"}},{"n":39,"id":"Lax68.Trees","kind":"concept","begin":{"page":5,"x":56.69,"y":743.18,"mode":"v"},"end":{"page":5,"x":56.69,"y":707.37,"mode":"v"}},{"n":40,"id":"Lax228581.Treewidth","kind":"concept","begin":{"page":5,"x":56.69,"y":707.37,"mode":"v"},"end":{"page":5,"x":56.69,"y":687.72,"mode":"v"}},{"n":41,"id":"Lax68.SeriesParallel","kind":"concept","begin":{"page":5,"x":56.69,"y":654.32,"mode":"v"},"end":{"page":5,"x":56.69,"y":618.51,"mode":"v"}},{"n":42,"id":"Lax214022.Cographs","kind":"concept","begin":{"page":5,"x":56.69,"y":582.99,"mode":"v"},"end":{"page":5,"x":56.69,"y":545.07,"mode":"v"}},{"n":43,"id":"Lax271696.CliqueExpr","kind":"concept","begin":{"page":5,"x":56.69,"y":545.07,"mode":"v"},"end":{"page":5,"x":56.69,"y":513.98,"mode":"v"}},{"n":44,"id":"Lax9.MergeWidth","kind":"concept","begin":{"page":5,"x":56.69,"y":513.98,"mode":"v"},"end":{"page":5,"x":56.69,"y":482.9,"mode":"v"}},{"n":45,"id":"Lax228581.TwinWidth","kind":"concept","begin":{"page":5,"x":56.69,"y":482.9,"mode":"v"},"end":{"page":5,"x":56.69,"y":451.82,"mode":"v"}},{"n":46,"id":"Lax228581.Treewidth","kind":"concept","begin":{"page":5,"x":56.69,"y":384.52,"mode":"v"},"end":{"page":5,"x":56.69,"y":346.59,"mode":"v"}},{"n":47,"id":"Lax228581.TwinWidth","kind":"concept","begin":{"page":5,"x":56.69,"y":346.59,"mode":"v"},"end":{"page":5,"x":56.69,"y":317.63,"mode":"v"}}]}</script>
+<script type="application/json" id="manuscript-data">{"pageSizes":[[595.28,841.89],[595.28,841.89],[595.28,841.89],[595.28,841.89],[595.28,841.89]],"marks":[{"n":1,"id":"Lax199508.GraphClasses","kind":"concept","begin":{"page":1,"x":56.69,"y":126.3,"mode":"v"},"end":{"page":1,"x":56.69,"y":95.22,"mode":"v"}},{"n":2,"id":"Lax871432.GraphClasses","kind":"concept","begin":{"page":1,"x":56.69,"y":95.22,"mode":"v"},"end":{"page":1,"x":56.69,"y":64.14,"mode":"v"}},{"n":3,"id":"Lax871432.ClosureProperties","kind":"concept","begin":{"page":1,"x":56.69,"y":64.14,"mode":"v"},"end":{"page":2,"x":56.69,"y":745.02,"mode":"v"}},{"n":4,"id":"Lax153141.GraphParameters","kind":"concept","begin":{"page":2,"x":56.69,"y":745.02,"mode":"v"},"end":{"page":2,"x":56.69,"y":713.94,"mode":"v"}},{"n":5,"id":"Lax68.Paths","kind":"concept","begin":{"page":2,"x":56.69,"y":713.94,"mode":"v"},"end":{"page":2,"x":56.69,"y":684.97,"mode":"v"}},{"n":6,"id":"Lax68.Stars","kind":"concept","begin":{"page":2,"x":56.69,"y":684.97,"mode":"v"},"end":{"page":2,"x":56.69,"y":653.89,"mode":"v"}},{"n":7,"id":"Lax68.Trees","kind":"concept","begin":{"page":2,"x":56.69,"y":653.89,"mode":"v"},"end":{"page":2,"x":56.69,"y":622.81,"mode":"v"}},{"n":8,"id":"Lax68.Ladders","kind":"concept","begin":{"page":2,"x":56.69,"y":622.81,"mode":"v"},"end":{"page":2,"x":56.69,"y":603.15,"mode":"v"}},{"n":9,"id":"Lax68.Triangles","kind":"concept","begin":{"page":2,"x":56.69,"y":531.82,"mode":"v"},"end":{"page":2,"x":56.69,"y":502.86,"mode":"v"}},{"n":10,"id":"Lax68.MaximalOuterplanar","kind":"concept","begin":{"page":2,"x":56.69,"y":502.86,"mode":"v"},"end":{"page":2,"x":56.69,"y":469.66,"mode":"v"}},{"n":11,"id":"Lax68.Outerplanar","kind":"concept","begin":{"page":2,"x":56.69,"y":469.66,"mode":"v"},"end":{"page":2,"x":56.69,"y":438.57,"mode":"v"}},{"n":12,"id":"Lax68.SeriesParallel","kind":"concept","begin":{"page":2,"x":56.69,"y":438.57,"mode":"v"},"end":{"page":2,"x":56.69,"y":409.61,"mode":"v"}},{"n":13,"id":"Lax68.Triangulations","kind":"concept","begin":{"page":2,"x":56.69,"y":409.61,"mode":"v"},"end":{"page":2,"x":56.69,"y":376.41,"mode":"v"}},{"n":14,"id":"Lax68.GridsAndWalls","kind":"concept","begin":{"page":2,"x":56.69,"y":376.41,"mode":"v"},"end":{"page":2,"x":56.69,"y":345.32,"mode":"v"}},{"n":15,"id":"Lax68.Planar","kind":"concept","begin":{"page":2,"x":56.69,"y":345.32,"mode":"v"},"end":{"page":2,"x":56.69,"y":314.24,"mode":"v"}},{"n":16,"id":"Lax9.ChiBoundedness","kind":"concept","begin":{"page":2,"x":56.69,"y":246.94,"mode":"v"},"end":{"page":2,"x":56.69,"y":209.02,"mode":"v"}},{"n":17,"id":"Lax379983.FeedbackVertexNumber","kind":"concept","begin":{"page":2,"x":56.69,"y":117.35,"mode":"v"},"end":{"page":2,"x":56.69,"y":86.26,"mode":"v"}},{"n":18,"id":"Lax379983.FeedbackEdgeNumber","kind":"concept","begin":{"page":2,"x":56.69,"y":86.26,"mode":"v"},"end":{"page":2,"x":56.69,"y":55.18,"mode":"v"}},{"n":19,"id":"Lax195003.WelzlOrders","kind":"concept","begin":{"page":3,"x":56.69,"y":705.25,"mode":"v"},"end":{"page":3,"x":56.69,"y":674.17,"mode":"v"}},{"n":20,"id":"Lax195003.WelzlOrdersInGraphs","kind":"concept","begin":{"page":3,"x":56.69,"y":674.17,"mode":"v"},"end":{"page":3,"x":56.69,"y":645.21,"mode":"v"}},{"n":21,"id":"Lax199508.Admissibility","kind":"concept","begin":{"page":3,"x":56.69,"y":645.21,"mode":"v"},"end":{"page":3,"x":56.69,"y":612,"mode":"v"}},{"n":22,"id":"Lax199508.ColoringNumbers","kind":"concept","begin":{"page":3,"x":56.69,"y":612,"mode":"v"},"end":{"page":3,"x":56.69,"y":580.92,"mode":"v"}},{"n":23,"id":"Lax199508.NeighborhoodComplexity","kind":"concept","begin":{"page":3,"x":56.69,"y":580.92,"mode":"v"},"end":{"page":3,"x":56.69,"y":549.84,"mode":"v"}},{"n":24,"id":"Lax9.NeighborhoodComplexity","kind":"concept","begin":{"page":3,"x":56.69,"y":549.84,"mode":"v"},"end":{"page":3,"x":56.69,"y":518.75,"mode":"v"}},{"n":25,"id":"Lax214022.Cographs","kind":"concept","begin":{"page":3,"x":56.69,"y":451.46,"mode":"v"},"end":{"page":3,"x":56.69,"y":413.53,"mode":"v"}},{"n":26,"id":"Lax762056.InducedMinors","kind":"concept","begin":{"page":3,"x":56.69,"y":413.53,"mode":"v"},"end":{"page":3,"x":56.69,"y":384.57,"mode":"v"}},{"n":27,"id":"Lax762056.Grid","kind":"concept","begin":{"page":3,"x":56.69,"y":384.57,"mode":"v"},"end":{"page":3,"x":56.69,"y":351.36,"mode":"v"}},{"n":28,"id":"Lax710763.GraphClasses","kind":"concept","begin":{"page":3,"x":56.69,"y":351.36,"mode":"v"},"end":{"page":3,"x":56.69,"y":320.28,"mode":"v"}},{"n":29,"id":"Lax68.GraphMinors","kind":"concept","begin":{"page":3,"x":56.69,"y":289.2,"mode":"v"},"end":{"page":3,"x":56.69,"y":251.08,"mode":"v"}},{"n":30,"id":"Lax68.GraphTopologicalMinors","kind":"concept","begin":{"page":3,"x":56.69,"y":251.08,"mode":"v"},"end":{"page":3,"x":56.69,"y":219.99,"mode":"v"}},{"n":31,"id":"Lax68.GridsAndWalls","kind":"concept","begin":{"page":3,"x":56.69,"y":219.99,"mode":"v"},"end":{"page":3,"x":56.69,"y":188.91,"mode":"v"}},{"n":32,"id":"Lax68.Outerplanar","kind":"concept","begin":{"page":3,"x":56.69,"y":188.91,"mode":"v"},"end":{"page":3,"x":56.69,"y":157.82,"mode":"v"}},{"n":33,"id":"Lax68.Planar","kind":"concept","begin":{"page":3,"x":56.69,"y":157.82,"mode":"v"},"end":{"page":3,"x":56.69,"y":138.17,"mode":"v"}},{"n":34,"id":"Lax68.Triangulations","kind":"concept","begin":{"page":3,"x":56.69,"y":138.17,"mode":"v"},"end":{"page":3,"x":56.69,"y":109.21,"mode":"v"}},{"n":35,"id":"Lax153141.MixedMinorNumber","kind":"concept","begin":{"page":4,"x":56.69,"y":743.18,"mode":"v"},"end":{"page":4,"x":56.69,"y":705.25,"mode":"v"}},{"n":36,"id":"Lax199508.UniformQuasiWideness","kind":"concept","begin":{"page":4,"x":56.69,"y":613.58,"mode":"v"},"end":{"page":4,"x":56.69,"y":582.5,"mode":"v"}},{"n":37,"id":"Lax199508.ShallowMinorDensity","kind":"concept","begin":{"page":4,"x":56.69,"y":582.5,"mode":"v"},"end":{"page":4,"x":56.69,"y":553.54,"mode":"v"}},{"n":38,"id":"Lax199508.ShallowTopologicalMinors","kind":"concept","begin":{"page":4,"x":56.69,"y":553.54,"mode":"v"},"end":{"page":4,"x":56.69,"y":520.33,"mode":"v"}},{"n":39,"id":"Lax199508.NowhereDenseClasses","kind":"concept","begin":{"page":4,"x":56.69,"y":520.33,"mode":"v"},"end":{"page":4,"x":56.69,"y":489.25,"mode":"v"}},{"n":40,"id":"Lax710763.MonadicDependence","kind":"concept","begin":{"page":4,"x":56.69,"y":489.25,"mode":"v"},"end":{"page":4,"x":56.69,"y":458.16,"mode":"v"}},{"n":41,"id":"Lax68.Trees","kind":"concept","begin":{"page":5,"x":56.69,"y":743.18,"mode":"v"},"end":{"page":5,"x":56.69,"y":707.37,"mode":"v"}},{"n":42,"id":"Lax228581.Treewidth","kind":"concept","begin":{"page":5,"x":56.69,"y":707.37,"mode":"v"},"end":{"page":5,"x":56.69,"y":687.72,"mode":"v"}},{"n":43,"id":"Lax68.SeriesParallel","kind":"concept","begin":{"page":5,"x":56.69,"y":654.32,"mode":"v"},"end":{"page":5,"x":56.69,"y":618.51,"mode":"v"}},{"n":44,"id":"Lax214022.Cographs","kind":"concept","begin":{"page":5,"x":56.69,"y":582.99,"mode":"v"},"end":{"page":5,"x":56.69,"y":545.07,"mode":"v"}},{"n":45,"id":"Lax271696.CliqueExpr","kind":"concept","begin":{"page":5,"x":56.69,"y":545.07,"mode":"v"},"end":{"page":5,"x":56.69,"y":513.98,"mode":"v"}},{"n":46,"id":"Lax9.MergeWidth","kind":"concept","begin":{"page":5,"x":56.69,"y":513.98,"mode":"v"},"end":{"page":5,"x":56.69,"y":482.9,"mode":"v"}},{"n":47,"id":"Lax228581.TwinWidth","kind":"concept","begin":{"page":5,"x":56.69,"y":482.9,"mode":"v"},"end":{"page":5,"x":56.69,"y":451.82,"mode":"v"}},{"n":48,"id":"Lax228581.Treewidth","kind":"concept","begin":{"page":5,"x":56.69,"y":384.52,"mode":"v"},"end":{"page":5,"x":56.69,"y":346.59,"mode":"v"}},{"n":49,"id":"Lax228581.TwinWidth","kind":"concept","begin":{"page":5,"x":56.69,"y":346.59,"mode":"v"},"end":{"page":5,"x":56.69,"y":317.63,"mode":"v"}}]}</script>
 </div>
 </div>
 <footer class="site-footer">
