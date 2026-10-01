@@ -56,8 +56,8 @@ function commentMath(source: string, comments: SourceRange[]): Decoration[] {
   return matches;
 }
 
-// Besides generated archive pages, permit only the two validated Mathlib
-// destination forms. Never accept arbitrary external source decorations.
+// Besides generated archive pages, permit only validated Lean/Mathlib
+// documentation and pinned Mathlib source destinations.
 const ARCHIVE_HREF = /^(?:\.\.?\/)*[a-zA-Z0-9_%.'-]+\/[a-zA-Z0-9_%.'-]+\.html(?:#[a-zA-Z0-9_%.'-]+)?$/u;
 
 function decorationsByLine(source: string, links: readonly SourceLink[], comments: SourceRange[]): Decoration[][] {

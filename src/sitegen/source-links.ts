@@ -1,7 +1,7 @@
 import { leanDeclarations, nameKey, nameParts, scanLeanSource, type LeanNamespaceReference, type LeanSource, type LeanToken, type SourceRange } from "./lean-source.js";
 import type { LocatedConcept, SiteModel } from "./model.js";
 import type { LeanReferences } from "../lean-references.js";
-import { mathlibDocLink } from "../mathlib-links.js";
+import { mathlibDocLink, mathlibModuleLink } from "../mathlib-links.js";
 
 export interface SourceLink extends SourceRange { href: string }
 interface Target { module: string; href: string; offset: number; private: boolean }
@@ -120,7 +120,7 @@ class SourceLinkIndex {
         this.semanticTargets.set(concept.id, targets);
       }
       const imports: SourceLink[] = [];
-      const imported = new Set(concept.imports);
+      const imported = new Set([...concept.imports, ...(concept.mathlibImports ?? [])]);
       for (let i = 0; i < source.tokens.length; i++) {
         if (source.tokens[i]!.text !== "import") continue;
         for (let j = i + 1; j < source.tokens.length; j++) {
@@ -128,7 +128,8 @@ class SourceLinkIndex {
           if (token.text === "all") continue;
           if (!imported.has(token.text)) break;
           const target = model.conceptHome.get(token.text);
-          if (target) imports.push({ start: token.start, end: token.end, href: this.page(target) });
+          const href = target ? this.page(target) : mathlibModuleLink(token.text);
+          if (href) imports.push({ start: token.start, end: token.end, href });
         }
       }
       this.modules.set(concept.id, {
@@ -257,8 +258,8 @@ class SourceLinkIndex {
       this.resolved.set(conceptId, links);
       return links;
     }
-    const links: SourceLink[] = [...namespaceLinks];
-    const namespaceSites = new Set(namespaceLinks.map((link) => link.start));
+    const links: SourceLink[] = [...module.imports, ...namespaceLinks];
+    const namespaceSites = new Set(links.map((link) => link.start));
     const destinations = new Map<string, Target[]>();
     const candidates = (parts: readonly string[]) => {
       const key = nameKey(parts);

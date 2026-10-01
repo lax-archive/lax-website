@@ -7,6 +7,7 @@ import type { FetchOptions } from "./papers.js";
 
 const DOCS = "https://leanprover-community.github.io/mathlib4_docs/";
 const MODULE = /^Mathlib(?:\.[A-Za-z0-9_]+)+$/u;
+const DOC_MODULE = /^(?:Mathlib|Init|Std|Lean)(?:\.[A-Za-z0-9_]+)*$/u;
 const COMMIT = /^[0-9a-f]{40}$/u;
 const sha256 = (bytes: Buffer) => createHash("sha256").update(bytes).digest("hex");
 let declarations: Record<string, unknown> | undefined;
@@ -33,8 +34,8 @@ export function mathlibLinkTitle(href: string): string | undefined {
   try { url = new URL(href); } catch { return undefined; }
   if (url.protocol !== "https:" || url.username || url.password || url.port || url.search) return undefined;
   if (url.origin === "https://leanprover-community.github.io" &&
-    /^\/mathlib4_docs\/Mathlib\/(?:[A-Za-z0-9_]+\/)*[A-Za-z0-9_]+\.html$/u.test(url.pathname) && url.hash)
-    return "mathlib ↗";
+    /^\/mathlib4_docs\/(?:Mathlib|Init|Std|Lean)(?:\/[A-Za-z0-9_]+)*\.html$/u.test(url.pathname))
+    return url.pathname.startsWith("/mathlib4_docs/Mathlib") ? "mathlib ↗" : "lean ↗";
   if (url.origin === "https://github.com" && !url.hash &&
     /^\/leanprover-community\/mathlib4\/blob\/[0-9a-f]{40}\/Mathlib\/(?:[A-Za-z0-9_]+\/)*[A-Za-z0-9_]+\.lean$/u.test(url.pathname))
     return "mathlib ↗";
@@ -42,12 +43,17 @@ export function mathlibLinkTitle(href: string): string | undefined {
 }
 
 export function mathlibDocLink(module: string, name: string): string | undefined {
-  if (!MODULE.test(module)) return undefined;
+  if (!DOC_MODULE.test(module)) return undefined;
   const index = docsIndex();
   const link = Object.hasOwn(index, name) ? index[name] : undefined;
-  if (typeof link !== "string" || !link.startsWith("./Mathlib/")) return undefined;
+  if (typeof link !== "string" || !/^\.\/(?:Mathlib|Init|Std|Lean)\//u.test(link)) return undefined;
   const href = new URL(link, DOCS).href;
   return mathlibLinkTitle(href) ? href : undefined;
+}
+
+export function mathlibModuleLink(module: string): string | undefined {
+  if (!DOC_MODULE.test(module)) return undefined;
+  return `${DOCS}${module.replaceAll(".", "/")}.html`;
 }
 
 function sourceTarget(submission: SiteSubmission, module: string): { href: string; key: string } | undefined {

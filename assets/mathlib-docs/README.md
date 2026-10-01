@@ -2,13 +2,15 @@
 
 `declarations.json.gz` is a vendored build input, not a website asset. It
 contains only declaration names and documentation paths from Mathlib's public
-doc-gen index, sorted by name and compressed. The renderer reads it once;
+doc-gen index, including `Mathlib`, `Init`, `Std`, and `Lean` declarations,
+sorted by name and compressed. The renderer reads it once;
 visitors receive ordinary links, never this index. `snapshot.json` records
 both the downloaded input's SHA-256 and the vendored file's SHA-256.
 
-This snapshot was retrieved on 2026-09-30. Its destinations point to the
+This snapshot was retrieved on 2026-10-01. Its destinations point to the
 current public documentation, not to a submission's historical Mathlib
-version. Links use the compact hover label “mathlib ↗”. Unknown names use verified source-module links
+version. Links use the compact hover label “mathlib ↗” or “lean ↗”.
+Unknown Mathlib names use verified source-module links
 at the submission's full Mathlib commit, or remain plain if unavailable.
 
 To intentionally refresh the snapshot, download the `source` URL recorded in

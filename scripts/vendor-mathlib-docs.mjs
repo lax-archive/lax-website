@@ -9,7 +9,7 @@ if (!input) throw new Error("usage: node scripts/vendor-mathlib-docs.mjs declara
 const source = fs.readFileSync(input);
 const data = JSON.parse(source);
 const entries = Object.entries(data.declarations).filter(([, entry]) =>
-  typeof entry.docLink === "string" && entry.docLink.startsWith("./Mathlib/"))
+  typeof entry.docLink === "string" && /^\.\/(?:Mathlib|Init|Std|Lean)\//u.test(entry.docLink))
   .map(([name, entry]) => [name, entry.docLink]).sort(([a], [b]) => a < b ? -1 : a > b ? 1 : 0);
 if (!entries.length) throw new Error("index contains no Mathlib declarations");
 const compressed = gzipSync(JSON.stringify(Object.fromEntries(entries)), { level: 9 });
