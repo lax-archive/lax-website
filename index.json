@@ -4627,6 +4627,157 @@
       ]
     },
     {
+      "id": "lax-755887",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Concept axioms: adversarial examples and dependency tracking",
+      "concepts": [
+        {
+          "id": "Lax755887.CircularClaims",
+          "title": "Circular proofs do not establish a statement",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax755887.LeaderClaim",
+          "title": "Contradiction from the leader contracts",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax755887.LeaderContract",
+          "title": "An equivariant unique-leader protocol",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax755887.LeaderControls",
+          "title": "Separate leader models and their incompatibility",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax755887.LeaderElection",
+          "title": "Leader election on a three-cycle",
+          "type": "definition"
+        },
+        {
+          "id": "Lax755887.LimitDecider",
+          "title": "Increasing limits of bounded evaluators — definitions",
+          "type": "definition"
+        },
+        {
+          "id": "Lax755887.LimitDeciderClaim",
+          "title": "Increasing limits of bounded evaluators — false conclusion",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax755887.LimitDeciderContract",
+          "title": "Increasing limits of bounded evaluators — unchecked contract",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax755887.LimitDeciderControls",
+          "title": "Increasing limits of bounded evaluators — independent controls",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax755887.MergeClaim",
+          "title": "Contradiction from the merge-cost bound",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax755887.MergeControl",
+          "title": "No uniform linear bound on merge costs",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax755887.MergeCost",
+          "title": "A uniform linear bound on merge costs",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax755887.PersistentQueue",
+          "title": "Persistent queues — definitions",
+          "type": "definition"
+        },
+        {
+          "id": "Lax755887.PersistentQueueClaim",
+          "title": "Persistent queues — false conclusion",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax755887.PersistentQueueContract",
+          "title": "Persistent queues — unchecked contract",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax755887.PersistentQueueControls",
+          "title": "Persistent queues — independent controls",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax755887.ReusedKey",
+          "title": "Reusing a one-bit encryption pad — definitions",
+          "type": "definition"
+        },
+        {
+          "id": "Lax755887.ReusedKeyClaim",
+          "title": "Reusing a one-bit encryption pad — false conclusion",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax755887.ReusedKeyContract",
+          "title": "Reusing a one-bit encryption pad — unchecked contract",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax755887.ReusedKeyControls",
+          "title": "Reusing a one-bit encryption pad — independent controls",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax755887.Stuttering",
+          "title": "Termination with abstract stuttering — definitions",
+          "type": "definition"
+        },
+        {
+          "id": "Lax755887.StutteringClaim",
+          "title": "Termination with abstract stuttering — false conclusion",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax755887.StutteringContract",
+          "title": "Termination with abstract stuttering — unchecked contract",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax755887.StutteringControls",
+          "title": "Termination with abstract stuttering — independent controls",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax755887Proofs.CircularClaims.first_from_itself",
+        "Lax755887Proofs.CircularClaims.first_from_second",
+        "Lax755887Proofs.CircularClaims.second_from_first",
+        "Lax755887Proofs.LeaderElection.contracts_conflict",
+        "Lax755887Proofs.LeaderElection.equivariance_has_model",
+        "Lax755887Proofs.LeaderElection.no_common_model",
+        "Lax755887Proofs.LeaderElection.uniqueness_has_model",
+        "Lax755887Proofs.LimitDecider.accepted_computable",
+        "Lax755887Proofs.LimitDecider.halting_is_computable",
+        "Lax755887Proofs.LimitDecider.halting_not_computable",
+        "Lax755887Proofs.MergeCost.cost_axiom_is_inconsistent",
+        "Lax755887Proofs.MergeCost.no_linear_bound",
+        "Lax755887Proofs.PersistentQueue.actual_work",
+        "Lax755887Proofs.PersistentQueue.dequeue_charge",
+        "Lax755887Proofs.PersistentQueue.repeated_dequeue_linear",
+        "Lax755887Proofs.ReusedKey.complement",
+        "Lax755887Proofs.ReusedKey.every_attacker_is_unbiased",
+        "Lax755887Proofs.ReusedKey.rekey",
+        "Lax755887Proofs.ReusedKey.xor_attack_succeeds",
+        "Lax755887Proofs.Stuttering.machine_terminates",
+        "Lax755887Proofs.Stuttering.terminal_cycle"
+      ]
+    },
+    {
       "id": "lax-759944",
       "state": "registered",
       "environment": "v4.33.0",

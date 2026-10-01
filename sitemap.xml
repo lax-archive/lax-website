@@ -1397,6 +1397,52 @@
   <url><loc>https://laxarchive.org/lax-751879/Lax751879Proofs.Positivity.positiveBodyMonotone.html</loc></url>
   <url><loc>https://laxarchive.org/lax-751879/Lax751879Proofs.StructureEncoding.encodeInjective.html</loc></url>
   <url><loc>https://laxarchive.org/lax-751879/Lax751879Proofs.StructureEncoding.encodeLength.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-755887/</loc></url>
+  <url><loc>https://laxarchive.org/lax-755887/Lax755887.CircularClaims.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-755887/Lax755887.LeaderClaim.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-755887/Lax755887.LeaderContract.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-755887/Lax755887.LeaderControls.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-755887/Lax755887.LeaderElection.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-755887/Lax755887.LimitDecider.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-755887/Lax755887.LimitDeciderClaim.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-755887/Lax755887.LimitDeciderContract.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-755887/Lax755887.LimitDeciderControls.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-755887/Lax755887.MergeClaim.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-755887/Lax755887.MergeControl.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-755887/Lax755887.MergeCost.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-755887/Lax755887.PersistentQueue.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-755887/Lax755887.PersistentQueueClaim.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-755887/Lax755887.PersistentQueueContract.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-755887/Lax755887.PersistentQueueControls.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-755887/Lax755887.ReusedKey.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-755887/Lax755887.ReusedKeyClaim.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-755887/Lax755887.ReusedKeyContract.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-755887/Lax755887.ReusedKeyControls.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-755887/Lax755887.Stuttering.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-755887/Lax755887.StutteringClaim.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-755887/Lax755887.StutteringContract.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-755887/Lax755887.StutteringControls.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-755887/Lax755887Proofs.CircularClaims.first_from_itself.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-755887/Lax755887Proofs.CircularClaims.first_from_second.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-755887/Lax755887Proofs.CircularClaims.second_from_first.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-755887/Lax755887Proofs.LeaderElection.contracts_conflict.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-755887/Lax755887Proofs.LeaderElection.equivariance_has_model.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-755887/Lax755887Proofs.LeaderElection.no_common_model.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-755887/Lax755887Proofs.LeaderElection.uniqueness_has_model.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-755887/Lax755887Proofs.LimitDecider.accepted_computable.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-755887/Lax755887Proofs.LimitDecider.halting_is_computable.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-755887/Lax755887Proofs.LimitDecider.halting_not_computable.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-755887/Lax755887Proofs.MergeCost.cost_axiom_is_inconsistent.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-755887/Lax755887Proofs.MergeCost.no_linear_bound.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-755887/Lax755887Proofs.PersistentQueue.actual_work.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-755887/Lax755887Proofs.PersistentQueue.dequeue_charge.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-755887/Lax755887Proofs.PersistentQueue.repeated_dequeue_linear.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-755887/Lax755887Proofs.ReusedKey.complement.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-755887/Lax755887Proofs.ReusedKey.every_attacker_is_unbiased.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-755887/Lax755887Proofs.ReusedKey.rekey.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-755887/Lax755887Proofs.ReusedKey.xor_attack_succeeds.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-755887/Lax755887Proofs.Stuttering.machine_terminates.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-755887/Lax755887Proofs.Stuttering.terminal_cycle.html</loc></url>
   <url><loc>https://laxarchive.org/lax-759944/</loc></url>
   <url><loc>https://laxarchive.org/lax-759944/Lax759944.BinaryWordEncoding.html</loc></url>
   <url><loc>https://laxarchive.org/lax-759944/Lax759944.RamPolytime.html</loc></url>
