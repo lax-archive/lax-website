@@ -3314,20 +3314,37 @@
       "id": "lax-345332",
       "state": "draft",
       "environment": "v4.33.0",
-      "title": "A Simplified NP-Complete Satisfiability Problem",
+      "title": "NP-Hardness of (3,4)-SAT and [2,3]-Bounded 3-SAT",
       "concepts": [
         {
           "id": "Lax345332.Construction",
-          "title": "The reduction from satisfiability to (3,4)-satisfiability",
+          "title": "The Reduction from Satisfiability to (3,4)-Satisfiability",
+          "type": "definition"
+        },
+        {
+          "id": "Lax345332.Copies",
+          "title": "The Reduction from (3,4)-Satisfiability to [2,3]-Bounded 3-SAT",
           "type": "definition"
         },
         {
           "id": "Lax345332.ThreeFourSat",
-          "title": "(3,4)-satisfiability is NP-hard",
+          "title": "NP-Hardness of (3,4)-SAT",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax345332.TwoThreeSat",
+          "title": "NP-Hardness of [2,3]-Bounded 3-SAT",
           "type": "theorem"
         }
       ],
       "proofs": [
+        "Lax345332Proofs.BBuild.build_vars_le_slots",
+        "Lax345332Proofs.BBuild.occ",
+        "Lax345332Proofs.BFinal.npHard",
+        "Lax345332Proofs.BFinal.toBounded_polyTime",
+        "Lax345332Proofs.BReduce.reduceB_correct",
+        "Lax345332Proofs.BSat.build_sat",
+        "Lax345332Proofs.Final.reduce_polyTime",
         "Lax345332Proofs.Reduction.npHard",
         "Lax345332Proofs.Reduction.reduce_correct",
         "Lax345332Proofs.Transform.transform_isThreeFour",
