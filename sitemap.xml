@@ -1642,6 +1642,53 @@
   <url><loc>https://laxarchive.org/lax-881656/Lax881656.Cubic.html</loc></url>
   <url><loc>https://laxarchive.org/lax-881656/Lax881656.HamiltonianCycle.html</loc></url>
   <url><loc>https://laxarchive.org/lax-881656/Lax881656.ThreeConnected.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-888481/</loc></url>
+  <url><loc>https://laxarchive.org/lax-888481/Lax888481.BinaryEncoding.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-888481/Lax888481.Construction1.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-888481/Lax888481.Construction2.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-888481/Lax888481.DynamicProgram.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-888481/Lax888481.Exact34Encoding.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-888481/Lax888481.InstanceEncoding.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-888481/Lax888481.MulticolouredClique.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-888481/Lax888481.NPHardness.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-888481/Lax888481.ParameterizedComplexity.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-888481/Lax888481.PolynomialReduction.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-888481/Lax888481.Preprocessing.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-888481/Lax888481.SatVariant.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-888481/Lax888481.Scheduling.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-888481/Lax888481.SchedulingProblems.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-888481/Lax888481.Theorem1.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-888481/Lax888481.Theorem2.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-888481/Lax888481.Theorem3.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-888481/Lax888481Proofs.Checker.reduce_ramPolytime.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-888481/Lax888481Proofs.Checker.sat34_polyReducesOn_allSchedulable.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-888481/Lax888481Proofs.Construction1Emit.emit_encodes.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-888481/Lax888481Proofs.Construction1Index.machines_eq.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-888481/Lax888481Proofs.Construction1Main.mcc_fptReduces_byMachines.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-888481/Lax888481Proofs.Construction1Reduce.reduce_correct.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-888481/Lax888481Proofs.Construction1Reduce.reduce_maps.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-888481/Lax888481Proofs.Construction1Reduce.reduce_param.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-888481/Lax888481Proofs.Construction1Renum.correct.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-888481/Lax888481Proofs.Construction2.correct.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-888481/Lax888481Proofs.Construction2.pmax_le.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-888481/Lax888481Proofs.Construction2.weights_one.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-888481/Lax888481Proofs.DynamicProgram.card_validState_le.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-888481/Lax888481Proofs.DynamicProgram.dp_eq_optAt.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-888481/Lax888481Proofs.DynamicProgram.solve_eq_optimum.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-888481/Lax888481Proofs.Emit.emit_encodes.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-888481/Lax888481Proofs.EmitProg.emit_computesInTime.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-888481/Lax888481Proofs.Pmax.pmaxOf_computesInTime.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-888481/Lax888481Proofs.Preprocessing.card_keep_alive_le.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-888481/Lax888481Proofs.Preprocessing.optimumOn_keep.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-888481/Lax888481Proofs.Reduce.reduce_correct.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-888481/Lax888481Proofs.Reduce.reduce_slice.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-888481/Lax888481Proofs.Sat34.sat34_npHard.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-888481/Lax888481Proofs.Theorem2.npHardOn_allSchedulable_pmax_le.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-888481/Lax888481Proofs.Theorem2.npHard_allSchedulable.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-888481/Lax888481Proofs.Theorem3.fptTime_byMachinesAndPmax.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-888481/Lax888481Proofs.Theorem3Fpt.fpt_byMachinesAndPmax.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-888481/paper-pdf.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-888481/paper.html</loc></url>
   <url><loc>https://laxarchive.org/lax-894236/</loc></url>
   <url><loc>https://laxarchive.org/lax-894236/Lax894236.EulerCharacteristic.html</loc></url>
   <url><loc>https://laxarchive.org/lax-894236/Lax894236.GeometricGenus.html</loc></url>
