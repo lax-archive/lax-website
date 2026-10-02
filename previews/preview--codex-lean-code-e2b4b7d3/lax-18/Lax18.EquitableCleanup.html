@@ -220,18 +220,7 @@ exceptional class.</p>
 <tr id="L26" class=""><td class="line-num"><a href="#L26">26</a></td><td class="line-code"> </td></tr>
 <tr id="L27" class="statement-line line-proven line-comment"><td class="line-num"><a href="#L27">27</a></td><td class="line-code"><span class="statement-anchor" id="s-Lax18.EquitableCleanup.equitable_cleanup"></span><span style="color:#6A737D">/-- A bounded partition can be made equitable with arbitrarily small loss of</span></td></tr>
 <tr id="L28" class="statement-line line-proven line-comment"><td class="line-num"><a href="#L28">28</a></td><td class="line-code"><span style="color:#6A737D">energy, uniformly over all sufficiently large finite graphs. -/</span></td></tr>
-<tr id="L29" class="statement-line line-proven"><td class="line-num"><a href="#L29">29</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> </span><span class="lean-typed-identifier" tabindex="0" data-lean-type="Lax18.EquitableCleanup.equitable_cleanup.{u} (η : ℝ) (r : ℕ) :
-  0 &lt; η →
-    0 &lt; r →
-      ∃ K N,
-        r ≤ K ∧
-          r ≤ N ∧
-            ∀ {V : Type u} [inst : Fintype V] [inst_1 : DecidableEq V] (G : SimpleGraph V) (P : VertexPartition V),
-              P.partCount ≤ r →
-                N ≤ Fintype.card V →
-                  ∃ Q,
-                    Q.Equitable ∧
-                      P.partCount ≤ Q.partCount ∧ Q.partCount ≤ K ∧ partitionEnergy G P ≤ partitionEnergy G Q + η"><span style="color:#6F42C1">equitable_cleanup</span></span><span style="color:#24292E"> :</span></td></tr>
+<tr id="L29" class="statement-line line-proven"><td class="line-num"><a href="#L29">29</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> equitable_cleanup</span><span style="color:#24292E"> :</span></td></tr>
 <tr id="L30" class="statement-line line-proven"><td class="line-num"><a href="#L30">30</a></td><td class="line-code"><span style="color:#24292E">  ∀ (</span><span class="lean-typed-identifier" tabindex="0" data-lean-type="η : ℝ"><span style="color:#24292E">η</span></span><span style="color:#24292E"> : </span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Basic/Real/Basic.html#Real" data-lean-type="Real : Type"><span style="color:#24292E">ℝ</span></a><span style="color:#24292E">) (</span><span class="lean-typed-identifier" tabindex="0" data-lean-type="r : ℕ"><span style="color:#24292E">r</span></span><span style="color:#24292E"> : </span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Init/Prelude.html#Nat" data-lean-type="Nat : Type"><span style="color:#24292E">ℕ</span></a><span style="color:#24292E">),</span></td></tr>
 <tr id="L31" class="statement-line line-proven"><td class="line-num"><a href="#L31">31</a></td><td class="line-code"><span style="color:#005CC5">    0</span><span style="color:#24292E"> &lt; </span><span class="lean-typed-identifier" tabindex="0" data-lean-type="η : ℝ"><span style="color:#24292E">η</span></span><span style="color:#24292E"> →</span></td></tr>
 <tr id="L32" class="statement-line line-proven"><td class="line-num"><a href="#L32">32</a></td><td class="line-code"><span style="color:#005CC5">      0</span><span style="color:#24292E"> &lt; </span><span class="lean-typed-identifier" tabindex="0" data-lean-type="r : ℕ"><span style="color:#24292E">r</span></span><span style="color:#24292E"> →</span></td></tr>

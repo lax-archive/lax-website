@@ -213,25 +213,7 @@ blockade, or admits an anticomplete peel. In the last alternative, the set
 <tr id="L19" class=""><td class="line-num"><a href="#L19">19</a></td><td class="line-code"><span style="color:#D73A49">universe</span><span style="color:#24292E"> u</span></td></tr>
 <tr id="L20" class=""><td class="line-num"><a href="#L20">20</a></td><td class="line-code"> </td></tr>
 <tr id="L21" class="statement-line line-proven line-comment"><td class="line-num"><a href="#L21">21</a></td><td class="line-code"><span class="statement-anchor" id="s-Lax57.SparseHouseTrichotomy.sparse_house_trichotomy"></span><span style="color:#6A737D">/-- Sparse refinement, a complete blockade, or an anticomplete peel. -/</span></td></tr>
-<tr id="L22" class="statement-line line-proven"><td class="line-num"><a href="#L22">22</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> </span><span class="lean-typed-identifier" tabindex="0" data-lean-type="Lax57.SparseHouseTrichotomy.sparse_house_trichotomy.{u} :
-  ∃ d,
-    40 ≤ d ∧
-      ∀ (Q : ℕ),
-        8 ≤ Q →
-          ∀ {V : Type u} [Fintype V] [inst : DecidableEq V] (G : SimpleGraph V) [inst_1 : DecidableRel G.Adj]
-            (S : Finset V),
-            IsHouseFree G →
-              ESparse G Q S →
-                (∃ T ⊆ S, S.card ≤ Q ^ (30 * d ^ 3) * T.card ∧ ESparse G (Q ^ (2 * d)) T) ∨
-                  (∃ B,
-                      B.IsInside S ∧
-                        Blockade.IsComplete G B ∧ ∀ (i : Fin Q), S.card ≤ Q ^ (33 * d ^ 3) * (B.block i).card) ∨
-                    ∃ X Y,
-                      X ⊆ S ∧
-                        Y ⊆ S ∧
-                          Disjoint X Y ∧
-                            (∀ x ∈ X, ∀ y ∈ Y, ¬G.Adj x y) ∧
-                              S.card ≤ Q ^ (33 * d ^ 3) * X.card ∧ Q * (S.card - Y.card) ≤ 3 * S.card"><span style="color:#6F42C1">sparse_house_trichotomy</span></span><span style="color:#24292E"> :</span></td></tr>
+<tr id="L22" class="statement-line line-proven"><td class="line-num"><a href="#L22">22</a></td><td class="line-code"><span style="color:#D73A49">axiom</span><span style="color:#6F42C1"> sparse_house_trichotomy</span><span style="color:#24292E"> :</span></td></tr>
 <tr id="L23" class="statement-line line-proven"><td class="line-num"><a href="#L23">23</a></td><td class="line-code"><span style="color:#24292E">    ∃ </span><span class="lean-typed-identifier" tabindex="0" data-lean-type="d : ℕ"><span style="color:#24292E">d</span></span><span style="color:#24292E"> : </span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Init/Prelude.html#Nat" data-lean-type="Nat : Type"><span style="color:#24292E">ℕ</span></a><span style="color:#24292E">, </span><span style="color:#005CC5">40</span><span style="color:#24292E"> ≤ </span><span class="lean-typed-identifier" tabindex="0" data-lean-type="d : ℕ"><span style="color:#24292E">d</span></span><span style="color:#24292E"> ∧</span></td></tr>
 <tr id="L24" class="statement-line line-proven"><td class="line-num"><a href="#L24">24</a></td><td class="line-code"><span style="color:#24292E">      ∀ </span><span class="lean-typed-identifier" tabindex="0" data-lean-type="Q : ℕ"><span style="color:#24292E">Q</span></span><span style="color:#24292E"> : </span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Init/Prelude.html#Nat" data-lean-type="Nat : Type"><span style="color:#24292E">ℕ</span></a><span style="color:#24292E">, </span><span style="color:#005CC5">8</span><span style="color:#24292E"> ≤ </span><span class="lean-typed-identifier" tabindex="0" data-lean-type="Q : ℕ"><span style="color:#24292E">Q</span></span><span style="color:#24292E"> →</span></td></tr>
 <tr id="L25" class="statement-line line-proven"><td class="line-num"><a href="#L25">25</a></td><td class="line-code"><span style="color:#24292E">        ∀ {</span><span class="lean-typed-identifier" tabindex="0" data-lean-type="V : Type u"><span style="color:#24292E">V</span></span><span style="color:#24292E"> : </span><span style="color:#D73A49">Type</span><span style="color:#24292E"> u} [</span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/Fintype/Defs.html#Fintype" data-lean-type="Fintype.{u_4} (α : Type u_4) : Type u_4"><span style="color:#24292E">Fintype</span></a><span style="color:#24292E"> </span><span class="lean-typed-identifier" tabindex="0" data-lean-type="V : Type u"><span style="color:#24292E">V</span></span><span style="color:#24292E">] [</span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Init/Prelude.html#DecidableEq" data-lean-type="DecidableEq.{u} (α : Sort u) : Sort (max 1 u)"><span style="color:#24292E">DecidableEq</span></a><span style="color:#24292E"> </span><span class="lean-typed-identifier" tabindex="0" data-lean-type="V : Type u"><span style="color:#24292E">V</span></span><span style="color:#24292E">]</span></td></tr>
