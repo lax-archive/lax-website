@@ -8,7 +8,9 @@
   panel.hidden = true;
   document.body.append(panel);
   let active = null, pinned = false, hideTimer;
-  const target = event => event.target.closest?.("[data-lean-type]");
+  let enabled = true;
+  try { enabled = localStorage.getItem("lax-show-types") !== "false"; } catch { /* Storage can be disabled. */ }
+  const target = event => enabled ? event.target.closest?.("[data-lean-type]") : null;
   const hide = () => {
     clearTimeout(hideTimer);
     active?.removeAttribute("aria-describedby");
@@ -24,6 +26,7 @@
     panel.style.left = `${left}px`; panel.style.top = `${top}px`;
   };
   const show = (node, pin = false) => {
+    if (!enabled) return;
     if (pinned && !pin) return;
     clearTimeout(hideTimer);
     if (active !== node) {
@@ -68,6 +71,28 @@
       if (!pinned && active !== document.activeElement && !panel.contains(document.activeElement)) hide();
     }, 180);
   };
+  const applyPreference = () => {
+    if (!enabled) hide();
+    document.documentElement.classList.toggle("lean-types-disabled", !enabled);
+    document.querySelectorAll("[data-type-hover-toggle]").forEach(input => { input.checked = enabled; });
+    document.querySelectorAll(".lean-typed-identifier").forEach(node => {
+      node.tabIndex = enabled ? 0 : -1;
+      if (enabled) node.setAttribute("role", "button");
+      else node.removeAttribute("role");
+    });
+    document.querySelectorAll("a[data-lean-type][data-lean-destination]").forEach(node => {
+      if (enabled) node.removeAttribute("title");
+      else node.title = node.dataset.leanDestination;
+    });
+  };
+  document.querySelectorAll("[data-type-hover-toggle]").forEach(input => {
+    input.addEventListener("change", () => {
+      enabled = input.checked;
+      try { localStorage.setItem("lax-show-types", String(enabled)); } catch { /* Keep the page preference. */ }
+      applyPreference();
+    });
+  });
+  applyPreference();
   document.addEventListener("pointerover", event => { const node = target(event); if (node) show(node); });
   document.addEventListener("pointerout", event => {
     if (target(event) && !active?.contains(event.relatedTarget) && !panel.contains(event.relatedTarget)) scheduleHide();
