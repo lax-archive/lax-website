@@ -42,14 +42,15 @@ describe("prepared Lean information", () => {
     expect(() => parseLeanCode(JSON.stringify({ ...data, hovers: [...data.hovers, ...data.hovers] }), "digest", "def x := 1")).toThrow();
     expect(() => loadLeanCode(model, tmpDir("lax-hover-missing-"), true)).toThrow(/lean:prepare/);
   });
-  it("preserves syntax, Unicode, identifier navigation and source lines without native titles", async () => {
+  it("preserves syntax, Unicode, identifier navigation and source lines while keeping type hovers off links", async () => {
     const source = "def α := α\n-- $x$";
     const html = await highlightSource(source, [], new Set(), {
       links: [{ start: 9, end: 10, href: "../lax-1/Lax1.Base.html#L1" }],
-      hovers: [{ start: 4, end: 5, text: "α : Nat" }, { start: 9, end: 10, text: 'α : Nat <script>"' }],
+      hovers: [{ start: 4, end: 5, text: 'α : Nat <script>"' }, { start: 9, end: 10, text: "α : Nat" }],
     });
-    expect(html).toContain('tabindex="0" data-lean-type="α : Nat"');
-    expect(html).toContain('href="../lax-1/Lax1.Base.html#L1" data-lean-type="α : Nat &lt;script&gt;&quot;"');
+    expect(html).toContain('tabindex="0" data-lean-type="α : Nat &lt;script&gt;&quot;"');
+    expect(html).toContain('href="../lax-1/Lax1.Base.html#L1">');
+    expect(html.match(/data-lean-type=/g)).toHaveLength(1);
     expect(html).not.toContain("title="); expect(html).not.toContain("<script>");
     expect(html).toContain('id="L2"'); expect(html).toContain('class="katex"');
   });
