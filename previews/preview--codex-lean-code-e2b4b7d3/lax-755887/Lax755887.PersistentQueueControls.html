@@ -9,7 +9,7 @@
 <link rel="canonical" href="https://laxarchive.org/lax-755887/Lax755887.PersistentQueueControls.html">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=54967786b8f1">
+<link rel="stylesheet" href="../assets/style.css?v=baebc70f688d">
 </head><body>
 <header class="site-header with-sidebar">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="true" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -199,7 +199,7 @@
 </div>
 </details>
 
-<h3 class="figure-title">Lean source <a class="source-link" href="https://github.com/EdouardBonnet/lax-755887-concept-axioms/blob/a3f5c474c366c28f6376d0730118c085c3e75559/concepts/Lax755887/PersistentQueueControls.lean">view on GitHub</a> <a class="source-link lean-live-link" href="https://live.lean-lang.org/#project=mathlib-stable&amp;code=import%20Mathlib%0A%0A--%20Lax755887.PersistentQueue%0Asection%0Anamespace%20Lax755887.PersistentQueue%0A%0Astructure%20Charge%20where%0A%20%20work%20%3A%20%E2%84%95%0A%20%20before%20%3A%20%E2%84%95%0A%20%20after%20%3A%20%E2%84%95%0A%0Adef%20amortized%20(s%20%3A%20Charge)%20%3A%20%E2%84%A4%20%3A%3D%20s.work%20%2B%20s.after%20-%20s.before%0A%0Adef%20totalWork%20(trace%20%3A%20List%20Charge)%20%3A%20%E2%84%95%20%3A%3D%20(trace.map%20Charge.work).sum%0A%0Adef%20dequeue%20(n%20%3A%20%E2%84%95)%20%3A%20Charge%20%3A%3D%20%E2%9F%A8n%20%2B%201%2C%20n%2C%200%E2%9F%A9%0A%0Aend%20Lax755887.PersistentQueue%0Aend%0A%0A--%20Lax755887.PersistentQueueControls%0Asection%0Anamespace%20Lax755887.PersistentQueueControls%0A%0Aopen%20Lax755887.PersistentQueue%0A%0Aaxiom%20dequeue_charge%20(n%20%3A%20%E2%84%95)%20%3A%20amortized%20(dequeue%20n)%20%3D%201%0A%0Aaxiom%20actual_work%20(n%20%3A%20%E2%84%95)%20%3A%0A%20%20%20%20totalWork%20(List.replicate%20(n%20%2B%201)%20(dequeue%20n))%20%3D%20(n%20%2B%201)%20%5E%202%0A%0Aend%20Lax755887.PersistentQueueControls%0Aend%0A" target="_blank" rel="noopener noreferrer">Open in live Lean</a></h3>
+<h3 class="figure-title">Lean source <a class="source-link" href="https://github.com/EdouardBonnet/lax-755887-concept-axioms/blob/a3f5c474c366c28f6376d0730118c085c3e75559/concepts/Lax755887/PersistentQueueControls.lean">view on GitHub</a></h3>
 <div class="block block-lean">
 <div class="inline-contract-shell"><div class="source-controls"><button class="comment-toggle" type="button" aria-pressed="false" aria-label="Hide comments">Hide comments</button><label class="type-hover-toggle"><input type="checkbox" role="switch" data-type-hover-toggle checked> Show types on hover</label></div><div class="inline-contract-wrap"><table class="inline-contract-table">
 <tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-755887/Lax755887.PersistentQueue.html"><span style="color:#24292E">Lax755887.PersistentQueue</span></a></td></tr>

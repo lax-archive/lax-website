@@ -9,7 +9,7 @@
 <link rel="canonical" href="https://laxarchive.org/lax-379983/Lax379983.FeedbackEdgeNumber.html">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=54967786b8f1">
+<link rel="stylesheet" href="../assets/style.css?v=baebc70f688d">
 </head><body>
 <header class="site-header with-sidebar">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="true" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -171,7 +171,7 @@ G-F\text{ is acyclic}\}.</annotation></semantics></math></span><span class="kate
 <li><a href="../lax-326031/paper.html#m18">page 2</a> of the paper of <a class="submission-meta-id" href="../lax-326031/index.html">lax-326031</a>, Graph Classes and Width Parameters</li>
 </ul>
 </div>
-<h3 class="figure-title">Lean source <a class="source-link" href="https://github.com/bonborec/Lax/blob/16be435d89ceb96605fbbd35bd1aeb7b68db9b70/concepts/Lax379983/FeedbackEdgeNumber.lean">view on GitHub</a> <a class="source-link lean-live-link" href="https://live.lean-lang.org/#project=mathlib-stable&amp;code=import%20Mathlib.Combinatorics.SimpleGraph.Acyclic%0Aimport%20Mathlib.Data.Nat.Lattice%0Aimport%20Mathlib.Data.Set.Card%0A%0A--%20Lax379983.FeedbackEdgeNumber%0Asection%0Anamespace%20Lax379983.FeedbackEdgeNumber%0A%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%0Anoncomputable%20def%20feedbackEdgeNumber%20%7BV%20%3A%20Type*%7D%20%5BFinite%20V%5D%20(G%20%3A%20SimpleGraph%20V)%20%3A%20%E2%84%95%20%3A%3D%0A%20%20sInf%20%7Bn%20%3A%20%E2%84%95%20%7C%20%E2%88%83%20F%20%3A%20Set%20(Sym2%20V)%2C%0A%20%20%20%20F%20%E2%8A%86%20G.edgeSet%20%E2%88%A7%20F.ncard%20%3D%20n%20%E2%88%A7%20(G.deleteEdges%20F).IsAcyclic%7D%0A%0Aend%20Lax379983.FeedbackEdgeNumber%0Aend%0A" target="_blank" rel="noopener noreferrer">Open in live Lean</a></h3>
+<h3 class="figure-title">Lean source <a class="source-link" href="https://github.com/bonborec/Lax/blob/16be435d89ceb96605fbbd35bd1aeb7b68db9b70/concepts/Lax379983/FeedbackEdgeNumber.lean">view on GitHub</a></h3>
 <div class="block block-lean">
 <div class="inline-contract-shell"><div class="source-controls"><button class="comment-toggle" type="button" aria-pressed="false" aria-label="Hide comments">Hide comments</button><label class="type-hover-toggle"><input type="checkbox" role="switch" data-type-hover-toggle checked> Show types on hover</label></div><div class="inline-contract-wrap"><table class="inline-contract-table">
 <tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Acyclic.html" title="mathlib ↗"><span style="color:#24292E">Mathlib.Combinatorics.SimpleGraph.Acyclic</span></a></td></tr>

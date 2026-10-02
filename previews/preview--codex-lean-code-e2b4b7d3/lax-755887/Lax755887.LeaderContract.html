@@ -9,7 +9,7 @@
 <link rel="canonical" href="https://laxarchive.org/lax-755887/Lax755887.LeaderContract.html">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=54967786b8f1">
+<link rel="stylesheet" href="../assets/style.css?v=baebc70f688d">
 </head><body>
 <header class="site-header with-sidebar">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="true" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -170,7 +170,7 @@
 </div>
 </details>
 
-<h3 class="figure-title">Lean source <a class="source-link" href="https://github.com/EdouardBonnet/lax-755887-concept-axioms/blob/a3f5c474c366c28f6376d0730118c085c3e75559/concepts/Lax755887/LeaderContract.lean">view on GitHub</a> <a class="source-link lean-live-link" href="https://live.lean-lang.org/#project=mathlib-stable&amp;code=import%20Mathlib%0A%0A--%20Lax755887.LeaderElection%0Asection%0Anamespace%20Lax755887.LeaderElection%0A%0Aabbrev%20State%20%3A%3D%20Fin%203%20%E2%86%92%20Bool%0A%0Adef%20next%20(i%20%3A%20Fin%203)%20%3A%20Fin%203%20%3A%3D%20%E2%9F%A8(i.val%20%2B%201)%20%25%203%2C%20Nat.mod_lt%20_%20(by%20decide)%E2%9F%A9%0Adef%20rotate%20(s%20%3A%20State)%20%3A%20State%20%3A%3D%20fun%20i%20%3D%3E%20s%20(next%20i)%0Adef%20UniqueLeader%20(run%20%3A%20State%20%E2%86%92%20State)%20%3A%20Prop%20%3A%3D%20%E2%88%80%20s%2C%20%E2%88%83!%20i%2C%20run%20s%20i%20%3D%20true%0Adef%20Equivariant%20(run%20%3A%20State%20%E2%86%92%20State)%20%3A%20Prop%20%3A%3D%20%E2%88%80%20s%2C%20run%20(rotate%20s)%20%3D%20rotate%20(run%20s)%0A%0Astructure%20Protocol%20where%0A%20%20run%20%3A%20State%20%E2%86%92%20State%0A%20%20elects%20%3A%20UniqueLeader%20run%0A%0Aend%20Lax755887.LeaderElection%0Aend%0A%0A--%20Lax755887.LeaderContract%0Asection%0Anamespace%20Lax755887.LeaderContract%0A%0Aopen%20Lax755887.LeaderElection%0A%0Aaxiom%20exists_protocol%20%3A%20%E2%88%83%20run%2C%20UniqueLeader%20run%20%E2%88%A7%20Equivariant%20run%0A%0Aend%20Lax755887.LeaderContract%0Aend%0A" target="_blank" rel="noopener noreferrer">Open in live Lean</a></h3>
+<h3 class="figure-title">Lean source <a class="source-link" href="https://github.com/EdouardBonnet/lax-755887-concept-axioms/blob/a3f5c474c366c28f6376d0730118c085c3e75559/concepts/Lax755887/LeaderContract.lean">view on GitHub</a></h3>
 <div class="block block-lean">
 <div class="inline-contract-shell"><div class="source-controls"><button class="comment-toggle" type="button" aria-pressed="false" aria-label="Hide comments">Hide comments</button><label class="type-hover-toggle"><input type="checkbox" role="switch" data-type-hover-toggle checked> Show types on hover</label></div><div class="inline-contract-wrap"><table class="inline-contract-table">
 <tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-755887/Lax755887.LeaderElection.html"><span style="color:#24292E">Lax755887.LeaderElection</span></a></td></tr>

@@ -9,7 +9,7 @@
 <link rel="canonical" href="https://laxarchive.org/lax-979537/Lax979537.OrderedStructures.html">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/katex.css?v=0fb711c9c74c">
-<link rel="stylesheet" href="../assets/style.css?v=54967786b8f1">
+<link rel="stylesheet" href="../assets/style.css?v=baebc70f688d">
 </head><body>
 <header class="site-header with-sidebar">
   <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="true" aria-label="Toggle sidebar"><span class="sidebar-toggle-icon"></span></button>
@@ -172,7 +172,7 @@ query arity are fixed independently of the input structure.</p>
 </details>
 
 
-<h3 class="figure-title">Lean source <a class="source-link" href="https://github.com/szymtor/immerman-vardi/blob/82ef67e68fab884dc4cff117a1b871567bdaaafd/concepts/Lax979537/OrderedStructures.lean">view on GitHub</a> <a class="source-link lean-live-link" href="https://live.lean-lang.org/#project=mathlib-stable&amp;code=import%20Mathlib.Data.Fin.Tuple.Basic%0Aimport%20Mathlib.Data.List.FinRange%0A%0A--%20Lax979537.OrderedStructures%0Asection%0Anamespace%20Lax979537.OrderedStructures%0A%0Aabbrev%20Vocabulary%20%3A%3D%20List%20Nat%0A%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%0Aabbrev%20Symbol%20(%CF%83%20%3A%20Vocabulary)%20%3A%3D%20Fin%20%CF%83.length%0A%0Astructure%20OrderedStructure%20(%CF%83%20%3A%20Vocabulary)%20where%0A%20%20size%20%3A%20Nat%0A%20%20relation%20%3A%20(r%20%3A%20Symbol%20%CF%83)%20%E2%86%92%20(Fin%20(%CF%83.get%20r)%20%E2%86%92%20Fin%20size)%20%E2%86%92%20Bool%0A%0Astructure%20PointedStructure%20(%CF%83%20%3A%20Vocabulary)%20(k%20%3A%20Nat)%20where%0A%20%20structureValue%20%3A%20OrderedStructure%20%CF%83%0A%20%20tuple%20%3A%20Fin%20k%20%E2%86%92%20Fin%20structureValue.size%0A%0Aabbrev%20Query%20(%CF%83%20%3A%20Vocabulary)%20(k%20%3A%20Nat)%20%3A%3D%20PointedStructure%20%CF%83%20k%20%E2%86%92%20Prop%0A%0Aend%20Lax979537.OrderedStructures%0Aend%0A" target="_blank" rel="noopener noreferrer">Open in live Lean (Mathlib 4.33)</a></h3>
+<h3 class="figure-title">Lean source <a class="source-link" href="https://github.com/szymtor/immerman-vardi/blob/82ef67e68fab884dc4cff117a1b871567bdaaafd/concepts/Lax979537/OrderedStructures.lean">view on GitHub</a></h3>
 <div class="block block-lean">
 <div class="inline-contract-shell"><div class="source-controls"><button class="comment-toggle" type="button" aria-pressed="false" aria-label="Hide comments">Hide comments</button><label class="type-hover-toggle"><input type="checkbox" role="switch" data-type-hover-toggle checked> Show types on hover</label></div><div class="inline-contract-wrap"><table class="inline-contract-table">
 <tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/Fin/Tuple/Basic.html" title="mathlib ↗"><span style="color:#24292E">Mathlib.Data.Fin.Tuple.Basic</span></a></td></tr>
