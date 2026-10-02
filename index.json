@@ -4565,6 +4565,51 @@
       ]
     },
     {
+      "id": "lax-570090",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Large Finite Point Sets Have 4 Collinear Points or a 6-Clique",
+      "supersedes": "lax-56",
+      "concepts": [
+        {
+          "id": "Lax570090.ConvexLayers",
+          "title": "Convex layers and minimal polygons",
+          "type": "definition"
+        },
+        {
+          "id": "Lax570090.Geometry",
+          "title": "Point visibility in the real plane",
+          "type": "definition"
+        },
+        {
+          "id": "Lax570090.HujterKisfaludiBak",
+          "title": "The unoptimized empty-hexagon bound",
+          "type": "definition"
+        },
+        {
+          "id": "Lax570090.MainTheorem",
+          "title": "Large finite point sets have four collinear points or a visible six-clique",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax570090.ValtrFourLayer",
+          "title": "Valtr's four-layer lemma",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax570090.VertexRemovalStability",
+          "title": "Quantitative vertex-removal Erdős--Simonovits stability for K₆",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax570090Proofs.EmptyHexagon.exists_emptyConvexHexagon",
+        "Lax570090Proofs.MainTheorem.large_point_set_four_collinear_or_visible_six",
+        "Lax570090Proofs.ValtrFourLayer.exists_emptyHexagon_of_four_layers",
+        "Lax570090Proofs.VertexRemovalStability.exists_fiveColorable_delete"
+      ]
+    },
+    {
       "id": "lax-623795",
       "state": "draft",
       "environment": "v4.33.0",
