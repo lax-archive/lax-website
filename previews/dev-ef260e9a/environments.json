@@ -3,13 +3,13 @@
   "environments": [
     {
       "id": "v4.33.0",
-      "registered": 50,
-      "drafts": 3
+      "registered": 60,
+      "drafts": 6
     },
     {
       "id": "v4.30.0",
       "registered": 8,
-      "drafts": 8
+      "drafts": 7
     }
   ]
 }

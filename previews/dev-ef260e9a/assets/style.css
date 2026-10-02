@@ -2395,15 +2395,6 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
 .workshop-outcomes{ border-top: 3px solid var(--accent); }
 .workshop-details{ border-top: 3px solid var(--border); }
 
-.workshop-section-number{
-  margin-bottom: 0.35rem;
-  color: var(--accent);
-  font-family: var(--mono);
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-}
-
 #detail .workshop-panel h2{
   margin: 0;
   font-size: 1.25rem;
@@ -2489,6 +2480,35 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
   border: 0;
   background: transparent;
 }
+
+.workshop-material{
+  scroll-margin-top: 4.5rem;
+  margin-top: clamp(2.25rem, 5vw, 4.25rem);
+  border-top: 3px solid var(--border);
+}
+
+.workshop-material .latex-content{ margin-top: 0.75rem; }
+
+.workshop-video{
+  margin-top: 1.1rem;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  background: var(--panel-bg);
+}
+
+.workshop-video iframe{
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.workshop-material-links{
+  margin: 1rem 0 0;
+  font-weight: 600;
+}
+.workshop-material-links a{ color: var(--accent); }
 
 @media (max-width: 760px){
   .workshop-hero::before{ inset-inline: 0; }
@@ -3015,74 +3035,6 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
 
 .landing-faq-answer p{ margin-bottom: 0.75rem; }
 .landing-faq-answer a{ color: var(--link); text-underline-offset: 0.16em; }
-
-.landing-workshop-banner{
-  position: fixed;
-  right: max(1rem, env(safe-area-inset-right));
-  bottom: max(1rem, env(safe-area-inset-bottom));
-  z-index: 30;
-  width: 19rem;
-  max-width: calc(100vw - 2rem);
-  color: var(--text);
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 1rem 1rem 0.25rem 1rem;
-  box-shadow: 0 4px 18px rgba(43, 43, 43, 0.1);
-}
-
-.landing-workshop-heading{
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  padding: 0.45rem 0.55rem 0.45rem 1rem;
-  font-size: 0.88rem;
-  font-weight: 600;
-}
-.landing-workshop-heading svg{ flex-shrink: 0; color: var(--accent); }
-.landing-workshop-close{
-  display: grid;
-  place-items: center;
-  flex-shrink: 0;
-  width: 2.5rem;
-  height: 2.5rem;
-  margin-left: auto;
-  padding: 0;
-  border: 0;
-  border-radius: 0.5rem;
-  background: transparent;
-  color: var(--text-dim);
-  font: 1.25rem/1 system-ui, sans-serif;
-  cursor: pointer;
-}
-.landing-workshop-close:hover{ background: var(--panel-bg); color: var(--text); }
-.landing-workshop-banner a{
-  display: grid;
-  gap: 0.65rem;
-  padding: 0 1rem 1rem;
-  color: var(--text);
-  font-size: 0.85rem;
-  line-height: 1.5;
-  text-decoration: none;
-}
-
-.landing-workshop-banner a:hover strong{ text-decoration: underline; }
-.landing-workshop-banner a:focus-visible,
-.landing-workshop-close:focus-visible{
-  outline: 2px solid var(--accent);
-  outline-offset: 3px;
-  border-radius: 0.5rem;
-}
-.landing-workshop-banner strong{
-  color: var(--link);
-  font-size: 0.82rem;
-  font-weight: 600;
-  white-space: nowrap;
-}
-
-/* On a phone the fixed banner covers too much of the page to be worth it. */
-@media (max-width: 900px){
-  .landing-workshop-banner{ display: none; }
-}
 
 .stats-line{
   font-variant: small-caps;

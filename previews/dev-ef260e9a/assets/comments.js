@@ -50,6 +50,7 @@
   const reviewKind = reactions?.dataset?.reviewKind || "submission";
   const sourceLineCount = Number(reactions?.dataset?.sourceLines || 0);
   let reactionPending = false;
+  let reactionRevision = 0;
   let reactionData = null;
   let pickingFlagLine = false;
   let linePickerInitial = "";
@@ -365,7 +366,9 @@
   };
 
   const saveReaction = async (reaction, details = {}) => {
+    if (reactionPending) return false;
     reactionPending = true;
+    reactionRevision += 1;
     reactionButtons.forEach((item) => { item.disabled = true; });
     setReactionStatus("Saving your response…");
     try {
@@ -376,9 +379,11 @@
       renderReactions(data);
       return true;
     } catch (error) {
-      reactionPending = false;
       setReactionStatus(error instanceof Error ? error.message : "Unable to save your response.", "error");
       return false;
+    } finally {
+      reactionPending = false;
+      reactionButtons.forEach((item) => { item.disabled = false; });
     }
   };
 
@@ -441,8 +446,11 @@
     if (reactionLoadPromise) return reactionLoadPromise;
     if (!force && Date.now() - lastReactionLoadAt < 750) return Promise.resolve();
     reactionLoadPromise = (async () => {
+      const revision = reactionRevision;
       try {
         const response = await reactionRequest("page", { url });
+        // A background refresh must not overwrite a newer saved review.
+        if (reactionPending || revision !== reactionRevision) return;
         if (!response.ok) throw new Error(response.data?.error || `reaction service returned ${response.status}`);
         renderReactions(response.data);
         lastReactionLoadAt = Date.now();
@@ -453,6 +461,7 @@
           else if (!await saveReaction(queuedReaction)) window.setTimeout(() => { void loadReactions(true); }, 0);
         }
       } catch {
+        if (reactionPending || revision !== reactionRevision) return;
         reactionButtons.forEach((button) => { button.disabled = true; });
         setReactionStatus("Page responses are temporarily unavailable.", "error");
       }
@@ -463,17 +472,27 @@
   if (reactionLogin) {
     reactionLogin.href = reactionLoginURL.toString();
   }
+  const closeVoterPopovers = () => {
+    for (const toggle of reactionVoterToggles) {
+      const popover = reactions?.querySelector(`[data-reaction-voters-popover="${toggle.dataset.reactionVoters}"]`);
+      if (popover) popover.hidden = true;
+      toggle.setAttribute("aria-expanded", "false");
+    }
+  };
+  window.addEventListener("click", (event) => {
+    for (const toggle of reactionVoterToggles) {
+      const popover = reactions?.querySelector(`[data-reaction-voters-popover="${toggle.dataset.reactionVoters}"]`);
+      if (toggle.contains(event.target) || popover?.contains(event.target)) return;
+    }
+    closeVoterPopovers();
+  }, true);
   for (const toggle of reactionVoterToggles) {
     toggle.addEventListener("click", () => {
       const reaction = toggle.dataset.reactionVoters;
       const popover = reactions?.querySelector(`[data-reaction-voters-popover="${reaction}"]`);
       if (!popover) return;
       const willOpen = popover.hidden;
-      for (const other of reactionVoterToggles) {
-        const otherPopover = reactions?.querySelector(`[data-reaction-voters-popover="${other.dataset.reactionVoters}"]`);
-        if (otherPopover) otherPopover.hidden = true;
-        other.setAttribute("aria-expanded", "false");
-      }
+      closeVoterPopovers();
       popover.hidden = !willOpen;
       toggle.setAttribute("aria-expanded", String(willOpen));
     });
@@ -509,6 +528,7 @@
     openDialog(flagEditor);
   }));
   window.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") closeVoterPopovers();
     if (!pickingFlagLine || event.key !== "Escape") return;
     event.preventDefault();
     cancelLinePicking();
@@ -516,6 +536,7 @@
   });
   flagForm?.addEventListener("submit", async (event) => {
     event.preventDefault();
+    if (reactionPending) return;
     const message = String(flagMessage?.value || "").trim();
     const selection = selectedSourceLine();
     if (!message) {
@@ -538,6 +559,7 @@
     if (reactionData?.viewer_flag?.id) revealFlag(reactionData.viewer_flag.id);
   });
   flagRemove?.addEventListener("click", async () => {
+    if (reactionPending) return;
     if (flagFormStatus) flagFormStatus.textContent = "Removing flag…";
     if (!await saveReaction("clear")) {
       if (flagFormStatus) flagFormStatus.textContent = "The flag could not be removed. Try again.";
@@ -558,7 +580,8 @@
         openFlagEditor();
         return;
       }
-      if (!await saveReaction(selected)) await loadReactions(true);
+      const next = reactionData.viewer_reaction === selected ? "clear" : selected;
+      if (!await saveReaction(next)) await loadReactions(true);
     });
   }
   window.addEventListener("LAX::account-ready", (event) => {
