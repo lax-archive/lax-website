@@ -1,7 +1,7 @@
 import { attr, code, countsPill, esc, page } from "../html.js";
 import { conceptGraph, graphDataScript } from "../graphs.js";
 import { highlightSource } from "../highlight.js";
-import { sourceLinks } from "../source-links.js";
+import { sourceLinks, sourceTypeLinks } from "../source-links.js";
 import { liveLeanLink } from "../lean-code.js";
 import type { LocatedConcept } from "../model.js";
 import { discussion, pageReactions } from "./discussion.js";
@@ -134,6 +134,7 @@ export async function conceptPage(ctx: PageContext, located: LocatedConcept): Pr
   const sourceRows = await highlightSource(concept.sourceText, concept.statements, proven, {
     links: sourceLinks(ctx.model, concept.id, "../"),
     hovers: ctx.model.leanCode.get(concept.id)?.hovers,
+    typeLinks: text => sourceTypeLinks(ctx.model, concept.id, "../", text),
   });
 
   const content = `${versionHistoryPanel(ctx, submission.record.id, "../")}${draftBanner(submission)}${environmentNotice(ctx.model, submission)}

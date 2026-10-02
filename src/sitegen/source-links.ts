@@ -1,7 +1,7 @@
 import { leanDeclarations, nameKey, nameParts, scanLeanSource, type LeanNamespaceReference, type LeanSource, type LeanToken, type SourceRange } from "./lean-source.js";
 import type { LocatedConcept, SiteModel } from "./model.js";
 import type { LeanReferences } from "../lean-references.js";
-import { mathlibDocLink, mathlibModuleLink, mathlibScopeLink } from "../mathlib-links.js";
+import { declarationDocLink, mathlibDocLink, mathlibModuleLink, mathlibScopeLink } from "../mathlib-links.js";
 
 export interface SourceLink extends SourceRange { href: string }
 interface Target { module: string; href: string; offset: number; private: boolean }
@@ -9,6 +9,7 @@ interface Reference { token: LeanToken; namespace: readonly string[] }
 interface ModuleSource {
   references: Reference[];
   locals: Set<string>;
+  typeLocals: Set<string>;
   semantic?: LeanReferences;
   definitionSites: SourceRange[];
   imports: SourceLink[];
@@ -71,6 +72,7 @@ class SourceLinkIndex {
   private readonly namespaceHomes = new Map<string, Map<string, string>>();
   private readonly submissionNamespaces = new Map<string, string>();
   private readonly resolved = new Map<string, SourceLink[]>();
+  private readonly resolvedTypes = new Map<string, Map<string, SourceLink[]>>();
 
   constructor(private readonly model: SiteModel) {
     for (const { record } of model.submissions) {
@@ -134,6 +136,7 @@ class SourceLinkIndex {
       }
       this.modules.set(concept.id, {
         references, locals: semantic ? new Set() : possibleLocals(source, declarations),
+        typeLocals: possibleLocals(source, declarations),
         semantic, definitionSites, imports, namespaces, mathlibSources: located.submission.mathlibSources,
       });
       const addNamespace = (parts: readonly string[]) => {
@@ -157,6 +160,57 @@ class SourceLinkIndex {
 
   private page({ output, concept }: LocatedConcept): string {
     return `${encodeURIComponent(output.id)}/${encodeURIComponent(concept.id)}.html`;
+  }
+
+  typeLinks(conceptId: string, text: string): SourceLink[] {
+    let cache = this.resolvedTypes.get(conceptId);
+    if (!cache) { cache = new Map(); this.resolvedTypes.set(conceptId, cache); }
+    const cached = cache.get(text);
+    if (cached) return cached;
+    const parsed = scanLeanSource(text), first = parsed.tokens[0];
+    const locals = possibleLocals(parsed, new Set(first ? [first.start] : []));
+    for (const name of this.modules.get(conceptId)?.typeLocals ?? []) locals.add(name);
+    const visible = new Set<string>(), pending = [conceptId];
+    while (pending.length) {
+      const id = pending.pop()!;
+      if (visible.has(id)) continue;
+      visible.add(id);
+      pending.push(...(this.model.conceptHome.get(id)?.concept.imports ?? []));
+    }
+    const namespaces = [first?.name?.slice(0, -1) ?? [], nameParts(conceptId)];
+    // Match compound notations before their prefixes (ℝ≥0 is NNReal, not Real).
+    const notation: [string, string][] = [["ℝ≥0∞", "ENNReal"], ["ℝ≥0", "NNReal"], ["ℚ≥0", "NNRat"],
+      ["ℕ∞", "ENat"], ["ℕ+", "PNat"], ["ℕ", "Nat"], ["ℤ", "Int"], ["ℚ", "Rat"], ["ℝ", "Real"], ["ℂ", "Complex"]];
+    const links: SourceLink[] = [];
+    for (const token of parsed.tokens) {
+      if (!token.name || locals.has(token.name[0]!)) continue;
+      const alias = notation.find(([symbol]) => text.startsWith(symbol, token.start) && symbol.length >= token.text.length);
+      if (alias) {
+        const href = declarationDocLink(alias[1]);
+        if (href) links.push({ start: token.start, end: token.start + alias[0].length, href });
+        continue;
+      }
+      const parts = token.name[0] === "_root_" ? token.name.slice(1) : token.name;
+      let href: string | undefined;
+      for (const namespace of namespaces) {
+        for (let depth = namespace.length; depth >= 0; depth--) {
+          const targets = (this.names.get(nameKey([...namespace.slice(0, depth), ...parts])) ?? [])
+            .filter(target => visible.has(target.module) && (!target.private || target.module === conceptId));
+          if (targets.length === 1) {
+            const target = targets[0]!;
+            // Editorial examples have no standalone archive concept page.
+            if (/^lax-\d+$/.test(this.model.conceptHome.get(target.module)!.submission.record.id)) href = target.href;
+            break;
+          }
+          if (targets.length > 1) break;
+        }
+        if (href) break;
+      }
+      href ??= declarationDocLink(parts.join("."));
+      if (href) links.push({ start: token.start, end: token.end, href });
+    }
+    cache.set(text, links);
+    return links;
   }
 
   /** The compiler gives the owning module and exact declaration name. For
@@ -315,5 +369,13 @@ export function sourceLinks(model: SiteModel, conceptId: string, rootRel: string
   let index = indexes.get(model);
   if (!index) { index = new SourceLinkIndex(model); indexes.set(model, index); }
   return index.links(conceptId).map((link) => ({ ...link,
+    href: link.href.startsWith("https://") ? link.href : rootRel + link.href }));
+}
+
+/** Resolve type text against the same archive inventory and fixed docs index. */
+export function sourceTypeLinks(model: SiteModel, conceptId: string, rootRel: string, text: string): SourceLink[] {
+  let index = indexes.get(model);
+  if (!index) { index = new SourceLinkIndex(model); indexes.set(model, index); }
+  return index.typeLinks(conceptId, text).map(link => ({ ...link,
     href: link.href.startsWith("https://") ? link.href : rootRel + link.href }));
 }

@@ -47,7 +47,7 @@ export function mathlibDocLink(module: string, name: string): string | undefined
   return declarationDocLink(name);
 }
 
-function declarationDocLink(name: string): string | undefined {
+export function declarationDocLink(name: string): string | undefined {
   const index = docsIndex();
   const link = Object.hasOwn(index, name) ? index[name] : undefined;
   if (typeof link !== "string" || !/^\.\/(?:Mathlib|Init|Std|Lean)\//u.test(link)) return undefined;

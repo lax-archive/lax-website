@@ -22,7 +22,7 @@ import { attr, code, esc, page, plural, proofBadge, typeBadge } from "../html.js
 import { inertJsonScript } from "../graphs.js";
 import { highlightSource } from "../highlight.js";
 import { liveLeanLink } from "../lean-code.js";
-import { sourceLinks } from "../source-links.js";
+import { sourceLinks, sourceTypeLinks } from "../source-links.js";
 import { compareIds, type SiteModel, type SiteSubmission } from "../model.js";
 import type { PaperWebPage } from "../paper-web.js";
 import type { PaperMark } from "../../types.js";
@@ -124,6 +124,7 @@ async function markBody(ctx: PageContext, mark: PaperMark, home: string, rootRel
       ? await highlightSource(concept.sourceText, concept.statements, proven, {
         omitModuleDoc: true, anchors: false, links: sourceLinks(model, concept.id, rootRel),
         hovers: model.leanCode.get(concept.id)?.hovers,
+        typeLinks: text => sourceTypeLinks(model, concept.id, rootRel, text),
       })
       : "";
     const source = rows

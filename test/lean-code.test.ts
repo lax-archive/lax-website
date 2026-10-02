@@ -6,6 +6,7 @@ import { highlightSource } from "../src/sitegen/highlight.js";
 import { leanCodeInputs, liveLeanCode, liveLeanLink, loadLeanCode, parseLeanCode } from "../src/sitegen/lean-code.js";
 import { SiteModel, type SiteSubmission } from "../src/sitegen/model.js";
 import { landingLeanModel } from "../src/sitegen/pages/index.js";
+import { sourceTypeLinks } from "../src/sitegen/source-links.js";
 import { tmpDir } from "./helpers.js";
 
 function fixture(): SiteModel {
@@ -61,7 +62,7 @@ describe("prepared Lean information", () => {
       hovers: [{ start: 4, end: 5, text: 'α : Nat <script>"' }, { start: 9, end: 10, text: "α : Nat" }],
     });
     expect(html).toContain('tabindex="0" data-lean-type="α : Nat &lt;script&gt;&quot;"');
-    expect(html).toContain('href="../lax-1/Lax1.Base.html#L1" data-lean-type="α : Nat">');
+    expect(html).toContain('href="../lax-1/Lax1.Base.html#L1" data-lean-type="α : Nat"');
     expect(html.match(/data-lean-type=/g)).toHaveLength(2);
     expect(html).not.toContain("title="); expect(html).not.toContain("<script>");
     expect(html).toContain('id="L2"'); expect(html).toContain('class="katex"');
@@ -75,6 +76,24 @@ describe("prepared Lean information", () => {
     expect(typed.match(/data-lean-type="x : Nat"/g)).toHaveLength(1);
     expect(typed).toContain('data-lean-type="Nat : Type"');
     expect(typed.indexOf('data-lean-type="x : Nat"')).toBeGreaterThan(typed.indexOf("explicit type"));
+    const model = fixture(), signature = "x : Lax1.double Nat";
+    const links = sourceTypeLinks(model, "Lax1.Main", "../", signature);
+    expect(links.map(link => signature.slice(link.start, link.end))).toEqual(["Lax1.double", "Nat"]);
+    expect(links[0]!.href).toBe("../lax-1/Lax1.Base.html#L4");
+    expect(links[1]!.href).toContain("/mathlib4_docs/Init/Prelude.html#Nat");
+    expect(sourceTypeLinks(model, "Lax1.Main", "../", "n : ℕ").map(link => link.href)).toEqual([links[1]!.href]);
+    const nonnegative = sourceTypeLinks(model, "Lax1.Main", "../", "r : ℝ≥0");
+    expect(nonnegative).toHaveLength(1);
+    expect(nonnegative[0]!.end - nonnegative[0]!.start).toBe(3);
+    expect(nonnegative[0]!.href).toContain("#NNReal");
+    expect(sourceTypeLinks(model, "Lax1.Main", "../", "f (Nat : Type) : Nat")).toEqual([]);
+    const linkedType = await highlightSource("def x := 0", [], new Set(), {
+      hovers: [{ start: 4, end: 5, text: signature }],
+      typeLinks: text => sourceTypeLinks(model, "Lax1.Main", "../", text),
+    });
+    expect(linkedType).toContain('role="button"');
+    expect(linkedType).toContain('data-lean-type-links="');
+    expect(linkedType).toContain("../lax-1/Lax1.Base.html#L4");
   });
   it("exports dependencies in order with scoped commands and no anonymous annotations", () => {
     const model = fixture(), source = liveLeanCode(model, "Lax1.Main")!;

@@ -192,6 +192,11 @@ bytes therefore differ from production's, deterministically per flag set).
 - Lean variables and constants show compiler-derived types on hover and keyboard
   focus. Unlinked identifiers use a text cursor with a small information symbol;
   clickable identifiers retain their navigation behavior and pointer cursor.
+  Clicking a type-bearing identifier pins its bubble until an outside click
+  or Escape. Identifiers within the type link to known Lax or Mathlib
+  declarations; a linked constant's name in the bubble leads to its definition.
+  Modifier-clicking the source link still navigates directly. Keyboard users
+  can pin with Enter or Space and press Tab to enter the bubble's links.
   Links without prepared type information retain their compact link labels.
   Archive statement names have no type tooltip, at declarations or uses.
   An identifier immediately followed by a type annotation (`x : t`) also
