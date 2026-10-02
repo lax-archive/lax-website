@@ -65,6 +65,16 @@ describe("prepared Lean information", () => {
     expect(html.match(/data-lean-type=/g)).toHaveLength(2);
     expect(html).not.toContain("title="); expect(html).not.toContain("<script>");
     expect(html).toContain('id="L2"'); expect(html).toContain('class="katex"');
+    const annotated = "def f (x /- explicit type -/ : Nat) := x";
+    const binder = annotated.indexOf("x"), use = annotated.lastIndexOf("x"), type = annotated.indexOf("Nat");
+    const typed = await highlightSource(annotated, [], new Set(), { hovers: [
+      { start: binder, end: binder + 1, text: "x : Nat" },
+      { start: type, end: type + 3, text: "Nat : Type" },
+      { start: use, end: use + 1, text: "x : Nat" },
+    ] });
+    expect(typed.match(/data-lean-type="x : Nat"/g)).toHaveLength(1);
+    expect(typed).toContain('data-lean-type="Nat : Type"');
+    expect(typed.indexOf('data-lean-type="x : Nat"')).toBeGreaterThan(typed.indexOf("explicit type"));
   });
   it("exports dependencies in order with scoped commands and no anonymous annotations", () => {
     const model = fixture(), source = liveLeanCode(model, "Lax1.Main")!;

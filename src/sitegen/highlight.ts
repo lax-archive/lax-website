@@ -249,7 +249,14 @@ export async function highlightSource(
   const anchors = options.anchors ?? true;
   const elided = options.omitModuleDoc ? moduleDocRange(source) : undefined;
   const parsed = scanLeanSource(source);
-  const decorations = decorationsByLine(source, options.links ?? [], parsed.comments, options.hovers ?? []);
+  // The annotation already displays this occurrence's type. Keep hovers on
+  // later uses and on inferred bindings (`x := ...`). Comments are skipped
+  // by the scanner, so `x /- ... -/ : T` behaves like `x : T`.
+  const annotated = new Set(parsed.tokens.filter((token, index) => token.name &&
+    parsed.tokens[index + 1]?.text === ":" && parsed.tokens[index + 2]?.text !== "=")
+    .map(token => `${token.start}:${token.end}`));
+  const hovers = (options.hovers ?? []).filter(hover => !annotated.has(`${hover.start}:${hover.end}`));
+  const decorations = decorationsByLine(source, options.links ?? [], parsed.comments, hovers);
   // Keep stable statement IDs, but place them at their complete comment
   // preamble. Archive ranges may begin after leading ordinary line comments.
   const starts = anchors && statements.length
