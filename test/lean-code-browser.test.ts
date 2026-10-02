@@ -27,7 +27,7 @@ describe.runIf(Boolean(process.env.GRAPH_CHROME))("Lean hover interaction", () =
       await page.route("**/*", async route => {
         const url = new URL(route.request().url()); requests.push(url.href);
         if (url.pathname === "/") await route.fulfill({ contentType: "text/html", body:
-          `<!doctype html><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self' 'unsafe-inline'; script-src 'self'; font-src 'self'; img-src 'self'"><link rel="stylesheet" href="style.css"><style>table{position:absolute;right:8px;bottom:8px}</style><div class="source-controls" style="position:absolute;left:16px;right:16px;top:20px"><button class="comment-toggle">Hide comments</button><label class="type-hover-toggle"><input type="checkbox" role="switch" data-type-hover-toggle checked> Show type on hover</label></div><table class="inline-contract-table">${rows}</table><script src="lean-code.js" defer></script>` });
+          `<!doctype html><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self' 'unsafe-inline'; script-src 'self'; font-src 'self'; img-src 'self'"><link rel="stylesheet" href="style.css"><style>table{position:absolute;right:8px;bottom:8px}</style><div class="source-controls" style="position:absolute;left:16px;right:16px;top:20px"><button class="comment-toggle">Hide comments</button><label class="type-hover-toggle"><input type="checkbox" role="switch" data-type-hover-toggle checked> Show types on hover</label></div><table class="inline-contract-table">${rows}</table><script src="lean-code.js" defer></script>` });
         else if (["style.css", "lean-code.js"].includes(path.basename(url.pathname)))
           await route.fulfill({ contentType: url.pathname.endsWith(".css") ? "text/css" : "text/javascript", body: fs.readFileSync(siteAssetPath(path.basename(url.pathname))) });
         else if (url.pathname === "/lax-1/Lax1.Base.html")
@@ -114,7 +114,7 @@ describe.runIf(Boolean(process.env.GRAPH_CHROME))("Lean hover interaction", () =
       await expect.poll(() => page.url()).toBe("https://lean-hover.test/lax-1/Lax1.Base.html#L1");
       expect(requests.every(url => url.startsWith("https://lean-hover.test/"))).toBe(true);
       await page.goto("https://lean-hover.test/");
-      const toggle = page.getByRole("switch", { name: "Show type on hover" });
+      const toggle = page.getByRole("switch", { name: "Show types on hover" });
       const controlsBounds = (await page.locator(".source-controls").boundingBox())!;
       const toggleBounds = (await page.locator(".type-hover-toggle").boundingBox())!;
       expect(controlsBounds.x + controlsBounds.width - toggleBounds.x - toggleBounds.width).toBeLessThan(12);

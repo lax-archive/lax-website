@@ -190,7 +190,7 @@ bytes therefore differ from production's, deterministically per flag set).
   promise complete coverage: fields, aliases and potentially shadowed names
   need compiler metadata. Normal archive and preview builds use the metadata.
 - Lean variables and constants show compiler-derived types on hover and keyboard
-  focus. The “Show type on hover” switch beside the comment toggle remembers
+  focus. The “Show types on hover” switch beside the comment toggle remembers
   the reader's preference across pages. Turning it off closes pinned bubbles
   and leaves identifier navigation available.
   Unlinked identifiers with type bubbles use the normal pointer cursor;
