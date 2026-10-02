@@ -200,8 +200,9 @@ bytes therefore differ from production's, deterministically per flag set).
   including same-page jumps. Source links navigate directly as usual.
   The hovered term's own name stays plain inside its bubble; identifiers in
   its type link to known Lax or Mathlib declarations, with the usual
-  “mathlib ↗” or “lean ↗” labels for external destinations. These labels
-  appear inside the bubble, so no native tooltip overlaps it. Keyboard users
+  “mathlib ↗” or “lean ↗” labels for external destinations. Hovering or focusing
+  a link inside the type bubble opens a separate destination tooltip outside
+  the bubble. The type toggle sits on the right of the source controls. Keyboard users
   can pin with Space (or Enter on an unlinked identifier) and press Tab to
   enter the bubble's links.
   Built-in universes (`Type`, `Prop`, and `Sort`) link to Lean's universe

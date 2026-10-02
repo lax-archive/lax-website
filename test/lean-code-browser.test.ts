@@ -27,7 +27,7 @@ describe.runIf(Boolean(process.env.GRAPH_CHROME))("Lean hover interaction", () =
       await page.route("**/*", async route => {
         const url = new URL(route.request().url()); requests.push(url.href);
         if (url.pathname === "/") await route.fulfill({ contentType: "text/html", body:
-          `<!doctype html><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self' 'unsafe-inline'; script-src 'self'; font-src 'self'; img-src 'self'"><link rel="stylesheet" href="style.css"><style>table{position:absolute;right:8px;bottom:8px}</style><div class="source-controls" style="position:absolute;left:16px;top:20px"><label class="type-hover-toggle"><input type="checkbox" role="switch" data-type-hover-toggle checked> Show type on hover</label></div><table class="inline-contract-table">${rows}</table><script src="lean-code.js" defer></script>` });
+          `<!doctype html><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self' 'unsafe-inline'; script-src 'self'; font-src 'self'; img-src 'self'"><link rel="stylesheet" href="style.css"><style>table{position:absolute;right:8px;bottom:8px}</style><div class="source-controls" style="position:absolute;left:16px;right:16px;top:20px"><button class="comment-toggle">Hide comments</button><label class="type-hover-toggle"><input type="checkbox" role="switch" data-type-hover-toggle checked> Show type on hover</label></div><table class="inline-contract-table">${rows}</table><script src="lean-code.js" defer></script>` });
         else if (["style.css", "lean-code.js"].includes(path.basename(url.pathname)))
           await route.fulfill({ contentType: url.pathname.endsWith(".css") ? "text/css" : "text/javascript", body: fs.readFileSync(siteAssetPath(path.basename(url.pathname))) });
         else if (url.pathname === "/lax-1/Lax1.Base.html")
@@ -57,7 +57,21 @@ describe.runIf(Boolean(process.env.GRAPH_CHROME))("Lean hover interaction", () =
       expect(await panel.locator("a").last().getAttribute("href")).toBe(href);
       expect(await panel.locator("a").last().getAttribute("title")).toBeNull();
       expect(await panel.locator("a").last().getAttribute("data-destination")).toBe("lean ↗");
-      expect(await panel.locator("a").last().evaluate(el => getComputedStyle(el, "::after").content)).toContain("lean ↗");
+      expect(await panel.locator("a").last().evaluate(el => getComputedStyle(el, "::after").content)).toBe("none");
+      const destination = page.locator(".lean-link-tooltip");
+      expect(await destination.isHidden()).toBe(true);
+      await panel.locator("a").last().hover();
+      expect(await destination.textContent()).toBe("lean ↗");
+      expect(await destination.isVisible()).toBe(true);
+      const labelBounds = (await destination.boundingBox())!, typeBounds = (await panel.boundingBox())!;
+      expect(labelBounds.y >= typeBounds.y + typeBounds.height || labelBounds.y + labelBounds.height <= typeBounds.y).toBe(true);
+      expect(labelBounds.x).toBeGreaterThanOrEqual(0);
+      expect(labelBounds.x + labelBounds.width).toBeLessThanOrEqual(390);
+      expect(labelBounds.y + labelBounds.height).toBeLessThanOrEqual(300);
+      await panel.locator("a").first().hover();
+      expect(await destination.isHidden()).toBe(true);
+      await panel.locator("a").last().focus();
+      expect(await destination.isVisible()).toBe(true);
       await panel.click({ position: { x: 3, y: 3 } });
       expect(await panel.isVisible()).toBe(true);
       await page.setViewportSize({ width: 400, height: 310 });
@@ -73,7 +87,8 @@ describe.runIf(Boolean(process.env.GRAPH_CHROME))("Lean hover interaction", () =
       const constant = page.locator("a[data-lean-type]");
       await constant.hover();
       expect(await panel.locator(".lean-type-signature").textContent()).toBe("Nat : Type");
-      expect(await panel.locator(".lean-type-destination").textContent()).toBe("lean ↗");
+      expect(await panel.textContent()).toBe("Nat : Type");
+      expect(await destination.isHidden()).toBe(true);
       expect(await constant.getAttribute("href")).toBe(href);
       expect(await constant.getAttribute("title")).toBeNull();
       expect(await constant.evaluate(el => getComputedStyle(el).cursor)).toBe("pointer");
@@ -92,6 +107,7 @@ describe.runIf(Boolean(process.env.GRAPH_CHROME))("Lean hover interaction", () =
       await panel.locator("a").first().evaluate(el => el.setAttribute("href", "#L1"));
       await panel.locator("a").first().click();
       expect(await panel.isHidden()).toBe(true);
+      expect(await destination.isHidden()).toBe(true);
       expect(page.url()).toBe("https://lean-hover.test/#L1");
       await token.click();
       await panel.locator("a").first().click();
@@ -99,6 +115,9 @@ describe.runIf(Boolean(process.env.GRAPH_CHROME))("Lean hover interaction", () =
       expect(requests.every(url => url.startsWith("https://lean-hover.test/"))).toBe(true);
       await page.goto("https://lean-hover.test/");
       const toggle = page.getByRole("switch", { name: "Show type on hover" });
+      const controlsBounds = (await page.locator(".source-controls").boundingBox())!;
+      const toggleBounds = (await page.locator(".type-hover-toggle").boundingBox())!;
+      expect(controlsBounds.x + controlsBounds.width - toggleBounds.x - toggleBounds.width).toBeLessThan(12);
       await token.click();
       await toggle.uncheck();
       expect(await panel.isHidden()).toBe(true);
