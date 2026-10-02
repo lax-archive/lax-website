@@ -4800,6 +4800,44 @@
       ]
     },
     {
+      "id": "lax-614640",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Tight Inapproximability of Max Independent Set in Triangle-Free Graphs",
+      "supersedes": "lax-47",
+      "concepts": [
+        {
+          "id": "Lax614640.Complexity",
+          "title": "Executable graph encodings and triangle-free approximation",
+          "type": "definition"
+        },
+        {
+          "id": "Lax614640.Gap",
+          "title": "Finite-Turing promise-gap algorithms for Max Independent Set",
+          "type": "definition"
+        },
+        {
+          "id": "Lax614640.IndependentSetGapHardness",
+          "title": "Promise-gap hardness of Max Independent Set",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax614640.Machine",
+          "title": "Polynomial-time computation on the Lax759944 finite-Turing model",
+          "type": "definition"
+        },
+        {
+          "id": "Lax614640.TriangleFreeIndependentSetHardness",
+          "title": "Tight inapproximability of Max Independent Set in triangle-free graphs",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax614640Proofs.IndependentSetGapHardness.gapSolver_implies_np_subset_bpp",
+        "Lax614640Proofs.triangleFreeMIS_not_approximable"
+      ]
+    },
+    {
       "id": "lax-623795",
       "state": "draft",
       "environment": "v4.33.0",
