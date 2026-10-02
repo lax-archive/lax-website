@@ -1,7 +1,7 @@
 import { createHash } from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
-import { scanLeanSource, type SourceRange } from "./lean-source.js";
+import { nameKey, nameParts, scanLeanSource, type SourceRange } from "./lean-source.js";
 import type { SiteModel } from "./model.js";
 import { attr, esc } from "./html.js";
 
@@ -50,10 +50,19 @@ export function parseLeanCode(json: string, digest: string, source: string): Lea
 }
 
 export function loadLeanCode(model: SiteModel, directory: string, required = false): void {
+  const statements = new Set([...model.conceptHome.values()].flatMap(({ concept }) =>
+    concept.statements.map(statement => nameKey(nameParts(statement.id)))));
   for (const [id, { concept }] of model.conceptHome) {
     const { digest } = leanCodeInputs(model, id);
     try {
-      model.leanCode.set(id, parseLeanCode(fs.readFileSync(path.join(directory, `${digest}.json`), "utf8"), digest, concept.sourceText));
+      const data = parseLeanCode(fs.readFileSync(path.join(directory, `${digest}.json`), "utf8"), digest, concept.sourceText);
+      // Compiler signatures start with the resolved declaration name. Match
+      // its full name, so imported statements are excluded too, while local
+      // variables with the same short spelling retain their type hovers.
+      model.leanCode.set(id, { ...data, hovers: data.hovers.filter(hover => {
+        const name = scanLeanSource(hover.text).tokens[0]?.name;
+        return !name || !statements.has(nameKey(name));
+      }) });
     } catch (error) {
       if (required) throw new Error(`${id}: run npm run lean:prepare to refresh type hovers (${error})`);
     }

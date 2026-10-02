@@ -41,6 +41,18 @@ describe("prepared Lean information", () => {
     expect(() => parseLeanCode(JSON.stringify(data), "digest", "--  x   ")).toThrow();
     expect(() => parseLeanCode(JSON.stringify({ ...data, hovers: [...data.hovers, ...data.hovers] }), "digest", "def x := 1")).toThrow();
     expect(() => loadLeanCode(model, tmpDir("lax-hover-missing-"), true)).toThrow(/lean:prepare/);
+    const base = model.conceptHome.get("Lax1.Base")!.concept;
+    base.statements = [{ id: "Lax1.double", signature: "double (n : Nat) : Nat" }];
+    const main = model.conceptHome.get("Lax1.Main")!.concept;
+    const constant = main.sourceText.indexOf("double"), variable = main.sourceText.lastIndexOf("n");
+    const prepared = { version: 1, digest: leanCodeInputs(model, "Lax1.Main").digest, hovers: [
+      { start: constant, end: constant + 6, text: "Lax1.double (n : Nat) : Nat" },
+      { start: variable, end: variable + 1, text: "n : Nat" },
+    ] };
+    const cache = tmpDir("lax-hover-statements-");
+    fs.writeFileSync(path.join(cache, `${prepared.digest}.json`), JSON.stringify(prepared));
+    loadLeanCode(model, cache);
+    expect(model.leanCode.get("Lax1.Main")!.hovers).toEqual([prepared.hovers[1]]);
   });
   it("preserves syntax, Unicode, identifier navigation and source lines with type hovers", async () => {
     const source = "def α := α\n-- $x$";

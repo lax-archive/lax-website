@@ -193,6 +193,7 @@ bytes therefore differ from production's, deterministically per flag set).
   focus. Unlinked identifiers use a text cursor with a small information symbol;
   clickable identifiers retain their navigation behavior and pointer cursor.
   Links without prepared type information retain their compact link labels.
+  Archive statement names have no type tooltip, at declarations or uses.
   `npm run lean:prepare` elaborates concept modules and the landing
   examples with their pinned Lean and Mathlib environments, caching UTF-16
   ranges and plain type text in `data/lean-code/`. It omits documentation from
