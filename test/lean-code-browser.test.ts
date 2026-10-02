@@ -13,7 +13,7 @@ describe.runIf(Boolean(process.env.GRAPH_CHROME))("Lean hover interaction", () =
     });
     try {
       const page = await browser.newPage({ viewport: { width: 390, height: 300 } });
-      const source = "def x := Nat", type = "x : Lax1.Base Nat\n<script>literal text</script>";
+      const source = "def x := Nat\n-- A comment", type = "x : Lax1.Base Nat\n<script>literal text</script>";
       const href = "https://leanprover-community.github.io/mathlib4_docs/Init/Prelude.html#Nat";
       const rows = await highlightSource(source, [], new Set(), {
         links: [{ start: 9, end: 12, href }],
@@ -27,8 +27,8 @@ describe.runIf(Boolean(process.env.GRAPH_CHROME))("Lean hover interaction", () =
       await page.route("**/*", async route => {
         const url = new URL(route.request().url()); requests.push(url.href);
         if (url.pathname === "/") await route.fulfill({ contentType: "text/html", body:
-          `<!doctype html><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self' 'unsafe-inline'; script-src 'self'; font-src 'self'; img-src 'self'"><link rel="stylesheet" href="style.css"><style>table{position:absolute;right:8px;bottom:8px}</style><div class="source-controls" style="position:absolute;left:16px;right:16px;top:20px"><button class="comment-toggle">Hide comments</button><label class="type-hover-toggle"><input type="checkbox" role="switch" data-type-hover-toggle checked> Show types on hover</label></div><table class="inline-contract-table">${rows}</table><script src="lean-code.js" defer></script>` });
-        else if (["style.css", "lean-code.js"].includes(path.basename(url.pathname)))
+          `<!doctype html><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self' 'unsafe-inline'; script-src 'self'; font-src 'self'; img-src 'self'"><link rel="stylesheet" href="style.css"><style>table{position:absolute;right:8px;bottom:8px}</style><div class="inline-contract-shell" style="position:static"><div class="source-controls" style="position:absolute;left:16px;right:16px;top:20px"><button class="comment-toggle">Hide comments</button><label class="type-hover-toggle"><input type="checkbox" role="switch" data-type-hover-toggle checked> Show types on hover</label></div><table class="inline-contract-table">${rows}</table></div><script src="source-proof.js" defer></script><script src="lean-code.js" defer></script>` });
+        else if (["style.css", "lean-code.js", "source-proof.js"].includes(path.basename(url.pathname)))
           await route.fulfill({ contentType: url.pathname.endsWith(".css") ? "text/css" : "text/javascript", body: fs.readFileSync(siteAssetPath(path.basename(url.pathname))) });
         else if (url.pathname === "/lax-1/Lax1.Base.html")
           await route.fulfill({ contentType: "text/html", body: '<p id="L1">Archive declaration</p>' });
@@ -135,6 +135,14 @@ describe.runIf(Boolean(process.env.GRAPH_CHROME))("Lean hover interaction", () =
       await expect.poll(() => page.url()).toBe("https://lean-hover.test/lax-1/Lax1.Base.html#L1");
       expect(requests.every(url => url.startsWith("https://lean-hover.test/"))).toBe(true);
       await page.goto("https://lean-hover.test/");
+      await page.getByRole("button", { name: "Hide comments", exact: true }).click();
+      await page.reload();
+      expect(await page.getByRole("button", { name: "Show comments", exact: true }).getAttribute("aria-pressed")).toBe("true");
+      expect(await page.locator(".line-comment").isHidden()).toBe(true);
+      await page.getByRole("button", { name: "Show comments", exact: true }).click();
+      await page.reload();
+      expect(await page.getByRole("button", { name: "Hide comments", exact: true }).getAttribute("aria-pressed")).toBe("false");
+      expect(await page.locator(".line-comment").isVisible()).toBe(true);
       const toggle = page.getByRole("switch", { name: "Show types on hover" });
       const controlsBounds = (await page.locator(".source-controls").boundingBox())!;
       const toggleBounds = (await page.locator(".type-hover-toggle").boundingBox())!;
