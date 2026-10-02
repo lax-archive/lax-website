@@ -337,14 +337,13 @@ ${body}
 </div>`;
 
   return page({
-    title: `${options.printed ? "Paper as printed" : "Paper"}: ${ctx.markdown.plainAuthorTitle(output!.manifest.title)} — ${home}`,
+    title: `${options.printed ? "Paper as printed" : "Paper"} — ${home}`,
     rootRel: "../",
     canonicalPath: `${home}/${options.printed ? "paper-pdf.html" : "paper.html"}`,
     sidebar: submissionSidebar(ctx.model, submission, "../", { backToSubmission: true }),
     sidebarState: "collapsed",
     content,
     noIndex: output!.manifest.unlisted === true,
-    description: ctx.markdown.plainAuthorTitle(output!.abstract),
     detailClass: "detail-manuscript",
     scripts,
   });

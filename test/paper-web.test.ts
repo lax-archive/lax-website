@@ -43,7 +43,7 @@ describe("the reflow paper page", () => {
     // fixture sits far under the embed budget), its cards in the rail under
     // `m<n>-card` — the `m<n>` ids belong to the viewer's passage anchors at
     // runtime, so the page ships none — and nothing of pdf.js on it.
-    expect(html).toContain("<title>Paper: One and Zero — lax-21</title>");
+    expect(html).toContain("<title>Paper — lax-21</title>");
     expect(html).toContain('<div class="manuscript-body manuscript-reflow-body" id="manuscript-reflow">');
     expect(html).toMatch(/<div class="latex-block" data-nodelist-b64="[A-Za-z0-9+/=]+"><\/div>/);
     expect(html).not.toContain("data-nodelist-src");
@@ -65,7 +65,7 @@ describe("the reflow paper page", () => {
     }
     // paper-pdf.html is the paper as printed, annotated in its own right:
     // the cards under the `m<n>` ids and the mark table its script reads.
-    expect(printed).toContain("<title>Paper as printed: One and Zero — lax-21</title>");
+    expect(printed).toContain("<title>Paper as printed — lax-21</title>");
     expect(printed).toContain('<div class="manuscript" data-pdf="paper.pdf"');
     expect(printed).toContain('<ol class="manuscript-rail" id="manuscript-rail">\n<li class="manuscript-card');
     expect(printed).toContain('"marks":[{"n":1');
