@@ -15,6 +15,12 @@ Adjustable positions reserve the configured separation, avoid fixed attachment
 positions, and fail with `port-capacity` when the measured side cannot fit them.
 The renderer consumes the resulting positions and does not choose ports again.
 
+Concept-level assumption ports use a measured pool of slots along the top
+border. Crossing reduction permutes their assignments to match the outgoing
+routes, while numbered statement docks remain fixed. For sibling-proof groups,
+the condensation uses the same slot pool and its chosen permutation propagates
+through the vertical group adapters to the concept's ports.
+
 ## Corrected Brandes–Köpf placement
 
 `coordinates-bk.ts` implements median-neighbor vertical alignment, four

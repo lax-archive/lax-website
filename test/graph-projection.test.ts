@@ -1,11 +1,11 @@
 import fs from "node:fs";
 import { describe, expect, it } from "vitest";
-import { canonicalJson } from "../src/graph-layout/normalize.js";
+import { canonicalJson, compareText } from "../src/graph-layout/normalize.js";
 import { indexedGraph, stronglyConnectedComponents } from "../src/graph-layout/components.js";
-import { measureDisplayGraph, projectGraph, type DisplayGraph, type GraphKind, type ProofGraphData } from "../src/sitegen/graph-project.js";
+import { measureDisplayGraph, projectGraph, type DisplayGraph, type GraphKind, type ProofGraphData, type StatementGraphInput } from "../src/sitegen/graph-project.js";
 import { displayLabelRequests } from "../src/sitegen/graph-node-size.js";
 import { dockInkFixture } from "./fixtures/graph-layout/dock-ink.js";
-import { graphInteractionPayload } from "../src/sitegen/graph-svg.js";
+import { graphInteractionPayload, graphSvg } from "../src/sitegen/graph-svg.js";
 import { layoutGraph } from "../src/graph-layout/index.js";
 import { validateGeometry } from "../src/graph-layout/validate.js";
 
@@ -22,19 +22,78 @@ const fixtureLabels = (display: DisplayGraph) => new Map(displayLabelRequests([d
   { ...exactFixtureMetrics, lines: exactFixtureMetrics.lines.map((line) => ({ ...line, text })) }]));
 
 describe("semantic display projection", () => {
-  it("preserves proof AND/OR incidence, exact statements, coarse assumptions, and fixed numbered docks", () => {
+  it("coarsens multi-statement assumptions per proof while keeping distinct outgoing ports", () => {
     const projected = projectGraph("proofs", proofInput());
     expect(projected.nodes.filter((n) => n.kind === "proof")).toHaveLength(2);
-    expect(projected.edges).toHaveLength(5);
+    expect(projected.edges).toHaveLength(4);
     const concept = projected.nodes.find((n) => n.id === "c:c")!;
     expect(concept.label).toBe("c");
     expect(projected.nodes.find((n) => n.id === "s:d.s")!.label).toBe("d");
     expect(concept.docks.map((d) => [d.statementId, d.ordinal])).toEqual([["c.s1", 1], ["c.s2", 2]]);
-    expect(concept.ports.map((p) => p.semanticEndpointId).sort()).toEqual(["c", "c.s1", "c.s2"]);
+    expect(concept.ports.map((p) => p.semanticEndpointId)).toEqual(["c", "c"]);
     const measured = measureDisplayGraph(projected, fixtureLabels(projected));
     const docks = measured.graph.nodes.find((n) => n.id === concept.id)!.ports;
-    expect(docks.every((p) => p.mode === "fixed-position")).toBe(true);
-    expect(new Set(docks.map((p) => p.offset!.x)).size).toBe(3);
+    const interaction = graphInteractionPayload(measured);
+    expect(Object.keys(interaction.edges)).toHaveLength(4);
+    expect(interaction.nodes["c:c"]).toMatchObject({ kind: "concept", semanticId: "c", nodeId: "c:c" });
+    expect(interaction.nodes["dock:c.s1"]).toMatchObject({ kind: "dock", semanticId: "c.s1", nodeId: "c:c" });
+    expect(interaction.edges["e:p1:assumption:c:0"]).toMatchObject({
+      source: "c:c", target: "p:p1", sourceSemanticId: "c", targetSemanticId: "p1", kind: "assumption",
+      semanticIds: ["p1:assumption:c.s1", "p1:assumption:c.s2"],
+    });
+    expect(projected.edges.filter((edge) => edge.kind === "assumption").map((edge) => edge.sourcePortId))
+      .toEqual(["e:p1:assumption:c:0:source", "e:p2:assumption:c:0:source"]);
+    expect(projected.mapping.find((entry) => entry.semanticId === "p1:assumption:c.s2")?.edgeIds)
+      .toEqual(["e:p1:assumption:c:0"]);
+    expect(docks.every((p) => p.mode === "free-in-slots")).toBe(true);
+    expect(new Set(docks.map((p) => p.offset!.x)).size).toBe(2);
+    const { geometry } = layoutGraph(measured.graph, { inputDigest: "distinct-concept-outputs" });
+    expect(validateGeometry(measured.graph, geometry)).toMatchObject({ valid: true });
+    expect(geometry.ports.filter((port) => port.nodeId === concept.id)).toHaveLength(2);
+  });
+  it("shortens only local dock tooltip labels while preserving full identifiers and links", () => {
+    const concepts = [{ id: "Lax701.Local", ext: false }, { id: "Lax702.Foreign", ext: true }];
+    const statements = concepts.flatMap((concept) => ["first", "second"].map((name, index) => ({
+      id: `${concept.id}.${name}`, concept: concept.id, ext: concept.ext,
+      index: index + 1, count: 2, href: `${concept.id}.html#s-${concept.id}.${name}`,
+    })));
+    const display = projectGraph("proofs", { statements, proofs: [] });
+    const interaction = graphInteractionPayload(measureDisplayGraph(display, fixtureLabels(display)));
+    for (const statement of statements) {
+      expect(interaction.nodes[`dock:${statement.id}`]).toMatchObject({
+        label: statement.ext ? statement.id : `Local.${statement.id.split(".").at(-1)}`,
+        semanticId: statement.id, href: statement.href,
+      });
+    }
+  });
+  it("scales node envelopes, ink, docks and attachments together without changing graph semantics", () => {
+    const original = projectGraph("proofs", proofInput());
+    const display = projectGraph("proofs", { ...proofInput(), nodeScale: 1.25 });
+    const labels = fixtureLabels(original);
+    const baseline = measureDisplayGraph(original, labels), enlarged = measureDisplayGraph(display, labels);
+    expect(projectGraph("proofs", { ...proofInput(), nodeScale: 1 })).toEqual(original);
+    expect(displayLabelRequests([display])).toEqual(displayLabelRequests([original]));
+    expect(enlarged.drawings).toEqual(baseline.drawings);
+    expect(enlarged.graph.edges).toEqual(baseline.graph.edges);
+    expect(graphInteractionPayload(enlarged)).toEqual(graphInteractionPayload(baseline));
+    const scaleRect = (box: { x: number; y: number; width: number; height: number }) => ({
+      x: box.x * 1.25, y: box.y * 1.25, width: box.width * 1.25, height: box.height * 1.25,
+    });
+    for (const [index, node] of enlarged.graph.nodes.entries()) {
+      const before = baseline.graph.nodes[index]!;
+      expect(node.width).toBe(before.width * 1.25);
+      expect(node.height).toBe(before.height * 1.25);
+      expect(node.labelBoxes).toEqual(before.labelBoxes.map(scaleRect));
+      expect(node.footprints).toEqual(before.footprints!.map((footprint) => ({ ...footprint, bounds: scaleRect(footprint.bounds) })));
+      expect(node.ports).toEqual(before.ports.map((port) => port.offset ? { ...port,
+        offset: { x: port.offset.x * 1.25, y: port.offset.y * 1.25 } } : port));
+    }
+    const { geometry } = layoutGraph(enlarged.graph, { inputDigest: "scaled-node-fixture" });
+    expect(validateGeometry(enlarged.graph, geometry).valid).toBe(true);
+    expect(graphSvg(enlarged, geometry, "scaled").match(/ scale\(1\.25\)/g)).toHaveLength(display.nodes.length);
+  });
+  it.each([0, 0.5, 5, NaN, Infinity])("rejects an invalid node scale (%s)", (nodeScale) => {
+    expect(() => projectGraph("proofs", { ...proofInput(), nodeScale })).toThrow(/graph-node-scale/);
   });
   it("measures dock ink, preserves fixed statement attachments, and diagnoses absent ordinal metrics", () => {
     const display = dockInkFixture(), labels = fixtureLabels(display);
@@ -64,6 +123,36 @@ describe("semantic display projection", () => {
     expect(displayLabelRequests([display]).map((request) => request.text)).not.toContain("⊢");
     labels.delete("9876543210");
     expect(() => measureDisplayGraph(display, labels)).toThrow(/missing-dock-metrics/);
+  });
+  it.each([
+    { name: "boundary sum", labelHeight: 6.0151, dockDiagonal: 72, dockInkHeight: 57.6, expectedHeight: 100.016 },
+    { name: "fractional dock", labelHeight: 6, dockDiagonal: 36.0001, dockInkHeight: 12, expectedHeight: 64.001 },
+  ])("keeps rounded conclusion ports inside their node for $name measurements", ({ labelHeight, dockDiagonal, dockInkHeight, expectedHeight }) => {
+    const display: DisplayGraph = { kind: "proofs", mapping: [], nodes: [
+      { id: "p:proof", semanticId: "proof", kind: "proof", label: "⊢", status: "none", ext: false, docks: [], ports: [
+        { id: "proof:out", nodeId: "p:proof", semanticEndpointId: "proof", side: "north", mode: "free-on-side" },
+      ] },
+      { id: "c:conclusion", semanticId: "conclusion", kind: "concept", label: "Conclusion", status: "open", ext: false,
+        docks: [{ id: "dock:conclusion", statementId: "conclusion.statement", ordinal: 1, status: "open" }], ports: [
+          { id: "conclusion:in", nodeId: "c:conclusion", semanticEndpointId: "conclusion.statement", side: "south", mode: "free-on-side" },
+        ] },
+    ], edges: [
+      { id: "conclusion", sourcePortId: "proof:out", targetPortId: "conclusion:in", kind: "conclusion", minRankSpan: 1 },
+    ] };
+    const dockLabelHeight = Math.max(14, dockInkHeight);
+    const labels = new Map<string, GraphLabel>([
+      ["Conclusion", { width: 20, height: labelHeight,
+        lines: [{ text: "Conclusion", x: 0, y: labelHeight, ink: { x: 0, y: 0, width: 20, height: labelHeight } }] }],
+      ["1", { width: Math.sqrt(dockDiagonal ** 2 - dockInkHeight ** 2), height: dockLabelHeight,
+        lines: [{ text: "1", x: 0, y: dockLabelHeight, ink: { x: 0, y: 0, width: 6, height: dockInkHeight } }] }],
+    ]);
+
+    const measured = measureDisplayGraph(display, labels);
+    const conclusion = measured.graph.nodes.find((node) => node.id === "c:conclusion")!;
+    const port = conclusion.ports.find((candidate) => candidate.id === "conclusion:in")!;
+    expect(conclusion.height).toBe(expectedHeight);
+    expect(port.offset!.y).toBe(conclusion.height);
+    expect(validateGeometry(measured.graph, layoutGraph(measured.graph, { inputDigest: "rounded-conclusion-port" }).geometry).valid).toBe(true);
   });
   it("never renumbers missing docks or silently deletes missing endpoints", () => {
     const input = proofInput();
@@ -101,23 +190,47 @@ describe("semantic display projection", () => {
     expect(canonicalJson(measured.graph)).not.toMatch(/Public label|href|secret-repository/);
     expect(() => projectGraph("concepts", { nodes: [{ id: "x", href: "https://private.example/repo" }], edges: [] })).toThrow(/graph-link/);
   });
-  it("retains a display-only cycle created by grouping an acyclic statement graph", () => {
+  it("keeps a sibling proof at statement resolution and draws it locally without a cycle envelope", () => {
     const input: ProofGraphData = { statements: [
-      { id: "c.a", concept: "c", index: 1, count: 2 }, { id: "c.b", concept: "c", index: 2, count: 2 },
-    ], proofs: [{ id: "p", assumptions: ["c.a"], conclusion: "c.b" }] };
+      { id: "c.a", concept: "c", index: 1, count: 3 }, { id: "c.b", concept: "c", index: 2, count: 3 }, { id: "c.c", concept: "c", index: 3, count: 3 },
+      { id: "d.s", concept: "d", index: 1, count: 1 },
+    ], proofs: [{ id: "p", assumptions: ["c.a", "c.b"], conclusion: "c.c" }, { id: "q", assumptions: ["d.s"], conclusion: "c.b" }] };
     const display = projectGraph("proofs", input);
     const measured = measureDisplayGraph(display, fixtureLabels(display));
     const graph = indexedGraph(measured.graph);
     expect(stronglyConnectedComponents(graph.nodeCount, graph.edges).some((members) => members.length === 2)).toBe(true);
-    expect(measured.graph.edges).toHaveLength(2);
+    const concept = measured.graph.nodes.find((node) => node.id === "c:c")!;
+    // Sibling assumptions leave their own docks downward instead of the concept body.
+    expect(concept.ports.filter((port) => port.side === "north")).toHaveLength(0);
+    expect(concept.ports.map((port) => port.semanticEndpointId).sort()).toEqual(["c.a", "c.b", "c.b", "c.c"]);
+    const { geometry } = layoutGraph(measured.graph, { inputDigest: "sibling-proof" });
+    expect(validateGeometry(measured.graph, geometry).valid).toBe(true);
+    expect(geometry.groups).toHaveLength(1);
+    expect(geometry.groups![0]!.kind).toBe("sibling-proofs");
+    const conceptBox = geometry.nodes.find((node) => node.id === "c:c")!, proofBox = geometry.nodes.find((node) => node.id === "p:p")!;
+    expect(proofBox.y).toBeGreaterThan(conceptBox.y + conceptBox.height);
+    expect(proofBox.x).toBeGreaterThan(conceptBox.x); expect(proofBox.x + proofBox.width).toBeLessThan(conceptBox.x + conceptBox.width + 1);
+    expect(graphSvg(measured, geometry, "t")).not.toContain("cycle-component");
+    expect(canonicalJson(projectGraph("proofs", { ...input, proofs: [...input.proofs].reverse() }))).toBe(canonicalJson(display));
   });
-  it("round-trips every incidence in the frozen real corpus", () => {
+  it("retains every semantic incidence while coarsening visual concept uses in the frozen real corpus", () => {
     const corpus = JSON.parse(fs.readFileSync("test/fixtures/graph-layout/corpus.json", "utf8"));
     let graphs = 0;
     for (const fixture of corpus.graphs) {
       const display = projectGraph(fixture.kind as GraphKind, fixture.data);
-      const expected = fixture.kind === "proofs" ? fixture.data.proofs.reduce((sum: number, proof: { assumptions: string[] }) => sum + proof.assumptions.length + 1, 0) : fixture.data.edges.length;
-      expect(display.edges.length).toBe(expected);
+      if (fixture.kind === "proofs") {
+        const assumptionSource = new Map<string, string>(fixture.data.statements
+          .filter((statement: StatementGraphInput) => (statement.count ?? 1) > 1)
+          .map((statement: StatementGraphInput) => [statement.id, statement.concept!]));
+        const visualEdges = fixture.data.proofs.reduce((sum: number, proof: { assumptions: string[] }) =>
+          sum + new Set(proof.assumptions.map((assumption) => assumptionSource.get(assumption) ?? assumption)).size + 1, 0);
+        expect(display.edges.length).toBe(visualEdges);
+        const exactIncidences = fixture.data.proofs.flatMap((proof: { id: string; assumptions: string[]; conclusion: string }) => [
+          ...proof.assumptions.map((assumption) => `${proof.id}:assumption:${assumption}`),
+          `${proof.id}:conclusion:${proof.conclusion}`,
+        ]).sort(compareText);
+        expect(display.edges.flatMap((edge) => edge.semanticIds ?? []).sort(compareText)).toEqual(exactIncidences);
+      } else expect(display.edges.length).toBe(fixture.data.edges.length);
       const measured = measureDisplayGraph(display, fixtureLabels(display));
       expect(measured.graph.nodes.length).toBe(display.nodes.length);
       graphs++;

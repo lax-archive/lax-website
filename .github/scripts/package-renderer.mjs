@@ -10,8 +10,13 @@ const REQUIRED_FILES = [
   "dist/sitegen/assets.js",
   "dist/sitegen/machine-index.js",
   "assets/site/",
+  "content/about.md",
   "content/landing.md",
   "content/contributing.md",
+  "content/faq.md",
+  "content/impressum.md",
+  "content/privacy.md",
+  "content/workshop.md",
 ];
 
 function archiveFiles(archive) {

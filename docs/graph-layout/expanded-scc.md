@@ -40,8 +40,49 @@ the supernode with its actual members and records the containing envelope in
 `geometry.ports` list. Complete route-section chains preserve each original
 edge, and only the final section carries the original target's arrow marker.
 
-The full graph is rebuilt at envelope scales 1, 2 and 3 if validation fails.
-This is a fixed operation schedule. Members are never moved after routes have
+## Sibling proofs inside one concept
+
+A proof whose assumptions and conclusion are numbered statements of the same
+concept forms an SCC only because every statement shares one concept box; at
+statement level the incidences are acyclic. The projection keeps such
+assumptions at statement resolution instead of coarsening them to the concept
+port, and `sibling-groups.ts` draws the group locally: every proof node sits
+directly below the dock it proves, each sibling assumption leaves its own
+dock downward (on the slot facing away from the proof) into a rail below the
+proof, and the conclusion rises straight back into its dock. External
+incidences keep boundary gates as in the generic interior; the dependents that
+leave the concept's one shared assumption-source port keep one gate each but
+share a single port on the condensation supernode, so their common trunk is a
+declared junction in the outer layout rather than a coincident run. The group is
+recorded with `kind: "sibling-proofs"` and receives no cycle envelope in the
+rendered SVG. The pattern is exact: one non-proof member, every internal edge
+between that member's docks and the proofs, no east/west or dock-level north
+ports. Anything else, or a placement that fails the independent validator,
+falls back to the generic interior below. A crossing between a sibling rail
+and an external conclusion arriving at an intermediate dock is topologically
+forced and retained.
+
+## Chains with a minimal feedback set
+
+Any other display SCC whose attachments are all north (outgoing) or south
+(incoming) is tried next as a chain, in `chain-groups.ts`. A small feedback
+set is cut, one edge per simple cycle, preferring an assumption edge (one that
+leaves a non-proof) so that every conclusion still rises into the statement it
+proves; the members are ranked by longest upward path over the remaining
+edges and placed in rows, centred in one column. A run between adjacent rows
+is drawn directly, with a jog in its own lane when the two attachments do not
+align. Every other run leaves through a reserved column: the cut edges loop
+down the left side, longer upward runs and the routes of external incidences
+that do not sit on the top or bottom row use the right side. Lanes and columns
+belong to exactly one route, so the only contacts are crossings. The group
+keeps `kind: "cycle"` and its envelope; what changes is that a simple cycle
+shows one loop instead of one per member. East/west attachments, or a member
+whose internal edges do not all leave a north side for a south side, return
+undefined and keep the generic interior below.
+
+The local drawings are one attempt: if the outer layout or the validator
+rejects the graph with them, the full graph is rebuilt with the generic
+interior at envelope scales 1, 2 and 3. This is a fixed operation schedule. Members are never moved after routes have
 been selected, and failed attempts never publish a collapsed or partial
 replacement. Persistent failures produce `scc-layout-invalid` with the final
 independent diagnostics. Every returned candidate has been quantized,

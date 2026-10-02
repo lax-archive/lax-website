@@ -7,6 +7,12 @@ remaining large-drawing limitations are reported below. Requested delivery is
 the [graph-drawing branch preview](https://laxarchive.org/previews/graph-drawing-19af3469/).
 Build, browser and publication checks passed; the preview is live.
 
+> Historical evidence note (15 September 2026): a subsequent requested
+> presentation change coarsens outgoing uses of multi-statement concepts into
+> one concept-level edge and shared port. The exact incidence IDs remain in the
+> prepared payload, but the source hashes and geometry totals below describe
+> commit `2ca14f1`, before that projection and validator change.
+
 ## Corpus and provenance
 
 The frozen input contains **1,516 distinct archive views**: 1,427 concept graphs,

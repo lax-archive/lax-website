@@ -345,10 +345,13 @@ describe("Remark42 browser loader", () => {
       querySelectorAll: (selector: string) => selector === "[data-reaction]" ? [endorse, flag] : [],
     };
     const posted: Array<{ message: Record<string, unknown>; origin: string }> = [];
+    let dropBridgeResponses = false;
+    let accelerateBridgeTimeouts = false;
     let bridgeAuthenticated = true;
     let currentReview = "";
     const respondToBridge = (source: Record<string, unknown>, message: Record<string, unknown>, origin: string) => {
         posted.push({ message, origin });
+        if (dropBridgeResponses) return;
         if (message.action === "reaction") currentReview = message.reaction === "clear" ? "" : String(message.reaction || "");
         const viewerFlag = currentReview === "flag" ? {
           id: "flag-1", message: String(message.message || ""), author: { name: "Ada", orcid: "0000-0002-1825-0097" },
@@ -389,7 +392,9 @@ describe("Remark42 browser loader", () => {
     const window = {
       location: { origin: "https://laxarchive.org", pathname: "/Lax2/Lax2.C.html", href: "https://laxarchive.org/Lax2/Lax2.C.html", assign() {} },
       addEventListener: (name: string, listener: (event: unknown) => void) => { listeners[name] = listener; },
-      setTimeout, clearTimeout,
+      setTimeout: (callback: () => void, delay: number) =>
+        setTimeout(callback, accelerateBridgeTimeouts && delay >= 5000 ? 0 : delay),
+      clearTimeout,
       sessionStorage: { getItem: () => "endorse", setItem() {}, removeItem() { pendingReactionCleared = true; } },
       fetch: async () => { directFetches += 1; throw new Error("direct transport must not be used"); },
     };
@@ -489,6 +494,15 @@ describe("Remark42 browser loader", () => {
     expect(posted.at(-1)).toMatchObject({ message: { source: "lax-reactions", action: "page", url: "https://laxarchive.org/Lax2/Lax2.C.html" } });
     expect(status.textContent).toBe("Sign in with ORCID to review.");
     expect(login.hidden).toBe(false);
+
+    dropBridgeResponses = true;
+    accelerateBridgeTimeouts = true;
+    listeners.message!({ origin: "https://remark42.example.test", source: remarkBridgeWindow, data: { source: "lax-reactions", type: "session-change" } });
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    expect(posted.at(-1)).toMatchObject({ message: { source: "lax-reactions", action: "page" } });
+    expect(directFetches).toBe(0);
   });
 
   it("requests the shared login instead of navigating away for a signed-out endorsement", async () => {

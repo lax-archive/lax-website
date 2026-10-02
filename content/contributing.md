@@ -9,14 +9,11 @@ archive links to it rather than hosting a copy.
 
 ## Setup
 
-You need **Linux or macOS** with ~10 GB free disk, **Node.js ≥ 20**, **git**,
-and a **GitHub account** — submissions are authenticated with your GitHub
-identity. Then:
+Choose your operating system below. You need ~10 GB free disk,
+**Node.js ≥ 20**, **git**, and a **GitHub account** — submissions are
+authenticated with your GitHub identity.
 
-```sh
-npm install -g lax-archive
-lax doctor    # checks your setup and installs whatever is missing
-```
+{{setup-tabs}}
 
 `lax doctor` installs everything building requires: the Lean toolchain and
 prebuilt mathlib (a large download, once per machine), plus a local copy of

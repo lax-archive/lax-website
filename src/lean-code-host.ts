@@ -108,7 +108,17 @@ export async function prepareLeanEnvironment(model: SiteModel, options: {
 }): Promise<void> {
   const ids = [...model.conceptHome].filter(([, c]) => c.output.manifest.leanVersion === options.version).map(([id]) => id);
   const inputs = new Map(ids.map(id => [id, leanCodeInputs(model, id)]));
-  const ordered = [...new Set([...inputs.values()].flatMap(input => input.modules))];
+  const pending = ids.filter(id => {
+    const { digest } = inputs.get(id)!;
+    try {
+      parseLeanCode(fs.readFileSync(path.join(options.cache, `${digest}.json`), "utf8"), digest,
+        model.conceptHome.get(id)!.concept.sourceText);
+      return false;
+    } catch { return true; }
+  });
+  if (!pending.length) return;
+  const ordered = [...new Set(pending.flatMap(id => inputs.get(id)!.modules))];
+  const neededObjects = new Set(ordered.flatMap(id => model.conceptHome.get(id)!.concept.imports));
   fs.mkdirSync(options.work, { recursive: true }); fs.mkdirSync(options.cache, { recursive: true });
   const libraries = fs.readdirSync(options.packages).sort().map(p => path.join(options.packages, p, ".lake/build/lib/lean"));
   const leanPath = [options.work, ...libraries].join(path.delimiter);
@@ -135,8 +145,9 @@ export async function prepareLeanEnvironment(model: SiteModel, options: {
       const client = await acquire();
       try {
       const source = model.conceptHome.get(id)!.concept.sourceText, file = fileOf(id);
-      // Compile dependencies before requesting editor information for users.
-      await promisify(execFile)(options.lean, ["-o", file.replace(/\.lean$/, ".olean"), file], {
+      // Only imported modules need an object file. The language server
+      // elaborates leaf modules itself, so don't compile those twice.
+      if (neededObjects.has(id)) await promisify(execFile)(options.lean, ["-o", file.replace(/\.lean$/, ".olean"), file], {
         cwd: options.work, env: { ...process.env, LEAN_PATH: leanPath }, timeout: 120_000, maxBuffer: 8 * 1024 * 1024,
       });
       const input = inputs.get(id);

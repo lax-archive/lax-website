@@ -67,15 +67,15 @@ describe("compiler-backed navigation", () => {
     const links = sourceLinks(site, module, "../");
     const onLine = (line: number) => links.filter((link) => source.slice(0, link.start).split("\n").length === line)
       .map((link) => ({ text: source.slice(link.start, link.end), target: link.href.split("#")[1] }));
-    expect(onLine(14)).toEqual([{ text: "Packet", target: "L4" }, { text: "value", target: "L6" }, { text: "enabled", target: "L8" }]);
+    expect(onLine(14)).toEqual([{ text: "Packet", target: "L4" }, { text: "value", target: "L6" }, { text: "enabled", target: "L8" }, { text: "true", target: "Bool.true" }]);
     expect(onLine(15).at(-1)).toEqual({ text: "value", target: "L6" });
     expect(onLine(16).at(-1)).toEqual({ text: "value", target: "L6" });
     expect(onLine(17).at(-1)).toEqual({ text: "value", target: "L12" });
-    expect(onLine(18)).toEqual([{ text: "Packet.mk", target: "L4" }]);
+    expect(onLine(18)).toEqual([{ text: "Packet.mk", target: "L4" }, { text: "true", target: "Bool.true" }]);
     expect(onLine(21).at(-1)).toEqual({ text: "value", target: "L6" });
     expect(onLine(24).at(-1)).toEqual({ text: "enabled", target: "L8" });
     expect(onLine(27)).toEqual([{ text: "secret", target: "L26" }]);
-    expect(onLine(29)).toEqual([]); // Both occurrences of the local `value`.
+    expect(onLine(29)).toEqual([{ text: "Nat", target: "Nat" }]); // Both occurrences of the local `value` stay plain.
     expect(onLine(30)).toEqual([{ text: "value", target: "L28" }]);
     expect(onLine(31).at(-1)).toEqual({ text: "value", target: "L6" }); // Astral binder before the projection.
     expect(onLine(38).at(-1)).toEqual({ text: ".first", target: "L36" });
@@ -83,12 +83,13 @@ describe("compiler-backed navigation", () => {
       if (!reference.definition) continue;
       expect(links.some((link) => link.start < reference.definition!.end && link.end > reference.definition!.start)).toBe(false);
     }
-    expect(links.every((link) => link.href.startsWith("../lax-17/Lax17.Fields.html#L"))).toBe(true);
+    expect(links.every((link) => link.href.startsWith("../lax-17/Lax17.Fields.html#L") ||
+      /^https:\/\/leanprover-community\.github\.io\/mathlib4_docs\/Init\/Prelude\.html#(?:Nat|Bool|Bool\.true)$/u.test(link.href))).toBe(true);
     const html = await highlightSource(source, [], new Set(), { links });
     expect(html).not.toContain("<script>");
     expect(html).toContain("&lt;script&gt;");
     expect(html.match(/class="lean-identifier-link"/gu)).toHaveLength(links.length);
-    expect(sourceLinks(site, module, "../../")[0]!.href).toMatch(/^\.\.\/\.\.\/lax-17\//u);
+    expect(sourceLinks(site, module, "../../").find((link) => !link.href.startsWith("https:"))!.href).toMatch(/^\.\.\/\.\.\/lax-17\//u);
   });
 
   it("uses compiler ownership across modules, with imports and stable statement anchors", () => {

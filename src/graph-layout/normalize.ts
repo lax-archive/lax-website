@@ -53,9 +53,9 @@ export function normalizeGraph(input: MeasuredGraph): MeasuredGraph {
       if (port.nodeId !== node.id) fail("port-owner", "Port owner does not match its node", port.id, node.id);
       if (!port.semanticEndpointId) fail("port-semantic-id", "A port must name its semantic endpoint", port.id);
       if (!["north", "south", "east", "west"].includes(port.side)) fail("port-side", "Unknown port side", port.id);
-      if (!["free-on-side", "fixed-order", "fixed-position"].includes(port.mode)) fail("port-mode", "Unknown port constraint", port.id);
-      if (port.mode === "fixed-position" && (!port.offset || !finite(port.offset.x) || !finite(port.offset.y)))
-        fail("fixed-position", "A fixed port requires a finite node-local offset", port.id);
+      if (!["free-on-side", "free-in-slots", "fixed-order", "fixed-position"].includes(port.mode)) fail("port-mode", "Unknown port constraint", port.id);
+      if ((port.mode === "fixed-position" || port.mode === "free-in-slots") && (!port.offset || !finite(port.offset.x) || !finite(port.offset.y)))
+        fail("fixed-position", "A fixed port or reserved slot requires a finite node-local offset", port.id);
       if (port.mode === "fixed-order" && (!Number.isInteger(port.order) || port.order! < 0))
         fail("fixed-order", "A fixed-order port requires a nonnegative ordinal", port.id);
       if (port.offset && (port.offset.x < 0 || port.offset.y < 0 || port.offset.x > node.width || port.offset.y > node.height))

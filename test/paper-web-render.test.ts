@@ -122,11 +122,12 @@ describe.skipIf(!executable)("the reflow surface, rendered", () => {
         await link.press("Enter");
         await page.waitForURL(`${base}/previews/navigation/lax-21/Lax21.One.html#${fragment}`);
         await page.evaluate(() => document.fonts.ready);
-        await page.waitForFunction((id) => {
-          const top = document.getElementById(id!)!.getBoundingClientRect().top;
-          const header = document.querySelector(".site-header")!.getBoundingClientRect().bottom;
-          return Math.abs(top - header) < 2;
-        }, row);
+        const position = await page.locator(`#${row}`).evaluate((element, statement) => ({
+          top: element.getBoundingClientRect().top,
+          target: statement ? window.innerHeight / 2
+            : document.querySelector(".site-header")!.getBoundingClientRect().bottom,
+        }), fragment.startsWith("s-"));
+        expect(Math.abs(position.top - position.target)).toBeLessThan(3);
         expect(await page.locator(`#${row}`).textContent()).toContain("introduction.");
         expect(await page.locator("#L5 .lean-identifier-link, #L8 .lean-identifier-link").count()).toBe(0);
         const local = page.locator("#L9 .lean-identifier-link");
@@ -142,7 +143,9 @@ describe.skipIf(!executable)("the reflow surface, rendered", () => {
         await page.goto(fieldsPage, { waitUntil: "load" });
         const link = page.locator(`#L${row} .lean-identifier-link`).filter({ hasText: new RegExp(`^${name}$`, "u") });
         expect(await link.count()).toBe(1);
-        expect(await page.locator("#L7 .lean-identifier-link, #L9 .lean-identifier-link, #L12 .lean-identifier-link, #L29 .lean-identifier-link").count()).toBe(0);
+        expect(await page.locator("#L7 .lean-identifier-link, #L9 .lean-identifier-link, #L12 .lean-identifier-link, #L29 .lean-identifier-link")
+          .evaluateAll((links) => links.map((link) => [link.textContent, link.getAttribute("href")]))).toEqual(
+          ["Nat", "Bool", "Nat", "Nat"].map((name) => [name, `https://leanprover-community.github.io/mathlib4_docs/Init/Prelude.html#${name}`]));
         await link.click();
         await page.waitForURL(`${fieldsPage}#L${target}`);
         await page.evaluate(() => document.fonts.ready);

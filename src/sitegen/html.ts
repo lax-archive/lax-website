@@ -25,10 +25,17 @@ export interface PageShell {
   title: string;
   /** relative prefix to the site root: "" or "../" */
   rootRel: string;
+  /** Site-relative public URL, using a trailing slash for index pages. */
+  canonicalPath: string;
   /** inner html of the <aside id="sidebar"> */
   sidebar: string;
   /** inner html of the content pane */
   content: string;
+  /** Ask external search engines not to include this directly addressable page. */
+  noIndex?: boolean;
+  /** Plain-text summary for search results; the site's
+   * tagline when absent. */
+  description?: string;
   /** additional scripts (site-relative paths) loaded after sidebar.js */
   scripts?: string[];
   /** extra class on the content pane, for pages that need another measure */
@@ -39,6 +46,18 @@ export interface PageShell {
    * the toggle brings it back. Pages about a submission set it; the front
    * page and the editorial pages ship the sidebar hidden, with no toggle. */
   sidebarState?: "open" | "collapsed";
+  /** Additional HTTPS origins allowed to embed frames on this page only. */
+  frameOrigins?: string[];
+}
+
+const SITE_DESCRIPTION = "Lax — an archive of formalized mathematical concepts and their proofs";
+
+/** At most about 300 characters, cut at a word. */
+function summary(text: string): string {
+  const flat = text.replace(/\s+/gu, " ").trim();
+  if (flat.length <= 300) return flat;
+  const cut = flat.slice(0, 300);
+  return `${cut.slice(0, Math.max(cut.lastIndexOf(" "), 200)).replace(/[\s,;:.&–—-]+$/u, "")}…`;
 }
 
 const REMARK42_ORIGIN = new URL(REMARK42_URL).origin;
@@ -61,12 +80,22 @@ const PAPER_CSP =
 const REFLOW_CSP =
   `default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self'; frame-src ${REMARK42_ORIGIN}; connect-src 'self' ${ACCOUNT_CONNECT_ORIGINS}`;
 
-function contentSecurityPolicy(scripts: string[]): string {
-  if (scripts.includes("assets/manuscript.js")) return PAPER_CSP;
-  if (scripts.includes("assets/manuscript-reflow.js")) return REFLOW_CSP;
-  const policy = scripts.includes("assets/comments.js")
-    ? `default-src 'none'; script-src 'self' ${REMARK42_ORIGIN}; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self'; frame-src ${REMARK42_ORIGIN}; connect-src ${ACCOUNT_CONNECT_ORIGINS}`
-    : BASE_CSP;
+function contentSecurityPolicy(scripts: string[], frameOrigins: string[]): string {
+  let policy = scripts.includes("assets/manuscript.js")
+    ? PAPER_CSP
+    : scripts.includes("assets/manuscript-reflow.js")
+      ? REFLOW_CSP
+      : scripts.includes("assets/comments.js")
+        ? `default-src 'none'; script-src 'self' ${REMARK42_ORIGIN}; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self'; frame-src ${REMARK42_ORIGIN}; connect-src ${ACCOUNT_CONNECT_ORIGINS}`
+        : BASE_CSP;
+  const extraFrames = [...new Set(frameOrigins)].sort();
+  for (const origin of extraFrames) {
+    const url = new URL(origin);
+    if (url.protocol !== "https:" || url.origin !== origin)
+      throw new Error(`frame origin must be an exact HTTPS origin: ${origin}`);
+  }
+  if (extraFrames.length)
+    policy = policy.replace(`frame-src ${REMARK42_ORIGIN}`, `frame-src ${REMARK42_ORIGIN} ${extraFrames.join(" ")}`);
   // Alternate graph views are immutable same-origin files. Public graph
   // interaction runs no worker and needs neither inline scripts nor eval.
   return scripts.includes("assets/graph-interaction.js") ? policy.replace("connect-src ", "connect-src 'self' ") : policy;
@@ -81,7 +110,7 @@ function accountLoginHref(): string {
 
 function accountUi(): string {
   return `<div class="account-header" data-account-root data-remark42-host="${attr(REMARK42_URL)}" data-remark42-site="${attr(REMARK42_SITE_ID)}" data-identity-url="${attr(REMARK42_IDENTITY_URL)}">
-  <a class="account-control" data-account-login href="${attr(accountLoginHref())}"><span class="orcid-mark" aria-hidden="true">iD</span><span>Sign in<span class="account-login-long"> with ORCID</span></span></a>
+  <a class="account-control" data-account-login href="${attr(accountLoginHref())}"><span class="orcid-mark" aria-hidden="true">iD</span><span><span class="account-login-long">ORCID </span>Sign in</span></a>
   <button class="account-control" data-account-settings type="button" aria-haspopup="dialog" aria-controls="account-dialog" hidden><span class="orcid-mark" aria-hidden="true">iD</span><span>Settings</span></button>
 </div>`;
 }
@@ -118,9 +147,8 @@ function accountDialog(): string {
 // plain-http `lax serve`, where an assets/ file would violate `img-src`.
 const FAVICON = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a7f8f'/%3E%3Cpath d='M18 14v36h29v-8H27V14z' fill='%23fff'/%3E%3C/svg%3E";
 
-/** The links beside the site's name, on every page: the introduction to
- * Lax (its own submission's paper, when the archive holds it) and the
- * about page. generate.ts sets the introduction once per build. */
+/** The links beside the site's name, on every page. The introduction is
+ * conditional on its submission being present; the guide and About are not. */
 let siteNav: { introduction?: string } = {};
 
 export function configureSiteNav(nav: { introduction?: string }): void {
@@ -129,8 +157,9 @@ export function configureSiteNav(nav: { introduction?: string }): void {
 
 function siteNavLinks(root: string): string {
   const links = [
-    siteNav.introduction ? `<a class="site-nav-link" href="${attr(root + siteNav.introduction)}">Introduction</a>` : "",
+    siteNav.introduction ? `<a class="site-nav-link site-nav-introduction" href="${attr(root + siteNav.introduction)}">Introduction</a>` : "",
     `<a class="site-nav-link" href="${attr(`${root}about.html`)}">About</a>`,
+    `<a class="site-nav-link site-nav-getting-started" href="${attr(`${root}contributing.html`)}">Getting Started</a>`,
   ].filter(Boolean);
   return `<nav class="site-nav" aria-label="Site">
     ${links.join("\n    ")}
@@ -139,7 +168,8 @@ function siteNavLinks(root: string): string {
 
 export function page(shell: PageShell): string {
   const root = shell.rootRel;
-  const csp = contentSecurityPolicy(shell.scripts ?? []);
+  const canonical = new URL(shell.canonicalPath, `${DEFAULT_SITE_URL.replace(/\/+$/, "")}/`).toString();
+  const csp = contentSecurityPolicy(shell.scripts ?? [], shell.frameOrigins ?? []);
   const scripts = ["assets/sidebar.js", "assets/account.js", ...(shell.scripts ?? [])]
     .map((src) => `<script src="${attr(root + src)}?v=${siteAssetVersion(src.replace(/^assets\//, ""))}"></script>`)
     .join("\n");
@@ -156,8 +186,10 @@ export function page(shell: PageShell): string {
 <meta charset="utf-8">
 <meta http-equiv="Content-Security-Policy" content="${csp}">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Lax — an archive of formalized mathematical concepts and their proofs">
+<meta name="description" content="${attr(summary(shell.description || SITE_DESCRIPTION))}">
+${shell.noIndex ? '<meta name="robots" content="noindex">' : ""}
 <title>${esc(shell.title)}</title>
+<link rel="canonical" href="${attr(canonical)}">
 <link rel="icon" href="${FAVICON}" type="image/svg+xml">
 <link rel="stylesheet" href="${stylesheet("katex.css")}">
 <link rel="stylesheet" href="${stylesheet("style.css")}">
@@ -214,9 +246,8 @@ export function typeBadgeText(type?: string): string {
 
 export function typeBadge(type?: string, proven?: boolean): string {
   const status = proven === undefined ? "" : proven ? "proven" : "open";
-  const title = [type, status ? `${status}. ${HONESTY_TOOLTIP}` : ""].filter(Boolean).join(" — ");
   const cls = `type-badge${status ? ` ${status}` : ""}`;
-  return `<span class="${cls}"${title ? ` title="${attr(title)}"` : ""}>${esc(typeBadgeText(type))}${proven === undefined ? "" : proven ? "✓" : "×"}</span>`;
+  return `<span class="${cls}">${esc(typeBadgeText(type))}${proven === undefined ? "" : proven ? "✓" : "×"}</span>`;
 }
 
 /** The proof marker: the turnstile boxed as a chip, visually parallel to the

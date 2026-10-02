@@ -6,15 +6,24 @@ import { page } from "../src/sitegen/html.js";
 import { tmpDir } from "./helpers.js";
 
 describe("footer and legal pages", () => {
-  it("links the legal pages from root and nested pages, and the about page from the header", () => {
-    const rootPage = page({ title: "Root", rootRel: "", sidebar: "", content: "" });
-    const nestedPage = page({ title: "Nested", rootRel: "../", sidebar: "", content: "" });
+  it("places source-target scroll room before the footer", () => {
+    const css = fs.readFileSync("assets/site/style.css", "utf8");
+
+    expect(css).toContain("#detail:has(.inline-contract-table :target)::after{");
+    expect(css).not.toContain("#main:has(.inline-contract-table :target)::after{");
+  });
+
+  it("links the legal pages from root and nested pages, and the archive pages from the header", () => {
+    const rootPage = page({ title: "Root", rootRel: "", canonicalPath: "", sidebar: "", content: "" });
+    const nestedPage = page({ title: "Nested", rootRel: "../", canonicalPath: "nested/", sidebar: "", content: "" });
 
     for (const [html, prefix] of [[rootPage, ""], [nestedPage, "../"]] as const) {
       expect(html).toContain('<footer class="site-footer">');
       expect(html).toContain(`href="${prefix}impressum.html">Imprint</a>`);
       expect(html).toContain(`href="${prefix}privacy.html">Privacy</a>`);
       expect(html).not.toContain("lax-white-paper.pdf");
+      expect(html).toContain(`<a class="site-nav-link site-nav-getting-started" href="${prefix}contributing.html">Getting Started</a>`);
+      expect(html).not.toContain(`href="${prefix}submissions/">Submissions</a>`);
       expect(html).toContain(`<a class="site-nav-link" href="${prefix}about.html">About</a>`);
     }
   });
@@ -29,12 +38,15 @@ describe("footer and legal pages", () => {
     expect(impressum).toContain('<h1 class="paper-title">Imprint</h1>');
     const about = fs.readFileSync(path.join(root, "about.html"), "utf8");
     expect(about).toContain('<h1 class="paper-title">About Lax</h1>');
-    expect(about).toContain("Under construction.");
-    expect(about).not.toContain("<h2>Lax Submission</h2>");
+    expect(about).toContain("<h2>Lax Submission</h2>");
+    expect(about).toContain('<figure class="proof-flip-figure">');
+    expect(about).toContain('<span data-proof-flip-concept-caption>Concepts to review and endorse on the website</span>');
+    expect(about).toContain("<span data-proof-flip-proof-caption hidden>Proofs available in the submitter's git repository</span>");
+    expect(about).not.toContain("Under construction.");
     // no sidebar on a page that is not about a submission, and no toggle to summon one
     expect(about).toContain('<header class="site-header sidebar-hidden">');
     expect(about).not.toContain('id="sidebar-toggle"');
-    // Without the introduction in the archive the header names only the about page.
+    // Without the introduction in the archive, its conditional link stays absent.
     expect(about).not.toContain('>Introduction</a>');
     expect(impressum).toContain("Service providers");
     expect(impressum).not.toContain("Anbieter und Verantwortlicher");
@@ -43,7 +55,7 @@ describe("footer and legal pages", () => {
     expect(impressum).toContain("Édouard Bonnet");
     expect(impressum).toContain("Prof.-Dr.-Helmert-Str. 2–3");
     expect(impressum).toContain("46 allée d'Italie");
-    expect(impressum).toContain("mail@clemens-kuske.de");
+    expect(impressum).toContain("mail@laxarchive.org");
     expect(privacy).toContain("Controllers");
     expect(privacy).toContain("Jan Dreier");
     expect(privacy).toContain("Édouard Bonnet");

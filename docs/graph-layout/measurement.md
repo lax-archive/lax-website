@@ -26,10 +26,11 @@ renumbering is used. Ordinary labels and dock numbers both serialize one
 `text` element with positioned `tspan` lines, matching measurement.
 
 Numbered statement docks are circles in a row below the concept box. Proof
-conclusions terminate on the corresponding circle. Statement-level outgoing
-incidences retain their exact identities and use separate lanes around the
-left side of the body; those lanes are included in the measured envelope and
-validated in ordinary routes and expanded display cycles. The readable-v2
+conclusions terminate on the corresponding circle. Outgoing assumptions of a
+multi-statement concept share one concept-level attachment; the visual edge
+payload retains the exact represented incidence IDs. Other outgoing incidences
+use separate lanes around the body; those lanes are included in the measured
+envelope and validated in ordinary routes and expanded display cycles. The readable-v2
 profile reserves 12px between attachment positions and dummy tracks, with
 32px between neighboring boxes. This widens routing channels without changing
 the text size or dropping edges.

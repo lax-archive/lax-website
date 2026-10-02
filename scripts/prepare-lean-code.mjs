@@ -37,6 +37,7 @@ for (const [version, revision] of [...environments].sort()) {
     catch { return true; }
   });
   if (!missing.length) { console.log(`${version}: all ${ids.length} modules cached`); continue; }
+  console.log(`${version}: preparing ${missing.length} uncached modules (${ids.length} total)`);
   const work = fs.mkdtempSync(path.join(os.tmpdir(), 'lax-lean-code-'));
   const toolchain = `leanprover/lean4:${version}`;
   const localToolchain = path.join(os.homedir(), '.elan/toolchains', `leanprover--lean4---${version}`);

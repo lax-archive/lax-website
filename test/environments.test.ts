@@ -152,6 +152,15 @@ describe("archive environments on the site", () => {
     expect(html).toContain('data-tag-filter="v4.33.0"');
     expect(html).toContain("Environments first, then topics");
 
+    const submission = fs.readFileSync(path.join(root, "lax-2", "index.html"), "utf8");
+    const sidebar = submission.slice(submission.indexOf('<aside id="sidebar">'), submission.indexOf("</aside>"));
+    expect(sidebar).toContain('<option value="v4.30.0" selected>v4.30.0 · current epoch</option>');
+    expect(sidebar).toContain('<option value="v4.33.0">v4.33.0</option>');
+    expect(sidebar).toContain('<option value="v4.31.0">v4.31.0</option>');
+    expect(sidebar).not.toContain('data-search-title="lax-2 result lax-2"');
+    expect(sidebar).toContain('data-search-title="lax-5 result lax-5"');
+    expect(sidebar).toContain('data-search-concepts="lax5.c a concept definition"');
+
     // one environment, no chips: the only chip there could be names the only
     // thing there is
     const single = tmpDir("lax-site-env-single-");
@@ -251,6 +260,18 @@ describe("archive environments on the site", () => {
     expect(recordIndex(model).records.map((record) => record.id)).toEqual(["lax-1"]);
     expect(environmentIndex(model).environments).toEqual([
       { id: "v4.30.0", registered: 0, drafts: 0 },
+      { id: "v4.33.0", registered: 1, drafts: 0 },
+    ]);
+  });
+
+  it("keeps unlisted records out of both machine-readable indexes", () => {
+    const listed = make("lax-1", "v4.33.0");
+    const unlisted = make("lax-2", "v4.32.0");
+    unlisted.output!.manifest.unlisted = true;
+    const model = new SiteModel([listed, unlisted], "v4.33.0");
+
+    expect(recordIndex(model).records.map((record) => record.id)).toEqual(["lax-1"]);
+    expect(environmentIndex(model).environments).toEqual([
       { id: "v4.33.0", registered: 1, drafts: 0 },
     ]);
   });

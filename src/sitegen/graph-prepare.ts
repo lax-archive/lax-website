@@ -11,7 +11,7 @@ import { DEFAULT_PROFILE, ENGINE_VERSION, GEOMETRY_SCHEMA_VERSION, GraphDiagnost
 import { validateGeometry } from "../graph-layout/validate.js";
 import { siteAssetVersion } from "./assets.js";
 import { attr, esc } from "./graph-escape.js";
-import { createGraphMeasurer, GraphMeasurementUnavailableError,
+import { createGraphMeasurer, GraphMeasurementUnavailableError, substituteUnsupportedGlyphs,
   type GraphMeasurerOptions, type GraphMeasurementEnvironment, type GraphMeasurementStatistics } from "./graph-measure.js";
 import { measureDisplayGraph, projectGraph, type DisplayGraph, type FlatGraphInput,
   type GraphKind, type GraphLabel, type MeasuredDisplayGraph, type ProofGraphData } from "./graph-project.js";
@@ -120,6 +120,88 @@ function safeNode(value: unknown, statement: boolean): RawRecord {
   return node;
 }
 
+function safeDetailHref(value: unknown, description: string, external = false): string {
+  const href = requiredString(value, description);
+  if (/[\u0000-\u001f]/u.test(href)) fail("graph-detail-link", `${description} contains control characters`);
+  if (!external) {
+    if (/^(?:[a-z][a-z0-9+.-]*:|\/\/)/iu.test(href))
+      fail("graph-detail-link", `${description} must be a relative public page URL`);
+    return href;
+  }
+  try {
+    if (new URL(href).protocol !== "https:") throw new Error("not HTTPS");
+  } catch { fail("graph-detail-link", `${description} must be an HTTPS URL`); }
+  return href;
+}
+
+function safeDetailClaim(value: unknown): RawRecord {
+  const raw = record(value, "Graph detail claim"), claim: RawRecord = {
+    id: requiredString(raw.id, "Graph detail claim identity"),
+    name: requiredString(raw.name, "Graph detail claim name"),
+  };
+  if (typeof raw.proven !== "boolean") fail("graph-detail", "Graph detail claim status must be boolean");
+  claim.proven = raw.proven;
+  if (raw.href !== undefined) claim.href = safeDetailHref(raw.href, "Graph detail claim link");
+  copyFields(raw, claim, ["nameHtml"], "string");
+  copyFields(raw, claim, ["statement", "statementCount"], "number");
+  return claim;
+}
+
+function safeGraphDetails(value: unknown): RawRecord {
+  const raw = record(value, "Proof graph details"), details: RawRecord = Object.create(null) as RawRecord;
+  for (const [key, value] of Object.entries(raw).sort(([a], [b]) => compareText(a, b))) {
+    const source = record(value, "Proof graph detail");
+    const kind = requiredString(source.kind, "Proof graph detail kind");
+    if (!["concept", "proof"].includes(kind) || !key.startsWith(`${kind}:`))
+      fail("graph-detail", "Proof graph detail kind does not match its key", key);
+    const detail: RawRecord = { kind, name: requiredString(source.name, "Proof graph detail name") };
+    copyFields(source, detail, ["nameHtml", "namespace", "type", "status", "statusDetail", "descriptionHtml", "reviewLabel", "leanPath"], "string");
+    copyFields(source, detail, ["openAssumptions"], "number");
+    if (source.openAssumptionIds !== undefined) {
+      detail.openAssumptionIds = list(source.openAssumptionIds, "Proof graph open assumptions")
+        .map((id) => requiredString(id, "Open-assumption identity")).sort(compareText);
+    }
+    if (source.anonymousReview !== undefined) {
+      if (typeof source.anonymousReview !== "boolean") fail("graph-detail", "Proof graph anonymous-review state must be boolean");
+      detail.anonymousReview = source.anonymousReview;
+    }
+    if (source.href !== undefined) detail.href = safeDetailHref(source.href, "Proof graph detail page link");
+    if (source.reviewUrl !== undefined) detail.reviewUrl = safeDetailHref(source.reviewUrl, "Proof graph review link", true);
+    if (source.sourceHref !== undefined) detail.sourceHref = safeDetailHref(source.sourceHref, "Proof graph source link", true);
+    if (source.submission !== undefined) {
+      const submission = record(source.submission, "Proof graph detail submission");
+      const safeSubmission: RawRecord = {
+        id: requiredString(submission.id, "Proof graph detail submission identity"),
+        name: requiredString(submission.name, "Proof graph detail submission name"),
+        state: requiredString(submission.state, "Proof graph detail submission state"),
+      };
+      copyFields(submission, safeSubmission, ["nameHtml"], "string");
+      if (submission.href !== undefined) safeSubmission.href = safeDetailHref(submission.href, "Proof graph submission page link");
+      detail.submission = safeSubmission;
+    }
+    if (source.statements !== undefined) detail.statements = list(source.statements, "Proof graph detail statements").map((value) => {
+      const statement = record(value, "Proof graph detail statement"), out: RawRecord = {
+        id: requiredString(statement.id, "Proof graph detail statement identity"),
+        name: requiredString(statement.name, "Proof graph detail statement name"),
+        signature: requiredString(statement.signature, "Proof graph detail Lean signature"),
+      };
+      if (typeof statement.proven !== "boolean") fail("graph-detail", "Proof graph detail statement status must be boolean");
+      out.proven = statement.proven;
+      if (statement.href !== undefined) out.href = safeDetailHref(statement.href, "Proof graph detail statement link");
+      return out;
+    });
+    if (source.sections !== undefined) detail.sections = list(source.sections, "Proof graph detail sections").map((value) => {
+      const section = record(value, "Proof graph detail section"), out: RawRecord = {};
+      copyFields(section, out, ["titleHtml", "bodyHtml"], "string");
+      return out;
+    });
+    if (source.conclusion !== undefined) detail.conclusion = safeDetailClaim(source.conclusion);
+    if (source.assumptions !== undefined) detail.assumptions = list(source.assumptions, "Proof graph detail assumptions").map(safeDetailClaim);
+    details[key] = detail;
+  }
+  return details;
+}
+
 /** No object spread of unknown input. The old raw semantic payload remains
  * available to readers/tests, but source/author/private extras are excluded. */
 export function publicGraphPayload(input: unknown): Partial<PublicGraphData> {
@@ -128,6 +210,7 @@ export function publicGraphPayload(input: unknown): Partial<PublicGraphData> {
     const data = record(raw[kind], `${kind} data`), safe: RawRecord = {};
     copyFields(data, safe, ["home"], "string");
     if (kind === "proofs") {
+      copyFields(data, safe, ["nodeScale"], "number");
       safe.statements = list(data.statements, "Proof statements").map((node) => safeNode(node, true))
         .sort((a, b) => compareText(String(a.id), String(b.id)));
       safe.proofs = list(data.proofs, "Proof incidences").map((value) => {
@@ -140,6 +223,7 @@ export function publicGraphPayload(input: unknown): Partial<PublicGraphData> {
         copyFields(proof, out, ["outstanding"], "number");
         return out;
       }).sort((a, b) => compareText(String(a.id), String(b.id)));
+      if (data.details !== undefined) safe.details = safeGraphDetails(data.details);
     } else {
       safe.nodes = list(data.nodes, "Graph nodes").map((node) => safeNode(node, false))
         .sort((a, b) => compareText(String(a.id), String(b.id)));
@@ -169,8 +253,28 @@ function conceptStatus(state: string, count: number, up: number, down: number): 
   return parts.join("; ");
 }
 
-function scanPages(files: ReadonlyMap<string, string | Buffer>): PageGraphs[] {
-  const pages: PageGraphs[] = [];
+function scanPages(files: ReadonlyMap<string, string | Buffer>, diagnostics: GraphPreparationDiagnostic[],
+    environment: GraphMeasurementEnvironment): PageGraphs[] {
+  const pages: PageGraphs[] = [], reported = new Set<string>();
+  /** A label the bundled fonts cannot draw in full is drawn with tofu boxes
+   * rather than failing every page's build; the page itself keeps the text.
+   * One diagnostic names each affected container, not each of its views. */
+  const project = (kind: GraphKind, input: FlatGraphInput | ProofGraphData, file: string, container: string): DisplayGraph => {
+    const display = projectGraph(kind, input), missing = new Set<number>();
+    const nodes = display.nodes.map((node) => {
+      if (node.kind === "proof") return node;
+      const substituted = substituteUnsupportedGlyphs({ text: node.label, maxWidth: 240 }, environment);
+      substituted.missing.forEach((code) => missing.add(code));
+      return substituted.missing.length ? { ...node, label: substituted.text } : node;
+    });
+    if (!missing.size) return display;
+    if (reported.has(`${file}#${container}`)) return { ...display, nodes };
+    reported.add(`${file}#${container}`);
+    const codes = [...missing].sort((a, b) => a - b).map((code) => `U+${code.toString(16).toUpperCase().padStart(4, "0")}`);
+    diagnostics.push({ code: "graph-label-glyph-substituted", page: file, container,
+      message: `Bundled graph fonts lack ${codes.join(", ")}; the affected labels are drawn with the missing-glyph box` });
+    return { ...display, nodes };
+  };
   for (const [file, content] of [...files].sort(([a], [b]) => compareText(a, b))) {
     if (!file.endsWith(".html")) continue;
     const html = typeof content === "string" ? content : content.toString("utf8");
@@ -205,11 +309,11 @@ function scanPages(files: ReadonlyMap<string, string | Buffer>): PageGraphs[] {
             (node.dir === "up" ? up === "1" : down === "1"));
           const visible = new Set(nodes.map((node) => node.id));
           const filtered = { nodes, edges: flat.edges.filter((edge) => visible.has(edge.from) && visible.has(edge.to)) };
-          views.push({ state, status: conceptStatus(state, nodes.length, ancestors, descendants), display: projectGraph(kind, filtered) });
+          views.push({ state, status: conceptStatus(state, nodes.length, ancestors, descendants), display: project(kind, filtered, file, id) });
         }
       } else views.push({ state: initial, status: kind === "proofs"
         ? `${plural((data as ProofGraphData).statements.length, "statement")}; ${plural((data as ProofGraphData).proofs.length, "proof")}`
-        : plural((data as FlatGraphInput).nodes.length, "submission"), display: projectGraph(kind, data) });
+        : plural((data as FlatGraphInput).nodes.length, "submission"), display: project(kind, data, file, id) });
       containers.push({ id, kind, initial, ancestors, descendants, attributes, original: match[0], views });
     }
     pages.push({ file, html, rawScript: script[0], payload, containers });
@@ -268,7 +372,7 @@ function geometryFields(geometry: GraphGeometry): boolean {
       onlyKeys(section, ["id", "points", "nextSectionIds", "terminalTargetPortId", "role", "commands"]) && section.points.every(point) &&
       (!section.commands || section.commands.every((command) => onlyKeys(command, command.kind === "Q" ? ["kind", "p", "control"] : ["kind", "p"]) &&
         point(command.p) && (command.kind !== "Q" || point(command.control)))))) &&
-    (!geometry.groups || geometry.groups.every((group) => onlyKeys(group, ["id", "x", "y", "width", "height", "memberIds", "labelBoxes", "gates"]) && group.labelBoxes.every(rect) &&
+    (!geometry.groups || geometry.groups.every((group) => onlyKeys(group, ["id", "kind", "x", "y", "width", "height", "memberIds", "labelBoxes", "gates"]) && group.labelBoxes.every(rect) &&
       (!group.gates || group.gates.every((gate) => onlyKeys(gate, ["id", "edgeId", "side", "point"]) && point(gate.point)))));
 }
 function writeAtomic(file: string, value: unknown): void {
@@ -309,7 +413,9 @@ export function graphGeometryDigest(measured: MeasuredDisplayGraph, labelSignatu
  * A hard error leaves the existing page map untouched for atomic publication. */
 export async function prepareGraphs(files: Map<string, string | Buffer>, options: GraphPreparationOptions = {}): Promise<GraphPreparationResult> {
   const started = performance.now(), projectionStarted = performance.now();
-  const pages = scanPages(files), diagnostics: GraphPreparationDiagnostic[] = [];
+  const measurer = createGraphMeasurer({ ...(options.cacheDir ? { cacheDir: path.join(options.cacheDir, "labels") } : {}), ...options.measurement });
+  const diagnostics: GraphPreparationDiagnostic[] = [];
+  const pages = scanPages(files, diagnostics, measurer.environment);
   const statistics: GraphPreparationStatistics = {
     pages: pages.length, containers: pages.reduce((sum, page) => sum + page.containers.length, 0),
     views: pages.reduce((sum, page) => sum + page.containers.reduce((n, container) => n + container.views.length, 0), 0),
@@ -321,7 +427,6 @@ export async function prepareGraphs(files: Map<string, string | Buffer>, options
   const pendingFiles = new Map<string, string | Buffer>(), profile = options.profile ?? DEFAULT_PROFILE;
   const inlineLimit = options.alternateInlineLimit ?? 32 * 1024;
   if (!Number.isSafeInteger(inlineLimit) || inlineLimit < 0) fail("graph-alternate-threshold", "Alternate transfer threshold must be a nonnegative integer");
-  const measurer = createGraphMeasurer({ ...(options.cacheDir ? { cacheDir: path.join(options.cacheDir, "labels") } : {}), ...options.measurement });
   const requests = displayLabelRequests(pages.flatMap((page) => page.containers.flatMap((container) => container.views.map((view) => view.display))));
   const labelTexts = requests.map((request) => request.text);
   try {
@@ -432,7 +537,7 @@ export async function prepareGraphs(files: Map<string, string | Buffer>, options
                 statistics.alternateFiles++; statistics.alternateBytes += Buffer.byteLength(bytes);
                 pendingFiles.set(file, bytes + "\n");
               }
-              descriptor.views[view.state] = { interaction: { nodes: {} }, height: complete.height, status: complete.status,
+              descriptor.views[view.state] = { interaction: { nodes: {}, edges: {} }, height: complete.height, status: complete.status,
                 src: pagePrefix(page.file) + file };
             }
           }

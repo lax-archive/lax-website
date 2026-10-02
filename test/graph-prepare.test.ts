@@ -32,7 +32,9 @@ function data() {
     proofs: { home: "lax-1", statements: [
       { id: "A.s", label: "A.s", concept: "A", title: "Alpha", index: 1, count: 1, proven: true, href: "A.html#s-A.s" },
       { id: "B.s", label: "B.s", concept: "B", title: "Beta", index: 1, count: 1, proven: true, href: "B.html#s-B.s" },
-    ], proofs: [{ id: "P", assumptions: ["B.s"], conclusion: "A.s", href: "P.html", description: "A permitted proof description", tooltipHtml: "A <em>permitted</em> proof description", owner: "lax-1", assumptionsProven: true, outstanding: 0 }] },
+    ], proofs: [{ id: "P", assumptions: ["B.s"], conclusion: "A.s", href: "P.html", description: "A permitted proof description", tooltipHtml: "A <em>permitted</em> proof description", owner: "lax-1", assumptionsProven: true, outstanding: 0 }],
+    details: { "concept:A": { kind: "concept", name: "Alpha", namespace: "Lax1.Alpha", status: "proven", href: "A.html",
+      reviewUrl: "https://laxarchive.org/lax-1/A.html", statements: [{ id: "A.s", name: "Lean statement", signature: "A.s : True", proven: true }] } } },
   };
 }
 function page(payload: unknown, kinds = ["concepts", "proofs", "submissions"]): string {
@@ -69,6 +71,8 @@ describe("prepared static graphs", () => {
     expect(html).toContain('data-node-id="p:P"');
     expect(html).toContain('data-edge-id="e:P:assumption:B.s:0"');
     expect(html).toContain('data-edge-id="e:P:conclusion:A.s:0"');
+    expect(html).toContain('data-edge-hit="e:P:conclusion:A.s:0"');
+    expect(html).toMatch(/id="proof-network"[\s\S]*?<svg[^>]* width="720"/u);
     expect(html).toContain('style="height:');
     expect(html).not.toContain("assets/layout.js");
     expect(html).not.toContain("assets/dag.js");
@@ -82,7 +86,28 @@ describe("prepared static graphs", () => {
     expect(graph.prepared["concept-dag"].views["10"].status).toBe("2 concepts; 1 descendant hidden");
     expect(graph.prepared["concept-dag"].views["11"].svg).toContain("e:B-&gt;C:import:0");
     expect(graph.proofs.proofs[0]).toMatchObject({ id: "P", assumptions: ["B.s"], conclusion: "A.s", assumptionsProven: true, outstanding: 0 });
+    expect(graph.proofs.details["concept:A"]).toMatchObject({ name: "Alpha", namespace: "Lax1.Alpha", href: "A.html",
+      statements: [{ id: "A.s", signature: "A.s : True", proven: true }] });
+    expect(graph.prepared["proof-network"].views.default.interaction.edges["e:P:conclusion:A.s:0"])
+      .toMatchObject({ source: "p:P", target: "s:A.s", kind: "conclusion" });
     expect(graph.submissions.nodes[0]).toMatchObject({ state: "registered", concepts: 1, proofs: 1 });
+  });
+
+  it("keeps an enlarged landing network separate from the same submission's standard drawing", async () => {
+    const standard = { proofs: data().proofs }, enlarged = { proofs: { ...data().proofs, nodeScale: 1.25 } };
+    const files = new Map<string, string | Buffer>([
+      ["index.html", page(enlarged, ["proofs"])], ["lax-1/index.html", page(standard, ["proofs"])],
+    ]);
+    const report = await prepareGraphs(files, { measurement });
+    const landing = String(files.get("index.html")), submission = String(files.get("lax-1/index.html"));
+    expect(report.statistics.uniqueLayouts).toBe(2);
+    expect(payload(landing).proofs.nodeScale).toBe(1.25);
+    expect(payload(submission).proofs.nodeScale).toBeUndefined();
+    expect(landing.match(/ scale\(1\.25\)/g)).toHaveLength(3);
+    expect(submission).not.toContain("scale(1.25)");
+    const alone = new Map<string, string | Buffer>([["lax-1/index.html", page(standard, ["proofs"])]]);
+    await prepareGraphs(alone, { measurement });
+    expect(submission).toBe(alone.get("lax-1/index.html"));
   });
 
   it("keeps cached geometry, alternates and hidden payloads free of source/private fields", async () => {
@@ -216,5 +241,8 @@ describe("prepared static graphs", () => {
     expect(await prepareGraphs(files)).toMatchObject({ localFallback: false, diagnostics: [], statistics: { pages: 0, views: 0, containers: 0 } });
     expect(files.get("about.html")).toBe("<!doctype html><p>About</p>");
     expect(publicGraphPayload({ concepts: data().concepts, private: "hidden" })).not.toHaveProperty("private");
+    expect(() => publicGraphPayload({ proofs: { ...data().proofs,
+      details: { "concept:A": { kind: "concept", name: "Alpha", href: "javascript:alert(1)" } } } }))
+      .toThrow(/relative public page URL/u);
   });
 });

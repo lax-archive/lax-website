@@ -25,8 +25,11 @@ const (
 	clearMarker          = "↩️ Review cleared\n\n" + reviewPrefix + reviewClear
 	maximumFlagTextBytes = 2000
 	maximumFlagLine      = 1_000_000
-	maximumConceptBatch  = 50
-	remarkFindInterval   = 125 * time.Millisecond
+	// The body limit bounds memory use without tying performance to an
+	// arbitrary number of concepts.
+	maximumConceptRequestBytes = 1 << 20
+	// Remark42 caps its indexed /comments?user=... result at 500 entries.
+	remarkUserPageSize = 500
 )
 
 var publicReviews = []string{reviewEndorse, reviewFlag}
@@ -64,15 +67,23 @@ type remarkReactionComment struct {
 	User     struct {
 		ID string `json:"id"`
 	} `json:"user"`
+	Locator struct {
+		URL string `json:"url"`
+	} `json:"locator"`
 }
 
 type remarkFindResponse struct {
 	Comments []remarkReactionComment `json:"comments"`
 }
 
+type remarkUserCommentsResponse struct {
+	Comments []remarkReactionComment `json:"comments"`
+	Count    int                     `json:"count"`
+}
+
 func canonicalConceptURLs(raw []string) ([]string, error) {
-	if len(raw) < 1 || len(raw) > maximumConceptBatch {
-		return nil, fmt.Errorf("provide between 1 and %d concept URLs", maximumConceptBatch)
+	if len(raw) < 1 {
+		return nil, errors.New("provide at least one concept URL")
 	}
 	seen := make(map[string]struct{}, len(raw))
 	result := make([]string, 0, len(raw))
@@ -101,24 +112,81 @@ func emptyConceptReviews(urls []string) []conceptReviewResponse {
 	return result
 }
 
-func (a *app) viewerConceptReviews(ctx context.Context, urls []string, viewerORCID string) ([]conceptReviewResponse, error) {
+func (a *app) viewerConceptReviews(ctx context.Context, urls []string, remarkID string) ([]conceptReviewResponse, error) {
 	result := emptyConceptReviews(urls)
+	reviews, err := a.cache.viewer(ctx, remarkID, func() (map[string]reviewEvent, error) {
+		return a.loadViewerReviews(ctx, remarkID)
+	})
+	if err != nil {
+		return nil, err
+	}
 	for index, conceptURL := range urls {
-		page, err := a.reactionPage(ctx, conceptURL)
+		hiddenURL, err := hiddenReactionURL(conceptURL)
 		if err != nil {
 			return nil, err
 		}
-		for _, reaction := range publicReviews {
-			for _, voter := range page.Voters[reaction] {
-				if voter.ORCID == viewerORCID {
-					result[index].ViewerReaction = reaction
-					break
-				}
+		if review := reviews[hiddenURL]; review.Kind != reviewClear {
+			result[index].ViewerReaction = review.Kind
+		}
+	}
+	return result, nil
+}
+
+func (a *app) loadViewerReviews(ctx context.Context, remarkID string) (map[string]reviewEvent, error) {
+	endpoint, err := url.Parse(a.config.remarkCommentsURL)
+	if err != nil {
+		return nil, err
+	}
+	// Query Remark42's per-user index once instead of loading every concept
+	// thread (and all of its voters) separately. Cache the full index so nearby
+	// archive pages do not repeat the scan for a different subset of concepts.
+	latest := make(map[string]remarkReactionComment)
+	for skip := 0; ; skip += remarkUserPageSize {
+		query := endpoint.Query()
+		query.Set("site", "remark")
+		query.Set("user", remarkID)
+		query.Set("limit", strconv.Itoa(remarkUserPageSize))
+		query.Set("skip", strconv.Itoa(skip))
+		endpoint.RawQuery = query.Encode()
+		request, requestErr := http.NewRequestWithContext(ctx, http.MethodGet, endpoint.String(), nil)
+		if requestErr != nil {
+			return nil, requestErr
+		}
+		request.Header.Set("Accept", "application/json")
+		upstream, requestErr := a.client.Do(request)
+		if requestErr != nil {
+			return nil, requestErr
+		}
+		var found remarkUserCommentsResponse
+		decodeErr := json.NewDecoder(io.LimitReader(upstream.Body, 16<<20)).Decode(&found)
+		closeErr := upstream.Body.Close()
+		if upstream.StatusCode != http.StatusOK {
+			return nil, fmt.Errorf("Remark42 comments endpoint returned %d", upstream.StatusCode)
+		}
+		if decodeErr != nil {
+			return nil, decodeErr
+		}
+		if closeErr != nil {
+			return nil, closeErr
+		}
+		for _, comment := range found.Comments {
+			_, marker := reviewFromMarker(comment.Orig)
+			if comment.Locator.URL == "" || comment.Deleted || comment.ParentID != "" || !marker || comment.User.ID != remarkID {
+				continue
 			}
-			if result[index].ViewerReaction != "" {
-				break
+			previous, exists := latest[comment.Locator.URL]
+			if !exists || comment.Time.After(previous.Time) || (comment.Time.Equal(previous.Time) && comment.ID > previous.ID) {
+				latest[comment.Locator.URL] = comment
 			}
 		}
+		if found.Count <= skip+remarkUserPageSize {
+			break
+		}
+	}
+	result := make(map[string]reviewEvent, len(latest))
+	for pageURL, comment := range latest {
+		review, _ := reviewFromMarker(comment.Orig)
+		result[pageURL] = review
 	}
 	return result, nil
 }
@@ -215,33 +283,13 @@ func reviewFromMarker(value string) (reviewEvent, bool) {
 	return reviewEvent{Kind: reviewFlag, Message: message, LineStart: start, LineEnd: end}, true
 }
 
-func (a *app) waitForRemarkFind(ctx context.Context) error {
-	a.remarkFindMu.Lock()
-	start := time.Now()
-	if a.remarkFindNext.After(start) {
-		start = a.remarkFindNext
-	}
-	a.remarkFindNext = start.Add(remarkFindInterval)
-	a.remarkFindMu.Unlock()
-
-	delay := time.Until(start)
-	if delay <= 0 {
-		return nil
-	}
-	timer := time.NewTimer(delay)
-	defer timer.Stop()
-	select {
-	case <-timer.C:
-		return nil
-	case <-ctx.Done():
-		return ctx.Err()
-	}
+func (a *app) reactionPage(ctx context.Context, pageURL string) (reactionPageResult, error) {
+	return a.cache.page(ctx, pageURL, func() (reactionPageResult, error) {
+		return a.loadReactionPage(ctx, pageURL)
+	})
 }
 
-func (a *app) reactionPage(ctx context.Context, pageURL string) (reactionPageResult, error) {
-	if err := a.waitForRemarkFind(ctx); err != nil {
-		return reactionPageResult{}, err
-	}
+func (a *app) loadReactionPage(ctx context.Context, pageURL string) (reactionPageResult, error) {
 	hiddenURL, err := hiddenReactionURL(pageURL)
 	if err != nil {
 		return reactionPageResult{}, err
@@ -293,15 +341,24 @@ func (a *app) reactionPage(ctx context.Context, pageURL string) (reactionPageRes
 		Flags:            []publicFlag{},
 		viewerByRemarkID: make(map[string]reviewEvent),
 	}
+	remarkIDs := make([]string, 0, len(latest))
+	for remarkID := range latest {
+		remarkIDs = append(remarkIDs, remarkID)
+	}
+	people, err := a.store.identities(remarkIDs)
+	if err != nil {
+		return reactionPageResult{}, err
+	}
+	peopleByID := make(map[string]identity, len(people))
+	for _, person := range people {
+		peopleByID[person.RemarkID] = person
+	}
 	for remarkID, comment := range latest {
 		review, _ := reviewFromMarker(comment.Orig)
 		if review.Kind == reviewClear {
 			continue
 		}
-		person, present, lookupErr := a.store.identity(remarkID)
-		if lookupErr != nil {
-			return reactionPageResult{}, lookupErr
-		}
+		person, present := peopleByID[remarkID]
 		if !present || strings.TrimSpace(person.Name) == "" || !validORCID(person.ORCID) {
 			continue
 		}
@@ -362,10 +419,15 @@ func (a *app) appendReview(r *http.Request, pageURL string, event reviewEvent) e
 		return err
 	}
 	request.Header.Set("Cookie", r.Header.Get("Cookie"))
+	if jwt := r.Header.Get("X-JWT"); jwt != "" {
+		request.Header.Set("X-JWT", jwt)
+	}
 	request.Header.Set("Accept", "application/json")
 	request.Header.Set("Content-Type", "application/json")
-	if xsrf, cookieErr := r.Cookie("XSRF-TOKEN"); cookieErr == nil && xsrf.Value != "" {
-		request.Header.Set("X-XSRF-TOKEN", xsrf.Value)
+	if xsrf := r.Header.Get("X-XSRF-TOKEN"); xsrf != "" {
+		request.Header.Set("X-XSRF-TOKEN", xsrf)
+	} else if cookie, cookieErr := r.Cookie("XSRF-TOKEN"); cookieErr == nil && cookie.Value != "" {
+		request.Header.Set("X-XSRF-TOKEN", cookie.Value)
 	} else {
 		return errors.New("Remark42 XSRF cookie is missing")
 	}

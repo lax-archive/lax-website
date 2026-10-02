@@ -2,6 +2,16 @@
 // inside the horizontally scrollable Lean table. When the page has enough
 // room to the right, the action moves outside the source block.
 (() => {
+  document.querySelectorAll('.comment-toggle').forEach((button) => {
+    const shell = button.closest('.inline-contract-shell');
+    if (!shell) return;
+    button.addEventListener('click', () => {
+      const hidden = shell.classList.toggle('comments-hidden');
+      button.setAttribute('aria-pressed', String(hidden));
+      button.textContent = hidden ? 'Show comments' : 'Hide comments';
+      button.setAttribute('aria-label', hidden ? 'Show comments' : 'Hide comments');
+    });
+  });
   const positionAll = () => {
     const groups = new Map();
     document.querySelectorAll('.source-proof-rail[data-source-line], .source-review-rail[data-source-line]').forEach((rail) => {

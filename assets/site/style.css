@@ -56,7 +56,6 @@
   --warn-border: #b85c4a;
   --code-bg: #f6f8fb;
   --neutral-stroke: #9aa3ad;
-  --proof-dep: #d55e00;
   --radius-chip: 2px;
   --radius-control: 4px;
   --radius-card: 7px;
@@ -106,8 +105,7 @@ body{
 
 .site-header.sidebar-hidden{ --sidebar-column: 0px; }
 
-/* The name, centred on the page, and to its right the way into the
-   introduction and the about page. */
+/* The name, centred on the page, and the primary site navigation beside it. */
 .site-brand{
   grid-column: 2;
   position: relative;
@@ -527,6 +525,13 @@ body.sidebar-resizing #content-shell{ transition: none; }
 .sidebar-back:hover{ border-color: var(--accent); text-decoration: underline; }
 .sidebar-back-arrow{ font-size: 0.95rem; line-height: 1; }
 
+.sidebar-section-title{
+  margin: 0 0 0.65rem;
+  color: var(--text);
+  font-size: 0.95rem;
+  line-height: 1.25;
+}
+
 .sidebar-filters{
   display: grid;
   gap: 0.55rem;
@@ -865,7 +870,7 @@ body.sidebar-resizing #content-shell{ transition: none; }
 .paper-author a:hover{ color: var(--accent); }
 .author-links{ font-size: 0.72em; color: var(--text-dim); white-space: nowrap; }
 .author-links a{ color: var(--link); }
-.author-sep{ margin: 0 0.55rem; color: var(--text-dim); }
+.author-sep{ margin: 0 0.3rem; color: var(--text-dim); }
 
 .anonymity-placeholder{
   display: inline-flex;
@@ -931,10 +936,10 @@ a.submission-meta-id:is(:hover, :focus-visible),
 .paper-abstract .latex-content{ font-size: 0.95rem; }
 
 .draft-banner{
-  background: var(--partial-bg);
-  border: 1px solid var(--partial-border);
+  background: #fbe1dc;
+  border: 1px solid #b84d3d;
   border-radius: var(--radius-control);
-  color: var(--partial-fg);
+  color: #842d21;
   font-size: 0.88rem;
   text-align: center;
   padding: 0.55rem 0.9rem;
@@ -1091,8 +1096,6 @@ a.submission-meta-id:is(:hover, :focus-visible),
   color: var(--text);
   outline: none;
 }
-.version-dialog-intro{ margin: 0.55rem 0 1rem; color: var(--text-dim); font-size: 0.88rem; line-height: 1.45; }
-
 /* Complete chain inside the modal, newest first. */
 .version-list{
   list-style: none;
@@ -1241,6 +1244,7 @@ a.submission-meta-id:is(:hover, :focus-visible),
   border-radius: var(--radius-chip);
   padding: 0.09rem 0.28rem;
   color: #23415f;
+  hyphens: none;
 }
 
 .latex-content pre{
@@ -1297,6 +1301,11 @@ a.submission-meta-id:is(:hover, :focus-visible),
   overflow: visible;
 }
 
+.comment-toggle{ position: absolute; z-index: 3; top: 0.45rem; left: 0.55rem; padding: 0.2rem 0.45rem; border: 1px solid var(--border); border-radius: var(--radius-control); background: var(--surface); color: var(--text-dim); font: 400 0.68rem/1.2 var(--mono); cursor: pointer; }
+.comment-toggle:hover,.comment-toggle:focus-visible{ color: var(--link); border-color: var(--accent); outline: none; }
+.inline-contract-shell:has(.comment-toggle) .inline-contract-wrap{ padding-top: 2.1rem; }
+.inline-contract-shell.comments-hidden .line-comment{ display: none; }
+
 .inline-contract-wrap{ overflow-x: auto; overflow-y: hidden; border-radius: inherit; }
 
 .inline-contract-table{
@@ -1322,15 +1331,17 @@ a.submission-meta-id:is(:hover, :focus-visible),
 
 .inline-contract-table .line-code{ position: relative; padding-right: 1rem; }
 
-/* Native fragment navigation starts the source row below the sticky header. */
-.inline-contract-table tr[id],
-.statement-anchor{ scroll-margin-top: var(--header-height); }
+/* Native line fragments start below the sticky header. Statement fragments,
+   including the graph inspector's full-source links, settle in the middle of
+   the viewport so the surrounding Lean context remains visible. */
+.inline-contract-table tr[id]{ scroll-margin-top: var(--header-height); }
+.statement-anchor{ scroll-margin-top: 50vh; }
 
-/* Short pages need room after the footer to bring a late source target to
-   the top. Only source-fragment visits get this space; no script is needed. */
-#main:has(.inline-contract-table :target)::after{
+/* Short pages need room after a late source target to bring it to the top.
+   Keep the spacer inside the detail so the footer remains the page's end. */
+#detail:has(.inline-contract-table :target)::after{
   content: '';
-  flex: none;
+  display: block;
   height: max(0px, calc(100vh - var(--header-height)));
 }
 
@@ -1691,6 +1702,56 @@ a.submission-meta-id:is(:hover, :focus-visible),
 .detail-landing .landing-action-panels{ max-width: 60em; margin-inline: auto; }
 .detail-landing .landing-faq{ max-width: 60em; margin-inline: auto; }
 
+#detail.detail-submissions{ width: min(100%, 64em); }
+
+.submissions-page-head{
+  max-width: 42em;
+  margin: 0.25rem auto 1.6rem;
+  text-align: center;
+}
+
+.submissions-page-eyebrow{
+  margin-bottom: 0.2rem;
+  color: var(--accent);
+  font: 700 0.68rem/1.2 var(--mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+#detail .submissions-page-title{
+  margin: 0;
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  line-height: 1.2;
+}
+
+.submissions-page-intro{
+  margin-top: 0.55rem;
+  color: var(--text-dim);
+  font-size: 1rem;
+}
+
+.submissions-page-library .submissions-library-search{
+  flex-basis: 20rem;
+  width: min(100%, 20rem);
+}
+
+@media (min-width: 641px){
+  .submissions-page-library .submissions-list-link{
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: 1.5rem;
+    align-items: center;
+  }
+  .submissions-page-library .submissions-list-title,
+  .submissions-page-library .submissions-list-meta{ grid-column: 1; }
+  .submissions-page-library .submissions-list-counts{
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    margin-top: 0;
+    text-align: right;
+  }
+}
+
 #detail .landing-section-title{
   margin: 0 0 0.75rem;
   font-size: 1.45rem;
@@ -1714,7 +1775,7 @@ a.submission-meta-id:is(:hover, :focus-visible),
 .landing-how > .landing-paper{ margin: 0 auto 3rem; }
 /* .graph-figure sets its own margin later in the sheet; the box's wins. */
 .landing-how > .landing-network-figure{ margin: 1.5rem auto 2rem; }
-.graph-figure.landing-network-figure{ border-width: 2px; box-shadow: 0 10px 28px rgba(43, 43, 43, 0.06); }
+.graph-figure.landing-network-figure{ border-width: 1px; box-shadow: 0 10px 28px rgba(43, 43, 43, 0.06); }
 .landing-network-figure > .landing-box-caption{
   display: flex;
   flex: 0 0 auto;
@@ -1722,7 +1783,7 @@ a.submission-meta-id:is(:hover, :focus-visible),
   gap: 1rem;
   margin: 0 0 1rem;
   padding: 1rem 1.5rem;
-  border-radius: calc(var(--radius-card) - 2px) calc(var(--radius-card) - 2px) 0 0;
+  border-radius: calc(var(--radius-card) - 1px) calc(var(--radius-card) - 1px) 0 0;
 }
 .landing-network-caption{ flex: 1; min-width: 0; }
 .landing-network-figure .graph-expand{ flex: 0 0 auto; }
@@ -1864,7 +1925,7 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
 .landing-carousel-slide-off{ position: absolute; top: 0; left: 0; right: 0; visibility: hidden; pointer-events: none; }
 
 .landing-paper-frame{
-  --frame-border: 2px;
+  --frame-border: 1px;
   --frame-pad-top: 1.5rem;
   --frame-pad-right: 1.5rem;
   --frame-pad-left: 1.5rem;
@@ -2085,7 +2146,7 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
   width: 100%;
   padding: 1.5rem clamp(1rem, 3vw, 2rem) 1.5rem;
   background: var(--surface);
-  border: 2px solid var(--border);
+  border: 1px solid var(--border);
   border-radius: var(--radius-card);
   box-shadow: 0 6px 18px rgba(43, 43, 43, 0.05);
 }
@@ -2138,6 +2199,7 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
 .landing-setup-tab:hover{ color: var(--accent); }
 .landing-setup-tab:focus-visible{ outline: 2px solid rgba(59, 107, 154, 0.38); outline-offset: 1px; }
 .landing-setup-panel[hidden]{ display: none; }
+.landing-setup-common{ margin-top: 1.25rem; }
 
 /* Three columns of plain text. Text, not tiles. */
 .landing-columns-section{ max-width: none; margin: 3rem auto 0; }
@@ -2259,6 +2321,228 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
    the landing page's promotional card treatment for heading-adjacent lists. */
 .content-page{ max-width: 42em; margin: 0 auto 2rem; }
 
+/* On the full guide, the shared setup selector belongs to the editorial
+   column rather than the landing page card. */
+.content-setup{
+  max-width: none;
+  margin: 1.25rem 0 1.5rem;
+  padding: 1rem clamp(0.85rem, 2.5vw, 1.3rem) 1.2rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  background: var(--surface);
+  box-shadow: 0 4px 14px rgba(43, 43, 43, 0.05);
+}
+.content-setup .landing-setup-tab-list{ margin-inline: 0; }
+.content-setup .landing-setup-panel{ max-width: none; margin-inline: 0; }
+.content-setup pre{ margin: 0.5rem 0 1rem; }
+
+/* ── Workshop ── */
+
+#detail.detail-workshop{
+  width: min(100%, 68em);
+  padding-top: clamp(2rem, 5vw, 4.5rem);
+}
+
+.workshop-page{ max-width: 60em; margin: 0 auto; }
+
+.workshop-hero{
+  position: relative;
+  max-width: 48em;
+  margin: 0 auto clamp(2.25rem, 5vw, 4.25rem);
+  text-align: center;
+}
+
+.workshop-hero::before{
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: -1.5rem -5rem -2.5rem;
+  background: radial-gradient(ellipse at center, rgba(59, 107, 154, 0.07), transparent 68%);
+  pointer-events: none;
+}
+
+#detail .workshop-hero h1{
+  margin: 0;
+  font-size: clamp(2rem, 5.5vw, 3.6rem);
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+
+.workshop-highlights{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: 1.5rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.workshop-highlights li{
+  display: inline-flex;
+  align-items: center;
+  gap: 0.38rem;
+  padding: 0.32rem 0.58rem;
+  color: var(--text-dim);
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid var(--border-light);
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.workshop-highlights li span{ color: var(--accent); font-family: system-ui, sans-serif; }
+
+.workshop-summary{
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(16rem, 0.8fr);
+  gap: 1rem;
+  align-items: stretch;
+  margin-bottom: clamp(2.25rem, 5vw, 4.25rem);
+}
+
+.workshop-panel{
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  box-shadow: 0 10px 30px rgba(43, 43, 43, 0.05);
+}
+
+.workshop-panel{ padding: clamp(1.35rem, 3vw, 2rem); }
+.workshop-outcomes{ border-top: 3px solid var(--accent); }
+.workshop-details{ border-top: 3px solid var(--border); }
+
+#detail .workshop-panel h2{
+  margin: 0;
+  font-size: 1.25rem;
+  font-variant: normal;
+  letter-spacing: 0;
+}
+
+.workshop-outcomes ul,
+.workshop-details ul{
+  display: grid;
+  gap: 0;
+  margin: 1.1rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.workshop-outcomes li{
+  position: relative;
+  min-height: 2.8rem;
+  padding: 0.72rem 0 0.72rem 2.15rem;
+  line-height: 1.45;
+  hyphens: none;
+  text-align: left;
+}
+
+.workshop-outcomes li + li,
+.workshop-details li + li{ border-top: 1px solid var(--border-light); }
+
+.workshop-outcomes li::before{
+  content: '✓';
+  position: absolute;
+  top: 0.78rem;
+  left: 0;
+  display: grid;
+  width: 1.35rem;
+  height: 1.35rem;
+  place-items: center;
+  color: var(--accent);
+  background: var(--accent-light);
+  border-radius: 50%;
+  font-family: system-ui, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.workshop-details{
+  background: linear-gradient(145deg, var(--surface) 0%, var(--panel-bg) 100%);
+}
+
+.workshop-details li{
+  display: grid;
+  gap: 0.08rem;
+  padding: 0.65rem 0;
+  line-height: 1.4;
+}
+
+.workshop-details li:first-child{ padding-top: 0.75rem; }
+.workshop-details li:last-child{ padding-bottom: 0; }
+.workshop-details strong{
+  color: var(--text-dim);
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.workshop-registration{
+  width: 100%;
+  max-width: 640px;
+  margin-inline: auto;
+}
+
+.workshop-form-frame{
+  width: 100%;
+}
+
+.workshop-form-frame iframe{
+  display: block;
+  width: 100%;
+  /* Google Forms does not expose cross-origin automatic sizing. Allow room
+     for its full content and footer, including wrapping on smaller screens. */
+  height: 840px;
+  border: 0;
+  background: transparent;
+}
+
+.workshop-material{
+  scroll-margin-top: 4.5rem;
+  margin-top: clamp(2.25rem, 5vw, 4.25rem);
+  border-top: 3px solid var(--border);
+}
+
+.workshop-material .latex-content{ margin-top: 0.75rem; }
+
+.workshop-video{
+  margin-top: 1.1rem;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  background: var(--panel-bg);
+}
+
+.workshop-video iframe{
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.workshop-material-links{
+  margin: 1rem 0 0;
+  font-weight: 600;
+}
+.workshop-material-links a{ color: var(--accent); }
+
+@media (max-width: 760px){
+  .workshop-hero::before{ inset-inline: 0; }
+  .workshop-summary{ grid-template-columns: 1fr; }
+  .workshop-form-frame iframe{ height: 920px; }
+}
+
+@media (max-width: 480px){
+  .workshop-highlights{ gap: 0.38rem; }
+  .workshop-highlights li{ font-size: 0.62rem; }
+  .workshop-form-frame iframe{ height: 1020px; }
+}
+
 /* A captioned figure in an editorial page, from a Markdown paragraph that
    holds only a titled image. */
 .content-figure{ margin: 2rem 0 2rem; }
@@ -2276,6 +2560,359 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
   text-align: center;
 }
 
+/* Concept/proof flip card restored from the original landing preview. */
+.proof-flip-figure{ width: min(100%, 44rem); margin: 2rem auto; }
+.proof-flip-figure figcaption{ margin-top: 1rem; color: var(--text-dim); font-size: 0.92rem; line-height: 1.5; text-align: center; }
+
+.landing-demo-card{
+  appearance: none;
+  display: block;
+  width: 100%;
+  aspect-ratio: 1.42 / 1;
+  margin: 0;
+  padding: 0;
+  color: var(--text);
+  background: transparent;
+  border: 0;
+  border-radius: calc(var(--radius-card) + 5px);
+  font: inherit;
+  line-height: normal;
+  text-align: left;
+  cursor: pointer;
+  perspective: 1550px;
+  perspective-origin: 50% 46%;
+  transition: transform 260ms cubic-bezier(.2, .75, .25, 1);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.landing-demo-card:focus-visible{
+  outline: 3px solid rgba(59, 107, 154, 0.3);
+  outline-offset: 5px;
+}
+
+.landing-demo-inner{
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 880ms cubic-bezier(.18, .78, .18, 1);
+  will-change: transform;
+}
+
+.landing-demo-card.is-flipped .landing-demo-inner{ transform: rotateY(180deg); }
+
+@media (hover: hover) and (pointer: fine){
+  .landing-demo-card:hover{ transform: translateY(-4px) scale(1.006); }
+  .landing-demo-card:hover .landing-demo-face::after{
+    opacity: 0.58;
+    transform: translateX(38%) rotate(8deg);
+  }
+  .landing-demo-card:hover .landing-demo-turn b{
+    background: rgba(255, 255, 255, 0.68);
+    transform: rotate(-35deg);
+  }
+}
+
+.landing-demo-face{
+  position: absolute;
+  inset: 0;
+  isolation: isolate;
+  overflow: hidden;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius-card) + 5px);
+  box-shadow: 0 22px 55px rgba(43, 52, 65, 0.11), 0 2px 7px rgba(43, 52, 65, 0.06);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.landing-demo-face::before{
+  content: '';
+  position: absolute;
+  z-index: -1;
+  width: 15rem;
+  height: 15rem;
+  right: -8.5rem;
+  bottom: -9rem;
+  border: 1px solid rgba(59, 107, 154, 0.13);
+  border-radius: 50%;
+  box-shadow: 0 0 0 3rem rgba(59, 107, 154, 0.025), 0 0 0 6rem rgba(59, 107, 154, 0.018);
+}
+
+.landing-demo-face::after{
+  content: '';
+  position: absolute;
+  z-index: 3;
+  inset: -45%;
+  pointer-events: none;
+  background: linear-gradient(105deg, transparent 42%, rgba(255, 255, 255, 0.3) 49%, transparent 56%);
+  opacity: 0;
+  transform: translateX(-38%) rotate(8deg);
+  transition: transform 880ms cubic-bezier(.18, .78, .18, 1), opacity 220ms ease;
+}
+
+.landing-demo-concept{
+  background:
+    radial-gradient(circle at 92% 3%, rgba(59, 107, 154, 0.14), transparent 28%),
+    linear-gradient(145deg, #fff 8%, #f4f7fa 100%);
+}
+
+.landing-demo-proof{
+  background:
+    radial-gradient(circle at 8% 2%, rgba(63, 132, 72, 0.13), transparent 30%),
+    linear-gradient(145deg, #fff 8%, #f2f8f2 100%);
+  border-color: var(--proven-border);
+  transform: rotateY(180deg);
+}
+
+.landing-demo-proof::before{
+  right: auto;
+  left: -8.5rem;
+  border-color: rgba(63, 132, 72, 0.13);
+  box-shadow: 0 0 0 3rem rgba(63, 132, 72, 0.025), 0 0 0 6rem rgba(63, 132, 72, 0.018);
+}
+
+.landing-demo-filebar{
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  min-height: 3.65rem;
+  padding: 0.75rem 1.05rem;
+  background: rgba(255, 255, 255, 0.78);
+  border-bottom: 1px solid var(--border-light);
+  backdrop-filter: blur(8px);
+}
+
+.landing-demo-file-heading{
+  display: inline-flex;
+  align-items: center;
+  gap: 0.48rem;
+  white-space: nowrap;
+}
+
+.landing-demo-file-heading strong{
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.landing-demo-file-note{
+  padding-left: 0.48rem;
+  color: var(--proven-fg);
+  border-left: 1px solid var(--proven-border);
+  font-size: 0.69rem;
+  font-weight: 600;
+  letter-spacing: 0.035em;
+  text-transform: uppercase;
+}
+
+.landing-demo-file-path{
+  flex: 1;
+  overflow: hidden;
+  color: var(--text-dim);
+  font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 0.67rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.landing-demo-code{
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  display: grid;
+  align-content: center;
+  min-width: 0;
+  padding: clamp(0.55rem, 1.8vw, 1.1rem) 0;
+  background: rgba(246, 248, 250, 0.88);
+  color: #24292f;
+  font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: clamp(0.44rem, 1.35vw, 0.79rem);
+  line-height: 1.52;
+  font-variant-ligatures: none;
+}
+
+.landing-demo-proof .landing-demo-code{
+  background: rgba(246, 248, 250, 0.82);
+  font-size: clamp(0.48rem, 1.42vw, 0.84rem);
+}
+.landing-demo-code code{ display: block; min-width: 0; padding: 0; background: none; border: 0; font: inherit; }
+
+.landing-demo-code-line{
+  position: relative;
+  display: block;
+  min-height: 1.52em;
+  padding: 0 clamp(0.55rem, 2vw, 1.15rem) 0 clamp(2.25rem, 5vw, 3.65rem);
+  white-space: pre;
+}
+
+.landing-demo-code-line::before{
+  content: attr(data-line);
+  position: absolute;
+  left: 0;
+  width: clamp(1.7rem, 4vw, 2.85rem);
+  color: #8c959f;
+  text-align: right;
+  user-select: none;
+}
+
+.landing-demo-concept .landing-demo-code-line-accent{
+  background: linear-gradient(90deg, rgba(63, 132, 72, 0.15), rgba(63, 132, 72, 0.055));
+  box-shadow: inset 3px 0 var(--proven-fg);
+}
+
+.landing-demo-code-excerpt{
+  align-content: center;
+  padding-top: 0.35rem;
+  padding-bottom: 0.35rem;
+}
+
+.landing-demo-continuation{
+  display: grid;
+  grid-template-columns: minmax(1.5rem, 1fr) auto minmax(1.5rem, 1fr);
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 1.85rem;
+  padding: 0 clamp(0.75rem, 2.4vw, 1.35rem);
+  color: #8c959f;
+}
+
+.landing-demo-continuation i{
+  height: 1px;
+  background: repeating-linear-gradient(90deg, rgba(140, 149, 159, 0.58) 0 3px, transparent 3px 7px);
+}
+
+.landing-demo-continuation b{
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.landing-demo-trust{
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 0.85rem;
+  min-height: 5.2rem;
+  padding: 0.85rem 1.1rem;
+  background: rgba(255, 255, 255, 0.88);
+  border-top: 1px solid var(--border-light);
+  backdrop-filter: blur(8px);
+}
+
+.landing-demo-proof .landing-demo-trust{
+  background: rgba(232, 245, 232, 0.88);
+  border-color: var(--proven-border);
+}
+
+.landing-demo-trust-copy strong,
+.landing-demo-trust-copy small{ display: block; }
+
+.landing-demo-trust-copy{ grid-column: 2; text-align: center; }
+
+.landing-demo-trust-copy strong{
+  font-size: clamp(1.12rem, 3vw, 1.48rem);
+  line-height: 1.05;
+}
+
+.landing-demo-trust-copy small{
+  margin-top: 0.3rem;
+  color: var(--text-dim);
+  font-size: clamp(1rem, 2.2vw, 1.12rem);
+  line-height: 1.1;
+}
+
+.landing-demo-turn{
+  grid-column: 3;
+  justify-self: end;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.48rem;
+  color: var(--accent);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.landing-demo-turn b{
+  display: inline-grid;
+  place-items: center;
+  width: 1.85rem;
+  height: 1.85rem;
+  border: 1px solid rgba(59, 107, 154, 0.28);
+  border-radius: 50%;
+  font-size: 1rem;
+  line-height: 1;
+  transition: transform 260ms ease, background 260ms ease;
+}
+
+.landing-demo-card.is-flipped .landing-demo-turn b{ transform: rotate(-35deg); }
+
+@media (max-width: 640px){
+  .landing-demo-card{
+    aspect-ratio: auto;
+    margin-top: 1.15rem;
+  }
+  /* Both faces contribute their full height; narrow screens wrap long Lean lines. */
+  .landing-demo-inner{ display: grid; height: auto; }
+  .landing-demo-face{ position: relative; inset: auto; grid-area: 1 / 1; }
+  .landing-demo-filebar{
+    gap: 0.48rem;
+    min-height: 2.8rem;
+    padding: 0.48rem 0.62rem;
+  }
+  .landing-demo-file-heading{ gap: 0.4rem; }
+  .landing-demo-file-heading strong{ font-size: 0.82rem; }
+  .landing-demo-file-note{ padding-left: 0.38rem; font-size: 0.56rem; }
+  .landing-demo-file-path{ display: none; }
+  .landing-demo-code,
+  .landing-demo-proof .landing-demo-code{ font-size: clamp(0.58rem, 2.03vw, 0.68rem); }
+  .landing-demo-code-line{
+    padding-right: 0.48rem;
+    padding-left: 2.05rem;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+  .landing-demo-code-line::before{ width: 1.55rem; }
+  .landing-demo-trust{
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.5rem;
+    min-height: 4.15rem;
+    padding: 0.55rem 0.68rem;
+  }
+  .landing-demo-trust-copy{
+    grid-column: 1;
+    justify-self: start;
+    padding-left: 0.35rem;
+    text-align: left;
+  }
+  .landing-demo-proof .landing-demo-trust-copy{
+    grid-column: 1 / -1;
+    justify-self: center;
+    padding-left: 0;
+    text-align: center;
+  }
+  .landing-demo-trust-copy strong{ font-size: clamp(1rem, 5vw, 1.28rem); }
+  .landing-demo-trust-copy small{ font-size: clamp(0.88rem, 3.8vw, 1rem); }
+  .landing-demo-turn{ grid-column: 2; gap: 0.28rem; font-size: 0.58rem; }
+  .landing-demo-turn b{ width: 1.55rem; height: 1.55rem; font-size: 0.88rem; }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .landing-demo-card,
+  .landing-demo-inner,
+  .landing-demo-face::after,
+  .landing-demo-turn b{ animation: none; transition: none; }
+}
+
 .landing-action-panels{
   display: grid;
   gap: 0;
@@ -2288,7 +2925,7 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
   min-width: 0;
   padding: 1.35rem 1.45rem 1.5rem;
   background: var(--surface);
-  border: 2px solid var(--border);
+  border: 1px solid var(--border);
   border-radius: var(--radius-card);
   box-shadow: 0 10px 28px rgba(43, 43, 43, 0.06);
 }
@@ -2335,7 +2972,7 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
   width: 100%;
   margin: 0;
   background: var(--surface);
-  border: 2px solid var(--border);
+  border: 1px solid var(--border);
   border-radius: var(--radius-card);
   box-shadow: 0 10px 28px rgba(43, 43, 43, 0.06);
   scroll-margin-top: calc(var(--header-height) + 1rem);
@@ -2535,19 +3172,6 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
   gap: 0;
 }
 
-/* The teaser: while rows are held back, the last shown ones fade into
-   the panel and the button under them says how many there are. */
-.submissions-list-clipped::after{
-  content: '';
-  position: absolute;
-  left: -2px;
-  right: -2px;
-  bottom: 0;
-  height: 9rem;
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.55) 40%, var(--surface) 100%);
-  pointer-events: none;
-}
-
 /* `hidden="until-found"` rows keep a layout box so browser Find can reveal
    them. Put spacing on visible rows instead of the flex container so those
    hidden boxes do not push the pagination control downward. */
@@ -2566,13 +3190,64 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
 
 .submissions-list-link:hover{ border-color: var(--accent); background: var(--accent-light); }
 
+.submissions-list > li[data-state="draft"] .submissions-list-link{
+  border-color: var(--none-border);
+  background: var(--none-bg);
+  color: var(--none-fg);
+}
+
+.submissions-list > li[data-state="draft"] :is(
+  .submissions-list-title,
+  .submissions-list-date,
+  .submissions-list-counts
+){
+  color: var(--none-fg);
+}
+
+.submissions-list > li[data-state="draft"] .submissions-list-title{
+  font-weight: 500;
+}
+
+.submissions-list > li[data-state="draft"] .state-draft{
+  background: var(--surface);
+  color: var(--none-fg);
+  border-color: var(--none-border);
+}
+
+.submissions-list > li[data-state="draft"] .submissions-list-link:hover{
+  border-color: var(--neutral-stroke);
+  background: var(--panel-bg);
+}
+
 .submissions-list-link.outputless{ opacity: 0.6; }
 
+.submissions-list-link.native-find-match .submissions-list-title{
+  background: var(--accent-light);
+  box-shadow: 0 0 0 0.22rem var(--accent-light);
+  border-radius: 2px;
+}
+
 .submissions-list-title{
+  position: relative;
   display: block;
   font-weight: 600;
   font-size: 1.02rem;
   color: var(--link);
+}
+
+/* The id remains searchable with browser Find without becoming visible or
+   adding a duplicate announcement for assistive technology. */
+.submission-find-alias{
+  position: absolute;
+  inset: 0 auto auto 0;
+  display: block;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: 0;
+  overflow: clip;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 .submissions-list-date{ margin-left: 0.3rem; color: var(--text-dim); font-weight: 400; }
@@ -2600,13 +3275,11 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
 }
 
 .submissions-load-more{
-  position: relative;
-  z-index: 1;
   display: flex;
   align-items: center;
   gap: 0.5rem;
   width: fit-content;
-  margin: -1.4rem auto 0;
+  margin: 0.7rem auto 0;
   padding: 0.55rem 1rem;
   border: 1px solid var(--accent);
   border-radius: var(--radius-control);
@@ -3017,6 +3690,28 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
   font-weight: 600;
 }
 .evidence-statement h4 code{ font-family: var(--mono); font-size: 0.78rem; font-weight: 400; }
+.evidence-statement-link{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.75rem;
+  height: 1.75rem;
+  padding: 0 0.3rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--text-dim);
+  background: var(--surface);
+  font: 400 0.74rem/1 var(--mono);
+  text-decoration: none;
+}
+.evidence-statement-link:hover,
+.evidence-statement-link:focus-visible{
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--accent-light);
+  text-decoration: none;
+}
+.evidence-statement-link:focus-visible{ outline: 2px solid var(--accent); outline-offset: 2px; }
 
 .honesty-note,
 .empty-note{
@@ -3737,6 +4432,12 @@ body.graph-window-open::after{
   border-radius: var(--radius-control); cursor: pointer; font: inherit;
 }
 .graph-zoom-controls output{ min-width: 2.3rem; text-align: center; }
+/* Archive graph windows use a very pale band, distinct from both the page
+   ground and the white buttons. The landing network has its own caption bar. */
+.graph-figure:not(.landing-network-figure) > .graph-controls{ background: var(--panel-bg); }
+.graph-figure:not(.landing-network-figure) .graph-zoom-controls{ background: transparent; }
+.graph-figure:not(.landing-network-figure) [data-graph-zoom-status]{ background: var(--panel-bg); }
+.graph-figure:not(.landing-network-figure) [data-graph-zoom="reset"]{ margin-left: 0.15rem; }
 html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
 .prepared-graph.graph-dragging{ cursor: grabbing; user-select: none; }
 .graph-local-status{ padding: 1rem; font-size: 0.85rem; }
@@ -3763,6 +4464,9 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
 .graph-legend > span{ display: inline-flex; align-items: center; gap: 0.3rem; }
 .graph-legend .legend-note{ font-style: italic; }
 .graph-legend .proof-flow{ font-style: normal; }
+.graph-legend > .legend-origin{ flex-wrap: wrap; justify-content: center; row-gap: 0.15rem; }
+.legend-origin-swatches{ display: inline-flex; align-items: center; gap: 0.22rem; flex: 0 0 auto; }
+.legend-origin-separator{ color: var(--text-dim); line-height: 1; }
 
 .legend-node{
   display: inline-block;
@@ -3781,7 +4485,17 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
 .legend-node.stroke-own{ border-color: var(--accent); background: var(--surface); }
 .legend-node.stroke-ext{ border-color: var(--none-border); background: var(--surface); }
 .legend-arrow{ color: var(--text-dim); font-family: var(--mono); font-size: 0.9rem; font-style: normal; line-height: 1; }
-.legend-arrow.proof-dep{ color: var(--proof-dep); }
+.legend-dependency-arrow{
+  width: 26px;
+  height: 8px;
+  flex: 0 0 auto;
+  fill: none;
+  stroke: var(--text-dim);
+  stroke-width: 1.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.legend-dependency-arrow.proof-dep .legend-edge-line{ stroke-dasharray: 6 4; }
 .legend-assumptions{
   width: 14px;
   height: 24px;
@@ -3863,6 +4577,382 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
   margin: 0.45rem 0;
 }
 
+/* Focused proof selection keeps the graph camera independent from this
+   content-sized inspector on the right. It starts below the graph controls;
+   details grow naturally until they reach the legend, then scroll. */
+.graph-detail-panel{
+  position: absolute;
+  z-index: 35;
+  top: var(--graph-detail-top, 3rem);
+  right: calc(var(--graph-scrollbar-width, 16px) + 0.5rem);
+  width: min(29rem, 42vw);
+  max-height: var(--graph-detail-max-height, calc(100% - var(--graph-detail-top, 3rem) - 0.8rem));
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 12px 35px rgba(24, 32, 42, 0.22);
+}
+.graph-detail-panel[hidden]{ display: none; }
+.graph-detail-close{
+  position: absolute;
+  z-index: 1;
+  top: 0.55rem;
+  right: calc(var(--graph-detail-scrollbar-width, 16px) + 0.55rem);
+  width: 1.9rem;
+  height: 1.9rem;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--text-dim);
+  font: 300 1.3rem/1 sans-serif;
+  cursor: pointer;
+}
+.graph-detail-close:hover,
+.graph-detail-close:focus-visible{
+  border-color: var(--border);
+  color: var(--text);
+  outline: none;
+}
+.graph-detail-scroll{
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding: 1rem 1rem 0.85rem;
+  overflow: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+.graph-detail-body{ flex: 0 0 auto; min-width: 0; margin-bottom: 1rem; }
+.graph-detail-eyebrow{
+  margin: 0 0 0.18rem;
+  color: var(--accent);
+  font: 700 0.64rem/1.2 var(--mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.graph-detail-eyebrow,
+.graph-detail-body > h3{ padding-right: 1.8rem; }
+.graph-detail-body > h3{
+  margin: 0 0 0.55rem;
+  font-size: 1.28rem;
+  line-height: 1.2;
+}
+.graph-detail-statuses{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0 0 0.75rem;
+}
+.graph-detail-status,
+.graph-detail-open-assumptions{
+  display: inline-block;
+  margin: 0;
+  padding: 0.16rem 0.48rem;
+  border: 1px solid var(--none-border);
+  border-radius: var(--radius-chip);
+  background: var(--none-bg);
+  color: var(--none-fg);
+  font: 700 0.67rem/1.25 var(--mono);
+}
+.graph-detail-status.proven,
+.graph-detail-status.grounded{
+  border-color: var(--proven-border);
+  background: var(--proven-bg);
+  color: var(--proven-fg);
+}
+.graph-detail-status.open,
+.graph-detail-status.conditional{
+  border-color: var(--partial-border);
+  background: var(--partial-bg);
+  color: var(--partial-fg);
+}
+.graph-detail-open-assumptions{
+  appearance: none;
+  border-color: var(--partial-border);
+  background: var(--partial-bg);
+  color: var(--partial-fg);
+  cursor: help;
+  text-align: left;
+}
+.graph-detail-open-assumptions:focus-visible{ outline: 2px solid var(--link); outline-offset: 2px; }
+.graph-detail-open-assumption-item{ position: relative; display: inline-flex; }
+.graph-detail-open-assumption-tooltip{
+  position: absolute;
+  z-index: 6;
+  top: calc(100% + 0.35rem);
+  right: 0;
+  width: 18rem;
+  max-width: calc(100vw - 2rem);
+  padding: 0.55rem 0.65rem;
+  visibility: hidden;
+  opacity: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-control);
+  background: var(--surface);
+  box-shadow: 0 6px 20px rgba(43, 43, 43, 0.14);
+  color: var(--text);
+  overflow-wrap: anywhere;
+  pointer-events: none;
+  font-size: 0.7rem;
+  line-height: 1.4;
+}
+.graph-detail-open-assumption-item:hover .graph-detail-open-assumption-tooltip,
+.graph-detail-open-assumption-item:focus-within .graph-detail-open-assumption-tooltip,
+.graph-detail-open-assumption-item.is-open .graph-detail-open-assumption-tooltip{
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+}
+.graph-detail-open-assumption-tooltip > strong{
+  display: block;
+  margin-bottom: 0.4rem;
+  font-family: var(--mono);
+  font-size: 0.66rem;
+}
+.graph-detail-open-assumption-tooltip ul{
+  display: grid;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.graph-detail-open-assumption-tooltip li + li{
+  padding-top: 0.4rem;
+  border-top: 1px solid var(--border-light);
+}
+.graph-detail-open-assumption-name{ display: block; font-weight: 700; }
+.graph-detail-open-assumption-statement{
+  display: block;
+  margin-top: 0.08rem;
+  color: var(--text-dim);
+  font: 0.62rem/1.35 var(--mono);
+}
+.graph-detail-open-assumption-prose{
+  margin-top: 0.18rem;
+  color: var(--text);
+  font-size: 0.68rem;
+  line-height: 1.45;
+}
+.graph-detail-open-assumption-prose > :first-child{ margin-top: 0; }
+.graph-detail-open-assumption-prose > :last-child{ margin-bottom: 0; }
+@media (max-width: 520px){
+  .graph-detail-open-assumption-tooltip{ right: auto; left: 0; }
+}
+.graph-detail-facts{
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.25rem 0.75rem;
+  margin: 0 0 0.9rem;
+  font-size: 0.78rem;
+}
+.graph-detail-facts dt{ color: var(--text-dim); }
+.graph-detail-facts dd{ margin: 0; overflow-wrap: anywhere; }
+.graph-detail-namespace{ font-size: 0.72rem; }
+.graph-detail-submission-link{
+  color: var(--link);
+  text-decoration-line: underline;
+  text-decoration-color: rgba(44, 95, 138, 0.62);
+  text-decoration-thickness: 0.075em;
+  text-underline-offset: 0.16em;
+}
+.graph-detail-submission-link:is(:hover, :focus-visible){
+  text-decoration-color: currentColor;
+  text-decoration-thickness: 0.11em;
+}
+.graph-detail-body section{
+  margin-top: 0.9rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--border-light);
+}
+.graph-detail-body section > h4{
+  margin: 0 0 0.48rem;
+  color: var(--text-dim);
+  font-size: 0.76rem;
+  font-variant: small-caps;
+  letter-spacing: 0.045em;
+}
+.graph-detail-relation{
+  margin: 0 0 0.85rem;
+  padding: 0.6rem 0.7rem;
+  border-left: 3px solid var(--accent);
+  background: var(--accent-light);
+  font-size: 0.84rem;
+  line-height: 1.4;
+}
+.graph-detail-prose{ font-size: 0.84rem; }
+.graph-detail-formalization{ width: 100%; min-width: 0; }
+.graph-detail-formalization + .graph-detail-formalization{ margin-top: 0.55rem; }
+.graph-detail-formalization.is-focused{
+  margin-inline: -0.35rem;
+  padding: 0.35rem;
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-control);
+}
+.graph-detail-formalization-label{
+  margin: 0 0 0.25rem;
+  color: var(--text-dim);
+  font: 0.66rem/1.3 var(--mono);
+}
+.graph-detail-formalization-preview{
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  color: inherit;
+  text-decoration: none;
+}
+.graph-detail-formalization-preview:is(:hover, :focus-visible){
+  border-color: var(--link);
+  box-shadow: 0 0 0 2px rgba(59, 107, 154, 0.14);
+}
+.graph-detail-formalization-preview:focus-visible{ outline: 2px solid var(--link); outline-offset: 2px; }
+.graph-detail-formalization-preview pre{
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0.55rem 0.65rem;
+  max-height: 4.65rem;
+  overflow: hidden;
+  border: 0;
+  background: transparent;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font: 0.72rem/1.5 var(--mono);
+}
+.graph-detail-formalization-open{
+  display: block;
+  padding: 0.34rem 0.65rem;
+  border-top: 1px solid var(--border-light);
+  background: var(--surface);
+  color: var(--link);
+  text-align: right;
+  font: 700 0.67rem/1.3 var(--mono);
+}
+.graph-detail-relationship-intro{
+  margin: 0 0 0.75rem;
+  color: var(--text-dim);
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+.graph-detail-claims{ display: grid; gap: 0.75rem; margin: 0; font-size: 0.8rem; }
+.graph-detail-claim-group h5{
+  margin: 0 0 0.35rem;
+  color: var(--text);
+  font: 700 0.7rem/1.3 var(--mono);
+  letter-spacing: 0.025em;
+}
+.graph-detail-claim-list{ display: grid; gap: 0.38rem; margin: 0; padding: 0; list-style: none; }
+.graph-detail-claim-list li{
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 0.45rem;
+  padding: 0.45rem 0.5rem;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-control);
+  background: var(--surface);
+}
+.graph-detail-claim-name{ min-width: 0; overflow-wrap: anywhere; line-height: 1.4; }
+.graph-detail-claim-status{
+  padding: 0.12rem 0.35rem;
+  border: 1px solid;
+  border-radius: var(--radius-chip);
+  white-space: nowrap;
+  font: 0.62rem/1.3 var(--mono);
+}
+.graph-detail-claim-status.proven{ border-color: var(--proven-border); background: var(--proven-bg); color: var(--proven-fg); }
+.graph-detail-claim-status.open{ border-color: var(--partial-border); background: var(--partial-bg); color: var(--partial-fg); }
+.graph-detail-relationship-note{
+  margin: 0.75rem 0 0;
+  padding: 0.55rem 0.65rem;
+  border-left: 3px solid var(--partial-border);
+  background: var(--partial-bg);
+  color: var(--partial-fg);
+  font-size: 0.75rem;
+  line-height: 1.45;
+}
+.graph-detail-relationship-note.complete{
+  border-left-color: var(--proven-border);
+  background: var(--proven-bg);
+  color: var(--proven-fg);
+}
+.graph-detail-claims a,
+.graph-detail-body section > a,
+.graph-detail-source-link{ color: var(--link); }
+.graph-detail-path{
+  display: block;
+  margin-bottom: 0.35rem;
+  overflow-wrap: anywhere;
+  color: var(--text);
+  font: 0.7rem/1.4 var(--mono);
+}
+.graph-detail-source-link{ font-size: 0.78rem; }
+.graph-detail-secondary{ margin: 0.3rem 0 0; color: var(--text-dim); font-size: 0.75rem; }
+.graph-detail-review-values{ display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.graph-detail-review-item{ position: relative; display: inline-flex; }
+.graph-detail-review-count,
+.graph-detail-review-loading,
+.graph-detail-review-unavailable{
+  padding: 0.18rem 0.45rem;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-chip);
+  background: var(--panel-bg);
+  color: var(--text-dim);
+  font: 0.67rem/1.3 var(--mono);
+}
+.graph-detail-review-count.endorse{ border-color: var(--proven-border); background: var(--proven-bg); color: var(--proven-fg); }
+.graph-detail-review-count.flag{ border-color: var(--partial-border); background: var(--partial-bg); color: var(--partial-fg); }
+.graph-detail-review-count{ cursor: help; }
+.graph-detail-review-count:focus-visible{ outline: 2px solid var(--link); outline-offset: 2px; }
+.graph-detail-review-people{
+  position: absolute;
+  z-index: 5;
+  top: calc(100% + 0.35rem);
+  left: 0;
+  width: max-content;
+  max-width: min(17rem, calc(100vw - 2rem));
+  padding: 0.5rem 0.6rem;
+  visibility: hidden;
+  opacity: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-control);
+  background: var(--surface);
+  box-shadow: 0 6px 20px rgba(43, 43, 43, 0.14);
+  color: var(--text);
+  overflow-wrap: anywhere;
+  pointer-events: none;
+  font-size: 0.7rem;
+  line-height: 1.4;
+}
+.graph-detail-review-item:last-child .graph-detail-review-people{ right: 0; left: auto; }
+.graph-detail-review-item:hover .graph-detail-review-people,
+.graph-detail-review-item:focus-within .graph-detail-review-people{
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+}
+.graph-detail-review-people strong{ display: block; margin-bottom: 0.2rem; font-family: var(--mono); font-size: 0.66rem; }
+.graph-detail-review-people ul{ margin: 0; padding-left: 1rem; }
+.graph-detail-action{
+  flex: 0 0 auto;
+  display: block;
+  margin: 0;
+  padding: 0.72rem 1rem;
+  border-top: 1px solid var(--border);
+  background: var(--link);
+  color: var(--surface);
+  font: 700 0.78rem/1.3 var(--mono);
+  text-align: center;
+  text-decoration: none;
+}
+.graph-detail-action:hover,
+.graph-detail-action:focus-visible{ background: var(--accent); outline: none; }
+
 /* Graph nodes, both figures: fill = status, stroke = origin. */
 
 .dag-node rect,
@@ -3873,7 +4963,8 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
 }
 
 :is(.dag-node, .net-node, .net-proof)[role="link"],
-:is(.dag-node, .net-node, .net-proof)[role="link"] *{ cursor: pointer; }
+:is(.dag-node, .net-node, .net-proof)[role="link"] *,
+.graph-edge-hit[role="button"]{ cursor: pointer; }
 
 /* Node labels match list entries: text face, link color. */
 .dag-node text,
@@ -3956,15 +5047,31 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
   vector-effect: non-scaling-stroke;
 }
 
+.graph-edge-hit{
+  fill: none;
+  stroke: transparent;
+  stroke-width: 14;
+  pointer-events: none;
+  vector-effect: non-scaling-stroke;
+}
+.proof-network-figure .graph-edge-hit{ pointer-events: stroke; cursor: pointer; }
+.proof-network-figure .net-edge{ pointer-events: none; }
+.graph-edge-hit:focus{ outline: none; }
+
 .net-edge.conclusion{ stroke: var(--accent); stroke-opacity: 0.7; }
 
 /* Submission map only: a dependency that only the proof package declares.
    The dependent's statements stand on their own and just its proofs reach
-   across, so the edge is a distinct hue rather than a status colour — a
-   submission map has no proven/open axis to confuse it with. */
-.dag-edge.proof-dep{ stroke: var(--proof-dep); stroke-opacity: 1; }
+   across. A neutral dashed route keeps that distinction visible through line
+   style without giving this secondary relationship an alert-like colour. */
+.dag-edge.proof-dep{
+  stroke: var(--text-dim);
+  stroke-opacity: 0.55;
+  stroke-dasharray: 6 4;
+}
 
-/* Hover/focus changes only incident-edge classes in graph-interaction.js. */
+/* Ordinary graph hover/focus emphasizes incident routes. The expanded proof
+   network additionally applies the complete-chain classes below. */
 .dag-edge.hot,
 .net-edge.hot{
   stroke: var(--link);
@@ -3972,7 +5079,46 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
   stroke-width: 1.9;
 }
 .net-edge.conclusion.hot{ stroke: var(--accent); }
-.dag-edge.proof-dep.hot{ stroke: var(--proof-dep); stroke-opacity: 1; }
+
+/* Keep the selected proof step and its complete upstream/downstream chain
+   legible while quieting unrelated nodes and routes. */
+.graph-expanded.proof-network-figure [data-node-id].graph-dimmed,
+.graph-expanded.proof-network-figure [data-edge-id].graph-dimmed{ opacity: 0.32; }
+/* Circles overlap their concept's border. Fade their colours toward the
+   white graph surface while keeping the fill opaque enough to cover it. */
+.graph-expanded.proof-network-figure .net-dock.graph-dimmed{ opacity: 1; }
+.graph-expanded.proof-network-figure .net-dock.graph-dimmed circle{
+  fill: color-mix(in srgb, var(--none-bg) 32%, var(--surface));
+  stroke: color-mix(in srgb, var(--accent) 32%, var(--surface));
+}
+.graph-expanded.proof-network-figure .net-dock.graph-dimmed.proven circle{
+  fill: color-mix(in srgb, var(--proven-bg) 32%, var(--surface));
+}
+.graph-expanded.proof-network-figure .net-dock.graph-dimmed.open circle{
+  fill: color-mix(in srgb, var(--partial-bg) 32%, var(--surface));
+}
+.graph-expanded.proof-network-figure .net-dock.graph-dimmed.ext circle{
+  stroke: color-mix(in srgb, var(--none-border) 32%, var(--surface));
+}
+.graph-expanded.proof-network-figure .net-dock.graph-dimmed text{ opacity: 0.32; }
+.graph-expanded.proof-network-figure [data-node-id].graph-related{ opacity: 1; }
+.graph-expanded.proof-network-figure :is(.net-node, .net-proof).graph-related rect,
+.graph-expanded.proof-network-figure .net-dock.graph-related circle{ stroke-width: 1.9; }
+.graph-expanded.proof-network-figure :is(.net-node, .net-proof).graph-selected rect,
+.graph-expanded.proof-network-figure .net-dock.graph-selected circle{
+  stroke: var(--link);
+  stroke-width: 3;
+  filter: drop-shadow(0 1px 3px rgba(35, 72, 110, 0.35));
+}
+.graph-expanded.proof-network-figure [data-edge-id].graph-related{
+  stroke-opacity: 0.9;
+  stroke-width: 1.8;
+}
+.graph-expanded.proof-network-figure [data-edge-id].graph-selected{
+  stroke: var(--link);
+  stroke-opacity: 1;
+  stroke-width: 2.8;
+}
 
 .cycle-component{
   fill: var(--code-bg);
@@ -3987,12 +5133,33 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
   font-family: var(--mono);
 }
 
+@media (max-width: 700px){
+  .graph-detail-panel{
+    left: 0.35rem;
+    width: auto;
+  }
+}
+
 /* ── Mobile drawer ── */
 
 .sidebar-backdrop{ display: none; }
 
 @media (min-width: 901px){
   #content-shell.sidebar-hidden #sidebar{ display: none; }
+}
+
+/* Between the mobile and wide layouts, lead from the content edge instead of
+   centring a title whose navigation would collide with the account control. */
+@media (min-width: 901px) and (max-width: 1680px){
+  .site-brand{ display: flex; gap: 1rem; margin-left: 1rem; }
+  /* With the sidebar collapsed, its toggle sits over the content edge. */
+  .site-header.with-sidebar.sidebar-hidden .site-brand{ margin-left: 3.1rem; }
+  .site-nav{ gap: 1rem; margin-left: 0; }
+  .account-login-long{ display: none; }
+}
+
+@media (min-width: 901px) and (max-width: 980px){
+  .site-header.with-sidebar .site-nav-introduction{ display: none; }
 }
 
 @media (max-width: 900px){
@@ -4128,11 +5295,13 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
   .version-open-link{ flex: 1 1 100%; margin-left: 0; }
 }
 
-/* The name, the nav and the sign-in button share one line; the button is
-   absolute at the right, so on the narrowest phones the nav would run
-   under it. The nav tightens in two steps, and at the last the button
-   loses its padding too. Sized so that on a page with the drawer's toggle
-   (the name starts 3.1rem in) "About" still ends short of the button. */
+/* The name, the nav and the sign-in button share one line. On narrow phones
+   the introduction remains reachable from the home page while its direct
+   link yields enough room for the archive and account controls. */
+@media (max-width: 450px){
+  .site-nav-introduction{ display: none; }
+}
+
 @media (max-width: 400px){
   .site-nav{ gap: 0.5rem; }
   .site-nav-link{ font-size: 0.78rem; }

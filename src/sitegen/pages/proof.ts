@@ -46,7 +46,7 @@ export function proofPage(ctx: PageContext, located: LocatedProof): string {
     ? `<a href="${attr(sourceFile)}"><code>${esc(proof.path)}</code></a>`
     : `<code>${esc(proof.path)}</code>`;
 
-  const content = `${versionHistoryPanel(ctx, submission.record.id, "../")}${draftBanner(submission.record.state)}${environmentNotice(ctx.model, submission)}
+  const content = `${versionHistoryPanel(ctx, submission.record.id, "../")}${draftBanner(submission)}${environmentNotice(ctx.model, submission)}
 <div class="detail-heading concept-heading proof-heading">
 <div class="proof-heading-content"><h1 class="concept-title">Proof of <span class="proof-concept-title">\`${ctx.markdown.renderAuthorInline(conclusion.concept.title, "../")}\`</span>${position ? ` <span class="claim-ordinal">(${esc(position.label)})</span>` : ""}</h1>
 <p class="concept-microline proof-microline"><span class="status-pills">${pill}</span><span>${pathLink} · <a href="index.html">${esc(output.id)}</a></span></p></div>
@@ -67,9 +67,12 @@ ${sections}`;
   return page({
     title: `${proof.id} — ${output.id}`,
     rootRel: "../",
+    canonicalPath: `${submission.record.id}/${proof.id}.html`,
     sidebar: submissionSidebar(ctx.model, submission, "../", { activeId: proof.id }),
     sidebarState: "open",
     content,
+    noIndex: output.manifest.unlisted === true,
+    description: ctx.markdown.plainAuthorTitle(proof.description),
     scripts: ["assets/version-history.js"],
   });
 }

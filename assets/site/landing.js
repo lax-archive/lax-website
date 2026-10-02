@@ -4,37 +4,6 @@
 // opens the card, a click pins it open; the tabs above the examples switch
 // between them; the proof network is centred in its box.
 (() => {
-  function setupSetupTabs() {
-    for (const root of document.querySelectorAll('[data-setup-tabs]')) {
-      const tabs = [...root.querySelectorAll('[role="tab"]')];
-      const panels = tabs.map((tab) => document.getElementById(tab.getAttribute('aria-controls')));
-
-      function select(index, focus) {
-        tabs.forEach((tab, tabIndex) => {
-          const selected = tabIndex === index;
-          tab.setAttribute('aria-selected', String(selected));
-          tab.tabIndex = selected ? 0 : -1;
-          if (panels[tabIndex]) panels[tabIndex].hidden = !selected;
-        });
-        if (focus) tabs[index].focus();
-      }
-
-      tabs.forEach((tab, index) => {
-        tab.addEventListener('click', () => select(index, false));
-        tab.addEventListener('keydown', (event) => {
-          let next;
-          if (event.key === 'ArrowRight') next = (index + 1) % tabs.length;
-          else if (event.key === 'ArrowLeft') next = (index - 1 + tabs.length) % tabs.length;
-          else if (event.key === 'Home') next = 0;
-          else if (event.key === 'End') next = tabs.length - 1;
-          else return;
-          event.preventDefault();
-          select(next, true);
-        });
-      });
-    }
-  }
-
   function setupLandingActions() {
     const buttons = [...document.querySelectorAll('[data-landing-action]')];
     if (!buttons.length) return;
@@ -352,8 +321,9 @@
     for (const root of document.querySelectorAll('[data-carousel]')) setupCarousel(root);
   }
 
-  // The static graph retains its measured font size. Interaction centers the
-  // viewport without resizing nodes or recomputing the layout.
+  // Center native scrolling over the overview graph-interaction.js sizes.
+  // The published layout stays fixed; the SVG element carries the overview
+  // scale, so the box scrolls the drawing and nothing beyond it.
   function setupNetwork() {
     const container = document.getElementById('proof-network');
     if (!container) return;
@@ -362,7 +332,6 @@
   }
 
   function setupLanding() {
-    setupSetupTabs();
     setupLandingActions();
     setupCardBoxes();
     setupCarousels();

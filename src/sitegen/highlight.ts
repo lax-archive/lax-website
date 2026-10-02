@@ -5,6 +5,7 @@ import { renderDisplayMath, renderInlineMath } from "./math.js";
 import { leanDeclarations, nameKey, nameParts, scanLeanSource, type SourceRange } from "./lean-source.js";
 import type { SourceLink } from "./source-links.js";
 import type { SourceHover } from "./lean-code.js";
+import { mathlibLinkTitle } from "../mathlib-links.js";
 
 let highlighterPromise: Promise<Highlighter> | undefined;
 
@@ -56,9 +57,8 @@ function commentMath(source: string, comments: SourceRange[]): Decoration[] {
   return matches;
 }
 
-// Source navigation is confined to generated archive pages. Besides escaping
-// HTML attributes, refuse active schemes, external hosts and path separators
-// supplied as part of a name. The resolver URL-encodes path/fragment components.
+// Besides generated archive pages, permit only validated Lean/Mathlib
+// documentation and pinned Mathlib source destinations.
 const ARCHIVE_HREF = /^(?:\.\.?\/)*[a-zA-Z0-9_%.'-]+\/[a-zA-Z0-9_%.'-]+\.html(?:#[a-zA-Z0-9_%.'-]+)?$/u;
 
 function decorationsByLine(source: string, links: readonly SourceLink[], comments: SourceRange[], hovers: readonly SourceHover[]): Decoration[][] {
@@ -68,12 +68,13 @@ function decorationsByLine(source: string, links: readonly SourceLink[], comment
   const result: Decoration[][] = lines.map(() => []);
   const identifiers: Decoration[] = links.filter((link) =>
     Number.isInteger(link.start) && Number.isInteger(link.end) && link.start >= 0 &&
-    link.end > link.start && link.end <= source.length && ARCHIVE_HREF.test(link.href),
+    link.end > link.start && link.end <= source.length && (ARCHIVE_HREF.test(link.href) || mathlibLinkTitle(link.href)),
   ).map(link => ({ ...link }));
+  const identifierRanges = new Map(identifiers.map(link => [`${link.start}:${link.end}`, link]));
   for (const hover of hovers) {
     if (!Number.isInteger(hover.start) || !Number.isInteger(hover.end) || hover.start < 0 || hover.end <= hover.start ||
         hover.end > source.length || typeof hover.text !== "string") continue;
-    const linked = identifiers.find(link => link.start === hover.start && link.end === hover.end);
+    const linked = identifierRanges.get(`${hover.start}:${hover.end}`);
     if (linked) linked.hover = hover.text;
     else identifiers.push({ start: hover.start, end: hover.end, hover: hover.text });
   }
@@ -139,9 +140,10 @@ function renderDecoratedLine(nodes: HastNode[], decorations: Decoration[]): stri
   for (const decoration of decorations) {
     html.push(take(decoration.start));
     const content = take(decoration.end);
+    const title = decoration.href && !decoration.hover ? mathlibLinkTitle(decoration.href) : undefined;
     const hover = decoration.hover ? ` data-lean-type="${attr(decoration.hover)}"` : "";
     html.push(decoration.href
-      ? `<a class="lean-identifier-link" href="${attr(decoration.href)}"${hover}>${content}</a>`
+      ? `<a class="lean-identifier-link" href="${attr(decoration.href)}"${hover}${title ? ` title="${attr(title)}"` : ""}>${content}</a>`
       : decoration.hover ? `<span class="lean-typed-identifier" tabindex="0"${hover}>${content}</span>`
       : decoration.html ?? "");
   }
@@ -257,6 +259,12 @@ export async function highlightSource(
     ...statement,
     startLine: starts.get(nameKey(nameParts(statement.id))) ?? statement.startLine,
   }));
+  const commentLines = new Set<number>();
+  for (const comment of parsed.comments) {
+    const first = source.slice(0, comment.start).split("\n").length;
+    const last = source.slice(0, comment.end).split("\n").length;
+    for (let line = first; line <= last; line++) commentLines.add(line);
+  }
   const row = (n: number, highlighted: string) => {
     if (elided && n >= elided[0] && n <= elided[1]) {
       return n === elided[0]
@@ -266,7 +274,8 @@ export async function highlightSource(
     const id = anchors ? ` id="L${n}"` : "";
     const num = anchors ? `<a href="#L${n}">${n}</a>` : String(n);
     const anchorSpans = anchors ? statementAnchors(n, anchorStatements) : "";
-    return `<tr${id} class="${lineStatus(n, statements, proven).trim()}"><td class="line-num">${num}</td><td class="line-code">${anchorSpans}${highlighted || " "}</td></tr>`;
+    const classes = [lineStatus(n, statements, proven).trim(), anchors && commentLines.has(n) ? "line-comment" : ""].filter(Boolean).join(" ");
+    return `<tr${id} class="${classes}"><td class="line-num">${num}</td><td class="line-code">${anchorSpans}${highlighted || " "}</td></tr>`;
   };
   let rows: string[];
   try {

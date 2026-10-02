@@ -19,7 +19,11 @@ export function displayLabelRequests(displays: readonly DisplayGraph[]): readonl
 
 export function measureDisplayGraph(display: DisplayGraph, labels: ReadonlyMap<string, GraphLabel>, portSeparation = DEFAULT_PROFILE.portSeparation): MeasuredDisplayGraph {
   const measured: MeasuredNode[] = [], drawings = new Map<string, NodeDrawing>();
-  const ceil = (n: number) => Math.ceil(n * 1000) / 1000;
+  const ceil = (n: number) => {
+    const scaled = n * 1000, nearest = Math.round(scaled);
+    const integral = Math.abs(scaled - nearest) <= 2 * Number.EPSILON * Math.max(1, Math.abs(scaled));
+    return (integral ? nearest : Math.ceil(scaled)) / 1000;
+  };
   for (const node of display.nodes) {
     const label = labels.get(node.label);
     if (!label && node.kind !== "proof") diagnostic("missing-label-metrics", "Layout requires exact host label metrics", node.id);
@@ -43,13 +47,17 @@ export function measureDisplayGraph(display: DisplayGraph, labels: ReadonlyMap<s
     const attachmentHeight = outgoingDocks.length ? dockGap + 8 : 0;
     const diameters = node.docks.map((dock, i) => ceil(Math.max(20,
       Math.hypot(dockLabels[i]!.width, ...dockLabels[i]!.lines.map((line) => line.ink.height)) + 8,
-      (capacity(node.ports.filter((p) => p.semanticEndpointId === dock.statementId)) + 1) * portSeparation)));
+      // Two attachments fit a 32px dock at ±8; more grow it by one lane each.
+      Math.max(2, capacity(node.ports.filter((p) => p.semanticEndpointId === dock.statementId))) * portSeparation)));
     const rowWidth = diameters.reduce((sum, d) => sum + d, 0) + Math.max(0, diameters.length - 1) * portSeparation;
     const contentWidth = Math.max(bodyWidth, rowWidth);
-    const width = contentWidth + escapeWidth;
+    // Ports and their enclosing envelope use the same upward quantization.
+    // This keeps a boundary port inside even when addition leaves the envelope
+    // infinitesimally below its exact 0.001px value.
+    const width = ceil(contentWidth + escapeWidth);
     const proofRail = node.kind === "proof" && bodyWidth > 36;
-    const height = node.docks.length ? bodyHeight + dockGap + Math.max(...diameters)
-      : node.kind === "proof" ? (proofRail ? 40 : 28) : bodyHeight;
+    const height = ceil(node.docks.length ? bodyHeight + dockGap + Math.max(...diameters)
+      : node.kind === "proof" ? (proofRail ? 40 : 28) : bodyHeight);
     const translateLines = (metric: GraphLabel, x: number, y: number) => metric.lines.map((line) => ({ ...line,
       x: line.x + x, y: line.y + y, ink: { ...line.ink, x: line.ink.x + x, y: line.ink.y + y } }));
     let dockX = escapeWidth + (contentWidth - rowWidth) / 2;
@@ -70,13 +78,22 @@ export function measureDisplayGraph(display: DisplayGraph, labels: ReadonlyMap<s
       : { x: escapeWidth, y: 0, width: contentWidth, height: bodyHeight };
     const ports = node.ports.map((port): PortSpec => {
       const dock = dockBoxes.find((d) => d.statementId === port.semanticEndpointId);
+      // A proof's wide envelope reserves space for its assumption rail; its
+      // conclusion must leave the compact visible box, not that envelope.
+      if (node.kind === "proof" && port.side === "north") return { ...port, mode: "fixed-position",
+        offset: { x: ceil(body.x + body.width / 2), y: body.y } };
       if (!node.docks.length) return { ...port };
       const region = dock?.bounds ?? body;
-      const peers = node.ports.filter((p) => p.side === port.side && (dock ? p.semanticEndpointId === dock.statementId : !node.docks.some((d) => d.statementId === p.semanticEndpointId))).sort((a, b) => compareText(a.id, b.id));
+      // Ordered attachments (sibling stems and conclusions) take their
+      // declared slot; otherwise equal-order peers keep identity order.
+      const peers = node.ports.filter((p) => p.side === port.side && (dock ? p.semanticEndpointId === dock.statementId : !node.docks.some((d) => d.statementId === p.semanticEndpointId)))
+        .sort((a, b) => (a.order ?? 0) - (b.order ?? 0) || compareText(a.id, b.id));
       const slot = peers.findIndex((p) => p.id === port.id);
       const dx = (slot - (peers.length - 1) / 2) * portSeparation;
       const radius = region.width / 2;
-      return { ...port, mode: "fixed-position", offset: {
+      // Dock identities fix their attachments. Concept-level uses share a
+      // measured slot pool whose edge assignments follow the layout order.
+      return { ...port, mode: !dock && port.side === "north" ? "free-in-slots" : "fixed-position", offset: {
         x: ceil(region.x + radius + dx),
         y: ceil(dock ? region.y + radius + (port.side === "north" ? -1 : 1) * Math.sqrt(radius * radius - dx * dx)
           : port.side === "north" ? region.y : region.y + region.height),
@@ -93,5 +110,18 @@ export function measureDisplayGraph(display: DisplayGraph, labels: ReadonlyMap<s
       labelBoxes: [...lines, ...dockBoxes.flatMap((dock) => dock.lines)].map((line) => line.ink), ports, footprints });
     drawings.set(node.id, { body: { ...body, height: body.height + attachmentHeight }, lines, docks: dockBoxes, proofRail });
   }
-  return { display, graph: normalizeGraph({ nodes: measured, edges: display.edges }), drawings };
+  // Enlarge the measured obstacles and attachment points before layout. The
+  // serializer applies the same scale to the original node drawing, keeping
+  // font ink, numbered docks, proof rails and edge endpoints in agreement.
+  const scale = display.nodeScale ?? 1;
+  const scaleRect = (box: Rect): Rect => ({ x: box.x * scale, y: box.y * scale,
+    width: box.width * scale, height: box.height * scale });
+  const nodes = scale === 1 ? measured : measured.map((node) => ({ ...node,
+    width: node.width * scale, height: node.height * scale,
+    labelBoxes: node.labelBoxes.map(scaleRect),
+    ports: node.ports.map((port) => port.offset ? { ...port,
+      offset: { x: port.offset.x * scale, y: port.offset.y * scale } } : port),
+    footprints: node.footprints?.map((footprint) => ({ ...footprint, bounds: scaleRect(footprint.bounds) })),
+  }));
+  return { display, graph: normalizeGraph({ nodes, edges: display.edges }), drawings };
 }

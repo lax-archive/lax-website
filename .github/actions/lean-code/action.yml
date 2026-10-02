@@ -3,10 +3,11 @@ description: Cache compiler-derived information separately from public rendering
 runs:
   using: composite
   steps:
-    - uses: actions/cache@v4
+    - uses: actions/cache/restore@v4
+      id: lean-code-cache
       with:
         path: data/lean-code
-        key: lean-code-v1-${{ hashFiles('src/lean-code-host.ts', 'src/sitegen/lean-code.ts', 'src/sitegen/pages/index.ts', 'scripts/prepare-lean-code.mjs') }}-${{ hashFiles('data/lax-db/*/build-output.json') }}
+        key: lean-code-v1-${{ hashFiles('src/lean-code-host.ts', 'src/sitegen/lean-code.ts', 'src/sitegen/pages/index.ts', 'scripts/prepare-lean-code.mjs') }}-${{ hashFiles('data/lax-db/*/build-output.json') }}-${{ github.run_id }}-${{ github.run_attempt }}
         restore-keys: lean-code-v1-
     - name: Install the Lean toolchain manager
       shell: bash
@@ -19,3 +20,10 @@ runs:
     - name: Prepare compiler types
       shell: bash
       run: npm run lean:prepare -- --database data/lax-db
+    # Each entry is validated independently. Preserve completed modules even
+    # if a later module fails, so a retry can resume rather than start over.
+    - uses: actions/cache/save@v4
+      if: ${{ !cancelled() && steps.lean-code-cache.outputs.cache-hit != 'true' }}
+      with:
+        path: data/lean-code
+        key: ${{ steps.lean-code-cache.outputs.cache-primary-key }}

@@ -18,7 +18,7 @@ fallback; archive pages must never load it.
 
 | Layer | Responsibility |
 | --- | --- |
-| `src/sitegen/graph-project.ts` | One immutable display projection from already permission-filtered page payloads; semantic nodes, proofs, statement docks and every incidence retain their IDs. |
+| `src/sitegen/graph-project.ts` | One immutable display projection from already permission-filtered page payloads; semantic nodes, proofs and statement docks retain their IDs, while visually coarsened edges retain the represented incidence IDs. |
 | `graph-measure.ts`, `graph-node-size.ts` | Batched browser measurement with bundled fonts, wrapped SVG lines, ink bounds, dock capacity and visible attachment rails. |
 | `src/graph-layout/` | Pure normalization, components, rank/order search, port-aware coordinates, protected/orthogonal routes, safe rounding and selection. |
 | `validate.ts` | Independent checks of the complete reference and quantized serialized geometry, including arrowheads, groups and actual route crossings. |
@@ -48,11 +48,13 @@ Orthogonal candidates require enough space for distinct 8px channels;
 compressed bands use validated protected polylines instead. These presentation
 changes postdate the frozen evaluation below; its measurements remain historical.
 
-Proof incidences retain the AND/OR structure and separate alternative proofs.
-Numbered statements retain their fixed dock identities. The projection can
-also represent a coarse concept assumption without inventing a statement.
-Neither proof incidences nor direct import dependencies undergo transitive
-reduction. Layout dummies, bends and group gates are never mathematical nodes.
+Proof incidences retain concept-level AND/OR structure and separate alternative
+proofs. Numbered statements retain fixed dock identities for conclusions and
+navigation. Outgoing uses of a multi-statement concept share one concept-level
+attachment, and multiple statements from that concept used by one proof are
+represented by one visual edge whose payload retains all exact incidence IDs.
+Neither proof dependencies nor direct imports undergo transitive reduction.
+Layout dummies, bends and group gates are never mathematical nodes.
 
 Algorithm work was split only after the common geometry schema and independent
 validator existed. [Ranking/ordering](rank-order.md),
@@ -136,7 +138,10 @@ semantic payloads, graph kinds and a deterministic split. Algorithm diagnostics
 and measurements are separate from geometry bytes. Geometry metrics distinguish
 proper crossings, repeated crossing pairs, endpoint touches, tangencies,
 positive-length overlaps, node/label/dock collisions, bends, length and extent.
-Shared endpoints exempt only the common endpoint, never an entire edge pair.
+Shared endpoints exempt only the common endpoint. The one additional exception
+is a common trunk leaving the same declared source port, used for the single
+outgoing attachment of a multi-statement concept; crossings elsewhere in the
+edge pair are still counted.
 
 Performance targets are evaluated on a declared reference host and fixture
 tier. Per-graph regressions, cold/warm measurements, comparison limitations and

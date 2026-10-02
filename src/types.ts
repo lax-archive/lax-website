@@ -14,6 +14,8 @@ export interface Manifest {
   title: string;
   authors: Author[];
   bibEntries: string[];
+  /** Omit this submission from discovery surfaces while keeping its pages addressable. */
+  unlisted?: boolean;
   /** Suppress authorship and source links on presentation surfaces. */
   anonymous?: boolean;
   /** The submission this one replaces; binding once this one is registered. */
@@ -24,6 +26,18 @@ export interface SourceTriple {
   repository: string;
   commit: string;
   folder: string;
+}
+
+/**
+ * A database record the build left out, and why. A record the loader cannot
+ * parse or the generator cannot render is skipped with a warning rather
+ * than failing the whole site: one malformed record must never stall every
+ * later rebuild (the site would stay up but stale, hour after hour, with
+ * the fallback failing silently).
+ */
+export interface SkippedRecord {
+  id: string;
+  reason: string;
 }
 
 export interface DbRecord {

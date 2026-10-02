@@ -112,7 +112,8 @@ describe("expanded display SCCs with explicit semantic incidence gates", () => {
     const graph = fixture(["a", "b"], [{ source: "a", target: "b" }, { source: "b", target: "a" }]);
     let calls = 0;
     expect(() => layoutGroups(graph, () => { calls++; throw new GraphDiagnosticError([{ code: "fixture-failure", message: "No valid outer candidate" }]); }, "failed")).toThrow(/scc-layout-invalid/);
-    expect(calls).toBe(3);
+    // One local (chain) attempt, then the three envelope scales.
+    expect(calls).toBe(4);
   });
   it("joins callback routes by section topology even when their arrays are reversed", () => {
     const graph = fixture(["a", "b", "result"], [{ source: "a", target: "b" }, { source: "b", target: "a" }, { source: "a", target: "result" }]);

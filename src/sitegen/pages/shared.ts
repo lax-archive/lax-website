@@ -2,8 +2,8 @@ import { DEFAULT_SITE_URL } from "../../config.js";
 import type { AnnotationSection, BuildOutput, ConceptEntry, ProofEntry } from "../../types.js";
 import type { ConceptGraphData, SubmissionGraphData } from "../graphs.js";
 import { attr, code, esc, formatDate, proofBadge, statePill, typeBadge } from "../html.js";
-import { plainAuthorTitle, type MarkdownRenderer } from "../markdown.js";
-import { compareIds, type LocatedProof, type SiteModel, type SiteSubmission } from "../model.js";
+import { bibtexAuthorTitle, plainAuthorTitle, type MarkdownRenderer } from "../markdown.js";
+import { compareIds, isDiscoverableSubmission, type LocatedProof, type SiteModel, type SiteSubmission } from "../model.js";
 import { conceptReviewBadge } from "./discussion.js";
 
 export interface PageContext { model: SiteModel; markdown: MarkdownRenderer }
@@ -243,23 +243,23 @@ export function conceptMapLegend(data: ConceptGraphData, ownLabel: string, extLa
     claimFillLegend(data.nodes.map((node) => node.status), true),
     data.nodes.some((node) => !node.ext) ? `<span><i class="legend-node stroke-own"></i>${esc(ownLabel)}</span>` : "",
     data.nodes.some((node) => node.ext) ? `<span><i class="legend-node stroke-ext"></i>${esc(extLabel)}</span>` : "",
-    data.edges.length ? `<span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B builds on A</span>` : "",
+    data.edges.length ? `<span><svg class="legend-dependency-arrow" viewBox="0 -4 26 8" aria-hidden="true" focusable="false"><path class="legend-edge-line" d="M1 0h22"/><path d="m20-3 3 3-3 3"/></svg>A → B: B builds on A</span>` : "",
   ];
   return `<figcaption class="graph-legend" aria-label="Concept map legend">${items.join("")}</figcaption>`;
 }
 
 /** The submission map's legend. Same grammar one level up: stroke = origin,
  * arrow = direction of dependency. Submissions carry no proven/open status of
- * their own, so the fill axis stays out of it, and the freed colour axis goes
- * to the arrow instead: which half of the dependent submission reaches
- * across. Each arrow entry appears only when the map actually draws one. */
+ * their own, so the fill axis stays out of it. A dashed arrow distinguishes a
+ * dependency declared only by proofs. Each arrow entry appears only when the
+ * map actually draws one. */
 export function submissionMapLegend(data: SubmissionGraphData): string {
   const kinds = new Set(data.edges.map((edge) => edge.kind));
   const items = [
     `<span><i class="legend-node stroke-own"></i>This submission</span>`,
     `<span><i class="legend-node stroke-ext"></i>Other submission</span>`,
-    kinds.has("concepts") ? `<span><i class="legend-arrow" aria-hidden="true">→</i>A → B: B's concepts build on A</span>` : "",
-    kinds.has("proofs") ? `<span><i class="legend-arrow proof-dep" aria-hidden="true">→</i>A → B: only B's proofs build on A</span>` : "",
+    kinds.has("concepts") ? `<span><svg class="legend-dependency-arrow" viewBox="0 -4 26 8" aria-hidden="true" focusable="false"><path class="legend-edge-line" d="M1 0h22"/><path d="m20-3 3 3-3 3"/></svg>A → B: B's concepts build on A</span>` : "",
+    kinds.has("proofs") ? `<span><svg class="legend-dependency-arrow proof-dep" viewBox="0 -4 26 8" aria-hidden="true" focusable="false"><path class="legend-edge-line" d="M1 0h22"/><path d="m20-3 3 3-3 3"/></svg>A → B: only B's proofs build on A</span>` : "",
   ];
   return `<figcaption class="graph-legend" aria-label="Submission map legend">${items.join("")}</figcaption>`;
 }
@@ -267,6 +267,19 @@ export function submissionMapLegend(data: SubmissionGraphData): string {
 export function proofNetworkLegend(data: ProofNetworkLegendData): string {
   const statuses = data.statements.map((statement) => statement.proven ? "proven" as const : "open" as const);
   const nodes = [...data.statements, ...data.proofs];
+  const hasOwn = nodes.some((node) => !node.ext);
+  const hasExternal = nodes.some((node) => node.ext);
+  const originSwatches = [
+    hasOwn ? `<i class="legend-node stroke-own"></i>` : "",
+    hasOwn && hasExternal ? `<span class="legend-origin-separator">/</span>` : "",
+    hasExternal ? `<i class="legend-node stroke-ext"></i>` : "",
+  ].join("");
+  const originLabel = hasOwn && hasExternal
+    ? "Claim from this submission / another submission"
+    : hasOwn ? "Claim from this submission" : hasExternal ? "Claim from another submission" : "";
+  const origin = originLabel
+    ? `<span class="legend-origin"><span class="legend-origin-swatches" aria-hidden="true">${originSwatches}</span><span>${originLabel}</span></span>`
+    : "";
   // Every flow arrow is the same small shape; the extra assumptions only
   // rotate and translate it toward the turnstile.
   const arrow = "M1 0h10m-3-3 3 3-3 3";
@@ -278,9 +291,8 @@ export function proofNetworkLegend(data: ProofNetworkLegendData): string {
     data.statements.some((statement) => (statement.count ?? 1) > 1)
       ? `<span><i class="legend-dock" aria-hidden="true">1</i>Statement 1, 2, … of a claim with several statements</span>`
       : "",
-    nodes.some((node) => !node.ext) ? `<span><i class="legend-node stroke-own"></i>This submission</span>` : "",
-    nodes.some((node) => node.ext) ? `<span><i class="legend-node stroke-ext"></i>From another submission</span>` : "",
-    data.proofs.length ? `<span><i class="legend-proof-chip" aria-hidden="true">⊢</i>Proof</span>` : "",
+    origin,
+    data.proofs.length ? `<span><i class="legend-proof-chip" aria-hidden="true">⊢</i>Proof — open large view for details</span>` : "",
     proofNetworkHasCycle(data) ? `<span><i class="legend-cycle"></i>Cycle — claims proving each other</span>` : "",
   ];
   return `<figcaption class="graph-legend" aria-label="Proof network legend">${items.join("")}</figcaption>`;
@@ -527,14 +539,13 @@ ${EMPTY_ROW}
  * versions are intentionally discoverable only through their version chain. */
 export function currentSubmissions(model: SiteModel): SiteSubmission[] {
   return model.submissions
-    .filter((submission) => submission.output && !model.isSuperseded(submission.record.id))
+    .filter((submission) => isDiscoverableSubmission(submission) && !model.isSuperseded(submission.record.id))
     .sort((a, b) => compareSearchSubmissions(model, a, b));
 }
 
-/** Sidebar of submission, concept, and proof pages: back-link, search, type
- * filter, the submission's concepts (with the same status badges as the
- * concept list on the submission page), and its proofs below them. */
-export function submissionSidebar(
+/** Previous sidebar of submission, concept, proof, and paper pages. It stays
+ * available while the archive-wide submission finder is being evaluated. */
+export function legacySubmissionSidebar(
   model: SiteModel,
   submission: SiteSubmission,
   rootRel: string,
@@ -590,12 +601,57 @@ ${EMPTY_ROW}
 </ul>`;
 }
 
+/** Sidebar of submission, concept, proof, and paper pages: keep the local
+ * back-link, then discover other registered submissions by title, concept,
+ * and Lean environment. The epoch is the deliberate initial environment
+ * even when the page being read belongs to an older one. */
+export function submissionSidebar(
+  model: SiteModel,
+  submission: SiteSubmission,
+  rootRel: string,
+  opts: { activeId?: string; backToSubmission?: boolean } = {},
+): string {
+  /* To restore the previous concept/proof sidebar, replace this renderer with:
+   * return legacySubmissionSidebar(model, submission, rootRel, opts);
+   */
+  const listed = currentSubmissions(model).filter((candidate) =>
+    candidate.record.state === "registered" && candidate.record.id !== submission.record.id);
+  const rows = listed.map((candidate, order) => {
+    const id = candidate.record.id;
+    const title = plainAuthorTitle(candidate.output!.manifest.title);
+    return `<li ${submissionSearchAttributes(candidate, order)}><a class="entry-link" href="${attr(`${rootRel}${id}/index.html`)}" data-full-title="${attr(title)}"><span class="entry-label"><span class="entry-label-text">${esc(title)}</span></span></a></li>`;
+  });
+  const environments = [model.epoch, ...model.environments.filter((environment) => environment !== model.epoch)];
+  const environmentOptions = environments.map((environment) => {
+    const epoch = environment === model.epoch;
+    return `<option value="${attr(environment)}"${epoch ? " selected" : ""}>${esc(environment)}${epoch ? " · current epoch" : ""}</option>`;
+  }).join("\n");
+  const environmentFilter = `<div class="filter-group">
+<label for="filter-environment">Lean version</label>
+<select id="filter-environment" class="filter-select" aria-controls="entry-list">
+${environmentOptions}
+</select>
+</div>`;
+
+  const onSubPage = Boolean(opts.activeId) || Boolean(opts.backToSubmission);
+  const backHref = onSubPage ? `${rootRel}${submission.record.id}/index.html` : `${rootRel}submissions/`;
+  const backLabel = onSubPage ? submission.record.id : "All submissions";
+  return `<a class="sidebar-back" href="${attr(backHref)}"><span class="sidebar-back-arrow" aria-hidden="true">←</span>${esc(backLabel)}</a>
+<h2 class="sidebar-section-title">Other submissions</h2>
+<div class="sidebar-filters">${searchGroup("Search titles and concepts")}
+${environmentFilter}</div>
+<ul id="entry-list">
+${rows.join("\n")}
+<li id="entry-list-empty" hidden>No other submissions match.</li>
+</ul>`;
+}
+
 // ---- shared fragments ----
 
-export function draftBanner(state: string): string {
-  return state === "draft"
-    ? `<p class="draft-banner"><strong>Draft</strong> — mutable and not usable as a dependency; its citation marks the draft state.</p>`
-    : "";
+export function draftBanner(submission: SiteSubmission): string {
+  const { record } = submission;
+  if (record.state !== "draft") return "";
+  return `<p class="draft-banner">While this submission is a draft, it cannot be used by other submissions.</p>`;
 }
 
 /**
@@ -706,7 +762,6 @@ ${title ? `<p class="version-item-title">${ctx.markdown.renderAuthorInline(title
   return `${notice}
 <dialog class="version-history-dialog" id="version-history-dialog" data-version-dialog aria-labelledby="version-history-title">
 <div class="version-dialog-header"><div><p class="version-dialog-eyebrow">Version history</p><h2 id="version-history-title">Submission versions</h2></div><button class="version-dialog-close" type="button" data-version-dialog-close aria-label="Close version history">×</button></div>
-<p class="version-dialog-intro">Newest first. “Current version” is the latest registered successor; drafts are identified separately.</p>
 <ol class="version-list">
 ${rows.join("\n")}
 </ol>
@@ -758,7 +813,8 @@ function authorByline(submission: SiteSubmission): string {
     ].filter(Boolean).join(" ");
     return `<span class="paper-author">${name}${links ? ` <span class="author-links">${links}</span>` : ""}</span>`;
   });
-  return authors.join('<span class="author-sep">·</span>');
+  // The spaces let the byline wrap between authors; each name itself stays whole.
+  return authors.join(' <span class="author-sep">·</span> ');
 }
 
 /** The dim technical line under the title: id, authors, state, dates, source, pins. */
@@ -810,14 +866,14 @@ export function bibtex(model: SiteModel, submission: SiteSubmission): string {
   const { record, output } = submission;
   const manifest = output!.manifest;
   if (manifest.anonymous === true) return "";
-  const clean = (s: string) => s.replace(/[{}\\]/g, "");
+  const field = (s: string) => s.replace(/\s+/gu, " ").trim();
   const year = new Date(record.registeredAt ?? record.createdAt).getUTCFullYear();
-  const author = manifest.authors.map((a) => clean(a.name)).join(" and ");
+  const author = manifest.authors.map((a) => field(bibtexAuthorTitle(a.name))).join(" and ");
   const successor = model.isSuperseded(record.id) ? model.latestVersion(record.id) : undefined;
   const lines = [
     `@misc{${record.id},`,
     ...(author ? [`  author = {${author}},`] : []),
-    `  title = {${clean(manifest.title)}},`,
+    `  title = {${field(bibtexAuthorTitle(manifest.title))}},`,
     `  year = {${year}},`,
     `  howpublished = {Lax Archive, ${record.id}},`,
     `  url = {${DEFAULT_SITE_URL.replace(/\/+$/, "")}/${record.id}/},`,

@@ -1,38 +1,32 @@
 # Let's stay in control of mathematics
 
-AI is about to massively accelerate mathematical research. This will push the
-classical system of peer review and publishing beyond its limits. We need new,
+Mathematical research is about to be drastically accelerated. This will push
+the classical system of peer review and publishing beyond its limits. We need new,
 scalable mechanisms for digesting mathematics, or we risk losing control of
-our own field.
+our field.
 
-Proof systems like Lean provide a scalable way of ensuring the
-*correctness* of mathematics. This frees humans to spend their finite
-attention on developing *intuition*, *clarity*, and *abstractions*.
+Proof assistants like Lean provide a scalable way of ensuring *correctness*.\
+Lax builds on this foundation to make formal mathematics scalable for humans
+too, by organizing results and making them easy to review and reuse.
 
 ## How it works
 
-**The paper stays the paper.** Lax annotates natural-language mathematics
-with Lean. Each definition or claim, where it stands in the paper, is tied
-to a *concept*: a reusable block that pairs a mathematical statement with a
-faithful Lean encoding. Each proof is tied to Lean code that derives one
-concept from others. Freely composable across papers.
+**Concepts and proofs.** Lax annotates natural-language mathematics with Lean.
+Each definition or claim is tied to a *concept*: a pair formed by a
+mathematical statement and a faithful Lean encoding. Each proof is tied to
+Lean code that derives one concept from others. Concepts and proofs can be
+reused across submissions.
 
 ## Proof network
 
-**Proof network.** Explore how proofs compose, which claims are proven,
-and which are not yet. Any later submission can discharge an
+**Proof network.** Explore how proofs compose and which claims are proven.
+Any later submission can discharge an
 [open obligation](open-proof-obligations.html), and every result that
-rested on it is proven from that moment on.
+rested on it is then proven.
 
 ## Get started right away
 
-### Linux / macOS
-
-Set up, once per machine:
-
-```
-npm install -g lax-archive && lax doctor
-```
+{{setup-tabs}}
 
 Hand your coding agent a prompt like:
 
@@ -42,31 +36,15 @@ Run `lax print instructions` and follow the guide to formalize <my result>.
 
 Then your agent takes over and guides you through the process.
 
-### Windows
+## Community and Feedback
 
-First, open PowerShell as administrator and install a
-[Linux terminal with WSL](https://learn.microsoft.com/en-us/windows/wsl/install):
+### Join the conversation
 
-```
-wsl --install
-```
-
-After restarting, open Ubuntu.
-
-Set up, once per machine:
-
-```
-npm install -g lax-archive
-lax doctor
-```
-
-Hand your coding agent a prompt like:
-
-```
-Run `lax print instructions` and follow the guide to formalize <my result>.
-```
-
-Then your agent takes over and guides you through the process.
+Lax is shaped by the people who use and review it. [Join the Lax
+Discord](https://discord.gg/hgWMN5ztca) to ask questions, exchange ideas, and
+share feedback, or email us at
+[mail@laxarchive.org](mailto:mail@laxarchive.org). You can also
+meet the community at the [2nd Lax Online Meeting](workshop/).
 
 ## Build foundations together
 

@@ -328,7 +328,7 @@ ${cards.join("\n")}
     scripts = ["assets/version-history.js"];
   }
 
-  const content = `${draftBanner(record.state)}${environmentNotice(ctx.model, submission)}${versionHistoryPanel(ctx, home, "../")}
+  const content = `${draftBanner(submission)}${environmentNotice(ctx.model, submission)}${versionHistoryPanel(ctx, home, "../")}
 <div class="manuscript"${rootAttributes}>
 <div class="detail-heading concept-heading manuscript-heading">
 <div><p class="concept-id">Paper</p>
@@ -341,9 +341,11 @@ ${body}
   return page({
     title: `${options.printed ? "Paper as printed" : "Paper"} — ${home}`,
     rootRel: "../",
+    canonicalPath: `${home}/${options.printed ? "paper-pdf.html" : "paper.html"}`,
     sidebar: submissionSidebar(ctx.model, submission, "../", { backToSubmission: true }),
     sidebarState: "collapsed",
     content,
+    noIndex: output!.manifest.unlisted === true,
     detailClass: "detail-manuscript",
     scripts: [...scripts, "assets/lean-code.js"],
   });

@@ -17,6 +17,13 @@ Archive submissions are data, not website source. The generator reads the
 public [`lax-archive/lax-database`](https://github.com/lax-archive/lax-database)
 repository and never modifies it.
 
+A manifest with `unlisted: true` keeps its submission, concept, proof, and
+paper pages available by direct URL, but omits the record from archive-wide
+browse, search, topic, review, comment-activity, proof-obligation, and
+machine-readable index surfaces. Those direct pages also ask search engines
+not to index them. A manifest with `anonymous: true` remains discoverable but
+withholds authorship, citation, and source-repository details.
+
 ## Requirements
 
 - Node.js 20 or newer
@@ -121,6 +128,10 @@ bytes therefore differ from production's, deterministically per flag set).
 - `content/landing.md` supplies the landing-page introduction.
 - `content/contributing.md` generates `/contributing.html`.
 - `content/about.md` generates `/about.html`, linked from the header.
+  Its `{{concept-proof-flip}}` marker inserts the concept/proof flip card
+  from `src/sitegen/pages/proof-flip.ts`, with hover, touch and keyboard controls.
+- `content/workshop.md` generates `/workshop/` and embeds the workshop
+  preregistration form.
 - Submission, concept, and proof pages come from `record.json` and
   `build-output.json` in `lax-db`.
 - Submission/concept titles and annotation headings accept inline Markdown and
@@ -134,14 +145,30 @@ bytes therefore differ from production's, deterministically per flag set).
   references from the submission's sealed `.ilean` files. This covers archive
   declarations, structure keys and projections, aliases, private globals and
   constructors, with type and scope information from the validated build.
-  Local variables, external library names (including Mathlib), and names at
-  their own definition sites stay plain. Imported archive module names link
-  to their concept pages. Archive namespaces in `open` commands link to their
+  Mathlib constants and Lean core/standard-library types such as `Nat` link
+  to their exact declarations in the public Mathlib documentation, including
+  `abbrev` declarations. Uses of archive abbreviations link to their source
+  declarations. The compressed, checksummed index in `assets/mathlib-docs/`
+  is a fixed build input, loaded once and never sent to browsers; its refresh
+  procedure is documented there. The documentation describes the current
+  version, which may differ from the submission's Mathlib pin. Links use
+  the compact hover label “mathlib ↗” or “lean ↗”.
+  For declarations absent from the index, `references:fetch` verifies the
+  defining module at the submission's full Mathlib commit and caches whether
+  it exists; a verified module gets a pinned GitHub source link. Missing
+  modules remain plain. Local variables, other external libraries, and names
+  at their own definition sites stay plain. Imported archive module names link
+  to their concept pages; Mathlib import names in the Lean source link to their
+  module documentation. Archive namespaces in `open` commands link to their
   owning concept or declaration; standalone submission namespaces such as
   `Lax17` link to the submission page, as do displayed `lax-17` metadata labels
   on other pages. The ID beneath a submission's own title stays plain.
   Namespace navigation uses known, unambiguous destinations within the
-  module's archive imports. Declaration uses link to the
+  module's archive imports. External `open scoped` names link to their
+  documented declaration when one exists (for example `SimpleGraph` or
+  `ENNReal`); `BigOperators` and `Classical` link to their defining documentation
+  modules. Archive namespace destinations take precedence, and unknown scopes
+  stay plain. Declaration uses link to the
   beginning of the declaration's preceding comments (or its attributes and
   modifiers when there are no comments); statements retain their `s-…` anchors
   at the same comment start. Source targets align below the sticky header, with
@@ -152,8 +179,10 @@ bytes therefore differ from production's, deterministically per flag set).
   existing public captures. It uses bounded HTTP ranges, checks each tar
   header and member digest, and verifies the displayed source against the
   capture manifest. It neither extracts tar paths nor compiles submissions.
-  Builds reverify cached bytes and validate Lean's version-5 JSON and UTF-16
-  ranges. Missing, stale or unsupported metadata fails a normal archive build
+  It also checks any needed Mathlib source fallbacks, storing the results
+  under `data/references/mathlib-sources/`. Builds reverify cached bytes and
+  validate Lean's version-5 JSON and UTF-16 ranges. Missing, stale or
+  unsupported metadata fails a normal archive build
   with an explanatory error. `--references DIR` moves the cache. Both CI and
   branch deployments fetch it before building.
 - Local `lax` callers without sealed captures, and explicit `--no-references`
@@ -185,8 +214,10 @@ bytes therefore differ from production's, deterministically per flag set).
   not host every archive environment, and older code may require adaptation.
   The site's type hovers always use the original archive environment. The
   external editor opens only when a reader follows the link.
-- Source links are static relative URLs to generated pages. They preserve
-  syntax colours, source text and line anchors, work in branch previews, and
+- Archive source links are static relative URLs; Mathlib links are restricted
+  to the public Lean/Mathlib documentation and pinned `leanprover-community/mathlib4`
+  source paths. They preserve syntax colours, source text and line anchors,
+  work in branch previews, and
   require no browser scripts, external requests or CSP changes. Each build
   scans each concept once for its declaration inventory and caches resolved
   links; rendering walks highlighted fragments without repeated whole-source
@@ -319,7 +350,13 @@ PDFs like production, and the shareable preview directory is available at
 `/previews/`. Pushing a branch updates only
 its preview; deleting the branch removes it. The workflow retains the complete
 published tree on the generated `gh-pages` branch so one branch cannot overwrite
-another branch's preview.
+another branch's preview. Every deployment (including the hourly fallback)
+reconciles previews with live source branches, expires previews after 14 days,
+and retains at most the five most recently updated previews. A new push
+recreates an expired preview. Cleanup removes only published preview files;
+it does not delete source branches, production content, or renderer archives.
+A failed or empty remote branch listing stops cleanup rather than deleting
+previews from an incomplete snapshot.
 
 To trigger an immediate rebuild from an authorized external workflow:
 
@@ -330,6 +367,26 @@ gh api --method POST repos/lax-archive/lax-website/dispatches \
 
 The scheduled build makes deployment correct even before the archive server
 or database mirror sends that event.
+
+### When a rebuild goes wrong
+
+One malformed record must not stall every later rebuild. The loader and the
+generator treat each record as its own boundary: a record whose files do not
+parse, or whose pages cannot be rendered, is left out with its reason named,
+and the site is built from the rest. `site:build --build-report FILE` writes
+the list of skipped records; the deploy workflow turns it into run
+annotations and, for production, an issue titled "Website build skipped
+records" (`.github/scripts/rebuild-alert.mjs`). A production rebuild that
+fails outright opens "Website rebuild failed" the same way. Either title is
+opened once and stays the alarm until a maintainer closes it, however often
+the hourly schedule fires; a later failure opens a new issue only while none
+with that title is open.
+
+The build also writes `404.html` (served by Pages for any missing address —
+a deleted record has no page and lands there), `robots.txt` (crawl
+everything except `/previews/`, which would otherwise be indexed as a
+duplicate of the site per retained branch), and `sitemap.xml` (every page of
+every listed record).
 
 ## Deployment boundary
 

@@ -22,6 +22,7 @@ export const SITE_MIME: Record<string, string> = {
   ".pb": "application/octet-stream",
   ".proto": "text/plain; charset=utf-8",
   ".txt": "text/plain; charset=utf-8",
+  ".xml": "application/xml; charset=utf-8",
 };
 
 /** Resolve a bundled browser asset without exposing the package layout. */

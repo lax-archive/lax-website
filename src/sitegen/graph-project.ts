@@ -13,7 +13,9 @@ export interface GraphNodeInput {
 export interface StatementGraphInput extends GraphNodeInput {
   label?: string; concept?: string; index?: number; count?: number;
   proven?: boolean; tooltipHtml?: string;
-  /** Whole-concept assumptions must remain distinct from statement endpoints. */
+  /** Whole-concept assumptions remain distinct in the source payload. The
+   * proof-network projection deliberately coarsens outgoing uses of numbered
+   * statements to their concept. */
   endpointKind?: "concept" | "statement";
 }
 export interface ProofGraphInput {
@@ -26,6 +28,10 @@ export interface FlatGraphInput {
 }
 export interface ProofGraphData {
   statements: readonly StatementGraphInput[]; proofs: readonly ProofGraphInput[];
+  /** Optional presentation scale for nodes, independent of inter-node spacing. */
+  nodeScale?: number;
+  /** Sanitized, presentation-only inspector content. It never enters layout. */
+  details?: Readonly<Record<string, unknown>>;
 }
 export interface DisplayDock {
   id: string; statementId: string; ordinal: number; href?: string;
@@ -45,6 +51,7 @@ export interface EntityMapping {
 export interface DisplayGraph {
   kind: GraphKind; nodes: readonly DisplayNode[]; edges: readonly LayoutEdge[];
   mapping: readonly EntityMapping[];
+  nodeScale?: number;
 }
 /** Exact host-measured label data needed by node sizing/serialization. */
 export interface GraphLabel {
@@ -77,10 +84,14 @@ function link(href: string | undefined): string | undefined {
 }
 
 export function projectGraph(kind: GraphKind, input: FlatGraphInput | ProofGraphData): DisplayGraph {
+  const nodeScale = kind === "proofs" ? (input as ProofGraphData).nodeScale ?? 1 : 1;
+  if (!Number.isFinite(nodeScale) || nodeScale < 1 || nodeScale > 4)
+    diagnostic("graph-node-scale", "Node scale must be between 1 and 4");
   const nodes: (DisplayNode & { ports: PortSpec[] })[] = [];
   const edges: LayoutEdge[] = [], mapping: EntityMapping[] = [];
   const byId = new Map<string, typeof nodes[number]>();
   const endpoints = new Map<string, { nodeId: string; semanticId: string; dock?: number }>();
+  const assumptionSources = new Map<string, string>();
   const addNode = (node: typeof nodes[number]) => {
     if (byId.has(node.id)) diagnostic("duplicate-display-node", "Duplicate projected identity", node.id);
     byId.set(node.id, node); nodes.push(node);
@@ -142,9 +153,11 @@ export function projectGraph(kind: GraphKind, input: FlatGraphInput | ProofGraph
         ext: members.every((m) => m.ext), docks, ports: [] });
       // A concept-only endpoint is kept coarse even when siblings are known.
       endpoints.set(concept, { nodeId: id, semanticId: concept });
+      if (multiple) assumptionSources.set(concept, concept);
       mapping.push({ semanticId: concept, kind: "concept", nodeId: id });
       for (const statement of members) {
         endpoints.set(statement.id, { nodeId: id, semanticId: statement.id, ...(multiple && statement.endpointKind !== "concept" ? { dock: statement.index } : {}) });
+        if (multiple) assumptionSources.set(statement.id, concept);
         mapping.push({ semanticId: statement.id, kind: statement.endpointKind === "concept" ? "concept" : "statement", nodeId: id });
       }
       for (const dock of docks) mapping.push({ semanticId: dock.id, kind: "dock", nodeId: id });
@@ -158,30 +171,59 @@ export function projectGraph(kind: GraphKind, input: FlatGraphInput | ProofGraph
     }
   }
   const edgeMultiplicity = new Map<string, number>();
-  const addEdge = (sourceId: string, targetId: string, edgeKind: string, semanticId: string) => {
+  /** Sibling incidences stay inside one concept box: a statement-level
+   * assumption leaves its own dock downward and a sibling-proved conclusion
+   * takes the left slot of its dock so the proof can sit right below it. */
+  const addEdge = (sourceId: string, targetId: string, edgeKind: string, displaySemanticId: string,
+    semanticIds: readonly string[] = [displaySemanticId],
+    sibling?: { sourceOrder?: number; targetOrder?: number }) => {
     const source = endpoints.get(sourceId), target = endpoints.get(targetId);
-    if (!source || !target) diagnostic("missing-semantic-endpoint", "Display edge has no declared endpoint", semanticId, ...(!source ? [sourceId] : []), ...(!target ? [targetId] : []));
-    const occurrence = edgeMultiplicity.get(semanticId) ?? 0; edgeMultiplicity.set(semanticId, occurrence + 1);
-    const id = `e:${semanticId}:${occurrence}`;
-    const sourcePortId = `${id}:source`, targetPortId = `${id}:target`;
-    for (const [endpoint, portId, side] of [[source, sourcePortId, "north"], [target, targetPortId, "south"]] as const) {
-      byId.get(endpoint.nodeId)!.ports.push({ id: portId, nodeId: endpoint.nodeId, semanticEndpointId: endpoint.semanticId,
-        side, mode: endpoint.dock ? "fixed-order" : "free-on-side", ...(endpoint.dock ? { order: endpoint.dock } : {}) });
-    }
-    edges.push({ id, sourcePortId, targetPortId, kind: edgeKind, minRankSpan: 1, semanticIds: [semanticId] });
-    mapping.push({ semanticId, kind: "edge", edgeIds: [id], portIds: [sourcePortId, targetPortId] });
+    if (!source || !target) diagnostic("missing-semantic-endpoint", "Display edge has no declared endpoint", displaySemanticId, ...(!source ? [sourceId] : []), ...(!target ? [targetId] : []));
+    const occurrence = edgeMultiplicity.get(displaySemanticId) ?? 0; edgeMultiplicity.set(displaySemanticId, occurrence + 1);
+    const id = `e:${displaySemanticId}:${occurrence}`;
+    const sourcePortId = `${id}:source`;
+    const targetPortId = `${id}:target`;
+    // Coarsen statement semantics per proof, but give each dependent its own
+    // attachment so outgoing routes cannot hide one another's prefixes.
+    byId.get(source.nodeId)!.ports.push({ id: sourcePortId, nodeId: source.nodeId, semanticEndpointId: source.semanticId,
+      side: sibling?.sourceOrder !== undefined ? "south" : "north", mode: source.dock ? "fixed-order" : "free-on-side",
+      ...(source.dock ? { order: sibling?.sourceOrder ?? source.dock } : {}) });
+    byId.get(target.nodeId)!.ports.push({ id: targetPortId, nodeId: target.nodeId, semanticEndpointId: target.semanticId,
+      side: "south", mode: target.dock ? "fixed-order" : "free-on-side", ...(target.dock ? { order: sibling?.targetOrder ?? target.dock } : {}) });
+    edges.push({ id, sourcePortId, targetPortId, kind: edgeKind, minRankSpan: 1, semanticIds });
+    for (const semanticId of semanticIds)
+      mapping.push({ semanticId, kind: "edge", edgeIds: [id], portIds: [sourcePortId, targetPortId] });
   };
   if (kind === "proofs") {
     for (const proof of [...(input as ProofGraphData).proofs].sort((a, b) => compareText(a.id, b.id))) {
-      for (const assumption of [...proof.assumptions].sort(compareText))
-        addEdge(assumption, proof.id, "assumption", `${proof.id}:assumption:${assumption}`);
-      addEdge(proof.id, proof.conclusion, "conclusion", `${proof.id}:conclusion:${proof.conclusion}`);
+      const assumptionGroups = new Map<string, string[]>(), conclusion = endpoints.get(proof.conclusion);
+      let siblings = 0;
+      for (const assumption of [...proof.assumptions].sort(compareText)) {
+        const endpoint = endpoints.get(assumption);
+        // A proof from sibling statements of its own concept keeps statement
+        // resolution: coarsening it to the concept would fake a cycle.
+        if (conclusion?.dock && endpoint?.dock && endpoint.nodeId === conclusion.nodeId) {
+          siblings += 1;
+          addEdge(assumption, proof.id, "assumption", `${proof.id}:assumption:${assumption}`, undefined,
+            { sourceOrder: endpoint.dock + (conclusion.dock > endpoint.dock ? -0.25 : 0.25) });
+          continue;
+        }
+        const source = assumptionSources.get(assumption) ?? assumption;
+        const incidences = assumptionGroups.get(source) ?? [];
+        incidences.push(`${proof.id}:assumption:${assumption}`);
+        assumptionGroups.set(source, incidences);
+      }
+      for (const [source, semanticIds] of [...assumptionGroups].sort(([a], [b]) => compareText(a, b)))
+        addEdge(source, proof.id, "assumption", `${proof.id}:assumption:${source}`, semanticIds);
+      addEdge(proof.id, proof.conclusion, "conclusion", `${proof.id}:conclusion:${proof.conclusion}`, undefined,
+        siblings && conclusion?.dock ? { targetOrder: conclusion.dock - 0.25 } : undefined);
     }
   } else {
     for (const edge of [...(input as FlatGraphInput).edges].sort((a, b) => compareText(`${a.from}\0${a.to}\0${a.kind ?? ""}\0${a.id ?? ""}`, `${b.from}\0${b.to}\0${b.kind ?? ""}\0${b.id ?? ""}`)))
       addEdge(edge.from, edge.to, edge.kind ?? "import", edge.id ?? `${edge.from}->${edge.to}:${edge.kind ?? "import"}`);
   }
-  return deepFreeze({ kind, nodes: nodes.sort((a, b) => compareText(a.id, b.id)), edges: edges.sort((a, b) => compareText(a.id, b.id)), mapping });
+  return deepFreeze({ kind, nodes: nodes.sort((a, b) => compareText(a.id, b.id)), edges: edges.sort((a, b) => compareText(a.id, b.id)), mapping,
+    ...(nodeScale !== 1 ? { nodeScale } : {}) });
 }
 
 export { measureDisplayGraph } from "./graph-node-size.js";

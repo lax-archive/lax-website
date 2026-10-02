@@ -1,6 +1,7 @@
 import { leanDeclarations, nameKey, nameParts, scanLeanSource, type LeanNamespaceReference, type LeanSource, type LeanToken, type SourceRange } from "./lean-source.js";
 import type { LocatedConcept, SiteModel } from "./model.js";
 import type { LeanReferences } from "../lean-references.js";
+import { mathlibDocLink, mathlibModuleLink, mathlibScopeLink } from "../mathlib-links.js";
 
 export interface SourceLink extends SourceRange { href: string }
 interface Target { module: string; href: string; offset: number; private: boolean }
@@ -12,6 +13,7 @@ interface ModuleSource {
   definitionSites: SourceRange[];
   imports: SourceLink[];
   namespaces: LeanNamespaceReference[];
+  mathlibSources?: ReadonlyMap<string, string>;
 }
 
 /** Even dotted syntax can be local: `let N.value := ...; N.value`, or a
@@ -118,7 +120,7 @@ class SourceLinkIndex {
         this.semanticTargets.set(concept.id, targets);
       }
       const imports: SourceLink[] = [];
-      const imported = new Set(concept.imports);
+      const imported = new Set([...concept.imports, ...(concept.mathlibImports ?? [])]);
       for (let i = 0; i < source.tokens.length; i++) {
         if (source.tokens[i]!.text !== "import") continue;
         for (let j = i + 1; j < source.tokens.length; j++) {
@@ -126,12 +128,13 @@ class SourceLinkIndex {
           if (token.text === "all") continue;
           if (!imported.has(token.text)) break;
           const target = model.conceptHome.get(token.text);
-          if (target) imports.push({ start: token.start, end: token.end, href: this.page(target) });
+          const href = target ? this.page(target) : mathlibModuleLink(token.text);
+          if (href) imports.push({ start: token.start, end: token.end, href });
         }
       }
       this.modules.set(concept.id, {
         references, locals: semantic ? new Set() : possibleLocals(source, declarations),
-        semantic, definitionSites, imports, namespaces,
+        semantic, definitionSites, imports, namespaces, mathlibSources: located.submission.mathlibSources,
       });
       const addNamespace = (parts: readonly string[]) => {
         const key = nameKey(parts);
@@ -161,7 +164,7 @@ class SourceLinkIndex {
    * the nearest enclosing declaration (or the module if none has a span). */
   private semanticTarget(module: string, name: string): string | undefined {
     const located = this.model.conceptHome.get(module);
-    if (!located) return undefined; // Mathlib/Lean and other non-archive code.
+    if (!located) return undefined;
     const targets = this.semanticTargets.get(module);
     for (let parent = name; parent; parent = parent.slice(0, parent.lastIndexOf("."))) {
       const target = targets?.get(parent);
@@ -176,17 +179,21 @@ class SourceLinkIndex {
     for (const reference of source.namespaces) {
       const { token, namespace, kind } = reference;
       let href: string | undefined;
-      if (kind !== "open") href = this.submissionNamespaces.get(nameKey(namespace));
+      if (kind !== "open" && kind !== "scoped") href = this.submissionNamespaces.get(nameKey(namespace));
       else {
         const rooted = token.name![0] === "_root_";
         const parts = rooted ? token.name!.slice(1) : token.name!;
         for (let depth = rooted ? 0 : namespace.length; depth >= 0; depth--) {
-          const key = nameKey([...namespace.slice(0, depth), ...parts]);
+          const qualified = [...namespace.slice(0, depth), ...parts];
+          const key = nameKey(qualified);
           const homes = this.namespaceHomes.get(key);
           const candidates = [...(homes ?? [])].filter(([module]) => visible.has(module));
-          if (!candidates.length) continue;
-          href = this.submissionNamespaces.get(key) ?? (candidates.length === 1 ? candidates[0]![1] : undefined);
-          break;
+          if (candidates.length) {
+            href = this.submissionNamespaces.get(key) ?? (candidates.length === 1 ? candidates[0]![1] : undefined);
+            break;
+          }
+          if (kind === "scoped") href = mathlibScopeLink(qualified.join("."));
+          if (href) break;
         }
       }
       if (href) links.push({ start: token.start, end: token.end, href });
@@ -197,7 +204,8 @@ class SourceLinkIndex {
   private semanticLinks(module: ModuleSource, namespaceLinks: SourceLink[]): SourceLink[] {
     const candidates = [...module.imports, ...namespaceLinks];
     for (const reference of module.semantic!.constants) {
-      const href = this.semanticTarget(reference.module, reference.name);
+      const href = this.semanticTarget(reference.module, reference.name) ??
+        mathlibDocLink(reference.module, reference.name) ?? module.mathlibSources?.get(reference.module);
       if (!href) continue;
       for (const usage of reference.usages) {
         if (usage.start === usage.end) continue;
@@ -254,8 +262,8 @@ class SourceLinkIndex {
       this.resolved.set(conceptId, links);
       return links;
     }
-    const links: SourceLink[] = [...namespaceLinks];
-    const namespaceSites = new Set(namespaceLinks.map((link) => link.start));
+    const links: SourceLink[] = [...module.imports, ...namespaceLinks];
+    const namespaceSites = new Set(links.map((link) => link.start));
     const destinations = new Map<string, Target[]>();
     const candidates = (parts: readonly string[]) => {
       const key = nameKey(parts);
@@ -301,10 +309,11 @@ class SourceLinkIndex {
   }
 }
 
-/** All URLs are generated from archive destinations, never source-provided
- * URLs. Relative paths also work below /previews/<branch>/. */
+/** Archive paths remain relative in branch previews; Mathlib destinations
+ * come from the pinned documentation index or verified source cache. */
 export function sourceLinks(model: SiteModel, conceptId: string, rootRel: string): SourceLink[] {
   let index = indexes.get(model);
   if (!index) { index = new SourceLinkIndex(model); indexes.set(model, index); }
-  return index.links(conceptId).map((link) => ({ ...link, href: rootRel + link.href }));
+  return index.links(conceptId).map((link) => ({ ...link,
+    href: link.href.startsWith("https://") ? link.href : rootRel + link.href }));
 }

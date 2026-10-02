@@ -372,19 +372,31 @@ describe("the reflow paper page", () => {
     // Without a bundles cache (previews), nothing attaches and nothing is owed.
     expect(loadSubmissions(database, {})[0]!.bundleFile).toBeUndefined();
 
-    // A corrupt web block fails the load with the record named.
+    // A corrupt web block skips the record, with the record named — the
+    // rest of the archive still builds.
     const broken = JSON.parse(fs.readFileSync(path.join(dir, "build-output.json"), "utf8"));
     broken.paper.web.format.schema = "not-hex";
     fs.writeFileSync(path.join(dir, "build-output.json"), JSON.stringify(broken));
-    expect(() => loadSubmissions(database)).toThrow(/lax-21.*web format schema must be a sha256 hex string/);
+    const skipped: string[] = [];
+    expect(loadSubmissions(database, { onSkip: (skip) => skipped.push(`${skip.id}: ${skip.reason}`) })).toEqual([]);
+    expect(skipped).toEqual([expect.stringMatching(/^lax-21: .*lax-21.*web format schema must be a sha256 hex string/)]);
   });
 
-  it("hard-fails on cache corruption and record/bundle skew rather than serving it", async () => {
+  it("never serves cache corruption or record/bundle skew: the record is skipped, named", async () => {
+    // Fail-closed per record: the corrupt paper is not served, and the
+    // skip is reported so the cache or the record gets fixed.
+    const skipOf = async (submissions: SiteSubmission[], out: string): Promise<string[]> => {
+      const skipped: string[] = [];
+      await generateSite(submissions, out, { log: () => {}, onSkip: (skip) => skipped.push(`${skip.id}: ${skip.reason}`) });
+      return skipped;
+    };
     // Cached bytes that do not match the record's digest.
     const wrongBytes = path.join(tmpDir("lax-bundle-corrupt-"), "wrong.tar");
     fs.writeFileSync(wrongBytes, makeTar([{ name: "blocks/000.pb", bytes: Buffer.from("x") }]));
-    await expect(generateSite(attach(webArchive(), { bundle: wrongBytes }), tmpDir("lax-site-corrupt-"), { log: () => {} }))
-      .rejects.toThrow(/lax-21 cached web bundle does not match its record/);
+    const corruptSite = tmpDir("lax-site-corrupt-");
+    expect(await skipOf(attach(webArchive(), { bundle: wrongBytes }), corruptSite))
+      .toEqual([expect.stringMatching(/^lax-21: .*lax-21 cached web bundle does not match its record/)]);
+    expect(fs.existsSync(path.join(corruptSite, "lax-21"))).toBe(false);
 
     // A record pinning the supported schema over a bundle sealed with
     // different index metadata: skew, not a graceful gate.
@@ -403,7 +415,9 @@ describe("the reflow paper page", () => {
       format: { tool: "reflowtex", rev: fixtureRecord.web.format.rev, schema: sha256(fixtureSchema) },
       bundle: { digest: sha256(tar), bytes: tar.length },
     };
-    await expect(generateSite(attach(webArchive(web), { bundle: skewFile }), tmpDir("lax-site-skew-"), { log: () => {} }))
-      .rejects.toThrow(/lax-21 paper web bundle index disagrees/);
+    const skewSite = tmpDir("lax-site-skew-");
+    expect(await skipOf(attach(webArchive(web), { bundle: skewFile }), skewSite))
+      .toEqual([expect.stringMatching(/^lax-21: .*lax-21 paper web bundle index disagrees/)]);
+    expect(fs.existsSync(path.join(skewSite, "lax-21"))).toBe(false);
   });
 });

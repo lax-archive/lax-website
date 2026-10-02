@@ -1,9 +1,7 @@
 // Sidebar behavior: mobile drawer toggle and entry filtering. All data is in
-// the DOM (data-search / data-type attributes); nothing is fetched.
+// the DOM (data-search / data-type / data-env attributes); nothing is fetched.
 (() => {
-  // The front page's library shows a few rows under a fade; one click
-  // shows every matching submission.
-  const SUBMISSION_PREVIEW_SIZE = 3;
+  const SUBMISSION_PAGE_SIZE = 10;
   const SIDEBAR_DEFAULT_WIDTH = 285;
   const SIDEBAR_MIN_WIDTH = 220;
   const SIDEBAR_MAX_WIDTH = 520;
@@ -11,7 +9,7 @@
   let searchHasSelectedRead = false;
   let selectedTag = '';
   let submissionFilterKey;
-  let submissionVisibleLimit = SUBMISSION_PREVIEW_SIZE;
+  let submissionVisibleLimit = SUBMISSION_PAGE_SIZE;
 
   function isMobile() {
     return window.matchMedia('(max-width: 900px)').matches;
@@ -32,7 +30,7 @@
     return 2;
   }
 
-  function filterList(list, search, type, emptyId, tag = '') {
+  function filterList(list, search, type, emptyId, tag = '', environment = '') {
     const query = words(search);
     const rows = [...list.querySelectorAll('li[data-search], li[data-search-title]')];
     const titleHits = new Map();
@@ -44,11 +42,13 @@
         const concepts = words(li.dataset.searchConcepts || '');
         titleHits.set(li, query.filter((word) => containsWord(title, word)).length);
         if (query.some((word) => !containsWord(title, word) && !containsWord(concepts, word))) hidden = true;
-      } else if (search && !li.dataset.search.includes(search)) {
-        hidden = true;
+      } else if (search) {
+        const haystack = words(li.dataset.search ?? '');
+        if (query.some((word) => !containsWord(haystack, word))) hidden = true;
       }
       if (!hidden && type !== 'all' && li.dataset.type !== type) hidden = true;
       if (!hidden && tag && li.dataset.tags !== undefined && !li.dataset.tags.includes(`|${tag}|`)) hidden = true;
+      if (!hidden && environment && li.dataset.env !== environment) hidden = true;
       li.hidden = hidden;
       if (!hidden) visible += 1;
     });
@@ -83,12 +83,29 @@
     if (!status) return;
     const active = document.querySelector(`[data-tag-filter="${CSS.escape(selectedTag)}"]`);
     const label = active?.querySelector('span')?.textContent ?? selectedTag;
-    const search = document.getElementById('filter-search')?.value.trim();
+    const search = (document.getElementById('filter-search') || document.getElementById('submissions-search'))?.value.trim();
     const suffix = search ? ' matching your search' : '';
     const count = total === shown ? `${total}` : `${shown} of ${total}`;
     status.textContent = selectedTag
       ? `Showing ${count} ${total === 1 ? 'submission' : 'submissions'} tagged “${label}”${suffix}.`
       : `Showing ${count} ${total === 1 ? 'submission' : 'submissions'}${suffix}.`;
+  }
+
+  function updateTagCounts(list, search) {
+    const query = words(search);
+    const rows = [...list.querySelectorAll('li[data-search-title]')].filter((row) => {
+      const title = words(row.dataset.searchTitle);
+      const concepts = words(row.dataset.searchConcepts || '');
+      return !query.some((word) => !containsWord(title, word) && !containsWord(concepts, word));
+    });
+    document.querySelectorAll('[data-tag-filter]').forEach((button) => {
+      const tag = button.dataset.tagFilter;
+      const count = rows.filter((row) => !tag || row.dataset.tags?.includes(`|${tag}|`)).length;
+      const label = button.querySelector('span')?.textContent ?? tag;
+      const badge = button.querySelector('b');
+      if (badge) badge.textContent = String(count);
+      button.setAttribute('aria-label', `${label}, ${count} ${count === 1 ? 'submission' : 'submissions'}`);
+    });
   }
 
   function applySubmissionPagination(list, total) {
@@ -103,12 +120,12 @@
     });
 
     const shown = Math.min(submissionVisibleLimit, total);
-    const clipped = shown < total;
-    if (list.classList) list.classList.toggle('submissions-list-clipped', clipped);
     const button = document.getElementById('submissions-load-more');
     if (button) {
-      button.hidden = !clipped;
-      const label = `Show all ${total} ${total === 1 ? 'submission' : 'submissions'}`;
+      const remaining = Math.max(0, total - shown);
+      button.hidden = remaining === 0;
+      const next = Math.min(SUBMISSION_PAGE_SIZE, remaining);
+      const label = `Load ${next} more ${next === 1 ? 'submission' : 'submissions'}`;
       button.setAttribute('aria-label', label);
       if (button.firstChild && button.firstChild.nodeType === 3) button.firstChild.textContent = `${label} `;
     }
@@ -120,9 +137,11 @@
     if (!list) return;
     const searchEl = document.getElementById('filter-search');
     const typeEl = document.getElementById('filter-type');
+    const environmentEl = document.getElementById('filter-environment');
     const search = searchEl ? searchEl.value.trim().toLowerCase() : '';
     const type = typeEl ? typeEl.value : 'all';
-    filterList(list, search, type, 'entry-list-empty');
+    const environment = environmentEl ? environmentEl.value : '';
+    filterList(list, search, type, 'entry-list-empty', '', environment);
     const openProblems = document.getElementById('open-problems-list');
     if (openProblems) {
       filterList(openProblems, search, type, 'open-problems-list-empty');
@@ -144,15 +163,16 @@
   function applySubmissionFilters() {
     const submissions = document.getElementById('submissions-list');
     if (!submissions) return;
-    const searchEl = document.getElementById('filter-search');
+    const searchEl = document.getElementById('filter-search') || document.getElementById('submissions-search');
     const search = searchEl?.value.trim().toLowerCase() ?? '';
     const filterKey = `${search}\u0000${selectedTag}`;
     if (filterKey !== submissionFilterKey) {
       submissionFilterKey = filterKey;
-      submissionVisibleLimit = SUBMISSION_PREVIEW_SIZE;
+      submissionVisibleLimit = SUBMISSION_PAGE_SIZE;
     }
     const randomSubmission = document.querySelector('.random-submission');
     if (randomSubmission) randomSubmission.hidden = Boolean(searchEl?.value.length);
+    updateTagCounts(submissions, search);
     const total = filterList(submissions, search, 'all', 'submissions-list-empty', selectedTag);
     const shown = applySubmissionPagination(submissions, total);
     updateTagStatus(total, shown);
@@ -176,6 +196,7 @@
     const search = document.getElementById('filter-search');
     const submissionsSearch = document.getElementById('submissions-search');
     const type = document.getElementById('filter-type');
+    const environment = document.getElementById('filter-environment');
     function connectSearch(source, mirror) {
       if (!source) return;
       source.addEventListener('input', () => {
@@ -186,6 +207,7 @@
     connectSearch(search, submissionsSearch);
     connectSearch(submissionsSearch, search);
     if (type) type.addEventListener('change', applyFilters);
+    if (environment) environment.addEventListener('change', applyFilters);
   }
 
   function setupRandomSubmission() {
@@ -201,8 +223,34 @@
     const button = document.getElementById('submissions-load-more');
     if (!button) return;
     button.addEventListener('click', () => {
-      submissionVisibleLimit = Infinity;
+      submissionVisibleLimit += SUBMISSION_PAGE_SIZE;
       applySubmissionFilters();
+    });
+  }
+
+  // Submission ids stay out of the visible library titles, but find-in-page
+  // can reveal a hidden="until-found" alias. Turn that reveal into a
+  // short-lived mark on the title the visitor actually wants to see.
+  function setupNativeSubmissionFind() {
+    const markers = [...document.querySelectorAll('[data-submission-find-alias]')];
+    if (!markers.length) return;
+    let resetTimer;
+
+    markers.forEach((marker) => {
+      marker.addEventListener('beforematch', () => {
+        const link = marker.closest('.submissions-list-link');
+        if (!link) return;
+        clearTimeout(resetTimer);
+        document.querySelectorAll('.submissions-list-link.native-find-match')
+          .forEach((previous) => previous.classList.remove('native-find-match'));
+        link.classList.add('native-find-match');
+        link.scrollIntoView({ block: 'center' });
+        resetTimer = setTimeout(() => link.classList.remove('native-find-match'), 8000);
+
+        // The browser removes hidden after beforematch. Restore it on the
+        // next task so the same id can be found again without reloading.
+        setTimeout(() => marker.setAttribute('hidden', 'until-found'), 0);
+      });
     });
   }
 
@@ -236,7 +284,8 @@
       const url = new URL(window.location.href);
       if (tag) url.searchParams.set('tag', tag);
       else url.searchParams.delete('tag');
-      url.searchParams.set('view', 'read');
+      if (document.getElementById('landing-panel-read')) url.searchParams.set('view', 'read');
+      else url.searchParams.delete('view');
       window.history.pushState(null, '', `${url.pathname}${url.search}${url.hash}`);
     }
 
@@ -443,6 +492,7 @@
     setupSubmissionPagination();
     setupFilters();
     setupTagFilters();
+    setupNativeSubmissionFind();
     applyFilters();
     setupEntryTooltips();
     setupSidebarResize();

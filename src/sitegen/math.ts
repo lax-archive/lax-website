@@ -4,6 +4,15 @@ import { esc } from "./html.js";
 
 interface MathToken { type: "math" | "mathBlock"; raw: string; text: string }
 
+/** KaTeX accepts these Unicode symbols but has no metrics for their direct
+ * glyphs, leaving zero-height output and logging a warning. Use equivalent
+ * supported commands while leaving the authored source and fallback intact. */
+function supportedMathSource(text: string): string {
+  return text
+    .replaceAll("𝓕", "\\mathcal{F}")
+    .replaceAll("◇", "\\Diamond");
+}
+
 /** Let a display delimiter on its own source line interrupt the surrounding
  * Markdown paragraph. Authors should not need blank lines around a displayed
  * formula just to make `$$...$$` or `\[...\]` work. */
@@ -17,18 +26,29 @@ function firstMathDelimiter(src: string): number | undefined {
   return indexes.length ? Math.min(...indexes) : undefined;
 }
 
-function render(text: string, displayMode: boolean, raw: string): string {
+/** amsmath's robust, capitalised accent aliases, which KaTeX lacks. Authors
+ * write `\Tilde{A}` in titles because the lowercase forms are fragile in
+ * moving arguments; both spellings should render the same accent. */
+const AMSMATH_ACCENT_ALIASES: Record<string, string> = {
+  "\\Acute": "\\acute", "\\Bar": "\\bar", "\\Breve": "\\breve", "\\Check": "\\check",
+  "\\Ddot": "\\ddot", "\\Dot": "\\dot", "\\Grave": "\\grave", "\\Hat": "\\hat",
+  "\\Tilde": "\\tilde", "\\Vec": "\\vec",
+};
+
+function render(text: string, displayMode: boolean, raw: string, errorFallback?: () => string): string {
   try {
-    return katex.renderToString(text, {
+    return katex.renderToString(supportedMathSource(text), {
       displayMode,
       output: "htmlAndMathml",
       throwOnError: true,
+      macros: { ...AMSMATH_ACCENT_ALIASES },
       // Lean prose naturally uses Unicode mathematical glyphs such as ⊥ and
       // ⊤. KaTeX can render them safely; only their lack of a LaTeX spelling
       // raises `unknownSymbol`. Keep every actual parse/strict error fatal.
       strict: (errorCode) => errorCode === "unknownSymbol" ? "ignore" : "error",
     });
   } catch (error) {
+    if (errorFallback) return errorFallback();
     return `<span class="math-error" title="${esc((error as Error).message)}">${esc(raw)}</span>`;
   }
 }
@@ -37,6 +57,12 @@ function render(text: string, displayMode: boolean, raw: string): string {
  * only for the readable fallback when KaTeX rejects the expression. */
 export function renderInlineMath(text: string, raw = `$${text}$`): string {
   return render(text, false, raw);
+}
+
+/** Backticks are optional math shorthand in authored prose. If their content
+ * is not valid TeX, retain the ordinary inline-code meaning of Markdown. */
+export function renderBacktickMath(text: string, raw: string): string {
+  return render(text, false, raw, () => `<code>${esc(text)}</code>`);
 }
 
 /** Render display math outside Markdown while retaining the same safe,

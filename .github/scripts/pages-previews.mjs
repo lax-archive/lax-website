@@ -52,6 +52,51 @@ function previewRecords(previewsRoot) {
     .sort((a, b) => a.branch.localeCompare(b.branch));
 }
 
+// Only published preview directories are removed; source branches and the
+// production/renderer trees are never touched. Reconcile on every deployment,
+// including the hourly fallback, so missed branch-delete events cannot leak.
+export function prunePreviews(root, branches, now = Date.now()) {
+  const previewsRoot = path.join(path.resolve(root), "previews");
+  if (!fs.existsSync(previewsRoot)) return [];
+  if (!(branches instanceof Set) || branches.size === 0 || !Number.isFinite(now)) {
+    throw new Error("preview retention requires a nonempty branch snapshot and valid time");
+  }
+  const retained = [];
+  const removed = [];
+  const cutoff = now - 14 * 24 * 60 * 60 * 1000;
+  for (const entry of fs.readdirSync(previewsRoot, { withFileTypes: true })) {
+    if (!entry.isDirectory()) continue;
+    let record;
+    try {
+      record = JSON.parse(fs.readFileSync(path.join(previewsRoot, entry.name, "preview.json"), "utf8"));
+    } catch { /* An incomplete preview has no usable retention metadata. */ }
+    const updated = Date.parse(record?.updatedAt);
+    if (typeof record?.branch !== "string" || previewSlug(record.branch) !== entry.name ||
+        !branches.has(record.branch) || !Number.isFinite(updated) || updated <= cutoff || updated > now) {
+      removed.push(entry.name);
+    } else {
+      retained.push({ slug: entry.name, updated });
+    }
+  }
+  retained.sort((a, b) => b.updated - a.updated || a.slug.localeCompare(b.slug));
+  removed.push(...retained.slice(5).map((record) => record.slug));
+  for (const slug of removed.sort()) {
+    fs.rmSync(path.join(previewsRoot, slug), { recursive: true, force: true });
+  }
+  return removed;
+}
+
+export function branchesFromRemoteHeads(text) {
+  const lines = text.trim().split("\n");
+  const branches = new Set();
+  for (const line of lines) {
+    const match = /^[0-9a-f]{40}\trefs\/heads\/(.+)$/.exec(line);
+    if (!match) throw new Error("invalid or empty remote branch snapshot; refusing preview cleanup");
+    branches.add(match[1]);
+  }
+  return branches;
+}
+
 export function buildIndex(root) {
   const previewsRoot = path.join(path.resolve(root), "previews");
   fs.mkdirSync(previewsRoot, { recursive: true });
@@ -82,7 +127,7 @@ a span{ color:#6b7280; font-family:ui-monospace,monospace; font-size:.78rem; whi
 </style>
 </head><body>
 <h1>Lax branch previews</h1>
-<p>Shareable builds of work in progress. Each preview updates when its branch is pushed and disappears when that branch is deleted.</p>
+<p>Shareable builds of work in progress. Previews update on branch pushes. Only the five most recently updated previews from existing branches are retained, for up to 14 days.</p>
 ${cards ? `<ul>${cards}</ul>` : empty}
 </body></html>
 `;
@@ -94,8 +139,12 @@ function main() {
   if (command === "slug" && args.length === 1) process.stdout.write(previewSlug(args[0]));
   else if (command === "record" && args.length === 3) recordPreview(...args);
   else if (command === "index" && args.length === 1) buildIndex(args[0]);
+  else if (command === "prune" && args.length === 2) {
+    const branches = branchesFromRemoteHeads(fs.readFileSync(args[1], "utf8"));
+    for (const slug of prunePreviews(args[0], branches)) console.log(`Removed expired or obsolete preview: ${slug}`);
+  }
   else {
-    console.error("usage: pages-previews.mjs slug <branch> | record <pages-root> <branch> <sha> | index <pages-root>");
+    console.error("usage: pages-previews.mjs slug <branch> | record <pages-root> <branch> <sha> | index <pages-root> | prune <pages-root> <remote-heads-file>");
     process.exitCode = 2;
   }
 }

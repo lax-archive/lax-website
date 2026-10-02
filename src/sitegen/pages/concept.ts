@@ -12,7 +12,6 @@ import {
   conceptMapLegend,
   draftBanner,
   environmentNotice,
-  ordinal,
   shortId,
   versionHistoryPanel,
   repositorySource,
@@ -55,10 +54,13 @@ function evidence(ctx: PageContext, located: LocatedConcept): string {
   const list = (items: string[], empty: string) => items.length
     ? `<ul class="proof-list">\n${items.join("\n")}\n</ul>`
     : `<p class="empty-note">${empty}</p>`;
-  const block = (intro: string, body: string) => `<div class="block block-evidence"><h3>Evidence</h3>
+  const block = (intro: string, body: string) => `<details class="figure-details evidence-details">
+<summary>Evidence</summary>
+<div class="block block-evidence">
 <p class="evidence-intro">${intro}</p>
 ${body}
-</div>`;
+</div>
+</details>`;
   if (concept.statements.length === 1)
     return block(
       "Each proof establishes this claim relative to its assumptions.",
@@ -66,7 +68,8 @@ ${body}
     );
   const proven = ctx.model.network.proven;
   const blocks = concept.statements.map((statement, index) => {
-    const heading = `<a href="#s-${attr(statement.id)}">${esc(ordinal(index + 1))} statement</a> ${code(shortId(statement.id, concept.id))} ${countsPill(proven.has(statement.id) ? 1 : 0, 1)}`;
+    const name = shortId(statement.id, concept.id);
+    const heading = `<a class="evidence-statement-link" href="#s-${attr(statement.id)}" aria-label="${attr(`Statement ${index + 1}: ${name}`)}" title="${attr(`Jump to statement ${index + 1} in the Lean source`)}">${index + 1}</a> ${code(name)} ${countsPill(proven.has(statement.id) ? 1 : 0, 1)}`;
     return `<div class="evidence-statement"><h4>${heading}</h4>
 ${list(proofsOf(statement.id), "No proof in the archive yet — this statement is open.")}
 </div>`;
@@ -123,8 +126,9 @@ export async function conceptPage(ctx: PageContext, located: LocatedConcept): Pr
     return `<span class="source-proof-rail" data-source-line="L${declarationLine}" aria-label="Proof links">${proofLinks.map((link, index) => {
       if (link.withheld)
         return `<span class="statement-proof-button statement-proof-button-withheld" aria-disabled="true" title="${attr(`A Lean-checked proof (${link.id}) exists; its source is unavailable during anonymous review`)}"><span class="anonymity-lock" aria-hidden="true">🔒</span><span class="statement-proof-label">Verified proof · source withheld</span></span>`;
-      const label = proofLinks.length === 1 ? "Show Proof" : `Show Proof ${index + 1}`;
-      return `<a class="statement-proof-button" href="${attr(link.href)}" aria-label="${attr(`View proof ${link.id} on ${link.provider}`)}" title="${attr(link.id)}"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">${label}</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a>`;
+      const proofKind = proven.has(statement.id) ? "Proof" : "Proof Attempt";
+      const label = `Show ${proofKind}${proofLinks.length === 1 ? "" : ` ${index + 1}`}`;
+      return `<a class="statement-proof-button" href="${attr(link.href)}" aria-label="${attr(`View ${proofKind.toLowerCase()} ${link.id} on ${link.provider}`)}" title="${attr(link.id)}"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">${label}</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a>`;
     }).join("")}</span>`;
   }).join("");
   const sourceRows = await highlightSource(concept.sourceText, concept.statements, proven, {
@@ -132,14 +136,16 @@ export async function conceptPage(ctx: PageContext, located: LocatedConcept): Pr
     hovers: ctx.model.leanCode.get(concept.id)?.hovers,
   });
 
-  const content = `${versionHistoryPanel(ctx, submission.record.id, "../")}${draftBanner(submission.record.state)}${environmentNotice(ctx.model, submission)}
+  const content = `${versionHistoryPanel(ctx, submission.record.id, "../")}${draftBanner(submission)}${environmentNotice(ctx.model, submission)}
 <div class="detail-heading concept-heading">
 <div><h1 class="concept-title">${ctx.markdown.renderAuthorInline(concept.title, "../")}</h1>
-<p class="concept-microline"><code>${esc(concept.path)}</code> · <a href="index.html">${esc(output.id)}</a></p></div>
+<p class="concept-microline"><code class="concept-namespace">${esc(concept.id)}</code> · <code>${esc(concept.path)}</code> · <a href="index.html">${esc(output.id)}</a></p></div>
 <span class="status-pills">${countsPill(provenCount, concept.statements.length)}</span>
 </div>
 ${pageReactions(`${submission.record.id}/${concept.id}.html`, { kind: "concept", sourceLines: concept.sourceText.split("\n").length, anonymous })}
-<details class="figure-details">
+<h3 class="figure-title">Natural Language Statement</h3>
+<div class="block block-statement"><h3>${esc(typeHeading)}</h3><div class="latex-content">${ctx.markdown.renderAuthorProse(concept.description, "../")}</div></div>
+<details class="figure-details" open>
 <summary>Concept map</summary>
 <figure class="graph-figure concept-root-graph">
 ${graphExpandButton("concept map", true)}
@@ -150,9 +156,9 @@ ${conceptMapLegend(graph, "This concept", "Related concept")}
 </details>
 ${evidence(ctx, located)}
 ${inPaperBlock(ctx, concept.id, output.id, "../")}
-<div class="block block-statement"><h3>${esc(typeHeading)}</h3><div class="latex-content">${ctx.markdown.renderAuthorProse(concept.description, "../")}</div></div>
-<div class="block block-lean"><h3 class="section-heading">Lean source${sourceFile ? ` <a class="source-link" href="${attr(sourceFile)}">view on ${esc(sourceProviderName(sourceFile))}</a>` : sourceWithheld ? withheldSourceLink() : ""} ${liveLeanLink(ctx.model, concept.id)}</h3>
-<div class="inline-contract-shell"><div class="inline-contract-wrap"><table class="inline-contract-table">
+<h3 class="figure-title">Lean source${sourceFile ? ` <a class="source-link" href="${attr(sourceFile)}">view on ${esc(sourceProviderName(sourceFile))}</a>` : sourceWithheld ? withheldSourceLink() : ""} ${liveLeanLink(ctx.model, concept.id)}</h3>
+<div class="block block-lean">
+<div class="inline-contract-shell"><button class="comment-toggle" type="button" aria-pressed="false" aria-label="Hide comments">Hide comments</button><div class="inline-contract-wrap"><table class="inline-contract-table">
 ${sourceRows}
 </table></div>${proofActions}<span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
 ${sections}
@@ -170,9 +176,12 @@ ${graphDataScript({
   return page({
     title: ctx.markdown.plainAuthorTitle(concept.title),
     rootRel: "../",
+    canonicalPath: `${submission.record.id}/${concept.id}.html`,
     sidebar: submissionSidebar(ctx.model, submission, "../", { activeId: concept.id }),
     sidebarState: "open",
     content,
+    noIndex: output.manifest.unlisted === true,
+    description: ctx.markdown.plainAuthorTitle(concept.description),
     scripts: ["assets/graph-interaction.js", "assets/source-proof.js", "assets/lean-code.js", "assets/version-history.js", "assets/comments.js"],
   });
 }

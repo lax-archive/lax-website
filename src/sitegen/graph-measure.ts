@@ -176,6 +176,32 @@ export function assertGraphGlyphCoverage(input: LabelMeasureRequest, environment
     [...missing].sort((a, b) => a - b).map((code) => `U+${code.toString(16).toUpperCase().padStart(4, "0")}`).join(", "));
 }
 
+/** The glyph drawn for a code point outside the bundled fonts: the tofu box
+ * every browser would show anyway, but measured and drawn deterministically. */
+export const GRAPH_MISSING_GLYPH = "\u25A1";
+
+/** Replace every code point the bundled fonts cannot draw with the tofu box,
+ * so an author's title in any script still yields an exactly measured label.
+ * The original text stays in the page; only the figure's label changes. */
+export function substituteUnsupportedGlyphs(input: LabelMeasureRequest, environment: GraphMeasurementEnvironment):
+    { text: string; missing: readonly number[] } {
+  const request = normalizeLabelRequest(input);
+  const fonts = environment.fontFaces.filter((face) => face.family !== "Latin Modern" || face.weight === request.fontWeight);
+  const covered = (code: number) => fonts.some((font) => containsCodePoint(font.coverage, code));
+  const missing = new Set<number>();
+  let text = "";
+  for (const char of request.text) {
+    const code = char.codePointAt(0)!;
+    if (/^[\t\n\r ]$/u.test(char) || covered(code)) { text += char; continue; }
+    missing.add(code);
+    text += GRAPH_MISSING_GLYPH;
+  }
+  if (missing.size && !covered(GRAPH_MISSING_GLYPH.codePointAt(0)!)) {
+    throw new GraphMeasurementError("GRAPH_FONT_MANIFEST", "bundled graph fonts lack the missing-glyph box U+25A1");
+  }
+  return { text, missing: [...missing].sort((a, b) => a - b) };
+}
+
 /** Independent host validation protects both injected providers and disk hits.
  * Geometry remains exact browser output; this does not estimate its dimensions. */
 export function validateLabelMetrics(value: unknown, request: LabelMeasureRequest, signature: string): value is LabelMetrics {
