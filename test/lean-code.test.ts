@@ -7,6 +7,7 @@ import { leanCodeInputs, liveLeanCode, liveLeanLink, loadLeanCode, parseLeanCode
 import { SiteModel, type SiteSubmission } from "../src/sitegen/model.js";
 import { landingLeanModel } from "../src/sitegen/pages/index.js";
 import { sourceTypeLinks } from "../src/sitegen/source-links.js";
+import { scanLeanSource } from "../src/sitegen/lean-source.js";
 import { tmpDir } from "./helpers.js";
 
 function fixture(): SiteModel {
@@ -76,6 +77,22 @@ describe("prepared Lean information", () => {
     expect(typed.match(/data-lean-type="x : Nat"/g)).toHaveLength(1);
     expect(typed).toContain('data-lean-type="Nat : Type"');
     expect(typed.indexOf('data-lean-type="x : Nat"')).toBeGreaterThan(typed.indexOf("explicit type"));
+    const declarations = "axiom claim (x y : Nat) : x = y\n" +
+      "def annotated.{u} {α : Type u} (x : α) : α := x\n" +
+      "def inferred (x : Nat) := x\n" +
+      "def localBinding := let f (x : Nat) : Nat := x; f 1\n";
+    const declarationTokens = scanLeanSource(declarations).tokens.filter(token => token.name);
+    const declarationRows = await highlightSource(declarations, [], new Set(), {
+      hovers: declarationTokens.map(token => ({ start: token.start, end: token.end, text: `token-${token.start}` })),
+    });
+    for (const name of ["claim", "annotated", "f"])
+      expect(declarationRows).not.toContain(`data-lean-type="token-${declarationTokens.find(token => token.text === name)!.start}"`);
+    for (const token of declarationTokens.filter(token => token.line === 1 && ["x", "y"].includes(token.text))) {
+      const marker = `data-lean-type="token-${token.start}"`;
+      if (token.start < declarations.indexOf(")")) expect(declarationRows).not.toContain(marker);
+      else expect(declarationRows).toContain(marker);
+    }
+    expect(declarationRows).toContain(`data-lean-type="token-${declarationTokens.find(token => token.text === "inferred")!.start}"`);
     const model = fixture(), signature = "x : Lax1.double Nat";
     const links = sourceTypeLinks(model, "Lax1.Main", "../", signature);
     expect(links.map(link => signature.slice(link.start, link.end))).toEqual(["Lax1.double", "Nat"]);
@@ -87,6 +104,7 @@ describe("prepared Lean information", () => {
     expect(nonnegative[0]!.end - nonnegative[0]!.start).toBe(3);
     expect(nonnegative[0]!.href).toContain("#NNReal");
     expect(sourceTypeLinks(model, "Lax1.Main", "../", "f (Nat : Type) : Nat")).toEqual([]);
+    expect(sourceTypeLinks(model, "Lax1.Main", "../", "Lax1.double : Nat → Nat").map(link => link.start)).toEqual([14, 20]);
     const linkedType = await highlightSource("def x := 0", [], new Set(), {
       hovers: [{ start: 4, end: 5, text: signature }],
       typeLinks: text => sourceTypeLinks(model, "Lax1.Main", "../", text),

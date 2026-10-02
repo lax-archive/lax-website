@@ -192,15 +192,19 @@ bytes therefore differ from production's, deterministically per flag set).
 - Lean variables and constants show compiler-derived types on hover and keyboard
   focus. Unlinked identifiers use a text cursor with a small information symbol;
   clickable identifiers retain their navigation behavior and pointer cursor.
-  Clicking a type-bearing identifier pins its bubble until an outside click
-  or Escape. Identifiers within the type link to known Lax or Mathlib
-  declarations; a linked constant's name in the bubble leads to its definition.
-  Modifier-clicking the source link still navigates directly. Keyboard users
-  can pin with Enter or Space and press Tab to enter the bubble's links.
+  Clicking an unlinked identifier or inside its bubble pins the bubble until
+  an outside click or Escape. Source links navigate directly as usual.
+  The hovered term's own name stays plain inside its bubble; identifiers in
+  its type link to known Lax or Mathlib declarations, with the usual
+  “mathlib ↗” or “lean ↗” labels for external destinations. Keyboard users
+  can pin with Space (or Enter on an unlinked identifier) and press Tab to
+  enter the bubble's links.
   Links without prepared type information retain their compact link labels.
   Archive statement names have no type tooltip, at declarations or uses.
-  An identifier immediately followed by a type annotation (`x : t`) also
-  omits the redundant tooltip; its other occurrences retain their hovers.
+  Explicitly typed names omit redundant tooltips, including grouped bindings
+  (`x y : t`) and declarations whose return type follows their parameters
+  (`def f (x : Nat) : Nat`). Other occurrences and inferred bindings retain
+  their hovers.
   `npm run lean:prepare` elaborates concept modules and the landing
   examples with their pinned Lean and Mathlib environments, caching UTF-16
   ranges and plain type text in `data/lean-code/`. It omits documentation from

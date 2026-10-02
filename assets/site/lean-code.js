@@ -41,6 +41,7 @@
         panel.append(document.createTextNode(text.slice(end, link.start)));
         const anchor = document.createElement("a");
         anchor.className = "lean-type-link"; anchor.href = link.href;
+        if (typeof link.title === "string") anchor.title = link.title;
         anchor.textContent = text.slice(link.start, link.end); panel.append(anchor); end = link.end;
       }
       panel.append(document.createTextNode(text.slice(end)));
@@ -66,11 +67,11 @@
   });
   document.addEventListener("focusout", event => { if (target(event)) scheduleHide(); });
   document.addEventListener("click", event => {
-    if (panel.contains(event.target)) return;
+    if (panel.contains(event.target)) { pinned = true; clearTimeout(hideTimer); return; }
     const node = target(event);
     if (node) {
-      // Preserve modifier-click navigation for identifiers with a destination.
-      if (node.matches("a[href]") && (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey)) return;
+      // Source identifiers with a destination keep ordinary link navigation.
+      if (node.matches("a[href]")) return;
       event.preventDefault(); show(node, true);
     } else hide();
   });
@@ -81,7 +82,7 @@
       if (restore) { node?.focus(); hide(); }
     }
     const node = target(event);
-    if (node && (event.key === "Enter" || event.key === " ")) {
+    if (node && (event.key === " " || (event.key === "Enter" && !node.matches("a[href]")))) {
       event.preventDefault(); show(node, true);
     }
     if (node === active && pinned && event.key === "Tab" && !event.shiftKey) {

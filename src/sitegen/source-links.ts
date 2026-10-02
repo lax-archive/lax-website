@@ -183,7 +183,7 @@ class SourceLinkIndex {
       ["ℕ∞", "ENat"], ["ℕ+", "PNat"], ["ℕ", "Nat"], ["ℤ", "Int"], ["ℚ", "Rat"], ["ℝ", "Real"], ["ℂ", "Complex"]];
     const links: SourceLink[] = [];
     for (const token of parsed.tokens) {
-      if (!token.name || locals.has(token.name[0]!)) continue;
+      if (token === first || !token.name || locals.has(token.name[0]!)) continue;
       const alias = notation.find(([symbol]) => text.startsWith(symbol, token.start) && symbol.length >= token.text.length);
       if (alias) {
         const href = declarationDocLink(alias[1]);

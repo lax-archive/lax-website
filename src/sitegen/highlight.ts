@@ -2,7 +2,7 @@ import { createHighlighter, type Highlighter } from "shiki";
 import type { StatementEntry } from "../types.js";
 import { attr, esc } from "./html.js";
 import { renderDisplayMath, renderInlineMath } from "./math.js";
-import { leanDeclarations, nameKey, nameParts, scanLeanSource, type SourceRange } from "./lean-source.js";
+import { leanDeclarations, nameKey, nameParts, scanLeanSource, type LeanDeclaration, type LeanSource, type SourceRange } from "./lean-source.js";
 import type { SourceLink } from "./source-links.js";
 import type { SourceHover } from "./lean-code.js";
 import { mathlibLinkTitle } from "../mathlib-links.js";
@@ -76,13 +76,12 @@ function decorationsByLine(source: string, links: readonly SourceLink[], comment
         hover.end > source.length || typeof hover.text !== "string") continue;
     const linked = identifierRanges.get(`${hover.start}:${hover.end}`);
     const hoverLinks = [...(typeLinks?.(hover.text) ?? [])];
-    // A linked constant's own name in its signature is also its definition link.
+    // The term's own name stays plain: its source occurrence is the link.
     const first = scanLeanSource(hover.text).tokens[0];
-    if (linked && first?.name && !hoverLinks.some(link => link.start === first.start))
-      hoverLinks.unshift({ start: first.start, end: first.end, href: linked.href! });
     const safeLinks = hoverLinks.filter(link => Number.isInteger(link.start) && Number.isInteger(link.end) &&
-      link.start >= 0 && link.end > link.start && link.end <= hover.text.length &&
-      (ARCHIVE_HREF.test(link.href) || mathlibLinkTitle(link.href)));
+      link.start >= (first?.end ?? 0) && link.end > link.start && link.end <= hover.text.length &&
+      (ARCHIVE_HREF.test(link.href) || mathlibLinkTitle(link.href)))
+      .map(link => ({ ...link, title: mathlibLinkTitle(link.href) }));
     if (linked) { linked.hover = hover.text; linked.hoverLinks = safeLinks; }
     else identifiers.push({ start: hover.start, end: hover.end, hover: hover.text, hoverLinks: safeLinks });
   }
@@ -149,7 +148,7 @@ function renderDecoratedLine(nodes: HastNode[], decorations: Decoration[]): stri
   for (const decoration of decorations) {
     html.push(take(decoration.start));
     const content = take(decoration.end);
-    const title = decoration.href && !decoration.hover ? mathlibLinkTitle(decoration.href) : undefined;
+    const title = decoration.href ? mathlibLinkTitle(decoration.href) : undefined;
     const hover = decoration.hover ? ` data-lean-type="${attr(decoration.hover)}" aria-haspopup="dialog"${decoration.hoverLinks?.length ? ` data-lean-type-links="${attr(JSON.stringify(decoration.hoverLinks))}"` : ""}` : "";
     html.push(decoration.href
       ? `<a class="lean-identifier-link" href="${attr(decoration.href)}"${hover}${title ? ` title="${attr(title)}"` : ""}>${content}</a>`
@@ -251,6 +250,50 @@ export function moduleDocRange(source: string): [number, number] | undefined {
   return undefined;
 }
 
+/** Suppress redundant type bubbles at annotated bindings and declaration
+ * names, including grouped binders and return types after parameter lists. */
+function explicitTypeSites({ tokens }: LeanSource, declarations: LeanDeclaration[]): Set<number> {
+  const sites = new Set<number>();
+  const positions = new Map(tokens.map((token, index) => [token.start, index]));
+  const closes = new Map<number, number>();
+  const stack: number[] = [];
+  const opening = new Set(["(", "[", "{", "⦃", "⟨"]);
+  const closing = new Set([")", "]", "}", "⦄", "⟩"]);
+  const bindingCommands = new Set(["def", "abbrev", "opaque", "constant", "axiom", "theorem", "lemma",
+    "variable", "variables", "let", "letI", "let'", "letI'", "have", "haveI", "suffices", "fun"]);
+  const annotation = (index: number) => tokens[index]?.text === ":" && tokens[index + 1]?.text !== "=";
+  for (let index = 0; index < tokens.length; index++) {
+    const token = tokens[index]!;
+    if (opening.has(token.text)) stack.push(index);
+    else if (closing.has(token.text)) {
+      const start = stack.pop();
+      if (start !== undefined) closes.set(start, index);
+    }
+    if (annotation(index)) {
+      // `x y : T` annotates both names. Comments and newlines do not affect
+      // the token sequence. `x := value` keeps its inferred-type bubble.
+      for (let before = index - 1; before >= 0; before--) {
+        const name = tokens[before]!;
+        if (!name.name || bindingCommands.has(name.text)) break;
+        sites.add(name.start);
+      }
+    }
+  }
+  const names = new Set(declarations.map(declaration => positions.get(declaration.token.start)!));
+  for (let index = 1; index < tokens.length; index++)
+    if (["let", "letI", "let'", "letI'", "have", "haveI", "suffices", "instance"].includes(tokens[index - 1]!.text) && tokens[index]!.name)
+      names.add(index);
+  for (const index of names) {
+    if (["axiom", "theorem", "lemma"].includes(tokens[index - 1]?.text ?? "")) sites.add(tokens[index]!.start);
+    let next = index + 1;
+    // An explicit universe list precedes a declaration's parameters.
+    if (tokens[next]?.text === "." && tokens[next + 1]?.text === "{") next++;
+    while (closes.has(next)) next = closes.get(next)! + 1;
+    if (annotation(next)) sites.add(tokens[index]!.start);
+  }
+  return sites;
+}
+
 export async function highlightSource(
   source: string,
   statements: StatementEntry[] = [],
@@ -260,18 +303,14 @@ export async function highlightSource(
   const anchors = options.anchors ?? true;
   const elided = options.omitModuleDoc ? moduleDocRange(source) : undefined;
   const parsed = scanLeanSource(source);
-  // The annotation already displays this occurrence's type. Keep hovers on
-  // later uses and on inferred bindings (`x := ...`). Comments are skipped
-  // by the scanner, so `x /- ... -/ : T` behaves like `x : T`.
-  const annotated = new Set(parsed.tokens.filter((token, index) => token.name &&
-    parsed.tokens[index + 1]?.text === ":" && parsed.tokens[index + 2]?.text !== "=")
-    .map(token => `${token.start}:${token.end}`));
-  const hovers = (options.hovers ?? []).filter(hover => !annotated.has(`${hover.start}:${hover.end}`));
+  const declarations = leanDeclarations(parsed);
+  const annotated = explicitTypeSites(parsed, declarations);
+  const hovers = (options.hovers ?? []).filter(hover => !annotated.has(hover.start));
   const decorations = decorationsByLine(source, options.links ?? [], parsed.comments, hovers, options.typeLinks);
   // Keep stable statement IDs, but place them at their complete comment
   // preamble. Archive ranges may begin after leading ordinary line comments.
   const starts = anchors && statements.length
-    ? new Map(leanDeclarations(parsed).map((d) => [nameKey(d.name), d.startLine]))
+    ? new Map(declarations.map((d) => [nameKey(d.name), d.startLine]))
     : new Map<string, number>();
   const anchorStatements = statements.map((statement) => ({
     ...statement,
