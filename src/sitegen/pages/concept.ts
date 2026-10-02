@@ -178,6 +178,7 @@ ${graphDataScript({
     sidebarState: "open",
     content,
     noIndex: output.manifest.unlisted === true,
+    description: ctx.markdown.plainAuthorTitle(concept.description),
     scripts: ["assets/graph-interaction.js", "assets/source-proof.js", "assets/version-history.js", "assets/comments.js"],
   });
 }

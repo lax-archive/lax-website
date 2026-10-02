@@ -215,6 +215,13 @@ ${graphDataScript(graphs)}`;
     sidebarState: "open",
     content,
     noIndex: output.manifest.unlisted === true,
+    description: ctx.markdown.plainAuthorTitle(output.abstract),
+    citation: anonymous || output.manifest.unlisted === true ? undefined : {
+      title: ctx.markdown.plainAuthorTitle(output.manifest.title),
+      authors: output.manifest.authors.map((author) => author.name),
+      date: record.registeredAt ?? record.createdAt,
+      pdfPath: submission.paperFile ? `${record.id}/paper.pdf` : undefined,
+    },
     scripts: ["assets/graph-interaction.js", ...(anonymous ? [] : ["assets/citation.js"]), "assets/version-history.js", "assets/comments.js"],
   });
 }

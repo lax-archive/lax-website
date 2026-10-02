@@ -33,6 +33,11 @@ export interface PageShell {
   content: string;
   /** Ask external search engines not to include this directly addressable page. */
   noIndex?: boolean;
+  /** Plain-text summary for search results and link previews; the site's
+   * tagline when absent. */
+  description?: string;
+  /** Scholarly metadata for Google Scholar's `citation_*` tags. */
+  citation?: PageCitation;
   /** additional scripts (site-relative paths) loaded after sidebar.js */
   scripts?: string[];
   /** extra class on the content pane, for pages that need another measure */
@@ -45,6 +50,51 @@ export interface PageShell {
   sidebarState?: "open" | "collapsed";
   /** Additional HTTPS origins allowed to embed frames on this page only. */
   frameOrigins?: string[];
+}
+
+export interface PageCitation {
+  title: string;
+  authors: string[];
+  /** ISO timestamp of publication. */
+  date: string;
+  /** Site-relative path of the PDF, if there is one. */
+  pdfPath?: string;
+}
+
+const SITE_DESCRIPTION = "Lax — an archive of formalized mathematical concepts and their proofs";
+
+/** At most about 300 characters, cut at a word. */
+function summary(text: string): string {
+  const flat = text.replace(/\s+/gu, " ").trim();
+  if (flat.length <= 300) return flat;
+  const cut = flat.slice(0, 300);
+  return `${cut.slice(0, Math.max(cut.lastIndexOf(" "), 200)).replace(/[\s,;:.&–—-]+$/u, "")}…`;
+}
+
+/** The head tags crawlers and link previews read. */
+function discoveryMeta(shell: PageShell, canonical: string, siteRoot: string): string {
+  const description = summary(shell.description || SITE_DESCRIPTION);
+  const meta = (key: "name" | "property", name: string, content: string) => `<meta ${key}="${name}" content="${attr(content)}">`;
+  const tags = [
+    meta("name", "description", description),
+    meta("property", "og:site_name", "Lax Lean Archive"),
+    meta("property", "og:type", shell.citation ? "article" : "website"),
+    meta("property", "og:title", shell.title),
+    meta("property", "og:description", description),
+    meta("property", "og:url", canonical),
+  ];
+  const citation = shell.citation;
+  if (citation) {
+    tags.push(
+      meta("name", "citation_title", citation.title),
+      ...citation.authors.map((author) => meta("name", "citation_author", author)),
+      meta("name", "citation_publication_date", citation.date.slice(0, 10).replace(/-/g, "/")),
+      meta("name", "citation_publisher", "Lax Archive"),
+      meta("name", "citation_abstract_html_url", canonical),
+      ...(citation.pdfPath ? [meta("name", "citation_pdf_url", new URL(citation.pdfPath, siteRoot).toString())] : []),
+    );
+  }
+  return tags.join("\n");
 }
 
 const REMARK42_ORIGIN = new URL(REMARK42_URL).origin;
@@ -155,7 +205,8 @@ function siteNavLinks(root: string): string {
 
 export function page(shell: PageShell): string {
   const root = shell.rootRel;
-  const canonical = new URL(shell.canonicalPath, `${DEFAULT_SITE_URL.replace(/\/+$/, "")}/`).toString();
+  const siteRoot = `${DEFAULT_SITE_URL.replace(/\/+$/, "")}/`;
+  const canonical = new URL(shell.canonicalPath, siteRoot).toString();
   const csp = contentSecurityPolicy(shell.scripts ?? [], shell.frameOrigins ?? []);
   const scripts = ["assets/sidebar.js", "assets/account.js", ...(shell.scripts ?? [])]
     .map((src) => `<script src="${attr(root + src)}?v=${siteAssetVersion(src.replace(/^assets\//, ""))}"></script>`)
@@ -173,7 +224,7 @@ export function page(shell: PageShell): string {
 <meta charset="utf-8">
 <meta http-equiv="Content-Security-Policy" content="${csp}">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Lax — an archive of formalized mathematical concepts and their proofs">
+${discoveryMeta(shell, canonical, siteRoot)}
 ${shell.noIndex ? '<meta name="robots" content="noindex">' : ""}
 <title>${esc(shell.title)}</title>
 <link rel="canonical" href="${attr(canonical)}">

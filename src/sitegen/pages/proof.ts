@@ -72,6 +72,7 @@ ${sections}`;
     sidebarState: "open",
     content,
     noIndex: output.manifest.unlisted === true,
+    description: ctx.markdown.plainAuthorTitle(proof.description),
     scripts: ["assets/version-history.js"],
   });
 }
