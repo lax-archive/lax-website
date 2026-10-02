@@ -3864,6 +3864,509 @@
       ]
     },
     {
+      "id": "lax-496464",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Just-in-Time Scheduling in Two-Stage Flexible Flow Shops",
+      "concepts": [
+        {
+          "id": "Lax496464.BinaryEncoding",
+          "title": "Binary Encoding of an Instance",
+          "type": "definition"
+        },
+        {
+          "id": "Lax496464.Conditions",
+          "title": "The Two Conditions on a Feasible Set",
+          "type": "definition"
+        },
+        {
+          "id": "Lax496464.ConsecutiveOnes",
+          "title": "Consecutive Ones Implies Total Unimodularity",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax496464.Construction",
+          "title": "The Construction of Section 8",
+          "type": "definition"
+        },
+        {
+          "id": "Lax496464.Corollary1",
+          "title": "Corollary 1",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax496464.Corollary2",
+          "title": "Corollary 2",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax496464.Corollary3",
+          "title": "Corollary 3",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax496464.Corollary4",
+          "title": "Corollary 4",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax496464.DynamicProgram",
+          "title": "The Dynamic Program of Section 3, and Its Table",
+          "type": "definition"
+        },
+        {
+          "id": "Lax496464.EstOrder",
+          "title": "Earliest-Start-Time Order, and Distinct Endpoints",
+          "type": "definition"
+        },
+        {
+          "id": "Lax496464.Feasibility",
+          "title": "A Set of Jobs Is Feasible Exactly When It Satisfies Both Conditions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax496464.FlowShop",
+          "title": "Just-in-Time Scheduling in a Two-Stage Flexible Flow Shop",
+          "type": "definition"
+        },
+        {
+          "id": "Lax496464.Fptas",
+          "title": "Rounding the Weights, and What an Approximation Scheme Delivers",
+          "type": "definition"
+        },
+        {
+          "id": "Lax496464.Greedy",
+          "title": "The Greedy of Section 6.1, and Its Domination Order",
+          "type": "definition"
+        },
+        {
+          "id": "Lax496464.HittingSet",
+          "title": "Hitting Set",
+          "type": "definition"
+        },
+        {
+          "id": "Lax496464.HittingSetFromSat",
+          "title": "The Reduction from Satisfiability to Hitting Set",
+          "type": "definition"
+        },
+        {
+          "id": "Lax496464.HittingSetHardness",
+          "title": "Hitting Set Is NP-Hard",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax496464.IntegerProgram",
+          "title": "The Integer Program of Section 6.2",
+          "type": "definition"
+        },
+        {
+          "id": "Lax496464.Lemma1",
+          "title": "Lemma 1",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax496464.Lemma2",
+          "title": "Lemma 2",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax496464.Lemma3",
+          "title": "Lemma 3",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax496464.Lemma4",
+          "title": "Lemma 4",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax496464.Lemma5",
+          "title": "Lemma 5",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax496464.Normalization",
+          "title": "Every Instance May Be Assumed to Have Distinct Endpoints",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax496464.NPHardness",
+          "title": "NP-Hardness, and Strong NP-Hardness, of a Scheduling Problem",
+          "type": "definition"
+        },
+        {
+          "id": "Lax496464.Observation1",
+          "title": "Observation 1",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax496464.ParameterizedComplexity",
+          "title": "Parameterized Problems and FPT-Reductions on a Word RAM",
+          "type": "definition"
+        },
+        {
+          "id": "Lax496464.Problems",
+          "title": "The Just-in-Time Flow Shop as a Problem on Words",
+          "type": "definition"
+        },
+        {
+          "id": "Lax496464.Profile",
+          "title": "The Due-Date Profile of Section 5, and Recursion (5)",
+          "type": "definition"
+        },
+        {
+          "id": "Lax496464.ProperInstances",
+          "title": "Uniform Preprocessing Times, and Proper Instances",
+          "type": "definition"
+        },
+        {
+          "id": "Lax496464.Sweep",
+          "title": "The Endpoint Sweep of Section 4, and Its Table",
+          "type": "definition"
+        },
+        {
+          "id": "Lax496464.Theorem1",
+          "title": "Theorem 1",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax496464.Theorem2",
+          "title": "Theorem 2",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax496464.Theorem3",
+          "title": "Theorem 3",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax496464.Theorem4",
+          "title": "Theorem 4",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax496464.Theorem5",
+          "title": "Theorem 5",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax496464.W2Hardness",
+          "title": "W[2]-Hardness",
+          "type": "definition"
+        },
+        {
+          "id": "Lax496464.WH_A1_FptTime",
+          "title": "Fixed-Parameter Time on the Word RAM",
+          "type": "definition"
+        },
+        {
+          "id": "Lax496464.WH_A2_FptReductions",
+          "title": "FPT-Reductions, FPT, Hardness and Completeness",
+          "type": "definition"
+        },
+        {
+          "id": "Lax496464.WH_A3_ReductionCalculus",
+          "title": "The Calculus of FPT-Reductions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax496464.WH_A4_MachineFacts",
+          "title": "Fixed-Parameter Computations Compose",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax496464.WH_A5_Bridges",
+          "title": "Polynomial-Time and Strict Reductions Are FPT-Reductions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax496464.WH_A6_ComputableBounds",
+          "title": "Computable Bounds",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax496464.WH_B1_Structures",
+          "title": "Finite Relational Structures",
+          "type": "definition"
+        },
+        {
+          "id": "Lax496464.WH_B2_FirstOrder",
+          "title": "First-Order Formulas and the Classes Σ_t and Π_t",
+          "type": "definition"
+        },
+        {
+          "id": "Lax496464.WH_B3_LogicProblems",
+          "title": "Model Checking and Weighted Fagin Definability",
+          "type": "definition"
+        },
+        {
+          "id": "Lax496464.WH_B4_Hierarchies",
+          "title": "The W-Hierarchy and the A-Hierarchy",
+          "type": "definition"
+        },
+        {
+          "id": "Lax496464.WH_B5_HierarchyFacts",
+          "title": "Basic Facts About the Hierarchies",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax496464.WH_C1_GraphProblems",
+          "title": "Clique, Independent Set and Dominating Set",
+          "type": "definition"
+        },
+        {
+          "id": "Lax496464.WH_C2_HittingSet",
+          "title": "Hitting Set",
+          "type": "definition"
+        },
+        {
+          "id": "Lax496464.WH_C3_WeightedSat",
+          "title": "Weighted Satisfiability of CNF Formulas",
+          "type": "definition"
+        },
+        {
+          "id": "Lax496464.WH_D01_CliqueInW1",
+          "title": "Clique Is in W[1]",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax496464.WH_D02_CliqueInA1",
+          "title": "Clique Is in A[1]",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax496464.WH_D03_NegationElimination",
+          "title": "Model Checking for Σ₁ Reduces to Positive Σ₁",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax496464.WH_D04_IncidenceStructure",
+          "title": "Positive Σ₁ Model Checking Reduces to Binary Relations",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax496464.WH_D05_BinaryToClique",
+          "title": "Σ₁ Model Checking over Binary Relations Reduces to Clique",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax496464.WH_D06_CliqueA1Complete",
+          "title": "Clique Is A[1]-Complete",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax496464.WH_D07_DefinabilityToWSat",
+          "title": "Weighted Definability of a Π₁ Sentence Reduces to Weighted d-CNF Satisfiability",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax496464.WH_D08_WSatInA1",
+          "title": "Weighted d-CNF Satisfiability Is in A[1]",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax496464.WH_D09_W1EqA1",
+          "title": "W[1] = A[1]",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax496464.WH_D10_CliqueW1Complete",
+          "title": "Clique Is W[1]-Complete",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax496464.WH_D11_IndependentSet",
+          "title": "Independent Set Is W[1]-Complete",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax496464.WH_D12_MulticolouredClique",
+          "title": "Multicoloured Clique Is W[1]-Complete",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax496464.WH_E1_HittingSetInW2",
+          "title": "Hitting Set Is in W[2]",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax496464.WH_E2_HittingSetW2Complete",
+          "title": "Hitting Set Is W[2]-Complete",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax496464.WH_E3_DominatingSet",
+          "title": "Dominating Set Is W[2]-Complete",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax496464.WH_F1_IndependentSetMatrix",
+          "title": "Independent Set on Adjacency Matrices",
+          "type": "definition"
+        },
+        {
+          "id": "Lax496464.WH_F2_MccConstruction",
+          "title": "The Multicoloured Graph of an Independent Set Instance",
+          "type": "definition"
+        },
+        {
+          "id": "Lax496464.WH_F3_NPHard",
+          "title": "NP-Hardness of a Problem on Words of Numbers",
+          "type": "definition"
+        },
+        {
+          "id": "Lax496464.WH_F4_IndependentSetToMcc",
+          "title": "Independent Set Reduces to Multicoloured Clique",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax496464.WH_F5_MccNPHard",
+          "title": "Multicoloured Clique Is NP-Hard",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax496464.WordEncoding",
+          "title": "Word Encoding of an Instance",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax496464Proofs.Corollary4.w2Hard_byMachines",
+        "Lax496464Proofs.F5MFinal.theorem5_byMachines_proved",
+        "Lax496464Proofs.F5QConclude.theorem5_byQmax_proved",
+        "Lax496464Proofs.F5WFinal.theorem5_byWidth_proved",
+        "Lax496464Proofs.HittingSet.Correct.fromSat_correct",
+        "Lax496464Proofs.HittingSet.Final.fromSat_polyTime",
+        "Lax496464Proofs.HittingSet.Hardness.hittingSet_npHard",
+        "Lax496464Proofs.HittingSet.Hardness.npHard",
+        "Lax496464Proofs.Ram.Corollary1Prog.corollary1_time_proved",
+        "Lax496464Proofs.Ram.D2Final.theorem2_time_proved",
+        "Lax496464Proofs.Ram.D4Final.corollary2_time_proved",
+        "Lax496464Proofs.Ram.D5Final.corollary3_time_proved",
+        "Lax496464Proofs.Ram.Q3Final.theorem3_qmax_time_proved",
+        "Lax496464Proofs.Ram.T4Final.theorem4_greedy_time_proved",
+        "Lax496464Proofs.Ram.Theorem1Final.stronglyNPHard_hasWeight_proved",
+        "Lax496464Proofs.Ram.W3Final.theorem3_width_time_proved",
+        "Lax496464Proofs.Section2.exists_est_schedule",
+        "Lax496464Proofs.Section2.feasible_iff",
+        "Lax496464Proofs.Section2.feasible_iff_conditions",
+        "Lax496464Proofs.Section2.mSchedulable_iff_card_running_le",
+        "Lax496464Proofs.Section3.achievable_readoff",
+        "Lax496464Proofs.Section3.achievable_recursion",
+        "Lax496464Proofs.Section4.exists_reachable_iff",
+        "Lax496464Proofs.Section4.reachable_due",
+        "Lax496464Proofs.Section4.reachable_start",
+        "Lax496464Proofs.Section4.scale_distinctEndpoints",
+        "Lax496464Proofs.Section4.scale_feasible_iff",
+        "Lax496464Proofs.Section4.scale_weight",
+        "Lax496464Proofs.Section5.exists_reachableProfile_iff",
+        "Lax496464Proofs.Section5.printed_not_correct",
+        "Lax496464Proofs.Section5.printed_readoff",
+        "Lax496464Proofs.Section5.reachableProfile_start",
+        "Lax496464Proofs.Section6.greedy_card_max",
+        "Lax496464Proofs.Section6.greedy_dominating",
+        "Lax496464Proofs.Section6.ilp_correct",
+        "Lax496464Proofs.Section6.ilp_optimum",
+        "Lax496464Proofs.Section6.isTotallyUnimodular",
+        "Lax496464Proofs.Section6.lemma5",
+        "Lax496464Proofs.Section6.matrix_isTotallyUnimodular",
+        "Lax496464Proofs.Section7.rescale_approx",
+        "Lax496464Proofs.Section8.construct_correct",
+        "Lax496464Proofs.WHierarchy.BridgesDerived.fptReduces_of_polyTime",
+        "Lax496464Proofs.WHierarchy.BridgesDerived.fptReduces_of_strict",
+        "Lax496464Proofs.WHierarchy.BridgesDerived.mem_FPT_of_decides",
+        "Lax496464Proofs.WHierarchy.BridgesDerived.polyTimeOn_of_ramPolytime",
+        "Lax496464Proofs.WHierarchy.BridgesDerived.polyTimeOn_of_turingPolytime",
+        "Lax496464Proofs.WHierarchy.Calculus.closure_mono",
+        "Lax496464Proofs.WHierarchy.Calculus.fptReduces_refl",
+        "Lax496464Proofs.WHierarchy.Calculus.fptReduces_trans",
+        "Lax496464Proofs.WHierarchy.Calculus.hard_closure_of",
+        "Lax496464Proofs.WHierarchy.Calculus.hard_iff_of_complete",
+        "Lax496464Proofs.WHierarchy.Calculus.hard_of_fptReduces",
+        "Lax496464Proofs.WHierarchy.Calculus.mem_closure_of_fptReduces",
+        "Lax496464Proofs.WHierarchy.Calculus.mem_closure_of_mem",
+        "Lax496464Proofs.WHierarchy.Calculus.mem_FPT_of_fptReduces",
+        "Lax496464Proofs.WHierarchy.Calculus.subset_FPT_of_hard",
+        "Lax496464Proofs.WHierarchy.ComputableBounds.computable_add",
+        "Lax496464Proofs.WHierarchy.ComputableBounds.computable_exp",
+        "Lax496464Proofs.WHierarchy.ComputableBounds.computable_mul",
+        "Lax496464Proofs.WHierarchy.ComputableBounds.computable_polynomial",
+        "Lax496464Proofs.WHierarchy.ComputableBounds.computable_pow",
+        "Lax496464Proofs.WHierarchy.ComputableBounds.exists_monotone_bound",
+        "Lax496464Proofs.WHierarchy.HierarchyFacts.A_mono",
+        "Lax496464Proofs.WHierarchy.HierarchyFacts.not_mem_FPT_of_hard",
+        "Lax496464Proofs.WHierarchy.HierarchyFacts.pMC_mem_A",
+        "Lax496464Proofs.WHierarchy.HierarchyFacts.pMC_mono",
+        "Lax496464Proofs.WHierarchy.HierarchyFacts.pWD_mem_W",
+        "Lax496464Proofs.WHierarchy.HierarchyFacts.W_mono",
+        "Lax496464Proofs.WHierarchy.HierarchyFacts.W_subset_FPT_of_hard",
+        "Lax496464Proofs.WHierarchy.HittingSet.DSFinal.hittingSet_le_dominatingSet",
+        "Lax496464Proofs.WHierarchy.HittingSet.DSHSFinal.dominatingSet_le_hittingSet",
+        "Lax496464Proofs.WHierarchy.HittingSet.Param.hittingSet_isParameterized",
+        "Lax496464Proofs.WHierarchy.HittingSet.WDFinal.hittingSet_le_pWD",
+        "Lax496464Proofs.WHierarchy.HittingSet.WSHSFinal.pWSat_monotone_le_hittingSet",
+        "Lax496464Proofs.WHierarchy.Lemmas.BinaryToClique.Final.pMC_binary_le_clique",
+        "Lax496464Proofs.WHierarchy.Lemmas.Incidence.Final.pMC_positive_le_binary",
+        "Lax496464Proofs.WHierarchy.Lemmas.NegElim.Final.pMC_sigma1_le_positive",
+        "Lax496464Proofs.WHierarchy.Lemmas.PiTwoToMonotone.Final.pWD_le_pWSat_monotone",
+        "Lax496464Proofs.WHierarchy.Lemmas.WDToWSat.Final.pWD_le_pWSat",
+        "Lax496464Proofs.WHierarchy.Lemmas.WSatInA1.Final.pWSat_mem_A1",
+        "Lax496464Proofs.WHierarchy.Logic.McParam.Final.pMC_isParameterized",
+        "Lax496464Proofs.WHierarchy.Machine.Compose.CompBound.fptTimeOn_comp",
+        "Lax496464Proofs.WHierarchy.Machine.Compose.Strict.fptTimeOn_of_strict",
+        "Lax496464Proofs.WHierarchy.Machine.Identity.fptTimeOn_id",
+        "Lax496464Proofs.WHierarchy.Machine.RunsTo.fptTimeOn_of_runsTo",
+        "Lax496464Proofs.WHierarchy.Machine.RunsTo.polyTimeOn_of_runsTo",
+        "Lax496464Proofs.WHierarchy.Machine.SizeFacts.length_le_bitSize",
+        "Lax496464Proofs.WHierarchy.Machine.SizeFacts.lt_two_pow_bitSize",
+        "Lax496464Proofs.WHierarchy.Machine.UnivIff.polyTimeOn_univ_iff",
+        "Lax496464Proofs.WHierarchy.MachineBasics.fptTimeOn_congr",
+        "Lax496464Proofs.WHierarchy.MachineBasics.fptTimeOn_mono",
+        "Lax496464Proofs.WHierarchy.MachineBasics.fptTimeOn_of_polyTimeOn",
+        "Lax496464Proofs.WHierarchy.MccNP.CorrectnessProof.construct_correct_proved",
+        "Lax496464Proofs.WHierarchy.MccNP.HardnessFinal.independentSet_fptReduces_mcc_proved",
+        "Lax496464Proofs.WHierarchy.MccNP.HardnessFinal.independentSet_isFptReduction_proved",
+        "Lax496464Proofs.WHierarchy.MccNP.HardnessFinal.independentSet_le_mcc_proved",
+        "Lax496464Proofs.WHierarchy.MccNP.HardnessFinal.independentSet_polyReduces_mcc_proved",
+        "Lax496464Proofs.WHierarchy.MccNP.HardnessFinal.mcc_npHard_in_proved",
+        "Lax496464Proofs.WHierarchy.MccNP.HardnessFinal.mcc_npHard_proved",
+        "Lax496464Proofs.WHierarchy.MccNP.ParameterPreservedProof.parameter_preserved_proved",
+        "Lax496464Proofs.WHierarchy.MccNP.Ram.FptTimeProof.reduce_fptTime_proved",
+        "Lax496464Proofs.WHierarchy.MccNP.Ram.PolyTimeProof.reduce_polyTime_proved",
+        "Lax496464Proofs.WHierarchy.MccNP.ReductionCorrectProof.reduce_correct_proved",
+        "Lax496464Proofs.WHierarchy.MccNP.ReductionCorrectProof.reduce_maps_domain_proved",
+        "Lax496464Proofs.WHierarchy.MccNP.ReductionCorrectProof.reduce_off_domain_proved",
+        "Lax496464Proofs.WHierarchy.MccNP.ReductionCorrectProof.reduce_word_proved",
+        "Lax496464Proofs.WHierarchy.MccNP.WordEncodesProof.word_encodes_proved",
+        "Lax496464Proofs.WHierarchy.Parameters.clique_isParameterized",
+        "Lax496464Proofs.WHierarchy.Parameters.dominatingSet_isParameterized",
+        "Lax496464Proofs.WHierarchy.Parameters.independentSet_isParameterized",
+        "Lax496464Proofs.WHierarchy.Parameters.multicolouredClique_isParameterized",
+        "Lax496464Proofs.WHierarchy.Parameters.pWD_isParameterized",
+        "Lax496464Proofs.WHierarchy.Reductions.CliqueIS.Final.clique_le_independentSet",
+        "Lax496464Proofs.WHierarchy.Reductions.CliqueIS.Final.independentSet_le_clique",
+        "Lax496464Proofs.WHierarchy.Reductions.CliqueLogic.CliqueMC.clique_le_pMC",
+        "Lax496464Proofs.WHierarchy.Reductions.CliqueLogic.CliqueWD.clique_le_pWD",
+        "Lax496464Proofs.WHierarchy.Reductions.CliqueMCC.ForgetFinal.multicolouredClique_le_clique",
+        "Lax496464Proofs.WHierarchy.Reductions.CliqueMCC.ProdFinal.clique_le_multicolouredClique",
+        "Lax496464Proofs.WHierarchy.W1Derived.clique_A1_complete",
+        "Lax496464Proofs.WHierarchy.W1Derived.clique_mem_A1",
+        "Lax496464Proofs.WHierarchy.W1Derived.clique_mem_W1",
+        "Lax496464Proofs.WHierarchy.W1Derived.clique_W1_complete",
+        "Lax496464Proofs.WHierarchy.W1Derived.clique_W1_hard",
+        "Lax496464Proofs.WHierarchy.W1Derived.cliqueFormula_isPi",
+        "Lax496464Proofs.WHierarchy.W1Derived.cliqueFormula_isSentence",
+        "Lax496464Proofs.WHierarchy.W1Derived.independentSet_W1_complete",
+        "Lax496464Proofs.WHierarchy.W1Derived.multicolouredClique_W1_complete",
+        "Lax496464Proofs.WHierarchy.W1Derived.W1_eq_A1",
+        "Lax496464Proofs.WHierarchy.W2Derived.dominatingSet_W2_complete",
+        "Lax496464Proofs.WHierarchy.W2Derived.hittingSet_mem_W2",
+        "Lax496464Proofs.WHierarchy.W2Derived.hittingSet_W2_complete",
+        "Lax496464Proofs.WHierarchy.W2Derived.hsFormula_isPi",
+        "Lax496464Proofs.WHierarchy.W2Derived.hsFormula_isSentence"
+      ]
+    },
+    {
       "id": "lax-503819",
       "state": "registered",
       "environment": "v4.33.0",
