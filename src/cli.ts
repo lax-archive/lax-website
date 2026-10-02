@@ -5,7 +5,8 @@ import { fileURLToPath } from "node:url";
 import { fetchBundles } from "./bundles.js";
 import { loadSubmissions, submissionsMissingPapers } from "./database.js";
 import { fetchPapers } from "./papers.js";
-import { fetchReferences } from "./references.js";
+import { fetchReferences, loadReferences } from "./references.js";
+import { fetchMathlibSources } from "./mathlib-links.js";
 import { previewRequestPath } from "./preview.js";
 import { SITE_MIME } from "./sitegen/assets.js";
 import { generateSite } from "./sitegen/generate.js";
@@ -84,7 +85,10 @@ async function build(): Promise<void> {
 
 if (command === "fetch-references") {
   if (!referencesDir) throw new Error("references:fetch cannot use --no-references");
-  const fetched = await fetchReferences(loadSubmissions(databaseDir), referencesDir, { log: (line) => console.log(line) });
+  const submissions = loadSubmissions(databaseDir);
+  const fetched = await fetchReferences(submissions, referencesDir, { log: (line) => console.log(line) });
+  for (const submission of submissions) submission.sourceReferences = loadReferences(submission, referencesDir);
+  await fetchMathlibSources(submissions, referencesDir, { log: (line) => console.log(line) });
   console.log(`references cache ${referencesDir}: ${fetched.length} fetched`);
 } else if (command === "fetch-papers") {
   const submissions = loadSubmissions(databaseDir);

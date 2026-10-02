@@ -4,6 +4,7 @@ import { attr, esc } from "./html.js";
 import { renderDisplayMath, renderInlineMath } from "./math.js";
 import { leanDeclarations, nameKey, nameParts, scanLeanSource, type SourceRange } from "./lean-source.js";
 import type { SourceLink } from "./source-links.js";
+import { mathlibLinkTitle } from "../mathlib-links.js";
 
 let highlighterPromise: Promise<Highlighter> | undefined;
 
@@ -55,9 +56,8 @@ function commentMath(source: string, comments: SourceRange[]): Decoration[] {
   return matches;
 }
 
-// Source navigation is confined to generated archive pages. Besides escaping
-// HTML attributes, refuse active schemes, external hosts and path separators
-// supplied as part of a name. The resolver URL-encodes path/fragment components.
+// Besides generated archive pages, permit only validated Lean/Mathlib
+// documentation and pinned Mathlib source destinations.
 const ARCHIVE_HREF = /^(?:\.\.?\/)*[a-zA-Z0-9_%.'-]+\/[a-zA-Z0-9_%.'-]+\.html(?:#[a-zA-Z0-9_%.'-]+)?$/u;
 
 function decorationsByLine(source: string, links: readonly SourceLink[], comments: SourceRange[]): Decoration[][] {
@@ -67,7 +67,7 @@ function decorationsByLine(source: string, links: readonly SourceLink[], comment
   const result: Decoration[][] = lines.map(() => []);
   const decorations: Decoration[] = [...commentMath(source, comments), ...links.filter((link) =>
     Number.isInteger(link.start) && Number.isInteger(link.end) && link.start >= 0 &&
-    link.end > link.start && link.end <= source.length && ARCHIVE_HREF.test(link.href),
+    link.end > link.start && link.end <= source.length && (ARCHIVE_HREF.test(link.href) || mathlibLinkTitle(link.href)),
   )].sort((a, b) => a.start - b.start);
   let line = 0;
   let previousEnd = 0;
@@ -129,8 +129,9 @@ function renderDecoratedLine(nodes: HastNode[], decorations: Decoration[]): stri
   for (const decoration of decorations) {
     html.push(take(decoration.start));
     const content = take(decoration.end);
+    const title = decoration.href ? mathlibLinkTitle(decoration.href) : undefined;
     html.push(decoration.href
-      ? `<a class="lean-identifier-link" href="${attr(decoration.href)}">${content}</a>`
+      ? `<a class="lean-identifier-link" href="${attr(decoration.href)}"${title ? ` title="${attr(title)}"` : ""}>${content}</a>`
       : decoration.html ?? "");
   }
   html.push(take(Infinity));

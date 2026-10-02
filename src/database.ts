@@ -3,6 +3,7 @@ import path from "node:path";
 import { bundleCachePath } from "./bundles.js";
 import { paperCachePath } from "./papers.js";
 import { loadReferences } from "./references.js";
+import { loadMathlibSources } from "./mathlib-links.js";
 import type { BuildOutput, DbRecord, PaperEntry, PaperMark, PaperMarkPoint, PaperWebEntry, SkippedRecord } from "./types.js";
 import type { SiteSubmission } from "./sitegen/model.js";
 
@@ -224,8 +225,10 @@ function loadSubmission(root: string, id: string, options: LoadOptions): SiteSub
   const rawOutput = readJson<unknown>(outputFile);
   const output = rawOutput === undefined ? undefined : rendererOutput(rawOutput, outputFile);
   const submission: SiteSubmission = { record: record as unknown as DbRecord, output };
-  if (options.referencesDir !== undefined)
+  if (options.referencesDir !== undefined) {
     submission.sourceReferences = loadReferences(submission, options.referencesDir);
+    submission.mathlibSources = loadMathlibSources(submission, options.referencesDir);
+  }
   if (output?.paper && options.papersDir !== undefined) {
     const file = paperCachePath(options.papersDir, output.paper.pdf.digest);
     if (fs.existsSync(file)) submission.paperFile = file;
