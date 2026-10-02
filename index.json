@@ -6402,6 +6402,39 @@
       ]
     },
     {
+      "id": "lax-965890",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Constructive Lovász Local Lemma",
+      "supersedes": "lax-296731",
+      "concepts": [
+        {
+          "id": "Lax965890.HaeuplerSahaSrinivasanDefinitions",
+          "title": "Definitions for the Haeupler–Saha–Srinivasan distributional theorem",
+          "type": "definition"
+        },
+        {
+          "id": "Lax965890.HaeuplerSahaSrinivasanTheorem22",
+          "title": "Haeupler–Saha–Srinivasan Theorem 2.2",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax965890.MoserTardos",
+          "title": "The Moser–Tardos theorem",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax965890.MoserTardosDefinitions",
+          "title": "Definitions for the Moser–Tardos resampling algorithm",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax965890Proofs.moser_tardos",
+        "Lax965890Proofs.theorem_2_2"
+      ]
+    },
+    {
       "id": "lax-979537",
       "state": "draft",
       "environment": "v4.30.0",
