@@ -9,6 +9,8 @@ export interface LeanToken extends SourceRange {
   leadingCommentLine?: number;
   /** Components keep `A.«B.C»` distinct from `A.B.C`. */
   name?: string[];
+  /** A complete numeric literal, including radix/fraction/exponent syntax. */
+  number?: true;
 }
 export interface LeanSource {
   tokens: LeanToken[];
@@ -22,6 +24,9 @@ const PART = `(?:[${LETTER}][${LETTER}0-9'!?\\u2080-\\u2089\\u2090-\\u209c\\u1d6
 const NAME = new RegExp(`${PART}(?:\\.${PART})*`, "uy");
 const COMPONENT = new RegExp(PART, "gu");
 const RAW_STRING = /r(#+)?"/y;
+// Lean.Parser.Basic.numberFnAux: underscores separate digits; a double dot
+// starts range notation rather than the fractional part of a number.
+const NUMBER = /(?:0[bB]_*[01](?:_*[01])*|0[oO]_*[0-7](?:_*[0-7])*|0[xX]_*[0-9a-fA-F](?:_*[0-9a-fA-F])*|[0-9](?:_*[0-9])*(?:\.(?!\.)(?:[0-9](?:_*[0-9])*)?)?(?:[eE][+-]?[0-9](?:_*[0-9])*)?)/y;
 
 export function nameParts(text: string): string[] {
   return [...text.matchAll(COMPONENT)].map(([part]) => part.startsWith("«") ? part.slice(1, -1) : part);
@@ -126,6 +131,14 @@ export function scanLeanSource(source: string): LeanSource {
         const quoted = NAME.exec(source);
         if (quoted) advance(index + quoted[0].length);
       }
+      code();
+      continue;
+    }
+    NUMBER.lastIndex = index;
+    const number = NUMBER.exec(source)?.[0];
+    if (number) {
+      token({ start, end: index + number.length, text: number, line, column: start - lineStart, number: true });
+      advance(index + number.length);
       code();
       continue;
     }

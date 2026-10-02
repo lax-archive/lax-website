@@ -14,22 +14,30 @@
   document.body.append(destination);
   const hideDestination = () => { destination.hidden = true; };
   const showDestination = node => {
-    node ??= active;
     const label = node?.dataset.destination ?? node?.dataset.leanDestination;
     if (!label || panel.hidden) return hideDestination();
     destination.textContent = label;
     destination.hidden = false;
     const gap = 6, edge = 8, height = destination.offsetHeight;
+    const anchor = node.getBoundingClientRect();
+    const sourceIdentifier = !panel.contains(node);
     let bounds = panel.getBoundingClientRect();
-    let top = bounds.top - gap - height;
-    if (top < edge) {
-      // Reserve room above the type rather than overlaying its text.
-      panel.style.top = `${edge + height + gap}px`;
+    // A source identifier can be immediately above its type panel. Placing
+    // the label above only the panel would cover the identifier itself.
+    let top = sourceIdentifier ? Math.min(bounds.top, anchor.top) - gap - height : bounds.bottom + gap;
+    if (!sourceIdentifier && top + height > innerHeight - edge) {
+      panel.style.top = `${Math.max(edge, innerHeight - edge - height - gap - bounds.height)}px`;
       bounds = panel.getBoundingClientRect();
-      top = bounds.top - gap - height;
+      top = bounds.bottom + gap;
+    }
+    if (top < edge) {
+      // Reserve room outside the type rather than overlaying its text.
+      panel.style.top = `${sourceIdentifier ? edge + height + gap : edge}px`;
+      bounds = panel.getBoundingClientRect();
+      top = sourceIdentifier ? bounds.top - gap - height : bounds.bottom + gap;
     }
     destination.style.top = `${top}px`;
-    destination.style.left = `${Math.max(edge, Math.min(node.getBoundingClientRect().left, innerWidth - destination.offsetWidth - edge))}px`;
+    destination.style.left = `${Math.max(edge, Math.min(anchor.left, innerWidth - destination.offsetWidth - edge))}px`;
   };
   let active = null, pinned = false, hideTimer;
   let enabled = true;
@@ -48,13 +56,18 @@
     const node = active.getBoundingClientRect(), gap = 8;
     const width = panel.offsetWidth, height = panel.offsetHeight;
     const left = Math.max(gap, Math.min(node.left, innerWidth - width - gap));
-    const top = node.bottom + gap + height <= innerHeight - gap ? node.bottom + gap : Math.max(gap, node.top - height - gap);
+    // Leave space beneath the panel for further-hover destination labels.
+    const bottom = innerHeight - 48;
+    const top = node.bottom + gap + height <= bottom ? node.bottom + gap : Math.max(gap, Math.min(node.top - height - gap, bottom - height));
     panel.style.left = `${left}px`; panel.style.top = `${top}px`;
-    showDestination(active);
+    if (active.matches(":hover") || active === document.activeElement) showDestination(active);
   };
   const show = (node, pin = false) => {
     if (!enabled) return;
-    if (pinned && !pin) return;
+    if (pinned && !pin) {
+      if (node === active) showDestination(node);
+      return;
+    }
     clearTimeout(hideTimer);
     if (active !== node) {
       hideDestination();
@@ -117,6 +130,7 @@
   applyPreference();
   document.addEventListener("pointerover", event => { const node = target(event); if (node) show(node); });
   document.addEventListener("pointerout", event => {
+    if (target(event) === active && !active?.contains(event.relatedTarget)) hideDestination();
     if (target(event) && !active?.contains(event.relatedTarget) && !panel.contains(event.relatedTarget)) scheduleHide();
   });
   document.addEventListener("focusin", event => {
@@ -124,7 +138,7 @@
     if (node) show(node);
     else if (!pinned && !panel.contains(event.target)) hide();
   });
-  document.addEventListener("focusout", event => { if (target(event)) scheduleHide(); });
+  document.addEventListener("focusout", event => { if (target(event)) { hideDestination(); scheduleHide(); } });
   document.addEventListener("click", event => {
     if (panel.contains(event.target)) {
       if (event.target.closest?.("a[href]")) hide();
@@ -159,9 +173,9 @@
   panel.addEventListener("pointerleave", scheduleHide);
   const destinationTarget = event => event.target.closest?.("a[data-destination]");
   panel.addEventListener("pointerover", event => showDestination(destinationTarget(event)));
-  panel.addEventListener("pointerout", () => showDestination(active));
+  panel.addEventListener("pointerout", hideDestination);
   panel.addEventListener("focusin", event => showDestination(destinationTarget(event)));
-  panel.addEventListener("focusout", () => showDestination(active));
+  panel.addEventListener("focusout", hideDestination);
   document.addEventListener("scroll", event => { hideDestination(); if (!panel.contains(event.target)) { if (pinned) place(); else hide(); } }, true);
   window.addEventListener("resize", () => { if (pinned) place(); else hide(); });
 })();

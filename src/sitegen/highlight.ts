@@ -270,6 +270,7 @@ function explicitTypeSites({ tokens }: LeanSource, declarations: LeanDeclaration
       if (start !== undefined) closes.set(start, index);
     }
     for (const name of typedBinderNames(tokens, index)) mark(name);
+    if (annotation(index) && tokens[index - 1]?.number) mark(tokens[index - 1]!);
   }
   const names = new Set(declarations.map(declaration => positions.get(declaration.token.start)!));
   for (let index = 1; index < tokens.length; index++)

@@ -37,8 +37,9 @@ describe("prepared Lean information", () => {
     expect(original.modules).toEqual(["Lax1.Base", "Lax1.Main"]);
     model.conceptHome.get("Lax1.Base")!.concept.sourceText += "\ndef extra := 0\n";
     expect(leanCodeInputs(model, "Lax1.Main").digest).not.toBe(original.digest);
-    const data = { version: 1, digest: "digest", hovers: [{ start: 4, end: 5, text: "x : Nat" }] };
+    const data = { version: 1, numericHovers: 1, digest: "digest", hovers: [{ start: 4, end: 5, text: "x : Nat" }] };
     expect(parseLeanCode(JSON.stringify(data), "digest", "def x := 1").hovers).toEqual(data.hovers);
+    expect(() => parseLeanCode(JSON.stringify({ ...data, numericHovers: undefined }), "digest", "def x := 1")).toThrow(/numeric/);
     expect(() => parseLeanCode(JSON.stringify(data), "stale", "def x := 1")).toThrow();
     expect(() => parseLeanCode(JSON.stringify(data), "digest", "--  x   ")).toThrow();
     expect(() => parseLeanCode(JSON.stringify({ ...data, hovers: [...data.hovers, ...data.hovers] }), "digest", "def x := 1")).toThrow();
@@ -164,7 +165,10 @@ it.runIf(Boolean(process.env.LEAN_HOVER_TEST_BIN))("uses Lean's inferred types f
     "def method (n : Nat) := n.succ\ndef global := Nat.succ 0\n" +
     "def escaped («n.x» : Nat) := «n.x».succ\n" +
     "structure Literal where\n  index : Nat\n  positive : Bool\n" +
-    "def eval (l : Literal) (xs : List Bool) := l.positive && xs.any (fun b => b) && l.index == 0\n";
+    "def eval (l : Literal) (xs : List Bool) := l.positive && xs.any (fun b => b) && l.index == 0\n" +
+    "def natural := 123\ndef integer : Int := -12\ndef bounded : Fin 5 := 3\n" +
+    "def decimal : Float := 1.25e2\ndef hex := 0xff\ndef binary := 0b101\ndef octal := 0o17\ndef separated := 1_000\n" +
+    "def explicit := (42 : Nat)\n-- 987\ndef text := \"654\"\n";
   const file = path.join(root, "Example.lean"); fs.writeFileSync(file, source);
   const client = new LeanHoverClient(process.env.LEAN_HOVER_TEST_BIN!, root, root);
   await client.initialize();
@@ -177,7 +181,12 @@ it.runIf(Boolean(process.env.LEAN_HOVER_TEST_BIN))("uses Lean's inferred types f
     expect(hovers).toContainEqual({ start: escaped, end: escaped + 5, text: "«n.x» : Nat" });
     expect(hovers.some(hover => hover.start === namespace && hover.end === namespace + "Nat.succ".length)).toBe(true);
     expect(hovers.some(hover => hover.start === namespace && hover.end === namespace + 3)).toBe(false);
-    const prepared = { version: 1, projectionHovers: 1, digest: "receivers", hovers };
+    for (const [literal, type] of [["123", "Nat"], ["12", "Int"], ["3", "Fin 5"], ["1.25e2", "Float"],
+      ["0xff", "Nat"], ["0b101", "Nat"], ["0o17", "Nat"], ["1_000", "Nat"]]) {
+      expect(hovers.some(hover => source.slice(hover.start, hover.end) === literal && hover.text.endsWith(` : ${type}`))).toBe(true);
+    }
+    expect(hovers.some(hover => ["987", "654"].includes(source.slice(hover.start, hover.end)))).toBe(false);
+    const prepared = { version: 1, projectionHovers: 1, numericHovers: 1, digest: "receivers", hovers };
     expect(parseLeanCode(JSON.stringify(prepared), "receivers", source).hovers).toEqual(hovers);
     expect(() => parseLeanCode(JSON.stringify({ ...prepared, projectionHovers: undefined }), "receivers", source)).toThrow(/projection/);
     for (const field of ["positive", "index", "any"]) {
@@ -193,5 +202,7 @@ it.runIf(Boolean(process.env.LEAN_HOVER_TEST_BIN))("uses Lean's inferred types f
     expect(rows.indexOf('data-lean-type="n : Nat"')).toBeLessThan(rows.indexOf('class="lean-identifier-link"'));
     expect(rows.match(/data-lean-type="Literal.positive/g)).toHaveLength(1);
     expect(rows.match(/data-lean-type="Literal.index/g)).toHaveLength(1);
+    expect(rows).toContain('data-lean-type="123 : Nat"');
+    expect(rows).not.toContain('data-lean-type="42 : Nat"');
   } finally { await client.close(); }
 }, 120_000);

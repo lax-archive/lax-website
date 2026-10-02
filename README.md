@@ -189,7 +189,7 @@ bytes therefore differ from production's, deterministically per flag set).
   builds, retain conservative lexical navigation. That fallback does not
   promise complete coverage: fields, aliases and potentially shadowed names
   need compiler metadata. Normal archive and preview builds use the metadata.
-- Lean variables and constants show compiler-derived types on hover and keyboard
+- Lean variables, constants, and numeric literals show compiler-derived types on hover and keyboard
   focus. The “Show types on hover” switch beside the comment toggle remembers
   the reader's preference across pages. Turning it off closes pinned bubbles
   and leaves identifier navigation available.
@@ -202,9 +202,12 @@ bytes therefore differ from production's, deterministically per flag set).
   The hovered term's own name stays plain inside its bubble; identifiers in
   its type link to known Lax or Mathlib declarations, with the usual
   “mathlib ↗” or “lean ↗” labels for external destinations. Hovering or focusing
-  a link inside the type bubble opens a separate destination tooltip above
-  the bubble. External source identifiers show that label above their type
-  bubble too. Short type names introduced by opened namespaces use the
+  a link inside the type bubble opens a separate destination tooltip below
+  the bubble. External source identifiers show
+  that label above the identifier, clear of its type bubble.
+  Destination labels disappear when the pointer leaves their identifier,
+  even while the type bubble remains pinned.
+  Short type names introduced by opened namespaces use the
   compiler's source references to find their archive declarations when the
   spelling has an unambiguous destination in the module.
   The type toggle sits on the right of the source controls. Keyboard users
@@ -218,6 +221,9 @@ bytes therefore differ from production's, deterministically per flag set).
   (`x y : t`) and declarations whose return type follows their parameters
   (`def f (x : Nat) : Nat`). Other occurrences and inferred bindings retain
   their hovers.
+  Numerals use their inferred type (for example `Nat`, `Int`, or `Fin n`),
+  including hexadecimal, binary, octal, decimal, and scientific notation.
+  Explicit numeral annotations such as `(42 : Nat)` omit redundant bubbles.
   In dotted expressions such as `G.Adj`, a genuine receiver variable `G`
   has its own clickable type bubble beside the field's navigation link;
   the field or method also has its own type bubble at uses.

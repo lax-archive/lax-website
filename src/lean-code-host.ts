@@ -80,8 +80,8 @@ export class LeanHoverClient {
       const errors = this.errors.get(uri) ?? [];
       if (errors.length) throw new Error(`${file}: ${errors.join("\n")}`);
       const result: SourceHover[] = [];
-      const queries = scanLeanSource(source).tokens.filter(t => t.name).flatMap(token => {
-        const components = identifierComponents(token);
+      const queries = scanLeanSource(source).tokens.filter(t => t.name || t.number).flatMap(token => {
+        const components = token.number ? [token] : identifierComponents(token);
         return components.map(component => ({ token, component, components }));
       });
       for (let i = 0; i < queries.length; i += 16) {
@@ -167,7 +167,7 @@ export async function prepareLeanEnvironment(model: SiteModel, options: {
       if (!input) return;
       const cacheFile = path.join(options.cache, `${input.digest}.json`);
       try { parseLeanCode(fs.readFileSync(cacheFile, "utf8"), input.digest, source); done++; return; } catch { /* Rebuild missing/corrupt cache. */ }
-      const data: LeanCodeData = { version: 1, projectionHovers: 1, digest: input.digest, hovers: await client.hovers(file, source) };
+      const data: LeanCodeData = { version: 1, projectionHovers: 1, numericHovers: 1, digest: input.digest, hovers: await client.hovers(file, source) };
       fs.writeFileSync(`${cacheFile}.tmp`, JSON.stringify(data) + "\n"); fs.renameSync(`${cacheFile}.tmp`, cacheFile);
       options.log?.(`${options.version}: ${++done}/${ordered.length} ${id}: ${data.hovers.length} type hovers`);
       } finally { release(client); }

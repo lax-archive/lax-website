@@ -64,7 +64,7 @@ describe.runIf(Boolean(process.env.GRAPH_CHROME))("Lean hover interaction", () =
       expect(await destination.textContent()).toBe("lean ↗");
       expect(await destination.isVisible()).toBe(true);
       const labelBounds = (await destination.boundingBox())!, typeBounds = (await panel.boundingBox())!;
-      expect(labelBounds.y + labelBounds.height).toBeLessThanOrEqual(typeBounds.y);
+      expect(labelBounds.y).toBeGreaterThanOrEqual(typeBounds.y + typeBounds.height);
       expect(labelBounds.x).toBeGreaterThanOrEqual(0);
       expect(labelBounds.x + labelBounds.width).toBeLessThanOrEqual(390);
       expect(labelBounds.y + labelBounds.height).toBeLessThanOrEqual(300);
@@ -100,11 +100,26 @@ describe.runIf(Boolean(process.env.GRAPH_CHROME))("Lean hover interaction", () =
       expect(await constant.evaluate(el => getComputedStyle(el).cursor)).toBe("pointer");
       expect(await panel.locator("a").count()).toBe(1);
       expect(await panel.locator("a").textContent()).toBe("Type");
+      // With the type below its source, the label must clear the source too.
+      await page.locator("table").evaluate(el => { el.style.top = "80px"; el.style.bottom = "auto"; });
+      await page.mouse.move(1, 1);
+      await constant.hover();
+      const sourceBounds = (await constant.boundingBox())!, aboveSource = (await destination.boundingBox())!;
+      expect(aboveSource.y + aboveSource.height).toBeLessThan(sourceBounds.y);
+      expect((await panel.boundingBox())!.y).toBeGreaterThan(sourceBounds.y + sourceBounds.height);
+      await page.locator("table").evaluate(el => { el.style.top = "auto"; el.style.bottom = "8px"; });
+      await page.mouse.move(1, 1);
+      await constant.hover();
       await panel.click({ position: { x: 3, y: 3 } });
       await page.mouse.move(1, 1);
       await page.waitForTimeout(250);
       expect(await panel.isVisible()).toBe(true);
+      expect(await destination.isHidden()).toBe(true);
       expect(await panel.locator(".lean-type-signature").textContent()).toBe("Nat : Type");
+      await constant.hover();
+      expect(await destination.isVisible()).toBe(true);
+      await page.mouse.move(1, 1);
+      expect(await destination.isHidden()).toBe(true);
       await token.click();
       await page.keyboard.press("Tab");
       expect(await panel.locator("a").first().evaluate(el => el === document.activeElement)).toBe(true);

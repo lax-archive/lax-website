@@ -9,6 +9,7 @@ export interface SourceHover extends SourceRange { text: string }
 export interface LeanCodeData {
   version: 1;
   projectionHovers?: 1;
+  numericHovers?: 1;
   digest: string;
   hovers: SourceHover[];
 }
@@ -37,8 +38,11 @@ export function leanCodeInputs(model: SiteModel, id: string): { digest: string; 
 
 export function parseLeanCode(json: string, digest: string, source: string): LeanCodeData {
   const data = JSON.parse(json) as LeanCodeData;
+  const sourceTokens = scanLeanSource(source).tokens;
+  if (data.numericHovers !== 1 && sourceTokens.some(token => token.number))
+    throw new Error("missing Lean numeric hovers");
   const receivers = new Set<string>();
-  const tokens = new Set(scanLeanSource(source).tokens.filter(t => t.name).flatMap(token => {
+  const tokens = new Set(sourceTokens.filter(t => t.name || t.number).flatMap(token => {
     const prefix = dottedIdentifierPrefix(token);
     if (prefix) receivers.add(`${prefix.start}:${prefix.end}`);
     return [token, ...identifierComponents(token)].map(range => `${range.start}:${range.end}`);
