@@ -75,7 +75,8 @@ function decorationsByLine(source: string, links: readonly SourceLink[], comment
     if (!Number.isInteger(hover.start) || !Number.isInteger(hover.end) || hover.start < 0 || hover.end <= hover.start ||
         hover.end > source.length || typeof hover.text !== "string") continue;
     const linked = identifierRanges.get(`${hover.start}:${hover.end}`);
-    if (!linked) identifiers.push({ start: hover.start, end: hover.end, hover: hover.text });
+    if (linked) linked.hover = hover.text;
+    else identifiers.push({ start: hover.start, end: hover.end, hover: hover.text });
   }
   const decorations: Decoration[] = [...commentMath(source, comments), ...identifiers].sort((a, b) => a.start - b.start);
   let line = 0;
@@ -139,10 +140,10 @@ function renderDecoratedLine(nodes: HastNode[], decorations: Decoration[]): stri
   for (const decoration of decorations) {
     html.push(take(decoration.start));
     const content = take(decoration.end);
-    const title = decoration.href ? mathlibLinkTitle(decoration.href) : undefined;
+    const title = decoration.href && !decoration.hover ? mathlibLinkTitle(decoration.href) : undefined;
     const hover = decoration.hover ? ` data-lean-type="${attr(decoration.hover)}"` : "";
     html.push(decoration.href
-      ? `<a class="lean-identifier-link" href="${attr(decoration.href)}"${title ? ` title="${attr(title)}"` : ""}>${content}</a>`
+      ? `<a class="lean-identifier-link" href="${attr(decoration.href)}"${hover}${title ? ` title="${attr(title)}"` : ""}>${content}</a>`
       : decoration.hover ? `<span class="lean-typed-identifier" tabindex="0"${hover}>${content}</span>`
       : decoration.html ?? "");
   }

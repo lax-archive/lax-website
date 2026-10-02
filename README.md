@@ -189,9 +189,10 @@ bytes therefore differ from production's, deterministically per flag set).
   builds, retain conservative lexical navigation. That fallback does not
   promise complete coverage: fields, aliases and potentially shadowed names
   need compiler metadata. Normal archive and preview builds use the metadata.
-- Unlinked Lean identifiers show compiler-derived types on hover and keyboard
-  focus with the normal text cursor. Clickable identifiers retain their
-  navigation behavior and compact link labels, without type tooltips.
+- Lean variables and constants show compiler-derived types on hover and keyboard
+  focus. Unlinked identifiers use a text cursor with a small information symbol;
+  clickable identifiers retain their navigation behavior and pointer cursor.
+  Links without prepared type information retain their compact link labels.
   `npm run lean:prepare` elaborates concept modules and the landing
   examples with their pinned Lean and Mathlib environments, caching UTF-16
   ranges and plain type text in `data/lean-code/`. It omits documentation from

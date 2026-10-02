@@ -13,19 +13,23 @@ describe.runIf(Boolean(process.env.GRAPH_CHROME))("Lean hover interaction", () =
     });
     try {
       const page = await browser.newPage({ viewport: { width: 390, height: 300 } });
-      const source = "def x := 1", type = "x : Nat\n<script>literal text</script>";
-      const rows = await highlightSource(source, [], new Set(), { hovers: [{ start: 4, end: 5, text: type }] });
+      const source = "def x := Nat", type = "x : Type\n<script>literal text</script>";
+      const href = "https://leanprover-community.github.io/mathlib4_docs/Init/Prelude.html#Nat";
+      const rows = await highlightSource(source, [], new Set(), {
+        links: [{ start: 9, end: 12, href }],
+        hovers: [{ start: 4, end: 5, text: type }, { start: 9, end: 12, text: "Nat : Type" }],
+      });
       const requests: string[] = [];
       await page.route("**/*", async route => {
         const url = new URL(route.request().url()); requests.push(url.href);
         if (url.pathname === "/") await route.fulfill({ contentType: "text/html", body:
-          `<!doctype html><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self' 'unsafe-inline'; script-src 'self'; font-src 'self'"><link rel="stylesheet" href="style.css"><style>table{position:absolute;right:8px;bottom:8px}</style><table class="inline-contract-table">${rows}</table><script src="lean-code.js" defer></script>` });
-        else if (["style.css", "lean-code.js"].includes(path.basename(url.pathname)))
-          await route.fulfill({ contentType: url.pathname.endsWith(".css") ? "text/css" : "text/javascript", body: fs.readFileSync(siteAssetPath(path.basename(url.pathname))) });
+          `<!doctype html><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self' 'unsafe-inline'; script-src 'self'; font-src 'self'; img-src 'self'"><link rel="stylesheet" href="style.css"><style>table{position:absolute;right:8px;bottom:8px}</style><table class="inline-contract-table">${rows}</table><script src="lean-code.js" defer></script>` });
+        else if (["style.css", "lean-code.js", "lean-type-cursor.svg"].includes(path.basename(url.pathname)))
+          await route.fulfill({ contentType: url.pathname.endsWith(".css") ? "text/css" : url.pathname.endsWith(".svg") ? "image/svg+xml" : "text/javascript", body: fs.readFileSync(siteAssetPath(path.basename(url.pathname))) });
         else await route.abort();
       });
       await page.goto("https://lean-hover.test/");
-      const token = page.locator("[data-lean-type]"), panel = page.locator(".lean-type-tooltip");
+      const token = page.locator(".lean-typed-identifier"), panel = page.locator(".lean-type-tooltip");
       await token.hover();
       await expect.poll(() => panel.isVisible()).toBe(true);
       expect(await panel.textContent()).toBe(type);
@@ -36,10 +40,17 @@ describe.runIf(Boolean(process.env.GRAPH_CHROME))("Lean hover interaction", () =
       expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(390);
       expect(bounds!.y + bounds!.height).toBeLessThanOrEqual(300);
       expect(await panel.evaluate(el => getComputedStyle(el).backgroundColor)).toBe("rgb(255, 255, 255)");
+      expect(await token.evaluate(el => getComputedStyle(el).cursor)).toContain("lean-type-cursor.svg");
       await page.keyboard.press("Escape"); expect(await panel.isHidden()).toBe(true);
       await token.focus(); await expect.poll(() => panel.isVisible()).toBe(true);
       expect(await token.getAttribute("aria-describedby")).toBe("lean-type-tooltip");
       await page.keyboard.press("Escape"); expect(await token.getAttribute("aria-describedby")).toBeNull();
+      const constant = page.locator("a[data-lean-type]");
+      await constant.hover();
+      expect(await panel.textContent()).toBe("Nat : Type");
+      expect(await constant.getAttribute("href")).toBe(href);
+      expect(await constant.getAttribute("title")).toBeNull();
+      expect(await constant.evaluate(el => getComputedStyle(el).cursor)).toBe("pointer");
       expect(requests.every(url => url.startsWith("https://lean-hover.test/"))).toBe(true);
     } finally { await browser.close(); }
   }, 30_000);
