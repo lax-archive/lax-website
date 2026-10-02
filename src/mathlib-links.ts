@@ -44,6 +44,10 @@ export function mathlibLinkTitle(href: string): string | undefined {
 
 export function mathlibDocLink(module: string, name: string): string | undefined {
   if (!DOC_MODULE.test(module)) return undefined;
+  return declarationDocLink(name);
+}
+
+function declarationDocLink(name: string): string | undefined {
   const index = docsIndex();
   const link = Object.hasOwn(index, name) ? index[name] : undefined;
   if (typeof link !== "string" || !/^\.\/(?:Mathlib|Init|Std|Lean)\//u.test(link)) return undefined;
@@ -54,6 +58,18 @@ export function mathlibDocLink(module: string, name: string): string | undefined
 export function mathlibModuleLink(module: string): string | undefined {
   if (!DOC_MODULE.test(module)) return undefined;
   return `${DOCS}${module.replaceAll(".", "/")}.html`;
+}
+
+// These scopes have no declaration of the same name. Their documented
+// modules explain the notation/instances enabled by `open scoped`.
+const SCOPE_MODULES = new Map([
+  ["BigOperators", "Mathlib.Algebra.BigOperators.Group.Finset.Defs"],
+  ["Classical", "Init.Classical"],
+]);
+
+export function mathlibScopeLink(name: string): string | undefined {
+  const module = SCOPE_MODULES.get(name);
+  return module ? mathlibModuleLink(module) : declarationDocLink(name);
 }
 
 function sourceTarget(submission: SiteSubmission, module: string): { href: string; key: string } | undefined {

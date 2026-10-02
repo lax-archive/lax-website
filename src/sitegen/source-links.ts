@@ -1,7 +1,7 @@
 import { leanDeclarations, nameKey, nameParts, scanLeanSource, type LeanNamespaceReference, type LeanSource, type LeanToken, type SourceRange } from "./lean-source.js";
 import type { LocatedConcept, SiteModel } from "./model.js";
 import type { LeanReferences } from "../lean-references.js";
-import { mathlibDocLink, mathlibModuleLink } from "../mathlib-links.js";
+import { mathlibDocLink, mathlibModuleLink, mathlibScopeLink } from "../mathlib-links.js";
 
 export interface SourceLink extends SourceRange { href: string }
 interface Target { module: string; href: string; offset: number; private: boolean }
@@ -179,17 +179,21 @@ class SourceLinkIndex {
     for (const reference of source.namespaces) {
       const { token, namespace, kind } = reference;
       let href: string | undefined;
-      if (kind !== "open") href = this.submissionNamespaces.get(nameKey(namespace));
+      if (kind !== "open" && kind !== "scoped") href = this.submissionNamespaces.get(nameKey(namespace));
       else {
         const rooted = token.name![0] === "_root_";
         const parts = rooted ? token.name!.slice(1) : token.name!;
         for (let depth = rooted ? 0 : namespace.length; depth >= 0; depth--) {
-          const key = nameKey([...namespace.slice(0, depth), ...parts]);
+          const qualified = [...namespace.slice(0, depth), ...parts];
+          const key = nameKey(qualified);
           const homes = this.namespaceHomes.get(key);
           const candidates = [...(homes ?? [])].filter(([module]) => visible.has(module));
-          if (!candidates.length) continue;
-          href = this.submissionNamespaces.get(key) ?? (candidates.length === 1 ? candidates[0]![1] : undefined);
-          break;
+          if (candidates.length) {
+            href = this.submissionNamespaces.get(key) ?? (candidates.length === 1 ? candidates[0]![1] : undefined);
+            break;
+          }
+          if (kind === "scoped") href = mathlibScopeLink(qualified.join("."));
+          if (href) break;
         }
       }
       if (href) links.push({ start: token.start, end: token.end, href });
