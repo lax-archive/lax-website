@@ -205,6 +205,10 @@ bytes therefore differ from production's, deterministically per flag set).
   (`x y : t`) and declarations whose return type follows their parameters
   (`def f (x : Nat) : Nat`). Other occurrences and inferred bindings retain
   their hovers.
+  In dotted expressions such as `G.Adj`, a genuine receiver variable `G`
+  has its own clickable type bubble beside the field's navigation link.
+  Lean's reported ranges distinguish receivers from namespace prefixes;
+  qualified constants such as `Nat.succ` remain one identifier.
   `npm run lean:prepare` elaborates concept modules and the landing
   examples with their pinned Lean and Mathlib environments, caching UTF-16
   ranges and plain type text in `data/lean-code/`. It omits documentation from

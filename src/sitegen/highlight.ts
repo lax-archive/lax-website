@@ -252,8 +252,9 @@ export function moduleDocRange(source: string): [number, number] | undefined {
 
 /** Suppress redundant type bubbles at annotated bindings and declaration
  * names, including grouped binders and return types after parameter lists. */
-function explicitTypeSites({ tokens }: LeanSource, declarations: LeanDeclaration[]): Set<number> {
-  const sites = new Set<number>();
+function explicitTypeSites({ tokens }: LeanSource, declarations: LeanDeclaration[]): Set<string> {
+  const sites = new Set<string>();
+  const mark = (token: SourceRange) => sites.add(`${token.start}:${token.end}`);
   const positions = new Map(tokens.map((token, index) => [token.start, index]));
   const closes = new Map<number, number>();
   const stack: number[] = [];
@@ -275,7 +276,7 @@ function explicitTypeSites({ tokens }: LeanSource, declarations: LeanDeclaration
       for (let before = index - 1; before >= 0; before--) {
         const name = tokens[before]!;
         if (!name.name || bindingCommands.has(name.text)) break;
-        sites.add(name.start);
+        mark(name);
       }
     }
   }
@@ -284,12 +285,12 @@ function explicitTypeSites({ tokens }: LeanSource, declarations: LeanDeclaration
     if (["let", "letI", "let'", "letI'", "have", "haveI", "suffices", "instance"].includes(tokens[index - 1]!.text) && tokens[index]!.name)
       names.add(index);
   for (const index of names) {
-    if (["axiom", "theorem", "lemma"].includes(tokens[index - 1]?.text ?? "")) sites.add(tokens[index]!.start);
+    if (["axiom", "theorem", "lemma"].includes(tokens[index - 1]?.text ?? "")) mark(tokens[index]!);
     let next = index + 1;
     // An explicit universe list precedes a declaration's parameters.
     if (tokens[next]?.text === "." && tokens[next + 1]?.text === "{") next++;
     while (closes.has(next)) next = closes.get(next)! + 1;
-    if (annotation(next)) sites.add(tokens[index]!.start);
+    if (annotation(next)) mark(tokens[index]!);
   }
   return sites;
 }
@@ -305,7 +306,7 @@ export async function highlightSource(
   const parsed = scanLeanSource(source);
   const declarations = leanDeclarations(parsed);
   const annotated = explicitTypeSites(parsed, declarations);
-  const hovers = (options.hovers ?? []).filter(hover => !annotated.has(hover.start));
+  const hovers = (options.hovers ?? []).filter(hover => !annotated.has(`${hover.start}:${hover.end}`));
   const decorations = decorationsByLine(source, options.links ?? [], parsed.comments, hovers, options.typeLinks);
   // Keep stable statement IDs, but place them at their complete comment
   // preamble. Archive ranges may begin after leading ordinary line comments.

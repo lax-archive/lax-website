@@ -29,6 +29,14 @@ export function nameParts(text: string): string[] {
 
 export function nameKey(parts: readonly string[]): string { return JSON.stringify(parts); }
 
+/** First component of a dotted name, preserving escaped names and UTF-16
+ * offsets. Only the compiler can tell whether this is a receiver variable. */
+export function dottedIdentifierPrefix(token: LeanToken): SourceRange | undefined {
+  if (!token.name || token.name.length < 2) return;
+  const length = token.text.startsWith("«") ? token.text.indexOf("»") + 1 : token.text.indexOf(".");
+  return { start: token.start, end: token.start + length };
+}
+
 /** Comments nest. Strings (including raw strings), characters and syntax
  * quotations are data: no declarations or clickable references inside them. */
 export function scanLeanSource(source: string): LeanSource {

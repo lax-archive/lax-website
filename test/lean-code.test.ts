@@ -134,7 +134,9 @@ describe("prepared Lean information", () => {
 
 it.runIf(Boolean(process.env.LEAN_HOVER_TEST_BIN))("uses Lean's inferred types for implicit binders, Unicode and shadowed variables", async () => {
   const root = tmpDir("lax-hover-compiler-");
-  const source = "def identity {α : Type} (x : α) : α := x\ndef shadow (x : Nat) : Bool :=\n  let x := true\n  x\n";
+  const source = "def identity {α : Type} (x : α) : α := x\ndef shadow (x : Nat) : Bool :=\n  let x := true\n  x\n" +
+    "def method (n : Nat) := n.succ\ndef global := Nat.succ 0\n" +
+    "def escaped («n.x» : Nat) := «n.x».succ\n";
   const file = path.join(root, "Example.lean"); fs.writeFileSync(file, source);
   const client = new LeanHoverClient(process.env.LEAN_HOVER_TEST_BIN!, root, root);
   await client.initialize();
@@ -142,5 +144,18 @@ it.runIf(Boolean(process.env.LEAN_HOVER_TEST_BIN))("uses Lean's inferred types f
     const hovers = await client.hovers(file, source);
     expect(hovers.filter(h => source.slice(h.start, h.end) === "x").map(h => h.text)).toEqual(expect.arrayContaining(["x : α", "x : Nat", "x : Bool"]));
     expect(hovers.some(h => h.text === "α : Type")).toBe(true);
+    const receiver = source.indexOf("n.succ"), namespace = source.indexOf("Nat.succ"), escaped = source.indexOf("«n.x».succ");
+    expect(hovers).toContainEqual({ start: receiver, end: receiver + 1, text: "n : Nat" });
+    expect(hovers).toContainEqual({ start: escaped, end: escaped + 5, text: "«n.x» : Nat" });
+    expect(hovers.some(hover => hover.start === namespace && hover.end === namespace + "Nat.succ".length)).toBe(true);
+    expect(hovers.some(hover => hover.start === namespace && hover.end === namespace + 3)).toBe(false);
+    expect(parseLeanCode(JSON.stringify({ version: 1, digest: "receivers", hovers }), "receivers", source).hovers).toEqual(hovers);
+    const rows = await highlightSource(source, [], new Set(), {
+      hovers, links: [{ start: receiver + 2, end: receiver + 6,
+        href: "https://leanprover-community.github.io/mathlib4_docs/Init/Prelude.html#Nat.succ" }],
+    });
+    expect(rows).toContain('data-lean-type="n : Nat"');
+    expect(rows).toContain('href="https://leanprover-community.github.io/mathlib4_docs/Init/Prelude.html#Nat.succ"');
+    expect(rows.indexOf('data-lean-type="n : Nat"')).toBeLessThan(rows.indexOf('class="lean-identifier-link"'));
   } finally { await client.close(); }
 }, 120_000);

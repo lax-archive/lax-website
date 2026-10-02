@@ -1,7 +1,7 @@
 import { createHash } from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
-import { nameKey, nameParts, scanLeanSource, type SourceRange } from "./lean-source.js";
+import { dottedIdentifierPrefix, nameKey, nameParts, scanLeanSource, type SourceRange } from "./lean-source.js";
 import type { SiteModel } from "./model.js";
 import { attr, esc } from "./html.js";
 
@@ -13,7 +13,7 @@ export interface LeanCodeData {
 }
 
 /** Changing the extractor or pretty-print options invalidates prepared data. */
-export const LEAN_CODE_VERSION = "lean-hover-1";
+export const LEAN_CODE_VERSION = "lean-hover-2";
 
 export function leanCodeInputs(model: SiteModel, id: string): { digest: string; modules: string[] } {
   const modules: string[] = [], active = new Set<string>(), seen = new Set<string>();
@@ -36,7 +36,10 @@ export function leanCodeInputs(model: SiteModel, id: string): { digest: string; 
 
 export function parseLeanCode(json: string, digest: string, source: string): LeanCodeData {
   const data = JSON.parse(json) as LeanCodeData;
-  const tokens = new Set(scanLeanSource(source).tokens.filter(t => t.name).map(t => `${t.start}:${t.end}`));
+  const tokens = new Set(scanLeanSource(source).tokens.filter(t => t.name).flatMap(token => {
+    const prefix = dottedIdentifierPrefix(token);
+    return [token, ...(prefix ? [prefix] : [])].map(range => `${range.start}:${range.end}`);
+  }));
   let end = 0;
   if (data.version !== 1 || data.digest !== digest || !Array.isArray(data.hovers))
     throw new Error("stale Lean hover cache");

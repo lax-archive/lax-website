@@ -4,7 +4,7 @@ import { promisify } from "node:util";
 import fs from "node:fs";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
-import { scanLeanSource } from "./sitegen/lean-source.js";
+import { dottedIdentifierPrefix, scanLeanSource } from "./sitegen/lean-source.js";
 import { leanCodeInputs, parseLeanCode, type LeanCodeData, type SourceHover } from "./sitegen/lean-code.js";
 import type { SiteModel } from "./sitegen/model.js";
 
@@ -86,9 +86,13 @@ export class LeanHoverClient {
           const hover = await this.request("textDocument/hover", { textDocument: { uri }, position: { line: token.line - 1, character: token.column } });
           const text = hoverType(hover);
           const range = hover?.range;
+          const prefix = dottedIdentifierPrefix(token);
+          const end = token.start + (range?.end.character - token.column);
+          // Lean distinguishes a real receiver (`n` in `n.succ`) from a
+          // namespace (`Nat.succ`) by returning a narrower hover range.
           return text && text.length <= 32768 && range?.start.line === token.line - 1 && range?.end.line === token.line - 1 &&
-            range.start.character === token.column && range.end.character === token.column + token.end - token.start
-            ? { start: token.start, end: token.end, text } : undefined;
+            range.start.character === token.column && (end === token.end || end === prefix?.end)
+            ? { start: token.start, end, text } : undefined;
         }));
         result.push(...batch.filter((entry): entry is SourceHover => entry !== undefined));
       }
