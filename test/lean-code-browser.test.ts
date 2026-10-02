@@ -64,7 +64,7 @@ describe.runIf(Boolean(process.env.GRAPH_CHROME))("Lean hover interaction", () =
       expect(await destination.textContent()).toBe("lean ↗");
       expect(await destination.isVisible()).toBe(true);
       const labelBounds = (await destination.boundingBox())!, typeBounds = (await panel.boundingBox())!;
-      expect(labelBounds.y >= typeBounds.y + typeBounds.height || labelBounds.y + labelBounds.height <= typeBounds.y).toBe(true);
+      expect(labelBounds.y + labelBounds.height).toBeLessThanOrEqual(typeBounds.y);
       expect(labelBounds.x).toBeGreaterThanOrEqual(0);
       expect(labelBounds.x + labelBounds.width).toBeLessThanOrEqual(390);
       expect(labelBounds.y + labelBounds.height).toBeLessThanOrEqual(300);
@@ -79,6 +79,9 @@ describe.runIf(Boolean(process.env.GRAPH_CHROME))("Lean hover interaction", () =
       await page.mouse.click(1, 1);
       expect(await panel.isHidden()).toBe(true);
       await token.click();
+      await token.click();
+      expect(await panel.isHidden()).toBe(true);
+      await token.click();
       await page.keyboard.press("Escape"); expect(await panel.isHidden()).toBe(true);
       await token.evaluate(el => (el as HTMLElement).blur());
       await token.focus(); await expect.poll(() => panel.isVisible()).toBe(true);
@@ -88,7 +91,10 @@ describe.runIf(Boolean(process.env.GRAPH_CHROME))("Lean hover interaction", () =
       await constant.hover();
       expect(await panel.locator(".lean-type-signature").textContent()).toBe("Nat : Type");
       expect(await panel.textContent()).toBe("Nat : Type");
-      expect(await destination.isHidden()).toBe(true);
+      expect(await destination.isVisible()).toBe(true);
+      expect(await destination.textContent()).toBe("lean ↗");
+      expect((await destination.boundingBox())!.y + (await destination.boundingBox())!.height)
+        .toBeLessThanOrEqual((await panel.boundingBox())!.y);
       expect(await constant.getAttribute("href")).toBe(href);
       expect(await constant.getAttribute("title")).toBeNull();
       expect(await constant.evaluate(el => getComputedStyle(el).cursor)).toBe("pointer");

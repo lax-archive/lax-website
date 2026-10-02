@@ -10,6 +10,7 @@ interface ModuleSource {
   references: Reference[];
   locals: Set<string>;
   typeLocals: Set<string>;
+  typeReferences: Map<string, { module: string; name: string }[]>;
   semantic?: LeanReferences;
   definitionSites: SourceRange[];
   imports: SourceLink[];
@@ -88,6 +89,22 @@ class SourceLinkIndex {
       const source = scanLeanSource(concept.sourceText);
       const references: Reference[] = [];
       const semantic = located.submission.sourceReferences?.get(concept.id);
+      // Lean's source references retain the resolved identity behind short
+      // spellings introduced by `open`, aliases, and selective imports.
+      const typeReferences: ModuleSource["typeReferences"] = new Map();
+      const sourceNames = new Map(source.tokens.filter(token => token.name)
+        .map(token => [`${token.start}:${token.end}`, nameKey(token.name!)]));
+      for (const ref of semantic?.constants ?? []) {
+        const spellings = new Set([nameKey(nameParts(ref.name)), ...ref.usages.flatMap(usage => {
+          const spelling = sourceNames.get(`${usage.start}:${usage.end}`);
+          return spelling ? [spelling] : [];
+        })]);
+        for (const spelling of spellings) {
+          const refs = typeReferences.get(spelling) ?? [];
+          refs.push({ module: ref.module, name: ref.name });
+          typeReferences.set(spelling, refs);
+        }
+      }
       const namespaces: LeanNamespaceReference[] = [];
       const inventory = leanDeclarations(source, semantic ? undefined : (token, namespace) => references.push({ token, namespace }),
         (reference) => namespaces.push(reference));
@@ -140,7 +157,7 @@ class SourceLinkIndex {
       }
       this.modules.set(concept.id, {
         references, locals: semantic ? new Set() : possibleLocals(source, declarations),
-        typeLocals: possibleLocals(source, declarations),
+        typeLocals: possibleLocals(source, declarations), typeReferences,
         semantic, definitionSites, imports, namespaces, mathlibSources: located.submission.mathlibSources,
       });
       const addNamespace = (parts: readonly string[]) => {
@@ -182,6 +199,13 @@ class SourceLinkIndex {
       pending.push(...(this.model.conceptHome.get(id)?.concept.imports ?? []));
     }
     const namespaces = [first?.name?.slice(0, -1) ?? [], nameParts(conceptId)];
+    const openedNamespaces = (this.modules.get(conceptId)?.namespaces ?? []).filter(ref => ref.kind === "open")
+      .flatMap(ref => {
+        const parts = ref.token.name!;
+        if (parts[0] === "_root_") return [parts.slice(1)];
+        return Array.from({ length: ref.namespace.length + 1 }, (_, depth) =>
+          [...ref.namespace.slice(0, ref.namespace.length - depth), ...parts]);
+      });
     // Match compound notations before their prefixes (ℝ≥0 is NNReal, not Real).
     const notation: [string, string][] = [["ℝ≥0∞", "ENNReal"], ["ℝ≥0", "NNReal"], ["ℚ≥0", "NNRat"],
       ["ℕ∞", "ENat"], ["ℕ+", "PNat"], ["ℕ", "Nat"], ["ℤ", "Int"], ["ℚ", "Rat"], ["ℝ", "Real"], ["ℂ", "Complex"]];
@@ -209,6 +233,26 @@ class SourceLinkIndex {
           if (targets.length > 1) break;
         }
         if (href) break;
+      }
+      if (!href) {
+        const references = this.modules.get(conceptId)?.typeReferences.get(nameKey(parts)) ?? [];
+        const targets = new Set(references.map(ref => this.semanticTarget(ref.module, ref.name) ??
+          mathlibDocLink(ref.module, ref.name)).filter((target): target is string => Boolean(target)));
+        // Different scopes may use the same spelling for different types.
+        // Do not guess between their compiler-resolved destinations.
+        if (targets.size > 1) continue;
+        href = targets.values().next().value;
+      }
+      if (!href) {
+        // Inferred signatures can mention an opened type that has no
+        // explicit source usage (e.g. Clause for an element of Formula).
+        const targets = new Set(openedNamespaces.flatMap(namespace =>
+          (this.names.get(nameKey([...namespace, ...parts])) ?? [])
+            .filter(target => visible.has(target.module) && (!target.private || target.module === conceptId) &&
+              /^lax-\d+$/.test(this.model.conceptHome.get(target.module)!.submission.record.id))
+            .map(target => target.href)));
+        if (targets.size > 1) continue;
+        href = targets.values().next().value;
       }
       href ??= declarationDocLink(parts.join("."));
       if (href) links.push({ start: token.start, end: token.end, href });

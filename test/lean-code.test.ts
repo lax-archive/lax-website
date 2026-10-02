@@ -101,6 +101,16 @@ describe("prepared Lean information", () => {
       expect(declarationRows).toContain(`data-lean-type="token-${token.start}"`);
     const model = fixture(), signature = "x : Lax1.double Nat";
     model.conceptHome.get("Lax1.Main")!.concept.sourceText += "\nstructure Literal where\n  index : Nat\n  positive : Bool\ndef truth : Bool := true\n";
+    const mainSource = model.conceptHome.get("Lax1.Main")!.concept;
+    model.conceptHome.get("Lax1.Base")!.concept.sourceText += "namespace Lax1.Types\nabbrev Clause := List Bool\nabbrev Formula := List Clause\nend Lax1.Types\n";
+    mainSource.sourceText += "open Lax1.Types\ndef useFormula (F : Formula) := F\n";
+    const formula = mainSource.sourceText.indexOf("F : Formula") + 4;
+    model.conceptHome.get("Lax1.Main")!.submission.sourceReferences = new Map([["Lax1.Main", {
+      module: "Lax1.Main", declarations: new Map(), constants: [{
+        module: "Lax1.Base", name: "Lax1.Types.Formula",
+        usages: [{ start: formula, end: formula + 7, line: 10 }],
+      }],
+    }]]);
     const links = sourceTypeLinks(model, "Lax1.Main", "../", signature);
     expect(links.map(link => signature.slice(link.start, link.end))).toEqual(["Lax1.double", "Nat"]);
     expect(links[0]!.href).toBe("../lax-1/Lax1.Base.html#L4");
@@ -114,6 +124,12 @@ describe("prepared Lean information", () => {
     expect(sourceTypeLinks(model, "Lax1.Main", "../", "f (Nat : Type) : Nat")).toEqual([{ start: 9, end: 13, href: universe }]);
     expect(sourceTypeLinks(model, "Lax1.Main", "../", "positive : Bool")[0]?.href).toContain("/Init/Prelude.html#Bool");
     expect(sourceTypeLinks(model, "Lax1.Main", "../", "Bool : Type")[0]?.href).toBe(universe);
+    expect(sourceTypeLinks(model, "Lax1.Main", "../", "F : Formula")).toEqual([
+      { start: 4, end: 11, href: "../lax-1/Lax1.Base.html" },
+    ]);
+    expect(sourceTypeLinks(model, "Lax1.Main", "../", "C : Clause")).toEqual([
+      { start: 4, end: 10, href: "../lax-1/Lax1.Base.html#L7" },
+    ]);
     expect(sourceTypeLinks(model, "Lax1.Main", "../", "Lax1.double : Nat → Nat").map(link => link.start)).toEqual([14, 20]);
     const linkedType = await highlightSource("def x := 0", [], new Set(), {
       hovers: [{ start: 4, end: 5, text: signature }],
