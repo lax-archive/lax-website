@@ -80,7 +80,9 @@ describe("prepared Lean information", () => {
     const declarations = "axiom claim (x y : Nat) : x = y\n" +
       "def annotated.{u} {α : Type u} (x : α) : α := x\n" +
       "def inferred (x : Nat) := x\n" +
-      "def localBinding := let f (x : Nat) : Nat := x; f 1\n";
+      "def localBinding := let f (x : Nat) : Nat := x; f 1\n" +
+      "structure Literal where\n  index : ℕ\n  positive : Bool\n" +
+      "def grouped (p\n q : ℕ) : ℕ := p + q\n";
     const declarationTokens = scanLeanSource(declarations).tokens.filter(token => token.name);
     const declarationRows = await highlightSource(declarations, [], new Set(), {
       hovers: declarationTokens.map(token => ({ start: token.start, end: token.end, text: `token-${token.start}` })),
@@ -93,6 +95,10 @@ describe("prepared Lean information", () => {
       else expect(declarationRows).toContain(marker);
     }
     expect(declarationRows).toContain(`data-lean-type="token-${declarationTokens.find(token => token.text === "inferred")!.start}"`);
+    for (const name of ["index", "positive", "grouped", "p", "q"])
+      expect(declarationRows).not.toContain(`data-lean-type="token-${declarationTokens.find(token => token.text === name)!.start}"`);
+    for (const token of declarationTokens.filter(token => ["ℕ", "Bool"].includes(token.text)))
+      expect(declarationRows).toContain(`data-lean-type="token-${token.start}"`);
     const model = fixture(), signature = "x : Lax1.double Nat";
     const links = sourceTypeLinks(model, "Lax1.Main", "../", signature);
     expect(links.map(link => signature.slice(link.start, link.end))).toEqual(["Lax1.double", "Nat"]);

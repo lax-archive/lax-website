@@ -28,8 +28,8 @@ describe.runIf(Boolean(process.env.GRAPH_CHROME))("Lean hover interaction", () =
         const url = new URL(route.request().url()); requests.push(url.href);
         if (url.pathname === "/") await route.fulfill({ contentType: "text/html", body:
           `<!doctype html><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self' 'unsafe-inline'; script-src 'self'; font-src 'self'; img-src 'self'"><link rel="stylesheet" href="style.css"><style>table{position:absolute;right:8px;bottom:8px}</style><table class="inline-contract-table">${rows}</table><script src="lean-code.js" defer></script>` });
-        else if (["style.css", "lean-code.js", "lean-type-cursor.svg"].includes(path.basename(url.pathname)))
-          await route.fulfill({ contentType: url.pathname.endsWith(".css") ? "text/css" : url.pathname.endsWith(".svg") ? "image/svg+xml" : "text/javascript", body: fs.readFileSync(siteAssetPath(path.basename(url.pathname))) });
+        else if (["style.css", "lean-code.js"].includes(path.basename(url.pathname)))
+          await route.fulfill({ contentType: url.pathname.endsWith(".css") ? "text/css" : "text/javascript", body: fs.readFileSync(siteAssetPath(path.basename(url.pathname))) });
         else if (url.pathname === "/lax-1/Lax1.Base.html")
           await route.fulfill({ contentType: "text/html", body: '<p id="L1">Archive declaration</p>' });
         else await route.abort();
@@ -46,7 +46,7 @@ describe.runIf(Boolean(process.env.GRAPH_CHROME))("Lean hover interaction", () =
       expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(390);
       expect(bounds!.y + bounds!.height).toBeLessThanOrEqual(300);
       expect(await panel.evaluate(el => getComputedStyle(el).backgroundColor)).toBe("rgb(255, 255, 255)");
-      expect(await token.evaluate(el => getComputedStyle(el).cursor)).toContain("lean-type-cursor.svg");
+      expect(await token.evaluate(el => getComputedStyle(el).cursor)).toBe("pointer");
       await token.click();
       await page.locator("a[data-lean-type]").hover();
       await page.mouse.move(1, 1);
@@ -55,7 +55,9 @@ describe.runIf(Boolean(process.env.GRAPH_CHROME))("Lean hover interaction", () =
       expect(await panel.textContent()).toBe(type);
       expect(await panel.locator("a").first().getAttribute("href")).toBe("../lax-1/Lax1.Base.html#L1");
       expect(await panel.locator("a").last().getAttribute("href")).toBe(href);
-      expect(await panel.locator("a").last().getAttribute("title")).toBe("lean ↗");
+      expect(await panel.locator("a").last().getAttribute("title")).toBeNull();
+      expect(await panel.locator("a").last().getAttribute("data-destination")).toBe("lean ↗");
+      expect(await panel.locator("a").last().evaluate(el => getComputedStyle(el, "::after").content)).toContain("lean ↗");
       await panel.click({ position: { x: 3, y: 3 } });
       expect(await panel.isVisible()).toBe(true);
       await page.setViewportSize({ width: 400, height: 310 });
@@ -70,20 +72,26 @@ describe.runIf(Boolean(process.env.GRAPH_CHROME))("Lean hover interaction", () =
       await page.keyboard.press("Escape"); expect(await token.getAttribute("aria-describedby")).toBeNull();
       const constant = page.locator("a[data-lean-type]");
       await constant.hover();
-      expect(await panel.textContent()).toBe("Nat : Type");
+      expect(await panel.locator(".lean-type-signature").textContent()).toBe("Nat : Type");
+      expect(await panel.locator(".lean-type-destination").textContent()).toBe("lean ↗");
       expect(await constant.getAttribute("href")).toBe(href);
-      expect(await constant.getAttribute("title")).toBe("lean ↗");
+      expect(await constant.getAttribute("title")).toBeNull();
       expect(await constant.evaluate(el => getComputedStyle(el).cursor)).toBe("pointer");
       expect(await panel.locator("a").count()).toBe(0);
       await panel.click({ position: { x: 3, y: 3 } });
       await page.mouse.move(1, 1);
       await page.waitForTimeout(250);
       expect(await panel.isVisible()).toBe(true);
-      expect(await panel.textContent()).toBe("Nat : Type");
+      expect(await panel.locator(".lean-type-signature").textContent()).toBe("Nat : Type");
       await token.click();
       await page.keyboard.press("Tab");
       expect(await panel.locator("a").first().evaluate(el => el === document.activeElement)).toBe(true);
       await page.keyboard.press("Escape");
+      await token.click();
+      await panel.locator("a").first().evaluate(el => el.setAttribute("href", "#L1"));
+      await panel.locator("a").first().click();
+      expect(await panel.isHidden()).toBe(true);
+      expect(page.url()).toBe("https://lean-hover.test/#L1");
       await token.click();
       await panel.locator("a").first().click();
       await expect.poll(() => page.url()).toBe("https://lean-hover.test/lax-1/Lax1.Base.html#L1");

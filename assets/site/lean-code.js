@@ -32,19 +32,31 @@
       let links;
       try { links = JSON.parse(node.dataset.leanTypeLinks || "[]"); } catch { links = []; }
       panel.replaceChildren();
+      if (node.dataset.leanDestination) {
+        const destination = document.createElement("div");
+        destination.className = "lean-type-destination";
+        destination.textContent = node.dataset.leanDestination;
+        panel.append(destination);
+      }
+      const signature = document.createElement("div");
+      signature.className = "lean-type-signature";
+      panel.append(signature);
       let end = 0;
       for (const link of links) {
         if (!Number.isInteger(link.start) || !Number.isInteger(link.end) || link.start < end ||
             link.end <= link.start || link.end > text.length || typeof link.href !== "string") continue;
         const url = new URL(link.href, document.baseURI);
         if (url.protocol !== "https:" && url.protocol !== "http:") continue;
-        panel.append(document.createTextNode(text.slice(end, link.start)));
+        signature.append(document.createTextNode(text.slice(end, link.start)));
         const anchor = document.createElement("a");
         anchor.className = "lean-type-link"; anchor.href = link.href;
-        if (typeof link.title === "string") anchor.title = link.title;
-        anchor.textContent = text.slice(link.start, link.end); panel.append(anchor); end = link.end;
+        if (typeof link.title === "string") {
+          anchor.dataset.destination = link.title;
+          anchor.setAttribute("aria-label", `${text.slice(link.start, link.end)}, ${link.title}`);
+        }
+        anchor.textContent = text.slice(link.start, link.end); signature.append(anchor); end = link.end;
       }
-      panel.append(document.createTextNode(text.slice(end)));
+      signature.append(document.createTextNode(text.slice(end)));
     }
     active = node; pinned = pin; panel.hidden = false;
     node.setAttribute("aria-describedby", panel.id); place();
@@ -67,7 +79,11 @@
   });
   document.addEventListener("focusout", event => { if (target(event)) scheduleHide(); });
   document.addEventListener("click", event => {
-    if (panel.contains(event.target)) { pinned = true; clearTimeout(hideTimer); return; }
+    if (panel.contains(event.target)) {
+      if (event.target.closest?.("a[href]")) hide();
+      else { pinned = true; clearTimeout(hideTimer); }
+      return;
+    }
     const node = target(event);
     if (node) {
       // Source identifiers with a destination keep ordinary link navigation.

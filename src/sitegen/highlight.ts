@@ -148,10 +148,11 @@ function renderDecoratedLine(nodes: HastNode[], decorations: Decoration[]): stri
   for (const decoration of decorations) {
     html.push(take(decoration.start));
     const content = take(decoration.end);
-    const title = decoration.href ? mathlibLinkTitle(decoration.href) : undefined;
+    const destination = decoration.href ? mathlibLinkTitle(decoration.href) : undefined;
+    const title = decoration.hover ? undefined : destination;
     const hover = decoration.hover ? ` data-lean-type="${attr(decoration.hover)}" aria-haspopup="dialog"${decoration.hoverLinks?.length ? ` data-lean-type-links="${attr(JSON.stringify(decoration.hoverLinks))}"` : ""}` : "";
     html.push(decoration.href
-      ? `<a class="lean-identifier-link" href="${attr(decoration.href)}"${hover}${title ? ` title="${attr(title)}"` : ""}>${content}</a>`
+      ? `<a class="lean-identifier-link" href="${attr(decoration.href)}"${hover}${decoration.hover && destination ? ` data-lean-destination="${attr(destination)}"` : ""}${title ? ` title="${attr(title)}"` : ""}>${content}</a>`
       : decoration.hover ? `<span class="lean-typed-identifier" role="button" tabindex="0"${hover}>${content}</span>`
       : decoration.html ?? "");
   }
@@ -271,13 +272,14 @@ function explicitTypeSites({ tokens }: LeanSource, declarations: LeanDeclaration
       if (start !== undefined) closes.set(start, index);
     }
     if (annotation(index)) {
-      // `x y : T` annotates both names. Comments and newlines do not affect
-      // the token sequence. `x := value` keeps its inferred-type bubble.
-      for (let before = index - 1; before >= 0; before--) {
-        const name = tokens[before]!;
-        if (!name.name || bindingCommands.has(name.text)) break;
-        mark(name);
-      }
+      // `x y : T` annotates both names. Only a binder introducer allows the
+      // name list to span lines; otherwise a preceding field's type could
+      // be mistaken for another name in the next field declaration.
+      let before = index - 1;
+      while (before >= 0 && tokens[before]!.name && !bindingCommands.has(tokens[before]!.text)) before--;
+      const multiline = ["(", "[", "{", "⦃", "∀", "∃", "fun", "variable", "variables"].includes(tokens[before]?.text ?? "");
+      for (let name = before + 1; name < index; name++)
+        if (multiline || tokens[name]!.line === tokens[index - 1]!.line) mark(tokens[name]!);
     }
   }
   const names = new Set(declarations.map(declaration => positions.get(declaration.token.start)!));

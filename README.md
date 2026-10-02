@@ -190,13 +190,15 @@ bytes therefore differ from production's, deterministically per flag set).
   promise complete coverage: fields, aliases and potentially shadowed names
   need compiler metadata. Normal archive and preview builds use the metadata.
 - Lean variables and constants show compiler-derived types on hover and keyboard
-  focus. Unlinked identifiers use a text cursor with a small information symbol;
+  focus. Unlinked identifiers with type bubbles use the normal pointer cursor;
   clickable identifiers retain their navigation behavior and pointer cursor.
   Clicking an unlinked identifier or inside its bubble pins the bubble until
-  an outside click or Escape. Source links navigate directly as usual.
+  an outside click or Escape. Following a bubble link also closes it,
+  including same-page jumps. Source links navigate directly as usual.
   The hovered term's own name stays plain inside its bubble; identifiers in
   its type link to known Lax or Mathlib declarations, with the usual
-  “mathlib ↗” or “lean ↗” labels for external destinations. Keyboard users
+  “mathlib ↗” or “lean ↗” labels for external destinations. These labels
+  appear inside the bubble, so no native tooltip overlaps it. Keyboard users
   can pin with Space (or Enter on an unlinked identifier) and press Tab to
   enter the bubble's links.
   Links without prepared type information retain their compact link labels.
