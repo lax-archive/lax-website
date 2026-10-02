@@ -7,17 +7,44 @@
   panel.setAttribute("aria-label", "Lean type");
   panel.hidden = true;
   document.body.append(panel);
+  const destination = document.createElement("div");
+  destination.className = "lean-link-tooltip";
+  destination.setAttribute("role", "tooltip");
+  destination.hidden = true;
+  document.body.append(destination);
+  const hideDestination = () => { destination.hidden = true; };
+  const showDestination = node => {
+    if (!node || panel.hidden) return hideDestination();
+    destination.textContent = node.dataset.destination;
+    destination.hidden = false;
+    const gap = 6, edge = 8, height = destination.offsetHeight;
+    let bounds = panel.getBoundingClientRect();
+    let top = bounds.bottom + gap;
+    if (top + height > innerHeight - edge) {
+      top = bounds.top - gap - height;
+      if (top < edge) {
+        // A tall type panel leaves space for the destination beneath it.
+        panel.style.top = `${edge}px`;
+        bounds = panel.getBoundingClientRect();
+        top = bounds.bottom + gap;
+      }
+    }
+    destination.style.top = `${top}px`;
+    destination.style.left = `${Math.max(edge, Math.min(node.getBoundingClientRect().left, innerWidth - destination.offsetWidth - edge))}px`;
+  };
   let active = null, pinned = false, hideTimer;
   let enabled = true;
   try { enabled = localStorage.getItem("lax-show-types") !== "false"; } catch { /* Storage can be disabled. */ }
   const target = event => enabled ? event.target.closest?.("[data-lean-type]") : null;
   const hide = () => {
+    hideDestination();
     clearTimeout(hideTimer);
     active?.removeAttribute("aria-describedby");
     active?.removeAttribute("aria-expanded");
     active = null; pinned = false; panel.hidden = true;
   };
   const place = () => {
+    hideDestination();
     if (!active || !active.isConnected) return hide();
     const node = active.getBoundingClientRect(), gap = 8;
     const width = panel.offsetWidth, height = panel.offsetHeight;
@@ -30,17 +57,12 @@
     if (pinned && !pin) return;
     clearTimeout(hideTimer);
     if (active !== node) {
+      hideDestination();
       active?.removeAttribute("aria-describedby"); active?.removeAttribute("aria-expanded");
       const text = node.dataset.leanType;
       let links;
       try { links = JSON.parse(node.dataset.leanTypeLinks || "[]"); } catch { links = []; }
       panel.replaceChildren();
-      if (node.dataset.leanDestination) {
-        const destination = document.createElement("div");
-        destination.className = "lean-type-destination";
-        destination.textContent = node.dataset.leanDestination;
-        panel.append(destination);
-      }
       const signature = document.createElement("div");
       signature.className = "lean-type-signature";
       panel.append(signature);
@@ -133,6 +155,11 @@
   });
   panel.addEventListener("pointerenter", () => clearTimeout(hideTimer));
   panel.addEventListener("pointerleave", scheduleHide);
-  document.addEventListener("scroll", event => { if (!panel.contains(event.target)) { if (pinned) place(); else hide(); } }, true);
+  const destinationTarget = event => event.target.closest?.("a[data-destination]");
+  panel.addEventListener("pointerover", event => showDestination(destinationTarget(event)));
+  panel.addEventListener("pointerout", hideDestination);
+  panel.addEventListener("focusin", event => showDestination(destinationTarget(event)));
+  panel.addEventListener("focusout", hideDestination);
+  document.addEventListener("scroll", event => { hideDestination(); if (!panel.contains(event.target)) { if (pinned) place(); else hide(); } }, true);
   window.addEventListener("resize", () => { if (pinned) place(); else hide(); });
 })();

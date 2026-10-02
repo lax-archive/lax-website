@@ -1304,7 +1304,7 @@ a.submission-meta-id:is(:hover, :focus-visible),
 .comment-toggle{ padding: 0.2rem 0.45rem; border: 1px solid var(--border); border-radius: var(--radius-control); background: var(--surface); color: var(--text-dim); font: 400 0.68rem/1.2 var(--mono); cursor: pointer; }
 .comment-toggle:hover,.comment-toggle:focus-visible{ color: var(--link); border-color: var(--accent); outline: none; }
 .source-controls{ display: flex; align-items: center; flex-wrap: wrap; gap: .7rem; padding: .45rem .55rem; }
-.type-hover-toggle{ display: inline-flex; align-items: center; gap: .3rem; color: var(--text-dim); font: 400 .68rem/1.2 var(--mono); cursor: pointer; }
+.type-hover-toggle{ display: inline-flex; align-items: center; gap: .3rem; margin-left: auto; color: var(--text-dim); font: 400 .68rem/1.2 var(--mono); cursor: pointer; }
 .type-hover-toggle input{ appearance: none; width: 1.7rem; height: 1rem; margin: 0; padding: 2px; border: 1px solid var(--border); border-radius: 1rem; background: var(--surface); cursor: pointer; }
 .type-hover-toggle input::before{ content: ""; display: block; width: .6rem; height: .6rem; border-radius: 50%; background: var(--text-dim); }
 .type-hover-toggle input:checked{ background: var(--link); border-color: var(--link); }
@@ -1520,7 +1520,7 @@ a.submission-meta-id:is(:hover, :focus-visible),
   z-index: 100000;
   box-sizing: border-box;
   max-width: min(42rem, calc(100vw - 16px));
-  max-height: min(24rem, calc(100vh - 16px));
+  max-height: min(24rem, calc(100vh - 60px));
   overflow: auto;
   padding: .65rem .85rem;
   border: 1px solid var(--border);
@@ -1534,8 +1534,7 @@ a.submission-meta-id:is(:hover, :focus-visible),
 }
 .lean-type-link{ color: inherit; text-decoration: underline; text-decoration-color: var(--border); text-underline-offset: .15em; }
 .lean-type-link:hover, .lean-type-link:focus-visible{ color: var(--link); text-decoration-color: currentColor; }
-.lean-type-destination{ margin-bottom: .35rem; color: var(--text-dim); font: 11px/1.4 sans-serif; }
-.lean-type-link[data-destination]::after{ content: " " attr(data-destination); display: inline-block; margin-left: .2em; color: var(--text-dim); font: 10px/1.4 sans-serif; white-space: nowrap; }
+.lean-link-tooltip{ position: fixed; z-index: 100001; padding: .25rem .45rem; border: 1px solid var(--border); border-radius: 4px; background: #fff; color: #202020; box-shadow: 0 3px 10px rgba(0, 0, 0, .12); font: 11px/1.4 sans-serif; white-space: nowrap; pointer-events: none; }
 .manuscript-card-source > .lean-live-link{ display: inline-block; margin: 0 0 .5rem; }
 
 .source-link-withheld{
