@@ -2237,31 +2237,6 @@
       "title": "Constructing Welzl Orders: Algorithm and Correctness",
       "concepts": [
         {
-          "id": "Lax235315.ConstructionContracts",
-          "title": "Separate guarantees for the construction program",
-          "type": "definition"
-        },
-        {
-          "id": "Lax235315.ConstructionCorrectness",
-          "title": "Correct outputs of the construction program",
-          "type": "theorem"
-        },
-        {
-          "id": "Lax235315.ConstructionProbability",
-          "title": "Success probability of the construction program",
-          "type": "theorem"
-        },
-        {
-          "id": "Lax235315.ConstructionProgram",
-          "title": "The Welzl-order construction program",
-          "type": "definition"
-        },
-        {
-          "id": "Lax235315.ConstructionRuntime",
-          "title": "Worst-case running time of the construction program",
-          "type": "theorem"
-        },
-        {
           "id": "Lax235315.ContractionRecurrence",
           "title": "Geometric contraction with an additive rounding error",
           "type": "lemma"
@@ -2314,9 +2289,6 @@
         "Lax235315Proofs.ComponentProofs.uniformSampleAvoidance",
         "Lax235315Proofs.Crossings.crossings_duplicate",
         "Lax235315Proofs.Crossings.crossings_le_add_twice_hamming",
-        "Lax235315Proofs.ProgramContracts.eventually_hasCorrectOutput",
-        "Lax235315Proofs.ProgramContracts.eventually_hasRunningTimeBound",
-        "Lax235315Proofs.ProgramContracts.eventually_hasSuccessProbability",
         "Lax235315Proofs.ReconstructionBridge.encodesGraphWelzlOrder",
         "Lax235315Proofs.size_after_rounds"
       ]
