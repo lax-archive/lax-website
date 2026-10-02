@@ -2264,6 +2264,100 @@
       ]
     },
     {
+      "id": "lax-222097",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Max Independent Set Remains NP-hard when Excluding a Planar Induced Minor",
+      "supersedes": "lax-762056",
+      "concepts": [
+        {
+          "id": "Lax222097.AsteroidalCycles",
+          "title": "Asteroidal triples of cycles",
+          "type": "definition"
+        },
+        {
+          "id": "Lax222097.ColumnGraph",
+          "title": "Row and column graphs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax222097.ColumnGridExclusion",
+          "title": "Induced grid exclusion in row and column graphs",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax222097.CycleObstruction",
+          "title": "Asteroidal cycle triples obstruct induced minors",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax222097.GraphEncoding",
+          "title": "Binary encoding of graph decision instances",
+          "type": "definition"
+        },
+        {
+          "id": "Lax222097.GraphProblems",
+          "title": "Graph decision problems and NP-hardness",
+          "type": "definition"
+        },
+        {
+          "id": "Lax222097.Grid",
+          "title": "Excluded induced grid minors",
+          "type": "definition"
+        },
+        {
+          "id": "Lax222097.GridExclusion",
+          "title": "Induced grid exclusion in the reduction",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax222097.IndependenceIdentity",
+          "title": "The independence number records the maximum cut",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax222097.IndependentSetHardness",
+          "title": "Independent Set without a 5×5 induced grid minor",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax222097.InducedMinors",
+          "title": "Induced minors",
+          "type": "definition"
+        },
+        {
+          "id": "Lax222097.MaxCut",
+          "title": "Maximum cuts",
+          "type": "definition"
+        },
+        {
+          "id": "Lax222097.MaxCutHardness",
+          "title": "NP-hardness of unweighted Max Cut",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax222097.Reduction",
+          "title": "The Bonnet–Chang reduction",
+          "type": "definition"
+        },
+        {
+          "id": "Lax222097.ReductionTime",
+          "title": "The reduction can be computed in polynomial time",
+          "type": "lemma"
+        }
+      ],
+      "proofs": [
+        "Lax222097Proofs.columnGraph_excludes_inducedGrid",
+        "Lax222097Proofs.GridWitness.grid_five_has_asteroidalCycles",
+        "Lax222097Proofs.independence_eq_maxCut_offset",
+        "Lax222097Proofs.independentSet_inducedGrid_hardness",
+        "Lax222097Proofs.maxCut_hardness",
+        "Lax222097Proofs.Obstruction.asteroidalCycles_obstruction",
+        "Lax222097Proofs.reduction_excludes_inducedGrid",
+        "Lax222097Proofs.reduction_polynomial_time"
+      ]
+    },
+    {
       "id": "lax-228581",
       "state": "registered",
       "environment": "v4.33.0",
