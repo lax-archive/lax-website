@@ -100,6 +100,7 @@ describe("prepared Lean information", () => {
     for (const token of declarationTokens.filter(token => ["ℕ", "Bool"].includes(token.text)))
       expect(declarationRows).toContain(`data-lean-type="token-${token.start}"`);
     const model = fixture(), signature = "x : Lax1.double Nat";
+    model.conceptHome.get("Lax1.Main")!.concept.sourceText += "\nstructure Literal where\n  index : Nat\n  positive : Bool\ndef truth : Bool := true\n";
     const links = sourceTypeLinks(model, "Lax1.Main", "../", signature);
     expect(links.map(link => signature.slice(link.start, link.end))).toEqual(["Lax1.double", "Nat"]);
     expect(links[0]!.href).toBe("../lax-1/Lax1.Base.html#L4");
@@ -109,7 +110,10 @@ describe("prepared Lean information", () => {
     expect(nonnegative).toHaveLength(1);
     expect(nonnegative[0]!.end - nonnegative[0]!.start).toBe(3);
     expect(nonnegative[0]!.href).toContain("#NNReal");
-    expect(sourceTypeLinks(model, "Lax1.Main", "../", "f (Nat : Type) : Nat")).toEqual([]);
+    const universe = "https://lean-lang.org/doc/reference/latest/The-Type-System/Universes/";
+    expect(sourceTypeLinks(model, "Lax1.Main", "../", "f (Nat : Type) : Nat")).toEqual([{ start: 9, end: 13, href: universe }]);
+    expect(sourceTypeLinks(model, "Lax1.Main", "../", "positive : Bool")[0]?.href).toContain("/Init/Prelude.html#Bool");
+    expect(sourceTypeLinks(model, "Lax1.Main", "../", "Bool : Type")[0]?.href).toBe(universe);
     expect(sourceTypeLinks(model, "Lax1.Main", "../", "Lax1.double : Nat → Nat").map(link => link.start)).toEqual([14, 20]);
     const linkedType = await highlightSource("def x := 0", [], new Set(), {
       hovers: [{ start: 4, end: 5, text: signature }],
@@ -142,7 +146,9 @@ it.runIf(Boolean(process.env.LEAN_HOVER_TEST_BIN))("uses Lean's inferred types f
   const root = tmpDir("lax-hover-compiler-");
   const source = "def identity {α : Type} (x : α) : α := x\ndef shadow (x : Nat) : Bool :=\n  let x := true\n  x\n" +
     "def method (n : Nat) := n.succ\ndef global := Nat.succ 0\n" +
-    "def escaped («n.x» : Nat) := «n.x».succ\n";
+    "def escaped («n.x» : Nat) := «n.x».succ\n" +
+    "structure Literal where\n  index : Nat\n  positive : Bool\n" +
+    "def eval (l : Literal) (xs : List Bool) := l.positive && xs.any (fun b => b) && l.index == 0\n";
   const file = path.join(root, "Example.lean"); fs.writeFileSync(file, source);
   const client = new LeanHoverClient(process.env.LEAN_HOVER_TEST_BIN!, root, root);
   await client.initialize();
@@ -155,7 +161,13 @@ it.runIf(Boolean(process.env.LEAN_HOVER_TEST_BIN))("uses Lean's inferred types f
     expect(hovers).toContainEqual({ start: escaped, end: escaped + 5, text: "«n.x» : Nat" });
     expect(hovers.some(hover => hover.start === namespace && hover.end === namespace + "Nat.succ".length)).toBe(true);
     expect(hovers.some(hover => hover.start === namespace && hover.end === namespace + 3)).toBe(false);
-    expect(parseLeanCode(JSON.stringify({ version: 1, digest: "receivers", hovers }), "receivers", source).hovers).toEqual(hovers);
+    const prepared = { version: 1, projectionHovers: 1, digest: "receivers", hovers };
+    expect(parseLeanCode(JSON.stringify(prepared), "receivers", source).hovers).toEqual(hovers);
+    expect(() => parseLeanCode(JSON.stringify({ ...prepared, projectionHovers: undefined }), "receivers", source)).toThrow(/projection/);
+    for (const field of ["positive", "index", "any"]) {
+      const start = source.indexOf(`.${field}`) + 1;
+      expect(hovers.some(hover => hover.start === start && hover.end === start + field.length && hover.text.includes(field))).toBe(true);
+    }
     const rows = await highlightSource(source, [], new Set(), {
       hovers, links: [{ start: receiver + 2, end: receiver + 6,
         href: "https://leanprover-community.github.io/mathlib4_docs/Init/Prelude.html#Nat.succ" }],
@@ -163,5 +175,7 @@ it.runIf(Boolean(process.env.LEAN_HOVER_TEST_BIN))("uses Lean's inferred types f
     expect(rows).toContain('data-lean-type="n : Nat"');
     expect(rows).toContain('href="https://leanprover-community.github.io/mathlib4_docs/Init/Prelude.html#Nat.succ"');
     expect(rows.indexOf('data-lean-type="n : Nat"')).toBeLessThan(rows.indexOf('class="lean-identifier-link"'));
+    expect(rows.match(/data-lean-type="Literal.positive/g)).toHaveLength(1);
+    expect(rows.match(/data-lean-type="Literal.index/g)).toHaveLength(1);
   } finally { await client.close(); }
 }, 120_000);

@@ -1,13 +1,14 @@
 import { createHash } from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
-import { dottedIdentifierPrefix, nameKey, nameParts, scanLeanSource, type SourceRange } from "./lean-source.js";
+import { dottedIdentifierPrefix, identifierComponents, nameKey, nameParts, scanLeanSource, type SourceRange } from "./lean-source.js";
 import type { SiteModel } from "./model.js";
 import { attr, esc } from "./html.js";
 
 export interface SourceHover extends SourceRange { text: string }
 export interface LeanCodeData {
   version: 1;
+  projectionHovers?: 1;
   digest: string;
   hovers: SourceHover[];
 }
@@ -36,14 +37,20 @@ export function leanCodeInputs(model: SiteModel, id: string): { digest: string; 
 
 export function parseLeanCode(json: string, digest: string, source: string): LeanCodeData {
   const data = JSON.parse(json) as LeanCodeData;
+  const receivers = new Set<string>();
   const tokens = new Set(scanLeanSource(source).tokens.filter(t => t.name).flatMap(token => {
     const prefix = dottedIdentifierPrefix(token);
-    return [token, ...(prefix ? [prefix] : [])].map(range => `${range.start}:${range.end}`);
+    if (prefix) receivers.add(`${prefix.start}:${prefix.end}`);
+    return [token, ...identifierComponents(token)].map(range => `${range.start}:${range.end}`);
   }));
   let end = 0;
   if (data.version !== 1 || data.digest !== digest || !Array.isArray(data.hovers))
     throw new Error("stale Lean hover cache");
   for (const hover of data.hovers) {
+    // Refresh only older modules with receiver hovers: their field/method
+    // suffixes were never queried. Namespace-only caches remain reusable.
+    if (data.projectionHovers !== 1 && receivers.has(`${hover.start}:${hover.end}`))
+      throw new Error("missing Lean projection hovers");
     if (!tokens.has(`${hover.start}:${hover.end}`) || hover.start < end ||
         typeof hover.text !== "string" || !hover.text.trim() || hover.text.length > 32768)
       throw new Error("invalid Lean hover range or type");

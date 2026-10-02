@@ -6,6 +6,7 @@ import type { SiteSubmission } from "./sitegen/model.js";
 import type { FetchOptions } from "./papers.js";
 
 const DOCS = "https://leanprover-community.github.io/mathlib4_docs/";
+const UNIVERSES_DOC = "https://lean-lang.org/doc/reference/latest/The-Type-System/Universes/";
 const MODULE = /^Mathlib(?:\.[A-Za-z0-9_]+)+$/u;
 const DOC_MODULE = /^(?:Mathlib|Init|Std|Lean)(?:\.[A-Za-z0-9_]+)*$/u;
 const COMMIT = /^[0-9a-f]{40}$/u;
@@ -33,6 +34,7 @@ export function mathlibLinkTitle(href: string): string | undefined {
   let url: URL;
   try { url = new URL(href); } catch { return undefined; }
   if (url.protocol !== "https:" || url.username || url.password || url.port || url.search) return undefined;
+  if (url.href === UNIVERSES_DOC) return "lean ↗";
   if (url.origin === "https://leanprover-community.github.io" &&
     /^\/mathlib4_docs\/(?:Mathlib|Init|Std|Lean)(?:\/[A-Za-z0-9_]+)*\.html$/u.test(url.pathname))
     return url.pathname.startsWith("/mathlib4_docs/Mathlib") ? "mathlib ↗" : "lean ↗";
@@ -48,6 +50,7 @@ export function mathlibDocLink(module: string, name: string): string | undefined
 }
 
 export function declarationDocLink(name: string): string | undefined {
+  if (["Type", "Prop", "Sort"].includes(name)) return UNIVERSES_DOC;
   const index = docsIndex();
   const link = Object.hasOwn(index, name) ? index[name] : undefined;
   if (typeof link !== "string" || !/^\.\/(?:Mathlib|Init|Std|Lean)\//u.test(link)) return undefined;

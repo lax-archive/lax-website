@@ -2,7 +2,7 @@ import { createHighlighter, type Highlighter } from "shiki";
 import type { StatementEntry } from "../types.js";
 import { attr, esc } from "./html.js";
 import { renderDisplayMath, renderInlineMath } from "./math.js";
-import { leanDeclarations, nameKey, nameParts, scanLeanSource, type LeanDeclaration, type LeanSource, type SourceRange } from "./lean-source.js";
+import { leanDeclarations, nameKey, nameParts, scanLeanSource, typedBinderNames, type LeanDeclaration, type LeanSource, type SourceRange } from "./lean-source.js";
 import type { SourceLink } from "./source-links.js";
 import type { SourceHover } from "./lean-code.js";
 import { mathlibLinkTitle } from "../mathlib-links.js";
@@ -261,8 +261,6 @@ function explicitTypeSites({ tokens }: LeanSource, declarations: LeanDeclaration
   const stack: number[] = [];
   const opening = new Set(["(", "[", "{", "⦃", "⟨"]);
   const closing = new Set([")", "]", "}", "⦄", "⟩"]);
-  const bindingCommands = new Set(["def", "abbrev", "opaque", "constant", "axiom", "theorem", "lemma",
-    "variable", "variables", "let", "letI", "let'", "letI'", "have", "haveI", "suffices", "fun"]);
   const annotation = (index: number) => tokens[index]?.text === ":" && tokens[index + 1]?.text !== "=";
   for (let index = 0; index < tokens.length; index++) {
     const token = tokens[index]!;
@@ -271,16 +269,7 @@ function explicitTypeSites({ tokens }: LeanSource, declarations: LeanDeclaration
       const start = stack.pop();
       if (start !== undefined) closes.set(start, index);
     }
-    if (annotation(index)) {
-      // `x y : T` annotates both names. Only a binder introducer allows the
-      // name list to span lines; otherwise a preceding field's type could
-      // be mistaken for another name in the next field declaration.
-      let before = index - 1;
-      while (before >= 0 && tokens[before]!.name && !bindingCommands.has(tokens[before]!.text)) before--;
-      const multiline = ["(", "[", "{", "⦃", "∀", "∃", "fun", "variable", "variables"].includes(tokens[before]?.text ?? "");
-      for (let name = before + 1; name < index; name++)
-        if (multiline || tokens[name]!.line === tokens[index - 1]!.line) mark(tokens[name]!);
-    }
+    for (const name of typedBinderNames(tokens, index)) mark(name);
   }
   const names = new Set(declarations.map(declaration => positions.get(declaration.token.start)!));
   for (let index = 1; index < tokens.length; index++)

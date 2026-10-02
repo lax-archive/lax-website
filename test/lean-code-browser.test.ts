@@ -21,13 +21,13 @@ describe.runIf(Boolean(process.env.GRAPH_CHROME))("Lean hover interaction", () =
         typeLinks: text => text === type ? [
           { start: 4, end: 13, href: "../lax-1/Lax1.Base.html#L1" },
           { start: 14, end: 17, href },
-        ] : [],
+        ] : [{ start: 6, end: 10, href: "https://lean-lang.org/doc/reference/latest/The-Type-System/Universes/" }],
       });
       const requests: string[] = [];
       await page.route("**/*", async route => {
         const url = new URL(route.request().url()); requests.push(url.href);
         if (url.pathname === "/") await route.fulfill({ contentType: "text/html", body:
-          `<!doctype html><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self' 'unsafe-inline'; script-src 'self'; font-src 'self'; img-src 'self'"><link rel="stylesheet" href="style.css"><style>table{position:absolute;right:8px;bottom:8px}</style><table class="inline-contract-table">${rows}</table><script src="lean-code.js" defer></script>` });
+          `<!doctype html><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self' 'unsafe-inline'; script-src 'self'; font-src 'self'; img-src 'self'"><link rel="stylesheet" href="style.css"><style>table{position:absolute;right:8px;bottom:8px}</style><div class="source-controls" style="position:absolute;left:16px;top:20px"><label class="type-hover-toggle"><input type="checkbox" role="switch" data-type-hover-toggle checked> Show type on hover</label></div><table class="inline-contract-table">${rows}</table><script src="lean-code.js" defer></script>` });
         else if (["style.css", "lean-code.js"].includes(path.basename(url.pathname)))
           await route.fulfill({ contentType: url.pathname.endsWith(".css") ? "text/css" : "text/javascript", body: fs.readFileSync(siteAssetPath(path.basename(url.pathname))) });
         else if (url.pathname === "/lax-1/Lax1.Base.html")
@@ -77,7 +77,8 @@ describe.runIf(Boolean(process.env.GRAPH_CHROME))("Lean hover interaction", () =
       expect(await constant.getAttribute("href")).toBe(href);
       expect(await constant.getAttribute("title")).toBeNull();
       expect(await constant.evaluate(el => getComputedStyle(el).cursor)).toBe("pointer");
-      expect(await panel.locator("a").count()).toBe(0);
+      expect(await panel.locator("a").count()).toBe(1);
+      expect(await panel.locator("a").textContent()).toBe("Type");
       await panel.click({ position: { x: 3, y: 3 } });
       await page.mouse.move(1, 1);
       await page.waitForTimeout(250);
@@ -97,6 +98,24 @@ describe.runIf(Boolean(process.env.GRAPH_CHROME))("Lean hover interaction", () =
       await expect.poll(() => page.url()).toBe("https://lean-hover.test/lax-1/Lax1.Base.html#L1");
       expect(requests.every(url => url.startsWith("https://lean-hover.test/"))).toBe(true);
       await page.goto("https://lean-hover.test/");
+      const toggle = page.getByRole("switch", { name: "Show type on hover" });
+      await token.click();
+      await toggle.uncheck();
+      expect(await panel.isHidden()).toBe(true);
+      await token.hover();
+      expect(await panel.isHidden()).toBe(true);
+      expect(await token.getAttribute("tabindex")).toBe("-1");
+      expect(await token.evaluate(el => getComputedStyle(el).cursor)).toBe("text");
+      await page.reload();
+      expect(await toggle.isChecked()).toBe(false);
+      await page.locator("a[data-lean-type]").hover();
+      expect(await panel.isHidden()).toBe(true);
+      expect(await page.locator("a[data-lean-type]").getAttribute("title")).toBe("lean ↗");
+      await toggle.check();
+      expect(await page.locator("a[data-lean-type]").getAttribute("title")).toBeNull();
+      await token.hover();
+      expect(await panel.isVisible()).toBe(true);
+      await toggle.uncheck();
       await page.route(href.split("#")[0]!, route => route.fulfill({ contentType: "text/html", body: "Lean documentation" }));
       await page.locator("a[data-lean-type]").click();
       await expect.poll(() => page.url()).toBe(href);

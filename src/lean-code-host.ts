@@ -4,7 +4,7 @@ import { promisify } from "node:util";
 import fs from "node:fs";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
-import { dottedIdentifierPrefix, scanLeanSource } from "./sitegen/lean-source.js";
+import { identifierComponents, scanLeanSource } from "./sitegen/lean-source.js";
 import { leanCodeInputs, parseLeanCode, type LeanCodeData, type SourceHover } from "./sitegen/lean-code.js";
 import type { SiteModel } from "./sitegen/model.js";
 
@@ -80,23 +80,32 @@ export class LeanHoverClient {
       const errors = this.errors.get(uri) ?? [];
       if (errors.length) throw new Error(`${file}: ${errors.join("\n")}`);
       const result: SourceHover[] = [];
-      const tokens = scanLeanSource(source).tokens.filter(t => t.name);
-      for (let i = 0; i < tokens.length; i += 16) {
-        const batch = await Promise.all(tokens.slice(i, i + 16).map(async token => {
-          const hover = await this.request("textDocument/hover", { textDocument: { uri }, position: { line: token.line - 1, character: token.column } });
+      const queries = scanLeanSource(source).tokens.filter(t => t.name).flatMap(token => {
+        const components = identifierComponents(token);
+        return components.map(component => ({ token, component, components }));
+      });
+      for (let i = 0; i < queries.length; i += 16) {
+        const batch = await Promise.all(queries.slice(i, i + 16).map(async ({ token, component, components }) => {
+          const hover = await this.request("textDocument/hover", { textDocument: { uri }, position: { line: token.line - 1, character: token.column + component.start - token.start } });
           const text = hoverType(hover);
           const range = hover?.range;
-          const prefix = dottedIdentifierPrefix(token);
+          const start = token.start + (range?.start.character - token.column);
           const end = token.start + (range?.end.character - token.column);
           // Lean distinguishes a real receiver (`n` in `n.succ`) from a
           // namespace (`Nat.succ`) by returning a narrower hover range.
           return text && text.length <= 32768 && range?.start.line === token.line - 1 && range?.end.line === token.line - 1 &&
-            range.start.character === token.column && (end === token.end || end === prefix?.end)
-            ? { start: token.start, end, text } : undefined;
+            [token, ...components].some(span => span.start === start && span.end === end)
+            ? { start, end, text } : undefined;
         }));
         result.push(...batch.filter((entry): entry is SourceHover => entry !== undefined));
       }
-      return result;
+      // Qualified namespaces return the same whole-name range at every
+      // component. Receivers and their projections return separate ranges.
+      const unique: SourceHover[] = [];
+      for (const hover of result.sort((a, b) => a.start - b.start || a.end - b.end)) {
+        if (hover.start >= (unique.at(-1)?.end ?? 0)) unique.push(hover);
+      }
+      return unique;
     } finally {
       this.send({ method: "textDocument/didClose", params: { textDocument: { uri } } }); this.errors.delete(uri);
     }
@@ -158,7 +167,7 @@ export async function prepareLeanEnvironment(model: SiteModel, options: {
       if (!input) return;
       const cacheFile = path.join(options.cache, `${input.digest}.json`);
       try { parseLeanCode(fs.readFileSync(cacheFile, "utf8"), input.digest, source); done++; return; } catch { /* Rebuild missing/corrupt cache. */ }
-      const data: LeanCodeData = { version: 1, digest: input.digest, hovers: await client.hovers(file, source) };
+      const data: LeanCodeData = { version: 1, projectionHovers: 1, digest: input.digest, hovers: await client.hovers(file, source) };
       fs.writeFileSync(`${cacheFile}.tmp`, JSON.stringify(data) + "\n"); fs.renameSync(`${cacheFile}.tmp`, cacheFile);
       options.log?.(`${options.version}: ${++done}/${ordered.length} ${id}: ${data.hovers.length} type hovers`);
       } finally { release(client); }

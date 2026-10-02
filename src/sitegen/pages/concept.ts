@@ -159,7 +159,7 @@ ${evidence(ctx, located)}
 ${inPaperBlock(ctx, concept.id, output.id, "../")}
 <h3 class="figure-title">Lean source${sourceFile ? ` <a class="source-link" href="${attr(sourceFile)}">view on ${esc(sourceProviderName(sourceFile))}</a>` : sourceWithheld ? withheldSourceLink() : ""} ${liveLeanLink(ctx.model, concept.id)}</h3>
 <div class="block block-lean">
-<div class="inline-contract-shell"><button class="comment-toggle" type="button" aria-pressed="false" aria-label="Hide comments">Hide comments</button><div class="inline-contract-wrap"><table class="inline-contract-table">
+<div class="inline-contract-shell"><div class="source-controls"><button class="comment-toggle" type="button" aria-pressed="false" aria-label="Hide comments">Hide comments</button><label class="type-hover-toggle"><input type="checkbox" role="switch" data-type-hover-toggle checked> Show type on hover</label></div><div class="inline-contract-wrap"><table class="inline-contract-table">
 ${sourceRows}
 </table></div>${proofActions}<span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
 ${sections}

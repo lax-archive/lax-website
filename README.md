@@ -190,7 +190,10 @@ bytes therefore differ from production's, deterministically per flag set).
   promise complete coverage: fields, aliases and potentially shadowed names
   need compiler metadata. Normal archive and preview builds use the metadata.
 - Lean variables and constants show compiler-derived types on hover and keyboard
-  focus. Unlinked identifiers with type bubbles use the normal pointer cursor;
+  focus. The “Show type on hover” switch beside the comment toggle remembers
+  the reader's preference across pages. Turning it off closes pinned bubbles
+  and leaves identifier navigation available.
+  Unlinked identifiers with type bubbles use the normal pointer cursor;
   clickable identifiers retain their navigation behavior and pointer cursor.
   Clicking an unlinked identifier or inside its bubble pins the bubble until
   an outside click or Escape. Following a bubble link also closes it,
@@ -201,6 +204,8 @@ bytes therefore differ from production's, deterministically per flag set).
   appear inside the bubble, so no native tooltip overlaps it. Keyboard users
   can pin with Space (or Enter on an unlinked identifier) and press Tab to
   enter the bubble's links.
+  Built-in universes (`Type`, `Prop`, and `Sort`) link to Lean's universe
+  documentation, since they have no ordinary declaration in the docs index.
   Links without prepared type information retain their compact link labels.
   Archive statement names have no type tooltip, at declarations or uses.
   Explicitly typed names omit redundant tooltips, including grouped bindings
@@ -208,7 +213,8 @@ bytes therefore differ from production's, deterministically per flag set).
   (`def f (x : Nat) : Nat`). Other occurrences and inferred bindings retain
   their hovers.
   In dotted expressions such as `G.Adj`, a genuine receiver variable `G`
-  has its own clickable type bubble beside the field's navigation link.
+  has its own clickable type bubble beside the field's navigation link;
+  the field or method also has its own type bubble at uses.
   Lean's reported ranges distinguish receivers from namespace prefixes;
   qualified constants such as `Nat.succ` remain one identifier.
   `npm run lean:prepare` elaborates concept modules and the landing

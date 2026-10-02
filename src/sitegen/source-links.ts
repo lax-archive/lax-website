@@ -1,4 +1,4 @@
-import { leanDeclarations, nameKey, nameParts, scanLeanSource, type LeanNamespaceReference, type LeanSource, type LeanToken, type SourceRange } from "./lean-source.js";
+import { leanDeclarations, nameKey, nameParts, scanLeanSource, typedBinderNames, type LeanNamespaceReference, type LeanSource, type LeanToken, type SourceRange } from "./lean-source.js";
 import type { LocatedConcept, SiteModel } from "./model.js";
 import type { LeanReferences } from "../lean-references.js";
 import { declarationDocLink, mathlibDocLink, mathlibModuleLink, mathlibScopeLink } from "../mathlib-links.js";
@@ -44,7 +44,11 @@ function possibleLocals(source: LeanSource, declarations: Set<number>): Set<stri
       patternLine = -1;
       continue;
     }
-    if (token.text === ":" || token.text === "←" || (token.text === "=" && source.tokens[i + 1]?.text === ">")) {
+    if (token.text === ":") {
+      for (const name of typedBinderNames(source.tokens, i))
+        if (!declarations.has(name.start)) locals.add(name.name![0]!);
+      header = false;
+    } else if (token.text === "←" || (token.text === "=" && source.tokens[i + 1]?.text === ">")) {
       for (let before = i - 1; before >= 0 && source.tokens[before]!.name; before--) {
         const previous = source.tokens[before]!;
         if (declarations.has(previous.start) || ["example", "instance", "variable", "variables"].includes(previous.text)) break;

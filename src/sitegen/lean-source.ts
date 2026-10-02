@@ -33,8 +33,26 @@ export function nameKey(parts: readonly string[]): string { return JSON.stringif
  * offsets. Only the compiler can tell whether this is a receiver variable. */
 export function dottedIdentifierPrefix(token: LeanToken): SourceRange | undefined {
   if (!token.name || token.name.length < 2) return;
-  const length = token.text.startsWith("«") ? token.text.indexOf("»") + 1 : token.text.indexOf(".");
-  return { start: token.start, end: token.start + length };
+  return identifierComponents(token)[0];
+}
+
+export function identifierComponents(token: LeanToken): SourceRange[] {
+  if (!token.name) return [];
+  return [...token.text.matchAll(COMPONENT)].map(match => ({
+    start: token.start + match.index!, end: token.start + match.index! + match[0].length,
+  }));
+}
+
+/** Names before an explicit binder colon, excluding `:=` and type names
+ * on the preceding line. A binder introducer permits multiline name lists. */
+export function typedBinderNames(tokens: readonly LeanToken[], index: number): LeanToken[] {
+  if (tokens[index]?.text !== ":" || tokens[index + 1]?.text === "=") return [];
+  const commands = new Set(["def", "abbrev", "opaque", "constant", "axiom", "theorem", "lemma",
+    "variable", "variables", "let", "letI", "let'", "letI'", "have", "haveI", "suffices", "fun"]);
+  let before = index - 1;
+  while (before >= 0 && tokens[before]!.name && !commands.has(tokens[before]!.text)) before--;
+  const multiline = ["(", "[", "{", "⦃", "∀", "∃", "fun", "variable", "variables"].includes(tokens[before]?.text ?? "");
+  return tokens.slice(before + 1, index).filter(token => multiline || token.line === tokens[index - 1]!.line);
 }
 
 /** Comments nest. Strings (including raw strings), characters and syntax
