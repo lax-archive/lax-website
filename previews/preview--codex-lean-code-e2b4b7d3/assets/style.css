@@ -1506,7 +1506,7 @@ a.submission-meta-id:is(:hover, :focus-visible),
 
 .source-link:hover{ text-decoration: underline; }
 
-.lean-typed-identifier{ cursor: url('lean-type-cursor.svg') 7 11, text; }
+.lean-typed-identifier{ cursor: url('lean-type-cursor.svg') 7 11, pointer; }
 .lean-typed-identifier:focus-visible{ outline: 2px solid var(--link); outline-offset: 2px; }
 .lean-type-tooltip{
   position: fixed;
@@ -1525,6 +1525,8 @@ a.submission-meta-id:is(:hover, :focus-visible),
   white-space: pre-wrap;
   overflow-wrap: anywhere;
 }
+.lean-type-link{ color: inherit; text-decoration: underline; text-decoration-color: var(--border); text-underline-offset: .15em; }
+.lean-type-link:hover, .lean-type-link:focus-visible{ color: var(--link); text-decoration-color: currentColor; }
 .manuscript-card-source > .lean-live-link{ display: inline-block; margin: 0 0 .5rem; }
 
 .source-link-withheld{
