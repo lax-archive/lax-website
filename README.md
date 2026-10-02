@@ -163,7 +163,11 @@ bytes therefore differ from production's, deterministically per flag set).
   `Lax17` link to the submission page, as do displayed `lax-17` metadata labels
   on other pages. The ID beneath a submission's own title stays plain.
   Namespace navigation uses known, unambiguous destinations within the
-  module's archive imports. Declaration uses link to the
+  module's archive imports. External `open scoped` names link to their
+  documented declaration when one exists (for example `SimpleGraph` or
+  `ENNReal`); `BigOperators` and `Classical` link to their defining documentation
+  modules. Archive namespace destinations take precedence, and unknown scopes
+  stay plain. Declaration uses link to the
   beginning of the declaration's preceding comments (or its attributes and
   modifiers when there are no comments); statements retain their `s-…` anchors
   at the same comment start. Source targets align below the sticky header, with

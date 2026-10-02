@@ -133,7 +133,7 @@ export interface LeanDeclaration {
 export interface LeanNamespaceReference {
   token: LeanToken;
   namespace: readonly string[];
-  kind: "open" | "namespace" | "end";
+  kind: "open" | "scoped" | "namespace" | "end";
 }
 
 const DECLARATION = new Set(["def", "abbrev", "structure", "class", "inductive", "theorem", "lemma", "axiom", "opaque", "constant"]);
@@ -185,7 +185,8 @@ export function leanDeclarations(
           continue;
         }
         if (!next.name || ["in", "hiding", "renaming"].includes(next.text)) break;
-        namespaceReference({ token: next, namespace: bodyNamespace ?? namespace, kind: "open" });
+        namespaceReference({ token: next, namespace: bodyNamespace ?? namespace,
+          kind: tokens[i + 1]?.text === "scoped" ? "scoped" : "open" });
       }
     }
     if (["(", "[", "{", "⦃"].includes(text)) { depth++; continue; }
