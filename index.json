@@ -5987,6 +5987,104 @@
       ]
     },
     {
+      "id": "lax-783278",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Arc Kayles is PSPACE-complete",
+      "supersedes": "lax-689614",
+      "concepts": [
+        {
+          "id": "Lax783278.ArcKayles",
+          "title": "Arc Kayles",
+          "type": "definition"
+        },
+        {
+          "id": "Lax783278.Biclique",
+          "title": "Bicliques with pendant neighbors",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax783278.Completeness",
+          "title": "Arc Kayles is PSPACE-complete",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax783278.Construction",
+          "title": "The reduction graph",
+          "type": "definition"
+        },
+        {
+          "id": "Lax783278.Encoding",
+          "title": "Binary encodings of graphs and positive CNF formulas",
+          "type": "definition"
+        },
+        {
+          "id": "Lax783278.Grundy",
+          "title": "Sprague–Grundy values",
+          "type": "definition"
+        },
+        {
+          "id": "Lax783278.GrundyProperties",
+          "title": "Basic properties of Sprague–Grundy values",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax783278.Passes",
+          "title": "Passing and assigning either truth value",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax783278.PositiveCNF",
+          "title": "The positive CNF game",
+          "type": "definition"
+        },
+        {
+          "id": "Lax783278.PositiveCNFHardness",
+          "title": "PSPACE-hardness of the positive CNF game",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax783278.PSPACE",
+          "title": "PSPACE-completeness",
+          "type": "definition"
+        },
+        {
+          "id": "Lax783278.Reduction",
+          "title": "Correctness and complexity of the reduction",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax783278.RegularPlay",
+          "title": "Assignment moves, pass moves, and deviations",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax783278.Sizes",
+          "title": "Sizes of encodings and the reduction graph",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax783278Proofs.arcKayles_membership",
+        "Lax783278Proofs.arcKayles_pspace_complete",
+        "Lax783278Proofs.biclique_value",
+        "Lax783278Proofs.construction_size",
+        "Lax783278Proofs.deviation_loses",
+        "Lax783278Proofs.disjoint_union",
+        "Lax783278Proofs.exceptional_parity",
+        "Lax783278Proofs.false_strategy",
+        "Lax783278Proofs.formula_length",
+        "Lax783278Proofs.graph_length",
+        "Lax783278Proofs.losing_iff_zero",
+        "Lax783278Proofs.outcome_equivalent",
+        "Lax783278Proofs.polynomial_reduction",
+        "Lax783278Proofs.positiveCNF_hard",
+        "Lax783278Proofs.smaller_reachable",
+        "Lax783278Proofs.true_strategy",
+        "Lax783278Proofs.value_not_reachable"
+      ]
+    },
+    {
       "id": "lax-808846",
       "state": "registered",
       "environment": "v4.33.0",
