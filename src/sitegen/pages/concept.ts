@@ -2,7 +2,6 @@ import { attr, code, countsPill, esc, page } from "../html.js";
 import { conceptGraph, graphDataScript } from "../graphs.js";
 import { highlightSource } from "../highlight.js";
 import { sourceLinks, sourceTypeLinks } from "../source-links.js";
-import { liveLeanLink } from "../lean-code.js";
 import type { LocatedConcept } from "../model.js";
 import { discussion, pageReactions } from "./discussion.js";
 import { inPaperBlock } from "./paper.js";
@@ -157,7 +156,7 @@ ${conceptMapLegend(graph, "This concept", "Related concept")}
 </details>
 ${evidence(ctx, located)}
 ${inPaperBlock(ctx, concept.id, output.id, "../")}
-<h3 class="figure-title">Lean source${sourceFile ? ` <a class="source-link" href="${attr(sourceFile)}">view on ${esc(sourceProviderName(sourceFile))}</a>` : sourceWithheld ? withheldSourceLink() : ""} ${liveLeanLink(ctx.model, concept.id)}</h3>
+<h3 class="figure-title">Lean source${sourceFile ? ` <a class="source-link" href="${attr(sourceFile)}">view on ${esc(sourceProviderName(sourceFile))}</a>` : sourceWithheld ? withheldSourceLink() : ""}</h3>
 <div class="block block-lean">
 <div class="inline-contract-shell"><div class="source-controls"><button class="comment-toggle" type="button" aria-pressed="false" aria-label="Hide comments">Hide comments</button><label class="type-hover-toggle"><input type="checkbox" role="switch" data-type-hover-toggle checked> Show types on hover</label></div><div class="inline-contract-wrap"><table class="inline-contract-table">
 ${sourceRows}

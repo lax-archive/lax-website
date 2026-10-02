@@ -4,7 +4,6 @@ import { graphDataScript } from "../graphs.js";
 import { highlightSource } from "../highlight.js";
 import { submissionTagIndex } from "../tags.js";
 import { SiteModel, type SiteSubmission } from "../model.js";
-import { liveLeanLink } from "../lean-code.js";
 import { sourceTypeLinks } from "../source-links.js";
 import type { PaperMark, StatementEntry } from "../../types.js";
 import {
@@ -488,7 +487,7 @@ async function exampleCard(ctx: PageContext, example: Example, passage: ExampleP
     });
     body = `<p class="manuscript-card-title">${markdown.renderAuthorInline(card.title, "")}</p>
 <div class="latex-content">${markdown.renderAuthorProse(card.description, "")}</div>
-<div class="manuscript-card-source">${liveLeanLink(landingLeanModel(), card.name)}<div class="inline-contract-wrap"><table class="inline-contract-table">
+<div class="manuscript-card-source"><div class="inline-contract-wrap"><table class="inline-contract-table">
 ${rows}
 </table></div></div>`;
   } else {

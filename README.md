@@ -243,16 +243,6 @@ bytes therefore differ from production's, deterministically per flag set).
   directory. Two compiler workers run by default (`--jobs 1` through `4`).
   CI prepares environments sequentially and removes temporary compiler
   inputs; subsequent builds with unchanged sources need only the type cache.
-- "Open in live Lean" includes the concept's archive dependencies, in import
-  order, with module-local commands scoped separately. Annotations and comments
-  are omitted from that exported document. Modules using private definitions or
-  initialization/module commands have no portable editor link. Core-only code
-  selects its original Lean version; Mathlib code selects the live editor's
-  `mathlib-stable` project (Lean 4.33, verified September 2026). Links from older
-  Mathlib submissions explicitly say "Mathlib 4.33": that external editor does
-  not host every archive environment, and older code may require adaptation.
-  The site's type hovers always use the original archive environment. The
-  external editor opens only when a reader follows the link.
 - Archive source links are static relative URLs; Mathlib links are restricted
   to the public Lean/Mathlib documentation and pinned `leanprover-community/mathlib4`
   source paths. They preserve syntax colours, source text and line anchors,

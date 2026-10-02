@@ -3,7 +3,6 @@ import fs from "node:fs";
 import path from "node:path";
 import { dottedIdentifierPrefix, identifierComponents, nameKey, nameParts, scanLeanSource, type SourceRange } from "./lean-source.js";
 import type { SiteModel } from "./model.js";
-import { attr, esc } from "./html.js";
 
 export interface SourceHover extends SourceRange { text: string }
 export interface LeanCodeData {
@@ -81,41 +80,4 @@ export function loadLeanCode(model: SiteModel, directory: string, required = fal
       if (required) throw new Error(`${id}: run npm run lean:prepare to refresh type hovers (${error})`);
     }
   }
-}
-
-/** A portable editor document. Module-local commands remain scoped; imports
- * are lifted once. Comments are omitted, including submission annotations.
- * Unsupported module/private syntax keeps the original source download only. */
-export function liveLeanCode(model: SiteModel, id: string): string | undefined {
-  const { modules } = leanCodeInputs(model, id);
-  const imports = new Set<string>();
-  const bodies: string[] = [];
-  for (const name of modules) {
-    const { sourceText } = model.conceptHome.get(name)!.concept;
-    const parsed = scanLeanSource(sourceText);
-    if (parsed.tokens.some(t => ["private", "module", "public", "initialize", "builtin_initialize"].includes(t.text))) return;
-    let source = sourceText;
-    for (const comment of [...parsed.comments].reverse())
-      source = source.slice(0, comment.start) + source.slice(comment.start, comment.end).replace(/[^\r\n]/g, " ") + source.slice(comment.end);
-    source = source.replace(/^\s*import\s+([^\r\n]+)/gm, (_, names: string) => {
-      for (const imported of names.trim().split(/\s+/)) if (!model.conceptHome.has(imported)) imports.add(imported);
-      return "";
-    });
-    bodies.push(`-- ${name}\nsection\n${source.trim()}\nend`);
-  }
-  return `${[...imports].sort().map(name => `import ${name}`).join("\n")}\n\n${bodies.join("\n\n")}\n`;
-}
-
-export function liveLeanLink(model: SiteModel, id: string): string {
-  let source: string | undefined;
-  // Incomplete local previews can still show source and archive navigation.
-  try { source = liveLeanCode(model, id); } catch { return ""; }
-  if (!source) return "";
-  const version = model.conceptHome.get(id)!.output.manifest.leanVersion;
-  const mathlib = /^import (?!Lean(?:\.|$)|Init(?:\.|$)|Std(?:\.|$))/m.test(source);
-  // live.lean-lang.org's configured projects, verified 2026-09-14. Its stable
-  // Mathlib is v4.33.0; older Mathlib releases are not all hosted there.
-  const project = mathlib ? "mathlib-stable" : `lean-${version}`;
-  const note = mathlib && version !== "v4.33.0" ? " (Mathlib 4.33)" : "";
-  return `<a class="source-link lean-live-link" href="${attr(`https://live.lean-lang.org/#project=${encodeURIComponent(project)}&code=${encodeURIComponent(source)}`)}" target="_blank" rel="noopener noreferrer">Open in live Lean${esc(note)}</a>`;
 }

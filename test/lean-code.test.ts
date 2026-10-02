@@ -3,7 +3,7 @@ import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { LeanHoverClient, hoverType } from "../src/lean-code-host.js";
 import { highlightSource } from "../src/sitegen/highlight.js";
-import { leanCodeInputs, liveLeanCode, liveLeanLink, loadLeanCode, parseLeanCode } from "../src/sitegen/lean-code.js";
+import { leanCodeInputs, loadLeanCode, parseLeanCode } from "../src/sitegen/lean-code.js";
 import { SiteModel, type SiteSubmission } from "../src/sitegen/model.js";
 import { landingLeanModel } from "../src/sitegen/pages/index.js";
 import { sourceTypeLinks } from "../src/sitegen/source-links.js";
@@ -140,22 +140,10 @@ describe("prepared Lean information", () => {
     expect(linkedType).toContain('data-lean-type-links="');
     expect(linkedType).toContain("../lax-1/Lax1.Base.html#L4");
   });
-  it("exports dependencies in order with scoped commands and no anonymous annotations", () => {
-    const model = fixture(), source = liveLeanCode(model, "Lax1.Main")!;
-    expect(source).not.toContain("import Lax1.Base");
-    expect(source).toContain("import Mathlib.Data.Nat.Basic");
-    expect(source.indexOf("def double")).toBeLessThan(source.indexOf("def twice"));
-    expect(source).not.toContain("Hidden Author");
-    expect(source.match(/^section$/gm)).toHaveLength(2);
-    expect(liveLeanLink(model, "Lax1.Main")).toContain("#project=mathlib-stable&amp;code=");
-    model.conceptHome.get("Lax1.Main")!.concept.sourceText += "private def secret := 0\n";
-    expect(liveLeanCode(model, "Lax1.Main")).toBeUndefined();
-  });
   it("includes the landing examples in preparation without treating them as archive records", () => {
     const examples = landingLeanModel();
     expect(examples.conceptHome.has("Primes")).toBe(true);
-    expect(liveLeanCode(examples, "PrimeDivisor")).toContain("def Prime");
-    expect(liveLeanCode(examples, "PrimeDivisor")).not.toContain("import Primes");
+    expect(leanCodeInputs(examples, "PrimeDivisor").modules).toContain("Primes");
   });
 });
 
