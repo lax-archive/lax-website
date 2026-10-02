@@ -3425,6 +3425,102 @@
       ]
     },
     {
+      "id": "lax-362205",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "The Immerman–Szelepcsényi Theorem",
+      "supersedes": "lax-733996",
+      "concepts": [
+        {
+          "id": "Lax362205.BoundedConfigurations",
+          "title": "Bounded machine configurations",
+          "type": "definition"
+        },
+        {
+          "id": "Lax362205.Classification",
+          "title": "Correctness of vertex classification",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax362205.ComplementClosure",
+          "title": "Complementing a logarithmic space language",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax362205.ConfigurationCounting",
+          "title": "Counting on the configuration graph",
+          "type": "definition"
+        },
+        {
+          "id": "Lax362205.ConfigurationGraph",
+          "title": "The bounded configuration graph",
+          "type": "definition"
+        },
+        {
+          "id": "Lax362205.Counting",
+          "title": "Inductive counting certificates",
+          "type": "definition"
+        },
+        {
+          "id": "Lax362205.CountingStep",
+          "title": "Correctness of one counting step",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax362205.CountingTrace",
+          "title": "Correctness of the count sequence",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax362205.CountMachine",
+          "title": "Logarithmic space for inductive counting",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax362205.ExactCensus",
+          "title": "Exact censuses enumerate the whole layer",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax362205.NLcoNL",
+          "title": "The Immerman–Szelepcsényi theorem",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax362205.Nonreachability",
+          "title": "Correctness of nonreachability certificates",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax362205.Reachability",
+          "title": "Bounded reachability",
+          "type": "definition"
+        },
+        {
+          "id": "Lax362205.Rejection",
+          "title": "Correctness of rejection by counting",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax362205.SuccessorLayer",
+          "title": "The next reachable layer",
+          "type": "lemma"
+        }
+      ],
+      "proofs": [
+        "Lax362205Proofs.classification",
+        "Lax362205Proofs.complement_closed",
+        "Lax362205Proofs.counting_rejection",
+        "Lax362205Proofs.counting_step",
+        "Lax362205Proofs.counting_trace",
+        "Lax362205Proofs.CountingProgram.counting_machine_implementation",
+        "Lax362205Proofs.exact_census",
+        "Lax362205Proofs.immerman_szelepcsenyi",
+        "Lax362205Proofs.nonreachability",
+        "Lax362205Proofs.successor_layer"
+      ]
+    },
+    {
       "id": "lax-379983",
       "state": "registered",
       "environment": "v4.33.0",
