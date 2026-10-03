@@ -5,11 +5,18 @@
   document.querySelectorAll('.comment-toggle').forEach((button) => {
     const shell = button.closest('.inline-contract-shell');
     if (!shell) return;
-    button.addEventListener('click', () => {
-      const hidden = shell.classList.toggle('comments-hidden');
+    const storageKey = `lax-comments-hidden:${location.pathname}`;
+    const setHidden = hidden => {
+      shell.classList.toggle('comments-hidden', hidden);
       button.setAttribute('aria-pressed', String(hidden));
       button.textContent = hidden ? 'Show comments' : 'Hide comments';
       button.setAttribute('aria-label', hidden ? 'Show comments' : 'Hide comments');
+    };
+    try { setHidden(localStorage.getItem(storageKey) === 'true'); } catch { /* Storage may be unavailable. */ }
+    button.addEventListener('click', () => {
+      const hidden = !shell.classList.contains('comments-hidden');
+      setHidden(hidden);
+      try { localStorage.setItem(storageKey, String(hidden)); } catch { /* Keep the current page usable. */ }
     });
   });
   const positionAll = () => {
