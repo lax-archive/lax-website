@@ -7114,6 +7114,80 @@
       ]
     },
     {
+      "id": "lax-904597",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Descriptive complexity: first-order reductions and the NP core",
+      "concepts": [
+        {
+          "id": "Lax904597.Classes",
+          "title": "Complexity classes, cofinal hardness, and NP",
+          "type": "definition"
+        },
+        {
+          "id": "Lax904597.CookLevin",
+          "title": "The Cook–Levin theorem, by first-order reductions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax904597.Interpretations",
+          "title": "First-order interpretations and first-order reductions",
+          "type": "definition"
+        },
+        {
+          "id": "Lax904597.MachineForm",
+          "title": "The Cook–Levin theorem, in its machine form",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax904597.Machines",
+          "title": "Nondeterministic Turing machines as finite structures",
+          "type": "definition"
+        },
+        {
+          "id": "Lax904597.NPClass",
+          "title": "NP is a complexity class",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax904597.Problems",
+          "title": "Decision problems on finite structures",
+          "type": "definition"
+        },
+        {
+          "id": "Lax904597.Relativized",
+          "title": "Relativized first-order interpretations",
+          "type": "definition"
+        },
+        {
+          "id": "Lax904597.Sat",
+          "title": "SAT, propositional satisfiability",
+          "type": "definition"
+        },
+        {
+          "id": "Lax904597.SecondOrder",
+          "title": "Second-order definability with bounded alternation",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax904597Proofs.Bridge.cofinalHard_congr",
+        "Lax904597Proofs.Bridge.cofinalHard_iff",
+        "Lax904597Proofs.Bridge.cofinalHard_of_foReduction",
+        "Lax904597Proofs.Bridge.cofinalHard_of_orderedReduction",
+        "Lax904597Proofs.Bridge.cofinalHard_of_relOrderedReduction",
+        "Lax904597Proofs.Bridge.mem_NP_iff_le_ntmAccept",
+        "Lax904597Proofs.Bridge.NP_mem_congr_finite",
+        "Lax904597Proofs.Bridge.NP_mem_of_foReduction",
+        "Lax904597Proofs.Bridge.NP_mem_of_orderedReduction",
+        "Lax904597Proofs.Bridge.ntmAccept_iso",
+        "Lax904597Proofs.Bridge.SAT_complete_for_ntmAccept",
+        "Lax904597Proofs.Bridge.sat_hard_of_sigmaSODefinable",
+        "Lax904597Proofs.Bridge.SAT_NP_complete",
+        "Lax904597Proofs.Bridge.sat_sigmaSODefinable"
+      ]
+    },
+    {
       "id": "lax-916827",
       "state": "registered",
       "environment": "v4.33.0",
