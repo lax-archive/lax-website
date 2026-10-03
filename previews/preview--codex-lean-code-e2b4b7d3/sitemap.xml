@@ -22,6 +22,20 @@
   <url><loc>https://laxarchive.org/lax-11/Lax11.VertexCover.html</loc></url>
   <url><loc>https://laxarchive.org/lax-11/Lax11Proofs.CCMain.exists_linearTime_program_ccLabels.html</loc></url>
   <url><loc>https://laxarchive.org/lax-11/Lax11Proofs.Courcelle.exists_linearTime_program_modelChecking.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-115662/</loc></url>
+  <url><loc>https://laxarchive.org/lax-115662/Lax115662.BPPSubsetPP.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-115662/Lax115662.OneSidedError.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-115662/Lax115662.OneSidedSubsetBPP.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-115662/Lax115662.ProbabilisticMachines.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-115662/Lax115662.RandomizedPolynomialTime.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-115662/Lax115662.UnboundedError.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-115662/Lax115662.ZPPSubsetBPP.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-115662/Lax115662.ZPPSubsetOneSided.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-115662/Lax115662.ZeroError.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-115662/Lax115662Proofs.BPP_subset_PP.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-115662/Lax115662Proofs.RP_union_coRP_subset_BPP.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-115662/Lax115662Proofs.ZPP_subset_BPP.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-115662/Lax115662Proofs.ZPP_subset_RP_inter_coRP.html</loc></url>
   <url><loc>https://laxarchive.org/lax-12/</loc></url>
   <url><loc>https://laxarchive.org/lax-12/Lax12.Admissibility.html</loc></url>
   <url><loc>https://laxarchive.org/lax-12/Lax12.AdmissibilityBound.html</loc></url>
@@ -320,6 +334,32 @@
   <url><loc>https://laxarchive.org/lax-218471/Lax218471Proofs.Combinators.output_size.html</loc></url>
   <url><loc>https://laxarchive.org/lax-218471/Lax218471Proofs.Substitution.compile.html</loc></url>
   <url><loc>https://laxarchive.org/lax-218471/Lax218471Proofs.Substitution.polytime.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-222097/</loc></url>
+  <url><loc>https://laxarchive.org/lax-222097/Lax222097.AsteroidalCycles.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-222097/Lax222097.ColumnGraph.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-222097/Lax222097.ColumnGridExclusion.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-222097/Lax222097.CycleObstruction.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-222097/Lax222097.GraphEncoding.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-222097/Lax222097.GraphProblems.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-222097/Lax222097.Grid.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-222097/Lax222097.GridExclusion.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-222097/Lax222097.IndependenceIdentity.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-222097/Lax222097.IndependentSetHardness.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-222097/Lax222097.InducedMinors.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-222097/Lax222097.MaxCut.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-222097/Lax222097.MaxCutHardness.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-222097/Lax222097.Reduction.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-222097/Lax222097.ReductionTime.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-222097/Lax222097Proofs.GridWitness.grid_five_has_asteroidalCycles.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-222097/Lax222097Proofs.Obstruction.asteroidalCycles_obstruction.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-222097/Lax222097Proofs.columnGraph_excludes_inducedGrid.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-222097/Lax222097Proofs.independence_eq_maxCut_offset.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-222097/Lax222097Proofs.independentSet_inducedGrid_hardness.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-222097/Lax222097Proofs.maxCut_hardness.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-222097/Lax222097Proofs.reduction_excludes_inducedGrid.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-222097/Lax222097Proofs.reduction_polynomial_time.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-222097/paper-pdf.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-222097/paper.html</loc></url>
   <url><loc>https://laxarchive.org/lax-228581/</loc></url>
   <url><loc>https://laxarchive.org/lax-228581/Lax228581.ExponentialSeparation.html</loc></url>
   <url><loc>https://laxarchive.org/lax-228581/Lax228581.Treewidth.html</loc></url>
@@ -713,6 +753,243 @@
   <url><loc>https://laxarchive.org/lax-314295/Lax314295Proofs.Results.tp_append_congr.html</loc></url>
   <url><loc>https://laxarchive.org/lax-314295/Lax314295Proofs.Results.tp_eq_iff_fo_equiv.html</loc></url>
   <url><loc>https://laxarchive.org/lax-314295/Lax314295Proofs.Results.tp_eq_of_tp_succ_eq.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828.Amplification.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828.Approximation.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828.BPPConsequence.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828.BalancedCancellation.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828.BalancedPredicates.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828.BernoulliSampling.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828.BooleanFourier.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828.CNAPointSoundness.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828.CNAQuantitativeSoundness.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828.CNASoundness.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828.CenteredProjection.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828.CliqueCorrespondence.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828.CliqueHardness.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828.ConsistencyGraph.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828.DecodedStrategies.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828.DoubleCoverBounds.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828.EncodedReduction.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828.EvenCovers.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828.ExponentialBounds.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828.FAFComposition.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828.FAFLocalTests.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828.FAFPatterns.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828.FAFStrategyExtraction.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828.FAFTest.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828.FiniteProbability.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828.FortifiedSquaring.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828.FourierDecoding.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828.FourierIdentities.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828.FourierProjection.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828.FreshBitSampling.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828.GameToClique.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828.GapSatisfiability.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828.GraphEncoding.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828.Graphs.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828.HighDegreeSoundness.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828.HigherMoments.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828.Hypercontractivity.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828.LargeCoefficientSoundness.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828.LocalTests.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828.LongCode.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828.LongCodeCorrectness.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828.LongCodePatterns.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828.MajorityAmplification.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828.ManyTableConsistency.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828.MixedPredicateMoments.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828.OddNormalization.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828.ProductMoments.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828.ProjectionEncoding.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828.ProjectionGames.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828.RandomFibers.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828.RandomizedApproximation.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828.RandomizedCliqueHardness.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828.RandomizedContainments.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828.RandomizedReduction.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828.SamplingParameters.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828.SideConditionAveraging.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828.SmallCoefficientSoundness.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828.SmallSupport.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828.SmallUnionDoubleCovers.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828.SmallValueNP.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828.SmallValueSatisfiability.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828.TestRepetition.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828.TestSampling.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828.TupleAveraging.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828.TupleFortification.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828.TupleSampler.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.Amplification.Scheme.card_centers.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.Amplification.Scheme.card_extensions.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.Amplification.Scheme.card_questions.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.Amplification.Scheme.size_polynomial.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.Amplification.Scheme.transform_complete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.Amplification.Scheme.transform_uniform.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.Amplification.exists_small_value_scheme.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.CenteredProjection.center_sound_of_sym.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.CenteredProjection.fortify_complete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.CenteredProjection.fortify_square_sound.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.CenteredProjection.fortify_uniform.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.CenteredProjection.from_constraints_complete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.CenteredProjection.from_constraints_sound.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.CenteredProjection.from_constraints_uniform.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.CenteredProjection.symmetrize_sound.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.CenteredProjection.tensor_complete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.CenteredProjection.tensor_uniform.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.TupleLift.lift_complete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.TupleLift.lift_fortified.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.TupleLift.lift_soundness.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.TupleLift.lift_uniform_left.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.TupleLift.lift_uniform_right.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.balanced_bounded_support_correlation.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.balanced_correlation_tail.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.balanced_high_degree_bound.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.balanced_mixed_moment.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.balanced_predicate_count.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.balanced_predicate_mass.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.balanced_second_moment.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.balanced_small_support_correlation.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.bernoulli_sampling_tail.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.bernoulli_sampling_uniform.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.clique_approximation_implies_np_eq_zpp.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.clique_approximation_implies_np_subset_bpp.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.clique_not_approximable_of_np_ne_zpp.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.clique_not_approximable_of_np_not_subset_bpp.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.cna_decoding_card.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.cna_point_soundness.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.cna_quantitative_soundness.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.cna_soundness_from_side_conditions.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.cna_soundness_with_side_conditions.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.consistency_cliqueNumber.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.consistency_completeness.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.consistency_perfect_completeness.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.consistency_soundness.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.consistency_soundness_bound.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.consistency_vertex_bound.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.consistency_vertex_count.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.decoded_prover_strategies.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.double_cover_card_bound.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.double_cover_subcover.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.double_cover_weight_bound.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.even_cover_character_moment.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.even_cover_is_double.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.even_cover_polynomial_moment.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.faf_acceptance_bound.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.faf_composition_soundness.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.faf_free_bits.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.faf_game_threshold_pos.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.faf_local_free_bits.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.faf_local_passes.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.faf_local_perfect_completeness.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.faf_local_probability.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.faf_local_proof_length.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.faf_local_random_choices.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.faf_local_soundness.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.faf_perfect_completeness.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.faf_strategy_extraction.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.faf_transcript_mem.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.faf_uniform_strategy_extraction.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.finite_bounded_mgf.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.finite_bounded_power_mean.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.finite_even_moment_bound.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.finite_exponential_markov.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.finite_probability_finite_union.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.finite_probability_mono.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.finite_probability_restriction.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.finite_probability_union.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.finite_rademacher_abs_tail.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.finite_rademacher_mgf.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.finite_rademacher_upper_tail.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.fortified_squaring_sound.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.fourier_boolean_energy.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.fourier_bounded_energy.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.fourier_bounded_moment.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.fourier_character_shift.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.fourier_decoding_bound.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.fourier_decoding_projection.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.fourier_disagreement.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.fourier_disagreement_indicator.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.fourier_dyadic_moment.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.fourier_inversion.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.fourier_low_degree_fourth_moment.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.fourier_odd_even.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.fourier_orthogonality.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.fourier_parseval.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.fourier_product_degree.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.fourier_projection.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.fourier_projection_bounded.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.fourier_projection_constant.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.fresh_flat_one_third_error.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.fresh_modulo_error.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.fresh_one_third_error.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.fresh_repeated_seed_bit_bound.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.fresh_sampling_error.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.game_to_clique_reduction.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.graph_encoding_length.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.high_degree_second_moment.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.high_degree_tail.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.higher_moment_factorization.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.higher_moment_singleton.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.independent_bounded_upper_tail.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.large_coefficient_bound.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.longCode_completeness.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.longCode_free_bits.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.longCode_local_decoding.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.longCode_side_completeness.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.longCode_side_decoding.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.longCode_side_free_bits.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.low_degree_fourth_moment.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.majority_error_formula.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.majority_three_rounds.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.many_tables_agreement.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.many_tables_low_diversity.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.mixed_predicate_moment_bound.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.normalized_acceptance.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.normalized_same_queries.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.normalized_side_acceptance.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.normalized_table_odd.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.numbered_cliqueNumber.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.projection_encoding_complete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.projection_encoding_exists.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.projection_encoding_sound.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.projection_game_complete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.projection_game_sound.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.random_any_small_fiber.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.random_small_fiber.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.randomized_approximation_decision.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.randomized_clique_approximation_implies_np_subset_bpp.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.randomized_clique_not_approximable_of_np_not_subset_bpp.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.randomized_soundness.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.randomized_vertex_bound.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.reduction_cliqueNumber.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.reduction_separates.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.regular_gap_satisfiability.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.repeated_free_bits.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.repeated_passes.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.repeated_perfect_completeness.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.repeated_probability.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.repeated_soundness.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.rp_subset_np.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.sampled_perfect_completeness.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.sampled_soundness.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.sampled_vertex_bound.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.sampling_approximation_gap.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.sampling_choose_multiplier.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.sampling_polynomial_bound.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.side_query_projection.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.small_coefficient_moment_bound.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.small_coefficient_tail.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.small_support_bound.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.small_union_double_cover_bound.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.small_value_np.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.small_value_satisfiability.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.tuple_restriction_correlation.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.tuple_sampler_bounds.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.tuple_sampler_mean.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.tuple_sampler_mixing.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.tuple_variance_bound.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-323828/Lax323828Proofs.zpp_subset_np.html</loc></url>
   <url><loc>https://laxarchive.org/lax-326031/</loc></url>
   <url><loc>https://laxarchive.org/lax-326031/paper-pdf.html</loc></url>
   <url><loc>https://laxarchive.org/lax-326031/paper.html</loc></url>
@@ -745,6 +1022,34 @@
   <url><loc>https://laxarchive.org/lax-345332/Lax345332Proofs.Transform.transform_sat.html</loc></url>
   <url><loc>https://laxarchive.org/lax-345332/paper-pdf.html</loc></url>
   <url><loc>https://laxarchive.org/lax-345332/paper.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-362205/</loc></url>
+  <url><loc>https://laxarchive.org/lax-362205/Lax362205.BoundedConfigurations.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-362205/Lax362205.Classification.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-362205/Lax362205.ComplementClosure.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-362205/Lax362205.ConfigurationCounting.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-362205/Lax362205.ConfigurationGraph.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-362205/Lax362205.CountMachine.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-362205/Lax362205.Counting.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-362205/Lax362205.CountingStep.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-362205/Lax362205.CountingTrace.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-362205/Lax362205.ExactCensus.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-362205/Lax362205.NLcoNL.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-362205/Lax362205.Nonreachability.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-362205/Lax362205.Reachability.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-362205/Lax362205.Rejection.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-362205/Lax362205.SuccessorLayer.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-362205/Lax362205Proofs.CountingProgram.counting_machine_implementation.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-362205/Lax362205Proofs.classification.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-362205/Lax362205Proofs.complement_closed.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-362205/Lax362205Proofs.counting_rejection.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-362205/Lax362205Proofs.counting_step.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-362205/Lax362205Proofs.counting_trace.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-362205/Lax362205Proofs.exact_census.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-362205/Lax362205Proofs.immerman_szelepcsenyi.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-362205/Lax362205Proofs.nonreachability.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-362205/Lax362205Proofs.successor_layer.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-362205/paper-pdf.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-362205/paper.html</loc></url>
   <url><loc>https://laxarchive.org/lax-379983/</loc></url>
   <url><loc>https://laxarchive.org/lax-379983/Lax379983.FeedbackEdgeNumber.html</loc></url>
   <url><loc>https://laxarchive.org/lax-379983/Lax379983.FeedbackNumberComparison.html</loc></url>
@@ -1335,6 +1640,17 @@
   <url><loc>https://laxarchive.org/lax-57/Lax57Proofs.sparse_house_trichotomy.html</loc></url>
   <url><loc>https://laxarchive.org/lax-57/paper-pdf.html</loc></url>
   <url><loc>https://laxarchive.org/lax-57/paper.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-570090/</loc></url>
+  <url><loc>https://laxarchive.org/lax-570090/Lax570090.ConvexLayers.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-570090/Lax570090.Geometry.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-570090/Lax570090.HujterKisfaludiBak.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-570090/Lax570090.MainTheorem.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-570090/Lax570090.ValtrFourLayer.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-570090/Lax570090.VertexRemovalStability.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-570090/Lax570090Proofs.EmptyHexagon.exists_emptyConvexHexagon.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-570090/Lax570090Proofs.MainTheorem.large_point_set_four_collinear_or_visible_six.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-570090/Lax570090Proofs.ValtrFourLayer.exists_emptyHexagon_of_four_layers.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-570090/Lax570090Proofs.VertexRemovalStability.exists_fiveColorable_delete.html</loc></url>
   <url><loc>https://laxarchive.org/lax-58/</loc></url>
   <url><loc>https://laxarchive.org/lax-58/Lax58.BitPolynomialTime.html</loc></url>
   <url><loc>https://laxarchive.org/lax-58/Lax58.CertifiedDerivation.html</loc></url>
@@ -1371,6 +1687,14 @@
   <url><loc>https://laxarchive.org/lax-59/Lax59.Nagura.html</loc></url>
   <url><loc>https://laxarchive.org/lax-59/Lax59Proofs.InterestingNumbers.interesting_iff.html</loc></url>
   <url><loc>https://laxarchive.org/lax-59/Lax59Proofs.nagura_bound.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-614640/</loc></url>
+  <url><loc>https://laxarchive.org/lax-614640/Lax614640.Complexity.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-614640/Lax614640.Gap.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-614640/Lax614640.IndependentSetGapHardness.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-614640/Lax614640.Machine.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-614640/Lax614640.TriangleFreeIndependentSetHardness.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-614640/Lax614640Proofs.IndependentSetGapHardness.gapSolver_implies_np_subset_bpp.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-614640/Lax614640Proofs.triangleFreeMIS_not_approximable.html</loc></url>
   <url><loc>https://laxarchive.org/lax-62/</loc></url>
   <url><loc>https://laxarchive.org/lax-623795/</loc></url>
   <url><loc>https://laxarchive.org/lax-623795/Lax623795.TemporalExploration.html</loc></url>
@@ -1789,6 +2113,38 @@
   <url><loc>https://laxarchive.org/lax-771644/Lax771644Proofs.WideDockRow.s10.html</loc></url>
   <url><loc>https://laxarchive.org/lax-771644/Lax771644Proofs.WideDockRow.s11.html</loc></url>
   <url><loc>https://laxarchive.org/lax-771644/Lax771644Proofs.WideDockRow.s12.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-783278/</loc></url>
+  <url><loc>https://laxarchive.org/lax-783278/Lax783278.ArcKayles.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-783278/Lax783278.Biclique.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-783278/Lax783278.Completeness.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-783278/Lax783278.Construction.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-783278/Lax783278.Encoding.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-783278/Lax783278.Grundy.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-783278/Lax783278.GrundyProperties.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-783278/Lax783278.PSPACE.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-783278/Lax783278.Passes.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-783278/Lax783278.PositiveCNF.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-783278/Lax783278.PositiveCNFHardness.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-783278/Lax783278.Reduction.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-783278/Lax783278.RegularPlay.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-783278/Lax783278.Sizes.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-783278/Lax783278Proofs.arcKayles_membership.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-783278/Lax783278Proofs.arcKayles_pspace_complete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-783278/Lax783278Proofs.biclique_value.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-783278/Lax783278Proofs.construction_size.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-783278/Lax783278Proofs.deviation_loses.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-783278/Lax783278Proofs.disjoint_union.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-783278/Lax783278Proofs.exceptional_parity.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-783278/Lax783278Proofs.false_strategy.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-783278/Lax783278Proofs.formula_length.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-783278/Lax783278Proofs.graph_length.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-783278/Lax783278Proofs.losing_iff_zero.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-783278/Lax783278Proofs.outcome_equivalent.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-783278/Lax783278Proofs.polynomial_reduction.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-783278/Lax783278Proofs.positiveCNF_hard.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-783278/Lax783278Proofs.smaller_reachable.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-783278/Lax783278Proofs.true_strategy.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-783278/Lax783278Proofs.value_not_reachable.html</loc></url>
   <url><loc>https://laxarchive.org/lax-808846/</loc></url>
   <url><loc>https://laxarchive.org/lax-808846/Lax808846.Ram.html</loc></url>
   <url><loc>https://laxarchive.org/lax-808846/Lax808846.RamComputes.html</loc></url>
@@ -1947,6 +2303,31 @@
   <url><loc>https://laxarchive.org/lax-9/Lax9.NeighborhoodComplexity.html</loc></url>
   <url><loc>https://laxarchive.org/lax-9/Lax9Proofs.chiBounded_of_boundedMergeWidth.html</loc></url>
   <url><loc>https://laxarchive.org/lax-9/Lax9Proofs.linearNeighborhoodComplexity_of_boundedMergeWidth.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-904597/</loc></url>
+  <url><loc>https://laxarchive.org/lax-904597/Lax904597.Classes.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-904597/Lax904597.CookLevin.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-904597/Lax904597.Interpretations.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-904597/Lax904597.MachineForm.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-904597/Lax904597.Machines.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-904597/Lax904597.NPClass.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-904597/Lax904597.Problems.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-904597/Lax904597.Relativized.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-904597/Lax904597.Sat.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-904597/Lax904597.SecondOrder.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-904597/Lax904597Proofs.Bridge.NP_mem_congr_finite.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-904597/Lax904597Proofs.Bridge.NP_mem_of_foReduction.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-904597/Lax904597Proofs.Bridge.NP_mem_of_orderedReduction.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-904597/Lax904597Proofs.Bridge.SAT_NP_complete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-904597/Lax904597Proofs.Bridge.SAT_complete_for_ntmAccept.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-904597/Lax904597Proofs.Bridge.cofinalHard_congr.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-904597/Lax904597Proofs.Bridge.cofinalHard_iff.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-904597/Lax904597Proofs.Bridge.cofinalHard_of_foReduction.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-904597/Lax904597Proofs.Bridge.cofinalHard_of_orderedReduction.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-904597/Lax904597Proofs.Bridge.cofinalHard_of_relOrderedReduction.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-904597/Lax904597Proofs.Bridge.mem_NP_iff_le_ntmAccept.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-904597/Lax904597Proofs.Bridge.ntmAccept_iso.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-904597/Lax904597Proofs.Bridge.sat_hard_of_sigmaSODefinable.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-904597/Lax904597Proofs.Bridge.sat_sigmaSODefinable.html</loc></url>
   <url><loc>https://laxarchive.org/lax-916827/</loc></url>
   <url><loc>https://laxarchive.org/lax-916827/Lax916827.ConfigurationGraphOutput.html</loc></url>
   <url><loc>https://laxarchive.org/lax-916827/Lax916827.ConfigurationGraphRational.html</loc></url>
@@ -2000,6 +2381,13 @@
   <url><loc>https://laxarchive.org/lax-916827/Lax916827Proofs.Results.isTwoWay_comp_isRationalFun.html</loc></url>
   <url><loc>https://laxarchive.org/lax-916827/Lax916827Proofs.Results.isTwoWay_iff_isRegularFun.html</loc></url>
   <url><loc>https://laxarchive.org/lax-916827/Lax916827Proofs.Results.isTwoWay_of_isRegularFun.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-965890/</loc></url>
+  <url><loc>https://laxarchive.org/lax-965890/Lax965890.HaeuplerSahaSrinivasanDefinitions.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-965890/Lax965890.HaeuplerSahaSrinivasanTheorem22.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-965890/Lax965890.MoserTardos.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-965890/Lax965890.MoserTardosDefinitions.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-965890/Lax965890Proofs.moser_tardos.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-965890/Lax965890Proofs.theorem_2_2.html</loc></url>
   <url><loc>https://laxarchive.org/lax-979537/</loc></url>
   <url><loc>https://laxarchive.org/lax-979537/Lax979537.FixedPointEvaluation.html</loc></url>
   <url><loc>https://laxarchive.org/lax-979537/Lax979537.FixedPointSemantics.html</loc></url>
