@@ -1850,6 +1850,58 @@
   <url><loc>https://laxarchive.org/lax-623795/Lax623795.TemporalExploration.html</loc></url>
   <url><loc>https://laxarchive.org/lax-623795/Lax623795.TemporalGraphs.html</loc></url>
   <url><loc>https://laxarchive.org/lax-623795/Lax623795Proofs.reachableVertexSet_ssubset_next.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-624099/</loc></url>
+  <url><loc>https://laxarchive.org/lax-624099/Lax624099.ClassRE.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-624099/Lax624099.CodeHalting.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-624099/Lax624099.CodeHaltingInvariance.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-624099/Lax624099.CodehaltREComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-624099/Lax624099.ConcreteInstances.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-624099/Lax624099.FiniteSatisfiability.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-624099/Lax624099.FiniteSatisfiabilityInvariance.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-624099/Lax624099.FinsatREComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-624099/Lax624099.HaltREComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-624099/Lax624099.Halting.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-624099/Lax624099.HaltingInvariance.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-624099/Lax624099.HaltingUndecidable.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-624099/Lax624099.NPSubsetRE.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-624099/Lax624099.PcpREComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-624099/Lax624099.PcpUndecidable.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-624099/Lax624099.PostCorrespondence.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-624099/Lax624099.PostCorrespondenceInvariance.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-624099/Lax624099.Problems.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-624099/Lax624099.REClosure.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-624099/Lax624099.REFinite.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-624099/Lax624099.REHardUndecidable.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-624099/Lax624099.REIsRecursivelyEnumerable.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-624099/Lax624099.RENeCoRE.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-624099/Lax624099.ReductionsComputable.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-624099/Lax624099.Trakhtenbrot.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-624099/Lax624099.ValueInvention.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-624099/Lax624099Proofs.Bridge.NP_subset_RE.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-624099/Lax624099Proofs.Bridge.RE_mem_congr_finite.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-624099/Lax624099Proofs.Bridge.RE_mem_of_foReduction.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-624099/Lax624099Proofs.Bridge.RE_mem_of_orderedReduction.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-624099/Lax624099Proofs.Bridge.RE_ne_coRE.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-624099/Lax624099Proofs.Bridge.codeHaltsOn_iso.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-624099/Lax624099Proofs.Bridge.codehalt_RE_complete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-624099/Lax624099Proofs.Bridge.codehalt_iff.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-624099/Lax624099Proofs.Bridge.codehalt_not_computable.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-624099/Lax624099Proofs.Bridge.codehalt_not_mem_coRE.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-624099/Lax624099Proofs.Bridge.finSatOn_iso.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-624099/Lax624099Proofs.Bridge.finsat_RE_complete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-624099/Lax624099Proofs.Bridge.finsat_iff.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-624099/Lax624099Proofs.Bridge.finsat_not_computable.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-624099/Lax624099Proofs.Bridge.halt_RE_complete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-624099/Lax624099Proofs.Bridge.halt_iff.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-624099/Lax624099Proofs.Bridge.halt_not_computable.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-624099/Lax624099Proofs.Bridge.haltsOn_iso.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-624099/Lax624099Proofs.Bridge.mem_RE_iff_rePred.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-624099/Lax624099Proofs.Bridge.not_computablePred_of_RE_hard.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-624099/Lax624099Proofs.Bridge.not_computablePred_of_relOrderedReduction.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-624099/Lax624099Proofs.Bridge.pcpOn_iso.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-624099/Lax624099Proofs.Bridge.pcp_RE_complete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-624099/Lax624099Proofs.Bridge.pcp_iff.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-624099/Lax624099Proofs.Bridge.pcp_not_computable.html</loc></url>
   <url><loc>https://laxarchive.org/lax-666725/</loc></url>
   <url><loc>https://laxarchive.org/lax-666725/Lax666725.BPPSubsetPP.html</loc></url>
   <url><loc>https://laxarchive.org/lax-666725/Lax666725.OneSidedError.html</loc></url>

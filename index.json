@@ -5730,6 +5730,171 @@
       ]
     },
     {
+      "id": "lax-624099",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Descriptive complexity: recursive enumerability, Trakhtenbrot and halting",
+      "concepts": [
+        {
+          "id": "Lax624099.ClassRE",
+          "title": "The classes RE and co-RE",
+          "type": "definition"
+        },
+        {
+          "id": "Lax624099.CodeHalting",
+          "title": "Halting of a drawn partial recursive code",
+          "type": "definition"
+        },
+        {
+          "id": "Lax624099.CodeHaltingInvariance",
+          "title": "Invariance and characterization of code halting",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax624099.CodehaltREComplete",
+          "title": "Code halting is RE-complete",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax624099.ConcreteInstances",
+          "title": "Problems as sets of concrete finite structures",
+          "type": "definition"
+        },
+        {
+          "id": "Lax624099.FiniteSatisfiability",
+          "title": "Finite satisfiability of first-order sentences",
+          "type": "definition"
+        },
+        {
+          "id": "Lax624099.FiniteSatisfiabilityInvariance",
+          "title": "Invariance and characterization of finite satisfiability",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax624099.FinsatREComplete",
+          "title": "Trakhtenbrot's theorem: finite satisfiability is RE-complete",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax624099.Halting",
+          "title": "The halting problem on machines of the NP core",
+          "type": "definition"
+        },
+        {
+          "id": "Lax624099.HaltingInvariance",
+          "title": "Invariance and characterization of the halting problem",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax624099.HaltingUndecidable",
+          "title": "The halting problems are undecidable",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax624099.HaltREComplete",
+          "title": "The halting problem is RE-complete",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax624099.NPSubsetRE",
+          "title": "NP is contained in RE",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax624099.PcpREComplete",
+          "title": "Post's correspondence problem is RE-complete",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax624099.PcpUndecidable",
+          "title": "Post's correspondence problem is undecidable",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax624099.PostCorrespondence",
+          "title": "Post's correspondence problem",
+          "type": "definition"
+        },
+        {
+          "id": "Lax624099.PostCorrespondenceInvariance",
+          "title": "Invariance and characterization of Post's correspondence problem",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax624099.Problems",
+          "title": "Problems given by a property of structures",
+          "type": "definition"
+        },
+        {
+          "id": "Lax624099.REClosure",
+          "title": "RE is closed under first-order reductions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax624099.ReductionsComputable",
+          "title": "First-order reductions are computable",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax624099.REFinite",
+          "title": "Membership in RE depends only on the finite instances",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax624099.REHardUndecidable",
+          "title": "Every RE-hard problem is undecidable",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax624099.REIsRecursivelyEnumerable",
+          "title": "RE is recursive enumerability",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax624099.RENeCoRE",
+          "title": "RE is not closed under complement",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax624099.Trakhtenbrot",
+          "title": "Trakhtenbrot's theorem: finite satisfiability is undecidable",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax624099.ValueInvention",
+          "title": "Existential second-order logic with value invention",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax624099Proofs.Bridge.codehalt_iff",
+        "Lax624099Proofs.Bridge.codehalt_not_computable",
+        "Lax624099Proofs.Bridge.codehalt_not_mem_coRE",
+        "Lax624099Proofs.Bridge.codehalt_RE_complete",
+        "Lax624099Proofs.Bridge.codeHaltsOn_iso",
+        "Lax624099Proofs.Bridge.finsat_iff",
+        "Lax624099Proofs.Bridge.finsat_not_computable",
+        "Lax624099Proofs.Bridge.finsat_RE_complete",
+        "Lax624099Proofs.Bridge.finSatOn_iso",
+        "Lax624099Proofs.Bridge.halt_iff",
+        "Lax624099Proofs.Bridge.halt_not_computable",
+        "Lax624099Proofs.Bridge.halt_RE_complete",
+        "Lax624099Proofs.Bridge.haltsOn_iso",
+        "Lax624099Proofs.Bridge.mem_RE_iff_rePred",
+        "Lax624099Proofs.Bridge.not_computablePred_of_RE_hard",
+        "Lax624099Proofs.Bridge.not_computablePred_of_relOrderedReduction",
+        "Lax624099Proofs.Bridge.NP_subset_RE",
+        "Lax624099Proofs.Bridge.pcp_iff",
+        "Lax624099Proofs.Bridge.pcp_not_computable",
+        "Lax624099Proofs.Bridge.pcp_RE_complete",
+        "Lax624099Proofs.Bridge.pcpOn_iso",
+        "Lax624099Proofs.Bridge.RE_mem_congr_finite",
+        "Lax624099Proofs.Bridge.RE_mem_of_foReduction",
+        "Lax624099Proofs.Bridge.RE_mem_of_orderedReduction",
+        "Lax624099Proofs.Bridge.RE_ne_coRE"
+      ]
+    },
+    {
       "id": "lax-666725",
       "state": "registered",
       "environment": "v4.33.0",
