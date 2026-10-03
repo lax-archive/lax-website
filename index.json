@@ -4498,6 +4498,93 @@
       ]
     },
     {
+      "id": "lax-420092",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Conjunctive query evaluation and containment are NP-complete",
+      "concepts": [
+        {
+          "id": "Lax420092.ChandraMerlin",
+          "title": "The Chandra–Merlin theorem",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax420092.ContainmentInvariance",
+          "title": "Invariance and characterization of containment",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax420092.ContainmentNPComplete",
+          "title": "Conjunctive query containment is NP-complete",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax420092.DecodingAndWellFormed",
+          "title": "Decoding, and well-formed evaluation is NP-complete",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax420092.EncodingFaithful",
+          "title": "The encoding of evaluation instances is faithful and size-honest",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax420092.Evaluation",
+          "title": "Boolean conjunctive query evaluation",
+          "type": "definition"
+        },
+        {
+          "id": "Lax420092.EvaluationContainmentReductions",
+          "title": "Evaluation and containment reduce to each other",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax420092.EvaluationInvariance",
+          "title": "Invariance and characterization of evaluation",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax420092.EvaluationNPComplete",
+          "title": "Conjunctive query evaluation is NP-complete",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax420092.PackagedInstances",
+          "title": "Packaged evaluation instances, their encoding and decoding",
+          "type": "definition"
+        },
+        {
+          "id": "Lax420092.QueryDatabases",
+          "title": "Conjunctive queries and graph databases as structures",
+          "type": "definition"
+        },
+        {
+          "id": "Lax420092.QueryPairs",
+          "title": "Pairs of conjunctive queries and containment",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax420092Proofs.Bridge.concreteQueryHolds_iff_queryHolds",
+        "Lax420092Proofs.Bridge.cqContainment_iff",
+        "Lax420092Proofs.Bridge.cqContainment_NP_complete",
+        "Lax420092Proofs.Bridge.cqContainment_reduces_to_cqEval",
+        "Lax420092Proofs.Bridge.cqDecode_sound",
+        "Lax420092Proofs.Bridge.cqDecode_total",
+        "Lax420092Proofs.Bridge.cqEncoding_faithful",
+        "Lax420092Proofs.Bridge.cqEval_iff",
+        "Lax420092Proofs.Bridge.cqEval_NP_complete",
+        "Lax420092Proofs.Bridge.cqEval_reduces_to_cqContainment",
+        "Lax420092Proofs.Bridge.cqSize_ge_card",
+        "Lax420092Proofs.Bridge.cqSize_le_card",
+        "Lax420092Proofs.Bridge.queryContained_iff_hom",
+        "Lax420092Proofs.Bridge.queryContained_iso",
+        "Lax420092Proofs.Bridge.queryHolds_iso",
+        "Lax420092Proofs.Bridge.wfCQEval_iff",
+        "Lax420092Proofs.Bridge.wfCQEval_NP_complete"
+      ]
+    },
+    {
       "id": "lax-426240",
       "state": "registered",
       "environment": "v4.33.0",

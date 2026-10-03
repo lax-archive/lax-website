@@ -1245,6 +1245,36 @@
   <url><loc>https://laxarchive.org/lax-41/Lax41.MoserTardosDefinitions.html</loc></url>
   <url><loc>https://laxarchive.org/lax-41/Lax41Proofs.moser_tardos.html</loc></url>
   <url><loc>https://laxarchive.org/lax-41/Lax41Proofs.theorem_2_2.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-420092/</loc></url>
+  <url><loc>https://laxarchive.org/lax-420092/Lax420092.ChandraMerlin.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-420092/Lax420092.ContainmentInvariance.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-420092/Lax420092.ContainmentNPComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-420092/Lax420092.DecodingAndWellFormed.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-420092/Lax420092.EncodingFaithful.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-420092/Lax420092.Evaluation.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-420092/Lax420092.EvaluationContainmentReductions.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-420092/Lax420092.EvaluationInvariance.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-420092/Lax420092.EvaluationNPComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-420092/Lax420092.PackagedInstances.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-420092/Lax420092.QueryDatabases.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-420092/Lax420092.QueryPairs.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-420092/Lax420092Proofs.Bridge.concreteQueryHolds_iff_queryHolds.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-420092/Lax420092Proofs.Bridge.cqContainment_NP_complete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-420092/Lax420092Proofs.Bridge.cqContainment_iff.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-420092/Lax420092Proofs.Bridge.cqContainment_reduces_to_cqEval.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-420092/Lax420092Proofs.Bridge.cqDecode_sound.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-420092/Lax420092Proofs.Bridge.cqDecode_total.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-420092/Lax420092Proofs.Bridge.cqEncoding_faithful.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-420092/Lax420092Proofs.Bridge.cqEval_NP_complete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-420092/Lax420092Proofs.Bridge.cqEval_iff.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-420092/Lax420092Proofs.Bridge.cqEval_reduces_to_cqContainment.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-420092/Lax420092Proofs.Bridge.cqSize_ge_card.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-420092/Lax420092Proofs.Bridge.cqSize_le_card.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-420092/Lax420092Proofs.Bridge.queryContained_iff_hom.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-420092/Lax420092Proofs.Bridge.queryContained_iso.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-420092/Lax420092Proofs.Bridge.queryHolds_iso.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-420092/Lax420092Proofs.Bridge.wfCQEval_NP_complete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-420092/Lax420092Proofs.Bridge.wfCQEval_iff.html</loc></url>
   <url><loc>https://laxarchive.org/lax-426240/</loc></url>
   <url><loc>https://laxarchive.org/lax-426240/Lax426240.LcmDeterminant.html</loc></url>
   <url><loc>https://laxarchive.org/lax-426240/Lax426240Proofs.LcmDeterminant.det_lcmMatrix.html</loc></url>
