@@ -1,10 +1,13 @@
 import fs from "node:fs";
 import path from "node:path";
 import { bundleCachePath } from "./bundles.js";
-import { paperCachePath } from "./papers.js";
+import { BLOB_REFERENCE, paperCachePath } from "./papers.js";
 import { loadReferences } from "./references.js";
 import { loadMathlibSources } from "./mathlib-links.js";
-import type { BuildOutput, DbRecord, PaperEntry, PaperMark, PaperMarkPoint, PaperWebEntry, SkippedRecord } from "./types.js";
+import type {
+  BinderKind, BuildOutput, CaptureReferences, CertificateEntry, DbRecord, PaperEntry, PaperMark, PaperMarkPoint,
+  PaperWebEntry, ProofTelescope, SkippedRecord,
+} from "./types.js";
 import type { SiteSubmission } from "./sitegen/model.js";
 
 function readJson<T>(file: string): T | undefined {
@@ -134,9 +137,161 @@ function paperEntry(value: unknown, label: string): PaperEntry {
   };
 }
 
-/** Adapt the stored Archive schema to the renderer's stable public model. */
-function rendererOutput(value: unknown, label: string): BuildOutput | undefined {
-  if (!isObject(value)) throw new Error(`${label} must contain a JSON object`);
+const MAX_CHALLENGE_BYTES = 4 * 1024 * 1024;
+const MAX_TELESCOPE_HYPOTHESES = 10_000;
+
+/** A canonical Lean name as every statement, proof, and concept id is one. */
+const LEAN_NAME = /^(?:[\p{L}_][\p{L}\p{N}\p{M}_']*)(?:\.(?:[\p{L}_][\p{L}\p{N}\p{M}_']*))*$/u;
+const BINDER_KINDS = new Set<string>(["default", "implicit", "strictImplicit", "instImplicit"]);
+
+function stringList(value: unknown, label: string): string[] {
+  if (!Array.isArray(value) || value.some((entry) => typeof entry !== "string"))
+    throw new Error(`${label} must be an array of strings`);
+  return value as string[];
+}
+
+/** A spec-2 proof's telescope, checked to the shape the derivation and the
+ * proof cards rely on: statement constants in binder order, each with its
+ * level instantiation and binder kind, and the concluded constant. */
+function proofTelescope(value: unknown, label: string): ProofTelescope {
+  if (!isObject(value)) throw new Error(`${label} must be an object`);
+  if (!Array.isArray(value.hypotheses) || value.hypotheses.length > MAX_TELESCOPE_HYPOTHESES)
+    throw new Error(`${label} hypotheses must be an array of at most ${MAX_TELESCOPE_HYPOTHESES} entries`);
+  const hypotheses = value.hypotheses.map((hypothesis, index): ProofTelescope["hypotheses"][number] => {
+    const entry = `${label} hypothesis ${index + 1}`;
+    if (!isObject(hypothesis)) throw new Error(`${entry} must be an object`);
+    if (typeof hypothesis.statement !== "string" || !LEAN_NAME.test(hypothesis.statement))
+      throw new Error(`${entry} statement must be a Lean name`);
+    if (typeof hypothesis.binder !== "string" || !BINDER_KINDS.has(hypothesis.binder))
+      throw new Error(`${entry} binder kind is invalid`);
+    return { statement: hypothesis.statement, levels: stringList(hypothesis.levels, `${entry} levels`), binder: hypothesis.binder as BinderKind };
+  });
+  if (!isObject(value.conclusion)) throw new Error(`${label} conclusion must be an object`);
+  if (typeof value.conclusion.statement !== "string" || !LEAN_NAME.test(value.conclusion.statement))
+    throw new Error(`${label} conclusion statement must be a Lean name`);
+  return { hypotheses, conclusion: { statement: value.conclusion.statement, levels: stringList(value.conclusion.levels, `${label} conclusion levels`) } };
+}
+
+/** `conclusion` and `assumptions` as a telescope defines them: the concluded
+ * constant, and the hypothesis constants as a sorted set — the one derivation
+ * rule every reader of a spec-2 record shares (`recorded-shape.ts` in `lax`). */
+export function derivedEdge(telescope: ProofTelescope): { conclusion: string; assumptions: string[] } {
+  return {
+    conclusion: telescope.conclusion.statement,
+    assumptions: [...new Set(telescope.hypotheses.map((hypothesis) => hypothesis.statement))].sort(),
+  };
+}
+
+/** A spec-2 capture's `references` layer, checked to what the download relies
+ * on: a sha256 digest, a size, and — when published — a blob address that
+ * carries exactly that digest. */
+function captureReferences(value: unknown, label: string): CaptureReferences {
+  if (!isObject(value)) throw new Error(`${label} must be an object`);
+  if (typeof value.digest !== "string" || !SHA256_HEX.test(value.digest))
+    throw new Error(`${label} digest must be a sha256 hex string`);
+  const bytes = positiveInteger(value.bytes, `${label} bytes`);
+  if (value.registryBlob !== undefined) {
+    if (typeof value.registryBlob !== "string") throw new Error(`${label} registryBlob must be a string`);
+    const address = BLOB_REFERENCE.exec(value.registryBlob);
+    if (address === null || address[2] !== value.digest)
+      throw new Error(`${label} registryBlob is not a ghcr address of its digest`);
+  }
+  return { digest: value.digest, bytes, ...(value.registryBlob === undefined ? {} : { registryBlob: value.registryBlob }) };
+}
+
+/** The `certificate` key of a spec-2 record, checked to the shape the
+ * certified mark and the Challenge section rely on. The archive's trusted
+ * parser held the Challenge to its regeneration from the telescopes before
+ * publishing; this repeats the structural part so corruption is named here. */
+function certificateEntry(value: unknown, label: string): CertificateEntry {
+  if (!isObject(value)) throw new Error(`${label} must be an object`);
+  if (!isObject(value.judge) || typeof value.judge.toolchain !== "string" || value.judge.toolchain.trim() === "")
+    throw new Error(`${label} judge toolchain must be a string`);
+  if (value.judge.comparatorExitCode !== 0) throw new Error(`${label} judge comparatorExitCode must be 0`);
+  const kernels = stringList(value.kernels, `${label} kernels`);
+  if (kernels.length === 0 || kernels.some((kernel) => !/^[a-z0-9-]+$/u.test(kernel)))
+    throw new Error(`${label} kernels must name at least one kernel`);
+  if (!isObject(value.bundle)) throw new Error(`${label} bundle must be an object`);
+  const formatVersion = positiveInteger(value.bundle.formatVersion, `${label} bundle formatVersion`);
+  if (typeof value.bundle.digest !== "string" || !SHA256_HEX.test(value.bundle.digest))
+    throw new Error(`${label} bundle digest must be a sha256 hex string`);
+  if (value.bundle.registryBlob !== undefined) {
+    if (typeof value.bundle.registryBlob !== "string") throw new Error(`${label} bundle registryBlob must be a string`);
+    const address = BLOB_REFERENCE.exec(value.bundle.registryBlob);
+    if (address === null || address[2] !== value.bundle.digest)
+      throw new Error(`${label} bundle registryBlob is not a ghcr address of its digest`);
+  }
+  if (typeof value.challengeExportSha256 !== "string" || !SHA256_HEX.test(value.challengeExportSha256))
+    throw new Error(`${label} challengeExportSha256 must be a sha256 hex string`);
+  if (typeof value.challenge !== "string" || value.challenge === "" || Buffer.byteLength(value.challenge) > MAX_CHALLENGE_BYTES)
+    throw new Error(`${label} challenge must be the Challenge.lean source, at most ${MAX_CHALLENGE_BYTES} bytes`);
+  return {
+    judge: { toolchain: value.judge.toolchain, comparatorExitCode: 0 },
+    kernels,
+    bundle: {
+      formatVersion,
+      digest: value.bundle.digest,
+      ...(value.bundle.registryBlob === undefined ? {} : { registryBlob: value.bundle.registryBlob }),
+    },
+    challengeExportSha256: value.challengeExportSha256,
+    challenge: value.challenge,
+  };
+}
+
+/**
+ * The spec-2 record shape, expanded to the renderer's one in-memory model.
+ * A spec-2 record stores no field a reader derives from something else in
+ * it (`recorded-shape.ts` in `lax`): the manifest has no `id` (the record's
+ * own id is it), a proof stores its telescope and no `conclusion` or
+ * `assumptions`, the capture lists no files and no pins, and the paper block
+ * repeats nothing of the manifest's `paper`. Filling those in here lets the
+ * site model, the proof network, and every page run on both specs unchanged.
+ * The spec-1 branch of `rendererOutput` is deliberately untouched.
+ */
+function expandSpec2(value: Record<string, unknown>, manifest: Record<string, unknown>, id: string, label: string): Record<string, unknown> {
+  if (manifest.id !== undefined && manifest.id !== id)
+    throw new Error(`${label} manifest names ${JSON.stringify(manifest.id)}, not ${id}`);
+  if (!Array.isArray(value.proofs)) throw new Error(`${label} proofs must be an array`);
+  const proofs = value.proofs.map((proof, index) => {
+    const entry = `${label} proof ${index + 1}`;
+    if (!isObject(proof)) throw new Error(`${entry} must be an object`);
+    const telescope = proofTelescope(proof.telescope, `${entry} telescope`);
+    return { ...proof, levelParams: stringList(proof.levelParams ?? [], `${entry} levelParams`), telescope, ...derivedEdge(telescope) };
+  });
+  const capture = isObject(value.capture)
+    ? { ...value.capture, ...(value.capture.references === undefined ? {} : { references: captureReferences(value.capture.references, `${label} capture references`) }) }
+    : value.capture;
+  let paper = value.paper;
+  if (paper !== undefined) {
+    if (!isObject(paper)) throw new Error(`${label} paper must be an object`);
+    const declared = manifest.paper;
+    if (!isObject(declared)) throw new Error(`${label} manifest declares no paper for the paper block`);
+    paper = { folder: declared.folder, main: declared.main, engine: declared.engine, ...paper };
+  }
+  if (value.certificate !== undefined && proofs.length === 0)
+    throw new Error(`${label} certificate is present on a record without proofs`);
+  if (value.certificate === undefined && proofs.length > 0)
+    throw new Error(`${label} certificate is missing on a record with proofs`);
+  return {
+    ...value,
+    inputs: { ...(isObject(value.inputs) ? value.inputs : {}), manifest: { id, ...manifest } },
+    proofs,
+    ...(capture === undefined ? {} : { capture }),
+    ...(paper === undefined ? {} : { paper }),
+    ...(value.certificate === undefined ? {} : { certificate: certificateEntry(value.certificate, `${label} certificate`) }),
+  };
+}
+
+/** Adapt the stored Archive schema to the renderer's stable public model.
+ * Keyed on the record's content spec, `inputs.manifest.specVersion`: a spec-1
+ * record passes through as it always has, a spec-2 record is expanded first. */
+export function rendererOutput(raw: unknown, label: string, id?: string): BuildOutput | undefined {
+  if (!isObject(raw)) throw new Error(`${label} must contain a JSON object`);
+  const rawInputs = isObject(raw.inputs) ? raw.inputs : undefined;
+  const storedManifest = raw.manifest ?? rawInputs?.manifest;
+  const value = isObject(storedManifest) && storedManifest.specVersion === "2"
+    ? expandSpec2(raw, storedManifest, id ?? (typeof raw.id === "string" ? raw.id : ""), label)
+    : raw;
   const inputs = isObject(value.inputs) ? value.inputs : undefined;
   const manifest = value.manifest ?? inputs?.manifest;
   if (manifest === undefined) return undefined;
@@ -223,7 +378,7 @@ function loadSubmission(root: string, id: string, options: LoadOptions): SiteSub
 
   const outputFile = path.join(root, id, "build-output.json");
   const rawOutput = readJson<unknown>(outputFile);
-  const output = rawOutput === undefined ? undefined : rendererOutput(rawOutput, outputFile);
+  const output = rawOutput === undefined ? undefined : rendererOutput(rawOutput, outputFile, id);
   const submission: SiteSubmission = { record: record as unknown as DbRecord, output };
   if (options.referencesDir !== undefined) {
     submission.sourceReferences = loadReferences(submission, options.referencesDir);

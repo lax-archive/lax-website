@@ -1,4 +1,4 @@
-import { EPOCH, PROOF_SUFFIX } from "../config.js";
+import { EPOCH, environmentSpecVersion, PROOF_SUFFIX, type EnvironmentSpecVersion } from "../config.js";
 import type { LeanReferences } from "../lean-references.js";
 import type { BuildOutput, ConceptEntry, DbRecord, ProofEntry, StatementEntry } from "../types.js";
 import { computeNetwork, type ProofNetwork } from "./network.js";
@@ -26,6 +26,18 @@ export class RecordError extends Error {
     super(message, options);
     this.name = "RecordError";
   }
+}
+
+/** The content spec a record follows, read where the record keeps it. */
+export function recordSpecVersion(output: BuildOutput): EnvironmentSpecVersion {
+  return output.manifest.specVersion === "2" ? 2 : 1;
+}
+
+/** Whether a record is a certified spec-2 record: one whose proof network's
+ * edges `lake comparator` judged. A spec-2 record without proofs has no edges
+ * and no certificate, and shows no mark. */
+export function isCertified(output: BuildOutput): boolean {
+  return recordSpecVersion(output) === 2 && output.certificate !== undefined && output.proofs.length > 0;
 }
 
 /** Whether a submission belongs in archive-wide browse and search surfaces. */
@@ -98,6 +110,13 @@ export class SiteModel {
   /** Every environment the archive holds work in, the epoch first and the
    * rest newest first. One entry for a single-environment archive. */
   readonly environments: string[] = [];
+  /** The content spec of each environment the archive holds work in, read
+   * from its records' manifests (the publisher holds a record's spec to its
+   * environment row, so the records of one environment agree; the first in id
+   * order sets it and a later one that disagrees is a malformed record). */
+  private readonly specVersionOfEnvironment = new Map<string, EnvironmentSpecVersion>();
+  /** Spec versions for environments without records, from the caller. */
+  private readonly declaredSpecVersions: Readonly<Record<string, EnvironmentSpecVersion>>;
   readonly network: ProofNetwork;
   readonly submissionById = new Map<string, SiteSubmission>();
   readonly conceptHome = new Map<string, LocatedConcept>();
@@ -124,8 +143,13 @@ export class SiteModel {
   /** Each submission's creation instant, parsed once from the record. */
   private readonly createdAt = new Map<string, number>();
 
-  constructor(submissions: SiteSubmission[], epoch: string = EPOCH) {
+  constructor(
+    submissions: SiteSubmission[],
+    epoch: string = EPOCH,
+    environmentSpecVersions: Readonly<Record<string, EnvironmentSpecVersion>> = {},
+  ) {
     this.epoch = epoch;
+    this.declaredSpecVersions = environmentSpecVersions;
     // A deleted record is a tombstone that exists only to retire its id: no
     // page, no listing, no graph node. Filtering here covers every site
     // generator caller, and keys on the state rather than on a missing
@@ -142,6 +166,11 @@ export class SiteModel {
       const output = submission.output;
       if (!output) continue;
       this.environmentOf.set(submission.record.id, output.manifest.leanVersion);
+      const spec = recordSpecVersion(output);
+      const known = this.specVersionOfEnvironment.get(output.manifest.leanVersion);
+      if (known === undefined) this.specVersionOfEnvironment.set(output.manifest.leanVersion, spec);
+      else if (known !== spec)
+        throw new RecordError(submission.record.id, `record follows spec ${spec} in environment ${output.manifest.leanVersion}, whose records follow spec ${known}`);
       for (const concept of output.concepts) {
         // The annotation gate requires a type since 2026-07-27; a record
         // without one is pre-gate data the archive must surface, not render
@@ -174,6 +203,15 @@ export class SiteModel {
     this.linkSubmissions();
     this.linkVersions();
     this.linkPapers();
+  }
+
+  /** The content spec an environment's records follow: what its records say,
+   * or — for an environment the archive holds no work in, the epoch listed at
+   * zero — what the caller declared or the site's own table says. */
+  environmentSpecVersion(environment: string): EnvironmentSpecVersion {
+    return this.specVersionOfEnvironment.get(environment)
+      ?? this.declaredSpecVersions[environment]
+      ?? environmentSpecVersion(environment);
   }
 
   /** Where a submission's environment sorts in listings: the epoch leads,

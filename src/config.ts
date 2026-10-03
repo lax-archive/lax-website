@@ -34,3 +34,38 @@ export const PROOF_SUFFIX = "Proofs";
  * whatever this file said when the renderer was released.
  */
 export const EPOCH = "v4.33.0";
+
+/** The content spec an environment's records follow. */
+export type EnvironmentSpecVersion = 1 | 2;
+
+/**
+ * The spec version of each environment the archive has admitted, as the CLI's
+ * environment table (`environments.ts` in the `lax` repository) records it:
+ * what a statement and a proof *are* in that environment. A record's own
+ * `manifest.specVersion` is the authority for every environment the archive
+ * holds work in — the publisher holds it to the row — so this table matters
+ * only for an environment without records, which is the epoch listed at zero
+ * in `environments.json` right after its bump. Edited at each admission that
+ * changes the spec; the rule below covers a row this file has not caught up
+ * with: spec 2 begins with the `v4.35.0` environment (`axiomfree-plan.md`,
+ * stage 6).
+ */
+export const ENVIRONMENT_SPEC_VERSIONS: Readonly<Record<string, EnvironmentSpecVersion>> = {
+  "v4.30.0": 1,
+  "v4.33.0": 1,
+  "v4.35.0": 2,
+};
+
+const FIRST_SPEC_2_ENVIRONMENT = [4, 35, 0];
+
+/** The spec version of an environment this site holds no record in. */
+export function environmentSpecVersion(environment: string): EnvironmentSpecVersion {
+  const known = ENVIRONMENT_SPEC_VERSIONS[environment];
+  if (known !== undefined) return known;
+  const parts = (environment.match(/\d+/g) ?? []).map(Number);
+  for (let i = 0; i < FIRST_SPEC_2_ENVIRONMENT.length; i += 1) {
+    const difference = (parts[i] ?? -1) - FIRST_SPEC_2_ENVIRONMENT[i]!;
+    if (difference !== 0) return difference > 0 ? 2 : 1;
+  }
+  return 2;
+}

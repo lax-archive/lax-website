@@ -22,6 +22,7 @@ import { workshopPage } from "./pages/workshop.js";
 import { prepareGraphs, type GraphPreparationOptions, type GraphPreparationResult } from "./graph-prepare.js";
 import { compareText } from "../graph-layout/normalize.js";
 import type { SkippedRecord } from "../types.js";
+import type { EnvironmentSpecVersion } from "../config.js";
 
 export type { SiteSubmission } from "./model.js";
 export type { SkippedRecord } from "../types.js";
@@ -37,6 +38,14 @@ export interface GenerateOptions {
    * pinned renderer's config is as old as the release that carried it.
    */
   epoch?: string;
+  /**
+   * The content spec of environments the archive holds no record in (an
+   * epoch listed at zero in `environments.json`), by environment id. Every
+   * environment with records takes its spec from them; absent here, an empty
+   * one falls back to `ENVIRONMENT_SPEC_VERSIONS` in `src/config.ts`. Meant
+   * for `lax serve`, whose own environment table is the current one.
+   */
+  environmentSpecVersions?: Readonly<Record<string, EnvironmentSpecVersion>>;
   /** Public CLI builds explicitly select archive mode. Older packaged local
    * callers keep browser-free installation and the isolated local worker. */
   graphs?: GraphPreparationOptions;
@@ -76,7 +85,7 @@ export async function generateSite(
   let files: Map<string, string | Buffer>;
   for (;;) {
     try {
-      files = await renderPages(remaining, settings.epoch, log);
+      files = await renderPages(remaining, settings.epoch, settings.environmentSpecVersions, log);
       break;
     } catch (error) {
       if (!(error instanceof RecordError) || excluded.has(error.recordId)) throw error;
@@ -124,9 +133,10 @@ export async function generateSite(
 async function renderPages(
   submissions: SiteSubmission[],
   epoch: string | undefined,
+  environmentSpecVersions: Readonly<Record<string, EnvironmentSpecVersion>> | undefined,
   log: (line: string) => void,
 ): Promise<Map<string, string | Buffer>> {
-  const model = new SiteModel(submissions, epoch);
+  const model = new SiteModel(submissions, epoch, environmentSpecVersions);
   const context = { model, markdown: new MarkdownRenderer(model) };
   // The header's "Introduction" leads into the introduction's paper, once
   // the archive holds it.

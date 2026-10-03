@@ -222,17 +222,17 @@ describe("archive environments on the site", () => {
     expect(environments).toEqual({
       epoch: "v4.30.0",
       environments: [
-        { id: "v4.30.0", registered: 1, drafts: 1 },
-        { id: "v4.33.0", registered: 2, drafts: 0 },
-        { id: "v4.31.0", registered: 1, drafts: 0 },
+        { id: "v4.30.0", specVersion: 1, registered: 1, drafts: 1 },
+        { id: "v4.33.0", specVersion: 1, registered: 2, drafts: 0 },
+        { id: "v4.31.0", specVersion: 1, registered: 1, drafts: 0 },
       ],
     });
     // the epoch is listed even with nothing in it: it answers "where do I
     // submit", which is not a count
     expect(environmentIndex(new SiteModel([make("lax-1", "v4.33.0")], "v4.30.0")).environments)
       .toEqual([
-        { id: "v4.30.0", registered: 0, drafts: 0 },
-        { id: "v4.33.0", registered: 1, drafts: 0 },
+        { id: "v4.30.0", specVersion: 1, registered: 0, drafts: 0 },
+        { id: "v4.33.0", specVersion: 1, registered: 1, drafts: 0 },
       ]);
   });
 
@@ -259,8 +259,8 @@ describe("archive environments on the site", () => {
     expect(model.environments).toEqual(["v4.33.0"]);
     expect(recordIndex(model).records.map((record) => record.id)).toEqual(["lax-1"]);
     expect(environmentIndex(model).environments).toEqual([
-      { id: "v4.30.0", registered: 0, drafts: 0 },
-      { id: "v4.33.0", registered: 1, drafts: 0 },
+      { id: "v4.30.0", specVersion: 1, registered: 0, drafts: 0 },
+      { id: "v4.33.0", specVersion: 1, registered: 1, drafts: 0 },
     ]);
   });
 
@@ -272,7 +272,7 @@ describe("archive environments on the site", () => {
 
     expect(recordIndex(model).records.map((record) => record.id)).toEqual(["lax-1"]);
     expect(environmentIndex(model).environments).toEqual([
-      { id: "v4.33.0", registered: 1, drafts: 0 },
+      { id: "v4.33.0", specVersion: 1, registered: 1, drafts: 0 },
     ]);
   });
 });

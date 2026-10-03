@@ -1,3 +1,4 @@
+import type { EnvironmentSpecVersion } from "../config.js";
 import { compareEnvironments, isDiscoverableSubmission, type SiteModel } from "./model.js";
 
 /**
@@ -39,6 +40,10 @@ export interface RecordIndex {
 
 export interface EnvironmentCount {
   id: string;
+  /** The content spec this environment's records follow: 1 (statements are
+   * `axiom`s; proofs checked by the archive's pipeline) or 2 (tagged `Prop`
+   * definitions; proofs certified by `lake comparator`). */
+  specVersion: EnvironmentSpecVersion;
   /** Registered records in this environment, superseded ones included: the
    * island's size, which is what `lax init --env` reports to an author. */
   registered: number;
@@ -83,15 +88,14 @@ export function recordIndex(model: SiteModel): RecordIndex {
  * the rest newest first. The epoch is always listed, even at zero, because it
  * is the answer to "where should I submit" rather than a count. */
 export function environmentIndex(model: SiteModel): EnvironmentIndex {
-  const counted = new Map<string, EnvironmentCount>([
-    [model.epoch, { id: model.epoch, registered: 0, drafts: 0 }],
-  ]);
+  const count = (id: string): EnvironmentCount =>
+    ({ id, specVersion: model.environmentSpecVersion(id), registered: 0, drafts: 0 });
+  const counted = new Map<string, EnvironmentCount>([[model.epoch, count(model.epoch)]]);
   for (const submission of model.submissions) {
     if (!isDiscoverableSubmission(submission)) continue;
     const environment = model.environmentOf.get(submission.record.id);
     if (environment === undefined) continue;
-    const entry = counted.get(environment)
-      ?? { id: environment, registered: 0, drafts: 0 };
+    const entry = counted.get(environment) ?? count(environment);
     if (submission.record.state === "registered") entry.registered += 1;
     else if (submission.record.state === "draft") entry.drafts += 1;
     counted.set(environment, entry);
