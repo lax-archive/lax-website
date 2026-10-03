@@ -6642,6 +6642,211 @@
       ]
     },
     {
+      "id": "lax-799700",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Descriptive complexity: a catalog of thirty NP-complete problems",
+      "concepts": [
+        {
+          "id": "Lax799700.CliqueFamily",
+          "title": "Clique, Independent Set and Vertex Cover",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax799700.Coloring",
+          "title": "Coloring, chromatic number and clique cover",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax799700.Common",
+          "title": "Clauses, literals and binary numbers",
+          "type": "definition"
+        },
+        {
+          "id": "Lax799700.DominatingSet",
+          "title": "Dominating Set",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax799700.Feedback",
+          "title": "Feedback Vertex Set and Feedback Arc Set",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax799700.Hamilton",
+          "title": "Hamilton circuits",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax799700.JobSequencing",
+          "title": "Job sequencing",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax799700.Knapsack",
+          "title": "Knapsack, in binary",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax799700.MaxCut",
+          "title": "Max Cut",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax799700.NaeSat",
+          "title": "Not-all-equal SAT",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax799700.NaeThreeSat",
+          "title": "Not-all-equal 3SAT",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax799700.OneInSat",
+          "title": "1-in-SAT",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax799700.Partition",
+          "title": "Partition",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax799700.Problems",
+          "title": "Problems given by a property of structures",
+          "type": "definition"
+        },
+        {
+          "id": "Lax799700.SetFamily",
+          "title": "Set Cover, Hitting Set, Set Packing, Exact Cover and Set Splitting",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax799700.Steiner",
+          "title": "Steiner Tree",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax799700.SubgraphIso",
+          "title": "Subgraph Isomorphism",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax799700.ThreeColorability",
+          "title": "3-colorability",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax799700.ThreeDimMatching",
+          "title": "3-dimensional matching",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax799700.ThreeSat",
+          "title": "3SAT",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax799700.ZeroOneIP",
+          "title": "0-1 integer programming",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax799700Proofs.Bridge.CliqueFamily.clique_iff",
+        "Lax799700Proofs.Bridge.CliqueFamily.clique_NP_complete",
+        "Lax799700Proofs.Bridge.CliqueFamily.hasLargeClique_iso",
+        "Lax799700Proofs.Bridge.CliqueFamily.hasLargeIndependentSet_iso",
+        "Lax799700Proofs.Bridge.CliqueFamily.hasSmallVertexCover_iso",
+        "Lax799700Proofs.Bridge.CliqueFamily.indSet_iff",
+        "Lax799700Proofs.Bridge.CliqueFamily.indSet_NP_complete",
+        "Lax799700Proofs.Bridge.CliqueFamily.vertexCover_iff",
+        "Lax799700Proofs.Bridge.CliqueFamily.vertexCover_NP_complete",
+        "Lax799700Proofs.Bridge.Coloring.chromaticNumber_iff",
+        "Lax799700Proofs.Bridge.Coloring.chromaticNumber_NP_complete",
+        "Lax799700Proofs.Bridge.Coloring.cliqueCover_iff",
+        "Lax799700Proofs.Bridge.Coloring.cliqueCover_NP_complete",
+        "Lax799700Proofs.Bridge.Coloring.hasSmallChromaticNumber_iso",
+        "Lax799700Proofs.Bridge.Coloring.hasSmallCliqueCover_iso",
+        "Lax799700Proofs.Bridge.Coloring.kCol_iff",
+        "Lax799700Proofs.Bridge.Coloring.kCol_NP_complete",
+        "Lax799700Proofs.Bridge.Coloring.kColorable_iso",
+        "Lax799700Proofs.Bridge.DominatingSet.dominatingSet_iff",
+        "Lax799700Proofs.Bridge.DominatingSet.dominatingSet_NP_complete",
+        "Lax799700Proofs.Bridge.DominatingSet.hasSmallDominatingSet_iso",
+        "Lax799700Proofs.Bridge.Feedback.feedbackArcSet_iff",
+        "Lax799700Proofs.Bridge.Feedback.feedbackArcSet_NP_complete",
+        "Lax799700Proofs.Bridge.Feedback.feedbackVertexSet_iff",
+        "Lax799700Proofs.Bridge.Feedback.feedbackVertexSet_NP_complete",
+        "Lax799700Proofs.Bridge.Feedback.hasSmallFeedbackArcSet_iso",
+        "Lax799700Proofs.Bridge.Feedback.hasSmallFeedbackSet_iso",
+        "Lax799700Proofs.Bridge.Hamilton.dirHamCircuit_iff",
+        "Lax799700Proofs.Bridge.Hamilton.dirHamCircuit_NP_complete",
+        "Lax799700Proofs.Bridge.Hamilton.hamCircuit_iff",
+        "Lax799700Proofs.Bridge.Hamilton.hamCircuit_NP_complete",
+        "Lax799700Proofs.Bridge.Hamilton.hasDirHamCircuit_iso",
+        "Lax799700Proofs.Bridge.Hamilton.hasHamCircuit_iso",
+        "Lax799700Proofs.Bridge.JobSequencing.hasGoodSchedule_iso",
+        "Lax799700Proofs.Bridge.JobSequencing.jobSequencing_iff",
+        "Lax799700Proofs.Bridge.JobSequencing.jobSequencing_NP_complete",
+        "Lax799700Proofs.Bridge.Knapsack.hasSubsetSum_iso",
+        "Lax799700Proofs.Bridge.Knapsack.knapsack_iff",
+        "Lax799700Proofs.Bridge.Knapsack.knapsack_NP_complete",
+        "Lax799700Proofs.Bridge.MaxCut.hasLargeCut_iso",
+        "Lax799700Proofs.Bridge.MaxCut.maxCut_iff",
+        "Lax799700Proofs.Bridge.MaxCut.maxCut_NP_complete",
+        "Lax799700Proofs.Bridge.NaeSat.naeSat_iff",
+        "Lax799700Proofs.Bridge.NaeSat.naeSat_NP_complete",
+        "Lax799700Proofs.Bridge.NaeSat.naeSatisfiable_iso",
+        "Lax799700Proofs.Bridge.NaeThreeSat.nae3Sat_iff",
+        "Lax799700Proofs.Bridge.NaeThreeSat.nae3Sat_NP_complete",
+        "Lax799700Proofs.Bridge.NaeThreeSat.naeThreeSatisfiable_iso",
+        "Lax799700Proofs.Bridge.OneInSat.oneInSat_iff",
+        "Lax799700Proofs.Bridge.OneInSat.oneInSat_NP_complete",
+        "Lax799700Proofs.Bridge.OneInSat.oneInSatisfiable_iso",
+        "Lax799700Proofs.Bridge.Partition.hasEqualSplit_iso",
+        "Lax799700Proofs.Bridge.Partition.partition_iff",
+        "Lax799700Proofs.Bridge.Partition.partition_NP_complete",
+        "Lax799700Proofs.Bridge.SetFamily.exactCover_iff",
+        "Lax799700Proofs.Bridge.SetFamily.exactCover_NP_complete",
+        "Lax799700Proofs.Bridge.SetFamily.hasExactCover_iso",
+        "Lax799700Proofs.Bridge.SetFamily.hasLargeSetPacking_iso",
+        "Lax799700Proofs.Bridge.SetFamily.hasSetSplitting_iso",
+        "Lax799700Proofs.Bridge.SetFamily.hasSmallHittingSet_iso",
+        "Lax799700Proofs.Bridge.SetFamily.hasSmallSetCover_iso",
+        "Lax799700Proofs.Bridge.SetFamily.hittingSet_iff",
+        "Lax799700Proofs.Bridge.SetFamily.hittingSet_NP_complete",
+        "Lax799700Proofs.Bridge.SetFamily.setCover_iff",
+        "Lax799700Proofs.Bridge.SetFamily.setCover_NP_complete",
+        "Lax799700Proofs.Bridge.SetFamily.setPacking_iff",
+        "Lax799700Proofs.Bridge.SetFamily.setPacking_NP_complete",
+        "Lax799700Proofs.Bridge.SetFamily.setSplitting_iff",
+        "Lax799700Proofs.Bridge.SetFamily.setSplitting_NP_complete",
+        "Lax799700Proofs.Bridge.Steiner.edgeSteinerTree_iff",
+        "Lax799700Proofs.Bridge.Steiner.edgeSteinerTree_NP_complete",
+        "Lax799700Proofs.Bridge.Steiner.hasSmallEdgeSteinerTree_iso",
+        "Lax799700Proofs.Bridge.Steiner.hasSmallSteinerTree_iso",
+        "Lax799700Proofs.Bridge.Steiner.steinerTree_iff",
+        "Lax799700Proofs.Bridge.Steiner.steinerTree_NP_complete",
+        "Lax799700Proofs.Bridge.SubgraphIso.hasSubgraphIso_iso",
+        "Lax799700Proofs.Bridge.SubgraphIso.subgraphIso_iff",
+        "Lax799700Proofs.Bridge.SubgraphIso.subgraphIso_NP_complete",
+        "Lax799700Proofs.Bridge.ThreeColorability.threeCol_iff",
+        "Lax799700Proofs.Bridge.ThreeColorability.threeCol_NP_complete",
+        "Lax799700Proofs.Bridge.ThreeColorability.threeColorable_iso",
+        "Lax799700Proofs.Bridge.ThreeDimMatching.hasThreeDimMatching_iso",
+        "Lax799700Proofs.Bridge.ThreeDimMatching.threeDimMatching_iff",
+        "Lax799700Proofs.Bridge.ThreeDimMatching.threeDimMatching_NP_complete",
+        "Lax799700Proofs.Bridge.ThreeSat.threeSat_iff",
+        "Lax799700Proofs.Bridge.ThreeSat.threeSat_NP_complete",
+        "Lax799700Proofs.Bridge.ThreeSat.threeSatisfiable_iso",
+        "Lax799700Proofs.Bridge.ZeroOneIP.hasZeroOneSolution_iso",
+        "Lax799700Proofs.Bridge.ZeroOneIP.zeroOneIP_iff",
+        "Lax799700Proofs.Bridge.ZeroOneIP.zeroOneIP_NP_complete"
+      ]
+    },
+    {
       "id": "lax-808846",
       "state": "registered",
       "environment": "v4.33.0",
