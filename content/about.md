@@ -53,6 +53,21 @@ Lax consists of three parts, all of them open source:
 
 The archive's code, metadata, the submissions, and the generated artifacts are all public.
 
+## Related projects
+
+Lax builds on the excellent tooling, infrastructure, and formalizations of
+the Lean and mathlib community, which you can meet on the
+[Lean Zulip](https://leanprover.zulipchat.com/). Lax is inspired by
+Isabelle's [Archive of Formal Proofs](https://www.isa-afp.org/).
+[Lean Pool](https://vilin97.github.io/lean-pool/), the
+[Palomar Registry](https://palomar-registry.org/), and
+[Prove2Me](https://prove2.me/), developed in parallel with Lax, likewise
+archive individual submissions. In libraries such as Merely True and
+[Tau Ceti](https://github.com/TauCetiProject/TauCeti), contributions instead
+blend into a shared whole. Like the
+[Lean blueprint](https://github.com/PatrickMassot/leanblueprint) project, Lax
+annotates natural-language mathematics with the Lean code behind it.
+
 ## Where to go next
 
 - [An Introduction to Lax](lax-242665/paper.html), itself a Lax submission.
