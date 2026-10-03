@@ -8,6 +8,7 @@ import { inPaperBlock } from "./paper.js";
 import {
   anonymityNotice,
   bibtex,
+  certificateSection,
   conceptMapLegend,
   draftBanner,
   environmentNotice,
@@ -171,7 +172,7 @@ ${graphExpandButton("proof network")}
 <div id="proof-network" class="figure-container" data-graph="proofs"></div>
 ${graphTooltip()}
 ${proofNetworkLegend(graphs.proofs)}
-</figure>
+</figure>${certificateSection(ctx.model, submission)}
 <details class="figure-details">
 <summary>Proof list</summary>
 <div class="proof-list-box">

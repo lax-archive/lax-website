@@ -3,12 +3,14 @@ import type { LocatedProof } from "../model.js";
 import { inPaperBlock } from "./paper.js";
 import {
   annotationSections,
+  certifiedMark,
   draftBanner,
   environmentNotice,
   versionHistoryPanel,
   repositorySource,
   type PageContext,
   proofJudgment,
+  rerunCommands,
   statementOrdinal,
   sourceButton,
   sourceProviderName,
@@ -33,6 +35,13 @@ export function proofPage(ctx: PageContext, located: LocatedProof): string {
   const pill = outstanding.length === 0
     ? `<span class="status-pill pill-proven" tabindex="0" data-tooltip="${attr(groundedHelp)}" aria-label="Grounded. ${attr(groundedHelp)}">grounded</span>`
     : `<span class="status-pill pill-partial" title="The relationship is checked, but ${plural(outstanding.length, "assumption is", "assumptions are")} still open.">conditional — ${plural(outstanding.length, "open assumption")}</span>`;
+  // A certified edge: the mark beside the judgment, with the rerun command.
+  // The grounded/conditional status above it is composed by this site from
+  // the archive's edges and is said so; only the edge itself is certified.
+  const certified = certifiedMark(output, "line");
+  const honesty = certified
+    ? `<p class="honesty-note">Assuming the hypotheses on the left, in binder order, the claim on the right holds — certified by Lean's <code>lake comparator</code>, which held this proof to the record's Challenge. The grounded or conditional status is composed by this site from the archive's edges. Proof code is not displayed here.</p>`
+    : `<p class="honesty-note">Assuming the claims on the left, the claim on the right holds — checked by the archive's pipeline. Proof code is not displayed here.</p>`;
 
   const anonymous = output.manifest.anonymous === true;
   const source = submission.record.source;
@@ -53,7 +62,7 @@ export function proofPage(ctx: PageContext, located: LocatedProof): string {
 </div>
 <div class="block block-evidence"><h3>What this proof establishes</h3>
 ${proofJudgment(ctx.model, proof, "../", output.id)}
-<p class="honesty-note">Assuming the claims on the left, the claim on the right holds — checked by the archive's pipeline. Proof code is not displayed here.</p>
+${certified ? `${certified}\n${rerunCommands(submission.record.id)}\n` : ""}${honesty}
 ${sourceFile
     ? `<p class="source-action">${sourceButton(sourceFile, `Read the Lean proof on ${sourceProviderName(sourceFile)}`)}</p>`
     : sourceWithheld

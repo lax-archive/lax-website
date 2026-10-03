@@ -3620,6 +3620,32 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
   font-style: italic;
 }
 
+/* A spec-2 proof's telescope: the hypotheses in binder order, each named as
+   the record's Challenge names it (h₁, h₂, …), so the card reads like the
+   certificate theorem. Same box, same claim entries; the names are the only
+   addition, in the dim mono of a code surface. */
+.judgment-telescope{
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.judgment-telescope > li{ display: flex; align-items: baseline; gap: 0.45rem; min-width: 0; }
+
+.telescope-name{
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  flex: none;
+}
+
+.binder-kind{
+  color: var(--text-dim);
+  font-size: 0.72rem;
+  font-style: italic;
+}
+
 .judgment-arrow{
   color: var(--text-dim);
   font-size: 1.55rem;
@@ -3697,6 +3723,59 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
   color: var(--text-dim);
   font-size: 0.85rem;
   margin-top: 0.6rem;
+}
+
+/* ── The certificate ──
+   The certified mark repeats the record: who judged, under which toolchain
+   and kernels. It takes the proven palette as a chip on a proof card (a
+   status the archive established, not one this site composed) and reads as
+   one dim line with its bundle digest on the pages. The Challenge is a code
+   surface: mono, pre, collapsed under the proof network. */
+.certified-mark-compact{
+  display: inline-block;
+  margin-left: 0.5rem;
+  padding: 0.05rem 0.45rem;
+  border: 1px solid var(--proven-border);
+  border-radius: var(--radius-chip);
+  background: var(--proven-bg);
+  color: var(--proven-fg);
+  font-size: 0.72rem;
+  font-variant: small-caps;
+  letter-spacing: 0.04em;
+  cursor: help;
+}
+
+.certified-mark-line{
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  margin-top: 0.6rem;
+  overflow-wrap: anywhere;
+}
+
+.certified-mark-text{ color: var(--proven-fg); }
+
+.certificate-rerun,
+.trust-note,
+.challenge-intro,
+.challenge-digests{
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  margin-top: 0.4rem;
+  overflow-wrap: anywhere;
+}
+
+.certificate-block{ margin: 0.4rem 0 1rem; }
+
+.challenge-source{
+  background: var(--code-bg);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-card);
+  padding: 0.8rem 0.95rem;
+  overflow-x: auto;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  line-height: 1.55;
+  margin-top: 0.7rem;
 }
 
 .citation,

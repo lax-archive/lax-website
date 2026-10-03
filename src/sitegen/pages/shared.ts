@@ -1,9 +1,9 @@
 import { DEFAULT_SITE_URL } from "../../config.js";
-import type { AnnotationSection, BuildOutput, ConceptEntry, ProofEntry } from "../../types.js";
+import type { AnnotationSection, BuildOutput, CertificateEntry, ConceptEntry, ProofEntry } from "../../types.js";
 import type { ConceptGraphData, SubmissionGraphData } from "../graphs.js";
 import { attr, code, esc, formatDate, proofBadge, statePill, typeBadge } from "../html.js";
 import { bibtexAuthorTitle, plainAuthorTitle, type MarkdownRenderer } from "../markdown.js";
-import { compareIds, isDiscoverableSubmission, type LocatedProof, type SiteModel, type SiteSubmission } from "../model.js";
+import { compareIds, isCertified, isDiscoverableSubmission, recordSpecVersion, type LocatedProof, type SiteModel, type SiteSubmission } from "../model.js";
 import { conceptReviewBadge } from "./discussion.js";
 
 export interface PageContext { model: SiteModel; markdown: MarkdownRenderer }
@@ -86,7 +86,7 @@ export function claimEntry(
   statementId: string,
   rootRel: string,
   pageHome?: string,
-  opts: { role?: "conclusion" | "assumption" } = {},
+  opts: { role?: "conclusion" | "assumption" | "hypothesis" } = {},
 ): string {
   const statement = model.statementHome.get(statementId);
   const home = statement ?? (opts.role === "assumption" ? model.conceptHome.get(statementId) : undefined);
@@ -114,8 +114,26 @@ export function claimEntry(
 /** The judgment card: assumptions boxed on the left, an arrow, the concluded
  * claim on the right — the checked relationship a proof contributes. Several
  * assumed statements of one multi-statement concept collapse to a single
- * entry: the card says which claims are relied on, not which axioms. */
+ * entry: the card says which claims are relied on, not which axioms.
+ *
+ * A spec-2 proof carries its telescope, and the card shows that instead: the
+ * hypotheses in binder order, duplicates and all, each linked to its exact
+ * statement and named `h₁ … hₙ` as the record's Challenge names them, then
+ * the conclusion. That is the edge as the author wrote it and as the
+ * certificate states it, so the card and the Challenge read the same. */
 export function proofJudgment(model: SiteModel, proof: ProofEntry, rootRel: string, pageHome?: string): string {
+  if (proof.telescope) {
+    const hypotheses = proof.telescope.hypotheses;
+    const assumptions = hypotheses.length
+      ? `<ol class="judgment-telescope">${hypotheses.map((hypothesis, index) =>
+        `<li data-binder="${attr(hypothesis.binder)}"><span class="telescope-name">${esc(hypothesisName(index))}</span>${claimEntry(model, hypothesis.statement, rootRel, pageHome, { role: "hypothesis" })}${binderLabel(hypothesis.binder)}</li>`).join("\n")}</ol>`
+      : `<p class="judgment-unconditional">no hypotheses</p>`;
+    return `<div class="judgment judgment-spec2">
+<div class="judgment-assumptions">${assumptions}</div>
+<span class="judgment-arrow" aria-hidden="true">→</span>
+<div class="judgment-conclusion">${claimEntry(model, proof.conclusion, rootRel, pageHome, { role: "conclusion" })}</div>
+</div>`;
+  }
   const seen = new Set<string>();
   const assumed = proof.assumptions.filter((id) => {
     const home = model.statementHome.get(id) ?? model.conceptHome.get(id);
@@ -132,6 +150,23 @@ export function proofJudgment(model: SiteModel, proof: ProofEntry, rootRel: stri
 <span class="judgment-arrow" aria-hidden="true">→</span>
 <div class="judgment-conclusion">${claimEntry(model, proof.conclusion, rootRel, pageHome, { role: "conclusion" })}</div>
 </div>`;
+}
+
+const SUBSCRIPT_DIGITS = "₀₁₂₃₄₅₆₇₈₉";
+
+/** `h₁`, `h₂`, …: the hypothesis names the generated Challenge uses. */
+export function hypothesisName(index: number): string {
+  return `h${String(index + 1).split("").map((digit) => SUBSCRIPT_DIGITS[Number(digit)]).join("")}`;
+}
+
+/** A non-default binder, said in words after the hypothesis; the default
+ * binder is the unmarked case and gets no label. */
+function binderLabel(binder: string): string {
+  const label = binder === "implicit" ? "implicit"
+    : binder === "strictImplicit" ? "strict implicit"
+    : binder === "instImplicit" ? "instance"
+    : undefined;
+  return label ? ` <span class="binder-kind">${label}</span>` : "";
 }
 
 /** One proof in a list: the judgment card leads (its whole surface links to
@@ -156,7 +191,7 @@ export function proofItem(
 <a class="judgment-overlay" href="${attr(href)}" aria-label="${attr(`Open proof ${proof.id}`)}"></a>
 ${proofJudgment(model, proof, rootRel, opts.home)}
 </div>
-<p class="proof-item-head">${proofBadge()}<a class="proof-item-link" href="${attr(href)}"${title}>${code(name)}</a>${origin}</p>
+<p class="proof-item-head">${proofBadge()}<a class="proof-item-link" href="${attr(href)}"${title}>${code(name)}</a>${origin}${certifiedMark(output, "compact")}</p>
 </li>`;
 }
 
@@ -166,6 +201,76 @@ ${proofJudgment(model, proof, rootRel, opts.home)}
 export function proofShortName(output: BuildOutput, proof: ProofEntry, pageHome?: string): string {
   if (pageHome !== output.id) return proof.id;
   return shortId(proof.id, `${output.id}Proofs`);
+}
+
+// ---- the certificate ----
+
+/** What the mark says, in one line: who judged, under which toolchain and
+ * kernels. The site composes nothing here; it repeats the record. */
+function certificateText(certificate: CertificateEntry): string {
+  return `certified: lake comparator (${certificate.judge.toolchain}, kernels ${certificate.kernels.join(", ")})`;
+}
+
+/**
+ * The certified mark of a spec-2 record with proofs. `compact` is the chip on
+ * a proof card (the full text in its tooltip); `line` is the full sentence
+ * with the bundle digest, for a proof page and the record page. A spec-1
+ * record, or a spec-2 record without proofs, has no mark.
+ */
+export function certifiedMark(output: BuildOutput, form: "compact" | "line"): string {
+  if (!isCertified(output)) return "";
+  const certificate = output.certificate!;
+  const text = certificateText(certificate);
+  if (form === "compact")
+    return `<span class="certified-mark certified-mark-compact" title="${attr(`${text}, bundle ${certificate.bundle.digest}`)}">certified</span>`;
+  return `<p class="certified-mark certified-mark-line"><span class="certified-mark-text">${esc(text)}</span>, bundle ${code(certificate.bundle.digest)}</p>`;
+}
+
+/** The two ways to rerun a certificate: through the CLI from the database,
+ * or the plain comparator over a bundle fetched by digest. */
+export function rerunCommands(recordId: string): string {
+  return `<p class="certificate-rerun">Rerun it: <code>lax certify ${esc(recordId)} --run</code> — or, in the fetched bundle, <code>lake comparator --config comparator.json</code>.</p>`;
+}
+
+/**
+ * The trust note, one sentence per spec-2 record page: what the certificate
+ * removes from what a reader must trust, and what it does not. Said with the
+ * record's environment, because the spec is the environment's.
+ */
+export function trustNote(model: SiteModel, submission: SiteSubmission): string {
+  const output = submission.output;
+  if (!output || recordSpecVersion(output) !== 2) return "";
+  const environment = output.manifest.leanVersion;
+  return `<p class="trust-note">In environment ${code(environment)} (spec ${model.environmentSpecVersion(environment)}) the edges of a proof network are certified by Lean's <code>lake comparator</code> over the record's own Challenge, so a reader need not trust this archive's pipeline for them; the concept packages a record depends on are trusted for their meaning, as in every environment; and every certificate can be rerun from its bundle.</p>`;
+}
+
+/**
+ * The record page's certificate section, under the proof network: the mark
+ * with its bundle digest, the rerun command, the trust note, and the
+ * Challenge — `Challenge.lean` verbatim, collapsed, because it is what makes
+ * the mark checkable by a reader — beside the bundle digest and the digest
+ * of the Challenge export the judge compared against.
+ */
+export function certificateSection(model: SiteModel, submission: SiteSubmission): string {
+  const output = submission.output;
+  if (!output || !isCertified(output)) return "";
+  const certificate = output.certificate!;
+  // Leads with its own line break so a spec-1 page, where it is empty,
+  // keeps its bytes.
+  return `
+<div class="certificate-block">
+${certifiedMark(output, "line")}
+${rerunCommands(submission.record.id)}
+${trustNote(model, submission)}
+<details class="figure-details challenge-details">
+<summary>Challenge</summary>
+<div class="block block-challenge">
+<p class="challenge-intro">Every proof of this record, stated over its concept packages alone — <code>Challenge.lean</code> as the archive generated it. <code>lake comparator</code> held the record's proofs to these theorems.</p>
+<p class="challenge-digests">bundle ${code(certificate.bundle.digest)}<br>challenge export ${code(certificate.challengeExportSha256)}</p>
+<pre class="challenge-source"><code>${esc(certificate.challenge)}</code></pre>
+</div>
+</details>
+</div>`;
 }
 
 // ---- graph figure furniture ----
