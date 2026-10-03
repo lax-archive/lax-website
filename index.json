@@ -1592,6 +1592,61 @@
       ]
     },
     {
+      "id": "lax-117614",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Graph crawling is NP-complete",
+      "concepts": [
+        {
+          "id": "Lax117614.CrawlDecoding",
+          "title": "Decoding, and well-formed graph crawling is NP-complete",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax117614.CrawlEncoding",
+          "title": "The encoding of crawling instances is faithful and size-honest",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax117614.CrawlInstances",
+          "title": "Packaged crawling instances",
+          "type": "definition"
+        },
+        {
+          "id": "Lax117614.GraphCrawlingInvariance",
+          "title": "Invariance and characterization of graph crawling",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax117614.GraphCrawlingNPComplete",
+          "title": "Graph crawling is NP-complete",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax117614.GraphCrawlingProblem",
+          "title": "The graph crawling problem",
+          "type": "definition"
+        },
+        {
+          "id": "Lax117614.WebsiteGraphs",
+          "title": "Website graphs",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax117614Proofs.Bridge.crawlDecode_sound",
+        "Lax117614Proofs.Bridge.crawlDecode_total",
+        "Lax117614Proofs.Bridge.crawlEncoding_faithful",
+        "Lax117614Proofs.Bridge.crawlSize_ge_card",
+        "Lax117614Proofs.Bridge.crawlSize_le_card",
+        "Lax117614Proofs.Bridge.graphCrawling_iff",
+        "Lax117614Proofs.Bridge.graphCrawling_NP_complete",
+        "Lax117614Proofs.Bridge.hasCheapCrawl_iso",
+        "Lax117614Proofs.Bridge.wfGraphCrawling_iff",
+        "Lax117614Proofs.Bridge.wfGraphCrawling_NP_complete"
+      ]
+    },
+    {
       "id": "lax-132576",
       "state": "registered",
       "environment": "v4.33.0",

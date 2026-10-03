@@ -36,6 +36,26 @@
   <url><loc>https://laxarchive.org/lax-115662/Lax115662Proofs.RP_union_coRP_subset_BPP.html</loc></url>
   <url><loc>https://laxarchive.org/lax-115662/Lax115662Proofs.ZPP_subset_BPP.html</loc></url>
   <url><loc>https://laxarchive.org/lax-115662/Lax115662Proofs.ZPP_subset_RP_inter_coRP.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-117614/</loc></url>
+  <url><loc>https://laxarchive.org/lax-117614/Lax117614.CrawlDecoding.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-117614/Lax117614.CrawlEncoding.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-117614/Lax117614.CrawlInstances.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-117614/Lax117614.GraphCrawlingInvariance.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-117614/Lax117614.GraphCrawlingNPComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-117614/Lax117614.GraphCrawlingProblem.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-117614/Lax117614.WebsiteGraphs.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-117614/Lax117614Proofs.Bridge.crawlDecode_sound.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-117614/Lax117614Proofs.Bridge.crawlDecode_total.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-117614/Lax117614Proofs.Bridge.crawlEncoding_faithful.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-117614/Lax117614Proofs.Bridge.crawlSize_ge_card.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-117614/Lax117614Proofs.Bridge.crawlSize_le_card.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-117614/Lax117614Proofs.Bridge.graphCrawling_NP_complete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-117614/Lax117614Proofs.Bridge.graphCrawling_iff.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-117614/Lax117614Proofs.Bridge.hasCheapCrawl_iso.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-117614/Lax117614Proofs.Bridge.wfGraphCrawling_NP_complete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-117614/Lax117614Proofs.Bridge.wfGraphCrawling_iff.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-117614/paper-pdf.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-117614/paper.html</loc></url>
   <url><loc>https://laxarchive.org/lax-12/</loc></url>
   <url><loc>https://laxarchive.org/lax-12/Lax12.Admissibility.html</loc></url>
   <url><loc>https://laxarchive.org/lax-12/Lax12.AdmissibilityBound.html</loc></url>
