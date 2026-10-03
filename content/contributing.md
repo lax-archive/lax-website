@@ -83,6 +83,6 @@ so `lax init` uses the epoch unless you ask for another.
 Two files at the site root save you cloning the database or scraping these
 pages: [`/index.json`](index.json) lists every record with its state,
 environment, title, version links, concepts and proofs, and
-[`/environments.json`](environments.json) names the epoch and counts the
-submissions in each environment. Both are regenerated with the site and are
+[`/environments.json`](environments.json) names the epoch and, for each
+environment, its content spec and the count of its submissions. Both are regenerated with the site and are
 byte-for-byte reproducible.

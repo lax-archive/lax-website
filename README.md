@@ -174,12 +174,20 @@ bytes therefore differ from production's, deterministically per flag set).
   enough scroll space for short pages. Hover and keyboard focus use bold
   text. Generated helpers without their own source span link to the nearest
   enclosing declaration, or the module if no enclosing span exists.
-- `npm run references:fetch` fills `data/references/<sha256>.ilean` from the
-  existing public captures. It uses bounded HTTP ranges, checks each tar
-  header and member digest, and verifies the displayed source against the
-  capture manifest. It neither extracts tar paths nor compiles submissions.
-  It also checks any needed Mathlib source fallbacks, storing the results
-  under `data/references/mathlib-sources/`. Builds reverify cached bytes and
+- `npm run references:fetch` fills the references cache from the existing
+  public captures, one way per record shape. A spec-1 record lists its
+  capture's files, so the cache gets `data/references/<sha256>.ilean` per
+  module: bounded HTTP ranges of the capture tar, each tar header and member
+  digest checked, the displayed source verified against the capture
+  manifest. A spec-2 record (see "Two content specs" below) lists no files
+  but names a `references` layer beside its capture — the concept sources
+  and their `.ilean` files as one small tar — which is downloaded whole,
+  verified by its digest and size, and cached as
+  `data/references/<digest>.references.tar`; its source members must be
+  byte-equal to the displayed source. Neither path extracts tar paths to
+  disk or compiles submissions. The command also checks any needed Mathlib
+  source fallbacks, storing the results under
+  `data/references/mathlib-sources/`. Builds reverify cached bytes and
   validate Lean's version-5 JSON and UTF-16 ranges. Missing, stale or
   unsupported metadata fails a normal archive build
   with an explanatory error. `--references DIR` moves the cache. Both CI and
@@ -235,10 +243,62 @@ Three surfaces follow from it:
   the existing registered/work-in-progress groups.
 - **`index.json` and `environments.json`** at the site root: every rendered
   record with its state, environment, title, `supersedes`/`supersededBy`,
-  concepts (id, title, type) and proof ids; and the epoch with a registered
-  and draft count per environment. They exist so an agent need not clone
+  concepts (id, title, type) and proof ids; and the epoch with each
+  environment's content spec (`specVersion`, see below) and a registered
+  and draft count. They exist so an agent need not clone
   `lax-database` or scrape the HTML, and `content/contributing.md` links
   both. Like every other output they are deterministic.
+
+## Two content specs
+
+An environment also fixes what a statement and a proof *are* — its
+**content spec** — and a record repeats it as `manifest.specVersion`. Spec 1
+is the archive as it launched: statements are Lean `axiom`s, proofs are
+checked by the archive's pipeline. Spec 2 (environments from `v4.35.0`;
+`axiomfree-plan.md` in the `lax` repository) states claims as tagged `Prop`
+definitions, records each proof as a **telescope** — its hypotheses in
+binder order and its conclusion — and certifies every edge of a record's
+proof network with Lean's own `lake comparator`, whose verdict the record
+carries as a `certificate`. The loader (`src/database.ts`) reads both record
+shapes into one in-memory model, keyed on that spec: a spec-2 record stores
+no field a reader derives, so the loader fills the manifest's id from the
+record's, derives each proof's `conclusion` and sorted `assumptions` from its
+telescope, and reads the paper's `folder`/`main`/`engine` from the manifest.
+The site model, the proof network and every page then run unchanged on both.
+
+What a spec-2 record shows beyond a spec-1 one:
+
+- **the telescope on proof cards** — hypotheses in binder order, named
+  `h₁ … hₙ` as the record's Challenge names them, each linked to its exact
+  statement, non-default binders labelled — in place of the derived
+  assumption list;
+- **the certified mark**, "certified: `lake comparator` (toolchain, kernels)",
+  with the bundle digest and the rerun command (`lax certify <record>
+  --run`, or `lake comparator --config comparator.json` in the fetched
+  bundle): a chip on each proof card, a line under the judgment on the
+  proof page and under the proof network on the record page. A spec-2
+  record without proofs ran nothing and shows no mark. The grounded or
+  conditional status the site composes from several edges is shown as
+  before and labelled as composed by the site, never as certified;
+- **the Challenge**, `Challenge.lean` verbatim as a collapsed Lean code
+  block under the proof network, beside the bundle digest and the digest of
+  the Challenge export the judge compared against — it is what makes the
+  mark checkable by a reader;
+- **the trust note**, one sentence on the record page naming the
+  environment: the edges are certified by Lean's comparator; the concept
+  packages a record depends on are trusted for their meaning, as in every
+  environment; certificates are rerunnable.
+
+A statement's raw `body` (the inspector's core-notation rendering) is carried
+in the model but not shown: the author's source, with its notation, remains
+the displayed form of every statement.
+
+The spec version of an environment comes from its records' manifests. For an
+environment the archive holds no work in — the epoch listed at zero right
+after a bump — `environments.json` takes it from `generateSite`'s
+`environmentSpecVersions` option (how `lax serve` can pass its own table),
+then from `ENVIRONMENT_SPEC_VERSIONS` in `src/config.ts`, edited at each
+admission that changes the spec.
 
 The generated HTML is deterministic. Math is rendered at build time with
 KaTeX, highlighting with Shiki, all runtime assets are local, and the page
