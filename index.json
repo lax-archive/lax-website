@@ -1592,6 +1592,307 @@
       ]
     },
     {
+      "id": "lax-117284",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Fair Repetitive Interval Scheduling",
+      "concepts": [
+        {
+          "id": "Lax117284.BipartiteDecision",
+          "title": "Saturating and Perfect Matchings, Decided in the Same Time",
+          "type": "corollary"
+        },
+        {
+          "id": "Lax117284.BipartiteGraph",
+          "title": "Bipartite Graphs with a Fixed Bipartition, and Their Encoding",
+          "type": "definition"
+        },
+        {
+          "id": "Lax117284.BipartiteKuhn",
+          "title": "Kuhn's Algorithm",
+          "type": "definition"
+        },
+        {
+          "id": "Lax117284.BipartiteKuhnCorrect",
+          "title": "Kuhn's Algorithm Computes a Maximum Matching",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax117284.BipartiteKuhnTime",
+          "title": "The Matching Number of a Bipartite Graph in Time O(n · |x|)",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax117284.BipartiteMatching",
+          "title": "Matchings, the Matching Number, and Saturation",
+          "type": "definition"
+        },
+        {
+          "id": "Lax117284.Bodlaender",
+          "title": "Nice Tree Decompositions of Small Width Are Found in Fixed-Parameter Time",
+          "type": "definition"
+        },
+        {
+          "id": "Lax117284.BodlaenderGeneral",
+          "title": "Nice tree decompositions of small width are found in fixed-parameter time",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax117284.BodlaenderKloks",
+          "title": "Optimal tree decompositions from a given one",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax117284.BoundedSat",
+          "title": "Satisfiability of Bounded Occurrence",
+          "type": "definition"
+        },
+        {
+          "id": "Lax117284.ConflictGraph",
+          "title": "The Conflict Graphs of an Instance",
+          "type": "definition"
+        },
+        {
+          "id": "Lax117284.Corollary8",
+          "title": "Raising the Number of Days and the Fairness Parameter",
+          "type": "corollary"
+        },
+        {
+          "id": "Lax117284.ExtremeFairness",
+          "title": "The Extreme Values of the Fairness Parameter",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax117284.GraphWords",
+          "title": "Graphs and nice tree decompositions as words",
+          "type": "definition"
+        },
+        {
+          "id": "Lax117284.IlpClients",
+          "title": "The Integer Programs of the Clients' Reduction Are Fixed-Parameter Tractable",
+          "type": "definition"
+        },
+        {
+          "id": "Lax117284.InstanceEncoding",
+          "title": "Word Encoding of an Instance",
+          "type": "definition"
+        },
+        {
+          "id": "Lax117284.JustInTime",
+          "title": "Just-in-Time Scheduling on Unrelated Parallel Machines",
+          "type": "definition"
+        },
+        {
+          "id": "Lax117284.Lemma14",
+          "title": "Per-Client Fairness Parameters at Treewidth Four",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax117284.Lemma15",
+          "title": "Per-Client Fairness Parameters Reduce to a Uniform One",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax117284.MulticolouredIndepSet",
+          "title": "Multicoloured Independent Set",
+          "type": "definition"
+        },
+        {
+          "id": "Lax117284.ParameterizedComplexity",
+          "title": "Parameterized Problems on a Word RAM",
+          "type": "definition"
+        },
+        {
+          "id": "Lax117284.Problems",
+          "title": "The Decision Problems as Languages",
+          "type": "definition"
+        },
+        {
+          "id": "Lax117284.Scheduling",
+          "title": "Fair Repetitive Interval Scheduling",
+          "type": "definition"
+        },
+        {
+          "id": "Lax117284.Theorem1",
+          "title": "The Complexity of Fair Repetitive Interval Scheduling in the Fairness Parameter",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax117284.Theorem10",
+          "title": "Unit Processing Times as a Bipartite Matching Problem",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax117284.Theorem11",
+          "title": "Just-in-Time Scheduling on Unrelated Machines as Day-Independent Due Dates",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax117284.Theorem12",
+          "title": "The Dynamic Program for Day-Independent Due Dates",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax117284.Theorem13",
+          "title": "Day-Independent Due Dates and Processing Times",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax117284.Theorem2",
+          "title": "Day-Independent Processing Times",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax117284.Theorem3",
+          "title": "Day-Independent Due Dates",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax117284.Theorem4",
+          "title": "Structural Parameters of the Conflict Graph",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax117284.Theorem7",
+          "title": "Three Days and the Fairness Parameter One",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax117284.Theorem9",
+          "title": "The Fairness Parameter One Below the Number of Days",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax117284.TwoSatAlgorithm",
+          "title": "The Algorithm: Reachability in the Implication Graph, One Variable at a Time",
+          "type": "definition"
+        },
+        {
+          "id": "Lax117284.TwoSatCNF",
+          "title": "2-CNF Formulas and the Language 2-SAT",
+          "type": "definition"
+        },
+        {
+          "id": "Lax117284.TwoSatCorrectness",
+          "title": "Correctness of the Algorithm",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax117284.TwoSatCriterion",
+          "title": "The Satisfiability Criterion for 2-CNF Formulas",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax117284.TwoSatImplicationGraph",
+          "title": "The Implication Graph of a 2-CNF Formula",
+          "type": "definition"
+        },
+        {
+          "id": "Lax117284.TwoSatInP",
+          "title": "2-SAT Is in P",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax117284.TwoSatisfiability",
+          "title": "Two-Satisfiability",
+          "type": "definition"
+        },
+        {
+          "id": "Lax117284.TwoSatRunningTime",
+          "title": "2-SAT Is Decided in Time Linear in the Word Times the Number of Variables",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax117284Proofs.Bipartite.GraphBridge.kuhn_matchingNumber",
+        "Lax117284Proofs.Bipartite.KuhnCorrect.kuhn_isMatching",
+        "Lax117284Proofs.Bipartite.KuhnCorrect.kuhn_maximum",
+        "Lax117284Proofs.Bipartite.KuhnCorrect.kuhn_saturates_iff",
+        "Lax117284Proofs.Bipartite.Machine.computes",
+        "Lax117284Proofs.Bipartite.Machine.decides_perfect",
+        "Lax117284Proofs.Bipartite.Machine.decides_saturating",
+        "Lax117284Proofs.Bipartite.MachineTotal.decides_saturating_all",
+        "Lax117284Proofs.Bipartite.MachineTotal.ramPolytime_saturating",
+        "Lax117284Proofs.BodlaenderProved.niceDecomposition_computable_proved",
+        "Lax117284Proofs.BoundedSatProved.boundedSat_npHard_proved",
+        "Lax117284Proofs.Corollary8.addBlockingDay_correct",
+        "Lax117284Proofs.Corollary8.addBlockingDay_dayIndepP",
+        "Lax117284Proofs.Corollary8.addFreeDay_correct",
+        "Lax117284Proofs.Corollary8.addFreeDay_dayIndepP",
+        "Lax117284Proofs.ExtremeFairness.feasible_iff_isIndepSet",
+        "Lax117284Proofs.ExtremeFairness.hasKFairSchedule_days_iff",
+        "Lax117284Proofs.ExtremeFairness.hasKFairSchedule_zero",
+        "Lax117284Proofs.ExtremeFairness.not_hasKFairSchedule_of_days_lt",
+        "Lax117284Proofs.Hardness.allJIT_manyOne_dayIndepD",
+        "Lax117284Proofs.Hardness.manyOne_blockingDay",
+        "Lax117284Proofs.Hardness.manyOne_freeDay",
+        "Lax117284Proofs.Hardness.manyOne_twoSat",
+        "Lax117284Proofs.Hardness.perClient_manyOne_uniform",
+        "Lax117284Proofs.Hardness.perClient_npHard",
+        "Lax117284Proofs.Hardness.uniform_dayIndepD_npHard",
+        "Lax117284Proofs.Hardness.uniform_dayIndepP_npHard",
+        "Lax117284Proofs.Hardness.uniform_npHard",
+        "Lax117284Proofs.Hardness.uniform_three_one_npHard",
+        "Lax117284Proofs.Hardness.uniform_treewidth_npHard",
+        "Lax117284Proofs.Injectivity.decode_eq",
+        "Lax117284Proofs.Injectivity.encodePerClient_inj",
+        "Lax117284Proofs.Injectivity.encodesInstance_unique",
+        "Lax117284Proofs.Injectivity.encodeUniform_inj",
+        "Lax117284Proofs.Injectivity.not_satisfiable_unsatisfiable",
+        "Lax117284Proofs.Injectivity.rejected_notMem",
+        "Lax117284Proofs.Injectivity.rejectedPerClient_notMem",
+        "Lax117284Proofs.JitHard.allJIT_npHard",
+        "Lax117284Proofs.Lemma14.correct",
+        "Lax117284Proofs.Lemma14Treewidth.treewidth_le",
+        "Lax117284Proofs.Lemma15.correct",
+        "Lax117284Proofs.Lemma15Treewidth.treewidth_le",
+        "Lax117284Proofs.Machine.BlockFinal.reduceBlockingDay_polyTime",
+        "Lax117284Proofs.Machine.FreeFinal.reduceFreeDay_polyTime",
+        "Lax117284Proofs.Machine.Ilp.ilpClients_fpt_proved",
+        "Lax117284Proofs.Machine.JitFinal.reduce_polyTime",
+        "Lax117284Proofs.Machine.MisFinal.reduce_polyTime",
+        "Lax117284Proofs.Machine.PerFinal.reduce_polyTime",
+        "Lax117284Proofs.Machine.SatFinal.reduce_polyTime",
+        "Lax117284Proofs.Machine.T9Final.reduce_polyTime",
+        "Lax117284Proofs.McisHard.normalMulticolouredIndepSet_npHard_proved",
+        "Lax117284Proofs.Structural.inst_days",
+        "Lax117284Proofs.Structural.inst_p_eq",
+        "Lax117284Proofs.Structural.kvec_le_days",
+        "Lax117284Proofs.Theorem11.correct",
+        "Lax117284Proofs.Theorem11.inst_dayIndepD",
+        "Lax117284Proofs.Theorem1Tractable.uniform_extremes_mem_P",
+        "Lax117284Proofs.Theorem2UnitP.uniform_unitP_mem_P",
+        "Lax117284Proofs.Theorem3Colouring.uniform_dayIndepD_dayIndepP_mem_P",
+        "Lax117284Proofs.Theorem3Days.uniform_dayIndepD_days_mem_P",
+        "Lax117284Proofs.Theorem4Clients.fpt_byClients",
+        "Lax117284Proofs.Theorem4ClientsReduction.byClients_fptReduces_ilp",
+        "Lax117284Proofs.Theorem7.correct",
+        "Lax117284Proofs.Theorem9.correct",
+        "Lax117284Proofs.Tractable.chromaticNumber_dayGraph",
+        "Lax117284Proofs.Tractable.conflict_iff_d_eq_of_unitP",
+        "Lax117284Proofs.Tractable.dayGraph_eq_of_dayIndep",
+        "Lax117284Proofs.Tractable.hasKFairSchedule_iff_hasFullMatching",
+        "Lax117284Proofs.Tractable.hasKFairSchedule_iff_mul_chromaticNumber_le",
+        "Lax117284Proofs.Tractable.hasKFairSchedule_iff_mul_cliqueNum_le",
+        "Lax117284Proofs.Tractable.hasKFairSchedule_iff_program",
+        "Lax117284Proofs.Treewidth.Fun.Final.improveDecomposition_proved",
+        "Lax117284Proofs.Treewidth.Fun.Final.niceDecomposition_computable_proved",
+        "Lax117284Proofs.TreewidthReal.fpt_byDaysAndTreewidth",
+        "Lax117284Proofs.TwoSAT.Bridge.satisfiable_iff",
+        "Lax117284Proofs.TwoSAT.Correct.decide_iff",
+        "Lax117284Proofs.TwoSAT.Machine.Final.decides",
+        "Lax117284Proofs.TwoSAT.Machine.FinalP.twoSAT_mem_P",
+        "Lax117284Proofs.TwoSatBridge.twoSat_mem_P",
+        "Lax117284Proofs.WordCorrect.corollary8_blocking_correct",
+        "Lax117284Proofs.WordCorrect.corollary8_free_correct",
+        "Lax117284Proofs.WordCorrect.lemma14_reduce_correct",
+        "Lax117284Proofs.WordCorrect.lemma15_reduce_correct",
+        "Lax117284Proofs.WordCorrect.theorem11_reduce_correct",
+        "Lax117284Proofs.WordCorrect.theorem7_reduce_correct",
+        "Lax117284Proofs.WordCorrect.theorem9_reduce_correct"
+      ]
+    },
+    {
       "id": "lax-117614",
       "state": "registered",
       "environment": "v4.33.0",
