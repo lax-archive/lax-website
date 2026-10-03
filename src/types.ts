@@ -234,13 +234,17 @@ export interface CaptureReferences {
  * `challenge` is `Challenge.lean` verbatim, the one artifact that states in
  * Lean exactly what was certified, so the site shows it without a fetch;
  * `challengeExportSha256` is the digest of the Challenge export the judge
- * compared against, for a rerun to match.
+ * compared against, for a rerun to match; `solutionExportSha256` the digest
+ * of the Solution export beside it (the judge reads both frozen exports in a
+ * container of its own). The latter is absent from a record certified before
+ * the judge was split off, so a reader tolerates its absence.
  */
 export interface CertificateEntry {
   judge: { toolchain: string; comparatorExitCode: number };
   kernels: string[];
   bundle: { formatVersion: number; digest: string; registryBlob?: string };
   challengeExportSha256: string;
+  solutionExportSha256?: string;
   challenge: string;
 }
 

@@ -223,6 +223,9 @@ function certificateEntry(value: unknown, label: string): CertificateEntry {
   }
   if (typeof value.challengeExportSha256 !== "string" || !SHA256_HEX.test(value.challengeExportSha256))
     throw new Error(`${label} challengeExportSha256 must be a sha256 hex string`);
+  if (value.solutionExportSha256 !== undefined &&
+    (typeof value.solutionExportSha256 !== "string" || !SHA256_HEX.test(value.solutionExportSha256)))
+    throw new Error(`${label} solutionExportSha256 must be a sha256 hex string`);
   if (typeof value.challenge !== "string" || value.challenge === "" || Buffer.byteLength(value.challenge) > MAX_CHALLENGE_BYTES)
     throw new Error(`${label} challenge must be the Challenge.lean source, at most ${MAX_CHALLENGE_BYTES} bytes`);
   return {
@@ -234,6 +237,7 @@ function certificateEntry(value: unknown, label: string): CertificateEntry {
       ...(value.bundle.registryBlob === undefined ? {} : { registryBlob: value.bundle.registryBlob }),
     },
     challengeExportSha256: value.challengeExportSha256,
+    ...(value.solutionExportSha256 === undefined ? {} : { solutionExportSha256: value.solutionExportSha256 }),
     challenge: value.challenge,
   };
 }

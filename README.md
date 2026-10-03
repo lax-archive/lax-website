@@ -281,9 +281,10 @@ What a spec-2 record shows beyond a spec-1 one:
   conditional status the site composes from several edges is shown as
   before and labelled as composed by the site, never as certified;
 - **the Challenge**, `Challenge.lean` verbatim as a collapsed Lean code
-  block under the proof network, beside the bundle digest and the digest of
-  the Challenge export the judge compared against — it is what makes the
-  mark checkable by a reader;
+  block under the proof network, beside the bundle digest and the digests
+  of the Challenge and Solution exports the judge compared (the solution
+  digest is shown when the record carries it) — it is what makes the mark
+  checkable by a reader;
 - **the trust note**, one sentence on the record page naming the
   environment: the edges are certified by Lean's comparator; the concept
   packages a record depends on are trusted for their meaning, as in every
@@ -299,6 +300,15 @@ after a bump — `environments.json` takes it from `generateSite`'s
 `environmentSpecVersions` option (how `lax serve` can pass its own table),
 then from `ENVIRONMENT_SPEC_VERSIONS` in `src/config.ts`, edited at each
 admission that changes the spec.
+
+`lax serve` keeps its own copy of this loader (`src/cli/website.ts` in the
+`lax` repository) and today withholds a spec-2 capture's `registryBlob`
+from the renderer, because the renderer before this one addressed the
+capture tar by its file list and refused a capture without one. This
+renderer never reads that address for a spec-2 record — it reads the
+`references` layer's — so the lax copy may stop withholding it once lax is
+re-pinned to this renderer; the two copies are to be unified after the
+spec-1 port.
 
 The generated HTML is deterministic. Math is rendered at build time with
 KaTeX, highlighting with Shiki, all runtime assets are local, and the page

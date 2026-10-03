@@ -6,7 +6,9 @@ stores (`recorded-shape.ts` in the `lax` repository, and
 manifest carries no `id`, each proof stores its telescope and no
 `conclusion` or `assumptions`, the capture lists no files and no pins but
 carries `bytes`, `fileCount` and its `references` layer, and the
-`certificate` block holds `Challenge.lean` verbatim. The digests are
+`certificate` block holds `Challenge.lean` verbatim beside the digests of
+both frozen exports (`challengeExportSha256`, `solutionExportSha256`; the
+second is absent from records certified before the judge read both). The digests are
 placeholders; `test/spec2.test.ts` overrides the `references` layer with a
 tar it seals itself before exercising the download path.
 
