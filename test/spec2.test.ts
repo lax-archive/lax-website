@@ -135,6 +135,11 @@ describe("spec-2 records in the loader", () => {
     expect(broken((s) => { delete s.proofs[0].telescope; })).toThrow("proof 1 telescope must be an object");
     expect(broken((s) => { s.proofs[1].telescope.hypotheses[0].statement = "not a name!"; })).toThrow("hypothesis 1 statement must be a Lean name");
     expect(broken((s) => { s.proofs[1].telescope.conclusion.statement = "not a name!"; })).toThrow("conclusion statement must be a Lean name");
+    // the archive's grammar (lax contracts.ts LEAN_NAME_PATTERN): what Lean
+    // prints with «» is no archive name, Lean's other identifier characters are
+    expect(broken((s) => { s.proofs[1].telescope.hypotheses[0].statement = "Lax38.Order.«定理»"; })).toThrow("hypothesis 1 statement must be a Lean name");
+    expect(broken((s) => { s.proofs[1].telescope.hypotheses[0].statement = "Lax38.Order.λ"; })).toThrow("hypothesis 1 statement must be a Lean name");
+    expect(broken((s) => { s.proofs[1].telescope.hypotheses[0].statement = "Lax38.Order.good?"; })).not.toThrow("must be a Lean name");
     expect(broken((s) => { s.certificate.kernels = []; })).toThrow("kernels must name at least one kernel");
     expect(broken((s) => { s.certificate.challenge = ""; })).toThrow("challenge must be the Challenge.lean source");
     expect(broken((s) => { s.certificate.bundle.registryBlob = blob("9".repeat(64)); })).toThrow("bundle registryBlob is not a ghcr address of its digest");

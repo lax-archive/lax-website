@@ -140,8 +140,25 @@ function paperEntry(value: unknown, label: string): PaperEntry {
 const MAX_CHALLENGE_BYTES = 4 * 1024 * 1024;
 const MAX_TELESCOPE_HYPOTHESES = 10_000;
 
-/** A canonical Lean name as every statement, proof, and concept id is one. */
-const LEAN_NAME = /^(?:[\p{L}_][\p{L}\p{N}\p{M}_']*)(?:\.(?:[\p{L}_][\p{L}\p{N}\p{M}_']*))*$/u;
+// The archive's name grammar, mirrored from lax's contracts.ts
+// `LEAN_NAME_PATTERN` (keep the two identical): a name as Lean's escaped
+// `Name.toString` prints it when no component needs `«»` — dot-separated
+// plain Lean identifiers (`isIdFirst`/`isIdRest`, v4.33.0 through v4.35.0),
+// never `_` alone.
+const LEAN_LETTER_LIKE =
+  "\\u03b1-\\u03ba\\u03bc-\\u03c9" + // lower Greek, but λ
+  "\\u0391-\\u039f\\u03a1\\u03a2\\u03a4-\\u03a9" + // upper Greek, but Π and Σ
+  "\\u03ca-\\u03fb" + // Coptic
+  "\\u1f00-\\u1ffe" + // polytonic Greek
+  "\\u2100-\\u214f" + // the letterlike block (ℕ, ℘)
+  "\\u{1d49c}-\\u{1d59f}" + // script, double-struck, fraktur Latin
+  "\\u00c0-\\u00d6\\u00d8-\\u00f6\\u00f8-\\u00ff" + // Latin-1 letters, but × and ÷
+  "\\u0100-\\u017f"; // Latin Extended-A
+const LEAN_ID_FIRST = `A-Za-z_${LEAN_LETTER_LIKE}`;
+const LEAN_ID_REST = `${LEAN_ID_FIRST}0-9'!?\\u2080-\\u2089\\u2090-\\u209c\\u1d62-\\u1d6a\\u2c7c`;
+const LEAN_ID_COMPONENT = `[${LEAN_ID_FIRST}][${LEAN_ID_REST}]*`;
+/** A Lean name in the archive's grammar, as every statement, proof, and concept id is one. */
+const LEAN_NAME = new RegExp(`^(?!_$)${LEAN_ID_COMPONENT}(?:\\.${LEAN_ID_COMPONENT})*$`, "u");
 
 function stringList(value: unknown, label: string): string[] {
   if (!Array.isArray(value) || value.some((entry) => typeof entry !== "string"))
