@@ -195,10 +195,12 @@ export function proofShortName(output: BuildOutput, proof: ProofEntry, pageHome?
 
 // ---- the certificate ----
 
-/** What the mark says, in one line: who judged, under which toolchain and
- * kernels. The site composes nothing here; it repeats the record. */
-function certificateText(certificate: CertificateEntry): string {
-  return `certified: lake comparator (${certificate.judge.toolchain}, kernels ${certificate.kernels.join(", ")})`;
+/** What the mark says, in one line: who judged, in which environment and
+ * under which kernels. The site composes nothing here; it repeats the record
+ * — the judge's toolchain is the environment row's, which the record names
+ * by its `leanVersion` and does not store again. */
+function certificateText(output: BuildOutput, certificate: CertificateEntry): string {
+  return `certified: lake comparator (Lean ${output.manifest.leanVersion}, kernels ${certificate.kernels.join(", ")})`;
 }
 
 /**
@@ -210,7 +212,7 @@ function certificateText(certificate: CertificateEntry): string {
 export function certifiedMark(output: BuildOutput, form: "compact" | "line"): string {
   if (!isCertified(output)) return "";
   const certificate = output.certificate!;
-  const text = certificateText(certificate);
+  const text = certificateText(output, certificate);
   if (form === "compact")
     return `<span class="certified-mark certified-mark-compact" title="${attr(`${text}, bundle ${certificate.bundle.digest}`)}">certified</span>`;
   return `<p class="certified-mark certified-mark-line"><span class="certified-mark-text">${esc(text)}</span>, bundle ${code(certificate.bundle.digest)}</p>`;
@@ -256,7 +258,7 @@ ${trustNote(model, submission)}
 <summary>Challenge</summary>
 <div class="block block-challenge">
 <p class="challenge-intro">Every proof of this record, stated over its concept packages alone — <code>Challenge.lean</code> as the archive generated it. <code>lake comparator</code> held the record's proofs to these theorems.</p>
-<p class="challenge-digests">bundle ${code(certificate.bundle.digest)}<br>challenge export ${code(certificate.challengeExportSha256)}${certificate.solutionExportSha256 === undefined ? "" : `<br>solution export ${code(certificate.solutionExportSha256)}`}</p>
+<p class="challenge-digests">bundle ${code(certificate.bundle.digest)}<br>challenge export ${code(certificate.challengeExportSha256)}<br>solution export ${code(certificate.solutionExportSha256)}</p>
 <pre class="challenge-source"><code>${esc(certificate.challenge)}</code></pre>
 </div>
 </details>

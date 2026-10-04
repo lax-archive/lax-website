@@ -98,15 +98,11 @@ describe("spec-2 records in the loader", () => {
     expect(output.proofs[1]!.levelParams).toEqual(["u"]);
     expect(output.capture!.references).toEqual({ digest: "2".repeat(64), bytes: 10_240, registryBlob: blob("2".repeat(64)) });
     expect(output.capture!.leanToolchain).toBeUndefined();
-    expect(output.certificate!.judge.toolchain).toBe("leanprover/lean4:v4.35.0");
+    expect(output.certificate).not.toHaveProperty("judge");
     expect(output.certificate!.kernels).toEqual(["lean"]);
     expect(output.certificate!.challenge).toContain("theorem Cert.Lax38Proofs.refl_of_hasSucc.{u}");
     expect(output.certificate!.challengeExportSha256).toBe("4".repeat(64));
     expect(output.certificate!.solutionExportSha256).toBe("7".repeat(64));
-    // a record certified before the judge read both exports lacks the second digest
-    const earlier = storedRecord();
-    delete earlier.certificate.solutionExportSha256;
-    expect(rendererOutput(earlier, "x", "lax-38")!.certificate!.solutionExportSha256).toBeUndefined();
     expect(output.concepts[0]!.statements[0]!.body).toBe("∀ (n : Nat), Exists fun m => n < m");
     expect(derivedEdge({ hypotheses: [
       { statement: "B", levels: [] }, { statement: "A", levels: [] }, { statement: "B", levels: [] },
@@ -144,6 +140,7 @@ describe("spec-2 records in the loader", () => {
     expect(broken((s) => { s.certificate.challenge = ""; })).toThrow("challenge must be the Challenge.lean source");
     expect(broken((s) => { s.certificate.bundle.registryBlob = blob("9".repeat(64)); })).toThrow("bundle registryBlob is not a ghcr address of its digest");
     expect(broken((s) => { s.certificate.solutionExportSha256 = "not-hex"; })).toThrow("solutionExportSha256 must be a sha256 hex string");
+    expect(broken((s) => { delete s.certificate.solutionExportSha256; })).toThrow("solutionExportSha256 must be a sha256 hex string");
     expect(broken((s) => { delete s.certificate; })).toThrow("certificate is missing on a record with proofs");
     expect(broken((s) => { s.proofs = []; })).toThrow("certificate is present on a record without proofs");
     expect(broken((s) => { s.capture.references.registryBlob = blob("9".repeat(64)); })).toThrow("references registryBlob is not a ghcr address of its digest");
@@ -264,7 +261,7 @@ describe("spec-2 records on the site", () => {
 
   it("marks a certified record and its proofs, with the rerun command", async () => {
     const { read } = await site();
-    const mark = "certified: lake comparator (leanprover/lean4:v4.35.0, kernels lean)";
+    const mark = "certified: lake comparator (Lean v4.35.0, kernels lean)";
     const proof = read("lax-38/Lax38Proofs.refl_of_hasSucc.html");
     expect(proof).toContain(`<span class="certified-mark-text">${mark}</span>, bundle <code>${"3".repeat(64)}</code>`);
     expect(proof).toContain("<code>lax certify lax-38 --run</code>");
@@ -285,19 +282,6 @@ describe("spec-2 records on the site", () => {
     expect(record).not.toContain('<details class="figure-details challenge-details" open>');
     expect(record).toContain(`<pre class="challenge-source"><code>${challenge.replace(/</gu, "&lt;")}</code></pre>`);
     expect(record).toContain(`bundle <code>${"3".repeat(64)}</code><br>challenge export <code>${"4".repeat(64)}</code><br>solution export <code>${"7".repeat(64)}</code></p>`);
-  });
-
-  it("omits the solution export line on a certificate recorded without it", async () => {
-    const root = database((dir) => {
-      const stored = storedRecord();
-      delete stored.certificate.solutionExportSha256;
-      fs.writeFileSync(path.join(dir, "lax-38", "build-output.json"), JSON.stringify(stored));
-    });
-    const out = tmpDir("lax-spec2-nosolution-");
-    await generateSite(loadSubmissions(root), out);
-    const record = fs.readFileSync(path.join(out, "lax-38", "index.html"), "utf8");
-    expect(record).toContain(`challenge export <code>${"4".repeat(64)}</code></p>`);
-    expect(record).not.toContain("solution export");
   });
 
   it("states the trust model once per spec-2 record page, with its environment", async () => {

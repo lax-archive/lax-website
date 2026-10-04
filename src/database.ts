@@ -219,9 +219,6 @@ function captureReferences(value: unknown, label: string): CaptureReferences {
  * publishing; this repeats the structural part so corruption is named here. */
 function certificateEntry(value: unknown, label: string): CertificateEntry {
   if (!isObject(value)) throw new Error(`${label} must be an object`);
-  if (!isObject(value.judge) || typeof value.judge.toolchain !== "string" || value.judge.toolchain.trim() === "")
-    throw new Error(`${label} judge toolchain must be a string`);
-  if (value.judge.comparatorExitCode !== 0) throw new Error(`${label} judge comparatorExitCode must be 0`);
   const kernels = stringList(value.kernels, `${label} kernels`);
   if (kernels.length === 0 || kernels.some((kernel) => !/^[a-z0-9-]+$/u.test(kernel)))
     throw new Error(`${label} kernels must name at least one kernel`);
@@ -237,13 +234,11 @@ function certificateEntry(value: unknown, label: string): CertificateEntry {
   }
   if (typeof value.challengeExportSha256 !== "string" || !SHA256_HEX.test(value.challengeExportSha256))
     throw new Error(`${label} challengeExportSha256 must be a sha256 hex string`);
-  if (value.solutionExportSha256 !== undefined &&
-    (typeof value.solutionExportSha256 !== "string" || !SHA256_HEX.test(value.solutionExportSha256)))
+  if (typeof value.solutionExportSha256 !== "string" || !SHA256_HEX.test(value.solutionExportSha256))
     throw new Error(`${label} solutionExportSha256 must be a sha256 hex string`);
   if (typeof value.challenge !== "string" || value.challenge === "" || Buffer.byteLength(value.challenge) > MAX_CHALLENGE_BYTES)
     throw new Error(`${label} challenge must be the Challenge.lean source, at most ${MAX_CHALLENGE_BYTES} bytes`);
   return {
-    judge: { toolchain: value.judge.toolchain, comparatorExitCode: 0 },
     kernels,
     bundle: {
       formatVersion,
@@ -251,7 +246,7 @@ function certificateEntry(value: unknown, label: string): CertificateEntry {
       ...(value.bundle.registryBlob === undefined ? {} : { registryBlob: value.bundle.registryBlob }),
     },
     challengeExportSha256: value.challengeExportSha256,
-    ...(value.solutionExportSha256 === undefined ? {} : { solutionExportSha256: value.solutionExportSha256 }),
+    solutionExportSha256: value.solutionExportSha256,
     challenge: value.challenge,
   };
 }

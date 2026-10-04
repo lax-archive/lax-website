@@ -224,9 +224,11 @@ export interface CaptureReferences {
 /**
  * The `certificate` key of a spec-2 record, present exactly when the record
  * has proofs: the record of the Certify phase. `lake comparator` of the
- * judge's toolchain held the record's proofs (the Solution) to the Challenge
- * — every edge stated over the concept packages alone — under the listed
- * kernels and exited 0. `bundle` is the digest of the five generated files
+ * environment's toolchain held the record's proofs (the Solution) to the
+ * Challenge — every edge stated over the concept packages alone — under the
+ * listed kernels and exited 0. The stored `judge` block (the judge's
+ * self-test and the digests of its binaries) is attestation the site does
+ * not show, so it is not read; the toolchain and exit code are not stored. `bundle` is the digest of the five generated files
  * (Challenge, Solution, comparator config, lakefile, manifest), a further
  * layer of the record's capture manifest, fetched and verified like one;
  * `challenge` is `Challenge.lean` verbatim, the one artifact that states in
@@ -234,15 +236,13 @@ export interface CaptureReferences {
  * `challengeExportSha256` is the digest of the Challenge export the judge
  * compared against, for a rerun to match; `solutionExportSha256` the digest
  * of the Solution export beside it (the judge reads both frozen exports in a
- * container of its own). The latter is absent from a record certified before
- * the judge was split off, so a reader tolerates its absence.
+ * container of its own).
  */
 export interface CertificateEntry {
-  judge: { toolchain: string; comparatorExitCode: number };
   kernels: string[];
   bundle: { formatVersion: number; digest: string; registryBlob?: string };
   challengeExportSha256: string;
-  solutionExportSha256?: string;
+  solutionExportSha256: string;
   challenge: string;
 }
 

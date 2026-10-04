@@ -7,8 +7,9 @@ manifest carries no `id`, each proof stores its telescope and no
 `conclusion` or `assumptions`, the capture lists no files and no pins but
 carries `bytes`, `fileCount` and its `references` layer, and the
 `certificate` block holds `Challenge.lean` verbatim beside the digests of
-both frozen exports (`challengeExportSha256`, `solutionExportSha256`; the
-second is absent from records certified before the judge read both). The digests are
+both frozen exports (`challengeExportSha256`, `solutionExportSha256`) and a
+`judge` block of self-test probes and tool digests only — no toolchain and
+no exit code, which the environment row and the pass imply. The digests are
 placeholders; `test/spec2.test.ts` overrides the `references` layer with a
 tar it seals itself before exercising the download path.
 
