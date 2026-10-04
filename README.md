@@ -288,7 +288,9 @@ What a spec-2 record shows beyond a spec-1 one:
 - **the trust note**, one sentence on the record page naming the
   environment: the edges are certified by Lean's comparator; the concept
   packages a record depends on are trusted for their meaning, as in every
-  environment; certificates are rerunnable.
+  environment; a certificate reruns with `lax certify --run` from the
+  archive's captures, or by hand while the authors' repositories still
+  serve the pinned commits.
 
 A statement's raw `body` (the inspector's core-notation rendering) is carried
 in the model but not shown: the author's source, with its notation, remains
