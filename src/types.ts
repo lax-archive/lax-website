@@ -228,9 +228,10 @@ export interface CaptureReferences {
  * Challenge — every edge stated over the concept packages alone — under the
  * listed kernels and exited 0. The stored `judge` block (the judge's
  * self-test and the digests of its binaries) is attestation the site does
- * not show, so it is not read; the toolchain and exit code are not stored. `bundle` is the digest of the five generated files
- * (Challenge, Solution, comparator config, lakefile, manifest), a further
- * layer of the record's capture manifest, fetched and verified like one;
+ * not show, so it is not read; the toolchain and exit code are not stored.
+ * `bundle` is the digest of the five generated files (Challenge, Solution,
+ * comparator config, lakefile, manifest), a further layer of the record's
+ * capture manifest, fetched and verified like one;
  * `challenge` is `Challenge.lean` verbatim, the one artifact that states in
  * Lean exactly what was certified, so the site shows it without a fetch;
  * `challengeExportSha256` is the digest of the Challenge export the judge
