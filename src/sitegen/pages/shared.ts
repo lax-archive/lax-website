@@ -241,7 +241,7 @@ export function trustNote(model: SiteModel, submission: SiteSubmission): string 
  * with its bundle digest, the rerun command, the trust note, and the
  * Challenge — `Challenge.lean` verbatim, collapsed, because it is what makes
  * the mark checkable by a reader — beside the bundle digest and the digests
- * of the Challenge and Solution exports the judge compared.
+ * of the Challenge and proof-package exports the judge compared.
  */
 export function certificateSection(model: SiteModel, submission: SiteSubmission): string {
   const output = submission.output;
@@ -257,8 +257,8 @@ ${trustNote(model, submission)}
 <details class="figure-details challenge-details">
 <summary>Challenge</summary>
 <div class="block block-challenge">
-<p class="challenge-intro">Every proof of this record, stated over its concept packages alone — <code>Challenge.lean</code> as the archive generated it. <code>lake comparator</code> held the record's proofs to these theorems.</p>
-<p class="challenge-digests">bundle ${code(certificate.bundle.digest)}<br>challenge export ${code(certificate.challengeExportSha256)}<br>solution export ${code(certificate.solutionExportSha256)}</p>
+<p class="challenge-intro">Every proof of this record, stated over its concept packages alone — <code>Challenge.lean</code> as the archive generated it. <code>lake comparator</code> held the record's proofs to these theorems, each by its own name.</p>
+<p class="challenge-digests">bundle ${code(certificate.bundle.digest)}<br>challenge export ${code(certificate.challengeExportSha256)}<br>proof package export ${code(certificate.solutionExportSha256)}</p>
 <pre class="challenge-source"><code>${esc(certificate.challenge)}</code></pre>
 </div>
 </details>

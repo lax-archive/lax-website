@@ -100,7 +100,7 @@ describe("spec-2 records in the loader", () => {
     expect(output.capture!.leanToolchain).toBeUndefined();
     expect(output.certificate).not.toHaveProperty("judge");
     expect(output.certificate!.kernels).toEqual(["lean"]);
-    expect(output.certificate!.challenge).toContain("theorem Cert.Lax38Proofs.refl_of_hasSucc.{u}");
+    expect(output.certificate!.challenge).toContain("theorem Lax38Proofs.refl_of_hasSucc.{u}");
     expect(output.certificate!.challengeExportSha256).toBe("4".repeat(64));
     expect(output.certificate!.solutionExportSha256).toBe("7".repeat(64));
     expect(output.concepts[0]!.statements[0]!.body).toBe("∀ (n : Nat), Exists fun m => n < m");
@@ -281,7 +281,7 @@ describe("spec-2 records on the site", () => {
     expect(record).toContain('<details class="figure-details challenge-details">\n<summary>Challenge</summary>');
     expect(record).not.toContain('<details class="figure-details challenge-details" open>');
     expect(record).toContain(`<pre class="challenge-source"><code>${challenge.replace(/</gu, "&lt;")}</code></pre>`);
-    expect(record).toContain(`bundle <code>${"3".repeat(64)}</code><br>challenge export <code>${"4".repeat(64)}</code><br>solution export <code>${"7".repeat(64)}</code></p>`);
+    expect(record).toContain(`bundle <code>${"3".repeat(64)}</code><br>challenge export <code>${"4".repeat(64)}</code><br>proof package export <code>${"7".repeat(64)}</code></p>`);
   });
 
   it("states the trust model once per spec-2 record page, with its environment", async () => {
