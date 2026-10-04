@@ -200,10 +200,10 @@ decides the problem in polynomial time.</p>
 </details>
 <div class="block block-paper"><h3>In the paper</h3>
 <ul class="in-paper-list">
-<li><a href="../lax-117284/paper.html#m13">page 2</a> of this submission's paper</li>
+<li><a href="../lax-117284/paper.html#m13">page 3</a> of this submission's paper</li>
 </ul>
 </div>
-<h3 class="figure-title">Lean source <a class="source-link" href="https://github.com/yuvalyitz/fairris-lax/blob/e54de59590a52544f63cace161cfd8130647d73c/concepts/Lax117284/Theorem12.lean">view on GitHub</a></h3>
+<h3 class="figure-title">Lean source <a class="source-link" href="https://github.com/yuvalyitz/fairris-lax/blob/9c4237cba98c0bd8569f1ebb2945d6f22aeb7670/concepts/Lax117284/Theorem12.lean">view on GitHub</a></h3>
 <div class="block block-lean">
 <div class="inline-contract-shell"><div class="source-controls"><button class="comment-toggle" type="button" aria-pressed="false" aria-label="Hide comments">Hide comments</button><label class="type-hover-toggle"><input type="checkbox" role="switch" data-type-hover-toggle checked> Show types on hover</label></div><div class="inline-contract-wrap"><table class="inline-contract-table">
 <tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-117284/Lax117284.Scheduling.html"><span style="color:#24292E">Lax117284.Scheduling</span></a></td></tr>
@@ -268,7 +268,7 @@ decides the problem in polynomial time.</p>
 <tr id="L59" class=""><td class="line-num"><a href="#L59">59</a></td><td class="line-code"> </td></tr>
 <tr id="L60" class=""><td class="line-num"><a href="#L60">60</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax117284.Theorem12</span></td></tr>
 <tr id="L61" class=""><td class="line-num"><a href="#L61">61</a></td><td class="line-code"> </td></tr>
-</table></div><span class="source-proof-rail" data-source-line="L55" aria-label="Proof links"><a class="statement-proof-button" href="https://github.com/yuvalyitz/fairris-lax/blob/e54de59590a52544f63cace161cfd8130647d73c/proofs/Lax117284Proofs/Tractable.lean" aria-label="View proof Lax117284Proofs.Tractable.hasKFairSchedule_iff_program on GitHub" title="Lax117284Proofs.Tractable.hasKFairSchedule_iff_program"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">Show Proof</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a></span><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
+</table></div><span class="source-proof-rail" data-source-line="L55" aria-label="Proof links"><a class="statement-proof-button" href="https://github.com/yuvalyitz/fairris-lax/blob/9c4237cba98c0bd8569f1ebb2945d6f22aeb7670/proofs/Lax117284Proofs/Tractable.lean" aria-label="View proof Lax117284Proofs.Tractable.hasKFairSchedule_iff_program on GitHub" title="Lax117284Proofs.Tractable.hasKFairSchedule_iff_program"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">Show Proof</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a></span><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
 <details class="block block-details"><summary>Formalization Notes</summary><div class="latex-content"><p>The program is a predicate: it holds of a list of clients and a state when the clients of
 the list can each be served on <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.0315em;">k</span></span></span></span> days from that state onwards. It is recursive in the
 list, and the recursion is the transition of the dynamic program rather than a table, which
