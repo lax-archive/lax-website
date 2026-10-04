@@ -1,4 +1,4 @@
-import { attr, code, esc, page, plural, proofBadge, typeBadge } from "../html.js";
+import { attr, code, esc, page, plural, proofBadge, typeBadge, entryPath } from "../html.js";
 import { contentMarkdown } from "../content.js";
 import { graphDataScript } from "../graphs.js";
 import { highlightSource } from "../highlight.js";
@@ -351,7 +351,7 @@ function landingFoundations(ctx: PageContext, heading: string, section: string):
     const dependents = new Set(model.downstreamClosure(current.id).map((concept) => concept.output.id));
     dependents.delete(targetId);
     const uses = dependents.size ? `<span class="landing-foundation-uses">used by ${plural(dependents.size, "submission")}</span>` : "";
-    return [`<li><a class="landing-foundation" href="${attr(`${targetId}/${current.id}.html`)}" title="${attr(current.id)}">
+    return [`<li><a class="landing-foundation" href="${attr(entryPath(targetId, current.id))}" title="${attr(current.id)}">
 ${typeBadge(current.type)}<span class="landing-foundation-title">${markdown.renderAuthorInline(current.title, "")}</span>
 <span class="landing-foundation-meta"><span class="submission-meta-id">${esc(targetId)}</span>${uses}</span>
 </a></li>`];

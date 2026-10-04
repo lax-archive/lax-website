@@ -1,7 +1,7 @@
 import { DEFAULT_SITE_URL } from "../../config.js";
 import type { AnnotationSection, BuildOutput, CertificateEntry, ConceptEntry, ProofEntry } from "../../types.js";
 import type { ConceptGraphData, SubmissionGraphData } from "../graphs.js";
-import { attr, code, esc, formatDate, proofBadge, statePill, typeBadge } from "../html.js";
+import { attr, code, esc, formatDate, proofBadge, statePill, typeBadge, entryPath } from "../html.js";
 import { bibtexAuthorTitle, plainAuthorTitle, type MarkdownRenderer } from "../markdown.js";
 import { compareIds, isCertified, isDiscoverableSubmission, recordSpecVersion, type LocatedProof, type SiteModel, type SiteSubmission } from "../model.js";
 import { conceptReviewBadge } from "./discussion.js";
@@ -35,7 +35,7 @@ export function shortId(id: string, home?: string): string {
 
 function conceptHref(model: SiteModel, id: string, rootRel: string): string | undefined {
   const home = model.conceptHome.get(id);
-  return home ? `${rootRel}${home.output.id}/${home.concept.id}.html` : undefined;
+  return home ? `${rootRel}${entryPath(home.output.id, home.concept.id)}` : undefined;
 }
 
 export function conceptLink(model: SiteModel, id: string, rootRel: string, home?: string): string {
@@ -91,7 +91,7 @@ export function claimEntry(
   const statement = model.statementHome.get(statementId);
   const home = statement ?? (opts.role === "assumption" ? model.conceptHome.get(statementId) : undefined);
   if (!home) throw new Error(`statement ${statementId} has no home concept in the archive`);
-  const page = `${rootRel}${home.output.id}/${home.concept.id}.html`;
+  const page = `${rootRel}${entryPath(home.output.id, home.concept.id)}`;
   const position = statementOrdinal(model, statementId);
   const label = code(shortId(home.concept.id, pageHome));
   if (!statement) {
@@ -170,7 +170,7 @@ export function proofItem(
   opts: { anchorId?: string; origin?: boolean; home?: string } = {},
 ): string {
   const { output, proof } = located;
-  const href = `${rootRel}${output.id}/${proof.id}.html`;
+  const href = `${rootRel}${entryPath(output.id, proof.id)}`;
   const origin = opts.origin
     ? `<span class="proof-item-origin">from <a href="${attr(`${rootRel}${output.id}/index.html`)}">${esc(output.id)}</a></span>`
     : "";
@@ -668,14 +668,14 @@ ${typeOptions}
     const status = concept.statements.length ? provenCount === concept.statements.length : undefined;
     const haystack = `${concept.id} ${concept.title} ${type}`.toLowerCase();
     const active = concept.id === opts.activeId ? ' class="active"' : "";
-    const href = `${rootRel}${submission.record.id}/${concept.id}.html`;
-    return `<li${active} data-type="${attr(type)}" data-search="${attr(haystack)}"><a class="entry-link" href="${attr(href)}" data-full-title="${attr(name)}"><span class="entry-label">${typeBadge(concept.type, status)}<span class="entry-label-text">${esc(name)}</span>${conceptReviewBadge(`${submission.record.id}/${concept.id}.html`)}</span></a></li>`;
+    const href = `${rootRel}${entryPath(submission.record.id, concept.id)}`;
+    return `<li${active} data-type="${attr(type)}" data-search="${attr(haystack)}"><a class="entry-link" href="${attr(href)}" data-full-title="${attr(name)}"><span class="entry-label">${typeBadge(concept.type, status)}<span class="entry-label-text">${esc(name)}</span>${conceptReviewBadge(entryPath(submission.record.id, concept.id))}</span></a></li>`;
   });
   const proofRows = proofs.map((proof) => {
     const name = proofShortName(output!, proof, output!.id);
     const haystack = `${proof.id} proof`.toLowerCase();
     const active = proof.id === opts.activeId ? ' class="active"' : "";
-    const href = `${rootRel}${submission.record.id}/${proof.id}.html`;
+    const href = `${rootRel}${entryPath(submission.record.id, proof.id)}`;
     return `<li${active} data-type="proof" data-search="${attr(haystack)}"><a class="entry-link" href="${attr(href)}" data-full-title="${attr(proof.id)}"><span class="entry-label">${proofBadge()}<span class="entry-label-text">${esc(name)}</span></span></a></li>`;
   });
   const rows = [

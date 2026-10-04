@@ -1,4 +1,4 @@
-import { attr, esc, page, plural } from "../html.js";
+import { attr, esc, page, plural, entryPath } from "../html.js";
 import type { LocatedProof } from "../model.js";
 import { inPaperBlock } from "./paper.js";
 import {
@@ -76,7 +76,7 @@ ${sections}`;
   return page({
     title: `${proof.id} — ${output.id}`,
     rootRel: "../",
-    canonicalPath: `${submission.record.id}/${proof.id}.html`,
+    canonicalPath: entryPath(submission.record.id, proof.id),
     sidebar: submissionSidebar(ctx.model, submission, "../", { activeId: proof.id }),
     sidebarState: "open",
     content,

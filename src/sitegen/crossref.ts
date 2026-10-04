@@ -1,5 +1,5 @@
 import type { MarkedExtension, Tokens } from "marked";
-import { esc } from "./html.js";
+import { entryPath, esc } from "./html.js";
 import type { SiteModel } from "./model.js";
 
 export type CrossrefKind = "submission" | "concept" | "statement" | "proof";
@@ -9,11 +9,11 @@ export function resolveCrossref(model: SiteModel, target: string, rootRel: strin
   const submission = model.submissionById.get(target);
   if (submission) return { kind: "submission", href: `${rootRel}${target}/index.html` };
   const concept = model.conceptHome.get(target);
-  if (concept) return { kind: "concept", href: `${rootRel}${concept.output.id}/${concept.concept.id}.html` };
+  if (concept) return { kind: "concept", href: `${rootRel}${entryPath(concept.output.id, concept.concept.id)}` };
   const statement = model.statementHome.get(target);
-  if (statement) return { kind: "statement", href: `${rootRel}${statement.output.id}/${statement.concept.id}.html#s-${target}` };
+  if (statement) return { kind: "statement", href: `${rootRel}${entryPath(statement.output.id, statement.concept.id)}#s-${target}` };
   const proof = model.proofHome.get(target);
-  if (proof) return { kind: "proof", href: `${rootRel}${proof.output.id}/${proof.proof.id}.html` };
+  if (proof) return { kind: "proof", href: `${rootRel}${entryPath(proof.output.id, proof.proof.id)}` };
   return undefined;
 }
 

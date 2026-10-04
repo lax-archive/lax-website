@@ -1,4 +1,4 @@
-import { attr, code, countsPill, esc, page } from "../html.js";
+import { attr, code, countsPill, esc, page, entryPath } from "../html.js";
 import { conceptGraph, graphDataScript } from "../graphs.js";
 import { highlightSource } from "../highlight.js";
 import { sourceLinks } from "../source-links.js";
@@ -140,7 +140,7 @@ export async function conceptPage(ctx: PageContext, located: LocatedConcept): Pr
 <p class="concept-microline"><code class="concept-namespace">${esc(concept.id)}</code> · <code>${esc(concept.path)}</code> · <a href="index.html">${esc(output.id)}</a></p></div>
 <span class="status-pills">${countsPill(provenCount, concept.statements.length)}</span>
 </div>
-${pageReactions(`${submission.record.id}/${concept.id}.html`, { kind: "concept", sourceLines: concept.sourceText.split("\n").length, anonymous })}
+${pageReactions(entryPath(submission.record.id, concept.id), { kind: "concept", sourceLines: concept.sourceText.split("\n").length, anonymous })}
 <h3 class="figure-title">Natural Language Statement</h3>
 <div class="block block-statement"><h3>${esc(typeHeading)}</h3><div class="latex-content">${ctx.markdown.renderAuthorProse(concept.description, "../")}</div></div>
 <details class="figure-details" open>
@@ -165,7 +165,7 @@ ${depsCol("Builds on", importRows)}
 ${depsCol("Used by", usedByRows)}
 ${depsCol("From Mathlib", mathlibRows)}
 </div></div>
-${discussion(`${submission.record.id}/${concept.id}.html`)}
+${discussion(entryPath(submission.record.id, concept.id))}
 ${graphDataScript({
     concepts: { ...graph, home: output.id },
     proofs: { statements: [], proofs: [] },
@@ -174,7 +174,7 @@ ${graphDataScript({
   return page({
     title: ctx.markdown.plainAuthorTitle(concept.title),
     rootRel: "../",
-    canonicalPath: `${submission.record.id}/${concept.id}.html`,
+    canonicalPath: entryPath(submission.record.id, concept.id),
     sidebar: submissionSidebar(ctx.model, submission, "../", { activeId: concept.id }),
     sidebarState: "open",
     content,

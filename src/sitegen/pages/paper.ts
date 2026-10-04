@@ -18,7 +18,7 @@
 // so the markup stays this generator's.
 
 import { siteAssetVersion } from "../assets.js";
-import { attr, code, esc, page, plural, proofBadge, typeBadge } from "../html.js";
+import { attr, code, esc, page, plural, proofBadge, typeBadge, entryPath } from "../html.js";
 import { inertJsonScript } from "../graphs.js";
 import { highlightSource } from "../highlight.js";
 import { sourceLinks } from "../source-links.js";
@@ -45,14 +45,14 @@ function markTarget(model: SiteModel, mark: PaperMark, home: string, rootRel: st
     const located = model.conceptHome.get(mark.id);
     return {
       label: located ? conceptShortName(located.output, located.concept) : mark.id,
-      href: located ? `${rootRel}${located.output.id}/${located.concept.id}.html` : undefined,
+      href: located ? `${rootRel}${entryPath(located.output.id, located.concept.id)}` : undefined,
     };
   }
   if (mark.kind === "proof") {
     const located = model.proofHome.get(mark.id);
     return {
       label: located ? proofShortName(located.output, located.proof, home) : mark.id,
-      href: located ? `${rootRel}${located.output.id}/${located.proof.id}.html` : undefined,
+      href: located ? `${rootRel}${entryPath(located.output.id, located.proof.id)}` : undefined,
     };
   }
   const submission = model.submissionById.get(mark.id);

@@ -30,7 +30,9 @@ export function sitemapXml(pages: Iterable<string>): string {
 
 /** The public address of a generated file, in the canonical form. */
 export function publicUrl(relative: string): string {
-  const posix = relative.split(path.sep).join("/");
+  // each segment percent-encoded: a page file named by a Lean id may carry
+  // a `?` (html.ts entryFile)
+  const posix = relative.split(path.sep).map(encodeURIComponent).join("/");
   const canonical = posix === "index.html" ? "" : posix.endsWith("/index.html") ? posix.slice(0, -"index.html".length) : posix;
   return new URL(canonical, SITE_ROOT).toString();
 }

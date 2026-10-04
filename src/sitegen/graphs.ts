@@ -1,4 +1,5 @@
 import { compareIds, type SiteModel, type SubmissionDepKind } from "./model.js";
+import { entryPath } from "./html.js";
 import { plainAuthorTitle } from "./markdown.js";
 
 /** Placement relative to a figure's roots: the always-visible core (the roots
@@ -82,7 +83,7 @@ export function conceptGraph(model: SiteModel, rootIds: Iterable<string>): Conce
         : ("open" as const);
     return {
       id,
-      href: `../${home.output.id}/${id}.html`,
+      href: `../${entryPath(home.output.id, id)}`,
       title: plainAuthorTitle(home.concept.title),
       owner: home.output.id,
       status,

@@ -406,3 +406,44 @@ describe("spec-2 records on the site", () => {
     expect(record).toContain('<span class="meta-epoch"');
   });
 });
+
+describe("pages named by an id with a `?`", () => {
+  // The archive's name grammar admits `?` (`get?`, ultracode review C3); a
+  // raw `get?.html` href would request `get` with the query `.html`.
+  it("writes the file under the raw id and links it percent-encoded", async () => {
+    const root = database((dir) => {
+      fs.mkdirSync(path.join(dir, "lax-3"));
+      fs.writeFileSync(path.join(dir, "lax-3", "record.json"), JSON.stringify({
+        specVersion: "1", id: "lax-3", state: "registered", createdAt: "2026-01-01T00:00:00Z", registeredAt: "2026-01-02T00:00:00Z",
+      }));
+      fs.writeFileSync(path.join(dir, "lax-3", "build-output.json"), JSON.stringify({
+        specVersion: "1", id: "lax-3",
+        inputs: {
+          manifest: { specVersion: "1", id: "lax-3", leanVersion: "v4.33.0", mathlibVersion: "c".repeat(40), title: "Three", authors: [], bibEntries: [] },
+          abstract: "Names with a question mark.",
+        },
+        requiredByConcepts: [], requiredByProofs: [],
+        concepts: [{
+          id: "Lax3.ok?", path: "concepts/Lax3/C.lean", title: "Truth", type: "theorem", description: "d", imports: [], mathlibImports: [],
+          sourceText: "namespace Lax3\naxiom ok? : True\nend Lax3\n",
+          statements: [{ id: "Lax3.ok?.holds?", signature: "holds? : True", startLine: 2, endLine: 2 }],
+        }],
+        proofs: [{ id: "Lax3Proofs.get?", path: "proofs/Lax3Proofs/Basic.lean", conclusion: "Lax3.ok?.holds?", assumptions: [], description: "Direct." }],
+      }));
+    });
+    const out = tmpDir("lax-question-site-");
+    await generateSite(loadSubmissions(root), out);
+    const read = (file: string) => fs.readFileSync(path.join(out, file), "utf8");
+    expect(fs.existsSync(path.join(out, "lax-3", "Lax3Proofs.get?.html"))).toBe(true);
+    expect(fs.existsSync(path.join(out, "lax-3", "Lax3.ok?.html"))).toBe(true);
+    const index = read("lax-3/index.html");
+    expect(index).toContain('href="../lax-3/Lax3Proofs.get%3F.html"');
+    expect(index).toContain("Lax3.ok%3F.html");
+    // no link anywhere on the record's pages leaves the `?` raw
+    for (const file of ["lax-3/index.html", "lax-3/Lax3Proofs.get?.html", "lax-3/Lax3.ok?.html"])
+      expect(read(file)).not.toMatch(/href="[^"]*\?\.html/u);
+    expect(read("sitemap.xml")).toContain("/lax-3/Lax3Proofs.get%3F.html</loc>");
+    expect(read("lax-3/Lax3Proofs.get?.html")).toContain('rel="canonical" href="https://');
+    expect(read("lax-3/Lax3Proofs.get?.html")).toMatch(/rel="canonical" href="[^"]*Lax3Proofs\.get%3F\.html"/u);
+  });
+});

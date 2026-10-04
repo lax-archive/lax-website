@@ -1,5 +1,5 @@
 import type { StatementEntry } from "../../types.js";
-import { attr, esc, page, plural, statePill, typeBadge } from "../html.js";
+import { attr, esc, page, plural, statePill, typeBadge, entryPath } from "../html.js";
 import { compareIds, isDiscoverableSubmission, type LocatedConcept, type SiteModel } from "../model.js";
 import { INTRO_SUBMISSION_ID, type PageContext } from "./shared.js";
 
@@ -78,7 +78,7 @@ function problemSidebar(problems: OpenProblem[], ctx: PageContext): string {
   const rows = problems.map((problem) => {
     const { output, concept } = problem.located;
     const type = concept.type!.trim().toLowerCase();
-    const href = `${output.id}/${concept.id}.html`;
+    const href = entryPath(output.id, concept.id);
     return `<li data-type="${attr(type)}" data-search="${attr(searchText(problem))}"><a class="entry-link" href="${attr(href)}" data-full-title="${attr(concept.title)}"><span class="entry-label">${typeBadge(concept.type, false)}<span class="entry-label-text">${ctx.markdown.renderAuthorInline(concept.title, "")}</span></span></a></li>`;
   });
   return `<a class="sidebar-back" href="index.html"><span class="sidebar-back-arrow" aria-hidden="true">←</span>Archive</a>
@@ -111,7 +111,7 @@ function statementRow(ctx: PageContext, problem: OpenProblem, statement: Stateme
 function problemRow(ctx: PageContext, problem: OpenProblem): string {
   const { submission, output, concept } = problem.located;
   const type = concept.type!.trim().toLowerCase();
-  const href = `${output.id}/${concept.id}.html`;
+  const href = entryPath(output.id, concept.id);
   const allOpen = problem.openStatements.length === concept.statements.length;
   const count = allOpen
     ? plural(problem.openStatements.length, "open statement")

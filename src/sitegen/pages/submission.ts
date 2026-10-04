@@ -1,4 +1,4 @@
-import { attr, esc, page, plural, typeBadge } from "../html.js";
+import { attr, esc, page, plural, typeBadge, entryFile, entryPath } from "../html.js";
 import { DEFAULT_SITE_URL } from "../../config.js";
 import { renderBibEntry } from "../bibtex.js";
 import { conceptGraph, graphDataScript, submissionGraph, type SubmissionGraphData } from "../graphs.js";
@@ -50,7 +50,7 @@ function submissionReviewConcepts(ctx: PageContext, submission: SiteSubmission):
 }
 
 function conceptPath({ submission, concept }: LocatedConcept): string {
-  return `${submission.record.id}/${concept.id}.html`;
+  return entryPath(submission.record.id, concept.id);
 }
 
 function countsTowardReviewProgress({ concept }: LocatedConcept): boolean {
@@ -64,8 +64,8 @@ function conceptLists(ctx: PageContext, concepts: LocatedConcept[], home?: strin
 ${group.map(({ concept, submission }) => {
       const provenCount = concept.statements.filter((statement) => ctx.model.network.proven.has(statement.id)).length;
       const status = concept.statements.length ? provenCount === concept.statements.length : undefined;
-      const pathname = `${submission.record.id}/${concept.id}.html`;
-      const href = home ? `${concept.id}.html` : `../${pathname}`;
+      const pathname = entryPath(submission.record.id, concept.id);
+      const href = home ? entryFile(concept.id) : `../${pathname}`;
       // Archive ids use `lax-N`, while Lean namespaces use `LaxN`.
       // Normalize only the owning submission's display prefix; imported
       // concepts in the expandable list retain their full identifiers.
@@ -333,7 +333,7 @@ export function proofNetworkData(ctx: PageContext, submission: SiteSubmission, r
       ...(conceptEndpoint ? { endpointKind: "concept" as const, status: siblings.length ? proven ? "proven" as const : "open" as const : "none" as const } : {}),
       index: index || undefined,
       count: home ? siblings.length : undefined,
-      href: home ? `${rootRel}${home.output.id}/${home.concept.id}.html${statementHome ? `#s-${id}` : ""}` : undefined,
+      href: home ? `${rootRel}${entryPath(home.output.id, home.concept.id)}${statementHome ? `#s-${id}` : ""}` : undefined,
       proven,
       ext: home ? home.output.id !== output.id : !ownStatements.has(id),
     };
@@ -346,7 +346,7 @@ export function proofNetworkData(ctx: PageContext, submission: SiteSubmission, r
         ...proof,
         tooltipHtml: ctx.markdown.renderAuthorTooltip(proof.description, rootRel),
         href: model.proofHome.has(proof.id)
-          ? `${rootRel}${model.proofHome.get(proof.id)!.output.id}/${proof.id}.html`
+          ? `${rootRel}${entryPath(model.proofHome.get(proof.id)!.output.id, proof.id)}`
           : undefined,
         assumptionsProven: outstanding.length === 0,
         outstanding: outstanding.length,
@@ -380,7 +380,7 @@ export function proofNetworkData(ctx: PageContext, submission: SiteSubmission, r
         id,
         name: conceptHome.concept.title,
         nameHtml: ctx.markdown.renderAuthorInline(conceptHome.concept.title, rootRel),
-        href: `${rootRel}${conceptHome.output.id}/${conceptHome.concept.id}.html`,
+        href: `${rootRel}${entryPath(conceptHome.output.id, conceptHome.concept.id)}`,
         proven: statements.length === 0 || statements.every((statement) => model.network.proven.has(statement.id)),
       };
     }
@@ -390,7 +390,7 @@ export function proofNetworkData(ctx: PageContext, submission: SiteSubmission, r
       id,
       name: home.concept.title,
       nameHtml: ctx.markdown.renderAuthorInline(home.concept.title, rootRel),
-      href: `${rootRel}${home.output.id}/${home.concept.id}.html#s-${id}`,
+      href: `${rootRel}${entryPath(home.output.id, home.concept.id)}#s-${id}`,
       proven: model.network.proven.has(id),
       statement: home.concept.statements.length > 1 ? index : undefined,
       statementCount: home.concept.statements.length,
@@ -438,11 +438,11 @@ export function proofNetworkData(ctx: PageContext, submission: SiteSubmission, r
         name: concept.statements.length > 1 ? `${index + 1} of ${concept.statements.length}` : "Lean statement",
         signature: statement.signature,
         proven: model.network.proven.has(statement.id),
-        href: `${rootRel}${conceptOutput.id}/${concept.id}.html#s-${statement.id}`,
+        href: `${rootRel}${entryPath(conceptOutput.id, concept.id)}#s-${statement.id}`,
       })),
       sections: authorSections(concept.sections),
-      href: `${rootRel}${conceptOutput.id}/${concept.id}.html`,
-      reviewUrl: canonicalPageUrl(`${conceptSubmission.record.id}/${concept.id}.html`),
+      href: `${rootRel}${entryPath(conceptOutput.id, concept.id)}`,
+      reviewUrl: canonicalPageUrl(entryPath(conceptSubmission.record.id, concept.id)),
       reviewLabel: "Theorem review",
     };
   }
@@ -474,7 +474,7 @@ export function proofNetworkData(ctx: PageContext, submission: SiteSubmission, r
       sourceHref,
       href: proof.href,
       reviewUrl: conclusionHome
-        ? canonicalPageUrl(`${conclusionHome.submission.record.id}/${conclusionHome.concept.id}.html`)
+        ? canonicalPageUrl(entryPath(conclusionHome.submission.record.id, conclusionHome.concept.id))
         : undefined,
       reviewLabel: "Conclusion review",
     };

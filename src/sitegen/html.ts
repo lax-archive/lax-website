@@ -20,6 +20,18 @@ export function esc(value: string): string {
 
 export function attr(value: string): string { return esc(value); }
 
+/** A concept's or proof's page is the file `<id>.html` beside its
+ * submission's index. A Lean name may contain `?` (`get?`), which a raw href
+ * reads as the start of a query, so every link to the page names it through
+ * these: the id percent-encoded as one path segment (the encoding a browser
+ * applies to the other characters anyway, so the URLs of existing pages do
+ * not change). The file on disk keeps the raw id. */
+export function entryFile(id: string): string { return `${encodeURIComponent(id)}.html`; }
+
+export function entryPath(submissionId: string, id: string): string {
+  return `${encodeURIComponent(submissionId)}/${entryFile(id)}`;
+}
+
 export interface PageShell {
   /** the <title> */
   title: string;
