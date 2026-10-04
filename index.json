@@ -1634,12 +1634,12 @@
         },
         {
           "id": "Lax117284.BodlaenderGeneral",
-          "title": "Nice tree decompositions of small width are found in fixed-parameter time",
+          "title": "Nice Tree Decompositions of Small Width Are Found in Fixed-Parameter Time",
           "type": "theorem"
         },
         {
           "id": "Lax117284.BodlaenderKloks",
-          "title": "Optimal tree decompositions from a given one",
+          "title": "Optimal Tree Decompositions from a Given One",
           "type": "theorem"
         },
         {
@@ -1664,7 +1664,7 @@
         },
         {
           "id": "Lax117284.GraphWords",
-          "title": "Graphs and nice tree decompositions as words",
+          "title": "Graphs and Nice Tree Decompositions as Words",
           "type": "definition"
         },
         {
