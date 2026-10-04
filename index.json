@@ -5758,6 +5758,116 @@
       ]
     },
     {
+      "id": "lax-606786",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Constructing the Oseledets decomposition with subspace growth estimates",
+      "concepts": [
+        {
+          "id": "Lax606786.BackwardCharacterisation",
+          "title": "Backward characterisation of the fast spaces",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax606786.BackwardHistories",
+          "title": "Backward histories",
+          "type": "definition"
+        },
+        {
+          "id": "Lax606786.BalancedKingman",
+          "title": "Kingman's theorem for balanced intervals",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax606786.BirkhoffErgodicTheorem",
+          "title": "Birkhoff's pointwise ergodic theorem",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax606786.Cocycles",
+          "title": "Cocycles and their Lyapunov exponents",
+          "type": "definition"
+        },
+        {
+          "id": "Lax606786.ExtendedLog",
+          "title": "The logarithm with values in the extended reals",
+          "type": "definition"
+        },
+        {
+          "id": "Lax606786.Grassmannian",
+          "title": "The Grassmannians of a Banach space",
+          "type": "definition"
+        },
+        {
+          "id": "Lax606786.IndexOfCompactness",
+          "title": "The index of compactness is the growth rate of the compactness seminorm",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax606786.KingmanTheorem",
+          "title": "Kingman's subadditive ergodic theorem",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax606786.OperatorStatistics",
+          "title": "Growth, Bernstein numbers and the compactness seminorm of an operator",
+          "type": "definition"
+        },
+        {
+          "id": "Lax606786.OseledetsDecomposition",
+          "title": "The semi-invertible Oseledets decomposition",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax606786.OseledetsDecompositions",
+          "title": "Oseledets decompositions",
+          "type": "definition"
+        },
+        {
+          "id": "Lax606786.OseledetsUniqueness",
+          "title": "Uniqueness of the Oseledets decomposition",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax606786.QuasicompactnessCriterion",
+          "title": "Quasicompactness in terms of the compactness seminorm",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax606786.RokhlinLemma",
+          "title": "Rokhlin's lemma",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax606786.SlowSpaceNonmeasurability",
+          "title": "Slow spaces on a separable Banach space need not be measurable",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax606786.SubadditiveFamilies",
+          "title": "Subadditive families of measurable functions",
+          "type": "definition"
+        },
+        {
+          "id": "Lax606786.TemperedFunctions",
+          "title": "Tempered functions",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax606786Proofs.ae_nu_eq_compactnessIndex",
+        "Lax606786Proofs.balancedKingman_integrable",
+        "Lax606786Proofs.birkhoff",
+        "Lax606786Proofs.fastSum_eq_backwardSet",
+        "Lax606786Proofs.isOseledetsDecomposition_unique",
+        "Lax606786Proofs.isQuasicompact_iff",
+        "Lax606786Proofs.kingman_integrable",
+        "Lax606786Proofs.oseledets_decomposition",
+        "Lax606786Proofs.rokhlin_tower",
+        "Lax606786Proofs.slowSpace_not_measurable"
+      ]
+    },
+    {
       "id": "lax-614640",
       "state": "registered",
       "environment": "v4.33.0",
