@@ -5,7 +5,7 @@ import { BLOB_REFERENCE, paperCachePath } from "./papers.js";
 import { loadReferences } from "./references.js";
 import { loadMathlibSources } from "./mathlib-links.js";
 import type {
-  BinderKind, BuildOutput, CaptureReferences, CertificateEntry, DbRecord, PaperEntry, PaperMark, PaperMarkPoint,
+  BuildOutput, CaptureReferences, CertificateEntry, DbRecord, PaperEntry, PaperMark, PaperMarkPoint,
   PaperWebEntry, ProofTelescope, SkippedRecord,
 } from "./types.js";
 import type { SiteSubmission } from "./sitegen/model.js";
@@ -142,7 +142,6 @@ const MAX_TELESCOPE_HYPOTHESES = 10_000;
 
 /** A canonical Lean name as every statement, proof, and concept id is one. */
 const LEAN_NAME = /^(?:[\p{L}_][\p{L}\p{N}\p{M}_']*)(?:\.(?:[\p{L}_][\p{L}\p{N}\p{M}_']*))*$/u;
-const BINDER_KINDS = new Set<string>(["default", "implicit", "strictImplicit", "instImplicit"]);
 
 function stringList(value: unknown, label: string): string[] {
   if (!Array.isArray(value) || value.some((entry) => typeof entry !== "string"))
@@ -152,7 +151,7 @@ function stringList(value: unknown, label: string): string[] {
 
 /** A spec-2 proof's telescope, checked to the shape the derivation and the
  * proof cards rely on: statement constants in binder order, each with its
- * level instantiation and binder kind, and the concluded constant. */
+ * level instantiation, and the concluded constant. */
 function proofTelescope(value: unknown, label: string): ProofTelescope {
   if (!isObject(value)) throw new Error(`${label} must be an object`);
   if (!Array.isArray(value.hypotheses) || value.hypotheses.length > MAX_TELESCOPE_HYPOTHESES)
@@ -162,9 +161,7 @@ function proofTelescope(value: unknown, label: string): ProofTelescope {
     if (!isObject(hypothesis)) throw new Error(`${entry} must be an object`);
     if (typeof hypothesis.statement !== "string" || !LEAN_NAME.test(hypothesis.statement))
       throw new Error(`${entry} statement must be a Lean name`);
-    if (typeof hypothesis.binder !== "string" || !BINDER_KINDS.has(hypothesis.binder))
-      throw new Error(`${entry} binder kind is invalid`);
-    return { statement: hypothesis.statement, levels: stringList(hypothesis.levels, `${entry} levels`), binder: hypothesis.binder as BinderKind };
+    return { statement: hypothesis.statement, levels: stringList(hypothesis.levels, `${entry} levels`) };
   });
   if (!isObject(value.conclusion)) throw new Error(`${label} conclusion must be an object`);
   if (typeof value.conclusion.statement !== "string" || !LEAN_NAME.test(value.conclusion.statement))

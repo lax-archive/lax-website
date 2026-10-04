@@ -126,7 +126,7 @@ export function proofJudgment(model: SiteModel, proof: ProofEntry, rootRel: stri
     const hypotheses = proof.telescope.hypotheses;
     const assumptions = hypotheses.length
       ? `<ol class="judgment-telescope">${hypotheses.map((hypothesis, index) =>
-        `<li data-binder="${attr(hypothesis.binder)}"><span class="telescope-name">${esc(hypothesisName(index))}</span>${claimEntry(model, hypothesis.statement, rootRel, pageHome, { role: "hypothesis" })}${binderLabel(hypothesis.binder)}</li>`).join("\n")}</ol>`
+        `<li><span class="telescope-name">${esc(hypothesisName(index))}</span>${claimEntry(model, hypothesis.statement, rootRel, pageHome, { role: "hypothesis" })}</li>`).join("\n")}</ol>`
       : `<p class="judgment-unconditional">no hypotheses</p>`;
     return `<div class="judgment judgment-spec2">
 <div class="judgment-assumptions">${assumptions}</div>
@@ -157,16 +157,6 @@ const SUBSCRIPT_DIGITS = "₀₁₂₃₄₅₆₇₈₉";
 /** `h₁`, `h₂`, …: the hypothesis names the generated Challenge uses. */
 export function hypothesisName(index: number): string {
   return `h${String(index + 1).split("").map((digit) => SUBSCRIPT_DIGITS[Number(digit)]).join("")}`;
-}
-
-/** A non-default binder, said in words after the hypothesis; the default
- * binder is the unmarked case and gets no label. */
-function binderLabel(binder: string): string {
-  const label = binder === "implicit" ? "implicit"
-    : binder === "strictImplicit" ? "strict implicit"
-    : binder === "instImplicit" ? "instance"
-    : undefined;
-  return label ? ` <span class="binder-kind">${label}</span>` : "";
 }
 
 /** One proof in a list: the judgment card leads (its whole surface links to

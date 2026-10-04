@@ -270,7 +270,7 @@ What a spec-2 record shows beyond a spec-1 one:
 
 - **the telescope on proof cards** — hypotheses in binder order, named
   `h₁ … hₙ` as the record's Challenge names them, each linked to its exact
-  statement, non-default binders labelled — in place of the derived
+  statement — in place of the derived
   assumption list;
 - **the certified mark**, "certified: `lake comparator` (toolchain, kernels)",
   with the bundle digest and the rerun command (`lax certify <record>

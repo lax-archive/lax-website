@@ -12,6 +12,6 @@ second is absent from records certified before the judge read both). The digests
 placeholders; `test/spec2.test.ts` overrides the `references` layer with a
 tar it seals itself before exercising the download path.
 
-The second proof assumes the same statement twice, once implicitly: the
-telescope keeps both, in binder order, and the derived `assumptions` set
-has one entry — the one case where the two shapes differ visibly.
+The second proof assumes the same statement twice: the telescope keeps
+both, in binder order, and the derived `assumptions` set has one entry —
+the one case where the two shapes differ visibly.

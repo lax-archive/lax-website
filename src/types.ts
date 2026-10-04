@@ -73,18 +73,16 @@ export interface StatementEntry {
   doc?: string;
 }
 
-/** `Lean.BinderInfo`'s constructor names, as the telescope records them. */
-export type BinderKind = "default" | "implicit" | "strictImplicit" | "instImplicit";
-
 /**
  * A spec-2 proof's type as the archive's inspector read it: a chain of
- * hypotheses — each a statement constant with its universe instantiation and
- * binder kind, in binder order, duplicates kept — ending in the concluded
+ * hypotheses — each a statement constant with its universe instantiation, in
+ * binder order, duplicates kept (binder names and kinds are not recorded) —
+ * ending in the concluded
  * statement. The edge as the author wrote it; `conclusion` and `assumptions`
  * are derived from it at load (`src/database.ts`), never stored.
  */
 export interface ProofTelescope {
-  hypotheses: Array<{ statement: string; levels: string[]; binder: BinderKind }>;
+  hypotheses: Array<{ statement: string; levels: string[] }>;
   conclusion: { statement: string; levels: string[] };
 }
 

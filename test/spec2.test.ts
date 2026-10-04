@@ -92,7 +92,9 @@ describe("spec-2 records in the loader", () => {
       ["Lax38.Order.HasSucc", []],
       ["Lax38.Order.Refl", ["Lax38.Order.HasSucc"]],
     ]);
-    expect(output.proofs[1]!.telescope!.hypotheses.map((h) => h.binder)).toEqual(["default", "implicit"]);
+    expect(output.proofs[1]!.telescope!.hypotheses).toEqual([
+      { statement: "Lax38.Order.HasSucc", levels: [] }, { statement: "Lax38.Order.HasSucc", levels: [] },
+    ]);
     expect(output.proofs[1]!.levelParams).toEqual(["u"]);
     expect(output.capture!.references).toEqual({ digest: "2".repeat(64), bytes: 10_240, registryBlob: blob("2".repeat(64)) });
     expect(output.capture!.leanToolchain).toBeUndefined();
@@ -107,7 +109,7 @@ describe("spec-2 records in the loader", () => {
     expect(rendererOutput(earlier, "x", "lax-38")!.certificate!.solutionExportSha256).toBeUndefined();
     expect(output.concepts[0]!.statements[0]!.body).toBe("∀ (n : Nat), Exists fun m => n < m");
     expect(derivedEdge({ hypotheses: [
-      { statement: "B", levels: [], binder: "default" }, { statement: "A", levels: [], binder: "default" }, { statement: "B", levels: [], binder: "implicit" },
+      { statement: "B", levels: [] }, { statement: "A", levels: [] }, { statement: "B", levels: [] },
     ], conclusion: { statement: "C", levels: [] } })).toEqual({ conclusion: "C", assumptions: ["A", "B"] });
   });
 
@@ -131,7 +133,7 @@ describe("spec-2 records in the loader", () => {
       return () => rendererOutput(stored, "x", "lax-38");
     };
     expect(broken((s) => { delete s.proofs[0].telescope; })).toThrow("proof 1 telescope must be an object");
-    expect(broken((s) => { s.proofs[1].telescope.hypotheses[0].binder = "weird"; })).toThrow("binder kind is invalid");
+    expect(broken((s) => { s.proofs[1].telescope.hypotheses[0].statement = "not a name!"; })).toThrow("hypothesis 1 statement must be a Lean name");
     expect(broken((s) => { s.proofs[1].telescope.conclusion.statement = "not a name!"; })).toThrow("conclusion statement must be a Lean name");
     expect(broken((s) => { s.certificate.kernels = []; })).toThrow("kernels must name at least one kernel");
     expect(broken((s) => { s.certificate.challenge = ""; })).toThrow("challenge must be the Challenge.lean source");
@@ -241,9 +243,10 @@ describe("spec-2 records on the site", () => {
     const { read } = await site();
     const proof = read("lax-38/Lax38Proofs.refl_of_hasSucc.html");
     const card = proof.slice(proof.indexOf('<ol class="judgment-telescope">'), proof.indexOf("</ol>"));
-    expect(card).toContain('<li data-binder="default"><span class="telescope-name">h₁</span>');
-    expect(card).toContain('<li data-binder="implicit"><span class="telescope-name">h₂</span>');
-    expect(card).toContain('<span class="binder-kind">implicit</span>');
+    expect(card).toContain('<li><span class="telescope-name">h₁</span>');
+    expect(card).toContain('<li><span class="telescope-name">h₂</span>');
+    // binder kinds are not recorded, so the card labels none
+    expect(card).not.toContain("binder");
     // both hypotheses link to the exact statement, not the concept
     expect(card.match(/href="\.\.\/lax-38\/Lax38\.Order\.html#s-Lax38\.Order\.HasSucc"/gu)).toHaveLength(2);
     expect(proof).toContain("Assuming the hypotheses on the left, in binder order");
