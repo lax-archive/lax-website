@@ -218,10 +218,11 @@ export function certifiedMark(output: BuildOutput, form: "compact" | "line"): st
   return `<p class="certified-mark certified-mark-line"><span class="certified-mark-text">${esc(text)}</span>, bundle ${code(certificate.bundle.digest)}</p>`;
 }
 
-/** The two ways to rerun a certificate: through the CLI from the database,
- * or the plain comparator over a bundle fetched by digest. */
+/** The two ways to rerun a certificate: the full check through the CLI,
+ * which also holds the Challenge to the statements, or the comparator alone
+ * over a bundle fetched by digest. */
 export function rerunCommands(recordId: string): string {
-  return `<p class="certificate-rerun">Rerun it: <code>lax certify ${esc(recordId)} --run</code> — or, in the fetched bundle, <code>lake comparator --config comparator.json</code>.</p>`;
+  return `<p class="certificate-rerun">Rerun it: <code>lax certify ${esc(recordId)} --run</code>, the full check — or, comparator only, in the fetched bundle: <code>lake comparator --config comparator.json</code>.</p>`;
 }
 
 /**
