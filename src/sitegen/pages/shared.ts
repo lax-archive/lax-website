@@ -228,14 +228,16 @@ export function rerunCommands(recordId: string): string {
 
 /**
  * The trust note, one sentence per spec-2 record page: what the certificate
- * removes from what a reader must trust, and what it does not. Said with the
+ * removes from what a reader must trust, and what it does not — including
+ * what `lax certify --run` adds back by building from the archive's
+ * captures (lax spec_v2_draft.md, "What a verifier trusts"). Said with the
  * record's environment, because the spec is the environment's.
  */
 export function trustNote(model: SiteModel, submission: SiteSubmission): string {
   const output = submission.output;
   if (!output || recordSpecVersion(output) !== 2) return "";
   const environment = output.manifest.leanVersion;
-  return `<p class="trust-note">In environment ${code(environment)} (spec ${model.environmentSpecVersion(environment)}) the edges of a proof network are certified by Lean's <code>lake comparator</code> over the record's own Challenge, so a reader need not trust this archive's pipeline for them; the concept packages a record depends on are trusted for their meaning, as in every environment; and a certificate can be rerun with <code>lax certify --run</code> from the archive's own captures of the packages, or by hand from its bundle while the authors' repositories still serve them.</p>`;
+  return `<p class="trust-note">In environment ${code(environment)} (spec ${model.environmentSpecVersion(environment)}) the edges of a proof network are certified by Lean's <code>lake comparator</code> over the record's own Challenge, so a reader need not trust this archive's pipeline for them; the concept packages a record depends on are trusted for their meaning, as in every environment; and a certificate can be rerun with <code>lax certify --run</code> from the archive's own captures of the packages, which additionally trusts that those captures hold the sources of the commits the records name, or by hand from its bundle while the authors' repositories still serve them.</p>`;
 }
 
 /**
