@@ -290,7 +290,9 @@ describe("spec-2 records on the site", () => {
     expect(record.match(/class="trust-note"/gu)).toHaveLength(1);
     expect(record).toContain("In environment <code>v4.35.0</code> (spec 2) the edges of a proof network are certified by Lean's <code>lake comparator</code>");
     expect(record).toContain("the concept packages a record depends on are trusted for their meaning, as in every environment");
-    expect(record).toContain("every certificate can be rerun from its bundle");
+    // what a rerun needs, not a promise the bundle alone keeps (ultracode M1)
+    expect(record).toContain("a certificate can be rerun with <code>lax certify --run</code> from the archive's own captures of the packages, or by hand from its bundle while the authors' repositories still serve them");
+    expect(record).not.toContain("every certificate can be rerun from its bundle");
   });
 
   it("shows no mark on a spec-2 record without proofs, and nothing new on a spec-1 record", async () => {

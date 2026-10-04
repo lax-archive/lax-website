@@ -219,10 +219,11 @@ export function certifiedMark(output: BuildOutput, form: "compact" | "line"): st
 }
 
 /** The two ways to rerun a certificate: the full check through the CLI,
- * which also holds the Challenge to the statements, or the comparator alone
- * over a bundle fetched by digest. */
+ * which builds from the archive's captures and also holds the Challenge to
+ * the statements, or the comparator alone over a bundle fetched by digest,
+ * which fetches the packages from their authors' repositories. */
 export function rerunCommands(recordId: string): string {
-  return `<p class="certificate-rerun">Rerun it: <code>lax certify ${esc(recordId)} --run</code>, the full check — or, comparator only, in the fetched bundle: <code>lake comparator --config comparator.json</code>.</p>`;
+  return `<p class="certificate-rerun">Rerun it: <code>lax certify ${esc(recordId)} --run</code>, the full check, built from the archive's captures — or, comparator only, in the fetched bundle: <code>lake comparator --config comparator.json</code>, which fetches the packages from their authors' repositories.</p>`;
 }
 
 /**
@@ -234,7 +235,7 @@ export function trustNote(model: SiteModel, submission: SiteSubmission): string 
   const output = submission.output;
   if (!output || recordSpecVersion(output) !== 2) return "";
   const environment = output.manifest.leanVersion;
-  return `<p class="trust-note">In environment ${code(environment)} (spec ${model.environmentSpecVersion(environment)}) the edges of a proof network are certified by Lean's <code>lake comparator</code> over the record's own Challenge, so a reader need not trust this archive's pipeline for them; the concept packages a record depends on are trusted for their meaning, as in every environment; and every certificate can be rerun from its bundle.</p>`;
+  return `<p class="trust-note">In environment ${code(environment)} (spec ${model.environmentSpecVersion(environment)}) the edges of a proof network are certified by Lean's <code>lake comparator</code> over the record's own Challenge, so a reader need not trust this archive's pipeline for them; the concept packages a record depends on are trusted for their meaning, as in every environment; and a certificate can be rerun with <code>lax certify --run</code> from the archive's own captures of the packages, or by hand from its bundle while the authors' repositories still serve them.</p>`;
 }
 
 /**
