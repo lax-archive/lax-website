@@ -5073,6 +5073,228 @@
       ]
     },
     {
+      "id": "lax-485149",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Descriptive complexity: L, NL and transitive closure",
+      "concepts": [
+        {
+          "id": "Lax485149.ClassL",
+          "title": "The classes L and coL",
+          "type": "definition"
+        },
+        {
+          "id": "Lax485149.ClassNL",
+          "title": "The classes NL and coNL",
+          "type": "definition"
+        },
+        {
+          "id": "Lax485149.Complement",
+          "title": "The complement of a decision problem",
+          "type": "definition"
+        },
+        {
+          "id": "Lax485149.DeterministicReachability",
+          "title": "Deterministic reachability in directed graphs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax485149.DeterministicReachabilityInvariance",
+          "title": "Invariance and characterization of deterministic reachability",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax485149.DeterministicTransitiveClosure",
+          "title": "First-order logic with a deterministic transitive closure",
+          "type": "definition"
+        },
+        {
+          "id": "Lax485149.FirstOrderDefinability",
+          "title": "First-order definability on ordered structures",
+          "type": "definition"
+        },
+        {
+          "id": "Lax485149.FirstOrderInTransitiveClosure",
+          "title": "FO(≤) ⊆ FO(DTC) ⊆ FO(TC)",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax485149.HeadAutomata",
+          "title": "Two-way multihead automata on ordered structures",
+          "type": "definition"
+        },
+        {
+          "id": "Lax485149.ImmermanSzelepcsenyi",
+          "title": "The Immerman–Szelepcsényi theorem: FO(TC) is closed under complement",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax485149.KromAndTransitiveClosure",
+          "title": "Translations between SO-Krom and FO(TC)",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax485149.KromFragment",
+          "title": "The Krom fragment of existential second-order logic",
+          "type": "definition"
+        },
+        {
+          "id": "Lax485149.LByAutomata",
+          "title": "L is acceptance by deterministic two-way multihead automata",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax485149.LClosure",
+          "title": "L is closed under first-order reductions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax485149.LEqCoL",
+          "title": "L = coL",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax485149.LSubsetNL",
+          "title": "L ⊆ NL",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax485149.NLByAutomata",
+          "title": "NL is acceptance by two-way multihead automata",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax485149.NLClosure",
+          "title": "NL is closed under first-order reductions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax485149.NLEqCoNL",
+          "title": "NL = coNL",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax485149.NLIsTransitiveClosure",
+          "title": "NL = FO(TC)",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax485149.NLSubsetNP",
+          "title": "NL ⊆ NP",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax485149.Problems",
+          "title": "Problems given by a property of structures",
+          "type": "definition"
+        },
+        {
+          "id": "Lax485149.Reachability",
+          "title": "Reachability and unreachability in directed graphs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax485149.ReachabilityInvariance",
+          "title": "Invariance and characterization of reachability",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax485149.ReachdLComplete",
+          "title": "REACHd is L-complete",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax485149.ReachNLComplete",
+          "title": "REACH is NL-complete",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax485149.SecondOrderAtoms",
+          "title": "Atoms in second-order relation variables",
+          "type": "definition"
+        },
+        {
+          "id": "Lax485149.TransitiveClosure",
+          "title": "First-order logic with a transitive closure",
+          "type": "definition"
+        },
+        {
+          "id": "Lax485149.TransitiveClosureClosure",
+          "title": "FO(TC) definability is closed under first-order reductions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax485149.TwoSat",
+          "title": "Satisfiability of CNF formulas of width two",
+          "type": "definition"
+        },
+        {
+          "id": "Lax485149.TwoSatInvariance",
+          "title": "Invariance and characterization of 2SAT",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax485149.TwoSatNLComplete",
+          "title": "2SAT is NL-complete",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax485149.UnreachdLComplete",
+          "title": "UNREACHd is L-complete",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax485149.UnreachNLComplete",
+          "title": "UNREACH is NL-complete",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax485149Proofs.Bridge.detReachable_iso",
+        "Lax485149Proofs.Bridge.dtcDefinable_iff_automaton",
+        "Lax485149Proofs.Bridge.dtcDefinable_tcDefinable",
+        "Lax485149Proofs.Bridge.foDefinable_dtcDefinable",
+        "Lax485149Proofs.Bridge.foDefinable_tcDefinable",
+        "Lax485149Proofs.Bridge.LOGSPACE_eq_coLOGSPACE",
+        "Lax485149Proofs.Bridge.LOGSPACE_mem_congr_finite",
+        "Lax485149Proofs.Bridge.LOGSPACE_mem_of_foReduction",
+        "Lax485149Proofs.Bridge.LOGSPACE_mem_of_orderedReduction",
+        "Lax485149Proofs.Bridge.LOGSPACE_subset_NL",
+        "Lax485149Proofs.Bridge.mem_LOGSPACE_iff_automaton",
+        "Lax485149Proofs.Bridge.mem_NL_iff_automaton",
+        "Lax485149Proofs.Bridge.mem_NL_iff_tcDefinable_compl",
+        "Lax485149Proofs.Bridge.NL_eq_coNL",
+        "Lax485149Proofs.Bridge.NL_mem_congr_finite",
+        "Lax485149Proofs.Bridge.NL_mem_of_foReduction",
+        "Lax485149Proofs.Bridge.NL_mem_of_orderedReduction",
+        "Lax485149Proofs.Bridge.NL_subset_NP",
+        "Lax485149Proofs.Bridge.reach_hard_of_tcDefinable",
+        "Lax485149Proofs.Bridge.reach_iff",
+        "Lax485149Proofs.Bridge.reach_NL_complete",
+        "Lax485149Proofs.Bridge.reach_tcDefinable",
+        "Lax485149Proofs.Bridge.reachable_iso",
+        "Lax485149Proofs.Bridge.reachd_dtcDefinable",
+        "Lax485149Proofs.Bridge.reachd_hard_of_dtcDefinable",
+        "Lax485149Proofs.Bridge.reachd_iff",
+        "Lax485149Proofs.Bridge.reachd_LOGSPACE_complete",
+        "Lax485149Proofs.Bridge.sigmaSOKromDefinable_compl_of_tcDefinable",
+        "Lax485149Proofs.Bridge.tcDefinable_compl",
+        "Lax485149Proofs.Bridge.tcDefinable_compl_of_sigmaSOKromDefinable",
+        "Lax485149Proofs.Bridge.tcDefinable_congr_finite",
+        "Lax485149Proofs.Bridge.tcDefinable_iff_automaton",
+        "Lax485149Proofs.Bridge.tcDefinable_iff_mem_NL",
+        "Lax485149Proofs.Bridge.tcDefinable_of_foReduction",
+        "Lax485149Proofs.Bridge.tcDefinable_of_orderedReduction",
+        "Lax485149Proofs.Bridge.twoSat_iff",
+        "Lax485149Proofs.Bridge.twoSat_NL_complete",
+        "Lax485149Proofs.Bridge.twoSatisfiable_iso",
+        "Lax485149Proofs.Bridge.unreach_iff",
+        "Lax485149Proofs.Bridge.unreach_NL_complete",
+        "Lax485149Proofs.Bridge.unreachd_iff",
+        "Lax485149Proofs.Bridge.unreachd_LOGSPACE_complete"
+      ]
+    },
+    {
       "id": "lax-489179",
       "state": "registered",
       "environment": "v4.33.0",
