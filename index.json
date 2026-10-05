@@ -1593,7 +1593,7 @@
     },
     {
       "id": "lax-117284",
-      "state": "draft",
+      "state": "registered",
       "environment": "v4.33.0",
       "title": "Fair Repetitive Interval Scheduling",
       "concepts": [
