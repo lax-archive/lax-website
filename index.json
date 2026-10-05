@@ -6355,6 +6355,33 @@
       ]
     },
     {
+      "id": "lax-689794",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Finding Tree Decompositions of Small Treewidth",
+      "concepts": [
+        {
+          "id": "Lax689794.Bodlaender",
+          "title": "Nice Tree Decompositions of Small Width Are Found in Fixed-Parameter Time",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax689794.BodlaenderKloks",
+          "title": "Optimal Tree Decompositions from a Given One",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax689794.GraphWords",
+          "title": "Graphs and Nice Tree Decompositions as Words",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax689794Proofs.Fun.Final.improveDecomposition_proved",
+        "Lax689794Proofs.Fun.Final.niceDecomposition_computable_proved"
+      ]
+    },
+    {
       "id": "lax-709149",
       "state": "registered",
       "environment": "v4.33.0",
