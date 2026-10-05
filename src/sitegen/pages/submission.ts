@@ -19,6 +19,7 @@ import {
   graphTooltip,
   paperAbstract,
   paperHeader,
+  PENDING_LABEL,
   type PageContext,
   proofItem,
   proofNetworkLegend,
@@ -271,6 +272,7 @@ export function proofNetworkData(ctx: PageContext, submission: SiteSubmission, r
     description: string;
     owner: string;
     ext: boolean;
+    pending?: true;
   }>();
 
   // A concept is an indivisible unit of the figure: naming any one of its
@@ -298,6 +300,7 @@ export function proofNetworkData(ctx: PageContext, submission: SiteSubmission, r
       description: proof.description,
       owner,
       ext: owner !== output.id,
+      ...(proof.pending ? { pending: true as const } : {}),
     });
   };
 
@@ -460,8 +463,9 @@ export function proofNetworkData(ctx: PageContext, submission: SiteSubmission, r
       kind: "proof",
       name: `Proof of ${conclusion.name}`,
       nameHtml: `Proof of ${ctx.markdown.renderAuthorInline(conclusion.name, rootRel)}`,
-      status: proof.assumptionsProven ? "grounded" : "conditional",
-      statusDetail: proof.assumptionsProven
+      // A pending edge (lax decision 12) is drawn dashed and proves nothing.
+      status: proof.pending ? "pending" : proof.assumptionsProven ? "grounded" : "conditional",
+      statusDetail: proof.pending ? PENDING_LABEL : proof.assumptionsProven
         ? "All assumptions are proven"
         : `${proof.outstanding} open assumption${proof.outstanding === 1 ? "" : "s"}`,
       submission: submissionDetails(proofSubmission),

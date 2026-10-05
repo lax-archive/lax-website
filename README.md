@@ -290,7 +290,16 @@ What a spec-2 record shows beyond a spec-1 one:
   packages a record depends on are trusted for their meaning, as in every
   environment; a certificate reruns with `lax certify --run` from the
   archive's captures, or by hand while the authors' repositories still
-  serve the pinned commits.
+  serve the pinned commits;
+- **pending edges** (a draft only; `lax` decision 12): a proof recorded
+  `"pending": true` has a `sorry` in its proof. Its telescope is shown like
+  any other, marked "pending (proof contains sorry)" on its card, its proof
+  page, and in the proof network's details, where the proof and its
+  incidences are drawn dashed (a class on the prepared SVG only — the layout
+  input, and so the geometry cache, are the complete edge's). It carries no
+  certified mark, is in no Challenge, and never fires in the network's
+  provenness. A record whose proofs are all pending has no `certificate`;
+  the record page says how many edges are pending.
 
 A statement's raw `body` (the inspector's core-notation rendering) is carried
 in the model but not shown: the author's source, with its notation, remains

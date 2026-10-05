@@ -34,7 +34,8 @@ function nodeSvg(node: DisplayNode, drawing: NodeDrawing): string {
     // The turnstile stays compact. A visible rail connects multiple spaced
     // attachments to this particular proof's AND junction.
     const rail = drawing.proofRail ? `<path class="graph-port-rail" d="M0,40 H${drawing.body.width + 2 * drawing.body.x} M${cx},40 V28"/>` : "";
-    return anchor(node.href, `net-proof${node.ext ? " ext" : ""}`, node.id, `Proof ${node.semanticId}`,
+    return anchor(node.href, `net-proof${node.ext ? " ext" : ""}${node.pending ? " pending" : ""}`, node.id,
+      `Proof ${node.semanticId}${node.pending ? ", pending (proof contains sorry)" : ""}`,
       `${rail}${rect(drawing.body)}<path class="graph-turnstile" d="M${cx - 5},8 V20 M${cx - 5},14 H${cx + 6}"/>`);
   }
   const cls = `${node.kind === "submission" ? "dag-node submission" : "net-node"} ${node.status}${node.ext ? " ext" : ""}`;
@@ -93,15 +94,19 @@ export function graphSvg(measured: MeasuredDisplayGraph, geometry: GraphGeometry
   // are drawn as ordinary nodes and edges without a cycle envelope.
   const groups = (geometry.groups ?? []).filter((group) => group.kind !== "sibling-proofs")
     .map((group) => `<g class="graph-scc" data-group-id="${attr(group.id)}" aria-label="Display cycle">${rect(group, "cycle-component")}</g>`).join("");
+  const nodeMap = new Map(measured.display.nodes.map((node) => [node.id, node]));
+  // Every incidence of a pending proof is drawn dashed, like the proof itself.
+  const portNode = new Map(measured.graph.nodes.flatMap((node) => node.ports.map((port) => [port.id, node.id] as const)));
+  const pendingEdge = (spec: MeasuredDisplayGraph["graph"]["edges"][number]) =>
+    [spec.sourcePortId, spec.targetPortId].some((port) => nodeMap.get(portNode.get(port)!)?.pending);
   const edges = serialized.edges.map((edge) => {
     const spec = measured.graph.edges.find((e) => e.id === edge.id)!;
-    const className = measured.display.kind === "proofs" ? `net-edge ${spec.kind}` : `dag-edge${spec.kind === "proofs" ? " proof-dep" : ""}`;
+    const className = measured.display.kind === "proofs" ? `net-edge ${spec.kind}${pendingEdge(spec) ? " pending" : ""}` : `dag-edge${spec.kind === "proofs" ? " proof-dep" : ""}`;
     return edge.sections.map((section) => `<path class="${attr(className)}" data-edge-id="${attr(edge.id)}" d="${pathData(section.commands!)}"${section.terminalTargetPortId ? ` marker-end="url(#${marker})"` : ""}/>`).join("");
   }).join("");
   const edgeHits = measured.display.kind === "proofs" ? serialized.edges.map((edge) => edge.sections
     .map((section) => `<path class="graph-edge-hit" data-edge-hit="${attr(edge.id)}" d="${pathData(section.commands!)}"/>`).join(""))
     .join("") : "";
-  const nodeMap = new Map(measured.display.nodes.map((node) => [node.id, node]));
   const nodeScale = measured.display.nodeScale ? ` scale(${measured.display.nodeScale})` : "";
   const nodes = geometry.nodes.map((node) => `<g transform="translate(${node.x},${node.y})${nodeScale}">${nodeSvg(nodeMap.get(node.id)!, measured.drawings.get(node.id)!)}</g>`).join("");
   // Paint routes over box fills so the label-free attachment areas retain

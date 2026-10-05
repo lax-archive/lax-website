@@ -141,8 +141,15 @@ describe("spec-2 records in the loader", () => {
     expect(broken((s) => { s.certificate.bundle.registryBlob = blob("9".repeat(64)); })).toThrow("bundle registryBlob is not a ghcr address of its digest");
     expect(broken((s) => { s.certificate.solutionExportSha256 = "not-hex"; })).toThrow("solutionExportSha256 must be a sha256 hex string");
     expect(broken((s) => { delete s.certificate.solutionExportSha256; })).toThrow("solutionExportSha256 must be a sha256 hex string");
-    expect(broken((s) => { delete s.certificate; })).toThrow("certificate is missing on a record with proofs");
-    expect(broken((s) => { s.proofs = []; })).toThrow("certificate is present on a record without proofs");
+    expect(broken((s) => { delete s.certificate; })).toThrow("certificate is missing on a record with a complete proof");
+    expect(broken((s) => { s.proofs = []; })).toThrow("certificate is present on a record without a complete proof");
+    // pending edges (lax decision 12): only `true`, and the certificate keys
+    // on the complete proofs alone
+    expect(broken((s) => { s.proofs[1].pending = false; })).toThrow("proof 2 pending must be true when present");
+    expect(broken((s) => { s.proofs[1].pending = true; })).not.toThrow();
+    expect(broken((s) => { s.proofs[1].pending = true; delete s.certificate; })).toThrow("certificate is missing on a record with a complete proof");
+    expect(broken((s) => { for (const proof of s.proofs) proof.pending = true; })).toThrow("certificate is present on a record without a complete proof");
+    expect(broken((s) => { for (const proof of s.proofs) proof.pending = true; delete s.certificate; })).not.toThrow();
     expect(broken((s) => { s.capture.references.registryBlob = blob("9".repeat(64)); })).toThrow("references registryBlob is not a ghcr address of its digest");
     expect(broken((s) => { s.inputs.manifest.id = "lax-99"; })).toThrow('manifest names "lax-99", not lax-38');
   });
@@ -324,6 +331,71 @@ describe("spec-2 records on the site", () => {
     // the certified mark keys on proofs and the certificate together
     const output = loadSubmissions(root).find((s) => s.record.id === "lax-39")!.output!;
     expect(isCertified(output)).toBe(false);
+  });
+
+  it("shows a pending edge's type marked pending, never certified, and proves nothing with it", async () => {
+    // lax-42: a draft whose one proof is a pending edge concluding lax-38's
+    // Refl from nothing, so it has no certificate; lax-38 stays complete.
+    const root = database((dir) => {
+      fs.mkdirSync(path.join(dir, "lax-42"));
+      fs.writeFileSync(path.join(dir, "lax-42", "record.json"), JSON.stringify({ specVersion: "1", id: "lax-42", state: "draft", createdAt: "2026-10-05T00:00:00Z" }));
+      const stored = storedRecord();
+      stored.id = "lax-42";
+      stored.inputs.manifest.title = "Stub first";
+      stored.concepts = [];
+      stored.proofs = [{ ...stored.proofs[1], id: "Lax42Proofs.refl", path: "proofs/Lax42Proofs/Basic.lean", pending: true,
+        telescope: { hypotheses: [], conclusion: stored.proofs[1].telescope.conclusion } }];
+      delete stored.certificate;
+      fs.writeFileSync(path.join(dir, "lax-42", "build-output.json"), JSON.stringify(stored));
+    });
+    const submissions = loadSubmissions(root);
+    const model = new SiteModel(submissions);
+    expect(model.network.proven.has("Lax38.Order.Refl")).toBe(true); // through lax-38's own complete edge
+    const out = tmpDir("lax-spec2-pending-");
+    await generateSite(submissions, out);
+    const read = (file: string) => fs.readFileSync(path.join(out, file), "utf8");
+    const proof = read("lax-42/Lax42Proofs.refl.html");
+    expect(proof).toContain('<div class="judgment judgment-spec2">');
+    expect(proof).toContain('class="status-pill pill-none"');
+    expect(proof).toContain(">pending (proof contains sorry)</span>");
+    expect(proof).toContain("its Lean proof contains <code>sorry</code>. It is not in the record's Challenge, is not certified");
+    for (const marker of ["certified-mark", "lax certify", "pill-proven", "grounded"]) expect(proof).not.toContain(marker);
+    const record = read("lax-42/index.html");
+    expect(record).toContain('<span class="pending-mark" title=');
+    expect(record).toContain('<p class="pending-note">One edge is pending (proof contains sorry)');
+    for (const marker of ["certified-mark", "challenge-details", "trust-note"]) expect(record).not.toContain(marker);
+    const data = JSON.parse(/<script type="application\/json" id="graph-data">([\s\S]*?)<\/script>/u.exec(record)![1]!);
+    expect(data.proofs.proofs).toContainEqual(expect.objectContaining({ id: "Lax42Proofs.refl", owner: "lax-42", pending: true }));
+    expect(data.proofs.proofs.filter((entry: { pending?: boolean }) => entry.pending)).toHaveLength(1);
+    expect(data.proofs.details["proof:Lax42Proofs.refl"]).toMatchObject({ status: "pending", statusDetail: "pending (proof contains sorry)" });
+    expect(record).toContain('class="legend-proof-chip legend-pending"');
+    // a pending edge never fires in the network
+    const alone = storedRecord();
+    alone.proofs[0].pending = true;
+    alone.proofs[1].pending = true;
+    delete alone.certificate;
+    const output = rendererOutput(alone, "x", "lax-38")!;
+    const pendingModel = new SiteModel([{ record: submissions.find((s) => s.record.id === "lax-38")!.record, output }]);
+    expect(pendingModel.network.proven.size).toBe(0);
+    expect(isCertified(output)).toBe(false);
+  });
+
+  it("marks a complete proof certified and a pending one beside it pending", async () => {
+    const root = database((dir) => {
+      const stored = storedRecord();
+      stored.proofs[1].pending = true;
+      fs.writeFileSync(path.join(dir, "lax-38", "build-output.json"), JSON.stringify(stored));
+    });
+    const out = tmpDir("lax-spec2-mixed-");
+    await generateSite(loadSubmissions(root), out);
+    const read = (file: string) => fs.readFileSync(path.join(out, file), "utf8");
+    const record = read("lax-38/index.html");
+    expect(record.match(/class="certified-mark certified-mark-compact"/gu)).toHaveLength(1);
+    expect(record.match(/class="pending-mark"/gu)).toHaveLength(1);
+    expect(record).toContain("Every complete proof of this record, stated over its concept packages alone");
+    expect(record.indexOf('class="pending-note"')).toBeLessThan(record.indexOf("<summary>Challenge</summary>"));
+    expect(read("lax-38/Lax38Proofs.refl_of_hasSucc.html")).not.toContain("certified-mark");
+    expect(read("lax-38/Lax38Proofs.hasSucc.html")).toContain("certified-mark-line");
   });
 
   it("keeps the raw statement body off the page: the source is the shown form", async () => {

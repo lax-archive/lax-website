@@ -219,7 +219,7 @@ export function publicGraphPayload(input: unknown): Partial<PublicGraphData> {
           assumptions: list(proof.assumptions, "Proof assumptions").map((id) => requiredString(id, "Assumption identity")).sort(compareText),
         };
         copyFields(proof, out, ["description", "tooltipHtml", "href", "owner"], "string");
-        copyFields(proof, out, ["ext", "assumptionsProven"], "boolean");
+        copyFields(proof, out, ["ext", "assumptionsProven", "pending"], "boolean");
         copyFields(proof, out, ["outstanding"], "number");
         return out;
       }).sort((a, b) => compareText(String(a.id), String(b.id)));

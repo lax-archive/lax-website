@@ -352,8 +352,10 @@
       const statuses = document.createElement('div');
       statuses.className = 'graph-detail-statuses';
       const singleStatement = detail.kind === 'concept' && detail.statements?.length === 1;
+      // A pending proof's detail is its whole label: "pending (proof contains sorry)".
       const label = singleStatement && ['proven', 'open'].includes(detail.status)
         ? `${detail.status === 'proven' ? 'Proven' : 'Open'} Statement`
+        : detail.status === 'pending' && detail.statusDetail ? detail.statusDetail
         : detail.status + (detail.statusDetail ? ` — ${detail.statusDetail}` : '');
       const status = appendText(statuses, 'p', `graph-detail-status ${detail.status}`, label);
       status.setAttribute('aria-label', `Status: ${status.textContent}`);
@@ -559,9 +561,11 @@
     }
     const section = document.createElement('section');
     appendText(section, 'h4', '', 'Proof relationship');
-    appendText(section, 'p', 'graph-detail-relationship-intro', detail.assumptions?.length
-      ? 'The Lean proof checks that the conclusion follows from the assumptions listed here.'
-      : 'The Lean proof checks the conclusion without relying on other archive statements.');
+    appendText(section, 'p', 'graph-detail-relationship-intro', detail.status === 'pending'
+      ? 'This edge is pending: its type is stated, but its Lean proof contains sorry, so it is not certified and proves nothing yet.'
+      : detail.assumptions?.length
+        ? 'The Lean proof checks that the conclusion follows from the assumptions listed here.'
+        : 'The Lean proof checks the conclusion without relying on other archive statements.');
     const claims = document.createElement('div');
     claims.className = 'graph-detail-claims';
     if (detail.assumptions?.length) {
@@ -569,14 +573,15 @@
     }
     if (detail.conclusion) appendClaimGroup(claims, 'Conclusion', [detail.conclusion]);
     section.append(claims);
-    const open = detail.assumptions?.filter((claim) => !claim.proven).length || 0;
+    // Nothing follows from a pending edge, so it gets no conditional note.
+    const open = detail.status === 'pending' ? 0 : detail.assumptions?.filter((claim) => !claim.proven).length || 0;
     if (open) {
       const conclusion = detail.conclusion?.proven
         ? ' The conclusion is proven elsewhere in the archive.'
         : ' The conclusion therefore remains open in the archive.';
       appendText(section, 'p', 'graph-detail-relationship-note',
         `This proof is conditional because ${open} assumption${open === 1 ? '' : 's'} ${open === 1 ? 'is' : 'are'} still open.${conclusion}`);
-    } else if (detail.assumptions?.length) {
+    } else if (detail.assumptions?.length && detail.status !== 'pending') {
       appendText(section, 'p', 'graph-detail-relationship-note complete',
         'All assumptions used by this proof are proven.');
     }
@@ -920,7 +925,9 @@
             name: claimDetail.name,
             relation: assumption
               ? `${claimDetail.name} is used as an assumption of ${proofDetail.name}.`
-              : `${proofDetail.name} establishes ${claimDetail.name}.`,
+              : proofDetail.status === 'pending'
+                ? `${proofDetail.name} would establish ${claimDetail.name}; it is pending (proof contains sorry).`
+                : `${proofDetail.name} establishes ${claimDetail.name}.`,
             proofDetail,
             focusStatement: assumption ? edge.sourceSemanticId : edge.targetSemanticId,
             href: proofDetail.href,

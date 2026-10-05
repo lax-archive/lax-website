@@ -21,6 +21,9 @@ export interface StatementGraphInput extends GraphNodeInput {
 export interface ProofGraphInput {
   id: string; assumptions: readonly string[]; conclusion: string;
   description?: string; tooltipHtml?: string; href?: string; ext?: boolean;
+  /** A pending edge (its proof contains `sorry`): drawn dashed. Presentation
+   * only — it never enters layout, so it shares the complete edge's geometry. */
+  pending?: boolean;
 }
 export interface FlatGraphInput {
   nodes: readonly GraphNodeInput[];
@@ -42,6 +45,8 @@ export interface DisplayNode {
   label: string; href?: string; tooltipHtml?: string;
   tooltipText?: string; tooltipRows?: readonly (readonly [string, string])[];
   status: "proven" | "open" | "none"; ext: boolean;
+  /** Proof nodes only: a pending edge, drawn dashed with its incidences. */
+  pending?: boolean;
   docks: readonly DisplayDock[]; ports: readonly PortSpec[];
 }
 export interface EntityMapping {
@@ -165,7 +170,7 @@ export function projectGraph(kind: GraphKind, input: FlatGraphInput | ProofGraph
     for (const proof of [...data.proofs].sort((a, b) => compareText(a.id, b.id))) {
       const id = `p:${proof.id}`;
       addNode({ id, semanticId: proof.id, kind: "proof", label: "⊢", href: link(proof.href), tooltipHtml: proof.tooltipHtml,
-        tooltipText: proof.description ?? "", status: "none", ext: Boolean(proof.ext), docks: [], ports: [] });
+        tooltipText: proof.description ?? "", status: "none", ext: Boolean(proof.ext), ...(proof.pending ? { pending: true } : {}), docks: [], ports: [] });
       endpoints.set(proof.id, { nodeId: id, semanticId: proof.id });
       mapping.push({ semanticId: proof.id, kind: "proof", nodeId: id });
     }

@@ -25,8 +25,8 @@ import {
 
 const MATHLIB_DOCS = "https://leanprover-community.github.io/mathlib4_docs/";
 
-type ProofSourceAction = { id: string; withheld: true }
-  | { id: string; withheld: false; href: string; provider: string };
+type ProofSourceAction = { id: string; pending: boolean; withheld: true }
+  | { id: string; pending: boolean; withheld: false; href: string; provider: string };
 
 /** Statement ranges include their leading documentation. Find the declaration
  * row so a proof action can be positioned beside the axiom itself. */
@@ -115,17 +115,18 @@ export async function conceptPage(ctx: PageContext, located: LocatedConcept): Pr
     const proofLinks = (ctx.model.statementProofs.get(statement.id) ?? []).flatMap<ProofSourceAction>(({ submission: proofSubmission, proof }) => {
       const proofSource = proofSubmission.record.source;
       if (proofSource && (anonymous || proofSubmission.output?.manifest.anonymous === true))
-        return [{ id: proof.id, withheld: true as const }];
+        return [{ id: proof.id, pending: proof.pending === true, withheld: true as const }];
       const href = proofSource
         ? repositorySource(proofSource.repository, proofSource.commit, proofSource.folder, proof.path)
         : undefined;
-      return href ? [{ id: proof.id, withheld: false as const, href, provider: sourceProviderName(href) }] : [];
+      return href ? [{ id: proof.id, pending: proof.pending === true, withheld: false as const, href, provider: sourceProviderName(href) }] : [];
     });
     if (!proofLinks.length || declarationLine === undefined) return "";
     return `<span class="source-proof-rail" data-source-line="L${declarationLine}" aria-label="Proof links">${proofLinks.map((link, index) => {
       if (link.withheld)
-        return `<span class="statement-proof-button statement-proof-button-withheld" aria-disabled="true" title="${attr(`A Lean-checked proof (${link.id}) exists; its source is unavailable during anonymous review`)}"><span class="anonymity-lock" aria-hidden="true">🔒</span><span class="statement-proof-label">Verified proof · source withheld</span></span>`;
-      const proofKind = proven.has(statement.id) ? "Proof" : "Proof Attempt";
+        return `<span class="statement-proof-button statement-proof-button-withheld" aria-disabled="true" title="${attr(link.pending ? `A pending proof (${link.id}, it contains sorry) exists; its source is unavailable during anonymous review` : `A Lean-checked proof (${link.id}) exists; its source is unavailable during anonymous review`)}"><span class="anonymity-lock" aria-hidden="true">🔒</span><span class="statement-proof-label">${link.pending ? "Pending proof" : "Verified proof"} · source withheld</span></span>`;
+      // A pending edge's proof contains `sorry` (lax decision 12).
+      const proofKind = link.pending ? "Pending Proof" : proven.has(statement.id) ? "Proof" : "Proof Attempt";
       const label = `Show ${proofKind}${proofLinks.length === 1 ? "" : ` ${index + 1}`}`;
       return `<a class="statement-proof-button" href="${attr(link.href)}" aria-label="${attr(`View ${proofKind.toLowerCase()} ${link.id} on ${link.provider}`)}" title="${attr(link.id)}"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">${label}</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a>`;
     }).join("")}</span>`;

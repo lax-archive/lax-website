@@ -117,6 +117,11 @@ export interface ProofEntry {
   /** The assumed statements as a sorted set. Stored (spec 1) or derived
    * (spec 2) like `conclusion`. */
   assumptions: string[];
+  /** Spec 2 only: the proof's axiom cone contains `sorryAx` — a *pending
+   * edge*, its type stated and its proof not yet written (lax decision 12).
+   * Only a draft carries one. It is drawn, never certified, and proves
+   * nothing in the network. Absent on a complete proof. */
+  pending?: true;
   description: string;
   sections?: AnnotationSection[];
 }
@@ -223,7 +228,7 @@ export interface CaptureReferences {
 
 /**
  * The `certificate` key of a spec-2 record, present exactly when the record
- * has proofs: the record of the Certify phase. `lake comparator` of the
+ * has a proof that is not pending: the record of the Certify phase. `lake comparator` of the
  * environment's toolchain held the record's proofs — the proof package is
  * the comparator's solution module — to the Challenge, every edge stated
  * over the concept packages alone as a theorem named after its proof,
@@ -261,6 +266,6 @@ export interface BuildOutput {
   concepts: ConceptEntry[];
   proofs: ProofEntry[];
   paper?: PaperEntry;
-  /** Spec 2 only, and only on a record with proofs. */
+  /** Spec 2 only, and only on a record with a proof that is not pending. */
   certificate?: CertificateEntry;
 }

@@ -269,6 +269,7 @@ function expandSpec2(value: Record<string, unknown>, manifest: Record<string, un
     const entry = `${label} proof ${index + 1}`;
     if (!isObject(proof)) throw new Error(`${entry} must be an object`);
     const telescope = proofTelescope(proof.telescope, `${entry} telescope`);
+    if (proof.pending !== undefined && proof.pending !== true) throw new Error(`${entry} pending must be true when present`);
     return { ...proof, levelParams: stringList(proof.levelParams ?? [], `${entry} levelParams`), telescope, ...derivedEdge(telescope) };
   });
   const capture = isObject(value.capture)
@@ -281,10 +282,13 @@ function expandSpec2(value: Record<string, unknown>, manifest: Record<string, un
     if (!isObject(declared)) throw new Error(`${label} manifest declares no paper for the paper block`);
     paper = { folder: declared.folder, main: declared.main, engine: declared.engine, ...paper };
   }
-  if (value.certificate !== undefined && proofs.length === 0)
-    throw new Error(`${label} certificate is present on a record without proofs`);
-  if (value.certificate === undefined && proofs.length > 0)
-    throw new Error(`${label} certificate is missing on a record with proofs`);
+  // The certificate judges the complete proofs only: a record whose proofs
+  // are all pending edges (lax decision 12) has none.
+  const complete = value.proofs.some((proof) => isObject(proof) && proof.pending !== true);
+  if (value.certificate !== undefined && !complete)
+    throw new Error(`${label} certificate is present on a record without a complete proof`);
+  if (value.certificate === undefined && complete)
+    throw new Error(`${label} certificate is missing on a record with a complete proof`);
   return {
     ...value,
     inputs: { ...(isObject(value.inputs) ? value.inputs : {}), manifest: { id, ...manifest } },

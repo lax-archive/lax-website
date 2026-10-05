@@ -181,7 +181,7 @@ export function proofItem(
 <a class="judgment-overlay" href="${attr(href)}" aria-label="${attr(`Open proof ${proof.id}`)}"></a>
 ${proofJudgment(model, proof, rootRel, opts.home)}
 </div>
-<p class="proof-item-head">${proofBadge()}<a class="proof-item-link" href="${attr(href)}"${title}>${code(name)}</a>${origin}${certifiedMark(output, "compact")}</p>
+<p class="proof-item-head">${proofBadge()}<a class="proof-item-link" href="${attr(href)}"${title}>${code(name)}</a>${origin}${proof.pending ? pendingMark() : certifiedMark(output, "compact")}</p>
 </li>`;
 }
 
@@ -203,11 +203,22 @@ function certificateText(output: BuildOutput, certificate: CertificateEntry): st
   return `certified: lake comparator (Lean ${output.manifest.leanVersion}, kernels ${certificate.kernels.join(", ")})`;
 }
 
+/** What a pending edge is called wherever one is shown (lax decision 12). */
+export const PENDING_LABEL = "pending (proof contains sorry)";
+
+/** The chip a pending edge carries where a complete one carries the
+ * certified mark: its type is stated, its proof is not written, and nothing
+ * certified it. */
+export function pendingMark(): string {
+  return `<span class="pending-mark" title="The edge's type is stated; its proof contains sorry, so it is not certified and proves nothing in the archive yet.">${esc(PENDING_LABEL)}</span>`;
+}
+
 /**
  * The certified mark of a spec-2 record with proofs. `compact` is the chip on
  * a proof card (the full text in its tooltip); `line` is the full sentence
  * with the bundle digest, for a proof page and the record page. A spec-1
- * record, or a spec-2 record without proofs, has no mark.
+ * record, or a spec-2 record without proofs, has no mark; a pending edge
+ * never carries it (its callers show `pendingMark` instead).
  */
 export function certifiedMark(output: BuildOutput, form: "compact" | "line"): string {
   if (!isCertified(output)) return "";
@@ -249,19 +260,26 @@ export function trustNote(model: SiteModel, submission: SiteSubmission): string 
  */
 export function certificateSection(model: SiteModel, submission: SiteSubmission): string {
   const output = submission.output;
-  if (!output || !isCertified(output)) return "";
+  if (!output) return "";
+  const pending = output.proofs.filter((proof) => proof.pending).length;
+  // A draft's pending edges are in the network and in no certificate; a
+  // record whose proofs are all pending has the note alone.
+  const pendingNote = pending
+    ? `<p class="pending-note">${pending === 1 ? "One edge is" : `${pending} edges are`} ${esc(PENDING_LABEL)}: stated, not yet proven, left out of the Challenge and of what the network proves. A draft may carry pending edges; registration refuses them.</p>`
+    : "";
+  if (!isCertified(output)) return pendingNote ? `\n<div class="certificate-block">\n${pendingNote}\n</div>` : "";
   const certificate = output.certificate!;
   // Leads with its own line break so a spec-1 page, where it is empty,
   // keeps its bytes.
   return `
-<div class="certificate-block">
+<div class="certificate-block">${pendingNote ? `\n${pendingNote}` : ""}
 ${certifiedMark(output, "line")}
 ${rerunCommands(submission.record.id)}
 ${trustNote(model, submission)}
 <details class="figure-details challenge-details">
 <summary>Challenge</summary>
 <div class="block block-challenge">
-<p class="challenge-intro">Every proof of this record, stated over its concept packages alone — <code>Challenge.lean</code> as the archive generated it. <code>lake comparator</code> held the record's proofs to these theorems, each by its own name.</p>
+<p class="challenge-intro">Every ${pending ? "complete " : ""}proof of this record, stated over its concept packages alone — <code>Challenge.lean</code> as the archive generated it. <code>lake comparator</code> held the record's proofs to these theorems, each by its own name.</p>
 <p class="challenge-digests">bundle ${code(certificate.bundle.digest)}<br>challenge export ${code(certificate.challengeExportSha256)}<br>proof package export ${code(certificate.solutionExportSha256)}</p>
 <pre class="challenge-source"><code>${esc(certificate.challenge)}</code></pre>
 </div>
@@ -276,7 +294,7 @@ type ClaimStatus = ConceptGraphData["nodes"][number]["status"];
 
 interface ProofNetworkLegendData {
   statements: { id: string; proven: boolean; ext: boolean; count?: number }[];
-  proofs: { id: string; assumptions: string[]; conclusion: string; ext: boolean }[];
+  proofs: { id: string; assumptions: string[]; conclusion: string; ext: boolean; pending?: true }[];
 }
 
 /** Keep the status axis in one archive-wide order while omitting fills that
@@ -394,6 +412,7 @@ export function proofNetworkLegend(data: ProofNetworkLegendData): string {
       : "",
     origin,
     data.proofs.length ? `<span><i class="legend-proof-chip" aria-hidden="true">⊢</i>Proof — open large view for details</span>` : "",
+    data.proofs.some((proof) => proof.pending) ? `<span><i class="legend-proof-chip legend-pending" aria-hidden="true">⊢</i>Dashed: ${esc(PENDING_LABEL)}</span>` : "",
     proofNetworkHasCycle(data) ? `<span><i class="legend-cycle"></i>Cycle — claims proving each other</span>` : "",
   ];
   return `<figcaption class="graph-legend" aria-label="Proof network legend">${items.join("")}</figcaption>`;

@@ -3739,6 +3739,24 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
   cursor: help;
 }
 
+.pending-mark{
+  display: inline-block;
+  margin-left: 0.5rem;
+  padding: 0.05rem 0.45rem;
+  border: 1px dashed var(--partial-border);
+  border-radius: var(--radius-chip);
+  background: var(--partial-bg);
+  color: var(--partial-fg);
+  font-size: 0.72rem;
+  cursor: help;
+}
+
+.pending-note{
+  color: var(--partial-fg);
+  font-size: 0.85rem;
+  margin-top: 0.6rem;
+}
+
 .certified-mark-line{
   color: var(--text-dim);
   font-size: 0.85rem;
@@ -4577,6 +4595,7 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
   font-size: 0.8rem;
   line-height: 1;
 }
+.legend-proof-chip.legend-pending{ border-style: dashed; }
 .legend-cycle{ width: 18px; height: 12px; border: 1px solid var(--neutral-stroke); border-radius: var(--radius-chip); }
 /* The numbered dock of a claim with several statements. */
 .legend-dock{
@@ -4719,7 +4738,8 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
   color: var(--proven-fg);
 }
 .graph-detail-status.open,
-.graph-detail-status.conditional{
+.graph-detail-status.conditional,
+.graph-detail-status.pending{
   border-color: var(--partial-border);
   background: var(--partial-bg);
   color: var(--partial-fg);
@@ -5066,6 +5086,10 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
 .net-proof text{ font-family: serif; font-size: 16px; fill: var(--text); }
 .net-proof.ext rect{ stroke: var(--none-border); }
 .net-proof.ext text{ fill: var(--text-dim); }
+/* A pending edge (its proof contains sorry): the proof and its incidences
+   are dashed — stated, not proven. */
+.net-proof.pending rect{ stroke-dasharray: 3 2; }
+.net-edge.pending{ stroke-dasharray: 5 4; }
 
 .dag-node[role="link"]:hover rect,
 .net-node[role="link"]:hover rect,

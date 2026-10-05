@@ -51,6 +51,23 @@ describe("semantic display projection", () => {
     expect(validateGeometry(measured.graph, geometry)).toMatchObject({ valid: true });
     expect(geometry.ports.filter((port) => port.nodeId === concept.id)).toHaveLength(2);
   });
+  it("draws a pending proof and its incidences dashed without changing the layout input", () => {
+    const input = proofInput();
+    const pending: ProofGraphData = { ...input, proofs: input.proofs.map((proof) => proof.id === "p2" ? { ...proof, pending: true } : proof) };
+    const plain = measureDisplayGraph(projectGraph("proofs", input), fixtureLabels(projectGraph("proofs", input)));
+    const display = projectGraph("proofs", pending);
+    const measured = measureDisplayGraph(display, fixtureLabels(display));
+    // presentation only: the measured layout graph and the mapping are the
+    // complete graph's, so the geometry (and its cache key) is shared
+    expect(canonicalJson(measured.graph)).toBe(canonicalJson(plain.graph));
+    expect(canonicalJson(display.mapping)).toBe(canonicalJson(plain.display.mapping));
+    const { geometry } = layoutGraph(measured.graph, { inputDigest: "pending-proof" });
+    const svg = graphSvg(measured, geometry, "pending");
+    expect(svg).toContain('class="net-proof pending" data-node-id="p:p2" aria-label="Proof p2, pending (proof contains sorry)"');
+    expect(svg).toContain('class="net-proof" data-node-id="p:p1" aria-label="Proof p1"');
+    expect(svg.match(/class="net-edge (?:assumption|conclusion) pending" data-edge-id="e:p2:/gu)).toHaveLength(2);
+    expect(svg).not.toMatch(/class="net-edge [a-z]+ pending" data-edge-id="e:p1:/u);
+  });
   it("shortens only local dock tooltip labels while preserving full identifiers and links", () => {
     const concepts = [{ id: "Lax701.Local", ext: false }, { id: "Lax702.Foreign", ext: true }];
     const statements = concepts.flatMap((concept) => ["first", "second"].map((name, index) => ({
