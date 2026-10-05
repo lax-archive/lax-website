@@ -123,6 +123,7 @@
         "probes": [
           "comparator-accepts",
           "comparator-rejects-mismatch",
+          "comparator-rejects-sorry",
           "kernel-rejects-forged",
           "canary-invisible",
           "network-absent",
