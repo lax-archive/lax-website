@@ -4482,7 +4482,7 @@
     },
     {
       "id": "lax-392996",
-      "state": "draft",
+      "state": "registered",
       "environment": "v4.33.0",
       "title": "ProvSQL: provenance-aware query rewriting and probabilistic query evaluation are correct",
       "concepts": [
@@ -7734,6 +7734,96 @@
         }
       ],
       "proofs": []
+    },
+    {
+      "id": "lax-825442",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Graph Parameters and Functional Relations",
+      "concepts": [
+        {
+          "id": "Lax825442.Arboricity",
+          "title": "Arboricity",
+          "type": "definition"
+        },
+        {
+          "id": "Lax825442.Bounds",
+          "title": "Functional bounds between graph parameters",
+          "type": "definition"
+        },
+        {
+          "id": "Lax825442.Degeneracy",
+          "title": "Degeneracy",
+          "type": "definition"
+        },
+        {
+          "id": "Lax825442.DoesNotBound",
+          "title": "Absence of a functional bound",
+          "type": "definition"
+        },
+        {
+          "id": "Lax825442.Equivalent",
+          "title": "Functional equivalence of graph parameters",
+          "type": "definition"
+        },
+        {
+          "id": "Lax825442.EquivalentEquivalence",
+          "title": "Functional equivalence is an equivalence relation",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax825442.FunctionalEquivalenceConnection",
+          "title": "Agreement with Lax functional equivalence",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax825442.Incomparable",
+          "title": "Incomparability of graph parameters",
+          "type": "definition"
+        },
+        {
+          "id": "Lax825442.IncomparableProperties",
+          "title": "Incomparability is symmetric and irreflexive",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax825442.MaximumMatching",
+          "title": "Maximum matching number",
+          "type": "definition"
+        },
+        {
+          "id": "Lax825442.NeighborhoodDiversity",
+          "title": "Neighborhood diversity",
+          "type": "definition"
+        },
+        {
+          "id": "Lax825442.RelationClassification",
+          "title": "Exactly one of four relations for graph parameters",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax825442.StrictlyBounds",
+          "title": "Strict functional boundedness of graph parameters",
+          "type": "definition"
+        },
+        {
+          "id": "Lax825442.StrictlyBoundsOrder",
+          "title": "Strict functional boundedness is a strict partial order",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax825442.TwinCover",
+          "title": "Twin-cover number",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax825442Proofs.EquivalentEquivalence.equivalent_equivalence",
+        "Lax825442Proofs.FunctionalEquivalenceConnection.functionallyEquivalent_iff",
+        "Lax825442Proofs.IncomparableProperties.incomparable_symmetric_irreflexive",
+        "Lax825442Proofs.RelationClassification.relationClassification",
+        "Lax825442Proofs.StrictlyBoundsOrder.strictlyBounds_strictOrder"
+      ]
     },
     {
       "id": "lax-842588",
