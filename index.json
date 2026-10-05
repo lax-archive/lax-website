@@ -5971,6 +5971,165 @@
       ]
     },
     {
+      "id": "lax-535992",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Descriptive complexity: PTIME, fixed points and the Immerman–Vardi theorem",
+      "concepts": [
+        {
+          "id": "Lax535992.CircuitValue",
+          "title": "The circuit value problem",
+          "type": "definition"
+        },
+        {
+          "id": "Lax535992.CircuitValueInvariance",
+          "title": "Invariance and characterization of the circuit value problem",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax535992.CircuitValuePTIMEComplete",
+          "title": "The circuit value problem is PTIME-complete",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax535992.ClassPTIME",
+          "title": "The classes PTIME and coPTIME",
+          "type": "definition"
+        },
+        {
+          "id": "Lax535992.DeterministicMachineInvariance",
+          "title": "Invariance and characterization of deterministic machine acceptance",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax535992.DeterministicMachinePTIMEComplete",
+          "title": "PTIME by deterministic Turing machines",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax535992.DeterministicMachines",
+          "title": "Acceptance by deterministic Turing machines",
+          "type": "definition"
+        },
+        {
+          "id": "Lax535992.Game",
+          "title": "GAME, alternating reachability",
+          "type": "definition"
+        },
+        {
+          "id": "Lax535992.GameInvariance",
+          "title": "Invariance and characterization of GAME",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax535992.GamePTIMEComplete",
+          "title": "GAME is PTIME-complete",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax535992.HornFragment",
+          "title": "The Horn fragment of existential second-order logic",
+          "type": "definition"
+        },
+        {
+          "id": "Lax535992.HornIsLeastFixedPoint",
+          "title": "SO-Horn = FO(LFP)",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax535992.HornSat",
+          "title": "Satisfiability of Horn formulas",
+          "type": "definition"
+        },
+        {
+          "id": "Lax535992.HornSatInvariance",
+          "title": "Invariance and characterization of HORN-SAT",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax535992.HornSatPTIMEComplete",
+          "title": "HORN-SAT is PTIME-complete",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax535992.ImmermanVardi",
+          "title": "The Immerman–Vardi theorem: PTIME = FO(LFP)",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax535992.InflationaryFixedPoint",
+          "title": "First-order logic with inflationary fixed points",
+          "type": "definition"
+        },
+        {
+          "id": "Lax535992.InflationaryIsLeastFixedPoint",
+          "title": "FO(≤, IFP) = FO(LFP) = PTIME",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax535992.LeastFixedPoint",
+          "title": "First-order logic with least fixed points",
+          "type": "definition"
+        },
+        {
+          "id": "Lax535992.LeastFixedPointComplement",
+          "title": "FO(LFP) is closed under complement",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax535992.NLSubsetPTIME",
+          "title": "L ⊆ NL ⊆ PTIME",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax535992.PTIMEClosure",
+          "title": "PTIME is closed under first-order reductions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax535992.PTIMEEqCoPTIME",
+          "title": "PTIME = coPTIME",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax535992.PTIMESubsetNP",
+          "title": "PTIME ⊆ NP",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax535992Proofs.Bridge.circuitAccepts_iso",
+        "Lax535992Proofs.Bridge.cvp_iff",
+        "Lax535992Proofs.Bridge.cvp_PTIME_complete",
+        "Lax535992Proofs.Bridge.dtmAccept_iff",
+        "Lax535992Proofs.Bridge.dtmAccept_PTIME_complete",
+        "Lax535992Proofs.Bridge.dtmAccepts_iso",
+        "Lax535992Proofs.Bridge.game_iff",
+        "Lax535992Proofs.Bridge.game_PTIME_complete",
+        "Lax535992Proofs.Bridge.gameWon_iso",
+        "Lax535992Proofs.Bridge.hornSat_iff",
+        "Lax535992Proofs.Bridge.hornSat_PTIME_complete",
+        "Lax535992Proofs.Bridge.hornSatisfiable_iso",
+        "Lax535992Proofs.Bridge.ifpDefinable_iff_mem_PTIME",
+        "Lax535992Proofs.Bridge.ifpDefinable_lfpDefinable",
+        "Lax535992Proofs.Bridge.lfpDefinable_compl",
+        "Lax535992Proofs.Bridge.lfpDefinable_iff_mem_PTIME",
+        "Lax535992Proofs.Bridge.lfpDefinable_ifpDefinable",
+        "Lax535992Proofs.Bridge.lfpDefinable_sigmaSOHornDefinable",
+        "Lax535992Proofs.Bridge.LOGSPACE_subset_PTIME",
+        "Lax535992Proofs.Bridge.mem_PTIME_iff_le_dtmAccept",
+        "Lax535992Proofs.Bridge.NL_subset_PTIME",
+        "Lax535992Proofs.Bridge.PTIME_eq_coPTIME",
+        "Lax535992Proofs.Bridge.PTIME_mem_congr_finite",
+        "Lax535992Proofs.Bridge.PTIME_mem_of_foReduction",
+        "Lax535992Proofs.Bridge.PTIME_mem_of_orderedReduction",
+        "Lax535992Proofs.Bridge.PTIME_mem_of_relOrderedReduction",
+        "Lax535992Proofs.Bridge.PTIME_subset_NP",
+        "Lax535992Proofs.Bridge.sigmaSOHornDefinable_compl",
+        "Lax535992Proofs.Bridge.sigmaSOHornDefinable_lfpDefinable"
+      ]
+    },
+    {
       "id": "lax-560851",
       "state": "registered",
       "environment": "v4.33.0",

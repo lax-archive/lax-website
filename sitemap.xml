@@ -1872,6 +1872,60 @@
   <url><loc>https://laxarchive.org/lax-53/Lax53Proofs.TreeAutomataToMSO.automaton_definable_by_mso_proof.html</loc></url>
   <url><loc>https://laxarchive.org/lax-53/Lax53Proofs.TreeModelCheckingEncoding.automatonInput_length_proof.html</loc></url>
   <url><loc>https://laxarchive.org/lax-53/Lax53Proofs.ValueTranslations.language_equivalence_proof.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-535992/</loc></url>
+  <url><loc>https://laxarchive.org/lax-535992/Lax535992.CircuitValue.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-535992/Lax535992.CircuitValueInvariance.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-535992/Lax535992.CircuitValuePTIMEComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-535992/Lax535992.ClassPTIME.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-535992/Lax535992.DeterministicMachineInvariance.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-535992/Lax535992.DeterministicMachinePTIMEComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-535992/Lax535992.DeterministicMachines.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-535992/Lax535992.Game.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-535992/Lax535992.GameInvariance.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-535992/Lax535992.GamePTIMEComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-535992/Lax535992.HornFragment.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-535992/Lax535992.HornIsLeastFixedPoint.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-535992/Lax535992.HornSat.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-535992/Lax535992.HornSatInvariance.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-535992/Lax535992.HornSatPTIMEComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-535992/Lax535992.ImmermanVardi.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-535992/Lax535992.InflationaryFixedPoint.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-535992/Lax535992.InflationaryIsLeastFixedPoint.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-535992/Lax535992.LeastFixedPoint.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-535992/Lax535992.LeastFixedPointComplement.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-535992/Lax535992.NLSubsetPTIME.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-535992/Lax535992.PTIMEClosure.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-535992/Lax535992.PTIMEEqCoPTIME.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-535992/Lax535992.PTIMESubsetNP.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-535992/Lax535992Proofs.Bridge.LOGSPACE_subset_PTIME.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-535992/Lax535992Proofs.Bridge.NL_subset_PTIME.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-535992/Lax535992Proofs.Bridge.PTIME_eq_coPTIME.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-535992/Lax535992Proofs.Bridge.PTIME_mem_congr_finite.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-535992/Lax535992Proofs.Bridge.PTIME_mem_of_foReduction.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-535992/Lax535992Proofs.Bridge.PTIME_mem_of_orderedReduction.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-535992/Lax535992Proofs.Bridge.PTIME_mem_of_relOrderedReduction.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-535992/Lax535992Proofs.Bridge.PTIME_subset_NP.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-535992/Lax535992Proofs.Bridge.circuitAccepts_iso.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-535992/Lax535992Proofs.Bridge.cvp_PTIME_complete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-535992/Lax535992Proofs.Bridge.cvp_iff.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-535992/Lax535992Proofs.Bridge.dtmAccept_PTIME_complete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-535992/Lax535992Proofs.Bridge.dtmAccept_iff.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-535992/Lax535992Proofs.Bridge.dtmAccepts_iso.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-535992/Lax535992Proofs.Bridge.gameWon_iso.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-535992/Lax535992Proofs.Bridge.game_PTIME_complete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-535992/Lax535992Proofs.Bridge.game_iff.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-535992/Lax535992Proofs.Bridge.hornSat_PTIME_complete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-535992/Lax535992Proofs.Bridge.hornSat_iff.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-535992/Lax535992Proofs.Bridge.hornSatisfiable_iso.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-535992/Lax535992Proofs.Bridge.ifpDefinable_iff_mem_PTIME.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-535992/Lax535992Proofs.Bridge.ifpDefinable_lfpDefinable.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-535992/Lax535992Proofs.Bridge.lfpDefinable_compl.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-535992/Lax535992Proofs.Bridge.lfpDefinable_iff_mem_PTIME.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-535992/Lax535992Proofs.Bridge.lfpDefinable_ifpDefinable.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-535992/Lax535992Proofs.Bridge.lfpDefinable_sigmaSOHornDefinable.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-535992/Lax535992Proofs.Bridge.mem_PTIME_iff_le_dtmAccept.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-535992/Lax535992Proofs.Bridge.sigmaSOHornDefinable_compl.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-535992/Lax535992Proofs.Bridge.sigmaSOHornDefinable_lfpDefinable.html</loc></url>
   <url><loc>https://laxarchive.org/lax-54/</loc></url>
   <url><loc>https://laxarchive.org/lax-54/Lax54.AveragingLemma.html</loc></url>
   <url><loc>https://laxarchive.org/lax-54/Lax54.BipartiteCombLemma.html</loc></url>
