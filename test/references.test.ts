@@ -3,7 +3,7 @@ import fs from "node:fs";
 import { describe, expect, it } from "vitest";
 import { parseLeanReferences } from "../src/lean-references.js";
 import { downloadBlob } from "../src/papers.js";
-import { fetchReferences, loadReferences, referenceCachePath } from "../src/references.js";
+import { fetchReferences, loadReferences, referenceCachePath, sourceCachePath } from "../src/references.js";
 import { SiteModel } from "../src/sitegen/model.js";
 import { highlightSource } from "../src/sitegen/highlight.js";
 import { sourceLinks } from "../src/sitegen/source-links.js";
@@ -135,14 +135,14 @@ describe("compiler-backed navigation", () => {
 
 /** Captures sort directory entries before visiting the next sibling. The
  * `Lax17.extra` sibling detects the tempting, incorrect flat-path sort. */
-function capture(mutate: (entries: TarEntry[]) => void = () => {}) {
+function capture(mutate: (entries: TarEntry[]) => void = () => {}, sealedSource = Buffer.from(source)) {
   const entries: TarEntry[] = [
     { name: "./", type: "5" }, { name: "./concepts/", type: "5" },
     { name: "./concepts/lib/", type: "5" }, { name: "./concepts/lib/Lax17/", type: "5" },
     { name: "./concepts/lib/Lax17/Fields.ilean", bytes: metadata },
     { name: "./concepts/lib/Lax17.extra", bytes: Buffer.from("sibling") },
     { name: "./concepts/package/", type: "5" }, { name: "./concepts/package/Lax17/", type: "5" },
-    { name: "./concepts/package/Lax17/Fields.lean", bytes: Buffer.from(source) },
+    { name: "./concepts/package/Lax17/Fields.lean", bytes: sealedSource },
     { name: "./proofs/", type: "5" }, { name: "./proofs/unused", bytes: Buffer.alloc(2 * 1024 * 1024) },
   ];
   const files = entries.filter((entry) => entry.bytes).map((entry) => ({ path: entry.name.slice(2), bytes: entry.bytes!.length, sha256: sha256(entry.bytes!) }));
@@ -206,6 +206,25 @@ describe("sealed compiler reference cache", () => {
       fixture.entry.output!.capture!.files![0]!.path = name;
       await expect(fetchReferences([fixture.entry], tmpDir())).rejects.toThrow("capture member");
     }
+  });
+
+  it("checks a CRLF concept file against its sealed bytes, folding only CRLF", async () => {
+    const crlf = Buffer.from(source.replace(/\n/gu, "\r\n"));
+    const { entry, tar } = capture(undefined, crlf);
+    const directory = tmpDir();
+    expect(await fetchReferences([entry], directory, { fetch: registry(tar, []) })).toEqual([sha256(metadata), sha256(crlf)]);
+    expect(fs.readdirSync(directory).sort()).toEqual([`${sha256(metadata)}.ilean`, `${sha256(crlf)}.lean`].sort());
+    expect(loadReferences(entry, directory)!.get(module)!.constants.length).toBeGreaterThan(10);
+    entry.output!.concepts[0]!.sourceText += " ";
+    expect(() => loadReferences(entry, directory)).toThrow("does not match displayed source");
+    entry.output!.concepts[0]!.sourceText = source;
+    fs.writeFileSync(sourceCachePath(directory, sha256(crlf)), Buffer.alloc(crlf.length));
+    expect(() => loadReferences(entry, directory)).toThrow("digest mismatch");
+
+    // A lone CR is a line break to the archive's normalization but not to Lean.
+    const loneCr = Buffer.from(source.replace("\n", "\r"));
+    const fixture = capture(undefined, loneCr);
+    await expect(fetchReferences([fixture.entry], tmpDir(), { fetch: registry(fixture.tar, []) })).rejects.toThrow("does not match displayed source");
   });
 
   it("rejects ignored, wrong, truncated and overlong ranges before storing metadata", async () => {

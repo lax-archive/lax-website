@@ -1,7 +1,11 @@
 /** Build-time cache of the compiler's reference maps from sealed captures.
  * Captures are deterministic, uncompressed ustar. Read bounded byte ranges
  * for just the .ilean members, verifying their headers and recorded SHA-256;
- * never extract a tar or download/execute the submission's proof artifacts. */
+ * never extract a tar or download/execute the submission's proof artifacts.
+ * A concept file written with CRLF line endings is the one exception that
+ * also reads its source member: the archive displays `sourceText` with line
+ * endings normalized to LF, as Lean reads it, while the capture seals the
+ * file as written, so the two digests cannot agree. */
 import { createHash, randomUUID } from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
@@ -13,11 +17,26 @@ import type { CaptureEntry, CaptureFile, ConceptEntry } from "./types.js";
 const SHA256 = /^[0-9a-f]{64}$/u;
 const MAX_CAPTURE_BYTES = 2 * 1024 ** 3;
 const MAX_CAPTURE_FILES = 100_000;
+/** The archive's own bound on a concept file (`emit.ts`). */
+const MAX_SOURCE_BYTES = 4 * 1024 * 1024;
 const sha256 = (bytes: string | Buffer): string => createHash("sha256").update(bytes).digest("hex");
 
 export function referenceCachePath(directory: string, digest: string): string {
   if (!SHA256.test(digest)) throw new Error("reference digest is not sha256 hex");
   return path.join(path.resolve(directory), `${digest}.ilean`);
+}
+
+/** A verified CRLF source member, cached beside the `.ilean` files. */
+export function sourceCachePath(directory: string, digest: string): string {
+  if (!SHA256.test(digest)) throw new Error("source digest is not sha256 hex");
+  return path.join(path.resolve(directory), `${digest}.lean`);
+}
+
+/** Whether a sealed source member is the displayed text up to CRLF. Only
+ * CRLF is folded, as Lean folds it: a lone CR would move every later .ilean
+ * position, so it fails closed. */
+function matchesDisplayed(bytes: Buffer, concept: ConceptEntry): boolean {
+  return bytes.toString("utf8").replace(/\r\n/gu, "\n") === concept.sourceText;
 }
 
 /** Validate the manifest before using its sizes to address the sealed tar. */
@@ -41,7 +60,9 @@ function captureFiles(capture: CaptureEntry): Map<string, CaptureFile> {
   return files;
 }
 
-interface ReferenceJob { concept: ConceptEntry; file: CaptureFile }
+/** `source` is set when the sealed source differs from the displayed text
+ * and must be read to check that it differs only by CRLF. */
+interface ReferenceJob { concept: ConceptEntry; file: CaptureFile; source?: CaptureFile }
 function jobs(submission: SiteSubmission): { capture: CaptureEntry; files: Map<string, CaptureFile>; wanted: ReferenceJob[] } | undefined {
   const output = submission.output;
   const capture = output?.capture;
@@ -54,11 +75,16 @@ function jobs(submission: SiteSubmission): { capture: CaptureEntry; files: Map<s
     const relative = concept.path.slice("concepts/".length);
     const source = files.get(`concepts/package/${relative}`);
     const file = files.get(`concepts/lib/${relative.slice(0, -5)}.ilean`);
-    if (!source || sha256(concept.sourceText) !== source.sha256 || Buffer.byteLength(concept.sourceText) !== source.bytes)
+    const exact = source !== undefined && sha256(concept.sourceText) === source.sha256 &&
+      Buffer.byteLength(concept.sourceText) === source.bytes;
+    // Folding CRLF drops one byte per folded line break.
+    const folded = source === undefined ? 0 : source.bytes - Buffer.byteLength(concept.sourceText);
+    if (!source || (!exact && (source.bytes > MAX_SOURCE_BYTES || concept.sourceText.includes("\r") ||
+      folded < 1 || folded > concept.sourceText.split("\n").length - 1)))
       throw new Error(`${concept.id}: reference capture does not match displayed source`);
     if (!file || file.bytes > MAX_REFERENCE_BYTES || !file.bytes)
       throw new Error(`${concept.id}: reference capture lacks a supported .ilean member`);
-    return { concept, file };
+    return exact ? { concept, file } : { concept, file, source };
   });
   return { capture, files, wanted };
 }
@@ -69,8 +95,7 @@ function verified(bytes: Buffer, file: CaptureFile): Buffer {
   return bytes;
 }
 
-function cached(directory: string, file: CaptureFile): Buffer | undefined {
-  const location = referenceCachePath(directory, file.sha256);
+function cached(directory: string, file: CaptureFile, location = referenceCachePath(directory, file.sha256)): Buffer | undefined {
   if (!fs.existsSync(location)) return undefined;
   if (fs.statSync(location).size !== file.bytes) throw new Error(`Lean reference cache size mismatch for ${file.path}`);
   return verified(fs.readFileSync(location), file);
@@ -82,7 +107,12 @@ export function loadReferences(submission: SiteSubmission, directory: string): M
   const job = jobs(submission);
   if (!job) return undefined;
   const result = new Map<string, LeanReferences>();
-  for (const { concept, file } of job.wanted) {
+  for (const { concept, file, source } of job.wanted) {
+    if (source) {
+      const sealed = cached(directory, source, sourceCachePath(directory, source.sha256));
+      if (!sealed) throw new Error(`${concept.id}: references cache is missing ${source.sha256}; run \`npm run references:fetch\``);
+      if (!matchesDisplayed(sealed, concept)) throw new Error(`${concept.id}: reference capture does not match displayed source`);
+    }
     const bytes = cached(directory, file);
     if (!bytes) throw new Error(`${concept.id}: references cache is missing ${file.sha256}; run \`npm run references:fetch\``);
     result.set(concept.id, parseLeanReferences(bytes.toString("utf8"), concept.id, concept.sourceText));
@@ -151,9 +181,20 @@ export async function fetchReferences(submissions: SiteSubmission[], directory: 
   for (const submission of submissions) {
     const job = jobs(submission);
     if (!job) continue;
-    const missing = job.wanted.filter(({ file }) => !cached(directory, file));
+    // Each wanted member with its cache location and the check its bytes must
+    // pass before they are stored.
+    const missing: { file: CaptureFile; location: string; check: (contents: Buffer) => void }[] = [];
+    for (const { concept, file, source } of job.wanted) {
+      if (source && !cached(directory, source, sourceCachePath(directory, source.sha256)))
+        missing.push({ file: source, location: sourceCachePath(directory, source.sha256), check: (contents) => {
+          if (!matchesDisplayed(contents, concept)) throw new Error(`${concept.id}: reference capture does not match displayed source`);
+        } });
+      if (!cached(directory, file))
+        missing.push({ file, location: referenceCachePath(directory, file.sha256),
+          check: (contents) => parseLeanReferences(contents.toString("utf8"), concept.id, concept.sourceText) });
+    }
     if (!missing.length) continue;
-    options.log?.(`fetching Lean references of ${submission.record.id} (${missing.length} modules)`);
+    options.log?.(`fetching Lean references of ${submission.record.id} (${missing.length} members)`);
     const offsets = captureOffsets(job.files);
     const ranges = missing.map((entry) => ({ ...entry, start: offsets.get(entry.file.path)! }))
       .sort((a, b) => a.start - b.start);
@@ -172,8 +213,8 @@ export async function fetchReferences(submissions: SiteSubmission[], directory: 
       for (const entry of group) {
         const start = entry.start - first.start;
         const contents = member(bytes.subarray(start, start + 512 + entry.file.bytes), entry.file);
-        parseLeanReferences(contents.toString("utf8"), entry.concept.id, entry.concept.sourceText);
-        const destination = referenceCachePath(directory, entry.file.sha256);
+        entry.check(contents);
+        const destination = entry.location;
         const temporary = `${destination}.${randomUUID()}.part`;
         try {
           fs.writeFileSync(temporary, contents, { mode: 0o644, flag: "wx" });
