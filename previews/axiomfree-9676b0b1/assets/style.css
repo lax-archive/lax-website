@@ -3640,6 +3640,24 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
   flex: none;
 }
 
+/* A spec-2 edge's universes, shown only when it has any: the proof's own
+   parameters on a row of their own above the card (`universe u v`, what the
+   Challenge's theorem binds), and each statement's instance closing its
+   entry (`Refl.{u}`, `Order (2nd statement).{u}`). Quiet qualifiers in the identifiers' text face, like the
+   statement ordinal — part of the name, never competing with it. */
+.judgment-universes{
+  flex-basis: 100%;
+  color: var(--text-dim);
+  font-size: 0.75rem;
+  margin-bottom: -0.45rem;
+}
+
+.claim-universes{
+  color: var(--text-dim);
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+
 .judgment-arrow{
   color: var(--text-dim);
   font-size: 1.55rem;
