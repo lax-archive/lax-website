@@ -86,7 +86,7 @@ export function claimEntry(
   statementId: string,
   rootRel: string,
   pageHome?: string,
-  opts: { role?: "conclusion" | "assumption" | "hypothesis" } = {},
+  opts: { role?: "conclusion" | "assumption" | "hypothesis"; levels?: readonly string[] } = {},
 ): string {
   const statement = model.statementHome.get(statementId);
   const home = statement ?? (opts.role === "assumption" ? model.conceptHome.get(statementId) : undefined);
@@ -94,21 +94,24 @@ export function claimEntry(
   const page = `${rootRel}${entryPath(home.output.id, home.concept.id)}`;
   const position = statementOrdinal(model, statementId);
   const label = code(shortId(home.concept.id, pageHome));
+  // A spec-2 universe instance belongs to the statement, so it closes the
+  // entry: after the name, and after the ordinal when there is one.
+  const universes = universeInstance(opts.levels ?? []);
   if (!statement) {
     const proven = home.concept.statements.length ? home.concept.statements.every((s) => model.network.proven.has(s.id)) : undefined;
-    return `<span class="claim-entry">${typeBadge(home.concept.type, proven)}<a href="${attr(page)}" title="${attr(home.concept.id)}">${label}</a></span>`;
+    return `<span class="claim-entry">${typeBadge(home.concept.type, proven)}<a href="${attr(page)}" title="${attr(home.concept.id)}">${label}${universes}</a></span>`;
   }
   if (!position) {
     const proven = model.network.proven.has(statementId);
-    return `<span class="claim-entry">${typeBadge(home.concept.type, proven)}<a href="${attr(page)}" title="${attr(statementId)}">${label}</a></span>`;
+    return `<span class="claim-entry">${typeBadge(home.concept.type, proven)}<a href="${attr(page)}" title="${attr(statementId)}">${label}${universes}</a></span>`;
   }
   if ((opts.role ?? "conclusion") === "assumption") {
     const proven = home.concept.statements.every((s) => model.network.proven.has(s.id));
-    return `<span class="claim-entry">${typeBadge(home.concept.type, proven)}<a href="${attr(page)}" title="${attr(home.concept.id)}">${label}</a></span>`;
+    return `<span class="claim-entry">${typeBadge(home.concept.type, proven)}<a href="${attr(page)}" title="${attr(home.concept.id)}">${label}${universes}</a></span>`;
   }
   const proven = model.network.proven.has(statementId);
   const href = `${page}#s-${statementId}`;
-  return `<span class="claim-entry">${typeBadge(home.concept.type, proven)}<a href="${attr(href)}" title="${attr(statementId)}">${label} <span class="claim-ordinal">(${esc(position.label)})</span></a></span>`;
+  return `<span class="claim-entry">${typeBadge(home.concept.type, proven)}<a href="${attr(href)}" title="${attr(statementId)}">${label} <span class="claim-ordinal">(${esc(position.label)})</span>${universes}</a></span>`;
 }
 
 /** The judgment card: assumptions boxed on the left, an arrow, the concluded
@@ -119,19 +122,32 @@ export function claimEntry(
  * A spec-2 proof carries its telescope, and the card shows that instead: the
  * hypotheses in binder order, duplicates and all, each linked to its exact
  * statement and named `h₁ … hₙ` as the record's Challenge names them, then
- * the conclusion. That is the edge as the author wrote it and as the
- * certificate states it, so the card and the Challenge read the same. */
+ * the conclusion. Universes are part of that edge — `A.{u} → C.{v}` and
+ * `A.{v} → C.{v}` are different claims — so each hypothesis and the
+ * conclusion carry their stored level instances closing the entry, after
+ * the statement's ordinal when its concept has several (`.{u, v}`, as the
+ * Challenge spells them less its `«»` quoting), and the proof's own
+ * universe parameters head the card as `universe u v`, the parameters the
+ * Challenge's theorem binds. Each list shows only when non-empty, so a
+ * universe-free edge's card is unchanged. That is the edge as the author
+ * wrote it and as the certificate states it, so the card and the Challenge
+ * read the same. */
 export function proofJudgment(model: SiteModel, proof: ProofEntry, rootRel: string, pageHome?: string): string {
   if (proof.telescope) {
     const hypotheses = proof.telescope.hypotheses;
     const assumptions = hypotheses.length
       ? `<ol class="judgment-telescope">${hypotheses.map((hypothesis, index) =>
-        `<li><span class="telescope-name">${esc(hypothesisName(index))}</span>${claimEntry(model, hypothesis.statement, rootRel, pageHome, { role: "hypothesis" })}</li>`).join("\n")}</ol>`
+        `<li><span class="telescope-name">${esc(hypothesisName(index))}</span>${claimEntry(model, hypothesis.statement, rootRel, pageHome, { role: "hypothesis", levels: hypothesis.levels })}</li>`).join("\n")}</ol>`
       : `<p class="judgment-unconditional">no hypotheses</p>`;
+    const levelParams = proof.levelParams ?? [];
+    const universes = levelParams.length
+      ? `<p class="judgment-universes">universe ${levelParams.map(esc).join(" ")}</p>\n`
+      : "";
+    const conclusion = proof.telescope.conclusion;
     return `<div class="judgment judgment-spec2">
-<div class="judgment-assumptions">${assumptions}</div>
+${universes}<div class="judgment-assumptions">${assumptions}</div>
 <span class="judgment-arrow" aria-hidden="true">→</span>
-<div class="judgment-conclusion">${claimEntry(model, proof.conclusion, rootRel, pageHome, { role: "conclusion" })}</div>
+<div class="judgment-conclusion">${claimEntry(model, conclusion.statement, rootRel, pageHome, { role: "conclusion", levels: conclusion.levels })}</div>
 </div>`;
   }
   const seen = new Set<string>();
@@ -150,6 +166,13 @@ export function proofJudgment(model: SiteModel, proof: ProofEntry, rootRel: stri
 <span class="judgment-arrow" aria-hidden="true">→</span>
 <div class="judgment-conclusion">${claimEntry(model, proof.conclusion, rootRel, pageHome, { role: "conclusion" })}</div>
 </div>`;
+}
+
+/** `.{u, v}`: a statement's universe instance on a spec-2 card, the stored
+ * level strings verbatim (escaped) in the Challenge's `.{…, …}` form; empty
+ * for none, so a universe-free entry renders as it always did. */
+export function universeInstance(levels: readonly string[]): string {
+  return levels.length ? `<span class="claim-universes">.{${levels.map(esc).join(", ")}}</span>` : "";
 }
 
 const SUBSCRIPT_DIGITS = "₀₁₂₃₄₅₆₇₈₉";

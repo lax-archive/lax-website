@@ -8,7 +8,8 @@ import { fetchReferences, loadReferences, referenceLayerPath } from "../src/refe
 import { generateSite, type SiteSubmission } from "../src/sitegen/generate.js";
 import { environmentIndex } from "../src/sitegen/machine-index.js";
 import { isCertified, SiteModel } from "../src/sitegen/model.js";
-import type { BuildOutput } from "../src/types.js";
+import { proofJudgment } from "../src/sitegen/pages/shared.js";
+import type { BuildOutput, ProofEntry } from "../src/types.js";
 import { tmpDir } from "./helpers.js";
 import { makeTar, type TarEntry } from "./tar-helper.js";
 
@@ -266,6 +267,47 @@ describe("spec-2 records on the site", () => {
     expect(proof).toContain('class="status-pill pill-proven"');
   });
 
+  it("shows an edge's universes on its card, and nothing for a universe-free edge", async () => {
+    const { read } = await site();
+    // refl_of_hasSucc.{u} (h₁ h₂ : HasSucc) : Refl.{u}
+    const proof = read("lax-38/Lax38Proofs.refl_of_hasSucc.html");
+    const card = proof.slice(proof.indexOf('<div class="judgment judgment-spec2">'), proof.indexOf('<div class="judgment-conclusion">') + 400);
+    expect(card).toContain('<p class="judgment-universes">universe u</p>');
+    expect(card).toContain('(2nd statement)</span><span class="claim-universes">.{u}</span>');
+    // HasSucc has no universe parameters: its two hypotheses carry no instance
+    expect(card.match(/claim-universes/gu)).toHaveLength(1);
+    // hasSucc (: HasSucc) is universe-free, and its card is the plain one
+    const plain = read("lax-38/Lax38Proofs.hasSucc.html");
+    for (const marker of ["judgment-universes", "claim-universes"]) expect(plain).not.toContain(marker);
+  });
+
+  it("tells apart telescopes that differ only in universes", () => {
+    const model = new SiteModel(loadSubmissions(database()));
+    const edge = (levelParams: string[], hypothesis: string[], conclusion: string[]): ProofEntry => ({
+      id: "Lax38Proofs.lifted", path: "proofs/Lax38Proofs/Basic.lean", description: "", levelParams,
+      telescope: { hypotheses: [{ statement: "Lax38.Order.HasSucc", levels: hypothesis }], conclusion: { statement: "Lax38.Order.Refl", levels: conclusion } },
+      conclusion: "Lax38.Order.Refl", assumptions: ["Lax38.Order.HasSucc"],
+    } as ProofEntry);
+    const crossed = proofJudgment(model, edge(["u", "v"], ["u"], ["v"]), "../", "lax-38");
+    const shared = proofJudgment(model, edge(["v"], ["v"], ["v"]), "../", "lax-38");
+    expect(crossed).not.toBe(shared);
+    expect(crossed).toContain('<p class="judgment-universes">universe u v</p>');
+    expect(crossed).toContain('(1st statement)</span><span class="claim-universes">.{u}</span>');
+    expect(crossed).toContain('(2nd statement)</span><span class="claim-universes">.{v}</span>');
+    expect(shared).toContain('<p class="judgment-universes">universe v</p>');
+    expect(shared).toContain('(1st statement)</span><span class="claim-universes">.{v}</span>');
+    // several levels in one instance, in the stored order, and every string escaped
+    expect(proofJudgment(model, edge(["u", "v"], ["v", "u"], []), "../", "lax-38"))
+      .toContain('<span class="claim-universes">.{v, u}</span>');
+    const hostile = proofJudgment(model, edge(["<u>"], ["<u>"], []), "../", "lax-38");
+    expect(hostile).toContain("universe &lt;u&gt;");
+    expect(hostile).toContain(".{&lt;u&gt;}");
+    expect(hostile).not.toContain("<u>");
+    // all lists empty: the card is exactly the universe-free one
+    const bare = proofJudgment(model, edge([], [], []), "../", "lax-38");
+    for (const marker of ["judgment-universes", "claim-universes"]) expect(bare).not.toContain(marker);
+  });
+
   it("marks a certified record and its proofs, with the rerun command", async () => {
     const { read } = await site();
     const mark = "certified: lake comparator (Lean v4.35.0, kernels lean)";
@@ -325,7 +367,7 @@ describe("spec-2 records on the site", () => {
     for (const marker of ["certified", "certificate-block", "trust-note", "challenge-details"]) expect(noProofs).not.toContain(marker);
     for (const file of ["lax-2/index.html", "lax-2/Lax2Proofs.truth.html", "lax-2/Lax2.C.html"]) {
       const html = read(file);
-      for (const marker of ["certified", "certificate-block", "trust-note", "judgment-telescope", "telescope-name", "challenge"]) expect(html).not.toContain(marker);
+      for (const marker of ["certified", "certificate-block", "trust-note", "judgment-telescope", "telescope-name", "challenge", "judgment-universes", "claim-universes"]) expect(html).not.toContain(marker);
     }
     expect(read("lax-2/Lax2Proofs.truth.html")).toContain("checked by the archive's pipeline");
     // the certified mark keys on proofs and the certificate together
