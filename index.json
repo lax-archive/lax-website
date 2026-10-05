@@ -1633,16 +1633,6 @@
           "type": "definition"
         },
         {
-          "id": "Lax117284.BodlaenderGeneral",
-          "title": "Nice Tree Decompositions of Small Width Are Found in Fixed-Parameter Time",
-          "type": "theorem"
-        },
-        {
-          "id": "Lax117284.BodlaenderKloks",
-          "title": "Optimal Tree Decompositions from a Given One",
-          "type": "theorem"
-        },
-        {
           "id": "Lax117284.BoundedSat",
           "title": "Satisfiability of Bounded Occurrence",
           "type": "definition"
@@ -1661,11 +1651,6 @@
           "id": "Lax117284.ExtremeFairness",
           "title": "The Extreme Values of the Fairness Parameter",
           "type": "lemma"
-        },
-        {
-          "id": "Lax117284.GraphWords",
-          "title": "Graphs and Nice Tree Decompositions as Words",
-          "type": "definition"
         },
         {
           "id": "Lax117284.IlpClients",
@@ -1875,8 +1860,6 @@
         "Lax117284Proofs.Tractable.hasKFairSchedule_iff_mul_chromaticNumber_le",
         "Lax117284Proofs.Tractable.hasKFairSchedule_iff_mul_cliqueNum_le",
         "Lax117284Proofs.Tractable.hasKFairSchedule_iff_program",
-        "Lax117284Proofs.Treewidth.Fun.Final.improveDecomposition_proved",
-        "Lax117284Proofs.Treewidth.Fun.Final.niceDecomposition_computable_proved",
         "Lax117284Proofs.TreewidthReal.fpt_byDaysAndTreewidth",
         "Lax117284Proofs.TwoSAT.Bridge.satisfiable_iff",
         "Lax117284Proofs.TwoSAT.Correct.decide_iff",

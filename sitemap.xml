@@ -44,13 +44,10 @@
   <url><loc>https://laxarchive.org/lax-117284/Lax117284.BipartiteKuhnTime.html</loc></url>
   <url><loc>https://laxarchive.org/lax-117284/Lax117284.BipartiteMatching.html</loc></url>
   <url><loc>https://laxarchive.org/lax-117284/Lax117284.Bodlaender.html</loc></url>
-  <url><loc>https://laxarchive.org/lax-117284/Lax117284.BodlaenderGeneral.html</loc></url>
-  <url><loc>https://laxarchive.org/lax-117284/Lax117284.BodlaenderKloks.html</loc></url>
   <url><loc>https://laxarchive.org/lax-117284/Lax117284.BoundedSat.html</loc></url>
   <url><loc>https://laxarchive.org/lax-117284/Lax117284.ConflictGraph.html</loc></url>
   <url><loc>https://laxarchive.org/lax-117284/Lax117284.Corollary8.html</loc></url>
   <url><loc>https://laxarchive.org/lax-117284/Lax117284.ExtremeFairness.html</loc></url>
-  <url><loc>https://laxarchive.org/lax-117284/Lax117284.GraphWords.html</loc></url>
   <url><loc>https://laxarchive.org/lax-117284/Lax117284.IlpClients.html</loc></url>
   <url><loc>https://laxarchive.org/lax-117284/Lax117284.InstanceEncoding.html</loc></url>
   <url><loc>https://laxarchive.org/lax-117284/Lax117284.JustInTime.html</loc></url>
@@ -149,8 +146,6 @@
   <url><loc>https://laxarchive.org/lax-117284/Lax117284Proofs.Tractable.hasKFairSchedule_iff_mul_chromaticNumber_le.html</loc></url>
   <url><loc>https://laxarchive.org/lax-117284/Lax117284Proofs.Tractable.hasKFairSchedule_iff_mul_cliqueNum_le.html</loc></url>
   <url><loc>https://laxarchive.org/lax-117284/Lax117284Proofs.Tractable.hasKFairSchedule_iff_program.html</loc></url>
-  <url><loc>https://laxarchive.org/lax-117284/Lax117284Proofs.Treewidth.Fun.Final.improveDecomposition_proved.html</loc></url>
-  <url><loc>https://laxarchive.org/lax-117284/Lax117284Proofs.Treewidth.Fun.Final.niceDecomposition_computable_proved.html</loc></url>
   <url><loc>https://laxarchive.org/lax-117284/Lax117284Proofs.TreewidthReal.fpt_byDaysAndTreewidth.html</loc></url>
   <url><loc>https://laxarchive.org/lax-117284/Lax117284Proofs.TwoSAT.Bridge.satisfiable_iff.html</loc></url>
   <url><loc>https://laxarchive.org/lax-117284/Lax117284Proofs.TwoSAT.Correct.decide_iff.html</loc></url>
