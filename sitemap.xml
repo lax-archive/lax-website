@@ -1233,6 +1233,68 @@
   <url><loc>https://laxarchive.org/lax-391470/Lax391470Proofs.V2Final.aux_mem_NP.html</loc></url>
   <url><loc>https://laxarchive.org/lax-391470/paper-pdf.html</loc></url>
   <url><loc>https://laxarchive.org/lax-391470/paper.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-392996/</loc></url>
+  <url><loc>https://laxarchive.org/lax-392996/Lax392996.AnnotatedDatabases.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-392996/Lax392996.AnnotatedSemantics.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-392996/Lax392996.BooleanFunctions.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-392996/Lax392996.CountingSemiring.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-392996/Lax392996.Databases.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-392996/Lax392996.MultisetSemantics.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-392996/Lax392996.PersonnelExample.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-392996/Lax392996.ProbabilisticDatabases.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-392996/Lax392996.ProbabilisticEvaluation.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-392996/Lax392996.ProbabilisticEvaluationByRewriting.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-392996/Lax392996.ProbabilityExample.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-392996/Lax392996.ProvenanceExample.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-392996/Lax392996.RelationalAlgebra.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-392996/Lax392996.RewritingCorrectness.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-392996/Lax392996.RewritingExample.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-392996/Lax392996.RewritingRules.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-392996/Lax392996.SemiringsWithMonus.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-392996/Lax392996.WhyProvenance.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-392996/Lax392996Proofs.Bridge.aeval_dedup.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-392996/Lax392996Proofs.Bridge.aeval_diff.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-392996/Lax392996Proofs.Bridge.aeval_prod.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-392996/Lax392996Proofs.Bridge.aeval_proj.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-392996/Lax392996Proofs.Bridge.aeval_rel.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-392996/Lax392996Proofs.Bridge.aeval_sel.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-392996/Lax392996Proofs.Bridge.aeval_sum.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-392996/Lax392996Proofs.Bridge.annotated_database_lookup.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-392996/Lax392996Proofs.Bridge.annotated_relation_eq.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-392996/Lax392996Proofs.Bridge.beijing_annotation.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-392996/Lax392996Proofs.Bridge.corollary_13.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-392996/Lax392996Proofs.Bridge.data_answer.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-392996/Lax392996Proofs.Bridge.delta_axiom_i.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-392996/Lax392996Proofs.Bridge.delta_axiom_ii.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-392996/Lax392996Proofs.Bridge.eval_dedup.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-392996/Lax392996Proofs.Bridge.eval_diff.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-392996/Lax392996Proofs.Bridge.eval_prod.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-392996/Lax392996Proofs.Bridge.eval_proj.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-392996/Lax392996Proofs.Bridge.eval_rel.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-392996/Lax392996Proofs.Bridge.eval_sel.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-392996/Lax392996Proofs.Bridge.eval_sum.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-392996/Lax392996Proofs.Bridge.msemiring_axiom_i.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-392996/Lax392996Proofs.Bridge.msemiring_axiom_ii.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-392996/Lax392996Proofs.Bridge.msemiring_axiom_iii.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-392996/Lax392996Proofs.Bridge.nairobi_annotation.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-392996/Lax392996Proofs.Bridge.nairobi_probability.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-392996/Lax392996Proofs.Bridge.paris_annotation.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-392996/Lax392996Proofs.Bridge.qcity_answer.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-392996/Lax392996Proofs.Bridge.qcity_rewriting.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-392996/Lax392996Proofs.Bridge.rewriting_valid.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-392996/Lax392996Proofs.Bridge.rule_difference.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-392996/Lax392996Proofs.Bridge.rule_dupelim.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-392996/Lax392996Proofs.Bridge.rule_product.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-392996/Lax392996Proofs.Bridge.rule_projection.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-392996/Lax392996Proofs.Bridge.theorem_12.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-392996/Lax392996Proofs.Bridge.why_add.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-392996/Lax392996Proofs.Bridge.why_isMSemiring.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-392996/Lax392996Proofs.Bridge.why_monus.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-392996/Lax392996Proofs.Bridge.why_mul.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-392996/Lax392996Proofs.Bridge.why_one.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-392996/Lax392996Proofs.Bridge.why_zero.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-392996/paper-pdf.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-392996/paper.html</loc></url>
   <url><loc>https://laxarchive.org/lax-41/</loc></url>
   <url><loc>https://laxarchive.org/lax-41/Lax41.HaeuplerSahaSrinivasanDefinitions.html</loc></url>
   <url><loc>https://laxarchive.org/lax-41/Lax41.HaeuplerSahaSrinivasanTheorem22.html</loc></url>

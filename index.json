@@ -4481,6 +4481,147 @@
       ]
     },
     {
+      "id": "lax-392996",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "ProvSQL: provenance-aware query rewriting and probabilistic query evaluation are correct",
+      "concepts": [
+        {
+          "id": "Lax392996.AnnotatedDatabases",
+          "title": "Annotated relations and databases",
+          "type": "definition"
+        },
+        {
+          "id": "Lax392996.AnnotatedSemantics",
+          "title": "Annotated semantics of the relational algebra",
+          "type": "definition"
+        },
+        {
+          "id": "Lax392996.BooleanFunctions",
+          "title": "Boolean functions as an m-semiring",
+          "type": "definition"
+        },
+        {
+          "id": "Lax392996.CountingSemiring",
+          "title": "The counting semiring is an m-semiring",
+          "type": "definition"
+        },
+        {
+          "id": "Lax392996.Databases",
+          "title": "Relations and databases with multiset semantics",
+          "type": "definition"
+        },
+        {
+          "id": "Lax392996.MultisetSemantics",
+          "title": "Multiset semantics of the relational algebra",
+          "type": "definition"
+        },
+        {
+          "id": "Lax392996.PersonnelExample",
+          "title": "The Personnel example",
+          "type": "example"
+        },
+        {
+          "id": "Lax392996.ProbabilisticDatabases",
+          "title": "Probabilistic databases and marginal probabilities",
+          "type": "definition"
+        },
+        {
+          "id": "Lax392996.ProbabilisticEvaluation",
+          "title": "Probabilistic query evaluation through provenance",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax392996.ProbabilisticEvaluationByRewriting",
+          "title": "Probabilistic query evaluation by the rewritten query",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax392996.ProbabilityExample",
+          "title": "The Personnel example, with probabilities",
+          "type": "example"
+        },
+        {
+          "id": "Lax392996.ProvenanceExample",
+          "title": "The Personnel example, annotated",
+          "type": "example"
+        },
+        {
+          "id": "Lax392996.RelationalAlgebra",
+          "title": "The relational algebra with multiset semantics, as syntax",
+          "type": "definition"
+        },
+        {
+          "id": "Lax392996.RewritingCorrectness",
+          "title": "Correctness of the provenance-aware rewriting, rules (R1) to (R4)",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax392996.RewritingExample",
+          "title": "The Personnel example, rewritten",
+          "type": "example"
+        },
+        {
+          "id": "Lax392996.RewritingRules",
+          "title": "The provenance-aware rewriting of queries, rules (R1) to (R4)",
+          "type": "definition"
+        },
+        {
+          "id": "Lax392996.SemiringsWithMonus",
+          "title": "Semirings with monus",
+          "type": "definition"
+        },
+        {
+          "id": "Lax392996.WhyProvenance",
+          "title": "Why-provenance is an m-semiring",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax392996Proofs.Bridge.aeval_dedup",
+        "Lax392996Proofs.Bridge.aeval_diff",
+        "Lax392996Proofs.Bridge.aeval_prod",
+        "Lax392996Proofs.Bridge.aeval_proj",
+        "Lax392996Proofs.Bridge.aeval_rel",
+        "Lax392996Proofs.Bridge.aeval_sel",
+        "Lax392996Proofs.Bridge.aeval_sum",
+        "Lax392996Proofs.Bridge.annotated_database_lookup",
+        "Lax392996Proofs.Bridge.annotated_relation_eq",
+        "Lax392996Proofs.Bridge.beijing_annotation",
+        "Lax392996Proofs.Bridge.corollary_13",
+        "Lax392996Proofs.Bridge.data_answer",
+        "Lax392996Proofs.Bridge.delta_axiom_i",
+        "Lax392996Proofs.Bridge.delta_axiom_ii",
+        "Lax392996Proofs.Bridge.eval_dedup",
+        "Lax392996Proofs.Bridge.eval_diff",
+        "Lax392996Proofs.Bridge.eval_prod",
+        "Lax392996Proofs.Bridge.eval_proj",
+        "Lax392996Proofs.Bridge.eval_rel",
+        "Lax392996Proofs.Bridge.eval_sel",
+        "Lax392996Proofs.Bridge.eval_sum",
+        "Lax392996Proofs.Bridge.msemiring_axiom_i",
+        "Lax392996Proofs.Bridge.msemiring_axiom_ii",
+        "Lax392996Proofs.Bridge.msemiring_axiom_iii",
+        "Lax392996Proofs.Bridge.nairobi_annotation",
+        "Lax392996Proofs.Bridge.nairobi_probability",
+        "Lax392996Proofs.Bridge.paris_annotation",
+        "Lax392996Proofs.Bridge.qcity_answer",
+        "Lax392996Proofs.Bridge.qcity_rewriting",
+        "Lax392996Proofs.Bridge.rewriting_valid",
+        "Lax392996Proofs.Bridge.rule_difference",
+        "Lax392996Proofs.Bridge.rule_dupelim",
+        "Lax392996Proofs.Bridge.rule_product",
+        "Lax392996Proofs.Bridge.rule_projection",
+        "Lax392996Proofs.Bridge.theorem_12",
+        "Lax392996Proofs.Bridge.why_add",
+        "Lax392996Proofs.Bridge.why_isMSemiring",
+        "Lax392996Proofs.Bridge.why_monus",
+        "Lax392996Proofs.Bridge.why_mul",
+        "Lax392996Proofs.Bridge.why_one",
+        "Lax392996Proofs.Bridge.why_zero"
+      ]
+    },
+    {
       "id": "lax-420092",
       "state": "registered",
       "environment": "v4.33.0",
