@@ -6596,6 +6596,89 @@
       ]
     },
     {
+      "id": "lax-604544",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Descriptive complexity: degrees and graph isomorphism",
+      "concepts": [
+        {
+          "id": "Lax604544.ClassesAsDegrees",
+          "title": "The classes with a complete problem are degrees",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax604544.DagIsomorphism",
+          "title": "Isomorphism of directed acyclic graphs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax604544.DegreeOfAProblem",
+          "title": "Completeness for a degree is mutual reducibility",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax604544.Degrees",
+          "title": "The degree of a problem",
+          "type": "definition"
+        },
+        {
+          "id": "Lax604544.GraphIsomorphism",
+          "title": "Graph isomorphism and the class GI",
+          "type": "definition"
+        },
+        {
+          "id": "Lax604544.GraphIsomorphismDegree",
+          "title": "Digraph, DAG and graph isomorphism are GI-complete",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax604544.IsomorphismInNP",
+          "title": "The isomorphism problems are in NP",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax604544.IsomorphismInvariance",
+          "title": "Invariance and characterization of the isomorphism problems",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax604544.RelationIsomorphism",
+          "title": "Isomorphism of two marked relations",
+          "type": "definition"
+        },
+        {
+          "id": "Lax604544.RelationIsomorphismSemantics",
+          "title": "Isomorphism of marked relations as an equivalence",
+          "type": "lemma"
+        }
+      ],
+      "proofs": [
+        "Lax604544Proofs.Bridge.below_complete_self",
+        "Lax604544Proofs.Bridge.below_congr",
+        "Lax604544Proofs.Bridge.complete_below_iff",
+        "Lax604544Proofs.Bridge.coNP_eq_below_taut",
+        "Lax604544Proofs.Bridge.dagIso_GI_complete",
+        "Lax604544Proofs.Bridge.dagIso_iff",
+        "Lax604544Proofs.Bridge.dagIso_mem_NP",
+        "Lax604544Proofs.Bridge.digraphIso_GI_complete",
+        "Lax604544Proofs.Bridge.digraphIso_iff",
+        "Lax604544Proofs.Bridge.digraphIso_mem_NP",
+        "Lax604544Proofs.Bridge.GI_eq_below_digraphIso",
+        "Lax604544Proofs.Bridge.GI_subset_NP",
+        "Lax604544Proofs.Bridge.graphIso_GI_complete",
+        "Lax604544Proofs.Bridge.graphIso_iff",
+        "Lax604544Proofs.Bridge.graphIso_mem_NP",
+        "Lax604544Proofs.Bridge.hasDagIso_iso",
+        "Lax604544Proofs.Bridge.hasDigraphIso_iso",
+        "Lax604544Proofs.Bridge.hasGraphIso_iso",
+        "Lax604544Proofs.Bridge.NL_eq_below_twoSat",
+        "Lax604544Proofs.Bridge.NP_eq_below_sat",
+        "Lax604544Proofs.Bridge.PTIME_eq_below_hornSat",
+        "Lax604544Proofs.Bridge.RE_eq_below_finsat",
+        "Lax604544Proofs.Bridge.relIsoOn_iff_equiv"
+      ]
+    },
+    {
       "id": "lax-606786",
       "state": "draft",
       "environment": "v4.33.0",
