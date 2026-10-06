@@ -2180,6 +2180,165 @@
       ]
     },
     {
+      "id": "lax-134656",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Descriptive complexity: PSPACE, partial fixed points and the Abiteboul–Vianu theorem",
+      "concepts": [
+        {
+          "id": "Lax134656.AbiteboulVianu",
+          "title": "The Abiteboul–Vianu theorem",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax134656.AbiteboulVianuOrdered",
+          "title": "The Abiteboul–Vianu theorem on ordered structures",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax134656.ClassPSPACE",
+          "title": "The classes PSPACE and coPSPACE",
+          "type": "definition"
+        },
+        {
+          "id": "Lax134656.HierarchyInPSPACE",
+          "title": "PH ⊆ PSPACE",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax134656.InflationaryInPartial",
+          "title": "FO(IFP) ⊆ FO(PFP)",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax134656.OrderFreeTransitiveClosure",
+          "title": "Second-order transitive closure without an order",
+          "type": "definition"
+        },
+        {
+          "id": "Lax134656.PartialFixedPoint",
+          "title": "First-order logic with partial fixed points",
+          "type": "definition"
+        },
+        {
+          "id": "Lax134656.PartialFixedPointCapture",
+          "title": "FO(≤, PFP) = SO(TC) = PSPACE",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax134656.PartialFixedPointClosure",
+          "title": "FO(≤, PFP) definability is closed under first-order reductions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax134656.PSPACEClosure",
+          "title": "PSPACE is closed under first-order reductions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax134656.PSPACEEqCoPSPACE",
+          "title": "PSPACE = coPSPACE",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax134656.Qsat",
+          "title": "QSAT, quantified Boolean formulas",
+          "type": "definition"
+        },
+        {
+          "id": "Lax134656.QsatInvariance",
+          "title": "Invariance and characterization of QSAT",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax134656.QsatPSPACEComplete",
+          "title": "QSAT is PSPACE-complete",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax134656.SecondOrderTransitiveClosure",
+          "title": "Second-order logic with a transitive closure",
+          "type": "definition"
+        },
+        {
+          "id": "Lax134656.SpaceBoundedMachineInvariance",
+          "title": "Invariance and characterization of machine acceptance in bounded space",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax134656.SpaceBoundedMachines",
+          "title": "Acceptance by Turing machines in bounded space",
+          "type": "definition"
+        },
+        {
+          "id": "Lax134656.SpaceMachinesPSPACEComplete",
+          "title": "PSPACE by Turing machines in bounded space",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax134656.SuccinctReach",
+          "title": "SUCCINCT-REACH, reachability in a succinct transition system",
+          "type": "definition"
+        },
+        {
+          "id": "Lax134656.SuccinctReachInvariance",
+          "title": "Invariance and characterization of SUCCINCT-REACH",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax134656.SuccinctReachPSPACEComplete",
+          "title": "SUCCINCT-REACH is PSPACE-complete",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax134656.TransitiveClosureWithoutOrder",
+          "title": "SO(TC) does not need an order",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax134656Proofs.Bridge.dtmAcceptSpace_iff",
+        "Lax134656Proofs.Bridge.dtmAcceptSpace_PSPACE_complete",
+        "Lax134656Proofs.Bridge.dtmAcceptsSpace_iso",
+        "Lax134656Proofs.Bridge.ifpDefinable_eq_pfpDefinable_iff_ptime_eq_pspace",
+        "Lax134656Proofs.Bridge.ifpDefinable_pfpDefinable",
+        "Lax134656Proofs.Bridge.ifpDefinableFree_eq_pfpDefinableFree_iff_ptime_eq_pspace",
+        "Lax134656Proofs.Bridge.ifpDefinableFree_ifpDefinable",
+        "Lax134656Proofs.Bridge.ifpDefinableFree_pfpDefinableFree",
+        "Lax134656Proofs.Bridge.le_dtmAcceptSpace_of_mem_PSPACE",
+        "Lax134656Proofs.Bridge.mem_PSPACE_iff_sotcDefinableFree",
+        "Lax134656Proofs.Bridge.NP_subset_PSPACE",
+        "Lax134656Proofs.Bridge.ntmAcceptSpace_iff",
+        "Lax134656Proofs.Bridge.ntmAcceptSpace_PSPACE_complete",
+        "Lax134656Proofs.Bridge.ntmAcceptsSpace_iso",
+        "Lax134656Proofs.Bridge.pfpDefinable_congr_finite",
+        "Lax134656Proofs.Bridge.pfpDefinable_iff_mem_PSPACE",
+        "Lax134656Proofs.Bridge.pfpDefinable_of_foReduction",
+        "Lax134656Proofs.Bridge.pfpDefinable_of_mem_PSPACE",
+        "Lax134656Proofs.Bridge.pfpDefinable_of_orderedReduction",
+        "Lax134656Proofs.Bridge.pfpDefinable_of_relOrderedReduction",
+        "Lax134656Proofs.Bridge.pfpDefinable_sotcDefinable",
+        "Lax134656Proofs.Bridge.pfpDefinableFree_pfpDefinable",
+        "Lax134656Proofs.Bridge.PH_subset_PSPACE",
+        "Lax134656Proofs.Bridge.piP_subset_PSPACE",
+        "Lax134656Proofs.Bridge.PSPACE_eq_coPSPACE",
+        "Lax134656Proofs.Bridge.PSPACE_mem_congr_finite",
+        "Lax134656Proofs.Bridge.PSPACE_mem_of_foReduction",
+        "Lax134656Proofs.Bridge.PSPACE_mem_of_orderedReduction",
+        "Lax134656Proofs.Bridge.PTIME_subset_PSPACE",
+        "Lax134656Proofs.Bridge.qsat_coPSPACE_complete",
+        "Lax134656Proofs.Bridge.qsat_iff",
+        "Lax134656Proofs.Bridge.qsat_PSPACE_complete",
+        "Lax134656Proofs.Bridge.qsatHolds_iso",
+        "Lax134656Proofs.Bridge.sigmaP_subset_PSPACE",
+        "Lax134656Proofs.Bridge.sotcDefinable_compl",
+        "Lax134656Proofs.Bridge.sotcDefinable_iff_free",
+        "Lax134656Proofs.Bridge.succinctReach_iff",
+        "Lax134656Proofs.Bridge.succinctReach_PSPACE_complete",
+        "Lax134656Proofs.Bridge.succinctReachable_iso"
+      ]
+    },
+    {
       "id": "lax-146103",
       "state": "registered",
       "environment": "v4.33.0",

@@ -279,6 +279,68 @@
   <url><loc>https://laxarchive.org/lax-132576/Lax132576Proofs.Results.not_computablePred_codeRel_eq.html</loc></url>
   <url><loc>https://laxarchive.org/lax-132576/Lax132576Proofs.Results.relContinuous_of_isRationalRel.html</loc></url>
   <url><loc>https://laxarchive.org/lax-132576/Lax132576Proofs.Results.tfae_rational_unambiguous_bimachine.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-134656/</loc></url>
+  <url><loc>https://laxarchive.org/lax-134656/Lax134656.AbiteboulVianu.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-134656/Lax134656.AbiteboulVianuOrdered.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-134656/Lax134656.ClassPSPACE.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-134656/Lax134656.HierarchyInPSPACE.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-134656/Lax134656.InflationaryInPartial.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-134656/Lax134656.OrderFreeTransitiveClosure.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-134656/Lax134656.PSPACEClosure.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-134656/Lax134656.PSPACEEqCoPSPACE.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-134656/Lax134656.PartialFixedPoint.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-134656/Lax134656.PartialFixedPointCapture.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-134656/Lax134656.PartialFixedPointClosure.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-134656/Lax134656.Qsat.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-134656/Lax134656.QsatInvariance.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-134656/Lax134656.QsatPSPACEComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-134656/Lax134656.SecondOrderTransitiveClosure.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-134656/Lax134656.SpaceBoundedMachineInvariance.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-134656/Lax134656.SpaceBoundedMachines.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-134656/Lax134656.SpaceMachinesPSPACEComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-134656/Lax134656.SuccinctReach.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-134656/Lax134656.SuccinctReachInvariance.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-134656/Lax134656.SuccinctReachPSPACEComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-134656/Lax134656.TransitiveClosureWithoutOrder.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-134656/Lax134656Proofs.Bridge.NP_subset_PSPACE.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-134656/Lax134656Proofs.Bridge.PH_subset_PSPACE.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-134656/Lax134656Proofs.Bridge.PSPACE_eq_coPSPACE.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-134656/Lax134656Proofs.Bridge.PSPACE_mem_congr_finite.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-134656/Lax134656Proofs.Bridge.PSPACE_mem_of_foReduction.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-134656/Lax134656Proofs.Bridge.PSPACE_mem_of_orderedReduction.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-134656/Lax134656Proofs.Bridge.PTIME_subset_PSPACE.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-134656/Lax134656Proofs.Bridge.dtmAcceptSpace_PSPACE_complete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-134656/Lax134656Proofs.Bridge.dtmAcceptSpace_iff.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-134656/Lax134656Proofs.Bridge.dtmAcceptsSpace_iso.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-134656/Lax134656Proofs.Bridge.ifpDefinableFree_eq_pfpDefinableFree_iff_ptime_eq_pspace.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-134656/Lax134656Proofs.Bridge.ifpDefinableFree_ifpDefinable.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-134656/Lax134656Proofs.Bridge.ifpDefinableFree_pfpDefinableFree.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-134656/Lax134656Proofs.Bridge.ifpDefinable_eq_pfpDefinable_iff_ptime_eq_pspace.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-134656/Lax134656Proofs.Bridge.ifpDefinable_pfpDefinable.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-134656/Lax134656Proofs.Bridge.le_dtmAcceptSpace_of_mem_PSPACE.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-134656/Lax134656Proofs.Bridge.mem_PSPACE_iff_sotcDefinableFree.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-134656/Lax134656Proofs.Bridge.ntmAcceptSpace_PSPACE_complete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-134656/Lax134656Proofs.Bridge.ntmAcceptSpace_iff.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-134656/Lax134656Proofs.Bridge.ntmAcceptsSpace_iso.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-134656/Lax134656Proofs.Bridge.pfpDefinableFree_pfpDefinable.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-134656/Lax134656Proofs.Bridge.pfpDefinable_congr_finite.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-134656/Lax134656Proofs.Bridge.pfpDefinable_iff_mem_PSPACE.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-134656/Lax134656Proofs.Bridge.pfpDefinable_of_foReduction.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-134656/Lax134656Proofs.Bridge.pfpDefinable_of_mem_PSPACE.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-134656/Lax134656Proofs.Bridge.pfpDefinable_of_orderedReduction.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-134656/Lax134656Proofs.Bridge.pfpDefinable_of_relOrderedReduction.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-134656/Lax134656Proofs.Bridge.pfpDefinable_sotcDefinable.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-134656/Lax134656Proofs.Bridge.piP_subset_PSPACE.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-134656/Lax134656Proofs.Bridge.qsatHolds_iso.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-134656/Lax134656Proofs.Bridge.qsat_PSPACE_complete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-134656/Lax134656Proofs.Bridge.qsat_coPSPACE_complete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-134656/Lax134656Proofs.Bridge.qsat_iff.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-134656/Lax134656Proofs.Bridge.sigmaP_subset_PSPACE.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-134656/Lax134656Proofs.Bridge.sotcDefinable_compl.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-134656/Lax134656Proofs.Bridge.sotcDefinable_iff_free.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-134656/Lax134656Proofs.Bridge.succinctReach_PSPACE_complete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-134656/Lax134656Proofs.Bridge.succinctReach_iff.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-134656/Lax134656Proofs.Bridge.succinctReachable_iso.html</loc></url>
   <url><loc>https://laxarchive.org/lax-14/</loc></url>
   <url><loc>https://laxarchive.org/lax-14/Lax14.MulticolorRamsey.html</loc></url>
   <url><loc>https://laxarchive.org/lax-14/Lax14.OrderTypes.html</loc></url>
