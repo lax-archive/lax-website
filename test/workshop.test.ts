@@ -25,9 +25,9 @@ describe("workshop page", () => {
     expect(html).toContain("17:00–18:30 UTC");
     expect(html).toContain("90 minutes");
     expect(html).not.toContain("Two hours");
-    expect(html).toContain('<a href="https://tuwien.zoom.us/j/61066539476?pwd=Va0nQbFF03wTkFLw5xzLZbn0sw3Ch0.1">Join the meeting</a>');
-    expect(html).toContain("<strong>Meeting ID:</strong> <code>610 6653 9476</code>");
-    expect(html).toContain("<strong>Password:</strong> <code>7Addz80S</code>");
+    expect(html).toContain('<a href="https://tu-berlin.zoom-x.de/j/64004084168?pwd=oqbd78uR8UPbb7uGkeohk11HKb0VK8.1">Join the meeting</a>');
+    expect(html).toContain("<strong>Meeting ID:</strong> <code>640 0408 4168</code>");
+    expect(html).toContain("<strong>Password:</strong> <code>063517</code>");
     expect(html).not.toContain("To be announced");
     expect(html).not.toContain("name, email address, and prior Lean knowledge");
     expect(html).not.toContain("fill in the preregistration form below");

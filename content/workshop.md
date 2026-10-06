@@ -13,9 +13,9 @@
 - **Time (Central):** 12:00–1:30 pm CDT
 - **Time (Pacific):** 10:00–11:30 am PDT
 - **Time (UTC):** 17:00–18:30 UTC
-- **Zoom:** [Join the meeting](https://tuwien.zoom.us/j/61066539476?pwd=Va0nQbFF03wTkFLw5xzLZbn0sw3Ch0.1)
-- **Meeting ID:** `610 6653 9476`
-- **Password:** `7Addz80S`
+- **Zoom:** [Join the meeting](https://tu-berlin.zoom-x.de/j/64004084168?pwd=oqbd78uR8UPbb7uGkeohk11HKb0VK8.1)
+- **Meeting ID:** `640 0408 4168`
+- **Password:** `063517`
 
 ## Material from the 1st Lax Online Meeting
 
