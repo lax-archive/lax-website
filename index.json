@@ -6219,7 +6219,7 @@
     },
     {
       "id": "lax-564036",
-      "state": "draft",
+      "state": "registered",
       "environment": "v4.33.0",
       "title": "Descriptive complexity: coNP, DP and the polynomial hierarchy",
       "concepts": [
