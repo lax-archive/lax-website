@@ -8133,8 +8133,38 @@
           "type": "definition"
         },
         {
+          "id": "Lax825442.ChromaticNumber",
+          "title": "Chromatic number",
+          "type": "definition"
+        },
+        {
+          "id": "Lax825442.CliqueWidth",
+          "title": "Clique-width",
+          "type": "definition"
+        },
+        {
           "id": "Lax825442.Degeneracy",
           "title": "Degeneracy",
+          "type": "definition"
+        },
+        {
+          "id": "Lax825442.DistanceToClique",
+          "title": "Distance to complete graphs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax825442.DistanceToCluster",
+          "title": "Distance to cluster graphs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax825442.DistanceToCograph",
+          "title": "Distance to cographs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax825442.DistanceToPlanar",
+          "title": "Distance to planar graphs",
           "type": "definition"
         },
         {
@@ -8150,11 +8180,6 @@
         {
           "id": "Lax825442.EquivalentEquivalence",
           "title": "Functional equivalence is an equivalence relation",
-          "type": "theorem"
-        },
-        {
-          "id": "Lax825442.FunctionalEquivalenceConnection",
-          "title": "Agreement with Lax functional equivalence",
           "type": "theorem"
         },
         {
@@ -8196,11 +8221,20 @@
           "id": "Lax825442.TwinCover",
           "title": "Twin-cover number",
           "type": "definition"
+        },
+        {
+          "id": "Lax825442.VertexCliqueCover",
+          "title": "Vertex clique cover number",
+          "type": "definition"
+        },
+        {
+          "id": "Lax825442.VertexCover",
+          "title": "Vertex-cover number",
+          "type": "definition"
         }
       ],
       "proofs": [
         "Lax825442Proofs.EquivalentEquivalence.equivalent_equivalence",
-        "Lax825442Proofs.FunctionalEquivalenceConnection.functionallyEquivalent_iff",
         "Lax825442Proofs.IncomparableProperties.incomparable_symmetric_irreflexive",
         "Lax825442Proofs.RelationClassification.relationClassification",
         "Lax825442Proofs.StrictlyBoundsOrder.strictlyBounds_strictOrder"
