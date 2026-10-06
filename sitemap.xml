@@ -441,6 +441,35 @@
   <url><loc>https://laxarchive.org/lax-17/Lax17Proofs.Final.polynomial_grid_minor_eight_add_epsilon.html</loc></url>
   <url><loc>https://laxarchive.org/lax-17/Lax17Proofs.Final.polynomial_grid_minor_eight_polylog.html</loc></url>
   <url><loc>https://laxarchive.org/lax-17/Lax17Proofs.Final.polynomial_grid_minor_fixed_t.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-175070/</loc></url>
+  <url><loc>https://laxarchive.org/lax-175070/Lax175070.CountClassComplements.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-175070/Lax175070.CountClassInclusions.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-175070/Lax175070.CountClassMembership.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-175070/Lax175070.CountDefinability.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-175070/Lax175070.CountingValues.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-175070/Lax175070.ParitySatComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-175070/Lax175070.SelectedSat.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-175070/Lax175070.SelectedSatComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-175070/Lax175070Proofs.Bridge.NP_subset_PP.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-175070/Lax175070Proofs.Bridge.UP_subset_NP.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-175070/Lax175070Proofs.Bridge.UP_subset_parityP.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-175070/Lax175070Proofs.Bridge.coNP_subset_PP.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-175070/Lax175070Proofs.Bridge.compl_mem_PP.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-175070/Lax175070Proofs.Bridge.compl_mem_parityP.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-175070/Lax175070Proofs.Bridge.decide_iff.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-175070/Lax175070Proofs.Bridge.mem_countClass_of_sharpP.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-175070/Lax175070Proofs.Bridge.mem_modP_iff_le_mod_sharpNtmAccept.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-175070/Lax175070Proofs.Bridge.mem_parityP_iff_le_parity_sharpNtmAccept.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-175070/Lax175070Proofs.Bridge.modP_complete_of_sharpP_parsimoniousComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-175070/Lax175070Proofs.Bridge.modSat_modP_complete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-175070/Lax175070Proofs.Bridge.parityP_complete_of_sharpP_parsimoniousComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-175070/Lax175070Proofs.Bridge.paritySat_parityP_complete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-175070/Lax175070Proofs.Bridge.selEqSat_CeqP_complete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-175070/Lax175070Proofs.Bridge.selEqSat_iff.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-175070/Lax175070Proofs.Bridge.selMajSat_PP_complete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-175070/Lax175070Proofs.Bridge.selMajSat_iff.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-175070/Lax175070Proofs.Bridge.sharpSelSat_count_iso.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-175070/Lax175070Proofs.Bridge.sharpSelSat_eq.html</loc></url>
   <url><loc>https://laxarchive.org/lax-18/</loc></url>
   <url><loc>https://laxarchive.org/lax-18/Lax18.EdgeDensity.html</loc></url>
   <url><loc>https://laxarchive.org/lax-18/Lax18.EnergyIncrement.html</loc></url>
@@ -848,6 +877,112 @@
   <url><loc>https://laxarchive.org/lax-271696/Lax271696.VertexCover.html</loc></url>
   <url><loc>https://laxarchive.org/lax-271696/Lax271696Proofs.CCMain.exists_linearTime_program_ccLabels.html</loc></url>
   <url><loc>https://laxarchive.org/lax-271696/Lax271696Proofs.Courcelle.exists_linearTime_program_modelChecking.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166.CliqueComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166.CliquesValues.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166.CountingCliques.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166.CountingDominatingSets.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166.CountingFeedbackSets.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166.CountingHamiltonCircuits.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166.CountingKnapsacks.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166.CountingSatVariants.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166.CountingSetFamilies.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166.CountingSteinerTrees.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166.DirHamCircuitComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166.DominatingSetComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166.DominatingSetsValues.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166.ExactCoverComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166.FeedbackArcSetComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166.FeedbackSetsValues.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166.FeedbackVertexSetComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166.HamCircuitComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166.HamiltonCircuitsValues.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166.HittingSetComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166.IndependentSetComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166.KnapsackComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166.KnapsacksValues.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166.OneInSATComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166.SatVariantsValues.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166.SetCoverComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166.SetFamiliesValues.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166.SetPackingComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166.SteinerTreeComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166.SteinerTreesValues.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166.ThreeSATComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166.VertexCoverComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166.ZeroOneIPComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.feedbackArcSet_of_sharpFeedbackArcSet_support.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.hittingSet_of_sharpHittingSet_support.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.setCover_of_sharpSetCover_support.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpClique_count_iso.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpClique_eq.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpClique_sharpP_parsimoniousComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpClique_support_iff.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpDirHamCircuit_count_iso.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpDirHamCircuit_eq.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpDirHamCircuit_sharpP_parsimoniousComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpDirHamCircuit_support_iff.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpDominatingSet_count_iso.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpDominatingSet_eq.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpDominatingSet_sharpP_parsimoniousComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpDominatingSet_support_iff.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpExactCover_count_iso.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpExactCover_eq.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpExactCover_sharpP_parsimoniousComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpExactCover_support_iff.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpFeedbackArcSet_count_iso.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpFeedbackArcSet_eq.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpFeedbackArcSet_sharpP_parsimoniousComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpFeedbackArcSet_support_iff.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpFeedbackVertexSet_count_iso.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpFeedbackVertexSet_eq.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpFeedbackVertexSet_sharpP_parsimoniousComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpFeedbackVertexSet_support_iff.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpHamCircuit_count_iso.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpHamCircuit_eq.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpHamCircuit_sharpP_parsimoniousComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpHamCircuit_support_iff.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpHittingSet_count_iso.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpHittingSet_eq.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpHittingSet_sharpP_parsimoniousComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpHittingSet_support_iff.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpIndependentSet_count_iso.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpIndependentSet_eq.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpIndependentSet_sharpP_parsimoniousComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpIndependentSet_support_iff.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpKnapsack_count_iso.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpKnapsack_eq.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpKnapsack_sharpP_parsimoniousComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpKnapsack_support_iff.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpOneInSat_count_iso.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpOneInSat_eq.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpOneInSat_sharpP_parsimoniousComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpOneInSat_support_iff.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpSetCover_count_iso.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpSetCover_eq.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpSetCover_sharpP_parsimoniousComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpSetCover_support_iff.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpSetPacking_count_iso.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpSetPacking_eq.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpSetPacking_sharpP_parsimoniousComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpSetPacking_support_iff.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpSteinerTree_count_iso.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpSteinerTree_eq.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpSteinerTree_sharpP_parsimoniousComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpSteinerTree_support_iff.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpThreeSat_count_iso.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpThreeSat_eq.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpThreeSat_sharpP_parsimoniousComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpThreeSat_support_iff.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpVertexCover_count_iso.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpVertexCover_eq.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpVertexCover_sharpP_parsimoniousComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpVertexCover_support_iff.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpZeroOneIP_count_iso.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpZeroOneIP_eq.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpZeroOneIP_sharpP_parsimoniousComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.sharpZeroOneIP_support_iff.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-280166/Lax280166Proofs.Bridge.steinerTree_of_sharpSteinerTree_support.html</loc></url>
   <url><loc>https://laxarchive.org/lax-296731/</loc></url>
   <url><loc>https://laxarchive.org/lax-296731/Lax296731.HaeuplerSahaSrinivasanDefinitions.html</loc></url>
   <url><loc>https://laxarchive.org/lax-296731/Lax296731.HaeuplerSahaSrinivasanTheorem22.html</loc></url>
@@ -3228,6 +3363,51 @@
   <url><loc>https://laxarchive.org/lax-916827/Lax916827Proofs.Results.isTwoWay_comp_isRationalFun.html</loc></url>
   <url><loc>https://laxarchive.org/lax-916827/Lax916827Proofs.Results.isTwoWay_iff_isRegularFun.html</loc></url>
   <url><loc>https://laxarchive.org/lax-916827/Lax916827Proofs.Results.isTwoWay_of_isRegularFun.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-945089/</loc></url>
+  <url><loc>https://laxarchive.org/lax-945089/Lax945089.EhrenfeuchtGames.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-945089/Lax945089.EhrenfeuchtMethodology.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-945089/Lax945089.Even.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-945089/Lax945089.EvenInvariance.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-945089/Lax945089.EvenNotFirstOrder.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-945089/Lax945089.FirstOrderBelowACZero.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-945089/Lax945089.FirstOrderBelowTransitiveClosure.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-945089/Lax945089.GamesOnLinearOrders.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-945089/Lax945089.GamesOnSets.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-945089/Lax945089.NoDefinableOrder.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-945089/Lax945089.OrderFreeFirstOrder.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-945089/Lax945089.OrderFreeInductionMissesPTIME.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-945089/Lax945089.Parity.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-945089/Lax945089.ParityInLogSpace.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-945089/Lax945089.PebbleGames.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-945089/Lax945089.PebbleInvariance.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-945089/Lax945089.ReductionsBelowLogSpace.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-945089/Lax945089.TransitiveClosureReductions.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-945089/Lax945089Proofs.Bridge.efEquiv_bare.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-945089/Lax945089Proofs.Bridge.efEquiv_linearOrder.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-945089/Lax945089Proofs.Bridge.equivK%E2%82%82_bare.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-945089/Lax945089Proofs.Bridge.even_ac0Definable.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-945089/Lax945089Proofs.Bridge.even_dtcDefinable.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-945089/Lax945089Proofs.Bridge.even_fo_reduction_parity.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-945089/Lax945089Proofs.Bridge.even_iff.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-945089/Lax945089Proofs.Bridge.even_mem_NL.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-945089/Lax945089Proofs.Bridge.even_mem_PTIME.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-945089/Lax945089Proofs.Bridge.even_not_foDefinable.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-945089/Lax945089Proofs.Bridge.even_not_foDefinableFree.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-945089/Lax945089Proofs.Bridge.even_not_ifpDefinableFree.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-945089/Lax945089Proofs.Bridge.even_tcDefinable.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-945089/Lax945089Proofs.Bridge.exists_ac0Definable_not_foDefinable.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-945089/Lax945089Proofs.Bridge.exists_card_bound_of_foDefinableFree.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-945089/Lax945089Proofs.Bridge.exists_dtcReduction_not_orderedReduction.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-945089/Lax945089Proofs.Bridge.exists_mem_PTIME_not_ifpDefinableFree.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-945089/Lax945089Proofs.Bridge.exists_tcDefinable_not_foDefinable.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-945089/Lax945089Proofs.Bridge.foDefinableFree_foDefinable.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-945089/Lax945089Proofs.Bridge.ifpHolds_equivK%E2%82%82.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-945089/Lax945089Proofs.Bridge.not_isLinearOrder_inflLimit.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-945089/Lax945089Proofs.Bridge.parity_iff.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-945089/Lax945089Proofs.Bridge.parity_mem_LOGSPACE.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-945089/Lax945089Proofs.Bridge.parity_not_foDefinable.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-945089/Lax945089Proofs.Bridge.realize_equivK%E2%82%82.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-945089/Lax945089Proofs.Bridge.realize_sentence_of_efEquiv.html</loc></url>
   <url><loc>https://laxarchive.org/lax-965890/</loc></url>
   <url><loc>https://laxarchive.org/lax-965890/Lax965890.HaeuplerSahaSrinivasanDefinitions.html</loc></url>
   <url><loc>https://laxarchive.org/lax-965890/Lax965890.HaeuplerSahaSrinivasanTheorem22.html</loc></url>

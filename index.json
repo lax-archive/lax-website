@@ -2435,6 +2435,76 @@
       "proofs": []
     },
     {
+      "id": "lax-175070",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Descriptive complexity: decision classes defined by counting",
+      "concepts": [
+        {
+          "id": "Lax175070.CountClassComplements",
+          "title": "⊕P and PP are closed under complement",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax175070.CountClassInclusions",
+          "title": "Inclusions between the counting classes, NP, and coNP",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax175070.CountClassMembership",
+          "title": "Membership from two problems of #P",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax175070.CountDefinability",
+          "title": "Decision classes defined by counting",
+          "type": "definition"
+        },
+        {
+          "id": "Lax175070.CountingValues",
+          "title": "Values of the decision versions and of #SelSAT",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax175070.ParitySatComplete",
+          "title": "⊕SAT and Mod_k-SAT are complete",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax175070.SelectedSat",
+          "title": "Satisfiability decided by counting models",
+          "type": "definition"
+        },
+        {
+          "id": "Lax175070.SelectedSatComplete",
+          "title": "SelMajSAT is PP-complete and SelEqSAT is C₌P-complete",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax175070Proofs.Bridge.compl_mem_parityP",
+        "Lax175070Proofs.Bridge.compl_mem_PP",
+        "Lax175070Proofs.Bridge.coNP_subset_PP",
+        "Lax175070Proofs.Bridge.decide_iff",
+        "Lax175070Proofs.Bridge.mem_countClass_of_sharpP",
+        "Lax175070Proofs.Bridge.mem_modP_iff_le_mod_sharpNtmAccept",
+        "Lax175070Proofs.Bridge.mem_parityP_iff_le_parity_sharpNtmAccept",
+        "Lax175070Proofs.Bridge.modP_complete_of_sharpP_parsimoniousComplete",
+        "Lax175070Proofs.Bridge.modSat_modP_complete",
+        "Lax175070Proofs.Bridge.NP_subset_PP",
+        "Lax175070Proofs.Bridge.parityP_complete_of_sharpP_parsimoniousComplete",
+        "Lax175070Proofs.Bridge.paritySat_parityP_complete",
+        "Lax175070Proofs.Bridge.selEqSat_CeqP_complete",
+        "Lax175070Proofs.Bridge.selEqSat_iff",
+        "Lax175070Proofs.Bridge.selMajSat_iff",
+        "Lax175070Proofs.Bridge.selMajSat_PP_complete",
+        "Lax175070Proofs.Bridge.sharpSelSat_count_iso",
+        "Lax175070Proofs.Bridge.sharpSelSat_eq",
+        "Lax175070Proofs.Bridge.UP_subset_NP",
+        "Lax175070Proofs.Bridge.UP_subset_parityP"
+      ]
+    },
+    {
       "id": "lax-194892",
       "state": "registered",
       "environment": "v4.33.0",
@@ -3544,6 +3614,253 @@
       "proofs": [
         "Lax271696Proofs.CCMain.exists_linearTime_program_ccLabels",
         "Lax271696Proofs.Courcelle.exists_linearTime_program_modelChecking"
+      ]
+    },
+    {
+      "id": "lax-280166",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Descriptive complexity: a catalog of parsimoniously #P-complete problems",
+      "concepts": [
+        {
+          "id": "Lax280166.CliqueComplete",
+          "title": "#Clique is parsimoniously #P-complete",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax280166.CliquesValues",
+          "title": "The values of #Clique, #Independent Set, #Vertex Cover",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax280166.CountingCliques",
+          "title": "Counting cliques, independent sets, and vertex covers",
+          "type": "definition"
+        },
+        {
+          "id": "Lax280166.CountingDominatingSets",
+          "title": "Counting dominating sets",
+          "type": "definition"
+        },
+        {
+          "id": "Lax280166.CountingFeedbackSets",
+          "title": "Counting feedback vertex and arc sets",
+          "type": "definition"
+        },
+        {
+          "id": "Lax280166.CountingHamiltonCircuits",
+          "title": "Counting Hamilton circuits",
+          "type": "definition"
+        },
+        {
+          "id": "Lax280166.CountingKnapsacks",
+          "title": "Counting knapsack and 0-1 integer programming solutions",
+          "type": "definition"
+        },
+        {
+          "id": "Lax280166.CountingSatVariants",
+          "title": "Counting the models of 3-CNF and 1-in-CNF formulas",
+          "type": "definition"
+        },
+        {
+          "id": "Lax280166.CountingSetFamilies",
+          "title": "Counting exact covers, packings, set covers, and hitting sets",
+          "type": "definition"
+        },
+        {
+          "id": "Lax280166.CountingSteinerTrees",
+          "title": "Counting Steiner trees",
+          "type": "definition"
+        },
+        {
+          "id": "Lax280166.DirHamCircuitComplete",
+          "title": "#Directed Hamilton Circuit is parsimoniously #P-complete",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax280166.DominatingSetComplete",
+          "title": "#Dominating Set is parsimoniously #P-complete",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax280166.DominatingSetsValues",
+          "title": "The values of #Dominating Set",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax280166.ExactCoverComplete",
+          "title": "#Exact Cover is parsimoniously #P-complete",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax280166.FeedbackArcSetComplete",
+          "title": "#Feedback Arc Set is parsimoniously #P-complete",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax280166.FeedbackSetsValues",
+          "title": "The values of #Feedback Vertex Set, #Feedback Arc Set",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax280166.FeedbackVertexSetComplete",
+          "title": "#Feedback Vertex Set is parsimoniously #P-complete",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax280166.HamCircuitComplete",
+          "title": "#Hamilton Circuit is parsimoniously #P-complete",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax280166.HamiltonCircuitsValues",
+          "title": "The values of #Directed Hamilton Circuit, #Hamilton Circuit",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax280166.HittingSetComplete",
+          "title": "#Hitting Set is parsimoniously #P-complete",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax280166.IndependentSetComplete",
+          "title": "#Independent Set is parsimoniously #P-complete",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax280166.KnapsackComplete",
+          "title": "#Knapsack is parsimoniously #P-complete",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax280166.KnapsacksValues",
+          "title": "The values of #Knapsack, #0-1 Integer Programming",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax280166.OneInSATComplete",
+          "title": "#1-in-SAT is parsimoniously #P-complete",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax280166.SatVariantsValues",
+          "title": "The values of #3SAT, #1-in-SAT",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax280166.SetCoverComplete",
+          "title": "#Set Cover is parsimoniously #P-complete",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax280166.SetFamiliesValues",
+          "title": "The values of #Exact Cover, #Set Packing, #Set Cover, #Hitting Set",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax280166.SetPackingComplete",
+          "title": "#Set Packing is parsimoniously #P-complete",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax280166.SteinerTreeComplete",
+          "title": "#Steiner Tree is parsimoniously #P-complete",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax280166.SteinerTreesValues",
+          "title": "The values of #Steiner Tree",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax280166.ThreeSATComplete",
+          "title": "#3SAT is parsimoniously #P-complete",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax280166.VertexCoverComplete",
+          "title": "#Vertex Cover is parsimoniously #P-complete",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax280166.ZeroOneIPComplete",
+          "title": "#0-1 Integer Programming is parsimoniously #P-complete",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax280166Proofs.Bridge.feedbackArcSet_of_sharpFeedbackArcSet_support",
+        "Lax280166Proofs.Bridge.hittingSet_of_sharpHittingSet_support",
+        "Lax280166Proofs.Bridge.setCover_of_sharpSetCover_support",
+        "Lax280166Proofs.Bridge.sharpClique_count_iso",
+        "Lax280166Proofs.Bridge.sharpClique_eq",
+        "Lax280166Proofs.Bridge.sharpClique_sharpP_parsimoniousComplete",
+        "Lax280166Proofs.Bridge.sharpClique_support_iff",
+        "Lax280166Proofs.Bridge.sharpDirHamCircuit_count_iso",
+        "Lax280166Proofs.Bridge.sharpDirHamCircuit_eq",
+        "Lax280166Proofs.Bridge.sharpDirHamCircuit_sharpP_parsimoniousComplete",
+        "Lax280166Proofs.Bridge.sharpDirHamCircuit_support_iff",
+        "Lax280166Proofs.Bridge.sharpDominatingSet_count_iso",
+        "Lax280166Proofs.Bridge.sharpDominatingSet_eq",
+        "Lax280166Proofs.Bridge.sharpDominatingSet_sharpP_parsimoniousComplete",
+        "Lax280166Proofs.Bridge.sharpDominatingSet_support_iff",
+        "Lax280166Proofs.Bridge.sharpExactCover_count_iso",
+        "Lax280166Proofs.Bridge.sharpExactCover_eq",
+        "Lax280166Proofs.Bridge.sharpExactCover_sharpP_parsimoniousComplete",
+        "Lax280166Proofs.Bridge.sharpExactCover_support_iff",
+        "Lax280166Proofs.Bridge.sharpFeedbackArcSet_count_iso",
+        "Lax280166Proofs.Bridge.sharpFeedbackArcSet_eq",
+        "Lax280166Proofs.Bridge.sharpFeedbackArcSet_sharpP_parsimoniousComplete",
+        "Lax280166Proofs.Bridge.sharpFeedbackArcSet_support_iff",
+        "Lax280166Proofs.Bridge.sharpFeedbackVertexSet_count_iso",
+        "Lax280166Proofs.Bridge.sharpFeedbackVertexSet_eq",
+        "Lax280166Proofs.Bridge.sharpFeedbackVertexSet_sharpP_parsimoniousComplete",
+        "Lax280166Proofs.Bridge.sharpFeedbackVertexSet_support_iff",
+        "Lax280166Proofs.Bridge.sharpHamCircuit_count_iso",
+        "Lax280166Proofs.Bridge.sharpHamCircuit_eq",
+        "Lax280166Proofs.Bridge.sharpHamCircuit_sharpP_parsimoniousComplete",
+        "Lax280166Proofs.Bridge.sharpHamCircuit_support_iff",
+        "Lax280166Proofs.Bridge.sharpHittingSet_count_iso",
+        "Lax280166Proofs.Bridge.sharpHittingSet_eq",
+        "Lax280166Proofs.Bridge.sharpHittingSet_sharpP_parsimoniousComplete",
+        "Lax280166Proofs.Bridge.sharpHittingSet_support_iff",
+        "Lax280166Proofs.Bridge.sharpIndependentSet_count_iso",
+        "Lax280166Proofs.Bridge.sharpIndependentSet_eq",
+        "Lax280166Proofs.Bridge.sharpIndependentSet_sharpP_parsimoniousComplete",
+        "Lax280166Proofs.Bridge.sharpIndependentSet_support_iff",
+        "Lax280166Proofs.Bridge.sharpKnapsack_count_iso",
+        "Lax280166Proofs.Bridge.sharpKnapsack_eq",
+        "Lax280166Proofs.Bridge.sharpKnapsack_sharpP_parsimoniousComplete",
+        "Lax280166Proofs.Bridge.sharpKnapsack_support_iff",
+        "Lax280166Proofs.Bridge.sharpOneInSat_count_iso",
+        "Lax280166Proofs.Bridge.sharpOneInSat_eq",
+        "Lax280166Proofs.Bridge.sharpOneInSat_sharpP_parsimoniousComplete",
+        "Lax280166Proofs.Bridge.sharpOneInSat_support_iff",
+        "Lax280166Proofs.Bridge.sharpSetCover_count_iso",
+        "Lax280166Proofs.Bridge.sharpSetCover_eq",
+        "Lax280166Proofs.Bridge.sharpSetCover_sharpP_parsimoniousComplete",
+        "Lax280166Proofs.Bridge.sharpSetCover_support_iff",
+        "Lax280166Proofs.Bridge.sharpSetPacking_count_iso",
+        "Lax280166Proofs.Bridge.sharpSetPacking_eq",
+        "Lax280166Proofs.Bridge.sharpSetPacking_sharpP_parsimoniousComplete",
+        "Lax280166Proofs.Bridge.sharpSetPacking_support_iff",
+        "Lax280166Proofs.Bridge.sharpSteinerTree_count_iso",
+        "Lax280166Proofs.Bridge.sharpSteinerTree_eq",
+        "Lax280166Proofs.Bridge.sharpSteinerTree_sharpP_parsimoniousComplete",
+        "Lax280166Proofs.Bridge.sharpSteinerTree_support_iff",
+        "Lax280166Proofs.Bridge.sharpThreeSat_count_iso",
+        "Lax280166Proofs.Bridge.sharpThreeSat_eq",
+        "Lax280166Proofs.Bridge.sharpThreeSat_sharpP_parsimoniousComplete",
+        "Lax280166Proofs.Bridge.sharpThreeSat_support_iff",
+        "Lax280166Proofs.Bridge.sharpVertexCover_count_iso",
+        "Lax280166Proofs.Bridge.sharpVertexCover_eq",
+        "Lax280166Proofs.Bridge.sharpVertexCover_sharpP_parsimoniousComplete",
+        "Lax280166Proofs.Bridge.sharpVertexCover_support_iff",
+        "Lax280166Proofs.Bridge.sharpZeroOneIP_count_iso",
+        "Lax280166Proofs.Bridge.sharpZeroOneIP_eq",
+        "Lax280166Proofs.Bridge.sharpZeroOneIP_sharpP_parsimoniousComplete",
+        "Lax280166Proofs.Bridge.sharpZeroOneIP_support_iff",
+        "Lax280166Proofs.Bridge.steinerTree_of_sharpSteinerTree_support"
       ]
     },
     {
@@ -9588,6 +9905,132 @@
         "Lax916827Proofs.Results.isTwoWay_comp_isRationalFun",
         "Lax916827Proofs.Results.isTwoWay_iff_isRegularFun",
         "Lax916827Proofs.Results.isTwoWay_of_isRegularFun"
+      ]
+    },
+    {
+      "id": "lax-945089",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Descriptive complexity: games and inexpressibility",
+      "concepts": [
+        {
+          "id": "Lax945089.EhrenfeuchtGames",
+          "title": "Ehrenfeucht–Fraïssé games",
+          "type": "definition"
+        },
+        {
+          "id": "Lax945089.EhrenfeuchtMethodology",
+          "title": "The Ehrenfeucht–Fraïssé method",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax945089.Even",
+          "title": "EVEN, the parity of the universe",
+          "type": "definition"
+        },
+        {
+          "id": "Lax945089.EvenInvariance",
+          "title": "Characterization of EVEN and PARITY",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax945089.EvenNotFirstOrder",
+          "title": "EVEN is not first-order definable, even with an order",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax945089.FirstOrderBelowACZero",
+          "title": "FO(≤) ⊊ AC⁰: EVEN with arithmetic",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax945089.FirstOrderBelowTransitiveClosure",
+          "title": "FO(≤) ⊊ FO(DTC): EVEN is a deterministic walk",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax945089.GamesOnLinearOrders",
+          "title": "Ehrenfeucht’s theorem on linear orders",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax945089.GamesOnSets",
+          "title": "First-order logic cannot count: games on bare sets",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax945089.NoDefinableOrder",
+          "title": "No order-free induction defines a linear order",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax945089.OrderFreeFirstOrder",
+          "title": "First-order definability without an order",
+          "type": "definition"
+        },
+        {
+          "id": "Lax945089.OrderFreeInductionMissesPTIME",
+          "title": "Order-free FO(IFP) does not capture PTIME",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax945089.Parity",
+          "title": "PARITY, the parity of a marked subset",
+          "type": "definition"
+        },
+        {
+          "id": "Lax945089.ParityInLogSpace",
+          "title": "PARITY is in L and not first-order definable",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax945089.PebbleGames",
+          "title": "Pebble games between two structures",
+          "type": "definition"
+        },
+        {
+          "id": "Lax945089.PebbleInvariance",
+          "title": "Invariance of formulas and inductions under pebble games",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax945089.ReductionsBelowLogSpace",
+          "title": "First-order reductions are strictly weaker than logarithmic-space reductions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax945089.TransitiveClosureReductions",
+          "title": "Reductions in first-order logic with a deterministic transitive closure",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax945089Proofs.Bridge.efEquiv_bare",
+        "Lax945089Proofs.Bridge.efEquiv_linearOrder",
+        "Lax945089Proofs.Bridge.equivK₂_bare",
+        "Lax945089Proofs.Bridge.even_ac0Definable",
+        "Lax945089Proofs.Bridge.even_dtcDefinable",
+        "Lax945089Proofs.Bridge.even_fo_reduction_parity",
+        "Lax945089Proofs.Bridge.even_iff",
+        "Lax945089Proofs.Bridge.even_mem_NL",
+        "Lax945089Proofs.Bridge.even_mem_PTIME",
+        "Lax945089Proofs.Bridge.even_not_foDefinable",
+        "Lax945089Proofs.Bridge.even_not_foDefinableFree",
+        "Lax945089Proofs.Bridge.even_not_ifpDefinableFree",
+        "Lax945089Proofs.Bridge.even_tcDefinable",
+        "Lax945089Proofs.Bridge.exists_ac0Definable_not_foDefinable",
+        "Lax945089Proofs.Bridge.exists_card_bound_of_foDefinableFree",
+        "Lax945089Proofs.Bridge.exists_dtcReduction_not_orderedReduction",
+        "Lax945089Proofs.Bridge.exists_mem_PTIME_not_ifpDefinableFree",
+        "Lax945089Proofs.Bridge.exists_tcDefinable_not_foDefinable",
+        "Lax945089Proofs.Bridge.foDefinableFree_foDefinable",
+        "Lax945089Proofs.Bridge.ifpHolds_equivK₂",
+        "Lax945089Proofs.Bridge.not_isLinearOrder_inflLimit",
+        "Lax945089Proofs.Bridge.parity_iff",
+        "Lax945089Proofs.Bridge.parity_mem_LOGSPACE",
+        "Lax945089Proofs.Bridge.parity_not_foDefinable",
+        "Lax945089Proofs.Bridge.realize_equivK₂",
+        "Lax945089Proofs.Bridge.realize_sentence_of_efEquiv"
       ]
     },
     {
