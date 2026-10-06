@@ -1257,6 +1257,60 @@
   <url><loc>https://laxarchive.org/lax-362205/Lax362205Proofs.successor_layer.html</loc></url>
   <url><loc>https://laxarchive.org/lax-362205/paper-pdf.html</loc></url>
   <url><loc>https://laxarchive.org/lax-362205/paper.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-366625/</loc></url>
+  <url><loc>https://laxarchive.org/lax-366625/Lax366625.CountingClasses.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-366625/Lax366625.CountingProblems.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-366625/Lax366625.CountingRuns.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-366625/Lax366625.CountingRunsComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-366625/Lax366625.CountingRunsValue.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-366625/Lax366625.CountingSat.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-366625/Lax366625.FPAndPTIME.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-366625/Lax366625.FPByDigits.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-366625/Lax366625.FPClosure.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-366625/Lax366625.FPComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-366625/Lax366625.HornNumbers.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-366625/Lax366625.MachineNumbers.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-366625/Lax366625.NumberedCircuits.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-366625/Lax366625.NumbersValue.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-366625/Lax366625.QuantitativeLogic.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-366625/Lax366625.SecondOrderCounting.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-366625/Lax366625.SharpPAndNP.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-366625/Lax366625.SharpPAsQuantitativeLogic.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-366625/Lax366625.SharpPClosure.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-366625/Lax366625.SharpSatComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-366625/Lax366625.SharpSatValue.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-366625/Lax366625.WitnessCounting.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-366625/Lax366625Proofs.Bridge.FP_mem_congr_finite.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-366625/Lax366625Proofs.Bridge.FP_mem_of_orderedParsimonious.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-366625/Lax366625Proofs.Bridge.FP_mem_of_relOrderedParsimonious.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-366625/Lax366625Proofs.Bridge.NP_hard_support_of_sharpP_parsimoniousHard.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-366625/Lax366625Proofs.Bridge.NP_subset_PTIME_of_mem_FP_of_parsimoniousHard.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-366625/Lax366625Proofs.Bridge.NP_subset_PTIME_of_sharpP_parsimoniousHard.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-366625/Lax366625Proofs.Bridge.SharpP_mem_congr_finite.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-366625/Lax366625Proofs.Bridge.SharpP_mem_of_orderedParsimonious.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-366625/Lax366625Proofs.Bridge.SharpP_mem_of_relOrderedParsimonious.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-366625/Lax366625Proofs.Bridge.circuitNumber_FP_parsimoniousComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-366625/Lax366625Proofs.Bridge.circuitNumber_count_iso.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-366625/Lax366625Proofs.Bridge.circuitNumber_eq.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-366625/Lax366625Proofs.Bridge.digitDefinable_iff_mem_FP.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-366625/Lax366625Proofs.Bridge.dtmNumber_FP_parsimoniousComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-366625/Lax366625Proofs.Bridge.dtmNumber_count_iso.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-366625/Lax366625Proofs.Bridge.dtmNumber_eq.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-366625/Lax366625Proofs.Bridge.fpDefinable_of_qfo.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-366625/Lax366625Proofs.Bridge.hornNumber_FP_parsimoniousComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-366625/Lax366625Proofs.Bridge.hornNumber_count_iso.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-366625/Lax366625Proofs.Bridge.hornNumber_eq.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-366625/Lax366625Proofs.Bridge.mem_FP_iff_le_dtmNumber.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-366625/Lax366625Proofs.Bridge.mem_NP_iff_exists_sharpP_support.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-366625/Lax366625Proofs.Bridge.mem_sharpP_iff_le_sharpNtmAccept.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-366625/Lax366625Proofs.Bridge.mem_sharpP_iff_sqDefinable.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-366625/Lax366625Proofs.Bridge.sharpNtmAccept_count_iso.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-366625/Lax366625Proofs.Bridge.sharpNtmAccept_eq.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-366625/Lax366625Proofs.Bridge.sharpNtmAccept_sharpP_parsimoniousComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-366625/Lax366625Proofs.Bridge.sharpSat_count_iso.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-366625/Lax366625Proofs.Bridge.sharpSat_eq.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-366625/Lax366625Proofs.Bridge.sharpSat_sharpP_parsimoniousComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-366625/Lax366625Proofs.Bridge.support_mem_PTIME_of_mem_FP.html</loc></url>
   <url><loc>https://laxarchive.org/lax-379983/</loc></url>
   <url><loc>https://laxarchive.org/lax-379983/Lax379983.FeedbackEdgeNumber.html</loc></url>
   <url><loc>https://laxarchive.org/lax-379983/Lax379983.FeedbackNumberComparison.html</loc></url>

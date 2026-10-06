@@ -2183,7 +2183,7 @@
       "id": "lax-134656",
       "state": "draft",
       "environment": "v4.33.0",
-      "title": "Descriptive complexity: PSPACE, partial fixed points and the Abiteboul–Vianu theorem",
+      "title": "Descriptive complexity: PSPACE, partial fixed points, and the Abiteboul–Vianu theorem",
       "concepts": [
         {
           "id": "Lax134656.AbiteboulVianu",
@@ -4531,6 +4531,157 @@
         "Lax362205Proofs.immerman_szelepcsenyi",
         "Lax362205Proofs.nonreachability",
         "Lax362205Proofs.successor_layer"
+      ]
+    },
+    {
+      "id": "lax-366625",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Descriptive complexity: counting problems, #P, and FP",
+      "concepts": [
+        {
+          "id": "Lax366625.CountingClasses",
+          "title": "Counting classes",
+          "type": "definition"
+        },
+        {
+          "id": "Lax366625.CountingProblems",
+          "title": "Counting problems and parsimonious reductions",
+          "type": "definition"
+        },
+        {
+          "id": "Lax366625.CountingRuns",
+          "title": "Counting the accepting runs of a Turing machine",
+          "type": "definition"
+        },
+        {
+          "id": "Lax366625.CountingRunsComplete",
+          "title": "#P by counting the accepting runs of a Turing machine",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax366625.CountingRunsValue",
+          "title": "The value of counting accepting runs",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax366625.CountingSat",
+          "title": "#SAT, counting the models of a CNF formula",
+          "type": "definition"
+        },
+        {
+          "id": "Lax366625.FPAndPTIME",
+          "title": "FP and PTIME",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax366625.FPByDigits",
+          "title": "FP by binary digits and by quantitative terms",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax366625.FPClosure",
+          "title": "FP is closed under parsimonious reductions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax366625.FPComplete",
+          "title": "FP-complete problems",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax366625.HornNumbers",
+          "title": "The number written by unit propagation",
+          "type": "definition"
+        },
+        {
+          "id": "Lax366625.MachineNumbers",
+          "title": "The number written by a deterministic Turing machine",
+          "type": "definition"
+        },
+        {
+          "id": "Lax366625.NumberedCircuits",
+          "title": "The number written by a Boolean circuit",
+          "type": "definition"
+        },
+        {
+          "id": "Lax366625.NumbersValue",
+          "title": "The values of the number problems",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax366625.QuantitativeLogic",
+          "title": "The class FP, by quantitative first-order logic with least fixed points",
+          "type": "definition"
+        },
+        {
+          "id": "Lax366625.SecondOrderCounting",
+          "title": "The quantitative logic ΣQSO(FO)",
+          "type": "definition"
+        },
+        {
+          "id": "Lax366625.SharpPAndNP",
+          "title": "#P and NP",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax366625.SharpPAsQuantitativeLogic",
+          "title": "#P = ΣQSO(FO)",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax366625.SharpPClosure",
+          "title": "#P is closed under parsimonious reductions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax366625.SharpSatComplete",
+          "title": "#SAT is parsimoniously #P-complete",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax366625.SharpSatValue",
+          "title": "The value of #SAT",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax366625.WitnessCounting",
+          "title": "The class #P, by witness counting",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax366625Proofs.Bridge.circuitNumber_count_iso",
+        "Lax366625Proofs.Bridge.circuitNumber_eq",
+        "Lax366625Proofs.Bridge.circuitNumber_FP_parsimoniousComplete",
+        "Lax366625Proofs.Bridge.digitDefinable_iff_mem_FP",
+        "Lax366625Proofs.Bridge.dtmNumber_count_iso",
+        "Lax366625Proofs.Bridge.dtmNumber_eq",
+        "Lax366625Proofs.Bridge.dtmNumber_FP_parsimoniousComplete",
+        "Lax366625Proofs.Bridge.FP_mem_congr_finite",
+        "Lax366625Proofs.Bridge.FP_mem_of_orderedParsimonious",
+        "Lax366625Proofs.Bridge.FP_mem_of_relOrderedParsimonious",
+        "Lax366625Proofs.Bridge.fpDefinable_of_qfo",
+        "Lax366625Proofs.Bridge.hornNumber_count_iso",
+        "Lax366625Proofs.Bridge.hornNumber_eq",
+        "Lax366625Proofs.Bridge.hornNumber_FP_parsimoniousComplete",
+        "Lax366625Proofs.Bridge.mem_FP_iff_le_dtmNumber",
+        "Lax366625Proofs.Bridge.mem_NP_iff_exists_sharpP_support",
+        "Lax366625Proofs.Bridge.mem_sharpP_iff_le_sharpNtmAccept",
+        "Lax366625Proofs.Bridge.mem_sharpP_iff_sqDefinable",
+        "Lax366625Proofs.Bridge.NP_hard_support_of_sharpP_parsimoniousHard",
+        "Lax366625Proofs.Bridge.NP_subset_PTIME_of_mem_FP_of_parsimoniousHard",
+        "Lax366625Proofs.Bridge.NP_subset_PTIME_of_sharpP_parsimoniousHard",
+        "Lax366625Proofs.Bridge.sharpNtmAccept_count_iso",
+        "Lax366625Proofs.Bridge.sharpNtmAccept_eq",
+        "Lax366625Proofs.Bridge.sharpNtmAccept_sharpP_parsimoniousComplete",
+        "Lax366625Proofs.Bridge.SharpP_mem_congr_finite",
+        "Lax366625Proofs.Bridge.SharpP_mem_of_orderedParsimonious",
+        "Lax366625Proofs.Bridge.SharpP_mem_of_relOrderedParsimonious",
+        "Lax366625Proofs.Bridge.sharpSat_count_iso",
+        "Lax366625Proofs.Bridge.sharpSat_eq",
+        "Lax366625Proofs.Bridge.sharpSat_sharpP_parsimoniousComplete",
+        "Lax366625Proofs.Bridge.support_mem_PTIME_of_mem_FP"
       ]
     },
     {
