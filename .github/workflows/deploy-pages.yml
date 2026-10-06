@@ -20,10 +20,12 @@ permissions:
   issues: write
 
 # Every deployment contains production plus all retained branch previews, so
-# publishing jobs must update the shared Pages tree one at a time.
+# publishing jobs must update the shared Pages tree one at a time. Database
+# dispatches are snapshots of the same production target: a newer dispatch
+# supersedes an older one and should not wait behind its obsolete full build.
 concurrency:
   group: github-pages
-  cancel-in-progress: false
+  cancel-in-progress: ${{ github.event_name == 'repository_dispatch' }}
 
 jobs:
   build-and-deploy:
