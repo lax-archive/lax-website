@@ -8867,6 +8867,85 @@
       ]
     },
     {
+      "id": "lax-895169",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Descriptive complexity: AC⁰ as a logic",
+      "concepts": [
+        {
+          "id": "Lax895169.ACZeroComplement",
+          "title": "AC⁰ is closed under complement",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax895169.ACZeroFinite",
+          "title": "AC⁰ definability reads finite instances only",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax895169.ACZeroInLogSpace",
+          "title": "AC⁰ ⊆ L",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax895169.ACZeroInPTIME",
+          "title": "AC⁰ ⊆ PTIME, by fixed points",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax895169.ACZeroIsBitLogic",
+          "title": "FO(≤, +, ×) = FO(≤, +, BIT)",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax895169.ACZeroIsLogTime",
+          "title": "AC⁰ is the logarithmic-time hierarchy",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax895169.ArithmeticLogic",
+          "title": "AC⁰ as first-order logic with arithmetic",
+          "type": "definition"
+        },
+        {
+          "id": "Lax895169.BitLogic",
+          "title": "First-order logic with order, addition and BIT",
+          "type": "definition"
+        },
+        {
+          "id": "Lax895169.BitPredicate",
+          "title": "Ranks in a finite linear order and the BIT predicate",
+          "type": "definition"
+        },
+        {
+          "id": "Lax895169.FirstOrderInACZero",
+          "title": "FO(≤) ⊆ AC⁰",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax895169.LogTimeMachines",
+          "title": "Alternating logarithmic-time machines",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax895169Proofs.Bridge.ac0Definable_bitDefinable",
+        "Lax895169Proofs.Bridge.ac0Definable_compl",
+        "Lax895169Proofs.Bridge.ac0Definable_congr_finite",
+        "Lax895169Proofs.Bridge.ac0Definable_dtcDefinable",
+        "Lax895169Proofs.Bridge.ac0Definable_iff_ltDecidable",
+        "Lax895169Proofs.Bridge.ac0Definable_ifpDefinable",
+        "Lax895169Proofs.Bridge.ac0Definable_lfpDefinable",
+        "Lax895169Proofs.Bridge.ac0Definable_mem_LOGSPACE",
+        "Lax895169Proofs.Bridge.ac0Definable_mem_NL",
+        "Lax895169Proofs.Bridge.ac0Definable_mem_PTIME",
+        "Lax895169Proofs.Bridge.bitDefinable_ac0Definable",
+        "Lax895169Proofs.Bridge.bitDefinable_ltDecidable",
+        "Lax895169Proofs.Bridge.foDefinable_ac0Definable",
+        "Lax895169Proofs.Bridge.ltDecidable_bitDefinable"
+      ]
+    },
+    {
       "id": "lax-904597",
       "state": "registered",
       "environment": "v4.33.0",
