@@ -6218,6 +6218,180 @@
       ]
     },
     {
+      "id": "lax-564036",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Descriptive complexity: coNP, DP and the polynomial hierarchy",
+      "concepts": [
+        {
+          "id": "Lax564036.AlternatingMachineComplete",
+          "title": "The polynomial hierarchy by alternating Turing machines",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax564036.AlternatingMachineInvariance",
+          "title": "Invariance and characterization of alternating machine acceptance",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax564036.AlternatingMachines",
+          "title": "Acceptance by alternating Turing machines with a bounded number of alternations",
+          "type": "definition"
+        },
+        {
+          "id": "Lax564036.CoNPClosure",
+          "title": "coNP is closed under first-order reductions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax564036.Difference",
+          "title": "The class DP",
+          "type": "definition"
+        },
+        {
+          "id": "Lax564036.DPClosure",
+          "title": "DP is closed under first-order reductions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax564036.DPInclusions",
+          "title": "NP ∪ coNP ⊆ DP ⊆ Σ₂ ∩ Π₂",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax564036.Hierarchy",
+          "title": "The polynomial hierarchy, coNP and PH",
+          "type": "definition"
+        },
+        {
+          "id": "Lax564036.HierarchyDuality",
+          "title": "Π_k is co-Σ_k",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax564036.HierarchyInclusions",
+          "title": "The levels of the polynomial hierarchy are nested",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax564036.PolynomialTimeInHierarchy",
+          "title": "PTIME at the bottom of the polynomial hierarchy",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax564036.QbfComplete",
+          "title": "QBF with k alternations is complete for the k-th level",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax564036.QuantifiedBooleanFormulas",
+          "title": "Quantified Boolean formulas with a bounded number of alternations",
+          "type": "definition"
+        },
+        {
+          "id": "Lax564036.QuantifiedBooleanFormulasInvariance",
+          "title": "Invariance and characterization of quantified Boolean formulas",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax564036.SatUnsat",
+          "title": "SAT-UNSAT",
+          "type": "definition"
+        },
+        {
+          "id": "Lax564036.SatUnsatDPComplete",
+          "title": "SAT-UNSAT is DP-complete",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax564036.SatUnsatInvariance",
+          "title": "Invariance and characterization of SAT-UNSAT",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax564036.TautCoNPComplete",
+          "title": "TAUT is coNP-complete",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax564036.Tautology",
+          "title": "Tautology of DNF formulas",
+          "type": "definition"
+        },
+        {
+          "id": "Lax564036.TautologyInvariance",
+          "title": "Invariance and characterization of TAUT",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax564036.ThreeDnfTautCoNPComplete",
+          "title": "3-DNF-TAUT and 3-UNSAT are coNP-complete",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax564036.ThreeDnfTautology",
+          "title": "Tautology of 3-DNF formulas and unsatisfiability of 3-CNF formulas",
+          "type": "definition"
+        },
+        {
+          "id": "Lax564036.ThreeDnfTautologyInvariance",
+          "title": "Invariance and characterization of 3-DNF-TAUT and 3-UNSAT",
+          "type": "lemma"
+        }
+      ],
+      "proofs": [
+        "Lax564036Proofs.Bridge.atmAccept_iff",
+        "Lax564036Proofs.Bridge.atmAccept_one_coNP_complete",
+        "Lax564036Proofs.Bridge.atmAccept_one_NP_complete",
+        "Lax564036Proofs.Bridge.atmAccept_piP_complete",
+        "Lax564036Proofs.Bridge.atmAccept_sigmaP_complete",
+        "Lax564036Proofs.Bridge.atmAccepts_iso",
+        "Lax564036Proofs.Bridge.compl_mem_coNP_iff",
+        "Lax564036Proofs.Bridge.coNP_mem_congr_finite",
+        "Lax564036Proofs.Bridge.coNP_mem_of_foReduction",
+        "Lax564036Proofs.Bridge.coNP_mem_of_orderedReduction",
+        "Lax564036Proofs.Bridge.coNP_subset_DP",
+        "Lax564036Proofs.Bridge.DP_mem_congr_finite",
+        "Lax564036Proofs.Bridge.DP_mem_of_foReduction",
+        "Lax564036Proofs.Bridge.DP_mem_of_orderedReduction",
+        "Lax564036Proofs.Bridge.DP_subset_piP_two",
+        "Lax564036Proofs.Bridge.DP_subset_sigmaP_two",
+        "Lax564036Proofs.Bridge.mem_piP_iff",
+        "Lax564036Proofs.Bridge.mem_piP_iff_le_atmAccept",
+        "Lax564036Proofs.Bridge.mem_sigmaP_iff_le_atmAccept",
+        "Lax564036Proofs.Bridge.NP_subset_DP",
+        "Lax564036Proofs.Bridge.piP_mono",
+        "Lax564036Proofs.Bridge.piP_subset_PH",
+        "Lax564036Proofs.Bridge.piP_subset_piP_succ",
+        "Lax564036Proofs.Bridge.piP_subset_sigmaP_succ",
+        "Lax564036Proofs.Bridge.piP_zero_eq",
+        "Lax564036Proofs.Bridge.PTIME_subset_coNP",
+        "Lax564036Proofs.Bridge.PTIME_subset_sigmaP",
+        "Lax564036Proofs.Bridge.qbf_complete",
+        "Lax564036Proofs.Bridge.qbf_one_NP_complete",
+        "Lax564036Proofs.Bridge.qbfPi_complete",
+        "Lax564036Proofs.Bridge.qbfPi_one_coNP_complete",
+        "Lax564036Proofs.Bridge.qbfProblem_iff",
+        "Lax564036Proofs.Bridge.qbfTrue_iso",
+        "Lax564036Proofs.Bridge.satUnsat_DP_complete",
+        "Lax564036Proofs.Bridge.satUnsat_iff",
+        "Lax564036Proofs.Bridge.satWith_iso",
+        "Lax564036Proofs.Bridge.sigmaP_mono",
+        "Lax564036Proofs.Bridge.sigmaP_subset_PH",
+        "Lax564036Proofs.Bridge.sigmaP_subset_piP_succ",
+        "Lax564036Proofs.Bridge.sigmaP_subset_sigmaP_succ",
+        "Lax564036Proofs.Bridge.taut_coNP_complete",
+        "Lax564036Proofs.Bridge.taut_iff",
+        "Lax564036Proofs.Bridge.tautology_iso",
+        "Lax564036Proofs.Bridge.threeDnfTaut_coNP_complete",
+        "Lax564036Proofs.Bridge.threeDnfTaut_iff",
+        "Lax564036Proofs.Bridge.threeDnfTautology_iso",
+        "Lax564036Proofs.Bridge.threeUnsat_coNP_complete",
+        "Lax564036Proofs.Bridge.threeUnsat_iff",
+        "Lax564036Proofs.Bridge.threeUnsatisfiable_iso"
+      ]
+    },
+    {
       "id": "lax-570090",
       "state": "registered",
       "environment": "v4.33.0",
