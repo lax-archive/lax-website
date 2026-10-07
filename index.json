@@ -4755,6 +4755,144 @@
       ]
     },
     {
+      "id": "lax-350013",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Truly Subquadratic 3SUM and Truly Subcubic APSP",
+      "concepts": [
+        {
+          "id": "Lax350013.APSP",
+          "title": "Truly subcubic all-pairs shortest paths",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax350013.CliqueOptimization",
+          "title": "Minimum- and maximum-weight multipartite cliques",
+          "type": "definition"
+        },
+        {
+          "id": "Lax350013.ExactTriangle",
+          "title": "Truly subcubic Exact Triangle",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax350013.HintedAlgorithms",
+          "title": "Improved algorithms with thin hints",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax350013.HintedMatrixVector",
+          "title": "Hinted Boolean matrix-vector problems",
+          "type": "definition"
+        },
+        {
+          "id": "Lax350013.IntegerAlgorithmBounds",
+          "title": "Integer algorithms before rounding the exponents",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax350013.LopsidedTriangleAlgorithms",
+          "title": "Faster lopsided triangle algorithms",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax350013.LopsidedTriangles",
+          "title": "Lopsided all-edges triangle detection and counting",
+          "type": "definition"
+        },
+        {
+          "id": "Lax350013.MatrixParameters",
+          "title": "Exponents for thin matrix preprocessing",
+          "type": "definition"
+        },
+        {
+          "id": "Lax350013.MatrixPreprocessing",
+          "title": "Explicit thin matrix preprocessing bounds",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax350013.MatrixTradeoffs",
+          "title": "Thin matrix preprocessing and query trade-offs",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax350013.MinPlusProduct",
+          "title": "Truly subcubic min-plus matrix multiplication",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax350013.PolynomialTime",
+          "title": "Uniform polynomial time on the word RAM",
+          "type": "definition"
+        },
+        {
+          "id": "Lax350013.RAMResources",
+          "title": "Time bounds, persistent queries and phased inputs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax350013.SparseMatrixProduct",
+          "title": "Faster computation of selected matrix-product entries",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax350013.ThinMatrices",
+          "title": "Thin matrix products and persistent entry queries",
+          "type": "definition"
+        },
+        {
+          "id": "Lax350013.ThreeSUM",
+          "title": "Truly subquadratic 3SUM",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax350013.WeightedCliqueAlgorithms",
+          "title": "Faster weighted clique algorithms",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax350013.WordRAM",
+          "title": "A word RAM with signed addresses",
+          "type": "definition"
+        },
+        {
+          "id": "Lax350013.ZeroWeightClique",
+          "title": "Faster zero-weight k-clique",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax350013Proofs.ThreeSumApsp.lax_endStatement_corollary_39_zeroWeight",
+        "Lax350013Proofs.ThreeSumApsp.lax_endStatement_theorem_19",
+        "Lax350013Proofs.ThreeSumApsp.lax_endStatement_theorem_22_3SUM",
+        "Lax350013Proofs.ThreeSumApsp.lax_endStatement_theorem_22_APSP",
+        "Lax350013Proofs.ThreeSumApsp.lax_endStatement_theorem_22_MinPlus",
+        "Lax350013Proofs.ThreeSumApsp.lax_wordRam_corollary_15",
+        "Lax350013Proofs.ThreeSumApsp.lax_wordRam_corollary_16",
+        "Lax350013Proofs.ThreeSumApsp.lax_wordRam_corollary_26",
+        "Lax350013Proofs.ThreeSumApsp.lax_wordRam_corollary_26_wanted",
+        "Lax350013Proofs.ThreeSumApsp.lax_wordRam_corollary_31",
+        "Lax350013Proofs.ThreeSumApsp.lax_wordRam_corollary_32",
+        "Lax350013Proofs.ThreeSumApsp.lax_wordRam_corollary_39_min_max",
+        "Lax350013Proofs.ThreeSumApsp.lax_wordRam_corollary_39_zero",
+        "Lax350013Proofs.ThreeSumApsp.lax_wordRam_corollary_40_general_times",
+        "Lax350013Proofs.ThreeSumApsp.lax_wordRam_corollary_40_times",
+        "Lax350013Proofs.ThreeSumApsp.lax_wordRam_theorem_1",
+        "Lax350013Proofs.ThreeSumApsp.lax_wordRam_theorem_19",
+        "Lax350013Proofs.ThreeSumApsp.lax_wordRam_theorem_2",
+        "Lax350013Proofs.ThreeSumApsp.lax_wordRam_theorem_22_first",
+        "Lax350013Proofs.ThreeSumApsp.lax_wordRam_theorem_22_second",
+        "Lax350013Proofs.ThreeSumApsp.lax_wordRam_theorem_22_threeSum",
+        "Lax350013Proofs.ThreeSumApsp.lax_wordRam_theorem_24",
+        "Lax350013Proofs.ThreeSumApsp.lax_wordRam_theorem_25",
+        "Lax350013Proofs.ThreeSumApsp.lax_wordRam_theorem_3",
+        "Lax350013Proofs.ThreeSumApsp.lax_wordRam_theorem_30",
+        "Lax350013Proofs.ThreeSumApsp.lax_wordRam_theorem_30_wanted",
+        "Lax350013Proofs.ThreeSumApsp.lax_wordRam_theorem_4",
+        "Lax350013Proofs.ThreeSumApsp.lax_wordRam_theorem_5"
+      ]
+    },
+    {
       "id": "lax-362205",
       "state": "registered",
       "environment": "v4.33.0",

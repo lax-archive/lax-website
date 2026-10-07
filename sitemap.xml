@@ -1364,6 +1364,55 @@
   <url><loc>https://laxarchive.org/lax-345332/Lax345332Proofs.Transform.transform_sat.html</loc></url>
   <url><loc>https://laxarchive.org/lax-345332/paper-pdf.html</loc></url>
   <url><loc>https://laxarchive.org/lax-345332/paper.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013.APSP.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013.CliqueOptimization.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013.ExactTriangle.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013.HintedAlgorithms.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013.HintedMatrixVector.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013.IntegerAlgorithmBounds.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013.LopsidedTriangleAlgorithms.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013.LopsidedTriangles.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013.MatrixParameters.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013.MatrixPreprocessing.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013.MatrixTradeoffs.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013.MinPlusProduct.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013.PolynomialTime.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013.RAMResources.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013.SparseMatrixProduct.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013.ThinMatrices.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013.ThreeSUM.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013.WeightedCliqueAlgorithms.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013.WordRAM.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013.ZeroWeightClique.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013Proofs.ThreeSumApsp.lax_endStatement_corollary_39_zeroWeight.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013Proofs.ThreeSumApsp.lax_endStatement_theorem_19.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013Proofs.ThreeSumApsp.lax_endStatement_theorem_22_3SUM.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013Proofs.ThreeSumApsp.lax_endStatement_theorem_22_APSP.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013Proofs.ThreeSumApsp.lax_endStatement_theorem_22_MinPlus.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013Proofs.ThreeSumApsp.lax_wordRam_corollary_15.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013Proofs.ThreeSumApsp.lax_wordRam_corollary_16.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013Proofs.ThreeSumApsp.lax_wordRam_corollary_26.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013Proofs.ThreeSumApsp.lax_wordRam_corollary_26_wanted.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013Proofs.ThreeSumApsp.lax_wordRam_corollary_31.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013Proofs.ThreeSumApsp.lax_wordRam_corollary_32.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013Proofs.ThreeSumApsp.lax_wordRam_corollary_39_min_max.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013Proofs.ThreeSumApsp.lax_wordRam_corollary_39_zero.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013Proofs.ThreeSumApsp.lax_wordRam_corollary_40_general_times.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013Proofs.ThreeSumApsp.lax_wordRam_corollary_40_times.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013Proofs.ThreeSumApsp.lax_wordRam_theorem_1.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013Proofs.ThreeSumApsp.lax_wordRam_theorem_19.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013Proofs.ThreeSumApsp.lax_wordRam_theorem_2.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013Proofs.ThreeSumApsp.lax_wordRam_theorem_22_first.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013Proofs.ThreeSumApsp.lax_wordRam_theorem_22_second.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013Proofs.ThreeSumApsp.lax_wordRam_theorem_22_threeSum.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013Proofs.ThreeSumApsp.lax_wordRam_theorem_24.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013Proofs.ThreeSumApsp.lax_wordRam_theorem_25.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013Proofs.ThreeSumApsp.lax_wordRam_theorem_3.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013Proofs.ThreeSumApsp.lax_wordRam_theorem_30.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013Proofs.ThreeSumApsp.lax_wordRam_theorem_30_wanted.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013Proofs.ThreeSumApsp.lax_wordRam_theorem_4.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013Proofs.ThreeSumApsp.lax_wordRam_theorem_5.html</loc></url>
   <url><loc>https://laxarchive.org/lax-362205/</loc></url>
   <url><loc>https://laxarchive.org/lax-362205/Lax362205.BoundedConfigurations.html</loc></url>
   <url><loc>https://laxarchive.org/lax-362205/Lax362205.Classification.html</loc></url>
