@@ -40,12 +40,20 @@ export function portOffsets(graph: MeasuredGraph, order: PortOrder = {}, separat
     // Stable topological selection lets free-order preferences interleave with
     // an immutable fixed-order subsequence, without conflating their meanings.
     const constrained = movable.filter((p) => p.mode === "fixed-order").sort((a, b) => a.order! - b.order! || compareText(a.id, b.id));
-    const pending = new Set(movable), sequence: PortSpec[] = [];
-    while (pending.size) {
-      const nextFixed = constrained.find((p) => pending.has(p));
-      const eligible = [...pending].filter((p) => p.mode !== "fixed-order" || p === nextFixed);
-      eligible.sort((a, b) => (order[a.id] ?? a.order ?? 0) - (order[b.id] ?? b.order ?? 0) || compareText(a.id, b.id));
-      sequence.push(eligible[0]!); pending.delete(eligible[0]!);
+    const preference = (a: PortSpec, b: PortSpec) =>
+      (order[a.id] ?? a.order ?? 0) - (order[b.id] ?? b.order ?? 0) || compareText(a.id, b.id);
+    const free = movable.filter((p) => p.mode !== "fixed-order").sort(preference);
+    const sequence: PortSpec[] = [];
+    // Only the next constrained port is eligible. Merge it with the next
+    // preferred free port instead of sorting every remaining port again.
+    let fixedIndex = 0, freeIndex = 0;
+    while (fixedIndex < constrained.length || freeIndex < free.length) {
+      const fixed = constrained[fixedIndex], next = free[freeIndex];
+      if (next && (!fixed || preference(next, fixed) < 0)) {
+        sequence.push(next); freeIndex++;
+      } else {
+        sequence.push(fixed!); fixedIndex++;
+      }
     }
     const padding = Math.min(endPadding, extent / 2), low = padding, high = extent - padding;
     const occupied = [...fixed, ...slotted].map((p) => along(p.offset!)).sort((a, b) => a - b);

@@ -79,6 +79,7 @@ export async function generateSite(
   let files: Map<string, string | Buffer>;
   for (;;) {
     try {
+      settings.graphs?.log?.(`[build] Rendering ${remaining.length} records`);
       files = await renderPages(remaining, settings.epoch, log, settings.leanCode);
       break;
     } catch (error) {
@@ -90,6 +91,7 @@ export async function generateSite(
   }
   const outputRoot = path.resolve(outDir);
   const graphMode = settings.graphs?.mode ?? "local";
+  settings.graphs?.log?.(`[build] Preparing graphs in ${files.size} files`);
   const prepared = await prepareGraphs(files, {
     mode: graphMode, cacheDir: path.resolve(".lax-graph-cache"), ...settings.graphs,
     measurement: { ...(graphMode === "local" && !process.env.GRAPH_CHROME && !settings.graphs?.measurement?.executablePath

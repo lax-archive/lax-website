@@ -23,14 +23,14 @@ const barycenter = (values: readonly number[]) => values.reduce((sum, value) => 
 function orderKey(ordering: Ordering): string {
   return ordering.layers.map((row) => row.join(",")).join(";") + "|" + Object.keys(ordering.portOrder).sort(compareText).map((id) => JSON.stringify([id, ordering.portOrder[id]])).join(",");
 }
-function initialPortOrder(graph: ProperGraph): Record<string, number> {
+function initialPortOrder(graph: ProperGraph): PortOrder {
   const result: Record<string, number> = Object.create(null);
   for (const node of graph.source.nodes) for (const side of ["north", "south", "east", "west"]) {
     const ports = node.ports.filter((port) => port.side === side && port.mode !== "fixed-position")
       .sort((a, b) => (a.order ?? Infinity) - (b.order ?? Infinity) || compareText(a.id, b.id));
     ports.forEach((port, index) => { result[port.id] = index; });
   }
-  return result;
+  return Object.freeze(result);
 }
 
 /** Reorder free-side incidences against opposite finalized attachments. Hard
@@ -53,7 +53,7 @@ export function proposePortOrder(graph: ProperGraph, layers: readonly (readonly 
     const preference = [...indexes].sort((a, b) => key(a) - key(b) || (portOrder[ports[a]!.id] ?? a) - (portOrder[ports[b]!.id] ?? b) || compareText(ports[a]!.id, ports[b]!.id));
     constraintOrder(indexes, constraints, preference).forEach((port, ordinal) => { result[ports[port]!.id] = ordinal; });
   }
-  return result;
+  return Object.freeze(result);
 }
 
 function shuffled(layers: readonly (readonly number[])[], seed: number): number[][] {
@@ -101,7 +101,7 @@ export function orderGraph(graph: ProperGraph, options: OrderOptions = {}): Orde
   const remember = (candidate: Scored) => {
     if (beam.some((old) => old.key === candidate.key)) return;
     if (beam.length === keep && compare(candidate, beam.at(-1)!) >= 0) return;
-    beam.push({ ...candidate, ordering: { ...candidate.ordering, layers: copyLayers(candidate.ordering.layers), portOrder: { ...candidate.ordering.portOrder } } });
+    beam.push({ ...candidate, ordering: { ...candidate.ordering, layers: copyLayers(candidate.ordering.layers), portOrder: Object.freeze({ ...candidate.ordering.portOrder }) } });
     beam.sort(compare); if (beam.length > keep) beam.pop();
   };
   let escapeBudget = { moveBudget: 0, stateBudget: 0 };

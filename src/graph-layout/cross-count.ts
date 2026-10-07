@@ -1,4 +1,4 @@
-import { portOffsets } from "./ports.js";
+import { portOffsets, type PortOffsets } from "./ports.js";
 import type { PortOrder, ProperGraph } from "./proper-graph.js";
 import { GraphDiagnosticError } from "./types.js";
 
@@ -6,6 +6,24 @@ export type BoundaryEdge = Readonly<{ source: number; target: number; weight?: n
 export type AttachmentPositions = Readonly<{
   source: readonly number[]; target: readonly number[]; vertex: readonly number[];
 }>;
+
+// Layer permutations do not change attachment offsets. The search publishes
+// frozen port orders, so reuse their offsets across trials of the same proper
+// graph. Weak keys release both graphs and superseded orders after a search.
+const offsetCache = new WeakMap<ProperGraph, WeakMap<PortOrder, Map<number, PortOffsets>>>();
+function attachmentOffsets(graph: ProperGraph, order: PortOrder, separation: number): PortOffsets {
+  if (!Object.isFrozen(order)) return portOffsets(graph.source, order, separation);
+  let orders = offsetCache.get(graph);
+  if (!orders) offsetCache.set(graph, orders = new WeakMap());
+  let separations = orders.get(order);
+  if (!separations) orders.set(order, separations = new Map());
+  let offsets = separations.get(separation);
+  if (!offsets) {
+    offsets = portOffsets(graph.source, order, separation);
+    separations.set(separation, offsets);
+  }
+  return offsets;
+}
 export function checkedCrossingCount(value: number): number {
   if (!Number.isSafeInteger(value) || value < 0)
     throw new GraphDiagnosticError([{ code: "crossing-capacity", message: "Crossing count exceeds exact nonnegative integer arithmetic" }]);
@@ -51,7 +69,7 @@ export function attachmentPositions(graph: ProperGraph, layers: readonly (readon
     seen[v] = 1; vertex[v] = position * 2;
   }));
   if (seen.some((present) => !present)) throw new GraphDiagnosticError([{ code: "layer-permutation", message: "Layer ordering lost a proper vertex" }]);
-  const offsets = portOffsets(graph.source, portOrder, portSeparation);
+  const offsets = attachmentOffsets(graph, portOrder, portSeparation);
   const endpoint = (v: number, portId: string | undefined) => vertex[v]! + (portId ? offsets[portId]!.x / graph.vertices[v]!.width : 0.5);
   return { vertex, source: graph.segments.map((segment) => endpoint(segment.source, segment.sourcePortId)),
     target: graph.segments.map((segment) => endpoint(segment.target, segment.targetPortId)) };
