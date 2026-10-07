@@ -354,7 +354,8 @@ function initialConceptControls(html: string, container: Container): string {
     const on = container.initial[index] === "1";
     html = html.replace(new RegExp(`<button\\b([^>]*\\bid="${id}"[^>]*)>[\\s\\S]*?<\\/button>`, "u"), (_match, rawAttributes: string) => {
       const attributes = rawAttributes.replace(/\saria-pressed="[^"]*"/gu, "").replace(/\sdisabled(?:="[^"]*")?/gu, "");
-      return `<button${attributes} disabled aria-pressed="${on && count > 0}">${count ? `${on ? "Hide" : "Show"} ${name}` : `No ${name}`}</button>`;
+      const emptyLabel = attribute(attributes, "data-empty-label") ?? `No ${name}`;
+      return `<button${attributes} disabled aria-pressed="${on && count > 0}">${count ? `${on ? "Hide" : "Show"} ${name}` : esc(emptyLabel)}</button>`;
     });
   }
   return html;

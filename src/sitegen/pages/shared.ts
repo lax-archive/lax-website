@@ -1,6 +1,6 @@
 import { DEFAULT_SITE_URL } from "../../config.js";
 import type { AnnotationSection, BuildOutput, ConceptEntry, ProofEntry } from "../../types.js";
-import type { ConceptGraphData, SubmissionGraphData } from "../graphs.js";
+import { CONCEPT_DESCENDANT_LIMIT, type ConceptGraphData, type SubmissionGraphData } from "../graphs.js";
 import { attr, code, esc, formatDate, proofBadge, statePill, typeBadge } from "../html.js";
 import { bibtexAuthorTitle, plainAuthorTitle, type MarkdownRenderer } from "../markdown.js";
 import { compareIds, isDiscoverableSubmission, type LocatedProof, type SiteModel, type SiteSubmission } from "../model.js";
@@ -222,8 +222,9 @@ export function graphTooltip(): string {
 
 /** A separate control row that presents a graph as a large modal-like
  * window without duplicating its SVG or weakening the page CSP. */
-export function graphExpandButton(label: string, ancestry = false): string {
-  const ancestryControls = ancestry ? `<div class="graph-ancestry-controls"><button type="button" id="concept-expand" aria-controls="concept-dag" aria-pressed="true">Hide ancestors</button><button type="button" id="concept-descend" aria-controls="concept-dag" aria-pressed="false">Show descendants</button><output id="concept-graph-status" aria-live="polite"></output></div>` : "";
+export function graphExpandButton(label: string, ancestry = false, descendantsOmitted = false): string {
+  const emptyLabel = descendantsOmitted ? ' data-empty-label="Descendants omitted"' : "";
+  const ancestryControls = ancestry ? `<div class="graph-ancestry-controls"><button type="button" id="concept-expand" aria-controls="concept-dag" aria-pressed="true">Hide ancestors</button><button type="button" id="concept-descend" aria-controls="concept-dag" aria-pressed="false"${emptyLabel}>Show descendants</button><output id="concept-graph-status" aria-live="polite"></output></div>` : "";
   return `<div class="graph-controls">${ancestryControls}<div class="graph-zoom-controls" aria-label="Graph zoom"><button type="button" data-graph-zoom="out" aria-label="Zoom out" disabled>−</button><output data-graph-zoom-status aria-label="Zoom">100%</output><button type="button" data-graph-zoom="in" aria-label="Zoom in" disabled>+</button><button type="button" data-graph-zoom="reset" disabled>Reset</button></div>${graphWindowButton(label)}</div>`;
 }
 
@@ -244,6 +245,7 @@ export function conceptMapLegend(data: ConceptGraphData, ownLabel: string, extLa
     data.nodes.some((node) => !node.ext) ? `<span><i class="legend-node stroke-own"></i>${esc(ownLabel)}</span>` : "",
     data.nodes.some((node) => node.ext) ? `<span><i class="legend-node stroke-ext"></i>${esc(extLabel)}</span>` : "",
     data.edges.length ? `<span><svg class="legend-dependency-arrow" viewBox="0 -4 26 8" aria-hidden="true" focusable="false"><path class="legend-edge-line" d="M1 0h22"/><path d="m20-3 3 3-3 3"/></svg>A → B: B builds on A</span>` : "",
+    data.descendantsOmitted ? `<span>Descendants are omitted for concepts with more than ${CONCEPT_DESCENDANT_LIMIT} descendants.</span>` : "",
   ];
   return `<figcaption class="graph-legend" aria-label="Concept map legend">${items.join("")}</figcaption>`;
 }

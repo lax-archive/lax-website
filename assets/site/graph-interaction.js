@@ -1215,7 +1215,7 @@
       if (!button) continue;
       const on = controller.state[index] === '1';
       button.disabled = !count;
-      button.textContent = count ? `${on ? 'Hide' : 'Show'} ${name}` : `No ${name}`;
+      button.textContent = count ? `${on ? 'Hide' : 'Show'} ${name}` : button.dataset.emptyLabel || `No ${name}`;
       button.setAttribute('aria-pressed', String(on && count > 0));
       button.onclick = () => {
         const state = controller.state.split(''); state[index] = on ? '0' : '1';

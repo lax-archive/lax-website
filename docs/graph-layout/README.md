@@ -92,7 +92,10 @@ development reports. None of these steps claims global drawing optimality.
 
 Large valid drawings use the same measured 12px text and a scroll/pan viewport;
 `readability-overflow` reports bounds exceeding 960×720. Resizing and fullscreen
-change the camera only. No graph-size cutoff drops nodes or edges. Unsupported
+change the camera only. The presentation layer omits a root concept's entire
+descendant expansion when it has more than 10 distinct transitive descendants,
+before projection or layout; roots and their complete ancestry are retained.
+The layout core draws every node and edge in that display projection. Unsupported
 geometry or depleted expansion capacity stops preparation with a diagnostic,
 before replacing the previous site output.
 

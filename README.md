@@ -334,7 +334,12 @@ npm run site:build -- --graph-cache /tmp/lax-graphs \
 ```
 
 Concept ancestry and descendant controls select at most four precomputed
-states. Larger alternate SVG payloads are same-origin static files, loaded
+states. A concept's descendant expansion is included only when it has at most
+10 distinct transitive descendants; above that limit the whole expansion is
+omitted before measurement and layout. On submission maps the limit applies
+separately to each root concept. The roots and their complete ancestry remain
+visible, and the map explains any omitted expansion. Larger alternate SVG
+payloads are same-origin static files, loaded
 only when selected. `--self-contained-graphs` embeds every supported state for
 `file:` exports. These exports still use the site's accompanying local assets.
 

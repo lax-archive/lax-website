@@ -28,7 +28,11 @@ export interface ConceptGraphEdge {
 export interface ConceptGraphData {
   nodes: ConceptGraphNode[];
   edges: ConceptGraphEdge[];
+  /** At least one root's descendant expansion exceeded the per-concept limit. */
+  descendantsOmitted?: boolean;
 }
+
+export const CONCEPT_DESCENDANT_LIMIT = 10;
 
 export interface SubmissionGraphNode {
   id: string;
@@ -54,8 +58,9 @@ export interface SubmissionGraphData {
 }
 
 /** Build the semantic import graph around one or more roots: the roots form
- * the always-shown core, the whole upstream closure and the whole downstream
- * closure are tagged for the figure's two all-or-nothing toggles.
+ * the always-shown core and the whole upstream closure is tagged for its toggle.
+ * A root's whole downstream closure is included only when it has at most ten
+ * distinct transitive descendants, before any measurement or layout work.
  * Descendants' unrelated imports stay out of view — the graph never grows
  * beyond the roots' own ancestry and posterity. */
 export function conceptGraph(model: SiteModel, rootIds: Iterable<string>): ConceptGraphData {
@@ -65,9 +70,16 @@ export function conceptGraph(model: SiteModel, rootIds: Iterable<string>): Conce
   for (const id of roots)
     for (const ancestor of model.upstreamClosure(id))
       if (!dirOf.has(ancestor.concept.id)) dirOf.set(ancestor.concept.id, "up");
-  for (const id of roots)
-    for (const descendant of model.downstreamClosure(id))
+  let descendantsOmitted = false;
+  for (const id of roots) {
+    const descendants = model.downstreamClosure(id, CONCEPT_DESCENDANT_LIMIT + 1);
+    if (descendants.length > CONCEPT_DESCENDANT_LIMIT) {
+      descendantsOmitted = true;
+      continue;
+    }
+    for (const descendant of descendants)
       if (!dirOf.has(descendant.concept.id)) dirOf.set(descendant.concept.id, "down");
+  }
 
   const ids = new Set(dirOf.keys());
   const nodes = [...ids].sort().map((id) => {
@@ -97,7 +109,7 @@ export function conceptGraph(model: SiteModel, rootIds: Iterable<string>): Conce
         .filter((from) => ids.has(from))
         .map((from) => ({ from, to: id })),
     );
-  return { nodes, edges };
+  return { nodes, edges, ...(descendantsOmitted ? { descendantsOmitted: true } : {}) };
 }
 
 /** The concept map one level up: the page's own submission, everything it

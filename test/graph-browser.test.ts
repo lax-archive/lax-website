@@ -232,6 +232,29 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
   }
   const url = (relative = mainPage, site = "archive") => `${origin}/preview/graph-drawing/${site}/${relative}`;
 
+  it("keeps an omitted descendant expansion disabled and explained after browser initialization", async () => {
+    const values = fixture(), applications = values[2]!.output!;
+    applications.concepts.push(...Array.from({ length: 4 }, (_, i) => ({
+      ...applications.concepts[0]!, id: `Lax703.Extra${i}`, title: "Additional downstream concept",
+      path: `concepts/Lax703/Extra${i}.lean`, imports: ["Lax701.Base"], type: "definition",
+      statements: [], sourceText: "",
+    })));
+    await generateSite(values, path.join(directory, "limited"), { graphs: {
+      mode: "archive", cacheDir: path.join(directory, "cache"), measurement: { executablePath: executable },
+    } });
+    for (const relative of ["Lax701/Lax701.Base.html", "Lax701/index.html"]) {
+      for (const javaScriptEnabled of [false, true]) await visit(url(relative, "limited"), async (page, audit) => {
+        if (relative.endsWith("index.html")) await openConcepts(page);
+        expect(await page.locator("#concept-descend").isDisabled()).toBe(true);
+        expect(await page.locator("#concept-descend").textContent()).toBe("Descendants omitted");
+        expect(await page.locator('#concept-dag [data-node-id]').count()).toBe(1);
+        expect(await page.locator('.graph-legend[aria-label="Concept map legend"]').textContent())
+          .toContain("Descendants are omitted for concepts with more than 10 descendants.");
+        if (javaScriptEnabled) await expectNoPublicLayout(page, audit);
+      }, { javaScriptEnabled });
+    }
+  }, 30_000);
+
   it("contains actual multiline and large-ordinal ink in the serialized SVG at measured baselines", async () => {
     const display = dockInkFixture(), requests = displayLabelRequests([display]);
     const measurer = createGraphMeasurer({ executablePath: executable });

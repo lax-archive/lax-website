@@ -389,17 +389,20 @@ export class SiteModel {
     return [...found.values()].sort((a, b) => a.concept.id.localeCompare(b.concept.id));
   }
 
-  /** Every concept that transitively imports `conceptId`. */
-  downstreamClosure(conceptId: string): LocatedConcept[] {
+  /** Concepts that transitively import `conceptId`, excluding the root and
+   * duplicates. A finite limit stops traversal after that many concepts. */
+  downstreamClosure(conceptId: string, limit = Infinity): LocatedConcept[] {
     const found = new Map<string, LocatedConcept>();
-    const visit = (id: string) => {
+    const pending = [conceptId];
+    while (pending.length && found.size < limit) {
+      const id = pending.pop()!;
       for (const importer of this.importers.get(id) ?? []) {
         if (found.has(importer.concept.id) || importer.concept.id === conceptId) continue;
         found.set(importer.concept.id, importer);
-        visit(importer.concept.id);
+        if (found.size >= limit) break;
+        pending.push(importer.concept.id);
       }
-    };
-    visit(conceptId);
+    }
     return [...found.values()].sort((a, b) => a.concept.id.localeCompare(b.concept.id));
   }
 }

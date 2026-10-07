@@ -148,7 +148,7 @@ ${pageReactions(`${submission.record.id}/${concept.id}.html`, { kind: "concept",
 <details class="figure-details" open>
 <summary>Concept map</summary>
 <figure class="graph-figure concept-root-graph">
-${graphExpandButton("concept map", true)}
+${graphExpandButton("concept map", true, graph.descendantsOmitted)}
 <div id="concept-dag" class="figure-container" data-graph="concepts" data-ancestry="true"></div>
 ${graphTooltip()}
 ${conceptMapLegend(graph, "This concept", "Related concept")}
