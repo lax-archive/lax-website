@@ -605,6 +605,32 @@ ${EMPTY_ROW}
  * back-link, then discover other registered submissions by title, concept,
  * and Lean environment. The epoch is the deliberate initial environment
  * even when the page being read belongs to an older one. */
+/** The "Other submissions" rows, by model and then by the sidebar's two
+ * inputs — the page's root prefix and the submission left out. Every page
+ * of a submission carries the same rows, and a site has as many pages as
+ * records times their concepts and proofs: rendered afresh on each page,
+ * the rows were the one cost of the build that grew with the square of the
+ * archive. */
+const sidebarRows = new WeakMap<SiteModel, Map<string, string>>();
+
+function submissionSidebarRows(model: SiteModel, submission: SiteSubmission, rootRel: string): string {
+  let byInputs = sidebarRows.get(model);
+  if (byInputs === undefined) sidebarRows.set(model, byInputs = new Map());
+  const key = `${rootRel}\u0000${submission.record.id}`;
+  let rows = byInputs.get(key);
+  if (rows === undefined) {
+    const listed = currentSubmissions(model).filter((candidate) =>
+      candidate.record.state === "registered" && candidate.record.id !== submission.record.id);
+    rows = listed.map((candidate, order) => {
+      const id = candidate.record.id;
+      const title = plainAuthorTitle(candidate.output!.manifest.title);
+      return `<li ${submissionSearchAttributes(candidate, order)}><a class="entry-link" href="${attr(`${rootRel}${id}/index.html`)}" data-full-title="${attr(title)}"><span class="entry-label"><span class="entry-label-text">${esc(title)}</span></span></a></li>`;
+    }).join("\n");
+    byInputs.set(key, rows);
+  }
+  return rows;
+}
+
 export function submissionSidebar(
   model: SiteModel,
   submission: SiteSubmission,
@@ -614,13 +640,7 @@ export function submissionSidebar(
   /* To restore the previous concept/proof sidebar, replace this renderer with:
    * return legacySubmissionSidebar(model, submission, rootRel, opts);
    */
-  const listed = currentSubmissions(model).filter((candidate) =>
-    candidate.record.state === "registered" && candidate.record.id !== submission.record.id);
-  const rows = listed.map((candidate, order) => {
-    const id = candidate.record.id;
-    const title = plainAuthorTitle(candidate.output!.manifest.title);
-    return `<li ${submissionSearchAttributes(candidate, order)}><a class="entry-link" href="${attr(`${rootRel}${id}/index.html`)}" data-full-title="${attr(title)}"><span class="entry-label"><span class="entry-label-text">${esc(title)}</span></span></a></li>`;
-  });
+  const rows = submissionSidebarRows(model, submission, rootRel);
   const environments = [model.epoch, ...model.environments.filter((environment) => environment !== model.epoch)];
   const environmentOptions = environments.map((environment) => {
     const epoch = environment === model.epoch;
@@ -641,7 +661,7 @@ ${environmentOptions}
 <div class="sidebar-filters">${searchGroup("Search titles and concepts")}
 ${environmentFilter}</div>
 <ul id="entry-list">
-${rows.join("\n")}
+${rows}
 <li id="entry-list-empty" hidden>No other submissions match.</li>
 </ul>`;
 }
