@@ -4761,9 +4761,24 @@
       "title": "Truly Subquadratic 3SUM and Truly Subcubic APSP",
       "concepts": [
         {
+          "id": "Lax350013.AlgorithmReductions",
+          "title": "Callable reductions between the algorithmic problems",
+          "type": "theorem"
+        },
+        {
           "id": "Lax350013.APSP",
           "title": "Truly subcubic all-pairs shortest paths",
           "type": "theorem"
+        },
+        {
+          "id": "Lax350013.CallableAlgorithms",
+          "title": "Time bounds for callable algorithms and reductions",
+          "type": "definition"
+        },
+        {
+          "id": "Lax350013.CallableProblems",
+          "title": "Calling conventions for matrix and graph algorithms",
+          "type": "definition"
         },
         {
           "id": "Lax350013.CliqueOptimization",
@@ -4826,6 +4841,11 @@
           "type": "definition"
         },
         {
+          "id": "Lax350013.ProcedureContracts",
+          "title": "Reusable procedures and memory preservation",
+          "type": "definition"
+        },
+        {
           "id": "Lax350013.RAMResources",
           "title": "Time bounds, persistent queries and phased inputs",
           "type": "definition"
@@ -4834,6 +4854,11 @@
           "id": "Lax350013.SparseMatrixProduct",
           "title": "Faster computation of selected matrix-product entries",
           "type": "theorem"
+        },
+        {
+          "id": "Lax350013.StructuredPrograms",
+          "title": "Structured programs and exact execution costs",
+          "type": "definition"
         },
         {
           "id": "Lax350013.ThinMatrices",
@@ -4862,11 +4887,28 @@
         }
       ],
       "proofs": [
+        "Lax350013Proofs.ThreeSumApsp.lax_apspFromExactTriangle",
+        "Lax350013Proofs.ThreeSumApsp.lax_callableCorollary15First",
+        "Lax350013Proofs.ThreeSumApsp.lax_callableCorollary15General",
+        "Lax350013Proofs.ThreeSumApsp.lax_callableCorollary16",
+        "Lax350013Proofs.ThreeSumApsp.lax_callableCorollary26",
+        "Lax350013Proofs.ThreeSumApsp.lax_callableExactTriangleFirst",
+        "Lax350013Proofs.ThreeSumApsp.lax_callableExactTriangleSecond",
+        "Lax350013Proofs.ThreeSumApsp.lax_callableTheorem5",
         "Lax350013Proofs.ThreeSumApsp.lax_endStatement_corollary_39_zeroWeight",
         "Lax350013Proofs.ThreeSumApsp.lax_endStatement_theorem_19",
         "Lax350013Proofs.ThreeSumApsp.lax_endStatement_theorem_22_3SUM",
         "Lax350013Proofs.ThreeSumApsp.lax_endStatement_theorem_22_APSP",
         "Lax350013Proofs.ThreeSumApsp.lax_endStatement_theorem_22_MinPlus",
+        "Lax350013Proofs.ThreeSumApsp.lax_exactTriangleViaCorollary26",
+        "Lax350013Proofs.ThreeSumApsp.lax_exactTriangleViaTheorem5",
+        "Lax350013Proofs.ThreeSumApsp.lax_minPlusFromExactTriangle",
+        "Lax350013Proofs.ThreeSumApsp.lax_splitTriangleQueries",
+        "Lax350013Proofs.ThreeSumApsp.lax_threeSumFromExactTriangle",
+        "Lax350013Proofs.ThreeSumApsp.lax_triangleCountsFromMatrixProduct",
+        "Lax350013Proofs.ThreeSumApsp.lax_triangleDetectionFromCounts",
+        "Lax350013Proofs.ThreeSumApsp.lax_uniformExactTriangleFirst",
+        "Lax350013Proofs.ThreeSumApsp.lax_uniformExactTriangleSecond",
         "Lax350013Proofs.ThreeSumApsp.lax_wordRam_corollary_15",
         "Lax350013Proofs.ThreeSumApsp.lax_wordRam_corollary_16",
         "Lax350013Proofs.ThreeSumApsp.lax_wordRam_corollary_26",
@@ -5835,6 +5877,86 @@
         "Lax470956Proofs.Theorem2.npHardOn_allSchedulable_pmax_le",
         "Lax470956Proofs.Theorem3.fptTime_byMachinesAndPmax",
         "Lax470956Proofs.Theorem3Fpt.fpt_byMachinesAndPmax"
+      ]
+    },
+    {
+      "id": "lax-480241",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Descriptive complexity: the exponential classes",
+      "concepts": [
+        {
+          "id": "Lax480241.AlternatingSpace",
+          "title": "Alternating machines in bounded space",
+          "type": "definition"
+        },
+        {
+          "id": "Lax480241.AlternatingSpaceValue",
+          "title": "Alternating acceptance in bounded space, characterized",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax480241.APSPACEIsEXPTIME",
+          "title": "APSPACE = EXPTIME",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax480241.Expansions",
+          "title": "Exponential expansions",
+          "type": "definition"
+        },
+        {
+          "id": "Lax480241.ExponentialCaptures",
+          "title": "EXPTIME and EXPSPACE as PTIME and PSPACE read exponentially",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax480241.ExponentialClasses",
+          "title": "The exponential classes",
+          "type": "definition"
+        },
+        {
+          "id": "Lax480241.ExponentialComplements",
+          "title": "EXPTIME = coEXPTIME and EXPSPACE = coEXPSPACE",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax480241.ExponentialInclusions",
+          "title": "Inclusions between the polynomial and exponential classes",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax480241.ExponentialMonotone",
+          "title": "The exponential of classes is monotone",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax480241.SecondOrderFixedPoints",
+          "title": "Second-order fixed points",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax480241Proofs.Bridge.atmAcceptSpace_EXPTIME_complete",
+        "Lax480241Proofs.Bridge.atmAcceptSpace_iff",
+        "Lax480241Proofs.Bridge.expClass_mono",
+        "Lax480241Proofs.Bridge.EXPSPACE_eq_PSPACE_exp",
+        "Lax480241Proofs.Bridge.EXPTIME_eq_PTIME_exp",
+        "Lax480241Proofs.Bridge.EXPTIME_subset_EXPSPACE",
+        "Lax480241Proofs.Bridge.EXPTIME_subset_NEXPTIME",
+        "Lax480241Proofs.Bridge.mem_coEXPSPACE_iff",
+        "Lax480241Proofs.Bridge.mem_coEXPTIME_iff",
+        "Lax480241Proofs.Bridge.mem_EXPSPACE_compl_iff",
+        "Lax480241Proofs.Bridge.mem_EXPSPACE_iff_sopfpDefinableFree",
+        "Lax480241Proofs.Bridge.mem_EXPTIME_compl_iff",
+        "Lax480241Proofs.Bridge.mem_EXPTIME_iff_solfpDefinableFree",
+        "Lax480241Proofs.Bridge.NEXPTIME_subset_EXPSPACE",
+        "Lax480241Proofs.Bridge.NL_exp_subset_EXPTIME",
+        "Lax480241Proofs.Bridge.NP_subset_NEXPTIME",
+        "Lax480241Proofs.Bridge.PH_subset_EXPTIME",
+        "Lax480241Proofs.Bridge.PSPACE_subset_EXPSPACE",
+        "Lax480241Proofs.Bridge.PSPACE_subset_EXPTIME",
+        "Lax480241Proofs.Bridge.PTIME_subset_EXPTIME"
       ]
     },
     {
@@ -9333,7 +9455,7 @@
     },
     {
       "id": "lax-859101",
-      "state": "draft",
+      "state": "registered",
       "environment": "v4.33.0",
       "title": "Descriptive complexity: one-call and subtractive counting reductions",
       "concepts": [

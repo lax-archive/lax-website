@@ -1366,6 +1366,9 @@
   <url><loc>https://laxarchive.org/lax-345332/paper.html</loc></url>
   <url><loc>https://laxarchive.org/lax-350013/</loc></url>
   <url><loc>https://laxarchive.org/lax-350013/Lax350013.APSP.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013.AlgorithmReductions.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013.CallableAlgorithms.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013.CallableProblems.html</loc></url>
   <url><loc>https://laxarchive.org/lax-350013/Lax350013.CliqueOptimization.html</loc></url>
   <url><loc>https://laxarchive.org/lax-350013/Lax350013.ExactTriangle.html</loc></url>
   <url><loc>https://laxarchive.org/lax-350013/Lax350013.HintedAlgorithms.html</loc></url>
@@ -1378,18 +1381,37 @@
   <url><loc>https://laxarchive.org/lax-350013/Lax350013.MatrixTradeoffs.html</loc></url>
   <url><loc>https://laxarchive.org/lax-350013/Lax350013.MinPlusProduct.html</loc></url>
   <url><loc>https://laxarchive.org/lax-350013/Lax350013.PolynomialTime.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013.ProcedureContracts.html</loc></url>
   <url><loc>https://laxarchive.org/lax-350013/Lax350013.RAMResources.html</loc></url>
   <url><loc>https://laxarchive.org/lax-350013/Lax350013.SparseMatrixProduct.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013.StructuredPrograms.html</loc></url>
   <url><loc>https://laxarchive.org/lax-350013/Lax350013.ThinMatrices.html</loc></url>
   <url><loc>https://laxarchive.org/lax-350013/Lax350013.ThreeSUM.html</loc></url>
   <url><loc>https://laxarchive.org/lax-350013/Lax350013.WeightedCliqueAlgorithms.html</loc></url>
   <url><loc>https://laxarchive.org/lax-350013/Lax350013.WordRAM.html</loc></url>
   <url><loc>https://laxarchive.org/lax-350013/Lax350013.ZeroWeightClique.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013Proofs.ThreeSumApsp.lax_apspFromExactTriangle.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013Proofs.ThreeSumApsp.lax_callableCorollary15First.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013Proofs.ThreeSumApsp.lax_callableCorollary15General.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013Proofs.ThreeSumApsp.lax_callableCorollary16.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013Proofs.ThreeSumApsp.lax_callableCorollary26.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013Proofs.ThreeSumApsp.lax_callableExactTriangleFirst.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013Proofs.ThreeSumApsp.lax_callableExactTriangleSecond.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013Proofs.ThreeSumApsp.lax_callableTheorem5.html</loc></url>
   <url><loc>https://laxarchive.org/lax-350013/Lax350013Proofs.ThreeSumApsp.lax_endStatement_corollary_39_zeroWeight.html</loc></url>
   <url><loc>https://laxarchive.org/lax-350013/Lax350013Proofs.ThreeSumApsp.lax_endStatement_theorem_19.html</loc></url>
   <url><loc>https://laxarchive.org/lax-350013/Lax350013Proofs.ThreeSumApsp.lax_endStatement_theorem_22_3SUM.html</loc></url>
   <url><loc>https://laxarchive.org/lax-350013/Lax350013Proofs.ThreeSumApsp.lax_endStatement_theorem_22_APSP.html</loc></url>
   <url><loc>https://laxarchive.org/lax-350013/Lax350013Proofs.ThreeSumApsp.lax_endStatement_theorem_22_MinPlus.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013Proofs.ThreeSumApsp.lax_exactTriangleViaCorollary26.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013Proofs.ThreeSumApsp.lax_exactTriangleViaTheorem5.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013Proofs.ThreeSumApsp.lax_minPlusFromExactTriangle.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013Proofs.ThreeSumApsp.lax_splitTriangleQueries.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013Proofs.ThreeSumApsp.lax_threeSumFromExactTriangle.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013Proofs.ThreeSumApsp.lax_triangleCountsFromMatrixProduct.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013Proofs.ThreeSumApsp.lax_triangleDetectionFromCounts.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013Proofs.ThreeSumApsp.lax_uniformExactTriangleFirst.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-350013/Lax350013Proofs.ThreeSumApsp.lax_uniformExactTriangleSecond.html</loc></url>
   <url><loc>https://laxarchive.org/lax-350013/Lax350013Proofs.ThreeSumApsp.lax_wordRam_corollary_15.html</loc></url>
   <url><loc>https://laxarchive.org/lax-350013/Lax350013Proofs.ThreeSumApsp.lax_wordRam_corollary_16.html</loc></url>
   <url><loc>https://laxarchive.org/lax-350013/Lax350013Proofs.ThreeSumApsp.lax_wordRam_corollary_26.html</loc></url>
@@ -1762,6 +1784,37 @@
   <url><loc>https://laxarchive.org/lax-48/Lax48Proofs.Main.exists_treewidth_le_and_two_pow_lt_twinWidth.html</loc></url>
   <url><loc>https://laxarchive.org/lax-48/paper-pdf.html</loc></url>
   <url><loc>https://laxarchive.org/lax-48/paper.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-480241/</loc></url>
+  <url><loc>https://laxarchive.org/lax-480241/Lax480241.APSPACEIsEXPTIME.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-480241/Lax480241.AlternatingSpace.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-480241/Lax480241.AlternatingSpaceValue.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-480241/Lax480241.Expansions.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-480241/Lax480241.ExponentialCaptures.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-480241/Lax480241.ExponentialClasses.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-480241/Lax480241.ExponentialComplements.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-480241/Lax480241.ExponentialInclusions.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-480241/Lax480241.ExponentialMonotone.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-480241/Lax480241.SecondOrderFixedPoints.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-480241/Lax480241Proofs.Bridge.EXPSPACE_eq_PSPACE_exp.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-480241/Lax480241Proofs.Bridge.EXPTIME_eq_PTIME_exp.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-480241/Lax480241Proofs.Bridge.EXPTIME_subset_EXPSPACE.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-480241/Lax480241Proofs.Bridge.EXPTIME_subset_NEXPTIME.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-480241/Lax480241Proofs.Bridge.NEXPTIME_subset_EXPSPACE.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-480241/Lax480241Proofs.Bridge.NL_exp_subset_EXPTIME.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-480241/Lax480241Proofs.Bridge.NP_subset_NEXPTIME.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-480241/Lax480241Proofs.Bridge.PH_subset_EXPTIME.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-480241/Lax480241Proofs.Bridge.PSPACE_subset_EXPSPACE.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-480241/Lax480241Proofs.Bridge.PSPACE_subset_EXPTIME.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-480241/Lax480241Proofs.Bridge.PTIME_subset_EXPTIME.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-480241/Lax480241Proofs.Bridge.atmAcceptSpace_EXPTIME_complete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-480241/Lax480241Proofs.Bridge.atmAcceptSpace_iff.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-480241/Lax480241Proofs.Bridge.expClass_mono.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-480241/Lax480241Proofs.Bridge.mem_EXPSPACE_compl_iff.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-480241/Lax480241Proofs.Bridge.mem_EXPSPACE_iff_sopfpDefinableFree.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-480241/Lax480241Proofs.Bridge.mem_EXPTIME_compl_iff.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-480241/Lax480241Proofs.Bridge.mem_EXPTIME_iff_solfpDefinableFree.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-480241/Lax480241Proofs.Bridge.mem_coEXPSPACE_iff.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-480241/Lax480241Proofs.Bridge.mem_coEXPTIME_iff.html</loc></url>
   <url><loc>https://laxarchive.org/lax-485149/</loc></url>
   <url><loc>https://laxarchive.org/lax-485149/Lax485149.ClassL.html</loc></url>
   <url><loc>https://laxarchive.org/lax-485149/Lax485149.ClassNL.html</loc></url>
