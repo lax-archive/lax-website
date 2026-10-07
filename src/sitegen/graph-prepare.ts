@@ -416,6 +416,7 @@ export async function prepareGraphs(files: Map<string, string | Buffer>, options
   const measurer = createGraphMeasurer({ ...(options.cacheDir ? { cacheDir: path.join(options.cacheDir, "labels") } : {}), ...options.measurement });
   const diagnostics: GraphPreparationDiagnostic[] = [];
   const pages = scanPages(files, diagnostics, measurer.environment);
+  options.log?.(`[graphs] Scanned ${pages.length} pages`);
   const statistics: GraphPreparationStatistics = {
     pages: pages.length, containers: pages.reduce((sum, page) => sum + page.containers.length, 0),
     views: pages.reduce((sum, page) => sum + page.containers.reduce((n, container) => n + container.views.length, 0), 0),
@@ -432,6 +433,7 @@ export async function prepareGraphs(files: Map<string, string | Buffer>, options
   try {
     const measurementStarted = performance.now();
     let metrics: Awaited<ReturnType<typeof measurer.measureLabels>>;
+    options.log?.(`[graphs] Measuring ${requests.length} labels`);
     try { metrics = await measurer.measureLabels(requests); }
     catch (error) {
       if (options.mode !== "local" || !(error instanceof GraphMeasurementUnavailableError)) throw error;
@@ -494,6 +496,7 @@ export async function prepareGraphs(files: Map<string, string | Buffer>, options
           if ((error as NodeJS.ErrnoException).code !== "ENOENT") statistics.corruptGeometryEntries++;
         }
         if (!result) {
+          options.log?.(`[graphs] Layout ${page.file} ${container.id} ${view.state}: ${measured.graph.nodes.length} nodes, ${measured.graph.edges.length} edges`);
           const searched = layoutGraph(measured.graph, { inputDigest, profile });
           const checked = validateGeometry(measured.graph, searched.geometry);
           if (!checked.valid || !geometryFields(searched.geometry)) throw new GraphDiagnosticError(checked.diagnostics.length ? checked.diagnostics :

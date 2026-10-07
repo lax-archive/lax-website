@@ -20,12 +20,12 @@ permissions:
   issues: write
 
 # Every deployment contains production plus all retained branch previews, so
-# publishing jobs must update the shared Pages tree one at a time. Database
-# dispatches are snapshots of the same production target: a newer dispatch
-# supersedes an older one and should not wait behind its obsolete full build.
+# publishing jobs must update the shared Pages tree one at a time. Let the
+# active build finish: cancelling it on every database update can prevent any
+# version from going live. GitHub keeps the newest pending rebuild queued.
 concurrency:
   group: github-pages
-  cancel-in-progress: ${{ github.event_name == 'repository_dispatch' }}
+  cancel-in-progress: false
 
 jobs:
   build-and-deploy:

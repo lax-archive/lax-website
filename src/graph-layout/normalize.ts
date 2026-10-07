@@ -2,12 +2,15 @@ import { GraphDiagnosticError, type MeasuredGraph, type PortSpec } from "./types
 
 /** Unicode code-point ordering, independent of host locale and ICU version. */
 export function compareText(a: string, b: string): number {
-  const aa = a[Symbol.iterator](), bb = b[Symbol.iterator]();
+  if (a === b) return 0;
+  let ai = 0, bi = 0;
   while (true) {
-    const x = aa.next(), y = bb.next();
-    if (x.done || y.done) return x.done === y.done ? 0 : x.done ? -1 : 1;
-    const difference = x.value.codePointAt(0)! - y.value.codePointAt(0)!;
+    const x = a.codePointAt(ai), y = b.codePointAt(bi);
+    if (x === undefined || y === undefined) return x === y ? 0 : x === undefined ? -1 : 1;
+    const difference = x - y;
     if (difference) return difference;
+    ai += x > 0xffff ? 2 : 1;
+    bi += y > 0xffff ? 2 : 1;
   }
 }
 export function canonicalJson(value: unknown): string {
