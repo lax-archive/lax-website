@@ -312,6 +312,41 @@ describe("site generator", () => {
     expect(proof).toContain("Read the Lean proof on GitLab");
   });
 
+  it("writes pages only for the selected records, and with their dependencies on request", async () => {
+    // Lax4 builds on Lax3, which builds on Lax1. Every record stays in the
+    // model — the listings and the sidebar still name all three — but the
+    // pages under an unselected id are not written, so a preview of one
+    // folder costs that folder's pages, not the archive's.
+    const all = graphSubmissions();
+    const only = tmpDir("lax-site-pages-only-");
+    await generateSite(all, only, { pages: { ids: ["Lax4", "Nobody"] } });
+    expect(fs.existsSync(path.join(only, "Lax4", "index.html"))).toBe(true);
+    expect(fs.existsSync(path.join(only, "Lax4", "Lax4.Top.html"))).toBe(true);
+    expect(fs.existsSync(path.join(only, "Lax3"))).toBe(false);
+    expect(fs.existsSync(path.join(only, "Lax1"))).toBe(false);
+    const index = fs.readFileSync(path.join(only, "index.html"), "utf8");
+    expect(index).toContain('href="Lax3/');
+    expect(index).toContain('href="Lax1/');
+    const top = fs.readFileSync(path.join(only, "Lax4", "Lax4.Top.html"), "utf8");
+    expect(top).toContain("../Lax3/Lax3.Middle.html");
+    const sitemap = fs.readFileSync(path.join(only, "sitemap.xml"), "utf8");
+    expect(sitemap).toContain("/Lax4/");
+    expect(sitemap).not.toContain("/Lax3/");
+
+    const withDependencies = tmpDir("lax-site-pages-deps-");
+    await generateSite(all, withDependencies, { pages: { ids: ["Lax4"], dependencies: true } });
+    expect(fs.existsSync(path.join(withDependencies, "Lax4", "index.html"))).toBe(true);
+    expect(fs.existsSync(path.join(withDependencies, "Lax3", "Lax3.Middle.html"))).toBe(true);
+    expect(fs.existsSync(path.join(withDependencies, "Lax1", "Lax1.Base.html"))).toBe(true);
+
+    // Selecting the middle record alone still writes nothing for the
+    // record that builds on it: dependencies, not dependents.
+    const middle = tmpDir("lax-site-pages-middle-");
+    await generateSite(all, middle, { pages: { ids: ["Lax3"], dependencies: true } });
+    expect(fs.existsSync(path.join(middle, "Lax1", "index.html"))).toBe(true);
+    expect(fs.existsSync(path.join(middle, "Lax4"))).toBe(false);
+  });
+
   it("uses numeric archive ordering", () => {
     expect(["Lax10", "Lax2", "Lax1"].sort(compareIds)).toEqual(["Lax1", "Lax2", "Lax10"]);
     // The hyphenated spelling the database stores sorts numerically too —

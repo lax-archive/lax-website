@@ -51,6 +51,17 @@ export interface GenerateOptions {
    * reports through `log`, so a skip is never silent.
    */
   onSkip?: (skipped: SkippedRecord) => void;
+  /**
+   * Which records get their own pages — the submission, concept, proof and
+   * paper pages under `<id>/`. Every record stays in the model, so the
+   * listings, the graphs, the sidebars and the machine index still cover
+   * the whole archive; only the pages of the records outside the selection
+   * are not written, and a link to one of them leads off the output.
+   * `dependencies` adds the transitive dependencies of the selected ids.
+   * Meant for `lax serve`, which previews one folder against an archive of
+   * thousands of pages the author will not open. Absent: every record.
+   */
+  pages?: { ids: readonly string[]; dependencies?: boolean };
 }
 
 /**
@@ -79,7 +90,7 @@ export async function generateSite(
   let files: Map<string, string | Buffer>;
   for (;;) {
     try {
-      files = await renderPages(remaining, settings.epoch, log, settings.leanCode);
+      files = await renderPages(remaining, settings.epoch, log, settings.leanCode, settings.pages);
       break;
     } catch (error) {
       if (!(error instanceof RecordError) || excluded.has(error.recordId)) throw error;
@@ -123,14 +134,29 @@ export async function generateSite(
   }
 }
 
+/** The records whose pages a selection asks for: the ids named, plus —
+ * with `dependencies` — every record they transitively build on, as the
+ * model resolved the requires. Ids the model does not hold are ignored. */
+function pagesToRender(model: SiteModel, pages: NonNullable<GenerateOptions["pages"]>): Set<string> {
+  const rendered = new Set<string>();
+  for (const id of pages.ids) {
+    if (!model.submissionById.has(id)) continue;
+    rendered.add(id);
+    if (pages.dependencies) for (const upstream of model.submissionUpstream(id)) rendered.add(upstream);
+  }
+  return rendered;
+}
+
 /** Every page of the site, before graph preparation, keyed by output path. */
 async function renderPages(
   submissions: SiteSubmission[],
   epoch: string | undefined,
   log: (line: string) => void,
   leanCode?: GenerateOptions["leanCode"],
+  pages?: GenerateOptions["pages"],
 ): Promise<Map<string, string | Buffer>> {
   const model = new SiteModel(submissions, epoch);
+  const rendered = pages === undefined ? undefined : pagesToRender(model, pages);
   if (leanCode) {
     loadLeanCode(model, leanCode.cacheDir, leanCode.required);
     const examples = landingLeanModel();
@@ -173,6 +199,7 @@ async function renderPages(
   // records land here rather than on GitHub's generic error page.
   files.set("404.html", notFoundPage());
   for (const submission of model.submissions) {
+    if (rendered !== undefined && !rendered.has(submission.record.id)) continue;
     try {
       await renderRecord(context, submission, files, addFile, log);
     } catch (error) {
