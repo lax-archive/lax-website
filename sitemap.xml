@@ -3173,6 +3173,75 @@
   <url><loc>https://laxarchive.org/lax-842588/Lax842588Proofs.StructuralRepresentations.tree_lawful_proof.html</loc></url>
   <url><loc>https://laxarchive.org/lax-842588/Lax842588Proofs.TreeAutomataToMSO.automaton_definable_by_mso_proof.html</loc></url>
   <url><loc>https://laxarchive.org/lax-842588/Lax842588Proofs.ValueTranslations.language_equivalence_proof.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101.AllSetsComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101.AllSetsValues.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101.BipartiteComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101.BipartiteValues.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101.ColoringComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101.CountingAllSets.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101.CountingBipartite.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101.CountingDnf.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101.CountingNaeSat.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101.CountingRestrictedSat.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101.DnfComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101.DnfValues.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101.NaeSatComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101.NaeSatValues.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101.OneCallClosure.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101.OneCallReductions.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101.RestrictedSatComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101.RestrictedSatValues.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101.SubtractiveClosure.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101.SubtractiveReductions.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101Proofs.Bridge.oneCallComplete_sharpP_of_parsimoniousComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101Proofs.Bridge.oneCallHard_iff.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101Proofs.Bridge.oneCallHard_of_oneCall.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101Proofs.Bridge.oneCallMem_of_mem.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101Proofs.Bridge.oneCallMem_of_oneCall.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101Proofs.Bridge.oneCall_of_relOrderedParsimonious.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101Proofs.Bridge.oneCall_trans.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101Proofs.Bridge.sharpAllIndependentSets_count_iso.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101Proofs.Bridge.sharpAllIndependentSets_eq.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101Proofs.Bridge.sharpAllIndependentSets_sharpP_oneCallComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101Proofs.Bridge.sharpAllVertexCovers_count_iso.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101Proofs.Bridge.sharpAllVertexCovers_eq.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101Proofs.Bridge.sharpAllVertexCovers_sharpP_oneCallComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101Proofs.Bridge.sharpBIS_count_iso.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101Proofs.Bridge.sharpBIS_eq.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101Proofs.Bridge.sharpBIS_sharpP_oneCallComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101Proofs.Bridge.sharpDnf_count_iso.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101Proofs.Bridge.sharpDnf_eq.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101Proofs.Bridge.sharpDnf_sharpP_complete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101Proofs.Bridge.sharpDnf_sharpP_oneCallComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101Proofs.Bridge.sharpHornSat_count_iso.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101Proofs.Bridge.sharpHornSat_eq.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101Proofs.Bridge.sharpHornSat_sharpP_oneCallComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101Proofs.Bridge.sharpMonotoneTwoSat_count_iso.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101Proofs.Bridge.sharpMonotoneTwoSat_eq.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101Proofs.Bridge.sharpMonotoneTwoSat_sharpP_oneCallComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101Proofs.Bridge.sharpNaeSat_count_iso.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101Proofs.Bridge.sharpNaeSat_eq.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101Proofs.Bridge.sharpNaeSat_sharpP_oneCallComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101Proofs.Bridge.sharpPP2DNF_count_iso.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101Proofs.Bridge.sharpPP2DNF_eq.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101Proofs.Bridge.sharpPP2DNF_sharpP_oneCallComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101Proofs.Bridge.sharpP_mem_of_subtractive.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101Proofs.Bridge.sharpSat_subtractive_sharpDnf.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101Proofs.Bridge.sharpSetSplitting_count_iso.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101Proofs.Bridge.sharpSetSplitting_eq.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101Proofs.Bridge.sharpSetSplitting_sharpP_oneCallComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101Proofs.Bridge.sharpThreeCol_count_iso.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101Proofs.Bridge.sharpThreeCol_eq.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101Proofs.Bridge.sharpThreeCol_sharpP_oneCallComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101Proofs.Bridge.sharpTwoSat_count_iso.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101Proofs.Bridge.sharpTwoSat_eq.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101Proofs.Bridge.sharpTwoSat_sharpP_oneCallComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101Proofs.Bridge.subtractiveComplete_sharpP_of_parsimoniousComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101Proofs.Bridge.subtractiveHard_of_subtractive.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101Proofs.Bridge.subtractive_of_relOrderedParsimonious.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101Proofs.Bridge.subtractive_of_strongSubtractive.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-859101/Lax859101Proofs.Bridge.subtractive_trans.html</loc></url>
   <url><loc>https://laxarchive.org/lax-871432/</loc></url>
   <url><loc>https://laxarchive.org/lax-871432/Lax871432.CategoricalProductCounts.html</loc></url>
   <url><loc>https://laxarchive.org/lax-871432/Lax871432.ClosureProperties.html</loc></url>

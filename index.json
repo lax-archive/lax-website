@@ -9332,6 +9332,164 @@
       ]
     },
     {
+      "id": "lax-859101",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Descriptive complexity: one-call and subtractive counting reductions",
+      "concepts": [
+        {
+          "id": "Lax859101.AllSetsComplete",
+          "title": "Counting all independent sets and vertex covers is one-call #P-complete",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax859101.AllSetsValues",
+          "title": "The values of #3-Colorability, counting all independent sets, and counting all vertex covers",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax859101.BipartiteComplete",
+          "title": "#BIS and #PP2DNF are one-call #P-complete",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax859101.BipartiteValues",
+          "title": "The values of #BIS and #PP2DNF",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax859101.ColoringComplete",
+          "title": "#3-Colorability is one-call #P-complete",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax859101.CountingAllSets",
+          "title": "Counting all independent sets, vertex covers, and 3-colorings",
+          "type": "definition"
+        },
+        {
+          "id": "Lax859101.CountingBipartite",
+          "title": "#BIS and #PP2DNF",
+          "type": "definition"
+        },
+        {
+          "id": "Lax859101.CountingDnf",
+          "title": "#DNF",
+          "type": "definition"
+        },
+        {
+          "id": "Lax859101.CountingNaeSat",
+          "title": "#NAE-SAT and #Set Splitting",
+          "type": "definition"
+        },
+        {
+          "id": "Lax859101.CountingRestrictedSat",
+          "title": "#2SAT, #HORN-SAT, and #Monotone-2SAT",
+          "type": "definition"
+        },
+        {
+          "id": "Lax859101.DnfComplete",
+          "title": "#DNF is #P-complete, by one call and by subtraction",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax859101.DnfValues",
+          "title": "The values of #DNF",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax859101.NaeSatComplete",
+          "title": "#NAE-SAT and #Set Splitting are one-call #P-complete",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax859101.NaeSatValues",
+          "title": "The values of #NAE-SAT and #Set Splitting",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax859101.OneCallClosure",
+          "title": "One-call reductions compose, and the one-call closure",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax859101.OneCallReductions",
+          "title": "Post-processing terms and one-call reductions",
+          "type": "definition"
+        },
+        {
+          "id": "Lax859101.RestrictedSatComplete",
+          "title": "#2SAT, #HORN-SAT, and #Monotone-2SAT are one-call #P-complete",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax859101.RestrictedSatValues",
+          "title": "The values of #2SAT, #HORN-SAT, and #Monotone-2SAT",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax859101.SubtractiveClosure",
+          "title": "#P is closed under subtractive reductions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax859101.SubtractiveReductions",
+          "title": "Subtractive reductions",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax859101Proofs.Bridge.oneCall_of_relOrderedParsimonious",
+        "Lax859101Proofs.Bridge.oneCall_trans",
+        "Lax859101Proofs.Bridge.oneCallComplete_sharpP_of_parsimoniousComplete",
+        "Lax859101Proofs.Bridge.oneCallHard_iff",
+        "Lax859101Proofs.Bridge.oneCallHard_of_oneCall",
+        "Lax859101Proofs.Bridge.oneCallMem_of_mem",
+        "Lax859101Proofs.Bridge.oneCallMem_of_oneCall",
+        "Lax859101Proofs.Bridge.sharpAllIndependentSets_count_iso",
+        "Lax859101Proofs.Bridge.sharpAllIndependentSets_eq",
+        "Lax859101Proofs.Bridge.sharpAllIndependentSets_sharpP_oneCallComplete",
+        "Lax859101Proofs.Bridge.sharpAllVertexCovers_count_iso",
+        "Lax859101Proofs.Bridge.sharpAllVertexCovers_eq",
+        "Lax859101Proofs.Bridge.sharpAllVertexCovers_sharpP_oneCallComplete",
+        "Lax859101Proofs.Bridge.sharpBIS_count_iso",
+        "Lax859101Proofs.Bridge.sharpBIS_eq",
+        "Lax859101Proofs.Bridge.sharpBIS_sharpP_oneCallComplete",
+        "Lax859101Proofs.Bridge.sharpDnf_count_iso",
+        "Lax859101Proofs.Bridge.sharpDnf_eq",
+        "Lax859101Proofs.Bridge.sharpDnf_sharpP_complete",
+        "Lax859101Proofs.Bridge.sharpDnf_sharpP_oneCallComplete",
+        "Lax859101Proofs.Bridge.sharpHornSat_count_iso",
+        "Lax859101Proofs.Bridge.sharpHornSat_eq",
+        "Lax859101Proofs.Bridge.sharpHornSat_sharpP_oneCallComplete",
+        "Lax859101Proofs.Bridge.sharpMonotoneTwoSat_count_iso",
+        "Lax859101Proofs.Bridge.sharpMonotoneTwoSat_eq",
+        "Lax859101Proofs.Bridge.sharpMonotoneTwoSat_sharpP_oneCallComplete",
+        "Lax859101Proofs.Bridge.sharpNaeSat_count_iso",
+        "Lax859101Proofs.Bridge.sharpNaeSat_eq",
+        "Lax859101Proofs.Bridge.sharpNaeSat_sharpP_oneCallComplete",
+        "Lax859101Proofs.Bridge.sharpP_mem_of_subtractive",
+        "Lax859101Proofs.Bridge.sharpPP2DNF_count_iso",
+        "Lax859101Proofs.Bridge.sharpPP2DNF_eq",
+        "Lax859101Proofs.Bridge.sharpPP2DNF_sharpP_oneCallComplete",
+        "Lax859101Proofs.Bridge.sharpSat_subtractive_sharpDnf",
+        "Lax859101Proofs.Bridge.sharpSetSplitting_count_iso",
+        "Lax859101Proofs.Bridge.sharpSetSplitting_eq",
+        "Lax859101Proofs.Bridge.sharpSetSplitting_sharpP_oneCallComplete",
+        "Lax859101Proofs.Bridge.sharpThreeCol_count_iso",
+        "Lax859101Proofs.Bridge.sharpThreeCol_eq",
+        "Lax859101Proofs.Bridge.sharpThreeCol_sharpP_oneCallComplete",
+        "Lax859101Proofs.Bridge.sharpTwoSat_count_iso",
+        "Lax859101Proofs.Bridge.sharpTwoSat_eq",
+        "Lax859101Proofs.Bridge.sharpTwoSat_sharpP_oneCallComplete",
+        "Lax859101Proofs.Bridge.subtractive_of_relOrderedParsimonious",
+        "Lax859101Proofs.Bridge.subtractive_of_strongSubtractive",
+        "Lax859101Proofs.Bridge.subtractive_trans",
+        "Lax859101Proofs.Bridge.subtractiveComplete_sharpP_of_parsimoniousComplete",
+        "Lax859101Proofs.Bridge.subtractiveHard_of_subtractive"
+      ]
+    },
+    {
       "id": "lax-871432",
       "state": "registered",
       "environment": "v4.33.0",
