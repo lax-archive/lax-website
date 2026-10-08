@@ -5359,7 +5359,7 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
   --comment-border: #d8c7e5;
   --comment-accent: #80619b;
 }
-.manuscript-card, .manuscript-hl, .manuscript-probe,
+.manuscript-card, .manuscript-hl,
 .manuscript-link, .landing-passage{
   --mark-bg: color-mix(in srgb, var(--none-bg) 75%, var(--none-border));
   --mark-border: var(--none-border);
@@ -5459,15 +5459,6 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
 /* The open passage carries no outline; a flash is a moment of the hover fill. */
 .manuscript-hl.manuscript-hl-hover, .manuscript-hl.manuscript-hl-flash,
 .manuscript-hl.manuscript-hl-pinned{ fill: var(--mark-ink-hot); }
-.manuscript-probe{
-  fill: none;
-  stroke: var(--mark-swatch);
-  stroke-width: 1.5px;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-.manuscript-probe.manuscript-hl-hover, .manuscript-probe.manuscript-hl-pinned,
-.manuscript-probe.manuscript-hl-flash{ stroke-width: 2px; }
 
 /* The rail: a plain list until manuscript.js takes over, then cards sit at
    the y of their passages, pushed down where they would overlap. */

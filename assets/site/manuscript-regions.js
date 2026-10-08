@@ -98,6 +98,40 @@
     return index < 0 ? null : { index, xl: right, top: points[index][1], bottom: points[(index + 1) % points.length][1] };
   }
 
+  // A single line can join through empty space at its right. Only text in
+  // the way calls for a narrow detour above the line. Add that detour to
+  // the passage polygon at its top-right corner, then join its outer edge
+  // to the card's full height with the same filled ribbon as every passage.
+  function connection(points, margin, xr, ct, cb, line = null) {
+    if (!points.length) return null;
+    let edge = rightEdge(points, margin);
+    if (!edge && line) {
+      const right = Math.max(...points.map((p) => p[0]));
+      const side = rightEdge(points, right);
+      if (!side || right >= margin) return null;
+      if (!line.blocked) {
+        points = points.map(([x, y]) => [Math.abs(x - right) < EPSILON ? margin : x, y]);
+      } else {
+        const corner = points[side.index], prev = points[(side.index + points.length - 1) % points.length];
+        const width = Math.min(2, (right - prev[0]) / 3);
+        if (width <= 0) return null;
+        let top = Math.min(corner[1] - 3, line.top - 3);
+        if (Number.isFinite(line.previousBottom) && line.previousBottom < line.top - 2) {
+          top = Math.max(top, (line.previousBottom + line.top - width) / 2);
+        }
+        const bottom = top + width;
+        points = clean([
+          ...points.slice(0, side.index),
+          [right - width, corner[1]], [right - width, top], [margin, top],
+          [margin, bottom], [right, bottom],
+          ...points.slice(side.index + 1),
+        ]);
+      }
+      edge = rightEdge(points, margin);
+    }
+    return edge ? { ...edge, points, xr, xm: (margin + xr) / 2, ct, cb } : null;
+  }
+
   // One continuous path joins the rounded passage to its ribbon. There
   // is no separately antialiased edge at the text margin to leave a seam.
   function path(points, ribbon = null, radius = 6) {
@@ -132,38 +166,5 @@
     return inside;
   }
 
-  // A short passage has no edge at the right margin. A thin probe runs
-  // above the whole line, keeping the unmarked text to its right clear.
-  function probe(points, margin, xr, cy, lineTop, previousBottom = -Infinity) {
-    if (!points.length) return null;
-    const left = Math.min(...points.map((p) => p[0])), right = Math.max(...points.map((p) => p[0]));
-    if (right >= margin - EPSILON) return null;
-    const top = Math.min(...points.map((p) => p[1]));
-    const sx = (left + right) / 2, sy = top + 2;
-    let y = Math.min(top - 3, lineTop - 3);
-    if (previousBottom < lineTop - 2) y = Math.max(y, (previousBottom + lineTop) / 2);
-    const xm = (margin + xr) / 2;
-    return { sx, sy, y, margin, xm, xr, cy,
-      path: `M${sx},${sy}V${y}H${margin}C${xm},${y} ${xm},${cy} ${xr},${cy}` };
-  }
-
-  function probeContains(p, x, y) {
-    const near = (ax, ay, bx, by) => {
-      const dx = bx - ax, dy = by - ay;
-      const t = Math.max(0, Math.min(1, ((x - ax) * dx + (y - ay) * dy) / (dx * dx + dy * dy || 1)));
-      return Math.hypot(x - ax - t * dx, y - ay - t * dy) <= 4;
-    };
-    if (near(p.sx, p.sy, p.sx, p.y) || near(p.sx, p.y, p.margin, p.y)) return true;
-    let ax = p.margin, ay = p.y;
-    for (let i = 1; i <= 24; i++) {
-      const t = i / 24, u = 1 - t;
-      const bx = u*u*u*p.margin + 3*u*t*p.xm + t*t*t*p.xr;
-      const by = (u*u*u + 3*u*u*t)*p.y + (3*u*t*t + t*t*t)*p.cy;
-      if (near(ax, ay, bx, by)) return true;
-      ax = bx; ay = by;
-    }
-    return false;
-  }
-
-  globalThis.laxManuscriptRegions = { prepare, rightEdge, path, contains, probe, probeContains };
+  globalThis.laxManuscriptRegions = { prepare, rightEdge, connection, path, contains };
 })();

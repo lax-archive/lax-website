@@ -88,8 +88,10 @@ flat region per column (the geometry in `manuscript-place.js` and
 `manuscript-regions.js`), clipped on partial first and last lines with
 rounded corners and padding that leaves a small gap between adjacent
 declarations. The passage and its band across the gutter form one seamless
-path, joined only along lines reaching the right margin. A short passage
-within one line connects to its card by a thin probe above that line.
+path. A short passage within one line connects directly across empty space;
+when text follows it, a thin probe leaves its top-right corner and passes
+above that text. The probe shares the passage's fill and widens to the
+card's full height in the gutter.
 Pinned highlights take priority over other regions. Submission annotations
 use lavender.
 A card opens while its first line or passage is hovered and stays open when
