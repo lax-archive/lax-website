@@ -9037,7 +9037,7 @@
     },
     {
       "id": "lax-794877",
-      "state": "draft",
+      "state": "registered",
       "environment": "v4.33.0",
       "title": "Probabilistic query evaluation is #P-hard",
       "concepts": [
@@ -9340,7 +9340,7 @@
     },
     {
       "id": "lax-822549",
-      "state": "draft",
+      "state": "registered",
       "environment": "v4.33.0",
       "title": "Descriptive complexity: wide machines and tilings",
       "concepts": [
