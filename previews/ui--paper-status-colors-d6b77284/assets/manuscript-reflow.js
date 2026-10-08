@@ -106,22 +106,27 @@
     return cards.map((card, index) => index).sort((a, b) => keys[a] - keys[b] || a - b);
   }
 
-  // A passage's flat region over a column of `width`: the split-diff shape
-  // the PDF surface paints per column run — the begin anchor's line from
-  // the anchor to the column's right edge, every line between at full
-  // width, the end anchor's line from the left edge to the anchor. An
-  // anchor in the stream (not `inline`) spans the whole column, and a
-  // passage whose end sits on its begin line is one box between the two.
+  // A passage's flat region over a column of `width`. Marked ink clips
+  // its first and last lines; the full line bounds keep tall unmarked
+  // maths out of the steps between them. Anchors are the fallback while
+  // the viewer is loading, and a single line is just its marked ink box.
   // Returns the polygon's points, [[x, y], ...].
   function outline(band, width) {
+    if (band.lines?.length === 1) {
+      const line = band.lines[0];
+      const left = Math.min(width, Math.max(0, line.left));
+      const right = line.right >= width - 1.5 ? width : Math.max(0, line.right);
+      if (right <= left) return [];
+      return [[left, line.top], [right, line.top], [right, line.bottom], [left, line.bottom]];
+    }
     const b = band.begin;
     const e = band.end;
     const bx = b && b.inline ? Math.min(Math.max(0, b.x), width) : 0;
     const bt = band.top;
-    const bb = b && Number.isFinite(b.bottom) ? Math.max(bt, b.bottom) : bt;
+    const bb = band.lines?.[0].lineBottom ?? (b && Number.isFinite(b.bottom) ? Math.max(bt, b.bottom) : bt);
     const ex = e && e.inline ? Math.min(Math.max(0, e.x), width) : width;
     const eb = band.bottom;
-    const et = e ? Math.min(eb, e.top) : eb;
+    const et = band.lines?.[band.lines.length - 1].lineTop ?? (e ? Math.min(eb, e.top) : eb);
     const points = et < bb
       ? [[bx, bt], [Math.max(bx, ex), bt], [Math.max(bx, ex), eb], [bx, eb]]
       : [[bx, bt], [width, bt], [width, et], [ex, et], [ex, eb], [0, eb], [0, bb], [bx, bb]];
@@ -176,7 +181,7 @@
   const cards = [...railEl.querySelectorAll('.manuscript-card[data-mark]')].map((el) => ({
     n: Number(el.dataset.mark), fn: null, el,
     colorClasses: [...el.classList].filter((name) => name.startsWith('kind-') || name === 'line-proven' || name === 'line-open').join(' '),
-    band: null, points: null, shape: null, ribbon: null, pinned: false, hovering: false, paintOrder: 0, inline: false, slot: null, slotY: null,
+    band: null, points: null, shape: null, ribbon: null, probe: null, probeShape: null, pinned: false, hovering: false, paintOrder: 0, inline: false, slot: null, slotY: null,
   }));
   const markCards = () => cards.filter((card) => !card.fn);
   let paintOrder = 0;
@@ -419,6 +424,14 @@
     const active = cards.filter((card) => !card.fn || !card.el.hidden);
     if (!active.length) return;
     const byMark = bands(measureAnchors());
+    for (const [n, lines] of Object.entries(viewer()?.markedLines(docEl) || {})) {
+      const first = lines[0], last = lines[lines.length - 1];
+      byMark[n] = {
+        top: Math.min(...lines.map((line) => line.top)), bottom: Math.max(...lines.map((line) => line.bottom)), lines,
+        begin: { top: first.top, bottom: first.bottom, x: first.left, inline: true },
+        end: { top: last.top, bottom: last.bottom, x: last.right, inline: true },
+      };
+    }
     for (const card of cards) card.band = byMark[card.n] || null;
     if (narrow()) {
       // A card that moved changed the text's height; the viewer re-pins the
@@ -580,6 +593,8 @@
       card.ribbon = null;
       if (!card.band) {
         if (card.shape) { card.shape.remove(); card.shape = null; }
+        if (card.probeShape) { card.probeShape.remove(); card.probeShape = null; }
+        card.probe = null;
         card.points = null;
         continue;
       }
@@ -596,16 +611,33 @@
   function drawLinks() {
     const docBox = docEl.getBoundingClientRect();
     for (const card of markCards()) {
-      if (!card.shape || !card.points?.length) continue;
+      if (!card.shape || !card.points?.length) {
+        card.probe = null;
+        if (card.probeShape) { card.probeShape.remove(); card.probeShape = null; }
+        continue;
+      }
       const edge = narrow() ? null : regions.rightEdge(card.points, docEl.clientWidth);
       card.ribbon = null;
+      card.probe = null;
+      const box = card.el.getBoundingClientRect();
+      const xr = box.left - docBox.left + 2;
       if (edge) {
-        const box = card.el.getBoundingClientRect();
-        const xr = box.left - docBox.left + 2;
         card.ribbon = { ...edge, xr, xm: (edge.xl + xr) / 2,
           ct: box.top - docBox.top, cb: box.bottom - docBox.top };
+      } else if (!narrow() && card.band.lines?.length === 1) {
+        const line = card.band.lines[0];
+        const head = card.el.querySelector('.manuscript-card-head').getBoundingClientRect();
+        card.probe = regions.probe(card.points, docEl.clientWidth, xr,
+          (head.top + head.bottom) / 2 - docBox.top, line.lineTop, line.previousBottom);
       }
       card.shape.setAttribute('d', regions.path(card.points, card.ribbon));
+      if (card.probe) {
+        if (!card.probeShape) {
+          card.probeShape = svgNode('path', { class: `manuscript-probe ${card.colorClasses}`, 'data-mark': card.n });
+          shapesEl.append(card.probeShape);
+        }
+        card.probeShape.setAttribute('d', card.probe.path);
+      } else if (card.probeShape) { card.probeShape.remove(); card.probeShape = null; }
     }
   }
 
@@ -635,7 +667,7 @@
   }
 
   function hits(card) {
-    return [card.shape].filter(Boolean);
+    return [card.shape, card.probeShape].filter(Boolean);
   }
 
   function syncHighlights() {
@@ -648,7 +680,7 @@
         hit.classList.toggle('manuscript-hl-pinned', card.pinned);
       }
     }
-    const nodes = ordered.map((card) => card.shape).filter(Boolean);
+    const nodes = ordered.flatMap(hits);
     if (nodes.some((node, i) => shapesEl.children[i] !== node)) shapesEl.append(...nodes);
   }
 
@@ -698,7 +730,7 @@
 
   // A flash is a moment of the hover fill on the passage's highlight.
   function flash(card) {
-    const targets = [card.shape].filter(Boolean);
+    const targets = hits(card);
     for (const hit of targets) hit.classList.add('manuscript-hl-flash');
     setTimeout(() => { for (const hit of targets) hit.classList.remove('manuscript-hl-flash'); }, 1200);
   }
@@ -717,6 +749,8 @@
     });
     card.el.addEventListener('click', (event) => {
       if (event.target.closest('a, button')) return;
+      const head = card.el.querySelector('.manuscript-card-head');
+      if (event.clientY > head.getBoundingClientRect().bottom) return;
       // In the text the card is under its passage already: a tap on the
       // head closes it, and the body is for reading.
       if (card.inline) {
@@ -748,7 +782,8 @@
     let best = null;
     let bestOrder = -1;
     for (const card of markCards()) {
-      if (!card.ribbon || !card.shape || !ribbonContains(card.ribbon, x, y)) continue;
+      if (!card.shape || !(card.ribbon && ribbonContains(card.ribbon, x, y))
+        && !(card.probe && regions.probeContains(card.probe, x, y))) continue;
       const order = Array.prototype.indexOf.call(shapesEl.children, card.shape);
       if (order > bestOrder) { best = card; bestOrder = order; }
     }
@@ -768,7 +803,7 @@
     }
     return best;
   }
-  // One hover: a card stays open while the pointer is on the card, its
+  // One hover: a card stays open while the pointer is on its first line, its
   // passage, or the ribbon between them, and moving from one to another
   // never closes it in between (closing would shrink the ribbon under the
   // pointer) — the PDF surface's rule. No hover in the text: a touch
@@ -782,7 +817,9 @@
   }
   function cardInRail(event) {
     const el = event.target.closest('.manuscript-card');
-    return el ? cards.find((card) => card.el === el && !card.fn) || null : null;
+    const head = el?.querySelector('.manuscript-card-head');
+    if (!head || event.clientY > head.getBoundingClientRect().bottom) return null;
+    return cards.find((card) => card.el === el && !card.fn) || null;
   }
   reflowBody.addEventListener('mousemove', (event) => {
     if (narrow()) return;
@@ -850,6 +887,7 @@
     schedule();
   });
   window.addEventListener('resize', schedule);
+  docEl.addEventListener('scroll', schedule, { capture: true, passive: true });
   const onNarrowChange = () => { hover(null); schedule(); };
   if (narrowQuery.addEventListener) narrowQuery.addEventListener('change', onNarrowChange);
   else narrowQuery.addListener(onNarrowChange);

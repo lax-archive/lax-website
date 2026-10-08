@@ -31,7 +31,7 @@
   const cards = marks.map((mark) => {
     const el = railEl.querySelector(`.manuscript-card[data-mark="${mark.n}"]`);
     const colorClasses = el ? [...el.classList].filter((name) => name.startsWith('kind-') || name === 'line-proven' || name === 'line-open').join(' ') : '';
-    return { mark, el, colorClasses, hits: [], rects: [], bands: [], want: 0, resolved: null, link: null, pinned: false, hovering: false, paintOrder: 0 };
+    return { mark, el, colorClasses, hits: [], rects: [], bands: [], probes: [], probeShape: null, want: 0, resolved: null, link: null, pinned: false, hovering: false, paintOrder: 0 };
   }).filter((card) => card.el);
   let paintOrder = 0;
 
@@ -205,18 +205,19 @@
             points: shape.points.map(([x, y]) => viewport.convertToViewportPoint(x, y)),
             left: viewport.convertToViewportPoint(shape.columnLeft, 0)[0],
             right: viewport.convertToViewportPoint(shape.columnRight, 0)[0],
+            singleLine: shape.points.length === 4,
             connects: shape.columnRight >= pageRight - 1 });
         }
       }
     }
     regions.prepare(outlines).forEach((points, i) => {
       if (!points.length) return;
-      const { card, group: page, right: margin, connects } = outlines[i];
+      const { card, group: page, right: margin, connects, singleLine } = outlines[i];
       const left = Math.min(...points.map((point) => point[0]));
       const right = Math.max(...points.map((point) => point[0]));
       const top = Math.min(...points.map((point) => point[1]));
       const bottom = Math.max(...points.map((point) => point[1]));
-      card.rects.push({ page, left, top, width: right - left, height: bottom - top, points, margin, connects });
+      card.rects.push({ page, left, top, width: right - left, height: bottom - top, points, margin, connects, singleLine });
     });
   }
 
@@ -284,8 +285,10 @@
     const bodyBox = bodyEl.getBoundingClientRect();
     for (const card of cards) {
       card.bands = [];
+      card.probes = [];
       if (!card.rects.length) {
         if (card.link) { card.link.remove(); card.link = null; }
+        if (card.probeShape) { card.probeShape.remove(); card.probeShape = null; }
         card.hits = [];
         continue;
       }
@@ -293,6 +296,8 @@
       const xr = box.left - bodyBox.left + bodyEl.scrollLeft + 2;
       const ct = box.top - bodyBox.top + bodyEl.scrollTop;
       const cb = ct + box.height;
+      const head = card.el.querySelector('.manuscript-card-head').getBoundingClientRect();
+      const cy = (head.top + head.bottom) / 2 - bodyBox.top + bodyEl.scrollTop;
       const d = card.rects.map((rect) => {
         const page = pageState[rect.page - 1].el;
         const pageBox = page.getBoundingClientRect();
@@ -302,6 +307,10 @@
         const edge = rect.connects ? regions.rightEdge(points, x + rect.margin) : null;
         const band = edge && { ...edge, xr, xm: (edge.xl + xr) / 2, ct, cb };
         if (band) card.bands.push(band);
+        else if (rect.connects && rect.singleLine) {
+          const probe = regions.probe(points, x + rect.margin, xr, cy, y + rect.top);
+          if (probe) card.probes.push(probe);
+        }
         return regions.path(points, band);
       }).join('');
       if (!card.link) {
@@ -309,7 +318,14 @@
         linksEl.append(card.link);
       }
       card.link.setAttribute('d', d);
-      card.hits = [card.link];
+      if (card.probes.length) {
+        if (!card.probeShape) {
+          card.probeShape = svgNode('path', { class: `manuscript-probe ${card.colorClasses}`, 'data-mark': card.mark.n });
+          linksEl.append(card.probeShape);
+        }
+        card.probeShape.setAttribute('d', card.probes.map((probe) => probe.path).join(''));
+      } else if (card.probeShape) { card.probeShape.remove(); card.probeShape = null; }
+      card.hits = [card.link, card.probeShape].filter(Boolean);
     }
     syncHighlights();
   }
@@ -340,12 +356,13 @@
       || Number(a.hovering) - Number(b.hovering) || a.paintOrder - b.paintOrder;
     const ordered = [...cards].sort(compare);
     for (const card of ordered) {
-      if (!card.link) continue;
-      card.link.classList.toggle('manuscript-hl-active', isExpanded(card));
-      card.link.classList.toggle('manuscript-hl-hover', card.hovering);
-      card.link.classList.toggle('manuscript-hl-pinned', card.pinned);
+      for (const hit of card.hits) {
+        hit.classList.toggle('manuscript-hl-active', isExpanded(card));
+        hit.classList.toggle('manuscript-hl-hover', card.hovering);
+        hit.classList.toggle('manuscript-hl-pinned', card.pinned);
+      }
     }
-    const links = ordered.map((card) => card.link).filter(Boolean);
+    const links = ordered.flatMap((card) => card.hits);
     if (linksEl && links.some((node, i) => linksEl.children[i] !== node)) linksEl.append(...links);
   }
 
@@ -403,6 +420,7 @@
       });
       card.el.addEventListener('click', (event) => {
         if (event.target.closest('a, button')) return;
+        if (event.clientY > card.el.querySelector('.manuscript-card-head').getBoundingClientRect().bottom) return;
         setPinned(card, !card.pinned);
         scrollToPassage(card);
       });
@@ -439,7 +457,8 @@
       let best = null;
       let bestOrder = -1;
       for (const card of cards) {
-        if (!card.link || !card.bands.some((band) => ribbonContains(band, x, y))) continue;
+        if (!card.link || !card.bands.some((band) => ribbonContains(band, x, y))
+          && !card.probes.some((probe) => regions.probeContains(probe, x, y))) continue;
         const order = Array.prototype.indexOf.call(linksEl.children, card.link);
         if (order > bestOrder) { best = card; bestOrder = order; }
       }
@@ -448,9 +467,11 @@
     // The card in the rail is the target on its own element.
     const cardInRail = (event) => {
       const el = event.target.closest('.manuscript-card');
+      const head = el?.querySelector('.manuscript-card-head');
+      if (!head || event.clientY > head.getBoundingClientRect().bottom) return null;
       return el ? cards.find((card) => card.el === el) || null : null;
     };
-    // One hover: a card stays open while the pointer is on the card, its
+    // One hover: a card stays open while the pointer is on its first line, its
     // passage, or the ribbon between them, and moving from one to another
     // never closes it in between — closing would shrink the ribbon under
     // the pointer. Tested where the pointer is on every move, and the
