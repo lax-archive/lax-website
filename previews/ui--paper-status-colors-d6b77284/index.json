@@ -7555,6 +7555,107 @@
       ]
     },
     {
+      "id": "lax-619925",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "The commutativity problem for effective varieties of formal series, and applications",
+      "concepts": [
+        {
+          "id": "Lax619925.CDA",
+          "title": "Multivariate constructible differentially algebraic power series",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax619925.Commutativity",
+          "title": "The commutativity problem",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax619925.Hadamard",
+          "title": "Hadamard automata and Hadamard-finite series",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax619925.IdealMembership",
+          "title": "Ideal membership in multivariate polynomials",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax619925.Infiltration",
+          "title": "Infiltration automata and infiltration-finite series",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax619925.PolynomialAutomata",
+          "title": "Polynomial automata and Hadamard automata",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax619925.Polyrec",
+          "title": "Multivariate polynomial recursive sequences",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax619925.Prevariety",
+          "title": "Prevarieties and effective prevarieties of series",
+          "type": "definition"
+        },
+        {
+          "id": "Lax619925.Recognisable",
+          "title": "Linearly-finite and recognisable series",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax619925.Series",
+          "title": "Formal power series",
+          "type": "definition"
+        },
+        {
+          "id": "Lax619925.Shuffle",
+          "title": "Shuffle automata and shuffle-finite series",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax619925Proofs.CDA.CDASolvability",
+        "Lax619925Proofs.Commutativity.AntiDerivativeCommutativeIffZero",
+        "Lax619925Proofs.Commutativity.EffectivePrevarietyCommutativityDecidable",
+        "Lax619925Proofs.Commutativity.FiniteAxiomatisation",
+        "Lax619925Proofs.Hadamard.HadamardAntiDerivativeClosure",
+        "Lax619925Proofs.Hadamard.HadamardClosure",
+        "Lax619925Proofs.Hadamard.HadamardCoincidence",
+        "Lax619925Proofs.Hadamard.HadamardCommutativityDecidable",
+        "Lax619925Proofs.Hadamard.HadamardEffectivePrevariety",
+        "Lax619925Proofs.Hadamard.HadamardEqualityDecidable",
+        "Lax619925Proofs.IdealMembership.IdealMembershipDecidable",
+        "Lax619925Proofs.Infiltration.InfiltrationAntiDerivativeClosure",
+        "Lax619925Proofs.Infiltration.InfiltrationClosure",
+        "Lax619925Proofs.Infiltration.InfiltrationCoincidence",
+        "Lax619925Proofs.Infiltration.InfiltrationCommutativityDecidable",
+        "Lax619925Proofs.Infiltration.InfiltrationEffectivePrevariety",
+        "Lax619925Proofs.Infiltration.InfiltrationEqualityDecidable",
+        "Lax619925Proofs.PolynomialAutomata.PolynomialHadamardEquivalence",
+        "Lax619925Proofs.Polyrec.PolyrecConsistency",
+        "Lax619925Proofs.Recognisable.LinearlyFiniteAntiDerivativeClosure",
+        "Lax619925Proofs.Recognisable.LinearlyFiniteClosure",
+        "Lax619925Proofs.Recognisable.RecognisableCommutativityDecidable",
+        "Lax619925Proofs.Recognisable.RecognisableEffectivePrevariety",
+        "Lax619925Proofs.Recognisable.RecognisableEqualityDecidable",
+        "Lax619925Proofs.Recognisable.RecognisableLinearlyFinite",
+        "Lax619925Proofs.Recognisable.RecognisableReversal",
+        "Lax619925Proofs.Recognisable.RecognisableRightDeriv",
+        "Lax619925Proofs.Series.LeftRightDerivativesCommute",
+        "Lax619925Proofs.Series.ReversalInvolution",
+        "Lax619925Proofs.Series.ReversalSwapsDerivatives",
+        "Lax619925Proofs.Shuffle.ShuffleAntiDerivativeClosure",
+        "Lax619925Proofs.Shuffle.ShuffleClosure",
+        "Lax619925Proofs.Shuffle.ShuffleCoincidence",
+        "Lax619925Proofs.Shuffle.ShuffleCommutativityDecidable",
+        "Lax619925Proofs.Shuffle.ShuffleEffectivePrevariety",
+        "Lax619925Proofs.Shuffle.ShuffleEqualityDecidable"
+      ]
+    },
+    {
       "id": "lax-623795",
       "state": "draft",
       "environment": "v4.33.0",
