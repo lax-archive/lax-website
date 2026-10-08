@@ -312,14 +312,14 @@ async function renderPaper(ctx: PageContext, submission: SiteSubmission, options
     body = viewSwitch("reflow") + "\n" + reflowBody(cards, options.web!);
     // The vendored viewer (self-contained — its lax fork decodes blocks
     // without protobuf.js), then the join glue.
-    scripts = ["assets/version-history.js", "assets/reflowtex/latex-viewer.js", "assets/manuscript-reflow.js"];
+    scripts = ["assets/version-history.js", "assets/manuscript-regions.js", "assets/reflowtex/latex-viewer.js", "assets/manuscript-reflow.js"];
   } else if (hasPdf) {
     const pages = paper.pageSizes.map(([width, height], index) =>
       `<div class="manuscript-page" data-page="${index + 1}" style="aspect-ratio: ${width} / ${height}"></div>`);
     body = (options.reflowBeside ? viewSwitch("pdf") + "\n" : "") + pdfBody(cards, pages) + "\n" + manuscriptData(submission);
     rootAttributes = ` data-pdf="paper.pdf" data-pdfjs="${attr(`../assets/pdfjs/pdf.min.mjs?v=${siteAssetVersion("pdfjs/pdf.min.mjs")}`)}" data-pdfjs-worker="${attr(`../assets/pdfjs/pdf.worker.min.mjs?v=${siteAssetVersion("pdfjs/pdf.worker.min.mjs")}`)}"`;
     // Placement math first, then the DOM and pdf.js glue that reads it.
-    scripts = ["assets/version-history.js", "assets/manuscript-place.js", "assets/manuscript.js"];
+    scripts = ["assets/version-history.js", "assets/manuscript-regions.js", "assets/manuscript-place.js", "assets/manuscript.js"];
   } else {
     body = `<p class="empty-note">The PDF is not part of preview builds; the published archive shows it here beside the cards.</p>
 <ol class="manuscript-rail manuscript-rail-static">

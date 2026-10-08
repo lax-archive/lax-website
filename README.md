@@ -84,10 +84,11 @@ against the digest), and `site:build` then emits `<id>/paper.pdf` beside
 `<id>/paper.html` — the page that shows the PDF with a card for every
 passage the author marked (a concept, a proof, or a submission), placed
 beside the passage by `assets/site/manuscript.js`: each passage is one
-flat region per column (the geometry in `manuscript-place.js`) over a
-lighter shadow a fixed margin wider than the passage, and a band from that
-shadow's edge across the gutter to its card, split-diff style; a card opens
-while hovered and stays open when clicked; a concept card carries the
+flat region per column (the geometry in `manuscript-place.js` and
+`manuscript-regions.js`), clipped on partial first and last lines and inset
+slightly to separate adjacent declarations. A band across the gutter joins
+the passage to its card; pinned highlights take priority over other regions.
+A card opens while hovered and stays open when clicked; a concept card carries the
 concept's Lean source with the module docstring elided. The page opens
 with the sidebar collapsed for the room. `--papers DIR` moves the cache; a
 production build refuses to run with a paper missing from it, and
