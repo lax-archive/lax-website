@@ -211,7 +211,7 @@
         setExpanded(next);
       }
 
-      for (const el of [passage, card]) {
+      for (const el of [passage, card.querySelector('.manuscript-card-head')]) {
         if (!el) continue;
         el.addEventListener('mouseenter', () => { if (canHover.matches) setHover(true); });
         el.addEventListener('mouseleave', () => { if (canHover.matches) setHover(false); });
@@ -227,6 +227,7 @@
       card.addEventListener('click', (event) => {
         // Links in the card lead away; the body is for reading and selecting.
         if (event.target.closest('a') || (body && body.contains(event.target))) return;
+        if (event.clientY > card.querySelector('.manuscript-card-head').getBoundingClientRect().bottom) return;
         setPinned(!pair.pinned);
       });
     }

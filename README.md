@@ -88,9 +88,13 @@ flat region per column (the geometry in `manuscript-place.js` and
 `manuscript-regions.js`), clipped on partial first and last lines with
 rounded corners and padding that leaves a small gap between adjacent
 declarations. The passage and its band across the gutter form one seamless
-path, joined only along lines reaching the right margin; pinned highlights
-take priority over other regions. Submission annotations use lavender.
-A card opens while hovered and stays open when clicked; a concept card carries the
+path, joined only along lines reaching the right margin. A short passage
+within one line connects to its card by a thin probe above that line.
+Pinned highlights take priority over other regions. Submission annotations
+use lavender.
+A card opens while its first line or passage is hovered and stays open when
+its first line is clicked outside the links. Moving into an unpinned card's
+body folds it closed. A concept card carries the
 concept's Lean source with the module docstring elided. The page opens
 with the sidebar collapsed for the room. `--papers DIR` moves the cache; a
 production build refuses to run with a paper missing from it, and
@@ -105,7 +109,9 @@ moves the cache), and `site:build` then renders `paper.html` as the reflowed
 paper — re-typeset as SVG at the reader's width by the vendored viewer
 (`assets/site/reflowtex/`, AGPL, the source served unminified), the marked
 passages exposed as `#m<n>` anchors the cards attach to
-(`assets/site/manuscript-reflow.js`) — while the paper as printed keeps
+(`assets/site/manuscript-reflow.js`). Shading follows the renderer's marked
+glyphs and math, excluding trailing whitespace and display spacing — while
+the paper as printed keeps
 its own address, `<id>/paper-pdf.html`, emitted beside every cached PDF
 whether or not a reflow page stands in front of it. Every link into a
 paper (the submission page's button, the "In the paper" lists) targets

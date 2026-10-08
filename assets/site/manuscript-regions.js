@@ -58,7 +58,7 @@
         const length = Math.hypot(dx, dy);
         const normal = [dy / length, -dx / length];
         const pad = dy === 0 ? (a[1] === ys[0] || a[1] === ys[ys.length - 1] ? 3 : -stepPad)
-          : Math.abs(a[0] - left) < EPSILON ? 4 : Math.abs(a[0] - right) < EPSILON ? 0 : -0.75;
+          : Math.abs(a[0] - left) < EPSILON ? 4 : Math.abs(a[0] - right) < EPSILON ? 0 : 1.5;
         return { a, b, normal, pad };
       });
       return { points, edges, group };
@@ -100,7 +100,7 @@
 
   // One continuous path joins the rounded passage to its ribbon. There
   // is no separately antialiased edge at the text margin to leave a seam.
-  function path(points, ribbon = null, radius = 3) {
+  function path(points, ribbon = null, radius = 6) {
     if (!points.length) return '';
     const corners = points.map((point, i) => {
       const prev = points[(i + points.length - 1) % points.length], next = points[(i + 1) % points.length];
@@ -132,5 +132,38 @@
     return inside;
   }
 
-  globalThis.laxManuscriptRegions = { prepare, rightEdge, path, contains };
+  // A short passage has no edge at the right margin. A thin probe runs
+  // above the whole line, keeping the unmarked text to its right clear.
+  function probe(points, margin, xr, cy, lineTop, previousBottom = -Infinity) {
+    if (!points.length) return null;
+    const left = Math.min(...points.map((p) => p[0])), right = Math.max(...points.map((p) => p[0]));
+    if (right >= margin - EPSILON) return null;
+    const top = Math.min(...points.map((p) => p[1]));
+    const sx = (left + right) / 2, sy = top + 2;
+    let y = Math.min(top - 3, lineTop - 3);
+    if (previousBottom < lineTop - 2) y = Math.max(y, (previousBottom + lineTop) / 2);
+    const xm = (margin + xr) / 2;
+    return { sx, sy, y, margin, xm, xr, cy,
+      path: `M${sx},${sy}V${y}H${margin}C${xm},${y} ${xm},${cy} ${xr},${cy}` };
+  }
+
+  function probeContains(p, x, y) {
+    const near = (ax, ay, bx, by) => {
+      const dx = bx - ax, dy = by - ay;
+      const t = Math.max(0, Math.min(1, ((x - ax) * dx + (y - ay) * dy) / (dx * dx + dy * dy || 1)));
+      return Math.hypot(x - ax - t * dx, y - ay - t * dy) <= 4;
+    };
+    if (near(p.sx, p.sy, p.sx, p.y) || near(p.sx, p.y, p.margin, p.y)) return true;
+    let ax = p.margin, ay = p.y;
+    for (let i = 1; i <= 24; i++) {
+      const t = i / 24, u = 1 - t;
+      const bx = u*u*u*p.margin + 3*u*t*p.xm + t*t*t*p.xr;
+      const by = (u*u*u + 3*u*u*t)*p.y + (3*u*t*t + t*t*t)*p.cy;
+      if (near(ax, ay, bx, by)) return true;
+      ax = bx; ay = by;
+    }
+    return false;
+  }
+
+  globalThis.laxManuscriptRegions = { prepare, rightEdge, path, contains, probe, probeContains };
 })();
