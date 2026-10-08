@@ -2618,11 +2618,12 @@ function markedLines(root) {
                 top: box.top - origin.top + r.top * sy, bottom: box.top - origin.top + r.bottom * sy });
             for (const events of L.inkLines) {
                 const fragments = new Map();
-                let lineTop = Infinity, lineBottom = -Infinity;
+                let lineTop = Infinity, lineBottom = -Infinity, lineRight = -Infinity;
                 for (const event of events) {
                     if (event.side) { marker(event); continue; }
                     const ink = mapped(event);
                     lineTop = Math.min(lineTop, ink.top); lineBottom = Math.max(lineBottom, ink.bottom);
+                    lineRight = Math.max(lineRight, ink.right);
                     for (const n of active) {
                         const old = fragments.get(n);
                         if (!old) fragments.set(n, { ...ink });
@@ -2633,7 +2634,7 @@ function markedLines(root) {
                     }
                 }
                 for (const [n, ink] of fragments) {
-                    (out[n] ||= []).push({ ...ink, lineTop, lineBottom, previousBottom });
+                    (out[n] ||= []).push({ ...ink, lineTop, lineBottom, lineRight, previousBottom });
                 }
                 if (Number.isFinite(lineBottom)) previousBottom = lineBottom;
             }

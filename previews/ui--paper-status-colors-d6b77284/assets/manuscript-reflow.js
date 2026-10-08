@@ -181,7 +181,7 @@
   const cards = [...railEl.querySelectorAll('.manuscript-card[data-mark]')].map((el) => ({
     n: Number(el.dataset.mark), fn: null, el,
     colorClasses: [...el.classList].filter((name) => name.startsWith('kind-') || name === 'line-proven' || name === 'line-open').join(' '),
-    band: null, points: null, shape: null, ribbon: null, probe: null, probeShape: null, pinned: false, hovering: false, paintOrder: 0, inline: false, slot: null, slotY: null,
+    band: null, points: null, shape: null, ribbon: null, pinned: false, hovering: false, paintOrder: 0, inline: false, slot: null, slotY: null,
   }));
   const markCards = () => cards.filter((card) => !card.fn);
   let paintOrder = 0;
@@ -593,8 +593,6 @@
       card.ribbon = null;
       if (!card.band) {
         if (card.shape) { card.shape.remove(); card.shape = null; }
-        if (card.probeShape) { card.probeShape.remove(); card.probeShape = null; }
-        card.probe = null;
         card.points = null;
         continue;
       }
@@ -606,38 +604,22 @@
     }
   }
 
-  // Extend the same path into the gutter, only along its full-width edge.
-  // Keeping passage and ribbon in one path removes the seam at the margin.
+  // Extend the same filled path to the card. A short line connects across
+  // whitespace directly, or passes above any unmarked text to its right.
   function drawLinks() {
     const docBox = docEl.getBoundingClientRect();
     for (const card of markCards()) {
-      if (!card.shape || !card.points?.length) {
-        card.probe = null;
-        if (card.probeShape) { card.probeShape.remove(); card.probeShape = null; }
-        continue;
-      }
-      const edge = narrow() ? null : regions.rightEdge(card.points, docEl.clientWidth);
+      if (!card.shape || !card.points?.length) continue;
       card.ribbon = null;
-      card.probe = null;
-      const box = card.el.getBoundingClientRect();
-      const xr = box.left - docBox.left + 2;
-      if (edge) {
-        card.ribbon = { ...edge, xr, xm: (edge.xl + xr) / 2,
-          ct: box.top - docBox.top, cb: box.bottom - docBox.top };
-      } else if (!narrow() && card.band.lines?.length === 1) {
-        const line = card.band.lines[0];
-        const head = card.el.querySelector('.manuscript-card-head').getBoundingClientRect();
-        card.probe = regions.probe(card.points, docEl.clientWidth, xr,
-          (head.top + head.bottom) / 2 - docBox.top, line.lineTop, line.previousBottom);
+      if (!narrow()) {
+        const box = card.el.getBoundingClientRect();
+        const line = card.band.lines?.length === 1 ? card.band.lines[0] : null;
+        card.ribbon = regions.connection(card.points, docEl.clientWidth, box.left - docBox.left + 2,
+          box.top - docBox.top, box.bottom - docBox.top,
+          line && { blocked: Math.min(line.lineRight, docEl.clientWidth) > line.right + 0.5,
+            top: line.lineTop, previousBottom: line.previousBottom });
       }
-      card.shape.setAttribute('d', regions.path(card.points, card.ribbon));
-      if (card.probe) {
-        if (!card.probeShape) {
-          card.probeShape = svgNode('path', { class: `manuscript-probe ${card.colorClasses}`, 'data-mark': card.n });
-          shapesEl.append(card.probeShape);
-        }
-        card.probeShape.setAttribute('d', card.probe.path);
-      } else if (card.probeShape) { card.probeShape.remove(); card.probeShape = null; }
+      card.shape.setAttribute('d', regions.path(card.ribbon?.points || card.points, card.ribbon));
     }
   }
 
@@ -667,7 +649,7 @@
   }
 
   function hits(card) {
-    return [card.shape, card.probeShape].filter(Boolean);
+    return [card.shape].filter(Boolean);
   }
 
   function syncHighlights() {
@@ -782,8 +764,8 @@
     let best = null;
     let bestOrder = -1;
     for (const card of markCards()) {
-      if (!card.shape || !(card.ribbon && ribbonContains(card.ribbon, x, y))
-        && !(card.probe && regions.probeContains(card.probe, x, y))) continue;
+      if (!card.shape || !card.ribbon || !(ribbonContains(card.ribbon, x, y)
+        || regions.contains(card.ribbon.points, x, y))) continue;
       const order = Array.prototype.indexOf.call(shapesEl.children, card.shape);
       if (order > bestOrder) { best = card; bestOrder = order; }
     }

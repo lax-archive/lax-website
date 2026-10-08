@@ -31,7 +31,7 @@
   const cards = marks.map((mark) => {
     const el = railEl.querySelector(`.manuscript-card[data-mark="${mark.n}"]`);
     const colorClasses = el ? [...el.classList].filter((name) => name.startsWith('kind-') || name === 'line-proven' || name === 'line-open').join(' ') : '';
-    return { mark, el, colorClasses, hits: [], rects: [], bands: [], probes: [], probeShape: null, want: 0, resolved: null, link: null, pinned: false, hovering: false, paintOrder: 0 };
+    return { mark, el, colorClasses, hits: [], rects: [], bands: [], want: 0, resolved: null, link: null, pinned: false, hovering: false, paintOrder: 0 };
   }).filter((card) => card.el);
   let paintOrder = 0;
 
@@ -201,23 +201,31 @@
         const viewport = await viewportOf(state);
         const pageRight = Math.max(...state.analysed.blocks.map((block) => block.x1));
         for (const shape of place.segmentShapes(state.analysed, seg)) {
+          let line = null;
+          if (shape.points.length === 4) {
+            const after = state.analysed.items.filter((it) => it.w > 0 && it.str.trim()
+              && it.x + it.w > shape.x1 + 0.5 && it.x < shape.columnRight
+              && it.y + it.h * 0.86 > shape.bot && it.y - it.h * 0.22 < shape.top);
+            const top = Math.max(shape.top, ...after.map((it) => it.y + it.h * 0.86));
+            line = { blocked: after.length > 0, top: viewport.convertToViewportPoint(0, top)[1] };
+          }
           outlines.push({ card, group: seg.page,
             points: shape.points.map(([x, y]) => viewport.convertToViewportPoint(x, y)),
             left: viewport.convertToViewportPoint(shape.columnLeft, 0)[0],
             right: viewport.convertToViewportPoint(shape.columnRight, 0)[0],
-            singleLine: shape.points.length === 4,
+            line,
             connects: shape.columnRight >= pageRight - 1 });
         }
       }
     }
     regions.prepare(outlines).forEach((points, i) => {
       if (!points.length) return;
-      const { card, group: page, right: margin, connects, singleLine } = outlines[i];
+      const { card, group: page, right: margin, connects, line } = outlines[i];
       const left = Math.min(...points.map((point) => point[0]));
       const right = Math.max(...points.map((point) => point[0]));
       const top = Math.min(...points.map((point) => point[1]));
       const bottom = Math.max(...points.map((point) => point[1]));
-      card.rects.push({ page, left, top, width: right - left, height: bottom - top, points, margin, connects, singleLine });
+      card.rects.push({ page, left, top, width: right - left, height: bottom - top, points, margin, connects, line });
     });
   }
 
@@ -274,8 +282,8 @@
     railEl.append(...sorted);
   }
 
-  // Passage and gutter are one rounded path in a common overlay. Only a
-  // region touching the last column's right edge can continue to the rail.
+  // Passage and gutter are one rounded path in a common overlay. Within
+  // the last column, a short line joins across whitespace or over text.
   function drawLinks() {
     if (!linksEl || !bodyEl) return;
     const width = bodyEl.clientWidth;
@@ -285,10 +293,8 @@
     const bodyBox = bodyEl.getBoundingClientRect();
     for (const card of cards) {
       card.bands = [];
-      card.probes = [];
       if (!card.rects.length) {
         if (card.link) { card.link.remove(); card.link = null; }
-        if (card.probeShape) { card.probeShape.remove(); card.probeShape = null; }
         card.hits = [];
         continue;
       }
@@ -296,36 +302,23 @@
       const xr = box.left - bodyBox.left + bodyEl.scrollLeft + 2;
       const ct = box.top - bodyBox.top + bodyEl.scrollTop;
       const cb = ct + box.height;
-      const head = card.el.querySelector('.manuscript-card-head').getBoundingClientRect();
-      const cy = (head.top + head.bottom) / 2 - bodyBox.top + bodyEl.scrollTop;
       const d = card.rects.map((rect) => {
         const page = pageState[rect.page - 1].el;
         const pageBox = page.getBoundingClientRect();
         const x = pageBox.left - bodyBox.left + bodyEl.scrollLeft + page.clientLeft;
         const y = pageBox.top - bodyBox.top + bodyEl.scrollTop + page.clientTop;
         const points = rect.points.map(([px, py]) => [x + px, y + py]);
-        const edge = rect.connects ? regions.rightEdge(points, x + rect.margin) : null;
-        const band = edge && { ...edge, xr, xm: (edge.xl + xr) / 2, ct, cb };
+        const band = rect.connects ? regions.connection(points, x + rect.margin, xr, ct, cb,
+          rect.line && { ...rect.line, top: y + rect.line.top }) : null;
         if (band) card.bands.push(band);
-        else if (rect.connects && rect.singleLine) {
-          const probe = regions.probe(points, x + rect.margin, xr, cy, y + rect.top);
-          if (probe) card.probes.push(probe);
-        }
-        return regions.path(points, band);
+        return regions.path(band?.points || points, band);
       }).join('');
       if (!card.link) {
         card.link = svgNode('path', { class: `manuscript-hl ${card.colorClasses}`, 'data-mark': card.mark.n });
         linksEl.append(card.link);
       }
       card.link.setAttribute('d', d);
-      if (card.probes.length) {
-        if (!card.probeShape) {
-          card.probeShape = svgNode('path', { class: `manuscript-probe ${card.colorClasses}`, 'data-mark': card.mark.n });
-          linksEl.append(card.probeShape);
-        }
-        card.probeShape.setAttribute('d', card.probes.map((probe) => probe.path).join(''));
-      } else if (card.probeShape) { card.probeShape.remove(); card.probeShape = null; }
-      card.hits = [card.link, card.probeShape].filter(Boolean);
+      card.hits = [card.link];
     }
     syncHighlights();
   }
@@ -457,8 +450,8 @@
       let best = null;
       let bestOrder = -1;
       for (const card of cards) {
-        if (!card.link || !card.bands.some((band) => ribbonContains(band, x, y))
-          && !card.probes.some((probe) => regions.probeContains(probe, x, y))) continue;
+        if (!card.link || !card.bands.some((band) => ribbonContains(band, x, y)
+          || regions.contains(band.points, x, y))) continue;
         const order = Array.prototype.indexOf.call(linksEl.children, card.link);
         if (order > bestOrder) { best = card; bestOrder = order; }
       }
