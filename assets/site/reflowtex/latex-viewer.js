@@ -91,6 +91,7 @@
 //      between markers. markedLines maps those source spans through the
 //      current SVG positions, excluding trailing glue and display spacing
 //      from the paper's highlights without depending on lazy painting.
+//      Equation labels are treated as whitespace by the shading join.
 //
 // Upstream header follows.
 //
@@ -1815,15 +1816,15 @@ function anchorSink(out) {
 }
 
 // lax: record ink in source order, splitting a run at every mark. Empty glue,
-// struts and display spacing never become part of a marked passage. Using
-// the painting traversal also accounts for nested math and transforms.
-function passageSink(anchors, events) {
+// struts, equation labels and display spacing never become part of a marked
+// passage. The painting traversal accounts for nested math and transforms.
+function passageSink(anchors, events, labelNodes) {
     let matrix = null, run = null;
     const stack = [];
     const point = (x, y) => matrix
         ? [matrix[0]*x + matrix[2]*y + matrix[4], matrix[1]*x + matrix[3]*y + matrix[5]] : [x, y];
-    const note = (x, width, top, bottom) => {
-        if (width <= 0 || bottom <= top) return;
+    const note = (n, x, width, top, bottom) => {
+        if (labelNodes?.has(n) || width <= 0 || bottom <= top) return;
         const corners = [[x, top], [x + width, top], [x, bottom], [x + width, bottom]].map(([px, py]) => point(px, py));
         if (!run) {
             run = { left: Infinity, right: -Infinity, top: Infinity, bottom: -Infinity };
@@ -1837,10 +1838,10 @@ function passageSink(anchors, events) {
     return {
         beginTransform(n, tf) { stack.push(matrix); matrix = affineMul(matrix, affineOf(tf)); },
         endTransform() { matrix = stack.pop(); },
-        glyph(n, x, y) { note(x, gW(n) * SP_TO_PX, y - gH(n) * SP_TO_PX, y + gD(n) * SP_TO_PX); },
+        glyph(n, x, y) { note(n, x, gW(n) * SP_TO_PX, y - gH(n) * SP_TO_PX, y + gD(n) * SP_TO_PX); },
         space() {},
-        rule(n, x, y, w, h) { note(x, w, y, y + h); },
-        picture(n, x, y) { note(x, pW(n) * SP_TO_PX, y - pH(n) * SP_TO_PX, y + pD(n) * SP_TO_PX); },
+        rule(n, x, y, w, h) { note(n, x, w, y, y + h); },
+        picture(n, x, y) { note(n, x, pW(n) * SP_TO_PX, y - pH(n) * SP_TO_PX, y + pD(n) * SP_TO_PX); },
         marker(n, x, y) {
             const side = n.side === 'e' ? 'e' : 'b';
             const [px, py] = point(x, y);
@@ -2249,6 +2250,17 @@ function layoutDisplaySegment(fontInfo, seg, widthPt, cache) {
         };
     });
 
+    // lax: retain the label's identity for passage measurement. The label
+    // still paints normally; it does not obstruct a connection to the rail
+    // or add an otherwise empty line to a highlight when it wraps below.
+    const labelNodes = new Set();
+    const collectLabel = n => {
+        labelNodes.add(n);
+        for (const key of ['children', 'replace']) for (const child of n[key] || []) collectLabel(child);
+        if (n.leader) collectLabel(n.leader);
+    };
+    for (const r of rows) if (r.num) collectLabel(r.num.numberBox);
+
     // One offset for the whole group: rows keep their relative positions, so
     // an alignment's & columns stay aligned no matter where the group lands.
     let gMin = Infinity, gMax = -Infinity;
@@ -2298,7 +2310,7 @@ function layoutDisplaySegment(fontInfo, seg, widthPt, cache) {
     });
 
     return {
-        lines, lrp, gaps,
+        lines, lrp, gaps, labelNodes,
         // Only this segment may grow past the column, and only as far as the
         // ink truly reaches — so a short display never scrolls.
         W: Math.ceil(Math.max(columnPx, offset + gMax)),
@@ -2394,7 +2406,7 @@ function layoutDocument(fontInfo, doc, widthPt, p, cache) {
         for (let j = 0; j < geom.lines.length; j++) {
             const events = [];
             const { ratio, er, x0, fillRatio, fillOrder } = geom.lrp[j];
-            renderNodes(fontInfo, passageSink(anchors, events), geom.lines[j].nodes, x0, baselineYs[j],
+            renderNodes(fontInfo, passageSink(anchors, events, geom.labelNodes), geom.lines[j].nodes, x0, baselineYs[j],
                         fillOrder ? fillRatio : ratio, er, fillOrder || 0);
             inkLines.push(events);
         }

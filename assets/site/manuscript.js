@@ -206,8 +206,15 @@
             const after = state.analysed.items.filter((it) => it.w > 0 && it.str.trim()
               && it.x + it.w > shape.x1 + 0.5 && it.x < shape.columnRight
               && it.y + it.h * 0.86 > shape.bot && it.y - it.h * 0.22 < shape.top);
+            // PDF text has no equation-label metadata. An isolated numeric
+            // tag at the column edge, separated from the formula by a wide
+            // gap, is whitespace for the connection just as in reflow.
+            const label = after.map((it) => it.str).join('').replace(/\s/g, '');
+            const equationLabel = /^\((?:[A-Za-z]+[.-])?\d+(?:[.-]\d+)*[A-Za-z]?\)$/.test(label)
+              && Math.min(...after.map((it) => it.x)) - shape.x1 >= 8
+              && Math.abs(Math.max(...after.map((it) => it.x + it.w)) - shape.columnRight) <= 1;
             const top = Math.max(shape.top, ...after.map((it) => it.y + it.h * 0.86));
-            line = { blocked: after.length > 0, top: viewport.convertToViewportPoint(0, top)[1] };
+            line = { blocked: after.length > 0 && !equationLabel, top: viewport.convertToViewportPoint(0, top)[1] };
           }
           outlines.push({ card, group: seg.page,
             points: shape.points.map(([x, y]) => viewport.convertToViewportPoint(x, y)),
