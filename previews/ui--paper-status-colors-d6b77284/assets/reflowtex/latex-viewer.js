@@ -2524,6 +2524,17 @@ function placeAnchors(cache) {
             a.style.position = 'absolute';
             a.style.left = `${svgBox.left - rootBox.left + m.x}px`;
             a.style.top = `${svgBox.top - rootBox.top + m.y}px`;
+            // Give the highlight join the actual line bounds, including
+            // tall mathematics, instead of a fixed-height baseline box.
+            let line = 0;
+            for (let j = 1; j < L.baselineYs.length; j++) {
+                if (Math.abs(L.baselineYs[j] - m.y) < Math.abs(L.baselineYs[line] - m.y)) line = j;
+            }
+            const profile = L.profiles[line];
+            const ascent = profile.reduce((height, item) => Math.max(height, item.h), 0);
+            const depth = profile.reduce((height, item) => Math.max(height, item.d), 0);
+            a.dataset.lineAbove = String(m.y - L.baselineYs[line] + ascent);
+            a.dataset.lineBelow = String(L.baselineYs[line] + depth - m.y);
         }
     });
 }

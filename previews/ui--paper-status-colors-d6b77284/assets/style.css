@@ -2095,6 +2095,7 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
 .landing-paper-rail-live > .manuscript-card-expanded{ z-index: 7; }
 .landing-paper-rail-live > .manuscript-card:focus-within{ z-index: 8; }
 .landing-paper-rail-live > .manuscript-card-hover{ z-index: 9; }
+.landing-paper-rail-live > .manuscript-card-pinned{ z-index: 10; }
 /* Above the cards, until the first hover or tap: what to do, as a pill
    in the accent that no one can miss. The touch wording where there is
    no pointer to hover with. */
@@ -5351,16 +5352,19 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
 /* Both paper surfaces and the landing excerpts use the archive's concept
    palette: neutral definitions, proven green, open yellow. Proof passages
    keep their distinct blue. The scripts carry each card's kind and status
-   onto its passage, shadow and connecting band. Multiplying the SVG layers
+   onto its passage and connecting band. Multiplying the SVG layers
    onto the paper keeps its text crisp. */
-.manuscript-card, .manuscript-hl, .manuscript-hl-shadow,
+.manuscript{
+  --comment-bg: #f1eafa;
+  --comment-border: #d8c7e5;
+  --comment-accent: #80619b;
+}
+.manuscript-card, .manuscript-hl,
 .manuscript-link, .landing-passage{
-  --mark-bg: var(--none-bg);
+  --mark-bg: color-mix(in srgb, var(--none-bg) 75%, var(--none-border));
   --mark-border: var(--none-border);
   --mark-ink: var(--mark-bg);
   --mark-ink-hot: color-mix(in srgb, var(--mark-bg) 55%, var(--mark-border));
-  --mark-band: color-mix(in srgb, var(--mark-border) 20%, transparent);
-  --mark-band-hot: color-mix(in srgb, var(--mark-border) 40%, transparent);
   --mark-swatch: var(--mark-border);
 }
 .manuscript .kind-concept.line-proven{
@@ -5372,17 +5376,13 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
   --mark-border: var(--partial-border);
 }
 .manuscript .kind-proof{
-  --mark-ink: rgba(184, 214, 244, 0.3);
-  --mark-ink-hot: rgba(150, 196, 240, 0.48);
-  --mark-band: rgba(134, 184, 236, 0.09);
-  --mark-band-hot: rgba(104, 164, 228, 0.19);
+  --mark-ink: #eaf3fc;
+  --mark-ink-hot: #cde3f8;
   --mark-swatch: rgba(122, 172, 224, 0.8);
 }
 .manuscript .kind-submission{
-  --mark-ink: rgba(206, 200, 194, 0.42);
-  --mark-ink-hot: rgba(188, 180, 172, 0.58);
-  --mark-band: rgba(150, 142, 134, 0.1);
-  --mark-band-hot: rgba(130, 122, 114, 0.22);
+  --mark-ink: #eae8e5;
+  --mark-ink-hot: #d8d4cf;
   --mark-swatch: rgba(160, 152, 144, 0.7);
 }
 
@@ -5406,9 +5406,9 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
   margin: -0.25rem -0.6rem 0;
 }
 
-/* The gutter bands: one path per placed card, from the passage's shadow to
-   the whole card. Band and shadow share their fills and are both
-   multiplied onto what is under them, so they read as one ribbon. */
+/* The gutter bands stay outside the text column. Each passage has one
+   flat tint; opaque fills let a pinned region cover other highlights.
+   The whole SVG is multiplied onto the paper, preserving the text. */
 .manuscript-links{
   display: none;
   position: absolute;
@@ -5421,15 +5421,9 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
   mix-blend-mode: multiply;
 }
 .manuscript-links-live{ display: block; }
-.manuscript-link, .manuscript-hl-shadow{ stroke: none; transition: fill 150ms ease; }
-/* The shadow behind a printed passage keeps the pale band shade — it lies
-   under the page's own mark. The band across the gutter takes the
-   passage's shade itself, so a highlight and the tie to its card read as
-   one region. */
-.manuscript-hl-shadow{ fill: var(--mark-band); }
-.manuscript-hl-shadow.manuscript-hl-hover, .manuscript-hl-shadow.manuscript-hl-active, .manuscript-hl-shadow.manuscript-hl-flash{ fill: var(--mark-band-hot); }
-.manuscript-link{ fill: var(--mark-ink); }
-.manuscript-link.manuscript-link-hover, .manuscript-link.manuscript-link-active{ fill: var(--mark-ink-hot); }
+.manuscript-link{ fill: var(--mark-ink); stroke: none; transition: fill 150ms ease; }
+.manuscript-link.manuscript-link-hover, .manuscript-link.manuscript-link-active,
+.manuscript-link.manuscript-link-pinned{ fill: var(--mark-ink-hot); }
 
 .manuscript-pages{ position: relative; min-width: 0; }
 .manuscript-page{
@@ -5443,9 +5437,8 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
 }
 .manuscript-page canvas{ display: block; width: 100%; }
 .manuscript-page-rendered{ border-color: transparent; }
-/* Highlights: an SVG per page, multiplied onto the rendered canvas so the
-   text stays crisp. One flat region per passage and column over a lighter
-   shadow across the page's full width, which the gutter band continues. */
+/* Highlights: one flat region per passage and column, with clipped first
+   and last lines and a small inset separating adjacent declarations. */
 .manuscript-hl-layer{
   position: absolute;
   inset: 0;
@@ -5462,7 +5455,8 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
   transition: fill 150ms ease;
 }
 /* The open passage carries no outline; a flash is a moment of the hover fill. */
-.manuscript-hl.manuscript-hl-hover, .manuscript-hl.manuscript-hl-flash{ fill: var(--mark-ink-hot); }
+.manuscript-hl.manuscript-hl-hover, .manuscript-hl.manuscript-hl-flash,
+.manuscript-hl.manuscript-hl-pinned{ fill: var(--mark-ink-hot); }
 
 /* The rail: a plain list until manuscript.js takes over, then cards sit at
    the y of their passages, pushed down where they would overlap. */
@@ -5472,9 +5466,9 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
 /* A card open under the pointer takes no room in the rail: it lies over
    the cards below it. A pinned card takes its room. */
 .manuscript-rail-live .manuscript-card-expanded{ z-index: 2; }
-.manuscript-rail-live .manuscript-card-pinned{ z-index: 1; }
 .manuscript-rail-live .manuscript-card:focus-within{ z-index: 3; }
 .manuscript-rail-live .manuscript-card-hover{ z-index: 4; }
+.manuscript-rail-live .manuscript-card-pinned{ z-index: 5; }
 .manuscript-rail-static{ max-width: 34rem; }
 
 .manuscript-card{
@@ -5644,10 +5638,17 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
    sideways) the endnotes stay in flow. */
 /* !important: the viewer sets display:block inline on every segment. */
 .manuscript-sidenotes .manuscript-reflow-doc .latex-footnote-rule{ display: none !important; }
-.manuscript-footnote{ cursor: default; padding: 0.4rem 0.6rem 0.4rem 0.55rem; }
+.manuscript-footnote{
+  cursor: default;
+  padding: 0.4rem 0.6rem 0.4rem 0.55rem;
+  background: var(--comment-bg);
+  border-color: var(--comment-border);
+}
+.manuscript .latex-footnote{ background: var(--comment-bg); }
 .manuscript-footnote > .manuscript-footnote-body{ min-width: 0; overflow: visible; }
 .manuscript-footnote > .manuscript-footnote-body > svg{ display: block; max-width: 100%; margin: 0; }
-.manuscript-footnote.manuscript-card-hover{ border-color: var(--accent); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12); }
+.manuscript-footnote.manuscript-card-hover{ border-color: var(--comment-accent); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12); }
+.manuscript-footnote:target{ outline-color: var(--comment-accent); }
 /* The reference's link: a small hit box over the superscript the viewer
    painted before the anchor (the anchor sits at the baseline just after
    it), outside the SVG so the text is untouched. Lit from either end. */
@@ -5662,9 +5663,9 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
   cursor: pointer;
 }
 .latex-fnref-link:hover, .latex-fnref-link:focus-visible,
-.latex-fnref-hover > .latex-fnref-link, .latex-fnref-flash > .latex-fnref-link{ background: var(--accent-light); outline: 1px solid var(--accent); }
+.latex-fnref-hover > .latex-fnref-link, .latex-fnref-flash > .latex-fnref-link{ background: var(--comment-bg); outline: 1px solid var(--comment-accent); }
 /* An endnote a reference link landed on. */
-.latex-footnote-flash{ background: var(--accent-light); transition: background 150ms ease; }
+.manuscript .latex-footnote-flash{ background: var(--comment-border); transition: background 150ms ease; }
 /* The AGPL §13 source offer for the viewer running in this page. */
 .manuscript-reflow-notice{
   margin: 3rem auto 0.75rem;
@@ -5679,8 +5680,7 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
 /* Below the site's mobile breakpoint the reflowed paper is one column:
    the text at the screen's width, the rail and the gutter bands gone, the
    cards opening in the text under their passages (manuscript-reflow.js).
-   The passages' shadows still run their margin beyond the column, into
-   the page's own padding. This block stands after `.manuscript-body` and
+   This block stands after `.manuscript-body` and
    `.manuscript-reflow-body` above on purpose: it overrides them at equal
    specificity, so it must come later in the sheet — in the mobile drawer
    block further up it would lose, and the phone would get the two-column

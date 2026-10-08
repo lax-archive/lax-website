@@ -155,6 +155,10 @@
         }
         pair.link.setAttribute('d', `M${xl.toFixed(1)},${top.toFixed(1)} C${xm.toFixed(1)},${top.toFixed(1)} ${xm.toFixed(1)},${ct.toFixed(1)} ${xr.toFixed(1)},${ct.toFixed(1)} L${xr.toFixed(1)},${cb.toFixed(1)} C${xm.toFixed(1)},${cb.toFixed(1)} ${xm.toFixed(1)},${bottom.toFixed(1)} ${xl.toFixed(1)},${bottom.toFixed(1)} Z`);
       }
+      const ordered = [...pairs].sort((a, b) => Number(a.pinned) - Number(b.pinned)
+        || Number(a.card.classList.contains('manuscript-card-hover')) - Number(b.card.classList.contains('manuscript-card-hover')))
+        .map((pair) => pair.link).filter(Boolean);
+      if (ordered.some((node, i) => links.children[i] !== node)) links.append(...ordered);
     }
 
     function layout() {
