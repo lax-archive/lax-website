@@ -5881,7 +5881,7 @@
     },
     {
       "id": "lax-480241",
-      "state": "draft",
+      "state": "registered",
       "environment": "v4.33.0",
       "title": "Descriptive complexity: the exponential classes",
       "concepts": [
@@ -9036,6 +9036,84 @@
       ]
     },
     {
+      "id": "lax-794877",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Probabilistic query evaluation is #P-hard",
+      "concepts": [
+        {
+          "id": "Lax794877.ExampleDatabase",
+          "title": "A concrete probabilistic database",
+          "type": "definition"
+        },
+        {
+          "id": "Lax794877.ExampleDatabaseProbability",
+          "title": "The probability of h₀ over a concrete database",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax794877.H0Complete",
+          "title": "The probability of h₀ is #P-hard",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax794877.HierarchicalQueryInFP",
+          "title": "The probability of ∃x y, R(x) ∧ S(x, y) is easy",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax794877.PossibleWorlds",
+          "title": "Possible worlds",
+          "type": "definition"
+        },
+        {
+          "id": "Lax794877.ProbabilityRatio",
+          "title": "The probability of a query is a ratio of two #P numbers",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax794877.Queries",
+          "title": "The queries h₀ and ∃x y, R(x) ∧ S(x, y)",
+          "type": "definition"
+        },
+        {
+          "id": "Lax794877.WeightedWorlds",
+          "title": "Weighted possible worlds and the probability of a query",
+          "type": "definition"
+        },
+        {
+          "id": "Lax794877.WorldCount",
+          "title": "An instance has 2^k possible worlds",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax794877.WorldsInSharpP",
+          "title": "Counting possible worlds is in #P",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax794877.WorldsValues",
+          "title": "The values of the world counts",
+          "type": "lemma"
+        }
+      ],
+      "proofs": [
+        "Lax794877Proofs.Bridge.card_isWorld",
+        "Lax794877Proofs.Bridge.possibleWorlds_count_iso",
+        "Lax794877Proofs.Bridge.possibleWorlds_eq",
+        "Lax794877Proofs.Bridge.possibleWorlds_h0_sharpP_oneCallComplete",
+        "Lax794877Proofs.Bridge.possibleWorlds_mem_sharpP",
+        "Lax794877Proofs.Bridge.probDb_worldProb_eq",
+        "Lax794877Proofs.Bridge.weightedWorlds_count_iso",
+        "Lax794877Proofs.Bridge.weightedWorlds_eq",
+        "Lax794877Proofs.Bridge.weightedWorlds_h0_sharpP_oneCallComplete",
+        "Lax794877Proofs.Bridge.weightedWorlds_mem_sharpP",
+        "Lax794877Proofs.Bridge.weightedWorlds_of_not_isLinOrd",
+        "Lax794877Proofs.Bridge.weightedWorlds_rs_mem_FP",
+        "Lax794877Proofs.Bridge.worldProb_eq_ratio"
+      ]
+    },
+    {
       "id": "lax-799700",
       "state": "registered",
       "environment": "v4.33.0",
@@ -9259,6 +9337,61 @@
         }
       ],
       "proofs": []
+    },
+    {
+      "id": "lax-822549",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Descriptive complexity: wide machines and tilings",
+      "concepts": [
+        {
+          "id": "Lax822549.TilingsComplete",
+          "title": "Tilings one exponential up are complete",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax822549.WideMachines",
+          "title": "Wide machines",
+          "type": "definition"
+        },
+        {
+          "id": "Lax822549.WideMachinesComplete",
+          "title": "Wide machines are complete for NEXPTIME and EXPSPACE",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax822549.WideProblemsValues",
+          "title": "The wide problems, characterized",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax822549.WideRegChannel",
+          "title": "Wide machines with a regular input channel",
+          "type": "definition"
+        },
+        {
+          "id": "Lax822549.WideTilings",
+          "title": "Tilings one exponential up",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax822549Proofs.Bridge.dwideAcceptSpace_EXPSPACE_complete",
+        "Lax822549Proofs.Bridge.dwideAcceptSpace_iff",
+        "Lax822549Proofs.Bridge.dwideAcceptSpace_nonvacuous",
+        "Lax822549Proofs.Bridge.wideAccept_iff",
+        "Lax822549Proofs.Bridge.wideAccept_mem_NEXPTIME",
+        "Lax822549Proofs.Bridge.wideAccept_nonvacuous",
+        "Lax822549Proofs.Bridge.wideAcceptSpace_EXPSPACE_complete",
+        "Lax822549Proofs.Bridge.wideAcceptSpace_iff",
+        "Lax822549Proofs.Bridge.wideAcceptSpace_nonvacuous",
+        "Lax822549Proofs.Bridge.wideCorridor_EXPSPACE_complete",
+        "Lax822549Proofs.Bridge.wideCorridor_iff",
+        "Lax822549Proofs.Bridge.wideRegAccept_iff",
+        "Lax822549Proofs.Bridge.wideRegAccept_NEXPTIME_complete",
+        "Lax822549Proofs.Bridge.wideTiling_iff",
+        "Lax822549Proofs.Bridge.wideTiling_NEXPTIME_complete"
+      ]
     },
     {
       "id": "lax-825442",

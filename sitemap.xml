@@ -3064,6 +3064,31 @@
   <url><loc>https://laxarchive.org/lax-783278/Lax783278Proofs.smaller_reachable.html</loc></url>
   <url><loc>https://laxarchive.org/lax-783278/Lax783278Proofs.true_strategy.html</loc></url>
   <url><loc>https://laxarchive.org/lax-783278/Lax783278Proofs.value_not_reachable.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-794877/</loc></url>
+  <url><loc>https://laxarchive.org/lax-794877/Lax794877.ExampleDatabase.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-794877/Lax794877.ExampleDatabaseProbability.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-794877/Lax794877.H0Complete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-794877/Lax794877.HierarchicalQueryInFP.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-794877/Lax794877.PossibleWorlds.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-794877/Lax794877.ProbabilityRatio.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-794877/Lax794877.Queries.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-794877/Lax794877.WeightedWorlds.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-794877/Lax794877.WorldCount.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-794877/Lax794877.WorldsInSharpP.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-794877/Lax794877.WorldsValues.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-794877/Lax794877Proofs.Bridge.card_isWorld.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-794877/Lax794877Proofs.Bridge.possibleWorlds_count_iso.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-794877/Lax794877Proofs.Bridge.possibleWorlds_eq.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-794877/Lax794877Proofs.Bridge.possibleWorlds_h0_sharpP_oneCallComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-794877/Lax794877Proofs.Bridge.possibleWorlds_mem_sharpP.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-794877/Lax794877Proofs.Bridge.probDb_worldProb_eq.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-794877/Lax794877Proofs.Bridge.weightedWorlds_count_iso.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-794877/Lax794877Proofs.Bridge.weightedWorlds_eq.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-794877/Lax794877Proofs.Bridge.weightedWorlds_h0_sharpP_oneCallComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-794877/Lax794877Proofs.Bridge.weightedWorlds_mem_sharpP.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-794877/Lax794877Proofs.Bridge.weightedWorlds_of_not_isLinOrd.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-794877/Lax794877Proofs.Bridge.weightedWorlds_rs_mem_FP.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-794877/Lax794877Proofs.Bridge.worldProb_eq_ratio.html</loc></url>
   <url><loc>https://laxarchive.org/lax-799700/</loc></url>
   <url><loc>https://laxarchive.org/lax-799700/Lax799700.CliqueFamily.html</loc></url>
   <url><loc>https://laxarchive.org/lax-799700/Lax799700.Coloring.html</loc></url>
@@ -3179,6 +3204,28 @@
   <url><loc>https://laxarchive.org/lax-808846/</loc></url>
   <url><loc>https://laxarchive.org/lax-808846/Lax808846.Ram.html</loc></url>
   <url><loc>https://laxarchive.org/lax-808846/Lax808846.RamComputes.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-822549/</loc></url>
+  <url><loc>https://laxarchive.org/lax-822549/Lax822549.TilingsComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-822549/Lax822549.WideMachines.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-822549/Lax822549.WideMachinesComplete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-822549/Lax822549.WideProblemsValues.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-822549/Lax822549.WideRegChannel.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-822549/Lax822549.WideTilings.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-822549/Lax822549Proofs.Bridge.dwideAcceptSpace_EXPSPACE_complete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-822549/Lax822549Proofs.Bridge.dwideAcceptSpace_iff.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-822549/Lax822549Proofs.Bridge.dwideAcceptSpace_nonvacuous.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-822549/Lax822549Proofs.Bridge.wideAcceptSpace_EXPSPACE_complete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-822549/Lax822549Proofs.Bridge.wideAcceptSpace_iff.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-822549/Lax822549Proofs.Bridge.wideAcceptSpace_nonvacuous.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-822549/Lax822549Proofs.Bridge.wideAccept_iff.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-822549/Lax822549Proofs.Bridge.wideAccept_mem_NEXPTIME.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-822549/Lax822549Proofs.Bridge.wideAccept_nonvacuous.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-822549/Lax822549Proofs.Bridge.wideCorridor_EXPSPACE_complete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-822549/Lax822549Proofs.Bridge.wideCorridor_iff.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-822549/Lax822549Proofs.Bridge.wideRegAccept_NEXPTIME_complete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-822549/Lax822549Proofs.Bridge.wideRegAccept_iff.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-822549/Lax822549Proofs.Bridge.wideTiling_NEXPTIME_complete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-822549/Lax822549Proofs.Bridge.wideTiling_iff.html</loc></url>
   <url><loc>https://laxarchive.org/lax-825442/</loc></url>
   <url><loc>https://laxarchive.org/lax-825442/Lax825442.Arboricity.html</loc></url>
   <url><loc>https://laxarchive.org/lax-825442/Lax825442.Bounds.html</loc></url>
