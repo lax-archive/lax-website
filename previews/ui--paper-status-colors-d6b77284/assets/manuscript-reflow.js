@@ -160,7 +160,6 @@
   const reflowBody = document.getElementById('manuscript-reflow');
   const docEl = document.getElementById('manuscript-reflow-doc');
   const railEl = document.getElementById('manuscript-rail-reflow');
-  const linksEl = document.getElementById('manuscript-reflow-links');
   const footnoteTemplate = document.getElementById('manuscript-footnote-card');
   const regions = window.laxManuscriptRegions;
   if (!root || !reflowBody || !docEl || !railEl || !regions) return;
@@ -177,7 +176,7 @@
   const cards = [...railEl.querySelectorAll('.manuscript-card[data-mark]')].map((el) => ({
     n: Number(el.dataset.mark), fn: null, el,
     colorClasses: [...el.classList].filter((name) => name.startsWith('kind-') || name === 'line-proven' || name === 'line-open').join(' '),
-    band: null, points: null, shape: null, link: null, ribbon: null, pinned: false, hovering: false, paintOrder: 0, inline: false, slot: null, slotY: null,
+    band: null, points: null, shape: null, ribbon: null, pinned: false, hovering: false, paintOrder: 0, inline: false, slot: null, slotY: null,
   }));
   const markCards = () => cards.filter((card) => !card.fn);
   let paintOrder = 0;
@@ -230,12 +229,19 @@
       const footnote = a.dataset.footnote !== undefined;
       const side = !footnote && a.dataset.side === 'e' ? 'e' : 'b';
       const inline = a.style.position === 'absolute';
-      const x = r.left - box.left;
+      let x = r.left - box.left;
       let top = r.top - box.top;
       let bottom = top;
       if (inline) {
-        top -= Number(a.dataset.lineAbove ?? LINE_ABOVE);
-        bottom += Number(a.dataset.lineBelow ?? LINE_BELOW);
+        // A marker that wrapped to the next line at x=0 still closes the
+        // preceding line. Its empty tail must not shade the next line.
+        const previous = side === 'e' && x < 0.5 && a.dataset.previousLineAbove !== undefined;
+        const next = side === 'b' && x >= docEl.clientWidth - 0.5 && a.dataset.nextLineAbove !== undefined;
+        const prefix = previous ? 'previousLine' : next ? 'nextLine' : 'line';
+        top -= Number(a.dataset[`${prefix}Above`] ?? LINE_ABOVE);
+        bottom += Number(a.dataset[`${prefix}Below`] ?? LINE_BELOW);
+        if (previous) x = docEl.clientWidth;
+        if (next) x = 0;
       } else if (side === 'b') {
         let next = a.nextElementSibling;
         while (next && (next.classList.contains('latex-anchor') || next.classList.contains('manuscript-card'))) next = next.nextElementSibling;
@@ -280,7 +286,7 @@
     const body = el.querySelector('.manuscript-footnote-body') || el;
     card = {
       n: `fn:${k}`, fn: k, el, body,
-      band: null, points: null, shape: null, link: null, ribbon: null, pinned: false,
+      band: null, points: null, shape: null, ribbon: null, pinned: false,
     };
     el.addEventListener('mouseenter', () => noteHover(card, true));
     el.addEventListener('mouseleave', () => noteHover(card, false));
@@ -561,57 +567,45 @@
     return true;
   }
 
-  // Per passage: one inset outline, with partial first and last lines.
+  // Per passage: one padded outline, with partial first and last lines.
   // No rectangle underneath may shade the excluded parts of those lines.
   // Coordinates are the document's; sidenotes have no marked passage.
   function paintHighlights() {
     const width = docEl.clientWidth;
     hlEl.setAttribute('viewBox', `0 0 ${width} ${docEl.clientHeight}`);
+    const placed = markCards().filter((card) => card.band);
+    const prepared = regions.prepare(placed.map((card) => ({ points: outline(card.band, width), left: 0, right: width })));
+    placed.forEach((card, i) => { card.points = prepared[i]; });
     for (const card of markCards()) {
+      card.ribbon = null;
       if (!card.band) {
         if (card.shape) { card.shape.remove(); card.shape = null; }
         card.points = null;
         continue;
       }
-      card.points = regions.inset(outline(card.band, width));
       if (!card.shape) {
         card.shape = svgNode('path', { class: `manuscript-hl ${card.colorClasses}`, 'data-mark': card.n });
         shapesEl.append(card.shape);
       }
-      card.shape.setAttribute('d', card.points.length ? `M${card.points.map(([x, y]) => `${x.toFixed(2)},${y.toFixed(2)}`).join('L')}Z` : '');
+      card.shape.setAttribute('d', regions.path(card.points));
     }
   }
 
-  // Bands stay in the gutter, never tinting the unmarked part of an end
-  // line. Coordinates are the body's. No bands while cards are in the text.
+  // Extend the same path into the gutter, only along its full-width edge.
+  // Keeping passage and ribbon in one path removes the seam at the margin.
   function drawLinks() {
-    if (!linksEl) return;
-    linksEl.setAttribute('viewBox', `0 0 ${reflowBody.clientWidth} ${reflowBody.clientHeight}`);
-    linksEl.classList.add('manuscript-links-live');
-    const bodyBox = reflowBody.getBoundingClientRect();
     const docBox = docEl.getBoundingClientRect();
-    const docTop = docBox.top - bodyBox.top;
-    const xl = docBox.left - bodyBox.left + docEl.clientWidth;
-    const xr = railEl.offsetLeft + 2;
-    const xm = (xl + xr) / 2;
     for (const card of markCards()) {
-      if (!card.points?.length || narrow()) {
-        if (card.link) { card.link.remove(); card.link = null; }
-        card.ribbon = null;
-        continue;
+      if (!card.shape || !card.points?.length) continue;
+      const edge = narrow() ? null : regions.rightEdge(card.points, docEl.clientWidth);
+      card.ribbon = null;
+      if (edge) {
+        const box = card.el.getBoundingClientRect();
+        const xr = box.left - docBox.left + 2;
+        card.ribbon = { ...edge, xr, xm: (edge.xl + xr) / 2,
+          ct: box.top - docBox.top, cb: box.bottom - docBox.top };
       }
-      const top = docTop + Math.min(...card.points.map((point) => point[1]));
-      const bottom = docTop + Math.max(...card.points.map((point) => point[1]));
-      const ct = railEl.offsetTop + card.el.offsetTop;
-      const cb = ct + card.el.offsetHeight;
-      const d = `M${xl},${top.toFixed(1)} C${xm},${top.toFixed(1)} ${xm},${ct} ${xr},${ct} L${xr},${cb} C${xm},${cb} ${xm},${bottom.toFixed(1)} ${xl},${bottom.toFixed(1)} Z`;
-      if (!card.link) {
-        card.link = svgNode('path', { class: `manuscript-link ${card.colorClasses}`, 'data-mark': card.n });
-        linksEl.append(card.link);
-      }
-      card.link.setAttribute('d', d);
-      // The ribbon's geometry, for hit-testing: the band across the gutter.
-      card.ribbon = { xl, xm, xr, top, bottom, ct, cb };
+      card.shape.setAttribute('d', regions.path(card.points, card.ribbon));
     }
   }
 
@@ -641,7 +635,7 @@
   }
 
   function hits(card) {
-    return [card.shape, card.link].filter(Boolean);
+    return [card.shape].filter(Boolean);
   }
 
   function syncHighlights() {
@@ -649,16 +643,13 @@
       || Number(a.hovering) - Number(b.hovering) || a.paintOrder - b.paintOrder);
     for (const card of ordered) {
       for (const hit of hits(card)) {
-        const prefix = hit === card.link ? 'manuscript-link' : 'manuscript-hl';
-        hit.classList.toggle(`${prefix}-active`, isExpanded(card));
-        hit.classList.toggle(`${prefix}-hover`, card.hovering);
-        hit.classList.toggle(`${prefix}-pinned`, card.pinned);
+        hit.classList.toggle('manuscript-hl-active', isExpanded(card));
+        hit.classList.toggle('manuscript-hl-hover', card.hovering);
+        hit.classList.toggle('manuscript-hl-pinned', card.pinned);
       }
     }
-    for (const [parent, nodes] of [[shapesEl, ordered.map((card) => card.shape).filter(Boolean)],
-      [linksEl, ordered.map((card) => card.link).filter(Boolean)]]) {
-      if (parent && nodes.some((node, i) => parent.children[i] !== node)) parent.append(...nodes);
-    }
+    const nodes = ordered.map((card) => card.shape).filter(Boolean);
+    if (nodes.some((node, i) => shapesEl.children[i] !== node)) shapesEl.append(...nodes);
   }
 
   function isExpanded(card) {
@@ -671,7 +662,7 @@
     const toggle = card.el.querySelector('.manuscript-card-toggle');
     if (body) body.hidden = !expanded;
     if (toggle) toggle.setAttribute('aria-expanded', String(expanded));
-    for (const hit of hits(card)) hit.classList.toggle(hit === card.link ? 'manuscript-link-active' : 'manuscript-hl-active', expanded);
+    for (const hit of hits(card)) hit.classList.toggle('manuscript-hl-active', expanded);
     if (expanded) raise(card);
     placeCards();
   }
@@ -751,15 +742,14 @@
   }
 
   function cardAtRibbon(event) {
-    if (!linksEl) return null;
-    const box = reflowBody.getBoundingClientRect();
-    const x = event.clientX - box.left + reflowBody.scrollLeft;
-    const y = event.clientY - box.top + reflowBody.scrollTop;
+    const box = docEl.getBoundingClientRect();
+    const x = event.clientX - box.left;
+    const y = event.clientY - box.top;
     let best = null;
     let bestOrder = -1;
     for (const card of markCards()) {
-      if (!card.ribbon || !card.link || !ribbonContains(card.ribbon, x, y)) continue;
-      const order = Array.prototype.indexOf.call(linksEl.children, card.link);
+      if (!card.ribbon || !card.shape || !ribbonContains(card.ribbon, x, y)) continue;
+      const order = Array.prototype.indexOf.call(shapesEl.children, card.shape);
       if (order > bestOrder) { best = card; bestOrder = order; }
     }
     return best;
