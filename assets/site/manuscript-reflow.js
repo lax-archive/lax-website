@@ -176,7 +176,8 @@
   // footnote cards made here as the viewer reveals footnotes (`fn` = k,
   // keyed `fn:<k>`, holding the footnote's segment in `body`).
   const cards = [...railEl.querySelectorAll('.manuscript-card[data-mark]')].map((el) => ({
-    n: Number(el.dataset.mark), fn: null, el, kind: `kind-${[...el.classList].find((c) => c.startsWith('kind-'))?.slice(5) || 'concept'}`,
+    n: Number(el.dataset.mark), fn: null, el,
+    colorClasses: [...el.classList].filter((name) => name.startsWith('kind-') || name === 'line-proven' || name === 'line-open').join(' '),
     band: null, points: null, shadow: null, shape: null, link: null, ribbon: null, pinned: false, inline: false, slot: null, slotY: null,
   }));
   const markCards = () => cards.filter((card) => !card.fn);
@@ -282,7 +283,7 @@
     el.hidden = true;
     const body = el.querySelector('.manuscript-footnote-body') || el;
     card = {
-      n: `fn:${k}`, fn: k, el, body, kind: 'kind-footnote',
+      n: `fn:${k}`, fn: k, el, body,
       band: null, points: null, shadow: null, shape: null, link: null, ribbon: null, pinned: false,
     };
     el.addEventListener('mouseenter', () => noteHover(card, true));
@@ -580,12 +581,12 @@
       }
       card.points = outline(card.band, width);
       if (!card.shape) {
-        card.shape = svgNode('path', { class: `manuscript-hl ${card.kind}`, 'data-mark': card.n });
+        card.shape = svgNode('path', { class: `manuscript-hl ${card.colorClasses}`, 'data-mark': card.n });
         shapesEl.append(card.shape);
       }
       card.shape.setAttribute('d', `M${card.points.map(([x, y]) => `${x.toFixed(1)},${y.toFixed(1)}`).join('L')}Z`);
       if (!card.shadow) {
-        card.shadow = svgNode('rect', { class: `manuscript-hl-shadow ${card.kind}`, 'data-mark': card.n });
+        card.shadow = svgNode('rect', { class: `manuscript-hl-shadow ${card.colorClasses}`, 'data-mark': card.n });
         shadowsEl.append(card.shadow);
       }
       card.shadow.setAttribute('x', String(-SHADOW_MARGIN));
@@ -622,7 +623,7 @@
       const cb = ct + card.el.offsetHeight;
       const d = `M${xl},${top.toFixed(1)} C${xm},${top.toFixed(1)} ${xm},${ct} ${xr},${ct} L${xr},${cb} C${xm},${cb} ${xm},${bottom.toFixed(1)} ${xl},${bottom.toFixed(1)} Z`;
       if (!card.link) {
-        card.link = svgNode('path', { class: `manuscript-link ${card.kind}`, 'data-mark': card.n });
+        card.link = svgNode('path', { class: `manuscript-link ${card.colorClasses}`, 'data-mark': card.n });
         linksEl.append(card.link);
       }
       card.link.setAttribute('d', d);

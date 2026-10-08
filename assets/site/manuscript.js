@@ -29,7 +29,8 @@
   const pageEls = [...pagesEl.querySelectorAll('.manuscript-page')];
   const cards = marks.map((mark) => {
     const el = railEl.querySelector(`.manuscript-card[data-mark="${mark.n}"]`);
-    return { mark, el, hits: [], rects: [], shadows: [], shadowX: null, band: null, want: 0, resolved: null, link: null, pinned: false, hovering: false };
+    const colorClasses = el ? [...el.classList].filter((name) => name.startsWith('kind-') || name === 'line-proven' || name === 'line-open').join(' ') : '';
+    return { mark, el, colorClasses, hits: [], rects: [], shadows: [], shadowX: null, band: null, want: 0, resolved: null, link: null, pinned: false, hovering: false };
   }).filter((card) => card.el);
 
   // The switch to the reflowed page keeps the reader's passage: its link
@@ -230,7 +231,7 @@
       card.shadows = [];
       card.shadowX = null;
       if (!card.resolved) continue;
-      const kind = `kind-${card.mark.kind}`;
+      const colorClasses = card.colorClasses;
       const segments = card.resolved.segments;
       const spans = [];
       for (const seg of segments) {
@@ -245,7 +246,7 @@
           const [bx, by] = viewport.convertToViewportPoint(shape.x1, shape.bot);
           const rect = { page: seg.page, left: Math.min(ax, bx), top: Math.min(ay, by), width: Math.abs(bx - ax), height: Math.abs(by - ay) };
           const d = `M${points.map(([x, y]) => `${x.toFixed(2)},${y.toFixed(2)}`).join('L')}Z`;
-          sharedNode(state.shapes, `${kind} ${d}`, () => svgNode('path', { class: `manuscript-hl ${kind}`, d }), card);
+          sharedNode(state.shapes, `${colorClasses} ${d}`, () => svgNode('path', { class: `manuscript-hl ${colorClasses}`, d }), card);
           card.rects.push(rect);
           top = Math.min(top, rect.top);
           bottom = Math.max(bottom, rect.top + rect.height);
@@ -262,7 +263,7 @@
         const top = i > 0 ? 0 : span.top;
         const bottom = i < spans.length - 1 ? span.viewport.height : span.bottom;
         const attrs = { x: x0.toFixed(2), y: top.toFixed(2), width: (x1 - x0).toFixed(2), height: (bottom - top).toFixed(2) };
-        sharedNode(span.state.shadows, `${kind} ${Object.values(attrs).join(' ')}`, () => svgNode('rect', { class: `manuscript-hl-shadow ${kind}`, ...attrs }), card);
+        sharedNode(span.state.shadows, `${colorClasses} ${Object.values(attrs).join(' ')}`, () => svgNode('rect', { class: `manuscript-hl-shadow ${colorClasses}`, ...attrs }), card);
         card.shadows.push({ page: span.page, top, bottom });
       });
     }
@@ -346,7 +347,7 @@
       const cb = ct + card.el.offsetHeight;
       const d = `M${xl},${top.toFixed(1)} C${xm},${top.toFixed(1)} ${xm},${ct} ${xr},${ct} L${xr},${cb} C${xm},${cb} ${xm},${bottom.toFixed(1)} ${xl},${bottom.toFixed(1)} Z`;
       if (!card.link) {
-        card.link = svgNode('path', { class: `manuscript-link kind-${card.mark.kind}` });
+        card.link = svgNode('path', { class: `manuscript-link ${card.colorClasses}` });
         linksEl.append(card.link);
       }
       card.link.setAttribute('d', d);

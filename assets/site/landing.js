@@ -149,7 +149,8 @@
         const cb = c.bottom - box.top;
         if (!pair.link) {
           pair.link = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-          pair.link.setAttribute('class', `manuscript-link kind-${pair.passage.dataset.kind || 'concept'}`);
+          const colorClasses = [...pair.card.classList].filter((name) => name.startsWith('kind-') || name === 'line-proven' || name === 'line-open').join(' ');
+          pair.link.setAttribute('class', `manuscript-link ${colorClasses}`);
           links.append(pair.link);
         }
         pair.link.setAttribute('d', `M${xl.toFixed(1)},${top.toFixed(1)} C${xm.toFixed(1)},${top.toFixed(1)} ${xm.toFixed(1)},${ct.toFixed(1)} ${xr.toFixed(1)},${ct.toFixed(1)} L${xr.toFixed(1)},${cb.toFixed(1)} C${xm.toFixed(1)},${cb.toFixed(1)} ${xm.toFixed(1)},${bottom.toFixed(1)} ${xl.toFixed(1)},${bottom.toFixed(1)} Z`);

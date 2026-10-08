@@ -76,7 +76,7 @@ function markBadge(model: SiteModel, mark: PaperMark): string {
 /** `line-proven` / `line-open` as the Lean source uses them: what the card
  * stands for is a checked claim, an open one, or neither (definitions,
  * submissions). */
-function markStatus(model: SiteModel, mark: PaperMark): string {
+export function markStatus(model: SiteModel, mark: Pick<PaperMark, "kind" | "id">): string {
   if (mark.kind === "concept") {
     const located = model.conceptHome.get(mark.id);
     const statements = located?.concept.statements ?? [];

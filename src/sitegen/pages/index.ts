@@ -15,7 +15,7 @@ import {
   proofNetworkLegend,
   type PageContext,
 } from "./shared.js";
-import { markCard } from "./paper.js";
+import { markCard, markStatus } from "./paper.js";
 import { proofNetworkData } from "./submission.js";
 import { submissionLibrary } from "./submission-library.js";
 import { setupTabs } from "./setup-tabs.js";
@@ -462,6 +462,11 @@ function exampleClaim(concept: ExampleConcept): string {
   return `<span class="claim-entry">${typeBadge(concept.type, true)}${code(concept.name)}</span>`;
 }
 
+function exampleStatus(model: SiteModel, card: ExamplePassage["card"]): string {
+  if (card.kind === "archive") return markStatus(model, { id: card.id, kind: card.of });
+  return card.kind === "concept" && card.type === "definition" ? "" : " line-proven";
+}
+
 /** One card of an example: the archive's own for an archive card, else
  * the same markup (the paper page's `markCard`) around the concept's
  * title, description and Lean, or the proof's judgment. Each concept
@@ -505,7 +510,7 @@ ${rows}
 <div class="judgment-conclusion">${exampleClaim(conclusion)}</div>
 </div>`;
   }
-  return `<li class="manuscript-card kind-${card.kind} line-proven${expanded ? " manuscript-card-expanded" : ""}" id="${attr(cardId)}">
+  return `<li class="manuscript-card kind-${card.kind}${exampleStatus(ctx.model, card)}${expanded ? " manuscript-card-expanded" : ""}" id="${attr(cardId)}">
 <div class="manuscript-card-head">
 <span class="manuscript-card-swatch" aria-hidden="true"></span>
 <span class="manuscript-card-name">${badge}${code(card.name)}</span>
@@ -531,7 +536,7 @@ async function exampleSlide(ctx: PageContext, example: Example, listed: SiteSubm
   for (const [index, passage] of example.passages.entries()) {
     const cardId = `landing-${example.key}-${index + 1}`;
     const kind = passage.card.kind === "archive" ? passage.card.of : passage.card.kind;
-    passages.push(`<div class="landing-passage landing-passage-${index + 1} kind-${kind}" role="button" tabindex="0" aria-pressed="false" aria-controls="${attr(cardId)}" aria-label="${attr(`${passage.label}: show the ${kind} card`)}" data-excerpt-card="${attr(cardId)}" data-kind="${kind}">
+    passages.push(`<div class="landing-passage landing-passage-${index + 1} kind-${kind}${exampleStatus(ctx.model, passage.card)}" role="button" tabindex="0" aria-pressed="false" aria-controls="${attr(cardId)}" aria-label="${attr(`${passage.label}: show the ${kind} card`)}" data-excerpt-card="${attr(cardId)}" data-kind="${kind}">
 ${markdown.render(passage.text, "")}
 </div>`);
     cards.push(await exampleCard(ctx, example, passage, index + 1, cardId, false));
