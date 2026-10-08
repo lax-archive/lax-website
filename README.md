@@ -85,9 +85,11 @@ against the digest), and `site:build` then emits `<id>/paper.pdf` beside
 passage the author marked (a concept, a proof, or a submission), placed
 beside the passage by `assets/site/manuscript.js`: each passage is one
 flat region per column (the geometry in `manuscript-place.js` and
-`manuscript-regions.js`), clipped on partial first and last lines and inset
-slightly to separate adjacent declarations. A band across the gutter joins
-the passage to its card; pinned highlights take priority over other regions.
+`manuscript-regions.js`), clipped on partial first and last lines with
+rounded corners and padding that leaves a small gap between adjacent
+declarations. The passage and its band across the gutter form one seamless
+path, joined only along lines reaching the right margin; pinned highlights
+take priority over other regions. Submission annotations use lavender.
 A card opens while hovered and stays open when clicked; a concept card carries the
 concept's Lean source with the module docstring elided. The page opens
 with the sidebar collapsed for the room. `--papers DIR` moves the cache; a

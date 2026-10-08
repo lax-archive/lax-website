@@ -2530,11 +2530,18 @@ function placeAnchors(cache) {
             for (let j = 1; j < L.baselineYs.length; j++) {
                 if (Math.abs(L.baselineYs[j] - m.y) < Math.abs(L.baselineYs[line] - m.y)) line = j;
             }
-            const profile = L.profiles[line];
-            const ascent = profile.reduce((height, item) => Math.max(height, item.h), 0);
-            const depth = profile.reduce((height, item) => Math.max(height, item.d), 0);
-            a.dataset.lineAbove = String(m.y - L.baselineYs[line] + ascent);
-            a.dataset.lineBelow = String(L.baselineYs[line] + depth - m.y);
+            for (const [prefix, index] of [['line', line], ['previousLine', line - 1], ['nextLine', line + 1]]) {
+                const profile = L.profiles[index];
+                if (!profile) {
+                    delete a.dataset[`${prefix}Above`];
+                    delete a.dataset[`${prefix}Below`];
+                    continue;
+                }
+                const ascent = profile.reduce((height, item) => Math.max(height, item.h), 0);
+                const depth = profile.reduce((height, item) => Math.max(height, item.d), 0);
+                a.dataset[`${prefix}Above`] = String(m.y - L.baselineYs[index] + ascent);
+                a.dataset[`${prefix}Below`] = String(L.baselineYs[index] + depth - m.y);
+            }
         }
     });
 }

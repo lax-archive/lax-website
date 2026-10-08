@@ -184,8 +184,10 @@ describe.skipIf(!executable)("the reflow surface, rendered", () => {
     });
     expect(Math.abs(join.cardTop - join.anchorTop)).toBeLessThan(80);
     expect(join.cardLeft).toBeGreaterThan(join.anchorLeft); // the rail, in the gutter
-    // And its gutter band is drawn.
-    expect(await page.evaluate(() => document.querySelectorAll("#manuscript-reflow-links path.manuscript-link").length)).toBe(4);
+    // The full-width m2 passage and its gutter band form one path reaching
+    // the rail. The inline m1 passage ends before the right margin.
+    expect(await page.evaluate(() => document.querySelector<SVGPathElement>('#manuscript-reflow-doc path.manuscript-hl[data-mark="2"]')!
+      .getBoundingClientRect().right)).toBeGreaterThanOrEqual(join.cardLeft);
 
     // The reflow proof: a narrower viewport re-breaks into more lines.
     await page.setViewportSize({ width: 980, height: 1000 });
@@ -255,8 +257,8 @@ describe.skipIf(!executable)("the reflow surface, rendered", () => {
     // Tap m1's passage: its card opens in the text, expanded, right after
     // the segment holding the tapped line — within the block, a line or so
     // below the passage's end (m1 is one paragraph).
-    // m2 begins in the stream; the highlight stays just inside the
-    // segment, leaving a small gap to any preceding declaration.
+    // m2 begins in the stream; the highlight includes a little space
+    // above the segment's ink, keeping its padding after cards move.
     const m2Region = () => page.evaluate(() => {
       let segment = document.getElementById("m2")!.nextElementSibling!;
       while (segment.classList.contains("latex-anchor")) segment = segment.nextElementSibling!;
@@ -264,7 +266,7 @@ describe.skipIf(!executable)("the reflow surface, rendered", () => {
       return { segment: segment.getBoundingClientRect().top, region };
     });
     const m2Before = await m2Region();
-    expect(Math.abs(m2Before.segment + 1 - m2Before.region)).toBeLessThan(2);
+    expect(Math.abs(m2Before.segment - 3 - m2Before.region)).toBeLessThan(2);
     const passage = await page.evaluate(() => {
       const anchor = document.getElementById("m1")!.getBoundingClientRect();
       return { x: anchor.left + 4, y: anchor.top - 6 };
@@ -304,7 +306,7 @@ describe.skipIf(!executable)("the reflow surface, rendered", () => {
       while (segment.classList.contains("latex-anchor")) segment = segment.nextElementSibling!;
       const top = segment.getBoundingClientRect().top;
       const region = document.querySelector<SVGPathElement>('#manuscript-reflow-doc path.manuscript-hl[data-mark="2"]')!.getBoundingClientRect().top;
-      return top - before.segment > 60 && Math.abs(top + 1 - region) < 2;
+      return top - before.segment > 60 && Math.abs(top - 3 - region) < 2;
     }, m2Before, { timeout: 10_000 });
 
     // The × closes it: back out of the text, into the (hidden) rail.

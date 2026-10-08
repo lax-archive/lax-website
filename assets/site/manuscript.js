@@ -19,7 +19,7 @@
   const bodyEl = pagesEl && pagesEl.parentElement;
   const statusEl = document.getElementById('manuscript-status');
   const dataEl = document.getElementById('manuscript-data');
-  if (!pagesEl || !railEl || !dataEl) return;
+  if (!pagesEl || !railEl || !dataEl || !linksEl) return;
 
   const data = JSON.parse(dataEl.textContent || '{}');
   const marks = Array.isArray(data.marks) ? data.marks : [];
@@ -31,7 +31,7 @@
   const cards = marks.map((mark) => {
     const el = railEl.querySelector(`.manuscript-card[data-mark="${mark.n}"]`);
     const colorClasses = el ? [...el.classList].filter((name) => name.startsWith('kind-') || name === 'line-proven' || name === 'line-open').join(' ') : '';
-    return { mark, el, colorClasses, hits: [], rects: [], spans: [], band: null, want: 0, resolved: null, link: null, pinned: false, hovering: false, paintOrder: 0 };
+    return { mark, el, colorClasses, hits: [], rects: [], bands: [], want: 0, resolved: null, link: null, pinned: false, hovering: false, paintOrder: 0 };
   }).filter((card) => card.el);
   let paintOrder = 0;
 
@@ -57,7 +57,7 @@
 
   let pdfjs;
   let doc;
-  const pageState = []; // per page: { page, viewport, text, analysed, rendered, task, el, hl }
+  const pageState = []; // per page: { page, viewport, text, analysed, rendered, task, el }
   let scale = 1;
 
   async function loadDocument() {
@@ -68,12 +68,7 @@
     for (let p = 1; p <= doc.numPages; p++) {
       const el = pageEls[p - 1];
       if (!el) break;
-      const hl = document.createElementNS(SVG, 'svg');
-      hl.setAttribute('class', 'manuscript-hl-layer');
-      const shapes = document.createElementNS(SVG, 'g');
-      hl.append(shapes);
-      el.append(hl);
-      pageState.push({ number: p, page: null, viewport: null, text: null, analysed: null, rendered: false, task: null, el, hl, shapes });
+      pageState.push({ number: p, page: null, viewport: null, text: null, analysed: null, rendered: false, task: null, el });
     }
   }
 
@@ -159,7 +154,7 @@
 
   function clearPage(state) {
     if (state.task) { state.task.cancel(); state.task = null; }
-    for (const child of [...state.el.children]) if (child !== state.hl) child.remove();
+    state.el.replaceChildren();
     state.el.classList.remove('manuscript-page-rendered');
     state.rendered = false;
   }
@@ -195,56 +190,34 @@
     return node;
   }
 
-  // A passage marked for several concepts shares its region. Each shared
-  // element follows all of its owners, including their pinning priority.
-  function sharedNode(group, key, make, card) {
-    let node = group.laxNodes.get(key);
-    if (!node) {
-      node = make();
-      node.laxOwners = [];
-      group.laxNodes.set(key, node);
-      group.append(node);
-    }
-    node.laxOwners.push(card);
-    card.hits.push(node);
-    return node;
-  }
-
   async function paintHighlights() {
-    for (const state of pageState) {
-      state.shapes.replaceChildren();
-      state.shapes.laxNodes = new Map();
-    }
+    const outlines = [];
     for (const card of cards) {
-      card.hits = [];
       card.rects = [];
-      card.spans = [];
       if (!card.resolved) continue;
-      const colorClasses = card.colorClasses;
       const segments = card.resolved.segments;
       for (const seg of segments) {
         const state = pageState[seg.page - 1];
         const viewport = await viewportOf(state);
-        state.hl.setAttribute('viewBox', `0 0 ${viewport.width} ${viewport.height}`);
-        let top = Infinity;
-        let bottom = -Infinity;
+        const pageRight = Math.max(...state.analysed.blocks.map((block) => block.x1));
         for (const shape of place.segmentShapes(state.analysed, seg)) {
-          const points = regions.inset(shape.points.map(([x, y]) => viewport.convertToViewportPoint(x, y)));
-          if (!points.length) continue;
-          const left = Math.min(...points.map((point) => point[0]));
-          const right = Math.max(...points.map((point) => point[0]));
-          const shapeTop = Math.min(...points.map((point) => point[1]));
-          const shapeBottom = Math.max(...points.map((point) => point[1]));
-          const rect = { page: seg.page, left, top: shapeTop, width: right - left, height: shapeBottom - shapeTop, points };
-          const d = `M${points.map(([x, y]) => `${x.toFixed(2)},${y.toFixed(2)}`).join('L')}Z`;
-          sharedNode(state.shapes, `${colorClasses} ${d}`, () => svgNode('path', { class: `manuscript-hl ${colorClasses}`, d }), card);
-          card.rects.push(rect);
-          top = Math.min(top, rect.top);
-          bottom = Math.max(bottom, rect.top + rect.height);
+          outlines.push({ card, group: seg.page,
+            points: shape.points.map(([x, y]) => viewport.convertToViewportPoint(x, y)),
+            left: viewport.convertToViewportPoint(shape.columnLeft, 0)[0],
+            right: viewport.convertToViewportPoint(shape.columnRight, 0)[0],
+            connects: shape.columnRight >= pageRight - 1 });
         }
-        if (top < bottom) card.spans.push({ page: seg.page, top, bottom });
       }
     }
+    regions.prepare(outlines).forEach((points, i) => {
+      if (!points.length) return;
+      const { card, group: page, right: margin, connects } = outlines[i];
+      const left = Math.min(...points.map((point) => point[0]));
+      const right = Math.max(...points.map((point) => point[0]));
+      const top = Math.min(...points.map((point) => point[1]));
+      const bottom = Math.max(...points.map((point) => point[1]));
+      card.rects.push({ page, left, top, width: right - left, height: bottom - top, points, margin, connects });
+    });
   }
 
   async function placeCards() {
@@ -300,33 +273,43 @@
     railEl.append(...sorted);
   }
 
-  // The band stays outside the page, from its edge to the card. It must
-  // never shade text outside the passage's partial first or last line.
+  // Passage and gutter are one rounded path in a common overlay. Only a
+  // region touching the last column's right edge can continue to the rail.
   function drawLinks() {
     if (!linksEl || !bodyEl) return;
     const width = bodyEl.clientWidth;
     const height = bodyEl.clientHeight;
     linksEl.setAttribute('viewBox', `0 0 ${width} ${height}`);
     linksEl.classList.add('manuscript-links-live');
-    // The band ends under the card's border.
-    const xr = railEl.offsetLeft + 2;
+    const bodyBox = bodyEl.getBoundingClientRect();
     for (const card of cards) {
-      if (!card.spans.length) { if (card.link) { card.link.remove(); card.link = null; } card.band = null; continue; }
-      const xl = pagesEl.offsetLeft + pagesEl.clientWidth;
-      const xm = (xl + xr) / 2;
-      const first = card.spans[0];
-      const last = card.spans[card.spans.length - 1];
-      const top = pagesEl.offsetTop + pageState[first.page - 1].el.offsetTop + first.top;
-      const bottom = pagesEl.offsetTop + pageState[last.page - 1].el.offsetTop + last.bottom;
-      const ct = railEl.offsetTop + card.el.offsetTop;
-      const cb = ct + card.el.offsetHeight;
-      const d = `M${xl},${top.toFixed(1)} C${xm},${top.toFixed(1)} ${xm},${ct} ${xr},${ct} L${xr},${cb} C${xm},${cb} ${xm},${bottom.toFixed(1)} ${xl},${bottom.toFixed(1)} Z`;
+      card.bands = [];
+      if (!card.rects.length) {
+        if (card.link) { card.link.remove(); card.link = null; }
+        card.hits = [];
+        continue;
+      }
+      const box = card.el.getBoundingClientRect();
+      const xr = box.left - bodyBox.left + bodyEl.scrollLeft + 2;
+      const ct = box.top - bodyBox.top + bodyEl.scrollTop;
+      const cb = ct + box.height;
+      const d = card.rects.map((rect) => {
+        const page = pageState[rect.page - 1].el;
+        const pageBox = page.getBoundingClientRect();
+        const x = pageBox.left - bodyBox.left + bodyEl.scrollLeft + page.clientLeft;
+        const y = pageBox.top - bodyBox.top + bodyEl.scrollTop + page.clientTop;
+        const points = rect.points.map(([px, py]) => [x + px, y + py]);
+        const edge = rect.connects ? regions.rightEdge(points, x + rect.margin) : null;
+        const band = edge && { ...edge, xr, xm: (edge.xl + xr) / 2, ct, cb };
+        if (band) card.bands.push(band);
+        return regions.path(points, band);
+      }).join('');
       if (!card.link) {
-        card.link = svgNode('path', { class: `manuscript-link ${card.colorClasses}` });
+        card.link = svgNode('path', { class: `manuscript-hl ${card.colorClasses}`, 'data-mark': card.mark.n });
         linksEl.append(card.link);
       }
       card.link.setAttribute('d', d);
-      card.band = { xl, xm, xr, top, bottom, ct, cb };
+      card.hits = [card.link];
     }
     syncHighlights();
   }
@@ -355,24 +338,12 @@
   function syncHighlights() {
     const compare = (a, b) => Number(a.pinned) - Number(b.pinned)
       || Number(a.hovering) - Number(b.hovering) || a.paintOrder - b.paintOrder;
-    for (const state of pageState) {
-      const nodes = [...state.shapes.children];
-      for (const hit of nodes) {
-        const owners = hit.laxOwners;
-        hit.classList.toggle('manuscript-hl-active', owners.some(isExpanded));
-        hit.classList.toggle('manuscript-hl-hover', owners.some((owner) => owner.hovering));
-        hit.classList.toggle('manuscript-hl-pinned', owners.some((owner) => owner.pinned));
-        hit.laxTopOwner = owners.reduce((best, owner) => compare(best, owner) < 0 ? owner : best);
-      }
-      nodes.sort((a, b) => compare(a.laxTopOwner, b.laxTopOwner));
-      if (nodes.some((node, i) => state.shapes.children[i] !== node)) state.shapes.append(...nodes);
-    }
     const ordered = [...cards].sort(compare);
     for (const card of ordered) {
       if (!card.link) continue;
-      card.link.classList.toggle('manuscript-link-active', isExpanded(card));
-      card.link.classList.toggle('manuscript-link-hover', card.hovering);
-      card.link.classList.toggle('manuscript-link-pinned', card.pinned);
+      card.link.classList.toggle('manuscript-hl-active', isExpanded(card));
+      card.link.classList.toggle('manuscript-hl-hover', card.hovering);
+      card.link.classList.toggle('manuscript-hl-pinned', card.pinned);
     }
     const links = ordered.map((card) => card.link).filter(Boolean);
     if (linksEl && links.some((node, i) => linksEl.children[i] !== node)) linksEl.append(...links);
@@ -409,12 +380,12 @@
   }
 
   function scrollToPassage(card) {
-    const first = card.hits[0];
-    const target = first || pageState[card.mark.begin.page - 1]?.el;
+    const first = card.rects[0];
+    const target = pageState[(first ? first.page : card.mark.begin.page) - 1]?.el;
     if (!target) return;
     const box = target.getBoundingClientRect();
     const header = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-height')) || 0;
-    window.scrollTo({ top: window.scrollY + box.top - header * 16 - 120, behavior: 'smooth' });
+    window.scrollTo({ top: window.scrollY + box.top + (first ? first.top : 0) - header * 16 - 120, behavior: 'smooth' });
     flash(card);
   }
 
@@ -444,8 +415,8 @@
       if (!pageEl || event.target.closest('a')) return null;
       const pageNumber = Number(pageEl.dataset.page);
       const box = pageEl.getBoundingClientRect();
-      const x = event.clientX - box.left;
-      const y = event.clientY - box.top;
+      const x = event.clientX - box.left - pageEl.clientLeft;
+      const y = event.clientY - box.top - pageEl.clientTop;
       let best = null;
       let bestArea = Infinity;
       for (const card of cards) {
@@ -468,7 +439,7 @@
       let best = null;
       let bestOrder = -1;
       for (const card of cards) {
-        if (!card.band || !card.link || !ribbonContains(card.band, x, y)) continue;
+        if (!card.link || !card.bands.some((band) => ribbonContains(band, x, y))) continue;
         const order = Array.prototype.indexOf.call(linksEl.children, card.link);
         if (order > bestOrder) { best = card; bestOrder = order; }
       }

@@ -167,7 +167,7 @@ describe("paper viewer placement", () => {
       end: { page: 1, x: 250, y: baseline(3), mode: "h" },
     }, pages)!;
     expect(place.segmentShapes(pages[0]!, one.segments[0]!)).toEqual([
-      { points: [[80, baseline(3) + 8.6], [250, baseline(3) + 8.6], [250, baseline(3) - 2.2], [80, baseline(3) - 2.2]], x0: 80, x1: 250, top: baseline(3) + 8.6, bot: baseline(3) - 2.2 },
+      { points: [[80, baseline(3) + 8.6], [250, baseline(3) + 8.6], [250, baseline(3) - 2.2], [80, baseline(3) - 2.2]], x0: 80, x1: 250, top: baseline(3) + 8.6, bot: baseline(3) - 2.2, columnLeft: COLUMNS[0], columnRight: COLUMNS[0]! + COLUMN_WIDTH },
     ]);
   });
 

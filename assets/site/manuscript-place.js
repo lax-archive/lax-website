@@ -279,7 +279,7 @@
       }
       if (lines.length === 1) {
         const { x0, x1, top, bot } = first;
-        return { points: [[x0, top], [x1, top], [x1, bot], [x0, bot]], x0, x1, top, bot };
+        return { points: [[x0, top], [x1, top], [x1, bot], [x0, bot]], x0, x1, top, bot, columnLeft: X0, columnRight: X1 };
       }
       const cut = (i) => Math.min(lines[i].bot, Math.max(lines[i + 1].top, (lines[i].bot + lines[i + 1].top) / 2));
       const b1 = cut(0);
@@ -288,7 +288,7 @@
         [first.x0, first.top], [X1, first.top], [X1, bN], [last.x1, bN],
         [last.x1, last.bot], [X0, last.bot], [X0, b1], [first.x0, b1],
       ];
-      return { points, x0: X0, x1: X1, top: first.top, bot: last.bot };
+      return { points, x0: X0, x1: X1, top: first.top, bot: last.bot, columnLeft: X0, columnRight: X1 };
     });
   }
 
