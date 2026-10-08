@@ -797,7 +797,7 @@ After the formula.`, "");
     expect(landingScript).toContain("rail.classList.add('landing-paper-rail-live')");
     expect(landingScript).toContain("function drawLinks()");
     expect(landingScript).toContain("links.classList.add('manuscript-links-live')");
-    expect(landingScript).toContain("pair.link.setAttribute('class', `manuscript-link kind-${pair.passage.dataset.kind || 'concept'}`)");
+    expect(landingScript).toContain("pair.link.setAttribute('class', `manuscript-link ${colorClasses}`)");
     expect(landingScript).toContain("new ResizeObserver(() => layout())");
     expect(landingScript).toContain("card.classList.toggle('manuscript-card-pinned', next)");
     expect(landingScript).toContain("passage.setAttribute('aria-pressed', String(next))");
