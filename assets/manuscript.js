@@ -2,7 +2,8 @@
 // into view, paints one highlight region per marked passage from the page's
 // text items (never from the text-layer DOM), places the pre-rendered cards
 // in the rail beside their passages, and draws a band across the gutter
-// from each passage to its card. Geometry comes from manuscript-place.js;
+// from each passage to its card. Geometry comes from manuscript-place.js
+// and manuscript-regions.js;
 // this file is the DOM and pdf.js glue.
 //
 // Runs under the page CSP: pdf.js and its worker are same-origin files
@@ -10,27 +11,29 @@
 (() => {
   const root = document.querySelector('.manuscript[data-pdf]');
   const place = window.laxManuscript;
-  if (!root || !place) return;
+  const regions = window.laxManuscriptRegions;
+  if (!root || !place || !regions) return;
   const pagesEl = document.getElementById('manuscript-pages');
   const railEl = document.getElementById('manuscript-rail');
   const linksEl = document.getElementById('manuscript-links');
   const bodyEl = pagesEl && pagesEl.parentElement;
   const statusEl = document.getElementById('manuscript-status');
   const dataEl = document.getElementById('manuscript-data');
-  if (!pagesEl || !railEl || !dataEl) return;
+  if (!pagesEl || !railEl || !dataEl || !linksEl) return;
 
   const data = JSON.parse(dataEl.textContent || '{}');
   const marks = Array.isArray(data.marks) ? data.marks : [];
   const RENDER_MARGIN = '900px';
   const CARD_GAP = 8;
-  const SHADOW_MARGIN = 18; // px beyond the passage's leftmost and rightmost extent
   const SVG = 'http://www.w3.org/2000/svg';
 
   const pageEls = [...pagesEl.querySelectorAll('.manuscript-page')];
   const cards = marks.map((mark) => {
     const el = railEl.querySelector(`.manuscript-card[data-mark="${mark.n}"]`);
-    return { mark, el, hits: [], rects: [], shadows: [], shadowX: null, band: null, want: 0, resolved: null, link: null, pinned: false, hovering: false };
+    const colorClasses = el ? [...el.classList].filter((name) => name.startsWith('kind-') || name === 'line-proven' || name === 'line-open').join(' ') : '';
+    return { mark, el, colorClasses, hits: [], rects: [], bands: [], want: 0, resolved: null, link: null, pinned: false, hovering: false, paintOrder: 0 };
   }).filter((card) => card.el);
+  let paintOrder = 0;
 
   // The switch to the reflowed page keeps the reader's passage: its link
   // carries the `#m<n>` fragment along.
@@ -54,7 +57,7 @@
 
   let pdfjs;
   let doc;
-  const pageState = []; // per page: { page, viewport, text, analysed, rendered, task, el, hl }
+  const pageState = []; // per page: { page, viewport, text, analysed, rendered, task, el }
   let scale = 1;
 
   async function loadDocument() {
@@ -65,13 +68,7 @@
     for (let p = 1; p <= doc.numPages; p++) {
       const el = pageEls[p - 1];
       if (!el) break;
-      const hl = document.createElementNS(SVG, 'svg');
-      hl.setAttribute('class', 'manuscript-hl-layer');
-      const shadows = document.createElementNS(SVG, 'g');
-      const shapes = document.createElementNS(SVG, 'g');
-      hl.append(shadows, shapes);
-      el.append(hl);
-      pageState.push({ number: p, page: null, viewport: null, text: null, analysed: null, rendered: false, task: null, el, hl, shadows, shapes });
+      pageState.push({ number: p, page: null, viewport: null, text: null, analysed: null, rendered: false, task: null, el });
     }
   }
 
@@ -157,7 +154,7 @@
 
   function clearPage(state) {
     if (state.task) { state.task.cancel(); state.task = null; }
-    for (const child of [...state.el.children]) if (child !== state.hl) child.remove();
+    state.el.replaceChildren();
     state.el.classList.remove('manuscript-page-rendered');
     state.rendered = false;
   }
@@ -193,79 +190,50 @@
     return node;
   }
 
-  // Per passage: one flat region per column run on each page it touches,
-  // and behind them a lighter shadow — a fixed margin beyond the passage's
-  // leftmost and rightmost extent over all its pages, so its edges are
-  // straight from page to page, running to the foot of a page it leaves
-  // and from the head of a page it continues on. The gutter band starts
-  // at its right edge.
-  //
-  // A passage marked for several concepts (a theorem stating three) is one
-  // region: cards resolving to the same shape share the element — the
-  // layer multiplies, so stacked copies would darken with every card —
-  // and each shared element lists its owners, whose state it follows.
-  function sharedNode(group, key, make, card) {
-    let node = group.laxNodes.get(key);
-    if (!node) {
-      node = make();
-      node.laxOwners = [];
-      group.laxNodes.set(key, node);
-      group.append(node);
-    }
-    node.laxOwners.push(card);
-    card.hits.push(node);
-    return node;
-  }
-
   async function paintHighlights() {
-    for (const state of pageState) {
-      state.shadows.replaceChildren();
-      state.shapes.replaceChildren();
-      state.shadows.laxNodes = new Map();
-      state.shapes.laxNodes = new Map();
-    }
+    const outlines = [];
     for (const card of cards) {
-      card.hits = [];
       card.rects = [];
-      card.shadows = [];
-      card.shadowX = null;
       if (!card.resolved) continue;
-      const kind = `kind-${card.mark.kind}`;
       const segments = card.resolved.segments;
-      const spans = [];
       for (const seg of segments) {
         const state = pageState[seg.page - 1];
         const viewport = await viewportOf(state);
-        state.hl.setAttribute('viewBox', `0 0 ${viewport.width} ${viewport.height}`);
-        let top = Infinity;
-        let bottom = -Infinity;
+        const pageRight = Math.max(...state.analysed.blocks.map((block) => block.x1));
         for (const shape of place.segmentShapes(state.analysed, seg)) {
-          const points = shape.points.map(([x, y]) => viewport.convertToViewportPoint(x, y));
-          const [ax, ay] = viewport.convertToViewportPoint(shape.x0, shape.top);
-          const [bx, by] = viewport.convertToViewportPoint(shape.x1, shape.bot);
-          const rect = { page: seg.page, left: Math.min(ax, bx), top: Math.min(ay, by), width: Math.abs(bx - ax), height: Math.abs(by - ay) };
-          const d = `M${points.map(([x, y]) => `${x.toFixed(2)},${y.toFixed(2)}`).join('L')}Z`;
-          sharedNode(state.shapes, `${kind} ${d}`, () => svgNode('path', { class: `manuscript-hl ${kind}`, d }), card);
-          card.rects.push(rect);
-          top = Math.min(top, rect.top);
-          bottom = Math.max(bottom, rect.top + rect.height);
+          let line = null;
+          if (shape.points.length === 4) {
+            const after = state.analysed.items.filter((it) => it.w > 0 && it.str.trim()
+              && it.x + it.w > shape.x1 + 0.5 && it.x < shape.columnRight
+              && it.y + it.h * 0.86 > shape.bot && it.y - it.h * 0.22 < shape.top);
+            // PDF text has no equation-label metadata. An isolated numeric
+            // tag at the column edge, separated from the formula by a wide
+            // gap, is whitespace for the connection just as in reflow.
+            const label = after.map((it) => it.str).join('').replace(/\s/g, '');
+            const equationLabel = /^\((?:[A-Za-z]+[.-])?\d+(?:[.-]\d+)*[A-Za-z]?\)$/.test(label)
+              && Math.min(...after.map((it) => it.x)) - shape.x1 >= 8
+              && Math.abs(Math.max(...after.map((it) => it.x + it.w)) - shape.columnRight) <= 1;
+            const top = Math.max(shape.top, ...after.map((it) => it.y + it.h * 0.86));
+            line = { blocked: after.length > 0 && !equationLabel, top: viewport.convertToViewportPoint(0, top)[1] };
+          }
+          outlines.push({ card, group: seg.page,
+            points: shape.points.map(([x, y]) => viewport.convertToViewportPoint(x, y)),
+            left: viewport.convertToViewportPoint(shape.columnLeft, 0)[0],
+            right: viewport.convertToViewportPoint(shape.columnRight, 0)[0],
+            line,
+            connects: shape.columnRight >= pageRight - 1 });
         }
-        spans.push({ state, viewport, page: seg.page, top, bottom });
       }
-      if (!card.rects.length) continue;
-      const width = spans[0].viewport.width;
-      const x0 = Math.max(0, Math.min(...card.rects.map((r) => r.left)) - SHADOW_MARGIN);
-      const x1 = Math.min(width, Math.max(...card.rects.map((r) => r.left + r.width)) + SHADOW_MARGIN);
-      card.shadowX = { x0, x1 };
-      spans.forEach((span, i) => {
-        if (span.top >= span.bottom) return;
-        const top = i > 0 ? 0 : span.top;
-        const bottom = i < spans.length - 1 ? span.viewport.height : span.bottom;
-        const attrs = { x: x0.toFixed(2), y: top.toFixed(2), width: (x1 - x0).toFixed(2), height: (bottom - top).toFixed(2) };
-        sharedNode(span.state.shadows, `${kind} ${Object.values(attrs).join(' ')}`, () => svgNode('rect', { class: `manuscript-hl-shadow ${kind}`, ...attrs }), card);
-        card.shadows.push({ page: span.page, top, bottom });
-      });
     }
+    regions.prepare(outlines).forEach((points, i) => {
+      if (!points.length) return;
+      const { card, group: page, right: margin, connects, line } = outlines[i];
+      const left = Math.min(...points.map((point) => point[0]));
+      const right = Math.max(...points.map((point) => point[0]));
+      const top = Math.min(...points.map((point) => point[1]));
+      const bottom = Math.max(...points.map((point) => point[1]));
+      card.rects.push({ page, left, top, width: right - left, height: bottom - top, points, margin, connects, line });
+    });
   }
 
   async function placeCards() {
@@ -321,47 +289,49 @@
     railEl.append(...sorted);
   }
 
-  // The band from a passage to its card, split-diff style: the passage's
-  // shadow at its right edge (the gap between pages included), the whole
-  // card at the rail's left edge, cubic curves between. Coordinates are
-  // the body's.
+  // Passage and gutter are one rounded path in a common overlay. Within
+  // the last column, a short line joins across whitespace or over text.
   function drawLinks() {
     if (!linksEl || !bodyEl) return;
     const width = bodyEl.clientWidth;
     const height = bodyEl.clientHeight;
     linksEl.setAttribute('viewBox', `0 0 ${width} ${height}`);
     linksEl.classList.add('manuscript-links-live');
-    // The band starts a pixel inside the shadow's right edge so the two
-    // meet without a seam, and ends under the card's border.
-    const xr = railEl.offsetLeft + 2;
+    const bodyBox = bodyEl.getBoundingClientRect();
     for (const card of cards) {
-      if (!card.shadows.length) { if (card.link) { card.link.remove(); card.link = null; } card.band = null; continue; }
-      const xl = pagesEl.offsetLeft + pageState[0].el.clientLeft + card.shadowX.x1 - 1;
-      const xm = (xl + xr) / 2;
-      const first = card.shadows[0];
-      const last = card.shadows[card.shadows.length - 1];
-      const top = pagesEl.offsetTop + pageState[first.page - 1].el.offsetTop + first.top;
-      const bottom = pagesEl.offsetTop + pageState[last.page - 1].el.offsetTop + last.bottom;
-      const ct = railEl.offsetTop + card.el.offsetTop;
-      const cb = ct + card.el.offsetHeight;
-      const d = `M${xl},${top.toFixed(1)} C${xm},${top.toFixed(1)} ${xm},${ct} ${xr},${ct} L${xr},${cb} C${xm},${cb} ${xm},${bottom.toFixed(1)} ${xl},${bottom.toFixed(1)} Z`;
+      card.bands = [];
+      if (!card.rects.length) {
+        if (card.link) { card.link.remove(); card.link = null; }
+        card.hits = [];
+        continue;
+      }
+      const box = card.el.getBoundingClientRect();
+      const xr = box.left - bodyBox.left + bodyEl.scrollLeft + 2;
+      const ct = box.top - bodyBox.top + bodyEl.scrollTop;
+      const cb = ct + box.height;
+      const d = card.rects.map((rect) => {
+        const page = pageState[rect.page - 1].el;
+        const pageBox = page.getBoundingClientRect();
+        const x = pageBox.left - bodyBox.left + bodyEl.scrollLeft + page.clientLeft;
+        const y = pageBox.top - bodyBox.top + bodyEl.scrollTop + page.clientTop;
+        const points = rect.points.map(([px, py]) => [x + px, y + py]);
+        const band = rect.connects ? regions.connection(points, x + rect.margin, xr, ct, cb,
+          rect.line && { ...rect.line, top: y + rect.line.top }) : null;
+        if (band) card.bands.push(band);
+        return regions.path(band?.points || points, band);
+      }).join('');
       if (!card.link) {
-        card.link = svgNode('path', { class: `manuscript-link kind-${card.mark.kind}` });
+        card.link = svgNode('path', { class: `manuscript-hl ${card.colorClasses}`, 'data-mark': card.mark.n });
         linksEl.append(card.link);
       }
       card.link.setAttribute('d', d);
-      // The ribbon's geometry, for hit-testing: the shadow's column over
-      // the pages (gaps included) and the band across the gutter.
-      card.band = { xs0: xl + 1 - (card.shadowX.x1 - card.shadowX.x0), xl, xm, xr, top, bottom, ct, cb };
+      card.hits = [card.link];
     }
+    syncHighlights();
   }
 
-  // Whether (x, y), in the body's coordinates, lies on a card's ribbon:
-  // in the shadow's column between the passage's first and last line
-  // (the gaps between pages included), or inside the gutter band, whose
-  // edges are the cubic curves drawLinks draws.
+  // Whether (x, y), in the body's coordinates, lies on a card's gutter band.
   function ribbonContains(band, x, y) {
-    if (x >= band.xs0 && x <= band.xl) return y >= band.top && y <= band.bottom;
     if (x < band.xl || x > band.xr) return false;
     // x(t) is monotone in t, so bisect for the t under the pointer.
     const bez = (a, b, c, d, t) => a * (1 - t) ** 3 + 3 * b * t * (1 - t) ** 2 + 3 * c * t * t * (1 - t) + d * t ** 3;
@@ -375,18 +345,25 @@
     return y >= bez(band.top, band.top, band.ct, band.ct, t) && y <= bez(band.bottom, band.bottom, band.cb, band.cb, t);
   }
 
-  // The card in front: its band drawn over the others.
+  // A hover raises a card within its tier; pinned regions always win.
   function raise(card) {
-    if (card.link && linksEl && linksEl.lastElementChild !== card.link) linksEl.append(card.link);
+    card.paintOrder = ++paintOrder;
+    syncHighlights();
   }
 
-  // A highlight shared by several cards is lit while any of them is.
-  function refreshHits(card) {
-    for (const hit of card.hits) {
-      const owners = hit.laxOwners || [card];
-      hit.classList.toggle('manuscript-hl-active', owners.some((owner) => isExpanded(owner)));
-      hit.classList.toggle('manuscript-hl-hover', owners.some((owner) => owner.hovering));
+  function syncHighlights() {
+    const compare = (a, b) => Number(a.pinned) - Number(b.pinned)
+      || Number(a.hovering) - Number(b.hovering) || a.paintOrder - b.paintOrder;
+    const ordered = [...cards].sort(compare);
+    for (const card of ordered) {
+      for (const hit of card.hits) {
+        hit.classList.toggle('manuscript-hl-active', isExpanded(card));
+        hit.classList.toggle('manuscript-hl-hover', card.hovering);
+        hit.classList.toggle('manuscript-hl-pinned', card.pinned);
+      }
     }
+    const links = ordered.flatMap((card) => card.hits);
+    if (linksEl && links.some((node, i) => linksEl.children[i] !== node)) linksEl.append(...links);
   }
 
   function setExpanded(card, expanded) {
@@ -395,9 +372,7 @@
     const toggle = card.el.querySelector('.manuscript-card-toggle');
     if (body) body.hidden = !expanded;
     if (toggle) toggle.setAttribute('aria-expanded', String(expanded));
-    refreshHits(card);
     stack();
-    if (card.link) card.link.classList.toggle('manuscript-link-active', expanded);
     if (expanded) raise(card);
   }
 
@@ -405,16 +380,16 @@
   // stays open once pinned by a click.
   function setHover(card, hovering) {
     card.hovering = hovering;
-    refreshHits(card);
-    if (card.link) card.link.classList.toggle('manuscript-link-hover', hovering);
     if (hovering) raise(card);
     if (!card.pinned && isExpanded(card) !== hovering) setExpanded(card, hovering);
+    else syncHighlights();
   }
 
   function setPinned(card, pinned) {
     card.pinned = pinned;
     card.el.classList.toggle('manuscript-card-pinned', pinned);
     if (isExpanded(card) !== pinned) setExpanded(card, pinned);
+    syncHighlights();
   }
 
   function isExpanded(card) {
@@ -422,12 +397,12 @@
   }
 
   function scrollToPassage(card) {
-    const first = card.hits[0];
-    const target = first || pageState[card.mark.begin.page - 1]?.el;
+    const first = card.rects[0];
+    const target = pageState[(first ? first.page : card.mark.begin.page) - 1]?.el;
     if (!target) return;
     const box = target.getBoundingClientRect();
     const header = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-height')) || 0;
-    window.scrollTo({ top: window.scrollY + box.top - header * 16 - 120, behavior: 'smooth' });
+    window.scrollTo({ top: window.scrollY + box.top + (first ? first.top : 0) - header * 16 - 120, behavior: 'smooth' });
     flash(card);
   }
 
@@ -445,6 +420,7 @@
       });
       card.el.addEventListener('click', (event) => {
         if (event.target.closest('a, button')) return;
+        if (event.clientY > card.el.querySelector('.manuscript-card-head').getBoundingClientRect().bottom) return;
         setPinned(card, !card.pinned);
         scrollToPassage(card);
       });
@@ -457,33 +433,22 @@
       if (!pageEl || event.target.closest('a')) return null;
       const pageNumber = Number(pageEl.dataset.page);
       const box = pageEl.getBoundingClientRect();
-      const x = event.clientX - box.left;
-      const y = event.clientY - box.top;
+      const x = event.clientX - box.left - pageEl.clientLeft;
+      const y = event.clientY - box.top - pageEl.clientTop;
       let best = null;
       let bestArea = Infinity;
       for (const card of cards) {
         for (const rect of card.rects) {
           if (rect.page !== pageNumber) continue;
           if (x < rect.left || x > rect.left + rect.width || y < rect.top || y > rect.top + rect.height) continue;
+          if (!regions.contains(rect.points, x, y)) continue;
           const area = card.rects.reduce((sum, r) => sum + r.width * r.height, 0);
           if (area < bestArea) { best = card; bestArea = area; }
         }
       }
-      if (best) return best;
-      // off the text: the shadow, the shortest passage winning
-      let bestSpan = Infinity;
-      for (const card of cards) {
-        for (const shadow of card.shadows) {
-          if (shadow.page !== pageNumber || y < shadow.top || y > shadow.bottom) continue;
-          if (x < card.shadowX.x0 || x > card.shadowX.x1) continue;
-          const span = card.shadows.reduce((sum, s) => sum + s.bottom - s.top, 0);
-          if (span < bestSpan) { best = card; bestSpan = span; }
-        }
-      }
       return best;
     };
-    // The ribbon is a target too — over the page's margin, the gap between
-    // two pages, or the gutter — the one drawn in front winning.
+    // The gutter band is a target too, with the one drawn in front winning.
     const cardAtRibbon = (event) => {
       if (!bodyEl || !linksEl || event.target.closest('.manuscript-rail, a')) return null;
       const box = bodyEl.getBoundingClientRect();
@@ -492,7 +457,8 @@
       let best = null;
       let bestOrder = -1;
       for (const card of cards) {
-        if (!card.band || !card.link || !ribbonContains(card.band, x, y)) continue;
+        if (!card.link || !card.bands.some((band) => ribbonContains(band, x, y)
+          || regions.contains(band.points, x, y))) continue;
         const order = Array.prototype.indexOf.call(linksEl.children, card.link);
         if (order > bestOrder) { best = card; bestOrder = order; }
       }
@@ -501,9 +467,11 @@
     // The card in the rail is the target on its own element.
     const cardInRail = (event) => {
       const el = event.target.closest('.manuscript-card');
+      const head = el?.querySelector('.manuscript-card-head');
+      if (!head || event.clientY > head.getBoundingClientRect().bottom) return null;
       return el ? cards.find((card) => card.el === el) || null : null;
     };
-    // One hover: a card stays open while the pointer is on the card, its
+    // One hover: a card stays open while the pointer is on its first line, its
     // passage, or the ribbon between them, and moving from one to another
     // never closes it in between — closing would shrink the ribbon under
     // the pointer. Tested where the pointer is on every move, and the

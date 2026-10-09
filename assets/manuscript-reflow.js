@@ -1,9 +1,9 @@
 // The reflow paper page: joins the pre-rendered cards to the anchor
 // elements the vendored ReflowTeX viewer emits (`[data-mark][data-side]`,
 // re-anchored by the viewer on every reflow), paints each passage's
-// highlight and shadow over the text, and honours the `#m<n>` deep links
+// highlight over the text, and honours the `#m<n>` deep links
 // into the reflowed text. Beside the text — the rail — the cards stack at
-// their passages' height with a gutter band from each passage's shadow to
+// their passages' height with a gutter band from the text column to
 // its card, opening on hover and pinned by a click. On a narrow screen
 // there is no room beside the text: the rail is gone, a tap on a passage
 // opens its card in the text right under the passage (the viewer keeps a
@@ -106,23 +106,28 @@
     return cards.map((card, index) => index).sort((a, b) => keys[a] - keys[b] || a - b);
   }
 
-  // A passage's flat region over a column of `width`: the split-diff shape
-  // the PDF surface paints per column run — the begin anchor's line from
-  // the anchor to the column's right edge, every line between at full
-  // width, the end anchor's line from the left edge to the anchor. An
-  // anchor in the stream (not `inline`) spans the whole column, and a
-  // passage whose end sits on its begin line is one box between the two.
+  // A passage's flat region over a column of `width`. Marked ink clips
+  // its first and last lines; the full line bounds keep tall unmarked
+  // maths out of the steps between them. Anchors are the fallback while
+  // the viewer is loading, and a single line is just its marked ink box.
   // Returns the polygon's points, [[x, y], ...].
   function outline(band, width) {
+    if (band.lines?.length === 1) {
+      const line = band.lines[0];
+      const left = Math.min(width, Math.max(0, line.left));
+      const right = line.right >= width - 1.5 ? width : Math.max(0, line.right);
+      if (right <= left) return [];
+      return [[left, line.top], [right, line.top], [right, line.bottom], [left, line.bottom]];
+    }
     const b = band.begin;
     const e = band.end;
     const bx = b && b.inline ? Math.min(Math.max(0, b.x), width) : 0;
     const bt = band.top;
-    const bb = b && Number.isFinite(b.bottom) ? Math.max(bt, b.bottom) : bt;
+    const bb = band.lines?.[0].lineBottom ?? (b && Number.isFinite(b.bottom) ? Math.max(bt, b.bottom) : bt);
     const ex = e && e.inline ? Math.min(Math.max(0, e.x), width) : width;
     const eb = band.bottom;
-    const et = e ? Math.min(eb, e.top) : eb;
-    const points = et <= bb
+    const et = band.lines?.[band.lines.length - 1].lineTop ?? (e ? Math.min(eb, e.top) : eb);
+    const points = et < bb
       ? [[bx, bt], [Math.max(bx, ex), bt], [Math.max(bx, ex), eb], [bx, eb]]
       : [[bx, bt], [width, bt], [width, et], [ex, et], [ex, eb], [0, eb], [0, bb], [bx, bb]];
     // A passage that begins or ends in the stream spans the whole column, so
@@ -160,15 +165,13 @@
   const reflowBody = document.getElementById('manuscript-reflow');
   const docEl = document.getElementById('manuscript-reflow-doc');
   const railEl = document.getElementById('manuscript-rail-reflow');
-  const linksEl = document.getElementById('manuscript-reflow-links');
   const footnoteTemplate = document.getElementById('manuscript-footnote-card');
-  if (!root || !reflowBody || !docEl || !railEl) return;
+  const regions = window.laxManuscriptRegions;
+  if (!root || !reflowBody || !docEl || !railEl || !regions) return;
 
   const CARD_GAP = 8;
   const LINE_ABOVE = 14;    // px above an in-paragraph anchor's baseline to its line's top
   const LINE_BELOW = 6;     // px below that baseline to the line's bottom
-  const STREAM_PAD = 4;     // px a stream anchor's passage reaches beyond its blocks
-  const SHADOW_MARGIN = 12; // px the shadow runs beyond the text column on each side
   const SAME_BAND = 3;      // px within which two passages count as one (a theorem marked thrice)
   const SVG = 'http://www.w3.org/2000/svg';
 
@@ -176,10 +179,12 @@
   // footnote cards made here as the viewer reveals footnotes (`fn` = k,
   // keyed `fn:<k>`, holding the footnote's segment in `body`).
   const cards = [...railEl.querySelectorAll('.manuscript-card[data-mark]')].map((el) => ({
-    n: Number(el.dataset.mark), fn: null, el, kind: `kind-${[...el.classList].find((c) => c.startsWith('kind-'))?.slice(5) || 'concept'}`,
-    band: null, points: null, shadow: null, shape: null, link: null, ribbon: null, pinned: false, inline: false, slot: null, slotY: null,
+    n: Number(el.dataset.mark), fn: null, el,
+    colorClasses: [...el.classList].filter((name) => name.startsWith('kind-') || name === 'line-proven' || name === 'line-open').join(' '),
+    band: null, points: null, shape: null, ribbon: null, pinned: false, hovering: false, paintOrder: 0, inline: false, slot: null, slotY: null,
   }));
   const markCards = () => cards.filter((card) => !card.fn);
+  let paintOrder = 0;
 
   function svgNode(name, attrs) {
     const node = document.createElementNS(SVG, name);
@@ -187,12 +192,10 @@
     return node;
   }
 
-  // The highlight layer over the document, the PDF surface's per-page layer
-  // in one: the shadows behind the passages' regions, multiplied onto the text.
+  // One flat region per passage; the whole layer multiplies onto the text.
   const hlEl = svgNode('svg', { class: 'manuscript-hl-layer', 'aria-hidden': 'true' });
-  const shadowsEl = svgNode('g', {});
   const shapesEl = svgNode('g', {});
-  hlEl.append(shadowsEl, shapesEl);
+  hlEl.append(shapesEl);
   docEl.append(hlEl);
 
   // ---- the view switch: the printed page keeps the reader's passage ----
@@ -220,7 +223,7 @@
   // document's coordinates. An in-paragraph anchor is pinned at its
   // baseline (the viewer positions it absolutely); a stream anchor sits in
   // flow before its passage's first block or after its last, so its extent
-  // is that block's edge, padded — a begin anchor's block is the next mount
+  // is that block's edge — a begin anchor's block is the next mount
   // (the anchor stands above the mount's margin), an end anchor's is the
   // previous, whose bottom edge the zero-size anchor already sits on.
   // A footnote's reference anchor is a begin side keyed `fn:<k>`.
@@ -231,20 +234,25 @@
       const footnote = a.dataset.footnote !== undefined;
       const side = !footnote && a.dataset.side === 'e' ? 'e' : 'b';
       const inline = a.style.position === 'absolute';
-      const x = r.left - box.left;
+      let x = r.left - box.left;
       let top = r.top - box.top;
       let bottom = top;
       if (inline) {
-        top -= LINE_ABOVE;
-        bottom += LINE_BELOW;
+        // A marker that wrapped to the next line at x=0 still closes the
+        // preceding line. Its empty tail must not shade the next line.
+        const previous = side === 'e' && x < 0.5 && a.dataset.previousLineAbove !== undefined;
+        const next = side === 'b' && x >= docEl.clientWidth - 0.5 && a.dataset.nextLineAbove !== undefined;
+        const prefix = previous ? 'previousLine' : next ? 'nextLine' : 'line';
+        top -= Number(a.dataset[`${prefix}Above`] ?? LINE_ABOVE);
+        bottom += Number(a.dataset[`${prefix}Below`] ?? LINE_BELOW);
+        if (previous) x = docEl.clientWidth;
+        if (next) x = 0;
       } else if (side === 'b') {
         let next = a.nextElementSibling;
         while (next && (next.classList.contains('latex-anchor') || next.classList.contains('manuscript-card'))) next = next.nextElementSibling;
         if (next) top = next.getBoundingClientRect().top - box.top;
-        top -= STREAM_PAD;
         bottom = top;
       } else {
-        bottom += STREAM_PAD;
         top = bottom;
       }
       return { n: footnote ? `fn:${a.dataset.footnote}` : Number(a.dataset.mark), side, top, bottom, x, inline };
@@ -282,8 +290,8 @@
     el.hidden = true;
     const body = el.querySelector('.manuscript-footnote-body') || el;
     card = {
-      n: `fn:${k}`, fn: k, el, body, kind: 'kind-footnote',
-      band: null, points: null, shadow: null, shape: null, link: null, ribbon: null, pinned: false,
+      n: `fn:${k}`, fn: k, el, body,
+      band: null, points: null, shape: null, ribbon: null, pinned: false,
     };
     el.addEventListener('mouseenter', () => noteHover(card, true));
     el.addEventListener('mouseleave', () => noteHover(card, false));
@@ -416,6 +424,14 @@
     const active = cards.filter((card) => !card.fn || !card.el.hidden);
     if (!active.length) return;
     const byMark = bands(measureAnchors());
+    for (const [n, lines] of Object.entries(viewer()?.markedLines(docEl) || {})) {
+      const first = lines[0], last = lines[lines.length - 1];
+      byMark[n] = {
+        top: Math.min(...lines.map((line) => line.top)), bottom: Math.max(...lines.map((line) => line.bottom)), lines,
+        begin: { top: first.top, bottom: first.bottom, x: first.left, inline: true },
+        end: { top: last.top, bottom: last.bottom, x: last.right, inline: true },
+      };
+    }
     for (const card of cards) card.band = byMark[card.n] || null;
     if (narrow()) {
       // A card that moved changed the text's height; the viewer re-pins the
@@ -427,6 +443,7 @@
     }
     paintHighlights();
     drawLinks();
+    syncHighlights();
   }
 
   // A card's height with its body closed: the room it takes in the rail
@@ -563,71 +580,46 @@
     return true;
   }
 
-  // Per passage: its flat region along the text, and behind it a lighter
-  // shadow a fixed margin beyond the column on both sides, from the
-  // passage's first line to its last. The gutter band starts at the
-  // shadow's right edge. Coordinates are the document's. A sidenote has
-  // no passage: nothing is painted for it.
+  // Per passage: one padded outline, with partial first and last lines.
+  // No rectangle underneath may shade the excluded parts of those lines.
+  // Coordinates are the document's; sidenotes have no marked passage.
   function paintHighlights() {
     const width = docEl.clientWidth;
     hlEl.setAttribute('viewBox', `0 0 ${width} ${docEl.clientHeight}`);
+    const placed = markCards().filter((card) => card.band);
+    const prepared = regions.prepare(placed.map((card) => ({ points: outline(card.band, width), left: 0, right: width })));
+    placed.forEach((card, i) => { card.points = prepared[i]; });
     for (const card of markCards()) {
+      card.ribbon = null;
       if (!card.band) {
         if (card.shape) { card.shape.remove(); card.shape = null; }
-        if (card.shadow) { card.shadow.remove(); card.shadow = null; }
         card.points = null;
         continue;
       }
-      card.points = outline(card.band, width);
       if (!card.shape) {
-        card.shape = svgNode('path', { class: `manuscript-hl ${card.kind}`, 'data-mark': card.n });
+        card.shape = svgNode('path', { class: `manuscript-hl ${card.colorClasses}`, 'data-mark': card.n });
         shapesEl.append(card.shape);
       }
-      card.shape.setAttribute('d', `M${card.points.map(([x, y]) => `${x.toFixed(1)},${y.toFixed(1)}`).join('L')}Z`);
-      if (!card.shadow) {
-        card.shadow = svgNode('rect', { class: `manuscript-hl-shadow ${card.kind}`, 'data-mark': card.n });
-        shadowsEl.append(card.shadow);
-      }
-      card.shadow.setAttribute('x', String(-SHADOW_MARGIN));
-      card.shadow.setAttribute('y', card.band.top.toFixed(1));
-      card.shadow.setAttribute('width', String(width + 2 * SHADOW_MARGIN));
-      card.shadow.setAttribute('height', (card.band.bottom - card.band.top).toFixed(1));
+      card.shape.setAttribute('d', regions.path(card.points));
     }
   }
 
-  // The band from a passage to its card, the PDF surface's split-diff shape:
-  // the passage's shadow at its right edge, the whole card at the rail's
-  // left edge, cubic curves across the gutter. Coordinates are the reflow
-  // body's; the band starts a pixel inside the shadow so the two meet
-  // without a seam. Nothing to draw where the cards are in the text.
+  // Extend the same filled path to the card. A short line connects across
+  // whitespace directly, or passes above any unmarked text to its right.
   function drawLinks() {
-    if (!linksEl) return;
-    linksEl.setAttribute('viewBox', `0 0 ${reflowBody.clientWidth} ${reflowBody.clientHeight}`);
-    linksEl.classList.add('manuscript-links-live');
-    const bodyBox = reflowBody.getBoundingClientRect();
     const docBox = docEl.getBoundingClientRect();
-    const docTop = docBox.top - bodyBox.top;
-    const xl = docBox.left - bodyBox.left + docEl.clientWidth + SHADOW_MARGIN - 1;
-    const xr = railEl.offsetLeft + 2;
-    const xm = (xl + xr) / 2;
     for (const card of markCards()) {
-      if (!card.band || narrow()) {
-        if (card.link) { card.link.remove(); card.link = null; }
-        card.ribbon = null;
-        continue;
+      if (!card.shape || !card.points?.length) continue;
+      card.ribbon = null;
+      if (!narrow()) {
+        const box = card.el.getBoundingClientRect();
+        const line = card.band.lines?.length === 1 ? card.band.lines[0] : null;
+        card.ribbon = regions.connection(card.points, docEl.clientWidth, box.left - docBox.left + 2,
+          box.top - docBox.top, box.bottom - docBox.top,
+          line && { blocked: Math.min(line.lineRight, docEl.clientWidth) > line.right + 0.5,
+            top: line.lineTop, previousBottom: line.previousBottom });
       }
-      const top = docTop + card.band.top;
-      const bottom = docTop + card.band.bottom;
-      const ct = railEl.offsetTop + card.el.offsetTop;
-      const cb = ct + card.el.offsetHeight;
-      const d = `M${xl},${top.toFixed(1)} C${xm},${top.toFixed(1)} ${xm},${ct} ${xr},${ct} L${xr},${cb} C${xm},${cb} ${xm},${bottom.toFixed(1)} ${xl},${bottom.toFixed(1)} Z`;
-      if (!card.link) {
-        card.link = svgNode('path', { class: `manuscript-link ${card.kind}`, 'data-mark': card.n });
-        linksEl.append(card.link);
-      }
-      card.link.setAttribute('d', d);
-      // The ribbon's geometry, for hit-testing: the band across the gutter.
-      card.ribbon = { xl, xm, xr, top, bottom, ct, cb };
+      card.shape.setAttribute('d', regions.path(card.ribbon?.points || card.points, card.ribbon));
     }
   }
 
@@ -649,15 +641,29 @@
 
   // ---- cards: hover opens, click pins, like the PDF surface ----
 
-  // The card in front: its region, shadow, and band drawn over the others.
+  // Hover can raise a region within its tier; every pinned region stays
+  // above every unpinned region, even after a resize or another hover.
   function raise(card) {
-    if (card.shape && shapesEl.lastElementChild !== card.shape) shapesEl.append(card.shape);
-    if (card.shadow && shadowsEl.lastElementChild !== card.shadow) shadowsEl.append(card.shadow);
-    if (card.link && linksEl && linksEl.lastElementChild !== card.link) linksEl.append(card.link);
+    card.paintOrder = ++paintOrder;
+    syncHighlights();
   }
 
   function hits(card) {
-    return [card.shape, card.shadow, card.link].filter(Boolean);
+    return [card.shape].filter(Boolean);
+  }
+
+  function syncHighlights() {
+    const ordered = markCards().sort((a, b) => Number(a.pinned) - Number(b.pinned)
+      || Number(a.hovering) - Number(b.hovering) || a.paintOrder - b.paintOrder);
+    for (const card of ordered) {
+      for (const hit of hits(card)) {
+        hit.classList.toggle('manuscript-hl-active', isExpanded(card));
+        hit.classList.toggle('manuscript-hl-hover', card.hovering);
+        hit.classList.toggle('manuscript-hl-pinned', card.pinned);
+      }
+    }
+    const nodes = ordered.flatMap(hits);
+    if (nodes.some((node, i) => shapesEl.children[i] !== node)) shapesEl.append(...nodes);
   }
 
   function isExpanded(card) {
@@ -670,15 +676,16 @@
     const toggle = card.el.querySelector('.manuscript-card-toggle');
     if (body) body.hidden = !expanded;
     if (toggle) toggle.setAttribute('aria-expanded', String(expanded));
-    for (const hit of hits(card)) hit.classList.toggle(hit === card.link ? 'manuscript-link-active' : 'manuscript-hl-active', expanded);
+    for (const hit of hits(card)) hit.classList.toggle('manuscript-hl-active', expanded);
     if (expanded) raise(card);
     placeCards();
   }
 
   function setHover(card, hovering) {
-    for (const hit of hits(card)) hit.classList.toggle(hit === card.link ? 'manuscript-link-hover' : 'manuscript-hl-hover', hovering);
+    card.hovering = hovering;
     if (hovering) raise(card);
     if (!card.pinned && isExpanded(card) !== hovering) setExpanded(card, hovering);
+    else syncHighlights();
   }
 
   // `y`, in the document's coordinates, is where the card should open in
@@ -690,6 +697,7 @@
     card.el.classList.toggle('manuscript-card-pinned', pinned);
     if (isExpanded(card) !== pinned) setExpanded(card, pinned);
     else if (narrow()) placeCards();
+    syncHighlights();
   }
 
   // The cards of one passage: in the text, a tap on a theorem marked for
@@ -704,7 +712,7 @@
 
   // A flash is a moment of the hover fill on the passage's highlight.
   function flash(card) {
-    const targets = [card.shape, card.shadow].filter(Boolean);
+    const targets = hits(card);
     for (const hit of targets) hit.classList.add('manuscript-hl-flash');
     setTimeout(() => { for (const hit of targets) hit.classList.remove('manuscript-hl-flash'); }, 1200);
   }
@@ -723,6 +731,8 @@
     });
     card.el.addEventListener('click', (event) => {
       if (event.target.closest('a, button')) return;
+      const head = card.el.querySelector('.manuscript-card-head');
+      if (event.clientY > head.getBoundingClientRect().bottom) return;
       // In the text the card is under its passage already: a tap on the
       // head closes it, and the body is for reading.
       if (card.inline) {
@@ -738,7 +748,7 @@
   //
   // The highlight layer takes no pointer events so the text under it stays
   // selectable; hovers and clicks are hit-tested here against the regions
-  // (the innermost passage winning), then the shadows (the shortest), then
+  // (the innermost passage winning), then
   // the ribbons across the gutter (the one drawn in front). The footnote
   // cards and their reference links keep their own hover (noteHover).
   function cardAt(event) {
@@ -748,15 +758,15 @@
   }
 
   function cardAtRibbon(event) {
-    if (!linksEl) return null;
-    const box = reflowBody.getBoundingClientRect();
-    const x = event.clientX - box.left + reflowBody.scrollLeft;
-    const y = event.clientY - box.top + reflowBody.scrollTop;
+    const box = docEl.getBoundingClientRect();
+    const x = event.clientX - box.left;
+    const y = event.clientY - box.top;
     let best = null;
     let bestOrder = -1;
     for (const card of markCards()) {
-      if (!card.ribbon || !card.link || !ribbonContains(card.ribbon, x, y)) continue;
-      const order = Array.prototype.indexOf.call(linksEl.children, card.link);
+      if (!card.shape || !card.ribbon || !(ribbonContains(card.ribbon, x, y)
+        || regions.contains(card.ribbon.points, x, y))) continue;
+      const order = Array.prototype.indexOf.call(shapesEl.children, card.shape);
       if (order > bestOrder) { best = card; bestOrder = order; }
     }
     return best;
@@ -773,17 +783,9 @@
       const span = card.band.bottom - card.band.top;
       if (span < bestSpan) { best = card; bestSpan = span; }
     }
-    if (best) return best;
-    const width = docEl.clientWidth;
-    if (x < -SHADOW_MARGIN || x > width + SHADOW_MARGIN) return null;
-    for (const card of markCards()) {
-      if (!card.band || y < card.band.top || y > card.band.bottom) continue;
-      const span = card.band.bottom - card.band.top;
-      if (span < bestSpan) { best = card; bestSpan = span; }
-    }
     return best;
   }
-  // One hover: a card stays open while the pointer is on the card, its
+  // One hover: a card stays open while the pointer is on its first line, its
   // passage, or the ribbon between them, and moving from one to another
   // never closes it in between (closing would shrink the ribbon under the
   // pointer) — the PDF surface's rule. No hover in the text: a touch
@@ -797,7 +799,9 @@
   }
   function cardInRail(event) {
     const el = event.target.closest('.manuscript-card');
-    return el ? cards.find((card) => card.el === el && !card.fn) || null : null;
+    const head = el?.querySelector('.manuscript-card-head');
+    if (!head || event.clientY > head.getBoundingClientRect().bottom) return null;
+    return cards.find((card) => card.el === el && !card.fn) || null;
   }
   reflowBody.addEventListener('mousemove', (event) => {
     if (narrow()) return;
@@ -865,6 +869,7 @@
     schedule();
   });
   window.addEventListener('resize', schedule);
+  docEl.addEventListener('scroll', schedule, { capture: true, passive: true });
   const onNarrowChange = () => { hover(null); schedule(); };
   if (narrowQuery.addEventListener) narrowQuery.addEventListener('change', onNarrowChange);
   else narrowQuery.addListener(onNarrowChange);

@@ -149,11 +149,16 @@
         const cb = c.bottom - box.top;
         if (!pair.link) {
           pair.link = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-          pair.link.setAttribute('class', `manuscript-link kind-${pair.passage.dataset.kind || 'concept'}`);
+          const colorClasses = [...pair.card.classList].filter((name) => name.startsWith('kind-') || name === 'line-proven' || name === 'line-open').join(' ');
+          pair.link.setAttribute('class', `manuscript-link ${colorClasses}`);
           links.append(pair.link);
         }
         pair.link.setAttribute('d', `M${xl.toFixed(1)},${top.toFixed(1)} C${xm.toFixed(1)},${top.toFixed(1)} ${xm.toFixed(1)},${ct.toFixed(1)} ${xr.toFixed(1)},${ct.toFixed(1)} L${xr.toFixed(1)},${cb.toFixed(1)} C${xm.toFixed(1)},${cb.toFixed(1)} ${xm.toFixed(1)},${bottom.toFixed(1)} ${xl.toFixed(1)},${bottom.toFixed(1)} Z`);
       }
+      const ordered = [...pairs].sort((a, b) => Number(a.pinned) - Number(b.pinned)
+        || Number(a.card.classList.contains('manuscript-card-hover')) - Number(b.card.classList.contains('manuscript-card-hover')))
+        .map((pair) => pair.link).filter(Boolean);
+      if (ordered.some((node, i) => links.children[i] !== node)) links.append(...ordered);
     }
 
     function layout() {
@@ -206,7 +211,7 @@
         setExpanded(next);
       }
 
-      for (const el of [passage, card]) {
+      for (const el of [passage, card.querySelector('.manuscript-card-head')]) {
         if (!el) continue;
         el.addEventListener('mouseenter', () => { if (canHover.matches) setHover(true); });
         el.addEventListener('mouseleave', () => { if (canHover.matches) setHover(false); });
@@ -222,6 +227,7 @@
       card.addEventListener('click', (event) => {
         // Links in the card lead away; the body is for reading and selecting.
         if (event.target.closest('a') || (body && body.contains(event.target))) return;
+        if (event.clientY > card.querySelector('.manuscript-card-head').getBoundingClientRect().bottom) return;
         setPinned(!pair.pinned);
       });
     }

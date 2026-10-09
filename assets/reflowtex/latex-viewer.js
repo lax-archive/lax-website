@@ -87,6 +87,11 @@
 //      instead of the column's; reflowBlock treats a change of it like a
 //      change of width, and window.laxLatexViewer.reflow(el) lets the page
 //      ask for that re-layout (a no-op when nothing changed).
+//  13. Marked ink. A transform-aware renderer sink records each line's ink
+//      between markers. markedLines maps those source spans through the
+//      current SVG positions, excluding trailing glue and display spacing
+//      from the paper's highlights without depending on lazy painting.
+//      Equation labels are treated as whitespace by the shading join.
 //
 // Upstream header follows.
 //
@@ -1810,6 +1815,47 @@ function anchorSink(out) {
     };
 }
 
+// lax: record ink in source order, splitting a run at every mark. Empty glue,
+// struts, equation labels and display spacing never become part of a marked
+// passage. The painting traversal accounts for nested math and transforms.
+function passageSink(anchors, events, labelNodes) {
+    let matrix = null, run = null;
+    const stack = [];
+    const point = (x, y) => matrix
+        ? [matrix[0]*x + matrix[2]*y + matrix[4], matrix[1]*x + matrix[3]*y + matrix[5]] : [x, y];
+    const note = (n, x, width, top, bottom) => {
+        if (labelNodes?.has(n) || width <= 0 || bottom <= top) return;
+        const corners = [[x, top], [x + width, top], [x, bottom], [x + width, bottom]].map(([px, py]) => point(px, py));
+        if (!run) {
+            run = { left: Infinity, right: -Infinity, top: Infinity, bottom: -Infinity };
+            events.push(run);
+        }
+        for (const [px, py] of corners) {
+            run.left = Math.min(run.left, px); run.right = Math.max(run.right, px);
+            run.top = Math.min(run.top, py); run.bottom = Math.max(run.bottom, py);
+        }
+    };
+    return {
+        beginTransform(n, tf) { stack.push(matrix); matrix = affineMul(matrix, affineOf(tf)); },
+        endTransform() { matrix = stack.pop(); },
+        glyph(n, x, y) { note(n, x, gW(n) * SP_TO_PX, y - gH(n) * SP_TO_PX, y + gD(n) * SP_TO_PX); },
+        space() {},
+        rule(n, x, y, w, h) { note(n, x, w, y, y + h); },
+        picture(n, x, y) { note(n, x, pW(n) * SP_TO_PX, y - pH(n) * SP_TO_PX, y + pD(n) * SP_TO_PX); },
+        marker(n, x, y) {
+            const side = n.side === 'e' ? 'e' : 'b';
+            const [px, py] = point(x, y);
+            anchors.push({ n: n.n, side, x: px, y: py });
+            events.push({ n: n.n, side });
+            run = null;
+        },
+        footnote(n, x, y) {
+            const [px, py] = point(x, y);
+            if (n.n) anchors.push({ fn: true, n: n.n, x: px, y: py });
+        },
+    };
+}
+
 // lax: the band a paragraph (or display) occupies at the reader's width.
 //
 // The serializer records the paragraph's \parshape band as {indent, width}
@@ -2204,6 +2250,17 @@ function layoutDisplaySegment(fontInfo, seg, widthPt, cache) {
         };
     });
 
+    // lax: retain the label's identity for passage measurement. The label
+    // still paints normally; it does not obstruct a connection to the rail
+    // or add an otherwise empty line to a highlight when it wraps below.
+    const labelNodes = new Set();
+    const collectLabel = n => {
+        labelNodes.add(n);
+        for (const key of ['children', 'replace']) for (const child of n[key] || []) collectLabel(child);
+        if (n.leader) collectLabel(n.leader);
+    };
+    for (const r of rows) if (r.num) collectLabel(r.num.numberBox);
+
     // One offset for the whole group: rows keep their relative positions, so
     // an alignment's & columns stay aligned no matter where the group lands.
     let gMin = Infinity, gMax = -Infinity;
@@ -2253,7 +2310,7 @@ function layoutDisplaySegment(fontInfo, seg, widthPt, cache) {
     });
 
     return {
-        lines, lrp, gaps,
+        lines, lrp, gaps, labelNodes,
         // Only this segment may grow past the column, and only as far as the
         // ink truly reaches — so a short display never scrolls.
         W: Math.ceil(Math.max(columnPx, offset + gMax)),
@@ -2341,16 +2398,17 @@ function layoutDocument(fontInfo, doc, widthPt, p, cache) {
         const lastDepth = (profiles[profiles.length-1] ?? []).reduce((m, it) => Math.max(m, it.d), 0);
         const H = baselineYs[baselineYs.length-1] + lastDepth;
 
-        // lax: exact positions for in-paragraph markers, recorded by driving
-        // the real renderer over each marker-bearing line — they land where
-        // paint would put them, at this width, and are re-recorded on every
-        // reflow. Coordinates are the segment svg's own (x, baselineY).
+        // lax: record markers and the actual ink between them at every width.
+        // This is independent of lazy DOM painting; the page can shade a
+        // passage accurately before its glyphs enter the viewport.
         const anchors = [];
+        const inkLines = [];
         for (let j = 0; j < geom.lines.length; j++) {
-            if (!containsMark(geom.lines[j].nodes)) continue;
+            const events = [];
             const { ratio, er, x0, fillRatio, fillOrder } = geom.lrp[j];
-            renderNodes(fontInfo, anchorSink(anchors), geom.lines[j].nodes, x0, baselineYs[j],
+            renderNodes(fontInfo, passageSink(anchors, events, geom.labelNodes), geom.lines[j].nodes, x0, baselineYs[j],
                         fillOrder ? fillRatio : ratio, er, fillOrder || 0);
+            inkLines.push(events);
         }
 
         // A segment's box spans its first ascent to its last depth, so stacking
@@ -2365,7 +2423,7 @@ function layoutDocument(fontInfo, doc, widthPt, p, cache) {
             ? baselineYs[1] - profiles[1].reduce((m, it) => Math.max(m, it.h), 0) : 0;
         const tagBottom = n > 1 && geom.lines[n-1].tag
             ? H - (baselineYs[n-2] + profiles[n-2].reduce((m, it) => Math.max(m, it.d), 0)) : 0;
-        return { ...geom, seg, profiles, baselineYs, H, firstAscent, lastDepth, anchors, tagTop, tagBottom,
+        return { ...geom, seg, profiles, baselineYs, H, firstAscent, lastDepth, anchors, inkLines, tagTop, tagBottom,
                  firstMeta: (geom.meta && geom.meta[0]) || null, gapBefore: seg.gapBefore || 0 };
     });
 
@@ -2489,7 +2547,7 @@ function layoutDocument(fontInfo, doc, widthPt, p, cache) {
     // root is in the document (initBlock mounts it after this returns).
     requestAnimationFrame(() => { for (const s of dom.segs) if (s.frame && s.frame.parentNode) noteScrollEdges(s); });
 
-    cache.layout = { laid };
+    cache.layout = { laid, trailingMarkers };
     // Track each segment by its own <svg>, not by a running height model that would
     // drift from the real layout (see the per-segment painting section).
     observeSegments(cache);
@@ -2524,8 +2582,78 @@ function placeAnchors(cache) {
             a.style.position = 'absolute';
             a.style.left = `${svgBox.left - rootBox.left + m.x}px`;
             a.style.top = `${svgBox.top - rootBox.top + m.y}px`;
+            // Give the highlight join the actual line bounds, including
+            // tall mathematics, instead of a fixed-height baseline box.
+            let line = 0;
+            for (let j = 1; j < L.baselineYs.length; j++) {
+                if (Math.abs(L.baselineYs[j] - m.y) < Math.abs(L.baselineYs[line] - m.y)) line = j;
+            }
+            for (const [prefix, index] of [['line', line], ['previousLine', line - 1], ['nextLine', line + 1]]) {
+                const profile = L.profiles[index];
+                if (!profile) {
+                    delete a.dataset[`${prefix}Above`];
+                    delete a.dataset[`${prefix}Below`];
+                    continue;
+                }
+                const ascent = profile.reduce((height, item) => Math.max(height, item.h), 0);
+                const depth = profile.reduce((height, item) => Math.max(height, item.d), 0);
+                a.dataset[`${prefix}Above`] = String(m.y - L.baselineYs[index] + ascent);
+                a.dataset[`${prefix}Below`] = String(L.baselineYs[index] + depth - m.y);
+            }
         }
     });
+}
+
+// lax: marked ink in the page's current coordinates. Source order determines
+// membership, never an anchor's baseline or its position after a display.
+// Map through each SVG's real box so margins, scrolling and inline cards
+// cannot accumulate a vertical offset. Marks may span multiple blocks.
+function markedLines(root) {
+    const origin = root.getBoundingClientRect();
+    const out = {}, active = new Set();
+    let previousBottom = -Infinity;
+    const marker = m => {
+        if (m.fn) return;
+        if (m.side === 'e') active.delete(m.n); else active.add(m.n);
+    };
+    for (const block of root.querySelectorAll('.latex-block')) {
+        const cache = blockData.get(block)?.cache;
+        if (!cache?.layout || !cache.dom) continue;
+        cache.layout.laid.forEach((L, i) => {
+            for (const m of L.seg.markersBefore || []) marker(m);
+            const svg = cache.dom.segs[i].svg;
+            if (!root.contains(svg) || L.seg.footnote || L.seg.footnoteRule) return;
+            const box = svg.getBoundingClientRect();
+            const sx = L.W ? box.width / L.W : 1, sy = L.H ? box.height / L.H : 1;
+            const mapped = r => ({ left: box.left - origin.left + r.left * sx,
+                right: box.left - origin.left + r.right * sx,
+                top: box.top - origin.top + r.top * sy, bottom: box.top - origin.top + r.bottom * sy });
+            for (const events of L.inkLines) {
+                const fragments = new Map();
+                let lineTop = Infinity, lineBottom = -Infinity, lineRight = -Infinity;
+                for (const event of events) {
+                    if (event.side) { marker(event); continue; }
+                    const ink = mapped(event);
+                    lineTop = Math.min(lineTop, ink.top); lineBottom = Math.max(lineBottom, ink.bottom);
+                    lineRight = Math.max(lineRight, ink.right);
+                    for (const n of active) {
+                        const old = fragments.get(n);
+                        if (!old) fragments.set(n, { ...ink });
+                        else {
+                            old.left = Math.min(old.left, ink.left); old.right = Math.max(old.right, ink.right);
+                            old.top = Math.min(old.top, ink.top); old.bottom = Math.max(old.bottom, ink.bottom);
+                        }
+                    }
+                }
+                for (const [n, ink] of fragments) {
+                    (out[n] ||= []).push({ ...ink, lineTop, lineBottom, lineRight, previousBottom });
+                }
+                if (Number.isFinite(lineBottom)) previousBottom = lineBottom;
+            }
+        });
+        for (const m of cache.layout.trailingMarkers) marker(m);
+    }
+    return out;
 }
 
 // Paint one segment: reconcile its lines' glyphs into its own <svg>. The reconcile
@@ -2971,7 +3099,7 @@ document.addEventListener('DOMContentLoaded', init);
 // has just moved from the end of the document to beside its reference,
 // which the re-layout's own pass found far off screen.
 if (typeof window !== 'undefined') window.laxLatexViewer = {
-    decodeBlock, segmentsOf, containsMark, anchorSink, renderNodes, useGlyphMetrics,
+    decodeBlock, segmentsOf, containsMark, anchorSink, renderNodes, useGlyphMetrics, markedLines,
     reflow(el) {
         const data = blockData.get(el);
         return Boolean(data && data.painted && reflowBlock(el));
