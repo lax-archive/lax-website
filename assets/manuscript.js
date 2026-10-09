@@ -293,9 +293,8 @@
   // the last column, a short line joins across whitespace or over text.
   function drawLinks() {
     if (!linksEl || !bodyEl) return;
-    const width = bodyEl.clientWidth;
-    const height = bodyEl.clientHeight;
-    linksEl.setAttribute('viewBox', `0 0 ${width} ${height}`);
+    // These are CSS-pixel coordinates. A viewBox with integer-rounded
+    // dimensions would rescale the overlay and move its card connections.
     linksEl.classList.add('manuscript-links-live');
     const bodyBox = bodyEl.getBoundingClientRect();
     for (const card of cards) {
