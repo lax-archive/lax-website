@@ -193,6 +193,8 @@
   }
 
   // One flat region per passage; the whole layer multiplies onto the text.
+  // Keep CSS-pixel coordinates without a viewBox: fitting integer-rounded
+  // dimensions to a fractional column would shift a tall overlay vertically.
   const hlEl = svgNode('svg', { class: 'manuscript-hl-layer', 'aria-hidden': 'true' });
   const shapesEl = svgNode('g', {});
   hlEl.append(shapesEl);
@@ -584,8 +586,7 @@
   // No rectangle underneath may shade the excluded parts of those lines.
   // Coordinates are the document's; sidenotes have no marked passage.
   function paintHighlights() {
-    const width = docEl.clientWidth;
-    hlEl.setAttribute('viewBox', `0 0 ${width} ${docEl.clientHeight}`);
+    const width = docEl.getBoundingClientRect().width;
     const placed = markCards().filter((card) => card.band);
     const prepared = regions.prepare(placed.map((card) => ({ points: outline(card.band, width), left: 0, right: width })));
     placed.forEach((card, i) => { card.points = prepared[i]; });
@@ -614,9 +615,9 @@
       if (!narrow()) {
         const box = card.el.getBoundingClientRect();
         const line = card.band.lines?.length === 1 ? card.band.lines[0] : null;
-        card.ribbon = regions.connection(card.points, docEl.clientWidth, box.left - docBox.left + 2,
+        card.ribbon = regions.connection(card.points, docBox.width, box.left - docBox.left + 2,
           box.top - docBox.top, box.bottom - docBox.top,
-          line && { blocked: Math.min(line.lineRight, docEl.clientWidth) > line.right + 0.5,
+          line && { blocked: Math.min(line.lineRight, docBox.width) > line.right + 0.5,
             top: line.lineTop, previousBottom: line.previousBottom });
       }
       card.shape.setAttribute('d', regions.path(card.ribbon?.points || card.points, card.ribbon));
