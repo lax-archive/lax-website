@@ -4825,92 +4825,92 @@
         {
           "id": "Lax342547.AcceptingFamilies",
           "title": "Finite accepting-family losses",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.AcceptingInjection",
           "title": "Actual finite accepting-pair injection",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.ActualCellCollision",
           "title": "Actual gradient-realized cells in the collision averaging law",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.ActualDeficits",
           "title": "Actual projected span deficit",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.AdaptiveProtection",
           "title": "Channel bounds with adaptive protected coefficient spaces",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.AdaptiveSampling",
           "title": "Sampling after exposed coordinates",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.AdaptiveSets",
           "title": "Adaptive sampling on disjoint coordinate sets",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.AdaptiveUnion",
           "title": "Union over adaptive component covers",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.AffineImages",
           "title": "Exact-image bounds for independent affine columns",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.AffineSliceIndependence",
           "title": "Independent nominal affine slices from the free block",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.AffineSliceScales",
           "title": "Uniform quantitative thresholds for affine-slice variance",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.AffineSliceVariance",
           "title": "Conditioned affine-slice variance under the actual raw law",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.AmplifiedTests",
           "title": "Finite amplified-test averaging",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.AtomDirections",
           "title": "Independent free-direction spaces at distinct selector labels",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.AtomFunctionals",
           "title": "Actual point atoms determine cut-space functionals",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.AtomParameters",
           "title": "Actual finite atom parameterization and degrees",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.AtomProducts",
           "title": "Ordered atom products in the actual gradient form",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.Atoms",
           "title": "Point atoms and finite flavor distributions",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.BarredElimination",
@@ -4920,62 +4920,62 @@
         {
           "id": "Lax342547.BarredSpaces",
           "title": "Barred response spaces and the actual obstruction rank budget",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.BaseCompression",
           "title": "Compression preserving allowed point moments and the actual cut domain",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.BaselineRank",
           "title": "Rank control for the frozen baseline on primal inputs",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.BaseMoments",
           "title": "The exact space of binary base moments",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.BilinearMean",
           "title": "Exact uniform bilinear character mean",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.BilinearWalsh",
           "title": "Walsh operator bounds with explicit bilinear rank",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.BinaryMixer",
           "title": "Bilinear parts of ordered evaluations on every atom flavor",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.BinaryMixers",
           "title": "Simultaneous binary mixer estimates for all labels and flavors",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.BinaryPrescriptions",
           "title": "Formal ordered product bits realize symmetric corrections",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.BipartiteFlows",
           "title": "Bipartite capacity networks",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.BlockDeficits",
           "title": "Rank of a lifted tensor sum",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.BooleanWeight",
           "title": "Boolean polynomial nonvanishing and exactification",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.BoundedDerivatives",
@@ -4985,57 +4985,57 @@
         {
           "id": "Lax342547.BoundedPeeling",
           "title": "Peeling with bounded new rank and normalized leaf laws",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.CellAveraging",
           "title": "Actual-mass averaging over retained record-cell pairs",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.CellRepresentatives",
           "title": "Positive representatives of original retained cells",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.ChannelAssembly",
           "title": "Simultaneous assembly of opposite endpoints and reciprocal unit roles",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.ChannelChanges",
           "title": "Allowed channel changes and the actual table injection tests",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.ChannelCharacters",
           "title": "Independent binary channel characters",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.ChannelColumns",
           "title": "Actual raw frame channel phase tails",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.ChannelDensity",
           "title": "Joint channel law and its independent-column density",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.ChannelFactorization",
           "title": "Rank-controlled factorization through allowed orthogonal channels",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.ChannelGroups",
           "title": "Actual endpoint character products",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.ChannelMoments",
           "title": "Actual channel moments and phase tails",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.ChromaticBound",
@@ -5050,42 +5050,42 @@
         {
           "id": "Lax342547.CoefficientPhase",
           "title": "Coefficient phases as dot products of rank-factor images",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.CollisionCosts",
           "title": "Quantitative collision and squared restriction exponents",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.CollisionExponents",
           "title": "Explicit pruning and scalar agreement exponent margins",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.CollisionPruning",
           "title": "Pruning small unary record cells",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.CollisionScales",
           "title": "Uniform collision scales and bounded numerical options",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.CombinedSpans",
           "title": "Combined column and row mode exposure",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.CommonAtoms",
           "title": "Common star atoms eliminate the diagonal predictor coefficient",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.CommonExactification",
           "title": "Exact common predictions on retained mass",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.CommonTestTransfer",
@@ -5095,82 +5095,82 @@
         {
           "id": "Lax342547.ComponentCharacters",
           "title": "Joint retained-cell characters across all components",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.ComponentDuals",
           "title": "Rows of diagonal tensor maps",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.ComponentMoments",
           "title": "Moment estimates for actual component tensor phases",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.ComponentRankGrowth",
           "title": "Componentwise no-cover rank growth",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.ComponentSpaces",
           "title": "Componentwise mode spaces and diagonal tensors",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.ComponentTests",
           "title": "Simultaneous scalar Gram agreement across components",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.CompressedResidual",
           "title": "A bounded-rank pure correction for the actual scalar recipe",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.ConcreteCut",
           "title": "Concrete cut-space testers and the ordered mixer form",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.ConcreteGeometry",
           "title": "Concrete coordinates, quadratic testers, and the self-Gram form",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.ConcreteModel",
           "title": "The concrete finite frame model and its sampled graphs",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.ConcreteRecipes",
           "title": "Numerical recipes prescribe the concrete gradients on witness atoms",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.ConditionalChannels",
           "title": "Conditional independence of the two channel frames",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.ConditionalMinus",
           "title": "The affine minus-column law at a fixed plus frame",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.ConditionalPairs",
           "title": "Conditional pair laws on original cells",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.ConditionedAffineColumns",
           "title": "Actual conditioned affine coefficient dependence bounds",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.ConditionedMixing",
           "title": "Exact finite conditioning of separated Fourier tests",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.Conditioning",
@@ -5185,22 +5185,22 @@
         {
           "id": "Lax342547.ConstrainedCompression",
           "title": "Compression that fixes pin/key vectors and preserves target matrices",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.ContainerAsymptotics",
           "title": "Subexponential container counts at the paper sample scale",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.ContainerLaws",
           "title": "Entropy progress for residual pair laws",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.ContainerRun",
           "title": "Finite deterministic container recursion",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.CoordinateCounts",
@@ -5210,7 +5210,7 @@
         {
           "id": "Lax342547.CoordinateRestrictions",
           "title": "Independence of distinct sample positions",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.CorankCounting",
@@ -5225,37 +5225,37 @@
         {
           "id": "Lax342547.CoverAvoidance",
           "title": "Rank preservation under mode-cover avoidance",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.CoverClasses",
           "title": "Join-stable classes of mode covers",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.CoverCounts",
           "title": "Count tensors killed by exposure",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.CoverProjection",
           "title": "Actual exposure cover projection",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.CoverSpace",
           "title": "Actual tensor cover decomposition and dimension",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.CrossBatchMixing",
           "title": "Quantitative comparison after cross-batch Gram conditioning",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.CrossGramBasis",
           "title": "Independent characters of actual mutual Gram entries",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.CutFunctionals",
@@ -5265,12 +5265,12 @@
         {
           "id": "Lax342547.CutProfiles",
           "title": "Cut profiles and the constant kernel",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.CutSparsity",
           "title": "Majority normalization of sparse cut profiles",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.DerivativeContractions",
@@ -5280,47 +5280,47 @@
         {
           "id": "Lax342547.DerivativeResponses",
           "title": "The full linearized response on pairs of actual cut profiles",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.DirectRanks",
           "title": "Rank of a diagonal family",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.DisjointSampling",
           "title": "Disjoint pair exception tails",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.DuplicatedMoments",
           "title": "Moments across endpoint channel groups",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.DuplicatedNoCover",
           "title": "Original-rank no-cover tails for endpoint groups",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.DyadicDeficits",
           "title": "Dyadic span deficit estimates",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.DyadicMoments",
           "title": "Fixed dyadic moment orders at the ambient scale",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.DyadicScale",
           "title": "A small dyadic tail scale",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.DyadicTails",
           "title": "Actual dyadic deficit recurrence",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.EffectiveBounds",
@@ -5340,62 +5340,62 @@
         {
           "id": "Lax342547.EmptyPredictions",
           "title": "Exactification of actual vanishing point predictions",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.EntropyContainers",
           "title": "Entropy bounded container families",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.EntropyLines",
           "title": "Entropy along feasible mixture lines, including new support",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.EntropyProjection",
           "title": "Full feasible support and finite information projection",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.EntropySelectors",
           "title": "Deterministic entropy and neighborhood selections",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.ExactPins",
           "title": "Exact image pins in nominal coefficient spaces",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.ExposedSums",
           "title": "Projection removes the exposed terms",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.FilterOccurrences",
           "title": "Count tested index occurrences",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.FingerprintCounts",
           "title": "Finite ordered fingerprint budgets",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.FingerprintScales",
           "title": "The paper fingerprint and exception scales",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.FiniteCollision",
           "title": "Finite accepted overlap to original hole mass",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.FiniteInjection",
           "title": "Finite pin-injection exception",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.FiniteLinearLaw",
@@ -5405,67 +5405,67 @@
         {
           "id": "Lax342547.FiniteMoments",
           "title": "Finite even moment expansion",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.FiniteSampling",
           "title": "Finite independent sampling and vertex exception tails",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.FixedMultiPhase",
           "title": "Fixed-parameter endpoint-group phase bounds",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.FixedNoCover",
           "title": "Uniform no-cover phase cancellation with fixed parameters",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.FixedSelectorGram",
           "title": "Uniform positive Gram mass from bounded tester prescriptions",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.FlatRank",
           "title": "Stabilized ranks and the radical quotient",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.FlavorAffineSlices",
           "title": "Affine-slice comparison for every actual atom flavor",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.FlowCuts",
           "title": "Real max-flow min-cut from residual reachability",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.FormalQuadratic",
           "title": "Polar rank of the formal mixer quadratic",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.FourHoles",
           "title": "Actual gradient agreement and matched keys produce all four cross holes",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.FourierTests",
           "title": "Finite scalar agreement from binary character bounds",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.FourPhaseParity",
           "title": "Tiny-cover four-bit parity bounds",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.FractionalColoring",
           "title": "Ordinary fractional coloring",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.FractionalCounterexample",
@@ -5480,17 +5480,17 @@
         {
           "id": "Lax342547.FrameSymmetry",
           "title": "Ambient symmetries and frame marginals",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.FrameTranspose",
           "title": "Reciprocal raw-frame orientation and dual pin avoidance",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.FrameTuples",
           "title": "Uniform tuple images on prescribed Gram orbits",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.FreshKeys",
@@ -5500,32 +5500,32 @@
         {
           "id": "Lax342547.FrozenAssembly",
           "title": "The simultaneous gradient corrections retain every frozen pin and key entry",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.FrozenBaselines",
           "title": "Baseline bilinear extensions retaining all frozen rows and columns",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.FrozenCellDirections",
           "title": "Original record cells determine the common frozen gradient target",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.FrozenCharacters",
           "title": "Exact agreement of zero quotient characters",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.FrozenGradients",
           "title": "Whole-space gradient realization preserving the actual frozen entries",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.FrozenRecords",
           "title": "Unary records determine every frozen cross entry",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.FrozenValues",
@@ -5535,82 +5535,82 @@
         {
           "id": "Lax342547.GoodSamples",
           "title": "A good sample from the explicit container budget",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.GradientAssembly",
           "title": "All four whole-space gradient equations from assembled channel changes",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.GradientForm",
           "title": "The symmetric binary gradient form",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.GradientRealization",
           "title": "Deterministic whole-space gradient realization from the genuine recipe hypotheses",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.GramColumns",
           "title": "Gram-conditioned columns and their rank-failure probability",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.GramNormalization",
           "title": "Two-sided Gram normalization for individually injective frames",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.GramOrbitDensity",
           "title": "Actual reference-batch laws for mutual Gram tests",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.GramTests",
           "title": "Scalar agreement after quotient character estimates",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.GraphFailure",
           "title": "Sampled graph failure bound",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.GreedySpaces",
           "title": "Greedy independence of subspaces",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.GreedySpans",
           "title": "Greedy mode space exposure",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.GreedyTails",
           "title": "Small actual greedy exposure tails",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.GroupPhaseScale",
           "title": "Phase density budgets for selected channel groups",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.GroupTensorComparison",
           "title": "Two-batch comparison across independent component groups",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.HadamardRank",
           "title": "Entrywise product rank and incompatible tuples",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.HistogramGram",
           "title": "Uniform relative Gram normalization errors",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.HoleRelation",
@@ -5630,47 +5630,47 @@
         {
           "id": "Lax342547.IndependentMixtures",
           "title": "Independent leaf mixtures preserve actual pair-event masses",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.IndependentSampling",
           "title": "Greedy independent failure samples",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.IndependentWitnesses",
           "title": "Amplified channel failures on independent pinned spaces",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.IndexedRankGrowth",
           "title": "No-cover rank growth on arbitrary finite indices",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.InjectionAsymptotics",
           "title": "Relative injection loss for polynomial accepting mass",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.InjectionBudgets",
           "title": "Early channel choice and injection exponent budgets",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.InjectionThresholds",
           "title": "Injection parameter quantifiers",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.InjectionUnion",
           "title": "Accepting-pair test unions and relative loss",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.InjectiveDensity",
           "title": "Uniform injective-matrix density",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.InjectiveFrames",
@@ -5680,27 +5680,27 @@
         {
           "id": "Lax342547.JoinedGramOrbits",
           "title": "Exact joining of two prescribed Gram orbits",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.JoinedRecords",
           "title": "Frozen pin and key records with nominal column budgets",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.JointDirections",
           "title": "Append fresh directions to the independent key tuple",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.JointGramInjection",
           "title": "Joint-injectivity loss for two actual reference batches",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.JointKeyCap",
           "title": "Exact leaf entropy bounds joint key and additional images",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.JointProjectors",
@@ -5715,12 +5715,12 @@
         {
           "id": "Lax342547.KeyMeasures",
           "title": "Accepted key subprobabilities and uniform overlap",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.KeySpans",
           "title": "Fresh point-ray spans are disjoint from the nominal table spaces",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.LabelDecomposition",
@@ -5730,37 +5730,37 @@
         {
           "id": "Lax342547.LabelRelations",
           "title": "Triangle relations separate into individual label blocks",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.LeafBlockCaps",
           "title": "Joint matrix-image caps for retained leaf laws",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.LeafCellImages",
           "title": "Joint fresh-image entropy on original retained leaf cells",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.LeafCollision",
           "title": "Actual independent leaf averaging and original-law collision cost",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.LeafExtraction",
           "title": "Extracting a leaf with all remaining exact-image caps",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.LeafImages",
           "title": "All-rank tuple image caps from exact-pin leaf entropy",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.LeafPartition",
           "title": "Finite peeling into disjoint exact-pin leaves",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.LeafTrimming",
@@ -5770,17 +5770,17 @@
         {
           "id": "Lax342547.LiftedSum",
           "title": "Identification of the lifted tensor sum",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.ListDeficits",
           "title": "Actual deficits indexed by a distinct list",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.ListTails",
           "title": "Finite list tail statistics",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.LowRankCounting",
@@ -5790,17 +5790,17 @@
         {
           "id": "Lax342547.MappedSpans",
           "title": "Dimension deficits after an arbitrary mode map",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.MarkedPhase",
           "title": "No-cover phases with whole-unit marks",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.MatchingCoverage",
           "title": "Count matching occurrences covered by terminal exceptions",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.MatchingMinorBound",
@@ -5810,22 +5810,22 @@
         {
           "id": "Lax342547.MatchingSamples",
           "title": "Matching occurrences and raw unit types",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.MetadataPins",
           "title": "Finite metadata and exact-image records for additional pins",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.MixerCompatibility",
           "title": "Compatibility and codimension of forward/reverse matrix restrictions",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.MixerRowLaw",
           "title": "The distribution of mixer rows on free directions",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.MixtureRecovery",
@@ -5835,12 +5835,12 @@
         {
           "id": "Lax342547.ModeBudgets",
           "title": "Exposed mode dimension budget",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.MomentBudgets",
           "title": "Explicit no-cover moment parameter margins",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.MomentIntersection",
@@ -5850,7 +5850,7 @@
         {
           "id": "Lax342547.MomentRecovery",
           "title": "Recovery of low-rank Boolean moments from low degrees",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.MomentSpace",
@@ -5860,32 +5860,32 @@
         {
           "id": "Lax342547.MomentTails",
           "title": "Finite moment probability and rank split",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.MultiChannelPhase",
           "title": "Raw phase estimates for dependent marked units",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.NoCoverCertificate",
           "title": "A low rank sum supplies an actual adaptive cover",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.NoCoverMoments",
           "title": "No-cover phase moments",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.NoCoverPhase",
           "title": "Actual no-cover phase cancellation under marginal density",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.NoCoverRank",
           "title": "Rank growth without an adaptive mode cover",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.NominalBaselines",
@@ -5895,27 +5895,27 @@
         {
           "id": "Lax342547.NominalPrimal",
           "title": "Primal blocks of the nominal spaces and their bounded table part",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.NonlinearChannels",
           "title": "Pure corrections realized by actual nonlinear channel products",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.OrbitSliceLaw",
           "title": "Exact reference Gram-orbit marginals under injective affine restrictions",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.OrderedMixerLaw",
           "title": "Independent ordered mixer blocks at distinct labels",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.PairedAnnihilators",
           "title": "Endpoint projections of paired pure-response annihilators",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.PairedFrames",
@@ -5925,57 +5925,57 @@
         {
           "id": "Lax342547.PairedKeys",
           "title": "Actual paired-witness key spaces satisfy the baseline hypotheses",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.PairedRecipes",
           "title": "Binary prescriptions at all endpoints of a paired scalar recipe",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.PairedWitnesses",
           "title": "Full paired witness lists and scalar recipe equations",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.PairingRank",
           "title": "Tiny-cover pairing matrix rank",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.PairPositions",
           "title": "Weighted compatibility from inevitable sample pairs",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.PairRecovery",
           "title": "Squared restriction cost for independent unit events",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.PaperGraphProbability",
           "title": "Paper parameter graph probability",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.PaperGraphTransfer",
           "title": "Supersaturation to sampled graphs at the paper parameters",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.PaperSampleSuccess",
           "title": "High probability sampled graph construction",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.ParameterCellAveraging",
           "title": "Independent parameter averaging with opposite-dependent original cells",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.PartitionLists",
           "title": "Finite exposure partitions",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.PeelingBudget",
@@ -5985,42 +5985,42 @@
         {
           "id": "Lax342547.PhaseAverages",
           "title": "Actual phase averages from small exceptional tails",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.PhaseScales",
           "title": "The numerical no-cover phase margin",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.PinLabelExclusions",
           "title": "Sparse pin exclusions with arbitrary base coefficients",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.PinReindexing",
           "title": "Exact-pin leaf entropy is invariant under nominal axis reindexing",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.PointPrediction",
           "title": "Common predictions from actual point tensors",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.PointQuadratics",
           "title": "Boolean degree of actual point-tensor evaluations",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.PolynomialTensors",
           "title": "Polynomial degree of actual tensor evaluations",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.PreparedInjection",
           "title": "Prepared-unit injection on actual accepting pairs",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.PreparedInjectionScale",
@@ -6030,22 +6030,22 @@
         {
           "id": "Lax342547.PrimalAvoidance",
           "title": "Uniform primal-span avoidance",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.PrimalContractions",
           "title": "Sparse residual contractions belong to the actual primal pins",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.PrimalGramTests",
           "title": "Actual primal-channel scalar tests and retained-cell four-hole probability",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.PrimalRecords",
           "title": "Finite primal-channel records with the paper bit count and four-hole implication",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.PrimalRetractions",
@@ -6055,17 +6055,17 @@
         {
           "id": "Lax342547.ProbabilityScales",
           "title": "Exponential sampling failure margin",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.ProductImages",
           "title": "Exact images mixing independent injective frames",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.ProductMinusImages",
           "title": "Joint minus images after exposing several plus frames",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.ProfileCounting",
@@ -6075,82 +6075,82 @@
         {
           "id": "Lax342547.ProjectedCoefficients",
           "title": "Split quotient projections preserve coefficient characters",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.ProjectedCounts",
           "title": "Projected nonzero terms in the actual remaining sum",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.ProjectedOffsets",
           "title": "Offsets constructed from the actual common projection",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.ProjectedPins",
           "title": "Primal projections and preservation of effective spaces",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.ProjectedSpans",
           "title": "Dimensions of projected mode spaces",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.ProtectedChannels",
           "title": "Exact probabilities for independent protected channel images",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.PureObstructions",
           "title": "Pure obstructions on the actual pair of cut profiles",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.PureTesterRoom",
           "title": "Exact pure-flavor tester room and a law-uniform Gram mass floor",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.PushforwardWalsh",
           "title": "Walsh bounds for independent image laws and separated phases",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.QuadraticBias",
           "title": "Quadratic character bias on affine subspaces",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.QuadraticDegree",
           "title": "Linear point-tensor evaluations are Boolean quadratics",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.QueryIndependence",
           "title": "Actual query keys independent modulo old pins",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.QueryRecordBounds",
           "title": "Actual query frozen spaces and linear record exponents",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.QueryReference",
           "title": "Reference keys and matched keys for actual paired lists",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.QuerySlots",
           "title": "The actual paired-list key slot budget",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.QuotientCompression",
           "title": "Compression on the actual barred nominal quotients",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.QuotientExtractors",
@@ -6160,12 +6160,12 @@
         {
           "id": "Lax342547.QuotientFactorLifts",
           "title": "Actual factor lifts and covered offsets",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.QuotientFactors",
           "title": "Rank factors independent modulo the actual frozen spaces",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.QuotientRank",
@@ -6175,52 +6175,52 @@
         {
           "id": "Lax342547.RankedProjection",
           "title": "Rank-controlled pure forms on the actual barred quotients",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.RankFactors",
           "title": "Full rank coefficient factorizations",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.RankLoss",
           "title": "Rank loss under two restrictions",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.RawAcceptingInjection",
           "title": "Raw accepting-family injection with exponential loss",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.RawBaselines",
           "title": "Bounded baselines for both actual cross orientations",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.RawBatchComparison",
           "title": "Bounded tests under the actual two-batch Gram law",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.RawCellEntropy",
           "title": "Both actual cross orientations have retained-cell image entropy",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.RawContractions",
           "title": "Actual frame observations realize the nominal channel contractions",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.RawFrameComparison",
           "title": "Actual raw frame observations with uniform two-batch decay",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.RawFrames",
           "title": "Raw matrix frames and their tensor realization",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.RawGroupedComparison",
@@ -6230,17 +6230,17 @@
         {
           "id": "Lax342547.RawIntersections",
           "title": "Exponential bound for the raw intersection exception",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.RawJointImages",
           "title": "Actual joint key and fresh image caps",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.RawLaw",
           "title": "The finite uniform raw-vertex law",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.RawPeeling",
@@ -6250,17 +6250,17 @@
         {
           "id": "Lax342547.RawPrimalAvoidance",
           "title": "Actual raw primal-span avoidance",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.RawQueryImages",
           "title": "Actual query-key image caps on raw leaves",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.RawRetainedCells",
           "title": "Four actual holes inside an original retained cell pair",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.RawSecondPeeling",
@@ -6270,27 +6270,27 @@
         {
           "id": "Lax342547.RawToGraph",
           "title": "Finite supersaturation implies an actual sampled graph",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.RealCellLaws",
           "title": "Original retained-cell laws from finite PMFs",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.RealFlows",
           "title": "Compact real-capacity flows and a maximizing flow",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.RecipeChannels",
           "title": "Nonlinear channel realization of the actual whole-space recipe residual",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.RecipeResiduals",
           "title": "Gradient residuals vanish on effective profiles and selected atoms",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.RecipeRows",
@@ -6300,52 +6300,52 @@
         {
           "id": "Lax342547.RecordCollision",
           "title": "Key-indexed original record cells",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.ReferenceImages",
           "title": "Joint reference image caps across both signs and all draws",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.ReferenceKeys",
           "title": "Constrained key reference spaces have positive density",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.ReferencePins",
           "title": "The full reference cap for exact pin events",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.RelativeEntropy",
           "title": "Finite relative entropy and support costs",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.ResidualFlows",
           "title": "Residual walk augmentation for real-capacity flows",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.ResidualLabels",
           "title": "Removing selected atoms leaves only unselected component labels",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.ResidualRealization",
           "title": "The bounded pure remainder of an actual scalar recipe",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.ResponseMatrices",
           "title": "Matrix representations and the bounded residual rank ingredients",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.ResponseSolvability",
           "title": "Unrestricted linearized solutions for actual scalar recipes",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.RestrictedLeaves",
@@ -6360,57 +6360,57 @@
         {
           "id": "Lax342547.RetainedCharacters",
           "title": "Actual cross Gram characters on frozen unary cells",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.RetainedEmptyPredictions",
           "title": "Actual vanishing predictions on a retained population",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.RetainedImages",
           "title": "Image caps inside original retained cells",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.RightQueryImages",
           "title": "Right endpoint query-key caps via paired-list reindexing",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.SampledGraph",
           "title": "Graphs sampled from a hole relation",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.SampleScales",
           "title": "Eventual sampling margins for the paper parameters",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.ScalarGramAgreement",
           "title": "Simultaneous agreement of linear cross Gram tests on retained cells",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.SecondPeeling",
           "title": "Fresh peeling after restrictions and deliberate extra pins",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.SelectedBlocks",
           "title": "Selected tensor blocks of actual pure obstructions",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.SelectedMoments",
           "title": "A selected affine ray determines its moment block",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.SelectedRemoval",
           "title": "Subtracting selected atoms preserves pure annihilation",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.SelectedScalars",
@@ -6420,67 +6420,67 @@
         {
           "id": "Lax342547.SelectorInterpolation",
           "title": "Interpolation of finitely many binary selector labels",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.SequentialTests",
           "title": "Finite sequential tests",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.SharedTesterPoint",
           "title": "An actual common point with diagonal tester one",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.SharpMixerLaw",
           "title": "Random sharp-block forms and their alternating parity",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.SlotWalsh",
           "title": "Bit rank and Walsh bounds for global vector-slot pairings",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.SmallExposure",
           "title": "One exposure controls both modes",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.SmallMultiPhase",
           "title": "Small phases on selected endpoint channel groups",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.SmallNoCover",
           "title": "The finite no-cover phase tolerance",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.SmallSliceRank",
           "title": "Small affine slices force global cross-coefficient rank",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.SmallSubspaceCount",
           "title": "Counting all bounded-dimensional protected spaces",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.SmallTables",
           "title": "Numerical cross tables, injection flags, and unary admissibility",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.SpanDeficitMono",
           "title": "Monotonicity of span deficits",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.SpanDeficits",
           "title": "Mode space span deficits",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.SparseIntersections",
@@ -6495,12 +6495,12 @@
         {
           "id": "Lax342547.SparsePins",
           "title": "A uniform label budget for all sparse pin vectors",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.SparseRepresentatives",
           "title": "Sparse normalized representatives of shared concrete tensors",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.SplitTrimming",
@@ -6510,17 +6510,17 @@
         {
           "id": "Lax342547.StarRouting",
           "title": "Low-rank tester routing along tag stars",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.SumEnvelope",
           "title": "Nonzero tensor count from span deficits",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.SumRank",
           "title": "Rank of an actual linear map sum",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.SymmetricFactorization",
@@ -6535,117 +6535,117 @@
         {
           "id": "Lax342547.SyntheticGramSlices",
           "title": "Positive pure-flavor mass for the actual synthetic parity slice Grams",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.SyntheticRankTransfer",
           "title": "Quantitative common-test error obstruction for synthetic parity",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.TableContractions",
           "title": "Table contractions on effective profiles and their full extensions",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.TableCounts",
           "title": "Bounded table data and linear-size nominal coefficient records",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.TableInjection",
           "title": "Actual table injection and ambient pin failures",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.TableSpaces",
           "title": "Table coordinates and private channel complements",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.TagGeometry",
           "title": "Majority intersections in the cyclic tag geometry",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.TargetMatrices",
           "title": "Explicit low-rank matrices for the whole-space gradient target",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.TargetTesters",
           "title": "The fifteen-rank witness tester target",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.TensorAnnihilators",
           "title": "Pure bilinear responses detect quotient tensors",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.TensorBlocks",
           "title": "Quotient extractors isolate individual tensor label blocks",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.TensorCharacters",
           "title": "Characters of all independent tensor channels",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.TensorContractions",
           "title": "Well-defined channel contractions on projected tensor spaces",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.TensorIntersections",
           "title": "Rank and trace of shared frame tensors",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.TerminalCuts",
           "title": "Terminal exceptions from real capacity cuts",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.TesterProductRouting",
           "title": "Prescribed Gram products routed into distinct retained tester pairs",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.TinyCompatibility",
           "title": "Inverse-polynomial tiny-cover compatibility",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.TotalRankCount",
           "title": "Counting component tensors with bounded total rank",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.UnaryMixer",
           "title": "Formal forward and reverse rows of a unary mixer test",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.UnaryMixers",
           "title": "The finite simultaneous unary mixer estimate",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.UnaryRowLaw",
           "title": "Joint distribution of the unary mixer row matrix",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.UniformMixers",
           "title": "Uniform mixing forms chosen simultaneously before any unit law",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.UniformPhaseTails",
           "title": "Uniform raw channel phase tails over bounded-rank targets",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.UniformTableInjection",
@@ -6655,32 +6655,32 @@
         {
           "id": "Lax342547.UnitContainers",
           "title": "Terminal containers for actual admissible unit laws",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.UnitLaws",
           "title": "Admissible pair laws",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.UnitSpanAvoidance",
           "title": "Whole-unit conditioned pin avoidance",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.UniversalWitnesses",
           "title": "Universal protected pin witnesses",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.Walsh",
           "title": "Orthogonality and finite Walsh correlation bounds",
-          "type": "definition and theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.WitnessAtoms",
           "title": "Witness atoms and their numerical tester records",
-          "type": "definition and theorem"
+          "type": "lemma"
         }
       ],
       "proofs": [
