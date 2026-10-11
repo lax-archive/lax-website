@@ -1532,6 +1532,143 @@
       ]
     },
     {
+      "id": "lax-109476",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Linear Programming: Duality, Certificates, and Polynomial-Time Optimization",
+      "concepts": [
+        {
+          "id": "Lax109476.CertificateExistence",
+          "title": "Exact rational certificates exist for all linear-programming outcomes",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax109476.CertificateSoundness",
+          "title": "Soundness of exact rational LP certificates",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax109476.CertifiedOptimization",
+          "title": "Polynomial-time certified optimization",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax109476.ComplementarySlackness",
+          "title": "Complementary slackness",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax109476.FarkasAlternative",
+          "title": "The feasibility alternative",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax109476.FarkasCertificate",
+          "title": "Certificates of infeasibility",
+          "type": "definition"
+        },
+        {
+          "id": "Lax109476.FarkasLemma",
+          "title": "Farkas' lemma",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax109476.FarkasSoundness",
+          "title": "Soundness of infeasibility certificates",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax109476.FourierMotzkin",
+          "title": "Fourier–Motzkin elimination",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax109476.LinearProgram",
+          "title": "Linear programs and their duals",
+          "type": "definition"
+        },
+        {
+          "id": "Lax109476.OptimalDualMultipliers",
+          "title": "Optimal dual multipliers",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax109476.PolynomialTimeSolver",
+          "title": "Exact polynomial-time linear programming on a word RAM",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax109476.PrimalAttainment",
+          "title": "Attainment of a finite linear-programming optimum",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax109476.RationalCertificates",
+          "title": "Exact rational solution certificates",
+          "type": "definition"
+        },
+        {
+          "id": "Lax109476.RationalEncoding",
+          "title": "Binary-size encoding of rational linear programs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax109476.RationalFeasibility",
+          "title": "Real feasibility of rational linear programs has a rational witness",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax109476.RecessionDirection",
+          "title": "Certificates of unboundedness",
+          "type": "definition"
+        },
+        {
+          "id": "Lax109476.RecessionExistence",
+          "title": "Unbounded linear programs have improving recession directions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax109476.RecessionSoundness",
+          "title": "Improving directions certify unboundedness",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax109476.SmallCertificates",
+          "title": "Polynomial-size rational LP certificates",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax109476.StrongDuality",
+          "title": "Strong duality",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax109476.WeakDuality",
+          "title": "Weak duality",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax109476Proofs.Attainment.primal_attainment",
+        "Lax109476Proofs.Basic.farkas_alternative",
+        "Lax109476Proofs.Basic.farkas_soundness",
+        "Lax109476Proofs.Basic.weak_duality",
+        "Lax109476Proofs.CertificateExistence.certificate_existence",
+        "Lax109476Proofs.Certificates.certificate_soundness",
+        "Lax109476Proofs.Certificates.recession_soundness",
+        "Lax109476Proofs.Duality.optimal_dual_multipliers",
+        "Lax109476Proofs.Duality.strong_duality",
+        "Lax109476Proofs.Farkas.farkas_certificate_exists",
+        "Lax109476Proofs.Farkas.fourier_motzkin",
+        "Lax109476Proofs.Optimization.certified_optimization",
+        "Lax109476Proofs.Optimization.complementary_slackness",
+        "Lax109476Proofs.RamUniformSolver.exists_exact_polynomial_time_solver",
+        "Lax109476Proofs.RationalFeasibility.rational_feasibility",
+        "Lax109476Proofs.Recession.recession_existence",
+        "Lax109476Proofs.SmallCertificates.polynomial_size_certificates"
+      ]
+    },
+    {
       "id": "lax-115662",
       "state": "registered",
       "environment": "v4.33.0",
