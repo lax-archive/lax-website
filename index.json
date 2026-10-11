@@ -4817,6 +4817,3136 @@
       "proofs": []
     },
     {
+      "id": "lax-342547",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "A counterexample to Hadwiger's conjecture",
+      "concepts": [
+        {
+          "id": "Lax342547.AcceptingFamilies",
+          "title": "Finite accepting-family losses",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.AcceptingInjection",
+          "title": "Actual finite accepting-pair injection",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.ActualCellCollision",
+          "title": "Actual gradient-realized cells in the collision averaging law",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.ActualDeficits",
+          "title": "Actual projected span deficit",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.AdaptiveProtection",
+          "title": "Channel bounds with adaptive protected coefficient spaces",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.AdaptiveSampling",
+          "title": "Sampling after exposed coordinates",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.AdaptiveSets",
+          "title": "Adaptive sampling on disjoint coordinate sets",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.AdaptiveUnion",
+          "title": "Union over adaptive component covers",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.AffineImages",
+          "title": "Exact-image bounds for independent affine columns",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.AffineSliceIndependence",
+          "title": "Independent nominal affine slices from the free block",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.AffineSliceScales",
+          "title": "Uniform quantitative thresholds for affine-slice variance",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.AffineSliceVariance",
+          "title": "Conditioned affine-slice variance under the actual raw law",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.AmplifiedTests",
+          "title": "Finite amplified-test averaging",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.AtomDirections",
+          "title": "Independent free-direction spaces at distinct selector labels",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.AtomFunctionals",
+          "title": "Actual point atoms determine cut-space functionals",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.AtomParameters",
+          "title": "Actual finite atom parameterization and degrees",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.AtomProducts",
+          "title": "Ordered atom products in the actual gradient form",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.Atoms",
+          "title": "Point atoms and finite flavor distributions",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.BarredElimination",
+          "title": "Sparse unselected primal vectors in barred spaces lie in the pins",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax342547.BarredSpaces",
+          "title": "Barred response spaces and the actual obstruction rank budget",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.BaseCompression",
+          "title": "Compression preserving allowed point moments and the actual cut domain",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.BaselineRank",
+          "title": "Rank control for the frozen baseline on primal inputs",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.BaseMoments",
+          "title": "The exact space of binary base moments",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.BilinearMean",
+          "title": "Exact uniform bilinear character mean",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.BilinearWalsh",
+          "title": "Walsh operator bounds with explicit bilinear rank",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.BinaryMixer",
+          "title": "Bilinear parts of ordered evaluations on every atom flavor",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.BinaryMixers",
+          "title": "Simultaneous binary mixer estimates for all labels and flavors",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.BinaryPrescriptions",
+          "title": "Formal ordered product bits realize symmetric corrections",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.BipartiteFlows",
+          "title": "Bipartite capacity networks",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.BlockDeficits",
+          "title": "Rank of a lifted tensor sum",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.BooleanWeight",
+          "title": "Boolean polynomial nonvanishing and exactification",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.BoundedDerivatives",
+          "title": "Bounded allowed derivatives preserving the actual linearized response",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax342547.BoundedPeeling",
+          "title": "Peeling with bounded new rank and normalized leaf laws",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.CellAveraging",
+          "title": "Actual-mass averaging over retained record-cell pairs",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.CellRepresentatives",
+          "title": "Positive representatives of original retained cells",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.ChannelAssembly",
+          "title": "Simultaneous assembly of opposite endpoints and reciprocal unit roles",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.ChannelChanges",
+          "title": "Allowed channel changes and the actual table injection tests",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.ChannelCharacters",
+          "title": "Independent binary channel characters",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.ChannelColumns",
+          "title": "Actual raw frame channel phase tails",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.ChannelDensity",
+          "title": "Joint channel law and its independent-column density",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.ChannelFactorization",
+          "title": "Rank-controlled factorization through allowed orthogonal channels",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.ChannelGroups",
+          "title": "Actual endpoint character products",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.ChannelMoments",
+          "title": "Actual channel moments and phase tails",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.ChromaticBound",
+          "title": "The chromatic lower bound for independence number two",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax342547.CliqueMinor",
+          "title": "Clique minors and the Hadwiger number",
+          "type": "definition"
+        },
+        {
+          "id": "Lax342547.CoefficientPhase",
+          "title": "Coefficient phases as dot products of rank-factor images",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.CollisionCosts",
+          "title": "Quantitative collision and squared restriction exponents",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.CollisionExponents",
+          "title": "Explicit pruning and scalar agreement exponent margins",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.CollisionPruning",
+          "title": "Pruning small unary record cells",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.CollisionScales",
+          "title": "Uniform collision scales and bounded numerical options",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.CombinedSpans",
+          "title": "Combined column and row mode exposure",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.CommonAtoms",
+          "title": "Common star atoms eliminate the diagonal predictor coefficient",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.CommonExactification",
+          "title": "Exact common predictions on retained mass",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.CommonTestTransfer",
+          "title": "Marginal transfer of common affine-slice tests",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax342547.ComponentCharacters",
+          "title": "Joint retained-cell characters across all components",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.ComponentDuals",
+          "title": "Rows of diagonal tensor maps",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.ComponentMoments",
+          "title": "Moment estimates for actual component tensor phases",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.ComponentRankGrowth",
+          "title": "Componentwise no-cover rank growth",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.ComponentSpaces",
+          "title": "Componentwise mode spaces and diagonal tensors",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.ComponentTests",
+          "title": "Simultaneous scalar Gram agreement across components",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.CompressedResidual",
+          "title": "A bounded-rank pure correction for the actual scalar recipe",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.ConcreteCut",
+          "title": "Concrete cut-space testers and the ordered mixer form",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.ConcreteGeometry",
+          "title": "Concrete coordinates, quadratic testers, and the self-Gram form",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.ConcreteModel",
+          "title": "The concrete finite frame model and its sampled graphs",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.ConcreteRecipes",
+          "title": "Numerical recipes prescribe the concrete gradients on witness atoms",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.ConditionalChannels",
+          "title": "Conditional independence of the two channel frames",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.ConditionalMinus",
+          "title": "The affine minus-column law at a fixed plus frame",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.ConditionalPairs",
+          "title": "Conditional pair laws on original cells",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.ConditionedAffineColumns",
+          "title": "Actual conditioned affine coefficient dependence bounds",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.ConditionedMixing",
+          "title": "Exact finite conditioning of separated Fourier tests",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.Conditioning",
+          "title": "Exact conditioning costs and recovery of finite probability masses",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax342547.ConnectedMatching",
+          "title": "Connected matchings",
+          "type": "definition"
+        },
+        {
+          "id": "Lax342547.ConstrainedCompression",
+          "title": "Compression that fixes pin/key vectors and preserves target matrices",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.ContainerAsymptotics",
+          "title": "Subexponential container counts at the paper sample scale",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.ContainerLaws",
+          "title": "Entropy progress for residual pair laws",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.ContainerRun",
+          "title": "Finite deterministic container recursion",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.CoordinateCounts",
+          "title": "Dimensions of the concrete coefficient space",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax342547.CoordinateRestrictions",
+          "title": "Independence of distinct sample positions",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.CorankCounting",
+          "title": "The row-corank bound for a uniform binary matrix",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax342547.Counterexample",
+          "title": "A counterexample to Hadwiger's conjecture",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax342547.CoverAvoidance",
+          "title": "Rank preservation under mode-cover avoidance",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.CoverClasses",
+          "title": "Join-stable classes of mode covers",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.CoverCounts",
+          "title": "Count tensors killed by exposure",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.CoverProjection",
+          "title": "Actual exposure cover projection",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.CoverSpace",
+          "title": "Actual tensor cover decomposition and dimension",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.CrossBatchMixing",
+          "title": "Quantitative comparison after cross-batch Gram conditioning",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.CrossGramBasis",
+          "title": "Independent characters of actual mutual Gram entries",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.CutFunctionals",
+          "title": "Well-defined cut functionals",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax342547.CutProfiles",
+          "title": "Cut profiles and the constant kernel",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.CutSparsity",
+          "title": "Majority normalization of sparse cut profiles",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.DerivativeContractions",
+          "title": "Rank-one derivative tests are scalar pairings of residual contractions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax342547.DerivativeResponses",
+          "title": "The full linearized response on pairs of actual cut profiles",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.DirectRanks",
+          "title": "Rank of a diagonal family",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.DisjointSampling",
+          "title": "Disjoint pair exception tails",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.DuplicatedMoments",
+          "title": "Moments across endpoint channel groups",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.DuplicatedNoCover",
+          "title": "Original-rank no-cover tails for endpoint groups",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.DyadicDeficits",
+          "title": "Dyadic span deficit estimates",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.DyadicMoments",
+          "title": "Fixed dyadic moment orders at the ambient scale",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.DyadicScale",
+          "title": "A small dyadic tail scale",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.DyadicTails",
+          "title": "Actual dyadic deficit recurrence",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.EffectiveBounds",
+          "title": "Dimension and component-rank bounds for effective test spaces",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax342547.EffectiveObstructions",
+          "title": "Full response obstructions are effective profiles plus selected atoms",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax342547.EmpiricalVariance",
+          "title": "Finite empirical variance from a two-coefficient comparison",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax342547.EmptyPredictions",
+          "title": "Exactification of actual vanishing point predictions",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.EntropyContainers",
+          "title": "Entropy bounded container families",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.EntropyLines",
+          "title": "Entropy along feasible mixture lines, including new support",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.EntropyProjection",
+          "title": "Full feasible support and finite information projection",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.EntropySelectors",
+          "title": "Deterministic entropy and neighborhood selections",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.ExactPins",
+          "title": "Exact image pins in nominal coefficient spaces",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.ExposedSums",
+          "title": "Projection removes the exposed terms",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.FilterOccurrences",
+          "title": "Count tested index occurrences",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.FingerprintCounts",
+          "title": "Finite ordered fingerprint budgets",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.FingerprintScales",
+          "title": "The paper fingerprint and exception scales",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.FiniteCollision",
+          "title": "Finite accepted overlap to original hole mass",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.FiniteInjection",
+          "title": "Finite pin-injection exception",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.FiniteLinearLaw",
+          "title": "Finite linear images and their uniform-law density bounds",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax342547.FiniteMoments",
+          "title": "Finite even moment expansion",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.FiniteSampling",
+          "title": "Finite independent sampling and vertex exception tails",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.FixedMultiPhase",
+          "title": "Fixed-parameter endpoint-group phase bounds",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.FixedNoCover",
+          "title": "Uniform no-cover phase cancellation with fixed parameters",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.FixedSelectorGram",
+          "title": "Uniform positive Gram mass from bounded tester prescriptions",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.FlatRank",
+          "title": "Stabilized ranks and the radical quotient",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.FlavorAffineSlices",
+          "title": "Affine-slice comparison for every actual atom flavor",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.FlowCuts",
+          "title": "Real max-flow min-cut from residual reachability",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.FormalQuadratic",
+          "title": "Polar rank of the formal mixer quadratic",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.FourHoles",
+          "title": "Actual gradient agreement and matched keys produce all four cross holes",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.FourierTests",
+          "title": "Finite scalar agreement from binary character bounds",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.FourPhaseParity",
+          "title": "Tiny-cover four-bit parity bounds",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.FractionalColoring",
+          "title": "Ordinary fractional coloring",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.FractionalCounterexample",
+          "title": "The fractional-coloring counterexample",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax342547.FrameExistence",
+          "title": "Nonempty raw frame spaces",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax342547.FrameSymmetry",
+          "title": "Ambient symmetries and frame marginals",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.FrameTranspose",
+          "title": "Reciprocal raw-frame orientation and dual pin avoidance",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.FrameTuples",
+          "title": "Uniform tuple images on prescribed Gram orbits",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.FreshKeys",
+          "title": "Fresh key directions are independent modulo table spaces",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax342547.FrozenAssembly",
+          "title": "The simultaneous gradient corrections retain every frozen pin and key entry",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.FrozenBaselines",
+          "title": "Baseline bilinear extensions retaining all frozen rows and columns",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.FrozenCellDirections",
+          "title": "Original record cells determine the common frozen gradient target",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.FrozenCharacters",
+          "title": "Exact agreement of zero quotient characters",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.FrozenGradients",
+          "title": "Whole-space gradient realization preserving the actual frozen entries",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.FrozenRecords",
+          "title": "Unary records determine every frozen cross entry",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.FrozenValues",
+          "title": "Baseline contractions on the selected atoms",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax342547.GoodSamples",
+          "title": "A good sample from the explicit container budget",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.GradientAssembly",
+          "title": "All four whole-space gradient equations from assembled channel changes",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.GradientForm",
+          "title": "The symmetric binary gradient form",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.GradientRealization",
+          "title": "Deterministic whole-space gradient realization from the genuine recipe hypotheses",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.GramColumns",
+          "title": "Gram-conditioned columns and their rank-failure probability",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.GramNormalization",
+          "title": "Two-sided Gram normalization for individually injective frames",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.GramOrbitDensity",
+          "title": "Actual reference-batch laws for mutual Gram tests",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.GramTests",
+          "title": "Scalar agreement after quotient character estimates",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.GraphFailure",
+          "title": "Sampled graph failure bound",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.GreedySpaces",
+          "title": "Greedy independence of subspaces",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.GreedySpans",
+          "title": "Greedy mode space exposure",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.GreedyTails",
+          "title": "Small actual greedy exposure tails",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.GroupPhaseScale",
+          "title": "Phase density budgets for selected channel groups",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.GroupTensorComparison",
+          "title": "Two-batch comparison across independent component groups",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.HadamardRank",
+          "title": "Entrywise product rank and incompatible tuples",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.HistogramGram",
+          "title": "Uniform relative Gram normalization errors",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.HoleRelation",
+          "title": "The binary hole relation",
+          "type": "definition"
+        },
+        {
+          "id": "Lax342547.HoleTriangleFree",
+          "title": "Holes are symmetric, loopless, and triangle-free",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax342547.ImageScale",
+          "title": "Paying the reference-image conditioning and dimension costs",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax342547.IndependentMixtures",
+          "title": "Independent leaf mixtures preserve actual pair-event masses",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.IndependentSampling",
+          "title": "Greedy independent failure samples",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.IndependentWitnesses",
+          "title": "Amplified channel failures on independent pinned spaces",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.IndexedRankGrowth",
+          "title": "No-cover rank growth on arbitrary finite indices",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.InjectionAsymptotics",
+          "title": "Relative injection loss for polynomial accepting mass",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.InjectionBudgets",
+          "title": "Early channel choice and injection exponent budgets",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.InjectionThresholds",
+          "title": "Injection parameter quantifiers",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.InjectionUnion",
+          "title": "Accepting-pair test unions and relative loss",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.InjectiveDensity",
+          "title": "Uniform injective-matrix density",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.InjectiveFrames",
+          "title": "Uniform injective frames and channel transpose failure",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax342547.JoinedGramOrbits",
+          "title": "Exact joining of two prescribed Gram orbits",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.JoinedRecords",
+          "title": "Frozen pin and key records with nominal column budgets",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.JointDirections",
+          "title": "Append fresh directions to the independent key tuple",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.JointGramInjection",
+          "title": "Joint-injectivity loss for two actual reference batches",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.JointKeyCap",
+          "title": "Exact leaf entropy bounds joint key and additional images",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.JointProjectors",
+          "title": "Joint binary projections for commuting idempotents",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax342547.KernelWitness",
+          "title": "Bounded descriptions of large matrix kernels",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax342547.KeyMeasures",
+          "title": "Accepted key subprobabilities and uniform overlap",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.KeySpans",
+          "title": "Fresh point-ray spans are disjoint from the nominal table spaces",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.LabelDecomposition",
+          "title": "Low-rank Boolean moments have bounded label support",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax342547.LabelRelations",
+          "title": "Triangle relations separate into individual label blocks",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.LeafBlockCaps",
+          "title": "Joint matrix-image caps for retained leaf laws",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.LeafCellImages",
+          "title": "Joint fresh-image entropy on original retained leaf cells",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.LeafCollision",
+          "title": "Actual independent leaf averaging and original-law collision cost",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.LeafExtraction",
+          "title": "Extracting a leaf with all remaining exact-image caps",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.LeafImages",
+          "title": "All-rank tuple image caps from exact-pin leaf entropy",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.LeafPartition",
+          "title": "Finite peeling into disjoint exact-pin leaves",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.LeafTrimming",
+          "title": "Quantitative trimming after restrictions of a leaf mixture",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax342547.LiftedSum",
+          "title": "Identification of the lifted tensor sum",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.ListDeficits",
+          "title": "Actual deficits indexed by a distinct list",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.ListTails",
+          "title": "Finite list tail statistics",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.LowRankCounting",
+          "title": "Factorization and counting of low-rank binary matrices",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax342547.MappedSpans",
+          "title": "Dimension deficits after an arbitrary mode map",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.MarkedPhase",
+          "title": "No-cover phases with whole-unit marks",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.MatchingCoverage",
+          "title": "Count matching occurrences covered by terminal exceptions",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.MatchingMinorBound",
+          "title": "Clique minors from connected matchings",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax342547.MatchingSamples",
+          "title": "Matching occurrences and raw unit types",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.MetadataPins",
+          "title": "Finite metadata and exact-image records for additional pins",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.MixerCompatibility",
+          "title": "Compatibility and codimension of forward/reverse matrix restrictions",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.MixerRowLaw",
+          "title": "The distribution of mixer rows on free directions",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.MixtureRecovery",
+          "title": "Actual-mass recovery and residual bounds through finite splits",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax342547.ModeBudgets",
+          "title": "Exposed mode dimension budget",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.MomentBudgets",
+          "title": "Explicit no-cover moment parameter margins",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.MomentIntersection",
+          "title": "Intersections of restricted moment spaces",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax342547.MomentRecovery",
+          "title": "Recovery of low-rank Boolean moments from low degrees",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.MomentSpace",
+          "title": "Boolean point moments with restricted base coordinates",
+          "type": "definition"
+        },
+        {
+          "id": "Lax342547.MomentTails",
+          "title": "Finite moment probability and rank split",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.MultiChannelPhase",
+          "title": "Raw phase estimates for dependent marked units",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.NoCoverCertificate",
+          "title": "A low rank sum supplies an actual adaptive cover",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.NoCoverMoments",
+          "title": "No-cover phase moments",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.NoCoverPhase",
+          "title": "Actual no-cover phase cancellation under marginal density",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.NoCoverRank",
+          "title": "Rank growth without an adaptive mode cover",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.NominalBaselines",
+          "title": "The 3K+28 baseline bound in the actual nominal coordinates",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax342547.NominalPrimal",
+          "title": "Primal blocks of the nominal spaces and their bounded table part",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.NonlinearChannels",
+          "title": "Pure corrections realized by actual nonlinear channel products",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.OrbitSliceLaw",
+          "title": "Exact reference Gram-orbit marginals under injective affine restrictions",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.OrderedMixerLaw",
+          "title": "Independent ordered mixer blocks at distinct labels",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.PairedAnnihilators",
+          "title": "Endpoint projections of paired pure-response annihilators",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.PairedFrames",
+          "title": "Paired-frame orbit under the primal and dual actions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax342547.PairedKeys",
+          "title": "Actual paired-witness key spaces satisfy the baseline hypotheses",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.PairedRecipes",
+          "title": "Binary prescriptions at all endpoints of a paired scalar recipe",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.PairedWitnesses",
+          "title": "Full paired witness lists and scalar recipe equations",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.PairingRank",
+          "title": "Tiny-cover pairing matrix rank",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.PairPositions",
+          "title": "Weighted compatibility from inevitable sample pairs",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.PairRecovery",
+          "title": "Squared restriction cost for independent unit events",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.PaperGraphProbability",
+          "title": "Paper parameter graph probability",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.PaperGraphTransfer",
+          "title": "Supersaturation to sampled graphs at the paper parameters",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.PaperSampleSuccess",
+          "title": "High probability sampled graph construction",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.ParameterCellAveraging",
+          "title": "Independent parameter averaging with opposite-dependent original cells",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.PartitionLists",
+          "title": "Finite exposure partitions",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.PeelingBudget",
+          "title": "Rank and density budgets for exact-image peeling",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax342547.PhaseAverages",
+          "title": "Actual phase averages from small exceptional tails",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.PhaseScales",
+          "title": "The numerical no-cover phase margin",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.PinLabelExclusions",
+          "title": "Sparse pin exclusions with arbitrary base coefficients",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.PinReindexing",
+          "title": "Exact-pin leaf entropy is invariant under nominal axis reindexing",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.PointPrediction",
+          "title": "Common predictions from actual point tensors",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.PointQuadratics",
+          "title": "Boolean degree of actual point-tensor evaluations",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.PolynomialTensors",
+          "title": "Polynomial degree of actual tensor evaluations",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.PreparedInjection",
+          "title": "Prepared-unit injection on actual accepting pairs",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.PreparedInjectionScale",
+          "title": "Early channel choice for prepared accepting-pair injection",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax342547.PrimalAvoidance",
+          "title": "Uniform primal-span avoidance",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.PrimalContractions",
+          "title": "Sparse residual contractions belong to the actual primal pins",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.PrimalGramTests",
+          "title": "Actual primal-channel scalar tests and retained-cell four-hole probability",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.PrimalRecords",
+          "title": "Finite primal-channel records with the paper bit count and four-hole implication",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.PrimalRetractions",
+          "title": "Retractions with bounded rank on the primal inputs",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax342547.ProbabilityScales",
+          "title": "Exponential sampling failure margin",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.ProductImages",
+          "title": "Exact images mixing independent injective frames",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.ProductMinusImages",
+          "title": "Joint minus images after exposing several plus frames",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.ProfileCounting",
+          "title": "Counting tuples of symmetric matrices with bounded total rank",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax342547.ProjectedCoefficients",
+          "title": "Split quotient projections preserve coefficient characters",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.ProjectedCounts",
+          "title": "Projected nonzero terms in the actual remaining sum",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.ProjectedOffsets",
+          "title": "Offsets constructed from the actual common projection",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.ProjectedPins",
+          "title": "Primal projections and preservation of effective spaces",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.ProjectedSpans",
+          "title": "Dimensions of projected mode spaces",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.ProtectedChannels",
+          "title": "Exact probabilities for independent protected channel images",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.PureObstructions",
+          "title": "Pure obstructions on the actual pair of cut profiles",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.PureTesterRoom",
+          "title": "Exact pure-flavor tester room and a law-uniform Gram mass floor",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.PushforwardWalsh",
+          "title": "Walsh bounds for independent image laws and separated phases",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.QuadraticBias",
+          "title": "Quadratic character bias on affine subspaces",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.QuadraticDegree",
+          "title": "Linear point-tensor evaluations are Boolean quadratics",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.QueryIndependence",
+          "title": "Actual query keys independent modulo old pins",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.QueryRecordBounds",
+          "title": "Actual query frozen spaces and linear record exponents",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.QueryReference",
+          "title": "Reference keys and matched keys for actual paired lists",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.QuerySlots",
+          "title": "The actual paired-list key slot budget",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.QuotientCompression",
+          "title": "Compression on the actual barred nominal quotients",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.QuotientExtractors",
+          "title": "Extracting fresh label coefficients through pin quotients",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax342547.QuotientFactorLifts",
+          "title": "Actual factor lifts and covered offsets",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.QuotientFactors",
+          "title": "Rank factors independent modulo the actual frozen spaces",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.QuotientRank",
+          "title": "Rank of a tensor killed in two quotient spaces",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax342547.RankedProjection",
+          "title": "Rank-controlled pure forms on the actual barred quotients",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.RankFactors",
+          "title": "Full rank coefficient factorizations",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.RankLoss",
+          "title": "Rank loss under two restrictions",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.RawAcceptingInjection",
+          "title": "Raw accepting-family injection with exponential loss",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.RawBaselines",
+          "title": "Bounded baselines for both actual cross orientations",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.RawBatchComparison",
+          "title": "Bounded tests under the actual two-batch Gram law",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.RawCellEntropy",
+          "title": "Both actual cross orientations have retained-cell image entropy",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.RawContractions",
+          "title": "Actual frame observations realize the nominal channel contractions",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.RawFrameComparison",
+          "title": "Actual raw frame observations with uniform two-batch decay",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.RawFrames",
+          "title": "Raw matrix frames and their tensor realization",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.RawGroupedComparison",
+          "title": "Actual grouped raw observations with arbitrary common tests",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax342547.RawIntersections",
+          "title": "Exponential bound for the raw intersection exception",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.RawJointImages",
+          "title": "Actual joint key and fresh image caps",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.RawLaw",
+          "title": "The finite uniform raw-vertex law",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.RawPeeling",
+          "title": "Exact-pin peeling for the actual raw frame law",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax342547.RawPrimalAvoidance",
+          "title": "Actual raw primal-span avoidance",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.RawQueryImages",
+          "title": "Actual query-key image caps on raw leaves",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.RawRetainedCells",
+          "title": "Four actual holes inside an original retained cell pair",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.RawSecondPeeling",
+          "title": "Second exact-pin peeling for the actual raw frame law",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax342547.RawToGraph",
+          "title": "Finite supersaturation implies an actual sampled graph",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.RealCellLaws",
+          "title": "Original retained-cell laws from finite PMFs",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.RealFlows",
+          "title": "Compact real-capacity flows and a maximizing flow",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.RecipeChannels",
+          "title": "Nonlinear channel realization of the actual whole-space recipe residual",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.RecipeResiduals",
+          "title": "Gradient residuals vanish on effective profiles and selected atoms",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.RecipeRows",
+          "title": "Coupled scalar recipes give consistent atom gradients",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax342547.RecordCollision",
+          "title": "Key-indexed original record cells",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.ReferenceImages",
+          "title": "Joint reference image caps across both signs and all draws",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.ReferenceKeys",
+          "title": "Constrained key reference spaces have positive density",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.ReferencePins",
+          "title": "The full reference cap for exact pin events",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.RelativeEntropy",
+          "title": "Finite relative entropy and support costs",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.ResidualFlows",
+          "title": "Residual walk augmentation for real-capacity flows",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.ResidualLabels",
+          "title": "Removing selected atoms leaves only unselected component labels",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.ResidualRealization",
+          "title": "The bounded pure remainder of an actual scalar recipe",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.ResponseMatrices",
+          "title": "Matrix representations and the bounded residual rank ingredients",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.ResponseSolvability",
+          "title": "Unrestricted linearized solutions for actual scalar recipes",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.RestrictedLeaves",
+          "title": "Trimming a restricted family of exact-pin leaves",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax342547.RestrictionRank",
+          "title": "Rank loss under restriction of a bilinear form",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax342547.RetainedCharacters",
+          "title": "Actual cross Gram characters on frozen unary cells",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.RetainedEmptyPredictions",
+          "title": "Actual vanishing predictions on a retained population",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.RetainedImages",
+          "title": "Image caps inside original retained cells",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.RightQueryImages",
+          "title": "Right endpoint query-key caps via paired-list reindexing",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.SampledGraph",
+          "title": "Graphs sampled from a hole relation",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.SampleScales",
+          "title": "Eventual sampling margins for the paper parameters",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.ScalarGramAgreement",
+          "title": "Simultaneous agreement of linear cross Gram tests on retained cells",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.SecondPeeling",
+          "title": "Fresh peeling after restrictions and deliberate extra pins",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.SelectedBlocks",
+          "title": "Selected tensor blocks of actual pure obstructions",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.SelectedMoments",
+          "title": "A selected affine ray determines its moment block",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.SelectedRemoval",
+          "title": "Subtracting selected atoms preserves pure annihilation",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.SelectedScalars",
+          "title": "Selected label coefficients agree across the cut profile",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax342547.SelectorInterpolation",
+          "title": "Interpolation of finitely many binary selector labels",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.SequentialTests",
+          "title": "Finite sequential tests",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.SharedTesterPoint",
+          "title": "An actual common point with diagonal tester one",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.SharpMixerLaw",
+          "title": "Random sharp-block forms and their alternating parity",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.SlotWalsh",
+          "title": "Bit rank and Walsh bounds for global vector-slot pairings",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.SmallExposure",
+          "title": "One exposure controls both modes",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.SmallMultiPhase",
+          "title": "Small phases on selected endpoint channel groups",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.SmallNoCover",
+          "title": "The finite no-cover phase tolerance",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.SmallSliceRank",
+          "title": "Small affine slices force global cross-coefficient rank",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.SmallSubspaceCount",
+          "title": "Counting all bounded-dimensional protected spaces",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.SmallTables",
+          "title": "Numerical cross tables, injection flags, and unary admissibility",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.SpanDeficitMono",
+          "title": "Monotonicity of span deficits",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.SpanDeficits",
+          "title": "Mode space span deficits",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.SparseIntersections",
+          "title": "Sparse profiles from raw intersections (Lemma 4.4)",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax342547.SparseKeyCoefficients",
+          "title": "Unselected sparse vectors cannot conceal fresh key coefficients",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax342547.SparsePins",
+          "title": "A uniform label budget for all sparse pin vectors",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.SparseRepresentatives",
+          "title": "Sparse normalized representatives of shared concrete tensors",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.SplitTrimming",
+          "title": "Mass and density costs of splitting by metadata and images",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax342547.StarRouting",
+          "title": "Low-rank tester routing along tag stars",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.SumEnvelope",
+          "title": "Nonzero tensor count from span deficits",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.SumRank",
+          "title": "Rank of an actual linear map sum",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.SymmetricFactorization",
+          "title": "Symmetric low-rank factorization, including characteristic two",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax342547.SymmetricPrescriptions",
+          "title": "Consistent symmetric binary prescriptions on two witness lists",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax342547.SyntheticGramSlices",
+          "title": "Positive pure-flavor mass for the actual synthetic parity slice Grams",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.SyntheticRankTransfer",
+          "title": "Quantitative common-test error obstruction for synthetic parity",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.TableContractions",
+          "title": "Table contractions on effective profiles and their full extensions",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.TableCounts",
+          "title": "Bounded table data and linear-size nominal coefficient records",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.TableInjection",
+          "title": "Actual table injection and ambient pin failures",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.TableSpaces",
+          "title": "Table coordinates and private channel complements",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.TagGeometry",
+          "title": "Majority intersections in the cyclic tag geometry",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.TargetMatrices",
+          "title": "Explicit low-rank matrices for the whole-space gradient target",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.TargetTesters",
+          "title": "The fifteen-rank witness tester target",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.TensorAnnihilators",
+          "title": "Pure bilinear responses detect quotient tensors",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.TensorBlocks",
+          "title": "Quotient extractors isolate individual tensor label blocks",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.TensorCharacters",
+          "title": "Characters of all independent tensor channels",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.TensorContractions",
+          "title": "Well-defined channel contractions on projected tensor spaces",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.TensorIntersections",
+          "title": "Rank and trace of shared frame tensors",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.TerminalCuts",
+          "title": "Terminal exceptions from real capacity cuts",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.TesterProductRouting",
+          "title": "Prescribed Gram products routed into distinct retained tester pairs",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.TinyCompatibility",
+          "title": "Inverse-polynomial tiny-cover compatibility",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.TotalRankCount",
+          "title": "Counting component tensors with bounded total rank",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.UnaryMixer",
+          "title": "Formal forward and reverse rows of a unary mixer test",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.UnaryMixers",
+          "title": "The finite simultaneous unary mixer estimate",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.UnaryRowLaw",
+          "title": "Joint distribution of the unary mixer row matrix",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.UniformMixers",
+          "title": "Uniform mixing forms chosen simultaneously before any unit law",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.UniformPhaseTails",
+          "title": "Uniform raw channel phase tails over bounded-rank targets",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.UniformTableInjection",
+          "title": "Uniform early channel choice for actual accepting tables",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax342547.UnitContainers",
+          "title": "Terminal containers for actual admissible unit laws",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.UnitLaws",
+          "title": "Admissible pair laws",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.UnitSpanAvoidance",
+          "title": "Whole-unit conditioned pin avoidance",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.UniversalWitnesses",
+          "title": "Universal protected pin witnesses",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.Walsh",
+          "title": "Orthogonality and finite Walsh correlation bounds",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax342547.WitnessAtoms",
+          "title": "Witness atoms and their numerical tester records",
+          "type": "definition and theorem"
+        }
+      ],
+      "proofs": [
+        "Lax342547Proofs.AcceptingFamilies.accepting_family_loss",
+        "Lax342547Proofs.AcceptingFamilies.conditional_event_mass",
+        "Lax342547Proofs.AcceptingFamilies.conditional_probability",
+        "Lax342547Proofs.AcceptingInjection.accepting_family_injection",
+        "Lax342547Proofs.AcceptingInjection.primal_accepting_family_injection",
+        "Lax342547Proofs.ActualCellCollision.realized_conditional_four_holes",
+        "Lax342547Proofs.ActualDeficits.map_finset_sup",
+        "Lax342547Proofs.ActualDeficits.projected_deficit_eq",
+        "Lax342547Proofs.ActualDeficits.small_projected_tail",
+        "Lax342547Proofs.AdaptiveProtection.adaptive_protected_probability",
+        "Lax342547Proofs.AdaptiveSampling.adaptive_cylinder_bound",
+        "Lax342547Proofs.AdaptiveSampling.adaptive_cylinder_probability",
+        "Lax342547Proofs.AdaptiveSets.disjoint_adaptive_bound",
+        "Lax342547Proofs.AdaptiveSets.embedding_adaptive_bound",
+        "Lax342547Proofs.AdaptiveUnion.adaptive_cover_union",
+        "Lax342547Proofs.AffineImages.dependence_bound",
+        "Lax342547Proofs.AffineImages.evaluation_rank",
+        "Lax342547Proofs.AffineImages.extension_dependence_bound",
+        "Lax342547Proofs.AffineImages.image_bound",
+        "Lax342547Proofs.AffineSliceIndependence.affine_pair_failure",
+        "Lax342547Proofs.AffineSliceIndependence.joinedFree_uniform",
+        "Lax342547Proofs.AffineSliceIndependence.pairMap_injective_of_joined",
+        "Lax342547Proofs.AffineSliceIndependence.point_gram_ignores_free",
+        "Lax342547Proofs.AffineSliceIndependence.point_gram_setFree",
+        "Lax342547Proofs.AffineSliceIndependence.point_pair_failure",
+        "Lax342547Proofs.AffineSliceIndependence.point_pair_independent",
+        "Lax342547Proofs.AffineSliceIndependence.pointColumns_eraseFree",
+        "Lax342547Proofs.AffineSliceScales.budget_decay",
+        "Lax342547Proofs.AffineSliceScales.uniform_threshold",
+        "Lax342547Proofs.AffineSliceVariance.affine_slice_variance",
+        "Lax342547Proofs.AffineSliceVariance.coefficient_variance",
+        "Lax342547Proofs.AffineSliceVariance.flavored_slice_variance",
+        "Lax342547Proofs.AffineSliceVariance.independent_free_pair_bound",
+        "Lax342547Proofs.AffineSliceVariance.reference_mean",
+        "Lax342547Proofs.AmplifiedTests.amplified_bad_mass",
+        "Lax342547Proofs.AmplifiedTests.test_fubini",
+        "Lax342547Proofs.AtomDirections.blockDirections_injective",
+        "Lax342547Proofs.AtomDirections.distinct_directions_injective",
+        "Lax342547Proofs.AtomDirections.point_varyBlock",
+        "Lax342547Proofs.AtomFunctionals.atom_base_degree",
+        "Lax342547Proofs.AtomFunctionals.atom_functional_ext",
+        "Lax342547Proofs.AtomFunctionals.atom_local_functional",
+        "Lax342547Proofs.AtomFunctionals.cut_star_sum",
+        "Lax342547Proofs.AtomParameters.atom_selector_degree",
+        "Lax342547Proofs.AtomParameters.generic_parameters_cover",
+        "Lax342547Proofs.AtomParameters.parameter_atom_degree",
+        "Lax342547Proofs.AtomParameters.parameter_coordinate_degree",
+        "Lax342547Proofs.AtomParameters.parameter_tensor_degree",
+        "Lax342547Proofs.AtomProducts.gradient_atoms",
+        "Lax342547Proofs.AtomProducts.gradient_of_prescriptions",
+        "Lax342547Proofs.AtomProducts.mixing_atoms",
+        "Lax342547Proofs.Atoms.atom_component",
+        "Lax342547Proofs.Atoms.flavor_coordinates",
+        "Lax342547Proofs.Atoms.parameterLaw_product",
+        "Lax342547Proofs.BarredElimination.individual_keys_zero",
+        "Lax342547Proofs.BarredElimination.private_primal_pin",
+        "Lax342547Proofs.BarredElimination.sparse_barred",
+        "Lax342547Proofs.BarredSpaces.annihilator_component_rank",
+        "Lax342547Proofs.BarredSpaces.barred_projection",
+        "Lax342547Proofs.BarredSpaces.individual_key_dimension",
+        "Lax342547Proofs.BaseCompression.blockMap_allowed",
+        "Lax342547Proofs.BaseCompression.blockMap_profile",
+        "Lax342547Proofs.BaseCompression.blockMap_rank",
+        "Lax342547Proofs.BaseCompression.blockMap_tagSpace",
+        "Lax342547Proofs.BaseCompression.componentMap_cut",
+        "Lax342547Proofs.BaseCompression.concrete_compression_rank",
+        "Lax342547Proofs.BaseCompression.fixing_observed_projection",
+        "Lax342547Proofs.BaseCompression.liftBase_point",
+        "Lax342547Proofs.BaseCompression.liftBase_rank",
+        "Lax342547Proofs.BaseCompression.matrixPair_tensorMap",
+        "Lax342547Proofs.BaseCompression.matrixPair_trace",
+        "Lax342547Proofs.BaseCompression.tensorMap_moments",
+        "Lax342547Proofs.BaseCompression.tensorMap_point",
+        "Lax342547Proofs.BaseCompression.tensorMap_target",
+        "Lax342547Proofs.BaselineRank.bounded_baseline",
+        "Lax342547Proofs.BaselineRank.channel_rank",
+        "Lax342547Proofs.BaseMoments.mem_baseMomentSpace_iff",
+        "Lax342547Proofs.BilinearMean.bilinear_character_average",
+        "Lax342547Proofs.BilinearWalsh.bounded_weight_bound",
+        "Lax342547Proofs.BilinearWalsh.conditional_mixture_bound",
+        "Lax342547Proofs.BilinearWalsh.correlation_sq",
+        "Lax342547Proofs.BilinearWalsh.density_bound",
+        "Lax342547Proofs.BilinearWalsh.separate_phase_bound",
+        "Lax342547Proofs.BilinearWalsh.uniform_bound",
+        "Lax342547Proofs.BinaryMixer.ambientParity_eval",
+        "Lax342547Proofs.BinaryMixer.bilinearPart_eq",
+        "Lax342547Proofs.BinaryMixer.block_rank_le",
+        "Lax342547Proofs.BinaryMixer.parity_free_block",
+        "Lax342547Proofs.BinaryMixer.pointInput_affine",
+        "Lax342547Proofs.BinaryMixer.selfGram_parity_sharp_block",
+        "Lax342547Proofs.BinaryMixers.mixer_failure_bound",
+        "Lax342547Proofs.BinaryMixers.sharp_failure_bound",
+        "Lax342547Proofs.BinaryMixers.uniform_of_restrictions",
+        "Lax342547Proofs.BinaryPrescriptions.realize",
+        "Lax342547Proofs.BipartiteFlows.capacity_nonneg",
+        "Lax342547Proofs.BipartiteFlows.forward_flow_nonneg",
+        "Lax342547Proofs.BipartiteFlows.infeasible_cut",
+        "Lax342547Proofs.BipartiteFlows.left_conservation",
+        "Lax342547Proofs.BipartiteFlows.normalized_flow_law",
+        "Lax342547Proofs.BipartiteFlows.right_conservation",
+        "Lax342547Proofs.BipartiteFlows.source_flow_total",
+        "Lax342547Proofs.BipartiteFlows.zero_capacity_flow",
+        "Lax342547Proofs.BlockDeficits.lifted_sum_rank_deficit",
+        "Lax342547Proofs.BlockDeficits.nonzero_block_count_deficit",
+        "Lax342547Proofs.BlockDeficits.nonzero_map_rank",
+        "Lax342547Proofs.BooleanWeight.constant_weight",
+        "Lax342547Proofs.BooleanWeight.derivative_degree",
+        "Lax342547Proofs.BooleanWeight.derivative_monomial",
+        "Lax342547Proofs.BooleanWeight.derivative_weight",
+        "Lax342547Proofs.BooleanWeight.excluded_labels_exactification",
+        "Lax342547Proofs.BooleanWeight.flip_twice",
+        "Lax342547Proofs.BooleanWeight.invariant_constant",
+        "Lax342547Proofs.BooleanWeight.nonzero_weight",
+        "Lax342547Proofs.BooleanWeight.uniform_error_exactification",
+        "Lax342547Proofs.BooleanWeight.uniform_nonzero_mass",
+        "Lax342547Proofs.BoundedDerivatives.allowed_projection",
+        "Lax342547Proofs.BoundedDerivatives.bounded_component",
+        "Lax342547Proofs.BoundedDerivatives.bounded_derivative",
+        "Lax342547Proofs.BoundedDerivatives.bounded_derivative_covectors",
+        "Lax342547Proofs.BoundedDerivatives.bounded_recipe_solution",
+        "Lax342547Proofs.BoundedDerivatives.bounded_response",
+        "Lax342547Proofs.BoundedDerivatives.observed_projection",
+        "Lax342547Proofs.BoundedPeeling.bounded_partition",
+        "Lax342547Proofs.CellAveraging.conditional_rectangle_lower",
+        "Lax342547Proofs.CellAveraging.conditional_rectangle_mass",
+        "Lax342547Proofs.CellAveraging.pair_event_mass_nonneg",
+        "Lax342547Proofs.CellAveraging.partition_rectangle_mass",
+        "Lax342547Proofs.CellAveraging.retained_cell_pair_lower",
+        "Lax342547Proofs.CellRepresentatives.positive_cell_member",
+        "Lax342547Proofs.CellRepresentatives.retained_cell_representatives",
+        "Lax342547Proofs.ChannelAssembly.assembled_minus",
+        "Lax342547Proofs.ChannelAssembly.assembled_plus",
+        "Lax342547Proofs.ChannelAssembly.channel_change_coordinate",
+        "Lax342547Proofs.ChannelAssembly.reciprocal_minus",
+        "Lax342547Proofs.ChannelAssembly.reciprocal_plus",
+        "Lax342547Proofs.ChannelChanges.channel_entry",
+        "Lax342547Proofs.ChannelChanges.column_injection_zero",
+        "Lax342547Proofs.ChannelChanges.frozen",
+        "Lax342547Proofs.ChannelChanges.opposite_primal",
+        "Lax342547Proofs.ChannelChanges.perpendicular_detects",
+        "Lax342547Proofs.ChannelChanges.pin_frozen",
+        "Lax342547Proofs.ChannelChanges.row_injection_zero",
+        "Lax342547Proofs.ChannelCharacters.channel_probability",
+        "Lax342547Proofs.ChannelCharacters.character_add",
+        "Lax342547Proofs.ChannelCharacters.character_average",
+        "Lax342547Proofs.ChannelCharacters.character_sum",
+        "Lax342547Proofs.ChannelCharacters.product_channel_characters",
+        "Lax342547Proofs.ChannelCharacters.repeated_character_average",
+        "Lax342547Proofs.ChannelColumns.columns_uniform_weights",
+        "Lax342547Proofs.ChannelColumns.no_cover_raw_phase_tail",
+        "Lax342547Proofs.ChannelColumns.pmf_weights_map",
+        "Lax342547Proofs.ChannelColumns.push_cell_mass",
+        "Lax342547Proofs.ChannelColumns.raw_channel_event_cap",
+        "Lax342547Proofs.ChannelColumns.raw_channel_point_cap",
+        "Lax342547Proofs.ChannelDensity.all_components_density",
+        "Lax342547Proofs.ChannelDensity.event_density",
+        "Lax342547Proofs.ChannelDensity.point_density",
+        "Lax342547Proofs.ChannelDensity.same_gram_mass",
+        "Lax342547Proofs.ChannelFactorization.allowed_pure_factor",
+        "Lax342547Proofs.ChannelFactorization.channel_pairing_rank",
+        "Lax342547Proofs.ChannelFactorization.factor_in_channel_spaces",
+        "Lax342547Proofs.ChannelFactorization.factor_through_pairing",
+        "Lax342547Proofs.ChannelFactorization.perpendicular_dimension",
+        "Lax342547Proofs.ChannelFactorization.remaining_values_allowed",
+        "Lax342547Proofs.ChannelFactorization.remaining_values_dimension",
+        "Lax342547Proofs.ChannelFactorization.remaining_values_factor",
+        "Lax342547Proofs.ChannelFactorization.remaining_values_orthogonal",
+        "Lax342547Proofs.ChannelGroups.sign_sum",
+        "Lax342547Proofs.ChannelGroups.tensor_character_groups",
+        "Lax342547Proofs.ChannelGroups.tensor_character_value",
+        "Lax342547Proofs.ChannelMoments.channel_even_moment_bound",
+        "Lax342547Proofs.ChannelMoments.channel_phase_tail",
+        "Lax342547Proofs.CoefficientPhase.coefficient_trace",
+        "Lax342547Proofs.CoefficientPhase.independent_factor_phase",
+        "Lax342547Proofs.CollisionCosts.collision_exponential_lower",
+        "Lax342547Proofs.CollisionCosts.pruning_half_overlap",
+        "Lax342547Proofs.CollisionCosts.restriction_exponential_lower",
+        "Lax342547Proofs.CollisionExponents.collision_lower_from_overlap",
+        "Lax342547Proofs.CollisionExponents.paper_scalar_cost",
+        "Lax342547Proofs.CollisionExponents.paper_scalar_smallness",
+        "Lax342547Proofs.CollisionExponents.pruning_overlap_bound",
+        "Lax342547Proofs.CollisionExponents.pruning_power_identity",
+        "Lax342547Proofs.CollisionExponents.scalar_agreement_power",
+        "Lax342547Proofs.CollisionPruning.averaged_pruning",
+        "Lax342547Proofs.CollisionPruning.paired_pruning",
+        "Lax342547Proofs.CollisionPruning.retained_le",
+        "Lax342547Proofs.CollisionPruning.retained_loss",
+        "Lax342547Proofs.CollisionPruning.retained_nonneg",
+        "Lax342547Proofs.CollisionScales.bounded_option_exponent",
+        "Lax342547Proofs.CollisionScales.bounded_options",
+        "Lax342547Proofs.CollisionScales.eventual_pruning_gap",
+        "Lax342547Proofs.CollisionScales.record_scale",
+        "Lax342547Proofs.CollisionScales.scalar_scale",
+        "Lax342547Proofs.CombinedSpans.deficit_product",
+        "Lax342547Proofs.CombinedSpans.gain_product",
+        "Lax342547Proofs.CombinedSpans.product_space_dimension",
+        "Lax342547Proofs.CombinedSpans.span_after_product",
+        "Lax342547Proofs.CombinedSpans.sum_gain_product",
+        "Lax342547Proofs.CommonAtoms.common_atom_constant_zero",
+        "Lax342547Proofs.CommonAtoms.common_atom_sum_zero",
+        "Lax342547Proofs.CommonExactification.common_prediction_exact",
+        "Lax342547Proofs.CommonExactification.discrepancy_mass_union",
+        "Lax342547Proofs.CommonExactification.prediction_good_mass",
+        "Lax342547Proofs.CommonExactification.retained_common_prediction",
+        "Lax342547Proofs.CommonTestTransfer.mean_comparison",
+        "Lax342547Proofs.CommonTestTransfer.success_transfer",
+        "Lax342547Proofs.ComponentCharacters.block_factor_pair",
+        "Lax342547Proofs.ComponentCharacters.block_factor_phase",
+        "Lax342547Proofs.ComponentCharacters.block_image_dimension",
+        "Lax342547Proofs.ComponentCharacters.component_character_bound",
+        "Lax342547Proofs.ComponentCharacters.retained_component_character_dichotomy",
+        "Lax342547Proofs.ComponentDuals.diagonal_dual_identity",
+        "Lax342547Proofs.ComponentDuals.diagonal_dual_range",
+        "Lax342547Proofs.ComponentDuals.dual_componentwise_join_closed",
+        "Lax342547Proofs.ComponentMoments.component_even_moment_bound",
+        "Lax342547Proofs.ComponentMoments.component_phase_tail",
+        "Lax342547Proofs.ComponentRankGrowth.component_no_cover_rank",
+        "Lax342547Proofs.ComponentSpaces.componentwise_join_closed",
+        "Lax342547Proofs.ComponentSpaces.coordinate_space_bot",
+        "Lax342547Proofs.ComponentSpaces.coordinate_space_sup",
+        "Lax342547Proofs.ComponentSpaces.diagonal_range",
+        "Lax342547Proofs.ComponentTests.coefficient_character",
+        "Lax342547Proofs.ComponentTests.component_scalar_agreement",
+        "Lax342547Proofs.CompressedResidual.compressed_pure_solution",
+        "Lax342547Proofs.CompressedResidual.compressed_recipe",
+        "Lax342547Proofs.ConcreteCut.exists_testers",
+        "Lax342547Proofs.ConcreteCut.gradient_properties",
+        "Lax342547Proofs.ConcreteGeometry.selfGram_changeZ",
+        "Lax342547Proofs.ConcreteGeometry.selfGram_moments",
+        "Lax342547Proofs.ConcreteModel.exists_model",
+        "Lax342547Proofs.ConcreteModel.graph_indepNum_le_two",
+        "Lax342547Proofs.ConcreteRecipes.prescribe",
+        "Lax342547Proofs.ConditionalChannels.channel_rank_failures",
+        "Lax342547Proofs.ConditionalChannels.conditional_point",
+        "Lax342547Proofs.ConditionalChannels.conditional_uniform",
+        "Lax342547Proofs.ConditionalChannels.raw_conditioning",
+        "Lax342547Proofs.ConditionalMinus.completion_event_bound",
+        "Lax342547Proofs.ConditionalMinus.conditional_uniform",
+        "Lax342547Proofs.ConditionalMinus.rank_failure",
+        "Lax342547Proofs.ConditionalMinus.raw_conditioning",
+        "Lax342547Proofs.ConditionalPairs.subtype_pair_event",
+        "Lax342547Proofs.ConditionedAffineColumns.conditioned_nominal_pair_failure",
+        "Lax342547Proofs.ConditionedAffineColumns.conditioning_pair_bound",
+        "Lax342547Proofs.ConditionedAffineColumns.freePair_uniform",
+        "Lax342547Proofs.ConditionedAffineColumns.nominal_pair_failure",
+        "Lax342547Proofs.ConditionedMixing.bounded_integral_deletion",
+        "Lax342547Proofs.ConditionedMixing.conditional_test_comparison",
+        "Lax342547Proofs.ConditionedMixing.signed_pattern_error",
+        "Lax342547Proofs.Conditioning.disjoint_mixture",
+        "Lax342547Proofs.Conditioning.filter_density",
+        "Lax342547Proofs.Conditioning.filter_event",
+        "Lax342547Proofs.Conditioning.filter_event_bound",
+        "Lax342547Proofs.Conditioning.weighted_filter",
+        "Lax342547Proofs.ConstrainedCompression.actual_block_compression",
+        "Lax342547Proofs.ConstrainedCompression.exists_block_compression",
+        "Lax342547Proofs.ConstrainedCompression.fixedSlices_mem",
+        "Lax342547Proofs.ConstrainedCompression.fixedSlices_rank",
+        "Lax342547Proofs.ConstrainedCompression.lifted_decomposition",
+        "Lax342547Proofs.ConstrainedCompression.observations_rank",
+        "Lax342547Proofs.ConstrainedCompression.pi_range_rank",
+        "Lax342547Proofs.ConstrainedCompression.preserved_matrix",
+        "Lax342547Proofs.ConstrainedCompression.vector_decomposition",
+        "Lax342547Proofs.Construction.arbitrarily_large_small_connected_matching",
+        "Lax342547Proofs.ContainerAsymptotics.container_exponent_little_o",
+        "Lax342547Proofs.ContainerAsymptotics.eventually_container_exponent",
+        "Lax342547Proofs.ContainerLaws.heavy_neighbor",
+        "Lax342547Proofs.ContainerLaws.mass_complement",
+        "Lax342547Proofs.ContainerLaws.minimum_mono",
+        "Lax342547Proofs.ContainerLaws.positive_support",
+        "Lax342547Proofs.ContainerLaws.recording_entropy_increment",
+        "Lax342547Proofs.ContainerLaws.residual_compact",
+        "Lax342547Proofs.ContainerLaws.residual_convex",
+        "Lax342547Proofs.ContainerLaws.residual_mono",
+        "Lax342547Proofs.ContainerLaws.support_mass_positive",
+        "Lax342547Proofs.ContainerLaws.supported_mass",
+        "Lax342547Proofs.ContainerRun.next_card_lt",
+        "Lax342547Proofs.ContainerRun.next_preserves",
+        "Lax342547Proofs.ContainerRun.next_subset",
+        "Lax342547Proofs.ContainerRun.recorded_subset",
+        "Lax342547Proofs.ContainerRun.run_entropy_budget",
+        "Lax342547Proofs.ContainerRun.run_preserves",
+        "Lax342547Proofs.ContainerRun.run_replay",
+        "Lax342547Proofs.ContainerRun.run_terminal",
+        "Lax342547Proofs.CoordinateCounts.coordinate_dimensions",
+        "Lax342547Proofs.CoordinateRestrictions.complete_left",
+        "Lax342547Proofs.CoordinateRestrictions.embedding_restriction",
+        "Lax342547Proofs.CoordinateRestrictions.sum_restriction",
+        "Lax342547Proofs.CorankCounting.card_corank",
+        "Lax342547Proofs.CorankCounting.exists_row_relations",
+        "Lax342547Proofs.CorankCounting.uniform_corank_bound",
+        "Lax342547Proofs.Counterexample.arbitrarily_large_hadwiger_counterexample",
+        "Lax342547Proofs.CoverAvoidance.finrank_map_of_disjoint_kernel",
+        "Lax342547Proofs.CoverAvoidance.projection_rank_of_avoidance",
+        "Lax342547Proofs.CoverAvoidance.quotient_rank_of_avoidance",
+        "Lax342547Proofs.CoverAvoidance.restriction_rank_of_avoidance",
+        "Lax342547Proofs.CoverClasses.finite_join_closed",
+        "Lax342547Proofs.CoverCounts.covered_count_lower_bound",
+        "Lax342547Proofs.CoverProjection.cover_restriction_kernel",
+        "Lax342547Proofs.CoverProjection.projected_column_envelope",
+        "Lax342547Proofs.CoverProjection.projected_row_envelope",
+        "Lax342547Proofs.CoverProjection.projection_rank_le",
+        "Lax342547Proofs.CoverProjection.projection_sum",
+        "Lax342547Proofs.CoverProjection.projection_zero_of_columns",
+        "Lax342547Proofs.CoverSpace.cover_space_dimension",
+        "Lax342547Proofs.CoverSpace.covered_decomposition",
+        "Lax342547Proofs.CrossBatchMixing.cross_batch_comparison",
+        "Lax342547Proofs.CrossBatchMixing.weighted_character_bound",
+        "Lax342547Proofs.CrossGramBasis.coefficient_blocks",
+        "Lax342547Proofs.CrossGramBasis.mutual_gram_bits",
+        "Lax342547Proofs.CrossGramBasis.nonzero_coefficient",
+        "Lax342547Proofs.CutFunctionals.representative_sums_eq",
+        "Lax342547Proofs.CutProfiles.same_cut_iff",
+        "Lax342547Proofs.CutSparsity.exists_majority",
+        "Lax342547Proofs.CutSparsity.exists_unique_normalized",
+        "Lax342547Proofs.CutSparsity.majority_unique",
+        "Lax342547Proofs.CutSparsity.minority_bound",
+        "Lax342547Proofs.CutSparsity.unequal_card_le",
+        "Lax342547Proofs.DerivativeContractions.left_rank_one",
+        "Lax342547Proofs.DerivativeContractions.paired_transpose",
+        "Lax342547Proofs.DerivativeContractions.right_rank_one",
+        "Lax342547Proofs.DerivativeContractions.transpose_contraction",
+        "Lax342547Proofs.DerivativeResponses.atom_annihilates",
+        "Lax342547Proofs.DerivativeResponses.component_annihilation",
+        "Lax342547Proofs.DerivativeResponses.derivative_annihilation",
+        "Lax342547Proofs.DerivativeResponses.left_test",
+        "Lax342547Proofs.DerivativeResponses.minus_contraction_zero",
+        "Lax342547Proofs.DerivativeResponses.plus_contraction_zero",
+        "Lax342547Proofs.DerivativeResponses.pure_annihilation",
+        "Lax342547Proofs.DerivativeResponses.right_test",
+        "Lax342547Proofs.DerivativeResponses.selected_part_annihilates",
+        "Lax342547Proofs.DerivativeResponses.subtract_annihilates",
+        "Lax342547Proofs.DerivativeResponses.unselected_obstruction",
+        "Lax342547Proofs.DirectRanks.diagonal_rank_sum",
+        "Lax342547Proofs.DisjointSampling.disjoint_pair_exception_bound",
+        "Lax342547Proofs.DisjointSampling.disjoint_pair_probability",
+        "Lax342547Proofs.DisjointSampling.pair_samples_left",
+        "Lax342547Proofs.DisjointSampling.pair_samples_right",
+        "Lax342547Proofs.DisjointSampling.paired_product_probability",
+        "Lax342547Proofs.DuplicatedMoments.duplicated_even_moment_bound",
+        "Lax342547Proofs.DuplicatedMoments.duplicated_total_rank",
+        "Lax342547Proofs.DuplicatedNoCover.no_cover_even_moment",
+        "Lax342547Proofs.DuplicatedNoCover.no_cover_phase_tail",
+        "Lax342547Proofs.DyadicDeficits.deficit_ratio_sum",
+        "Lax342547Proofs.DyadicDeficits.sum_differences",
+        "Lax342547Proofs.DyadicDeficits.sum_shift",
+        "Lax342547Proofs.DyadicDeficits.two_mode_scale",
+        "Lax342547Proofs.DyadicMoments.dyadic_budget_with_fixed_parameters",
+        "Lax342547Proofs.DyadicMoments.exists_dyadic_moment_order",
+        "Lax342547Proofs.DyadicMoments.fixed_dyadic_budget",
+        "Lax342547Proofs.DyadicScale.dyadic_small_tail",
+        "Lax342547Proofs.DyadicScale.single_scale",
+        "Lax342547Proofs.DyadicTails.dyadic_recurrence",
+        "Lax342547Proofs.DyadicTails.tail_deficit_le",
+        "Lax342547Proofs.DyadicTails.tail_deficit_nonneg",
+        "Lax342547Proofs.EffectiveBounds.effective_bounds",
+        "Lax342547Proofs.EffectiveBounds.tensor_dimension",
+        "Lax342547Proofs.EffectiveBounds.tensor_rank",
+        "Lax342547Proofs.EffectiveObstructions.effective_component",
+        "Lax342547Proofs.EffectiveObstructions.obstruction_decomposition",
+        "Lax342547Proofs.EffectiveObstructions.rows_of_contraction_zero",
+        "Lax342547Proofs.EffectiveObstructions.sparse_columns",
+        "Lax342547Proofs.EffectiveObstructions.tensor_of_columns_rows",
+        "Lax342547Proofs.EffectiveObstructions.transpose_blocks",
+        "Lax342547Proofs.EffectiveObstructions.unselected_tensor",
+        "Lax342547Proofs.EffectiveObstructions.unselected_vector",
+        "Lax342547Proofs.EmpiricalVariance.empirical_variance",
+        "Lax342547Proofs.EmptyPredictions.nonexceptional_prediction_exact",
+        "Lax342547Proofs.EmptyPredictions.vanishing_prediction_exact",
+        "Lax342547Proofs.EntropyContainers.entropy_container_family",
+        "Lax342547Proofs.EntropyContainers.entropy_fingerprint_length",
+        "Lax342547Proofs.EntropyContainers.entropy_increment_positive",
+        "Lax342547Proofs.EntropyLines.entropy_mix_identity",
+        "Lax342547Proofs.EntropyLines.entropy_new_support_slope",
+        "Lax342547Proofs.EntropyLines.mix_derivative",
+        "Lax342547Proofs.EntropyLines.old_entropy_derivative",
+        "Lax342547Proofs.EntropyLines.old_entropy_zero",
+        "Lax342547Proofs.EntropyProjection.entropy_projection",
+        "Lax342547Proofs.EntropyProjection.minimizer_full_support",
+        "Lax342547Proofs.EntropyProjection.minimizer_variational",
+        "Lax342547Proofs.EntropyProjection.projection_inequality",
+        "Lax342547Proofs.EntropyProjection.projection_support_cost",
+        "Lax342547Proofs.EntropySelectors.entropy_selectors",
+        "Lax342547Proofs.EntropySelectors.heavy_neighbor_nonempty",
+        "Lax342547Proofs.ExactPins.basis_rank",
+        "Lax342547Proofs.ExactPins.event_basis",
+        "Lax342547Proofs.ExactPins.event_refinement",
+        "Lax342547Proofs.ExactPins.rank_mono",
+        "Lax342547Proofs.ExactPins.rank_refinement",
+        "Lax342547Proofs.ExposedSums.remaining_projection_sum",
+        "Lax342547Proofs.FilterOccurrences.filter_subtype_card",
+        "Lax342547Proofs.FingerprintCounts.bounded_list_count",
+        "Lax342547Proofs.FingerprintCounts.pad_injective",
+        "Lax342547Proofs.FingerprintCounts.pad_length",
+        "Lax342547Proofs.FingerprintCounts.pad_recovers",
+        "Lax342547Proofs.FingerprintScales.logarithmic_progress",
+        "Lax342547Proofs.FingerprintScales.pair_exception_power",
+        "Lax342547Proofs.FingerprintScales.paper_fingerprint_length",
+        "Lax342547Proofs.FingerprintScales.paper_sample_ceiling",
+        "Lax342547Proofs.FingerprintScales.vertex_exception_power",
+        "Lax342547Proofs.FiniteCollision.average_sub",
+        "Lax342547Proofs.FiniteCollision.averaged_record_pruning",
+        "Lax342547Proofs.FiniteCollision.finite_collision_lower",
+        "Lax342547Proofs.FiniteCollision.independent_key_overlap",
+        "Lax342547Proofs.FiniteInjection.finite_injection_exception",
+        "Lax342547Proofs.FiniteLinearLaw.codimension_map_le",
+        "Lax342547Proofs.FiniteLinearLaw.family_codimension",
+        "Lax342547Proofs.FiniteLinearLaw.uniform_affine_image_bound",
+        "Lax342547Proofs.FiniteLinearLaw.uniform_image_bound",
+        "Lax342547Proofs.FiniteLinearLaw.uniform_image_of_surjective",
+        "Lax342547Proofs.FiniteMoments.finite_even_moment",
+        "Lax342547Proofs.FiniteMoments.weighted_character_moment_bound",
+        "Lax342547Proofs.FiniteSampling.cell_mass_mono",
+        "Lax342547Proofs.FiniteSampling.cell_mass_union_bound",
+        "Lax342547Proofs.FiniteSampling.coordinate_set_probability",
+        "Lax342547Proofs.FiniteSampling.cylinder_probability",
+        "Lax342547Proofs.FiniteSampling.exceptional_positions_bound",
+        "Lax342547Proofs.FiniteSampling.product_probability",
+        "Lax342547Proofs.FixedMultiPhase.fixed_parameter_marked_unit_phase",
+        "Lax342547Proofs.FixedNoCover.fixed_parameter_no_cover_phase",
+        "Lax342547Proofs.FixedSelectorGram.gram_cell_mass",
+        "Lax342547Proofs.FixedSelectorGram.gram_mass_bound",
+        "Lax342547Proofs.FixedSelectorGram.gram_restriction",
+        "Lax342547Proofs.FixedSelectorGram.massFloor_pos",
+        "Lax342547Proofs.FixedSelectorGram.positive_gram_mass",
+        "Lax342547Proofs.FixedSelectorGram.prescription_mass",
+        "Lax342547Proofs.FixedSelectorGram.restriction_uniform",
+        "Lax342547Proofs.FixedSelectorGram.routed_gram",
+        "Lax342547Proofs.FixedSelectorGram.same_selector_gram",
+        "Lax342547Proofs.FlatRank.exists_commuting_idempotents",
+        "Lax342547Proofs.FlatRank.exists_flat_level",
+        "Lax342547Proofs.FlatRank.quotient_restriction_surjective",
+        "Lax342547Proofs.FlatRank.quotientPairing_nondegenerate",
+        "Lax342547Proofs.FlavorAffineSlices.conditioned_pair_failure",
+        "Lax342547Proofs.FlavorAffineSlices.flavor_slice_variance",
+        "Lax342547Proofs.FlavorAffineSlices.free_pair_uniform",
+        "Lax342547Proofs.FlavorAffineSlices.nominal_pair_failure",
+        "Lax342547Proofs.FlowCuts.conserving_cut_value",
+        "Lax342547Proofs.FlowCuts.cut_indicator",
+        "Lax342547Proofs.FlowCuts.cut_upper_bound",
+        "Lax342547Proofs.FlowCuts.divergence_cut_sum",
+        "Lax342547Proofs.FlowCuts.internal_skew_sum",
+        "Lax342547Proofs.FlowCuts.real_max_flow_min_cut",
+        "Lax342547Proofs.FlowCuts.saturated_cut_value",
+        "Lax342547Proofs.FormalQuadratic.affine_polar",
+        "Lax342547Proofs.FormalQuadratic.affine_polar_matrix_rank",
+        "Lax342547Proofs.FormalQuadratic.polar_rank",
+        "Lax342547Proofs.FourHoles.four_holes",
+        "Lax342547Proofs.FourierTests.character_zero",
+        "Lax342547Proofs.FourierTests.four_bit_pattern",
+        "Lax342547Proofs.FourierTests.pattern_inversion",
+        "Lax342547Proofs.FourierTests.pattern_lower",
+        "Lax342547Proofs.FourierTests.pattern_lower_sharp",
+        "Lax342547Proofs.FourierTests.scalar_agreement_half",
+        "Lax342547Proofs.FourPhaseParity.duplicate_injective",
+        "Lax342547Proofs.FourPhaseParity.even_character_sum",
+        "Lax342547Proofs.FourPhaseParity.even_iff_duplicate",
+        "Lax342547Proofs.FourPhaseParity.four_phase_parity_lower",
+        "Lax342547Proofs.FourPhaseParity.odd_character_card",
+        "Lax342547Proofs.FourPhaseParity.phase_duplicate",
+        "Lax342547Proofs.FourPhaseParity.tiny_four_phase_lower",
+        "Lax342547Proofs.FourPhaseParity.tiny_four_phase_positive",
+        "Lax342547Proofs.FractionalColoring.fractional_chromatic_le_chromatic",
+        "Lax342547Proofs.FractionalColoring.fractional_chromatic_lower_bound",
+        "Lax342547Proofs.FractionalCounterexample.arbitrarily_large_fractional_counterexample",
+        "Lax342547Proofs.FrameExistence.frame_nonempty",
+        "Lax342547Proofs.FrameExistence.frame_nonempty_of_card_le",
+        "Lax342547Proofs.FrameSymmetry.full_frame_orbit",
+        "Lax342547Proofs.FrameSymmetry.minus_uniform",
+        "Lax342547Proofs.FrameSymmetry.minusChannel_uniform",
+        "Lax342547Proofs.FrameSymmetry.plus_uniform",
+        "Lax342547Proofs.FrameSymmetry.plusChannel_uniform",
+        "Lax342547Proofs.FrameTranspose.capped_transpose_frame",
+        "Lax342547Proofs.FrameTranspose.conditioned_dual_span_avoidance",
+        "Lax342547Proofs.FrameTranspose.uniform_equiv_push",
+        "Lax342547Proofs.FrameTuples.full_product",
+        "Lax342547Proofs.FrameTuples.full_uniform",
+        "Lax342547Proofs.FrameTuples.primal_family",
+        "Lax342547Proofs.FrameTuples.primal_product",
+        "Lax342547Proofs.FrameTuples.primal_uniform",
+        "Lax342547Proofs.FrameTuples.raw_full_conditioning",
+        "Lax342547Proofs.FreshKeys.fresh_keys",
+        "Lax342547Proofs.FreshKeys.fresh_points",
+        "Lax342547Proofs.FrozenAssembly.assembled_frozen",
+        "Lax342547Proofs.FrozenAssembly.barred_channel_frozen",
+        "Lax342547Proofs.FrozenAssembly.flip_lists_twice",
+        "Lax342547Proofs.FrozenBaselines.baseline_properties",
+        "Lax342547Proofs.FrozenBaselines.splitting_exists",
+        "Lax342547Proofs.FrozenCellDirections.frozen_target_oriented",
+        "Lax342547Proofs.FrozenCellDirections.pin_key_frozen_images",
+        "Lax342547Proofs.FrozenCellDirections.record_target_oriented",
+        "Lax342547Proofs.FrozenCellDirections.right_pin_key_frozen_images",
+        "Lax342547Proofs.FrozenCharacters.quotient_bilinear",
+        "Lax342547Proofs.FrozenCharacters.zero_quotient_frozen_agreement",
+        "Lax342547Proofs.FrozenGradients.frozen_gradients",
+        "Lax342547Proofs.FrozenRecords.record_count",
+        "Lax342547Proofs.FrozenRecords.record_evaluation",
+        "Lax342547Proofs.FrozenRecords.records_determine_frozen",
+        "Lax342547Proofs.FrozenRecords.two_records_cross_agreement",
+        "Lax342547Proofs.FrozenValues.frozen_atom",
+        "Lax342547Proofs.FrozenValues.selected_values",
+        "Lax342547Proofs.GoodSamples.bad_sample_bound",
+        "Lax342547Proofs.GoodSamples.cell_mass_or",
+        "Lax342547Proofs.GoodSamples.exists_good_sample",
+        "Lax342547Proofs.GoodSamples.mass_less_one_exists_complement",
+        "Lax342547Proofs.GradientAssembly.contraction_expansion",
+        "Lax342547Proofs.GradientAssembly.corrected_gradients",
+        "Lax342547Proofs.GradientAssembly.simultaneous_gradients",
+        "Lax342547Proofs.GradientForm.form_properties",
+        "Lax342547Proofs.GradientRealization.gradient_realization",
+        "Lax342547Proofs.GramColumns.conditional_failure",
+        "Lax342547Proofs.GramColumns.extension_failure",
+        "Lax342547Proofs.GramColumns.gram_probability",
+        "Lax342547Proofs.GramColumns.gram_uniform",
+        "Lax342547Proofs.GramNormalization.column_failure",
+        "Lax342547Proofs.GramNormalization.normalization_lower",
+        "Lax342547Proofs.GramNormalization.normalization_quarter",
+        "Lax342547Proofs.GramNormalization.normalization_upper",
+        "Lax342547Proofs.GramOrbitDensity.batch_point_cap",
+        "Lax342547Proofs.GramOrbitDensity.batch_probability",
+        "Lax342547Proofs.GramOrbitDensity.mutual_gram_comparison",
+        "Lax342547Proofs.GramTests.paper_image_walsh",
+        "Lax342547Proofs.GramTests.paper_walsh_factor",
+        "Lax342547Proofs.GramTests.zero_or_biased_agreement",
+        "Lax342547Proofs.GraphFailure.graph_from_container_exceptions",
+        "Lax342547Proofs.GraphFailure.sample_failure_bound",
+        "Lax342547Proofs.GreedySpaces.accumulated_dimension",
+        "Lax342547Proofs.GreedySpaces.finite_span_dimension",
+        "Lax342547Proofs.GreedySpaces.independent_snoc",
+        "Lax342547Proofs.GreedySpans.exists_greedy_order",
+        "Lax342547Proofs.GreedySpans.gain_antitone",
+        "Lax342547Proofs.GreedySpans.gain_le_rank",
+        "Lax342547Proofs.GreedySpans.gain_nonneg",
+        "Lax342547Proofs.GreedySpans.greedy_decreasing",
+        "Lax342547Proofs.GreedySpans.greedy_drop",
+        "Lax342547Proofs.GreedySpans.increments_drop",
+        "Lax342547Proofs.GreedySpans.increments_le",
+        "Lax342547Proofs.GreedySpans.increments_length",
+        "Lax342547Proofs.GreedySpans.increments_nonneg",
+        "Lax342547Proofs.GreedySpans.increments_sum",
+        "Lax342547Proofs.GreedySpans.span_after_eq",
+        "Lax342547Proofs.GreedyTails.greedy_deficit_bound",
+        "Lax342547Proofs.GreedyTails.greedy_tail_bound",
+        "Lax342547Proofs.GreedyTails.small_greedy_tail",
+        "Lax342547Proofs.GroupPhaseScale.group_phase_density_budget",
+        "Lax342547Proofs.GroupTensorComparison.product_comparison",
+        "Lax342547Proofs.GroupTensorComparison.reference_product_comparison",
+        "Lax342547Proofs.GroupTensorComparison.uniform_group_comparison",
+        "Lax342547Proofs.HadamardRank.all_one_rank",
+        "Lax342547Proofs.HadamardRank.compatible_pair_in_tuple",
+        "Lax342547Proofs.HadamardRank.hadamard_rank",
+        "Lax342547Proofs.HadamardRank.incompatible_tuple_bound",
+        "Lax342547Proofs.HadamardRank.one_add_rank",
+        "Lax342547Proofs.HadwigerMatching.card_le_twice_chromaticNumber_of_indepNum",
+        "Lax342547Proofs.HadwigerMatching.hadwiger_matching_bound",
+        "Lax342547Proofs.HistogramGram.half_ambient_error",
+        "Lax342547Proofs.HistogramGram.independent_groups_error",
+        "Lax342547Proofs.HistogramGram.normalized_bounds",
+        "Lax342547Proofs.HistogramGram.normalized_error",
+        "Lax342547Proofs.HistogramGram.product_error",
+        "Lax342547Proofs.HoleTriangleFree.hole_properties",
+        "Lax342547Proofs.ImageScale.cost_bound",
+        "Lax342547Proofs.ImageScale.exists_paper_scale",
+        "Lax342547Proofs.ImageScale.exists_scale",
+        "Lax342547Proofs.ImageScale.reference_image_cap",
+        "Lax342547Proofs.IndependentMixtures.independent_mixture_event",
+        "Lax342547Proofs.IndependentMixtures.independent_pair_mixture",
+        "Lax342547Proofs.IndependentSampling.accepted_spaces_independent",
+        "Lax342547Proofs.IndependentSampling.greedy_failure_lower_probability",
+        "Lax342547Proofs.IndependentWitnesses.adaptive_independent_witness_probability",
+        "Lax342547Proofs.IndependentWitnesses.independent_witness_matrix",
+        "Lax342547Proofs.IndependentWitnesses.nonzero_witness_card",
+        "Lax342547Proofs.IndexedRankGrowth.component_no_cover_rank_indexed",
+        "Lax342547Proofs.InjectionAsymptotics.eventually_relative_exception",
+        "Lax342547Proofs.InjectionAsymptotics.polynomial_dyadic_floor_tends_zero",
+        "Lax342547Proofs.InjectionAsymptotics.relative_union_budget",
+        "Lax342547Proofs.InjectionBudgets.accepting_family_exponential_budget",
+        "Lax342547Proofs.InjectionBudgets.amplified_ratio_budget",
+        "Lax342547Proofs.InjectionBudgets.conditioned_avoidance_budget",
+        "Lax342547Proofs.InjectionBudgets.early_channel_margin",
+        "Lax342547Proofs.InjectionBudgets.primal_avoidance_exponent",
+        "Lax342547Proofs.InjectionBudgets.quotient_probe_length",
+        "Lax342547Proofs.InjectionThresholds.exists_dyadic_gap",
+        "Lax342547Proofs.InjectionThresholds.exists_early_parameters",
+        "Lax342547Proofs.InjectionUnion.finite_injection_union",
+        "Lax342547Proofs.InjectionUnion.inverse_polynomial_relative_union",
+        "Lax342547Proofs.InjectionUnion.pair_event_mass",
+        "Lax342547Proofs.InjectiveDensity.injective_matrix_point_cap",
+        "Lax342547Proofs.InjectiveDensity.raw_minus_channel_point_cap",
+        "Lax342547Proofs.InjectiveDensity.raw_plus_channel_point_cap",
+        "Lax342547Proofs.InjectiveFrames.injection_event_bound",
+        "Lax342547Proofs.InjectiveFrames.injective_mass_half",
+        "Lax342547Proofs.InjectiveFrames.raw_transpose_failures",
+        "Lax342547Proofs.InjectiveFrames.transpose_failure",
+        "Lax342547Proofs.InjectiveFrames.transpose_uniform",
+        "Lax342547Proofs.JoinedGramOrbits.compatible_filter",
+        "Lax342547Proofs.JoinedGramOrbits.joined_gram",
+        "Lax342547Proofs.JoinedGramOrbits.union_uniform",
+        "Lax342547Proofs.JoinedRecords.basis_records_cross_agreement",
+        "Lax342547Proofs.JoinedRecords.basis_vectors_span",
+        "Lax342547Proofs.JoinedRecords.coordinate_linear_budget",
+        "Lax342547Proofs.JoinedRecords.joined_rank_budget",
+        "Lax342547Proofs.JoinedRecords.joined_record_bound",
+        "Lax342547Proofs.JoinedRecords.joined_record_count",
+        "Lax342547Proofs.JoinedRecords.nominal_column_count",
+        "Lax342547Proofs.JointDirections.appended_quotient_injective",
+        "Lax342547Proofs.JointGramInjection.ambient_failure",
+        "Lax342547Proofs.JointGramInjection.conditioned_reference_failure",
+        "Lax342547Proofs.JointGramInjection.reference_failure",
+        "Lax342547Proofs.JointKeyCap.leaf_key_fresh_image_cap",
+        "Lax342547Proofs.JointProjectors.exists_joint_decomposition",
+        "Lax342547Proofs.KernelWitness.coefficient_count",
+        "Lax342547Proofs.KernelWitness.exists_family_witness",
+        "Lax342547Proofs.KernelWitness.exists_kernel_witness",
+        "Lax342547Proofs.KernelWitness.kernel_event_bound",
+        "Lax342547Proofs.KeyMeasures.key_collision_identity",
+        "Lax342547Proofs.KeyMeasures.key_mass_nonneg",
+        "Lax342547Proofs.KeyMeasures.key_mass_subprobability",
+        "Lax342547Proofs.KeyMeasures.key_mass_total",
+        "Lax342547Proofs.KeyMeasures.uniform_overlap_collision",
+        "Lax342547Proofs.KeySpans.exclusions_exists",
+        "Lax342547Proofs.KeySpans.independent_sum",
+        "Lax342547Proofs.KeySpans.span_disjoint",
+        "Lax342547Proofs.LabelDecomposition.low_rank_label_decomposition",
+        "Lax342547Proofs.LabelRelations.blocks_unique",
+        "Lax342547Proofs.LabelRelations.cut_triangle",
+        "Lax342547Proofs.LabelRelations.triangle_blocks",
+        "Lax342547Proofs.LeafBlockCaps.block_image_fiber",
+        "Lax342547Proofs.LeafBlockCaps.block_image_push",
+        "Lax342547Proofs.LeafBlockCaps.original_leaf_all_rank_block_cap",
+        "Lax342547Proofs.LeafBlockCaps.original_leaf_block_cap",
+        "Lax342547Proofs.LeafCellImages.original_leaf_cell_image_cap",
+        "Lax342547Proofs.LeafCollision.mixture_real_weights",
+        "Lax342547Proofs.LeafCollision.original_law_exponential_collision",
+        "Lax342547Proofs.LeafCollision.real_pair_mixture",
+        "Lax342547Proofs.LeafCollision.skipped_collision_bound",
+        "Lax342547Proofs.LeafCollision.weighted_collision_lower",
+        "Lax342547Proofs.LeafExtraction.exists_leaf",
+        "Lax342547Proofs.LeafImages.image_pin_event",
+        "Lax342547Proofs.LeafImages.image_pin_relative_rank",
+        "Lax342547Proofs.LeafImages.leaf_tuple_image_cap",
+        "Lax342547Proofs.LeafPartition.exists_partition",
+        "Lax342547Proofs.LeafTrimming.combined_restriction",
+        "Lax342547Proofs.LeafTrimming.density_after_restriction",
+        "Lax342547Proofs.LeafTrimming.event_after_restriction",
+        "Lax342547Proofs.LeafTrimming.filtered_marginal",
+        "Lax342547Proofs.LeafTrimming.minentropy_after_restriction",
+        "Lax342547Proofs.LeafTrimming.restricted_discard",
+        "Lax342547Proofs.LeafTrimming.weighted_discard",
+        "Lax342547Proofs.LiftedSum.lifted_sum_apply",
+        "Lax342547Proofs.ListDeficits.finset_span_eq",
+        "Lax342547Proofs.ListDeficits.list_mapped_deficit",
+        "Lax342547Proofs.ListTails.sum_values",
+        "Lax342547Proofs.ListTails.tail_sum_list",
+        "Lax342547Proofs.ListTails.value_antitone",
+        "Lax342547Proofs.ListTails.value_drop",
+        "Lax342547Proofs.ListTails.value_in_range",
+        "Lax342547Proofs.ListTails.value_nonneg",
+        "Lax342547Proofs.ListTails.value_out_of_range",
+        "Lax342547Proofs.LowRankCounting.card_low_rank",
+        "Lax342547Proofs.LowRankCounting.factorization",
+        "Lax342547Proofs.LowRankCounting.uniform_low_rank_bound",
+        "Lax342547Proofs.MappedSpans.mapped_deficit_eq",
+        "Lax342547Proofs.MappedSpans.mapped_dimension_gain",
+        "Lax342547Proofs.MarkedPhase.no_cover_marked_unit_phase",
+        "Lax342547Proofs.MatchingCoverage.connected_matching_exception_bound",
+        "Lax342547Proofs.MatchingCoverage.matching_exception_bound",
+        "Lax342547Proofs.MatchingCoverage.matching_meets_bound",
+        "Lax342547Proofs.MatchingCoverage.matching_pair_embedding",
+        "Lax342547Proofs.MatchingSamples.matching_orientation_injective",
+        "Lax342547Proofs.MatchingSamples.matching_unit_independence",
+        "Lax342547Proofs.MatchingSamples.matching_unit_is_unit",
+        "Lax342547Proofs.MatchingSamples.oriented_covers",
+        "Lax342547Proofs.MatchingSamples.oriented_injective",
+        "Lax342547Proofs.MatchingSamples.oriented_mem",
+        "Lax342547Proofs.MatchingSamples.unit_types_independent",
+        "Lax342547Proofs.MetadataPins.image_count",
+        "Lax342547Proofs.MetadataPins.key_count",
+        "Lax342547Proofs.MetadataPins.refined_fiber",
+        "Lax342547Proofs.MixerCompatibility.compatible_extensions",
+        "Lax342547Proofs.MixerCompatibility.restrictions_codimension",
+        "Lax342547Proofs.MixerRowLaw.row_law_bound",
+        "Lax342547Proofs.MixtureRecovery.conditional_event_mass",
+        "Lax342547Proofs.MixtureRecovery.fiber_residual",
+        "Lax342547Proofs.MixtureRecovery.mixture_event",
+        "Lax342547Proofs.MixtureRecovery.nested_weighted_filter",
+        "Lax342547Proofs.ModeBudgets.mode_span_budget",
+        "Lax342547Proofs.MomentBudgets.dyadic_budget_margins",
+        "Lax342547Proofs.MomentBudgets.no_cover_budget",
+        "Lax342547Proofs.MomentBudgets.power_ratio_bound",
+        "Lax342547Proofs.MomentRecovery.eq_of_agree_low",
+        "Lax342547Proofs.MomentRecovery.eq_zero_of_rank_le",
+        "Lax342547Proofs.MomentSpace.momentSpace_iInter",
+        "Lax342547Proofs.MomentTails.finite_moment_markov",
+        "Lax342547Proofs.MomentTails.rank_moment_split",
+        "Lax342547Proofs.MultiChannelPhase.no_cover_marked_unit_phase",
+        "Lax342547Proofs.MultiChannelPhase.no_cover_raw_family_tail",
+        "Lax342547Proofs.MultiChannelPhase.no_cover_raw_phase_tail",
+        "Lax342547Proofs.MultiChannelPhase.no_cover_uniform_target_tail",
+        "Lax342547Proofs.NoCoverCertificate.low_rank_cover_certificate",
+        "Lax342547Proofs.NoCoverMoments.no_cover_even_moment",
+        "Lax342547Proofs.NoCoverMoments.no_cover_phase_tail",
+        "Lax342547Proofs.NoCoverMoments.sum_matrix_rank",
+        "Lax342547Proofs.NoCoverPhase.no_cover_phase_average",
+        "Lax342547Proofs.NoCoverRank.no_cover_rank_probability",
+        "Lax342547Proofs.NominalBaselines.nominal_baseline",
+        "Lax342547Proofs.NominalPrimal.key_space_bound",
+        "Lax342547Proofs.NominalPrimal.table_primal_dimension",
+        "Lax342547Proofs.NominalPrimal.table_spans",
+        "Lax342547Proofs.NonlinearChannels.ambient_add_expansion",
+        "Lax342547Proofs.NonlinearChannels.ambient_add_left",
+        "Lax342547Proofs.NonlinearChannels.ambient_add_right",
+        "Lax342547Proofs.NonlinearChannels.ambient_orthogonal_zero",
+        "Lax342547Proofs.NonlinearChannels.component_response_unchanged",
+        "Lax342547Proofs.NonlinearChannels.extra_product_add",
+        "Lax342547Proofs.NonlinearChannels.nonlinear_component_correction",
+        "Lax342547Proofs.NonlinearChannels.paper_channel_capacity",
+        "Lax342547Proofs.NonlinearChannels.primal_minus_values",
+        "Lax342547Proofs.NonlinearChannels.primal_plus_values",
+        "Lax342547Proofs.NonlinearChannels.primal_values_rank",
+        "Lax342547Proofs.NonlinearChannels.restriction_add",
+        "Lax342547Proofs.OrbitSliceLaw.slice_uniform",
+        "Lax342547Proofs.OrderedMixerLaw.atom_orders_uniform",
+        "Lax342547Proofs.OrderedMixerLaw.family_parity_low_rank_bound",
+        "Lax342547Proofs.OrderedMixerLaw.family_parity_uniform",
+        "Lax342547Proofs.OrderedMixerLaw.ordered_parity_uniform",
+        "Lax342547Proofs.OrderedMixerLaw.orders_surjective",
+        "Lax342547Proofs.OrderedMixerLaw.orders_uniform",
+        "Lax342547Proofs.PairedAnnihilators.endpoint_projection",
+        "Lax342547Proofs.PairedAnnihilators.endpoint_rank",
+        "Lax342547Proofs.PairedFrames.paired_frame_orbit",
+        "Lax342547Proofs.PairedFrames.paired_matrix_orbit",
+        "Lax342547Proofs.PairedKeys.fresh_spans",
+        "Lax342547Proofs.PairedKeys.key_bounds",
+        "Lax342547Proofs.PairedRecipes.endpoint_fresh",
+        "Lax342547Proofs.PairedRecipes.flip_recipe",
+        "Lax342547Proofs.PairedRecipes.paired_prescriptions",
+        "Lax342547Proofs.PairedWitnesses.diagonal_sums",
+        "Lax342547Proofs.PairedWitnesses.list_budgets",
+        "Lax342547Proofs.PairedWitnesses.tensor_sharing",
+        "Lax342547Proofs.PairingRank.covered_pairing_rank",
+        "Lax342547Proofs.PairingRank.pairing_matrix_rank_le",
+        "Lax342547Proofs.PairPositions.distinct_pair_probability",
+        "Lax342547Proofs.PairPositions.inevitable_pair_mass",
+        "Lax342547Proofs.PairRecovery.independent_pair_apply",
+        "Lax342547Proofs.PairRecovery.pair_mass_domination",
+        "Lax342547Proofs.PairRecovery.pair_mass_pmf_event",
+        "Lax342547Proofs.PairRecovery.real_filter_domination",
+        "Lax342547Proofs.PairRecovery.restriction_pair_event_recovery",
+        "Lax342547Proofs.PairRecovery.restriction_pair_recovery",
+        "Lax342547Proofs.PaperGraphProbability.paper_graph_failure_probability",
+        "Lax342547Proofs.PaperGraphTransfer.paper_graph_transfer",
+        "Lax342547Proofs.PaperSampleSuccess.paper_sample_success",
+        "Lax342547Proofs.ParameterCellAveraging.average_cell_pair_lower",
+        "Lax342547Proofs.ParameterCellAveraging.average_const",
+        "Lax342547Proofs.ParameterCellAveraging.average_mono",
+        "Lax342547Proofs.PartitionLists.take_drop_card",
+        "Lax342547Proofs.PartitionLists.take_drop_disjoint",
+        "Lax342547Proofs.PartitionLists.take_drop_union",
+        "Lax342547Proofs.PeelingBudget.conservative_rank_bound",
+        "Lax342547Proofs.PeelingBudget.density_cost",
+        "Lax342547Proofs.PeelingBudget.rank_comparison",
+        "Lax342547Proofs.PhaseAverages.average_from_phase_tail",
+        "Lax342547Proofs.PhaseAverages.conditional_phase_abs_le_one",
+        "Lax342547Proofs.PhaseAverages.finite_event_density",
+        "Lax342547Proofs.PhaseAverages.tensor_character_abs",
+        "Lax342547Proofs.PhaseScales.phase_density_budget",
+        "Lax342547Proofs.PhaseScales.phase_numerical_margin",
+        "Lax342547Proofs.PinLabelExclusions.covers_exists",
+        "Lax342547Proofs.PinLabelExclusions.fresh_coefficient",
+        "Lax342547Proofs.PinLabelExclusions.keys_exclusion",
+        "Lax342547Proofs.PinReindexing.event_reindex",
+        "Lax342547Proofs.PinReindexing.leaf_cap_reindex",
+        "Lax342547Proofs.PinReindexing.relative_rank_reindex",
+        "Lax342547Proofs.PointPrediction.marked_point_degree",
+        "Lax342547Proofs.PointPrediction.retained_point_prediction",
+        "Lax342547Proofs.PointQuadratics.base_evaluation_degree",
+        "Lax342547Proofs.PointQuadratics.point_tensor_evaluation_degree",
+        "Lax342547Proofs.PolynomialTensors.linear_outer_product_degree_bound",
+        "Lax342547Proofs.PolynomialTensors.selector_tensor_degree",
+        "Lax342547Proofs.PreparedInjection.actual_accepting_table_loss",
+        "Lax342547Proofs.PreparedInjection.actual_relative_table_injection",
+        "Lax342547Proofs.PreparedInjectionScale.exists_prepared_parameters",
+        "Lax342547Proofs.PrimalAvoidance.capped_matrix_span_hit",
+        "Lax342547Proofs.PrimalAvoidance.evalMatrix_surjective",
+        "Lax342547Proofs.PrimalAvoidance.fixed_vector_subspace_mass",
+        "Lax342547Proofs.PrimalAvoidance.matrix_span_hit_mass",
+        "Lax342547Proofs.PrimalAvoidance.matrix_vector_uniform",
+        "Lax342547Proofs.PrimalAvoidance.uniform_subspace_mass",
+        "Lax342547Proofs.PrimalContractions.endpoint_vector",
+        "Lax342547Proofs.PrimalContractions.sparse_contraction",
+        "Lax342547Proofs.PrimalContractions.unselected_pin_contraction",
+        "Lax342547Proofs.PrimalContractions.unselected_pin_contraction_mode",
+        "Lax342547Proofs.PrimalGramTests.entry_actual_bits",
+        "Lax342547Proofs.PrimalGramTests.entry_target_bits",
+        "Lax342547Proofs.PrimalGramTests.gram_form_evaluation",
+        "Lax342547Proofs.PrimalGramTests.matrix_pair_outer",
+        "Lax342547Proofs.PrimalGramTests.primal_cell_four_holes",
+        "Lax342547Proofs.PrimalGramTests.primal_entry_agreement",
+        "Lax342547Proofs.PrimalGramTests.raw_oriented_forms",
+        "Lax342547Proofs.PrimalRecords.agreement_contractions",
+        "Lax342547Proofs.PrimalRecords.coordinate_map_ext",
+        "Lax342547Proofs.PrimalRecords.entries_determine",
+        "Lax342547Proofs.PrimalRecords.entries_give_four_holes",
+        "Lax342547Proofs.PrimalRecords.entry_count",
+        "Lax342547Proofs.PrimalRecords.record_count",
+        "Lax342547Proofs.PrimalRetractions.bounded_retraction",
+        "Lax342547Proofs.ProbabilityScales.eventually_paper_failure_budget",
+        "Lax342547Proofs.ProbabilityScales.paper_failure_exponential_budget",
+        "Lax342547Proofs.ProductImages.injective_image_bound",
+        "Lax342547Proofs.ProductImages.joint_uniform",
+        "Lax342547Proofs.ProductImages.rank_restriction",
+        "Lax342547Proofs.ProductImages.raw_plus_image_bound",
+        "Lax342547Proofs.ProductImages.right_uniform",
+        "Lax342547Proofs.ProductMinusImages.affine_image_bound",
+        "Lax342547Proofs.ProductMinusImages.completion_image_bound",
+        "Lax342547Proofs.ProfileCounting.card_concrete_profiles",
+        "Lax342547Proofs.ProfileCounting.card_symmetric_profiles",
+        "Lax342547Proofs.ProjectedCoefficients.exists_quotient_projection",
+        "Lax342547Proofs.ProjectedCoefficients.projection_preserves_quotient_pairing",
+        "Lax342547Proofs.ProjectedCounts.projected_nonzero_count",
+        "Lax342547Proofs.ProjectedOffsets.actual_common_projection_offsets",
+        "Lax342547Proofs.ProjectedOffsets.nonzero_difference_has_offset",
+        "Lax342547Proofs.ProjectedPins.effective_mono",
+        "Lax342547Proofs.ProjectedPins.projected_mono",
+        "Lax342547Proofs.ProjectedPins.projected_rank",
+        "Lax342547Proofs.ProjectedSpans.projected_dimension_gain",
+        "Lax342547Proofs.ProtectedChannels.independent_protected_probability",
+        "Lax342547Proofs.ProtectedChannels.protected_columns_card",
+        "Lax342547Proofs.ProtectedChannels.protected_probability_rank_bound",
+        "Lax342547Proofs.PureObstructions.component_annihilation",
+        "Lax342547Proofs.PureObstructions.component_labels",
+        "Lax342547Proofs.PureObstructions.component_rank",
+        "Lax342547Proofs.PureTesterRoom.allowed_drivers_card",
+        "Lax342547Proofs.PureTesterRoom.pure_gram_cell_mass",
+        "Lax342547Proofs.PureTesterRoom.pure_pairs_card",
+        "Lax342547Proofs.PureTesterRoom.slots_card",
+        "Lax342547Proofs.PureTesterRoom.uniform_floor_bound",
+        "Lax342547Proofs.PureTesterRoom.uniform_pure_gram_mass",
+        "Lax342547Proofs.PureTesterRoom.uniformFloor_pos",
+        "Lax342547Proofs.PushforwardWalsh.conditional_weight_bound",
+        "Lax342547Proofs.PushforwardWalsh.conditional_weight_reconstruction",
+        "Lax342547Proofs.PushforwardWalsh.image_walsh_bound",
+        "Lax342547Proofs.PushforwardWalsh.push_integral",
+        "Lax342547Proofs.PushforwardWalsh.push_nonneg",
+        "Lax342547Proofs.PushforwardWalsh.push_total",
+        "Lax342547Proofs.PushforwardWalsh.signed_push_bound",
+        "Lax342547Proofs.QuadraticBias.affine_restricted_polar",
+        "Lax342547Proofs.QuadraticBias.affine_subspace_bias",
+        "Lax342547Proofs.QuadraticBias.polar_sign_product",
+        "Lax342547Proofs.QuadraticBias.quadratic_bias_rank_bound",
+        "Lax342547Proofs.QuadraticBias.quadratic_bias_square_bound",
+        "Lax342547Proofs.QuadraticBias.quadratic_sign_square",
+        "Lax342547Proofs.QuadraticBias.square_translation",
+        "Lax342547Proofs.QuadraticDegree.linear_outer_product_degree",
+        "Lax342547Proofs.QuadraticDegree.quadratic_error_exactification",
+        "Lax342547Proofs.QuadraticDegree.quadratic_function_degree",
+        "Lax342547Proofs.QueryIndependence.actual_key_independence",
+        "Lax342547Proofs.QueryRecordBounds.actual_joined_rank_budget",
+        "Lax342547Proofs.QueryRecordBounds.actual_nominal_column_linear_bound",
+        "Lax342547Proofs.QueryRecordBounds.key_map_range",
+        "Lax342547Proofs.QueryRecordBounds.record_linear_bound",
+        "Lax342547Proofs.QueryReference.component_position_budget",
+        "Lax342547Proofs.QueryReference.grouped_slot_count",
+        "Lax342547Proofs.QueryReference.key_space_density",
+        "Lax342547Proofs.QueryReference.key_space_size",
+        "Lax342547Proofs.QueryReference.tuple_equality_matched_keys",
+        "Lax342547Proofs.QuerySlots.incident_count",
+        "Lax342547Proofs.QuerySlots.position_budget",
+        "Lax342547Proofs.QuerySlots.position_count",
+        "Lax342547Proofs.QuerySlots.slot_budget",
+        "Lax342547Proofs.QuerySlots.slot_count",
+        "Lax342547Proofs.QuotientCompression.barred_compression",
+        "Lax342547Proofs.QuotientCompression.barred_fixed",
+        "Lax342547Proofs.QuotientCompression.compressed_bilinear_rank",
+        "Lax342547Proofs.QuotientCompression.nominalLift_fix",
+        "Lax342547Proofs.QuotientCompression.nominalLift_primal",
+        "Lax342547Proofs.QuotientCompression.nominalLift_sum",
+        "Lax342547Proofs.QuotientCompression.pure_compressed",
+        "Lax342547Proofs.QuotientCompression.quotient_lift_rank",
+        "Lax342547Proofs.QuotientExtractors.key_extractor",
+        "Lax342547Proofs.QuotientExtractors.pin_extractor",
+        "Lax342547Proofs.QuotientExtractors.quotient_factor",
+        "Lax342547Proofs.QuotientFactorLifts.column_difference_in_cover",
+        "Lax342547Proofs.QuotientFactorLifts.common_quotient_offsets",
+        "Lax342547Proofs.QuotientFactorLifts.factor_difference_identity",
+        "Lax342547Proofs.QuotientFactorLifts.lift_common_factor",
+        "Lax342547Proofs.QuotientFactorLifts.lift_quotient_factor",
+        "Lax342547Proofs.QuotientFactorLifts.lifted_column_avoids_cover",
+        "Lax342547Proofs.QuotientFactorLifts.lifted_row_avoids_cover",
+        "Lax342547Proofs.QuotientFactorLifts.offset_dimension_budget",
+        "Lax342547Proofs.QuotientFactorLifts.restriction_range_of_avoidance",
+        "Lax342547Proofs.QuotientFactorLifts.row_difference_in_cover",
+        "Lax342547Proofs.QuotientFactors.factor_range",
+        "Lax342547Proofs.QuotientFactors.projection_range_quotient_injective",
+        "Lax342547Proofs.QuotientFactors.quotient_independent_factors",
+        "Lax342547Proofs.QuotientRank.killed_composition_rank",
+        "Lax342547Proofs.QuotientRank.killed_matrix_rank",
+        "Lax342547Proofs.QuotientRank.killed_quotients_rank",
+        "Lax342547Proofs.RankedProjection.actual_pure_projection",
+        "Lax342547Proofs.RankedProjection.bilinear_comp_rank",
+        "Lax342547Proofs.RankedProjection.linear_add_rank",
+        "Lax342547Proofs.RankedProjection.linear_sum_rank",
+        "Lax342547Proofs.RankedProjection.matrix_bilinear_rank",
+        "Lax342547Proofs.RankedProjection.projected_endpoint_response",
+        "Lax342547Proofs.RankedProjection.projected_paired_response",
+        "Lax342547Proofs.RankFactors.independent_rank_factors",
+        "Lax342547Proofs.RankLoss.composition_rank_loss",
+        "Lax342547Proofs.RankLoss.matrix_sandwich_rank_loss",
+        "Lax342547Proofs.RankLoss.quotient_tensor_rank_loss",
+        "Lax342547Proofs.RawAcceptingInjection.capped_frame_channel",
+        "Lax342547Proofs.RawAcceptingInjection.exponential_accepting_injection",
+        "Lax342547Proofs.RawAcceptingInjection.raw_minus_accepting_injection",
+        "Lax342547Proofs.RawBaselines.raw_baselines",
+        "Lax342547Proofs.RawBatchComparison.union_conditional_integral",
+        "Lax342547Proofs.RawBatchComparison.union_test_comparison",
+        "Lax342547Proofs.RawCellEntropy.left_cell_block_cap",
+        "Lax342547Proofs.RawCellEntropy.right_cell_block_cap",
+        "Lax342547Proofs.RawContractions.observation_blocks",
+        "Lax342547Proofs.RawContractions.raw_contraction",
+        "Lax342547Proofs.RawContractions.raw_star_contraction",
+        "Lax342547Proofs.RawFrameComparison.errorBound_half_decay",
+        "Lax342547Proofs.RawFrameComparison.eventually_valid",
+        "Lax342547Proofs.RawFrameComparison.full_test_comparison",
+        "Lax342547Proofs.RawFrameComparison.primal_test_comparison",
+        "Lax342547Proofs.RawFrames.tensor_realization",
+        "Lax342547Proofs.RawGroupedComparison.full_groups",
+        "Lax342547Proofs.RawGroupedComparison.primal_groups",
+        "Lax342547Proofs.RawIntersections.capped_intersection_bound",
+        "Lax342547Proofs.RawIntersections.exists_intersection_scale",
+        "Lax342547Proofs.RawIntersections.exists_paper_intersection_scale",
+        "Lax342547Proofs.RawIntersections.intersection_kernel_bound",
+        "Lax342547Proofs.RawIntersections.reference_kernel_bound",
+        "Lax342547Proofs.RawJointImages.actual_left_key_fresh_cap",
+        "Lax342547Proofs.RawLaw.raw_card_bound",
+        "Lax342547Proofs.RawLaw.uniformLaw_product",
+        "Lax342547Proofs.RawPeeling.raw_peeling",
+        "Lax342547Proofs.RawPrimalAvoidance.plus_matrix_point_cap",
+        "Lax342547Proofs.RawPrimalAvoidance.raw_primal_span_hit_mass",
+        "Lax342547Proofs.RawQueryImages.actual_left_key_cap",
+        "Lax342547Proofs.RawQueryImages.key_dimension",
+        "Lax342547Proofs.RawQueryImages.key_map_coordinate",
+        "Lax342547Proofs.RawQueryImages.key_observations_left",
+        "Lax342547Proofs.RawQueryImages.left_tuple_event",
+        "Lax342547Proofs.RawQueryImages.observation_primal_minus",
+        "Lax342547Proofs.RawQueryImages.observation_primal_plus",
+        "Lax342547Proofs.RawRetainedCells.realized_retained_four_holes",
+        "Lax342547Proofs.RawRetainedCells.retained_four_holes",
+        "Lax342547Proofs.RawSecondPeeling.raw_second_peeling",
+        "Lax342547Proofs.RawToGraph.exception_budget_nonneg",
+        "Lax342547Proofs.RawToGraph.supersaturation_to_sample",
+        "Lax342547Proofs.RealCellLaws.event_mass",
+        "Lax342547Proofs.RealCellLaws.pmf_paper_subtype_cap",
+        "Lax342547Proofs.RealCellLaws.pmf_subtype_conditional_cap",
+        "Lax342547Proofs.RealCellLaws.subtype_conditional_cap",
+        "Lax342547Proofs.RealCellLaws.subtype_image_push",
+        "Lax342547Proofs.RealCellLaws.subtype_integral",
+        "Lax342547Proofs.RealCellLaws.subtype_weights_nonneg",
+        "Lax342547Proofs.RealCellLaws.subtype_weights_total",
+        "Lax342547Proofs.RealCellLaws.weights_nonneg",
+        "Lax342547Proofs.RealCellLaws.weights_total",
+        "Lax342547Proofs.RealFlows.feasible_closed",
+        "Lax342547Proofs.RealFlows.feasible_compact",
+        "Lax342547Proofs.RealFlows.maximal_flow",
+        "Lax342547Proofs.RealFlows.zero_feasible",
+        "Lax342547Proofs.RecipeChannels.nonlinear_recipe",
+        "Lax342547Proofs.RecipeResiduals.residual_correct",
+        "Lax342547Proofs.RecipeResiduals.selected_gradients",
+        "Lax342547Proofs.RecipeRows.recipe_bits",
+        "Lax342547Proofs.RecipeRows.recipe_matrix",
+        "Lax342547Proofs.RecordCollision.key_record_mass_nonneg",
+        "Lax342547Proofs.RecordCollision.key_record_mass_subprobability",
+        "Lax342547Proofs.RecordCollision.key_record_mass_total",
+        "Lax342547Proofs.RecordCollision.retained_key_record_identity",
+        "Lax342547Proofs.ReferenceImages.all_components_cap",
+        "Lax342547Proofs.ReferenceImages.joint_cap",
+        "Lax342547Proofs.ReferenceImages.joint_rank_cap",
+        "Lax342547Proofs.ReferenceKeys.block_reference_lower",
+        "Lax342547Proofs.ReferenceKeys.reference_density_lower",
+        "Lax342547Proofs.ReferenceKeys.space_card_upper",
+        "Lax342547Proofs.ReferencePins.reference_pin_cap",
+        "Lax342547Proofs.RelativeEntropy.compact_entropy_minimizer",
+        "Lax342547Proofs.RelativeEntropy.continuous_entropy",
+        "Lax342547Proofs.RelativeEntropy.entropy_decomposition",
+        "Lax342547Proofs.RelativeEntropy.entropy_density_bound",
+        "Lax342547Proofs.RelativeEntropy.entropy_nonneg",
+        "Lax342547Proofs.RelativeEntropy.entropy_support_cost",
+        "Lax342547Proofs.RelativeEntropy.probability_compact",
+        "Lax342547Proofs.RelativeEntropy.probability_convex",
+        "Lax342547Proofs.ResidualFlows.edge_direction",
+        "Lax342547Proofs.ResidualFlows.feasible_augmentation",
+        "Lax342547Proofs.ResidualFlows.maximal_no_residual_path",
+        "Lax342547Proofs.ResidualFlows.residual_walk_direction",
+        "Lax342547Proofs.ResidualLabels.residual_reconstruction",
+        "Lax342547Proofs.ResidualLabels.unselected_obstruction",
+        "Lax342547Proofs.ResidualRealization.baseline_response",
+        "Lax342547Proofs.ResidualRealization.bounded_remainder",
+        "Lax342547Proofs.ResidualRealization.derivative_response",
+        "Lax342547Proofs.ResidualRealization.matrix_response_sub",
+        "Lax342547Proofs.ResidualRealization.matrixPair_sub",
+        "Lax342547Proofs.ResidualRealization.paired_matrix_representation",
+        "Lax342547Proofs.ResidualRealization.product_response",
+        "Lax342547Proofs.ResidualRealization.projected_target",
+        "Lax342547Proofs.ResidualRealization.pure_response_sub",
+        "Lax342547Proofs.ResidualRealization.recipe_remainder",
+        "Lax342547Proofs.ResponseMatrices.actual_pure_projection",
+        "Lax342547Proofs.ResponseMatrices.ambient_matrix_representation",
+        "Lax342547Proofs.ResponseMatrices.baseline_coordinate_rank",
+        "Lax342547Proofs.ResponseMatrices.bounded_residual_rank",
+        "Lax342547Proofs.ResponseMatrices.coefficients_product",
+        "Lax342547Proofs.ResponseMatrices.coefficients_rank",
+        "Lax342547Proofs.ResponseMatrices.comp_left_rank",
+        "Lax342547Proofs.ResponseMatrices.comp_right_rank",
+        "Lax342547Proofs.ResponseMatrices.extra_product_response",
+        "Lax342547Proofs.ResponseMatrices.matrix_representation",
+        "Lax342547Proofs.ResponseMatrices.projected_endpoint_response",
+        "Lax342547Proofs.ResponseMatrices.projected_paired_response",
+        "Lax342547Proofs.ResponseMatrices.projected_pin_key_dimension",
+        "Lax342547Proofs.ResponseMatrices.projection_difference",
+        "Lax342547Proofs.ResponseMatrices.projection_difference_rank",
+        "Lax342547Proofs.ResponseMatrices.quotient_projection",
+        "Lax342547Proofs.ResponseMatrices.rank_sub_le",
+        "Lax342547Proofs.ResponseMatrices.restriction_rank",
+        "Lax342547Proofs.ResponseMatrices.toMatrix_rank",
+        "Lax342547Proofs.ResponseSolvability.dual_range",
+        "Lax342547Proofs.ResponseSolvability.full_add",
+        "Lax342547Proofs.ResponseSolvability.full_smul",
+        "Lax342547Proofs.ResponseSolvability.obstruction_correct",
+        "Lax342547Proofs.ResponseSolvability.recipe_solution",
+        "Lax342547Proofs.ResponseSolvability.selected_part_correct",
+        "Lax342547Proofs.ResponseSolvability.solvable_of_annihilator_zero",
+        "Lax342547Proofs.ResponseSolvability.unrestricted_solution",
+        "Lax342547Proofs.RestrictedLeaves.restricted_family",
+        "Lax342547Proofs.RestrictedLeaves.weighted_residual",
+        "Lax342547Proofs.RestrictionRank.bilinear_pullback_rank",
+        "Lax342547Proofs.RestrictionRank.bilinear_restriction_rank",
+        "Lax342547Proofs.RetainedCharacters.binary_self_add",
+        "Lax342547Proofs.RetainedCharacters.coefficient_pair_form",
+        "Lax342547Proofs.RetainedCharacters.disagreement_projection",
+        "Lax342547Proofs.RetainedCharacters.rank_zero_matrix",
+        "Lax342547Proofs.RetainedCharacters.retained_character_dichotomy",
+        "Lax342547Proofs.RetainedCharacters.sign_abs",
+        "Lax342547Proofs.RetainedEmptyPredictions.prediction_error_le_total",
+        "Lax342547Proofs.RetainedEmptyPredictions.prediction_error_nonneg",
+        "Lax342547Proofs.RetainedEmptyPredictions.retained_vanishing_predictions",
+        "Lax342547Proofs.RetainedImages.conditional_image_cap",
+        "Lax342547Proofs.RetainedImages.conditional_law_nonneg",
+        "Lax342547Proofs.RetainedImages.conditional_law_total",
+        "Lax342547Proofs.RetainedImages.paper_cell_exponent",
+        "Lax342547Proofs.RetainedImages.paper_conditional_cap",
+        "Lax342547Proofs.RightQueryImages.actual_right_key_cap",
+        "Lax342547Proofs.RightQueryImages.flipped_slot_count",
+        "Lax342547Proofs.RightQueryImages.left_flip_right_tuple",
+        "Lax342547Proofs.RightQueryImages.reindex_injective",
+        "Lax342547Proofs.RightQueryImages.right_tuple_event",
+        "Lax342547Proofs.SampledGraph.sampleGraph_indepNum_le_two",
+        "Lax342547Proofs.SampleScales.eventually_paper_sampling_budget",
+        "Lax342547Proofs.SampleScales.paper_sampling_budget",
+        "Lax342547Proofs.SampleScales.raw_alphabet_bound",
+        "Lax342547Proofs.SampleScales.raw_fingerprint_count_bound",
+        "Lax342547Proofs.ScalarGramAgreement.coefficient_character",
+        "Lax342547Proofs.ScalarGramAgreement.scalar_gram_agreement",
+        "Lax342547Proofs.SecondPeeling.final_rank_budget",
+        "Lax342547Proofs.SecondPeeling.second_part",
+        "Lax342547Proofs.SelectedBlocks.individual_extractor",
+        "Lax342547Proofs.SelectedBlocks.selected_component",
+        "Lax342547Proofs.SelectedBlocks.selected_obstruction",
+        "Lax342547Proofs.SelectedMoments.moment_ray",
+        "Lax342547Proofs.SelectedMoments.projection_kernel",
+        "Lax342547Proofs.SelectedRemoval.atom_annihilates",
+        "Lax342547Proofs.SelectedRemoval.selected_part_annihilates",
+        "Lax342547Proofs.SelectedRemoval.subtract_annihilates",
+        "Lax342547Proofs.SelectedScalars.obstruction_scalar",
+        "Lax342547Proofs.SelectedScalars.profile_triangle",
+        "Lax342547Proofs.SelectedScalars.selected_decomposition",
+        "Lax342547Proofs.SelectedScalars.selected_scalar",
+        "Lax342547Proofs.SelectedScalars.star_scalar",
+        "Lax342547Proofs.SelectorInterpolation.selectorEval_linearIndependent",
+        "Lax342547Proofs.SequentialTests.accepts_pointwise",
+        "Lax342547Proofs.SequentialTests.bounded_sequential_failure_lower",
+        "Lax342547Proofs.SequentialTests.bounded_sequential_lower_probability",
+        "Lax342547Proofs.SequentialTests.safe_failure_mass",
+        "Lax342547Proofs.SequentialTests.sequential_failure_lower",
+        "Lax342547Proofs.SequentialTests.sequential_lower_probability",
+        "Lax342547Proofs.SequentialTests.step_probability",
+        "Lax342547Proofs.SharedTesterPoint.shared_point_allowed",
+        "Lax342547Proofs.SharedTesterPoint.shared_point_eta_one",
+        "Lax342547Proofs.SharpMixerLaw.alternating_block_uniform",
+        "Lax342547Proofs.SharpMixerLaw.alternating_low_rank_bound",
+        "Lax342547Proofs.SharpMixerLaw.label_parity_low_rank_bounds",
+        "Lax342547Proofs.SharpMixerLaw.label_weighted_uniform",
+        "Lax342547Proofs.SharpMixerLaw.selfGram_free_block",
+        "Lax342547Proofs.SharpMixerLaw.selfGram_sharp_block",
+        "Lax342547Proofs.SlotWalsh.bit_evaluation",
+        "Lax342547Proofs.SlotWalsh.bit_rank",
+        "Lax342547Proofs.SlotWalsh.nonzero_pattern_bound",
+        "Lax342547Proofs.SmallExposure.simultaneous_small_exposure",
+        "Lax342547Proofs.SmallMultiPhase.no_cover_marked_unit_phase_small",
+        "Lax342547Proofs.SmallNoCover.no_cover_phase_small",
+        "Lax342547Proofs.SmallSliceRank.cross_affine_product",
+        "Lax342547Proofs.SmallSliceRank.cross_products_rank",
+        "Lax342547Proofs.SmallSliceRank.cross_rank_of_products",
+        "Lax342547Proofs.SmallSliceRank.independent_column_selection",
+        "Lax342547Proofs.SmallSliceRank.parity_rank_contradiction",
+        "Lax342547Proofs.SmallSliceRank.rank_from_local_products",
+        "Lax342547Proofs.SmallSliceRank.rank_le_of_small_slices",
+        "Lax342547Proofs.SmallSliceRank.rank_witness",
+        "Lax342547Proofs.SmallSubspaceCount.padded_generators",
+        "Lax342547Proofs.SmallSubspaceCount.small_subspace_card",
+        "Lax342547Proofs.SmallTables.admissible_iff_filters",
+        "Lax342547Proofs.SmallTables.raw_admissible_iff_filters",
+        "Lax342547Proofs.SpanDeficitMono.deficit_monotone",
+        "Lax342547Proofs.SpanDeficits.addition_kernel_deficit",
+        "Lax342547Proofs.SpanDeficits.addition_range",
+        "Lax342547Proofs.SpanDeficits.addition_single",
+        "Lax342547Proofs.SparseIntersections.exists_concrete_scale",
+        "Lax342547Proofs.SparseIntersections.paper_sparse_parameters",
+        "Lax342547Proofs.SparseIntersections.raw_intersections",
+        "Lax342547Proofs.SparseKeyCoefficients.coefficients_zero",
+        "Lax342547Proofs.SparsePins.sparse_pin_labels",
+        "Lax342547Proofs.SparseRepresentatives.cutSize_le_rank",
+        "Lax342547Proofs.SparseRepresentatives.normalized_representation",
+        "Lax342547Proofs.SparseRepresentatives.shared_chiStar",
+        "Lax342547Proofs.SparseRepresentatives.shared_sparse_profiles",
+        "Lax342547Proofs.SplitTrimming.exponential_discard",
+        "Lax342547Proofs.SplitTrimming.metadata_discard",
+        "Lax342547Proofs.SplitTrimming.repinning_density",
+        "Lax342547Proofs.SplitTrimming.small_fibers",
+        "Lax342547Proofs.StarRouting.incidence_sum",
+        "Lax342547Proofs.StarRouting.interval_center_excluded",
+        "Lax342547Proofs.StarRouting.matrix_add_rank",
+        "Lax342547Proofs.StarRouting.matrix_finset_sum_rank",
+        "Lax342547Proofs.StarRouting.matrix_smul_rank",
+        "Lax342547Proofs.StarRouting.matrix_sum_rank",
+        "Lax342547Proofs.StarRouting.ordered_tester_rank",
+        "Lax342547Proofs.StarRouting.ordinary_tester_disallowed_zero",
+        "Lax342547Proofs.StarRouting.star_cut_sum",
+        "Lax342547Proofs.StarRouting.star_matrix_rank",
+        "Lax342547Proofs.StarRouting.star_matrix_representation",
+        "Lax342547Proofs.StarRouting.tester_matrix_representation",
+        "Lax342547Proofs.SumEnvelope.natural_deficit_cast",
+        "Lax342547Proofs.SumEnvelope.nonzero_sum_envelope",
+        "Lax342547Proofs.SumEnvelope.span_dimension_sum_bound",
+        "Lax342547Proofs.SumRank.stacked_rank",
+        "Lax342547Proofs.SumRank.sum_rank_deficit",
+        "Lax342547Proofs.SymmetricFactorization.card_symmetric_rank",
+        "Lax342547Proofs.SymmetricFactorization.symmetric_factorization",
+        "Lax342547Proofs.SymmetricPrescriptions.diagonal_rows",
+        "Lax342547Proofs.SymmetricPrescriptions.rectangular_sums",
+        "Lax342547Proofs.SymmetricPrescriptions.two_lists",
+        "Lax342547Proofs.SyntheticGramSlices.pure_slice_gram_mass",
+        "Lax342547Proofs.SyntheticGramSlices.pure_slice_variance",
+        "Lax342547Proofs.SyntheticGramSlices.slice_gram_products",
+        "Lax342547Proofs.SyntheticRankTransfer.exists_error_margin",
+        "Lax342547Proofs.SyntheticRankTransfer.incompatible_events",
+        "Lax342547Proofs.SyntheticRankTransfer.prediction_error_budget",
+        "Lax342547Proofs.SyntheticRankTransfer.rank_tests_incompatible",
+        "Lax342547Proofs.SyntheticRankTransfer.transferred_incompatible_events",
+        "Lax342547Proofs.SyntheticRankTransfer.uniform_prediction_error",
+        "Lax342547Proofs.TableContractions.star_extension",
+        "Lax342547Proofs.TableCounts.coefficient_code",
+        "Lax342547Proofs.TableCounts.coefficient_count",
+        "Lax342547Proofs.TableCounts.table_count",
+        "Lax342547Proofs.TableInjection.actual_table_injecting_iff",
+        "Lax342547Proofs.TableInjection.admissible_injection_iff",
+        "Lax342547Proofs.TableSpaces.pin_le_table",
+        "Lax342547Proofs.TableSpaces.private_complement",
+        "Lax342547Proofs.TableSpaces.protected_rank",
+        "Lax342547Proofs.TableSpaces.table_dimension",
+        "Lax342547Proofs.TableSpaces.table_mono",
+        "Lax342547Proofs.TagGeometry.majority_intersection",
+        "Lax342547Proofs.TargetMatrices.mixer_matrix_rank",
+        "Lax342547Proofs.TargetMatrices.mixer_matrix_representation",
+        "Lax342547Proofs.TargetMatrices.sandwich_adjoint",
+        "Lax342547Proofs.TargetMatrices.target_family_representation",
+        "Lax342547Proofs.TargetMatrices.target_matrix_rank",
+        "Lax342547Proofs.TargetMatrices.target_matrix_representation",
+        "Lax342547Proofs.TargetMatrices.witness_component_rank",
+        "Lax342547Proofs.TargetTesters.left_shared_sum",
+        "Lax342547Proofs.TargetTesters.left_witness_cut",
+        "Lax342547Proofs.TargetTesters.ordinary_star_representation",
+        "Lax342547Proofs.TargetTesters.shared_matrix_rank",
+        "Lax342547Proofs.TargetTesters.shared_matrix_representation",
+        "Lax342547Proofs.TargetTesters.tester_coefficient",
+        "Lax342547Proofs.TargetTesters.tester_target_formula",
+        "Lax342547Proofs.TargetTesters.witness_tester_rank",
+        "Lax342547Proofs.TargetTesters.witness_tester_representation",
+        "Lax342547Proofs.TensorAnnihilators.pure_rank",
+        "Lax342547Proofs.TensorAnnihilators.pure_sandwich",
+        "Lax342547Proofs.TensorAnnihilators.selected_block",
+        "Lax342547Proofs.TensorBlocks.block_contraction",
+        "Lax342547Proofs.TensorBlocks.quotient_isolation",
+        "Lax342547Proofs.TensorCharacters.product_tensor_characters",
+        "Lax342547Proofs.TensorCharacters.tensor_character_average",
+        "Lax342547Proofs.TensorContractions.ambient_outer",
+        "Lax342547Proofs.TensorContractions.contraction_outer",
+        "Lax342547Proofs.TensorContractions.contraction_unique",
+        "Lax342547Proofs.TensorContractions.extension_agreement",
+        "Lax342547Proofs.TensorIntersections.sandwich_rank",
+        "Lax342547Proofs.TensorIntersections.shared_rank",
+        "Lax342547Proofs.TensorIntersections.shared_total_rank",
+        "Lax342547Proofs.TensorIntersections.trace_sandwich",
+        "Lax342547Proofs.TerminalCuts.bipartite_cut_capacity",
+        "Lax342547Proofs.TerminalCuts.law_iff_masked",
+        "Lax342547Proofs.TerminalCuts.terminal_cut",
+        "Lax342547Proofs.TesterProductRouting.product_gram_cell_mass",
+        "Lax342547Proofs.TesterProductRouting.routed_product_gram",
+        "Lax342547Proofs.TesterProductRouting.sum_extended_product",
+        "Lax342547Proofs.TinyCompatibility.tiny_compatible_mass",
+        "Lax342547Proofs.TinyCompatibility.tiny_compatible_mass_rank_bound",
+        "Lax342547Proofs.TotalRankCount.exists_rank_factors",
+        "Lax342547Proofs.TotalRankCount.factor_card_bound",
+        "Lax342547Proofs.TotalRankCount.total_rank_card",
+        "Lax342547Proofs.UnaryMixer.formal_rank",
+        "Lax342547Proofs.UnaryMixer.incident_card",
+        "Lax342547Proofs.UnaryMixer.mixer_atom_expansion",
+        "Lax342547Proofs.UnaryMixer.row_space_dimension",
+        "Lax342547Proofs.UnaryMixer.substitution_rank",
+        "Lax342547Proofs.UnaryMixer.unary_affine_quadratic",
+        "Lax342547Proofs.UnaryMixer.unary_depends_on_rows",
+        "Lax342547Proofs.UnaryMixer.unary_polar",
+        "Lax342547Proofs.UnaryMixer.unary_rank_bound",
+        "Lax342547Proofs.UnaryMixer.unary_rank_lower",
+        "Lax342547Proofs.UnaryMixers.exists_for_large_n",
+        "Lax342547Proofs.UnaryMixers.exists_of_failureBound_lt_one",
+        "Lax342547Proofs.UnaryMixers.exists_uniform_unary",
+        "Lax342547Proofs.UnaryMixers.failureBound_le_geometric",
+        "Lax342547Proofs.UnaryMixers.failureBound_lt_one",
+        "Lax342547Proofs.UnaryMixers.simultaneous_failure_bound",
+        "Lax342547Proofs.UnaryMixers.uniform_of_good",
+        "Lax342547Proofs.UnaryRowLaw.joint_row_law",
+        "Lax342547Proofs.UnaryRowLaw.mixerRows_rank",
+        "Lax342547Proofs.UnaryRowLaw.row_corank_bound",
+        "Lax342547Proofs.UnaryRowLaw.unary_failure_probability",
+        "Lax342547Proofs.UniformMixers.exists_paper_mixers",
+        "Lax342547Proofs.UniformMixers.exists_uniform_mixers",
+        "Lax342547Proofs.UniformMixers.paper_parameters",
+        "Lax342547Proofs.UniformPhaseTails.no_cover_raw_family_tail",
+        "Lax342547Proofs.UniformPhaseTails.no_cover_uniform_target_tail",
+        "Lax342547Proofs.UniformTableInjection.exists_uniform_injection",
+        "Lax342547Proofs.UnitContainers.residual_feasible_iff",
+        "Lax342547Proofs.UnitContainers.terminal_unit_exceptions",
+        "Lax342547Proofs.UnitContainers.unit_container_family",
+        "Lax342547Proofs.UnitLaws.entropy_minimizer",
+        "Lax342547Proofs.UnitLaws.feasible_closed",
+        "Lax342547Proofs.UnitLaws.feasible_compact",
+        "Lax342547Proofs.UnitLaws.feasible_convex",
+        "Lax342547Proofs.UnitLaws.feasible_entropy_budget",
+        "Lax342547Proofs.UnitSpanAvoidance.capped_unit_span_avoidance",
+        "Lax342547Proofs.UnitSpanAvoidance.conditioned_unit_span_avoidance",
+        "Lax342547Proofs.UnitSpanAvoidance.pin_intersection_is_primal_hit",
+        "Lax342547Proofs.UniversalWitnesses.marked_unit_witness_probability",
+        "Lax342547Proofs.UniversalWitnesses.some_protected_witness_probability",
+        "Lax342547Proofs.Walsh.dot_correlation_sq",
+        "Lax342547Proofs.Walsh.linear_orthogonality",
+        "Lax342547Proofs.Walsh.orthogonality",
+        "Lax342547Proofs.Walsh.subprobability_dot_bound",
+        "Lax342547Proofs.Walsh.transform_energy",
+        "Lax342547Proofs.WitnessAtoms.allowed_index",
+        "Lax342547Proofs.WitnessAtoms.atom_testers",
+        "Lax342547Proofs.WitnessAtoms.tester_properties"
+      ]
+    },
+    {
       "id": "lax-345067",
       "state": "registered",
       "environment": "v4.33.0",
