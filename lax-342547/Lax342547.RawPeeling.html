@@ -176,7 +176,7 @@
 <noscript><p class="page-reactions-noscript"><a href="https://comments.laxarchive.org/auth/orcid/login?site=remark&amp;from=https%3A%2F%2Flaxarchive.org%2Flax-342547%2FLax342547.RawPeeling.html">Sign in with ORCID</a> to review this page.</p></noscript>
 </section>
 <h3 class="figure-title">Natural Language Statement</h3>
-<div class="block block-statement"><h3>Theorem</h3><div class="latex-content"><p>Apply the finite bounded peeling procedure to both endpoints and both
+<div class="block block-statement"><h3>Lemma</h3><div class="latex-content"><p>Apply the finite bounded peeling procedure to both endpoints and both
 signs of the concrete raw frames. The absolute density bound is always
 relative to the unconditioned reference law, including when initial pins
 are retained for a subsequent peeling.</p>
@@ -199,9 +199,10 @@ are retained for a subsequent peeling.</p>
 <div class="judgment-frame">
 <a class="judgment-overlay" href="../lax-342547/Lax342547Proofs.RawPeeling.raw_peeling.html" aria-label="Open proof Lax342547Proofs.RawPeeling.raw_peeling"></a>
 <div class="judgment">
-<div class="judgment-assumptions"><p class="judgment-unconditional">no assumptions</p></div>
+<div class="judgment-assumptions"><ul><li><span class="claim-entry"><span class="type-badge proven">lem✓</span><a href="../lax-342547/Lax342547.BoundedPeeling.html" title="Lax342547.BoundedPeeling.bounded_partition"><code>Lax342547.BoundedPeeling</code></a></span></li>
+<li><span class="claim-entry"><span class="type-badge proven">lem✓</span><a href="../lax-342547/Lax342547.ReferencePins.html" title="Lax342547.ReferencePins.reference_pin_cap"><code>Lax342547.ReferencePins</code></a></span></li></ul></div>
 <span class="judgment-arrow" aria-hidden="true">→</span>
-<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven">thm✓</span><a href="../lax-342547/Lax342547.RawPeeling.html" title="Lax342547.RawPeeling.raw_peeling"><code>Lax342547.RawPeeling</code></a></span></div>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven">lem✓</span><a href="../lax-342547/Lax342547.RawPeeling.html" title="Lax342547.RawPeeling.raw_peeling"><code>Lax342547.RawPeeling</code></a></span></div>
 </div>
 </div>
 <p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-342547/Lax342547Proofs.RawPeeling.raw_peeling.html"><code>Lax342547Proofs.RawPeeling.raw_peeling</code></a></p>
@@ -210,7 +211,7 @@ are retained for a subsequent peeling.</p>
 </div>
 </details>
 
-<h3 class="figure-title">Lean source <a class="source-link" href="https://github.com/EdouardBonnet/hadwiger-counterexample/blob/1e7d18c2fdd4c2f8a2675b7fdaad9b2ede3c00a5/concepts/Lax342547/RawPeeling.lean">view on GitHub</a></h3>
+<h3 class="figure-title">Lean source <a class="source-link" href="https://github.com/EdouardBonnet/hadwiger-counterexample/blob/501579af18a1325697e0a0177d7cad7049e2af0a/concepts/Lax342547/RawPeeling.lean">view on GitHub</a></h3>
 <div class="block block-lean">
 <div class="inline-contract-shell"><div class="source-controls"><button class="comment-toggle" type="button" aria-pressed="false" aria-label="Hide comments">Hide comments</button><label class="type-hover-toggle"><input type="checkbox" role="switch" data-type-hover-toggle checked> Show types on hover</label></div><div class="inline-contract-wrap"><table class="inline-contract-table">
 <tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-342547/Lax342547.BoundedPeeling.html"><span style="color:#24292E">Lax342547.BoundedPeeling</span></a></td></tr>
@@ -219,7 +220,7 @@ are retained for a subsequent peeling.</p>
 <tr id="L4" class="line-comment"><td class="line-num"><a href="#L4">4</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
 <tr id="L5" class="line-comment"><td class="line-num"><a href="#L5">5</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
 <tr id="L6" class="line-comment"><td class="line-num"><a href="#L6">6</a></td><td class="line-code"><span style="color:#6A737D">title: Exact-pin peeling for the actual raw frame law</span></td></tr>
-<tr id="L7" class="line-comment"><td class="line-num"><a href="#L7">7</a></td><td class="line-code"><span style="color:#6A737D">type: theorem</span></td></tr>
+<tr id="L7" class="line-comment"><td class="line-num"><a href="#L7">7</a></td><td class="line-code"><span style="color:#6A737D">type: lemma</span></td></tr>
 <tr id="L8" class="line-comment"><td class="line-num"><a href="#L8">8</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
 <tr id="L9" class="line-comment"><td class="line-num"><a href="#L9">9</a></td><td class="line-code"><span style="color:#6A737D">Apply the finite bounded peeling procedure to both endpoints and both</span></td></tr>
 <tr id="L10" class="line-comment"><td class="line-num"><a href="#L10">10</a></td><td class="line-code"><span style="color:#6A737D">signs of the concrete raw frames. The absolute density bound is always</span></td></tr>
@@ -265,7 +266,7 @@ are retained for a subsequent peeling.</p>
 <tr id="L43" class=""><td class="line-num"><a href="#L43">43</a></td><td class="line-code"> </td></tr>
 <tr id="L44" class=""><td class="line-num"><a href="#L44">44</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax342547.RawPeeling</span></td></tr>
 <tr id="L45" class=""><td class="line-num"><a href="#L45">45</a></td><td class="line-code"> </td></tr>
-</table></div><span class="source-proof-rail" data-source-line="L21" aria-label="Proof links"><a class="statement-proof-button" href="https://github.com/EdouardBonnet/hadwiger-counterexample/blob/1e7d18c2fdd4c2f8a2675b7fdaad9b2ede3c00a5/proofs/Lax342547Proofs/RawPeeling.lean" aria-label="View proof Lax342547Proofs.RawPeeling.raw_peeling on GitHub" title="Lax342547Proofs.RawPeeling.raw_peeling"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">Show Proof</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a></span><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
+</table></div><span class="source-proof-rail" data-source-line="L21" aria-label="Proof links"><a class="statement-proof-button" href="https://github.com/EdouardBonnet/hadwiger-counterexample/blob/501579af18a1325697e0a0177d7cad7049e2af0a/proofs/Lax342547Proofs/RawPeeling.lean" aria-label="View proof Lax342547Proofs.RawPeeling.raw_peeling on GitHub" title="Lax342547Proofs.RawPeeling.raw_peeling"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">Show Proof</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a></span><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
 
 <div class="block"><div class="deps-columns">
 <details class="deps-col block-details"><summary>Builds on</summary><ul class="deps-list"><li title="Lax342547.BoundedPeeling"><a href="../lax-342547/Lax342547.BoundedPeeling.html"><code>Lax342547.BoundedPeeling</code></a></li><li title="Lax342547.ReferencePins"><a href="../lax-342547/Lax342547.ReferencePins.html"><code>Lax342547.ReferencePins</code></a></li></ul></details>

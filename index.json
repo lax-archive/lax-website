@@ -4915,7 +4915,7 @@
         {
           "id": "Lax342547.BarredElimination",
           "title": "Sparse unselected primal vectors in barred spaces lie in the pins",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.BarredSpaces",
@@ -4980,7 +4980,7 @@
         {
           "id": "Lax342547.BoundedDerivatives",
           "title": "Bounded allowed derivatives preserving the actual linearized response",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.BoundedPeeling",
@@ -5040,7 +5040,7 @@
         {
           "id": "Lax342547.ChromaticBound",
           "title": "The chromatic lower bound for independence number two",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.CliqueMinor",
@@ -5090,7 +5090,7 @@
         {
           "id": "Lax342547.CommonTestTransfer",
           "title": "Marginal transfer of common affine-slice tests",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.ComponentCharacters",
@@ -5175,7 +5175,7 @@
         {
           "id": "Lax342547.Conditioning",
           "title": "Exact conditioning costs and recovery of finite probability masses",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.ConnectedMatching",
@@ -5205,7 +5205,7 @@
         {
           "id": "Lax342547.CoordinateCounts",
           "title": "Dimensions of the concrete coefficient space",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.CoordinateRestrictions",
@@ -5215,12 +5215,12 @@
         {
           "id": "Lax342547.CorankCounting",
           "title": "The row-corank bound for a uniform binary matrix",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.Counterexample",
           "title": "A counterexample to Hadwiger's conjecture",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.CoverAvoidance",
@@ -5260,7 +5260,7 @@
         {
           "id": "Lax342547.CutFunctionals",
           "title": "Well-defined cut functionals",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.CutProfiles",
@@ -5275,7 +5275,7 @@
         {
           "id": "Lax342547.DerivativeContractions",
           "title": "Rank-one derivative tests are scalar pairings of residual contractions",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.DerivativeResponses",
@@ -5325,17 +5325,17 @@
         {
           "id": "Lax342547.EffectiveBounds",
           "title": "Dimension and component-rank bounds for effective test spaces",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.EffectiveObstructions",
           "title": "Full response obstructions are effective profiles plus selected atoms",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.EmpiricalVariance",
           "title": "Finite empirical variance from a two-coefficient comparison",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.EmptyPredictions",
@@ -5400,7 +5400,7 @@
         {
           "id": "Lax342547.FiniteLinearLaw",
           "title": "Finite linear images and their uniform-law density bounds",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.FiniteMoments",
@@ -5475,7 +5475,7 @@
         {
           "id": "Lax342547.FrameExistence",
           "title": "Nonempty raw frame spaces",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.FrameSymmetry",
@@ -5495,7 +5495,7 @@
         {
           "id": "Lax342547.FreshKeys",
           "title": "Fresh key directions are independent modulo table spaces",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.FrozenAssembly",
@@ -5530,7 +5530,7 @@
         {
           "id": "Lax342547.FrozenValues",
           "title": "Baseline contractions on the selected atoms",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.GoodSamples",
@@ -5620,12 +5620,12 @@
         {
           "id": "Lax342547.HoleTriangleFree",
           "title": "Holes are symmetric, loopless, and triangle-free",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.ImageScale",
           "title": "Paying the reference-image conditioning and dimension costs",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.IndependentMixtures",
@@ -5675,7 +5675,7 @@
         {
           "id": "Lax342547.InjectiveFrames",
           "title": "Uniform injective frames and channel transpose failure",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.JoinedGramOrbits",
@@ -5705,12 +5705,12 @@
         {
           "id": "Lax342547.JointProjectors",
           "title": "Joint binary projections for commuting idempotents",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.KernelWitness",
           "title": "Bounded descriptions of large matrix kernels",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.KeyMeasures",
@@ -5725,7 +5725,7 @@
         {
           "id": "Lax342547.LabelDecomposition",
           "title": "Low-rank Boolean moments have bounded label support",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.LabelRelations",
@@ -5765,7 +5765,7 @@
         {
           "id": "Lax342547.LeafTrimming",
           "title": "Quantitative trimming after restrictions of a leaf mixture",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.LiftedSum",
@@ -5785,7 +5785,7 @@
         {
           "id": "Lax342547.LowRankCounting",
           "title": "Factorization and counting of low-rank binary matrices",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.MappedSpans",
@@ -5830,7 +5830,7 @@
         {
           "id": "Lax342547.MixtureRecovery",
           "title": "Actual-mass recovery and residual bounds through finite splits",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.ModeBudgets",
@@ -5845,7 +5845,7 @@
         {
           "id": "Lax342547.MomentIntersection",
           "title": "Intersections of restricted moment spaces",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.MomentRecovery",
@@ -5890,7 +5890,7 @@
         {
           "id": "Lax342547.NominalBaselines",
           "title": "The 3K+28 baseline bound in the actual nominal coordinates",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.NominalPrimal",
@@ -5920,7 +5920,7 @@
         {
           "id": "Lax342547.PairedFrames",
           "title": "Paired-frame orbit under the primal and dual actions",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.PairedKeys",
@@ -5980,7 +5980,7 @@
         {
           "id": "Lax342547.PeelingBudget",
           "title": "Rank and density budgets for exact-image peeling",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.PhaseAverages",
@@ -6025,7 +6025,7 @@
         {
           "id": "Lax342547.PreparedInjectionScale",
           "title": "Early channel choice for prepared accepting-pair injection",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.PrimalAvoidance",
@@ -6050,7 +6050,7 @@
         {
           "id": "Lax342547.PrimalRetractions",
           "title": "Retractions with bounded rank on the primal inputs",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.ProbabilityScales",
@@ -6070,7 +6070,7 @@
         {
           "id": "Lax342547.ProfileCounting",
           "title": "Counting tuples of symmetric matrices with bounded total rank",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.ProjectedCoefficients",
@@ -6155,7 +6155,7 @@
         {
           "id": "Lax342547.QuotientExtractors",
           "title": "Extracting fresh label coefficients through pin quotients",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.QuotientFactorLifts",
@@ -6170,7 +6170,7 @@
         {
           "id": "Lax342547.QuotientRank",
           "title": "Rank of a tensor killed in two quotient spaces",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.RankedProjection",
@@ -6225,7 +6225,7 @@
         {
           "id": "Lax342547.RawGroupedComparison",
           "title": "Actual grouped raw observations with arbitrary common tests",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.RawIntersections",
@@ -6245,7 +6245,7 @@
         {
           "id": "Lax342547.RawPeeling",
           "title": "Exact-pin peeling for the actual raw frame law",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.RawPrimalAvoidance",
@@ -6265,7 +6265,7 @@
         {
           "id": "Lax342547.RawSecondPeeling",
           "title": "Second exact-pin peeling for the actual raw frame law",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.RawToGraph",
@@ -6295,7 +6295,7 @@
         {
           "id": "Lax342547.RecipeRows",
           "title": "Coupled scalar recipes give consistent atom gradients",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.RecordCollision",
@@ -6350,12 +6350,12 @@
         {
           "id": "Lax342547.RestrictedLeaves",
           "title": "Trimming a restricted family of exact-pin leaves",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.RestrictionRank",
           "title": "Rank loss under restriction of a bilinear form",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.RetainedCharacters",
@@ -6415,7 +6415,7 @@
         {
           "id": "Lax342547.SelectedScalars",
           "title": "Selected label coefficients agree across the cut profile",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.SelectorInterpolation",
@@ -6485,12 +6485,12 @@
         {
           "id": "Lax342547.SparseIntersections",
           "title": "Sparse profiles from raw intersections (Lemma 4.4)",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.SparseKeyCoefficients",
           "title": "Unselected sparse vectors cannot conceal fresh key coefficients",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.SparsePins",
@@ -6505,7 +6505,7 @@
         {
           "id": "Lax342547.SplitTrimming",
           "title": "Mass and density costs of splitting by metadata and images",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.StarRouting",
@@ -6525,12 +6525,12 @@
         {
           "id": "Lax342547.SymmetricFactorization",
           "title": "Symmetric low-rank factorization, including characteristic two",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.SymmetricPrescriptions",
           "title": "Consistent symmetric binary prescriptions on two witness lists",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.SyntheticGramSlices",
@@ -6650,7 +6650,7 @@
         {
           "id": "Lax342547.UniformTableInjection",
           "title": "Uniform early channel choice for actual accepting tables",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax342547.UnitContainers",
