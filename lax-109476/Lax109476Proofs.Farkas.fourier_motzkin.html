@@ -3,7 +3,7 @@
 <meta charset="utf-8">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self'; frame-src https://comments.laxarchive.org; connect-src https://comments.laxarchive.org">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Partition the rows according to the sign of the eliminated variable's coefficient. Combine every positive row with every negative row using nonnegative multipliers, and retain the zero rows. A finite family of compatible lower and upper bounds admits a witness for the removed variable.">
+<meta name="description" content="Partition the rows according to the sign of the eliminated variable's coefficient. Combine every positive row with every negative row using nonnegative multipliers, and retain the zero rows. A finite family of compatible lower and upper bounds admits a witness for the removed variable, for each…">
 
 <title>Lax109476Proofs.Farkas.fourier_motzkin — lax-109476</title>
 <link rel="canonical" href="https://laxarchive.org/lax-109476/Lax109476Proofs.Farkas.fourier_motzkin.html">
@@ -136,7 +136,7 @@
 <p class="draft-banner">While this submission is a draft, it cannot be used by other submissions.</p>
 <div class="detail-heading concept-heading proof-heading">
 <div class="proof-heading-content"><h1 class="concept-title">Proof of <span class="proof-concept-title">`Fourier–Motzkin elimination`</span></h1>
-<p class="concept-microline proof-microline"><span class="status-pills"><span class="status-pill pill-proven" tabindex="0" data-tooltip="No open assumptions remain in the archive: every dependency is backed by a checked proof, ultimately reducing to Lean and Mathlib." aria-label="Grounded. No open assumptions remain in the archive: every dependency is backed by a checked proof, ultimately reducing to Lean and Mathlib.">grounded</span></span><span><a href="https://github.com/EdouardBonnet/lax-109476/blob/a26ad73b63950e90a8e76b3265b6cc1591af141a/proofs/Lax109476Proofs/Farkas.lean"><code>proofs/Lax109476Proofs/Farkas.lean</code></a> · <a href="index.html">lax-109476</a></span></p></div>
+<p class="concept-microline proof-microline"><span class="status-pills"><span class="status-pill pill-proven" tabindex="0" data-tooltip="No open assumptions remain in the archive: every dependency is backed by a checked proof, ultimately reducing to Lean and Mathlib." aria-label="Grounded. No open assumptions remain in the archive: every dependency is backed by a checked proof, ultimately reducing to Lean and Mathlib.">grounded</span></span><span><a href="https://github.com/EdouardBonnet/lax-109476/blob/0a042604c7ae1ef4cd9a4c7d82eb902f313d4864/proofs/Lax109476Proofs/Farkas.lean"><code>proofs/Lax109476Proofs/Farkas.lean</code></a> · <a href="index.html">lax-109476</a></span></p></div>
 </div>
 <div class="block block-evidence"><h3>What this proof establishes</h3>
 <div class="judgment">
@@ -145,13 +145,15 @@
 <div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven">thm✓</span><a href="../lax-109476/Lax109476.FourierMotzkin.html" title="Lax109476.FourierMotzkin.exists_elimination"><code>Lax109476.FourierMotzkin</code></a></span></div>
 </div>
 <p class="honesty-note">Assuming the claims on the left, the claim on the right holds — checked by the archive's pipeline. Proof code is not displayed here.</p>
-<p class="source-action"><a class="source-button" href="https://github.com/EdouardBonnet/lax-109476/blob/a26ad73b63950e90a8e76b3265b6cc1591af141a/proofs/Lax109476Proofs/Farkas.lean"><svg class="source-mark" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true" focusable="false"><path fill="currentColor" d="M5.22 3.22a.75.75 0 0 1 1.06 1.06L2.56 8l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06Zm5.56 0 4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 1 1-1.06-1.06L13.44 8 9.72 4.28a.75.75 0 1 1 1.06-1.06Z"/></svg><span>Read the Lean proof on GitHub</span></a></p>
+<p class="source-action"><a class="source-button" href="https://github.com/EdouardBonnet/lax-109476/blob/0a042604c7ae1ef4cd9a4c7d82eb902f313d4864/proofs/Lax109476Proofs/Farkas.lean"><svg class="source-mark" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true" focusable="false"><path fill="currentColor" d="M5.22 3.22a.75.75 0 0 1 1.06 1.06L2.56 8l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06Zm5.56 0 4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 1 1-1.06-1.06L13.44 8 9.72 4.28a.75.75 0 1 1 1.06-1.06Z"/></svg><span>Read the Lean proof on GitHub</span></a></p>
 </div>
 
 <div class="block block-statement"><h3>Description</h3><div class="latex-content"><p>Partition the rows according to the sign of the eliminated variable's
 coefficient. Combine every positive row with every negative row using
 nonnegative multipliers, and retain the zero rows. A finite family of
-compatible lower and upper bounds admits a witness for the removed variable.</p>
+compatible lower and upper bounds admits a witness for the removed variable,
+for each fixed solution of the reduced system. Reconstruction keeps all
+retained coordinates unchanged, giving the pointwise projection equivalence.</p>
 </div></div>
 <div class="block"><h3>Attribution</h3><div class="latex-content"><p>Adapted from Jyotirmoy Bhattacharya's MIT-licensed <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mi>a</mi><mi>r</mi><mi>k</mi><mi>a</mi><msub><mi>s</mi><mi>l</mi></msub><mi>e</mi><mi>a</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">farkas_lean</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.1076em;">f</span><span class="mord mathnormal">a</span><span class="mord mathnormal" style="margin-right:0.0278em;">r</span><span class="mord mathnormal" style="margin-right:0.0315em;">k</span><span class="mord mathnormal">a</span><span class="mord"><span class="mord mathnormal">s</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0197em;">l</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathnormal">e</span><span class="mord mathnormal">an</span></span></span></span>, revision
 30c319dd52ca89cfa82a68352b1f39f4f3026fc2. The adapted files retain the
