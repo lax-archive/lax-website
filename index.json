@@ -9025,6 +9025,77 @@
       ]
     },
     {
+      "id": "lax-455465",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Multicommodity Flow–Cut Theorems of Leighton and Rao",
+      "concepts": [
+        {
+          "id": "Lax455465.ConcurrentFlow",
+          "title": "Concurrent fractional flow",
+          "type": "definition"
+        },
+        {
+          "id": "Lax455465.FlowCutCertificate",
+          "title": "Exact flow–cut output certificates",
+          "type": "definition"
+        },
+        {
+          "id": "Lax455465.ProductNetwork",
+          "title": "Product multicommodity networks and sparsest cuts",
+          "type": "definition"
+        },
+        {
+          "id": "Lax455465.RamDirectedSparsestCut",
+          "title": "Deterministic directed product flow–cut algorithm",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax455465.RamDirectedUniformFlowCut",
+          "title": "Deterministic directed uniform flow–cut algorithm",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax455465.RamProductFlowCut",
+          "title": "Deterministic polynomial-time product flow–cut algorithm",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax455465.RamUndirectedSparsestCut",
+          "title": "Deterministic undirected product flow–cut algorithm",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax455465.RamUniformFlowCut",
+          "title": "Deterministic undirected uniform flow–cut algorithm",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax455465.RamUniformShortPathFlow",
+          "title": "Polynomial-time RAM construction of a uniform short-path flow",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax455465.RationalEncoding",
+          "title": "Rational flow instances and certificates",
+          "type": "definition"
+        },
+        {
+          "id": "Lax455465.ShortPathFlow",
+          "title": "Concurrent flow on short paths",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax455465Proofs.ProductCorollaries.directed_product",
+        "Lax455465Proofs.ProductCorollaries.directed_uniform",
+        "Lax455465Proofs.ProductCorollaries.undirected_product",
+        "Lax455465Proofs.ProductCorollaries.undirected_uniform",
+        "Lax455465Proofs.RamProductAlgorithm.exists_polynomial_time_flow_cut",
+        "Lax455465Proofs.RamUniformShortPathFlow.exists_polynomial_time_short_path_flow"
+      ]
+    },
+    {
       "id": "lax-470956",
       "state": "registered",
       "environment": "v4.33.0",
