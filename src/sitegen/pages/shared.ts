@@ -607,19 +607,15 @@ ${EMPTY_ROW}
  * back-link, then discover other registered submissions by title, concept,
  * and Lean environment. The epoch is the deliberate initial environment
  * even when the page being read belongs to an older one. */
-/** The "Other submissions" rows, by model and then by the sidebar's two
- * inputs — the page's root prefix and the submission left out. Every page
- * of a submission carries the same rows, and a site has as many pages as
- * records times their concepts and proofs: rendered afresh on each page,
- * the rows were the one cost of the build that grew with the square of the
- * archive. */
-const sidebarRows = new WeakMap<SiteModel, Map<string, string>>();
+/** Pages of a record are emitted together, so retain only the most recent
+ * sidebar. Keeping one full archive listing per record would retain quadratic
+ * HTML even after completed pages have been written to disk. */
+const sidebarRows = new WeakMap<SiteModel, { key: string; rows: string }>();
 
 function submissionSidebarRows(model: SiteModel, submission: SiteSubmission, rootRel: string): string {
-  let byInputs = sidebarRows.get(model);
-  if (byInputs === undefined) sidebarRows.set(model, byInputs = new Map());
   const key = `${rootRel}\u0000${submission.record.id}`;
-  let rows = byInputs.get(key);
+  const cached = sidebarRows.get(model);
+  let rows = cached?.key === key ? cached.rows : undefined;
   if (rows === undefined) {
     const listed = currentSubmissions(model).filter((candidate) =>
       candidate.record.state === "registered" && candidate.record.id !== submission.record.id);
@@ -628,7 +624,7 @@ function submissionSidebarRows(model: SiteModel, submission: SiteSubmission, roo
       const title = plainAuthorTitle(candidate.output!.manifest.title);
       return `<li ${submissionSearchAttributes(candidate, order)}><a class="entry-link" href="${attr(`${rootRel}${id}/index.html`)}" data-full-title="${attr(title)}"><span class="entry-label"><span class="entry-label-text">${esc(title)}</span></span></a></li>`;
     }).join("\n");
-    byInputs.set(key, rows);
+    sidebarRows.set(model, { key, rows });
   }
   return rows;
 }

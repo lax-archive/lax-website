@@ -314,7 +314,14 @@ shell applies a strict Content Security Policy.
 ## Graph drawing
 
 Archive builds prepare concept, submission and proof graphs before writing
-pages. A first-party core assigns ranks and semantic ports, orders layers,
+each finished page to a staging directory. Pages are rendered and prepared
+one at a time; the build does not retain the archive's generated HTML,
+projections or measured drawings. PDFs are copied directly from their cache.
+The previous site remains in place until the complete staging tree passes
+preparation and asset packaging. Excluding a malformed record starts a fresh
+staging attempt, so its partial pages cannot survive the retry.
+
+A first-party core assigns ranks and semantic ports, orders layers,
 places measured boxes, and searches bounded routing candidates. An independent
 validator checks complete quantized geometry and serialized curves. Public
 pages contain linked, accessible SVGs that work without JavaScript. The browser
@@ -344,6 +351,23 @@ only in an optional build report:
 npm run site:build -- --graph-cache /tmp/lax-graphs \
   --graph-report /tmp/lax-graph-build.json
 ```
+
+One measurement browser is shared for the build. Label and geometry memory
+caches use LRU eviction with default accounted budgets of 8 MiB and 32 MiB;
+larger entries are used only for their active page, while the disk caches
+remain available to later pages. Library callers can set
+`graphs.measurement.memoryCacheBytes` and `graphs.geometryCacheBytes` (zero
+disables retention). Accounted bytes conservatively estimate object overhead;
+they are not an exact V8 heap measurement. Memory still includes the archive
+model and the largest active page, graph or paper bundle.
+
+The CLI streams detailed graph-report rows to disk and retains counters and
+identity digests in memory. The report must be outside the site directory.
+Library callers requesting `graphReport` receive the full in-memory detail
+arrays for compatibility; for large builds use `graphs.reportFile` instead,
+or set `graphs.collectDetails: false` for a summary callback. Local previews
+prepare pages with exact cached labels statically and use the isolated worker
+only on pages whose new labels cannot be measured by the host.
 
 Concept ancestry and descendant controls select at most four precomputed
 states. A concept's descendant expansion is included only when it has at most

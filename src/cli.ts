@@ -64,14 +64,8 @@ async function build(): Promise<void> {
   await generateSite(submissions, outDir, { log: (line) => console.warn(line), onSkip,
     leanCode: { cacheDir: path.resolve(option("--lean-code", path.join(root, "data", "lean-code"))), required: flag("--require-lean-code") },
     graphs: { mode: command === "serve" ? "local" : "archive", selfContained: flag("--self-contained-graphs"),
-      cacheDir: path.resolve(option("--graph-cache", path.join(root, ".lax-graph-cache"))), log: (line) => console.log(line) },
-    graphReport: (report) => {
-      const reportFile = option("--graph-report", "");
-      if (reportFile) {
-        fs.mkdirSync(path.dirname(path.resolve(reportFile)), { recursive: true });
-        fs.writeFileSync(reportFile, JSON.stringify(report, null, 2) + "\n");
-      }
-    },
+      cacheDir: path.resolve(option("--graph-cache", path.join(root, ".lax-graph-cache"))), log: (line) => console.log(line),
+      reportFile: option("--graph-report", "") || undefined },
   });
   const skippedIds = new Set(skipped.map((skip) => skip.id));
   const records = submissions.filter((submission) => !skippedIds.has(submission.record.id)).length;
