@@ -13868,6 +13868,123 @@
       ]
     },
     {
+      "id": "lax-920634",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Explicit Subcubic Expanders and Linear Treewidth",
+      "concepts": [
+        {
+          "id": "Lax920634.ConstructionSize",
+          "title": "The Constructor Meets the Requested Order",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax920634.EdgeExpansion",
+          "title": "Edge Expansion and Subcubic Graphs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax920634.ExpanderExistence",
+          "title": "Arbitrarily Large Subcubic Expanders",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax920634.ExpansionTreewidth",
+          "title": "Edge Expansion Forces Linear Treewidth",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax920634.ExplicitExpansion",
+          "title": "The Explicit Subcubic Family Expands",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax920634.ExplicitTreewidth",
+          "title": "The Explicit Family Has Linear Treewidth",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax920634.GraphEncoding",
+          "title": "Selecting and Encoding the Constructed Graphs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax920634.LinearConstruction",
+          "title": "Linear-Time Construction on the Word RAM",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax920634.PathExpansion",
+          "title": "Path Replacement Preserves Uniform Expansion",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax920634.PathReplacement",
+          "title": "Path Replacement of a Regular Multigraph",
+          "type": "definition"
+        },
+        {
+          "id": "Lax920634.PolynomialConstruction",
+          "title": "The Explicit Construction Runs in Polynomial Time",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax920634.SeedCorrectness",
+          "title": "The Deterministic Seed Search Succeeds",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax920634.SeedRotation",
+          "title": "Rotation Map of the Fixed Powered Seed",
+          "type": "definition"
+        },
+        {
+          "id": "Lax920634.SeedSearch",
+          "title": "Deterministic Search for a Fixed Expander Seed",
+          "type": "definition"
+        },
+        {
+          "id": "Lax920634.SubcubicConstruction",
+          "title": "The Explicit Graphs Are Subcubic",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax920634.TreewidthExistence",
+          "title": "Arbitrarily Large Subcubic Graphs of Linear Treewidth",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax920634.WordEncoding",
+          "title": "A Word-Sized Encoding of the Constructed Graphs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax920634.WordEncodingCorrectness",
+          "title": "The Word Table Encodes the Same Graph",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax920634.ZigZagConstruction",
+          "title": "Explicit Zig-Zag Family and Path Replacement",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax920634Proofs.Algorithm.polynomial_time",
+        "Lax920634Proofs.RamLinear.linear_time",
+        "Lax920634Proofs.Results.ConstructionSize_size_bounds",
+        "Lax920634Proofs.Results.ExpanderExistence_exists_subcubic_expander",
+        "Lax920634Proofs.Results.ExpansionTreewidth_order_le_treewidth",
+        "Lax920634Proofs.Results.ExplicitExpansion_expansion",
+        "Lax920634Proofs.Results.ExplicitTreewidth_linear_treewidth",
+        "Lax920634Proofs.Results.PathExpansion_replacement_expansion",
+        "Lax920634Proofs.Results.SeedCorrectness_table_good",
+        "Lax920634Proofs.Results.SubcubicConstruction_subcubic",
+        "Lax920634Proofs.Results.TreewidthExistence_exists_subcubic_linear_treewidth",
+        "Lax920634Proofs.WordEncoding.table_correct"
+      ]
+    },
+    {
       "id": "lax-945089",
       "state": "registered",
       "environment": "v4.33.0",
