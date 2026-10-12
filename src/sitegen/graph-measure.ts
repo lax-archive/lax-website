@@ -5,6 +5,7 @@ import path from "node:path";
 import { createHash, randomUUID } from "node:crypto";
 import { performance } from "node:perf_hooks";
 import { siteAssetPath } from "./assets.js";
+import { BoundedCache } from "./bounded-cache.js";
 import type { Rect } from "../graph-layout/types.js";
 
 export const GRAPH_MEASUREMENT_VERSION = "svg-labels-2";
@@ -63,6 +64,8 @@ export type GraphMeasurerOptions = Readonly<{
   provider?: MeasureLabelsProvider; providerId?: string;
   /** A batching work limit, not a graph-size or label-size cutoff. */
   batchSize?: number;
+  /** Accounted heap budget for labels retained between pages; zero disables it. */
+  memoryCacheBytes?: number;
 }>;
 
 export class GraphMeasurementError extends Error {
@@ -292,7 +295,8 @@ export function createGraphMeasurer(options: GraphMeasurerOptions = {}): GraphMe
   const environment = graphMeasurementEnvironment(options.providerId ?? `chromium:${expected}`);
   const batchSize = options.batchSize ?? 256;
   if (!Number.isSafeInteger(batchSize) || batchSize < 1) throw new GraphMeasurementError("GRAPH_LABEL_BATCH", "batchSize must be a positive integer");
-  const memory = new Map<string, LabelMetrics>();
+  const memory = new BoundedCache<LabelMetrics>(options.memoryCacheBytes ?? 8 * 1024 * 1024);
+  const seen = new Set<string>();
   const stats = { requestedLabels: 0, uniqueLabels: 0, cacheHits: 0, cacheMisses: 0,
     corruptEntries: 0, batches: 0, browserLaunches: 0, elapsedMs: 0 };
   let browser: Promise<BrowserProvider> | undefined;
@@ -326,11 +330,18 @@ export function createGraphMeasurer(options: GraphMeasurerOptions = {}): GraphMe
       requests.forEach((request) => assertGraphGlyphCoverage(request, environment));
       stats.requestedLabels += requests.length;
       const keys = requests.map((request) => graphMeasurementKey(request, environment.signature));
+      // Active results survive LRU eviction, including a batch larger than
+      // the entire cache budget. Only this call retains those metrics.
+      const active = new Map<string, LabelMetrics>();
       const missing = new Map<string, NormalizedLabelRequest>();
       keys.forEach((key, index) => {
         if (missing.has(key)) return;
-        const metric = memory.get(key) ?? readCache(key, requests[index]!);
-        if (metric) { memory.set(key, metric); stats.cacheHits++; }
+        const metric = active.get(key) ?? memory.get(key) ?? readCache(key, requests[index]!);
+        if (metric) {
+          active.set(key, metric);
+          memory.set(key, metric, Buffer.byteLength(JSON.stringify(metric)));
+          stats.cacheHits++;
+        }
         else { missing.set(key, requests[index]!); stats.cacheMisses++; }
       });
       const pending = [...missing];
@@ -352,11 +363,14 @@ export function createGraphMeasurer(options: GraphMeasurerOptions = {}): GraphMe
             throw new GraphMeasurementError("GRAPH_LABEL_RESULT", `invalid or incomplete measured geometry for label ${key}`);
           }
           const frozen = freeze(metric);
-          memory.set(key, frozen); writeCache(key, frozen);
+          active.set(key, frozen);
+          memory.set(key, frozen, Buffer.byteLength(JSON.stringify(frozen)));
+          writeCache(key, frozen);
         });
       }
-      stats.uniqueLabels = memory.size;
-      return Object.freeze(keys.map((key) => memory.get(key)!));
+      keys.forEach((key) => seen.add(key));
+      stats.uniqueLabels = seen.size;
+      return Object.freeze(keys.map((key) => active.get(key)!));
     } finally { stats.elapsedMs += performance.now() - started; }
   }
   return Object.freeze({ environment,
@@ -371,6 +385,7 @@ export function createGraphMeasurer(options: GraphMeasurerOptions = {}): GraphMe
       closed = true;
       await queue;
       if (browser) { const instance = await browser.catch(() => undefined); await instance?.close(); }
+      memory.clear(); seen.clear();
     },
     get statistics() { return Object.freeze({ ...stats }); },
   });

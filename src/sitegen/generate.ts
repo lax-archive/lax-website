@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import { createHash } from "node:crypto";
 import { copyAssets } from "./assets.js";
 import { robotsTxt, sitemapXml } from "./crawlers.js";
 import { environmentIndex, recordIndex } from "./machine-index.js";
@@ -19,8 +20,7 @@ import { INTRO_SUBMISSION_ID } from "./pages/shared.js";
 import { submissionPage } from "./pages/submission.js";
 import { submissionsPage } from "./pages/submissions.js";
 import { workshopPage } from "./pages/workshop.js";
-import { prepareGraphs, type GraphPreparationOptions, type GraphPreparationResult } from "./graph-prepare.js";
-import { compareText } from "../graph-layout/normalize.js";
+import { createGraphPreparationSession, type GraphPreparationOptions, type GraphPreparationResult } from "./graph-prepare.js";
 import { loadLeanCode } from "./lean-code.js";
 import type { SkippedRecord } from "../types.js";
 
@@ -43,7 +43,8 @@ export interface GenerateOptions {
   /** Public CLI builds explicitly select archive mode. Older packaged local
    * callers keep browser-free installation and the isolated local worker. */
   graphs?: GraphPreparationOptions;
-  /** Build diagnostics/performance stay outside deterministic published data. */
+  /** Requests an in-memory detailed report for library callers. For large
+   * builds use graphs.reportFile, which streams details outside the site. */
   graphReport?: (report: GraphPreparationResult) => void;
   /**
    * Where a record the generator could not render is reported. The record
@@ -80,57 +81,81 @@ export async function generateSite(
   const settings = typeof options === "string" ? { epoch: options } : options;
   const log = settings.log ?? ((line: string) => console.warn(line));
   const skip = settings.onSkip ?? ((skipped: SkippedRecord) => log(`skipping ${skipped.id}: ${skipped.reason}`));
-  // The per-record boundary. A failure the model or a record's pages can
-  // pin on one record drops that record and renders again without it — the
-  // pages are a function of the list, and the listings and graphs embed
-  // every record, so a partial render is not an option. A failure nothing
-  // can attribute still fails the build: the alternative is guessing.
+  const outputRoot = path.resolve(outDir);
+  const graphMode = settings.graphs?.mode ?? "local";
+  const graphOptions: GraphPreparationOptions = {
+    mode: graphMode, cacheDir: path.resolve(".lax-graph-cache"),
+    collectDetails: Boolean(settings.graphReport), ...settings.graphs,
+    measurement: { ...(graphMode === "local" && !process.env.GRAPH_CHROME && !settings.graphs?.measurement?.executablePath
+      ? { hostBrowser: false } : {}), ...settings.graphs?.measurement },
+  };
+  if (graphOptions.reportFile) {
+    const report = path.resolve(graphOptions.reportFile);
+    if (report === outputRoot || report.startsWith(outputRoot + path.sep))
+      throw new Error("graph report must be outside the published site");
+  }
+  fs.mkdirSync(path.dirname(outputRoot), { recursive: true });
   const excluded = new Set<string>();
   let remaining = submissions;
-  let files: Map<string, string | Buffer>;
   for (;;) {
+    // A whole attempt has its own staging directory. Neither partially
+    // prepared pages nor pages of an excluded record can reach publication.
+    const staged = fs.mkdtempSync(path.join(path.dirname(outputRoot), `.${path.basename(outputRoot)}-build-`));
+    const previous = `${staged}-previous`;
+    let movedPrevious = false, installed = false;
+    let session: ReturnType<typeof createGraphPreparationSession> | undefined;
     try {
-      files = await renderPages(remaining, settings.epoch, log, settings.leanCode, settings.pages);
-      break;
+      session = createGraphPreparationSession(graphOptions);
+      const written = new Set<string>(), sharedHashes = new Map<string, string>();
+      const write = (relative: string, content: string | Buffer, shared = false) => {
+        const file = siteOutputPath(staged, relative);
+        const digest = shared ? createHash("sha256").update(content).digest("hex") : undefined;
+        if (written.has(relative)) {
+          if (shared && sharedHashes.get(relative) === digest) return;
+          throw new Error(`generated file ${relative} written twice with different contents`);
+        }
+        fs.mkdirSync(path.dirname(file), { recursive: true });
+        fs.writeFileSync(file, content);
+        written.add(relative);
+        if (digest) sharedHashes.set(relative, digest);
+      };
+      for await (const output of renderPages(remaining, settings.epoch, log, settings.leanCode, settings.pages)) {
+        if ("sourceFile" in output) {
+          const file = siteOutputPath(staged, output.relative);
+          if (written.has(output.relative)) throw new Error(`generated file ${output.relative} written twice`);
+          fs.mkdirSync(path.dirname(file), { recursive: true });
+          fs.copyFileSync(output.sourceFile, file);
+          written.add(output.relative);
+        } else if (output.relative.endsWith(".html")) {
+          for (const [relative, content] of await session.prepare(output.relative, output.content))
+            write(relative, content, relative !== output.relative);
+        } else write(output.relative, output.content, output.shared);
+      }
+      const prepared = session.finish();
+      settings.graphReport?.(prepared);
+      await session.close();
+      copyAssets(staged, { localGraphs: prepared.localFallback });
+      if (fs.existsSync(outputRoot)) { fs.renameSync(outputRoot, previous); movedPrevious = true; }
+      try { fs.renameSync(staged, outputRoot); installed = true; }
+      catch (error) {
+        if (movedPrevious) { fs.renameSync(previous, outputRoot); movedPrevious = false; }
+        throw error;
+      }
+      return;
     } catch (error) {
+      // Only producer errors attributed by renderPages exclude a record.
+      // Graph validation, measurement, reporting and disk failures stay fatal.
       if (!(error instanceof RecordError) || excluded.has(error.recordId)) throw error;
       excluded.add(error.recordId);
       skip({ id: error.recordId, reason: error.message });
       remaining = remaining.filter((submission) => submission.record.id !== error.recordId);
+    } finally {
+      try { await session?.close(); }
+      finally {
+        if (!installed) fs.rmSync(staged, { recursive: true, force: true });
+        if (installed && movedPrevious) fs.rmSync(previous, { recursive: true, force: true });
+      }
     }
-  }
-  const outputRoot = path.resolve(outDir);
-  const graphMode = settings.graphs?.mode ?? "local";
-  const prepared = await prepareGraphs(files, {
-    mode: graphMode, cacheDir: path.resolve(".lax-graph-cache"), ...settings.graphs,
-    measurement: { ...(graphMode === "local" && !process.env.GRAPH_CHROME && !settings.graphs?.measurement?.executablePath
-      ? { hostBrowser: false } : {}), ...settings.graphs?.measurement },
-  });
-  settings.graphReport?.(prepared);
-  const renderedFiles = [...files].sort(([a], [b]) => compareText(a, b));
-  for (const [relative] of renderedFiles) siteOutputPath(outputRoot, relative);
-  // Finish writes and asset packaging alongside the old output. A failed
-  // measurement, validator, missing asset or full disk keeps the old site.
-  fs.mkdirSync(path.dirname(outputRoot), { recursive: true });
-  const staged = fs.mkdtempSync(path.join(path.dirname(outputRoot), `.${path.basename(outputRoot)}-build-`));
-  const previous = `${staged}-previous`;
-  let movedPrevious = false, installed = false;
-  try {
-    copyAssets(staged, { localGraphs: prepared.localFallback });
-    for (const [relative, content] of renderedFiles) {
-      const file = siteOutputPath(staged, relative);
-      fs.mkdirSync(path.dirname(file), { recursive: true });
-      fs.writeFileSync(file, content);
-    }
-    if (fs.existsSync(outputRoot)) { fs.renameSync(outputRoot, previous); movedPrevious = true; }
-    try { fs.renameSync(staged, outputRoot); installed = true; }
-    catch (error) {
-      if (movedPrevious) { fs.renameSync(previous, outputRoot); movedPrevious = false; }
-      throw error;
-    }
-  } finally {
-    if (!installed) fs.rmSync(staged, { recursive: true, force: true });
-    if (installed && movedPrevious) fs.rmSync(previous, { recursive: true, force: true });
   }
 }
 
@@ -147,14 +172,18 @@ function pagesToRender(model: SiteModel, pages: NonNullable<GenerateOptions["pag
   return rendered;
 }
 
-/** Every page of the site, before graph preparation, keyed by output path. */
-async function renderPages(
+type RenderedFile = { relative: string; content: string | Buffer; shared?: boolean }
+  | { relative: string; sourceFile: string };
+
+/** Yield each page before composing the next. The file-name inventory is
+ * small; page bodies, PDFs and generated assets are never kept archive-wide. */
+async function* renderPages(
   submissions: SiteSubmission[],
   epoch: string | undefined,
   log: (line: string) => void,
   leanCode?: GenerateOptions["leanCode"],
   pages?: GenerateOptions["pages"],
-): Promise<Map<string, string | Buffer>> {
+): AsyncGenerator<RenderedFile> {
   const model = new SiteModel(submissions, epoch);
   const rendered = pages === undefined ? undefined : pagesToRender(model, pages);
   if (leanCode) {
@@ -168,40 +197,41 @@ async function renderPages(
   // the archive holds it.
   const intro = model.submissions.find((submission) => submission.record.id === INTRO_SUBMISSION_ID && submission.output?.paper);
   configureSiteNav({ introduction: intro ? `${intro.record.id}/paper.html` : undefined });
-  const files = new Map<string, string | Buffer>();
-  /** Content-addressed outputs (hashed fonts) may be shared between records;
-   * the same path must always carry the same bytes. */
-  const addFile = (relative: string, content: Buffer): void => {
-    const existing = files.get(relative);
-    if (existing !== undefined) {
-      if (Buffer.isBuffer(existing) && existing.equals(content)) return;
-      throw new Error(`generated file ${relative} written twice with different contents`);
-    }
-    files.set(relative, content);
+  const files = new Set<string>();
+  const emit = (relative: string, content: string | Buffer): RenderedFile => {
+    files.add(relative);
+    return { relative, content };
   };
-  files.set("index.html", await indexPage(context));
-  files.set(path.join("submissions", "index.html"), submissionsPage(context));
+  yield emit("index.html", await indexPage(context));
+  yield emit(path.join("submissions", "index.html"), submissionsPage(context));
   // The machine-readable pair, documented in content/contributing.md. Two
   // spaces and a trailing newline: these are files people read as well.
-  files.set("index.json", `${JSON.stringify(recordIndex(model), null, 2)}\n`);
-  files.set("environments.json", `${JSON.stringify(environmentIndex(model), null, 2)}\n`);
-  files.set(path.join("all-comments", "index.html"), allCommentsPage(context));
-  files.set("about.html", await contentPage(context, "about", "About Lax"));
-  files.set("contributing.html", await contentPage(context, "contributing", "Getting started"));
-  files.set("impressum.html", await contentPage(context, "impressum", "Imprint"));
-  files.set("privacy.html", await contentPage(context, "privacy", "Privacy Notice"));
-  files.set(path.join("workshop", "index.html"), workshopPage(context));
-  const proofObligations = openProblemsPage(context);
-  files.set("open-proof-obligations.html", proofObligations);
-  // Preserve shared preview and production links published under the old name.
-  files.set("open-problems.html", proofObligations);
+  yield emit("index.json", `${JSON.stringify(recordIndex(model), null, 2)}\n`);
+  yield emit("environments.json", `${JSON.stringify(environmentIndex(model), null, 2)}\n`);
+  yield emit(path.join("all-comments", "index.html"), allCommentsPage(context));
+  yield emit("about.html", await contentPage(context, "about", "About Lax"));
+  yield emit("contributing.html", await contentPage(context, "contributing", "Getting started"));
+  yield emit("impressum.html", await contentPage(context, "impressum", "Imprint"));
+  yield emit("privacy.html", await contentPage(context, "privacy", "Privacy Notice"));
+  yield emit(path.join("workshop", "index.html"), workshopPage(context));
+  {
+    const proofObligations = openProblemsPage(context);
+    yield emit("open-proof-obligations.html", proofObligations);
+    // Preserve shared preview and production links published under the old name.
+    yield emit("open-problems.html", proofObligations);
+  }
   // Served by GitHub Pages for any address that does not exist; deleted
   // records land here rather than on GitHub's generic error page.
-  files.set("404.html", notFoundPage());
+  yield emit("404.html", notFoundPage());
   for (const submission of model.submissions) {
     if (rendered !== undefined && !rendered.has(submission.record.id)) continue;
     try {
-      await renderRecord(context, submission, files, addFile, log);
+      for await (const output of renderRecord(context, submission, log)) {
+        if (files.has(output.relative) && "content" in output && !output.shared)
+          throw new Error(`generated page ${output.relative} collides with an existing page`);
+        files.add(output.relative);
+        yield output;
+      }
     } catch (error) {
       if (error instanceof RecordError) throw error;
       const message = error instanceof Error ? error.message : String(error);
@@ -212,33 +242,30 @@ async function renderPages(
   // of every page the build wrote for a listed record — the unlisted keep
   // their canonical links and stay out of the listing, as everywhere else.
   const unlisted = new Set(model.submissions.filter((submission) => !isDiscoverableSubmission(submission)).map((submission) => submission.record.id));
-  const indexed = [...files.keys()].filter((relative) =>
+  const indexed = [...files].filter((relative) =>
     relative.endsWith(".html") && relative !== "404.html" && relative !== "open-problems.html" && !unlisted.has(relative.split(path.sep)[0]!));
-  files.set("robots.txt", robotsTxt());
-  files.set("sitemap.xml", sitemapXml(indexed));
-  return files;
+  yield emit("robots.txt", robotsTxt());
+  yield emit("sitemap.xml", sitemapXml(indexed));
 }
 
 /** One record's pages: its own, one per concept and proof, and its paper's. */
-async function renderRecord(
+async function* renderRecord(
   context: { model: SiteModel; markdown: MarkdownRenderer },
   submission: SiteSubmission,
-  files: Map<string, string | Buffer>,
-  addFile: (relative: string, content: Buffer) => void,
   log: (line: string) => void,
-): Promise<void> {
+): AsyncGenerator<RenderedFile> {
   const { model } = context;
-  files.set(path.join(submission.record.id, "index.html"), submissionPage(context, submission));
+  const emit = (relative: string, content: string | Buffer): RenderedFile => ({ relative, content });
+  yield emit(path.join(submission.record.id, "index.html"), submissionPage(context, submission));
   if (!submission.output) return;
   for (const concept of submission.output.concepts) {
     const located = model.conceptHome.get(concept.id)!;
-    files.set(path.join(submission.record.id, `${concept.id}.html`), await conceptPage(context, located));
+    yield emit(path.join(submission.record.id, `${concept.id}.html`), await conceptPage(context, located));
   }
   for (const proof of submission.output.proofs) {
     // Concept and proof packages have distinct names, so ids cannot collide.
     const file = path.join(submission.record.id, `${proof.id}.html`);
-    if (files.has(file)) throw new Error(`proof page ${file} collides with an existing page`);
-    files.set(file, proofPage(context, model.proofHome.get(proof.id)!));
+    yield emit(file, proofPage(context, model.proofHome.get(proof.id)!));
   }
   // The paper page exists for every declared paper: the reflowed text
   // when the bundle passed the schema gate, the paper as printed
@@ -246,11 +273,11 @@ async function renderRecord(
   // when the papers cache supplied the bytes (production, not previews).
   if (submission.output.paper) {
     const web = preparePaperWeb(submission, log);
-    files.set(path.join(submission.record.id, "paper.html"), await paperPage(context, submission, web?.page));
-    for (const [relative, content] of web?.files ?? []) addFile(relative, content);
+    yield emit(path.join(submission.record.id, "paper.html"), await paperPage(context, submission, web?.page));
+    for (const [relative, content] of web?.files ?? []) yield { relative, content, shared: true };
     if (submission.paperFile) {
-      files.set(path.join(submission.record.id, "paper-pdf.html"), await paperPdfPage(context, submission, web !== undefined));
-      files.set(path.join(submission.record.id, "paper.pdf"), fs.readFileSync(submission.paperFile));
+      yield emit(path.join(submission.record.id, "paper-pdf.html"), await paperPdfPage(context, submission, web !== undefined));
+      yield { relative: path.join(submission.record.id, "paper.pdf"), sourceFile: submission.paperFile };
     }
   }
 }
