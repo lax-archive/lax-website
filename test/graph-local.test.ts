@@ -46,7 +46,7 @@ describe("local graph host and worker options", () => {
       privateSource: "NEVER_TRANSFER_PROFILE_METADATA" };
     const files = new Map([["nested/index.html", page()]]);
     await prepareGraphs(files, { mode: "local", measurement: { hostBrowser: false }, profile });
-    const html = files.get("nested/index.html")!, local = localDescriptor(html);
+    const html = String(files.get("nested/index.html")), local = localDescriptor(html);
     const { privateSource: _private, ...expected } = profile;
     expect(local.profile).toEqual(expected);
     expect(local.requests).toEqual([{ text: "Alpha", maxWidth: 240 }, { text: "Beta", maxWidth: 240 }]);

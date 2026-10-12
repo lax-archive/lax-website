@@ -107,7 +107,7 @@ describe("prepared static graphs", () => {
     expect(submission).not.toContain("scale(1.25)");
     const alone = new Map<string, string | Buffer>([["lax-1/index.html", page(standard, ["proofs"])]]);
     await prepareGraphs(alone, { measurement });
-    expect(submission).toBe(alone.get("lax-1/index.html"));
+    expect(submission).toBe(String(alone.get("lax-1/index.html")));
   });
 
   it("keeps cached geometry, alternates and hidden payloads free of source/private fields", async () => {

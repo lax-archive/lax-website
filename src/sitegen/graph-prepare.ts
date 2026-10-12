@@ -425,6 +425,8 @@ export async function prepareGraphs(files: Map<string, string | Buffer>, options
     phasesMs: { projection: performance.now() - projectionStarted, measurement: 0, layout: 0, serialization: 0, total: 0 }, layouts: [],
   };
   if (!pages.length) { statistics.phasesMs.total = performance.now() - started; return { localFallback: false, diagnostics, statistics }; }
+  // Buffer completed pages so staging does not retain a second site's HTML
+  // strings on the JavaScript heap alongside the original pages and layouts.
   const pendingFiles = new Map<string, string | Buffer>(), profile = options.profile ?? DEFAULT_PROFILE;
   const inlineLimit = options.alternateInlineLimit ?? 32 * 1024;
   if (!Number.isSafeInteger(inlineLimit) || inlineLimit < 0) fail("graph-alternate-threshold", "Alternate transfer threshold must be a nonnegative integer");
@@ -453,7 +455,7 @@ export async function prepareGraphs(files: Map<string, string | Buffer>, options
         html = installInteraction(html, page.file);
         html = installScript(html, page.file, "graph-measure-local.js");
         html = installScript(html, page.file, "graph-local.js");
-        pendingFiles.set(page.file, updateCsp(html, "worker-src", "'self'"));
+        pendingFiles.set(page.file, Buffer.from(updateCsp(html, "worker-src", "'self'"), "utf8"));
       }
       diagnostics.push({ code: "local-graph-measurement", message: "New local labels use the separately packaged browser/worker path because host measurement is unavailable." });
       statistics.measurement = measurer.statistics;
@@ -548,7 +550,7 @@ export async function prepareGraphs(files: Map<string, string | Buffer>, options
       }
       html = html.replace(page.rawScript, () => graphDataScript({ ...page.payload, prepared }));
       if (page.containers.length) html = installInteraction(html, page.file);
-      pendingFiles.set(page.file, html);
+      pendingFiles.set(page.file, Buffer.from(html, "utf8"));
     }
     statistics.phasesMs.serialization = performance.now() - serializationStarted;
     statistics.phasesMs.total = performance.now() - started;
