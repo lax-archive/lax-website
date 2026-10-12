@@ -9048,12 +9048,12 @@
         {
           "id": "Lax455465.RamDirectedSparsestCut",
           "title": "Deterministic directed product flow–cut algorithm",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax455465.RamDirectedUniformFlowCut",
           "title": "Deterministic directed uniform flow–cut algorithm",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax455465.RamProductFlowCut",
@@ -9063,12 +9063,12 @@
         {
           "id": "Lax455465.RamUndirectedSparsestCut",
           "title": "Deterministic undirected product flow–cut algorithm",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax455465.RamUniformFlowCut",
           "title": "Deterministic undirected uniform flow–cut algorithm",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax455465.RamUniformShortPathFlow",
