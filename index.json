@@ -4818,7 +4818,7 @@
     },
     {
       "id": "lax-342547",
-      "state": "draft",
+      "state": "registered",
       "environment": "v4.33.0",
       "title": "A counterexample to Hadwiger's conjecture",
       "concepts": [
@@ -13572,6 +13572,47 @@
         "Lax895169Proofs.Bridge.bitDefinable_ltDecidable",
         "Lax895169Proofs.Bridge.foDefinable_ac0Definable",
         "Lax895169Proofs.Bridge.ltDecidable_bitDefinable"
+      ]
+    },
+    {
+      "id": "lax-899194",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Tree Nash Equilibria in the Network Creation Game",
+      "concepts": [
+        {
+          "id": "Lax899194.InefficiencyRatio",
+          "title": "Inefficiency relative to the social optimum",
+          "type": "definition"
+        },
+        {
+          "id": "Lax899194.NashEquilibrium",
+          "title": "Pure Nash equilibrium",
+          "type": "definition"
+        },
+        {
+          "id": "Lax899194.NetworkCreationGame",
+          "title": "Network creation game",
+          "type": "definition"
+        },
+        {
+          "id": "Lax899194.PlayerCost",
+          "title": "Individual cost in the network creation game",
+          "type": "definition"
+        },
+        {
+          "id": "Lax899194.SocialCost",
+          "title": "Social cost",
+          "type": "definition"
+        },
+        {
+          "id": "Lax899194.TreeNashEfficiency",
+          "title": "Tree Nash equilibria have inefficiency below five",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax899194Proofs.tree_nash_efficiency"
       ]
     },
     {
