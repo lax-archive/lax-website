@@ -9031,6 +9031,11 @@
       "title": "Multicommodity Flow–Cut Theorems of Leighton and Rao",
       "concepts": [
         {
+          "id": "Lax455465.ArcToPath",
+          "title": "Arc-to-path conversion for concurrent flows",
+          "type": "lemma"
+        },
+        {
           "id": "Lax455465.ConcurrentFlow",
           "title": "Concurrent fractional flow",
           "type": "definition"
@@ -9039,6 +9044,11 @@
           "id": "Lax455465.FlowCutCertificate",
           "title": "Exact flow–cut output certificates",
           "type": "definition"
+        },
+        {
+          "id": "Lax455465.ProductFlowCut",
+          "title": "Classical product multicommodity flow–cut bound",
+          "type": "lemma"
         },
         {
           "id": "Lax455465.ProductNetwork",
@@ -9087,10 +9097,12 @@
         }
       ],
       "proofs": [
+        "Lax455465Proofs.ArcToPath.exists_path_flow",
         "Lax455465Proofs.ProductCorollaries.directed_product",
         "Lax455465Proofs.ProductCorollaries.directed_uniform",
         "Lax455465Proofs.ProductCorollaries.undirected_product",
         "Lax455465Proofs.ProductCorollaries.undirected_uniform",
+        "Lax455465Proofs.ProductFlowCut.exists_flow_cut_bound",
         "Lax455465Proofs.RamProductAlgorithm.exists_polynomial_time_flow_cut",
         "Lax455465Proofs.RamUniformShortPathFlow.exists_polynomial_time_short_path_flow"
       ]

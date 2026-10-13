@@ -3399,8 +3399,10 @@
   <url><loc>https://laxarchive.org/lax-434930/paper-pdf.html</loc></url>
   <url><loc>https://laxarchive.org/lax-434930/paper.html</loc></url>
   <url><loc>https://laxarchive.org/lax-455465/</loc></url>
+  <url><loc>https://laxarchive.org/lax-455465/Lax455465.ArcToPath.html</loc></url>
   <url><loc>https://laxarchive.org/lax-455465/Lax455465.ConcurrentFlow.html</loc></url>
   <url><loc>https://laxarchive.org/lax-455465/Lax455465.FlowCutCertificate.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-455465/Lax455465.ProductFlowCut.html</loc></url>
   <url><loc>https://laxarchive.org/lax-455465/Lax455465.ProductNetwork.html</loc></url>
   <url><loc>https://laxarchive.org/lax-455465/Lax455465.RamDirectedSparsestCut.html</loc></url>
   <url><loc>https://laxarchive.org/lax-455465/Lax455465.RamDirectedUniformFlowCut.html</loc></url>
@@ -3410,10 +3412,12 @@
   <url><loc>https://laxarchive.org/lax-455465/Lax455465.RamUniformShortPathFlow.html</loc></url>
   <url><loc>https://laxarchive.org/lax-455465/Lax455465.RationalEncoding.html</loc></url>
   <url><loc>https://laxarchive.org/lax-455465/Lax455465.ShortPathFlow.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-455465/Lax455465Proofs.ArcToPath.exists_path_flow.html</loc></url>
   <url><loc>https://laxarchive.org/lax-455465/Lax455465Proofs.ProductCorollaries.directed_product.html</loc></url>
   <url><loc>https://laxarchive.org/lax-455465/Lax455465Proofs.ProductCorollaries.directed_uniform.html</loc></url>
   <url><loc>https://laxarchive.org/lax-455465/Lax455465Proofs.ProductCorollaries.undirected_product.html</loc></url>
   <url><loc>https://laxarchive.org/lax-455465/Lax455465Proofs.ProductCorollaries.undirected_uniform.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-455465/Lax455465Proofs.ProductFlowCut.exists_flow_cut_bound.html</loc></url>
   <url><loc>https://laxarchive.org/lax-455465/Lax455465Proofs.RamProductAlgorithm.exists_polynomial_time_flow_cut.html</loc></url>
   <url><loc>https://laxarchive.org/lax-455465/Lax455465Proofs.RamUniformShortPathFlow.exists_polynomial_time_short_path_flow.html</loc></url>
   <url><loc>https://laxarchive.org/lax-47/</loc></url>
