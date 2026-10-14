@@ -36,11 +36,12 @@ function workshopCopy(source: string): WorkshopCopy {
   };
 }
 
-/** The public workshop invitation and its Google Forms preregistration. */
+/** Meeting materials, with the past invitation and preregistration commented out. */
 export function workshopPage({ markdown }: PageContext): string {
   const copy = workshopCopy(contentMarkdown("workshop.md"));
   const section = (heading: typeof SECTION_HEADINGS[number]) => copy.sections.get(heading)!;
   const content = `<article class="workshop-page">
+<!-- Past meeting invitation and preregistration, retained for future meetings.
 <header class="workshop-hero">
 <h1>${esc(copy.title)}</h1>
 <ul class="workshop-highlights" aria-label="Meeting at a glance">
@@ -70,8 +71,9 @@ ${markdown.render(section("Meeting details"), "../")}
 <iframe src="${attr(FORM_URL)}" width="640" height="840" frameborder="0" marginheight="0" marginwidth="0" title="Lax Online Meeting preregistration form">Loading…</iframe>
 </div>
 </section>
+-->
 <section class="workshop-panel workshop-material" id="material" aria-labelledby="workshop-material-heading">
-<h2 id="workshop-material-heading">${esc(MATERIAL_HEADING)}</h2>
+<h1 id="workshop-material-heading">${esc(MATERIAL_HEADING)}</h1>
 <div class="latex-content">
 ${markdown.render(section(MATERIAL_HEADING), "../")}
 </div>
@@ -82,7 +84,7 @@ ${markdown.render(section(MATERIAL_HEADING), "../")}
 </section>
 </article>`;
   return page({
-    title: `${copy.title} — Lax Lean Archive`,
+    title: `${MATERIAL_HEADING} — Lax Lean Archive`,
     rootRel: "../",
     canonicalPath: "workshop/",
     sidebar: "",
