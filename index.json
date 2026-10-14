@@ -9135,11 +9135,6 @@
       "title": "Refined Near-Linear Computation of Welzl Orders",
       "concepts": [
         {
-          "id": "Lax457868.RefinedSample",
-          "title": "Refined sample",
-          "type": "definition"
-        },
-        {
           "id": "Lax457868.RefinedWelzlOrders",
           "title": "Refined near-linear computation of Welzl orders",
           "type": "theorem"
