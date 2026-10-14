@@ -9108,6 +9108,20 @@
       ]
     },
     {
+      "id": "lax-457868",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Refined Near-Linear Computation of Welzl Orders",
+      "concepts": [
+        {
+          "id": "Lax457868.RefinedWelzlOrders",
+          "title": "Refined near-linear computation of Welzl orders",
+          "type": "theorem"
+        }
+      ],
+      "proofs": []
+    },
+    {
       "id": "lax-470956",
       "state": "registered",
       "environment": "v4.33.0",
