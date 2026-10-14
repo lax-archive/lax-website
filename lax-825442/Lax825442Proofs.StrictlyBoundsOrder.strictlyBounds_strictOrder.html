@@ -3,7 +3,7 @@
 <meta charset="utf-8">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self'; frame-src https://comments.laxarchive.org; connect-src https://comments.laxarchive.org">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="A strict self-bound contradicts itself. For transitivity, compose the forward bounds; a reverse bound would contradict the first strict comparison.">
+<meta name="description" content="Irreflexivity follows because a strict bound would both assert and deny a functional bound from a parameter to itself. For transitivity, compose the forward bounding functions. A bound in the reverse direction would contradict the first strict comparison.">
 
 <title>Lax825442Proofs.StrictlyBoundsOrder.strictlyBounds_strictOrder — lax-825442</title>
 <link rel="canonical" href="https://laxarchive.org/lax-825442/Lax825442Proofs.StrictlyBoundsOrder.strictlyBounds_strictOrder.html">
@@ -141,7 +141,7 @@
 <p class="draft-banner">While this submission is a draft, it cannot be used by other submissions.</p>
 <div class="detail-heading concept-heading proof-heading">
 <div class="proof-heading-content"><h1 class="concept-title">Proof of <span class="proof-concept-title">`Strict functional boundedness is a strict partial order`</span></h1>
-<p class="concept-microline proof-microline"><span class="status-pills"><span class="status-pill pill-proven" tabindex="0" data-tooltip="No open assumptions remain in the archive: every dependency is backed by a checked proof, ultimately reducing to Lean and Mathlib." aria-label="Grounded. No open assumptions remain in the archive: every dependency is backed by a checked proof, ultimately reducing to Lean and Mathlib.">grounded</span></span><span><a href="https://github.com/hendrikmolter/graph-parameters-functional-relations/blob/a227a7ab7a825f10a196fb195c010ce4d755ea9b/proofs/Lax825442Proofs/StrictlyBoundsOrder.lean"><code>proofs/Lax825442Proofs/StrictlyBoundsOrder.lean</code></a> · <a href="index.html">lax-825442</a></span></p></div>
+<p class="concept-microline proof-microline"><span class="status-pills"><span class="status-pill pill-proven" tabindex="0" data-tooltip="No open assumptions remain in the archive: every dependency is backed by a checked proof, ultimately reducing to Lean and Mathlib." aria-label="Grounded. No open assumptions remain in the archive: every dependency is backed by a checked proof, ultimately reducing to Lean and Mathlib.">grounded</span></span><span><a href="https://github.com/hendrikmolter/graph-parameters-functional-relations/blob/545582a09fbfae67233de5d1d7e7385bb3c5fa2a/proofs/Lax825442Proofs/StrictlyBoundsOrder.lean"><code>proofs/Lax825442Proofs/StrictlyBoundsOrder.lean</code></a> · <a href="index.html">lax-825442</a></span></p></div>
 </div>
 <div class="block block-evidence"><h3>What this proof establishes</h3>
 <div class="judgment">
@@ -150,11 +150,13 @@
 <div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven">thm✓</span><a href="../lax-825442/Lax825442.StrictlyBoundsOrder.html" title="Lax825442.StrictlyBoundsOrder.strictlyBounds_strictOrder"><code>Lax825442.StrictlyBoundsOrder</code></a></span></div>
 </div>
 <p class="honesty-note">Assuming the claims on the left, the claim on the right holds — checked by the archive's pipeline. Proof code is not displayed here.</p>
-<p class="source-action"><a class="source-button" href="https://github.com/hendrikmolter/graph-parameters-functional-relations/blob/a227a7ab7a825f10a196fb195c010ce4d755ea9b/proofs/Lax825442Proofs/StrictlyBoundsOrder.lean"><svg class="source-mark" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true" focusable="false"><path fill="currentColor" d="M5.22 3.22a.75.75 0 0 1 1.06 1.06L2.56 8l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06Zm5.56 0 4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 1 1-1.06-1.06L13.44 8 9.72 4.28a.75.75 0 1 1 1.06-1.06Z"/></svg><span>Read the Lean proof on GitHub</span></a></p>
+<p class="source-action"><a class="source-button" href="https://github.com/hendrikmolter/graph-parameters-functional-relations/blob/545582a09fbfae67233de5d1d7e7385bb3c5fa2a/proofs/Lax825442Proofs/StrictlyBoundsOrder.lean"><svg class="source-mark" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true" focusable="false"><path fill="currentColor" d="M5.22 3.22a.75.75 0 0 1 1.06 1.06L2.56 8l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06Zm5.56 0 4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 1 1-1.06-1.06L13.44 8 9.72 4.28a.75.75 0 1 1 1.06-1.06Z"/></svg><span>Read the Lean proof on GitHub</span></a></p>
 </div>
 
-<div class="block block-statement"><h3>Description</h3><div class="latex-content"><p>A strict self-bound contradicts itself. For transitivity, compose the forward
-bounds; a reverse bound would contradict the first strict comparison.</p>
+<div class="block block-statement"><h3>Description</h3><div class="latex-content"><p>Irreflexivity follows because a strict bound would both assert and deny a
+functional bound from a parameter to itself. For transitivity, compose the
+forward bounding functions. A bound in the reverse direction would contradict
+the first strict comparison.</p>
 </div></div>
 
 </div>
