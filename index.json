@@ -8783,6 +8783,27 @@
       ]
     },
     {
+      "id": "lax-421170",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "The independence number is at most the annihilation number",
+      "concepts": [
+        {
+          "id": "Lax421170.AnnihilationNumber",
+          "title": "Annihilation number",
+          "type": "definition"
+        },
+        {
+          "id": "Lax421170.IndependenceBound",
+          "title": "The independence number is at most the annihilation number",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax421170Proofs.indepNum_le_annihilationNumber"
+      ]
+    },
+    {
       "id": "lax-426240",
       "state": "registered",
       "environment": "v4.33.0",
