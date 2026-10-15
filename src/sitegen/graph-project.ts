@@ -41,6 +41,8 @@ export interface DisplayNode {
   id: string; semanticId: string; kind: MeasuredNode["kind"];
   label: string; href?: string; tooltipHtml?: string;
   tooltipText?: string; tooltipRows?: readonly (readonly [string, string])[];
+  /** A concept-level overview node opens this prepared local proof view. */
+  detailView?: string; detailConcept?: string;
   status: "proven" | "open" | "none"; ext: boolean;
   docks: readonly DisplayDock[]; ports: readonly PortSpec[];
 }
@@ -52,6 +54,8 @@ export interface DisplayGraph {
   kind: GraphKind; nodes: readonly DisplayNode[]; edges: readonly LayoutEdge[];
   mapping: readonly EntityMapping[];
   nodeScale?: number;
+  /** A local proof drawing uses its measured width, without overview padding. */
+  proofDetail?: string;
 }
 /** Exact host-measured label data needed by node sizing/serialization. */
 export interface GraphLabel {

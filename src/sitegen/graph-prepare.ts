@@ -18,6 +18,7 @@ import { measureDisplayGraph, projectGraph, type DisplayGraph, type FlatGraphInp
 import { graphInteractionPayload, graphSvg, type GraphInteractionPayload } from "./graph-svg.js";
 import { graphDataScript } from "./graphs.js";
 import { displayLabelRequests } from "./graph-node-size.js";
+import { proofGraphViews } from "./graph-proof-views.js";
 
 export interface PreparedGraphView {
   interaction: GraphInteractionPayload; height: number; status: string;
@@ -259,8 +260,8 @@ function scanPages(files: ReadonlyMap<string, string | Buffer>, diagnostics: Gra
   /** A label the bundled fonts cannot draw in full is drawn with tofu boxes
    * rather than failing every page's build; the page itself keeps the text.
    * One diagnostic names each affected container, not each of its views. */
-  const project = (kind: GraphKind, input: FlatGraphInput | ProofGraphData, file: string, container: string): DisplayGraph => {
-    const display = projectGraph(kind, input), missing = new Set<number>();
+  const supportedLabels = (display: DisplayGraph, file: string, container: string): DisplayGraph => {
+    const missing = new Set<number>();
     const nodes = display.nodes.map((node) => {
       if (node.kind === "proof") return node;
       const substituted = substituteUnsupportedGlyphs({ text: node.label, maxWidth: 240 }, environment);
@@ -309,11 +310,13 @@ function scanPages(files: ReadonlyMap<string, string | Buffer>, diagnostics: Gra
             (node.dir === "up" ? up === "1" : down === "1"));
           const visible = new Set(nodes.map((node) => node.id));
           const filtered = { nodes, edges: flat.edges.filter((edge) => visible.has(edge.from) && visible.has(edge.to)) };
-          views.push({ state, status: conceptStatus(state, nodes.length, ancestors, descendants), display: project(kind, filtered, file, id) });
+          views.push({ state, status: conceptStatus(state, nodes.length, ancestors, descendants), display: supportedLabels(projectGraph(kind, filtered), file, id) });
         }
-      } else views.push({ state: initial, status: kind === "proofs"
-        ? `${plural((data as ProofGraphData).statements.length, "statement")}; ${plural((data as ProofGraphData).proofs.length, "proof")}`
-        : plural((data as FlatGraphInput).nodes.length, "submission"), display: project(kind, data, file, id) });
+      } else if (kind === "proofs") {
+        for (const view of proofGraphViews(data as ProofGraphData))
+          views.push({ ...view, display: supportedLabels(view.display, file, id) });
+      } else views.push({ state: initial, status: plural((data as FlatGraphInput).nodes.length, "submission"),
+        display: supportedLabels(projectGraph(kind, data), file, id) });
       containers.push({ id, kind, initial, ancestors, descendants, attributes, original: match[0], views });
     }
     pages.push({ file, html, rawScript: script[0], payload, containers });

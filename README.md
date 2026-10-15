@@ -321,11 +321,15 @@ pages contain linked, accessible SVGs that work without JavaScript. The browser
 adds inspectors, highlighting, pan/zoom, fullscreen and prepared view switches;
 it downloads no graph-layout engine and performs no layout search.
 
-Proof networks show concept-level connections in the overview. Hovering or
-focusing a concept reveals its numbered statements and their detailed proof
-connections; sibling-statement proof steps appear only with that concept.
-Only one concept is expanded at a time, and node positions stay fixed. The
-static view without JavaScript retains all statement links and connections.
+Proof networks are laid out at concept-file level: one concept box and at
+most one proof symbol per file, with repeated dependencies combined. The
+connections summarize all available proofs, including alternatives. Hovering
+or focusing a concept or its proof symbol opens a separate local diagram of
+that file's individual statements, proofs and premises. The overview stays
+fixed. The local diagrams are prepared and validated at build time, and larger
+ones are loaded on demand. Arrow Down enters their links; Escape closes the
+diagram. Without JavaScript the overview links to the concept pages, which
+retain the complete statements and proofs.
 
 The archive measurement host uses the site's bundled fonts and exact SVG ink
 bounds, including wrapped lines. Obtain the pinned executable from

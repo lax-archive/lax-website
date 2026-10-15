@@ -698,7 +698,10 @@ After the formula.`, "");
     const visible = graphPage.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gu, "");
     expect(visible).toMatch(/data-prepared="true" style="height:[\d.]+px"><svg[^>]+class="prepared-graph"[^>]+width="[\d.]+" height="[\d.]+"/u);
     expect(visible).toContain('aria-label="Proof dependency graph"');
-    expect(visible).toContain('data-node-id="p:Lax2Proofs.truth" aria-label="Proof Lax2Proofs.truth" href="../Lax2/Lax2Proofs.truth.html" role="link"');
+    expect(visible).toContain('data-node-id="p:concept-proof:Lax2.C" aria-label="1 proof of C" href="../Lax2/Lax2.C.html" role="link"');
+    const graphData = JSON.parse(graphPage.match(/<script type="application\/json" id="graph-data">(.*?)<\/script>/s)![1]!);
+    expect(graphData.prepared["proof-network"].views["statements:Lax2.C"].svg)
+      .toContain('data-node-id="p:Lax2Proofs.truth" aria-label="Proof Lax2Proofs.truth" href="../Lax2/Lax2Proofs.truth.html" role="link"');
     expect(visible).toContain('class="net-edge conclusion"');
     expect(visible).toContain('class="graph-edge-hit" data-edge-hit="');
     expect(visible).toContain('markerUnits="userSpaceOnUse" orient="auto"');
@@ -1200,9 +1203,9 @@ After the formula.`, "");
     expect(data.local.containers["proof-network"]).toMatchObject({ kind: "proofs", initial: "default" });
     expect(data.proofs.home).toBe("lax-17");
     expect(data.proofs.nodeScale).toBe(1.25);
-    expect(data.local.containers["proof-network"].views.default.display.nodeScale).toBe(1.25);
+    expect(data.local.containers["proof-network"].views.default.display.nodeScale).toBe(1.75);
     expect(data.proofs.statements[0].label).toBe("PolynomialGridMinor");
-    expect(data.local.containers["proof-network"].views.default.display.nodes.find((node: { kind: string }) => node.kind === "statement").label)
+    expect(data.local.containers["proof-network"].views.default.display.nodes.find((node: { kind: string }) => node.kind === "concept").label)
       .toBe("PolynomialGridMinor");
     expect(data.proofs.statements.map((s: { id: string; href: string; proven: boolean }) => [s.id, s.href, s.proven])).toEqual([
       ["Lax17.PolynomialGridMinor.polynomial_grid_minor", "lax-17/Lax17.PolynomialGridMinor.html#s-Lax17.PolynomialGridMinor.polynomial_grid_minor", true],
@@ -1547,7 +1550,7 @@ After the formula.`, "");
     expect(html).toContain('data-graph-label="concept map" aria-expanded="false"');
     expect(html).toContain('data-graph-label="proof network" aria-expanded="false"');
     expect(html).toContain('<figure class="graph-figure proof-network-figure">');
-    expect(html).toMatch(/<span class="proof-flow">assumptions <svg class="legend-assumptions"[^>]*>(<path[^>]*\/>){3}<\/svg><i class="legend-proof-chip" aria-hidden="true">⊢<\/i><svg class="legend-arrow legend-flow-arrow"[^>]*><path[^>]*\/><\/svg> conclusion<\/span>/);
+    expect(html).toMatch(/<span class="proof-flow">premise files <svg class="legend-assumptions"[^>]*>(<path[^>]*\/>){3}<\/svg><i class="legend-proof-chip" aria-hidden="true">⊢<\/i><svg class="legend-arrow legend-flow-arrow"[^>]*><path[^>]*\/><\/svg> concept file<\/span>/);
     expect(html).not.toContain("click to open");
     expect(html).not.toContain('class="legend-note">assumptions');
   });
@@ -1583,7 +1586,7 @@ After the formula.`, "");
     expect(groundedProofs).toContain("stroke-own");
     expect(groundedProofs).not.toContain("stroke-ext");
     expect(groundedProofs).not.toContain("legend-cycle");
-    inOrder(groundedProofs, ["proof-flow", "fill-proven", "stroke-own", "Proof — open large view for details"]);
+    inOrder(groundedProofs, ["proof-flow", "fill-proven", "stroke-own", "All proofs of one concept — hover for individual statements and proofs"]);
 
     // Lax4's claims are open, its concept ancestry contains definitions from
     // other submissions, and its two proofs form a cycle.
@@ -1595,7 +1598,7 @@ After the formula.`, "");
     const cyclicProofs = legend(cyclic, "Proof network legend", "figcaption");
     expect(cyclicProofs).not.toContain("fill-proven");
     expect(cyclicProofs).not.toContain("stroke-ext");
-    inOrder(cyclicProofs, ["proof-flow", "fill-open", "stroke-own", "Proof — open large view for details", "legend-cycle"]);
+    inOrder(cyclicProofs, ["proof-flow", "fill-open", "stroke-own", "All proofs of one concept — hover for individual statements and proofs", "legend-cycle"]);
   });
 
   it("groups local and external claim origins into one proof-network legend item", () => {
@@ -1711,8 +1714,10 @@ After the formula.`, "");
     expect(html).toContain('aria-label="Display cycle"');
     const proofNodes = data.prepared["proof-network"].views.default.interaction.nodes;
     for (const proof of data.proofs.proofs) {
-      expect(proofNodes[`p:${proof.id}`].incident).toHaveLength(2);
-      expect(html).toContain(`data-node-id="p:${proof.id}"`);
+      const concept = data.proofs.statements.find((statement: { id: string }) => statement.id === proof.conclusion).concept;
+      expect(proofNodes[`p:concept-proof:${concept}`].incident).toHaveLength(2);
+      expect(html).toContain(`data-node-id="p:concept-proof:${concept}"`);
+      expect(data.prepared["proof-network"].views[`statements:${concept}`].interaction.nodes[`p:${proof.id}`].incident).toHaveLength(2);
     }
   });
 
@@ -2591,8 +2596,8 @@ describe("multi-statement concepts", () => {
     // the concept map reports the claim as open while one statement is not proven
     expect(data.concepts.nodes.map((n: { id: string; status: string }) => [n.id, n.status]))
       .toEqual([["Lax5.Graph", "none"], ["Lax5.Menger", "open"]]);
-    // the legend gains the dock swatch exactly here
-    expect(html).toContain('<i class="legend-dock" aria-hidden="true">1</i>Statement 1, 2, … of a claim with several statements');
+    // Numbered statements belong only to the local hover diagram.
+    expect(html).not.toContain('class="legend-dock"');
   });
 
   it("draws a foreign concept whole: every sibling's proof, not only the used statement's", async () => {
@@ -2674,9 +2679,13 @@ describe("multi-statement concepts", () => {
     expect(node.ports[0]!.order).toBeUndefined();
     expect(node.docks.map((dock) => dock.statementId)).toEqual(count > 1 ? concept.statements.map((statement) => statement.id) : []);
     expect(display.edges).toHaveLength(2);
-    expect(html).toContain(`data-node-id="${node.id}"`);
-    expect(data.prepared["proof-network"].views.default.interaction.nodes[node.id].incident).toHaveLength(1);
-    for (const dock of node.docks) expect(data.prepared["proof-network"].views.default.interaction.nodes[dock.id].incident).toEqual([]);
+    expect(html).toContain(`data-node-id="c:${concept.id}"`);
+    const views = data.prepared["proof-network"].views;
+    expect(views.default.interaction.nodes[`c:${concept.id}`].incident).toHaveLength(1);
+    for (const dock of node.docks) {
+      expect(views.default.interaction.nodes[dock.id]).toBeUndefined();
+      expect(views[`statements:${concept.id}`].interaction.nodes[dock.id].incident).toEqual([]);
+    }
     expect(html).not.toContain('data-graph-local="true"');
 
     if (count) {

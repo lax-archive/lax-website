@@ -174,7 +174,7 @@ export function proofShortName(output: BuildOutput, proof: ProofEntry, pageHome?
 type ClaimStatus = ConceptGraphData["nodes"][number]["status"];
 
 interface ProofNetworkLegendData {
-  statements: { id: string; proven: boolean; ext: boolean; count?: number }[];
+  statements: { id: string; concept?: string; proven: boolean; ext: boolean; count?: number }[];
   proofs: { id: string; assumptions: string[]; conclusion: string; ext: boolean }[];
 }
 
@@ -193,12 +193,16 @@ function claimFillLegend(statuses: Iterable<ClaimStatus>, definitions = false): 
  * has a directed cycle. Collapsing each claim -> proof -> claim step to a
  * claim edge gives the same answer without duplicating the layout code. */
 function proofNetworkHasCycle(data: ProofNetworkLegendData): boolean {
-  const statementIds = new Set(data.statements.map((statement) => statement.id));
-  const successors = new Map([...statementIds].map((id) => [id, [] as string[]]));
+  const homes = new Map(data.statements.map((statement) => [statement.id, statement.concept ?? statement.id]));
+  const conceptIds = new Set(homes.values());
+  const successors = new Map([...conceptIds].map((id) => [id, [] as string[]]));
   for (const proof of data.proofs) {
-    if (!statementIds.has(proof.conclusion)) continue;
-    for (const assumption of proof.assumptions)
-      if (statementIds.has(assumption)) successors.get(assumption)!.push(proof.conclusion);
+    const target = homes.get(proof.conclusion);
+    if (!target) continue;
+    for (const assumption of proof.assumptions) {
+      const source = homes.get(assumption) ?? (conceptIds.has(assumption) ? assumption : undefined);
+      if (source && source !== target) successors.get(source)!.push(target);
+    }
   }
 
   const visiting = new Set<string>();
@@ -212,7 +216,7 @@ function proofNetworkHasCycle(data: ProofNetworkLegendData): boolean {
     visited.add(id);
     return false;
   };
-  return [...statementIds].some(visit);
+  return [...conceptIds].some(visit);
 }
 
 /** Floating inspector positioned by the graph interaction script. */
@@ -267,7 +271,12 @@ export function submissionMapLegend(data: SubmissionGraphData): string {
 }
 
 export function proofNetworkLegend(data: ProofNetworkLegendData): string {
-  const statuses = data.statements.map((statement) => statement.proven ? "proven" as const : "open" as const);
+  const proven = new Map<string, boolean>();
+  for (const statement of data.statements) {
+    const id = statement.concept ?? statement.id;
+    proven.set(id, (proven.get(id) ?? true) && statement.proven);
+  }
+  const statuses = [...proven.values()].map((value) => value ? "proven" as const : "open" as const);
   const nodes = [...data.statements, ...data.proofs];
   const hasOwn = nodes.some((node) => !node.ext);
   const hasExternal = nodes.some((node) => node.ext);
@@ -288,14 +297,11 @@ export function proofNetworkLegend(data: ProofNetworkLegendData): string {
   const incoming = `<svg class="legend-assumptions" viewBox="0 0 14 24" aria-hidden="true" focusable="false"><path d="${arrow}" transform="translate(0 12)"/><path d="${arrow}" transform="translate(0 3) rotate(15)"/><path d="${arrow}" transform="translate(0 21) rotate(-15)"/></svg>`;
   const outgoing = `<svg class="legend-arrow legend-flow-arrow" viewBox="0 -4 12 8" aria-hidden="true" focusable="false"><path d="${arrow}"/></svg>`;
   const items = [
-    data.proofs.length ? `<span class="proof-flow">assumptions ${incoming}<i class="legend-proof-chip" aria-hidden="true">⊢</i>${outgoing} conclusion</span>` : "",
+    data.proofs.length ? `<span class="proof-flow">premise files ${incoming}<i class="legend-proof-chip" aria-hidden="true">⊢</i>${outgoing} concept file</span>` : "",
     claimFillLegend(statuses),
-    data.statements.some((statement) => (statement.count ?? 1) > 1)
-      ? `<span><i class="legend-dock" aria-hidden="true">1</i>Statement 1, 2, … of a claim with several statements</span>`
-      : "",
     origin,
-    data.proofs.length ? `<span><i class="legend-proof-chip" aria-hidden="true">⊢</i>Proof — open large view for details</span>` : "",
-    proofNetworkHasCycle(data) ? `<span><i class="legend-cycle"></i>Cycle — claims proving each other</span>` : "",
+    data.proofs.length ? `<span><i class="legend-proof-chip" aria-hidden="true">⊢</i>All proofs of one concept — hover for individual statements and proofs</span>` : "",
+    proofNetworkHasCycle(data) ? `<span><i class="legend-cycle"></i>Cycle between concept files</span>` : "",
   ];
   return `<figcaption class="graph-legend" aria-label="Proof network legend">${items.join("")}</figcaption>`;
 }

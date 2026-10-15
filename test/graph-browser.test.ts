@@ -29,7 +29,7 @@ const runtimeVersion = browserName === "chromium" ? PINNED_GRAPH_BROWSER_VERSION
 const screenshotDirectory = process.env.GRAPH_SCREENSHOTS ? path.resolve(process.env.GRAPH_SCREENSHOTS) : undefined;
 const repository = fileURLToPath(new URL("../", import.meta.url));
 const mainPage = "Lax702/index.html";
-const proofId = "p:Lax702Proofs.Main";
+const proofId = "p:concept-proof:Lax702.Main";
 
 function fixture(): SiteSubmission[] {
   type Concept = NonNullable<SiteSubmission["output"]>["concepts"][number];
@@ -357,9 +357,9 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
         expect(await page.locator(`#${id} svg`).isVisible()).toBe(true);
         expect(await page.locator(`#${id} svg a[href]`).count()).toBeGreaterThan(0);
       }
-      expect(await page.locator("#proof-network .net-proof").count()).toBe(9);
-      expect(await page.locator("#proof-network .net-dock").count()).toBe(2);
-      expect(await page.locator("#proof-network [data-edge-id]").evaluateAll((edges) => new Set(edges.map((e) => e.getAttribute("data-edge-id"))).size)).toBe(21);
+      expect(await page.locator("#proof-network .net-proof").count()).toBe(8);
+      expect(await page.locator("#proof-network .net-dock").count()).toBe(0);
+      expect(await page.locator("#proof-network [data-edge-id]").evaluateAll((edges) => new Set(edges.map((e) => e.getAttribute("data-edge-id"))).size)).toBe(20);
       const conceptOutputs = await page.locator("#proof-network").evaluate((container) => {
         const data = JSON.parse(document.querySelector("#graph-data")!.textContent!).prepared["proof-network"].views.default.interaction;
         const assumptions = Object.entries(data.edges).filter(([, edge]: [string, any]) =>
@@ -367,20 +367,19 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
         const starts = assumptions.map(([id]) => container.querySelector<SVGPathElement>(`[data-edge-id="${CSS.escape(id)}"]`)!
           .getAttribute("d")!.split(/[LQ]/u)[0]);
         return { count: assumptions.length, starts, semanticIds: assumptions.flatMap(([, edge]: [string, any]) => edge.semanticIds),
-          dockAssumptions: ["dock:Lax701.Base.s1", "dock:Lax701.Base.s2"].map((id) =>
-            data.nodes[id].incident.filter((edgeId: string) => data.edges[edgeId]?.kind === "assumption")) };
+          docks: Object.values(data.nodes).filter((node: any) => node.kind === "dock").length };
       });
       expect(conceptOutputs.count).toBe(5);
       expect(new Set(conceptOutputs.starts).size).toBe(5);
-      expect(conceptOutputs.semanticIds).toContain("Lax702Proofs.Premise1:assumption:Lax701.Base.s1");
-      expect(conceptOutputs.semanticIds).toContain("Lax702Proofs.Premise2:assumption:Lax701.Base.s2");
-      expect(conceptOutputs.dockAssumptions).toEqual([[], []]);
+      expect(conceptOutputs.semanticIds).toContain("concept-proof:Lax702.Premise1:assumption:Lax701.Base");
+      expect(conceptOutputs.semanticIds).toContain("concept-proof:Lax702.Premise2:assumption:Lax701.Base");
+      expect(conceptOutputs.docks).toBe(0);
       expect(await page.locator(".proof-network-figure [data-graph-expand]").isVisible()).toBe(false);
       await capture(page, "no-javascript", ".proof-network-figure");
-      const href = await page.locator('#proof-network [data-node-id="dock:Lax701.Base.s2"]').getAttribute("href");
+      const href = await page.locator('#proof-network [data-node-id="c:Lax701.Base"]').getAttribute("href");
       expect(new URL(href!, page.url()).pathname).toBe("/preview/graph-drawing/archive/Lax701/Lax701.Base.html");
-      await page.locator('#proof-network [data-node-id="dock:Lax701.Base.s2"]').click();
-      expect(page.url()).toContain("/preview/graph-drawing/archive/Lax701/Lax701.Base.html#s-Lax701.Base.s2");
+      await page.locator('#proof-network [data-node-id="c:Lax701.Base"]').click();
+      expect(page.url()).toContain("/preview/graph-drawing/archive/Lax701/Lax701.Base.html");
       expect(audit.requests.filter((value) => /graph-(?:local|interaction)/u.test(value))).toEqual([]);
     }, { javaScriptEnabled: false });
   }, 30_000);
@@ -632,132 +631,59 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
     });
   }, 30_000);
 
-  it("keeps math tooltips legible and outside the normal proof window on hover and keyboard focus", async () => {
+  it("reveals only the hovered concept's individual proofs without changing the overview", async () => {
     await visit(url(), async (page, audit) => {
-      const figure = page.locator(".proof-network-figure"), tooltip = figure.locator(".graph-tooltip");
-      const dock = page.locator('#proof-network [data-node-id="dock:Lax701.Base.s2"]');
-      expect(await dock.isHidden()).toBe(true);
-      const owner = page.locator('#proof-network [data-node-id="c:Lax701.Base"]');
-      await owner.hover();
-      expect(await dock.isVisible()).toBe(true);
-      await dock.hover();
-      expect(await dock.isVisible()).toBe(true);
-      await figure.locator('[data-graph-zoom="reset"]').hover();
-      expect(await dock.isHidden()).toBe(true);
-      await owner.focus();
-      expect(await dock.isVisible()).toBe(true);
-      await dock.scrollIntoViewIfNeeded(); await dock.focus(); await animationFrame(page);
-      expect(await tooltip.textContent()).toBe("Lax701.Base.s2");
-      expect(await dock.locator("title").count()).toBe(0);
+      const figure = page.locator(".proof-network-figure"), peek = figure.locator(".graph-proof-peek");
+      const original = await fingerprint(page);
       const node = page.locator(`#proof-network [data-node-id="${proofId}"]`);
-      await node.scrollIntoViewIfNeeded(); await dock.blur(); await animationFrame(page);
-      expect(await dock.isHidden()).toBe(true);
-      expect(await tooltip.isHidden()).toBe(true);
-      await node.dispatchEvent("mouseenter");
-      await page.waitForTimeout(100); await animationFrame(page);
-      expect(await tooltip.isHidden()).toBe(true);
-      expect(await page.locator("#proof-network .hot").count()).toBe(0);
-      await node.dispatchEvent("mouseleave");
-      await page.waitForTimeout(300); await animationFrame(page);
-      expect(await tooltip.isHidden()).toBe(true);
-      expect(await page.locator("#proof-network .hot").count()).toBe(0);
-      await node.dispatchEvent("mouseenter");
-      await page.waitForTimeout(300); await animationFrame(page);
-      expect(await tooltip.isVisible()).toBe(true);
-      expect(await page.locator("#proof-network .hot").count()).toBe(2);
-      await node.dispatchEvent("mouseleave"); await animationFrame(page);
-      expect(await tooltip.isHidden()).toBe(true);
-      expect(await page.locator("#proof-network .hot").count()).toBe(0);
-      await node.focus(); await animationFrame(page);
-      expect(await tooltip.isVisible()).toBe(true);
-      expect(await tooltip.locator(".katex").count()).toBe(2);
-      expect(await tooltip.locator(".katex-display").count()).toBe(1);
-      expect(await tooltip.textContent()).not.toMatch(/(?:Title|Description):|click to open/u);
-      expect(await page.locator("#proof-network .hot").count()).toBe(2);
-      const normal = await tooltip.evaluate((element) => {
-        const style = getComputedStyle(element), box = element.getBoundingClientRect(), figure = element.closest("figure")!.getBoundingClientRect();
-        return { fontWeight: style.fontWeight, background: style.backgroundColor, opacity: style.opacity, placement: (element as HTMLElement).dataset.placement,
-          outside: box.right <= figure.left || box.left >= figure.right, centerY: (box.top + box.bottom) / 2,
-          left: box.left, top: box.top,
-          mathWeight: getComputedStyle(element.querySelector(".katex")!).fontWeight };
-      });
-      expect(normal).toMatchObject({ fontWeight: "700", mathWeight: "700", opacity: "1", background: "rgb(255, 255, 255)", outside: true });
-      expect(["left", "right"]).toContain(normal.placement);
-      await capture(page, "math-tooltip-normal");
-      // Resize while keyboard focus stays on the node. A fixed-position panel
-      // must follow the new viewport, or hide if its node leaves the window.
-      await page.setViewportSize({ width: 1600, height: 1200 }); await animationFrame(page);
-      const resized = await tooltip.evaluate((element) => {
-        const box = element.getBoundingClientRect();
-        return { hidden: (element as HTMLElement).hidden, left: box.left, top: box.top, right: box.right };
-      });
-      if (!resized.hidden) {
-        expect(Math.abs(resized.left - normal.left) + Math.abs(resized.top - normal.top)).toBeGreaterThan(0.1);
-        expect(resized.left).toBeGreaterThanOrEqual(0);
-        expect(resized.right).toBeLessThanOrEqual(1600);
-      }
-      await capture(page, "math-tooltip-resized");
-      await page.setViewportSize({ width: 1920, height: 1200 }); await animationFrame(page);
-      await figure.locator("[data-graph-expand]").click(); await animationFrame(page);
-      await node.hover(); await animationFrame(page);
-      expect(await tooltip.isHidden()).toBe(true);
-      expect(await page.locator('.prepared-graph title, .prepared-graph [title]').count()).toBe(0);
-      await node.focus(); await animationFrame(page);
-      expect(await tooltip.isVisible()).toBe(true);
-      expect(await tooltip.evaluate((element) => getComputedStyle(element).backgroundColor)).toBe("rgb(255, 255, 255)");
-      const appearance = () => tooltip.evaluate((element) => {
-        const box = element.getBoundingClientRect(), style = getComputedStyle(element), pixels = window.devicePixelRatio;
-        return { size: style.fontSize, width: box.width, height: box.height,
-          x: box.left * pixels, y: box.top * pixels };
-      });
-      const originalPanel = await appearance();
-      for (const key of ["-", "+"]) {
-        await page.keyboard.press(key); await animationFrame(page);
-        const panel = await appearance();
-        expect(panel.size).toBe(originalPanel.size);
-        expect(panel.width).toBeCloseTo(originalPanel.width, 1);
-        expect(panel.height).toBeCloseTo(originalPanel.height, 1);
-        expect(Math.abs(panel.x - Math.round(panel.x))).toBeLessThan(0.02);
-        expect(Math.abs(panel.y - Math.round(panel.y))).toBeLessThan(0.02);
-      }
+      expect(await page.locator("#proof-network .net-dock").count()).toBe(0);
+      expect(await page.locator('#proof-network [data-node-id="p:Lax702Proofs.Main"]').count()).toBe(0);
+      await node.hover();
+      await peek.locator('[data-node-id="p:Lax702Proofs.Main"]').waitFor({ state: "visible" });
+      expect(await peek.locator(".net-proof").count()).toBe(2);
+      expect(await peek.locator('[data-node-id="p:Lax702Proofs.Middle"]').count()).toBe(0);
+      expect(await fingerprint(page)).toEqual(original);
+      await peek.locator('[data-node-id="p:Lax702Proofs.Main"]').focus();
+      expect(await peek.locator(".graph-proof-peek-caption .katex").count()).toBe(2);
+      expect(await peek.locator(".graph-proof-peek-caption .katex-display").count()).toBe(1);
+      await page.keyboard.press("Escape");
+      expect(await peek.isHidden()).toBe(true);
+      const base = page.locator('#proof-network [data-node-id="c:Lax701.Base"]');
+      await base.focus();
+      await peek.locator('[data-node-id="dock:Lax701.Base.s2"]').waitFor({ state: "visible" });
+      expect(await peek.locator(".net-dock").count()).toBe(2);
+      expect(await peek.locator('[data-node-id="p:Lax702Proofs.Main"]').count()).toBe(0);
+      await page.keyboard.press("ArrowDown");
+      expect(await peek.evaluate((element) => element.contains(document.activeElement))).toBe(true);
+      await page.keyboard.press("Escape");
+      expect(await base.evaluate((element) => document.activeElement === element)).toBe(true);
+      expect(await peek.isHidden()).toBe(true);
+      expect(await fingerprint(page)).toEqual(original);
       await expectNoPublicLayout(page, audit);
       await expectLabelContainment(page);
     });
   }, 30_000);
 
-  it("keeps display-math inspectors beside the node when the formula fits a narrow page margin", async () => {
-    await visit(url(), async (page) => {
-      await page.setViewportSize({ width: 1440, height: 1200 });
-      // Reproduce the landing page's wide figure and 177px usable margins;
-      // submission pages otherwise have a much wider sidebar on the left.
-      await page.locator('.proof-network-figure').evaluate((element) => {
-        const figure = element as HTMLElement, left = figure.getBoundingClientRect().left;
-        figure.style.position = 'relative'; figure.style.left = `${193 - left}px`;
-        figure.style.width = `${window.innerWidth - 386}px`; figure.style.maxWidth = 'none';
-      });
-      await animationFrame(page);
-      const node = page.locator('#proof-network [data-node-id="p:Lax702Proofs.Alternative"]');
-      await node.scrollIntoViewIfNeeded();
-      await node.evaluate((element) => {
+  it("keeps a local proof diagram and its math readable on a narrow viewport", async () => {
+    await visit(url(), async (page, audit) => {
+      await page.setViewportSize({ width: 390, height: 844 });
+      const node = page.locator(`#proof-network [data-node-id="${proofId}"]`);
+      await node.scrollIntoViewIfNeeded(); await node.focus();
+      const peek = page.locator(".graph-proof-peek");
+      const alternative = peek.locator('[data-node-id="p:Lax702Proofs.Alternative"]');
+      await alternative.waitFor({ state: "visible" }); await alternative.focus();
+      const position = await peek.evaluate((element) => {
         const box = element.getBoundingClientRect();
-        window.scrollBy(0, box.top + box.height / 2 - window.innerHeight / 2);
+        return { left: box.left, right: box.right, top: box.top, bottom: box.bottom,
+          size: getComputedStyle(element.querySelector(".graph-label")!).fontSize };
       });
-      await node.hover(); await animationFrame(page);
-      await page.waitForTimeout(300); await animationFrame(page);
-      const tooltip = page.locator('.proof-network-figure .graph-tooltip');
-      const position = await tooltip.evaluate((element) => {
-        const tip = element.getBoundingClientRect(), figure = element.closest('.graph-figure')!.getBoundingClientRect();
-        const math = element.querySelector('.katex-display .katex-html')!;
-        const contents = document.createRange(); contents.selectNodeContents(math);
-        return { placement: (element as HTMLElement).dataset.placement, centerY: (tip.top + tip.bottom) / 2,
-          outside: tip.right <= figure.left || tip.left >= figure.right,
-          formulaFits: contents.getBoundingClientRect().width <= math.getBoundingClientRect().width,
-          width: tip.width };
-      });
-      expect(["left", "right"]).toContain(position.placement);
-      expect(position.outside).toBe(true);
-      expect(position.formulaFits).toBe(true);
-      expect(position.width).toBeLessThan(390);
+      expect(position.left).toBeGreaterThanOrEqual(0);
+      expect(position.right).toBeLessThanOrEqual(390);
+      expect(position.top).toBeGreaterThanOrEqual(0);
+      expect(position.bottom).toBeLessThanOrEqual(844);
+      expect(position.size).toBe("12px");
+      expect(await peek.locator(".graph-proof-peek-caption .katex-display").count()).toBe(1);
+      await expectNoPublicLayout(page, audit);
     });
   }, 30_000);
 
@@ -770,7 +696,9 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
 
       const pageUrl = page.url();
       const initialScale = Number((await figure.locator("[data-graph-zoom-status]").textContent())!.replace("%", ""));
-      await proof.click(); await animationFrame(page);
+      await proof.focus();
+      const individual = figure.locator('.graph-proof-peek [data-node-id="p:Lax702Proofs.Main"]');
+      await individual.waitFor({ state: "visible" }); await individual.click(); await animationFrame(page);
       expect(await figure.getAttribute("class")).toContain("graph-expanded");
       expect(page.url()).toBe(pageUrl);
       const panel = figure.locator(".graph-detail-panel");
@@ -831,48 +759,19 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       expect(placement.overflow).toBe("auto");
       expect(await container.locator(".graph-selected").count()).toBe(1);
       expect(await container.locator(".graph-related").count()).toBeGreaterThan(0);
-      expect(await container.locator(".graph-dimmed").count()).toBeGreaterThan(0);
-      // This fixture's selected proof happens to relate every statement dock.
-      // Apply the same class the interaction uses so the opaque dock rule is
-      // still covered without pretending the fixture has an unrelated dock.
-      const dimmedDock = container.locator(".net-dock").first();
-      const dimmedDockStyle = await dimmedDock.evaluate((element) => {
-        element.classList.add("graph-dimmed");
-        return { opacity: Number(getComputedStyle(element).opacity),
-          fill: getComputedStyle(element.querySelector("circle")!).fill };
-      });
-      expect(dimmedDockStyle.opacity).toBe(1);
-      expect(dimmedDockStyle.fill).toMatch(/^color\(srgb |^rgb\(/);
+      // Both alternative proofs now share one summary, whose ancestry
+      // includes every concept in this fixture.
+      expect(await container.locator(".graph-dimmed").count()).toBe(0);
       expect(await figure.locator(".graph-tooltip").isHidden()).toBe(true);
       await page.waitForTimeout(1_000); await animationFrame(page);
       const focusedScale = Number((await figure.locator("[data-graph-zoom-status]").textContent())!.replace("%", ""));
       expect(focusedScale).toBeGreaterThan(initialScale);
 
-      const alternativeProof = container.locator('[data-node-id="p:Lax702Proofs.Alternative"]');
-      const middleProof = container.locator('[data-node-id="p:Lax702Proofs.Middle"]');
-      expect(await alternativeProof.getAttribute("class")).toContain("graph-dimmed");
-      expect(await alternativeProof.evaluate((element) => Number(getComputedStyle(element).opacity))).toBe(0.32);
-      await alternativeProof.dispatchEvent("mouseenter");
-      await page.waitForTimeout(100); await animationFrame(page);
-      expect(await container.locator(".graph-selected").count()).toBe(1);
-      expect(await alternativeProof.getAttribute("class")).toContain("graph-dimmed");
-      await alternativeProof.dispatchEvent("mouseleave");
-      await page.waitForTimeout(300); await animationFrame(page);
-      expect(await container.locator(".graph-selected").count()).toBe(1);
-      expect(await alternativeProof.getAttribute("class")).toContain("graph-dimmed");
-      await alternativeProof.dispatchEvent("mouseenter");
-      await page.waitForTimeout(300); await animationFrame(page);
-      expect(await proof.getAttribute("class")).toContain("graph-selected");
-      expect(await alternativeProof.getAttribute("class")).toContain("graph-selected");
+      const middleProof = container.locator('[data-node-id="p:concept-proof:Lax702.Middle"]');
       expect(await middleProof.getAttribute("class")).toContain("graph-related");
-      expect(await container.locator(".graph-selected").count()).toBe(2);
-      expect(await figure.locator(".graph-tooltip").isHidden()).toBe(true);
-      await alternativeProof.dispatchEvent("mouseleave"); await animationFrame(page);
-      expect(await container.locator(".graph-selected").count()).toBe(1);
-      expect(await alternativeProof.getAttribute("class")).toContain("graph-dimmed");
       await capture(page, "proof-detail-proof");
 
-      const concept = container.locator('[data-node-id="s:Lax702.Main.s1"]');
+      const concept = container.locator('[data-node-id="c:Lax702.Main"]');
       await concept.click(); await page.waitForTimeout(1_000); await animationFrame(page);
       expect(await panel.locator("h3").first().textContent()).toBe("Main χ result");
       const conceptPageAction = panel.locator(".graph-detail-action");
@@ -900,7 +799,7 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       expect(formalizationWidth.whiteSpace).toBe("pre-wrap");
       await capture(page, "proof-detail-concept");
 
-      const singleOpenConcept = container.locator('[data-node-id="s:Lax702.Premise2.s1"]');
+      const singleOpenConcept = container.locator('[data-node-id="c:Lax702.Premise2"]');
       await singleOpenConcept.evaluate((element) =>
         element.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true })));
       await animationFrame(page);
@@ -926,7 +825,7 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       expect(await openAssumptionTooltip.isHidden()).toBe(true);
       expect(await panel.isVisible()).toBe(true);
 
-      const openConcept = container.locator('[data-node-id="s:Lax702.Middle.s1"]');
+      const openConcept = container.locator('[data-node-id="c:Lax702.Middle"]');
       await openConcept.evaluate((element) => element.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true })));
       await animationFrame(page);
       expect(await panel.locator(".graph-detail-status").textContent()).toBe("Open Statement");
@@ -973,7 +872,7 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       await edge.click({ force: true });
       await animationFrame(page);
       expect(await figure.getAttribute("class")).toContain("graph-expanded");
-      expect(await panel.textContent()).toMatch(/(?:used as an assumption|establishes)/u);
+      expect(await panel.textContent()).toMatch(/(?:Proofs in|Proofs of)/u);
       expect(await container.locator("[data-edge-id].graph-selected").count()).toBeGreaterThan(0);
       const edgeFocusedScale = Number((await figure.locator("[data-graph-zoom-status]").textContent())!.replace("%", ""));
       const graphBox = await container.locator("svg").boundingBox();
@@ -1046,10 +945,12 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       expect(await page.locator("#proof-network").isVisible()).toBe(true);
       const node = page.locator(`#proof-network [data-node-id="${proofId}"]`);
       await node.focus(); await animationFrame(page);
-      const tooltip = await figure.locator(".graph-tooltip").boundingBox();
+      await figure.locator(".graph-proof-peek svg").waitFor({ state: "visible" });
+      const tooltip = await figure.locator(".graph-proof-peek").boundingBox();
       expect(tooltip!.x).toBeGreaterThanOrEqual(0);
       expect(tooltip!.x + tooltip!.width).toBeLessThanOrEqual(390);
       await capture(page, "narrow-reduced-motion");
+      await page.keyboard.press("Escape");
       await page.keyboard.press("Escape"); await animationFrame(page);
       expect(await fingerprint(page)).toEqual(original);
       expect(Math.abs((await page.locator("#proof-network").boundingBox())!.height - before!.height)).toBeLessThan(0.01);
@@ -1123,9 +1024,9 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
     expect(fs.existsSync(path.join(local, "assets", "graph-local", "sitegen", "graph-project.js"))).toBe(false);
     await visit(url(mainPage, "local"), async (page, audit) => {
       await page.waitForFunction(() => document.querySelectorAll(".figure-container svg.prepared-graph").length === 3, undefined, { timeout: 45_000 });
-      expect(await page.locator("#proof-network .net-proof").count()).toBe(9);
-      expect(await page.locator("#proof-network .net-dock").count()).toBe(2);
-      expect(await page.locator("#proof-network [data-edge-id]").evaluateAll((edges) => new Set(edges.map((e) => e.getAttribute("data-edge-id"))).size)).toBe(21);
+      expect(await page.locator("#proof-network .net-proof").count()).toBe(8);
+      expect(await page.locator("#proof-network .net-dock").count()).toBe(0);
+      expect(await page.locator("#proof-network [data-edge-id]").evaluateAll((edges) => new Set(edges.map((e) => e.getAttribute("data-edge-id"))).size)).toBe(20);
       await openConcepts(page);
       await page.locator("#concept-descend").click();
       await page.waitForFunction(() => document.querySelector("#concept-descend")?.getAttribute("aria-pressed") === "true");

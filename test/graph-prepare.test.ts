@@ -63,15 +63,15 @@ describe("prepared static graphs", () => {
     const html = String(files.get("lax-1/index.html")), graph = payload(html);
     expect(report.localFallback).toBe(false);
     expect(report.statistics.containers).toBe(3);
-    expect(report.statistics.views).toBe(6);
+    expect(report.statistics.views).toBe(8);
     expect(report.statistics.measurement?.uniqueLabels).toBe(5);
     expect(html.match(/<svg\b/gu)).toHaveLength(3);
     expect(html).toContain('class="prepared-graph"');
-    expect(html).toContain('href="P.html"');
-    expect(html).toContain('data-node-id="p:P"');
-    expect(html).toContain('data-edge-id="e:P:assumption:B.s:0"');
-    expect(html).toContain('data-edge-id="e:P:conclusion:A.s:0"');
-    expect(html).toContain('data-edge-hit="e:P:conclusion:A.s:0"');
+    expect(html).toContain('data-node-id="p:concept-proof:A"');
+    expect(html).toContain('data-edge-id="e:concept-proof:A:assumption:B:0"');
+    expect(html).toContain('data-edge-id="e:concept-proof:A:conclusion:A:0"');
+    expect(graph.prepared["proof-network"].views["statements:A"].svg).toContain('href="P.html"');
+    expect(graph.prepared["proof-network"].views["statements:A"].svg).toContain('data-node-id="p:P"');
     expect(html).toMatch(/id="proof-network"[\s\S]*?<svg[^>]* width="720"/u);
     expect(html).toContain('style="height:');
     expect(html).not.toContain("assets/layout.js");
@@ -88,8 +88,8 @@ describe("prepared static graphs", () => {
     expect(graph.proofs.proofs[0]).toMatchObject({ id: "P", assumptions: ["B.s"], conclusion: "A.s", assumptionsProven: true, outstanding: 0 });
     expect(graph.proofs.details["concept:A"]).toMatchObject({ name: "Alpha", namespace: "Lax1.Alpha", href: "A.html",
       statements: [{ id: "A.s", signature: "A.s : True", proven: true }] });
-    expect(graph.prepared["proof-network"].views.default.interaction.edges["e:P:conclusion:A.s:0"])
-      .toMatchObject({ source: "p:P", target: "s:A.s", kind: "conclusion" });
+    expect(graph.prepared["proof-network"].views.default.interaction.edges["e:concept-proof:A:conclusion:A:0"])
+      .toMatchObject({ source: "p:concept-proof:A", target: "c:A", kind: "conclusion" });
     expect(graph.submissions.nodes[0]).toMatchObject({ state: "registered", concepts: 1, proofs: 1 });
   });
 
@@ -100,11 +100,11 @@ describe("prepared static graphs", () => {
     ]);
     const report = await prepareGraphs(files, { measurement });
     const landing = String(files.get("index.html")), submission = String(files.get("lax-1/index.html"));
-    expect(report.statistics.uniqueLayouts).toBe(2);
+    expect(report.statistics.uniqueLayouts).toBe(4);
     expect(payload(landing).proofs.nodeScale).toBe(1.25);
     expect(payload(submission).proofs.nodeScale).toBeUndefined();
-    expect(landing.match(/ scale\(1\.25\)/g)).toHaveLength(3);
-    expect(submission).not.toContain("scale(1.25)");
+    expect(landing.match(/ scale\(1\.75\)/g)).toHaveLength(3);
+    expect(submission.match(/ scale\(1\.4\)/g)).toHaveLength(3);
     const alone = new Map<string, string | Buffer>([["lax-1/index.html", page(standard, ["proofs"])]]);
     await prepareGraphs(alone, { measurement });
     expect(submission).toBe(String(alone.get("lax-1/index.html")));
@@ -119,7 +119,7 @@ describe("prepared static graphs", () => {
     const cacheDir = fs.mkdtempSync(path.join(os.tmpdir(), "lax-prepare-private-"));
     const files = new Map<string, string | Buffer>([["previews/nested/lax-1/index.html", page(input)]]);
     const report = await prepareGraphs(files, { cacheDir, measurement, alternateInlineLimit: 0 });
-    expect(report.statistics.alternateFiles).toBe(3);
+    expect(report.statistics.alternateFiles).toBe(5);
     const graph = payload(String(files.get("previews/nested/lax-1/index.html")));
     expect(graph.prepared["concept-dag"].views["00"].src).toMatch(/^\.\.\/\.\.\/\.\.\/assets\/graph-views\/[a-f0-9]{64}\.json$/u);
     const all = [...files.values()].map(String).join("\n") + cacheFiles(cacheDir).map((file) => fs.readFileSync(file, "utf8")).join("\n");
@@ -208,7 +208,7 @@ describe("prepared static graphs", () => {
     await prepareGraphs(files, { measurement });
     const html = String(files.get("index.html"));
     expect(payload(html).proofs.proofs[0].description).toBe(text);
-    expect(html).toContain('data-node-id="p:P$&amp;"');
+    expect(payload(html).prepared["proof-network"].views["statements:A"].svg).toContain('data-node-id="p:P$&amp;"');
     expect(html.match(/id="graph-data"/gu)).toHaveLength(1);
     expect(html).not.toContain("DOLLAR_MUST_NOT_REINSERT_THIS");
   });
