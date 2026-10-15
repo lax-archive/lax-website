@@ -13998,6 +13998,223 @@
       ]
     },
     {
+      "id": "lax-825748",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "The local realization of generating series of finite Lie rank",
+      "concepts": [
+        {
+          "id": "Lax825748.AnalyticCalculus",
+          "title": "Calculus of convergent power series",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax825748.AnalyticChanges",
+          "title": "Analytic changes of coordinates",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax825748.AnalyticCoordinates",
+          "title": "Convergent coordinates on an annihilator",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax825748.AnalyticRepresentations",
+          "title": "Analytic differential representations",
+          "type": "definition"
+        },
+        {
+          "id": "Lax825748.Annihilator",
+          "title": "Formal coordinates on the annihilator of a Lie subalgebra",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax825748.CDA",
+          "title": "Constructible differentially algebraic series",
+          "type": "definition"
+        },
+        {
+          "id": "Lax825748.CDACoefficients",
+          "title": "CDA coefficients in minimal formal realizations",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax825748.ConvergenceHypothesis",
+          "title": "The convergence hypothesis on Lie polynomials",
+          "type": "definition"
+        },
+        {
+          "id": "Lax825748.ConvergentSeries",
+          "title": "Convergent commutative power series",
+          "type": "definition"
+        },
+        {
+          "id": "Lax825748.CoordinateChange",
+          "title": "Formal changes of coordinates",
+          "type": "definition"
+        },
+        {
+          "id": "Lax825748.DifferentialRepresentation",
+          "title": "Formal differential representations",
+          "type": "definition"
+        },
+        {
+          "id": "Lax825748.FactorialEstimate",
+          "title": "Factorial estimates for iterated analytic vector fields",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax825748.FormalMinimality",
+          "title": "Lie rank is the least formal realization dimension",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax825748.FormalRealization",
+          "title": "FormalExistence of formal realizations",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax825748.FormalSeries",
+          "title": "Commutative formal series and formal vector fields",
+          "type": "definition"
+        },
+        {
+          "id": "Lax825748.FormalUniqueness",
+          "title": "Formal equivalence of minimal realizations",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax825748.LieRank",
+          "title": "Lie polynomials and Lie rank",
+          "type": "definition"
+        },
+        {
+          "id": "Lax825748.Minimality",
+          "title": "Lie rank is the least analytic realization dimension",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax825748.Monomials",
+          "title": "Multi-indices and ordered monomials",
+          "type": "definition"
+        },
+        {
+          "id": "Lax825748.NecessaryConvergence",
+          "title": "Analytic representations satisfy the convergence hypothesis",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax825748.PBW",
+          "title": "Poincaré–Birkhoff–Witt for Lie polynomials",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax825748.PBWConvergence",
+          "title": "Convergence of PBW coordinate expansions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax825748.Projection",
+          "title": "The PBW coordinate projection",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax825748.Realization",
+          "title": "Local analytic realization of generating series",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax825748.RepresentationMap",
+          "title": "The series homomorphism of a differential representation",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax825748.ResidualConvergence",
+          "title": "Convergence under polynomial residuals",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax825748.Series",
+          "title": "Noncommutative series and polynomial residuals",
+          "type": "definition"
+        },
+        {
+          "id": "Lax825748.Shuffle",
+          "title": "Shuffle multiplication",
+          "type": "definition and theorem"
+        },
+        {
+          "id": "Lax825748.ShuffleFinite",
+          "title": "Shuffle-finite series",
+          "type": "definition"
+        },
+        {
+          "id": "Lax825748.ShuffleFiniteCoordinates",
+          "title": "Shuffle-finite coordinates in minimal formal realizations",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax825748.ShuffleIdentities",
+          "title": "Coproduct and shuffle identities",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax825748.Uniqueness",
+          "title": "Analytic equivalence of minimal realizations",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax825748Proofs.AbsoluteConvergence.absolute_convergence",
+        "Lax825748Proofs.AnalyticCoordinates.expansion_converges",
+        "Lax825748Proofs.AnalyticInverse.inverse_convergent",
+        "Lax825748Proofs.Annihilator.closed_residual",
+        "Lax825748Proofs.Annihilator.closed_shuffle",
+        "Lax825748Proofs.CanonicalCoordinates.coordinates_exist",
+        "Lax825748Proofs.CDACoefficients.coordinate_algebra",
+        "Lax825748Proofs.CDACoefficients.minimal_realization",
+        "Lax825748Proofs.Composition.composition",
+        "Lax825748Proofs.ConvergenceAlgebra.subalgebra",
+        "Lax825748Proofs.Coproduct.coproduct_multiplicative",
+        "Lax825748Proofs.Coproduct.lie_primitive",
+        "Lax825748Proofs.Existence.existence",
+        "Lax825748Proofs.FactorialEstimate.factorial_bound",
+        "Lax825748Proofs.Factorials.factorial_comparison",
+        "Lax825748Proofs.Factorials.total_factorial_iff",
+        "Lax825748Proofs.FormalCoordinates.formal_coordinates",
+        "Lax825748Proofs.FormalExistence.existence",
+        "Lax825748Proofs.FormalRealization.characterization",
+        "Lax825748Proofs.FormalRealization.least_dimension",
+        "Lax825748Proofs.FormalUniqueness.minimal_realizations_equivalent",
+        "Lax825748Proofs.NecessaryConvergence.convergence",
+        "Lax825748Proofs.PBW.basis",
+        "Lax825748Proofs.PBWConvergence.expansion_converges",
+        "Lax825748Proofs.PBWMoments.pbw_expansion",
+        "Lax825748Proofs.PermutationPairing.permutation_pairing",
+        "Lax825748Proofs.PowerSeriesBounds.partial_derivative",
+        "Lax825748Proofs.Projection.projection",
+        "Lax825748Proofs.Rank.rank_bound",
+        "Lax825748Proofs.Realization.characterization",
+        "Lax825748Proofs.Realization.least_dimension",
+        "Lax825748Proofs.RepresentationMap.algebra_homomorphism",
+        "Lax825748Proofs.RepresentationMap.continuous",
+        "Lax825748Proofs.RepresentationMap.intertwining",
+        "Lax825748Proofs.ResidualConvergence.centered_residual",
+        "Lax825748Proofs.ResidualConvergence.right_residual",
+        "Lax825748Proofs.Shuffle.associative",
+        "Lax825748Proofs.Shuffle.commutative",
+        "Lax825748Proofs.Shuffle.residual_derivation",
+        "Lax825748Proofs.Shuffle.unit",
+        "Lax825748Proofs.ShuffleFinite.coordinates_in_algebra",
+        "Lax825748Proofs.ShuffleFinite.minimal_realization",
+        "Lax825748Proofs.ShuffleTensor.pairing_coproduct",
+        "Lax825748Proofs.TriangularPairing.triangular_pairing",
+        "Lax825748Proofs.Uniqueness.minimal_realizations_equivalent",
+        "Lax825748Proofs.Vanishing.vanishing",
+        "Lax825748Proofs.WordMajorant.word_majorant"
+      ]
+    },
+    {
       "id": "lax-842588",
       "state": "registered",
       "environment": "v4.33.0",
