@@ -181,7 +181,7 @@
 <noscript><p class="page-reactions-noscript"><a href="https://comments.laxarchive.org/auth/orcid/login?site=remark&amp;from=https%3A%2F%2Flaxarchive.org%2Flax-263307%2FLax263307.FiniteProductSampling.html">Sign in with ORCID</a> to review this page.</p></noscript>
 </section>
 <h3 class="figure-title">Natural Language Statement</h3>
-<div class="block block-statement"><h3>Theorem</h3><div class="latex-content"><p>Independent finite coordinates have total product mass one. Restricting to
+<div class="block block-statement"><h3>Lemma</h3><div class="latex-content"><p>Independent finite coordinates have total product mass one. Restricting to
 any injectively selected coordinates recovers the product law on precisely
 those coordinates. The remaining coordinates sum out to one.</p>
 </div></div>
@@ -206,7 +206,7 @@ those coordinates. The remaining coordinates sum out to one.</p>
 <div class="judgment">
 <div class="judgment-assumptions"><p class="judgment-unconditional">no assumptions</p></div>
 <span class="judgment-arrow" aria-hidden="true">→</span>
-<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven">thm✓</span><a href="../lax-263307/Lax263307.FiniteProductSampling.html#s-Lax263307.FiniteProductSampling.embedding_marginal" title="Lax263307.FiniteProductSampling.embedding_marginal"><code>Lax263307.FiniteProductSampling</code> <span class="claim-ordinal">(1st statement)</span></a></span></div>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven">lem✓</span><a href="../lax-263307/Lax263307.FiniteProductSampling.html#s-Lax263307.FiniteProductSampling.embedding_marginal" title="Lax263307.FiniteProductSampling.embedding_marginal"><code>Lax263307.FiniteProductSampling</code> <span class="claim-ordinal">(1st statement)</span></a></span></div>
 </div>
 </div>
 <p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-263307/Lax263307Proofs.FiniteProductSampling.embedding_marginal.html"><code>Lax263307Proofs.FiniteProductSampling.embedding_marginal</code></a></p>
@@ -221,7 +221,7 @@ those coordinates. The remaining coordinates sum out to one.</p>
 <div class="judgment">
 <div class="judgment-assumptions"><p class="judgment-unconditional">no assumptions</p></div>
 <span class="judgment-arrow" aria-hidden="true">→</span>
-<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven">thm✓</span><a href="../lax-263307/Lax263307.FiniteProductSampling.html#s-Lax263307.FiniteProductSampling.normalized" title="Lax263307.FiniteProductSampling.normalized"><code>Lax263307.FiniteProductSampling</code> <span class="claim-ordinal">(2nd statement)</span></a></span></div>
+<div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven">lem✓</span><a href="../lax-263307/Lax263307.FiniteProductSampling.html#s-Lax263307.FiniteProductSampling.normalized" title="Lax263307.FiniteProductSampling.normalized"><code>Lax263307.FiniteProductSampling</code> <span class="claim-ordinal">(2nd statement)</span></a></span></div>
 </div>
 </div>
 <p class="proof-item-head"><span class="proof-badge" role="img" aria-label="proof">⊢</span><a class="proof-item-link" href="../lax-263307/Lax263307Proofs.FiniteProductSampling.normalized.html"><code>Lax263307Proofs.FiniteProductSampling.normalized</code></a></p>
@@ -231,7 +231,7 @@ those coordinates. The remaining coordinates sum out to one.</p>
 </div>
 </details>
 
-<h3 class="figure-title">Lean source <a class="source-link" href="https://github.com/EdouardBonnet/lax-263307/blob/9459f3f41d3ecd3bce2edd668a6a2e67d5805342/concepts/Lax263307/FiniteProductSampling.lean">view on GitHub</a></h3>
+<h3 class="figure-title">Lean source <a class="source-link" href="https://github.com/EdouardBonnet/lax-263307/blob/4f3776370f2bb234b6692c2aa7aa71b25847836d/concepts/Lax263307/FiniteProductSampling.lean">view on GitHub</a></h3>
 <div class="block block-lean">
 <div class="inline-contract-shell"><div class="source-controls"><button class="comment-toggle" type="button" aria-pressed="false" aria-label="Hide comments">Hide comments</button><label class="type-hover-toggle"><input type="checkbox" role="switch" data-type-hover-toggle checked> Show types on hover</label></div><div class="inline-contract-wrap"><table class="inline-contract-table">
 <tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="../lax-263307/Lax263307.PathSampling.html"><span style="color:#24292E">Lax263307.PathSampling</span></a></td></tr>
@@ -241,7 +241,7 @@ those coordinates. The remaining coordinates sum out to one.</p>
 <tr id="L5" class="line-comment"><td class="line-num"><a href="#L5">5</a></td><td class="line-code"><span style="color:#6A737D">/-!</span></td></tr>
 <tr id="L6" class="line-comment"><td class="line-num"><a href="#L6">6</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
 <tr id="L7" class="line-comment"><td class="line-num"><a href="#L7">7</a></td><td class="line-code"><span style="color:#6A737D">title: Finite product sampling and coordinate marginals</span></td></tr>
-<tr id="L8" class="line-comment"><td class="line-num"><a href="#L8">8</a></td><td class="line-code"><span style="color:#6A737D">type: theorem</span></td></tr>
+<tr id="L8" class="line-comment"><td class="line-num"><a href="#L8">8</a></td><td class="line-code"><span style="color:#6A737D">type: lemma</span></td></tr>
 <tr id="L9" class="line-comment"><td class="line-num"><a href="#L9">9</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
 <tr id="L10" class="line-comment"><td class="line-num"><a href="#L10">10</a></td><td class="line-code"><span style="color:#6A737D">Independent finite coordinates have total product mass one. Restricting to</span></td></tr>
 <tr id="L11" class="line-comment"><td class="line-num"><a href="#L11">11</a></td><td class="line-code"><span style="color:#6A737D">any injectively selected coordinates recovers the product law on precisely</span></td></tr>
@@ -271,7 +271,7 @@ those coordinates. The remaining coordinates sum out to one.</p>
 <tr id="L32" class=""><td class="line-num"><a href="#L32">32</a></td><td class="line-code"> </td></tr>
 <tr id="L33" class=""><td class="line-num"><a href="#L33">33</a></td><td class="line-code"><span style="color:#D73A49">end</span><span style="color:#24292E"> Lax263307.FiniteProductSampling</span></td></tr>
 <tr id="L34" class=""><td class="line-num"><a href="#L34">34</a></td><td class="line-code"> </td></tr>
-</table></div><span class="source-proof-rail" data-source-line="L28" aria-label="Proof links"><a class="statement-proof-button" href="https://github.com/EdouardBonnet/lax-263307/blob/9459f3f41d3ecd3bce2edd668a6a2e67d5805342/proofs/Lax263307Proofs/FiniteProductSampling.lean" aria-label="View proof Lax263307Proofs.FiniteProductSampling.embedding_marginal on GitHub" title="Lax263307Proofs.FiniteProductSampling.embedding_marginal"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">Show Proof</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a></span><span class="source-proof-rail" data-source-line="L25" aria-label="Proof links"><a class="statement-proof-button" href="https://github.com/EdouardBonnet/lax-263307/blob/9459f3f41d3ecd3bce2edd668a6a2e67d5805342/proofs/Lax263307Proofs/FiniteProductSampling.lean" aria-label="View proof Lax263307Proofs.FiniteProductSampling.normalized on GitHub" title="Lax263307Proofs.FiniteProductSampling.normalized"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">Show Proof</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a></span><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
+</table></div><span class="source-proof-rail" data-source-line="L28" aria-label="Proof links"><a class="statement-proof-button" href="https://github.com/EdouardBonnet/lax-263307/blob/4f3776370f2bb234b6692c2aa7aa71b25847836d/proofs/Lax263307Proofs/FiniteProductSampling.lean" aria-label="View proof Lax263307Proofs.FiniteProductSampling.embedding_marginal on GitHub" title="Lax263307Proofs.FiniteProductSampling.embedding_marginal"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">Show Proof</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a></span><span class="source-proof-rail" data-source-line="L25" aria-label="Proof links"><a class="statement-proof-button" href="https://github.com/EdouardBonnet/lax-263307/blob/4f3776370f2bb234b6692c2aa7aa71b25847836d/proofs/Lax263307Proofs/FiniteProductSampling.lean" aria-label="View proof Lax263307Proofs.FiniteProductSampling.normalized on GitHub" title="Lax263307Proofs.FiniteProductSampling.normalized"><span class="statement-proof-mark" aria-hidden="true">⊢</span><span class="statement-proof-label">Show Proof</span><span class="statement-proof-arrow" aria-hidden="true">→</span></a></span><span class="source-review-rails" data-source-review-rails aria-label="Source flags"></span></div></div>
 <div class="block"><h3>Attribution</h3><div class="latex-content"><p>Finite probability algebra for Bonnet–Chang's coupled sampling in Lemma 11.</p>
 </div></div>
 <div class="block"><div class="deps-columns">

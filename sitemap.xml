@@ -935,7 +935,6 @@
   <url><loc>https://laxarchive.org/lax-263307/Lax263307.ConditionalRoutes.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307.ConditionedCosts.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307.ConditioningDistribution.html</loc></url>
-  <url><loc>https://laxarchive.org/lax-263307/Lax263307.ConditioningExistence.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307.ConnectedBags.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307.ConnectedRepresentations.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307.CoordinateCatalog.html</loc></url>
@@ -949,7 +948,6 @@
   <url><loc>https://laxarchive.org/lax-263307/Lax263307.EdgeSublinearSeparators.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307.Entropy.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307.EntropyBounds.html</loc></url>
-  <url><loc>https://laxarchive.org/lax-263307/Lax263307.EntropyDecrease.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307.EntropyGap.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307.ExhaustiveTargets.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307.FiniteProductSampling.html</loc></url>
@@ -959,21 +957,16 @@
   <url><loc>https://laxarchive.org/lax-263307/Lax263307.HeavyRationalConditioning.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307.HeavyRecursiveRounding.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307.HostRestriction.html</loc></url>
-  <url><loc>https://laxarchive.org/lax-263307/Lax263307.HullNonempty.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307.IndependentBlowUp.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307.InducedEmbeddingWidth.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307.InducedRouteEdges.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307.IsolatedEmbeddingTransfer.html</loc></url>
-  <url><loc>https://laxarchive.org/lax-263307/Lax263307.LightSeparators.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307.LinearRelaxation.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307.MainTheorem.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307.MomentLP.html</loc></url>
-  <url><loc>https://laxarchive.org/lax-263307/Lax263307.NativeBlowUp.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307.NativeCatalog.html</loc></url>
-  <url><loc>https://laxarchive.org/lax-263307/Lax263307.NativeExhaustive.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307.NativeMomentLP.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307.NativeRoundedStep.html</loc></url>
-  <url><loc>https://laxarchive.org/lax-263307/Lax263307.NativeWeightReduction.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307.NearOracle.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307.NoBoundedLoadRoutes.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307.ParameterResources.html</loc></url>
@@ -982,6 +975,7 @@
   <url><loc>https://laxarchive.org/lax-263307/Lax263307.PowerBagBounds.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307.ProjectedOracle.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307.QPTAS.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-263307/Lax263307.QPTASRuntime.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307.RationalConditioning.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307.RationalCutBuffer.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307.RationalProjection.html</loc></url>
@@ -1025,17 +1019,14 @@
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.BlowUpDeletion.power_bound.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.BlowUpIndependentSets.lift_cardinality.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.BlowUpIndependentSets.lift_independent.html</loc></url>
-  <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.BlowUpIndependentSets.order_eq.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.BlowUpIndependentSets.project_independent.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.BlowUpIndependentSets.projection_capacity.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.BufferedEllipsoid.coordinate_ball_bound.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.BufferedEllipsoid.initial_ball.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.BufferedEllipsoid.integer_normal_norm.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.BufferedEllipsoid.scaled_cube_norm.html</loc></url>
-  <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.ComponentCutEncoding.coefficient_bound.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.ComponentCutEncoding.evaluation_identity.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.ComponentCuts.valid_cut.html</loc></url>
-  <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.ComponentCuts.violation_iff.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.ComputedRounding.collect_correct.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.ComputedSeparators.light_separator.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.ConditionalRoutes.conditional_correct.html</loc></url>
@@ -1043,12 +1034,10 @@
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.ConditionalRoutes.mixture_identity.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.ConditionedCosts.conditioning_invariants.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.ConditioningDistribution.distribution_identities.html</loc></url>
-  <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.ConditioningExistence.exists_low_edge_cost.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.ConnectedBags.meeting_connected.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.ConnectedRepresentations.transfer_decomposition.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.CoordinateCatalog.catalog_bound.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.CoordinateCatalog.catalog_complete.html</loc></url>
-  <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.CoordinateCatalog.catalog_nodup.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.CoordinateCatalog.catalog_positive.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.CoordinateCatalog.catalog_two.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.CostSamplingObstruction.cost_width_obstruction.html</loc></url>
@@ -1059,22 +1048,17 @@
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.CoupledSamplingBounds.bad_probability_bound.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.CoupledSamplingBounds.good_route_sample.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.CoupledSamplingBounds.total_length_expectation.html</loc></url>
-  <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.CutTraces.light_separator_from_oracle.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.CutTraces.trace_correct.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.DistanceProjection.dual_normal.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.DistanceProjection.objective_bounded.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.DistanceProjection.optimal_gap.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.DistanceProjection.primal_characterization.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.DistanceProjection.projection_feasible_iff.html</loc></url>
-  <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.DistanceProjection.strong_gap_dichotomy.html</loc></url>
-  <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.EdgeBagBounds.power_bag_bound.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.EdgeBagBounds.sublinear_bag_bound.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.EdgeDeletionWidth.restore_edges.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.EntropyBounds.entropy_bounds.html</loc></url>
-  <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.EntropyDecrease.exists_entropy_decrease.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.EntropyGap.average_entropy_gap.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.ExhaustiveTargets.candidate_complete.html</loc></url>
-  <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.ExhaustiveTargets.candidate_count.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.ExhaustiveTargets.search_correct.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.FiniteProductSampling.embedding_marginal.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.FiniteProductSampling.normalized.html</loc></url>
@@ -1084,29 +1068,18 @@
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.HeavyRationalConditioning.search_correct.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.HeavyRecursiveRounding.heavy_union_size.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.HeavyRecursiveRounding.ignored_cost.html</loc></url>
-  <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.HeavyRecursiveRounding.strong_round_or_cut.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.HostRestriction.restrict_to_route_union.html</loc></url>
-  <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.HullNonempty.hull_nonempty_iff.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.InducedEmbeddingWidth.sampled_width_bound.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.InducedEmbeddingWidth.transfer_class_bound.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.InducedEmbeddingWidth.treewidth_after_pruning.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.InducedRouteEdges.edge_bound.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.IsolatedEmbeddingTransfer.transfer_decomposition.html</loc></url>
-  <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.LightSeparators.class_light_separator.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.MainTheorem.exists_qptas.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.MomentLP.decode_encode.html</loc></url>
-  <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.MomentLP.encode_decode.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.MomentLP.evaluate_encoding.html</loc></url>
-  <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.MomentLP.feasible_iff.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.MomentLP.primal_characterization.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.MomentLP.single_row_value.html</loc></url>
-  <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.NativeBlowUp.exists_program.html</loc></url>
-  <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.NativeCatalog.exists_program.html</loc></url>
-  <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.NativeExhaustive.exists_program.html</loc></url>
-  <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.NativeMomentProgram.exists_program.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.NativeRoundedStep.exists_program.html</loc></url>
-  <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.NativeWeightReduction.exists_program.html</loc></url>
-  <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.NearOracle.exists_oracle.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.NoBoundedLoadRoutes.no_bounded_load_routes.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.ParameterResources.resource_bound.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.PathSampling.adjacency_union_bound.html</loc></url>
@@ -1116,27 +1089,19 @@
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.PositiveWeights.nonpositive_case.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.PositiveWeights.signed_weight_transfer.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.PowerBagBounds.root_bag_bound.html</loc></url>
-  <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.ProjectedOracle.exists_search.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.RationalConditioning.candidate_bound.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.RationalConditioning.candidate_complete.html</loc></url>
-  <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.RationalConditioning.search_correct.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.RationalCutBuffer.central_buffer.html</loc></url>
-  <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.RationalCutBuffer.denominator_bound.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.RationalCutBuffer.denominator_positive.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.RationalCutBuffer.dot_stable.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.RationalCutBuffer.integer_normal_cast.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.RationalCutBuffer.normal_nonzero.html</loc></url>
-  <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.RationalCutBuffer.normal_size.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.RationalCutBuffer.scaled_cleared_cut.html</loc></url>
-  <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.RationalProjection.certificate_outcome.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.RationalProjection.classify_correct.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.RecursionDepth.approximation_transfer.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.RecursionDepth.balanced_decrease.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.RecursionDepth.logarithmic_bound.html</loc></url>
-  <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.RecursiveAlgorithm.exists_solver.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.RecursiveRounding.combine_independent.html</loc></url>
-  <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.RecursiveRounding.round_or_cut.html</loc></url>
-  <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.RegisteredLP.exists_solver.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.RelaxationFeasibility.hull_feasible.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.RelaxationFeasibility.indicator_feasible.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.RepeatedCutAccounting.total_cut_cost.html</loc></url>
@@ -1162,7 +1127,6 @@
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.SplitPathProjection.capacity_arc_count.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.SplitPathProjection.project_simple_path.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.SplitPathProjection.split_support_projection.html</loc></url>
-  <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.StrongComponentGaps.central_cut_buffer.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.StrongComponentGaps.coefficient_l1.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.StrongComponentGaps.component_gap.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.StrongComponentGaps.evaluation_stable.html</loc></url>
@@ -1173,7 +1137,6 @@
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.VertexSplitting.small_cut_cost.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.VertexSplitting.small_cut_separation.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.VertexSplitting.split_certificate.html</loc></url>
-  <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.WeightedAlgorithm.exists_solver.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.WeightedProjection.approximation_transfer.html</loc></url>
   <url><loc>https://laxarchive.org/lax-263307/Lax263307Proofs.WidthGrowth.order_bound.html</loc></url>
   <url><loc>https://laxarchive.org/lax-271696/</loc></url>

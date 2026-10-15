@@ -3773,137 +3773,132 @@
         {
           "id": "Lax263307.AlgorithmParameters",
           "title": "Explicit integer budgets for the round-or-cut algorithm",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax263307.AlmostEmbeddings",
           "title": "Treewidth transfer through an almost-embedding",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax263307.BalancedPartitions",
           "title": "Balanced closed parts certify a balanced separator",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax263307.BlowUpBagBounds",
           "title": "Sublinear bag bounds survive independent blow-ups",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax263307.BlowUpClasses",
           "title": "Independent blow-up classes are hereditary",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax263307.BlowUpDecompositions",
           "title": "Lifting a tree decomposition through a bounded blow-up",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax263307.BlowUpDeletion",
           "title": "Deleting high-degree vertices in an independent blow-up",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax263307.BlowUpIndependentSets",
           "title": "Independent sets lift and project through a blow-up",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax263307.BufferedEllipsoid",
           "title": "Protected balls for the rounded ellipsoid method",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax263307.ComponentCutEncoding",
           "title": "Integer coefficients of recursive separating cuts",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax263307.ComponentCuts",
           "title": "Valid separating inequalities from independent-set bounds",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax263307.ComputedRounding",
           "title": "Computing the recursive answer-or-cut decision",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax263307.ComputedSeparators",
           "title": "Computing balanced light separators from registered flow-cut outputs",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax263307.ConditionalRoutes",
           "title": "Conditioning graph routes on uniform endpoints",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax263307.ConditionedCosts",
           "title": "Conditioning preserves bounded costs and total mass",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax263307.ConditioningDistribution",
           "title": "Joint distributions for the entropy-decrease argument",
-          "type": "theorem"
-        },
-        {
-          "id": "Lax263307.ConditioningExistence",
-          "title": "A small conditioning set gives low edge cost",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax263307.ConnectedBags",
           "title": "Bags meeting a connected vertex set",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax263307.ConnectedRepresentations",
           "title": "Tree-decomposition transfer through connected vertex representations",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax263307.CoordinateCatalog",
           "title": "A computable catalog and index for moment coordinates",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax263307.CostSamplingObstruction",
           "title": "A width obstruction from sparse costs and bounded route loads",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax263307.CoupledRouteSampling",
           "title": "Coupled route sampling with shared vertex images",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax263307.CoupledSamplingBounds",
           "title": "A good coupled sample with bounded total route size",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax263307.CutTraces",
           "title": "Repeated cuts yield a balanced light separator",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax263307.DistanceProjection",
           "title": "Infinity-distance projection LP and its separating dual",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax263307.EdgeBagBounds",
           "title": "Edge-sublinear separators imply edge-sublinear decomposition bags",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax263307.EdgeDeletionWidth",
           "title": "Treewidth loss under edge deletion",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax263307.EdgeSublinearSeparators",
@@ -3918,32 +3913,27 @@
         {
           "id": "Lax263307.EntropyBounds",
           "title": "Entropy lies between zero and the logarithm of the order",
-          "type": "theorem"
-        },
-        {
-          "id": "Lax263307.EntropyDecrease",
-          "title": "High edge cost forces a strict entropy decrease",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax263307.EntropyGap",
           "title": "Edge mass bounds the average entropy decrease",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax263307.ExhaustiveTargets",
           "title": "Exhaustive search for small independent-set targets",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax263307.FiniteProductSampling",
           "title": "Finite product sampling and coordinate marginals",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax263307.ForcedSeparation",
           "title": "The split flow-cut certificate must give a cheap separation",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax263307.GraphClasses",
@@ -3953,27 +3943,22 @@
         {
           "id": "Lax263307.HeavyConditioning",
           "title": "Conditioning with a quantitative moment lower bound",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax263307.HeavyRationalConditioning",
           "title": "Exact rational search above the conditioning moment floor",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax263307.HeavyRecursiveRounding",
           "title": "Recursive rounding after discarding light parts",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax263307.HostRestriction",
           "title": "Restricting an induced almost-embedding to its route union",
-          "type": "theorem"
-        },
-        {
-          "id": "Lax263307.HullNonempty",
-          "title": "The exact hull is nonempty precisely at feasible targets",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax263307.IndependentBlowUp",
@@ -3983,22 +3968,17 @@
         {
           "id": "Lax263307.InducedEmbeddingWidth",
           "title": "A class width bound obstructs induced route sampling",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax263307.InducedRouteEdges",
           "title": "Few edges in the graph induced by short routes",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax263307.IsolatedEmbeddingTransfer",
           "title": "Almost-embedding transfer with isolated source vertices",
-          "type": "theorem"
-        },
-        {
-          "id": "Lax263307.LightSeparators",
-          "title": "Balanced light separators from the registered flow-cut solver",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax263307.LinearRelaxation",
@@ -4013,157 +3993,147 @@
         {
           "id": "Lax263307.MomentLP",
           "title": "The moment relaxation as an explicit rational linear program",
-          "type": "theorem"
-        },
-        {
-          "id": "Lax263307.NativeBlowUp",
-          "title": "A fixed RAM program constructs the rounded blow-up",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax263307.NativeCatalog",
-          "title": "A fixed RAM program for the moment-coordinate catalog",
-          "type": "theorem"
-        },
-        {
-          "id": "Lax263307.NativeExhaustive",
-          "title": "A fixed RAM program for exact small-target search",
-          "type": "theorem"
+          "title": "Encoding the moment-coordinate catalogue",
+          "type": "definition"
         },
         {
           "id": "Lax263307.NativeMomentLP",
-          "title": "A fixed RAM program constructing the complete moment LP",
-          "type": "theorem"
+          "title": "Input encoding for the moment linear program",
+          "type": "definition"
         },
         {
           "id": "Lax263307.NativeRoundedStep",
           "title": "A uniform RAM program for the rounded ellipsoid update",
-          "type": "theorem"
-        },
-        {
-          "id": "Lax263307.NativeWeightReduction",
-          "title": "Native RAM execution of the weight-to-multiplicity reduction",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax263307.NearOracle",
-          "title": "Computed rounding oracle near the moment relaxation",
-          "type": "theorem"
+          "title": "The recursive oracle near the moment relaxation",
+          "type": "definition"
         },
         {
           "id": "Lax263307.NoBoundedLoadRoutes",
           "title": "Sparse bounded-load route distributions are impossible",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax263307.ParameterResources",
           "title": "Quasipolynomial bounds for the computed algorithm budgets",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax263307.PathSampling",
           "title": "Collision and length bounds for independently sampled paths",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax263307.PositiveWeights",
           "title": "Removing nonpositive weights",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax263307.PowerBagBounds",
           "title": "Integer power bounds on class decomposition bags",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax263307.ProjectedOracle",
-          "title": "The bounded projected round-or-cut search",
-          "type": "theorem"
+          "title": "The projected round-or-cut search",
+          "type": "definition"
         },
         {
           "id": "Lax263307.QPTAS",
-          "title": "Deterministic quasipolynomial-time approximation schemes",
+          "title": "A QPTAS for maximum-weight independent set",
+          "type": "definition"
+        },
+        {
+          "id": "Lax263307.QPTASRuntime",
+          "title": "The quasipolynomial approximation bound",
           "type": "definition"
         },
         {
           "id": "Lax263307.RationalConditioning",
-          "title": "Exact rational search for a conditioning set",
-          "type": "theorem"
+          "title": "Rational conditioning and its candidate list",
+          "type": "lemma"
         },
         {
           "id": "Lax263307.RationalCutBuffer",
           "title": "Rational cut normals preserve protected cubes after scaling",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax263307.RationalProjection",
           "title": "Rational LP certificates for distance projection",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax263307.RecursionDepth",
           "title": "Depth and approximation loss of balanced recursion",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax263307.RecursiveAlgorithm",
-          "title": "Correctness of the complete recursive unweighted algorithm",
-          "type": "theorem"
+          "title": "The recursive unweighted approximation algorithm",
+          "type": "definition"
         },
         {
           "id": "Lax263307.RecursiveRounding",
-          "title": "Combining recursive answers in round-or-cut",
-          "type": "theorem"
+          "title": "Combining independent sets on separated parts",
+          "type": "lemma"
         },
         {
           "id": "Lax263307.RegisteredLP",
-          "title": "Decoding the actual registered LP solver output",
-          "type": "theorem"
+          "title": "Decoding rational LP certificates",
+          "type": "definition"
         },
         {
           "id": "Lax263307.RelaxationFeasibility",
           "title": "Independent-set encodings satisfy the relaxation",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax263307.RepeatedCutAccounting",
           "title": "Cumulative separator cost over disjoint discarded shores",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax263307.RoundedOracleSearch",
           "title": "A bounded rounded ellipsoid search with answer-or-cut replies",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax263307.RoundingBounds",
           "title": "Rounding loses at most one weight unit per vertex",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax263307.RouteDistributions",
           "title": "Graph-route distributions from high-value split flows",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax263307.RoutePruning",
           "title": "Discarding long almost-embedding routes",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax263307.RoutingNormalization",
           "title": "Uniform endpoint normalization of finite path flows",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax263307.SampledAlmostEmbeddings",
           "title": "An induced almost-embedding from a good route sample",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax263307.SamplingOutcomes",
           "title": "Choosing a collision-free outcome with bounded total path length",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax263307.SeparatorComponents",
@@ -4173,37 +4143,37 @@
         {
           "id": "Lax263307.SeparatorDecompositions",
           "title": "Tree decompositions from recursive balanced separators",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax263307.SourceGraphs",
           "title": "Controlled-size subcubic source graphs of linear treewidth",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax263307.SplitPathProjection",
           "title": "Projecting split paths and preserving endpoint loads",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax263307.StrongComponentGaps",
           "title": "Quantitative gaps for recursive component cuts",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax263307.TargetSearch",
           "title": "Descending target search in Solve",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax263307.VertexSplitting",
           "title": "Vertex splitting for the directed flow–cut algorithm",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax263307.WeightedAlgorithm",
-          "title": "Correctness of the complete weighted approximation algorithm",
-          "type": "theorem"
+          "title": "The weighted independent-set approximation algorithm",
+          "type": "definition"
         },
         {
           "id": "Lax263307.WeightedIndependentSet",
@@ -4213,7 +4183,7 @@
         {
           "id": "Lax263307.WeightedProjection",
           "title": "Projecting an unweighted approximation gives a weighted approximation",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax263307.WeightRounding",
@@ -4223,7 +4193,7 @@
         {
           "id": "Lax263307.WidthGrowth",
           "title": "Polynomial order bound from the sampled width inequality",
-          "type": "theorem"
+          "type": "lemma"
         }
       ],
       "proofs": [
@@ -4242,17 +4212,14 @@
         "Lax263307Proofs.BlowUpDeletion.power_bound",
         "Lax263307Proofs.BlowUpIndependentSets.lift_cardinality",
         "Lax263307Proofs.BlowUpIndependentSets.lift_independent",
-        "Lax263307Proofs.BlowUpIndependentSets.order_eq",
         "Lax263307Proofs.BlowUpIndependentSets.project_independent",
         "Lax263307Proofs.BlowUpIndependentSets.projection_capacity",
         "Lax263307Proofs.BufferedEllipsoid.coordinate_ball_bound",
         "Lax263307Proofs.BufferedEllipsoid.initial_ball",
         "Lax263307Proofs.BufferedEllipsoid.integer_normal_norm",
         "Lax263307Proofs.BufferedEllipsoid.scaled_cube_norm",
-        "Lax263307Proofs.ComponentCutEncoding.coefficient_bound",
         "Lax263307Proofs.ComponentCutEncoding.evaluation_identity",
         "Lax263307Proofs.ComponentCuts.valid_cut",
-        "Lax263307Proofs.ComponentCuts.violation_iff",
         "Lax263307Proofs.ComputedRounding.collect_correct",
         "Lax263307Proofs.ComputedSeparators.light_separator",
         "Lax263307Proofs.ConditionalRoutes.conditional_correct",
@@ -4260,12 +4227,10 @@
         "Lax263307Proofs.ConditionalRoutes.mixture_identity",
         "Lax263307Proofs.ConditionedCosts.conditioning_invariants",
         "Lax263307Proofs.ConditioningDistribution.distribution_identities",
-        "Lax263307Proofs.ConditioningExistence.exists_low_edge_cost",
         "Lax263307Proofs.ConnectedBags.meeting_connected",
         "Lax263307Proofs.ConnectedRepresentations.transfer_decomposition",
         "Lax263307Proofs.CoordinateCatalog.catalog_bound",
         "Lax263307Proofs.CoordinateCatalog.catalog_complete",
-        "Lax263307Proofs.CoordinateCatalog.catalog_nodup",
         "Lax263307Proofs.CoordinateCatalog.catalog_positive",
         "Lax263307Proofs.CoordinateCatalog.catalog_two",
         "Lax263307Proofs.CostSamplingObstruction.cost_width_obstruction",
@@ -4276,22 +4241,17 @@
         "Lax263307Proofs.CoupledSamplingBounds.bad_probability_bound",
         "Lax263307Proofs.CoupledSamplingBounds.good_route_sample",
         "Lax263307Proofs.CoupledSamplingBounds.total_length_expectation",
-        "Lax263307Proofs.CutTraces.light_separator_from_oracle",
         "Lax263307Proofs.CutTraces.trace_correct",
         "Lax263307Proofs.DistanceProjection.dual_normal",
         "Lax263307Proofs.DistanceProjection.objective_bounded",
         "Lax263307Proofs.DistanceProjection.optimal_gap",
         "Lax263307Proofs.DistanceProjection.primal_characterization",
         "Lax263307Proofs.DistanceProjection.projection_feasible_iff",
-        "Lax263307Proofs.DistanceProjection.strong_gap_dichotomy",
-        "Lax263307Proofs.EdgeBagBounds.power_bag_bound",
         "Lax263307Proofs.EdgeBagBounds.sublinear_bag_bound",
         "Lax263307Proofs.EdgeDeletionWidth.restore_edges",
         "Lax263307Proofs.EntropyBounds.entropy_bounds",
-        "Lax263307Proofs.EntropyDecrease.exists_entropy_decrease",
         "Lax263307Proofs.EntropyGap.average_entropy_gap",
         "Lax263307Proofs.ExhaustiveTargets.candidate_complete",
-        "Lax263307Proofs.ExhaustiveTargets.candidate_count",
         "Lax263307Proofs.ExhaustiveTargets.search_correct",
         "Lax263307Proofs.FiniteProductSampling.embedding_marginal",
         "Lax263307Proofs.FiniteProductSampling.normalized",
@@ -4301,29 +4261,18 @@
         "Lax263307Proofs.HeavyRationalConditioning.search_correct",
         "Lax263307Proofs.HeavyRecursiveRounding.heavy_union_size",
         "Lax263307Proofs.HeavyRecursiveRounding.ignored_cost",
-        "Lax263307Proofs.HeavyRecursiveRounding.strong_round_or_cut",
         "Lax263307Proofs.HostRestriction.restrict_to_route_union",
-        "Lax263307Proofs.HullNonempty.hull_nonempty_iff",
         "Lax263307Proofs.InducedEmbeddingWidth.sampled_width_bound",
         "Lax263307Proofs.InducedEmbeddingWidth.transfer_class_bound",
         "Lax263307Proofs.InducedEmbeddingWidth.treewidth_after_pruning",
         "Lax263307Proofs.InducedRouteEdges.edge_bound",
         "Lax263307Proofs.IsolatedEmbeddingTransfer.transfer_decomposition",
-        "Lax263307Proofs.LightSeparators.class_light_separator",
         "Lax263307Proofs.MainTheorem.exists_qptas",
         "Lax263307Proofs.MomentLP.decode_encode",
-        "Lax263307Proofs.MomentLP.encode_decode",
         "Lax263307Proofs.MomentLP.evaluate_encoding",
-        "Lax263307Proofs.MomentLP.feasible_iff",
         "Lax263307Proofs.MomentLP.primal_characterization",
         "Lax263307Proofs.MomentLP.single_row_value",
-        "Lax263307Proofs.NativeBlowUp.exists_program",
-        "Lax263307Proofs.NativeCatalog.exists_program",
-        "Lax263307Proofs.NativeExhaustive.exists_program",
-        "Lax263307Proofs.NativeMomentProgram.exists_program",
         "Lax263307Proofs.NativeRoundedStep.exists_program",
-        "Lax263307Proofs.NativeWeightReduction.exists_program",
-        "Lax263307Proofs.NearOracle.exists_oracle",
         "Lax263307Proofs.NoBoundedLoadRoutes.no_bounded_load_routes",
         "Lax263307Proofs.ParameterResources.resource_bound",
         "Lax263307Proofs.PathSampling.adjacency_union_bound",
@@ -4333,27 +4282,19 @@
         "Lax263307Proofs.PositiveWeights.nonpositive_case",
         "Lax263307Proofs.PositiveWeights.signed_weight_transfer",
         "Lax263307Proofs.PowerBagBounds.root_bag_bound",
-        "Lax263307Proofs.ProjectedOracle.exists_search",
         "Lax263307Proofs.RationalConditioning.candidate_bound",
         "Lax263307Proofs.RationalConditioning.candidate_complete",
-        "Lax263307Proofs.RationalConditioning.search_correct",
         "Lax263307Proofs.RationalCutBuffer.central_buffer",
-        "Lax263307Proofs.RationalCutBuffer.denominator_bound",
         "Lax263307Proofs.RationalCutBuffer.denominator_positive",
         "Lax263307Proofs.RationalCutBuffer.dot_stable",
         "Lax263307Proofs.RationalCutBuffer.integer_normal_cast",
         "Lax263307Proofs.RationalCutBuffer.normal_nonzero",
-        "Lax263307Proofs.RationalCutBuffer.normal_size",
         "Lax263307Proofs.RationalCutBuffer.scaled_cleared_cut",
-        "Lax263307Proofs.RationalProjection.certificate_outcome",
         "Lax263307Proofs.RationalProjection.classify_correct",
         "Lax263307Proofs.RecursionDepth.approximation_transfer",
         "Lax263307Proofs.RecursionDepth.balanced_decrease",
         "Lax263307Proofs.RecursionDepth.logarithmic_bound",
-        "Lax263307Proofs.RecursiveAlgorithm.exists_solver",
         "Lax263307Proofs.RecursiveRounding.combine_independent",
-        "Lax263307Proofs.RecursiveRounding.round_or_cut",
-        "Lax263307Proofs.RegisteredLP.exists_solver",
         "Lax263307Proofs.RelaxationFeasibility.hull_feasible",
         "Lax263307Proofs.RelaxationFeasibility.indicator_feasible",
         "Lax263307Proofs.RepeatedCutAccounting.total_cut_cost",
@@ -4379,7 +4320,6 @@
         "Lax263307Proofs.SplitPathProjection.capacity_arc_count",
         "Lax263307Proofs.SplitPathProjection.project_simple_path",
         "Lax263307Proofs.SplitPathProjection.split_support_projection",
-        "Lax263307Proofs.StrongComponentGaps.central_cut_buffer",
         "Lax263307Proofs.StrongComponentGaps.coefficient_l1",
         "Lax263307Proofs.StrongComponentGaps.component_gap",
         "Lax263307Proofs.StrongComponentGaps.evaluation_stable",
@@ -4390,7 +4330,6 @@
         "Lax263307Proofs.VertexSplitting.small_cut_cost",
         "Lax263307Proofs.VertexSplitting.small_cut_separation",
         "Lax263307Proofs.VertexSplitting.split_certificate",
-        "Lax263307Proofs.WeightedAlgorithm.exists_solver",
         "Lax263307Proofs.WeightedProjection.approximation_transfer",
         "Lax263307Proofs.WidthGrowth.order_bound"
       ]
