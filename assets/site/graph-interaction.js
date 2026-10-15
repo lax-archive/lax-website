@@ -928,7 +928,7 @@
           });
         });
       };
-      elements.forEach((hit, index) => {
+      elements.forEach((hit) => {
         hit.setAttribute('aria-label', label);
         hit.addEventListener('click', activate);
         const hot = () => {
@@ -942,7 +942,7 @@
         attachDelayedHover(hit, hot, cold);
         hit.addEventListener('focus', hot);
         hit.addEventListener('blur', cold);
-        if (index === 0) hit.addEventListener('keydown', (event) => {
+        hit.addEventListener('keydown', (event) => {
           if (event.key === 'Enter' || event.key === ' ') activate(event);
         });
       });
@@ -954,10 +954,11 @@
     if (controller.container.id !== 'proof-network') return;
     const seen = new Set();
     for (const hit of controller.container.querySelectorAll('[data-edge-hit]')) {
-      if (!seen.has(hit.dataset.edgeHit)) {
+      const key = hit.dataset.edgeHit + (hit.hasAttribute('data-statement-overview') ? ':overview' : ':detail');
+      if (!seen.has(key)) {
         hit.setAttribute('tabindex', '0');
         hit.setAttribute('role', 'button');
-        seen.add(hit.dataset.edgeHit);
+        seen.add(key);
       } else {
         hit.removeAttribute('tabindex');
         hit.removeAttribute('role');
@@ -968,6 +969,36 @@
   const controllers = new Map();
   let expandedFigure = null;
   const previousAttributes = new WeakMap();
+
+  function installLocalStatements(container, svg) {
+    if (container.id !== 'proof-network') return;
+    const details = [...svg.querySelectorAll('[data-statement-detail]')];
+    const overviews = [...svg.querySelectorAll('[data-statement-overview]')];
+    let hovered, focused = null, active = null;
+    const owner = (target) => target instanceof Element
+      ? target.closest('[data-statement-owner], [data-statement-detail]')?.getAttribute('data-statement-owner') ||
+        target.closest('[data-statement-detail]')?.getAttribute('data-statement-detail') || null : null;
+    const reveal = () => {
+      const next = hovered === undefined ? focused : hovered;
+      if (next === active) return;
+      active = next;
+      for (const element of details)
+        element.classList.toggle('graph-statement-active', element.dataset.statementDetail === active);
+      for (const element of overviews)
+        element.classList.toggle('graph-statement-active', element.dataset.statementOverview === active);
+    };
+    // A concept's transparent envelope bridges its box and docks, so moving
+    // into a newly revealed statement does not collapse it under the pointer.
+    svg.addEventListener('pointerover', (event) => { hovered = owner(event.target); reveal(); });
+    svg.addEventListener('pointerout', (event) => {
+      hovered = event.relatedTarget instanceof Node && svg.contains(event.relatedTarget)
+        ? owner(event.relatedTarget) : undefined;
+      reveal();
+    });
+    svg.addEventListener('focusin', (event) => { hovered = undefined; focused = owner(event.target); reveal(); });
+    svg.addEventListener('focusout', (event) => { focused = owner(event.relatedTarget); reveal(); });
+    svg.classList.add('graph-local-statements');
+  }
 
   function bindView(container, controller, interaction) {
     const svg = container.querySelector('svg');
@@ -1131,6 +1162,7 @@
       attachTooltip(element, container, info.tooltipRows ?? info.label, info.tooltipHtml);
     }
     installProofSelection(container, controller, interaction);
+    installLocalStatements(container, svg);
     let drag = null;
     svg.addEventListener('pointerdown', (event) => {
       // Native one-finger page/viewport scrolling remains available on touch.

@@ -321,6 +321,12 @@ pages contain linked, accessible SVGs that work without JavaScript. The browser
 adds inspectors, highlighting, pan/zoom, fullscreen and prepared view switches;
 it downloads no graph-layout engine and performs no layout search.
 
+Proof networks show concept-level connections in the overview. Hovering or
+focusing a concept reveals its numbered statements and their detailed proof
+connections; sibling-statement proof steps appear only with that concept.
+Only one concept is expanded at a time, and node positions stay fixed. The
+static view without JavaScript retains all statement links and connections.
+
 The archive measurement host uses the site's bundled fonts and exact SVG ink
 bounds, including wrapped lines. Obtain the pinned executable from
 [Chrome for Testing](https://googlechromelabs.github.io/chrome-for-testing/)

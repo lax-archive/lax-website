@@ -636,11 +636,22 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
     await visit(url(), async (page, audit) => {
       const figure = page.locator(".proof-network-figure"), tooltip = figure.locator(".graph-tooltip");
       const dock = page.locator('#proof-network [data-node-id="dock:Lax701.Base.s2"]');
+      expect(await dock.isHidden()).toBe(true);
+      const owner = page.locator('#proof-network [data-node-id="c:Lax701.Base"]');
+      await owner.hover();
+      expect(await dock.isVisible()).toBe(true);
+      await dock.hover();
+      expect(await dock.isVisible()).toBe(true);
+      await figure.locator('[data-graph-zoom="reset"]').hover();
+      expect(await dock.isHidden()).toBe(true);
+      await owner.focus();
+      expect(await dock.isVisible()).toBe(true);
       await dock.scrollIntoViewIfNeeded(); await dock.focus(); await animationFrame(page);
       expect(await tooltip.textContent()).toBe("Lax701.Base.s2");
       expect(await dock.locator("title").count()).toBe(0);
       const node = page.locator(`#proof-network [data-node-id="${proofId}"]`);
       await node.scrollIntoViewIfNeeded(); await dock.blur(); await animationFrame(page);
+      expect(await dock.isHidden()).toBe(true);
       expect(await tooltip.isHidden()).toBe(true);
       await node.dispatchEvent("mouseenter");
       await page.waitForTimeout(100); await animationFrame(page);

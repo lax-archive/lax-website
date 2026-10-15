@@ -5017,6 +5017,16 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
 .net-dock[role="link"]:hover circle,
 .net-dock:focus-visible circle{ outline: none; stroke: var(--link); stroke-width: 2.4; }
 
+/* The static fallback retains every statement link. Interactive networks
+   expose one concept's detail at a time without moving nodes or routes. */
+.graph-statement-region{ fill: transparent; pointer-events: none; }
+[data-statement-overview]{ visibility: hidden; }
+.graph-local-statements .graph-statement-region{ pointer-events: all; }
+.graph-local-statements [data-statement-detail]{ visibility: hidden; }
+.graph-local-statements [data-statement-detail].graph-statement-active,
+.graph-local-statements [data-statement-overview]{ visibility: visible; }
+.graph-local-statements [data-statement-overview].graph-statement-active{ visibility: hidden; }
+
 .net-proof rect{ fill: var(--surface); stroke: var(--text-dim); stroke-width: 1.3; }
 .net-proof text{ font-family: serif; font-size: 16px; fill: var(--text); }
 .net-proof.ext rect{ stroke: var(--none-border); }
@@ -5064,6 +5074,13 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
 .proof-network-figure .graph-edge-hit{ pointer-events: stroke; cursor: pointer; }
 .proof-network-figure .net-edge{ pointer-events: none; }
 .graph-edge-hit:focus{ outline: none; }
+/* SVG's `stroke` hit testing ignores visibility; hidden route alternatives
+   must also stop receiving pointer events. */
+.proof-network-figure .graph-edge-hit[data-statement-overview],
+.graph-local-statements .graph-edge-hit[data-statement-detail]{ pointer-events: none; }
+.graph-local-statements .graph-edge-hit[data-statement-overview],
+.graph-local-statements .graph-edge-hit[data-statement-detail].graph-statement-active{ pointer-events: stroke; }
+.graph-local-statements .graph-edge-hit[data-statement-overview].graph-statement-active{ pointer-events: none; }
 
 .net-edge.conclusion{ stroke: var(--accent); stroke-opacity: 0.7; }
 
