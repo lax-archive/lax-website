@@ -3765,6 +3765,637 @@
       ]
     },
     {
+      "id": "lax-263307",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "QPTAS for Max Weight Independent Set in Graphs with Strongly Edge-Sublinear Separators",
+      "concepts": [
+        {
+          "id": "Lax263307.AlgorithmParameters",
+          "title": "Explicit integer budgets for the round-or-cut algorithm",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.AlmostEmbeddings",
+          "title": "Treewidth transfer through an almost-embedding",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.BalancedPartitions",
+          "title": "Balanced closed parts certify a balanced separator",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.BlowUpBagBounds",
+          "title": "Sublinear bag bounds survive independent blow-ups",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.BlowUpClasses",
+          "title": "Independent blow-up classes are hereditary",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.BlowUpDecompositions",
+          "title": "Lifting a tree decomposition through a bounded blow-up",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.BlowUpDeletion",
+          "title": "Deleting high-degree vertices in an independent blow-up",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.BlowUpIndependentSets",
+          "title": "Independent sets lift and project through a blow-up",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.BufferedEllipsoid",
+          "title": "Protected balls for the rounded ellipsoid method",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.ComponentCutEncoding",
+          "title": "Integer coefficients of recursive separating cuts",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.ComponentCuts",
+          "title": "Valid separating inequalities from independent-set bounds",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.ComputedRounding",
+          "title": "Computing the recursive answer-or-cut decision",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.ComputedSeparators",
+          "title": "Computing balanced light separators from registered flow-cut outputs",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.ConditionalRoutes",
+          "title": "Conditioning graph routes on uniform endpoints",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.ConditionedCosts",
+          "title": "Conditioning preserves bounded costs and total mass",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.ConditioningDistribution",
+          "title": "Joint distributions for the entropy-decrease argument",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.ConditioningExistence",
+          "title": "A small conditioning set gives low edge cost",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.ConnectedBags",
+          "title": "Bags meeting a connected vertex set",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.ConnectedRepresentations",
+          "title": "Tree-decomposition transfer through connected vertex representations",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.CoordinateCatalog",
+          "title": "A computable catalog and index for moment coordinates",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.CostSamplingObstruction",
+          "title": "A width obstruction from sparse costs and bounded route loads",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.CoupledRouteSampling",
+          "title": "Coupled route sampling with shared vertex images",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.CoupledSamplingBounds",
+          "title": "A good coupled sample with bounded total route size",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.CutTraces",
+          "title": "Repeated cuts yield a balanced light separator",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.DistanceProjection",
+          "title": "Infinity-distance projection LP and its separating dual",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.EdgeBagBounds",
+          "title": "Edge-sublinear separators imply edge-sublinear decomposition bags",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.EdgeDeletionWidth",
+          "title": "Treewidth loss under edge deletion",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.EdgeSublinearSeparators",
+          "title": "Strongly edge-sublinear separators",
+          "type": "definition"
+        },
+        {
+          "id": "Lax263307.Entropy",
+          "title": "Entropy and adjacency mass",
+          "type": "definition"
+        },
+        {
+          "id": "Lax263307.EntropyBounds",
+          "title": "Entropy lies between zero and the logarithm of the order",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.EntropyDecrease",
+          "title": "High edge cost forces a strict entropy decrease",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.EntropyGap",
+          "title": "Edge mass bounds the average entropy decrease",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.ExhaustiveTargets",
+          "title": "Exhaustive search for small independent-set targets",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.FiniteProductSampling",
+          "title": "Finite product sampling and coordinate marginals",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.ForcedSeparation",
+          "title": "The split flow-cut certificate must give a cheap separation",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.GraphClasses",
+          "title": "Hereditary graph classes",
+          "type": "definition"
+        },
+        {
+          "id": "Lax263307.HeavyConditioning",
+          "title": "Conditioning with a quantitative moment lower bound",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.HeavyRationalConditioning",
+          "title": "Exact rational search above the conditioning moment floor",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.HeavyRecursiveRounding",
+          "title": "Recursive rounding after discarding light parts",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.HostRestriction",
+          "title": "Restricting an induced almost-embedding to its route union",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.HullNonempty",
+          "title": "The exact hull is nonempty precisely at feasible targets",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.IndependentBlowUp",
+          "title": "Independent blow-ups and projection",
+          "type": "definition"
+        },
+        {
+          "id": "Lax263307.InducedEmbeddingWidth",
+          "title": "A class width bound obstructs induced route sampling",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.InducedRouteEdges",
+          "title": "Few edges in the graph induced by short routes",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.IsolatedEmbeddingTransfer",
+          "title": "Almost-embedding transfer with isolated source vertices",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.LightSeparators",
+          "title": "Balanced light separators from the registered flow-cut solver",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.LinearRelaxation",
+          "title": "The independent-set relaxation and its exact hull",
+          "type": "definition"
+        },
+        {
+          "id": "Lax263307.MainTheorem",
+          "title": "QPTAS for maximum-weight independent set",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.MomentLP",
+          "title": "The moment relaxation as an explicit rational linear program",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.NativeBlowUp",
+          "title": "A fixed RAM program constructs the rounded blow-up",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.NativeCatalog",
+          "title": "A fixed RAM program for the moment-coordinate catalog",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.NativeExhaustive",
+          "title": "A fixed RAM program for exact small-target search",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.NativeMomentLP",
+          "title": "A fixed RAM program constructing the complete moment LP",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.NativeRoundedStep",
+          "title": "A uniform RAM program for the rounded ellipsoid update",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.NativeWeightReduction",
+          "title": "Native RAM execution of the weight-to-multiplicity reduction",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.NearOracle",
+          "title": "Computed rounding oracle near the moment relaxation",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.NoBoundedLoadRoutes",
+          "title": "Sparse bounded-load route distributions are impossible",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.ParameterResources",
+          "title": "Quasipolynomial bounds for the computed algorithm budgets",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.PathSampling",
+          "title": "Collision and length bounds for independently sampled paths",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.PositiveWeights",
+          "title": "Removing nonpositive weights",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.PowerBagBounds",
+          "title": "Integer power bounds on class decomposition bags",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.ProjectedOracle",
+          "title": "The bounded projected round-or-cut search",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.QPTAS",
+          "title": "Deterministic quasipolynomial-time approximation schemes",
+          "type": "definition"
+        },
+        {
+          "id": "Lax263307.RationalConditioning",
+          "title": "Exact rational search for a conditioning set",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.RationalCutBuffer",
+          "title": "Rational cut normals preserve protected cubes after scaling",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.RationalProjection",
+          "title": "Rational LP certificates for distance projection",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.RecursionDepth",
+          "title": "Depth and approximation loss of balanced recursion",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.RecursiveAlgorithm",
+          "title": "Correctness of the complete recursive unweighted algorithm",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.RecursiveRounding",
+          "title": "Combining recursive answers in round-or-cut",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.RegisteredLP",
+          "title": "Decoding the actual registered LP solver output",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.RelaxationFeasibility",
+          "title": "Independent-set encodings satisfy the relaxation",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.RepeatedCutAccounting",
+          "title": "Cumulative separator cost over disjoint discarded shores",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.RoundedOracleSearch",
+          "title": "A bounded rounded ellipsoid search with answer-or-cut replies",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.RoundingBounds",
+          "title": "Rounding loses at most one weight unit per vertex",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.RouteDistributions",
+          "title": "Graph-route distributions from high-value split flows",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.RoutePruning",
+          "title": "Discarding long almost-embedding routes",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.RoutingNormalization",
+          "title": "Uniform endpoint normalization of finite path flows",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.SampledAlmostEmbeddings",
+          "title": "An induced almost-embedding from a good route sample",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.SamplingOutcomes",
+          "title": "Choosing a collision-free outcome with bounded total path length",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.SeparatorComponents",
+          "title": "The components left by deleting a separator",
+          "type": "definition"
+        },
+        {
+          "id": "Lax263307.SeparatorDecompositions",
+          "title": "Tree decompositions from recursive balanced separators",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.SourceGraphs",
+          "title": "Controlled-size subcubic source graphs of linear treewidth",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.SplitPathProjection",
+          "title": "Projecting split paths and preserving endpoint loads",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.StrongComponentGaps",
+          "title": "Quantitative gaps for recursive component cuts",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.TargetSearch",
+          "title": "Descending target search in Solve",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.VertexSplitting",
+          "title": "Vertex splitting for the directed flow–cut algorithm",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.WeightedAlgorithm",
+          "title": "Correctness of the complete weighted approximation algorithm",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.WeightedIndependentSet",
+          "title": "Maximum-weight independent set and its encoding",
+          "type": "definition"
+        },
+        {
+          "id": "Lax263307.WeightedProjection",
+          "title": "Projecting an unweighted approximation gives a weighted approximation",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax263307.WeightRounding",
+          "title": "Scaling weights to integer multiplicities",
+          "type": "definition"
+        },
+        {
+          "id": "Lax263307.WidthGrowth",
+          "title": "Polynomial order bound from the sampled width inequality",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax263307Proofs.AlgorithmParameters.budgets",
+        "Lax263307Proofs.AlgorithmParameters.conditioning_floor",
+        "Lax263307Proofs.AlgorithmParameters.protected_radius",
+        "Lax263307Proofs.AlmostEmbeddings.transfer_decomposition",
+        "Lax263307Proofs.BalancedPartitions.balanced_separator",
+        "Lax263307Proofs.BlowUpBagBounds.blowup_power_bag_bound",
+        "Lax263307Proofs.BlowUpBagBounds.blowup_sublinear_bag_bound",
+        "Lax263307Proofs.BlowUpClasses.copy_graph_mem",
+        "Lax263307Proofs.BlowUpClasses.hereditary_closure",
+        "Lax263307Proofs.BlowUpDecompositions.bounded_blowup_decomposition",
+        "Lax263307Proofs.BlowUpDeletion.deletion_decomposition",
+        "Lax263307Proofs.BlowUpDeletion.high_degree_card",
+        "Lax263307Proofs.BlowUpDeletion.power_bound",
+        "Lax263307Proofs.BlowUpIndependentSets.lift_cardinality",
+        "Lax263307Proofs.BlowUpIndependentSets.lift_independent",
+        "Lax263307Proofs.BlowUpIndependentSets.order_eq",
+        "Lax263307Proofs.BlowUpIndependentSets.project_independent",
+        "Lax263307Proofs.BlowUpIndependentSets.projection_capacity",
+        "Lax263307Proofs.BufferedEllipsoid.coordinate_ball_bound",
+        "Lax263307Proofs.BufferedEllipsoid.initial_ball",
+        "Lax263307Proofs.BufferedEllipsoid.integer_normal_norm",
+        "Lax263307Proofs.BufferedEllipsoid.scaled_cube_norm",
+        "Lax263307Proofs.ComponentCutEncoding.coefficient_bound",
+        "Lax263307Proofs.ComponentCutEncoding.evaluation_identity",
+        "Lax263307Proofs.ComponentCuts.valid_cut",
+        "Lax263307Proofs.ComponentCuts.violation_iff",
+        "Lax263307Proofs.ComputedRounding.collect_correct",
+        "Lax263307Proofs.ComputedSeparators.light_separator",
+        "Lax263307Proofs.ConditionalRoutes.conditional_correct",
+        "Lax263307Proofs.ConditionalRoutes.independent_pair_mixture",
+        "Lax263307Proofs.ConditionalRoutes.mixture_identity",
+        "Lax263307Proofs.ConditionedCosts.conditioning_invariants",
+        "Lax263307Proofs.ConditioningDistribution.distribution_identities",
+        "Lax263307Proofs.ConditioningExistence.exists_low_edge_cost",
+        "Lax263307Proofs.ConnectedBags.meeting_connected",
+        "Lax263307Proofs.ConnectedRepresentations.transfer_decomposition",
+        "Lax263307Proofs.CoordinateCatalog.catalog_bound",
+        "Lax263307Proofs.CoordinateCatalog.catalog_complete",
+        "Lax263307Proofs.CoordinateCatalog.catalog_nodup",
+        "Lax263307Proofs.CoordinateCatalog.catalog_positive",
+        "Lax263307Proofs.CoordinateCatalog.catalog_two",
+        "Lax263307Proofs.CostSamplingObstruction.cost_width_obstruction",
+        "Lax263307Proofs.CoupledRouteSampling.joint_normalized",
+        "Lax263307Proofs.CoupledRouteSampling.joint_valid",
+        "Lax263307Proofs.CoupledRouteSampling.nonincident_edge_law",
+        "Lax263307Proofs.CoupledRouteSampling.single_edge_law",
+        "Lax263307Proofs.CoupledSamplingBounds.bad_probability_bound",
+        "Lax263307Proofs.CoupledSamplingBounds.good_route_sample",
+        "Lax263307Proofs.CoupledSamplingBounds.total_length_expectation",
+        "Lax263307Proofs.CutTraces.light_separator_from_oracle",
+        "Lax263307Proofs.CutTraces.trace_correct",
+        "Lax263307Proofs.DistanceProjection.dual_normal",
+        "Lax263307Proofs.DistanceProjection.objective_bounded",
+        "Lax263307Proofs.DistanceProjection.optimal_gap",
+        "Lax263307Proofs.DistanceProjection.primal_characterization",
+        "Lax263307Proofs.DistanceProjection.projection_feasible_iff",
+        "Lax263307Proofs.DistanceProjection.strong_gap_dichotomy",
+        "Lax263307Proofs.EdgeBagBounds.power_bag_bound",
+        "Lax263307Proofs.EdgeBagBounds.sublinear_bag_bound",
+        "Lax263307Proofs.EdgeDeletionWidth.restore_edges",
+        "Lax263307Proofs.EntropyBounds.entropy_bounds",
+        "Lax263307Proofs.EntropyDecrease.exists_entropy_decrease",
+        "Lax263307Proofs.EntropyGap.average_entropy_gap",
+        "Lax263307Proofs.ExhaustiveTargets.candidate_complete",
+        "Lax263307Proofs.ExhaustiveTargets.candidate_count",
+        "Lax263307Proofs.ExhaustiveTargets.search_correct",
+        "Lax263307Proofs.FiniteProductSampling.embedding_marginal",
+        "Lax263307Proofs.FiniteProductSampling.normalized",
+        "Lax263307Proofs.ForcedSeparation.certificate_separation",
+        "Lax263307Proofs.HeavyConditioning.heavy_entropy_decrease",
+        "Lax263307Proofs.HeavyConditioning.heavy_low_edge_cost",
+        "Lax263307Proofs.HeavyRationalConditioning.search_correct",
+        "Lax263307Proofs.HeavyRecursiveRounding.heavy_union_size",
+        "Lax263307Proofs.HeavyRecursiveRounding.ignored_cost",
+        "Lax263307Proofs.HeavyRecursiveRounding.strong_round_or_cut",
+        "Lax263307Proofs.HostRestriction.restrict_to_route_union",
+        "Lax263307Proofs.HullNonempty.hull_nonempty_iff",
+        "Lax263307Proofs.InducedEmbeddingWidth.sampled_width_bound",
+        "Lax263307Proofs.InducedEmbeddingWidth.transfer_class_bound",
+        "Lax263307Proofs.InducedEmbeddingWidth.treewidth_after_pruning",
+        "Lax263307Proofs.InducedRouteEdges.edge_bound",
+        "Lax263307Proofs.IsolatedEmbeddingTransfer.transfer_decomposition",
+        "Lax263307Proofs.LightSeparators.class_light_separator",
+        "Lax263307Proofs.MainTheorem.exists_qptas",
+        "Lax263307Proofs.MomentLP.decode_encode",
+        "Lax263307Proofs.MomentLP.encode_decode",
+        "Lax263307Proofs.MomentLP.evaluate_encoding",
+        "Lax263307Proofs.MomentLP.feasible_iff",
+        "Lax263307Proofs.MomentLP.primal_characterization",
+        "Lax263307Proofs.MomentLP.single_row_value",
+        "Lax263307Proofs.NativeBlowUp.exists_program",
+        "Lax263307Proofs.NativeCatalog.exists_program",
+        "Lax263307Proofs.NativeExhaustive.exists_program",
+        "Lax263307Proofs.NativeMomentProgram.exists_program",
+        "Lax263307Proofs.NativeRoundedStep.exists_program",
+        "Lax263307Proofs.NativeWeightReduction.exists_program",
+        "Lax263307Proofs.NearOracle.exists_oracle",
+        "Lax263307Proofs.NoBoundedLoadRoutes.no_bounded_load_routes",
+        "Lax263307Proofs.ParameterResources.resource_bound",
+        "Lax263307Proofs.PathSampling.adjacency_union_bound",
+        "Lax263307Proofs.PathSampling.collision_union_bound",
+        "Lax263307Proofs.PathSampling.expected_size_identity",
+        "Lax263307Proofs.PathSampling.sampling_bounds",
+        "Lax263307Proofs.PositiveWeights.nonpositive_case",
+        "Lax263307Proofs.PositiveWeights.signed_weight_transfer",
+        "Lax263307Proofs.PowerBagBounds.root_bag_bound",
+        "Lax263307Proofs.ProjectedOracle.exists_search",
+        "Lax263307Proofs.RationalConditioning.candidate_bound",
+        "Lax263307Proofs.RationalConditioning.candidate_complete",
+        "Lax263307Proofs.RationalConditioning.search_correct",
+        "Lax263307Proofs.RationalCutBuffer.central_buffer",
+        "Lax263307Proofs.RationalCutBuffer.denominator_bound",
+        "Lax263307Proofs.RationalCutBuffer.denominator_positive",
+        "Lax263307Proofs.RationalCutBuffer.dot_stable",
+        "Lax263307Proofs.RationalCutBuffer.integer_normal_cast",
+        "Lax263307Proofs.RationalCutBuffer.normal_nonzero",
+        "Lax263307Proofs.RationalCutBuffer.normal_size",
+        "Lax263307Proofs.RationalCutBuffer.scaled_cleared_cut",
+        "Lax263307Proofs.RationalProjection.certificate_outcome",
+        "Lax263307Proofs.RationalProjection.classify_correct",
+        "Lax263307Proofs.RecursionDepth.approximation_transfer",
+        "Lax263307Proofs.RecursionDepth.balanced_decrease",
+        "Lax263307Proofs.RecursionDepth.logarithmic_bound",
+        "Lax263307Proofs.RecursiveAlgorithm.exists_solver",
+        "Lax263307Proofs.RecursiveRounding.combine_independent",
+        "Lax263307Proofs.RecursiveRounding.round_or_cut",
+        "Lax263307Proofs.RegisteredLP.exists_solver",
+        "Lax263307Proofs.RelaxationFeasibility.hull_feasible",
+        "Lax263307Proofs.RelaxationFeasibility.indicator_feasible",
+        "Lax263307Proofs.RepeatedCutAccounting.total_cut_cost",
+        "Lax263307Proofs.RoundedOracleSearch.center_encoding_bound",
+        "Lax263307Proofs.RoundedOracleSearch.search_complete",
+        "Lax263307Proofs.RoundedOracleSearch.search_sound",
+        "Lax263307Proofs.RoundedOracleSearch.shape_encoding_bound",
+        "Lax263307Proofs.RoundingBounds.pointwise_bounds",
+        "Lax263307Proofs.RoundingBounds.set_rounding_loss",
+        "Lax263307Proofs.RoundingBounds.total_copy_bound",
+        "Lax263307Proofs.RouteDistributions.finite_routes",
+        "Lax263307Proofs.RouteDistributions.split_arc_distribution",
+        "Lax263307Proofs.RoutePruning.long_edge_count",
+        "Lax263307Proofs.RoutePruning.prune_routes",
+        "Lax263307Proofs.RoutingNormalization.normalization_correct",
+        "Lax263307Proofs.RoutingNormalization.normalized_load_bound",
+        "Lax263307Proofs.SampledAlmostEmbeddings.exists_induced_almost_embedding",
+        "Lax263307Proofs.SamplingOutcomes.good_outcome",
+        "Lax263307Proofs.SamplingOutcomes.markov_bound",
+        "Lax263307Proofs.SeparatorDecompositions.glue_bound",
+        "Lax263307Proofs.SeparatorDecompositions.recursive_bag_bound",
+        "Lax263307Proofs.SourceGraphs.controlled_family",
+        "Lax263307Proofs.SplitPathProjection.capacity_arc_count",
+        "Lax263307Proofs.SplitPathProjection.project_simple_path",
+        "Lax263307Proofs.SplitPathProjection.split_support_projection",
+        "Lax263307Proofs.StrongComponentGaps.central_cut_buffer",
+        "Lax263307Proofs.StrongComponentGaps.coefficient_l1",
+        "Lax263307Proofs.StrongComponentGaps.component_gap",
+        "Lax263307Proofs.StrongComponentGaps.evaluation_stable",
+        "Lax263307Proofs.StrongComponentGaps.query_gap",
+        "Lax263307Proofs.TargetSearch.search_correct",
+        "Lax263307Proofs.VertexSplitting.flow_or_separation",
+        "Lax263307Proofs.VertexSplitting.separator_cost_bound",
+        "Lax263307Proofs.VertexSplitting.small_cut_cost",
+        "Lax263307Proofs.VertexSplitting.small_cut_separation",
+        "Lax263307Proofs.VertexSplitting.split_certificate",
+        "Lax263307Proofs.WeightedAlgorithm.exists_solver",
+        "Lax263307Proofs.WeightedProjection.approximation_transfer",
+        "Lax263307Proofs.WidthGrowth.order_bound"
+      ]
+    },
+    {
       "id": "lax-271696",
       "state": "registered",
       "environment": "v4.33.0",
@@ -10857,8 +11488,23 @@
       "title": "Constructing the Oseledets decomposition with subspace growth estimates",
       "concepts": [
         {
+          "id": "Lax606786.AuerbachLemma",
+          "title": "Auerbach's lemma",
+          "type": "theorem"
+        },
+        {
           "id": "Lax606786.BackwardCharacterisation",
           "title": "Backward characterisation of the fast spaces",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax606786.BackwardGrowthFromForward",
+          "title": "Backward growth from forward growth",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax606786.BackwardGrowthRates",
+          "title": "Backward growth rates of the Oseledets spaces",
           "type": "theorem"
         },
         {
@@ -10867,8 +11513,33 @@
           "type": "definition"
         },
         {
+          "id": "Lax606786.BackwardHistoryProperties",
+          "title": "Vectors with decaying backward histories form subspaces",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax606786.BackwardSlow",
+          "title": "Slow vectors have no fast-decaying history",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax606786.BackwardVitali",
+          "title": "The backward Vitali lemma",
+          "type": "theorem"
+        },
+        {
           "id": "Lax606786.BalancedKingman",
           "title": "Kingman's theorem for balanced intervals",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax606786.BanachGrassmannian",
+          "title": "The Grassmannians of a Banach space",
+          "type": "definition"
+        },
+        {
+          "id": "Lax606786.BernsteinNumberProperties",
+          "title": "Elementary properties of Bernstein numbers",
           "type": "theorem"
         },
         {
@@ -10877,9 +11548,29 @@
           "type": "theorem"
         },
         {
+          "id": "Lax606786.CocycleBasics",
+          "title": "Measurability of iterates, and constancy of the Lyapunov exponents",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax606786.CocycleIterates",
+          "title": "Elementary identities for iterates of a cocycle",
+          "type": "theorem"
+        },
+        {
           "id": "Lax606786.Cocycles",
           "title": "Cocycles and their Lyapunov exponents",
           "type": "definition"
+        },
+        {
+          "id": "Lax606786.DecompositionExponents",
+          "title": "The exponents of an Oseledets decomposition",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax606786.ExponentLimits",
+          "title": "The Lyapunov exponents are limits, forwards, backwards and over balanced intervals",
+          "type": "theorem"
         },
         {
           "id": "Lax606786.ExtendedLog",
@@ -10887,13 +11578,58 @@
           "type": "definition"
         },
         {
-          "id": "Lax606786.Grassmannian",
-          "title": "The Grassmannians of a Banach space",
+          "id": "Lax606786.FarUnitVectors",
+          "title": "Unit vectors far from a subspace of smaller dimension",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax606786.FastSpaces",
+          "title": "Fast spaces",
           "type": "definition"
         },
         {
+          "id": "Lax606786.FastSpaceUniqueness",
+          "title": "Uniqueness of the fast spaces",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax606786.GapUniqueness",
+          "title": "Uniqueness of fast families below a spectral gap",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax606786.GelfandBernsteinComparison",
+          "title": "Gelfand numbers, Bernstein numbers and the compactness seminorm",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax606786.GrassmannianComparison",
+          "title": "The codimension-k Grassmannian as the closed part of the algebraic Grassmannian",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax606786.GrassmannianContraction",
+          "title": "The Grassmannian contraction estimate",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax606786.GrassmannianPolish",
+          "title": "The Grassmannian of k-dimensional subspaces is Polish",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax606786.GrowthFunctionProperties",
+          "title": "Elementary properties of the growth function",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax606786.GrowthUnderProjections",
+          "title": "Bernstein numbers under a projection",
+          "type": "theorem"
+        },
+        {
           "id": "Lax606786.IndexOfCompactness",
-          "title": "The index of compactness is the growth rate of the compactness seminorm",
+          "title": "The Bernstein index is the index of compactness",
           "type": "theorem"
         },
         {
@@ -10902,9 +11638,69 @@
           "type": "theorem"
         },
         {
+          "id": "Lax606786.KingmanVariants",
+          "title": "Kingman's theorem along shifted and backward orbits",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax606786.LevelConstruction",
+          "title": "Constructing the levels of the decomposition",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax606786.LowerIntegralProperties",
+          "title": "Properties of the lower integral",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax606786.LowerIntegrals",
+          "title": "The lower integral",
+          "type": "definition"
+        },
+        {
+          "id": "Lax606786.MaximalErgodicTheorem",
+          "title": "The maximal ergodic theorem",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax606786.MeasurableBases",
+          "title": "Measurable bases and measurable splittings of subspaces",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax606786.MeasurableOperatorFamilies",
+          "title": "Measurability of Bernstein numbers and of pushforwards",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax606786.MeasurableSelection",
+          "title": "A measurable selection principle",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax606786.ModifiedCocycles",
+          "title": "The signature of a modified cocycle",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax606786.MultiplicityFacts",
+          "title": "Multiplicities of the Lyapunov exponents",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax606786.NormGrowthBounds",
+          "title": "Norm bounds for iterates and tempered families",
+          "type": "theorem"
+        },
+        {
           "id": "Lax606786.OperatorStatistics",
           "title": "Growth, Bernstein numbers and the compactness seminorm of an operator",
           "type": "definition"
+        },
+        {
+          "id": "Lax606786.OseledetsCompactnessCriterion",
+          "title": "The Oseledets decomposition is nontrivial exactly when the compactness growth rate is smaller",
+          "type": "theorem"
         },
         {
           "id": "Lax606786.OseledetsDecomposition",
@@ -10917,8 +11713,18 @@
           "type": "definition"
         },
         {
+          "id": "Lax606786.OseledetsLevels",
+          "title": "The levels of an Oseledets decomposition",
+          "type": "definition"
+        },
+        {
           "id": "Lax606786.OseledetsUniqueness",
           "title": "Uniqueness of the Oseledets decomposition",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax606786.PeriodicPointsNull",
+          "title": "Periodic points of an ergodic system on a Lebesgue space are null",
           "type": "theorem"
         },
         {
@@ -10927,8 +11733,23 @@
           "type": "theorem"
         },
         {
+          "id": "Lax606786.RecurrenceAndInvariance",
+          "title": "Recurrence, and invariance along orbits",
+          "type": "theorem"
+        },
+        {
           "id": "Lax606786.RokhlinLemma",
           "title": "Rokhlin's lemma",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax606786.SignatureShift",
+          "title": "Shifting a signature",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax606786.SlowSpaceCharacterisation",
+          "title": "Characterisation of the slow space",
           "type": "theorem"
         },
         {
@@ -10937,27 +11758,202 @@
           "type": "theorem"
         },
         {
+          "id": "Lax606786.SlowSpaceUniformGrowth",
+          "title": "The slow spaces grow uniformly at their exponent",
+          "type": "theorem"
+        },
+        {
           "id": "Lax606786.SubadditiveFamilies",
           "title": "Subadditive families of measurable functions",
           "type": "definition"
         },
         {
+          "id": "Lax606786.SubinvariantFunctions",
+          "title": "Sub-invariant functions of an ergodic system are constant",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax606786.TemperedCriteria",
+          "title": "Criteria for temperedness",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax606786.TemperedFunctionAlgebra",
+          "title": "Sums and bounds of tempered functions",
+          "type": "theorem"
+        },
+        {
           "id": "Lax606786.TemperedFunctions",
           "title": "Tempered functions",
           "type": "definition"
+        },
+        {
+          "id": "Lax606786.TopDecomposition",
+          "title": "The top-level fast/slow decomposition",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax606786.TopFastSpace",
+          "title": "Existence of the top fast space",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax606786.VectorGrowthRates",
+          "title": "Bounds on the growth rate of a vector",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax606786.VolumeGrowthComparison",
+          "title": "Volume growth is comparable to products of Bernstein numbers",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax606786.WeaklySubadditiveCombinations",
+          "title": "Linear combinations of weakly subadditive families",
+          "type": "theorem"
         }
       ],
       "proofs": [
+        "Lax606786Proofs.ae_eventually_exists_mem_window",
+        "Lax606786Proofs.ae_eventually_exp_le_backward",
+        "Lax606786Proofs.ae_exists_mem_iterate",
         "Lax606786Proofs.ae_nu_eq_compactnessIndex",
-        "Lax606786Proofs.balancedKingman_integrable",
-        "Lax606786Proofs.birkhoff",
+        "Lax606786Proofs.ae_tendsto_compactSeminorm",
+        "Lax606786Proofs.balancedKingman_statement",
+        "Lax606786Proofs.bernstein_le_gelfand",
+        "Lax606786Proofs.bernstein_measurable",
+        "Lax606786Proofs.bernsteinNumber_comp_le_mul_norm",
+        "Lax606786Proofs.bernsteinNumber_comp_le_norm_mul",
+        "Lax606786Proofs.bernsteinNumber_nonneg",
+        "Lax606786Proofs.bernsteinNumber_one",
+        "Lax606786Proofs.bernsteinNumber_zero",
+        "Lax606786Proofs.birkhoff_condExp",
+        "Lax606786Proofs.birkhoff_of_ergodic",
+        "Lax606786Proofs.Cocycle.ae_chi_one_lt_top",
+        "Lax606786Proofs.Cocycle.ae_eq_of_fast",
+        "Lax606786Proofs.Cocycle.ae_le_backwardSpace_of_growth",
+        "Lax606786Proofs.Cocycle.ae_tendsto_chi",
+        "Lax606786Proofs.Cocycle.backwardSpace_anti",
+        "Lax606786Proofs.Cocycle.chi_antitone",
+        "Lax606786Proofs.Cocycle.eventually_norm_le_of_isTempered",
+        "Lax606786Proofs.Cocycle.exists_chi_ae_const",
+        "Lax606786Proofs.Cocycle.exists_lambda_ae_eq",
+        "Lax606786Proofs.Cocycle.exists_level_one",
+        "Lax606786Proofs.Cocycle.exists_level_succ",
+        "Lax606786Proofs.Cocycle.exists_mult_ae_eq",
+        "Lax606786Proofs.Cocycle.exists_topFastSpace_pos",
+        "Lax606786Proofs.Cocycle.fast_space_unique",
+        "Lax606786Proofs.Cocycle.IsLevel.eq_zero_of_mem_backwardSpace",
+        "Lax606786Proofs.Cocycle.isQuasicompact_iff_mult_one",
+        "Lax606786Proofs.Cocycle.iterate_add",
+        "Lax606786Proofs.Cocycle.iterate_history",
+        "Lax606786Proofs.Cocycle.iterate_one",
+        "Lax606786Proofs.Cocycle.iterate_sigma_symm_iterate",
+        "Lax606786Proofs.Cocycle.iterate_succ_left",
+        "Lax606786Proofs.Cocycle.lambdaAt_eq_of_growth",
+        "Lax606786Proofs.Cocycle.lambdaAt_le_of_norm_tendsto",
+        "Lax606786Proofs.Cocycle.lambdaIdx_shift",
+        "Lax606786Proofs.Cocycle.map_iterate_of_equivariant",
+        "Lax606786Proofs.Cocycle.measurable_chi",
+        "Lax606786Proofs.Cocycle.measurable_iterate_apply",
+        "Lax606786Proofs.Cocycle.mult_lambda_shift",
+        "Lax606786Proofs.Cocycle.mult_ne_zero_of_succ",
+        "Lax606786Proofs.Cocycle.norm_iterate_backward_le",
+        "Lax606786Proofs.Cocycle.nu_isLimit",
+        "Lax606786Proofs.Cocycle.nu_le_chi",
+        "Lax606786Proofs.compactSeminorm_le_gelfand",
+        "Lax606786Proofs.ConsequenceBridge.ae_chi_one_le_integral",
+        "Lax606786Proofs.ConsequenceBridge.backward_growth_fastSpace",
+        "Lax606786Proofs.ConsequenceBridge.backward_norm_le",
+        "Lax606786Proofs.ConsequenceBridge.backward_norm_slowSpace_le",
+        "Lax606786Proofs.ConsequenceBridge.forward_norm_slowSpace_le",
+        "Lax606786Proofs.ConsequenceBridge.lam_le_lam_one",
+        "Lax606786Proofs.ConsequenceBridge.lam_ne_bot_ne_top",
+        "Lax606786Proofs.ConsequenceBridge.lam_one_lt_top",
+        "Lax606786Proofs.ConsequenceBridge.lam_succ_lt",
+        "Lax606786Proofs.Consequences.ae_forall_iterate_symm",
+        "Lax606786Proofs.Consequences.iterate_mem_of_backward",
+        "Lax606786Proofs.Consequences.lambdaAt_add_le",
+        "Lax606786Proofs.Consequences.lambdaAt_eq_bot_of_iterate_eq_zero",
+        "Lax606786Proofs.Consequences.lambdaAt_neg",
+        "Lax606786Proofs.Consequences.le_lambdaAt_of_tendsto_growth",
+        "Lax606786Proofs.Consequences.measurable_opNorm",
+        "Lax606786Proofs.Consequences.tempered_add",
+        "Lax606786Proofs.Consequences.tempered_const_add",
+        "Lax606786Proofs.Consequences.tempered_of_le",
+        "Lax606786Proofs.Consequences.tempered_zero",
+        "Lax606786Proofs.Consequences.Tempered.eventually_le",
+        "Lax606786Proofs.easyking",
+        "Lax606786Proofs.exists_ae_const_of_le_comp",
+        "Lax606786Proofs.exists_compactnessIndex",
+        "Lax606786Proofs.exists_measurable_retract",
+        "Lax606786Proofs.exists_measurable_retract_complement",
+        "Lax606786Proofs.exists_prod_bernstein_submultiplicative",
+        "Lax606786Proofs.exists_proj_norm_le",
+        "Lax606786Proofs.exists_subset_disjoint_iterates",
+        "Lax606786Proofs.exists_unit_far_of_finrank_lt",
         "Lax606786Proofs.fastSum_eq_backwardSet",
+        "Lax606786Proofs.Foundations.backwardVitali",
+        "Lax606786Proofs.Foundations.dist_image_le",
+        "Lax606786Proofs.Foundations.exists_auerbach_basis",
+        "Lax606786Proofs.Foundations.kappa_le_and_two_le_iff",
+        "Lax606786Proofs.Foundations.kingman_backward",
+        "Lax606786Proofs.Foundations.tempered_of_le_add_comp",
+        "Lax606786Proofs.Foundations.tendsto_add_smul",
+        "Lax606786Proofs.gelfand_le_bernstein",
+        "Lax606786Proofs.gelfand_nonneg",
+        "Lax606786Proofs.GrassmannianComparison.exists_equiv_closed",
+        "Lax606786Proofs.grassmannianFin_complete",
+        "Lax606786Proofs.grassmannianFin_separable",
+        "Lax606786Proofs.growth_continuous",
+        "Lax606786Proofs.growth_ineq",
+        "Lax606786Proofs.growth_le_opNorm",
+        "Lax606786Proofs.growth_nonneg",
+        "Lax606786Proofs.growth_span_singleton",
+        "Lax606786Proofs.integral_comp_iterate",
         "Lax606786Proofs.isOseledetsDecomposition_unique",
         "Lax606786Proofs.isQuasicompact_iff",
-        "Lax606786Proofs.kingman_integrable",
+        "Lax606786Proofs.kingman",
+        "Lax606786Proofs.L1_orbit_decay",
+        "Lax606786Proofs.lowerIntegral_eq_integral",
+        "Lax606786Proofs.lowerIntegral_lt_top",
+        "Lax606786Proofs.maximal_ergodic",
+        "Lax606786Proofs.maximal_inequality",
+        "Lax606786Proofs.measbase",
+        "Lax606786Proofs.measurable_apply_of_weak",
+        "Lax606786Proofs.measurable_bernstein_of_weak",
+        "Lax606786Proofs.measurable_growth_of_weak",
+        "Lax606786Proofs.measurable_of_countable_cover",
+        "Lax606786Proofs.measurable_of_measurable_dist",
+        "Lax606786Proofs.measurable_pushforward",
+        "Lax606786Proofs.NodeStatements.chi_modify",
+        "Lax606786Proofs.NodeStatements.topdecomp",
+        "Lax606786Proofs.NodeStatements.V_characterisation",
         "Lax606786Proofs.oseledets_decomposition",
-        "Lax606786Proofs.rokhlin_tower",
-        "Lax606786Proofs.slowSpace_not_measurable"
+        "Lax606786Proofs.periodic_null",
+        "Lax606786Proofs.rokhlin_lemma",
+        "Lax606786Proofs.SlowSpaceCounterexample.exists_cocycle_slowSpace_not_measurable",
+        "Lax606786Proofs.SubadditiveFamily.three_limits_ereal",
+        "Lax606786Proofs.Tbiggrow",
+        "Lax606786Proofs.Toolkit.ae_forall_iterate",
+        "Lax606786Proofs.Toolkit.ae_tempered_backward",
+        "Lax606786Proofs.Toolkit.ae_tendsto_chi_backward",
+        "Lax606786Proofs.Toolkit.ae_tendsto_chi_balanced",
+        "Lax606786Proofs.Toolkit.bernsteinNumber_antitone",
+        "Lax606786Proofs.Toolkit.bernsteinNumber_le_opNorm",
+        "Lax606786Proofs.Toolkit.eventually_lt_exp_of_lambdaAt_lt",
+        "Lax606786Proofs.Toolkit.exists_submodule_eq_backwardSet",
+        "Lax606786Proofs.Toolkit.growth_le_bernsteinNumber",
+        "Lax606786Proofs.Toolkit.growth_le_growth",
+        "Lax606786Proofs.Toolkit.growth_mul_norm_le",
+        "Lax606786Proofs.Toolkit.integrable_sum_log_norm",
+        "Lax606786Proofs.Toolkit.lambdaAt_le_of_eventually_le",
+        "Lax606786Proofs.Toolkit.log_norm_iterate_le",
+        "Lax606786Proofs.Toolkit.measurable_growth_moving",
+        "Lax606786Proofs.Toolkit.prod_bernsteinNumber_le_opNorm_pow",
+        "Lax606786Proofs.Tsmallgrow",
+        "Lax606786Proofs.volumeGrowth_comparable",
+        "Lax606786Proofs.volumeGrowth_submultiplicative"
       ]
     },
     {

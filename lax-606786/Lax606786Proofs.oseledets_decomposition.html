@@ -3,7 +3,7 @@
 <meta charset="utf-8">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self'; frame-src https://comments.laxarchive.org; connect-src https://comments.laxarchive.org">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="The construction of Lee (2024): the decomposition is built level by level, each fast space being the top fast space of the cocycle restricted to the previous slow space, with the slow projections constructed alongside.">
+<meta name="description" content="The construction in the proof of Theorem 3 of Lee (2024): the decomposition is assembled level by level from the base level and the inductive step, each fast space being the top fast space of the cocycle restricted to the previous slow space.">
 
 <title>Lax606786Proofs.oseledets_decomposition — lax-606786</title>
 <link rel="canonical" href="https://laxarchive.org/lax-606786/Lax606786Proofs.oseledets_decomposition.html">
@@ -142,25 +142,27 @@
 <p class="draft-banner">While this submission is a draft, it cannot be used by other submissions.</p>
 <div class="detail-heading concept-heading proof-heading">
 <div class="proof-heading-content"><h1 class="concept-title">Proof of <span class="proof-concept-title">`The semi-invertible Oseledets decomposition`</span></h1>
-<p class="concept-microline proof-microline"><span class="status-pills"><span class="status-pill pill-proven" tabindex="0" data-tooltip="No open assumptions remain in the archive: every dependency is backed by a checked proof, ultimately reducing to Lean and Mathlib." aria-label="Grounded. No open assumptions remain in the archive: every dependency is backed by a checked proof, ultimately reducing to Lean and Mathlib.">grounded</span></span><span><a href="https://gitlab.com/georgelee/vibemet-lax/-/blob/7325fb43d2d4ef9c54f025f2eb24a362188d3ea9/proofs/Lax606786Proofs/Statements.lean"><code>proofs/Lax606786Proofs/Statements.lean</code></a> · <a href="index.html">lax-606786</a></span></p></div>
+<p class="concept-microline proof-microline"><span class="status-pills"><span class="status-pill pill-proven" tabindex="0" data-tooltip="No open assumptions remain in the archive: every dependency is backed by a checked proof, ultimately reducing to Lean and Mathlib." aria-label="Grounded. No open assumptions remain in the archive: every dependency is backed by a checked proof, ultimately reducing to Lean and Mathlib.">grounded</span></span><span><a href="https://gitlab.com/georgelee/vibemet-lax/-/blob/d90d9a0251119de08ca378ba0d662e1babb5bf79/proofs/Lax606786Proofs/Statements.lean"><code>proofs/Lax606786Proofs/Statements.lean</code></a> · <a href="index.html">lax-606786</a></span></p></div>
 </div>
 <div class="block block-evidence"><h3>What this proof establishes</h3>
 <div class="judgment">
-<div class="judgment-assumptions"><p class="judgment-unconditional">no assumptions</p></div>
+<div class="judgment-assumptions"><ul><li><span class="claim-entry"><span class="type-badge proven">thm✓</span><a href="../lax-606786/Lax606786.CocycleBasics.html" title="Lax606786.CocycleBasics"><code>Lax606786.CocycleBasics</code></a></span></li>
+<li><span class="claim-entry"><span class="type-badge proven">thm✓</span><a href="../lax-606786/Lax606786.LevelConstruction.html" title="Lax606786.LevelConstruction"><code>Lax606786.LevelConstruction</code></a></span></li>
+<li><span class="claim-entry"><span class="type-badge proven">thm✓</span><a href="../lax-606786/Lax606786.MultiplicityFacts.html" title="Lax606786.MultiplicityFacts"><code>Lax606786.MultiplicityFacts</code></a></span></li></ul></div>
 <span class="judgment-arrow" aria-hidden="true">→</span>
 <div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven">thm✓</span><a href="../lax-606786/Lax606786.OseledetsDecomposition.html" title="Lax606786.OseledetsDecomposition.oseledets_decomposition"><code>Lax606786.OseledetsDecomposition</code></a></span></div>
 </div>
 <p class="honesty-note">Assuming the claims on the left, the claim on the right holds — checked by the archive's pipeline. Proof code is not displayed here.</p>
-<p class="source-action"><a class="source-button" href="https://gitlab.com/georgelee/vibemet-lax/-/blob/7325fb43d2d4ef9c54f025f2eb24a362188d3ea9/proofs/Lax606786Proofs/Statements.lean"><svg class="source-mark" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true" focusable="false"><path fill="currentColor" d="M5.22 3.22a.75.75 0 0 1 1.06 1.06L2.56 8l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06Zm5.56 0 4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 1 1-1.06-1.06L13.44 8 9.72 4.28a.75.75 0 1 1 1.06-1.06Z"/></svg><span>Read the Lean proof on GitLab</span></a></p>
+<p class="source-action"><a class="source-button" href="https://gitlab.com/georgelee/vibemet-lax/-/blob/d90d9a0251119de08ca378ba0d662e1babb5bf79/proofs/Lax606786Proofs/Statements.lean"><svg class="source-mark" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true" focusable="false"><path fill="currentColor" d="M5.22 3.22a.75.75 0 0 1 1.06 1.06L2.56 8l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06Zm5.56 0 4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 1 1-1.06-1.06L13.44 8 9.72 4.28a.75.75 0 1 1 1.06-1.06Z"/></svg><span>Read the Lean proof on GitLab</span></a></p>
 </div>
 <div class="block block-paper"><h3>In the paper</h3>
 <ul class="in-paper-list">
-<li><a href="../lax-606786/paper.html#m8">page 15</a> of this submission's paper</li>
+<li><a href="../lax-606786/paper.html#m23">page 15</a> of this submission's paper</li>
 </ul>
 </div>
-<div class="block block-statement"><h3>Description</h3><div class="latex-content"><p>The construction of Lee (2024): the decomposition is built level by level, each fast space being
-the top fast space of the cocycle restricted to the previous slow space, with the slow projections
-constructed alongside.</p>
+<div class="block block-statement"><h3>Description</h3><div class="latex-content"><p>The construction in the proof of Theorem 3 of Lee (2024): the decomposition is assembled level
+by level from the base level and the inductive step, each fast space being the top fast space of
+the cocycle restricted to the previous slow space.</p>
 </div></div>
 
 </div>
