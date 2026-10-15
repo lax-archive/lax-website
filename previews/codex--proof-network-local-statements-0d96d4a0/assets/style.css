@@ -4584,6 +4584,31 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
   margin: 0.45rem 0;
 }
 
+.graph-proof-peek{
+  position: fixed;
+  z-index: 210;
+  width: min(640px, calc(100vw - 24px));
+  max-height: calc(100dvh - 24px);
+  overflow: auto;
+  padding: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  background: var(--surface);
+  box-shadow: 0 8px 28px rgba(24, 32, 42, 0.2);
+  color: var(--text);
+  text-align: left;
+}
+.graph-proof-peek[hidden]{ display: none; }
+.graph-proof-peek h3{ margin: 0; padding-right: 1.5rem; font-size: 1rem; line-height: 1.4; }
+.graph-proof-peek-close{ position: absolute; top: 0.4rem; right: 0.4rem; border: 0; background: none; color: var(--text-dim); font-size: 1.2rem; cursor: pointer; }
+.graph-proof-peek-status{ margin: 0.3rem 0 0.5rem; font-size: 0.8rem; color: var(--text-dim); }
+.graph-proof-peek-plot{ overflow: auto; max-height: 55dvh; overscroll-behavior: contain; }
+.graph-proof-peek-plot .prepared-graph{ display: block; max-width: none; margin: 0 auto; }
+.proof-network-figure .graph-proof-peek .graph-edge-hit{ pointer-events: none; }
+.graph-proof-peek-caption{ margin-top: 0.5rem; font-size: 0.85rem; max-height: 9rem; overflow: auto; }
+.graph-proof-peek-caption > :first-child{ margin-top: 0; }
+.graph-proof-peek-caption > :last-child{ margin-bottom: 0; }
+
 /* Focused proof selection keeps the graph camera independent from this
    content-sized inspector on the right. It starts below the graph controls;
    details grow naturally until they reach the legend, then scroll. */
@@ -5017,16 +5042,6 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
 .net-dock[role="link"]:hover circle,
 .net-dock:focus-visible circle{ outline: none; stroke: var(--link); stroke-width: 2.4; }
 
-/* The static fallback retains every statement link. Interactive networks
-   expose one concept's detail at a time without moving nodes or routes. */
-.graph-statement-region{ fill: transparent; pointer-events: none; }
-[data-statement-overview]{ visibility: hidden; }
-.graph-local-statements .graph-statement-region{ pointer-events: all; }
-.graph-local-statements [data-statement-detail]{ visibility: hidden; }
-.graph-local-statements [data-statement-detail].graph-statement-active,
-.graph-local-statements [data-statement-overview]{ visibility: visible; }
-.graph-local-statements [data-statement-overview].graph-statement-active{ visibility: hidden; }
-
 .net-proof rect{ fill: var(--surface); stroke: var(--text-dim); stroke-width: 1.3; }
 .net-proof text{ font-family: serif; font-size: 16px; fill: var(--text); }
 .net-proof.ext rect{ stroke: var(--none-border); }
@@ -5074,13 +5089,6 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
 .proof-network-figure .graph-edge-hit{ pointer-events: stroke; cursor: pointer; }
 .proof-network-figure .net-edge{ pointer-events: none; }
 .graph-edge-hit:focus{ outline: none; }
-/* SVG's `stroke` hit testing ignores visibility; hidden route alternatives
-   must also stop receiving pointer events. */
-.proof-network-figure .graph-edge-hit[data-statement-overview],
-.graph-local-statements .graph-edge-hit[data-statement-detail]{ pointer-events: none; }
-.graph-local-statements .graph-edge-hit[data-statement-overview],
-.graph-local-statements .graph-edge-hit[data-statement-detail].graph-statement-active{ pointer-events: stroke; }
-.graph-local-statements .graph-edge-hit[data-statement-overview].graph-statement-active{ pointer-events: none; }
 
 .net-edge.conclusion{ stroke: var(--accent); stroke-opacity: 0.7; }
 

@@ -3,6 +3,7 @@
 (() => {
   'use strict';
   let activeGraphTooltip = null;
+  let activeProofPeek = null;
   let graphTooltipFrame;
   const PROOF_SELECTION_SCALE = 1.2;
   const PROOF_FOCUS_DURATION = 900;
@@ -168,6 +169,7 @@
   }
 
   function refreshGraphTooltip() {
+    activeProofPeek?.position();
     if (!activeGraphTooltip) return;
     cancelAnimationFrame(graphTooltipFrame);
     graphTooltipFrame = requestAnimationFrame(() => {
@@ -661,6 +663,7 @@
 
   function detailForInfo(controller, info) {
     if (!info) return null;
+    if (info.detailConcept) return controller.details[`concept:${info.detailConcept}`] || null;
     if (info.kind === 'proof') return controller.details[`proof:${info.semanticId}`] || null;
     if (info.kind === 'concept') return controller.details[`concept:${info.semanticId}`] || null;
     return Object.values(controller.details).find((detail) => detail.kind === 'concept' &&
@@ -851,6 +854,7 @@
     event.preventDefault();
     event.stopPropagation();
     hideTooltip(controller.container);
+    controller.closeProofPeek?.();
     if (figure.classList.contains('graph-expanded')) {
       select();
       return;
@@ -873,8 +877,14 @@
       const detail = detailForInfo(controller, info);
       if (!detail) continue;
       const activate = (event) => {
+        if (info.detailView && event.pointerType === 'touch') {
+          event.preventDefault(); event.stopPropagation();
+          controller.openProofPeek?.(element, info);
+          return;
+        }
         const trigger = event.currentTarget;
-        const eyebrow = info.kind === 'proof' ? 'Proof'
+        const eyebrow = info.detailConcept && info.kind === 'proof' ? 'Proofs'
+          : info.kind === 'proof' ? 'Proof'
           : detail.type ? detail.type.charAt(0).toUpperCase() + detail.type.slice(1) : 'Claim';
         activateProofItem(controller, event, () => {
           selectProofItem(controller, { type: 'node', id: element.dataset.nodeId }, trigger, {
@@ -882,7 +892,7 @@
             focusStatement: ['statement', 'dock'].includes(info.kind) ? info.semanticId : undefined,
             href: info.kind === 'proof' ? (info.href || detail.href) :
               (detail.href || info.href?.split('#')[0]),
-            actionLabel: info.kind === 'proof' ? 'Open proof page' : 'Open concept page',
+            actionLabel: info.kind === 'proof' && !info.detailConcept ? 'Open proof page' : 'Open concept page',
           });
         });
       };
@@ -918,17 +928,18 @@
             detail: claimDetail,
             eyebrow: assumption ? 'Assumption link' : 'Conclusion link',
             name: claimDetail.name,
-            relation: assumption
-              ? `${claimDetail.name} is used as an assumption of ${proofDetail.name}.`
-              : `${proofDetail.name} establishes ${claimDetail.name}.`,
-            proofDetail,
+            relation: proofInfo.detailConcept
+              ? assumption ? `Proofs in ${proofDetail.name} use ${claimDetail.name}.` : `Proofs of the statements in ${claimDetail.name}.`
+              : assumption ? `${claimDetail.name} is used as an assumption of ${proofDetail.name}.`
+                : `${proofDetail.name} establishes ${claimDetail.name}.`,
+            proofDetail: proofInfo.detailConcept ? undefined : proofDetail,
             focusStatement: assumption ? edge.sourceSemanticId : edge.targetSemanticId,
             href: proofDetail.href,
-            actionLabel: 'Open proof page',
+            actionLabel: proofInfo.detailConcept ? 'Open concept page' : 'Open proof page',
           });
         });
       };
-      elements.forEach((hit) => {
+      elements.forEach((hit, index) => {
         hit.setAttribute('aria-label', label);
         hit.addEventListener('click', activate);
         const hot = () => {
@@ -942,7 +953,7 @@
         attachDelayedHover(hit, hot, cold);
         hit.addEventListener('focus', hot);
         hit.addEventListener('blur', cold);
-        hit.addEventListener('keydown', (event) => {
+        if (index === 0) hit.addEventListener('keydown', (event) => {
           if (event.key === 'Enter' || event.key === ' ') activate(event);
         });
       });
@@ -954,11 +965,10 @@
     if (controller.container.id !== 'proof-network') return;
     const seen = new Set();
     for (const hit of controller.container.querySelectorAll('[data-edge-hit]')) {
-      const key = hit.dataset.edgeHit + (hit.hasAttribute('data-statement-overview') ? ':overview' : ':detail');
-      if (!seen.has(key)) {
+      if (!seen.has(hit.dataset.edgeHit)) {
         hit.setAttribute('tabindex', '0');
         hit.setAttribute('role', 'button');
-        seen.add(key);
+        seen.add(hit.dataset.edgeHit);
       } else {
         hit.removeAttribute('tabindex');
         hit.removeAttribute('role');
@@ -970,34 +980,152 @@
   let expandedFigure = null;
   const previousAttributes = new WeakMap();
 
-  function installLocalStatements(container, svg) {
+  async function preparedView(controller, state) {
+    const view = controller.data.views[state];
+    if (!view) throw new Error('This local proof view is unavailable.');
+    if (view.svg) return view;
+    if (!view.src) throw new Error('This export does not contain the selected view.');
+    controller.pendingViews ??= new Map();
+    if (!controller.pendingViews.has(state)) {
+      const request = (async () => {
+        const url = new URL(view.src, location.href);
+        if (url.origin !== location.origin) throw new Error('Graph geometry must be served from this site.');
+        const response = await fetch(url);
+        if (!response.ok) throw new Error('This graph view could not be loaded.');
+        const loaded = { ...view, ...await response.json() };
+        controller.data.views[state] = loaded;
+        return loaded;
+      })().finally(() => controller.pendingViews.delete(state));
+      controller.pendingViews.set(state, request);
+    }
+    return controller.pendingViews.get(state);
+  }
+
+  function installProofPeek(container, controller, interaction) {
     if (container.id !== 'proof-network') return;
-    const details = [...svg.querySelectorAll('[data-statement-detail]')];
-    const overviews = [...svg.querySelectorAll('[data-statement-overview]')];
-    let hovered, focused = null, active = null;
-    const owner = (target) => target instanceof Element
-      ? target.closest('[data-statement-owner], [data-statement-detail]')?.getAttribute('data-statement-owner') ||
-        target.closest('[data-statement-detail]')?.getAttribute('data-statement-detail') || null : null;
-    const reveal = () => {
-      const next = hovered === undefined ? focused : hovered;
-      if (next === active) return;
-      active = next;
-      for (const element of details)
-        element.classList.toggle('graph-statement-active', element.dataset.statementDetail === active);
-      for (const element of overviews)
-        element.classList.toggle('graph-statement-active', element.dataset.statementOverview === active);
+    controller.closeProofPeek?.();
+    container.closest('.graph-figure').querySelector('.graph-proof-peek')?.remove();
+    const panel = document.createElement('section');
+    panel.className = 'graph-proof-peek'; panel.hidden = true;
+    panel.id = `${container.id}-statements`;
+    panel.setAttribute('aria-label', 'Statements and proofs');
+    const figure = container.closest('.graph-figure');
+    figure.append(panel);
+    let anchor = null, timer = null, request = 0;
+    const cancel = () => { clearTimeout(timer); timer = null; };
+    const close = () => {
+      cancel(); request++;
+      if (anchor) anchor.setAttribute('aria-expanded', 'false');
+      anchor = null; panel.hidden = true; panel.replaceChildren();
+      if (activeProofPeek?.panel === panel) activeProofPeek = null;
     };
-    // A concept's transparent envelope bridges its box and docks, so moving
-    // into a newly revealed statement does not collapse it under the pointer.
-    svg.addEventListener('pointerover', (event) => { hovered = owner(event.target); reveal(); });
-    svg.addEventListener('pointerout', (event) => {
-      hovered = event.relatedTarget instanceof Node && svg.contains(event.relatedTarget)
-        ? owner(event.relatedTarget) : undefined;
-      reveal();
-    });
-    svg.addEventListener('focusin', (event) => { hovered = undefined; focused = owner(event.target); reveal(); });
-    svg.addEventListener('focusout', (event) => { focused = owner(event.relatedTarget); reveal(); });
-    svg.classList.add('graph-local-statements');
+    controller.closeProofPeek = close;
+    const position = () => {
+      if (!anchor || panel.hidden) return;
+      const box = anchor.getBoundingClientRect(), plot = container.getBoundingClientRect();
+      if (box.bottom < Math.max(0, plot.top) || box.top > Math.min(innerHeight, plot.bottom) ||
+          box.right < Math.max(0, plot.left) || box.left > Math.min(innerWidth, plot.right)) { close(); return; }
+      const width = panel.offsetWidth, height = panel.offsetHeight, gap = 10, inset = 12;
+      let left, top;
+      if (box.right + gap + width <= innerWidth - inset) { left = box.right + gap; top = box.top; }
+      else if (box.left - gap - width >= inset) { left = box.left - gap - width; top = box.top; }
+      else { left = (box.left + box.right - width) / 2;
+        top = box.bottom + gap + height <= innerHeight - inset ? box.bottom + gap : box.top - gap - height; }
+      panel.style.left = `${Math.max(inset, Math.min(left, innerWidth - width - inset))}px`;
+      panel.style.top = `${Math.max(inset, Math.min(top, innerHeight - height - inset))}px`;
+    };
+    const leave = () => {
+      cancel();
+      timer = setTimeout(() => {
+        if (panel.matches(':hover') || panel.contains(document.activeElement) || anchor?.matches(':hover') || anchor === document.activeElement) return;
+        close();
+      }, 180);
+    };
+    const open = async (element, info) => {
+      cancel();
+      if (anchor === element && !panel.hidden) return;
+      activeProofPeek?.close();
+      anchor = element; element.setAttribute('aria-expanded', 'true');
+      const token = ++request;
+      hideTooltip(container);
+      panel.replaceChildren();
+      const detail = detailForInfo(controller, info);
+      const heading = document.createElement('h3');
+      if (detail?.nameHtml) heading.innerHTML = detail.nameHtml;
+      else heading.textContent = detail?.name || info.label;
+      panel.append(heading);
+      appendText(panel, 'p', 'graph-proof-peek-status', 'Loading statements and proofs…');
+      panel.hidden = false;
+      const dismiss = appendText(panel, 'button', 'graph-proof-peek-close', '×');
+      dismiss.type = 'button'; dismiss.setAttribute('aria-label', 'Close statements and proofs');
+      dismiss.addEventListener('click', (event) => { event.stopPropagation(); element.focus(); close(); });
+      activeProofPeek = { panel, anchor: element, position, close };
+      position();
+      try {
+        const view = await preparedView(controller, info.detailView);
+        if (request !== token) return;
+        panel.querySelector('.graph-proof-peek-status').textContent = view.status;
+        const plot = document.createElement('div'); plot.className = 'graph-proof-peek-plot';
+        // Both archive and local hosts prepare and validate this SVG. Hover
+        // never lays out the overview or constructs new routes in the browser.
+        plot.innerHTML = view.svg;
+        panel.append(plot);
+        const caption = appendText(panel, 'div', 'graph-proof-peek-caption', 'Each ⊢ is an individual proof.');
+        for (const node of plot.querySelectorAll('[data-node-id]')) {
+          const localInfo = view.interaction.nodes[node.dataset.nodeId];
+          if (!localInfo) continue;
+          const describe = () => {
+            if (localInfo.tooltipHtml) caption.innerHTML = localInfo.tooltipHtml;
+            else caption.textContent = localInfo.label || localInfo.semanticId;
+            position();
+          };
+          node.addEventListener('mouseenter', describe); node.addEventListener('focus', describe);
+          const localDetail = detailForInfo(controller, localInfo);
+          if (localDetail) node.addEventListener('click', (event) => {
+            if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+            activateProofItem(controller, event, () => selectProofItem(controller,
+              { type: 'node', id: element.dataset.nodeId }, element, {
+                detail: localDetail, eyebrow: localInfo.kind === 'proof' ? 'Proof' : 'Statement',
+                focusStatement: localInfo.semanticId,
+                href: localInfo.href || localDetail.href,
+                actionLabel: localInfo.kind === 'proof' ? 'Open proof page' : 'Open concept page',
+              }));
+          });
+        }
+        position();
+      } catch (error) {
+        if (request === token) panel.querySelector('.graph-proof-peek-status').textContent = error.message;
+      }
+    };
+    controller.openProofPeek = open;
+    panel.addEventListener('mouseenter', cancel); panel.addEventListener('mouseleave', leave);
+    panel.addEventListener('focusin', cancel); panel.addEventListener('focusout', leave);
+    const escape = (event) => {
+      if (event.key !== 'Escape' || panel.hidden) return;
+      event.preventDefault(); event.stopPropagation();
+      const restore = anchor;
+      // Restore first: the focus event can reuse this already-open panel.
+      if (panel.contains(document.activeElement)) restore?.focus();
+      close();
+    };
+    panel.addEventListener('keydown', escape);
+    for (const element of container.querySelectorAll('[data-node-id]')) {
+      const info = interaction.nodes[element.dataset.nodeId];
+      if (!info?.detailView) continue;
+      element.setAttribute('aria-expanded', 'false');
+      element.setAttribute('aria-controls', panel.id);
+      element.addEventListener('mouseenter', () => { cancel(); timer = setTimeout(() => open(element, info), GRAPH_HOVER_DELAY); });
+      element.addEventListener('mouseleave', leave);
+      element.addEventListener('focus', () => open(element, info));
+      element.addEventListener('blur', leave);
+      element.addEventListener('keydown', (event) => {
+        escape(event);
+        if (event.key === 'ArrowDown' && anchor === element && !panel.hidden) {
+          const first = panel.querySelector('a[href], [tabindex="0"]');
+          if (first) { event.preventDefault(); first.focus(); }
+        }
+      });
+    }
   }
 
   function bindView(container, controller, interaction) {
@@ -1159,10 +1287,10 @@
       attachDelayedHover(element, hot, cold);
       element.addEventListener('focus', hot);
       element.addEventListener('blur', cold);
-      attachTooltip(element, container, info.tooltipRows ?? info.label, info.tooltipHtml);
+      if (!info.detailView) attachTooltip(element, container, info.tooltipRows ?? info.label, info.tooltipHtml);
     }
     installProofSelection(container, controller, interaction);
-    installLocalStatements(container, svg);
+    installProofPeek(container, controller, interaction);
     let drag = null;
     svg.addEventListener('pointerdown', (event) => {
       // Native one-finger page/viewport scrolling remains available on touch.
@@ -1261,6 +1389,7 @@
   function setExpanded(button, expanded) {
     const figure = button.closest('.graph-figure');
     const container = figure.querySelector('.figure-container'), controller = controllers.get(container.id);
+    controller?.closeProofPeek?.();
     if (expanded && expandedFigure && expandedFigure !== figure) setExpanded(expandedFigure.querySelector('[data-graph-expand]'), false);
     if (!expanded && controller) clearProofSelection(controller, false);
     if (expanded) {
@@ -1360,6 +1489,8 @@
     window.addEventListener('resize', refreshGraphTooltip, { passive: true });
     window.addEventListener('pointerdown', (event) => {
       if (!(event.target instanceof Node)) return;
+      if (activeProofPeek && !activeProofPeek.panel.contains(event.target) && !activeProofPeek.anchor.contains(event.target))
+        activeProofPeek.close();
       for (const item of document.querySelectorAll('.graph-detail-open-assumption-item.is-open')) {
         if (item.contains(event.target)) continue;
         item.classList.remove('is-open');
