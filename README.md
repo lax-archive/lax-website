@@ -332,8 +332,10 @@ Each local drawing searches its own node orders, port orders and routes;
 validated swaps reduce remaining crossings and independent components wrap
 into compact rows. The diagrams are prepared and validated at build time, and
 larger ones are loaded on demand. Popup windows use the available screen space
-and keep their position when node descriptions change. Arrow Down enters their
-links; Escape closes the diagram. Without JavaScript the overview links to the concept pages, which
+and keep their position when node descriptions change. Clicking inside pins a
+popup; drag its heading to move it, and click outside or press Escape to close
+it. Arrow Down enters its links. Closing a side card restores keyboard focus
+without reopening the popup. Without JavaScript the overview links to the concept pages, which
 retain the complete statements and proofs.
 
 The archive measurement host uses the site's bundled fonts and exact SVG ink

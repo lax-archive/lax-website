@@ -658,6 +658,20 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       await peek.locator('[data-node-id="p:Lax702Proofs.Alternative"]').evaluate((element) => (element as HTMLElement).blur());
       expect(await caption.isHidden()).toBe(true);
       expect(await caption.textContent()).toBe('');
+      await peek.locator('h3').click();
+      expect(await peek.getAttribute('class')).toContain('is-pinned');
+      const heading = (await peek.locator('h3').boundingBox())!;
+      const beforeDrag = (await peek.boundingBox())!;
+      const dx = beforeDrag.x > 80 ? -50 : 50;
+      await page.mouse.move(heading.x + 15, heading.y + 10); await page.mouse.down();
+      await page.mouse.move(heading.x + 15 + dx, heading.y + 60, { steps: 8 }); await page.mouse.up();
+      const moved = (await peek.boundingBox())!;
+      expect(moved.x).toBeCloseTo(beforeDrag.x + dx, 0);
+      expect(moved.y).toBeCloseTo(beforeDrag.y + 50, 0);
+      await page.mouse.move(0, 0); await page.waitForTimeout(250);
+      expect(await peek.isVisible()).toBe(true);
+      await page.mouse.click(0, 0);
+      expect(await peek.isHidden()).toBe(true);
       await node.focus();
       await page.keyboard.press("Escape");
       expect(await peek.isHidden()).toBe(true);
@@ -694,6 +708,7 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       expect(position.left).toBeGreaterThanOrEqual(0);
       expect(position.right).toBeLessThanOrEqual(390);
       expect(position.top).toBeGreaterThanOrEqual(0);
+      expect(position.top).toBeLessThanOrEqual(844 - 12 - 320);
       expect(position.bottom).toBeLessThanOrEqual(844);
       expect(position.size).toBe("12px");
       expect(await peek.locator('.graph-proof-peek-plot').evaluate((element) => getComputedStyle(element).overflow)).toBe('visible');
@@ -724,6 +739,7 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       expect(page.url()).toBe(pageUrl);
       const panel = figure.locator(".graph-detail-panel");
       expect(await panel.isVisible()).toBe(true);
+      expect(await figure.locator('.graph-proof-peek').isHidden()).toBe(true);
       expect(await panel.locator("h3").first().textContent()).toBe("Proof of Main χ result");
       expect(await panel.textContent()).toContain("1 open assumption");
       expect(await panel.locator(".graph-detail-open-assumptions").count()).toBe(0);
@@ -886,6 +902,15 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       expect(await figure.locator("[data-graph-zoom-status]").textContent()).toBe(beforeDismiss.scale);
       await figure.locator('[data-graph-zoom="reset"]').hover(); await animationFrame(page);
       expect(await container.locator(".graph-selected, .graph-related, .graph-dimmed").count()).toBe(0);
+
+      await concept.evaluate((element) => element.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true })));
+      await panel.locator('.graph-detail-close').click(); await page.waitForTimeout(300);
+      expect(await concept.evaluate((element) => document.activeElement === element)).toBe(true);
+      expect(await figure.locator('.graph-proof-peek').isHidden()).toBe(true);
+      await concept.evaluate((element) => element.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true })));
+      await page.keyboard.press('Escape'); await page.waitForTimeout(300);
+      expect(await panel.isHidden()).toBe(true);
+      expect(await figure.locator('.graph-proof-peek').isHidden()).toBe(true);
 
       await figure.locator("[data-graph-expand]").click(); await animationFrame(page);
       const edge = container.locator('[data-edge-hit][aria-label*="Main χ result"]').first();
