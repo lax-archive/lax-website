@@ -50,8 +50,9 @@ export function proofGraphViews(data: ProofGraphData): { state: string; display:
     const localStatements = statements.length > 1 ? statements.map((statement) => ({ ...statement,
       concept: undefined, index: undefined, count: 1, label: String(statement.index),
       title: `Statement ${statement.index}: ${statement.id}`, tooltipHtml: undefined,
-    })) : statements;
-    if (!statements.length || proofs.some((proof) => proof.conclusion === id || proof.assumptions.includes(id)))
+    })) : [...statements];
+    if (!localStatements.some((statement) => statement.id === id) &&
+        (!statements.length || proofs.some((proof) => proof.conclusion === id || proof.assumptions.includes(id))))
       localStatements.push(conceptNode(id));
     const premises = [...new Set(proofs.flatMap((proof) => proof.assumptions.map((assumption) => homes.get(assumption)!)))]
       .filter((premise) => premise !== id).sort(compareText);
