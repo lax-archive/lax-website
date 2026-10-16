@@ -4589,8 +4589,9 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
   z-index: 210;
   width: min(320px, calc(100vw - 24px));
   max-height: calc(100dvh - 24px);
-  overflow: auto;
-  scrollbar-gutter: stable;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   padding: 0.75rem;
   border: 1px solid var(--border);
   border-radius: var(--radius-card);
@@ -4600,14 +4601,18 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
   text-align: left;
 }
 .graph-proof-peek[hidden]{ display: none; }
+.graph-proof-peek-header{ flex: none; padding-right: 1.5rem; cursor: grab; touch-action: none; user-select: none; }
 .graph-proof-peek h3{ margin: 0; padding-right: 1.5rem; font-size: 1rem; line-height: 1.4; cursor: grab; touch-action: none; user-select: none; }
-.graph-proof-peek.is-dragging h3{ cursor: grabbing; }
+.graph-proof-peek.is-dragging, .graph-proof-peek.is-dragging *{ cursor: grabbing; user-select: none; }
 .graph-proof-peek.is-pinned{ border-color: var(--text-dim); }
 .graph-proof-peek-close{ position: absolute; top: 0.4rem; right: 0.4rem; border: 0; background: none; color: var(--text-dim); font-size: 1.2rem; cursor: pointer; }
 .graph-proof-peek-status{ margin: 0.3rem 0 0.5rem; font-size: 0.8rem; color: var(--text-dim); }
+.graph-proof-peek-plot{ flex: 1 1 auto; min-height: 0; overflow: auto; overscroll-behavior: contain; cursor: grab; }
 .graph-proof-peek-plot .prepared-graph{ display: block; max-width: none; margin: 0 auto; }
 .proof-network-figure .graph-proof-peek .graph-edge-hit{ pointer-events: none; }
-.graph-proof-peek-caption{ margin-top: 0.5rem; font-size: 0.85rem; }
+.graph-proof-peek-description{ flex: none; position: relative; overflow: auto; overscroll-behavior: contain; scrollbar-gutter: stable; }
+.graph-proof-peek-caption{ padding-top: 0.5rem; font-size: 0.85rem; }
+.graph-proof-peek-measure{ position: absolute; top: 0; left: 0; right: 0; visibility: hidden; }
 .graph-proof-peek-caption[hidden]{ display: none; }
 .graph-proof-peek-caption > :first-child{ margin-top: 0; }
 .graph-proof-peek-caption > :last-child{ margin-bottom: 0; }

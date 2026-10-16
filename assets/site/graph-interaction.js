@@ -1018,7 +1018,8 @@
     panel.setAttribute('aria-label', 'Statements and proofs');
     const figure = container.closest('.graph-figure');
     figure.append(panel);
-    let anchor = null, timer = null, request = 0, diagramWidth = 0, measuredWidth = 0, placementHeight = 0;
+    let anchor = null, timer = null, request = 0, diagramWidth = 0, diagramHeight = 0, measuredWidth = 0, placementHeight = 0;
+    let descriptions = [], measuredViewportHeight = 0;
     let pinned = false, popupDrag = null, hoverSuspended = false;
     const cancel = () => { clearTimeout(timer); timer = null; };
     const close = () => {
@@ -1046,21 +1047,37 @@
       const trim = panel.offsetWidth - panel.clientWidth + parseFloat(style.paddingLeft) + parseFloat(style.paddingRight);
       const width = Math.min(innerWidth - 2 * inset, Math.max(320, diagramWidth + trim));
       panel.style.width = `${width}px`;
-      if (measuredWidth !== width) {
+      if (measuredWidth !== width || measuredViewportHeight !== innerHeight) {
         measuredWidth = width;
-        // Anchor the diagram itself, without leaving a gap for a caption.
-        // Descriptions grow downward from this stable position; they never
-        // move the window or the graph inside it.
+        measuredViewportHeight = innerHeight;
+        // Measure every description at this width once. Hover only changes
+        // the contents of an already-sized region, never the window's size.
         const caption = panel.querySelector('.graph-proof-peek-caption');
-        const currentCaption = caption && !caption.hidden ? caption.offsetHeight + parseFloat(getComputedStyle(caption).marginTop) : 0;
-        placementHeight = panel.scrollHeight - currentCaption + 2;
+        const description = panel.querySelector('.graph-proof-peek-description');
+        let captionHeight = 0;
+        if (caption) {
+          const probe = caption.cloneNode(false);
+          probe.hidden = false; probe.classList.add('graph-proof-peek-measure');
+          description.append(probe);
+          for (const info of descriptions) {
+            if (info.tooltipHtml) probe.innerHTML = info.tooltipHtml;
+            else probe.textContent = info.label || info.semanticId;
+            captionHeight = Math.max(captionHeight, probe.scrollHeight);
+          }
+          probe.remove();
+          captionHeight = Math.min(captionHeight, innerHeight * 0.3);
+          description.style.height = `${captionHeight}px`;
+        }
+        const headerHeight = panel.querySelector('.graph-proof-peek-header').offsetHeight;
+        placementHeight = headerHeight + diagramHeight + captionHeight +
+          parseFloat(style.paddingTop) + parseFloat(style.paddingBottom) + 2;
       }
       const height = Math.min(placementHeight, innerHeight - 2 * inset);
       let left, top, availableHeight;
       if (pinned) {
         left = parseFloat(panel.style.left); top = parseFloat(panel.style.top);
-        top = Math.max(inset, Math.min(top, innerHeight - Math.min(height, 120) - inset));
-        availableHeight = innerHeight - top - inset;
+        top = Math.max(inset, Math.min(top, innerHeight - 80));
+        availableHeight = innerHeight - 2 * inset;
       } else if (box.right + gap + width <= innerWidth - inset) { left = box.right + gap; top = box.top; }
       else if (box.left - gap - width >= inset) { left = box.left - gap - width; top = box.top; }
       else {
@@ -1084,8 +1101,10 @@
         top = Math.max(inset, Math.min(top, innerHeight - inset - readingHeight));
         availableHeight = innerHeight - top - inset;
       }
-      panel.style.left = `${Math.max(inset, Math.min(left, innerWidth - width - inset))}px`;
+      panel.style.left = `${pinned ? Math.max(120 - width, Math.min(left, innerWidth - 120))
+        : Math.max(inset, Math.min(left, innerWidth - width - inset))}px`;
       panel.style.top = `${top}px`;
+      panel.style.height = `${Math.min(height, availableHeight)}px`;
       panel.style.maxHeight = `${availableHeight}px`;
     };
     const leave = () => {
@@ -1106,36 +1125,17 @@
       const token = ++request;
       hideTooltip(container);
       panel.replaceChildren();
-      diagramWidth = 0; measuredWidth = 0;
-      panel.style.maxHeight = ''; panel.scrollTop = 0; panel.scrollLeft = 0;
+      diagramWidth = 0; diagramHeight = 0; measuredWidth = 0; descriptions = [];
+      panel.style.height = ''; panel.style.maxHeight = ''; panel.scrollTop = 0; panel.scrollLeft = 0;
       const detail = detailForInfo(controller, info);
+      const header = document.createElement('div'); header.className = 'graph-proof-peek-header';
+      panel.append(header);
       const heading = document.createElement('h3');
       if (detail?.nameHtml) heading.innerHTML = detail.nameHtml;
       else heading.textContent = detail?.name || info.label;
-      panel.append(heading);
+      header.append(heading);
       heading.title = 'Drag to move; click to pin';
-      heading.addEventListener('pointerdown', (event) => {
-        if (event.button !== 0 || event.target.closest('a, button')) return;
-        event.preventDefault(); pin();
-        const box = panel.getBoundingClientRect();
-        popupDrag = { id: event.pointerId, x: event.clientX, y: event.clientY, left: box.left, top: box.top };
-        heading.setPointerCapture(event.pointerId); panel.classList.add('is-dragging');
-      });
-      heading.addEventListener('pointermove', (event) => {
-        if (!popupDrag || popupDrag.id !== event.pointerId) return;
-        panel.style.left = `${popupDrag.left + event.clientX - popupDrag.x}px`;
-        panel.style.top = `${popupDrag.top + event.clientY - popupDrag.y}px`;
-        position();
-      });
-      const release = (event) => {
-        if (popupDrag?.id !== event.pointerId) return;
-        popupDrag = null; panel.classList.remove('is-dragging');
-        if (heading.hasPointerCapture(event.pointerId)) heading.releasePointerCapture(event.pointerId);
-      };
-      heading.addEventListener('pointerup', release);
-      heading.addEventListener('pointercancel', release);
-      heading.addEventListener('lostpointercapture', release);
-      appendText(panel, 'p', 'graph-proof-peek-status', 'Loading statements and proofs…');
+      appendText(header, 'p', 'graph-proof-peek-status', 'Loading statements and proofs…');
       panel.hidden = false;
       const dismiss = appendText(panel, 'button', 'graph-proof-peek-close', '×');
       dismiss.type = 'button'; dismiss.setAttribute('aria-label', 'Close statements and proofs');
@@ -1151,7 +1151,8 @@
         // never lays out the overview or constructs new routes in the browser.
         plot.innerHTML = view.svg;
         panel.append(plot);
-        const caption = appendText(panel, 'div', 'graph-proof-peek-caption', '');
+        const description = appendText(panel, 'div', 'graph-proof-peek-description', '');
+        const caption = appendText(description, 'div', 'graph-proof-peek-caption', '');
         caption.hidden = true;
         let described = null;
         for (const node of plot.querySelectorAll('[data-node-id]')) {
@@ -1181,6 +1182,8 @@
           });
         }
         diagramWidth = plot.querySelector('svg').viewBox.baseVal.width;
+        diagramHeight = plot.querySelector('svg').viewBox.baseVal.height;
+        descriptions = Object.values(view.interaction.nodes);
         measuredWidth = 0;
         position();
       } catch (error) {
@@ -1188,6 +1191,38 @@
       }
     };
     controller.openProofPeek = open;
+    panel.addEventListener('pointerdown', (event) => {
+      if (event.button !== 0 || event.target.closest('a, button, [data-node-id], .graph-proof-peek-description')) return;
+      // Leave native scrollbar thumbs available; blank diagram space and
+      // the whole header can grab the popup without selecting its text.
+      const scroll = event.target.closest('.graph-proof-peek-plot');
+      if (scroll) {
+        const box = scroll.getBoundingClientRect();
+        if (event.clientX >= box.left + scroll.clientWidth || event.clientY >= box.top + scroll.clientHeight) return;
+      }
+      event.preventDefault(); pin();
+      const box = panel.getBoundingClientRect();
+      popupDrag = { id: event.pointerId, x: event.clientX, y: event.clientY, left: box.left, top: box.top };
+      panel.setPointerCapture(event.pointerId); panel.classList.add('is-dragging');
+    });
+    panel.addEventListener('pointermove', (event) => {
+      if (!popupDrag || popupDrag.id !== event.pointerId) return;
+      panel.style.left = `${popupDrag.left + event.clientX - popupDrag.x}px`;
+      panel.style.top = `${popupDrag.top + event.clientY - popupDrag.y}px`;
+      // A large popup can be dragged partly offscreen while retaining a
+      // reachable section of its header, rather than being locked in place.
+      const left = Math.max(120 - panel.offsetWidth, Math.min(parseFloat(panel.style.left), innerWidth - 120));
+      const top = Math.max(12, Math.min(parseFloat(panel.style.top), innerHeight - 80));
+      panel.style.left = `${left}px`; panel.style.top = `${top}px`;
+    });
+    const releasePopup = (event) => {
+      if (popupDrag?.id !== event.pointerId) return;
+      popupDrag = null; panel.classList.remove('is-dragging');
+      if (panel.hasPointerCapture(event.pointerId)) panel.releasePointerCapture(event.pointerId);
+    };
+    panel.addEventListener('pointerup', releasePopup);
+    panel.addEventListener('pointercancel', releasePopup);
+    panel.addEventListener('lostpointercapture', releasePopup);
     panel.addEventListener('click', pin, { capture: true });
     container.addEventListener('pointermove', () => { hoverSuspended = false; });
     panel.addEventListener('mouseenter', cancel); panel.addEventListener('mouseleave', leave);
@@ -1428,12 +1463,49 @@
     };
     svg.addEventListener('pointerup', release); svg.addEventListener('pointercancel', release);
     svg.addEventListener('lostpointercapture', release);
-    svg.addEventListener('wheel', (event) => {
-      const expanded = container.closest('.graph-figure')?.classList.contains('graph-expanded');
-      if (!expanded && !event.ctrlKey && !event.metaKey) return;
+    let wheelFrame = null, wheelX = 0, wheelY = 0, gestureScale = null;
+    const panWheel = () => {
+      wheelFrame = null;
+      const style = getComputedStyle(container), scale = svg.getScreenCTM().a;
+      const left = container.scrollLeft, top = container.scrollTop;
+      if (style.overflowX !== 'hidden') container.scrollLeft = left + wheelX;
+      if (style.overflowY !== 'hidden') container.scrollTop = top + wheelY;
+      controller.camera.x += (-wheelX + container.scrollLeft - left) / scale;
+      controller.camera.y += (-wheelY + container.scrollTop - top) / scale;
+      wheelX = 0; wheelY = 0;
+      if (frame) cancelAnimationFrame(frame);
+      paint();
+    };
+    if (controller.wheelHandler) container.removeEventListener('wheel', controller.wheelHandler);
+    controller.wheelHandler = (event) => {
       event.preventDefault();
-      controller.zoom(Math.exp(-Math.max(-120, Math.min(120, event.deltaY)) / 250), { x: event.clientX, y: event.clientY });
-    }, { passive: false });
+      stopCameraAnimation(controller); controller.autoFrame = false;
+      hideTooltip(container);
+      if (!activeProofPeek?.pinned) controller.suspendProofPeek?.();
+      const unit = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? container.clientHeight : 1;
+      if (event.ctrlKey || event.metaKey) {
+        if (wheelFrame) { cancelAnimationFrame(wheelFrame); panWheel(); }
+        if (gestureScale === null) controller.zoom(Math.exp(-Math.max(-120, Math.min(120, event.deltaY * unit)) / 250),
+          { x: event.clientX, y: event.clientY });
+      } else {
+        wheelX += event.deltaX * unit; wheelY += event.deltaY * unit;
+        if (!wheelFrame) wheelFrame = requestAnimationFrame(panWheel);
+      }
+    };
+    container.addEventListener('wheel', controller.wheelHandler, { passive: false });
+    // Safari exposes trackpad pinches as gesture events. Avoid counting the
+    // same pinch twice on hosts that also send Ctrl-wheel events.
+    for (const [name, handler] of controller.gestureHandlers || []) container.removeEventListener(name, handler);
+    controller.gestureHandlers = [['gesturestart', (event) => {
+      event.preventDefault(); gestureScale = event.scale;
+      if (wheelFrame) { cancelAnimationFrame(wheelFrame); panWheel(); }
+    }], ['gesturechange', (event) => {
+      event.preventDefault();
+      if (gestureScale !== null && gestureScale > 0 && event.scale > 0)
+        controller.zoom(event.scale / gestureScale, { x: event.clientX, y: event.clientY });
+      gestureScale = event.scale;
+    }], ['gestureend', (event) => { event.preventDefault(); gestureScale = null; }]];
+    for (const [name, handler] of controller.gestureHandlers) container.addEventListener(name, handler, { passive: false });
     controller.reset();
   }
 

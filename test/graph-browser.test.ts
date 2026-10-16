@@ -654,10 +654,13 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       const described = await peek.boundingBox();
       expect(described!.x).toBe(initial!.x);
       expect(described!.y).toBe(initial!.y);
+      expect(described!.height).toBe(initial!.height);
+      expect(described!.width).toBe(initial!.width);
       await peek.locator('h3').hover();
       await peek.locator('[data-node-id="p:Lax702Proofs.Alternative"]').evaluate((element) => (element as HTMLElement).blur());
       expect(await caption.isHidden()).toBe(true);
       expect(await caption.textContent()).toBe('');
+      expect(await peek.boundingBox()).toEqual(initial);
       await peek.locator('h3').click();
       expect(await peek.getAttribute('class')).toContain('is-pinned');
       const heading = (await peek.locator('h3').boundingBox())!;
@@ -668,6 +671,12 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       const moved = (await peek.boundingBox())!;
       expect(moved.x).toBeCloseTo(beforeDrag.x + dx, 0);
       expect(moved.y).toBeCloseTo(beforeDrag.y + 50, 0);
+      const plot = (await peek.locator('.graph-proof-peek-plot').boundingBox())!;
+      await page.mouse.move(plot.x + 2, plot.y + 2); await page.mouse.down();
+      await page.mouse.move(plot.x + 32, plot.y - 18, { steps: 8 }); await page.mouse.up();
+      const movedFromPlot = (await peek.boundingBox())!;
+      expect(movedFromPlot.x).toBeCloseTo(moved.x + 30, 0);
+      expect(movedFromPlot.y).toBeCloseTo(moved.y - 20, 0);
       await page.mouse.move(0, 0); await page.waitForTimeout(250);
       expect(await peek.isVisible()).toBe(true);
       await page.mouse.click(0, 0);
@@ -711,12 +720,26 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       expect(position.top).toBeLessThanOrEqual(844 - 12 - 320);
       expect(position.bottom).toBeLessThanOrEqual(844);
       expect(position.size).toBe("12px");
-      expect(await peek.locator('.graph-proof-peek-plot').evaluate((element) => getComputedStyle(element).overflow)).toBe('visible');
+      expect(await peek.locator('.graph-proof-peek-plot').evaluate((element) => getComputedStyle(element).overflow)).toBe('auto');
+      const closeBefore = await peek.locator('.graph-proof-peek-close').boundingBox();
+      const horizontalScroll = await peek.locator('.graph-proof-peek-plot').evaluate((element) => {
+        // Exercise scrolling even when this small fixture fits naturally.
+        element.querySelector('svg')!.style.width = '700px';
+        element.scrollLeft = element.scrollWidth; return element.scrollLeft;
+      });
+      expect(horizontalScroll).toBeGreaterThan(0);
+      await animationFrame(page);
+      expect(await peek.locator('.graph-proof-peek-close').boundingBox()).toEqual(closeBefore);
+      await peek.locator('.graph-proof-peek-plot').evaluate((element) => {
+        element.querySelector('svg')!.style.width = ''; element.scrollLeft = 0;
+      });
       const before = await peek.boundingBox();
       await peek.locator('[data-node-id="p:Lax702Proofs.Main"]').focus();
       const after = await peek.boundingBox();
       expect(after!.x).toBe(before!.x);
       expect(after!.y).toBe(before!.y);
+      expect(after!.height).toBe(before!.height);
+      expect(after!.width).toBe(before!.width);
       await alternative.focus();
       expect(await peek.locator(".graph-proof-peek-caption .katex-display").count()).toBe(1);
       await expectNoPublicLayout(page, audit);
@@ -920,15 +943,46 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       expect(await figure.getAttribute("class")).toContain("graph-expanded");
       expect(await panel.textContent()).toMatch(/(?:Proofs in|Proofs of)/u);
       expect(await container.locator("[data-edge-id].graph-selected").count()).toBeGreaterThan(0);
+      await page.waitForTimeout(1_000); await animationFrame(page);
       const edgeFocusedScale = Number((await figure.locator("[data-graph-zoom-status]").textContent())!.replace("%", ""));
       const graphBox = await container.locator("svg").boundingBox();
       expect(graphBox).toBeTruthy();
+      const beforeWheel = await container.evaluate((element) => {
+        const node = element.querySelector<SVGGraphicsElement>('[data-node-id]')!.getScreenCTM()!;
+        element.dispatchEvent(new WheelEvent('wheel', { deltaX: 32, deltaY: 24, bubbles: true, cancelable: true }));
+        return { x: node.e, y: node.f };
+      });
+      await animationFrame(page);
+      const wheelOrigin = () => container.locator('[data-node-id]').first().evaluate((element) => {
+        const matrix = (element as SVGGraphicsElement).getScreenCTM()!; return { x: matrix.e, y: matrix.f };
+      });
+      const afterWheel = await wheelOrigin();
+      expect(afterWheel.x - beforeWheel.x).toBeCloseTo(-32, 0);
+      expect(afterWheel.y - beforeWheel.y).toBeCloseTo(-24, 0);
+      expect(Number((await figure.locator('[data-graph-zoom-status]').textContent())!.replace('%', ''))).toBe(edgeFocusedScale);
+      await container.evaluate((element) => element.dispatchEvent(new WheelEvent('wheel', {
+        deltaX: -32, deltaY: -24, bubbles: true, cancelable: true,
+      })));
+      await animationFrame(page);
+      const restoredWheel = await wheelOrigin();
+      expect(restoredWheel.x).toBeCloseTo(beforeWheel.x, 0);
+      expect(restoredWheel.y).toBeCloseTo(beforeWheel.y, 0);
       await page.mouse.move(graphBox!.x + graphBox!.width / 4, graphBox!.y + graphBox!.height / 2);
+      await page.keyboard.down('Control');
       for (let step = 0; step < 8; step += 1) await page.mouse.wheel(0, 120);
+      await page.keyboard.up('Control');
       await animationFrame(page);
       const edgeZoomedOutScale = Number((await figure.locator("[data-graph-zoom-status]").textContent())!.replace("%", ""));
       expect(edgeZoomedOutScale).toBeLessThan(edgeFocusedScale);
       expect(edgeZoomedOutScale).toBe(20);
+      await container.evaluate((element) => {
+        const box = element.getBoundingClientRect();
+        for (const [type, scale] of [['gesturestart', 1], ['gesturechange', 1.5], ['gestureend', 1.5]] as const)
+          element.dispatchEvent(Object.assign(new Event(type, { bubbles: true, cancelable: true }),
+            { scale, clientX: box.left + box.width / 2, clientY: box.top + box.height / 2 }));
+      });
+      await animationFrame(page);
+      expect(await figure.locator('[data-graph-zoom-status]').textContent()).toBe('30%');
       expect(await panel.isVisible()).toBe(true);
       expect(await container.locator("[data-edge-id].graph-selected").count()).toBeGreaterThan(0);
       await figure.locator('[data-graph-zoom="reset"]').click(); await animationFrame(page);
