@@ -725,6 +725,8 @@
   }
 
   function focusProofSelection(controller) {
+    // The card may have been dismissed before this animation frame runs.
+    if (!controller.selection) return;
     const edge = controller.selection.type === 'edge'
       ? controller.interaction.edges[controller.selection.id] : null;
     const node = controller.selection.type === 'node'
