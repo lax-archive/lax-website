@@ -4610,12 +4610,6 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
 .graph-proof-peek-plot{ flex: 1 1 auto; min-height: 0; overflow: auto; overscroll-behavior: contain; cursor: grab; }
 .graph-proof-peek-plot .prepared-graph{ display: block; max-width: none; margin: 0 auto; }
 .proof-network-figure .graph-proof-peek .graph-edge-hit{ pointer-events: none; }
-.graph-proof-peek-description{ flex: none; position: relative; overflow: auto; overscroll-behavior: contain; scrollbar-gutter: stable; }
-.graph-proof-peek-caption{ padding-top: 0.5rem; font-size: 0.85rem; }
-.graph-proof-peek-measure{ position: absolute; top: 0; left: 0; right: 0; visibility: hidden; }
-.graph-proof-peek-caption[hidden]{ display: none; }
-.graph-proof-peek-caption > :first-child{ margin-top: 0; }
-.graph-proof-peek-caption > :last-child{ margin-bottom: 0; }
 
 /* Focused proof selection keeps the graph camera independent from this
    content-sized inspector on the right. It starts below the graph controls;

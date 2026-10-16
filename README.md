@@ -332,12 +332,13 @@ Each local drawing searches its own node orders, port orders and routes;
 validated swaps reduce remaining crossings and independent components wrap
 into compact rows. The diagrams are prepared and validated at build time, and
 larger ones are loaded on demand. Popup windows use the available screen space
-and keep their position when node descriptions change. Clicking inside pins a
+and display only the local diagram, without descriptions beneath it. Clicking inside pins a
 popup; drag its heading or blank diagram space to move it, and click outside or
 press Escape to close it. The header and close button stay outside the scrollable
-diagram; descriptions use a reserved area so hovering never resizes the window.
+diagram, with scrollbars only when the diagram exceeds the available space.
 Two-finger scrolling pans the main graph, and trackpad pinches zoom around the
-pointer. Arrow Down enters popup links. Closing a side card restores keyboard focus
+pointer. Panning stops at the enclosing bounds of the drawing on both axes.
+Arrow Down enters popup links. Closing a side card restores keyboard focus
 without reopening the popup. Without JavaScript the overview links to the concept pages, which
 retain the complete statements and proofs.
 

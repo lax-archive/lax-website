@@ -507,6 +507,32 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       const beforeCamera = cameraNumbers(beforePan.camera);
       cameraNumbers(afterPan.camera).forEach((value, index) =>
         expect(value).toBeCloseTo(beforeCamera[index]!, 3));
+      for (const delta of [100_000, -100_000]) {
+        const panFar = async () => {
+          await container.evaluate((element, amount) => element.dispatchEvent(new WheelEvent('wheel', {
+            deltaX: amount, deltaY: amount, bubbles: true, cancelable: true,
+          })), delta);
+          await animationFrame(page);
+          return container.evaluate((element) => {
+            const svg = element.querySelector<SVGSVGElement>('svg')!, bounds = svg.viewBox.baseVal;
+            const matrix = element.querySelector<SVGGraphicsElement>('[data-graph-camera]')!.getScreenCTM()!;
+            const first = new DOMPoint(bounds.x, bounds.y).matrixTransform(matrix);
+            const last = new DOMPoint(bounds.x + bounds.width, bounds.y + bounds.height).matrixTransform(matrix);
+            const box = element.getBoundingClientRect();
+            return { left: first.x, right: last.x, top: first.y, bottom: last.y,
+              viewportLeft: box.left + element.clientLeft, viewportRight: box.left + element.clientLeft + element.clientWidth,
+              viewportTop: box.top + element.clientTop, viewportBottom: box.top + element.clientTop + element.clientHeight };
+          });
+        };
+        const bounded = await panFar();
+        expect(bounded.left).toBeLessThanOrEqual(bounded.viewportLeft + 1);
+        expect(bounded.right).toBeGreaterThanOrEqual(bounded.viewportRight - 1);
+        expect(bounded.top).toBeGreaterThanOrEqual(bounded.viewportTop - 1);
+        expect(bounded.bottom).toBeLessThanOrEqual(bounded.viewportBottom + 1);
+        const repeated = await panFar();
+        expect(repeated.left).toBeCloseTo(bounded.left, 0);
+        expect(repeated.top).toBeCloseTo(bounded.top, 0);
+      }
       await page.setViewportSize({ width: 1920, height: 1200 }); await animationFrame(page);
       expect(await dimensions()).toMatchObject({ x: "hidden", y: "hidden" });
     });
@@ -643,13 +669,12 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       expect(await peek.locator(".net-proof").count()).toBe(2);
       expect(await peek.locator('[data-node-id="p:Lax702Proofs.Middle"]').count()).toBe(0);
       expect(await fingerprint(page)).toEqual(original);
-      const caption = peek.locator('.graph-proof-peek-caption');
-      expect(await caption.isHidden()).toBe(true);
+      expect(await peek.locator('.graph-proof-peek-caption, .graph-proof-peek-description').count()).toBe(0);
       const initial = await peek.boundingBox();
       expect(await peek.evaluate((element) => element.scrollWidth <= element.clientWidth + 1)).toBe(true);
+      expect(await peek.locator('.graph-proof-peek-plot').evaluate((element) =>
+        element.scrollWidth <= element.clientWidth + 1 && element.scrollHeight <= element.clientHeight + 1)).toBe(true);
       await peek.locator('[data-node-id="p:Lax702Proofs.Main"]').focus();
-      expect(await peek.locator(".graph-proof-peek-caption .katex").count()).toBe(2);
-      expect(await peek.locator(".graph-proof-peek-caption .katex-display").count()).toBe(1);
       await peek.locator('[data-node-id="p:Lax702Proofs.Alternative"]').focus();
       const described = await peek.boundingBox();
       expect(described!.x).toBe(initial!.x);
@@ -658,8 +683,7 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       expect(described!.width).toBe(initial!.width);
       await peek.locator('h3').hover();
       await peek.locator('[data-node-id="p:Lax702Proofs.Alternative"]').evaluate((element) => (element as HTMLElement).blur());
-      expect(await caption.isHidden()).toBe(true);
-      expect(await caption.textContent()).toBe('');
+      expect(await peek.locator('.graph-proof-peek-caption, .graph-proof-peek-description').count()).toBe(0);
       expect(await peek.boundingBox()).toEqual(initial);
       await peek.locator('h3').click();
       expect(await peek.getAttribute('class')).toContain('is-pinned');
@@ -701,7 +725,7 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
     });
   }, 30_000);
 
-  it("keeps a local proof diagram and its math readable on a narrow viewport", async () => {
+  it("keeps a local proof diagram readable on a narrow viewport", async () => {
     await visit(url(), async (page, audit) => {
       await page.setViewportSize({ width: 390, height: 844 });
       const node = page.locator(`#proof-network [data-node-id="${proofId}"]`);
@@ -741,7 +765,7 @@ describe.skipIf(!executable && !process.env.GRAPH_BROWSER)(`published graph view
       expect(after!.height).toBe(before!.height);
       expect(after!.width).toBe(before!.width);
       await alternative.focus();
-      expect(await peek.locator(".graph-proof-peek-caption .katex-display").count()).toBe(1);
+      expect(await peek.locator('.graph-proof-peek-caption, .graph-proof-peek-description').count()).toBe(0);
       await expectNoPublicLayout(page, audit);
     });
   }, 30_000);
