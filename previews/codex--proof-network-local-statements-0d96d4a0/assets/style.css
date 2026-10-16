@@ -4607,7 +4607,6 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
 .proof-network-figure .graph-proof-peek .graph-edge-hit{ pointer-events: none; }
 .graph-proof-peek-caption{ margin-top: 0.5rem; font-size: 0.85rem; }
 .graph-proof-peek-caption[hidden]{ display: none; }
-.graph-proof-peek-measure{ position: absolute; visibility: hidden; pointer-events: none; }
 .graph-proof-peek-caption > :first-child{ margin-top: 0; }
 .graph-proof-peek-caption > :last-child{ margin-bottom: 0; }
 

@@ -1012,7 +1012,6 @@
     const figure = container.closest('.graph-figure');
     figure.append(panel);
     let anchor = null, timer = null, request = 0, diagramWidth = 0, measuredWidth = 0, placementHeight = 0;
-    let descriptions = [];
     const cancel = () => { clearTimeout(timer); timer = null; };
     const close = () => {
       cancel(); request++;
@@ -1032,24 +1031,12 @@
       panel.style.width = `${width}px`;
       if (measuredWidth !== width) {
         measuredWidth = width;
-        // Choose the position once for the diagram and its longest caption.
-        // Captions remain absent until a local node is hovered or focused;
-        // changing them must never move the window or the graph inside it.
+        // Anchor the diagram itself, without leaving a gap for a caption.
+        // Descriptions grow downward from this stable position; they never
+        // move the window or the graph inside it.
         const caption = panel.querySelector('.graph-proof-peek-caption');
-        const probe = document.createElement('div');
-        probe.className = 'graph-proof-peek-caption graph-proof-peek-measure';
-        probe.setAttribute('aria-hidden', 'true');
-        probe.style.width = `${panel.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight)}px`;
-        panel.append(probe);
-        let captionHeight = 0;
-        for (const info of descriptions) {
-          if (info.tooltipHtml) probe.innerHTML = info.tooltipHtml;
-          else probe.textContent = info.label || info.semanticId;
-          captionHeight = Math.max(captionHeight, probe.offsetHeight + parseFloat(getComputedStyle(probe).marginTop));
-        }
-        probe.remove();
         const currentCaption = caption && !caption.hidden ? caption.offsetHeight + parseFloat(getComputedStyle(caption).marginTop) : 0;
-        placementHeight = panel.scrollHeight - currentCaption + captionHeight + 2;
+        placementHeight = panel.scrollHeight - currentCaption + 2;
       }
       const height = Math.min(placementHeight, innerHeight - 2 * inset);
       let left, top, availableHeight;
@@ -1061,7 +1048,8 @@
         if (height <= below || below >= above) {
           top = Math.max(inset, box.bottom + gap); availableHeight = Math.max(1, innerHeight - inset - top);
         } else {
-          availableHeight = Math.max(1, above); top = Math.max(inset, box.top - gap - Math.min(height, availableHeight));
+          top = Math.max(inset, box.top - gap - Math.min(height, Math.max(1, above)));
+          availableHeight = innerHeight - top - inset;
         }
       }
       if (availableHeight === undefined) {
@@ -1087,7 +1075,7 @@
       const token = ++request;
       hideTooltip(container);
       panel.replaceChildren();
-      diagramWidth = 0; measuredWidth = 0; descriptions = [];
+      diagramWidth = 0; measuredWidth = 0;
       panel.style.maxHeight = ''; panel.scrollTop = 0; panel.scrollLeft = 0;
       const detail = detailForInfo(controller, info);
       const heading = document.createElement('h3');
@@ -1140,7 +1128,6 @@
           });
         }
         diagramWidth = plot.querySelector('svg').viewBox.baseVal.width;
-        descriptions = Object.values(view.interaction.nodes);
         measuredWidth = 0;
         position();
       } catch (error) {
