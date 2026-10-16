@@ -2684,7 +2684,7 @@ describe("multi-statement concepts", () => {
     expect(views.default.interaction.nodes[`c:${concept.id}`].incident).toHaveLength(1);
     for (const dock of node.docks) {
       expect(views.default.interaction.nodes[dock.id]).toBeUndefined();
-      expect(views[`statements:${concept.id}`].interaction.nodes[dock.id].incident).toEqual([]);
+      expect(views[`statements:${concept.id}`].interaction.nodes[`s:${dock.statementId}`].incident).toEqual([]);
     }
     expect(html).not.toContain('data-graph-local="true"');
 

@@ -1,4 +1,4 @@
-import { pathData, polylineCommands } from "../graph-layout/geometry.js";
+import { pathData, polylineCommands, quantize } from "../graph-layout/geometry.js";
 import { flattenCommands, parsePathData, validateGeometry } from "../graph-layout/validate.js";
 import { GraphDiagnosticError, type GraphGeometry, type Rect } from "../graph-layout/types.js";
 import { attr, esc } from "./graph-escape.js";
@@ -29,12 +29,12 @@ function anchor(href: string | undefined, className: string, id: string, label: 
 function labelSvg(lines: NodeDrawing["lines"], className: string): string {
   return `<text class="${className}" xml:space="preserve">${lines.map((line) => `<tspan x="${line.x}" y="${line.y}">${esc(line.text)}</tspan>`).join("")}</text>`;
 }
-function nodeSvg(node: DisplayNode, drawing: NodeDrawing): string {
+function nodeSvg(node: DisplayNode, drawing: NodeDrawing, assumptionXs: readonly number[] = []): string {
   if (node.kind === "proof") {
     const cx = drawing.body.x + drawing.body.width / 2;
     // The turnstile stays compact. A visible rail connects multiple spaced
     // attachments to this particular proof's AND junction.
-    const rail = drawing.proofRail ? `<path class="graph-port-rail" d="M0,40 H${drawing.body.width + 2 * drawing.body.x} M${cx},40 V28"/>` : "";
+    const rail = drawing.proofRail ? `<path class="graph-port-rail" d="M${Math.min(cx, ...assumptionXs)},40 H${Math.max(cx, ...assumptionXs)} M${cx},40 V28"/>` : "";
     return anchor(node.href, `net-proof${node.ext ? " ext" : ""}`, node.id, node.detailConcept ? node.tooltipText! : `Proof ${node.semanticId}`,
       `${rail}${rect(drawing.body)}<path class="graph-turnstile" d="M${cx - 5},8 V20 M${cx - 5},14 H${cx + 6}"/>`);
   }
@@ -104,8 +104,15 @@ export function graphSvg(measured: MeasuredDisplayGraph, geometry: GraphGeometry
     .map((section) => `<path class="graph-edge-hit" data-edge-hit="${attr(edge.id)}" d="${pathData(section.commands!)}"/>`).join(""))
     .join("") : "";
   const nodeMap = new Map(measured.display.nodes.map((node) => [node.id, node]));
+  const ports = new Map(geometry.ports.map((port) => [port.id, port]));
+  const scale = measured.display.nodeScale ?? 1;
   const nodeScale = measured.display.nodeScale ? ` scale(${measured.display.nodeScale})` : "";
-  const nodes = geometry.nodes.map((node) => `<g transform="translate(${node.x},${node.y})${nodeScale}">${nodeSvg(nodeMap.get(node.id)!, measured.drawings.get(node.id)!)}</g>`).join("");
+  const nodes = geometry.nodes.map((node) => {
+    const display = nodeMap.get(node.id)!;
+    const assumptionXs = display.kind === "proof" ? display.ports.filter((port) => port.side === "south")
+      .map((port) => quantize((ports.get(port.id)!.x - node.x) / scale)) : [];
+    return `<g transform="translate(${node.x},${node.y})${nodeScale}">${nodeSvg(display, measured.drawings.get(node.id)!, assumptionXs)}</g>`;
+  }).join("");
   // Paint routes over box fills so the label-free attachment areas retain
   // visible statement adapters. The validator still excludes all label ink.
   const { x: drawingX, y, width: drawingWidth, height } = geometry.bounds;

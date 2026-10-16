@@ -55,14 +55,21 @@ export function layoutGraph(input: MeasuredGraph, options: LayoutOptions): Layou
         id: `${nodes[0]!.id}:${candidate.id}`, geometry: candidate.geometry });
     }
   }
-  // Put independent components beside one another, with their main results
-  // aligned at the top. Never wrap components into additional graph rows.
+  // The overview keeps independent components beside one another. A local
+  // diagram may wrap them; translations preserve all validated interiors.
   const pack = (parts: readonly GraphGeometry[]): GraphGeometry => {
   const gap = profile.nodeGap;
-  const placed: GraphGeometry[] = []; let x = 0, height = 0, width = 0;
-  for (const part of parts) {
-    placed.push(translateGeometry(part, x - part.bounds.x, -part.bounds.y));
-    height = Math.max(height, part.bounds.height); width = x + part.bounds.width; x += part.bounds.width + gap;
+  const compact = options.componentPacking === "compact";
+  const ordered = compact ? [...parts].sort((a, b) => b.bounds.height - a.bounds.height || b.bounds.width - a.bounds.width ||
+    compareText(a.nodes[0]?.id ?? "", b.nodes[0]?.id ?? "")) : parts;
+  const rowWidth = compact ? Math.max(0, ...parts.map((p) => p.bounds.width),
+    Math.sqrt(parts.reduce((area, p) => area + (p.bounds.width + gap) * (p.bounds.height + gap), 0) * 1.6)) : Infinity;
+  const placed: GraphGeometry[] = []; let x = 0, y = 0, rowHeight = 0, height = 0, width = 0;
+  for (const part of ordered) {
+    if (x && x + part.bounds.width > rowWidth) { x = 0; y += rowHeight + gap; rowHeight = 0; }
+    placed.push(translateGeometry(part, x - part.bounds.x, y - part.bounds.y));
+    rowHeight = Math.max(rowHeight, part.bounds.height);
+    height = Math.max(height, y + part.bounds.height); width = Math.max(width, x + part.bounds.width); x += part.bounds.width + gap;
   }
   // Whole-unit outer extents make a 100% SVG viewport match its viewBox
   // exactly. Fractional CSS viewport rounding otherwise perturbs glyph

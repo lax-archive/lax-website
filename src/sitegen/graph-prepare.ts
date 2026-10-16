@@ -19,6 +19,7 @@ import { graphInteractionPayload, graphSvg, type GraphInteractionPayload } from 
 import { graphDataScript } from "./graphs.js";
 import { displayLabelRequests } from "./graph-node-size.js";
 import { proofGraphViews } from "./graph-proof-views.js";
+import { graphLayoutOptions } from "./graph-layout-options.js";
 
 export interface PreparedGraphView {
   interaction: GraphInteractionPayload; height: number; status: string;
@@ -407,7 +408,7 @@ function localProfile(profile: LayoutProfile): LayoutProfile {
 export function graphGeometryDigest(measured: MeasuredDisplayGraph, labelSignatures: readonly string[],
   environment: GraphMeasurementEnvironment, profile: LayoutProfile = DEFAULT_PROFILE): string {
   return hash({ preparationVersion: PREPARATION_VERSION, engineVersion: ENGINE_VERSION,
-    schemaVersion: GEOMETRY_SCHEMA_VERSION, selectionPolicy: SELECTION_POLICY, profile,
+    schemaVersion: GEOMETRY_SCHEMA_VERSION, selectionPolicy: SELECTION_POLICY, ...graphLayoutOptions(measured.display, profile),
     graph: measured.graph, kind: measured.display.kind, mapping: measured.display.mapping,
     labelSignatures: [...new Set(labelSignatures)].sort(compareText),
     measurementSignature: environment.signature, fontSignature: environment.fontSignature });
@@ -475,6 +476,7 @@ export async function prepareGraphs(files: Map<string, string | Buffer>, options
     const preparedViews = new Map<View, { measured: MeasuredDisplayGraph; geometry: GraphGeometry }>();
     const layoutStarted = performance.now();
     for (const page of pages) for (const container of page.containers) for (const view of container.views) {
+      const layoutOptions = graphLayoutOptions(view.display, profile);
       const measured = measureDisplayGraph(view.display, labels, profile.portSeparation);
       const inputDigest = graphGeometryDigest(measured, displayLabelRequests([view.display]).map((request) => signatures.get(request.text)!), measurer.environment, profile);
       let result = layouts.get(inputDigest);
@@ -487,7 +489,7 @@ export async function prepareGraphs(files: Map<string, string | Buffer>, options
           const cached = JSON.parse(fs.readFileSync(cacheFile, "utf8")) as { schemaVersion: number; inputDigest: string; geometryDigest: string; geometry: GraphGeometry };
           if (!onlyKeys(cached, ["schemaVersion", "inputDigest", "geometryDigest", "geometry"]) || cached.schemaVersion !== 1 || cached.inputDigest !== inputDigest ||
               cached.geometryDigest !== hash(cached.geometry) || cached.geometry.inputDigest !== inputDigest ||
-              cached.geometry.engineVersion !== ENGINE_VERSION || cached.geometry.profileId !== profile.id || !geometryFields(cached.geometry)) throw new Error("incompatible geometry cache");
+              cached.geometry.engineVersion !== ENGINE_VERSION || cached.geometry.profileId !== layoutOptions.profile!.id || !geometryFields(cached.geometry)) throw new Error("incompatible geometry cache");
           const checked = validateGeometry(measured.graph, cached.geometry);
           if (!checked.valid) throw new Error("invalid cached geometry");
           if (reportFile) try {
@@ -500,7 +502,7 @@ export async function prepareGraphs(files: Map<string, string | Buffer>, options
           if ((error as NodeJS.ErrnoException).code !== "ENOENT") statistics.corruptGeometryEntries++;
         }
         if (!result) {
-          const searched = layoutGraph(measured.graph, { inputDigest, profile });
+          const searched = layoutGraph(measured.graph, { inputDigest, ...layoutOptions });
           const checked = validateGeometry(measured.graph, searched.geometry);
           if (!checked.valid || !geometryFields(searched.geometry)) throw new GraphDiagnosticError(checked.diagnostics.length ? checked.diagnostics :
             [{ code: "graph-geometry-schema", message: "Layout returned fields outside the public geometry contract" }]);

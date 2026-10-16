@@ -7,6 +7,7 @@ import type { LayoutProfile } from "../graph-layout/types.js";
 import { measureDisplayGraph } from "./graph-node-size.js";
 import { graphInteractionPayload, graphSvg } from "./graph-svg.js";
 import type { DisplayGraph, GraphLabel } from "./graph-project.js";
+import { graphLayoutOptions } from "./graph-layout-options.js";
 
 interface LocalContainer {
   initial: string; ancestors: number; descendants: number;
@@ -30,8 +31,9 @@ worker.onmessage = (event) => {
       const views: Record<string, { svg: string; interaction: ReturnType<typeof graphInteractionPayload>; height: number; status: string }> = {};
       for (const [state, view] of Object.entries(container.views)) {
         const measured = measureDisplayGraph(view.display, labels, profile.portSeparation);
-        const inputDigest = await digest(canonicalJson({ graph: measured.graph, labels: [...labels], view: view.display, profile }));
-        const result = layoutGraph(measured.graph, { inputDigest, profile });
+        const options = graphLayoutOptions(view.display, profile);
+        const inputDigest = await digest(canonicalJson({ graph: measured.graph, labels: [...labels], view: view.display, ...options }));
+        const result = layoutGraph(measured.graph, { inputDigest, ...options });
         views[state] = { svg: graphSvg(measured, result.geometry, `${id}-${state}`),
           interaction: graphInteractionPayload(measured), height: result.geometry.bounds.height, status: view.status };
       }

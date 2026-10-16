@@ -42,17 +42,27 @@ export function proofGraphViews(data: ProofGraphData): { state: string; display:
   const views = [{ state: "default", display, status: `${ids.length} concept files; connections summarize their proofs` }];
   for (const id of ids) {
     const proofs = grouped.get(id)!;
+    const members = concepts.get(id)!;
+    const statements = members.filter((statement) => statement.endpointKind !== "concept");
+    // Only the overview groups a file into one box. In a local view each
+    // numbered statement is an independent vertex, so sibling dependencies
+    // are ordinary directed paths instead of artificial display cycles.
+    const localStatements = statements.length > 1 ? statements.map((statement) => ({ ...statement,
+      concept: undefined, index: undefined, count: 1, label: String(statement.index),
+      title: `Statement ${statement.index}: ${statement.id}`, tooltipHtml: undefined,
+    })) : statements;
+    if (!statements.length || proofs.some((proof) => proof.conclusion === id || proof.assumptions.includes(id)))
+      localStatements.push(conceptNode(id));
     const premises = [...new Set(proofs.flatMap((proof) => proof.assumptions.map((assumption) => homes.get(assumption)!)))]
       .filter((premise) => premise !== id).sort(compareText);
     const local = projectGraph("proofs", {
-      statements: [...concepts.get(id)!, ...premises.map(conceptNode)],
+      statements: [...localStatements, ...premises.map(conceptNode)],
       proofs: proofs.map((proof) => ({ ...proof,
         assumptions: [...new Set(proof.assumptions.map((assumption) => homes.get(assumption) === id ? assumption : homes.get(assumption)!))],
       })),
     });
-    const statements = concepts.get(id)!.filter((statement) => statement.endpointKind !== "concept").length;
     views.push({ state: `statements:${id}`, display: { ...local, proofDetail: id },
-      status: `${statements} statement${statements === 1 ? "" : "s"}; ${proofs.length} proof${proofs.length === 1 ? "" : "s"}` });
+      status: `${statements.length} statement${statements.length === 1 ? "" : "s"}; ${proofs.length} proof${proofs.length === 1 ? "" : "s"}` });
   }
   return views;
 }

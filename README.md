@@ -326,9 +326,14 @@ most one proof symbol per file, with repeated dependencies combined. The
 connections summarize all available proofs, including alternatives. Hovering
 or focusing a concept or its proof symbol opens a separate local diagram of
 that file's individual statements, proofs and premises. The overview stays
-fixed. The local diagrams are prepared and validated at build time, and larger
-ones are loaded on demand. Arrow Down enters their links; Escape closes the
-diagram. Without JavaScript the overview links to the concept pages, which
+fixed. Local statements have independent numbered nodes, allowing the layout
+to order their proofs without artificial cycles through a shared concept box.
+Each local drawing searches its own node orders, port orders and routes;
+validated swaps reduce remaining crossings and independent components wrap
+into compact rows. The diagrams are prepared and validated at build time, and
+larger ones are loaded on demand. Popup windows use the available screen space
+and keep their position when node descriptions change. Arrow Down enters their
+links; Escape closes the diagram. Without JavaScript the overview links to the concept pages, which
 retain the complete statements and proofs.
 
 The archive measurement host uses the site's bundled fonts and exact SVG ink
