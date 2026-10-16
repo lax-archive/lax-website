@@ -2963,6 +2963,75 @@
       ]
     },
     {
+      "id": "lax-213208",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Approximation algorithms",
+      "concepts": [
+        {
+          "id": "Lax213208.AlgorithmInput",
+          "title": "Algorithm inputs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax213208.Approximation",
+          "title": "Approximate and optimal solutions",
+          "type": "definition"
+        },
+        {
+          "id": "Lax213208.EPTAS",
+          "title": "Efficient polynomial-time approximation schemes",
+          "type": "definition"
+        },
+        {
+          "id": "Lax213208.FPTAS",
+          "title": "Fully polynomial-time approximation schemes",
+          "type": "definition"
+        },
+        {
+          "id": "Lax213208.LReduction",
+          "title": "L-reductions",
+          "type": "definition"
+        },
+        {
+          "id": "Lax213208.OptimizationProblem",
+          "title": "Optimization problems",
+          "type": "definition"
+        },
+        {
+          "id": "Lax213208.PolynomialComputation",
+          "title": "Polynomial-time maps",
+          "type": "definition"
+        },
+        {
+          "id": "Lax213208.Programs",
+          "title": "Program execution",
+          "type": "definition"
+        },
+        {
+          "id": "Lax213208.PTAS",
+          "title": "Polynomial-time approximation schemes",
+          "type": "definition"
+        },
+        {
+          "id": "Lax213208.QPTAS",
+          "title": "Quasipolynomial-time approximation schemes",
+          "type": "definition"
+        },
+        {
+          "id": "Lax213208.RApproximation",
+          "title": "Approximation guarantees",
+          "type": "definition"
+        },
+        {
+          "id": "Lax213208.RunningTime",
+          "title": "Running time",
+          "type": "definition"
+        }
+      ],
+      "proofs": []
+    },
+    {
       "id": "lax-214022",
       "state": "registered",
       "environment": "v4.33.0",
