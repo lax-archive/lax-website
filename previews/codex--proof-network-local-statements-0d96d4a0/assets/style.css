@@ -4600,7 +4600,9 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
   text-align: left;
 }
 .graph-proof-peek[hidden]{ display: none; }
-.graph-proof-peek h3{ margin: 0; padding-right: 1.5rem; font-size: 1rem; line-height: 1.4; }
+.graph-proof-peek h3{ margin: 0; padding-right: 1.5rem; font-size: 1rem; line-height: 1.4; cursor: grab; touch-action: none; user-select: none; }
+.graph-proof-peek.is-dragging h3{ cursor: grabbing; }
+.graph-proof-peek.is-pinned{ border-color: var(--text-dim); }
 .graph-proof-peek-close{ position: absolute; top: 0.4rem; right: 0.4rem; border: 0; background: none; color: var(--text-dim); font-size: 1.2rem; cursor: pointer; }
 .graph-proof-peek-status{ margin: 0.3rem 0 0.5rem; font-size: 0.8rem; color: var(--text-dim); }
 .graph-proof-peek-plot .prepared-graph{ display: block; max-width: none; margin: 0 auto; }

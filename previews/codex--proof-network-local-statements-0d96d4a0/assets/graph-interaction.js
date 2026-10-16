@@ -337,7 +337,7 @@
     close.addEventListener('click', () => {
       const trigger = controller.selectionTrigger;
       clearProofSelection(controller);
-      trigger?.focus?.();
+      restoreProofFocus(controller, trigger);
     });
     appendText(panel, 'div', 'graph-detail-scroll', '');
     figure.append(panel);
@@ -807,6 +807,7 @@
 
   function clearProofSelection(controller, restoreScale = true) {
     if (!controller?.selection) return;
+    controller.suspendProofPeek?.();
     stopCameraAnimation(controller);
     clearProofHighlightClasses(controller);
     const baseScale = controller.selectionBaseScale;
@@ -834,6 +835,12 @@
     if (activeProofController === controller) activeProofController = null;
   }
 
+  function restoreProofFocus(controller, trigger) {
+    controller.restoringProofFocus = true;
+    try { trigger?.focus?.({ preventScroll: true }); }
+    finally { controller.restoringProofFocus = false; }
+  }
+
   function selectProofItem(controller, descriptor, trigger, view) {
     if (activeProofController && activeProofController !== controller)
       clearProofSelection(activeProofController);
@@ -854,7 +861,7 @@
     event.preventDefault();
     event.stopPropagation();
     hideTooltip(controller.container);
-    controller.closeProofPeek?.();
+    controller.suspendProofPeek?.();
     if (figure.classList.contains('graph-expanded')) {
       select();
       return;
@@ -1012,19 +1019,29 @@
     const figure = container.closest('.graph-figure');
     figure.append(panel);
     let anchor = null, timer = null, request = 0, diagramWidth = 0, measuredWidth = 0, placementHeight = 0;
+    let pinned = false, popupDrag = null, hoverSuspended = false;
     const cancel = () => { clearTimeout(timer); timer = null; };
     const close = () => {
       cancel(); request++;
       if (anchor) anchor.setAttribute('aria-expanded', 'false');
       anchor = null; panel.hidden = true; panel.replaceChildren();
+      pinned = false; popupDrag = null;
+      panel.classList.remove('is-pinned', 'is-dragging');
       if (activeProofPeek?.panel === panel) activeProofPeek = null;
     };
     controller.closeProofPeek = close;
+    controller.suspendProofPeek = () => { hoverSuspended = true; close(); };
+    const pin = () => {
+      if (panel.hidden) return;
+      cancel(); pinned = true;
+      panel.classList.add('is-pinned');
+      if (activeProofPeek?.panel === panel) activeProofPeek.pinned = true;
+    };
     const position = () => {
       if (!anchor || panel.hidden) return;
       const box = anchor.getBoundingClientRect(), plot = container.getBoundingClientRect();
-      if (box.bottom < Math.max(0, plot.top) || box.top > Math.min(innerHeight, plot.bottom) ||
-          box.right < Math.max(0, plot.left) || box.left > Math.min(innerWidth, plot.right)) { close(); return; }
+      if (!pinned && (box.bottom < Math.max(0, plot.top) || box.top > Math.min(innerHeight, plot.bottom) ||
+          box.right < Math.max(0, plot.left) || box.left > Math.min(innerWidth, plot.right))) { close(); return; }
       const gap = 10, inset = 12, style = getComputedStyle(panel);
       const trim = panel.offsetWidth - panel.clientWidth + parseFloat(style.paddingLeft) + parseFloat(style.paddingRight);
       const width = Math.min(innerWidth - 2 * inset, Math.max(320, diagramWidth + trim));
@@ -1040,7 +1057,11 @@
       }
       const height = Math.min(placementHeight, innerHeight - 2 * inset);
       let left, top, availableHeight;
-      if (box.right + gap + width <= innerWidth - inset) { left = box.right + gap; top = box.top; }
+      if (pinned) {
+        left = parseFloat(panel.style.left); top = parseFloat(panel.style.top);
+        top = Math.max(inset, Math.min(top, innerHeight - Math.min(height, 120) - inset));
+        availableHeight = innerHeight - top - inset;
+      } else if (box.right + gap + width <= innerWidth - inset) { left = box.right + gap; top = box.top; }
       else if (box.left - gap - width >= inset) { left = box.left - gap - width; top = box.top; }
       else {
         left = (box.left + box.right - width) / 2;
@@ -1056,18 +1077,28 @@
         top = Math.max(inset, Math.min(top, innerHeight - height - inset));
         availableHeight = innerHeight - top - inset;
       }
+      if (!pinned) {
+        // Leave room to read descriptions even when the diagram is small
+        // and its anchor sits along the bottom edge of the screen.
+        const readingHeight = Math.max(height, Math.min(320, (innerHeight - 2 * inset) / 2));
+        top = Math.max(inset, Math.min(top, innerHeight - inset - readingHeight));
+        availableHeight = innerHeight - top - inset;
+      }
       panel.style.left = `${Math.max(inset, Math.min(left, innerWidth - width - inset))}px`;
       panel.style.top = `${top}px`;
       panel.style.maxHeight = `${availableHeight}px`;
     };
     const leave = () => {
       cancel();
+      if (pinned) return;
       timer = setTimeout(() => {
         if (panel.matches(':hover') || panel.contains(document.activeElement) || anchor?.matches(':hover') || anchor === document.activeElement) return;
         close();
       }, 180);
     };
-    const open = async (element, info) => {
+    const open = async (element, info, fromHover = false) => {
+      if (controller.selection || controller.restoringProofFocus || controller.dragging ||
+          (fromHover && hoverSuspended) || activeProofPeek?.pinned) return;
       cancel();
       if (anchor === element && !panel.hidden) return;
       activeProofPeek?.close();
@@ -1082,6 +1113,28 @@
       if (detail?.nameHtml) heading.innerHTML = detail.nameHtml;
       else heading.textContent = detail?.name || info.label;
       panel.append(heading);
+      heading.title = 'Drag to move; click to pin';
+      heading.addEventListener('pointerdown', (event) => {
+        if (event.button !== 0 || event.target.closest('a, button')) return;
+        event.preventDefault(); pin();
+        const box = panel.getBoundingClientRect();
+        popupDrag = { id: event.pointerId, x: event.clientX, y: event.clientY, left: box.left, top: box.top };
+        heading.setPointerCapture(event.pointerId); panel.classList.add('is-dragging');
+      });
+      heading.addEventListener('pointermove', (event) => {
+        if (!popupDrag || popupDrag.id !== event.pointerId) return;
+        panel.style.left = `${popupDrag.left + event.clientX - popupDrag.x}px`;
+        panel.style.top = `${popupDrag.top + event.clientY - popupDrag.y}px`;
+        position();
+      });
+      const release = (event) => {
+        if (popupDrag?.id !== event.pointerId) return;
+        popupDrag = null; panel.classList.remove('is-dragging');
+        if (heading.hasPointerCapture(event.pointerId)) heading.releasePointerCapture(event.pointerId);
+      };
+      heading.addEventListener('pointerup', release);
+      heading.addEventListener('pointercancel', release);
+      heading.addEventListener('lostpointercapture', release);
       appendText(panel, 'p', 'graph-proof-peek-status', 'Loading statements and proofs…');
       panel.hidden = false;
       const dismiss = appendText(panel, 'button', 'graph-proof-peek-close', '×');
@@ -1135,6 +1188,8 @@
       }
     };
     controller.openProofPeek = open;
+    panel.addEventListener('click', pin, { capture: true });
+    container.addEventListener('pointermove', () => { hoverSuspended = false; });
     panel.addEventListener('mouseenter', cancel); panel.addEventListener('mouseleave', leave);
     panel.addEventListener('focusin', cancel); panel.addEventListener('focusout', leave);
     const escape = (event) => {
@@ -1151,7 +1206,7 @@
       if (!info?.detailView) continue;
       element.setAttribute('aria-expanded', 'false');
       element.setAttribute('aria-controls', panel.id);
-      element.addEventListener('mouseenter', () => { cancel(); timer = setTimeout(() => open(element, info), GRAPH_HOVER_DELAY); });
+      element.addEventListener('mouseenter', () => { cancel(); timer = setTimeout(() => open(element, info, true), GRAPH_HOVER_DELAY); });
       element.addEventListener('mouseleave', leave);
       element.addEventListener('focus', () => open(element, info));
       element.addEventListener('blur', leave);
@@ -1328,34 +1383,51 @@
     }
     installProofSelection(container, controller, interaction);
     installProofPeek(container, controller, interaction);
-    let drag = null;
+    let drag = null, dragFrame = null;
+    const pan = () => {
+      dragFrame = null;
+      if (!drag) return;
+      const dx = drag.nextX - drag.x, dy = drag.nextY - drag.y;
+      const left = container.scrollLeft, top = container.scrollTop;
+      if (drag.scrollX) container.scrollLeft = left - dx;
+      if (drag.scrollY) container.scrollTop = top - dy;
+      // Apply native scrolling and its remaining camera translation in the
+      // same frame. Pointer events only supply the latest position, avoiding
+      // repeated style/layout work and a one-frame lag at scrollbar limits.
+      controller.camera.x += (dx + container.scrollLeft - left) / drag.scale;
+      controller.camera.y += (dy + container.scrollTop - top) / drag.scale;
+      drag.x = drag.nextX; drag.y = drag.nextY;
+      if (frame) cancelAnimationFrame(frame);
+      paint();
+    };
     svg.addEventListener('pointerdown', (event) => {
       // Native one-finger page/viewport scrolling remains available on touch.
       if (event.pointerType === 'touch' || event.button !== 0 ||
           event.target.closest('a, [data-edge-hit]')) return;
       stopCameraAnimation(controller);
       controller.autoFrame = false;
-      const matrix = svg.getScreenCTM();
-      drag = { id: event.pointerId, x: event.clientX, y: event.clientY, scale: matrix.a };
+      controller.dragging = true;
+      controller.suspendProofPeek?.();
+      const matrix = svg.getScreenCTM(), style = getComputedStyle(container);
+      drag = { id: event.pointerId, x: event.clientX, y: event.clientY,
+        nextX: event.clientX, nextY: event.clientY, scale: matrix.a,
+        scrollX: style.overflowX !== 'hidden', scrollY: style.overflowY !== 'hidden' };
       svg.setPointerCapture(event.pointerId); svg.classList.add('graph-dragging');
       hideTooltip(container);
     });
     svg.addEventListener('pointermove', (event) => {
       if (!drag || event.pointerId !== drag.id) return;
-      const dx = event.clientX - drag.x, dy = event.clientY - drag.y;
-      const style = getComputedStyle(container);
-      const left = container.scrollLeft, top = container.scrollTop;
-      if (style.overflowX !== 'hidden') container.scrollLeft = left - dx;
-      if (style.overflowY !== 'hidden') container.scrollTop = top - dy;
-      // Native scrollbars and grab-to-pan now move the same viewport. Camera
-      // translation handles only the portion beyond a scrollbar's limits, or
-      // an axis whose drawing already fits and therefore has no scrollbar.
-      controller.camera.x += (dx + container.scrollLeft - left) / drag.scale;
-      controller.camera.y += (dy + container.scrollTop - top) / drag.scale;
-      drag.x = event.clientX; drag.y = event.clientY; controller.paint();
+      drag.nextX = event.clientX; drag.nextY = event.clientY;
+      if (!dragFrame) dragFrame = requestAnimationFrame(pan);
     });
-    const release = () => { drag = null; svg.classList.remove('graph-dragging'); };
+    const release = (event) => {
+      if (!drag || event.pointerId !== drag.id) return;
+      if (dragFrame) { cancelAnimationFrame(dragFrame); pan(); }
+      drag = null; controller.dragging = false; svg.classList.remove('graph-dragging');
+      if (svg.hasPointerCapture(event.pointerId)) svg.releasePointerCapture(event.pointerId);
+    };
     svg.addEventListener('pointerup', release); svg.addEventListener('pointercancel', release);
+    svg.addEventListener('lostpointercapture', release);
     svg.addEventListener('wheel', (event) => {
       const expanded = container.closest('.graph-figure')?.classList.contains('graph-expanded');
       if (!expanded && !event.ctrlKey && !event.metaKey) return;
@@ -1505,13 +1577,16 @@
       used.textContent = `${list.hidden ? 'Show' : 'Hide'} referenced concepts`;
     });
     window.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && activeProofPeek) {
+        event.preventDefault(); activeProofPeek.close(); return;
+      }
       if (!expandedFigure) return;
       if (event.key === 'Escape') {
         event.preventDefault();
         if (activeProofController?.selection) {
-          const trigger = activeProofController.selectionTrigger;
-          clearProofSelection(activeProofController);
-          trigger?.focus?.();
+          const controller = activeProofController, trigger = controller.selectionTrigger;
+          clearProofSelection(controller);
+          restoreProofFocus(controller, trigger);
           return;
         }
         const button = expandedFigure.querySelector('[data-graph-expand]'); setExpanded(button, false); button.focus();
@@ -1526,7 +1601,8 @@
     window.addEventListener('resize', refreshGraphTooltip, { passive: true });
     window.addEventListener('pointerdown', (event) => {
       if (!(event.target instanceof Node)) return;
-      if (activeProofPeek && !activeProofPeek.panel.contains(event.target) && !activeProofPeek.anchor.contains(event.target))
+      if (activeProofPeek && !activeProofPeek.panel.contains(event.target) &&
+          (activeProofPeek.pinned || !activeProofPeek.anchor.contains(event.target)))
         activeProofPeek.close();
       for (const item of document.querySelectorAll('.graph-detail-open-assumption-item.is-open')) {
         if (item.contains(event.target)) continue;
