@@ -725,6 +725,8 @@
   }
 
   function focusProofSelection(controller) {
+    // The card may have been dismissed before this animation frame runs.
+    if (!controller.selection) return;
     const edge = controller.selection.type === 'edge'
       ? controller.interaction.edges[controller.selection.id] : null;
     const node = controller.selection.type === 'node'
@@ -1018,8 +1020,8 @@
     panel.setAttribute('aria-label', 'Statements and proofs');
     const figure = container.closest('.graph-figure');
     figure.append(panel);
-    let anchor = null, timer = null, request = 0, diagramWidth = 0, diagramHeight = 0, measuredWidth = 0, placementHeight = 0;
-    let descriptions = [], measuredViewportHeight = 0;
+    let anchor = null, timer = null, request = 0, diagramWidth = 0, diagramHeight = 0;
+    let scrollbarWidth = 0, scrollbarHeight = 0;
     let pinned = false, popupDrag = null, hoverSuspended = false;
     const cancel = () => { clearTimeout(timer); timer = null; };
     const close = () => {
@@ -1044,35 +1046,23 @@
       if (!pinned && (box.bottom < Math.max(0, plot.top) || box.top > Math.min(innerHeight, plot.bottom) ||
           box.right < Math.max(0, plot.left) || box.left > Math.min(innerWidth, plot.right))) { close(); return; }
       const gap = 10, inset = 12, style = getComputedStyle(panel);
-      const trim = panel.offsetWidth - panel.clientWidth + parseFloat(style.paddingLeft) + parseFloat(style.paddingRight);
-      const width = Math.min(innerWidth - 2 * inset, Math.max(320, diagramWidth + trim));
-      panel.style.width = `${width}px`;
-      if (measuredWidth !== width || measuredViewportHeight !== innerHeight) {
-        measuredWidth = width;
-        measuredViewportHeight = innerHeight;
-        // Measure every description at this width once. Hover only changes
-        // the contents of an already-sized region, never the window's size.
-        const caption = panel.querySelector('.graph-proof-peek-caption');
-        const description = panel.querySelector('.graph-proof-peek-description');
-        let captionHeight = 0;
-        if (caption) {
-          const probe = caption.cloneNode(false);
-          probe.hidden = false; probe.classList.add('graph-proof-peek-measure');
-          description.append(probe);
-          for (const info of descriptions) {
-            if (info.tooltipHtml) probe.innerHTML = info.tooltipHtml;
-            else probe.textContent = info.label || info.semanticId;
-            captionHeight = Math.max(captionHeight, probe.scrollHeight);
-          }
-          probe.remove();
-          captionHeight = Math.min(captionHeight, innerHeight * 0.3);
-          description.style.height = `${captionHeight}px`;
-        }
-        const headerHeight = panel.querySelector('.graph-proof-peek-header').offsetHeight;
-        placementHeight = headerHeight + diagramHeight + captionHeight +
-          parseFloat(style.paddingTop) + parseFloat(style.paddingBottom) + 2;
+      const trim = parseFloat(style.borderLeftWidth) + parseFloat(style.borderRightWidth) +
+        parseFloat(style.paddingLeft) + parseFloat(style.paddingRight);
+      const verticalTrim = parseFloat(style.borderTopWidth) + parseFloat(style.borderBottomWidth) +
+        parseFloat(style.paddingTop) + parseFloat(style.paddingBottom);
+      const maxWidth = innerWidth - 2 * inset, maxHeight = innerHeight - 2 * inset;
+      let width, height, vertical = false;
+      // Include a needed scrollbar in the outer size when screen space
+      // permits, so it does not unnecessarily force the other scrollbar.
+      for (let pass = 0; pass < 3; pass++) {
+        width = Math.min(maxWidth, Math.max(320, diagramWidth + trim + (vertical ? scrollbarWidth : 0)));
+        panel.style.width = `${width}px`;
+        const horizontal = diagramWidth > width - trim - (vertical ? scrollbarWidth : 0);
+        const naturalHeight = panel.querySelector('.graph-proof-peek-header').offsetHeight +
+          diagramHeight + verticalTrim + (horizontal ? scrollbarHeight : 0);
+        height = Math.min(naturalHeight, maxHeight);
+        vertical ||= naturalHeight > maxHeight;
       }
-      const height = Math.min(placementHeight, innerHeight - 2 * inset);
       let left, top, availableHeight;
       if (pinned) {
         left = parseFloat(panel.style.left); top = parseFloat(panel.style.top);
@@ -1095,8 +1085,7 @@
         availableHeight = innerHeight - top - inset;
       }
       if (!pinned) {
-        // Leave room to read descriptions even when the diagram is small
-        // and its anchor sits along the bottom edge of the screen.
+        // Keep even small diagrams away from the bottom edge of the screen.
         const readingHeight = Math.max(height, Math.min(320, (innerHeight - 2 * inset) / 2));
         top = Math.max(inset, Math.min(top, innerHeight - inset - readingHeight));
         availableHeight = innerHeight - top - inset;
@@ -1125,7 +1114,7 @@
       const token = ++request;
       hideTooltip(container);
       panel.replaceChildren();
-      diagramWidth = 0; diagramHeight = 0; measuredWidth = 0; descriptions = [];
+      diagramWidth = 0; diagramHeight = 0;
       panel.style.height = ''; panel.style.maxHeight = ''; panel.scrollTop = 0; panel.scrollLeft = 0;
       const detail = detailForInfo(controller, info);
       const header = document.createElement('div'); header.className = 'graph-proof-peek-header';
@@ -1151,24 +1140,9 @@
         // never lays out the overview or constructs new routes in the browser.
         plot.innerHTML = view.svg;
         panel.append(plot);
-        const description = appendText(panel, 'div', 'graph-proof-peek-description', '');
-        const caption = appendText(description, 'div', 'graph-proof-peek-caption', '');
-        caption.hidden = true;
-        let described = null;
         for (const node of plot.querySelectorAll('[data-node-id]')) {
           const localInfo = view.interaction.nodes[node.dataset.nodeId];
           if (!localInfo) continue;
-          const describe = () => {
-            described = node; caption.hidden = false;
-            if (localInfo.tooltipHtml) caption.innerHTML = localInfo.tooltipHtml;
-            else caption.textContent = localInfo.label || localInfo.semanticId;
-          };
-          const clearDescription = () => {
-            if (described !== node) return;
-            described = null; caption.hidden = true; caption.replaceChildren();
-          };
-          node.addEventListener('mouseenter', describe); node.addEventListener('focus', describe);
-          node.addEventListener('mouseleave', clearDescription); node.addEventListener('blur', clearDescription);
           const localDetail = detailForInfo(controller, localInfo);
           if (localDetail) node.addEventListener('click', (event) => {
             if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
@@ -1181,10 +1155,14 @@
               }));
           });
         }
-        diagramWidth = plot.querySelector('svg').viewBox.baseVal.width;
-        diagramHeight = plot.querySelector('svg').viewBox.baseVal.height;
-        descriptions = Object.values(view.interaction.nodes);
-        measuredWidth = 0;
+        diagramWidth = Math.ceil(plot.querySelector('svg').viewBox.baseVal.width);
+        diagramHeight = Math.ceil(plot.querySelector('svg').viewBox.baseVal.height);
+        const measure = document.createElement('div');
+        measure.style.cssText = 'position:absolute;width:100px;height:100px;overflow:scroll;visibility:hidden';
+        panel.append(measure);
+        scrollbarWidth = measure.offsetWidth - measure.clientWidth;
+        scrollbarHeight = measure.offsetHeight - measure.clientHeight;
+        measure.remove();
         position();
       } catch (error) {
         if (request === token) panel.querySelector('.graph-proof-peek-status').textContent = error.message;
@@ -1192,7 +1170,7 @@
     };
     controller.openProofPeek = open;
     panel.addEventListener('pointerdown', (event) => {
-      if (event.button !== 0 || event.target.closest('a, button, [data-node-id], .graph-proof-peek-description')) return;
+      if (event.button !== 0 || event.target.closest('a, button, [data-node-id]')) return;
       // Leave native scrollbar thumbs available; blank diagram space and
       // the whole header can grab the popup without selecting its text.
       const scroll = event.target.closest('.graph-proof-peek-plot');
@@ -1308,27 +1286,30 @@
     };
     let frame;
     let paintedScale;
-    const constrainVertical = () => {
-      if (!container.clientHeight || getComputedStyle(container).overflowY !== 'hidden') return;
-      // Hidden overflow can retain a native scroll offset after zoom/focus.
-      // When the drawing fits, its full published bounds (including margins)
-      // must remain between the controls and legend, even while dragging.
-      container.scrollTop = 0;
+    const constrainCamera = () => {
+      if (!container.clientWidth || !container.clientHeight) return;
+      const style = getComputedStyle(container);
+      if (style.overflowX === 'hidden') container.scrollLeft = 0;
+      if (style.overflowY === 'hidden') container.scrollTop = 0;
       const matrix = svg.getScreenCTM();
-      if (!matrix || matrix.d <= 0) return;
-      const bounds = svg.viewBox.baseVal, camera = controller.camera;
-      const height = bounds.height * camera.scale;
-      const available = container.clientHeight / matrix.d;
-      if (height > available + 1 / matrix.d) return;
-      const top = (container.getBoundingClientRect().top + container.clientTop - matrix.f) / matrix.d;
-      const minimum = top - bounds.y * camera.scale;
-      const maximum = minimum + Math.max(0, available - height);
-      camera.y = Math.max(minimum, Math.min(maximum, camera.y));
+      if (!matrix || matrix.a <= 0 || matrix.d <= 0) return;
+      const bounds = svg.viewBox.baseVal, camera = controller.camera, box = container.getBoundingClientRect();
+      // The published viewBox encloses every node and route with its layout
+      // margin. Large drawings cover the viewport up to either end; small
+      // drawings stay wholly inside it. Neither axis has unbounded overscroll.
+      for (const [axis, start, length, available, origin, unit] of [
+        ['x', bounds.x, bounds.width, container.clientWidth, box.left + container.clientLeft - matrix.e, matrix.a],
+        ['y', bounds.y, bounds.height, container.clientHeight, box.top + container.clientTop - matrix.f, matrix.d],
+      ]) {
+        const first = origin / unit - start * camera.scale;
+        const last = first + available / unit - length * camera.scale;
+        camera[axis] = Math.max(Math.min(first, last), Math.min(Math.max(first, last), camera[axis]));
+      }
     };
     const paint = () => {
       frame = null;
       if (controller.camera.scale !== paintedScale) { controller.fitScrollbars(); paintedScale = controller.camera.scale; }
-      constrainVertical();
+      constrainCamera();
       const { x, y, scale } = controller.camera;
       cameraGroup.setAttribute('transform', `translate(${x},${y}) scale(${scale})`);
       const output = container.closest('.graph-figure').querySelector('[data-graph-zoom-status]');
@@ -1611,7 +1592,7 @@
       fitDetailPanel(controller);
     }).observe(container);
     container.addEventListener('scroll', () => {
-      if (container.scrollTop && getComputedStyle(container).overflowY === 'hidden') controller.paint();
+      controller.paint();
     }, { passive: true });
     updateControls(container, controller);
     for (const button of figure.querySelectorAll('[data-graph-zoom]')) {
