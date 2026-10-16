@@ -4035,6 +4035,11 @@
           "type": "definition"
         },
         {
+          "id": "Lax263307.IndependentSetProblem",
+          "title": "Maximum-weight independent set as an optimization problem",
+          "type": "definition"
+        },
+        {
           "id": "Lax263307.InducedEmbeddingWidth",
           "title": "A class width bound obstructs induced route sampling",
           "type": "lemma"
