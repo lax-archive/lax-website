@@ -1011,7 +1011,8 @@
     panel.setAttribute('aria-label', 'Statements and proofs');
     const figure = container.closest('.graph-figure');
     figure.append(panel);
-    let anchor = null, timer = null, request = 0;
+    let anchor = null, timer = null, request = 0, diagramWidth = 0, measuredWidth = 0, placementHeight = 0;
+    let descriptions = [];
     const cancel = () => { clearTimeout(timer); timer = null; };
     const close = () => {
       cancel(); request++;
@@ -1025,14 +1026,51 @@
       const box = anchor.getBoundingClientRect(), plot = container.getBoundingClientRect();
       if (box.bottom < Math.max(0, plot.top) || box.top > Math.min(innerHeight, plot.bottom) ||
           box.right < Math.max(0, plot.left) || box.left > Math.min(innerWidth, plot.right)) { close(); return; }
-      const width = panel.offsetWidth, height = panel.offsetHeight, gap = 10, inset = 12;
-      let left, top;
+      const gap = 10, inset = 12, style = getComputedStyle(panel);
+      const trim = panel.offsetWidth - panel.clientWidth + parseFloat(style.paddingLeft) + parseFloat(style.paddingRight);
+      const width = Math.min(innerWidth - 2 * inset, Math.max(320, diagramWidth + trim));
+      panel.style.width = `${width}px`;
+      if (measuredWidth !== width) {
+        measuredWidth = width;
+        // Choose the position once for the diagram and its longest caption.
+        // Captions remain absent until a local node is hovered or focused;
+        // changing them must never move the window or the graph inside it.
+        const caption = panel.querySelector('.graph-proof-peek-caption');
+        const probe = document.createElement('div');
+        probe.className = 'graph-proof-peek-caption graph-proof-peek-measure';
+        probe.setAttribute('aria-hidden', 'true');
+        probe.style.width = `${panel.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight)}px`;
+        panel.append(probe);
+        let captionHeight = 0;
+        for (const info of descriptions) {
+          if (info.tooltipHtml) probe.innerHTML = info.tooltipHtml;
+          else probe.textContent = info.label || info.semanticId;
+          captionHeight = Math.max(captionHeight, probe.offsetHeight + parseFloat(getComputedStyle(probe).marginTop));
+        }
+        probe.remove();
+        const currentCaption = caption && !caption.hidden ? caption.offsetHeight + parseFloat(getComputedStyle(caption).marginTop) : 0;
+        placementHeight = panel.scrollHeight - currentCaption + captionHeight + 2;
+      }
+      const height = Math.min(placementHeight, innerHeight - 2 * inset);
+      let left, top, availableHeight;
       if (box.right + gap + width <= innerWidth - inset) { left = box.right + gap; top = box.top; }
       else if (box.left - gap - width >= inset) { left = box.left - gap - width; top = box.top; }
-      else { left = (box.left + box.right - width) / 2;
-        top = box.bottom + gap + height <= innerHeight - inset ? box.bottom + gap : box.top - gap - height; }
+      else {
+        left = (box.left + box.right - width) / 2;
+        const below = innerHeight - inset - box.bottom - gap, above = box.top - gap - inset;
+        if (height <= below || below >= above) {
+          top = Math.max(inset, box.bottom + gap); availableHeight = Math.max(1, innerHeight - inset - top);
+        } else {
+          availableHeight = Math.max(1, above); top = Math.max(inset, box.top - gap - Math.min(height, availableHeight));
+        }
+      }
+      if (availableHeight === undefined) {
+        top = Math.max(inset, Math.min(top, innerHeight - height - inset));
+        availableHeight = innerHeight - top - inset;
+      }
       panel.style.left = `${Math.max(inset, Math.min(left, innerWidth - width - inset))}px`;
-      panel.style.top = `${Math.max(inset, Math.min(top, innerHeight - height - inset))}px`;
+      panel.style.top = `${top}px`;
+      panel.style.maxHeight = `${availableHeight}px`;
     };
     const leave = () => {
       cancel();
@@ -1049,6 +1087,8 @@
       const token = ++request;
       hideTooltip(container);
       panel.replaceChildren();
+      diagramWidth = 0; measuredWidth = 0; descriptions = [];
+      panel.style.maxHeight = ''; panel.scrollTop = 0; panel.scrollLeft = 0;
       const detail = detailForInfo(controller, info);
       const heading = document.createElement('h3');
       if (detail?.nameHtml) heading.innerHTML = detail.nameHtml;
@@ -1070,16 +1110,23 @@
         // never lays out the overview or constructs new routes in the browser.
         plot.innerHTML = view.svg;
         panel.append(plot);
-        const caption = appendText(panel, 'div', 'graph-proof-peek-caption', 'Each ⊢ is an individual proof.');
+        const caption = appendText(panel, 'div', 'graph-proof-peek-caption', '');
+        caption.hidden = true;
+        let described = null;
         for (const node of plot.querySelectorAll('[data-node-id]')) {
           const localInfo = view.interaction.nodes[node.dataset.nodeId];
           if (!localInfo) continue;
           const describe = () => {
+            described = node; caption.hidden = false;
             if (localInfo.tooltipHtml) caption.innerHTML = localInfo.tooltipHtml;
             else caption.textContent = localInfo.label || localInfo.semanticId;
-            position();
+          };
+          const clearDescription = () => {
+            if (described !== node) return;
+            described = null; caption.hidden = true; caption.replaceChildren();
           };
           node.addEventListener('mouseenter', describe); node.addEventListener('focus', describe);
+          node.addEventListener('mouseleave', clearDescription); node.addEventListener('blur', clearDescription);
           const localDetail = detailForInfo(controller, localInfo);
           if (localDetail) node.addEventListener('click', (event) => {
             if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
@@ -1092,6 +1139,9 @@
               }));
           });
         }
+        diagramWidth = plot.querySelector('svg').viewBox.baseVal.width;
+        descriptions = Object.values(view.interaction.nodes);
+        measuredWidth = 0;
         position();
       } catch (error) {
         if (request === token) panel.querySelector('.graph-proof-peek-status').textContent = error.message;

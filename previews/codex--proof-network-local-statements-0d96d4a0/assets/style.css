@@ -4587,9 +4587,10 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
 .graph-proof-peek{
   position: fixed;
   z-index: 210;
-  width: min(640px, calc(100vw - 24px));
+  width: min(320px, calc(100vw - 24px));
   max-height: calc(100dvh - 24px);
   overflow: auto;
+  scrollbar-gutter: stable;
   padding: 0.75rem;
   border: 1px solid var(--border);
   border-radius: var(--radius-card);
@@ -4602,10 +4603,11 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
 .graph-proof-peek h3{ margin: 0; padding-right: 1.5rem; font-size: 1rem; line-height: 1.4; }
 .graph-proof-peek-close{ position: absolute; top: 0.4rem; right: 0.4rem; border: 0; background: none; color: var(--text-dim); font-size: 1.2rem; cursor: pointer; }
 .graph-proof-peek-status{ margin: 0.3rem 0 0.5rem; font-size: 0.8rem; color: var(--text-dim); }
-.graph-proof-peek-plot{ overflow: auto; max-height: 55dvh; overscroll-behavior: contain; }
 .graph-proof-peek-plot .prepared-graph{ display: block; max-width: none; margin: 0 auto; }
 .proof-network-figure .graph-proof-peek .graph-edge-hit{ pointer-events: none; }
-.graph-proof-peek-caption{ margin-top: 0.5rem; font-size: 0.85rem; max-height: 9rem; overflow: auto; }
+.graph-proof-peek-caption{ margin-top: 0.5rem; font-size: 0.85rem; }
+.graph-proof-peek-caption[hidden]{ display: none; }
+.graph-proof-peek-measure{ position: absolute; visibility: hidden; pointer-events: none; }
 .graph-proof-peek-caption > :first-child{ margin-top: 0; }
 .graph-proof-peek-caption > :last-child{ margin-bottom: 0; }
 
