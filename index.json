@@ -4120,16 +4120,6 @@
           "type": "definition"
         },
         {
-          "id": "Lax263307.QPTAS",
-          "title": "A QPTAS for maximum-weight independent set",
-          "type": "definition"
-        },
-        {
-          "id": "Lax263307.QPTASRuntime",
-          "title": "The quasipolynomial approximation bound",
-          "type": "definition"
-        },
-        {
           "id": "Lax263307.RationalConditioning",
           "title": "Rational conditioning and its candidate list",
           "type": "lemma"
