@@ -238,10 +238,11 @@ bytes therefore differ from production's, deterministically per flag set).
   Numerals use their inferred type (for example `Nat`, `Int`, or `Fin n`),
   including hexadecimal, binary, octal, decimal, and scientific notation.
   Explicit numeral annotations such as `(42 : Nat)` omit redundant bubbles.
-  Infix notation also shows its compiler-inferred type. Its operator links to
-  Lean's resolved definition location: the archive source for local notation,
-  or the pinned Lean/Mathlib source for external notation. Multi-character
-  operators form a single link, leaving their operands independently clickable.
+  Infix notation shows the operator's function type, specialized to the
+  operand types. Its resolved declaration links through the same archive
+  source and Lean/Mathlib documentation index as ordinary identifiers.
+  Multi-character operators form a single link, leaving their operands
+  independently clickable.
   In dotted expressions such as `G.Adj`, a genuine receiver variable `G`
   has its own clickable type bubble beside the field's navigation link;
   the field or method also has its own type bubble at uses.

@@ -265,16 +265,27 @@ class SourceLinkIndex {
   /** The compiler gives the owning module and exact declaration name. For
    * generated constructors/recursors without their own source, navigate to
    * the nearest enclosing declaration (or the module if none has a span). */
-  private semanticTarget(module: string, name: string): string | undefined {
+  private semanticTarget(module: string, name: string, fallbackLine?: number): string | undefined {
     const located = this.model.conceptHome.get(module);
     if (!located) return undefined;
     const targets = this.semanticTargets.get(module);
     for (let parent = name; parent; parent = parent.slice(0, parent.lastIndexOf("."))) {
-      const target = targets?.get(parent);
+      const target = targets?.get(parent) ?? (fallbackLine ?
+        this.names.get(nameKey(nameParts(parent)))?.find(candidate => candidate.module === module)?.href : undefined);
       if (target) return target;
       if (!parent.includes(".")) break;
     }
-    return this.page(located);
+    return this.page(located) + (fallbackLine ? `#L${fallbackLine}` : "");
+  }
+
+  notationLinks(conceptId: string, hovers: readonly SourceHover[]): SourceLink[] {
+    return hovers.flatMap(hover => {
+      const target = hover.definition;
+      if (!target) return [];
+      const href = this.semanticTarget(target.module, target.name, target.line) ??
+        mathlibDocLink(target.module, target.name) ?? this.modules.get(conceptId)?.mathlibSources?.get(target.module);
+      return href ? [{ start: hover.start, end: hover.end, href }] : [];
+    });
   }
 
   private namespaceLinks(source: ModuleSource, visible: Set<string>): SourceLink[] {
@@ -424,31 +435,14 @@ export function sourceLinks(model: SiteModel, conceptId: string, rootRel: string
     .sort((a, b) => a.start - b.start || a.end - b.end);
 }
 
-/** Notation can expand to custom macros or typeclass instances. Use Lean's
- * actual definition location, with archive-relative links or pinned source,
- * rather than assuming a symbol always names the same declaration. */
+/** Resolve the elaborated operator through the same declaration inventory
+ * as ordinary identifiers, including overloaded and custom notation. */
 export function sourceNotationLinks(model: SiteModel, conceptId: string, rootRel: string,
   hovers: readonly SourceHover[] = model.leanCode.get(conceptId)?.hovers ?? []): SourceLink[] {
-  const owner = model.conceptHome.get(conceptId);
-  if (!owner) return [];
-  const links: SourceLink[] = [];
-  for (const hover of hovers) {
-    const target = hover.definition;
-    if (!target) continue;
-    const located = model.conceptHome.get(target.module);
-    let href: string | undefined;
-    if (located) href = `${rootRel}${encodeURIComponent(located.submission.record.id)}/${encodeURIComponent(target.module)}.html#L${target.line}`;
-    else if (/^Mathlib(?:\.[A-Za-z0-9_]+)+$/.test(target.module)) {
-      const revision = owner.output.capture?.mathlibCommit ?? owner.output.manifest.mathlibVersion;
-      if (/^[a-f0-9]{40}$/.test(revision)) href = `https://github.com/leanprover-community/mathlib4/blob/${revision}/${target.module.replaceAll(".", "/")}.lean#L${target.line}`;
-    } else if (/^(?:Init|Std|Lean)(?:\.[A-Za-z0-9_]+)*$/.test(target.module)) {
-      const version = owner.output.manifest.leanVersion;
-      if (/^v\d+\.\d+\.\d+(?:-rc\d+)?$/.test(version)) href = `https://github.com/leanprover/lean4/blob/${version}/src/lean/${target.module.replaceAll(".", "/")}.lean#L${target.line}`;
-    }
-    if (href && (!href.startsWith("https:") || mathlibLinkTitle(href)))
-      links.push({ start: hover.start, end: hover.end, href });
-  }
-  return links;
+  let index = indexes.get(model);
+  if (!index) { index = new SourceLinkIndex(model); indexes.set(model, index); }
+  return index.notationLinks(conceptId, hovers).map(link => ({ ...link,
+    href: link.href.startsWith("https://") ? link.href : rootRel + link.href }));
 }
 
 /** Resolve type text against the same archive inventory and fixed docs index. */

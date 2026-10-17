@@ -7,7 +7,7 @@ import type { SiteModel } from "./model.js";
 export interface SourceHover extends SourceRange {
   text: string;
   /** Compiler-resolved notation destination, independent of host paths. */
-  definition?: { module: string; line: number };
+  definition?: { module: string; name: string; line: number };
 }
 export interface LeanCodeData {
   version: 1;
@@ -18,7 +18,7 @@ export interface LeanCodeData {
 }
 
 /** Changing the extractor or pretty-print options invalidates prepared data. */
-export const LEAN_CODE_VERSION = "lean-hover-3";
+export const LEAN_CODE_VERSION = "lean-hover-4";
 
 export function leanCodeInputs(model: SiteModel, id: string): { digest: string; modules: string[] } {
   const modules: string[] = [], active = new Set<string>(), seen = new Set<string>();
@@ -64,6 +64,7 @@ export function parseLeanCode(json: string, digest: string, source: string): Lea
       throw new Error("invalid Lean hover range or type");
     if (hover.definition && (!notations.has(`${hover.start}:${hover.end}`) ||
         typeof hover.definition.module !== "string" || !/^[A-Za-z0-9_]+(?:\.[A-Za-z0-9_]+)*$/.test(hover.definition.module) ||
+        typeof hover.definition.name !== "string" || !hover.definition.name.trim() ||
         !Number.isSafeInteger(hover.definition.line) || hover.definition.line < 1))
       throw new Error("invalid Lean notation destination");
     end = hover.end;
@@ -83,7 +84,7 @@ export function loadLeanCode(model: SiteModel, directory: string, required = fal
       // variables with the same short spelling retain their type hovers.
       model.leanCode.set(id, { ...data, hovers: data.hovers.filter(hover => {
         const name = scanLeanSource(hover.text).tokens[0]?.name;
-        return !name || !statements.has(nameKey(name));
+        return hover.definition || !name || !statements.has(nameKey(name));
       }) });
     } catch (error) {
       if (required) throw new Error(`${id}: run npm run lean:prepare to refresh type hovers (${error})`);
