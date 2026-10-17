@@ -17,6 +17,8 @@ import { measureDisplayGraph, projectGraph, type DisplayGraph, type FlatGraphInp
   type GraphKind, type GraphLabel, type MeasuredDisplayGraph, type ProofGraphData } from "./graph-project.js";
 import { graphInteractionPayload, graphSvg, type GraphInteractionPayload } from "./graph-svg.js";
 import { graphDataScript } from "./graphs.js";
+import { BoundedCache } from "./bounded-cache.js";
+import { GraphReportWriter } from "./graph-report.js";
 import { displayLabelRequests } from "./graph-node-size.js";
 import { proofGraphViews } from "./graph-proof-views.js";
 import { graphLayoutOptions } from "./graph-layout-options.js";
@@ -47,6 +49,12 @@ export interface GraphPreparationOptions {
   /** Transfer threshold only. No topology or incidence is dropped above it. */
   alternateInlineLimit?: number;
   profile?: LayoutProfile;
+  /** Accounted heap budget for geometry retained between pages. */
+  geometryCacheBytes?: number;
+  /** Stream the full JSON report outside the published tree. */
+  reportFile?: string;
+  /** Keep detail arrays for library callbacks. Streaming builds default off. */
+  collectDetails?: boolean;
 }
 export interface GraphPreparationDiagnostic extends Diagnostic {
   page?: string; container?: string; state?: string; inputDigest?: string;
@@ -414,153 +422,195 @@ export function graphGeometryDigest(measured: MeasuredDisplayGraph, labelSignatu
     measurementSignature: environment.signature, fontSignature: environment.fontSignature });
 }
 
-/** Mutates files only once all requested pages and views have been validated.
- * A hard error leaves the existing page map untouched for atomic publication. */
-export async function prepareGraphs(files: Map<string, string | Buffer>, options: GraphPreparationOptions = {}): Promise<GraphPreparationResult> {
-  const started = performance.now(), projectionStarted = performance.now();
+/** A shared measurement host and bounded geometry cache. Only the page being
+ * prepared retains projections, measured drawings and serialized output. The
+ * caller owns a staging directory and publishes it after finish succeeds. */
+export function createGraphPreparationSession(options: GraphPreparationOptions = {}) {
+  const started = performance.now();
   const measurer = createGraphMeasurer({ ...(options.cacheDir ? { cacheDir: path.join(options.cacheDir, "labels") } : {}), ...options.measurement });
-  const diagnostics: GraphPreparationDiagnostic[] = [];
-  const pages = scanPages(files, diagnostics, measurer.environment);
-  const statistics: GraphPreparationStatistics = {
-    pages: pages.length, containers: pages.reduce((sum, page) => sum + page.containers.length, 0),
-    views: pages.reduce((sum, page) => sum + page.containers.reduce((n, container) => n + container.views.length, 0), 0),
-    uniqueLayouts: 0, layoutCacheHits: 0, layoutCacheMisses: 0, corruptGeometryEntries: 0,
-    staticSvgBytes: 0, alternateFiles: 0, alternateBytes: 0,
-    phasesMs: { projection: performance.now() - projectionStarted, measurement: 0, layout: 0, serialization: 0, total: 0 }, layouts: [],
-  };
-  if (!pages.length) { statistics.phasesMs.total = performance.now() - started; return { localFallback: false, diagnostics, statistics }; }
-  // Buffer completed pages so staging does not retain a second site's HTML
-  // strings on the JavaScript heap alongside the original pages and layouts.
-  const pendingFiles = new Map<string, string | Buffer>(), profile = options.profile ?? DEFAULT_PROFILE;
+  const layouts = new BoundedCache<GeometryResult>(options.geometryCacheBytes ?? 32 * 1024 * 1024);
+  const seenLayouts = new Set<string>(), alternateFiles = new Set<string>();
+  const profile = options.profile ?? DEFAULT_PROFILE;
   const inlineLimit = options.alternateInlineLimit ?? 32 * 1024;
   if (!Number.isSafeInteger(inlineLimit) || inlineLimit < 0) fail("graph-alternate-threshold", "Alternate transfer threshold must be a nonnegative integer");
-  const requests = displayLabelRequests(pages.flatMap((page) => page.containers.flatMap((container) => container.views.map((view) => view.display))));
-  const labelTexts = requests.map((request) => request.text);
-  try {
+  const reportWriter = options.reportFile ? new GraphReportWriter(options.reportFile) : undefined;
+  const diagnostics: GraphPreparationDiagnostic[] = [];
+  const statistics: GraphPreparationStatistics = {
+    pages: 0, containers: 0, views: 0, uniqueLayouts: 0,
+    layoutCacheHits: 0, layoutCacheMisses: 0, corruptGeometryEntries: 0,
+    staticSvgBytes: 0, alternateFiles: 0, alternateBytes: 0,
+    phasesMs: { projection: 0, measurement: 0, layout: 0, serialization: 0, total: 0 }, layouts: [],
+  };
+  let localFallback = false, closed = false, finished = false;
+  function diagnostic(value: GraphPreparationDiagnostic): void {
+    if (options.collectDetails) diagnostics.push(value);
+    reportWriter?.diagnostic(value);
+  }
+
+  async function prepare(file: string, content: string | Buffer): Promise<Map<string, string | Buffer>> {
+    if (closed || finished) throw new Error("graph preparation session is closed");
+    const pendingFiles = new Map<string, string | Buffer>([[file, content]]);
+    const projectionStarted = performance.now(), pageDiagnostics: GraphPreparationDiagnostic[] = [];
+    const pages = scanPages(pendingFiles, pageDiagnostics, measurer.environment);
+    pageDiagnostics.forEach(diagnostic);
+    statistics.phasesMs.projection += performance.now() - projectionStarted;
+    if (!pages.length) return pendingFiles;
+    const page = pages[0]!;
+    statistics.pages++;
+    statistics.containers += page.containers.length;
+    statistics.views += page.containers.reduce((n, container) => n + container.views.length, 0);
+    const requests = displayLabelRequests(page.containers.flatMap((container) => container.views.map((view) => view.display)));
     const measurementStarted = performance.now();
     let metrics: Awaited<ReturnType<typeof measurer.measureLabels>>;
     try { metrics = await measurer.measureLabels(requests); }
     catch (error) {
       if (options.mode !== "local" || !(error instanceof GraphMeasurementUnavailableError)) throw error;
-      // The only browser-layout path is an explicitly local, separately
-      // packaged one. No partially prepared archive view can reach files.
       const workerProfile = localProfile(profile);
-      for (const page of pages) {
-        const local: LocalGraphDescriptor = { environment: measurer.environment, profile: workerProfile,
-          requests: displayLabelRequests(page.containers.flatMap((container) => container.views.map((view) => view.display))), containers: {} };
-        let html = page.html;
-        for (const container of page.containers) {
-          local.containers[container.id] = { kind: container.kind, initial: container.initial,
-            ancestors: container.ancestors, descendants: container.descendants,
-            views: Object.fromEntries(container.views.map((view) => [view.state, { display: view.display, status: view.status }])) };
-          html = html.replace(container.original, () => `<div${container.attributes} data-graph-local="true"><p class="empty-note" role="status">Preparing this local graph with the browser’s fonts…</p><noscript>Enable JavaScript to prepare newly authored local labels, or use a host with exact graph measurement.</noscript></div>`);
-        }
-        html = html.replace(page.rawScript, () => graphDataScript({ ...page.payload, local }));
-        html = installInteraction(html, page.file);
-        html = installScript(html, page.file, "graph-measure-local.js");
-        html = installScript(html, page.file, "graph-local.js");
-        pendingFiles.set(page.file, Buffer.from(updateCsp(html, "worker-src", "'self'"), "utf8"));
-      }
-      diagnostics.push({ code: "local-graph-measurement", message: "New local labels use the separately packaged browser/worker path because host measurement is unavailable." });
-      statistics.measurement = measurer.statistics;
-      statistics.phasesMs.measurement = performance.now() - measurementStarted;
-      statistics.phasesMs.total = performance.now() - started;
-      for (const [file, contents] of pendingFiles) files.set(file, contents);
-      return { localFallback: true, diagnostics, statistics };
-    }
-    statistics.phasesMs.measurement = performance.now() - measurementStarted;
-    statistics.measurement = measurer.statistics;
-    const labels = new Map<string, GraphLabel>(labelTexts.map((label, index) => [label, metrics[index]!]));
-    const signatures = new Map(labelTexts.map((label, index) => [label, metrics[index]!.signature]));
-    const layouts = new Map<string, GeometryResult>();
-    const preparedViews = new Map<View, { measured: MeasuredDisplayGraph; geometry: GraphGeometry }>();
-    const layoutStarted = performance.now();
-    for (const page of pages) for (const container of page.containers) for (const view of container.views) {
-      const layoutOptions = graphLayoutOptions(view.display, profile);
-      const measured = measureDisplayGraph(view.display, labels, profile.portSeparation);
-      const inputDigest = graphGeometryDigest(measured, displayLabelRequests([view.display]).map((request) => signatures.get(request.text)!), measurer.environment, profile);
-      let result = layouts.get(inputDigest);
-      if (!result) {
-        const began = performance.now();
-        const cacheFile = options.cacheDir ? path.join(options.cacheDir, "geometry", `${inputDigest}.json`) : undefined;
-        const reportFile = options.cacheDir ? path.join(options.cacheDir, "layout-diagnostics", `${inputDigest}.json`) : undefined;
-        let algorithm: Pick<LayoutResult, "diagnostics" | "stats" | "candidates"> | undefined;
-        if (cacheFile) try {
-          const cached = JSON.parse(fs.readFileSync(cacheFile, "utf8")) as { schemaVersion: number; inputDigest: string; geometryDigest: string; geometry: GraphGeometry };
-          if (!onlyKeys(cached, ["schemaVersion", "inputDigest", "geometryDigest", "geometry"]) || cached.schemaVersion !== 1 || cached.inputDigest !== inputDigest ||
-              cached.geometryDigest !== hash(cached.geometry) || cached.geometry.inputDigest !== inputDigest ||
-              cached.geometry.engineVersion !== ENGINE_VERSION || cached.geometry.profileId !== layoutOptions.profile!.id || !geometryFields(cached.geometry)) throw new Error("incompatible geometry cache");
-          const checked = validateGeometry(measured.graph, cached.geometry);
-          if (!checked.valid) throw new Error("invalid cached geometry");
-          if (reportFile) try {
-            const report = JSON.parse(fs.readFileSync(reportFile, "utf8"));
-            if (report.geometryDigest === cached.geometryDigest && report.digest === hash(report.algorithm)) algorithm = report.algorithm;
-          } catch { /* Performance/algorithm reports are separate optional metadata. */ }
-          result = { geometry: deepFreeze(cached.geometry), metrics: checked.metrics, diagnostics: algorithm?.diagnostics ?? [] };
-          statistics.layoutCacheHits++;
-        } catch (error) {
-          if ((error as NodeJS.ErrnoException).code !== "ENOENT") statistics.corruptGeometryEntries++;
-        }
-        if (!result) {
-          const searched = layoutGraph(measured.graph, { inputDigest, ...layoutOptions });
-          const checked = validateGeometry(measured.graph, searched.geometry);
-          if (!checked.valid || !geometryFields(searched.geometry)) throw new GraphDiagnosticError(checked.diagnostics.length ? checked.diagnostics :
-            [{ code: "graph-geometry-schema", message: "Layout returned fields outside the public geometry contract" }]);
-          result = { geometry: searched.geometry, diagnostics: searched.diagnostics, metrics: checked.metrics };
-          algorithm = { diagnostics: searched.diagnostics, stats: searched.stats, candidates: searched.candidates };
-          statistics.layoutCacheMisses++;
-          if (cacheFile) writeAtomic(cacheFile, { schemaVersion: 1, inputDigest, geometryDigest: hash(result.geometry), geometry: result.geometry });
-          if (reportFile) writeAtomic(reportFile, { geometryDigest: hash(result.geometry), digest: hash(algorithm), algorithm });
-          statistics.layouts.push({ inputDigest, kind: container.kind, cache: "miss", metrics: result.metrics,
-            elapsedMs: performance.now() - began, stats: searched.stats, candidates: searched.candidates });
-        } else statistics.layouts.push({ inputDigest, kind: container.kind, cache: "hit", metrics: result.metrics,
-          elapsedMs: performance.now() - began, ...(algorithm ? { stats: algorithm.stats, candidates: algorithm.candidates } : {}) });
-        layouts.set(inputDigest, result);
-      }
-      for (const diagnostic of result.diagnostics) diagnostics.push({ ...diagnostic, inputDigest, page: page.file, container: container.id, state: view.state });
-      preparedViews.set(view, { measured, geometry: result.geometry });
-    }
-    statistics.uniqueLayouts = layouts.size;
-    statistics.phasesMs.layout = performance.now() - layoutStarted;
-    const serializationStarted = performance.now();
-    for (const page of pages) {
+      const local: LocalGraphDescriptor = { environment: measurer.environment, profile: workerProfile,
+        requests, containers: {} };
       let html = page.html;
-      const prepared: Record<string, PreparedGraphDescriptor> = {};
       for (const container of page.containers) {
-        const descriptor: PreparedGraphDescriptor = { initial: container.initial, ancestors: container.ancestors, descendants: container.descendants, views: {} };
-        for (const view of container.views) {
-          const { measured, geometry } = preparedViews.get(view)!;
-          const svg = graphSvg(measured, geometry, `${container.id}-${geometry.inputDigest.slice(0, 16)}-${view.state}`);
-          const complete = { svg, interaction: graphInteractionPayload(measured), height: geometry.bounds.height, status: view.status };
-          if (view.state === container.initial) {
-            html = html.replace(container.original, () => preparedContainer(container, svg, complete.height));
-            statistics.staticSvgBytes += Buffer.byteLength(svg);
-            descriptor.views[view.state] = { interaction: complete.interaction, height: complete.height, status: complete.status };
-          } else {
-            const bytes = canonicalJson(complete);
-            if (options.selfContained || Buffer.byteLength(bytes) <= inlineLimit) descriptor.views[view.state] = complete;
-            else {
-              const file = `assets/graph-views/${hash(bytes)}.json`;
-              if (!pendingFiles.has(file)) {
-                statistics.alternateFiles++; statistics.alternateBytes += Buffer.byteLength(bytes);
-                pendingFiles.set(file, bytes + "\n");
-              }
-              descriptor.views[view.state] = { interaction: { nodes: {}, edges: {} }, height: complete.height, status: complete.status,
-                src: pagePrefix(page.file) + file };
+        local.containers[container.id] = { kind: container.kind, initial: container.initial,
+          ancestors: container.ancestors, descendants: container.descendants,
+          views: Object.fromEntries(container.views.map((view) => [view.state, { display: view.display, status: view.status }])) };
+        html = html.replace(container.original, () => `<div${container.attributes} data-graph-local="true"><p class="empty-note" role="status">Preparing this local graph with the browser’s fonts…</p><noscript>Enable JavaScript to prepare newly authored local labels, or use a host with exact graph measurement.</noscript></div>`);
+      }
+      html = html.replace(page.rawScript, () => graphDataScript({ ...page.payload, local }));
+      html = installInteraction(html, page.file);
+      html = installScript(html, page.file, "graph-measure-local.js");
+      html = installScript(html, page.file, "graph-local.js");
+      pendingFiles.set(page.file, Buffer.from(updateCsp(html, "worker-src", "'self'"), "utf8"));
+      if (!localFallback) diagnostic({ code: "local-graph-measurement", message: "New local labels use the separately packaged browser/worker path because host measurement is unavailable." });
+      localFallback = true;
+      return pendingFiles;
+    } finally { statistics.phasesMs.measurement += performance.now() - measurementStarted; }
+    const labels = new Map<string, GraphLabel>(requests.map((request, index) => [request.text, metrics[index]!]));
+    const signatures = new Map(requests.map((request, index) => [request.text, metrics[index]!.signature]));
+    let html = page.html;
+    const prepared: Record<string, PreparedGraphDescriptor> = {};
+    for (const container of page.containers) {
+      const descriptor: PreparedGraphDescriptor = { initial: container.initial, ancestors: container.ancestors, descendants: container.descendants, views: {} };
+      for (const view of container.views) {
+        const layoutStarted = performance.now();
+        const layoutOptions = graphLayoutOptions(view.display, profile);
+        const measured = measureDisplayGraph(view.display, labels, profile.portSeparation);
+        const inputDigest = graphGeometryDigest(measured, displayLabelRequests([view.display]).map((request) => signatures.get(request.text)!), measurer.environment, profile);
+        let result = layouts.get(inputDigest);
+        let cache: "hit" | "miss" = "miss";
+        if (!result) {
+          const began = performance.now();
+          const cacheFile = options.cacheDir ? path.join(options.cacheDir, "geometry", `${inputDigest}.json`) : undefined;
+          const reportFile = options.cacheDir ? path.join(options.cacheDir, "layout-diagnostics", `${inputDigest}.json`) : undefined;
+          let algorithm: Pick<LayoutResult, "diagnostics" | "stats" | "candidates"> | undefined;
+          if (cacheFile) try {
+            const cached = JSON.parse(fs.readFileSync(cacheFile, "utf8")) as { schemaVersion: number; inputDigest: string; geometryDigest: string; geometry: GraphGeometry };
+            if (!onlyKeys(cached, ["schemaVersion", "inputDigest", "geometryDigest", "geometry"]) || cached.schemaVersion !== 1 || cached.inputDigest !== inputDigest ||
+                cached.geometryDigest !== hash(cached.geometry) || cached.geometry.inputDigest !== inputDigest ||
+                cached.geometry.engineVersion !== ENGINE_VERSION || cached.geometry.profileId !== layoutOptions.profile!.id || !geometryFields(cached.geometry)) throw new Error("incompatible geometry cache");
+            const checked = validateGeometry(measured.graph, cached.geometry);
+            if (!checked.valid) throw new Error("invalid cached geometry");
+            if (reportFile) try {
+              const report = JSON.parse(fs.readFileSync(reportFile, "utf8"));
+              if (report.geometryDigest === cached.geometryDigest && report.digest === hash(report.algorithm)) algorithm = report.algorithm;
+            } catch { /* Performance/algorithm reports are separate optional metadata. */ }
+            result = { geometry: deepFreeze(cached.geometry), metrics: checked.metrics, diagnostics: algorithm?.diagnostics ?? [] };
+            cache = "hit";
+          } catch (error) {
+            if ((error as NodeJS.ErrnoException).code !== "ENOENT") statistics.corruptGeometryEntries++;
+          }
+          if (!result) {
+            const searched = layoutGraph(measured.graph, { inputDigest, ...layoutOptions });
+            const checked = validateGeometry(measured.graph, searched.geometry);
+            if (!checked.valid || !geometryFields(searched.geometry)) throw new GraphDiagnosticError(checked.diagnostics.length ? checked.diagnostics :
+              [{ code: "graph-geometry-schema", message: "Layout returned fields outside the public geometry contract" }]);
+            result = { geometry: searched.geometry, diagnostics: searched.diagnostics, metrics: checked.metrics };
+            algorithm = { diagnostics: searched.diagnostics, stats: searched.stats, candidates: searched.candidates };
+            cache = "miss";
+            if (cacheFile) writeAtomic(cacheFile, { schemaVersion: 1, inputDigest, geometryDigest: hash(result.geometry), geometry: result.geometry });
+            if (reportFile) writeAtomic(reportFile, { geometryDigest: hash(result.geometry), digest: hash(algorithm), algorithm });
+          }
+          if (!seenLayouts.has(inputDigest)) {
+            seenLayouts.add(inputDigest);
+            statistics.uniqueLayouts++;
+            if (cache === "hit") statistics.layoutCacheHits++; else statistics.layoutCacheMisses++;
+            const row: GraphPreparationStatistics["layouts"][number] = { inputDigest, kind: container.kind,
+              cache, metrics: result.metrics, elapsedMs: performance.now() - began,
+              ...(algorithm ? { stats: algorithm.stats, candidates: algorithm.candidates } : {}) };
+            if (options.collectDetails) statistics.layouts.push(row);
+            reportWriter?.layout(row);
+          }
+          layouts.set(inputDigest, result, Buffer.byteLength(canonicalJson(result)));
+        }
+        for (const item of result.diagnostics) diagnostic({ ...item, inputDigest, page: page.file, container: container.id, state: view.state });
+        statistics.phasesMs.layout += performance.now() - layoutStarted;
+        const serializationStarted = performance.now();
+        const geometry = result.geometry;
+        const svg = graphSvg(measured, geometry, `${container.id}-${geometry.inputDigest.slice(0, 16)}-${view.state}`);
+        const complete = { svg, interaction: graphInteractionPayload(measured), height: geometry.bounds.height, status: view.status };
+        if (view.state === container.initial) {
+          html = html.replace(container.original, () => preparedContainer(container, svg, complete.height));
+          statistics.staticSvgBytes += Buffer.byteLength(svg);
+          descriptor.views[view.state] = { interaction: complete.interaction, height: complete.height, status: complete.status };
+        } else {
+          const bytes = canonicalJson(complete);
+          if (options.selfContained || Buffer.byteLength(bytes) <= inlineLimit) descriptor.views[view.state] = complete;
+          else {
+            const file = `assets/graph-views/${hash(bytes)}.json`;
+            if (!alternateFiles.has(file)) {
+              alternateFiles.add(file);
+              statistics.alternateFiles++; statistics.alternateBytes += Buffer.byteLength(bytes);
+              pendingFiles.set(file, bytes + "\n");
             }
+            descriptor.views[view.state] = { interaction: { nodes: {}, edges: {} }, height: complete.height, status: complete.status,
+              src: pagePrefix(page.file) + file };
           }
         }
-        prepared[container.id] = descriptor;
-        if (container.kind === "concepts") html = initialConceptControls(html, container);
+        statistics.phasesMs.serialization += performance.now() - serializationStarted;
       }
-      html = html.replace(page.rawScript, () => graphDataScript({ ...page.payload, prepared }));
-      if (page.containers.length) html = installInteraction(html, page.file);
-      pendingFiles.set(page.file, Buffer.from(html, "utf8"));
+      prepared[container.id] = descriptor;
+      if (container.kind === "concepts") html = initialConceptControls(html, container);
     }
-    statistics.phasesMs.serialization = performance.now() - serializationStarted;
-    statistics.phasesMs.total = performance.now() - started;
-    for (const [file, contents] of pendingFiles) files.set(file, contents);
-    options.log?.(`Prepared ${statistics.containers} graph containers, ${statistics.views} views, ${statistics.uniqueLayouts} unique layouts (${statistics.layoutCacheHits} cached).`);
-    return { localFallback: false, diagnostics, statistics };
-  } finally { await measurer.close(); }
+    const serializationStarted = performance.now();
+    html = html.replace(page.rawScript, () => graphDataScript({ ...page.payload, prepared }));
+    if (page.containers.length) html = installInteraction(html, page.file);
+    pendingFiles.set(page.file, Buffer.from(html, "utf8"));
+    statistics.phasesMs.serialization += performance.now() - serializationStarted;
+    return pendingFiles;
+  }
+
+  return {
+    prepare,
+    finish(): GraphPreparationResult {
+      if (closed || finished) throw new Error("graph preparation session is closed");
+      finished = true;
+      statistics.measurement = measurer.statistics;
+      statistics.phasesMs.total = performance.now() - started;
+      const result = { localFallback, diagnostics, statistics };
+      reportWriter?.finish(result);
+      options.log?.(`Prepared ${statistics.containers} graph containers, ${statistics.views} views, ${statistics.uniqueLayouts} unique layouts (${statistics.layoutCacheHits} cached).`);
+      return result;
+    },
+    async close(): Promise<void> {
+      if (closed) return;
+      closed = true;
+      try { await measurer.close(); }
+      finally { layouts.clear(); seenLayouts.clear(); alternateFiles.clear(); reportWriter?.close(); }
+    },
+  };
+}
+
+/** Compatibility API: mutations remain atomic for callers that own a page
+ * map. The site generator uses the session directly and stages each page. */
+export async function prepareGraphs(files: Map<string, string | Buffer>, options: GraphPreparationOptions = {}): Promise<GraphPreparationResult> {
+  const session = createGraphPreparationSession({ collectDetails: true, ...options });
+  const pendingFiles = new Map<string, string | Buffer>();
+  try {
+    for (const [file, contents] of [...files].sort(([a], [b]) => compareText(a, b))) {
+      if (!file.endsWith(".html")) continue;
+      for (const [relative, content] of await session.prepare(file, contents)) pendingFiles.set(relative, content);
+    }
+    const result = session.finish();
+    for (const [file, content] of pendingFiles) files.set(file, content);
+    return result;
+  } finally { await session.close(); }
 }

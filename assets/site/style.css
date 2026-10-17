@@ -2423,6 +2423,7 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
 .workshop-outcomes{ border-top: 3px solid var(--accent); }
 .workshop-details{ border-top: 3px solid var(--border); }
 
+#detail .workshop-panel h1,
 #detail .workshop-panel h2{
   margin: 0;
   font-size: 1.25rem;
@@ -2511,7 +2512,7 @@ html:not(.graphs-interactive) .landing-network-figure .graph-expand{ visibility:
 
 .workshop-material{
   scroll-margin-top: 4.5rem;
-  margin-top: clamp(2.25rem, 5vw, 4.25rem);
+  margin-top: 0;
   border-top: 3px solid var(--border);
 }
 
