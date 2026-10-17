@@ -75,7 +75,9 @@ ${group.map(({ concept, submission }) => {
 </ul>`
     : "";
   return [
-    list("Statements", concepts.filter(({ concept }) => concept.statements.length > 0)),
+    list("Statements", concepts.filter(({ concept }) => concept.statements.length > 0)
+      .sort((a, b) => Number(b.concept.type?.trim().toLowerCase() === "theorem") -
+        Number(a.concept.type?.trim().toLowerCase() === "theorem"))),
     list("Definitions", concepts.filter(({ concept }) => concept.statements.length === 0)),
   ].filter(Boolean).join("\n");
 }

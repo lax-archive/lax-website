@@ -11,6 +11,8 @@ export interface LeanToken extends SourceRange {
   name?: string[];
   /** A complete numeric literal, including radix/fraction/exponent syntax. */
   number?: true;
+  /** A symbolic notation candidate; its meaning still comes from Lean. */
+  notation?: true;
 }
 export interface LeanSource {
   tokens: LeanToken[];
@@ -46,6 +48,23 @@ export function identifierComponents(token: LeanToken): SourceRange[] {
   return [...token.text.matchAll(COMPONENT)].map(match => ({
     start: token.start + match.index!, end: token.start + match.index! + match[0].length,
   }));
+}
+
+/** Keep the lexical inventory unchanged for declaration parsing. Hover
+ * queries additionally group adjacent symbols, so `<=` and custom `<+>`
+ * operators get one decoration rather than one per character. */
+export function leanHoverTokens(source: LeanSource): LeanToken[] {
+  const result: LeanToken[] = [];
+  const delimiter = /^[()[\]{}⦃⦄⟨⟩,;]$/u;
+  for (const token of source.tokens) {
+    if (token.name || token.number) { result.push(token); continue; }
+    if (delimiter.test(token.text)) continue;
+    const previous = result.at(-1);
+    if (previous?.notation && previous.end === token.start) {
+      previous.text += token.text; previous.end = token.end;
+    } else result.push({ ...token, notation: true });
+  }
+  return result.filter(token => !token.notation || ![":", ":=", "=>", ".", "@", "#", "\\"].includes(token.text));
 }
 
 /** Names before an explicit binder colon, excluding `:=` and type names

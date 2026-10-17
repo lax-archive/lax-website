@@ -38,9 +38,12 @@ export function mathlibLinkTitle(href: string): string | undefined {
   if (url.origin === "https://leanprover-community.github.io" &&
     /^\/mathlib4_docs\/(?:Mathlib|Init|Std|Lean)(?:\/[A-Za-z0-9_]+)*\.html$/u.test(url.pathname))
     return url.pathname.startsWith("/mathlib4_docs/Mathlib") ? "mathlib ↗" : "lean ↗";
-  if (url.origin === "https://github.com" && !url.hash &&
+  if (url.origin === "https://github.com" && (!url.hash || /^#L[1-9]\d*$/.test(url.hash)) &&
     /^\/leanprover-community\/mathlib4\/blob\/[0-9a-f]{40}\/Mathlib\/(?:[A-Za-z0-9_]+\/)*[A-Za-z0-9_]+\.lean$/u.test(url.pathname))
     return "mathlib ↗";
+  if (url.origin === "https://github.com" && /^#L[1-9]\d*$/.test(url.hash) &&
+    /^\/leanprover\/lean4\/blob\/v\d+\.\d+\.\d+(?:-rc\d+)?\/src\/lean\/(?:Init|Std|Lean)(?:\/[A-Za-z0-9_]+)*\.lean$/u.test(url.pathname))
+    return "lean ↗";
   return undefined;
 }
 

@@ -3,8 +3,8 @@ import { spawn, execFile, type ChildProcessWithoutNullStreams } from "node:child
 import { promisify } from "node:util";
 import fs from "node:fs";
 import path from "node:path";
-import { pathToFileURL } from "node:url";
-import { identifierComponents, scanLeanSource } from "./sitegen/lean-source.js";
+import { fileURLToPath, pathToFileURL } from "node:url";
+import { identifierComponents, leanHoverTokens, scanLeanSource } from "./sitegen/lean-source.js";
 import { leanCodeInputs, parseLeanCode, type LeanCodeData, type SourceHover } from "./sitegen/lean-code.js";
 import type { SiteModel } from "./sitegen/model.js";
 
@@ -22,7 +22,11 @@ export class LeanHoverClient {
   private sequence = 0;
   private pending = new Map<number, { resolve: (value: any) => void; reject: (error: Error) => void; timer: NodeJS.Timeout }>();
   private errors = new Map<string, string[]>();
+  private sourceRoots: string[];
   constructor(lean: string, private root: string, leanPath: string) {
+    this.sourceRoots = [root, ...leanPath.split(path.delimiter).map(directory =>
+      directory.endsWith("/.lake/build/lib/lean") ? path.resolve(directory, "../../../..") : directory),
+      path.resolve(path.dirname(lean), "../src/lean")];
     this.process = spawn(lean, ["--server"], { cwd: root, env: { ...process.env, LEAN_PATH: leanPath } });
     let stderr = "";
     this.process.stderr.on("data", data => { stderr = (stderr + data.toString()).slice(-4096); });
@@ -72,6 +76,21 @@ export class LeanHoverClient {
     await this.request("initialize", { processId: process.pid, rootUri: pathToFileURL(this.root).href, capabilities: {} });
     this.send({ method: "initialized", params: {} });
   }
+  private notationDefinition(value: unknown): SourceHover["definition"] {
+    if (!Array.isArray(value)) return;
+    for (const target of value) {
+      const uri = target?.targetUri ?? target?.uri;
+      const position = (target?.targetSelectionRange ?? target?.range)?.start;
+      if (typeof uri !== "string" || !uri.startsWith("file:") || !Number.isSafeInteger(position?.line) || position.line < 0) continue;
+      let file: string;
+      try { file = fileURLToPath(uri); } catch { continue; }
+      for (const directory of this.sourceRoots) {
+        const relative = path.relative(directory, file);
+        if (!/^[A-Za-z0-9_]+(?:\/[A-Za-z0-9_]+)*\.lean$/.test(relative)) continue;
+        return { module: relative.slice(0, -5).replaceAll("/", "."), line: position.line + 1 };
+      }
+    }
+  }
   async hovers(file: string, source: string): Promise<SourceHover[]> {
     const uri = pathToFileURL(file).href;
     this.send({ method: "textDocument/didOpen", params: { textDocument: { uri, languageId: "lean4", version: 1, text: source } } });
@@ -80,8 +99,8 @@ export class LeanHoverClient {
       const errors = this.errors.get(uri) ?? [];
       if (errors.length) throw new Error(`${file}: ${errors.join("\n")}`);
       const result: SourceHover[] = [];
-      const queries = scanLeanSource(source).tokens.filter(t => t.name || t.number).flatMap(token => {
-        const components = token.number ? [token] : identifierComponents(token);
+      const queries = leanHoverTokens(scanLeanSource(source)).flatMap(token => {
+        const components = token.name ? identifierComponents(token) : [token];
         return components.map(component => ({ token, component, components }));
       });
       for (let i = 0; i < queries.length; i += 16) {
@@ -89,6 +108,19 @@ export class LeanHoverClient {
           const hover = await this.request("textDocument/hover", { textDocument: { uri }, position: { line: token.line - 1, character: token.column + component.start - token.start } });
           const text = hoverType(hover);
           const range = hover?.range;
+          if (token.notation) {
+            // Lean's notation hover covers the expression, including operands.
+            // Decorate only the operator, preserving the operands' own links.
+            const contains = range && (range.start.line < token.line - 1 ||
+              range.start.line === token.line - 1 && range.start.character <= token.column) &&
+              (range.end.line > token.line - 1 || range.end.line === token.line - 1 &&
+                range.end.character >= token.column + token.text.length);
+            if (!text || text.length > 32768 || !contains) return;
+            const definition = this.notationDefinition(await this.request("textDocument/definition", {
+              textDocument: { uri }, position: { line: token.line - 1, character: token.column },
+            }));
+            return { start: token.start, end: token.end, text, ...(definition ? { definition } : {}) };
+          }
           const start = token.start + (range?.start.character - token.column);
           const end = token.start + (range?.end.character - token.column);
           // Lean distinguishes a real receiver (`n` in `n.succ`) from a

@@ -146,6 +146,8 @@ bytes therefore differ from production's, deterministically per flag set).
   invitation and preregistration form are commented out in the page template.
 - Submission, concept, and proof pages come from `record.json` and
   `build-output.json` in `lax-db`.
+- Submission concept lists put theorems before lemmas and other statements,
+  retaining the existing order within each group and listing definitions separately.
 - Submission/concept titles and annotation headings accept inline Markdown and
   TeX. Abstracts, concept/proof descriptions, and annotation sections accept
   the full Markdown grammar. KaTeX-compatible TeX can use `\(...\)` or `$...$`
@@ -236,6 +238,10 @@ bytes therefore differ from production's, deterministically per flag set).
   Numerals use their inferred type (for example `Nat`, `Int`, or `Fin n`),
   including hexadecimal, binary, octal, decimal, and scientific notation.
   Explicit numeral annotations such as `(42 : Nat)` omit redundant bubbles.
+  Infix notation also shows its compiler-inferred type. Its operator links to
+  Lean's resolved definition location: the archive source for local notation,
+  or the pinned Lean/Mathlib source for external notation. Multi-character
+  operators form a single link, leaving their operands independently clickable.
   In dotted expressions such as `G.Adj`, a genuine receiver variable `G`
   has its own clickable type bubble beside the field's navigation link;
   the field or method also has its own type bubble at uses.

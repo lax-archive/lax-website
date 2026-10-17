@@ -1,7 +1,8 @@
 import { leanDeclarations, nameKey, nameParts, scanLeanSource, typedBinderNames, type LeanNamespaceReference, type LeanSource, type LeanToken, type SourceRange } from "./lean-source.js";
 import type { LocatedConcept, SiteModel } from "./model.js";
 import type { LeanReferences } from "../lean-references.js";
-import { declarationDocLink, mathlibDocLink, mathlibModuleLink, mathlibScopeLink } from "../mathlib-links.js";
+import type { SourceHover } from "./lean-code.js";
+import { declarationDocLink, mathlibDocLink, mathlibLinkTitle, mathlibModuleLink, mathlibScopeLink } from "../mathlib-links.js";
 
 export interface SourceLink extends SourceRange { href: string }
 interface Target { module: string; href: string; offset: number; private: boolean }
@@ -416,8 +417,38 @@ class SourceLinkIndex {
 export function sourceLinks(model: SiteModel, conceptId: string, rootRel: string): SourceLink[] {
   let index = indexes.get(model);
   if (!index) { index = new SourceLinkIndex(model); indexes.set(model, index); }
-  return index.links(conceptId).map((link) => ({ ...link,
+  const links = index.links(conceptId).map((link) => ({ ...link,
     href: link.href.startsWith("https://") ? link.href : rootRel + link.href }));
+  return [...links, ...sourceNotationLinks(model, conceptId, rootRel).filter(notation =>
+    !links.some(link => link.start < notation.end && notation.start < link.end))]
+    .sort((a, b) => a.start - b.start || a.end - b.end);
+}
+
+/** Notation can expand to custom macros or typeclass instances. Use Lean's
+ * actual definition location, with archive-relative links or pinned source,
+ * rather than assuming a symbol always names the same declaration. */
+export function sourceNotationLinks(model: SiteModel, conceptId: string, rootRel: string,
+  hovers: readonly SourceHover[] = model.leanCode.get(conceptId)?.hovers ?? []): SourceLink[] {
+  const owner = model.conceptHome.get(conceptId);
+  if (!owner) return [];
+  const links: SourceLink[] = [];
+  for (const hover of hovers) {
+    const target = hover.definition;
+    if (!target) continue;
+    const located = model.conceptHome.get(target.module);
+    let href: string | undefined;
+    if (located) href = `${rootRel}${encodeURIComponent(located.submission.record.id)}/${encodeURIComponent(target.module)}.html#L${target.line}`;
+    else if (/^Mathlib(?:\.[A-Za-z0-9_]+)+$/.test(target.module)) {
+      const revision = owner.output.capture?.mathlibCommit ?? owner.output.manifest.mathlibVersion;
+      if (/^[a-f0-9]{40}$/.test(revision)) href = `https://github.com/leanprover-community/mathlib4/blob/${revision}/${target.module.replaceAll(".", "/")}.lean#L${target.line}`;
+    } else if (/^(?:Init|Std|Lean)(?:\.[A-Za-z0-9_]+)*$/.test(target.module)) {
+      const version = owner.output.manifest.leanVersion;
+      if (/^v\d+\.\d+\.\d+(?:-rc\d+)?$/.test(version)) href = `https://github.com/leanprover/lean4/blob/${version}/src/lean/${target.module.replaceAll(".", "/")}.lean#L${target.line}`;
+    }
+    if (href && (!href.startsWith("https:") || mathlibLinkTitle(href)))
+      links.push({ start: hover.start, end: hover.end, href });
+  }
+  return links;
 }
 
 /** Resolve type text against the same archive inventory and fixed docs index. */

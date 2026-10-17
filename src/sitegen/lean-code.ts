@@ -1,10 +1,14 @@
 import { createHash } from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
-import { dottedIdentifierPrefix, identifierComponents, nameKey, nameParts, scanLeanSource, type SourceRange } from "./lean-source.js";
+import { dottedIdentifierPrefix, identifierComponents, leanHoverTokens, nameKey, nameParts, scanLeanSource, type SourceRange } from "./lean-source.js";
 import type { SiteModel } from "./model.js";
 
-export interface SourceHover extends SourceRange { text: string }
+export interface SourceHover extends SourceRange {
+  text: string;
+  /** Compiler-resolved notation destination, independent of host paths. */
+  definition?: { module: string; line: number };
+}
 export interface LeanCodeData {
   version: 1;
   projectionHovers?: 1;
@@ -14,7 +18,7 @@ export interface LeanCodeData {
 }
 
 /** Changing the extractor or pretty-print options invalidates prepared data. */
-export const LEAN_CODE_VERSION = "lean-hover-2";
+export const LEAN_CODE_VERSION = "lean-hover-3";
 
 export function leanCodeInputs(model: SiteModel, id: string): { digest: string; modules: string[] } {
   const modules: string[] = [], active = new Set<string>(), seen = new Set<string>();
@@ -37,11 +41,12 @@ export function leanCodeInputs(model: SiteModel, id: string): { digest: string; 
 
 export function parseLeanCode(json: string, digest: string, source: string): LeanCodeData {
   const data = JSON.parse(json) as LeanCodeData;
-  const sourceTokens = scanLeanSource(source).tokens;
+  const sourceTokens = leanHoverTokens(scanLeanSource(source));
   if (data.numericHovers !== 1 && sourceTokens.some(token => token.number))
     throw new Error("missing Lean numeric hovers");
   const receivers = new Set<string>();
-  const tokens = new Set(sourceTokens.filter(t => t.name || t.number).flatMap(token => {
+  const notations = new Set(sourceTokens.filter(t => t.notation).map(t => `${t.start}:${t.end}`));
+  const tokens = new Set(sourceTokens.flatMap(token => {
     const prefix = dottedIdentifierPrefix(token);
     if (prefix) receivers.add(`${prefix.start}:${prefix.end}`);
     return [token, ...identifierComponents(token)].map(range => `${range.start}:${range.end}`);
@@ -57,6 +62,10 @@ export function parseLeanCode(json: string, digest: string, source: string): Lea
     if (!tokens.has(`${hover.start}:${hover.end}`) || hover.start < end ||
         typeof hover.text !== "string" || !hover.text.trim() || hover.text.length > 32768)
       throw new Error("invalid Lean hover range or type");
+    if (hover.definition && (!notations.has(`${hover.start}:${hover.end}`) ||
+        typeof hover.definition.module !== "string" || !/^[A-Za-z0-9_]+(?:\.[A-Za-z0-9_]+)*$/.test(hover.definition.module) ||
+        !Number.isSafeInteger(hover.definition.line) || hover.definition.line < 1))
+      throw new Error("invalid Lean notation destination");
     end = hover.end;
   }
   return data;

@@ -4,7 +4,7 @@ import { graphDataScript } from "../graphs.js";
 import { highlightSource } from "../highlight.js";
 import { submissionTagIndex } from "../tags.js";
 import { SiteModel, type SiteSubmission } from "../model.js";
-import { sourceTypeLinks } from "../source-links.js";
+import { sourceNotationLinks, sourceTypeLinks } from "../source-links.js";
 import type { PaperMark, StatementEntry } from "../../types.js";
 import {
   currentSubmissions,
@@ -486,8 +486,11 @@ async function exampleCard(ctx: PageContext, example: Example, passage: ExampleP
       : [];
     badge = typeBadge(card.type, statements.length ? true : undefined);
     const leanModel = landingLeanModel();
+    const hovers = ctx.model.leanCode.get(`example:${card.name}`)?.hovers;
     const rows = await highlightSource(card.lean, statements, new Set(statements.map((s) => s.id)), {
-      anchors: false, hovers: ctx.model.leanCode.get(`example:${card.name}`)?.hovers,
+      anchors: false, hovers,
+      links: sourceNotationLinks(leanModel, card.name, "", hovers)
+        .filter(link => link.href.startsWith("https://")),
       typeLinks: text => sourceTypeLinks(leanModel, card.name, "", text),
     });
     body = `<p class="manuscript-card-title">${markdown.renderAuthorInline(card.title, "")}</p>
