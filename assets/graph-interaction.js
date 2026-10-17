@@ -794,6 +794,7 @@
   }
 
   function setProofHover(controller, descriptor) {
+    if (descriptor?.type === 'node' && controller.dismissedProofAnchor?.dataset.nodeId === descriptor.id) return;
     if (!controller.container.closest('.graph-figure').classList.contains('graph-expanded')) return;
     controller.hover = descriptor;
     const related = proofHighlightClosure(controller, descriptor);
@@ -1032,6 +1033,17 @@
       panel.classList.remove('is-pinned', 'is-dragging');
       if (activeProofPeek?.panel === panel) activeProofPeek = null;
     };
+    const dismissPopup = (restoreFocus = false) => {
+      const dismissed = anchor;
+      if (!restoreFocus && document.activeElement === dismissed) dismissed.blur();
+      controller.dismissedProofAnchor = dismissed;
+      close();
+      // Escape preserves keyboard position without selecting/highlighting the
+      // node again. Pointer dismissal must not return focus to that node.
+      if (restoreFocus) restoreProofFocus(controller, dismissed);
+      clearProofHover(controller);
+      for (const edge of container.querySelectorAll('.hot')) edge.classList.remove('hot');
+    };
     controller.closeProofPeek = close;
     controller.suspendProofPeek = () => { hoverSuspended = true; close(); };
     const pin = () => {
@@ -1106,6 +1118,7 @@
     };
     const open = async (element, info, fromHover = false) => {
       if (controller.selection || controller.restoringProofFocus || controller.dragging ||
+          controller.dismissedProofAnchor === element ||
           (fromHover && hoverSuspended) || activeProofPeek?.pinned) return;
       cancel();
       if (anchor === element && !panel.hidden) return;
@@ -1131,8 +1144,8 @@
       panel.hidden = false;
       const dismiss = appendText(panel, 'button', 'graph-proof-peek-close', '×');
       dismiss.type = 'button'; dismiss.setAttribute('aria-label', 'Close statements and proofs');
-      dismiss.addEventListener('click', (event) => { event.stopPropagation(); element.focus(); close(); });
-      activeProofPeek = { panel, anchor: element, position, close };
+      dismiss.addEventListener('click', (event) => { event.stopPropagation(); dismissPopup(); });
+      activeProofPeek = { panel, anchor: element, position, close, dismiss: dismissPopup };
       position();
       try {
         const view = await preparedView(controller, info.detailView);
@@ -1205,16 +1218,18 @@
     panel.addEventListener('pointercancel', releasePopup);
     panel.addEventListener('lostpointercapture', releasePopup);
     panel.addEventListener('click', pin, { capture: true });
-    container.addEventListener('pointermove', () => { hoverSuspended = false; });
+    container.addEventListener('pointermove', (event) => {
+      hoverSuspended = false;
+      if (controller.dismissedProofAnchor && !controller.dismissedProofAnchor.contains(event.target))
+        controller.dismissedProofAnchor = null;
+    });
+    container.addEventListener('pointerleave', () => { controller.dismissedProofAnchor = null; });
     panel.addEventListener('mouseenter', cancel); panel.addEventListener('mouseleave', leave);
     panel.addEventListener('focusin', cancel); panel.addEventListener('focusout', leave);
     const escape = (event) => {
       if (event.key !== 'Escape' || panel.hidden) return;
       event.preventDefault(); event.stopPropagation();
-      const restore = anchor;
-      // Restore first: the focus event can reuse this already-open panel.
-      if (panel.contains(document.activeElement)) restore?.focus();
-      close();
+      dismissPopup(true);
     };
     panel.addEventListener('keydown', escape);
     for (const element of container.querySelectorAll('[data-node-id]')) {
@@ -1225,7 +1240,11 @@
       element.addEventListener('mouseenter', () => { cancel(); timer = setTimeout(() => open(element, info, true), GRAPH_HOVER_DELAY); });
       element.addEventListener('mouseleave', leave);
       element.addEventListener('focus', () => open(element, info));
-      element.addEventListener('blur', leave);
+      element.addEventListener('blur', () => {
+        if (controller.dismissedProofAnchor === element) controller.dismissedProofAnchor = null;
+        leave();
+      });
+      element.addEventListener('pointerdown', () => { controller.dismissedProofAnchor = null; });
       element.addEventListener('keydown', (event) => {
         escape(event);
         if (event.key === 'ArrowDown' && anchor === element && !panel.hidden) {
@@ -1393,7 +1412,11 @@
       const info = interaction.nodes[element.dataset.nodeId];
       if (!info) continue;
       const incident = info.incident.flatMap((id) => edges.get(id) || []);
-      const hot = () => { controller.anchorId = element.dataset.nodeId; for (const edge of incident) edge.classList.add('hot'); };
+      const hot = () => {
+        if (controller.restoringProofFocus || controller.dismissedProofAnchor === element) return;
+        controller.anchorId = element.dataset.nodeId;
+        for (const edge of incident) edge.classList.add('hot');
+      };
       const cold = () => { for (const edge of incident) edge.classList.remove('hot'); };
       attachDelayedHover(element, hot, cold);
       element.addEventListener('focus', hot);
@@ -1634,7 +1657,7 @@
     });
     window.addEventListener('keydown', (event) => {
       if (event.key === 'Escape' && activeProofPeek) {
-        event.preventDefault(); activeProofPeek.close(); return;
+        event.preventDefault(); activeProofPeek.dismiss(true); return;
       }
       if (!expandedFigure) return;
       if (event.key === 'Escape') {
@@ -1659,7 +1682,7 @@
       if (!(event.target instanceof Node)) return;
       if (activeProofPeek && !activeProofPeek.panel.contains(event.target) &&
           (activeProofPeek.pinned || !activeProofPeek.anchor.contains(event.target)))
-        activeProofPeek.close();
+        activeProofPeek.dismiss();
       for (const item of document.querySelectorAll('.graph-detail-open-assumption-item.is-open')) {
         if (item.contains(event.target)) continue;
         item.classList.remove('is-open');
